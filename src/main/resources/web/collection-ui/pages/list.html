@@ -23,11 +23,10 @@
 	<script src="//cdn.datatables.net/fixedheader/3.1.9/js/dataTables.fixedHeader.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 	
-	<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.0/js/dataTables.buttons.min.js"></script> 
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-	<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.html5.min.js"></script>
-	
-	
+	<script type="text/javascript" src="//cdn.datatables.net/buttons/2.0.0/js/dataTables.buttons.min.js"></script> 
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+	<script type="text/javascript" src="//cdn.datatables.net/buttons/2.0.0/js/buttons.html5.min.js"></script>
+		
 	<link href="//cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 	<link href="//cdn.datatables.net/1.11.0/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
 	<link href="//cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -38,6 +37,10 @@
 	<link href="//cdn.jsdelivr.net/npm/jquery-ui-dist@latest/jquery-ui.min.css" rel="stylesheet">
 	<link href="//cdn.jsdelivr.net/npm/datatables@latest/media/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
 	<link href="//cdn.datatables.net/buttons/2.0.0/css/buttons.dataTables.min.css" rel="stylsheet"  type="text/css">
+
+
+	
+
 
 	<link href="../css/styles.css" rel="stylesheet" />
 
@@ -71,8 +74,9 @@
 				"pageLength": 50,
 				dom: 'lBfrtip',
 				orderCellsTop: true,
+				"searching": false,
 				buttons: [
-			        'copy', 'excel', 'pdf', 'csv'
+			        'copy', 'excel', 'csv'
 			    ],
 				"ajax": {"url": restserver + "/cards/" + $_GET("collection"), "dataSrc": ""},
 				"columns": [
@@ -154,11 +158,12 @@
 						"defaultContent": "",
 						"width": "3%",
 						"render": function (data, type, row, meta) {
+							data = data.indexOf("SHOWCASE") > -1;
 							if (type === 'display') {
-								if (data.indexOf("SHOWCASE") > -1)
-									data = "<span class='fa fa-check'/>";
+								if (data)
+									return "<span class='fa fa-check'/>";
 								else
-									data = "<span class='fa fa-times'/>";
+									return "<span class='fa fa-times'/>";
 							}
 							return data;
 						}
@@ -168,11 +173,14 @@
 						"defaultContent": "",
 						"width": "3%",
 						"render": function (data, type, row, meta) {
+							
+							data = data.indexOf("EXTENDEDART") > -1;
+							
 							if (type === 'display') {
-								if (data.indexOf("EXTENDEDART") > -1)
-									data = "<span class='fa fa-check'/>";
+								if (data)
+									return "<span class='fa fa-check'/>";
 								else
-									data = "<span class='fa fa-times'/>";
+									return "<span class='fa fa-times'/>";
 							}
 							return data;
 						}
@@ -190,10 +198,12 @@
 									return data;
 									}	
 								
-								if (data.indexOf("BORDERLESS") > -1)
-									data = "<span class='fa fa-check'/>";
+								data = data.indexOf("BORDERLESS") > -1;
+								
+								if (data)
+									return "<span class='fa fa-check'/>";
 								else
-									data = "<span class='fa fa-times'/>";
+									return "<span class='fa fa-times'/>";
 							}
 							return data;
 						}
@@ -205,9 +215,9 @@
 						"render": function (data, type, row, meta) {
 							if (type === 'display') {
 								if (data === true)
-									data = "<span class='fa fa-check'/>";
+									return "<span class='fa fa-check'/>";
 								else
-									data = "<span class='fa fa-times'/>";
+									return "<span class='fa fa-times'/>";
 							}
 							return data;
 						}
