@@ -18,3 +18,7 @@ thead input {
 div.dt-buttons {
     float: right;
 }
+
+.dataTables_filter {
+display: none;
+}
