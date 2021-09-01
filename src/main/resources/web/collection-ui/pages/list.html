@@ -75,7 +75,7 @@
 				"pageLength": 50,
 				dom: 'lBfrtip',
 				 orderCellsTop: true,
-        		fixedHeader: true,
+        		fixedHeader: false,
 				"searching": true,
 				buttons: [
 			        'copy', 'excel', 'csv'
@@ -87,11 +87,12 @@
 						"width": "2%",
 						"defaultContent": "",
 						"render": function (data, type, row, meta) {
+							data = data[0].id;
 							if (type === 'display') {
 								try {
-									data = '<i class="ss ss-' + data[0].id.toLowerCase() + ' ss-' + row.rarity.toLowerCase() + ' ss-2x ss-uncommon"></i>';
+									return '<i class="ss ss-' + data.toLowerCase() + ' ss-' + row.rarity.toLowerCase() + ' ss-2x ss-uncommon"></i>';
 								} catch (error) {
-									data = '<i class="ss ss-' + data[0].id.toLowerCase() + ' ss-common ss-2x"></i>';
+									return '<i class="ss ss-' + data.toLowerCase() + ' ss-common ss-2x"></i>';
 								}
 							}
 							return data;
