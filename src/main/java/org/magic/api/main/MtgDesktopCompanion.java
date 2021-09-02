@@ -54,7 +54,6 @@ public class MtgDesktopCompanion {
 			
 			getEnabledPlugin(MTGCardsProvider.class).init();
 			getEnabledPlugin(MTGDao.class).init();
-			getEnabledPlugin(MTGCardsProvider.class).listEditions();
 			
 			logger.info("Init "+MTGConstants.MTG_APP_NAME+" GUI");
 		} catch (Exception e) {

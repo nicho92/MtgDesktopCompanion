@@ -80,21 +80,19 @@ public class MkmOversightDashlet extends AbstractJDashlet {
 			}
 		});
 		
-		
 		UITools.initCardToolTipTable(table,0,null,null, new Callable<Void>()
 				{
 
 					@Override
 					public Void call() throws Exception {
-						
 						String cardName  = UITools.getTableSelection(table, 0);
+						String setName  = UITools.getTableSelection(table, 1);
 						
-						UITools.browse(MkmConstants.MKM_SITE_URL+"/en/Magic/Products/Search?searchString="+URLTools.encode(cardName));
+						UITools.browse(MkmConstants.MKM_SITE_URL+"/en/Magic/Products/Singles/"+URLTools.encode(setName)+"/"+URLTools.encode(cardName));
+						
 						return null;
 					}
-			
-				});
-		
+			});
 		
 		if (getProperties().size() > 0) {
 			var r = new Rectangle((int) Double.parseDouble(getString("x")),
