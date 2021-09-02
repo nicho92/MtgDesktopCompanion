@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.awt.event.ItemEvent;
 import java.io.IOException;
+import java.util.concurrent.Callable;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
@@ -12,10 +13,13 @@ import javax.swing.JScrollPane;
 
 import org.api.mkm.modele.InsightElement;
 import org.api.mkm.services.InsightService;
+import org.api.mkm.tools.MkmConstants;
+import org.magic.api.beans.CardShake;
 import org.magic.api.exports.impl.MKMFileWantListExport;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.tools.UITools;
+import org.magic.tools.URLTools;
 
 public class MkmOversightDashlet extends AbstractJDashlet {
 	
@@ -75,6 +79,21 @@ public class MkmOversightDashlet extends AbstractJDashlet {
 				init();
 			}
 		});
+		
+		
+		UITools.initCardToolTipTable(table,0,null,null, new Callable<Void>()
+				{
+
+					@Override
+					public Void call() throws Exception {
+						
+						String cardName  = UITools.getTableSelection(table, 0);
+						
+						UITools.browse(MkmConstants.MKM_SITE_URL+"/en/Magic/Products/Search?searchString="+URLTools.encode(cardName));
+						return null;
+					}
+			
+				});
 		
 		
 		if (getProperties().size() > 0) {

@@ -88,7 +88,11 @@
 								        url: restserver+"/cards/list/"+$_GET("collection")+"/"+$_GET("set")
 								    	}).then(function(data) {
 												
-											var sortAtt="name";	
+											var sortAtt=$_GET("sort");
+											
+											if(!sortAtt)
+												sortAtt=("name");
+												
 											var sorted = data.sort(function (a, b) 
 											{
 								    				if (a[sortAtt] > b[sortAtt]) 
@@ -144,12 +148,15 @@
         <header class="bg-dark py-3">
           
         </header>
-
-	
-
         <!-- Section-->
         <section class="py-5">
             <div class="container px-4 px-lg-5 mt-5">
+				<div class="container text-center">
+					<button type="button" class="btn btn-primary">Name</button>
+					<button type="button" class="btn btn-primary">Cmc</button>
+					<button type="button" class="btn btn-primary">Number</button>
+				</div>
+				<br/>
                 <div id="listSet" class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
 					<!-- Elements contents-->
 
