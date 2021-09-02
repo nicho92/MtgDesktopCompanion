@@ -143,6 +143,7 @@ public class UITools {
 	public static void browse(String uri)
 	{
 		try {
+			logger.debug("Opening browser to " + uri);
 			Desktop.getDesktop().browse(new URI(uri));
 		} catch (Exception e) {
 			logger.error(e);

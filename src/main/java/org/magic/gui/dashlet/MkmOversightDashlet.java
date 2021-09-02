@@ -11,10 +11,10 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import org.apache.commons.lang3.RegExUtils;
 import org.api.mkm.modele.InsightElement;
 import org.api.mkm.services.InsightService;
 import org.api.mkm.tools.MkmConstants;
-import org.magic.api.beans.CardShake;
 import org.magic.api.exports.impl.MKMFileWantListExport;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.abstracts.GenericTableModel;
@@ -87,6 +87,12 @@ public class MkmOversightDashlet extends AbstractJDashlet {
 					public Void call() throws Exception {
 						String cardName  = UITools.getTableSelection(table, 0);
 						String setName  = UITools.getTableSelection(table, 1);
+						
+						cardName=RegExUtils.replaceAll(cardName,"'","");
+						cardName=RegExUtils.replaceAll(cardName," \\(V\\.","-V");
+						cardName=RegExUtils.replaceAll(cardName,"\\)","");
+						cardName=RegExUtils.replaceAll(cardName," ","-");
+						
 						
 						UITools.browse(MkmConstants.MKM_SITE_URL+"/en/Magic/Products/Singles/"+URLTools.encode(setName)+"/"+URLTools.encode(cardName));
 						
