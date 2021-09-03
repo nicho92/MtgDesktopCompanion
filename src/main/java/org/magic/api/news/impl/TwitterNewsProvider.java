@@ -23,18 +23,26 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 	private ConfigurationBuilder cb;
 	private TwitterFactory tf;
 
-	public TwitterNewsProvider() {
-		super();
-		cb = new ConfigurationBuilder();
-		cb.setDebugEnabled(getBoolean("LOG")).setOAuthConsumerKey(getString("CONSUMER_KEY"))
-				.setOAuthConsumerSecret(getString("CONSUMER_SECRET")).setOAuthAccessToken(getString("ACCESS_TOKEN"))
-				.setOAuthAccessTokenSecret(getString("ACCESS_TOKEN_SECRET"));
-		tf = new TwitterFactory(cb.build());
+	
+	@Override
+	public List<String> listAuthenticationAttributes() {
+		return List.of("CONSUMER_KEY","CONSUMER_SECRET","ACCESS_TOKEN","ACCESS_TOKEN_SECRET");
 	}
 
 	@Override
 	public List<MagicNewsContent> listNews(MagicNews n) throws IOException {
-
+		
+		if(tf==null)
+		{
+			cb = new ConfigurationBuilder();
+			cb.setDebugEnabled(getBoolean("LOG")).setOAuthConsumerKey(getAuthenticator().get("CONSUMER_KEY"))
+					.setOAuthConsumerSecret(getAuthenticator().get("CONSUMER_SECRET")).setOAuthAccessToken(getAuthenticator().get("ACCESS_TOKEN"))
+					.setOAuthAccessTokenSecret(getAuthenticator().get("ACCESS_TOKEN_SECRET"));
+			tf = new TwitterFactory(cb.build());
+		}
+		
+		
+		
 		var twitter = tf.getInstance();
 		var query = new Query(n.getName());
 		query.setCount(getInt("MAX_RESULT"));
@@ -84,11 +92,7 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		return Map.of("CONSUMER_KEY", "",
-								"CONSUMER_SECRET", "",
-								"ACCESS_TOKEN", "",
-								"ACCESS_TOKEN_SECRET", "",
-								"MAX_RESULT", "25",
+		return Map.of("MAX_RESULT", "25",
 								"LOG", "false");
 
 	}

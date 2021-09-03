@@ -21,13 +21,13 @@ public class RSSNewsProvider extends AbstractMagicNewsProvider {
 
 	private SyndFeedInput input;
 
-	public RSSNewsProvider() {
-		super();
-		input = new SyndFeedInput();
-	}
-
 	@Override
 	public List<MagicNewsContent> listNews(MagicNews rssBean) throws IOException {
+		
+		
+		if(input==null)
+			input = new SyndFeedInput();
+		
 		InputStream is = null;
 		SyndFeed feed;
 

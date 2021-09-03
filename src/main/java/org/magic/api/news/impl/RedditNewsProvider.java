@@ -25,13 +25,12 @@ public class RedditNewsProvider extends AbstractMagicNewsProvider {
 
 	private NetworkAdapter adapter;
 	
-	
-	public RedditNewsProvider() {
-		adapter = new OkHttpNetworkAdapter(new UserAgent(MTGConstants.MTG_APP_NAME));
-	}
-	
 	@Override
 	public List<MagicNewsContent> listNews(MagicNews n) throws IOException {
+		
+		
+		if(adapter==null)
+			adapter = new OkHttpNetworkAdapter(new UserAgent(MTGConstants.MTG_APP_NAME));
 		
 		List<MagicNewsContent> ret = new ArrayList<>();
 		var credentials = Credentials.script(getString("USER"), getString("PASSWORD"),getString("APPID"), getString("SECRET"));
