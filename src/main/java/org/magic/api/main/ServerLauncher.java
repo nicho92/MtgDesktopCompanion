@@ -15,7 +15,7 @@ import org.magic.services.MTGLogger;
 public class ServerLauncher {
 	public static void main(String[] args) throws SQLException, IOException 
 	{
-		MTGControler.getInstance();
+		MTGControler.getInstance().loadAccountsConfiguration();
 		if(args.length==0)
 		{
 			MTGLogger.getLogger(ServerLauncher.class).info("Usage : ServerLauncher <server name>");
