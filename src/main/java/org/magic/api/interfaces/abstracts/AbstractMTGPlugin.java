@@ -190,7 +190,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 			return false;
 			
 		
-		return getString(k).equalsIgnoreCase("true");
+		return getString(k).equalsIgnoreCase("true")||getString(k).equalsIgnoreCase("yes");
 	}
 
 	public String[] getArray(String k) {
