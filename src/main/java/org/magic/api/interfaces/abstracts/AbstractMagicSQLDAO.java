@@ -147,9 +147,12 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			return null;
 		}
 		
+		if(mc==null)
+			return null;
+		
 		try {
 			mc.setDateUpdated(rs.getDate("dateUpdate"));
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			//do nothing
 		}
 		return mc;
