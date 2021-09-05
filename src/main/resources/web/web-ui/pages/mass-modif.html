@@ -159,7 +159,7 @@
 		        		{ "data": "name",
 			        	  "width": "30%",
 			        	  "render": function(data, type, row, meta){
-			                       data = '<span class="mtg-tooltip" data-set="'+idEd+'" data-name="'+data+'">'+data+'</span>';
+			                       data = '<span class="mtg-tooltip" scryfallid="'+row.scryfallId+'" data-set="'+idEd+'" data-name="'+data+'">'+data+'</span>';
 			                   return data;
 			                }
 			        	  
@@ -168,7 +168,7 @@
 			        	{ "data": "editions","width": "10%", "defaultContent": "", 
 			        		"render": function(data, type, row, meta){
 				                   if(type === 'display'){
-				                       data = '<i class="ss ss-grad ss-'+data[0].id.toLowerCase()+' ss-'+data[0].rarity.toLowerCase()+' ss-2x ss-uncommon"></i>';
+				                       data = '<i class="ss ss-grad ss-'+data[0].id.toLowerCase()+' ss-'+row.rarity.toLowerCase()+' ss-2x ss-uncommon"></i>';
 				                   }
 				                   return data;
 				                }
@@ -233,7 +233,7 @@
                    	</div>
                     <div class="panel-body">
 						<select id="listCollections" class="form-control"><option value=""></option></select>                       
-						<select id="listEditions" class="form-control" d ata-live-search="true"><option value=""></option></select>
+						<select id="listEditions" class="form-control" data-live-search="true"><option value=""></option></select>
                     </div>
                     <div align="right" class="panel-footer"><button id="btnSearch" type="button" class="btn btn-danger btn-circle"><i class="fa fa-search"></i></button></div>
                  </div>
