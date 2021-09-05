@@ -138,19 +138,22 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	}
 
 	protected MagicCard readCard(ResultSet rs,String field) throws SQLException {
+		MagicCard mc=null;
 		try{
-			MagicCard mc = serialiser.fromJson( rs.getObject(field).toString(), MagicCard.class);
-			try {
-				mc.setDateUpdated(rs.getDate("dateUpdate"));
-			} catch (SQLException e) {
-				//do nothing
-			}
-			return mc;
+			mc = serialiser.fromJson( rs.getObject(field).toString(), MagicCard.class);
 		}
 		catch(NullPointerException e)
 		{
 			return null;
 		}
+		
+		try {
+			mc.setDateUpdated(rs.getDate("dateUpdate"));
+		} catch (SQLException e) {
+			//do nothing
+		}
+		return mc;
+		
 	}
 	
 	
