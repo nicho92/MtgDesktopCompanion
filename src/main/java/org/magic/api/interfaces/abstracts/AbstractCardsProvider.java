@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.Booster;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.MTGCardVariation;
 import org.magic.api.beans.enums.MTGColor;
@@ -29,7 +28,6 @@ import org.magic.tools.TCache;
 public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements MTGCardsProvider {
 
 	public static final String SET_FIELD = "set";
-	public static final String COLLECTION_FIELD = "collection";
 	public static final String ALL = "all";
 	
 	
@@ -84,7 +82,6 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		
 		List<QueryAttribute> atts = loadQueryableAttributs();
 				atts.add(new QueryAttribute(SET_FIELD, MagicEdition.class));
-				atts.add(new QueryAttribute(COLLECTION_FIELD, MagicCollection.class));
 				atts.add(new QueryAttribute(ALL, String.class));
 		return atts.stream().toArray(QueryAttribute[]::new);
 	}

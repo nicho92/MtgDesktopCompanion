@@ -7,14 +7,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import org.magic.api.beans.MagicCollection;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.gui.components.CriteriaComponent;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.tools.UITools;
 
 public class AdvancedSearchQueryDialog extends JDialog {
 	
@@ -25,7 +29,7 @@ public class AdvancedSearchQueryDialog extends JDialog {
 	
 	
 	public AdvancedSearchQueryDialog() {
-		setLayout(new BorderLayout(0, 0));
+		getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		crits = new ArrayList<>();
 		
@@ -33,26 +37,37 @@ public class AdvancedSearchQueryDialog extends JDialog {
 		
 		var btnNewButton = new JButton(MTGConstants.ICON_NEW);
 		var btnSearch = new JButton(MTGConstants.ICON_SEARCH);
+		var chkSearchInCollection = new JCheckBox("Collection Only");
+		var cboCollection = UITools.createComboboxCollection();
 		
 		var bottom = new JPanel();
 		
 		bottom .add(btnNewButton);
 		bottom.add(btnSearch);
 		
-		add(bottom, BorderLayout.SOUTH);
+		getContentPane().add(bottom, BorderLayout.SOUTH);
 		
 		pContent = new JPanel();
-		add(pContent, BorderLayout.CENTER);
+		getContentPane().add(pContent, BorderLayout.CENTER);
 		pContent.setLayout(layout);
 		
+		JPanel panel = new JPanel();
+		getContentPane().add(panel, BorderLayout.NORTH);
 		
+		
+		cboCollection.setEnabled(false);
+		
+		panel.add(chkSearchInCollection);
+		panel.add(cboCollection);
+		
+		chkSearchInCollection.addItemListener(il->cboCollection.setEnabled(chkSearchInCollection.isSelected()));
 		
 		btnNewButton.addActionListener(al->
 			SwingUtilities.invokeLater(()->{
 				
 				var cc = new CriteriaComponent();
 				
-				var delete = new JButton("X");
+				var delete = new JButton(MTGConstants.ICON_DELETE);
 				delete.addActionListener(el->{
 					pContent.remove(cc);
 					pContent.revalidate();
