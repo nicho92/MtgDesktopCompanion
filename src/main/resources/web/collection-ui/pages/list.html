@@ -7,14 +7,14 @@
 	<meta name="description" content="" />
 	<meta name="author" content="MTGCompanion" />
 	<title>MTGCompanion - Collections</title>
-	<link rel="icon" type="image/x-icon" href="../assets/favicon.ico" />
-
+	  <link rel="icon" type="image/x-icon" href="../dist/favicon.ico" />
+ 		
 	<script src="//cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script>
 	<script src="//cdn.jsdelivr.net/npm/jquery-autocomplete@latest/jquery.autocomplete.min.js"></script>
 	<script src="//cdn.jsdelivr.net/npm/jquery-ui-dist@latest/jquery-ui.min.js"></script>
 	<script src="//cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="../dist/js/rest-server.js"></script>
-	<script src="../js/scripts.js"></script>
+	<script src="../dist/js/scripts.js"></script>
 
 	<script src="//cdn.jsdelivr.net/npm/datatables@latest/media/js/jquery.dataTables.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -38,12 +38,7 @@
 	<link href="//cdn.jsdelivr.net/npm/jquery-ui-dist@latest/jquery-ui.min.css" rel="stylesheet">
 	<link href="//cdn.jsdelivr.net/npm/datatables@latest/media/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
 	<link href="//cdn.datatables.net/buttons/2.0.0/css/buttons.dataTables.min.css" rel="stylsheet"  type="text/css">
-
-
-	
-
-
-	<link href="../css/styles.css" rel="stylesheet" />
+	<link href="../dist/css/styles.css" rel="stylesheet" />
 
 	<script>
 		$(document).ready(function () {
@@ -68,7 +63,7 @@
 			
 			var table= $('#table').DataTable({
 				"language": {
-					"processing": "<img src='../img/loading.gif' width='50' height='50'>"
+					"processing": "<img src='../dist/img/loading.gif' width='50' height='50'>"
 				},
 				"responsive": true,
 				"processing": true,
@@ -81,7 +76,7 @@
 				buttons: [
 			        'copy', 'excel', 'csv'
 			    ],
-				"ajax": {"url": restserver + "/cards/" + $_GET("collection"), "dataSrc": ""},
+				"ajax": {"url": restserver + "/cards/list/" + $_GET("collection"), "dataSrc": ""},
 				"columns": [
 					{
 						"data": "editions",
@@ -122,7 +117,14 @@
 						"width": "5%",
 						"defaultContent": "",
 						"render": function (data, type, row, meta) {
-								data = row.editions[0].number;
+							try{
+								data= parseInt(row.editions[0].number);
+							}
+							catch(error)
+							{
+								console.log(error);	
+							}
+							
 							return data;
 						}
 					},
@@ -266,13 +268,13 @@
 <body>
 	<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
 		<div class="container px-4 px-lg-0">
-			<a class="navbar-brand" href="index.html"><img src="../img/logo.png" />MTG Companion</a>
+			<a class="navbar-brand" href="index.html"><img src="../dist/img/logo.png" />MTG Companion</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
 				data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
 				aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-					<li class="nav-item"><a class="nav-link active" aria-current="page" href="/">Home</a></li>
+					<li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html">Home</a></li>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
 							data-bs-toggle="dropdown" aria-expanded="false">Collections</a>

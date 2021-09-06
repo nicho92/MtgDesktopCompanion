@@ -402,14 +402,14 @@ public class DiscordBotServer extends AbstractMTGServer {
 							.addEventListeners(listener)
 							.build();
 			
-			
 			if(!StringUtils.isEmpty(getString(ACTIVITY_TYPE)) && !StringUtils.isEmpty(getString(ACTIVITY)))
 				jda.getPresence().setPresence(Activity.of(ActivityType.valueOf(getString(ACTIVITY_TYPE)), getString(ACTIVITY)), isAlive());
 			
 			logger.info("Server " + getName() +" started");
 			
 			
-		} catch (LoginException e) {
+		} catch (Exception e) {
+			logger.error(e);
 			throw new IOException(e);
 		}
 		

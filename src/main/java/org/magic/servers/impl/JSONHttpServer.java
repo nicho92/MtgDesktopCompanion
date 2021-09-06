@@ -264,10 +264,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 						.searchCardByCriteria(request.params(":att"), request.params(":val"), null, false),
 				transformer);
 		
-		get("/cards/:collection", URLTools.HEADER_JSON,
-				(request, response) -> getEnabledPlugin(MTGDao.class).listCardsFromCollection(new MagicCollection(request.params(COLLECTION))),
-				transformer);
-
+		
 		
 		get("/cards/search/:att/:val/:exact", URLTools.HEADER_JSON,
 				(request, response) -> getEnabledPlugin(MTGCardsProvider.class)
@@ -361,9 +358,15 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return RETURN_OK;
 		}, transformer);
 
+		
+		get("/cards/list/:col", URLTools.HEADER_JSON, (request, response) -> {
+			var col = new MagicCollection(request.params(":col"));
+			return getEnabledPlugin(MTGDao.class).listCardsFromCollection(col, null);
+		}, transformer);
+		
 		get("/cards/list/:col/:idEd", URLTools.HEADER_JSON, (request, response) -> {
 			var col = new MagicCollection(request.params(":col"));
-			MagicEdition ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(ID_ED));
+			var ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(ID_ED));
 			return getEnabledPlugin(MTGDao.class).listCardsFromCollection(col, ed);
 		}, transformer);
 
@@ -377,6 +380,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 			return ret;
 		}, transformer);
+		
+	
 
 		get("/collections/:name/count", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGDao.class).getCardsCountGlobal(new MagicCollection(request.params(NAME))), transformer);
 
