@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -40,11 +41,11 @@ public class JsonExport extends AbstractCardExport {
 	private Gson gson;
 	
 	public JsonExport() {
-		gson=new GsonBuilder().registerTypeAdapter(MTGStockItem.class, new InterfaceAdapter<>()).setPrettyPrinting().create();
+		gson=new GsonBuilder().registerTypeAdapter(MTGStockItem.class, new InterfaceAdapter<>()).setDateFormat("yyyy-MM-dd").setPrettyPrinting().create();
 	}
 	
 	public void removePrettyString() {
-		gson=new GsonBuilder().registerTypeAdapter(MTGStockItem.class, new InterfaceAdapter<>()).create();
+		gson=new GsonBuilder().registerTypeAdapter(MTGStockItem.class, new InterfaceAdapter<>()).setDateFormat("yyyy-MM-dd").create();
 	}
 	
 	
