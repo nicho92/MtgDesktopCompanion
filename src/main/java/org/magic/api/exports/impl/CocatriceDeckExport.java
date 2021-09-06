@@ -25,8 +25,6 @@ import org.xml.sax.InputSource;
 public class CocatriceDeckExport extends AbstractCardExport {
 
 	private static final String DEFAULT_PRICE = "DEFAULT_PRICE";
-	private static final String VERSION = "VERSION";
-
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
@@ -41,7 +39,7 @@ public class CocatriceDeckExport extends AbstractCardExport {
 		var endZoneTag = "</zone>";
 
 		temp.append("<?xml version='1.0' encoding='").append(MTGConstants.DEFAULT_ENCODING).append("'?>");
-		temp.append("<cockatrice_deck version='" + getString(VERSION) + "'>");
+		temp.append("<cockatrice_deck version='1.0'>");
 		temp.append("<deckname>").append(deck.getName()).append("</deckname>");
 		temp.append("<comments>").append(deck.getDescription()).append("</comments>");
 		temp.append("<zone name='main'>");
@@ -117,14 +115,8 @@ public class CocatriceDeckExport extends AbstractCardExport {
 	
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		return Map.of(VERSION, "1.0",
-								DEFAULT_PRICE, "0");
+		return Map.of(DEFAULT_PRICE, "0");
 
-	}
-
-	@Override
-	public String getVersion() {
-		return getProperty(VERSION, "2.0");
 	}
 
 }
