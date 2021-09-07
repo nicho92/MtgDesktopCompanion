@@ -8,12 +8,10 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import org.magic.api.beans.MagicCollection;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.gui.components.CriteriaComponent;
 import org.magic.services.MTGConstants;

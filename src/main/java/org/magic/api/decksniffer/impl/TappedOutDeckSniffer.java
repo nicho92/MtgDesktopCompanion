@@ -29,6 +29,7 @@ import com.google.gson.JsonElement;
 
 public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 
+	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
 	private static final String URL_JSON = "URL_JSON";
 	private static final String FORMAT = "FORMAT";
 	private static final String URI_BASE="https://tappedout.net";
@@ -43,11 +44,11 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	public TappedOutDeckSniffer() {
 		super();
 
-		if(getBoolean("LOAD_CERTIFICATE"))
+		if(getBoolean(LOAD_CERTIFICATE))
 		{
 			try {
 				InstallCert.installCert("tappedout.net");
-				setProperty("LOAD_CERTIFICATE", "false");
+				setProperty(LOAD_CERTIFICATE, "false");
 			} catch (Exception e1) {
 				logger.error(e1);
 			}
@@ -198,7 +199,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		return Map.of("LOAD_CERTIFICATE","true",
+		return Map.of(LOAD_CERTIFICATE,"true",
 								FORMAT, "standard",
 								URL_JSON, URI_BASE+"/api/deck/latest/%FORMAT%");
 	}

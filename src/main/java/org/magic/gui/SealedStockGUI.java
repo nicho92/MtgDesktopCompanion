@@ -52,8 +52,7 @@ public class SealedStockGUI extends MTGUIComponent {
 	private RSyntaxTextArea textEditor;
 	private JXTable table;
 	private AbstractBuzyIndicatorComponent buzy;
-	private StockItemsSynchronizationPanel synchroPanel;
-	
+		
 	public SealedStockGUI() {
 		initGUI();
 	}
@@ -82,7 +81,7 @@ public class SealedStockGUI extends MTGUIComponent {
 				}
 			}
 		});
-		synchroPanel = new StockItemsSynchronizationPanel();
+		var synchroPanel = new StockItemsSynchronizationPanel();
 		var toolsPanel = new JPanel();
 		var centerPanel = new JSplitPane();
 		centerPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);

@@ -85,11 +85,20 @@ public class CardsDeckSorter implements MTGComparator<MagicCard> {
 		if(mc.isArtifact())
 			return 3;
 		
-		if(mc.isEnchantment())
+		if(mc.isRitual())
 			return 4;
 		
-		if(mc.isLand() && !mc.isBasicLand())
+		if(mc.isInstant())
 			return 5;
+		
+		
+		if(mc.isEnchantment())
+			return 6;
+		
+		
+		
+		if(mc.isLand() && !mc.isBasicLand())
+			return 7;
 		
 		if(mc.isBasicLand())
 			return land(mc);

@@ -20,7 +20,6 @@ import twitter4j.conf.ConfigurationBuilder;
 
 public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 
-	private ConfigurationBuilder cb;
 	private TwitterFactory tf;
 
 	
@@ -34,7 +33,7 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 		
 		if(tf==null)
 		{
-			cb = new ConfigurationBuilder();
+			ConfigurationBuilder cb = new ConfigurationBuilder();
 			cb.setDebugEnabled(getBoolean("LOG")).setOAuthConsumerKey(getAuthenticator().get("CONSUMER_KEY"))
 					.setOAuthConsumerSecret(getAuthenticator().get("CONSUMER_SECRET")).setOAuthAccessToken(getAuthenticator().get("ACCESS_TOKEN"))
 					.setOAuthAccessTokenSecret(getAuthenticator().get("ACCESS_TOKEN_SECRET"));

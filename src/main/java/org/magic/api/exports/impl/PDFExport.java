@@ -4,6 +4,7 @@ import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -14,6 +15,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.api.sorters.CardsDeckSorter;
 import org.magic.services.MTGConstants;
 
 import com.itextpdf.io.image.ImageData;
@@ -88,7 +90,13 @@ public class PDFExport extends AbstractCardExport {
 			    info.setKeywords(deck.getTags().stream().collect(Collectors.joining(",")));
 			    info.addCreationDate();
 		   
-				for (MagicCard card : deck.getMainAsList()) {
+			    var mainList = deck.getMainAsList();
+			    
+			    Collections.sort(mainList, new CardsDeckSorter(deck) );
+			    
+			    
+			    
+				for (MagicCard card : mainList) {
 					table.addCell(createCell(card));
 					notify(card);
 				}

@@ -20,7 +20,6 @@ import java.util.function.Supplier;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import javax.security.auth.login.LoginException;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
