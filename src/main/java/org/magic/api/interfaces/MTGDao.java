@@ -20,7 +20,6 @@ import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.Transaction;
 import org.magic.api.beans.enums.EnumItems;
-import org.magic.api.criterias.MTGCrit;
 
 public interface MTGDao extends MTGPlugin{
 
@@ -37,10 +36,6 @@ public interface MTGDao extends MTGPlugin{
 	public List<MagicCard> listCardsFromCollection(MagicCollection collection) throws SQLException;
 	public List<MagicCard> listCardsFromCollection(MagicCollection collection, MagicEdition me) throws SQLException;
 	public List<MagicCard> listCardsFromCollection(String collectionName,MagicEdition me) throws SQLException;
-	
-	public List<MagicCard> searchByCriteria(MagicCollection c, MTGCrit<?>... crits) throws IOException;
-	public List<MagicCard> searchByCriteria(MagicCollection c, List<MTGCrit> crits) throws IOException;
-		
 	
 	public List<MagicDeck> listDecks() throws SQLException;
 	public void deleteDeck(MagicDeck d) throws SQLException;
