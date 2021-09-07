@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.stream.Collectors;
 
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultRowSorter;
@@ -76,6 +77,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
+import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 import org.utils.patterns.observer.Observable;
 
@@ -429,7 +431,23 @@ public class CardSearchPanel extends MTGUIComponent {
 
 						@Override
 						protected List<MagicCard> doInBackground() throws Exception {
-							return plug.searchByCriteria(diag.getCrits());
+							
+							
+							if(diag.getCollection()==null)
+							{
+								return plug.searchByCriteria(diag.getCrits());
+							}
+							else
+							{
+								return plug.searchByCriteria(diag.getCrits()).stream().filter(mc->{
+									try {
+										return MTG.getEnabledPlugin(MTGDao.class).listCollectionFromCards(mc).contains(diag.getCollection());
+									} catch (SQLException e) {
+										logger.error("error sql for " + mc +" : " + e);
+										return false;
+									}
+								}).collect(Collectors.toList());
+							}
 						}
 
 						@Override
