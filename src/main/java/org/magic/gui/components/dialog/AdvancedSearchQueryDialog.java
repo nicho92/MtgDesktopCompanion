@@ -8,10 +8,12 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import org.magic.api.beans.MagicCollection;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.gui.components.CriteriaComponent;
 import org.magic.services.MTGConstants;
@@ -24,6 +26,8 @@ public class AdvancedSearchQueryDialog extends JDialog {
 	private GridLayout layout;
 	private JPanel pContent;
 	private transient List<MTGCrit> crits;
+	private JComboBox<MagicCollection> cboCollection;
+	private JCheckBox chkSearchInCollection;
 	
 	
 	public AdvancedSearchQueryDialog() {
@@ -35,8 +39,8 @@ public class AdvancedSearchQueryDialog extends JDialog {
 		
 		var btnNewButton = new JButton(MTGConstants.ICON_NEW);
 		var btnSearch = new JButton(MTGConstants.ICON_SEARCH);
-		var chkSearchInCollection = new JCheckBox("Collection Only");
-		var cboCollection = UITools.createComboboxCollection();
+		chkSearchInCollection = new JCheckBox("Collection Only");
+		cboCollection = UITools.createComboboxCollection();
 		
 		var bottom = new JPanel();
 		
@@ -107,6 +111,16 @@ public class AdvancedSearchQueryDialog extends JDialog {
 	public List<MTGCrit> getCrits() {
 		return crits;
 	}
+	
+	public MagicCollection getCollection() {
+		
+		if(!chkSearchInCollection.isSelected())
+			return null;
+		
+		return (MagicCollection)cboCollection.getSelectedItem();
+	}
+	
+	
 	
 
 	private static final long serialVersionUID = 1L;

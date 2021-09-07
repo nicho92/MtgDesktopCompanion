@@ -79,7 +79,7 @@ public class CardsDeckSorter implements MTGComparator<MagicCard> {
 		if(mc.isPlaneswalker())
 			return 1;
 		
-		if(mc.isCreature())
+		if(mc.isCreature() && !mc.isArtifact())
 			return 2;
 		
 		if(mc.isArtifact())

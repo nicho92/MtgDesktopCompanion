@@ -3,6 +3,7 @@ package org.magic.api.criterias;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -22,6 +23,11 @@ public abstract class AbstractQueryBuilder<T> implements MTGQueryBuilder<T> {
 		registry.put(clazz, mtgCriteriaConverter);
 	}
 	
+	
+	@Override
+	public T build(List<MTGCrit> crits) {
+		return build(crits.stream().toArray(MTGCrit[]::new));
+	}
 	
 	@Override
 	public <U> Object getValueFor(U object)

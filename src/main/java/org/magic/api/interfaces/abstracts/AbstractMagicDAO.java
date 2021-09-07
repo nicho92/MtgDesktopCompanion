@@ -1,13 +1,17 @@
 package org.magic.api.interfaces.abstracts;
 
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.Contact;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
@@ -20,14 +24,17 @@ import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.Transaction;
 import org.magic.api.beans.enums.EnumItems;
+import org.magic.api.criterias.MTGCrit;
+import org.magic.api.criterias.builders.BeanCriteriaBuilder;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPool;
+import org.magic.api.interfaces.MTGQueryable;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.tools.TCache;
 
 
-public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGDao {
+public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGDao{
 
 	protected static final String LOGIN = "LOGIN";
 	protected static final String PASS = "PASS";
@@ -68,6 +75,23 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		init();
 	}
 
+	@Override
+	public List<MagicCard> searchByCriteria(MagicCollection c, MTGCrit<?>... crits) throws IOException {
+		return searchByCriteria(c, Arrays.asList(crits));
+	}
+	
+	
+	@Override
+	public List<MagicCard> searchByCriteria(MagicCollection c, List<MTGCrit> crits) throws IOException {
+		
+		logger.debug("searching in " + c +  "  with " + crits);
+		try {
+			return listCardsFromCollection(c).stream().filter(new BeanCriteriaBuilder().build(crits)).collect(Collectors.toList());
+		} catch (SQLException e) {
+			throw new IOException(e);
+		}
+		
+	}
 
 	protected AbstractMagicDAO() {
 		listAlerts = new TCache<>("alerts");
@@ -110,9 +134,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		
 		return ret;
 	}
-	
-
-	
+		
 	@Override
 	public MagicCardStock getStockById(Integer id) throws SQLException {
 		return listStocks().stream().filter(mc->mc.getId().equals(id)).findAny().orElse(null);

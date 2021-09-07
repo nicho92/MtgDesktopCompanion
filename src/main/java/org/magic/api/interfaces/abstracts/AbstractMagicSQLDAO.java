@@ -3,6 +3,7 @@ package org.magic.api.interfaces.abstracts;
 import static org.magic.tools.MTG.getEnabledPlugin;
 import static org.magic.tools.MTG.getPlugin;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -40,6 +41,7 @@ import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.beans.enums.TransactionPayementProvider;
 import org.magic.api.beans.enums.TransactionStatus;
+import org.magic.api.criterias.MTGCrit;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.MTGPool;
@@ -70,8 +72,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	protected static final int COLLECTION_COLUMN_SIZE=30;
 	protected static final int CARD_ID_SIZE=50;
 
-	
-	
 	
 	protected List<MTGStockItem> readTransactionItems(ResultSet rs) throws SQLException {
 		return serialiser.fromJsonList(rs.getObject("stocksItem").toString(), MTGStockItem.class);
