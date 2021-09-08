@@ -58,18 +58,27 @@ public class SlightlyMagicPictureProvider extends AbstractPicturesProvider {
 			dirName="CON_";
 		
 		
+		if(dirName.equalsIgnoreCase("all"))
+			dirName="AL";
+		
 		var edDir = new File(getFile(PICS_DIR),dirName);
 		int size = FileUtils.listFiles(edDir, new WildcardFileFilter(mc.getName()+"*"),TrueFileFilter.INSTANCE).size();
 		var calculate = "";
 		if(size>1)
 		{
 			calculate="1";
+			
 			if(mc.isBorderLess())
 				calculate="2";
 			
+			if(mc.getCurrentSet().getNumber().contains("b"))
+				calculate="2";
 			
 		}
-		return new File(edDir, mc.getName() + calculate +".fullborder.jpg").getAbsolutePath();
+		String f = new File(edDir, mc.getName() + calculate +".fullborder.jpg").getAbsolutePath();
+		logger.debug("Loading pics " + f);
+		
+		return f;
 	}
 	
 	@Override
