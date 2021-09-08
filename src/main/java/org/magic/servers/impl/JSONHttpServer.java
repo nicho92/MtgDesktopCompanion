@@ -728,6 +728,10 @@ public class JSONHttpServer extends AbstractMTGServer {
 			getPlugin(request.params(":provider"),MTGExternalShop.class).listProducts(request.params(":search"))
 		, transformer);
 		
+		get("/extShop/transactions/from/:provider", URLTools.HEADER_JSON, (request, response) -> 
+		getPlugin(request.params(":provider"),MTGExternalShop.class).listTransaction()
+	, transformer);
+		
 		
 		post("/extShop/:from/:to/:idCategory/:language", URLTools.HEADER_JSON, (request, response) ->{ 
 				

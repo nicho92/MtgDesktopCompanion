@@ -42,8 +42,7 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 		var list= loadTransaction();
 		list.forEach(t->
 			t.getItems().forEach(item->
-				getOutputRefs(item.getLanguage(),getName(),item.getId()).forEach(converterItem->
-					item.getTiersAppIds().put(converterItem.getDestination(),String.valueOf(converterItem.getOutputId()))	
+					getOutputRefs(item.getLanguage(),getName(),item.getId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getDestination(),String.valueOf(converterItem.getOutputId()))	
 				)
 			)
 		);

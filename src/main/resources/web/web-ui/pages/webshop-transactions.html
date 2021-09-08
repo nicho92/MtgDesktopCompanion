@@ -61,30 +61,6 @@
       	    	});
       	    });
       		
-
-		
-		 $('#cboDest').on('change',function(e) {
-			
-			var selectOutput= $(this).find("option:selected").val();
-  	   		
-				$.ajax({
-  	    		    	url: restserver+"/webshop/"+selectOutput+"/categories"
-  	    	   		}).done(function(d) {
-							$('#cboCategories').find("option").remove();
-							for(var i=0;i<d.length;i++)
-	  	    	   			{
-			  	    	   		$("#cboCategories").append("<option value='"+d[i].idCategory+"'>"+d[i].categoryName+"</option>")
-	  	    	   			}
-	  	    	   			$('#cboCategories').selectpicker('refresh');
-					});
-		
-		});
-  	   				
-
-
-
-			var table;
-			
 			$("#sendBtn").click(function(){
 							
 								var datas = table.rows( { selected: true } ).data().toArray();
@@ -106,7 +82,7 @@
       		$("#searchBtn").click(function() {
 	
       			$.ajax({
-			        url: restserver+"/extShop/"+$("#cboSource").val()+"/"+$("#searchProduct").val()
+			        url: restserver+"/extShop//transactions/from/"+$("#cboSource").val()
 			    }).then(function(data) {
 			    	if(loaded)
 						{
@@ -124,21 +100,58 @@
 								"select":true,
 						        "columns": [
 						        	{ 
-						        		"data": "image",
-						        		"render": function(d, type, row, meta){
-							                   return "<img src="+d+" width='100px'></img>";
+						        		"data": "id",
+						        	},
+									{
+										"data":"dateCreation"	
+									},
+									{
+										"data":"contact",	
+										"render": function(d, type, row, meta){
+											  if(type === 'display'){
+													return d.name + " "+ d.lastName;
+												}
+												return d;
+											}
+									},
+									{ 
+						        		"data": "items",
+										"render": function(d, type, row, meta){
+							                    if(type === 'display'){
+												
+												 var content="<ul>";
+							                	  $.each(d,function(index, value){
+							                		  content+= "<li><img height=70  src='"+value.url+"'/> <strong>" + value.qte+"x</strong> " + value.productName;
+							                	  });
+							                	  content+="</ul>";											
+												
+												return content;
+												}
+												return d;
+							            	}
+						        	},
+									{ 
+						        		"data": "items",
+										"render": function(d, type, row, meta)
+										{
+							                	var total=0.0;
+												  $.each(d,function(index, value){
+							                		 total+= value.price;
+							                	  });
+							                	return total.toFixed(2) ;
 							            }
 						        	},
-						            { 
-										"data": "enName" 
+									{
+										"data":"shippingPrice",
+										"render": function(d, type, row, meta)
+										{
+							                	return d.toFixed(2) ;
+							            }
 									},
-									{ 
-										"data": "expansionName", 
-										"defaultContent": ""
-									},
-									{ 
-										"data": "category.categoryName" 
+									{
+										"data":"statut"
 									}
+									
 						        ]
 					    		});
 							loaded=true;
@@ -166,7 +179,7 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header"><i class="fa fa-shopping-cart fa-fw"></i> Webshop</h1>
+                    <h1 class="page-header"><i class="fa fa-shopping-cart fa-fw"></i> Webshop - Transactions Import</h1>
                 </div>
             </div>
             
@@ -174,14 +187,13 @@
                 <div class="col-lg-3">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                           Search
+                           Transactions from :
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
             				<select class="form-control" id="cboSource"></select>
 							<br/>
 							<div class="input-group custom-search-form">
-				          	<div class="ui-widget"><input id="searchProduct" class="form-control" placeholder="Search..."/></div>
 				            	<span class="input-group-btn">
 					              <button class="btn btn-default" type="button" id="searchBtn">
 					                  <i class="fa fa-search"></i>
@@ -196,16 +208,12 @@
 				  <div class="col-lg-3">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                           Export
+                           To : 
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
 								<div class="ui-widget">
 								<select class="form-control" id="cboDest"></select>
-								<br/>
-								<input id="txtlangage" class="form-control" placeholder="Language"/></div>
-								<br/>
-								<select class="form-control" id="cboCategories"></select>
 								<br/>
 								 <button class="btn btn-default" type="button" id="sendBtn">
 					                  <i class="fa fa-paper-plane"></i>Send
@@ -226,10 +234,13 @@
                             <table id="tableResults" class="display" style="width:100%">
 						        <thead>
 						            <tr>
-						            	<th>Product</th>
-						            	<th>Name</th>
-										<th>Expansion</th>
-										<th>Category</th>
+						            	<th>Transaction ID</th>
+										<th>Date Transaction</th>
+						            	<th>Contact</th>
+										<th>Products</th>
+										<th>Amount</th>
+										<th>Shipping</th>
+										<th>Status</th>
 						            </tr>
 						        </thead>
 						       </table>
