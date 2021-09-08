@@ -849,7 +849,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 				final String collec = ((JMenuItem) e.getSource()).getText();
 				var nmagicCol = new MagicCollection(collec);
 				try {
-					dao.moveCard(card, oldCol, nmagicCol);
+					CardsManagerService.moveCard(card, oldCol, nmagicCol,null);
 					nodeCd.removeFromParent();
 					nodeCol.add(new DefaultMutableTreeNode(card));
 					tree.refresh(((DefaultMutableTreeNode) path.getPathComponent(2)));

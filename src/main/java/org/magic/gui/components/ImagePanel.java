@@ -54,6 +54,8 @@ public class ImagePanel extends JXPanel {
 	private boolean zoomable;
 	private boolean debug = false;
 	private boolean reflection = true;
+	private int pX;
+	private int pY;
 	
 	private void setActions(boolean moveable,boolean rotable,boolean zoomable) 
 	{
@@ -157,8 +159,8 @@ public class ImagePanel extends JXPanel {
 			return;
 	
 
-		int pX = (int) ((getWidth() - (printed.getWidth() * xScale)) / 2);
-		int pY = (getHeight() - printed.getHeight()) / 2;
+		pX = (int) ((getWidth() - (printed.getWidth() * xScale)) / 2);
+		pY = (getHeight() - printed.getHeight()) / 2;
 		
 		
 
@@ -186,6 +188,29 @@ public class ImagePanel extends JXPanel {
 		g2.dispose();
 
 
+	}
+	
+	
+	public void setInitialPosition(int x, int y, double zoom)
+	{
+		this.pX=x;
+		this.pY=y;
+		this.zoomFactor=zoom;
+	}
+	
+	public void setXY(int x, int y)
+	{
+		this.pX=x;
+		this.pY=y;
+	}
+	
+	
+	public double getZoomFactor() {
+		return zoomFactor;
+	}
+	
+	public void setZoomFactor(double zoomFactor) {
+		this.zoomFactor = zoomFactor;
 	}
 
 	
