@@ -62,7 +62,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 public Map<String, String> getDefaultAttributes() {
 	return Map.of(BOOST, "false",
 							MIN_TERM_FREQ, "1",
-							FIELDS,"cost,text,color,type,cmc,rarity,extraLayout",
+							FIELDS,"cost,text,color,type,cmc,rarity,extraLayout,rotatedCardName,borderless,showcase,extend,timeshifted",
 							MAX_RESULTS,"20",
 							DIRECTORY,Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "luceneIndex").toFile().getAbsolutePath());
 	}
@@ -302,7 +302,13 @@ public Map<String, String> getDefaultAttributes() {
            		  doc.add(new Field("set",mc.getCurrentSet().getId(),fieldType));
      		      doc.add(new TextField("data",serializer.toJson(mc),Field.Store.YES));
      		      doc.add(new Field("rarity",mc.getRarity().toPrettyString(),fieldType)); 
-	     		     
+	     		  doc.add(new Field("rotatedCardName", mc.getRotatedCard()!=null?mc.getRotatedCard().getName():"",fieldType)); 
+	     		  doc.add(new Field("borderless",String.valueOf(mc.isBorderLess()),fieldType));
+	     		  doc.add(new Field("showcase",String.valueOf(mc.isShowCase()),fieldType));
+	     		  doc.add(new Field("extend",String.valueOf(mc.isExtendedArt()),fieldType));
+	     		  doc.add(new Field("timeshifted",String.valueOf(mc.isTimeshifted()),fieldType));
+	     		  
+	     		  
 					if(mc.getExtra() != null)
 						doc.add(new Field("extraLayout", mc.getExtra().toPrettyString(), fieldType));
 					else
