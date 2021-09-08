@@ -64,16 +64,11 @@
 			$("#sendBtn").click(function(){
 							
 								var datas = table.rows( { selected: true } ).data().toArray();
-								var src = $("#cboSource").val();
 								var dest = $("#cboDest").val();
-								var lang = $("#txtlangage").val();
-								var categ = $("#cboCategories").val();
 								var url=restserver+"/extShop/"+src+"/"+dest+"/"+categ+"/"+lang;								
-							
+											
 								$.post(url,JSON.stringify(datas),function(d) {
 													alert(d);
-													
-													
 								},'json');
 			});
 			
