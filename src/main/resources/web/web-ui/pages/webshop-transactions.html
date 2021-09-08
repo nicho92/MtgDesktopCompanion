@@ -101,12 +101,15 @@
 						        "columns": [
 						        	{ 
 						        		"data": "id",
+  										"width": "5%"
 						        	},
 									{
-										"data":"dateCreation"	
+										"data":"dateCreation",
+										  "width": "5%",
 									},
 									{
 										"data":"contact",	
+										 "width": "15%",
 										"render": function(d, type, row, meta){
 											  if(type === 'display'){
 													return d.name + " "+ d.lastName;
@@ -121,7 +124,7 @@
 												
 												 var content="<ul>";
 							                	  $.each(d,function(index, value){
-							                		  content+= "<li><img height=70  src='"+value.url+"'/> <strong>" + value.qte+"x</strong> " + value.productName;
+							                		  content+= "<li><img height=70  src='"+value.url+"'/> <strong>" + value.qte+"x</strong> " + value.productName + " <br/>" + JSON.stringify(value.tiersAppIds);
 							                	  });
 							                	  content+="</ul>";											
 												
@@ -132,6 +135,7 @@
 						        	},
 									{ 
 						        		"data": "items",
+ 										"width": "5%",
 										"render": function(d, type, row, meta)
 										{
 							                	var total=0.0;
@@ -143,13 +147,15 @@
 						        	},
 									{
 										"data":"shippingPrice",
+										 "width": "5%",
 										"render": function(d, type, row, meta)
 										{
 							                	return d.toFixed(2) ;
 							            }
 									},
 									{
-										"data":"statut"
+										"data":"statut",
+										 "width": "5%"
 									}
 									
 						        ]
@@ -234,11 +240,11 @@
                             <table id="tableResults" class="display" style="width:100%">
 						        <thead>
 						            <tr>
-						            	<th>Transaction ID</th>
-										<th>Date Transaction</th>
+						            	<th>ID</th>
+										<th>Date</th>
 						            	<th>Contact</th>
 										<th>Products</th>
-										<th>Amount</th>
+										<th>Total</th>
 										<th>Shipping</th>
 										<th>Status</th>
 						            </tr>

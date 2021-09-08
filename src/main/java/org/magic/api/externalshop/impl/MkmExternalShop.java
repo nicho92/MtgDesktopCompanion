@@ -68,7 +68,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 	public List<Product> listProducts(String name) throws IOException {
 		init();
 		Map<PRODUCT_ATTS, String> atts = new EnumMap<>(PRODUCT_ATTS.class);
-		atts.put(PRODUCT_ATTS.idGame, "1");
+		atts.put(PRODUCT_ATTS.idGame, getString("ID_GAME"));
 		return new ProductServices().findProduct(name, atts);
 	}
 
@@ -145,7 +145,9 @@ public class MkmExternalShop extends AbstractExternalShop {
 	
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		return Map.of("STATE", STATE.paid.name(),"ACTOR", ACTOR.seller.name());
+		return Map.of("STATE", STATE.paid.name(),
+				"ACTOR", ACTOR.seller.name(),
+				"ID_GAME","1");
 	}
 
 	@Override
