@@ -111,7 +111,7 @@ public Map<String, String> getDefaultAttributes() {
 				query.append("*");
 		}
 		
-		return search(query.toString().trim()).stream().map(MagicCard::getName).distinct().collect(Collectors.toList());
+		return search(query.toString().trim()).stream().map(MagicCard::getFullName).distinct().collect(Collectors.toList());
 	}
 	
 	@Override

@@ -93,6 +93,15 @@ public class MagicCard implements Serializable {
 		return null;
 		
 	}
+	
+	
+	public String getFullName()
+	{
+		if(getRotatedCard()!=null)
+			return getName() + " // "+ getRotatedCard().getName();
+		else
+			return getName();
+	}
 
 	public boolean isJapanese() {
 		return japanese;
