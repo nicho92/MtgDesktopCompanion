@@ -299,7 +299,7 @@ class WooCommerceItem extends AbstractStockItem<Product>
 	private static final long serialVersionUID = 1L;
 	
 	public void setProduct(Product product) {
-				this.id=product.getIdProduct();
+			this.id=product.getIdProduct();
 	}
 }
 
