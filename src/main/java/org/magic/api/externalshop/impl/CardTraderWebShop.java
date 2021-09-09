@@ -66,7 +66,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public void createTransaction(Transaction t) throws IOException {
+	protected void createTransaction(Transaction t) throws IOException {
 		throw new IOException("Can't create transation to " + getName());
 
 	}

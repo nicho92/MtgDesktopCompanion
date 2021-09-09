@@ -65,8 +65,8 @@
 							
 								var datas = table.rows( { selected: true } ).data().toArray();
 								var dest = $("#cboDest").val();
-								var url=restserver+"/extShop/transactions/"+dest+"/save";								
-											
+								var url=restserver+"/extShop/transactions/"+dest+"/save/"+$("#chkCreateProduct").is(':checked');								
+								
 								$.post(url,JSON.stringify(datas),function(d) {
 													alert(d);
 								},'json');
@@ -215,6 +215,8 @@
                         <div class="panel-body">
 								<div class="ui-widget">
 								<select class="form-control" id="cboDest"></select>
+								<br/>
+								<label><input type="checkbox" id="chkCreateProduct"> Create product if not exist</label>
 								<br/>
 								 <button class="btn btn-default" type="button" id="sendBtn">
 					                  <i class="fa fa-paper-plane"></i>Send

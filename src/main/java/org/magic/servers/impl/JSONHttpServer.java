@@ -730,7 +730,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			getPlugin(request.params(":provider"),MTGExternalShop.class).listTransaction()
 		, transformer);
 		
-		post("/extShop/transactions/:to/save", URLTools.HEADER_JSON, (request, response) ->{ 
+		post("/extShop/transactions/:to/save/:createProduct", URLTools.HEADER_JSON, (request, response) ->{ 
 			
 			MTGExternalShop extShop  = MTG.getPlugin(request.params(":to"), MTGExternalShop.class);
 			
@@ -743,7 +743,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			for(Transaction p : ret)
 				{
 				try {
-					extShop.createTransaction(p,true);
+					extShop.createTransaction(p,Boolean.parseBoolean(request.params(":createProduct")));
 					arr.get("ok").add(p);
 				}catch(Exception e)
 				{

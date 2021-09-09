@@ -63,6 +63,8 @@ public class MkmExternalShop extends AbstractExternalShop {
 		}
 		
 	}
+	
+	
 
 	@Override
 	public List<Product> listProducts(String name) throws IOException {
@@ -73,7 +75,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public void createTransaction(Transaction t) throws IOException {
+	protected void createTransaction(Transaction t) throws IOException {
 		throw new IOException("Not enable to create orders in Mkm");
 
 	}

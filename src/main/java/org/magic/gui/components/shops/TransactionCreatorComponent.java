@@ -8,6 +8,7 @@ import java.util.concurrent.ExecutionException;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -48,6 +49,7 @@ public class TransactionCreatorComponent extends MTGUIComponent {
 		var panelWest = new JPanel();
 		panelWest.setLayout(new BorderLayout());
 		var panelEast = new JPanel();
+		var chkCreateProduct = new JCheckBox("Create product if not exist");
 		panelEast.setLayout(new BorderLayout());
 		
 		cboInput = UITools.createCombobox(MTGExternalShop.class,true);
@@ -60,6 +62,7 @@ public class TransactionCreatorComponent extends MTGUIComponent {
 		panelTransactions = new TransactionsPanel();
 		panelTransactions.disableCommands();
 		panelNorth.add(btnSearch);
+		panelNorth.add(chkCreateProduct);
 		panelNorth.add(btnSend);
 		panelNorth.add(buzy);
 		
@@ -76,7 +79,7 @@ public class TransactionCreatorComponent extends MTGUIComponent {
 		add(panelTransactions, BorderLayout.CENTER);
 		
 		btnSearch.addActionListener(e->loadTransactions());
-		btnSend.addActionListener(e->sendProducts());
+		btnSend.addActionListener(e->sendTransaction(chkCreateProduct.isSelected()));
 		btnSend.setEnabled(false);
 		
 		
@@ -89,7 +92,7 @@ public class TransactionCreatorComponent extends MTGUIComponent {
 	}
 
 
-	private void sendProducts() {
+	private void sendTransaction(boolean createProduct) {
 		
 		List<Transaction> list = UITools.getTableSelections(panelTransactions.getTable(), 0);
 		
@@ -100,7 +103,7 @@ public class TransactionCreatorComponent extends MTGUIComponent {
 			protected Void doInBackground() throws Exception {
 					for(Transaction p : list)
 						{
-							plug.createTransaction(p);
+							plug.createTransaction(p,createProduct);
 							publish(p);
 						}
 					return null;

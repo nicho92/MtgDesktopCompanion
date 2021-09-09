@@ -152,7 +152,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public void createTransaction(Transaction t) throws IOException {
+	protected void createTransaction(Transaction t) throws IOException {
 			init();
 			
 			Map<String,Object> content = new HashMap<>();
@@ -300,6 +300,7 @@ class WooCommerceItem extends AbstractStockItem<Product>
 	
 	public void setProduct(Product product) {
 			this.id=product.getIdProduct();
+			
 	}
 }
 

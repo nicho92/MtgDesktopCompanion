@@ -89,7 +89,7 @@ public class MTGCompanionShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public void createTransaction(Transaction t) throws IOException {
+	protected void createTransaction(Transaction t) throws IOException {
 		try {
 			t.setId(-1);
 			t.getContact().setId(-1);

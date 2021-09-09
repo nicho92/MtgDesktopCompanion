@@ -25,6 +25,9 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 		return PLUGINS.EXTERNAL_SHOP;
 	}
 	
+	protected abstract void createTransaction(Transaction t) throws IOException;
+	
+	
 	public List<ConverterItem> getOutputRefs(String lang, String sourceName, int idSource)
 	{
 		try {
@@ -71,6 +74,7 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 					if(ret>0)
 					{
 						mci.getTiersAppIds().put(getName(), String.valueOf(ret));
+						System.out.println(mci.getPrice());
 						MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateConversionItem(new ConverterItem( t.getSourceShopName(),getName(), mci.getProductName(), mci.getLanguage(), mci.getId(),ret));
 					}
 					
