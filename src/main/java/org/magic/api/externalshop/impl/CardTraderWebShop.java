@@ -95,7 +95,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 			trans.setId(o.getId());
 			trans.setDateSend(o.getDateSend());
 			trans.setDatePayment(o.getDateCreditAddedToSeller());
-			
+			trans.setSourceShopNmae(getName());
 			Contact c = new Contact();
 					c.setName(o.getBuyer().getUsername());
 					

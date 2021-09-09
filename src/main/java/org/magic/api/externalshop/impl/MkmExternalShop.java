@@ -103,7 +103,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 							t.setDateSend(o.getState().getDateSent());
 							t.setCurrency(o.getCurrencyCode());
 							t.setMessage(o.getNote());
-		
+							t.setSourceShopNmae(getName());
 		Contact c = new Contact();
 				c.setLastName(o.getBuyer().getAddress().getName().split(" ")[0]);
 				c.setName(o.getBuyer().getAddress().getName().split(" ")[1]);
@@ -168,7 +168,11 @@ class MkmStockItem extends AbstractStockItem<LightProduct>
 		this.product=product;
 		setProductName(product.getEnName());
 		edition= new MagicEdition("",product.getExpansion());
-		url = "https:"+ product.getImage();
+		if(product.getImage().startsWith("//"))
+			url = "https:"+ product.getImage();
+		else
+			url=product.getImage();
+		
 		setTypeStock(EnumItems.SEALED);
 	}
 }

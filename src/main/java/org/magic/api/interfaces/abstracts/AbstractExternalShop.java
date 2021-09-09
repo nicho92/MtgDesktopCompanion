@@ -49,6 +49,41 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 		return list;
 	}
 
+	@Override
+	public void createTransaction(Transaction t, boolean automaticProductCreation) throws IOException {
+	
+		logger.debug("Creating transaction " + t.getSourceShopName() +" in " + getName());
+		
+		t.getItems().forEach(mci->{
+			
+			if( automaticProductCreation &&  mci.getTiersAppIds(getName())==null)
+			{
+				
+				Product p = new Product();
+							 p.setEnName(mci.getProductName());
+							 p.setImage(mci.getUrl());
+							 
+				Category c = new Category();
+								c.setIdCategory(172);
+								c.setCategoryName("Test");
+				try {
+					int ret = createProduct(p,c);
+					if(ret>0)
+						MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateConversionItem(new ConverterItem( t.getSourceShopName(),getName(), mci.getProductName(), mci.getLanguage(), mci.getId(),ret));
+					
+					mci.setId(ret);
+				} catch (Exception e) {
+					logger.error(e);
+				}
+			}
+		});
+		
+		createTransaction(t);
+			
+	
+	}
+	
+	
 	
 	@Override
 	public int createProduct(MTGExternalShop input, Product t,String lang,Category c) throws IOException {

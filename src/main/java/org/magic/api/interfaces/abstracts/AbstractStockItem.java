@@ -172,6 +172,11 @@ public abstract class AbstractStockItem<T extends Serializable> implements MTGSt
 		
 		return getId() == ((MTGStockItem)obj).getId();
 	}
+	
+	@Override
+	public String getUrl() {
+		return url;
+	}
 
 
 	

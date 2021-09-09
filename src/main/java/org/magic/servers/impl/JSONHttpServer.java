@@ -250,8 +250,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 	@SuppressWarnings("unchecked")
 	private void initRoutes() {
 
-		
-		
 		before("/*", (request, response) -> {
 			response.type(URLTools.HEADER_JSON);
 			response.header(ACCESS_CONTROL_ALLOW_ORIGIN, getWhiteHeader(request));
@@ -745,7 +743,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			for(Transaction p : ret)
 				{
 				try {
-					extShop.createTransaction(p);
+					extShop.createTransaction(p,true);
 					arr.get("ok").add(p);
 				}catch(Exception e)
 				{

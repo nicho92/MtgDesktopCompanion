@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.magic.api.beans.enums.TransactionPayementProvider;
 import org.magic.api.beans.enums.TransactionStatus;
+import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGStockItem;
 
 public class Transaction implements Serializable {
@@ -24,9 +25,20 @@ public class Transaction implements Serializable {
 	private WebShopConfig config;
 	private String transporterShippingCode;
 	private Currency currency;
-
+	private String sourceShopName;
 	private TransactionPayementProvider paymentProvider;
 	private TransactionStatus statut;
+
+	
+	
+	public String getSourceShopName() {
+		return sourceShopName;
+	}
+	
+	public void setSourceShopNmae(String sourceShopName) {
+		this.sourceShopName = sourceShopName;
+	}
+
 	
 	public Transaction() {
 		dateCreation = new Date();

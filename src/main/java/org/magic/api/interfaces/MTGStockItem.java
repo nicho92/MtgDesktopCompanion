@@ -63,5 +63,8 @@ public interface MTGStockItem extends Serializable, Comparable<MTGStockItem> {
 	void setTiersAppIds(Map<String, String> tiersAppIds);
 
 	Map<String, String> getTiersAppIds();
+	
+	public String getUrl();
+	
 
 }

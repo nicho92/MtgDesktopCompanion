@@ -17,5 +17,6 @@ public interface MTGExternalShop extends MTGPlugin {
 	public int createProduct(Product t,Category c) throws IOException;
 	public int createProduct(MTGExternalShop input, Product t, String lang,Category c)throws IOException;
 	public List<Category> listCategories() throws IOException;
+	public void createTransaction(Transaction t, boolean automaticProductCreation) throws IOException;
 	
 }

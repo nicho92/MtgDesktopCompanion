@@ -87,7 +87,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	    				t.setDateCreation(UITools.parseGMTDate(obj.get("date_created").getAsString()));
 	    				t.setId(obj.get("id").getAsInt());
 	    				t.setShippingPrice(obj.get("shipping_total").getAsDouble());
-	    				
+	    				t.setSourceShopNmae(getName());
 	    				if(!obj.get("date_paid").isJsonNull())
 	    					t.setDatePayment(UITools.parseGMTDate(obj.get("date_paid").getAsString()));
 	    				
@@ -249,7 +249,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		productInfo.put("type", "simple");
         productInfo.put("categories", WooCommerceTools.entryToJsonArray("id",String.valueOf(idCategory)));
         productInfo.put("status", status==null?"private":status);
-        productInfo.put("images", WooCommerceTools.entryToJsonArray("src","https:"+product.getImage()));
+        productInfo.put("images", WooCommerceTools.entryToJsonArray("src",product.getImage().startsWith("//")?"https:"+product.getImage():product.getImage()));
 		 
 		return productInfo;
 	}
@@ -297,9 +297,9 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 class WooCommerceItem extends AbstractStockItem<Product>
 {
 	private static final long serialVersionUID = 1L;
-
+	
 	public void setProduct(Product product) {
-		
+				this.id=product.getIdProduct();
 	}
 }
 
