@@ -729,8 +729,34 @@ public class JSONHttpServer extends AbstractMTGServer {
 		, transformer);
 		
 		get("/extShop/transactions/from/:provider", URLTools.HEADER_JSON, (request, response) -> 
-		getPlugin(request.params(":provider"),MTGExternalShop.class).listTransaction()
-	, transformer);
+			getPlugin(request.params(":provider"),MTGExternalShop.class).listTransaction()
+		, transformer);
+		
+		post("/extShop/transactions/:to/save", URLTools.HEADER_JSON, (request, response) ->{ 
+			
+			MTGExternalShop extShop  = MTG.getPlugin(request.params(":to"), MTGExternalShop.class);
+			
+			List<Transaction> ret = converter.fromJsonList(new InputStreamReader(request.raw().getInputStream()), Transaction.class);
+			var arr = new HashMap<String, List<Transaction>>();
+			
+			arr.put("ok", new ArrayList<>());
+			arr.put("error", new ArrayList<>());
+			
+			for(Transaction p : ret)
+				{
+				try {
+					extShop.createTransaction(p);
+					arr.get("ok").add(p);
+				}catch(Exception e)
+				{
+					logger.error(e);
+					arr.get("error").add(p);
+				}
+				}
+			return arr;
+				
+		}, transformer);
+		
 		
 		
 		post("/extShop/:from/:to/:idCategory/:language", URLTools.HEADER_JSON, (request, response) ->{ 

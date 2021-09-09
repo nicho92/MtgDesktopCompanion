@@ -65,7 +65,7 @@
 							
 								var datas = table.rows( { selected: true } ).data().toArray();
 								var dest = $("#cboDest").val();
-								var url=restserver+"/extShop/"+src+"/"+dest+"/"+categ+"/"+lang;								
+								var url=restserver+"/extShop/transactions/"+dest+"/save";								
 											
 								$.post(url,JSON.stringify(datas),function(d) {
 													alert(d);
