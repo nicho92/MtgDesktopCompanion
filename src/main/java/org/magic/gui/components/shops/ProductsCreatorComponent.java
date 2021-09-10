@@ -1,6 +1,7 @@
 package org.magic.gui.components.shops;
 
 import java.awt.BorderLayout;
+import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -111,7 +112,11 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 		btnSend.setEnabled(false);
 		
 		
-		cboOutput.addItemListener(il->initCategory());
+		cboOutput.addItemListener(il->{
+			 if (il.getStateChange() == ItemEvent.SELECTED) {
+					initCategory();
+		       }
+		});
 		
 		listInput.addListSelectionListener(lll->{
 			btnSend.setEnabled(listInput.getSelectedIndex()>=0);

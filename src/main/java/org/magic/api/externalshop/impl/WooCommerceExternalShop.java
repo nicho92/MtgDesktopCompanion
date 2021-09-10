@@ -17,6 +17,7 @@ import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.tools.UITools;
 import org.magic.tools.WooCommerceTools;
 
@@ -42,12 +43,23 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	}
 	
 	
+	public static void main(String[] args) throws IOException {
+		MTGControler.getInstance().loadAccountsConfiguration();
+		new WooCommerceExternalShop().listCategories().forEach(System.out::println);
+	}
+	
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Category> listCategories() throws IOException {
 		init();
 		
-		List<JsonElement> res = client.getAll(EndpointBaseType.PRODUCTS_CATEGORIES.getValue());
+		var params = new HashMap<String, String>();
+		
+		params.put("per_page", "100");
+		
+		
+		List<JsonElement> res = client.getAll(EndpointBaseType.PRODUCTS_CATEGORIES.getValue(),params);
 		 
 		var ret = new ArrayList<Category>();
 		 
