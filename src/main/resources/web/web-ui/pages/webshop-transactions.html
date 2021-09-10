@@ -68,7 +68,7 @@
 								var url=restserver+"/extShop/transactions/"+dest+"/save/"+$("#chkCreateProduct").is(':checked');								
 								
 								$.post(url,JSON.stringify(datas),function(d) {
-													alert(d);
+										alert(JSON.stringify(d));
 								},'json');
 			});
 			

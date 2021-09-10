@@ -55,12 +55,20 @@ public class MkmExternalShop extends AbstractExternalShop {
 	@Override
 	protected List<Transaction> loadTransaction()  {
 		init();
+		
+		var ret = new ArrayList<Transaction>();
 		try {
-			return new OrderService().listOrders(ACTOR.valueOf(getString("ACTOR")),STATE.valueOf(getString("STATE")),1).stream().map(this::toTransaction).collect(Collectors.toList());
+			var serv = new OrderService();
+			
+			for(String t: getArray("STATE"))
+				ret.addAll(serv.listOrders(ACTOR.valueOf(getString("ACTOR")),STATE.valueOf(t),1).stream().map(this::toTransaction).collect(Collectors.toList()));
+			
+			return ret;
 		} catch (IOException e) {
 			logger.error(e);
-			return new ArrayList<>();
+			return ret;
 		}
+		
 		
 	}
 	
