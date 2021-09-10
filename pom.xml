@@ -62,16 +62,11 @@
 		</repository>
 	</repositories>
 	<dependencies>
-	<!-- <dependency>
-    <groupId>it.marplex.cloudflarebypass</groupId>
-    <artifactId>cloudflare-bypass</artifactId>
-    <version>1.0</version>
-</dependency> -->
- <dependency>
-  <groupId>com.squareup.okhttp3</groupId>
-  <artifactId>okhttp</artifactId>
-  <version>5.0.0-alpha.2</version>
-</dependency>
+	 <dependency>
+	  	<groupId>com.squareup.okhttp3</groupId>
+	  	<artifactId>okhttp</artifactId>
+	  	<version>5.0.0-alpha.2</version>
+	</dependency>
 	<dependency>
 	    <groupId>org.jasypt</groupId>
 	    <artifactId>jasypt</artifactId>

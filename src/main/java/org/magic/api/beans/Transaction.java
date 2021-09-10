@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.magic.api.beans.enums.TransactionPayementProvider;
 import org.magic.api.beans.enums.TransactionStatus;
-import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGStockItem;
 
 public class Transaction implements Serializable {
