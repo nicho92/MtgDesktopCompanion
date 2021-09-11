@@ -2,6 +2,7 @@ package org.magic.api.pricers.impl;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -22,6 +23,9 @@ public class MkmPricer extends AbstractPricesProvider {
 	protected List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 		
 		logger.debug(getName() +" looking for prices " + card);
+		
+		MTGJsonPricer.getInstance().expirationDay(getInt("EXPIRE_FILE_DAYS"));
+		
 		return MTGJsonPricer.getInstance().getPriceFor(card);
 	}
 
@@ -32,7 +36,13 @@ public class MkmPricer extends AbstractPricesProvider {
 	
 	@Override
 	public STATUT getStatut() {
-		return STATUT.DEV;
+		return STATUT.BETA;
 	}
+	
+	@Override
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("EXPIRE_FILE_DAYS","1");
+	}
+	
 	
 }

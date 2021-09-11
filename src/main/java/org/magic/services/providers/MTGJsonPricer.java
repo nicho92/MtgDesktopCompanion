@@ -3,8 +3,10 @@ package org.magic.services.providers;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Currency;
+import java.util.Date;
 import java.util.List;
 import java.util.NavigableMap;
 import java.util.TreeMap;
@@ -42,6 +44,7 @@ public class MTGJsonPricer {
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	private File dataFile = new File(MTGConstants.DATA_DIR,"AllPrices.json");
 	private Gson gson;
+	private Integer expireday=5;
 	
 	
 	public MTGJsonPricer() throws IOException {
@@ -179,23 +182,37 @@ public class MTGJsonPricer {
 			}
 	}
 	
+	
 	public static void main(String[] args) throws IOException {
-		MTGJsonPricer.getInstance().buildPrices(VENDOR.CARDMARKET);
+		new MTGJsonPricer().loadData(VENDOR.CARDMARKET);
 	}
 	
 	
 	public List<Data> loadData(VENDOR v) throws IOException
 	{
+		File f = new File(MTGConstants.DATA_DIR.getAbsolutePath(),v.name()+".json");
+		
 		
 		if(caches==null)
 			caches = new ArrayList<>();
 		
 		
+		if(f.exists())
+		{
+			int lastModif = FileTools.daysBetween(Files.getLastModifiedTime(f.toPath()).toInstant(), new Date().toInstant());
+			
+			if(lastModif>expireday)
+			{
+				logger.info(f.getAbsolutePath() + " is older of " + expireday + " days. Will be updated");
+				FileTools.deleteFile(f);
+			}
+			
+		}
+		
+		
+		
 		if(caches.isEmpty())
 		{
-			File f = new File(MTGConstants.DATA_DIR.getAbsolutePath(),v.name()+".json");
-			
-			
 			if(!f.exists())
 			{
 				logger.error(f.getAbsolutePath() + " doesn't existe. running buildPrices("+v+")");
@@ -253,6 +270,12 @@ public class MTGJsonPricer {
 		
 		logger.debug("MTGJson found " + ret.size() + " prices");
 		return ret;
+	}
+
+	public void expirationDay(Integer maxday) {
+		if(maxday!=null)
+			this.expireday=maxday;
+		
 	}
 }
 
