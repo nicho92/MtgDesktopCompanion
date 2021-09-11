@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.services.MTGControler;
 import org.magic.tools.RequestBuilder;
 import org.magic.tools.RequestBuilder.METHOD;
 import org.magic.tools.URLTools;
@@ -16,7 +17,7 @@ import com.google.gson.JsonElement;
 
 public class CardTraderPricer extends AbstractCardExport {
 
-	private static final String TOKEN_FULL = "TOKEN_FULL";
+	private static final String TOKEN_FULL = "TOKEN";
 	private String baseUrl = "https://api.cardtrader.com/api/full/"; 
 	private HashMap<String,Integer> mapExpension;
 	
@@ -41,11 +42,6 @@ public class CardTraderPricer extends AbstractCardExport {
 		return "CardTrader";
 	}
 	
-	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of(TOKEN_FULL, "");
-	}
-	
 	protected void test() throws IOException {
 		
 		var cardName = "Esper Sentinel";
@@ -58,7 +54,7 @@ public class CardTraderPricer extends AbstractCardExport {
 							.addContent("category_id", "1")
 							.addContent("game_id", "1")
 							.addContent("name", cardName)
-							.addHeader("Authorization", "Bearer "+getString(TOKEN_FULL))
+							.addHeader("Authorization", "Bearer "+getAuthenticator().get(TOKEN_FULL))
 							.toJson().getAsJsonArray();
 		
 		var idSet = getExpensions().get(setId);
@@ -85,6 +81,7 @@ public class CardTraderPricer extends AbstractCardExport {
 	
 
 	public static void main(String[] args) throws IOException {
+		MTGControler.getInstance().loadAccountsConfiguration();
 		new CardTraderPricer().test();
 	}
 	
@@ -95,7 +92,7 @@ public class CardTraderPricer extends AbstractCardExport {
 		{
 			String url = baseUrl+getVersion()+"/expansions";
 			JsonArray expensions = RequestBuilder.build().setClient(URLTools.newClient()).method(METHOD.GET).url(url)
-								.addHeader("Authorization", "Bearer "+getString(TOKEN_FULL))
+								.addHeader("Authorization", "Bearer "+getAuthenticator().get(TOKEN_FULL))
 								.toJson().getAsJsonArray();
 	
 			expensions.forEach(c->{

@@ -47,8 +47,6 @@ public class MkmExternalShop extends AbstractExternalShop {
 	@Override
 	public List<Category> listCategories() throws IOException {
 		return new GameService().listCategories();
-		
-		
 	}
 	
 	
