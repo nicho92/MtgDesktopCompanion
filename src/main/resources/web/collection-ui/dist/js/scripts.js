@@ -76,7 +76,7 @@ function buildSet(collection, set)
                         "<div class='card h-100'>"+
 						    "<div class='card-body p-4'>"+
 		                        "<div class='text-center'>"+
-									"<a href='?collection="+collection+"&set="+set.id+"'' style='text-decoration:none' class='ss ss-"+set.id.toLowerCase()+"  ss-4x ss-common'></a>"+
+									"<a href='?collection="+collection+"&set="+set.id+"'' style='text-decoration:none' class='ss ss-"+set.keyRuneCode.toLowerCase()+"  ss-4x ss-common'></a>"+
                                     "<h5 class='fw-bolder''>"+set.set+"</h5>"+
                                    set.releaseDate+
                                 "</div></div></div></div>";
