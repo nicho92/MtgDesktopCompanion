@@ -171,10 +171,10 @@
   	    	{
   	    		if(i==0)
   	    			{
-  	    				$("#set").html('<i class="ss ss-grad ss-'+data.editions[i].id.toLowerCase()+' ss-'+data.rarity.toLowerCase()+' ss-1x"></i>');
+  	    				$("#set").html('<i class="ss ss-'+data.editions[i].keyRuneCode.toLowerCase()+' ss-'+data.rarity.toLowerCase()+' ss-1x"></i>');
   	    			}
   	    		
-  	    		$('#reprints').append('<i class="ss ss-grad ss-'+data.editions[i].id.toLowerCase()+' ss-'+data.rarity.toLowerCase()+' ss-2x"></i><a href="list-cards.html?set='+data.editions[i].id+'">'+ data.editions[i].set + "</a><br/>");
+  	    		$('#reprints').append('<i class="ss ss-'+data.editions[i].keyRuneCode.toLowerCase()+' ss-'+data.rarity.toLowerCase()+' ss-2x"></i><a href="list-cards.html?set='+data.editions[i].id+'">'+ data.editions[i].set + "</a><br/>");
   	   		}
   	    	
   	    	
