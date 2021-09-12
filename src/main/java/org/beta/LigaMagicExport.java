@@ -11,11 +11,14 @@ import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.gui.components.shops.StockItemPanel;
+import org.magic.tools.MTG;
 
 public class LigaMagicExport extends AbstractCardExport {
 
@@ -64,26 +67,27 @@ public class LigaMagicExport extends AbstractCardExport {
 				edName = row.getCell(2).getStringCellValue();
 				
 				var qte = (int)row.getCell(3).getNumericCellValue();
+				var priceItem = row.getCell(4)!=null?row.getCell(4).getNumericCellValue():0.0;
 				var language = row.getCell(5)!=null? row.getCell(5).getStringCellValue():"";
 				var quality = row.getCell(6).getStringCellValue();
-		
 				var foil = row.getCell(7)!=null?row.getCell(7).getNumericCellValue()==1:false;
 				var etched = row.getCell(8)!=null?row.getCell(8).getNumericCellValue()==1:false;
 				var altered = row.getCell(9)!=null?row.getCell(9).getNumericCellValue()==1:false;
 				
+				
+				
+				var mc = findCard(enName,edName);
+				
 				var stockItem = new MagicCardStock();
-				
-				
-				
-				stockItem.setAltered(altered);
-				stockItem.setFoil(foil);
-				stockItem.setLanguage(language);
-				stockItem.setEtched(etched);
-				stockItem.setQte(qte);
-				stockItem.setCondition(eval(quality));
-				
-
-				ret.add(stockItem);
+					stockItem.setAltered(altered);
+					stockItem.setFoil(foil);
+					stockItem.setLanguage(language);
+					stockItem.setEtched(etched);
+					stockItem.setQte(qte);
+					stockItem.setCondition(eval(quality));
+					stockItem.setPrice(priceItem);
+					stockItem.setProduct(mc);
+					ret.add(stockItem);
 				
 				
 				
@@ -99,6 +103,15 @@ public class LigaMagicExport extends AbstractCardExport {
 		return ret;
 	}
 	
+
+	private MagicCard findCard(String enName, String edName) throws IOException {
+		
+		var set = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetByName(edName);
+		
+		return MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(enName, set, true).get(0);
+		
+		
+	}
 
 	private EnumCondition eval(String quality) {
 		switch (quality) {
