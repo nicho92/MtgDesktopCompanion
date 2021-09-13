@@ -4,8 +4,12 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.EncryptedDocumentException;
@@ -26,9 +30,9 @@ import org.magic.tools.MTG;
 
 public class LigaMagicExport extends AbstractCardExport {
 
-	public static void main(String[] args) throws EncryptedDocumentException, IOException {
-		new LigaMagicExport().importStockFromFile(new File("D:\\Téléchargements\\estoquemtg.xls"));
-	}
+	
+	private Map<String,EnumCondition> map;
+	
 
 	@Override
 	public String getFileExtension() {
@@ -38,6 +42,19 @@ public class LigaMagicExport extends AbstractCardExport {
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
 		throw new IOException(" Not implemented, please run by a file");
+	}
+	
+	
+	public LigaMagicExport() {
+		map = new HashMap<>();
+		
+		map.put("NM",EnumCondition.NEAR_MINT);
+		map.put("SP",EnumCondition.LIGHTLY_PLAYED);
+		map.put("MP",EnumCondition.PLAYED);
+		map.put("D",EnumCondition.DAMAGED);
+		map.put("HP",EnumCondition.POOR);
+		map.put("M",EnumCondition.MINT);
+		
 	}
 	
 	
@@ -71,7 +88,8 @@ public class LigaMagicExport extends AbstractCardExport {
 				row.createCell(colNum++,CellType.STRING).setCellValue(st.getProductName());
 				row.createCell(colNum++,CellType.STRING).setCellValue(st.getEdition().getSet());
 				row.createCell(colNum++,CellType.NUMERIC).setCellValue(st.getPrice());
-				row.createCell(colNum++,CellType.STRING).setCellValue(st.getCondition().name());
+				Optional<Entry<String, EnumCondition>> opt = map.entrySet().stream().filter(e->e.getValue()==st.getCondition()).findFirst();
+				row.createCell(colNum++,CellType.STRING).setCellValue(opt.isPresent()?opt.get().getValue().name():"");
 				row.createCell(colNum++,CellType.NUMERIC).setCellValue(st.isFoil()?1:0);
 				row.createCell(colNum++,CellType.NUMERIC).setCellValue(st.isEtched()?1:0);
 				row.createCell(colNum++,CellType.NUMERIC).setCellValue(st.isAltered()?1:0);
@@ -139,7 +157,7 @@ public class LigaMagicExport extends AbstractCardExport {
 							stockItem.setLanguage(language);
 							stockItem.setEtched(etched);
 							stockItem.setQte(qte);
-							stockItem.setCondition(eval(quality));
+							stockItem.setCondition( map.get(quality)!=null?map.get(quality):EnumCondition.MINT);
 							stockItem.setPrice(priceItem);
 							stockItem.setProduct(mc);
 							ret.add(stockItem);
@@ -172,19 +190,7 @@ public class LigaMagicExport extends AbstractCardExport {
 		return MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(enName, set, true).get(0);
 	}
 
-	private EnumCondition eval(String quality) {
-		switch (quality) {
 
-		case "NM": return EnumCondition.NEAR_MINT;
-		case "SP": return EnumCondition.LIGHTLY_PLAYED;
-		case "MP": return EnumCondition.PLAYED;
-		case "D": return EnumCondition.DAMAGED;
-		case "HP": return EnumCondition.POOR;
-		case "M": return EnumCondition.MINT;
-		default : logger.trace("Missing "+ quality); return EnumCondition.GOOD;
-		}
- 
-	}
 
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
