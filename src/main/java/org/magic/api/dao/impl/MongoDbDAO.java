@@ -114,7 +114,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	
 	@Override
 	public String getVersion() {
-		return "3.12.8";
+		return "3.12.10";
 	
 	}
 	
