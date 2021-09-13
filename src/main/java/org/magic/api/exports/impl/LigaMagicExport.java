@@ -1,6 +1,7 @@
 package org.magic.api.exports.impl;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -8,36 +9,96 @@ import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.EncryptedDocumentException;
-import org.apache.poi.POIDocument;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.beans.enums.MTGPromoType;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.services.MTGConstants;
 import org.magic.tools.MTG;
-import org.magic.tools.POMReader;
-
-import com.google.gson.Gson;
 
 public class LigaMagicExport extends AbstractCardExport {
 
 	public static void main(String[] args) throws EncryptedDocumentException, IOException {
-		new LigaMagicExport().importStockFromFile(new File("C:\\Users\\Pihen\\Downloads\\estoquemtg.xls"));
+		new LigaMagicExport().importStockFromFile(new File("D:\\Téléchargements\\estoquemtg.xls"));
 	}
 
 	@Override
 	public String getFileExtension() {
-		return "xls";
+		return ".xls";
 	}
-	
 	
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
 		throw new IOException(" Not implemented, please run by a file");
+	}
+	
+	
+	@Override
+	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
+		
+		try(Workbook workbook = new XSSFWorkbook();	var out = new FileOutputStream(f))
+		{
+		
+		
+		var sheet = workbook.createSheet(MTGConstants.MTG_APP_NAME);
+		
+		var colNum=0;
+		var rowNum=0;
+		Row row = sheet.createRow(rowNum++);
+		for(String s : new String[] {"Nome do Produto (PT)","Nome do Produto (EN)","Categoria","Quantidade","Preço",
+									 "Idioma","Qualidade","Foil (0, 1)","Foil Etched(0, 1)", "Alterada (0, 1)",
+									 "Assinada (0, 1)","Buy A Box (0, 1)","DCI (0, 1)","FNM (0, 1)","Oversize (0, 1)",
+									 "Pre Release (0, 1)","Promo (0, 1)","Textless (0, 1)","Missprint (0, 1)"})
+										{
+										var cell= row.createCell(colNum++,CellType.STRING);
+										cell.setCellValue(s);
+										}
+			
+			
+			for(MagicCardStock st : stock)
+			{	
+				colNum=0;
+				row = sheet.createRow(rowNum++);
+				row.createCell(colNum++,CellType.STRING).setCellValue(st.getProduct().getForeignNames().stream().filter(mcn->mcn.getLanguage().contains("Portuguese")).findFirst().orElse(st.getProduct().getForeignNames().get(0)).getName());
+				row.createCell(colNum++,CellType.STRING).setCellValue(st.getProductName());
+				row.createCell(colNum++,CellType.STRING).setCellValue(st.getEdition().getSet());
+				row.createCell(colNum++,CellType.NUMERIC).setCellValue(st.getPrice());
+				row.createCell(colNum++,CellType.STRING).setCellValue(st.getCondition().name());
+				row.createCell(colNum++,CellType.NUMERIC).setCellValue(st.isFoil()?1:0);
+				row.createCell(colNum++,CellType.NUMERIC).setCellValue(st.isEtched()?1:0);
+				row.createCell(colNum++,CellType.NUMERIC).setCellValue(st.isAltered()?1:0);
+				row.createCell(colNum++,CellType.NUMERIC).setCellValue(st.isSigned()?1:0);
+				row.createCell(colNum++,CellType.NUMERIC).setCellValue(st.getProduct().getPromotypes().contains(MTGPromoType.BUYABOX)?1:0);
+				row.createCell(colNum++,CellType.NUMERIC).setCellValue(0);
+				row.createCell(colNum++,CellType.NUMERIC).setCellValue(st.getProduct().getPromotypes().contains(MTGPromoType.FNM)?1:0);
+				row.createCell(colNum++,CellType.NUMERIC).setCellValue(st.isOversize()?1:0);
+				row.createCell(colNum++,CellType.NUMERIC).setCellValue(0);
+				row.createCell(colNum++,CellType.NUMERIC).setCellValue(st.getProduct().getCurrentSet().getSet().length()==4 && st.getProduct().getCurrentSet().getSet().startsWith("P")?1:0);
+				row.createCell(colNum++,CellType.NUMERIC).setCellValue(st.getProduct().getText().isBlank()?1:0);
+				row.createCell(colNum++,CellType.NUMERIC).setCellValue(0);
+				
+				notify(st.getProduct());
+			}
+		
+		
+		
+		
+		
+		
+		
+		
+            workbook.write(out);
+        }
+       
+		
 	}
 	
 	
@@ -127,7 +188,7 @@ public class LigaMagicExport extends AbstractCardExport {
 
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
-			exportStock(importFromDeck(deck), dest);
+		exportStock(importFromDeck(deck), dest);
 	}
 	
 	@Override

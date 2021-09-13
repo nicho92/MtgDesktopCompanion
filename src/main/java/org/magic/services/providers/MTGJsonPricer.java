@@ -182,12 +182,6 @@ public class MTGJsonPricer {
 			}
 	}
 	
-	
-	public static void main(String[] args) throws IOException {
-		new MTGJsonPricer().loadData(VENDOR.CARDMARKET);
-	}
-	
-	
 	public List<Data> loadData(VENDOR v) throws IOException
 	{
 		File f = new File(MTGConstants.DATA_DIR.getAbsolutePath(),v.name()+".json");
@@ -203,6 +197,7 @@ public class MTGJsonPricer {
 			
 			if(lastModif>expireday)
 			{
+				downloadDataFile();
 				logger.info(f.getAbsolutePath() + " is older of " + expireday + " days. Will be updated");
 				FileTools.deleteFile(f);
 			}
