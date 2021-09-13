@@ -12,11 +12,13 @@ import java.util.Map;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.cache.impl.GuavaCache;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.tools.FileTools;
 import org.magic.tools.InterfaceAdapter;
+import org.magic.tools.POMReader;
 import org.magic.tools.URLTools;
 
 import com.google.common.reflect.TypeToken;
@@ -268,12 +270,13 @@ public class JsonExport extends AbstractCardExport {
 
 		return list;
 	}
-
-
+	
+	
 	@Override
 	public String getVersion() {
-		return "1.1";
+		return POMReader.readVersionFromPom(Gson.class, "/META-INF/maven/com.google.code.gson/gson/pom.properties");
 	}
+
 
 	
 	public <T extends MTGPlugin> JsonArray convert(List<T> l) {
