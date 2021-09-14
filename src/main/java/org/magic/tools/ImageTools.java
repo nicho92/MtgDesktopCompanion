@@ -411,7 +411,7 @@ public class ImageTools {
 	public static BufferedImage read(File file) throws IOException {
 		return ImageIO.read(file);
 	}
-	
+		
 	public static BufferedImage read(byte[] imageInByte) throws IOException {
 		return read(new ByteArrayInputStream(imageInByte));
 	}
@@ -430,5 +430,6 @@ public class ImageTools {
 		
 	}
 
+	
 	
 }

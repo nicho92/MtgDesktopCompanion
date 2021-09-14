@@ -8,6 +8,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.net.URL;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -28,6 +29,7 @@ import org.magic.services.MTGLogger;
 import org.magic.services.providers.IconSetProvider;
 import org.magic.tools.ImageTools;
 import org.magic.tools.UITools;
+import org.magic.tools.URLTools;
 public class MagicEditionDetailPanel extends JPanel {
 
 	/**
@@ -218,16 +220,16 @@ public class MagicEditionDetailPanel extends JPanel {
 		if(!magicEdition.equals(lblBoosterPic.getEdition()))
 			lblBoosterPic.setEdition(magicEdition);
 		
-		
-		try {
-				var uri = SealedProductProvider.inst().get(magicEdition, EnumItems.BANNER).get(0).getUrl();
-			//	lblBanner.setIcon(ImageTools.read(new URL(uri)));
-				
-		}
-		catch(Exception e)
-		{
-			logger.error(e);
-		}
+//		
+//		try {
+//				var uri = SealedProductProvider.inst().get(magicEdition, EnumItems.BANNER).get(0).getUrl();
+//				lblBanner.setIcon(new ImageIcon(URLTools.extractImage(uri)));
+//				
+//		}
+//		catch(Exception e)
+//		{
+//			logger.error(e);
+//		}
 		
 		//
 		var bindingGroup = new BindingGroup();

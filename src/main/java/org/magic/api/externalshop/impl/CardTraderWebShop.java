@@ -21,12 +21,18 @@ public class CardTraderWebShop extends AbstractExternalShop {
 	private static final String TOKEN = "TOKEN";
 	private CardTraderService service;
 	
-	public CardTraderWebShop() {
-		service = new CardTraderService(getString(TOKEN));
+	
+	private void init()
+	{
+		if(service==null)
+			service = new CardTraderService(getAuthenticator().get(TOKEN));
 	}
+	
 	
 	@Override
 	public List<Product> listProducts(String name) throws IOException {
+		
+		init();
 		return service.listBluePrintsByIds(null, name, null).stream().map(bp->{
 			
 			var product = new Product();
@@ -80,6 +86,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 	
 	@Override
 	public List<Category> listCategories() throws IOException {
+		init();
 		return service.listCategories().stream().map(this::toCategory).collect(Collectors.toList());
 	}
 
@@ -90,6 +97,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 
 	@Override
 	protected List<Transaction> loadTransaction() throws IOException {
+		init();
 		return service.listOrders().stream().map(o->{
 			var trans = new Transaction();
 			trans.setId(o.getId());
