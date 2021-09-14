@@ -72,6 +72,7 @@ import org.magic.services.MTGDeckManager;
 import org.magic.services.PluginRegistry;
 import org.magic.services.TransactionService;
 import org.magic.services.keywords.AbstractKeyWordsManager;
+import org.magic.tools.Chrono;
 import org.magic.tools.ImageTools;
 import org.magic.tools.MTG;
 import org.magic.tools.POMReader;
@@ -684,6 +685,14 @@ public class JSONHttpServer extends AbstractMTGServer {
 			var obj = new JsonObject();
 			PluginRegistry.inst().entrySet().forEach(entry->obj.add(entry.getValue().getType().name(), converter.convert(listPlugins(entry.getKey()))));
 			return obj;
+		}, transformer);
+		
+		
+		get("/admin/reindexation", URLTools.HEADER_JSON, (request, response) -> {
+			Chrono c = new Chrono();
+						 c.start();
+				MTG.getEnabledPlugin(MTGCardsIndexer.class).initIndex();
+			return "done in " + c.stop() +" s";
 		}, transformer);
 		
 		

@@ -1,3 +1,8 @@
+/**
+* Convert a deck format to another one
+*/
+
+
 import org.magic.services.*;
 import org.magic.api.interfaces.*;
 import org.magic.api.exports.impl.*;

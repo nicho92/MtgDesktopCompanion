@@ -105,13 +105,6 @@ public class CardTraderWebShop extends AbstractExternalShop {
 		}).collect(Collectors.toList());
 	}
 	
-	
-	@Override
-	public Map<String, String> getDefaultAttributes() {
-		var m = super.getDefaultAttributes();
-		m.put(TOKEN, "");
-		return m;
-	}
 
 	@Override
 	public List<String> listAuthenticationAttributes() {

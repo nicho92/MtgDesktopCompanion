@@ -66,8 +66,6 @@ public class MkmExternalShop extends AbstractExternalShop {
 			logger.error(e);
 			return ret;
 		}
-		
-		
 	}
 	
 	
@@ -121,8 +119,6 @@ public class MkmExternalShop extends AbstractExternalShop {
 				c.setEmail(null);
 				
 		t.setContact(c);
-		
-		
 		t.setShippingPrice(o.getShippingMethod().getPrice());
 		t.setTransporterShippingCode(o.getTrackingNumber());
 		
@@ -145,7 +141,6 @@ public class MkmExternalShop extends AbstractExternalShop {
 			item.setProduct(article.getProduct());
 			item.setQte(article.getCount());
 			item.getTiersAppIds().put(getName(), String.valueOf(article.getIdProduct()));
-			
 			item.setTypeStock(article.getProduct().getRarity()==null?EnumItems.SEALED:EnumItems.CARD);
 			
 			

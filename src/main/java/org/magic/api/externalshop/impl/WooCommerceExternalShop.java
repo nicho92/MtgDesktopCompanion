@@ -17,7 +17,6 @@ import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.tools.UITools;
 import org.magic.tools.WooCommerceTools;
 
@@ -40,12 +39,6 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	@Override
 	public List<String> listAuthenticationAttributes() {
 		return WooCommerceTools.generateKeysForWooCommerce();
-	}
-	
-	
-	public static void main(String[] args) throws IOException {
-		MTGControler.getInstance().loadAccountsConfiguration();
-		new WooCommerceExternalShop().listCategories().forEach(System.out::println);
 	}
 	
 	
@@ -312,6 +305,7 @@ class WooCommerceItem extends AbstractStockItem<Product>
 	
 	public void setProduct(Product product) {
 			this.id=product.getIdProduct();
+			this.url=product.getImage();
 			
 	}
 }
