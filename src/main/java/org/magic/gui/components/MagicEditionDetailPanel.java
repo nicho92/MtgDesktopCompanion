@@ -6,9 +6,7 @@ import static org.magic.tools.MTG.getEnabledPlugin;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.net.URL;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -22,14 +20,9 @@ import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.services.providers.SealedProductProvider;
 import org.magic.services.MTGLogger;
-import org.magic.services.providers.IconSetProvider;
-import org.magic.tools.ImageTools;
 import org.magic.tools.UITools;
-import org.magic.tools.URLTools;
 public class MagicEditionDetailPanel extends JPanel {
 
 	/**

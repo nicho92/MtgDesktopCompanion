@@ -12,7 +12,6 @@ import java.util.Map.Entry;
 import java.util.Optional;
 
 import org.apache.commons.io.FilenameUtils;
-import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
