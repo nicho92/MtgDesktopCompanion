@@ -145,6 +145,10 @@ public class MkmExternalShop extends AbstractExternalShop {
 			item.setProduct(article.getProduct());
 			item.setQte(article.getCount());
 			item.getTiersAppIds().put(getName(), String.valueOf(article.getIdProduct()));
+			
+			item.setTypeStock(article.getProduct().getRarity()==null?EnumItems.SEALED:EnumItems.CARD);
+			
+			
 			t.getItems().add(item);
 		});
 		return t;
@@ -181,7 +185,7 @@ class MkmStockItem extends AbstractStockItem<LightProduct>
 		else
 			url=product.getImage();
 		
-		setTypeStock(EnumItems.SEALED);
+		
 	}
 }
 
