@@ -6,6 +6,7 @@ import static org.magic.tools.MTG.getEnabledPlugin;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.net.URL;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -20,8 +21,12 @@ import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.services.providers.SealedProductProvider;
 import org.magic.services.MTGLogger;
+import org.magic.services.providers.IconSetProvider;
+import org.magic.tools.ImageTools;
 import org.magic.tools.UITools;
 public class MagicEditionDetailPanel extends JPanel {
 
@@ -43,6 +48,7 @@ public class MagicEditionDetailPanel extends JPanel {
 	private boolean openBooster;
 
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+	private JLabel lblBanner;
 
 	public MagicEditionDetailPanel(boolean openBooster) {
 		this.openBooster = openBooster;
@@ -97,19 +103,17 @@ public class MagicEditionDetailPanel extends JPanel {
 		panneauHaut.add(new JLabel(capitalize("EDITION_ONLINE") + " :"), UITools.createGridBagConstraints(null, null, 0, 7));
 		chkOnline = new JCheckBox("");
 		panneauHaut.add(chkOnline, UITools.createGridBagConstraints(GridBagConstraints.WEST,null, 1, 7));
-		
-		
+
+		lblBanner = new JLabel("");
+		panneauHaut.add(lblBanner, UITools.createGridBagConstraints(GridBagConstraints.WEST,null, 1, 8));
 		add(panneauHaut,BorderLayout.CENTER);
-
-	
-
+		
 		panneauBooster = new JPanel();
 		add(panneauBooster, BorderLayout.EAST);
 		panneauBooster.setLayout(new BorderLayout(0, 0));
 
 		if (openBooster) {
-			btnOpenBooster = new JButton(
-					capitalize("OPEN_BOOSTER") + " :");
+			btnOpenBooster = new JButton(capitalize("OPEN_BOOSTER") + " :");
 			panneauBooster.add(btnOpenBooster, BorderLayout.NORTH);
 			btnOpenBooster.addActionListener(ae -> {
 				try {
@@ -214,6 +218,16 @@ public class MagicEditionDetailPanel extends JPanel {
 		if(!magicEdition.equals(lblBoosterPic.getEdition()))
 			lblBoosterPic.setEdition(magicEdition);
 		
+		
+		try {
+				var uri = SealedProductProvider.inst().get(magicEdition, EnumItems.BANNER).get(0).getUrl();
+			//	lblBanner.setIcon(ImageTools.read(new URL(uri)));
+				
+		}
+		catch(Exception e)
+		{
+			logger.error(e);
+		}
 		
 		//
 		var bindingGroup = new BindingGroup();
