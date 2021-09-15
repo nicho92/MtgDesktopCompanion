@@ -3,6 +3,8 @@ package org.magic.gui.abstracts.charts;
 import java.awt.BorderLayout;
 import java.awt.Color;
 
+import javax.swing.JScrollPane;
+
 import org.jfree.chart3d.Chart3D;
 import org.jfree.chart3d.Chart3DPanel;
 import org.jfree.chart3d.Orientation;
@@ -51,9 +53,9 @@ public abstract class MTGUI3DChartComponent<T, U extends Dataset3D> extends Abst
 		chartPanel.setMargin(0.05);	
 		
 		if(showDisplayPanel())
-			add( new DisplayPanel3D(chartPanel), BorderLayout.CENTER);
+			add( new JScrollPane(new DisplayPanel3D(chartPanel)), BorderLayout.CENTER);
 		else
-			add( chartPanel, BorderLayout.CENTER);
+			add( new JScrollPane(chartPanel), BorderLayout.CENTER);
 		
 		
 		

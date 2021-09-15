@@ -2,6 +2,8 @@ package org.magic.gui.abstracts.charts;
 
 import java.awt.BorderLayout;
 
+import javax.swing.JScrollPane;
+
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.Dataset;
@@ -18,7 +20,7 @@ public abstract class MTGUI2DChartComponent<T,U extends Dataset> extends Abstrac
 		super();
 		onlyOneRefresh=false;
 		chartPanel = new ChartPanel(null,true);
-		add(chartPanel, BorderLayout.CENTER);
+		add(new JScrollPane(chartPanel), BorderLayout.CENTER);
 		
 		chartPanel.addMouseWheelListener(mwe -> {
 			if (mwe.getWheelRotation() > 0) {

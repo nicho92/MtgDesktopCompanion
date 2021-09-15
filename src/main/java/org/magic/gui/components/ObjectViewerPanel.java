@@ -27,7 +27,6 @@ public class ObjectViewerPanel extends MTGUIComponent {
 		textpane.setLineWrap(true);
 		textpane.setEditable(false);
 		textpane.setWrapStyleWord(true);
-		setPreferredSize(new Dimension(1,400));
 		add(new JScrollPane(textpane),BorderLayout.CENTER);
 		
 		var panel = new JPanel();

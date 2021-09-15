@@ -217,6 +217,7 @@ public class CardSearchPanel extends MTGUIComponent {
 
 		var scrollThumbnails = new JScrollPane();
 		var panneauCentral = new JSplitPane();
+		
 		panneauStat = new JPanel();
 		panneauHaut = new JPanel();
 		panneauCard = new JPanel();
@@ -245,7 +246,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		btnFilter = UITools.createBindableJButton(null, MTGConstants.ICON_FILTER, KeyEvent.VK_F, "searchfilter");
 		btnClear = UITools.createBindableJButton(null, MTGConstants.ICON_CLEAR, KeyEvent.VK_C, "clear");
 		similarityPanel = new SimilarityCardPanel();
-		tableCards = UITools.createNewTable(null);
+		tableCards = UITools.createNewTable(cardsModeltable);
 		lblLoading = AbstractBuzyIndicatorComponent.createProgressComponent();
 		var lblFilter = new JLabel();
 		listEdition = new JList<>();
@@ -262,7 +263,6 @@ public class CardSearchPanel extends MTGUIComponent {
 		
 		//////// MODELS
 		listEdition.setModel(new DefaultListModel<>());
-		tableCards.setModel(cardsModeltable);
 
 		//////// RENDERER
 		tableCards.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
@@ -306,10 +306,8 @@ public class CardSearchPanel extends MTGUIComponent {
 
 		/////// DIMENSION
 		thumbnailPanel.setThumbnailSize(new Dimension(179, 240));
-		tabbedCardsInfo.setPreferredSize(new Dimension(0, 350));
-		historyChartPanel.setPreferredSize(new Dimension(400, 10));
 		cardsPicPanel.setPreferredSize(new Dimension(500, 10));
-		tabbedCardsInfo.setMinimumSize(new Dimension(23, 200));
+		
 		scrollThumbnails.getVerticalScrollBar().setUnitIncrement(10);
 		txtFilter.setColumns(25);
 	
@@ -351,7 +349,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		panneauCard.add(cardsPicPanel, BorderLayout.CENTER);
 
 		panelResultsCards.add(panelFilters, BorderLayout.NORTH);
-		panelResultsCards.add(new JScrollPane(tableCards));
+		panelResultsCards.add(new JScrollPane(tableCards),BorderLayout.CENTER);
 		magicEditionDetailPanel = new MagicEditionDetailPanel();
 
 		editionDetailPanel.add(magicEditionDetailPanel, BorderLayout.CENTER);

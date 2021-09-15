@@ -49,7 +49,7 @@ public class PricesTablePanel extends JPanel {
 		var panel = new JPanel();
 		lblLoading = AbstractBuzyIndicatorComponent.createProgressComponent();
 		
-		panel.setPreferredSize(new Dimension(0,32));
+	
 		model = new CardsPriceTableModel();
 		tablePrices = UITools.createNewTable(model);
 		UITools.initTableFilter(tablePrices);
