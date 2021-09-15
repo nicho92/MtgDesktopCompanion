@@ -192,7 +192,7 @@ public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 			
 			for (MagicEdition edition : list) 
 			{
-				if(!edition.getReleaseDate().isEmpty()) 
+				if(edition.getReleaseDate()!=null && !edition.getReleaseDate().isEmpty()) 
 				{
 					try {	
 						Date d = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(edition.getReleaseDate() + " 00:00");

@@ -20,7 +20,7 @@ public abstract class MTGUI2DChartComponent<T,U extends Dataset> extends Abstrac
 		super();
 		onlyOneRefresh=false;
 		chartPanel = new ChartPanel(null,true);
-		add(new JScrollPane(chartPanel), BorderLayout.CENTER);
+		add(chartPanel, BorderLayout.CENTER);
 		
 		chartPanel.addMouseWheelListener(mwe -> {
 			if (mwe.getWheelRotation() > 0) {
