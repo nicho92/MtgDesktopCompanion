@@ -98,7 +98,7 @@ public class StoriesGUI extends MTGUIComponent {
 		var panel = new JPanel();
 		add(panel, BorderLayout.NORTH);
 
-		var btnLoadNext = UITools.createBindableJButton("Load next",MTGConstants.ICON_LOADING,KeyEvent.VK_N,"Storie loading");
+		var btnLoadNext = UITools.createBindableJButton("Load next",MTGConstants.ICON_OPEN,KeyEvent.VK_N,"Storie loading");
 		btnLoadNext.addActionListener(ae -> initStories());
 		panel.add(btnLoadNext);
 
