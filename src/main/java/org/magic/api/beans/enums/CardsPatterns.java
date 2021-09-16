@@ -15,11 +15,8 @@ public enum CardsPatterns {
 	CREATE_EMBLEM 				("You get an emblem with (.*?)"),
 	RULES_LINE					("^(\\d{1,3})\\.(\\d{1,3})?([a-z])?"),
 	LOYALTY_PATTERN				("\\[(.*?)\\][ ]?: (.*?)$"); 
-
 	
 	public static final String REGEX_ANY_STRING = "(.*?)";
-	
-	
 	
 	private String pattern = "";
 	

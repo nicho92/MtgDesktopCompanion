@@ -33,7 +33,7 @@ public class RedditNewsProvider extends AbstractMagicNewsProvider {
 			adapter = new OkHttpNetworkAdapter(new UserAgent(MTGConstants.MTG_APP_NAME));
 		
 		List<MagicNewsContent> ret = new ArrayList<>();
-		var credentials = Credentials.script(getString("USER"), getString("PASSWORD"),getString("APPID"), getString("SECRET"));
+		var credentials = Credentials.script(getAuthenticator().get("USER"), getAuthenticator().get("PASSWORD"),getAuthenticator().get("APPID"), getAuthenticator().get("SECRET"));
 		var reddit = OAuthHelper.automatic(adapter, credentials);
 		Paginator<Submission> pagin = reddit.subreddit(n.getName()).posts().limit(getInt("LIMIT")).build();
 		
@@ -60,13 +60,15 @@ public class RedditNewsProvider extends AbstractMagicNewsProvider {
 		return Version.get();
 	}
 	
+@Override
+public List<String> listAuthenticationAttributes() {
+	return List.of("USER","PASSWORD","APPID","SECRET");
+}
+	
+	
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-			return Map.of("USER", "",
-				"PASSWORD", "",
-				"APPID", "",
-				"SECRET", "",
-				"LIMIT", "10");
+			return Map.of("LIMIT", "10");
 	}
 
 

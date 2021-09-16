@@ -444,25 +444,24 @@ public class ConstructPanel extends MTGUIComponent {
 		btnSave.addActionListener(e -> {
 			
 			buzyLabel.start();
+			
+			String dname = deck.getName();
+			if(deck.getId()<0 && dname.isEmpty())
+			{
+				String name = JOptionPane.showInputDialog(capitalize("DECK_NAME") + " ?", dname);
+				if(name!=null && !name.isEmpty())
+					deck.setName(name);
+			
+			}
+			
+			
 			var sw = new SwingWorker<Void, Void>(){
 
 				@Override
 				protected Void doInBackground() throws Exception {
 					logger.debug("saving " + deck);
-					
-					String dname = deck.getName();
-					
-					if(deck.getId()<0)
-					{
-						String name = JOptionPane.showInputDialog(capitalize("DECK_NAME") + " ?", dname);
-						if(name!=null && !name.isEmpty())
-							deck.setName(name);
-					
-					}
-					
 					deckManager.saveDeck(deck);
 					p.setDeck(deck);
-					
 					return null;
 				}
 
@@ -472,7 +471,12 @@ public class ConstructPanel extends MTGUIComponent {
 					
 					try {
 						get();
+					}
+					catch(InterruptedException ex)
+					{
+						Thread.currentThread().interrupt();
 					}catch(Exception ex) {
+						
 						logger.error("error saving", ex);
 						MTGControler.getInstance().notify(ex);
 					}
