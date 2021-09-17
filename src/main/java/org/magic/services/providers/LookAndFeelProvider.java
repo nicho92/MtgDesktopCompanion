@@ -1,6 +1,7 @@
 package org.magic.services.providers;
 
 import java.awt.Component;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -12,12 +13,14 @@ import javax.swing.plaf.FontUIResource;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.log4j.Logger;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.pushingpixels.substance.api.SubstanceLookAndFeel;
 import org.reflections.Reflections;
 
 import com.formdev.flatlaf.FlatLaf;
+import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
 import com.jtattoo.plaf.AbstractLookAndFeel;
 
 public class LookAndFeelProvider {
@@ -54,10 +57,15 @@ public class LookAndFeelProvider {
 				lookAndFeel=UIManager.getSystemLookAndFeelClassName();
 			
 			
+			FlatLaf.registerCustomDefaultsSource(MTGConstants.DATA_DIR);
 			
+			logger.debug("loading look&feel custom file : " + new File(MTGConstants.DATA_DIR,"FlatLaf.properties").getAbsolutePath() + " : " + new File(MTGConstants.DATA_DIR,"FlatLaf.properties").exists());
 			
+			FlatAnimatedLafChange.showSnapshot();
 			UIManager.setLookAndFeel(lookAndFeel);
 			SwingUtilities.updateComponentTreeUI(ui);
+			FlatAnimatedLafChange.hideSnapshotWithAnimation();
+			
 		} catch (Exception e) {
 			logger.error("error setLookAndFeel",e);
 		}
