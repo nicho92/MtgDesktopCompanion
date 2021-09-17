@@ -40,6 +40,23 @@
   	
    	$(document).ready(function() {
    		
+		$.ajax({
+				url: restserver + "/collections/list"
+			}).then(function (data) {
+				$.each(data, function (key, value) {
+					$("#items-menu").append("<li><a class='dropdown-item' href='index.html?collection=" + value.name + "'><em class='fa fa-book'></em> " + value.name + "</a></li>")
+				});
+				
+				$("#items-menu").append("<li><div class='dropdown-divider'></div></li>");
+				$("#items-menu").append("<li><a class='dropdown-item' href='list.html''><em class='fa fa-th-list'></em> View as list</a></li>");
+
+
+
+			}); // end	
+	
+
+
+
   	    $.ajax({
   	        url: restserver+"/cards/"+$_GET("id")
   	    }).then(function(data) {
@@ -148,12 +165,7 @@
         		 			else
         		 				color="list-group-item-danger";
    		 				}
-    		 			
-    		 			
-    		 			
-    		 
-	 					$("#legalities").append("<li class='list-group-item " + color+ "'><i class='fa fa-tag fa-fw'></i>"+json[item].format+" " + json[item].formatLegality+"</li>");	
-					});
+    				});
   	    	
   	    		
   	    	
@@ -190,6 +202,7 @@
   				if(data.colors[0]=='BLACK')
 				{
 					$("div.card-header").addClass("bg-secondary");
+					$("div.card-header").addClass("text-white");
 				}	
 				if(data.colors[0]=='RED')
 				{
@@ -318,14 +331,10 @@
 <body>
 
    <section class="py-5">
-            <div class="container px-4 px-lg-5 mt-5">
-
-
-		<div id="wrapper">
-
-		<div id="page-wrapper">
 			<div class="container-fluid">
 				<div class="row">
+				
+				
 					<div class="col-lg-12">
 						<h1 class="page-header">
 							<span id="title">title</span>&nbsp;<em id="set"></em>
@@ -334,20 +343,34 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-lg-3">
-					<div class="card panel-default">
+			
+			
+			
+				<div class="col-lg-2">
+					<div class="card">
 						<div class="card-header">Pictures</div>
 						<div class="card-body">
 							<p>
-								<img class='img-fluid img-responsive' id='pic' data-holder-rendered="true"/>
+								<img alt="card picture" class='img-fluid img-responsive' id='pic' data-holder-rendered="true"/>
 							</p>
 						</div>
 						<div class="card-footer">
 							<p id='artist'></p>
 						</div>
 					</div>
+					<br/>
+					<div class="card ">
+						<div class="card-header">Oracle Text</div>
+						<div class="card-body">
+							<p id="text"></p>
+						</div>
+					</div>
+					<br/>
 				</div>
-				<div class="col-lg-4">
+				
+				
+				<div class="col-lg-6">
+				
 					<div class="card">
 						<div class="card-header">Informations</div>
 						<div class="card-body">
@@ -378,57 +401,18 @@
       						</table>
 						</div>
 					</div>
+					
+					<br/>
+					
+					
 					<div class="card">
-						<div class="card-header">Oracle Text</div>
+						<div class="card-header">Variation</div>
 						<div class="card-body">
-							<p id="text"></p>
+							<div id="priceVariation" style="width: 100%;"></div>
 						</div>
+						<div class="card-footer"></div>
 					</div>
-				</div>
-				<div class="col-lg-4">
 				
-					<div class="card">
-                        <div class="card-header">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i id="priceArrow" class="fa fa-5x"></i>
-                                </div>
-                                <div class="col-xs-3 text-end">
-                                    <div class="huge" id="lastPrice"></div>
-                                    <div class="medium" id="pcVariation"></div>
-                                    <div></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-				
-				
-					<div class="card">
-						<div class="card-header">Reprints</div>
-						<div class="card-body">
-							<p id="reprints"></p>
-						</div>
-						<div class="panel-footer"></div>
-					</div>
-					<div class="card">
-						<div class="card-header">Formats</div>
-						<div class="card-body">
-							<p id="legalities"></p>
-						</div>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-7">
-						<div class="card">
-							<div class="card-header">Variation</div>
-							<div class="card-body">
-								<div id="priceVariation" style="width: 100%;"></div>
-							</div>
-							<div class="card-footer"></div>
-						</div>
-					</div>
-					<div class="col-md-4">
 						<div class="card">
 							<div class="card-header">Prices</div>
 							<div class="card-body">
@@ -444,16 +428,44 @@
 										</tr>
 									</thead>
 								</table>
-
-							</div>
-			
 						</div>
 					</div>
+				
 				</div>
+				
+				
+				
+				<div class="col-lg-4">
+				
+					<div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <em id="priceArrow" class="fa fa-5x"></em>
+                                   <div class="huge" id="lastPrice"></div>
+                                    <div class="medium" id="pcVariation"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+				
+					<div class="card">
+						<div class="card-header">Reprints</div>
+						<div class="card-body">
+							<p id="reprints"></p>
+						</div>
+					</div>
+
+				</div>
+
+					
+				
+				
+				
+				
 			</div>
 		</div>
-
-	</div>
+   </section>
 </body>
 
 </html>
