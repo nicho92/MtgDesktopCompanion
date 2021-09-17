@@ -83,6 +83,8 @@ import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.services.workers.WebsiteExportWorker;
 import org.magic.tools.UITools;
 
+import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
+
 
 @SuppressWarnings("rawtypes")
 public class CollectionPanelGUI extends MTGUIComponent {
@@ -148,7 +150,6 @@ public class CollectionPanelGUI extends MTGUIComponent {
 	
 	@Override
 	public void onFirstShowing() {
-		
 		splitListPanel.setDividerLocation(.45);
 		splitPane.setDividerLocation(.5);
 		progressBar.start();	

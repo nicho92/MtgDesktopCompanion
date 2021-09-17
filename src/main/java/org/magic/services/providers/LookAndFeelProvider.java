@@ -51,7 +51,11 @@ public class LookAndFeelProvider {
 			
 			
 			if(lookAndFeel==null || lookAndFeel.isEmpty())
-				lookAndFeel=UIManager.getSystemLookAndFeelClassName();	
+				lookAndFeel=UIManager.getSystemLookAndFeelClassName();
+			
+			
+			
+			
 			UIManager.setLookAndFeel(lookAndFeel);
 			SwingUtilities.updateComponentTreeUI(ui);
 		} catch (Exception e) {
