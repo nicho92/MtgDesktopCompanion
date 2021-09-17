@@ -199,7 +199,16 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 		}
 		
 		return ret;
+	}
+	
+	
+	protected void postTreatmentCard(MagicCard mc)
+	{
+		if(mc.getCurrentSet().getId().endsWith("MH2") && (mc.getFrameVersion().equals("1995")||mc.getFrameVersion().equals("1997")))
+				mc.setTimeshifted(true);
 		
+		if(mc.getCurrentSet().getId().equals("H1R"))
+			mc.setTimeshifted(true);
 		
 	}
 

@@ -359,6 +359,9 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				{
 					initRotatedCard(mc, rs.getString("otherFaceIds"),mc.getSide());
 				}
+				
+		postTreatmentCard(mc);		
+				
 		notify(mc);
 		return mc;
 	}

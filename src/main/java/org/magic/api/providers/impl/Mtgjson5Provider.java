@@ -454,7 +454,8 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 				
 				//TODO fixing rotatedCardName
 				
-			
+		postTreatmentCard(mc);		
+	
 		notify(mc);
 		ret.add(mc);
 	}
