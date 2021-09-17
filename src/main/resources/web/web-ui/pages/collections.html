@@ -83,7 +83,15 @@
 		                "width": "2%",
 		                "render": function(data, type, row, meta){
 		                	 if(type === 'display'){
-									data =  '<i class="ss ss-'+row.edition.keyRuneCode.toLowerCase()+' ss-common ss-2x"></i>' ;		                		 
+									try{
+										data =  '<i class="ss ss-'+row.edition.keyRuneCode.toLowerCase()+' ss-common ss-2x"></i>' ;	
+									}
+									catch(error)
+									{
+										data =  '<i class="ss ss-'+row.edition.id.toLowerCase()+' ss-common ss-2x"></i>' ;
+										console.log("error, no keyrune code found for " + row.edition.id);
+									}		                		 
+									
 		                	 }
 		                   return data;
 		                }

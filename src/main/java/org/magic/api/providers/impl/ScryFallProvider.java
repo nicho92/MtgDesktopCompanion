@@ -557,7 +557,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				logger.error("error in initOtherEdition :" + e.getMessage());
 			}
 		}, "other editions");
-
+		
+		postTreatmentCard(mc);
 		notify(mc);
 		return mc;
 
