@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -75,10 +76,10 @@ public class ProductRendererComponent extends JPanel {
 		lblImage.setIcon(new ImageIcon(temp.computeIfAbsent(p.getIdProduct(),i->{
 			try {
 				return URLTools.extractImage(p.getImage()).getScaledInstance(150, 110, Image.SCALE_SMOOTH);
-			} catch (IOException e) {
-				//do nothing
+			} catch (Exception e) {
+				return new BufferedImage(1, 1, Image.SCALE_FAST);
 			}
-			return null;
+			
 		})));
 	}
 
