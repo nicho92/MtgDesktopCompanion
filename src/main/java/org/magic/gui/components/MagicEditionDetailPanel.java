@@ -7,7 +7,6 @@ import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -21,12 +20,9 @@ import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.services.MTGLogger;
-import org.magic.services.providers.SealedProductProvider;
 import org.magic.tools.UITools;
-import org.magic.tools.URLTools;
 public class MagicEditionDetailPanel extends JPanel {
 
 	/**
@@ -101,13 +97,19 @@ public class MagicEditionDetailPanel extends JPanel {
 		panneauHaut.add(new JLabel(capitalize("EDITION_ONLINE") + " :"), UITools.createGridBagConstraints(null, null, 0, 7));
 		chkOnline = new JCheckBox("");
 		panneauHaut.add(chkOnline, UITools.createGridBagConstraints(GridBagConstraints.WEST,null, 1, 7));
+		
+		
+		add(panneauHaut,BorderLayout.CENTER);
+
+	
 
 		panneauBooster = new JPanel();
 		add(panneauBooster, BorderLayout.EAST);
 		panneauBooster.setLayout(new BorderLayout(0, 0));
 
 		if (openBooster) {
-			btnOpenBooster = new JButton(capitalize("OPEN_BOOSTER") + " :");
+			btnOpenBooster = new JButton(
+					capitalize("OPEN_BOOSTER") + " :");
 			panneauBooster.add(btnOpenBooster, BorderLayout.NORTH);
 			btnOpenBooster.addActionListener(ae -> {
 				try {
@@ -212,9 +214,10 @@ public class MagicEditionDetailPanel extends JPanel {
 		if(!magicEdition.equals(lblBoosterPic.getEdition()))
 			lblBoosterPic.setEdition(magicEdition);
 		
-	
-		var bindingGroup = new BindingGroup();
 		
+		//
+		var bindingGroup = new BindingGroup();
+		//
 		bindingGroup.addBinding(autoBinding3);
 		bindingGroup.addBinding(autoBinding7);
 		bindingGroup.addBinding(autoBinding8);

@@ -19,7 +19,7 @@ import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.tools.URLTools;
 
 public class CardMarketDeckSniffer extends AbstractDeckSniffer {
-	private static final String CARDLIST2 = ".cardlist";
+	private static final String CARDLIST = ".cardlist";
 	private static final String PAUPER = "Pauper";
 	private static final String HIGHLANDER = "Highlander";
 	private static final String URL = "URL";
@@ -41,7 +41,7 @@ public class CardMarketDeckSniffer extends AbstractDeckSniffer {
 		MagicDeck deck = info.toBaseDeck();
 		Document d = URLTools.extractHtml(info.getUrl().toString());
 
-		Elements maincardsList = d.select(".mainboard.clearfix").select(CARDLIST2);
+		Elements maincardsList = d.select(".mainboard.clearfix").select(CARDLIST);
 		for (Element cardList : maincardsList.select("li")) {
 			String qte = cardList.select("span").text();
 			String cardName = cardList.select(".cardName.truncate.vAlignMiddle").text();
@@ -58,7 +58,7 @@ public class CardMarketDeckSniffer extends AbstractDeckSniffer {
 			}
 		}
 
-		Elements sidecardsList = d.select(".sideboard.clearfix").select(CARDLIST2);
+		Elements sidecardsList = d.select(".sideboard.clearfix").select(CARDLIST);
 		for (Element cardList : sidecardsList.select("li")) {
 			String qte = cardList.select("span").text();
 			String cardName = cardList.select(".cardName.truncate.vAlignMiddle").text();
@@ -112,7 +112,7 @@ public class CardMarketDeckSniffer extends AbstractDeckSniffer {
 					if(getBoolean("DETAILED")) {
 					
 					  Document deckurl = URLTools.extractHtml(deck.getUrl().toString()); Elements
-					  maincardslist = deckurl.select(".mainboard.clearfix").select(CARDLIST2);
+					  maincardslist = deckurl.select(".mainboard.clearfix").select(CARDLIST);
 					  var deckColor = new StringBuilder();
 					  if(maincardslist.select("li").text().contains("Plain") ||
 							  maincardslist.select("li").text().contains("Plains")) {
