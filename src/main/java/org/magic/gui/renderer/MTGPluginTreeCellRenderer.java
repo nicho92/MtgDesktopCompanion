@@ -19,16 +19,16 @@ public class MTGPluginTreeCellRenderer implements TreeCellRenderer{
 		tree.setRowHeight(MTGConstants.TREE_ROW_HEIGHT);
 		lab.setBackground(tree.getBackground());
 		lab.setForeground(tree.getForeground());
-		if(value instanceof MTGPlugin)
+		if(value instanceof MTGPlugin p)
 		{
 		   lab.setFont(lab.getFont().deriveFont(Font.BOLD));
 		   lab.setText(value.toString());
-		   lab.setIcon(((MTGPlugin)value).getIcon());
+		   lab.setIcon(p.getIcon());
 			
-		}else if (value instanceof Entry)
+		}else if (value instanceof Entry<?, ?> e)
 		{
 			lab.setIcon(MTGConstants.ICON_MANA_INCOLOR);
-			lab.setText(((Entry)value).getKey().toString());
+			lab.setText(e.getKey().toString());
 		}
 		return lab;
 	}

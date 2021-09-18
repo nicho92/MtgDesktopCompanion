@@ -127,8 +127,8 @@ public class CardTransfertHandler extends TransferHandler {
 			dragLab.setIcon(null);
 			window.setVisible(false);
 
-			if (c.getParent() instanceof DraggablePanel) {
-				DraggablePanel dest = ((DraggablePanel) c.getParent());
+			if (c.getParent() instanceof DraggablePanel dc) {
+				DraggablePanel dest = dc;
 				if (dest.getMousePosition() != null)
 					src.setLocation(dest.getMousePosition());
 				dest.postTreatment(src);
