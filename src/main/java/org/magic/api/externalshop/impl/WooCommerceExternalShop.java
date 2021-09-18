@@ -28,6 +28,8 @@ import com.icoderman.woocommerce.WooCommerce;
 public class WooCommerceExternalShop extends AbstractExternalShop {
 
 	
+	private static final String STATUS = "status";
+	private static final String DATE_PAID = "date_paid";
 	private WooCommerce client;
 	
 	private void init()
@@ -77,7 +79,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		init();
 		
 		Map<String, String> parameters = new HashMap<>();
-	    					parameters.put("status", "any");
+	    					parameters.put(STATUS, "any");
 	    					parameters.put("per_page", getString("PER_PAGE"));
 	    List<JsonElement> res = client.getAll(EndpointBaseType.ORDERS.getValue(),parameters);
 		
@@ -93,11 +95,11 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	    				t.setId(obj.get("id").getAsInt());
 	    				t.setShippingPrice(obj.get("shipping_total").getAsDouble());
 	    				t.setSourceShopNmae(getName());
-	    				if(!obj.get("date_paid").isJsonNull())
-	    					t.setDatePayment(UITools.parseGMTDate(obj.get("date_paid").getAsString()));
+	    				if(!obj.get(DATE_PAID).isJsonNull())
+	    					t.setDatePayment(UITools.parseGMTDate(obj.get(DATE_PAID).getAsString()));
 	    				
 	    			
-	    				switch(obj.get("status").getAsString())
+	    				switch(obj.get(STATUS).getAsString())
 	    				{
 	    					case "pending" : t.setStatut(TransactionStatus.NEW);break;
 	    					case "processing" : t.setStatut(TransactionStatus.IN_PROGRESS);break;
@@ -109,7 +111,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	    					case "lpc_ready_to_ship" : t.setStatut(TransactionStatus.PAID);break;
 	    					default : {
 	    						
-	    						logger.debug(obj.get("status") + " is unknow");
+	    						logger.debug(obj.get(STATUS) + " is unknow");
 	    						t.setStatut(TransactionStatus.IN_PROGRESS);break;
 	    					}
 	    				}
@@ -253,7 +255,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		productInfo.put("name", product.getEnName());
 		productInfo.put("type", "simple");
         productInfo.put("categories", WooCommerceTools.entryToJsonArray("id",String.valueOf(idCategory)));
-        productInfo.put("status", status==null?"private":status);
+        productInfo.put(STATUS, status==null?"private":status);
         productInfo.put("images", WooCommerceTools.entryToJsonArray("src",product.getImage().startsWith("//")?"https:"+product.getImage():product.getImage()));
 		 
 		return productInfo;
@@ -283,7 +285,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		if(t.getPaymentProvider()!=null)
 		{
 			obj.put("payment_method_title", t.getPaymentProvider().name());
-			obj.put("date_paid", t.getDatePayment().getTime());
+			obj.put(DATE_PAID, t.getDatePayment().getTime());
 		}
 		
 		

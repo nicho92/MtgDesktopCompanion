@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -261,7 +262,10 @@ public class URLTools {
 		return extractAsString(new URL(url),MTGConstants.DEFAULT_ENCODING); 
 	}
 	
-	
+	public static BufferedImage extractImage(String uri, int w, int h) throws MalformedURLException, IOException {
+		return ImageTools.resize(extractImage(new URL(uri)), h, w);
+	}
+
 
 	public static BufferedImage extractImage(String url) throws IOException
 	{
@@ -327,6 +331,7 @@ public class URLTools {
 		return con.getHeaderField(h);
 	}
 
+	
 
 	
 }

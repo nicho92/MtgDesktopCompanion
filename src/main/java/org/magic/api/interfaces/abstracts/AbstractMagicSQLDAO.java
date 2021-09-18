@@ -57,6 +57,8 @@ import com.google.gson.JsonObject;
 
 public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
+	protected static final String MCARD = "mcard";
+	private static final String DEFAULT_LIBRARY = "default-library";
 	private static final String IF_NOT_EXISTS = "IF NOT EXISTS ";
 	private static final String CREATE_TABLE = "CREATE TABLE ";
 	private static final String EDITION = "edition";
@@ -1051,7 +1053,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				else
 					pst.setString(7, null);
 				
-				pst.setString(8, (state.getMagicCollection()==null)?MTGControler.getInstance().get("default-library"):state.getMagicCollection().getName());
+				pst.setString(8, (state.getMagicCollection()==null)?MTGControler.getInstance().get(DEFAULT_LIBRARY):state.getMagicCollection().getName());
 				pst.setDouble(9, state.getPrice());
 				storeTiersApps(pst,10,state.getTiersAppIds());
 				pst.setInt(11, state.getProduct().getNum());
@@ -1071,7 +1073,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setString(4, state.getProduct().getLang());
 				pst.setString(5, state.getProduct().getType().name());
 				pst.setString(6, state.getCondition().name());
-				pst.setString(7, (state.getMagicCollection()==null)?MTGControler.getInstance().get("default-library"):state.getMagicCollection().getName());
+				pst.setString(7, (state.getMagicCollection()==null)?MTGControler.getInstance().get(DEFAULT_LIBRARY):state.getMagicCollection().getName());
 				pst.setDouble(8, state.getPrice());
 				storeTiersApps(pst,9,state.getTiersAppIds());
 				pst.setInt(10, state.getId());
@@ -1144,7 +1146,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		List<MagicCard> listCards = new ArrayList<>();
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT mcard,dateUpdate FROM cards"); ResultSet rs = pst.executeQuery();) {
 			while (rs.next()) {
-				listCards.add(readCard(rs,"mcard"));
+				listCards.add(readCard(rs,MCARD));
 			}
 		}
 		return listCards;
@@ -1208,7 +1210,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setString(2, me.getId());
 			try (ResultSet rs = pst.executeQuery()) {
 				while (rs.next()) {
-					MagicCard mc = readCard(rs,"mcard");
+					MagicCard mc = readCard(rs,MCARD);
 					ret.add(mc);
 					notify(mc);
 				}
@@ -1259,7 +1261,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	@Override
 	public void removeCollection(MagicCollection col) throws SQLException {
 
-		if (col.getName().equals(MTGControler.getInstance().get("default-library")))
+		if (col.getName().equals(MTGControler.getInstance().get(DEFAULT_LIBRARY)))
 			throw new SQLException(col.getName() + " can not be deleted");
 
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("DELETE FROM collections where name = ?")) {
@@ -1496,7 +1498,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			try (ResultSet rs = pst.executeQuery()) {
 				while (rs.next()) {
 					var alert = new MagicCardAlert();
-					alert.setCard(readCard(rs,"mcard"));
+					alert.setCard(readCard(rs,MCARD));
 					alert.setId(rs.getString("id"));
 					alert.setQty(rs.getInt("qte"));
 					alert.setPrice(rs.getDouble("amount"));
@@ -1819,7 +1821,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	
 	private MagicCardStock readStock(ResultSet rs) throws SQLException
 	{
-		var state = new MagicCardStock(readCard(rs,"mcard"));
+		var state = new MagicCardStock(readCard(rs,MCARD));
 			state.setComment(rs.getString("comments"));
 			state.setId(rs.getInt("idstock"));
 			state.setMagicCollection(new MagicCollection(rs.getString("collection")));

@@ -55,6 +55,7 @@ import com.mongodb.client.result.UpdateResult;
 
 public class MongoDbDAO extends AbstractMagicDAO {
 
+	private static final String PASSWORD = "password";
 	private MongoDatabase db;
 	private String colCards = "cards";
 	private String colCollects = "collects";
@@ -764,7 +765,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	@Override
 	public void changePassword(Contact c, String newPassword) throws SQLException {
 		var passBson = new BasicDBObject();
-		passBson.put("password", IDGenerator.generateSha256(newPassword)); 
+		passBson.put(PASSWORD, IDGenerator.generateSha256(newPassword)); 
 
 		var updateBson = new BasicDBObject();
 		updateBson.put("$set", passBson); 
@@ -793,7 +794,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			try {
 				BeanUtils.describe(c).keySet().forEach(k->{
 					try {
-						if(!k.equalsIgnoreCase("password"))
+						if(!k.equalsIgnoreCase(PASSWORD))
 							contactUpdateData.put(k, PropertyUtils.getProperty(c,k));
 						
 					}  catch (Exception e) {
@@ -837,7 +838,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	@Override
 	public Contact getContactByLogin(String email, String password) throws SQLException {
 		return deserialize(db.getCollection(colContacts,BasicDBObject.class)
-							 .find(Filters.and(Filters.and(Filters.eq("email", email),Filters.eq("password", IDGenerator.generateSha256(password))),Filters.eq("active",true)))
+							 .find(Filters.and(Filters.and(Filters.eq("email", email),Filters.eq(PASSWORD, IDGenerator.generateSha256(password))),Filters.eq("active",true)))
 							 .first()
 							 ,Contact.class);
 	}

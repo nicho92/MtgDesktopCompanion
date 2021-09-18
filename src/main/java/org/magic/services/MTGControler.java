@@ -41,6 +41,7 @@ import org.magic.tools.ImageTools;
 
 public class MTGControler {
 
+	private static final String FALSE = "false";
 	private static MTGControler inst;
 	private XMLConfiguration config;
 	private FileBasedConfigurationBuilder<XMLConfiguration> builder;
@@ -105,7 +106,7 @@ public class MTGControler {
 		catch(Exception e)
 		{
 			logger.error("error init currency services : " + e);
-			setProperty("/currencylayer-converter-enable", "false");
+			setProperty("/currencylayer-converter-enable", FALSE);
 
 		}
 		
@@ -180,7 +181,7 @@ public class MTGControler {
 			
 			conf.setPercentReduction(Double.parseDouble(get("/shopSite/config/percentReduction","0")));
 			conf.setGoogleAnalyticsId(get("/shopSite/config/ganalyticsId",""));
-			conf.setEnableGed(Boolean.parseBoolean(get("/shopSite/config/enableGed","false")));
+			conf.setEnableGed(Boolean.parseBoolean(get("/shopSite/config/enableGed",FALSE)));
 			conf.setExtraCss(get("/shopSite/config/extracss",""));
 			
 			conf.setPaypalClientId(get("/shopSite/payments/paypalclientId",""));
@@ -195,10 +196,10 @@ public class MTGControler {
 			conf.setIban(get("/shopSite/payments/banqAccount/iban",""));
 			conf.setAverageDeliveryTime(Integer.parseInt(get("/shopSite/delivery/deliveryDay","2")));
 			conf.setShippingRules(get("/shopSite/delivery/shippingRules",MTGConstants.DEFAULT_SHIPPING_RULES));
-			conf.setAutomaticValidation(get("/shopSite/config/autoValidation","false").equalsIgnoreCase("true"));
-			conf.setAutomaticProduct(get("/shopSite/config/products/autoSelection","false").equalsIgnoreCase("true"));
+			conf.setAutomaticValidation(get("/shopSite/config/autoValidation",FALSE).equalsIgnoreCase("true"));
+			conf.setAutomaticProduct(get("/shopSite/config/products/autoSelection",FALSE).equalsIgnoreCase("true"));
 			conf.setWebsiteUrl(get("/shopSite/config/websiteUrl","http://localhost"));
-			conf.setSealedEnabled(get("/shopSite/config/sealedEnabled","false").equalsIgnoreCase("true"));
+			conf.setSealedEnabled(get("/shopSite/config/sealedEnabled",FALSE).equalsIgnoreCase("true"));
 			try {
 				
 				if(conf.isAutomaticProduct())
@@ -289,7 +290,7 @@ public class MTGControler {
 	
 
 	public MagicCardStock getDefaultStock() {
-		var defaultBool = "false";
+		var defaultBool = FALSE;
 		var st = new MagicCardStock();
 					   st.setSigned(Boolean.parseBoolean(get("collections/defaultStock/signed",defaultBool)));
 					   st.setAltered(Boolean.parseBoolean(get("collections/defaultStock/altered",defaultBool)));

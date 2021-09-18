@@ -55,10 +55,13 @@ import net.dv8tion.jda.api.JDAInfo;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Activity.ActivityType;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.ReadyEvent;
+import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.react.GenericMessageReactionEvent;
 import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
@@ -100,6 +103,14 @@ public class DiscordBotServer extends AbstractMTGServer {
 				
 				analyseMessage(event);
 			}
+			
+			@Override
+			public void onReady(ReadyEvent event) {
+		    	logger.debug(getName() + " bot invited in " + event.getJDA().getGuilds().stream().toList());
+			}
+			
+			
+			
 		};
 	}
 	

@@ -25,8 +25,10 @@ public class Test {
 		f.setVisible(true);
 	
 	
-
+		
 		
 	}
+	
+	
 
 }
