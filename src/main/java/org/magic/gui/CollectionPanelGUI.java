@@ -450,8 +450,8 @@ public class CollectionPanelGUI extends MTGUIComponent {
 				stockPanel.enabledAdd(false);
 			}
 
-			if (curr.getUserObject() instanceof MagicCollection) {
-				selectedcol = (MagicCollection) curr.getUserObject();
+			if (curr.getUserObject() instanceof MagicCollection col) {
+				selectedcol = col;
 				stockPanel.enabledAdd(false);
 				gedPanel.init(MagicCollection.class,selectedcol);
 				ThreadManager.getInstance().executeThread(() -> {
@@ -471,9 +471,9 @@ public class CollectionPanelGUI extends MTGUIComponent {
 				
 			}
 
-			if (curr.getUserObject() instanceof MagicEdition) {
+			if (curr.getUserObject() instanceof MagicEdition seEd) {
 			
-				MagicEdition ed = (MagicEdition) curr.getUserObject();
+				MagicEdition ed = seEd;
 				
 				magicEditionDetailPanel.setMagicEdition(ed);
 				packagePanel.setMagicEdition(ed);

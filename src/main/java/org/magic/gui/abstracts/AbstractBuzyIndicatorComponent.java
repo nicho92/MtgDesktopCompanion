@@ -57,9 +57,9 @@ public abstract class AbstractBuzyIndicatorComponent extends JComponent implemen
 	
 	@Override
 	public void update(Observable o, Object obj) {
-		if(obj instanceof Integer)
+		if(obj instanceof Integer i)
 		{
-			setValue((Integer)obj);
+			setValue(i);
 		}
 		else
 		{

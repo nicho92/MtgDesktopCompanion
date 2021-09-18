@@ -51,9 +51,8 @@ public class StockTableRenderer implements TableCellRenderer{
 				((JPanel)pane).add(new JLabel(PluginRegistry.inst().getPlugin(e.getKey(), MTGCardsExport.class).getIcon()))
 			 );
 		} 
-		else if(value instanceof Grading)
+		else if(value instanceof Grading g)
 		{
-			Grading g = (Grading)value;
 			
 			try {
 				var c = PluginRegistry.inst().getPlugin(g.getGraderName(), MTGGraders.class).getIcon();
