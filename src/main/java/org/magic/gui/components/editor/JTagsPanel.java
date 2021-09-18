@@ -141,8 +141,8 @@ public class JTagsPanel extends JComponent {
 		
 		if(isEditable)
 			for (Component c : getComponents()) {
-				if (c instanceof TagLabel) {
-						c.addMouseListener(new TagMouseListener((TagLabel) c));
+				if (c instanceof TagLabel t) {
+						c.addMouseListener(new TagMouseListener(t));
 				}
 			}
 	}

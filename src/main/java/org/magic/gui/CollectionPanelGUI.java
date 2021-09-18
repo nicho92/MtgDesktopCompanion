@@ -83,8 +83,6 @@ import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.services.workers.WebsiteExportWorker;
 import org.magic.tools.UITools;
 
-import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
-
 
 @SuppressWarnings("rawtypes")
 public class CollectionPanelGUI extends MTGUIComponent {

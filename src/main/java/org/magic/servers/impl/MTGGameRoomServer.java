@@ -78,8 +78,8 @@ public class MTGGameRoomServer extends AbstractMTGServer {
 		@Override
 		public void messageReceived(IoSession session, Object message) throws Exception {
 			logger.info(message);
-			if (message instanceof AbstractNetworkAction) {
-				AbstractNetworkAction act = (AbstractNetworkAction) message;
+			
+			if (message instanceof AbstractNetworkAction act) {
 				switch (act.getAct()) {
 				case REQUEST_PLAY:
 					requestGaming((RequestPlayAction) act);

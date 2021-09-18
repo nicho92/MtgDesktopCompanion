@@ -40,8 +40,8 @@ public class CropImagePanel extends JPanel implements MouseListener, MouseMotion
 	}
 
 	private static BufferedImage toBufferedImage(Image img) {
-		if (img instanceof BufferedImage) {
-			return (BufferedImage) img;
+		if (img instanceof BufferedImage im) {
+			return im;
 		}
 
 		// Create a buffered image with transparency

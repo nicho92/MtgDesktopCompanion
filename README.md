@@ -19,7 +19,7 @@ Personal Magic the Gathering card manager Deck Builder and Collection Editor
 
 # Launch
 ```
- Need to have Java >=15 installed : https://www.oracle.com/technetwork/java/javase/downloads/index.html
+ Need to have Java >=16 installed : https://www.oracle.com/technetwork/java/javase/downloads/index.html
 
  Download and unzip latest release at https://github.com/nicho92/MtgDesktopCompanion/releases
 
