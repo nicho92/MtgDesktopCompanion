@@ -92,7 +92,7 @@ public class LookAndFeelProvider {
 				SubstanceLookAndFeel look = c.getConstructor().newInstance();
 				list.add(new LookAndFeelInfo(look.getID(), c.getName()));
 			} catch (Exception e) {
-				logger.error("Loading " + c, e);
+				logger.error("error for " + c, e);
 			}
 		}
 		

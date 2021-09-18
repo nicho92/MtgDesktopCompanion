@@ -20,7 +20,7 @@ import org.magic.tools.UITools;
 public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 
 	
-	private static final String columns="Quantity,Name,Simple Name,Set,Card Number,Set Code,External ID,Printing,Condition,Language,Rarity,Product ID,SKU,Price,Price Each";
+	private static final String COLUMNS="Quantity,Name,Simple Name,Set,Card Number,Set Code,External ID,Printing,Condition,Language,Rarity,Product ID,SKU,Price,Price Each";
 	
 	
 	@Override
@@ -50,7 +50,7 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 	
 		var temp = new StringBuilder();
 		
-		temp.append(columns).append(System.lineSeparator());
+		temp.append(COLUMNS).append(System.lineSeparator());
 		
 		for(MagicCardStock mcs : stocks)
 		{

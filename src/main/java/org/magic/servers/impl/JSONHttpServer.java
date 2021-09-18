@@ -92,6 +92,7 @@ import spark.route.HttpMethod;
 
 public class JSONHttpServer extends AbstractMTGServer {
 
+	private static final String PROVIDER = ":provider";
 	private static final String COLLECTION = ":collection";
 	private static final String ID_SET = ":idSet";
 	private static final String ENABLE_SSL = "ENABLE_SSL";
@@ -726,16 +727,16 @@ public class JSONHttpServer extends AbstractMTGServer {
 		, transformer);
 
 		get("/track/:provider/:number", URLTools.HEADER_JSON, (request, response) -> 
-			getPlugin(request.params(":provider"),MTGTrackingService.class).track(request.params(":number"))
+			getPlugin(request.params(PROVIDER),MTGTrackingService.class).track(request.params(":number"))
 		, transformer);
 		
 		
 		get("/extShop/:provider/:search", URLTools.HEADER_JSON, (request, response) -> 
-			getPlugin(request.params(":provider"),MTGExternalShop.class).listProducts(request.params(":search"))
+			getPlugin(request.params(PROVIDER),MTGExternalShop.class).listProducts(request.params(":search"))
 		, transformer);
 		
 		get("/extShop/transactions/from/:provider", URLTools.HEADER_JSON, (request, response) -> 
-			getPlugin(request.params(":provider"),MTGExternalShop.class).listTransaction()
+			getPlugin(request.params(PROVIDER),MTGExternalShop.class).listTransaction()
 		, transformer);
 		
 		post("/extShop/transactions/:to/save/:createProduct", URLTools.HEADER_JSON, (request, response) ->{ 
@@ -824,7 +825,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		post("/transaction/paid/:provider", URLTools.HEADER_JSON, (request, response) -> {
 			
 			Transaction t=converter.fromJson(new InputStreamReader(request.raw().getInputStream()), Transaction.class);
-			TransactionService.payingTransaction(t,request.params(":provider"));
+			TransactionService.payingTransaction(t,request.params(PROVIDER));
 			
 			return "ok";
 		}, transformer);

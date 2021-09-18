@@ -20,6 +20,7 @@ import java.nio.file.attribute.FileStoreAttributeView;
 import java.nio.file.spi.FileSystemProvider;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -318,7 +319,7 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 	@Override
 	public Map<String, Object> readAttributes(Path path, String attributes, LinkOption... options) throws IOException {
 		logger.debug("reading " + attributes);
-		return null;
+		return new HashMap<>();
 	}
 
 	@Override

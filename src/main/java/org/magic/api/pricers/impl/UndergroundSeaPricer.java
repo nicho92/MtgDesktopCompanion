@@ -20,6 +20,7 @@ import org.mozilla.javascript.ast.AstNode;
 
 public class UndergroundSeaPricer extends AbstractPricesProvider {
 
+	private static final String PROXYCARDSLIST_HTML = "/proxycardslist.html";
 	private static final String BASE_URL="http://www.usmtgproxy.com/";
 	private String priceToken="price = ";
 	private String editionToken="cardVersion =";
@@ -36,18 +37,18 @@ public class UndergroundSeaPricer extends AbstractPricesProvider {
 	{
 		var month = String.format("%02d",Calendar.getInstance().get(Calendar.MONTH)+1);
 		int year = Calendar.getInstance().get(Calendar.YEAR);
-		String url = BASE_URL + "wp-content/uploads/"+year+"/"+month+"/proxycardslist.html";
+		String url = BASE_URL + "wp-content/uploads/"+year+"/"+month+PROXYCARDSLIST_HTML;
 
 		if(!URLTools.isCorrectConnection(url))
 		{
 			month=String.format("%02d",Calendar.getInstance().get(Calendar.MONTH));
-			url = BASE_URL + "wp-content/uploads/"+year+"/"+month+"/proxycardslist.html";
+			url = BASE_URL + "wp-content/uploads/"+year+"/"+month+PROXYCARDSLIST_HTML;
 		}
 		
 		if(!URLTools.isCorrectConnection(url))
 		{
 			month=String.format("%02d",Calendar.getInstance().get(Calendar.MONTH)-1);
-			url = BASE_URL + "wp-content/uploads/"+year+"/"+month+"/proxycardslist.html";
+			url = BASE_URL + "wp-content/uploads/"+year+"/"+month+PROXYCARDSLIST_HTML;
 		}
 		
 		return url;

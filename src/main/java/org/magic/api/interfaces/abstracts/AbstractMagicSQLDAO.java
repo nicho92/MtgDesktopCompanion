@@ -57,6 +57,7 @@ import com.google.gson.JsonObject;
 
 public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
+	private static final String IF_NOT_EXISTS = "IF NOT EXISTS ";
 	private static final String CREATE_TABLE = "CREATE TABLE ";
 	private static final String EDITION = "edition";
 	protected MTGPool pool;
@@ -238,7 +239,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	
 	protected String notExistSyntaxt()
 	{
-		return "IF NOT EXISTS ";
+		return IF_NOT_EXISTS;
 	}
 	
 	

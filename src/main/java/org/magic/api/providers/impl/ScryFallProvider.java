@@ -41,6 +41,7 @@ import com.google.gson.JsonObject;
 
 public class ScryFallProvider extends AbstractCardsProvider {
 
+	private static final String RELEASED_AT = "released_at";
 	private static final String CMC = "cmc";
 	private static final String GAMES = "games";
 	private static final String LAYOUT = "layout";
@@ -674,10 +675,10 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		if (obj.get("block") != null)
 			ed.setBlock(obj.get("block").getAsString());
 
-		if (obj.get("released_at") != null)
+		if (obj.get(RELEASED_AT) != null)
 		{
-			ed.setReleaseDate(obj.get("released_at").getAsString());
-			ed.setPreview(LocalDate.parse(obj.get("released_at").getAsString(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).isAfter(LocalDate.now()));
+			ed.setReleaseDate(obj.get(RELEASED_AT).getAsString());
+			ed.setPreview(LocalDate.parse(obj.get(RELEASED_AT).getAsString(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).isAfter(LocalDate.now()));
 		}
 
 		notify(ed);

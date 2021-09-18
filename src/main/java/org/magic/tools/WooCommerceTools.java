@@ -161,7 +161,7 @@ public class WooCommerceTools {
 			
 			@Override
 			public Map delete(String endpointBase, int id) {
-				return null;
+				return new HashMap<>();
 			}
 			
 			
