@@ -132,7 +132,7 @@ public class PluginRegistry {
 		registry.put(MTGNotifier.class, new PluginEntry<>(MTGNotifier.class,true,"/notifiers","/notifier", "org.magic.api.notifiers.impl",PLUGINS.NOTIFIER));
 		registry.put(MTGDao.class, new PluginEntry<>(MTGDao.class,false,"/daos","/dao", "org.magic.api.dao.impl",PLUGINS.DAO));
 		registry.put(MTGDashBoard.class, new PluginEntry<>(MTGDashBoard.class,false,"/dashboards","/dashboard", "org.magic.api.dashboard.impl",PLUGINS.DASHBOARD));
-		registry.put(MTGDeckSniffer.class, new PluginEntry<>(MTGDeckSniffer.class,true,"/decksniffer","/sniffer", "org.magic.api.decksniffer.impl",PLUGINS.DECKS));
+		registry.put(MTGDeckSniffer.class, new PluginEntry<>(MTGDeckSniffer.class,true,"/decksniffer","/sniffer", "org.magic.api.decksniffer.impl",PLUGINS.DECKSNIFFER));
 		registry.put(MTGCardsExport.class, new PluginEntry<>(MTGCardsExport.class,true,"/deckexports","/export", "org.magic.api.exports.impl",PLUGINS.EXPORT));
 		registry.put(MTGNewsProvider.class, new PluginEntry<>(MTGNewsProvider.class,true,"/newsProvider","/news", "org.magic.api.news.impl",PLUGINS.NEWS));
 		registry.put(MTGPictureCache.class, new PluginEntry<>(MTGPictureCache.class,false,"/caches","/cache", "org.magic.api.cache.impl",PLUGINS.CACHE));

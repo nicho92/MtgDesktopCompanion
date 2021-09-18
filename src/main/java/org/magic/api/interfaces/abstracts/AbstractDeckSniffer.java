@@ -9,19 +9,13 @@ public abstract class AbstractDeckSniffer extends AbstractMTGPlugin implements M
 	
 	@Override
 	public PLUGINS getType() {
-		return PLUGINS.DECKS;
+		return PLUGINS.DECKSNIFFER;
 	}
 	
 	@Override
 	public void connect() throws IOException {
 		// do nothing by default
 		
-	}
-	
-	
-	@Override
-	protected String getConfigDirectoryName() {
-		return "decksniffers";
 	}
 	
 	protected AbstractMap.SimpleEntry<String,Integer> parseString(String s)

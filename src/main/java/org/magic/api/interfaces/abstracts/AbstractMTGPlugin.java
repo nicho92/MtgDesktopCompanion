@@ -91,7 +91,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 		load();
 		
 
-		confdir = new File(MTGConstants.CONF_DIR, getConfigDirectoryName());
+		confdir = new File(MTGConstants.CONF_DIR, getType().name().toLowerCase());
 		if (!confdir.exists())
 			confdir.mkdir();
 		load();
@@ -102,12 +102,6 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 
 		}
 		
-	}
-
-	@Deprecated
-	protected String getConfigDirectoryName()
-	{
-		return getType().name().toLowerCase()+"s";
 	}
 
 	public String getProperty(String k, String defaultVal) {

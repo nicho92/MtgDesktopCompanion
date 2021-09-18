@@ -13,9 +13,4 @@ public abstract class AbstractMagicNewsProvider extends AbstractMTGPlugin implem
 		return PLUGINS.NEWS;
 	}
 	
-	@Override
-	protected String getConfigDirectoryName() {
-		return "news";
-	}
-
 }

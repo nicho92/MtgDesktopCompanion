@@ -262,7 +262,7 @@ public class URLTools {
 		return extractAsString(new URL(url),MTGConstants.DEFAULT_ENCODING); 
 	}
 	
-	public static BufferedImage extractImage(String uri, int w, int h) throws MalformedURLException, IOException {
+	public static BufferedImage extractImage(String uri, int w, int h) throws IOException {
 		return ImageTools.resize(extractImage(new URL(uri)), h, w);
 	}
 

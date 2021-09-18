@@ -51,12 +51,6 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	}
 	
 	@Override
-	protected String getConfigDirectoryName() {
-		return "cardsProviders";
-	}
-	
-	
-	@Override
 	public MTGQueryBuilder<?> getMTGQueryManager() {
 		var b= new NoneCriteriaBuilder();
 		initBuilder(b);

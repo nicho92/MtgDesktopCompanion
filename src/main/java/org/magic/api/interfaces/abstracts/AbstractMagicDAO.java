@@ -55,11 +55,6 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		return PLUGINS.DAO;
 	}
 	
-	@Override
-	protected String getConfigDirectoryName() {
-		return "dao";
-	}
-
 	
 	@Override
 	public void init(MTGPool pool) throws SQLException {
