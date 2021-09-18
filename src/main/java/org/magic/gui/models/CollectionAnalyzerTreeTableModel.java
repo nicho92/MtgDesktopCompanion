@@ -43,22 +43,22 @@ public class CollectionAnalyzerTreeTableModel extends AbstractTreeTableModel {
 	
 	@Override
 	public Object getValueAt(Object node, int column) {
-		if (node instanceof MagicEdition)
+		if (node instanceof MagicEdition ed)
 		{
 			switch (column) 
 			{
 				case 0:return node;
-				case 1: return total((MagicEdition)node);
+				case 1: return total(ed);
 				default : return "";
 			}
 		}
-		else if(node instanceof CardShake)
+		else if(node instanceof CardShake cs)
 		{
 			
 			switch (column) 
 			{
 				case 0:return node;
-				case 1: return ((CardShake)node).getPrice();
+				case 1: return cs.getPrice();
 				default : return "";
 			}
 		}
