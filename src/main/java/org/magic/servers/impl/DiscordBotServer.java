@@ -108,7 +108,9 @@ public class DiscordBotServer extends AbstractMTGServer {
 		var m = p.matcher(event.getMessage().getContentRaw());
 		if(m.find())
 		{
-			logger.debug("Received message :" + event.getMessage().getContentRaw() + " from " + event.getAuthor().getName()+ " in #" + event.getChannel().getName());
+			logger.debug("Received message :" + event.getMessage().getContentRaw() + " from " + event.getAuthor().getName()+ " in "+event.getGuild().getName()+ "#" + event.getChannel().getName() + " ");
+			
+			
 			
 			var name=m.group(1).trim();
 			
