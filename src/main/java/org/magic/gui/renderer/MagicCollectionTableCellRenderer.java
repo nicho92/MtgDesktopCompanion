@@ -30,9 +30,9 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 		
 		Component pane;
 		
-		if(value instanceof ImageIcon)
+		if(value instanceof ImageIcon ic)
 		{
-			pane=new JLabel((ImageIcon)value);
+			pane=new JLabel(ic);
 			((JLabel)pane).setOpaque(true);
 		}
 		else if(value instanceof Boolean)

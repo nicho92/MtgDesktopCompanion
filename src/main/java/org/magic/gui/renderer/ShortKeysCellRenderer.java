@@ -21,16 +21,14 @@ public class ShortKeysCellRenderer implements TableCellRenderer{
 		var val="";
 		Icon ic = null;
 		
-		if(value instanceof JButton)
+		if(value instanceof JButton b)
 		{
-			var b = (JButton)value;	
 			val=b.getName();
 			ic = b.getIcon();
 		}
 		
-		if(value instanceof MTGUIComponent)
+		if(value instanceof MTGUIComponent b)
 		{
-			var b = (MTGUIComponent)value;	
 			val=b.getTitle();
 			ic = b.getIcon();
 		}

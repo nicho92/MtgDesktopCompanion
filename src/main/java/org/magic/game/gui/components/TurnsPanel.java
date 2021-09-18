@@ -54,8 +54,7 @@ public class TurnsPanel extends JPanel {
 
 	public void disableButtonsTo(JButton b) {
 		for (Component c : getComponents()) {
-			if (c instanceof JButton) {
-				JButton but = (JButton) c;
+			if (c instanceof JButton but) {
 				if (!but.equals(b)) {
 					but.getAction().setEnabled(false);
 				} else {

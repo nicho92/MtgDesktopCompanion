@@ -44,10 +44,9 @@ public class FileDropDecorator
                 {      
                     if( isDragOk(evt ) )
                     {
-                        if( c instanceof JComponent )
+                        if( c instanceof JComponent jc )
                         {  
-                        	JComponent jc = (JComponent) c;
-                            normalBorder = jc.getBorder();
+                        	normalBorder = jc.getBorder();
                             jc.setBorder( BorderFactory.createMatteBorder( 2, 2, 2, 2, defaultBorderColor ) );
                             defaultColor = jc.getBackground();
                         }    
@@ -89,20 +88,18 @@ public class FileDropDecorator
                     }   
                     finally
                     {
-                        if( c instanceof JComponent )
+                        if( c instanceof JComponent jc)
                         {   
-                        	var jc = (JComponent) c;
-                            jc.setBorder( normalBorder );
+                        	jc.setBorder( normalBorder );
                         }
                     } 
                 } 
 
                 public void dragExit( DropTargetEvent evt ) 
                 {   
-                	if( c instanceof JComponent )
+                	if( c instanceof JComponent jc)
                     {   
-                		var jc = (JComponent) c;
-                        jc.setBorder( normalBorder );
+                		jc.setBorder( normalBorder );
                         c.setBackground(defaultColor);
                     }
                 	
@@ -143,9 +140,8 @@ public class FileDropDecorator
         if( c.getParent() != null )
             new DropTarget(c, dropListener);
         
-        if( c instanceof Container )
+        if( c instanceof Container cont)
         {   
-            Container cont = (Container) c;
             for(Component cp : cont.getComponents())
                 makeDropTarget(cp );
         }  
@@ -176,8 +172,9 @@ public class FileDropDecorator
     public static boolean remove( Component c, boolean recursive )
     { 
             c.setDropTarget( null );
-            if( recursive && ( c instanceof Container ) )
-            {   Component[] comps = ((Container)c).getComponents();
+            if( recursive && ( c instanceof Container cont) )
+            {   
+            	Component[] comps = cont.getComponents();
                 for( var i = 0; i < comps.length; i++ )
                     remove( comps[i], recursive );
                 return true;
