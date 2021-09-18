@@ -89,7 +89,7 @@ public abstract class AbstractPricesProvider extends AbstractMTGPlugin implement
 	
 	public List<MagicPrice> getPrice(MagicCard card) throws IOException
 	{
-		return getLocalePrice(card)
+		return new ArrayList<>(getLocalePrice(card)
 								.stream()
 								.map(p->{
 											if(MTGControler.getInstance().getCurrencyService().isEnable()) {
@@ -99,7 +99,7 @@ public abstract class AbstractPricesProvider extends AbstractMTGPlugin implement
 											}
 											return p;
 										}
-								).toList();
+								).toList());
 	}
 	
 	
