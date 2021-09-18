@@ -99,7 +99,7 @@ public class AlertTrendServer extends AbstractMTGServer {
 					notif.setTitle("Alert Trend Cards");
 					notif.setType(MESSAGE_TYPE.INFO);
 					
-					for(String not : getString(NOTIFIER).split(","))
+					for(String not : getArray(NOTIFIER))
 					{
 						if(!not.isEmpty())
 						{

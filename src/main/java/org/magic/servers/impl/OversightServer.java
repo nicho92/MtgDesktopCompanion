@@ -56,7 +56,7 @@ public class OversightServer extends AbstractMTGServer {
 									notif.setTitle("Oversight");
 									notif.setType(MESSAGE_TYPE.INFO);
 									
-					for(String not : getString("NOTIFIER").split(","))
+					for(String not : getArray("NOTIFIER"))
 					{
 						MTGNotifier notifier = getPlugin(not, MTGNotifier.class);
 						notif.setMessage(notifFormater.generate(notifier.getFormat(), ret, CardShake.class));
