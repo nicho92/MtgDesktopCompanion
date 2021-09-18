@@ -91,9 +91,9 @@ public class AdvancedSearchQueryDialog extends JDialog {
 			crits.clear();
 			for(var i = 0 ; i<pContent.getComponentCount();i++)
 			{
-				if(pContent.getComponent(i) instanceof CriteriaComponent)
+				if(pContent.getComponent(i) instanceof CriteriaComponent comp)
 				{
-					crits.add(((CriteriaComponent)pContent.getComponent(i)).getMTGCriteria());
+					crits.add(comp.getMTGCriteria());
 				}
 			}
 			
