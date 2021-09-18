@@ -7,7 +7,6 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
@@ -58,7 +57,7 @@ public class BinderTagsManager {
 	public void setEditions(List<MagicEdition> eds)
 	{
 		clear();
-		addIds(eds.stream().map(MagicEdition::getId).collect(Collectors.toList()));
+		addIds(eds.stream().map(MagicEdition::getId).toList());
 	}
 	
 	

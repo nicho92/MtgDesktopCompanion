@@ -16,9 +16,9 @@ public class NewsTreeCellRenderer implements TreeCellRenderer {
 	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded,boolean isLeaf, int row, boolean focused) {
 		JLabel c = (JLabel)new DefaultTreeCellRenderer().getTreeCellRendererComponent(tree, value, selected, expanded, isLeaf, row, focused);
 
-		if (((DefaultMutableTreeNode) value).getUserObject() instanceof MagicNews) {
+		if (((DefaultMutableTreeNode) value).getUserObject() instanceof MagicNews news) {
 			try {
-				c.setIcon(((MagicNews) ((DefaultMutableTreeNode) value).getUserObject()).getProvider().getIcon());
+				c.setIcon(news.getProvider().getIcon());
 			}
 			catch(Exception e)
 			{

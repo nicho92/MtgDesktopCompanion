@@ -66,8 +66,8 @@ public class DoubleCellEditorRenderer extends AbstractCellEditor implements Tabl
 		Double val ;
 		
 		
-		if(value instanceof Long)
-			val = ((Long)value).doubleValue();
+		if(value instanceof Long l)
+			val = l.doubleValue();
 		else
 			val = (Double)value;
 		

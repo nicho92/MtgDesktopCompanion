@@ -3,7 +3,6 @@ package org.magic.api.externalshop.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.api.cardtrader.modele.Categorie;
 import org.api.cardtrader.services.CardTraderService;
@@ -49,7 +48,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 				
 			return product;
 			
-		}).collect(Collectors.toList());
+		}).toList();
 	}
 
 	private Expansion toExpansion(org.api.cardtrader.modele.Expansion expansion) {
@@ -86,7 +85,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 	@Override
 	public List<Category> listCategories() throws IOException {
 		init();
-		return service.listCategories().stream().map(this::toCategory).collect(Collectors.toList());
+		return service.listCategories().stream().map(this::toCategory).toList();
 	}
 
 	@Override
@@ -109,7 +108,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 			trans.setContact(c);
 		
 			return trans;
-		}).collect(Collectors.toList());
+		}).toList();
 	}
 	
 

@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -129,7 +128,7 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 		try {
 
 			cboCategory.removeAllItems();
-			((DefaultComboBoxModel<Category>)cboCategory.getModel()).addAll(((MTGExternalShop)cboOutput.getSelectedItem()).listCategories().stream().sorted(Comparator.comparing(Category::getCategoryName)).collect(Collectors.toList()));
+			((DefaultComboBoxModel<Category>)cboCategory.getModel()).addAll(((MTGExternalShop)cboOutput.getSelectedItem()).listCategories().stream().sorted(Comparator.comparing(Category::getCategoryName)).toList());
 			
 		} catch (IOException e1) {
 			logger.error(e1);

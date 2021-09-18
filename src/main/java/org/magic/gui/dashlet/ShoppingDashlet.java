@@ -4,7 +4,6 @@ import static org.magic.tools.MTG.getPlugin;
 
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import javax.swing.DefaultListModel;
@@ -66,7 +65,7 @@ public class ShoppingDashlet extends AbstractJDashlet {
 				
 				groupedShoppingPanel.enableControle(!model.isEmpty());
 				
-				groupedShoppingPanel.initListCards(IntStream.range(0,model.size()).mapToObj(model::get).collect(Collectors.toList()));
+				groupedShoppingPanel.initListCards(IntStream.range(0,model.size()).mapToObj(model::get).toList());
 				
 				
 			} catch (Exception e) {

@@ -2,7 +2,6 @@ package org.magic.api.beans.enums;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -34,7 +33,7 @@ public enum MTGFrameEffects{
 
 	public static List<MTGFrameEffects> parseByLabel(List<String> names)
 	{
-		return names.stream().map(MTGFrameEffects::parseByLabel).filter(Objects::nonNull).collect(Collectors.toList());
+		return names.stream().map(MTGFrameEffects::parseByLabel).filter(Objects::nonNull).toList();
 	}
 	
 	public static MTGFrameEffects parseByLabel(String s)

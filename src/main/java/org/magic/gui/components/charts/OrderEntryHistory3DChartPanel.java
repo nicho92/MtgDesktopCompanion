@@ -1,7 +1,6 @@
 package org.magic.gui.components.charts;
 
 import java.util.Date;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.time.DateUtils;
 import org.jfree.data.time.Day;
@@ -20,7 +19,7 @@ public class OrderEntryHistory3DChartPanel extends Abstract2DHistoChart<OrderEnt
 		var data = new TimeSeries("Orders");
 		
 		
-		for(Date d : items.stream().map(OrderEntry::getTransactionDate).sorted().distinct().collect(Collectors.toList()))
+		for(Date d : items.stream().map(OrderEntry::getTransactionDate).sorted().distinct().toList())
 			data.add(new Day(d), items.stream().filter(oe->DateUtils.isSameDay(d,oe.getTransactionDate())).count());
 			
 		dataset.addSeries(data);

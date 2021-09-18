@@ -1,7 +1,6 @@
 package org.magic.tools;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MemoryInfo;
@@ -21,7 +20,7 @@ public class MemoryTools {
 		logger.trace("Analyze " + classe);
 		Multiset<Class<?>> size = GraphLayout.parseInstance(classe).getClassSizes();
 		Multiset<Class<?>> count =GraphLayout.parseInstance(classe).getClassCounts(); 
-		return size.keys().stream().map(c->new MemoryInfo(c, count.count(c), size.count(c))).sorted().collect(Collectors.toList());
+		return size.keys().stream().map(c->new MemoryInfo(c, count.count(c), size.count(c))).sorted().toList();
 	}
 	
 	public static String statsToString(Object classe)

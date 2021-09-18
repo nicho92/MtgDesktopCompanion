@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.swing.Icon;
@@ -62,7 +61,7 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 									stream=stream.filter(MagicPrice::isFoil);
 								
 								
-								List<MagicPrice> res= stream.collect(Collectors.toList());
+								List<MagicPrice> res= stream.toList();
 								alert.getOffers().addAll(res);
 								okz.addAll(res);
 								prov.alertDetected(okz);

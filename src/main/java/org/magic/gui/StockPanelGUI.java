@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.stream.Collectors;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -132,7 +131,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		initGUI();
 
 		btnSave.addActionListener(e ->{
-			List<MagicCardStock> updates = model.getItems().stream().filter(MagicCardStock::isUpdated).collect(Collectors.toList());
+			List<MagicCardStock> updates = model.getItems().stream().filter(MagicCardStock::isUpdated).toList();
 			AbstractObservableWorker<Void, MagicCardStock,MTGDao> sw = new AbstractObservableWorker<>(lblLoading, getEnabledPlugin(MTGDao.class),updates.size())
 			{
 				@Override

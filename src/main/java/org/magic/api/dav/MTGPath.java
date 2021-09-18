@@ -121,9 +121,9 @@ public class MTGPath implements Path {
 		
 		var ret = false;
 		
-		if(other instanceof MTGPath)
+		if(other instanceof MTGPath p)
 		{
-			List<String> l = ((MTGPath)other).getParts();
+			List<String> l = p.getParts();
 			for(var i=0;i<=l.size()-1;i++)
 			{
 				ret = l.get(i).equalsIgnoreCase(parts.get(i));
@@ -139,9 +139,9 @@ public class MTGPath implements Path {
 	public boolean endsWith(Path other) {
 		var ret = false;
 		
-		if(other instanceof MTGPath)
+		if(other instanceof MTGPath p)
 		{
-			List<String> l = ((MTGPath)other).getParts();
+			List<String> l = p.getParts();
 			for(int i=l.size()-1;i>=0;i--)
 			{
 				ret = l.get(i).equalsIgnoreCase(parts.get(i));

@@ -346,14 +346,14 @@ public class UITools {
 					else
 					{
 						l=new JLabel(value.toString());
-						if(value instanceof LookAndFeelInfo)
+						if(value instanceof LookAndFeelInfo lafi)
 						{
-							l=new JLabel(((LookAndFeelInfo)value).getName());
+							l=new JLabel(lafi.getName());
 							l.setIcon(i);
 						}
-						else if (value instanceof QueryAttribute)
+						else if (value instanceof QueryAttribute qa)
 						{
-							l.setIcon(MTGConstants.getIconFor(((QueryAttribute)value).getType()));
+							l.setIcon(MTGConstants.getIconFor((qa.getType())));
 						}
 						else
 						{

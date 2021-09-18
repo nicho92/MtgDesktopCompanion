@@ -404,8 +404,8 @@ public class CollectionPanelGUI extends MTGUIComponent {
 				MagicCollection mc = null;
 				MagicEdition ed = null;
 				
-				if (curr.getUserObject() instanceof MagicEdition) {
-					ed = (MagicEdition) curr.getUserObject();
+				if (curr.getUserObject() instanceof MagicEdition edition) {
+					ed =edition;
 					mc = (MagicCollection) ((DefaultMutableTreeNode) curr.getParent()).getUserObject();
 				} else {
 					mc = (MagicCollection) curr.getUserObject();
@@ -534,7 +534,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 					if (node.getUserObject() instanceof MagicCard) {
 						popupMenuCards.show(e.getComponent(), e.getX(), e.getY());
 					}
-					if (node.getUserObject() instanceof MagicCollection) {
+					if (node.getUserObject() instanceof MagicCollection col) {
 						var p = new JPopupMenu();
 						var it = new JMenuItem(capitalize("MASS_MOVEMENTS"),MTGConstants.ICON_COLLECTION);
 						var itSync = new JMenuItem(capitalize("IMPORT_FROM",MTGControler.getInstance().getLangService().get("STOCK_MODULE")),MTGConstants.ICON_COLLECTION);
@@ -544,7 +544,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 						p.add(itSync);
 
 						it.addActionListener(ae -> {
-							var d = new MassMoverDialog((MagicCollection) node.getUserObject(), null);
+							var d = new MassMoverDialog(col, null);
 							d.setVisible(true);
 							if(d.hasChange())
 								tree.refresh(node);

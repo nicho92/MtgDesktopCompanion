@@ -95,11 +95,11 @@ public class LazyLoadingTree extends JTree {
 			if (obj instanceof String)
 				loadCollection();
 
-			if (obj instanceof MagicCollection)
-				loadEditionFromCollection((MagicCollection) obj);
+			if (obj instanceof MagicCollection col)
+				loadEditionFromCollection(col);
 
-			if (obj instanceof MagicEdition) {
-				loadCardsFromEdition(new MagicCollection(getPath()[1].toString()), (MagicEdition) obj);
+			if (obj instanceof MagicEdition ed) {
+				loadCardsFromEdition(new MagicCollection(getPath()[1].toString()),ed);
 			}
 
 		}

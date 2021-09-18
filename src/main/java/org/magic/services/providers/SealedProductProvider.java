@@ -9,7 +9,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -62,7 +61,7 @@ public class SealedProductProvider {
 	{
 		
 		var ret = new ArrayList<MTGSealedProduct>();
-		listEditions().stream().filter(me->me.getSet().toLowerCase().contains(name.toLowerCase())).collect(Collectors.toList()).forEach(me->ret.addAll(getItemsFor(me)));
+		listEditions().stream().filter(me->me.getSet().toLowerCase().contains(name.toLowerCase())).toList().forEach(me->ret.addAll(getItemsFor(me)));
 		
 		return ret;
 	}
@@ -254,12 +253,12 @@ public class SealedProductProvider {
 
 	public List<MTGSealedProduct> get(MagicEdition me,EnumItems t, String lang, EXTRA extra)
 	{
-		return get(me,t).stream().filter(e->e.getLang().equalsIgnoreCase(lang) && e.getExtra()==extra).collect(Collectors.toList());
+		return get(me,t).stream().filter(e->e.getLang().equalsIgnoreCase(lang) && e.getExtra()==extra).toList();
 	}
 	
 	public List<MTGSealedProduct> get(MagicEdition me,EnumItems t, String lang)
 	{
-		return get(me,t).stream().filter(e->e.getLang().equalsIgnoreCase(lang)).collect(Collectors.toList());
+		return get(me,t).stream().filter(e->e.getLang().equalsIgnoreCase(lang)).toList();
 	}
 	
 	public List<MTGSealedProduct> get(MagicEdition me,EnumItems t, EXTRA extra)
@@ -267,12 +266,12 @@ public class SealedProductProvider {
 		if(extra==null)
 			return get(me,t);
 		
-		return get(me,t).stream().filter(e->e.getExtra()==extra).collect(Collectors.toList());
+		return get(me,t).stream().filter(e->e.getExtra()==extra).toList();
 	}
 	
 	public List<MTGSealedProduct> get(MagicEdition me,EnumItems t)
 	{
-		return getItemsFor(me).stream().filter(e->e.getType()==t).collect(Collectors.toList());
+		return getItemsFor(me).stream().filter(e->e.getType()==t).toList();
 	}
 
 	

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
-import java.util.stream.Collectors;
 
 import org.magic.api.beans.MTGKeyWord.EVENT;
 import org.magic.api.beans.MagicCard;
@@ -136,8 +135,8 @@ public class AbilitiesFactory implements Serializable{
 		
 	}
 
-	public List<AbstractAbilities> getStaticAbilities(MagicCard mc) {
-		return AbstractKeyWordsManager.getInstance().getKeywordsFrom(mc, EVENT.STATIC).stream().map(StaticAbilities::new).collect(Collectors.toList());
+	public List<StaticAbilities> getStaticAbilities(MagicCard mc) {
+		return AbstractKeyWordsManager.getInstance().getKeywordsFrom(mc, EVENT.STATIC).stream().map(StaticAbilities::new).toList();
 	}
 
 	public List<TriggeredAbilities> getTriggeredAbility(MagicCard mc)

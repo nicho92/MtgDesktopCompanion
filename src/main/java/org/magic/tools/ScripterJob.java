@@ -1,7 +1,6 @@
 package org.magic.tools;
 
 import java.io.File;
-import java.util.stream.Collectors;
 
 import javax.script.ScriptException;
 
@@ -39,7 +38,7 @@ public class ScripterJob implements Job {
 		}
 		else
 		{
-			logger.error("No scripter found for "+ name + ". Available ext are : " + PluginRegistry.inst().listEnabledPlugins(MTGScript.class).stream().map(MTGScript::getExtension).collect(Collectors.toList()));
+			logger.error("No scripter found for "+ name + ". Available ext are : " + PluginRegistry.inst().listEnabledPlugins(MTGScript.class).stream().map(MTGScript::getExtension).toList());
 		}
 		
 		

@@ -45,11 +45,9 @@ public class MagicCardsTreeCellRenderer implements TreeCellRenderer {
 	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean isLeaf, int row, boolean focused) {
 		JLabel c = (JLabel)new DefaultTreeCellRenderer().getTreeCellRendererComponent(tree, value, selected, expanded, isLeaf, row, focused);
 		try {
-			if (((DefaultMutableTreeNode) value).getUserObject() instanceof MagicEdition) {
-				MagicEdition ed = (MagicEdition) ((DefaultMutableTreeNode) value).getUserObject();
+			if (((DefaultMutableTreeNode) value).getUserObject() instanceof MagicEdition ed) {
 				c.setIcon(IconSetProvider.getInstance().get16(ed.getId()));
-			} else if (((DefaultMutableTreeNode) value).getUserObject() instanceof MagicCard) {
-				MagicCard mc = (MagicCard) ((DefaultMutableTreeNode) value).getUserObject();
+			} else if (((DefaultMutableTreeNode) value).getUserObject() instanceof MagicCard mc) {
 
 				c.setOpaque(false);
 				c.setIcon(MTGConstants.ICON_MANA_INCOLOR);

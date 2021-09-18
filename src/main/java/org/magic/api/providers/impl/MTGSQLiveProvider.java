@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
@@ -301,15 +300,15 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				
 				var ci = rs.getString(COLOR_IDENTITY);
 				if(ci!=null)
-					mc.setColorIdentity(Arrays.asList(ci.split(",")).stream().map(MTGColor::colorByCode).collect(Collectors.toList()));
+					mc.setColorIdentity(Arrays.asList(ci.split(",")).stream().map(MTGColor::colorByCode).toList());
 
 				ci = rs.getString(COLORS);
 				if(ci!=null)
-					mc.setColors(Arrays.asList(ci.split(",")).stream().map(MTGColor::colorByCode).collect(Collectors.toList()));
+					mc.setColors(Arrays.asList(ci.split(",")).stream().map(MTGColor::colorByCode).toList());
 				
 				ci = rs.getString(COLOR_INDICATOR);
 				if(ci!=null)
-					mc.setColorIndicator(Arrays.asList(ci.split(",")).stream().map(MTGColor::colorByCode).collect(Collectors.toList()));
+					mc.setColorIndicator(Arrays.asList(ci.split(",")).stream().map(MTGColor::colorByCode).toList());
 
 				try {
 					mc.setLoyalty(Integer.parseInt(rs.getString(LOYALTY)));

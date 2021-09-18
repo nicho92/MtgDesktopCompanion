@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.magic.api.beans.MagicFormat.AUTHORIZATION;
 import org.magic.api.beans.enums.MTGColor;
@@ -69,7 +68,7 @@ public class MagicDeck implements Serializable {
 	}
 
 	public List<MagicCard> getUniqueCards() {
-		return getMain().keySet().stream().collect(Collectors.toList());
+		return getMain().keySet().stream().toList();
 	}
 
 	public void remove(MagicCard mc) {
@@ -155,7 +154,7 @@ public class MagicDeck implements Serializable {
 	public boolean isCompatibleFormat(MagicFormat mf) {
 		for (MagicCard mc : mapDeck.keySet()) 
 		{
-			long num = mc.getLegalities().stream().filter(mf::equals).collect(Collectors.toList()).stream().filter(f->f.getFormatLegality()==AUTHORIZATION.LEGAL || f.getFormatLegality()==AUTHORIZATION.RESTRICTED).count();
+			long num = mc.getLegalities().stream().filter(mf::equals).toList().stream().filter(f->f.getFormatLegality()==AUTHORIZATION.LEGAL || f.getFormatLegality()==AUTHORIZATION.RESTRICTED).count();
 			
 			if(num<=0)
 				return false;

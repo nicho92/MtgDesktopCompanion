@@ -15,7 +15,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -416,7 +415,7 @@ public class OrdersGUI extends MTGUIComponent {
 		btnSave.addActionListener(ae->{
 			
 			
-			List<OrderEntry> orders = model.getItems().stream().filter(OrderEntry::isUpdated).collect(Collectors.toList());
+			List<OrderEntry> orders = model.getItems().stream().filter(OrderEntry::isUpdated).toList();
 			
 					AbstractObservableWorker<Void,OrderEntry, MTGDao> sw = new AbstractObservableWorker<>(buzy,getEnabledPlugin(MTGDao.class),orders.size()) {
 		

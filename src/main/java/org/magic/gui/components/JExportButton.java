@@ -6,7 +6,6 @@ import java.awt.Point;
 import java.io.File;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.stream.Collectors;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -78,7 +77,7 @@ public class JExportButton extends JButton {
 						if (result == JFileChooser.APPROVE_OPTION)
 						{
 								lblLoading.start(export.size()); 
-								ThreadManager.getInstance().runInEdt(new CardExportWorker(exp,export.stream().map(MagicCardAlert::getCard).collect(Collectors.toList()), lblLoading, f), "export alerts " + exp);
+								ThreadManager.getInstance().runInEdt(new CardExportWorker(exp,export.stream().map(MagicCardAlert::getCard).toList(), lblLoading, f), "export alerts " + exp);
 						}
 					});
 

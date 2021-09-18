@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.Logger;
@@ -166,7 +165,7 @@ public class TransactionService
 	
 		Map<MagicCardStock, Integer> items = new HashMap<>() ;
 		for(var t : getEnabledPlugin(MTGDao.class).listTransactions())
-			for(var m : t.getItems().stream().filter(msi->msi.getTypeStock()==EnumItems.CARD).collect(Collectors.toList()))
+			for(var m : t.getItems().stream().filter(msi->msi.getTypeStock()==EnumItems.CARD).toList())
 				items.put((MagicCardStock)m, items.getOrDefault(m, 0)+m.getQte());
 
 		int max = Collections.max(items.values());

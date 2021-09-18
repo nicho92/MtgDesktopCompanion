@@ -10,7 +10,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.NavigableMap;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.api.mkm.tools.MkmConstants;
@@ -403,22 +402,22 @@ class Data
 	
 	public List<PriceEntry> listPricesByVendor(VENDOR v)
 	{
-		return getPrices().stream().filter(p->p.getVendor()==v).collect(Collectors.toList());
+		return getPrices().stream().filter(p->p.getVendor()==v).toList();
 	}
 	
 	public List<PriceEntry> listPricesBySupport(SUPPORT v)
 	{
-		return getPrices().stream().filter(p->p.getSupport()==v).collect(Collectors.toList());
+		return getPrices().stream().filter(p->p.getSupport()==v).toList();
 	}
 	
 	public List<PriceEntry> listPricesByStock(STOCK v)
 	{
-		return getPrices().stream().filter(p->p.getStock()==v).collect(Collectors.toList());
+		return getPrices().stream().filter(p->p.getStock()==v).toList();
 	}
 	
 	public List<PriceEntry> listPricesByFoil(Boolean v)
 	{
-		return getPrices().stream().filter(p->p.isFoil()==v).collect(Collectors.toList());
+		return getPrices().stream().filter(p->p.isFoil()==v).toList();
 	}
 	
 	@Override

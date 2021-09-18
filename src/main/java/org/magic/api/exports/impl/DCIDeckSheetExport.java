@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.stream.Collectors;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -126,13 +125,13 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 			
 			// MAIN DECK
 			var count = 0;
-			for (Entry<MagicCard, Integer> e : deck.getMain().entrySet().stream().filter(e->!e.getKey().isBasicLand()).collect(Collectors.toList())) {
+			for (Entry<MagicCard, Integer> e : deck.getMain().entrySet().stream().filter(e->!e.getKey().isBasicLand()).toList()) {
 				docDest.add(createParagraphe(e.getValue() + space + e.getKey().getName(),w/6.4f,h-240-count));
 				count += 18;
 				notify(e.getKey());
 			}
 			count = 0;
-			for (Entry<MagicCard, Integer> e : deck.getMain().entrySet().stream().filter(e->e.getKey().isBasicLand()).collect(Collectors.toList())) {
+			for (Entry<MagicCard, Integer> e : deck.getMain().entrySet().stream().filter(e->e.getKey().isBasicLand()).toList()) {
 					docDest.add(createParagraphe(e.getValue() + space + e.getKey().getName(),w/1.65f,h-240-count));
 					count += 18;
 				notify(e.getKey());

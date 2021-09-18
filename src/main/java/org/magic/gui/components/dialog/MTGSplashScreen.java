@@ -36,13 +36,12 @@ public class MTGSplashScreen extends JWindow implements Observer {
 
 			@Override
 			protected void paintComponent(Graphics g) {
-				if (g instanceof Graphics2D) {
+				if (g instanceof Graphics2D g2d) {
 					final var R = 240;
 					final var G = 240;
 					final var B = 240;
 					Paint p = new GradientPaint(0.0f, 0.0f, new Color(R, G, B, 0), 0.0f, getHeight(),
 							new Color(R, G, B, 0), true);
-					var g2d = (Graphics2D) g;
 					g2d.setPaint(p);
 					g2d.fillRect(0, 0, getWidth(), getHeight());
 				}

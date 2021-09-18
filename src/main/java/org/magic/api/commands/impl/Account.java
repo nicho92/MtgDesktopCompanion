@@ -3,7 +3,6 @@ package org.magic.api.commands.impl;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.ParseException;
@@ -33,7 +32,7 @@ public class Account extends AbstractCommand {
 		
 		CommandLine cl = parser.parse(opts, args);
 		if (cl.hasOption("l")) {
-			return new TextResponse(AccountsManager.inst().listAvailablePlugins().stream().map(MTGPlugin::getName).collect(Collectors.toList()).toString());
+			return new TextResponse(AccountsManager.inst().listAvailablePlugins().stream().map(MTGPlugin::getName).toList().toString());
 		}
 		
 		if (cl.hasOption("a")) {

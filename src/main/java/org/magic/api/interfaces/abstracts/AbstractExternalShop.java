@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.api.mkm.modele.Category;
 import org.api.mkm.modele.Localization;
@@ -31,7 +30,7 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 	public List<ConverterItem> getOutputRefs(String lang, String sourceName, int idSource)
 	{
 		try {
-			return MTG.getEnabledPlugin(MTGDao.class).listConversionItems().stream().filter(p->(p.getSource().equalsIgnoreCase(sourceName) && p.getLang().equalsIgnoreCase(lang) && p.getInputId()==idSource)).collect(Collectors.toList());
+			return MTG.getEnabledPlugin(MTGDao.class).listConversionItems().stream().filter(p->(p.getSource().equalsIgnoreCase(sourceName) && p.getLang().equalsIgnoreCase(lang) && p.getInputId()==idSource)).toList();
 		} catch (SQLException e) {
 			logger.error(e);
 			return new ArrayList<>();

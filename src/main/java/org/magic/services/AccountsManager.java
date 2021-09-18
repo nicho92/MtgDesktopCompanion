@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.AccountAuthenticator;
@@ -78,7 +77,7 @@ public class AccountsManager {
 	
 	public List<MTGPlugin> listAvailablePlugins()
 	{
-		return PluginRegistry.inst().listPlugins().stream().filter(p->!p.listAuthenticationAttributes().isEmpty()).sorted().distinct().collect(Collectors.toList());
+		return PluginRegistry.inst().listPlugins().stream().filter(p->!p.listAuthenticationAttributes().isEmpty()).sorted().distinct().toList();
 	}
 	
 	public void saveConfig()

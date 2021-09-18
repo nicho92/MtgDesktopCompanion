@@ -2,7 +2,6 @@ package org.magic.api.beans.enums;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -40,7 +39,7 @@ public enum MTGLayout{
 
 	public static List<MTGLayout> parseByLabel(List<String> names)
 	{
-		return names.stream().map(MTGLayout::parseByLabel).filter(Objects::nonNull).collect(Collectors.toList());
+		return names.stream().map(MTGLayout::parseByLabel).filter(Objects::nonNull).toList();
 	}
 	
 	public static MTGLayout parseByLabel(String s)

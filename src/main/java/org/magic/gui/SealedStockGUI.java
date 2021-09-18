@@ -9,7 +9,6 @@ import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -241,7 +240,7 @@ public class SealedStockGUI extends MTGUIComponent {
 		
 		
 		buttonSave.addActionListener(el->{
-				var list = model.getItems().stream().filter(SealedStock::isUpdated).collect(Collectors.toList());
+				var list = model.getItems().stream().filter(SealedStock::isUpdated).toList();
 				
 				AbstractObservableWorker<Void, SealedStock, MTGDao> sw = new AbstractObservableWorker<Void, SealedStock, MTGDao>(buzy,getEnabledPlugin(MTGDao.class),list.size()) {
 					@Override

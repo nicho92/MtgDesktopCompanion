@@ -3,7 +3,6 @@ package org.magic.api.exports.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang.NotImplementedException;
 import org.magic.api.beans.MagicCardStock;
@@ -61,7 +60,7 @@ public class WebCamImport extends AbstractCardExport {
 			MagicCardStock st = MTGControler.getInstance().getDefaultStock();
 			st.setProduct(card);
 			return st;
-		}).collect(Collectors.toList());
+		}).toList();
 	}
 	
 

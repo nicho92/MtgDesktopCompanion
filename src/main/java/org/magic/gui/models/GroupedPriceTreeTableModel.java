@@ -92,8 +92,7 @@ public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 				return "";
 			}
 		} 
-		else if (node instanceof MagicPrice) {
-			MagicPrice emp = (MagicPrice) node;
+		else if (node instanceof MagicPrice emp) {
 			switch (column) {
 			case 0:
 				return emp;

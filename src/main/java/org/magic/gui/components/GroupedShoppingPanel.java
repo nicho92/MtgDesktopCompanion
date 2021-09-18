@@ -7,7 +7,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -46,7 +45,7 @@ public class GroupedShoppingPanel extends MTGUIComponent {
 		
 	
 	public void initList(List<MagicCardAlert> d) {
-		this.cards = d.stream().map(MagicCardAlert::getCard).collect(Collectors.toList());
+		this.cards = d.stream().map(MagicCardAlert::getCard).toList();
 		
 		lblitems.setText(capitalize("X_ITEMS_IMPORTED",cards.size()));
 		enableControle(true);
@@ -111,9 +110,9 @@ public class GroupedShoppingPanel extends MTGUIComponent {
 					 
 					Object o = UITools.getTableSelection(tree, 0);
 					
-					if(o instanceof MagicPrice)
+					if(o instanceof MagicPrice mp)
 					{
-						UITools.browse(((MagicPrice)o).getSellerUrl());
+						UITools.browse(mp.getSellerUrl());
 					}
 					 
 					 

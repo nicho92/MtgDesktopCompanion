@@ -6,7 +6,6 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.stream.Collectors;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -104,7 +103,7 @@ public class URLToolsClient {
 
 	
 	public String doPut(String url, Map<String, String> entities, Map<String, String> headers) throws IOException {
-		return doPut(url,new UrlEncodedFormEntity(entities.entrySet().stream().map(e-> new BasicNameValuePair(e.getKey(), e.getValue())).collect(Collectors.toList())),headers);
+		return doPut(url,new UrlEncodedFormEntity(entities.entrySet().stream().map(e-> new BasicNameValuePair(e.getKey(), e.getValue())).toList()),headers);
 	}
 
 	public String doPut(String string, HttpEntity entities, Map<String, String> headers) throws IOException {
@@ -125,7 +124,7 @@ public class URLToolsClient {
 	
 	public String doPost(String url, Map<String,String> entities, Map<String,String> headers) throws IOException
 	{
-		return doPost(url,new UrlEncodedFormEntity(entities.entrySet().stream().map(e-> new BasicNameValuePair(e.getKey(), e.getValue())).collect(Collectors.toList())),headers);
+		return doPost(url,new UrlEncodedFormEntity(entities.entrySet().stream().map(e-> new BasicNameValuePair(e.getKey(), e.getValue())).toList()),headers);
 	}
 
 	

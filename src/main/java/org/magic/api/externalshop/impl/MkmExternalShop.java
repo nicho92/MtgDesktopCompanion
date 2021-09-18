@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.api.mkm.exceptions.MkmException;
 import org.api.mkm.modele.Category;
@@ -59,7 +58,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 			var serv = new OrderService();
 			
 			for(String t: getArray("STATE"))
-				ret.addAll(serv.listOrders(ACTOR.valueOf(getString("ACTOR")),STATE.valueOf(t),1).stream().map(this::toTransaction).collect(Collectors.toList()));
+				ret.addAll(serv.listOrders(ACTOR.valueOf(getString("ACTOR")),STATE.valueOf(t),1).stream().map(this::toTransaction).toList());
 			
 			return ret;
 		} catch (IOException e) {

@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.stream.Collectors;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -287,7 +286,7 @@ public class AlarmGUI extends MTGUIComponent {
 										
 										if(alert.isFoil())
 										{
-											prices.addAll(p.getPrice(alert.getCard()).stream().filter(MagicPrice::isFoil).collect(Collectors.toList()));
+											prices.addAll(p.getPrice(alert.getCard()).stream().filter(MagicPrice::isFoil).toList());
 										}
 										else
 										{

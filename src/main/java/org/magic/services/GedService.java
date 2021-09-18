@@ -9,7 +9,6 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.SerializationUtils;
@@ -75,7 +74,7 @@ public class GedService {
 	{
 		try (Stream<Path> s = Files.list(getFileSystem().getPath(dir)))
 		{
-			return s.collect(Collectors.toList());
+			return s.toList();
 		} catch (IOException e) {
 			return new ArrayList<>();
 		}

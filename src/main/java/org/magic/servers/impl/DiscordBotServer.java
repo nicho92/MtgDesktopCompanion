@@ -18,7 +18,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -200,7 +199,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 			String ed=name.substring(name.indexOf('|')+1,name.length()).toUpperCase().trim();
 			try {
 				EditionsShakers  eds = MTG.getEnabledPlugin(MTGDashBoard.class).getShakesForEdition(new MagicEdition(ed));
-				var chks = eds.getShakes().stream().filter(cs->cs.getPriceDayChange()!=0).collect(Collectors.toList());
+				var chks = eds.getShakes().stream().filter(cs->cs.getPriceDayChange()!=0).toList();
 				Collections.sort(chks, new PricesCardsShakeSorter(SORT.DAY_PERCENT_CHANGE,false));		
 				
 				var res =  StringUtils.substring(notifFormater.generate(FORMAT_NOTIFICATION.MARKDOWN, chks.subList(0, getInt(RESULTS_SHAKES)),CardShake.class),0,MTGConstants.DISCORD_MAX_CHARACTER);
@@ -376,7 +375,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 					
 					try {
 						if(prices!=null && !prices.isEmpty()) {
-							prices = prices.stream().filter(MagicPrice::isFoil).collect(Collectors.toList());
+							prices = prices.stream().filter(MagicPrice::isFoil).toList();
 							Collections.sort(prices, new MagicPricesComparator());
 							if(prices!=null && !prices.isEmpty())
 								eb.addField(prov.getName() +" foil",UITools.formatDouble(prices.get(0).getValue())+" "+prices.get(0).getCurrency().getCurrencyCode(),true);

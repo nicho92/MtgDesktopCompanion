@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.stream.Collectors;
 
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultRowSorter;
@@ -447,7 +446,7 @@ public class CardSearchPanel extends MTGUIComponent {
 										logger.error("error sql for " + mc +" : " + e);
 										return false;
 									}
-								}).collect(Collectors.toList());
+								}).toList();
 							}
 						}
 

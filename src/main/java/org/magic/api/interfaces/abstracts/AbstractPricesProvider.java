@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
@@ -100,7 +99,7 @@ public abstract class AbstractPricesProvider extends AbstractMTGPlugin implement
 											}
 											return p;
 										}
-								).collect(Collectors.toList());
+								).toList();
 	}
 	
 	

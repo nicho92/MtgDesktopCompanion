@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Properties;
-import java.util.stream.Collectors;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
@@ -119,7 +118,7 @@ public class DashBoardGUI2 extends MTGUIComponent {
 			dashs.stream().map(AbstractJDashlet::getCategory).distinct().forEach(n->{
 				var mntmCategory = new JMenu(n);
 				
-				for (AbstractJDashlet dash : dashs.stream().filter(d->d.getCategory().equalsIgnoreCase(n)).collect(Collectors.toList()))
+				for (AbstractJDashlet dash : dashs.stream().filter(d->d.getCategory().equalsIgnoreCase(n)).toList())
 				{
 					var mntmNewMenuItem = new JMenuItem(dash.getName(),dash.getIcon());
 						mntmNewMenuItem.addActionListener(e -> {

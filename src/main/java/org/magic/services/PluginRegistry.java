@@ -11,7 +11,6 @@ import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 
 import org.apache.commons.configuration2.XMLConfiguration;
 import org.apache.commons.lang3.ClassUtils;
@@ -206,7 +205,7 @@ public class PluginRegistry {
 				entry.getPlugins().add(prov);
 			}
 		}
-		return entry.getPlugins().stream().collect(Collectors.toList());
+		return entry.getPlugins().stream().toList();
 	}
 	
 	public boolean needUpdate()
@@ -290,7 +289,7 @@ public class PluginRegistry {
 	
 
 	public <T extends MTGPlugin> List<T> listEnabledPlugins(Class<T> t) {
-		return listPlugins(t).stream().filter(MTGPlugin::isEnable).sorted().collect(Collectors.toList());
+		return listPlugins(t).stream().filter(MTGPlugin::isEnable).sorted().toList();
 	}
 	
 	public <T extends MTGPlugin> T getEnabledPlugins(Class<T> t) {

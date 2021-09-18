@@ -36,8 +36,8 @@ public class CardShakeTreeCellRenderer implements TreeCellRenderer, TableCellRen
 	@Override
 	public Component getTreeCellRendererComponent(JTree tree,Object value,boolean selected,boolean expanded,boolean leaf,int row,boolean hasFocus) {
 		
-		if(value instanceof MagicEdition)
-			return new MagicEditionIconListRenderer(SIZE.SMALL).getListCellRendererComponent(defaultJlist, (MagicEdition) value, 0, selected, hasFocus);
+		if(value instanceof MagicEdition ed)
+			return new MagicEditionIconListRenderer(SIZE.SMALL).getListCellRendererComponent(defaultJlist,ed, 0, selected, hasFocus);
 		
 		if(value instanceof CardShake)
 		{

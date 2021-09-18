@@ -86,17 +86,17 @@ public class PluginTreeTableModel<T extends MTGPlugin> extends AbstractTreeTable
 				
 			}
 		}
-		if (node instanceof Entry && (column == 1)) {
-			String k = (String) ((Entry) node).getKey();
+		if (node instanceof Entry e && (column == 1)) {
+			String k = (String) e.getKey();
 			selectedProvider.setProperty(k, strValue);
-			((Entry) node).setValue(strValue);
+			e.setValue(strValue);
 		}
 	}
 
 	@Override
 	public Object getValueAt(Object node, int column) {
-		if (node instanceof MTGPlugin) {
-			MTGPlugin prov = (MTGPlugin) node;
+		if (node instanceof MTGPlugin prov) {
+			
 			switch (column) {
 			case 0:
 				return prov;

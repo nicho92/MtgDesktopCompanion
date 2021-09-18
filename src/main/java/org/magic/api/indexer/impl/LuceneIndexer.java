@@ -11,7 +11,6 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.lucene.analysis.Analyzer;
@@ -111,7 +110,7 @@ public Map<String, String> getDefaultAttributes() {
 				query.append("*");
 		}
 		
-		return search(query.toString().trim()).stream().map(MagicCard::getFullName).distinct().collect(Collectors.toList());
+		return search(query.toString().trim()).stream().map(MagicCard::getFullName).distinct().toList();
 	}
 	
 	@Override

@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.Callable;
-import java.util.stream.Collectors;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -483,7 +482,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 	
 				@Override
 				public List<SealedStock> call() throws Exception {
-					return getEnabledPlugin(MTGDao.class).listSealedStocks().stream().filter(ss->ss.getMagicCollection().getName().equalsIgnoreCase(request.params(COLLECTION))).collect(Collectors.toList());
+					return getEnabledPlugin(MTGDao.class).listSealedStocks().stream().filter(ss->ss.getMagicCollection().getName().equalsIgnoreCase(request.params(COLLECTION))).toList();
 				}
 			})
 			, transformer);
@@ -493,7 +492,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		 getCached(request.pathInfo(), new Callable<Object>() {
 			@Override
 			public List<MagicEdition> call() throws Exception {
-				return getEnabledPlugin(MTGDao.class).listSealedStocks().stream().filter(ss->ss.getMagicCollection().getName().equalsIgnoreCase(request.params(COLLECTION))).map(SealedStock::getEdition).distinct().sorted().collect(Collectors.toList());
+				return getEnabledPlugin(MTGDao.class).listSealedStocks().stream().filter(ss->ss.getMagicCollection().getName().equalsIgnoreCase(request.params(COLLECTION))).map(SealedStock::getEdition).distinct().sorted().toList();
 			}
 		})
 		 , transformer);
@@ -539,7 +538,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			 getCached(request.pathInfo(), new Callable<Object>() {
 				@Override
 				public List<MagicEdition> call() throws Exception {
-					return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(COLLECTION)))).stream().map(MagicCardStock::getEdition).distinct().sorted().collect(Collectors.toList());
+					return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(COLLECTION)))).stream().map(MagicCardStock::getEdition).distinct().sorted().toList();
 				}
 			})
 		, transformer);
@@ -549,7 +548,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			getCached(request.pathInfo(), new Callable<Object>() {
 				@Override
 				public List<MagicCardStock> call() throws Exception {
-					return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(COLLECTION)))).stream().filter(mcs->mcs.getEdition().getId().equalsIgnoreCase(request.params(ID_SET))).collect(Collectors.toList());
+					return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(COLLECTION)))).stream().filter(mcs->mcs.getEdition().getId().equalsIgnoreCase(request.params(ID_SET))).toList();
 				}
 			})
 		, transformer);

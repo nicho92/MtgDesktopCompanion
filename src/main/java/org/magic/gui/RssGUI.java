@@ -148,14 +148,13 @@ public class RssGUI extends MTGUIComponent {
 			var path = tse.getPath();
 			curr = (DefaultMutableTreeNode) path.getLastPathComponent();
 
-			if (curr.getUserObject() instanceof MagicNews)
+			if (curr.getUserObject() instanceof MagicNews n)
 			{	
 				SwingWorker<List<MagicNewsContent>, MagicNews> sw = new SwingWorker<>()
 				{
 
 					@Override
 					protected List<MagicNewsContent> doInBackground() throws Exception {
-						MagicNews n = (MagicNews) curr.getUserObject();
 						return n.getProvider().listNews(n);
 					}
 

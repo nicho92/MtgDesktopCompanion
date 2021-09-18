@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.api.mtgstock.modele.CardSet;
 import org.api.mtgstock.modele.FullPrint;
@@ -81,14 +80,14 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 
 		switch(packaging.getType())
 		{
-			case BOOSTER: ret.addAll(products.stream().filter(SealedProduct::isBooster).collect(Collectors.toList())); break;
-			case BOX: 	  ret.addAll(products.stream().filter(cs->cs.isBox() && !cs.isCase()).collect(Collectors.toList())); break;
-			case BUNDLE:  ret.addAll(products.stream().filter(SealedProduct::isBundle).collect(Collectors.toList())); break;
-			case FATPACK: ret.addAll(products.stream().filter(SealedProduct::isFatPack).collect(Collectors.toList())); break;
-			case STARTER: ret.addAll(products.stream().filter(SealedProduct::isStarter).collect(Collectors.toList())); break;
-			case PRERELEASEPACK:ret.addAll(products.stream().filter(SealedProduct::isPrerelease).collect(Collectors.toList())); break;
-			case CONSTRUCTPACK:ret.addAll(products.stream().filter(sp-> sp.isIntroPack()|| sp.isPlaneswalkerDeck()).collect(Collectors.toList())); break;
-			case CHALLENGERDECK : ret.addAll(products.stream().filter(SealedProduct::isChallengerDeck).collect(Collectors.toList())); break;
+			case BOOSTER: ret.addAll(products.stream().filter(SealedProduct::isBooster).toList()); break;
+			case BOX: 	  ret.addAll(products.stream().filter(cs->cs.isBox() && !cs.isCase()).toList()); break;
+			case BUNDLE:  ret.addAll(products.stream().filter(SealedProduct::isBundle).toList()); break;
+			case FATPACK: ret.addAll(products.stream().filter(SealedProduct::isFatPack).toList()); break;
+			case STARTER: ret.addAll(products.stream().filter(SealedProduct::isStarter).toList()); break;
+			case PRERELEASEPACK:ret.addAll(products.stream().filter(SealedProduct::isPrerelease).toList()); break;
+			case CONSTRUCTPACK:ret.addAll(products.stream().filter(sp-> sp.isIntroPack()|| sp.isPlaneswalkerDeck()).toList()); break;
+			case CHALLENGERDECK : ret.addAll(products.stream().filter(SealedProduct::isChallengerDeck).toList()); break;
 			default:break;
 		}
 		

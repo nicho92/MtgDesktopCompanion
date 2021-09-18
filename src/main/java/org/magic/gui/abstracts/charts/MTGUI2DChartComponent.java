@@ -2,8 +2,6 @@ package org.magic.gui.abstracts.charts;
 
 import java.awt.BorderLayout;
 
-import javax.swing.JScrollPane;
-
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.Dataset;

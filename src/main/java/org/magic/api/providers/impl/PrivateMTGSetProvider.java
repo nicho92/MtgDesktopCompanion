@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -256,7 +255,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		try {
 				Set<String> keys = BeanUtils.describe(new MagicCard()).keySet();
 				
-				return keys.stream().map(k->new QueryAttribute(k,String.class)).collect(Collectors.toList());
+				return keys.stream().map(k->new QueryAttribute(k,String.class)).toList();
 			} catch (Exception e) {
 			logger.error(e);
 			return new ArrayList<>();

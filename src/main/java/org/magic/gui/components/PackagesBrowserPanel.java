@@ -103,8 +103,8 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 		tree.addTreeSelectionListener(e-> {
 				DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
 				
-				if(selectedNode!=null && (selectedNode.getUserObject() instanceof MTGSealedProduct))
-					load((MTGSealedProduct)selectedNode.getUserObject());
+				if(selectedNode!=null && (selectedNode.getUserObject() instanceof MTGSealedProduct msp))
+					load(msp);
 			});
 	}
 	

@@ -11,7 +11,6 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
-import java.util.stream.Collectors;
 
 import javax.swing.DefaultRowSorter;
 import javax.swing.JPanel;
@@ -139,7 +138,7 @@ public class PricesTablePanel extends JPanel {
 								List<MagicPrice> l = prov.getPrice(currentCard);
 								
 								if(foilOnly)
-									l = l.stream().filter(MagicPrice::isFoil).collect(Collectors.toList());
+									l = l.stream().filter(MagicPrice::isFoil).toList();
 								
 								
 								publish(l.toArray(new MagicPrice[l.size()]));

@@ -3,7 +3,6 @@ package org.magic.services.keywords;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MTGKeyWord.TYPE;
@@ -44,19 +43,19 @@ public class MTGJsonKeyWordsProvider extends AbstractKeyWordsManager {
 
 	@Override
 	public List<MTGKeyWord> getWordsAbilities() {
-		return getList().stream().filter(p->p.getType()==TYPE.WORD).collect(Collectors.toList());
+		return getList().stream().filter(p->p.getType()==TYPE.WORD).toList();
 	}
 	
 
 	@Override
 	public List<MTGKeyWord> getStaticsAbilities() {
-		return getList().stream().filter(p->p.getType()==TYPE.WORD).collect(Collectors.toList());
+		return getList().stream().filter(p->p.getType()==TYPE.WORD).toList();
 	}
 
 
 	@Override
 	public List<MTGKeyWord> getActivatedAbilities() {
-		return getList().stream().filter(p->p.getType()==TYPE.ABILITIES).collect(Collectors.toList());
+		return getList().stream().filter(p->p.getType()==TYPE.ABILITIES).toList();
 	}
 
 
@@ -68,7 +67,7 @@ public class MTGJsonKeyWordsProvider extends AbstractKeyWordsManager {
 
 	@Override
 	public List<MTGKeyWord> getKeywordActions() {
-		return getList().stream().filter(p->p.getType()==TYPE.ACTION).collect(Collectors.toList());
+		return getList().stream().filter(p->p.getType()==TYPE.ACTION).toList();
 	}
 
 	

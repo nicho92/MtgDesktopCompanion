@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.magic.api.beans.Contact;
 import org.magic.api.beans.MagicCard;
@@ -92,12 +91,12 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	
 	@Override
 	public List<MagicCardStock> listStocks(List<MagicCollection> cols) throws SQLException {
-		return listStocks().stream().filter(st->cols.contains(st.getMagicCollection())).collect(Collectors.toList());
+		return listStocks().stream().filter(st->cols.contains(st.getMagicCollection())).toList();
 	}
 	
 	@Override
 	public List<MagicCardStock> listStocks(String cardName, List<MagicCollection> cols) throws SQLException {
-		return listStocks(cols).stream().filter(st->st.getProduct().getName().equalsIgnoreCase(cardName)).collect(Collectors.toList());
+		return listStocks(cols).stream().filter(st->st.getProduct().getName().equalsIgnoreCase(cardName)).toList();
 	}
 	
 	@Override
@@ -133,12 +132,12 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	
 	@Override
 	public List<SealedStock> listSealedStocks(MagicCollection c) throws SQLException {
-		return listSealedStocks().stream().filter(ss->ss.getMagicCollection().getName().equalsIgnoreCase(c.getName())).collect(Collectors.toList());
+		return listSealedStocks().stream().filter(ss->ss.getMagicCollection().getName().equalsIgnoreCase(c.getName())).toList();
 	}
 	
 	@Override
 	public List<SealedStock> listSealedStocks(MagicCollection c, MagicEdition ed) throws SQLException {
-		return listSealedStocks().stream().filter(ss->ss.getMagicCollection().getName().equalsIgnoreCase(c.getName())&& ss.getEdition().getId().equalsIgnoreCase(ed.getId())).collect(Collectors.toList());
+		return listSealedStocks().stream().filter(ss->ss.getMagicCollection().getName().equalsIgnoreCase(c.getName())&& ss.getEdition().getId().equalsIgnoreCase(ed.getId())).toList();
 	}
 	
 	@Override
@@ -169,9 +168,9 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	public List<OrderEntry> listOrdersByDescription(String desc, boolean strict) {
 				
 		if(strict)
-			return listOrders().stream().filter(o->o.getDescription().equalsIgnoreCase(desc)).collect(Collectors.toList());
+			return listOrders().stream().filter(o->o.getDescription().equalsIgnoreCase(desc)).toList();
 		else
-			return listOrders().stream().filter(o->o.getDescription().contains(desc)).collect(Collectors.toList());
+			return listOrders().stream().filter(o->o.getDescription().contains(desc)).toList();
 		
 	}
 	
@@ -185,7 +184,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	
 	@Override
 	public List<MagicCardStock> listStocks(MagicCard mc) throws SQLException {
-		return listStocks().stream().filter(st->st.getProduct().getName().equals(mc.getName())).collect(Collectors.toList());
+		return listStocks().stream().filter(st->st.getProduct().getName().equals(mc.getName())).toList();
 	}
 		
 	@Override
@@ -319,7 +318,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 				  .filter(st->st.getMagicCollection().equals(col))
 				  .filter(st->!cols.contains(st.getProduct()))
 				  .map(MagicCardStock::getProduct)
-				  .collect(Collectors.toList());
+				  .toList();
 		
 		List<MagicCard> ret = new ArrayList<>();
 		
@@ -339,12 +338,12 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	
 	public List<OrderEntry> listOrderForEdition(MagicEdition ed) 
 	{
-		return listOrders().stream().filter(o->o.getEdition()!=null && o.getEdition().equals(ed)).collect(Collectors.toList());
+		return listOrders().stream().filter(o->o.getEdition()!=null && o.getEdition().equals(ed)).toList();
 	}
 	
 	@Override
 	public List<OrderEntry> listOrdersAt(Date d) {
-		return listOrders().stream().filter(o->o.getTransactionDate().equals(d)).collect(Collectors.toList());
+		return listOrders().stream().filter(o->o.getTransactionDate().equals(d)).toList();
 		
 	}
 	

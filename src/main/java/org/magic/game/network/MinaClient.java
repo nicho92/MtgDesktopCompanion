@@ -34,8 +34,8 @@ public class MinaClient  extends Observable implements MTGNetworkClient {
 		@Override
 		public void messageReceived(IoSession session, Object m) throws Exception {
 
-			if (m instanceof Long) {
-				p.setId((Long) m); // get id from server.
+			if (m instanceof Long l) {
+				p.setId(l); // get id from server.
 			} else {
 				setChanged();
 				notifyObservers(m);

@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -97,12 +96,12 @@ public enum MTGColor implements Comparator<MTGColor>{
 	
 	public static List<MTGColor> parseByLabel(List<String> names)
 	{
-		return names.stream().map(MTGColor::colorByName).filter(Objects::nonNull).collect(Collectors.toList());
+		return names.stream().map(MTGColor::colorByName).filter(Objects::nonNull).toList();
 	}
 	
 	public static List<MTGColor> parseByCode(List<String> codes)
 	{
-		return codes.stream().map(MTGColor::colorByCode).filter(Objects::nonNull).collect(Collectors.toList());
+		return codes.stream().map(MTGColor::colorByCode).filter(Objects::nonNull).toList();
 	}
 
 

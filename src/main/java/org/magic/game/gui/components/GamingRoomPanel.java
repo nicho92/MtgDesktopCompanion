@@ -83,20 +83,16 @@ public class GamingRoomPanel extends JPanel {
 
 		@Override
 		public void update(Observable o, Object arg) {
-			if (arg instanceof ShareDeckAction) {
-				ShareDeckAction lpa = (ShareDeckAction) arg;
+			if (arg instanceof ShareDeckAction lpa) {
 				printMessage(lpa);
 			}
-			if (arg instanceof ListPlayersAction) {
-				ListPlayersAction lpa = (ListPlayersAction) arg;
+			if (arg instanceof ListPlayersAction lpa) {
 				mod.init(lpa.getList());
 			}
-			if (arg instanceof SpeakAction) {
-				SpeakAction lpa = (SpeakAction) arg;
+			if (arg instanceof SpeakAction lpa) {
 				printMessage(lpa);
 			}
-			if (arg instanceof RequestPlayAction) {
-				RequestPlayAction lpa = (RequestPlayAction) arg;
+			if (arg instanceof RequestPlayAction lpa) {
 				int res = JOptionPane.showConfirmDialog(getRootPane(),
 						capitalize("CHALLENGE_REQUEST",lpa.getRequestPlayer()),
 						capitalize("NEW_GAME_REQUEST"),
@@ -108,8 +104,8 @@ public class GamingRoomPanel extends JPanel {
 					client.reponse(lpa, CHOICE.NO);
 				}
 			}
-			if (arg instanceof ReponseAction) {
-				ReponseAction resp = (ReponseAction) arg;
+			if (arg instanceof ReponseAction rep) {
+				ReponseAction resp = rep;
 				if (resp.getReponse().equals(ReponseAction.CHOICE.YES)) {
 					printMessage(new SpeakAction(resp.getRequest().getAskedPlayer(),
 							capitalize("CHALLENGE_ACCEPTED")));

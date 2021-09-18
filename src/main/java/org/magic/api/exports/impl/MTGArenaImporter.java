@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -66,7 +65,7 @@ public class MTGArenaImporter extends AbstractCardExport {
 	
 	@Override
 	public MagicDeck importDeck(String f, String name) throws IOException {
-		return MagicDeck.toDeck(importStock(f).stream().map(MagicCardStock::getProduct).collect(Collectors.toList()));
+		return MagicDeck.toDeck(importStock(f).stream().map(MagicCardStock::getProduct).toList());
 	}
 	
 
