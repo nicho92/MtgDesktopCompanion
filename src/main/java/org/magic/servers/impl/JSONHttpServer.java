@@ -832,8 +832,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		post("/transactions/contact", URLTools.HEADER_JSON, (request, response) -> {
 			
 			Contact c=converter.fromJson(new InputStreamReader(request.raw().getInputStream()), Contact.class);
-			List<Transaction> ret= getEnabledPlugin(MTGDao.class).listTransactions(c);
-			return ret;
+			return getEnabledPlugin(MTGDao.class).listTransactions(c);
 		}, transformer);
 
 		post("/contact/save", URLTools.HEADER_JSON, (request, response) -> {
