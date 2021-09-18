@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 import java.util.Map;
 
 import org.magic.api.beans.MTGNotification;
@@ -30,7 +31,7 @@ public class TelegramNotifier extends AbstractMTGNotifier {
 		
 		var urlString = "https://api.telegram.org/bot%s/sendMessage?parse_mode="+getFormat().name().toLowerCase()+"&chat_id=%s&text=%s";
 
-		var apiToken = getString("TOKEN");
+		var apiToken = getAuthenticator().get("TOKEN");
 		var chatId = getString("CHANNEL");
 		var msg = URLTools.encode(notification.getMessage());
 		
@@ -63,11 +64,17 @@ public class TelegramNotifier extends AbstractMTGNotifier {
 	public String getName() {
 		return "Telegram";
 	}
+	
+	@Override
+	public List<String> listAuthenticationAttributes() {
+		return List.of("TOKEN");
+		
+	}
+	
 
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		return Map.of("TOKEN", "",
-								"CHANNEL","");
+		return Map.of("CHANNEL","");
 	}
 
 }
