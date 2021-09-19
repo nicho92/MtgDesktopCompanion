@@ -70,9 +70,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 			try (ResultSet rs = pst.executeQuery(sql))
 			{
 				while(rs.next())
-				{
 					cards.add(generateCardsFromRs(rs,true));
-				}
 			}
 		} 
 		catch (SQLException e) {
@@ -129,6 +127,12 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 			mc.setBorder(MTGBorder.parseByLabel(rs.getString(BORDER_COLOR)));
 			mc.setArtist(rs.getString(ARTIST));
 			
+			if(rs.getString("reverseRelated")!=null)
+				try {
+					mc.setRotatedCard(searchCardByName(rs.getString("reverseRelated"), ed, true).get(0));
+				} catch (Exception e) {
+					logger.error(e);
+				}
 			
 			if(rs.getString(SUPERTYPES)!=null)
 				mc.setSupertypes(List.of(rs.getString(SUPERTYPES).split(",")));
