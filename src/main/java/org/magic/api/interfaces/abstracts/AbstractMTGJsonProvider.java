@@ -119,6 +119,8 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 		
 	public abstract File getDataFile();
 	public abstract String getOnlineDataFileZip();
+	public abstract List<MagicCard> listToken(MagicEdition ed) throws IOException;
+	
 	
 	protected MTGQueryBuilder<?> queryBuilder=  new JsonCriteriaBuilder();
 	

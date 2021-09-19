@@ -44,7 +44,6 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 	private MultiValuedMap<String, MagicCardNames> mapForeignData = new ArrayListValuedHashMap<>();
 	private MultiValuedMap<String, MagicRuling> mapRules = new ArrayListValuedHashMap<>();
 	private MultiValuedMap<String, MagicFormat> mapLegalities = new ArrayListValuedHashMap<>();
-
 	
 	@Override
 	public String getOnlineDataFileZip() {
@@ -89,6 +88,79 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 	}
 	
 	
+	@Override
+	public List<MagicCard> listToken(MagicEdition ed) throws IOException {
+		
+		var ret= new ArrayList<MagicCard>();
+		
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("select * from tokens where setCode like ?")) 
+		{
+			pst.setString(1, "%"+ed.getId().toUpperCase());
+			var rs = pst.executeQuery();
+			
+			while(rs.next())
+			{
+				ret.add(generateTokenFromRs(rs,ed));
+			}
+		} 
+		catch(Exception e)
+		{
+			throw new IOException(e);
+		}
+		return ret;
+		
+	}
+	
+	
+	private MagicCard generateTokenFromRs(ResultSet rs,MagicEdition ed) throws SQLException {
+		var mc = new MagicCard();
+			mc.setId(rs.getString(UUID));
+			mc.setName(rs.getString(NAME));
+			mc.setText(rs.getString(TEXT));
+			mc.setScryfallId(rs.getString(SCRYFALL_ID));
+			mc.setScryfallIllustrationId(rs.getString(SCRYFALL_ILLUSTRATION_ID));
+			mc.getEditions().add(ed);
+			mc.setLayout(MTGLayout.TOKEN);
+			mc.setFrameVersion(rs.getString(FRAME_VERSION));
+			mc.setWatermarks(rs.getString(WATERMARK));
+			mc.setTypes(List.of(rs.getString(TYPES).split(",")));
+			mc.setPower(rs.getString(POWER));
+			mc.setToughness(rs.getString(TOUGHNESS));
+			mc.setBorder(MTGBorder.parseByLabel(rs.getString(BORDER_COLOR)));
+			mc.setArtist(rs.getString(ARTIST));
+			
+			
+			if(rs.getString(SUPERTYPES)!=null)
+				mc.setSupertypes(List.of(rs.getString(SUPERTYPES).split(",")));
+			
+			if(rs.getString(SUBTYPES)!=null)
+				mc.setSubtypes(List.of(rs.getString(SUBTYPES).split(",")));
+			
+			var ci = rs.getString(COLOR_IDENTITY);
+			if(ci!=null)
+				mc.setColorIdentity(Arrays.asList(ci.split(",")).stream().map(MTGColor::colorByCode).toList());
+
+			ci = rs.getString(COLORS);
+			if(ci!=null)
+				mc.setColors(Arrays.asList(ci.split(",")).stream().map(MTGColor::colorByCode).toList());
+			
+			if(rs.getString(KEYWORDS)!=null)
+				for(String s : rs.getString(KEYWORDS).split(","))
+				{
+					mc.getKeywords().add(new MTGKeyWord(s, MTGKeyWord.TYPE.ABILITIES));
+				}
+			
+			var ted = getSetById(ed.getId());
+				ted.setNumber(rs.getString(NUMBER));
+			
+			mc.getEditions().add(ted);
+			
+		
+			
+			
+		return mc;
+	}
+
 	@Override
 	public void init() {
 		logger.info("init " + this);

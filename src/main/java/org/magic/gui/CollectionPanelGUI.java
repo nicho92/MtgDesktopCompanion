@@ -266,7 +266,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		splitPane.setLeftComponent(panneauTreeTable);
 		panneauTreeTable.addTab(capitalize("COLLECTION"), MTGConstants.ICON_BACK,new JScrollPane(tree), null);
 		panneauTreeTable.addTab(capitalize("CARDS"), MTGConstants.ICON_TAB_CARD,cardsSetPanel, null);
-		panneauTreeTable.addTab(capitalize("PACKAGES"),MTGConstants.ICON_PACKAGE_SMALL,packagePanel,null);
+
 		splitPane.setRightComponent(tabbedPane);
 		splitListPanel.setLeftComponent(panneauGauche);
 		panneauGauche.add(new JScrollPane(tableEditions));
