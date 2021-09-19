@@ -164,7 +164,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	public boolean createDB() {
 		
 			var populateCollections=true;
-			for(String s : new String[] {colCards,colCollects,colStocks,colAlerts,colNews,colOrders,colSealed,colTransactions,colContacts})
+			for(String s : new String[] {colCards,colCollects,colStocks,colAlerts,colNews,colOrders,colSealed,colTransactions,colContacts,colDecks})
 			{
 				try {
 					db.createCollection(s);

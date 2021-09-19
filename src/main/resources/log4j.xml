@@ -47,7 +47,8 @@
     <logger name="org.reflections"><level value="OFF"/></logger>
     <logger name="spark.route"><level value="ERROR"/></logger>
     <logger name="net.dv8tion.jda.internal"><level value="ERROR"/></logger>
-    
+    <logger name="org.mongodb.driver"><level value="ERROR"/></logger>
+   
     
     
     
