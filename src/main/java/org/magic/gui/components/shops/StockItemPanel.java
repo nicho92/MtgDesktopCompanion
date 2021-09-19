@@ -1,26 +1,20 @@
 package org.magic.gui.components.shops;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
-
 import java.awt.BorderLayout;
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
-import javax.swing.SwingWorker;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
-import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.StockItemTableModel;
 import org.magic.gui.renderer.StockTableRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
 
 
@@ -51,37 +45,7 @@ public class StockItemPanel extends MTGUIComponent {
 		
 	}
 
-	private void save() {
 		
-		SwingWorker<Void, Void> sw = new SwingWorker<>()
-		{
-			@Override
-			protected Void doInBackground() throws Exception {
-				for (MTGStockItem ms : model.getItems())
-					if (ms.isUpdated())
-						try {
-							getEnabledPlugin(MTGDao.class).saveOrUpdateStock(ms.getTypeStock(),ms);
-							ms.setUpdated(false);
-							
-						} catch (SQLException e1) {
-							MTGControler.getInstance().notify(e1);
-						}
-
-				return null;
-			}
-
-			@Override
-			protected void done() {
-				model.fireTableDataChanged();
-			}
-			
-			
-			
-		};
-		ThreadManager.getInstance().runInEdt(sw, "batch stock saving");	
-	}
-
-	
 	@Override
 	public void onHide() {
 		boolean isUpdatedModel = model.getItems().stream().anyMatch(MTGStockItem::isUpdated);

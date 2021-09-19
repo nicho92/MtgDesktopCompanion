@@ -96,7 +96,6 @@ public class HikariPool extends AbstractPool {
 		map.put("dataSource.useServerPrepStmts",TRUE);
 		map.put("dataSource.useLocalSessionState",TRUE);
 		map.put("connectionInitSql", "");
-	//	map.put("datasource.keepaliveTime","0");
 		map.put("dataSource.cacheCallableStmts",TRUE);
 		map.put("dataSource.cacheServerConfiguration",TRUE);
 		return map;

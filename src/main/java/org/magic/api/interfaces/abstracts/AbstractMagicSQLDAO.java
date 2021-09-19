@@ -24,7 +24,6 @@ import org.magic.api.beans.Contact;
 import org.magic.api.beans.ConverterItem;
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MTGSealedProduct;
-import org.magic.api.beans.MTGSealedProduct.EXTRA;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
@@ -57,6 +56,8 @@ import com.google.gson.JsonObject;
 
 public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
+	private static final String EXTRA = "extra";
+	private static final String COLLECTION = "collection";
 	protected static final String MCARD = "mcard";
 	private static final String DEFAULT_LIBRARY = "default-library";
 	private static final String IF_NOT_EXISTS = "IF NOT EXISTS ";
@@ -1316,7 +1317,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			try (ResultSet rs = pst.executeQuery()) {
 				
 				while (rs.next()) {
-					cols.add(new MagicCollection(rs.getString("collection")));
+					cols.add(new MagicCollection(rs.getString(COLLECTION)));
 				}
 			}
 		}
@@ -1798,7 +1799,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		state.setId(rs.getInt("id"));
 		state.setQte(rs.getInt("qte"));
 		state.setCondition(EnumCondition.valueOf(rs.getString("conditionProduct")));
-		state.setMagicCollection(new MagicCollection(rs.getString("collection")));
+		state.setMagicCollection(new MagicCollection(rs.getString(COLLECTION)));
 		state.setPrice(rs.getDouble("price"));
 		state.setTiersAppIds(readTiersApps(rs));
 		
@@ -1806,7 +1807,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		
 		  try 
 		  {
-			var list = SealedProductProvider.inst().get(getEnabledPlugin(MTGCardsProvider.class).getSetById(rs.getString(EDITION)),EnumItems.valueOf(rs.getString("typeProduct")),(rs.getString("extra")==null) ? null : EXTRA.valueOf(rs.getString("extra")));
+			var list = SealedProductProvider.inst().get(getEnabledPlugin(MTGCardsProvider.class).getSetById(rs.getString(EDITION)),EnumItems.valueOf(rs.getString("typeProduct")),(rs.getString(EXTRA)==null) ? null : EXTRA.valueOf(rs.getString(EXTRA)));
 			
 			MTGSealedProduct product = list.stream().filter(p->p.getNum()==ref).findFirst().orElse(list.get(0));
 			product.setLang(rs.getString("lang"));
@@ -1814,7 +1815,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		  } 
 		  catch (Exception e) 
 		  {
-			logger.error("Error loading Packaging for "+ rs.getString("typeProduct") +" " + rs.getString("extra") + " " +rs.getString(EDITION),e);
+			logger.error("Error loading Packaging for "+ rs.getString("typeProduct") +" " + rs.getString(EXTRA) + " " +rs.getString(EDITION),e);
 		  }
 		 return state;
 	}
@@ -1824,7 +1825,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		var state = new MagicCardStock(readCard(rs,MCARD));
 			state.setComment(rs.getString("comments"));
 			state.setId(rs.getInt("idstock"));
-			state.setMagicCollection(new MagicCollection(rs.getString("collection")));
+			state.setMagicCollection(new MagicCollection(rs.getString(COLLECTION)));
 			try {
 				state.setCondition(EnumCondition.valueOf(rs.getString("conditions")));
 			} catch (Exception e) {

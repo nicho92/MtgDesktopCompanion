@@ -73,7 +73,6 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 					if(ret>0)
 					{
 						mci.getTiersAppIds().put(getName(), String.valueOf(ret));
-						System.out.println(mci.getPrice());
 						MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateConversionItem(new ConverterItem( t.getSourceShopName(),getName(), mci.getProductName(), mci.getLanguage(), mci.getId(),ret));
 					}
 					

@@ -35,20 +35,23 @@ public class UndergroundSeaPricer extends AbstractPricesProvider {
 	
 	private String getUrl()
 	{
+		var uploadPath = "wp-content/uploads/";
+		
+		
 		var month = String.format("%02d",Calendar.getInstance().get(Calendar.MONTH)+1);
 		int year = Calendar.getInstance().get(Calendar.YEAR);
-		String url = BASE_URL + "wp-content/uploads/"+year+"/"+month+PROXYCARDSLIST_HTML;
+		String url = BASE_URL + uploadPath +year+"/"+month+PROXYCARDSLIST_HTML;
 
 		if(!URLTools.isCorrectConnection(url))
 		{
 			month=String.format("%02d",Calendar.getInstance().get(Calendar.MONTH));
-			url = BASE_URL + "wp-content/uploads/"+year+"/"+month+PROXYCARDSLIST_HTML;
+			url = BASE_URL + uploadPath+year+"/"+month+PROXYCARDSLIST_HTML;
 		}
 		
 		if(!URLTools.isCorrectConnection(url))
 		{
 			month=String.format("%02d",Calendar.getInstance().get(Calendar.MONTH)-1);
-			url = BASE_URL + "wp-content/uploads/"+year+"/"+month+PROXYCARDSLIST_HTML;
+			url = BASE_URL + uploadPath+year+"/"+month+PROXYCARDSLIST_HTML;
 		}
 		
 		return url;
