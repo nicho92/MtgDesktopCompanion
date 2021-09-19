@@ -65,7 +65,7 @@
   	    		$('#title').html(data.name);
   	    	
   	    	
-  	    	$('#text').html(data.text.replace(/\n/g, "<br />"));
+  	    	$('#text').html(replaceMana(data.text));
   	    	
   	    	if(data.flavor!=null)
   	    		$('#text').append("<br/><i>"+data.flavor+"</i>");
