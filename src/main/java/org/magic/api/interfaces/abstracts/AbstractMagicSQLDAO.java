@@ -56,7 +56,7 @@ import com.google.gson.JsonObject;
 
 public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
-	private static final String EXTRA = "extra";
+	private static final String EXTRA_TYPE = "extra";
 	private static final String COLLECTION = "collection";
 	protected static final String MCARD = "mcard";
 	private static final String DEFAULT_LIBRARY = "default-library";
@@ -1807,15 +1807,14 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		
 		  try 
 		  {
-			var list = SealedProductProvider.inst().get(getEnabledPlugin(MTGCardsProvider.class).getSetById(rs.getString(EDITION)),EnumItems.valueOf(rs.getString("typeProduct")),(rs.getString(EXTRA)==null) ? null : EXTRA.valueOf(rs.getString(EXTRA)));
-			
+			var list = SealedProductProvider.inst().get(getEnabledPlugin(MTGCardsProvider.class).getSetById(rs.getString(EDITION)),EnumItems.valueOf(rs.getString("typeProduct")),(rs.getString(EXTRA_TYPE)==null) ? null : MTGSealedProduct.EXTRA.valueOf(rs.getString(EXTRA_TYPE)));
 			MTGSealedProduct product = list.stream().filter(p->p.getNum()==ref).findFirst().orElse(list.get(0));
 			product.setLang(rs.getString("lang"));
 			state.setProduct(product);
 		  } 
 		  catch (Exception e) 
 		  {
-			logger.error("Error loading Packaging for "+ rs.getString("typeProduct") +" " + rs.getString(EXTRA) + " " +rs.getString(EDITION),e);
+			logger.error("Error loading Packaging for "+ rs.getString("typeProduct") +" " + rs.getString(EXTRA_TYPE) + " " +rs.getString(EDITION),e);
 		  }
 		 return state;
 	}
