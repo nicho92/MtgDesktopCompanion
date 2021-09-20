@@ -144,7 +144,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 			mc.setToughness(rs.getString(TOUGHNESS));
 			mc.setBorder(MTGBorder.parseByLabel(rs.getString(BORDER_COLOR)));
 			mc.setArtist(rs.getString(ARTIST));
-				
+			mc.setRarity(MTGRarity.COMMON);	
 			
 			mc.setLayout(MTGLayout.parseByLabel(rs.getString(LAYOUT)));
 			
