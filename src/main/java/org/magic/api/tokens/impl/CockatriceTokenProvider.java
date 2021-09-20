@@ -5,7 +5,9 @@ import static org.magic.tools.MTG.getEnabledPlugin;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.xpath.XPath;
@@ -89,6 +91,54 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		}
 	}
 
+	
+	@Override
+	public List<MagicCard> listTokensFor(MagicEdition ed) throws IOException {
+		
+		if(xPath==null)
+			init();
+		
+		
+		String expression = "//card[set=\'" + ed.getId() + "']";
+		logger.debug("Expression =" + expression);
+		try {
+			var nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
+			
+			var ret = new ArrayList<MagicCard>();
+			
+			for(var i = 0; i<nodeList.getLength();i++)
+				ret.add(build((Element)nodeList.item(i), ed));
+
+			return ret;
+		}
+		catch(Exception e)
+		{
+			logger.error(e);
+		}
+		
+		return new ArrayList<>();
+	}
+	
+	
+	@Override
+	public MagicCard generateEmblemFor(MagicCard mc) throws IOException {
+		
+		if(xPath==null)
+			init();
+		
+		String expression = CARD_REVERSE_RELATED + mc.getName() + "\"][contains(name,'Emblem')]";
+		logger.debug(expression);
+		try {
+			var nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
+			return build( ((Element)nodeList.item(0)),mc.getCurrentSet());
+
+		} catch (XPathExpressionException e) {
+			logger.error("Erreur XPath", e);
+			return null;
+		}
+	}
+	
+	
 	@Override
 	public MagicCard generateTokenFor(MagicCard mc) {
 		
@@ -100,59 +150,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		try {
 			var nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 			var value = (Element) nodeList.item(0);
-			var tok = new MagicCard();
-			tok.setLayout(MTGLayout.TOKEN);
-			tok.setCmc(0);
-			tok.setName(value.getElementsByTagName("name").item(0).getTextContent());
-
-			if (value.getElementsByTagName(COLOR).item(0) != null) {
-				var c = MTGColor.colorByCode(value.getElementsByTagName(COLOR).item(0).getTextContent());
-				tok.getColors().add(c);
-				tok.getColorIdentity().add(c);
-			}
-
-			String types = value.getElementsByTagName("type").item(0).getTextContent();
-
-			if (types.toLowerCase().contains("legendary"))
-				tok.getSupertypes().add("Legendary");
-
-			if (types.toLowerCase().contains("artifact"))
-				tok.getTypes().add("Artifact");
-
-			if (types.toLowerCase().contains("creature"))
-				tok.getTypes().add("Creature");
-
-			tok.getSupertypes().add(MTGLayout.TOKEN.toPrettyString());
-
-			tok.getSubtypes().add(types.substring(types.indexOf("\u2014") + 1));
-
-			if (value.getElementsByTagName("pt").item(0) != null) {
-				tok.setPower(value.getElementsByTagName("pt").item(0).getTextContent()
-						.substring(0, value.getElementsByTagName("pt").item(0).getTextContent().indexOf('/')).trim());
-				tok.setToughness(value.getElementsByTagName("pt").item(0).getTextContent()
-						.substring(value.getElementsByTagName("pt").item(0).getTextContent().indexOf('/') + 1).trim());
-			}
-			if (value.getElementsByTagName("text").item(0) != null)
-				tok.setText(value.getElementsByTagName("text").item(0).getTextContent());
-
-			tok.getEditions().add(getEnabledPlugin(MTGCardsProvider.class).getSetById(mc.getCurrentSet().getId()));
-			tok.getCurrentSet().setNumber("T");
-
-			NodeList sets = value.getElementsByTagName("set");
-			for (var s = 0; s < sets.getLength(); s++) {
-				String idSet = sets.item(s).getTextContent();
-
-				if (idSet.equals(mc.getCurrentSet().getId())) {
-					MagicEdition ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(idSet);
-					tok.getEditions().add(ed);
-				}
-
-			}
-
-			tok.setId(DigestUtils.sha256Hex(tok.getCurrentSet().getId() + tok.getName()));
-
-			return tok;
-
+			return build(value, mc.getCurrentSet());
 		} catch (XPathExpressionException e) {
 			logger.error("erreur generate token for" + mc, e);
 			return null;
@@ -161,38 +159,67 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 			return null;
 		}
 	}
+	
+	
+	private MagicCard build(Element value, MagicEdition ed) throws IOException {
+		
+		
+		var tok = new MagicCard();
+		
+		tok.setCmc(0);
+		tok.setName(value.getElementsByTagName("name").item(0).getTextContent().replaceAll("\\(Emblem\\)", "").replaceAll("\\(Token\\)", "").trim());
+		String types = value.getElementsByTagName("type").item(0).getTextContent();
+		
+		
+		MTGLayout layout = types.startsWith("Emblem")?MTGLayout.EMBLEM:MTGLayout.TOKEN;
 
-	@Override
-	public MagicCard generateEmblemFor(MagicCard mc) throws IOException {
+		tok.getSupertypes().add(layout.toPrettyString());
 		
-		if(xPath==null)
-			init();
+		tok.getSubtypes().add(types.substring(types.indexOf("\u2014") + 1));
 		
-		String expression = CARD_REVERSE_RELATED + mc.getName() + "\"][contains(name,'Emblem')]";
-		logger.debug(expression);
-		try {
-			var nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
-			var value = (Element) nodeList.item(0);
-			var tok = new MagicCard();
-			tok.setLayout(MTGLayout.EMBLEM);
-			tok.setCmc(0);
-			tok.setName(
-					value.getElementsByTagName("name").item(0).getTextContent().replaceAll("\\(Emblem\\)", "").trim());
-			String types = value.getElementsByTagName("type").item(0).getTextContent();
-			tok.getSupertypes().add(MTGLayout.EMBLEM.toPrettyString());
-			tok.getSubtypes().add(types.substring(types.indexOf("\u2014") + 1));
-			tok.setText(value.getElementsByTagName("text").item(0).getTextContent());
-			tok.getEditions().add(getEnabledPlugin(MTGCardsProvider.class).getSetById(mc.getCurrentSet().getId()));
+		tok.setLayout(layout);
+		tok.getEditions().add(getEnabledPlugin(MTGCardsProvider.class).getSetById(ed.getId()));
+		
+		if(layout==MTGLayout.EMBLEM)
 			tok.getCurrentSet().setNumber("E");
+		else
+			tok.getCurrentSet().setNumber("T");
 
-			
-			logger.debug("Create token " + tok);
-			return tok;
-
-		} catch (XPathExpressionException e) {
-			logger.error("Erreur XPath", e);
-			return null;
+		if (value.getElementsByTagName(COLOR).item(0) != null) {
+			var c = MTGColor.colorByCode(value.getElementsByTagName(COLOR).item(0).getTextContent());
+			tok.getColors().add(c);
+			tok.getColorIdentity().add(c);
 		}
+
+		if (types.toLowerCase().contains("legendary"))
+			tok.getSupertypes().add("Legendary");
+
+		if (types.toLowerCase().contains("artifact"))
+			tok.getTypes().add("Artifact");
+
+		if (types.toLowerCase().contains("creature"))
+			tok.getTypes().add("Creature");
+
+		if (value.getElementsByTagName("pt").item(0) != null) {
+			tok.setPower(value.getElementsByTagName("pt").item(0).getTextContent().substring(0, value.getElementsByTagName("pt").item(0).getTextContent().indexOf('/')).trim());
+			tok.setToughness(value.getElementsByTagName("pt").item(0).getTextContent().substring(value.getElementsByTagName("pt").item(0).getTextContent().indexOf('/') + 1).trim());
+		}
+		
+		if (value.getElementsByTagName("text").item(0) != null)
+			tok.setText(value.getElementsByTagName("text").item(0).getTextContent());
+
+		NodeList sets = value.getElementsByTagName("set");
+		for (var s = 0; s < sets.getLength(); s++) {
+			String idSet = sets.item(s).getTextContent();
+			if (idSet.equals(ed.getId())) {
+				MagicEdition ed2 = getEnabledPlugin(MTGCardsProvider.class).getSetById(idSet);
+				tok.getEditions().add(ed2);
+			}
+
+		}
+		tok.setId(DigestUtils.sha256Hex(tok.getCurrentSet().getId() + tok.getName()));
+		logger.debug("Create " + tok);
+		return tok;
 	}
 
 	@Override
@@ -280,6 +307,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		
 		return hashCode()==obj.hashCode();
 	}
+
 	
 
 }

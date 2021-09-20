@@ -87,6 +87,25 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 	
 	
 	@Override
+	public MagicCard getTokenFor(MagicCard mc, MTGLayout layout) throws IOException {
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("select * from tokens where reverseRelated like ? and types like ? and setCode like ?")) 
+		{
+			pst.setString(1, "%"+mc.getName()+"%");
+			pst.setString(2, "%"+layout.toPrettyString()+"%");
+			pst.setString(3, "%"+mc.getCurrentSet().getId().toUpperCase());
+			var rs = pst.executeQuery();
+			
+			if(rs.next())
+				return generateTokenFromRs(rs,mc.getCurrentSet());
+		} 
+		catch(Exception e)
+		{
+			throw new IOException(e);
+		}
+		return null;
+	}
+	
+	@Override
 	public List<MagicCard> listToken(MagicEdition ed) throws IOException {
 		
 		var ret= new ArrayList<MagicCard>();
@@ -118,7 +137,6 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 			mc.setScryfallId(rs.getString(SCRYFALL_ID));
 			mc.setScryfallIllustrationId(rs.getString(SCRYFALL_ILLUSTRATION_ID));
 			mc.getEditions().add(ed);
-			mc.setLayout(MTGLayout.TOKEN);
 			mc.setFrameVersion(rs.getString(FRAME_VERSION));
 			mc.setWatermarks(rs.getString(WATERMARK));
 			mc.setTypes(List.of(rs.getString(TYPES).split(",")));
@@ -127,12 +145,9 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 			mc.setBorder(MTGBorder.parseByLabel(rs.getString(BORDER_COLOR)));
 			mc.setArtist(rs.getString(ARTIST));
 			
-			if(rs.getString("reverseRelated")!=null)
-				try {
-					mc.setRotatedCard(searchCardByName(rs.getString("reverseRelated"), ed, true).get(0));
-				} catch (Exception e) {
-					logger.error(e);
-				}
+			
+			mc.setLayout(MTGLayout.parseByLabel(rs.getString(TYPES).split(",")[0]));
+			
 			
 			if(rs.getString(SUPERTYPES)!=null)
 				mc.setSupertypes(List.of(rs.getString(SUPERTYPES).split(",")));

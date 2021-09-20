@@ -2,8 +2,10 @@ package org.magic.api.interfaces;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.List;
 
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicEdition;
 
 public interface MTGTokensProvider extends MTGPlugin {
 
@@ -11,12 +13,12 @@ public interface MTGTokensProvider extends MTGPlugin {
 
 	boolean isEmblemizer(MagicCard mc);
 
-	MagicCard generateTokenFor(MagicCard mc);
+	public List<MagicCard> listTokensFor(MagicEdition ed)  throws IOException;
+	
+	public MagicCard generateTokenFor(MagicCard mc) throws IOException;
 
-	MagicCard generateEmblemFor(MagicCard mc) throws IOException;
+	public 	MagicCard generateEmblemFor(MagicCard mc) throws IOException;
 
-	BufferedImage getPictures(MagicCard tok) throws IOException;
-
-	String getName();
+	public 	BufferedImage getPictures(MagicCard tok) throws IOException;
 
 }

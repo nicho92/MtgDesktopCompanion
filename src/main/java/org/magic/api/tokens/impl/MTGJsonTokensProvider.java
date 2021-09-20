@@ -2,8 +2,11 @@ package org.magic.api.tokens.impl;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGPictureProvider;
@@ -25,29 +28,28 @@ public class MTGJsonTokensProvider extends AbstractTokensProvider {
 		}
 		else
 		{
-			prov = (AbstractMTGJsonProvider)MTG.getPlugin("MTGSQLive", MTGCardsProvider.class);
+			prov = (AbstractMTGJsonProvider)MTG.getPlugin(getString("PROVIDER"), MTGCardsProvider.class);
 		}
 	}
 	
+	@Override
+	public List<MagicCard> listTokensFor(MagicEdition ed) throws IOException {
+		return prov.listToken(ed);
+	}
 	
 	@Override
-	public MagicCard generateTokenFor(MagicCard mc) {
-		try {
-			return prov.listToken(mc.getCurrentSet()).stream().filter(tok->tok.getRotatedCard().getName().equals(mc.getName()) && tok.getLayout()==MTGLayout.TOKEN).findFirst().orElse(null);
-		} catch (IOException e) {
-			logger.error(e);
-			return null;
-		}
+	public MagicCard generateTokenFor(MagicCard mc) throws IOException {
+		return prov.getTokenFor(mc,MTGLayout.TOKEN);
 	}
 
 	@Override
 	public MagicCard generateEmblemFor(MagicCard mc) throws IOException {
-		try {
-			return prov.listToken(mc.getCurrentSet()).stream().filter(tok->tok.getRotatedCard().getName().equals(mc.getName()) && tok.getLayout()==MTGLayout.EMBLEM).findFirst().orElse(null);
-		} catch (IOException e) {
-			logger.error(e);
-			return null;
-		}
+		return prov.getTokenFor(mc,MTGLayout.EMBLEM);
+	}
+	
+	@Override
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("PROVIDER","MTGSQLive");
 	}
 
 	@Override

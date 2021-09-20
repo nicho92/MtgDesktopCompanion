@@ -668,6 +668,12 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 		return m;
 	}
 
+	
+	@Override
+	public MagicCard getTokenFor(MagicCard mc, MTGLayout layout) throws IOException {
+		// TODO get tokens / emblem for cards
+		return null;
+	}
 
 	@Override
 	public List<MagicCard> listToken(MagicEdition ed) throws IOException {
