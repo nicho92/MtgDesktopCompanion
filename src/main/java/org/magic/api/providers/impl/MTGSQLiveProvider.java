@@ -136,7 +136,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 			mc.setText(rs.getString(TEXT));
 			mc.setScryfallId(rs.getString(SCRYFALL_ID));
 			mc.setScryfallIllustrationId(rs.getString(SCRYFALL_ILLUSTRATION_ID));
-			mc.getEditions().add(ed);
+		
 			mc.setFrameVersion(rs.getString(FRAME_VERSION));
 			mc.setWatermarks(rs.getString(WATERMARK));
 			mc.setTypes(List.of(rs.getString(TYPES).split(",")));
@@ -144,9 +144,9 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 			mc.setToughness(rs.getString(TOUGHNESS));
 			mc.setBorder(MTGBorder.parseByLabel(rs.getString(BORDER_COLOR)));
 			mc.setArtist(rs.getString(ARTIST));
+				
 			
-			
-			mc.setLayout(MTGLayout.parseByLabel(rs.getString(TYPES).split(",")[0]));
+			mc.setLayout(MTGLayout.parseByLabel(rs.getString(LAYOUT)));
 			
 			
 			if(rs.getString(SUPERTYPES)!=null)
@@ -171,8 +171,8 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 			
 			var ted = getSetById(ed.getId());
 				ted.setNumber(rs.getString(NUMBER));
-			
-			mc.getEditions().add(ted);
+	
+				mc.getEditions().add(ted);
 			
 		
 			
