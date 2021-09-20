@@ -23,6 +23,7 @@ import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractTokensProvider;
+import org.magic.tools.MTG;
 import org.magic.tools.URLTools;
 import org.magic.tools.XMLTools;
 import org.w3c.dom.Document;
@@ -209,16 +210,18 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 			tok.setText(value.getElementsByTagName("text").item(0).getTextContent());
 
 		NodeList sets = value.getElementsByTagName("set");
+		tok.getEditions().add(MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(ed.getId()));
+		
 		for (var s = 0; s < sets.getLength(); s++) {
 			String idSet = sets.item(s).getTextContent();
-			if (idSet.equals(ed.getId())) {
+			if (!idSet.equals(ed.getId())) {
 				MagicEdition ed2 = getEnabledPlugin(MTGCardsProvider.class).getSetById(idSet);
 				tok.getEditions().add(ed2);
 			}
 
 		}
 		tok.setId(DigestUtils.sha256Hex(tok.getCurrentSet().getId() + tok.getName()));
-		logger.debug("Create " + tok);
+		
 		return tok;
 	}
 

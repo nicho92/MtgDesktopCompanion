@@ -12,9 +12,11 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.interfaces.MTGPictureCache;
 import org.magic.api.interfaces.MTGPictureProvider;
+import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.ImageTools;
+import org.magic.tools.MTG;
 import org.magic.tools.TCache;
 import org.magic.tools.URLTools;
 
@@ -53,6 +55,12 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 	
 	@Override
 	public BufferedImage getFullSizePicture(MagicCard mc) throws IOException {
+		
+		if(mc.isSpecialSetCard())
+		{
+			return MTG.getEnabledPlugin(MTGTokensProvider.class).getPictures(mc);
+		}
+		//TODO caching tokens
 		if (getEnabledPlugin(MTGPictureCache.class).getItem(mc) != null) {
 			logger.trace("cached " + mc + "(" + mc.getCurrentSet() + ") found");
 			return getEnabledPlugin(MTGPictureCache.class).getItem(mc);

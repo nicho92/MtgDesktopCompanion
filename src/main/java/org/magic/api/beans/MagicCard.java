@@ -432,8 +432,25 @@ public class MagicCard implements Serializable {
 	
 	public boolean isPermanent()
 	{
-		return isLand()||isPlaneswalker()||isCreature()|| isEnchantment()||isArtifact();
+		return isLand()||isPlaneswalker()||isCreature()|| isEnchantment()||isArtifact() || isToken() || isEmblem();
 	}
+	
+	public boolean isToken()
+	{
+		return getLayout()==MTGLayout.TOKEN || getLayout()==MTGLayout.DOUBLE_FACED_TOKEN;
+	}
+	
+	public boolean isEmblem()
+	{
+		return getLayout()==MTGLayout.EMBLEM;
+	}
+	
+	public boolean isSpecialSetCard()
+	{
+		return getLayout()==MTGLayout.ADVENTURE || getLayout()==MTGLayout.ART_SERIES || isToken() || isEmblem();
+	}
+	
+	
 	
 	public boolean isArtifact() {
 		return getTypes().toString().toLowerCase().contains("artifact");

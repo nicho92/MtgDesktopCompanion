@@ -8,6 +8,7 @@ import java.awt.event.ComponentEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CancellationException;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -49,7 +50,6 @@ public class TokensTablePanel extends MTGUIComponent {
 		table = UITools.createNewTable(model);
 		buzy=AbstractBuzyIndicatorComponent.createProgressComponent();
 		
-		table.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
 		table.getColumnModel().getColumn(6).setCellRenderer(new MagicEditionsJLabelRenderer());
 		table.setColumnControlVisible(true);
 		
@@ -135,7 +135,8 @@ public class TokensTablePanel extends MTGUIComponent {
 				try {
 					super.done();
 					model.init(get());
-				} catch(InterruptedException ex)
+				} 
+				catch(InterruptedException|CancellationException ex)
 				{
 					Thread.currentThread().interrupt();
 				}
