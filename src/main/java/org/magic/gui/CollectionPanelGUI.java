@@ -65,6 +65,7 @@ import org.magic.gui.components.MagicEditionDetailPanel;
 import org.magic.gui.components.ObjectViewerPanel;
 import org.magic.gui.components.PackagesBrowserPanel;
 import org.magic.gui.components.PricesTablePanel;
+import org.magic.gui.components.TokensTablePanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.RarityRepartitionPanel;
@@ -112,6 +113,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 	private JLabel lblTotal;
 	private CardsDeckCheckerPanel deckPanel;
 	private CardsEditionTablePanel cardsSetPanel;
+	private TokensTablePanel tokensPanel;
 	private JTabbedPane panneauTreeTable;
 	private JButton btnAdd;
 	private JButton btnRefresh;
@@ -198,7 +200,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		splitListPanel = new JSplitPane();
 		splitPane = new JSplitPane();
 		panneauGauche = new JPanel();
-		
+		tokensPanel = new TokensTablePanel();
 		panelTotal = new JPanel();
 		panneauDroite = new JPanel();
 		render = new MagicCollectionTableCellRenderer();
@@ -266,7 +268,9 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		splitPane.setLeftComponent(panneauTreeTable);
 		panneauTreeTable.addTab(capitalize("COLLECTION"), MTGConstants.ICON_BACK,new JScrollPane(tree), null);
 		panneauTreeTable.addTab(capitalize("CARDS"), MTGConstants.ICON_TAB_CARD,cardsSetPanel, null);
-
+		UITools.addTab(panneauTreeTable, tokensPanel);
+		
+		
 		splitPane.setRightComponent(tabbedPane);
 		splitListPanel.setLeftComponent(panneauGauche);
 		panneauGauche.add(new JScrollPane(tableEditions));
@@ -329,6 +333,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		packagePanel.setMagicEdition(mc.getCurrentSet());
 		jsonPanel.show(mc);
 		gedPanel.init(MagicCard.class,mc);
+		
 		
 		try {
 			stockPanel.initMagicCardStock(mc,col);
@@ -666,6 +671,9 @@ public class CollectionPanelGUI extends MTGUIComponent {
 					cardsSetPanel.init(ed);
 					panneauTreeTable.setTitleAt(1, ed.getSet());
 					panneauTreeTable.setSelectedIndex(1);
+					tokensPanel.init(ed);
+					
+					
 		    	  }
 		    	  catch(Exception e)
 		    	  {

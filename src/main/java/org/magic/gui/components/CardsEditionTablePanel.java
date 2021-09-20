@@ -117,6 +117,11 @@ public class CardsEditionTablePanel extends JPanel {
 					protected List<MagicCard> doInBackground() throws Exception {
 						return plug.listCardsFromCollection(MTGControler.getInstance().get("default-library"),currentEdition);
 					}
+					
+					@Override
+					protected void error(Exception e) {
+					logger.error(e);
+					}
 
 					@Override
 					protected void notifyEnd() {
@@ -129,6 +134,8 @@ public class CardsEditionTablePanel extends JPanel {
 							logger.error(e);
 						}
 					}
+					
+					
 
 					
 					
