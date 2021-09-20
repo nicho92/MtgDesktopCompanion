@@ -521,6 +521,15 @@ public class CollectionPanelGUI extends MTGUIComponent {
 					initCardSelectionGui(cardsSetPanel.getSelectedCard(),null);
 			}
 		});
+		
+		tokensPanel.getTable().getSelectionModel().addListSelectionListener(me-> {
+			
+			if(!me.getValueIsAdjusting() && tokensPanel.getSelectedCard()!=null) {
+				initCardSelectionGui(tokensPanel.getSelectedCard(),null);
+			}
+		});
+		
+		
 
 		tree.addMouseListener(new MouseAdapter() {
 			@Override

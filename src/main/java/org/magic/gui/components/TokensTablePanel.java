@@ -5,6 +5,7 @@ import static org.magic.tools.MTG.getEnabledPlugin;
 import java.awt.BorderLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +42,9 @@ public class TokensTablePanel extends MTGUIComponent {
 		
 		var panneauHaut = new JPanel();
 		model = new MagicCardTableModel();
+		
+		model.setDefaultHiddenComlumns(1,2,5,8,9,11,12,13,14,15);
+		
 		
 		table = UITools.createNewTable(model);
 		buzy=AbstractBuzyIndicatorComponent.createProgressComponent();
@@ -111,14 +115,8 @@ public class TokensTablePanel extends MTGUIComponent {
 	
 		sw = new AbstractObservableWorker<>(buzy,getEnabledPlugin(MTGTokensProvider.class),10) {
 			@Override
-			protected List<MagicCard> doInBackground() {
-				try {
-					return plug.listTokensFor(currentEdition);
-				} catch (Exception e) {
-					logger.error(e);
-					return new ArrayList<>();
-				}
-				
+			protected List<MagicCard> doInBackground() throws IOException {
+				return plug.listTokensFor(currentEdition);
 			}
 			
 			@Override

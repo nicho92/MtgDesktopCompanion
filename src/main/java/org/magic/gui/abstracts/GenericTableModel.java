@@ -36,9 +36,9 @@ public class GenericTableModel<T> extends AbstractTableModel {
 	}
 	
 
-	public void setDefaultHiddenComlumns(int... num)
+	public void setDefaultHiddenComlumns(int... nums)
 	{
-		this.hiddenColumns =num;
+		this.hiddenColumns =nums;
 	}
 	
 	

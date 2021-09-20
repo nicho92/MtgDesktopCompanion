@@ -29,15 +29,11 @@ public class MagicCardTableModel extends GenericTableModel<MagicCard> {
 				"BORDERLESS",
 				"TIMESHIFTED",
 				"SIDE"};
-
+		
+		setDefaultHiddenComlumns(1,8,9,10,11,12,13,14,15);
+		
 	}
 	
-	
-	@Override
-	public int[] defaultHiddenColumns() {
-		return new int[] {1,8,9,10,11,12,13,14,15};
-	}
-
 	@Override
 	public Class<?> getColumnClass(int columnIndex)
 	{
