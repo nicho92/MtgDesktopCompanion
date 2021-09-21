@@ -3,7 +3,10 @@ package org.magic.gui.models;
 import java.util.Currency;
 
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.interfaces.MTGPlugin;
+import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.gui.abstracts.GenericTableModel;
+import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 
 public class CardsPriceTableModel extends GenericTableModel<MagicPrice> {
@@ -39,7 +42,7 @@ public class CardsPriceTableModel extends GenericTableModel<MagicPrice> {
 		case 1:
 			return Integer.class;
 		case 2:
-			return String.class;
+			return MTGPlugin.class;
 		case 3:
 			return Double.class;
 		case 4:
@@ -71,7 +74,7 @@ public class CardsPriceTableModel extends GenericTableModel<MagicPrice> {
 			case 1:
 				return mp.getQty();
 			case 2:
-				return mp.getSite();
+				return MTG.getPlugin(mp.getSite(),MTGPricesProvider.class);
 			case 3:
 				return UITools.roundDouble(mp.getValue());
 			case 4:

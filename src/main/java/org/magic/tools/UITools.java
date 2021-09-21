@@ -61,12 +61,15 @@ import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.MTGCardVariation;
 import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.criterias.QueryAttribute;
+import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPlugin;
+import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.MagicCardDetailPanel;
+import org.magic.gui.renderer.MTGPluginCellRenderer;
 import org.magic.gui.renderer.MagicCollectionIconListRenderer;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.gui.renderer.MagicEditionIconListRenderer.SIZE;
@@ -166,7 +169,9 @@ public class UITools {
 				
 				table.setDefaultRenderer(Date.class, new DateTableCellEditorRenderer());
 				table.setDefaultRenderer(MagicEdition.class, new MagicEditionJLabelRenderer());
-	
+				table.setDefaultRenderer(MTGPlugin.class, new MTGPluginCellRenderer());
+				
+				
 				table.setDefaultEditor(Double.class, new DoubleCellEditorRenderer());
 				table.setDefaultEditor(Integer.class, new IntegerCellEditorRenderer());
 				table.setDefaultEditor(Boolean.class, new BooleanCellEditorRenderer());

@@ -28,6 +28,7 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.CardsPriceTableModel;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
@@ -54,7 +55,7 @@ public class PricesTablePanel extends JPanel {
 		sorterPrice = new TableRowSorter<>(model);
 		
 		sortKeys = new ArrayList<>();
-		sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
+		sortKeys.add(new RowSorter.SortKey(2, SortOrder.ASCENDING));
 		sorterPrice.setSortKeys(sortKeys);
 		
 		
@@ -62,7 +63,7 @@ public class PricesTablePanel extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 		
 		tablePrices.setRowSorter(sorterPrice);
-
+		tablePrices.setRowHeight(MTGConstants.TREE_ROW_HEIGHT);
 		for(var i : model.defaultHiddenColumns())
 			tablePrices.getColumnExt(model.getColumnName(i)).setVisible(false);
 	
@@ -112,10 +113,7 @@ public class PricesTablePanel extends JPanel {
 			
 		if(isVisible())
 		{
-
 			model.clear();
-			
-			
 			List<MTGPricesProvider> providers = listEnabledPlugins(MTGPricesProvider.class);
 			lblLoading.start(providers.size());
 			
@@ -131,8 +129,6 @@ public class PricesTablePanel extends JPanel {
 						
 						List<MagicPrice> list = new ArrayList<>();
 						lblLoading.setText(capitalize("LOADING_PRICES") + " : " + currentCard + "("+currentCard.getCurrentSet()+")" );
-						
-						
 							try {
 							
 								List<MagicPrice> l = prov.getPrice(currentCard);

@@ -12,12 +12,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGConstants;
+import org.magic.tools.Chrono;
 import org.magic.tools.FileTools;
 import org.magic.tools.InstallCert;
 import org.magic.tools.UITools;
@@ -41,7 +41,12 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 		
 	private void init() throws IOException
 	{
+		var c = new Chrono();
+		c.start();
 		cont = parse(jsonFile);
+		logger.debug("Init " + jsonFile +" dataFile in " + c.stop() +"s");
+		
+		
 	}
 	
 	
@@ -58,11 +63,19 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 														  .and("sku").contains(mc.getCurrentSet().getId())
 														  .and("is_foil").is(String.valueOf(foil)));
 		
-		
-		logger.debug(cheapFictionFilter);
 		List<Map<String, Object>> arr = cont.read("$.data[?]",cheapFictionFilter);
-		
-		return arr.get(0).get("url").toString(); 
+		try {
+			
+			if(arr.size()>1)
+			{
+				logger.warn(" found multiples values for " + mc + " " + arr);			
+			}
+			return arr.get(0).get("url").toString();
+		}
+		catch(Exception e)
+		{
+			throw new IOException("No product found for "+mc);
+		}
 	}
 	
 
@@ -103,7 +116,7 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 		Elements prices = null;
 		Elements qualities = null;
 
-		logger.info(getName() + " looking for prices " + url);
+		logger.info(getName() + " looking for prices " + card +" foil="+foil);
 		try {
 			var doc = URLTools.extractHtml(url);
 			qualities = doc.select(".cardTypeList li");

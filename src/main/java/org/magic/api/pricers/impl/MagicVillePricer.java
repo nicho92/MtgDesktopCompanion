@@ -47,7 +47,7 @@ public class MagicVillePricer extends AbstractPricesProvider {
 		var code = res.substring(res.indexOf(key), res.indexOf("\";"));
 		String url = WEBSITE+"/fr/register/show_card_sale?"+code;
 		
-		logger.info(getName() + " looking for prices " + url);
+		logger.info(getName() + " looking for prices " + card);
 
 		
 		Document doc =URLTools.extractHtml(url);

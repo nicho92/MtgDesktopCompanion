@@ -39,7 +39,7 @@ public class EbayPricer extends AbstractPricesProvider {
 			b.addContent("itemFilter(0).value(1)", "FixedPrice");
 		}
 	
-		logger.info(getName() + " looking for " + keyword + " (" + b.getUrl()+")");
+		logger.info(getName() + " looking for " + keyword);
 		
 		JsonElement root = b.toJson();
 
