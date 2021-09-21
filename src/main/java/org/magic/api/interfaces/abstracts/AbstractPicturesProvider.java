@@ -44,7 +44,6 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 		}
 	}
 	
-
 	public BufferedImage getOnlinePicture(MagicCard mc) throws IOException {
 		try {
 			return URLTools.extractImage(generateUrl(mc));
@@ -55,17 +54,19 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 	
 	@Override
 	public BufferedImage getFullSizePicture(MagicCard mc) throws IOException {
-		
-		if(mc.isSpecialSetCard())
-		{
-			return MTG.getEnabledPlugin(MTGTokensProvider.class).getPictures(mc);
-		}
-		//TODO caching tokens
 		if (getEnabledPlugin(MTGPictureCache.class).getItem(mc) != null) {
 			logger.trace("cached " + mc + "(" + mc.getCurrentSet() + ") found");
 			return getEnabledPlugin(MTGPictureCache.class).getItem(mc);
 		}
-		var bufferedImage = getOnlinePicture(mc);
+		
+		
+		BufferedImage bufferedImage  = null;
+		if(mc.isSpecialSetCard())
+			bufferedImage =MTG.getEnabledPlugin(MTGTokensProvider.class).getPictures(mc);
+		else 
+			bufferedImage  = getOnlinePicture(mc);
+		
+		
 		if (bufferedImage != null)
 		{
 			getEnabledPlugin(MTGPictureCache.class).put(bufferedImage, mc);
