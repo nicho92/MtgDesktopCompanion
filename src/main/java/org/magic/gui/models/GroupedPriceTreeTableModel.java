@@ -37,7 +37,7 @@ public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 	public void addItem(String key, List<MagicPrice> list)
 	{
 		listElements.computeIfAbsent(key, v->new ArrayList<>()).addAll(list);
-		modelSupport.fireNewRoot(); //TODO fix with child path
+		modelSupport.fireNewRoot();
 	}
 	
 	

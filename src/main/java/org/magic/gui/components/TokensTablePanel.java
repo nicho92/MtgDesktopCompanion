@@ -6,7 +6,6 @@ import java.awt.BorderLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CancellationException;
 
@@ -21,15 +20,12 @@ import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.MagicEditionsJLabelRenderer;
-import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.tools.UITools;
 
 public class TokensTablePanel extends MTGUIComponent {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	private JXTable table;
 	private MagicCardTableModel model;

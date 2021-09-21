@@ -55,7 +55,6 @@
 		</repository>
 		<repository>
 		  <id>reposilite-repository</id>
-		  <name>Reposilite Repository</name>
 		  <url>https://repo.panda-lang.org/releases</url>
 		</repository>
 		<repository>

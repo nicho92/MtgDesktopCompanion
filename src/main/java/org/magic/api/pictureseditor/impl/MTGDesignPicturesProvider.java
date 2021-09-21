@@ -30,8 +30,6 @@ import org.magic.game.model.factories.AbilitiesFactory;
 import org.magic.services.MTGConstants;
 import org.magic.tools.ImageTools;
 import org.magic.tools.URLTools;
-
-//TODO using URLToolClient instead httpClient apache
 public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 
 	private static final String ACCENT = "ACCENT";
