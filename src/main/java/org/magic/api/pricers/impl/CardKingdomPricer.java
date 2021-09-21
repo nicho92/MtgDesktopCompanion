@@ -1,15 +1,18 @@
 package org.magic.api.pricers.impl;
 
+import static com.jayway.jsonpath.Criteria.where;
+import static com.jayway.jsonpath.Filter.filter;
+import static com.jayway.jsonpath.JsonPath.parse;
+
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.text.similarity.EditDistance;
-import org.apache.commons.text.similarity.JaccardDistance;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
@@ -20,30 +23,57 @@ import org.magic.tools.InstallCert;
 import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
 
+import com.jayway.jsonpath.DocumentContext;
+import com.jayway.jsonpath.Filter;
+
 public class CardKingdomPricer extends AbstractPricesProvider {
 	
 	private static final String API_URI="https://api.cardkingdom.com/api/pricelist";
+	private static final String WEB_URI="https://www.cardkingdom.com";
 	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
-	private Document doc;
-	private List<String> eds;
-
+	private File jsonFile;
+	private DocumentContext cont;
+	
 	@Override
 	public STATUT getStatut() {
-		return STATUT.DEV;
+		return STATUT.BETA;
+	}
+		
+	private void init() throws IOException
+	{
+		cont = parse(jsonFile);
 	}
 	
-	public void cachingPriceList()
+	
+	private String getUrlFor(MagicCard mc,boolean foil) throws IOException
 	{
-		try {
-			FileTools.saveFile(new File(MTGConstants.DATA_DIR,"mtgkingdom.json"), URLTools.extractJson(API_URI).toString());
-		} catch (IOException e) {
-			logger.error("error getting cache priceguide",e);
+		if(!jsonFile.exists()|| FileTools.daysBetween(Files.getLastModifiedTime(jsonFile.toPath()).toInstant(), new Date().toInstant())>1) {
+			FileTools.saveFile(jsonFile, URLTools.extractJson(API_URI).toString());
 		}
+	
+		if(cont==null)
+			init();
+		
+		Filter cheapFictionFilter = filter(where("name").is(mc.getName())
+														  .and("sku").contains(mc.getCurrentSet().getId())
+														  .and("is_foil").is(String.valueOf(foil)));
+		
+		
+		logger.debug(cheapFictionFilter);
+		List<Map<String, Object>> arr = cont.read("$.data[?]",cheapFictionFilter);
+		
+		return arr.get(0).get("url").toString(); 
 	}
+	
+
+	
+	
 	
 
 	public CardKingdomPricer() {
-		super();
+		
+		jsonFile=new File(MTGConstants.DATA_DIR,"mtgkingdom.json");
+		
 		if(getBoolean(LOAD_CERTIFICATE))
 		{
 			try {
@@ -53,51 +83,7 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 				logger.error(e1);
 			}
 		}
-
-		eds = new ArrayList<>();
 	}
-	
-	private void initEds()
-	{
-		try {
-			doc = URLTools.extractHtml(getString("WEBSITE")+"/catalog/magic_the_gathering/by_az");
-			Elements e = doc.select(".anchorList a[href]");
-			for (Element ed : e)
-			{
-				eds.add(ed.html());
-			}
-		} catch (IOException e) {
-			logger.error("Could not init list eds", e);
-		}
-
-	}
-
-	private String findGoodEds(String set) {
-		
-		if(set.startsWith("Revised"))
-			return "3rd Edition";
-		
-		if(set.contains("Sixth Edition"))
-			return "6th Edition";
-		
-		double leven = 100;
-		var name = "";
-		EditDistance<Double> d = new JaccardDistance();
-		for (String s : eds) 
-		{
-			double dist = d.apply(set.toLowerCase(), s.toLowerCase());
-			if (dist < leven) {
-				leven = dist;
-				name = s;
-			}
-		}
-		return name;
-	}
-
-	private String format(String s) {
-		return s.replace("'s", "s").replace(",", "").replace(" ", "-").replace("'","").toLowerCase();
-	}
-	
 	
 	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 		
@@ -111,21 +97,15 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 
 	public List<MagicPrice> getPrices(MagicCard card,boolean foil) throws IOException {
 
-		if(eds.isEmpty())
-			initEds();
-		
-		
 		List<MagicPrice> list = new ArrayList<>();
-		var html = getString("URL");
 
-
-		String url = html + format(findGoodEds(card.getCurrentSet().getSet())) + "/" + format(card.getName()+(foil?"-foil":""));
+		String url = WEB_URI+ "/"+getUrlFor(card,foil);
 		Elements prices = null;
 		Elements qualities = null;
 
 		logger.info(getName() + " looking for prices " + url);
 		try {
-			doc = URLTools.extractHtml(url);
+			var doc = URLTools.extractHtml(url);
 			qualities = doc.select(".cardTypeList li");
 			prices = doc.select(".stylePrice");
 
@@ -138,13 +118,15 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 		for (var i = 0; i < qualities.size(); i++) {
 			var mp = new MagicPrice();
 
-			String price = prices.get(i).html().replaceAll("\\$", "");
+			String price = prices.get(i).html();
 			mp.setMagicCard(card);
 			mp.setValue(UITools.parseDouble(price));
 			mp.setCurrency("USD");
+			mp.setCountry("USA");
 			mp.setSeller(getName());
 			mp.setSite(getName());
 			mp.setUrl(url+"?partner=Mtgdesktopcompanion&utm_source=Mtgdesktopcompanion&utm_medium=affiliate&utm_campaign=condition");
+			mp.setSellerUrl(url+"?partner=Mtgdesktopcompanion&utm_source=Mtgdesktopcompanion&utm_medium=affiliate&utm_campaign=condition");
 			mp.setQuality(qualities.get(i).html());
 			mp.setLanguage("English");
 			mp.setFoil(foil);
@@ -163,9 +145,7 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 	
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		return Map.of("URL", "https://www.cardkingdom.com/mtg/",
-								"WEBSITE", "https://www.cardkingdom.com/",
-								LOAD_CERTIFICATE, "true");
+		return Map.of(LOAD_CERTIFICATE, "true");
 	}
 
 

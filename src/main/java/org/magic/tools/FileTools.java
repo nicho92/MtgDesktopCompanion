@@ -10,6 +10,7 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Properties;
@@ -75,6 +76,13 @@ public class FileTools {
 			props.store(fos, "");
 		}
 	}
+	
+	public static int daysBetween(Date d1, Date d2)
+	{
+		return (int) ChronoUnit.DAYS.between(d1.toInstant(), d2.toInstant());
+	}
+	
+	
 	
 	public static int daysBetween(Instant d1, Instant d2)
 	{
