@@ -48,21 +48,24 @@
 	</properties>
 
 	<repositories>
+		
 		<repository>
 			<id>jcenter</id>
 			<url>https://jcenter.bintray.com</url>
 		</repository>
 		<repository>
+		  <id>reposilite-repository</id>
+		  <name>Reposilite Repository</name>
+		  <url>https://repo.panda-lang.org/releases</url>
+		</repository>
+		<repository>
 			<id>milton-repo</id>
 			<url>http://dl.bintray.com/milton/Milton</url>
 		</repository> 
-		<repository>
-			<id>panda-repository</id>
-			<url>https://repo.panda-lang.org/</url>
-		</repository>
 	</repositories>
-	<dependencies>
 	
+	
+<dependencies>
 	<dependency>
 	    <groupId>org.apache.poi</groupId>
 	    <artifactId>poi</artifactId>
