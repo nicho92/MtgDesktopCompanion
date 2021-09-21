@@ -46,6 +46,7 @@ import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.reflections.Reflections;
 
+@SuppressWarnings({"rawtypes","unchecked"})
 public class PluginRegistry {
 	
 	private Map<Class,PluginEntry> registry;
@@ -107,6 +108,7 @@ public class PluginRegistry {
 		
 	}
 	
+	
 	public <T> T newInstance(String classname) throws ClassNotFoundException {
 		try {
 			logger.trace("\tload plugin :  " + classname);
@@ -121,6 +123,7 @@ public class PluginRegistry {
 	{
 		return getEntry(ClassUtils.getAllInterfaces(k.getClass()).get(0));
 	}
+	
 	
 	public PluginEntry getEntry(Class p)
 	{
@@ -235,6 +238,7 @@ public class PluginRegistry {
 		return classes;
 	}
 
+	
 	public boolean updateConfigWithNewModule() {
 		entrySet().forEach(p->
 		{

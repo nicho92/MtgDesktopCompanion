@@ -70,6 +70,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
 import org.magic.services.PluginRegistry;
 import org.magic.services.TransactionService;
+import org.magic.services.VersionChecker;
 import org.magic.services.keywords.AbstractKeyWordsManager;
 import org.magic.tools.Chrono;
 import org.magic.tools.ImageTools;
@@ -263,7 +264,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 						.searchCardByCriteria(request.params(":att"), request.params(":val"), null, false),
 				transformer);
 		
-		
+		get("/version", "text", (request, response) -> new VersionChecker().getVersion());
 		
 		get("/cards/search/:att/:val/:exact", URLTools.HEADER_JSON,
 				(request, response) -> getEnabledPlugin(MTGCardsProvider.class)

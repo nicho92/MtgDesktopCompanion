@@ -32,10 +32,7 @@ public class MTGAuthenticatorEditor extends JPanel {
 	private MapTableModel<String, String> tableModel;
 	
 	public MTGAuthenticatorEditor() {
-		
-		MTGControler.getInstance().loadAccountsConfiguration();
-		
-		tableModel = new MapTableModel<>() {
+			tableModel = new MapTableModel<>() {
 			
 			private static final long serialVersionUID = 1L;
 			
