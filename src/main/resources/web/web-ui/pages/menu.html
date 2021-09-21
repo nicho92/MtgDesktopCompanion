@@ -44,6 +44,14 @@
  		      }
  		    });
  		 });
+		
+		$.ajax({
+	          url: restserver+"/version",
+	          success: function( data ) {
+	        	  $("#version").append( data );
+	          }
+	        });
+		
  	
  </script>
  
@@ -121,6 +129,8 @@
                         </li>   
                     </ul>
                 </div>
-                <!-- /.sidebar-collapse -->
+                	<ul>
+                    	<div id="version">Version</div>
+               		</ul>
             </div>
-            <!-- /.navbar-static-side -->
+            

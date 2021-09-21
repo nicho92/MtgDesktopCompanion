@@ -264,7 +264,18 @@ public class JSONHttpServer extends AbstractMTGServer {
 						.searchCardByCriteria(request.params(":att"), request.params(":val"), null, false),
 				transformer);
 		
-		get("/version", "text", (request, response) -> new VersionChecker().getVersion());
+		get("/version", "text", (request, response) -> { 
+			
+			return getCached(request.pathInfo(), new Callable<Object>() {
+				
+				@Override
+				public String call() throws Exception {
+					return new VersionChecker().getVersion();
+				}
+			});
+			
+			
+		});
 		
 		get("/cards/search/:att/:val/:exact", URLTools.HEADER_JSON,
 				(request, response) -> getEnabledPlugin(MTGCardsProvider.class)
