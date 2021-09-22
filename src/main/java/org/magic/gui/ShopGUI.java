@@ -7,11 +7,11 @@ import javax.swing.JTabbedPane;
 
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.shops.ContactsManagementPanel;
-import org.magic.gui.components.shops.ConverterPanel;
-import org.magic.gui.components.shops.ProductsCreatorComponent;
-import org.magic.gui.components.shops.TransactionCreatorComponent;
 import org.magic.gui.components.shops.TransactionsPanel;
 import org.magic.gui.components.shops.WebShopConfigPanel;
+import org.magic.gui.components.shops.extshop.ConverterPanel;
+import org.magic.gui.components.shops.extshop.ProductsCreatorComponent;
+import org.magic.gui.components.shops.extshop.TransactionCreatorComponent;
 import org.magic.services.MTGConstants;
 import org.magic.tools.UITools;
 

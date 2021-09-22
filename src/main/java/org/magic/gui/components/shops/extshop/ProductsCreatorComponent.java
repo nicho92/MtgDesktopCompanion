@@ -1,4 +1,4 @@
-package org.magic.gui.components.shops;
+package org.magic.gui.components.shops.extshop;
 
 import java.awt.BorderLayout;
 import java.awt.event.ItemEvent;

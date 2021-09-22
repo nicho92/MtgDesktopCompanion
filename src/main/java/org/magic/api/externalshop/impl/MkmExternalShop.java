@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.api.mkm.exceptions.MkmException;
 import org.api.mkm.modele.Category;
+import org.api.mkm.modele.LightArticle;
 import org.api.mkm.modele.LightProduct;
 import org.api.mkm.modele.Order;
 import org.api.mkm.modele.Product;
@@ -17,6 +18,7 @@ import org.api.mkm.services.OrderService;
 import org.api.mkm.services.OrderService.ACTOR;
 import org.api.mkm.services.OrderService.STATE;
 import org.api.mkm.services.ProductServices;
+import org.api.mkm.services.StockService;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.api.mkm.tools.MkmConstants;
 import org.magic.api.beans.Contact;
@@ -67,6 +69,11 @@ public class MkmExternalShop extends AbstractExternalShop {
 		}
 	}
 	
+	//@Override
+	public List<LightArticle> listStock() throws IOException {
+		init();
+		return new StockService().getStock();
+	}
 	
 
 	@Override

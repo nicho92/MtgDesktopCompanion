@@ -9,6 +9,8 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
@@ -26,12 +28,16 @@ import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGPricesProvider;
+import org.magic.api.sorters.MagicPricesComparator;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.CardsPriceTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
+import java.awt.Cursor;
+
+
 public class PricesTablePanel extends JPanel {
 	
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
@@ -40,7 +46,6 @@ public class PricesTablePanel extends JPanel {
 	private JXTable tablePrices;
 	private AbstractBuzyIndicatorComponent lblLoading;
 	private transient DefaultRowSorter<TableModel, Integer> sorterPrice;
-	private transient List<RowSorter.SortKey> sortKeys;
 	private MagicCard currentCard;
 	private boolean foilOnly;
 	
@@ -52,21 +57,19 @@ public class PricesTablePanel extends JPanel {
 		model = new CardsPriceTableModel();
 		tablePrices = UITools.createNewTable(model);
 		UITools.initTableFilter(tablePrices);
-		sorterPrice = new TableRowSorter<>(model);
-		
-		sortKeys = new ArrayList<>();
-		sortKeys.add(new RowSorter.SortKey(2, SortOrder.ASCENDING));
-		sorterPrice.setSortKeys(sortKeys);
-		
-		
 		
 		setLayout(new BorderLayout(0, 0));
 		
 		tablePrices.setRowSorter(sorterPrice);
 		tablePrices.setRowHeight(MTGConstants.TREE_ROW_HEIGHT);
+		
+		
+		
+		
 		for(var i : model.defaultHiddenColumns())
 			tablePrices.getColumnExt(model.getColumnName(i)).setVisible(false);
 	
+		
 		
 		
 		add(panel, BorderLayout.NORTH);
@@ -76,6 +79,20 @@ public class PricesTablePanel extends JPanel {
 		add(new JScrollPane(tablePrices), BorderLayout.CENTER);
 		
 		tablePrices.addMouseListener(new MouseAdapter() {
+			
+			
+			
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); 
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR)); 
+			}
+
 			@Override
 			public void mouseClicked(MouseEvent ev) {
 				if (ev.getClickCount() == 2 && !ev.isConsumed()) {
@@ -162,8 +179,11 @@ public class PricesTablePanel extends JPanel {
 						cdl.countDown();
 						
 						if(cdl.getCount()==0)
+						{	
 							lblLoading.end();
-						
+							Collections.sort(model.getItems(), new MagicPricesComparator());
+							model.fireTableDataChanged();
+						}
 					}
 			
 				};

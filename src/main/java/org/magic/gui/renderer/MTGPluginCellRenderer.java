@@ -1,6 +1,7 @@
 package org.magic.gui.renderer;
 
 import java.awt.Component;
+import java.awt.Font;
 
 import javax.swing.JLabel;
 import javax.swing.JTable;
@@ -19,6 +20,12 @@ public class MTGPluginCellRenderer implements TableCellRenderer{
 		lab.setIcon( plug.getIcon());
 		lab.setText(plug.getName());
 		lab.setOpaque(true);
+		
+		
+		if(plug.isPartner())
+			 lab.setFont(lab.getFont().deriveFont(Font.BOLD));
+		
+		
 		if (isSelected) {
 			lab.setBackground(table.getSelectionBackground());
 		} else {

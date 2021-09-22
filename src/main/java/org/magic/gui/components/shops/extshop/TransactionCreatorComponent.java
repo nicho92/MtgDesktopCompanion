@@ -1,4 +1,4 @@
-package org.magic.gui.components.shops;
+package org.magic.gui.components.shops.extshop;
 
 import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
@@ -18,6 +18,7 @@ import org.magic.api.beans.Transaction;
 import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.components.shops.TransactionsPanel;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
