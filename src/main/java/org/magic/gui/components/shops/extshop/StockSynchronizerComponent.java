@@ -83,7 +83,10 @@ public class StockSynchronizerComponent extends MTGUIComponent {
 		
 		
 		add(panel, BorderLayout.CENTER);
-		btnSearch.addActionListener(e->loadProducts());
+		btnSearch.addActionListener(e->{
+			loadProducts((MTGExternalShop)cboInput.getSelectedItem(),modelInput);
+			loadProducts((MTGExternalShop)cboOutput.getSelectedItem(),modelOutput);
+		});
 		
 		
 		cboOutput.addItemListener(il->{
@@ -95,11 +98,11 @@ public class StockSynchronizerComponent extends MTGUIComponent {
 		
 	}
 
-	private void loadProducts() {
+	private void loadProducts(MTGExternalShop ext,StockItemTableModel model) {
 		
 		modelInput.clear();
 		
-		AbstractObservableWorker<List<MTGStockItem>,MTGStockItem,MTGExternalShop> sw = new AbstractObservableWorker<>(buzy,(MTGExternalShop)cboInput.getSelectedItem())
+		AbstractObservableWorker<List<MTGStockItem>,MTGStockItem,MTGExternalShop> sw = new AbstractObservableWorker<>(buzy,ext)
 		{
 			@Override
 			protected List<MTGStockItem> doInBackground() throws Exception {
@@ -110,7 +113,7 @@ public class StockSynchronizerComponent extends MTGUIComponent {
 			protected void done() {
 				try {
 					super.done();
-					modelInput.addItems(get());
+					model.addItems(get());
 				} catch (InterruptedException e) {
 					Thread.currentThread().interrupt();
 				} catch (ExecutionException e) {
@@ -119,6 +122,8 @@ public class StockSynchronizerComponent extends MTGUIComponent {
 			}
 			
 		};
+		
+		
 		
 		ThreadManager.getInstance().runInEdt(sw,"load stock");
 	}
