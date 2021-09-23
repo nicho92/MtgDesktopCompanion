@@ -10,59 +10,55 @@ import org.magic.api.beans.enums.EnumItems;
 
 public interface MTGStockItem extends Serializable, Comparable<MTGStockItem> {
 
-	String getProductName();
+	public String getProductName();
 
-	void setProductName(String productName);
+	public 	void setProductName(String productName);
 
-	MagicEdition getEdition();
+	public 	MagicEdition getEdition();
 
-	void setTypeStock(EnumItems typeStock);
+	public 	void setTypeStock(EnumItems typeStock);
 
-	EnumItems getTypeStock();
+	public 	EnumItems getTypeStock();
 
-	void setGrade(Grading grade);
+	public 	void setGrade(Grading grade);
 
-	Grading getGrade();
+	public 	Grading getGrade();
 
-	String toString();
+	public 	String toString();
 
-	Double getPrice();
+	public 	Double getPrice();
 
-	void setPrice(Double price);
+	public 	void setPrice(Double price);
 
-	Integer getId();
+	public 	Integer getId();
 
-	void setId(Integer id);
+	public 	void setId(Integer id);
 
-	MagicCollection getMagicCollection();
+	public 	MagicCollection getMagicCollection();
 
-	void setMagicCollection(MagicCollection magicCollection);
+	public 	void setMagicCollection(MagicCollection magicCollection);
 
-	Integer getQte();
+	public 	Integer getQte();
 
-	void setQte(Integer qte);
+	public 	void setQte(Integer qte);
 
-	String getComment();
+	public 	String getComment();
 
-	void setComment(String comment);
+	public 	void setComment(String comment);
 
-	String getLanguage();
+	public 	String getLanguage();
 
-	void setLanguage(String language);
+	public 	void setLanguage(String language);
 
-	int hashCode();
+	public 	boolean isUpdated();
 
-	boolean isUpdated();
+	public 	void setUpdated(boolean updated);
 
-	void setUpdated(boolean updated);
+	public 	String getTiersAppIds(String name);
 
-	boolean equals(Object obj);
+	public 	void setTiersAppIds(Map<String, String> tiersAppIds);
 
-	String getTiersAppIds(String name);
-
-	void setTiersAppIds(Map<String, String> tiersAppIds);
-
-	Map<String, String> getTiersAppIds();
+	public 	Map<String, String> getTiersAppIds();
 	
 	public String getUrl();
 	

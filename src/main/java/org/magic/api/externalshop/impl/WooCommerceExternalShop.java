@@ -28,6 +28,7 @@ import com.icoderman.woocommerce.WooCommerce;
 public class WooCommerceExternalShop extends AbstractExternalShop {
 
 	
+	private static final String PER_PAGE = "PER_PAGE";
 	private static final String STATUS = "status";
 	private static final String DATE_PAID = "date_paid";
 	private WooCommerce client;
@@ -51,7 +52,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		
 		var params = new HashMap<String, String>();
 		
-		params.put("per_page", "100");
+		params.put("per_page", getString(PER_PAGE));
 		
 		
 		List<JsonElement> res = client.getAll(EndpointBaseType.PRODUCTS_CATEGORIES.getValue(),params);
@@ -80,7 +81,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		
 		Map<String, String> parameters = new HashMap<>();
 	    					parameters.put(STATUS, "any");
-	    					parameters.put("per_page", getString("PER_PAGE"));
+	    					parameters.put("per_page", getString(PER_PAGE));
 	    List<JsonElement> res = client.getAll(EndpointBaseType.ORDERS.getValue(),parameters);
 		
 	    var ret = new ArrayList<Transaction>();
@@ -203,6 +204,63 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		return WooCommerceTools.WOO_COMMERCE_NAME;
 	}
 	
+	@Override
+	public List<MTGStockItem> listStock() throws IOException {
+		init();
+		var ret = new ArrayList<MTGStockItem>();
+		Map<String, String> parameters = new HashMap<>();
+		parameters.put("per_page", getString(PER_PAGE));
+		
+		
+		List<JsonObject> res = client.getAll(EndpointBaseType.PRODUCTS.getValue(),parameters);
+
+		res.forEach(element->{
+			Product p = new Product();
+			JsonObject obj = element.getAsJsonObject();
+	
+			p.setIdProduct(obj.get("id").getAsInt());
+			p.setEnName(obj.get("name").getAsString());
+			p.setIdGame(1);
+			p.setLocalization(new ArrayList<>());
+			
+			JsonObject objCateg = obj.get("categories").getAsJsonArray().get(0).getAsJsonObject();
+			Category c = new Category();
+					 c.setIdCategory(objCateg.get("id").getAsInt());
+					 c.setCategoryName(objCateg.get("name").getAsString());
+			p.setCategory(c);
+			p.setCategoryName(c.getCategoryName());
+			
+			JsonObject img = obj.get("images").getAsJsonArray().get(0).getAsJsonObject();
+							p.setImage(img.get("src").getAsString());
+			
+			
+			var stockItem = new WooCommerceItem();
+					stockItem.setProduct(p);
+					try {
+					stockItem.setPrice(obj.get("price").getAsDouble());
+					}
+					catch(Exception e)
+					{
+						stockItem.setPrice(0.0);	
+					}
+					
+					try {
+						stockItem.setQte(obj.get("stock_quantity").getAsInt());	
+					}catch(Exception e)
+					{
+						stockItem.setQte(0);	
+					}
+					
+
+				notify(stockItem);
+				ret.add(stockItem);	
+					
+		});
+		
+		return ret;
+		
+	
+	}
 
 	@Override
 	public List<Product> listProducts(String name) throws IOException {
@@ -216,8 +274,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		List<JsonObject> res = client.getAll(EndpointBaseType.PRODUCTS.getValue(),productInfo);
 		
 		List<Product> ret =  new ArrayList<>();
-		
-		
+	
 		res.forEach(element->{
 			
 			Product p = new Product();
@@ -245,7 +302,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		return Map.of("PER_PAGE","50");
+		return Map.of(PER_PAGE,"50");
 	}
 	
 	private Map<String, Object> toWooCommerceAttributs(Product product,String status, int idCategory)
@@ -308,6 +365,8 @@ class WooCommerceItem extends AbstractStockItem<Product>
 	public void setProduct(Product product) {
 			this.id=product.getIdProduct();
 			this.url=product.getImage();
+			this.productName=product.getEnName();
+			this.product=product;
 			
 	}
 }

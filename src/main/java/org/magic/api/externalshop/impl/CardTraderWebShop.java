@@ -11,6 +11,7 @@ import org.api.mkm.modele.Expansion;
 import org.api.mkm.modele.Product;
 import org.magic.api.beans.Contact;
 import org.magic.api.beans.Transaction;
+import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 
 public class CardTraderWebShop extends AbstractExternalShop {
@@ -24,6 +25,12 @@ public class CardTraderWebShop extends AbstractExternalShop {
 	{
 		if(service==null)
 			service = new CardTraderService(getAuthenticator().get(TOKEN));
+	}
+	
+	@Override
+	public List<MTGStockItem> listStock() throws IOException {
+		// TODO Auto-generated method stub
+		return new ArrayList<>();
 	}
 	
 	

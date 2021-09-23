@@ -26,6 +26,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Transaction;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionStatus;
+import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
 
@@ -50,6 +51,11 @@ public class MkmExternalShop extends AbstractExternalShop {
 		return new GameService().listCategories();
 	}
 	
+	@Override
+	public List<MTGStockItem> listStock() throws IOException {
+		// TODO Auto-generated method stub
+		return new ArrayList<>();
+	}
 	
 	@Override
 	protected List<Transaction> loadTransaction()  {
@@ -68,13 +74,6 @@ public class MkmExternalShop extends AbstractExternalShop {
 			return ret;
 		}
 	}
-	
-	//@Override
-	public List<LightArticle> listStock() throws IOException {
-		init();
-		return new StockService().getStock();
-	}
-	
 
 	@Override
 	public List<Product> listProducts(String name) throws IOException {
@@ -86,6 +85,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 
 	@Override
 	protected void createTransaction(Transaction t) throws IOException {
+				
 		throw new IOException("Not enable to create orders in Mkm");
 
 	}

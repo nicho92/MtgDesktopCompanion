@@ -15,6 +15,7 @@ import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPictureProvider;
+import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.services.MTGConstants;
 import org.magic.services.TransactionService;
@@ -48,7 +49,15 @@ public class MTGCompanionShop extends AbstractExternalShop {
 		
 		return cat;
 	}
-
+	
+	@Override
+	public List<MTGStockItem> listStock() throws IOException {
+		try {
+			return MTG.getEnabledPlugin(MTGDao.class).listStockItems();
+		} catch (SQLException e) {
+			throw new IOException(e);
+		}
+	}
 
 	@Override
 	public List<Product> listProducts(String name) throws IOException {

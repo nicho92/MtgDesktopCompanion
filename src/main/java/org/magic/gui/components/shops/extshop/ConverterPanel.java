@@ -94,6 +94,8 @@ public class ConverterPanel extends MTGUIComponent{
 						protected void process(List<ConverterItem> chunks) {
 							for(ConverterItem it : chunks)
 								model.removeItem(it);
+							
+							model.fireTableDataChanged();
 						}
 						
 						
