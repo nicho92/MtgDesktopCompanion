@@ -97,7 +97,7 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of(
 								"MAX", "-1",
-								"API_KEY", "MGCASSTNT",
+								"API_KEY", "MTGCompanion",
 								"URL", "http://partner.tcgplayer.com/x3/phl.asmx/p?v=3&pk=%API_KEY%&s=%SET%&p=%CARTE%",
 								"WEBSITE", "http://www.tcgplayer.com/",
 								"KEYWORD", "");

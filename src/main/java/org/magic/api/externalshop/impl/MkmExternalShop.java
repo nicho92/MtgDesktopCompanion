@@ -1,5 +1,6 @@
 package org.magic.api.externalshop.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -8,7 +9,7 @@ import java.util.Map;
 
 import org.api.mkm.exceptions.MkmException;
 import org.api.mkm.modele.Category;
-import org.api.mkm.modele.LightArticle;
+import org.api.mkm.modele.Game;
 import org.api.mkm.modele.LightProduct;
 import org.api.mkm.modele.Order;
 import org.api.mkm.modele.Product;
@@ -29,9 +30,11 @@ import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
+import org.magic.services.MTGConstants;
 
 public class MkmExternalShop extends AbstractExternalShop {
 	
+	private static final String ID_GAME = "ID_GAME";
 	private boolean initied=false;
 
 	private void init()
@@ -52,9 +55,34 @@ public class MkmExternalShop extends AbstractExternalShop {
 	}
 	
 	@Override
-	public List<MTGStockItem> listStock() throws IOException {
-		// TODO Auto-generated method stub
-		return new ArrayList<>();
+	public List<MTGStockItem> loadStock(int start) throws IOException {
+		
+		
+		
+		
+		
+		var ret = new ArrayList<MTGStockItem>();
+		
+			Game g = new Game();
+			g.setIdGame(getInt(ID_GAME));
+		
+			var serv = new StockService();
+			
+			//TODO fixing exportStock file in mkm api . 
+		//	serv.exportStock(new File(MTGConstants.DATA_DIR, "temp.csv"),getInt(ID_GAME));
+			
+			serv.getStock(g,null).forEach(art->{
+				
+				var item = new MkmStockItem();
+				item.setId(art.getIdProduct());
+				item.setProduct(art.getProduct());
+				item.setQte(art.getCount());
+				item.setPrice(art.getPrice());
+				item.setId(art.getIdArticle());
+				ret.add(item);
+				
+			});
+		return ret;
 	}
 	
 	@Override
@@ -79,7 +107,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 	public List<Product> listProducts(String name) throws IOException {
 		init();
 		Map<PRODUCT_ATTS, String> atts = new EnumMap<>(PRODUCT_ATTS.class);
-		atts.put(PRODUCT_ATTS.idGame, getString("ID_GAME"));
+		atts.put(PRODUCT_ATTS.idGame, getString(ID_GAME));
 		return new ProductServices().findProduct(name, atts);
 	}
 
@@ -160,7 +188,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of("STATE", STATE.paid.name(),
 				"ACTOR", ACTOR.seller.name(),
-				"ID_GAME","1");
+				ID_GAME,"1");
 	}
 
 	@Override
@@ -175,6 +203,8 @@ public class MkmExternalShop extends AbstractExternalShop {
 
 class MkmStockItem extends AbstractStockItem<LightProduct>
 {
+	private int idArticle;
+	
 	private static final long serialVersionUID = 1L;
 	@Override
 	public void setProduct(LightProduct product) {
@@ -185,9 +215,17 @@ class MkmStockItem extends AbstractStockItem<LightProduct>
 			url = "https:"+ product.getImage();
 		else
 			url=product.getImage();
-		
-		
 	}
+	
+	public void setIdArticle(int idArticle) {
+		this.idArticle = idArticle;
+	}
+	
+	public int getIdArticle() {
+		return idArticle;
+	}
+	
+	
 }
 
 

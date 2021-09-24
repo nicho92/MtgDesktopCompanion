@@ -2,7 +2,6 @@ package org.magic.gui.components.shops.extshop;
 
 import java.awt.BorderLayout;
 import java.awt.event.ItemEvent;
-import java.awt.event.KeyEvent;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -10,6 +9,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.interfaces.MTGExternalShop;
@@ -29,22 +29,18 @@ public class StockSynchronizerComponent extends MTGUIComponent {
 	private JComboBox<MTGExternalShop> cboInput;
 	private JComboBox<MTGExternalShop> cboOutput;
 	
-	private JXTable listInput;
+	private JXTable tableInput;
 	private StockItemTableModel modelInput;
 	
-	private JXTable listOutput;
+	private JXTable tableOutput;
 	private StockItemTableModel modelOutput;
 	
 	private AbstractBuzyIndicatorComponent buzy;
-	private JPanel panel;
-
 	
 	public StockSynchronizerComponent() {
 		setLayout(new BorderLayout(0, 0));
 
-		panel = new JPanel();
-		var btnSearch = UITools.createBindableJButton("", MTGConstants.ICON_SEARCH_24, KeyEvent.VK_F,"searchProduct");
-		
+		var panelCenter = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		var panelNorth = new JPanel();
 		var panelWest = new JPanel();
 		panelWest.setLayout(new BorderLayout());
@@ -57,56 +53,58 @@ public class StockSynchronizerComponent extends MTGUIComponent {
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		modelInput = new StockItemTableModel();
 
-		listInput = UITools.createNewTable(modelInput);
+		tableInput = UITools.createNewTable(modelInput);
 		modelOutput= new StockItemTableModel();
-		listOutput = UITools.createNewTable(modelOutput);
+		tableOutput = UITools.createNewTable(modelOutput);
 		
 		
 		for(var i : new int[] {2,4,5,8,9})
 		{
-			listInput.getColumnExt(modelInput.getColumnName(i)).setVisible(false);
-			listOutput.getColumnExt(modelInput.getColumnName(i)).setVisible(false);
+			tableInput.getColumnExt(modelInput.getColumnName(i)).setVisible(false);
+			tableOutput.getColumnExt(modelInput.getColumnName(i)).setVisible(false);
 		}
-		
-		panelNorth.add(btnSearch);
 		panelNorth.add(buzy);
 		
 		add(panelNorth, BorderLayout.NORTH);
-		add(panelWest,BorderLayout.WEST);
-		add(panelEast,BorderLayout.EAST);
+		add(panelCenter,BorderLayout.CENTER);
+		
+		panelCenter.setLeftComponent(panelWest);
+		panelCenter.setRightComponent(panelEast);
 		
 		panelWest.add(cboInput, BorderLayout.NORTH);
+		panelWest.add(new JScrollPane(tableInput), BorderLayout.CENTER);
+		
 		panelEast.add(cboOutput, BorderLayout.NORTH);
+		panelEast.add(new JScrollPane(tableOutput), BorderLayout.CENTER);
+	
 		
-		panelWest.add(new JScrollPane(listInput), BorderLayout.CENTER);
-		panelEast.add(new JScrollPane(listOutput), BorderLayout.CENTER);
-		
-		
-		add(panel, BorderLayout.CENTER);
-		btnSearch.addActionListener(e->{
-			loadProducts((MTGExternalShop)cboInput.getSelectedItem(),modelInput);
-			loadProducts((MTGExternalShop)cboOutput.getSelectedItem(),modelOutput);
+		cboInput.addItemListener(il->{
+			 if (il.getStateChange() == ItemEvent.SELECTED) {
+				 
+					loadProducts((MTGExternalShop)cboInput.getSelectedItem(),modelInput,0);
+		       }
 		});
-		
 		
 		cboOutput.addItemListener(il->{
 			 if (il.getStateChange() == ItemEvent.SELECTED) {
-					
+				 loadProducts((MTGExternalShop)cboOutput.getSelectedItem(),modelOutput,0);
 		       }
 		});
 		
 		
 	}
 
-	private void loadProducts(MTGExternalShop ext,StockItemTableModel model) {
+	private void loadProducts(MTGExternalShop ext,StockItemTableModel model,int start) {
 		
-		modelInput.clear();
+		if(start<=0)
+			model.clear();
+		
 		
 		AbstractObservableWorker<List<MTGStockItem>,MTGStockItem,MTGExternalShop> sw = new AbstractObservableWorker<>(buzy,ext)
 		{
 			@Override
 			protected List<MTGStockItem> doInBackground() throws Exception {
-					return plug.listStock();
+					return plug.listStock(start);
 			}
 			
 			@Override

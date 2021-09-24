@@ -12,12 +12,14 @@ import org.magic.api.beans.ConverterItem;
 import org.magic.api.beans.Transaction;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGExternalShop;
+import org.magic.api.interfaces.MTGStockItem;
 import org.magic.tools.MTG;
 
 public abstract class AbstractExternalShop extends AbstractMTGPlugin implements MTGExternalShop {
 
 	
 	protected abstract List<Transaction> loadTransaction() throws IOException;
+	protected abstract List<MTGStockItem> loadStock(int start) throws IOException;
 	
 	@Override
 	public PLUGINS getType() {
@@ -31,6 +33,16 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 	{
 		try {
 			return MTG.getEnabledPlugin(MTGDao.class).listConversionItems().stream().filter(p->(p.getSource().equalsIgnoreCase(sourceName) && p.getLang().equalsIgnoreCase(lang) && p.getInputId()==idSource)).toList();
+		} catch (SQLException e) {
+			logger.error(e);
+			return new ArrayList<>();
+		}
+	}
+	
+	public List<ConverterItem> getRefs(String lang, int id)
+	{
+		try {
+			return MTG.getEnabledPlugin(MTGDao.class).listConversionItems().stream().filter(p->(p.getLang().equalsIgnoreCase(lang) && (p.getInputId()==id || p.getOutputId()==id))).toList();
 		} catch (SQLException e) {
 			logger.error(e);
 			return new ArrayList<>();
@@ -51,6 +63,18 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 		return list;
 	}
 
+	@Override
+	public List<MTGStockItem> listStock(int start) throws IOException {
+		var list= loadStock(start);
+		list.forEach(item->{
+			getRefs(item.getLanguage(),item.getId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getDestination(),String.valueOf(converterItem.getOutputId())));
+			getRefs(item.getLanguage(),item.getId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getSource(),String.valueOf(converterItem.getInputId())));
+		});
+			
+		return list;
+	}
+	
+	
 	@Override
 	public void createTransaction(Transaction t, boolean automaticProductCreation) throws IOException {
 	

@@ -205,7 +205,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	}
 	
 	@Override
-	public List<MTGStockItem> listStock() throws IOException {
+	public List<MTGStockItem> loadStock(int start) throws IOException {
 		init();
 		var ret = new ArrayList<MTGStockItem>();
 		Map<String, String> parameters = new HashMap<>();
@@ -251,7 +251,10 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 						stockItem.setQte(0);	
 					}
 					
-
+				
+					
+					
+					
 				notify(stockItem);
 				ret.add(stockItem);	
 					

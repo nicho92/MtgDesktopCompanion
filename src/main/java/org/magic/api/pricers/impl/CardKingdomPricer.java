@@ -50,7 +50,7 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 	}
 	
 	
-	private String getUrlFor(MagicCard mc,boolean foil) throws IOException
+	private String getUrlFor(MagicCard mc,boolean foil) throws IOException 
 	{
 		if(!jsonFile.exists()|| FileTools.daysBetween(Files.getLastModifiedTime(jsonFile.toPath()).toInstant(), new Date().toInstant())>1) {
 			FileTools.saveFile(jsonFile, URLTools.extractJson(API_URI).toString());
@@ -61,8 +61,10 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 		
 		Filter cheapFictionFilter = filter(where("name").is(mc.getName())
 														  .and("sku").contains(mc.getCurrentSet().getId())
-														  .and("is_foil").is(String.valueOf(foil)));
+														  .and("is_foil").is(String.valueOf(foil))
+														  );
 		
+		logger.debug("Finding " + cheapFictionFilter);
 		List<Map<String, Object>> arr = cont.read("$.data[?]",cheapFictionFilter);
 		try {
 			
@@ -74,8 +76,9 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 		}
 		catch(Exception e)
 		{
-			throw new IOException("No product found for "+mc);
+			logger.error("No product found for "+mc + " foil="+foil) ;
 		}
+		return null;
 	}
 	
 
@@ -111,8 +114,13 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 	public List<MagicPrice> getPrices(MagicCard card,boolean foil) throws IOException {
 
 		List<MagicPrice> list = new ArrayList<>();
+		var productUri =getUrlFor(card,foil);
+	
+		if(productUri==null)
+			return list;
+		
 
-		String url = WEB_URI+ "/"+getUrlFor(card,foil);
+		String url = WEB_URI+ "/"+productUri;
 		Elements prices = null;
 		Elements qualities = null;
 
