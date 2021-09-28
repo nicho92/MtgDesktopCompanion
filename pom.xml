@@ -169,7 +169,7 @@
 		<dependency>
 		  <groupId>com.github.nicho92</groupId>
 		  <artifactId>mkm-api-java</artifactId>
-		  <version>0.12</version>
+		  <version>0.13</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.javatuples</groupId>
@@ -299,22 +299,22 @@
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-core</artifactId>
-			<version>8.9.0</version>
+			<version>8.10.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-queries</artifactId>
-			<version>8.9.0</version>
+			<version>8.10.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-queryparser</artifactId>
-			<version>8.9.0</version>
+			<version>8.10.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-backward-codecs</artifactId>
-			<version>8.9.0</version>
+			<version>8.10.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.jtattoo</groupId>
@@ -346,7 +346,7 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>30.1.1-jre</version>
+			<version>31.0.1-jre</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>

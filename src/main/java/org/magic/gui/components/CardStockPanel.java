@@ -151,7 +151,12 @@ public class CardStockPanel extends MTGUIComponent {
 		try {
 			MagicCardStock st = MTGControler.getInstance().getDefaultStock();
 			st.setProduct(mc);
-			st.setMagicCollection(col);
+			
+			if(col!=null)
+				st.setMagicCollection(col);
+			else
+				st.setMagicCollection(new MagicCollection(MTGControler.getInstance().get("default-library")));
+			
 			st.setUpdated(true);
 			model.addItem(st);
 			model.fireTableDataChanged();
