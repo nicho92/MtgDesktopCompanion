@@ -107,8 +107,11 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	    					case "completed": t.setStatut(TransactionStatus.CLOSED);break;
 	    					case "cancelled": t.setStatut(TransactionStatus.CANCELED);break;
 	    					case "failed": t.setStatut(TransactionStatus.CANCELED);break;
+	    					case "pre-ordered":t.setStatut(TransactionStatus.PRE_ORDERED);break;
 	    					case "lpc_transit": t.setStatut(TransactionStatus.SENT);break;
+	    					case "lpc_delivered": t.setStatut(TransactionStatus.DELIVRED);break;
 	    					case "lpc_ready_to_ship" : t.setStatut(TransactionStatus.PAID);break;
+	    					case "refunded" : t.setStatut(TransactionStatus.CANCELED);break;
 	    					default : {
 	    						
 	    						logger.debug(obj.get(STATUS) + " is unknow");
@@ -207,6 +210,9 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		Map<String, String> parameters = new HashMap<>();
 		parameters.put("per_page", getString(PER_PAGE));
 		
+		
+		if(start>1)
+			parameters.put("page", String.valueOf(start));
 		
 		List<JsonObject> res = client.getAll(EndpointBaseType.PRODUCTS.getValue(),parameters);
 

@@ -57,22 +57,16 @@ public class MkmExternalShop extends AbstractExternalShop {
 	@Override
 	public List<MTGStockItem> loadStock(int start) throws IOException {
 		
-		
-		
-		
-		
-		var ret = new ArrayList<MTGStockItem>();
+			var ret = new ArrayList<MTGStockItem>();
 		
 			Game g = new Game();
 			g.setIdGame(getInt(ID_GAME));
 		
 			var serv = new StockService();
 			
-			//TODO fixing exportStock file in mkm api . 
 		//	serv.exportStock(new File(MTGConstants.DATA_DIR, "temp.csv"),getInt(ID_GAME));
 			
 			serv.getStock(g,null).forEach(art->{
-				
 				var item = new MkmStockItem();
 				item.setId(art.getIdProduct());
 				item.setProduct(art.getProduct());
@@ -80,7 +74,6 @@ public class MkmExternalShop extends AbstractExternalShop {
 				item.setPrice(art.getPrice());
 				item.setId(art.getIdArticle());
 				ret.add(item);
-				
 			});
 		return ret;
 	}
@@ -144,6 +137,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 							t.setCurrency(o.getCurrencyCode());
 							t.setMessage(o.getNote());
 							t.setSourceShopNmae(getName());
+							
 		Contact c = new Contact();
 				c.setLastName(o.getBuyer().getAddress().getName().split(" ")[0]);
 				c.setName(o.getBuyer().getAddress().getName().split(" ")[1]);
@@ -176,8 +170,6 @@ public class MkmExternalShop extends AbstractExternalShop {
 			item.setQte(article.getCount());
 			item.getTiersAppIds().put(getName(), String.valueOf(article.getIdProduct()));
 			item.setTypeStock(article.getProduct().getRarity()==null?EnumItems.SEALED:EnumItems.CARD);
-			
-			
 			t.getItems().add(item);
 		});
 		return t;
