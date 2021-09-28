@@ -1648,11 +1648,10 @@
 	</edition>
 	<edition id='UST'>
 
-		<booster lang='en' num='1'
-			url="http://www.manaleak.com/magic-the-gathering/images/mtg_unstable_booster_pack_1.jpg" />
-
-		<banner lang='en'
-			url="http://mtgen.net/un3/images/logo-word.png" />
+		<booster lang='en' num='1' url="https://d1rw89lz12ur5s.cloudfront.net/photo/collectorscache/file/759156/large/unstable%20pack.jpg?1510594330" />
+		<booster lang='en' num='2' url="https://m.media-amazon.com/images/I/71a5dZYkBDL._AC_SL1500_.jpg"/>
+		<box lang='en' num='1' url="https://www.merchfox.at/media/image/product/29217/lg/mtg-unstable-booster-display-english~7.png"></box>
+		<banner lang='en' 	url="http://mtgen.net/un3/images/logo-word.png" />
 	</edition>
 	<edition id='RIX'>
 		<booster lang='en' num='1'

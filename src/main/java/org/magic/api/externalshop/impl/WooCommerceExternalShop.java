@@ -89,7 +89,6 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	    for(JsonElement el : res)
 	    {
 	    	var obj = el.getAsJsonObject();
-	    	
 	    	var t = new Transaction();
 	    				t.setCurrency(obj.get("currency").getAsString());
 	    				t.setDateCreation(UITools.parseGMTDate(obj.get("date_created").getAsString()));
@@ -149,9 +148,6 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	    		t.getItems().add(entry);
 	    		
 	    	}
-	    	
-	    	
-	    	
 	    	ret.add(t);
 	    }
 		return ret;
