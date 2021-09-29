@@ -201,7 +201,7 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 
 	@Override
 	public ImageIcon getIcon() {
-		return MTGConstants.ICON_TAB_SEALED;
+		return MTGConstants.ICON_TAB_CARD;
 	}
 
 	@Override

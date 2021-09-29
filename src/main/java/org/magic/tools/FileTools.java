@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
@@ -75,18 +73,6 @@ public class FileTools {
 		try (var fos = new FileOutputStream(f)){
 			props.store(fos, "");
 		}
-	}
-	
-	public static int daysBetween(Date d1, Date d2)
-	{
-		return (int) ChronoUnit.DAYS.between(d1.toInstant(), d2.toInstant());
-	}
-	
-	
-	
-	public static int daysBetween(Instant d1, Instant d2)
-	{
-		return (int) ChronoUnit.DAYS.between(d1, d2);
 	}
 	
 	
@@ -337,6 +323,12 @@ public class FileTools {
 	public static List<String> readAllLines(File f) throws IOException {
 		logger.debug("opening file " + f);
 		return Files.readLines(f, MTGConstants.DEFAULT_ENCODING);
+	}
+
+
+
+	public static int daysBetween(File temp) throws IOException {
+		return UITools.daysBetween(java.nio.file.Files.getLastModifiedTime(temp.toPath()).toInstant(), new Date().toInstant());
 	}
 	
 }

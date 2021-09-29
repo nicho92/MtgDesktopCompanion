@@ -28,7 +28,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 	}
 	
 	@Override
-	public List<MTGStockItem> loadStock(int start) throws IOException {
+	public List<MTGStockItem> loadStock(String search) throws IOException {
 		// TODO Auto-generated method stub
 		return new ArrayList<>();
 	}

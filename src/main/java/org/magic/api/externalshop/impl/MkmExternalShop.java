@@ -1,12 +1,17 @@
 package org.magic.api.externalshop.impl;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
 import org.api.mkm.exceptions.MkmException;
 import org.api.mkm.modele.Category;
 import org.api.mkm.modele.Game;
@@ -31,6 +36,8 @@ import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
 import org.magic.services.MTGConstants;
+import org.magic.tools.FileTools;
+import org.magic.tools.UITools;
 
 public class MkmExternalShop extends AbstractExternalShop {
 	
@@ -54,8 +61,9 @@ public class MkmExternalShop extends AbstractExternalShop {
 		return new GameService().listCategories();
 	}
 	
+	
 	@Override
-	public List<MTGStockItem> loadStock(int start) throws IOException {
+	public List<MTGStockItem> loadStock(String search) throws IOException {
 		
 			var ret = new ArrayList<MTGStockItem>();
 		
@@ -64,17 +72,39 @@ public class MkmExternalShop extends AbstractExternalShop {
 		
 			var serv = new StockService();
 			
-		//	serv.exportStock(new File(MTGConstants.DATA_DIR, "temp.csv"),getInt(ID_GAME));
+			File temp = new File(MTGConstants.DATA_DIR, "temp.csv"); 
 			
-			serv.getStock(g,null).forEach(art->{
-				var item = new MkmStockItem();
-				item.setId(art.getIdProduct());
-				item.setProduct(art.getProduct());
-				item.setQte(art.getCount());
-				item.setPrice(art.getPrice());
-				item.setId(art.getIdArticle());
-				ret.add(item);
-			});
+			
+			if(!temp.exists() ||  FileTools.daysBetween(temp) > 1)
+				serv.exportStock(temp,getInt(ID_GAME));
+			
+			try(CSVParser p = CSVFormat.Builder.create().setDelimiter(";").setHeader().build().parse(new FileReader(temp))  )
+			{
+				p.iterator().forEachRemaining(art->{
+	
+					if(art.get("English Name").toLowerCase().contains(search.toLowerCase()) || art.get("Exp. Name").toLowerCase().contains(search.toLowerCase())) {
+					
+						var item = new MkmStockItem();
+			
+						var product = new LightProduct();
+							  product.setIdGame(1);
+							  product.setLocName(art.get("Local Name"));
+							  product.setExpansion(art.get("Exp. Name"));
+							  product.setEnName(art.get("English Name"));
+							  
+							  item.setId(Integer.parseInt(art.get("idProduct")));
+							  item.setProduct(product);
+							  item.setQte(Integer.parseInt(art.get("Amount")));
+							  item.setPrice(UITools.parseDouble(art.get("Price")));
+							  item.setIdArticle(Integer.parseInt(art.get("idArticle")));
+							  item.setComment(art.get("Comments"));
+							  item.setLanguage(art.get("Language").equals("1")?"English":"French");
+							  ret.add(item);
+							  
+							  notify(item);
+					}
+				});
+			}
 		return ret;
 	}
 	
@@ -203,7 +233,7 @@ class MkmStockItem extends AbstractStockItem<LightProduct>
 		this.product=product;
 		setProductName(product.getEnName());
 		edition= new MagicEdition("",product.getExpansion());
-		if(product.getImage().startsWith("//"))
+		if(product.getImage()!=null && product.getImage().startsWith("//"))
 			url = "https:"+ product.getImage();
 		else
 			url=product.getImage();

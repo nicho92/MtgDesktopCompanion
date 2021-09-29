@@ -19,7 +19,7 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 
 	
 	protected abstract List<Transaction> loadTransaction() throws IOException;
-	protected abstract List<MTGStockItem> loadStock(int start) throws IOException;
+	protected abstract List<MTGStockItem> loadStock(String search) throws IOException;
 	
 	@Override
 	public PLUGINS getType() {
@@ -64,8 +64,8 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 	}
 
 	@Override
-	public List<MTGStockItem> listStock(int start) throws IOException {
-		var list= loadStock(start);
+	public List<MTGStockItem> listStock(String search) throws IOException {
+		var list= loadStock(search);
 		list.forEach(item->{
 			getRefs(item.getLanguage(),item.getId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getDestination(),String.valueOf(converterItem.getOutputId())));
 			getRefs(item.getLanguage(),item.getId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getSource(),String.valueOf(converterItem.getInputId())));

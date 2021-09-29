@@ -6,9 +6,7 @@ import static com.jayway.jsonpath.JsonPath.parse;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -52,7 +50,7 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 	
 	private String getUrlFor(MagicCard mc,boolean foil) throws IOException 
 	{
-		if(!jsonFile.exists()|| FileTools.daysBetween(Files.getLastModifiedTime(jsonFile.toPath()).toInstant(), new Date().toInstant())>1) {
+		if(!jsonFile.exists()|| FileTools.daysBetween(jsonFile)>1) {
 			FileTools.saveFile(jsonFile, URLTools.extractJson(API_URI).toString());
 		}
 	

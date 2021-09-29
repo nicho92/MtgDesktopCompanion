@@ -192,7 +192,7 @@ public class MTGJsonPricer {
 		
 		if(f.exists())
 		{
-			int lastModif = FileTools.daysBetween(Files.getLastModifiedTime(f.toPath()).toInstant(), new Date().toInstant());
+			int lastModif = FileTools.daysBetween(f);
 			
 			if(lastModif>expireday)
 			{

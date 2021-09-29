@@ -204,16 +204,13 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	}
 	
 	@Override
-	public List<MTGStockItem> loadStock(int start) throws IOException {
+	public List<MTGStockItem> loadStock(String search) throws IOException {
 		init();
 		var ret = new ArrayList<MTGStockItem>();
 		Map<String, String> parameters = new HashMap<>();
-		parameters.put("per_page", getString(PER_PAGE));
-		
-		
-		if(start>1)
-			parameters.put("page", String.valueOf(start));
-		
+										 parameters.put("per_page", getString(PER_PAGE));
+										 parameters.put("search", search.replace(" ", "%20"));
+										 
 		List<JsonObject> res = client.getAll(EndpointBaseType.PRODUCTS.getValue(),parameters);
 
 		res.forEach(element->{
@@ -273,7 +270,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		
 		Map<String, String> productInfo = new HashMap<>();
 
-		productInfo.put("search", name.replaceAll(" ", "%20"));
+		productInfo.put("search", name.replace(" ", "%20"));
 		
 		@SuppressWarnings("unchecked")
 		List<JsonObject> res = client.getAll(EndpointBaseType.PRODUCTS.getValue(),productInfo);

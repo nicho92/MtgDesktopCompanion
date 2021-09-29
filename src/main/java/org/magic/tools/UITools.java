@@ -24,6 +24,8 @@ import java.net.URI;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -597,7 +599,20 @@ public class UITools {
 		pane.addTab(capitalize(comp.getTitle()), comp.getIcon(),comp);
 		
 	}
-
+	public static int daysBetween(Date d1, Date d2)
+	{
+		return (int) ChronoUnit.DAYS.between(d1.toInstant(), d2.toInstant());
+	}
+	
+	
+	
+	public static int daysBetween(Instant d1, Instant d2)
+	{
+		return (int) ChronoUnit.DAYS.between(d1, d2);
+	}
+	
+	
+	
 	public static List<Integer> getSelectedRows(JXTable table) {
 		int[] viewRow = table.getSelectedRows();
 		

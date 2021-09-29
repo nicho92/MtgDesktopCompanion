@@ -51,9 +51,9 @@ public class MTGCompanionShop extends AbstractExternalShop {
 	}
 	
 	@Override
-	public List<MTGStockItem> loadStock(int start) throws IOException {
+	public List<MTGStockItem> loadStock(String search) throws IOException {
 		try {
-			return MTG.getEnabledPlugin(MTGDao.class).listStockItems();
+			return MTG.getEnabledPlugin(MTGDao.class).listStockItems().stream().filter(msi->msi.getProductName().contains(search)).toList();
 		} catch (SQLException e) {
 			throw new IOException(e);
 		}

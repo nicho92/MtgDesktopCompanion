@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingWorker;
@@ -123,6 +124,11 @@ public class ConverterPanel extends MTGUIComponent{
 				}
 		});
 		
+	}
+	
+	@Override
+	public ImageIcon getIcon() {
+		return MTGConstants.ICON_TAB_SYNC;
 	}
 	
 
