@@ -75,7 +75,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 			File temp = new File(MTGConstants.DATA_DIR, "temp.csv"); 
 			
 			
-			if(!temp.exists() ||  FileTools.daysBetween(temp) > 1)
+		//	if(!temp.exists() ||  FileTools.daysBetween(temp) > 1)
 				serv.exportStock(temp,getInt(ID_GAME));
 			
 			try(CSVParser p = CSVFormat.Builder.create().setDelimiter(";").setHeader().build().parse(new FileReader(temp))  )

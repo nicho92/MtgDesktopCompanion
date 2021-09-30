@@ -328,7 +328,9 @@ public class FileTools {
 
 
 	public static int daysBetween(File temp) throws IOException {
-		return UITools.daysBetween(java.nio.file.Files.getLastModifiedTime(temp.toPath()).toInstant(), new Date().toInstant());
+		var ret = UITools.daysBetween(java.nio.file.Files.getLastModifiedTime(temp.toPath()).toInstant(), new Date().toInstant());
+		logger.debug("File day : " + ret);
+		return ret;
 	}
 	
 }
