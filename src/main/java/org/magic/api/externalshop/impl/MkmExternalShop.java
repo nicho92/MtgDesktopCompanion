@@ -72,39 +72,43 @@ public class MkmExternalShop extends AbstractExternalShop {
 		
 			var serv = new StockService();
 			
-			File temp = new File(MTGConstants.DATA_DIR, "temp.csv"); 
+			File temp = new File(MTGConstants.DATA_DIR, "mkm_temp_card.csv"); 
+			File temp2 = new File(MTGConstants.DATA_DIR, "mkm_temp_sealed.csv"); 
 			
 			
-		//	if(!temp.exists() ||  FileTools.daysBetween(temp) > 1)
-				serv.exportStock(temp,getInt(ID_GAME));
+			serv.exportStock(temp,getInt(ID_GAME),false);
+			serv.exportStock(temp2,getInt(ID_GAME),true);
 			
-			try(CSVParser p = CSVFormat.Builder.create().setDelimiter(";").setHeader().build().parse(new FileReader(temp))  )
-			{
-				p.iterator().forEachRemaining(art->{
-	
-					if(art.get("English Name").toLowerCase().contains(search.toLowerCase()) || art.get("Exp. Name").toLowerCase().contains(search.toLowerCase())) {
-					
-						var item = new MkmStockItem();
 			
-						var product = new LightProduct();
-							  product.setIdGame(1);
-							  product.setLocName(art.get("Local Name"));
-							  product.setExpansion(art.get("Exp. Name"));
-							  product.setEnName(art.get("English Name"));
-							  
-							  item.setId(Integer.parseInt(art.get("idProduct")));
-							  item.setProduct(product);
-							  item.setQte(Integer.parseInt(art.get("Amount")));
-							  item.setPrice(UITools.parseDouble(art.get("Price")));
-							  item.setIdArticle(Integer.parseInt(art.get("idArticle")));
-							  item.setComment(art.get("Comments"));
-							  item.setLanguage(art.get("Language").equals("1")?"English":"French");
-							  ret.add(item);
-							  
-							  notify(item);
-					}
-				});
-			}
+			
+			for(File f : new File[] {temp,temp2})
+				try(CSVParser p = CSVFormat.Builder.create().setDelimiter(";").setHeader().build().parse(new FileReader(f))  )
+				{
+					p.iterator().forEachRemaining(art->{
+		
+						if(art.get("English Name").toLowerCase().contains(search.toLowerCase()) || art.get("Exp. Name").toLowerCase().contains(search.toLowerCase())) {
+						
+							var item = new MkmStockItem();
+				
+							var product = new LightProduct();
+								  product.setIdGame(1);
+								  product.setLocName(art.get("Local Name"));
+								  product.setExpansion(art.get("Exp. Name"));
+								  product.setEnName(art.get("English Name"));
+								  
+								  item.setId(Integer.parseInt(art.get("idProduct")));
+								  item.setProduct(product);
+								  item.setQte(Integer.parseInt(art.get("Amount")));
+								  item.setPrice(UITools.parseDouble(art.get("Price")));
+								  item.setIdArticle(Integer.parseInt(art.get("idArticle")));
+								  item.setComment(art.get("Comments"));
+								  item.setLanguage(art.get("Language").equals("1")?"English":"French");
+								  ret.add(item);
+								  
+								  notify(item);
+						}
+					});
+				}
 		return ret;
 	}
 	
