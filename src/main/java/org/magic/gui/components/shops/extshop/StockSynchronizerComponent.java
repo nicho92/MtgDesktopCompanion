@@ -59,17 +59,10 @@ public class StockSynchronizerComponent extends MTGUIComponent {
 		add(panelNorth, BorderLayout.NORTH);
 		add(panelCenter,BorderLayout.CENTER);
 		
-		
 		panelNorth.add(txtSearch);
 		panelCenter.add(new JScrollPane(tableInput), BorderLayout.CENTER);
-
 		
-		
-		txtSearch.addActionListener(il->{
-			 	loadProducts((MTGExternalShop)cboInput.getSelectedItem(),modelInput,txtSearch.getText());
-		});
-		
-	
+		txtSearch.addActionListener(il->loadProducts((MTGExternalShop)cboInput.getSelectedItem(),modelInput,txtSearch.getText()));
 	}
 
 	private void loadProducts(MTGExternalShop ext,StockItemTableModel model,String search) {
