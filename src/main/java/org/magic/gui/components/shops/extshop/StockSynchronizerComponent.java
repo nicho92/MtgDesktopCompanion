@@ -36,11 +36,9 @@ public class StockSynchronizerComponent extends MTGUIComponent {
 		setLayout(new BorderLayout(0, 0));
 
 		var panelCenter = new JPanel();
-		var txtSearch = new JTextField(10);
+		var txtSearch = new JTextField(15);
 		var panelNorth = new JPanel();
-		var panelWest = new JPanel();
-		
-		panelWest.setLayout(new BorderLayout());
+	
 		panelCenter.setLayout(new BorderLayout());
 		
 		cboInput = UITools.createCombobox(MTGExternalShop.class,true);
@@ -51,10 +49,9 @@ public class StockSynchronizerComponent extends MTGUIComponent {
 		UITools.setDefaultRenderer(tableInput, new StockTableRenderer());
 		
 		
-		for(var i : new int[] {2,4,5,8,9})
-		{
+		for(var i : new int[] {4,5,8})
 			tableInput.getColumnExt(modelInput.getColumnName(i)).setVisible(false);
-		}
+	
 		
 		panelNorth.add(cboInput);
 		panelNorth.add(buzy);
@@ -62,8 +59,8 @@ public class StockSynchronizerComponent extends MTGUIComponent {
 		add(panelNorth, BorderLayout.NORTH);
 		add(panelCenter,BorderLayout.CENTER);
 		
-		panelCenter.add(panelWest,BorderLayout.WEST);
-		panelWest.add(txtSearch, BorderLayout.NORTH);
+		
+		panelNorth.add(txtSearch);
 		panelCenter.add(new JScrollPane(tableInput), BorderLayout.CENTER);
 
 		

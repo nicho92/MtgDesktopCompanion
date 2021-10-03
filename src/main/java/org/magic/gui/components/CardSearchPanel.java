@@ -164,11 +164,7 @@ public class CardSearchPanel extends MTGUIComponent {
 				lblLoading.setText(capitalize("ADD_CARDS_TO") + " " + collec);
 
 				for (var i = 0; i < tableCards.getSelectedRowCount(); i++) {
-
-					int viewRow = tableCards.getSelectedRows()[i];
-					int modelRow = tableCards.convertRowIndexToModel(viewRow);
-
-					MagicCard mcCard = (MagicCard) tableCards.getModel().getValueAt(modelRow, 0);
+					MagicCard mcCard = UITools.getTableSelection(tableCards, 0);
 					try {
 						CardsManagerService.saveCard(mcCard, getEnabledPlugin(MTGDao.class).getCollection(collec),null);
 					} catch (SQLException e1) {

@@ -27,17 +27,7 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 	}
 	
 	protected abstract void createTransaction(Transaction t) throws IOException;
-	
-	
-	public List<ConverterItem> getOutputRefs(String lang, String sourceName, int idSource)
-	{
-		try {
-			return MTG.getEnabledPlugin(MTGDao.class).listConversionItems().stream().filter(p->(p.getSource().equalsIgnoreCase(sourceName) && p.getLang().equalsIgnoreCase(lang) && p.getInputId()==idSource)).toList();
-		} catch (SQLException e) {
-			logger.error(e);
-			return new ArrayList<>();
-		}
-	}
+
 	
 	public List<ConverterItem> getRefs(String lang, int id)
 	{
@@ -55,11 +45,12 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 		
 		var list= loadTransaction();
 		list.forEach(t->
-			t.getItems().forEach(item->
-					getOutputRefs(item.getLanguage(),getName(),item.getId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getDestination(),String.valueOf(converterItem.getOutputId()))	
-				)
-			)
-		);
+			t.getItems().forEach(item->{
+				getRefs(item.getLanguage(),item.getId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getDestination(),String.valueOf(converterItem.getOutputId())));
+				getRefs(item.getLanguage(),item.getId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getSource(),String.valueOf(converterItem.getInputId())));
+			})
+			);
+		
 		return list;
 	}
 
