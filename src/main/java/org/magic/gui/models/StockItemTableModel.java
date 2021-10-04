@@ -129,6 +129,7 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 		default:
 			break;
 		}
+		
 		items.get(row).setUpdated(true);
 
 		

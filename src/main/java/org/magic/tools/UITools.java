@@ -185,8 +185,7 @@ public class UITools {
 				table.setDefaultEditor(TransactionStatus.class, new ComboBoxEditor<>(TransactionStatus.values()));
 				
 				
-				table.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
-				
+				table.putClientProperty("terminateEditOnFocusLost", true);
 				
 				try {
 					table.setDefaultEditor(MagicCollection.class, new ComboBoxEditor<>(getEnabledPlugin(MTGDao.class).listCollections()));
