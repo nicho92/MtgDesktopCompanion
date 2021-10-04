@@ -445,7 +445,7 @@ public class MagicCard implements Serializable {
 		return getLayout()==MTGLayout.EMBLEM;
 	}
 	
-	public boolean isSpecialSetCard()
+	public boolean isSpecialTokenOrExtra()
 	{
 		return getLayout()==MTGLayout.ADVENTURE || getLayout()==MTGLayout.ART_SERIES || isToken() || isEmblem();
 	}

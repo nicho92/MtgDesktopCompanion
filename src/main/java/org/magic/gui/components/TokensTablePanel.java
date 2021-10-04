@@ -123,7 +123,7 @@ public class TokensTablePanel extends MTGUIComponent {
 			
 			@Override
 			protected void error(Exception e) {
-				logger.error(e);
+				//do nothing
 			}
 			
 			@Override

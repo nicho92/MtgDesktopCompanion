@@ -61,7 +61,7 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 		
 		
 		BufferedImage bufferedImage  = null;
-		if(mc.isSpecialSetCard())
+		if(mc.isSpecialTokenOrExtra())
 			bufferedImage =MTG.getEnabledPlugin(MTGTokensProvider.class).getPictures(mc);
 		else 
 			bufferedImage  = getOnlinePicture(mc);
