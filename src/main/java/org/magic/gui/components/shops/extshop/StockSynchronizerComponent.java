@@ -1,7 +1,7 @@
 package org.magic.gui.components.shops.extshop;
 
 import java.awt.BorderLayout;
-import java.util.ArrayList;
+import java.awt.event.KeyEvent;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -22,7 +22,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.tools.UITools;
-import java.awt.event.KeyEvent;
 
 public class StockSynchronizerComponent extends MTGUIComponent {
 
@@ -71,17 +70,9 @@ public class StockSynchronizerComponent extends MTGUIComponent {
 		txtSearch.addActionListener(il->loadProducts((MTGExternalShop)cboInput.getSelectedItem(),modelInput,txtSearch.getText()));
 		
 		btnSave.addActionListener(al->{
-			
 			var ret = modelInput.getItems().stream().filter(MTGStockItem::isUpdated).toList();
 			
-			for(MTGStockItem it : ret)
-			{
-				
-				
-				logger.info(itemsbkp.stream().filter(bp->bp.getId().equals(it.getId())).findFirst().orElseThrow().getQte()  + " " + itemsbkp.stream().filter(bp->bp.getId().equals(it.getId())).findFirst().orElseThrow().getPrice()  + "------NEW->" + it + " " + it.getQte() + " "+  it.getPrice());
-			}
-			
-			
+			logger.debug(ret);
 			
 		});
 	}
@@ -100,7 +91,6 @@ public class StockSynchronizerComponent extends MTGUIComponent {
 			protected void done() {
 				try {
 					super.done();
-					itemsbkp = new ArrayList<>(get());
 					model.addItems(get());
 				} catch (InterruptedException e) {
 					Thread.currentThread().interrupt();
@@ -108,10 +98,7 @@ public class StockSynchronizerComponent extends MTGUIComponent {
 					logger.error(e);
 				}
 			}
-			
 		};
-		
-		
 		
 		ThreadManager.getInstance().runInEdt(sw,"load stock");
 	}
