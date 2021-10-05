@@ -89,6 +89,9 @@ public class MagicCard implements Serializable {
 			return MTGCardVariation.EXTENDEDART;
 		else if(isBorderLess())
 			return MTGCardVariation.BORDERLESS;
+		else if(isTimeshifted())
+			return MTGCardVariation.TIMESHIFTED;
+		
 		
 		return null;
 		
