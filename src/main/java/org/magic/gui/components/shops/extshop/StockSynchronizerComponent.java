@@ -81,8 +81,7 @@ public class StockSynchronizerComponent extends MTGUIComponent {
 			var ret = modelInput.getItems().stream().filter(MTGStockItem::isUpdated).toList();
 			
 			
-			var rets= JOptionPane.showInternalConfirmDialog(this, "Update " + ret.size() + " items ");
-			
+			var rets= JOptionPane.showConfirmDialog(this, "Update " + ret.size() + " items ?","Update", JOptionPane.YES_NO_OPTION);
 			
 			for(MTGStockItem it : ret)
 			{
