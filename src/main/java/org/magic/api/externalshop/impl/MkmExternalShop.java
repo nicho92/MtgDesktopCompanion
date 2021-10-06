@@ -208,6 +208,9 @@ public class MkmExternalShop extends AbstractExternalShop {
 			item.setPrice(article.getPrice());
 			item.setProduct(article.getProduct());
 			item.setQte(article.getCount());
+			item.setFoil(article.isFoil());
+			item.setAltered(article.isAltered());
+			item.setSigned(article.isSigned());
 			item.getTiersAppIds().put(getName(), String.valueOf(article.getIdProduct()));
 			item.setTypeStock(article.getProduct().getRarity()==null?EnumItems.SEALED:EnumItems.CARD);
 			t.getItems().add(item);
