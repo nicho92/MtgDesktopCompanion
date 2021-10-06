@@ -3,8 +3,8 @@ package org.magic.gui.models;
 import java.sql.SQLException;
 import java.util.Date;
 
-import org.magic.api.beans.Transaction;
 import org.magic.api.beans.enums.TransactionStatus;
+import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.tools.MTG;

@@ -14,7 +14,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.Transaction;
+import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.ContactPanel;

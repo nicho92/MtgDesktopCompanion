@@ -9,7 +9,7 @@ import org.api.mkm.modele.Category;
 import org.api.mkm.modele.Localization;
 import org.api.mkm.modele.Product;
 import org.magic.api.beans.ConverterItem;
-import org.magic.api.beans.Transaction;
+import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGStockItem;

@@ -5,7 +5,7 @@ import org.jfree.chart3d.data.DefaultKeyedValues;
 import org.jfree.chart3d.data.category.CategoryDataset3D;
 import org.jfree.chart3d.data.category.StandardCategoryDataset3D;
 import org.jfree.chart3d.plot.CategoryPlot3D;
-import org.magic.api.beans.Transaction;
+import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.gui.abstracts.charts.Abstract3DBarChart;
 

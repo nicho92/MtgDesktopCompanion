@@ -18,8 +18,8 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.SealedStock;
-import org.magic.api.beans.Transaction;
 import org.magic.api.beans.enums.EnumItems;
+import org.magic.api.beans.shop.Transaction;
 
 public interface MTGDao extends MTGPlugin{
 

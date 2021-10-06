@@ -83,11 +83,11 @@ public class StockSynchronizerComponent extends MTGUIComponent {
 			
 			var rets= JOptionPane.showConfirmDialog(this, "Update " + ret.size() + " items ?","Update", JOptionPane.YES_NO_OPTION);
 			
-			for(MTGStockItem it : ret)
-			{
-				logger.debug(it + " OLD : " +  itemsBkcp.get(it).getKey() + "/" +  itemsBkcp.get(it).getValue()+ "  NEW : " + it.getQte() + "/" + it.getPrice());
-				
-			}
+			if(rets == JOptionPane.YES_OPTION)
+				for(MTGStockItem it : ret)
+				{
+					logger.debug(it + " OLD : " +  itemsBkcp.get(it).getKey() + "/" +  itemsBkcp.get(it).getValue()+ "  NEW : " + it.getQte() + "/" + it.getPrice());
+				}
 		});
 	}
 

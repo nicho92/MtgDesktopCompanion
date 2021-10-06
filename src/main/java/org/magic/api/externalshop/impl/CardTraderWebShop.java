@@ -10,7 +10,7 @@ import org.api.mkm.modele.Category;
 import org.api.mkm.modele.Expansion;
 import org.api.mkm.modele.Product;
 import org.magic.api.beans.Contact;
-import org.magic.api.beans.Transaction;
+import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 

@@ -7,6 +7,7 @@ import java.util.Map;
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.MTGStockItem;
 
@@ -27,7 +28,67 @@ public abstract class AbstractStockItem<T extends Serializable> implements MTGSt
 	protected EnumItems typeStock;
 	protected String url;
 	protected Map<String,String> tiersAppIds;
+	protected boolean foil=false;
+	protected boolean etched=false;
+	protected boolean signed=false;
+	protected boolean altered=false;
+	protected boolean oversize=false;
+	protected EnumCondition condition = EnumCondition.NEAR_MINT;
+
+	public EnumCondition getCondition() {
+		return condition;
+	}
+	public void setCondition(EnumCondition condition) {
+		this.condition = condition;
+	}
+
+	@Override
+	public boolean isEtched() {
+		return etched;
+	}
+
+
+	@Override
+	public void setEtched(boolean etched) {
+		this.etched = etched;
+	}
+
+	@Override
+	public boolean isGrade() {
+		return grade!=null;
+	}
+
+
+	@Override
+	public boolean isAltered() {
+		return altered;
+	}
+
+	@Override
+	public void setAltered(boolean altered) {
+		this.altered = altered;
+	}
+
+	@Override
+	public boolean isFoil() {
+		return foil;
+	}
+
+	@Override
+	public void setFoil(boolean foil) {
+		this.foil = foil;
+	}
+
+	@Override
+	public boolean isSigned() {
+		return signed;
+	}
 	
+	@Override
+	public void setSigned(boolean signed) {
+		this.signed = signed;
+	}
+
 	protected AbstractStockItem() {
 		tiersAppIds = new HashMap<>();
 	}

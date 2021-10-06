@@ -10,13 +10,6 @@ import org.magic.api.interfaces.abstracts.AbstractStockItem;
 public class MagicCardStock extends AbstractStockItem<MagicCard> {
 
 	private static final long serialVersionUID = 1L;
-	private EnumCondition condition = EnumCondition.NEAR_MINT;
-	private boolean foil=false;
-	private boolean etched=false;
-	private boolean signed=false;
-	private boolean altered=false;
-	private boolean oversize=false;
-	
 
 	public MagicCardStock(MagicCard c) {
 		super();
@@ -48,46 +41,6 @@ public class MagicCardStock extends AbstractStockItem<MagicCard> {
 	}
 	
 	
-	public boolean isEtched() {
-		return etched;
-	}
-
-
-	public void setEtched(boolean etched) {
-		this.etched = etched;
-	}
-
-
-
-	public boolean isGrade() {
-		return grade!=null;
-	}
-
-
-	public boolean isAltered() {
-		return altered;
-	}
-
-	public void setAltered(boolean altered) {
-		this.altered = altered;
-	}
-
-	public boolean isFoil() {
-		return foil;
-	}
-
-	public void setFoil(boolean foil) {
-		this.foil = foil;
-	}
-
-	public boolean isSigned() {
-		return signed;
-	}
-
-	public void setSigned(boolean signed) {
-		this.signed = signed;
-	}
-
 	public EnumCondition getCondition() {
 		return condition;
 	}
