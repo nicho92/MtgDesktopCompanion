@@ -66,8 +66,8 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 		var panelEast = new JPanel();
 		panelEast.setLayout(new BorderLayout());
 		
-		cboInput = UITools.createCombobox(MTGExternalShop.class,true);
-		cboOutput= UITools.createCombobox(MTGExternalShop.class,true);
+		cboInput = UITools.createCombobox(MTGExternalShop.class,false);
+		cboOutput= UITools.createCombobox(MTGExternalShop.class,false);
 		cboLanguages = UITools.createCombobox(MTG.getEnabledPlugin(MTGCardsProvider.class).getLanguages());
 		cboCategory = UITools.createCombobox(new ArrayList<>());
 		

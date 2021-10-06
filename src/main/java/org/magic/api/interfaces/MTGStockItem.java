@@ -61,6 +61,24 @@ public interface MTGStockItem extends Serializable, Comparable<MTGStockItem> {
 	public 	Map<String, String> getTiersAppIds();
 	
 	public String getUrl();
+
+	public 	boolean isEtched();
+
+	public 	void setEtched(boolean etched);
+
+	public 	boolean isGrade();
+
+	public 	boolean isAltered();
+
+	public 	void setAltered(boolean altered);
+
+	public 	boolean isSigned();
+
+	public 	void setFoil(boolean foil);
+
+	public 	void setSigned(boolean signed);
+
+	public 	boolean isFoil();
 	
 
 }

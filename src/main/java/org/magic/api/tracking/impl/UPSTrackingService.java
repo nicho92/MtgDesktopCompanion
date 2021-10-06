@@ -3,8 +3,8 @@ package org.magic.api.tracking.impl;
 import java.io.IOException;
 import java.util.Date;
 
-import org.magic.api.beans.Tracking;
-import org.magic.api.beans.TrackingStep;
+import org.magic.api.beans.shop.Tracking;
+import org.magic.api.beans.shop.TrackingStep;
 import org.magic.api.interfaces.abstracts.AbstractTrackingService;
 
 public class UPSTrackingService extends AbstractTrackingService {

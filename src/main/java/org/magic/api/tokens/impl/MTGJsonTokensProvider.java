@@ -12,7 +12,10 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGJsonProvider;
 import org.magic.api.interfaces.abstracts.AbstractTokensProvider;
+import org.magic.api.pictures.impl.ScryFallPicturesProvider;
+import org.magic.api.providers.impl.ScryFallProvider;
 import org.magic.tools.MTG;
+import org.magic.tools.URLTools;
 
 public class MTGJsonTokensProvider extends AbstractTokensProvider {
 
@@ -54,7 +57,8 @@ public class MTGJsonTokensProvider extends AbstractTokensProvider {
 
 	@Override
 	public BufferedImage getPictures(MagicCard tok) throws IOException {
-		return MTG.getEnabledPlugin(MTGPictureProvider.class).getPicture(tok);
+		String url = new ScryFallPicturesProvider().generateUrl(tok);
+		return URLTools.extractImage(url);
 	}
 
 	@Override

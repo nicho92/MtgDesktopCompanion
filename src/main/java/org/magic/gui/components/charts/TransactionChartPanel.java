@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.jfree.chart3d.data.PieDataset3D;
 import org.jfree.chart3d.data.StandardPieDataset3D;
-import org.magic.api.beans.Transaction;
+import org.magic.api.beans.shop.Transaction;
 import org.magic.gui.abstracts.charts.Abstract3DPieChart;
 import org.magic.tools.UITools;
 	

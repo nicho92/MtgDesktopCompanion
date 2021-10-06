@@ -1,4 +1,4 @@
-package org.magic.api.beans;
+package org.magic.api.beans.shop;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -6,6 +6,8 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.List;
 
+import org.magic.api.beans.Contact;
+import org.magic.api.beans.WebShopConfig;
 import org.magic.api.beans.enums.TransactionPayementProvider;
 import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.interfaces.MTGStockItem;

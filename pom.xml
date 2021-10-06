@@ -274,7 +274,7 @@
 		<dependency>
 			<groupId>org.pushing-pixels</groupId>
 			<artifactId>radiance-substance</artifactId>
-			<version>4.0.0</version>
+			<version>4.5.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mariadb.jdbc</groupId>
@@ -381,7 +381,7 @@
 		<dependency>
 			<groupId>org.reflections</groupId>
 			<artifactId>reflections</artifactId>
-			<version>0.10-RC2</version>
+			<version>0.10</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>

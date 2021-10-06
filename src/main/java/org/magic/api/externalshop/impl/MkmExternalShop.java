@@ -27,9 +27,9 @@ import org.api.mkm.tools.MkmAPIConfig;
 import org.api.mkm.tools.MkmConstants;
 import org.magic.api.beans.Contact;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.Transaction;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionStatus;
+import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
@@ -92,6 +92,15 @@ public class MkmExternalShop extends AbstractExternalShop {
 								  product.setLocName(art.get("Local Name"));
 								  product.setExpansion(art.get("Exp. Name"));
 								  product.setEnName(art.get("English Name"));
+								  try {
+									  item.setFoil(!art.get("Foil?").isEmpty());
+									  item.setSigned(!art.get("Signed?").isEmpty());
+									  item.setAltered(!art.get("Altered?").isEmpty());
+								  }
+								catch(IllegalArgumentException e)
+								{
+									//do nothing
+								}
 								  
 								  item.setId(Integer.parseInt(art.get("idProduct")));
 								  item.setProduct(product);
@@ -199,6 +208,9 @@ public class MkmExternalShop extends AbstractExternalShop {
 			item.setPrice(article.getPrice());
 			item.setProduct(article.getProduct());
 			item.setQte(article.getCount());
+			item.setFoil(article.isFoil());
+			item.setAltered(article.isAltered());
+			item.setSigned(article.isSigned());
 			item.getTiersAppIds().put(getName(), String.valueOf(article.getIdProduct()));
 			item.setTypeStock(article.getProduct().getRarity()==null?EnumItems.SEALED:EnumItems.CARD);
 			t.getItems().add(item);

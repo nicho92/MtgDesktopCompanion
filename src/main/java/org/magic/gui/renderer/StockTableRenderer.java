@@ -30,7 +30,7 @@ public class StockTableRenderer implements TableCellRenderer{
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 		pane = new DefaultTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-
+		
 		
 		if(value instanceof Boolean)
 		{
@@ -69,8 +69,6 @@ public class StockTableRenderer implements TableCellRenderer{
 		{
 			pane = new MagicEditionJLabelRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 		}
-		
-		
 		
 		if (((MTGStockItem) table.getModel().getValueAt(row, 0)).isUpdated()) {
 			pane.setBackground(Color.GREEN);

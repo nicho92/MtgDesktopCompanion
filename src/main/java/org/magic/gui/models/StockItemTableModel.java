@@ -21,6 +21,9 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 				"LANGUAGE",
 				"COLLECTION",
 				"TYPE",
+				"FOIL",
+				"ALTERED",
+				"SIGNED",
 				"QTY",
 				"PRICE",
 				"COMMENT",
@@ -63,12 +66,18 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 		case 5:
 			return EnumItems.class;
 		case 6:
-			return Integer.class;
+			return Boolean.class;
 		case 7:
-			return Double.class;
+			return Boolean.class;
 		case 8:
-			return String.class;
+			return Boolean.class;
 		case 9:
+			return Integer.class;
+		case 10:
+			return Double.class;
+		case 11:
+			return String.class;
+		case 12:
 			return Map.class;
 			
 		default:
@@ -80,7 +89,7 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 	public boolean isCellEditable(int row, int column) {
 		
 		if(writable)
-			return (column ==6 || column==7);
+			return (column ==9 || column==10);
 		else
 			return false;
 	}
@@ -102,12 +111,18 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 		case 5:
 			return items.get(row).getTypeStock();
 		case 6:
-			return items.get(row).getQte();
+			return items.get(row).isFoil();
 		case 7:
-			return UITools.roundDouble(items.get(row).getPrice());
+			return items.get(row).isAltered();
 		case 8:
-			return items.get(row).getComment();
+			return items.get(row).isSigned();
 		case 9:
+			return items.get(row).getQte();
+		case 10:
+			return UITools.roundDouble(items.get(row).getPrice());
+		case 11:
+			return items.get(row).getComment();
+		case 12:
 			return items.get(row).getTiersAppIds();
 
 		default:
@@ -119,16 +134,17 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 	public void setValueAt(Object aValue, int row, int column) {
 		
 		switch (column) {
-		case 6:
+		case 9:
 			items.get(row).setQte((Integer) aValue);
 			break;
-		case 7:
+		case 10:
 			items.get(row).setPrice(Double.parseDouble(aValue.toString()));
 			break;
 			
 		default:
 			break;
 		}
+		
 		items.get(row).setUpdated(true);
 
 		

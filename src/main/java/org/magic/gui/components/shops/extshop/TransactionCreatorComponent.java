@@ -14,7 +14,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import org.magic.api.beans.Transaction;
+import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
@@ -53,8 +53,8 @@ public class TransactionCreatorComponent extends MTGUIComponent {
 		var chkCreateProduct = new JCheckBox("Create product if not exist");
 		panelEast.setLayout(new BorderLayout());
 		
-		cboInput = UITools.createCombobox(MTGExternalShop.class,true);
-		cboOutput= UITools.createCombobox(MTGExternalShop.class,true);
+		cboInput = UITools.createCombobox(MTGExternalShop.class,false);
+		cboOutput= UITools.createCombobox(MTGExternalShop.class,false);
 		
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		modelOutput= new DefaultListModel<>();

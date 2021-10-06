@@ -257,6 +257,7 @@ public class IconSetProvider {
 		equiv.put("OAFC", "AFR");
 		equiv.put("CMB2", "MB1");
 		equiv.put("FMB1", "MB1");
+		equiv.put("SMID","MID");
 		}
 	
 	private String getEquiv(String set) 

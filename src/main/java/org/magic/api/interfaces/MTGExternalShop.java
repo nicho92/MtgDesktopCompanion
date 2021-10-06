@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.api.mkm.modele.Category;
 import org.api.mkm.modele.Product;
-import org.magic.api.beans.Transaction;
+import org.magic.api.beans.shop.Transaction;
 
 public interface MTGExternalShop extends MTGPlugin {
 	

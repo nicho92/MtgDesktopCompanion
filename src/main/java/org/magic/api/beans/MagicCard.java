@@ -89,6 +89,9 @@ public class MagicCard implements Serializable {
 			return MTGCardVariation.EXTENDEDART;
 		else if(isBorderLess())
 			return MTGCardVariation.BORDERLESS;
+		else if(isTimeshifted())
+			return MTGCardVariation.TIMESHIFTED;
+		
 		
 		return null;
 		
@@ -445,7 +448,7 @@ public class MagicCard implements Serializable {
 		return getLayout()==MTGLayout.EMBLEM;
 	}
 	
-	public boolean isSpecialSetCard()
+	public boolean isSpecialTokenOrExtra()
 	{
 		return getLayout()==MTGLayout.ADVENTURE || getLayout()==MTGLayout.ART_SERIES || isToken() || isEmblem();
 	}
