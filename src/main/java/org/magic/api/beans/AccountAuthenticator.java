@@ -52,7 +52,7 @@ public class AccountAuthenticator implements Serializable {
 	
 	public String get(String key)
 	{
-		return tokens.get(key);
+		return tokens.getOrDefault(key,"");
 	}
 	
 	public String get(String key,String defaultValue)

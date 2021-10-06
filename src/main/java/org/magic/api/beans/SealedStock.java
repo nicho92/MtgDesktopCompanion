@@ -11,7 +11,7 @@ public class SealedStock extends AbstractStockItem<MTGSealedProduct>  {
 	
 	public SealedStock(){
 		setTypeStock(EnumItems.SEALED);
-		setCondition(EnumCondition.SELEAD);
+		setCondition(EnumCondition.SEALED);
 	}
 	
 	public SealedStock(MTGSealedProduct p)
@@ -25,7 +25,7 @@ public class SealedStock extends AbstractStockItem<MTGSealedProduct>  {
 		edition = product.getEdition();
 		url = product.getUrl();
 		setTypeStock(EnumItems.SEALED);
-		setCondition(EnumCondition.SELEAD);
+		setCondition(EnumCondition.SEALED);
 		setProductName(product.getType() +" "+  product.getEdition().getSet());
 	}
 	
