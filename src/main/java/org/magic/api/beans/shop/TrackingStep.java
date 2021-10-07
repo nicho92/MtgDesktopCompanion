@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class TrackingStep implements Serializable, Comparable<TrackingStep> 
 {
+	private static final long serialVersionUID = 1L;
 	private Date dateStep;
 	private String descriptionStep;
 	private String code;

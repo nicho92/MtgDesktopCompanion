@@ -40,15 +40,6 @@ public class MagicCardStock extends AbstractStockItem<MagicCard> {
 		return getProduct().getCurrentSet();
 	}
 	
-	
-	public EnumCondition getCondition() {
-		return condition;
-	}
-
-	public void setCondition(EnumCondition condition) {
-		this.condition = condition;
-	}
-
 	public boolean isOversize() {
 		return oversize;
 	}
