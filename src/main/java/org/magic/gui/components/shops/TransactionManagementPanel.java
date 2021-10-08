@@ -1,24 +1,23 @@
 package org.magic.gui.components.shops;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
-
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.sql.SQLException;
+import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingWorker;
 
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.beans.shop.Transaction;
-import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.MTGTrackingService;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
@@ -27,7 +26,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.TransactionService;
 import org.magic.services.threads.ThreadManager;
-import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 
@@ -92,7 +90,7 @@ public class TransactionManagementPanel extends MTGUIComponent {
 		btnSave.addActionListener(e->{
 			try {
 				TransactionService.saveTransaction(t,true);
-			} catch (SQLException e1) {
+			} catch (IOException e1) {
 				MTGControler.getInstance().notify(e1);
 			}
 		});
@@ -100,7 +98,7 @@ public class TransactionManagementPanel extends MTGUIComponent {
 		btnPaid.addActionListener(e->{
 			try {
 				TransactionService.payingTransaction(t, "Paypal");
-			} catch (SQLException e1) {
+			} catch (IOException e1) {
 				MTGControler.getInstance().notify(e1);
 			}
 		});
@@ -135,7 +133,7 @@ public class TransactionManagementPanel extends MTGUIComponent {
 			var pane = new JPanel();
 			
 			JComboBox<MTGTrackingService> cboService = UITools.createCombobox(MTGTrackingService.class, false);
-			var field = new JTextField(t.getTransporterShippingCode());
+			var field = new JTextField(t.getTransporterShippingCode(),25);
 			var btnV = new JButton("OK");
 			var btnC = new JButton("Cancel");
 				
@@ -154,7 +152,7 @@ public class TransactionManagementPanel extends MTGUIComponent {
 				
 				try {
 					TransactionService.sendTransaction(t);
-				} catch (SQLException e1) {
+				} catch (IOException e1) {
 					MTGControler.getInstance().notify(e1);
 				}
 				
@@ -168,48 +166,71 @@ public class TransactionManagementPanel extends MTGUIComponent {
 		});
 		
 		btnCancel.addActionListener(e->{
-			loader.start();
-			var sw = new AbstractObservableWorker<Void, MagicCardStock, MTGDao>(loader,getEnabledPlugin(MTGDao.class),t.getItems().size()) 
+		loader.start(t.getItems().size());
+			var sw = new SwingWorker<Void, MagicCardStock>() 
 			{
 				@Override
 				protected Void doInBackground() throws Exception {
 					TransactionService.cancelTransaction(t);
 					return null;
 				}
+				
 				@Override
-				protected void notifyEnd() {
+				protected void process(List<MagicCardStock> chunks) {
+					loader.progressSmooth(chunks.size());
+				}
+
+				@Override
+				protected void done() {
 					
 					if(t.getStatut()!=TransactionStatus.CANCELED)
 					{
-						MTGControler.getInstance().notify(new MTGNotification("Error Update", getResult().toString(),MESSAGE_TYPE.WARNING));
+						try {
+							MTGControler.getInstance().notify(new MTGNotification("Error Update", get().toString(),MESSAGE_TYPE.WARNING));
+						} catch (InterruptedException e) {
+							Thread.currentThread().interrupt();
+						} catch (ExecutionException e) {
+							logger.error(e);
+						}
 					}
 				}
-				
-				
-				
 			};
+			
+			
+			
 			ThreadManager.getInstance().runInEdt(sw, "update stock for transactions");
 		});
 
 		btnAcceptTransaction.addActionListener(e->{
-			loader.start();
-			var sw = new AbstractObservableWorker<List<MTGStockItem>, MTGStockItem, MTGDao>(loader,getEnabledPlugin(MTGDao.class),t.getItems().size()) 
+			loader.start(t.getItems().size());
+			var sw = new SwingWorker<List<MTGStockItem>, MTGStockItem>() 
 			{
 				@Override
 				protected List<MTGStockItem> doInBackground() throws Exception {
 					return TransactionService.validateTransaction(t);
 				}
+				
+				
+				
 				@Override
-				protected void notifyEnd() {
+				protected void process(List<MTGStockItem> chunks) {
+					loader.progressSmooth(chunks.size());
+				}
+
+				@Override
+				protected void done() {
 					
-					if(t.getStatut()==TransactionStatus.IN_PROGRESS)
+					if(t.getStatut()!=TransactionStatus.IN_PROGRESS)
 					{
-						MTGControler.getInstance().notify(new MTGNotification("Error Update", getResult().toString(),MESSAGE_TYPE.WARNING));
+						try {
+							MTGControler.getInstance().notify(new MTGNotification("Error Update", get().toString(),MESSAGE_TYPE.WARNING));
+						} catch (InterruptedException e) {
+							Thread.currentThread().interrupt();
+						} catch (ExecutionException e) {
+							logger.error(e);
+						}
 					}
 				}
-				
-				
-				
 			};
 			ThreadManager.getInstance().runInEdt(sw, "update stock for transactions");
 	});

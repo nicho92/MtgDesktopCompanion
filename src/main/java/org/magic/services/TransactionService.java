@@ -24,7 +24,9 @@ import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.beans.enums.TransactionPayementProvider;
 import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.beans.shop.Transaction;
+import org.magic.api.externalshop.impl.MTGCompanionShop;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.MTGStockItem;
@@ -41,15 +43,18 @@ public class TransactionService
 	
 	public static final Integer TOKENSIZE = 50;
 	protected static Logger logger = MTGLogger.getLogger(TransactionService.class);
-
-	private TransactionService() {}
+	private static MTGExternalShop mtgshop=MTG.getPlugin(MTGConstants.MTG_APP_NAME, MTGExternalShop.class);
 	
-	public static int createContact(Contact c) throws SQLException
+	private TransactionService() {
+		
+	}
+	
+	public static int createContact(Contact c) throws IOException
 	{
 		c.setTemporaryToken(RandomStringUtils.random(TOKENSIZE, true, true));
 		c.setActive(false);
 		
-		int ret= getEnabledPlugin(MTGDao.class).saveOrUpdateContact(c);
+		int ret= mtgshop.saveOrUpdateContact(c);
 		
 		c.setTemporaryToken(MTGControler.getInstance().getWebConfig().getWebsiteUrl()+"/pages/validate.html?token="+c.getTemporaryToken());
 		
@@ -66,7 +71,7 @@ public class TransactionService
 		
 	}
 	
-	public static int saveTransaction(Transaction t, boolean reloadShipping) throws SQLException {
+	public static int saveTransaction(Transaction t, boolean reloadShipping) throws IOException {
 		t.setConfig(MTGControler.getInstance().getWebConfig());
 		if(reloadShipping) {
 			try {
@@ -79,7 +84,7 @@ public class TransactionService
 			}
 		}
 		
-		Contact pContact = MTG.getEnabledPlugin(MTGDao.class).getContactByEmail(t.getContact().getEmail());
+		Contact pContact = mtgshop.getContactByEmail(t.getContact().getEmail());
 		
 		if(pContact!=null)
 		{
@@ -94,7 +99,7 @@ public class TransactionService
 			t.getContact().setId(id);
 		}
 		
-		return getEnabledPlugin(MTGDao.class).saveOrUpdateTransaction(t);
+		return mtgshop.saveOrUpdateTransaction(t);
 	}
 
 
@@ -129,6 +134,7 @@ public class TransactionService
 					var not = new MTGNotification("["+t.getConfig().getSiteTitle()+ "] Order #"+t.getId() + ":" + msg , new ReportNotificationManager().generate(plug.getFormat(), t, template), MTGNotification.MESSAGE_TYPE.INFO);
 					plug.send(t.getContact().getEmail(),not);
 				}
+			
 				catch(Exception e)
 				{
 					logger.error(e);
@@ -138,7 +144,7 @@ public class TransactionService
 	}
 	
 	
-	public static Integer newTransaction(Transaction t) throws SQLException {
+	public static Integer newTransaction(Transaction t) throws IOException {
 		t.setConfig(MTGControler.getInstance().getWebConfig());
 		t.setStatut(TransactionStatus.NEW);
 		t.setCurrency(t.getConfig().getCurrency());
@@ -172,13 +178,13 @@ public class TransactionService
 		return items.entrySet().stream().filter(entry -> entry.getValue() == max).map(Entry::getKey).findAny().orElse(null);
 	}
 	
-	public static List<MTGStockItem> validateTransaction(Transaction t) throws SQLException {
+	public static List<MTGStockItem> validateTransaction(Transaction t) throws  IOException, SQLException {
 		t.setConfig(MTGControler.getInstance().getWebConfig());
 		List<MTGStockItem> rejectsT = new ArrayList<>();
 		List<MTGStockItem> accepteds = new ArrayList<>();
 		for(MTGStockItem transactionItem : t.getItems())
 		{
-				MTGStockItem stock = getEnabledPlugin(MTGDao.class).getStockById(transactionItem.getTypeStock(),transactionItem.getId());
+				MTGStockItem stock = mtgshop.getStockById(transactionItem.getTypeStock(),transactionItem.getId());
 				if(transactionItem.getQte()>stock.getQte())
 				{
 					   t.setStatut(TransactionStatus.IN_PROGRESS);
@@ -199,7 +205,7 @@ public class TransactionService
 			t.setStatut(TransactionStatus.PAYMENT_WAITING);
 			for(MTGStockItem stock : accepteds) 
 			{
-				getEnabledPlugin(MTGDao.class).saveOrUpdateStock(stock.getTypeStock(),stock);
+				mtgshop.saveOrUpdateStock(stock.getTypeStock(),stock);
 				getEnabledPlugin(MTGDao.class).saveOrUpdateOrderEntry(toOrder(t, stock));
 			}
 			sendMail(t,"TransactionValid"," Your order is validate !");	
@@ -215,7 +221,7 @@ public class TransactionService
 		return rejectsT;
 	}
 	
-	public static void cancelTransaction(Transaction t) throws SQLException {
+	public static void cancelTransaction(Transaction t) throws SQLException, IOException {
 		t.setConfig(MTGControler.getInstance().getWebConfig());
 		
 		for(MTGStockItem transactionItem : t.getItems())
@@ -233,7 +239,7 @@ public class TransactionService
 		((JSONHttpServer)MTG.getPlugin(new JSONHttpServer().getName(), MTGServer.class)).clearCache();
 	}
 	
-	public static void payingTransaction(Transaction t, String providerName) throws SQLException {
+	public static void payingTransaction(Transaction t, String providerName) throws IOException {
 		t.setConfig(MTGControler.getInstance().getWebConfig());
 		
 		if(TransactionPayementProvider.VIREMENT.equals(t.getPaymentProvider()) || TransactionPayementProvider.PAYPALME.equals(t.getPaymentProvider()))
@@ -250,7 +256,7 @@ public class TransactionService
 	}
 	
 
-	public static void sendTransaction(Transaction t) throws SQLException {
+	public static void sendTransaction(Transaction t) throws  IOException {
 		t.setConfig(MTGControler.getInstance().getWebConfig());
 		t.setStatut(TransactionStatus.SENT);
 		t.setDateSend(new Date());
@@ -287,6 +293,19 @@ public class TransactionService
 				return false;
 		}
 		return true;
+	}
+
+	public static void deleteContact(Contact contact) throws IOException {
+		mtgshop.deleteContact(contact);
+		
+	}
+
+	public static Integer saveOrUpdateContact(Contact c) throws IOException {
+		return mtgshop.saveOrUpdateContact(c);
+	}
+
+	public static List<Contact> listContacts() throws IOException {
+		return mtgshop.listContacts();
 	}
 	
 	

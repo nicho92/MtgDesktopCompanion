@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 
 import org.api.mkm.modele.Category;
 import org.api.mkm.modele.Product;
+import org.magic.api.beans.Contact;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -99,14 +100,9 @@ public class MTGCompanionShop extends AbstractExternalShop {
 
 	@Override
 	protected void createTransaction(Transaction t) throws IOException {
-		try {
 			t.setId(-1);
 			t.getContact().setId(-1);
 			TransactionService.saveTransaction(t, false);
-		} catch (SQLException e) {
-			throw new IOException(e);
-		}
-
 	}
 
 	@Override
@@ -122,6 +118,71 @@ public class MTGCompanionShop extends AbstractExternalShop {
 	@Override
 	public String getName() {
 		return MTGConstants.MTG_APP_NAME;
+	}
+	
+	@Override
+	public void deleteContact(Contact contact) throws IOException {
+		try {
+			MTG.getEnabledPlugin(MTGDao.class).deleteContact(contact);
+		} catch (SQLException e) {
+			throw new IOException(e);
+		}
+		
+	}
+	@Override
+	public Integer saveOrUpdateContact(Contact c) throws IOException  {
+		try {
+			return MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateContact(c);
+		} catch (SQLException e) {
+			throw new IOException(e);
+		}
+	}
+	@Override
+	public List<Contact> listContacts() throws IOException  {
+		try {
+			return MTG.getEnabledPlugin(MTGDao.class).listContacts();
+		} catch (SQLException e) {
+			throw new IOException(e);
+		}
+	}
+
+	public Contact getContactByEmail(String email) throws IOException {
+		try {
+			return MTG.getEnabledPlugin(MTGDao.class).getContactByEmail(email);
+		} catch (SQLException e) {
+			throw new IOException(e);
+		}
+	}
+	@Override
+	public int saveOrUpdateTransaction(Transaction t)  throws IOException {
+		try {
+		return MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateTransaction(t);
+		}
+		catch(SQLException e)
+		{
+			throw new IOException(e);
+		}
+	}
+	@Override
+	public MTGStockItem getStockById(EnumItems typeStock, Integer id) throws IOException {
+		try {
+			return MTG.getEnabledPlugin(MTGDao.class).getStockById(typeStock,id);
+			}
+			catch(SQLException e)
+			{
+				throw new IOException(e);
+			}
+	}
+	@Override
+	public void saveOrUpdateStock(EnumItems typeStock, MTGStockItem stock) throws IOException {
+		try {
+			 MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateStock(typeStock,stock);
+			}
+			catch(SQLException e)
+			{
+				throw new IOException(e);
+			}
+		
 	}
 
 

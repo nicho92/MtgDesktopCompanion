@@ -30,6 +30,8 @@ import org.magic.tools.UITools;
 import com.jogamp.newt.event.KeyEvent;
 
 public class TransactionsPanel extends MTGUIComponent {
+	
+	private static final long serialVersionUID = 1L;
 	private JXTable table;
 	private TransactionsTableModel model;
 	private ContactPanel contactPanel;

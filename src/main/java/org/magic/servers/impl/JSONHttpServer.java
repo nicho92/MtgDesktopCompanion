@@ -856,10 +856,10 @@ public class JSONHttpServer extends AbstractMTGServer {
 					TransactionService.createContact(t);
 					return t;
 				}
-				catch(SQLIntegrityConstraintViolationException e)
+				catch(IOException e)
 				{
 					response.status(500);
-					return "Email already exist";
+					return e.getMessage();
 				}
 			}
 			else

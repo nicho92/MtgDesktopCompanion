@@ -229,6 +229,9 @@
   <tokens>
     <token>
       <class>org.magic.api.tokens.impl.CockatriceTokenProvider</class>
+      <enable>false</enable>
+    </token><token>
+      <class>org.magic.api.tokens.impl.MTGJsonTokensProvider</class>
       <enable>true</enable>
     </token>
   </tokens>

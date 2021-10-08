@@ -10,6 +10,7 @@ import org.api.mkm.modele.Category;
 import org.api.mkm.modele.Expansion;
 import org.api.mkm.modele.Product;
 import org.magic.api.beans.Contact;
+import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
@@ -134,6 +135,48 @@ public class CardTraderWebShop extends AbstractExternalShop {
 	@Override
 	public List<String> listAuthenticationAttributes() {
 		return List.of(TOKEN);
+	}
+
+	@Override
+	public Integer saveOrUpdateContact(Contact c) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Contact getContactByEmail(String email) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int saveOrUpdateTransaction(Transaction t) throws IOException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public MTGStockItem getStockById(EnumItems typeStock, Integer id) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void saveOrUpdateStock(EnumItems typeStock, MTGStockItem stock) throws IOException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Contact> listContacts() throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteContact(Contact contact) throws IOException {
+		// TODO Auto-generated method stub
+		
 	}
 	
 

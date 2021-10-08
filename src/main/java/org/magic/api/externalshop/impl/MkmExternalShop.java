@@ -231,6 +231,48 @@ public class MkmExternalShop extends AbstractExternalShop {
 		return MkmConstants.mkmTokens();
 	}
 
+	@Override
+	public Integer saveOrUpdateContact(Contact c) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Contact getContactByEmail(String email) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int saveOrUpdateTransaction(Transaction t) throws IOException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public MTGStockItem getStockById(EnumItems typeStock, Integer id) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void saveOrUpdateStock(EnumItems typeStock, MTGStockItem stock) throws IOException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Contact> listContacts() throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteContact(Contact contact) throws IOException {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }
 
