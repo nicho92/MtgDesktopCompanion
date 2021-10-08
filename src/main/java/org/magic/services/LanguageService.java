@@ -50,7 +50,7 @@ public class LanguageService {
 	}
 	
 	public Locale[] getAvailableLocale() {
-		return new Locale[] { Locale.ENGLISH, Locale.FRENCH, Locale.JAPANESE, new Locale("pt", "BR")};
+		return new Locale[] { Locale.ENGLISH, Locale.FRENCH, Locale.JAPANESE, new Locale("pt", "BR"), new Locale("nl", "BE")};
 	}
 
 	public void changeLocal(Locale l) {
