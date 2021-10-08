@@ -79,16 +79,8 @@ public interface MTGPlugin extends Comparable<MTGPlugin> {
 	
 	public List<String> listAuthenticationAttributes();
 	
-	default AccountAuthenticator getAuthenticator()
-	{
-		try {
+	default AccountAuthenticator getAuthenticator() {
 			return AccountsManager.inst().getAuthenticator(this);
-		}
-		catch(Exception e)
-		{
-			loggerMain.warn("No Authentication found for " + getName() +" Please fill it in config Panel");
-			return new AccountAuthenticator();
-		}
 	}
 	
 	

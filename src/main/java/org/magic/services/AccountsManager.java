@@ -56,11 +56,18 @@ public class AccountsManager {
 		keys.put(plug, token);
 	}
 	
-	public AccountAuthenticator getAuthenticator(MTGPlugin plug)
-	{
-		return keys.get(plug);
+	public AccountAuthenticator getAuthenticator(MTGPlugin plug) 
+	{ 
+		var auth = keys.get(plug);
+		
+		if(auth==null)
+		{
+			logger.warn("No Authentifcator found for " + plug +" Please fill it in config");
+			auth = new AccountAuthenticator();
+		}
+			
+		return auth;
 	}
-	
 	
 	public Map<MTGPlugin, AccountAuthenticator> listAuthEntries() {
 		return keys;

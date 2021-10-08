@@ -23,8 +23,14 @@ public class CardTraderWebShop extends AbstractExternalShop {
 	
 	private void init()
 	{
+		try {
 		if(service==null)
 			service = new CardTraderService(getAuthenticator().get(TOKEN));
+		}
+		catch(Exception e)
+		{
+			logger.error("No authenticator "+e);
+		}
 	}
 	
 	@Override
@@ -92,7 +98,13 @@ public class CardTraderWebShop extends AbstractExternalShop {
 	@Override
 	public List<Category> listCategories() throws IOException {
 		init();
+		try {
 		return service.listCategories().stream().map(this::toCategory).toList();
+		}
+		catch(Exception e)
+		{
+			return new ArrayList<>();
+		}
 	}
 
 	@Override

@@ -140,7 +140,6 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 		
 		List<Product> list = listInput.getSelectedValuesList();
 		
-		
 		AbstractObservableWorker<Void,Product,MTGExternalShop> sw = new AbstractObservableWorker<>(buzy,(MTGExternalShop)cboOutput.getSelectedItem(),list.size())
 		{
 			@Override
