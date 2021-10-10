@@ -153,7 +153,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 
 	@Override
 	public int createProduct(Product t,Category c) throws IOException {
-		throw new IOException("Not enable to create product in Mkm");
+		throw new IOException("Not able to create product in Mkm");
 	}
 	
 	
@@ -263,13 +263,12 @@ public class MkmExternalShop extends AbstractExternalShop {
 
 	@Override
 	public List<Contact> listContacts() throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		return listTransaction().stream().map(Transaction::getContact).toList();
 	}
 
 	@Override
 	public void deleteContact(Contact contact) throws IOException {
-		// TODO Auto-generated method stub
+		throw new IOException("contacts can't be deleted");
 		
 	}
 

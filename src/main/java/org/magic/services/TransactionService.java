@@ -24,7 +24,6 @@ import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.beans.enums.TransactionPayementProvider;
 import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.beans.shop.Transaction;
-import org.magic.api.externalshop.impl.MTGCompanionShop;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGNotifier;
