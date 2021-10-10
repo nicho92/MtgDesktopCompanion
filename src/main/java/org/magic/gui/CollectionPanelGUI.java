@@ -913,8 +913,14 @@ public class CollectionPanelGUI extends MTGUIComponent {
 						protected Void doInBackground() throws Exception {
 							for (MagicCard m : sets)
 							{
-								CardsManagerService.saveCard(m, col,null);
-								publish(m);
+								try{ 
+									CardsManagerService.saveCard(m, col,null);
+									publish(m);
+								}catch(Exception e)
+								{
+									logger.error(e);
+								}
+								
 							}
 							return null;
 						}
