@@ -27,8 +27,10 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.ListCellRenderer;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.LineBorder;
@@ -473,6 +475,12 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		
 		var lblGuiLocal = new JLabel(capitalize("LOCALISATION") + " :");
 		JComboBox<Locale> cboLocales = UITools.createCombobox(MTGControler.getInstance().getLangService().getAvailableLocale());
+		
+		cboLocales.setRenderer((JList<? extends Locale> list, Locale value, int index, boolean isSelected, boolean cellHasFocus)->{
+				return new JLabel(value.getDisplayLanguage());
+		});
+		
+		
 		var lblCardsLanguage = new JLabel(capitalize("CARD_LANGUAGE") + " :");
 		JComboBox<String> cboLanguages = UITools.createCombobox(getEnabledPlugin(MTGCardsProvider.class).getLanguages());
 		var lblLook = new JLabel(capitalize("LOOK") + " :");
