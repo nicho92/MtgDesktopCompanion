@@ -30,14 +30,15 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.ListCellRenderer;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import org.apache.bcel.generic.Select;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTaskPane;
@@ -476,9 +477,9 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		var lblGuiLocal = new JLabel(capitalize("LOCALISATION") + " :");
 		JComboBox<Locale> cboLocales = UITools.createCombobox(MTGControler.getInstance().getLangService().getAvailableLocale());
 		
-		cboLocales.setRenderer((JList<? extends Locale> list, Locale value, int index, boolean isSelected, boolean cellHasFocus)->{
-				return new JLabel(value.getDisplayLanguage());
-		});
+		cboLocales.setRenderer((JList<? extends Locale> list, Locale value, int index, boolean isSelected, boolean cellHasFocus)->
+			new JLabel(StringUtils.capitalize(value.getDisplayLanguage(MTGControler.getInstance().getLocale())))
+		);
 		
 		
 		var lblCardsLanguage = new JLabel(capitalize("CARD_LANGUAGE") + " :");
