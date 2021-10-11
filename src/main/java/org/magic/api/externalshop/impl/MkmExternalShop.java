@@ -11,6 +11,7 @@ import java.util.Map;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.api.mkm.exceptions.MkmException;
+import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Category;
 import org.api.mkm.modele.Game;
 import org.api.mkm.modele.LightProduct;
@@ -30,10 +31,13 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.beans.shop.Transaction;
+import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
+import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 
 public class MkmExternalShop extends AbstractExternalShop {
@@ -146,9 +150,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 
 	@Override
 	protected void createTransaction(Transaction t) throws IOException {
-				
 		throw new IOException("Not enable to create orders in Mkm");
-
 	}
 
 	@Override
@@ -221,6 +223,13 @@ public class MkmExternalShop extends AbstractExternalShop {
 	}
 	
 	
+	public static void main(String[] args) throws IOException {
+		MTGControler.getInstance().loadAccountsConfiguration();
+		MTG.getPlugin(MkmConstants.MKM_NAME,MTGExternalShop.class).getStockById(null, 1250767098);
+		
+	}
+	
+	
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of("STATE", STATE.paid.name(),
@@ -235,32 +244,26 @@ public class MkmExternalShop extends AbstractExternalShop {
 
 	@Override
 	public Integer saveOrUpdateContact(Contact c) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new IOException("contacts can't be updated");
 	}
 
 	@Override
 	public Contact getContactByEmail(String email) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new IOException("contacts can't be found by email");
 	}
 
 	@Override
 	public int saveOrUpdateTransaction(Transaction t) throws IOException {
-		// TODO Auto-generated method stub
-		return 0;
+		return -1;
 	}
 
 	@Override
 	public MTGStockItem getStockById(EnumItems typeStock, Integer id) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+			return null;
 	}
 
 	@Override
 	public void saveOrUpdateStock(EnumItems typeStock, MTGStockItem stock) throws IOException {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -284,6 +287,7 @@ class MkmStockItem extends AbstractStockItem<LightProduct>
 	private int idArticle;
 	
 	private static final long serialVersionUID = 1L;
+	
 	@Override
 	public void setProduct(LightProduct product) {
 		this.product=product;

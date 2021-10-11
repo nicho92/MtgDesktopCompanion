@@ -44,7 +44,14 @@ public class MTGConstants {
 	public static final File NATIVE_DIR = new File("./natives");
 	public static final URL TOOLTIPS_FILE = MTGConstants.class.getResource("/data/tips.properties");
 	public static final Image SAMPLE_PIC = Toolkit.getDefaultToolkit().getImage(MTGConstants.class.getResource("/data/sample.png"));
-
+	
+	public static final float WEIGHT_CARD=1.7009714f;
+	public static final float WEIGHT_BOOSTER=28.7f;
+	public static final float WEIGHT_BOOSTER_BOX_COLLECTOR=12*WEIGHT_BOOSTER;		
+	public static final float WEIGHT_BOOSTER_BOX_SET=24*WEIGHT_BOOSTER;
+	public static final float WEIGHT_BOOSTER_BOX_DRAFT=32*WEIGHT_BOOSTER;
+	
+	
 	public static final String MTG_APP_NAME = "MTG Companion";
 	public static final String MESSAGE_BUNDLE = "locales.lang";
 	public static final Font DEFAULT_FONT=new Font("Arial Unicode MS", Font.PLAIN, 12);
@@ -72,11 +79,10 @@ public class MTGConstants {
 	public static final String MTG_SUPPORTERS_URI = "https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/src/main/resources/data/supporters.json";
 	public static final String MTG_DESKTOP_DONATION_URL="https://www.paypal.me/nicolaspihen";
 	
-	
 	public static final String MTG_DESKTOP_WEBSITE = "https://www.mtgcompanion.org/";
 	public static final String MTG_DESKTOP_GITHUB_RELEASE_API = "https://api.github.com/repos/nicho92/MTGDesktopCompanion/releases";
 	public static final String CURRENCY_API = "https://currencylayer.com/";
-	public static final String URL_RULES_FILE = "https://media.wizards.com/2019/downloads/MagicCompRules%2020190503.txt";
+	public static final String URL_RULES_FILE = "https://media.wizards.com/2021/downloads/MagicCompRules%2020210224.txt";
 
 	public static final String MTG_CHROME_PLUGIN_DIR = "mtg-chrome-companion";
 	

@@ -44,9 +44,7 @@ public class TransactionService
 	protected static Logger logger = MTGLogger.getLogger(TransactionService.class);
 	private static MTGExternalShop mtgshop=MTG.getPlugin(MTGConstants.MTG_APP_NAME, MTGExternalShop.class);
 	
-	private TransactionService() {
-		
-	}
+	private TransactionService() {	}
 	
 	public static int createContact(Contact c) throws IOException
 	{
