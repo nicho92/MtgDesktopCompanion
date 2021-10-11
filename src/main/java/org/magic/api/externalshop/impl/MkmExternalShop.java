@@ -185,6 +185,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 				c.setZipCode(o.getBuyer().getAddress().getZip());
 				c.setCity(o.getBuyer().getAddress().getCity());
 				c.setId(o.getBuyer().getIdUser());
+				c.setEmailAccept(false);
 				c.setEmail(null);
 				
 		t.setContact(c);
