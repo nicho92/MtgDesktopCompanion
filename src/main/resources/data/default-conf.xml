@@ -779,6 +779,38 @@
       <enable>true</enable>
     </wallpaper>
   </wallpapers>
+    <trackings>
+    <tracker>
+      <class>org.magic.api.tracking.impl.LaposteTrackingService</class>
+      <enable>true</enable>
+    </tracker>
+    <tracker>
+      <class>org.magic.api.tracking.impl.DHLTrackingService</class>
+      <enable>true</enable>
+    </tracker>
+    <tracker>
+      <class>org.magic.api.tracking.impl.UPSTrackingService</class>
+      <enable>true</enable>
+    </tracker>
+  </trackings>
+<externalsShops>
+    <extshop>
+      <class>org.magic.api.externalshop.impl.MkmExternalShop</class>
+      <enable>false</enable>
+    </extshop>
+    <extshop>
+      <class>org.magic.api.externalshop.impl.MTGCompanionShop</class>
+      <enable>true</enable>
+    </extshop>
+    <extshop>
+      <class>org.magic.api.externalshop.impl.WooCommerceExternalShop</class>
+      <enable>false</enable>
+    </extshop>
+    <extshop>
+      <class>org.magic.api.externalshop.impl.CardTraderWebShop</class>
+      <enable>false</enable>
+    </extshop>
+  </externalsShops>
   <combos>
     <combo>
       <class>org.magic.api.combo.impl.MagicVilleComboProvider</class>
@@ -912,36 +944,5 @@ shippingCost;</shippingRules>
       <deliveryDay>2</deliveryDay>
     </delivery>
   </shopSite>
-  <trackings>
-    <tracker>
-      <class>org.magic.api.tracking.impl.LaposteTrackingService</class>
-      <enable>true</enable>
-    </tracker>
-    <tracker>
-      <class>org.magic.api.tracking.impl.DHLTrackingService</class>
-      <enable>true</enable>
-    </tracker>
-    <tracker>
-      <class>org.magic.api.tracking.impl.UPSTrackingService</class>
-      <enable>true</enable>
-    </tracker>
-  </trackings>
-<externalsShops>
-    <extshop>
-      <class>org.magic.api.externalshop.impl.MkmExternalShop</class>
-      <enable>true</enable>
-    </extshop>
-    <extshop>
-      <class>org.magic.api.externalshop.impl.MTGCompanionShop</class>
-      <enable>true</enable>
-    </extshop>
-    <extshop>
-      <class>org.magic.api.externalshop.impl.WooCommerceExternalShop</class>
-      <enable>true</enable>
-    </extshop>
-    <extshop>
-      <class>org.magic.api.externalshop.impl.CardTraderWebShop</class>
-      <enable>true</enable>
-    </extshop>
-  </externalsShops>
+
 </conf>

@@ -184,6 +184,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 				c.setAddress(o.getBuyer().getAddress().getStreet());
 				c.setZipCode(o.getBuyer().getAddress().getZip());
 				c.setCity(o.getBuyer().getAddress().getCity());
+				c.setId(o.getBuyer().getIdUser());
 				c.setEmail(null);
 				
 		t.setContact(c);
@@ -263,7 +264,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 
 	@Override
 	public List<Contact> listContacts() throws IOException {
-		return listTransaction().stream().map(Transaction::getContact).toList();
+		return listTransaction().stream().map(Transaction::getContact).distinct().toList();
 	}
 
 	@Override
