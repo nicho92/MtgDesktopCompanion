@@ -3,8 +3,13 @@ package org.beta;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.api.cardtrader.modele.BluePrint;
+import org.api.cardtrader.modele.Categorie;
+import org.api.cardtrader.modele.Expansion;
+import org.api.cardtrader.services.CardTraderService;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGControler;
@@ -13,14 +18,13 @@ import org.magic.tools.RequestBuilder.METHOD;
 import org.magic.tools.URLTools;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 
 public class CardTraderPricer extends AbstractCardExport {
 
 	private static final String TOKEN_FULL = "TOKEN";
 	private String baseUrl = "https://api.cardtrader.com/api/full/"; 
 	private HashMap<String,Integer> mapExpension;
-	
+	private CardTraderService service;
 	
 	@Override
 	public STATUT getStatut() {
@@ -31,6 +35,12 @@ public class CardTraderPricer extends AbstractCardExport {
 		mapExpension=new HashMap<>();
 	}
 	
+	
+	private void init()
+	{
+		if(service==null)
+			service = new CardTraderService(getAuthenticator().get(TOKEN_FULL));
+	}
 		
 	@Override
 	public String getVersion() {
@@ -43,44 +53,18 @@ public class CardTraderPricer extends AbstractCardExport {
 	}
 	
 	protected void test() throws IOException {
-		
+		init();
 		var cardName = "Esper Sentinel";
 		var setId = "MH2";
 		
-		
-		
-		String url = baseUrl+getVersion()+"/blueprints/export";
-		JsonArray ids = RequestBuilder.build().setClient(URLTools.newClient()).method(METHOD.GET).url(url)
-							.addContent("category_id", "1")
-							.addContent("game_id", "1")
-							.addContent("name", cardName)
-							.addHeader("Authorization", "Bearer "+getAuthenticator().get(TOKEN_FULL))
-							.toJson().getAsJsonArray();
-		
-		var idSet = getExpensions().get(setId);
-		
-		var idBluePrints=-1;
-		
-		for(JsonElement el : ids)
-		{
-			if(el.getAsJsonObject().get("expansion_id").getAsInt()==idSet)
-			{
-				idBluePrints = el.getAsJsonObject().get("id").getAsInt();
-				break;
-			}
-		}
-		
-		logger.debug(ids);
-		logger.debug(idBluePrints);
-		
+		List<BluePrint> p = service.listBluePrintsByIds(1, cardName, service.listExpansions().stream().filter(c->c.getCode().equalsIgnoreCase(setId)).map(Expansion::getId).findFirst().orElse(null));
 	
-		
-		
-		
+
 	}
 	
 
 	public static void main(String[] args) throws IOException {
+		MTGControler.getInstance().loadAccountsConfiguration();
 		new CardTraderPricer().test();
 	}
 	
@@ -99,8 +83,6 @@ public class CardTraderPricer extends AbstractCardExport {
 					mapExpension.put(c.getAsJsonObject().get("code").getAsString().toUpperCase(),c.getAsJsonObject().get("id").getAsInt());
 			});
 		}
-		
-		
 		return mapExpension;
 	}
 
