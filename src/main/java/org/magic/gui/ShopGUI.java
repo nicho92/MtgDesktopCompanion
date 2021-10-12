@@ -20,7 +20,7 @@ public class ShopGUI extends MTGUIComponent {
 
 	
 	private JTabbedPane pane;
-	
+	private JTabbedPane subPane;
 	
 	public ShopGUI() {
 		pane = new JTabbedPane();
@@ -33,15 +33,20 @@ public class ShopGUI extends MTGUIComponent {
 		UITools.addTab(pane, new TransactionsPanel());
 		UITools.addTab(pane, new ContactsManagementPanel());
 		
-		JTabbedPane pan = new JTabbedPane();
-		UITools.addTab(pan, new ProductsCreatorComponent());
-		UITools.addTab(pan, new TransactionCreatorComponent());
-		UITools.addTab(pan, new StockSynchronizerComponent());
-		UITools.addTab(pan, new ConverterPanel());
+		subPane = new JTabbedPane();
 		
-		
-		UITools.addTab(pane, MTGUIComponent.build(pan,"External Shop",MTGConstants.ICON_TAB_EXT_SHOP));
+		UITools.addTab(pane, MTGUIComponent.build(subPane,"External Shop",MTGConstants.ICON_TAB_EXT_SHOP));
 	}
+	
+	@Override
+	public void onFirstShowing() {
+		UITools.addTab(subPane, new ProductsCreatorComponent());
+		UITools.addTab(subPane, new TransactionCreatorComponent());
+		UITools.addTab(subPane, new StockSynchronizerComponent());
+		UITools.addTab(subPane, new ConverterPanel());
+		
+	}
+	
 
 	@Override
 	public String getTitle() {

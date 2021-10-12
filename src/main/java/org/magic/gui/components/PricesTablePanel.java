@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import javax.swing.DefaultRowSorter;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.RowSorter;
@@ -30,6 +31,7 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.sorters.MagicPricesComparator;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
+import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.CardsPriceTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
@@ -38,7 +40,7 @@ import org.magic.tools.UITools;
 import java.awt.Cursor;
 
 
-public class PricesTablePanel extends JPanel {
+public class PricesTablePanel extends MTGUIComponent {
 	
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private static final long serialVersionUID = 1L;
@@ -104,15 +106,13 @@ public class PricesTablePanel extends JPanel {
 			}
 		});
 		
-		addComponentListener(new ComponentAdapter() {
-			@Override
-			public void componentShown(ComponentEvent componentEvent) {
-				init(currentCard,foilOnly);
-			}
-
-		});
-		
 	}
+
+	@Override
+	public void onVisible() {
+		init(currentCard,foilOnly);
+	}
+	
 	
 	public void init(MagicCard card)
 	{
@@ -196,6 +196,15 @@ public class PricesTablePanel extends JPanel {
 	{
 		return model.getItems();
 	}
+
+	@Override
+	public String getTitle() {
+		return "Prices";
+	}
 	
 	
+	@Override
+	public ImageIcon getIcon() {
+		return MTGConstants.ICON_TAB_PRICES;
+	}
 }

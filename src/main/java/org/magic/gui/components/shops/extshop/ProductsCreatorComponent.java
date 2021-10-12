@@ -72,7 +72,7 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 		cboCategory = UITools.createCombobox(new ArrayList<>());
 		
 		
-		initCategory();
+
 		
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		txtSearchProduct = new JTextField(25);
@@ -123,6 +123,12 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 		});
 	}
 
+	
+	@Override
+	public void onFirstShowing() {
+		initCategory();
+	}
+	
 
 	private void initCategory() {
 		try {

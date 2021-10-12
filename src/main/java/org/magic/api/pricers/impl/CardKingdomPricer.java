@@ -62,7 +62,6 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 														  .and("is_foil").is(String.valueOf(foil))
 														  );
 		
-		logger.debug("Finding " + cheapFictionFilter);
 		List<Map<String, Object>> arr = cont.read("$.data[?]",cheapFictionFilter);
 		try {
 			
