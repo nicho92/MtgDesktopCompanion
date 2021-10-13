@@ -36,7 +36,7 @@ public class Transaction implements Serializable {
 		return sourceShopName;
 	}
 	
-	public void setSourceShopNmae(String sourceShopName) {
+	public void setSourceShopName(String sourceShopName) {
 		this.sourceShopName = sourceShopName;
 	}
 

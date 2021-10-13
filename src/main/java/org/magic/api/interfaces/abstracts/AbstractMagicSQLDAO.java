@@ -752,7 +752,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		state.setDateCreation(rs.getTimestamp("dateTransaction"));
 		state.setId(rs.getInt("id"));
 		state.setMessage(rs.getString("message"));
-		state.setSourceShopNmae(MTGConstants.MTG_APP_NAME);
+		state.setSourceShopName(MTGConstants.MTG_APP_NAME);
 		state.setStatut(TransactionStatus.valueOf(rs.getString("statut")));
 		state.setItems(readTransactionItems(rs));
 		state.setTransporter(rs.getString("transporter"));

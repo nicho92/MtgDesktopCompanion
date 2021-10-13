@@ -178,7 +178,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 							t.setDateSend(o.getState().getDateSent());
 							t.setCurrency(o.getCurrencyCode());
 							t.setMessage(o.getNote());
-							t.setSourceShopNmae(getName());
+							t.setSourceShopName(getName());
 							
 		Contact c = new Contact();
 				c.setLastName(o.getBuyer().getAddress().getName().split(" ")[0]);

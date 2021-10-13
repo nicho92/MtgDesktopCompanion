@@ -121,9 +121,18 @@ public class CardTraderWebShop extends AbstractExternalShop {
 			trans.setId(o.getId());
 			trans.setDateSend(o.getDateSend());
 			trans.setDatePayment(o.getDateCreditAddedToSeller());
-			trans.setSourceShopNmae(getName());
+			trans.setSourceShopName(getName());
+			
 			Contact c = new Contact();
 					c.setName(o.getBuyer().getUsername());
+					
+					
+					c.setAddress(o.getBillingAddress().getStreet());
+					c.setZipCode(o.getBillingAddress().getZip());
+					c.setCity(o.getBillingAddress().getCity());
+					c.setCountry(o.getBillingAddress().getCountry());
+					c.setEmail(o.getBuyer().getEmail());
+					c.setTelephone(o.getBuyer().getPhone());	
 					
 			trans.setContact(c);
 		

@@ -95,7 +95,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	    				t.setDateCreation(UITools.parseGMTDate(obj.get("date_created").getAsString()));
 	    				t.setId(obj.get("id").getAsInt());
 	    				t.setShippingPrice(obj.get("shipping_total").getAsDouble());
-	    				t.setSourceShopNmae(getName());
+	    				t.setSourceShopName(getName());
 	    				if(!obj.get(DATE_PAID).isJsonNull())
 	    					t.setDatePayment(UITools.parseGMTDate(obj.get(DATE_PAID).getAsString()));
 	    				
