@@ -61,7 +61,7 @@ public class CardTraderPricer extends AbstractPricesProvider {
 			mp.setSite(getName());
 			mp.setQuality(marketItem.getCondition().getValue());
 			mp.setSellerUrl(CardTraderConstants.CARDTRADER_WEBSITE_URI+"/users/"+marketItem.getSeller().getUsername());
-			mp.setUrl(CardTraderConstants.CARDTRADER_WEBSITE_URI+"/cards/"+bp.getSlug());
+			mp.setUrl(CardTraderConstants.CARDTRADER_WEBSITE_URI+"/cards/"+bp.getSlug()+"?share_code="+CardTraderConstants.SHARE_CODE);
 			ret.add(mp);
 		});
 		
