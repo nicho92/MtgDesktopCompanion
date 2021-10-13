@@ -51,7 +51,7 @@ public class CardTraderPricer extends AbstractPricesProvider {
 		
 		
 		var bp = bps.get(0);
-		service.listMarketProduct(set).stream().filter(mp->mp.getIdBlueprint().equals(bp.getId())).toList().forEach(marketItem->{
+		service.listMarketProduct(bp).forEach(marketItem->{
 			var mp = new MagicPrice();
 			mp.setCountry(marketItem.getSeller().getCountryCode());
 			mp.setCurrency(marketItem.getPrice().getCurrency());
