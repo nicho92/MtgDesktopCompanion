@@ -116,7 +116,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 	@Override
 	protected List<Transaction> loadTransaction() throws IOException {
 		init();
-		return service.listOrders().stream().map(o->{
+		return service.listOrders(1).stream().map(o->{
 			var trans = new Transaction();
 			trans.setId(o.getId());
 			trans.setDateSend(o.getDateSend());
