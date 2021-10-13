@@ -14,6 +14,8 @@ public class CardTraderPricer extends AbstractPricesProvider {
 
 	private CardTraderService service;
 	
+	
+	
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
