@@ -171,16 +171,12 @@ public class MkmExternalShop extends AbstractExternalShop {
 		t.getItems().stream().map(it -> {
 			if(it.getTiersAppIds(getName())==null)
 			{
-				it.getProduct();
-				
 				logger.warn(it.getProductName() + " is not synchronized with " + getName());
 				return null;
 			}
 			else
 			{
-				var ret = new LightArticle();	
-				ret.setIdProduct(it.getId());
-				return ret;
+				return parse(it);
 			}
 			
 		}).filter(Objects::nonNull).toList().forEach(art->{
@@ -198,6 +194,10 @@ public class MkmExternalShop extends AbstractExternalShop {
 		
 	}
 	
+	private LightArticle parse(MTGStockItem it) {
+		return new LightArticle();
+	}
+
 	@Override
 	public int createProduct(Product t,Category c) throws IOException {
 		throw new IOException("Not able to create product in Mkm");
