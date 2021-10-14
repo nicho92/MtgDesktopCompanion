@@ -15,6 +15,7 @@ import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;

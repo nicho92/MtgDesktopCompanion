@@ -33,6 +33,7 @@ public interface MTGExternalShop extends MTGPlugin {
 	public int saveOrUpdateTransaction(Transaction t) throws IOException;
 	public void createTransaction(Transaction t, boolean automaticProductCreation) throws IOException;
 	public List<Transaction> listTransaction() throws IOException;
+	public void updateConversion(String name, String destName, String language, Integer idProduct, int idDestProduct) throws IOException;
 
 	
 	

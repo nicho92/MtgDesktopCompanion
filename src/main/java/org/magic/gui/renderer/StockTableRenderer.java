@@ -14,6 +14,7 @@ import javax.swing.table.TableCellRenderer;
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsExport;
+import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGGraders;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
@@ -23,7 +24,6 @@ import org.magic.services.PluginRegistry;
 
 public class StockTableRenderer implements TableCellRenderer{
 
-	
 	Component pane;
 
 	@SuppressWarnings("unchecked")
@@ -47,8 +47,13 @@ public class StockTableRenderer implements TableCellRenderer{
 		else if(value instanceof Map)
 		{
 			pane = new JPanel();
-			((Map<String,Object>)value).entrySet().forEach(e->
-				((JPanel)pane).add(new JLabel(PluginRegistry.inst().getPlugin(e.getKey(), MTGCardsExport.class).getIcon()))
+			((Map<String,Object>)value).entrySet().forEach(e->{
+				var plug = PluginRegistry.inst().listPlugins().stream().filter(p->p.getName().equalsIgnoreCase(e.getKey())).findFirst().orElse(null);
+				if(plug!=null)
+					((JPanel)pane).add(new JLabel(plug.getIcon()));
+				else
+					((JPanel)pane).add(new JLabel(e.getKey()));
+			}	
 			 );
 		} 
 		else if(value instanceof Grading g)

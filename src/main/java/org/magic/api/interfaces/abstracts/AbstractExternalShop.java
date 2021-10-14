@@ -112,13 +112,25 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 		t.setEnName(locName);
 		int ret = createProduct(t,c);
 		try {
-			MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateConversionItem(new ConverterItem( input.getName(),getName(), locName,lang, t.getIdProduct(), ret));
-		} catch (SQLException e) {
+			
+			updateConversion(input.getName(), locName,lang, t.getIdProduct(), ret);
+		} catch (IOException e) {
 			throw new IOException(e);
 		}
 		return ret;
 	}
 
+	@Override
+	public  void updateConversion(String sourcename, String productName, String language, Integer idProduct, int idDestProduct ) throws IOException
+	{
+		try {
+			MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateConversionItem(new ConverterItem(sourcename,getName(), productName,language, idProduct, idDestProduct));
+		} catch (SQLException e) {
+			throw new IOException(e);
+		}
+	}
+	
+	
 }
 
 

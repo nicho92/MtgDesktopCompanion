@@ -117,9 +117,16 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 		       }
 		});
 		
+		listOutput.addListSelectionListener(lll->{
+				btnSend.setText("update "+ listInput.getSelectedValuesList().size() + " items");
+				
+				
+		});
+		
+		
 		listInput.addListSelectionListener(lll->{
 			btnSend.setEnabled(listInput.getSelectedIndex()>=0);
-			btnSend.setText("send "+ listInput.getSelectedValuesList().size() + " items");
+			btnSend.setText("Insert "+ listInput.getSelectedValuesList().size() + " items");
 		});
 	}
 
@@ -151,9 +158,17 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 			@Override
 			protected Void doInBackground() throws Exception {
 					for(Product p : list)
-						{
-							int id = plug.createProduct((MTGExternalShop)cboInput.getSelectedItem(),p,cboLanguages.getSelectedItem().toString(),(Category)cboCategory.getSelectedItem());
-							p.setIdProduct(id);
+						{	
+							if(listOutput.getSelectedIndex()>-1)
+							{
+								plug.updateConversion(((MTGExternalShop)cboInput.getSelectedItem()).getName(), listOutput.getSelectedValue().getEnName(),cboLanguages.getSelectedItem().toString(),p.getIdProduct(),listOutput.getSelectedValue().getIdProduct());
+							}
+							else
+							{
+								int id = plug.createProduct((MTGExternalShop)cboInput.getSelectedItem(),p,cboLanguages.getSelectedItem().toString(),(Category)cboCategory.getSelectedItem());
+								p.setIdProduct(id);
+							}
+						
 							publish(p);
 						}
 					return null;
@@ -167,6 +182,7 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 			protected void done() {
 				super.done();
 				listOutput.updateUI();
+				
 			}
 		};
 		
@@ -179,6 +195,7 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 		String search = txtSearchProduct.getText();
 		
 		modelInput.removeAllElements();
+		modelOutput.removeAllElements();
 		
 		AbstractObservableWorker<List<Product>,Product,MTGExternalShop> sw = new AbstractObservableWorker<>(buzy,(MTGExternalShop)cboInput.getSelectedItem())
 		{
@@ -201,7 +218,30 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 			
 		};
 		
+		
+		AbstractObservableWorker<List<Product>,Product,MTGExternalShop> sw2 = new AbstractObservableWorker<>(buzy,(MTGExternalShop)cboOutput.getSelectedItem())
+		{
+			@Override
+			protected List<Product> doInBackground() throws Exception {
+					return plug.listProducts(search);
+			}
+			
+			@Override
+			protected void done() {
+				try {
+					super.done();
+					modelOutput.addAll(get());
+				} catch (InterruptedException e) {
+					Thread.currentThread().interrupt();
+				} catch (ExecutionException e) {
+					logger.error(e);
+				}
+			}
+			
+		};
+		
 		ThreadManager.getInstance().runInEdt(sw,"search Products");
+		ThreadManager.getInstance().runInEdt(sw2,"search Products");
 	}
 
 	@Override

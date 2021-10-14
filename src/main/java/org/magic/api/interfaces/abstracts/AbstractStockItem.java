@@ -9,6 +9,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
+import org.magic.api.beans.shop.Product;
 import org.magic.api.interfaces.MTGStockItem;
 
 public abstract class AbstractStockItem<T extends Serializable> implements MTGStockItem {
@@ -34,7 +35,17 @@ public abstract class AbstractStockItem<T extends Serializable> implements MTGSt
 	protected boolean altered=false;
 	protected boolean oversize=false;
 	protected EnumCondition condition = EnumCondition.NEAR_MINT;
-
+	
+	
+	public abstract void setProduct(T product);
+	
+	@Override
+	public T getProduct() {
+		return product;
+	}
+	
+		
+	
 	public EnumCondition getCondition() {
 		return condition;
 	}
@@ -93,14 +104,7 @@ public abstract class AbstractStockItem<T extends Serializable> implements MTGSt
 		tiersAppIds = new HashMap<>();
 	}
 
-	
-	public abstract void setProduct(T product);
 
-	public T getProduct() {
-		return product;
-	}
-	
-		
 	
 	@Override
 	public String getTiersAppIds(String name) {

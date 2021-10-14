@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -14,10 +15,12 @@ import org.api.mkm.exceptions.MkmException;
 import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Category;
 import org.api.mkm.modele.Game;
+import org.api.mkm.modele.LightArticle;
 import org.api.mkm.modele.LightProduct;
 import org.api.mkm.modele.Order;
 import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
+import org.api.mkm.services.ArticleService;
 import org.api.mkm.services.GameService;
 import org.api.mkm.services.OrderService;
 import org.api.mkm.services.OrderService.ACTOR;
@@ -150,7 +153,38 @@ public class MkmExternalShop extends AbstractExternalShop {
 
 	@Override
 	protected void createTransaction(Transaction t) throws IOException {
-		throw new IOException("Not enable to create orders in Mkm");
+		
+		logger.info(getName() + " will only update his stock from this transation");
+		var mkmStockService = new StockService();
+	
+		t.getItems().stream().map(it -> {
+			if(it.getTiersAppIds(getName())==null)
+			{
+				it.getProduct();
+				
+				logger.warn(it.getProductName() + " is not synchronized with " + getName());
+				return null;
+			}
+			else
+			{
+				var ret = new LightArticle();	
+				ret.setIdProduct(it.getId());
+				return ret;
+			}
+			
+		}).filter(Objects::nonNull).toList().forEach(art->{
+
+			try {
+				mkmStockService.changeQte(art, 0);
+			} catch (IOException e) {
+				logger.error(e);
+			}
+				
+		});
+		
+		
+		
+		
 	}
 
 	@Override
@@ -274,7 +308,6 @@ public class MkmExternalShop extends AbstractExternalShop {
 	@Override
 	public void deleteContact(Contact contact) throws IOException {
 		throw new IOException("contacts can't be deleted");
-		
 	}
 
 

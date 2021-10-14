@@ -148,6 +148,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	    		entry.setQte(objItem.get("quantity").getAsInt());
 	    		entry.setPrice(objItem.get("total").getAsDouble());
 	    		entry.setProductName(objItem.get("name").getAsString());
+	    		entry.setLanguage(entry.getProductName().toLowerCase().contains("français")?"French":"English");
 	    		entry.getTiersAppIds().put(getName(), String.valueOf(t.getId()));
 	    		t.getItems().add(entry);
 	    		

@@ -79,6 +79,7 @@ public interface MTGStockItem extends Serializable, Comparable<MTGStockItem> {
 	public 	void setSigned(boolean signed);
 
 	public 	boolean isFoil();
-	
+
+	public <T> T getProduct();
 
 }
