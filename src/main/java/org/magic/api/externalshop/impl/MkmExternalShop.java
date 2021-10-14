@@ -29,6 +29,7 @@ import org.api.mkm.services.ProductServices;
 import org.api.mkm.services.StockService;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.api.mkm.tools.MkmConstants;
+import org.api.mkm.tools.Tools;
 import org.magic.api.beans.Contact;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumItems;
@@ -115,7 +116,17 @@ public class MkmExternalShop extends AbstractExternalShop {
 								  item.setPrice(UITools.parseDouble(art.get("Price")));
 								  item.setIdArticle(Integer.parseInt(art.get("idArticle")));
 								  item.setComment(art.get("Comments"));
-								  item.setLanguage(art.get("Language").equals("1")?"English":"French");
+								  
+								  try {
+									  
+									  
+									  var loc = Tools.listLanguages().get(Integer.parseInt(art.get("Language"))-1);
+									  item.setLanguage(loc.getLanguageName());  
+								  }
+								  catch(Exception e)
+								  {
+									  logger.error("No language for code =" + art.get("Language"));
+								  }
 								  ret.add(item);
 								  
 								  notify(item);
@@ -186,7 +197,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 		
 		
 	}
-
+	
 	@Override
 	public int createProduct(Product t,Category c) throws IOException {
 		throw new IOException("Not able to create product in Mkm");
@@ -258,9 +269,9 @@ public class MkmExternalShop extends AbstractExternalShop {
 	
 	
 	public static void main(String[] args) throws IOException {
-		MTGControler.getInstance().loadAccountsConfiguration();
-		MTG.getPlugin(MkmConstants.MKM_NAME,MTGExternalShop.class).getStockById(null, 1250767098);
-		
+		Tools.listLanguages().forEach(l->{
+			System.out.println(l.getIdLanguage() + " " + l.getLanguageName());
+		});
 	}
 	
 	
@@ -308,6 +319,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 	@Override
 	public void deleteContact(Contact contact) throws IOException {
 		throw new IOException("contacts can't be deleted");
+
 	}
 
 
