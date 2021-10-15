@@ -35,7 +35,6 @@ import javax.swing.ImageIcon;
 
 import org.api.mkm.modele.Category;
 import org.api.mkm.modele.Product;
-import org.magic.api.beans.Contact;
 import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
@@ -48,6 +47,7 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.WebShopConfig;
 import org.magic.api.beans.enums.TransactionStatus;
+import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCache;

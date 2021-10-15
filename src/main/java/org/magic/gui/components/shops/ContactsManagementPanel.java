@@ -10,7 +10,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingWorker;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.Contact;
+import org.magic.api.beans.shop.Contact;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.CardStockPanel;
 import org.magic.gui.components.ContactPanel;

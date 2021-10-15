@@ -1,6 +1,6 @@
 package org.magic.gui.models;
 
-import org.magic.api.beans.Contact;
+import org.magic.api.beans.shop.Contact;
 import org.magic.gui.abstracts.GenericTableModel;
 
 public class ContactTableModel extends GenericTableModel<Contact> {

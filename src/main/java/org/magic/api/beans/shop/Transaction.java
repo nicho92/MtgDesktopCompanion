@@ -6,7 +6,6 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.List;
 
-import org.magic.api.beans.Contact;
 import org.magic.api.beans.WebShopConfig;
 import org.magic.api.beans.enums.TransactionPayementProvider;
 import org.magic.api.beans.enums.TransactionStatus;

@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
 
+import org.magic.api.beans.shop.Contact;
+
 public class WebShopConfig implements Serializable {
 
 	private static final long serialVersionUID = 1L;
