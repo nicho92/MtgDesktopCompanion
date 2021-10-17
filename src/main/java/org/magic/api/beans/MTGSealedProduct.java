@@ -1,9 +1,9 @@
 package org.magic.api.beans;
 
 import org.magic.api.beans.enums.EnumItems;
-import org.magic.api.beans.shop.Product;
+import org.magic.api.interfaces.abstracts.AbstractProduct;
 
-public class MTGSealedProduct extends Product{
+public class MTGSealedProduct extends AbstractProduct{
 
 	private static final long serialVersionUID = 1L;
 

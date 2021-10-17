@@ -1,10 +1,9 @@
-package org.magic.api.beans.shop;
-
-import java.io.Serializable;
+package org.magic.api.interfaces.abstracts;
 
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGProduct;
 
-public abstract class Product implements Serializable {
+public abstract class AbstractProduct implements  MTGProduct {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -13,28 +12,35 @@ public abstract class Product implements Serializable {
 	protected String name;
 	protected MagicEdition edition;
 	
-	
+	@Override
 	public String getProductId() {
 		return productId;
 	}
+	@Override
 	public void setProductId(String id) {
 		this.productId = id;
 	}
+	@Override
 	public String getUrl() {
 		return url;
 	}
+	@Override
 	public void setUrl(String url) {
 		this.url = url;
 	}
+	@Override
 	public MagicEdition getEdition() {
 		return edition;
 	}
+	@Override
 	public void setEdition(MagicEdition edition) {
 		this.edition = edition;
 	}
+	@Override
 	public String getName() {
 		return name;
 	}
+	@Override
 	public void setName(String name) {
 		this.name = name;
 	}

@@ -12,10 +12,10 @@ import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGPromoType;
 import org.magic.api.beans.enums.MTGRarity;
-import org.magic.api.beans.shop.Product;
+import org.magic.api.interfaces.abstracts.AbstractProduct;
 import org.magic.tools.IDGenerator;
 
-public class MagicCard extends Product {
+public class MagicCard extends AbstractProduct {
 	private static final long serialVersionUID = 1L;
 
 	private String side="a";

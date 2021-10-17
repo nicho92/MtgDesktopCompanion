@@ -9,7 +9,6 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
-import org.magic.api.beans.shop.Product;
 import org.magic.api.interfaces.MTGStockItem;
 
 public abstract class AbstractStockItem<T extends Serializable> implements MTGStockItem {
