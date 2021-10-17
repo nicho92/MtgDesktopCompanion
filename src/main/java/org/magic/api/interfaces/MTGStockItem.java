@@ -10,10 +10,6 @@ import org.magic.api.beans.enums.EnumItems;
 
 public interface MTGStockItem extends Serializable, Comparable<MTGStockItem> {
 
-	public String getProductName();
-
-	public 	void setProductName(String productName);
-
 	public 	MagicEdition getEdition();
 
 	public 	void setTypeStock(EnumItems typeStock);
@@ -80,6 +76,7 @@ public interface MTGStockItem extends Serializable, Comparable<MTGStockItem> {
 
 	public 	boolean isFoil();
 
-	public <T> T getProduct();
+	public <T extends MTGProduct> T getProduct();
+
 
 }

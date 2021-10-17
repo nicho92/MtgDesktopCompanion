@@ -180,7 +180,7 @@
 							                   if(type === 'display'){
 							                	  var content="<ul>";
 							                	  $.each(data,function(index, value){
-							                		  content+= "<li>" + value.qte+" " + value.productName +" (" + value.edition.set + ")";
+							                		  content+= "<li>" + value.qte+" " + value.product.name +" (" + value.edition.set + ")";
 							                	  });
 							                	  content+="</ul>";
 							                	  
@@ -260,7 +260,7 @@
 							        		 $.getJSON(restserver+"/track/"+$(this).attr("transporter") +"/"+ $(this).attr("trackid"), function(ret){
 							        			 var last = ret.steps[0];
 							        			 $("#trackcontent").html(last.dateStep + " " + last.descriptionStep);
-							        			 $("#idmodal").text(ret.productName +" #"+ret.number);
+							        			 $("#idmodal").text(ret.product.name +" #"+ret.number);
 							        			 $("#linkTrack").attr("href",ret.trackingUri);
 							        		 });
 							        	});

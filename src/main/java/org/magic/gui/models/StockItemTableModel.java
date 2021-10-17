@@ -5,6 +5,7 @@ import java.util.Map;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumItems;
+import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.tools.UITools;
@@ -56,7 +57,7 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 		case 0:
 			return MTGStockItem.class;
 		case 1:
-			return String.class;
+			return MTGProduct.class;
 		case 2:
 			return MagicEdition.class;
 		case 3:
@@ -101,7 +102,7 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 		case 0:
 			return items.get(row);
 		case 1:
-			return items.get(row).getProductName();
+			return items.get(row).getProduct();
 		case 2:
 			return items.get(row).getEdition();
 		case 3 :

@@ -16,6 +16,7 @@ import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
+import org.magic.api.interfaces.abstracts.AbstractProduct;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
 import org.magic.services.MTGConstants;
 import org.magic.tools.UITools;
@@ -147,8 +148,16 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	    		entry.setId(objItem.get("product_id").getAsInt());
 	    		entry.setQte(objItem.get("quantity").getAsInt());
 	    		entry.setPrice(objItem.get("total").getAsDouble());
-	    		entry.setProductName(objItem.get("name").getAsString());
-	    		entry.setLanguage(entry.getProductName().toLowerCase().contains("français")?"French":"English");
+	    		
+	    		var prod = new AbstractProduct() {
+				};
+				
+				prod.setName(objItem.get("name").getAsString());
+	    		prod.setProductId(objItem.get("product_id").getAsString());
+	    		prod.setUrl("");
+	    		
+	    		entry.setProduct(prod);
+	    		entry.setLanguage(entry.getProduct().getName().toLowerCase().contains("français")?"French":"English");
 	    		entry.getTiersAppIds().put(getName(), String.valueOf(t.getId()));
 	    		t.getItems().add(entry);
 	    		
@@ -216,23 +225,23 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		List<JsonObject> res = client.getAll(EndpointBaseType.PRODUCTS.getValue(),parameters);
 
 		res.forEach(element->{
-			Product p = new Product();
+			var p = new AbstractProduct() {
+				
+			};
 			JsonObject obj = element.getAsJsonObject();
 	
-			p.setIdProduct(obj.get("id").getAsInt());
-			p.setEnName(obj.get("name").getAsString());
-			p.setIdGame(1);
-			p.setLocalization(new ArrayList<>());
+			p.setProductId(obj.get("id").getAsString());
+			p.setName(obj.get("name").getAsString());
 			
 			JsonObject objCateg = obj.get("categories").getAsJsonArray().get(0).getAsJsonObject();
 			Category c = new Category();
 					 c.setIdCategory(objCateg.get("id").getAsInt());
 					 c.setCategoryName(objCateg.get("name").getAsString());
-			p.setCategory(c);
-			p.setCategoryName(c.getCategoryName());
+		//	p.setCategory(c);
+		//	p.setCategoryName(c.getCategoryName());
 			
 			JsonObject img = obj.get("images").getAsJsonArray().get(0).getAsJsonObject();
-							p.setImage(img.get("src").getAsString());
+							p.setUrl(img.get("src").getAsString());
 			
 			
 			var stockItem = new WooCommerceItem();
@@ -404,16 +413,9 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 }
 
 
-class WooCommerceItem extends AbstractStockItem<Product>
+class WooCommerceItem extends AbstractStockItem<AbstractProduct>
 {
 	private static final long serialVersionUID = 1L;
 	
-	public void setProduct(Product product) {
-			this.id=product.getIdProduct();
-			this.url=product.getImage();
-			this.productName=product.getEnName();
-			this.product=product;
-			
-	}
 }
 

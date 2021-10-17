@@ -221,6 +221,7 @@ public class SealedProductProvider {
 							 p.setNum(1);
 						 }
 				
+				p.setName(p.getType() +" " + p.getEdition());
 				ret.add(p);
 			}
 		}

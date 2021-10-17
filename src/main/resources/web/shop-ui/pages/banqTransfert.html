@@ -51,7 +51,7 @@
 				    	var html="<b>Transaction</b> #"+data.id +"<br/>";
 				    	html+="<b>Items</b> :<br/><ul>";
 				    	$.each( data.items, function( key, value ) {
-				    		html+= "<li>"+value.productName +"</li>";
+				    		html+= "<li>"+value.product.name +"</li>";
 				    		itemsTotal+=(value.qte*value.price);
 				    	});
 				    	

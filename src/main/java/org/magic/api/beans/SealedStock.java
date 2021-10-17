@@ -25,14 +25,7 @@ public class SealedStock extends AbstractStockItem<MTGSealedProduct>  {
 		url = product.getUrl();
 		setTypeStock(EnumItems.SEALED);
 		setCondition(EnumCondition.SEALED);
-		setProductName(product.getType() +" "+  product.getEdition().getSet());
 	}
 	
-	@Override
-	public String toString() {
-		return ""+getId();
-	}
-	
-
 	
 }

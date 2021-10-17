@@ -69,7 +69,7 @@ function generateStockCardHTML(data,currency, tosell, percentReduction)
 					append+="<img class='card-img-top' src='"+data.url+"'>";
     				append+="<div class='card-body'>";
            			
-           			append+="<h5 class='card-title'><a href='product.html?id="+data.id+"&product="+data.typeStock+"' title='View Product'>"+data.productName +"</a></h5>";
+           			append+="<h5 class='card-title'><a href='product.html?id="+data.id+"&product="+data.typeStock+"' title='View Product'>"+data.product.name +"</a></h5>";
            				
            			append+="<p class='card-text'>";
 							append+="<i class='ss ss-2x ss-"+data.edition.id.toLowerCase()+"'></i>";

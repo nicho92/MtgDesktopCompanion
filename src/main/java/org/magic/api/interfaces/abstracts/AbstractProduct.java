@@ -13,6 +13,12 @@ public abstract class AbstractProduct implements  MTGProduct {
 	protected MagicEdition edition;
 	
 	@Override
+	public String toString() {
+		return getName();
+	}
+	
+	
+	@Override
 	public String getProductId() {
 		return productId;
 	}

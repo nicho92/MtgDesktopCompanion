@@ -90,11 +90,11 @@
 			    		$("#price").html(stockItem.price.toFixed(2) +" "+currency);	
 			    	}
 			    	
-			    	$("#productModalLabel").html(stockItem.productName);
+			    	$("#productModalLabel").html(stockItem.product.name);
 			    	$("#quantity").attr('max',stockItem.qte);
 			    	$("#cardDescription").html(replaceMana(stockItem.product.text));
 			    	$("#productComments").html(stockItem.comment);
-			    	$("#productName").html(stockItem.productName);
+			    	$("#productName").html(stockItem.product.name);
 
 						var append="";
 			    		try{

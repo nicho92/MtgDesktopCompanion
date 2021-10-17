@@ -76,7 +76,7 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 			if( automaticProductCreation &&  mci.getTiersAppIds(getName())==null)
 			{
 				Product p = new Product();
-							 p.setEnName(mci.getProductName());
+							 p.setEnName(mci.getProduct().getName());
 							 p.setImage(mci.getUrl());
 							 
 				Category c = new Category();
@@ -88,7 +88,7 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 					if(ret>0)
 					{
 						mci.getTiersAppIds().put(getName(), String.valueOf(ret));
-						MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateConversionItem(new ConverterItem( t.getSourceShopName(),getName(), mci.getProductName(), mci.getLanguage(), mci.getId(),ret));
+						MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateConversionItem(new ConverterItem( t.getSourceShopName(),getName(), mci.getProduct(), mci.getLanguage(), mci.getId(),ret));
 					}
 					
 				} catch (Exception e) {

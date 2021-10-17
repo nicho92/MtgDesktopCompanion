@@ -1,6 +1,5 @@
 package org.magic.api.interfaces.abstracts;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,9 +8,10 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
+import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 
-public abstract class AbstractStockItem<T extends Serializable> implements MTGStockItem {
+public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStockItem {
 	
 	protected static final long serialVersionUID = 1L;
 	protected Integer id=-1;
@@ -22,7 +22,6 @@ public abstract class AbstractStockItem<T extends Serializable> implements MTGSt
 	protected boolean updated=false;
 	protected Double price=0.0;
 	protected Grading grade;
-	protected String productName;
 	protected MagicEdition edition;
 	protected T product;
 	protected EnumItems typeStock;
@@ -35,15 +34,16 @@ public abstract class AbstractStockItem<T extends Serializable> implements MTGSt
 	protected boolean oversize=false;
 	protected EnumCondition condition = EnumCondition.NEAR_MINT;
 	
-	
-	public abstract void setProduct(T product);
-	
+	@SuppressWarnings("unchecked")
 	@Override
 	public T getProduct() {
 		return product;
 	}
 	
-		
+	public void setProduct(T product)
+	{
+		this.product = product;
+	}
 	
 	public EnumCondition getCondition() {
 		return condition;
@@ -120,15 +120,7 @@ public abstract class AbstractStockItem<T extends Serializable> implements MTGSt
 		this.tiersAppIds = tiersAppIds;
 	}
 	
-	@Override
-	public String getProductName() {
-		return productName;
-	}
 	
-	@Override
-	public void setProductName(String productName) {
-		this.productName = productName;
-	}
 	
 	@Override
 	public MagicEdition getEdition()

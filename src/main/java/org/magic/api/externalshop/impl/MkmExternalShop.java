@@ -38,6 +38,7 @@ import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
+import org.magic.api.interfaces.abstracts.AbstractProduct;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -111,10 +112,10 @@ public class MkmExternalShop extends AbstractExternalShop {
 								}
 								  
 								  item.setId(Integer.parseInt(art.get("idProduct")));
-								  item.setProduct(product);
+								  item.setProduct(toProduct(product));
 								  item.setQte(Integer.parseInt(art.get("Amount")));
 								  item.setPrice(UITools.parseDouble(art.get("Price")));
-								  item.setIdArticle(Integer.parseInt(art.get("idArticle")));
+								  item.setId(Integer.parseInt(art.get("idArticle")));
 								  item.setComment(art.get("Comments"));
 								  
 								  try {
@@ -171,7 +172,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 		t.getItems().stream().map(it -> {
 			if(it.getTiersAppIds(getName())==null)
 			{
-				logger.warn(it.getProductName() + " is not synchronized with " + getName());
+				logger.warn(it.getProduct() + " is not synchronized with " + getName());
 				return null;
 			}
 			else
@@ -252,10 +253,10 @@ public class MkmExternalShop extends AbstractExternalShop {
 	
 		o.getArticle().forEach(article->{
 			var item = new MkmStockItem();
-			item.setId(article.getIdProduct());
+			item.setId(article.getIdArticle());
 			item.setLanguage(article.getLanguage().getLanguageName());
 			item.setPrice(article.getPrice());
-			item.setProduct(article.getProduct());
+			item.setProduct(toProduct(article.getProduct()));
 			item.setQte(article.getCount());
 			item.setFoil(article.isFoil());
 			item.setAltered(article.isAltered());
@@ -267,14 +268,21 @@ public class MkmExternalShop extends AbstractExternalShop {
 		return t;
 	}
 	
-	
-	public static void main(String[] args) throws IOException {
-		Tools.listLanguages().forEach(l->{
-			System.out.println(l.getIdLanguage() + " " + l.getLanguageName());
-		});
+	private AbstractProduct toProduct(LightProduct product) {
+		var p = new AbstractProduct() {};
+		
+		p.setName(product.getEnName());
+		p.setEdition(new MagicEdition("",product.getExpansion()));
+		if(product.getImage()!=null && product.getImage().startsWith("//"))
+			p.setUrl("https:"+ product.getImage());
+		else
+			p.setUrl(product.getImage());
+		
+		
+		return p;
+		
 	}
-	
-	
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of("STATE", STATE.paid.name(),
@@ -327,32 +335,9 @@ public class MkmExternalShop extends AbstractExternalShop {
 
 
 
-class MkmStockItem extends AbstractStockItem<LightProduct>
+class MkmStockItem extends AbstractStockItem<AbstractProduct>
 {
-	private int idArticle;
-	
-	private static final long serialVersionUID = 1L;
-	
-	@Override
-	public void setProduct(LightProduct product) {
-		this.product=product;
-		setProductName(product.getEnName());
-		edition= new MagicEdition("",product.getExpansion());
-		if(product.getImage()!=null && product.getImage().startsWith("//"))
-			url = "https:"+ product.getImage();
-		else
-			url=product.getImage();
-	}
-	
-	public void setIdArticle(int idArticle) {
-		this.idArticle = idArticle;
-	}
-	
-	public int getIdArticle() {
-		return idArticle;
-	}
-	
-	
+
 }
 
 

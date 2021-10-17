@@ -119,7 +119,7 @@
 												
 												 var content="<ul>";
 							                	  $.each(d,function(index, value){
-							                		  content+= "<li><img height=70  src='"+value.url+"'/> <strong>" + value.qte+"x</strong> " + value.productName + " <br/>" + JSON.stringify(value.tiersAppIds);
+							                		  content+= "<li><img height=70  src='"+value.url+"'/> <strong>" + value.qte+"x</strong> " + value.product.name + " <br/>" + JSON.stringify(value.tiersAppIds);
 							                	  });
 							                	  content+="</ul>";											
 												
