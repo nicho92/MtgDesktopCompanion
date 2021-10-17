@@ -1,6 +1,5 @@
 package org.magic.api.beans;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,15 +12,14 @@ import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGPromoType;
 import org.magic.api.beans.enums.MTGRarity;
+import org.magic.api.beans.shop.Product;
 import org.magic.tools.IDGenerator;
 
-public class MagicCard implements Serializable {
+public class MagicCard extends Product {
 	private static final long serialVersionUID = 1L;
 
 	private String side="a";
-	private String name="";
 	private String id;
-	private String url;
 	private Integer cmc;
 	private String cost="";
 	private String text="";
@@ -682,28 +680,12 @@ public class MagicCard implements Serializable {
 		this.types = types;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public String getId() {
 		return id;
 	}
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
 	}
 
 	public String getFullType() {

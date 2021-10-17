@@ -3,7 +3,6 @@ package org.magic.api.beans;
 import java.util.HashMap;
 
 import org.apache.commons.lang3.StringUtils;
-import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
 

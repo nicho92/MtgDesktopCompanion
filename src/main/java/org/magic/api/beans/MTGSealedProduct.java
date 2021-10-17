@@ -1,10 +1,9 @@
 package org.magic.api.beans;
 
-import java.io.Serializable;
-
 import org.magic.api.beans.enums.EnumItems;
+import org.magic.api.beans.shop.Product;
 
-public class MTGSealedProduct implements Serializable{
+public class MTGSealedProduct extends Product{
 
 	private static final long serialVersionUID = 1L;
 
@@ -13,10 +12,7 @@ public class MTGSealedProduct implements Serializable{
 	private EnumItems type;
 	private String lang;
 	private int num;
-	private String url;
 	private EXTRA extra;
-	private MagicEdition edition;
-	
 	
 	
 	public EXTRA getExtra() {
@@ -45,24 +41,10 @@ public class MTGSealedProduct implements Serializable{
 	public void setNum(int num) {
 		this.num = num;
 	}
-	public String getUrl() {
-		return url;
-	}
-	public void setUrl(String url) {
-		this.url = url;
-	}
-	
+
 	@Override
 	public String toString() {
 		return getLang()+"-" + (getExtra()!=null?getExtra()+"-":"")+ getNum();
-	}
-
-	public void setEdition(MagicEdition me) {
-		this.edition=me;
-	}
-	
-	public MagicEdition getEdition() {
-		return edition;
 	}
 	
 	

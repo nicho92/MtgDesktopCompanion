@@ -4,21 +4,21 @@ import java.io.Serializable;
 
 import org.magic.api.beans.MagicEdition;
 
-public class Product implements Serializable {
+public abstract class Product implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private  int id;
-	private String url;
-	private String productName;
-	private MagicEdition edition;
+	protected String productId;
+	protected String url;
+	protected String name;
+	protected MagicEdition edition;
 	
 	
-	public int getId() {
-		return id;
+	public String getProductId() {
+		return productId;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setProductId(String id) {
+		this.productId = id;
 	}
 	public String getUrl() {
 		return url;
@@ -26,19 +26,18 @@ public class Product implements Serializable {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	public String getProductName() {
-		return productName;
-	}
-	public void setProductName(String productName) {
-		this.productName = productName;
-	}
 	public MagicEdition getEdition() {
 		return edition;
 	}
 	public void setEdition(MagicEdition edition) {
 		this.edition = edition;
 	}
-	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	
 	
 }
