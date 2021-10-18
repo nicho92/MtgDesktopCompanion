@@ -9,12 +9,14 @@ public class MTGSealedProduct extends AbstractProduct{
 
 	public enum EXTRA { SET, DRAFT, COLLECTOR,THEME,GIFT,VIP}
 	
-	private EnumItems type;
 	private String lang;
 	private int num;
 	private EXTRA extra;
 	
-	
+	public MTGSealedProduct() {
+		setTypeProduct(EnumItems.SEALED);
+	}
+
 	public EXTRA getExtra() {
 		return extra;
 	}
@@ -22,13 +24,6 @@ public class MTGSealedProduct extends AbstractProduct{
 		this.extra = extra;
 	}
 	
-	
-	public EnumItems getType() {
-		return type;
-	}
-	public void setType(EnumItems type) {
-		this.type = type;
-	}
 	public String getLang() {
 		return lang;
 	}
@@ -44,7 +39,7 @@ public class MTGSealedProduct extends AbstractProduct{
 
 	@Override
 	public String toString() {
-		return getType() + " " +getLang()+"-" + (getExtra()!=null?getExtra()+"-":"")+ getNum();
+		return getTypeProduct() + " " +getLang()+"-" + (getExtra()!=null?getExtra()+"-":"")+ getNum();
 	}
 	
 	

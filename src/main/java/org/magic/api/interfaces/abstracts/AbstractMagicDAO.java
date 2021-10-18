@@ -132,7 +132,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	
 	@Override
 	public List<SealedStock> listSealedStocks(MagicCollection c, MagicEdition ed) throws SQLException {
-		return listSealedStocks().stream().filter(ss->ss.getMagicCollection().getName().equalsIgnoreCase(c.getName())&& ss.getEdition().getId().equalsIgnoreCase(ed.getId())).toList();
+		return listSealedStocks().stream().filter(ss->ss.getMagicCollection().getName().equalsIgnoreCase(c.getName())&& ss.getProduct().getEdition().getId().equalsIgnoreCase(ed.getId())).toList();
 	}
 	
 	@Override

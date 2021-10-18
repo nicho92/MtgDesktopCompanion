@@ -91,7 +91,7 @@ public class SealedProductProvider {
 		if(p.getUrl()==null)
 			return null;
 		
-		var f = Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), PACKAGING_DIR_NAME,p.getEdition().getId().replace("CON", "CON_"),p.getType().name()).toFile();
+		var f = Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), PACKAGING_DIR_NAME,p.getEdition().getId().replace("CON", "CON_"),p.getTypeProduct().name()).toFile();
 		var pkgFile = new File(f,p.toString()+".png");
 		
 		try {
@@ -100,11 +100,11 @@ public class SealedProductProvider {
 			{
 				BufferedImage im = URLTools.extractImage(p.getUrl());
 				ImageTools.saveImage(im, pkgFile, "PNG");
-				logger.debug("[" + p.getEdition().getId() +"] SAVED for " + p.getType()+"-"+p);
+				logger.debug("[" + p.getEdition().getId() +"] SAVED for " + p.getTypeProduct()+"-"+p);
 				return im;
 			}
 		} catch (Exception e) {
-			logger.error("[" + p.getEdition().getId() +"] ERROR for " + p.getType()+"-"+p +" :" +e);
+			logger.error("[" + p.getEdition().getId() +"] ERROR for " + p.getTypeProduct()+"-"+p +" :" +e);
 		}
 		return null;
 		
@@ -137,7 +137,7 @@ public class SealedProductProvider {
 	public BufferedImage get(MTGSealedProduct p)
 	{
 		try {
-			var b=Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), PACKAGING_DIR_NAME,p.getEdition().getId().replace("CON", "CON_"),p.getType().name(),p.toString()+".png").toFile();
+			var b=Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), PACKAGING_DIR_NAME,p.getEdition().getId().replace("CON", "CON_"),p.getTypeProduct().name(),p.toString()+".png").toFile();
 			
 			if(b.exists())
 				return ImageTools.read(b);
@@ -192,7 +192,7 @@ public class SealedProductProvider {
 			if(n.item(i).getNodeType()==1)
 			{
 				var p = new MTGSealedProduct();
-						  p.setType(EnumItems.valueOf(n.item(i).getNodeName().toUpperCase()));
+						  p.setTypeProduct(EnumItems.valueOf(n.item(i).getNodeName().toUpperCase()));
 						 
 						  try {
 							  p.setLang(n.item(i).getAttributes().getNamedItem("lang").getNodeValue());
@@ -221,7 +221,7 @@ public class SealedProductProvider {
 							 p.setNum(1);
 						 }
 				
-				p.setName(p.getType() +" " + p.getEdition());
+				p.setName(p.getTypeProduct() +" " + p.getEdition());
 				ret.add(p);
 			}
 		}
@@ -272,7 +272,7 @@ public class SealedProductProvider {
 	
 	public List<MTGSealedProduct> get(MagicEdition me,EnumItems t)
 	{
-		return getItemsFor(me).stream().filter(e->e.getType()==t).toList();
+		return getItemsFor(me).stream().filter(e->e.getTypeProduct()==t).toList();
 	}
 
 	

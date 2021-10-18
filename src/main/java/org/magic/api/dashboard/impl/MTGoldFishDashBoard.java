@@ -157,7 +157,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		if(packaging.getExtra()!=EXTRA.VIP)
 		{
 		
-			switch(packaging.getType())
+			switch(packaging.getTypeProduct())
 			{
 				case BANNER:break;
 				case BOOSTER:selead+="+Booster+Pack";break;

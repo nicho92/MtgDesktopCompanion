@@ -106,13 +106,13 @@ public class TransactionService
 		   var oe = new OrderEntry();
 			   oe.setCurrency(MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
 			   oe.setDescription(transactionItem.getProduct().getName());
-			   oe.setEdition(transactionItem.getEdition());
+			   oe.setEdition(transactionItem.getProduct().getEdition());
 			   oe.setIdTransation(String.valueOf(t.getId()));
 			   oe.setItemPrice(UITools.roundDouble(transactionItem.getPrice()));
 			   oe.setTransactionDate(t.getDateCreation());
 			   oe.setShippingPrice(UITools.roundDouble(t.getShippingPrice()));
 			   oe.setSource(MTGControler.getInstance().getWebConfig().getSiteTitle());
-			   oe.setType(transactionItem.getTypeStock());
+			   oe.setType(transactionItem.getProduct().getTypeProduct());
 			   oe.setUpdated(false);
 			   if(t.total()>0)								   
 				   oe.setTypeTransaction(TransactionDirection.SELL);
@@ -168,7 +168,7 @@ public class TransactionService
 	
 		Map<MagicCardStock, Integer> items = new HashMap<>() ;
 		for(var t : getEnabledPlugin(MTGDao.class).listTransactions())
-			for(var m : t.getItems().stream().filter(msi->msi.getTypeStock()==EnumItems.CARD).toList())
+			for(var m : t.getItems().stream().filter(msi->msi.getProduct().getTypeProduct()==EnumItems.CARD).toList())
 				items.put((MagicCardStock)m, items.getOrDefault(m, 0)+m.getQte());
 
 		int max = Collections.max(items.values());
@@ -181,7 +181,7 @@ public class TransactionService
 		List<MTGStockItem> accepteds = new ArrayList<>();
 		for(MTGStockItem transactionItem : t.getItems())
 		{
-				MTGStockItem stock = mtgshop.getStockById(transactionItem.getTypeStock(),transactionItem.getId());
+				MTGStockItem stock = mtgshop.getStockById(transactionItem.getProduct().getTypeProduct(),transactionItem.getId());
 				if(transactionItem.getQte()>stock.getQte())
 				{
 					   t.setStatut(TransactionStatus.IN_PROGRESS);
@@ -202,7 +202,7 @@ public class TransactionService
 			t.setStatut(TransactionStatus.PAYMENT_WAITING);
 			for(MTGStockItem stock : accepteds) 
 			{
-				mtgshop.saveOrUpdateStock(stock.getTypeStock(),stock);
+				mtgshop.saveOrUpdateStock(stock.getProduct().getTypeProduct(),stock);
 				getEnabledPlugin(MTGDao.class).saveOrUpdateOrderEntry(toOrder(t, stock));
 			}
 			sendMail(t,"TransactionValid"," Your order is validate !");	
@@ -223,14 +223,14 @@ public class TransactionService
 		
 		for(MTGStockItem transactionItem : t.getItems())
 		{
-			MTGStockItem stock = getEnabledPlugin(MTGDao.class).getStockById(transactionItem.getTypeStock(),transactionItem.getId());
+			MTGStockItem stock = getEnabledPlugin(MTGDao.class).getStockById(transactionItem.getProduct().getTypeProduct(),transactionItem.getId());
 			if(stock==null)
-				throw new SQLException("No item found for " + transactionItem.getTypeStock() + "="+transactionItem.getId());
+				throw new SQLException("No item found for " + transactionItem.getProduct().getTypeProduct() + "="+transactionItem.getId());
 				
 					   stock.setQte(stock.getQte()+transactionItem.getQte());
 					   stock.setUpdated(true);
 					   t.setStatut(TransactionStatus.CANCELED);
-					   getEnabledPlugin(MTGDao.class).saveOrUpdateStock(stock.getTypeStock(),stock);
+					   getEnabledPlugin(MTGDao.class).saveOrUpdateStock(stock.getProduct().getTypeProduct(),stock);
 		}
 		saveTransaction(t,false);
 		((JSONHttpServer)MTG.getPlugin(new JSONHttpServer().getName(), MTGServer.class)).clearCache();

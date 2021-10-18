@@ -5,17 +5,9 @@ import java.util.Map;
 
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.enums.EnumItems;
 
 public interface MTGStockItem extends Serializable, Comparable<MTGStockItem> {
-
-	public 	MagicEdition getEdition();
-
-	public 	void setTypeStock(EnumItems typeStock);
-
-	public 	EnumItems getTypeStock();
-
+	
 	public 	void setGrade(Grading grade);
 
 	public 	Grading getGrade();

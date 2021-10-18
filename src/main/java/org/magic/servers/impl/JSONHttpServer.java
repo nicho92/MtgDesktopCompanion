@@ -505,7 +505,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		 getCached(request.pathInfo(), new Callable<Object>() {
 			@Override
 			public List<MagicEdition> call() throws Exception {
-				return getEnabledPlugin(MTGDao.class).listSealedStocks().stream().filter(ss->ss.getMagicCollection().getName().equalsIgnoreCase(request.params(COLLECTION))).map(SealedStock::getEdition).distinct().sorted().toList();
+				return getEnabledPlugin(MTGDao.class).listSealedStocks().stream().filter(ss->ss.getMagicCollection().getName().equalsIgnoreCase(request.params(COLLECTION))).map(mp->mp.getProduct().getEdition()).distinct().sorted().toList();
 			}
 		})
 		 , transformer);
@@ -519,7 +519,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		})
 	, transformer);
 		
-		get("/sealed/get/:id", URLTools.HEADER_JSON,
+		get("/:typeStock/get/:id", URLTools.HEADER_JSON,
 				(request, response) -> getEnabledPlugin(MTGDao.class).getSealedStockById(Integer.parseInt(request.params(":id"))), transformer);
 		
 		get("/stock/list", URLTools.HEADER_JSON,(request, response) -> { 
@@ -551,7 +551,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			 getCached(request.pathInfo(), new Callable<Object>() {
 				@Override
 				public List<MagicEdition> call() throws Exception {
-					return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(COLLECTION)))).stream().map(MagicCardStock::getEdition).distinct().sorted().toList();
+					return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(COLLECTION)))).stream().map(mcs->mcs.getProduct().getEdition()).distinct().sorted().toList();
 				}
 			})
 		, transformer);
@@ -561,7 +561,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			getCached(request.pathInfo(), new Callable<Object>() {
 				@Override
 				public List<MagicCardStock> call() throws Exception {
-					return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(COLLECTION)))).stream().filter(mcs->mcs.getEdition().getId().equalsIgnoreCase(request.params(ID_SET))).toList();
+					return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(COLLECTION)))).stream().filter(mcs->mcs.getProduct().getEdition().getId().equalsIgnoreCase(request.params(ID_SET))).toList();
 				}
 			})
 		, transformer);

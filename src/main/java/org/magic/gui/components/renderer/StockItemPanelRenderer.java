@@ -61,8 +61,8 @@ public class StockItemPanelRenderer extends JPanel {
 			return;
 		
 		lblName.setText(mc.getProduct().getName());
-		lblEdition.setText(mc.getEdition().getSet());
-		lblEdition.setIcon(IconSetProvider.getInstance().get24(mc.getEdition().getId()));
-		lblType.setText(mc.getTypeStock().name());
+		lblEdition.setText(mc.getProduct().getEdition().getSet());
+		lblEdition.setIcon(IconSetProvider.getInstance().get24(mc.getProduct().getEdition().getId()));
+		lblType.setText(mc.getProduct().getTypeProduct().name());
 	}
 }

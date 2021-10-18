@@ -141,7 +141,7 @@ public class SealedStockGUI extends MTGUIComponent {
 			{
 				
 				selectedItem = (MTGSealedProduct)selectedNode.getUserObject();
-				historyPricePanel.init(selectedItem, selectedItem.getEdition()+"-"+selectedItem.getType());
+				historyPricePanel.init(selectedItem, selectedItem.getEdition()+"-"+selectedItem.getTypeProduct());
 				objectpanel.show(selectedItem);
 			}
 		});
@@ -157,7 +157,7 @@ public class SealedStockGUI extends MTGUIComponent {
 				if(selectedStock!=null)
 				{
 					
-					historyPricePanel.init(selectedStock.getProduct(), selectedStock.getProduct().getEdition()+"-"+ selectedStock.getProduct().getType());
+					historyPricePanel.init(selectedStock.getProduct(), selectedStock.getProduct().getEdition()+"-"+ selectedStock.getProduct().getTypeProduct());
 					packagePanel.load(selectedStock.getProduct());
 					synchroPanel.init(selectedStock);
 					objectpanel.show(selectedStock);

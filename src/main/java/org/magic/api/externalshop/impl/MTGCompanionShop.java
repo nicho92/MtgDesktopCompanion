@@ -86,7 +86,7 @@ public class MTGCompanionShop extends AbstractExternalShop {
 		
 		products.forEach(ss->{
 			var p = new Product();
-					p.setEnName(ss.getType() + " " + (ss.getExtra()!=null ? ss.getExtra():"")+ " "  + ss.getEdition() + " " + ss.getLang());
+					p.setEnName(ss.getTypeProduct() + " " + (ss.getExtra()!=null ? ss.getExtra():"")+ " "  + ss.getEdition() + " " + ss.getLang());
 					p.setGameName("Magic: The Gathering");
 					p.setImage(ss.getUrl());
 					p.setIdProduct(ss.hashCode());

@@ -19,7 +19,6 @@ public class MagicCardStock extends AbstractStockItem<MagicCard> {
 	public MagicCardStock() {
 		id=-1;
 		tiersAppIds= new HashMap<>();
-		setTypeStock(EnumItems.CARD);		
 	}
 	
 
@@ -28,15 +27,11 @@ public class MagicCardStock extends AbstractStockItem<MagicCard> {
 		product=c;
 		edition= c.getCurrentSet();
 		url = "https://api.scryfall.com/cards/"+(StringUtils.isEmpty(product.getScryfallId())?"/multiverse/"+c.getCurrentSet().getMultiverseid():product.getScryfallId())+"?format=image";
-		setTypeStock(EnumItems.CARD);
+		product.setTypeProduct(EnumItems.CARD);
+		product.setEdition(c.getCurrentSet());
 	}
 	
 	
-	
-	@Override
-	public MagicEdition getEdition() {
-		return getProduct().getCurrentSet();
-	}
 	
 	public boolean isOversize() {
 		return oversize;

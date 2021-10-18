@@ -9,7 +9,6 @@ public class SealedStock extends AbstractStockItem<MTGSealedProduct>  {
 	private static final long serialVersionUID = 1L;
 	
 	public SealedStock(){
-		setTypeStock(EnumItems.SEALED);
 		setCondition(EnumCondition.SEALED);
 	}
 	
@@ -23,7 +22,6 @@ public class SealedStock extends AbstractStockItem<MTGSealedProduct>  {
 		this.product=product;
 		edition = product.getEdition();
 		url = product.getUrl();
-		setTypeStock(EnumItems.SEALED);
 		setCondition(EnumCondition.SEALED);
 	}
 	

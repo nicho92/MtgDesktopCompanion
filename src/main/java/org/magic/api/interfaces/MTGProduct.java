@@ -3,6 +3,7 @@ package org.magic.api.interfaces;
 import java.io.Serializable;
 
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.enums.EnumItems;
 
 public interface MTGProduct extends Serializable {
 
@@ -22,4 +23,10 @@ public interface MTGProduct extends Serializable {
 
 	void setName(String name);
 
+	void setTypeProduct(EnumItems type);
+
+	EnumItems getTypeProduct();
+
+	
+	
 }

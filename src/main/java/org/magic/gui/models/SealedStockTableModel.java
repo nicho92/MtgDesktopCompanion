@@ -41,7 +41,7 @@ public class SealedStockTableModel extends GenericTableModel<SealedStock> {
 		switch(column)
 		{
 			case 0: return it;
-			case 1: return it.getProduct().getType();
+			case 1: return it.getProduct().getTypeProduct();
 			case 2 : return it.getProduct().getExtra();
 			case 3: return it.getProduct().getEdition();
 			case 4: return it.getProduct().getLang();

@@ -28,9 +28,9 @@ public class BoosterProviderTests {
 			prov.getItemsFor(id).forEach(e->{
 				try {
 					URLTools.extractImage(e.getUrl());
-					System.out.println(e+";"+e.getType()+";"+e.getEdition().getId()+";OK");
+					System.out.println(e+";"+e.getTypeProduct()+";"+e.getEdition().getId()+";OK");
 				} catch (IOException e1) {
-					System.out.println(e+";"+e.getType()+";"+e.getEdition().getId()+";KO;"+e1);
+					System.out.println(e+";"+e.getTypeProduct()+";"+e.getEdition().getId()+";KO;"+e1);
 				}
 			});
 			

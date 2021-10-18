@@ -69,7 +69,13 @@ function generateStockCardHTML(data,currency, tosell, percentReduction)
 					append+="<img class='card-img-top' src='"+data.url+"'>";
     				append+="<div class='card-body'>";
            			
-           			append+="<h5 class='card-title'><a href='product.html?id="+data.id+"&product="+data.typeStock+"' title='View Product'>"+data.product.name +"</a></h5>";
+           			
+           			var type="SEALED";
+           				if(data.product.typeProduct=="CARD")
+           					type="CARD";
+           			
+           			
+           			append+="<h5 class='card-title'><a href='product.html?id="+data.id+"&product="+type+"' title='View Product'>"+data.product.name +"</a></h5>";
            				
            			append+="<p class='card-text'>";
 							append+="<i class='ss ss-2x ss-"+data.edition.id.toLowerCase()+"'></i>";
@@ -92,13 +98,13 @@ function generateStockCardHTML(data,currency, tosell, percentReduction)
                			
                		if(tosell===true)
                		{
-               			append+="<button name='addCartButton' data-dismiss='alert'  data='"+ data.id+"' type='"+data.typeStock+"' class='btn btn-success btn-block' sell='true' ><i class='fa fa-shopping-cart'></i> Deal it</button>";
+               			append+="<button name='addCartButton' data-dismiss='alert'  data='"+ data.id+"' type='"+data.product.typeProduct+"' class='btn btn-success btn-block' sell='true' ><i class='fa fa-shopping-cart'></i> Deal it</button>";
                		}
                		else
                		{
                		               		
                		if(data.qte>=1)                                       		
-                    	append+="<button name='addCartButton' qty='"+ data.qte +"' data='"+ data.id+"' type='"+data.typeStock+"' class='btn btn-success btn-block'><i class='fas fa-cart-plus' ></i> Add to cart </button>";
+                    	append+="<button name='addCartButton' qty='"+ data.qte +"' data='"+ data.id+"' type='"+data.product.typeProduct+"' class='btn btn-success btn-block'><i class='fas fa-cart-plus' ></i> Add to cart </button>";
                     else
                     	append+="<span class='btn btn-secondary btn-block'><i class='fa fa-shopping-cart'></i>Out of stock</span>";
                     	

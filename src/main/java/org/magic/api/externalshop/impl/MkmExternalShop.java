@@ -12,7 +12,6 @@ import java.util.Objects;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.api.mkm.exceptions.MkmException;
-import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Category;
 import org.api.mkm.modele.Game;
 import org.api.mkm.modele.LightArticle;
@@ -20,7 +19,6 @@ import org.api.mkm.modele.LightProduct;
 import org.api.mkm.modele.Order;
 import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
-import org.api.mkm.services.ArticleService;
 import org.api.mkm.services.GameService;
 import org.api.mkm.services.OrderService;
 import org.api.mkm.services.OrderService.ACTOR;
@@ -35,14 +33,11 @@ import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
-import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.api.interfaces.abstracts.AbstractProduct;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
-import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 
 public class MkmExternalShop extends AbstractExternalShop {
@@ -111,16 +106,13 @@ public class MkmExternalShop extends AbstractExternalShop {
 									//do nothing
 								}
 								  
-								  item.setId(Integer.parseInt(art.get("idProduct")));
-								  item.setProduct(toProduct(product));
+								  item.setId(Integer.parseInt(art.get("idArticle")));
+								  item.setProduct(toProduct(product,Integer.parseInt(art.get("idProduct"))));
 								  item.setQte(Integer.parseInt(art.get("Amount")));
 								  item.setPrice(UITools.parseDouble(art.get("Price")));
 								  item.setId(Integer.parseInt(art.get("idArticle")));
 								  item.setComment(art.get("Comments"));
-								  
 								  try {
-									  
-									  
 									  var loc = Tools.listLanguages().get(Integer.parseInt(art.get("Language"))-1);
 									  item.setLanguage(loc.getLanguageName());  
 								  }
@@ -256,29 +248,34 @@ public class MkmExternalShop extends AbstractExternalShop {
 			item.setId(article.getIdArticle());
 			item.setLanguage(article.getLanguage().getLanguageName());
 			item.setPrice(article.getPrice());
-			item.setProduct(toProduct(article.getProduct()));
+			item.setProduct(toProduct(article.getProduct(),article.getIdProduct()));
 			item.setQte(article.getCount());
 			item.setFoil(article.isFoil());
 			item.setAltered(article.isAltered());
 			item.setSigned(article.isSigned());
 			item.getTiersAppIds().put(getName(), String.valueOf(article.getIdProduct()));
-			item.setTypeStock(article.getProduct().getRarity()==null?EnumItems.SEALED:EnumItems.CARD);
+			
 			t.getItems().add(item);
 		});
 		return t;
 	}
 	
-	private AbstractProduct toProduct(LightProduct product) {
-		var p = new AbstractProduct() {};
-		
+	private MkmProduct toProduct(LightProduct product, int idProduct) {
+		var p = new MkmProduct();
 		p.setName(product.getEnName());
+		p.setProductId(String.valueOf(idProduct));
 		p.setEdition(new MagicEdition("",product.getExpansion()));
 		if(product.getImage()!=null && product.getImage().startsWith("//"))
 			p.setUrl("https:"+ product.getImage());
 		else
 			p.setUrl(product.getImage());
 		
-		
+		if(product.getRarity()==null)
+			p.setTypeProduct(EnumItems.SEALED);
+		else
+			p.setTypeProduct(EnumItems.CARD);
+				
+				
 		return p;
 		
 	}
@@ -329,15 +326,26 @@ public class MkmExternalShop extends AbstractExternalShop {
 		throw new IOException("contacts can't be deleted");
 
 	}
-
-
 }
 
 
-
-class MkmStockItem extends AbstractStockItem<AbstractProduct>
+class MkmProduct extends AbstractProduct
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 }
 
+class MkmStockItem extends AbstractStockItem<MkmProduct>
+{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+}
 

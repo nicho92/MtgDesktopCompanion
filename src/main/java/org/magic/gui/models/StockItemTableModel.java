@@ -104,13 +104,13 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 		case 1:
 			return items.get(row).getProduct();
 		case 2:
-			return items.get(row).getEdition();
+			return items.get(row).getProduct().getEdition();
 		case 3 :
 			return items.get(row).getLanguage();
 		case 4:
 			return items.get(row).getMagicCollection();
 		case 5:
-			return items.get(row).getTypeStock();
+			return items.get(row).getProduct().getTypeProduct();
 		case 6:
 			return items.get(row).isFoil();
 		case 7:

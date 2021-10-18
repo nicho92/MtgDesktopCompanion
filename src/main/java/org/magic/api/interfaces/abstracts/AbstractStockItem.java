@@ -7,7 +7,6 @@ import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumCondition;
-import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 
@@ -24,7 +23,6 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 	protected Grading grade;
 	protected MagicEdition edition;
 	protected T product;
-	protected EnumItems typeStock;
 	protected String url;
 	protected Map<String,String> tiersAppIds;
 	protected boolean foil=false;
@@ -118,22 +116,6 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 	@Override
 	public void setTiersAppIds(Map<String, String> tiersAppIds) {
 		this.tiersAppIds = tiersAppIds;
-	}
-	
-	
-	
-	@Override
-	public MagicEdition getEdition()
-	{
-		return edition;
-	}
-	@Override
-	public void setTypeStock(EnumItems typeStock) {
-		this.typeStock = typeStock;
-	}
-	@Override
-	public EnumItems getTypeStock() {
-		return typeStock;
 	}
 	
 	@Override

@@ -78,7 +78,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	{
 		List<SealedProduct> ret = new ArrayList<>();
 
-		switch(packaging.getType())
+		switch(packaging.getTypeProduct())
 		{
 			case BOOSTER: ret.addAll(products.stream().filter(SealedProduct::isBooster).toList()); break;
 			case BOX: 	  ret.addAll(products.stream().filter(cs->cs.isBox() && !cs.isCase()).toList()); break;

@@ -142,15 +142,15 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	    	for(JsonElement item : itemsArr)
 	    	{
 	    		
-	    		var entry = new WooCommerceItem();
+	    		var entry = new WooStockItem();
+				
 	    		var objItem = item.getAsJsonObject();
 	    		
 	    		entry.setId(objItem.get("product_id").getAsInt());
 	    		entry.setQte(objItem.get("quantity").getAsInt());
 	    		entry.setPrice(objItem.get("total").getAsDouble());
 	    		
-	    		var prod = new AbstractProduct() {
-				};
+	    		var prod = new WooProduct() ;
 				
 				prod.setName(objItem.get("name").getAsString());
 	    		prod.setProductId(objItem.get("product_id").getAsString());
@@ -225,9 +225,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		List<JsonObject> res = client.getAll(EndpointBaseType.PRODUCTS.getValue(),parameters);
 
 		res.forEach(element->{
-			var p = new AbstractProduct() {
-				
-			};
+			var p = new WooProduct();
 			JsonObject obj = element.getAsJsonObject();
 	
 			p.setProductId(obj.get("id").getAsString());
@@ -244,7 +242,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 							p.setUrl(img.get("src").getAsString());
 			
 			
-			var stockItem = new WooCommerceItem();
+							var stockItem = new WooStockItem();
 					stockItem.setProduct(p);
 					try {
 					stockItem.setPrice(obj.get("price").getAsDouble());
@@ -412,10 +410,14 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	}
 }
 
-
-class WooCommerceItem extends AbstractStockItem<AbstractProduct>
+class WooProduct extends AbstractProduct
 {
-	private static final long serialVersionUID = 1L;
 	
 }
+
+class WooStockItem extends AbstractStockItem<WooProduct>
+{
+	
+}
+
 
