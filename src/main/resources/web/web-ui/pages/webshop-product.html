@@ -124,23 +124,28 @@
 								"select":true,
 						        "columns": [
 						        	{ 
-						        		"data": "image",
+						        		"data": "url",
 						        		"render": function(d, type, row, meta){
 							                   return "<img src="+d+" width='100px'></img>";
 							            }
 						        	},
  									{ 
-										"data": "idProduct" 
+										"data": "productId" 
 									},
 						            { 
-										"data": "enName" 
+										"data": "name" 
 									},
 									{ 
-										"data": "expansionName", 
+										"data": "edition",
+										"render": function(d, type, row, meta){
+											if(d)
+									           return d.set;
+							            }, 
 										"defaultContent": ""
 									},
 									{ 
-										"data": "category.categoryName" 
+										"data": "category.categoryName" ,
+										"defaultContent": ""
 									}
 						        ]
 					    		});

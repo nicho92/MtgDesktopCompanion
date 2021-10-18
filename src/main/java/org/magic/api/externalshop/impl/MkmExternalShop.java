@@ -16,6 +16,7 @@ import org.api.mkm.modele.Game;
 import org.api.mkm.modele.LightArticle;
 import org.api.mkm.modele.LightProduct;
 import org.api.mkm.modele.Order;
+import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
 import org.api.mkm.services.GameService;
 import org.api.mkm.services.OrderService;
@@ -32,12 +33,14 @@ import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.api.interfaces.abstracts.AbstractProduct;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
 import org.magic.services.MTGConstants;
+import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 
 public class MkmExternalShop extends AbstractExternalShop {
@@ -155,15 +158,10 @@ public class MkmExternalShop extends AbstractExternalShop {
 		init();
 		Map<PRODUCT_ATTS, String> atts = new EnumMap<>(PRODUCT_ATTS.class);
 		atts.put(PRODUCT_ATTS.idGame, getString(ID_GAME));
-		return new ProductServices().findProduct(name, atts).stream().map(p->{
-			var product = AbstractProduct.createDefaultProduct();
-			product.setProductId(""+p.getIdProduct());
-			product.setName(p.getEnName());
-			product.setTypeProduct(null);
-			
-			return product;
-		}).toList();
+		return new ProductServices().findProduct(name, atts).stream().map(p->toProduct(p)).toList();
 	}
+
+	
 
 	@Override
 	protected void createTransaction(Transaction t) throws IOException {
@@ -270,11 +268,36 @@ public class MkmExternalShop extends AbstractExternalShop {
 		return t;
 	}
 	
-	private MkmProduct toProduct(LightProduct product, int idProduct) {
+	
+	private MTGProduct toProduct(Product p) {
+		var product = new LightProduct();
+		
+		product.setEnName(p.getEnName());
+		product.setExpansion(p.getExpansionName());
+		product.setImage(p.getImage());
+		product.setRarity(p.getRarity());
+		
+		MTGProduct prod=  toProduct(product, p.getIdProduct());
+		prod.setCategory(new Category(0,p.getCategoryName()));
+		
+		return prod;
+		
+	}
+	
+	
+	private MTGProduct toProduct(LightProduct product, int idProduct) {
 		var p = new MkmProduct();
 		p.setName(product.getEnName());
 		p.setProductId(String.valueOf(idProduct));
-		p.setEdition(new MagicEdition("",product.getExpansion()));
+		
+		try {
+		p.setEdition(MTG.getEnabledPlugin(MTGCardsProvider.class).getSetByName(product.getExpansion()));
+		}
+		catch(Exception e)
+		{
+			p.setEdition(new MagicEdition("set",product.getExpansion()));	
+		}
+			
 		if(product.getImage()!=null && product.getImage().startsWith("//"))
 			p.setUrl("https:"+ product.getImage());
 		else
@@ -349,7 +372,7 @@ class MkmProduct extends AbstractProduct
 	
 }
 
-class MkmStockItem extends AbstractStockItem<MkmProduct>
+class MkmStockItem extends AbstractStockItem<MTGProduct>
 {
 
 	/**

@@ -11,7 +11,7 @@ public class Category implements Serializable{
 	private String categoryName;
 	
 	public Category() {
-		// TODO Auto-generated constructor stub
+		
 	}
 	
 	
