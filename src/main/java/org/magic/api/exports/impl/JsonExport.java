@@ -13,6 +13,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGPlugin;
+import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.tools.FileTools;
@@ -41,11 +42,14 @@ public class JsonExport extends AbstractCardExport {
 	private Gson gson;
 	
 	public JsonExport() {
-		gson=new GsonBuilder().registerTypeAdapter(MTGStockItem.class, new InterfaceAdapter<>()).setDateFormat("yyyy-MM-dd").setPrettyPrinting().create();
+		gson=new GsonBuilder().registerTypeAdapter(MTGStockItem.class, new InterfaceAdapter<>())
+				.setDateFormat("yyyy-MM-dd").setPrettyPrinting().create();
 	}
 	
 	public void removePrettyString() {
-		gson=new GsonBuilder().registerTypeAdapter(MTGStockItem.class, new InterfaceAdapter<>()).setDateFormat("yyyy-MM-dd").create();
+		gson=new GsonBuilder()
+				.registerTypeAdapter(MTGStockItem.class, new InterfaceAdapter<>())
+				.setDateFormat("yyyy-MM-dd").create();
 	}
 	
 	

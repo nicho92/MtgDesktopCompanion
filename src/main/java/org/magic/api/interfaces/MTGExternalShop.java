@@ -3,9 +3,8 @@ package org.magic.api.interfaces;
 import java.io.IOException;
 import java.util.List;
 
-import org.api.mkm.modele.Category;
-import org.api.mkm.modele.Product;
 import org.magic.api.beans.enums.EnumItems;
+import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 
@@ -14,9 +13,9 @@ public interface MTGExternalShop extends MTGPlugin {
 	
 	
 	
-	public List<Product> listProducts(String name) throws IOException;
-	public int createProduct(Product t,Category c) throws IOException;
-	public int createProduct(MTGExternalShop input, Product t, String lang,Category c)throws IOException;
+	public List<MTGProduct> listProducts(String name) throws IOException;
+	public int createProduct(MTGProduct t,Category c) throws IOException;
+	public int createProduct(MTGExternalShop input, MTGProduct t, String lang,Category c)throws IOException;
 	
 	
 	public List<MTGStockItem> listStock(String search) throws IOException;

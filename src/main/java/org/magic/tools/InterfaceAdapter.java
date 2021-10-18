@@ -16,7 +16,7 @@ import com.google.gson.JsonSerializer;
 public final class InterfaceAdapter<T> implements JsonDeserializer<T>, JsonSerializer<T> {
   
     public T deserialize(JsonElement elem, Type interfaceType, JsonDeserializationContext context) throws JsonParseException {
-     	return context.deserialize(elem, typeForName(EnumItems.valueOf(elem.getAsJsonObject().get("typeStock").getAsString())));
+       	return context.deserialize(elem, typeForName(EnumItems.valueOf(elem.getAsJsonObject().get("product").getAsJsonObject().get("typeProduct").getAsString())));
     }
 
     private Type typeForName(final EnumItems t) {

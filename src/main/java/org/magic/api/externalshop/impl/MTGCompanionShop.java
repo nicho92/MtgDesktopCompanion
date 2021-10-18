@@ -8,15 +8,15 @@ import java.util.List;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import org.api.mkm.modele.Category;
-import org.api.mkm.modele.Product;
 import org.magic.api.beans.enums.EnumItems;
+import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGPictureProvider;
+import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.services.MTGConstants;
@@ -62,38 +62,31 @@ public class MTGCompanionShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public List<Product> listProducts(String name) throws IOException {
+	public List<MTGProduct> listProducts(String name) throws IOException {
 		
 		var cards = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, null, false);
 		var products = SealedProductProvider.inst().search(name);
 		
 		
 		logger.debug("Found " + products + " for " + name);
-		var ret = new ArrayList<Product>();
+		var ret = new ArrayList<MTGProduct>();
 		
 		cards.forEach(card->{
-			var p = new Product();
-					p.setEnName(card.getName());
-					p.setExpansionName(card.getCurrentSet().getSet());
-					p.setCategoryName(EnumItems.CARD.name());
-					p.setImage(MTG.getEnabledPlugin(MTGPictureProvider.class).generateUrl(card));
-					p.setGameName("Magic: The Gathering");
-					p.setNumber(card.getCurrentSet().getNumber());
-					p.setIdProduct(card.getId().hashCode());
-					notify(p);
-					ret.add(p);
+					card.setEdition(card.getCurrentSet());
+					card.setCategory(new Category(0, EnumItems.CARD.name()));
+					card.setUrl(MTG.getEnabledPlugin(MTGPictureProvider.class).generateUrl(card));
+					card.setProductId(""+card.getId().hashCode());
+					notify(card);
+					ret.add(card);
 		});
 		
 		products.forEach(ss->{
-			var p = new Product();
-					p.setEnName(ss.getTypeProduct() + " " + (ss.getExtra()!=null ? ss.getExtra():"")+ " "  + ss.getEdition() + " " + ss.getLang());
-					p.setGameName("Magic: The Gathering");
-					p.setImage(ss.getUrl());
-					p.setIdProduct(ss.hashCode());
-					p.setCategoryName(EnumItems.SEALED.name());
-					p.setExpansionName(ss.getEdition().getSet());
-					notify(p);
-			ret.add(p);
+					ss.setName(ss.getTypeProduct() + " " + (ss.getExtra()!=null ? ss.getExtra():"")+ " "  + ss.getEdition() + " " + ss.getLang());
+					ss.setUrl(ss.getUrl());
+					ss.setProductId(""+ss.hashCode());
+					ss.setCategory(new Category(1,EnumItems.SEALED.name()));
+					notify(ss);
+			ret.add(ss);
 		});
 		
 		return ret;
@@ -107,7 +100,7 @@ public class MTGCompanionShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public int createProduct(Product t,Category c) throws IOException {
+	public int createProduct(MTGProduct t,Category c) throws IOException {
 		throw new IOException("not implemented " + t); 
 	}
 

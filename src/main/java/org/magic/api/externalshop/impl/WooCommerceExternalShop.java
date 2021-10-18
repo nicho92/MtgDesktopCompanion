@@ -6,14 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.api.mkm.modele.Category;
-import org.api.mkm.modele.Product;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionStatus;
+import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
+import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.api.interfaces.abstracts.AbstractProduct;
@@ -191,7 +191,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public int createProduct(Product p,Category c) throws IOException {
+	public int createProduct(MTGProduct p,Category c) throws IOException {
 		init();
 		
 		Map<Object,Object> ret = client.create(EndpointBaseType.PRODUCTS.getValue(), toWooCommerceAttributs(p,null,c.getIdCategory()));
@@ -274,7 +274,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public List<Product> listProducts(String name) throws IOException {
+	public List<MTGProduct> listProducts(String name) throws IOException {
 		init();
 		
 		Map<String, String> productInfo = new HashMap<>();
@@ -284,26 +284,24 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		@SuppressWarnings("unchecked")
 		List<JsonObject> res = client.getAll(EndpointBaseType.PRODUCTS.getValue(),productInfo);
 		
-		List<Product> ret =  new ArrayList<>();
+		List<MTGProduct> ret =  new ArrayList<>();
 	
 		res.forEach(element->{
 			
-			Product p = new Product();
+			MTGProduct p = new WooProduct();
 			JsonObject obj = element.getAsJsonObject();
-			p.setIdProduct(obj.get("id").getAsInt());
-			p.setEnName(obj.get("name").getAsString());
-			p.setIdGame(1);
-			p.setLocalization(new ArrayList<>());
+			p.setProductId(obj.get("id").getAsString());
+			p.setName(obj.get("name").getAsString());
+			
 			
 			JsonObject objCateg = obj.get("categories").getAsJsonArray().get(0).getAsJsonObject();
 			Category c = new Category();
 					 c.setIdCategory(objCateg.get("id").getAsInt());
 					 c.setCategoryName(objCateg.get("name").getAsString());
 			p.setCategory(c);
-			p.setCategoryName(c.getCategoryName());
 			
 			JsonObject img = obj.get("images").getAsJsonArray().get(0).getAsJsonObject();
-			p.setImage(img.get("src").getAsString());
+			p.setUrl(img.get("src").getAsString());
 			
 			notify(p);
 			ret.add(p);
@@ -316,15 +314,15 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		return Map.of(PER_PAGE,"50");
 	}
 	
-	private Map<String, Object> toWooCommerceAttributs(Product product,String status, int idCategory)
+	private Map<String, Object> toWooCommerceAttributs(MTGProduct product,String status, int idCategory)
 	{
 		Map<String, Object> productInfo = new HashMap<>();
 
-		productInfo.put("name", product.getEnName());
+		productInfo.put("name", product.getName());
 		productInfo.put("type", "simple");
         productInfo.put("categories", WooCommerceTools.entryToJsonArray("id",String.valueOf(idCategory)));
         productInfo.put(STATUS, status==null?"private":status);
-        productInfo.put("images", WooCommerceTools.entryToJsonArray("src",product.getImage().startsWith("//")?"https:"+product.getImage():product.getImage()));
+        productInfo.put("images", WooCommerceTools.entryToJsonArray("src",product.getUrl().startsWith("//")?"https:"+product.getUrl():product.getUrl()));
 		 
 		return productInfo;
 	}

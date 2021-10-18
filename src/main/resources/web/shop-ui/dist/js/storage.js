@@ -74,7 +74,8 @@ function addCartStockId(btn,percentReduction)
 	
 	if(serv=="CARD")
 		serv="stock";
-	
+	else
+		serv="sealed";
 	
 	 $.getJSON(restserver+"/"+serv.toLowerCase()+"/get/"+btn.attr("data"),function(data) {
 			data.qte=1;

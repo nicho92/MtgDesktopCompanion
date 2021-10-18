@@ -12,12 +12,10 @@ import java.util.Objects;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.api.mkm.exceptions.MkmException;
-import org.api.mkm.modele.Category;
 import org.api.mkm.modele.Game;
 import org.api.mkm.modele.LightArticle;
 import org.api.mkm.modele.LightProduct;
 import org.api.mkm.modele.Order;
-import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
 import org.api.mkm.services.GameService;
 import org.api.mkm.services.OrderService;
@@ -31,8 +29,10 @@ import org.api.mkm.tools.Tools;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionStatus;
+import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
+import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.api.interfaces.abstracts.AbstractProduct;
@@ -59,7 +59,10 @@ public class MkmExternalShop extends AbstractExternalShop {
 	
 	@Override
 	public List<Category> listCategories() throws IOException {
-		return new GameService().listCategories();
+		return new GameService().listCategories().stream().map(c->{
+			return new Category(c.getIdCategory(), c.getCategoryName());
+			
+		}).toList();
 	}
 	
 	
@@ -148,11 +151,18 @@ public class MkmExternalShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public List<Product> listProducts(String name) throws IOException {
+	public List<MTGProduct> listProducts(String name) throws IOException {
 		init();
 		Map<PRODUCT_ATTS, String> atts = new EnumMap<>(PRODUCT_ATTS.class);
 		atts.put(PRODUCT_ATTS.idGame, getString(ID_GAME));
-		return new ProductServices().findProduct(name, atts);
+		return new ProductServices().findProduct(name, atts).stream().map(p->{
+			var product = AbstractProduct.createDefaultProduct();
+			product.setProductId(""+p.getIdProduct());
+			product.setName(p.getEnName());
+			product.setTypeProduct(null);
+			
+			return product;
+		}).toList();
 	}
 
 	@Override
@@ -192,7 +202,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public int createProduct(Product t,Category c) throws IOException {
+	public int createProduct(MTGProduct t,Category c) throws IOException {
 		throw new IOException("Not able to create product in Mkm");
 	}
 	

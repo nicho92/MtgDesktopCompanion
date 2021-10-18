@@ -6,14 +6,15 @@ import java.util.List;
 
 import org.api.cardtrader.modele.Categorie;
 import org.api.cardtrader.services.CardTraderService;
-import org.api.mkm.modele.Category;
-import org.api.mkm.modele.Expansion;
-import org.api.mkm.modele.Product;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumItems;
+import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
+import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
+import org.magic.api.interfaces.abstracts.AbstractProduct;
 
 public class CardTraderWebShop extends AbstractExternalShop {
 
@@ -42,20 +43,20 @@ public class CardTraderWebShop extends AbstractExternalShop {
 	
 	
 	@Override
-	public List<Product> listProducts(String name) throws IOException {
+	public List<MTGProduct> listProducts(String name) throws IOException {
 		
 		init();
 		return service.listBluePrintsByIds(null, name, null).stream().map(bp->{
 			
-			var product = new Product();
-				product.setEnName(bp.getName());
-				product.setImage(bp.getImageUrl());
-				product.setIdProduct(bp.getId());
-				product.setCategory(toCategory(bp.getCategorie()));				
-				product.setCategoryName(product.getCategory().getCategoryName());
-				product.setLocalization(new ArrayList<>());
-				product.setExpansion(toExpansion(bp.getExpansion()));
-				product.setExpansionName(product.getExpansion().getEnName());
+			var product = AbstractProduct.createDefaultProduct();
+				product.setName(bp.getName());
+				product.setUrl(bp.getImageUrl());
+				product.setProductId(""+bp.getId());
+//				product.setCategory(toCategory(bp.getCategorie()));				
+//				product.setCategoryName(product.getCategory().getCategoryName());
+//				product.setLocalization(new ArrayList<>());
+				product.setEdition(toExpansion(bp.getExpansion()));
+//				product.setExpansionName(product.getExpansion().getEnName());
 				
 				
 				notify(product);
@@ -65,13 +66,10 @@ public class CardTraderWebShop extends AbstractExternalShop {
 		}).toList();
 	}
 
-	private Expansion toExpansion(org.api.cardtrader.modele.Expansion expansion) {
-		var exp = new Expansion();
-		
-		exp.setAbbreviation(expansion.getCode());
-		exp.setEnName(expansion.getName());
-		exp.setIdExpansion(expansion.getId());
-		
+	private MagicEdition toExpansion(org.api.cardtrader.modele.Expansion expansion) {
+		var exp = new MagicEdition();
+		exp.setId(expansion.getCode());
+		exp.setSet(expansion.getName());
 		return exp;
 	}
 
@@ -90,7 +88,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public int createProduct(Product t, Category c) throws IOException {
+	public int createProduct(MTGProduct t, Category c) throws IOException {
 		throw new IOException("Can't create product to " + getName());
 	}
 

@@ -33,8 +33,6 @@ import java.util.concurrent.Callable;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import org.api.mkm.modele.Category;
-import org.api.mkm.modele.Product;
 import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
@@ -47,6 +45,7 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.WebShopConfig;
 import org.magic.api.beans.enums.TransactionStatus;
+import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.exports.impl.JsonExport;
@@ -58,6 +57,7 @@ import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPricesProvider;
+import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGTrackingService;
 import org.magic.api.interfaces.abstracts.AbstractEmbeddedCacheProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
@@ -519,7 +519,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		})
 	, transformer);
 		
-		get("/:typeStock/get/:id", URLTools.HEADER_JSON,
+		get("/sealed/get/:id", URLTools.HEADER_JSON,
 				(request, response) -> getEnabledPlugin(MTGDao.class).getSealedStockById(Integer.parseInt(request.params(":id"))), transformer);
 		
 		get("/stock/list", URLTools.HEADER_JSON,(request, response) -> { 
@@ -783,9 +783,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 			MTGExternalShop srcShop  = MTG.getPlugin(request.params(":from"), MTGExternalShop.class);
 			MTGExternalShop extShop  = MTG.getPlugin(request.params(":to"), MTGExternalShop.class);
 			
-			List<Product> ret = converter.fromJsonList(new InputStreamReader(request.raw().getInputStream()), Product.class);
+			List<MTGProduct> ret = converter.fromJsonList(new InputStreamReader(request.raw().getInputStream()), MTGProduct.class);
 			var arr = new JsonArray();
-			for(Product p : ret)
+			for(MTGProduct p : ret)
 				{
 					Category c = extShop.listCategories().stream().filter(cat->cat.getIdCategory()==Integer.parseInt(request.params(":idCategory"))).findFirst().orElse(new Category());
 					int res = extShop.createProduct(srcShop,p,request.params(":language"),c);
@@ -828,10 +828,15 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		
 		post("/transaction/add", URLTools.HEADER_JSON, (request, response) -> {
+			try{ 
+				Transaction t=converter.fromJson(new InputStreamReader(request.raw().getInputStream()), Transaction.class);
+				return TransactionService.newTransaction(t);
+			}catch(Exception e)
+			{
+				logger.error("error reading transaction ", e);
+				throw new IOException(e);
+			}
 			
-			Transaction t=converter.fromJson(new InputStreamReader(request.raw().getInputStream()), Transaction.class);
-			
-			return TransactionService.newTransaction(t);
 		});
 	
 		post("/transaction/paid/:provider", URLTools.HEADER_JSON, (request, response) -> {

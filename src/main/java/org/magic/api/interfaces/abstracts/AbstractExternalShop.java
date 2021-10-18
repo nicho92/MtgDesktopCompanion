@@ -5,13 +5,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.api.mkm.modele.Category;
 import org.api.mkm.modele.Localization;
-import org.api.mkm.modele.Product;
 import org.magic.api.beans.ConverterItem;
+import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGExternalShop;
+import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.tools.MTG;
 
@@ -75,9 +75,9 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 			
 			if( automaticProductCreation &&  mci.getTiersAppIds(getName())==null)
 			{
-				Product p = new Product();
-							 p.setEnName(mci.getProduct().getName());
-							 p.setImage(mci.getUrl());
+				MTGProduct p = AbstractProduct.createDefaultProduct();
+							 p.setName(mci.getProduct().getName());
+							 p.setUrl(mci.getUrl());
 							 
 				Category c = new Category();
 								c.setIdCategory(172);
@@ -105,15 +105,15 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 	
 	
 	@Override
-	public int createProduct(MTGExternalShop input, Product t,String lang,Category c) throws IOException {
+	public int createProduct(MTGExternalShop input, MTGProduct t,String lang,Category c) throws IOException {
 		Localization defaultLoc = new Localization(1, "English");
-		defaultLoc.setName(t.getEnName());
-		String locName = t.getLocalization().stream().filter(l->l.getLanguageName().equalsIgnoreCase(lang)).findFirst().orElse(defaultLoc).getName();
-		t.setEnName(locName);
+		defaultLoc.setName(t.getName());
+//		String locName = t.getLocalization().stream().filter(l->l.getLanguageName().equalsIgnoreCase(lang)).findFirst().orElse(defaultLoc).getName();
+//		t.setName(locName);
 		int ret = createProduct(t,c);
 		try {
 			
-			updateConversion(input.getName(), locName,lang, t.getIdProduct(), ret);
+			updateConversion(input.getName(), t.getName(),lang,Integer.parseInt(t.getProductId()), ret);
 		} catch (IOException e) {
 			throw new IOException(e);
 		}

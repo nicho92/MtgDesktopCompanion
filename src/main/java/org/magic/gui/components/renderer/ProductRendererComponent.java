@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-import org.api.mkm.modele.Product;
+import org.magic.api.interfaces.MTGProduct;
 import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
 
@@ -24,7 +24,7 @@ public class ProductRendererComponent extends JPanel {
 	private JLabel lblProductSet;
 	private JLabel lblProductType;
 	private JLabel lblImage;
-	private transient Map<Integer,Image> temp;
+	private transient Map<String,Image> temp;
 	
 	public ProductRendererComponent() {
 		
@@ -32,7 +32,7 @@ public class ProductRendererComponent extends JPanel {
 		initGUI();
 	}
 
-	public ProductRendererComponent(Product mc) {
+	public ProductRendererComponent(MTGProduct mc) {
 		initGUI();
 		
 		if(mc!=null)
@@ -63,18 +63,18 @@ public class ProductRendererComponent extends JPanel {
 	                                            	
 	}
 
-	public void init(Product p) {
+	public void init(MTGProduct p) {
 		
 		if(p==null)
 			return;
 		
 
-		lblProductName.setText(p.getEnName());
-		lblProductSet.setText(p.getExpansionName());
-		lblProductType.setText(p.getCategoryName()+" ("+p.getIdProduct() +")");
-		lblImage.setIcon(new ImageIcon(temp.computeIfAbsent(p.getIdProduct(),i->{
+		lblProductName.setText(p.getName());
+		lblProductSet.setText(p.getEdition().getSet());
+		lblProductType.setText(p.getCategory().getCategoryName()+" ("+p.getProductId() +")");
+		lblImage.setIcon(new ImageIcon(temp.computeIfAbsent(p.getProductId(),i->{
 			try {
-				return URLTools.extractImage(p.getImage()).getScaledInstance(150, 110, Image.SCALE_SMOOTH);
+				return URLTools.extractImage(p.getUrl()).getScaledInstance(150, 110, Image.SCALE_SMOOTH);
 			} catch (Exception e) {
 				return new BufferedImage(1, 1, Image.SCALE_FAST);
 			}

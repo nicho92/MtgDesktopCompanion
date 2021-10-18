@@ -19,10 +19,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
-import org.api.mkm.modele.Category;
-import org.api.mkm.modele.Product;
+import org.magic.api.beans.shop.Category;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGExternalShop;
+import org.magic.api.interfaces.MTGProduct;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.renderer.ProductListRenderer;
@@ -40,11 +40,11 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 	private JComboBox<MTGExternalShop> cboInput;
 	private JComboBox<MTGExternalShop> cboOutput;
 	
-	private JList<Product> listInput;
-	private DefaultListModel<Product> modelInput;
+	private JList<MTGProduct> listInput;
+	private DefaultListModel<MTGProduct> modelInput;
 	
-	private JList<Product> listOutput;
-	private DefaultListModel<Product> modelOutput;
+	private JList<MTGProduct> listOutput;
+	private DefaultListModel<MTGProduct> modelOutput;
 	
 	private AbstractBuzyIndicatorComponent buzy;
 	private JPanel panel;
@@ -151,22 +151,22 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 
 	private void sendProducts() {
 		
-		List<Product> list = listInput.getSelectedValuesList();
+		List<MTGProduct> list = listInput.getSelectedValuesList();
 		
-		AbstractObservableWorker<Void,Product,MTGExternalShop> sw = new AbstractObservableWorker<>(buzy,(MTGExternalShop)cboOutput.getSelectedItem(),list.size())
+		AbstractObservableWorker<Void,MTGProduct,MTGExternalShop> sw = new AbstractObservableWorker<>(buzy,(MTGExternalShop)cboOutput.getSelectedItem(),list.size())
 		{
 			@Override
 			protected Void doInBackground() throws Exception {
-					for(Product p : list)
+					for(MTGProduct p : list)
 						{	
 							if(listOutput.getSelectedIndex()>-1)
 							{
-								plug.updateConversion(((MTGExternalShop)cboInput.getSelectedItem()).getName(), listOutput.getSelectedValue().getEnName(),cboLanguages.getSelectedItem().toString(),p.getIdProduct(),listOutput.getSelectedValue().getIdProduct());
+								plug.updateConversion(((MTGExternalShop)cboInput.getSelectedItem()).getName(), listOutput.getSelectedValue().getName(),cboLanguages.getSelectedItem().toString(),Integer.parseInt(p.getProductId()),Integer.parseInt(listOutput.getSelectedValue().getProductId()));
 							}
 							else
 							{
 								int id = plug.createProduct((MTGExternalShop)cboInput.getSelectedItem(),p,cboLanguages.getSelectedItem().toString(),(Category)cboCategory.getSelectedItem());
-								p.setIdProduct(id);
+								p.setProductId(String.valueOf(id));
 							}
 						
 							publish(p);
@@ -174,7 +174,7 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 					return null;
 			}
 			@Override
-			protected void process(List<Product> chunks) {
+			protected void process(List<MTGProduct> chunks) {
 				super.process(chunks);
 				modelOutput.addAll(chunks);
 			}
@@ -197,10 +197,10 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 		modelInput.removeAllElements();
 		modelOutput.removeAllElements();
 		
-		AbstractObservableWorker<List<Product>,Product,MTGExternalShop> sw = new AbstractObservableWorker<>(buzy,(MTGExternalShop)cboInput.getSelectedItem())
+		AbstractObservableWorker<List<MTGProduct>,MTGProduct,MTGExternalShop> sw = new AbstractObservableWorker<>(buzy,(MTGExternalShop)cboInput.getSelectedItem())
 		{
 			@Override
-			protected List<Product> doInBackground() throws Exception {
+			protected List<MTGProduct> doInBackground() throws Exception {
 					return plug.listProducts(search);
 			}
 			
@@ -219,10 +219,10 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 		};
 		
 		
-		AbstractObservableWorker<List<Product>,Product,MTGExternalShop> sw2 = new AbstractObservableWorker<>(buzy,(MTGExternalShop)cboOutput.getSelectedItem())
+		AbstractObservableWorker<List<MTGProduct>,MTGProduct,MTGExternalShop> sw2 = new AbstractObservableWorker<>(buzy,(MTGExternalShop)cboOutput.getSelectedItem())
 		{
 			@Override
-			protected List<Product> doInBackground() throws Exception {
+			protected List<MTGProduct> doInBackground() throws Exception {
 					return plug.listProducts(search);
 			}
 			
@@ -251,7 +251,7 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 
 	@Override
 	public String getTitle() {
-		return "Product Creation";
+		return "MTGProduct Creation";
 	}
 
 }
