@@ -95,7 +95,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 		
 						if(art.get("English Name").toLowerCase().contains(search.toLowerCase()) || art.get("Exp. Name").toLowerCase().contains(search.toLowerCase())) {
 						
-							var item = new MkmStockItem();
+							var item = AbstractStockItem.generateDefault();
 				
 							var product = new LightProduct();
 								  product.setIdGame(1);
@@ -256,7 +256,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 		
 	
 		o.getArticle().forEach(article->{
-			var item = new MkmStockItem();
+			var item = AbstractStockItem.generateDefault();
 			item.setId(article.getIdArticle());
 			item.setLanguage(article.getLanguage().getLanguageName());
 			item.setPrice(article.getPrice());
@@ -365,10 +365,4 @@ public class MkmExternalShop extends AbstractExternalShop {
 	}
 }
 
-
-class MkmStockItem extends AbstractStockItem<MTGProduct>
-{
-	private static final long serialVersionUID = 1L;
-	
-}
 

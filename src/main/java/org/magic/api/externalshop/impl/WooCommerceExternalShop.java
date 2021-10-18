@@ -150,7 +150,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	    		entry.setQte(objItem.get("quantity").getAsInt());
 	    		entry.setPrice(objItem.get("total").getAsDouble());
 	    		
-	    		var prod = new WooProduct() ;
+	    		var prod = AbstractProduct.createDefaultProduct();
 				
 				prod.setName(objItem.get("name").getAsString());
 	    		prod.setProductId(objItem.get("product_id").getAsString());
@@ -225,7 +225,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		List<JsonObject> res = client.getAll(EndpointBaseType.PRODUCTS.getValue(),parameters);
 
 		res.forEach(element->{
-			var p = new WooProduct();
+			var p = AbstractProduct.createDefaultProduct();
 			JsonObject obj = element.getAsJsonObject();
 	
 			p.setProductId(obj.get("id").getAsString());
@@ -235,8 +235,8 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 			Category c = new Category();
 					 c.setIdCategory(objCateg.get("id").getAsInt());
 					 c.setCategoryName(objCateg.get("name").getAsString());
-		//	p.setCategory(c);
-		//	p.setCategoryName(c.getCategoryName());
+			p.setCategory(c);
+		
 			
 			JsonObject img = obj.get("images").getAsJsonArray().get(0).getAsJsonObject();
 							p.setUrl(img.get("src").getAsString());
@@ -288,7 +288,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	
 		res.forEach(element->{
 			
-			MTGProduct p = new WooProduct();
+			MTGProduct p = AbstractProduct.createDefaultProduct();
 			JsonObject obj = element.getAsJsonObject();
 			p.setProductId(obj.get("id").getAsString());
 			p.setName(obj.get("name").getAsString());
@@ -408,13 +408,9 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	}
 }
 
-class WooProduct extends AbstractProduct
+class WooStockItem extends AbstractStockItem<MTGProduct>
 {
-	
-}
-
-class WooStockItem extends AbstractStockItem<WooProduct>
-{
+	private static final long serialVersionUID = 1L;
 	
 }
 

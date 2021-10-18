@@ -71,4 +71,5 @@ public interface MTGStockItem extends Serializable, Comparable<MTGStockItem> {
 	public <T extends MTGProduct> T getProduct();
 
 
+
 }

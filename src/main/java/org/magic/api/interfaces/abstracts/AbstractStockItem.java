@@ -215,7 +215,23 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 	public String getUrl() {
 		return url;
 	}
-
-
+	
+	
+	public static AbstractStockItem<MTGProduct> generateDefault()
+	{
+		return new GenericItem();
+	}
 	
 }
+
+class GenericItem extends AbstractStockItem<MTGProduct>
+{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+}
+
+
