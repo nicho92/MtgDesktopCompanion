@@ -26,20 +26,9 @@ public class MagicCardStock extends AbstractStockItem<MagicCard> {
 	public void setProduct(MagicCard c) {
 		product=c;
 		edition= c.getCurrentSet();
-		url = "https://api.scryfall.com/cards/"+(StringUtils.isEmpty(product.getScryfallId())?"/multiverse/"+c.getCurrentSet().getMultiverseid():product.getScryfallId())+"?format=image";
+		url = "https://api.scryfall.com/cards/"+(StringUtils.isEmpty(c.getScryfallId())?"/multiverse/"+c.getCurrentSet().getMultiverseid():c.getScryfallId())+"?format=image";
 		product.setTypeProduct(EnumItems.CARD);
 		product.setEdition(c.getCurrentSet());
 	}
-	
-	
-	
-	public boolean isOversize() {
-		return oversize;
-	}
-
-	public void setOversize(boolean oversize) {
-		this.oversize = oversize;
-	}
-
 
 }

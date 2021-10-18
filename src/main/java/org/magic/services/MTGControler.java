@@ -160,7 +160,6 @@ public class MTGControler {
 		setProperty("collections/defaultStock/signed",st.isSigned());
 		setProperty("collections/defaultStock/altered",st.isAltered());
 		setProperty("collections/defaultStock/foil",st.isFoil());
-		setProperty("collections/defaultStock/oversized",st.isOversize());
 		setProperty("collections/defaultStock/language",st.getLanguage());
 		setProperty("collections/defaultStock/condition",st.getCondition().name());
 		setProperty("collections/defaultStock/qty",st.getQte());
@@ -296,7 +295,6 @@ public class MTGControler {
 					   st.setAltered(Boolean.parseBoolean(get("collections/defaultStock/altered",defaultBool)));
 					   st.setFoil(Boolean.parseBoolean(get("collections/defaultStock/foil",defaultBool)));
 					   st.setEtched(Boolean.parseBoolean(get("collections/defaultStock/etched",defaultBool)));
-					   st.setOversize(Boolean.parseBoolean(get("collections/defaultStock/oversized",defaultBool)));
 					   st.setLanguage(get("collections/defaultStock/language","English"));
 					   st.setCondition(EnumCondition.valueOf(get("collections/defaultStock/condition","NEAR_MINT")));
 					   st.setQte(Integer.parseInt(get("collections/defaultStock/qty","1")));

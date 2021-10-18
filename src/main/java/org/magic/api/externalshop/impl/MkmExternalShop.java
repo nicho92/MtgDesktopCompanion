@@ -196,7 +196,11 @@ public class MkmExternalShop extends AbstractExternalShop {
 	}
 	
 	private LightArticle parse(MTGStockItem it) {
-		return new LightArticle();
+		var ret = new LightArticle();
+		ret.setIdArticle(it.getId());
+		ret.setIdProduct(Integer.parseInt(it.getProduct().getProductId()));
+		
+		return ret;
 	}
 
 	@Override
@@ -286,7 +290,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 	
 	
 	private MTGProduct toProduct(LightProduct product, int idProduct) {
-		var p = new MkmProduct();
+		var p = AbstractProduct.createDefaultProduct();
 		p.setName(product.getEnName());
 		p.setProductId(String.valueOf(idProduct));
 		
@@ -362,22 +366,8 @@ public class MkmExternalShop extends AbstractExternalShop {
 }
 
 
-class MkmProduct extends AbstractProduct
-{
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-}
-
 class MkmStockItem extends AbstractStockItem<MTGProduct>
 {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 }

@@ -96,7 +96,7 @@ public class LigaMagicExport extends AbstractCardExport {
 				row.createCell(colNum++,CellType.NUMERIC).setCellValue(st.getProduct().getPromotypes().contains(MTGPromoType.BUYABOX)?1:0);
 				row.createCell(colNum++,CellType.NUMERIC).setCellValue(0);
 				row.createCell(colNum++,CellType.NUMERIC).setCellValue(st.getProduct().getPromotypes().contains(MTGPromoType.FNM)?1:0);
-				row.createCell(colNum++,CellType.NUMERIC).setCellValue(st.isOversize()?1:0);
+				row.createCell(colNum++,CellType.NUMERIC).setCellValue(st.getCondition()==EnumCondition.OVERSIZED?1:0);
 				row.createCell(colNum++,CellType.NUMERIC).setCellValue(0);
 				row.createCell(colNum++,CellType.NUMERIC).setCellValue(st.getProduct().getCurrentSet().getSet().length()==4 && st.getProduct().getCurrentSet().getSet().startsWith("P")?1:0);
 				row.createCell(colNum++,CellType.NUMERIC).setCellValue(st.getProduct().getText().isBlank()?1:0);
