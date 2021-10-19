@@ -8,28 +8,28 @@ import org.magic.api.beans.shop.Category;
 
 public interface MTGProduct extends Serializable {
 
-	String getProductId();
+	public String getProductId();
 
-	void setProductId(String id);
+	public void setProductId(String id);
 
-	String getUrl();
+	public String getUrl();
 
-	void setUrl(String url);
+	public void setUrl(String url);
 
-	MagicEdition getEdition();
+	public MagicEdition getEdition();
 
-	void setEdition(MagicEdition edition);
+	public void setEdition(MagicEdition edition);
 
-	String getName();
+	public String getName();
 
-	void setName(String name);
+	public void setName(String name);
 
-	void setTypeProduct(EnumItems type);
+	public void setTypeProduct(EnumItems type);
 
-	EnumItems getTypeProduct();
+	public EnumItems getTypeProduct();
 
-	void setCategory(Category c);
+	public void setCategory(Category c);
 
-	Category getCategory();
+	public Category getCategory();
 	
 }

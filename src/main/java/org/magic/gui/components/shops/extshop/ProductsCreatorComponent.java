@@ -251,7 +251,7 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 
 	@Override
 	public String getTitle() {
-		return "MTGProduct Creation";
+		return "Product Creation";
 	}
 
 }

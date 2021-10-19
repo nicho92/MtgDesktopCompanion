@@ -407,7 +407,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 		}
 	}
 
-	private EnumCondition convert(String condition) {
+	public static EnumCondition convert(String condition) {
 		switch (condition) {
 		case "MT":
 			return EnumCondition.MINT;

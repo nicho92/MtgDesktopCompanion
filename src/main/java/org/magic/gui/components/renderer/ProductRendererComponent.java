@@ -70,7 +70,9 @@ public class ProductRendererComponent extends JPanel {
 		
 
 		lblProductName.setText(p.getName());
-		lblProductSet.setText(p.getEdition().getSet());
+		if(p.getEdition()!=null)
+			lblProductSet.setText(p.getEdition().getSet());
+		
 		lblProductType.setText(p.getCategory().getCategoryName()+" ("+p.getProductId() +")");
 		lblImage.setIcon(new ImageIcon(temp.computeIfAbsent(p.getProductId(),i->{
 			try {

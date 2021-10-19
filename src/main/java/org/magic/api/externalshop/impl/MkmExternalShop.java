@@ -28,11 +28,13 @@ import org.api.mkm.tools.MkmAPIConfig;
 import org.api.mkm.tools.MkmConstants;
 import org.api.mkm.tools.Tools;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
+import org.magic.api.exports.impl.MkmOnlineExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
@@ -64,10 +66,8 @@ public class MkmExternalShop extends AbstractExternalShop {
 	public List<Category> listCategories() throws IOException {
 		return new GameService().listCategories().stream().map(c->{
 			return new Category(c.getIdCategory(), c.getCategoryName());
-			
 		}).toList();
 	}
-	
 	
 	@Override
 	public List<MTGStockItem> loadStock(String search) throws IOException {
@@ -102,18 +102,21 @@ public class MkmExternalShop extends AbstractExternalShop {
 								  product.setLocName(art.get("Local Name"));
 								  product.setExpansion(art.get("Exp. Name"));
 								  product.setEnName(art.get("English Name"));
+								  product.setIdProduct(Integer.parseInt(art.get("idProduct")));
+								  product.setRarity("");
 								  try {
 									  item.setFoil(!art.get("Foil?").isEmpty());
 									  item.setSigned(!art.get("Signed?").isEmpty());
 									  item.setAltered(!art.get("Altered?").isEmpty());
+									  item.setCondition(MkmOnlineExport.convert(art.get("Condition")));
 								  }
 								catch(IllegalArgumentException e)
 								{
-									//do nothing
+									item.setCondition(EnumCondition.SEALED);
+									product.setRarity(null);
 								}
 								  
-								  item.setId(Integer.parseInt(art.get("idArticle")));
-								  item.setProduct(toProduct(product,Integer.parseInt(art.get("idProduct"))));
+								  item.setProduct(toProduct(product));
 								  item.setQte(Integer.parseInt(art.get("Amount")));
 								  item.setPrice(UITools.parseDouble(art.get("Price")));
 								  item.setId(Integer.parseInt(art.get("idArticle")));
@@ -132,6 +135,10 @@ public class MkmExternalShop extends AbstractExternalShop {
 						}
 					});
 				}
+			catch(Exception e)
+			{
+				logger.error(e);
+			}
 		return ret;
 	}
 	
@@ -161,8 +168,6 @@ public class MkmExternalShop extends AbstractExternalShop {
 		return new ProductServices().findProduct(name, atts).stream().map(p->toProduct(p)).toList();
 	}
 
-	
-
 	@Override
 	protected void createTransaction(Transaction t) throws IOException {
 		
@@ -189,10 +194,6 @@ public class MkmExternalShop extends AbstractExternalShop {
 			}
 				
 		});
-		
-		
-		
-		
 	}
 	
 	private LightArticle parse(MTGStockItem it) {
@@ -260,13 +261,15 @@ public class MkmExternalShop extends AbstractExternalShop {
 			item.setId(article.getIdArticle());
 			item.setLanguage(article.getLanguage().getLanguageName());
 			item.setPrice(article.getPrice());
-			item.setProduct(toProduct(article.getProduct(),article.getIdProduct()));
+			item.setProduct(toProduct(article.getProduct()));
+			if(article.getCondition()!=null)
+				item.setCondition(MkmOnlineExport.convert(article.getCondition()));
+			
 			item.setQte(article.getCount());
 			item.setFoil(article.isFoil());
 			item.setAltered(article.isAltered());
 			item.setSigned(article.isSigned());
 			item.getTiersAppIds().put(getName(), String.valueOf(article.getIdProduct()));
-			
 			t.getItems().add(item);
 		});
 		return t;
@@ -281,7 +284,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 		product.setImage(p.getImage());
 		product.setRarity(p.getRarity());
 		
-		MTGProduct prod=  toProduct(product, p.getIdProduct());
+		MTGProduct prod=  toProduct(product);
 		prod.setCategory(new Category(0,p.getCategoryName()));
 		
 		return prod;
@@ -289,10 +292,10 @@ public class MkmExternalShop extends AbstractExternalShop {
 	}
 	
 	
-	private MTGProduct toProduct(LightProduct product, int idProduct) {
+	private MTGProduct toProduct(LightProduct product) {
 		var p = AbstractProduct.createDefaultProduct();
 		p.setName(product.getEnName());
-		p.setProductId(String.valueOf(idProduct));
+		p.setProductId(String.valueOf(product.getIdProduct()));
 		
 		try {
 		p.setEdition(MTG.getEnabledPlugin(MTGCardsProvider.class).getSetByName(product.getExpansion()));
