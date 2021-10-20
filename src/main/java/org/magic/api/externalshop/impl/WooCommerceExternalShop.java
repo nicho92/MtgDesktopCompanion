@@ -120,21 +120,9 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	    						t.setStatut(TransactionStatus.IN_PROGRESS);break;
 	    					}
 	    				}
-	    				
-	    	var c = new Contact();
-	    	
+	   	
 	    	var contactObj = obj.get("billing").getAsJsonObject();
-	    		c.setName(contactObj.get("first_name").getAsString());
-	    		c.setLastName(contactObj.get("last_name").getAsString());
-	    		c.setAddress(contactObj.get("address_1").getAsString());
-	    		c.setZipCode(contactObj.get("postcode").getAsString());
-	    		c.setCity(contactObj.get("city").getAsString());
-	    		c.setCountry(contactObj.get("country").getAsString());
-	    		c.setId(obj.get("customer_id").getAsInt());
-	    		c.setEmail(contactObj.get("email").getAsString());
-	    		c.setTelephone(contactObj.get("phone").getAsString());
-	    		c.setEmailAccept(false);
-	    	t.setContact(c);	
+	    	t.setContact(toContact(contactObj,obj.get("customer_id").getAsInt()));	
 	    	
 	    	
 	    	var itemsArr = obj.get("line_items").getAsJsonArray();
@@ -165,6 +153,23 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		return ret;
 	}
 
+
+	private Contact toContact(JsonObject contactObj, int id) {
+		var c = new Contact();
+		c.setName(contactObj.get("first_name").getAsString());
+		c.setLastName(contactObj.get("last_name").getAsString());
+		c.setAddress(contactObj.get("address_1").getAsString());
+		c.setZipCode(contactObj.get("postcode").getAsString());
+		c.setCity(contactObj.get("city").getAsString());
+		c.setCountry(contactObj.get("country").getAsString());
+		c.setId(id);
+		c.setEmail(contactObj.get("email").getAsString());
+		c.setTelephone(contactObj.get("phone").getAsString());
+		c.setEmailAccept(false);
+		
+		return c;
+
+	}
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -244,7 +249,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 					stockItem.setProduct(p);
 					stockItem.setId(p.getProductId());
 					try {
-					stockItem.setPrice(obj.get("price").getAsDouble());
+						stockItem.setPrice(obj.get("price").getAsDouble());
 					}
 					catch(Exception e)
 					{
@@ -400,19 +405,8 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		var ret = new ArrayList<Contact>();
 		 
 		res.forEach(obj->{
-			
-			var contact = new Contact();
-				  contact.setId(obj.get("id").getAsInt());
-				  contact.setName(obj.get("first_name").getAsString());
-				  contact.setLastName(obj.get("last_name").getAsString());
-				  contact.setEmail(obj.get("email").getAsString());
-				  contact.setAddress(obj.get("billing").getAsJsonObject().get("address_1").getAsString());
-				  contact.setCity(obj.get("billing").getAsJsonObject().get("city").getAsString());
-				  contact.setZipCode(obj.get("billing").getAsJsonObject().get("postcode").getAsString());
-				  contact.setCountry(obj.get("billing").getAsJsonObject().get("country").getAsString());
-				  contact.setTelephone(obj.get("billing").getAsJsonObject().get("phone").getAsString());
-				  
-				  ret.add(contact);
+			var contact = toContact(obj, obj.get("id").getAsInt());
+			ret.add(contact);
 		});
 		
 		
