@@ -61,14 +61,7 @@ public class CardTraderPricer extends AbstractCardExport {
 	
 
 	}
-	
-
-	public static void main(String[] args) throws IOException {
-		MTGControler.getInstance().loadAccountsConfiguration();
-		new CardTraderPricer().test();
-	}
-	
-	
+		
 	public Map<String, Integer> getExpensions() throws IOException
 	{
 		if(mapExpension.isEmpty())

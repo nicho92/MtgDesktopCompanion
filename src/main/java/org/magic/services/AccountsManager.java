@@ -107,7 +107,6 @@ public class AccountsManager {
 	}
 	
 	public void loadConfig(String content) {
-		
 		if((content!=null) && !content.isEmpty())
 		{	
 			try {

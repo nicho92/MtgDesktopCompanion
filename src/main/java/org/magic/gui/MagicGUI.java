@@ -61,7 +61,8 @@ public class MagicGUI extends JFrame {
 	private transient OSTrayNotifier osNotifier;
 
 	public MagicGUI() {
-
+		MTGControler.getInstance().loadAccountsConfiguration();
+		
 		
 		try {
 			osNotifier = (OSTrayNotifier)getPlugin("Tray",MTGNotifier.class);
@@ -108,7 +109,6 @@ public class MagicGUI extends JFrame {
 			}
 		});
 			
-		
 		
 		setIconImage(MTGConstants.IMAGE_LOGO);
 		getContentPane().setLayout(new BorderLayout());
@@ -253,7 +253,7 @@ public class MagicGUI extends JFrame {
 		if (MTGControler.getInstance().get("modules/mkm").equals("true"))
 		{
 			try {
-			MTGControler.getInstance().loadAccountsConfiguration();
+			
 			MkmAPIConfig.getInstance().init(AccountsManager.inst().getAuthenticator(new MagicCardMarketPricer2()).getTokensAsProperties());
 			}
 			catch(Exception e)
