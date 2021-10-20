@@ -161,12 +161,12 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 						{	
 							if(listOutput.getSelectedIndex()>-1)
 							{
-								plug.updateConversion(((MTGExternalShop)cboInput.getSelectedItem()).getName(), listOutput.getSelectedValue().getName(),cboLanguages.getSelectedItem().toString(),Integer.parseInt(p.getProductId()),Integer.parseInt(listOutput.getSelectedValue().getProductId()));
+								plug.updateConversion(((MTGExternalShop)cboInput.getSelectedItem()).getName(), listOutput.getSelectedValue().getName(),cboLanguages.getSelectedItem().toString(),p.getProductId(),listOutput.getSelectedValue().getProductId());
 							}
 							else
 							{
 								int id = plug.createProduct((MTGExternalShop)cboInput.getSelectedItem(),p,cboLanguages.getSelectedItem().toString(),(Category)cboCategory.getSelectedItem());
-								p.setProductId(String.valueOf(id));
+								p.setProductId(id);
 							}
 						
 							publish(p);

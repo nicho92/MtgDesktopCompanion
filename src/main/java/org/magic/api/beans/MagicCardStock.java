@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.enums.EnumItems;
+import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
 
 public class MagicCardStock extends AbstractStockItem<MagicCard> {

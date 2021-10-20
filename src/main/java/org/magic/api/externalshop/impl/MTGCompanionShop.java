@@ -74,7 +74,7 @@ public class MTGCompanionShop extends AbstractExternalShop {
 					card.setEdition(card.getCurrentSet());
 					card.setCategory(new Category(0, EnumItems.CARD.name()));
 					card.setUrl(MTG.getEnabledPlugin(MTGPictureProvider.class).generateUrl(card));
-					card.setProductId(""+card.getId().hashCode());
+					card.setProductId(card.getId().hashCode());
 					notify(card);
 					ret.add(card);
 		});
@@ -82,7 +82,7 @@ public class MTGCompanionShop extends AbstractExternalShop {
 		products.forEach(ss->{
 					ss.setName(ss.getTypeProduct() + " " + (ss.getExtra()!=null ? ss.getExtra():"")+ " "  + ss.getEdition() + " " + ss.getLang());
 					ss.setUrl(ss.getUrl());
-					ss.setProductId(""+ss.hashCode());
+					ss.setProductId(ss.hashCode());
 					ss.setCategory(new Category(1,EnumItems.SEALED.name()));
 					notify(ss);
 			ret.add(ss);

@@ -24,7 +24,7 @@ public class ProductRendererComponent extends JPanel {
 	private JLabel lblProductSet;
 	private JLabel lblProductType;
 	private JLabel lblImage;
-	private transient Map<String,Image> temp;
+	private transient Map<Integer,Image> temp;
 	
 	public ProductRendererComponent() {
 		
@@ -72,8 +72,11 @@ public class ProductRendererComponent extends JPanel {
 		lblProductName.setText(p.getName());
 		if(p.getEdition()!=null)
 			lblProductSet.setText(p.getEdition().getSet());
+	
 		
+		if(p.getCategory()!=null)
 		lblProductType.setText(p.getCategory().getCategoryName()+" ("+p.getProductId() +")");
+	
 		lblImage.setIcon(new ImageIcon(temp.computeIfAbsent(p.getProductId(),i->{
 			try {
 				return URLTools.extractImage(p.getUrl()).getScaledInstance(150, 110, Image.SCALE_SMOOTH);

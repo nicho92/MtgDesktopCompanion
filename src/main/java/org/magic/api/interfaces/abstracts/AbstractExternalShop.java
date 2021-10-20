@@ -108,12 +108,10 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 	public int createProduct(MTGExternalShop input, MTGProduct t,String lang,Category c) throws IOException {
 		Localization defaultLoc = new Localization(1, "English");
 		defaultLoc.setName(t.getName());
-//		String locName = t.getLocalization().stream().filter(l->l.getLanguageName().equalsIgnoreCase(lang)).findFirst().orElse(defaultLoc).getName();
-//		t.setName(locName);
 		int ret = createProduct(t,c);
 		try {
 			
-			updateConversion(input.getName(), t.getName(),lang,Integer.parseInt(t.getProductId()), ret);
+			updateConversion(input.getName(), t.getName(),lang,t.getProductId(), ret);
 		} catch (IOException e) {
 			throw new IOException(e);
 		}

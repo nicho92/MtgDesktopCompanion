@@ -15,6 +15,7 @@ import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.api.interfaces.abstracts.AbstractProduct;
+import org.magic.api.interfaces.abstracts.AbstractStockItem;
 
 public class CardTraderWebShop extends AbstractExternalShop {
 
@@ -37,8 +38,23 @@ public class CardTraderWebShop extends AbstractExternalShop {
 	
 	@Override
 	public List<MTGStockItem> loadStock(String search) throws IOException {
-		// TODO Auto-generated method stub
-		return new ArrayList<>();
+		return service.listStock().stream().map(mp->{
+			var it = AbstractStockItem.generateDefault();
+								    it.setId(mp.getIdBlueprint());
+								    it.setAltered(mp.isAltered());
+								    it.setComment("");
+								    it.setFoil(mp.isFoil());
+								    it.setSigned(mp.isSigned());
+								    it.setLanguage(mp.getLanguage());
+								    it.setQte(mp.getQty());
+								var prod = AbstractProduct.createDefaultProduct();
+								prod.setProductId(mp.getId());
+								prod.setName(mp.getNameEn()); 
+								
+								it.setProduct(prod);
+			
+								return (MTGStockItem)it;
+		}).toList();
 	}
 	
 	
@@ -51,9 +67,8 @@ public class CardTraderWebShop extends AbstractExternalShop {
 			var product = AbstractProduct.createDefaultProduct();
 				product.setName(bp.getName());
 				product.setUrl(bp.getImageUrl());
-				product.setProductId(""+bp.getId());
-//				product.setCategory(toCategory(bp.getCategorie()));				
-//				product.setCategoryName(product.getCategory().getCategoryName());
+				product.setProductId(bp.getId());
+				product.setCategory(toCategory(bp.getCategorie()));				
 //				product.setLocalization(new ArrayList<>());
 				product.setEdition(toExpansion(bp.getExpansion()));
 //				product.setExpansionName(product.getExpansion().getEnName());

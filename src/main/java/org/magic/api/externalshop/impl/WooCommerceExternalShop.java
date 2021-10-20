@@ -153,7 +153,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	    		var prod = AbstractProduct.createDefaultProduct();
 				
 				prod.setName(objItem.get("name").getAsString());
-	    		prod.setProductId(objItem.get("product_id").getAsString());
+	    		prod.setProductId(objItem.get("product_id").getAsInt());
 	    		prod.setUrl("");
 	    		
 	    		entry.setProduct(prod);
@@ -228,7 +228,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 			var p = AbstractProduct.createDefaultProduct();
 			JsonObject obj = element.getAsJsonObject();
 	
-			p.setProductId(obj.get("id").getAsString());
+			p.setProductId(obj.get("id").getAsInt());
 			p.setName(obj.get("name").getAsString());
 			
 			JsonObject objCateg = obj.get("categories").getAsJsonArray().get(0).getAsJsonObject();
@@ -244,6 +244,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 			
 							var stockItem = new WooStockItem();
 					stockItem.setProduct(p);
+					stockItem.setId(p.getProductId());
 					try {
 					stockItem.setPrice(obj.get("price").getAsDouble());
 					}
@@ -290,7 +291,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 			
 			MTGProduct p = AbstractProduct.createDefaultProduct();
 			JsonObject obj = element.getAsJsonObject();
-			p.setProductId(obj.get("id").getAsString());
+			p.setProductId(obj.get("id").getAsInt());
 			p.setName(obj.get("name").getAsString());
 			
 			

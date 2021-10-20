@@ -8,9 +8,9 @@ import org.magic.api.beans.shop.Category;
 
 public interface MTGProduct extends Serializable {
 
-	public String getProductId();
+	public Integer getProductId();
 
-	public void setProductId(String id);
+	public void setProductId(Integer id);
 
 	public String getUrl();
 

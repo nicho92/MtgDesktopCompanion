@@ -9,7 +9,7 @@ public abstract class AbstractProduct implements  MTGProduct {
 
 	private static final long serialVersionUID = 1L;
 	
-	protected String productId;
+	protected Integer productId;
 	protected String url;
 	protected String name;
 	protected MagicEdition edition;
@@ -43,11 +43,11 @@ public abstract class AbstractProduct implements  MTGProduct {
 	}
 	
 	@Override
-	public String getProductId() {
+	public Integer getProductId() {
 		return productId;
 	}
 	@Override
-	public void setProductId(String id) {
+	public void setProductId(Integer id) {
 		this.productId = id;
 	}
 	@Override

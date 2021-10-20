@@ -62,6 +62,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 		}
 	}
 	
+	
 	@Override
 	public List<Category> listCategories() throws IOException {
 		return new GameService().listCategories().stream().map(c->{
@@ -143,6 +144,36 @@ public class MkmExternalShop extends AbstractExternalShop {
 	}
 	
 	@Override
+	public List<MTGStockItem> listStock(String search) throws IOException {
+		var list= loadStock(search);
+		list.forEach(item->{
+			getRefs(item.getLanguage(),item.getProduct().getProductId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getDestination(),String.valueOf(converterItem.getOutputId())));
+			getRefs(item.getLanguage(),item.getProduct().getProductId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getSource(),String.valueOf(converterItem.getInputId())));
+		});
+			
+		return list;
+	}
+	
+	
+	
+	@Override
+	/*
+		Overrried to ttake MkmIdProduct
+	*/
+	public List<Transaction> listTransaction() throws IOException {
+		var list= loadTransaction();
+		list.forEach(t->
+			t.getItems().forEach(item->{
+				getRefs(item.getLanguage(),item.getProduct().getProductId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getDestination(),String.valueOf(converterItem.getOutputId())));
+				getRefs(item.getLanguage(),item.getProduct().getProductId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getSource(),String.valueOf(converterItem.getInputId())));
+			})
+			);
+		
+		return list;
+	}
+	
+	
+	@Override
 	protected List<Transaction> loadTransaction()  {
 		init();
 		
@@ -199,7 +230,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 	private LightArticle parse(MTGStockItem it) {
 		var ret = new LightArticle();
 		ret.setIdArticle(it.getId());
-		ret.setIdProduct(Integer.parseInt(it.getProduct().getProductId()));
+		ret.setIdProduct(it.getProduct().getProductId());
 		
 		return ret;
 	}
@@ -262,6 +293,8 @@ public class MkmExternalShop extends AbstractExternalShop {
 			item.setLanguage(article.getLanguage().getLanguageName());
 			item.setPrice(article.getPrice());
 			item.setProduct(toProduct(article.getProduct()));
+			item.getProduct().setProductId(article.getIdProduct());
+			
 			if(article.getCondition()!=null)
 				item.setCondition(MkmOnlineExport.convert(article.getCondition()));
 			
@@ -279,6 +312,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 	private MTGProduct toProduct(Product p) {
 		var product = new LightProduct();
 		
+		product.setIdProduct(p.getIdProduct());
 		product.setEnName(p.getEnName());
 		product.setExpansion(p.getExpansionName());
 		product.setImage(p.getImage());
@@ -286,6 +320,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 		
 		MTGProduct prod=  toProduct(product);
 		prod.setCategory(new Category(0,p.getCategoryName()));
+	
 		
 		return prod;
 		
@@ -295,7 +330,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 	private MTGProduct toProduct(LightProduct product) {
 		var p = AbstractProduct.createDefaultProduct();
 		p.setName(product.getEnName());
-		p.setProductId(String.valueOf(product.getIdProduct()));
+		p.setProductId(product.getIdProduct());
 		
 		try {
 		p.setEdition(MTG.getEnabledPlugin(MTGCardsProvider.class).getSetByName(product.getExpansion()));
