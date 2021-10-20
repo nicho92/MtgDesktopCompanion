@@ -157,8 +157,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 	
 	
 	@Override
-	/*
-		Overrried to ttake MkmIdProduct
+	/*Overrried to ttake MkmIdProduct
 	*/
 	public List<Transaction> listTransaction() throws IOException {
 		var list= loadTransaction();
@@ -196,7 +195,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 		init();
 		Map<PRODUCT_ATTS, String> atts = new EnumMap<>(PRODUCT_ATTS.class);
 		atts.put(PRODUCT_ATTS.idGame, getString(ID_GAME));
-		return new ProductServices().findProduct(name, atts).stream().map(p->toProduct(p)).toList();
+		return new ProductServices().findProduct(name, atts).stream().map(this::toProduct).toList();
 	}
 
 	@Override

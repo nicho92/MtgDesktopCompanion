@@ -145,17 +145,15 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	    		var entry = new WooStockItem();
 				
 	    		var objItem = item.getAsJsonObject();
-	    		
 	    		entry.setId(objItem.get("product_id").getAsInt());
 	    		entry.setQte(objItem.get("quantity").getAsInt());
 	    		entry.setPrice(objItem.get("total").getAsDouble());
 	    		
 	    		var prod = AbstractProduct.createDefaultProduct();
-				
+
 				prod.setName(objItem.get("name").getAsString());
 	    		prod.setProductId(objItem.get("product_id").getAsInt());
 	    		prod.setUrl("");
-	    		
 	    		entry.setProduct(prod);
 	    		entry.setLanguage(entry.getProduct().getName().toLowerCase().contains("français")?"French":"English");
 	    		entry.getTiersAppIds().put(getName(), String.valueOf(t.getId()));
