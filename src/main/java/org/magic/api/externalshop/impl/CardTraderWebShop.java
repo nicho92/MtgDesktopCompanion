@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.api.cardtrader.modele.Categorie;
 import org.api.cardtrader.services.CardTraderService;
+import org.api.mkm.modele.Product.PRODUCT_ATTS;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.shop.Category;
@@ -38,18 +39,22 @@ public class CardTraderWebShop extends AbstractExternalShop {
 	
 	@Override
 	public List<MTGStockItem> loadStock(String search) throws IOException {
-		return service.listStock().stream().map(mp->{
+		return service.listStock(search).stream().map(mp->{
 			var it = AbstractStockItem.generateDefault();
-								    it.setId(mp.getIdBlueprint());
+								    it.setId(mp.getId());
 								    it.setAltered(mp.isAltered());
 								    it.setComment("");
 								    it.setFoil(mp.isFoil());
 								    it.setSigned(mp.isSigned());
 								    it.setLanguage(mp.getLanguage());
 								    it.setQte(mp.getQty());
+								    it.setPrice(mp.getPrice().getValue());
 								var prod = AbstractProduct.createDefaultProduct();
-								prod.setProductId(mp.getId());
+								prod.setProductId(mp.getIdBlueprint());
 								prod.setName(mp.getNameEn()); 
+								prod.setEdition(toExpansion(mp.getExpansion()));
+								prod.setCategory(toCategory(mp.getCategorie()));
+								prod.setTypeProduct(prod.getName().contains("Booster")?EnumItems.SEALED:EnumItems.CARD);
 								
 								it.setProduct(prod);
 			
@@ -69,9 +74,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 				product.setUrl(bp.getImageUrl());
 				product.setProductId(bp.getId());
 				product.setCategory(toCategory(bp.getCategorie()));				
-//				product.setLocalization(new ArrayList<>());
 				product.setEdition(toExpansion(bp.getExpansion()));
-//				product.setExpansionName(product.getExpansion().getEnName());
 				
 				
 				notify(product);
@@ -82,6 +85,8 @@ public class CardTraderWebShop extends AbstractExternalShop {
 	}
 
 	private MagicEdition toExpansion(org.api.cardtrader.modele.Expansion expansion) {
+		if(expansion==null)
+			return null;
 		var exp = new MagicEdition();
 		exp.setId(expansion.getCode());
 		exp.setSet(expansion.getName());
@@ -89,6 +94,9 @@ public class CardTraderWebShop extends AbstractExternalShop {
 	}
 
 	private Category toCategory(Categorie categorie) {
+		if(categorie==null)
+			return null;
+		
 		var cat = new Category();
 		cat.setCategoryName(categorie.getName());
 		cat.setIdCategory(categorie.getId());

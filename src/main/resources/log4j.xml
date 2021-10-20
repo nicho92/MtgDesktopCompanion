@@ -32,7 +32,7 @@
     </appender>
     <logger name="freemarker.cache"><level value="ERROR"/></logger>
     <logger name="org.api.mkm"><level value="INFO"/></logger>
-    <logger name="org.api.cardtrader"><level value="DEBUG"/></logger>
+    <logger name="org.api.cardtrader"><level value="INFO"/></logger>
     <logger name="org.mtgstock.services"><level value="WARN"/></logger>
     <logger name="org.apache.http"><level value="WARN"/></logger>
     <logger name="org.apache.commons"><level value="ERROR"/></logger>
