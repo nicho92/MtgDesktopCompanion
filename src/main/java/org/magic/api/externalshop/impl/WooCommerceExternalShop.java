@@ -142,7 +142,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	    	for(JsonElement item : itemsArr)
 	    	{
 	    		
-	    		var entry = new WooStockItem();
+	    		var entry = AbstractStockItem.generateDefault();
 				
 	    		var objItem = item.getAsJsonObject();
 	    		entry.setId(objItem.get("product_id").getAsInt());
@@ -240,7 +240,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 							p.setUrl(img.get("src").getAsString());
 			
 			
-							var stockItem = new WooStockItem();
+					var stockItem = AbstractStockItem.generateDefault();
 					stockItem.setProduct(p);
 					stockItem.setId(p.getProductId());
 					try {
@@ -396,8 +396,29 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 
 	@Override
 	public List<Contact> listContacts() throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		List<JsonObject> res = client.getAll(EndpointBaseType.CUSTOMERS.getValue());
+		var ret = new ArrayList<Contact>();
+		 
+		res.forEach(obj->{
+			
+			var contact = new Contact();
+				  contact.setId(obj.get("id").getAsInt());
+				  contact.setName(obj.get("first_name").getAsString());
+				  contact.setLastName(obj.get("last_name").getAsString());
+				  contact.setEmail(obj.get("email").getAsString());
+				  contact.setAddress(obj.get("billing").getAsJsonObject().get("address_1").getAsString());
+				  contact.setCity(obj.get("billing").getAsJsonObject().get("city").getAsString());
+				  contact.setZipCode(obj.get("billing").getAsJsonObject().get("postcode").getAsString());
+				  contact.setCountry(obj.get("billing").getAsJsonObject().get("country").getAsString());
+				  contact.setTelephone(obj.get("billing").getAsJsonObject().get("phone").getAsString());
+				  
+				  ret.add(contact);
+		});
+		
+		
+		
+		 
+		 return ret;
 	}
 
 	@Override
@@ -405,12 +426,6 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		// TODO Auto-generated method stub
 		
 	}
-}
-
-class WooStockItem extends AbstractStockItem<MTGProduct>
-{
-	private static final long serialVersionUID = 1L;
-	
 }
 
 
