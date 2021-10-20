@@ -12,6 +12,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
@@ -273,10 +274,12 @@ public class WebShopConfigPanel extends MTGUIComponent {
 			  		
 				if(chkAutoProduct.isSelected())
 					try {
-			  			
 			  			topProduct = TransactionService.getBestProduct();
 						cardPanel.setProduct(topProduct);
-					} catch (Exception e1) {
+					} catch (NoSuchElementException e1) {
+						logger.warn("No best product found");
+					}
+					catch (Exception e1) {
 						logger.error(e1);
 					}
 				

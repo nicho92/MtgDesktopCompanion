@@ -109,11 +109,17 @@ public class AccountsManager {
 	public void loadConfig(String content) {
 		
 		if((content!=null) && !content.isEmpty())
+		{	
 			try {
 				loadConfig(new JsonExport().fromJson(CryptoUtils.decrypt(content,getKey()), JsonObject.class));
 			} catch (Exception e) {
 				logger.error("Error while decryptions " + e);
 			}
+		}
+		else
+		{
+			logger.warn("content =" + content);
+		}
 	}
 	
 	private void loadConfig(JsonObject o) {

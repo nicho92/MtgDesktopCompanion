@@ -83,7 +83,7 @@ public class ShortKeyManager {
 		try {
 			FileTools.loadProperties(configFile, p);
 		} catch (IOException e1) {
-			logger.error(e1);
+			logger.warn(e1.getMessage());
 			return;
 		}
 		

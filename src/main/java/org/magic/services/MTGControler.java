@@ -105,7 +105,7 @@ public class MTGControler {
 		}
 		catch(Exception e)
 		{
-			logger.error("error init currency services : " + e);
+			logger.warn("error init currency services" + e.getMessage());
 			setProperty("/currencylayer-converter-enable", FALSE);
 
 		}
