@@ -55,9 +55,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 								prod.setEdition(toExpansion(mp.getExpansion()));
 								prod.setCategory(toCategory(mp.getCategorie()));
 								prod.setTypeProduct(prod.getName().contains("Booster")?EnumItems.SEALED:EnumItems.CARD);
-								
 								it.setProduct(prod);
-			
 								return (MTGStockItem)it;
 		}).toList();
 	}
@@ -75,12 +73,8 @@ public class CardTraderWebShop extends AbstractExternalShop {
 				product.setProductId(bp.getId());
 				product.setCategory(toCategory(bp.getCategorie()));				
 				product.setEdition(toExpansion(bp.getExpansion()));
-				
-				
 				notify(product);
-				
 			return product;
-			
 		}).toList();
 	}
 

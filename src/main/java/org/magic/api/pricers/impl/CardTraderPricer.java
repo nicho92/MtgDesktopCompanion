@@ -18,7 +18,6 @@ public class CardTraderPricer extends AbstractPricesProvider {
 
 	private CardTraderService service;
 	
-	
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		var m = super.getDefaultAttributes();
