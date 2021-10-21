@@ -3,18 +3,30 @@ package org.magic.api.pricers.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import org.api.cardtrader.modele.Address;
+import org.api.cardtrader.modele.MarketProduct;
 import org.api.cardtrader.services.CardTraderConstants;
 import org.api.cardtrader.services.CardTraderService;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
+import org.magic.services.MTGControler;
 
 public class CardTraderPricer extends AbstractPricesProvider {
 
 	private CardTraderService service;
 	
 	
+	@Override
+	public Map<String, String> getDefaultAttributes() {
+		var m = super.getDefaultAttributes();
+		
+		m.put("AUTOMATIC_ADD_CART", "false");
+		
+		return m;
+	}
 	
 	@Override
 	public STATUT getStatut() {
@@ -34,7 +46,28 @@ public class CardTraderPricer extends AbstractPricesProvider {
 	@Override
 	public void alertDetected(List<MagicPrice> p) {
 		
+		if(getBoolean("AUTOMATIC_ADD_CART")) {
 		
+				for(var price : p)
+				{
+					var mk = (MarketProduct) price.getShopItem();
+					var c = MTGControler.getInstance().getWebConfig().getContact();
+					
+					var addr = new Address();
+					addr.setName(c.getName() + " "+ c.getLastName());
+					addr.setCity(c.getCity());
+					addr.setCountry(c.getCountry());
+					addr.setStreet(c.getAddress());
+					addr.setZip(c.getZipCode());
+					
+					try {
+						service.addProductToCart(mk, true, 1, addr, addr);
+					} catch (IOException e) {
+						logger.error("Error adding product to cart",e);
+					}
+					
+				}
+		}
 	}
 	
 
