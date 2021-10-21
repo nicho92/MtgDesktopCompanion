@@ -30,6 +30,13 @@ public class CardTraderPricer extends AbstractPricesProvider {
 	public String getName() {
 		return "CardTrader";
 	}
+	
+	@Override
+	public void alertDetected(List<MagicPrice> p) {
+		
+		
+	}
+	
 
 	@Override
 	protected List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
@@ -64,6 +71,7 @@ public class CardTraderPricer extends AbstractPricesProvider {
 			mp.setQuality(marketItem.getCondition().getValue());
 			mp.setSellerUrl(CardTraderConstants.CARDTRADER_WEBSITE_URI+"/users/"+marketItem.getSeller().getUsername());
 			mp.setUrl(CardTraderConstants.CARDTRADER_WEBSITE_URI+"/cards/"+bp.getSlug()+"?share_code="+CardTraderConstants.SHARE_CODE);
+			mp.setShopItem(marketItem);
 			ret.add(mp);
 		});
 		
