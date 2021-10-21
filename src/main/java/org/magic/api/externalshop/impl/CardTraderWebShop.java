@@ -51,7 +51,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 								    it.setPrice(mp.getPrice().getValue());
 								var prod = AbstractProduct.createDefaultProduct();
 								prod.setProductId(mp.getIdBlueprint());
-								prod.setName(mp.getNameEn()); 
+								prod.setName(mp.getName()); 
 								prod.setEdition(toExpansion(mp.getExpansion()));
 								prod.setCategory(toCategory(mp.getCategorie()));
 								prod.setTypeProduct(prod.getName().contains("Booster")?EnumItems.SEALED:EnumItems.CARD);
