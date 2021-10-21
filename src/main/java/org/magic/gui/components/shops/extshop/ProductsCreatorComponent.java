@@ -9,10 +9,12 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import javax.swing.AbstractButton;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -51,6 +53,8 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 	private JButton btnSend;
 	private JComboBox<String> cboLanguages;
 	private JComboBox<Category> cboCategory;
+	private JCheckBox chkSearchInput;
+	private JCheckBox chkSearchOutput;
 	
 	
 	public ProductsCreatorComponent() {
@@ -62,6 +66,9 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 		
 		var panelNorth = new JPanel();
 		var panelWest = new JPanel();
+		var panelNorthWest = new JPanel();
+		var panelNorthEast = new JPanel();
+		
 		panelWest.setLayout(new BorderLayout());
 		var panelEast = new JPanel();
 		panelEast.setLayout(new BorderLayout());
@@ -71,8 +78,11 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 		cboLanguages = UITools.createCombobox(MTG.getEnabledPlugin(MTGCardsProvider.class).getLanguages());
 		cboCategory = UITools.createCombobox(new ArrayList<>());
 		
+		chkSearchInput = new JCheckBox();
+		chkSearchInput.setSelected(true);
+		chkSearchOutput = new JCheckBox();
+		chkSearchOutput.setSelected(true);
 		
-
 		
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		txtSearchProduct = new JTextField(25);
@@ -92,8 +102,15 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 		add(panelWest,BorderLayout.WEST);
 		add(panelEast,BorderLayout.EAST);
 		
-		panelWest.add(cboInput, BorderLayout.NORTH);
-		panelEast.add(cboOutput, BorderLayout.NORTH);
+		
+		panelNorthWest.add(chkSearchInput);
+		panelNorthWest.add(cboInput);
+		
+		panelNorthEast.add(chkSearchOutput);
+		panelNorthEast.add(cboOutput);
+		
+		panelWest.add(panelNorthWest, BorderLayout.NORTH);
+		panelEast.add(panelNorthEast, BorderLayout.NORTH);
 		
 		panelWest.add(new JScrollPane(listInput), BorderLayout.CENTER);
 		panelEast.add(new JScrollPane(listOutput), BorderLayout.CENTER);
@@ -153,6 +170,7 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 		
 		List<MTGProduct> list = listInput.getSelectedValuesList();
 		
+		
 		AbstractObservableWorker<Void,MTGProduct,MTGExternalShop> sw = new AbstractObservableWorker<>(buzy,(MTGExternalShop)cboOutput.getSelectedItem(),list.size())
 		{
 			@Override
@@ -194,54 +212,57 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 		
 		String search = txtSearchProduct.getText();
 		
-		modelInput.removeAllElements();
-		modelOutput.removeAllElements();
-		
-		AbstractObservableWorker<List<MTGProduct>,MTGProduct,MTGExternalShop> sw = new AbstractObservableWorker<>(buzy,(MTGExternalShop)cboInput.getSelectedItem())
-		{
-			@Override
-			protected List<MTGProduct> doInBackground() throws Exception {
-					return plug.listProducts(search);
-			}
-			
-			@Override
-			protected void done() {
-				try {
-					super.done();
-					modelInput.addAll(get());
-				} catch (InterruptedException e) {
-					Thread.currentThread().interrupt();
-				} catch (ExecutionException e) {
-					logger.error(e);
+		if(chkSearchInput.isSelected()) {
+			modelInput.removeAllElements();
+			AbstractObservableWorker<List<MTGProduct>,MTGProduct,MTGExternalShop> sw = new AbstractObservableWorker<>(buzy,(MTGExternalShop)cboInput.getSelectedItem())
+			{
+				@Override
+				protected List<MTGProduct> doInBackground() throws Exception {
+						return plug.listProducts(search);
 				}
-			}
-			
-		};
-		
-		
-		AbstractObservableWorker<List<MTGProduct>,MTGProduct,MTGExternalShop> sw2 = new AbstractObservableWorker<>(buzy,(MTGExternalShop)cboOutput.getSelectedItem())
-		{
-			@Override
-			protected List<MTGProduct> doInBackground() throws Exception {
-					return plug.listProducts(search);
-			}
-			
-			@Override
-			protected void done() {
-				try {
-					super.done();
-					modelOutput.addAll(get());
-				} catch (InterruptedException e) {
-					Thread.currentThread().interrupt();
-				} catch (ExecutionException e) {
-					logger.error(e);
+				
+				@Override
+				protected void done() {
+					try {
+						super.done();
+						modelInput.addAll(get());
+					} catch (InterruptedException e) {
+						Thread.currentThread().interrupt();
+					} catch (ExecutionException e) {
+						logger.error(e);
+					}
 				}
-			}
-			
-		};
+				
+			};
+			ThreadManager.getInstance().runInEdt(sw,"search Products");
+		}
 		
-		ThreadManager.getInstance().runInEdt(sw,"search Products");
-		ThreadManager.getInstance().runInEdt(sw2,"search Products");
+		if(chkSearchOutput.isSelected()) {
+			modelOutput.removeAllElements();
+			AbstractObservableWorker<List<MTGProduct>,MTGProduct,MTGExternalShop> sw2 = new AbstractObservableWorker<>(buzy,(MTGExternalShop)cboOutput.getSelectedItem())
+			{
+				@Override
+				protected List<MTGProduct> doInBackground() throws Exception {
+						return plug.listProducts(search);
+				}
+				
+				@Override
+				protected void done() {
+					try {
+						super.done();
+						modelOutput.addAll(get());
+					} catch (InterruptedException e) {
+						Thread.currentThread().interrupt();
+					} catch (ExecutionException e) {
+						logger.error(e);
+					}
+				}
+				
+			};
+			ThreadManager.getInstance().runInEdt(sw2,"search Products");
+		}
+		
+	
 	}
 
 	@Override
