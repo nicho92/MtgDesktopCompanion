@@ -61,7 +61,6 @@ public class MagicGUI extends JFrame {
 	private transient OSTrayNotifier osNotifier;
 
 	public MagicGUI() {
-		MTGControler.getInstance().loadAccountsConfiguration();
 		
 		
 		try {

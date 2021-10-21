@@ -43,6 +43,8 @@ public class MtgDesktopCompanion {
 		launch.start();
 		chrono.start();
 		try {
+			MTGControler.getInstance().loadAccountsConfiguration();
+			
 			boolean updated = MTGControler.getInstance().updateConfigMods();
 
 			logger.trace("result config updated : " + updated);
