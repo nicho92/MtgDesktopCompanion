@@ -20,6 +20,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.SwingWorker;
 
 import org.magic.api.beans.shop.Category;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -73,8 +74,8 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 		var panelEast = new JPanel();
 		panelEast.setLayout(new BorderLayout());
 		
-		cboInput = UITools.createCombobox(MTGExternalShop.class,false);
-		cboOutput= UITools.createCombobox(MTGExternalShop.class,false);
+		cboInput = UITools.createCombobox(MTGExternalShop.class,true);
+		cboOutput= UITools.createCombobox(MTGExternalShop.class,true);
 		cboLanguages = UITools.createCombobox(MTG.getEnabledPlugin(MTGCardsProvider.class).getLanguages());
 		cboCategory = UITools.createCombobox(new ArrayList<>());
 		
@@ -155,14 +156,27 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 	
 
 	private void initCategory() {
-		try {
-
-			cboCategory.removeAllItems();
-			((DefaultComboBoxModel<Category>)cboCategory.getModel()).addAll(((MTGExternalShop)cboOutput.getSelectedItem()).listCategories().stream().sorted(Comparator.comparing(Category::getCategoryName)).toList());
+		
+		cboCategory.removeAllItems();
+		var sw = new SwingWorker<List<Category>, Void>() {
+			@Override
+			protected List<Category> doInBackground() throws Exception {
+				return ((MTGExternalShop)cboOutput.getSelectedItem()).listCategories();
+			}
 			
-		} catch (IOException e1) {
-			logger.error(e1);
-		}
+			@Override
+			protected void done() {
+				try {
+					((DefaultComboBoxModel<Category>)cboCategory.getModel()).addAll(get().stream().sorted(Comparator.comparing(Category::getCategoryName)).toList());
+				} catch (InterruptedException e) {
+					Thread.currentThread().interrupt();
+				} catch (Exception e) {
+					logger.error(e);
+				}
+			}
+		};
+		ThreadManager.getInstance().runInEdt(sw,"load categories");
+	
 	}
 
 

@@ -42,7 +42,7 @@ public class TransactionService
 	
 	public static final Integer TOKENSIZE = 50;
 	protected static Logger logger = MTGLogger.getLogger(TransactionService.class);
-	private static MTGExternalShop mtgshop=MTG.getPlugin(MTGConstants.MTG_APP_NAME, MTGExternalShop.class);
+	private static MTGExternalShop mtgshop=MTG.getEnabledPlugin(MTGExternalShop.class);
 	private TransactionService() {	}
 	
 	public static int createContact(Contact c) throws IOException

@@ -49,7 +49,7 @@ public class StockSynchronizerComponent extends MTGUIComponent {
 		itemsBkcp = new HashMap<>();
 		panelCenter.setLayout(new BorderLayout());
 		
-		cboInput = UITools.createCombobox(MTGExternalShop.class,false);
+		cboInput = UITools.createCombobox(MTGExternalShop.class,true);
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		modelInput = new StockItemTableModel();
 		tableInput = UITools.createNewTable(modelInput);

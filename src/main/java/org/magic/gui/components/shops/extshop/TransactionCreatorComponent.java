@@ -53,8 +53,8 @@ public class TransactionCreatorComponent extends MTGUIComponent {
 		var chkCreateProduct = new JCheckBox("Create product if not exist");
 		panelEast.setLayout(new BorderLayout());
 		
-		cboInput = UITools.createCombobox(MTGExternalShop.class,false);
-		cboOutput= UITools.createCombobox(MTGExternalShop.class,false);
+		cboInput = UITools.createCombobox(MTGExternalShop.class,true);
+		cboOutput= UITools.createCombobox(MTGExternalShop.class,true);
 		
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		modelOutput= new DefaultListModel<>();
