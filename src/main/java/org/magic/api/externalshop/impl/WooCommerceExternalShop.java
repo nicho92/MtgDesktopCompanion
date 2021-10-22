@@ -312,7 +312,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 			p.setCategory(c);
 			
 			JsonObject img = obj.get("images").getAsJsonArray().get(0).getAsJsonObject();
-			p.setUrl(img.get("src").getAsString());
+		p.setUrl(img.get("src").getAsString());
 			
 			notify(p);
 			ret.add(p);
@@ -408,6 +408,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 
 	@Override
 	public List<Contact> listContacts() throws IOException {
+		init();
 		List<JsonObject> res = client.getAll(EndpointBaseType.CUSTOMERS.getValue());
 		var ret = new ArrayList<Contact>();
 		 
