@@ -156,16 +156,23 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 
 	private Contact toContact(JsonObject contactObj, int id) {
 		var c = new Contact();
-		c.setName(contactObj.get("first_name").getAsString());
-		c.setLastName(contactObj.get("last_name").getAsString());
-		c.setAddress(contactObj.get("address_1").getAsString());
-		c.setZipCode(contactObj.get("postcode").getAsString());
-		c.setCity(contactObj.get("city").getAsString());
-		c.setCountry(contactObj.get("country").getAsString());
 		c.setId(id);
-		c.setEmail(contactObj.get("email").getAsString());
-		c.setTelephone(contactObj.get("phone").getAsString());
-		c.setEmailAccept(false);
+			try {
+			c.setName(contactObj.get("first_name").getAsString());
+			c.setLastName(contactObj.get("last_name").getAsString());
+			c.setAddress(contactObj.get("address_1").getAsString());
+			c.setZipCode(contactObj.get("postcode").getAsString());
+			c.setCity(contactObj.get("city").getAsString());
+			c.setCountry(contactObj.get("country").getAsString());
+			
+			c.setEmail(contactObj.get("email").getAsString());
+			c.setTelephone(contactObj.get("phone").getAsString());
+			c.setEmailAccept(false);
+			}
+			catch(Exception e)
+			{
+				logger.error(e);
+			}
 		
 		return c;
 
