@@ -262,12 +262,17 @@ public class CardTraderWebShop extends AbstractExternalShop {
 
 	@Override
 	public List<Contact> listContacts() throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		return listTransaction().stream().map(t->t.getContact()).toList();
 	}
 
 	@Override
 	public void deleteContact(Contact contact) throws IOException {
+		throw new IOException("Can't delete contact "+ contact);
+		
+	}
+
+	@Override
+	public void deleteTransaction(Transaction t) throws IOException {
 		// TODO Auto-generated method stub
 		
 	}

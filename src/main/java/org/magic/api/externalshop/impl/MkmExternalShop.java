@@ -402,6 +402,13 @@ public class MkmExternalShop extends AbstractExternalShop {
 		throw new IOException("contacts can't be deleted");
 
 	}
+
+
+	@Override
+	public void deleteTransaction(Transaction t) throws IOException {
+		// TODO Auto-generated method stub
+		
+	}
 }
 
 

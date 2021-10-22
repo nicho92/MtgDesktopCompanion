@@ -178,6 +178,28 @@ public class MTGCompanionShop extends AbstractExternalShop {
 		
 	}
 
+	
+	@Override
+	public void deleteTransaction(Transaction t) throws IOException {
+		try {
+		MTG.getEnabledPlugin(MTGDao.class).deleteTransaction(t);
+		}
+		catch(Exception e)
+		{
+			throw new IOException(e);
+		}
+	}
 
+	
+	@Override
+	public void deleteTransaction(List<Transaction> list) throws IOException {
+		try {
+		MTG.getEnabledPlugin(MTGDao.class).deleteTransaction(list);
+		}
+		catch(Exception e)
+		{
+			throw new IOException(e);
+		}
+	}
 
 }

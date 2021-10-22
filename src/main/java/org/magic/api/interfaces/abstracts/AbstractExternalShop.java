@@ -128,6 +128,12 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 		}
 	}
 	
+	@Override
+	public void deleteTransaction(List<Transaction> list) throws IOException {
+		for(Transaction t : list)
+			deleteTransaction(t);
+	}
+	
 	
 }
 

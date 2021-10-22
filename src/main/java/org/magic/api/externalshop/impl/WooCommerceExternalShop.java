@@ -420,6 +420,12 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void deleteTransaction(Transaction t) throws IOException {
+		// TODO Auto-generated method stub
+		
+	}
 }
 
 

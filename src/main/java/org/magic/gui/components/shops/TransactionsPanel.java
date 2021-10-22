@@ -1,7 +1,5 @@
 package org.magic.gui.components.shops;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
-
 import java.awt.BorderLayout;
 import java.util.Date;
 import java.util.List;
@@ -15,7 +13,6 @@ import javax.swing.JTable;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.shop.Transaction;
-import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.ContactPanel;
 import org.magic.gui.components.ObjectViewerPanel;
@@ -24,7 +21,6 @@ import org.magic.gui.renderer.standard.DateTableCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.TransactionService;
-import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 
 import com.jogamp.newt.event.KeyEvent;
@@ -53,6 +49,7 @@ public class TransactionsPanel extends MTGUIComponent {
 		var btnRefresh = UITools.createBindableJButton("", MTGConstants.ICON_REFRESH,KeyEvent.VK_R,"reload");
 		var btnMerge = UITools.createBindableJButton("", MTGConstants.ICON_MERGE,KeyEvent.VK_M,"merge");
 		var btnDelete = UITools.createBindableJButton("", MTGConstants.ICON_DELETE,KeyEvent.VK_D,"delete");
+		
 		btnMerge.setEnabled(false);
 		btnDelete.setEnabled(false);
 		
@@ -112,7 +109,7 @@ public class TransactionsPanel extends MTGUIComponent {
 			
 				List<Transaction> t = UITools.getTableSelections(table, 0);
 				try {
-					getEnabledPlugin(MTGDao.class).deleteTransaction(t);
+					TransactionService.deleteTransaction(t);
 					reload();
 				} catch (Exception e) {
 					MTGControler.getInstance().notify(e);
@@ -157,7 +154,7 @@ public class TransactionsPanel extends MTGUIComponent {
 	{
 		try {
 			model.clear();
-			model.addItems(MTG.getEnabledPlugin(MTGDao.class).listTransactions());
+			model.addItems(TransactionService.listTransactions());
 			model.fireTableDataChanged();
 		} catch (Exception e) {
 			logger.error("error loading transactions",e);
