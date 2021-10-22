@@ -13,6 +13,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.jsoup.UncheckedIOException;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.MTGColor;
@@ -139,6 +140,19 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 		}
 		
 	}
+	
+	@Override
+	public MagicCard getCardByScryfallId(String crit) throws IOException {
+		
+		try {
+		return searchCardByCriteria(SCRYFALL_ID, crit, null, true).get(0);
+		}
+		catch(Exception e)
+		{
+			throw new IOException(e);
+		}
+	}
+	
 	
 	@Override
 	public MagicCard getCardById(String id, MagicEdition ed) throws IOException {

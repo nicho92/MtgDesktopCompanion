@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.MTGBorder;
 import org.magic.api.beans.enums.MTGCardVariation;
 import org.magic.api.beans.enums.MTGColor;
@@ -550,6 +551,7 @@ public class MagicCard extends AbstractProduct {
 		keywords = new ArrayList<>();
 		promotypes = new ArrayList<>();
 		colorIndicator = new ArrayList<>();
+		setTypeProduct(EnumItems.CARD);
 	}
 
 	public String getOriginalText() {

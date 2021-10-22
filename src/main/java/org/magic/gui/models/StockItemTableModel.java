@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
@@ -28,6 +29,7 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 				"QTY",
 				"PRICE",
 				"COMMENT",
+				"CONDITION",
 				"IDS"
 			};
 	}
@@ -79,6 +81,8 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 		case 11:
 			return String.class;
 		case 12:
+			return EnumCondition.class;
+		case 13:
 			return Map.class;
 			
 		default:
@@ -104,13 +108,13 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 		case 1:
 			return items.get(row).getProduct();
 		case 2:
-			return items.get(row).getProduct().getEdition();
+			return items.get(row).getProduct()!=null?items.get(row).getProduct().getEdition():null;
 		case 3 :
 			return items.get(row).getLanguage();
 		case 4:
 			return items.get(row).getMagicCollection();
 		case 5:
-			return items.get(row).getProduct().getTypeProduct();
+			return items.get(row).getProduct()!=null?items.get(row).getProduct().getTypeProduct():null;
 		case 6:
 			return items.get(row).isFoil();
 		case 7:
@@ -124,6 +128,8 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 		case 11:
 			return items.get(row).getComment();
 		case 12:
+			return items.get(row).getCondition();
+		case 13:
 			return items.get(row).getTiersAppIds();
 
 		default:

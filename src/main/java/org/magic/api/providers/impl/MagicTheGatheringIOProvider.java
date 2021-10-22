@@ -423,4 +423,10 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		return null;
 	}
 
+	@Override
+	public MagicCard getCardByScryfallId(String crit) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

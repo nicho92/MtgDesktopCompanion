@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.enums.EnumCondition;
 
 public interface MTGStockItem extends Serializable, Comparable<MTGStockItem> {
 	
@@ -70,6 +71,8 @@ public interface MTGStockItem extends Serializable, Comparable<MTGStockItem> {
 
 	public <T extends MTGProduct> T getProduct();
 
-
+	public EnumCondition getCondition();
+	
+	public void setCondition(EnumCondition condtion);
 
 }

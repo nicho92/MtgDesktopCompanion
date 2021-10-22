@@ -116,6 +116,13 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			return null;
 		}
 	}
+	
+	
+	@Override
+	public MagicCard getCardByScryfallId(String crit) throws IOException {
+		return getCardById(crit);
+	}
+	
 
 	public JsonObject getJsonFor(MagicCard mc)
 	{
@@ -271,7 +278,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	}
 	
 	
-
+	
+	
 
 	@Override
 	public String getVersion() {

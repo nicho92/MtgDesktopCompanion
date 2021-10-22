@@ -4,19 +4,25 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.api.cardtrader.enums.ConditionEnum;
 import org.api.cardtrader.modele.Categorie;
 import org.api.cardtrader.services.CardTraderService;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
+import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
+import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.api.interfaces.abstracts.AbstractProduct;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
+import org.magic.tools.MTG;
 
 public class CardTraderWebShop extends AbstractExternalShop {
 
@@ -135,13 +141,60 @@ public class CardTraderWebShop extends AbstractExternalShop {
 			var trans = new Transaction();
 			trans.setId(o.getId());
 			trans.setDateSend(o.getDateSend());
-			trans.setDatePayment(o.getDateCreditAddedToSeller());
+			trans.setDatePayment(o.getDatePaid());
+			trans.setDateCreation(o.getDateCreation());
+			
+			
+			if(o.getDatePaid()!=null)
+				trans.setStatut(TransactionStatus.PAID);
+			
+			
+			if(o.getDateSend()!=null)
+				trans.setStatut(TransactionStatus.SENT);
+			
+			if(o.getDateCancel()!=null)
+				trans.setStatut(TransactionStatus.CANCELED);
+			
+			
+			
+			o.getOrderItems().forEach(oi->{
+				
+				var item  = AbstractStockItem.generateDefault();
+				
+				item.setPrice(oi.getPrice().getValue());
+				item.setId(oi.getId());
+				item.setQte(oi.getQuantity());
+				
+				if(oi.getScryfallId()!=null && !oi.getScryfallId().isEmpty()) {
+						try {
+							var prod = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(oi.getScryfallId());
+							prod.setEdition(prod.getCurrentSet());
+							item.setProduct(prod);
+						} catch (Exception e) {
+							logger.error(e);
+					}
+				}
+				else
+				{
+					var prod = AbstractProduct.createDefaultProduct();
+					prod.setName(oi.getName());
+					item.setProduct(prod);	
+				}
+				item.setFoil(oi.isFoil());
+				item.setAltered(oi.isAltered());
+				item.setSigned(oi.isSigned());
+				item.setCondition(parseCondition(oi.getCondition()));
+				item.setLanguage(oi.getLang());
+				
+				
+				trans.getItems().add(item);
+				
+			});
+			
 			trans.setSourceShopName(getName());
 			
 			Contact c = new Contact();
 					c.setName(o.getBuyer().getUsername());
-					
-					
 					c.setAddress(o.getBillingAddress().getStreet());
 					c.setZipCode(o.getBillingAddress().getZip());
 					c.setCity(o.getBillingAddress().getCity());
@@ -150,11 +203,27 @@ public class CardTraderWebShop extends AbstractExternalShop {
 					c.setTelephone(o.getBuyer().getPhone());	
 					
 			trans.setContact(c);
-		
 			return trans;
 		}).toList();
 	}
 	
+
+	private EnumCondition parseCondition(ConditionEnum condition) {
+		
+		switch(condition)
+		{
+		case HEAVILY_PLAYED: return EnumCondition.DAMAGED;
+		case MINT:return EnumCondition.MINT;
+		case MODERATELY_PLAYED:return EnumCondition.PLAYED;
+		case NEAR_MINT:return EnumCondition.NEAR_MINT;
+		case PLAYED:return EnumCondition.PLAYED;
+		case POOR:return EnumCondition.POOR;
+		case SLIGHTLY_PLAYED:return EnumCondition.LIGHTLY_PLAYED;
+		}
+		
+		return null;
+		
+	}
 
 	@Override
 	public List<String> listAuthenticationAttributes() {

@@ -10,7 +10,7 @@ public class ConverterItem implements Serializable, Comparable<ConverterItem>
 	private String name;
 	private int inputId;
 	private int outputId;
-	private String lang;
+	private String lang="";
 	private String source;
 	private String destination;
 	

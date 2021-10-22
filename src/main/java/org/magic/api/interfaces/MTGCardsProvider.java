@@ -20,6 +20,8 @@ public interface MTGCardsProvider extends MTGPlugin {
 
 	public MagicCard getCardById(String id,MagicEdition ed) throws IOException;
 	
+	public MagicCard getCardByScryfallId(String crit) throws IOException;
+	
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact) throws IOException;
 	
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact, MTGCardVariation extra ) throws IOException;

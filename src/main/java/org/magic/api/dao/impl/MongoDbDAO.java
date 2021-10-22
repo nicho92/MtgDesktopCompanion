@@ -164,7 +164,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	public boolean createDB() {
 		
 			var populateCollections=true;
-			for(String s : new String[] {colCards,colCollects,colStocks,colAlerts,colNews,colOrders,colSealed,colTransactions,colContacts,colDecks})
+			for(String s : new String[] {colCards,colCollects,colStocks,colAlerts,colNews,colOrders,colSealed,colTransactions,colContacts,colDecks,colConversionItem})
 			{
 				try {
 					db.createCollection(s);
@@ -228,7 +228,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	@Override
 	public List<ConverterItem> listConversionItems() throws SQLException {
 		List<ConverterItem> stocks = new ArrayList<>();
-		db.getCollection(colSealed, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result -> stocks.add(deserialize(result, ConverterItem.class)));
+		db.getCollection(colConversionItem, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result -> stocks.add(deserialize(result, ConverterItem.class)));
 		return stocks;
 	}
 	
