@@ -157,7 +157,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 	
 	
 	@Override
-	/*Overrried to ttake MkmIdProduct
+	/*Overrried to take MkmIdProduct
 	*/
 	public List<Transaction> listTransaction() throws IOException {
 		var list= loadTransaction();
@@ -200,10 +200,11 @@ public class MkmExternalShop extends AbstractExternalShop {
 
 	@Override
 	protected void createTransaction(Transaction t) throws IOException {
-		
-		logger.info(getName() + " will only update his stock from this transation");
 		var mkmStockService = new StockService();
-	
+		
+		var stocks = mkmStockService.getStock();
+		logger.info(getName() + " will only update his stock from this transation");
+		
 		t.getItems().stream().map(it -> {
 			if(it.getTiersAppIds(getName())==null)
 			{
@@ -217,20 +218,37 @@ public class MkmExternalShop extends AbstractExternalShop {
 			
 		}).filter(Objects::nonNull).toList().forEach(art->{
 
-			try {
-				mkmStockService.changeQte(art, 0);
-			} catch (IOException e) {
-				logger.error(e);
+			var articles = stocks.stream().filter(pl->pl.getIdProduct()==art.getIdProduct()).toList();
+			if(articles.size()>1)
+			{
+				logger.warn("Found multiple Articles :"  + articles);
 			}
+			else if(articles.isEmpty())
+			{
+				logger.warn("Article not found in stock");
+			}
+			else
+			{
+				
+				try {
+					mkmStockService.changeQte(articles.get(0), -art.getCount());
+				} catch (IOException e) {
+					logger.error(e);				
+				}	
+			}
+			
 				
 		});
 	}
+
+	
+	
 	
 	private LightArticle parse(MTGStockItem it) {
 		var ret = new LightArticle();
 		ret.setIdArticle(it.getId());
 		ret.setIdProduct(it.getProduct().getProductId());
-		
+		ret.setCount(it.getQte());
 		return ret;
 	}
 
