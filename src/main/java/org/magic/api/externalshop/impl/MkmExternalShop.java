@@ -45,6 +45,9 @@ import org.magic.services.MTGConstants;
 import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 
+import com.itextpdf.io.util.ArrayUtil;
+import com.kenai.jffi.Array;
+
 public class MkmExternalShop extends AbstractExternalShop {
 	
 	private static final String ID_GAME = "ID_GAME";
@@ -70,26 +73,30 @@ public class MkmExternalShop extends AbstractExternalShop {
 		}).toList();
 	}
 	
+	
+	private List<File> loadFiles() throws IOException
+	{
+		var serv = new StockService();
+		
+		File temp = new File(MTGConstants.DATA_DIR, "mkm_temp_card.csv"); 
+		File temp2 = new File(MTGConstants.DATA_DIR, "mkm_temp_sealed.csv"); 
+		
+		Game g = new Game();
+		g.setIdGame(getInt(ID_GAME));
+		
+		serv.exportStock(temp,getInt(ID_GAME),false);
+		serv.exportStock(temp2,getInt(ID_GAME),true);
+		
+		return List.of(temp,temp2);
+		
+	}
+	
+	
 	@Override
 	public List<MTGStockItem> loadStock(String search) throws IOException {
 		
 			var ret = new ArrayList<MTGStockItem>();
-		
-			Game g = new Game();
-			g.setIdGame(getInt(ID_GAME));
-		
-			var serv = new StockService();
-			
-			File temp = new File(MTGConstants.DATA_DIR, "mkm_temp_card.csv"); 
-			File temp2 = new File(MTGConstants.DATA_DIR, "mkm_temp_sealed.csv"); 
-			
-			
-			serv.exportStock(temp,getInt(ID_GAME),false);
-			serv.exportStock(temp2,getInt(ID_GAME),true);
-			
-			
-			
-			for(File f : new File[] {temp,temp2})
+			for(File f : loadFiles())
 				try(CSVParser p = CSVFormat.Builder.create().setDelimiter(";").setHeader().build().parse(new FileReader(f))  )
 				{
 					p.iterator().forEachRemaining(art->{
@@ -202,8 +209,15 @@ public class MkmExternalShop extends AbstractExternalShop {
 	protected void createTransaction(Transaction t) throws IOException {
 		var mkmStockService = new StockService();
 		
-		var stocks = mkmStockService.getStock();
+		var stocks= new ArrayList<LightArticle>();
+		for(File f : loadFiles())
+		{
+			stocks.addAll(mkmStockService.readStockFile(f, getInt(ID_GAME)));
+		}
+				
 		logger.info(getName() + " will only update his stock from this transation");
+		logger.debug(getName() + " loaded " + stocks.size() +" items");
+		
 		
 		t.getItems().stream().map(it -> {
 			if(it.getTiersAppIds(getName())==null)
@@ -217,7 +231,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 			}
 			
 		}).filter(Objects::nonNull).toList().forEach(art->{
-
+			//TODO fix to get idProduct from item conversion
 			var articles = stocks.stream().filter(pl->pl.getIdProduct()==art.getIdProduct()).toList();
 			if(articles.size()>1)
 			{
