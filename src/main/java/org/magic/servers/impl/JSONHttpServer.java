@@ -58,6 +58,7 @@ import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.MTGProduct;
+import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.MTGTrackingService;
 import org.magic.api.interfaces.abstracts.AbstractEmbeddedCacheProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
@@ -693,6 +694,16 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		}, transformer);
 
+		
+		get("/admin/qwartz", URLTools.HEADER_JSON, (request, response) -> {
+			
+			QwartzServer serv = (QwartzServer) MTG.getPlugin("Qwartz", MTGServer.class);
+			return serv.getSchedulerInformation();
+			
+		}, transformer);
+		
+		
+		
 		get("/admin/plugins/list", URLTools.HEADER_JSON, (request, response) -> {
 			var obj = new JsonObject();
 			PluginRegistry.inst().entrySet().forEach(entry->obj.add(entry.getValue().getType().name(), converter.convert(listPlugins(entry.getKey()))));
