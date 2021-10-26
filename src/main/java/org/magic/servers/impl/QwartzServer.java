@@ -12,7 +12,6 @@ import org.magic.api.beans.MTGDocumentation;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGConstants;
-import org.magic.services.jobs.TestJob;
 import org.magic.tools.UITools;
 import org.quartz.Job;
 import org.quartz.JobBuilder;
