@@ -9,11 +9,9 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGJsonProvider;
 import org.magic.api.interfaces.abstracts.AbstractTokensProvider;
 import org.magic.api.pictures.impl.ScryFallPicturesProvider;
-import org.magic.api.providers.impl.ScryFallProvider;
 import org.magic.tools.MTG;
 import org.magic.tools.URLTools;
 

@@ -13,7 +13,6 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.jsoup.UncheckedIOException;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.MTGColor;

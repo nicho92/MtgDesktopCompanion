@@ -13,10 +13,7 @@ import javax.swing.table.TableCellRenderer;
 
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.interfaces.MTGCardsExport;
-import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGGraders;
-import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
 import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;

@@ -4,13 +4,11 @@ import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.listEnabledPlugins;
 
 import java.awt.BorderLayout;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
@@ -18,11 +16,8 @@ import javax.swing.DefaultRowSorter;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.RowSorter;
-import javax.swing.SortOrder;
 import javax.swing.SwingWorker;
 import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
@@ -37,7 +32,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
-import java.awt.Cursor;
 
 
 public class PricesTablePanel extends MTGUIComponent {

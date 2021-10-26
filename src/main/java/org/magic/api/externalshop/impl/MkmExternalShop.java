@@ -45,9 +45,6 @@ import org.magic.services.MTGConstants;
 import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 
-import com.itextpdf.io.util.ArrayUtil;
-import com.kenai.jffi.Array;
-
 public class MkmExternalShop extends AbstractExternalShop {
 	
 	private static final String ID_GAME = "ID_GAME";

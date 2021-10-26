@@ -7,8 +7,6 @@ import java.util.List;
 import org.api.cardtrader.enums.ConditionEnum;
 import org.api.cardtrader.modele.Categorie;
 import org.api.cardtrader.services.CardTraderService;
-import org.api.mkm.modele.Product.PRODUCT_ATTS;
-import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
