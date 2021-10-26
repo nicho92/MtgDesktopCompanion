@@ -1,4 +1,4 @@
-package org.magic.tools;
+package org.magic.services.jobs;
 
 import java.io.File;
 
