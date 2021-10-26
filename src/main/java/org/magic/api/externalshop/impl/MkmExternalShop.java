@@ -3,6 +3,7 @@ package org.magic.api.externalshop.impl;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
@@ -15,6 +16,7 @@ import org.api.mkm.exceptions.MkmException;
 import org.api.mkm.modele.Game;
 import org.api.mkm.modele.LightArticle;
 import org.api.mkm.modele.LightProduct;
+import org.api.mkm.modele.Localization;
 import org.api.mkm.modele.Order;
 import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
@@ -27,6 +29,7 @@ import org.api.mkm.services.StockService;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.api.mkm.tools.MkmConstants;
 import org.api.mkm.tools.Tools;
+import org.magic.api.beans.ConverterItem;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
@@ -36,12 +39,14 @@ import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.exports.impl.MkmOnlineExport;
 import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.api.interfaces.abstracts.AbstractProduct;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 
@@ -147,6 +152,19 @@ public class MkmExternalShop extends AbstractExternalShop {
 		return ret;
 	}
 	
+	public static void main(String[] args) throws SQLException {
+		MTGControler.getInstance().loadAccountsConfiguration();
+		MTG.getEnabledPlugin(MTGDao.class).init();
+		var shop = new MkmExternalShop();
+		
+		
+		
+		
+		
+		
+	}
+	
+	
 	@Override
 	public List<MTGStockItem> listStock(String search) throws IOException {
 		var list= loadStock(search);
@@ -228,7 +246,6 @@ public class MkmExternalShop extends AbstractExternalShop {
 			}
 			
 		}).filter(Objects::nonNull).toList().forEach(art->{
-			//TODO fix to get idProduct from item conversion
 			var articles = stocks.stream().filter(pl->pl.getIdProduct()==art.getIdProduct()).toList();
 			if(articles.size()>1)
 			{
@@ -236,19 +253,17 @@ public class MkmExternalShop extends AbstractExternalShop {
 			}
 			else if(articles.isEmpty())
 			{
-				logger.warn("Article not found in stock");
+				logger.warn("Article " + art.getIdArticle() + " not found in stock");
 			}
 			else
 			{
 				
 				try {
-					mkmStockService.changeQte(articles.get(0), -art.getCount());
+					mkmStockService.changeQte(art, -art.getCount());
 				} catch (IOException e) {
 					logger.error(e);				
 				}	
 			}
-			
-				
 		});
 	}
 
@@ -257,8 +272,9 @@ public class MkmExternalShop extends AbstractExternalShop {
 	
 	private LightArticle parse(MTGStockItem it) {
 		var ret = new LightArticle();
-		ret.setIdArticle(it.getId());
+		ret.setIdArticle(getRefs(it.getLanguage(), it.getId()).get(0).getIdFor(getName()));
 		ret.setIdProduct(it.getProduct().getProductId());
+		ret.setLanguage(Tools.listLanguages().stream().filter(l->l.getLanguageName().equalsIgnoreCase(it.getLanguage())).findFirst().orElse(new Localization(1, it.getLanguage())));
 		ret.setCount(it.getQte());
 		return ret;
 	}

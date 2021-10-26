@@ -40,6 +40,18 @@ public class ConverterItem implements Serializable, Comparable<ConverterItem>
 		this.updated = updated;
 	}
 	
+	public Integer getIdFor(String name)
+	{
+		if(destination.equalsIgnoreCase(name))
+			return outputId;
+		
+		if(source.equalsIgnoreCase(name))
+			return inputId;
+		
+		return -1;
+	}
+	
+	
 	public ConverterItem(String source, String dest, String name, String lang, int inputId, int outputId ) {
 		this.source=source;
 		this.destination=dest;
