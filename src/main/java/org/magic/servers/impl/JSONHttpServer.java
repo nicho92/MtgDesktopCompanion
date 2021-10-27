@@ -34,6 +34,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.magic.api.beans.HistoryPrice;
+import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
@@ -44,6 +45,7 @@ import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.WebShopConfig;
+import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;
@@ -73,6 +75,7 @@ import org.magic.services.PluginRegistry;
 import org.magic.services.TransactionService;
 import org.magic.services.VersionChecker;
 import org.magic.services.keywords.AbstractKeyWordsManager;
+import org.magic.services.providers.SealedProductProvider;
 import org.magic.tools.Chrono;
 import org.magic.tools.ImageTools;
 import org.magic.tools.MTG;
@@ -85,6 +88,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import com.mchange.v2.sql.filter.SynchronizedFilterDataSource;
 
 import spark.Request;
 import spark.Response;
@@ -479,6 +483,27 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return RETURN_OK;
 		});
 
+		get("/pics/banner", URLTools.HEADER_JSON,(request, response) ->
+			getCached(request.pathInfo(), new Callable<Object>() {
+					@Override
+					public JsonElement call() throws Exception {
+						
+						var obj = new JsonObject();
+						for(MagicEdition ed : MTG.getEnabledPlugin(MTGCardsProvider.class).listEditions())
+						{
+							try {
+								obj.addProperty( ed.getId(),SealedProductProvider.inst().get(ed,EnumItems.BANNER,"en").get(0).getUrl());
+							}
+							catch(Exception e)
+							{
+								//do nothing;
+							}
+						}
+						return obj;
+					}
+				})
+	, transformer);
+		
 		
 		get("/sealed/list", URLTools.HEADER_JSON,(request, response) ->
 				getCached(request.pathInfo(), new Callable<Object>() {

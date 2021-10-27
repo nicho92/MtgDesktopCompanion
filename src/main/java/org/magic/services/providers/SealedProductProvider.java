@@ -157,7 +157,6 @@ public class SealedProductProvider {
 		} catch (IOException e) {
 			logger.error("error removing data in "+f,e);
 		}
-		
 	}
 	
 	public void caching(boolean force)
@@ -274,8 +273,5 @@ public class SealedProductProvider {
 	{
 		return getItemsFor(me).stream().filter(e->e.getTypeProduct()==t).toList();
 	}
-
-	
-	
 
 }
