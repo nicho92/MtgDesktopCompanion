@@ -91,17 +91,20 @@ function tilt(ref)
 	    }
 
 
-function buildSet(collection, set)
+function buildSet(collection, set, banner)
 {
-	return  "<div class=''col mb-5''>"+
-                        "<div class='card h-100'>"+
-						    "<div class='card-body p-4'>"+
-		                        "<div class='text-center'>"+
-									"<a href='?collection="+collection+"&set="+set.id+"'' style='text-decoration:none' class='ss ss-"+set.keyRuneCode.toLowerCase()+"  ss-4x ss-common'></a>"+
-                                    "<h5 class='fw-bolder''>"+set.set+"</h5>"+
-                                   set.releaseDate+
-                                "</div></div></div></div>";
+	var ret="<div class=''col mb-5''><div class='card h-100'><div class='card-body p-4'><div class='text-center'>";
+			if(banner)
+			{
+				ret+="<a href='?collection="+collection+"&set="+set.id+"'' style='text-decoration:none' ><img class='img-fluid' src='"+banner+"'/></a>";	
+			}
+			else
+			{
+				ret+="<a href='?collection="+collection+"&set="+set.id+"'' style='text-decoration:none' class='ss ss-"+set.keyRuneCode.toLowerCase()+"  ss-4x ss-common'></a>";							
+			}
+         ret +="<h5 class='fw-bolder''>"+set.set+"</h5>"+set.releaseDate+"</div></div></div></div>";
 
+	return ret;
 }
 
 
