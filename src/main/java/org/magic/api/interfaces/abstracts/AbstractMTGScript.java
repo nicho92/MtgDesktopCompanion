@@ -19,6 +19,7 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGDeckSniffer;
+import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGPictureCache;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPricesProvider;
@@ -66,6 +67,7 @@ public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTG
 		addVariable("importexporters",listEnabledPlugins(MTGCardsExport.class));
 		addVariable("controler",MTGControler.getInstance());
 		addVariable("servers",listEnabledPlugins(MTGServer.class));
+		addVariable("externalShop",listEnabledPlugins(MTGExternalShop.class));
 	}
 	
 	@Override

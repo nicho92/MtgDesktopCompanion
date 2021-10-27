@@ -75,6 +75,7 @@ public Map<String, String> getDefaultAttributes() {
 			logger.warn("Index is not initiated at "+getFile(DIRECTORY)+", please launch it from config panel");
 	}
 	
+	@Override
 	public String[] listFields()
 	{
 		if(dir==null)
@@ -89,6 +90,7 @@ public Map<String, String> getDefaultAttributes() {
 		}
 	}
 	
+	@Override
 	public List<MagicCard> listCards()
 	{
 		return search("*:*");
@@ -148,6 +150,7 @@ public Map<String, String> getDefaultAttributes() {
 		return Version.LATEST.toString();
 	}
 	
+	@Override
 	public Map<String,Long> terms(String field)
 	{
 		if(dir==null)
@@ -173,7 +176,7 @@ public Map<String, String> getDefaultAttributes() {
 		return map;
 	}
 	
-	
+	@Override
 	public Map<MagicCard,Float> similarity(MagicCard mc) throws IOException 
 	{
 		Map<MagicCard,Float> ret = new LinkedHashMap<>();
@@ -231,7 +234,7 @@ public Map<String, String> getDefaultAttributes() {
 		
 	}
 
-	
+	@Override
 	public void initIndex() throws IOException {
 		
 		if(dir==null)
@@ -254,7 +257,8 @@ public Map<String, String> getDefaultAttributes() {
 		indexWriter.close();
 	}
 	
-	public boolean open(){
+
+	private boolean open(){
 	    try 
         {
 	    	dir = FSDirectory.open(getFile(DIRECTORY).toPath());
@@ -265,8 +269,8 @@ public Map<String, String> getDefaultAttributes() {
 			return false;
 		}
     }
-	 
-	public void close() throws IOException
+
+	private void close() throws IOException
 	{
 		dir.close();
 		dir=null;
