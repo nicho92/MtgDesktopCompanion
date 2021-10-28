@@ -3,7 +3,6 @@ package org.magic.api.externalshop.impl;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
@@ -38,14 +37,12 @@ import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.exports.impl.MkmOnlineExport;
 import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.api.interfaces.abstracts.AbstractProduct;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 
@@ -69,9 +66,9 @@ public class MkmExternalShop extends AbstractExternalShop {
 	
 	@Override
 	public List<Category> listCategories() throws IOException {
-		return new GameService().listCategories().stream().map(c->{
-			return new Category(c.getIdCategory(), c.getCategoryName());
-		}).toList();
+		return new GameService().listCategories().stream().map(c->
+			new Category(c.getIdCategory(), c.getCategoryName())
+		).toList();
 	}
 	
 	

@@ -17,10 +17,10 @@ import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.sorters.CardsDeckSorter;
 import org.magic.services.MTGConstants;
+import org.magic.tools.POMReader;
 
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
-import com.itextpdf.kernel.Version;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfDocumentInfo;
@@ -133,7 +133,7 @@ public class PDFExport extends AbstractCardExport {
 
 	@Override
 	public String getVersion() {
-		return Version.getInstance().getRelease();
+		return POMReader.readVersionFromPom(PdfDocument.class, "/META-INF/maven/com.itextpdf/kernel/pom.properties");
 	}
 	
 
