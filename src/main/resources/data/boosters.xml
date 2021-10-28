@@ -2328,10 +2328,14 @@
 	<edition id="VOW">
 		<banner lang="en" url="https://www.mtgpics.com/graph/sets/logos_big/vow.png"/>
 		<bundle extra="gift" lang="en" url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/0/0b/VOW_bundle_gift_edition.png/revision/latest?cb=20210806114739"/>
+		<prereleasepack lang="en" num="1" url="https://cdn.shoplightspeed.com/shops/636231/files/37956346/1652x1652x2/magic-the-gathering-magic-the-gathering-innistrad.jpg"/>
 		<box extra="draft" lang="en" url="https://mtgrocks.com/wp-content/uploads/2021/08/81PbnV2n13L._AC_SL1500_.png"/>
 		<box extra="set" lang="en" url="https://mtgrocks.com/wp-content/uploads/2021/08/81cMtVIns2L._AC_SL1500_.png"/>
 		<box extra="collector" lang="en" url="https://mtgrocks.com/wp-content/uploads/2021/08/81q1EcVznGL._AC_SL1500_.png"/>
 		<booster extra="draft" lang="en" num="1" url="https://cdn.shopify.com/s/files/1/0453/2191/2480/products/MTGVOW_EN_Bstr_Drft_01_02_1024x1024@2x.png"/>
+		<booster extra="welcome" lang="en" num="2" url="https://media.wizards.com/2021/images/daily/5vErU7aHN7.png"/>
+		<booster extra="collector" lang="en" num="3" url="https://cdn11.bigcommerce.com/s-0kvv9/images/stencil/1280x1280/products/369945/567234/innistradcrimsonvowcollectorboosterpack__24787.1628440095.jpg"/>
+		<booster extra="set" lang="en" num="4" url="https://cdn.shopify.com/s/files/1/0453/2191/2480/products/MTGVOW_EN_Bstr_Set_01_02_1024x1024@2x.png"/>
 	</edition>
 
 </boosterUrls>
