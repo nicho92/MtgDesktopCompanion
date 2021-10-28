@@ -427,6 +427,12 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		client.delete(EndpointBaseType.ORDERS.getValue(), t.getId());
 		
 	}
+
+	@Override
+	public Transaction getTransactionById(int parseInt) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
 
 

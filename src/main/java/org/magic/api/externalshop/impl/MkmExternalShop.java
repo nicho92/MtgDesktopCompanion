@@ -437,6 +437,13 @@ public class MkmExternalShop extends AbstractExternalShop {
 		// TODO Auto-generated method stub
 		
 	}
+
+
+	@Override
+	public Transaction getTransactionById(int parseInt) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
 
 
