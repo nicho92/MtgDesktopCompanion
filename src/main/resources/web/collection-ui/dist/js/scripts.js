@@ -94,11 +94,11 @@ function tilt(ref)
 function buildSet(collection, set, banner)
 {
 	var ret="<div class=''col mb-5''><div class='card h-100'><div class='card-body p-4'><div class='text-center'>";
-			if(banner)
+		/*	if(banner)
 			{
 				ret+="<a href='?collection="+collection+"&set="+set.id+"'' style='text-decoration:none' ><img class='img-fluid' src='"+banner+"'/></a>";	
 			}
-			else
+			else*/
 			{
 				ret+="<a href='?collection="+collection+"&set="+set.id+"'' style='text-decoration:none' class='ss ss-"+set.keyRuneCode.toLowerCase()+"  ss-4x ss-common'></a>";							
 			}
