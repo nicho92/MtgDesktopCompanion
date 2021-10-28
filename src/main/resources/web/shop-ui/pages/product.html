@@ -16,10 +16,7 @@
  
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/magnify/2.3.3/js/jquery.magnify.min.js" type="text/javascript"></script>
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/magnify/2.3.3/css/magnify.css" rel="stylesheet" type="text/css"/>
-
-
-	
-	
+	<script async src="https://www.googletagmanager.com/gtag/js"></script>
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" type="text/javascript"></script>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
 
@@ -47,7 +44,7 @@
 			    	$('#bannerTitle').html(data.bannerTitle);
 			       	$('#bannerText').html(data.bannerText);
 			       	$('#aboutText').html(data.aboutText);
-			       	document.title = data.siteTitle;
+			    
 			       	currency= data.currencySymbol;
 			    	$('#contactName').html(data.contact.name + " " + data.contact.lastName);
 			    	$('#contactEmail').html("<a href='mailto:"+data.contact.email+"'>"+data.contact.email+"</a>");
@@ -56,16 +53,7 @@
 			    	$('#contactAddress').html(data.contact.address);
 			    	$('#contactCountry').html(data.contact.country);
 			    	percentReduction = data.percentReduction;
-			    	
-			    	if(data.googleAnalyticsId)
-			       	{
-			        	window.dataLayer = window.dataLayer || [];
-				        function gtag(){dataLayer.push(arguments);}
-				        gtag('js', new Date());
-				        gtag('config', data.googleAnalyticsId);
-					}
-			
-			
+			    
 				var url=restserver+"/stock/get/"+$_GET("id");
 				
 				if($_GET("product")=="SEALED")
@@ -89,12 +77,13 @@
 			    	{
 			    		$("#price").html(stockItem.price.toFixed(2) +" "+currency);	
 			    	}
-			    	
 			    	$("#productModalLabel").html(stockItem.product.name);
 			    	$("#quantity").attr('max',stockItem.qte);
 			    	$("#cardDescription").html(replaceMana(stockItem.product.text));
 			    	$("#productComments").html(stockItem.comment);
 			    	$("#productName").html(stockItem.product.name);
+
+				   	document.title = data.siteTitle + " - " + stockItem.product.name;
 
 						var append="";
 			    		try{
@@ -132,6 +121,13 @@
 							
 						}
 						
+						if(data.googleAnalyticsId)
+				       	{
+				        	window.dataLayer = window.dataLayer || [];
+					        function gtag(){dataLayer.push(arguments);}
+					        gtag('js', new Date());
+					        gtag('config', data.googleAnalyticsId);
+						}
 					
 						if(data.enableGed==true)
 						{
