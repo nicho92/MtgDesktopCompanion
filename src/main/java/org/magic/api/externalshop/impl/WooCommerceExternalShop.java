@@ -269,14 +269,8 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 					{
 						stockItem.setQte(0);	
 					}
-					
-				
-					
-					
-					
 				notify(stockItem);
 				ret.add(stockItem);	
-					
 		});
 		
 		return ret;
@@ -298,28 +292,33 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		List<MTGProduct> ret =  new ArrayList<>();
 	
 		res.forEach(element->{
-			
-			MTGProduct p = AbstractProduct.createDefaultProduct();
-			JsonObject obj = element.getAsJsonObject();
-			p.setProductId(obj.get("id").getAsInt());
-			p.setName(obj.get("name").getAsString());
-			
-			
-			JsonObject objCateg = obj.get("categories").getAsJsonArray().get(0).getAsJsonObject();
-			Category c = new Category();
-					 c.setIdCategory(objCateg.get("id").getAsInt());
-					 c.setCategoryName(objCateg.get("name").getAsString());
-			p.setCategory(c);
-			
-			JsonObject img = obj.get("images").getAsJsonArray().get(0).getAsJsonObject();
-		p.setUrl(img.get("src").getAsString());
-			
+			var p = parseProduct(element);
 			notify(p);
 			ret.add(p);
 		});
 		return ret;
 	}
 	
+	private MTGProduct parseProduct(JsonObject element) {
+		
+		MTGProduct p = AbstractProduct.createDefaultProduct();
+		JsonObject obj = element.getAsJsonObject();
+		p.setProductId(obj.get("id").getAsInt());
+		p.setName(obj.get("name").getAsString());
+		
+		
+		JsonObject objCateg = obj.get("categories").getAsJsonArray().get(0).getAsJsonObject();
+		Category c = new Category();
+				 c.setIdCategory(objCateg.get("id").getAsInt());
+				 c.setCategoryName(objCateg.get("name").getAsString());
+		p.setCategory(c);
+		
+		JsonObject img = obj.get("images").getAsJsonArray().get(0).getAsJsonObject();
+		p.setUrl(img.get("src").getAsString());
+		return p;
+		
+	}
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of(PER_PAGE,"50");
@@ -396,7 +395,6 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 
 	@Override
 	public MTGStockItem getStockById(EnumItems typeStock, Integer id) throws IOException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -416,22 +414,17 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 			var contact = toContact(obj, obj.get("id").getAsInt());
 			ret.add(contact);
 		});
-		
-		
-		
-		 
 		 return ret;
 	}
 
 	@Override
 	public void deleteContact(Contact contact) throws IOException {
-		// TODO Auto-generated method stub
-		
+		client.delete(EndpointBaseType.CUSTOMERS.getValue(), contact.getId());
 	}
 
 	@Override
 	public void deleteTransaction(Transaction t) throws IOException {
-		// TODO Auto-generated method stub
+		client.delete(EndpointBaseType.ORDERS.getValue(), t.getId());
 		
 	}
 }

@@ -29,7 +29,6 @@ import org.api.mkm.services.StockService;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.api.mkm.tools.MkmConstants;
 import org.api.mkm.tools.Tools;
-import org.magic.api.beans.ConverterItem;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
@@ -151,19 +150,6 @@ public class MkmExternalShop extends AbstractExternalShop {
 			}
 		return ret;
 	}
-	
-	public static void main(String[] args) throws SQLException {
-		MTGControler.getInstance().loadAccountsConfiguration();
-		MTG.getEnabledPlugin(MTGDao.class).init();
-		var shop = new MkmExternalShop();
-		
-		
-		
-		
-		
-		
-	}
-	
 	
 	@Override
 	public List<MTGStockItem> listStock(String search) throws IOException {
