@@ -156,17 +156,35 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 
 	private Contact toContact(JsonObject contactObj, int id) {
 		var c = new Contact();
-		c.setId(id);
-			try {
-			c.setName(contactObj.get("first_name").getAsString());
-			c.setLastName(contactObj.get("last_name").getAsString());
-			c.setAddress(contactObj.get("address_1").getAsString());
-			c.setZipCode(contactObj.get("postcode").getAsString());
-			c.setCity(contactObj.get("city").getAsString());
-			c.setCountry(contactObj.get("country").getAsString());
+			c.setId(id);
 			
-			c.setEmail(contactObj.get("email").getAsString());
-			c.setTelephone(contactObj.get("phone").getAsString());
+			
+			try {
+				if(contactObj.get("first_name")!=null)
+					c.setName(contactObj.get("first_name").getAsString());
+				
+				if(contactObj.get("last_name")!=null)
+					c.setLastName(contactObj.get("last_name").getAsString());
+				
+				if(contactObj.get("address_1")!=null)
+					c.setAddress(contactObj.get("address_1").getAsString());
+				
+				if(contactObj.get("postcode")!=null)
+					c.setZipCode(contactObj.get("postcode").getAsString());
+				
+				if(contactObj.get("city")!=null)
+					c.setCity(contactObj.get("city").getAsString());
+				
+				if(contactObj.get("country")!=null)
+					c.setCountry(contactObj.get("country").getAsString());
+				
+				if(contactObj.get("email")!=null)
+					c.setEmail(contactObj.get("email").getAsString());
+				
+				if(contactObj.get("phone")!=null)
+					c.setTelephone(contactObj.get("phone").getAsString());
+				
+				
 			c.setEmailAccept(false);
 			}
 			catch(Exception e)
@@ -431,7 +449,10 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	@Override
 	public List<Contact> listContacts() throws IOException {
 		init();
-		List<JsonObject> res = client.getAll(EndpointBaseType.CUSTOMERS.getValue());
+		
+		var params = new HashMap<String,String>();
+		params.put("per_page", getString(PER_PAGE));
+		List<JsonObject> res = client.getAll(EndpointBaseType.CUSTOMERS.getValue(),params);
 		var ret = new ArrayList<Contact>();
 		 
 		res.forEach(obj->{
