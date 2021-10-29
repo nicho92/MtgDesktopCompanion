@@ -32,8 +32,7 @@ public class ConsoleServer extends AbstractMTGServer {
 	@Override
 	public void start() throws IOException {
 		acceptor = new NioSocketAcceptor();
-		acceptor.getFilterChain().addLast("codec",
-				new ProtocolCodecFilter(new TextLineCodecFactory(MTGConstants.DEFAULT_ENCODING)));
+		acceptor.getFilterChain().addLast("codec",new ProtocolCodecFilter(new TextLineCodecFactory(MTGConstants.DEFAULT_ENCODING)));
 		acceptor.getSessionConfig().setReadBufferSize(getInt("BUFFER-SIZE"));
 		acceptor.getSessionConfig().setIdleTime(IdleStatus.BOTH_IDLE, getInt("IDLE-TIME"));
 		var handler = new MTGConsoleHandler();

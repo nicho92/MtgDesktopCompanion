@@ -1,6 +1,7 @@
 package org.magic.services.workers;
 
 import java.util.List;
+import java.util.concurrent.CancellationException;
 
 import javax.swing.SwingWorker;
 
@@ -80,7 +81,7 @@ public abstract class AbstractObservableWorker<T, V, P extends MTGPlugin> extend
 			get();
 			
 		}
-		catch(InterruptedException ex)
+		catch(InterruptedException | CancellationException ex)
 		{
 			Thread.currentThread().interrupt();
 		}

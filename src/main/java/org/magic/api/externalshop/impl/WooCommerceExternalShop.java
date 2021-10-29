@@ -1,11 +1,14 @@
 package org.magic.api.externalshop.impl;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.magic.api.beans.enums.EnumItems;
@@ -13,15 +16,19 @@ import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.api.interfaces.abstracts.AbstractProduct;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
+import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 import org.magic.tools.WooCommerceTools;
 
+import com.fasterxml.jackson.databind.util.BeanUtil;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.icoderman.woocommerce.EndpointBaseType;
@@ -74,6 +81,33 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		 return ret;
 		 
 	}
+	
+	public static void main(String[] args) throws IOException, SQLException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+		
+		MTGControler.getInstance().loadAccountsConfiguration();
+		MTG.getEnabledPlugin(MTGDao.class).init();
+		
+		
+		var commerce = new WooCommerceExternalShop();
+		
+		
+		
+			System.out.println(BeanUtils.describe(commerce.getTransactionById(7552).getContact()));
+		
+//		commerce.listContacts().forEach(c->{
+//			
+//			
+//			try {
+//				System.out.println(BeanUtils.describe(c));
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			} 
+//		});
+		
+		
+		
+	}
+	
 	
 	
 	@SuppressWarnings("unchecked")
@@ -156,17 +190,34 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 
 	private Contact toContact(JsonObject contactObj, int id) {
 		var c = new Contact();
-		c.setId(id);
-			try {
-			c.setName(contactObj.get("first_name").getAsString());
-			c.setLastName(contactObj.get("last_name").getAsString());
-			c.setAddress(contactObj.get("address_1").getAsString());
-			c.setZipCode(contactObj.get("postcode").getAsString());
-			c.setCity(contactObj.get("city").getAsString());
-			c.setCountry(contactObj.get("country").getAsString());
+			c.setId(id);
 			
-			c.setEmail(contactObj.get("email").getAsString());
-			c.setTelephone(contactObj.get("phone").getAsString());
+			try {
+				if(contactObj.get("first_name")!=null)
+					c.setName(contactObj.get("first_name").getAsString());
+				
+				if(contactObj.get("last_name")!=null)
+					c.setLastName(contactObj.get("last_name").getAsString());
+				
+				if(contactObj.get("address_1")!=null)
+					c.setAddress(contactObj.get("address_1").getAsString());
+				
+				if(contactObj.get("postcode")!=null)
+					c.setZipCode(contactObj.get("postcode").getAsString());
+				
+				if(contactObj.get("city")!=null)
+					c.setCity(contactObj.get("city").getAsString());
+				
+				if(contactObj.get("country")!=null)
+					c.setCountry(contactObj.get("country").getAsString());
+				
+				if(contactObj.get("email")!=null)
+					c.setEmail(contactObj.get("email").getAsString());
+				
+				if(contactObj.get("phone")!=null)
+					c.setTelephone(contactObj.get("phone").getAsString());
+				
+				
 			c.setEmailAccept(false);
 			}
 			catch(Exception e)
@@ -269,14 +320,8 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 					{
 						stockItem.setQte(0);	
 					}
-					
-				
-					
-					
-					
 				notify(stockItem);
 				ret.add(stockItem);	
-					
 		});
 		
 		return ret;
@@ -298,28 +343,33 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		List<MTGProduct> ret =  new ArrayList<>();
 	
 		res.forEach(element->{
-			
-			MTGProduct p = AbstractProduct.createDefaultProduct();
-			JsonObject obj = element.getAsJsonObject();
-			p.setProductId(obj.get("id").getAsInt());
-			p.setName(obj.get("name").getAsString());
-			
-			
-			JsonObject objCateg = obj.get("categories").getAsJsonArray().get(0).getAsJsonObject();
-			Category c = new Category();
-					 c.setIdCategory(objCateg.get("id").getAsInt());
-					 c.setCategoryName(objCateg.get("name").getAsString());
-			p.setCategory(c);
-			
-			JsonObject img = obj.get("images").getAsJsonArray().get(0).getAsJsonObject();
-		p.setUrl(img.get("src").getAsString());
-			
+			var p = parseProduct(element);
 			notify(p);
 			ret.add(p);
 		});
 		return ret;
 	}
 	
+	private MTGProduct parseProduct(JsonObject element) {
+		
+		MTGProduct p = AbstractProduct.createDefaultProduct();
+		JsonObject obj = element.getAsJsonObject();
+		p.setProductId(obj.get("id").getAsInt());
+		p.setName(obj.get("name").getAsString());
+		
+		
+		JsonObject objCateg = obj.get("categories").getAsJsonArray().get(0).getAsJsonObject();
+		Category c = new Category();
+				 c.setIdCategory(objCateg.get("id").getAsInt());
+				 c.setCategoryName(objCateg.get("name").getAsString());
+		p.setCategory(c);
+		
+		JsonObject img = obj.get("images").getAsJsonArray().get(0).getAsJsonObject();
+		p.setUrl(img.get("src").getAsString());
+		return p;
+		
+	}
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of(PER_PAGE,"50");
@@ -378,14 +428,38 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 
 	@Override
 	public Integer saveOrUpdateContact(Contact c) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		var attributs = new HashMap<String, Object>();
+		var objAddr = new JsonObject();
+			  objAddr.addProperty("first_name", c.getName());
+			  objAddr.addProperty("last_name", c.getLastName());
+			  objAddr.addProperty("address_1", c.getAddress());
+			  objAddr.addProperty("city", c.getCity());
+			  objAddr.addProperty("country", c.getCountry());
+			  objAddr.addProperty("postcode", c.getZipCode());
+			  objAddr.addProperty("email", c.getZipCode());
+			  objAddr.addProperty("phone", c.getTelephone());
+			  
+			  attributs.put("billing", objAddr);
+			  attributs.put("shipping", objAddr);
+			  attributs.put("first_name", c.getName());
+			  attributs.put("last_name", c.getLastName());
+			  attributs.put("email", c.getEmail());
+			  
+			  if(c.getId()>0)
+				  {
+				  	client.update(EndpointBaseType.CUSTOMERS.getValue(),c.getId(), attributs);
+				  }
+			  else
+			  {
+				  var ret=  client.create(EndpointBaseType.CUSTOMERS.getValue(), attributs);
+				  c.setId(Integer.parseInt(ret.get("id").toString()));
+			  }
+			 	return c.getId();
 	}
 
 	@Override
 	public Contact getContactByEmail(String email) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+			throw new IOException("Not Implemented");
 	}
 
 	@Override
@@ -396,7 +470,6 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 
 	@Override
 	public MTGStockItem getStockById(EnumItems typeStock, Integer id) throws IOException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -409,30 +482,38 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	@Override
 	public List<Contact> listContacts() throws IOException {
 		init();
-		List<JsonObject> res = client.getAll(EndpointBaseType.CUSTOMERS.getValue());
+		
+		var params = new HashMap<String,String>();
+		params.put("per_page", getString(PER_PAGE));
+		List<JsonObject> res = client.getAll(EndpointBaseType.CUSTOMERS.getValue(),params);
 		var ret = new ArrayList<Contact>();
 		 
 		res.forEach(obj->{
 			var contact = toContact(obj, obj.get("id").getAsInt());
 			ret.add(contact);
 		});
-		
-		
-		
-		 
 		 return ret;
 	}
 
 	@Override
 	public void deleteContact(Contact contact) throws IOException {
-		// TODO Auto-generated method stub
-		
+		init();
+		client.delete(EndpointBaseType.CUSTOMERS.getValue(), contact.getId());
 	}
 
 	@Override
 	public void deleteTransaction(Transaction t) throws IOException {
-		// TODO Auto-generated method stub
+		init();
+		client.delete(EndpointBaseType.ORDERS.getValue(), t.getId());
 		
+	}
+
+	@Override
+	public Transaction getTransactionById(int parseInt) throws IOException {
+		init();
+		var ret = client.get(EndpointBaseType.ORDERS.getValue(), parseInt);
+		System.out.println(ret);
+		return null;
 	}
 }
 

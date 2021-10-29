@@ -22,6 +22,7 @@
  	<script src="//cdn.jsdelivr.net/npm/datatables@latest/media/js/jquery.dataTables.min.js"></script>
 	<script src="//cdn.jsdelivr.net/npm/datatables-bootstrap@latest/js/dataTables.bootstrap.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/datatables-responsive@latest/js/dataTables.responsive.min.js"></script>
+	<script async src="https://www.googletagmanager.com/gtag/js"></script>
 
 
   
@@ -123,7 +124,7 @@
 		    	$('#bannerTitle').html(data.bannerTitle);
 		       	$('#bannerText').html(data.bannerText);
 		       	$('#aboutText').html(data.aboutText);
-		       	document.title = data.siteTitle;
+		       	document.title = data.siteTitle + " - Account";
 		       	currency = data.currencySymbol;
 		       	$('#contactName').html(data.contact.name + " " + data.contact.lastName);
 		    	$('#contactEmail').html("<a href='mailto:"+data.contact.email+"'>"+data.contact.email+"</a>");
@@ -132,7 +133,15 @@
 			    $('#contactAddress').html(data.contact.address);
 		    	$('#contactCountry').html(data.contact.country);
 		    	
-		    	
+				if(data.googleAnalyticsId)
+			       	{
+			        	window.dataLayer = window.dataLayer || [];
+				        function gtag(){dataLayer.push(arguments);}
+				        gtag('js', new Date());
+				        gtag('config', data.googleAnalyticsId);
+					}		    	
+
+
 				$.post(restserver+"/transactions/contact",JSON.stringify(getCurrentUser()),function(datat){
 					
 					    	$("#tableTransactions").DataTable({

@@ -18,8 +18,8 @@
  	<script src="//cdn.jsdelivr.net/npm/datatables@latest/media/js/jquery.dataTables.min.js"></script>
 	<script src="//cdn.jsdelivr.net/npm/datatables-bootstrap@latest/js/dataTables.bootstrap.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/datatables-responsive@latest/js/dataTables.responsive.min.js"></script>
- 
-		<link href="../css/extra.css" rel="stylesheet" type="text/css">
+ 	<script async src="https://www.googletagmanager.com/gtag/js"></script>
+	<link href="../css/extra.css" rel="stylesheet" type="text/css">
  
 <style>
 #tableCart tfoot th  {
@@ -48,7 +48,7 @@
 			    	$('#bannerTitle').html(data.bannerTitle);
 			       	$('#bannerText').html(data.bannerText);
 			       	$('#aboutText').html(data.aboutText);
-			       	document.title = data.siteTitle;
+			       	document.title = data.siteTitle + " - Cart";
 			       	currency = data.currencySymbol;
 			       	maxLastProduct=data.maxLastProduct;
 			       	percentReduction = data.percentReduction;
@@ -60,7 +60,8 @@
 					$('#contactWebsite').html("<a href='"+data.contact.website+"'>"+data.contact.website+"</a>");
 			    	$('#contactAddress').html(data.contact.address);
 			    	$('#contactCountry').html(data.contact.country);
-			    	if(data.googleAnalyticsId)
+			    	
+					if(data.googleAnalyticsId)
 			       	{
 			        	window.dataLayer = window.dataLayer || [];
 				        function gtag(){dataLayer.push(arguments);}

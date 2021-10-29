@@ -76,16 +76,11 @@
 													$.ajax({
 												        url: restserver+"/pics/banner"
 												    	}).then(function(sets) {
-												    		
 												    		$.each( data, function( key, value ) {
 																if(!$_GET("set"))
 																	$("#listSet").append(buildSet($_GET("collection"),value,sets[value.id]));
 															});
-												    		
 												    	});
-													
-													
-													
 												}
 											}); // end
 								}

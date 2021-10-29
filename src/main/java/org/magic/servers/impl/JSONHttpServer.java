@@ -34,7 +34,6 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.magic.api.beans.HistoryPrice;
-import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
@@ -88,7 +87,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import com.mchange.v2.sql.filter.SynchronizedFilterDataSource;
 
 import spark.Request;
 import spark.Response;
@@ -474,8 +472,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 		});
 
 		put("/stock/add/:idCards", (request, response) -> {
-			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(ID_CARDS));
-			MagicCardStock stock = MTGControler.getInstance().getDefaultStock();
+			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(ID_CARDS));
+			var stock = MTGControler.getInstance().getDefaultStock();
 			stock.setQte(1);
 			stock.setProduct(mc);
 
@@ -721,10 +719,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		
 		get("/admin/qwartz", URLTools.HEADER_JSON, (request, response) -> {
-			
-			QwartzServer serv = (QwartzServer) MTG.getPlugin("Qwartz", MTGServer.class);
+			var serv = (QwartzServer) MTG.getPlugin("Qwartz", MTGServer.class);
 			return serv.getSchedulerInformation();
-			
 		}, transformer);
 		
 		
@@ -771,7 +767,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		, transformer);
 		
 		get("/webshop/transaction/:id", URLTools.HEADER_JSON, (request, response) -> 
-			getEnabledPlugin(MTGDao.class).getTransaction(Integer.parseInt(request.params(":id")))
+			MTG.getPlugin(MTGConstants.MTG_APP_NAME,MTGExternalShop.class).getTransactionById(Integer.parseInt(request.params(":id")))
 		, transformer);
 
 		get("/track/:provider/:number", URLTools.HEADER_JSON, (request, response) -> 

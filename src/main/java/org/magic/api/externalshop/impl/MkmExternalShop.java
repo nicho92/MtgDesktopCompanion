@@ -3,7 +3,6 @@ package org.magic.api.externalshop.impl;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
@@ -29,7 +28,6 @@ import org.api.mkm.services.StockService;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.api.mkm.tools.MkmConstants;
 import org.api.mkm.tools.Tools;
-import org.magic.api.beans.ConverterItem;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
@@ -39,14 +37,12 @@ import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.exports.impl.MkmOnlineExport;
 import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.api.interfaces.abstracts.AbstractProduct;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 
@@ -70,9 +66,9 @@ public class MkmExternalShop extends AbstractExternalShop {
 	
 	@Override
 	public List<Category> listCategories() throws IOException {
-		return new GameService().listCategories().stream().map(c->{
-			return new Category(c.getIdCategory(), c.getCategoryName());
-		}).toList();
+		return new GameService().listCategories().stream().map(c->
+			new Category(c.getIdCategory(), c.getCategoryName())
+		).toList();
 	}
 	
 	
@@ -151,19 +147,6 @@ public class MkmExternalShop extends AbstractExternalShop {
 			}
 		return ret;
 	}
-	
-	public static void main(String[] args) throws SQLException {
-		MTGControler.getInstance().loadAccountsConfiguration();
-		MTG.getEnabledPlugin(MTGDao.class).init();
-		var shop = new MkmExternalShop();
-		
-		
-		
-		
-		
-		
-	}
-	
 	
 	@Override
 	public List<MTGStockItem> listStock(String search) throws IOException {
@@ -453,6 +436,13 @@ public class MkmExternalShop extends AbstractExternalShop {
 	public void deleteTransaction(Transaction t) throws IOException {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	@Override
+	public Transaction getTransactionById(int parseInt) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
 
