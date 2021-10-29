@@ -1,11 +1,14 @@
 package org.magic.api.externalshop.impl;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.magic.api.beans.enums.EnumItems;
@@ -13,15 +16,19 @@ import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.api.interfaces.abstracts.AbstractProduct;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
+import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 import org.magic.tools.WooCommerceTools;
 
+import com.fasterxml.jackson.databind.util.BeanUtil;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.icoderman.woocommerce.EndpointBaseType;
@@ -74,6 +81,33 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		 return ret;
 		 
 	}
+	
+	public static void main(String[] args) throws IOException, SQLException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+		
+		MTGControler.getInstance().loadAccountsConfiguration();
+		MTG.getEnabledPlugin(MTGDao.class).init();
+		
+		
+		var commerce = new WooCommerceExternalShop();
+		
+		
+		
+			System.out.println(BeanUtils.describe(commerce.getTransactionById(7552).getContact()));
+		
+//		commerce.listContacts().forEach(c->{
+//			
+//			
+//			try {
+//				System.out.println(BeanUtils.describe(c));
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			} 
+//		});
+		
+		
+		
+	}
+	
 	
 	
 	@SuppressWarnings("unchecked")
@@ -157,7 +191,6 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	private Contact toContact(JsonObject contactObj, int id) {
 		var c = new Contact();
 			c.setId(id);
-			
 			
 			try {
 				if(contactObj.get("first_name")!=null)
@@ -464,18 +497,22 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 
 	@Override
 	public void deleteContact(Contact contact) throws IOException {
+		init();
 		client.delete(EndpointBaseType.CUSTOMERS.getValue(), contact.getId());
 	}
 
 	@Override
 	public void deleteTransaction(Transaction t) throws IOException {
+		init();
 		client.delete(EndpointBaseType.ORDERS.getValue(), t.getId());
 		
 	}
 
 	@Override
 	public Transaction getTransactionById(int parseInt) throws IOException {
-		// TODO Auto-generated method stub
+		init();
+		var ret = client.get(EndpointBaseType.ORDERS.getValue(), parseInt);
+		System.out.println(ret);
 		return null;
 	}
 }
