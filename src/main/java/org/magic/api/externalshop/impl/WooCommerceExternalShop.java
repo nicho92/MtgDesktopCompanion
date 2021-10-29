@@ -377,14 +377,38 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 
 	@Override
 	public Integer saveOrUpdateContact(Contact c) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		var attributs = new HashMap<String, Object>();
+		var objAddr = new JsonObject();
+			  objAddr.addProperty("first_name", c.getName());
+			  objAddr.addProperty("last_name", c.getLastName());
+			  objAddr.addProperty("address_1", c.getAddress());
+			  objAddr.addProperty("city", c.getCity());
+			  objAddr.addProperty("country", c.getCountry());
+			  objAddr.addProperty("postcode", c.getZipCode());
+			  objAddr.addProperty("email", c.getZipCode());
+			  objAddr.addProperty("phone", c.getTelephone());
+			  
+			  attributs.put("billing", objAddr);
+			  attributs.put("shipping", objAddr);
+			  attributs.put("first_name", c.getName());
+			  attributs.put("last_name", c.getLastName());
+			  attributs.put("email", c.getEmail());
+			  
+			  if(c.getId()>0)
+				  {
+				  	client.update(EndpointBaseType.CUSTOMERS.getValue(),c.getId(), attributs);
+				  }
+			  else
+			  {
+				  var ret=  client.create(EndpointBaseType.CUSTOMERS.getValue(), attributs);
+				  c.setId(Integer.parseInt(ret.get("id").toString()));
+			  }
+			 	return c.getId();
 	}
 
 	@Override
 	public Contact getContactByEmail(String email) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+			throw new IOException("Not Implemented");
 	}
 
 	@Override
