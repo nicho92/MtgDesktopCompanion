@@ -28,7 +28,6 @@ import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 import org.magic.tools.WooCommerceTools;
 
-import com.fasterxml.jackson.databind.util.BeanUtil;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.icoderman.woocommerce.EndpointBaseType;
