@@ -176,7 +176,8 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 			
 			if(!ret.isEmpty() && ret.get("id") !=null)
 			{
-				logger.info(t + " created in " + getName() + " with id = " + ret.get("id"));
+				t.setId(Integer.parseInt(ret.get("id").toString()));
+				logger.info(t + " created in " + getName() + " with id = " +t.getId());
 			}
 			else
 			{
@@ -291,9 +292,6 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		return Map.of(PER_PAGE,"50");
 	}
 	
-	
-	
-
 	@Override
 	public Integer saveOrUpdateContact(Contact c) throws IOException {
 		var attributs = new HashMap<String, Object>();
@@ -332,8 +330,19 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 
 	@Override
 	public int saveOrUpdateTransaction(Transaction t) throws IOException {
-		// TODO Auto-generated method stub
-		return 0;
+		if(t.getId()>0)
+		{
+			Map<String,Object> content = new HashMap<>();
+			   content.put("post", createOrder(t));
+
+			 client.update(EndpointBaseType.ORDERS.getValue(),t.getId(),content);
+		}
+		else
+		{
+			createTransaction(t);
+		}
+		
+		return t.getId();
 	}
 
 	@Override

@@ -78,9 +78,14 @@ public class WooCommerceTools {
 					URLToolsClient c = URLTools.newClient();
 					Map<String,String> header = new HashMap<>();
 									   header.put(URLTools.CONTENT_TYPE, contentType);
+
+				   String ret = c.doPut(url+"?"+OAuthSignature.getAsQueryString(config, url, HttpMethod.PUT), new ByteArrayEntity(new JsonExport().toJson(object).getBytes(MTGConstants.DEFAULT_ENCODING)), header);				   
+				   if(object.get("post")!=null)				   
+					{
+						ret = c.doPut(url+"?"+OAuthSignature.getAsQueryString(config, url, HttpMethod.POST), new ByteArrayEntity(object.get("post").toString().getBytes(MTGConstants.DEFAULT_ENCODING)), header);
+					}
 									   
-					String ret = c.doPut(url+"?"+OAuthSignature.getAsQueryString(config, url, HttpMethod.PUT), new ByteArrayEntity(new JsonExport().toJson(object).getBytes(MTGConstants.DEFAULT_ENCODING)), header);
-					
+									   
 					var obj = URLTools.toJson(ret).getAsJsonObject();
 					obj.entrySet().forEach(e->map.put(e.getKey(), e.getValue()));
 				} catch (IOException e) {
