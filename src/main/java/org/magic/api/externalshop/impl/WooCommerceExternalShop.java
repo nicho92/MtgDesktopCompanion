@@ -16,6 +16,7 @@ import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
+import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
@@ -28,6 +29,7 @@ import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 import org.magic.tools.WooCommerceTools;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.icoderman.woocommerce.EndpointBaseType;
@@ -88,22 +90,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		
 		
 		var commerce = new WooCommerceExternalShop();
-		
-		
-		
-			System.out.println(BeanUtils.describe(commerce.getTransactionById(7552).getContact()));
-		
-//		commerce.listContacts().forEach(c->{
-//			
-//			
-//			try {
-//				System.out.println(BeanUtils.describe(c));
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			} 
-//		});
-		
-		
+		System.out.println(BeanUtils.describe(commerce.getTransactionById(7552)));
 		
 	}
 	
@@ -134,99 +121,48 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	    					t.setDatePayment(UITools.parseGMTDate(obj.get(DATE_PAID).getAsString()));
 	    				
 	    			
-	    				switch(obj.get(STATUS).getAsString())
-	    				{
-	    					case "pending" : t.setStatut(TransactionStatus.NEW);break;
-	    					case "processing" : t.setStatut(TransactionStatus.IN_PROGRESS);break;
-	    					case "on-hold" : t.setStatut(TransactionStatus.PAYMENT_WAITING);break;
-	    					case "completed": t.setStatut(TransactionStatus.CLOSED);break;
-	    					case "cancelled": t.setStatut(TransactionStatus.CANCELED);break;
-	    					case "failed": t.setStatut(TransactionStatus.CANCELED);break;
-	    					case "pre-ordered":t.setStatut(TransactionStatus.PRE_ORDERED);break;
-	    					case "lpc_transit": t.setStatut(TransactionStatus.SENT);break;
-	    					case "lpc_delivered": t.setStatut(TransactionStatus.DELIVRED);break;
-	    					case "lpc_ready_to_ship" : t.setStatut(TransactionStatus.PAID);break;
-	    					case "refunded" : t.setStatut(TransactionStatus.CANCELED);break;
-	    					default : {
-	    						
-	    						logger.debug(obj.get(STATUS) + " is unknow");
-	    						t.setStatut(TransactionStatus.IN_PROGRESS);break;
-	    					}
-	    				}
+	    	t.setStatut(tostatus(obj.get(STATUS).toString()));
 	   	
 	    	var contactObj = obj.get("billing").getAsJsonObject();
 	    	t.setContact(toContact(contactObj,obj.get("customer_id").getAsInt()));	
 	    	
 	    	
-	    	var itemsArr = obj.get("line_items").getAsJsonArray();
-	    	
-	    	for(JsonElement item : itemsArr)
-	    	{
-	    		
-	    		var entry = AbstractStockItem.generateDefault();
-				
-	    		var objItem = item.getAsJsonObject();
-	    		entry.setId(objItem.get("product_id").getAsInt());
-	    		entry.setQte(objItem.get("quantity").getAsInt());
-	    		entry.setPrice(objItem.get("total").getAsDouble());
-	    		
-	    		var prod = AbstractProduct.createDefaultProduct();
-
-				prod.setName(objItem.get("name").getAsString());
-	    		prod.setProductId(objItem.get("product_id").getAsInt());
-	    		prod.setUrl("");
-	    		entry.setProduct(prod);
-	    		entry.setLanguage(entry.getProduct().getName().toLowerCase().contains("français")?"French":"English");
-	    		entry.getTiersAppIds().put(getName(), String.valueOf(t.getId()));
-	    		t.getItems().add(entry);
-	    		
-	    	}
+	    	t.setItems(toWooItems(obj.get("line_items").getAsJsonArray()));
 	    	ret.add(t);
 	    }
 		return ret;
 	}
 
 
-	private Contact toContact(JsonObject contactObj, int id) {
-		var c = new Contact();
-			c.setId(id);
-			
-			try {
-				if(contactObj.get("first_name")!=null)
-					c.setName(contactObj.get("first_name").getAsString());
-				
-				if(contactObj.get("last_name")!=null)
-					c.setLastName(contactObj.get("last_name").getAsString());
-				
-				if(contactObj.get("address_1")!=null)
-					c.setAddress(contactObj.get("address_1").getAsString());
-				
-				if(contactObj.get("postcode")!=null)
-					c.setZipCode(contactObj.get("postcode").getAsString());
-				
-				if(contactObj.get("city")!=null)
-					c.setCity(contactObj.get("city").getAsString());
-				
-				if(contactObj.get("country")!=null)
-					c.setCountry(contactObj.get("country").getAsString());
-				
-				if(contactObj.get("email")!=null)
-					c.setEmail(contactObj.get("email").getAsString());
-				
-				if(contactObj.get("phone")!=null)
-					c.setTelephone(contactObj.get("phone").getAsString());
-				
-				
-			c.setEmailAccept(false);
-			}
-			catch(Exception e)
-			{
-				logger.error(e);
-			}
+	private List<MTGStockItem> toWooItems(JsonArray itemsArr) {
 		
-		return c;
+		var ret = new ArrayList<MTGStockItem>();
+		
+		for(JsonElement item : itemsArr)
+    	{
+    		
+    		var entry = AbstractStockItem.generateDefault();
+			
+    		var objItem = item.getAsJsonObject();
+    		entry.setId(objItem.get("product_id").getAsInt());
+    		entry.setQte(objItem.get("quantity").getAsInt());
+    		entry.setPrice(objItem.get("total").getAsDouble());
+    		
+    		var prod = AbstractProduct.createDefaultProduct();
 
+			prod.setName(objItem.get("name").getAsString());
+    		prod.setProductId(objItem.get("product_id").getAsInt());
+    		prod.setUrl("");
+    		entry.setProduct(prod);
+    		entry.setLanguage(entry.getProduct().getName().toLowerCase().contains("français")?"French":"English");
+    		entry.getTiersAppIds().put(getName(), String.valueOf(entry.getId()));
+    		ret.add(entry);
+    		
+    	}
+		
+		return ret;
 	}
+
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -349,81 +285,14 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		return ret;
 	}
 	
-	private MTGProduct parseProduct(JsonObject element) {
-		
-		MTGProduct p = AbstractProduct.createDefaultProduct();
-		JsonObject obj = element.getAsJsonObject();
-		p.setProductId(obj.get("id").getAsInt());
-		p.setName(obj.get("name").getAsString());
-		
-		
-		JsonObject objCateg = obj.get("categories").getAsJsonArray().get(0).getAsJsonObject();
-		Category c = new Category();
-				 c.setIdCategory(objCateg.get("id").getAsInt());
-				 c.setCategoryName(objCateg.get("name").getAsString());
-		p.setCategory(c);
-		
-		JsonObject img = obj.get("images").getAsJsonArray().get(0).getAsJsonObject();
-		p.setUrl(img.get("src").getAsString());
-		return p;
-		
-	}
-
+	
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of(PER_PAGE,"50");
 	}
 	
-	private Map<String, Object> toWooCommerceAttributs(MTGProduct product,String status, int idCategory)
-	{
-		Map<String, Object> productInfo = new HashMap<>();
-
-		productInfo.put("name", product.getName());
-		productInfo.put("type", "simple");
-        productInfo.put("categories", WooCommerceTools.entryToJsonArray("id",String.valueOf(idCategory)));
-        productInfo.put(STATUS, status==null?"private":status);
-        productInfo.put("images", WooCommerceTools.entryToJsonArray("src",product.getUrl().startsWith("//")?"https:"+product.getUrl():product.getUrl()));
-		 
-		return productInfo;
-	}
 	
-	private JSONObject createOrder(Transaction t)
-	{
-		var obj = new JSONObject();
-		var items = new JSONArray();
-		
-		var contact = new JSONObject();
-				   contact.put("first_name", t.getContact().getName());
-				   contact.put("last_name", t.getContact().getLastName());
-				   contact.put("country", t.getContact().getCountry());
-				   contact.put("email", t.getContact().getEmail());
-				   contact.put("phone", t.getContact().getTelephone());
-				   contact.put("address_1", t.getContact().getAddress());
-				   contact.put("city", t.getContact().getCity());
-				   contact.put("postcode", t.getContact().getZipCode());
-				   
-		obj.put("billing", contact);
-		obj.put("shipping", contact);
-		obj.put("line_items", items);
-		obj.put("set_paid", t.getStatut().equals(TransactionStatus.PAID));
-		obj.put("created_via", MTGConstants.MTG_APP_NAME);
-		
-		if(t.getPaymentProvider()!=null)
-		{
-			obj.put("payment_method_title", t.getPaymentProvider().name());
-			obj.put(DATE_PAID, t.getDatePayment().getTime());
-		}
-		
-		
-		for(MTGStockItem st : t.getItems())
-		{
-			var line = new JSONObject();
-				line.put("product_id", st.getTiersAppIds(WooCommerceTools.WOO_COMMERCE_NAME));
-				line.put("quantity", st.getQte());
-			items.put(line);
-		}
-		return obj;
-	}
+	
 
 	@Override
 	public Integer saveOrUpdateContact(Contact c) throws IOException {
@@ -511,9 +380,154 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	public Transaction getTransactionById(int parseInt) throws IOException {
 		init();
 		var ret = client.get(EndpointBaseType.ORDERS.getValue(), parseInt);
-		System.out.println(ret);
-		return null;
+		var t = new Transaction();
+			t.setId(parseInt);
+			t.setContact(toContact(new JsonExport().toJsonElement(ret.get("billing")).getAsJsonObject(), Integer.parseInt(ret.get("customer_id").toString())));
+			t.setStatut(tostatus(ret.get("status").toString()));
+			t.setItems(toWooItems(new JsonExport().toJsonArray(ret.get("line_items"))));
+			t.setCurrency(ret.get("currency").toString());
+		return t;
 	}
+	
+	
+	private JSONObject createOrder(Transaction t)
+	{
+		var obj = new JSONObject();
+		var items = new JSONArray();
+		
+		var contact = new JSONObject();
+				   contact.put("first_name", t.getContact().getName());
+				   contact.put("last_name", t.getContact().getLastName());
+				   contact.put("country", t.getContact().getCountry());
+				   contact.put("email", t.getContact().getEmail());
+				   contact.put("phone", t.getContact().getTelephone());
+				   contact.put("address_1", t.getContact().getAddress());
+				   contact.put("city", t.getContact().getCity());
+				   contact.put("postcode", t.getContact().getZipCode());
+				   
+		obj.put("billing", contact);
+		obj.put("shipping", contact);
+		obj.put("line_items", items);
+		obj.put("set_paid", t.getStatut().equals(TransactionStatus.PAID));
+		obj.put("created_via", MTGConstants.MTG_APP_NAME);
+		
+		if(t.getPaymentProvider()!=null)
+		{
+			obj.put("payment_method_title", t.getPaymentProvider().name());
+			obj.put(DATE_PAID, t.getDatePayment().getTime());
+		}
+		
+		
+		for(MTGStockItem st : t.getItems())
+		{
+			var line = new JSONObject();
+				line.put("product_id", st.getTiersAppIds(WooCommerceTools.WOO_COMMERCE_NAME));
+				line.put("quantity", st.getQte());
+			items.put(line);
+		}
+		return obj;
+	}
+	
+	
+	private MTGProduct parseProduct(JsonObject element) {
+			
+			MTGProduct p = AbstractProduct.createDefaultProduct();
+			JsonObject obj = element.getAsJsonObject();
+			p.setProductId(obj.get("id").getAsInt());
+			p.setName(obj.get("name").getAsString());
+			
+			
+			JsonObject objCateg = obj.get("categories").getAsJsonArray().get(0).getAsJsonObject();
+			Category c = new Category();
+					 c.setIdCategory(objCateg.get("id").getAsInt());
+					 c.setCategoryName(objCateg.get("name").getAsString());
+			p.setCategory(c);
+			
+			JsonObject img = obj.get("images").getAsJsonArray().get(0).getAsJsonObject();
+			p.setUrl(img.get("src").getAsString());
+			return p;
+		
+	}
+
+	
+	private Map<String, Object> toWooCommerceAttributs(MTGProduct product,String status, int idCategory)
+	{
+		Map<String, Object> productInfo = new HashMap<>();
+
+		productInfo.put("name", product.getName());
+		productInfo.put("type", "simple");
+        productInfo.put("categories", WooCommerceTools.entryToJsonArray("id",String.valueOf(idCategory)));
+        productInfo.put(STATUS, status==null?"private":status);
+        productInfo.put("images", WooCommerceTools.entryToJsonArray("src",product.getUrl().startsWith("//")?"https:"+product.getUrl():product.getUrl()));
+		 
+		return productInfo;
+	}
+	
+	private TransactionStatus tostatus(String status) {
+		switch(status)
+		{
+			case "pending" : return TransactionStatus.NEW;
+			case "processing" : return TransactionStatus.IN_PROGRESS;
+			case "on-hold" : return TransactionStatus.PAYMENT_WAITING;
+			case "completed": return TransactionStatus.CLOSED;
+			case "cancelled": return TransactionStatus.CANCELED;
+			case "failed": return TransactionStatus.CANCELED;
+			case "pre-ordered":return TransactionStatus.PRE_ORDERED;
+			case "lpc_transit": return TransactionStatus.SENT;
+			case "lpc_delivered": return TransactionStatus.DELIVRED;
+			case "lpc_ready_to_ship" : return TransactionStatus.PAID;
+			case "refunded" : return TransactionStatus.CANCELED;
+			default : {
+				
+				logger.debug(status + " is unknow");
+				return TransactionStatus.IN_PROGRESS;
+			}
+		}
+	}
+
+	private Contact toContact(JsonObject contactObj, int id) {
+		
+		var c = new Contact();
+			c.setId(id);
+			
+			try {
+				if(contactObj.get("first_name")!=null)
+					c.setName(contactObj.get("first_name").getAsString());
+				
+				if(contactObj.get("last_name")!=null)
+					c.setLastName(contactObj.get("last_name").getAsString());
+				
+				if(contactObj.get("address_1")!=null)
+					c.setAddress(contactObj.get("address_1").getAsString());
+				
+				if(contactObj.get("postcode")!=null)
+					c.setZipCode(contactObj.get("postcode").getAsString());
+				
+				if(contactObj.get("city")!=null)
+					c.setCity(contactObj.get("city").getAsString());
+				
+				if(contactObj.get("country")!=null)
+					c.setCountry(contactObj.get("country").getAsString());
+				
+				if(contactObj.get("email")!=null)
+					c.setEmail(contactObj.get("email").getAsString());
+				
+				if(contactObj.get("phone")!=null)
+					c.setTelephone(contactObj.get("phone").getAsString());
+				
+				
+			c.setEmailAccept(false);
+			}
+			catch(Exception e)
+			{
+				logger.error(e);
+			}
+		
+		return c;
+
+	}
+
+	
 }
 
 
