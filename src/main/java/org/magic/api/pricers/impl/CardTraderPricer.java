@@ -13,6 +13,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGControler;
+import org.magic.tools.Chrono;
 
 public class CardTraderPricer extends AbstractPricesProvider {
 
@@ -90,6 +91,10 @@ public class CardTraderPricer extends AbstractPricesProvider {
 		
 		
 		var bp = bps.get(0);
+		
+		Chrono c = new Chrono();
+		c.start();
+		logger.debug("Begin searching " + bp);
 		service.listMarketProduct(bp).forEach(marketItem->{
 			var mp = new MagicPrice();
 			mp.setCountry(marketItem.getSeller().getCountryCode());
@@ -108,7 +113,7 @@ public class CardTraderPricer extends AbstractPricesProvider {
 		});
 		
 		
-		logger.info(getName() + " found " + ret.size() + " items");
+		logger.info(getName() + " found " + ret.size() + " items in " + c.stop() +" ms");
 		return ret;
 		
 	}

@@ -62,7 +62,13 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 														  .and("is_foil").is(String.valueOf(foil))
 														  );
 		
+		Chrono c = new Chrono();
+		
+		c.start();
+		logger.debug("Reading file " + jsonFile + " with " + cheapFictionFilter );
 		List<Map<String, Object>> arr = cont.read("$.data[?]",cheapFictionFilter);
+		var res = c.stop();
+		logger.debug("Ending reading with " + res + " sec");
 		try {
 			
 			if(arr.size()>1)
