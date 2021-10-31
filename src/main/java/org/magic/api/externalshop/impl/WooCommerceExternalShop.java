@@ -83,17 +83,6 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		 
 	}
 	
-	public static void main(String[] args) throws IOException, SQLException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-		
-		MTGControler.getInstance().loadAccountsConfiguration();
-		MTG.getEnabledPlugin(MTGDao.class).init();
-		
-		
-		var commerce = new WooCommerceExternalShop();
-		System.out.println(BeanUtils.describe(commerce.getTransactionById(7552)));
-		
-	}
-	
 	
 	
 	@SuppressWarnings("unchecked")
