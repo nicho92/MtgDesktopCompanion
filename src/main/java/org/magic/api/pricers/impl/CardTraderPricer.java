@@ -35,7 +35,7 @@ public class CardTraderPricer extends AbstractPricesProvider {
 		
 	@Override
 	public String getVersion() {
-		return CardTraderConstants.CARDTRADER_API_VERSION;
+		return CardTraderConstants.CARDTRADER_JAVA_API_VERSION;
 	}
 
 	@Override
