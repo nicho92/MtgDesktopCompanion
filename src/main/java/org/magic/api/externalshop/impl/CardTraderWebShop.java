@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.api.cardtrader.enums.ConditionEnum;
 import org.api.cardtrader.modele.Categorie;
+import org.api.cardtrader.services.CardTraderConstants;
 import org.api.cardtrader.services.CardTraderService;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumCondition;
@@ -28,6 +29,11 @@ public class CardTraderWebShop extends AbstractExternalShop {
 	private static final String TOKEN = "TOKEN";
 	private CardTraderService service;
 	
+	
+	@Override
+	public String getVersion() {
+		return CardTraderConstants.CARDTRADER_JAVA_API_VERSION;
+	}
 	
 	private void init()
 	{
