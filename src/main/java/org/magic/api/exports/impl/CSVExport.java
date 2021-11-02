@@ -27,7 +27,7 @@ import org.magic.tools.UITools;
 public class CSVExport extends AbstractFormattedFileCardExport {
 
 	private static final String EXTRA_PROPERTIES = "extraProperties";
-	private String columns="Card Name;Edition;Language;Qte;Condition;Foil;Altered;Signed;Collection;Price;Comment;Collection";
+	private String columns="Card Name;Edition;Language;Qte;Condition;Foil;Altered;Signed;Collection;Price;Comment;Collection;currentSet.number";
 
 
 	@Override
@@ -47,14 +47,26 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 					logger.error("edition " + part.group(2) + " is not found");
 				}
 				
-				MagicCard mc = null;
 				
+				MagicCard mc = null;
 				try {
-					mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( part.group(1), ed, true).get(0);
+					mc = getEnabledPlugin(MTGCardsProvider.class).getCardByNumber( part.group(13), ed);
 				}
 				catch(Exception e)
 				{
-					logger.error("card " + part.group(1)+ " is not found");
+					logger.debug(part.group());
+					logger.error("card with number " + part.group(13)+ " is not found");
+				}
+				
+				if(mc==null)
+				{
+					try {
+						mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( part.group(1), ed, true).get(0);
+					}
+					catch(Exception e)
+					{
+						logger.error("card with name " + part.group(1)+ " is not found");
+					}
 				}
 				
 				if(mc!=null) {
@@ -104,6 +116,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 				bw.append(mcs.getPrice()).append(getSeparator());
 				bw.append(mcs.getComment()).append(getSeparator());
 				bw.append(mcs.getMagicCollection()).append(getSeparator());
+				bw.append(mcs.getProduct().getCurrentSet().getNumber()).append(getSeparator());
 				
 				writeExtraMap(mcs.getProduct(),bw);
 				bw.append(System.lineSeparator());
@@ -230,14 +243,14 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	protected String getStringPattern() {
-		return "\"(.*?)\";(.*?);(.*?);(\\d+);("+StringUtils.join(EnumCondition.values(), "|")+")?;(true|false);(true|false);(true|false);(.*?);(\\d+.\\d+);(.*?)?;(.*?)?;";
+		return "\"(.*?)\";(.*?);(.*?);(\\d+);("+StringUtils.join(EnumCondition.values(), "|")+")?;(true|false);(true|false);(true|false);(.*?);(\\d+.\\d+);(.*?)?;(.*?)?;(.*?)?;";
 	}
 
 	
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		var m = super.getDefaultAttributes();
-		m.put(EXTRA_PROPERTIES, "id,currentSet.number,cost,supertypes,types,subtypes,layout,showCase,fullArt,extendedArt");
+		m.put(EXTRA_PROPERTIES, "id,cost,supertypes,types,subtypes,layout,showCase,fullArt,extendedArt");
 		m.put("SEPARATOR", ";");
 		
 		return m;
