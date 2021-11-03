@@ -3,12 +3,12 @@ package org.magic.api.externalshop.impl;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.AbstractMap.SimpleEntry;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -443,18 +443,10 @@ public class MkmExternalShop extends AbstractExternalShop {
 		
 		var retour = mkmStockService.updateArticles(transformed);
 		
-		for(var ret : retour)
-		{
-			var opt = stocks.stream().filter(it->it.getId()==ret.getIdArticle().getIdArticle()).findAny();
-			
-			if(opt.isPresent())
-				opt.get().setUpdated(ret.getError()!=null);
 		
-			if(ret.getError()!=null)
-				logger.error(ret.getError());
-			
-		}
-		
+		stocks.forEach(mtg->{
+			mtg.setUpdated(retour.stream().map(LightArticle::getIdArticle).toList().contains(mtg.getId()));
+		});
 	}
 	
 	
