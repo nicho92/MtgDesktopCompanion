@@ -8,6 +8,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.AbstractMap.SimpleEntry;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -155,9 +156,11 @@ public class MkmExternalShop extends AbstractExternalShop {
 	*/
 	public List<MTGStockItem> listStock(String search) throws IOException {
 		var list= loadStock(search);
+		itemsBkcp.clear();
 		list.forEach(item->{
 			getRefs(item.getLanguage(),item.getProduct().getProductId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getDestination(),String.valueOf(converterItem.getOutputId())));
 			getRefs(item.getLanguage(),item.getProduct().getProductId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getSource(),String.valueOf(converterItem.getInputId())));
+			itemsBkcp.put(item, new SimpleEntry<>(item.getQte(), item.getPrice()) );
 		});
 			
 		return list;
@@ -421,10 +424,11 @@ public class MkmExternalShop extends AbstractExternalShop {
 			return null;
 	}
 
+	
 	@Override
-	public void saveOrUpdateStock(MTGStockItem it) throws IOException {
+	public void saveOrUpdateStock(List<MTGStockItem> stocks) throws IOException {
 		var mkmStockService = new StockService();
-		
+		var transformed = stocks.stream().map(it->{
 		Article art = new Article();
 		art.setIdArticle(it.getId());
 		art.setIdProduct(it.getProduct().getProductId());
@@ -434,15 +438,26 @@ public class MkmExternalShop extends AbstractExternalShop {
 		art.setFoil(it.isFoil());
 		art.setSigned(it.isSigned());
 		art.setAltered(it.isAltered());
+		return art;
+		}).toList();
 		
+		var retour = mkmStockService.updateArticles(transformed);
 		
-		var ret = mkmStockService.updateArticles(art);
-		it.setUpdated(ret.getError()!=null);
+		for(var ret : retour)
+		{
+			var opt = stocks.stream().filter(it->it.getId()==ret.getIdArticle().getIdArticle()).findAny();
+			
+			if(opt.isPresent())
+				opt.get().setUpdated(ret.getError()!=null);
 		
-		if(ret.getError()!=null)
-			logger.error(ret.getError());
+			if(ret.getError()!=null)
+				logger.error(ret.getError());
+			
+		}
 		
 	}
+	
+	
 
 	@Override
 	public List<Contact> listContacts() throws IOException {

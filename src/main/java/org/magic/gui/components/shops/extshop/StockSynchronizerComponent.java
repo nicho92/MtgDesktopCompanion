@@ -3,10 +3,7 @@ package org.magic.gui.components.shops.extshop;
 import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
-import java.util.AbstractMap.SimpleEntry;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import javax.swing.ImageIcon;
@@ -24,7 +21,6 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.StockItemTableModel;
 import org.magic.gui.renderer.StockTableRenderer;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.tools.UITools;
@@ -35,7 +31,6 @@ public class StockSynchronizerComponent extends MTGUIComponent {
 	private JComboBox<MTGExternalShop> cboInput;
 	private JXTable tableInput;
 	private StockItemTableModel modelInput;
-	private Map<MTGStockItem, Map.Entry<Integer,Double>> itemsBkcp; 
 	private AbstractBuzyIndicatorComponent buzy;
 	
 	public StockSynchronizerComponent() {
@@ -48,9 +43,6 @@ public class StockSynchronizerComponent extends MTGUIComponent {
 		var btnLoad = UITools.createBindableJButton("", MTGConstants.ICON_SEARCH, KeyEvent.VK_F ,"search stocks");
 		var btnSave = UITools.createBindableJButton("", MTGConstants.ICON_SAVE, KeyEvent.VK_S ,"save stocks");
 		var btnReload= UITools.createBindableJButton("", MTGConstants.ICON_REFRESH, KeyEvent.VK_R ,"reload stocks");
-		
-		
-		itemsBkcp = new HashMap<>();
 		panelCenter.setLayout(new BorderLayout());
 		
 		cboInput = UITools.createCombobox(MTGExternalShop.class,true);
@@ -95,15 +87,10 @@ public class StockSynchronizerComponent extends MTGUIComponent {
 			var rets= JOptionPane.showConfirmDialog(this, "Update " + ret.size() + " items ?","Update", JOptionPane.YES_NO_OPTION);
 			
 			if(rets == JOptionPane.YES_OPTION)
-				for(MTGStockItem it : ret)
-				{
-					logger.debug(it + " OLD : " +  itemsBkcp.get(it).getKey() + "/" +  itemsBkcp.get(it).getValue()+ "  NEW : " + it.getQte() + "/" + it.getPrice());
-					try {
-						shop.saveOrUpdateStock(it);
-					} catch (Exception e) {
-						logger.error(e);
-						MTGControler.getInstance().notify(e);
-					}
+				try {
+					shop.saveOrUpdateStock(ret);
+				} catch (IOException e1) {
+					logger.error(e1);
 				}
 		});
 	}
@@ -122,13 +109,6 @@ public class StockSynchronizerComponent extends MTGUIComponent {
 			protected void done() {
 				try {
 					super.done();
-					
-					itemsBkcp.clear();
-					get().forEach(it->{
-						itemsBkcp.put(it, new SimpleEntry<>(it.getQte(), it.getPrice()) );
-					});
-					
-					
 					model.addItems(get());
 				} catch (InterruptedException e) {
 					Thread.currentThread().interrupt();

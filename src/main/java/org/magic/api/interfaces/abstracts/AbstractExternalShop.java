@@ -3,7 +3,10 @@ package org.magic.api.interfaces.abstracts;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.AbstractMap.SimpleEntry;
 
 import org.api.mkm.modele.Localization;
 import org.magic.api.beans.ConverterItem;
@@ -13,7 +16,6 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
-import org.magic.services.MTGControler;
 import org.magic.tools.MTG;
 
 public abstract class AbstractExternalShop extends AbstractMTGPlugin implements MTGExternalShop {
@@ -21,6 +23,10 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 	
 	protected abstract List<Transaction> loadTransaction() throws IOException;
 	protected abstract List<MTGStockItem> loadStock(String search) throws IOException;
+	protected Map<MTGStockItem, Map.Entry<Integer,Double>> itemsBkcp; 
+	
+	
+	
 	
 	@Override
 	public PLUGINS getType() {
@@ -29,6 +35,11 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 	
 	protected abstract void createTransaction(Transaction t) throws IOException;
 
+
+	protected AbstractExternalShop() {
+		itemsBkcp = new HashMap<>();
+	}
+	
 	
 	public List<ConverterItem> getRefs(String lang, int id)
 	{
@@ -58,26 +69,22 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 	@Override
 	public List<MTGStockItem> listStock(String search) throws IOException {
 		var list= loadStock(search);
+		itemsBkcp.clear();
 		list.forEach(item->{
 			getRefs(item.getLanguage(),item.getId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getDestination(),String.valueOf(converterItem.getOutputId())));
 			getRefs(item.getLanguage(),item.getId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getSource(),String.valueOf(converterItem.getInputId())));
+			itemsBkcp.put(item, new SimpleEntry<>(item.getQte(), item.getPrice()) );
 		});
+		
+		
 			
 		return list;
 	}
 	
-	@Override
-	public void saveOrUpdateStock(List<MTGStockItem> stocks) throws IOException {
-		for(MTGStockItem it : stocks)
-		{
-			try {
-				saveOrUpdateStock(it);
-			} catch (Exception e) {
-				throw new IOException(e);
 
-			}
-		}
-		
+	@Override
+	public void saveOrUpdateStock(MTGStockItem it) throws IOException {	
+		saveOrUpdateStock(List.of(it));
 	}
 	
 	

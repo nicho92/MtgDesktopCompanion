@@ -334,16 +334,8 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public void saveOrUpdateStock(MTGStockItem stock) throws IOException {
-		
-		if(stock.getId()>0)
-		{
-			
-		}
-		else
-		{
-			
-		}
+	public void saveOrUpdateStock(List<MTGStockItem> stock) throws IOException {
+		// TODO Auto-generated method stub
 		
 	}
 

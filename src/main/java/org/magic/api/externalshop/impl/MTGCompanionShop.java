@@ -167,14 +167,17 @@ public class MTGCompanionShop extends AbstractExternalShop {
 			}
 	}
 	@Override
-	public void saveOrUpdateStock(MTGStockItem stock) throws IOException {
-		try {
-			 MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateStock(stock);
-			}
-			catch(SQLException e)
-			{
-				throw new IOException(e);
-			}
+	public void saveOrUpdateStock(List<MTGStockItem> stock) throws IOException {
+		for(var item : stock)
+		{
+			try {
+				 MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateStock(item);
+				}
+				catch(SQLException e)
+				{
+					throw new IOException(e);
+				}
+		}
 		
 	}
 
