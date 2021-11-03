@@ -329,13 +329,21 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public MTGStockItem getStockById(EnumItems typeStock, Integer id) throws IOException {
+	public MTGStockItem getStockById( EnumItems typeStock,Integer id) throws IOException {
 		return null;
 	}
 
 	@Override
-	public void saveOrUpdateStock(EnumItems typeStock, MTGStockItem stock) throws IOException {
-		// TODO Auto-generated method stub
+	public void saveOrUpdateStock(MTGStockItem stock) throws IOException {
+		
+		if(stock.getId()>0)
+		{
+			
+		}
+		else
+		{
+			
+		}
 		
 	}
 
@@ -456,6 +464,9 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	}
 	
 	private TransactionStatus tostatus(String status) {
+		
+		status = status.replace("\"", "");
+		
 		switch(status)
 		{
 			case "pending" : return TransactionStatus.NEW;
@@ -470,7 +481,6 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 			case "lpc_ready_to_ship" : return TransactionStatus.PAID;
 			case "refunded" : return TransactionStatus.CANCELED;
 			default : {
-				
 				logger.debug(status + " is unknow");
 				return TransactionStatus.IN_PROGRESS;
 			}

@@ -118,8 +118,8 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	}
 	
 	@Override
-	public void saveOrUpdateStock(EnumItems typeStock, MTGStockItem stock) throws SQLException {
-		if(typeStock==EnumItems.CARD)
+	public void saveOrUpdateStock(MTGStockItem stock) throws SQLException {
+		if(stock.getProduct().getTypeProduct()==EnumItems.CARD)
 			saveOrUpdateCardStock((MagicCardStock)stock);
 		else
 			saveOrUpdateSealedStock((SealedStock)stock);

@@ -201,7 +201,7 @@ public class TransactionService
 			t.setStatut(TransactionStatus.PAYMENT_WAITING);
 			for(MTGStockItem stock : accepteds) 
 			{
-				mtgshop.saveOrUpdateStock(stock.getProduct().getTypeProduct(),stock);
+				mtgshop.saveOrUpdateStock(stock);
 				getEnabledPlugin(MTGDao.class).saveOrUpdateOrderEntry(toOrder(t, stock));
 			}
 			sendMail(t,"TransactionValid"," Your order is validate !");	
@@ -229,7 +229,7 @@ public class TransactionService
 					   stock.setQte(stock.getQte()+transactionItem.getQte());
 					   stock.setUpdated(true);
 					   t.setStatut(TransactionStatus.CANCELED);
-					   getEnabledPlugin(MTGDao.class).saveOrUpdateStock(stock.getProduct().getTypeProduct(),stock);
+					   getEnabledPlugin(MTGDao.class).saveOrUpdateStock(stock);
 		}
 		saveTransaction(t,false);
 		((JSONHttpServer)MTG.getPlugin(new JSONHttpServer().getName(), MTGServer.class)).clearCache();

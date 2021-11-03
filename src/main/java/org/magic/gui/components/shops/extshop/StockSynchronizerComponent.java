@@ -2,6 +2,7 @@ package org.magic.gui.components.shops.extshop;
 
 import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +24,7 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.StockItemTableModel;
 import org.magic.gui.renderer.StockTableRenderer;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.tools.UITools;
@@ -45,6 +47,8 @@ public class StockSynchronizerComponent extends MTGUIComponent {
 		var panelSouth =new JPanel();
 		var btnLoad = UITools.createBindableJButton("", MTGConstants.ICON_SEARCH, KeyEvent.VK_F ,"search stocks");
 		var btnSave = UITools.createBindableJButton("", MTGConstants.ICON_SAVE, KeyEvent.VK_S ,"save stocks");
+		var btnReload= UITools.createBindableJButton("", MTGConstants.ICON_REFRESH, KeyEvent.VK_R ,"reload stocks");
+		
 		
 		itemsBkcp = new HashMap<>();
 		panelCenter.setLayout(new BorderLayout());
@@ -68,6 +72,7 @@ public class StockSynchronizerComponent extends MTGUIComponent {
 		panelNorth.add(cboInput);
 		panelNorth.add(txtSearch);
 		panelNorth.add(btnLoad);
+		panelNorth.add(btnReload);
 		panelNorth.add(buzy);
 		panelNorth.add(btnSave);
 		
@@ -75,11 +80,17 @@ public class StockSynchronizerComponent extends MTGUIComponent {
 		
 		
 		btnLoad.addActionListener(il->loadProducts((MTGExternalShop)cboInput.getSelectedItem(),modelInput,txtSearch.getText()));
+		btnReload.addActionListener(il->loadProducts((MTGExternalShop)cboInput.getSelectedItem(),modelInput,txtSearch.getText()));
+		
 		txtSearch.addActionListener(al->btnLoad.doClick());
+		
+		
+		
 		
 		btnSave.addActionListener(al->{
 			var ret = modelInput.getItems().stream().filter(MTGStockItem::isUpdated).toList();
 			
+			var shop = (MTGExternalShop)cboInput.getSelectedItem();
 			
 			var rets= JOptionPane.showConfirmDialog(this, "Update " + ret.size() + " items ?","Update", JOptionPane.YES_NO_OPTION);
 			
@@ -87,6 +98,12 @@ public class StockSynchronizerComponent extends MTGUIComponent {
 				for(MTGStockItem it : ret)
 				{
 					logger.debug(it + " OLD : " +  itemsBkcp.get(it).getKey() + "/" +  itemsBkcp.get(it).getValue()+ "  NEW : " + it.getQte() + "/" + it.getPrice());
+					try {
+						shop.saveOrUpdateStock(it);
+					} catch (Exception e) {
+						logger.error(e);
+						MTGControler.getInstance().notify(e);
+					}
 				}
 		});
 	}

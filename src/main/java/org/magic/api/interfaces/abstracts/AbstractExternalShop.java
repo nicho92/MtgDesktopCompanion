@@ -13,6 +13,7 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
+import org.magic.services.MTGControler;
 import org.magic.tools.MTG;
 
 public abstract class AbstractExternalShop extends AbstractMTGPlugin implements MTGExternalShop {
@@ -63,6 +64,20 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 		});
 			
 		return list;
+	}
+	
+	@Override
+	public void saveOrUpdateStock(List<MTGStockItem> stocks) throws IOException {
+		for(MTGStockItem it : stocks)
+		{
+			try {
+				saveOrUpdateStock(it);
+			} catch (Exception e) {
+				throw new IOException(e);
+
+			}
+		}
+		
 	}
 	
 	

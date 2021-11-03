@@ -12,6 +12,7 @@ import java.util.Objects;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.api.mkm.exceptions.MkmException;
+import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Game;
 import org.api.mkm.modele.LightArticle;
 import org.api.mkm.modele.LightProduct;
@@ -149,6 +150,9 @@ public class MkmExternalShop extends AbstractExternalShop {
 	}
 	
 	@Override
+	/*
+	 * Overrried to take as MkmIdProduct
+	*/
 	public List<MTGStockItem> listStock(String search) throws IOException {
 		var list= loadStock(search);
 		list.forEach(item->{
@@ -162,7 +166,8 @@ public class MkmExternalShop extends AbstractExternalShop {
 	
 	
 	@Override
-	/*Overrried to take MkmIdProduct
+	/*
+	 * Overrried to take as MkmIdProduct
 	*/
 	public List<Transaction> listTransaction() throws IOException {
 		var list= loadTransaction();
@@ -412,12 +417,31 @@ public class MkmExternalShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public MTGStockItem getStockById(EnumItems typeStock, Integer id) throws IOException {
+	public MTGStockItem getStockById(EnumItems typeStock,Integer id) throws IOException {
 			return null;
 	}
 
 	@Override
-	public void saveOrUpdateStock(EnumItems typeStock, MTGStockItem stock) throws IOException {
+	public void saveOrUpdateStock(MTGStockItem it) throws IOException {
+		var mkmStockService = new StockService();
+		
+		Article art = new Article();
+		art.setIdArticle(it.getId());
+		art.setIdProduct(it.getProduct().getProductId());
+		art.setCount(it.getQte());
+		art.setPrice(it.getPrice());
+		art.setCondition(MkmOnlineExport.convert(it.getCondition()));
+		art.setFoil(it.isFoil());
+		art.setSigned(it.isSigned());
+		art.setAltered(it.isAltered());
+		
+		
+		var ret = mkmStockService.updateArticles(art);
+		it.setUpdated(ret.getError()!=null);
+		
+		if(ret.getError()!=null)
+			logger.error(ret.getError());
+		
 	}
 
 	@Override
@@ -434,7 +458,8 @@ public class MkmExternalShop extends AbstractExternalShop {
 
 	@Override
 	public void deleteTransaction(Transaction t) throws IOException {
-		// TODO Auto-generated method stub
+		throw new IOException("Transaction can't be deleted");
+
 		
 	}
 

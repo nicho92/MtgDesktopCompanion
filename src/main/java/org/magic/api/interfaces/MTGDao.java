@@ -56,7 +56,7 @@ public interface MTGDao extends MTGPlugin{
 
 	public List<MTGStockItem> listStockItems()throws SQLException;
 	public MTGStockItem getStockById(EnumItems typeStock, Integer id)throws SQLException;
-	public void saveOrUpdateStock(EnumItems typeStock, MTGStockItem stock) throws SQLException;
+	public void saveOrUpdateStock(MTGStockItem stock) throws SQLException;
 
 	
 	

@@ -95,7 +95,7 @@ public class CardTraderPricer extends AbstractPricesProvider {
 		Chrono c = new Chrono();
 		c.start();
 		logger.debug("Begin searching " + bp);
-		service.listMarketProduct(bp).forEach(marketItem->{
+		service.listMarketProductByBluePrint(bp).forEach(marketItem->{
 			var mp = new MagicPrice();
 			mp.setCountry(marketItem.getSeller().getCountryCode());
 			mp.setCurrency(marketItem.getPrice().getCurrency());

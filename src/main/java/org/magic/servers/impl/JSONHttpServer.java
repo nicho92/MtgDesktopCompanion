@@ -723,6 +723,10 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return serv.getSchedulerInformation();
 		}, transformer);
 		
+		get("/admin/clearCache", URLTools.HEADER_JSON, (request, response) -> {
+			clearCache();
+			return "ok";
+		}, transformer);
 		
 		
 		get("/admin/plugins/list", URLTools.HEADER_JSON, (request, response) -> {
@@ -766,15 +770,17 @@ public class JSONHttpServer extends AbstractMTGServer {
 			
 		, transformer);
 		
+		get("/track/:provider/:number", URLTools.HEADER_JSON, (request, response) -> 
+		getPlugin(request.params(PROVIDER),MTGTrackingService.class).track(request.params(":number"))
+	, transformer);
+	
+	
+		
 		get("/webshop/transaction/:id", URLTools.HEADER_JSON, (request, response) -> 
 			MTG.getPlugin(MTGConstants.MTG_APP_NAME,MTGExternalShop.class).getTransactionById(Integer.parseInt(request.params(":id")))
 		, transformer);
 
-		get("/track/:provider/:number", URLTools.HEADER_JSON, (request, response) -> 
-			getPlugin(request.params(PROVIDER),MTGTrackingService.class).track(request.params(":number"))
-		, transformer);
-		
-		
+	
 		get("/extShop/:provider/:search", URLTools.HEADER_JSON, (request, response) -> 
 			getPlugin(request.params(PROVIDER),MTGExternalShop.class).listProducts(request.params(":search"))
 		, transformer);

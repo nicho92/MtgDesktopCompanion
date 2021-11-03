@@ -167,9 +167,9 @@ public class MTGCompanionShop extends AbstractExternalShop {
 			}
 	}
 	@Override
-	public void saveOrUpdateStock(EnumItems typeStock, MTGStockItem stock) throws IOException {
+	public void saveOrUpdateStock(MTGStockItem stock) throws IOException {
 		try {
-			 MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateStock(typeStock,stock);
+			 MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateStock(stock);
 			}
 			catch(SQLException e)
 			{
