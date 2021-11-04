@@ -52,7 +52,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 	
 	private static final String ID_GAME = "ID_GAME";
 	private boolean initied=false;
-
+	private StockService mkmStockService;
 	private void init()
 	{
 		if(!initied) {
@@ -63,6 +63,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 				logger.error(e);
 			}
 		}
+		mkmStockService = new StockService();
 	}
 	
 	
@@ -101,7 +102,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 				{
 					p.iterator().forEachRemaining(art->{
 		
-						if(art.get("English Name").toLowerCase().contains(search.toLowerCase()) || art.get("Exp. Name").toLowerCase().contains(search.toLowerCase())) {
+						if(art.get("English Name").toLowerCase().contains(search.toLowerCase()) || art.get("Exp. Name").toLowerCase().contains(search.toLowerCase()) ||art.get("idArticle").equalsIgnoreCase(search.toLowerCase())) {
 						
 							var item = AbstractStockItem.generateDefault();
 				
@@ -213,8 +214,6 @@ public class MkmExternalShop extends AbstractExternalShop {
 
 	@Override
 	public int saveOrUpdateTransaction(Transaction t) throws IOException {
-		var mkmStockService = new StockService();
-		
 		var stocks= new ArrayList<LightArticle>();
 		for(File f : loadFiles())
 		{
@@ -417,34 +416,37 @@ public class MkmExternalShop extends AbstractExternalShop {
 
 	@Override
 	public MTGStockItem getStockById(EnumItems typeStock,Integer id) throws IOException {
-			return null;
+			return loadStock(String.valueOf(id)).stream().findAny().orElse(null);
 	}
 
 	
 	@Override
 	public void saveOrUpdateStock(List<MTGStockItem> stocks) throws IOException {
-		var mkmStockService = new StockService();
 		var transformed = stocks.stream().map(it->{
-		Article art = new Article();
-		art.setIdArticle(it.getId());
-		art.setIdProduct(it.getProduct().getProductId());
-		art.setCount(it.getQte());
-		art.setPrice(it.getPrice());
-		art.setCondition(MkmOnlineExport.convert(it.getCondition()));
-		art.setFoil(it.isFoil());
-		art.setSigned(it.isSigned());
-		art.setAltered(it.isAltered());
-		return art;
+			Article art = new Article();
+			art.setIdArticle(it.getId());
+			art.setIdProduct(it.getProduct().getProductId());
+			art.setPrice(it.getPrice());
+			art.setCondition(MkmOnlineExport.convert(it.getCondition()));
+			art.setFoil(it.isFoil());
+			art.setSigned(it.isSigned());
+			art.setAltered(it.isAltered());
+			return art;
 		}).toList();
 		
 		var retour = mkmStockService.updateArticles(transformed);
-		
-		
-		logger.debug(retour.stream().map(LightArticle::getIdArticle).toList());
-		
-		stocks.forEach(mtg->{
-			mtg.setUpdated(retour.stream().map(LightArticle::getIdArticle).noneMatch(i-> i.intValue() == mtg.getId()));
+		stocks.forEach(mtg->mtg.setUpdated(retour.stream().map(LightArticle::getIdArticle).noneMatch(i-> i.intValue() == mtg.getId())));
+//		
+		stocks.stream().filter(it->{
+			return it.getQte() != itemsBkcp.get(it).getKey();
+		}).forEach(it->{
+			logger.debug(it + " new = " + it.getQte() + "  old=" + itemsBkcp.get(it).getKey() + " = " +  (it.getQte()-itemsBkcp.get(it).getKey()));
+			
+			//TODO mkmStockService.changeQte(null, 0)
+			
 		});
+		
+		
 	}
 	
 	
@@ -471,28 +473,26 @@ public class MkmExternalShop extends AbstractExternalShop {
 
 	@Override
 	public Transaction getTransactionById(int parseInt) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		var serv = new OrderService();
+		return toTransaction(serv.getOrderById(parseInt));
 	}
 
 
 	@Override
 	public Contact getContactByLogin(String login, String passw) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new IOException("get Contact by login is not implemented");
 	}
 
 
 	@Override
 	public List<Transaction> listTransactions(Contact c) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		return listTransaction().stream().filter(t->t.getContact().getId()==c.getId()).toList();
 	}
 
 
 	@Override
 	public boolean enableContact(String token) throws IOException {
-		// TODO Auto-generated method stub
+		logger.warn("not authorized");
 		return false;
 	}
 }
