@@ -30,7 +30,8 @@ public interface MTGExternalShop extends MTGPlugin {
 	public Contact getContactByEmail(String email) throws IOException;
 	public List<Contact> listContacts() throws IOException;
 	public void deleteContact(Contact contact) throws IOException;
-	
+	public Contact getContactByLogin(String login, String passw) throws IOException;
+
 	
 	public int saveOrUpdateTransaction(Transaction t) throws IOException;
 	public void createTransaction(Transaction t, boolean automaticProductCreation) throws IOException;
@@ -40,5 +41,7 @@ public interface MTGExternalShop extends MTGPlugin {
 	public Transaction getTransactionById(int parseInt) throws IOException;
 	
 	public void updateConversion(String name, String destName, String language, Integer idProduct, int idDestProduct) throws IOException;
+	public List<Transaction> listTransactions(Contact c) throws IOException;
+	public boolean enableContact(String token)throws IOException;
 	
 }

@@ -19,7 +19,6 @@ import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.services.MTGConstants;
-import org.magic.services.TransactionService;
 import org.magic.services.providers.SealedProductProvider;
 import org.magic.tools.MTG;
 
@@ -92,13 +91,6 @@ public class MTGCompanionShop extends AbstractExternalShop {
 	}
 
 	@Override
-	protected void createTransaction(Transaction t) throws IOException {
-			t.setId(-1);
-			t.getContact().setId(-1);
-			TransactionService.saveTransaction(t, false);
-	}
-
-	@Override
 	public int createProduct(MTGProduct t,Category c) throws IOException {
 		throw new IOException("not implemented " + t); 
 	}
@@ -148,13 +140,15 @@ public class MTGCompanionShop extends AbstractExternalShop {
 	}
 	@Override
 	public int saveOrUpdateTransaction(Transaction t)  throws IOException {
-		try {
-		return MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateTransaction(t);
-		}
-		catch(SQLException e)
-		{
-			throw new IOException(e);
-		}
+			try {
+				return MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateTransaction(t);
+				}
+				catch(SQLException e)
+				{
+					throw new IOException(e);
+				}	
+		
+		
 	}
 	@Override
 	public MTGStockItem getStockById(EnumItems typeStock, Integer id) throws IOException {
@@ -215,4 +209,33 @@ public class MTGCompanionShop extends AbstractExternalShop {
 		}
 	}
 
+	@Override
+	public Contact getContactByLogin(String login, String passw) throws IOException {
+		try {
+			return MTG.getEnabledPlugin(MTGDao.class).getContactByLogin(login, passw);
+		} catch (SQLException e) {
+			throw new IOException(e);
+		}
+	}
+
+	@Override
+	public List<Transaction> listTransactions(Contact c) throws IOException {
+		try {
+			return MTG.getEnabledPlugin(MTGDao.class).listTransactions(c);
+		} catch (SQLException e) {
+			throw new IOException(e);
+		}
+	}
+
+	@Override
+	public boolean enableContact(String token) throws IOException {
+		try {
+			return MTG.getEnabledPlugin(MTGDao.class).enableContact(token);
+		} catch (SQLException e) {
+			throw new IOException(e);
+		}
+		
+	}
+	
+	
 }

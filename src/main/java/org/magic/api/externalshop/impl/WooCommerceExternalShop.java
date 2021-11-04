@@ -147,27 +147,6 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	}
 
 
-	@Override
-	@SuppressWarnings("unchecked")
-	protected void createTransaction(Transaction t) throws IOException {
-			init();
-			
-			Map<String,Object> content = new HashMap<>();
-							   content.put("post", createOrder(t));
-			
-			Map<Object,Object> ret=  client.create(EndpointBaseType.ORDERS.getValue(),content);
-			
-			if(!ret.isEmpty() && ret.get("id") !=null)
-			{
-				t.setId(Integer.parseInt(ret.get("id").toString()));
-				logger.info(t + " created in " + getName() + " with id = " +t.getId());
-			}
-			else
-			{
-				logger.error(ret);
-			}
-	}
-
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -313,6 +292,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 
 	@Override
 	public int saveOrUpdateTransaction(Transaction t) throws IOException {
+		init();
 		if(t.getId()>0)
 		{
 			Map<String,Object> content = new HashMap<>();
@@ -322,7 +302,21 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		}
 		else
 		{
-			createTransaction(t);
+			Map<String,Object> content = new HashMap<>();
+							   content.put("post", createOrder(t));
+			
+			@SuppressWarnings("unchecked")
+			Map<Object,Object> ret=  client.create(EndpointBaseType.ORDERS.getValue(),content);
+			
+			if(!ret.isEmpty() && ret.get("id") !=null)
+			{
+				t.setId(Integer.parseInt(ret.get("id").toString()));
+				logger.info(t + " created in " + getName() + " with id = " +t.getId());
+			}
+			else
+			{
+				logger.error(ret);
+			}
 		}
 		
 		return t.getId();
@@ -519,6 +513,24 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		
 		return c;
 
+	}
+
+	@Override
+	public Contact getContactByLogin(String login, String passw) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Transaction> listTransactions(Contact c) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean enableContact(String token) throws IOException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	

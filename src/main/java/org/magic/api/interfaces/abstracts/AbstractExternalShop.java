@@ -32,9 +32,6 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 	public PLUGINS getType() {
 		return PLUGINS.EXTERNAL_SHOP;
 	}
-	
-	protected abstract void createTransaction(Transaction t) throws IOException;
-
 
 	protected AbstractExternalShop() {
 		itemsBkcp = new HashMap<>();
@@ -119,7 +116,7 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 			}
 		});
 		
-		createTransaction(t);
+		saveOrUpdateTransaction(t);
 			
 	
 	}

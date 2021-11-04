@@ -839,7 +839,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		post("/webshop/user/connect", URLTools.HEADER_JSON, (request, response) ->{ 
 			
-			var c = getEnabledPlugin(MTGDao.class).getContactByLogin(request.queryParams("email"),request.queryParams("password"));
+			var c = MTG.getEnabledPlugin(MTGExternalShop.class).getContactByLogin(request.queryParams("email"),request.queryParams("password"));
 			c.setPassword(null);
 			return c;
 			
@@ -849,12 +849,12 @@ public class JSONHttpServer extends AbstractMTGServer {
 			
 			Contact c=converter.fromJson(request.queryParams("user"), Contact.class);
 			
-			var t = getEnabledPlugin(MTGDao.class).getTransaction(Integer.parseInt(request.params(":id")));
+			var t =MTG.getEnabledPlugin(MTGExternalShop.class).getTransactionById(Integer.parseInt(request.params(":id")));
 			
 			if(t.getContact().getId()==c.getId())
 			{
 				t.setStatut(TransactionStatus.CANCELATION_ASK);
-				getEnabledPlugin(MTGDao.class).saveOrUpdateTransaction(t);
+				MTG.getEnabledPlugin(MTGExternalShop.class).saveOrUpdateTransaction(t);
 				return "OK";
 			}
 			else
@@ -886,9 +886,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 		
 		post("/transactions/contact", URLTools.HEADER_JSON, (request, response) -> {
-			
 			Contact c=converter.fromJson(new InputStreamReader(request.raw().getInputStream()), Contact.class);
-			return getEnabledPlugin(MTGDao.class).listTransactions(c);
+			return MTG.getEnabledPlugin(MTGExternalShop.class).listTransactions(c);
 		}, transformer);
 
 		post("/contact/save", URLTools.HEADER_JSON, (request, response) -> {
@@ -908,10 +907,10 @@ public class JSONHttpServer extends AbstractMTGServer {
 			else
 			{
 				try{
-					getEnabledPlugin(MTGDao.class).saveOrUpdateContact(t);
+					getEnabledPlugin(MTGExternalShop.class).saveOrUpdateContact(t);
 					return t;
 				}
-				catch(SQLIntegrityConstraintViolationException e)
+				catch(Exception e)
 				{
 					response.status(500);
 					return e.getMessage();
@@ -920,7 +919,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 		
 		get("/contact/validation/:token", URLTools.HEADER_JSON, (request, response) -> 
-			getEnabledPlugin(MTGDao.class).enableContact(request.params(":token"))
+			MTG.getEnabledPlugin(MTGExternalShop.class).enableContact(request.params(":token"))
 		, transformer);
 		
 		get("/",URLTools.HEADER_HTML,(request,response) -> {

@@ -109,12 +109,6 @@ public class CardTraderWebShop extends AbstractExternalShop {
 	}
 
 	@Override
-	protected void createTransaction(Transaction t) throws IOException {
-		throw new IOException("Can't create transation to " + getName());
-
-	}
-
-	@Override
 	public int createProduct(MTGProduct t, Category c) throws IOException {
 		throw new IOException("Can't create product to " + getName());
 	}
@@ -285,6 +279,24 @@ public class CardTraderWebShop extends AbstractExternalShop {
 	public Transaction getTransactionById(int parseInt) throws IOException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Contact getContactByLogin(String login, String passw) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Transaction> listTransactions(Contact c) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean enableContact(String token) throws IOException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 

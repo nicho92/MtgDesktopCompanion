@@ -212,7 +212,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 	}
 
 	@Override
-	protected void createTransaction(Transaction t) throws IOException {
+	public int saveOrUpdateTransaction(Transaction t) throws IOException {
 		var mkmStockService = new StockService();
 		
 		var stocks= new ArrayList<LightArticle>();
@@ -256,6 +256,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 				}	
 			}
 		});
+		return t.getId();
 	}
 
 	
@@ -415,11 +416,6 @@ public class MkmExternalShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public int saveOrUpdateTransaction(Transaction t) throws IOException {
-		return -1;
-	}
-
-	@Override
 	public MTGStockItem getStockById(EnumItems typeStock,Integer id) throws IOException {
 			return null;
 	}
@@ -444,8 +440,10 @@ public class MkmExternalShop extends AbstractExternalShop {
 		var retour = mkmStockService.updateArticles(transformed);
 		
 		
+		logger.debug(retour.stream().map(LightArticle::getIdArticle).toList());
+		
 		stocks.forEach(mtg->{
-			mtg.setUpdated(retour.stream().map(LightArticle::getIdArticle).toList().contains(mtg.getId()));
+			mtg.setUpdated(retour.stream().map(LightArticle::getIdArticle).noneMatch(i-> i.intValue() == mtg.getId()));
 		});
 	}
 	
@@ -475,6 +473,27 @@ public class MkmExternalShop extends AbstractExternalShop {
 	public Transaction getTransactionById(int parseInt) throws IOException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+
+	@Override
+	public Contact getContactByLogin(String login, String passw) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public List<Transaction> listTransactions(Contact c) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public boolean enableContact(String token) throws IOException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
 
