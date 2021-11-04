@@ -18,32 +18,26 @@ import org.magic.tools.UITools;
 
 public class ShopGUI extends MTGUIComponent {
 
-	
+	private static final long serialVersionUID = 1L;
 	private JTabbedPane pane;
 	private JTabbedPane subPane;
 	
 	public ShopGUI() {
-		pane = new JTabbedPane();
 		setLayout(new BorderLayout());
 		
-		
+		pane = new JTabbedPane();
+		subPane = new JTabbedPane();
 		add(pane,BorderLayout.CENTER);
 		
 		UITools.addTab(pane,new WebShopConfigPanel());
 		UITools.addTab(pane, new TransactionsPanel());
 		UITools.addTab(pane, new ContactsManagementPanel());
 		
-		subPane = new JTabbedPane();
-		
-		UITools.addTab(pane, MTGUIComponent.build(subPane,"External Shop",MTGConstants.ICON_TAB_EXT_SHOP));
-	}
-	
-	@Override
-	public void onFirstShowing() {
 		UITools.addTab(subPane, new ProductsCreatorComponent());
 		UITools.addTab(subPane, new TransactionCreatorComponent());
 		UITools.addTab(subPane, new StockSynchronizerComponent());
 		UITools.addTab(subPane, new ConverterPanel());
+		
 		
 	}
 	

@@ -13,6 +13,7 @@ import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
@@ -28,6 +29,7 @@ import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingWorker;
 import javax.swing.event.ListSelectionEvent;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
@@ -52,6 +54,7 @@ import org.magic.servers.impl.ShoppingServer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.TransactionService;
+import org.magic.services.threads.ThreadManager;
 import org.magic.tools.MTG;
 
 public class WebShopConfigPanel extends MTGUIComponent {
@@ -95,7 +98,6 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		pane.setLayout(layout);
 		return pane;
 	}
-	
 	
 	public WebShopConfigPanel() {
 		
@@ -270,21 +272,44 @@ public class WebShopConfigPanel extends MTGUIComponent {
 								   cardPanel.setProduct(topProduct);
 		});
 		
-		chkAutoProduct.addItemListener(il->{
-			  		
-				if(chkAutoProduct.isSelected())
-					try {
-			  			topProduct = TransactionService.getBestProduct();
-						cardPanel.setProduct(topProduct);
-					} catch (NoSuchElementException e1) {
-						logger.warn("No best product found");
-					}
-					catch (Exception e1) {
-						logger.error(e1);
-					}
+		
+		
+		var sw = new SwingWorker<MagicCardStock , MagicCardStock >() {
+			
+			@Override
+			protected MagicCardStock doInBackground() throws Exception {
+				return TransactionService.getBestProduct();
+			}
+			
+			protected void done() {
 				
+				try {
+					topProduct = get();
+					cardPanel.setProduct(topProduct);
+				} catch (InterruptedException|ExecutionException e) {
+					Thread.currentThread().interrupt();
+				} catch (NoSuchElementException e1) {
+					logger.warn("No best product found");
+				}
+				catch (Exception e1) {
+					logger.error(e1);
+				}
+				
+				
+			};
+			
+		};
+		
+		
+		
+		chkAutoProduct.addItemListener(il->{
+				if(chkAutoProduct.isSelected())
+				{
+					ThreadManager.getInstance().runInEdt(sw, "Loading best product");
+				}
 				b.setEnabled(!chkAutoProduct.isSelected());
 		});
+		
 		chkAutoProduct.setSelected(conf.isAutomaticProduct());
 		
 		
