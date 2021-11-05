@@ -38,6 +38,7 @@ public class ShopGUI extends MTGUIComponent {
 		UITools.addTab(subPane, new StockSynchronizerComponent());
 		UITools.addTab(subPane, new ConverterPanel());
 		
+		UITools.addTab(pane, MTGUIComponent.build(pane,"External Shop",MTGConstants.ICON_TAB_EXT_SHOP));
 		
 	}
 	

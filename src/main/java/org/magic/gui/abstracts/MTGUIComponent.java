@@ -46,7 +46,7 @@ public abstract class MTGUIComponent extends JComponent {
 	
 	protected MTGUIComponent()
 	{
-		logger.trace("init GUI : " + getTitle());
+		logger.debug("init GUI : " + getTitle());
 		
 		windowsListener = new ComponentAdapter() {
 			@Override
