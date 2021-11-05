@@ -260,7 +260,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 
 	@Override
 	public List<Contact> listContacts() throws IOException {
-		return listTransaction().stream().map(t->t.getContact()).toList();
+		return listTransaction().stream().map(Transaction::getContact).toList();
 	}
 
 	@Override

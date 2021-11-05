@@ -214,6 +214,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 
 	@Override
 	public int saveOrUpdateTransaction(Transaction t) throws IOException {
+		init();
 		var stocks= new ArrayList<LightArticle>();
 		for(File f : loadFiles())
 		{
@@ -247,7 +248,6 @@ public class MkmExternalShop extends AbstractExternalShop {
 			}
 			else
 			{
-				
 				try {
 					mkmStockService.changeQte(art, -art.getCount());
 				} catch (IOException e) {
@@ -263,7 +263,10 @@ public class MkmExternalShop extends AbstractExternalShop {
 	
 	private LightArticle parse(MTGStockItem it) {
 		var ret = new LightArticle();
+		
 		ret.setIdArticle(getRefs(it.getLanguage(), it.getId()).get(0).getIdFor(getName()));
+		
+		
 		ret.setIdProduct(it.getProduct().getProductId());
 		ret.setLanguage(Tools.listLanguages().stream().filter(l->l.getLanguageName().equalsIgnoreCase(it.getLanguage())).findFirst().orElse(new Localization(1, it.getLanguage())));
 		ret.setCount(it.getQte());
@@ -422,8 +425,9 @@ public class MkmExternalShop extends AbstractExternalShop {
 	
 	@Override
 	public void saveOrUpdateStock(List<MTGStockItem> stocks) throws IOException {
+		init();
 		var transformed = stocks.stream().map(it->{
-			Article art = new Article();
+			var art = new Article();
 			art.setIdArticle(it.getId());
 			art.setIdProduct(it.getProduct().getProductId());
 			art.setPrice(it.getPrice());
@@ -434,15 +438,26 @@ public class MkmExternalShop extends AbstractExternalShop {
 			return art;
 		}).toList();
 		
+		
+		
+		
 		var retour = mkmStockService.updateArticles(transformed);
 		stocks.forEach(mtg->mtg.setUpdated(retour.stream().map(LightArticle::getIdArticle).noneMatch(i-> i.intValue() == mtg.getId())));
-//		
-		stocks.stream().filter(it->{
-			return it.getQte() != itemsBkcp.get(it).getKey();
-		}).forEach(it->{
-			logger.debug(it + " new = " + it.getQte() + "  old=" + itemsBkcp.get(it).getKey() + " = " +  (it.getQte()-itemsBkcp.get(it).getKey()));
+		
+		stocks.stream().filter(it->!it.getQte().equals(itemsBkcp.get(it).getKey())).forEach(it->{
 			
-			//TODO mkmStockService.changeQte(null, 0)
+			int changeQty = (it.getQte()-itemsBkcp.get(it).getKey());
+			try {
+				
+				var ret = new LightArticle();
+					  ret.setIdArticle(it.getId());
+					  ret.setIdProduct(it.getProduct().getProductId());
+					  ret.setCount(it.getQte());
+					  logger.debug(it + " new = " + it.getQte() + "  old=" + itemsBkcp.get(it).getKey() + " = " +  changeQty);
+					  mkmStockService.changeQte(ret, changeQty);
+			} catch (IOException e) {
+				logger.error(e);
+			}
 			
 		});
 		
