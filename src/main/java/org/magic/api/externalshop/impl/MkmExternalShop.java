@@ -118,12 +118,12 @@ public class MkmExternalShop extends AbstractExternalShop {
 									  item.setSigned(!art.get("Signed?").isEmpty());
 									  item.setAltered(!art.get("Altered?").isEmpty());
 									  item.setCondition(MkmOnlineExport.convert(art.get("Condition")));
-								  }
-								catch(IllegalArgumentException e)
-								{
-									item.setCondition(EnumCondition.SEALED);
-									product.setRarity(null);
-								}
+								   }
+									catch(IllegalArgumentException e)
+									{
+										item.setCondition(EnumCondition.SEALED);
+										product.setRarity(null);
+									}
 								  
 								  item.setProduct(toProduct(product));
 								  item.setQte(Integer.parseInt(art.get("Amount")));
