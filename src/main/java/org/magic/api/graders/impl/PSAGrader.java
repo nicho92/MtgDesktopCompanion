@@ -31,21 +31,17 @@ public class PSAGrader extends AbstractGradersProvider {
 				if(it.getElementsByTag("th").first().text().equals("Grade"))
 				{
 					var result = it.getElementsByTag("td").html();
-					logger.debug("result : " + result);
+					
 				    var  condition=result.split(" ")[0].trim();
 					var note = UITools.parseDouble (result.split(" ")[1].trim());
-					
+					logger.debug("result : " + result + " Note =" + note);
 					var g = new Grading();
 					g.setNumberID(identifier);
 					g.setUrlInfo(getWebSite()+"/cert/"+identifier);
 					g.setGraderName(getName());
 					g.setGrade(parseCondition(condition)); 
 					g.setGradeNote(note);
-					
 					return g;
-					
-
-					
 				}
 			}
 			
