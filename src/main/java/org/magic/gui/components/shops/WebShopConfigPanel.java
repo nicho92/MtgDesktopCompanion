@@ -281,6 +281,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 				return TransactionService.getBestProduct();
 			}
 			
+			@Override
 			protected void done() {
 				
 				try {
