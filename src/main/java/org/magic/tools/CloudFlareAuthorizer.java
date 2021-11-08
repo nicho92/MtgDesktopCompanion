@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -27,8 +26,8 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.cookie.Cookie;
-import org.magic.services.MTGLogger;
 import org.apache.log4j.Logger;
+import org.magic.services.MTGLogger;
 
 
 public class CloudFlareAuthorizer {
@@ -100,6 +99,7 @@ public class CloudFlareAuthorizer {
             }
 
         }catch(InterruptedException ie){
+        	Thread.currentThread().interrupt();
             logger.error("Interrupted whilst waiting to perform CloudFlare authorization",ie);
             return "interrupted";
         }
@@ -144,7 +144,7 @@ public class CloudFlareAuthorizer {
         ((CloseableHttpResponse)httpResponse).close();
         return new Response(httpStatus,responseText);
     }
-    private String getJsAnswer(URL url, String responseHtml) throws ScriptException, MalformedURLException {
+    private String getJsAnswer(URL url, String responseHtml) throws ScriptException{
 
         //Credit to Anarov to the improved Regex JS parsing here from https://github.com/Anorov/cloudflare-scrape
 

@@ -20,6 +20,7 @@ import org.magic.tools.FileTools;
 public class DelverLensExport extends AbstractFormattedFileCardExport{
 
 	
+	private static final String REGEX_VAR = "\"(\\d+)\",\"(\\d+)\",\"(.*?)\",\"(.*?)\",\"(\\d+)\",\"(.*?)\",\"(.*?)\",\"(foil)?\",\"(signed)?\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\"";
 	private static final String REGEX = "REGEX";
 	private String columns= "Count,Tradelist Count,Name,Edition,Card Number,Condition,Language,Foil,Signed,Artist Proof,Altered Art,Misprint,Promo,Textless,My Price";
 	
@@ -163,7 +164,7 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 	}
 
 	private String defaultRegex() {
-		return "\"(\\d+)\",\"(\\d+)\",\"(.*?)\",\"(.*?)\",\"(\\d+)\",\"(.*?)\",\"(.*?)\",\"(foil)?\",\"(signed)?\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\"";
+		return REGEX_VAR;
 	}
 
 	@Override

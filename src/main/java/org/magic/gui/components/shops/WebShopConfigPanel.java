@@ -297,7 +297,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 				}
 				
 				
-			};
+			}
 			
 		};
 		

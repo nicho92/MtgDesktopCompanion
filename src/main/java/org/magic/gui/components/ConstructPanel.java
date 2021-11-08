@@ -443,6 +443,14 @@ public class ConstructPanel extends MTGUIComponent {
 		
 		btnSave.addActionListener(e -> {
 			
+			
+			if(deck==null)
+			{
+				MTGControler.getInstance().notify(new NullPointerException("Deck is Null"));
+				return;
+			}
+			
+			
 			buzyLabel.start();
 			
 			String dname = deck.getName();

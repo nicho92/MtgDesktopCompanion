@@ -133,11 +133,7 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 		       }
 		});
 		
-		listOutput.addListSelectionListener(lll->{
-				btnSend.setText("update "+ listInput.getSelectedValuesList().size() + " items");
-				
-				
-		});
+		listOutput.addListSelectionListener(lll->btnSend.setText("update "+ listInput.getSelectedValuesList().size() + " items"));
 		
 		
 		listInput.addListSelectionListener(lll->{
