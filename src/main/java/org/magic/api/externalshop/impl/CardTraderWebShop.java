@@ -49,6 +49,8 @@ public class CardTraderWebShop extends AbstractExternalShop {
 	
 	@Override
 	public List<MTGStockItem> loadStock(String search) throws IOException {
+		init();
+		
 		return service.listStock(search).stream().map(mp->{
 			var it = AbstractStockItem.generateDefault();
 								    it.setId(mp.getId());
