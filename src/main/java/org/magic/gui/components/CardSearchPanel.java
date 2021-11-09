@@ -107,7 +107,7 @@ public class CardSearchPanel extends MTGUIComponent {
 	private MagicEditionDetailPanel magicEditionDetailPanel;
 	private MagicCardDetailPanel detailCardPanel;
 	private PricesTablePanel priceTablePanel;
-	private JTextArea txtRulesArea;
+	private RulesPanel txtRulesArea;
 	private CardStockPanel stockPanel;
 	private ObjectViewerPanel panelJson;
 	private CriteriaComponent searchComponent;
@@ -248,7 +248,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		var advancedSearch = UITools.createBindableJButton(null, MTGConstants.ICON_SEARCH_ADVANCED, KeyEvent.VK_A, "AdvancedSearch");
 		searchComponent = new CriteriaComponent(false);
 		defaultEnterButton = new JButton(MTGConstants.ICON_SEARCH);
-		txtRulesArea = new JTextArea();
+		txtRulesArea = new RulesPanel();
 		
 		txtFilter = new JTextField();
 
@@ -265,9 +265,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		listEdition.setCellRenderer(new MagicEditionIconListRenderer());
 		
 		///////// CONFIGURE COMPONENTS
-		txtRulesArea.setLineWrap(true);
-		txtRulesArea.setWrapStyleWord(true);
-		txtRulesArea.setEditable(false);
+		
 		btnFilter.setToolTipText(capitalize("FILTER"));
 		btnExport.setToolTipText(capitalize("EXPORT_RESULTS"));
 		btnExport.setEnabled(false);
@@ -357,7 +355,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		tabbedCardsInfo.addTab(capitalize("DETAILS"), MTGConstants.ICON_TAB_DETAILS,detailCardPanel, null);
 		tabbedCardsInfo.addTab(capitalize("EDITION"), MTGConstants.ICON_BACK,editionDetailPanel, null);
 		tabbedCardsInfo.addTab(capitalize("PRICES"), MTGConstants.ICON_TAB_PRICES,priceTablePanel, null);
-		tabbedCardsInfo.addTab(capitalize("RULES"), MTGConstants.ICON_TAB_RULES,new JScrollPane(txtRulesArea), null);
+		UITools.addTab(tabbedCardsInfo,txtRulesArea);
 		tabbedCardsInfo.addTab(capitalize("PRICE_VARIATIONS"), MTGConstants.ICON_TAB_VARIATIONS,historyChartPanel, null);
 		tabbedCardsInfo.addTab(capitalize("MORE_LIKE_THIS"), MTGConstants.ICON_TAB_SIMILARITY,similarityPanel, null);
 		tabbedCardsInfo.addTab(capitalize("DECK_MODULE"), MTGConstants.ICON_TAB_DECK,deckPanel, null);
@@ -713,7 +711,7 @@ public class CardSearchPanel extends MTGUIComponent {
 
 	public void updateCards() {
 		try {
-			txtRulesArea.setText("");
+		
 
 			((DefaultListModel<MagicEdition>) listEdition.getModel()).removeAllElements();
 
@@ -724,10 +722,8 @@ public class CardSearchPanel extends MTGUIComponent {
 			magicEditionDetailPanel.setMagicEdition(selectedCard.getCurrentSet());
 			cardsPicPanel.showCard(selectedCard);
 			
-			for (MagicRuling mr : selectedCard.getRulings()) {
-				txtRulesArea.append(mr.toString());
-				txtRulesArea.append("\n");
-			}
+			txtRulesArea.init(selectedCard.getRulings());
+			
 
 			priceTablePanel.init(selectedCard);
 			similarityPanel.init(selectedCard);
