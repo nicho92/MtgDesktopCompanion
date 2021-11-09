@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
 
 public class MTGLogger {
 
-	protected static final Level[] LEVELS = new Level[] { Level.INFO, Level.ERROR, Level.DEBUG, Level.WARN, Level.TRACE };
+	protected static final Level[] LEVELS = new Level[] { Level.INFO, Level.ERROR, Level.DEBUG, Level.WARN, Level.TRACE, Level.OFF };
 
 	private MTGLogger() {
 	}

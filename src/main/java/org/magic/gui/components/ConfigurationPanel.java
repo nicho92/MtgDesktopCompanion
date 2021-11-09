@@ -258,12 +258,6 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		UITools.initTableFilter(tableLoggers);
 		panelLogs.add(panelMainLogger,BorderLayout.NORTH);
 		panelLogs.add(new JScrollPane(tableLoggers),BorderLayout.CENTER);
-		
-		
-
-	
-	
-	
 			
 		
 /////////////DAO BOX		
