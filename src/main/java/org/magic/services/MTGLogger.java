@@ -1,6 +1,8 @@
 package org.magic.services;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.List;
 
 import org.apache.log4j.Appender;
@@ -22,6 +24,10 @@ public class MTGLogger {
 
 	public static Logger getLogger(Class<?> c) {
 		return LogManager.getLogger(c.getName());
+	}
+	
+	public static Logger getLogger(String pckg) {
+		return LogManager.getLogger(pckg);
 	}
 
 	public static void changeLevel(Level l) {
@@ -52,5 +58,6 @@ public class MTGLogger {
 		}
 		return (MTGAppender) getAppender("APPS");
 	}
+	
 
 }

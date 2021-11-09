@@ -29,6 +29,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager.LookAndFeelInfo;
@@ -58,6 +60,7 @@ import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.dialog.DefaultStockEditorDialog;
+import org.magic.gui.models.conf.MapTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -190,6 +193,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 	
 		JPanel panelDAO = createBoxPanel("DATABASES",MTGConstants.ICON_TAB_DAO,daoPanelLayout,true);
 		JPanel panelConfig = createBoxPanel("CONFIGURATION",MTGConstants.ICON_TAB_ADMIN,configPanelLayout,false);
+		JPanel panelLogs = createBoxPanel("LOG",MTGConstants.ICON_TAB_PLUGIN,new BorderLayout(),true);
 		JPanel panelWebSite = createBoxPanel("WEBSITE",MTGConstants.ICON_WEBSITE,websitePanelLayout,true);
 		JPanel panelGameProfil = createBoxPanel("GAME",MTGConstants.ICON_TAB_GAME,gameProfilPanelLayout,true);
 		JPanel panelModule = createBoxPanel("Modules",MTGConstants.ICON_TAB_PLUGIN,modulesPanelLayout,true);
@@ -206,6 +210,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		add(panelWebSite);
 		add(panelGameProfil);
 		add(panelCurrency);
+		add(panelLogs);
 		
 		
 		var gbclblLoading = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH,  0, 4);
@@ -215,11 +220,51 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		
 		
 ////////////ACCOUNT BOX
-		
 		panelAccounts.add(new MTGAuthenticatorEditor(),BorderLayout.CENTER);
 		
 		
 		
+////////////LOG BOX
+		cboLogLevels = UITools.createCombobox(MTGLogger.getLevels());
+		
+		var panelMainLogger = new JPanel();
+			  panelMainLogger.add(new JLangLabel("LOG_LEVEL"));
+			  panelMainLogger.add(cboLogLevels);
+	
+			var model = new MapTableModel<String,Level>() {
+			private static final long serialVersionUID = 1L;
+			@Override
+			public void setValueAt(Object aValue, int row, int column) {
+				logger.info( keys.get(row).getKey()+ " change to " + aValue);
+				MTGLogger.getLogger(keys.get(row).getKey()).setLevel(Level.toLevel(aValue.toString()));
+				keys.get(row).setValue(Level.toLevel(aValue.toString()));
+			}
+			@Override
+			public Class<?> getColumnClass(int columnIndex) {
+				if(columnIndex==1)
+					return Level.class;
+				
+				return super.getColumnClass(columnIndex);
+			}
+			
+		};
+		
+		model.setWritable(true);
+		
+		for( Logger g : MTGLogger.getLoggers().stream().filter(l->!l.getName().startsWith("org.magic.")).toList())
+			model.addRow(g.getName(), g.getLevel());
+		
+		var tableLoggers = UITools.createNewTable(model);
+		UITools.initTableFilter(tableLoggers);
+		panelLogs.add(panelMainLogger,BorderLayout.NORTH);
+		panelLogs.add(new JScrollPane(tableLoggers),BorderLayout.CENTER);
+		
+		
+
+	
+	
+	
+			
 		
 /////////////DAO BOX		
 		var lblBackupDao = new JLabel(capitalize("DAO_BACKUP") + " : ");
@@ -256,7 +301,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		
 /////////////CONFIG BOX
 		cboCollections = UITools.createComboboxCollection();
-		cboLogLevels = UITools.createCombobox(MTGLogger.getLevels());
+	
 		txtMinPrice = new JTextField(MTGControler.getInstance().get("min-price-alert"),25);
 		var btnSavePrice = new JButton(capitalize("SAVE"));
 		var lblCleancache = new JLabel(capitalize("CLEAN_CACHE") + " :");
@@ -306,8 +351,6 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		panelConfig.add(cboCollections, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 0));
 		panelConfig.add(new JLabel(capitalize("DEFAULT_LAND_IMPORT") + " :"), UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 1));
 		panelConfig.add(cboEditionLands, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 1));
-		panelConfig.add( new JLabel(capitalize("LOG_LEVEL") + " :"), UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 2));
-		panelConfig.add(cboLogLevels, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 2));
 		panelConfig.add(new JLabel(capitalize("SHOW_LOW_PRICES") + " :"), UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 3));
 		panelConfig.add(txtMinPrice, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 3));
 		panelConfig.add(btnSavePrice, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 3));

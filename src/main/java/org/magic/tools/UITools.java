@@ -51,6 +51,7 @@ import javax.xml.bind.DatatypeConverter;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXSearchField;
 import org.jdesktop.swingx.JXSearchField.SearchMode;
@@ -180,6 +181,7 @@ public class UITools {
 				table.setDefaultEditor(Date.class, new DateTableCellEditorRenderer());
 				table.setDefaultEditor(EnumCondition.class, new ComboBoxEditor<>(EnumCondition.values()));
 				table.setDefaultEditor(TransactionStatus.class, new ComboBoxEditor<>(TransactionStatus.values()));
+				table.setDefaultEditor(Level.class,  new ComboBoxEditor<Level>(MTGLogger.getLevels()) );
 				
 				
 				table.putClientProperty("terminateEditOnFocusLost", true);
