@@ -115,6 +115,8 @@ public class ConstructPanel extends MTGUIComponent {
 	private JXTable tableDeck;
 	private JXTable tableSide;
 	private JButton defaultEnterButton;
+	private RulesPanel rulesPanel;
+	
 	
 	public ConstructPanel() {
 		deck = new MagicDeck();
@@ -143,7 +145,7 @@ public class ConstructPanel extends MTGUIComponent {
 	private void initGUI() {
 		setLayout(new BorderLayout(0, 0));
 		var p = new Player();
-		
+		rulesPanel = new RulesPanel();
 		var panneauHaut = new JPanel();
 		JButton btnUpdate;
 		var btnRandom= UITools.createBindableJButton("", MTGConstants.ICON_RANDOM, KeyEvent.VK_R, "Random");
@@ -269,6 +271,7 @@ public class ConstructPanel extends MTGUIComponent {
 		panelBottom.addTab("Combos",comboPanel.getIcon(),comboPanel);
 		panneauDeck.setRightComponent(panelBottom);
 		panelBottom.addTab("Drawing",MTGConstants.ICON_TAB_DECK,cardDrawProbaPanel);
+		UITools.addTab(panelBottom, rulesPanel);
 		UITools.addTab(panelBottom, stockDetailPanel);
 		
 		panneauDeck.setLeftComponent(tabbedDeckSide);
@@ -719,6 +722,7 @@ public class ConstructPanel extends MTGUIComponent {
 					magicCardDetailPanel.setMagicCard(mc);
 					comboPanel.init(mc);
 					stockDetailPanel.initMagicCardStock(mc,null);
+					rulesPanel.init(mc);
 					if(f==STACK.MAIN)
 						cardDrawProbaPanel.init(deck, mc);
 					

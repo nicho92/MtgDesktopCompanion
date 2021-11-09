@@ -722,7 +722,7 @@ public class CardSearchPanel extends MTGUIComponent {
 			magicEditionDetailPanel.setMagicEdition(selectedCard.getCurrentSet());
 			cardsPicPanel.showCard(selectedCard);
 			
-			txtRulesArea.init(selectedCard.getRulings());
+			txtRulesArea.init(selectedCard);
 			
 
 			priceTablePanel.init(selectedCard);
