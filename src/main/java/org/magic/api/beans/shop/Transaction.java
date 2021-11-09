@@ -73,19 +73,13 @@ public class Transaction implements Serializable {
 		return dateSend;
 	}
 
-
-
 	public void setDateSend(Date dateSend) {
 		this.dateSend = dateSend;
 	}
 
-
-
 	public TransactionPayementProvider getPaymentProvider() {
 		return paymentProvider;
 	}
-
-
 
 	public void setPaymentProvider(TransactionPayementProvider paymentProvider) {
 		this.paymentProvider = paymentProvider;

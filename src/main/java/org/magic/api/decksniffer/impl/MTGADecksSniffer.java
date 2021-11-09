@@ -69,8 +69,6 @@ public class MTGADecksSniffer extends AbstractDeckSniffer {
 				
 			}
 		}
-		
-		
 		return d;
 	}
 
