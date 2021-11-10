@@ -2,13 +2,14 @@ package org.magic.api.interfaces.abstracts;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.AbstractMap.SimpleEntry;
 
 import org.api.mkm.modele.Localization;
+import org.api.mkm.tools.MkmConstants;
 import org.magic.api.beans.ConverterItem;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Transaction;
@@ -16,13 +17,17 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
+import org.magic.services.MTGControler;
 import org.magic.tools.MTG;
+import org.magic.tools.WooCommerceTools;
 
 public abstract class AbstractExternalShop extends AbstractMTGPlugin implements MTGExternalShop {
 
 	
 	protected abstract List<Transaction> loadTransaction() throws IOException;
 	protected abstract List<MTGStockItem> loadStock(String search) throws IOException;
+	protected abstract void saveOrUpdateStock(List<MTGStockItem> it) throws IOException ;	
+	
 	protected Map<MTGStockItem, Map.Entry<Integer,Double>> itemsBkcp; 
 	
 	
@@ -38,7 +43,7 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 	}
 	
 	
-	public List<ConverterItem> getRefs(String lang, int id)
+	protected List<ConverterItem> getRefs(String lang, int id)
 	{
 		try {
 			return MTG.getEnabledPlugin(MTGDao.class).listConversionItems().stream().filter(p->(p.getLang().equalsIgnoreCase(lang) && (p.getInputId()==id || p.getOutputId()==id))).toList();
@@ -78,10 +83,43 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 		return list;
 	}
 	
+	public static void main(String[] args) throws IOException, SQLException {
+		MTGControler.getInstance().init();
+		var commerce = MTG.getPlugin(WooCommerceTools.WOO_COMMERCE_NAME, MTGExternalShop.class);
+		
+		
+		var list  = commerce.listStock(" Time Spiral Remastered").stream().filter(p->!p.getTiersAppIds().isEmpty()).toList();
+		
+		commerce.saveOrUpdateStock(list, true);
+		
+	}
+	
+	
+	
+	@Override
+	public void saveOrUpdateStock(List<MTGStockItem> items,boolean allShop) throws IOException {	
+			saveOrUpdateStock(items);
+		
+			if(allShop)
+			{
+				for(var it :items )
+				{
+					for(var extComName :  it.getTiersAppIds().keySet().stream().filter(s->!s.equalsIgnoreCase(getName())).toList())
+					{
+						logger.debug("Updating " + it.getProduct().getName() + " on " + extComName + " with id=" + it.getTiersAppIds(extComName));
+						it.setId(Integer.parseInt( it.getTiersAppIds(extComName)));
+						MTG.getPlugin(extComName, MTGExternalShop.class).saveOrUpdateStock(it, false);
+					}
+					
+					
+				}
+			}
+	}
+	
 
 	@Override
-	public void saveOrUpdateStock(MTGStockItem it) throws IOException {	
-		saveOrUpdateStock(List.of(it));
+	public void saveOrUpdateStock(MTGStockItem it,boolean allShop) throws IOException {	
+		saveOrUpdateStock(List.of(it),allShop);
 	}
 	
 	

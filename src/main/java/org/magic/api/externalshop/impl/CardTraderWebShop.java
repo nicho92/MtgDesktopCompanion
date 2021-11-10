@@ -300,6 +300,6 @@ public class CardTraderWebShop extends AbstractExternalShop {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 
 }

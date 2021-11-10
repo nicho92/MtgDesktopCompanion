@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.sql.SQLException;
 import java.util.Locale;
 
 import org.apache.commons.configuration2.XMLConfiguration;
@@ -28,6 +29,7 @@ import org.magic.api.beans.WebShopConfig;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.exports.impl.JsonExport;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.game.model.Player;
@@ -37,6 +39,7 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.services.threads.ThreadPoolConfig;
 import org.magic.services.threads.ThreadPoolConfig.THREADPOOL;
 import org.magic.tools.ImageTools;
+import org.magic.tools.MTG;
 
 
 public class MTGControler {
@@ -498,6 +501,14 @@ public class MTGControler {
 				logger.error(e);
 			}
 		 }
+	}
+
+
+	public void init() throws SQLException {
+		
+		MTG.getEnabledPlugin(MTGDao.class).init();
+		loadAccountsConfiguration();
+		
 	}
 
 

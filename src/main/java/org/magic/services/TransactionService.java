@@ -201,7 +201,7 @@ public class TransactionService
 			t.setStatut(TransactionStatus.PAYMENT_WAITING);
 			for(MTGStockItem stock : accepteds) 
 			{
-				mtgshop.saveOrUpdateStock(stock);
+				mtgshop.saveOrUpdateStock(stock,true);
 				getEnabledPlugin(MTGDao.class).saveOrUpdateOrderEntry(toOrder(t, stock));
 			}
 			sendMail(t,"TransactionValid"," Your order is validate !");	

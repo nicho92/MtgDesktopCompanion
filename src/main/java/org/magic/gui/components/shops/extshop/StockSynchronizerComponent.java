@@ -88,7 +88,7 @@ public class StockSynchronizerComponent extends MTGUIComponent {
 			
 			if(rets == JOptionPane.YES_OPTION)
 				try {
-					shop.saveOrUpdateStock(ret);
+					shop.saveOrUpdateStock(ret,true);
 				} catch (IOException e1) {
 					logger.error(e1);
 				}

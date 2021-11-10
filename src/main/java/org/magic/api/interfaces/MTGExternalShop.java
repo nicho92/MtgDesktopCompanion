@@ -20,8 +20,8 @@ public interface MTGExternalShop extends MTGPlugin {
 	
 	public List<MTGStockItem> listStock(String search) throws IOException;
 	public MTGStockItem getStockById(EnumItems typeStock,Integer id)throws IOException;
-	public void saveOrUpdateStock(MTGStockItem stock)throws IOException;
-	public void saveOrUpdateStock(List<MTGStockItem> stocks)throws IOException;
+	public void saveOrUpdateStock(MTGStockItem stock,boolean allShop)throws IOException;
+	public void saveOrUpdateStock(List<MTGStockItem> stocks,boolean allShop)throws IOException;
 	
 	
 	public List<Category> listCategories() throws IOException;
