@@ -622,6 +622,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return arr;
 		}, transformer);
 
+		
+		//	TODO	@deprecated
 		get("/dash/card/:idCards/:foil", URLTools.HEADER_JSON, (request, response) -> {
 			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(ID_CARDS));
 
@@ -639,6 +641,21 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return arr;
 		});
 
+		get("/dash/variations/card/:idCards", URLTools.HEADER_JSON, (request, response) -> {
+			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(ID_CARDS));
+
+			var ret = new JsonObject();
+			HistoryPrice<MagicCard> resNormal = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(mc,false);
+			HistoryPrice<MagicCard> resFoil = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(mc,true);
+			
+			ret.add("normal", build(resNormal));
+			ret.add("foil", build(resFoil));
+			
+			return ret;
+		
+		});
+		
+		
 		get("/dash/edition/:idEd", URLTools.HEADER_JSON, (request, response) -> {
 			var ed = new MagicEdition();
 			ed.setId(request.params(ID_ED));
@@ -936,6 +953,23 @@ public class JSONHttpServer extends AbstractMTGServer {
 			
 			return temp.toString();
 		});		
+	}
+
+	private JsonArray build(HistoryPrice<MagicCard> res) {
+		
+		
+		var arr = new JsonArray();
+		
+		for (Entry<Date, Double> val : res) {
+			var obj = new JsonObject();
+			obj.add("date", new JsonPrimitive(val.getKey().getTime()));
+			obj.add("value", new JsonPrimitive(val.getValue()));
+
+			arr.add(obj);
+		}
+		
+		return arr;
+		
 	}
 
 	@Override
