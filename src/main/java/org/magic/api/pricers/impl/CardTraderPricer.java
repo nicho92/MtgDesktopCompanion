@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.api.cardtrader.modele.Address;
 import org.api.cardtrader.modele.MarketProduct;
 import org.api.cardtrader.services.CardTraderConstants;
@@ -24,6 +25,7 @@ public class CardTraderPricer extends AbstractPricesProvider {
 		var m = super.getDefaultAttributes();
 		
 		m.put("AUTOMATIC_ADD_CART", "false");
+		m.put("COUNTRY_FILTER", "IT,FR");
 		
 		return m;
 	}
@@ -96,20 +98,25 @@ public class CardTraderPricer extends AbstractPricesProvider {
 		c.start();
 		logger.debug("Begin searching " + bp);
 		service.listMarketProductByBluePrint(bp).forEach(marketItem->{
-			var mp = new MagicPrice();
-			mp.setCountry(marketItem.getSeller().getCountryCode());
-			mp.setCurrency(marketItem.getPrice().getCurrency());
-			mp.setLanguage(marketItem.getLanguage());
-			mp.setFoil(marketItem.isFoil());
-			mp.setValue(marketItem.getPrice().getValue());
-			mp.setMagicCard(card);
-			mp.setSeller(marketItem.getSeller().getUsername());
-			mp.setSite(getName());
-			mp.setQuality(marketItem.getCondition().getValue());
-			mp.setSellerUrl(CardTraderConstants.CARDTRADER_WEBSITE_URI+"/users/"+marketItem.getSeller().getUsername());
-			mp.setUrl(CardTraderConstants.CARDTRADER_WEBSITE_URI+"/cards/"+bp.getSlug()+"?share_code="+CardTraderConstants.SHARE_CODE);
-			mp.setShopItem(marketItem);
-			ret.add(mp);
+			
+			if(ArrayUtils.contains(getArray("COUNTRY_FILTER"),marketItem.getSeller().getCountryCode()) || getString("COUNTRY_FILTER").isEmpty())
+			{
+			
+					var mp = new MagicPrice();
+					mp.setCountry(marketItem.getSeller().getCountryCode());
+					mp.setCurrency(marketItem.getPrice().getCurrency());
+					mp.setLanguage(marketItem.getLanguage());
+					mp.setFoil(marketItem.isFoil());
+					mp.setValue(marketItem.getPrice().getValue());
+					mp.setMagicCard(card);
+					mp.setSeller(marketItem.getSeller().getUsername());
+					mp.setSite(getName());
+					mp.setQuality(marketItem.getCondition().getValue());
+					mp.setSellerUrl(CardTraderConstants.CARDTRADER_WEBSITE_URI+"/users/"+marketItem.getSeller().getUsername());
+					mp.setUrl(CardTraderConstants.CARDTRADER_WEBSITE_URI+"/cards/"+bp.getSlug()+"?share_code="+CardTraderConstants.SHARE_CODE);
+					mp.setShopItem(marketItem);
+					ret.add(mp);
+			}
 		});
 		
 		
