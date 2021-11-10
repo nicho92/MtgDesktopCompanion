@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -32,6 +33,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileFilter;
@@ -268,7 +270,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		var lblLocation = new JLangLabel("LOCATION",true);
 		var lbldbLocationValue = new JLabel(getEnabledPlugin(MTGDao.class).getDBLocation());
 		var lblSize = new JLangLabel("SIZE",true);
-		var lblSizeValue  = new JLabel(String.valueOf(getEnabledPlugin(MTGDao.class).getDBSize() / 1024 / 1024) + "MB");
+		var lblSizeValue  = new JLabel();
 		var lblIndexation = new JLabel("Indexation : ");
 		var lblIndexSize = new JLabel(UITools.formatDate(getEnabledPlugin(MTGCardsIndexer.class).getIndexDate()));
 		var btnIndexation = new JButton("Reindexation");
@@ -291,6 +293,27 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		panelDAO.add(lblIndexSize, UITools.createGridBagConstraints(null, null, 1, 4));
 		panelDAO.add(btnIndexation, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 4));
 		
+		
+		var sw = new SwingWorker<String, Void>()
+				{
+						@Override
+						protected String doInBackground() throws Exception {
+							return String.valueOf(getEnabledPlugin(MTGDao.class).getDBSize() / 1024 / 1024) + "MB";
+						}
+						
+						@Override
+						protected void done() {
+							try {
+								lblSizeValue.setText(get());
+							} catch (InterruptedException e) {
+								Thread.currentThread().interrupt();
+							} catch (ExecutionException e) {
+								logger.error(e);
+							}
+							
+						};
+				};
+		ThreadManager.getInstance().runInEdt(sw, "getting DB size");
 		
 /////////////CONFIG BOX
 		cboCollections = UITools.createComboboxCollection();
