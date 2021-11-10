@@ -248,12 +248,12 @@
   	    	
   	    	$.ajax({
   	  			dataType: 'json',
-  	   	        url: restserver+"/dash/card/"+$_GET("id")+"/false"
-  	   	   		 }).then(function(json_data) {
+  	   	        url: restserver+"/dash/variations/card/"+$_GET("id")
+  	   	        }).then(function(json_data) {
 			  	   	    	
   	   	   			 		new Morris.Line({
 			  	  	  		  element: 'priceVariation',
-			  	  	  		  data: json_data,
+			  	  	  		  data: json_data.normal,
 			  	  	  		  xkey: 'date',
 			  	  	  		  ykeys: ['value'],
 			  	  	  		  labels: ['Value'],
