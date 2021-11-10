@@ -260,14 +260,14 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 			
 		
 /////////////DAO BOX		
-		var lblBackupDao = new JLabel(capitalize("DAO_BACKUP") + " : ");
+		var lblBackupDao = new JLangLabel("DAO_BACKUP",true);
 		txtDAOBackup = new JTextFieldFileChooser(10,JFileChooser.FILES_AND_DIRECTORIES,MTGConstants.DATA_DIR.getAbsolutePath());
 		var btnBackup = new JButton(capitalize(EXPORT));
 		var lblDuplicateDb = new JLabel(capitalize("DUPLICATE_TO",getEnabledPlugin(MTGDao.class)));
 		var btnDuplicate = new JButton((capitalize(EXPORT)));
-		var lblLocation = new JLabel(capitalize("LOCATION") + " : ");
+		var lblLocation = new JLangLabel("LOCATION",true);
 		var lbldbLocationValue = new JLabel(getEnabledPlugin(MTGDao.class).getDBLocation());
-		var lblSize = new JLabel(capitalize("SIZE") + " : ");
+		var lblSize = new JLangLabel("SIZE",true);
 		var lblSizeValue  = new JLabel(String.valueOf(getEnabledPlugin(MTGDao.class).getDBSize() / 1024 / 1024) + "MB");
 		var lblIndexation = new JLabel("Indexation : ");
 		var lblIndexSize = new JLabel(UITools.formatDate(getEnabledPlugin(MTGCardsIndexer.class).getIndexDate()));

@@ -329,8 +329,17 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 
 	@Override
 	public void saveOrUpdateStock(List<MTGStockItem> stock) throws IOException {
-		// TODO Auto-generated method stub
-		
+		init();
+		Map<String, Object> vars = new HashMap<>();
+		for(MTGStockItem it : stock)
+		{	
+			vars.put("price", String.valueOf(it.getPrice()));
+			vars.put("regular_price", String.valueOf(it.getPrice()));
+			vars.put("stock_quantity", it.getQte());
+			var ret = client.update(EndpointBaseType.PRODUCTS.getValue(),it.getId(),vars );
+	        logger.debug("price =" +ret.get("price") + " Qte ="+ ret.get("stock_quantity"));
+			it.setUpdated(false);
+		}
 	}
 
 	@Override
