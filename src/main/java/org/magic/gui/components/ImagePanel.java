@@ -191,20 +191,6 @@ public class ImagePanel extends JXPanel {
 	}
 	
 	
-	public void setInitialPosition(int x, int y, double zoom)
-	{
-		this.pX=x;
-		this.pY=y;
-		this.zoomFactor=zoom;
-	}
-	
-	public void setXY(int x, int y)
-	{
-		this.pX=x;
-		this.pY=y;
-	}
-	
-	
 	public double getZoomFactor() {
 		return zoomFactor;
 	}
