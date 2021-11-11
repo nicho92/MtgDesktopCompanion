@@ -670,7 +670,7 @@
 					<binFileExtensions>
 						<unix>.sh</unix>
 					</binFileExtensions>
-					<extraJvmArguments>-Xmx2048m
+					<extraJvmArguments>-Xmx4096m
 						-Djdk.tls.client.protocols="TLSv1,TLSv1.1,TLSv1.2"
 						-Djava.library.path="./natives"</extraJvmArguments>
 					<showConsoleWindow>false</showConsoleWindow>
