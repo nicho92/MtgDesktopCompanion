@@ -216,13 +216,15 @@
 				}	
   	    	}
   	    	
+  	    	var key='foil';
+  	    	
   	    	
   	    	$.ajax({
   	  			dataType: 'json',
   	   	        url: restserver+"/dash/variations/card/"+$_GET("id")
   	   	   		 }).then(function(json_data) {
 				  	   	   		var config = {
-				  	   	   	      data: json_data.normal,
+				  	   	   	      data: json_data[key],
 				  	   	   		  element: 'priceVariation',
 					  	   	   	  xkey: 'date',
 				  	  	  		  ykeys: ['value'],
@@ -236,8 +238,8 @@
 				  	   	   	  };   	
   	   	   		  	   	   		
 				  	   	    Morris.Line(config);
-  	   	   			 		var vallast = json_data.normal[json_data.normal.length - 1].value;
-  	   	   					var valpreLast = json_data.normal[json_data.normal.length - 2].value;
+  	   	   			 		var vallast = json_data[key][json_data[key].length - 1].value;
+  	   	   					var valpreLast = json_data[key][json_data[key].length - 2].value;
   	   	   			 		var pc = new Number(( ( vallast - valpreLast ) / valpreLast ) * 100);
   	   	   					
   	   	   					
