@@ -221,21 +221,23 @@
   	  			dataType: 'json',
   	   	        url: restserver+"/dash/variations/card/"+$_GET("id")
   	   	   		 }).then(function(json_data) {
-			  	   	    	
-  	   	   			 		new Morris.Line({
-			  	  	  		  element: 'priceVariation',
-			  	  	  		  data: json_data.normal,
-			  	  	  		  xkey: 'date',
-			  	  	  		  ykeys: ['value'],
-			  	  	  		  labels: ['Value'],
-			  	  	  		  xLabels: 'month',
-			  	  	  		  hideHover: 'auto',
-			  	  	  		  resize: true,
-			  	  	  		  pointSize:0
-			  	  	  		});
-  	   	   			 		
-  	   	   			 		var vallast = json_data[json_data.length - 1].value;
-  	   	   					var valpreLast = json_data[json_data.length - 2].value;
+				  	   	   		var config = {
+				  	   	   	      data: json_data.normal,
+				  	   	   		  element: 'priceVariation',
+					  	   	   	  xkey: 'date',
+				  	  	  		  ykeys: ['value'],
+				  	  	  		  labels: ['Price'],
+				  	  	  		  xLabels: 'month',
+				  	  	  		  hideHover: 'auto',
+				  	   	   	      fillOpacity: 0.6,
+				  	   	   	      behaveLikeLine: true,
+				  	   	   	      resize: true,
+				  	   	   	 	  pointSize:0
+				  	   	   	  };   	
+  	   	   		  	   	   		
+				  	   	    Morris.Line(config);
+  	   	   			 		var vallast = json_data.normal[json_data.normal.length - 1].value;
+  	   	   					var valpreLast = json_data.normal[json_data.normal.length - 2].value;
   	   	   			 		var pc = new Number(( ( vallast - valpreLast ) / valpreLast ) * 100);
   	   	   					
   	   	   					
