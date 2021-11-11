@@ -13,6 +13,12 @@ import org.magic.tools.URLToolsClient;
 
 public class MNTGrader extends AbstractGradersProvider {
 
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.BUGGED;
+	}
+	
 	@Override
 	public Grading loadGrading(String identifier) throws IOException {
 		
