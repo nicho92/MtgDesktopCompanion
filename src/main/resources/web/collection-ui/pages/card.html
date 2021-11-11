@@ -216,7 +216,7 @@
 				}	
   	    	}
   	    	
-  	    	var key='foil';
+  	    	var key='normal';
   	    	
   	    	
   	    	$.ajax({
@@ -288,6 +288,9 @@
 			          	{ "data": "quality",
 			           	  "defaultContent": ""
 			           	},
+			           	{ "data": "foil",
+				           	  "defaultContent": ""
+				        },
 			            { 
 	  			                "data": "url",
 	  			                "render": function(data, type, row, meta){
@@ -428,6 +431,7 @@
 											<th>prices</th>
 											<th>currency</th>
 											<th>quality</th>
+											<th>foil</th>
 											<th>link</th>
 										</tr>
 									</thead>
