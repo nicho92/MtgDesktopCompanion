@@ -387,13 +387,12 @@ public class DiscordBotServer extends AbstractMTGServer {
 					
 					try {
 						if(prices!=null && !prices.isEmpty()) {
-							prices = prices.stream().filter(MagicPrice::isFoil).toList();
-							Collections.sort(prices, new MagicPricesComparator());
+							prices = prices.stream().filter(MagicPrice::isFoil).sorted(new MagicPricesComparator()).toList();
 							if(prices!=null && !prices.isEmpty())
 								eb.addField(prov.getName() +" foil",UITools.formatDouble(prices.get(0).getValue())+" "+prices.get(0).getCurrency().getCurrencyCode(),true);
 						}
 					} catch (Exception e) {
-						logger.error(e);
+						logger.error("error on prices",e);
 					}
 					
 					
