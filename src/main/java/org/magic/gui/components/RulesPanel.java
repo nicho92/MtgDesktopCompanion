@@ -1,11 +1,11 @@
 package org.magic.gui.components;
 
+import java.awt.BorderLayout;
 import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import java.awt.BorderLayout;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicRuling;

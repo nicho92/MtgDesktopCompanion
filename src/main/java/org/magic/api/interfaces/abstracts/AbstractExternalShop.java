@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.api.mkm.modele.Localization;
-import org.api.mkm.tools.MkmConstants;
 import org.magic.api.beans.ConverterItem;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Transaction;
