@@ -10,6 +10,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
 import java.util.Arrays;
 import java.util.List;
 
@@ -130,17 +131,17 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0E-4 };
 		setLayout(gridBagLayout);
 
-		add(new JLabel(capitalize("NAME") + " :"), UITools.createGridBagConstraints(null, null, 0, 0));
-		add(new JLabel(capitalize("CARD_COST") + " :"), UITools.createGridBagConstraints(null, null, 2, 0));
-		add(new JLabel(capitalize("CARD_TYPES")+ " :"), UITools.createGridBagConstraints(null, null, 0, 1));
-		add(new JLabel(capitalize("CARD_MANA") + " :"),  UITools.createGridBagConstraints(null, null, 2, 1));
-		add(new JLabel(capitalize("CARD_LOYALTY")+ " :"), UITools.createGridBagConstraints(null, null, 0, 2));
-		add(new JLabel(capitalize("CARD_LAYOUT") + " :"), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 3));
-		add(new JLabel(capitalize("CARD_TEXT") + " :"),UITools.createGridBagConstraints(null, null, 0, 4,null,2));
-		add(new JLabel(capitalize("CARD_FLAVOR") + " :"), UITools.createGridBagConstraints(null, null, 0, 6));
-		add(new JLabel(capitalize("CARD_ARTIST") + " :"), UITools.createGridBagConstraints(null, null, 0, 7));
-		add(new JLabel(capitalize("CARD_LEGALITIES") + " :"), UITools.createGridBagConstraints(null, null, 0, 8));
-		add(new JLabel(capitalize("CARD_WATERMARK") + " :"), UITools.createGridBagConstraints(null, null, 2, 7));
+		add(new JLangLabel("NAME",true), UITools.createGridBagConstraints(null, null, 0, 0));
+		add(new JLangLabel("CARD_COST",true), UITools.createGridBagConstraints(null, null, 2, 0));
+		add(new JLangLabel("CARD_TYPES",true), UITools.createGridBagConstraints(null, null, 0, 1));
+		add(new JLangLabel("CARD_MANA",true),  UITools.createGridBagConstraints(null, null, 2, 1));
+		add(new JLangLabel("CARD_LOYALTY",true), UITools.createGridBagConstraints(null, null, 0, 2));
+		add(new JLangLabel("CARD_LAYOUT",true), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 3));
+		add(new JLangLabel("CARD_TEXT",true),UITools.createGridBagConstraints(null, null, 0, 4,null,2));
+		add(new JLangLabel("CARD_FLAVOR",true), UITools.createGridBagConstraints(null, null, 0, 6));
+		add(new JLangLabel("CARD_ARTIST",true), UITools.createGridBagConstraints(null, null, 0, 7));
+		add(new JLangLabel("CARD_LEGALITIES",true), UITools.createGridBagConstraints(null, null, 0, 8));
+		add(new JLangLabel("CARD_WATERMARK",true), UITools.createGridBagConstraints(null, null, 2, 7));
 
 		
 		
@@ -339,13 +340,35 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 	}
 
 	private void setMagicLogo(final String set, final String rarity) {
-		ThreadManager.getInstance().executeThread(() -> {
-			try {
-				lblLogoSet.setIcon(new ImageIcon(getEnabledPlugin(MTGPictureProvider.class).getSetLogo(set, rarity)));
-			} catch (Exception e) {
-				lblLogoSet.setIcon(null);
+		
+		
+		
+		var sw = new SwingWorker<BufferedImage, Void>(){
+
+			@Override
+			protected BufferedImage doInBackground() throws Exception {
+				return getEnabledPlugin(MTGPictureProvider.class).getSetLogo(set, rarity);
 			}
-		}, "retrieve logo " + set + " " + rarity);
+			
+			@Override
+			protected void done() {
+				try {
+					lblLogoSet.setIcon(new ImageIcon(get()));
+				}
+				catch (InterruptedException e) {
+					Thread.currentThread().interrupt();
+					lblLogoSet.setIcon(null);
+				}
+				catch (Exception e) {
+					lblLogoSet.setIcon(null);
+				}
+			}
+			
+		};
+		
+		
+		
+		ThreadManager.getInstance().runInEdt(sw, "loading logo");
 
 	}
 
@@ -438,15 +461,12 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 			if(magicCard.getRarity()!=null)
 				setMagicLogo(magicCard.getCurrentSet().getId(), magicCard.getRarity().toPrettyString());
 			
-			ThreadManager.getInstance().executeThread(() -> {
-				
-				
-				int showCount = magicCard.getCurrentSet().getCardCountOfficial();
-				if(showCount==0)
-					showCount=magicCard.getCurrentSet().getCardCount();
-				
-				lblnumberInSet.setText(magicCard.getCurrentSet().getNumber() + "/"+ showCount);
-			}, "loadLogo");
+
+			int showCount = magicCard.getCurrentSet().getCardCountOfficial();
+			if(showCount==0)
+				showCount=magicCard.getCurrentSet().getCardCount();
+			
+			lblnumberInSet.setText(magicCard.getCurrentSet().getNumber() + "/"+ showCount);
 		}
 
 		if (magicCard != null && enableCollectionLookup && !magicCard.getEditions().isEmpty()) {
