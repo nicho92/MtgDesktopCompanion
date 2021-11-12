@@ -493,7 +493,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 							}
 							catch(Exception e)
 							{
-								//do nothing;
+								//do nothing
 							}
 						}
 						return obj;

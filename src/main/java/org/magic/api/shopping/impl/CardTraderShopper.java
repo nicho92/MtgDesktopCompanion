@@ -13,9 +13,6 @@ public class CardTraderShopper extends AbstractMagicShopper {
 
 	private static final String TOKEN = "TOKEN";
 	
-	public CardTraderShopper() {
-	
-	}
 	
 	
 	@Override

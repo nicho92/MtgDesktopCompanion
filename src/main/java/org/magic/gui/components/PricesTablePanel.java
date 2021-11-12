@@ -19,7 +19,6 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingWorker;
 import javax.swing.table.TableModel;
 
-import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
@@ -29,14 +28,12 @@ import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.CardsPriceTableModel;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
 
 
 public class PricesTablePanel extends MTGUIComponent {
 	
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private static final long serialVersionUID = 1L;
 	private CardsPriceTableModel model;
 	private JXTable tablePrices;

@@ -378,7 +378,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		var t = new Transaction();
 			t.setId(parseInt);
 			t.setContact(toContact(new JsonExport().toJsonElement(ret.get("billing")).getAsJsonObject(), Integer.parseInt(ret.get("customer_id").toString())));
-			t.setStatut(tostatus(ret.get("status").toString()));
+			t.setStatut(tostatus(ret.get(STATUS).toString()));
 			t.setItems(toWooItems(new JsonExport().toJsonArray(ret.get("line_items"))));
 			t.setCurrency(ret.get("currency").toString());
 		return t;
