@@ -662,7 +662,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		thumbnailPanel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				DisplayableCard lab = (DisplayableCard) thumbnailPanel.getComponentAt(new Point(e.getX(), e.getY()));
+				var lab = (DisplayableCard) thumbnailPanel.getComponentAt(new Point(e.getX(), e.getY()));
 				selectedCard = lab.getMagicCard();
 				selectedEdition = lab.getMagicCard().getCurrentSet();
 				cardsPicPanel.showCard(selectedCard);
@@ -709,29 +709,23 @@ public class CardSearchPanel extends MTGUIComponent {
 
 	public void updateCards() {
 		try {
-		
-
-			((DefaultListModel<MagicEdition>) listEdition.getModel()).removeAllElements();
-
-			for (MagicEdition me : selectedCard.getEditions())
-				((DefaultListModel<MagicEdition>) listEdition.getModel()).addElement(me);
-
+			cardsPicPanel.showCard(selectedCard);
 			detailCardPanel.setMagicCard(selectedCard, true);
 			magicEditionDetailPanel.setMagicEdition(selectedCard.getCurrentSet());
-			cardsPicPanel.showCard(selectedCard);
-			
 			txtRulesArea.init(selectedCard);
-			
-
 			priceTablePanel.init(selectedCard);
 			similarityPanel.init(selectedCard);
 			panelJson.show(selectedCard);
 			deckPanel.init(selectedCard);
 			stockPanel.initMagicCardStock(selectedCard, new MagicCollection(MTGControler.getInstance().get("default-library")));
 			abilitiesPanel.init(selectedCard);
-			ThreadManager.getInstance().executeThread(
-					() -> historyChartPanel.init(selectedCard, selectedEdition, selectedCard.getName()),
-					"load history for " + selectedEdition);
+			historyChartPanel.init(selectedCard, selectedEdition, selectedCard.getName());
+
+			((DefaultListModel<MagicEdition>) listEdition.getModel()).removeAllElements();
+			for (MagicEdition me : selectedCard.getEditions())
+				((DefaultListModel<MagicEdition>) listEdition.getModel()).addElement(me);
+
+
 
 		} catch (Exception e1) {
 			logger.error("error ",e1);

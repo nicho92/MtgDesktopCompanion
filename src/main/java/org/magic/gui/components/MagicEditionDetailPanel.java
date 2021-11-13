@@ -7,6 +7,7 @@ import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -21,9 +22,11 @@ import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.tools.UITools;
-public class MagicEditionDetailPanel extends JPanel {
+public class MagicEditionDetailPanel extends MTGUIComponent {
 
 	/**
 	 * 
@@ -39,14 +42,12 @@ public class MagicEditionDetailPanel extends JPanel {
 	private JTextField blockJTextField;
 	private JTextField idJtextField;
 	private JCheckBox chkOnline;
-	private BoosterPicsPanel lblBoosterPic;
+	private BoosterPicsPanel boosterPicPanel;
 	private boolean openBooster;
 
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public MagicEditionDetailPanel(boolean openBooster) {
 		this.openBooster = openBooster;
-
 		initGUI();
 	}
 
@@ -122,8 +123,8 @@ public class MagicEditionDetailPanel extends JPanel {
 
 		}
 
-		lblBoosterPic = new BoosterPicsPanel();
-		panneauBooster.add(lblBoosterPic);
+		boosterPicPanel = new BoosterPicsPanel();
+		panneauBooster.add(boosterPicPanel);
 
 		if (magicEdition != null) {
 			mBindingGroup = initDataBindings();
@@ -142,7 +143,7 @@ public class MagicEditionDetailPanel extends JPanel {
 		chkOnline.setEnabled(b);
 	}
 
-	public org.magic.api.beans.MagicEdition getMagicEdition() {
+	public MagicEdition getMagicEdition() {
 		return magicEdition;
 	}
 
@@ -153,20 +154,34 @@ public class MagicEditionDetailPanel extends JPanel {
 	public void setMagicEdition(MagicEdition newMagicEdition, boolean update) {
 		magicEdition = newMagicEdition;
 
-		if (update) {
-			if (mBindingGroup != null) {
-				mBindingGroup.unbind();
-				mBindingGroup = null;
+		
+		if(isVisible() && update) {
+		
+				if (mBindingGroup != null) {
+					mBindingGroup.unbind();
+					mBindingGroup = null;
+				}
+				if (magicEdition != null) {
+					mBindingGroup = initDataBindings();
+				}
 			}
-			if (magicEdition != null) {
-				mBindingGroup = initDataBindings();
-			}
-		}
 		
 		
 
 	}
-
+	
+	@Override
+	public void onVisible() {
+		if (mBindingGroup != null) {
+			mBindingGroup.unbind();
+			mBindingGroup = null;
+		}
+		if (magicEdition != null) {
+			mBindingGroup = initDataBindings();
+		}
+	}
+	
+	
 	protected BindingGroup initDataBindings() {
 		BeanProperty<MagicEdition, Integer> cardCountProperty = BeanProperty.create("cardCount");
 		BeanProperty<JTextField, String> valueProperty = BeanProperty.create("text");
@@ -211,8 +226,8 @@ public class MagicEditionDetailPanel extends JPanel {
 		autoBinding14.bind();
 
 		
-		if(!magicEdition.equals(lblBoosterPic.getEdition()))
-			lblBoosterPic.setEdition(magicEdition);
+		if(!magicEdition.equals(boosterPicPanel.getEdition()))
+			boosterPicPanel.setEdition(magicEdition);
 		
 		
 		//
@@ -227,4 +242,18 @@ public class MagicEditionDetailPanel extends JPanel {
 		bindingGroup.addBinding(autoBinding14);
 		return bindingGroup;
 	}
+
+	@Override
+	public String getTitle() {
+		return "Edition";
+	}
+	
+	@Override
+	public ImageIcon getIcon() {
+		return MTGConstants.ICON_BACK;
+	}
+	
+	
+	
+	
 }
