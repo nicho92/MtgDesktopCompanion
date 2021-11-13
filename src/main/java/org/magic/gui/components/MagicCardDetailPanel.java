@@ -221,7 +221,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		btnStock.setEnabled(false);
 		btnStock.setToolTipText(capitalize("ADD_CARDS_STOCKS"));
 		btnStock.addActionListener(ae -> {
-			MagicCardStock st = MTGControler.getInstance().getDefaultStock();
+			var st = MTGControler.getInstance().getDefaultStock();
 			st.setProduct(magicCard);
 			try {
 				getEnabledPlugin(MTGDao.class).saveOrUpdateCardStock(st);
@@ -251,7 +251,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		var flowLayout = (FlowLayout) panelDetailCreature.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		panelDetailCreature.add(loyaltyJTextField);
-		panelDetailCreature.add(new JLabel(capitalize("CARD_POWER") + " :"));
+		panelDetailCreature.add(new JLangLabel("CARD_POWER",true));
 		panelDetailCreature.add(powerJTextField);
 		panelDetailCreature.add(new JLabel("/"));
 		panelDetailCreature.add(toughnessJTextField);
