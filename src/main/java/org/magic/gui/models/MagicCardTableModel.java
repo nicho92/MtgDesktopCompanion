@@ -13,7 +13,7 @@ public class MagicCardTableModel extends GenericTableModel<MagicCard> {
 	
 	public MagicCardTableModel() {
 		columns=new String[] {
-				"NAME",
+				"CARD_NAME",
 				"CARD_LANGUAGE",
 				"CARD_MANA",
 				"CARD_TYPES",
