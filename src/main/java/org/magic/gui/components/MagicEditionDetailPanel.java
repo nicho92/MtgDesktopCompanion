@@ -71,31 +71,31 @@ public class MagicEditionDetailPanel extends MTGUIComponent {
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0E-4 };
 		panneauHaut.setLayout(gridBagLayout);
 
-		panneauHaut.add(new JLabel(capitalize("EDITION") + " :"), UITools.createGridBagConstraints(null, null, 0, 0));
+		panneauHaut.add(new JLangLabel("EDITION",true), UITools.createGridBagConstraints(null, null, 0, 0));
 		setJTextField = new JTextField();
 		panneauHaut.add(setJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 0));
 
-		panneauHaut.add(new JLabel(capitalize("EDITION_TYPE") + " :"), UITools.createGridBagConstraints(null, null, 0, 1));
+		panneauHaut.add(new JLangLabel("EDITION_TYPE",true), UITools.createGridBagConstraints(null, null, 0, 1));
 		typeJTextField = new JTextField();
 		panneauHaut.add(typeJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 1));
 		
-		panneauHaut.add(new JLabel(capitalize("DATE_RELEASE") + " :"), UITools.createGridBagConstraints(null, null, 0, 2));
+		panneauHaut.add(new JLangLabel("DATE_RELEASE",true), UITools.createGridBagConstraints(null, null, 0, 2));
 		releaseDateJTextField = new JTextField();
 		panneauHaut.add(releaseDateJTextField,  UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 2));
 	
-		panneauHaut.add(new JLabel(capitalize("EDITION_CARD_COUNT") + " :"), UITools.createGridBagConstraints(null, null, 0, 4));
+		panneauHaut.add(new JLangLabel("EDITION_CARD_COUNT",true), UITools.createGridBagConstraints(null, null, 0, 4));
 		cardCountTextField = new JTextField();
 		panneauHaut.add(cardCountTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 4));
 
-		panneauHaut.add(new JLabel(capitalize("EDITION_BLOCK") + " :"), UITools.createGridBagConstraints(null, null, 0, 5));
+		panneauHaut.add(new JLangLabel("EDITION_BLOCK",true), UITools.createGridBagConstraints(null, null, 0, 5));
 		blockJTextField = new JTextField(10);
 		panneauHaut.add(blockJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 5));
 
-		panneauHaut.add(new JLabel("ID :"), UITools.createGridBagConstraints(null, null, 0, 6));
+		panneauHaut.add(new JLangLabel("ID",true), UITools.createGridBagConstraints(null, null, 0, 6));
 		idJtextField = new JTextField(10);
 		panneauHaut.add(idJtextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 6));
 
-		panneauHaut.add(new JLabel(capitalize("EDITION_ONLINE") + " :"), UITools.createGridBagConstraints(null, null, 0, 7));
+		panneauHaut.add(new JLangLabel("EDITION_ONLINE",true), UITools.createGridBagConstraints(null, null, 0, 7));
 		chkOnline = new JCheckBox("");
 		panneauHaut.add(chkOnline, UITools.createGridBagConstraints(GridBagConstraints.WEST,null, 1, 7));
 		
