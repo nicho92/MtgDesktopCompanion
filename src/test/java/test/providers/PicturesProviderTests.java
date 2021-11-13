@@ -17,7 +17,6 @@ import org.magic.api.interfaces.MTGPictureCache;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.pictures.impl.DeckMasterPicturesProvider;
 import org.magic.api.pictures.impl.GathererPicturesProvider;
-import org.magic.api.pictures.impl.MagidexPicturesProvider;
 import org.magic.api.pictures.impl.MythicSpoilerPicturesProvider;
 import org.magic.api.pictures.impl.PersonalSetPicturesProvider;
 import org.magic.api.pictures.impl.ScryFallPicturesProvider;
@@ -76,7 +75,6 @@ public class PicturesProviderTests {
 		testProviders(new ScryFallPicturesProvider());
 		testProviders(new GathererPicturesProvider());
 		testProviders(new ScryFallPicturesProvider());
-		testProviders(new MagidexPicturesProvider());
 		testProviders(new MythicSpoilerPicturesProvider());
 		testProviders(new DeckMasterPicturesProvider());
 		testProviders(new PersonalSetPicturesProvider());
@@ -86,7 +84,6 @@ public class PicturesProviderTests {
 		testProviders(new ScryFallPicturesProvider());
 		testProviders(new GathererPicturesProvider());
 		testProviders(new ScryFallPicturesProvider());
-		testProviders(new MagidexPicturesProvider());
 		testProviders(new MythicSpoilerPicturesProvider());
 		testProviders(new DeckMasterPicturesProvider());
 		testProviders(new PersonalSetPicturesProvider());
