@@ -83,7 +83,7 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 		chkSearchOutput.setSelected(true);
 		
 		
-		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
+		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 		txtSearchProduct = new JTextField(25);
 		modelInput = new DefaultListModel<>();
 		listInput = new JList<>(modelInput);

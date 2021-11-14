@@ -3,6 +3,7 @@ package org.magic.gui.components.shops;
 import java.awt.BorderLayout;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -10,9 +11,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.SwingWorker;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.shop.Transaction;
+import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.ContactPanel;
 import org.magic.gui.components.ObjectViewerPanel;
@@ -21,6 +24,7 @@ import org.magic.gui.renderer.standard.DateTableCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.TransactionService;
+import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
 
 import com.jogamp.newt.event.KeyEvent;
@@ -34,7 +38,7 @@ public class TransactionsPanel extends MTGUIComponent {
 	private TransactionManagementPanel managementPanel;
 	private ObjectViewerPanel viewerPanel;
 	private JPanel panneauHaut;
-	
+	private AbstractBuzyIndicatorComponent buzy;
 	
 	public TransactionsPanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -45,7 +49,7 @@ public class TransactionsPanel extends MTGUIComponent {
 		managementPanel= new TransactionManagementPanel();
 		model = new TransactionsTableModel();
 		viewerPanel = new ObjectViewerPanel();
-		
+		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 		var btnRefresh = UITools.createBindableJButton("", MTGConstants.ICON_REFRESH,KeyEvent.VK_R,"reload");
 		var btnMerge = UITools.createBindableJButton("", MTGConstants.ICON_MERGE,KeyEvent.VK_M,"merge");
 		var btnDelete = UITools.createBindableJButton("", MTGConstants.ICON_DELETE,KeyEvent.VK_D,"delete");
@@ -76,6 +80,7 @@ public class TransactionsPanel extends MTGUIComponent {
 		panneauHaut.add(btnRefresh);
 		panneauHaut.add(btnMerge);
 		panneauHaut.add(btnDelete);
+		panneauHaut.add(buzy);
 		
 		
 		table.getSelectionModel().addListSelectionListener(lsl->{
@@ -152,13 +157,33 @@ public class TransactionsPanel extends MTGUIComponent {
 	
 	private void reload()
 	{
-		try {
-			model.clear();
-			model.addItems(TransactionService.listTransactions());
-			model.fireTableDataChanged();
-		} catch (Exception e) {
-			logger.error("error loading transactions",e);
-		}
+		buzy.start();
+		model.clear();
+		var sw = new SwingWorker<List<Transaction>, Void>(){
+
+			@Override
+			protected List<Transaction> doInBackground() throws Exception {
+				return TransactionService.listTransactions();
+			}
+			
+			@Override
+			protected void done() {
+				try {
+					model.addItems(get());
+				} catch (InterruptedException e) {
+					Thread.currentThread().interrupt();
+				} catch (Exception e) {
+					logger.error(e);
+				}
+				buzy.end();
+				model.fireTableDataChanged();
+			}
+			
+			
+		};
+		
+		ThreadManager.getInstance().runInEdt(sw, "Load transactions");
+		
 	}
 
 	@Override

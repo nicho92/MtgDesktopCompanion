@@ -1,6 +1,7 @@
 package org.magic.gui.components.shops;
 
 import java.awt.BorderLayout;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -11,6 +12,7 @@ import javax.swing.SwingWorker;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.shop.Contact;
+import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.CardStockPanel;
 import org.magic.gui.components.ContactPanel;
@@ -31,6 +33,7 @@ public class ContactsManagementPanel extends MTGUIComponent {
 	private ContactTableModel model;
 	private ContactPanel contactPanel;
 	private ObjectViewerPanel viewerPanel;
+	private AbstractBuzyIndicatorComponent buzy;
 	
 	public ContactsManagementPanel() {
 		
@@ -42,7 +45,7 @@ public class ContactsManagementPanel extends MTGUIComponent {
 		contactPanel = new ContactPanel(true);
 		model = new ContactTableModel();
 		viewerPanel = new ObjectViewerPanel();
-		
+		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 		var btnRefresh = UITools.createBindableJButton("", MTGConstants.ICON_REFRESH,KeyEvent.VK_R,"reload");
 		var btnNewContact = UITools.createBindableJButton("", MTGConstants.ICON_NEW, KeyEvent.VK_N, "NewContact");
 		var btnDeleteContact = UITools.createBindableJButton("", MTGConstants.ICON_DELETE, KeyEvent.VK_DELETE, "DeleteContact");
@@ -69,7 +72,7 @@ public class ContactsManagementPanel extends MTGUIComponent {
 		panneauHaut.add(btnRefresh);
 		panneauHaut.add(btnNewContact);
 		panneauHaut.add(btnDeleteContact);
-		
+		panneauHaut.add(buzy);
 		
 		table.getSelectionModel().addListSelectionListener(lsl->{
 			
@@ -142,14 +145,35 @@ public class ContactsManagementPanel extends MTGUIComponent {
 	
 	private void reload()
 	{
-		try {
-			model.clear();
-			model.addItems(TransactionService.listContacts());
-			model.fireTableDataChanged();
-		} catch (Exception e) {
-			logger.error("error loading Contacts",e);
-		}
+		buzy.start();
+		model.clear();
+		var sw = new SwingWorker<List<Contact>, Void>(){
+
+			@Override
+			protected List<Contact> doInBackground() throws Exception {
+				return TransactionService.listContacts();
+			}
+			
+			@Override
+			protected void done() {
+				try {
+					model.addItems(get());
+				} catch (InterruptedException e) {
+					Thread.currentThread().interrupt();
+				} catch (Exception e) {
+					logger.error(e);
+				}
+				buzy.end();
+				model.fireTableDataChanged();
+			}
+			
+			
+		};
+		
+		ThreadManager.getInstance().runInEdt(sw, "Load contacts");
+		
 	}
+
 
 	@Override
 	public void onFirstShowing() {
