@@ -1303,6 +1303,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	@Override
 	public List<MagicCollection> listCollectionFromCards(MagicCard mc) throws SQLException {
 		List<MagicCollection> cols = new ArrayList<>();
+		
 		if (mc.getEditions().isEmpty())
 			throw new SQLException("No edition defined");
 		

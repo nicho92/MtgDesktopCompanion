@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -44,7 +45,6 @@ import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardNames;
-import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
@@ -469,15 +469,29 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 			lblnumberInSet.setText(magicCard.getCurrentSet().getNumber() + "/"+ showCount);
 		}
 
-		if (magicCard != null && enableCollectionLookup && !magicCard.getEditions().isEmpty()) {
-			ThreadManager.getInstance().executeThread(() -> {
-				try {
-					listModelCollection.removeAllElements();
-					getEnabledPlugin(MTGDao.class).listCollectionFromCards(magicCard).forEach(col->listModelCollection.addElement(col));
-				} catch (Exception e) {
-					logger.error(e);
-				}
-			}, "loadCollections");
+		if (magicCard != null && enableCollectionLookup && !magicCard.getEditions().isEmpty()) 
+		{
+			var sw = new SwingWorker<List<MagicCollection>, Void>()
+					{
+							@Override
+							protected List<MagicCollection> doInBackground() throws Exception {
+								return getEnabledPlugin(MTGDao.class).listCollectionFromCards(magicCard);
+							}
+							
+							@Override
+							protected void done() {
+								listModelCollection.removeAllElements();
+								try {
+									get().forEach(col->listModelCollection.addElement(col));
+								} catch (InterruptedException e) {
+									Thread.currentThread().interrupt();
+								} catch (Exception e) {
+									logger.error(e);
+								}
+							}
+							
+					};
+			ThreadManager.getInstance().runInEdt(sw, "loadCollections");
 		}
 
 		if (magicCard != null && enableCollectionLookup)
@@ -522,8 +536,9 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 							tglLangButton.setFont(tglLangButton.getFont().deriveFont(tglLangButton.getFont().getSize()-2));
 							AbstractAction act = new AbstractAction() {
 								private static final long serialVersionUID = 1L;
+								
 								@Override
-								public void actionPerformed(ActionEvent ae) {
+								public void actionPerformed(ActionEvent e) {
 									obs.setChanged();
 									obs.notifyObservers(fn);
 									txtTextPane.setText(fn.getText());

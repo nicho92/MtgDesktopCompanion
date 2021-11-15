@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -177,18 +178,45 @@ public class CardStockPanel extends MTGUIComponent {
 		btnSave.setEnabled(true);
 		btnDelete.setEnabled(true);
 
-		try {
-			
-			if(col==null)
-				model.init(getEnabledPlugin(MTGDao.class).listStocks(mc));
-			else
-				model.init(getEnabledPlugin(MTGDao.class).listStocks(mc, col,true));
-			table.packAll();
-		} catch (Exception e) {
-			logger.error(e);
+		if(isVisible())
+		{
+			onVisible();
 		}
 
 	}
+	
+	
+	@Override
+	public void onVisible() {
+		var sw = new SwingWorker<List<MagicCardStock> , Void>()
+		{
+			@Override
+			protected List<MagicCardStock> doInBackground() throws Exception {
+				if(col==null)
+					return getEnabledPlugin(MTGDao.class).listStocks(mc);
+				else
+					return getEnabledPlugin(MTGDao.class).listStocks(mc, col,true);
+			}
+			
+			
+			@Override
+			protected void done() {
+				try {
+					model.init(get());
+					table.packAll();
+				} catch (InterruptedException e) {
+					Thread.currentThread().interrupt();
+				} catch (ExecutionException e) {
+					logger.error(e);
+				}
+				
+			}
+			
+		};
+		
+		ThreadManager.getInstance().runInEdt(sw, "load stock");
+	}
+	
 	
 
 	public void disableCommands() {
