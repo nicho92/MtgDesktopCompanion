@@ -65,7 +65,6 @@
 	
 	
 <dependencies>
-
 	<dependency>
 	    <groupId>org.apache.poi</groupId>
 	    <artifactId>poi</artifactId>
@@ -135,22 +134,22 @@
 		<dependency>
 		    <groupId>com.formdev</groupId>
 		    <artifactId>flatlaf</artifactId>
-		    <version>1.6.2</version>
+		    <version>1.6.3</version>
 		</dependency>
 		<dependency>
 		  <groupId>com.formdev</groupId>
 		  <artifactId>flatlaf-intellij-themes</artifactId>
-		  <version>1.6.2</version>
+		  <version>1.6.3</version>
 		</dependency>
 		<dependency>
     	<groupId>com.formdev</groupId>
 	    	<artifactId>flatlaf-extras</artifactId>
-	    	<version>1.6.2</version>
+	    	<version>1.6.3</version>
 		</dependency>
 		<dependency>
     		<groupId>com.formdev</groupId>
     		<artifactId>flatlaf-swingx</artifactId>
-    		<version>1.6.2</version>
+    		<version>1.6.3</version>
 		</dependency>
 		<dependency>
 		    <groupId>com.h2database</groupId>

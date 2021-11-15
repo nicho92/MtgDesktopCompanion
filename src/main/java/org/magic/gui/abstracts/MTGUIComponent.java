@@ -42,6 +42,7 @@ public abstract class MTGUIComponent extends JComponent {
 		}
 	
 	
+	
 
 	
 	protected MTGUIComponent()
