@@ -58,7 +58,7 @@ public class StockItemPanel extends MTGUIComponent {
 					return;
 
 				try {
-					viewer.setImg(selection.getProduct().getUrl());
+					viewer.setUrlImage(selection.getProduct().getUrl());
 					
 				} catch (Exception e) {
 					logger.error(e);

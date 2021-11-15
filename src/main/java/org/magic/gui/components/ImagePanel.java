@@ -113,7 +113,7 @@ public class ImagePanel extends JXPanel {
     }
 
 
-	public void setImg(String url){
+	public void setUrlImage(String url){
 		var sw = new SwingWorker<BufferedImage, Void>() {
 			@Override
 			protected BufferedImage doInBackground() throws Exception {
