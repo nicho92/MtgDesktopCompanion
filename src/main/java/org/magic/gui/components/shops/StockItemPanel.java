@@ -2,7 +2,6 @@ package org.magic.gui.components.shops;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.net.URL;
 import java.util.List;
 
 import javax.swing.ImageIcon;

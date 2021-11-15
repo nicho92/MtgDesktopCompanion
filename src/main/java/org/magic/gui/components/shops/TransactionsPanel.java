@@ -3,7 +3,6 @@ package org.magic.gui.components.shops;
 import java.awt.BorderLayout;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;

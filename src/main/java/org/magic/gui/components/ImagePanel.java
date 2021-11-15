@@ -12,8 +12,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.URL;
 import java.util.concurrent.ExecutionException;
 
 import javax.swing.SwingWorker;
@@ -30,9 +28,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.ImageTools;
-import org.magic.tools.RequestBuilder;
 import org.magic.tools.URLTools;
-import org.magic.tools.RequestBuilder.METHOD;
 
 public class ImagePanel extends JXPanel {
 

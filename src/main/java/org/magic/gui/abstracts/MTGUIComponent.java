@@ -1,28 +1,21 @@
 package org.magic.gui.abstracts;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
-
 import java.awt.BorderLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
-import javax.swing.SwingWorker;
 
 import org.apache.log4j.Logger;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
-import org.magic.services.threads.ThreadManager;
 
 public abstract class MTGUIComponent extends JComponent {
 
