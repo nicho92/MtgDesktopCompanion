@@ -1,4 +1,4 @@
-package org.magic.api.dao.impl;
+package org.beta;
 
 import java.io.File;
 import java.io.IOException;
@@ -57,7 +57,7 @@ public class ApacheDerbyDao extends AbstractMagicSQLDAO {
 	public Map<String, String> getDefaultAttributes() {
 			var m = super.getDefaultAttributes();
 		m.put(SERVERPORT, "1527");
-		m.put(PARAMS, "?create=true");
+		
 		return m;
 	}
 	
