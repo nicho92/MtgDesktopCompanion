@@ -66,6 +66,10 @@ public class DoubleCellEditorRenderer extends AbstractCellEditor implements Tabl
 		Double val ;
 		
 		
+		if(value==null)
+			return new JLabel();
+		
+		
 		if(value instanceof Long l)
 			val = l.doubleValue();
 		else

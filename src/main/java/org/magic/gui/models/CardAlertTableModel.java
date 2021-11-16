@@ -19,18 +19,6 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 		columns = new String[] { "CARD","EDITION","NEEDED","FOIL","MAX_BID","OFFERS","DAILY","WEEKLY","PC_DAILY" };
 	}
 
-	@Override
-	public int getRowCount() {
-		try {
-			if (getEnabledPlugin(MTGDao.class).listAlerts() != null)
-				return getEnabledPlugin(MTGDao.class).listAlerts().size();
-
-		} catch (Exception e) {
-			logger.error(e);
-		}
-
-		return 0;
-	}
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
@@ -59,10 +47,7 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 
 	}
 	
-	@Override
-	public List<MagicCardAlert> getItems() {
-		return getEnabledPlugin(MTGDao.class).listAlerts();
-	}
+	
 
 	@Override
 	public boolean isCellEditable(int row, int column) {
@@ -71,6 +56,11 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 
 	@Override
 	public Object getValueAt(int row, int column) {
+		
+		if(getItems().isEmpty())
+			return null;
+		
+		
 		switch (column) {
 		case 0:
 			return getItems().get(row);

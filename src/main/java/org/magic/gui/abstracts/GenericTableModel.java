@@ -131,7 +131,7 @@ public class GenericTableModel<T> extends AbstractTableModel {
 	{
 		
 		if(t!=null)
-			t.stream().forEach(c->items.add(c));
+			t.stream().forEach(items::add);
 		
 		fireTableDataChanged();
 	}

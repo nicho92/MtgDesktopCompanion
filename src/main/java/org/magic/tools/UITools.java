@@ -195,7 +195,15 @@ public class UITools {
 				table.setColumnControlVisible(true);
 				
 				table.setRowHeight(MTGConstants.TABLE_ROW_HEIGHT);
+				
+				
+				try {
 				table.packAll();
+				}
+				catch(Exception e)
+				{
+					//do nothing
+				}
 				
 		return table;
 	}
