@@ -6,6 +6,10 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -20,6 +24,8 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.tools.Chrono;
 import org.magic.tools.ImageTools;
+
+import com.kitfox.svg.app.beans.SVGIcon;
 
 public class IconSetProvider {
 
@@ -65,6 +71,21 @@ public class IconSetProvider {
 		return inst;
 	}
 
+	public ImageIcon getSVGIcon(String id)
+	{
+		var ic = new SVGIcon();
+		try {
+			ic.setSvgURI(URI.create("https://raw.githubusercontent.com/andrewgioia/keyrune/master/svg/"+getEquiv(id).toLowerCase()+".svg"));
+		} catch (Exception e) {
+			logger.error(e);
+		}
+		ic.setAntiAlias(true);
+		ic.setAutosize(1);
+		
+		return ic;
+	}
+	
+	
 	private BufferedImage extract(String id) throws IOException {
 
 		var iconFile = new File(localDirectory, id + EXT);
