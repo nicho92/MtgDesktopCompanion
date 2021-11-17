@@ -13,11 +13,6 @@ import org.magic.tools.URLTools;
 import com.google.gson.JsonElement;
 
 public class SCGGrader extends AbstractGradersProvider {
-
-	public static void main(String[] args) throws IOException {
-		new SCGGrader().loadGrading("8405776");
-	}
-	
 	
 	@Override
 	public Grading loadGrading(String identifier) throws IOException {
