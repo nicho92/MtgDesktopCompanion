@@ -10,6 +10,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -23,7 +24,9 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.tools.Chrono;
+import org.magic.tools.FileTools;
 import org.magic.tools.ImageTools;
+import org.magic.tools.URLTools;
 
 import com.kitfox.svg.app.beans.SVGIcon;
 
@@ -74,11 +77,25 @@ public class IconSetProvider {
 	public ImageIcon getSVGIcon(String id)
 	{
 		var ic = new SVGIcon();
-		try {
-			ic.setSvgURI(URI.create("https://raw.githubusercontent.com/andrewgioia/keyrune/master/svg/"+getEquiv(id).toLowerCase()+".svg"));
-		} catch (Exception e) {
-			logger.error(e);
-		}
+	
+			
+			var localF = new File(localDirectory, getEquiv(id)+".svg");
+			
+			if(!localF.exists())
+			{
+				try {
+					URLTools.download("https://raw.githubusercontent.com/andrewgioia/keyrune/master/svg/"+getEquiv(id).toLowerCase()+".svg", localF);
+				}
+				catch(Exception e)
+				{
+					return getSVGIcon("PMTG1");
+				}
+			}
+				
+			ic.setSvgURI(localF.toURI());
+			
+				
+	
 		ic.setAntiAlias(true);
 		ic.setAutosize(1);
 		
