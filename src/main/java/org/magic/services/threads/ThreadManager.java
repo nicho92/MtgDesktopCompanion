@@ -1,6 +1,9 @@
 package org.magic.services.threads;
 
 import java.beans.PropertyChangeEvent;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -24,7 +27,7 @@ public class ThreadManager {
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	private ThreadFactory factory;
 	private String name="";
-	
+	private Map<SwingWorker<?, ?>, ThreadInfo> tasksMap;
 	
 	
 	public static ThreadManager getInstance() {
@@ -65,6 +68,11 @@ public class ThreadManager {
 	
 	public void runInEdt(SwingWorker<?, ?> runnable,String name) {
 		
+		
+		var info = new ThreadInfo();
+		info.setStartDate(new Date());
+		info.setName(name);
+		tasksMap.put(runnable, info);
 		logger.trace("running EDT : " + name);
 		runnable.execute();
 		var c = new Chrono();
@@ -76,9 +84,11 @@ public class ThreadManager {
 				logger.trace(name+"\t"+ev.getSource()+"\t STARTED");
 			}
 			
-			if(ev.getNewValue().toString().equals("DONE"))
+			if(ev.getNewValue().toString().equals("DONE")) {
+				info.setEndDate(new Date());
+				info.setDuration(c.stopInMillisecond());
 				logger.trace(name+"\t"+ev.getSource().getClass().getName()+"\t FINISHED IN "+c.stopInMillisecond()+"ms.");
-			
+			}
 		});
 	}
 	
@@ -97,6 +107,9 @@ public class ThreadManager {
 	private ThreadManager() {
 		
 		var tpc = MTGControler.getInstance().getThreadPoolConfig();
+		
+		tasksMap = new HashMap<>();
+		
 		
 		factory = new ThreadFactoryBuilder()
 						.setNameFormat(tpc.getNameFormat())
@@ -138,6 +151,11 @@ public class ThreadManager {
 		
 	}
 	
+	
+	public Map<SwingWorker<?,?>,ThreadInfo> listTasks()
+	{
+		return tasksMap;
+	}
 
 	public ThreadFactory getFactory() {
 		return factory;

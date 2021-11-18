@@ -74,10 +74,12 @@ import org.magic.services.TransactionService;
 import org.magic.services.VersionChecker;
 import org.magic.services.keywords.AbstractKeyWordsManager;
 import org.magic.services.providers.SealedProductProvider;
+import org.magic.services.threads.ThreadManager;
 import org.magic.tools.Chrono;
 import org.magic.tools.ImageTools;
 import org.magic.tools.MTG;
 import org.magic.tools.POMReader;
+import org.magic.tools.UITools;
 import org.magic.tools.URLTools;
 
 import com.google.common.cache.Cache;
@@ -720,6 +722,32 @@ public class JSONHttpServer extends AbstractMTGServer {
 			var serv = (QwartzServer) MTG.getPlugin("Qwartz", MTGServer.class);
 			return serv.getSchedulerInformation();
 		}, transformer);
+		
+		get("/admin/workers", URLTools.HEADER_JSON, (request, response) -> {
+			
+			var arr = new JsonArray();
+			
+			for(var e : ThreadManager.getInstance().listTasks().entrySet())
+			{
+				var obj = new JsonObject();
+				obj.addProperty("name", e.getValue().getName());
+				obj.addProperty("status", e.getKey().getState().name());
+				obj.addProperty("done", e.getKey().isDone());
+				obj.addProperty("canceled", e.getKey().isCancelled());
+				obj.addProperty("start", UITools.formatDateTime(e.getValue().getStartDate()));
+				obj.addProperty("end", UITools.formatDateTime(e.getValue().getEndDate()));
+				obj.addProperty("duration", e.getValue().getDuration());
+				arr.add(obj);
+				
+			}
+			
+			
+			
+			
+			return arr;
+			
+		}, transformer);
+		
 		
 		get("/admin/clearCache", URLTools.HEADER_JSON, (request, response) -> {
 			clearCache();
