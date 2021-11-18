@@ -8,12 +8,25 @@ public class ThreadInfo implements Serializable {
 	/**
 	 * 
 	 */
+	
+	public enum STATE {NEW,STARTED,CANCELED,FINISHED}
+	public enum TYPE {WORKER,RUNNABLE}
+	
 	private static final long serialVersionUID = 1L;
 	private Date startDate;
 	private Date endDate;
 	private long duration;
 	private String name;
-	private String type;
+	private STATE status = STATE.NEW;
+	private TYPE type=TYPE.RUNNABLE;
+	
+	public void setStatus(STATE status) {
+		this.status = status;
+	}
+	
+	public STATE getStatus() {
+		return status;
+	}
 	
 	public String getName() {
 		return name;
@@ -39,10 +52,10 @@ public class ThreadInfo implements Serializable {
 	public void setDuration(long duration) {
 		this.duration = duration;
 	}
-	public String getType() {
+	public TYPE getType() {
 		return type;
 	}
-	public void setType(String type) {
+	public void setType(TYPE type) {
 		this.type = type;
 	}
 	

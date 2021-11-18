@@ -16,6 +16,7 @@ import javax.swing.SwingWorker;
 import org.apache.log4j.Logger;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.services.threads.ThreadInfo.STATE;
 import org.magic.tools.Chrono;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
@@ -26,8 +27,7 @@ public class ThreadManager {
 	private ThreadPoolExecutor executor;
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	private ThreadFactory factory;
-	private String name="";
-	private Map<SwingWorker<?, ?>, ThreadInfo> tasksMap;
+	private Map<Runnable, ThreadInfo> tasksMap;
 	
 	
 	public static ThreadManager getInstance() {
@@ -45,9 +45,8 @@ public class ThreadManager {
 			return;
 		}
 		
-		this.name=name;
 		executor.execute(task);
-		log();
+	
 	}
 	
 	public Future<?> submitThread(Runnable task, String name) {
@@ -56,9 +55,6 @@ public class ThreadManager {
 	
 	
 	public <V> Future<V> submitCallable(Callable<V> task,String name) {
-		this.name=name;
-		log();
-		
 		return executor.submit(task);
 	}
 	
@@ -69,8 +65,8 @@ public class ThreadManager {
 	public void runInEdt(SwingWorker<?, ?> runnable,String name) {
 		
 		var info = new ThreadInfo();
-			
 			info.setName(name);
+			
 		tasksMap.put(runnable, info);
 			
 			
@@ -83,30 +79,24 @@ public class ThreadManager {
 			if(ev.getNewValue().toString().equals("STARTED"))
 			{ 
 				info.setStartDate(new Date());
+				info.setStatus(STATE.STARTED);
 				c.start();
-				logger.trace(name+"\t"+ev.getSource()+"\t STARTED");
 			}
 			
 			if(ev.getNewValue().toString().equals("DONE")) {
 				info.setEndDate(new Date());
 				info.setDuration(c.stopInMillisecond());
-				logger.trace(name+"\t"+ev.getSource().getClass().getName()+"\t FINISHED IN "+c.stopInMillisecond()+"ms.");
+				info.setStatus(STATE.FINISHED);
+			}
+			
+			if(ev.getNewValue().toString().equals("CANCELED")) {
+				info.setEndDate(new Date());
+				info.setDuration(c.stopInMillisecond());
+				info.setStatus(STATE.CANCELED);
 			}
 		});
 	}
 	
-	public String log() {
-		var s = String.format("[Monitor] [%d/%d] Active: %d, Completed: %d, Task: %d : %s", 
-				executor.getPoolSize(),
-				executor.getCorePoolSize(), 
-				executor.getActiveCount(), 
-				executor.getCompletedTaskCount(),
-				executor.getTaskCount(),
-				name);
-		logger.trace(s);
-		return s;
-	}
-
 	private ThreadManager() {
 		
 		var tpc = MTGControler.getInstance().getThreadPoolConfig();
@@ -136,26 +126,7 @@ public class ThreadManager {
 		executor.shutdown();
 	}
 	
-	public void launchMonitor()
-	{
-		executor.execute(()->{
-			while(true) {
-				logger.debug(log());
-				try {
-					Thread.sleep(5000);
-				} catch (InterruptedException e) {
-					Thread.currentThread().interrupt();
-					logger.error(e);
-				}
-			}
-				
-		});
-		
-		
-	}
-	
-	
-	public Map<SwingWorker<?,?>,ThreadInfo> listTasks()
+	public Map<Runnable,ThreadInfo> listTasks()
 	{
 		return tasksMap;
 	}
@@ -164,6 +135,10 @@ public class ThreadManager {
 		return factory;
 	}
 	
+	
+	public ThreadPoolExecutor getExecutor() {
+		return executor;
+	}
 	
 }
 

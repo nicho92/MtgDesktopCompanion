@@ -725,26 +725,34 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		get("/admin/workers", URLTools.HEADER_JSON, (request, response) -> {
 			
+			var objExe = new JsonObject();
+				objExe.addProperty("activeCount", ThreadManager.getInstance().getExecutor().getActiveCount());
+				objExe.addProperty("completeTaskCount", ThreadManager.getInstance().getExecutor().getCompletedTaskCount());
+				objExe.addProperty("corePoolSize", ThreadManager.getInstance().getExecutor().getCorePoolSize());
+				objExe.addProperty("poolSize", ThreadManager.getInstance().getExecutor().getPoolSize());
+				objExe.addProperty("taskCount", ThreadManager.getInstance().getExecutor().getTaskCount());
+				objExe.addProperty("factory", ThreadManager.getInstance().getExecutor().getThreadFactory().toString());
+				objExe.addProperty("executor", ThreadManager.getInstance().getExecutor().getClass().getCanonicalName());
+				
 			var arr = new JsonArray();
-			
 			for(var e : ThreadManager.getInstance().listTasks().entrySet())
 			{
 				var obj = new JsonObject();
 				obj.addProperty("name", e.getValue().getName());
-				obj.addProperty("status", e.getKey().getState().name());
-				obj.addProperty("done", e.getKey().isDone());
-				obj.addProperty("canceled", e.getKey().isCancelled());
+				obj.addProperty("status", e.getValue().getStatus().name());
+				obj.addProperty("type", e.getValue().getType().name());
 				obj.addProperty("start", UITools.formatDateTime(e.getValue().getStartDate()));
 				obj.addProperty("end", UITools.formatDateTime(e.getValue().getEndDate()));
-				obj.addProperty("duration", e.getValue().getDuration());
+				obj.addProperty("durationInMillis", e.getValue().getDuration());
 				arr.add(obj);
-				
 			}
+
+
+			var objRet = new JsonObject();
+				objRet.add("factory", objExe);
+				objRet.add("tasks", arr);
 			
-			
-			
-			
-			return arr;
+			return objRet;
 			
 		}, transformer);
 		
