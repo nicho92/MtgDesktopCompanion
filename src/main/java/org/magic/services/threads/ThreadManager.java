@@ -67,10 +67,14 @@ public class ThreadManager {
 	}
 	
 	public void runInEdt(SwingWorker<?, ?> runnable,String name) {
+		
 		var info = new ThreadInfo();
-		info.setStartDate(new Date());
-		info.setName(name);
+			
+			info.setName(name);
 		tasksMap.put(runnable, info);
+			
+			
+			
 		logger.trace("running EDT : " + name);
 		runnable.execute();
 		var c = new Chrono();
@@ -78,6 +82,7 @@ public class ThreadManager {
 		runnable.addPropertyChangeListener((PropertyChangeEvent ev)->{
 			if(ev.getNewValue().toString().equals("STARTED"))
 			{ 
+				info.setStartDate(new Date());
 				c.start();
 				logger.trace(name+"\t"+ev.getSource()+"\t STARTED");
 			}
