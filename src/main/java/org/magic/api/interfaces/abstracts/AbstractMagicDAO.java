@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.magic.api.beans.ConverterItem;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
@@ -294,6 +295,13 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 			oe.setId(-1);
 			dao.saveOrUpdateTransaction(oe);
 		}
+		
+		logger.debug("duplicate conversions items");
+		for(ConverterItem oe : listConversionItems())
+		{
+			dao.saveOrUpdateConversionItem(oe);
+		}
+		
 		
 		logger.debug("duplicate decks");
 		for(MagicDeck oe : listDecks())
