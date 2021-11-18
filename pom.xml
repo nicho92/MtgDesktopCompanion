@@ -139,22 +139,22 @@
 		<dependency>
 		    <groupId>com.formdev</groupId>
 		    <artifactId>flatlaf</artifactId>
-		    <version>1.6.3</version>
+		    <version>1.6.4</version>
 		</dependency>
 		<dependency>
 		  <groupId>com.formdev</groupId>
 		  <artifactId>flatlaf-intellij-themes</artifactId>
-		  <version>1.6.3</version>
+		  <version>1.6.4</version>
 		</dependency>
 		<dependency>
     	<groupId>com.formdev</groupId>
 	    	<artifactId>flatlaf-extras</artifactId>
-	    	<version>1.6.3</version>
+	    	<version>1.6.4</version>
 		</dependency>
 		<dependency>
     		<groupId>com.formdev</groupId>
     		<artifactId>flatlaf-swingx</artifactId>
-    		<version>1.6.3</version>
+    		<version>1.6.4</version>
 		</dependency>
 		<dependency>
 		    <groupId>com.h2database</groupId>

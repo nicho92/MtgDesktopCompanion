@@ -323,6 +323,18 @@
 			          	{ "data": "quality",
 			           	  "defaultContent": ""
 			           	},
+						{ "data": "foil",
+			           	  "defaultContent": "",
+ 						 "render": function(data, type, row, meta){
+	  			                   if(type === 'display'){
+				                	  if(data)
+										return '<i class="ss  ss-mythic ss-grad ss-2x ss-pmei"></i>';	
+										else
+										return "";
+	  			                   }
+	  			                   return data;
+	  			                }
+			           	},
 			            { 
 	  			                "data": "url",
 	  			                "render": function(data, type, row, meta){
@@ -494,6 +506,7 @@
 											<th>prices</th>
 											<th>currency</th>
 											<th>quality</th>
+											<th>foil</th>
 											<th>link</th>
 										</tr>
 									</thead>
