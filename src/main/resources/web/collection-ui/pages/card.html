@@ -289,7 +289,16 @@
 			           	  "defaultContent": ""
 			           	},
 			           	{ "data": "foil",
-				           	  "defaultContent": ""
+				          "defaultContent": "",
+ 						  "render": function(data, type, row, meta){
+	  			                   if(type === 'display'){
+				                	  if(data)
+										return '<i class="ss  ss-mythic ss-grad ss-2x ss-pmei"></i>';	
+										else
+										return "";
+	  			                   }
+	  			                   return data;
+	  			                }
 				        },
 			            { 
 	  			                "data": "url",
