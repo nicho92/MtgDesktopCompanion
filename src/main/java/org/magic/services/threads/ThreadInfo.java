@@ -13,7 +13,7 @@ public class ThreadInfo implements Serializable {
 	private Date endDate;
 	private long duration;
 	private String name;
-	
+	private String type;
 	
 	public String getName() {
 		return name;
@@ -38,6 +38,12 @@ public class ThreadInfo implements Serializable {
 	}
 	public void setDuration(long duration) {
 		this.duration = duration;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 	
 	

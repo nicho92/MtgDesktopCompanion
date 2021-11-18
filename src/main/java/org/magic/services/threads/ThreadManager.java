@@ -67,8 +67,6 @@ public class ThreadManager {
 	}
 	
 	public void runInEdt(SwingWorker<?, ?> runnable,String name) {
-		
-		
 		var info = new ThreadInfo();
 		info.setStartDate(new Date());
 		info.setName(name);

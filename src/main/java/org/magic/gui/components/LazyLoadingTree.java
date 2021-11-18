@@ -212,7 +212,7 @@ public class LazyLoadingTree extends JTree {
 					super.done();
 				}
 			};
-			ThreadManager.getInstance().runInEdt(worker, "tree init editions");
+			ThreadManager.getInstance().runInEdt(worker, "tree init editions in " + c);
 
 
 		}
