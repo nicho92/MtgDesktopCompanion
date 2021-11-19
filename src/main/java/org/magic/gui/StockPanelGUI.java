@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -804,18 +805,24 @@ public class StockPanelGUI extends MTGUIComponent {
 	
 	@Override
 	public void onFirstShowing() {
+		lblLoading.start();
 		
-		ThreadManager.getInstance().executeThread(() -> {
-			try {
-				lblLoading.start();
-				model.init(getEnabledPlugin(MTGDao.class).listStocks());
-			} catch (SQLException e1) {
-				MTGControler.getInstance().notify(e1);
+		
+		var sw = new AbstractObservableWorker<List<MagicCardStock>, MagicCardStock, MTGDao>(lblLoading,getEnabledPlugin(MTGDao.class)) {
+			
+			@Override
+			protected List<MagicCardStock> doInBackground() throws Exception {
+				return plug.listStocks();
 			}
-			lblLoading.end();
-			updateCount();
-
-		}, "init stock");
+			
+			@Override
+			protected void notifyEnd() {
+				model.init(getResult());
+			}
+			
+			
+		};
+		ThreadManager.getInstance().runInEdt(sw, "init stock");
 
 	}
 	

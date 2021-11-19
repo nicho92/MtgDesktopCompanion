@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -72,17 +73,32 @@ public class StoriesGUI extends MTGUIComponent {
 				if (evt.getClickCount() == 1) {
 					evt.consume();
 
-					
-					ThreadManager.getInstance().executeThread(() -> {
-						lblLoading.start();
-						try {
-							editorPane.setText(URLTools.extractHtml(listResult.getSelectedValue().getUrl().toString()).select("div#content-detail-page-of-an-article").html());
+					lblLoading.start();
+					var sw = new SwingWorker<String, Void>()
+							{
 
-						} catch (Exception e) {
-							MTGControler.getInstance().notify(e);
-						}
-						lblLoading.end();
-					}, "Load story");
+								@Override
+								protected String doInBackground() throws Exception {
+									return URLTools.extractHtml(listResult.getSelectedValue().getUrl().toString()).select("div#content-detail-page-of-an-article").html();
+								}
+								@Override
+								protected void done() {
+									
+									try {
+										editorPane.setText(get());
+										
+									} catch (InterruptedException e) {
+										Thread.currentThread().interrupt();
+									} catch (Exception e) {
+										MTGControler.getInstance().notify(e);
+									}
+									
+									lblLoading.end();
+								};
+								
+								
+							};
+					ThreadManager.getInstance().runInEdt(sw, "Load story");
 				} else {
 					try {
 						UITools.browse(listResult.getSelectedValue().getUrl().toURI().toASCIIString());
