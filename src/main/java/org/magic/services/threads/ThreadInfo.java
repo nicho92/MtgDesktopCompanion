@@ -19,6 +19,13 @@ public class ThreadInfo implements Serializable {
 	private String name;
 	private STATE status = STATE.NEW;
 	private TYPE type=TYPE.RUNNABLE;
+	private transient Runnable runnable;
+	
+	
+	public ThreadInfo(Runnable r) {
+		this.runnable=r;
+	}
+	
 	
 	public void setStatus(STATE status) {
 		this.status = status;
@@ -57,6 +64,14 @@ public class ThreadInfo implements Serializable {
 	}
 	public void setType(TYPE type) {
 		this.type = type;
+	}
+
+	public void setRunnable(Runnable runnable) {
+		this.runnable=runnable;
+	}
+	
+	public Runnable getRunnable() {
+		return runnable;
 	}
 	
 	

@@ -1,8 +1,9 @@
 package org.magic.services.threads;
 
 import java.beans.PropertyChangeEvent;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
@@ -28,7 +29,7 @@ public class ThreadManager {
 	private ThreadPoolExecutor executor;
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	private ThreadFactory factory;
-	private Map<Runnable, ThreadInfo> tasksMap;
+	private List<ThreadInfo> tasksMap;
 	
 	
 	public static ThreadManager getInstance() {
@@ -48,7 +49,7 @@ public class ThreadManager {
 		
 		task.getInfo().setName(name);
 		
-		tasksMap.put(task, task.getInfo());
+		tasksMap.add(task.getInfo());
 		
 		executor.execute(task);
 	}
@@ -68,10 +69,10 @@ public class ThreadManager {
 	
 	public void runInEdt(SwingWorker<?, ?> runnable,String name) {
 		
-		var info = new ThreadInfo();
+		var info = new ThreadInfo(runnable);
 			  info.setName(name);
 			  info.setType(TYPE.WORKER);
-		tasksMap.put(runnable, info);			
+		tasksMap.add(info);			
 		
 		runnable.execute();
 		var c = new Chrono();
@@ -102,7 +103,7 @@ public class ThreadManager {
 		
 		var tpc = MTGControler.getInstance().getThreadPoolConfig();
 		
-		tasksMap = new HashMap<>();
+		tasksMap = new ArrayList<>();
 		
 		
 		factory = new ThreadFactoryBuilder()
@@ -126,7 +127,7 @@ public class ThreadManager {
 		executor.shutdown();
 	}
 	
-	public Map<Runnable,ThreadInfo> listTasks()
+	public List<ThreadInfo> listTasks()
 	{
 		return tasksMap;
 	}

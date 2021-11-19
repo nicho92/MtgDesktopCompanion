@@ -4,39 +4,57 @@ import static org.magic.tools.MTG.capitalize;
 
 import java.awt.BorderLayout;
 import java.lang.management.ManagementFactory;
+import java.sql.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.Timer;
 
-import org.jdesktop.swingx.JXTable;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.models.TaskTableModel;
 import org.magic.gui.models.ThreadsTableModel;
+import org.magic.gui.renderer.standard.DateTableCellEditorRenderer;
 import org.magic.services.MTGConstants;
+import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
 public class ThreadMonitor extends MTGUIComponent  {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JXTable tableT;
 	private ThreadsTableModel modelT;
 	private JButton btnRefresh;
 	private Timer t;
 	private JVMemoryPanel memoryPanel;
-	
+	private TaskTableModel modelTasks;
 	
 	public ThreadMonitor() {
 		setLayout(new BorderLayout(0, 0));
 		modelT = new ThreadsTableModel();
-		tableT = UITools.createNewTable(modelT);
+		modelTasks = new TaskTableModel();
+		var tabs = new JTabbedPane();
+		
+		add(tabs, BorderLayout.CENTER);
+		modelTasks.bind(ThreadManager.getInstance().listTasks());
+		
+		var tableTasks = UITools.createNewTable(modelTasks);
+		UITools.initTableFilter(tableTasks);
 		
 		
-		add(new JScrollPane(tableT), BorderLayout.CENTER);
+		
+		tableTasks.setDefaultRenderer(Date.class, new DateTableCellEditorRenderer(true));
+		
+		
+		tabs.addTab("Threads",new JScrollPane(UITools.createNewTable(modelT)));
+		tabs.addTab("Tasks",new JScrollPane(tableTasks));
+			
 		var panel = new JPanel();
 		add(panel, BorderLayout.NORTH);
+		
+		
 		btnRefresh = new JButton("Pause");
 		btnRefresh.addActionListener(ae -> {
 			if (t.isRunning()) {
@@ -55,7 +73,7 @@ public class ThreadMonitor extends MTGUIComponent  {
 		t = new Timer(5000, e ->{ 
 			modelT.init(ManagementFactory.getThreadMXBean().dumpAllThreads(true, true));
 			memoryPanel.refresh();
-			tableT.packAll();
+			modelTasks.fireTableDataChanged();
 		});
 		
 		

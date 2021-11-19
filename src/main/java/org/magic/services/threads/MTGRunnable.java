@@ -11,7 +11,7 @@ public abstract class MTGRunnable implements Runnable{
 	private Chrono chrono;
 	
 	protected MTGRunnable() {
-		info = new ThreadInfo();
+		info = new ThreadInfo(this);
 		chrono= new Chrono();
 	}
 	
