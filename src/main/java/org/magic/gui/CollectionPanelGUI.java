@@ -632,25 +632,29 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		});
 
 		
-		btnGenerateWebSite.addActionListener(ae -> ThreadManager.getInstance().invokeLater(() -> {
-			try {
+		btnGenerateWebSite.addActionListener(ae -> ThreadManager.getInstance().invokeLater(new MTGRunnable() {
 
-				var diag = new WebSiteGeneratorDialog(dao.listCollections());
-				diag.setVisible(true);
-				if (diag.value()) {
-					var max = 0;
-					for (MagicCollection col : diag.getSelectedCollections())
-						max += dao.getCardsCount(col, null);
+			@Override
+			protected void auditedRun() {
+				try {
 
-					progressBar.start(max);
-					var sw = new WebsiteExportWorker(diag.getTemplate(), diag.getDest(), diag.getSelectedCollections(), diag.getPriceProviders(), progressBar);
-					ThreadManager.getInstance().runInEdt(sw,"website generation");
+					var diag = new WebSiteGeneratorDialog(dao.listCollections());
+					diag.setVisible(true);
+					if (diag.value()) {
+						var max = 0;
+						for (MagicCollection col : diag.getSelectedCollections())
+							max += dao.getCardsCount(col, null);
+
+						progressBar.start(max);
+						var sw = new WebsiteExportWorker(diag.getTemplate(), diag.getDest(), diag.getSelectedCollections(), diag.getPriceProviders(), progressBar);
+						ThreadManager.getInstance().runInEdt(sw,"website generation");
+					}
+
+				} catch (Exception e) {
+					logger.error("error generating website", e);
+					progressBar.end();
+					MTGControler.getInstance().notify(e);
 				}
-
-			} catch (Exception e) {
-				logger.error("error generating website", e);
-				progressBar.end();
-				MTGControler.getInstance().notify(e);
 			}
 		}, "Opening WebSite Export dialog"));
 

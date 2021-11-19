@@ -4,7 +4,6 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -63,7 +62,10 @@ public class ThreadManager {
 	}
 	
 	
-	public void invokeLater(Runnable task, String name) {
+	public void invokeLater(MTGRunnable task, String name) {
+		
+		task.getInfo().setName(name);
+		tasksMap.add(task.getInfo());
 		SwingUtilities.invokeLater(task);
 	}
 	

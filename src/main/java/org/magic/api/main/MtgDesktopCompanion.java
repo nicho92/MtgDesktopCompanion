@@ -21,6 +21,7 @@ import org.magic.gui.components.dialog.MTGSplashScreen;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.Chrono;
 public class MtgDesktopCompanion {
@@ -44,6 +45,7 @@ public class MtgDesktopCompanion {
 		chrono.start();
 		try {
 			MTGControler.getInstance().loadAccountsConfiguration();
+			MTGLogger.changeLevel(MTGControler.getInstance().get("loglevel"));
 			
 			boolean updated = MTGControler.getInstance().updateConfigMods();
 
@@ -52,7 +54,6 @@ public class MtgDesktopCompanion {
 			if (updated)
 				MTGControler.getInstance().notify(new MTGNotification(capitalize("NEW"), capitalize("NEW_MODULE_INSTALLED"), MESSAGE_TYPE.INFO));
 			
-			MTGLogger.changeLevel(MTGControler.getInstance().get("loglevel"));
 			
 			getEnabledPlugin(MTGCardsProvider.class).init();
 			getEnabledPlugin(MTGDao.class).init();
@@ -63,27 +64,31 @@ public class MtgDesktopCompanion {
 			JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
 		}
 
-		ThreadManager.getInstance().invokeLater(() -> {
+		ThreadManager.getInstance().invokeLater(new MTGRunnable() {
 			
-			var gui = new MagicGUI();
-			MTGControler.getInstance().getLafService().setFont(new FontUIResource(MTGControler.getInstance().getFont()));
-			MTGControler.getInstance().getLafService().setLookAndFeel(gui,MTGControler.getInstance().get("lookAndFeel"),false);
-			gui.setExtendedState(Frame.MAXIMIZED_BOTH);
-			gui.setVisible(true);
-			
-			MTGControler.getInstance().cleaning();
-			
-			launch.stop();
-			
-			listEnabledPlugins(MTGServer.class).stream().filter(MTGServer::isAutostart).forEach(s->{
-				try {
-					s.start();
-				} catch (IOException e) {
-					logger.error(e);
-				}
-			});
-			long time = chrono.stop();
-			logger.info(MTGConstants.MTG_APP_NAME + " started in " + time + " sec");
+			@Override
+			protected void auditedRun() {
+				var gui = new MagicGUI();
+				MTGControler.getInstance().getLafService().setFont(new FontUIResource(MTGControler.getInstance().getFont()));
+				MTGControler.getInstance().getLafService().setLookAndFeel(gui,MTGControler.getInstance().get("lookAndFeel"),false);
+				gui.setExtendedState(Frame.MAXIMIZED_BOTH);
+				gui.setVisible(true);
+				
+				MTGControler.getInstance().cleaning();
+				
+				launch.stop();
+				
+				listEnabledPlugins(MTGServer.class).stream().filter(MTGServer::isAutostart).forEach(s->{
+					try {
+						s.start();
+					} catch (IOException e) {
+						logger.error(e);
+					}
+				});
+				long time = chrono.stop();
+				logger.info(MTGConstants.MTG_APP_NAME + " started in " + time + " sec");
+				
+			}
 		}, "Running Main App GUI");
 	}
 

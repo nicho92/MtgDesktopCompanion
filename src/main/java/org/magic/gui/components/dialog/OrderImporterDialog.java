@@ -22,6 +22,7 @@ import org.magic.gui.models.ShoppingEntryTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.tools.UITools;
@@ -104,7 +105,10 @@ public class OrderImporterDialog extends JDialog {
 		btnImport.setToolTipText(capitalize("IMPORT"));
 		
 		btnImport.addActionListener(e -> 
-			ThreadManager.getInstance().invokeLater(() -> {
+			ThreadManager.getInstance().invokeLater(new MTGRunnable() {
+				
+				@Override
+				protected void auditedRun() {
 					try {
 						btnImport.setEnabled(false);
 						selectedEntries = UITools.getTableSelections(table, 0);
@@ -119,6 +123,8 @@ public class OrderImporterDialog extends JDialog {
 					{
 						selectedSniffer.removeObserver(lblLoad);
 					}
+					
+				}
 				}, "Loading Orders Import Dialog")
 		);
 

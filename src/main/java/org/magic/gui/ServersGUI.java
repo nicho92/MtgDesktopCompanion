@@ -12,6 +12,7 @@ import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.ServerStatePanel;
 import org.magic.services.MTGConstants;
+import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 public class ServersGUI extends MTGUIComponent {
 
@@ -35,10 +36,15 @@ public class ServersGUI extends MTGUIComponent {
 		
 		setLayout(new GridLayout(list.size(), 1, 0, 0));
 		
-		ThreadManager.getInstance().invokeLater(()->{
+		ThreadManager.getInstance().invokeLater(new MTGRunnable() {
+			
+			@Override
+			protected void auditedRun() {
 				for (MTGServer s : list) {
 					add(new ServerStatePanel(s));
 				}
+				
+			}
 		}, "adding Servers Panels");
 		
 		

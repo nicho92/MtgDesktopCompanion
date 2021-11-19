@@ -44,6 +44,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ShortKeyManager;
 import org.magic.services.VersionChecker;
+import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.GithubUtils;
 import org.magic.tools.UITools;
@@ -149,13 +150,41 @@ public class MagicGUI extends JFrame {
 			dow.setVisible(true);
 		});
 		
-		mntmFileScript.addActionListener(ae -> ThreadManager.getInstance().invokeLater(() -> MTGUIComponent.createJDialog(new ScriptPanel(), true, false).setVisible(true), "loading Script dialog"));
+		mntmFileScript.addActionListener(ae -> ThreadManager.getInstance().invokeLater(new MTGRunnable() {
+			
+			@Override
+			protected void auditedRun() {
+				MTGUIComponent.createJDialog(new ScriptPanel(), true, false).setVisible(true);
+				
+			}
+		}, "loading Script dialog"));
 		
-		mntmFileTagEditor.addActionListener(ae -> ThreadManager.getInstance().invokeLater(() -> MTGUIComponent.createJDialog(new BinderTagsEditorComponent(), true, false).setVisible(true), "loading Tags dialog"));
+		mntmFileTagEditor.addActionListener(ae -> ThreadManager.getInstance().invokeLater(new MTGRunnable() {
+			
+			@Override
+			protected void auditedRun() {
+				MTGUIComponent.createJDialog(new BinderTagsEditorComponent(), true, false).setVisible(true);
+				
+			}
+		}, "loading Tags dialog"));
 
-		mntmLogsItem.addActionListener(ae -> ThreadManager.getInstance().invokeLater(() -> MTGUIComponent.createJDialog(new LoggerViewPanel(), true, false).setVisible(true), "loading Logs dialog"));
+		mntmLogsItem.addActionListener(ae -> ThreadManager.getInstance().invokeLater(new MTGRunnable() {
+			
+			@Override
+			protected void auditedRun() {
+				MTGUIComponent.createJDialog(new LoggerViewPanel(), true, false).setVisible(true);
+				
+			}
+		}, "loading Logs dialog"));
 
-		mntmThreadItem.addActionListener(e ->ThreadManager.getInstance().invokeLater(() -> MTGUIComponent.createJDialog(new ThreadMonitor(), true, false).setVisible(true), "loading Thread dialog"));
+		mntmThreadItem.addActionListener(e ->ThreadManager.getInstance().invokeLater(new MTGRunnable() {
+			
+			@Override
+			protected void auditedRun() {
+				MTGUIComponent.createJDialog(new ThreadMonitor(), true, false).setVisible(true);
+				
+			}
+		}, "loading Thread dialog"));
 
 		mntmExit.addActionListener(e -> MTGControler.getInstance().closeApp());
 
@@ -298,13 +327,17 @@ public class MagicGUI extends JFrame {
 			ShortKeyManager.inst().load();
 
 			
-			ThreadManager.getInstance().invokeLater(() -> {
-				try {
-					new TipsOfTheDayDialog().shows();
-				} catch (IOException e) {
-					logger.error(e);
+			ThreadManager.getInstance().invokeLater(new MTGRunnable() {
+				
+				@Override
+				protected void auditedRun() {
+					try {
+						new TipsOfTheDayDialog().shows();
+					} catch (IOException e) {
+						logger.error(e);
+					}
+					
 				}
-
 			}, "Loading TipsOfTheDay dialog");
 		}
 

@@ -14,6 +14,7 @@ import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.models.CardAlertTableModel;
 import org.magic.gui.renderer.MagicEditionsComboBoxCellRenderer;
 import org.magic.services.MTGConstants;
+import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
 
@@ -60,10 +61,15 @@ public class AlertedCardsTrendingDashlet extends AbstractJDashlet {
 		
 		table.getSelectionModel().addListSelectionListener(event -> {
 			if (!event.getValueIsAdjusting()) {
-				ThreadManager.getInstance().invokeLater(() -> {
-					MagicCardAlert alt = UITools.getTableSelection(table,0);
-					historyPricesPanel.init(alt.getCard(), alt.getCard().getCurrentSet(),alt.getCard().toString());
-					historyPricesPanel.revalidate();
+				ThreadManager.getInstance().invokeLater(new MTGRunnable() {
+					
+					@Override
+					protected void auditedRun() {
+						MagicCardAlert alt = UITools.getTableSelection(table,0);
+						historyPricesPanel.init(alt.getCard(), alt.getCard().getCurrentSet(),alt.getCard().toString());
+						historyPricesPanel.revalidate();
+						
+					}
 				}, " loading prices alerts");
 
 			}
