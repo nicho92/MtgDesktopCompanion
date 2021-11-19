@@ -343,14 +343,8 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		{
 			//do nothing
 		}
+		historyPricesPanel.init(mc, null, mc.getName());
 
-		ThreadManager.getInstance().executeThread(() -> {
-			try {
-				historyPricesPanel.init(mc, null, mc.getName());
-			} catch (Exception e) {
-				logger.error("error history",e);
-			}
-		}, "update history");
 		
 	}
 	
@@ -484,6 +478,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 				packagePanel.setMagicEdition(ed);
 				stockPanel.enabledAdd(false);
 				gedPanel.init(MagicEdition.class,ed);
+					
 				ThreadManager.getInstance().executeThread(() -> {
 					try {
 

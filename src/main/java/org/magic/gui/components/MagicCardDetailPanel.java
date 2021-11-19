@@ -493,17 +493,43 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 			ThreadManager.getInstance().runInEdt(sw, "loadCollections");
 		}
 
-		if (magicCard != null && enableCollectionLookup)
-			ThreadManager.getInstance().executeThread(() -> {
-				if (getEnabledPlugin(MTGDao.class).hasAlert(magicCard)) {
-					btnAlert.setToolTipText(capitalize("HAD_ALERT"));
-					btnAlert.setEnabled(false);
-				} else {
-					btnAlert.setToolTipText(capitalize("ADD_ALERT_FOR",magicCard.getName()));
-					btnAlert.setEnabled(true);
-				}
-			}, "Get alerts for " + magicCard);
+		if (magicCard != null && enableCollectionLookup) {
+			
+			var sw = new SwingWorker<Boolean, Void>()
+					{
 
+						@Override
+						protected Boolean doInBackground() throws Exception {
+							return getEnabledPlugin(MTGDao.class).hasAlert(magicCard);
+						}
+						
+						protected void done() {
+							
+							try {
+								if (get()) {
+									btnAlert.setToolTipText(capitalize("HAD_ALERT"));
+									btnAlert.setEnabled(false);
+								} else {
+									btnAlert.setToolTipText(capitalize("ADD_ALERT_FOR",magicCard.getName()));
+									btnAlert.setEnabled(true);
+								}
+							} catch (InterruptedException e) {
+								Thread.currentThread().interrupt();
+							} catch (Exception e) {
+								logger.error(e);
+							}
+							
+						};
+						
+					};
+			
+			
+			
+			ThreadManager.getInstance().runInEdt(sw, "Get alerts for " + magicCard);
+		}
+		
+		
+		
 		((DefaultListModel<MagicFormat>) lstFormats.getModel()).removeAllElements();
 
 		if (magicCard != null)

@@ -1,10 +1,13 @@
 package org.magic.gui.components.browser;
 
 import java.awt.BorderLayout;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.JEditorPane;
+import javax.swing.SwingWorker;
 import javax.swing.text.html.HTMLEditorKit;
 
+import org.japura.gui.util.SwingWorkerHandler;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 import org.magic.gui.abstracts.MTGUIBrowserComponent;
@@ -45,24 +48,31 @@ public class JEditorPaneBrowser extends MTGUIBrowserComponent {
 	public void loadURL(String url) {
 		logger.debug("loading " + url);
 		currentUrl=url;
-		ThreadManager.getInstance().executeThread(()->{
-				try {
-					
-					var w = Safelist.basic();
-					w.addTags("img");
-					w.addAttributes("img", "src");
-					
-					String contf = Jsoup.clean(RequestBuilder.build().clean().url(url).method(METHOD.GET).setClient(client).toHtml().html(),w);
-					browse.setText(contf);
-				}
-				catch(Exception e)
+		var sw = new SwingWorker<String,Void>()
 				{
-					logger.error(e);
-					browse.setText("Error " + e);
-				}
-				
-		}, "loading " + url);
+
+					@Override
+					protected String doInBackground() throws Exception {
+						var w = Safelist.basic();
+						w.addTags("img");
+						w.addAttributes("img", "src");
+						
+						return Jsoup.clean(RequestBuilder.build().clean().url(url).method(METHOD.GET).setClient(client).toHtml().html(),w);
+					}
+			
+					@Override
+					protected void done() {
+						try {
+							browse.setText(get());
+						} catch (InterruptedException e) {
+							Thread.currentThread().interrupt();
+						} catch (Exception e) {
+							browse.setText(e.getMessage());
+						}
+					}
+				};
 		
+		ThreadManager.getInstance().runInEdt(sw, "loading text from " + url);
 		
 		
 	}

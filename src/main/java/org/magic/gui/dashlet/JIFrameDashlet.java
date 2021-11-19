@@ -14,6 +14,10 @@ import org.utils.patterns.observer.Observable;
 
 public class JIFrameDashlet extends AbstractJDashlet {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	MTGUIBrowserComponent comp;
 	JTextField txtUrl;
 	

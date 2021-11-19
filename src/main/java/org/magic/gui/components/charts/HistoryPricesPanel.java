@@ -143,7 +143,7 @@ public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 				
 			};
 			
-			ThreadManager.getInstance().runInEdt(sw, "loading history");
+			ThreadManager.getInstance().runInEdt(sw, "loading history "+ mc);
 		}
 	}
 

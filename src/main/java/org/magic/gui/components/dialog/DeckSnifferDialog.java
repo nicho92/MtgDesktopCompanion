@@ -79,7 +79,7 @@ public class DeckSnifferDialog extends AbstractDelegatedImporterDialog {
 				panelChoose.add(btnConnect);
 				
 						cboFormats = new JComboBox<>();
-						panelChoose.add(cboFormats);
+						panelChoose.add(cboFormats);	
 						cboFormats.addActionListener(e -> {
 							try {
 								lblLoad.start();

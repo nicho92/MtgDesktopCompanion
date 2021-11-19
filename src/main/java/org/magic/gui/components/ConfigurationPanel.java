@@ -311,7 +311,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 								logger.error(e);
 							}
 							
-						};
+						}
 				};
 		ThreadManager.getInstance().runInEdt(sw, "getting DB size");
 		
@@ -774,40 +774,74 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 			}
 		});
 		
-		btnIndexation.addActionListener(ae ->
-			ThreadManager.getInstance().executeThread(() -> {
-				try {
-					loading(true, "Indexation");
-					btnIndexation.setEnabled(false);
-					getEnabledPlugin(MTGCardsIndexer.class).initIndex();
-					lblIndexSize.setText(UITools.formatDate(getEnabledPlugin(MTGCardsIndexer.class).getIndexDate()));
-				} catch (Exception e) {
-					logger.error("error indexation", e);
-					MTGControler.getInstance().notify(e);
-				} finally {
-					loading(false, "");
-					btnIndexation.setEnabled(true);
-				}
-			}, "Indexation")
-		);
+		btnIndexation.addActionListener(ae ->{
+			
+				loading(true, "Indexation");
+				btnIndexation.setEnabled(false);
+				var swIndex = new SwingWorker<Void, Void>()
+				{
+					@Override
+					protected Void doInBackground() throws Exception {
+						getEnabledPlugin(MTGCardsIndexer.class).initIndex();
+						return null;
+					}
+					
+					@Override
+					protected void done() 
+					{
+						try 
+						{
+							get();
+							lblIndexSize.setText(UITools.formatDate(getEnabledPlugin(MTGCardsIndexer.class).getIndexDate()));
+						} 
+						catch(InterruptedException ex) {
+							Thread.currentThread().interrupt();
+						}
+						catch (Exception e) {
+							logger.error("error indexation", e);
+							MTGControler.getInstance().notify(e);
+						} 
+						finally {
+							loading(false, "");
+							btnIndexation.setEnabled(true);
+						}
+					}
+				};
+				
+				ThreadManager.getInstance().runInEdt(swIndex,"Indexation");
+				
+				
+		});
 		
 		btnDuplicate.addActionListener(ae ->{ 
-			
 			btnDuplicate.setEnabled(false);
-			ThreadManager.getInstance().executeThread(() -> {
-			try {
-				MTGDao dao = (MTGDao) cboTargetDAO.getSelectedItem();
-				loading(true, capitalize("DUPLICATE_TO",getEnabledPlugin(MTGDao.class)) + " " + dao);
-				getEnabledPlugin(MTGDao.class).duplicateTo(dao);
-			} catch (Exception e) {
-				logger.error(e);
-			}
-			finally {
-				loading(false, "");
-				btnDuplicate.setEnabled(true);
-			}
-			
-		}, "duplicate " + getEnabledPlugin(MTGDao.class) + " to " + cboTargetDAO.getSelectedItem());
+			MTGDao dao = (MTGDao) cboTargetDAO.getSelectedItem();
+			loading(true, capitalize("DUPLICATE_TO",getEnabledPlugin(MTGDao.class)) + " " + dao);
+				var swDuplicate = new SwingWorker<Void, Void>()
+						{
+							@Override
+							protected Void doInBackground() throws Exception {
+								getEnabledPlugin(MTGDao.class).duplicateTo(dao);
+								return null;
+							}
+							
+							@Override
+							protected void done() 
+							{
+								try {
+									get();
+								}catch (InterruptedException e) {
+									Thread.currentThread().interrupt();
+								} catch (Exception e) {
+									logger.error(e);
+								}
+								finally {
+									loading(false, "");
+									btnDuplicate.setEnabled(true);
+								}
+							}
+						};
+				ThreadManager.getInstance().runInEdt(swDuplicate, "duplicate " + getEnabledPlugin(MTGDao.class) + " to " + cboTargetDAO.getSelectedItem());
 		}
 
 		);
@@ -851,18 +885,34 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		});
 		
 		
-		btnBackup.addActionListener(ae ->
+		btnBackup.addActionListener(ae ->{
+			loading(true, "backup db " + getEnabledPlugin(MTGDao.class) + " database");
+			
+			var swBackup = new SwingWorker<Void, Void>(){
 
-		ThreadManager.getInstance().executeThread(() -> {
-			try {
-				loading(true, "backup db " + getEnabledPlugin(MTGDao.class) + " database");
-				getEnabledPlugin(MTGDao.class).backup(txtDAOBackup.getFile());
-				loading(false, "");
-
-			} catch (Exception e1) {
-				logger.error(e1);
-			}
-		}, "backup " + getEnabledPlugin(MTGDao.class) + " database"));
+				@Override
+				protected Void doInBackground() throws Exception {
+					getEnabledPlugin(MTGDao.class).backup(txtDAOBackup.getFile());
+					return null;
+				}
+				
+				@Override
+				protected void done() 
+				{
+					try {
+						get();
+					}catch (InterruptedException e) {
+						Thread.currentThread().interrupt();
+					} catch (Exception e) {
+						logger.error(e);
+					}
+					finally {
+						loading(false, "");
+					}
+				}
+			};
+			ThreadManager.getInstance().runInEdt(swBackup, "backup " + getEnabledPlugin(MTGDao.class) + " database");
+		});
 		
 		lclCodeCurrency.addMouseListener(new MouseAdapter() {
 			@Override

@@ -25,6 +25,10 @@ import org.magic.tools.UITools;
 
 public class ContactPanel extends MTGUIComponent {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private transient BindingGroup mbindingGroup;
 	private Contact contact = new Contact();
 	private JTextArea addressJTextArea;
