@@ -453,7 +453,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 				selectedcol = col;
 				stockPanel.enabledAdd(false);
 				gedPanel.init(MagicCollection.class,selectedcol);
-				ThreadManager.getInstance().invokeLater(() -> {
+				ThreadManager.getInstance().executeThread(() -> {
 					try {
 
 						List<MagicCard> list = dao.listCardsFromCollection(selectedcol);
@@ -479,7 +479,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 				stockPanel.enabledAdd(false);
 				gedPanel.init(MagicEdition.class,ed);
 					
-				ThreadManager.getInstance().invokeLater(() -> {
+				ThreadManager.getInstance().executeThread(() -> {
 					try {
 
 						MagicCollection collec = (MagicCollection) ((DefaultMutableTreeNode) curr.getParent()).getUserObject();
