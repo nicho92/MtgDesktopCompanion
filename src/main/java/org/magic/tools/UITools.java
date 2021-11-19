@@ -80,7 +80,7 @@ import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
 import org.magic.gui.renderer.standard.ComboBoxEditor;
 import org.magic.gui.renderer.standard.DateTableCellEditorRenderer;
 import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;
-import org.magic.gui.renderer.standard.IntegerCellEditorRenderer;
+import org.magic.gui.renderer.standard.NumberCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -163,20 +163,22 @@ public class UITools {
 		
 				table.setDefaultRenderer(Boolean.class, new BooleanCellEditorRenderer());
 				table.setDefaultRenderer(Double.class, new DoubleCellEditorRenderer());
-				table.setDefaultRenderer(Integer.class, new IntegerCellEditorRenderer());
+				table.setDefaultRenderer(Integer.class, new NumberCellEditorRenderer());
+				table.setDefaultRenderer(Long.class, new NumberCellEditorRenderer());
 				table.setDefaultRenderer(boolean.class, new BooleanCellEditorRenderer());
 				table.setDefaultRenderer(double.class, new DoubleCellEditorRenderer());
-				table.setDefaultRenderer(int.class, new IntegerCellEditorRenderer());
+				table.setDefaultRenderer(int.class, new NumberCellEditorRenderer());
 				
 				table.setDefaultRenderer(Date.class, new DateTableCellEditorRenderer());
 				table.setDefaultRenderer(MagicEdition.class, new MagicEditionJLabelRenderer());
 				table.setDefaultRenderer(MTGPlugin.class, new MTGPluginCellRenderer());
 				
 				table.setDefaultEditor(Double.class, new DoubleCellEditorRenderer());
-				table.setDefaultEditor(Integer.class, new IntegerCellEditorRenderer());
+				table.setDefaultEditor(Integer.class, new NumberCellEditorRenderer());
+				table.setDefaultEditor(Long.class, new NumberCellEditorRenderer());
 				table.setDefaultEditor(Boolean.class, new BooleanCellEditorRenderer());
 				table.setDefaultEditor(boolean.class, new BooleanCellEditorRenderer());
-				table.setDefaultEditor(int.class, new IntegerCellEditorRenderer());
+				table.setDefaultEditor(int.class, new NumberCellEditorRenderer());
 				table.setDefaultEditor(double.class, new DoubleCellEditorRenderer());
 				table.setDefaultEditor(Date.class, new DateTableCellEditorRenderer());
 				table.setDefaultEditor(EnumCondition.class, new ComboBoxEditor<>(EnumCondition.values()));

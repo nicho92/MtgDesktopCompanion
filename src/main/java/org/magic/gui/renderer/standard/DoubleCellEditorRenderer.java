@@ -63,6 +63,7 @@ public class DoubleCellEditorRenderer extends AbstractCellEditor implements Tabl
 		
 		format.setMaximumFractionDigits(2);
 		format.setMaximumFractionDigits(2);
+
 		Double val ;
 		
 		

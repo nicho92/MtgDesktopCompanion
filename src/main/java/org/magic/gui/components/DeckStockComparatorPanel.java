@@ -32,7 +32,7 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.DeckStockComparisonModel;
-import org.magic.gui.renderer.standard.IntegerCellEditorRenderer;
+import org.magic.gui.renderer.standard.NumberCellEditorRenderer;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
@@ -139,7 +139,7 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 					return c;
 					
 				}
-				return new IntegerCellEditorRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus,row,column);
+				return new NumberCellEditorRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus,row,column);
 		});
 		
 		

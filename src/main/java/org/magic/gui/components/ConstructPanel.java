@@ -75,7 +75,7 @@ import org.magic.gui.models.DeckCardsTableModel;
 import org.magic.gui.renderer.MagicCardListRenderer;
 import org.magic.gui.renderer.MagicEditionsComboBoxCellRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
-import org.magic.gui.renderer.standard.IntegerCellEditorRenderer;
+import org.magic.gui.renderer.standard.NumberCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
@@ -686,7 +686,7 @@ public class ConstructPanel extends MTGUIComponent {
 		table.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
 		table.getColumnModel().getColumn(3).setCellRenderer(new MagicEditionsComboBoxCellRenderer());
 		table.getColumnModel().getColumn(3).setCellEditor(new MagicEditionsComboBoxCellEditor());
-		table.getColumnModel().getColumn(4).setCellEditor(new IntegerCellEditorRenderer());
+		table.getColumnModel().getColumn(4).setCellEditor(new NumberCellEditorRenderer());
 
 		
 		table.getColumnModel().getColumn(0).setCellRenderer((JTable table2, Object value, boolean isSelected, boolean hasFocus,int row, int column)-> {

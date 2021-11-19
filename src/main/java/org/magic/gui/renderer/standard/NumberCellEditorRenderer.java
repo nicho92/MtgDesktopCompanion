@@ -12,19 +12,24 @@ import javax.swing.SwingConstants;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-public class IntegerCellEditorRenderer extends AbstractCellEditor implements TableCellEditor, TableCellRenderer{
+import org.apache.commons.lang3.StringUtils;
+
+public class NumberCellEditorRenderer extends AbstractCellEditor implements TableCellEditor, TableCellRenderer{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private JSpinner spinner;
+	private NumberFormat formater;
 
-	public IntegerCellEditorRenderer() {
+	public NumberCellEditorRenderer() {
 		spinner = new JSpinner();
 		var model1 = new SpinnerNumberModel();
 		model1.setMinimum(0);
 		spinner.setModel(model1);
+		formater =NumberFormat.getNumberInstance();
+		formater.setGroupingUsed(false);
 	}
 	
 
@@ -43,10 +48,10 @@ public class IntegerCellEditorRenderer extends AbstractCellEditor implements Tab
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 		
 		var text = String.valueOf(value);
-		
-		if(value instanceof Integer) 
+	
+		if(StringUtils.isNumeric(text)) 
 		{
-			text = NumberFormat.getIntegerInstance().format(value);
+			text = formater.format(value);
 		}
 		
 		

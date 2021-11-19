@@ -17,7 +17,7 @@ import org.magic.api.interfaces.MTGGraders;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
 import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;
-import org.magic.gui.renderer.standard.IntegerCellEditorRenderer;
+import org.magic.gui.renderer.standard.NumberCellEditorRenderer;
 import org.magic.services.PluginRegistry;
 
 public class StockTableRenderer implements TableCellRenderer{
@@ -36,7 +36,7 @@ public class StockTableRenderer implements TableCellRenderer{
 		}
 		else if(value instanceof Integer)
 		{
-			pane= new IntegerCellEditorRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+			pane= new NumberCellEditorRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 		}
 		else if(value instanceof Double)
 		{
