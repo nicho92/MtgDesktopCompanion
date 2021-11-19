@@ -31,6 +31,7 @@ import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.criterias.builders.ScryfallCriteriaBuilder;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
+import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.InstallCert;
 import org.magic.tools.URLTools;
@@ -556,14 +557,19 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			}
 		
 		
-		ThreadManager.getInstance().executeThread(() -> {
-			try {
-				if (!mc.isBasicLand())
-					initOtherEdition(mc);
-					
-				generateRules(mc);
-			} catch (Exception e) {
-				logger.error("error in initOtherEdition :" + e.getMessage());
+		ThreadManager.getInstance().executeThread(new MTGRunnable() {
+			
+			@Override
+			protected void auditedRun() {
+				try {
+					if (!mc.isBasicLand())
+						initOtherEdition(mc);
+						
+					generateRules(mc);
+				} catch (Exception e) {
+					logger.error("error in initOtherEdition :" + e.getMessage());
+				}
+				
 			}
 		}, "other editions");
 		

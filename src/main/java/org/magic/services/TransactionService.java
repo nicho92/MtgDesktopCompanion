@@ -33,6 +33,7 @@ import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.api.notifiers.impl.EmailNotifier;
 import org.magic.api.scripts.impl.JavaScript;
 import org.magic.servers.impl.JSONHttpServer;
+import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.MTG;
 import org.magic.tools.UITools;
@@ -150,12 +151,17 @@ public class TransactionService
 		MTGControler.getInstance().notify(new MTGNotification("New Transaction","New transaction from " + t.getContact(),MESSAGE_TYPE.INFO));
 		
 		if(t.getConfig().isAutomaticValidation())
-			ThreadManager.getInstance().executeThread(()->{
+			ThreadManager.getInstance().executeThread(new MTGRunnable() {
+				
+				@Override
+				protected void auditedRun() {
 					try {
 						validateTransaction(t);
 					} catch (Exception e) {
 						logger.error(e);
 					}
+					
+				}
 			}, "Transaction " + t.getId() +" validation");
 			
 		

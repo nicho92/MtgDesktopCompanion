@@ -36,6 +36,7 @@ import org.magic.api.interfaces.MTGPool;
 import org.magic.api.interfaces.abstracts.AbstractMTGJsonProvider;
 import org.magic.api.pool.impl.HikariPool;
 import org.magic.services.MTGConstants;
+import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 
 public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
@@ -187,13 +188,16 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 		pool = new HikariPool();
 		pool.init("jdbc:sqlite://"+getDataFile().getAbsolutePath(), "", "", true);
 		
-		ThreadManager.getInstance().executeThread(()->{
-			logger.debug("Loading " +getName() + " extra data cards in background");
+		ThreadManager.getInstance().executeThread(new MTGRunnable() {
+			
+			@Override
+			protected void auditedRun() {
+				logger.debug("Loading " +getName() + " extra data cards in background");
 				initForeign();
 				initLegalities();
 				initRules();
 				
-			
+			}
 		}, getName() + "extradata loading");
 		
 		

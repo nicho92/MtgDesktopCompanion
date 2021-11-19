@@ -26,6 +26,7 @@ import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.tools.UITools;
@@ -94,27 +95,32 @@ public class DeckSnifferDialog extends AbstractDelegatedImporterDialog {
 							}
 						});
 			
-				btnConnect.addActionListener(e -> ThreadManager.getInstance().executeThread(() -> {
-					try {
-						lblLoad.start();
-						selectedSniffer.connect();
-						cboFormats.removeAllItems();
+				btnConnect.addActionListener(e -> ThreadManager.getInstance().executeThread(new MTGRunnable() {
+					
+					@Override
+					protected void auditedRun() {
+						try {
+							lblLoad.start();
+							selectedSniffer.connect();
+							cboFormats.removeAllItems();
 
-						for (String s : selectedSniffer.listFilter())
-							cboFormats.addItem(s);
+							for (String s : selectedSniffer.listFilter())
+								cboFormats.addItem(s);
 
+							
+							lblLoad.end();
+
+						} catch (Exception e1) {
+							lblLoad.end();
+							MTGControler.getInstance().notify(e1);
+						}
 						
-						lblLoad.end();
-
-					} catch (Exception e1) {
-						lblLoad.end();
-						MTGControler.getInstance().notify(e1);
 					}
 				}, "Connection to " + selectedSniffer));
 				
-						cboSniffers.addActionListener(e -> selectedSniffer = (MTGDeckSniffer) cboSniffers.getSelectedItem());
+		cboSniffers.addActionListener(e -> selectedSniffer = (MTGDeckSniffer) cboSniffers.getSelectedItem());
 	
-						var panelButton = new JPanel();
+		var panelButton = new JPanel();
 		getContentPane().add(panelButton, BorderLayout.SOUTH);
 
 		var btnClose = new JButton(MTGConstants.ICON_CANCEL);

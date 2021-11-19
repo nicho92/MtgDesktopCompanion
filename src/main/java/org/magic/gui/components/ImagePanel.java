@@ -26,6 +26,7 @@ import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
+import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.ImageTools;
 import org.magic.tools.URLTools;
@@ -153,27 +154,34 @@ public class ImagePanel extends JXPanel {
 			}
 		}
 
-		ThreadManager.getInstance().executeThread(() -> {
-			try {
-				imgFront = getEnabledPlugin(MTGPictureProvider.class).getPicture(mc);
-				
-				if(mc.isFlippable())
-					imgBack = ImageTools.rotate(imgFront, 180);
-				
-				
-				if(mc.getLayout()==MTGLayout.SPLIT)
-					imgFront= ImageTools.rotate(imgFront, 90);
-				
-		   		if(reflection) {
-					imgFront = renderer.appendReflection(imgFront);
-					imgBack = renderer.appendReflection(ImageTools.mirroring(imgBack));
+		ThreadManager.getInstance().executeThread(new MTGRunnable() {
+			
+			@Override
+			protected void auditedRun() {
+				try {
+					imgFront = getEnabledPlugin(MTGPictureProvider.class).getPicture(mc);
+					
+					if(mc.isFlippable())
+						imgBack = ImageTools.rotate(imgFront, 180);
+					
+					
+					if(mc.getLayout()==MTGLayout.SPLIT)
+						imgFront= ImageTools.rotate(imgFront, 90);
+					
+			   		if(reflection) {
+						imgFront = renderer.appendReflection(imgFront);
+						imgBack = renderer.appendReflection(ImageTools.mirroring(imgBack));
+					}
+					printed = imgFront;
+				} catch (Exception e) {
+					imgFront = imgBack;
 				}
-				printed = imgFront;
-			} catch (Exception e) {
-				imgFront = imgBack;
-			}
 
-			repaint();
+				repaint();
+				
+			}
+		
+			
 		}, "show img for " + mc);
 	}
 

@@ -20,6 +20,7 @@ import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.conf.MapTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.providers.MTGEventProvider;
+import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
 
@@ -106,33 +107,37 @@ public class MagicEventsDashlet extends AbstractJDashlet {
 	}
 
 	public void init() {
-		ThreadManager.getInstance().executeThread(() -> {
-			lblLoading.start();
-			int y = c.get(Calendar.YEAR);
-			int m = c.get(Calendar.MONTH) + 1;
-			try {
-				y = Integer.parseInt(cboYear.getSelectedItem().toString());
-				m = Integer.parseInt(cboMonth.getSelectedItem().toString());
-			} catch (Exception e) {
-				logger.error(e);
-			}
-			try {
-				Map<String, Date> map = new HashMap<>();
-				provider.listEvents(y, m).stream().forEach(ev-> map.put(ev.getTitle(), ev.getStartDate()));
-				eventsModel.init(map);
-			} catch (IOException e1) {
-				logger.error(e1);
-			}
+		ThreadManager.getInstance().executeThread(new MTGRunnable() {
+			
+			@Override
+			protected void auditedRun() {
+				lblLoading.start();
+				int y = c.get(Calendar.YEAR);
+				int m = c.get(Calendar.MONTH) + 1;
+				try {
+					y = Integer.parseInt(cboYear.getSelectedItem().toString());
+					m = Integer.parseInt(cboMonth.getSelectedItem().toString());
+				} catch (Exception e) {
+					logger.error(e);
+				}
+				try {
+					Map<String, Date> map = new HashMap<>();
+					provider.listEvents(y, m).stream().forEach(ev-> map.put(ev.getTitle(), ev.getStartDate()));
+					eventsModel.init(map);
+				} catch (IOException e1) {
+					logger.error(e1);
+				}
 
-			try {
-				table.setModel(eventsModel);
-			} catch (Exception e) {
-				logger.error(e);
+				try {
+					table.setModel(eventsModel);
+				} catch (Exception e) {
+					logger.error(e);
+				}
+				lblLoading.end();
+				eventsModel.fireTableDataChanged();
+				table.packAll();
+				
 			}
-			lblLoading.end();
-			eventsModel.fireTableDataChanged();
-			table.packAll();
-
 		}, "Init Events Dashlet");
 	}
 

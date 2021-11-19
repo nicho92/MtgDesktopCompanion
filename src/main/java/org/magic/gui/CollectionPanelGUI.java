@@ -79,6 +79,7 @@ import org.magic.gui.renderer.MagicCollectionTableCellRenderer;
 import org.magic.services.CardsManagerService;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.services.workers.WebsiteExportWorker;
@@ -453,19 +454,26 @@ public class CollectionPanelGUI extends MTGUIComponent {
 				selectedcol = col;
 				stockPanel.enabledAdd(false);
 				gedPanel.init(MagicCollection.class,selectedcol);
-				ThreadManager.getInstance().executeThread(() -> {
-					try {
+				ThreadManager.getInstance().executeThread(new MTGRunnable() {
 
-						List<MagicCard> list = dao.listCardsFromCollection(selectedcol);
-						rarityRepartitionPanel.init(list);
-						typeRepartitionPanel.init(list);
-						manaRepartitionPanel.init(list);
-						groupShopPanel.initListCards(list);
-						jsonPanel.show(curr.getUserObject());
+					@Override
+					protected void auditedRun() {
+						try {
 
-					} catch (Exception e) {
-						logger.error("error",e);
+							List<MagicCard> list = dao.listCardsFromCollection(selectedcol);
+							rarityRepartitionPanel.init(list);
+							typeRepartitionPanel.init(list);
+							manaRepartitionPanel.init(list);
+							groupShopPanel.initListCards(list);
+							jsonPanel.show(curr.getUserObject());
+
+						} catch (Exception e) {
+							logger.error("error",e);
+						}
+						
 					}
+					
+
 				}, "Calculate Collection cards");
 				
 			}
@@ -479,21 +487,28 @@ public class CollectionPanelGUI extends MTGUIComponent {
 				stockPanel.enabledAdd(false);
 				gedPanel.init(MagicEdition.class,ed);
 					
-				ThreadManager.getInstance().executeThread(() -> {
-					try {
+				ThreadManager.getInstance().executeThread(new MTGRunnable() {
 
-						MagicCollection collec = (MagicCollection) ((DefaultMutableTreeNode) curr.getParent()).getUserObject();
-						List<MagicCard> list = dao.listCardsFromCollection(collec,ed);
-						rarityRepartitionPanel.init(list);
-						typeRepartitionPanel.init(list);
-						manaRepartitionPanel.init(list);
-						groupShopPanel.initListCards(list);
-						historyPricesPanel.init(null, ed,curr.getUserObject().toString());
-						jsonPanel.show(curr.getUserObject());
+					@Override
+					protected void auditedRun() {
+						try {
 
-					} catch (Exception e) {
-						logger.error("error refresh " + curr.getUserObject() +":"+e.getLocalizedMessage());
+							MagicCollection collec = (MagicCollection) ((DefaultMutableTreeNode) curr.getParent()).getUserObject();
+							List<MagicCard> list = dao.listCardsFromCollection(collec,ed);
+							rarityRepartitionPanel.init(list);
+							typeRepartitionPanel.init(list);
+							manaRepartitionPanel.init(list);
+							groupShopPanel.initListCards(list);
+							historyPricesPanel.init(null, ed,curr.getUserObject().toString());
+							jsonPanel.show(curr.getUserObject());
+
+						} catch (Exception e) {
+							logger.error("error refresh " + curr.getUserObject() +":"+e.getLocalizedMessage());
+						}
+						
 					}
+					
+					
 				}, "Calculate Editions cards");
 			}
 

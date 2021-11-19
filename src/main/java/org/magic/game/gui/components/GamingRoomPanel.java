@@ -46,6 +46,7 @@ import org.magic.gui.components.dialog.JDeckChooserDialog;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
 import org.utils.patterns.observer.Observable;
@@ -219,21 +220,31 @@ public class GamingRoomPanel extends JPanel {
 				client.getPlayer().setName(txtName.getText());
 				client.join();
 
-				ThreadManager.getInstance().executeThread(() -> {
-					while (client.isActive()) {
-						txtName.setEnabled(!client.isActive());
-						txtServer.setEnabled(!client.isActive());
-						txtPort.setEnabled(!client.isActive());
-						btnConnect.setEnabled(false);
-						btnLogout.setEnabled(true);
-					}
-					txtName.setEnabled(true);
-					txtServer.setEnabled(true);
-					txtPort.setEnabled(true);
-					btnConnect.setEnabled(true);
-					btnLogout.setEnabled(false);
-				}, "live connection");
+				ThreadManager.getInstance().executeThread(new MTGRunnable() {
 
+					@Override
+					protected void auditedRun() {
+						while (client.isActive()) {
+							txtName.setEnabled(!client.isActive());
+							txtServer.setEnabled(!client.isActive());
+							txtPort.setEnabled(!client.isActive());
+							btnConnect.setEnabled(false);
+							btnLogout.setEnabled(true);
+						}
+						txtName.setEnabled(true);
+						txtServer.setEnabled(true);
+						txtPort.setEnabled(true);
+						btnConnect.setEnabled(true);
+						btnLogout.setEnabled(false);
+						
+					}
+					
+				},"alived connection listener");
+						
+						
+						
+						
+	
 			} catch (Exception e) {
 				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 			}

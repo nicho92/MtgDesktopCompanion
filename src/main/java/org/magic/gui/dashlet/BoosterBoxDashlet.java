@@ -36,6 +36,7 @@ import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.models.BoostersTableModel;
 import org.magic.gui.renderer.MagicCardListRenderer;
 import org.magic.services.MTGConstants;
+import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
 
@@ -117,49 +118,54 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 		list1.setCellRenderer(new MagicCardListRenderer());
 		scrollPane1.setViewportView(list1);
 
-		btnCalculate.addActionListener(e -> ThreadManager.getInstance().executeThread(() -> {
-			try {
-				var prices = getEnabledPlugin(MTGDashBoard.class).getShakesForEdition((MagicEdition) cboEditions.getSelectedItem());
-				boostersModel.clear();
-				double total = 0;
-				Map<MTGRarity, Double> priceRarity = new EnumMap<>(MTGRarity.class);
+		btnCalculate.addActionListener(e -> ThreadManager.getInstance().executeThread(new MTGRunnable() {
+			
+			@Override
+			protected void auditedRun() {
+				try {
+					var prices = getEnabledPlugin(MTGDashBoard.class).getShakesForEdition((MagicEdition) cboEditions.getSelectedItem());
+					boostersModel.clear();
+					double total = 0;
+					Map<MTGRarity, Double> priceRarity = new EnumMap<>(MTGRarity.class);
 
-				for (var i = 0; i < (int) boxSizeSpinner.getValue(); i++) {
-					var booster = getEnabledPlugin(MTGCardsProvider.class).generateBooster((MagicEdition) cboEditions.getSelectedItem());
-					Collections.reverse(booster.getCards());
-					booster.setBoosterNumber(String.valueOf(i + 1));
+					for (var i = 0; i < (int) boxSizeSpinner.getValue(); i++) {
+						var booster = getEnabledPlugin(MTGCardsProvider.class).generateBooster((MagicEdition) cboEditions.getSelectedItem());
+						Collections.reverse(booster.getCards());
+						booster.setBoosterNumber(String.valueOf(i + 1));
 
-					double price = 0;
-					for (MagicCard mc : booster.getCards()) {
-						for (CardShake cs : prices)
-							if (cs.getName().equalsIgnoreCase(mc.getName())) {
-								price += cs.getPrice();
-								booster.setPrice(price);
-								cs.setCard(mc);
+						double price = 0;
+						for (MagicCard mc : booster.getCards()) {
+							for (CardShake cs : prices)
+								if (cs.getName().equalsIgnoreCase(mc.getName())) {
+									price += cs.getPrice();
+									booster.setPrice(price);
+									cs.setCard(mc);
 
-								MTGRarity rarity = mc.getRarity();
+									MTGRarity rarity = mc.getRarity();
 
-								if (priceRarity.get(rarity) != null)
-									priceRarity.put(rarity, priceRarity.get(rarity) + cs.getPrice());
-								else
-									priceRarity.put(rarity, cs.getPrice());
-							}
+									if (priceRarity.get(rarity) != null)
+										priceRarity.put(rarity, priceRarity.get(rarity) + cs.getPrice());
+									else
+										priceRarity.put(rarity, cs.getPrice());
+								}
+						}
+						boostersModel.addItem(booster);
+						total = total + booster.getPrice();
+
+						var temp = new StringBuilder();
+						temp.append("TOTAL: ").append(UITools.formatDouble(total)).append("\n");
+
+						for (Entry<MTGRarity, Double> s : priceRarity.entrySet())
+							temp.append(s.getKey()).append(": ").append(UITools.formatDouble(priceRarity.get(s.getKey())))
+									.append("\n");
+
+						txtDetailBox.setText(temp.toString());
 					}
-					boostersModel.addItem(booster);
-					total = total + booster.getPrice();
 
-					var temp = new StringBuilder();
-					temp.append("TOTAL: ").append(UITools.formatDouble(total)).append("\n");
-
-					for (Entry<MTGRarity, Double> s : priceRarity.entrySet())
-						temp.append(s.getKey()).append(": ").append(UITools.formatDouble(priceRarity.get(s.getKey())))
-								.append("\n");
-
-					txtDetailBox.setText(temp.toString());
+				} catch (Exception e1) {
+					logger.error(e1);
 				}
-
-			} catch (Exception e1) {
-				logger.error(e1);
+				
 			}
 		}, "Open Box"));
 

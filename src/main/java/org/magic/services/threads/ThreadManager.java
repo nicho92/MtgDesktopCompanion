@@ -38,13 +38,17 @@ public class ThreadManager {
 		return inst;
 	}
 
-	public void executeThread(Runnable task, String name) {
+	public void executeThread(MTGRunnable task, String name) {
 		
 		if(task==null)
 		{
 			logger.error("task is null for " + name);
 			return;
 		}
+		
+		task.getInfo().setName(name);
+		
+		tasksMap.put(task, task.getInfo());
 		
 		executor.execute(task);
 	}
@@ -134,6 +138,8 @@ public class ThreadManager {
 	public ThreadPoolExecutor getExecutor() {
 		return executor;
 	}
+	
+	
 	
 }
 

@@ -24,6 +24,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
+import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.InstallCert;
 
@@ -218,25 +219,29 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 		if(!initied)
 			init();
 	
-		ThreadManager.getInstance().executeThread(() -> {
-			if (!p.isEmpty() && getBoolean("AUTOMATIC_ADD_CARD_ALERT")) {
-				var cart = new CartServices();
-				try {
-					List<Article> list = new ArrayList<>();
+		ThreadManager.getInstance().executeThread( new MTGRunnable() {
+			
+			@Override
+			protected void auditedRun() {
+				if (!p.isEmpty() && getBoolean("AUTOMATIC_ADD_CARD_ALERT")) {
+					var cart = new CartServices();
+					try {
+						List<Article> list = new ArrayList<>();
 
-					for (MagicPrice mp : p) {
-						Article a = (Article) mp.getShopItem();
-						a.setCount(1);
-						list.add(a);
+						for (MagicPrice mp : p) {
+							Article a = (Article) mp.getShopItem();
+							a.setCount(1);
+							list.add(a);
+						}
+						boolean res = cart.addArticles(list);
+						logger.info("add " + list + " to card :" + res);
+					} catch (Exception e) {
+						logger.error("Could not add " + p + " to cart", e);
 					}
-					boolean res = cart.addArticles(list);
-					logger.info("add " + list + " to card :" + res);
-				} catch (Exception e) {
-					logger.error("Could not add " + p + " to cart", e);
 				}
+				
 			}
 		}, "addCart");
-
 	}
 
 	@Override
