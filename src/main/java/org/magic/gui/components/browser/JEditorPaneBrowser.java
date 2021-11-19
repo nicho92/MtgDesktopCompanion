@@ -1,13 +1,11 @@
 package org.magic.gui.components.browser;
 
 import java.awt.BorderLayout;
-import java.util.concurrent.ExecutionException;
 
 import javax.swing.JEditorPane;
 import javax.swing.SwingWorker;
 import javax.swing.text.html.HTMLEditorKit;
 
-import org.japura.gui.util.SwingWorkerHandler;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 import org.magic.gui.abstracts.MTGUIBrowserComponent;

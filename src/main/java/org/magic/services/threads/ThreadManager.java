@@ -37,8 +37,7 @@ public class ThreadManager {
 
 		return inst;
 	}
-	
-	@Deprecated
+
 	public void executeThread(Runnable task, String name) {
 		
 		if(task==null)
