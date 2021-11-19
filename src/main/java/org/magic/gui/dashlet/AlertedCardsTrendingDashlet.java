@@ -61,11 +61,10 @@ public class AlertedCardsTrendingDashlet extends AbstractJDashlet {
 		table.getSelectionModel().addListSelectionListener(event -> {
 			if (!event.getValueIsAdjusting()) {
 				ThreadManager.getInstance().invokeLater(() -> {
-					int row = table.getSelectedRow();
-					MagicCardAlert alt = (MagicCardAlert) table.getValueAt(row, 0);
+					MagicCardAlert alt = UITools.getTableSelection(table,0);
 					historyPricesPanel.init(alt.getCard(), alt.getCard().getCurrentSet(),alt.getCard().toString());
 					historyPricesPanel.revalidate();
-				});
+				}, " loading prices alerts");
 
 			}
 		});

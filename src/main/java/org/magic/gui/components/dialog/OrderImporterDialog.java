@@ -119,7 +119,7 @@ public class OrderImporterDialog extends JDialog {
 					{
 						selectedSniffer.removeObserver(lblLoad);
 					}
-				})
+				}, "Loading Orders Import Dialog")
 		);
 
 		

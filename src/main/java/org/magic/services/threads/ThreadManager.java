@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.threads.ThreadInfo.STATE;
+import org.magic.services.threads.ThreadInfo.TYPE;
 import org.magic.tools.Chrono;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
@@ -37,6 +38,7 @@ public class ThreadManager {
 		return inst;
 	}
 	
+	@Deprecated
 	public void executeThread(Runnable task, String name) {
 		
 		if(task==null)
@@ -46,32 +48,28 @@ public class ThreadManager {
 		}
 		
 		executor.execute(task);
-	
 	}
 	
 	public Future<?> submitThread(Runnable task, String name) {
 		return submitCallable(Executors.callable(task), name);
 	}
 	
-	
 	public <V> Future<V> submitCallable(Callable<V> task,String name) {
 		return executor.submit(task);
 	}
 	
-	public void invokeLater(Runnable task) {
+	
+	public void invokeLater(Runnable task, String name) {
 		SwingUtilities.invokeLater(task);
 	}
 	
 	public void runInEdt(SwingWorker<?, ?> runnable,String name) {
 		
 		var info = new ThreadInfo();
-			info.setName(name);
-			
-		tasksMap.put(runnable, info);
-			
-			
-			
-		logger.trace("running EDT : " + name);
+			  info.setName(name);
+			  info.setType(TYPE.WORKER);
+		tasksMap.put(runnable, info);			
+		
 		runnable.execute();
 		var c = new Chrono();
 		
@@ -115,11 +113,10 @@ public class ThreadManager {
 			case FIXED: executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(tpc.getCorePool(),factory);break;
 			case SCHEDULE:executor = (ThreadPoolExecutor) Executors.newScheduledThreadPool(tpc.getCorePool(),factory);break;
 			case SINGLE : executor = (ThreadPoolExecutor) Executors.newSingleThreadExecutor(factory);break;
-			default :  Executors.newCachedThreadPool(factory);break;
+			default :  executor = (ThreadPoolExecutor) Executors.newCachedThreadPool(factory);break;
 		}
 		logger.debug("init ThreadManager config="+tpc);
 	}
-	
 	
 	public void stop()
 	{
@@ -134,7 +131,6 @@ public class ThreadManager {
 	public ThreadFactory getFactory() {
 		return factory;
 	}
-	
 	
 	public ThreadPoolExecutor getExecutor() {
 		return executor;

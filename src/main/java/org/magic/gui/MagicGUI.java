@@ -149,13 +149,13 @@ public class MagicGUI extends JFrame {
 			dow.setVisible(true);
 		});
 		
-		mntmFileScript.addActionListener(ae -> ThreadManager.getInstance().invokeLater(() -> MTGUIComponent.createJDialog(new ScriptPanel(), true, false).setVisible(true)));
+		mntmFileScript.addActionListener(ae -> ThreadManager.getInstance().invokeLater(() -> MTGUIComponent.createJDialog(new ScriptPanel(), true, false).setVisible(true), "loading Script dialog"));
 		
-		mntmFileTagEditor.addActionListener(ae -> ThreadManager.getInstance().invokeLater(() -> MTGUIComponent.createJDialog(new BinderTagsEditorComponent(), true, false).setVisible(true)));
+		mntmFileTagEditor.addActionListener(ae -> ThreadManager.getInstance().invokeLater(() -> MTGUIComponent.createJDialog(new BinderTagsEditorComponent(), true, false).setVisible(true), "loading Tags dialog"));
 
-		mntmLogsItem.addActionListener(ae -> ThreadManager.getInstance().invokeLater(() -> MTGUIComponent.createJDialog(new LoggerViewPanel(), true, false).setVisible(true)));
+		mntmLogsItem.addActionListener(ae -> ThreadManager.getInstance().invokeLater(() -> MTGUIComponent.createJDialog(new LoggerViewPanel(), true, false).setVisible(true), "loading Logs dialog"));
 
-		mntmThreadItem.addActionListener(e ->ThreadManager.getInstance().invokeLater(() -> MTGUIComponent.createJDialog(new ThreadMonitor(), true, false).setVisible(true)));
+		mntmThreadItem.addActionListener(e ->ThreadManager.getInstance().invokeLater(() -> MTGUIComponent.createJDialog(new ThreadMonitor(), true, false).setVisible(true), "loading Thread dialog"));
 
 		mntmExit.addActionListener(e -> MTGControler.getInstance().closeApp());
 
@@ -305,7 +305,7 @@ public class MagicGUI extends JFrame {
 					logger.error(e);
 				}
 
-			});
+			}, "Loading TipsOfTheDay dialog");
 		}
 
 	private void addTab(MTGUIComponent instance) {

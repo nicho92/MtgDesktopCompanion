@@ -20,7 +20,7 @@ public class ScriptsUIClient {
 		getEnabledPlugin(MTGCardsProvider.class).init();
 		getEnabledPlugin(MTGDao.class).init();
 		
-		ThreadManager.getInstance().invokeLater(() -> MTGUIComponent.createJFrame(new ScriptPanel(), true, true).setVisible(true));
+		ThreadManager.getInstance().invokeLater(() -> MTGUIComponent.createJFrame(new ScriptPanel(), true, true).setVisible(true), "Loading Script Client");
 	}
 	
 }

@@ -642,7 +642,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 				progressBar.end();
 				MTGControler.getInstance().notify(e);
 			}
-		}));
+		}, "Opening WebSite Export dialog"));
 
 	    btnAddAllSet.addActionListener(ae ->{
 	    	var popupMenu = new JPopupMenu("Title");

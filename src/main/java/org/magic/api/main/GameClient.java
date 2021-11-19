@@ -18,7 +18,7 @@ public class GameClient {
 		
 		getEnabledPlugin(MTGCardsProvider.class).init();
 		getEnabledPlugin(MTGDao.class).init();
-		ThreadManager.getInstance().invokeLater(() -> MTGUIComponent.createJFrame(new GameGUI(), true, true).setVisible(true));
+		ThreadManager.getInstance().invokeLater(() -> MTGUIComponent.createJFrame(new GameGUI(), true, true).setVisible(true),"Loading Game Client");
 	}
 	
 }

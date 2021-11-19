@@ -39,7 +39,7 @@ public class ServersGUI extends MTGUIComponent {
 				for (MTGServer s : list) {
 					add(new ServerStatePanel(s));
 				}
-		});
+		}, "adding Servers Panels");
 		
 		
 	}
