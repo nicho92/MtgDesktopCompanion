@@ -1,6 +1,7 @@
 package org.magic.gui.renderer.standard;
 
 import java.awt.Component;
+import java.time.Instant;
 import java.util.Date;
 
 import javax.swing.AbstractCellEditor;
@@ -39,10 +40,23 @@ public class DateTableCellEditorRenderer extends AbstractCellEditor implements T
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 		JLabel l = null;
-		if(enableTime)
-			l = new JLabel(UITools.formatDateTime((Date)value));
-		else 
-			l = new JLabel(UITools.formatDate((Date)value));
+		
+		
+		if(value instanceof Date date)
+		{	
+			if(enableTime)
+				l = new JLabel(UITools.formatDateTime(date));
+			else 
+				l = new JLabel(UITools.formatDate(date));
+		}
+		
+		if(value instanceof Instant date)
+		{	
+			l = new JLabel(UITools.formatDate(date));
+		}
+		
+		
+		
 		
 		l.setOpaque(true);
 		if(isSelected)

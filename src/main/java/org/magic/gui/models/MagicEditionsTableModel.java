@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javax.swing.ImageIcon;
+
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGDao;
@@ -95,6 +97,21 @@ public class MagicEditionsTableModel extends GenericTableModel<MagicEdition> {
 				"PREVIEW"};
 
 	}
+	
+	@Override
+	public Class<?> getColumnClass(int columnIndex) {
+		switch(columnIndex)
+		{
+			case 0 : return ImageIcon.class;
+			case 1 : return MagicEdition.class;
+			case 2 : return Integer.class;
+			case 4 : return Double.class;
+			case 5 : return Integer.class;
+			case 8 | 9 : return Boolean.class;
+			default : return super.getColumnClass(columnIndex);
+		}
+	}
+	
 
 	@Override
 	public Object getValueAt(int row, int column) {

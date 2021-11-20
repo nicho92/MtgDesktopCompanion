@@ -170,6 +170,7 @@ public class UITools {
 				table.setDefaultRenderer(int.class, new NumberCellEditorRenderer());
 				
 				table.setDefaultRenderer(Date.class, new DateTableCellEditorRenderer());
+				table.setDefaultRenderer(Instant.class, new DateTableCellEditorRenderer());
 				table.setDefaultRenderer(MagicEdition.class, new MagicEditionJLabelRenderer());
 				table.setDefaultRenderer(MTGPlugin.class, new MTGPluginCellRenderer());
 				
@@ -596,6 +597,11 @@ public class UITools {
 		return new SimpleDateFormat(MTGControler.getInstance().getLangService().get(DATE_FORMAT)).format(indexDate);
 	}
 	
+	public static String formatDate(Instant date) {
+		return new SimpleDateFormat(MTGControler.getInstance().getLangService().get(DATE_FORMAT)+" HH:mm:ss.S").format(Date.from(date));
+	}
+	
+	
 	public static String formatDateTime(Date indexDate) {
 		if(indexDate==null)
 			return "";
@@ -631,5 +637,7 @@ public class UITools {
 
 		return ret;
 		}
+
+
 
 }

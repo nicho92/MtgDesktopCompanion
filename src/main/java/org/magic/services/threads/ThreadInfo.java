@@ -1,7 +1,7 @@
 package org.magic.services.threads;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.Instant;
 
 public class ThreadInfo implements Serializable {
 
@@ -13,10 +13,40 @@ public class ThreadInfo implements Serializable {
 	public enum TYPE {WORKER,RUNNABLE}
 	
 	private static final long serialVersionUID = 1L;
-	private Date startDate;
-	private Date endDate;
+	private Instant createdDate;
+	private Instant startDate;
+	private Instant endDate;
 	private long duration;
 	private String name;
+	public Instant getCreatedDate() {
+		return createdDate;
+	}
+
+
+	public void setCreatedDate(Instant createdDate) {
+		this.createdDate = createdDate;
+	}
+
+
+	public Instant getStartDate() {
+		return startDate;
+	}
+
+
+	public void setStartDate(Instant startDate) {
+		this.startDate = startDate;
+	}
+
+
+	public Instant getEndDate() {
+		return endDate;
+	}
+
+
+	public void setEndDate(Instant endDate) {
+		this.endDate = endDate;
+	}
+
 	private STATE status = STATE.NEW;
 	private TYPE type=TYPE.RUNNABLE;
 	private transient Runnable runnable;
@@ -24,6 +54,7 @@ public class ThreadInfo implements Serializable {
 	
 	public ThreadInfo(Runnable r) {
 		this.runnable=r;
+		createdDate = Instant.now();
 	}
 	
 	
@@ -41,18 +72,7 @@ public class ThreadInfo implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Date getStartDate() {
-		return startDate;
-	}
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
-	public Date getEndDate() {
-		return endDate;
-	}
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
+	
 	public long getDuration() {
 		return duration;
 	}

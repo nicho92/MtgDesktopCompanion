@@ -1,6 +1,6 @@
 package org.magic.services.threads;
 
-import java.util.Date;
+import java.time.Instant;
 
 import org.magic.services.threads.ThreadInfo.STATE;
 import org.magic.tools.Chrono;
@@ -21,13 +21,13 @@ public abstract class MTGRunnable implements Runnable{
 	}
 	
 	public void start() {
-		info.setStartDate(new Date());
+		info.setStartDate(Instant.now());
 		info.setStatus(STATE.STARTED);
 		chrono.start();
 	}
 	
 	public void end() {
-		info.setEndDate(new Date());
+		info.setEndDate(Instant.now());
 		info.setStatus(STATE.FINISHED);
 		info.setDuration(chrono.stop());
 	}

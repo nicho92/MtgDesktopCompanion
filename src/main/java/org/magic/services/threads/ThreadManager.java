@@ -1,6 +1,7 @@
 package org.magic.services.threads;
 
 import java.beans.PropertyChangeEvent;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -82,19 +83,19 @@ public class ThreadManager {
 		runnable.addPropertyChangeListener((PropertyChangeEvent ev)->{
 			if(ev.getNewValue().toString().equals("STARTED"))
 			{ 
-				info.setStartDate(new Date());
+				info.setStartDate(Instant.now());
 				info.setStatus(STATE.STARTED);
 				c.start();
 			}
 			
 			if(ev.getNewValue().toString().equals("DONE")) {
-				info.setEndDate(new Date());
+				info.setEndDate(Instant.now());
 				info.setDuration(c.stopInMillisecond());
 				info.setStatus(STATE.FINISHED);
 			}
 			
 			if(ev.getNewValue().toString().equals("CANCELED")) {
-				info.setEndDate(new Date());
+				info.setEndDate(Instant.now());
 				info.setDuration(c.stopInMillisecond());
 				info.setStatus(STATE.CANCELED);
 			}

@@ -741,8 +741,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 				obj.addProperty("name", e.getName());
 				obj.addProperty("status", e.getStatus().name());
 				obj.addProperty("type", e.getType().name());
-				obj.addProperty("start", UITools.formatDateTime(e.getStartDate()));
-				obj.addProperty("end", UITools.formatDateTime(e.getEndDate()));
+				obj.addProperty("created", e.getCreatedDate().toEpochMilli());
+				obj.addProperty("start", e.getStartDate().toEpochMilli());
+				obj.addProperty("end", e.getEndDate().toEpochMilli());
 				obj.addProperty("durationInMillis", e.getDuration());
 				arr.add(obj);
 			}

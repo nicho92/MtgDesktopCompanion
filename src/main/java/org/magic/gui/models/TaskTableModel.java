@@ -1,6 +1,6 @@
 package org.magic.gui.models;
 
-import java.sql.Date;
+import java.time.Instant;
 
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.threads.ThreadInfo;
@@ -11,7 +11,7 @@ public class TaskTableModel extends GenericTableModel<ThreadInfo> {
 
 	
 	public TaskTableModel() {
-		setColumns("name","startDate","endDate","status","type","duration");
+		setColumns("name","createdDate","startDate","endDate","status","type","duration");
 		setWritable(false);
 	}
 	
@@ -19,7 +19,7 @@ public class TaskTableModel extends GenericTableModel<ThreadInfo> {
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		if(columnIndex==1 || columnIndex==2)
-			return Date.class;
+			return Instant.class;
 		
 		if(columnIndex==5)
 			return Long.class;
