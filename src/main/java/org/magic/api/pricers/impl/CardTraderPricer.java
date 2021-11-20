@@ -18,6 +18,7 @@ import org.magic.tools.Chrono;
 
 public class CardTraderPricer extends AbstractPricesProvider {
 
+	private static final String COUNTRY_FILTER = "COUNTRY_FILTER";
 	private CardTraderService service;
 	
 	@Override
@@ -25,7 +26,7 @@ public class CardTraderPricer extends AbstractPricesProvider {
 		var m = super.getDefaultAttributes();
 		
 		m.put("AUTOMATIC_ADD_CART", "false");
-		m.put("COUNTRY_FILTER", "IT,FR");
+		m.put(COUNTRY_FILTER, "IT,FR");
 		
 		return m;
 	}
@@ -99,7 +100,7 @@ public class CardTraderPricer extends AbstractPricesProvider {
 		logger.debug("Begin searching " + bp);
 		service.listMarketProductByBluePrint(bp).forEach(marketItem->{
 			
-			if(ArrayUtils.contains(getArray("COUNTRY_FILTER"),marketItem.getSeller().getCountryCode()) || getString("COUNTRY_FILTER").isEmpty())
+			if(ArrayUtils.contains(getArray(COUNTRY_FILTER),marketItem.getSeller().getCountryCode()) || getString(COUNTRY_FILTER).isEmpty())
 			{
 			
 					var mp = new MagicPrice();

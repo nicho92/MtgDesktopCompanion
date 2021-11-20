@@ -503,10 +503,11 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 							return getEnabledPlugin(MTGDao.class).hasAlert(magicCard);
 						}
 						
+						@Override
 						protected void done() {
 							
 							try {
-								if (get()) {
+								if (get().booleanValue()) {
 									btnAlert.setToolTipText(capitalize("HAD_ALERT"));
 									btnAlert.setEnabled(false);
 								} else {
@@ -519,7 +520,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 								logger.error(e);
 							}
 							
-						};
+						}
 						
 					};
 			

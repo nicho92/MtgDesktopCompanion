@@ -3,7 +3,6 @@ package org.magic.services.threads;
 import java.beans.PropertyChangeEvent;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
@@ -54,7 +53,10 @@ public class ThreadManager {
 		executor.execute(task);
 	}
 	
-	public Future<?> submitThread(Runnable task, String name) {
+	public Future<?> submitThread(MTGRunnable task, String name) {
+		
+		task.getInfo().setName(name);
+		tasksMap.add(task.getInfo());
 		return submitCallable(Executors.callable(task), name);
 	}
 	

@@ -45,6 +45,7 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
+import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.Chrono;
 import org.magic.tools.FileTools;
@@ -145,30 +146,34 @@ public class ScriptPanel extends MTGUIComponent {
 			btnStop.setEnabled(true);
 			
 			
-			f = ThreadManager.getInstance().submitThread(()->
-			{
-				try {
-					
-					lblInfo.setText("Running");
-					MTGScript scripter = (MTGScript)cboScript.getSelectedItem();
-					scripter.init();
-					var writer = new StringWriter();
-					scripter.setOutput(writer);
-					Object ret = scripter.runContent(editorPane.getText());
-					appendResult(writer.toString()+"\n");
-					
-					if(chkShowReturn.isSelected())
-						appendResult("Return :" + ret+"\n");
-					
-				} 
-				catch (Exception e) {
-					logger.error("error scriptinng",e);
-					appendResult(e.getMessage()+"\n",Color.RED);
-				}
+			f = ThreadManager.getInstance().submitThread(new MTGRunnable() {
 				
-				lblInfo.setText("Running time : " + c.stop() +"s.");
-				btnRun.setEnabled(true);
-				btnStop.setEnabled(false);
+				@Override
+				protected void auditedRun() {
+					try {
+						
+						lblInfo.setText("Running");
+						MTGScript scripter = (MTGScript)cboScript.getSelectedItem();
+						scripter.init();
+						var writer = new StringWriter();
+						scripter.setOutput(writer);
+						Object ret = scripter.runContent(editorPane.getText());
+						appendResult(writer.toString()+"\n");
+						
+						if(chkShowReturn.isSelected())
+							appendResult("Return :" + ret+"\n");
+						
+					} 
+					catch (Exception e) {
+						logger.error("error scriptinng",e);
+						appendResult(e.getMessage()+"\n",Color.RED);
+					}
+					
+					lblInfo.setText("Running time : " + c.stop() +"s.");
+					btnRun.setEnabled(true);
+					btnStop.setEnabled(false);
+					
+				}
 			}, "executing script");
 		});
 		

@@ -93,7 +93,7 @@ public class StoriesGUI extends MTGUIComponent {
 									}
 									
 									lblLoading.end();
-								};
+								}
 								
 								
 							};

@@ -291,8 +291,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 
 	@Override
 	public List<Transaction> listTransactions(Contact c) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
