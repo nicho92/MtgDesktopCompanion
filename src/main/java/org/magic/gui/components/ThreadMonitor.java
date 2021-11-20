@@ -8,11 +8,14 @@ import java.sql.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.Timer;
 
+import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.TaskTableModel;
 import org.magic.gui.models.ThreadsTableModel;
@@ -43,10 +46,13 @@ public class ThreadMonitor extends MTGUIComponent  {
 		var tableTasks = UITools.createNewTable(modelTasks);
 		UITools.initTableFilter(tableTasks);
 		
-		
-		
 		tableTasks.setDefaultRenderer(Date.class, new DateTableCellEditorRenderer(true));
-		
+		tableTasks.setDefaultRenderer(Long.class, (JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column)->{
+				var lab= new JLabel(DurationFormatUtils.formatDurationHMS((Long)value));
+				lab.setOpaque(false);
+				return lab;
+				
+		});
 		
 		tabs.addTab("Threads",new JScrollPane(UITools.createNewTable(modelT)));
 		tabs.addTab("Tasks",new JScrollPane(tableTasks));

@@ -18,10 +18,10 @@ public class TaskTableModel extends GenericTableModel<ThreadInfo> {
 	
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
-		if(columnIndex==1 || columnIndex==2)
+		if(columnIndex==1 || columnIndex==2|| columnIndex==3)
 			return Instant.class;
 		
-		if(columnIndex==5)
+		if(columnIndex==6)
 			return Long.class;
 		
 		
