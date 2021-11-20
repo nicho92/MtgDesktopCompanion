@@ -39,26 +39,26 @@ public class DateTableCellEditorRenderer extends AbstractCellEditor implements T
 
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
-		JLabel l = null;
-		
+		JLabel l = new JLabel();
+		l.setOpaque(true);
 		
 		if(value instanceof Date date)
 		{	
 			if(enableTime)
-				l = new JLabel(UITools.formatDateTime(date));
+				l.setText(UITools.formatDateTime(date));
 			else 
-				l = new JLabel(UITools.formatDate(date));
+				l.setText(UITools.formatDate(date));
 		}
 		
 		if(value instanceof Instant date)
 		{	
-			l = new JLabel(UITools.formatDate(date));
+			l.setText(UITools.formatDate(date));
 		}
 		
 		
 		
 		
-		l.setOpaque(true);
+		
 		if(isSelected)
 		{
 			l.setBackground(table.getSelectionBackground());
