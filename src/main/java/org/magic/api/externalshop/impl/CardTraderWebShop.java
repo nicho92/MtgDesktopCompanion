@@ -232,14 +232,12 @@ public class CardTraderWebShop extends AbstractExternalShop {
 
 	@Override
 	public Integer saveOrUpdateContact(Contact c) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new IOException("Not possible to update " + c);
 	}
 
 	@Override
 	public Contact getContactByEmail(String email) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new IOException("Not possible to get contact from email " + email);
 	}
 
 	@Override
@@ -273,7 +271,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 
 	@Override
 	public void deleteTransaction(Transaction t) throws IOException {
-		// TODO Auto-generated method stub
+		throw new IOException("Can't delete transaction");
 		
 	}
 
@@ -285,19 +283,17 @@ public class CardTraderWebShop extends AbstractExternalShop {
 
 	@Override
 	public Contact getContactByLogin(String login, String passw) throws IOException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List<Transaction> listTransactions(Contact c) throws IOException {
-		return new ArrayList<>();
+		return listTransaction().stream().filter(t->t.getContact().getId()==c.getId()).toList();
 	}
 
 	@Override
 	public boolean enableContact(String token) throws IOException {
-		// TODO Auto-generated method stub
-		return false;
+		throw new IOException("Can't enable contact ");
 	}
 
 

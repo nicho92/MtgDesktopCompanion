@@ -1,7 +1,6 @@
 package org.magic.services.threads;
 
 import java.time.Instant;
-import java.util.concurrent.Callable;
 
 import org.magic.services.threads.ThreadInfo.STATE;
 import org.magic.tools.Chrono;

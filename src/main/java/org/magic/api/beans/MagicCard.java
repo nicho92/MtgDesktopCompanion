@@ -724,7 +724,7 @@ public class MagicCard extends AbstractProduct {
 		this.supertypes = supertypes;
 	}
 
-	
+	@Override
 	public String toString() {
 		return getName();
 	}
