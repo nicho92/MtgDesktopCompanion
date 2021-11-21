@@ -32,7 +32,7 @@
 		<meta property="og:image"         content="../dist/img/logo.png" />
 		<meta property="og:image:width"         content="250" />
 		<meta property="og:image:height"         content="250" />
-			<script>
+		<script>
 				   $(document).ready(function() {
 					
 						$(document).ajaxStart(function () 
@@ -45,7 +45,10 @@
 							 $('.loading').html("");  
 						});
 								
-											
+						document.querySelector('meta[property="og:url"]').setAttribute("content", window.location.href);			
+						document.querySelector('meta[property="og:image"]').setAttribute("content", window.location.protocol + "//" + window.location.host+"/collection-ui/../dist/img/logo.png");
+						
+						
 							$.ajax({
 						        url: restserver+"/collections/list"
 						    	}).then(function(data) {
