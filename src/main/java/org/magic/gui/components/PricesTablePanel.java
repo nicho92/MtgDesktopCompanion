@@ -178,7 +178,7 @@ public class PricesTablePanel extends MTGUIComponent {
 					}
 			
 				};
-				ThreadManager.getInstance().runInEdt(sw,"loading prices");
+				ThreadManager.getInstance().runInEdt(sw,"loading " + prov.getName() + " prices");
 			}
 		}
 	}
