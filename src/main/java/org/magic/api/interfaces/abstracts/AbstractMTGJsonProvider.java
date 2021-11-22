@@ -26,9 +26,9 @@ import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.criterias.builders.JsonCriteriaBuilder;
 import org.magic.services.MTGConstants;
+import org.magic.services.network.URLTools;
 import org.magic.tools.Chrono;
 import org.magic.tools.FileTools;
-import org.magic.tools.URLTools;
 
 import com.google.common.collect.Lists;
 import com.google.gson.JsonElement;

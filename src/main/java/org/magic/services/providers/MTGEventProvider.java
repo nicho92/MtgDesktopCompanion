@@ -21,7 +21,7 @@ import org.jsoup.nodes.Element;
 import org.magic.api.beans.MagicEvent;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
-import org.magic.tools.URLTools;
+import org.magic.services.network.URLTools;
 
 public class MTGEventProvider {
 

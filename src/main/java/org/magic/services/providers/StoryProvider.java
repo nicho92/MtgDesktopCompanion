@@ -13,7 +13,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.magic.api.beans.MTGStory;
 import org.magic.services.MTGLogger;
-import org.magic.tools.URLTools;
+import org.magic.services.network.URLTools;
 
 public class StoryProvider {
 

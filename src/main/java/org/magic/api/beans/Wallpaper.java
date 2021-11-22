@@ -5,8 +5,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URI;
 
+import org.magic.services.network.URLTools;
 import org.magic.tools.ImageTools;
-import org.magic.tools.URLTools;
 
 public class Wallpaper {
 

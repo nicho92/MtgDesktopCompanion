@@ -17,8 +17,8 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
+import org.magic.services.network.URLTools;
 import org.magic.tools.InstallCert;
-import org.magic.tools.URLTools;
 
 public class MTGDecksSniffer extends AbstractDeckSniffer {
 

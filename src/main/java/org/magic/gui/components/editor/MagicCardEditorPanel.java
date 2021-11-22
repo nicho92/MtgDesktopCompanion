@@ -51,9 +51,9 @@ import org.magic.gui.components.MagicTextPane;
 import org.magic.gui.components.ManaPanel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
+import org.magic.services.network.URLTools;
 import org.magic.tools.ImageTools;
 import org.magic.tools.UITools;
-import org.magic.tools.URLTools;
 public class MagicCardEditorPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;

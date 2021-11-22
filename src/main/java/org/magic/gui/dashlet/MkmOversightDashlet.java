@@ -18,8 +18,8 @@ import org.api.mkm.tools.MkmConstants;
 import org.magic.api.exports.impl.MKMFileWantListExport;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.abstracts.GenericTableModel;
+import org.magic.services.network.URLTools;
 import org.magic.tools.UITools;
-import org.magic.tools.URLTools;
 
 public class MkmOversightDashlet extends AbstractJDashlet {
 	

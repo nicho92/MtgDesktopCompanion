@@ -11,7 +11,7 @@ import java.util.Map;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
-import org.magic.tools.URLTools;
+import org.magic.services.network.URLTools;
 
 public class MagicTradersPricer extends AbstractPricesProvider {
 

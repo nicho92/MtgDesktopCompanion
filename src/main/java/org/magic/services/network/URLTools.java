@@ -1,4 +1,4 @@
-package org.magic.tools;
+package org.magic.services.network;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -9,8 +9,10 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.net.ssl.SSLHandshakeException;
@@ -25,6 +27,9 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
+import org.magic.tools.Chrono;
+import org.magic.tools.ImageTools;
+import org.magic.tools.XMLTools;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -53,11 +58,13 @@ public class URLTools {
 	private static final String LOCATION = "Location";
 	
 	public static final String REFERER_POLICY = "Referrer Policy";
-	private static List<URL> history;
+	private static List<URLConnection> history;
 
 	
 	
-	private URLTools()	{}
+	private URLTools()	{
+		
+	}
 	
 	public static String getExternalIp()
 	{
@@ -111,7 +118,7 @@ public class URLTools {
 	public static BufferedImage extractImage(URL url) throws IOException
 	{
 		HttpURLConnection con = openConnection(url);
-		BufferedImage im = ImageTools.read(con.getInputStream());
+		var im = ImageTools.read(con.getInputStream());
 		close(con);
 		return im;
 	}
@@ -149,7 +156,17 @@ public class URLTools {
 		} 
 	}
 	
+	public static List<URLConnection> getConnections()
+	{
+		return history;
+	}
+	
+	
 	private static HttpURLConnection getConnection(URL url,String userAgent,boolean follow) throws IOException {
+		
+		if(history==null)
+			history = new ArrayList<>();
+		
 		
 		var c = new Chrono();
 		c.start();
@@ -172,6 +189,10 @@ public class URLTools {
 		{
 			logger.error(url,e);
 		}
+		
+		
+		history.add(connection);
+		
 		return connection;
 	}
 	
@@ -195,7 +216,7 @@ public class URLTools {
 	}
 	
 	public static HttpURLConnection openConnection(URL url) throws IOException {
-		HttpURLConnection con = getConnection(url,MTGConstants.USER_AGENT,true);
+		var con = getConnection(url,MTGConstants.USER_AGENT,true);
 		con.connect();
 		return con;
 	}

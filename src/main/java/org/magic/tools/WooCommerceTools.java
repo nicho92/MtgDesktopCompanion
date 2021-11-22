@@ -13,6 +13,8 @@ import org.magic.api.beans.AccountAuthenticator;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
+import org.magic.services.network.URLTools;
+import org.magic.services.network.URLToolsClient;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

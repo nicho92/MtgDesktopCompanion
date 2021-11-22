@@ -11,7 +11,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.CardsPatterns;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
-import org.magic.tools.URLTools;
+import org.magic.services.network.URLTools;
 
 public class MTGCardMakerPicturesProvider extends AbstractPicturesEditorProvider{
 

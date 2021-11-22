@@ -10,7 +10,7 @@ import java.util.Map;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
-import org.magic.tools.URLTools;
+import org.magic.services.network.URLTools;
 
 
 public class TelegramNotifier extends AbstractMTGNotifier {

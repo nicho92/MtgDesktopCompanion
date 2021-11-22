@@ -14,11 +14,11 @@ import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.services.AccountsManager;
-import org.magic.tools.RequestBuilder;
-import org.magic.tools.RequestBuilder.METHOD;
+import org.magic.services.network.RequestBuilder;
+import org.magic.services.network.URLTools;
+import org.magic.services.network.URLToolsClient;
+import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.tools.UITools;
-import org.magic.tools.URLTools;
-import org.magic.tools.URLToolsClient;
 
 public class MagicVilleShopper extends AbstractMagicShopper {
 

@@ -27,8 +27,8 @@ import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.enums.MTGCardVariation;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGConstants;
+import org.magic.services.network.URLTools;
 import org.magic.tools.UITools;
-import org.magic.tools.URLTools;
 import org.mozilla.javascript.Parser;
 import org.mozilla.javascript.ast.AstNode;
 

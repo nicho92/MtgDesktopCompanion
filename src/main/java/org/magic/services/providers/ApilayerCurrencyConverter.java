@@ -11,8 +11,8 @@ import org.apache.log4j.Logger;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.services.network.URLTools;
 import org.magic.tools.FileTools;
-import org.magic.tools.URLTools;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

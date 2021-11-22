@@ -9,7 +9,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGControler;
-import org.magic.tools.URLTools;
+import org.magic.services.network.URLTools;
 
 import com.google.gson.JsonElement;
 

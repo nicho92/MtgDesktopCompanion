@@ -14,7 +14,7 @@ import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.api.interfaces.abstracts.AbstractMTGJsonProvider;
-import org.magic.tools.URLTools;
+import org.magic.services.network.URLTools;
 
 import com.google.gson.JsonArray;
 

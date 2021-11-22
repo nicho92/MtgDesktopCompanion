@@ -20,8 +20,8 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.tools.IncapsulaParser;
-import org.magic.tools.URLTools;
+import org.magic.services.network.IncapsulaParser;
+import org.magic.services.network.URLTools;
 
 public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 	private static final String PAUPER = "pauper";

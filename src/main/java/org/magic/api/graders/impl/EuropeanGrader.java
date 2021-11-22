@@ -8,9 +8,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.Grading;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
-import org.magic.tools.RequestBuilder;
-import org.magic.tools.RequestBuilder.METHOD;
-import org.magic.tools.URLTools;
+import org.magic.services.network.RequestBuilder;
+import org.magic.services.network.URLTools;
+import org.magic.services.network.RequestBuilder.METHOD;
 
 public class EuropeanGrader extends AbstractGradersProvider {
 

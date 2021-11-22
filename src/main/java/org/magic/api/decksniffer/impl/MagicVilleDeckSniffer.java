@@ -16,9 +16,9 @@ import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.exports.impl.MagicWorkStationDeckExport;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGControler;
-import org.magic.tools.RequestBuilder;
-import org.magic.tools.RequestBuilder.METHOD;
-import org.magic.tools.URLTools;
+import org.magic.services.network.RequestBuilder;
+import org.magic.services.network.URLTools;
+import org.magic.services.network.RequestBuilder.METHOD;
 
 public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 

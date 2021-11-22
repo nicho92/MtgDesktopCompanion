@@ -10,8 +10,8 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.services.network.URLTools;
 import org.magic.services.providers.SealedProductProvider;
-import org.magic.tools.URLTools;
 
 public class BoosterProviderTests {
 

@@ -29,7 +29,7 @@ import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
-import org.magic.tools.URLTools;
+import org.magic.services.network.URLTools;
 
 import com.google.common.collect.Lists;
 import com.google.gson.JsonElement;

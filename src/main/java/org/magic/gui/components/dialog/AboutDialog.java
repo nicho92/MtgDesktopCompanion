@@ -27,10 +27,10 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.VersionChecker;
+import org.magic.services.network.URLTools;
 import org.magic.tools.GithubUtils;
 import org.magic.tools.ImageTools;
 import org.magic.tools.UITools;
-import org.magic.tools.URLTools;
 
 import com.google.gson.JsonElement;
 

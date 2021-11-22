@@ -30,6 +30,7 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
+import org.magic.services.network.URLTools;
 import org.magic.services.recognition.DescContainer;
 
 import com.google.common.hash.Hashing;

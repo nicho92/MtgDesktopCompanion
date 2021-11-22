@@ -7,9 +7,9 @@ import javax.script.ScriptException;
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
-import org.magic.tools.CloudFlareAuthorizer;
+import org.magic.services.network.CloudFlareAuthorizer;
+import org.magic.services.network.URLTools;
 import org.magic.tools.UITools;
-import org.magic.tools.URLTools;
 
 public class PSAGrader extends AbstractGradersProvider {
 

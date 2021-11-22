@@ -73,13 +73,13 @@ import org.magic.services.PluginRegistry;
 import org.magic.services.TransactionService;
 import org.magic.services.VersionChecker;
 import org.magic.services.keywords.AbstractKeyWordsManager;
+import org.magic.services.network.URLTools;
 import org.magic.services.providers.SealedProductProvider;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.Chrono;
 import org.magic.tools.ImageTools;
 import org.magic.tools.MTG;
 import org.magic.tools.POMReader;
-import org.magic.tools.URLTools;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -722,7 +722,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return serv.getSchedulerInformation();
 		}, transformer);
 		
-		get("/admin/workers", URLTools.HEADER_JSON, (request, response) -> {
+		get("/admin/threads", URLTools.HEADER_JSON, (request, response) -> {
 			
 			var objExe = new JsonObject();
 				objExe.addProperty("activeCount", ThreadManager.getInstance().getExecutor().getActiveCount());
@@ -756,6 +756,14 @@ public class JSONHttpServer extends AbstractMTGServer {
 			
 		}, transformer);
 		
+		
+		get("/admin/connections", URLTools.HEADER_JSON, (request, response) -> {
+			
+			JsonArray arr = new JsonArray();
+			
+			return arr;
+			
+		}, transformer);
 		
 		get("/admin/clearCache", URLTools.HEADER_JSON, (request, response) -> {
 			clearCache();

@@ -25,10 +25,10 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.renderer.MTGStoryListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.network.URLTools;
 import org.magic.services.providers.StoryProvider;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
-import org.magic.tools.URLTools;
 public class StoriesGUI extends MTGUIComponent {
 
 	/**

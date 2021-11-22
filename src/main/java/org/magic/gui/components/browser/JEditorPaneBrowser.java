@@ -9,11 +9,11 @@ import javax.swing.text.html.HTMLEditorKit;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 import org.magic.gui.abstracts.MTGUIBrowserComponent;
+import org.magic.services.network.RequestBuilder;
+import org.magic.services.network.URLTools;
+import org.magic.services.network.URLToolsClient;
+import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.threads.ThreadManager;
-import org.magic.tools.RequestBuilder;
-import org.magic.tools.RequestBuilder.METHOD;
-import org.magic.tools.URLTools;
-import org.magic.tools.URLToolsClient;
 
 
 public class JEditorPaneBrowser extends MTGUIBrowserComponent {

@@ -14,8 +14,8 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.magic.api.interfaces.abstracts.AbstractWebServer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.network.URLTools;
 import org.magic.tools.FileTools;
-import org.magic.tools.URLTools;
 
 public class ShoppingServer extends AbstractWebServer {
 	@Override

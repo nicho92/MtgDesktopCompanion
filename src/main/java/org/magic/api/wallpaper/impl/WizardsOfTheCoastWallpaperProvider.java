@@ -22,7 +22,7 @@ import org.magic.api.beans.Wallpaper;
 import org.magic.api.interfaces.abstracts.AbstractMTGPlugin;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
 import org.magic.services.MTGConstants;
-import org.magic.tools.URLTools;
+import org.magic.services.network.URLTools;
 
 public class WizardsOfTheCoastWallpaperProvider extends AbstractWallpaperProvider {
 

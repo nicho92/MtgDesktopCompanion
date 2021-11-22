@@ -7,7 +7,7 @@ import java.util.List;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
-import org.magic.tools.URLTools;
+import org.magic.services.network.URLTools;
 
 public class ParkagePricer extends AbstractPricesProvider {
 

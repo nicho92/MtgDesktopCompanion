@@ -8,8 +8,8 @@ import java.util.Map;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
+import org.magic.services.network.URLTools;
 import org.magic.tools.InstallCert;
-import org.magic.tools.URLTools;
 
 public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 

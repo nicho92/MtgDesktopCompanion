@@ -12,9 +12,9 @@ import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.services.AccountsManager;
+import org.magic.services.network.URLTools;
+import org.magic.services.network.URLToolsClient;
 import org.magic.tools.UITools;
-import org.magic.tools.URLTools;
-import org.magic.tools.URLToolsClient;
 
 public class MagicCorporationShopper extends AbstractMagicShopper {
 

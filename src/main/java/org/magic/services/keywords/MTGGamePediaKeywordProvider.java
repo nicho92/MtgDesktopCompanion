@@ -10,7 +10,7 @@ import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MTGKeyWord.EVENT;
 import org.magic.api.beans.MTGKeyWord.TYPE;
-import org.magic.tools.URLTools;
+import org.magic.services.network.URLTools;
 
 
 public class MTGGamePediaKeywordProvider extends AbstractKeyWordsManager {

@@ -23,8 +23,8 @@ import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
+import org.magic.services.network.URLTools;
 import org.magic.tools.ImageTools;
-import org.magic.tools.URLTools;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 

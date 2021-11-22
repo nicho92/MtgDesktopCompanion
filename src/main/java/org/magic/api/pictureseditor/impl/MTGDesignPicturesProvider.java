@@ -28,8 +28,8 @@ import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.game.model.abilities.LoyaltyAbilities;
 import org.magic.game.model.factories.AbilitiesFactory;
 import org.magic.services.MTGConstants;
+import org.magic.services.network.URLTools;
 import org.magic.tools.ImageTools;
-import org.magic.tools.URLTools;
 public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 
 	private static final String ACCENT = "ACCENT";

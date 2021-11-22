@@ -32,8 +32,8 @@ import org.magic.api.interfaces.MTGServer;
 import org.magic.servers.impl.JSONHttpServer;
 import org.magic.services.MTGConstants;
 import org.magic.services.PluginRegistry;
+import org.magic.services.network.URLTools;
 import org.magic.tools.FileTools;
-import org.magic.tools.URLTools;
 
 public abstract class AbstractWebServer extends AbstractMTGServer {
 

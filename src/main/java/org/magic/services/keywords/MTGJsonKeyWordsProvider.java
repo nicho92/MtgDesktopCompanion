@@ -7,7 +7,7 @@ import java.util.List;
 import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MTGKeyWord.TYPE;
 import org.magic.api.interfaces.abstracts.AbstractMTGJsonProvider;
-import org.magic.tools.URLTools;
+import org.magic.services.network.URLTools;
 
 import com.google.gson.JsonObject;
 

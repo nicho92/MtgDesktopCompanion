@@ -19,11 +19,11 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.AccountsManager;
 import org.magic.services.MTGControler;
+import org.magic.services.network.RequestBuilder;
+import org.magic.services.network.URLTools;
+import org.magic.services.network.URLToolsClient;
+import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.tools.InstallCert;
-import org.magic.tools.RequestBuilder;
-import org.magic.tools.RequestBuilder.METHOD;
-import org.magic.tools.URLTools;
-import org.magic.tools.URLToolsClient;
 
 import com.google.gson.JsonElement;
 

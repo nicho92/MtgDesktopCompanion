@@ -1,4 +1,4 @@
-package org.magic.tools;
+package org.magic.services.network;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -28,7 +28,7 @@ import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
-import org.magic.tools.RequestBuilder.METHOD;
+import org.magic.services.network.RequestBuilder.METHOD;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;

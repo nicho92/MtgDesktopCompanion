@@ -15,11 +15,11 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGConstants;
+import org.magic.services.network.URLTools;
 import org.magic.tools.Chrono;
 import org.magic.tools.FileTools;
 import org.magic.tools.InstallCert;
 import org.magic.tools.UITools;
-import org.magic.tools.URLTools;
 
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.Filter;

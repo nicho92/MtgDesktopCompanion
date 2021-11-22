@@ -10,8 +10,8 @@ import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
+import org.magic.services.network.URLTools;
 import org.magic.tools.UITools;
-import org.magic.tools.URLTools;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

@@ -18,9 +18,9 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
+import org.magic.services.network.URLTools;
 import org.magic.tools.Chrono;
 import org.magic.tools.ImageTools;
-import org.magic.tools.URLTools;
 
 import com.kitfox.svg.app.beans.SVGIcon;
 

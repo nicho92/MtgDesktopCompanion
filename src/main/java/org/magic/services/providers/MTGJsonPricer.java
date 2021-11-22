@@ -16,12 +16,12 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMTGJsonProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
+import org.magic.services.network.URLTools;
 import org.magic.services.providers.MTGJsonPricer.STOCK;
 import org.magic.services.providers.MTGJsonPricer.SUPPORT;
 import org.magic.services.providers.MTGJsonPricer.VENDOR;
 import org.magic.tools.Chrono;
 import org.magic.tools.FileTools;
-import org.magic.tools.URLTools;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

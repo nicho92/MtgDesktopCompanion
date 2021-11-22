@@ -31,10 +31,10 @@ import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.criterias.builders.ScryfallCriteriaBuilder;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
+import org.magic.services.network.URLTools;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.InstallCert;
-import org.magic.tools.URLTools;
 
 import com.google.common.collect.Lists;
 import com.google.gson.JsonElement;

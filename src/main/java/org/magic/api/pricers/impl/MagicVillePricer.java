@@ -12,8 +12,8 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGConstants;
-import org.magic.tools.URLTools;
-import org.magic.tools.URLToolsClient;
+import org.magic.services.network.URLTools;
+import org.magic.services.network.URLToolsClient;
 
 public class MagicVillePricer extends AbstractPricesProvider {
 	

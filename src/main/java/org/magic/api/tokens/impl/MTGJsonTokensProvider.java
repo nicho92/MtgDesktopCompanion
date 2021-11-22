@@ -12,8 +12,8 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGJsonProvider;
 import org.magic.api.interfaces.abstracts.AbstractTokensProvider;
 import org.magic.api.pictures.impl.ScryFallPicturesProvider;
+import org.magic.services.network.URLTools;
 import org.magic.tools.MTG;
-import org.magic.tools.URLTools;
 
 public class MTGJsonTokensProvider extends AbstractTokensProvider {
 

@@ -20,11 +20,11 @@ import org.magic.api.exports.impl.PDFExport;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.game.model.abilities.LoyaltyAbilities;
 import org.magic.game.model.factories.AbilitiesFactory;
+import org.magic.services.network.RequestBuilder;
+import org.magic.services.network.URLTools;
+import org.magic.services.network.URLToolsClient;
+import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.tools.ImageTools;
-import org.magic.tools.RequestBuilder;
-import org.magic.tools.RequestBuilder.METHOD;
-import org.magic.tools.URLTools;
-import org.magic.tools.URLToolsClient;
 
 import com.google.gson.JsonElement;
 

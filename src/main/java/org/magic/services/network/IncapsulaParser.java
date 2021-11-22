@@ -1,4 +1,4 @@
-package org.magic.tools;
+package org.magic.services.network;
 
 import java.io.BufferedReader;
 import java.io.IOException;

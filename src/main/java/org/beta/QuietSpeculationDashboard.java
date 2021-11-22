@@ -17,7 +17,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat.FORMATS;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
-import org.magic.tools.URLTools;
+import org.magic.services.network.URLTools;
 
 public class QuietSpeculationDashboard extends AbstractDashBoard {
 

@@ -27,7 +27,7 @@ import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.criterias.builders.JsonCriteriaBuilder;
 import org.magic.api.interfaces.abstracts.AbstractMTGJsonProvider;
 import org.magic.services.MTGConstants;
-import org.magic.tools.URLTools;
+import org.magic.services.network.URLTools;
 
 import com.google.gson.JsonObject;
 import com.jayway.jsonpath.Configuration;

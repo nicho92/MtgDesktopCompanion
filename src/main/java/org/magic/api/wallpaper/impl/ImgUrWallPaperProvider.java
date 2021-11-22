@@ -10,8 +10,8 @@ import java.util.Map;
 import org.apache.commons.io.FilenameUtils;
 import org.magic.api.beans.Wallpaper;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
-import org.magic.tools.URLTools;
-import org.magic.tools.URLToolsClient;
+import org.magic.services.network.URLTools;
+import org.magic.services.network.URLToolsClient;
 
 public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 

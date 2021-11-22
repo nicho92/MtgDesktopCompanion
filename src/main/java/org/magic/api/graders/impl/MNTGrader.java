@@ -4,11 +4,11 @@ import java.io.IOException;
 
 import org.magic.api.beans.Grading;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
-import org.magic.tools.RequestBuilder;
-import org.magic.tools.RequestBuilder.METHOD;
+import org.magic.services.network.RequestBuilder;
+import org.magic.services.network.URLTools;
+import org.magic.services.network.URLToolsClient;
+import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.tools.UITools;
-import org.magic.tools.URLTools;
-import org.magic.tools.URLToolsClient;
 
 public class MNTGrader extends AbstractGradersProvider {
 

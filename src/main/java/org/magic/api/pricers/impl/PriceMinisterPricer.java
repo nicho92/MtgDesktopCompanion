@@ -8,7 +8,7 @@ import java.util.Map;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
-import org.magic.tools.URLTools;
+import org.magic.services.network.URLTools;
 import org.magic.tools.XMLTools;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

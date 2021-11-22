@@ -13,7 +13,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.jfree.util.Log;
-import org.magic.tools.URLTools;
+import org.magic.services.network.URLTools;
 
 import io.milton.http.Auth;
 import io.milton.http.Range;

@@ -15,10 +15,10 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.services.network.URLTools;
 import org.magic.tools.FileTools;
 import org.magic.tools.InterfaceAdapter;
 import org.magic.tools.POMReader;
-import org.magic.tools.URLTools;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;

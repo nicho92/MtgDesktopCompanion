@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import org.magic.services.MTGConstants;
+import org.magic.services.network.URLTools;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

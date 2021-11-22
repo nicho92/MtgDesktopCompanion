@@ -14,7 +14,7 @@ import org.magic.api.beans.MTGKeyWord.EVENT;
 import org.magic.api.beans.MTGKeyWord.TYPE;
 import org.magic.api.beans.MagicCard;
 import org.magic.services.MTGLogger;
-import org.magic.tools.URLTools;
+import org.magic.services.network.URLTools;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;

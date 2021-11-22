@@ -11,8 +11,8 @@ import org.jsoup.nodes.Document;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.services.network.URLTools;
 import org.magic.services.threads.ThreadManager;
-import org.magic.tools.URLTools;
 
 
 public class HelpCompononent extends MTGUIComponent {

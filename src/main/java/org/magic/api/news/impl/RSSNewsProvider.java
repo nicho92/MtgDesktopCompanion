@@ -9,7 +9,7 @@ import java.util.List;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.MagicNewsContent;
 import org.magic.api.interfaces.abstracts.AbstractMagicNewsProvider;
-import org.magic.tools.URLTools;
+import org.magic.services.network.URLTools;
 import org.xml.sax.InputSource;
 
 import com.rometools.rome.feed.synd.SyndEntry;
