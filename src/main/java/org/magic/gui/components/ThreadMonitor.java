@@ -1,13 +1,12 @@
 package org.magic.gui.components;
-
 import static org.magic.tools.MTG.capitalize;
 
 import java.awt.BorderLayout;
+import java.awt.event.KeyEvent;
 import java.lang.management.ManagementFactory;
 import java.sql.Date;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -29,7 +28,6 @@ public class ThreadMonitor extends MTGUIComponent  {
 	 */
 	private static final long serialVersionUID = 1L;
 	private ThreadsTableModel modelT;
-	private JButton btnRefresh;
 	private Timer t;
 	private JVMemoryPanel memoryPanel;
 	private TaskTableModel modelTasks;
@@ -39,7 +37,7 @@ public class ThreadMonitor extends MTGUIComponent  {
 		modelT = new ThreadsTableModel();
 		modelTasks = new TaskTableModel();
 		var tabs = new JTabbedPane();
-		
+		var btnClean = UITools.createBindableJButton("Clean",MTGConstants.ICON_DELETE, KeyEvent.VK_C , "Cleaning");
 		add(tabs, BorderLayout.CENTER);
 		modelTasks.bind(ThreadManager.getInstance().listTasks());
 		
@@ -61,18 +59,15 @@ public class ThreadMonitor extends MTGUIComponent  {
 		add(panel, BorderLayout.NORTH);
 		
 		
-		btnRefresh = new JButton("Pause");
-		btnRefresh.addActionListener(ae -> {
-			if (t.isRunning()) {
-				t.stop();
-				btnRefresh.setText(capitalize("START"));
-			} else {
-				t.start();
-				btnRefresh.setText(capitalize("PAUSE"));
-
-			}
+	
+		
+		btnClean.addActionListener(ae -> {
+			ThreadManager.getInstance().clean();
 		});
-		panel.add(btnRefresh);
+		
+		panel.add(btnClean);
+		
+		
 		memoryPanel = new JVMemoryPanel();
 		panel.add(memoryPanel);
 		

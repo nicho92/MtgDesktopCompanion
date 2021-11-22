@@ -144,6 +144,11 @@ public class ThreadManager {
 	public ThreadPoolExecutor getExecutor() {
 		return executor;
 	}
+
+	public void clean() {
+		tasksMap.removeIf(t->t.getStatus()==STATE.FINISHED);
+		
+	}
 	
 	
 	
