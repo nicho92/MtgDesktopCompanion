@@ -11,6 +11,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
+import java.util.List;
 
 import javax.net.ssl.SSLHandshakeException;
 
@@ -52,7 +53,7 @@ public class URLTools {
 	private static final String LOCATION = "Location";
 	
 	public static final String REFERER_POLICY = "Referrer Policy";
-
+	private static List<URL> history;
 
 	
 	
@@ -179,8 +180,6 @@ public class URLTools {
 	{
 		return getRedirectionFor(new URL(url));
 	}
-	
-	
 	
 	public static String getRedirectionFor(URL url) throws IOException
 	{
