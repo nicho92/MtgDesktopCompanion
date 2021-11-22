@@ -9,9 +9,9 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +34,7 @@ import org.magic.tools.XMLTools;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
+
 
 public class URLTools {
 
@@ -58,7 +59,7 @@ public class URLTools {
 	private static final String LOCATION = "Location";
 	
 	public static final String REFERER_POLICY = "Referrer Policy";
-	private static List<URLConnection> history;
+	private static List<NetworkInfo> history;
 
 	
 	
@@ -83,7 +84,7 @@ public class URLTools {
 
 	public static String extractAsString(URL url,Charset enc) throws IOException
 	{
-		HttpURLConnection con = openConnection(url);
+		var con = openConnection(url);
 		var ret = IOUtils.toString(con.getInputStream(), enc);
 		close(con);
 		return ret;
@@ -156,7 +157,7 @@ public class URLTools {
 		} 
 	}
 	
-	public static List<URLConnection> getConnections()
+	public static List<NetworkInfo> getConnections()
 	{
 		return history;
 	}
@@ -170,8 +171,11 @@ public class URLTools {
 		
 		var c = new Chrono();
 		c.start();
-
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+		var urlInfo = new NetworkInfo(connection);
+			urlInfo.setStart(Instant.now());
+		
+		
 		try{
 			
 			connection.setRequestProperty(USER_AGENT, userAgent);
@@ -183,6 +187,9 @@ public class URLTools {
 			if (follow && !isCorrectConnection(connection) && (status == HttpURLConnection.HTTP_MOVED_TEMP|| status == HttpURLConnection.HTTP_MOVED_PERM || status == HttpURLConnection.HTTP_SEE_OTHER)) {
 				return getConnection(connection.getHeaderField(URLTools.LOCATION));
 			}
+			
+			urlInfo.setEnd(Instant.now());
+			urlInfo.setDuration(c.stopInMillisecond());
 			logger.debug("GET " + url + " : " + connection.getResponseCode() + " [" + c.stopInMillisecond() + "ms]");
 		}
 		catch(SSLHandshakeException e)
@@ -191,7 +198,7 @@ public class URLTools {
 		}
 		
 		
-		history.add(connection);
+		history.add(urlInfo);
 		
 		return connection;
 	}

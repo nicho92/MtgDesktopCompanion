@@ -761,6 +761,19 @@ public class JSONHttpServer extends AbstractMTGServer {
 			
 			JsonArray arr = new JsonArray();
 			
+			URLTools.getConnections().forEach(net->{
+				var jo = new JsonObject();
+				jo.addProperty("url", net.getConnection().getURL().toString());
+				jo.addProperty("method", net.getConnection().getRequestMethod());
+				jo.addProperty("start", net.getStart().toEpochMilli());
+				jo.addProperty("end", net.getEnd().toEpochMilli());
+				jo.addProperty("duration", net.getDuration());
+				
+				arr.add(jo);
+			});
+			
+			
+			
 			return arr;
 			
 		}, transformer);
