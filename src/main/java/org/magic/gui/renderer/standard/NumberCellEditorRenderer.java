@@ -13,6 +13,8 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
+import org.magic.services.MTGLogger;
 
 public class NumberCellEditorRenderer extends AbstractCellEditor implements TableCellEditor, TableCellRenderer{
 
@@ -22,6 +24,7 @@ public class NumberCellEditorRenderer extends AbstractCellEditor implements Tabl
 	private static final long serialVersionUID = 1L;
 	private JSpinner spinner;
 	private NumberFormat formater;
+	protected transient Logger logger = MTGLogger.getLogger(getClass());
 
 	public NumberCellEditorRenderer() {
 		spinner = new JSpinner();
@@ -48,10 +51,14 @@ public class NumberCellEditorRenderer extends AbstractCellEditor implements Tabl
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 		
 		var text = String.valueOf(value);
-	
 		if(StringUtils.isNumeric(text)) 
 		{
-			text = formater.format(value);
+			try {
+				text = formater.format(value);
+			}catch(Exception e)
+			{
+				
+			}
 		}
 		
 		

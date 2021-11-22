@@ -2337,5 +2337,10 @@
 		<booster extra="collector" lang="en" num="3" url="https://cdn11.bigcommerce.com/s-0kvv9/images/stencil/1280x1280/products/369945/567234/innistradcrimsonvowcollectorboosterpack__24787.1628440095.jpg"/>
 		<booster extra="set" lang="en" num="4" url="https://cdn.shopify.com/s/files/1/0453/2191/2480/products/MTGVOW_EN_Bstr_Set_01_02_1024x1024@2x.png"/>
 	</edition>
+	
+	<edition id="DBL">
+		<banner lang="en" url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/2/2a/Innistrad_Double_Feature_logo.png/revision/latest/scale-to-width-down/450?cb=20210824171507"/>
+		<box extra="draft" lang="en" url="https://media.wizards.com/2021/images/daily/ncQdwhWMa0.png"/>
+	</edition>
 
 </boosterUrls>

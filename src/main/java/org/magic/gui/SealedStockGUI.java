@@ -308,7 +308,7 @@ public class SealedStockGUI extends MTGUIComponent {
 		
 		
 		
-		ThreadManager.getInstance().runInEdt(sw, "Loading trees");
+		ThreadManager.getInstance().runInEdt(sw, "Loading sealed tree");
 		
 		
 	}
