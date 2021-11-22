@@ -65,7 +65,7 @@ public class URLToolsClient {
 		httpContext.setCookieStore(cookieStore);
 	}
 	
-	public String extractAndClose(HttpResponse response) throws IOException
+	private String extractAndClose(HttpResponse response) throws IOException
 	{
 		var ret = EntityUtils.toString(response.getEntity());
 		EntityUtils.consume(response.getEntity());
@@ -80,7 +80,6 @@ public class URLToolsClient {
 		return resp;
 	}
 	
-
 
 	public String execute(RequestBuilder builder) throws IOException
 	{

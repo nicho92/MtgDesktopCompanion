@@ -95,8 +95,8 @@ public class URLTools {
 		return Jsoup.parse(extractMarkDownAsString(url));
 	}
 
-	public static Document extractMarkDownAsDocument(URL documentation) throws IOException {
-		return extractMarkDownAsDocument(documentation.toString());
+	public static Document extractMarkDownAsDocument(URL url) throws IOException {
+		return extractMarkDownAsDocument(url.toString());
 	}
 	
 	public static String toHtmlStringFromMarkdown(String c)
