@@ -228,6 +228,9 @@
 			
 			
 			$('#checkoutBtn').click(function (e) {
+				
+				$("#checkoutBtn").prop('disabled', true);
+				
 				var json = createJSONOrder($("#message").val());
 			
 				$('input[class="form-group"]').blur(function(){
@@ -238,7 +241,7 @@
 			        }
 			    });
 
-				$("#checkoutBtn").prop('disabled', true);
+				
 				
 				$.post(restserver+"/transaction/add",JSON.stringify(json)).done(function( data ) {
 					
