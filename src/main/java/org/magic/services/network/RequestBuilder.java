@@ -54,7 +54,7 @@ public class RequestBuilder
 	}
 
 	public String toContentString() throws IOException {
-		return  EntityUtils.toString(execute().getEntity());
+		return EntityUtils.toString(execute().getEntity());
 	}
 	
 	@Override

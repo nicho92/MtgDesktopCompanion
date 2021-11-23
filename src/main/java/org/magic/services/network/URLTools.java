@@ -5,14 +5,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.net.URLEncoder;
 
-import javax.net.ssl.SSLHandshakeException;
-
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
@@ -22,7 +17,6 @@ import org.jsoup.nodes.Document;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.services.network.RequestBuilder.METHOD;
-import org.magic.tools.Chrono;
 import org.magic.tools.ImageTools;
 import org.magic.tools.XMLTools;
 
@@ -50,7 +44,6 @@ public class URLTools {
 	public static final String UPGR_INSECURE_REQ= "Upgrade-Insecure-Requests";
 	public static final String USER_AGENT = "User-Agent";
 	public static final String CONTENT_TYPE="Content-Type";
-	private static final String LOCATION = "Location";
 	public static final String REFERER_POLICY = "Referrer Policy";
 	
 	
@@ -99,24 +92,30 @@ public class URLTools {
 	}
 	
 	public static org.w3c.dom.Document extractAsXml(String url) throws IOException {
-		return RequestBuilder.build().setClient(URLTools.newClient()).url(url).method(METHOD.GET).toXml();
+		return RequestBuilder.build().setClient(newClient()).url(url).method(METHOD.GET).toXml();
 	}
 
 	public static JsonElement extractAsJson(String url) throws IOException	{
-		return RequestBuilder.build().setClient(URLTools.newClient()).url(url).method(METHOD.GET).toJson();
+		return RequestBuilder.build().setClient(newClient()).url(url).method(METHOD.GET).toJson();
 	}
 	
 	public static Document extractAsHtml(String url) throws IOException 	{
-		return RequestBuilder.build().setClient(URLTools.newClient()).url(url).method(METHOD.GET).toHtml();
+		return RequestBuilder.build().setClient(newClient()).url(url).method(METHOD.GET).toHtml();
 	}
 	
 	public static InputStream extractAsInputStream(String url) throws IOException 	{
-		return RequestBuilder.build().setClient(URLTools.newClient()).url(url).method(METHOD.GET).execute().getEntity().getContent();
+		return RequestBuilder.build().setClient(newClient()).url(url).method(METHOD.GET).execute().getEntity().getContent();
 	}
 	
 	public static String extractAsString(String url) throws IOException	{
-		return RequestBuilder.build().setClient(URLTools.newClient()).url(url).method(METHOD.GET).toContentString(); 
+		return RequestBuilder.build().setClient(newClient()).url(url).method(METHOD.GET).toContentString(); 
 	}
+
+	public static void download(String url,File to) throws IOException {
+		RequestBuilder.build().setClient(newClient()).url(url).method(METHOD.GET).download(to);
+	}
+	
+	
 
 	public static Document extractMarkdownAsHtml(String url) throws IOException
 	{
@@ -134,10 +133,6 @@ public class URLTools {
 			url="https:"+url;
 		
 		return RequestBuilder.build().setClient(URLTools.newClient()).url(url).method(METHOD.GET).toImage(); 
-	}
-	
-	public static void download(String url,File to) throws IOException {
-		FileUtils.copyInputStreamToFile(extractAsInputStream(url),to);
 	}
 	
 	
