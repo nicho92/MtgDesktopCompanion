@@ -60,8 +60,9 @@ public class NetworkInfo implements Serializable {
 	
 		if(getResponse()!=null) {
 			var servT =getResponse().getFirstHeader("Server");
+			var contentT = getResponse().getEntity().getContentType();
 			jo.addProperty("serverType", servT!=null?servT.getValue():"");
-			jo.addProperty("contentType", getResponse().getEntity().getContentType().getValue());
+			jo.addProperty("contentType", contentT!=null?contentT.getValue():"");
 			jo.addProperty("reponsesMessage", getResponse().getStatusLine().getReasonPhrase());
 			jo.addProperty("reponsesCode", getResponse().getStatusLine().getStatusCode());
 		}
