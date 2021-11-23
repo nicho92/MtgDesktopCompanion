@@ -6,8 +6,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
@@ -45,11 +46,23 @@ public class URLTools {
 	public static final String USER_AGENT = "User-Agent";
 	public static final String CONTENT_TYPE="Content-Type";
 	public static final String REFERER_POLICY = "Referrer Policy";
-	
+	private static List<NetworkInfo> listNetworks;
 	
 	private URLTools()	{
-		
 	}
+	
+	
+	
+	public static List<NetworkInfo> getNetworksInfos()
+	{
+		if(listNetworks==null)
+			listNetworks=new ArrayList<>();
+		
+		return listNetworks;
+	}
+	
+	
+	
 	
 	public static String getExternalIp()
 	{
@@ -141,11 +154,12 @@ public class URLTools {
 		int resp;
 		try {
 			resp = RequestBuilder.build().setClient(URLTools.newClient()).url(url).method(METHOD.GET).execute().getStatusLine().getStatusCode();
+			return resp >= 200 && resp < 300;
 		} catch (IOException e) {
 			logger.error(e);
 			return false;
 		}
-		return resp >= 200 && resp < 300;
+		
 		
 	}
 	

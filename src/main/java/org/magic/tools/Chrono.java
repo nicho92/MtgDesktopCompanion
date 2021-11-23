@@ -17,7 +17,7 @@ public class Chrono {
 	
 	public long stop()
 	{
-		return (System.currentTimeMillis()-value)/1000;
+		return stopInMillisecond()/1000;
 	}
 	
 	public long stopInMillisecond()

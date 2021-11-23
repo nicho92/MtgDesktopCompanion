@@ -141,11 +141,6 @@ public class RequestBuilder
 	}
 
 	
-	public HttpResponse toResponse() throws IOException
-	{
-		return execute();
-	}
-	
 	public HttpResponse execute() throws IOException
 	{
 		if(client!=null)
@@ -182,7 +177,7 @@ public class RequestBuilder
 	}
 
 	public void download(File dest) throws IOException {
-		FileUtils.copyInputStreamToFile(toResponse().getEntity().getContent(),dest);
+		FileUtils.copyInputStreamToFile(execute().getEntity().getContent(),dest);
 	}
 
 	public RequestBuilder addContent(String s) {

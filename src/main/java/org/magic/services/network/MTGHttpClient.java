@@ -3,6 +3,7 @@ package org.magic.services.network;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -29,6 +30,7 @@ import org.apache.log4j.Logger;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.services.network.RequestBuilder.METHOD;
+import org.magic.tools.Chrono;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
@@ -40,13 +42,14 @@ public class MTGHttpClient {
 	private BasicCookieStore cookieStore;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private HttpResponse response;
-
-	public HttpResponse getResponse() {
-		return response;
-	}
+	
 	
 	public HttpClient getHttpclient() {
 		return httpclient;
+	}
+	
+	public HttpResponse getResponse() {
+		return response;
 	}
 	
 	public HttpClientContext getHttpContext() {
@@ -74,9 +77,19 @@ public class MTGHttpClient {
 	
 	public HttpResponse execute(HttpRequestBase req) throws IOException
 	{
-		logger.debug(req);
+		var info = new NetworkInfo();
+		info.setRequest(req);
+		var c = new Chrono();
+		c.start();
+		info.setStart(Instant.now());
 		response = httpclient.execute(req,httpContext);
-		logger.trace("response " + response);
+		info.setEnd(Instant.now());
+		info.setReponse(response);
+		info.setDuration(c.stopInMillisecond());
+		logger.trace(req + " " + c.stopInMillisecond() +"ms");
+		
+		URLTools.getNetworksInfos().add(info);
+		
 		return response;
 	}
 	

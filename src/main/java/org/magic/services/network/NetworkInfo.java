@@ -1,29 +1,27 @@
 package org.magic.services.network;
 
 import java.io.Serializable;
-import java.net.HttpURLConnection;
 import java.time.Instant;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpRequestBase;
 
 public class NetworkInfo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private HttpURLConnection connection;
+	private transient HttpResponse response;
+	private transient HttpRequestBase request;
 	private long duration;
 	private Instant start;
 	private Instant end;
+
 	
-	
-	public NetworkInfo(HttpURLConnection con) {
-		this.connection=con;
+	public HttpResponse getResponse() {
+		return response;
 	}
-	
-	
-	public HttpURLConnection getConnection() {
-		return connection;
-	}
-	public void setConnection(HttpURLConnection connection) {
-		this.connection = connection;
+	public void setReponse(HttpResponse response) {
+		this.response = response;
 	}
 	public long getDuration() {
 		return duration;
@@ -43,7 +41,13 @@ public class NetworkInfo implements Serializable {
 	public void setEnd(Instant end) {
 		this.end = end;
 	}
+	public void setRequest(HttpRequestBase req) {
+		this.request=req;
+	}
 	
+	public HttpRequestBase getRequest() {
+		return request;
+	}
 	
 	
 	
