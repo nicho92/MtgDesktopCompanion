@@ -46,7 +46,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		String url = getString(WEBSITE) + "/taneLayout/mtg_price_tracker.jsp?period=" + getString("PERIOD");
 		logger.debug("Get Shake for " + url);
 		
-		Document doc = URLTools.extractHtml(url);
+		Document doc = URLTools.extractAsHtml(url);
 		try {
 			
 			String date = doc.getElementsByClass("span6").get(1).text().replace("Updated:", "")
@@ -119,7 +119,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		String url = getString(WEBSITE)+"/spoiler_lists/" + name;
 		logger.debug("get Prices for " + name + " " + url);
 
-		Document doc =URLTools.extractHtml(url);
+		Document doc =URLTools.extractAsHtml(url);
 
 		Element table = doc.getElementsByTag("body").get(0).getElementsByTag("script").get(2);
 
@@ -198,7 +198,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		edition = edition.replace(" ", "_");
 
 		String url = getString(WEBSITE)+"/sets/" + edition + "/" + name;
-		Document d = URLTools.extractHtml(url);
+		Document d = URLTools.extractAsHtml(url);
 
 		logger.debug("get Prices for " + name + " " + url);
 

@@ -119,7 +119,7 @@ public class ApilayerCurrencyConverter {
 			{
 				
 				logger.debug(cache.getAbsolutePath() + " doesn't exist. Will create it from website");
-				JsonElement parse = URLTools.extractJson("http://apilayer.net/api/live?access_key="+token);
+				JsonElement parse = URLTools.extractAsJson("http://apilayer.net/api/live?access_key="+token);
 				obj = parse.getAsJsonObject().get("quotes").getAsJsonObject();
 				FileTools.saveFile(cache, obj.toString());
 				logger.debug(cache.getAbsolutePath() + " created");

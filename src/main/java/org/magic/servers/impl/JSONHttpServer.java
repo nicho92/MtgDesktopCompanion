@@ -20,7 +20,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -33,7 +32,6 @@ import java.util.concurrent.Callable;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import org.apache.commons.io.IOUtils;
 import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
@@ -761,28 +759,28 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		get("/admin/network", URLTools.HEADER_JSON, (request, response) -> {
 			
-			JsonArray arr = new JsonArray();
+			var arr = new JsonArray();
 			
-			URLTools.getConnections().forEach(net->{
-				var jo = new JsonObject();
-					jo.addProperty("url", net.getConnection().getURL().toString());
-					jo.addProperty("method", net.getConnection().getRequestMethod());
-					jo.addProperty("start", net.getStart().toEpochMilli());
-					jo.addProperty("end", net.getEnd().toEpochMilli());
-					jo.addProperty("duration", net.getDuration());
-					jo.addProperty("contentLength", net.getConnection().getContentLength());
-					jo.addProperty("contentType", net.getConnection().getContentType());
-				
-				try {
-					jo.addProperty("reponsesMessage", net.getConnection().getResponseMessage());
-					jo.addProperty("reponsesCode", net.getConnection().getResponseCode());
-				} catch (IOException e) {
-					logger.error(e);
-				}
-				
-				arr.add(jo);
-			});
-			
+//			URLTools.getConnections().forEach(net->{
+//				var jo = new JsonObject();
+//					jo.addProperty("url", net.getConnection().getURL().toString());
+//					jo.addProperty("method", net.getConnection().getRequestMethod());
+//					jo.addProperty("start", net.getStart().toEpochMilli());
+//					jo.addProperty("end", net.getEnd().toEpochMilli());
+//					jo.addProperty("duration", net.getDuration());
+//					jo.addProperty("contentLength", net.getConnection().getContentLength());
+//					jo.addProperty("contentType", net.getConnection().getContentType());
+//				
+//				try {
+//					jo.addProperty("reponsesMessage", net.getConnection().getResponseMessage());
+//					jo.addProperty("reponsesCode", net.getConnection().getResponseCode());
+//				} catch (IOException e) {
+//					logger.error(e);
+//				}
+//				
+//				arr.add(jo);
+//			});
+//			
 			
 			
 			return arr;

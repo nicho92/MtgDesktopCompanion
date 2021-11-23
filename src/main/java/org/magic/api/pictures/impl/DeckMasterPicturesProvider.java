@@ -4,13 +4,11 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Map;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.network.URLTools;
-import org.magic.tools.ImageTools;
 import org.magic.tools.InstallCert;
 
 public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
@@ -90,9 +88,8 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 			break;
 		}
 
-		var u = new URL(getString("URL") + "/images/sets/" + setID.toUpperCase() + "_"+ rarity.substring(0, 1).toUpperCase() + ".png");
-		var con = URLTools.openConnection(u);
-		var im = ImageTools.read(con.getInputStream());
+		var u =getString("URL") + "/images/sets/" + setID.toUpperCase() + "_"+ rarity.substring(0, 1).toUpperCase() + ".png";
+		var im= URLTools.extractAsImage(u);
 		return resizeIconSet(im);
 	}
 

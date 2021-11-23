@@ -9,6 +9,8 @@ import java.util.Map;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
+import org.magic.services.network.RequestBuilder;
+import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 
 import com.google.gson.stream.JsonReader;
@@ -31,13 +33,13 @@ public class MTGPricePricer extends AbstractPricesProvider {
 		String set = card.getCurrentSet().getSet().replace(" ", "_");
 
 		String url = getString("WS_URL") + "?apiKey=" + getString(API_KEY) + "&s=" + set;
-		var stream = URLTools.openConnection(url).getInputStream();
+		
 		List<MagicPrice> ret = new ArrayList<>();
 
 		logger.info(getName() + " looking for price at " + url);
 
 		try {
-			var reader = new JsonReader(new InputStreamReader(stream));
+			var reader = new JsonReader(new InputStreamReader(URLTools.extractAsInputStream(url)));
 			reader.setLenient(true);
 			reader.beginObject();
 			reader.nextName();

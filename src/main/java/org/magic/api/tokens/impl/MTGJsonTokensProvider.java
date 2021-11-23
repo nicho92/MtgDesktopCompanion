@@ -56,7 +56,7 @@ public class MTGJsonTokensProvider extends AbstractTokensProvider {
 	@Override
 	public BufferedImage getPictures(MagicCard tok) throws IOException {
 		String url = new ScryFallPicturesProvider().generateUrl(tok);
-		return URLTools.extractImage(url);
+		return URLTools.extractAsImage(url);
 	}
 
 	@Override

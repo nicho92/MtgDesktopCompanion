@@ -13,8 +13,8 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.URLTools;
 import org.magic.services.network.RequestBuilder.METHOD;
+import org.magic.services.network.URLTools;
 
 public class StarCityGamesPricer extends AbstractPricesProvider {
 

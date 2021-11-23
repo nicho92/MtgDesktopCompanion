@@ -4,16 +4,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.nio.charset.Charset;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.net.ssl.SSLHandshakeException;
 
@@ -27,13 +21,13 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
+import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.tools.Chrono;
 import org.magic.tools.ImageTools;
 import org.magic.tools.XMLTools;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
 
 
 public class URLTools {
@@ -57,10 +51,7 @@ public class URLTools {
 	public static final String USER_AGENT = "User-Agent";
 	public static final String CONTENT_TYPE="Content-Type";
 	private static final String LOCATION = "Location";
-	
 	public static final String REFERER_POLICY = "Referrer Policy";
-	private static List<NetworkInfo> history;
-
 	
 	
 	private URLTools()	{
@@ -76,288 +67,96 @@ public class URLTools {
 		}
 	}
 	
-	
 	public static String encode(String s)
 	{
 		return URLEncoder.encode(s, MTGConstants.DEFAULT_ENCODING);
 	}
-
-	public static String extractAsString(URL url,Charset enc) throws IOException
+	
+	public static Document toHtml(String content)
 	{
-		var con = openConnection(url);
-		var ret = IOUtils.toString(con.getInputStream(), enc);
-		close(con);
-		return ret;
+		return Jsoup.parse(content);
 	}
 	
-	public static Document extractMarkDownAsDocument(String url) throws IOException
+	public static JsonElement toJson(String content)
 	{
-		return Jsoup.parse(extractMarkDownAsString(url));
-	}
-
-	public static Document extractMarkDownAsDocument(URL url) throws IOException {
-		return extractMarkDownAsDocument(url.toString());
+		return JsonParser.parseString(content);
 	}
 	
-	public static String toHtmlStringFromMarkdown(String c)
-	{
-		var parser = Parser.builder().build();
-		Node document = parser.parse(c);
-		return HtmlRenderer.builder().build().render(document);
-	}
-	
-	
-	public static String extractMarkDownAsString(String url) throws IOException
-	{
-		var ret = toHtmlStringFromMarkdown(extractAsString(url));
-		
-		ret=ret.replace("img/", MTGConstants.MTG_DESKTOP_WIKI_RAW_URL+"/img/");
-		return ret; 
-	}
-	
-	
-	public static BufferedImage extractImage(URL url) throws IOException
-	{
-		HttpURLConnection con = openConnection(url);
-		var im = ImageTools.read(con.getInputStream());
-		close(con);
-		return im;
-	}
-	
-	
-	
-	public static JsonElement extractJson(String url) throws IOException
-	{
-		HttpURLConnection con = openConnection(url);
-		var reader = new JsonReader(new InputStreamReader(con.getInputStream()));
-		reader.setLenient(true);
-		JsonElement e= JsonParser.parseReader(reader);
-		reader.close();
-		close(con);
-		return e;
-	}
-	
-	public static void download(String url,File to) throws IOException
-	{
-		logger.debug("download " + url +" to " + to.getAbsolutePath());
-		HttpURLConnection con = openConnection(url);
-		FileUtils.copyInputStreamToFile(con.getInputStream(),to);
-		close(con);
-	}
-	
-	public static org.w3c.dom.Document extractXML(URL url) throws IOException {
-		try {
-			HttpURLConnection con = openConnection(url);
-			org.w3c.dom.Document doc =  XMLTools.createSecureXMLDocumentBuilder().parse(con.getInputStream());
-			close(con);
-			return doc;
-			
-		} catch (Exception e) {
-			throw new IOException(e);
-		} 
-	}
-	
-	public static List<NetworkInfo> getConnections()
-	{
-		return history;
-	}
-	
-	
-	private static HttpURLConnection getConnection(URL url,String userAgent,boolean follow) throws IOException {
-		
-		if(history==null)
-			history = new ArrayList<>();
-		
-		
-		var c = new Chrono();
-		c.start();
-		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-		var urlInfo = new NetworkInfo(connection);
-			urlInfo.setStart(Instant.now());
-		
-		
-		try{
-			
-			connection.setRequestProperty(USER_AGENT, userAgent);
-			connection.setAllowUserInteraction(true);
-			connection.setInstanceFollowRedirects(follow);
-			connection.setRequestMethod("GET");
-			connection.setReadTimeout(MTGConstants.CONNECTION_TIMEOUT);
-			int status = connection.getResponseCode();
-			if (follow && !isCorrectConnection(connection) && (status == HttpURLConnection.HTTP_MOVED_TEMP|| status == HttpURLConnection.HTTP_MOVED_PERM || status == HttpURLConnection.HTTP_SEE_OTHER)) {
-				return getConnection(connection.getHeaderField(URLTools.LOCATION));
-			}
-			
-			urlInfo.setEnd(Instant.now());
-			urlInfo.setDuration(c.stopInMillisecond());
-			logger.debug("GET " + url + " : " + connection.getResponseCode() + " [" + c.stopInMillisecond() + "ms]");
-		}
-		catch(SSLHandshakeException e)
-		{
-			logger.error(url,e);
-		}
-		
-		
-		history.add(urlInfo);
-		
-		return connection;
-	}
-	
-
-	public static String getRedirectionFor(String url) throws IOException
-	{
-		return getRedirectionFor(new URL(url));
-	}
-	
-	public static String getRedirectionFor(URL url) throws IOException
-	{
-		return getConnection(url,MTGConstants.USER_AGENT,false).getHeaderFields().get(URLTools.LOCATION).get(0);
-	}
-	
-	public static HttpURLConnection openConnection(String url) throws IOException {
-		return openConnection(new URL(url));
-	}
-	
-	public static HttpURLConnection getConnection(String url) throws IOException {
-		return getConnection(new URL(url),MTGConstants.USER_AGENT,true);
-	}
-	
-	public static HttpURLConnection openConnection(URL url) throws IOException {
-		var con = getConnection(url,MTGConstants.USER_AGENT,true);
-		con.connect();
-		return con;
-	}
-	
-	public static Document toHtml(String s)
-	{
-		return Jsoup.parse(s);
-	}
-	
-	public static JsonElement toJson(String s)
-	{
-		return JsonParser.parseString(s);
-	}
-	
-	
-	public static Document extractHtml(URL uri) throws IOException
-	{
-		return toHtml(extractAsString(uri));
-	}
-	
-	public static org.w3c.dom.Document extractXML(URI url)  throws IOException
-	{
-		return extractXML(url.toURL());
-	}
-	
-	
-	public static org.w3c.dom.Document extractXML(String url)  throws IOException
-	{
-		try {
-			return extractXML(new URI(url));
-		} catch (URISyntaxException e) {
-			throw new IOException(e);
-		}
-	}
-	
-	public static org.w3c.dom.Document extractXML(File f) throws IOException {
+	public static org.w3c.dom.Document toXml(File f) throws IOException {
 		try {
 			return  XMLTools.createSecureXMLDocumentBuilder().parse(new FileInputStream(f));
 		} catch (Exception e) {
 			throw new IOException(e);
 		} 
 	}
-
-	public static Document extractHtml(String url) throws IOException
+	
+	
+	private static String toHtmlFromMarkdown(String c)
 	{
-		return extractHtml(new URL(url));
+		var parser = Parser.builder().build();
+		Node document = parser.parse(c);
+		return HtmlRenderer.builder().build().render(document);
 	}
 	
-	
-	public static String extractAsString(String url,Charset enc) throws IOException
-	{
-		return extractAsString(new URL(url),enc); 
-	}
-	
-	public static String extractAsString(URL url) throws IOException
-	{
-		return extractAsString(url,MTGConstants.DEFAULT_ENCODING); 
-	}
-	
-	public static String extractAsString(String url) throws IOException
-	{
-		return extractAsString(new URL(url),MTGConstants.DEFAULT_ENCODING); 
-	}
-	
-	public static BufferedImage extractImage(String uri, int w, int h) throws IOException {
-		return ImageTools.resize(extractImage(new URL(uri)), h, w);
+	public static org.w3c.dom.Document extractAsXml(String url) throws IOException {
+		return RequestBuilder.build().setClient(URLTools.newClient()).url(url).method(METHOD.GET).toXml();
 	}
 
+	public static JsonElement extractAsJson(String url) throws IOException	{
+		return RequestBuilder.build().setClient(URLTools.newClient()).url(url).method(METHOD.GET).toJson();
+	}
+	
+	public static Document extractAsHtml(String url) throws IOException 	{
+		return RequestBuilder.build().setClient(URLTools.newClient()).url(url).method(METHOD.GET).toHtml();
+	}
+	
+	public static InputStream extractAsInputStream(String url) throws IOException 	{
+		return RequestBuilder.build().setClient(URLTools.newClient()).url(url).method(METHOD.GET).execute().getEntity().getContent();
+	}
+	
+	public static String extractAsString(String url) throws IOException	{
+		return RequestBuilder.build().setClient(URLTools.newClient()).url(url).method(METHOD.GET).toContentString(); 
+	}
 
-	public static BufferedImage extractImage(String url) throws IOException
+	public static Document extractMarkdownAsHtml(String url) throws IOException
 	{
-		
+		var ret = toHtmlFromMarkdown(extractAsString(url));
+		ret=ret.replace("img/", MTGConstants.MTG_DESKTOP_WIKI_RAW_URL+"/img/");
+		return toHtml(ret);
+	}
+	
+	public static BufferedImage extractAsImage(String uri, int w, int h) throws IOException {
+		return ImageTools.resize(extractAsImage(uri), h, w);
+	}
+	
+	public static BufferedImage extractAsImage(String url) throws IOException	{
 		if(url.startsWith("//"))
 			url="https:"+url;
 		
-		return extractImage(new URL(url));
+		return RequestBuilder.build().setClient(URLTools.newClient()).url(url).method(METHOD.GET).toImage(); 
+	}
+	
+	public static void download(String url,File to) throws IOException {
+		FileUtils.copyInputStreamToFile(extractAsInputStream(url),to);
 	}
 	
 	
-
-	public static void close(HttpURLConnection con)
+	public static boolean isCorrectConnection(String url) 
 	{
+		int resp;
 		try {
-			con.getInputStream().close();
+			resp = RequestBuilder.build().setClient(URLTools.newClient()).url(url).method(METHOD.GET).execute().getStatusLine().getStatusCode();
 		} catch (IOException e) {
 			logger.error(e);
-		}
-	}
-	
-	public static boolean isCorrectConnection(String url)
-	{
-		try {
-			return isCorrectConnection(openConnection(url));
-		} catch (IOException e) {
 			return false;
 		}
+		return resp >= 200 && resp < 300;
+		
 	}
 	
-	
-	
-	public static boolean isCorrectConnection(HttpURLConnection connection) {
-			try {
-				
-				int resp=connection.getResponseCode();
-				if(resp >= 200 && resp < 300)
-				{
-					return true;
-				}
-				else
-				{
-					if(connection.getErrorStream()!=null)
-					{
-						logger.error("Error " + connection.getURL() +": " +  connection.getRequestMethod());
-						logger.trace("Error Trace : " + IOUtils.toString(connection.getErrorStream(),MTGConstants.DEFAULT_ENCODING));
-					}
-
-					return false;
-				}
-			} catch (IOException e) {
-				logger.error(e);
-				return false;
-			}
+	public static MTGHttpClient newClient() {
+		return new MTGHttpClient();
 	}
-
-	public static URLToolsClient newClient() {
-		return new URLToolsClient();
-	}
-
-	public static String readHeader(String h, String url) throws IOException {
-		HttpURLConnection  con =  (HttpURLConnection) new URL(url).openConnection();
-		return con.getHeaderField(h);
-	}
-
 	
-
 	
 }

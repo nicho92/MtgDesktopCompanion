@@ -14,10 +14,10 @@ import org.magic.api.beans.MTGCombo;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractComboProvider;
+import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.URLTools;
-import org.magic.services.network.URLToolsClient;
 import org.magic.services.network.RequestBuilder.METHOD;
+import org.magic.services.network.URLTools;
 
 public class EssentialMagicComboProvider extends AbstractComboProvider {
 
@@ -29,7 +29,7 @@ public class EssentialMagicComboProvider extends AbstractComboProvider {
 		List<MTGCombo> ret = new ArrayList<>();
 		Document d;
 		try {
-			URLToolsClient c = URLTools.newClient();
+			MTGHttpClient c = URLTools.newClient();
 			d=RequestBuilder.build().url(BASE+"Combos/Search.asp").setClient(c).method(METHOD.POST)
 					.addContent("selInvalid", getString("GURU_APPROVED_CODE"))
 					.addContent("txtName","")

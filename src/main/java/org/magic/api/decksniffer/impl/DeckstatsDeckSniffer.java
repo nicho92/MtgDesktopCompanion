@@ -83,7 +83,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 		MagicDeck deck = info.toBaseDeck();
 
 		logger.debug("get deck " + info.getUrl());
-		Document d = URLTools.extractHtml(info.getUrl().toString());
+		Document d = URLTools.extractAsHtml(info.getUrl().toString());
 		
 		if (d.select("div#deck_overview_info") != null)
 			deck.setDescription(d.select("div#deck_overview_info").select("div.deck_text_editable_container").text());
@@ -133,7 +133,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 		List<RetrievableDeck> list = new ArrayList<>();
 		
 		for (var i = 1; i <= nbPage; i++) {
-			Document d = URLTools.extractHtml(getString(URL) + "/" + getString(FORMAT) + "/?lng=fr&page=" + i);
+			Document d = URLTools.extractAsHtml(getString(URL) + "/" + getString(FORMAT) + "/?lng=fr&page=" + i);
 			Elements e = d.select("tr.deck_row");
 
 			for (Element cont : e) {

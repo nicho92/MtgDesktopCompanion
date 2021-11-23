@@ -46,7 +46,7 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 	
 	public BufferedImage getOnlinePicture(MagicCard mc) throws IOException {
 		try {
-			return URLTools.extractImage(generateUrl(mc));
+			return URLTools.extractAsImage(generateUrl(mc));
 		} catch (Exception e) {
 			return null;
 		}
@@ -95,7 +95,7 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 			return setCache.get(set+rarity, new Callable<BufferedImage>() {
 				@Override
 				public BufferedImage call() throws Exception {
-					return URLTools.extractImage("http://gatherer.wizards.com/Handlers/Image.ashx?type=symbol&set=" + set + "&size="+ getProperty("SET_SIZE","medium") + "&rarity=" + rarity.substring(0, 1));
+					return URLTools.extractAsImage("http://gatherer.wizards.com/Handlers/Image.ashx?type=symbol&set=" + set + "&size="+ getProperty("SET_SIZE","medium") + "&rarity=" + rarity.substring(0, 1));
 				}
 			});
 		} catch (ExecutionException e) {

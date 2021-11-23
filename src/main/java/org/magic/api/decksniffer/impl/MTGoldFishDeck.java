@@ -57,7 +57,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 		logger.debug("sniff url : " + info.getUrl());
 
 		MagicDeck deck = info.toBaseDeck();
-		Document d = URLTools.extractHtml(info.getUrl().toString());
+		Document d = URLTools.extractAsHtml(info.getUrl().toString());
 	
 		Elements trs = d.select("table.deck-view-deck-table").get(0).select(MTGConstants.HTML_TAG_TR);
 		var sideboard = false;
@@ -122,7 +122,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 
 			logger.debug("sniff url : " + url);
 
-			var d = URLTools.extractHtml(url);
+			var d = URLTools.extractAsHtml(url);
 			logger.trace(d);
 			
 			Elements e = d.select("div.archetype-tile");

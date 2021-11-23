@@ -24,7 +24,7 @@ public class Wallpaper {
 	{
 		if (getPicture() == null) {
 			if(getUrl().getScheme().startsWith("http"))
-				setPicture(URLTools.extractImage(getUrl().toURL()));
+				setPicture(URLTools.extractAsImage(getUrl().toASCIIString()));
 			else
 				setPicture(ImageTools.readLocal(getUrl().toURL()));
 		}

@@ -20,15 +20,15 @@ import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGConstants;
+import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
-import org.magic.services.network.URLToolsClient;
 
 import com.google.gson.JsonElement;
 
 public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 
 	private static final String FORMAT = "FORMAT";
-	private URLToolsClient httpclient;
+	private MTGHttpClient httpclient;
 	private Map<String,String> formats;
 	private String postReqData="{\"draw\":1,\"columns\":[{\"data\":\"name\",\"name\":\"name\",\"searchable\":true,\"orderable\":true,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"color\",\"name\":\"color\",\"searchable\":true,\"orderable\":true,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"tags\",\"name\":\"tags\",\"searchable\":true,\"orderable\":false,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"likes\",\"name\":\"likes\",\"searchable\":true,\"orderable\":true,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"views\",\"name\":\"views\",\"searchable\":true,\"orderable\":true,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"comments\",\"name\":\"comments\",\"searchable\":true,\"orderable\":true,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"updated\",\"name\":\"updated\",\"searchable\":true,\"orderable\":true,\"search\":{\"value\":\"7\",\"regex\":false}},{\"data\":\"updatedhidden\",\"name\":\"updatedhidden\",\"searchable\":false,\"orderable\":true,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"popularity\",\"name\":\"popularity\",\"searchable\":false,\"orderable\":true,\"search\":{\"value\":\"\",\"regex\":false}}],\"order\":[{\"column\":8,\"dir\":\"desc\"}],\"start\":0,\"length\":50,\"search\":{\"value\":\"\",\"regex\":false}}";
 	private String uriPost = "https://aetherhub.com/Meta/FetchMetaListAdv";
@@ -131,7 +131,8 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 		Map<String,String> headers = new HashMap<>();
 		headers.put(URLTools.CONTENT_TYPE, URLTools.HEADER_JSON);
 		headers.put(URLTools.USER_AGENT,MTGConstants.USER_AGENT);
-		String ret = httpclient.doPost(uriPost+formats.get(getString(FORMAT)), new StringEntity(postReqData), headers);
+		var resp = httpclient.doPost(uriPost+formats.get(getString(FORMAT)), new StringEntity(postReqData), headers);
+		var ret = httpclient.toString(resp);
 		
 		logger.trace(ret);
 		var el = URLTools.toJson(ret).getAsJsonObject();

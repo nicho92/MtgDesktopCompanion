@@ -12,10 +12,10 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGControler;
+import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.URLTools;
-import org.magic.services.network.URLToolsClient;
 import org.magic.services.network.RequestBuilder.METHOD;
+import org.magic.services.network.URLTools;
 
 import com.google.gson.JsonElement;
 
@@ -23,7 +23,7 @@ public class EchoMTGExport extends AbstractCardExport {
 
 	private String authToken=null;
 	public static final String BASE_URL="https://www.echomtg.com";
-	private URLToolsClient client;
+	private MTGHttpClient client;
 	
 	
 	@Override

@@ -33,7 +33,7 @@ import org.magic.services.network.RequestBuilder.METHOD;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
 
-public class URLToolsClient {
+public class MTGHttpClient {
 
 	private HttpClient httpclient;
 	private HttpClientContext httpContext;
@@ -54,7 +54,7 @@ public class URLToolsClient {
 	}
 	
 	
-	public URLToolsClient() {
+	public MTGHttpClient() {
 		httpclient = HttpClients.custom()
 					 .setUserAgent(MTGConstants.USER_AGENT)
 					 .setRedirectStrategy(new LaxRedirectStrategy())
@@ -65,7 +65,7 @@ public class URLToolsClient {
 		httpContext.setCookieStore(cookieStore);
 	}
 	
-	private String extractAndClose(HttpResponse response) throws IOException
+	public String toString(HttpResponse response) throws IOException
 	{
 		var ret = EntityUtils.toString(response.getEntity());
 		EntityUtils.consume(response.getEntity());
@@ -75,13 +75,13 @@ public class URLToolsClient {
 	public HttpResponse execute(HttpRequestBase req) throws IOException
 	{
 		logger.debug(req);
-		HttpResponse resp = httpclient.execute(req,httpContext);
-		logger.trace("reponse " + resp);
-		return resp;
+		response = httpclient.execute(req,httpContext);
+		logger.trace("response " + response);
+		return response;
 	}
 	
 
-	public String execute(RequestBuilder builder) throws IOException
+	public HttpResponse execute(RequestBuilder builder) throws IOException
 	{
 		
 		if(builder.getMethod()== METHOD.GET)
@@ -97,15 +97,12 @@ public class URLToolsClient {
 		throw new IOException("choose a method with METHOD.POST/GET/PUT");
 		
 	}
-
 	
-
-	
-	public String doPut(String url, Map<String, String> entities, Map<String, String> headers) throws IOException {
+	public HttpResponse doPut(String url, Map<String, String> entities, Map<String, String> headers) throws IOException {
 		return doPut(url,new UrlEncodedFormEntity(entities.entrySet().stream().map(e-> new BasicNameValuePair(e.getKey(), e.getValue())).toList()),headers);
 	}
 
-	public String doPut(String string, HttpEntity entities, Map<String, String> headers) throws IOException {
+	public HttpResponse doPut(String string, HttpEntity entities, Map<String, String> headers) throws IOException {
 		var putReq = new HttpPut(string);
 		try {
 			if(entities!=null)
@@ -114,20 +111,19 @@ public class URLToolsClient {
 			if(headers!=null)
 				headers.entrySet().forEach(e->putReq.addHeader(e.getKey(), e.getValue()));
 			
-			response  = execute(putReq);
-			return extractAndClose(response);
+			return execute(putReq);
 		} catch (UnsupportedEncodingException e1) {
 			throw new IOException(e1);
 		}
 	}
 	
-	public String doPost(String url, Map<String,String> entities, Map<String,String> headers) throws IOException
+	public HttpResponse doPost(String url, Map<String,String> entities, Map<String,String> headers) throws IOException
 	{
 		return doPost(url,new UrlEncodedFormEntity(entities.entrySet().stream().map(e-> new BasicNameValuePair(e.getKey(), e.getValue())).toList()),headers);
 	}
 
 	
-	public String doPost(String url, HttpEntity entities, Map<String,String> headers) throws IOException
+	public HttpResponse doPost(String url, HttpEntity entities, Map<String,String> headers) throws IOException
 	{
 		var postReq = new HttpPost(url);
 			try {
@@ -137,15 +133,15 @@ public class URLToolsClient {
 				if(headers!=null)
 					headers.entrySet().forEach(e->postReq.addHeader(e.getKey(), e.getValue()));
 				
-				response  = execute(postReq);
-				return extractAndClose(response);
+				return execute(postReq);
+
 			} catch (UnsupportedEncodingException e1) {
 				throw new IOException(e1);
 			}
 
 	}
 	
-	public String doGet(String url, Map<String,String> headers,Map<String,String> entities) throws IOException
+	public HttpResponse doGet(String url, Map<String,String> headers,Map<String,String> entities) throws IOException
 	{
 		var getReq = new HttpGet(url);
 		
@@ -169,11 +165,11 @@ public class URLToolsClient {
 		}
 		
 		
-		response  = execute(getReq);
-		return extractAndClose(response);
+		return  execute(getReq);
+		
 	}
 
-	public String doGet(String url) throws IOException
+	public HttpResponse doGet(String url) throws IOException
 	{
 		return doGet(url,null,null);
 	}

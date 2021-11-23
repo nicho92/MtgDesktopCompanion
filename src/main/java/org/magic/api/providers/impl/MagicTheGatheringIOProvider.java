@@ -2,12 +2,9 @@ package org.magic.api.providers.impl;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -107,25 +104,25 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 	@Override
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact)throws IOException {
 		List<MagicCard> lists = new ArrayList<>();
-		URLConnection con = null;
-		var page = 1;
-		var url = getString(JSON_URL) + "/cards?" + att + "=" + URLTools.encode(crit);
-		logger.debug(url);
-
-		con = URLTools.openConnection(url);
-	
-		var count = 0;
-		var totalcount = con.getHeaderFieldInt("Total-Count", 0);
-
-		while (count < totalcount) {
-			url = getString(JSON_URL) + "/cards?" + att + "=" + URLTools.encode(crit) + "&page=" + page++;
-			logger.trace(url);
-			var jsonList = URLTools.extractJson(url).getAsJsonObject().getAsJsonArray("cards");
-			for (var i = 0; i < jsonList.size(); i++) {
-				lists.add(loadCard(jsonList.get(i).getAsJsonObject()));
-			}
-			count += con.getHeaderFieldInt("Count", 0);
-		}
+//		URLConnection con = null;
+//		var page = 1;
+//		var url = getString(JSON_URL) + "/cards?" + att + "=" + URLTools.encode(crit);
+//		logger.debug(url);
+//
+//		con = URLTools.openConnection(url);
+//	
+//		var count = 0;
+//		var totalcount = con.getHeaderFieldInt("Total-Count", 0);
+//
+//		while (count < totalcount) {
+//			url = getString(JSON_URL) + "/cards?" + att + "=" + URLTools.encode(crit) + "&page=" + page++;
+//			logger.trace(url);
+//			var jsonList = URLTools.extractAsJson(url).getAsJsonObject().getAsJsonArray("cards");
+//			for (var i = 0; i < jsonList.size(); i++) {
+//				lists.add(loadCard(jsonList.get(i).getAsJsonObject()));
+//			}
+//			count += con.getHeaderFieldInt("Count", 0);
+//		}
 		return lists;
 	}
 
@@ -302,7 +299,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		JsonObject root = null;
 		JsonObject temp = null;
 		try {
-			root = URLTools.extractJson(getString(JSON_URL) + "/cards?set=" + ed.getId() + "&name=" + URLTools.encode(mc.getName())).getAsJsonObject();
+			root = URLTools.extractAsJson(getString(JSON_URL) + "/cards?set=" + ed.getId() + "&name=" + URLTools.encode(mc.getName())).getAsJsonObject();
 
 			temp = root.get("cards").getAsJsonArray().get(0).getAsJsonObject();
 
@@ -337,26 +334,28 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		return ed;
 	}
 
-	private int getCount(String id) throws IOException {
-		var count = URLTools.openConnection(getString(JSON_URL) + "/cards?set=" + id).getHeaderFieldInt("Total-Count", 0);
-		propsCache.put(id, String.valueOf(count));
-		try {
-			logger.trace("update cache " + id);
-
-			try (var fos = new FileOutputStream(fcacheCount)) {
-				propsCache.store(fos, new Date().toString());
-			}
-
-		} catch (Exception e) {
-			logger.error("error in count for " + id, e);
-		}
-		return count;
+	private int getCount(String id) {
+//		var count = URLTools.openConnection(getString(JSON_URL) + "/cards?set=" + id).getHeaderFieldInt("Total-Count", 0);
+//		propsCache.put(id, String.valueOf(count));
+//		try {
+//			logger.trace("update cache " + id);
+//
+//			try (var fos = new FileOutputStream(fcacheCount)) {
+//				propsCache.store(fos, new Date().toString());
+//			}
+//
+//		} catch (Exception e) {
+//			logger.error("error in count for " + id, e);
+//		}
+//		return count;
+		
+		return 0;
 	}
 
 
 	@Override
 	public List<MagicEdition> loadEditions() throws IOException {
-		var root = URLTools.extractJson(getString(JSON_URL) + "/sets").getAsJsonObject().get("sets").getAsJsonArray();
+		var root = URLTools.extractAsJson(getString(JSON_URL) + "/sets").getAsJsonObject().get("sets").getAsJsonArray();
 			List<MagicEdition> eds = new ArrayList<>();
 			for (var i = 0; i < root.size(); i++) {
 				var e = root.get(i).getAsJsonObject();

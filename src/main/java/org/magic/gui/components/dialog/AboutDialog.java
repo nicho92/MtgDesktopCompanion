@@ -86,7 +86,7 @@ public class AboutDialog extends MTGUIComponent {
 		 supporters.setForeground(SystemColor.activeCaption);
 			   
 			   try {
-				   var obj = URLTools.extractJson(MTGConstants.MTG_SUPPORTERS_URI).getAsJsonArray();
+				   var obj = URLTools.extractAsJson(MTGConstants.MTG_SUPPORTERS_URI).getAsJsonArray();
 				
 				for(JsonElement element : obj)
 				{

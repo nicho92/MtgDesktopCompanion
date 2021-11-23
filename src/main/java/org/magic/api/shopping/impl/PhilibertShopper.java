@@ -10,10 +10,10 @@ import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.services.AccountsManager;
+import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.URLTools;
-import org.magic.services.network.URLToolsClient;
 import org.magic.services.network.RequestBuilder.METHOD;
+import org.magic.services.network.URLTools;
 import org.magic.tools.UITools;
 
 public class PhilibertShopper extends AbstractMagicShopper {
@@ -22,7 +22,7 @@ public class PhilibertShopper extends AbstractMagicShopper {
 	
 	@Override
 	public List<OrderEntry> listOrders() throws IOException {
-		URLToolsClient c = URLTools.newClient();
+		MTGHttpClient c = URLTools.newClient();
 		List<OrderEntry> ret = new ArrayList<>();
 		
 		

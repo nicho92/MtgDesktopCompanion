@@ -36,7 +36,7 @@ public class StoryProvider {
 	public List<MTGStory> next() throws IOException {
 		var url = baseURI + "/" + local.getLanguage() + "/section-articles-see-more-ajax?l=" + "en"+ "&sort=DESC&f=13961&offset=" + (offset++);
 		List<MTGStory> list = new ArrayList<>();
-		var el = URLTools.extractJson(url);
+		var el = URLTools.extractAsJson(url);
 		var arr = el.getAsJsonObject().get("data").getAsJsonArray();
 
 		for (var i = 0; i < arr.size(); i++) {
@@ -66,7 +66,7 @@ public class StoryProvider {
 	private Image loadPics(URL url) {
 		Image tmp;
 		try {
-			tmp = URLTools.extractImage(url).getScaledInstance(200, 110, Image.SCALE_SMOOTH);
+			tmp = URLTools.extractAsImage(url.toString(),200, 110);
 			return tmp;
 		} catch (IOException e) {
 			logger.error("could not load" + url, e);

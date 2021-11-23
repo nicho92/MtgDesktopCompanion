@@ -12,10 +12,10 @@ import org.jsoup.select.Elements;
 import org.magic.api.beans.Grading;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
 import org.magic.services.AccountsManager;
+import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.URLTools;
-import org.magic.services.network.URLToolsClient;
 import org.magic.services.network.RequestBuilder.METHOD;
+import org.magic.services.network.URLTools;
 
 public class BeckettGrader extends AbstractGradersProvider {
 
@@ -28,7 +28,7 @@ public class BeckettGrader extends AbstractGradersProvider {
 	@Override
 	public Grading loadGrading(String identifier) throws IOException {
 		
-		URLToolsClient c = URLTools.newClient();
+		MTGHttpClient c = URLTools.newClient();
 		
 		String urlLogin = getWebSite()+"/login?utm_content=bkthp&utm_term=login";
 		String urlCheking = getWebSite()+"/grading/card-lookup";

@@ -27,7 +27,7 @@ public class MTGJSonDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
-		var el = URLTools.extractJson(info.getUrl().toString()).getAsJsonObject();
+		var el = URLTools.extractAsJson(info.getUrl().toString()).getAsJsonObject();
 		var mainBoard = el.get("data").getAsJsonObject().get("mainBoard").getAsJsonArray();
 		JsonArray sideBoard=null;
 		
@@ -80,7 +80,7 @@ public class MTGJSonDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public List<RetrievableDeck> getDeckList() throws IOException {
-		var d = URLTools.extractJson(AbstractMTGJsonProvider.MTG_JSON_DECKS_LIST);
+		var d = URLTools.extractAsJson(AbstractMTGJsonProvider.MTG_JSON_DECKS_LIST);
 		var arr = d.getAsJsonObject().get("data").getAsJsonArray();
 		
 		List<RetrievableDeck> decks = new ArrayList<>();

@@ -11,6 +11,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
+import org.magic.services.network.RequestBuilder;
+import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 import org.magic.tools.XMLTools;
 import org.w3c.dom.Document;
@@ -57,7 +59,7 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 		Document doc = null;
 
 		try {
-			doc = dBuilder.parse(URLTools.openConnection(link).getInputStream());
+			doc = dBuilder.parse(RequestBuilder.build().setClient(URLTools.newClient()).url(link).method(METHOD.GET).execute().getEntity().getContent());
 			logger.trace(doc);
 
 			doc.getDocumentElement().normalize();

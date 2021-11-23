@@ -129,7 +129,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	{
 		String url = baseURI + CARDS + mc.getCurrentSet().getId().toLowerCase() + "/" + mc.getCurrentSet().getNumber();
 		try {
-			return URLTools.extractJson(url).getAsJsonObject();
+			return URLTools.extractAsJson(url).getAsJsonObject();
 		} catch (IOException e) {
 			return null;
 		}
@@ -179,7 +179,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 			logger.debug(URLDecoder.decode(url.toString(), MTGConstants.DEFAULT_ENCODING.displayName()));
 			try {
-				JsonElement el = URLTools.extractJson(url.toString()) ;
+				JsonElement el = URLTools.extractAsJson(url.toString()) ;
 
 				if (att.equals("id")) {
 					list.add(loadCard(el.getAsJsonObject(), exact, crit));
@@ -212,14 +212,14 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	@Override
 	public MagicCard getCardByNumber(String id, MagicEdition me) throws IOException {
 		String url = baseURI + CARDS + me.getId().toLowerCase() + "/" + id;
-		var root =  URLTools.extractJson(url).getAsJsonObject();
+		var root =  URLTools.extractAsJson(url).getAsJsonObject();
 		return loadCard(root, true, null);
 	}
 
 	@Override
 	public List<MagicEdition> loadEditions() throws IOException {
 			String url = baseURI + "/sets";
-			var root = URLTools.extractJson(url).getAsJsonObject(); 
+			var root = URLTools.extractAsJson(url).getAsJsonObject(); 
 			List<MagicEdition> eds = new ArrayList<>();
 			for (var i = 0; i < root.get("data").getAsJsonArray().size(); i++) {
 				var e = root.get("data").getAsJsonArray().get(i).getAsJsonObject();
@@ -585,7 +585,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		{
 			String url = getString("URL")+CARDS + mc.getId() + "/rulings";
 		
-			JsonElement el = URLTools.extractJson(url);
+			JsonElement el = URLTools.extractAsJson(url);
 			var arr = el.getAsJsonObject().get("data").getAsJsonArray();
 	
 			for (var i = 0; i < arr.size(); i++) {
@@ -636,7 +636,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		while (hasMore) {
 	
 			try {
-				JsonElement el = URLTools.extractJson(url);
+				JsonElement el = URLTools.extractAsJson(url);
 
 				var jsonList = el.getAsJsonObject().getAsJsonArray("data");
 				for (var i = 0; i < jsonList.size(); i++) {

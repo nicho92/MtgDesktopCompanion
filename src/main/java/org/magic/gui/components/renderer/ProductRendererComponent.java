@@ -79,7 +79,7 @@ public class ProductRendererComponent extends JPanel {
 	
 		lblImage.setIcon(new ImageIcon(temp.computeIfAbsent(p.getProductId(),i->{
 			try {
-				return URLTools.extractImage(p.getUrl()).getScaledInstance(150, 110, Image.SCALE_SMOOTH);
+				return URLTools.extractAsImage(p.getUrl()).getScaledInstance(150, 110, Image.SCALE_SMOOTH);
 			} catch (Exception e) {
 				return new BufferedImage(1, 1, Image.SCALE_FAST);
 			}

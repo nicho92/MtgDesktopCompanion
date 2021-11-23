@@ -25,7 +25,6 @@ import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractTokensProvider;
 import org.magic.services.network.URLTools;
 import org.magic.tools.MTG;
-import org.magic.tools.XMLTools;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -46,8 +45,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 	private void init()
 	{
 		try {
-			var builder =  XMLTools.createSecureXMLDocumentBuilder();
-			document = builder.parse(URLTools.openConnection(getURL("URL")).getInputStream());
+			document = URLTools.extractAsXml(getString("URL")); 
 			xPath = XPathFactory.newInstance().newXPath();
 		} catch (Exception e) {
 			logger.error(e);
@@ -279,7 +277,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 				u = map.get(map.keySet().iterator().next());
 
 			logger.debug("Load token pics : " + u);
-			return URLTools.extractImage(u);
+			return URLTools.extractAsImage(u.toString());
 		} catch (Exception e) {
 			logger.error("error pics reading for " + tok, e);
 			return getEnabledPlugin(MTGPictureProvider.class).getBackPicture();

@@ -42,6 +42,8 @@ public class UndergroundSeaPricer extends AbstractPricesProvider {
 		int year = Calendar.getInstance().get(Calendar.YEAR);
 		String url = BASE_URL + uploadPath +year+"/"+month+PROXYCARDSLIST_HTML;
 
+		
+		
 		if(!URLTools.isCorrectConnection(url))
 		{
 			month=String.format("%02d",Calendar.getInstance().get(Calendar.MONTH));
@@ -61,7 +63,7 @@ public class UndergroundSeaPricer extends AbstractPricesProvider {
 	@Override
 	protected List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 		
-		Document d = URLTools.extractHtml(getUrl());
+		Document d = URLTools.extractAsHtml(getUrl());
 		AstNode root = new Parser().parse(d.select("script").get(1).html(), "", 1);
 		List<MagicPrice> ret = new ArrayList<>();
 		

@@ -34,7 +34,7 @@ public class MTGStandPricer extends AbstractPricesProvider {
 		
 		List<MagicPrice> ret = new ArrayList<>();
 		
-		var arr = URLTools.extractJson(url).getAsJsonArray();
+		var arr = URLTools.extractAsJson(url).getAsJsonArray();
 		
 		if(arr.size()<=0)
 		{

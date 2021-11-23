@@ -10,10 +10,10 @@ import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
+import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.URLTools;
-import org.magic.services.network.URLToolsClient;
 import org.magic.services.network.RequestBuilder.METHOD;
+import org.magic.services.network.URLTools;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -22,7 +22,7 @@ public class MypCardPricer extends AbstractPricesProvider {
 
 	
 	private static final String BASE_URL="https://mypcards.com";
-	private URLToolsClient client;
+	private MTGHttpClient client;
 	
 	
 	@Override
@@ -84,7 +84,7 @@ public class MypCardPricer extends AbstractPricesProvider {
 	}
 	
 	private void parsingOffers(String urlC, List<MagicPrice> list,MagicCard card) throws IOException {
-		Elements trs = URLTools.extractHtml(urlC).select("table.table tr[data-key]");
+		Elements trs = URLTools.extractAsHtml(urlC).select("table.table tr[data-key]");
 		for(Element tr : trs)
 		{
 			Elements tds = tr.select("td");

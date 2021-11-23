@@ -26,7 +26,7 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 				return getPlugin(getString("SECOND_PROVIDER"), MTGPictureProvider.class).getPicture(mc);
 			}
 		}
-		return URLTools.extractImage(generateUrl(mc));
+		return URLTools.extractAsImage(generateUrl(mc));
 	}
 
 	public String generateUrl(MagicCard mc)

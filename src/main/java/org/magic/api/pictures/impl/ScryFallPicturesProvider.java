@@ -75,7 +75,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 	public BufferedImage getOnlinePicture(MagicCard mc) throws IOException {
 		var url = generateLink(mc, false);
 		try {
-			return URLTools.extractImage(url);
+			return URLTools.extractAsImage(url.toString());
 		} catch (Exception e) {
 			return null;
 		}
@@ -90,7 +90,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 	public BufferedImage extractPicture(MagicCard mc) throws IOException {
 		var u = generateLink(mc,true);
 		try {
-			return URLTools.extractImage(u);
+			return URLTools.extractAsImage(u.toString());
 		} catch (Exception e) {
 			logger.error(e);
 			return getBackPicture();

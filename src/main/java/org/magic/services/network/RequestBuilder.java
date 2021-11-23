@@ -1,5 +1,6 @@
 package org.magic.services.network;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -7,9 +8,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javax.imageio.ImageIO;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpResponse;
+import org.apache.http.util.EntityUtils;
 import org.jsoup.nodes.Document;
+import org.magic.tools.XMLTools;
 
 import com.google.gson.JsonElement;
 
@@ -19,10 +24,9 @@ public class RequestBuilder
 	private String url;
 	private METHOD method;
 	private Map<String,String> headers;
-	private Map<String,String> content;
-	private URLToolsClient client;
+	private  Map<String,String> content;
+	private MTGHttpClient client;
 	public enum METHOD { POST, GET,PUT}
-	
 	
 	public RequestBuilder() {
 		headers = new HashMap<>();
@@ -44,19 +48,15 @@ public class RequestBuilder
 	public Map<String, String> getHeaders() {
 		return headers;
 	}
-
-	public void setHeaders(Map<String, String> header) {
-		this.headers = header;
-	}
-
+	
 	public Map<String, String> getContent() {
 		return content;
 	}
 
-	public void setContent(Map<String, String> content) {
-		this.content = content;
+	public String toContentString() throws IOException {
+		return  EntityUtils.toString(execute().getEntity());
 	}
-
+	
 	@Override
 	public String toString() {
 		var builder = new StringBuilder();
@@ -125,24 +125,28 @@ public class RequestBuilder
 		return this;
 	}
 
-	public RequestBuilder setClient(URLToolsClient client) {
+	public RequestBuilder setClient(MTGHttpClient client) {
 		this.client=client;
 		return this;
 	}
 	
 	public JsonElement toJson() throws IOException
 	{
-		return URLTools.toJson(execute());
+		return URLTools.toJson(toContentString());
 	}
+	
+
+	public BufferedImage toImage() throws IOException {
+		return ImageIO.read(execute().getEntity().getContent());
+	}
+
 	
 	public HttpResponse toResponse() throws IOException
 	{
-		execute();
-		return client.getResponse();
-		
+		return execute();
 	}
 	
-	public String execute() throws IOException
+	public HttpResponse execute() throws IOException
 	{
 		if(client!=null)
 			return client.execute(this);
@@ -158,12 +162,24 @@ public class RequestBuilder
 		method(null);
 		return this;
 	}
+	
+	
+	public org.w3c.dom.Document toXml() throws IOException {
+		try {
+			return XMLTools.createSecureXMLDocumentBuilder().parse(execute().getEntity().getContent());
+		} catch (Exception e) {
+			throw new IOException(e);
+		} 
+	}
+	
+	
+	
 
 	public Document toHtml() throws IOException {
-		return URLTools.toHtml(execute());
+		return URLTools.toHtml(toContentString());
 	}
 
-	public URLToolsClient getClient() {
+	public MTGHttpClient getClient() {
 		return client;
 		
 	}
@@ -176,5 +192,6 @@ public class RequestBuilder
 		content.put("", s);
 		return this;
 	}
+
 	
 }

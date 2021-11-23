@@ -10,6 +10,8 @@ import java.util.Map;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
+import org.magic.services.network.RequestBuilder;
+import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 
 
@@ -43,12 +45,9 @@ public class TelegramNotifier extends AbstractMTGNotifier {
 		}
 		
 		urlString = String.format(urlString, apiToken, chatId, msg);
-
-		var conn = URLTools.openConnection(urlString);
-
 		var sb = new StringBuilder();
 		
-		var is = new BufferedInputStream(conn.getInputStream());
+		var is = new BufferedInputStream(URLTools.extractAsInputStream(urlString));
 		var br = new BufferedReader(new InputStreamReader(is));
 		var inputLine = "";
 		while ((inputLine = br.readLine()) != null) {

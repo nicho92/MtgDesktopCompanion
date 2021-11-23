@@ -101,7 +101,7 @@ class DummyWebcamDevice implements WebcamDevice
     public void setURL(URL f)
     {
     	 try {
-             bounce = URLTools.extractImage(f);
+             bounce = URLTools.extractAsImage(f.toString());
          } catch (IOException e) {
              bounce = null;
          }

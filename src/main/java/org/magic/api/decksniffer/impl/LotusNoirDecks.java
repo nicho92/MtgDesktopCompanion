@@ -38,7 +38,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 
 		logger.debug("get deck at " + info.getUrl());
 
-		var d = URLTools.extractHtml(info.getUrl().toString());
+		var d = URLTools.extractAsHtml(info.getUrl().toString());
 		var e = d.select("div.demi_page>table").select(MTGConstants.HTML_TAG_TR);
 		var sideboard = false;
 		for (Element cont : e) {
@@ -85,7 +85,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 		List<RetrievableDeck> list = new ArrayList<>();
 
 		for (var i = 1; i <= nbPage; i++) {
-			Document d = URLTools.extractHtml(getString(URL) + "?dpage=" + i + "&action=" + getString(FORMAT));
+			Document d = URLTools.extractAsHtml(getString(URL) + "?dpage=" + i + "&action=" + getString(FORMAT));
 
 			Elements e = d.select("div.thumb_page");
 
@@ -95,7 +95,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 				var name = info.attr("title").replace("Lien vers ", "").trim();
 				var url = info.attr("href");
 				var auteur = cont.select("small").select("a").text();
-				var value = URLTools.extractHtml(url).select("span.card_title_us");
+				var value = URLTools.extractAsHtml(url).select("span.card_title_us");
 				var deckColor = new StringBuilder();
 				for (Element element : value)
 				{

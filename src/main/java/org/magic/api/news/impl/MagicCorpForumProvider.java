@@ -23,7 +23,7 @@ public class MagicCorpForumProvider extends AbstractMagicNewsProvider {
 	public List<MagicNewsContent> listNews(MagicNews n) throws IOException {
 		List<MagicNewsContent> ret = new ArrayList<>();
 		var maxpage = 0;
-		Document d = URLTools.extractHtml(n.getUrl());
+		Document d = URLTools.extractAsHtml(n.getUrl());
 		try {
 			
 			String text = d.select("div.jump_page").text();

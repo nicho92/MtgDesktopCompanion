@@ -176,7 +176,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		String url = WEBSITE +"/price/"+convert(packaging.getEdition().getSet().replace(" ", "+").replace(":",""))+"/"+convert(packaging.getEdition().getSet().replace(" ", "+").replace(":",""))+selead+ "-sealed#"+ getString(FORMAT);
 		
 		
-		Document d = URLTools.extractHtml(url);
+		Document d = URLTools.extractAsHtml(url);
 		parsing(d, history);
 		
 		return history;
@@ -190,7 +190,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		historyPrice.setCurrency(getCurrency());
 		
 		try {
-			Document d = URLTools.extractHtml(url);
+			Document d = URLTools.extractAsHtml(url);
 			parsing(d,historyPrice);
 			return historyPrice;
 
@@ -256,7 +256,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		
 
 		try {
-			Document d = URLTools.extractHtml(url);
+			Document d = URLTools.extractAsHtml(url);
 			parsing(d,historyPrice);
 			return historyPrice;
 
@@ -278,8 +278,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		String urlL = MOVERS_DETAILS + getString(FORMAT) + "/" + gameFormat.toLowerCase() + "/losers/"+ getString(DAILY_WEEKLY);
 
 		logger.trace("Loading Shake " + urlW + " and " + urlL);
-		Document doc = URLTools.extractHtml(urlW);
-		Document doc2 = URLTools.extractHtml(urlL);
+		Document doc = URLTools.extractAsHtml(urlW);
+		Document doc2 = URLTools.extractAsHtml(urlL);
 
 		Element table = null;
 		try {
@@ -327,7 +327,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		if(edition==null)
 			return list;
 		
-		var urlEditionChecker = URLTools.getRedirectionFor(WEBSITE+"/sets/" + replace(edition.getId().toUpperCase(), false));
+		var urlEditionChecker = WEBSITE+"/sets/" + replace(edition.getId().toUpperCase(), false);
 		
 		var page = "Main+Set";
 		
@@ -340,7 +340,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		else
 			urlEditionChecker += "/"+page+"#"+getString(FORMAT);
 	
-		Document doc = URLTools.extractHtml(urlEditionChecker);
+		Document doc = URLTools.extractAsHtml(urlEditionChecker);
 		
 		Elements trs = doc.select(MTGConstants.HTML_TAG_TABLE+".card-container-table tbody tr");
 		
@@ -396,7 +396,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		if(f == MagicFormat.FORMATS.COMMANDER)
 			u=WEBSITE + "/format-staples/commander_1v1/full/" + filter;
 		
-		Document doc = URLTools.extractHtml(u);
+		Document doc = URLTools.extractAsHtml(u);
 
 		logger.debug("get best cards : " + u);
 		Elements trs = doc.select("table tr");
@@ -531,7 +531,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	@Override
 	public Date getUpdatedDate() {
 		try {
-			return UITools.parseDate(URLTools.extractHtml(MOVERS_DETAILS + getString(FORMAT) + "/all/winners/"+ getString(DAILY_WEEKLY)).getElementsByClass("timeago").get(0).attr("title"), "yyyy-MM-dd'T'HH:mm:ss'Z'");
+			return UITools.parseDate(URLTools.extractAsHtml(MOVERS_DETAILS + getString(FORMAT) + "/all/winners/"+ getString(DAILY_WEEKLY)).getElementsByClass("timeago").get(0).attr("title"), "yyyy-MM-dd'T'HH:mm:ss'Z'");
 					
 		} catch (Exception e1) {
 			logger.error(e1);

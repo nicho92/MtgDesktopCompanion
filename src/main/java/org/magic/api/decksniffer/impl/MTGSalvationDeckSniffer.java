@@ -60,7 +60,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 		String url = info.getUrl() + "#Details:deck-export";
 		var deck = info.toBaseDeck();
 
-		var d = URLTools.extractHtml(url);
+		var d = URLTools.extractAsHtml(url);
 
 		deck.setDescription(info.getUrl().toString() + "\n" + d.select("section.guide div").text());
 
@@ -116,7 +116,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 			String link = url + "&page=" + nbPage;
 			logger.debug("sniff url : " + link);
 
-			var d = URLTools.extractHtml(link);
+			var d = URLTools.extractAsHtml(link);
 
 			Elements e = null;
 

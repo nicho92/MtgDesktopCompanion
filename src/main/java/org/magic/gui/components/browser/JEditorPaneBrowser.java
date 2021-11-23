@@ -9,10 +9,10 @@ import javax.swing.text.html.HTMLEditorKit;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 import org.magic.gui.abstracts.MTGUIBrowserComponent;
+import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.URLTools;
-import org.magic.services.network.URLToolsClient;
 import org.magic.services.network.RequestBuilder.METHOD;
+import org.magic.services.network.URLTools;
 import org.magic.services.threads.ThreadManager;
 
 
@@ -20,7 +20,7 @@ public class JEditorPaneBrowser extends MTGUIBrowserComponent {
 
 	private static final long serialVersionUID = 1L;
 	private JEditorPane browse;
-	private transient URLToolsClient client;
+	private transient MTGHttpClient client;
 	private String currentUrl="";
 	
 	

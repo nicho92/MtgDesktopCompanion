@@ -20,10 +20,10 @@ import org.magic.api.exports.impl.PDFExport;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.game.model.abilities.LoyaltyAbilities;
 import org.magic.game.model.factories.AbilitiesFactory;
+import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.URLTools;
-import org.magic.services.network.URLToolsClient;
 import org.magic.services.network.RequestBuilder.METHOD;
+import org.magic.services.network.URLTools;
 import org.magic.tools.ImageTools;
 
 import com.google.gson.JsonElement;
@@ -37,7 +37,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 	private static final String GENERATE_URL =WEBSITE+"/generate.php";
 	private static final String UPLOAD_URL =WEBSITE+"/upload.php";
 
-	private URLToolsClient httpclient;
+	private MTGHttpClient httpclient;
 
 	
 	
@@ -177,7 +177,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 							
 						    logger.trace(build);
 						    
-						    String ret = httpclient.execute(build);
+						    String ret = httpclient.toString(httpclient.execute(build));
 						    logger.trace("RESPONSE: "+ret);
 						    
 						    JsonElement el = URLTools.toJson(ret);
@@ -206,7 +206,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 									.put("Referer",WEBSITE)
 									.put("X-Requested-With","XMLHttpRequest").build();
 	            
-				var response = URLTools.toJson(httpclient.doPost(UPLOAD_URL, ent, map));
+				var response = URLTools.toJson(httpclient.toString(httpclient.doPost(UPLOAD_URL, ent, map)));
 				 logger.trace("response:"+response);
 				 
 				 if(response.getAsJsonObject().get("error")!=null)

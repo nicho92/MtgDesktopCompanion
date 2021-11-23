@@ -7,14 +7,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.http.HttpResponse;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.AccountAuthenticator;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
+import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
-import org.magic.services.network.URLToolsClient;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -77,16 +78,18 @@ public class WooCommerceTools {
 				Map<String,JsonElement> map = new HashMap<>();
 				try {
 					var url = String.format(API_URL_ONE_ENTITY_FORMAT, config.getUrl(), apiVersion, endpointBase,id);
-					URLToolsClient c = URLTools.newClient();
+					MTGHttpClient c = URLTools.newClient();
 					Map<String,String> header = new HashMap<>();
 									   header.put(URLTools.CONTENT_TYPE, contentType);
 
-				   String ret = c.doPut(url+"?"+OAuthSignature.getAsQueryString(config, url, HttpMethod.PUT), new ByteArrayEntity(new JsonExport().toJson(object).getBytes(MTGConstants.DEFAULT_ENCODING)), header);				   
+				   var resp = c.doPut(url+"?"+OAuthSignature.getAsQueryString(config, url, HttpMethod.PUT), new ByteArrayEntity(new JsonExport().toJson(object).getBytes(MTGConstants.DEFAULT_ENCODING)), header);				   
+				   
+				   
 				   if(object.get("post")!=null)				   
 					{
-						ret = c.doPut(url+"?"+OAuthSignature.getAsQueryString(config, url, HttpMethod.POST), new ByteArrayEntity(object.get("post").toString().getBytes(MTGConstants.DEFAULT_ENCODING)), header);
+						resp = c.doPut(url+"?"+OAuthSignature.getAsQueryString(config, url, HttpMethod.POST), new ByteArrayEntity(object.get("post").toString().getBytes(MTGConstants.DEFAULT_ENCODING)), header);
 					}
-									   
+				   var ret = c.toString(resp);				   
 									   
 					var obj = URLTools.toJson(ret).getAsJsonObject();
 					obj.entrySet().forEach(e->map.put(e.getKey(), e.getValue()));
@@ -108,18 +111,18 @@ public class WooCommerceTools {
 					Map<String,String> header = new HashMap<>();
 									   header.put(URLTools.CONTENT_TYPE, contentType);
 									   
-					var ret = "";	
+					HttpResponse resp = null;	
 									   
 					if(object.get("post")==null)				   
 					{
-						ret = c.doPost(url+"?"+OAuthSignature.getAsQueryString(config, url, HttpMethod.POST), new ByteArrayEntity(new JsonExport().toJson(object).getBytes(MTGConstants.DEFAULT_ENCODING)), header);
+						resp = c.doPost(url+"?"+OAuthSignature.getAsQueryString(config, url, HttpMethod.POST), new ByteArrayEntity(new JsonExport().toJson(object).getBytes(MTGConstants.DEFAULT_ENCODING)), header);
 					}
 					else
 					{
-						ret = c.doPost(url+"?"+OAuthSignature.getAsQueryString(config, url, HttpMethod.POST), new ByteArrayEntity(object.get("post").toString().getBytes(MTGConstants.DEFAULT_ENCODING)), header);
+						resp = c.doPost(url+"?"+OAuthSignature.getAsQueryString(config, url, HttpMethod.POST), new ByteArrayEntity(object.get("post").toString().getBytes(MTGConstants.DEFAULT_ENCODING)), header);
 					}
 					
-					var obj = URLTools.toJson(ret).getAsJsonObject();
+					var obj = URLTools.toJson(c.toString(resp)).getAsJsonObject();
 					obj.entrySet().forEach(e->map.put(e.getKey(), e.getValue()));
 				} catch (Exception e) {
 					logger.error(e);
@@ -140,7 +143,7 @@ public class WooCommerceTools {
 		        try 
 		        {
 		        	
-		        	for(JsonElement e : URLTools.extractJson(securedUrl).getAsJsonArray())
+		        	for(JsonElement e : URLTools.extractAsJson(securedUrl).getAsJsonArray())
 		        		ret.add(e);
 		        	
 				} catch (Exception e) {
@@ -156,7 +159,7 @@ public class WooCommerceTools {
 				var securedUrl = String.format(URL_SECURED_FORMAT, url, signature);
 		        Map<String,JsonElement> map = new HashMap<>();
 				try {
-					var el = URLTools.extractJson(securedUrl).getAsJsonObject();
+					var el = URLTools.extractAsJson(securedUrl).getAsJsonObject();
 					el.entrySet().forEach(e->map.put(e.getKey(), e.getValue()));
 					return map;
 				       
@@ -175,13 +178,15 @@ public class WooCommerceTools {
 			@Override
 			public Map<String,JsonElement> batch(String endpointBase, Map<String, Object> object) {
 				var url = String.format(API_URL_BATCH_FORMAT, config.getUrl(), apiVersion, endpointBase);
-				URLToolsClient c = URLTools.newClient();
+				MTGHttpClient c = URLTools.newClient();
 				Map<String,String> header = new HashMap<>();
 				  				   header.put(URLTools.CONTENT_TYPE, contentType);
 					 
 				Map<String,JsonElement> ret = new HashMap<>();
 				try {
-					String str = c.doPost(url+"?"+OAuthSignature.getAsQueryString(config, url, HttpMethod.POST), new ByteArrayEntity(new JsonExport().toJson(object).getBytes(MTGConstants.DEFAULT_ENCODING)), header);
+					var resp = c.doPost(url+"?"+OAuthSignature.getAsQueryString(config, url, HttpMethod.POST), new ByteArrayEntity(new JsonExport().toJson(object).getBytes(MTGConstants.DEFAULT_ENCODING)), header);
+					var str = c.toString(resp);
+					
 					var obj = URLTools.toJson(str).getAsJsonObject();
 					obj.entrySet().forEach(e->ret.put(e.getKey(), e.getValue()));
 				} catch (IOException e) {

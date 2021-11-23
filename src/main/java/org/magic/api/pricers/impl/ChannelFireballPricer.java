@@ -23,7 +23,7 @@ public class ChannelFireballPricer extends AbstractPricesProvider {
 	@Override
 	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 		ArrayList<MagicPrice> list = new ArrayList<>();
-		var el = URLTools.extractJson(BASEURL+"/search/suggest.json?q="+URLTools.encode(card.getName())+"&resources%5Btype%5D=product&resources%5Blimit%5D=10&resources%5Boptions%5D%5Bfields%5D=title").getAsJsonObject();
+		var el = URLTools.extractAsJson(BASEURL+"/search/suggest.json?q="+URLTools.encode(card.getName())+"&resources%5Btype%5D=product&resources%5Blimit%5D=10&resources%5Boptions%5D%5Bfields%5D=title").getAsJsonObject();
 		var products = el.get("resources").getAsJsonObject().get("results").getAsJsonObject().get("products").getAsJsonArray();
 		
 		

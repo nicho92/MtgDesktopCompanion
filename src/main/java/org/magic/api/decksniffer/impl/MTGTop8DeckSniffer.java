@@ -18,8 +18,8 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
+import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
-import org.magic.services.network.URLToolsClient;
 
 import com.google.common.collect.ImmutableMap.Builder;
 
@@ -62,7 +62,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 	
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
-		Document root = URLTools.extractHtml(info.getUrl().toString());
+		Document root = URLTools.extractAsHtml(info.getUrl().toString());
 		MagicDeck d = info.toBaseDeck();
 	
 		Elements blocks = root.select("div[style='margin:3px;flex:1;']");
@@ -113,7 +113,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public List<RetrievableDeck> getDeckList() throws IOException {
-		URLToolsClient httpClient = URLTools.newClient();
+		MTGHttpClient httpClient = URLTools.newClient();
 		var res = new StringBuilder();
 		for (var i = 0; i < getInt("MAX_PAGE"); i++) {
 			

@@ -3,7 +3,6 @@ package org.magic.api.pricers.impl;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -17,10 +16,9 @@ public class MagicTradersPricer extends AbstractPricesProvider {
 
 	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 
-		var link = new URL(getString("URL"));
-		logger.info(getName() + " looking for prices " + link);
-
-		var is = URLTools.openConnection(link).getInputStream();
+		logger.info(getName() + " looking for prices " + getString("URL"));
+		
+		var is = URLTools.extractAsInputStream(getString("URL"));
 		try (var read = new BufferedReader(new InputStreamReader(is))) {
 			String line;
 			List<MagicPrice> list = new ArrayList<>();

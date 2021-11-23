@@ -78,7 +78,7 @@ public class StoriesGUI extends MTGUIComponent {
 
 								@Override
 								protected String doInBackground() throws Exception {
-									return URLTools.extractHtml(listResult.getSelectedValue().getUrl().toString()).select("div#content-detail-page-of-an-article").html();
+									return URLTools.extractAsHtml(listResult.getSelectedValue().getUrl().toString()).select("div#content-detail-page-of-an-article").html();
 								}
 								@Override
 								protected void done() {

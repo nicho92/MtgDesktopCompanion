@@ -12,14 +12,14 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGConstants;
+import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
-import org.magic.services.network.URLToolsClient;
 
 public class MagicVillePricer extends AbstractPricesProvider {
 	
 	private static final String MAX = "MAX";
 	private static final String WEBSITE = "https://www.magic-ville.com/";
-	private URLToolsClient httpclient;
+	private MTGHttpClient httpclient;
 	
 	@Override
 	public STATUT getStatut() {
@@ -36,7 +36,7 @@ public class MagicVillePricer extends AbstractPricesProvider {
 	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 		List<MagicPrice> list = new ArrayList<>();
 			
-		String res = httpclient.doPost(WEBSITE+"/fr/resultats.php?zbob=1", httpclient.buildMap().put("recherche_titre", card.getName()).build(), null);
+		String res = httpclient.toString(httpclient.doPost(WEBSITE+"/fr/resultats.php?zbob=1", httpclient.buildMap().put("recherche_titre", card.getName()).build(), null));
 		if(res.length()>100)
 		{
 			logger.error("too much result");
@@ -50,7 +50,7 @@ public class MagicVillePricer extends AbstractPricesProvider {
 		logger.info(getName() + " looking for prices " + card);
 
 		
-		Document doc =URLTools.extractHtml(url);
+		Document doc =URLTools.extractAsHtml(url);
 		
 		Element table = null;
 		try {

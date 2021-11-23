@@ -39,7 +39,7 @@ public class CardMarketDeckSniffer extends AbstractDeckSniffer {
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 		logger.debug("get deck at " + info.getUrl());
 		MagicDeck deck = info.toBaseDeck();
-		Document d = URLTools.extractHtml(info.getUrl().toString());
+		Document d = URLTools.extractAsHtml(info.getUrl().toString());
 
 		Elements maincardsList = d.select(".mainboard.clearfix").select(CARDLIST);
 		for (Element cardList : maincardsList.select("li")) {
@@ -89,7 +89,7 @@ public class CardMarketDeckSniffer extends AbstractDeckSniffer {
 		String url = getString(URL) + "/en/Magic/Decks/Events/Format/" + getString(FORMAT);
 		logger.debug("get List deck at " + url);
 		List<RetrievableDeck> list = new ArrayList<>();
-		Document d = URLTools.extractHtml(url);
+		Document d = URLTools.extractAsHtml(url);
 		for (Element topDecks : d.select(".vAlignMiddle.latestEvents-name")) {
 			String eventName = topDecks.select("a").text();
 			Elements topDeck = topDecks.select("select");
@@ -111,7 +111,7 @@ public class CardMarketDeckSniffer extends AbstractDeckSniffer {
 					
 					if(getBoolean("DETAILED")) {
 					
-					  Document deckurl = URLTools.extractHtml(deck.getUrl().toString()); Elements
+					  Document deckurl = URLTools.extractAsHtml(deck.getUrl().toString()); Elements
 					  maincardslist = deckurl.select(".mainboard.clearfix").select(CARDLIST);
 					  var deckColor = new StringBuilder();
 					  if(maincardslist.select("li").text().contains("Plain") ||

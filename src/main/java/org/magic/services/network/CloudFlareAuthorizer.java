@@ -34,7 +34,7 @@ public class CloudFlareAuthorizer {
 
     private Logger logger = MTGLogger.getLogger(CloudFlareAuthorizer.class);
 
-    private URLToolsClient httpClient;
+    private MTGHttpClient httpClient;
     private Pattern jsChallenge = Pattern.compile("name=\"jschl_vc\" value=\"(.+?)\"");
     private Pattern password = Pattern.compile("name=\"pass\" value=\"(.+?)\"");
     private Pattern jsScript = Pattern.compile("setTimeout\\(function\\(\\)\\{\\s+(var s,t,o,p,b,r,e,a,k,i,n,g,f.+?\\r?\\n[\\s\\S]+?a\\.value =.+?)\\r?\\n");

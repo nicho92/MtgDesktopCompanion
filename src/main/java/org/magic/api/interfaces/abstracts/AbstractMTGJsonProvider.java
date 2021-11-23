@@ -209,7 +209,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 		
 		var ret = new String[0];
 		try {
-			URLTools.extractJson(MTG_JSON_ENUM_VALUES).getAsJsonObject().get("data").getAsJsonObject().get(FOREIGN_DATA).getAsJsonObject().get(LANGUAGE).getAsJsonArray().forEach(je->ArrayUtils.add(ret, je.getAsString()));
+			URLTools.extractAsJson(MTG_JSON_ENUM_VALUES).getAsJsonObject().get("data").getAsJsonObject().get(FOREIGN_DATA).getAsJsonObject().get(LANGUAGE).getAsJsonArray().forEach(je->ArrayUtils.add(ret, je.getAsString()));
 		} catch (IOException ex) {
 			logger.error(ex);
 		}
@@ -264,7 +264,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 			try {
 				logger.debug("check new version of " + toString() + " (" + temp + ")");
 	
-				JsonElement d = URLTools.extractJson(MTG_JSON_VERSION);
+				JsonElement d = URLTools.extractAsJson(MTG_JSON_VERSION);
 				version = d.getAsJsonObject().get("data").getAsJsonObject().get("version").getAsString();
 				if (!version.equals(temp)) {
 					logger.info("new version datafile exist (" + version + "). Downloading it");

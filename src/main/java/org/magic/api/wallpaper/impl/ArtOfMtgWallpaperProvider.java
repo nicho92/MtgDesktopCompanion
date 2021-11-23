@@ -22,7 +22,7 @@ public class ArtOfMtgWallpaperProvider extends AbstractWallpaperProvider {
 		List<Wallpaper> list = new ArrayList<>();
 		try {
 
-			Document d = URLTools.extractHtml(getString("URL") + "/?s=" + search);
+			Document d = URLTools.extractAsHtml(getString("URL") + "/?s=" + search);
 
 			for (Element e : d.select("article.result")) {
 				var w = new Wallpaper();
@@ -45,7 +45,7 @@ public class ArtOfMtgWallpaperProvider extends AbstractWallpaperProvider {
 		List<Wallpaper> list = new ArrayList<>();
 		try {
 
-			Document d = URLTools.extractHtml(getString("URL") + "/set/" + ed.getSet().toLowerCase().replace(" ", "-"));
+			Document d = URLTools.extractAsHtml(getString("URL") + "/set/" + ed.getSet().toLowerCase().replace(" ", "-"));
 					
 			for (Element e : d.select("div.elastic-portfolio-item img")) {
 				var w = new Wallpaper();

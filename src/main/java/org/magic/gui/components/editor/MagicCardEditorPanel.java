@@ -643,7 +643,7 @@ public class MagicCardEditorPanel extends JPanel {
 		BufferedImage buff;
 		try {
 			if(magicCard.getImageName().startsWith("http"))
-				buff = URLTools.extractImage(magicCard.getImageName());
+				buff = URLTools.extractAsImage(magicCard.getImageName());
 			else
 				buff = ImageTools.read(new File(magicCard.getImageName()));
 			

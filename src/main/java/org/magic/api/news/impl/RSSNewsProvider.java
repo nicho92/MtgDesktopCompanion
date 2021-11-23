@@ -1,7 +1,6 @@
 package org.magic.api.news.impl;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,15 +26,14 @@ public class RSSNewsProvider extends AbstractMagicNewsProvider {
 		
 		if(input==null)
 			input = new SyndFeedInput();
-		
-		InputStream is = null;
+
 		SyndFeed feed;
 
 		List<MagicNewsContent> ret = new ArrayList<>();
 		try {
-			var openConnection = URLTools.openConnection(rssBean.getUrl());
 			logger.debug("reading " + rssBean.getUrl());
-			is = openConnection.getInputStream();
+			var is = URLTools.extractAsInputStream(rssBean.getUrl());
+
 			var source = new InputSource(is);
 
 			feed = input.build(source);
@@ -64,10 +62,7 @@ public class RSSNewsProvider extends AbstractMagicNewsProvider {
 
 		} catch (IllegalArgumentException | FeedException e) {
 			throw new IOException(e);
-		} finally {
-			if (is != null)
-				is.close();
-		}
+		} 
 
 	}
 

@@ -17,17 +17,17 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat.FORMATS;
 import org.magic.api.exports.impl.EchoMTGExport;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
+import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.URLTools;
-import org.magic.services.network.URLToolsClient;
 import org.magic.services.network.RequestBuilder.METHOD;
+import org.magic.services.network.URLTools;
 
 import com.google.gson.JsonObject;
 
 public class EchoMTGDashBoard extends AbstractDashBoard {
 
 	private static final String WEBSITE = "www.echomtg.com";
-	private URLToolsClient client;
+	private MTGHttpClient client;
 	
 	
 	public EchoMTGDashBoard() {

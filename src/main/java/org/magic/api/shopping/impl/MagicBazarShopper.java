@@ -18,8 +18,8 @@ import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.services.AccountsManager;
+import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
-import org.magic.services.network.URLToolsClient;
 import org.magic.tools.UITools;
 
 public class MagicBazarShopper extends AbstractMagicShopper {
@@ -32,7 +32,7 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 	
 	@Override
 	public List<OrderEntry> listOrders() throws IOException {
-		URLToolsClient client = URLTools.newClient();
+		MTGHttpClient client = URLTools.newClient();
 		List<OrderEntry> entries = new ArrayList<>();
 		
 		Map<String, String> nvps = client.buildMap().put("_email", getAuthenticator().getLogin())
@@ -40,7 +40,7 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 															 .put("_submit_login", "Me connecter").build();
 		client.doPost(urlLogin, nvps, null);
 		
-		Document listOrders = URLTools.toHtml(client.doGet(urlListOrders));
+		Document listOrders = URLTools.toHtml(client.toString(client.doGet(urlListOrders)));
 		Elements e = listOrders.select("div.total_list a");
 		
 		logger.debug("Found " + e.size() + " orders");
@@ -49,7 +49,7 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 			String id = e.get(i).select("div.num_commande").text();
 			String link = e.get(i).attr("href");
 			String date = e.get(i).select("div.hide_mobile").first().html();
-			entries.addAll(parse(URLTools.toHtml(client.doGet(urlBase+link)),id,UITools.parseDate(date,"MM/dd/yy")));
+			entries.addAll(parse(URLTools.toHtml(client.toString(client.doGet(urlBase+link))),id,UITools.parseDate(date,"MM/dd/yy")));
 			
 		}
 		return entries;

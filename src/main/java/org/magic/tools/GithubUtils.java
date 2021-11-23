@@ -36,7 +36,7 @@ public class GithubUtils {
 	
 	
 	private GithubUtils() throws IOException {
-		releases = URLTools.extractJson(MTGConstants.MTG_DESKTOP_GITHUB_RELEASE_API).getAsJsonArray();
+		releases = URLTools.extractAsJson(MTGConstants.MTG_DESKTOP_GITHUB_RELEASE_API).getAsJsonArray();
 		
 		update();
 	}
@@ -96,7 +96,7 @@ public class GithubUtils {
 	public BufferedImage getAvatar()
 	{
 		try {
-			return URLTools.extractImage(selectedRelease.get("author").getAsJsonObject().get("avatar_url").getAsString());
+			return URLTools.extractAsImage(selectedRelease.get("author").getAsJsonObject().get("avatar_url").getAsString());
 		} catch (IOException e) {
 			return null;
 		}

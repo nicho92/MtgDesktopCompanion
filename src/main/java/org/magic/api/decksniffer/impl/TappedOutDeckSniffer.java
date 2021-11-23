@@ -19,10 +19,10 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.AccountsManager;
 import org.magic.services.MTGControler;
+import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.URLTools;
-import org.magic.services.network.URLToolsClient;
 import org.magic.services.network.RequestBuilder.METHOD;
+import org.magic.services.network.URLTools;
 import org.magic.tools.InstallCert;
 
 import com.google.gson.JsonElement;
@@ -33,7 +33,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	private static final String URL_JSON = "URL_JSON";
 	private static final String FORMAT = "FORMAT";
 	private static final String URI_BASE="https://tappedout.net";
-	private URLToolsClient httpclient;
+	private MTGHttpClient httpclient;
 
 
 	@Override
@@ -101,7 +101,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		logger.debug("sniff deck at " + info.getUrl());
 		
 
-		String responseBody = httpclient.doGet(info.getUrl().toString());
+		String responseBody = httpclient.toString(httpclient.doGet(info.getUrl().toString()));
 		logger.debug("sniff deck : "+ httpclient.getResponse().getStatusLine().getReasonPhrase());
 		
 		MagicDeck deck = info.toBaseDeck();
@@ -169,7 +169,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		String tappedJson = RegExUtils.replaceAll(getString(URL_JSON), "%FORMAT%", getString(FORMAT));
 		logger.debug("sniff url : " + tappedJson);
 
-		String responseBody = httpclient.doGet(tappedJson);
+		String responseBody = httpclient.toString(httpclient.doGet(tappedJson));
 		
 		JsonElement root = URLTools.toJson(responseBody);
 		List<RetrievableDeck> list = new ArrayList<>();

@@ -114,7 +114,7 @@ public class ImagePanel extends JXPanel {
 		var sw = new SwingWorker<BufferedImage, Void>() {
 			@Override
 			protected BufferedImage doInBackground() throws Exception {
-				return URLTools.extractImage(url);
+				return URLTools.extractAsImage(url);
 			}
 			
 			@Override

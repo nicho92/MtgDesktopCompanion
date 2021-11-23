@@ -8,10 +8,10 @@ import org.jsoup.nodes.Document;
 import org.magic.api.beans.MTGCombo;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractComboProvider;
+import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.URLTools;
-import org.magic.services.network.URLToolsClient;
 import org.magic.services.network.RequestBuilder.METHOD;
+import org.magic.services.network.URLTools;
 
 public class MagicVilleComboProvider extends AbstractComboProvider {
 
@@ -23,7 +23,7 @@ public class MagicVilleComboProvider extends AbstractComboProvider {
 	public List<MTGCombo> loadComboWith(MagicCard mc) {
 		List<MTGCombo> ret = new ArrayList<>();
 		
-		URLToolsClient c = URLTools.newClient();
+		MTGHttpClient c = URLTools.newClient();
 		
 		String id;
 		try {

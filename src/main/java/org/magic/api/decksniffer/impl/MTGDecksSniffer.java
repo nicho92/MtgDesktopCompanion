@@ -55,7 +55,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 
 		logger.debug("get deck at " + info.getUrl());
 
-		Document d = URLTools.extractHtml(info.getUrl().toString());
+		Document d = URLTools.extractAsHtml(info.getUrl().toString());
 
 		for (Element e : d.select("table.subtitle a"))
 			deck.getTags().add(e.text());
@@ -106,7 +106,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 
 		for (var i = 1; i <= maxPage; i++) {
 			url = getString(URL) + "/" + getString(FORMAT) + "/decklists/page:" + nbPage;
-			Document d = URLTools.extractHtml(url);
+			Document d = URLTools.extractAsHtml(url);
 
 			Elements trs = d.select("table.table tr");
 

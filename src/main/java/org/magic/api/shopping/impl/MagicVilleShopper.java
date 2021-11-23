@@ -14,10 +14,10 @@ import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.services.AccountsManager;
+import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.URLTools;
-import org.magic.services.network.URLToolsClient;
 import org.magic.services.network.RequestBuilder.METHOD;
+import org.magic.services.network.URLTools;
 import org.magic.tools.UITools;
 
 public class MagicVilleShopper extends AbstractMagicShopper {
@@ -31,7 +31,7 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 	
 	@Override
 	public List<OrderEntry> listOrders() throws IOException {
-		URLToolsClient client = URLTools.newClient();
+		MTGHttpClient client = URLTools.newClient();
 		List<OrderEntry> entries = new ArrayList<>();
 	
 		RequestBuilder build = RequestBuilder.build().method(METHOD.POST)
@@ -45,7 +45,7 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 		
 		client.execute(build);
 		
-		Document listOrders = URLTools.toHtml(client.doGet(urlListOrders));
+		Document listOrders = URLTools.toHtml(client.toString(client.doGet(urlListOrders)));
 		Elements tableOrders = listOrders.select("table[border=0]").get(6).select("tr");
 		try {
 			tableOrders.remove(0); //remove header
@@ -65,7 +65,7 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 			String date = tr.select("td").get(0).html();
 			String link = tr.select("td").get(2).select("a").attr("href");
 			String id =tr.select("td").get(2).text().replace("# ", "");
-			entries.addAll(parse(URLTools.toHtml(client.doGet(urlDetailOrder+link)),id,UITools.parseDate(date,"dd/mm/yy")));
+			entries.addAll(parse(URLTools.toHtml(client.toString(client.doGet(urlDetailOrder+link))),id,UITools.parseDate(date,"dd/mm/yy")));
 		}
 			
 		return entries;

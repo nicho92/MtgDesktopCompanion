@@ -100,7 +100,7 @@ public abstract class AbstractKeyWordsManager {
 		
 		getStaticsAbilities().forEach(mk->{
 			try {
-				Elements trs = URLTools.extractHtml(MTGGamePediaKeywordProvider.BASE_URI+mk.getKeyword().replace(" ", "_")).select("table.infobox tr");
+				Elements trs = URLTools.extractAsHtml(MTGGamePediaKeywordProvider.BASE_URI+mk.getKeyword().replace(" ", "_")).select("table.infobox tr");
 				Element tr = trs.stream().filter(e->e.text().startsWith("Reminder Text ")).findAny().orElse(null);
 				mk.setReminder(tr.text().replace("Reminder Text ", ""));
 			} catch (IOException e) {

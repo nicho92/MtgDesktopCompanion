@@ -12,8 +12,8 @@ import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.services.AccountsManager;
+import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
-import org.magic.services.network.URLToolsClient;
 import org.magic.tools.UITools;
 
 public class MagicCorporationShopper extends AbstractMagicShopper {
@@ -25,7 +25,7 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 	@Override
 	public List<OrderEntry> listOrders() throws IOException {
 		
-		URLToolsClient client = URLTools.newClient();
+		MTGHttpClient client = URLTools.newClient();
 		
 		List<OrderEntry> entries = new ArrayList<>();
 		
@@ -36,7 +36,7 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 							
 		client.doPost(urlLogin, nvps, null);
 	
-		Document doc = URLTools.toHtml(client.doGet(urlCommandes));
+		Document doc = URLTools.toHtml(client.toString(client.doGet(urlCommandes)));
 		Elements numCommands = doc.select("table tbody tr");
 		
 		logger.debug("found "+ numCommands.size()+ " orders. Parsing details");
@@ -46,7 +46,7 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 			String date=numCommands.get(i).select("td").get(1).text();
 			try {
 				logger.trace("parsing " + i + "/"+numCommands.size());
-				entries.addAll(parse(URLTools.toHtml(client.doGet(urlDetailCommandes+id)),id,date));
+				entries.addAll(parse(URLTools.toHtml(client.toString(client.doGet(urlDetailCommandes+id))),id,date));
 				
 			}
 			catch(Exception e)

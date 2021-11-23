@@ -509,7 +509,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 		List<MagicEdition> eds = new ArrayList<>();
 		try {		
 		
-		URLTools.extractJson(MTG_JSON_SETS_LIST).getAsJsonObject().get("data").getAsJsonArray().forEach(e->{
+		URLTools.extractAsJson(MTG_JSON_SETS_LIST).getAsJsonObject().get("data").getAsJsonArray().forEach(e->{
 				String codeedition = e.getAsJsonObject().get("code").getAsString().toUpperCase();
 				eds.add(generateEdition(codeedition));
 		});

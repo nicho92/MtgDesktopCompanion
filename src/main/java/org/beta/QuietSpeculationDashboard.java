@@ -63,7 +63,7 @@ public class QuietSpeculationDashboard extends AbstractDashBoard {
 			ret.setProviderName(getName());
 		
 		
-		Document content = URLTools.extractHtml(uri);
+		Document content = URLTools.extractAsHtml(uri);
 		
 		Elements trs = content.getElementById("SetCards").select("tr[id]");
 		trs.forEach(tr->{

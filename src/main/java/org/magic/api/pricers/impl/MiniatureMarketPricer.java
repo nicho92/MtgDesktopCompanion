@@ -33,7 +33,7 @@ public class MiniatureMarketPricer extends AbstractPricesProvider {
 
 		logger.debug(getName() + " looking for prices at " + url);
 		
-		JsonElement el = URLTools.extractJson(url);
+		JsonElement el = URLTools.extractAsJson(url);
 		var arr = el.getAsJsonObject().get("response").getAsJsonObject().get("products").getAsJsonArray();
 		
 		JsonObject je = null;
@@ -51,7 +51,7 @@ public class MiniatureMarketPricer extends AbstractPricesProvider {
 		if(je.getAsJsonObject().get("quantity").getAsInt()>0)
 		{
 				
-			Document d = URLTools.extractHtml(je.get("productUrl").getAsString());
+			Document d = URLTools.extractAsHtml(je.get("productUrl").getAsString());
 			Elements divs = d.select("div.grouped-row");
 			
 			for(Element div : divs)

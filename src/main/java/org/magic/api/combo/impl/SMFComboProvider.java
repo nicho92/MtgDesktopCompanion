@@ -8,10 +8,10 @@ import org.jsoup.nodes.Document;
 import org.magic.api.beans.MTGCombo;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractComboProvider;
+import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.URLTools;
-import org.magic.services.network.URLToolsClient;
 import org.magic.services.network.RequestBuilder.METHOD;
+import org.magic.services.network.URLTools;
 
 public class SMFComboProvider extends AbstractComboProvider {
 
@@ -21,7 +21,7 @@ public class SMFComboProvider extends AbstractComboProvider {
 	public List<MTGCombo> loadComboWith(MagicCard mc) {
 		
 		List<MTGCombo> cbos = new ArrayList<>();
-		URLToolsClient c = URLTools.newClient();
+		MTGHttpClient c = URLTools.newClient();
 		String cardUri;
 		try {
 			Document d = RequestBuilder.build().url(BASE_URL+"/include/php/views/moteurCartes.php").method(METHOD.GET).setClient(c)

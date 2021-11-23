@@ -51,7 +51,7 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 	private String getUrlFor(MagicCard mc,boolean foil) throws IOException 
 	{
 		if(!jsonFile.exists()|| FileTools.daysBetween(jsonFile)>1) {
-			FileTools.saveFile(jsonFile, URLTools.extractJson(API_URI).toString());
+			FileTools.saveFile(jsonFile, URLTools.extractAsJson(API_URI).toString());
 		}
 	
 		if(cont==null)
@@ -129,7 +129,7 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 
 		logger.info(getName() + " looking for prices " + card +" foil="+foil);
 		try {
-			var doc = URLTools.extractHtml(url);
+			var doc = URLTools.extractAsHtml(url);
 			qualities = doc.select(".cardTypeList li");
 			prices = doc.select(".stylePrice");
 

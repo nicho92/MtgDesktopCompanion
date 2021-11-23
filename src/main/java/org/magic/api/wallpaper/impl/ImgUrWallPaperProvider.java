@@ -10,8 +10,8 @@ import java.util.Map;
 import org.apache.commons.io.FilenameUtils;
 import org.magic.api.beans.Wallpaper;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
+import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
-import org.magic.services.network.URLToolsClient;
 
 public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 
@@ -24,7 +24,7 @@ public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 		
 		
 		List<Wallpaper> ret = new ArrayList<>();
-		URLToolsClient c = URLTools.newClient();
+		MTGHttpClient c = URLTools.newClient();
 		Map<String,String> h = new HashMap<>();
 		Map<String,String> e = new HashMap<>();
 
@@ -44,7 +44,7 @@ public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 			h.put("Authorization","Client-ID "+getString(CLIENTID));
 			
 			
-			String s= c.doGet("https://api.imgur.com/3/gallery/search/"+getString("SORT").toLowerCase()+"/"+getString("WINDOW"), h,e);
+			String s= c.toString(c.doGet("https://api.imgur.com/3/gallery/search/"+getString("SORT").toLowerCase()+"/"+getString("WINDOW"), h,e));
 			
 			URLTools.toJson(s).getAsJsonObject().get("data").getAsJsonArray().forEach(je->{
 				

@@ -17,8 +17,8 @@ import org.magic.api.exports.impl.MagicWorkStationDeckExport;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGControler;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.URLTools;
 import org.magic.services.network.RequestBuilder.METHOD;
+import org.magic.services.network.URLTools;
 
 public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 
@@ -52,7 +52,7 @@ public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 		var doc = RequestBuilder.build().setClient(URLTools.newClient()).method(METHOD.GET).url(info.getUrl()).toHtml();
 		var urlimport = baseUrl+doc.select("div.lil_menu > a[href^=dl_mws]").first().attr("href");
-		var content = RequestBuilder.build().setClient(URLTools.newClient()).method(METHOD.GET).url(urlimport).execute();
+		var content = RequestBuilder.build().setClient(URLTools.newClient()).method(METHOD.GET).url(urlimport).toContentString();
 		var imp = new MagicWorkStationDeckExport();
 		
 		try {

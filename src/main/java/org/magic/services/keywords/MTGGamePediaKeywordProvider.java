@@ -31,7 +31,7 @@ public class MTGGamePediaKeywordProvider extends AbstractKeyWordsManager {
 		{
 			evergreens = new ArrayList<>();
 			try {
-				Document d = URLTools.extractHtml("https://mtg.gamepedia.com/Evergreen");
+				Document d = URLTools.extractAsHtml("https://mtg.gamepedia.com/Evergreen");
 				for(Element e: d.select("table.wikitable tr:has(td)"))
 				{
 					String name = e.getElementsByTag("td").get(1).text();
@@ -126,7 +126,7 @@ public class MTGGamePediaKeywordProvider extends AbstractKeyWordsManager {
 		List<String> list = new ArrayList<>();
 			try {
 				String url = isKeyword ? BASE_URI+"Category:Keywords/"+page : BASE_URI+page;
-				Document d = URLTools.extractHtml(url);
+				Document d = URLTools.extractAsHtml(url);
 				Elements els = d.select(select);
 				list = els.stream().map(Element::text).toList();
 				list.remove(page+" ability");

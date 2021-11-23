@@ -25,7 +25,7 @@ public class MagicBazarPricer extends AbstractPricesProvider {
 	private String getPage(String name) throws IOException
 	{
 		String autocomplete = BASE_URL+"/api/autocompletion.php?search="+URLTools.encode(name);
-		Document ret = URLTools.extractHtml(autocomplete);
+		Document ret = URLTools.extractAsHtml(autocomplete);
 		return BASE_URL+ret.select("a").first().attr("href");
 		
 	}
@@ -40,7 +40,7 @@ public class MagicBazarPricer extends AbstractPricesProvider {
 		logger.info(getName() + " looking for prices " + page);
 
 		try {
-			Document doc = URLTools.extractHtml(page);
+			Document doc = URLTools.extractAsHtml(page);
 			Elements els = doc.select("div.filterElement"); 
 			var lang = "";
 			var set = "";

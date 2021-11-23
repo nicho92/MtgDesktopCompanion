@@ -50,7 +50,7 @@ public class SealedProductProvider {
 	public void reload() throws IOException
 	{
 		logger.debug("Loading sealed data");
-		document = URLTools.extractXML(MTGConstants.MTG_BOOSTERS_URI);
+		document = URLTools.extractAsXml(MTGConstants.MTG_BOOSTERS_URI);
 		logger.debug("Loading sealed data done");
 		
 		if(list!=null)
@@ -98,7 +98,7 @@ public class SealedProductProvider {
 			FileUtils.forceMkdir(f);
 			if(force||!pkgFile.exists())
 			{
-				BufferedImage im = URLTools.extractImage(p.getUrl());
+				BufferedImage im = URLTools.extractAsImage(p.getUrl());
 				ImageTools.saveImage(im, pkgFile, "PNG");
 				logger.debug("[" + p.getEdition().getId() +"] SAVED for " + p.getTypeProduct()+"-"+p);
 				return im;
@@ -120,7 +120,7 @@ public class SealedProductProvider {
 			var nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 			var item = nodeList.item(0);
 			url = item.getAttributes().getNamedItem("url").getNodeValue();
-			return URLTools.extractImage(url);
+			return URLTools.extractAsImage(url);
 		} catch (IOException e) {
 			logger.error(logo + " could not load : " + url,e);
 			return null;

@@ -24,7 +24,7 @@ public class ParkagePricer extends AbstractPricesProvider {
 
 		ArrayList<MagicPrice> ret= new ArrayList<>();
 		
-		URLTools.extractHtml(URL_BASE+"/en/search/?text="+URLTools.encode(card.getName())+"&page=1&products_per_page=50&page_view=3")
+		URLTools.extractAsHtml(URL_BASE+"/en/search/?text="+URLTools.encode(card.getName())+"&page=1&products_per_page=50&page_view=3")
 		.select("table.table-condensed > tbody > tr")
 		.forEach(tr->{
 			try {
