@@ -172,9 +172,6 @@ public class RequestBuilder
 		} 
 	}
 	
-	
-	
-
 	public Document toHtml() throws IOException {
 		return URLTools.toHtml(toContentString());
 	}
