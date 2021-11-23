@@ -6,6 +6,8 @@ import java.time.Instant;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
 
+import com.google.gson.JsonObject;
+
 public class NetworkInfo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -47,6 +49,24 @@ public class NetworkInfo implements Serializable {
 	
 	public HttpRequestBase getRequest() {
 		return request;
+	}
+	public JsonObject toJson() {
+		var jo = new JsonObject();
+		jo.addProperty("url", getRequest().getURI().toASCIIString());
+		jo.addProperty("method", getRequest().getMethod());
+		jo.addProperty("start", getStart().toEpochMilli());
+		jo.addProperty("end", getEnd().toEpochMilli());
+		jo.addProperty("duration", getDuration());
+	
+		if(getResponse()!=null) {
+			var servT =getResponse().getFirstHeader("Server");
+			jo.addProperty("serverType", servT!=null?servT.getValue():"");
+			jo.addProperty("contentType", getResponse().getEntity().getContentType().getValue());
+			jo.addProperty("reponsesMessage", getResponse().getStatusLine().getReasonPhrase());
+			jo.addProperty("reponsesCode", getResponse().getStatusLine().getStatusCode());
+		}
+		return jo;
+	
 	}
 	
 	
