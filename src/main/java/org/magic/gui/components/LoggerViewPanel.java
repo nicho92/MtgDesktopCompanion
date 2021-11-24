@@ -3,6 +3,7 @@ package org.magic.gui.components;
 import static org.magic.tools.MTG.capitalize;
 
 import java.awt.BorderLayout;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,7 @@ import org.apache.log4j.Level;
 import org.jdesktop.swingx.JXTable;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.conf.LogTableModel;
+import org.magic.gui.renderer.standard.DateTableCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.tools.UITools;
 public class LoggerViewPanel extends MTGUIComponent {
@@ -42,6 +44,10 @@ public class LoggerViewPanel extends MTGUIComponent {
 		cboChooseLevel = UITools.createCombobox(new Level[] {null, Level.INFO, Level.ERROR, Level.DEBUG, Level.TRACE });
 		var panel = new JPanel();
 		table = UITools.createNewTable(model);
+		
+		
+		table.setDefaultRenderer(Date.class, new DateTableCellEditorRenderer(true));
+		
 		btnRefresh = new JButton(MTGConstants.ICON_REFRESH);
 		t = new Timer(1000, e -> model.fireTableDataChanged());
 		chckbxAutorefresh = new JCheckBox("Auto-refresh");
