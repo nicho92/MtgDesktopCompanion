@@ -26,7 +26,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
-import org.magic.gui.models.conf.MapTableModel;
+import org.magic.gui.models.MapTableModel;
 import org.magic.gui.renderer.CardShakeTreeCellRenderer;
 import org.magic.services.CollectionEvaluator;
 import org.magic.services.MTGConstants;

@@ -1,4 +1,4 @@
-package org.magic.gui.models.conf;
+package org.magic.gui.models;
 
 import static org.magic.tools.MTG.capitalize;
 

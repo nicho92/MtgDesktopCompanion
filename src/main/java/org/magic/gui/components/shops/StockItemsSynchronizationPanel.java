@@ -12,7 +12,7 @@ import org.jdesktop.swingx.JXTable;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.gui.abstracts.MTGUIComponent;
-import org.magic.gui.models.conf.MapTableModel;
+import org.magic.gui.models.MapTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.tools.UITools;
 public class StockItemsSynchronizationPanel extends MTGUIComponent {

@@ -164,9 +164,6 @@ public class QwartzServer extends AbstractMTGServer {
 		  quartzInformation.addProperty("runningSince",UITools.formatDateTime(schedulerMetaData.getRunningSince()));
 		  var simpleJobList = new JsonArray();
 		  
-		 
-		  
-		  
 		  for (String groupName : scheduler.getJobGroupNames()) {
 		    for (JobKey jobKey : scheduler.getJobKeys(GroupMatcher.jobGroupEquals(groupName))) {
 		      for(Trigger trigger : scheduler.getTriggersOfJob(jobKey)) {

@@ -18,7 +18,7 @@ import org.magic.api.beans.AccountAuthenticator;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGPlugin;
-import org.magic.gui.models.conf.MapTableModel;
+import org.magic.gui.models.MapTableModel;
 import org.magic.gui.renderer.PluginIconListRenderer;
 import org.magic.services.AccountsManager;
 import org.magic.services.MTGConstants;

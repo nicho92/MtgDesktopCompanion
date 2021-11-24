@@ -13,7 +13,7 @@ import javax.swing.JScrollPane;
 
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
-import org.magic.gui.models.conf.MapTableModel;
+import org.magic.gui.models.MapTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.UITools;

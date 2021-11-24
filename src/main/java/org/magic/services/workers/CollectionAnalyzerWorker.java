@@ -18,7 +18,7 @@ import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.api.sorters.PricesCardsShakeSorter;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.CollectionAnalyzerTreeTableModel;
-import org.magic.gui.models.conf.MapTableModel;
+import org.magic.gui.models.MapTableModel;
 import org.magic.services.CollectionEvaluator;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
