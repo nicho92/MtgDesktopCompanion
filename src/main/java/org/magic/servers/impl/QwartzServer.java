@@ -148,7 +148,7 @@ public class QwartzServer extends AbstractMTGServer {
 		return "Qwartz";
 	}
 	
-	public JsonObject getSchedulerInformation() throws SchedulerException {
+	public JsonObject toJsonDetails() throws SchedulerException {
 		  var schedulerMetaData = scheduler.getMetaData();
 		  var quartzInformation = new JsonObject();
 		  quartzInformation.addProperty("version",schedulerMetaData.getVersion());

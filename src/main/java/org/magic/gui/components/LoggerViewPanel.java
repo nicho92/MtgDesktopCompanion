@@ -22,7 +22,7 @@ import javax.swing.table.TableRowSorter;
 import org.apache.log4j.Level;
 import org.jdesktop.swingx.JXTable;
 import org.magic.gui.abstracts.MTGUIComponent;
-import org.magic.gui.models.LogTableModel;
+import org.magic.gui.models.conf.LogTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.tools.UITools;
 public class LoggerViewPanel extends MTGUIComponent {

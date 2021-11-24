@@ -1,4 +1,4 @@
-package org.magic.gui.models;
+package org.magic.gui.models.conf;
 
 import java.time.Instant;
 

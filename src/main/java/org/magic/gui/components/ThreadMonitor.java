@@ -4,7 +4,6 @@ import static org.magic.tools.MTG.capitalize;
 import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
 import java.lang.management.ManagementFactory;
-import java.sql.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -13,13 +12,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.Timer;
+import javax.swing.table.TableCellRenderer;
 
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.magic.gui.abstracts.MTGUIComponent;
-import org.magic.gui.models.TaskTableModel;
-import org.magic.gui.models.ThreadsTableModel;
-import org.magic.gui.renderer.standard.DateTableCellEditorRenderer;
+import org.magic.gui.models.conf.NetworkTableModel;
+import org.magic.gui.models.conf.TaskTableModel;
+import org.magic.gui.models.conf.ThreadsTableModel;
 import org.magic.services.MTGConstants;
+import org.magic.services.network.URLTools;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
 public class ThreadMonitor extends MTGUIComponent  {
@@ -31,29 +32,39 @@ public class ThreadMonitor extends MTGUIComponent  {
 	private Timer t;
 	private JVMemoryPanel memoryPanel;
 	private TaskTableModel modelTasks;
+	private NetworkTableModel modelNetwork;
+	
 	
 	public ThreadMonitor() {
 		setLayout(new BorderLayout(0, 0));
 		modelT = new ThreadsTableModel();
 		modelTasks = new TaskTableModel();
+		modelNetwork = new NetworkTableModel();
 		var tabs = new JTabbedPane();
 		var btnClean = UITools.createBindableJButton("Clean",MTGConstants.ICON_DELETE, KeyEvent.VK_C , "Cleaning");
 		add(tabs, BorderLayout.CENTER);
-		modelTasks.bind(ThreadManager.getInstance().listTasks());
+		modelTasks.bind(ThreadManager.getInstance().listTasks());	
+		modelNetwork.bind(URLTools.getNetworksInfos());
+		
 		
 		var tableTasks = UITools.createNewTable(modelTasks);
 		UITools.initTableFilter(tableTasks);
 		
-		tableTasks.setDefaultRenderer(Date.class, new DateTableCellEditorRenderer(true));
-		tableTasks.setDefaultRenderer(Long.class, (JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column)->{
-				var lab= new JLabel(DurationFormatUtils.formatDurationHMS((Long)value));
-				lab.setOpaque(false);
-				return lab;
+		var tableNetwork = UITools.createNewTable(modelNetwork);
+		UITools.initTableFilter(tableNetwork);
+		
+		TableCellRenderer durationRenderer = (JTable table, Object value, boolean isSelected,boolean hasFocus, int row, int column)->{
+						var lab= new JLabel(DurationFormatUtils.formatDurationHMS((Long)value));
+						lab.setOpaque(false);
+						return lab;
+				};
 				
-		});
+		tableTasks.setDefaultRenderer(Long.class, durationRenderer);
+		tableNetwork.setDefaultRenderer(Long.class, durationRenderer);
 		
 		tabs.addTab("Threads",new JScrollPane(UITools.createNewTable(modelT)));
 		tabs.addTab("Tasks",new JScrollPane(tableTasks));
+		tabs.addTab("Network",new JScrollPane(tableNetwork));
 			
 		var panel = new JPanel();
 		add(panel, BorderLayout.NORTH);
@@ -75,6 +86,7 @@ public class ThreadMonitor extends MTGUIComponent  {
 			modelT.init(ManagementFactory.getThreadMXBean().dumpAllThreads(true, true));
 			memoryPanel.refresh();
 			modelTasks.fireTableDataChanged();
+			modelNetwork.fireTableDataChanged();
 		});
 		
 		

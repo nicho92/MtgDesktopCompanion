@@ -10,6 +10,8 @@ import java.util.Map.Entry;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.ProtocolVersion;
+import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
@@ -21,6 +23,7 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.cookie.Cookie;
+import org.apache.http.impl.DefaultHttpResponseFactory;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.client.LaxRedirectStrategy;
@@ -82,12 +85,34 @@ public class MTGHttpClient {
 		var c = new Chrono();
 		c.start();
 		info.setStart(Instant.now());
-		response = httpclient.execute(req,httpContext);
+		try{
+			response = httpclient.execute(req,httpContext);
+			info.setReponse(response);
+		}
+		catch(Exception e)
+		{
+			logger.error(e);
+			info.setReponse(DefaultHttpResponseFactory.INSTANCE.newHttpResponse(new StatusLine() {
+				
+				@Override
+				public int getStatusCode() {
+					return -1;
+				}
+				
+				@Override
+				public String getReasonPhrase() {
+					return e.getLocalizedMessage();
+				}
+				
+				@Override
+				public ProtocolVersion getProtocolVersion() {
+					return null;
+				}
+			}, httpContext));
+		}
 		info.setEnd(Instant.now());
-		info.setReponse(response);
 		info.setDuration(c.stopInMillisecond());
 		logger.trace(req + " " + c.stopInMillisecond() +"ms");
-		
 		URLTools.getNetworksInfos().add(info);
 		
 		return response;

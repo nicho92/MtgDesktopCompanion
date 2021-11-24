@@ -719,7 +719,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		get("/admin/qwartz", URLTools.HEADER_JSON, (request, response) -> {
 			var serv = (QwartzServer) MTG.getPlugin("Qwartz", MTGServer.class);
-			return serv.getSchedulerInformation();
+			return serv.toJsonDetails();
 		}, transformer);
 		
 		get("/admin/threads", URLTools.HEADER_JSON, (request, response) -> {

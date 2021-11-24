@@ -50,6 +50,18 @@ public class NetworkInfo implements Serializable {
 	public HttpRequestBase getRequest() {
 		return request;
 	}
+	
+	public String getServer()
+	{
+		return toJson().get("serverType").getAsString();
+	}
+
+	public String getContentType()
+	{
+		return toJson().get("contentType").getAsString();
+	}
+	
+	
 	public JsonObject toJson() {
 		var jo = new JsonObject();
 		jo.addProperty("url", getRequest().getURI().toASCIIString());
@@ -57,12 +69,24 @@ public class NetworkInfo implements Serializable {
 		jo.addProperty("start", getStart().toEpochMilli());
 		jo.addProperty("end", getEnd().toEpochMilli());
 		jo.addProperty("duration", getDuration());
-	
+		jo.addProperty("aborted", getRequest().isAborted());
+		jo.addProperty("protocol", getRequest().getRequestLine().getProtocolVersion().toString());
+		
 		if(getResponse()!=null) {
+			
 			var servT =getResponse().getFirstHeader("Server");
-			var contentT = getResponse().getEntity().getContentType();
+			
+			if(getResponse().getEntity()!=null)
+			{
+				var contentT = getResponse().getEntity().getContentType();
+				jo.addProperty("contentType", contentT!=null?contentT.getValue():"");
+			}
+			else
+			{
+				jo.addProperty("contentType", "");	
+			}
+			
 			jo.addProperty("serverType", servT!=null?servT.getValue():"");
-			jo.addProperty("contentType", contentT!=null?contentT.getValue():"");
 			jo.addProperty("reponsesMessage", getResponse().getStatusLine().getReasonPhrase());
 			jo.addProperty("reponsesCode", getResponse().getStatusLine().getStatusCode());
 		}

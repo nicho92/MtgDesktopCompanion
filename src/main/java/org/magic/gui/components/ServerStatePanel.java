@@ -22,7 +22,7 @@ import javax.swing.border.LineBorder;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.interfaces.MTGServer;
-import org.magic.gui.models.LogTableModel;
+import org.magic.gui.models.conf.LogTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.ImageTools;
