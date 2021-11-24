@@ -184,8 +184,11 @@ public class PluginRegistry {
 		if(!entry.getPlugins().isEmpty())
 			return entry.getPlugins();
 		
+		var listRemoved = new ArrayList<String>();
+		
 		logger.debug("loading " + classe.getSimpleName());
-		for (var i = 1; i <= config.getList("/"+entry.getElement()+"/class").size(); i++) {
+		for (var i = 1; i <= config.getList("/"+entry.getElement()+"/class").size(); i++) 
+		{
 			var s = config.getString(entry.getXpath()+"[" + i + "]/class");
 			T prov = null;
 			try{
@@ -193,10 +196,11 @@ public class PluginRegistry {
 			}
 			catch (ClassNotFoundException e) {
 				logger.error("\t"+s + " is not found");
-				config.clearTree(entry.getXpath()+"[class='"+s+"']");
+				listRemoved.add(entry.getXpath()+"[class='"+s+"']");
 				needUpdate=true;
 			}
-			if (prov != null) {
+			if (prov != null) 
+			{
 				try {
 					prov.enable(config.getBoolean(entry.getXpath()+"[" + i + "]/enable"));
 				}
@@ -208,6 +212,13 @@ public class PluginRegistry {
 				entry.getPlugins().add(prov);
 			}
 		}
+		
+		
+		if(needUpdate)
+		{
+			listRemoved.stream().forEach(config::clearTree);
+		}
+	
 		return entry.getPlugins().stream().toList();
 	}
 	
@@ -297,13 +308,7 @@ public class PluginRegistry {
 	}
 	
 	public <T extends MTGPlugin> T getEnabledPlugins(Class<T> t) {
-		
-		Optional<T> r = listPlugins(t).stream().filter(MTGPlugin::isEnable).findFirst();
-		
-		if(r.isPresent())
-			return r.get();
-		else
-			return null;
+		return listPlugins(t).stream().filter(MTGPlugin::isEnable).findFirst().orElse(null);
 	}
 
 
