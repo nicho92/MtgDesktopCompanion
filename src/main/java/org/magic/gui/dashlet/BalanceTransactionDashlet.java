@@ -21,12 +21,6 @@ public class BalanceTransactionDashlet extends AbstractJDashlet {
 	
 	
 	
-	public BalanceTransactionDashlet() {
-		
-		initGUI();
-		
-	}
-	
 	@Override
 	public String getCategory() {
 		return "Financial";

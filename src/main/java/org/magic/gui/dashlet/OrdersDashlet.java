@@ -28,13 +28,6 @@ public class OrdersDashlet extends AbstractJDashlet {
 	private OrdersChartPanel chart;
 	
 	
-	
-	public OrdersDashlet() {
-		
-		initGUI();
-		
-	}
-	
 	@Override
 	public String getCategory() {
 		return "Financial";

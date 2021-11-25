@@ -18,23 +18,43 @@ public class ServerLauncher {
 		MTGControler.getInstance().loadAccountsConfiguration();
 		if(args.length==0)
 		{
-			MTGLogger.getLogger(ServerLauncher.class).info("Usage : ServerLauncher <server name>");
+			MTGLogger.getLogger(ServerLauncher.class).info("Usage : ServerLauncher <server name> [,<other server]");
 			System.exit(-1);
 		}
 		
-		MTGServer serv = getPlugin(args[0], MTGServer.class);
-		if(!serv.isEnable())
-		{
-			MTGLogger.getLogger(ServerLauncher.class).error(args[0] + " is not enabled");
-			System.exit(-1);
-		}
-	
 		
 		getEnabledPlugin(MTGCardsProvider.class).init();
 		getEnabledPlugin(MTGDao.class).init();
 		
-		serv.start();
+		
+		var arg = args[0];
+		
+		if(arg.indexOf(',')>-1) {
+			for(String s : arg.split(","))
+				preparing(s).start();
+		}
+		else
+		{
+			preparing(arg).start();
+		}
+		
 		
 		
 	}
+	
+	
+	private static MTGServer preparing(String servername)
+	{
+
+		
+		MTGServer serv = getPlugin(servername, MTGServer.class);
+		if(!serv.isEnable())
+		{
+			MTGLogger.getLogger(ServerLauncher.class).error(servername + " is not enabled");
+			System.exit(-1);
+		}
+		return serv;
+	
+	}
+	
 }

@@ -28,14 +28,6 @@ public class TransactionDashlet extends AbstractJDashlet {
 	private JComboBox<String> cboProperty;
 	private TransactionChartPanel chart;
 	
-	
-	
-	public TransactionDashlet() {
-		
-		initGUI();
-		
-	}
-	
 	@Override
 	public String getCategory() {
 		return "Financial";
