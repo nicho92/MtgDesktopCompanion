@@ -140,7 +140,6 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 		
 		tabbedPane.addTab(capitalize("CONFIGURATION"), MTGConstants.ICON_TAB_ADMIN,new JScrollPane(new ConfigurationPanel()), null);
 		tabbedPane.addTab(capitalize("ACTIVE_SERVERS"), MTGConstants.ICON_TAB_ACTIVESERVER, new ServersGUI(),null);
-		tabbedPane.addTab(capitalize("LOGS"), MTGConstants.ICON_TAB_RULES, new LoggerViewPanel(),null);
 
 	}
 	

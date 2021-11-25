@@ -3,8 +3,8 @@ package org.magic.gui.components;
 import static org.magic.tools.MTG.capitalize;
 
 import java.awt.BorderLayout;
-import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -129,7 +129,7 @@ public class LoggerViewPanel extends MTGUIComponent {
 
 	@Override
 	public ImageIcon getIcon() {
-		return MTGConstants.ICON_CONFIG;
+		return MTGConstants.ICON_TAB_RULES;
 	}
 
 

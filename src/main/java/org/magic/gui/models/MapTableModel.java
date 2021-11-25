@@ -4,9 +4,12 @@ import static org.magic.tools.MTG.capitalize;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Properties;
+import java.util.Set;
 
 import javax.swing.table.DefaultTableModel;
 public class MapTableModel<K,V> extends DefaultTableModel {
@@ -55,11 +58,19 @@ public class MapTableModel<K,V> extends DefaultTableModel {
 		fireTableStructureChanged();
 	}
 	
+
+	public void init(Set<Entry<K, V>> entrySet) {
+		this.keys = new ArrayList<>(entrySet);
+		fireTableDataChanged();
+	}
+
+	
 	public void init(Map<K, V> map)
 	{
 		this.keys = new ArrayList<>(map.entrySet());
 		fireTableDataChanged();
 	}
+	
 	
 	public void addRow(K key, V value)
 	{

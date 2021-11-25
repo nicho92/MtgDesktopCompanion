@@ -16,6 +16,7 @@ import javax.swing.table.TableCellRenderer;
 
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.models.MapTableModel;
 import org.magic.gui.models.conf.NetworkTableModel;
 import org.magic.gui.models.conf.TaskTableModel;
 import org.magic.gui.models.conf.ThreadsTableModel;
@@ -33,6 +34,7 @@ public class ThreadMonitor extends MTGUIComponent  {
 	private JVMemoryPanel memoryPanel;
 	private TaskTableModel modelTasks;
 	private NetworkTableModel modelNetwork;
+	private MapTableModel<Object, Object> modelConfig;
 	
 	
 	public ThreadMonitor() {
@@ -45,7 +47,8 @@ public class ThreadMonitor extends MTGUIComponent  {
 		add(tabs, BorderLayout.CENTER);
 		modelTasks.bind(ThreadManager.getInstance().listTasks());	
 		modelNetwork.bind(URLTools.getNetworksInfos());
-		
+		modelConfig = new MapTableModel<>();
+		modelConfig.init(System.getProperties().entrySet());
 		
 		var tableTasks = UITools.createNewTable(modelTasks);
 		UITools.initTableFilter(tableTasks);
@@ -62,15 +65,15 @@ public class ThreadMonitor extends MTGUIComponent  {
 		tableTasks.setDefaultRenderer(Long.class, durationRenderer);
 		tableNetwork.setDefaultRenderer(Long.class, durationRenderer);
 		
+		tabs.addTab("Config",new JScrollPane(UITools.createNewTable(modelConfig)));
 		tabs.addTab("Threads",new JScrollPane(UITools.createNewTable(modelT)));
 		tabs.addTab("Tasks",new JScrollPane(tableTasks));
 		tabs.addTab("Network",new JScrollPane(tableNetwork));
-			
+		UITools.addTab(tabs, new LoggerViewPanel());
+		
+
 		var panel = new JPanel();
 		add(panel, BorderLayout.NORTH);
-		
-		
-	
 		
 		btnClean.addActionListener(ae -> {
 			ThreadManager.getInstance().clean();
