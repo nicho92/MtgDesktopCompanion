@@ -189,7 +189,6 @@ public class MagicGUI extends JFrame {
 		mntmExit.addActionListener(e -> MTGControler.getInstance().closeApp());
 
 		mntmHelp.addActionListener(e -> UITools.browse(MTGConstants.MTG_DESKTOP_WIKI_URL));
-
 		
 		mntmDonate.addActionListener(e -> UITools.browse(MTGConstants.MTG_DESKTOP_DONATION_URL));
 		

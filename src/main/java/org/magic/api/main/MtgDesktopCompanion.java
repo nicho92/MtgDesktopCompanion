@@ -53,8 +53,7 @@ public class MtgDesktopCompanion {
 
 			if (updated)
 				MTGControler.getInstance().notify(new MTGNotification(capitalize("NEW"), capitalize("NEW_MODULE_INSTALLED"), MESSAGE_TYPE.INFO));
-			
-			
+				
 			getEnabledPlugin(MTGCardsProvider.class).init();
 			getEnabledPlugin(MTGDao.class).init();
 			

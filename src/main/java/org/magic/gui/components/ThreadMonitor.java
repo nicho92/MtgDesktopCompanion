@@ -24,6 +24,8 @@ import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
+
+
 public class ThreadMonitor extends MTGUIComponent  {
 	/**
 	 * 
@@ -71,15 +73,14 @@ public class ThreadMonitor extends MTGUIComponent  {
 		tabs.addTab("Network",new JScrollPane(tableNetwork));
 		UITools.addTab(tabs, new LoggerViewPanel());
 		
-
 		var panel = new JPanel();
 		add(panel, BorderLayout.NORTH);
 		
-		btnClean.addActionListener(ae -> {
-			ThreadManager.getInstance().clean();
-		});
+	
+		btnClean.addActionListener(ae -> ThreadManager.getInstance().clean());
 		
 		panel.add(btnClean);
+		
 		
 		
 		memoryPanel = new JVMemoryPanel();

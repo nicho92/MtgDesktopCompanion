@@ -53,8 +53,12 @@ public class RequestBuilder
 		return content;
 	}
 
-	public String toContentString() throws IOException {
-		return EntityUtils.toString(execute().getEntity());
+	public String toContentString() {
+		try {
+			return EntityUtils.toString(execute().getEntity());
+		}  catch (Exception e) {
+			return "";
+		}
 	}
 	
 	@Override
@@ -67,7 +71,6 @@ public class RequestBuilder
 			builder.append("headers:\n");
 			headers.entrySet().forEach(entry->builder.append(entry.getKey()).append(":").append(entry.getValue()).append("\n"));
 		}
-		
 		
 		if(!content.isEmpty()) {
 			builder.append("body:\n");

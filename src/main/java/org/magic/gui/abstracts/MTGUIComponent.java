@@ -173,6 +173,7 @@ public abstract class MTGUIComponent extends JComponent {
 		j.pack();
 		j.setModal(modal);
 		j.setResizable(resizable);
+		
 		j.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {

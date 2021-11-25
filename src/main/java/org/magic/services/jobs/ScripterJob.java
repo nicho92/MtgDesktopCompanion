@@ -22,7 +22,6 @@ public class ScripterJob implements Job {
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		
-		
 		var name=context.getJobDetail().getJobDataMap().get("SCRIPT_NAME").toString();
 		
 		var optScripter = PluginRegistry.inst().listEnabledPlugins(MTGScript.class).stream().filter(s->FilenameUtils.getExtension(name).toLowerCase().endsWith(s.getExtension().toLowerCase())).findAny();
