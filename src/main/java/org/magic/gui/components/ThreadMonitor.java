@@ -59,6 +59,11 @@ public class ThreadMonitor extends MTGUIComponent  {
 					public Object getValueAt(int row, int column) {
 						return items.get(row).get(getColumnName(column));
 					}
+					
+					@Override
+					public String getColumnName(int column) {
+						return columns[column];
+					}
 				};
 		
 		var tabs = new JTabbedPane();
@@ -127,7 +132,7 @@ public class ThreadMonitor extends MTGUIComponent  {
 					modelScript.bind( ((QwartzServer)MTG.getPlugin("Qwartz", MTGServer.class)).getJobs()  );
 					modelScript.setColumns(modelScript.getItems().get(0).keySet().stream().toArray(String[]::new));
 					modelScript.fireTableStructureChanged();
-					
+					modelScript.fireTableDataChanged();
 				
 				}
 				catch(Exception ex)

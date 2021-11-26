@@ -169,7 +169,7 @@ public class QwartzServer extends AbstractMTGServer {
 		  for (String groupName : scheduler.getJobGroupNames()) {
 		    for (JobKey jobKey : scheduler.getJobKeys(GroupMatcher.jobGroupEquals(groupName))) {
 		      for(Trigger trigger : scheduler.getTriggersOfJob(jobKey)) {
-		    	  JsonObject jobObj = new JsonObject();
+		    	  var jobObj = new JsonObject();
 		    	  					 jobObj.addProperty("jobGroup", jobKey.getGroup());
 		    	  					 jobObj.addProperty("jobName", jobKey.getName());
 		    	  					 jobObj.addProperty("nextFireTime", UITools.formatDateTime(trigger.getNextFireTime()));
@@ -188,13 +188,10 @@ public class QwartzServer extends AbstractMTGServer {
 		var ret = new ArrayList<JsonObject>();
 		
 		try {
-			toJsonDetails().get("jobs").getAsJsonArray().forEach(je->{
-				ret.add(je.getAsJsonObject());
-							});
+			toJsonDetails().get("jobs").getAsJsonArray().forEach(je->ret.add(je.getAsJsonObject()));
 		} catch (Exception e) {
 			logger.error(e);
 		}
-		
 		return ret;
 	}
 	

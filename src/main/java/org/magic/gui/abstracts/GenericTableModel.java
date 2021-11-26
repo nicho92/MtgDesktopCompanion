@@ -100,6 +100,7 @@ public class GenericTableModel<T> extends AbstractTableModel {
 	public void setColumns(String... columns)
 	{
 		this.columns=columns;
+		
 		fireTableStructureChanged();
 	}
 	
