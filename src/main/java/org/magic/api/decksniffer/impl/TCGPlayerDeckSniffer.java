@@ -46,7 +46,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 		logger.debug("get deck at " + info.getUrl());
 		MagicDeck deck = info.toBaseDeck();
-		Document d = URLTools.toHtml(IncapsulaParser.readUrl(info.getUrl().toString()));
+		Document d = IncapsulaParser.readUrl(info.getUrl().toString());
 		for (Element e : d.select("span.singleTag")) {
 			deck.getTags().add(e.text());
 		}
@@ -116,7 +116,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 
 		for (var i = 1; i <= maxPage; i++) {
 			url = getString(URL) + "/magic/deck/search?format=" + getString(FORMAT) + "&page=" + i;
-			Document d = Jsoup.parse(IncapsulaParser.readUrl(url));
+			Document d = IncapsulaParser.readUrl(url);
 			
 			for (Element tr : d.getElementsByClass("gradeA")) {
 				var deck = new RetrievableDeck();

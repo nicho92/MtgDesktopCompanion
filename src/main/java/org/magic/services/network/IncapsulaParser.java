@@ -1,14 +1,14 @@
 package org.magic.services.network;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.jsoup.nodes.Document;
 import org.magic.services.MTGConstants;
+import org.magic.services.network.RequestBuilder.METHOD;
 
 public class IncapsulaParser {
 
@@ -48,28 +48,8 @@ public class IncapsulaParser {
 
 	}
 
-	public static String readUrl(String url) throws IOException {
-
-		var response = new StringBuilder();
-		BufferedReader in = null;
-
-		HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-		connection.setRequestMethod("GET");
-		connection.setRequestProperty(URLTools.ACCEPT, "text/html; charset="+MTGConstants.DEFAULT_ENCODING);
-		connection.setRequestProperty(URLTools.USER_AGENT, MTGConstants.USER_AGENT);
-		connection.setRequestProperty("Cookie", getIncapsulaCookie(url));
-
-		in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-
-		var inputLine = "";
-		while ((inputLine = in.readLine()) != null) {
-			response.append(inputLine);
-		}
-
-		in.close();
-
-		return response.toString();
-
+	public static Document readUrl(String url) throws IOException {
+		return	RequestBuilder.build().setClient(URLTools.newClient()).url(url).method(METHOD.GET).addHeader(URLTools.ACCEPT, "text/html; charset="+MTGConstants.DEFAULT_ENCODING).addHeader("Cookie", getIncapsulaCookie(url)).toHtml();
 	}
 
 }
