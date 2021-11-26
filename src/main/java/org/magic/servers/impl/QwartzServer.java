@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
@@ -179,6 +181,22 @@ public class QwartzServer extends AbstractMTGServer {
 		  quartzInformation.add("jobs", simpleJobList);
 		  return quartzInformation;
 		}
+
+
+
+	public List<JsonObject> getJobs() {
+		var ret = new ArrayList<JsonObject>();
+		
+		try {
+			toJsonDetails().get("jobs").getAsJsonArray().forEach(je->{
+				ret.add(je.getAsJsonObject());
+							});
+		} catch (Exception e) {
+			logger.error(e);
+		}
+		
+		return ret;
+	}
 	
 	
 }

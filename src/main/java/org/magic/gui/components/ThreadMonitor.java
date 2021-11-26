@@ -15,15 +15,21 @@ import javax.swing.Timer;
 import javax.swing.table.TableCellRenderer;
 
 import org.apache.commons.lang3.time.DurationFormatUtils;
+import org.magic.api.interfaces.MTGServer;
+import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.MapTableModel;
 import org.magic.gui.models.conf.NetworkTableModel;
 import org.magic.gui.models.conf.TaskTableModel;
 import org.magic.gui.models.conf.ThreadsTableModel;
+import org.magic.servers.impl.QwartzServer;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;
 import org.magic.services.threads.ThreadManager;
+import org.magic.tools.MTG;
 import org.magic.tools.UITools;
+
+import com.google.gson.JsonObject;
 
 
 public class ThreadMonitor extends MTGUIComponent  {
@@ -37,6 +43,7 @@ public class ThreadMonitor extends MTGUIComponent  {
 	private TaskTableModel modelTasks;
 	private NetworkTableModel modelNetwork;
 	private MapTableModel<Object, Object> modelConfig;
+	private GenericTableModel<JsonObject> modelScript;
 	
 	
 	public ThreadMonitor() {
@@ -44,19 +51,38 @@ public class ThreadMonitor extends MTGUIComponent  {
 		modelT = new ThreadsTableModel();
 		modelTasks = new TaskTableModel();
 		modelNetwork = new NetworkTableModel();
+		modelConfig = new MapTableModel<>();
+		modelScript = new GenericTableModel<JsonObject>()
+				{
+					private static final long serialVersionUID = 1L;
+					@Override
+					public Object getValueAt(int row, int column) {
+						return items.get(row).get(getColumnName(column));
+					}
+				};
+		
 		var tabs = new JTabbedPane();
 		var btnClean = UITools.createBindableJButton("Clean",MTGConstants.ICON_DELETE, KeyEvent.VK_C , "Cleaning");
 		add(tabs, BorderLayout.CENTER);
+		
+		
 		modelTasks.bind(ThreadManager.getInstance().listTasks());	
 		modelNetwork.bind(URLTools.getNetworksInfos());
-		modelConfig = new MapTableModel<>();
 		modelConfig.init(System.getProperties().entrySet());
-		
+	
 		var tableTasks = UITools.createNewTable(modelTasks);
 		UITools.initTableFilter(tableTasks);
 		
 		var tableNetwork = UITools.createNewTable(modelNetwork);
 		UITools.initTableFilter(tableNetwork);
+		
+		var tableScripts = UITools.createNewTable(modelScript);
+		UITools.initTableFilter(tableScripts);
+		
+		
+		
+		
+		
 		
 		TableCellRenderer durationRenderer = (JTable table, Object value, boolean isSelected,boolean hasFocus, int row, int column)->{
 						var lab= new JLabel(DurationFormatUtils.formatDurationHMS((Long)value));
@@ -71,6 +97,7 @@ public class ThreadMonitor extends MTGUIComponent  {
 		tabs.addTab("Threads",MTGConstants.ICON_TAB_ADMIN,new JScrollPane(UITools.createNewTable(modelT)));
 		tabs.addTab("Tasks",MTGConstants.ICON_TAB_ADMIN,new JScrollPane(tableTasks));
 		tabs.addTab("Network",MTGConstants.ICON_TAB_NETWORK,new JScrollPane(tableNetwork));
+		tabs.addTab("Script",MTGConstants.ICON_SMALL_SCRIPT,new JScrollPane(tableScripts));
 		
 		UITools.addTab(tabs, new LoggerViewPanel());
 		
@@ -92,6 +119,24 @@ public class ThreadMonitor extends MTGUIComponent  {
 			memoryPanel.refresh();
 			modelTasks.fireTableDataChanged();
 			modelNetwork.fireTableDataChanged();
+			modelConfig.fireTableDataChanged();
+			
+			
+			if(MTG.getPlugin("Qwartz", MTGServer.class).isAlive()) {
+				try {
+					modelScript.bind( ((QwartzServer)MTG.getPlugin("Qwartz", MTGServer.class)).getJobs()  );
+					modelScript.setColumns(modelScript.getItems().get(0).keySet().stream().toArray(String[]::new));
+					modelScript.fireTableStructureChanged();
+					
+				
+				}
+				catch(Exception ex)
+				{
+					logger.error("error loading . Maybe Qwartz server is stopped",ex);
+				}
+			}
+			
+			
 		});
 		
 		
