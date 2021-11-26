@@ -13,13 +13,16 @@ import org.api.mtgstock.modele.Played;
 import org.api.mtgstock.modele.Print;
 import org.api.mtgstock.modele.SealedProduct;
 import org.api.mtgstock.modele.SearchResult;
+import org.api.mtgstock.modele.URLCallInfo;
 import org.api.mtgstock.services.AnalyticsService;
 import org.api.mtgstock.services.CardsService;
 import org.api.mtgstock.services.InterestsService;
 import org.api.mtgstock.services.PriceService;
+import org.api.mtgstock.services.URLCallListener;
 import org.api.mtgstock.tools.MTGStockConstants;
 import org.api.mtgstock.tools.MTGStockConstants.FORMAT;
 import org.api.mtgstock.tools.MTGStockConstants.PRICES;
+import org.api.mtgstock.tools.URLUtilities;
 import org.magic.api.beans.CardDominance;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.EditionsShakers;
@@ -30,6 +33,8 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat.FORMATS;
 import org.magic.api.beans.enums.MTGCardVariation;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
+import org.magic.services.network.NetworkInfo;
+import org.magic.services.network.URLTools;
 
 public class MTGStockDashBoard extends AbstractDashBoard {
 
@@ -56,6 +61,26 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		interestService = new InterestsService();
 		pricesService = new PriceService();
 		analyticService = new AnalyticsService();
+		
+		URLCallListener urlNotifier = (URLCallInfo callInfo)->{
+				
+				var netinfo = new NetworkInfo();
+				
+				netinfo.setDuration(callInfo.getDuration());
+				netinfo.setEnd(callInfo.getStart());
+				netinfo.setStart(callInfo.getStart());
+				netinfo.setRequest(callInfo.getRequest());
+				netinfo.setReponse(callInfo.getResponse());
+
+				URLTools.getNetworksInfos().add(netinfo);
+		};
+		
+		
+		cardService.setListener(urlNotifier);
+		interestService.setListener(urlNotifier);
+		pricesService.setListener(urlNotifier);
+		analyticService.setListener(urlNotifier);
+		
 	}
 	
 
