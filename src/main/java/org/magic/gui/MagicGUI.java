@@ -123,7 +123,6 @@ public class MagicGUI extends JFrame {
 		var mntmHelp = new JMenuItem(capitalize("READ_MANUAL"),MTGConstants.ICON_HELP);
 		var mntmDonate = new JMenuItem(capitalize("DONATE"),MTGConstants.ICON_EURO);
 		var mntmThreadItem = new JMenuItem(capitalize("THREADS"),MTGConstants.ICON_CONFIG);
-		var mntmLogsItem = new JMenuItem(capitalize("LOGS"),MTGConstants.ICON_TAB_RULES);
 		var mntmAboutMagicDesktop = new JMenuItem(capitalize("ABOUT"),new ImageIcon(MTGConstants.IMAGE_LOGO));
 		var mntmReportBug = new JMenuItem(capitalize("REPORT_BUG"),MTGConstants.ICON_BUG);
 		var mntmFileTagEditor = new JMenuItem(capitalize("BINDER_TAG_EDITOR"),MTGConstants.ICON_BINDERS);
@@ -138,7 +137,6 @@ public class MagicGUI extends JFrame {
 		mnFile.add(mntmExit);
 		mtgMnuBar.add(mnuAbout);
 		mnuAbout.add(mntmThreadItem);
-		mnuAbout.add(mntmLogsItem);
 		mnuAbout.add(mntmHelp);
 		mnuAbout.add(mntmDonate);
 		mnuAbout.add(mntmAboutMagicDesktop);
@@ -167,15 +165,6 @@ public class MagicGUI extends JFrame {
 				
 			}
 		}, "loading Tags dialog"));
-
-		mntmLogsItem.addActionListener(ae -> ThreadManager.getInstance().invokeLater(new MTGRunnable() {
-			
-			@Override
-			protected void auditedRun() {
-				MTGUIComponent.createJDialog(new LoggerViewPanel(), true, false).setVisible(true);
-				
-			}
-		}, "loading Logs dialog"));
 
 		mntmThreadItem.addActionListener(e ->ThreadManager.getInstance().invokeLater(new MTGRunnable() {
 			

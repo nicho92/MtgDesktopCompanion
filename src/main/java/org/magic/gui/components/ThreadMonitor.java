@@ -67,10 +67,11 @@ public class ThreadMonitor extends MTGUIComponent  {
 		tableTasks.setDefaultRenderer(Long.class, durationRenderer);
 		tableNetwork.setDefaultRenderer(Long.class, durationRenderer);
 		
-		tabs.addTab("Config",new JScrollPane(UITools.createNewTable(modelConfig)));
-		tabs.addTab("Threads",new JScrollPane(UITools.createNewTable(modelT)));
-		tabs.addTab("Tasks",new JScrollPane(tableTasks));
-		tabs.addTab("Network",new JScrollPane(tableNetwork));
+		tabs.addTab("Config",MTGConstants.ICON_SMALL_HELP,new JScrollPane(UITools.createNewTable(modelConfig)));
+		tabs.addTab("Threads",MTGConstants.ICON_TAB_ADMIN,new JScrollPane(UITools.createNewTable(modelT)));
+		tabs.addTab("Tasks",MTGConstants.ICON_TAB_ADMIN,new JScrollPane(tableTasks));
+		tabs.addTab("Network",MTGConstants.ICON_TAB_NETWORK,new JScrollPane(tableNetwork));
+		
 		UITools.addTab(tabs, new LoggerViewPanel());
 		
 		var panel = new JPanel();

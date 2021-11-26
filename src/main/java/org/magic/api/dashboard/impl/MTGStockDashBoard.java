@@ -330,7 +330,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 					cs.setCardVariation(MTGCardVariation.JAPANESEALT);
 				
 				
-				cs.setEd(cardService.getSetById(p.getSetId()).getAbbrevation());
+				cs.setEd(String.valueOf(cardService.getSetById(p.getSetId()).getAbbrevation()).toUpperCase());
 		return cs;
 	}
 	
