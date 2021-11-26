@@ -10,13 +10,13 @@ import org.api.cardtrader.modele.Address;
 import org.api.cardtrader.modele.MarketProduct;
 import org.api.cardtrader.services.CardTraderConstants;
 import org.api.cardtrader.services.CardTraderService;
-import org.api.cardtrader.services.URLCallListener;
 import org.api.cardtrader.tools.URLCallInfo;
-import org.api.cardtrader.tools.URLUtilities;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGControler;
+import org.magic.services.network.NetworkInfo;
+import org.magic.services.network.URLTools;
 import org.magic.tools.Chrono;
 
 public class CardTraderPricer extends AbstractPricesProvider {
@@ -132,14 +132,19 @@ public class CardTraderPricer extends AbstractPricesProvider {
 		if(service==null)
 			service = new CardTraderService(getAuthenticator().get("TOKEN"));
 		
-		service.setListener(new URLCallListener() {
-			
-			@Override
-			public void notify(URLCallInfo callInfo) {
-				// TODO Auto-generated method stub
+			service.setListener((URLCallInfo callInfo)-> {
 				
-			}
-		});
+				var ni = new NetworkInfo();
+				ni.setDuration(callInfo.getDuration());
+				ni.setStart(callInfo.getStart());
+				ni.setEnd(callInfo.getEnd());
+				ni.setReponse(callInfo.getResponse());
+				ni.setRequest(callInfo.getRequest());
+				
+				URLTools.getNetworksInfos().add(ni);
+					
+				
+			});
 		
 	}
 	
