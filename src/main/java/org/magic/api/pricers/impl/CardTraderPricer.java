@@ -10,6 +10,9 @@ import org.api.cardtrader.modele.Address;
 import org.api.cardtrader.modele.MarketProduct;
 import org.api.cardtrader.services.CardTraderConstants;
 import org.api.cardtrader.services.CardTraderService;
+import org.api.cardtrader.services.URLCallListener;
+import org.api.cardtrader.tools.URLCallInfo;
+import org.api.cardtrader.tools.URLUtilities;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
@@ -48,7 +51,7 @@ public class CardTraderPricer extends AbstractPricesProvider {
 	
 	@Override
 	public void alertDetected(List<MagicPrice> p) {
-		
+		init();
 		if(getBoolean("AUTOMATIC_ADD_CART")) {
 		
 				for(var price : p)
@@ -65,7 +68,7 @@ public class CardTraderPricer extends AbstractPricesProvider {
 					
 					try {
 						service.addProductToCart(mk, true, 1, addr, addr);
-					} catch (IOException e) {
+					} catch (Exception e) {
 						logger.error("Error adding product to cart",e);
 					}
 					
@@ -76,9 +79,8 @@ public class CardTraderPricer extends AbstractPricesProvider {
 
 	@Override
 	protected List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
-		if(service==null)
-			service = new CardTraderService(getAuthenticator().get("TOKEN"));
 		
+		init();
 		
 		var ret = new ArrayList<MagicPrice>();
 		
@@ -123,6 +125,21 @@ public class CardTraderPricer extends AbstractPricesProvider {
 		
 		logger.info(getName() + " found " + ret.size() + " items in " + c.stop() +" ms");
 		return ret;
+		
+	}
+
+	private void init() {
+		if(service==null)
+			service = new CardTraderService(getAuthenticator().get("TOKEN"));
+		
+		service.setListener(new URLCallListener() {
+			
+			@Override
+			public void notify(URLCallInfo callInfo) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		
 	}
 	
