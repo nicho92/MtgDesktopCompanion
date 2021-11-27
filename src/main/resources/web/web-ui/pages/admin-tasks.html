@@ -46,8 +46,10 @@
  	 
   		$("nav").load("menu.html");
   		
-  		
-  		
+  		$.ajax({
+  	        url: restserver+"/admin/threads"
+  	    }).then(function(data) {
+  	    	
   	    	 $('#table').DataTable( {
  		    	"language": {
  		    	    "search": "Filter"
@@ -55,15 +57,29 @@
  		    	"responsive": true,
  		        "processing": true,
  		        "pageLength": 50,
- 		        "ajax": {"url":restserver+'/admin/network',"dataSrc":""},
+ 		        "data":data.tasks,
  		        "columns": [
  		        	{ 
-		                "data": "method",
+		                "data": "name",
+		                "defaultContent": ""
+		            },
+		            { 
+		                "data": "type",
 		                "defaultContent": ""
 		            },
  		        	{ 
-		                "data": "url",
+		                "data": "status",
 		                "defaultContent": ""
+		            },
+		            { 
+		                "data": "created",
+		                "defaultContent": "",
+		                "render": function(data, type, row, meta){
+		                	 if(type === 'display'){
+									return new Date(data).toLocaleString();		                		 
+		                	 }
+		                   return data;
+		                }
 		            },
 		            { 
 		                "data": "start",
@@ -86,11 +102,7 @@
 		                }
 		            },
 		            { 
-		                "data": "duration",
-		                "defaultContent": ""
-		            },
-		            { 
-		                "data": "reponsesMessage",
+		                "data": "durationInMillis",
 		                "defaultContent": ""
 		            }
 		            
@@ -99,8 +111,8 @@
   	    	 
   	    	 });
   	    	
-  	    	
-  	    });
+  	  });
+  	});
   	
   	
   	</script>
@@ -122,7 +134,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header"><em class="fa fa-mixcloud fa-fw"></em> Network Console</h1>
+                        <h1 class="page-header"><em class="fa fa-tasks fa-fw"></em> Tasks Console</h1>
                     </div>
                 </div>
             </div>
@@ -135,12 +147,13 @@
                        <table id="table" class="display" style="width:100%">
 						        <thead>
 						            <tr>
-						            	<th>method</th>
-						                <th>url</th>
-						                <th>start</th>
+						            	<th>name</th>
+						            	<th>type</th>
+						                <th>status</th>
+						                <th>created</th>
+						                <th>started</th>
 						                <th>end</th>
 						                <th>duration</th>
-						                <th>response</th>
 						            </tr>
 						        </thead>
 						    </table>
