@@ -166,6 +166,19 @@ public class URLTools {
 	public static MTGHttpClient newClient() {
 		return new MTGHttpClient();
 	}
+
+
+
+	public static String getLocation(String url) {
+		try {
+			var c = URLTools.newClient();
+			RequestBuilder.build().setClient(c).url(url).method(METHOD.GET).execute();
+			return c.getHttpContext().getRedirectLocations().get(0).toASCIIString();
+			
+		} catch (Exception e) {
+			return url;
+		}
+	}
 	
 	
 }
