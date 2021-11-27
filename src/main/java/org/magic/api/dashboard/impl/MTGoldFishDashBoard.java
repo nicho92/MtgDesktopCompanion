@@ -12,7 +12,6 @@ import java.util.TreeMap;
 
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Level;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -28,7 +27,6 @@ import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.enums.MTGCardVariation;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGLogger;
 import org.magic.services.network.URLTools;
 import org.magic.tools.UITools;
 import org.mozilla.javascript.Parser;
@@ -337,7 +335,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		if(edition==null)
 			return list;
 		
-		var urlEditionChecker = WEBSITE+"/sets/" + replace(edition.getId().toUpperCase(), false);
+		var urlEditionChecker = WEBSITE+"/sets/" + replace(edition.getId().toUpperCase(), false)+"/All+Cards";
 		
 		urlEditionChecker = URLTools.getLocation(urlEditionChecker);
 		
