@@ -211,9 +211,9 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		lblTotal = new JLabel();
 		magicEditionDetailPanel = new MagicEditionDetailPanel(false);
 		magicCardDetailPanel = new MagicCardDetailPanel();
-		typeRepartitionPanel = new TypeRepartitionPanel();
-		manaRepartitionPanel = new ManaRepartitionPanel();
-		rarityRepartitionPanel = new RarityRepartitionPanel();
+		typeRepartitionPanel = new TypeRepartitionPanel(false);
+		manaRepartitionPanel = new ManaRepartitionPanel(false);
+		rarityRepartitionPanel = new RarityRepartitionPanel(false);
 		stockPanel = new CardStockPanel();
 		historyPricesPanel = new HistoryPricesPanel(true);
 		jsonPanel = new ObjectViewerPanel();

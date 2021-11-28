@@ -6,6 +6,10 @@ import org.jfree.chart3d.plot.CategoryPlot3D;
 
 public abstract class Abstract3DBarChart<B,C extends Comparable<C>,D extends Comparable<D>,E extends Comparable<E>> extends MTGUI3DChartComponent<B,CategoryDataset3D<C,D,E>> {
 
+	protected Abstract3DBarChart(boolean displayPanel) {
+		super(displayPanel);
+		}
+
 	private static final long serialVersionUID = 1L;
 	protected CategoryPlot3D plot;
 	

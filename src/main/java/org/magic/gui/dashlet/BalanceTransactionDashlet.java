@@ -33,7 +33,7 @@ public class BalanceTransactionDashlet extends AbstractJDashlet {
 		var panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
 		
-		chart = new TransactionBalance3DChartPanel();
+		chart = new TransactionBalance3DChartPanel(true);
 		
 		
 		getContentPane().add(chart,BorderLayout.CENTER);

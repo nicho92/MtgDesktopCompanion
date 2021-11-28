@@ -12,6 +12,11 @@ import org.jfree.chart3d.table.TextElement;
 
 public abstract class Abstract3DPieChart<B,C extends Comparable<C>> extends MTGUI3DChartComponent<B,PieDataset3D<C>> {
 
+
+	protected Abstract3DPieChart(boolean displayPanel) {
+		super(displayPanel);
+	}
+
 	private static final long serialVersionUID = 1L;
 	protected PiePlot3D plot;
 	

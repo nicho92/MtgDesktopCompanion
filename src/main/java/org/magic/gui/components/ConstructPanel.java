@@ -183,9 +183,9 @@ public class ConstructPanel extends MTGUIComponent {
 		final var tabbedDeckSide = new JTabbedPane(SwingConstants.RIGHT);
 		var panelInfoDeck = new JPanel();
 		cmcChartPanel = new CmcChartPanel();
-		manaRepartitionPanel = new ManaRepartitionPanel();
-		typeRepartitionPanel = new TypeRepartitionPanel();
-		rarityRepartitionPanel = new RarityRepartitionPanel();
+		manaRepartitionPanel = new ManaRepartitionPanel(false);
+		typeRepartitionPanel = new TypeRepartitionPanel(false);
+		rarityRepartitionPanel = new RarityRepartitionPanel(false);
 		drawProbabilityPanel = new DrawProbabilityPanel();
 		var randomHandPanel = new JPanel();
 		var statPanel = new JPanel();

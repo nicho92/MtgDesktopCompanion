@@ -47,7 +47,7 @@ public class OrdersDashlet extends AbstractJDashlet {
 		chkSumOrTotal = new JCheckBox("Count");
 		panel.add(chkSumOrTotal);
 		
-		chart = new OrdersChartPanel();
+		chart = new OrdersChartPanel(true);
 		
 		
 		getContentPane().add(chart,BorderLayout.CENTER);

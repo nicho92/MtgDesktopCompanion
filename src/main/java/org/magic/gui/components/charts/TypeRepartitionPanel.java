@@ -9,6 +9,11 @@ import org.magic.gui.abstracts.charts.Abstract3DPieChart;
 
 public class TypeRepartitionPanel extends Abstract3DPieChart<MagicCard,String> {
 
+	public TypeRepartitionPanel(boolean displayPanel) {
+		super(displayPanel);
+	}
+
+
 	private static final long serialVersionUID = 1L;
 	
 	public PieDataset3D<String> getDataSet() {

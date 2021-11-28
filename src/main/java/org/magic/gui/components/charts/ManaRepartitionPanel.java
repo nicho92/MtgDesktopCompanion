@@ -11,6 +11,10 @@ import org.magic.gui.abstracts.charts.Abstract3DPieChart;
 
 public class ManaRepartitionPanel extends Abstract3DPieChart<MagicCard,MTGColor> {
 
+	public ManaRepartitionPanel(boolean displayPanel) {
+		super(displayPanel);
+	}
+
 	private static final long serialVersionUID = 1L;
 	
 	@Override

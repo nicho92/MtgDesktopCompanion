@@ -15,10 +15,15 @@ import org.magic.tools.UITools;
 
 public class OrdersChartPanel extends Abstract3DPieChart<OrderEntry,String> {
 
+	public OrdersChartPanel(boolean displayPanel) {
+		super(displayPanel);
+	}
+
 	private static final long serialVersionUID = 1L;
 	private String property;
 	private boolean count;
 
+	
 
 	public PieDataset3D<String> getDataSet() {
 		var dataset = new StandardPieDataset3D<String>();

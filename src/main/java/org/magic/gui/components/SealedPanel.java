@@ -234,10 +234,10 @@ public class SealedPanel extends JPanel {
 		cmcChartPanel = new CmcChartPanel();
 		panelAnalyse.add(cmcChartPanel);
 
-		manaRepartitionPanel = new ManaRepartitionPanel();
+		manaRepartitionPanel = new ManaRepartitionPanel(false) ;
 		panelAnalyse.add(manaRepartitionPanel);
 
-		typeRepartitionPanel = new TypeRepartitionPanel();
+		typeRepartitionPanel = new TypeRepartitionPanel(false);
 		panelAnalyse.add(typeRepartitionPanel);
 		panelCenter = new JSplitPane();
 		panelCenter.setResizeWeight(0.5);

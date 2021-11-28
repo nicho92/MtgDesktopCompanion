@@ -46,7 +46,7 @@ public class TransactionDashlet extends AbstractJDashlet {
 		chkSumOrTotal = new JCheckBox("Count");
 		panel.add(chkSumOrTotal);
 		
-		chart = new TransactionChartPanel();
+		chart = new TransactionChartPanel(true);
 		
 		
 		getContentPane().add(chart,BorderLayout.CENTER);

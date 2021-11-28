@@ -11,6 +11,10 @@ import org.magic.gui.abstracts.charts.Abstract3DPieChart;
 
 public class RarityRepartitionPanel extends Abstract3DPieChart<MagicCard,String> {
 
+	public RarityRepartitionPanel(boolean displayPanel) {
+		super(displayPanel);
+	}
+
 	private static final long serialVersionUID = 1L;
 	
 	@Override

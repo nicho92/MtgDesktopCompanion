@@ -15,6 +15,10 @@ import org.magic.tools.UITools;
 
 public class TransactionChartPanel extends Abstract3DPieChart<Transaction,String> {
 
+	public TransactionChartPanel(boolean displayPanel) {
+		super(displayPanel);
+	}
+
 	private static final long serialVersionUID = 1L;
 	private String property;
 	private boolean count;

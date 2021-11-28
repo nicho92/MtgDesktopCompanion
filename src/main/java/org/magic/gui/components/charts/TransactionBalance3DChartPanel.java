@@ -11,6 +11,10 @@ import org.magic.gui.abstracts.charts.Abstract3DBarChart;
 
 public class TransactionBalance3DChartPanel extends Abstract3DBarChart<Transaction,String,Double, String> {
 	
+	public TransactionBalance3DChartPanel(boolean displayPanel) {
+		super(displayPanel);
+		}
+
 	private static final String BALANCE = "Balance";
 	private static final long serialVersionUID = 1L;
 

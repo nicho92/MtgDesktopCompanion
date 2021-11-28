@@ -219,13 +219,13 @@ public class CardSearchPanel extends MTGUIComponent {
 		panelResultsCards = new JPanel();
 		abilitiesPanel = new CardAbilitiesPanel();
 		cmcChart = new CmcChartPanel();
-		manaRepartitionPanel = new ManaRepartitionPanel();
-		typeRepartitionPanel = new TypeRepartitionPanel();
+		manaRepartitionPanel = new ManaRepartitionPanel(false);
+		typeRepartitionPanel = new TypeRepartitionPanel(false);
 		stockPanel = new CardStockPanel();
 		historyChartPanel = new HistoryPricesPanel(true);
 		cardsPicPanel = new ImagePanel();
 		priceTablePanel = new PricesTablePanel();
-		rarityRepartitionPanel = new RarityRepartitionPanel();
+		rarityRepartitionPanel = new RarityRepartitionPanel(false);
 		detailCardPanel = new MagicCardDetailPanel();
 		panelmana = new JPanel();
 		panelFilters = new JPanel();
