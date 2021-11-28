@@ -83,8 +83,6 @@ import org.magic.tools.POMReader;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.RemovalListener;
-import com.google.common.cache.RemovalNotification;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -117,7 +115,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 	private ResponseTransformer transformer;
 	private MTGDeckManager manager;
-	private ByteArrayOutputStream baos;
 	private boolean running = false;
 	private static final String RETURN_OK = "{\"result\":\"OK\"}";
 	private static final String CACHE_TIMEOUT = "CACHE_TIMEOUT";
@@ -271,9 +268,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 				transformer);
 		
 		get("/version", "text", (request, response) ->  
-			
 			 getCached(request.pathInfo(), new Callable<Object>() {
-				
 				@Override
 				public String call() throws Exception {
 					return new VersionChecker().getVersion();
@@ -418,16 +413,22 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return RETURN_OK;
 		});
 
-		get("/editions/list", URLTools.HEADER_JSON,
-				(request, response) -> getEnabledPlugin(MTGCardsProvider.class).listEditions(), transformer);
+		get("/editions/list", URLTools.HEADER_JSON,(request, response) ->
+			getCached(request.pathInfo(), new Callable<Object>() {
+				
+				@Override
+				public List<MagicEdition> call() throws Exception {
+					return getEnabledPlugin(MTGCardsProvider.class).listEditions();
+				}
+			})
+		, transformer);
 
 		get("/editions/:idSet", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(ID_SET)), transformer);
 
 		
 		get("/editions/list/:colName", URLTools.HEADER_JSON, (request, response) -> {
-			List<MagicEdition> eds = new ArrayList<>();
-			List<String> list = getEnabledPlugin(MTGDao.class)
-					.listEditionsIDFromCollection(new MagicCollection(request.params(":colName")));
+			var eds = new ArrayList<MagicEdition>();
+			var list = getEnabledPlugin(MTGDao.class).listEditionsIDFromCollection(new MagicCollection(request.params(":colName")));
 			for (String s : list)
 				eds.add(getEnabledPlugin(MTGCardsProvider.class).getSetById(s));
 
@@ -658,7 +659,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		get("/pics/cards/:idEd/:name", URLTools.HEADER_JSON, (request, response) -> {
 
-			baos = new ByteArrayOutputStream();
+			var baos = new ByteArrayOutputStream();
 
 			MagicEdition ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(ID_ED));
 			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( request.params(NAME), ed, true).get(0);
@@ -675,7 +676,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		get("/pics/cardname/:name", URLTools.HEADER_JSON, (request, response) -> {
 
-			baos = new ByteArrayOutputStream();
+			var baos = new ByteArrayOutputStream();
 			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class)
 					.searchCardByName( request.params(NAME), null, true).get(0);
 			BufferedImage im = getEnabledPlugin(MTGPictureProvider.class).getPicture(mc);
@@ -695,7 +696,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			var exp = new JsonExport();
 
 			for (MagicDeck d : manager.listDecks()) {
-				JsonElement el = exp.toJsonDeck(d);
+				var el = exp.toJsonDeck(d);
 				arr.add(el);
 			}
 			return arr;
@@ -703,8 +704,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		get("/deck/:idDeck", URLTools.HEADER_JSON,(request, response) -> {
 			
-				MagicDeck d = manager.getDeck(Integer.parseInt(request.params(":idDeck")));
-				JsonElement el= new JsonExport().toJsonDeck(d);
+				var d = manager.getDeck(Integer.parseInt(request.params(":idDeck")));
+				var el= new JsonExport().toJsonDeck(d);
 				el.getAsJsonObject().addProperty("colors", d.getColors());
 				
 				return el;
@@ -1062,7 +1063,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		map.put(ACCESS_CONTROL_REQUEST_METHOD, "GET,PUT,POST,DELETE,OPTIONS");
 		map.put(ACCESS_CONTROL_ALLOW_HEADERS,"Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin");
 		map.put(PASSTOKEN, "");
-		map.put("THREADS","8");
+		map.put("THREADS",String.valueOf(Runtime.getRuntime().availableProcessors()));
 		map.put(ENABLE_SSL,FALSE);
 		map.put(KEYSTORE_URI, new File(MTGConstants.DATA_DIR,"jetty.jks").getAbsolutePath());
 		map.put(KEYSTORE_PASS, "changeit");
