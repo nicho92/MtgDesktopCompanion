@@ -75,6 +75,7 @@
   	    		document.title = "MTGCompanion - " + data.name;
   	    		document.querySelector('meta[property="og:url"]').setAttribute("content", window.location.href);			
 				document.querySelector('meta[property="og:title"]').setAttribute("content", document.title);
+				
   	    	}
   	    	
   	    	$('#text').html(replaceMana(data.text));
@@ -231,7 +232,8 @@
   	    	}
   	    	
   	    	var key='normal';
-  	    	
+  	    	if($_GET("foil"))
+  	    		key='foil';
   	    	
   	    	$.ajax({
   	  			dataType: 'json',

@@ -100,8 +100,14 @@
   	    }).then(function(data) {
   	    	
   	    	if(data.name!=null)
-  	    		$('#title').html(data.name);
-  	    	
+  	    	{
+  	    		var extra = '';
+  	    		if($_GET('foil'))
+  	    			extra='<i class="ss  ss-mythic ss-grad ss-1x ss-pmei"></i>';
+  	    		
+  	    		
+  	    		$('#title').html(extra + " " + data.name);
+  	    	}
   	    	
   	    	$('#text').html(data.text.replace(/\n/g, "<br />"));
   	    	
@@ -250,9 +256,14 @@
   	  			dataType: 'json',
   	   	        url: restserver+"/dash/variations/card/"+$_GET("id")
   	   	        }).then(function(json_data) {
-			  	   	    	
+			  	   	    
+  	   	        	
+  	   	       var key= json_data.normal;
+		    	if($_GET("foil"))
+		    		key=json_data.foil;
+  	   	        	
   	   	       var config = {
-		  	   	   	      data: json_data.normal,
+		  	   	   	      data: key,
 		  	   	   		  element: 'priceVariation',
 			  	   	   	  xkey: 'date',
 		  	  	  		  ykeys: ['value'],
@@ -263,11 +274,15 @@
 		  	   	   	      behaveLikeLine: true,
 		  	   	   	      resize: true,
 		  	   	   	 	  pointSize:0
-		  	   	   	  };   	
+		  	   	   	  };   
+  	   	       
+  	   	       
+		  	   	  
+  	   	       
 	   		  	   	   		
 		  	   	    Morris.Line(config);
-	   			 		var vallast = json_data.normal[json_data.normal.length - 1].value;
-	   					var valpreLast = json_data.normal[json_data.normal.length - 2].value;
+	   			 		var vallast = key[key.length - 1].value;
+	   					var valpreLast = key[key.length - 2].value;
 	   			 		var pc = new Number(( ( vallast - valpreLast ) / valpreLast ) * 100);
 	   					
   	   	   					
