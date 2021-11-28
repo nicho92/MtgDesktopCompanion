@@ -44,18 +44,15 @@
 
 			var restService=restserver+"/editions/list";
 			
-			var count=null;
 			var qty=0;
 			
 			$.ajax({
 				dataType: 'json',
 	  	        url: restserver+"/collections/"+$_GET("col")+"/count"
-	  	    }).then(function(data) {
-	  	    	count=data;
+	  	    }).then(function(count) {
 	  	    	
-	  	    });
-			
-			
+	  	    	
+	  	    
 			if($_GET('col')!=null)
 				restService=restserver+"/editions/list/"+$_GET('col');
 			
@@ -113,6 +110,11 @@
 		            }
 		        ]
 		    } );
+		    
+	  	  });
+			
+			
+		    
 		} );
 	
 	</script>

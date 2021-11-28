@@ -14,6 +14,7 @@ import static spark.Spark.options;
 import static spark.Spark.port;
 import static spark.Spark.post;
 import static spark.Spark.put;
+import static spark.Spark.delete;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -126,14 +127,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 	private String error(String msg) {
 		return "{\"error\":\"" + msg + "\"}";
 	}
-
-	public void clearCache()
-	{
-		logger.debug("Clearing " + getName() + " cache");
-		cache.clear();
-
-	}
-	
 	
 	public JSONHttpServer() {
 		
@@ -1034,6 +1027,12 @@ public class JSONHttpServer extends AbstractMTGServer {
 		});		
 	}
 
+
+	public void clearCache() {
+		cache.clear();
+	}
+	
+	
 	private JsonArray build(HistoryPrice<MagicCard> res) {
 		
 		
@@ -1116,6 +1115,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		return getString(ACCESS_CONTROL_ALLOW_ORIGIN);
 	}
+
 
 
 

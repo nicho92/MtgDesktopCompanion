@@ -87,6 +87,19 @@
 					alert(data);
 	 			});
 			});
+			
+			$("#btnClear").click( function() {
+	  			$.ajax({
+  	       				 url: restserver+"/admin/clearCache"
+  	   			 }).then(function(data) {
+					alert(data);
+	 			});
+			});
+			
+			
+			
+			
+			
   	    	
   	    });
   	});
@@ -179,6 +192,7 @@
                  	<div class="panel-heading">Actions</div>
                     <div class="panel-body">
                      <button type="button" class="btn btn-danger" id="btnIndex">Reload Index</button>
+                     <button type="button" class="btn btn-warning" id="btnClear">Clear cache</button>
                     <div class="panel-footer"></div>
                  </div>
              </div>
