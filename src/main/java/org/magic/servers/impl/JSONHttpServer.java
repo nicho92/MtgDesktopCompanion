@@ -765,7 +765,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 		
 		get("/admin/caches", URLTools.HEADER_JSON, (request, response) -> {
-			return cache.entries();
+			return cache.entries().keySet();
 		}, transformer);
 		
 		
