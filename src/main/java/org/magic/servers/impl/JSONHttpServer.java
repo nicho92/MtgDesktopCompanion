@@ -50,7 +50,6 @@ import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.exports.impl.JsonExport;
-import org.magic.api.interfaces.MTGCache;
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
@@ -84,6 +83,8 @@ import org.magic.tools.POMReader;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.RemovalListener;
+import com.google.common.cache.RemovalNotification;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -169,7 +170,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		var timeout = this.getInt(CACHE_TIMEOUT);
 		
 		cache = new AbstractEmbeddedCacheProvider<>() {
-			Cache<String, Object> guava = CacheBuilder.newBuilder().expireAfterAccess(timeout, TimeUnit.MINUTES).build();
+			Cache<String, Object> guava = CacheBuilder.newBuilder().expireAfterWrite(timeout, TimeUnit.MINUTES).build();
 			
 			public String getName() {
 				return "";
@@ -187,9 +188,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 			
 			@Override
 			public Map<String,Object> entries() {
-				
-				
-				
 				return guava.asMap();
 			}
 			
@@ -458,7 +456,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 							logger.error(e);
 						}
 					}
-					System.out.println(pricesret);
 					return pricesret;
 				}
 			})

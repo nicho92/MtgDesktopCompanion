@@ -27,6 +27,9 @@ public class Cache2kCache extends AbstractCacheProvider {
 	public BufferedImage getItem(MagicCard mc) {
 		return cache.get(generateIdIndex(mc));
 	}
+	
+	
+	
 
 	@Override
 	public void put(BufferedImage im, MagicCard mc) throws IOException {

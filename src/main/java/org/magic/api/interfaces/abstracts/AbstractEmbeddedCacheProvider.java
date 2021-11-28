@@ -11,7 +11,8 @@ public abstract class AbstractEmbeddedCacheProvider<U, V> extends AbstractMTGPlu
 		return PLUGINS.CACHE;
 	}
 
-	public abstract Map<String, Object> entries() ;
+	public abstract Map<String, Object> entries();
+		
 
 
 }
