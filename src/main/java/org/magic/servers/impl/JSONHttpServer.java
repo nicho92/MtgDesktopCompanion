@@ -88,6 +88,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
+import groovyjarjarantlr4.v4.parse.ANTLRParser.throwsSpec_return;
 import spark.Request;
 import spark.Response;
 import spark.ResponseTransformer;
@@ -263,9 +264,12 @@ public class JSONHttpServer extends AbstractMTGServer {
 		});
 	
 		get("/cards/search/:att/:val", URLTools.HEADER_JSON,
-				(request, response) -> getEnabledPlugin(MTGCardsProvider.class)
-						.searchCardByCriteria(request.params(":att"), request.params(":val"), null, false),
+				(request, response) -> getEnabledPlugin(MTGCardsProvider.class).searchCardByCriteria(request.params(":att"), request.params(":val"), null, false),
 				transformer);
+		
+		
+		
+		
 		
 		get("/version", "text", (request, response) ->  
 			 getCached(request.pathInfo(), new Callable<Object>() {
@@ -279,8 +283,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		);
 		
 		get("/cards/search/:att/:val/:exact", URLTools.HEADER_JSON,
-				(request, response) -> getEnabledPlugin(MTGCardsProvider.class)
-						.searchCardByCriteria(request.params(":att"), request.params(":val"), null, Boolean.parseBoolean(request.params(":exact"))),
+				(request, response) -> getEnabledPlugin(MTGCardsProvider.class).searchCardByCriteria(request.params(":att"), request.params(":val"), null, Boolean.parseBoolean(request.params(":exact"))),
 				transformer);
 		
 		get("/cards/suggest/:val", URLTools.HEADER_JSON,
@@ -352,7 +355,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		put("/cards/move/:from/:to/:id", URLTools.HEADER_JSON, (request, response) -> {
 			var from = new MagicCollection(request.params(":from"));
 			var to = new MagicCollection(request.params(":to"));
-			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(":id"));
+			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(":id"));
 			getEnabledPlugin(MTGDao.class).moveCard(mc, from,to);
 			return RETURN_OK;
 		}, transformer);
@@ -372,14 +375,24 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		
 		get("/cards/list/:col", URLTools.HEADER_JSON, (request, response) -> {
-			var col = new MagicCollection(request.params(":col"));
-			return getEnabledPlugin(MTGDao.class).listCardsFromCollection(col, null);
+			return getCached(request.pathInfo(), new Callable<Object>() {
+				@Override
+				public List<MagicCard> call() throws Exception {
+						var col = new MagicCollection(request.params(":col"));
+						return getEnabledPlugin(MTGDao.class).listCardsFromCollection(col, null);
+				}
+			});
 		}, transformer);
 		
 		get("/cards/list/:col/:idEd", URLTools.HEADER_JSON, (request, response) -> {
-			var col = new MagicCollection(request.params(":col"));
-			var ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(ID_ED));
-			return getEnabledPlugin(MTGDao.class).listCardsFromCollection(col, ed);
+			return getCached(request.pathInfo(), new Callable<Object>() {
+				@Override
+				public List<MagicCard> call() throws Exception {
+					var col = new MagicCollection(request.params(":col"));
+					var ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(ID_ED));
+					return getEnabledPlugin(MTGDao.class).listCardsFromCollection(col, ed);
+				}
+				});
 		}, transformer);
 
 		get("/cards/:id", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGCardsProvider.class)
@@ -427,19 +440,27 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		
 		get("/editions/list/:colName", URLTools.HEADER_JSON, (request, response) -> {
-			var eds = new ArrayList<MagicEdition>();
-			var list = getEnabledPlugin(MTGDao.class).listEditionsIDFromCollection(new MagicCollection(request.params(":colName")));
-			for (String s : list)
-				eds.add(getEnabledPlugin(MTGCardsProvider.class).getSetById(s));
+			
+			
+			return getCached(request.pathInfo(), new Callable<Object>() {
+				
+				public List<MagicEdition> call() throws Exception{
+					var eds = new ArrayList<MagicEdition>();
+					var list = getEnabledPlugin(MTGDao.class).listEditionsIDFromCollection(new MagicCollection(request.params(":colName")));
+					for (String s : list)
+						eds.add(getEnabledPlugin(MTGCardsProvider.class).getSetById(s));
 
-			Collections.sort(eds);
-			return eds;
+					Collections.sort(eds);
+					return eds;
+				}
+				
+			});
+			
+			
 
 		}, transformer);
 
 		get("/prices/:idSet/:name", URLTools.HEADER_JSON, (request, response) -> 
-			
-			
 			getCached(request.pathInfo(), new Callable<Object>() {
 				
 				@Override
