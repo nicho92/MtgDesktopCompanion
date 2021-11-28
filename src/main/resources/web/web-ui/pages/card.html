@@ -325,21 +325,28 @@
 			      	"order": [[ 1, "asc" ]],
 			        "ajax": {"url":restserver+"/prices/"+data.editions[0].id+"/"+data.name,"dataSrc":""},
 			        "columns": [
-			        	{ "data": "site" },
+			        	{ 
+			        		"data": "site",
+			        		"defaultContent" : ""
+			        	},
 			            { 
 			        		"data" : "value",
+			        		"defaultContent" : "",
 			        		 "render": function(data, type, row, meta){
 	  			                  return data.toFixed(2);
 	  			                }
 			        	},
-			            { "data": "currency",
-			            	"defaultContent": ""
+			            { 
+			        	  "data": "currency",
+			              "defaultContent": ""
 			           	},
-			          	{ "data": "quality",
+			          	{ 
+			           	  "data": "quality",
 			           	  "defaultContent": ""
 			           	},
-						{ "data": "foil",
-			           	  "defaultContent": "",
+						{
+			           	 "data": "foil",
+			           	 "defaultContent": "",
  						 "render": function(data, type, row, meta){
 	  			                   if(type === 'display'){
 				                	  if(data)
@@ -352,6 +359,7 @@
 			           	},
 			            { 
 	  			                "data": "url",
+	  			              	"defaultContent": "",
 	  			                "render": function(data, type, row, meta){
 	  			                   if(type === 'display'){
 	  			                	  data = '<a class="fa fa-share" target="_blank" href="' + data + '"></a>';	

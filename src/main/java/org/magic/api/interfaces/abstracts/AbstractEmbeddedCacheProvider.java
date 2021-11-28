@@ -1,5 +1,7 @@
 package org.magic.api.interfaces.abstracts;
 
+import java.util.Map;
+
 import org.magic.api.interfaces.MTGCache;
 
 public abstract class AbstractEmbeddedCacheProvider<U, V> extends AbstractMTGPlugin implements MTGCache<U, V> {
@@ -8,6 +10,8 @@ public abstract class AbstractEmbeddedCacheProvider<U, V> extends AbstractMTGPlu
 	public PLUGINS getType() {
 		return PLUGINS.CACHE;
 	}
+
+	public abstract Map<String, Object> entries() ;
 
 
 }

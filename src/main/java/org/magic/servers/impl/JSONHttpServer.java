@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -121,7 +122,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 	private static final String CACHE_TIMEOUT = "CACHE_TIMEOUT";
 	private JsonExport converter;
 
-	private MTGCache<String, Object> cache;
+	private AbstractEmbeddedCacheProvider<String, Object> cache;
 	
 	private String error(String msg) {
 		return "{\"error\":\"" + msg + "\"}";
@@ -146,38 +147,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 			}
 		};
 		
-		cache = new AbstractEmbeddedCacheProvider<>() {
-			
-			Cache<String, Object> guava = CacheBuilder.newBuilder().build();
-			
-			
-			public String getName() {
-				return "";
-			}
-			
-			@Override
-			public void clear() {
-				guava.invalidateAll();
-				
-			}
-
-			@Override
-			public Object getItem(String k) {
-				return guava.getIfPresent(k);
-			}
-
-			@Override
-			public void put(Object value, String key) throws IOException {
-				guava.put(key, value);
-				
-			}
-		};
+		
 	}
-	
-	
-	
-
-
 	
 	private Object getCached(String k, Callable<Object> call)
 	{
@@ -195,6 +166,40 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 	@Override
 	public void start() throws IOException {
+		var timeout = this.getInt(CACHE_TIMEOUT);
+		
+		cache = new AbstractEmbeddedCacheProvider<>() {
+			Cache<String, Object> guava = CacheBuilder.newBuilder().expireAfterAccess(timeout, TimeUnit.MINUTES).build();
+			
+			public String getName() {
+				return "";
+			}
+
+			@Override
+			public void clear() {
+				guava.invalidateAll();
+				
+			}
+
+			public Object getItem(String k) {
+				return guava.getIfPresent(k);
+			}
+			
+			@Override
+			public Map<String,Object> entries() {
+				
+				
+				
+				return guava.asMap();
+			}
+			
+			@Override
+			public void put(Object value, String key) throws IOException {
+				guava.put(key, value);
+				
+			}
+		};
+		
 		
 		if(getBoolean(ENABLE_SSL))
 			Spark.secure(getString(KEYSTORE_URI), getString(KEYSTORE_PASS), null, null);
@@ -433,24 +438,32 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		}, transformer);
 
-		get("/prices/:idSet/:name", URLTools.HEADER_JSON, (request, response) -> {
-			MagicEdition ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(ID_SET));
-			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( request.params(NAME), ed, false).get(0);
-			List<MagicPrice> pricesret = new ArrayList<>();
-			for (MTGPricesProvider prices : listEnabledPlugins(MTGPricesProvider.class))
-			{
-				try {
-					pricesret.addAll(prices.getPrice(mc));
+		get("/prices/:idSet/:name", URLTools.HEADER_JSON, (request, response) -> 
+			
+			
+			getCached(request.pathInfo(), new Callable<Object>() {
+				
+				@Override
+				public List<MagicPrice> call() throws Exception {
+					MagicEdition ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(ID_SET));
+					MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( request.params(NAME), ed, false).get(0);
+					List<MagicPrice> pricesret = new ArrayList<>();
+					for (MTGPricesProvider prices : listEnabledPlugins(MTGPricesProvider.class))
+					{
+						try {
+							pricesret.addAll(prices.getPrice(mc));
+						}
+						catch(Exception e)
+						{
+							logger.error(e);
+						}
+					}
+					System.out.println(pricesret);
+					return pricesret;
 				}
-				catch(Exception e)
-				{
-					logger.error(e);
-				}
-			}
-
-			return pricesret;
-
-		}, transformer);
+			})
+			, transformer);
+			
 		
 	
 		get("/alerts/list", URLTools.HEADER_JSON,
@@ -721,6 +734,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 			var serv = (QwartzServer) MTG.getPlugin("Qwartz", MTGServer.class);
 			return serv.toJsonDetails();
 		}, transformer);
+		
+		get("/admin/caches", URLTools.HEADER_JSON, (request, response) -> {
+			return cache.entries();
+		}, transformer);
+		
 		
 		get("/admin/threads", URLTools.HEADER_JSON, (request, response) -> {
 			
@@ -1051,7 +1069,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		map.put(ENABLE_SSL,FALSE);
 		map.put(KEYSTORE_URI, new File(MTGConstants.DATA_DIR,"jetty.jks").getAbsolutePath());
 		map.put(KEYSTORE_PASS, "changeit");
-		map.put(CACHE_TIMEOUT, "-1");
+		map.put(CACHE_TIMEOUT, "60");
 		
 		return map;
 	}
