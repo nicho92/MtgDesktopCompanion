@@ -713,14 +713,24 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		get("/decks/list", URLTools.HEADER_JSON, (request, response) -> {
 
-			var arr = new JsonArray();
-			var exp = new JsonExport();
+			
+			return getCached(request.pathInfo(), new Callable<Object>() {
 
-			for (MagicDeck d : manager.listDecks()) {
-				var el = exp.toJsonDeck(d);
-				arr.add(el);
-			}
-			return arr;
+				@Override
+				public Object call() throws Exception {
+					var arr = new JsonArray();
+					var exp = new JsonExport();
+
+					for (MagicDeck d : manager.listDecks()) {
+						var el = exp.toJsonDeck(d);
+						arr.add(el);
+					}
+					return arr;
+				}
+				 
+				 
+				 
+			 });
 		}, transformer);
 
 		get("/deck/:idDeck", URLTools.HEADER_JSON,(request, response) -> {
