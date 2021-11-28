@@ -2243,7 +2243,7 @@
 	</edition>
 	<edition id="MH2">
 		<banner lang="en"
-			url="https://www.cardkingdom.com/media/upload/about/MH2.png" />
+			url="https://images.ctfassets.net/s5n2t79q9icq/3MCTCAGgwHWD2grLaTejLq/add1d4a1394be3d6fee14209583dbfaa/en_eFl6Q1xO8X.png" />
 		<prereleasepack lang="en"
 			url="https://cdn11.bigcommerce.com/s-9im8f1/images/stencil/1280x1280/products/9180/11985/MTGMH2_EN_Prrls_Slv_01_01__64864.1620341393.png" />
 		<box lang="en" extra="set" num="1"
@@ -2261,7 +2261,7 @@
 	</edition>
 
 	<edition id="AFR">
-		<banner lang="en" url="https://www.cardkingdom.com/media/upload/about/AFR.png" />
+		<banner lang="en" url="https://www.crique-aux-jeux.fr/wp-content/uploads/mtg-logo-DDFR.png" />
 		<box lang="en" num="1" extra="draft" url="https://tcgladen.ch/wp-content/uploads/2021/05/MTGAFR_EN_BstrDspBx_01_01.png" />
 		<box lang="en" num="2" extra="collector" url="https://cdn.shopify.com/s/files/1/1704/1809/products/1199dc6e890e1caf21e4fa9434e09493f7696e78_1024x1024.png" />
 		<box lang="en" num="3" extra="set" url="https://cdn.shopify.com/s/files/1/1633/7907/products/AdventuresintheForgottenRealmsBoosterBoxSet1_953x953.png?v=1620679771" />
