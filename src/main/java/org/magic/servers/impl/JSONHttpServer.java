@@ -260,10 +260,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 				(request, response) -> getEnabledPlugin(MTGCardsProvider.class).searchCardByCriteria(request.params(":att"), request.params(":val"), null, false),
 				transformer);
 		
-		
-		
-		
-		
 		get("/version", "text", (request, response) ->  
 			 getCached(request.pathInfo(), new Callable<Object>() {
 				@Override
@@ -388,18 +384,20 @@ public class JSONHttpServer extends AbstractMTGServer {
 				});
 		}, transformer);
 
-		get("/cards/:id", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGCardsProvider.class)
-				.getCardById(request.params(":id")), transformer);
+		get("/cards/:id", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(":id")), transformer);
 		
 		get("/cards/:idSet/cards", URLTools.HEADER_JSON, (request, response) -> {
-			MagicEdition ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(ID_SET));
-			List<MagicCard> ret = getEnabledPlugin(MTGCardsProvider.class).searchCardByEdition(ed);
-			Collections.sort(ret, new CardsEditionSorter());
-
-			return ret;
+			return getCached(request.pathInfo(), new Callable<Object>() {
+				@Override
+				public List<MagicCard> call() throws Exception {
+					var ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(ID_SET));
+					var ret = getEnabledPlugin(MTGCardsProvider.class).searchCardByEdition(ed);
+					Collections.sort(ret, new CardsEditionSorter());
+					return ret;
+				}
+			});
 		}, transformer);
-		
-	
+
 
 		get("/collections/:name/count", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGDao.class).getCardsCountGlobal(new MagicCollection(request.params(NAME))), transformer);
 
@@ -433,8 +431,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		
 		get("/editions/list/:colName", URLTools.HEADER_JSON, (request, response) -> {
-			
-			
 			return getCached(request.pathInfo(), new Callable<Object>() {
 				
 				public List<MagicEdition> call() throws Exception{
@@ -479,16 +475,22 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 	
 		get("/alerts/list", URLTools.HEADER_JSON,
-				(request, response) -> getEnabledPlugin(MTGDao.class).listAlerts(), transformer);
+				(request, response) -> getCached(request.pathInfo(), new Callable<Object>() {
+						@Override
+						public List<MagicCardAlert> call() throws Exception {
+							return getEnabledPlugin(MTGDao.class).listAlerts();
+						}
+					})
+					, transformer);
 
 		get("/alerts/:idCards", URLTools.HEADER_JSON, (request, response) -> {
-			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(ID_CARDS));
+			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(ID_CARDS));
 			return getEnabledPlugin(MTGDao.class).hasAlert(mc);
 
 		}, transformer);
 
 		put("/alerts/add/:idCards", (request, response) -> {
-			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(ID_CARDS));
+			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(ID_CARDS));
 			var alert = new MagicCardAlert();
 			alert.setCard(mc);
 			alert.setPrice(0.0);
