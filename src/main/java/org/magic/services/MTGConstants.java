@@ -12,7 +12,6 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.lang3.SystemUtils;
@@ -125,6 +124,8 @@ public class MTGConstants {
 	public static final String EVENTUI_LOCATION = "web/event-ui";
 	public static final String WEBSHOP_LOCATION = "web/shop-ui";
 	public static final String WEBCOLLECTION_LOCATION = "web/collection-ui";
+	public static final String WEBTRADES_LOCATION = "web/trades-ui";
+
 	public static final String MTG_TEMPLATES_DIR = "./templates";
 	public static final String MTG_DESKTOP_VERSION_FILE = "/version";
 	public static final String ICON_DIR="/icons";
@@ -230,7 +231,7 @@ public class MTGConstants {
 	public static final ImageIcon ICON_PASTE = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/paste.png"));
 	public static final ImageIcon ICON_MERGE = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/merge.png"));
 	public static final ImageIcon ICON_EXT_SHOP = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/extshop.png"));
-
+	public static final ImageIcon ICON_TRADES = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/trades.png"));
 	
 	public static final ImageIcon ICON_DEFAULT_PLUGIN = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/plugins/default.png"));
 	
@@ -330,6 +331,7 @@ public static final ImageIcon ICON_TAB_SIMILARITY=new ImageIcon(MTGConstants.cla
 	public static final int ROTATED_TIMEOUT = 15;
 	public static final Paint PICTURE_PAINTER = PaintUtils.NIGHT_GRAY;
 	public static final int DISCORD_MAX_CHARACTER = 2000;
+	
 	
 	
 	
