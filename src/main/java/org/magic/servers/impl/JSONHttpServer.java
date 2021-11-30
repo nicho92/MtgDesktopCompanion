@@ -925,6 +925,13 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 		
 		
+		get("/announces/list", URLTools.HEADER_JSON, (request, response) -> {
+			var a = MTG.getEnabledPlugin(MTGDao.class).listAnnounces();
+			return a;
+		}, transformer);
+		
+		
+		
 		get("/webshop/:dest/categories", URLTools.HEADER_JSON, (request, response) ->MTG.getPlugin(request.params(":dest"), MTGExternalShop.class).listCategories(), transformer);
 		
 		

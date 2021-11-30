@@ -3,7 +3,6 @@ package org.magic.gui;
 import static org.magic.tools.MTG.capitalize;
 
 import java.awt.BorderLayout;
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.swing.ImageIcon;
