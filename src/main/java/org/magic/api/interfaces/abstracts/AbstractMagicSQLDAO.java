@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
+import org.magic.api.beans.Announce;
 import org.magic.api.beans.ConverterItem;
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MTGSealedProduct;
@@ -75,8 +76,8 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	protected static final int CARD_ID_SIZE=50;
 
 	
-	protected List<MTGStockItem> readTransactionItems(ResultSet rs) throws SQLException {
-		return serialiser.fromJsonList(rs.getObject("stocksItem").toString(), MTGStockItem.class);
+	protected List<MTGStockItem> readStockItemFrom(ResultSet rs,String field) throws SQLException {
+		return serialiser.fromJsonList(rs.getObject(field).toString(), MTGStockItem.class);
 	}
 	
 	protected void storeTransactionItems(PreparedStatement pst, int position, List<MTGStockItem> grd) throws SQLException {
@@ -176,6 +177,9 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public boolean createDB() {
 		try (var cont =  pool.getConnection();Statement stat = cont.createStatement()) {
 			
+			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" announces (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, startDate TIMESTAMP ,endDate TIMESTAMP, expireDate TIMESTAMP, title VARCHAR(150), description " + longTextStorage() + ", total DECIMAL, currency VARCHAR(5),  stocksItem "+beanStorage() + ",typeAnnounce VARCHAR(10), fk_idcontact INTEGER);");
+			logger.debug("Create table transactions");
+			
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" transactions (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, dateTransaction TIMESTAMP, message VARCHAR(250), stocksItem "+beanStorage()+", statut VARCHAR(15), transporter VARCHAR(50), shippingPrice DECIMAL, transporterShippingCode VARCHAR(50),currency VARCHAR(5),datePayment TIMESTAMP NULL ,dateSend TIMESTAMP NULL , paymentProvider VARCHAR(50),fk_idcontact INTEGER)");
 			logger.debug("Create table transactions");
 			
@@ -212,6 +216,8 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			
 			
 			
+			
+			
 			postCreation(stat);
 	
 			logger.debug("populate collections");
@@ -234,6 +240,38 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	}
 	
 	
+	
+	
+	
+	
+	@Override
+	public List<Announce> listAnnounces() throws SQLException {
+		
+		logger.debug("list announces");
+		List<Announce> colls = new ArrayList<>();
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from announces")) 
+		{
+				var rs = pst.executeQuery();
+			
+				while (rs.next()) {
+					Announce d = readAnnounce(rs);
+					colls.add(d);
+					notify(d);
+				}
+		}
+		return colls;
+	}
+
+	@Override
+	public int saveOrUpdateAnnounce(Announce a) throws SQLException {
+		return 1;
+		
+	}
+	@Override
+	public void deleteAnnounce(Announce alert) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
 	protected void postCreation(Statement stat) throws SQLException
 	{
 		//do nothing
@@ -754,7 +792,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		state.setMessage(rs.getString("message"));
 		state.setSourceShopName(MTGConstants.MTG_APP_NAME);
 		state.setStatut(TransactionStatus.valueOf(rs.getString("statut")));
-		state.setItems(readTransactionItems(rs));
+		state.setItems(readStockItemFrom(rs,"stocksItem"));
 		state.setTransporter(rs.getString("transporter"));
 		state.setShippingPrice(rs.getDouble("shippingPrice"));
 		state.setCurrency(rs.getString("currency"));
@@ -1794,6 +1832,28 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		return (getType()+getName()).hashCode();
 	}
 
+	private Announce readAnnounce(ResultSet rs) throws SQLException {
+		var a = new Announce();
+			  a.setId(rs.getInt("id"));
+			  a.setStartDate(rs.getTimestamp("startDate"));
+			  a.setEndDate(rs.getTimestamp("endDate"));
+			  a.setExpirationDate(rs.getTimestamp("expireDate"));
+			  a.setTitle(rs.getString("title"));
+			  a.setDescription(rs.getString("description"));
+			  a.setTotalPrice(rs.getDouble("total"));
+			  a.setCurrency(Currency.getInstance(rs.getString("currency")));
+			  a.setContact(getContactById(rs.getInt("fk_idcontact")));
+			  
+			  if(rs.getObject("stocksItem")!=null)
+				  a.setItems(readStockItemFrom(rs,"stocksItem"));
+			  
+		return a;
+	}
+	
+	
+	
+	
+	
 	private SealedStock readSealed(ResultSet rs) throws SQLException {
 		var state = new SealedStock();
 		state.setComment(rs.getString("comment"));

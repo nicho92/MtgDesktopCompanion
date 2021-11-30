@@ -23,6 +23,7 @@ import org.bson.codecs.pojo.PojoCodecProvider;
 import org.bson.conversions.Bson;
 import org.bson.json.JsonMode;
 import org.bson.json.JsonWriterSettings;
+import org.magic.api.beans.Announce;
 import org.magic.api.beans.ConverterItem;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
@@ -69,7 +70,8 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	private String colTransactions = "transactions";
 	private String colConversionItem = "conversionsItems";
 	private String colDecks = "decks";
-	
+	private String colAnnounces="announces";
+
 	private String dbIDField = "db_id";
 	private String dbAlertField = "alertItem";
 	private String dbNewsField = "newsItem";
@@ -78,7 +80,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	private String dbTypeNewsField = "typeNews";
 	private MongoClient client;
 	private JsonWriterSettings setts;
-
+	
 	
 	@Override
 	public Map<String, String> getDefaultAttributes() {
@@ -164,7 +166,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	public boolean createDB() {
 		
 			var populateCollections=true;
-			for(String s : new String[] {colCards,colCollects,colStocks,colAlerts,colNews,colOrders,colSealed,colTransactions,colContacts,colDecks,colConversionItem})
+			for(String s : new String[] {colCards,colCollects,colStocks,colAlerts,colNews,colOrders,colSealed,colTransactions,colContacts,colDecks,colConversionItem,colAnnounces})
 			{
 				try {
 					db.createCollection(s);
@@ -693,6 +695,40 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		});
 		
 		return trans;
+	}
+
+
+	@Override
+	public List<Announce> listAnnounces() {
+		List<Announce> trans = new ArrayList<>();
+		db.getCollection(colAnnounces, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result ->{
+			Announce o = deserialize(result.toString(), Announce.class);
+			trans.add(o);
+		});
+		
+		
+		return trans;
+	}
+
+	@Override
+	public int saveOrUpdateAnnounce(Announce t) throws SQLException {
+		if (t.getId() == -1) {
+			t.setId(Integer.parseInt(getNextSequence().toString()));
+			db.getCollection(colAnnounces, BasicDBObject.class).insertOne(BasicDBObject.parse(serialize(t)));
+
+		} else {
+			UpdateResult res = db.getCollection(colAnnounces, BasicDBObject.class).replaceOne(Filters.eq("id",t.getId()),BasicDBObject.parse(serialize(t)));
+			logger.trace(res);
+		}
+		return t.getId();
+		
+	}
+
+	@Override
+	public void deleteAnnounce(Announce a) throws SQLException {
+		DeleteResult rs = db.getCollection(colAnnounces).deleteOne(Filters.eq("id",a.getId()));
+		logger.debug(rs);
+		
 	}
 
 	

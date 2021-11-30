@@ -265,6 +265,9 @@ public class MagicGUI extends JFrame {
 		if (MTGControler.getInstance().get("modules/webshop").equals("true"))
 			addTab(new ShopGUI());
 		
+		//if (MTGControler.getInstance().get("modules/announces").equals("true"))
+			addTab(new AnnouncesGUI());
+		
 
 		if (MTGControler.getInstance().get("modules/mkm").equals("true"))
 		{

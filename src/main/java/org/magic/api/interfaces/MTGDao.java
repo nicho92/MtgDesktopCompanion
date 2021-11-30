@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.magic.api.beans.Announce;
 import org.magic.api.beans.ConverterItem;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
@@ -115,7 +116,9 @@ public interface MTGDao extends MTGPlugin{
 	public void deleteAlert(MagicCardAlert alert) throws SQLException;
 	public boolean hasAlert(MagicCard mc);
 
-	
+	public List<Announce>  listAnnounces() throws SQLException;
+	public int saveOrUpdateAnnounce(Announce a) throws SQLException;
+	public void deleteAnnounce(Announce alert) throws SQLException;
 	
 	public List<MagicNews> listNews();
 	public void deleteNews(MagicNews n) throws SQLException;

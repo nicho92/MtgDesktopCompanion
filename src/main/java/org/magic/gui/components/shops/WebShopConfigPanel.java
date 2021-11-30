@@ -174,9 +174,10 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		
 		
 		JPanel panelCss = createBoxPanel("CSS", MTGConstants.ICON_TAB_JSON, new BorderLayout(0, 0), true);
-		txtExtraCss = new RSyntaxTextArea(conf.getExtraCss());
+		txtExtraCss = new RSyntaxTextArea(conf.getExtraCss(),25,1);
 		
 		txtExtraCss.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_CSS);
+		
 		panelCss.setLayout(new BorderLayout());
 		panelCss.add(new JScrollPane(txtExtraCss));
 		
