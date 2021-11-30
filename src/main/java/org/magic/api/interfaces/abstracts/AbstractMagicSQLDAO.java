@@ -246,8 +246,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	
 	@Override
 	public List<Announce> listAnnounces() throws SQLException {
-		
-		logger.debug("list announces");
 		List<Announce> colls = new ArrayList<>();
 		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from announces")) 
 		{
@@ -268,8 +266,12 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		
 	}
 	@Override
-	public void deleteAnnounce(Announce alert) throws SQLException {
-		// TODO Auto-generated method stub
+	public void deleteAnnounce(Announce a) throws SQLException {
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("DELETE FROM announces where id=?")) {
+			pst.setInt(1, a.getId());
+			pst.executeUpdate();
+		}
+		logger.debug(a +" is deleted");
 		
 	}
 	protected void postCreation(Statement stat) throws SQLException
@@ -1843,7 +1845,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			  a.setTotalPrice(rs.getDouble("total"));
 			  a.setCurrency(Currency.getInstance(rs.getString("currency")));
 			  a.setContact(getContactById(rs.getInt("fk_idcontact")));
-			  
+			  a.setType(TransactionDirection.valueOf(rs.getString("typeAnnounce")));
 			  if(rs.getObject("stocksItem")!=null)
 				  a.setItems(readStockItemFrom(rs,"stocksItem"));
 			  

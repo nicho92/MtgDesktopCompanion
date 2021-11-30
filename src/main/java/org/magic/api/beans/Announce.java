@@ -6,6 +6,7 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.List;
 
+import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.interfaces.MTGStockItem;
 
@@ -23,11 +24,20 @@ public class Announce implements Serializable {
 	private String title;
 	private String description;
 	private List<MTGStockItem> items;
+	private TransactionDirection type;
 	private boolean updated=false;
 	
 	public Announce() {
 		images = new ArrayList<>();
 		items = new ArrayList<>();
+	}
+	
+	public TransactionDirection getType() {
+		return type;
+	}
+	
+	public void setType(TransactionDirection type) {
+		this.type = type;
 	}
 	
 	public boolean isUpdated() {
