@@ -2,9 +2,11 @@ package org.magic.api.beans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Currency;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.beans.shop.Contact;
@@ -30,10 +32,31 @@ public class Announce implements Serializable {
 	public Announce() {
 		images = new ArrayList<>();
 		items = new ArrayList<>();
+		type = TransactionDirection.BUY;
+		startDate = new Date();
+		var c = Calendar.getInstance();
+		c.setTime(startDate);
+		c.add(Calendar.DAY_OF_MONTH, 15);
+		endDate = c.getTime();
+		totalPrice=0.0;
+		currency = Currency.getInstance(Locale.getDefault());
+		
 	}
 	
 	public TransactionDirection getType() {
 		return type;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		
+		if(obj instanceof Announce b)
+		{
+			return b.getId()==this.getId();
+		}
+		
+		return false;
+		
 	}
 	
 	public void setType(TransactionDirection type) {
