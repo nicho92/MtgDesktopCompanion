@@ -150,7 +150,7 @@
 		<dependency>
 		    <groupId>com.h2database</groupId>
 		    <artifactId>h2</artifactId>
-		    <version>1.4.200</version>
+		    <version>2.0.202</version>
 		</dependency>
 		<dependency>
 		  <groupId>com.github.nicho92</groupId>
@@ -175,7 +175,7 @@
 		<dependency>
 			<groupId>org.jooq</groupId>
 			<artifactId>jooq</artifactId>
-			<version>3.15.4</version>
+			<version>3.15.5</version>
 		</dependency>
 		<dependency>
 			<groupId>com.icoderman</groupId>
@@ -332,7 +332,6 @@
 			<groupId>com.sparkjava</groupId>
 			<artifactId>spark-core</artifactId>
 			<version>2.9.3</version>
-			
 		</dependency>
 		<dependency>
 			<groupId>de.vandermeer</groupId>

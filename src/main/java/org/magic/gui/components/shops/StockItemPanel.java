@@ -105,5 +105,10 @@ public class StockItemPanel extends MTGUIComponent {
 		return MTGConstants.ICON_TAB_STOCK;
 	}
 
+
+	public List<MTGStockItem> getItems() {
+		return model.getItems();
+	}
+
 	
 }

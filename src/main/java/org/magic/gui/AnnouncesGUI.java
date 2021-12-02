@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 
@@ -83,33 +84,30 @@ public class AnnouncesGUI extends MTGUIComponent {
 		
 		btnSave.setEnabled(false);
 		btnDelete.setEnabled(false);
-		
-		
+		tableAnnounces.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		tableAnnounces.setDefaultRenderer(Date.class, new DateTableCellEditorRenderer(true));
 		tableAnnounces.getSelectionModel().addListSelectionListener(lsl->{
 			
 			if(!lsl.getValueIsAdjusting())
 			{
 					Announce a = UITools.getTableSelection(tableAnnounces,0);
-					contactPanel.setContact(a.getContact());
-					itemsPanel.initItems(a.getItems());
-					gedPanel.init(Announce.class, a);
-					detailsPanel.setAnnounce(a);
 					
-					
+					if(a!=null)
+					{
+						contactPanel.setContact(a.getContact());
+						itemsPanel.initItems(a.getItems());
+						gedPanel.init(Announce.class, a);
+						detailsPanel.setAnnounce(a);
+					}
 					btnDelete.setEnabled(a!=null);
 					btnSave.setEnabled(a!=null);
-					
 			}
-			
-			
 		});
 		
 		
 		btnNew.addActionListener(al->{
-			
 			var a = new Announce();
-			
+				  a.setContact(MTGControler.getInstance().getWebConfig().getContact());
 			modelAnnounces.addItem(a);
 			
 			
@@ -121,10 +119,9 @@ public class AnnouncesGUI extends MTGUIComponent {
 		btnSave.addActionListener(al->{
 			Announce b = detailsPanel.getAnnounce();
 							 b.setContact(contactPanel.getContact());
-			
+							 b.setItems(itemsPanel.getItems());
 			
 			var sw = new SwingWorker<Void, Void>() {
-
 				@Override
 				protected Void doInBackground() throws Exception {
 					MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateAnnounce(b);
@@ -154,7 +151,10 @@ public class AnnouncesGUI extends MTGUIComponent {
 			if(res==JOptionPane.YES_OPTION)
 			{
 				try {
-					MTG.getEnabledPlugin(MTGDao.class).deleteAnnounce(a);
+					
+					if(a.getId()>-1)
+						MTG.getEnabledPlugin(MTGDao.class).deleteAnnounce(a);
+					
 					modelAnnounces.removeItem(a);
 				} catch (SQLException e) {
 					MTGControler.getInstance().notify(e);
@@ -163,7 +163,7 @@ public class AnnouncesGUI extends MTGUIComponent {
 		});
 	}
 
-	
+
 	@Override
 	public void onFirstShowing() {
 			var sw = new AbstractObservableWorker<List<Announce>, Announce, MTGDao>(buzy,MTG.getEnabledPlugin(MTGDao.class)) {

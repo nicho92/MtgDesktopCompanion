@@ -261,8 +261,43 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public int saveOrUpdateAnnounce(Announce a) throws SQLException {
-		return 1;
+	public int saveOrUpdateAnnounce(Announce n) throws SQLException {
+		if (n.getId() < 0) 
+		{
+				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO announces (startDate, endDate, expireDate, title, description, total, currency, stocksItem, typeAnnounce, fk_idcontact) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",Statement.RETURN_GENERATED_KEYS))
+				{
+					pst.setDate(1,new Date(n.getStartDate().getTime()));
+					pst.setDate(2,new Date(n.getEndDate().getTime()));
+					pst.setDate(3, new Date(n.getExpirationDate().getTime()));
+					pst.setString(4, n.getTitle());
+					pst.setString(5, n.getDescription());
+					pst.setDouble(6, n.getTotalPrice());
+					pst.setString(7, n.getCurrency().getCurrencyCode());
+					storeTransactionItems(pst,8, n.getItems());
+					pst.setString(9, n.getType().name());
+					pst.setInt(10, n.getContact().getId());
+					var ret = pst.executeUpdate();
+					n.setId(ret);
+					
+					logger.debug(n  +" created");
+					n.setUpdated(false);
+					
+		
+				}
+				
+		}
+		
+		return n.getId();
+		
+//		else if(n.isUpdated())
+//		{
+//			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE conversionsItems SET name = ?, lang = ?, source = ?, inputId = ?, destination = ?, outputId = ? WHERE id = ?")) 
+//			{
+//				
+//				n.setUpdated(false);	
+//			}	
+//			
+//		}
 		
 	}
 	@Override
