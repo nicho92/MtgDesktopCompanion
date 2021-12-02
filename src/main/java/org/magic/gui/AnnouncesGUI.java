@@ -3,6 +3,7 @@ package org.magic.gui;
 import static org.magic.tools.MTG.capitalize;
 
 import java.awt.BorderLayout;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
@@ -18,6 +19,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.Announce;
 import org.magic.api.interfaces.MTGDao;
@@ -109,18 +111,24 @@ public class AnnouncesGUI extends MTGUIComponent {
 			var a = new Announce();
 				  a.setContact(MTGControler.getInstance().getWebConfig().getContact());
 			modelAnnounces.addItem(a);
-			
-			
-			
 		});
 		
 		
 		
 		btnSave.addActionListener(al->{
-			Announce b = detailsPanel.getAnnounce();
-							 b.setContact(contactPanel.getContact());
-							 b.setItems(itemsPanel.getItems());
 			
+			Announce b = UITools.getTableSelection(tableAnnounces,0);
+			b.setUpdated(true);
+			try {
+				BeanUtils.copyProperties(b,detailsPanel.getAnnounce());
+				 b.setContact(contactPanel.getContact());
+				 b.setItems(itemsPanel.getItems());
+
+
+			} catch (Exception e) {
+				logger.error(e);
+			}
+							 
 			var sw = new SwingWorker<Void, Void>() {
 				@Override
 				protected Void doInBackground() throws Exception {
