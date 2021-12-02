@@ -3,11 +3,9 @@ package org.magic.gui;
 import static org.magic.tools.MTG.capitalize;
 
 import java.awt.BorderLayout;
-import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -49,6 +47,7 @@ public class AnnouncesGUI extends MTGUIComponent {
 	private ContactPanel contactPanel;
 	private JXTable tableAnnounces;
 	private AnnounceDetailPanel detailsPanel;
+	
 	public AnnouncesGUI() {
 		setLayout(new BorderLayout(0, 0));
 		
@@ -110,7 +109,7 @@ public class AnnouncesGUI extends MTGUIComponent {
 		
 		btnNew.addActionListener(al->{
 			var a = new Announce();
-				  a.setContact(MTGControler.getInstance().getWebConfig().getContact());
+				a.setContact(MTGControler.getInstance().getWebConfig().getContact());
 			modelAnnounces.addItem(a);
 		});
 		
@@ -124,7 +123,7 @@ public class AnnouncesGUI extends MTGUIComponent {
 				BeanUtils.copyProperties(b,detailsPanel.getAnnounce());
 				 b.setContact(contactPanel.getContact());
 				 b.setItems(itemsPanel.getItems());
-
+				 
 
 			} catch (Exception e) {
 				logger.error(e);
@@ -139,13 +138,6 @@ public class AnnouncesGUI extends MTGUIComponent {
 
 				@Override
 				protected void done() {
-					
-					try {
-						get();
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} 
 					modelAnnounces.fireTableDataChanged();
 				}
 			};

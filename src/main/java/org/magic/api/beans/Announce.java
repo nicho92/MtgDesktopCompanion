@@ -20,7 +20,6 @@ public class Announce implements Serializable {
 	private List<GedEntry<Announce>> images;
 	private Date startDate;
 	private Date endDate;
-	private Date expirationDate;
 	private Double totalPrice;
 	private Currency currency;
 	private String title;
@@ -38,7 +37,6 @@ public class Announce implements Serializable {
 		c.setTime(startDate);
 		c.add(Calendar.DAY_OF_MONTH, 15);
 		endDate = c.getTime();
-		expirationDate= c.getTime();
 		totalPrice=0.0;
 		currency = Currency.getInstance(Locale.getDefault());
 		
@@ -106,12 +104,6 @@ public class Announce implements Serializable {
 	}
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
-	}
-	public Date getExpirationDate() {
-		return expirationDate;
-	}
-	public void setExpirationDate(Date expirationDate) {
-		this.expirationDate = expirationDate;
 	}
 	public Double getTotalPrice() {
 		return totalPrice;
