@@ -7,6 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -131,13 +132,20 @@ public class AnnouncesGUI extends MTGUIComponent {
 							 
 			var sw = new SwingWorker<Void, Void>() {
 				@Override
-				protected Void doInBackground() throws Exception {
+				protected Void doInBackground() throws SQLException {
 					MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateAnnounce(b);
 					return null;
 				}
 
 				@Override
 				protected void done() {
+					
+					try {
+						get();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} 
 					modelAnnounces.fireTableDataChanged();
 				}
 			};

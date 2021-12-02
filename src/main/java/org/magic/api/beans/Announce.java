@@ -38,6 +38,7 @@ public class Announce implements Serializable {
 		c.setTime(startDate);
 		c.add(Calendar.DAY_OF_MONTH, 15);
 		endDate = c.getTime();
+		expirationDate= c.getTime();
 		totalPrice=0.0;
 		currency = Currency.getInstance(Locale.getDefault());
 		

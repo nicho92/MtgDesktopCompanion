@@ -282,8 +282,8 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 					
 				}
 		}
-		else if(n.isUpdated())
-			{
+		else
+		{
 				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE announces SET startDate = ?, endDate =?, expireDate =?', title=?,  description = ?, total = ?, currency = ?, stocksItem = ?, typeAnnounce = ?, fk_idcontact = ? WHERE id = ?;")) 
 				{
 					pst.setDate(1,new Date(n.getStartDate().getTime()));
@@ -300,7 +300,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 					logger.debug(n  +" updated");
 				}	
 				
-			}
+		}
 		n.setUpdated(false);		
 		return n.getId();
 
