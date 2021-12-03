@@ -60,6 +60,7 @@ import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGServer;
+import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.MTGTrackingService;
 import org.magic.api.interfaces.abstracts.AbstractEmbeddedCacheProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
@@ -926,10 +927,21 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		
 		get("/announces/list", URLTools.HEADER_JSON, (request, response) -> {
-			var a = MTG.getEnabledPlugin(MTGDao.class).listAnnounces();
-			return a;
+			return MTG.getEnabledPlugin(MTGDao.class).listAnnounces();
 		}, transformer);
 		
+
+		get("/announces/contact/:id", URLTools.HEADER_JSON, (request, response) -> {
+			var c = new Contact();
+			c.setId(Integer.parseInt(request.params(":id")));
+			return MTG.getEnabledPlugin(MTGDao.class).listAnnounces(c);
+		}, transformer);
+		
+		post("/announces/search", URLTools.HEADER_JSON, (request, response) -> {
+			
+			MTGStockItem ret = converter.fromJson(new InputStreamReader(request.raw().getInputStream()), MTGStockItem.class);
+			return MTG.getEnabledPlugin(MTGDao.class).listAnnounces(ret);
+		}, transformer);
 		
 		
 		get("/webshop/:dest/categories", URLTools.HEADER_JSON, (request, response) ->MTG.getPlugin(request.params(":dest"), MTGExternalShop.class).listCategories(), transformer);

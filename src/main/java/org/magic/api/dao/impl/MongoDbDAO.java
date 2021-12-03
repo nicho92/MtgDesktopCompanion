@@ -37,6 +37,7 @@ import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.MTGNewsProvider;
+import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGConstants;
 import org.magic.tools.Chrono;
@@ -697,6 +698,28 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		return trans;
 	}
 
+	@Override
+	public List<Announce> listAnnounces(MTGStockItem item) throws SQLException {
+		//TODO using elemMatch 
+		List<Announce> trans = new ArrayList<>();
+		db.getCollection(colAnnounces,BasicDBObject.class).find(Filters.eq("items.product.name", item.getProduct().getName())).forEach((Consumer<BasicDBObject>) result ->{
+			Announce o = deserialize(result.toString(), Announce.class);
+			trans.add(o);
+		});
+		
+		return trans;
+	}
+	@Override
+	public List<Announce> listAnnounces(Contact c) throws SQLException {
+		List<Announce> trans = new ArrayList<>();
+		db.getCollection(colAnnounces,BasicDBObject.class).find(Filters.eq("contact.id", c.getId())).forEach((Consumer<BasicDBObject>) result ->{
+			Announce o = deserialize(result.toString(), Announce.class);
+			trans.add(o);
+		});
+		
+		return trans;
+	}
+	
 
 	@Override
 	public List<Announce> listAnnounces() {
