@@ -6,7 +6,6 @@ import java.awt.Insets;
 import java.util.Currency;
 
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -26,11 +25,6 @@ public class AnnounceDetailPanel extends MTGUIComponent {
 	private JTextField titleJTextField;
 	private JTextField totalPriceJTextField;
 	private JComboBox<TransactionDirection> cboType;
-
-	public AnnounceDetailPanel(Announce newAnnounce) {
-		this();
-		setAnnounce(newAnnounce);
-	}
 
 	public AnnounceDetailPanel() {
 		
@@ -141,18 +135,24 @@ public class AnnounceDetailPanel extends MTGUIComponent {
 		componentGbc0.gridy = 6;
 		add(cboCurrency, componentGbc0);
 						
-		if (announce != null) {
-			setAnnounce(announce);
-		}
+		
 	}
 
 	public Announce getAnnounce() {
+		
+		announce.setTitle(titleJTextField.getText());
+		announce.setDescription(descriptionJTextArea.getText());
+		announce.setStartDate(startDateFld.getDate());
+		announce.setEndDate(endDateFld.getDate());
+		announce.setCurrency((Currency)cboCurrency.getSelectedItem());
+		announce.setType( (TransactionDirection) cboType.getSelectedItem());
+		announce.setTotalPrice(UITools.parseDouble(totalPriceJTextField.getText()));
+		
 		return announce;
 	}
 
 	public void setAnnounce(Announce announce) {
 		this.announce=announce;
-		
 			titleJTextField.setText(announce.getTitle());
 			descriptionJTextArea.setText(announce.getDescription());
 			startDateFld.setDate(announce.getStartDate());
