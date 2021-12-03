@@ -17,7 +17,6 @@ public class Announce implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id=-1;
 	private Contact contact;
-	private List<GedEntry<Announce>> images;
 	private Date startDate;
 	private Date endDate;
 	private Double totalPrice;
@@ -29,7 +28,7 @@ public class Announce implements Serializable {
 	private boolean updated=false;
 	
 	public Announce() {
-		images = new ArrayList<>();
+		
 		items = new ArrayList<>();
 		type = TransactionDirection.BUY;
 		startDate = new Date();
@@ -72,7 +71,7 @@ public class Announce implements Serializable {
 
 	@Override
 	public String toString() {
-		return getTitle();
+		return String.valueOf(getId());
 	}
 	
 	public void setId(int id) {
@@ -87,12 +86,7 @@ public class Announce implements Serializable {
 	public void setContact(Contact contact) {
 		this.contact = contact;
 	}
-	public List<GedEntry<Announce>> getImages() {
-		return images;
-	}
-	public void setImages(List<GedEntry<Announce>> images) {
-		this.images = images;
-	}
+	
 	public Date getStartDate() {
 		return startDate;
 	}

@@ -294,7 +294,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 					storeTransactionItems(pst,7, n.getItems());
 					pst.setString(8, n.getType().name());
 					pst.setInt(9, n.getContact().getId());
-					pst.setInt(10, n.getContact().getId());
+					pst.setInt(10, n.getId());
 					pst.executeUpdate();
 					logger.debug(n  +" updated");
 				}	

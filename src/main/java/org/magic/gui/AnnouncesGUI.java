@@ -36,6 +36,8 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.tools.MTG;
 import org.magic.tools.UITools;
+import java.awt.event.*;
+
 
 public class AnnouncesGUI extends MTGUIComponent {
 	
@@ -61,9 +63,10 @@ public class AnnouncesGUI extends MTGUIComponent {
 		var tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		tableAnnounces = UITools.createNewTable(modelAnnounces);
 		var panneauHaut = new JPanel();
-		var btnNew = new JButton(MTGConstants.ICON_NEW);
-		var btnSave = new JButton(MTGConstants.ICON_SAVE);
-		var btnDelete = new JButton(MTGConstants.ICON_DELETE);
+		var btnNew = UITools.createBindableJButton("New",MTGConstants.ICON_NEW, KeyEvent.VK_N,"newAnnounce");
+		var btnSave = UITools.createBindableJButton("Save",MTGConstants.ICON_SAVE, KeyEvent.VK_S,"saveAnnounce");
+		var btnDelete = UITools.createBindableJButton("Delete",MTGConstants.ICON_DELETE, KeyEvent.VK_D,"deleteAnnounce");
+		var btnUpdate = UITools.createBindableJButton("Update",MTGConstants.ICON_REFRESH, KeyEvent.VK_U,"updateAnnounce");
 		
 		splitCentral.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		
@@ -72,6 +75,7 @@ public class AnnouncesGUI extends MTGUIComponent {
 		splitCentral.setRightComponent(tabbedPane);
 		splitCentral.setLeftComponent(new JScrollPane(tableAnnounces));
 		
+		panneauHaut.add(btnUpdate);
 		panneauHaut.add(btnNew);
 		panneauHaut.add(btnSave);
 		panneauHaut.add(btnDelete);
@@ -107,31 +111,31 @@ public class AnnouncesGUI extends MTGUIComponent {
 		});
 		
 		
+		btnUpdate.addActionListener(al->load());
+		
 		btnNew.addActionListener(al->{
 			var a = new Announce();
 				a.setContact(MTGControler.getInstance().getWebConfig().getContact());
-			modelAnnounces.addItem(a);
+				detailsPanel.setAnnounce(a);
+				itemsPanel.initItems(a.getItems());
+				modelAnnounces.addItem(a);
 		});
-		
-		
 		
 		btnSave.addActionListener(al->{
 			
-			Announce b = UITools.getTableSelection(tableAnnounces,0);
-			b.setUpdated(true);
-			try {
-				BeanUtils.copyProperties(b,detailsPanel.getAnnounce());
+			Announce b = detailsPanel.getAnnounce();
+				 b.setUpdated(true);
 				 b.setContact(contactPanel.getContact());
 				 b.setItems(itemsPanel.getItems());
 				 
-
-			} catch (Exception e) {
-				logger.error(e);
-			}
 							 
 			var sw = new SwingWorker<Void, Void>() {
 				@Override
 				protected Void doInBackground() throws SQLException {
+					
+					var contact = MTG.getEnabledPlugin(MTGDao.class).getContactByEmail(contactPanel.getContact().getEmail());
+					b.setContact(contact);
+					
 					MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateAnnounce(b);
 					return null;
 				}
@@ -174,26 +178,32 @@ public class AnnouncesGUI extends MTGUIComponent {
 
 	@Override
 	public void onFirstShowing() {
-			var sw = new AbstractObservableWorker<List<Announce>, Announce, MTGDao>(buzy,MTG.getEnabledPlugin(MTGDao.class)) {
-				
-				@Override
-				protected List<Announce> doInBackground() throws Exception {
-						return plug.listAnnounces();
-				}
-				
-				@Override
-				protected void notifyEnd() {
-					modelAnnounces.init(getResult());
-					tableAnnounces.packAll();
-				
-				}
-			};
-			
-			ThreadManager.getInstance().runInEdt(sw, "loading announces");
-			
+			load();
 	}
 	
 	
+	private void load() {
+		var sw = new AbstractObservableWorker<List<Announce>, Announce, MTGDao>(buzy,MTG.getEnabledPlugin(MTGDao.class)) {
+			
+			@Override
+			protected List<Announce> doInBackground() throws Exception {
+					return plug.listAnnounces();
+			}
+			
+			@Override
+			protected void notifyEnd() {
+				modelAnnounces.init(getResult());
+				tableAnnounces.packAll();
+			
+			}
+		};
+		
+		ThreadManager.getInstance().runInEdt(sw, "loading announces");
+		
+		
+	}
+
+
 	@Override
 	public String getTitle() {
 		return capitalize("ANNOUNCES_MODULE");

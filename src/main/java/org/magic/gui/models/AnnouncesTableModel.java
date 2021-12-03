@@ -36,7 +36,8 @@ public class AnnouncesTableModel extends GenericTableModel<Announce> {
 		{
 		case 0 : return items.get(row);
 		case 1 : return items.get(row).getType();
-		case 3 : return items.get(row).getTitle();
+		case 2 : return items.get(row).getTitle();
+		case 3 : return items.get(row).getContact();
 		case 4 : return items.get(row).getStartDate();
 		case 5 : return items.get(row).getEndDate();
 		default : return super.getValueAt(row, column);
