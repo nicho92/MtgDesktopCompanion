@@ -17,6 +17,7 @@ public class Announce implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id=-1;
 	private Contact contact;
+	private Date createDate;
 	private Date startDate;
 	private Date endDate;
 	private Double totalPrice;
@@ -26,11 +27,14 @@ public class Announce implements Serializable {
 	private List<MTGStockItem> items;
 	private TransactionDirection type;
 	private boolean updated=false;
+	private Double percentReduction;
+	
 	
 	public Announce() {
 		
 		items = new ArrayList<>();
 		type = TransactionDirection.BUY;
+		createDate = new Date();
 		startDate = new Date();
 		var c = Calendar.getInstance();
 		c.setTime(startDate);
@@ -41,6 +45,25 @@ public class Announce implements Serializable {
 		
 	}
 	
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+
+	public Double getPercentReduction() {
+		return percentReduction;
+	}
+
+	public void setPercentReduction(Double percentReduction) {
+		this.percentReduction = percentReduction;
+	}
+
 	public TransactionDirection getType() {
 		return type;
 	}

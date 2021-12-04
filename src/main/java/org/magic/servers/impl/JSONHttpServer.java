@@ -14,7 +14,6 @@ import static spark.Spark.options;
 import static spark.Spark.port;
 import static spark.Spark.post;
 import static spark.Spark.put;
-import static spark.Spark.delete;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -90,7 +89,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-import groovyjarjarantlr4.v4.parse.ANTLRParser.throwsSpec_return;
 import spark.Request;
 import spark.Response;
 import spark.ResponseTransformer;
@@ -930,7 +928,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return MTG.getEnabledPlugin(MTGDao.class).listAnnounces();
 		}, transformer);
 		
+		get("/announces/last/:qty", URLTools.HEADER_JSON, (request, response) -> {
+			return MTG.getEnabledPlugin(MTGDao.class).listAnnounces(Integer.parseInt(request.params(":qty")));
+		}, transformer);
 
+		
 		get("/announces/contact/:id", URLTools.HEADER_JSON, (request, response) -> {
 			var c = new Contact();
 			c.setId(Integer.parseInt(request.params(":id")));
@@ -942,6 +944,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 			MTGStockItem ret = converter.fromJson(new InputStreamReader(request.raw().getInputStream()), MTGStockItem.class);
 			return MTG.getEnabledPlugin(MTGDao.class).listAnnounces(ret);
 		}, transformer);
+		
+		
+		
 		
 		
 		get("/webshop/:dest/categories", URLTools.HEADER_JSON, (request, response) ->MTG.getPlugin(request.params(":dest"), MTGExternalShop.class).listCategories(), transformer);

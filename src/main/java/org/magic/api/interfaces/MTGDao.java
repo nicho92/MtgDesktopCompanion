@@ -119,6 +119,8 @@ public interface MTGDao extends MTGPlugin{
 	public List<Announce> listAnnounces() throws SQLException;
 	public List<Announce> listAnnounces(Contact c) throws SQLException;
 	public List<Announce> listAnnounces(MTGStockItem item) throws SQLException;
+	public List<Announce> listAnnounces(int parseInt)throws SQLException;
+	
 	
 	public int saveOrUpdateAnnounce(Announce a) throws SQLException;
 	public void deleteAnnounce(Announce alert) throws SQLException;
@@ -142,6 +144,7 @@ public interface MTGDao extends MTGPlugin{
 	public void updateCard(MagicCard c, MagicCard newC, MagicCollection col) throws SQLException;
 	public void executeQuery(String query)throws SQLException;
 	public boolean isSQL();
+	
 	
 
 }

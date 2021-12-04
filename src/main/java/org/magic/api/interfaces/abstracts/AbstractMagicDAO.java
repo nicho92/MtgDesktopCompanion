@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.magic.api.beans.Announce;
 import org.magic.api.beans.ConverterItem;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
@@ -83,6 +84,11 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 				logger.error("Error saving stock for" + mc + " from " + from + " to " + to);
 			}
 		});
+	}
+	
+	@Override
+	public List<Announce> listAnnounces() throws SQLException {
+		return listAnnounces(-1);
 	}
 	
 	@Override
@@ -309,6 +315,14 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 			oe.setId(-1);
 			dao.saveOrUpdateDeck(oe);
 		}
+		
+		logger.debug("duplicate announces");
+		for(Announce oe : listAnnounces())
+		{
+			oe.setId(-1);
+			dao.saveOrUpdateAnnounce(oe);
+		}
+		
 	}
 
 	

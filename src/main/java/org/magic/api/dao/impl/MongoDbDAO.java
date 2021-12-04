@@ -52,6 +52,7 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Accumulators;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Sorts;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 
@@ -722,9 +723,15 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	
 
 	@Override
-	public List<Announce> listAnnounces() {
+	public List<Announce> listAnnounces(int max) {
 		List<Announce> trans = new ArrayList<>();
-		db.getCollection(colAnnounces, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result ->{
+	
+		var it = db.getCollection(colAnnounces, BasicDBObject.class).find().sort(Sorts.descending("id"));
+			
+		if(max>0) 
+			it = it.limit(max);
+		
+		it.forEach((Consumer<BasicDBObject>) result ->{
 			Announce o = deserialize(result.toString(), Announce.class);
 			trans.add(o);
 		});
