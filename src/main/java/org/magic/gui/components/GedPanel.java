@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.stream.Stream;
@@ -36,6 +37,7 @@ public class GedPanel<T> extends MTGUIComponent {
 	private Class<T> classe;
 	private transient T instance;
 	private ImagePanel viewPanel;
+	private List<GedEntry<T>> entries;
 	
 	
 	
@@ -43,10 +45,14 @@ public class GedPanel<T> extends MTGUIComponent {
 	{
 		this.classe=t;
 		this.instance=instance;
+		entries = new ArrayList<>();
 		
 		if(isVisible())
 			onVisible();
 	
+		
+		
+		
 	}
 	
 	@Override
@@ -83,7 +89,7 @@ public class GedPanel<T> extends MTGUIComponent {
 		
 		new FileDropDecorator().init(panneauCenter, (File[] files) -> {
 			buzy.start(files.length);
-			SwingWorker<Void, GedEntry<?>> sw = new SwingWorker<>() {
+			SwingWorker<Void, GedEntry<T>> sw = new SwingWorker<>() {
 
 				@Override
 				protected Void doInBackground() throws Exception {
@@ -111,7 +117,7 @@ public class GedPanel<T> extends MTGUIComponent {
 				}
 
 				@Override
-				protected void process(List<GedEntry<?>> chunks) {
+				protected void process(List<GedEntry<T>> chunks) {
 					chunks.forEach(c->{
 						addEntry(c);
 						buzy.progressSmooth(1);
@@ -124,8 +130,16 @@ public class GedPanel<T> extends MTGUIComponent {
 	}
 
 	
+	
+	public List<GedEntry<T>> listEntries()
+	{
+		return entries;
+	}
+	
 
-	private void addEntry(GedEntry<?> c) {
+	private void addEntry(GedEntry<T> c) {
+		
+		entries.add(c);
 		var e = new GedEntryComponent(c,150,100);
 		panneauCenter.add(e);
 		
@@ -181,10 +195,11 @@ public class GedPanel<T> extends MTGUIComponent {
 	
 	private void listDirectory(Path p)
 	{
+		entries.clear();
 		panneauCenter.removeAll();
 		panneauCenter.revalidate();
 		panneauCenter.repaint();
-		SwingWorker<Void, GedEntry<?>> sw = new SwingWorker<>() 
+		SwingWorker<Void, GedEntry<T>> sw = new SwingWorker<>() 
 		{
 			protected Void doInBackground() throws Exception {
 				
@@ -194,7 +209,11 @@ public class GedPanel<T> extends MTGUIComponent {
 						try 
 						{
 							if(!Files.isDirectory(p))
-								publish(GedService.inst().read(p));
+							{
+								@SuppressWarnings("unchecked")
+								GedEntry<T> ged = (GedEntry<T>) GedService.inst().read(p);
+								publish(ged);
+							}
 						}
 						catch (Exception e) 
 						{
@@ -206,8 +225,8 @@ public class GedPanel<T> extends MTGUIComponent {
 			}
 			
 			@Override
-			protected void process(List<GedEntry<?>> chunks) {
-				for(GedEntry<?> g : chunks)
+			protected void process(List<GedEntry<T>> chunks) {
+				for(GedEntry<T> g : chunks)
 					addEntry(g);
 			}
 			

@@ -3,6 +3,11 @@
 	$(window).on("load", function () {
 		$("#preloader").fadeOut("slow");
 	});
+
+	const list = ['Card', 'Booster', 'Box','Set','Lots','Starter']
+	list.forEach((item) => {
+		$("#categories-icon-slider").append("<div class='item'><a href='category.html'><div class='category-icon-item'><div class='icon-box'><div class='icon'><img src='../dist/img/category/"+item.toLowerCase()+".png'/></div><h4>"+item+"</h4></div></div></a></div>");
+	})
 	
 	$(".back-to-top").on("click", function () {
 		$("html, body").animate({
@@ -80,5 +85,31 @@
 			}
 		}
 	});
+	
+	var detailsslider = $("#announces-pic");
+	detailsslider.owlCarousel({
+		autoplay: true,
+		nav: false,
+		autoplayHoverPause: true,
+		smartSpeed: 350,
+		dots: true,
+		margin: 30,
+		loop: true,
+		navText: ['<i class="lni-chevron-left"></i>', '<i class="lni-chevron-right"></i>'],
+		responsiveClass: true,
+		responsive: {
+			0: {
+				items: 1,
+			},
+			575: {
+				items: 1,
+			},
+			991: {
+				items: 1,
+			}
+		}
+	});
+	
+	
 	
 })(jQuery);

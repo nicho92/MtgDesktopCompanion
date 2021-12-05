@@ -17,24 +17,25 @@ public class Announce implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id=-1;
 	private Contact contact;
-	private Date createDate;
+	private Date creationDate;
 	private Date startDate;
 	private Date endDate;
 	private Double totalPrice;
 	private Currency currency;
+	private String currencySymbol;
 	private String title;
 	private String description;
 	private List<MTGStockItem> items;
 	private TransactionDirection type;
 	private boolean updated=false;
 	private Double percentReduction;
-	private GedEntry<Announce> base64img ;
+	private GedEntry<Announce> mainImage ;
 	
 	public Announce() {
 		
 		items = new ArrayList<>();
 		type = TransactionDirection.BUY;
-		createDate = new Date();
+		creationDate = new Date();
 		startDate = new Date();
 		var c = Calendar.getInstance();
 		c.setTime(startDate);
@@ -45,24 +46,28 @@ public class Announce implements Serializable {
 		
 	}
 	
+	public String getCurrencySymbol() {
+		return currencySymbol;
+	}
+	
+	
+	public GedEntry<Announce> getMainImage() {
+		return mainImage;
+	}
+	
+	public void setMainImage(GedEntry<Announce> mainImage) {
+		this.mainImage = mainImage;
+	}
 
-	public GedEntry<Announce> getBase64img() {
-		return base64img;
+	
+
+	public Date getCreationDate() {
+		return creationDate;
 	}
 
 
-	public void setBase64img(GedEntry<Announce> base64img) {
-		this.base64img = base64img;
-	}
-
-
-	public Date getCreateDate() {
-		return createDate;
-	}
-
-
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
 	}
 
 
@@ -143,6 +148,7 @@ public class Announce implements Serializable {
 	}
 	public void setCurrency(Currency currency) {
 		this.currency = currency;
+		currencySymbol = currency.getSymbol();
 	}
 	public String getTitle() {
 		return title;

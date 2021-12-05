@@ -3,12 +3,12 @@ package org.magic.gui;
 import static org.magic.tools.MTG.capitalize;
 
 import java.awt.BorderLayout;
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -18,7 +18,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.Announce;
 import org.magic.api.interfaces.MTGDao;
@@ -36,7 +35,6 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.tools.MTG;
 import org.magic.tools.UITools;
-import java.awt.event.*;
 
 
 public class AnnouncesGUI extends MTGUIComponent {
@@ -127,7 +125,7 @@ public class AnnouncesGUI extends MTGUIComponent {
 				 b.setUpdated(true);
 				 b.setContact(contactPanel.getContact());
 				 b.setItems(itemsPanel.getItems());
-				 
+				 b.setMainImage(gedPanel.listEntries().get(0));
 							 
 			var sw = new SwingWorker<Void, Void>() {
 				@Override
@@ -139,9 +137,20 @@ public class AnnouncesGUI extends MTGUIComponent {
 					MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateAnnounce(b);
 					return null;
 				}
-
+				
 				@Override
 				protected void done() {
+					
+					try {
+						get();
+					}
+					catch(Exception e)
+					{
+						e.printStackTrace();
+						MTGControler.getInstance().notify(e);
+					}
+					
+					
 					modelAnnounces.fireTableDataChanged();
 				}
 			};

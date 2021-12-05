@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Currency;
@@ -177,8 +178,8 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public boolean createDB() {
 		try (var cont =  pool.getConnection();Statement stat = cont.createStatement()) {
 			
-			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" announces (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, startDate TIMESTAMP ,endDate TIMESTAMP, title VARCHAR(150), description " + longTextStorage() + ", total DECIMAL, currency VARCHAR(5),  stocksItem "+beanStorage() + ",typeAnnounce VARCHAR(10), fk_idcontact INTEGER);");
-			logger.debug("Create table transactions");
+			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" announces (id "+getAutoIncrementKeyWord()+" PRIMARY KEY,creationDate TIMESTAMP , startDate TIMESTAMP ,endDate TIMESTAMP, title VARCHAR(150), description " + longTextStorage() + ", total DECIMAL, currency VARCHAR(5),  stocksItem "+beanStorage() + ",typeAnnounce VARCHAR(10), fk_idcontact INTEGER);");
+			logger.debug("Create table announces");
 			
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" transactions (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, dateTransaction TIMESTAMP, message VARCHAR(250), stocksItem "+beanStorage()+", statut VARCHAR(15), transporter VARCHAR(50), shippingPrice DECIMAL, transporterShippingCode VARCHAR(50),currency VARCHAR(5),datePayment TIMESTAMP NULL ,dateSend TIMESTAMP NULL , paymentProvider VARCHAR(50),fk_idcontact INTEGER)");
 			logger.debug("Create table transactions");
@@ -299,17 +300,18 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public int saveOrUpdateAnnounce(Announce n) throws SQLException {
 		if (n.getId() < 0) 
 		{
-				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO announces (startDate, endDate, title, description, total, currency, stocksItem, typeAnnounce, fk_idcontact) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);",Statement.RETURN_GENERATED_KEYS))
+				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO announces (creationDate, startDate, endDate, title, description, total, currency, stocksItem, typeAnnounce, fk_idcontact) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",Statement.RETURN_GENERATED_KEYS))
 				{
-					pst.setDate(1,new Date(n.getStartDate().getTime()));
-					pst.setDate(2,new Date(n.getEndDate().getTime()));
-					pst.setString(3, n.getTitle());
-					pst.setString(4, n.getDescription());
-					pst.setDouble(5, n.getTotalPrice());
-					pst.setString(6, n.getCurrency().getCurrencyCode());
-					storeTransactionItems(pst,7, n.getItems());
-					pst.setString(8, n.getType().name());
-					pst.setInt(9, n.getContact().getId());
+					pst.setDate(1,new Date(Instant.now().toEpochMilli()));
+					pst.setDate(2,new Date(n.getStartDate().getTime()));
+					pst.setDate(3,new Date(n.getEndDate().getTime()));
+					pst.setString(4, n.getTitle());
+					pst.setString(5, n.getDescription());
+					pst.setDouble(6, n.getTotalPrice());
+					pst.setString(7, n.getCurrency().getCurrencyCode());
+					storeTransactionItems(pst,8, n.getItems());
+					pst.setString(9, n.getType().name());
+					pst.setInt(10, n.getContact().getId());
 					var ret = pst.executeUpdate();
 					n.setId(ret);
 					logger.debug(n  +" created");
@@ -1919,6 +1921,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			  a.setTotalPrice(rs.getDouble("total"));
 			  a.setCurrency(Currency.getInstance(rs.getString("currency")));
 			  a.setContact(getContactById(rs.getInt("fk_idcontact")));
+			  a.setCreationDate(rs.getTimestamp("creationDate"));
 			  a.setType(TransactionDirection.valueOf(rs.getString("typeAnnounce")));
 			  if(rs.getObject("stocksItem")!=null)
 				  a.setItems(readStockItemFrom(rs,"stocksItem"));
