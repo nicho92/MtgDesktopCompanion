@@ -86,29 +86,7 @@
 		}
 	});
 	
-	var detailsslider = $("#announces-pic");
-	detailsslider.owlCarousel({
-		autoplay: true,
-		nav: false,
-		autoplayHoverPause: true,
-		smartSpeed: 350,
-		dots: true,
-		margin: 30,
-		loop: true,
-		navText: ['<i class="lni-chevron-left"></i>', '<i class="lni-chevron-right"></i>'],
-		responsiveClass: true,
-		responsive: {
-			0: {
-				items: 1,
-			},
-			575: {
-				items: 1,
-			},
-			991: {
-				items: 1,
-			}
-		}
-	});
+	
 	
 	
 	
