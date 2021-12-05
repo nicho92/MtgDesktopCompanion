@@ -42,17 +42,17 @@ $(document).ready(function() {
 	}).then(function(announce){
 		$("#title").html(announce.title);
 		$("#titleMain").html(announce.title);
+		document.title=announce.title+" - MTG Market"
 		
 		
 		$("#endDate").append(announce.endDate);
 		$("#localization").append(announce.contact.country);
 		$("#description").html(announce.description);
-		$("#announcePrice").html(announce.totalPrice);
+		$("#announcePrice").html(announce.totalPrice + " " + announce.currencySymbol);
 		$("#contactName").html(announce.contact.name + " " +announce.contact.lastName);
 		$("#contactTel").append(announce.contact.telephone);
 		
 		
-		document.title=announce.title+" - MTG Market"
 		
 		
 		
@@ -143,7 +143,7 @@ $(document).ready(function() {
 						<h2 class="product-title" id="titleMain">TitleMain</h2>
 						<ol class="breadcrumb">
 							<li><a href="#">Home /</a></li>
-							<li class="current">Details</li>
+							<li class="current" >Details</li>
 						</ol>
 					</div>
 				</div>
@@ -159,8 +159,6 @@ $(document).ready(function() {
 				<div class="col-lg-8 col-md-12 col-xs-12">
 					<div class="ads-details-wrapper">
 						<div id="announces-pic" class="owl-carousel owl-theme">
-							
-							
 						</div>
 					</div>
 					<div class="details-box">
@@ -183,7 +181,7 @@ $(document).ready(function() {
 									</li>
 									<li>
 										<p>
-											<strong><i class="lni-archive"></i> Condition:</strong> New
+											<strong><i class="lni-archive"></i> Condition:</strong> New 
 										</p>
 									</li>
 									<li>
@@ -208,8 +206,10 @@ $(document).ready(function() {
 				<div class="col-lg-4 col-md-6 col-xs-12">
 					<aside class="details-sidebar">
 						
-					
-					
+						<div class="widget">
+							<h4 class="widget-title" id="announcePrice">price</h4>
+						</div>
+						
 						<div class="widget">
 							<h4 class="widget-title">Posted By</h4>
 							<div class="agent-inner">
