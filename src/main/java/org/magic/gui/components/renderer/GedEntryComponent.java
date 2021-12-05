@@ -20,9 +20,10 @@ import javax.swing.border.LineBorder;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXLabel;
 import org.magic.api.beans.GedEntry;
-import org.magic.services.GedService;
+import org.magic.api.interfaces.MTGGedStorage;
 import org.magic.services.MTGLogger;
 import org.magic.tools.ImageTools;
+import org.magic.tools.MTG;
 
 @SuppressWarnings("rawtypes") 
 public class GedEntryComponent extends JPanel {
@@ -79,7 +80,7 @@ public class GedEntryComponent extends JPanel {
 	}
 	
 	protected void delete() {
-		GedService.inst().delete(entry);
+		MTG.getEnabledPlugin(MTGGedStorage.class).delete(entry);
 	}
 
 	public ImageIcon getThumbnail()

@@ -9,6 +9,7 @@ import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -22,14 +23,15 @@ import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 
 import org.magic.api.beans.GedEntry;
+import org.magic.api.interfaces.MTGGedStorage;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.renderer.GedEntryComponent;
 import org.magic.gui.decorators.FileDropDecorator;
-import org.magic.services.GedService;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.FileTools;
+import org.magic.tools.MTG;
 public class GedPanel<T> extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
@@ -62,13 +64,21 @@ public class GedPanel<T> extends MTGUIComponent {
 			return;
 		
 		logger.debug("Show ged for " + classe.getSimpleName());
-		listDirectory(GedService.inst().getPath(classe,instance));
+		try {
+			listDirectory(MTG.getEnabledPlugin(MTGGedStorage.class).getPath(classe,instance));
+		} catch (IOException e) {
+			logger.error(e);
+		}
 
 	}
 	
 	@Override
 	public void onFirstShowing() {
-		listDirectory(GedService.inst().root());
+		try {
+			listDirectory(MTG.getEnabledPlugin(MTGGedStorage.class).getRoot());
+		} catch (IOException e) {
+			logger.error(e);
+		}
 	}
 	
 	public GedPanel() {
@@ -99,7 +109,7 @@ public class GedPanel<T> extends MTGUIComponent {
 							GedEntry<T> entry = new GedEntry<>(f,classe);
 										entry.setObject(instance);
 							
-							GedService.inst().store(entry);
+							MTG.getEnabledPlugin(MTGGedStorage.class).store(entry);
 							publish(entry);
 							
 						} catch (Exception e) {
@@ -172,7 +182,7 @@ public class GedPanel<T> extends MTGUIComponent {
 			@Override
 			public void mouseClicked(MouseEvent ev) 
 			{
-					if(GedService.inst().delete(c)) {
+					if(MTG.getEnabledPlugin(MTGGedStorage.class).delete(c)) {
 						panneauCenter.remove(e);
 						panneauCenter.revalidate();
 						panneauCenter.repaint();
@@ -203,7 +213,7 @@ public class GedPanel<T> extends MTGUIComponent {
 		{
 			protected Void doInBackground() throws Exception {
 				
-				try(Stream<Path> s = GedService.inst().listDirectory(p))
+				try(Stream<Path> s = MTG.getEnabledPlugin(MTGGedStorage.class).listDirectory(p))
 				{
 					s.forEach(p->{
 						try 
@@ -211,7 +221,7 @@ public class GedPanel<T> extends MTGUIComponent {
 							if(!Files.isDirectory(p))
 							{
 								@SuppressWarnings("unchecked")
-								GedEntry<T> ged = (GedEntry<T>) GedService.inst().read(p);
+								GedEntry<T> ged = (GedEntry<T>) MTG.getEnabledPlugin(MTGGedStorage.class).read(p);
 								publish(ged);
 							}
 						}

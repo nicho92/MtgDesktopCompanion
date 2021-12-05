@@ -55,6 +55,7 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGExternalShop;
+import org.magic.api.interfaces.MTGGedStorage;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.MTGProduct;
@@ -66,7 +67,6 @@ import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.api.sorters.CardsEditionSorter;
 import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.services.CardsManagerService;
-import org.magic.services.GedService;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
@@ -303,9 +303,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/ged/:class/:id", URLTools.HEADER_JSON,(request, response) -> {
 			
 			var arr = new JsonArray();
-			GedService.inst().list(request.params(":class")+"/"+request.params(":id")).forEach(p->{
+			MTG.getEnabledPlugin(MTGGedStorage.class).list(request.params(":class")+"/"+request.params(":id")).forEach(p->{
 				try {
-					var e = GedService.inst().read(p);
+					var e =MTG.getEnabledPlugin(MTGGedStorage.class).read(p);
 					if(e.isImage()) {
 						var obj = new JsonObject();
 						    obj.addProperty("name", e.getName());

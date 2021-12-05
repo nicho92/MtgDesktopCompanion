@@ -55,7 +55,7 @@ $(document).ready(function() {
 				var base64img = value.data;
     			
 				var img = $('<img />', { 
-    				  id: 'Myid',
+    				  id: 'id'+key,
     				  src: 'data:image/'+value.ext+';base64,' + base64img,
     				  class: 'img-fluid',
     				  alt: value.name
