@@ -307,12 +307,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 				try {
 					var e =MTG.getEnabledPlugin(MTGGedStorage.class).read(p);
 					if(e.isImage()) {
-						var obj = new JsonObject();
-						    obj.addProperty("name", e.getName());
-						    obj.addProperty("ext",e.getExt());
-						    obj.addProperty("obj",e.getObject().toString());
-						    obj.addProperty("data",ImageTools.toBase64(e.getContent()));
-						    arr.add(obj);
+						   arr.add(e.toJson());
 					}
 				} catch (IOException e) {
 					logger.error(e);

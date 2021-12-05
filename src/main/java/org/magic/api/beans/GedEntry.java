@@ -12,6 +12,8 @@ import org.magic.tools.FileTools;
 import org.magic.tools.ImageTools;
 
 import com.google.common.io.Files;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 public class GedEntry <T> implements Serializable {
 
@@ -105,6 +107,17 @@ public class GedEntry <T> implements Serializable {
 	
 	public String getFullName() {
 		return getName()+"."+getExt();
+	}
+
+	public JsonElement toJson() {
+		var obj = new JsonObject();
+		obj.addProperty("name", getId());
+	    obj.addProperty("name", getName());
+	    obj.addProperty("ext",getExt());
+	    obj.addProperty("obj",getObject().toString());
+	    obj.addProperty("data",ImageTools.toBase64(getContent()));
+	    
+	    return obj;
 	}
 
 }
