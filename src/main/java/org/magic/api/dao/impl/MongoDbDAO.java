@@ -699,6 +699,18 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		return trans;
 	}
 
+	
+
+	@Override
+	public Announce getAnnounceById(int id) throws SQLException {
+		return deserialize(db.getCollection(colAnnounces,BasicDBObject.class)
+								 .find(Filters.eq("id", id))
+								 .first(),Announce.class);
+		
+	}
+	
+	
+	
 	@Override
 	public List<Announce> listAnnounces(MTGStockItem item) throws SQLException {
 		//TODO using elemMatch 

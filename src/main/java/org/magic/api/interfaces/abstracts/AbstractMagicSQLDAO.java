@@ -244,6 +244,19 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	
 	
 	@Override
+	public Announce getAnnounceById(int id) throws SQLException {
+		
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from announces where id=?")) 
+		{
+				pst.setInt(1, id);
+				var rs = pst.executeQuery();
+				rs.next();
+				return readAnnounce(rs);
+				
+		}
+	}
+	
+	@Override
 	public List<Announce> listAnnounces(Contact contact) throws SQLException {
 		List<Announce> colls = new ArrayList<>();
 		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from announces where fk_idcontact=?")) 
@@ -258,6 +271,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		}
 		return colls;
 	}
+	
 	
 	@Override
 	public List<Announce> listAnnounces(MTGStockItem item) throws SQLException {
