@@ -41,11 +41,19 @@ $(document).ready(function() {
 	    url: restserver+"/announces/get/"+ $_GET("id")
 	}).then(function(announce){
 		$("#title").html(announce.title);
+		$("#titleMain").html(announce.title);
+		
+		
 		$("#endDate").append(announce.endDate);
 		$("#localization").append(announce.contact.country);
 		$("#description").html(announce.description);
+		$("#announcePrice").html(announce.totalPrice);
 		$("#contactName").html(announce.contact.name + " " +announce.contact.lastName);
 		$("#contactTel").append(announce.contact.telephone);
+		
+		
+		document.title=announce.title+" - MTG Market"
+		
 		
 		
 		$.ajax({
@@ -132,7 +140,7 @@ $(document).ready(function() {
 			<div class="row">
 				<div class="col-md-12">
 					<div class="breadcrumb-wrapper">
-						<h2 class="product-title">Details</h2>
+						<h2 class="product-title" id="titleMain">TitleMain</h2>
 						<ol class="breadcrumb">
 							<li><a href="#">Home /</a></li>
 							<li class="current">Details</li>
@@ -191,8 +199,6 @@ $(document).ready(function() {
 									<div class="social-link">
 										<a class="facebook" data-toggle="tooltip" data-placement="top" title="facebook" href="#"><i class="lni-facebook-filled"></i></a>
 										<a class="twitter" data-toggle="tooltip" data-placement="top" title="twitter" href="#"><i class="lni-twitter-filled"></i></a>
-										<a class="linkedin" data-toggle="tooltip" data-placement="top" title="linkedin" href="#"><i class="lni-linkedin-fill"></i></a>
-										<a class="google" data-toggle="tooltip" data-placement="top" title="google plus" href="#"><i class="lni-google-plus"></i></a>
 									</div>
 								</div>
 							</div>
@@ -200,8 +206,10 @@ $(document).ready(function() {
 					</div>
 				</div>
 				<div class="col-lg-4 col-md-6 col-xs-12">
-
 					<aside class="details-sidebar">
+						
+					
+					
 						<div class="widget">
 							<h4 class="widget-title">Posted By</h4>
 							<div class="agent-inner">
@@ -223,11 +231,8 @@ $(document).ready(function() {
 						</div>
 
 						<div class="widget">
-							<h4 class="widget-title">More Ads From Seller</h4>
-							<ul class="posts-list" id="other-announces">
-								
-								
-							</ul>
+							<h4 class="widget-title">More From Seller</h4>
+							<ul class="posts-list" id="other-announces"></ul>
 						</div>
 					</aside>
 

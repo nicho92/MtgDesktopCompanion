@@ -111,7 +111,7 @@ public class GedEntry <T> implements Serializable {
 
 	public JsonElement toJson() {
 		var obj = new JsonObject();
-		obj.addProperty("name", getId());
+		obj.addProperty("id", getId());
 	    obj.addProperty("name", getName());
 	    obj.addProperty("ext",getExt());
 	    obj.addProperty("obj",getObject().toString());
