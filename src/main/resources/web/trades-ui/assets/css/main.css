@@ -734,7 +734,7 @@ a.back-to-top:hover,a.back-to-top:focus{
 .search-bar .form-group{
     margin:5px;
     float:left;
-    width:25.33%;
+    width:35%;
     padding:0 0 0 10px;
     background:#fff;
     border-radius:0;
@@ -4500,4 +4500,12 @@ footer .menu li a:hover{
 }
 .error-content .description a:hover{
     color:#FF6347
+}
+
+.thumb-post {
+  object-fit: scale-down; 
+  object-position: center;
+  width: 100%;
+  max-height: 250px;
+  margin-bottom: 1rem;
 }

@@ -28,7 +28,7 @@ public class Announce implements Serializable {
 	private TransactionDirection type;
 	private boolean updated=false;
 	private Double percentReduction;
-	
+	private GedEntry<Announce> base64img ;
 	
 	public Announce() {
 		
@@ -45,6 +45,16 @@ public class Announce implements Serializable {
 		
 	}
 	
+
+	public GedEntry<Announce> getBase64img() {
+		return base64img;
+	}
+
+
+	public void setBase64img(GedEntry<Announce> base64img) {
+		this.base64img = base64img;
+	}
+
 
 	public Date getCreateDate() {
 		return createDate;
