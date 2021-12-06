@@ -116,10 +116,12 @@ public interface MTGDao extends MTGPlugin{
 	public void deleteAlert(MagicCardAlert alert) throws SQLException;
 	public boolean hasAlert(MagicCard mc);
 
-	public List<Announce> listAnnounces() throws SQLException;
+	public List<Announce> listAnnounces(boolean all) throws SQLException;
 	public List<Announce> listAnnounces(Contact c) throws SQLException;
 	public List<Announce> listAnnounces(MTGStockItem item) throws SQLException;
-	public List<Announce> listAnnounces(int parseInt) throws SQLException;
+	public List<Announce> listAnnounces(int parseInt,boolean all) throws SQLException;
+	
+	
 	public Announce getAnnounceById(int id) throws SQLException;
 	public int saveOrUpdateAnnounce(Announce a) throws SQLException;
 	public void deleteAnnounce(Announce alert) throws SQLException;

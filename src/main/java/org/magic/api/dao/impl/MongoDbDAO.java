@@ -735,9 +735,11 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	
 
 	@Override
-	public List<Announce> listAnnounces(int max) {
+	public List<Announce> listAnnounces(int max,boolean all) {
 		List<Announce> trans = new ArrayList<>();
 	
+		
+		
 		var it = db.getCollection(colAnnounces, BasicDBObject.class).find().sort(Sorts.descending("id"));
 			
 		if(max>0) 

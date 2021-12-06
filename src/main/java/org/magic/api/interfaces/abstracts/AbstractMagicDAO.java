@@ -87,8 +87,8 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	}
 	
 	@Override
-	public List<Announce> listAnnounces() throws SQLException {
-		return listAnnounces(-1);
+	public List<Announce> listAnnounces(boolean all) throws SQLException {
+		return listAnnounces(-1,all);
 	}
 	
 	@Override
@@ -317,7 +317,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		}
 		
 		logger.debug("duplicate announces");
-		for(Announce oe : listAnnounces())
+		for(Announce oe : listAnnounces(true))
 		{
 			oe.setId(-1);
 			dao.saveOrUpdateAnnounce(oe);

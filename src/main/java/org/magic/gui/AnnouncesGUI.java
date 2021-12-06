@@ -125,7 +125,12 @@ public class AnnouncesGUI extends MTGUIComponent {
 				 b.setUpdated(true);
 				 b.setContact(contactPanel.getContact());
 				 b.setItems(itemsPanel.getItems());
-				 b.setMainImage(gedPanel.listEntries().get(0));
+				 try {
+					 b.setMainImage(gedPanel.listEntries().get(0));
+				 }catch(Exception e)
+				 {
+					 logger.warn("no entries in documents");
+				 }
 							 
 			var sw = new SwingWorker<Void, Void>() {
 				@Override
@@ -196,7 +201,7 @@ public class AnnouncesGUI extends MTGUIComponent {
 			
 			@Override
 			protected List<Announce> doInBackground() throws Exception {
-					return plug.listAnnounces();
+					return plug.listAnnounces(true);
 			}
 			
 			@Override

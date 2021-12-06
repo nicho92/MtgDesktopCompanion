@@ -926,11 +926,13 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 		
 		get("/announces/list", URLTools.HEADER_JSON, (request, response) -> {
-			return MTG.getEnabledPlugin(MTGDao.class).listAnnounces();
+			
+			return MTG.getEnabledPlugin(MTGDao.class).listAnnounces(true);
+			
 		}, transformer);
 		
 		get("/announces/last/:qty", URLTools.HEADER_JSON, (request, response) -> {
-			return MTG.getEnabledPlugin(MTGDao.class).listAnnounces(Integer.parseInt(request.params(":qty")));
+			return MTG.getEnabledPlugin(MTGDao.class).listAnnounces(Integer.parseInt(request.params(":qty")),false);
 		}, transformer);
 
 		

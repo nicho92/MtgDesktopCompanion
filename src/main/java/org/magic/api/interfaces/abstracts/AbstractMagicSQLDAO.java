@@ -292,9 +292,15 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	
 	
 	@Override
-	public List<Announce> listAnnounces(int max) throws SQLException {
+	public List<Announce> listAnnounces(int max,boolean all) throws SQLException {
 		List<Announce> colls = new ArrayList<>();
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from announces ORDER BY id DESC")) 
+		
+		var sql = "SELECT * from announces where endDate >= now() ORDER BY id DESC";
+		
+		if(all)
+			sql = "SELECT * from announces ORDER BY id DESC";
+		
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement(sql)) 
 		{
 				if(max>0)
 					pst.setMaxRows(max);
