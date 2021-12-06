@@ -302,24 +302,26 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		get("/ged/:class/:id", URLTools.HEADER_JSON,(request, response) -> {
 			
-			var arr = new JsonArray();
-			MTG.getEnabledPlugin(MTGGedStorage.class).list(request.params(":class")+"/"+request.params(":id")).forEach(p->{
-				try {
-					var e =MTG.getEnabledPlugin(MTGGedStorage.class).read(p);
-					if(e.isImage()) {
-						   arr.add(e.toJson());
-					}
-				} catch (IOException e) {
-					logger.error(e);
+			return getCached(request.pathInfo(), new Callable<Object>() {
+				@Override
+				public JsonArray call() throws Exception {
+					var arr = new JsonArray();
+					MTG.getEnabledPlugin(MTGGedStorage.class).list(request.params(":class")+"/"+request.params(":id")).forEach(p->{
+						try {
+							var e =MTG.getEnabledPlugin(MTGGedStorage.class).read(p);
+							if(e.isImage()) {
+								   arr.add(e.toJson());
+							}
+						} catch (IOException e) 
+						{
+							logger.error(e);
+						}
+					});
+					return arr;
 				}
-				
-				
 			});
 			
-			
-			return arr;
-			
-		},transformer);
+			},transformer);
 		
 		
 		get("/orders/list", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGDao.class).listOrders(), transformer);
