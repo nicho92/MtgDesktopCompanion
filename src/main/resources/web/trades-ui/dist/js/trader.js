@@ -15,9 +15,9 @@
 }
 
 
-function buildImage(ged)
+function buildImage(ged, classes)
 {
-	return "<img id='"+ged.id +"' src='data:image/"+ged.ext+";base64,"+ ged.data + "' class='img-fluid thumb-post' />";
+	return "<img id='"+ged.id +"' src='data:image/"+ged.ext+";base64,"+ ged.data + "' class='img-fluid "+classes+" ' />";
 
 }
 
@@ -26,7 +26,7 @@ function buildAnnounce(data, geds)
 {
 		if(!data)
 			return;
-						var	img = buildImage(geds[0]);
+						var	img = buildImage(geds[0],"thumb-post");
 						
 							
 							var append="<div class='col-xs-6 col-sm-6 col-md-6 col-lg-4'>";

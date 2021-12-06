@@ -60,7 +60,7 @@ $(document).ready(function() {
 		    url: restserver+"/ged/Announce/"+ announce.id
 		}).then(function(geds){
 			$.each( geds, function( key, ged ) {
-				var img = buildImage(ged);
+				var img = buildImage(ged,"");
     			var append="<div class='item'><div class='product-img'>"+img+"</div><span class='price'>$1,550</span></div>";
     			$("#announces-pic").append(img).append("&nbsp;");	
 			});
