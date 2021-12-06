@@ -34,19 +34,20 @@ public class ZipFileSystemStorage extends AbstractFileStorage {
 		return Map.of("ROOT", Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "ged.zip").toAbsolutePath().toString());
 	}
 
+
+
 	@Override
 	public void unload() {
 		
-		if(fs==null)
-			return;
-		
-		
 		try {
-			if(fs.isOpen())
-				fs.close();
+			if(getFilesSystem()==null)
+				return;
+	
+			if(getFilesSystem().isOpen())
+				getFilesSystem().close();
 		} catch (IOException e) {
 			logger.error("Error closing fs",e);
 		}
+		
 	}
-	
 }

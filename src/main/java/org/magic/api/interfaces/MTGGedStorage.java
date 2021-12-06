@@ -14,8 +14,11 @@ public interface MTGGedStorage extends MTGPlugin{
 	public Path getRoot() throws IOException;
 	public void store(GedEntry<?> entry) throws IOException;
 	public Stream<Path> listDirectory(Path p) throws IOException;
-	public List<Path> list(String dir);
+
 	public boolean delete(GedEntry<?> entry);
 	public <T> Path getPath(Class<T> classe, T instance) throws IOException;
 	public GedEntry<?> read(Path p) throws IOException;
+	
+	public List<Path> list(String dir);
+	
 }

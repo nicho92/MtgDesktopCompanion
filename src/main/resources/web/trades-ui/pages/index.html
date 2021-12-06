@@ -27,24 +27,29 @@
 
 
 $(document).ready(function() {	
-	
-
-
 	$("#topbar").load("inc_topbar.html");	
 	$("#navbar").load("inc_nav.html");	
 	$("#footer").load("inc_footer.html");	
 	
 
-	
+
+
+
 	$.ajax({
 	    url: restserver+"/announces/last/6"
 	}).then(function(announces){
-		
-		$.each( announces, function( key, value ) {
-			$('#lastProducts').append( buildAnnounce(value));
+		$.each( announces, function( key, announce ) {
+				$.ajax({
+	    					url: restserver+"/ged/Announce/"+announce.id
+					}).then(function(geds){
+						$('#lastProducts').append( buildAnnounce(announce,geds));
+					});
 		});
-		
 	});
+
+
+
+
 
 });
 
