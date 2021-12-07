@@ -32,20 +32,17 @@ $(document).ready(function() {
 	$("#footer").load("inc_footer.html");	
 	
 
-
+	var lastresult=6;
 
 
 	$.ajax({
-	    url: restserver+"/announces/last/6"
+	    url: restserver+"/announces/last/"+lastresult
 	}).then(function(announces){
 		$.each( announces, function( key, announce ) {
-			
-			console.log("build " + announce.id);
-			
 				$.ajax({
 	    					url: restserver+"/ged/Announce/"+announce.id
 					}).then(function(geds){
-						$('#lastProducts').append( buildAnnounce(announce,geds));
+						$('#lastProducts').append( buildAnnounce(announce,geds,lastresult,lastresult,lastresult,lastresult-2));
 					});
 		});
 	});
@@ -59,7 +56,7 @@ $(document).ready(function() {
 			categories.forEach((item) => {
 				
 					if(item!="BANNER")
-						$("#categories-icon-slider").append("<div class='item'><a href='listAnnounces.html?category="+item+"'><div class='category-icon-item'><div class='icon-box'><div class='icon'><img src='../dist/img/category/"+item.toLowerCase()+".png'/></div><h4>"+item+"</h4></div></div></a></div>");
+						$("#categories-icon-slider").append("<div class='item'><a href='listAnnounces.html?type="+item+"'><div class='category-icon-item'><div class='icon-box'><div class='icon'><img src='../dist/img/category/"+item.toLowerCase()+".png'/></div><h4>"+item+"</h4></div></div></a></div>");
 			})
 		
 		
@@ -117,10 +114,9 @@ $(document).ready(function() {
 							<p>Buy and sell your MTG product</p>
 							<div class="search-bar">
 								<div class="search-inner">
-									<form class="search-form">
+									<form class="search-form" action="listAnnounces.html">
 										<div class="form-group">
-											<input type="text" name="customword" class="form-control"
-												placeholder="What are you looking for?">
+											<input type="text" name="keyword" class="form-control"  placeholder="What are you looking for?">
 										</div>
 										<button class="btn btn-common" type="button">
 											<i class="lni-search"></i> Search Now
@@ -153,8 +149,7 @@ $(document).ready(function() {
 	<section class="featured section-padding">
 		<div class="container">
 			<h1 class="section-title">Latest Announces</h1>
-			<div class="row" id="lastProducts">
-			
+			<div class="row"  id="lastProducts">
 			</div>
 		</div>
 	</section>

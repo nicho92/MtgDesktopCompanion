@@ -68,7 +68,7 @@ public class TradesServer extends AbstractWebServer {
 
 	@Override
 	public Icon getIcon() {
-		return MTGConstants.ICON_TRADES;
+		return MTGConstants.ICON_ANNOUNCES;
 	}
 	
 	@Override
