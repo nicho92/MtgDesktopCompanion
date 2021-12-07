@@ -51,7 +51,7 @@ $(document).ready(function() {
 		$("#announcePrice").html(announce.totalPrice + " " + announce.currencySymbol);
 		$("#contactName").html(announce.contact.name + " " +announce.contact.lastName);
 		$("#contactTel").append(announce.contact.telephone);
-		
+		$("#category").html(announce.categorie);
 		
 		
 		
@@ -166,20 +166,12 @@ $(document).ready(function() {
 								<ul class="advertisement">
 									<li>
 										<p>
-											<strong><i class="lni-folder"></i> Categories:</strong> <a
-												href="#">Electronics</a>
+											<strong><i class="lni-folder"></i> Categories:</strong> <span id="category">category</span>
 										</p>
 									</li>
 									<li>
 										<p>
-											<strong><i class="lni-archive"></i> Condition:</strong> New 
-										</p>
-									</li>
-									<li>
-										<p>
-											<strong><i class="lni-package"></i> Brand:</strong> <a
-												href="#">Apple</a>
-										</p>
+											<strong><i class="lni-archive"></i> Condition:</strong> New	</p>
 									</li>
 								</ul>
 							</div>

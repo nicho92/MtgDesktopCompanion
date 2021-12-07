@@ -39,6 +39,9 @@ $(document).ready(function() {
 	    url: restserver+"/announces/last/6"
 	}).then(function(announces){
 		$.each( announces, function( key, announce ) {
+			
+			console.log("build " + announce.id);
+			
 				$.ajax({
 	    					url: restserver+"/ged/Announce/"+announce.id
 					}).then(function(geds){

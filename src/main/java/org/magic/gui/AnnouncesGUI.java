@@ -55,7 +55,7 @@ public class AnnouncesGUI extends MTGUIComponent {
 		gedPanel = new GedPanel<>();
 		itemsPanel = new StockItemPanel();
 		detailsPanel = new AnnounceDetailPanel();
-		contactPanel = new ContactPanel(true);
+		contactPanel = new ContactPanel(false);
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 		var splitCentral = new JSplitPane();
 		var tabbedPane = new JTabbedPane(SwingConstants.TOP);
@@ -123,7 +123,6 @@ public class AnnouncesGUI extends MTGUIComponent {
 			
 			Announce b = detailsPanel.getAnnounce();
 				 b.setUpdated(true);
-				 b.setContact(contactPanel.getContact());
 				 b.setItems(itemsPanel.getItems());
 				 try {
 					 b.setMainImage(gedPanel.listEntries().get(0));
@@ -135,10 +134,6 @@ public class AnnouncesGUI extends MTGUIComponent {
 			var sw = new SwingWorker<Void, Void>() {
 				@Override
 				protected Void doInBackground() throws SQLException {
-					
-					var contact = MTG.getEnabledPlugin(MTGDao.class).getContactByEmail(contactPanel.getContact().getEmail());
-					b.setContact(contact);
-					
 					MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateAnnounce(b);
 					return null;
 				}

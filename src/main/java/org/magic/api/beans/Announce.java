@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.interfaces.MTGStockItem;
@@ -30,6 +31,9 @@ public class Announce implements Serializable {
 	private boolean updated=false;
 	private Double percentReduction;
 	private GedEntry<Announce> mainImage ;
+	private EnumItems categorie;
+	
+	
 	
 	public Announce() {
 		
@@ -44,6 +48,15 @@ public class Announce implements Serializable {
 		totalPrice=0.0;
 		currency = Currency.getInstance(Locale.getDefault());
 		
+	}
+	
+	
+	public EnumItems getCategorie() {
+		return categorie;
+	}
+	
+	public void setCategorie(EnumItems categorie) {
+		this.categorie = categorie;
 	}
 	
 	public String getCurrencySymbol() {

@@ -5,13 +5,17 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.Currency;
 
+import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import org.magic.api.beans.Announce;
+import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.components.dialog.JContactChooserDialog;
 import org.magic.tools.UITools;
 
 public class AnnounceDetailPanel extends MTGUIComponent {
@@ -25,6 +29,8 @@ public class AnnounceDetailPanel extends MTGUIComponent {
 	private JTextField titleJTextField;
 	private JTextField totalPriceJTextField;
 	private JComboBox<TransactionDirection> cboType;
+	private JComboBox<EnumItems> cboCategories;
+	private JButton btnContact;
 
 	public AnnounceDetailPanel() {
 		
@@ -77,7 +83,7 @@ public class AnnounceDetailPanel extends MTGUIComponent {
 		componentGbc1.fill = GridBagConstraints.BOTH;
 		componentGbc1.gridx = 1;
 		componentGbc1.gridy = 2;
-		add(descriptionJTextArea, componentGbc1);
+		add(new JScrollPane(descriptionJTextArea), componentGbc1);
 		
 		GridBagConstraints labelGbc4 = new GridBagConstraints();
 		labelGbc4.insets = new Insets(5, 5, 5, 5);
@@ -134,7 +140,51 @@ public class AnnounceDetailPanel extends MTGUIComponent {
 		componentGbc0.gridx = 1;
 		componentGbc0.gridy = 6;
 		add(cboCurrency, componentGbc0);
-						
+		
+		
+		GridBagConstraints labelGbc11 = new GridBagConstraints();
+		labelGbc11.insets = new Insets(5, 5, 0, 5);
+		labelGbc11.gridx = 0;
+		labelGbc11.gridy = 7;
+		add(new JLangLabel("CATEGORIE",true), labelGbc11);
+		
+		cboCategories= UITools.createCombobox(EnumItems.values());
+		GridBagConstraints componentGbc10 = new GridBagConstraints();
+		componentGbc10.insets = new Insets(5, 0, 0, 0);
+		componentGbc10.fill = GridBagConstraints.HORIZONTAL;
+		componentGbc10.gridx = 1;
+		componentGbc10.gridy = 7;
+		add(cboCategories, componentGbc10);
+		
+		GridBagConstraints labelGbc12 = new GridBagConstraints();
+		labelGbc12.insets = new Insets(5, 5, 0, 5);
+		labelGbc12.gridx = 0;
+		labelGbc12.gridy = 8;
+		add(new JLangLabel("CONTACT",true), labelGbc12);				
+		
+		
+		btnContact = new JButton();
+		GridBagConstraints labelGbc13 = new GridBagConstraints();
+		labelGbc13.insets = new Insets(5, 5, 0, 5);
+		labelGbc13.gridx = 1;
+		labelGbc13.gridy = 8;
+		add(btnContact, labelGbc13);				
+		
+		
+		
+		btnContact.addActionListener(al->{
+			JContactChooserDialog diag = new JContactChooserDialog();
+			diag.setVisible(true);
+			
+			if(diag.getSelectedContacts()!=null) {
+				announce.setContact(diag.getSelectedContacts());
+				btnContact.setText(announce.getContact().toString());
+				
+			}
+			
+			
+		});
+		
 		
 	}
 
@@ -147,12 +197,12 @@ public class AnnounceDetailPanel extends MTGUIComponent {
 		announce.setCurrency((Currency)cboCurrency.getSelectedItem());
 		announce.setType( (TransactionDirection) cboType.getSelectedItem());
 		announce.setTotalPrice(UITools.parseDouble(totalPriceJTextField.getText()));
-		
+		announce.setCategorie((EnumItems)cboCategories.getSelectedItem());
 		return announce;
 	}
 
 	public void setAnnounce(Announce announce) {
-		this.announce=announce;
+			this.announce=announce;
 			titleJTextField.setText(announce.getTitle());
 			descriptionJTextArea.setText(announce.getDescription());
 			startDateFld.setDate(announce.getStartDate());
@@ -160,6 +210,8 @@ public class AnnounceDetailPanel extends MTGUIComponent {
 			cboCurrency.setSelectedItem(announce.getCurrency());
 			cboType.setSelectedItem(announce.getType());
 			totalPriceJTextField.setText(String.valueOf(announce.getTotalPrice()));
+			cboCategories.setSelectedItem(announce.getCategorie());
+			btnContact.setText(announce.getContact().toString());
 	}
 
 	//@Override

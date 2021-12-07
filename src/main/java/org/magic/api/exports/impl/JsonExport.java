@@ -42,13 +42,13 @@ public class JsonExport extends AbstractCardExport {
 	
 	public JsonExport() {
 		gson=new GsonBuilder().registerTypeAdapter(MTGStockItem.class, new InterfaceAdapter<>())
-				.setDateFormat("yyyy-MM-dd").setPrettyPrinting().create();
+				.setDateFormat("yyyy-MM-dd hh:mm").setPrettyPrinting().create();
 	}
 	
 	public void removePrettyString() {
 		gson=new GsonBuilder()
 				.registerTypeAdapter(MTGStockItem.class, new InterfaceAdapter<>())
-				.setDateFormat("yyyy-MM-dd").create();
+				.setDateFormat("yyyy-MM-dd  HH:mm").create();
 	}
 	
 	

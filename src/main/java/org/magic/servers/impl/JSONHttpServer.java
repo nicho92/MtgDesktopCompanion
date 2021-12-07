@@ -328,6 +328,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		get("/keywords", URLTools.HEADER_JSON, (request, response) -> AbstractKeyWordsManager.getInstance().toJson(), transformer);
 		
+		get("/categories", URLTools.HEADER_JSON, (request, response) -> EnumItems.values(), transformer);
+		
 		
 		get("/cards/name/:idEd/:cName", URLTools.HEADER_JSON, (request, response) -> {
 			MagicEdition ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(ID_ED));
