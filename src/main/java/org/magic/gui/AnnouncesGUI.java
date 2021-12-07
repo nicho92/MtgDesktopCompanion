@@ -203,7 +203,7 @@ public class AnnouncesGUI extends MTGUIComponent {
 			protected void notifyEnd() {
 				modelAnnounces.init(getResult());
 				tableAnnounces.packAll();
-			
+				UITools.initTableFilter(tableAnnounces);
 			}
 		};
 		
