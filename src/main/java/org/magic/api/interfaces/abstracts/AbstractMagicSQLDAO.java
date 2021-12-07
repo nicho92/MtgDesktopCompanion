@@ -295,7 +295,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public List<Announce> listAnnounces(int max,boolean all) throws SQLException {
 		List<Announce> colls = new ArrayList<>();
 		
-		var sql = "SELECT * from announces where endDate >= now() ORDER BY id DESC";
+		var sql = "SELECT * from announces where endDate >= now() and startDate <= now()  ORDER BY id DESC";
 		
 		if(all)
 			sql = "SELECT * from announces ORDER BY id DESC";
