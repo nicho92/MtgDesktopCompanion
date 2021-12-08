@@ -27,7 +27,6 @@
 <script src="../dist/js/rest-server.js"></script>
 <script src="../dist/js/trader.js"></script>
 
-
 <script>
 	$(document).ready(function() {
 
@@ -39,7 +38,10 @@
 		var searchUrl=restserver + "/announces/list";
 		
 		if($_GET("keyword")!=null)
-			searchUrl=restserver +"/announces/search/"+$_GET("keyword");
+			searchUrl=restserver +"/announces/keyword/"+$_GET("keyword");
+		
+		if($_GET("type")!=null)
+			searchUrl=restserver +"/announces/category/"+$_GET("type");
 		
 		
 		$.ajax({

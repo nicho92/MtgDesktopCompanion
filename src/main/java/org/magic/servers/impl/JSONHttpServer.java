@@ -928,9 +928,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 		
 		get("/announces/list", URLTools.HEADER_JSON, (request, response) -> {
-			
 			return MTG.getEnabledPlugin(MTGDao.class).listAnnounces(true);
-			
 		}, transformer);
 		
 		get("/announces/last/:qty", URLTools.HEADER_JSON, (request, response) -> {
@@ -944,9 +942,15 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return MTG.getEnabledPlugin(MTGDao.class).listAnnounces(c);
 		}, transformer);
 		
-		get("/announces/search/:search", URLTools.HEADER_JSON, (request, response) -> {
+		get("/announces/keyword/:search", URLTools.HEADER_JSON, (request, response) -> {
 			return MTG.getEnabledPlugin(MTGDao.class).listAnnounces(request.params(":search"));
 		}, transformer);
+		
+		get("/announces/category/:type", URLTools.HEADER_JSON, (request, response) -> {
+			return MTG.getEnabledPlugin(MTGDao.class).listAnnounces(EnumItems.valueOf(request.params(":type")));
+		}, transformer);
+		
+		
 		
 		get("/webshop/:dest/categories", URLTools.HEADER_JSON, (request, response) ->MTG.getPlugin(request.params(":dest"), MTGExternalShop.class).listCategories(), transformer);
 		

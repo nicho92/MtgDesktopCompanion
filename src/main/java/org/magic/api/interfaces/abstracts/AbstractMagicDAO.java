@@ -91,9 +91,6 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	public List<Announce> listAnnounces(boolean all) throws SQLException {
 		return listAnnounces(-1,all);
 	}
-	
-	
-
 
 	@Override
 	public List<Announce> listAnnounces(Contact contact) throws SQLException {
@@ -105,10 +102,10 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		return listAnnounces(true).stream().filter(a->a.getTitle().toLowerCase().contains(textSearch)||a.getDescription().toLowerCase().contains(textSearch)).toList();
 	}
 	
-	
-	
-	
-	
+	@Override
+	public List<Announce> listAnnounces(EnumItems type) throws SQLException {
+		return listAnnounces(true).stream().filter(a->a.getCategorie()==type).toList();
+	}
 	
 	@Override
 	public List<MagicCardStock> listStocks(List<MagicCollection> cols) throws SQLException {

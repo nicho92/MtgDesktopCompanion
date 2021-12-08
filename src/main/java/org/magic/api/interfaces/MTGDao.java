@@ -120,7 +120,8 @@ public interface MTGDao extends MTGPlugin{
 	public List<Announce> listAnnounces(Contact c) throws SQLException;
 	public List<Announce> listAnnounces(int max,boolean all) throws SQLException;
 	public List<Announce> listAnnounces(String textSearch) throws SQLException;
-
+	public List<Announce> listAnnounces(EnumItems valueOf)throws SQLException;
+	
 	
 	public Announce getAnnounceById(int id) throws SQLException;
 	public int saveOrUpdateAnnounce(Announce a) throws SQLException;
