@@ -13,7 +13,7 @@ import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.interfaces.MTGStockItem;
 
-public class Announce implements Serializable {
+public class Announce implements Serializable, Comparable<Announce> {
 
 	private static final long serialVersionUID = 1L;
 	private int id=-1;
@@ -181,6 +181,20 @@ public class Announce implements Serializable {
 	}
 	public void setItems(List<MTGStockItem> items) {
 		this.items = items;
+	}
+
+
+	@Override
+	public int compareTo(Announce o) {
+		if( o.getId()>getId())
+			return 1;
+		
+		if( o.getId()<getId())
+			return -1;
+		
+		return 0;
+		
+				
 	}
 	
 	

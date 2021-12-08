@@ -61,7 +61,7 @@ $(document).ready(function() {
 		}).then(function(geds){
 			$.each( geds, function( key, ged ) {
 				var img = buildImage(ged,"");
-    			var append="<div class='item'><div class='product-img'>"+img+"</div><span class='price'>$1,550</span></div>";
+    			var append="<div class='item'><div class='product-img'>"+img+"</div><span class='price-save'> test</span></div>";
     			$("#announces-pic").append(img).append("&nbsp;");	
 			});
 			
@@ -205,7 +205,8 @@ $(document).ready(function() {
 										<h3>
 											<a href="#" id="contactName"></a>
 										</h3>
-										<span id="contactTel"><i class="lni-phone-handset"></i></span>
+										<span id="contactTel"><i class="lni-phone-handset"></i></span><br/>
+										<span id="contactMel"><i class="lni-envelope"></i></span>
 									</div>
 								</div>
 								<input type="text" class="form-control" placeholder="Your Email">
