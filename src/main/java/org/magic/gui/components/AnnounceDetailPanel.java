@@ -8,8 +8,11 @@ import java.util.Currency;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
+import javax.swing.JSlider;
+import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 
 import org.magic.api.beans.Announce;
 import org.magic.api.beans.enums.EnumItems;
@@ -31,6 +34,7 @@ public class AnnounceDetailPanel extends MTGUIComponent {
 	private JComboBox<TransactionDirection> cboType;
 	private JComboBox<EnumItems> cboCategories;
 	private JButton btnContact;
+	private JSpinner sldReduction;
 
 	public AnnounceDetailPanel() {
 		
@@ -156,19 +160,34 @@ public class AnnounceDetailPanel extends MTGUIComponent {
 		componentGbc10.gridy = 7;
 		add(cboCategories, componentGbc10);
 		
+	
+		GridBagConstraints labelGbc13 = new GridBagConstraints();
+		labelGbc13.insets = new Insets(5, 5, 0, 5);
+		labelGbc13.gridx = 0;
+		labelGbc13.gridy = 8;
+		add(new JLangLabel("REDUCTION",true), labelGbc13);
+		
+		sldReduction= new JSpinner(new SpinnerNumberModel(0.0, 0.0,100, 0.5));
+		GridBagConstraints componentGbc13 = new GridBagConstraints();
+		componentGbc13.insets = new Insets(5, 0, 0, 0);
+		componentGbc13.fill = GridBagConstraints.HORIZONTAL;
+		componentGbc13.gridx = 1;
+		componentGbc13.gridy = 8;
+		add(sldReduction, componentGbc13);
+		
 		GridBagConstraints labelGbc12 = new GridBagConstraints();
 		labelGbc12.insets = new Insets(5, 5, 0, 5);
 		labelGbc12.gridx = 0;
-		labelGbc12.gridy = 8;
+		labelGbc12.gridy = 9;
 		add(new JLangLabel("CONTACT",true), labelGbc12);				
 		
 		
 		btnContact = new JButton();
-		GridBagConstraints labelGbc13 = new GridBagConstraints();
-		labelGbc13.insets = new Insets(5, 5, 0, 5);
-		labelGbc13.gridx = 1;
-		labelGbc13.gridy = 8;
-		add(btnContact, labelGbc13);				
+		GridBagConstraints labelGbc14 = new GridBagConstraints();
+		labelGbc14.insets = new Insets(5, 5, 0, 5);
+		labelGbc14.gridx = 1;
+		labelGbc14.gridy = 9;
+		add(btnContact, labelGbc14);				
 		
 		
 		
@@ -198,6 +217,7 @@ public class AnnounceDetailPanel extends MTGUIComponent {
 		announce.setType( (TransactionDirection) cboType.getSelectedItem());
 		announce.setTotalPrice(UITools.parseDouble(totalPriceJTextField.getText()));
 		announce.setCategorie((EnumItems)cboCategories.getSelectedItem());
+		announce.setPercentReduction(((Number)sldReduction.getValue()).doubleValue());
 		return announce;
 	}
 
@@ -212,6 +232,7 @@ public class AnnounceDetailPanel extends MTGUIComponent {
 			totalPriceJTextField.setText(String.valueOf(announce.getTotalPrice()));
 			cboCategories.setSelectedItem(announce.getCategorie());
 			btnContact.setText(announce.getContact().toString());
+			sldReduction.setValue(announce.getPercentReduction());
 	}
 
 	//@Override

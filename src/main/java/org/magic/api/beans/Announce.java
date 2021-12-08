@@ -1,4 +1,4 @@
-package org.magic.api.beans;
+ package org.magic.api.beans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -46,6 +46,7 @@ public class Announce implements Serializable {
 		c.add(Calendar.DAY_OF_MONTH, 15);
 		endDate = c.getTime();
 		totalPrice=0.0;
+		percentReduction=0.0;
 		currency = Currency.getInstance(Locale.getDefault());
 		
 	}
