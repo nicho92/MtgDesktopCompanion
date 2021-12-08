@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.magic.api.beans.Announce;
 import org.magic.api.beans.ConverterItem;
+import org.magic.api.beans.GedEntry;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
@@ -136,6 +137,10 @@ public interface MTGDao extends MTGPlugin{
 	public void deleteConversionItem(ConverterItem n) throws SQLException;
 	public void saveOrUpdateConversionItem(ConverterItem n) throws SQLException;
 
+	public List<GedEntry<?>> listEntries(String classename, String fileName)  throws SQLException;
+	public boolean deleteEntry(GedEntry<?> gedItem) throws SQLException;
+	public boolean storeEntry(GedEntry<?> gedItem) throws SQLException;
+	
 	
 	public void init() throws SQLException;
 	public void init(MTGPool pool) throws SQLException;

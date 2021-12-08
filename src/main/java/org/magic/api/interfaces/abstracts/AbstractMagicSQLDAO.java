@@ -14,6 +14,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Currency;
 import java.util.HashMap;
 import java.util.List;
@@ -21,9 +22,9 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-import org.apache.commons.text.StringEscapeUtils;
 import org.magic.api.beans.Announce;
 import org.magic.api.beans.ConverterItem;
+import org.magic.api.beans.GedEntry;
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.MagicCard;
@@ -179,6 +180,9 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public boolean createDB() {
 		try (var cont =  pool.getConnection();Statement stat = cont.createStatement()) {
 			
+			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" ged (id "+getAutoIncrementKeyWord()+" PRIMARY KEY,creationDate TIMESTAMP, className VARCHAR(250), idInstance VARCHAR(250), fileContent " + longTextStorage() + ");");
+			logger.debug("Create table ged");
+			
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" announces (id "+getAutoIncrementKeyWord()+" PRIMARY KEY,creationDate TIMESTAMP , startDate TIMESTAMP ,endDate TIMESTAMP, title VARCHAR(150), description " + longTextStorage() + ", total DECIMAL(10,2), currency VARCHAR(5),  stocksItem "+beanStorage() + ",typeAnnounce VARCHAR(10), fk_idcontact INTEGER, category VARCHAR(50), percentReduction DECIMAL(10,2));");
 			logger.debug("Create table announces");
 			
@@ -239,6 +243,38 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			logger.error("error creating",e);
 			return false;
 		}
+	}
+	
+	
+	@Override
+	public boolean storeEntry(GedEntry<?> gedItem) throws SQLException {
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("INSERT INTO ged (creationDate, className, idInstance, fileContent) VALUES (?, ?, ?, ?)")) 
+		{
+				pst.setTimestamp(1, new Timestamp(Instant.now().toEpochMilli()));
+				pst.setString(2, gedItem.getClasse().getCanonicalName());
+				pst.setString(3, gedItem.getId());
+				pst.setString(4, Base64.getEncoder().encodeToString(gedItem.getContent()));
+				pst.executeUpdate();
+	
+				return true;
+				
+		}
+		
+		
+		
+		
+	}
+	
+	@Override
+	public List<GedEntry<?>> listEntries(String classename, String fileName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public boolean deleteEntry(GedEntry<?> gedItem) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 	

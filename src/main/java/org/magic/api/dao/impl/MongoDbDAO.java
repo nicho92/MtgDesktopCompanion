@@ -25,6 +25,7 @@ import org.bson.json.JsonMode;
 import org.bson.json.JsonWriterSettings;
 import org.magic.api.beans.Announce;
 import org.magic.api.beans.ConverterItem;
+import org.magic.api.beans.GedEntry;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
@@ -135,6 +136,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			client.close();
 	}
 	
+	
 	public void init() throws SQLException {
 
 		var pojoCodecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),fromProviders(PojoCodecProvider.builder().automatic(true).build()));
@@ -189,6 +191,28 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			
 		return populateCollections;
 	}
+	
+	
+
+	@Override
+	public boolean storeEntry(GedEntry<?> gedItem) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	@Override
+	public List<GedEntry<?>> listEntries(String classename, String fileName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public boolean deleteEntry(GedEntry<?> gedItem) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	
 	
 	@Override
 	public void deleteStock(SealedStock state) throws SQLException {

@@ -15,6 +15,8 @@ import org.magic.api.interfaces.MTGStockItem;
 
 public class Announce implements Serializable, Comparable<Announce> {
 
+	public enum STATUS { SOON, PUBLISHED, SOLD, EXPIRED }
+	
 	private static final long serialVersionUID = 1L;
 	private int id=-1;
 	private Contact contact;
@@ -32,7 +34,7 @@ public class Announce implements Serializable, Comparable<Announce> {
 	private Double percentReduction;
 	private GedEntry<Announce> mainImage ;
 	private EnumItems categorie;
-	
+	private STATUS status;
 	
 	
 	public Announce() {
@@ -51,6 +53,13 @@ public class Announce implements Serializable, Comparable<Announce> {
 		
 	}
 	
+	public STATUS getStatus() {
+		return status;
+	}
+	
+	public void setStatus(STATUS status) {
+		this.status = status;
+	}
 	
 	public EnumItems getCategorie() {
 		return categorie;

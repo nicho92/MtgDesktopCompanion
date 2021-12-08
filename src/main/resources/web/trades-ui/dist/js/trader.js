@@ -49,7 +49,7 @@ function buildAnnounce(data, geds,xs,sm,md,lg)
 				append+="<div class='feature-content'>";
 				append+="<div class='product'><i class='lni-check-box'></i> <a href='listAnnounces.html?type="+data.categorie+"'>"+data.categorie+"</a></div>";
 				append+="<h4><a href='announce.html?id="+data.id+"'>"+data.title+"</a></h4>";
-				append+="<div class='meta-tag'><span> <a href='#'><i class='lni-user'></i> "+data.contact.name + " " + data.contact.lastName +"</a>";
+				append+="<div class='meta-tag'><span> <a href='contactpage.html?id="+data.contact.id+"'><i class='lni-user'></i> "+data.contact.name + " " + data.contact.lastName +"</a>";
 						append+="</span> <span> <a href='#'><i class='lni-map-marker'></i>"+data.contact.city+","+ data.contact.country+"</a>";
 						append+="</span> <span> <a href='#'><i class='lni-alarm-clock'></i> "+data.endDate+"</a></span>";
 				append+="</div>";

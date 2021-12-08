@@ -934,7 +934,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/announces/last/:qty", URLTools.HEADER_JSON, (request, response) -> {
 			return MTG.getEnabledPlugin(MTGDao.class).listAnnounces(Integer.parseInt(request.params(":qty")),false);
 		}, transformer);
-
 		
 		get("/announces/contact/:id", URLTools.HEADER_JSON, (request, response) -> {
 			var c = new Contact();
