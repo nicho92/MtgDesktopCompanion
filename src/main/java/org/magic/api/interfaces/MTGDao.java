@@ -118,9 +118,9 @@ public interface MTGDao extends MTGPlugin{
 
 	public List<Announce> listAnnounces(boolean all) throws SQLException;
 	public List<Announce> listAnnounces(Contact c) throws SQLException;
-	public List<Announce> listAnnounces(MTGStockItem item) throws SQLException;
-	public List<Announce> listAnnounces(int parseInt,boolean all) throws SQLException;
-	
+	public List<Announce> listAnnounces(int max,boolean all) throws SQLException;
+	public List<Announce> listAnnounces(String textSearch) throws SQLException;
+
 	
 	public Announce getAnnounceById(int id) throws SQLException;
 	public int saveOrUpdateAnnounce(Announce a) throws SQLException;

@@ -256,42 +256,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				
 		}
 	}
-	
-	@Override
-	public List<Announce> listAnnounces(Contact contact) throws SQLException {
-		List<Announce> colls = new ArrayList<>();
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from announces where fk_idcontact=?")) 
-		{
-				pst.setInt(1, contact.getId());
-				var rs = pst.executeQuery();
-				while (rs.next()) {
-					Announce d = readAnnounce(rs);
-					colls.add(d);
-					notify(d);
-				}
-		}
-		return colls;
-	}
-	
-	
-	@Override
-	public List<Announce> listAnnounces(MTGStockItem item) throws SQLException {
-		List<Announce> colls = new ArrayList<>();
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from announces where items like ?")) 
-		{
-				pst.setString(1, "%"+item.getProduct().getName()+"%");
-				var rs = pst.executeQuery();
-				while (rs.next()) {
-					Announce d = readAnnounce(rs);
-					colls.add(d);
-					notify(d);
-				}
-		}
-		return colls;
-	}
-	
-	
-	
+		
 	@Override
 	public List<Announce> listAnnounces(int max,boolean all) throws SQLException {
 		List<Announce> colls = new ArrayList<>();

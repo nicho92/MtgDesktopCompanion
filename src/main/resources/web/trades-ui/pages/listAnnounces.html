@@ -38,6 +38,10 @@
 		
 		var searchUrl=restserver + "/announces/list";
 		
+		if($_GET("keyword")!=null)
+			searchUrl=restserver +"/announces/search/"+$_GET("keyword");
+		
+		
 		$.ajax({
 			url : searchUrl
 		}).then(function(announces) {

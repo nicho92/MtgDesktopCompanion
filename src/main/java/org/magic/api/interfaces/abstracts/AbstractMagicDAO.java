@@ -1,5 +1,6 @@
 package org.magic.api.interfaces.abstracts;
 
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -90,6 +91,24 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	public List<Announce> listAnnounces(boolean all) throws SQLException {
 		return listAnnounces(-1,all);
 	}
+	
+	
+
+
+	@Override
+	public List<Announce> listAnnounces(Contact contact) throws SQLException {
+		return listAnnounces(true).stream().filter(a->a.getContact().getId()==contact.getId()).toList();
+	}
+	
+	@Override
+	public List<Announce> listAnnounces(String textSearch) throws SQLException {
+		return listAnnounces(true).stream().filter(a->a.getTitle().toLowerCase().contains(textSearch)||a.getDescription().toLowerCase().contains(textSearch)).toList();
+	}
+	
+	
+	
+	
+	
 	
 	@Override
 	public List<MagicCardStock> listStocks(List<MagicCollection> cols) throws SQLException {

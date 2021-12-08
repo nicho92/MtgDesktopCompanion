@@ -712,33 +712,8 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	
 	
 	@Override
-	public List<Announce> listAnnounces(MTGStockItem item) throws SQLException {
-		//TODO using elemMatch 
-		List<Announce> trans = new ArrayList<>();
-		db.getCollection(colAnnounces,BasicDBObject.class).find(Filters.eq("items.product.name", item.getProduct().getName())).forEach((Consumer<BasicDBObject>) result ->{
-			Announce o = deserialize(result.toString(), Announce.class);
-			trans.add(o);
-		});
-		
-		return trans;
-	}
-	@Override
-	public List<Announce> listAnnounces(Contact c) throws SQLException {
-		List<Announce> trans = new ArrayList<>();
-		db.getCollection(colAnnounces,BasicDBObject.class).find(Filters.eq("contact.id", c.getId())).forEach((Consumer<BasicDBObject>) result ->{
-			Announce o = deserialize(result.toString(), Announce.class);
-			trans.add(o);
-		});
-		
-		return trans;
-	}
-	
-
-	@Override
 	public List<Announce> listAnnounces(int max,boolean all) {
 		List<Announce> trans = new ArrayList<>();
-	
-		
 		
 		var it = db.getCollection(colAnnounces, BasicDBObject.class).find().sort(Sorts.descending("id"));
 			
