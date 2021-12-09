@@ -47,7 +47,7 @@ public class GedPanel<T> extends MTGUIComponent {
 	{
 		this.classe=t;
 		this.instance=instance;
-		entries = new ArrayList<>();
+	
 		
 		if(isVisible())
 			onVisible();
@@ -83,7 +83,7 @@ public class GedPanel<T> extends MTGUIComponent {
 	
 	public GedPanel() {
 		setLayout(new BorderLayout());
-
+		entries = new ArrayList<>();
 		var panneauHaut = new JPanel();
 		panneauCenter = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		viewPanel = new ImagePanel(true, false, true);
@@ -108,7 +108,7 @@ public class GedPanel<T> extends MTGUIComponent {
 						try {
 							GedEntry<T> entry = new GedEntry<>(f,classe);
 										entry.setObject(instance);
-							
+										entry.setId(instance.toString());
 							MTG.getEnabledPlugin(MTGGedStorage.class).store(entry);
 							publish(entry);
 							
