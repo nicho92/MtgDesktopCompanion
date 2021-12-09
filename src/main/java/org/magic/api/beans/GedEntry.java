@@ -78,6 +78,15 @@ public class GedEntry <T> implements Serializable {
 		return new JsonExport().fromJson(object, classe);
 	}
 	
+	public GedEntry()
+	{
+		
+	}
+	
+	public void setClasse(Class<T> classe) {
+		this.classe = classe;
+	}
+	
 	
 	public GedEntry(File f,Class<T> classe) throws IOException {
 		this.classe=classe;

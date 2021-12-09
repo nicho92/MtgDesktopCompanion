@@ -140,6 +140,7 @@ public interface MTGDao extends MTGPlugin{
 	public List<GedEntry<?>> listEntries(String classename, String fileName)  throws SQLException;
 	public boolean deleteEntry(GedEntry<?> gedItem) throws SQLException;
 	public boolean storeEntry(GedEntry<?> gedItem) throws SQLException;
+	public GedEntry<?> readEntry(String classe, String idInstance, String fileName)throws SQLException;
 	
 	
 	public void init() throws SQLException;

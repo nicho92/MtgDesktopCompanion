@@ -192,7 +192,11 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		return populateCollections;
 	}
 	
-	
+	@Override
+	public GedEntry<?> readEntry(String classe, String idInstance, String fileName) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
 	public boolean storeEntry(GedEntry<?> gedItem) {

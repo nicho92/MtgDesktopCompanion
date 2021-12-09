@@ -3,6 +3,7 @@ package org.magic.api.interfaces.abstracts;
 import static org.magic.tools.MTG.getEnabledPlugin;
 import static org.magic.tools.MTG.getPlugin;
 
+import java.nio.file.Path;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -21,6 +22,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
+
+import javax.swing.ImageIcon;
 
 import org.magic.api.beans.Announce;
 import org.magic.api.beans.ConverterItem;
@@ -50,10 +53,12 @@ import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.pool.impl.NoPool;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.PluginRegistry;
 import org.magic.services.TransactionService;
 import org.magic.services.providers.SealedProductProvider;
 import org.magic.tools.Chrono;
 import org.magic.tools.IDGenerator;
+import org.magic.tools.ImageTools;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -180,7 +185,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public boolean createDB() {
 		try (var cont =  pool.getConnection();Statement stat = cont.createStatement()) {
 			
-			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" ged (id "+getAutoIncrementKeyWord()+" PRIMARY KEY,creationDate TIMESTAMP, className VARCHAR(250), idInstance VARCHAR(250), fileContent " + longTextStorage() + ");");
+			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" ged (id "+getAutoIncrementKeyWord()+" PRIMARY KEY,creationDate TIMESTAMP, className VARCHAR(250), idInstance VARCHAR(250), fileName VARCHAR(250), fileContent " + longTextStorage() + ");");
 			logger.debug("Create table ged");
 			
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" announces (id "+getAutoIncrementKeyWord()+" PRIMARY KEY,creationDate TIMESTAMP , startDate TIMESTAMP ,endDate TIMESTAMP, title VARCHAR(150), description " + longTextStorage() + ", total DECIMAL(10,2), currency VARCHAR(5),  stocksItem "+beanStorage() + ",typeAnnounce VARCHAR(10), fk_idcontact INTEGER, category VARCHAR(50), percentReduction DECIMAL(10,2));");
@@ -248,35 +253,93 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	
 	@Override
 	public boolean storeEntry(GedEntry<?> gedItem) throws SQLException {
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("INSERT INTO ged (creationDate, className, idInstance, fileContent) VALUES (?, ?, ?, ?)")) 
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("INSERT INTO ged (creationDate, className, idInstance, fileContent,fileName) VALUES (?, ?, ?, ?,?)")) 
 		{
 				pst.setTimestamp(1, new Timestamp(Instant.now().toEpochMilli()));
 				pst.setString(2, gedItem.getClasse().getCanonicalName());
 				pst.setString(3, gedItem.getId());
 				pst.setString(4, Base64.getEncoder().encodeToString(gedItem.getContent()));
+				pst.setString(5, gedItem.getFullName());
 				pst.executeUpdate();
-	
 				return true;
 				
 		}
-		
-		
-		
-		
 	}
 	
 	@Override
-	public List<GedEntry<?>> listEntries(String classename, String fileName) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<GedEntry<?>> listEntries(String classename, String id) throws SQLException {
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT fileName from ged where className = ? and IdInstance = ?")) 
+		{
+				pst.setString(1, classename);
+				pst.setString(2,id);
+				var rs = pst.executeQuery();
+				
+				var arr = new ArrayList<GedEntry<?>>();
+				
+					while(rs.next())
+					{
+						var entry = new GedEntry<>();
+						entry.setId(id);
+						entry.setClasse(PluginRegistry.inst().loadClass(classename));
+						entry.setName(rs.getString("fileName"));
+						arr.add(entry);
+					}
+				logger.debug("return " + arr);
+				return arr;
+		} catch (ClassNotFoundException e) {
+			logger.error(e);
+			throw new SQLException(e);
+		}
 	}
 	
 	@Override
-	public boolean deleteEntry(GedEntry<?> gedItem) {
-		// TODO Auto-generated method stub
-		return false;
+	public GedEntry<?> readEntry(String classe, String idInstance, String fileName) throws SQLException {
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT fileContent from ged where className = ? and IdInstance = ? and fileName= ?")) 
+		{
+				var ged = new GedEntry<>();
+				pst.setString(1, classe);
+				pst.setString(2,idInstance);
+				pst.setString(3,fileName);
+				var rs = pst.executeQuery();
+				rs.next();
+				ged.setId(idInstance);
+				ged.setName(fileName);
+				ged.setContent(Base64.getDecoder().decode(rs.getString("fileContent")));
+				
+				
+				try {
+					var buf = ImageTools.toImage(ged.getContent());
+					ged.setIcon(new ImageIcon(buf));
+					ged.setIsImage(true);
+				}
+				catch(Exception e)
+				{
+					ged.setIsImage(false);
+				}
+				ged.setClasse(PluginRegistry.inst().loadClass(classe));
+				return ged;
+		} catch (ClassNotFoundException e) {
+			logger.error(e);
+			throw new SQLException(e);
+		}
+	}
+
+	
+	
+	
+	@Override
+	public boolean deleteEntry(GedEntry<?> gedItem) throws SQLException {
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("DELETE FROM ged where className = ? and IdInstance = ? and fileName= ?")) 
+		{
+				pst.setString(1, gedItem.getClasse().getCanonicalName());
+				pst.setString(2,gedItem.getId());
+				pst.setString(3,gedItem.getFullName());
+				pst.executeUpdate();
+				return true;
+		}
 	}
 	
+
 	
 	
 	

@@ -313,6 +313,10 @@ public class ImageTools {
 	    return Base64.getEncoder().encodeToString(img);	
 	}
 
+	public static BufferedImage toImage(byte[] img) throws IOException {
+	    return ImageIO.read(new ByteArrayInputStream(img));	
+	}
+	
 
 	public static ImageIcon resize(Icon icon, int newH, int newW) {
 		var ic = ((ImageIcon)icon).getImage().getScaledInstance(newH, newW, Image.SCALE_SMOOTH);

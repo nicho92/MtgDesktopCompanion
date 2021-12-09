@@ -222,6 +222,7 @@ public class GedPanel<T> extends MTGUIComponent {
 							{
 								@SuppressWarnings("unchecked")
 								GedEntry<T> ged = (GedEntry<T>) MTG.getEnabledPlugin(MTGGedStorage.class).read(p);
+								
 								publish(ged);
 							}
 						}
