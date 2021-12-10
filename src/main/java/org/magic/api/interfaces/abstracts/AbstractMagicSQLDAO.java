@@ -27,6 +27,7 @@ import javax.swing.ImageIcon;
 
 import org.magic.api.beans.Announce;
 import org.magic.api.beans.ConverterItem;
+import org.magic.api.beans.DAOInfo;
 import org.magic.api.beans.GedEntry;
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MTGSealedProduct;
@@ -1982,10 +1983,18 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	}
 	private PreparedStatement prepareStatement(Connection c, String string, Integer returnGeneratedKeys) throws SQLException {
 		
+		PreparedStatement stat = null; 
+		
+		
 		if(returnGeneratedKeys==null)
-			return c.prepareStatement(string);
+			stat= c.prepareStatement(string);
+		else	
+			stat= c.prepareStatement(string, returnGeneratedKeys);
 			
-			return c.prepareStatement(string, returnGeneratedKeys);
+			
+			listdao.add(new DAOInfo(stat));
+			
+			return stat;
 	}
 	
 	
