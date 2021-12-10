@@ -20,6 +20,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -312,7 +313,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 							if(e.isImage()) {
 								   arr.add(e.toJson());
 							}
-						} catch (IOException e) 
+						} catch (Exception e) 
 						{
 							logger.error(e);
 						}
@@ -759,6 +760,28 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		get("/admin/caches", URLTools.HEADER_JSON, (request, response) -> {
 			return cache.entries().keySet();
+		}, transformer);
+		
+		
+		get("/admin/jdbc", URLTools.HEADER_JSON, (request, response) -> {
+			var arr = new JsonArray();
+			MTG.getEnabledPlugin(MTGDao.class).listInfoDaos().forEach(info->{
+				
+					var obj = new JsonObject();
+						 try {
+							obj.addProperty("connection", info.getStat().getConnection().toString());
+							obj.addProperty("poolable", info.getStat().isPoolable());
+							obj.addProperty("closed", info.getStat().isClosed());
+						
+							arr.add(obj);
+						} catch (SQLException e) {
+							logger.error(e);
+						}
+						 
+				
+			});
+			return arr;
+			
 		}, transformer);
 		
 		

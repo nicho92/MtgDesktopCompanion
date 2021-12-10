@@ -10,6 +10,7 @@ import java.util.Set;
 
 import org.magic.api.beans.Announce;
 import org.magic.api.beans.ConverterItem;
+import org.magic.api.beans.DAOInfo;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
@@ -41,6 +42,8 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	protected static final String PARAMETERS = "PARAMETERS";
 	
 	protected JsonExport serialiser;
+	protected List<DAOInfo> listdao;
+	
 	
 	protected TCache<MagicCardAlert> listAlerts;
 	protected TCache<OrderEntry> listOrders;
@@ -69,7 +72,13 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		listAlerts = new TCache<>("alerts");
 		listOrders = new TCache<>("orders");
 		serialiser=new JsonExport();
+		listdao= new ArrayList<>();
 	}
+	
+	public List<DAOInfo> listInfoDaos() {
+		return listdao;
+	}
+	
 	
 	@Override
 	public void moveCard(MagicCard mc, MagicCollection from, MagicCollection to) throws SQLException {

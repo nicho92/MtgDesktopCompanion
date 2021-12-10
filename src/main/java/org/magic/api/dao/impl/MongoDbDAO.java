@@ -74,6 +74,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	private String colConversionItem = "conversionsItems";
 	private String colDecks = "decks";
 	private String colAnnounces="announces";
+	private String colGed="ged";
 
 	private String dbIDField = "db_id";
 	private String dbAlertField = "alertItem";
@@ -170,7 +171,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	public boolean createDB() {
 		
 			var populateCollections=true;
-			for(String s : new String[] {colCards,colCollects,colStocks,colAlerts,colNews,colOrders,colSealed,colTransactions,colContacts,colDecks,colConversionItem,colAnnounces})
+			for(String s : new String[] {colCards,colCollects,colStocks,colAlerts,colNews,colOrders,colSealed,colTransactions,colContacts,colDecks,colConversionItem,colAnnounces,colGed})
 			{
 				try {
 					db.createCollection(s);
@@ -205,7 +206,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 	
 	@Override
-	public List<GedEntry<?>> listEntries(String classename, String fileName) {
+	public List<GedEntry<?>> listEntries(String classename, String id) {
 		// TODO Auto-generated method stub
 		return null;
 	}

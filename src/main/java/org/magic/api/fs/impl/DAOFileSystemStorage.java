@@ -3,6 +3,7 @@ package org.magic.api.fs.impl;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -37,10 +38,12 @@ public class DAOFileSystemStorage extends AbstractFileStorage {
 	@Override
 	public GedEntry<?> read(Path p) throws IOException {
 		
-		logger.debug("reading " + p.toAbsolutePath());
+		
 		var cIdClasse = p.getParent().getParent().getFileName().toString();
 		var cIdInstance = p.getParent().getFileName().toString();
 		var cFName = p.getFileName().toString();
+		
+		logger.debug("reading " +cIdClasse +" / " + cIdInstance + " / " + cFName);
 		
 		try {
 			return MTG.getEnabledPlugin(MTGDao.class).readEntry(cIdClasse, cIdInstance, cFName);
@@ -73,8 +76,22 @@ public class DAOFileSystemStorage extends AbstractFileStorage {
 
 	@Override
 	public List<Path> list(String dir) {
-		logger.debug("list dir" + dir);
-		return null;
+	try {
+		
+		var classename = dir.split("/")[0];
+		if(!classename.startsWith("org.magic.api.beans"))
+			classename = "org.magic.api.beans."+classename;
+		
+		
+
+		
+		
+		
+		return listDirectory(Path.of(classename, dir.split("/")[1])).toList();
+	} catch (Exception e) {
+		logger.error(e);
+		return new ArrayList<>();
+	}
 	}
 
 	@Override
