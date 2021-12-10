@@ -312,7 +312,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 							if(e.isImage()) {
 								   arr.add(e.toJson());
 							}
-						} catch (IOException e) 
+						} catch (Exception e) 
 						{
 							logger.error(e);
 						}

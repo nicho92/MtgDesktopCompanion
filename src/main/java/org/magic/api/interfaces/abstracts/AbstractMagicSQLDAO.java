@@ -293,11 +293,12 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	}
 	
 	@Override
-	public GedEntry<?> readEntry(String classe, String idInstance, String fileName) throws SQLException {
+	public GedEntry<?> readEntry(String classename, String idInstance, String fileName) throws SQLException {
 		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT fileContent from ged where className = ? and IdInstance = ? and fileName= ?")) 
 		{
+			
 				var ged = new GedEntry<>();
-				pst.setString(1, classe);
+				pst.setString(1, classename);
 				pst.setString(2,idInstance);
 				pst.setString(3,fileName);
 				var rs = pst.executeQuery();
@@ -316,7 +317,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				{
 					ged.setIsImage(false);
 				}
-				ged.setClasse(PluginRegistry.inst().loadClass(classe));
+				ged.setClasse(PluginRegistry.inst().loadClass(classename));
 				return ged;
 		} catch (ClassNotFoundException e) {
 			logger.error(e);
