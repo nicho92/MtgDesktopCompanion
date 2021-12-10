@@ -108,7 +108,7 @@ public class GedPanel<T> extends MTGUIComponent {
 						try {
 							GedEntry<T> entry = new GedEntry<>(f,classe);
 										entry.setObject(instance);
-							
+										entry.setId(instance.toString());
 							MTG.getEnabledPlugin(MTGGedStorage.class).store(entry);
 							publish(entry);
 							
