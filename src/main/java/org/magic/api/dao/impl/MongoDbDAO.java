@@ -6,13 +6,16 @@ import static org.magic.tools.MTG.getPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.sql.SQLException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -25,6 +28,7 @@ import org.bson.json.JsonMode;
 import org.bson.json.JsonWriterSettings;
 import org.magic.api.beans.Announce;
 import org.magic.api.beans.ConverterItem;
+import org.magic.api.beans.DAOInfo;
 import org.magic.api.beans.GedEntry;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
@@ -38,13 +42,13 @@ import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.MTGNewsProvider;
-import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGConstants;
 import org.magic.tools.Chrono;
 import org.magic.tools.IDGenerator;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
@@ -56,6 +60,10 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Sorts;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
+import com.mongodb.event.CommandFailedEvent;
+import com.mongodb.event.CommandListener;
+import com.mongodb.event.CommandStartedEvent;
+import com.mongodb.event.CommandSucceededEvent;
 
 public class MongoDbDAO extends AbstractMagicDAO {
 
@@ -159,12 +167,45 @@ public class MongoDbDAO extends AbstractMagicDAO {
 					  
 					  
 			logger.debug(getName() + " connected to " + temp);		  
-					  
-			client = MongoClients.create(temp.toString());
+				
+			MongoClientSettings settings = MongoClientSettings.builder()
+			                .applyConnectionString(new ConnectionString(temp.toString()))
+			                .addCommandListener(new CommandListener() {
+								
+			                	
+			                	DAOInfo e;
+			                	
+								@Override
+								public void commandSucceeded(CommandSucceededEvent event) {
+										e.setDuration(event.getElapsedTime(TimeUnit.MILLISECONDS));
+										e.setEndDate(Instant.now());
+										e.setClasseName(event.getClass().getCanonicalName());
+									listdao.add(e);
+								}
+								
+								@Override
+								public void commandStarted(CommandStartedEvent event) {
+									e = new DAOInfo();
+									e.setQuery(event.getCommand().getFirstKey() + " " + event.getCommand().get(event.getCommand().getFirstKey()));
+								}
+								
+								@Override
+								public void commandFailed(CommandFailedEvent event) {
+									e.setMessage(event.getThrowable().getMessage());
+									e.setDuration(event.getElapsedTime(TimeUnit.MILLISECONDS));
+									e.setEndDate(Instant.now());
+									listdao.add(e);
+								}
+							})
+			                .build();
+			
+			client = MongoClients.create(settings);
 		
 			db = client.getDatabase(getString(DB_NAME)).withCodecRegistry(pojoCodecRegistry);
+			
 			createDB();
 			logger.info("init " + getName() + " done");
+			
 		
 	}
 
@@ -213,8 +254,9 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	
 	@Override
 	public boolean deleteEntry(GedEntry<?> gedItem) {
-		// TODO Auto-generated method stub
-		return false;
+		db.getCollection(colSealed).deleteOne(Filters.and(Filters.eq("fullName", gedItem.getFullName()),Filters.eq("id", gedItem.getId())));
+		notify(gedItem);
+		return true;
 	}
 	
 	
