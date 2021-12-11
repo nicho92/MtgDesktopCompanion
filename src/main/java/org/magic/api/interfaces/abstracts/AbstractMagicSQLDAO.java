@@ -3,7 +3,6 @@ package org.magic.api.interfaces.abstracts;
 import static org.magic.tools.MTG.getEnabledPlugin;
 import static org.magic.tools.MTG.getPlugin;
 
-import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -1976,7 +1975,11 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		listdao.add(daoInfo);
 		
 		daoInfo.setCreationDate(start);
-		
+		try {
+			daoInfo.setConnectionName(pst.getConnection().toString());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
 		
 		var index = 0;

@@ -18,7 +18,16 @@ public class DAOInfo implements Serializable {
 	private transient MTGDao dao;
 	private String canonicalName;
 	private String message;
+	private String connectionName;
 	
+	
+	public String getConnectionName() {
+		return connectionName;
+	}
+	
+	public void setConnectionName(String connectionName) {
+		this.connectionName = connectionName;
+	}
 	
 	public MTGDao getDao() {
 		return dao;
@@ -77,6 +86,7 @@ public class DAOInfo implements Serializable {
 		obj.addProperty("duration",getDuration());
 		obj.addProperty("statement", getClasseName());
 		obj.addProperty("sql",getQuery());
+		obj.addProperty("connection", getConnectionName());
 		return obj;
 	
 	}

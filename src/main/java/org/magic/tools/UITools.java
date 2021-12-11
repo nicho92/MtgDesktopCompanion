@@ -98,10 +98,12 @@ public class UITools {
 
 	private static final String DATE_FORMAT = "DATE_FORMAT";
 	private static Pandomium instance;
+	protected static Logger logger = MTGLogger.getLogger(UITools.class);
 
+	
+	
 	private UITools() {}
 	
-	protected static Logger logger = MTGLogger.getLogger(UITools.class);
 	
 	public static final int getComponentIndex(Component component) {
 	    if (component != null && component.getParent() != null) {

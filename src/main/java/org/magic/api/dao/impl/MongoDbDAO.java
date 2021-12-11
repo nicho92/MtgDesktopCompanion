@@ -187,6 +187,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 								public void commandStarted(CommandStartedEvent event) {
 									e = new DAOInfo();
 									e.setQuery(event.getCommand().getFirstKey() + " " + event.getCommand().get(event.getCommand().getFirstKey()));
+									e.setConnectionName(event.getConnectionDescription().toString());
 								}
 								
 								@Override
