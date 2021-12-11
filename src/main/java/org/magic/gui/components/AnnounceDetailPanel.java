@@ -46,148 +46,45 @@ public class AnnounceDetailPanel extends MTGUIComponent {
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4 };
 		setLayout(gridBagLayout);
 				
-		GridBagConstraints labelGbc7 = new GridBagConstraints();
-		labelGbc7.insets = new Insets(5, 5, 5, 5);
-		labelGbc7.gridx = 0;
-		labelGbc7.gridy = 0;
-		add(new JLangLabel("TYPE",true), labelGbc7);
-
+		add(new JLangLabel("TYPE",true), UITools.createGridBagConstraints(null, null, 0, 0));
 		cboType = UITools.createCombobox(TransactionDirection.values());
-		GridBagConstraints componentGbc7 = new GridBagConstraints();
-		componentGbc7.insets = new Insets(5, 0, 5, 0);
-		componentGbc7.fill = GridBagConstraints.HORIZONTAL;
-		componentGbc7.gridx = 1;
-		componentGbc7.gridy = 0;
-		add(cboType, componentGbc7);
-		
-				
-		GridBagConstraints labelGbc5 = new GridBagConstraints();
-		labelGbc5.insets = new Insets(5, 5, 5, 5);
-		labelGbc5.gridx = 0;
-		labelGbc5.gridy = 1;
-		add(new JLangLabel("TITLE",true), labelGbc5);
+		add(cboType, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 0));
 
+		add(new JLangLabel("TITLE",true), UITools.createGridBagConstraints(null, null, 0, 1));
 		titleJTextField = new JTextField();
-		GridBagConstraints componentGbc5 = new GridBagConstraints();
-		componentGbc5.insets = new Insets(5, 0, 5, 0);
-		componentGbc5.fill = GridBagConstraints.HORIZONTAL;
-		componentGbc5.gridx = 1;
-		componentGbc5.gridy = 1;
-		add(titleJTextField, componentGbc5);
+		add(titleJTextField,  UITools.createGridBagConstraints(null,  GridBagConstraints.HORIZONTAL, 1, 1));
 
-		GridBagConstraints labelGbc1 = new GridBagConstraints();
-		labelGbc1.insets = new Insets(5, 5, 5, 5);
-		labelGbc1.gridx = 0;
-		labelGbc1.gridy = 2;
-		add(new JLangLabel("DESCRIPTION",true), labelGbc1);
-
+		add(new JLangLabel("DESCRIPTION",true), UITools.createGridBagConstraints(null, null, 0, 2));
 		descriptionJTextArea = new JTextArea();
-		GridBagConstraints componentGbc1 = new GridBagConstraints();
-		componentGbc1.insets = new Insets(5, 0, 5, 0);
-		componentGbc1.fill = GridBagConstraints.BOTH;
-		componentGbc1.gridx = 1;
-		componentGbc1.gridy = 2;
-		add(new JScrollPane(descriptionJTextArea), componentGbc1);
+		add(new JScrollPane(descriptionJTextArea), UITools.createGridBagConstraints(null,  GridBagConstraints.BOTH, 1, 2));
 		
-		GridBagConstraints labelGbc4 = new GridBagConstraints();
-		labelGbc4.insets = new Insets(5, 5, 5, 5);
-		labelGbc4.gridx = 0;
-		labelGbc4.gridy = 3;
-		add(new JLangLabel("START_DATE",true), labelGbc4);
-
+		add(new JLangLabel("START_DATE",true), UITools.createGridBagConstraints(null, null, 0, 3));
 		startDateFld = new JXDateTimePicker();
-		GridBagConstraints componentGbc4 = new GridBagConstraints();
-		componentGbc4.insets = new Insets(5, 0, 5, 0);
-		componentGbc4.fill = GridBagConstraints.HORIZONTAL;
-		componentGbc4.gridx = 1;
-		componentGbc4.gridy = 3;
-		add(startDateFld, componentGbc4);
+		add(startDateFld, UITools.createGridBagConstraints(null,  GridBagConstraints.HORIZONTAL, 1, 3));
 
-		GridBagConstraints labelGbc2 = new GridBagConstraints();
-		labelGbc2.insets = new Insets(5, 5, 5, 5);
-		labelGbc2.gridx = 0;
-		labelGbc2.gridy = 4;
-		add(new JLangLabel("END_DATE",true), labelGbc2);
-
+		add(new JLangLabel("END_DATE",true), UITools.createGridBagConstraints(null, null, 0, 4));
 		endDateFld = new JXDateTimePicker();
-		GridBagConstraints componentGbc2 = new GridBagConstraints();
-		componentGbc2.insets = new Insets(5, 0, 5, 0);
-		componentGbc2.fill = GridBagConstraints.HORIZONTAL;
-		componentGbc2.gridx = 1;
-		componentGbc2.gridy = 4;
-		add(endDateFld, componentGbc2);
+		add(endDateFld, UITools.createGridBagConstraints(null,  GridBagConstraints.HORIZONTAL, 1, 4));
 
-		GridBagConstraints labelGbc6 = new GridBagConstraints();
-		labelGbc6.insets = new Insets(5, 5, 5, 5);
-		labelGbc6.gridx = 0;
-		labelGbc6.gridy =5;
-		add(new JLangLabel("TOTAL",true), labelGbc6);
-
+		add(new JLangLabel("TOTAL",true), UITools.createGridBagConstraints(null, null, 0, 5));
 		totalPriceJTextField = new JTextField();
-		GridBagConstraints componentGbc6 = new GridBagConstraints();
-		componentGbc6.insets = new Insets(5, 0, 5, 0);
-		componentGbc6.fill = GridBagConstraints.HORIZONTAL;
-		componentGbc6.gridx = 1;
-		componentGbc6.gridy = 5;
-		add(totalPriceJTextField, componentGbc6);
+		add(totalPriceJTextField, UITools.createGridBagConstraints(null,  GridBagConstraints.HORIZONTAL, 1, 5));
 		
-		GridBagConstraints labelGbc0 = new GridBagConstraints();
-		labelGbc0.insets = new Insets(5, 5, 0, 5);
-		labelGbc0.gridx = 0;
-		labelGbc0.gridy = 6;
-		add(new JLangLabel("CURRENCY",true), labelGbc0);
-		
+		add(new JLangLabel("CURRENCY",true), UITools.createGridBagConstraints(null, null, 0, 6));
 		cboCurrency = UITools.createCombobox(Currency.getAvailableCurrencies().stream().toList());
-		GridBagConstraints componentGbc0 = new GridBagConstraints();
-		componentGbc0.insets = new Insets(5, 0, 0, 0);
-		componentGbc0.fill = GridBagConstraints.HORIZONTAL;
-		componentGbc0.gridx = 1;
-		componentGbc0.gridy = 6;
-		add(cboCurrency, componentGbc0);
+		add(cboCurrency, UITools.createGridBagConstraints(null,  GridBagConstraints.HORIZONTAL, 1, 6));
 		
-		
-		GridBagConstraints labelGbc11 = new GridBagConstraints();
-		labelGbc11.insets = new Insets(5, 5, 0, 5);
-		labelGbc11.gridx = 0;
-		labelGbc11.gridy = 7;
-		add(new JLangLabel("CATEGORIE",true), labelGbc11);
-		
+		add(new JLangLabel("CATEGORIE",true), UITools.createGridBagConstraints(null, null, 0, 7));
 		cboCategories= UITools.createCombobox(EnumItems.values());
-		GridBagConstraints componentGbc10 = new GridBagConstraints();
-		componentGbc10.insets = new Insets(5, 0, 0, 0);
-		componentGbc10.fill = GridBagConstraints.HORIZONTAL;
-		componentGbc10.gridx = 1;
-		componentGbc10.gridy = 7;
-		add(cboCategories, componentGbc10);
+		add(cboCategories, UITools.createGridBagConstraints(null,  GridBagConstraints.HORIZONTAL, 1, 7));
 		
-	
-		GridBagConstraints labelGbc13 = new GridBagConstraints();
-		labelGbc13.insets = new Insets(5, 5, 0, 5);
-		labelGbc13.gridx = 0;
-		labelGbc13.gridy = 8;
-		add(new JLangLabel("REDUCTION",true), labelGbc13);
-		
+		add(new JLangLabel("REDUCTION",true), UITools.createGridBagConstraints(null, null, 0, 8));
 		sldReduction= new JSpinner(new SpinnerNumberModel(0.0, 0.0,100, 0.5));
-		GridBagConstraints componentGbc13 = new GridBagConstraints();
-		componentGbc13.insets = new Insets(5, 0, 0, 0);
-		componentGbc13.fill = GridBagConstraints.HORIZONTAL;
-		componentGbc13.gridx = 1;
-		componentGbc13.gridy = 8;
-		add(sldReduction, componentGbc13);
+		add(sldReduction, UITools.createGridBagConstraints(null,  GridBagConstraints.HORIZONTAL, 1, 8));
 		
-		GridBagConstraints labelGbc12 = new GridBagConstraints();
-		labelGbc12.insets = new Insets(5, 5, 0, 5);
-		labelGbc12.gridx = 0;
-		labelGbc12.gridy = 9;
-		add(new JLangLabel("CONTACT",true), labelGbc12);				
-		
-		
+		add(new JLangLabel("CONTACT",true), UITools.createGridBagConstraints(null, null, 0, 9));				
 		btnContact = new JButton();
-		GridBagConstraints labelGbc14 = new GridBagConstraints();
-		labelGbc14.insets = new Insets(5, 5, 0, 5);
-		labelGbc14.gridx = 1;
-		labelGbc14.gridy = 9;
-		add(btnContact, labelGbc14);				
+		add(btnContact, UITools.createGridBagConstraints(null,  GridBagConstraints.HORIZONTAL, 1, 9));				
 		
 		
 		

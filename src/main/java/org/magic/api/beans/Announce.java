@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.beans.shop.Contact;
@@ -30,6 +31,7 @@ public class Announce implements Serializable, Comparable<Announce> {
 	private String description;
 	private List<MTGStockItem> items;
 	private TransactionDirection type;
+	private EnumCondition condition;
 	private boolean updated=false;
 	private Double percentReduction;
 	private GedEntry<Announce> mainImage ;
@@ -51,6 +53,15 @@ public class Announce implements Serializable, Comparable<Announce> {
 		percentReduction=0.0;
 		currency = Currency.getInstance(Locale.getDefault());
 		
+	}
+	
+	
+	public EnumCondition getCondition() {
+		return condition;
+	}
+	
+	public void setCondition(EnumCondition condition) {
+		this.condition = condition;
 	}
 	
 	public STATUS getStatus() {
