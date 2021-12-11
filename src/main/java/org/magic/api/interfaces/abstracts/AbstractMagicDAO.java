@@ -1,6 +1,5 @@
 package org.magic.api.interfaces.abstracts;
 
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;

@@ -15,7 +15,6 @@ import org.magic.tools.FileTools;
 public class H2DAO extends AbstractMagicSQLDAO {
 
 	private static final String MODE = "MODE";
-
 	
 	@Override
 	public STATUT getStatut() {

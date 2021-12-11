@@ -767,16 +767,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			var arr = new JsonArray();
 			MTG.getEnabledPlugin(MTGDao.class).listInfoDaos().forEach(info->{
 				
-					var obj = new JsonObject();
-						 try {
-							obj.addProperty("connection", info.getStat().getConnection().toString());
-							obj.addProperty("poolable", info.getStat().isPoolable());
-							obj.addProperty("closed", info.getStat().isClosed());
-						
-							arr.add(obj);
-						} catch (SQLException e) {
-							logger.error(e);
-						}
+				arr.add(info.toJson());
 						 
 				
 			});
