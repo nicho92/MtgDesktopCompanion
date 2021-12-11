@@ -124,12 +124,6 @@ public class AnnouncesGUI extends MTGUIComponent {
 			Announce b = detailsPanel.getAnnounce();
 				 b.setUpdated(true);
 				 b.setItems(itemsPanel.getItems());
-				 try {
-					 b.setMainImage(gedPanel.listEntries().get(0));
-				 }catch(Exception e)
-				 {
-					 logger.warn("no entries in documents");
-				 }
 							 
 			var sw = new SwingWorker<Void, Void>() {
 				@Override
@@ -143,6 +137,10 @@ public class AnnouncesGUI extends MTGUIComponent {
 					
 					try {
 						get();
+					}
+					catch(InterruptedException ex)
+					{
+						Thread.currentThread().interrupt();
 					}
 					catch(Exception e)
 					{

@@ -39,7 +39,7 @@ public class GedPanel<T> extends MTGUIComponent {
 	private Class<T> classe;
 	private transient T instance;
 	private ImagePanel viewPanel;
-	private List<GedEntry<T>> entries;
+	private AbstractBuzyIndicatorComponent buzy;
 	
 	
 	
@@ -83,12 +83,11 @@ public class GedPanel<T> extends MTGUIComponent {
 	
 	public GedPanel() {
 		setLayout(new BorderLayout());
-		entries = new ArrayList<>();
 		var panneauHaut = new JPanel();
 		panneauCenter = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		viewPanel = new ImagePanel(true, false, true);
 		
-		var buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
+		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		add(panneauHaut, BorderLayout.NORTH);
 		add(panneauCenter, BorderLayout.CENTER);
 		
@@ -140,16 +139,8 @@ public class GedPanel<T> extends MTGUIComponent {
 	}
 
 	
-	
-	public List<GedEntry<T>> listEntries()
-	{
-		return entries;
-	}
-	
 
 	private void addEntry(GedEntry<T> c) {
-		
-		entries.add(c);
 		var e = new GedEntryComponent(c,150,100);
 		panneauCenter.add(e);
 		
@@ -205,10 +196,10 @@ public class GedPanel<T> extends MTGUIComponent {
 	
 	private void listDirectory(Path p)
 	{
-		entries.clear();
 		panneauCenter.removeAll();
 		panneauCenter.revalidate();
 		panneauCenter.repaint();
+		buzy.start();
 		SwingWorker<Void, GedEntry<T>> sw = new SwingWorker<>() 
 		{
 			protected Void doInBackground() throws Exception {
@@ -246,6 +237,7 @@ public class GedPanel<T> extends MTGUIComponent {
 			{
 				panneauCenter.revalidate();
 				panneauCenter.repaint();
+				buzy.end();
 			}
 			
 		};

@@ -20,7 +20,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -61,7 +60,6 @@ import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGServer;
-import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.MTGTrackingService;
 import org.magic.api.interfaces.abstracts.AbstractEmbeddedCacheProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
@@ -949,7 +947,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 		
 		get("/announces/keyword/:search", URLTools.HEADER_JSON, (request, response) -> {
-			return MTG.getEnabledPlugin(MTGDao.class).listAnnounces(request.params(":search"));
+			return MTG.getEnabledPlugin(MTGDao.class).listAnnounces(URLTools.decode(request.params(":search")));
 		}, transformer);
 		
 		get("/announces/category/:type", URLTools.HEADER_JSON, (request, response) -> {
@@ -964,7 +962,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		post("/webshop/user/connect", URLTools.HEADER_JSON, (request, response) ->{ 
 			
 			var c = MTG.getEnabledPlugin(MTGExternalShop.class).getContactByLogin(request.queryParams("email"),request.queryParams("password"));
-			c.setPassword(null);
+				
 			return c;
 			
 			}, transformer);

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>NexusPlus - Classified Ads and Listing Template</title>
+
+<link rel="stylesheet" type="text/css"
+	href="../dist/fonts/line-icons.css">
+<link rel="stylesheet" type="text/css"
+	href="//cdnjs.cloudflare.com/ajax/libs/SlickNav/1.0.10/slicknav.min.css">
+<link rel="stylesheet" type="text/css"
+	href="//cdn.jsdelivr.net/npm/owl.carousel@2.2.0/dist/assets/owl.carousel.min.css">
+<link rel="stylesheet" type="text/css"
+	href="//stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="../dist/css/responsive.css">
+<link rel="stylesheet" type="text/css" href="../dist/css/main.css">
+
+<script src="//cdn.jsdelivr.net/npm/popper.js@1.0.0/dist/popper.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+<script
+	src="//stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script
+	src="//cdn.jsdelivr.net/npm/owl.carousel@2.2.0/dist/owl.carousel.min.js"></script>
+<script
+	src="//cdnjs.cloudflare.com/ajax/libs/SlickNav/1.0.10/jquery.slicknav.min.js"></script>
+<script src="../dist/js/rest-server.js"></script>
+<script src="../dist/js/trader.js"></script>
+
+<script>
+	$(document).ready(function() {
+
+		$("#topbar").load("inc_topbar.html");
+		$("#navbar").load("inc_nav.html");
+		$("#footer").load("inc_footer.html");
+
+		
+		$('#btnLogin').click(function (e) {
+			$.post(restserver+"/webshop/user/connect",{	 
+			    email : $( "#email" ).val(), 
+			    password : $( "#password" ).val()
+				},
+					function( data ) {
+						if(data==null)
+						{
+							alert("Error authentication");
+						}
+						else
+						{
+							alert("OK");
+						}
+					}
+					,'json'
+			
+			);
+		});
+		
+		
+	});
+</script>
+
+
+</head>
+<body>
+
+	<header id="header-wrap">
+
+		<div id="topbar"></div>
+		<nav id="navbar"></nav>
+
+	</header>
+
+
+	<div class="page-header"
+		style="background: url(assets/img/banner1.jpg);">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="breadcrumb-wrapper">
+						<h2 class="product-title">Login</h2>
+						<ol class="breadcrumb">
+							<li><a href="index-2.html">Home /</a></li>
+							<li class="current">Login</li>
+						</ol>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<section class="login section-padding">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-5 col-md-12 col-xs-12">
+					<div class="login-form login-area">
+						<h3>Login Now</h3>
+						<div class="login-form">
+							<div class="form-group">
+								<div class="input-icon">
+									<i class="lni-user"></i> <input type="text" id="email" class="form-control" name="email" placeholder="Username">
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="input-icon">
+									<i class="lni-lock"></i> <input type="password" id="password" class="form-control" placeholder="Password">
+								</div>
+							</div>
+							<div class="form-group mb-3">
+								<div class="custom-control custom-checkbox">
+									<input type="checkbox" class="custom-control-input"
+										id="checkedall"> <label class="custom-control-label"
+										for="checkedall">Keep me logged in</label>
+								</div>
+								<a class="forgetpassword" href="forgot-password.html">Forgot
+									Password?</a>
+							</div>
+							<div class="text-center">
+								<button id="btnLogin" class="btn btn-common log-btn">Submit</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+
+	<footer id="footer"></footer>
+
+
+	<a href="#" class="back-to-top"> <i class="lni-chevron-up"></i>
+	</a>
+
+	<div id="preloader">
+		<div class="loader" id="loader-1"></div>
+	</div>
+
+
+	<script src="../dist/js/main.js"></script>
+</body>
+
+
+</html>

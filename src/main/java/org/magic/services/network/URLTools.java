@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.magic.api.beans.shop.Contact;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.services.network.RequestBuilder.METHOD;
@@ -71,6 +73,12 @@ public class URLTools {
 		} catch (IOException e) {
 			return "0.0.0.0";
 		}
+	}
+	
+
+
+	public static String decode(String s) {
+		return URLDecoder.decode(s, MTGConstants.DEFAULT_ENCODING);
 	}
 	
 	public static String encode(String s)
@@ -179,6 +187,8 @@ public class URLTools {
 			return url;
 		}
 	}
+
+
 	
 	
 }
