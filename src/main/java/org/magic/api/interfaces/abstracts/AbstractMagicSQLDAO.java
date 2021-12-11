@@ -187,7 +187,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" ged (id "+getAutoIncrementKeyWord()+" PRIMARY KEY,creationDate TIMESTAMP, className VARCHAR(250), idInstance VARCHAR(250), fileName VARCHAR(250), fileContent " + longTextStorage() + ");");
 			logger.debug("Create table ged");
 			
-			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" announces (id "+getAutoIncrementKeyWord()+" PRIMARY KEY,creationDate TIMESTAMP , startDate TIMESTAMP ,endDate TIMESTAMP, title VARCHAR(150), description " + longTextStorage() + ", total DECIMAL(10,2), currency VARCHAR(5),  stocksItem "+beanStorage() + ",typeAnnounce VARCHAR(10), fk_idcontact INTEGER, category VARCHAR(50), percentReduction DECIMAL(10,2));");
+			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" announces (id "+getAutoIncrementKeyWord()+" PRIMARY KEY,creationDate TIMESTAMP , startDate TIMESTAMP ,endDate TIMESTAMP, title VARCHAR(150), description " + longTextStorage() + ", total DECIMAL(10,2), currency VARCHAR(5),  stocksItem "+beanStorage() + ",typeAnnounce VARCHAR(10), fk_idcontact INTEGER, category VARCHAR(50), percentReduction DECIMAL(10,2), conditions VARCHAR(50);");
 			logger.debug("Create table announces");
 			
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" transactions (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, dateTransaction TIMESTAMP, message VARCHAR(250), stocksItem "+beanStorage()+", statut VARCHAR(15), transporter VARCHAR(50), shippingPrice DECIMAL, transporterShippingCode VARCHAR(50),currency VARCHAR(5),datePayment TIMESTAMP NULL ,dateSend TIMESTAMP NULL , paymentProvider VARCHAR(50),fk_idcontact INTEGER)");
@@ -385,7 +385,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public int saveOrUpdateAnnounce(Announce n) throws SQLException {
 		if (n.getId() < 0) 
 		{
-				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO announces (creationDate, startDate, endDate, title, description, total, currency, stocksItem, typeAnnounce, fk_idcontact,category,percentReduction) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",Statement.RETURN_GENERATED_KEYS))
+				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO announces (creationDate, startDate, endDate, title, description, total, currency, stocksItem, typeAnnounce, fk_idcontact,category,percentReduction,conditions) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",Statement.RETURN_GENERATED_KEYS))
 				{
 					pst.setTimestamp(1,new Timestamp(Instant.now().toEpochMilli()));
 					pst.setTimestamp(2,new Timestamp(n.getStartDate().getTime()));
@@ -399,6 +399,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 					pst.setInt(10, n.getContact().getId());
 					pst.setString(11, n.getCategorie().name());
 					pst.setDouble(12, n.getPercentReduction());
+					pst.setString(13, n.getCondition().name());
 					var ret = executeUpdate(pst);
 					n.setId(ret);
 					logger.debug(n  +" created");
@@ -407,7 +408,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		}
 		else
 		{
-				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE announces SET startDate = ?, endDate =?,title=?,  description = ?, total = ?, currency = ?, stocksItem = ?, typeAnnounce = ?, fk_idcontact = ?, category=? , percentReduction=? WHERE id = ?;")) 
+				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE announces SET startDate = ?, endDate =?,title=?,  description = ?, total = ?, currency = ?, stocksItem = ?, typeAnnounce = ?, fk_idcontact = ?, category=? , percentReduction=?, conditions= ? WHERE id = ?;")) 
 				{
 					pst.setTimestamp(1, new Timestamp(n.getStartDate().getTime()));
 					pst.setTimestamp(2,new Timestamp(n.getEndDate().getTime()));
@@ -420,7 +421,8 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 					pst.setInt(9, n.getContact().getId());
 					pst.setString(10, n.getCategorie().name());
 					pst.setDouble(11, n.getPercentReduction());
-					pst.setInt(12, n.getId());
+					pst.setString(12, n.getCondition().name());
+					pst.setInt(13, n.getId());
 					executeUpdate(pst);
 					logger.debug(n  +" updated");
 				}	
@@ -2073,7 +2075,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			  a.setType(TransactionDirection.valueOf(rs.getString("typeAnnounce")));
 			  a.setCategorie(EnumItems.valueOf(rs.getString("category")));
 			  a.setPercentReduction(rs.getDouble("percentReduction"));
-			  
+			  a.setCondition(EnumCondition.valueOf(rs.getString("conditions")));
 			  if(rs.getObject("stocksItem")!=null)
 				  a.setItems(readStockItemFrom(rs,"stocksItem"));
 			  

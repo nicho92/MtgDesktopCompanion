@@ -52,7 +52,7 @@ $(document).ready(function() {
 		$("#contactName").html(announce.contact.name + " " +announce.contact.lastName);
 		$("#contactTel").append(announce.contact.telephone);
 		$("#category").html(announce.categorie);
-		
+		$("#condition").html(announce.condition);
 		
 		
 		
@@ -100,7 +100,7 @@ $(document).ready(function() {
 				
 				var append="<li><div class='widget-thumb'><a href='announce.html?id="+value.id+"'><img src='assets/img/details/img1.jpg'/></a></div>";
 				append+="<div class='widget-content'><h4><a href='announce.html?id="+value.id+"'>"+value.title+"</a></h4>";
-				append+="<div class='meta-tag'><span> <a href='#'><i class='lni-map-marker'></i>New Your</a></span> <span> <a href='#'><i class='lni-tag'></i> Radio</a></span></div>";
+				append+="<div class='meta-tag'><span> <a href='#'><i class='lni-map-marker'></i>"+value.contact.country+"</a></span> <span> <a href='#'><i class='lni-tag'></i> "+value.categorie+"</a></span></div>";
 				append+="<h4 class='price'>"+value.totalPrice+""+value.currencySymbol+"</h4></div><div class='clearfix'></div></li>";
 				$('#other-announces').append(append);
 			});
@@ -172,7 +172,7 @@ $(document).ready(function() {
 									</li>
 									<li>
 										<p>
-											<strong><i class="lni-archive"></i> Condition:</strong> New	</p>
+											<strong><i class="lni-archive"></i> Condition:</strong><span id="condition">condition</span></p>
 									</li>
 								</ul>
 							</div>

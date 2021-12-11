@@ -52,7 +52,7 @@ public class Announce implements Serializable, Comparable<Announce> {
 		totalPrice=0.0;
 		percentReduction=0.0;
 		currency = Currency.getInstance(Locale.getDefault());
-		
+		condition = EnumCondition.NEAR_MINT;
 	}
 	
 	

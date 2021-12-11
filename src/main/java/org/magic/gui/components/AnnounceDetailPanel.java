@@ -2,19 +2,18 @@ package org.magic.gui.components;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.util.Currency;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
-import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
 import org.magic.api.beans.Announce;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.gui.abstracts.MTGUIComponent;
@@ -35,6 +34,7 @@ public class AnnounceDetailPanel extends MTGUIComponent {
 	private JComboBox<EnumItems> cboCategories;
 	private JButton btnContact;
 	private JSpinner sldReduction;
+	private JComboBox<EnumCondition> cboConditions;
 
 	public AnnounceDetailPanel() {
 		
@@ -86,7 +86,9 @@ public class AnnounceDetailPanel extends MTGUIComponent {
 		btnContact = new JButton();
 		add(btnContact, UITools.createGridBagConstraints(null,  GridBagConstraints.HORIZONTAL, 1, 9));				
 		
-		
+		add(new JLangLabel("CONDITION",true), UITools.createGridBagConstraints(null, null, 0, 10));				
+		cboConditions= UITools.createCombobox(EnumCondition.values());
+		add(cboConditions, UITools.createGridBagConstraints(null,  GridBagConstraints.HORIZONTAL, 1, 10));		
 		
 		btnContact.addActionListener(al->{
 			JContactChooserDialog diag = new JContactChooserDialog();
@@ -115,6 +117,7 @@ public class AnnounceDetailPanel extends MTGUIComponent {
 		announce.setTotalPrice(UITools.parseDouble(totalPriceJTextField.getText()));
 		announce.setCategorie((EnumItems)cboCategories.getSelectedItem());
 		announce.setPercentReduction(((Number)sldReduction.getValue()).doubleValue());
+		announce.setCondition((EnumCondition)cboConditions.getSelectedItem());
 		return announce;
 	}
 
@@ -130,6 +133,7 @@ public class AnnounceDetailPanel extends MTGUIComponent {
 			cboCategories.setSelectedItem(announce.getCategorie());
 			btnContact.setText(announce.getContact().toString());
 			sldReduction.setValue(announce.getPercentReduction());
+			cboConditions.setSelectedItem(announce.getCondition());
 	}
 
 	//@Override
