@@ -57,7 +57,6 @@ import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
 import org.magic.services.TransactionService;
 import org.magic.services.providers.SealedProductProvider;
-import org.magic.tools.Chrono;
 import org.magic.tools.IDGenerator;
 import org.magic.tools.ImageTools;
 
@@ -1365,8 +1364,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	@Override
 	public Map<String, Integer> getCardsCountGlobal(MagicCollection col) throws SQLException {
 		Map<String, Integer> map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-		var ch = new Chrono();
-		ch.start();
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT edition, count(1) FROM cards where collection=? group by edition");) {
 			pst.setString(1, col.getName());
 			try (ResultSet rs = executeQuery(pst)) {
@@ -1374,7 +1371,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 					map.put(rs.getString(1), rs.getInt(2));
 			}
 		}
-		logger.debug("getCardsCountGlobal(\""+col+"\") calcuation done in " + ch.stop()+"s");
 		return map;
 	}
 
@@ -1971,35 +1967,52 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	}
 	
 
-	private int executeUpdate(PreparedStatement pst) throws SQLException {
-
+	
+	private DAOInfo buildInfo(Statement pst)
+	{
 		var start=Instant.now();
 		var daoInfo = new DAOInfo();
 		
 		listdao.add(daoInfo);
 		
 		daoInfo.setCreationDate(start);
-		daoInfo.setSql(pst.toString());
-		daoInfo.setStatementClass(pst.getClass().getCanonicalName());
 		
+		
+		
+		var index = 0;
+		
+		if(pst.toString().toUpperCase().indexOf("SELECT")>-1)
+			index=pst.toString().toUpperCase().indexOf("SELECT");
+
+		if(pst.toString().toUpperCase().indexOf("UPDATE")>-1)
+			index=pst.toString().toUpperCase().indexOf("UPDATE");
+
+		if(pst.toString().toUpperCase().indexOf("DELETE")>-1)
+			index=pst.toString().toUpperCase().indexOf("DELETE");
+
+		
+		daoInfo.setQuery(pst.toString().substring(index));
+		daoInfo.setClasseName(pst.getClass().getCanonicalName());
+		return daoInfo;
+	}
+	
+	
+	private int executeUpdate(PreparedStatement pst) throws SQLException {
+		var daoInfo=buildInfo(pst);
 		
 		try {
 			int rs = pst.executeUpdate();
 			daoInfo.setEndDate(Instant.now());
 			return rs;
 		} catch (SQLException e) {
+			daoInfo.setMessage(e.getMessage());
 			daoInfo.setEndDate(Instant.now());
 			throw e;
 		}
 	}
 
 	private ResultSet executeQuery(PreparedStatement pst) throws SQLException {
-		var start=Instant.now();
-		var daoInfo = new DAOInfo();
-			listdao.add(daoInfo);
-			daoInfo.setCreationDate(start);
-			daoInfo.setSql(pst.toString().substring(pst.toString().indexOf("SELECT")));		
-			daoInfo.setStatementClass(pst.getClass().getCanonicalName());
+		var daoInfo=buildInfo(pst);
 		try {
 			ResultSet rs = pst.executeQuery();
 			daoInfo.setEndDate(Instant.now());
@@ -2007,6 +2020,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			return rs;
 		} catch (SQLException e) {
 			daoInfo.setEndDate(Instant.now());
+			daoInfo.setMessage(e.getMessage());
 			throw e;
 		}
 		

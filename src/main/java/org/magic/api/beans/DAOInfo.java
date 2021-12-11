@@ -11,12 +11,13 @@ public class DAOInfo implements Serializable {
 
 	
 	private static final long serialVersionUID = 1L;
-	private String sql;
+	private String query;
 	private Instant creationDate;
 	private Instant endDate;
 	private long duration;
 	private transient MTGDao dao;
 	private String canonicalName;
+	private String message;
 	
 	
 	public MTGDao getDao() {
@@ -31,12 +32,12 @@ public class DAOInfo implements Serializable {
 		creationDate= Instant.now();
 	}
 	
-	public void setSql(String sql) {
-		this.sql = sql;
+	public void setQuery(String sql) {
+		this.query = sql;
 	}
 	
-	public String getSql() {
-		return sql;
+	public String getQuery() {
+		return query;
 	}
 	
 	public Instant getCreationDate() {
@@ -74,18 +75,26 @@ public class DAOInfo implements Serializable {
 			obj.addProperty("endDate","");
 		
 		obj.addProperty("duration",getDuration());
-		obj.addProperty("statement", getStatementClass());
-		obj.addProperty("sql",getSql());
+		obj.addProperty("statement", getClasseName());
+		obj.addProperty("sql",getQuery());
 		return obj;
 	
 	}
 
-	public void setStatementClass(String canonicalName) {
+	public void setClasseName(String canonicalName) {
 		this.canonicalName=canonicalName;
 	}
 	
-	public String getStatementClass() {
+	public String getClasseName() {
 		return canonicalName;
+	}
+
+	public void setMessage(String message) {
+		this.message=message;
+	}
+	
+	public String getMessage() {
+		return message;
 	}
 	
 	

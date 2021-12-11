@@ -15,11 +15,13 @@ import javax.swing.Timer;
 import javax.swing.table.TableCellRenderer;
 
 import org.apache.commons.lang3.time.DurationFormatUtils;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.MapTableModel;
 import org.magic.gui.models.conf.NetworkTableModel;
+import org.magic.gui.models.conf.QueriesTableModel;
 import org.magic.gui.models.conf.TaskTableModel;
 import org.magic.gui.models.conf.ThreadsTableModel;
 import org.magic.servers.impl.QwartzServer;
@@ -42,6 +44,7 @@ public class ThreadMonitor extends MTGUIComponent  {
 	private JVMemoryPanel memoryPanel;
 	private TaskTableModel modelTasks;
 	private NetworkTableModel modelNetwork;
+	private QueriesTableModel queryModel;
 	private MapTableModel<Object, Object> modelConfig;
 	private GenericTableModel<JsonObject> modelScript;
 	
@@ -51,6 +54,7 @@ public class ThreadMonitor extends MTGUIComponent  {
 		modelT = new ThreadsTableModel();
 		modelTasks = new TaskTableModel();
 		modelNetwork = new NetworkTableModel();
+		queryModel = new QueriesTableModel();
 		modelConfig = new MapTableModel<>();
 		modelScript = new GenericTableModel<JsonObject>()
 				{
@@ -74,7 +78,9 @@ public class ThreadMonitor extends MTGUIComponent  {
 		modelTasks.bind(ThreadManager.getInstance().listTasks());	
 		modelNetwork.bind(URLTools.getNetworksInfos());
 		modelConfig.init(System.getProperties().entrySet());
-	
+		queryModel.bind(MTG.getEnabledPlugin(MTGDao.class).listInfoDaos());
+		
+		
 		var tableTasks = UITools.createNewTable(modelTasks);
 		UITools.initTableFilter(tableTasks);
 		
@@ -84,7 +90,8 @@ public class ThreadMonitor extends MTGUIComponent  {
 		var tableScripts = UITools.createNewTable(modelScript);
 		UITools.initTableFilter(tableScripts);
 		
-		
+		var tableQueries = UITools.createNewTable(queryModel);
+		UITools.initTableFilter(tableQueries);
 		
 		
 		
@@ -97,12 +104,15 @@ public class ThreadMonitor extends MTGUIComponent  {
 				
 		tableTasks.setDefaultRenderer(Long.class, durationRenderer);
 		tableNetwork.setDefaultRenderer(Long.class, durationRenderer);
+		tableQueries.setDefaultRenderer(Long.class, durationRenderer);
+		
 		
 		tabs.addTab("Config",MTGConstants.ICON_SMALL_HELP,new JScrollPane(UITools.createNewTable(modelConfig)));
 		tabs.addTab("Threads",MTGConstants.ICON_TAB_ADMIN,new JScrollPane(UITools.createNewTable(modelT)));
 		tabs.addTab("Tasks",MTGConstants.ICON_TAB_ADMIN,new JScrollPane(tableTasks));
 		tabs.addTab("Network",MTGConstants.ICON_TAB_NETWORK,new JScrollPane(tableNetwork));
 		tabs.addTab("Script",MTGConstants.ICON_SMALL_SCRIPT,new JScrollPane(tableScripts));
+		tabs.addTab("Queries",MTGConstants.ICON_TAB_DAO,new JScrollPane(tableQueries));
 		
 		UITools.addTab(tabs, new LoggerViewPanel());
 		
@@ -125,7 +135,7 @@ public class ThreadMonitor extends MTGUIComponent  {
 			modelTasks.fireTableDataChanged();
 			modelNetwork.fireTableDataChanged();
 			modelConfig.fireTableDataChanged();
-			
+			queryModel.fireTableDataChanged();
 			
 			if(MTG.getPlugin("Qwartz", MTGServer.class).isAlive()) {
 				try {

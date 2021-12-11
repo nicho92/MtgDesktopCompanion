@@ -812,18 +812,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		
 		get("/admin/network", URLTools.HEADER_JSON, (request, response) -> {
-			
 			var arr = new JsonArray();
-			
 			URLTools.getNetworksInfos().forEach(net->{
-				var jo = net.toJson();
-				arr.add(jo);
+				arr.add(net.toJson());
 			});
-			
-			
-			
 			return arr;
-			
 		}, transformer);
 		
 		get("/admin/clearCache", URLTools.HEADER_JSON, (request, response) -> {
