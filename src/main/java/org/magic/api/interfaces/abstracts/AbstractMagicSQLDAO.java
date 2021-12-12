@@ -2002,6 +2002,9 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 		if(pst.toString().toUpperCase().indexOf("UPDATE")>-1)
 			index=pst.toString().toUpperCase().indexOf("UPDATE");
+		
+		if(pst.toString().toUpperCase().indexOf("INSERT")>-1)
+			index=pst.toString().toUpperCase().indexOf("INSERT");
 
 		if(pst.toString().toUpperCase().indexOf("DELETE")>-1)
 			index=pst.toString().toUpperCase().indexOf("DELETE");

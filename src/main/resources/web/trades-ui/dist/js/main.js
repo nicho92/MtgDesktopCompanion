@@ -35,32 +35,6 @@
 	
 	$('[data-toggle="tooltip"]').tooltip()
 	
-	var newproducts = $("#new-products");
-	newproducts.owlCarousel({
-		autoplay: true,
-		nav: true,
-		autoplayHoverPause: true,
-		smartSpeed: 350,
-		dots: false,
-		margin: 30,
-		loop: true,
-		navText: ['<i class="lni-chevron-left"></i>', '<i class="lni-chevron-right"></i>'],
-		responsiveClass: true,
-		responsive: {
-			0: {
-				items: 1,
-			},
-			575: {
-				items: 2,
-			},
-			991: {
-				items: 3,
-			}
-		}
-	});
-	
-	
-	
 	
 	
 })(jQuery);

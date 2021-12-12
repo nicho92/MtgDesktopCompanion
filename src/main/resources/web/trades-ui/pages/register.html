@@ -7,26 +7,20 @@
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>NexusPlus - Classified Ads and Listing Template</title>
+<title>MTG Market - Register</title>
 
-<link rel="stylesheet" type="text/css"
-	href="../dist/fonts/line-icons.css">
-<link rel="stylesheet" type="text/css"
-	href="//cdnjs.cloudflare.com/ajax/libs/SlickNav/1.0.10/slicknav.min.css">
-<link rel="stylesheet" type="text/css"
-	href="//cdn.jsdelivr.net/npm/owl.carousel@2.2.0/dist/assets/owl.carousel.min.css">
-<link rel="stylesheet" type="text/css"
-	href="//stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="../dist/fonts/line-icons.css">
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/SlickNav/1.0.10/slicknav.min.css">
+<link rel="stylesheet" type="text/css" href="//stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="../dist/css/main.css">
 
 <script src="//cdn.jsdelivr.net/npm/popper.js@1.0.0/dist/popper.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
-<script
-	src="//stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-<script
-	src="//cdn.jsdelivr.net/npm/owl.carousel@2.2.0/dist/owl.carousel.min.js"></script>
-<script
-	src="//cdnjs.cloudflare.com/ajax/libs/SlickNav/1.0.10/jquery.slicknav.min.js"></script>
+<script	src="//stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-formhelpers/2.3.0/js/bootstrap-formhelpers.min.js" type="text/javascript"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js" type="text/javascript"></script>
+<script	src="//cdnjs.cloudflare.com/ajax/libs/SlickNav/1.0.10/jquery.slicknav.min.js"></script>
+
 <script src="../dist/js/rest-server.js"></script>
 <script src="../dist/js/trader.js"></script>
 
@@ -36,7 +30,76 @@
 		$("#topbar").load("inc_topbar.html");
 		$("#navbar").load("inc_nav.html");
 		$("#footer").load("inc_footer.html");
-
+	
+		
+		$("#subscription").validate({
+			  debug: false,
+			  errorClass: "alert-error",
+			  messages: {
+			      name: "Please enter your firstname",
+			      lastname: "Please enter your lastname",
+			      
+			      password: {
+			        required: "Please provide a password",
+			        minlength: "Your password must be at least 5 characters long"
+			      },
+			      email: "Please enter a valid email address"
+				},
+				
+			  submitHandler: function(form) {
+				
+				var myObject = new Object();
+					myObject.name = $("input[name='name']").val();
+					myObject.lastName = $("input[name='lastname']").val();
+					myObject.address = $("textarea[name='address']").val();
+					myObject.zipCode = $("input[name='zipCode']").val();
+					myObject.city = $("input[name='city']").val();
+					myObject.country = $("select[name='country']").val();
+					myObject.password = $("input[name='password']").val();
+					myObject.email = $("input[name='email']").val();
+					myObject.telephone = $("input[name='telephone']").val();
+					$('#btnRegister').prop('disabled',true);
+					$.post(restserver+"/contact/save",JSON.stringify(myObject))
+						.done(function( data ) {
+							$("#confirmation").removeClass("alert-danger");
+							$("#confirmation").addClass("alert-success");	
+							$("#confirmation").html("Registration OK. Check your email to validate your account. <a href='index.html'>Go to Main page</a>");
+							$("#subscription").hide();
+							})
+							
+						.fail(function(xhr, status, error) {
+							$("#confirmation").addClass("alert-danger");	
+							$("#confirmation").html(xhr.responseText);
+							$('#btnRegister').prop('disabled',false);
+						},
+						"json");  
+					
+					return false;
+			  },
+			  
+			  rules : {
+				name : {
+					required : true
+				},
+				lastname :  {
+					required : true
+				},
+				email : {
+			        required: true,
+			        email: true
+			      },
+		        password : {
+                  required: true,
+					minlength:6
+              },
+              password_confirm : {
+	 				required: true,
+                  equalTo : "#password"
+              }
+			}
+		});
+		
+		
 	});
 </script>
 
@@ -76,19 +139,24 @@
 				<div class="col-lg-8 col-md-12 col-xs-12">
 					<div class="register-form login-area">
 						<h3>Register</h3>
-						<form class="login-form">
+						<form id="subscription" class="login-form">
+						<div id="confirmation" class="alert" role="alert"></div>
 							<div class="form-group mb-3">
-											<label class="control-label">First Name*</label> <input
+											<label class="control-label">First Name</label> <input
 												class="form-control input-md" name="name" type="text">
 										</div>
 										<div class="form-group mb-3">
-											<label class="control-label">Last Name*</label> <input class="form-control input-md" name="lastname" type="text"  placeholder="last name">
+											<label class="control-label">Last Name</label> <input class="form-control input-md" name="lastname" type="text"  placeholder="last name">
 										</div>
 										<div class="form-group">
 											<div class="input-icon">
 												<i class="lni-lock"></i> <input type="password" class="form-control" placeholder="Password">
 											</div>
+											<div class="input-icon">
+												<i class="lni-lock"></i> <input type="password" class="form-control" placeholder="Retype Password">
+											</div>
 										</div>
+										
 										<div class="form-group">
 											<div class="input-icon">
 												<i class="lni-envelope"></i> <input type="text" class="form-control" placeholder="Email">
@@ -96,55 +164,22 @@
 										</div>
 										
 										<div class="form-group">
-											<div class="input-icon">
-												<i class="lni-lock"></i> <input type="password" class="form-control" placeholder="Retype Password">
-											</div>
-										</div>
-										<div class="form-group mb-3">
 											<label class="control-label">Phone</label> <input
 												class="form-control input-md" name="phone" type="text">
 										</div>
-										<div class="form-group mb-3">
+										<div class="form-group">
 											<label class="control-label">Enter Address</label> <input
 												class="form-control input-md" name="address" type="text">
 										</div>
-										<div class="form-group mb-3">
-											<label class="control-label">Enter Address</label> <input
-												class="form-control input-md" name="address" type="text">
+										<div class="form-group">
+											<label class="control-label">ZipCode</label> <input class="form-control input-md" name="address" type="text">
 										</div>
-										<div class="form-group mb-3 tg-inputwithicon">
+										<div class="form-group tg-inputwithicon">
+											<label class="control-label">City</label> <input class="form-control input-md" name="city" type="text">
+										</div>
+										<div class="form-group tg-inputwithicon">
 											<label class="control-label">Country</label>
-											<div class="tg-select form-control">
-												<select>
-													<option value="none">Select Country</option>
-													<option value="none">Country 1</option>
-													<option value="none">Country 2</option>
-													<option value="none">Country 3</option>
-													<option value="none">Country 4</option>
-													<option value="none">Country 5</option>
-													<option value="none">Country 6</option>
-												</select>
-											</div>
-										</div>
-										<div class="form-group mb-3 tg-inputwithicon">
-											<label class="control-label">State</label>
-											<div class="tg-select form-control">
-												<select>
-													<option value="none">Select State</option>
-													<option value="none">Select State</option>
-													<option value="none">Select State</option>
-												</select>
-											</div>
-										</div>
-										<div class="form-group mb-3 tg-inputwithicon">
-											<label class="control-label">City</label>
-											<div class="tg-select form-control">
-												<select>
-													<option value="none">Select City</option>
-													<option value="none">Select City</option>
-													<option value="none">Select City</option>
-												</select>
-											</div>
+												<select name="country" class="form-control bfh-countries tg-select" ></select>
 										</div>
 										<div class="tg-checkbox">
 											<div class="custom-control custom-checkbox">
@@ -158,7 +193,7 @@
 										</div>
 						
 							<div class="text-center">
-								<button class="btn btn-common log-btn">Register</button>
+								<button class="btn btn-common log-btn" id="btnRegister">Register</button>
 							</div>
 						</form>
 					</div>
