@@ -14,7 +14,7 @@ public class AnnouncesTableModel extends GenericTableModel<Announce> {
 
 		
 	public AnnouncesTableModel() {
-		setColumns("id","type","categorie","title","contact","startDate","endDate");
+		setColumns("id","type","categorie","title","totalPrice","contact","startDate","endDate");
 	}
 	
 	
@@ -25,8 +25,9 @@ public class AnnouncesTableModel extends GenericTableModel<Announce> {
 		case 0 : return Announce.class;
 		case 1 : return TransactionDirection.class;
 		case 2 : return EnumItems.class;
-		case 4 : return Contact.class;
-		case 5|6 : return Date.class;
+		case 4 : return Double.class;
+		case 5 : return Contact.class;
+		case 6|7 : return Date.class;
 		default : return super.getColumnClass(columnIndex);
 		
 		}
@@ -40,9 +41,10 @@ public class AnnouncesTableModel extends GenericTableModel<Announce> {
 		case 1 : return items.get(row).getType();
 		case 2 : return items.get(row).getCategorie();
 		case 3 : return items.get(row).getTitle();
-		case 4 : return items.get(row).getContact();
-		case 5 : return items.get(row).getStartDate();
-		case 6 : return items.get(row).getEndDate();
+		case 4 : return items.get(row).getTotalPrice();
+		case 5 : return items.get(row).getContact();
+		case 6 : return items.get(row).getStartDate();
+		case 7 : return items.get(row).getEndDate();
 		default : return super.getValueAt(row, column);
 		
 		}

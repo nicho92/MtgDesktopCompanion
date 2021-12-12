@@ -7,7 +7,7 @@
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>NexusPlus - Classified Ads and Listing Template</title>
+<title>MTGMarket</title>
 
 <link rel="stylesheet" type="text/css" href="../dist/fonts/line-icons.css">
 <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/SlickNav/1.0.10/slicknav.min.css">
@@ -22,6 +22,13 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/SlickNav/1.0.10/jquery.slicknav.min.js"></script>
 <script src="../dist/js/rest-server.js"></script>
 <script src="../dist/js/trader.js"></script>
+
+
+<meta property="og:url"    	  	id="ogUrl"      content="" />
+<meta property="og:type"      	id="ogWebsite"    content="MTGMarket" />
+<meta property="og:title"     	id="ogTitle"   content="MTGMarket" />
+<meta property="og:description" id="ogDescription"  content="MTG Market - Share your mtg products anywhere" />
+<meta property="og:image"  		id="ogImage" content="https://mtgcompanion.me/trades-ui/dist/img/logo2.png" />
 
 <script>
 
@@ -43,7 +50,14 @@ $(document).ready(function() {
 		$("#titleMain").html(announce.title);
 		document.title=announce.title+" - MTG Market"
 		
+		$("#ogUrl").attr("content",document.location);
+		$("#ogTitle").attr("content",document.title);
 		
+		
+		
+		
+		
+		$("#fbShare").attr("href","https://www.facebook.com/sharer/sharer.php?src=sdkpreparse&u="+document.location);
 		$("#endDate").append(announce.endDate);
 		$("#localization").append(announce.contact.country);
 		$("#description").html(announce.description);
@@ -60,9 +74,10 @@ $(document).ready(function() {
 		}).then(function(geds){
 			$.each( geds, function( key, ged ) {
 				var img = buildImage(ged,"");
-    			var append="<div class='item'><div class='product-img'>"+img+"</div><span class='price-save'> test</span></div>";
+    			var append="<div class='item'><div id='img-"+key+"' class='product-img'>"+img+"</div><span class='price-save'> test</span></div>";
     			$("#announces-pic").append(img).append("&nbsp;");	
 			});
+			
 			
 			$("#announces-pic").owlCarousel({
 				autoplay: true,
@@ -178,7 +193,7 @@ $(document).ready(function() {
 							<div class="float-right">
 								<div class="share">
 									<div class="social-link">
-										<a class="facebook" data-toggle="tooltip" data-placement="top" title="facebook" href="#"><i class="lni-facebook-filled"></i></a>
+										<a class="facebook" id="fbShare" data-toggle="tooltip" data-placement="top" title="facebook" href=""><i class="lni-facebook-filled"></i></a>
 										<a class="twitter" data-toggle="tooltip" data-placement="top" title="twitter" href="#"><i class="lni-twitter-filled"></i></a>
 									</div>
 								</div>

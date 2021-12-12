@@ -53,6 +53,10 @@ public class Announce implements Serializable, Comparable<Announce> {
 		percentReduction=0.0;
 		currency = Currency.getInstance(Locale.getDefault());
 		condition = EnumCondition.NEAR_MINT;
+		
+		
+		if(endDate.after(new Date()))
+			status= STATUS.EXPIRED;
 	}
 	
 	
