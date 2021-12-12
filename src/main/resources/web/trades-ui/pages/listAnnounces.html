@@ -61,14 +61,10 @@
 		$.ajax({
 			url : restserver + "/announces/stats"
 		}).then(function(stats) {
-			
 			$.each(stats, function(key, value) {
 				$('#categorie-list').append("<li><a href='listAnnounces.html?type="+key+"'> <i class='lni-check-box'></i> "+key.toLowerCase()+" <span class='category-counter'>("+value+")</span></a></li>");
 			});
-
 		});
-		
-
 	});
 </script>
 
