@@ -59,11 +59,11 @@
 		
 		
 		$.ajax({
-			url : restserver + "/categories"
-		}).then(function(categories) {
-
-			$.each(categories, function(key, value) {
-				$('#categorie-list').append("<li><a href='listAnnounces.html?type="+value+"'> <i class='lni-check-box'></i> "+value.toLowerCase()+" <span class='category-counter'>(X)</span></a></li>");
+			url : restserver + "/announces/stats"
+		}).then(function(stats) {
+			
+			$.each(stats, function(key, value) {
+				$('#categorie-list').append("<li><a href='listAnnounces.html?type="+key+"'> <i class='lni-check-box'></i> "+key.toLowerCase()+" <span class='category-counter'>("+value+")</span></a></li>");
 			});
 
 		});

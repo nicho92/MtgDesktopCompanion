@@ -29,10 +29,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import org.magic.api.beans.Announce;
 import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
@@ -931,6 +933,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/announces/get/:id", URLTools.HEADER_JSON, (request, response) -> {
 			return MTG.getEnabledPlugin(MTGDao.class).getAnnounceById(Integer.parseInt(request.params(":id")));
 		}, transformer);
+		
+		get("/announces/stats", URLTools.HEADER_JSON, (request, response) -> {
+			return MTG.getEnabledPlugin(MTGDao.class).listAnnounces(false).stream().collect(Collectors.groupingBy(Announce::getCategorie, Collectors.counting()));
+		}, transformer);
+		
 		
 		get("/announces/list", URLTools.HEADER_JSON, (request, response) -> {
 			return MTG.getEnabledPlugin(MTGDao.class).listAnnounces(true);

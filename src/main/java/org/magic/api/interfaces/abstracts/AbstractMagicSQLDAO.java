@@ -514,6 +514,17 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		stat.executeUpdate("CREATE INDEX idx_conv_source ON conversionsItems (source);");
 		stat.executeUpdate("CREATE INDEX idx_conv_dest ON conversionsItems (destination);");
 		
+		stat.executeUpdate("CREATE INDEX idx_creationDate ON announces (creationDate);");
+		stat.executeUpdate("CREATE INDEX idx_startDate ON announces (startDate);");
+		stat.executeUpdate("CREATE INDEX idx_endDate ON announces (endDate);");
+		stat.executeUpdate("CREATE INDEX idx_title ON announces (title);");
+		stat.executeUpdate("CREATE INDEX idx_currency ON announces (currency);");
+		stat.executeUpdate("CREATE INDEX idx_typeAnnounce ON announces (typeAnnounce);");
+		stat.executeUpdate("CREATE INDEX idx_category ON announces (category);");
+		stat.executeUpdate("CREATE INDEX idx_conditions ON announces (conditions);");
+		
+		
+		
 		
 		stat.executeUpdate("ALTER TABLE cards ADD PRIMARY KEY (ID,edition,collection);");
 
