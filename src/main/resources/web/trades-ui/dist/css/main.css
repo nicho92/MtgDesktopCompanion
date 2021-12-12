@@ -39,7 +39,7 @@ p{
     font-weight:400;
     font-family:open sans,sans-serif;
     margin:0;
-    font-size:14px
+    font-size:20px
 }
 ul,ol{
     list-style:outside none none;
@@ -1311,7 +1311,7 @@ a.back-to-top:hover,a.back-to-top:focus{
 .featured-box .feature-content .product{
     width:100%;
     float:left;
-    font-size:12px;
+    font-size:16px;
     line-height:18px;
     list-style:none;
     margin:0 0 15px
@@ -1333,7 +1333,6 @@ a.back-to-top:hover,a.back-to-top:focus{
 }
 .featured-box .feature-content span{
     display:block;
-    font-size:13px;
     color:#999
 }
 .featured-box .feature-content .meta-tag{
