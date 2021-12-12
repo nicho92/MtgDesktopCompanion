@@ -658,7 +658,7 @@ a.back-to-top:hover,a.back-to-top:focus{
         top:0
     }
     .navbar-brand img{
-        width:75%
+        width:25%
     }
     #mobile-menu{
         display:none
@@ -811,7 +811,7 @@ a.back-to-top:hover,a.back-to-top:focus{
     right:5px;
     padding:0;
     z-index:2;
-    width:157px;
+    width:55px;
     border-radius:4px;
     border:none;
     cursor:pointer;
