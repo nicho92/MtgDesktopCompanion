@@ -57,12 +57,15 @@ $(document).ready(function() {
 		
 		
 		
+		$("#ttShare").attr("href","https://twitter.com/intent/tweet?text="+document.location);
 		$("#fbShare").attr("href","https://www.facebook.com/sharer/sharer.php?src=sdkpreparse&u="+document.location);
+		
 		$("#endDate").append(announce.endDate);
 		$("#localization").append(announce.contact.country);
 		$("#description").html(announce.description);
 		$("#announcePrice").html(announce.totalPrice + " " + announce.currencySymbol);
 		$("#contactName").html(announce.contact.name + " " +announce.contact.lastName);
+		$("#contactName").attr("href","./contactpage.html?id="+announce.contact.id);
 		$("#contactTel").append(announce.contact.telephone);
 		$("#category").html(announce.categorie);
 		$("#condition").html(announce.condition);
@@ -112,11 +115,19 @@ $(document).ready(function() {
 		}).then(function(announces){
 			$.each( announces, function( key, value ) {
 				
-				var append="<li><div class='widget-thumb'><a href='announce.html?id="+value.id+"'><img src='assets/img/details/img1.jpg'/></a></div>";
-				append+="<div class='widget-content'><h4><a href='announce.html?id="+value.id+"'>"+value.title+"</a></h4>";
-				append+="<div class='meta-tag'><span> <a href='#'><i class='lni-map-marker'></i>"+value.contact.country+"</a></span> <span> <a href='#'><i class='lni-tag'></i> "+value.categorie+"</a></span></div>";
-				append+="<h4 class='price'>"+value.totalPrice+""+value.currencySymbol+"</h4></div><div class='clearfix'></div></li>";
-				$('#other-announces').append(append);
+					$.ajax({
+		    				url: restserver+"/ged/Announce/"+value.id
+						}).then(function(geds){
+							
+							var img = buildImage(geds[0],"");
+							var append="<li><div class='widget-thumb'><a href='announce.html?id="+value.id+"'>"+img+"</a></div>";
+								  append+="<div class='widget-content'><h4><a href='announce.html?id="+value.id+"'>"+value.title+"</a></h4>";
+								  append+="<div class='meta-tag'><span> <a href='#'><i class='lni-map-marker'></i>"+value.contact.country+"</a></span> <span> <a href='#'><i class='lni-tag'></i> "+value.categorie+"</a></span></div>";
+								  append+="<h4 class='price'>"+value.totalPrice+""+value.currencySymbol+"</h4></div><div class='clearfix'></div></li>";
+				
+							$('#other-announces').append(append);
+							
+						});
 			});
 		});
 		
@@ -194,7 +205,7 @@ $(document).ready(function() {
 								<div class="share">
 									<div class="social-link">
 										<a class="facebook" id="fbShare" data-toggle="tooltip" data-placement="top" title="facebook" href=""><i class="lni-facebook-filled"></i></a>
-										<a class="twitter" data-toggle="tooltip" data-placement="top" title="twitter" href="#"><i class="lni-twitter-filled"></i></a>
+										<a class="twitter" id="ttShare" data-toggle="tooltip" data-placement="top" title="twitter" href="#"><i class="lni-twitter-filled"></i></a>
 									</div>
 								</div>
 							</div>
@@ -205,7 +216,11 @@ $(document).ready(function() {
 					<aside class="details-sidebar">
 						
 						<div class="widget">
-							<h4 class="widget-title" id="announcePrice">price</h4>
+							<h4 class="widget-title">How much ? </h4>
+							<div class="agent-inner">
+								<h4  id="announcePrice">price</h4>
+							</div>
+							
 						</div>
 						
 						<div class="widget">
@@ -242,34 +257,7 @@ $(document).ready(function() {
 	</div>
 
 
-	<section class="subscribes section-padding">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-					<div class="subscribes-inner">
-						<div class="icon">
-							<i class="lni-pointer"></i>
-						</div>
-						<div class="sub-text">
-							<h3>Subscribe to Newsletter</h3>
-							<p>and receive new ads in inbox</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-					<form>
-						<div class="subscribe">
-							<input class="form-control" name="EMAIL"
-								placeholder="Enter your Email" required="" type="email">
-							<button class="btn btn-common" type="submit">Subscribe</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</section>
-
-
+	
 	<footer id="footer"></footer>
 
 	<a href="#" class="back-to-top"> <i class="lni-chevron-up"></i></a>
