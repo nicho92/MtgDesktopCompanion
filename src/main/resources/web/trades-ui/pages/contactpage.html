@@ -47,9 +47,6 @@
 				$("#contacthome").html(first.contact.name);
 				document.title="MTG Market - HomePage of " + first.contact.name; 
 		
-		
-		console.log(announces);
-		
 		var table= $('#datatable').DataTable({
 				 "paging": false,
 				"bInfo" : false,
@@ -75,7 +72,7 @@
 						"data": "status",
 						"render": function (data, type, row, meta) {
 							if (type === 'display') {
-								return "<span class='adstatus adstatusactive''>active</span>";
+								return "<span class='adstatus adstatus"+data.toLowerCase()+"'>"+data+"</span>";
 							}
 							return data;
 						}
