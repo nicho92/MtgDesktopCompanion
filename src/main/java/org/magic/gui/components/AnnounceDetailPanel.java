@@ -13,6 +13,7 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
 import org.magic.api.beans.Announce;
+import org.magic.api.beans.Announce.STATUS;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionDirection;
@@ -32,6 +33,7 @@ public class AnnounceDetailPanel extends MTGUIComponent {
 	private JTextField totalPriceJTextField;
 	private JComboBox<TransactionDirection> cboType;
 	private JComboBox<EnumItems> cboCategories;
+	private JComboBox<STATUS> cboStatus;
 	private JButton btnContact;
 	private JSpinner sldReduction;
 	private JComboBox<EnumCondition> cboConditions;
@@ -90,6 +92,14 @@ public class AnnounceDetailPanel extends MTGUIComponent {
 		cboConditions= UITools.createCombobox(EnumCondition.values());
 		add(cboConditions, UITools.createGridBagConstraints(null,  GridBagConstraints.HORIZONTAL, 1, 10));		
 		
+		
+		add(new JLangLabel("STATUS",true), UITools.createGridBagConstraints(null, null, 0, 11));				
+		cboStatus= UITools.createCombobox(STATUS.values());
+		add(cboStatus, UITools.createGridBagConstraints(null,  GridBagConstraints.HORIZONTAL, 1, 11));		
+		
+		
+		
+		
 		btnContact.addActionListener(al->{
 			JContactChooserDialog diag = new JContactChooserDialog();
 			diag.setVisible(true);
@@ -118,6 +128,7 @@ public class AnnounceDetailPanel extends MTGUIComponent {
 		announce.setCategorie((EnumItems)cboCategories.getSelectedItem());
 		announce.setPercentReduction(((Number)sldReduction.getValue()).doubleValue());
 		announce.setCondition((EnumCondition)cboConditions.getSelectedItem());
+		announce.setStatus((STATUS)cboStatus.getSelectedItem());
 		return announce;
 	}
 
@@ -134,6 +145,7 @@ public class AnnounceDetailPanel extends MTGUIComponent {
 			btnContact.setText(announce.getContact().toString());
 			sldReduction.setValue(announce.getPercentReduction());
 			cboConditions.setSelectedItem(announce.getCondition());
+			cboStatus.setSelectedItem(announce.getStatus());
 	}
 
 	//@Override

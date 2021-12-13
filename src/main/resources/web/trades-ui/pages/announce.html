@@ -122,7 +122,7 @@ $(document).ready(function() {
 							var img = buildImage(geds[0],"");
 							var append="<li><div class='widget-thumb'><a href='announce.html?id="+value.id+"'>"+img+"</a></div>";
 								  append+="<div class='widget-content'><h4><a href='announce.html?id="+value.id+"'>"+value.title+"</a></h4>";
-								  append+="<div class='meta-tag'><span> <a href='#'><i class='lni-map-marker'></i>"+value.contact.country+"</a></span> <span> <a href='#'><i class='lni-tag'></i> "+value.categorie+"</a></span></div>";
+								  append+="<div class='meta-tag'><span> <a href='#'><i class='lni-map-marker'></i>"+value.contact.country+"</a></span> <span> <a href='http://localhost/pages/listAnnounces.html?type="+value.categorie+"'><i class='lni-tag'></i> "+value.categorie+"</a></span></div>";
 								  append+="<h4 class='price'>"+value.totalPrice+""+value.currencySymbol+"</h4></div><div class='clearfix'></div></li>";
 				
 							$('#other-announces').append(append);

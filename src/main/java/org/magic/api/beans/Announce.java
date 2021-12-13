@@ -16,7 +16,7 @@ import org.magic.api.interfaces.MTGStockItem;
 
 public class Announce implements Serializable, Comparable<Announce> {
 
-	public enum STATUS { ACTIVE,SOON, SOLD, EXPIRED }
+	public enum STATUS { ACTIVE, SOON, SOLD, EXPIRED }
 	
 	private static final long serialVersionUID = 1L;
 	private int id=-1;
@@ -55,8 +55,6 @@ public class Announce implements Serializable, Comparable<Announce> {
 		condition = EnumCondition.NEAR_MINT;
 		status = STATUS.ACTIVE;
 		
-		if(endDate.after(new Date()))
-			status= STATUS.EXPIRED;
 	}
 	
 	
