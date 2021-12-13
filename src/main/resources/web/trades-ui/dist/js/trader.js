@@ -57,7 +57,7 @@ function buildAnnounce(data, geds,xs,sm,md,lg)
 				
 				append+="<p class='dsc'>"+data.description.substring(0, 50)+"</p>";
 				append+="<div class='listing-bottom'>";
-				append+="<h3 class='price float-left'>"+data.currencySymbol+" "+data.totalPrice+"</h3><a href='announce.html?id="+data.id+"' class='btn btn-common float-right'>View Details</a></div>";
+				append+="<h3 class='price float-left'>"+data.currencySymbol+" "+data.totalPrice.toLocaleString()+"</h3><a href='announce.html?id="+data.id+"' class='btn btn-common float-right'>View Details</a></div>";
 				append+="</div></div></div>";
 			return append;	
 		

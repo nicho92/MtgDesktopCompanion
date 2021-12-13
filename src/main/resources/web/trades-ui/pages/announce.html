@@ -63,7 +63,7 @@ $(document).ready(function() {
 		$("#endDate").append(announce.endDate);
 		$("#localization").append(announce.contact.country);
 		$("#description").html(announce.description);
-		$("#announcePrice").html(announce.totalPrice + " " + announce.currencySymbol);
+		$("#announcePrice").html(announce.totalPrice.toLocaleString() + " " + announce.currencySymbol);
 		$("#contactName").html(announce.contact.name + " " +announce.contact.lastName);
 		$("#contactName").attr("href","./contactpage.html?id="+announce.contact.id);
 		$("#contactTel").append(announce.contact.telephone);
