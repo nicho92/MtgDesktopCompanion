@@ -17,7 +17,7 @@ public class Contact implements Serializable {
 	private String city;
 	private String website;
 	private boolean emailAccept=true;
-	private String password="changeit";
+	private transient String password="changeit";
 	private boolean active=false;
 	private String temporaryToken;
 	

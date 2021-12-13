@@ -51,7 +51,7 @@
 				var myObject = new Object();
 					myObject.name = $("input[name='name']").val();
 					myObject.lastName = $("input[name='lastname']").val();
-					myObject.address = $("textarea[name='address']").val();
+					myObject.address = $("input[name='address']").val();
 					myObject.zipCode = $("input[name='zipCode']").val();
 					myObject.city = $("input[name='city']").val();
 					myObject.country = $("select[name='country']").val();
@@ -139,8 +139,9 @@
 				<div class="col-lg-8 col-md-12 col-xs-12">
 					<div class="register-form login-area">
 						<h3>Register</h3>
-						<form id="subscription" class="login-form">
 						<div id="confirmation" class="alert" role="alert"></div>
+						<form id="subscription" class="login-form">
+							
 							<div class="form-group mb-3">
 											<label class="control-label">First Name</label> <input
 												class="form-control input-md" name="name" type="text">
@@ -150,29 +151,29 @@
 										</div>
 										<div class="form-group">
 											<div class="input-icon">
-												<i class="lni-lock"></i> <input type="password" class="form-control" placeholder="Password">
+												<i class="lni-lock"></i> <input type="password" name="password" class="form-control" placeholder="Password">
 											</div>
 											<div class="input-icon">
-												<i class="lni-lock"></i> <input type="password" class="form-control" placeholder="Retype Password">
+												<i class="lni-lock"></i> <input type="password" name="password_confirm" class="form-control" placeholder="Retype Password">
 											</div>
 										</div>
 										
 										<div class="form-group">
 											<div class="input-icon">
-												<i class="lni-envelope"></i> <input type="text" class="form-control" placeholder="Email">
+												<i class="lni-envelope"></i> <input type="text" name="email" class="form-control" placeholder="Email">
 											</div>
 										</div>
 										
 										<div class="form-group">
 											<label class="control-label">Phone</label> <input
-												class="form-control input-md" name="phone" type="text">
+												class="form-control input-md" name="telephone" type="text">
 										</div>
 										<div class="form-group">
 											<label class="control-label">Enter Address</label> <input
 												class="form-control input-md" name="address" type="text">
 										</div>
 										<div class="form-group">
-											<label class="control-label">ZipCode</label> <input class="form-control input-md" name="address" type="text">
+											<label class="control-label">ZipCode</label> <input class="form-control input-md" name="zipCode" type="text">
 										</div>
 										<div class="form-group tg-inputwithicon">
 											<label class="control-label">City</label> <input class="form-control input-md" name="city" type="text">

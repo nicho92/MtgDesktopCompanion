@@ -1,3 +1,28 @@
+<head>
+
+
+<script>
+
+ $("#loggedUser").html(function(){
+		var u = getCurrentUser();
+		if(u)
+		{
+			$("#loggedUser").html(u.name);
+			
+		}
+		else
+		{
+			$('#authenticatedMenu').hide();
+			
+		}
+		
+  });
+ 
+</script>
+
+</head>
+
+
 <div class="top-bar">
 	<div class="container">
 		<div class="row">
@@ -8,9 +33,7 @@
 					<a class="twitter" href="https://twitter.com/mtgdesktopcomp1"><i class="lni-twitter-filled"></i> </a>
 				</div>
 				<div class="header-top-right float-right">
-					<a href="login.html" class="header-top-button"><i
-						class="lni-lock"></i> Log In</a> | <a href="register.html"
-						class="header-top-button"><i class="lni-pencil"></i>
+					<a href="login.html" class="header-top-button"><i class="lni-lock"></i> <span id="loggedUser">Log In</span></a> | <a href="register.html" class="header-top-button"><i class="lni-pencil"></i>
 						Register</a>
 				</div>
 			</div>
