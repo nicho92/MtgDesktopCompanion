@@ -4,41 +4,76 @@
 <head>
 
 <meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>NexusPlus - Classified Ads and Listing Template</title>
-<link rel="stylesheet" type="text/css"
-	href="../dist/fonts/line-icons.css">
-<link rel="stylesheet" type="text/css"
-	href="//cdnjs.cloudflare.com/ajax/libs/SlickNav/1.0.10/slicknav.min.css">
-<link rel="stylesheet" type="text/css"
-	href="//cdn.jsdelivr.net/npm/owl.carousel@2.2.0/dist/assets/owl.carousel.min.css">
-<link rel="stylesheet" type="text/css"
-	href="//stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css"
-	href="//cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote.min.css">
+<meta name="viewport"	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>MTG Market - Post an announce</title>
+<link rel="stylesheet" type="text/css" href="../dist/fonts/line-icons.css">
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/SlickNav/1.0.10/slicknav.min.css">
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/owl.carousel@2.2.0/dist/assets/owl.carousel.min.css">
+<link rel="stylesheet" type="text/css" href="//stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-bs4.min.css">
 <link rel="stylesheet" type="text/css" href="../dist/css/main.css">
 
 <script src="//cdn.jsdelivr.net/npm/popper.js@1.0.0/dist/popper.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
-<script
-	src="//stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-<script
-	src="//cdn.jsdelivr.net/npm/owl.carousel@2.2.0/dist/owl.carousel.min.js"></script>
-<script
-	src="//cdnjs.cloudflare.com/ajax/libs/SlickNav/1.0.10/jquery.slicknav.min.js"></script>
-<script
-	src="//cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote.min.js"></script>
+<script	src="//stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script	src="//cdn.jsdelivr.net/npm/owl.carousel@2.2.0/dist/owl.carousel.min.js"></script>
+<script	src="//cdnjs.cloudflare.com/ajax/libs/SlickNav/1.0.10/jquery.slicknav.min.js"></script>
+<script	src="//cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-bs4.min.js"></script>
 <script src="../dist/js/rest-server.js"></script>
 <script src="../dist/js/trader.js"></script>
-
+<script src="../dist/js/storage.js"></script>
 
 <script>
+	var noter;
+	
+	
 	$(document).ready(function() {
 		$("#topbar").load("inc_topbar.html");
 		$("#navbar").load("inc_nav.html");
 		$("#footer").load("inc_footer.html");
-
+	
+		var user = getCurrentUser();
+	
+		$("#userConnected").html(user.name + " " + user.lastName + " <br/>" + user.address + " <br/>" + user.zipCode + " " + user.city + " <br/>" + user.country);
+	
+	
+		$.ajax({
+			url : restserver + "/categories"
+		}).then(function(categs) {
+			$.each(categs, function(key, value) {
+				$("#categories").append("<option value='"+value+"'>"+value+"</option>")
+			});
+		});
+		
+		$.each( ["MINT", "NEAR_MINT","GOOD", "LIGHTLY_PLAYED", "PLAYED", "POOR","PROXY","OVERSIZED","ONLINE","SEALED", "OPENED", "DAMAGED"], function(key, value) {
+				$("#conditions").append("<option value='"+value+"'>"+value+"</option>")
+			});	
+	
+		$('#btnPost').click(function (e) {
+			
+				var jsonObj = {
+		    		contact:getCurrentUser(),
+		    		description: $("#description").summernote('code'),
+		    		totalPrice: $("#price").val(),
+					title: $("#title").val(),
+					type: $("input[name=type]:checked").val(),
+					condition: $("#conditions").val(),
+					categorie: $("#categories").val(),
+				}
+				console.log(jsonObj);
+				
+				$.post(restserver+"/announces/new",JSON.stringify(jsonObj)).done(function( data ) {
+				
+				});
+				
+				
+				
+			
+			});
+			
+			
+	
+	
 	});
 </script>
 
@@ -69,8 +104,6 @@
 			</div>
 		</div>
 	</div>
-
-
 	<div id="content" class="section-padding">
 		<div class="container">
 			<div class="row">
@@ -84,52 +117,35 @@
 								<div class="dashboard-wrapper">
 									<div class="form-group mb-3">
 										<div class="tg-selectgroup">
-												<span class="tg-radio"> <input id="type" type="radio" name="usertype" value="SELL" checked="">
-													<label for="tg-sameuser">i am selling</label>
-												</span> <span class="tg-radio"> <input id="tg-someoneelse" type="radio" name="usertype" value="BUY">
-													<label for="tg-someoneelse">i am looking for</label>
-												</span>
+												<span class="tg-radio"> <input name="type" type="radio" name="usertype" value="SELL" checked=""><label for="tg-type">i sell</label></span>
+												 <span class="tg-radio"> <input name="type"  type="radio" name="usertype" value="BUY"><label for="tg-type">i want</label></span>
 											</div>
-										
-										
 									</div>
-								
 									<div class="form-group mb-3">
-										<label class="control-label">Title</label> <input
-											class="form-control input-md" name="Title"
-											placeholder="Title" type="text">
+										<label class="control-label">Title</label> <input class="form-control input-md" id="title" placeholder="Title" type="text">
 									</div>
 									<div class="form-group mb-3 tg-inputwithicon">
 										<label class="control-label">Categories</label>
 										<div class="tg-select form-control">
-											<select>
-												<option value="none">Select Categories</option>
-												<option value="none">Mobiles</option>
-												<option value="none">Electronics</option>
-												<option value="none">Training</option>
-												<option value="none">Real Estate</option>
-												<option value="none">Services</option>
-												<option value="none">Training</option>
-												<option value="none">Vehicles</option>
+											<select id="categories">
+											</select>
+										</div>
+									</div>
+									<div class="form-group mb-3 tg-inputwithicon">
+										<label class="control-label">Condition</label>
+										<div class="tg-select form-control">
+										<select id="conditions">
 											</select>
 										</div>
 									</div>
 									<div class="form-group mb-3">
 										<label class="control-label">Price</label> <input
-											class="form-control input-md" name="price"
-											placeholder="Ad your Price" type="text">
-										<div class="tg-checkbox mt-3">
-											<div class="custom-control custom-checkbox">
-												<input type="checkbox" class="custom-control-input"
-													id="tg-priceoncall"> <label
-													class="custom-control-label" for="tg-priceoncall">Price
-													On Call</label>
-											</div>
-										</div>
+											class="form-control input-md" id="price" placeholder="Ad your Price" type="text">
+										
 									</div>
 									<div class="form-group md-3">
 										<section id="editor">
-											<div id="summernote"></div>
+											<div id="description"></div>
 										</section>
 									</div>
 									<label class="tg-fileuploadlabel" for="tg-photogallery">
@@ -148,72 +164,10 @@
 										<h2 class="dashbord-title">Contact Detail</h2>
 									</div>
 									<div class="dashboard-wrapper">
-										
-										<div class="form-group mb-3">
-											<label class="control-label">First Name*</label> <input
-												class="form-control input-md" name="name" type="text">
+										<div class="form-group mb-3" id="userConnected">
+											
 										</div>
-										<div class="form-group mb-3">
-											<label class="control-label">Last Name*</label> <input
-												class="form-control input-md" name="name" type="text">
-										</div>
-										<div class="form-group mb-3">
-											<label class="control-label">Phone*</label> <input
-												class="form-control input-md" name="phone" type="text">
-										</div>
-										<div class="form-group mb-3">
-											<label class="control-label">Enter Address</label> <input
-												class="form-control input-md" name="address" type="text">
-										</div>
-										<div class="form-group mb-3">
-											<label class="control-label">Enter Address</label> <input
-												class="form-control input-md" name="address" type="text">
-										</div>
-										<div class="form-group mb-3 tg-inputwithicon">
-											<label class="control-label">Country</label>
-											<div class="tg-select form-control">
-												<select>
-													<option value="none">Select Country</option>
-													<option value="none">Country 1</option>
-													<option value="none">Country 2</option>
-													<option value="none">Country 3</option>
-													<option value="none">Country 4</option>
-													<option value="none">Country 5</option>
-													<option value="none">Country 6</option>
-												</select>
-											</div>
-										</div>
-										<div class="form-group mb-3 tg-inputwithicon">
-											<label class="control-label">State</label>
-											<div class="tg-select form-control">
-												<select>
-													<option value="none">Select State</option>
-													<option value="none">Select State</option>
-													<option value="none">Select State</option>
-												</select>
-											</div>
-										</div>
-										<div class="form-group mb-3 tg-inputwithicon">
-											<label class="control-label">City</label>
-											<div class="tg-select form-control">
-												<select>
-													<option value="none">Select City</option>
-													<option value="none">Select City</option>
-													<option value="none">Select City</option>
-												</select>
-											</div>
-										</div>
-										<div class="tg-checkbox">
-											<div class="custom-control custom-checkbox">
-												<input type="checkbox" class="custom-control-input"
-													id="tg-agreetermsandrules"> <label
-													class="custom-control-label" for="tg-agreetermsandrules">I
-													agree to all <a href="javascript:void(0);">Terms of Use
-														&amp; Posting Rules</a>
-												</label>
-											</div>
-										</div>
-										<button class="btn btn-common" type="button">Post Ad</button>
+										<button class="btn btn-common" type="button" id="btnPost">Post Your Announce</button>
 									</div>
 								</div>
 							</div>
@@ -238,10 +192,8 @@
 	<script src="../dist/js/main.js"></script>
 
 	<script>
-		$('#summernote').summernote({
+		$('#description').summernote({
 			height : 250, // set editor height
-			minHeight : null, // set minimum height of editor
-			maxHeight : null, // set maximum height of editor
 			focus : false
 		// set focus to editable area after initializing summernote
 		});

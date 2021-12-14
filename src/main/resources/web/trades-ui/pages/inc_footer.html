@@ -13,6 +13,23 @@
 				</div>
 			</div>
 		</section>
-
-
 	</footer>
+	
+	
+<script>
+
+ $("#loggedUser").html(function(){
+		var u = getCurrentUser();
+		if(u)
+		{
+			$("#loggedUser").html(u.name);
+			$("#loggedUser").attr("href","./contactpage.html?id="+u.id);
+			// <i class="lni-enter"></i> <span>Logout</span>
+		}
+		else
+		{
+			$("#postAdsButton").hide();
+		}
+  });
+ 
+</script>

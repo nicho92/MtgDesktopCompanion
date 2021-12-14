@@ -934,6 +934,15 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return MTG.getEnabledPlugin(MTGDao.class).getAnnounceById(Integer.parseInt(request.params(":id")));
 		}, transformer);
 		
+		post("/announces/new", URLTools.HEADER_JSON, (request, response) -> {
+			
+			Announce a=converter.fromJson(new InputStreamReader(request.raw().getInputStream()), Announce.class);
+			
+			return MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateAnnounce(a);
+		}, transformer);
+
+		
+		
 		get("/announces/stats", URLTools.HEADER_JSON, (request, response) -> {
 			return MTG.getEnabledPlugin(MTGDao.class).listAnnounces(false).stream().collect(Collectors.groupingBy(Announce::getCategorie, Collectors.counting()));
 		}, transformer);
