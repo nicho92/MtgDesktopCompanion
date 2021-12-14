@@ -103,12 +103,6 @@
 		  <version>3.7.12</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.apache.logging.log4j</groupId>
-		    <artifactId>log4j-core</artifactId>
-		    <version>2.15.0</version>
-		</dependency>
-
-		<dependency>
 		    <groupId>org.jfree</groupId>
 		    <artifactId>org.jfree.chart3d</artifactId>
 		    <version>2.0</version>
@@ -660,7 +654,7 @@
 					<binFileExtensions>
 						<unix>.sh</unix>
 					</binFileExtensions>
-					<extraJvmArguments>-Xmx4096m
+					<extraJvmArguments>-Xmx4096m -Dlog4j2.formatMsgNoLookups=true
 						-Djdk.tls.client.protocols="TLSv1,TLSv1.1,TLSv1.2"
 						-Djava.library.path="./natives"</extraJvmArguments>
 					<showConsoleWindow>false</showConsoleWindow>
