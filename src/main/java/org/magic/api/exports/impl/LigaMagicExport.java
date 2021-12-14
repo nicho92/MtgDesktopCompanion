@@ -104,14 +104,6 @@ public class LigaMagicExport extends AbstractCardExport {
 				
 				notify(st.getProduct());
 			}
-		
-		
-		
-		
-		
-		
-		
-		
             workbook.write(out);
         }
        

@@ -188,7 +188,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" ged (id "+getAutoIncrementKeyWord()+" PRIMARY KEY,creationDate TIMESTAMP, className VARCHAR(250), idInstance VARCHAR(250), fileName VARCHAR(250), fileContent " + longTextStorage() + ")");
 			logger.debug("Create table ged");
 			
-			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" announces (id "+getAutoIncrementKeyWord()+" PRIMARY KEY,creationDate TIMESTAMP , startDate TIMESTAMP ,endDate TIMESTAMP, title VARCHAR(150), description " + longTextStorage() + ", total DECIMAL(10,2), currency VARCHAR(5), stocksItem "+beanStorage() + ",typeAnnounce VARCHAR(10), fk_idcontact INTEGER, category VARCHAR(50), percentReduction DECIMAL(10,2), conditions VARCHAR(50), status VARCHAR(25)");
+			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" announces (id "+getAutoIncrementKeyWord()+" PRIMARY KEY,creationDate TIMESTAMP , startDate TIMESTAMP ,endDate TIMESTAMP, title VARCHAR(150), description " + longTextStorage() + ", total DECIMAL(10,2), currency VARCHAR(5), stocksItem "+beanStorage() + ",typeAnnounce VARCHAR(10), fk_idcontact INTEGER, category VARCHAR(50), percentReduction DECIMAL(10,2), conditions VARCHAR(50), statusAnnounce VARCHAR(25))");
 			logger.debug("Create table announces");
 			
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" transactions (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, dateTransaction TIMESTAMP, message VARCHAR(250), stocksItem "+beanStorage()+", statut VARCHAR(15), transporter VARCHAR(50), shippingPrice DECIMAL, transporterShippingCode VARCHAR(50),currency VARCHAR(5),datePayment TIMESTAMP NULL ,dateSend TIMESTAMP NULL , paymentProvider VARCHAR(50),fk_idcontact INTEGER)");
@@ -386,7 +386,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public int saveOrUpdateAnnounce(Announce n) throws SQLException {
 		if (n.getId() < 0) 
 		{
-				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO announces (creationDate, startDate, endDate, title, description, total, currency, stocksItem, typeAnnounce, fk_idcontact,category,percentReduction,conditions,status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",Statement.RETURN_GENERATED_KEYS))
+				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO announces (creationDate, startDate, endDate, title, description, total, currency, stocksItem, typeAnnounce, fk_idcontact,category,percentReduction,conditions,statusAnnounce) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",Statement.RETURN_GENERATED_KEYS))
 				{
 					pst.setTimestamp(1,new Timestamp(Instant.now().toEpochMilli()));
 					pst.setTimestamp(2,new Timestamp(n.getStartDate().getTime()));
@@ -410,7 +410,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		}
 		else
 		{
-				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE announces SET startDate = ?, endDate =?,title=?,  description = ?, total = ?, currency = ?, stocksItem = ?, typeAnnounce = ?, fk_idcontact = ?, category=? , percentReduction=?, conditions=?, status=? WHERE id = ?;")) 
+				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE announces SET startDate = ?, endDate =?,title=?,  description = ?, total = ?, currency = ?, stocksItem = ?, typeAnnounce = ?, fk_idcontact = ?, category=? , percentReduction=?, conditions=?, statusAnnounce=? WHERE id = ?;")) 
 				{
 					pst.setTimestamp(1, new Timestamp(n.getStartDate().getTime()));
 					pst.setTimestamp(2,new Timestamp(n.getEndDate().getTime()));
@@ -525,6 +525,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		stat.executeUpdate("CREATE INDEX idx_typeAnnounce ON announces (typeAnnounce);");
 		stat.executeUpdate("CREATE INDEX idx_category ON announces (category);");
 		stat.executeUpdate("CREATE INDEX idx_conditions ON announces (conditions);");
+		stat.executeUpdate("CREATE INDEX idx_statusAnnounce ON announces (statusAnnounce);");
 		
 		
 		
@@ -2093,7 +2094,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			  a.setCategorie(EnumItems.valueOf(rs.getString("category")));
 			  a.setPercentReduction(rs.getDouble("percentReduction"));
 			  a.setCondition(EnumCondition.valueOf(rs.getString("conditions")));
-			  a.setStatus(STATUS.valueOf(rs.getString("status")));
+			  a.setStatus(STATUS.valueOf(rs.getString("statusAnnounce")));
 			  if(rs.getObject("stocksItem")!=null)
 				  a.setItems(readStockItemFrom(rs,"stocksItem"));
 			  
