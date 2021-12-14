@@ -24,7 +24,7 @@ public class Announce implements Serializable, Comparable<Announce> {
 	private Date creationDate;
 	private Date startDate;
 	private Date endDate;
-	private Double totalPrice;
+	private Double totalPrice=0.0;
 	private Currency currency;
 	private String currencySymbol;
 	private String title;

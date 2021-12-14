@@ -19,21 +19,24 @@
 <script	src="//cdn.jsdelivr.net/npm/owl.carousel@2.2.0/dist/owl.carousel.min.js"></script>
 <script	src="//cdnjs.cloudflare.com/ajax/libs/SlickNav/1.0.10/jquery.slicknav.min.js"></script>
 <script	src="//cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-bs4.min.js"></script>
+<script	src="//cdn.jsdelivr.net/npm/jquery.ui.widget@1.10.3/jquery.ui.widget.js"></script>
+<script	src="//cdn.jsdelivr.net/npm/blueimp-file-upload@10.32.0/js/jquery.fileupload.js"></script>
+
 <script src="../dist/js/rest-server.js"></script>
 <script src="../dist/js/trader.js"></script>
 <script src="../dist/js/storage.js"></script>
 
+
 <script>
-	var noter;
-	
-	
 	$(document).ready(function() {
 		$("#topbar").load("inc_topbar.html");
 		$("#navbar").load("inc_nav.html");
 		$("#footer").load("inc_footer.html");
-	
+		
+		
+		
+
 		var user = getCurrentUser();
-	
 		$("#userConnected").html(user.name + " " + user.lastName + " <br/>" + user.address + " <br/>" + user.zipCode + " " + user.city + " <br/>" + user.country);
 	
 	
@@ -50,9 +53,10 @@
 			});	
 	
 		$('#btnPost').click(function (e) {
+				//e.preventDefault();
 			
 				var jsonObj = {
-		    		contact:getCurrentUser(),
+		    		contact:user,
 		    		description: $("#description").summernote('code'),
 		    		totalPrice: $("#price").val(),
 					title: $("#title").val(),
@@ -60,10 +64,27 @@
 					condition: $("#conditions").val(),
 					categorie: $("#categories").val(),
 				}
-				console.log(jsonObj);
 				
-				$.post(restserver+"/announces/new",JSON.stringify(jsonObj)).done(function( data ) {
-				
+				$.post(restserver+"/announces/new",JSON.stringify(jsonObj)).done(function( dataId ) {
+					$('#fileupload').attr("data-url",restserver+"/ged/Announce/"+dataId);
+					$('#fileupload').fileupload({
+						dataType: "json",
+						  add: function(e, data) {
+						    data.context = $('#progress').html(data.files[0].name);
+						    data.submit();
+						  },
+						  progress: function(e, data) {
+							  console.log(data);
+						    var progress = parseInt((data.loaded / data.total) * 100, 10);
+						    data.context.css("background-position-x", 100 - progress + "%");
+						  },
+						  done: function(e, data) {
+						    data.context
+						      .addClass("done")
+						      .find("a")
+						      .prop("href", data.result.files[0].url);
+						  }
+					});
 				});
 				
 				
@@ -149,11 +170,12 @@
 										</section>
 									</div>
 									<label class="tg-fileuploadlabel" for="tg-photogallery">
-										<span>Drop files anywhere to upload</span> <span>Or</span> <span
-										class="btn btn-common">Select Files</span> <span>Maximum
-											upload file size: 500 KB</span> <input id="tg-photogallery"
-										class="tg-fileinput" type="file" name="file">
+										<input id="fileupload" type="file" name="files[]" data-url="//jquery-file-upload.appspot.com/" multiple>
 									</label>
+									<div id="progress"><div class="file" style="width: 0%;"></div>
+</div>
+									
+									
 								</div>
 							</div>
 						</div>
@@ -193,9 +215,10 @@
 
 	<script>
 		$('#description').summernote({
+			disableDragAndDrop : true,
 			height : 250, // set editor height
 			focus : false
-		// set focus to editable area after initializing summernote
+
 		});
 	</script>
 </body>

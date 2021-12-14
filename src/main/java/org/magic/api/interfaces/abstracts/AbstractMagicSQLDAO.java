@@ -402,8 +402,8 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 					pst.setDouble(12, n.getPercentReduction());
 					pst.setString(13, n.getCondition().name());
 					pst.setString(14, n.getStatus().name());
-					var ret = executeUpdate(pst);
-					n.setId(ret);
+					executeUpdate(pst);
+					n.setId(getGeneratedKey(pst));
 					logger.debug(n  +" created");
 					
 				}

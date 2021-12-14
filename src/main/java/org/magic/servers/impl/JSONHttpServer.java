@@ -34,7 +34,11 @@ import java.util.stream.Collectors;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.magic.api.beans.Announce;
+import org.magic.api.beans.GedEntry;
 import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
@@ -298,6 +302,45 @@ public class JSONHttpServer extends AbstractMTGServer {
 			}
 			return arr;
 			
+		},transformer);
+		
+		
+		post("/ged/:class/:id", URLTools.HEADER_JSON,(request, response) -> {
+			
+			List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request.raw());
+			var ret = new JsonObject();
+			var arr = new JsonArray();
+			ret.add("files", arr);
+			items.forEach(fi->{
+				var fileObj = new JsonObject();
+					fileObj.addProperty("name", fi.getName());
+					fileObj.addProperty("size", fi.getSize());
+			
+				try {
+					logger.debug("Uploading " + fi);
+					var entry = new GedEntry<>();
+					entry.setClasse(PluginRegistry.inst().loadClass("org.magic.api.beans."+request.params(":class")));
+					entry.setId(request.params(":id"));
+					entry.setIsImage(true);
+					entry.setName(fi.getName());
+					entry.setContent(fi.get());
+					
+					MTG.getEnabledPlugin(MTGGedStorage.class).store(entry);
+
+					fileObj.addProperty("url", "picture1.jpg");
+					fileObj.addProperty("thumbnailUrl", "http://localhost/dist/img/logo2.png");
+				}
+				catch(Exception e)
+				{
+					logger.error(e);
+					fileObj.addProperty("error", e.getMessage());
+				}
+				
+				arr.add(fileObj);
+				
+			});
+			
+			return ret;
 		},transformer);
 		
 		
