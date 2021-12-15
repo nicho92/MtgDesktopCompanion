@@ -26,59 +26,44 @@
 <script src="../dist/js/trader.js"></script>
 <script src="../dist/js/storage.js"></script>
 
-
 <script>
 	$(document).ready(function() {
 		$("#topbar").load("inc_topbar.html");
 		$("#navbar").load("inc_nav.html");
 		$("#footer").load("inc_footer.html");
 		
+		//make a test if current user is the owner
 		
-		
-
-		var user = getCurrentUser();
-		$("#userConnected").html(user.name + " " + user.lastName + " <br/>" + user.address + " <br/>" + user.zipCode + " " + user.city + " <br/>" + user.country);
-	
-	
-		$.ajax({
-			url : restserver + "/categories"
-		}).then(function(categs) {
-			$.each(categs, function(key, value) {
-				$("#categories").append("<option value='"+value+"'>"+value+"</option>")
-			});
+		$(document).bind('dragover', function (e) {
+		    var dropZone = $('#dropzone'),
+		        timeout = window.dropZoneTimeout;
+		    if (timeout) {
+		        clearTimeout(timeout);
+		    } else {
+		        dropZone.addClass('in');
+		    }
+		    var hoveredDropZone = $(e.target).closest(dropZone);
+		    dropZone.toggleClass('hover', hoveredDropZone.length);
+		    window.dropZoneTimeout = setTimeout(function () {
+		        window.dropZoneTimeout = null;
+		        dropZone.removeClass('in hover');
+		    }, 100);
 		});
 		
-		$.each( ["MINT", "NEAR_MINT","GOOD", "LIGHTLY_PLAYED", "PLAYED", "POOR","PROXY","OVERSIZED","ONLINE","SEALED", "OPENED", "DAMAGED"], function(key, value) {
-				$("#conditions").append("<option value='"+value+"'>"+value+"</option>")
-			});	
-	
-		$('#btnPost').click(function (e) {
-				//e.preventDefault();
-			
-				var jsonObj = {
-		    		contact:user,
-		    		description: $("#description").summernote('code'),
-		    		totalPrice: $("#price").val(),
-					title: $("#title").val(),
-					type: $("input[name=type]:checked").val(),
-					condition: $("#conditions").val(),
-					categorie: $("#categories").val(),
-				}
-				
-				$.post(restserver+"/announces/new",JSON.stringify(jsonObj)).done(function( dataId ) {
-					if(dataId>-1)
-						window.location.href = 'post-img.html?id='+dataId;
-				});
-				
-				
-				
-			
-			});
-			
-			
-	
-	
+		$('#fileupload').attr("data-url",restserver+"/ged/Announce/"+$_GET("id"));
+		
+		$('#fileupload').fileupload({
+			dataType: "json",
+			  add: function(e, data) {
+			    data.context = $('#progress').append(data.files[0].name+"<br/>");
+			    data.submit();
+			  },
+			  done: function(e, data) {
+			    data.context.addClass("done");
+			  }
+		});
 	});
+
 </script>
 
 
@@ -116,48 +101,14 @@
 						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-8">
 							<div class="inner-box">
 								<div class="dashboard-box">
-									<h2 class="dashbord-title">Ad Detail</h2>
+									<h2 class="dashbord-title">Pictures</h2>
 								</div>
 								<div class="dashboard-wrapper">
-									<div class="form-group mb-3">
-										<div class="tg-selectgroup">
-												<span class="tg-radio"> <input name="type" type="radio" name="usertype" value="SELL" checked=""><label for="tg-type">i sell</label></span>
-												 <span class="tg-radio"> <input name="type"  type="radio" name="usertype" value="BUY"><label for="tg-type">i want</label></span>
-											</div>
-									</div>
-									<div class="form-group mb-3">
-										<label class="control-label">Title</label> <input class="form-control input-md" id="title" placeholder="Title" type="text">
-									</div>
-									<div class="form-group mb-3 tg-inputwithicon">
-										<label class="control-label">Categories</label>
-										<div class="tg-select form-control">
-											<select id="categories">
-											</select>
-										</div>
-									</div>
-									<div class="form-group mb-3 tg-inputwithicon">
-										<label class="control-label">Condition</label>
-										<div class="tg-select form-control">
-										<select id="conditions">
-											</select>
-										</div>
-									</div>
-									<div class="form-group mb-3">
-										<label class="control-label">Price</label> <input
-											class="form-control input-md" id="price" placeholder="Ad your Price" type="text">
-										
-									</div>
-									<div class="form-group md-3">
-										<section id="editor">
-											<div id="description"></div>
-										</section>
-									</div>
 									<label class="tg-fileuploadlabel" for="tg-photogallery">
-										<input id="fileupload" type="file" name="files[]" data-url="//jquery-file-upload.appspot.com/" multiple>
+										<input id="fileupload" type="file" name="files[]" data-url="noUri" multiple>
 									</label>
-									<div id="progress"><div class="file" style="width: 0%;"></div>
-</div>
-									
+									<div id="progress"><div class="file" style="width: 0%;"></div></div>
+									<div id="dropzone" class="fade well tg-fileuploadlabel">Drop files here</div>
 									
 								</div>
 							</div>
@@ -166,13 +117,13 @@
 							<div class="inner-box">
 								<div class="tg-contactdetail">
 									<div class="dashboard-box">
-										<h2 class="dashbord-title">Contact Detail</h2>
+										<h2 class="dashbord-title">Announce</h2>
 									</div>
 									<div class="dashboard-wrapper">
 										<div class="form-group mb-3" id="userConnected">
 											
 										</div>
-										<button class="btn btn-common" type="button" id="btnPost">Next</button>
+										<button class="btn btn-common" type="button" id="btnPost">Finish</button>
 									</div>
 								</div>
 							</div>
@@ -196,14 +147,6 @@
 
 	<script src="../dist/js/main.js"></script>
 
-	<script>
-		$('#description').summernote({
-			disableDragAndDrop : true,
-			height : 250, // set editor height
-			focus : false
-
-		});
-	</script>
 </body>
 
 </html>

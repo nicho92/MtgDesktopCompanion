@@ -317,6 +317,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 					fileObj.addProperty("size", fi.getSize());
 			
 				try {
+					logger.debug(request);
 					logger.debug("Uploading " + fi);
 					var entry = new GedEntry<>();
 					entry.setClasse(PluginRegistry.inst().loadClass("org.magic.api.beans."+request.params(":class")));
@@ -327,8 +328,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 					
 					MTG.getEnabledPlugin(MTGGedStorage.class).store(entry);
 
-					fileObj.addProperty("url", "picture1.jpg");
-					fileObj.addProperty("thumbnailUrl", "http://localhost/dist/img/logo2.png");
+					fileObj.addProperty("url", "https://"+request.headers("Host")+"/ged/"+request.params(":class")+"/"+request.params(":id"));
 				}
 				catch(Exception e)
 				{
