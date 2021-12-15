@@ -107,6 +107,8 @@ public class AnnouncesGUI extends MTGUIComponent {
 					btnSave.setEnabled(a!=null);
 			}
 		});
+		UITools.initTableFilter(tableAnnounces);
+		
 		
 		
 		btnUpdate.addActionListener(al->load());
@@ -201,7 +203,7 @@ public class AnnouncesGUI extends MTGUIComponent {
 			protected void notifyEnd() {
 				modelAnnounces.init(getResult());
 				tableAnnounces.packAll();
-				UITools.initTableFilter(tableAnnounces);
+				
 			}
 		};
 		
