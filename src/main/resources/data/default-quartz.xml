@@ -8,6 +8,24 @@
 
 	<schedule>
 		<job>
+			<name>Job-Announce</name>
+			<group>Group-Announce</group>
+			<description>Announces status updates</description>
+			<job-class>org.magic.services.jobs.AnnouncesUpdaterJob</job-class>
+		</job>
+
+		<trigger>
+			<cron>
+				<name>Trigger-Announce</name>
+				<job-name>Job-Announce</job-name>
+				<job-group>Group-Announce</job-group>
+				<!-- It will run every 60 seconds -->
+				<cron-expression>0/60 * * * * ?</cron-expression>
+			</cron>
+		</trigger>
+	
+	
+		<job>
 			<name>JobA</name>
 			<group>Group1</group>
 			<description>This is Job A</description>
