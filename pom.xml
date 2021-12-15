@@ -235,7 +235,7 @@
 		<dependency>
 			<groupId>io.milton</groupId>
 			<artifactId>milton-server-ce</artifactId>
-			<version>3.0.1.269</version>
+			<version>3.1.0.301</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fifesoft</groupId>
@@ -310,7 +310,7 @@
 		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
-			<version>4.2.0_247</version>
+			<version>5.0.0-alpha.2</version>
 			<exclusions>
 				<exclusion>
 					<groupId>club.minnced</groupId>

@@ -550,9 +550,9 @@ class NavigableEmbed extends ListenerAdapter {
 		MessageEmbed embed = embeds.get(xindex).get(yindex).get();
 		try {
 			if (message == null)
-				message = channel.sendMessage(embed).submit().get();
+				message = channel.sendMessageEmbeds(embed).submit().get();
 			else {
-				message = message.editMessage(embed).submit().get();
+				message = message.editMessageEmbeds(embed).submit().get();
 			}
 		} catch (InterruptedException | ExecutionException e) {
 			Thread.currentThread().interrupt();
