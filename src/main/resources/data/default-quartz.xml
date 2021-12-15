@@ -19,8 +19,8 @@
 				<name>Trigger-Announce</name>
 				<job-name>Job-Announce</job-name>
 				<job-group>Group-Announce</job-group>
-				<!-- It will run every 60 seconds -->
-				<cron-expression>0/60 * * * * ?</cron-expression>
+				<!-- It will run every 59 seconds -->
+				<cron-expression>0/59 * * * * ?</cron-expression>
 			</cron>
 		</trigger>
 	

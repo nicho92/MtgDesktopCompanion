@@ -30,10 +30,9 @@ public class AnnouncesUpdaterJob implements Job {
 				} catch (SQLException e) {
 					logger.error("can't update " + a +" " + e);
 				}
-				
 			});
 			
-			list.stream().filter(a->a.getStartDate().after(new Date()) && a.getStatus()==STATUS.SOON).toList().forEach(a->{
+			list.stream().filter(a->a.getStartDate().before(new Date()) && a.getStatus()==STATUS.SOON).toList().forEach(a->{
 				logger.debug("Found " + a + " is now online since " + a.getStartDate());
 				a.setStatus(STATUS.ACTIVE);
 				try {
@@ -43,9 +42,6 @@ public class AnnouncesUpdaterJob implements Job {
 				}
 				
 			});
-			
-			
-			
 			
 		} catch (SQLException e) {
 			logger.error(e);
