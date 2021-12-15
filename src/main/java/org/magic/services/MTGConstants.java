@@ -233,6 +233,7 @@ public class MTGConstants {
 	public static final ImageIcon ICON_MERGE = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/merge.png"));
 	public static final ImageIcon ICON_EXT_SHOP = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/extshop.png"));
 	public static final ImageIcon ICON_TRADES = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/trades.png"));
+	public static final ImageIcon ICON_DATABASE = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/database.png"));
 	
 	public static final ImageIcon ICON_DEFAULT_PLUGIN = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/plugins/default.png"));
 	

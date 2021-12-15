@@ -122,6 +122,10 @@ public class GedEntry <T> implements Serializable {
 		var obj = new JsonObject();
 		obj.addProperty("id", getId());
 	    obj.addProperty("name", getName());
+	    
+	    if(getObject()!=null)
+	    	obj.addProperty("classe", getObject().getClass().getCanonicalName());
+	    
 	    obj.addProperty("ext",getExt());
 	    obj.addProperty("obj",String.valueOf(getObject()));
 	    obj.addProperty("data",ImageTools.toBase64(getContent()));

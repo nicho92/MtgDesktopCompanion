@@ -46,6 +46,9 @@
 		$.ajax({
 			url : searchUrl
 		}).then(function(announces) {
+			
+			$("#nbProducts").html(announces.length);
+			
 				$.each( announces, function( key, announce ) {
 					$.ajax({
 		    				url: restserver+"/ged/Announce/"+announce.id
@@ -125,7 +128,7 @@
 
 					<div class="product-filter">
 						<div class="short-name">
-							<span>Showing (1 - 12 products of 7371 products)</span>
+							<span>Showing (1 - 12 of <b id="nbProducts"></b> announces)</span>
 						</div>
 					</div>
 
@@ -141,17 +144,7 @@
 					</div>
 
 
-					<div class="pagination-bar">
-						<nav>
-							<ul class="pagination justify-content-center">
-								<li class="page-item"><a class="page-link active" href="#">1</a></li>
-								<li class="page-item"><a class="page-link" href="#">2</a></li>
-								<li class="page-item"><a class="page-link" href="#">3</a></li>
-								<li class="page-item"><a class="page-link" href="#">Next</a></li>
-							</ul>
-						</nav>
-					</div>
-
+					
 				</div>
 			</div>
 		</div>

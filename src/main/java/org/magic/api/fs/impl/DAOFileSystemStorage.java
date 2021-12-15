@@ -7,9 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+import javax.swing.Icon;
+
 import org.magic.api.beans.GedEntry;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.AbstractFileStorage;
+import org.magic.services.MTGConstants;
 import org.magic.tools.MTG;
 
 public class DAOFileSystemStorage extends AbstractFileStorage {
@@ -69,7 +72,8 @@ public class DAOFileSystemStorage extends AbstractFileStorage {
 		logger.debug("listDirectory " + p.getParent().getFileName() + " " + p.getFileName());
 		try {
 			return MTG.getEnabledPlugin(MTGDao.class).listEntries(p.getParent().getFileName().toString(),p.getFileName().toString()).stream().map(ge->Path.of(p.getParent().getFileName().toString(),p.getFileName().toString(),ge.getName()));
-		} catch (SQLException e) {
+		} catch (Exception e) {
+			logger.error(e);
 			throw new IOException(e);
 		}
 	}
@@ -81,12 +85,7 @@ public class DAOFileSystemStorage extends AbstractFileStorage {
 		var classename = dir.split("/")[0];
 		if(!classename.startsWith("org.magic.api.beans"))
 			classename = "org.magic.api.beans."+classename;
-		
-		
-
-		
-		
-		
+				
 		return listDirectory(Path.of(classename, dir.split("/")[1])).toList();
 	} catch (Exception e) {
 		logger.error(e);
@@ -108,6 +107,11 @@ public class DAOFileSystemStorage extends AbstractFileStorage {
 	@Override
 	public <T> Path getPath(Class<T> classe, T instance) throws IOException {
 		return Path.of(classe.getCanonicalName(), instance.toString());
+	}
+	
+	@Override
+	public Icon getIcon() {
+		return MTGConstants.ICON_DATABASE;
 	}
 
 }

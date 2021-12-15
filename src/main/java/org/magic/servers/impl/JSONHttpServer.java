@@ -102,6 +102,8 @@ import spark.route.HttpMethod;
 
 public class JSONHttpServer extends AbstractMTGServer {
 
+	private static final String ERROR = "error";
+	private static final String CLASS = ":class";
 	private static final String PROVIDER = ":provider";
 	private static final String COLLECTION = ":collection";
 	private static final String ID_SET = ":idSet";
@@ -320,7 +322,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 					logger.debug(request);
 					logger.debug("Uploading " + fi);
 					var entry = new GedEntry<>();
-					entry.setClasse(PluginRegistry.inst().loadClass("org.magic.api.beans."+request.params(":class")));
+					entry.setClasse(PluginRegistry.inst().loadClass("org.magic.api.beans."+request.params(CLASS)));
 					entry.setId(request.params(":id"));
 					entry.setIsImage(true);
 					entry.setName(fi.getName());
@@ -328,12 +330,12 @@ public class JSONHttpServer extends AbstractMTGServer {
 					
 					MTG.getEnabledPlugin(MTGGedStorage.class).store(entry);
 
-					fileObj.addProperty("url", "https://"+request.headers("Host")+"/ged/"+request.params(":class")+"/"+request.params(":id"));
+					fileObj.addProperty("url", "https://"+request.headers("Host")+"/ged/"+request.params(CLASS)+"/"+request.params(":id"));
 				}
 				catch(Exception e)
 				{
 					logger.error(e);
-					fileObj.addProperty("error", e.getMessage());
+					fileObj.addProperty(ERROR, e.getMessage());
 				}
 				
 				arr.add(fileObj);
@@ -344,13 +346,12 @@ public class JSONHttpServer extends AbstractMTGServer {
 		},transformer);
 		
 		
-		get("/ged/:class/:id", URLTools.HEADER_JSON,(request, response) -> {
-			
-			return getCached(request.pathInfo(), new Callable<Object>() {
+		get("/ged/:class/:id", URLTools.HEADER_JSON,(request, response) -> 
+			getCached(request.pathInfo(), new Callable<Object>() {
 				@Override
 				public JsonArray call() throws Exception {
 					var arr = new JsonArray();
-					MTG.getEnabledPlugin(MTGGedStorage.class).list(request.params(":class")+"/"+request.params(":id")).forEach(p->{
+					MTG.getEnabledPlugin(MTGGedStorage.class).list(request.params(CLASS)+"/"+request.params(":id")).forEach(p->{
 						try {
 							var e =MTG.getEnabledPlugin(MTGGedStorage.class).read(p);
 							if(e.isImage()) {
@@ -363,9 +364,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 					});
 					return arr;
 				}
-			});
-			
-			},transformer);
+			}),transformer);
 		
 		
 		get("/orders/list", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGDao.class).listOrders(), transformer);
@@ -808,12 +807,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		get("/admin/jdbc", URLTools.HEADER_JSON, (request, response) -> {
 			var arr = new JsonArray();
-			MTG.getEnabledPlugin(MTGDao.class).listInfoDaos().forEach(info->{
-				
-				arr.add(info.toJson());
-						 
-				
-			});
+			MTG.getEnabledPlugin(MTGDao.class).listInfoDaos().forEach(info->arr.add(info.toJson()));
 			return arr;
 			
 		}, transformer);
@@ -936,7 +930,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			var arr = new HashMap<String, List<Transaction>>();
 			
 			arr.put("ok", new ArrayList<>());
-			arr.put("error", new ArrayList<>());
+			arr.put(ERROR, new ArrayList<>());
 			
 			for(Transaction p : ret)
 				{
@@ -946,7 +940,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 				}catch(Exception e)
 				{
 					logger.error(e);
-					arr.get("error").add(p);
+					arr.get(ERROR).add(p);
 				}
 				}
 			return arr;
@@ -973,31 +967,22 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 		
 		
-		get("/announces/get/:id", URLTools.HEADER_JSON, (request, response) -> {
-			return MTG.getEnabledPlugin(MTGDao.class).getAnnounceById(Integer.parseInt(request.params(":id")));
-		}, transformer);
-		
 		post("/announces/new", URLTools.HEADER_JSON, (request, response) -> {
-			
 			Announce a=converter.fromJson(new InputStreamReader(request.raw().getInputStream()), Announce.class);
-			
 			return MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateAnnounce(a);
 		}, transformer);
 
+		get("/announces/get/:id", URLTools.HEADER_JSON, (request, response) -> MTG.getEnabledPlugin(MTGDao.class).getAnnounceById(Integer.parseInt(request.params(":id"))), transformer);
+
+		get("/announces/stats", URLTools.HEADER_JSON, (request, response) -> MTG.getEnabledPlugin(MTGDao.class).listAnnounces(false).stream().collect(Collectors.groupingBy(Announce::getCategorie, Collectors.counting())), transformer);
 		
+		get("/announces/list", URLTools.HEADER_JSON, (request, response) -> MTG.getEnabledPlugin(MTGDao.class).listAnnounces(true), transformer);
 		
-		get("/announces/stats", URLTools.HEADER_JSON, (request, response) -> {
-			return MTG.getEnabledPlugin(MTGDao.class).listAnnounces(false).stream().collect(Collectors.groupingBy(Announce::getCategorie, Collectors.counting()));
-		}, transformer);
-		
-		
-		get("/announces/list", URLTools.HEADER_JSON, (request, response) -> {
-			return MTG.getEnabledPlugin(MTGDao.class).listAnnounces(true);
-		}, transformer);
-		
-		get("/announces/last/:qty", URLTools.HEADER_JSON, (request, response) -> {
-			return MTG.getEnabledPlugin(MTGDao.class).listAnnounces(Integer.parseInt(request.params(":qty")),false);
-		}, transformer);
+		get("/announces/last/:qty", URLTools.HEADER_JSON, (request, response) -> MTG.getEnabledPlugin(MTGDao.class).listAnnounces(Integer.parseInt(request.params(":qty")),false), transformer);
+
+		get("/announces/keyword/:search", URLTools.HEADER_JSON, (request, response) -> MTG.getEnabledPlugin(MTGDao.class).listAnnounces(URLTools.decode(request.params(":search"))), transformer);
+
+		get("/announces/category/:type", URLTools.HEADER_JSON, (request, response) -> MTG.getEnabledPlugin(MTGDao.class).listAnnounces(EnumItems.valueOf(request.params(":type"))), transformer);
 		
 		get("/announces/contact/:id", URLTools.HEADER_JSON, (request, response) -> {
 			var c = new Contact();
@@ -1005,23 +990,15 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return MTG.getEnabledPlugin(MTGDao.class).listAnnounces(c);
 		}, transformer);
 		
-		get("/announces/keyword/:search", URLTools.HEADER_JSON, (request, response) -> {
-			return MTG.getEnabledPlugin(MTGDao.class).listAnnounces(URLTools.decode(request.params(":search")));
-		}, transformer);
+
 		
-		get("/announces/category/:type", URLTools.HEADER_JSON, (request, response) -> {
-			return MTG.getEnabledPlugin(MTGDao.class).listAnnounces(EnumItems.valueOf(request.params(":type")));
-		}, transformer);
+
 		
 		
 		
 		get("/webshop/:dest/categories", URLTools.HEADER_JSON, (request, response) ->MTG.getPlugin(request.params(":dest"), MTGExternalShop.class).listCategories(), transformer);
-		
-		
-		post("/webshop/user/connect", URLTools.HEADER_JSON, (request, response) ->{ 
-			
-			return MTG.getEnabledPlugin(MTGExternalShop.class).getContactByLogin(request.queryParams("email"),request.queryParams("password"));
-			}, transformer);
+	
+		post("/webshop/user/connect", URLTools.HEADER_JSON, (request, response) ->MTG.getEnabledPlugin(MTGExternalShop.class).getContactByLogin(request.queryParams("email"),request.queryParams("password")), transformer);
 		
 		post("/webshop/transaction/cancel/:id", URLTools.HEADER_JSON, (request, response) -> {
 			

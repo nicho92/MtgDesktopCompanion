@@ -6,17 +6,19 @@ import static org.magic.tools.MTG.getPlugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.sql.SQLException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
+
+import javax.swing.ImageIcon;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -44,8 +46,10 @@ import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGConstants;
+import org.magic.services.PluginRegistry;
 import org.magic.tools.Chrono;
 import org.magic.tools.IDGenerator;
+import org.magic.tools.ImageTools;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.ConnectionString;
@@ -237,25 +241,52 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	
 	@Override
 	public GedEntry<?> readEntry(String classe, String idInstance, String fileName) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		return listEntries(classe,idInstance).stream().filter(ge->ge.getName().equals(fileName)).findFirst().orElse(null);
 	}
 
 	@Override
 	public boolean storeEntry(GedEntry<?> gedItem) {
-		// TODO Auto-generated method stub
-		return false;
+		db.getCollection(colGed, BasicDBObject.class).insertOne(BasicDBObject.parse(gedItem.toJson().toString()));
+		notify(true);
+		return true;
 	}
 	
 	@Override
 	public List<GedEntry<?>> listEntries(String classename, String id) {
-		// TODO Auto-generated method stub
-		return null;
+		List<GedEntry<?>> arr = new ArrayList<>();
+		var filter = Filters.and(Filters.eq("classe", classename),Filters.eq("id", id));
+		db.getCollection(colGed, BasicDBObject.class).find(filter).forEach((Consumer<BasicDBObject>) result -> { 
+			var entry = new GedEntry<>();
+				entry.setId(result.get("id").toString());
+				entry.setName(result.get("name").toString());
+				entry.setExt(result.get("ext").toString());
+				entry.setContent(Base64.getDecoder().decode(result.getString("data")));
+				try {
+					var buf = ImageTools.toImage(entry.getContent());
+					entry.setIcon(new ImageIcon(buf));
+					entry.setIsImage(true);
+				}
+				catch(Exception e)
+				{
+					entry.setIsImage(false);
+				}
+				
+				try {
+					entry.setClasse(PluginRegistry.inst().loadClass(classename));
+				} catch (ClassNotFoundException e) {
+					logger.debug("can't load "+classename,e);
+				}
+				
+				arr.add(entry);
+				
+			}
+		);
+		return arr;
 	}
 	
 	@Override
 	public boolean deleteEntry(GedEntry<?> gedItem) {
-		db.getCollection(colSealed).deleteOne(Filters.and(Filters.eq("fullName", gedItem.getFullName()),Filters.eq("id", gedItem.getId())));
+		db.getCollection(colGed).deleteOne(Filters.and(Filters.eq("name", gedItem.getName()),Filters.eq("classe", gedItem.getClasse().getCanonicalName()),Filters.eq("id", gedItem.getId())));
 		notify(gedItem);
 		return true;
 	}
