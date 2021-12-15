@@ -330,7 +330,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 					
 					MTG.getEnabledPlugin(MTGGedStorage.class).store(entry);
 
-					fileObj.addProperty("url", "https://"+request.headers("Host")+"/ged/"+request.params(CLASS)+"/"+request.params(":id"));
+					fileObj.addProperty("url", (getBoolean(ENABLE_SSL)?"https://":"http://")+request.headers("Host")+"/ged/"+request.params(CLASS)+"/"+request.params(":id"));
 				}
 				catch(Exception e)
 				{
@@ -989,12 +989,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 			c.setId(Integer.parseInt(request.params(":id")));
 			return MTG.getEnabledPlugin(MTGDao.class).listAnnounces(c);
 		}, transformer);
-		
-
-		
-
-		
-		
 		
 		get("/webshop/:dest/categories", URLTools.HEADER_JSON, (request, response) ->MTG.getPlugin(request.params(":dest"), MTGExternalShop.class).listCategories(), transformer);
 	

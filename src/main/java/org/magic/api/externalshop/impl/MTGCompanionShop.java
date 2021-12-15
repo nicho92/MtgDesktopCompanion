@@ -108,7 +108,13 @@ public class MTGCompanionShop extends AbstractExternalShop {
 	@Override
 	public void deleteContact(Contact contact) throws IOException {
 		try {
-			MTG.getEnabledPlugin(MTGDao.class).deleteContact(contact);
+			
+			
+			if(MTG.getEnabledPlugin(MTGDao.class).listAnnounces(contact).isEmpty() && MTG.getEnabledPlugin(MTGDao.class).listTransactions(contact).isEmpty())
+				MTG.getEnabledPlugin(MTGDao.class).deleteContact(contact);
+			else
+				throw new IOException(contact + " can't be deleted.Please remove all transactions and announces associated");
+			
 		} catch (SQLException e) {
 			throw new IOException(e);
 		}

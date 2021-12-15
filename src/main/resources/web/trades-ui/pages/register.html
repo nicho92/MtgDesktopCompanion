@@ -41,7 +41,7 @@
 			      
 			      password: {
 			        required: "Please provide a password",
-			        minlength: "Your password must be at least 5 characters long"
+			        minlength: "Your password must be at least 6 characters long"
 			      },
 			      email: "Please enter a valid email address"
 				},
@@ -93,7 +93,7 @@
 					minlength:6
               },
               password_confirm : {
-	 				required: true,
+	 			  required: true,
                   equalTo : "#password"
               }
 			}
@@ -151,7 +151,7 @@
 										</div>
 										<div class="form-group">
 											<div class="input-icon">
-												<i class="lni-lock"></i> <input type="password" name="password" class="form-control" placeholder="Password">
+												<i class="lni-lock"></i> <input type="password" id="password" name="password" class="form-control" placeholder="Password">
 											</div>
 											<div class="input-icon">
 												<i class="lni-lock"></i> <input type="password" name="password_confirm" class="form-control" placeholder="Retype Password">
