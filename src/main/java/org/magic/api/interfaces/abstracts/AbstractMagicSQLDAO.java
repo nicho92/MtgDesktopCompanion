@@ -280,7 +280,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	
 	@Override
 	public void deleteFavorites(int idContact, int idAnnounce) throws SQLException {
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("DELETE favorites WHERE id_contact= ? and id_announce=?")) 
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("DELETE FROM favorites WHERE id_contact= ? and id_announce=?")) 
 		{
 				pst.setInt(1, idContact);
 				pst.setInt(2, idAnnounce);

@@ -13,6 +13,7 @@ import static spark.Spark.notFound;
 import static spark.Spark.options;
 import static spark.Spark.port;
 import static spark.Spark.post;
+import static spark.Spark.delete;
 import static spark.Spark.put;
 
 import java.awt.image.BufferedImage;
@@ -965,6 +966,42 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return arr;
 				
 		}, transformer);
+		
+		
+
+		put("/favorites/:idContact/:idAnnounce", URLTools.HEADER_JSON, (request, response) -> {
+			try{ 
+				MTG.getEnabledPlugin(MTGDao.class).saveFavorites(Integer.parseInt(request.params(":idContact")), Integer.parseInt(request.params(":idAnnounce")));
+				return "ok";
+			}catch(Exception e)
+			{
+				return e;
+			}
+		}, transformer);
+
+		
+		delete("/favorites/:idContact/:idAnnounce", URLTools.HEADER_JSON, (request, response) -> {
+			try{ 
+				MTG.getEnabledPlugin(MTGDao.class).deleteFavorites(Integer.parseInt(request.params(":idContact")), Integer.parseInt(request.params(":idAnnounce")));
+				return "ok";
+			}catch(Exception e)
+			{
+				return e;
+			}
+		}, transformer);
+		
+		get("/favorites/:idContact", URLTools.HEADER_JSON, (request, response) -> {
+			try{ 
+				var cont = MTG.getEnabledPlugin(MTGDao.class).getContactById(Integer.parseInt(request.params(":idContact")));
+				return MTG.getEnabledPlugin(MTGDao.class).listFavorites(cont);
+			}catch(Exception e)
+			{
+				logger.error(e);
+				return new ArrayList<>();
+			}
+		}, transformer);
+		
+		
 		
 		
 		post("/announces/new", URLTools.HEADER_JSON, (request, response) -> {
