@@ -36,5 +36,22 @@
 	$('[data-toggle="tooltip"]').tooltip()
 	
 	
+	$(document).on('click', '[name="fav-btn"]', function(){
+    	var idAnnounce= ($(this).attr("data"));
+    	var idUser = getCurrentUser();
+    	
+    	if(idUser)
+    	{
+			$.ajax({
+			   type: "PUT", url: restserver+"/favorites/"+idUser.id+"/"+idAnnounce
+			}).then(function(data){
+				alert(data);
+			});
+		}
+    	
+    	
+	});
+	
+	
 	
 })(jQuery);
