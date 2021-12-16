@@ -53,9 +53,8 @@ function buildAnnounce(data, geds,xs,sm,md,lg)
 						append+="</span> <span> <a href='#'><i class='lni-map-marker'></i>"+data.contact.city+","+ data.contact.country+"</a>";
 						append+="</span> <span> <a href='#'><i class='lni-alarm-clock'></i> "+data.endDate+"</a></span>";
 						append+="</span> <span> <a href='listAnnounces.html?type="+data.categorie+"'><i class='lni-bookmark'></i> "+data.categorie+"</a></span>";
+						append+="</span> <span> <i class='lni-bookmark'></i> "+data.condition+"</span>";
 				append+="</div>";
-				
-				append+="<p class='dsc'>"+data.description.substring(0, 50)+"</p>";
 				append+="<div class='listing-bottom'>";
 				append+="<h3 class='price float-left'>"+data.currencySymbol+" "+data.totalPrice.toLocaleString()+"</h3><a href='announce.html?id="+data.id+"' class='btn btn-common float-right'>View Details</a></div>";
 				append+="</div></div></div>";

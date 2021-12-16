@@ -134,7 +134,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		pst.setString(i, arr.toString());
 	}
 
-
 	@SuppressWarnings("unchecked")
 	protected Map<String, String> readTiersApps(ResultSet rs) throws SQLException {
 		return serialiser.fromJson(rs.getString("tiersAppIds"), Map.class);
@@ -184,6 +183,9 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	
 	public boolean createDB() {
 		try (var cont =  pool.getConnection();Statement stat = cont.createStatement()) {
+			
+			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" favorites (id_contact INTEGER, id_announce INTEGER)");
+			logger.debug("Create table favorites");
 			
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" ged (id "+getAutoIncrementKeyWord()+" PRIMARY KEY,creationDate TIMESTAMP, className VARCHAR(250), idInstance VARCHAR(250), fileName VARCHAR(250), fileContent " + longTextStorage() + ")");
 			logger.debug("Create table ged");
@@ -248,6 +250,54 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			logger.error("error creating",e);
 			return false;
 		}
+	}
+	
+	
+	@Override
+	public List<Announce> listFavorites(Contact contact) throws SQLException {
+		
+		var ret = new ArrayList<Announce>();
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT id_announce from favorites where id_contact= ?")) 
+		{
+			pst.setInt(1, contact.getId());
+			var rs = executeQuery(pst);
+			while(rs.next())
+			{
+				try {
+					ret.add(getAnnounceById(rs.getInt("id_announce")));
+				}
+				catch(Exception e)
+				{
+					logger.error(e);
+				}
+				
+			}
+		}
+		
+		return ret;
+	}
+	
+	
+	@Override
+	public void deleteFavorites(int idContact, int idAnnounce) throws SQLException {
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("DELETE favorites WHERE id_contact= ? and id_announce=?")) 
+		{
+				pst.setInt(1, idContact);
+				pst.setInt(2, idAnnounce);
+				executeUpdate(pst);
+		}
+		
+	}
+	
+	@Override
+	public void saveFavorites(int idContact, int idAnnounce) throws SQLException {
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("INSERT INTO favorites (id_contact,id_announce) VALUES (?,?)")) 
+		{
+				pst.setInt(1, idContact);
+				pst.setInt(2, idAnnounce);
+				executeUpdate(pst);
+		}
+		
 	}
 	
 	

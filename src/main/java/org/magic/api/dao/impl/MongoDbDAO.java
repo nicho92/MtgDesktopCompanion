@@ -1010,5 +1010,23 @@ public class MongoDbDAO extends AbstractMagicDAO {
 							 ,Contact.class);
 	}
 
+	@Override
+	public void saveFavorites(int idContact, int idAnnounce) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteFavorites(int idContact, int idAnnounce) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Announce> listFavorites(Contact c) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 }
