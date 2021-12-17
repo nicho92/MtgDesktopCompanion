@@ -12,6 +12,10 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextAreaEditorKit;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import org.fife.ui.rsyntaxtextarea.SyntaxScheme;
 import org.magic.api.beans.Announce;
 import org.magic.api.beans.Announce.STATUS;
 import org.magic.api.beans.enums.EnumCondition;
@@ -26,7 +30,7 @@ public class AnnounceDetailPanel extends MTGUIComponent {
 	private static final long serialVersionUID = 1L;
 	private Announce announce;
 	private JComboBox<Currency> cboCurrency;
-	private JTextArea descriptionJTextArea;
+	private RSyntaxTextArea descriptionJTextArea;
 	private JXDateTimePicker endDateFld;
 	private JXDateTimePicker startDateFld;
 	private JTextField titleJTextField;
@@ -57,7 +61,8 @@ public class AnnounceDetailPanel extends MTGUIComponent {
 		add(titleJTextField,  UITools.createGridBagConstraints(null,  GridBagConstraints.HORIZONTAL, 1, 1));
 
 		add(new JLangLabel("DESCRIPTION",true), UITools.createGridBagConstraints(null, null, 0, 2));
-		descriptionJTextArea = new JTextArea();
+		descriptionJTextArea = new RSyntaxTextArea();
+		descriptionJTextArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_HTML);
 		add(new JScrollPane(descriptionJTextArea), UITools.createGridBagConstraints(null,  GridBagConstraints.BOTH, 1, 2));
 		
 		add(new JLangLabel("START_DATE",true), UITools.createGridBagConstraints(null, null, 0, 3));
