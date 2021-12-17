@@ -52,6 +52,7 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.WebShopConfig;
 import org.magic.api.beans.enums.EnumItems;
+import org.magic.api.beans.enums.MTGCardVariation;
 import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;
@@ -715,12 +716,13 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		get("/dash/format/:format", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGDashBoard.class).getShakerFor(MagicFormat.FORMATS.valueOf(request.params(":format"))), transformer);
 
-		get("/pics/cards/:idEd/:name", URLTools.HEADER_JSON, (request, response) -> {
-
+		get("/pics/cards/:idEd/:name/:extra", URLTools.HEADER_JSON, (request, response) -> {
+			MTGCardVariation extra = MTGCardVariation.valueOf(request.params(":extra").toUpperCase());  
+			
 			var baos = new ByteArrayOutputStream();
 
 			MagicEdition ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(ID_ED));
-			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( request.params(NAME), ed, true).get(0);
+			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( request.params(NAME), ed, true,extra).get(0);
 			BufferedImage im = getEnabledPlugin(MTGPictureProvider.class).getPicture(mc);
 			ImageTools.write(im, "png", baos);
 			
@@ -732,11 +734,12 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return imageInByte;
 		});
 
-		get("/pics/cardname/:name", URLTools.HEADER_JSON, (request, response) -> {
-
+		get("/pics/cardname/:extra/:name", URLTools.HEADER_JSON, (request, response) -> {
+			
+			MTGCardVariation extra = MTGCardVariation.valueOf(request.params(":extra").toUpperCase());  
+			
 			var baos = new ByteArrayOutputStream();
-			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class)
-					.searchCardByName( request.params(NAME), null, true).get(0);
+			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( request.params(NAME), null, true,extra).get(0);
 			BufferedImage im = getEnabledPlugin(MTGPictureProvider.class).getPicture(mc);
 			ImageTools.write(im, "png", baos);
 			baos.flush();
@@ -760,6 +763,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 					for (MagicDeck d : manager.listDecks()) {
 						var el = exp.toJsonDeck(d);
+							  el.remove("main");
+							  el.remove("sideboard");
 						arr.add(el);
 					}
 					return arr;
