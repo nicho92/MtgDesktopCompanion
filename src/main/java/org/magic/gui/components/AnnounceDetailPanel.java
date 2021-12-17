@@ -8,14 +8,11 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
-import org.fife.ui.rsyntaxtextarea.RSyntaxTextAreaEditorKit;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
-import org.fife.ui.rsyntaxtextarea.SyntaxScheme;
 import org.magic.api.beans.Announce;
 import org.magic.api.beans.Announce.STATUS;
 import org.magic.api.beans.enums.EnumCondition;

@@ -22,7 +22,6 @@ import org.api.mtgstock.services.URLCallListener;
 import org.api.mtgstock.tools.MTGStockConstants;
 import org.api.mtgstock.tools.MTGStockConstants.FORMAT;
 import org.api.mtgstock.tools.MTGStockConstants.PRICES;
-import org.api.mtgstock.tools.URLUtilities;
 import org.magic.api.beans.CardDominance;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.EditionsShakers;

@@ -16,7 +16,6 @@ import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.magic.api.beans.shop.Contact;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.services.network.RequestBuilder.METHOD;

@@ -32,7 +32,6 @@ import org.magic.api.pricers.impl.MagicCardMarketPricer2;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.BinderTagsEditorComponent;
 import org.magic.gui.components.CardSearchPanel;
-import org.magic.gui.components.LoggerViewPanel;
 import org.magic.gui.components.ScriptPanel;
 import org.magic.gui.components.ThreadMonitor;
 import org.magic.gui.components.dialog.AboutDialog;

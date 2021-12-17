@@ -46,7 +46,6 @@ import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.ConfigurationPanel;
 import org.magic.gui.components.HelpCompononent;
-import org.magic.gui.components.LoggerViewPanel;
 import org.magic.gui.models.conf.PluginTreeTableModel;
 import org.magic.gui.renderer.MTGPluginTreeCellRenderer;
 import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;

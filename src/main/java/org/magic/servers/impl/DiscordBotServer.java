@@ -63,7 +63,6 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.react.GenericMessageReactionEvent;
 import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import okhttp3.OkHttpClient;
 
 public class DiscordBotServer extends AbstractMTGServer {
 

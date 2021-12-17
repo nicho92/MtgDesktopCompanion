@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.magic.api.beans.MagicCard;
@@ -21,7 +20,6 @@ import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.network.IncapsulaParser;
-import org.magic.services.network.URLTools;
 
 public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 	private static final String PAUPER = "pauper";
