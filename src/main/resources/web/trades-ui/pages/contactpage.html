@@ -35,8 +35,25 @@
 		$("#navbar").load("inc_nav.html");
 		$("#footer").load("inc_footer.html");
 		
+		$("#linkfavorites").attr("href","./contactpage.html?id="+$_GET("id")+"&favorites=true");
+		$("#linkmyads").attr("href","./contactpage.html?id="+$_GET("id"));
+	
+		var searchUrl= restserver+"/announces/contact/"+ $_GET("id");
+	
+		if($_GET("favorites")!=null)
+		{
+				searchUrl=restserver +"/favorites/"+$_GET("id");
+				$("#linkfavorites").addClass("active");			
+		}	
+		else
+		{
+			$("#linkmyads").addClass("active");
+		}
+	
+	
+		
 		$.ajax({
-		    url: restserver+"/announces/contact/"+ $_GET("id")
+		    url: searchUrl
 		}).then(function(announces){
 				
 				var first = announces[0];
@@ -175,8 +192,8 @@
 							<nav class="navdashboard">
 								<ul>
 									<li><a href="account-profile-setting.html"> <i  class="lni-cog"></i> <span>Profile Settings</span></a></li>
-									<li><a class="active" href="account-myads.html"> <i class="lni-layers"></i> <span>My Ads</span></a></li>
-									<li><a href="account-favourite-ads.html"> <i class="lni-heart"></i> <span>My Favourites</span></a></li>
+									<li><a href="#" id="linkmyads"> <i class="lni-layers"></i> <span>My Ads</span></a></li>
+									<li><a href="" id="linkfavorites"> <i class="lni-heart"></i> <span>My Favourites</span></a></li>
 								</ul>
 							</nav>
 						</div>
