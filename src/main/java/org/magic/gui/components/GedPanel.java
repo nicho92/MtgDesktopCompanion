@@ -14,6 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Stream;
 
 import javax.swing.ImageIcon;
@@ -141,6 +142,12 @@ public class GedPanel<T> extends MTGUIComponent {
 	
 
 	private void addEntry(GedEntry<T> c) {
+		
+		if(c==null)
+			return;
+		
+		
+		
 		var e = new GedEntryComponent(c,150,100);
 		panneauCenter.add(e);
 		

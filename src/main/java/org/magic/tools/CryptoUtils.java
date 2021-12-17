@@ -1,6 +1,6 @@
 package org.magic.tools;
 
-import org.apache.commons.codec.digest.Md5Crypt;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.jasypt.util.text.AES256TextEncryptor;
 
 public class CryptoUtils {
@@ -23,7 +23,17 @@ public class CryptoUtils {
 	}
 
 	public static String getMD5(byte[] input) {
-      return Md5Crypt.md5Crypt(input);
+		  byte[] bytes= DigestUtils.getMd5Digest().digest(input);
+			 StringBuilder sb = new StringBuilder();
+		      for (byte b : bytes) {
+		          sb.append(String.format("%02x", b));
+		      }
+		      
+		      return sb.toString();
+		
+     
+      
+      
     }
 	
 	
