@@ -1,7 +1,7 @@
 package org.magic.tools;
 
+import org.apache.commons.codec.digest.Md5Crypt;
 import org.jasypt.util.text.AES256TextEncryptor;
-
 
 public class CryptoUtils {
 
@@ -22,4 +22,9 @@ public class CryptoUtils {
 		return textEncryptor.decrypt(strToDecrypt);
 	}
 
+	public static String getMD5(byte[] input) {
+      return Md5Crypt.md5Crypt(input);
+    }
+	
+	
 }

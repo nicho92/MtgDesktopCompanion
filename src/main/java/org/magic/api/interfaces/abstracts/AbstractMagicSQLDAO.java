@@ -57,11 +57,13 @@ import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
 import org.magic.services.TransactionService;
 import org.magic.services.providers.SealedProductProvider;
+import org.magic.tools.CryptoUtils;
 import org.magic.tools.IDGenerator;
 import org.magic.tools.ImageTools;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.itextpdf.kernel.crypto.CryptoUtil;
 
 public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
@@ -187,7 +189,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" favorites (id_contact INTEGER, id_announce INTEGER)");
 			logger.debug("Create table favorites");
 			
-			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" ged (id "+getAutoIncrementKeyWord()+" PRIMARY KEY,creationDate TIMESTAMP, className VARCHAR(250), idInstance VARCHAR(250), fileName VARCHAR(250), fileContent " + longTextStorage() + ")");
+			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" ged (id "+getAutoIncrementKeyWord()+" PRIMARY KEY,creationDate TIMESTAMP, className VARCHAR(250), idInstance VARCHAR(250), fileName VARCHAR(250), fileContent " + longTextStorage() + ", md5 " + longTextStorage() +")");
 			logger.debug("Create table ged");
 			
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" announces (id "+getAutoIncrementKeyWord()+" PRIMARY KEY,creationDate TIMESTAMP , startDate TIMESTAMP ,endDate TIMESTAMP, title VARCHAR(150), description " + longTextStorage() + ", total DECIMAL(10,2), currency VARCHAR(5), stocksItem "+beanStorage() + ",typeAnnounce VARCHAR(10), fk_idcontact INTEGER, category VARCHAR(50), percentReduction DECIMAL(10,2), conditions VARCHAR(50), statusAnnounce VARCHAR(25))");
@@ -303,13 +305,14 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	
 	@Override
 	public boolean storeEntry(GedEntry<?> gedItem) throws SQLException {
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("INSERT INTO ged (creationDate, className, idInstance, fileContent,fileName) VALUES (?, ?, ?, ?,?)")) 
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("INSERT INTO ged (creationDate, className, idInstance, fileContent,fileName, md5) VALUES (?, ?, ?, ?,?,?)")) 
 		{
 				pst.setTimestamp(1, new Timestamp(Instant.now().toEpochMilli()));
 				pst.setString(2, gedItem.getClasse().getCanonicalName());
 				pst.setString(3, gedItem.getId());
 				pst.setString(4, Base64.getEncoder().encodeToString(gedItem.getContent()));
 				pst.setString(5, gedItem.getFullName());
+				pst.setString(6, CryptoUtils.getMD5(gedItem.getContent()));
 				executeUpdate(pst);
 				return true;
 				
