@@ -133,7 +133,8 @@
 						{
 							
 							var url = "/ged/MagicCardStock/"+$_GET("id");
-							if(stockItem.condition=="SELEAD")
+							
+							if(stockItem.condition=="SEALED")
 								url = "/ged/SealedStock/"+$_GET("id");
 							
 							$.ajax({
