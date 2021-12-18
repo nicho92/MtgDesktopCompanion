@@ -87,8 +87,6 @@ import org.magic.services.MTGLogger;
 import org.magic.services.ShortKeyManager;
 import org.magic.services.threads.ThreadManager;
 import org.panda_lang.pandomium.Pandomium;
-import org.panda_lang.pandomium.settings.PandomiumSettings;
-import org.panda_lang.pandomium.util.os.PandomiumOS;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.FilterSettings;
@@ -129,15 +127,11 @@ public class UITools {
 	{
 		if(instance==null)
 		{
-			PandomiumSettings.getDefaultSettings();
-			PandomiumSettings setts = PandomiumSettings.getDefaultSettingsBuilder()
-											.nativeDirectory(MTGConstants.NATIVE_DIR.getAbsolutePath())
-											.loadAsync(false)
-											.build();
-			instance = new Pandomium(setts);
+			instance = Pandomium.builder()
+								.nativeDirectory(MTGConstants.NATIVE_DIR.getAbsolutePath())
+								.build();
 			
-			instance.initialize();
-			logger.debug("loading pandomium for " + PandomiumOS.getOS());
+			logger.debug("loading pandomium");
 			
 		}
 		

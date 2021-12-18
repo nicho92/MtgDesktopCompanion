@@ -88,7 +88,8 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	private String colDecks = "decks";
 	private String colAnnounces="announces";
 	private String colGed="ged";
-
+	private String colFavorites="favorites";
+	
 	private String dbIDField = "db_id";
 	private String dbAlertField = "alertItem";
 	private String dbNewsField = "newsItem";
@@ -218,7 +219,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	public boolean createDB() {
 		
 			var populateCollections=true;
-			for(String s : new String[] {colCards,colCollects,colStocks,colAlerts,colNews,colOrders,colSealed,colTransactions,colContacts,colDecks,colConversionItem,colAnnounces,colGed})
+			for(String s : new String[] {colCards,colCollects,colStocks,colAlerts,colNews,colOrders,colSealed,colTransactions,colContacts,colDecks,colConversionItem,colAnnounces,colGed,colFavorites})
 			{
 				try {
 					db.createCollection(s);
@@ -1005,27 +1006,44 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	@Override
 	public Contact getContactByEmail(String email) throws SQLException {
 		return deserialize(db.getCollection(colContacts,BasicDBObject.class)
-							 .find(Filters.and(Filters.and(Filters.eq(EMAIL, email),Filters.eq("active",true))))
+							 .find(Filters.and(Filters.eq(EMAIL, email),Filters.eq("active",true)))
 							 .first()
 							 ,Contact.class);
 	}
 
 	@Override
 	public void saveFavorites(int idContact, int idAnnounce, String classeName) throws SQLException {
-		// TODO Auto-generated method stub
+		
+		var obj = new BasicDBObject();
+			obj.put("idContact", idContact);
+			obj.put("idAnnounce", idAnnounce);
+			obj.put("classeName", classeName);
+			
+		db.getCollection(colFavorites, BasicDBObject.class).insertOne(obj);
 		
 	}
 
 	@Override
 	public void deleteFavorites(int idContact, int idAnnounce, String classeName) throws SQLException {
-		// TODO Auto-generated method stub
+		DeleteResult rs = db.getCollection(colFavorites).deleteOne(Filters.and(Filters.eq("idContact", idContact),Filters.eq("idAnnounce",idAnnounce),Filters.eq("classeName",classeName)));
+		logger.debug(rs);
 		
 	}
 
 	@Override
 	public List<Announce> listFavorites(Contact c, String classeName) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		List<Announce> trans = new ArrayList<>();
+		db.getCollection(colFavorites, BasicDBObject.class).find(Filters.and(Filters.eq("idContact", c.getId()),Filters.eq("classeName",classeName))).forEach((Consumer<BasicDBObject>) result ->{
+			
+			try {
+				var announce = getAnnounceById(Integer.parseInt(result.get("idAnnounce").toString()));
+				trans.add(announce);
+			}catch (Exception e) {
+				logger.error(e);
+			}
+			
+		});
+		return trans;
 	}
 
 	

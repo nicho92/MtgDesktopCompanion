@@ -8,14 +8,13 @@ import org.cef.handler.CefLoadHandlerAdapter;
 import org.magic.gui.abstracts.MTGUIBrowserComponent;
 import org.magic.services.MTGConstants;
 import org.magic.tools.UITools;
-import org.panda_lang.pandomium.wrapper.PandomiumBrowser;
 import org.panda_lang.pandomium.wrapper.PandomiumClient;
 
 public class ChromiumBrowserComponent extends MTGUIBrowserComponent {
 
 	private static final long serialVersionUID = 1L;
 	private transient PandomiumClient client;
-	private transient PandomiumBrowser browser;
+	private transient CefBrowser browser;
 	private String currentUrl;
 	
 	
@@ -26,7 +25,7 @@ public class ChromiumBrowserComponent extends MTGUIBrowserComponent {
 		try {
 			client = UITools.getPandomiumInstance().createClient();
 			browser = client.loadURL("about:blank");
-			add(browser.toAWTComponent(),BorderLayout.CENTER);
+			add(browser.getUIComponent(),BorderLayout.CENTER);
 			
 			client.getCefClient().addLoadHandler(new CefLoadHandlerAdapter() {
 				
@@ -61,7 +60,7 @@ public class ChromiumBrowserComponent extends MTGUIBrowserComponent {
 	@Override
 	public void loadURL(String url) {
 		logger.debug("browse to " + url);
-		browser.getCefBrowser().loadURL(url);
+		browser.loadURL(url);
 	}
 
 	

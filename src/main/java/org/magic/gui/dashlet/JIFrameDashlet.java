@@ -55,6 +55,8 @@ public class JIFrameDashlet extends AbstractJDashlet {
 		
 		
 		comp.addObserver((Observable o, Object arg)->{
+			
+			logger.debug(arg);
 			setProperty("URL", txtUrl.getText());
 			txtUrl.setText(arg.toString());	
 		});
