@@ -51,6 +51,7 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.MTGPool;
 import org.magic.api.interfaces.MTGStockItem;
+import org.magic.api.interfaces.MTGStorable;
 import org.magic.api.pool.impl.NoPool;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -307,7 +308,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	
 	
 	@Override
-	public boolean storeEntry(GedEntry<?> gedItem) throws SQLException {
+	public <T extends MTGStorable> boolean storeEntry(GedEntry<T> gedItem) throws SQLException {
 		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("INSERT INTO ged (creationDate, className, idInstance, fileContent,fileName, md5) VALUES (?, ?, ?, ?,?,?)")) 
 		{
 				pst.setTimestamp(1, new Timestamp(Instant.now().toEpochMilli()));
@@ -323,14 +324,14 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	}
 	
 	@Override
-	public List<GedEntry<?>> listEntries(String classename, String id) throws SQLException {
+	public List<GedEntry<MTGStorable>> listEntries(String classename, String id) throws SQLException {
 		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT fileName from ged where className = ? and IdInstance = ?")) 
 		{
 				pst.setString(1, classename);
 				pst.setString(2,id);
 				var rs = executeQuery(pst);
 				
-				var arr = new ArrayList<GedEntry<?>>();
+				var arr = new ArrayList<GedEntry<MTGStorable>>();
 				
 					while(rs.next())
 					{
@@ -350,7 +351,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public GedEntry<?> readEntry(String classename, String idInstance, String fileName) throws SQLException {
+	public GedEntry<MTGStorable> readEntry(String classename, String idInstance, String fileName) throws SQLException {
 		var ged = new GedEntry<>();
 		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT fileContent, md5 from ged where className = ? and IdInstance = ? and fileName= ?")) 
 		{
@@ -394,7 +395,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	
 	
 	@Override
-	public boolean deleteEntry(GedEntry<?> gedItem) throws SQLException {
+	public <T extends MTGStorable> boolean deleteEntry(GedEntry<T> gedItem) throws SQLException {
 		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("DELETE FROM ged where className = ? and IdInstance = ? and fileName= ?")) 
 		{
 				pst.setString(1, gedItem.getClasse().getCanonicalName());

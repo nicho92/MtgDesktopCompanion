@@ -44,6 +44,7 @@ import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.MTGNewsProvider;
+import org.magic.api.interfaces.MTGStorable;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGConstants;
 import org.magic.services.PluginRegistry;
@@ -240,20 +241,20 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 	
 	@Override
-	public GedEntry<?> readEntry(String classe, String idInstance, String fileName) throws SQLException {
+	public GedEntry<MTGStorable> readEntry(String classe, String idInstance, String fileName) throws SQLException {
 		return listEntries(classe,idInstance).stream().filter(ge->ge.getName().equals(fileName)).findFirst().orElse(null);
 	}
 
 	@Override
-	public boolean storeEntry(GedEntry<?> gedItem) {
+	public <T extends MTGStorable> boolean storeEntry(GedEntry<T> gedItem) {
 		db.getCollection(colGed, BasicDBObject.class).insertOne(BasicDBObject.parse(gedItem.toJson().toString()));
 		notify(true);
 		return true;
 	}
 	
 	@Override
-	public List<GedEntry<?>> listEntries(String classename, String id) {
-		List<GedEntry<?>> arr = new ArrayList<>();
+	public List<GedEntry<MTGStorable>> listEntries(String classename, String id) {
+		List<GedEntry<MTGStorable>> arr = new ArrayList<>();
 		var filter = Filters.and(Filters.eq("classe", classename),Filters.eq("id", id));
 		db.getCollection(colGed, BasicDBObject.class).find(filter).forEach((Consumer<BasicDBObject>) result -> { 
 			var entry = new GedEntry<>();
@@ -284,7 +285,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 	
 	@Override
-	public boolean deleteEntry(GedEntry<?> gedItem) {
+	public <T extends MTGStorable> boolean deleteEntry(GedEntry<T> gedItem) {
 		db.getCollection(colGed).deleteOne(Filters.and(Filters.eq("name", gedItem.getName()),Filters.eq("classe", gedItem.getClasse().getCanonicalName()),Filters.eq("id", gedItem.getId())));
 		notify(gedItem);
 		return true;

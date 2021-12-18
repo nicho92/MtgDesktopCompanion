@@ -11,6 +11,7 @@ import javax.swing.Icon;
 
 import org.magic.api.beans.GedEntry;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.api.interfaces.MTGStorable;
 import org.magic.api.interfaces.abstracts.AbstractFileStorage;
 import org.magic.services.MTGConstants;
 import org.magic.tools.MTG;
@@ -39,7 +40,7 @@ public class DAOFileSystemStorage extends AbstractFileStorage {
 	}
 
 	@Override
-	public GedEntry<?> read(Path p) throws IOException {
+	public GedEntry<MTGStorable> read(Path p) throws IOException {
 		
 		
 		var cIdClasse = p.getParent().getParent().getFileName().toString();
@@ -59,7 +60,7 @@ public class DAOFileSystemStorage extends AbstractFileStorage {
 	}
 
 	@Override
-	public void store(GedEntry<?> entry) throws IOException {
+	public <T extends MTGStorable>  void store(GedEntry<T> entry) throws IOException {
 		try {
 			MTG.getEnabledPlugin(MTGDao.class).storeEntry(entry);
 		} catch (SQLException e) {
@@ -94,7 +95,7 @@ public class DAOFileSystemStorage extends AbstractFileStorage {
 	}
 
 	@Override
-	public boolean delete(GedEntry<?> entry) {
+	public <T extends MTGStorable> boolean delete(GedEntry<T> entry) {
 		logger.debug("delete " + entry.getClasse() + " "+ entry.getId());
 		try {
 			return MTG.getEnabledPlugin(MTGDao.class).deleteEntry(entry);
@@ -105,7 +106,7 @@ public class DAOFileSystemStorage extends AbstractFileStorage {
 	}
 
 	@Override
-	public <T> Path getPath(Class<T> classe, T instance) throws IOException {
+	public <T extends MTGStorable> Path getPath(Class<T> classe, T instance) throws IOException {
 		return Path.of(classe.getCanonicalName(), instance.toString());
 	}
 	

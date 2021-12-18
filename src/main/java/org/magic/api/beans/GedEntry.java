@@ -8,6 +8,7 @@ import javax.swing.Icon;
 import javax.swing.filechooser.FileSystemView;
 
 import org.magic.api.exports.impl.JsonExport;
+import org.magic.api.interfaces.MTGStorable;
 import org.magic.tools.FileTools;
 import org.magic.tools.ImageTools;
 
@@ -15,7 +16,7 @@ import com.google.common.io.Files;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-public class GedEntry <T> implements Serializable {
+public class GedEntry <T extends MTGStorable> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String id;

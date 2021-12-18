@@ -5,7 +5,7 @@ import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.interfaces.MTGProduct;
 
-public abstract class AbstractProduct implements  MTGProduct {
+public abstract class AbstractProduct implements MTGProduct {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -15,6 +15,12 @@ public abstract class AbstractProduct implements  MTGProduct {
 	protected MagicEdition edition;
 	protected EnumItems typeProduct;
 	protected Category category;
+	
+	
+	@Override
+	public String getStoreId() {
+		return toString();
+	}
 	
 	@Override
 	public Category getCategory() {
@@ -86,9 +92,6 @@ public abstract class AbstractProduct implements  MTGProduct {
 class GenericProduct extends AbstractProduct
 {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 }

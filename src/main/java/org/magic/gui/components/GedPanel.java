@@ -23,6 +23,7 @@ import javax.swing.SwingWorker;
 
 import org.magic.api.beans.GedEntry;
 import org.magic.api.interfaces.MTGGedStorage;
+import org.magic.api.interfaces.MTGStorable;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.renderer.GedEntryComponent;
@@ -31,7 +32,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.FileTools;
 import org.magic.tools.MTG;
-public class GedPanel<T> extends MTGUIComponent {
+public class GedPanel<T extends MTGStorable> extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel panneauCenter;
@@ -46,14 +47,9 @@ public class GedPanel<T> extends MTGUIComponent {
 	{
 		this.classe=t;
 		this.instance=instance;
-	
 		
 		if(isVisible())
 			onVisible();
-	
-		
-		
-		
 	}
 	
 	@Override
@@ -70,16 +66,7 @@ public class GedPanel<T> extends MTGUIComponent {
 		}
 
 	}
-//	
-//	@Override
-//	public void onFirstShowing() {
-//		try {
-//			listDirectory(MTG.getEnabledPlugin(MTGGedStorage.class).getRoot());
-//		} catch (IOException e) {
-//			logger.error(e);
-//		}
-//	}
-	
+
 	public GedPanel() {
 		setLayout(new BorderLayout());
 		var panneauHaut = new JPanel();
@@ -104,10 +91,9 @@ public class GedPanel<T> extends MTGUIComponent {
 					for(File f : files)
 					{
 						try {
-							GedEntry<T> entry = new GedEntry<>(f,classe);
+							var entry = new GedEntry<>(f,classe);
 										entry.setObject(instance);
-										entry.setId(String.valueOf(instance));
-										
+										entry.setId(instance.getStoreId());
 							MTG.getEnabledPlugin(MTGGedStorage.class).store(entry);
 							publish(entry);
 							
@@ -217,9 +203,7 @@ public class GedPanel<T> extends MTGUIComponent {
 						{
 							if(!Files.isDirectory(p))
 							{
-								@SuppressWarnings("unchecked")
-								GedEntry<T> ged = (GedEntry<T>) MTG.getEnabledPlugin(MTGGedStorage.class).read(p);
-								
+								var ged = (GedEntry<T>) MTG.getEnabledPlugin(MTGGedStorage.class).read(p);
 								publish(ged);
 							}
 						}

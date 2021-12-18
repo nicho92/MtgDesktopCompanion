@@ -13,8 +13,9 @@ import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.interfaces.MTGStockItem;
+import org.magic.api.interfaces.MTGStorable;
 
-public class Announce implements Serializable, Comparable<Announce> {
+public class Announce implements MTGStorable, Comparable<Announce> {
 
 	public enum STATUS { ACTIVE, SOON, SOLD, EXPIRED }
 	
@@ -151,6 +152,13 @@ public class Announce implements Serializable, Comparable<Announce> {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	@Override
+	public String getStoreId() {
+		return String.valueOf(getId());
+	}
+	
+	
 	public int getId() {
 		return id;
 	}

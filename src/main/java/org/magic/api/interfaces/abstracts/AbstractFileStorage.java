@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 import org.apache.commons.lang3.SerializationUtils;
 import org.magic.api.beans.GedEntry;
 import org.magic.api.interfaces.MTGGedStorage;
+import org.magic.api.interfaces.MTGStorable;
 
 public abstract class AbstractFileStorage extends AbstractMTGPlugin implements MTGGedStorage {
 
@@ -48,15 +49,15 @@ public abstract class AbstractFileStorage extends AbstractMTGPlugin implements M
 	
 	
 	@Override
-	public GedEntry<?> read(Path p) throws IOException
+	public GedEntry<MTGStorable> read(Path p) throws IOException
 	{
-		GedEntry<?> ged = SerializationUtils.deserialize(java.nio.file.Files.readAllBytes(p));
+		GedEntry<MTGStorable> ged = SerializationUtils.deserialize(java.nio.file.Files.readAllBytes(p));
 		logger.debug("reading " + p + " :" + ged.getClasse() + " " + ged.getName());
 		return ged;
 	}
 	
 	@Override
-	public void store(GedEntry<?> entry) throws IOException
+	public <T extends MTGStorable> void store(GedEntry<T> entry) throws IOException
 	{
 		
 		var p = getPath(entry);
@@ -87,7 +88,7 @@ public abstract class AbstractFileStorage extends AbstractMTGPlugin implements M
 		
 	}
 	
-	private Path getPath(GedEntry<?> entry) throws IOException
+	private <T extends MTGStorable> Path getPath(GedEntry<T> entry) throws IOException
 	{
 		if(entry.getClasse()==null)
 			return getFilesSystem().getPath(entry.getName());
@@ -98,7 +99,7 @@ public abstract class AbstractFileStorage extends AbstractMTGPlugin implements M
 	}
 	
 	@Override
-	public boolean delete(GedEntry<?> entry) {
+	public <T extends MTGStorable>  boolean delete(GedEntry<T> entry) {
 		logger.info("removing " + entry);
 		
 		try {
@@ -111,7 +112,7 @@ public abstract class AbstractFileStorage extends AbstractMTGPlugin implements M
 	}
 
 	@Override
-	public <T> Path getPath(Class<T> classe, T instance) throws IOException {
+	public <T extends MTGStorable> Path getPath(Class<T> classe, T instance) throws IOException {
 		
 		
 		if(classe==null)

@@ -36,7 +36,7 @@ public class MTGSealedProduct extends AbstractProduct{
 	public void setNum(int num) {
 		this.num = num;
 	}
-
+	
 	@Override
 	public String toString() {
 		return getTypeProduct() + " " +getLang()+"-" + (getExtra()!=null?getExtra()+"-":"")+ getNum();

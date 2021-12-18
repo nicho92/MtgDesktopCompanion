@@ -1,12 +1,10 @@
 package org.magic.api.interfaces;
 
-import java.io.Serializable;
-
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.shop.Category;
 
-public interface MTGProduct extends Serializable {
+public interface MTGProduct extends MTGStorable {
 
 	public Integer getProductId();
 

@@ -143,10 +143,10 @@ public interface MTGDao extends MTGPlugin{
 	public void deleteConversionItem(ConverterItem n) throws SQLException;
 	public void saveOrUpdateConversionItem(ConverterItem n) throws SQLException;
 
-	public List<GedEntry<?>> listEntries(String classename, String fileName)  throws SQLException;
-	public boolean deleteEntry(GedEntry<?> gedItem) throws SQLException;
-	public boolean storeEntry(GedEntry<?> gedItem) throws SQLException;
-	public GedEntry<?> readEntry(String classe, String idInstance, String fileName)throws SQLException;
+	public List<GedEntry<MTGStorable>> listEntries(String classename, String fileName)  throws SQLException;
+	public <T extends MTGStorable> boolean deleteEntry(GedEntry<T> gedItem) throws SQLException;
+	public <T extends MTGStorable> boolean storeEntry(GedEntry<T> gedItem) throws SQLException;
+	public GedEntry<MTGStorable> readEntry(String classe, String idInstance, String fileName)throws SQLException;
 	
 	
 	public void init() throws SQLException;

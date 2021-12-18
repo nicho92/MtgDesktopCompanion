@@ -1,8 +1,8 @@
 package org.magic.api.beans;
 
-import java.io.Serializable;
+import org.magic.api.interfaces.MTGStorable;
 
-public class MagicCollection implements Serializable {
+public class MagicCollection implements MTGStorable {
 
 	/**
 	 * 
@@ -37,6 +37,12 @@ public class MagicCollection implements Serializable {
 	public int hashCode() {
 		return getName().hashCode();
 	}
+	
+	@Override
+	public String getStoreId() {
+		return getName();
+	}
+	
 	
 	@Override
 	public boolean equals(Object obj) {

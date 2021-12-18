@@ -38,6 +38,11 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 		return product;
 	}
 	
+	@Override
+	public String getStoreId() {
+		return String.valueOf(getId());
+	}
+	
 	public void setProduct(T product)
 	{
 		this.product = product;

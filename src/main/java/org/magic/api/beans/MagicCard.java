@@ -96,7 +96,6 @@ public class MagicCard extends AbstractProduct {
 		
 	}
 	
-	
 	public String getFullName()
 	{
 		if(getRotatedCard()!=null)
