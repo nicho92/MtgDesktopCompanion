@@ -46,7 +46,6 @@ import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.reflections.Reflections;
 
-@SuppressWarnings({"rawtypes","unchecked"})
 public class PluginRegistry {
 	
 	private Map<Class,PluginEntry> registry;

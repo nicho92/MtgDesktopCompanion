@@ -311,7 +311,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setString(2, gedItem.getClasse().getCanonicalName());
 				pst.setString(3, gedItem.getId());
 				pst.setString(4, Base64.getEncoder().encodeToString(gedItem.getContent()));
-				pst.setString(5, gedItem.getFullName());
+				pst.setString(5, gedItem.getName());
 				pst.setString(6, CryptoUtils.getMD5(gedItem.getContent()));
 				executeUpdate(pst);
 				return true;
@@ -345,12 +345,12 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public GedEntry<?> readEntry(String classename, String idInstance, String fileName) throws SQLException {
+		var ged = new GedEntry<>();
 		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT fileContent, md5 from ged where className = ? and IdInstance = ? and fileName= ?")) 
 		{
-			
-				var ged = new GedEntry<>();
 				pst.setString(1, classename);
 				pst.setString(2,idInstance);
 				pst.setString(3,fileName);
@@ -365,22 +365,27 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				if(rs.getString("md5")!=null && !CryptoUtils.getMD5(ged.getContent()).equals(rs.getString("md5")))
 					throw new SQLException("MD5 Error for " + fileName +" : " + CryptoUtils.getMD5(ged.getContent()) + " " + rs.getString("md5")); 
 				
-				try {
-					var buf = ImageTools.toImage(ged.getContent());
-					ged.setIcon(new ImageIcon(buf));
-					ged.setIsImage(true);
-				}
-				catch(Exception e)
-				{
-					ged.setIsImage(false);
-				}
+		}		
+				
+		try {
+				var buf = ImageTools.toImage(ged.getContent());
+				ged.setIcon(new ImageIcon(buf));
+				ged.setIsImage(true);
+			}
+			catch(Exception e)
+			{
+				ged.setIsImage(false);
+			}
+		
+		try {
 				ged.setClasse(PluginRegistry.inst().loadClass(classename));
-				return ged;
-		} catch (ClassNotFoundException e) {
-			logger.error(e);
-			throw new SQLException(e);
-		}
+			} catch (ClassNotFoundException e) {
+				logger.error(e);
+			}
+			return ged;
+		
 	}
+		
 
 	
 	

@@ -51,7 +51,7 @@ public abstract class AbstractFileStorage extends AbstractMTGPlugin implements M
 	public GedEntry<?> read(Path p) throws IOException
 	{
 		GedEntry<?> ged = SerializationUtils.deserialize(java.nio.file.Files.readAllBytes(p));
-		logger.debug("reading " + p + " :" + ged.getClasse() + " " + ged.getFullName());
+		logger.debug("reading " + p + " :" + ged.getClasse() + " " + ged.getName());
 		return ged;
 	}
 	

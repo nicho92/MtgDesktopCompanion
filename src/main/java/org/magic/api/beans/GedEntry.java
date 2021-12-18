@@ -20,13 +20,12 @@ public class GedEntry <T> implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String id;
 	private String name;
-	private String ext;
 	private byte[] content;
 	private boolean isImage;
 	private Icon icon;
 	private Class<T> classe;
 	private String object;
-	
+	private String ext;
 	@Override
 	public String toString() {
 		return name;
@@ -34,6 +33,7 @@ public class GedEntry <T> implements Serializable {
 	
 	public void setName(String name) {
 		this.name = name;
+		ext=Files.getFileExtension(name);
 	}
 	
 	public byte[] getContent() {
@@ -52,10 +52,6 @@ public class GedEntry <T> implements Serializable {
 	public String getName()
 	{
 		return name;
-	}
-	
-	public void setExt(String ext) {
-		this.ext = ext;
 	}
 	
 	public void setContent(byte[] content) {
@@ -90,8 +86,7 @@ public class GedEntry <T> implements Serializable {
 	
 	public GedEntry(File f,Class<T> classe) throws IOException {
 		this.classe=classe;
-		setName(Files.getNameWithoutExtension(f.getName()));
-		setExt(Files.getFileExtension(f.getName()));
+		setName(f.getName());
 		setContent(Files.toByteArray(f));
 		setIsImage(ImageTools.isImage(f));
 		setIcon(FileSystemView.getFileSystemView().getSystemIcon(f));
@@ -114,10 +109,6 @@ public class GedEntry <T> implements Serializable {
 		this.id = id;
 	}
 	
-	public String getFullName() {
-		return getName()+"."+getExt();
-	}
-
 	public JsonElement toJson() {
 		var obj = new JsonObject();
 		obj.addProperty("id", getId());
