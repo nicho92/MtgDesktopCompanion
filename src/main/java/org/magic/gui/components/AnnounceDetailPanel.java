@@ -13,6 +13,7 @@ import javax.swing.SpinnerNumberModel;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import org.fife.ui.rtextarea.RTextScrollPane;
 import org.magic.api.beans.Announce;
 import org.magic.api.beans.Announce.STATUS;
 import org.magic.api.beans.enums.EnumCondition;
@@ -60,7 +61,7 @@ public class AnnounceDetailPanel extends MTGUIComponent {
 		add(new JLangLabel("DESCRIPTION",true), UITools.createGridBagConstraints(null, null, 0, 2));
 		descriptionJTextArea = new RSyntaxTextArea();
 		descriptionJTextArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_HTML);
-		add(new JScrollPane(descriptionJTextArea), UITools.createGridBagConstraints(null,  GridBagConstraints.BOTH, 1, 2));
+		add(new RTextScrollPane(descriptionJTextArea), UITools.createGridBagConstraints(null,  GridBagConstraints.BOTH, 1, 2));
 		
 		add(new JLangLabel("START_DATE",true), UITools.createGridBagConstraints(null, null, 0, 3));
 		startDateFld = new JXDateTimePicker();

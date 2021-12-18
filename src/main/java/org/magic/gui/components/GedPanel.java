@@ -14,7 +14,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.stream.Stream;
 
 import javax.swing.ImageIcon;
@@ -71,15 +70,15 @@ public class GedPanel<T> extends MTGUIComponent {
 		}
 
 	}
-	
-	@Override
-	public void onFirstShowing() {
-		try {
-			listDirectory(MTG.getEnabledPlugin(MTGGedStorage.class).getRoot());
-		} catch (IOException e) {
-			logger.error(e);
-		}
-	}
+//	
+//	@Override
+//	public void onFirstShowing() {
+//		try {
+//			listDirectory(MTG.getEnabledPlugin(MTGGedStorage.class).getRoot());
+//		} catch (IOException e) {
+//			logger.error(e);
+//		}
+//	}
 	
 	public GedPanel() {
 		setLayout(new BorderLayout());
@@ -107,8 +106,8 @@ public class GedPanel<T> extends MTGUIComponent {
 						try {
 							GedEntry<T> entry = new GedEntry<>(f,classe);
 										entry.setObject(instance);
-										
 										entry.setId(String.valueOf(instance));
+										
 							MTG.getEnabledPlugin(MTGGedStorage.class).store(entry);
 							publish(entry);
 							

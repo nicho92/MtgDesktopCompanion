@@ -186,7 +186,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public boolean createDB() {
 		try (var cont =  pool.getConnection();Statement stat = cont.createStatement()) {
 			
-			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" favorites (id_contact INTEGER, id_announce INTEGER)");
+			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" favorites (id_contact INTEGER, id_announce INTEGER, classeName VARCHAR(30) )");
 			logger.debug("Create table favorites");
 			
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" ged (id "+getAutoIncrementKeyWord()+" PRIMARY KEY,creationDate TIMESTAMP, className VARCHAR(250), idInstance VARCHAR(250), fileName VARCHAR(250), fileContent " + longTextStorage() + ", md5 VARCHAR(35) )");
@@ -256,12 +256,13 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	
 	
 	@Override
-	public List<Announce> listFavorites(Contact contact) throws SQLException {
+	public List<Announce> listFavorites(Contact contact, String classename) throws SQLException {
 		
 		var ret = new ArrayList<Announce>();
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT id_announce from favorites where id_contact= ?")) 
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT id_announce from favorites where id_contact= ? and classename=?")) 
 		{
 			pst.setInt(1, contact.getId());
+			pst.setString(2, classename);
 			var rs = executeQuery(pst);
 			while(rs.next())
 			{
@@ -281,22 +282,24 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	
 	
 	@Override
-	public void deleteFavorites(int idContact, int idAnnounce) throws SQLException {
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("DELETE FROM favorites WHERE id_contact= ? and id_announce=?")) 
+	public void deleteFavorites(int idContact, int idAnnounce, String classename) throws SQLException {
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("DELETE FROM favorites WHERE id_contact= ? and id_announce=? and classename=?")) 
 		{
 				pst.setInt(1, idContact);
 				pst.setInt(2, idAnnounce);
+				pst.setString(3, classename);
 				executeUpdate(pst);
 		}
 		
 	}
 	
 	@Override
-	public void saveFavorites(int idContact, int idAnnounce) throws SQLException {
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("INSERT INTO favorites (id_contact,id_announce) VALUES (?,?)")) 
+	public void saveFavorites(int idContact, int idAnnounce,String classename) throws SQLException {
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("INSERT INTO favorites (id_contact,id_announce,classeName) VALUES (?,?,?)")) 
 		{
 				pst.setInt(1, idContact);
 				pst.setInt(2, idAnnounce);
+				pst.setString(3, classename);
 				executeUpdate(pst);
 		}
 		

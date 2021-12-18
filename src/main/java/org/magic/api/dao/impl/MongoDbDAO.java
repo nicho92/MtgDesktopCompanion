@@ -1010,19 +1010,19 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public void saveFavorites(int idContact, int idAnnounce) throws SQLException {
+	public void saveFavorites(int idContact, int idAnnounce, String classeName) throws SQLException {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void deleteFavorites(int idContact, int idAnnounce) throws SQLException {
+	public void deleteFavorites(int idContact, int idAnnounce, String classeName) throws SQLException {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public List<Announce> listFavorites(Contact c) throws SQLException {
+	public List<Announce> listFavorites(Contact c, String classeName) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}

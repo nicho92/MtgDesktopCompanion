@@ -43,7 +43,7 @@
     	if(idUser)
     	{
 			$.ajax({
-			   type: "PUT", url: restserver+"/favorites/"+idUser.id+"/"+idAnnounce
+			   type: "PUT", url: restserver+"/favorites/Announce/"+idUser.id+"/"+idAnnounce
 			}).then(function(data){
 				alert(data);
 			});
