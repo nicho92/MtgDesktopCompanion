@@ -28,7 +28,7 @@ public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 		Map<String,String> h = new HashMap<>();
 		Map<String,String> e = new HashMap<>();
 
-		if(getString(CLIENTID).isEmpty())
+		if(getAuthenticator().get(CLIENTID)==null)
 		{
 			logger.error("please fill CLIENTID attribute in config panel");
 			return ret;
@@ -41,7 +41,7 @@ public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 	
 			e.put("q", query);
 			e.put("mature", "true");
-			h.put("Authorization","Client-ID "+getString(CLIENTID));
+			h.put("Authorization","Client-ID "+getAuthenticator().get(CLIENTID));
 			
 			
 			String s= c.toString(c.doGet("https://api.imgur.com/3/gallery/search/"+getString("SORT").toLowerCase()+"/"+getString("WINDOW"), h,e));
@@ -96,9 +96,14 @@ public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 	}
 
 	@Override
+	public List<String> listAuthenticationAttributes() {
+		return List.of(CLIENTID);
+	}
+	
+	
+	@Override
 	public Map<String, String> getDefaultAttributes() {
-		return Map.of(CLIENTID, "",
-							   "SORT", "time",
-							   "WINDOW", "all");
+		return Map.of("SORT", "time",
+					  "WINDOW", "all");
 	}
 }
