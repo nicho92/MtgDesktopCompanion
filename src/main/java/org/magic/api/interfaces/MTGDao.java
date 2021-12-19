@@ -110,8 +110,6 @@ public interface MTGDao extends MTGPlugin{
 	public boolean enableContact(String token) throws SQLException;
 	public void deleteContact(Contact contact) throws SQLException;
 
-	
-	
 	public List<MagicCardAlert> listAlerts();
 	public void saveAlert(MagicCardAlert alert) throws SQLException;
 	public void updateAlert(MagicCardAlert alert) throws SQLException;

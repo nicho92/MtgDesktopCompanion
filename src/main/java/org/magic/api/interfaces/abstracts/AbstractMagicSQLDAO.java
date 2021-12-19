@@ -322,6 +322,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<GedEntry<MTGStorable>> listEntries(String classename, String id) throws SQLException {
 		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT fileName from ged where className = ? and IdInstance = ?")) 

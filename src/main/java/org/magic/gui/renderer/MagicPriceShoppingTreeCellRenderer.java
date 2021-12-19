@@ -21,7 +21,7 @@ public class MagicPriceShoppingTreeCellRenderer implements TreeCellRenderer{
 		
 		if(value instanceof String)
 		{
-			lab.setIcon(MTGConstants.ICON_TAB_SHOP);
+			lab.setIcon(MTGConstants.ICON_TAB_USER);
 		}
 		
 		

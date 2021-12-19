@@ -276,9 +276,6 @@ public class AlarmGUI extends MTGUIComponent {
 			}
 		});
 		
-		btnRefresh.addActionListener(e -> model.fireTableDataChanged());
-		
-		
 		btnSuggestPrice.addActionListener(ae->{
 			
 			if(table.getSelectedRows().length<=0)
@@ -305,7 +302,7 @@ public class AlarmGUI extends MTGUIComponent {
 
 						@Override
 						protected Void doInBackground(){
-							List<MagicCardAlert> alerts = extract(table.getSelectedRows());
+							List<MagicCardAlert> alerts = UITools.getTableSelections(table,0);
 							for (MagicCardAlert alert : alerts)
 							{	
 								List<MagicPrice> prices=new ArrayList<>();
@@ -368,7 +365,7 @@ public class AlarmGUI extends MTGUIComponent {
 
 					@Override
 					protected List<MagicCardAlert> doInBackground() throws Exception {
-						List<MagicCardAlert> alerts = extract(selected);
+						List<MagicCardAlert> alerts = UITools.getTableSelections(table,0);
 						for (MagicCardAlert alert : alerts)
 						{
 							getEnabledPlugin(MTGDao.class).deleteAlert(alert);
@@ -380,9 +377,8 @@ public class AlarmGUI extends MTGUIComponent {
 					@Override
 					protected void done() {
 						try {
-							get();
+							model.removeItem(get());
 						}
-						
 						catch(InterruptedException ex)
 						{
 							Thread.currentThread().interrupt();
@@ -391,7 +387,6 @@ public class AlarmGUI extends MTGUIComponent {
 						{
 							MTGControler.getInstance().notify(e);
 						}
-						
 						model.fireTableDataChanged();
 						lblLoading.end();
 					}
@@ -517,15 +512,5 @@ public class AlarmGUI extends MTGUIComponent {
 
 	}
 
-
-	private List<MagicCardAlert> extract(int[] ids) {
-		List<MagicCardAlert> select = new ArrayList<>();
-
-		for (int l : ids) {
-			select.add(((MagicCardAlert) table.getValueAt(l, 0)));
-		}
-		return select;
-
-	}
 
 }
