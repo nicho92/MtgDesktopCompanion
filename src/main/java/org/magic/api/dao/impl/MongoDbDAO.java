@@ -10,7 +10,6 @@ import java.sql.SQLException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +48,7 @@ import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGConstants;
 import org.magic.services.PluginRegistry;
 import org.magic.tools.Chrono;
+import org.magic.tools.CryptoUtils;
 import org.magic.tools.IDGenerator;
 import org.magic.tools.ImageTools;
 
@@ -261,7 +261,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			var entry = new GedEntry<>();
 				entry.setId(result.get("id").toString());
 				entry.setName(result.get("name").toString());
-				entry.setContent(Base64.getDecoder().decode(result.getString("data")));
+				entry.setContent(CryptoUtils.fromBase64(result.getString("data")));
 				try {
 					var buf = ImageTools.toImage(entry.getContent());
 					entry.setIcon(new ImageIcon(buf));

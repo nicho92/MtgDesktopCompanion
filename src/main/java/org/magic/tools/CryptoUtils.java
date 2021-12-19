@@ -1,5 +1,7 @@
 package org.magic.tools;
 
+import java.util.Base64;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.jasypt.util.text.AES256TextEncryptor;
 
@@ -30,11 +32,18 @@ public class CryptoUtils {
 		      }
 		      
 		      return sb.toString();
-		
-     
-      
-      
-    }
+	}
+	
+	
+
+	public static String toBase64(byte[] img) {
+	    return Base64.getEncoder().encodeToString(img);	
+	}
+	
+	public static byte[] fromBase64(String s) {
+	    return Base64.getDecoder().decode(s);	
+	}
+	
 	
 	
 }

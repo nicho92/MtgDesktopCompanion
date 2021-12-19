@@ -313,7 +313,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setTimestamp(1, new Timestamp(Instant.now().toEpochMilli()));
 				pst.setString(2, gedItem.getClasse().getCanonicalName());
 				pst.setString(3, gedItem.getId());
-				pst.setString(4, Base64.getEncoder().encodeToString(gedItem.getContent()));
+				pst.setString(4, CryptoUtils.toBase64(gedItem.getContent()));
 				pst.setString(5, gedItem.getName());
 				pst.setString(6, CryptoUtils.getMD5(gedItem.getContent()));
 				executeUpdate(pst);
@@ -363,7 +363,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				ged.setId(idInstance);
 				ged.setName(fileName);
 				
-				ged.setContent(Base64.getDecoder().decode(rs.getString("fileContent")));
+				ged.setContent(CryptoUtils.fromBase64(rs.getString("fileContent")));
 				
 				
 				if(rs.getString("md5")!=null && !CryptoUtils.getMD5(ged.getContent()).equals(rs.getString("md5")))

@@ -19,7 +19,6 @@ import java.math.RoundingMode;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Base64;
 import java.util.Iterator;
 import java.util.List;
 
@@ -300,7 +299,7 @@ public class ImageTools {
 		try (var os = new ByteArrayOutputStream())
 		{
 		    ImageIO.write((BufferedImage)img, "png", os);
-		    return toBase64(os.toByteArray());
+		    return CryptoUtils.toBase64(os.toByteArray());
 		}
 		catch (IOException ioe)
 		{
@@ -309,9 +308,6 @@ public class ImageTools {
 		}
 	}
 	
-	public static String toBase64(byte[] img) {
-	    return Base64.getEncoder().encodeToString(img);	
-	}
 
 	public static BufferedImage toImage(byte[] img) throws IOException {
 	    return ImageIO.read(new ByteArrayInputStream(img));	
@@ -332,7 +328,7 @@ public class ImageTools {
 		if(base==null)
 			return null;
 		
-		imageByte = Base64.getDecoder().decode(base);
+		imageByte = CryptoUtils.fromBase64(base);
 		
 		try(var bis = new ByteArrayInputStream(imageByte))
 		{
