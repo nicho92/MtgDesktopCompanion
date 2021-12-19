@@ -2,6 +2,7 @@ package org.magic.api.providers.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URLDecoder;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -39,6 +40,7 @@ import org.magic.tools.InstallCert;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.kitfox.svg.app.beans.SVGIcon;
 
 public class ScryFallProvider extends AbstractCardsProvider {
 
@@ -87,6 +89,19 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	}
 	
 	
+	public SVGIcon getSvgFileFor(String idSet) throws IOException
+	{
+		var ic = new SVGIcon();
+		ic.setSvgURI(URI.create("https://c2.scryfall.com/file/scryfall-symbols/sets/"+idSet.toLowerCase()+".svg"));
+		ic.setAntiAlias(true);
+		ic.setAutosize(1);
+		return ic;
+	}
+	
+	
+	
+	
+	
 	
 	public void downloadBulkFile(File f) throws IOException
 	{
@@ -107,7 +122,10 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	public void init() {
 		baseURI=getString("URL");
 	}
-
+	
+	
+	
+	
 	@Override
 	public MagicCard getCardById(String id,MagicEdition ed) throws IOException {
 		try {
