@@ -185,34 +185,39 @@ public class AlarmGUI extends MTGUIComponent {
 	public void onFirstShowing() {
 		splitPanel.setDividerLocation(.5);
 		
+		loaddata();
+				
 		
+		
+	}
+
+
+	private void loaddata() {
 		var sw = new SwingWorker<List<MagicCardAlert>, Void>()
-				{
-						
-						@Override
-						protected List<MagicCardAlert> doInBackground() throws Exception {
-							return getEnabledPlugin(MTGDao.class).listAlerts();
-						}
-						
-						@Override
-						protected void done() {
-							
-							try {
-								model.init(get());
-								
-							} catch (InterruptedException e) {
-								Thread.currentThread().interrupt();
-							} catch (ExecutionException e) {
-								MTGControler.getInstance().notify(e);
-							}
-													
-							
-						}
-				};
+		{
 				
-	ThreadManager.getInstance().runInEdt(sw, "Loading alerts");			
+				@Override
+				protected List<MagicCardAlert> doInBackground() throws Exception {
+					return getEnabledPlugin(MTGDao.class).listAlerts();
+				}
 				
+				@Override
+				protected void done() {
+					
+					try {
+						model.bind(get());
+						
+					} catch (InterruptedException e) {
+						Thread.currentThread().interrupt();
+					} catch (ExecutionException e) {
+						MTGControler.getInstance().notify(e);
+					}
+											
+					
+				}
+		};
 		
+		ThreadManager.getInstance().runInEdt(sw, "Loading alerts");			
 		
 	}
 
@@ -275,6 +280,10 @@ public class AlarmGUI extends MTGUIComponent {
 
 			}
 		});
+		
+		
+		btnRefresh.addActionListener(al->loaddata());
+		
 		
 		btnSuggestPrice.addActionListener(ae->{
 			
