@@ -38,9 +38,20 @@ public class DAOFileSystemStorage extends AbstractFileStorage {
 	public Path getRoot() throws IOException {
 		return Path.of("");
 	}
-
+	
+	
 	@Override
-	public GedEntry<MTGStorable> read(Path p) throws IOException {
+	public <T extends MTGStorable> List<GedEntry<T>> listAll() throws IOException {
+		try {
+			return MTG.getEnabledPlugin(MTGDao.class).listAllEntries();
+		} catch (SQLException e) {
+			throw new IOException(e);
+		}
+	}
+	
+	
+	@Override
+	public <T extends MTGStorable> GedEntry<T> read(Path p) throws IOException {
 		
 		
 		var cIdClasse = p.getParent().getParent().getFileName().toString();

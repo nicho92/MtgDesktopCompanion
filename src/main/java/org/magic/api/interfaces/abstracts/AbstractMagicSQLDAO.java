@@ -322,20 +322,36 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
-	public List<GedEntry<MTGStorable>> listEntries(String classename, String id) throws SQLException {
+	public <T extends MTGStorable> List<GedEntry<T>> listAllEntries() throws SQLException {
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT className,idInstance,fileName from ged")) 
+		{
+				var rs = executeQuery(pst);
+				
+				var arr = new ArrayList<GedEntry<T>>();
+					while(rs.next())
+					{
+						arr.add(readEntry(rs.getString("className"),rs.getString("idInstance"),rs.getString("fileName")));
+					}
+				return arr;
+		} 
+	}
+	
+	
+	
+	@Override
+	public <T extends MTGStorable> List<GedEntry<T>> listEntries(String classename, String id) throws SQLException {
 		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT fileName from ged where className = ? and IdInstance = ?")) 
 		{
 				pst.setString(1, classename);
 				pst.setString(2,id);
 				var rs = executeQuery(pst);
 				
-				var arr = new ArrayList<GedEntry<MTGStorable>>();
+				var arr = new ArrayList<GedEntry<T>>();
 				
 					while(rs.next())
 					{
-						var entry = new GedEntry<>();
+						var entry = new GedEntry<T>();
 						entry.setId(id);
 						entry.setClasse(PluginRegistry.inst().loadClass(classename));
 						entry.setName(rs.getString("fileName"));
@@ -351,8 +367,8 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public GedEntry<MTGStorable> readEntry(String classename, String idInstance, String fileName) throws SQLException {
-		var ged = new GedEntry<>();
+	public <T extends MTGStorable> GedEntry<T> readEntry(String classename, String idInstance, String fileName) throws SQLException {
+		var ged = new GedEntry<T>();
 		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT fileContent, md5 from ged where className = ? and IdInstance = ? and fileName= ?")) 
 		{
 				pst.setString(1, classename);
@@ -362,9 +378,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				rs.next();
 				ged.setId(idInstance);
 				ged.setName(fileName);
-				
 				ged.setContent(CryptoUtils.fromBase64(rs.getString("fileContent")));
-				
 				
 				if(rs.getString("md5")!=null && !CryptoUtils.getMD5(ged.getContent()).equals(rs.getString("md5")))
 					throw new SQLException("MD5 Error for " + fileName +" : " + CryptoUtils.getMD5(ged.getContent()) + " " + rs.getString("md5")); 
@@ -386,6 +400,9 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			} catch (ClassNotFoundException e) {
 				logger.error(e);
 			}
+		
+			notify(ged);
+		
 			return ged;
 		
 	}

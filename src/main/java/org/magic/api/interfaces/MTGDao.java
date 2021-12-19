@@ -141,11 +141,11 @@ public interface MTGDao extends MTGPlugin{
 	public void deleteConversionItem(ConverterItem n) throws SQLException;
 	public void saveOrUpdateConversionItem(ConverterItem n) throws SQLException;
 
-	public List<GedEntry<MTGStorable>> listEntries(String classename, String fileName)  throws SQLException;
+	public <T extends MTGStorable> List<GedEntry<T>> listEntries(String classename, String fileName)  throws SQLException;
 	public <T extends MTGStorable> boolean deleteEntry(GedEntry<T> gedItem) throws SQLException;
 	public <T extends MTGStorable> boolean storeEntry(GedEntry<T> gedItem) throws SQLException;
-	public GedEntry<MTGStorable> readEntry(String classe, String idInstance, String fileName)throws SQLException;
-	
+	public <T extends MTGStorable> GedEntry<T> readEntry(String classe, String idInstance, String fileName) throws SQLException;
+	public <T extends MTGStorable> List<GedEntry<T>> listAllEntries()throws SQLException;
 	
 	public void init() throws SQLException;
 	public void init(MTGPool pool) throws SQLException;
@@ -157,6 +157,7 @@ public interface MTGDao extends MTGPlugin{
 	public void updateCard(MagicCard c, MagicCard newC, MagicCollection col) throws SQLException;
 	public void executeQuery(String query)throws SQLException;
 	public boolean isSQL();
+
 	
 	
 

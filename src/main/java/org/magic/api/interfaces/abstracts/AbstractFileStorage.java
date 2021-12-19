@@ -21,7 +21,11 @@ public abstract class AbstractFileStorage extends AbstractMTGPlugin implements M
 	
 	public abstract void initFileSystem() throws IOException;
 
-	
+	@Override
+	public <T extends MTGStorable> List<GedEntry<T>> listAll() throws IOException {
+		// TODO not yet implemented
+		return new ArrayList<>();
+	}
 	
 	
 	public Path getRoot() throws IOException {
@@ -31,6 +35,7 @@ public abstract class AbstractFileStorage extends AbstractMTGPlugin implements M
 		
 		return fs.getPath("/");
 	}
+	
 	
 	
 	@Override
@@ -49,9 +54,9 @@ public abstract class AbstractFileStorage extends AbstractMTGPlugin implements M
 	
 	
 	@Override
-	public GedEntry<MTGStorable> read(Path p) throws IOException
+	public <T extends MTGStorable> GedEntry<T>  read(Path p) throws IOException
 	{
-		GedEntry<MTGStorable> ged = SerializationUtils.deserialize(java.nio.file.Files.readAllBytes(p));
+		GedEntry<T> ged = SerializationUtils.deserialize(java.nio.file.Files.readAllBytes(p));
 		logger.debug("reading " + p + " :" + ged.getClasse() + " " + ged.getName());
 		return ged;
 	}

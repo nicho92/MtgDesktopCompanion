@@ -55,6 +55,7 @@ import org.magic.tools.ImageTools;
 import com.mongodb.BasicDBObject;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
@@ -241,10 +242,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		return populateCollections;
 	}
 	
-	@Override
-	public GedEntry<MTGStorable> readEntry(String classe, String idInstance, String fileName) throws SQLException {
-		return listEntries(classe,idInstance).stream().filter(ge->ge.getName().equals(fileName)).findFirst().orElse(null);
-	}
+	
 
 	@Override
 	public <T extends MTGStorable> boolean storeEntry(GedEntry<T> gedItem) {
@@ -253,12 +251,46 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		return true;
 	}
 	
+	
 	@Override
-	public List<GedEntry<MTGStorable>> listEntries(String classename, String id) {
-		List<GedEntry<MTGStorable>> arr = new ArrayList<>();
-		var filter = Filters.and(Filters.eq("classe", classename),Filters.eq("id", id));
-		db.getCollection(colGed, BasicDBObject.class).find(filter).forEach((Consumer<BasicDBObject>) result -> { 
-			var entry = new GedEntry<>();
+	public <T extends MTGStorable> GedEntry<T> readEntry(String classe, String idInstance, String fileName) throws SQLException {
+		return (GedEntry<T>) list(classe,idInstance,fileName).get(0);
+	}
+	
+	@Override
+	public <T extends MTGStorable> List<GedEntry<T>> listAllEntries() throws SQLException {
+		return list(null,null,null);
+	}
+	
+	@Override
+	public <T extends MTGStorable> List<GedEntry<T>> listEntries(String classename, String id) {
+		return list(classename,id,null);
+	}
+	
+	
+	private <T extends MTGStorable> List<GedEntry<T>> list(String classename, String id, String fileName) {
+		
+		var arr = new ArrayList<GedEntry<T>>();
+		FindIterable<BasicDBObject> it = null; 
+		
+		Bson f = null;		
+		
+		if(classename!=null && id!=null  && fileName==null)
+			f = Filters.and(Filters.eq("classe", classename),Filters.eq("id", id));
+		
+		if(classename!=null && id!=null && fileName!=null)
+			f= Filters.and(Filters.eq("classe", classename),Filters.eq("id", id),Filters.eq("name", fileName));
+		
+		
+		logger.debug("reading entries with f="+f);
+		
+		if(f==null)
+			it = db.getCollection(colGed, BasicDBObject.class).find();
+		else
+			it = db.getCollection(colGed, BasicDBObject.class).find(f);
+		
+		it.forEach((Consumer<BasicDBObject>) result -> { 
+			var entry = new GedEntry<T>();
 				entry.setId(result.get("id").toString());
 				entry.setName(result.get("name").toString());
 				entry.setContent(CryptoUtils.fromBase64(result.getString("data")));
@@ -273,7 +305,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 				}
 				
 				try {
-					entry.setClasse(PluginRegistry.inst().loadClass(classename));
+					entry.setClasse(PluginRegistry.inst().loadClass(result.getString("classe")));
 				} catch (ClassNotFoundException e) {
 					logger.debug("can't load "+classename,e);
 				}
@@ -284,6 +316,9 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		);
 		return arr;
 	}
+	
+	
+	
 	
 	@Override
 	public <T extends MTGStorable> boolean deleteEntry(GedEntry<T> gedItem) {
@@ -1045,6 +1080,4 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		});
 		return trans;
 	}
-
-	
 }
