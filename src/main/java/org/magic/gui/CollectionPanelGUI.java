@@ -17,6 +17,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.DefaultRowSorter;
 import javax.swing.ImageIcon;
@@ -155,14 +156,20 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		splitPane.setDividerLocation(.5);
 		progressBar.start();	
 		progressBar.setText("Loading");
-		SwingWorker<Void, Void> init = new SwingWorker<>() {
+		SwingWorker<List<MagicEdition>, Void> init = new SwingWorker<>() {
 				@Override
-				protected Void doInBackground() throws Exception {
-					model.init(provider.listEditions());
-					return null;
+				protected List<MagicEdition> doInBackground() throws Exception {
+					return provider.listEditions();
 				}
 				@Override
 				protected void done() {
+					try {
+						model.init(get());
+					} catch (InterruptedException e) {
+						Thread.currentThread().interrupt();
+					} catch (Exception e) {
+						logger.error(e);
+					}
 					progressBar.end();	
 					tableEditions.packAll();
 					initTotal();
