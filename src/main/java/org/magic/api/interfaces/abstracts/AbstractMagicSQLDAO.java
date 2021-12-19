@@ -64,7 +64,6 @@ import org.magic.tools.ImageTools;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.itextpdf.kernel.crypto.CryptoUtil;
 
 public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 

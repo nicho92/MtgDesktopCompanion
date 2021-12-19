@@ -1,6 +1,5 @@
 package org.magic.api.interfaces;
 
-import java.io.Serializable;
 import java.util.Map;
 
 import org.magic.api.beans.Grading;

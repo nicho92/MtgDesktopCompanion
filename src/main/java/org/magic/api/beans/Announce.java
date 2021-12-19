@@ -1,6 +1,5 @@
  package org.magic.api.beans;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Currency;

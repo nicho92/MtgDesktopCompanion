@@ -549,7 +549,6 @@ public class CardSearchPanel extends MTGUIComponent {
 		tableCards.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent evt) {
-				
 				if(tableCards.getSelectedRow()==-1)
 					return;
 				

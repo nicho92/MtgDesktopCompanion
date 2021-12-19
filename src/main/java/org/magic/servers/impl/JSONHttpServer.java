@@ -429,8 +429,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		get("/cards/:id", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(":id")), transformer);
 		
-		get("/cards/:idSet/cards", URLTools.HEADER_JSON, (request, response) -> {
-			return getCached(request.pathInfo(), new Callable<Object>() {
+		get("/cards/:idSet/cards", URLTools.HEADER_JSON, (request, response) -> 
+			 getCached(request.pathInfo(), new Callable<Object>() {
 				@Override
 				public List<MagicCard> call() throws Exception {
 					var ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(ID_SET));
@@ -438,8 +438,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 					Collections.sort(ret, new CardsEditionSorter());
 					return ret;
 				}
-			});
-		}, transformer);
+			})
+		, transformer);
 
 
 		get("/collections/:name/count", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGDao.class).getCardsCountGlobal(new MagicCollection(request.params(NAME))), transformer);

@@ -6,7 +6,6 @@ import java.util.Currency;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
