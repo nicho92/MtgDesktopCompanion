@@ -28,7 +28,7 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.api.sorters.CardsEditionSorter;
 import org.magic.services.MTGLogger;
 import org.magic.services.threads.ThreadManager;
-public class LazyLoadingTree extends JTree {
+public class JLazyLoadingTree extends JTree {
 
 	/**
 	 * 
@@ -39,7 +39,7 @@ public class LazyLoadingTree extends JTree {
 
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
-	public LazyLoadingTree() throws ClassNotFoundException, SQLException {
+	public JLazyLoadingTree() throws ClassNotFoundException, SQLException {
 		root = new MyNode("Collection");
 		model = new DefaultTreeModel(root);
 

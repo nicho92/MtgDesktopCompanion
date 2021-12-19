@@ -59,7 +59,7 @@ import org.magic.gui.components.CardsEditionTablePanel;
 import org.magic.gui.components.GedPanel;
 import org.magic.gui.components.GroupedShoppingPanel;
 import org.magic.gui.components.JExportButton;
-import org.magic.gui.components.LazyLoadingTree;
+import org.magic.gui.components.JLazyLoadingTree;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.MagicEditionDetailPanel;
 import org.magic.gui.components.ObjectViewerPanel;
@@ -96,7 +96,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 	private JXTable tableEditions;
 	private transient MTGCardsProvider provider;
 	private transient MTGDao dao;
-	private LazyLoadingTree tree;
+	private JLazyLoadingTree tree;
 	private TreePath path;
 	private MagicCollection selectedcol;
 	private transient MagicEditionDetailPanel magicEditionDetailPanel;
@@ -217,7 +217,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		stockPanel = new CardStockPanel();
 		historyPricesPanel = new HistoryPricesPanel(true);
 		jsonPanel = new ObjectViewerPanel();
-		tree = new LazyLoadingTree();
+		tree = new JLazyLoadingTree();
 		pricePanel = new PricesTablePanel();
 		
 		//////// MODELS
@@ -714,7 +714,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			var collectionAdd = new MagicCollection(name);
 			try {
 				dao.saveCollection(collectionAdd);
-				((LazyLoadingTree.MyNode) getJTree().getModel().getRoot()).add(new DefaultMutableTreeNode(collectionAdd));
+				((JLazyLoadingTree.MyNode) getJTree().getModel().getRoot()).add(new DefaultMutableTreeNode(collectionAdd));
 				getJTree().refresh();
 				initPopupCollection();
 			} catch (Exception ex) {
@@ -1082,7 +1082,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		popupMenuCards.add(menuItemMove);
 	}
 
-	public LazyLoadingTree getJTree() {
+	public JLazyLoadingTree getJTree() {
 		return tree;
 	}
 
