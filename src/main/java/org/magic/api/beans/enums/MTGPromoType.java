@@ -41,7 +41,8 @@ public enum MTGPromoType {
 	@SerializedName(alternate = "setpromo", value = "SETPROMO") 			SETPROMO,
 	@SerializedName(alternate = "themepack", value = "THEMEPACK") 			THEMEPACK,
 	@SerializedName(alternate = "tourney", value = "TOURNEY") 				TOURNEY,
-	@SerializedName(alternate = "wizardsplaynetwork", value = "WIZARDSPLAYNETWORK") WIZARDSPLAYNETWORK;
+	@SerializedName(alternate = "wizardsplaynetwork", value = "WIZARDSPLAYNETWORK") WIZARDSPLAYNETWORK,
+	@SerializedName(alternate = "draculaseries", value = "DRACULASERIES") DRACULASERIES;
 	
 	
 
