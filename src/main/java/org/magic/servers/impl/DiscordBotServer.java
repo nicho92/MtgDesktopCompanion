@@ -403,7 +403,6 @@ public class DiscordBotServer extends AbstractMTGServer {
 	public void start() throws IOException {
 		try {
 			initListener();
-		
 			jda = JDABuilder.createDefault(getAuthenticator().get(TOKEN))
 							.addEventListeners(listener)
 							.build();
