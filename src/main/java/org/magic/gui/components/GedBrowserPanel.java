@@ -1,16 +1,14 @@
 package org.magic.gui.components;
 
 import java.awt.BorderLayout;
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.WindowConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import org.magic.api.beans.GedEntry;
 import org.magic.api.interfaces.MTGGedStorage;
@@ -19,7 +17,6 @@ import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.GedEntryTableModel;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.tools.MTG;
@@ -44,16 +41,21 @@ public class GedBrowserPanel extends MTGUIComponent {
 		cboGed.setSelectedItem(MTG.getEnabledPlugin(MTGGedStorage.class));
 		cboGed.addItemListener(il->reload());
 		table = UITools.createNewTable(model);
+		UITools.initTableFilter(table);
+		
+		
+		table.setDefaultRenderer(Long.class, (JTable t, Object value, boolean isSelected, boolean hasFocus,int row, int column)->{ 
+				var lab = new DefaultTableCellRenderer();
+				lab.setText(UITools.humanReadableSize((Long)value));
+				return lab;
+		});
+		
 		panneauHaut.add(cboGed);
 		panneauHaut.add(buzy);
 		add(panneauHaut, BorderLayout.NORTH);
 		add(new JScrollPane(table),BorderLayout.CENTER);
-		
-		
 		reload();
-		
 	}
-	
 	
 	private void reload() {
 		

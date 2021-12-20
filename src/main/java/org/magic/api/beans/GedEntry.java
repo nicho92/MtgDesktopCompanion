@@ -11,7 +11,6 @@ import javax.swing.filechooser.FileSystemView;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGStorable;
 import org.magic.tools.CryptoUtils;
-import org.magic.tools.FileTools;
 import org.magic.tools.ImageTools;
 
 import com.google.common.io.Files;
@@ -29,6 +28,8 @@ public class GedEntry <T extends MTGStorable> implements Serializable {
 	private Class<T> classe;
 	private String object;
 	private String ext;
+	
+	
 	@Override
 	public String toString() {
 		return name;
@@ -145,10 +146,7 @@ public class GedEntry <T extends MTGStorable> implements Serializable {
 		obj.addProperty("id", getId());
 	    obj.addProperty("name", getName());
 	    obj.addProperty("size", getContent().length);
-	    
-	    if(getObject()!=null)
-	    	obj.addProperty("classe", getObject().getClass().getCanonicalName());
-	    
+    	obj.addProperty("classe", classe.getCanonicalName());
 	    obj.addProperty("ext",getExt());
 	    obj.addProperty("obj",String.valueOf(getObject()));
 	    obj.addProperty("data",CryptoUtils.toBase64(getContent()));

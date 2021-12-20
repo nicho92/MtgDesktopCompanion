@@ -47,9 +47,6 @@ public class GedPanel<T extends MTGStorable> extends MTGUIComponent {
 	private ImagePanel viewPanel;
 	private AbstractBuzyIndicatorComponent buzy;
 	
-	private long maxSize = 0;
-	
-	
 	public void init(Class<T> t, T instance)
 	{
 		this.classe=t;
@@ -173,14 +170,6 @@ public class GedPanel<T extends MTGStorable> extends MTGUIComponent {
 		if(c==null)
 			return;
 		
-		
-		if(!isValid(c))
-		{
-			logger.error(c + " isn't valid");
-		}
-		
-		
-		
 		var e = new GedEntryComponent(c,150,100);
 		panneauCenter.add(e);
 		
@@ -220,38 +209,6 @@ public class GedPanel<T extends MTGStorable> extends MTGUIComponent {
 					}
 			}
 		});
-	}
-	
-	public void setMaxSize(long maxSize) {
-		this.maxSize = maxSize;
-	}
-	
-	
-	
-	private boolean isValid(GedEntry<T> entry) {
-		
-			var testLength = maxSize>0;
-		
-			if(testLength)
-			{
-				testLength= entry.getLength()<maxSize;
-				
-				if(!testLength)
-					logger.warn("Length > " + maxSize);
-			}
-			else
-			{
-				testLength=true;
-			}
-			
-			boolean testType = entry.getExt().toLowerCase().endsWith("jpg");
-			
-			if(!testType)
-				logger.warn(entry.getExt() + " != jpg");
-
-			
-			
-			return testLength&&testType;
 	}
 
 	@Override

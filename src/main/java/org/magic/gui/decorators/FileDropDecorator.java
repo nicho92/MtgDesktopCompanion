@@ -4,6 +4,7 @@ package org.magic.gui.decorators;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.SystemColor;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -60,7 +61,7 @@ public class FileDropDecorator
             
                 public void dragOver( DropTargetDragEvent evt ) 
                 {   
-                	c.setBackground(Color.BLUE);
+                	c.setBackground(SystemColor.textHighlight);
                 }   
 
                 public void drop( DropTargetDropEvent evt )
