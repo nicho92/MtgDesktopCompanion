@@ -31,7 +31,6 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.renderer.GedEntryComponent;
 import org.magic.gui.decorators.FileDropDecorator;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.services.network.URLTools;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.FileTools;
@@ -48,6 +47,7 @@ public class GedPanel<T extends MTGStorable> extends MTGUIComponent {
 	private ImagePanel viewPanel;
 	private AbstractBuzyIndicatorComponent buzy;
 	
+	private long maxSize = 0;
 	
 	
 	public void init(Class<T> t, T instance)
@@ -168,10 +168,16 @@ public class GedPanel<T extends MTGStorable> extends MTGUIComponent {
 
 	
 
-	private void addEntry(GedEntry<T> c) {
+	private void addEntry(GedEntry<T> c)  {
 		
 		if(c==null)
 			return;
+		
+		
+		if(!isValid(c))
+		{
+			logger.error(c + " isn't valid");
+		}
 		
 		
 		
@@ -216,8 +222,29 @@ public class GedPanel<T extends MTGStorable> extends MTGUIComponent {
 		});
 	}
 	
+	public void setMaxSize(long maxSize) {
+		this.maxSize = maxSize;
+	}
 	
 	
+	
+	private boolean isValid(GedEntry<T> entry) {
+		
+			var testLength = maxSize>0;
+		
+			if(testLength)
+				testLength= entry.getLength()<maxSize;
+			
+			
+			if(!testLength)
+				logger.warn("Length > " + maxSize);
+			
+			
+			boolean testType = entry.getExt().toLowerCase().endsWith("jpg");
+			
+			return testLength&&testType;
+	}
+
 	@Override
 	public String getTitle() {
 		return "GED";
