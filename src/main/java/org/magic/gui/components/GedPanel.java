@@ -18,9 +18,11 @@ import java.util.stream.Stream;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 
+import org.apache.commons.io.FilenameUtils;
 import org.magic.api.beans.GedEntry;
 import org.magic.api.interfaces.MTGGedStorage;
 import org.magic.api.interfaces.MTGStorable;
@@ -29,9 +31,14 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.renderer.GedEntryComponent;
 import org.magic.gui.decorators.FileDropDecorator;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
+import org.magic.services.network.URLTools;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.FileTools;
 import org.magic.tools.MTG;
+import org.magic.tools.UITools;
+
+import com.jogamp.newt.event.KeyEvent;
 public class GedPanel<T extends MTGStorable> extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
@@ -72,28 +79,63 @@ public class GedPanel<T extends MTGStorable> extends MTGUIComponent {
 		var panneauHaut = new JPanel();
 		panneauCenter = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		viewPanel = new ImagePanel(true, false, true);
-		
+		var btnLoadFromUrl = UITools.createBindableJButton("Import from URL", MTGConstants.ICON_WEBSITE, KeyEvent.VK_U, "importUrl");
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		add(panneauHaut, BorderLayout.NORTH);
 		add(panneauCenter, BorderLayout.CENTER);
 		
 		panneauHaut.add(new JLabel(capitalize("DRAG_HERE")));
+		panneauHaut.add(btnLoadFromUrl);
 		panneauHaut.add(buzy);
 		
 		
 		
+		btnLoadFromUrl.addActionListener(al->{
+			var url = JOptionPane.showInputDialog("URL");
+			buzy.start();
+			SwingWorker<Void, GedEntry<T>> sw = new SwingWorker<>() {
+				@Override
+				protected Void doInBackground() throws Exception {
+						try {
+							var temp = URLTools.readAsBinary(url);
+							var entry = new GedEntry<T>(temp,classe, instance.getStoreId(),FilenameUtils.getName(url));
+							MTG.getEnabledPlugin(MTGGedStorage.class).store(entry);
+							publish(entry);
+							
+						} catch (Exception e) {
+							logger.error("Error uploading " + url,e);
+						}	
+					return null;
+				}
+
+				@Override
+				protected void done() {
+					buzy.end();
+					revalidate();
+				}
+
+				@Override
+				protected void process(List<GedEntry<T>> chunks) {
+					chunks.forEach(c->{
+						addEntry(c);
+						buzy.progressSmooth(1);
+					});
+				}
+
+			};
+			ThreadManager.getInstance().runInEdt(sw, "Upload url " + url);
+			
+		});
+		
 		new FileDropDecorator().init(panneauCenter, (File[] files) -> {
 			buzy.start(files.length);
 			SwingWorker<Void, GedEntry<T>> sw = new SwingWorker<>() {
-
 				@Override
 				protected Void doInBackground() throws Exception {
 					for(File f : files)
 					{
 						try {
-							var entry = new GedEntry<>(f,classe);
-										entry.setObject(instance);
-										entry.setId(instance.getStoreId());
+							var entry = new GedEntry<>(f,classe, instance);
 							MTG.getEnabledPlugin(MTGGedStorage.class).store(entry);
 							publish(entry);
 							

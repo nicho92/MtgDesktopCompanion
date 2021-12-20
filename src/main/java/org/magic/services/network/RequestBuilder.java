@@ -140,7 +140,11 @@ public class RequestBuilder
 	
 
 	public BufferedImage toImage() throws IOException {
-		return ImageIO.read(execute().getEntity().getContent());
+		
+		try(var stream = execute().getEntity().getContent()){
+			return ImageIO.read(stream);	
+		}
+		
 	}
 
 	

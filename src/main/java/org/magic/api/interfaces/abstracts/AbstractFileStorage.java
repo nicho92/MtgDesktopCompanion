@@ -23,8 +23,20 @@ public abstract class AbstractFileStorage extends AbstractMTGPlugin implements M
 
 	@Override
 	public <T extends MTGStorable> List<GedEntry<T>> listAll() throws IOException {
-		// TODO not yet implemented
-		return new ArrayList<>();
+		
+		var ret = new ArrayList<GedEntry<T>>();
+		
+		try(var stream = Files.walk(getRoot()).filter(Files::isRegularFile))
+		{
+			stream.forEach(p->{
+				try {
+					ret.add(read(p));
+				} catch (IOException e) {
+					logger.error(e);
+				}
+			});
+		return ret;
+		}
 	}
 	
 	
@@ -58,6 +70,8 @@ public abstract class AbstractFileStorage extends AbstractMTGPlugin implements M
 	{
 		GedEntry<T> ged = SerializationUtils.deserialize(java.nio.file.Files.readAllBytes(p));
 		logger.debug("reading " + p + " :" + ged.getClasse() + " " + ged.getName());
+		
+		notify(ged);
 		return ged;
 	}
 	
@@ -78,19 +92,6 @@ public abstract class AbstractFileStorage extends AbstractMTGPlugin implements M
 	@Override
 	public Stream<Path> listDirectory(Path p) throws IOException {
 		return Files.list(p);
-	}
-	
-	
-	@Override
-	public List<Path> list(String dir)
-	{
-		try (Stream<Path> s = Files.list(getFilesSystem().getPath(dir)))
-		{
-			return s.toList();
-		} catch (IOException e) {
-			return new ArrayList<>();
-		}
-		
 	}
 	
 	private <T extends MTGStorable> Path getPath(GedEntry<T> entry) throws IOException

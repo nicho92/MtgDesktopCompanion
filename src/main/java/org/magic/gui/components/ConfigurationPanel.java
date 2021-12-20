@@ -298,7 +298,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 				{
 						@Override
 						protected String doInBackground() throws Exception {
-							return String.valueOf(getEnabledPlugin(MTGDao.class).getDBSize() / 1024 / 1024) + "MB";
+							return UITools.humanReadableSize(getEnabledPlugin(MTGDao.class).getDBSize());
 						}
 						
 						@Override

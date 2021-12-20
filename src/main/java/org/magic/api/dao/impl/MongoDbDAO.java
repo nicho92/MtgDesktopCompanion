@@ -246,7 +246,11 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	@Override
 	public <T extends MTGStorable> boolean storeEntry(GedEntry<T> gedItem) {
-		db.getCollection(colGed, BasicDBObject.class).insertOne(BasicDBObject.parse(gedItem.toJson().toString()));
+		
+		var obj = BasicDBObject.parse(gedItem.toJson().toString());
+			  obj.put("md5", CryptoUtils.getMD5(gedItem.getContent()));
+		
+		db.getCollection(colGed, BasicDBObject.class).insertOne(obj);
 		notify(true);
 		return true;
 	}
@@ -254,7 +258,13 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	
 	@Override
 	public <T extends MTGStorable> GedEntry<T> readEntry(String classe, String idInstance, String fileName) throws SQLException {
-		return (GedEntry<T>) list(classe,idInstance,fileName).get(0);
+		try{ 
+			return (GedEntry<T>) list(classe,idInstance,fileName).get(0);
+		}
+		catch(IndexOutOfBoundsException ioobe)
+		{
+			throw new SQLException(ioobe);
+		}
 	}
 	
 	@Override
@@ -294,6 +304,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 				entry.setId(result.get("id").toString());
 				entry.setName(result.get("name").toString());
 				entry.setContent(CryptoUtils.fromBase64(result.getString("data")));
+				
 				try {
 					var buf = ImageTools.toImage(entry.getContent());
 					entry.setIcon(new ImageIcon(buf));
@@ -310,7 +321,11 @@ public class MongoDbDAO extends AbstractMagicDAO {
 					logger.debug("can't load "+classename,e);
 				}
 				
-				arr.add(entry);
+				
+				if(CryptoUtils.getMD5(entry.getContent()).equals(result.get("md5")))
+					arr.add(entry);
+				else
+					logger.error("MD5 error for " + entry.getName());
 				
 			}
 		);

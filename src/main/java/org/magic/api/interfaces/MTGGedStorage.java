@@ -19,7 +19,5 @@ public interface MTGGedStorage extends MTGPlugin{
 	public <T extends MTGStorable> boolean delete(GedEntry<T> entry);
 	public <T extends MTGStorable> Path getPath(Class<T> classe, T instance) throws IOException;
 	public <T extends MTGStorable> GedEntry<T> read(Path p) throws IOException;
-
-	public List<Path> list(String dir);
 	
 }

@@ -10,6 +10,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
@@ -185,6 +186,13 @@ public class URLTools {
 		} catch (Exception e) {
 			return url;
 		}
+	}
+
+	public static byte[] readAsBinary(String url) throws IOException {
+			var is = RequestBuilder.build().setClient(URLTools.newClient()).url(url).method(METHOD.GET).execute().getEntity().getContent();
+			return IOUtils.toByteArray(is);
+		
+			
 	}
 
 

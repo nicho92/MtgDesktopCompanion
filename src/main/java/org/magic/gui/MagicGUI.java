@@ -32,6 +32,7 @@ import org.magic.api.pricers.impl.MagicCardMarketPricer2;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.BinderTagsEditorComponent;
 import org.magic.gui.components.CardSearchPanel;
+import org.magic.gui.components.GedBrowserPanel;
 import org.magic.gui.components.ScriptPanel;
 import org.magic.gui.components.ThreadMonitor;
 import org.magic.gui.components.dialog.AboutDialog;
@@ -127,13 +128,15 @@ public class MagicGUI extends JFrame {
 		var mntmFileTagEditor = new JMenuItem(capitalize("BINDER_TAG_EDITOR"),MTGConstants.ICON_BINDERS);
 		var mntmFileChromePlugin = new JMenuItem(capitalize("CHROME_PLUGIN"),MTGConstants.ICON_CHROME);
 		var mntmFileScript = new JMenuItem(capitalize("SCRIPT"),MTGConstants.ICON_SCRIPT);
-		
+		var mntmFileGed= new JMenuItem(capitalize("GED"),MTGConstants.ICON_GED);
 		
 		mtgMnuBar.add(mnFile);
 		mnFile.add(mntmFileTagEditor);
 		mnFile.add(mntmFileChromePlugin);
 		mnFile.add(mntmFileScript);
+		mnFile.add(mntmFileGed);
 		mnFile.add(mntmExit);
+		
 		mtgMnuBar.add(mnuAbout);
 		mnuAbout.add(mntmThreadItem);
 		mnuAbout.add(mntmHelp);
@@ -146,6 +149,16 @@ public class MagicGUI extends JFrame {
 			var dow = new ChromeDownloader();
 			dow.setVisible(true);
 		});
+		
+		mntmFileGed.addActionListener(ae -> ThreadManager.getInstance().invokeLater(new MTGRunnable() {
+			
+			@Override
+			protected void auditedRun() {
+				MTGUIComponent.createJDialog(new GedBrowserPanel(), true, false).setVisible(true);
+				
+			}
+		}, "loading GED dialog"));
+		
 		
 		mntmFileScript.addActionListener(ae -> ThreadManager.getInstance().invokeLater(new MTGRunnable() {
 			

@@ -50,12 +50,24 @@ public class ImageTools {
 		return isImage(f.toPath());
 	}
 	
+
+	public static boolean isImage(byte[] array)
+	{
+		try{
+			toImage(array);
+			return true;
+		}catch(Exception e)
+		{
+			logger.error(e);
+			return false;
+		}
+	}
+	
 	
 	public static boolean isImage(Path f)
 	{
 		if(f==null)
 			return false;
-		
 		
 			try {
 				return Files.probeContentType(f).startsWith("image");
@@ -156,9 +168,9 @@ public class ImageTools {
 	}
 	
 	public static BufferedImage fromByteArray(byte[] imagebytes) {
-        try {
+        try  (var stream = new ByteArrayInputStream(imagebytes)){
             if (imagebytes != null && (imagebytes.length > 0)) {
-                return ImageIO.read(new ByteArrayInputStream(imagebytes));
+                return ImageIO.read(stream);
             }
             return null;
         } catch (IOException e) {
@@ -307,6 +319,7 @@ public class ImageTools {
 		   return null;
 		}
 	}
+	
 	
 
 	public static BufferedImage toImage(byte[] img) throws IOException {

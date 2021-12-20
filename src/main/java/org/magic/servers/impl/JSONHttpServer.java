@@ -21,6 +21,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -323,15 +324,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 				try {
 					logger.debug(request);
 					logger.debug("Uploading " + fi);
-					var entry = new GedEntry<>();
-					entry.setClasse(PluginRegistry.inst().loadClass("org.magic.api.beans."+request.params(CLASS)));
-					entry.setId(request.params(":id"));
-					entry.setIsImage(true);
-					entry.setName(fi.getName());
-					entry.setContent(fi.get());
-					
+					var entry = new GedEntry<>(fi.get(),PluginRegistry.inst().loadClass("org.magic.api.beans."+request.params(CLASS)),request.params(":id"),fi.getName());
 					MTG.getEnabledPlugin(MTGGedStorage.class).store(entry);
-
 					fileObj.addProperty("url", (getBoolean(ENABLE_SSL)?"https://":"http://")+request.headers("Host")+"/ged/"+request.params(CLASS)+"/"+request.params(":id"));
 				}
 				catch(Exception e)
@@ -353,7 +347,12 @@ public class JSONHttpServer extends AbstractMTGServer {
 				@Override
 				public JsonArray call() throws Exception {
 					var arr = new JsonArray();
-					MTG.getEnabledPlugin(MTGGedStorage.class).list(request.params(CLASS)+"/"+request.params(":id")).forEach(p->{
+					
+					var classename = request.params(CLASS);
+					if(!classename.startsWith("org.magic.api.beans"))
+						classename = "org.magic.api.beans."+ request.params(CLASS);
+					
+					MTG.getEnabledPlugin(MTGGedStorage.class).listDirectory(Path.of(classename,request.params(":id"))).forEach(p->{
 						try {
 							var e =MTG.getEnabledPlugin(MTGGedStorage.class).read(p);
 							if(e.isImage()) {

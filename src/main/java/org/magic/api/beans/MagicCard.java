@@ -96,6 +96,12 @@ public class MagicCard extends AbstractProduct {
 		
 	}
 	
+	@Override
+	public String getStoreId() {
+		return IDGenerator.generate(this);
+	}
+	
+	
 	public String getFullName()
 	{
 		if(getRotatedCard()!=null)

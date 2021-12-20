@@ -146,12 +146,6 @@ public class FileTools {
 	
 	}
 	
-	public static String checksum(File f) throws IOException
-	{
-		return Files.asByteSource(f).hash(Hashing.sha256()).toString();
-	}
-	
-	
 	public static void decompressGzipFile(File fileZip,File dest) {
 		
 		if(dest.isDirectory())

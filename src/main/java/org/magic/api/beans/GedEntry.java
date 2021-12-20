@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.Serializable;
 
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.filechooser.FileSystemView;
 
 import org.magic.api.exports.impl.JsonExport;
@@ -76,33 +77,61 @@ public class GedEntry <T extends MTGStorable> implements Serializable {
 		return new JsonExport().fromJson(object, classe);
 	}
 	
+	public void setClasse(Class<T> classe) {
+		this.classe = classe;
+	}
+	
 	public GedEntry()
 	{
 		
 	}
 	
-	public void setClasse(Class<T> classe) {
-		this.classe = classe;
-	}
-	
-	
-	public GedEntry(File f,Class<T> classe) throws IOException {
+	public GedEntry(File f,Class<T> classe, T instance) throws IOException {
 		this.classe=classe;
 		setName(f.getName());
 		setContent(Files.toByteArray(f));
 		setIsImage(ImageTools.isImage(f));
 		setIcon(FileSystemView.getFileSystemView().getSystemIcon(f));
-		setId(FileTools.checksum(f));
+		setObject(instance);
+		setClasse(classe);
+		setId(instance.getStoreId());
 	}
 
+	public GedEntry(byte[] content,Class<T> classe,String id,String name)  {
+		this.classe=classe;
+		setName(name);
+		setContent(content);
+		setIsImage(ImageTools.isImage(content));
+		
+		if(isImage())
+		{
+			try {
+				setIcon(new ImageIcon(ImageTools.toImage(getContent())));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		setClasse(classe);
+		setId(id);
+	}
+	
+	public long getLength()
+	{
+		return content.length;
+	}
+	
+	
+	
 	public Class<T> getClasse() {
 		return classe;
 	}
 	
-	public boolean isImage()
-	{
+	
+	public boolean isImage() {
 		return isImage;
 	}
+	
 	
 	public String getId() {
 		return id;
@@ -115,6 +144,7 @@ public class GedEntry <T extends MTGStorable> implements Serializable {
 		var obj = new JsonObject();
 		obj.addProperty("id", getId());
 	    obj.addProperty("name", getName());
+	    obj.addProperty("size", getContent().length);
 	    
 	    if(getObject()!=null)
 	    	obj.addProperty("classe", getObject().getClass().getCanonicalName());
