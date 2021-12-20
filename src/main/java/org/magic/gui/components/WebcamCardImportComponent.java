@@ -113,14 +113,14 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		var panelControl = new JPanel();
-		JComboBox<Webcam> cboWebcams = UITools.createCombobox(WebcamUtils.inst().listWebcam(),MTGConstants.ICON_WEBCAM);
-		JComboBox<AbstractRecognitionArea> cboAreaDetector = UITools.createCombobox(new AbstractRecognitionArea[] { new AutoDetectAreaStrat(),new ManualAreaStrat()});
+		var cboWebcams = UITools.createCombobox(WebcamUtils.inst().listWebcam(),MTGConstants.ICON_WEBCAM);
+		var cboAreaDetector = UITools.createCombobox(new AbstractRecognitionArea[] { new AutoDetectAreaStrat(),new ManualAreaStrat()});
 		var chkpause = new JCheckBox("Pause");
 		var sldThreshold = new JSlider(0,100,27);
 		var lblThreshHoldValue = new JLabel(String.valueOf(sldThreshold.getValue()));
 		var thrsh = new JPanel();
 		var controlWebcamPanel = new JPanel();
-		var btnStarting = new JButton("Detect");
+		var btnStarting = new JButton("Detect",MTGConstants.PLAY_ICON);
 		var panneauBas = new JPanel();
 		var panneauBasButtons = new JPanel();
 		var btnRemove = new JButton(MTGConstants.ICON_DELETE);
@@ -138,7 +138,7 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 			logger.error(e1);
 		}
 		tableResults = UITools.createNewTable(modelCards);
-		JList<LoadedRecognitionEdition> listEds = new JList<>(listModel);
+		var listEds = new JList<>(listModel);
 		var deco = JListFilterDecorator.decorate(listEds,(LoadedRecognitionEdition t, String u)->t.getEdition().getSet().toLowerCase().contains(u.toLowerCase()));
 
 		
@@ -307,10 +307,10 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 					while(running) 
 					{
 						webcamCanvas.draw();
-						BufferedImage img = webcamCanvas.lastDrawn();
+						var img = webcamCanvas.lastDrawn();
 						if(strat!=null && img!=null && !pause && !isCancelled()) 
 						{
-							List<MatchResult> matches = webcamCanvas.getAreaRecognitionStrategy().recognize(img, strat,sldThreshold.getValue());
+								var matches = webcamCanvas.getAreaRecognitionStrategy().recognize(img, strat,sldThreshold.getValue());
 								MatchResult res = !matches.isEmpty() ? matches.get(0):null;
 								if(res!=null)
 								{

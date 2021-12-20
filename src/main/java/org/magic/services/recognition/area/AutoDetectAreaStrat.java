@@ -23,8 +23,8 @@ public class AutoDetectAreaStrat extends AbstractRecognitionArea {
         bounds = ContourBoundingBox.getContourBoundingBox(in);
         for (ContourBoundingBox bound : bounds) 
         {
-            BufferedImage norm = ImageTools.getScaledImage(bound.getTransformedImage(in,false));
-            BufferedImage flip = ImageTools.getScaledImage(bound.getTransformedImage(in,true));
+            var norm = ImageTools.getScaledImage(bound.getTransformedImage(in,false));
+            var flip = ImageTools.getScaledImage(bound.getTransformedImage(in,true));
             var i = new ImageDesc(norm,flip);
           
             MatchResult mr = strat.getMatch(i, recogTresh/100.0);

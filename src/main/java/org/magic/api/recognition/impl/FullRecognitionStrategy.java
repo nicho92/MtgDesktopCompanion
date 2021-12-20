@@ -14,7 +14,7 @@ public class FullRecognitionStrategy extends AbstractRecognitionStrategy
 		double max = 0;
 		for(var i=0;i<desc.size();i++)
 		{
-			double score = in.compareSURF(desc.get(i).getDescData() );
+			double score = in.compareSURF(desc.get(i).getDescData());
 			if(score>max)
 			{
 				max=score;
