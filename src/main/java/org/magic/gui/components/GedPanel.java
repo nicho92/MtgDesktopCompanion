@@ -233,14 +233,23 @@ public class GedPanel<T extends MTGStorable> extends MTGUIComponent {
 			var testLength = maxSize>0;
 		
 			if(testLength)
+			{
 				testLength= entry.getLength()<maxSize;
-			
-			
-			if(!testLength)
-				logger.warn("Length > " + maxSize);
-			
+				
+				if(!testLength)
+					logger.warn("Length > " + maxSize);
+			}
+			else
+			{
+				testLength=true;
+			}
 			
 			boolean testType = entry.getExt().toLowerCase().endsWith("jpg");
+			
+			if(!testType)
+				logger.warn(entry.getExt() + " != jpg");
+
+			
 			
 			return testLength&&testType;
 	}
