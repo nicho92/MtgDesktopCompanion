@@ -98,8 +98,8 @@ public abstract class AbstractFileStorage extends AbstractMTGPlugin implements M
 	{
 		if(entry.getClasse()==null)
 			return getFilesSystem().getPath(entry.getName());
-		else if(entry.getObject()!=null)
-			return getFilesSystem().getPath(entry.getClasse().getSimpleName(),entry.getObject().toString(),entry.getName());
+		else if(entry.getId()!=null)
+			return getFilesSystem().getPath(entry.getClasse().getSimpleName(),entry.getId(),entry.getName());
 		else
 			return getFilesSystem().getPath(entry.getClasse().getSimpleName(),entry.getName());
 	}

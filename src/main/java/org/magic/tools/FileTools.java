@@ -102,6 +102,12 @@ public class FileTools {
 			FileUtils.forceDelete(f);
 	}
 	
+	
+	public static byte[] readFileAsBinary(File f) throws IOException
+	{
+		return Files.toByteArray(f);
+	}
+	
 
 	public static String readUTF8(ByteBuffer buf)
 	{

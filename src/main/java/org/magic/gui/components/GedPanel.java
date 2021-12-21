@@ -132,7 +132,7 @@ public class GedPanel<T extends MTGStorable> extends MTGUIComponent {
 					for(File f : files)
 					{
 						try {
-							var entry = new GedEntry<>(f,classe, instance);
+							var entry = new GedEntry<T>(FileTools.readFileAsBinary(f),classe, instance.getStoreId(),f.getName());
 							MTG.getEnabledPlugin(MTGGedStorage.class).store(entry);
 							publish(entry);
 							

@@ -382,18 +382,9 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				
 				if(rs.getString("md5")!=null && !CryptoUtils.getMD5(ged.getContent()).equals(rs.getString("md5")))
 					throw new SQLException("MD5 Error for " + fileName +" : " + CryptoUtils.getMD5(ged.getContent()) + " " + rs.getString("md5")); 
-				
-		}		
-				
-		try {
-				var buf = ImageTools.toImage(ged.getContent());
-				ged.setIcon(new ImageIcon(buf));
-				ged.setIsImage(true);
-			}
-			catch(Exception e)
-			{
-				ged.setIsImage(false);
-			}
+
+				ged.setIsImage(ImageTools.isImage(ged.getContent()));
+		}
 		
 		try {
 				ged.setClasse(PluginRegistry.inst().loadClass(classename));

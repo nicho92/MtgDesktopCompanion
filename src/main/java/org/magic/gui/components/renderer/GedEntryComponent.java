@@ -61,7 +61,15 @@ public class GedEntryComponent extends JPanel {
 		l.setHorizontalAlignment(SwingConstants.CENTER);
 		this.entry = e;
 		l.setText(entry.getName());
-		l.setIcon(entry.getIcon());
+	
+		try {
+			l.setIcon(new ImageIcon(entry.getContent()));
+		}catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}
+		
+		
 		l.setLineWrap(true);
 		defaultColor = getBackground();
 		

@@ -304,16 +304,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 				entry.setId(result.get("id").toString());
 				entry.setName(result.get("name").toString());
 				entry.setContent(CryptoUtils.fromBase64(result.getString("data")));
-				
-				try {
-					var buf = ImageTools.toImage(entry.getContent());
-					entry.setIcon(new ImageIcon(buf));
-					entry.setIsImage(true);
-				}
-				catch(Exception e)
-				{
-					entry.setIsImage(false);
-				}
+				entry.setIsImage(ImageTools.isImage(entry.getContent()));
 				
 				try {
 					entry.setClasse(PluginRegistry.inst().loadClass(result.getString("classe")));
