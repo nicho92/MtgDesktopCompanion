@@ -7,7 +7,6 @@ public class DescContainer implements Comparable<DescContainer>{
 	private String stringData;
 	private double match = 0;
 
-	
 	public DescContainer(ImageDesc descData, String stringData) {
 		this.descData = descData;
 		this.stringData = stringData;

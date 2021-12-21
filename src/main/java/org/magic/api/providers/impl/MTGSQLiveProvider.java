@@ -24,6 +24,7 @@ import org.magic.api.beans.MagicFormat.AUTHORIZATION;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.beans.enums.MTGBorder;
 import org.magic.api.beans.enums.MTGColor;
+import org.magic.api.beans.enums.MTGFinishes;
 import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGPromoType;
@@ -362,7 +363,22 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				mc.setOriginalReleaseDate(rs.getString(ORIGINAL_RELEASE_DATE));
 				mc.setTimeshifted(rs.getBoolean(TIMESHIFTED));
 				mc.setRarity(MTGRarity.rarityByName(rs.getString(RARITY)));
+				mc.setFunny(rs.getBoolean(IS_FUNNY));
+				mc.setSecurityStamp(rs.getString(SECURITYSTAMP));
+				mc.setRebalanced(rs.getBoolean(IS_REBALANCED));
 				
+				
+				if(rs.getString(FINISHES)!=null)
+				{
+					for(String s : rs.getString(FINISHES).split(","))
+					{
+						try {
+							mc.getFinishes().add(MTGFinishes.parseByLabel(s));
+						} catch (Exception e) {
+							logger.error("couldn't find finishes for " + s);
+						}
+					}
+				}
 				
 				if(rs.getString(FRAME_EFFECTS)!=null)
 				{

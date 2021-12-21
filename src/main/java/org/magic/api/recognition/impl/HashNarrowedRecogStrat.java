@@ -48,11 +48,11 @@ public class HashNarrowedRecogStrat extends AbstractRecognitionStrategy{
 		sortByHash(in);
 		var ix = 0;
 		double max = 0;
-		int size = Math.min(desc.size(),getInt("LIMIT_TO_TOP_N_HASH_MATCH"));
+		int size = Math.min(dataList.size(),getInt("LIMIT_TO_TOP_N_HASH_MATCH"));
 
 		for(var i=0;i<size;i++)
 		{
-			double score = in.compareSURF(desc.get(i).getDescData());
+			double score = in.compareSURF(allDatas().get(i).getDescData());
 			if(score>max)
 			{
 				max=score;
@@ -61,19 +61,15 @@ public class HashNarrowedRecogStrat extends AbstractRecognitionStrategy{
 		}
 		if(max>threshhold)
 		{
-			return new MatchResult(desc.get(ix).getStringData(),max);
+			return new MatchResult(allDatas().get(ix).getStringData(),max);
 		}
 		return null;
 	}
 
 	private void sortByHash(ImageDesc id)
 	{
-		for(var i=0;i<desc.size();i++)
-		{
-			DescContainer d = desc.get(i);
-			d.setMatch(id.compareHashWithFlip(d.getDescData()));
-		}
-		Collections.sort(desc);
+		allDatas().forEach(d->d.setMatch(id.compareHashWithFlip(d.getDescData())));
+		Collections.sort(allDatas());
 	}
 
 

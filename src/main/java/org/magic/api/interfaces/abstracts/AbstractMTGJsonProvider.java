@@ -63,7 +63,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	protected static final String IS_RESERVED = "isReserved";
 	protected static final String IS_FULLART = "isFullArt";
 	protected static final String FRAME_VERSION = "frameVersion";
-	protected static final String CONVERTED_MANA_COST = "convertedManaCost";
+	protected static final String CONVERTED_MANA_COST = "manaValue";
 	protected static final String TEXT = "text";
 	protected static final String NUMBER = "number";
 	protected static final String RARITY = "rarity";
@@ -98,6 +98,10 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	protected static final String IS_FOREIGN_ONLY = "isForeignOnly";
 	protected static final String PROMO_TYPE = "promoTypes";
 	protected static final String COLOR_INDICATOR = "colorIndicator";
+	protected static final String IS_FUNNY = "isFunny";
+	protected static final String SECURITYSTAMP = "securityStamp";
+	protected static final String FINISHES = "finishes";
+	protected static final String IS_REBALANCED="isRebalanced";
 			
 	protected static final String FORCE_RELOAD = "FORCE_RELOAD";
 	

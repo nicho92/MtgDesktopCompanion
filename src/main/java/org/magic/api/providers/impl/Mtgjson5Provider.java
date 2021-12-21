@@ -19,6 +19,7 @@ import org.magic.api.beans.MagicFormat.AUTHORIZATION;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.beans.enums.MTGBorder;
 import org.magic.api.beans.enums.MTGColor;
+import org.magic.api.beans.enums.MTGFinishes;
 import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGRarity;
@@ -311,7 +312,6 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 				if(map.get(HAS_ALTERNATIVE_DECK_LIMIT)!=null)
 					mc.setHasAlternativeDeckLimit(Boolean.valueOf(map.get(HAS_ALTERNATIVE_DECK_LIMIT).toString()));
 				
-				
 				if (map.get(WATERMARK) != null)
 					mc.setWatermarks(String.valueOf(map.get(WATERMARK)));
 				
@@ -329,6 +329,18 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 
 				if (map.get(RARITY) != null)
 					mc.setRarity(MTGRarity.rarityByName(map.get(RARITY).toString()));
+				
+				if (map.get(IS_FUNNY) != null)
+					mc.setFunny(Boolean.valueOf(map.get(IS_FUNNY).toString()));
+				
+				if (map.get(IS_REBALANCED) != null)
+					mc.setRebalanced(Boolean.valueOf(map.get(IS_REBALANCED).toString()));
+				
+				if (map.get(SECURITYSTAMP) != null)
+					mc.setSecurityStamp(map.get(SECURITYSTAMP).toString());
+				
+				if (map.get(FINISHES) != null)
+					mc.getFinishes().addAll(MTGFinishes.parseByLabel(((List<String>) map.get(FINISHES))));
 				
 				
 				

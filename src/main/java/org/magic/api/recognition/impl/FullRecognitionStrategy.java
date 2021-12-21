@@ -12,9 +12,9 @@ public class FullRecognitionStrategy extends AbstractRecognitionStrategy
 	{
 		var ix = 0;
 		double max = 0;
-		for(var i=0;i<desc.size();i++)
+		for(var i=0;i<dataList.size();i++)
 		{
-			double score = in.compareSURF(desc.get(i).getDescData());
+			double score = in.compareSURF(allDatas().get(i).getDescData());
 			if(score>max)
 			{
 				max=score;
@@ -23,7 +23,7 @@ public class FullRecognitionStrategy extends AbstractRecognitionStrategy
 		}
 		if(max>threshhold)
 		{
-			return new MatchResult(desc.get(ix).getStringData(),max);
+			return new MatchResult(allDatas().get(ix).getStringData(),max);
 		}
 		
 		return null;

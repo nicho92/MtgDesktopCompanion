@@ -13,7 +13,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
 
@@ -23,7 +22,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -116,7 +114,7 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		var cboWebcams = UITools.createCombobox(WebcamUtils.inst().listWebcam(),MTGConstants.ICON_WEBCAM);
 		var cboAreaDetector = UITools.createCombobox(new AbstractRecognitionArea[] { new AutoDetectAreaStrat(),new ManualAreaStrat()});
 		var chkpause = new JCheckBox("Pause");
-		var sldThreshold = new JSlider(0,100,27);
+		var sldThreshold = new JSlider(0,100,35);
 		var lblThreshHoldValue = new JLabel(String.valueOf(sldThreshold.getValue()));
 		var thrsh = new JPanel();
 		var controlWebcamPanel = new JPanel();
@@ -266,7 +264,16 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 						AbstractObservableWorker<Void, Void, MTGCardRecognition> work = new AbstractObservableWorker<>(buzy,strat,ed.getEdition().getCardCount()) {
 							@Override
 							protected Void doInBackground() throws Exception {
-								plug.loadDatasForSet(ed.getEdition());
+								
+								if(!ed.isLoaded())
+									plug.loadDatasForSet(ed);
+								else
+									plug.clear(ed.getEdition());
+								
+								
+							
+								
+								
 								return null;
 							}
 							
@@ -274,8 +281,8 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 							protected void done() {
 								super.done();
 								plug.finalizeLoad();
-								ed.setLoaded(true);
 								pause=false;
+								listEds.updateUI();
 							}
 						};
 						
@@ -358,13 +365,14 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 			
 			if(currentCard==null || !currentCard.getName().equalsIgnoreCase(r.getName()))
 			{
+				logger.info("Looking for " + r.getName() + " " + r.getSetCode());
 				currentCard = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(r.getName(), new MagicEdition(r.getSetCode()), true).get(0);
 				modelCards.addItem(currentCard);
 				tableResults.scrollRectToVisible(tableResults.getCellRect(tableResults.getRowCount()-1, 0, true));
 			}
 			
 		} catch (IOException e) {
-			logger.error(e);
+			logger.error("Error loading card for result " + r);
 		}
 		
 	}

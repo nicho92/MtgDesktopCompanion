@@ -9,6 +9,7 @@ import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.MTGBorder;
 import org.magic.api.beans.enums.MTGCardVariation;
 import org.magic.api.beans.enums.MTGColor;
+import org.magic.api.beans.enums.MTGFinishes;
 import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGPromoType;
@@ -60,6 +61,7 @@ public class MagicCard extends AbstractProduct {
 	private boolean promoCard;
 	private boolean reprintedCard;
 	private boolean fullArt;
+	private boolean isFunny;
 	private Integer mtgArenaId;
 	private String scryfallIllustrationId;
 	private String gathererCode;
@@ -75,6 +77,9 @@ public class MagicCard extends AbstractProduct {
 	private List<MTGPromoType> promotypes;
 	private boolean japanese;
 	private Date dateUpdated;
+	private List<MTGFinishes> finishes;
+	private String securityStamp;
+	private boolean isRebalanced;
 	
 	public MTGCardVariation getExtra()
 	{
@@ -96,6 +101,32 @@ public class MagicCard extends AbstractProduct {
 		
 	}
 	
+	public boolean isRebalanced() {
+		return isRebalanced;
+	}
+	
+	public void setRebalanced(boolean isRebalanced) {
+		this.isRebalanced = isRebalanced;
+	}
+	
+	public String getSecurityStamp() {
+		return securityStamp;
+	}
+	
+	public void setSecurityStamp(String securityStamp) {
+		this.securityStamp = securityStamp;
+	}
+	
+	
+	public List<MTGFinishes> getFinishes() {
+		return finishes;
+	}
+	
+	public void setFinishes(List<MTGFinishes> finishes) {
+		this.finishes = finishes;
+	}
+	
+	
 	@Override
 	public String getStoreId() {
 		return IDGenerator.generate(this);
@@ -108,6 +139,14 @@ public class MagicCard extends AbstractProduct {
 			return getName() + " // "+ getRotatedCard().getName();
 		else
 			return getName();
+	}
+
+	public boolean isFunny() {
+		return isFunny;
+	}
+
+	public void setFunny(boolean isFunny) {
+		this.isFunny = isFunny;
 	}
 
 	public boolean isJapanese() {
@@ -556,6 +595,7 @@ public class MagicCard extends AbstractProduct {
 		keywords = new ArrayList<>();
 		promotypes = new ArrayList<>();
 		colorIndicator = new ArrayList<>();
+		finishes = new ArrayList<>();
 		setTypeProduct(EnumItems.CARD);
 	}
 
