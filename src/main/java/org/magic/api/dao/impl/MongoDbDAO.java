@@ -18,8 +18,6 @@ import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
-import javax.swing.ImageIcon;
-
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.NotImplementedException;
@@ -54,6 +52,7 @@ import org.magic.tools.IDGenerator;
 import org.magic.tools.ImageTools;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.CommandResult;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.FindIterable;
@@ -100,7 +99,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	private String dbTypeNewsField = "typeNews";
 	private MongoClient client;
 	private JsonWriterSettings setts;
-	
+	private String[] collectionsNames = new String[] {colCards,colCollects,colStocks,colAlerts,colNews,colOrders,colSealed,colTransactions,colContacts,colDecks,colConversionItem,colAnnounces,colGed,colFavorites};
 	
 	@Override
 	public Map<String, String> getDefaultAttributes() {
@@ -221,7 +220,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	public boolean createDB() {
 		
 			var populateCollections=true;
-			for(String s : new String[] {colCards,colCollects,colStocks,colAlerts,colNews,colOrders,colSealed,colTransactions,colContacts,colDecks,colConversionItem,colAnnounces,colGed,colFavorites})
+			for(String s : collectionsNames)
 			{
 				try {
 					db.createCollection(s);
@@ -572,7 +571,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	@Override
 	public List<MagicCollection> listCollections() throws SQLException {
 		MongoCollection<MagicCollection> collection = db.getCollection(colCollects, MagicCollection.class);
-		List<MagicCollection> cols = new ArrayList<>();
+		var cols = new ArrayList<MagicCollection>();
 		collection.find().into(cols);
 		return cols;
 	}
@@ -588,12 +587,29 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		return getString(SERVERNAME)+":"+getInt(SERVERPORT);
 	}
 
+	
+	public static void main(String[] args) throws SQLException {
+		
+		MongoDbDAO dao = new MongoDbDAO();
+		dao.init();
+		
+		
+		dao.getDBSize();
+		
+	}
+	
+	
 	@Override
 	public Map<String,Long> getDBSize() {
 		
-		return new HashMap<>();
+		var map = new HashMap<String,Long>();
 		
-		//return db.runCommand(new BasicDBObject("dbstats", 1)).getLong("dataSize");
+		for(String col : collectionsNames)
+			{
+				map.put(col, db.runCommand(new BasicDBObject("collStats", col)).getInteger("size").longValue());
+			}
+		
+		return map;
 	}
 
 	@Override

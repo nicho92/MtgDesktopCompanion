@@ -203,7 +203,7 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 
 	@Override
 	public String getTitle() {
-		return capitalize("THREADS");
+		return capitalize("TECHNICAL");
 	}
 	
 	@Override
