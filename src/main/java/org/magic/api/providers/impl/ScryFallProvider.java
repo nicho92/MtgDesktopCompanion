@@ -23,6 +23,7 @@ import org.magic.api.beans.MagicFormat.AUTHORIZATION;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.beans.enums.MTGBorder;
 import org.magic.api.beans.enums.MTGColor;
+import org.magic.api.beans.enums.MTGFinishes;
 import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGRarity;
@@ -70,6 +71,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	private static final String CARD_FACES = "card_faces";
 	private static final String BORDER = "border_color";
 	private static final String NAME = "name";
+	private static final String FINISHES ="finishes";
 	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
 	private static final String BULK_FILE_URL="https://archive.scryfall.com/json/scryfall-all-cards.json";
 	private String baseURI = "";
@@ -276,7 +278,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		arr.add(new QueryAttribute(COLOR, MTGColor.class));
 		arr.add(new QueryAttribute(COLOR_IDENTITY, MTGColor.class));
 		arr.add(new QueryAttribute(LAYOUT,MTGLayout.class));
-		
+		arr.add(new QueryAttribute(FINISHES,MTGFinishes.class));
 		return arr;
 	}
 	
@@ -465,6 +467,14 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				mc.getColors().add(MTGColor.colorByCode(it.next().getAsString()));
 
 		}
+		
+		if (obj.get(FINISHES) != null) {
+			Iterator<JsonElement> it = obj.get(FINISHES).getAsJsonArray().iterator();
+			while (it.hasNext())
+				mc.getFinishes().add(MTGFinishes.parseByLabel(it.next().getAsString()));
+
+		}
+		
 
 		if (obj.get(COLOR_IDENTITY) != null) {
 			Iterator<JsonElement> it = obj.get(COLOR_IDENTITY).getAsJsonArray().iterator();
