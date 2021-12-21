@@ -24,6 +24,7 @@ import javax.swing.event.DocumentListener;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.MTGColor;
+import org.magic.api.beans.enums.MTGFinishes;
 import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGPromoType;
@@ -139,6 +140,9 @@ public class CriteriaComponent extends JComponent implements ActionListener{
 		else
 		if(c.getType() == MTGFrameEffects.class)
 			return init(UITools.createCombobox(MTGFrameEffects.values()));
+		else
+		if(c.getType() == MTGFinishes.class)
+			return init(UITools.createCombobox(MTGFinishes.values()));
 		else 
 		if(c.getType() == MTGPromoType.class)
 			return init(UITools.createCombobox(MTGPromoType.values()));

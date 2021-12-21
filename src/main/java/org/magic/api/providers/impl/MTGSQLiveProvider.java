@@ -696,6 +696,8 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 					ret.add(new QueryAttribute(rs.getString(NAME), MTGFrameEffects.class));
 				else if(rs.getString(NAME).equals(PROMO_TYPE))
 					ret.add(new QueryAttribute(rs.getString(NAME), MTGPromoType.class));
+				else if(rs.getString(NAME).equals(FINISHES))
+					ret.add(new QueryAttribute(rs.getString(NAME), MTGFinishes.class));
 				else
 					ret.add(new QueryAttribute(rs.getString(NAME), sqlToJavaType(rs.getString("type"))));
 			}

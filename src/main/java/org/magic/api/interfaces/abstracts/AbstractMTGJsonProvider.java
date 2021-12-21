@@ -16,6 +16,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.MTGColor;
+import org.magic.api.beans.enums.MTGFinishes;
 import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGPromoType;
@@ -191,7 +192,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 		for(String s :Lists.newArrayList(CONVERTED_MANA_COST,POWER,TOUGHNESS,MULTIVERSE_ID,NUMBER))
 			arr.add(new QueryAttribute(s,Integer.class));
 		
-		for(String s :Lists.newArrayList(IS_RESERVED,HAS_FOIL,HAS_NON_FOIL))
+		for(String s :Lists.newArrayList(IS_RESERVED,HAS_FOIL,HAS_NON_FOIL,IS_FUNNY))
 			arr.add(new QueryAttribute(s,Boolean.class));
 		
 		
@@ -202,7 +203,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 		arr.add(new QueryAttribute(COLORS, MTGColor.class));
 		arr.add(new QueryAttribute(PROMO_TYPE, MTGPromoType.class));
 		arr.add(new QueryAttribute(FRAME_EFFECTS, MTGFrameEffects.class));
-		
+		arr.add(new QueryAttribute(FINISHES, MTGFinishes.class));
 		
 		return arr;
 	}

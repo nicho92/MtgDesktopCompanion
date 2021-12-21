@@ -13,6 +13,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.MTGCardVariation;
 import org.magic.api.beans.enums.MTGColor;
+import org.magic.api.beans.enums.MTGFinishes;
 import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGPromoType;
@@ -67,6 +68,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		b.addConvertor(MTGPromoType.class,(MTGPromoType source)->source.name().toLowerCase());
 		b.addConvertor(MTGCardVariation.class,(MTGCardVariation source)->source.name().toLowerCase());
 		b.addConvertor(MTGPromoType.class,(MTGPromoType source)->source.name().toLowerCase());
+		b.addConvertor(MTGFinishes.class,(MTGFinishes source)->source.name().toLowerCase());
 	}
 	
 	
@@ -84,7 +86,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	protected void postTreatmentCard(MagicCard mc)
 	{
 		if(mc.getCurrentSet().getId().endsWith("MH2") && (mc.getFrameVersion().equals("1995")||mc.getFrameVersion().equals("1997")))
-				mc.setTimeshifted(true);
+			mc.setTimeshifted(true);
 		
 		if(mc.getCurrentSet().getId().equals("H1R"))
 			mc.setTimeshifted(true);
