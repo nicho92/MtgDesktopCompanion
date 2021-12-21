@@ -73,7 +73,6 @@ public class MagicGUI extends JFrame {
 			osNotifier=new OSTrayNotifier();
 		}
 		
-		
 		try {
 			serviceUpdate = new VersionChecker();
 			initGUI();
@@ -277,7 +276,7 @@ public class MagicGUI extends JFrame {
 		if (MTGControler.getInstance().get("modules/webshop").equals("true"))
 			addTab(new ShopGUI());
 		
-		//if (MTGControler.getInstance().get("modules/announces").equals("true"))
+		if (MTGControler.getInstance().get("modules/announce").equals("true"))
 			addTab(new AnnouncesGUI());
 		
 
