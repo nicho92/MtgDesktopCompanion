@@ -20,10 +20,9 @@ import javax.swing.border.LineBorder;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXLabel;
 import org.magic.api.beans.GedEntry;
-import org.magic.api.interfaces.MTGGedStorage;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.tools.ImageTools;
-import org.magic.tools.MTG;
 
 @SuppressWarnings("rawtypes") 
 public class GedEntryComponent extends JPanel {
@@ -52,7 +51,9 @@ public class GedEntryComponent extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 		this.w=w;
 		this.h=h;
-		lblDelete = new JLabel("X");
+
+		
+		lblDelete = new JLabel(MTGConstants.ICON_SMALL_DELETE);
 		lblDelete.setHorizontalAlignment(SwingConstants.RIGHT);
 		add(lblDelete, BorderLayout.NORTH);
 		
@@ -87,21 +88,16 @@ public class GedEntryComponent extends JPanel {
 		
 	}
 	
-	protected void delete() {
-		MTG.getEnabledPlugin(MTGGedStorage.class).delete(entry);
-	}
+	
 
 	public ImageIcon getThumbnail()
 	{
-		   if(entry.isImage()) 
-		   {
-			   BufferedImage buff = getPicture();
+			   var buff = getPicture();
 			   
 			   if(buff!=null)
-				   return new ImageIcon(getPicture().getScaledInstance(w, h, Image.SCALE_SMOOTH));
-		   }
-		   
-		   return null;
+				   return new ImageIcon(buff.getScaledInstance(w, h, Image.SCALE_SMOOTH));
+
+			   return null;
 	}
 	
 	public BufferedImage getPicture()

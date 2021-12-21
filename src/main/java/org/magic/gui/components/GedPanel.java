@@ -202,10 +202,12 @@ public class GedPanel<T extends MTGStorable> extends MTGUIComponent {
 			@Override
 			public void mouseClicked(MouseEvent ev) 
 			{
-					if(MTG.getEnabledPlugin(MTGGedStorage.class).delete(c)) {
-						panneauCenter.remove(e);
-						panneauCenter.revalidate();
-						panneauCenter.repaint();
+					var ret = JOptionPane.showConfirmDialog(null, MTG.capitalize("DELETE"));
+					
+					if(ret==JOptionPane.YES_OPTION && MTG.getEnabledPlugin(MTGGedStorage.class).delete(c)) {
+							panneauCenter.remove(e);
+							panneauCenter.revalidate();
+							panneauCenter.repaint();
 					}
 			}
 		});
