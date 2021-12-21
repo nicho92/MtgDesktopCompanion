@@ -1,6 +1,8 @@
 package org.magic.gui.components;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.io.IOException;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -19,6 +21,7 @@ import org.magic.gui.models.GedEntryTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
+import org.magic.tools.ImageTools;
 import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 
@@ -29,7 +32,8 @@ public class GedBrowserPanel extends MTGUIComponent {
 	private JComboBox<MTGGedStorage> cboGed;
 	private GedEntryTableModel model;
 	private AbstractBuzyIndicatorComponent buzy;
-	
+	private ImagePanel imgPanel;
+	private AbstractObservableWorker<List<GedEntry<MTGStorable>>, GedEntry<MTGStorable>, MTGGedStorage> sw;
 	
 	public GedBrowserPanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -37,7 +41,8 @@ public class GedBrowserPanel extends MTGUIComponent {
 		cboGed = UITools.createCombobox(MTGGedStorage.class,true);
 		var panneauHaut = new JPanel();
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
-		
+		imgPanel = new ImagePanel(true, false, true);
+		imgPanel.setPreferredSize(new Dimension(250,0));
 		cboGed.setSelectedItem(MTG.getEnabledPlugin(MTGGedStorage.class));
 		cboGed.addItemListener(il->reload());
 		table = UITools.createNewTable(model);
@@ -50,16 +55,37 @@ public class GedBrowserPanel extends MTGUIComponent {
 				return lab;
 		});
 		
+		
+		table.getSelectionModel().addListSelectionListener(il->{
+			
+			if(!il.getValueIsAdjusting())
+			{
+				GedEntry<?> entry = UITools.getTableSelection(table, 0);
+				try {
+					imgPanel.setImg(ImageTools.read(entry.getContent()));
+				} catch (IOException e) {
+					logger.error(e);
+				}
+			}
+			
+		});
+		
+		
 		panneauHaut.add(cboGed);
 		panneauHaut.add(buzy);
 		add(panneauHaut, BorderLayout.NORTH);
 		add(new JScrollPane(table),BorderLayout.CENTER);
+		add(imgPanel,BorderLayout.EAST);
 		reload();
 	}
 	
 	private void reload() {
 		
-		var sw = new AbstractObservableWorker<List<GedEntry<MTGStorable>>, GedEntry<MTGStorable>, MTGGedStorage>(buzy,(MTGGedStorage)cboGed.getSelectedItem()) {
+		if(sw!=null && !sw.isDone())
+			sw.cancel(true);
+		
+		
+		sw = new AbstractObservableWorker<List<GedEntry<MTGStorable>>, GedEntry<MTGStorable>, MTGGedStorage>(buzy,(MTGGedStorage)cboGed.getSelectedItem()) {
 					@Override
 					protected List<GedEntry<MTGStorable>> doInBackground() throws Exception {
 						return plug.listAll();
