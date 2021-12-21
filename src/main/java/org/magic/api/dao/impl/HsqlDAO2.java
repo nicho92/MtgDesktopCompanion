@@ -3,6 +3,7 @@ package org.magic.api.dao.impl;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
@@ -57,15 +58,20 @@ public class HsqlDAO2 extends AbstractMagicSQLDAO {
 	}
 
 	@Override
-	public long getDBSize() 
+	public Map<String,Long> getDBSize() 
 	{
+		var map = new HashMap<String,Long>();
+		
+		
 		if(getString(MODE).equals("mem"))
-			return 0;
+			map.put("mem", 0L);
 		
 		if(getFile(SERVERNAME).exists())
-			return FileUtils.sizeOfDirectory(getFile(SERVERNAME));
-		else
-			return 0;
+			map.put("file",FileUtils.sizeOfDirectory(getFile(SERVERNAME)));
+
+		
+		return map;
+		
 	}
 
 

@@ -3,6 +3,7 @@ package org.magic.api.dao.impl;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
@@ -13,8 +14,11 @@ import org.magic.tools.FileTools;
 public class SQLLiteDAO extends AbstractMagicSQLDAO {
 
 	@Override
-	public long getDBSize() {
-		return FileUtils.sizeOf(getFile(SERVERNAME));
+	public Map<String,Long> getDBSize() {
+		
+		var map = new HashMap<String,Long>();
+			map.put("file",FileUtils.sizeOf(getFile(SERVERNAME)));
+			return map;
 	}
 
 	@Override

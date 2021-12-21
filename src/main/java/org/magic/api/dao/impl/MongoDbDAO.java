@@ -11,6 +11,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -588,8 +589,11 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public long getDBSize() {
-		return db.runCommand(new BasicDBObject("dbstats", 1)).getLong("dataSize");
+	public Map<String,Long> getDBSize() {
+		
+		return new HashMap<>();
+		
+		//return db.runCommand(new BasicDBObject("dbstats", 1)).getLong("dataSize");
 	}
 
 	@Override

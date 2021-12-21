@@ -240,7 +240,7 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 			
 			@Override
 			public long getTotalSpace() throws IOException {
-				return dao.getDBSize();
+				return dao.getDBSize().values().stream().mapToLong(Long::longValue).sum();
 			}
 			
 			@Override

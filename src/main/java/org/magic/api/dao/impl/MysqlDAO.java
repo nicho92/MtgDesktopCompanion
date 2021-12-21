@@ -35,7 +35,7 @@ public class MysqlDAO extends AbstractMagicSQLDAO {
 
 	
 	public String getdbSizeQuery() {
-		return "SELECT Round(Sum(data_length + index_length), 1) FROM information_schema.tables WHERE  table_schema = '"+getString(DB_NAME)+"'";
+		return "SELECT table_name AS 'Table', (data_length + index_length) as size FROM information_schema.TABLES WHERE table_schema = '"+getString(DB_NAME)+"' ORDER BY size DESC";
 	}
 
 

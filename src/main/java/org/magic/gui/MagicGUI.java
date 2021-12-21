@@ -34,7 +34,7 @@ import org.magic.gui.components.BinderTagsEditorComponent;
 import org.magic.gui.components.CardSearchPanel;
 import org.magic.gui.components.GedBrowserPanel;
 import org.magic.gui.components.ScriptPanel;
-import org.magic.gui.components.ThreadMonitor;
+import org.magic.gui.components.TechnicalMonitorPanel;
 import org.magic.gui.components.dialog.AboutDialog;
 import org.magic.gui.components.dialog.ChromeDownloader;
 import org.magic.gui.components.dialog.TipsOfTheDayDialog;
@@ -181,7 +181,7 @@ public class MagicGUI extends JFrame {
 			
 			@Override
 			protected void auditedRun() {
-				MTGUIComponent.createJDialog(new ThreadMonitor(), true, false).setVisible(true);
+				MTGUIComponent.createJDialog(new TechnicalMonitorPanel(), true, false).setVisible(true);
 				
 			}
 		}, "loading Thread dialog"));

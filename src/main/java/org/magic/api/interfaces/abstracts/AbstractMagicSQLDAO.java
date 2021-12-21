@@ -653,18 +653,27 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public long getDBSize() {
+	public Map<String,Long> getDBSize() {
 		String sql = getdbSizeQuery();
+		var map = new HashMap<String,Long>();
+		
+		
+		
 		
 		if(sql==null)
-			return 0;
+			return map;
+		
 		
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(sql); ResultSet rs = executeQuery(pst);) {
-			rs.next();
-			return (long) rs.getDouble(1);
+			
+			while(rs.next())
+			{
+				map.put(rs.getString(1), rs.getLong(2));
+			}
+			return map;
 		} catch (SQLException e) {
 			logger.error(e);
-			return 0;
+			return map;
 		}
 
 	}
@@ -2108,7 +2117,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		}
 	}
 
-	private ResultSet executeQuery(PreparedStatement pst) throws SQLException {
+	protected ResultSet executeQuery(PreparedStatement pst) throws SQLException {
 		var daoInfo=buildInfo(pst);
 		try {
 			ResultSet rs = pst.executeQuery();

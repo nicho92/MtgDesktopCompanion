@@ -137,6 +137,12 @@ public class JSONHttpServer extends AbstractMTGServer {
 		return "{\"error\":\"" + msg + "\"}";
 	}
 	
+	
+	
+	public AbstractEmbeddedCacheProvider<String, Object> getCache() {
+		return cache;
+	}
+	
 	public JSONHttpServer() {
 		
 		manager = new MTGDeckManager();

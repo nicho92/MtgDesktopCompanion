@@ -24,6 +24,7 @@ import org.magic.gui.models.conf.NetworkTableModel;
 import org.magic.gui.models.conf.QueriesTableModel;
 import org.magic.gui.models.conf.TaskTableModel;
 import org.magic.gui.models.conf.ThreadsTableModel;
+import org.magic.servers.impl.JSONHttpServer;
 import org.magic.servers.impl.QwartzServer;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;
@@ -34,7 +35,7 @@ import org.magic.tools.UITools;
 import com.google.gson.JsonObject;
 
 
-public class ThreadMonitor extends MTGUIComponent  {
+public class TechnicalMonitorPanel extends MTGUIComponent  {
 	/**
 	 * 
 	 */
@@ -47,15 +48,20 @@ public class ThreadMonitor extends MTGUIComponent  {
 	private QueriesTableModel queryModel;
 	private MapTableModel<Object, Object> modelConfig;
 	private GenericTableModel<JsonObject> modelScript;
+	private MapTableModel<String, Long> modelDao;
+	private MapTableModel<String,Object> modelCacheJson;
 	
 	
-	public ThreadMonitor() {
+	public TechnicalMonitorPanel() {
 		setLayout(new BorderLayout(0, 0));
 		modelT = new ThreadsTableModel();
 		modelTasks = new TaskTableModel();
 		modelNetwork = new NetworkTableModel();
 		queryModel = new QueriesTableModel();
 		modelConfig = new MapTableModel<>();
+		modelDao = new MapTableModel<>();
+		modelCacheJson = new MapTableModel<>();
+		
 		modelScript = new GenericTableModel<JsonObject>()
 				{
 					private static final long serialVersionUID = 1L;
@@ -79,7 +85,7 @@ public class ThreadMonitor extends MTGUIComponent  {
 		modelNetwork.bind(URLTools.getNetworksInfos());
 		modelConfig.init(System.getProperties().entrySet());
 		queryModel.bind(MTG.getEnabledPlugin(MTGDao.class).listInfoDaos());
-		
+		modelDao.init(MTG.getEnabledPlugin(MTGDao.class).getDBSize());
 		
 		var tableTasks = UITools.createNewTable(modelTasks);
 		UITools.initTableFilter(tableTasks);
@@ -93,7 +99,11 @@ public class ThreadMonitor extends MTGUIComponent  {
 		var tableQueries = UITools.createNewTable(queryModel);
 		UITools.initTableFilter(tableQueries);
 		
+		var tableDaos = UITools.createNewTable(modelDao);
+		UITools.initTableFilter(tableDaos);
 		
+		var tableCacheJson = UITools.createNewTable(modelCacheJson);
+		UITools.initTableFilter(tableCacheJson);
 		
 		
 		TableCellRenderer durationRenderer = (JTable table, Object value, boolean isSelected,boolean hasFocus, int row, int column)->{
@@ -101,18 +111,29 @@ public class ThreadMonitor extends MTGUIComponent  {
 						lab.setOpaque(false);
 						return lab;
 				};
+		
+		TableCellRenderer sizeRenderer = (JTable table, Object value, boolean isSelected,boolean hasFocus, int row, int column)->{
+					var lab= new JLabel(UITools.humanReadableSize((Long)value));
+					lab.setOpaque(false);
+					return lab;
+			};		
+				
 				
 		tableTasks.setDefaultRenderer(Long.class, durationRenderer);
 		tableNetwork.setDefaultRenderer(Long.class, durationRenderer);
 		tableQueries.setDefaultRenderer(Long.class, durationRenderer);
-		
+		tableDaos.setDefaultRenderer(Long.class, sizeRenderer);
 		
 		tabs.addTab("Config",MTGConstants.ICON_SMALL_HELP,new JScrollPane(UITools.createNewTable(modelConfig)));
 		tabs.addTab("Threads",MTGConstants.ICON_TAB_ADMIN,new JScrollPane(UITools.createNewTable(modelT)));
 		tabs.addTab("Tasks",MTGConstants.ICON_TAB_ADMIN,new JScrollPane(tableTasks));
 		tabs.addTab("Network",MTGConstants.ICON_TAB_NETWORK,new JScrollPane(tableNetwork));
-		tabs.addTab("Script",MTGConstants.ICON_SMALL_SCRIPT,new JScrollPane(tableScripts));
+		tabs.addTab("Qwartz Script",MTGConstants.ICON_SMALL_SCRIPT,new JScrollPane(tableScripts));
 		tabs.addTab("Queries",MTGConstants.ICON_TAB_DAO,new JScrollPane(tableQueries));
+		tabs.addTab("DB Size",MTGConstants.ICON_TAB_DAO,new JScrollPane(tableDaos));
+		tabs.addTab("JsonServer Cache",MTGConstants.ICON_TAB_CACHE,new JScrollPane(tableCacheJson));
+		
+		
 		
 		UITools.addTab(tabs, new LoggerViewPanel());
 		
@@ -136,6 +157,8 @@ public class ThreadMonitor extends MTGUIComponent  {
 			modelNetwork.fireTableDataChanged();
 			modelConfig.fireTableDataChanged();
 			queryModel.fireTableDataChanged();
+			modelDao.fireTableDataChanged();
+			
 			
 			if(MTG.getPlugin("Qwartz", MTGServer.class).isAlive()) {
 				try {
@@ -150,6 +173,20 @@ public class ThreadMonitor extends MTGUIComponent  {
 					logger.error("error loading . Maybe Qwartz server is stopped",ex);
 				}
 			}
+			
+			if(MTG.getPlugin("Json Http Server", MTGServer.class).isAlive()) {
+				try {
+					modelCacheJson.init( ((JSONHttpServer)MTG.getPlugin("Json Http Server", MTGServer.class)).getCache().entries() );
+					modelCacheJson.fireTableDataChanged();
+				
+				}
+				catch(Exception ex)
+				{
+					logger.error("error loading . Maybe Qwartz server is stopped",ex);
+				}
+			}
+			
+			
 			
 			
 		});

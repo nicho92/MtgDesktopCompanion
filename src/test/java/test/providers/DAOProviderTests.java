@@ -66,7 +66,7 @@ public class DAOProviderTests {
 			System.out.println("JMX NAME "+p.getObjectName());
 			System.out.println("CONF FILE " + p.getConfFile());
 			System.out.println("LOCATION " + p.getDBLocation());
-			System.out.println("SIZE " + p.getDBSize()/1024/1024);
+			System.out.println("SIZE " + p.getDBSize());
 			System.out.println("TYPE " + p.getType());
 			System.out.println("VERS "+p.getVersion());
 			

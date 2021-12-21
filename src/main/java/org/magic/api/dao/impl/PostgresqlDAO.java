@@ -6,6 +6,7 @@ import java.io.PrintStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -105,18 +106,23 @@ public class PostgresqlDAO extends AbstractMagicSQLDAO {
 	
 	@Override
 	protected String getdbSizeQuery() {
-		return "SELECT pg_database_size('"+getString(DB_NAME)+"');";
+		return "select table_name, pg_relation_size(quote_ident(table_name)) from information_schema.tables where table_schema = '"+getString(DB_NAME)+"'order by 2";
 	}
 
 	@Override
-	public long getDBSize() {
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(getdbSizeQuery(),ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY,ResultSet.HOLD_CURSORS_OVER_COMMIT); ResultSet rs = pst.executeQuery();) {
-			rs.first();
-			return (long) rs.getDouble(1);
+	public Map<String,Long> getDBSize() {
+
+		var map= new HashMap<String,Long>();
+		
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(getdbSizeQuery(),ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY,ResultSet.HOLD_CURSORS_OVER_COMMIT); ResultSet rs = executeQuery(pst);) {
+			while(rs.next())
+				map.put(rs.getString(1), rs.getLong(2));
+			
+	
 		} catch (SQLException e) {
 			logger.error(e);
-			return 0;
 		}
+		return map;
 	}
 
 	@Override

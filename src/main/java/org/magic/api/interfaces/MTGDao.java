@@ -150,7 +150,7 @@ public interface MTGDao extends MTGPlugin{
 	public void init() throws SQLException;
 	public void init(MTGPool pool) throws SQLException;
 	public String getDBLocation();
-	public long getDBSize();
+	public Map<String,Long> getDBSize();
 	
 	public void backup(File dir) throws SQLException, IOException;
 	public void duplicateTo(MTGDao dao) throws SQLException;
