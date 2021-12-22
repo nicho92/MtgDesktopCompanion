@@ -59,6 +59,7 @@ import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.exports.impl.JsonExport;
+import org.magic.api.interfaces.MTGCardRecognition;
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
@@ -84,6 +85,7 @@ import org.magic.services.VersionChecker;
 import org.magic.services.keywords.AbstractKeyWordsManager;
 import org.magic.services.network.URLTools;
 import org.magic.services.providers.SealedProductProvider;
+import org.magic.services.recognition.ImageDesc;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.Chrono;
 import org.magic.tools.ImageTools;
@@ -389,6 +391,24 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		get("/cards/number/:idEd/:cNumber", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(request.params(":cNumber"), request.params(ID_ED)), transformer);
 
+		post("/cards/recognize/:threeshold", URLTools.HEADER_JSON, (request, response) -> {
+				var recog = MTG.getEnabledPlugin(MTGCardRecognition.class);
+			
+				recog.loadAllCachedData();
+				logger.debug("recognize card in " + recog.getDataList().keySet() + " " + recog.size() + " items");
+				var buffImg = ImageTools.read(request.bodyAsBytes());
+				var buffrot = ImageTools.rotate(buffImg, 180);
+				if(buffImg==null)
+					return "No readable Image";
+				
+				return recog.getMatch(new ImageDesc(buffImg,buffrot), Integer.parseInt(request.params(":threeshold"))/100);
+				
+								
+		}, transformer);
+
+		
+		
+		
 		put("/cards/move/:from/:to/:id", URLTools.HEADER_JSON, (request, response) -> {
 			var from = new MagicCollection(request.params(":from"));
 			var to = new MagicCollection(request.params(":to"));

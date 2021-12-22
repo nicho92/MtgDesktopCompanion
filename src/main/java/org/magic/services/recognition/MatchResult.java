@@ -4,6 +4,7 @@ public class MatchResult {
 	private String result;
 	private String name;
 	private String setCode;
+	private String number;
 	private double score;
 	
 	public String getSetCode() {
@@ -22,6 +23,7 @@ public class MatchResult {
 		String[] split = result.split("\\|");
 		name = split[0];
 		setCode = split[1].toUpperCase();
+		number = split[3];
 	}
 
 	public int hashCode() {
@@ -50,6 +52,6 @@ public class MatchResult {
 
 	@Override
 	public String toString() {
-		return "MatchResult [name=" + name + ", setCode=" + setCode + ", score=" + score + "]";
+		return "MatchResult [name=" + name + ", setCode=" + setCode + ", number="+ number +", score=" + score + "]";
 	}
 }

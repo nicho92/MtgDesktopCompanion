@@ -18,6 +18,13 @@ public class DescContainer implements Comparable<DescContainer>{
 		return Double.compare(dc.getMatch(),match);
 	}
 	
+
+	public String getNumber()
+	{
+		return stringData.split("\\|")[3];
+	}
+	
+	
 	public String getName()
 	{
 		return stringData.split("\\|")[0];

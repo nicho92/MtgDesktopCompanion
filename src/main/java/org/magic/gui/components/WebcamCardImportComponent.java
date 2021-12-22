@@ -9,6 +9,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -48,12 +50,12 @@ import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.services.providers.IconSetProvider;
-import org.magic.services.recognition.LoadedRecognitionEdition;
 import org.magic.services.recognition.MatchResult;
 import org.magic.services.recognition.area.AutoDetectAreaStrat;
 import org.magic.services.recognition.area.ManualAreaStrat;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
+import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 import org.utils.webcam.WebcamUtils;
 
@@ -66,10 +68,10 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 	private static final long serialVersionUID = 1L;
 	private transient MTGCardRecognition strat;
 	private WebcamCanvas webcamCanvas;
-	private transient SwingWorker<Void, MatchResult> sw;
+	private transient SwingWorker<Void, MatchResult> swWebcamReader;
 	private boolean running=false;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-	private DefaultListModel<LoadedRecognitionEdition> listModel;
+	private DefaultListModel<MagicEdition> listModel;
 	private MagicCard currentCard;
 	private AbstractBuzyIndicatorComponent buzy;
 	private MagicCardTableModel modelCards;
@@ -87,6 +89,10 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		webcamCanvas.close();
 		running=false;
 		logger.debug("Closing cam done");
+		
+		if(swWebcamReader!=null)
+			swWebcamReader.cancel(true);
+		
 		super.dispose();
 	}
 	
@@ -131,13 +137,13 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		strat = getEnabledPlugin(MTGCardRecognition.class);
 		
 		try {
-			getEnabledPlugin(MTGCardsProvider.class).listEditions().stream().sorted().map(ed->new LoadedRecognitionEdition(ed,strat.isCached(ed))).forEach(listModel::addElement);
+			getEnabledPlugin(MTGCardsProvider.class).listEditions().stream().sorted().forEach(listModel::addElement);
 		} catch (IOException e1) {
 			logger.error(e1);
 		}
 		tableResults = UITools.createNewTable(modelCards);
 		var listEds = new JList<>(listModel);
-		var deco = JListFilterDecorator.decorate(listEds,(LoadedRecognitionEdition t, String u)->t.getEdition().getSet().toLowerCase().contains(u.toLowerCase()));
+		var deco = JListFilterDecorator.decorate(listEds,(MagicEdition t, String u)->t.getSet().toLowerCase().contains(u.toLowerCase()));
 
 		
 		webcamCanvas = new WebcamCanvas((Webcam)cboWebcams.getSelectedItem(),(AbstractRecognitionArea)cboAreaDetector.getSelectedItem());
@@ -187,12 +193,12 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		listEds.setCellRenderer(new ListCellRenderer<>() {
 			JLabel l = new JLabel();
 			@Override
-			public Component getListCellRendererComponent(JList<? extends LoadedRecognitionEdition> list,LoadedRecognitionEdition value, int index, boolean isSelected, boolean cellHasFocus) {
+			public Component getListCellRendererComponent(JList<? extends MagicEdition> list,MagicEdition value, int index, boolean isSelected, boolean cellHasFocus) {
 				if (value != null) 
 				{
-					ImageIcon ic= IconSetProvider.getInstance().get16(value.getEdition().getId());
+					ImageIcon ic= IconSetProvider.getInstance().get16(value.getId());
 					
-					l.setText(value.getEdition().getSet());
+					l.setText(value.getSet());
 					l.setIcon(ic);
 					
 					l.setOpaque(true);
@@ -204,10 +210,10 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 						l.setForeground(list.getForeground());
 					}
 					
-					if(value.isCached())
+					if(MTG.getEnabledPlugin(MTGCardRecognition.class).isSetCached(value))
 						l.setBackground(Color.CYAN);
 					
-					if(value.isLoaded())
+					if(MTG.getEnabledPlugin(MTGCardRecognition.class).isSetLoaded(value))
 						l.setBackground(Color.GREEN);
 
 					
@@ -258,22 +264,18 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 			public void mouseClicked(MouseEvent me) {
 				if(me.getClickCount()==2) 
 				{
-						LoadedRecognitionEdition ed = listEds.getSelectedValue();
-						buzy.start(ed.getEdition().getCardCount());		
+						MagicEdition ed = listEds.getSelectedValue();
+						buzy.start(ed.getCardCount());		
 						pause=true;
-						AbstractObservableWorker<Void, Void, MTGCardRecognition> work = new AbstractObservableWorker<>(buzy,strat,ed.getEdition().getCardCount()) {
+						AbstractObservableWorker<Void, Void, MTGCardRecognition> work = new AbstractObservableWorker<>(buzy,strat,ed.getCardCount()) {
 							@Override
 							protected Void doInBackground() throws Exception {
 								
-								if(!ed.isLoaded())
+								if(!plug.isSetLoaded(ed))
 									plug.loadDatasForSet(ed);
 								else
-									plug.clear(ed.getEdition());
-								
-								
-							
-								
-								
+									plug.clear(ed);
+									
 								return null;
 							}
 							
@@ -296,14 +298,14 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		btnStarting.addActionListener(al->{
 			webcamCanvas.setWebcam((Webcam)cboWebcams.getSelectedItem());
 			webcamCanvas.revalidate();
-			ThreadManager.getInstance().runInEdt(sw, "Webcam");
+			ThreadManager.getInstance().runInEdt(swWebcamReader, "Webcam");
 		});		
 
 		
 		setModal(true);
 		pack();
 		
-		sw = new SwingWorker<>()
+		swWebcamReader = new SwingWorker<>()
 		{
 			@Override
 			protected Void doInBackground() 
@@ -334,6 +336,9 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 				return null;
 			}
 			
+			
+		
+			
 			@Override
 			protected void process(List<MatchResult> chunks) {
 				addResult( chunks.get(0));
@@ -356,7 +361,8 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 			}
 		};
 		
-				
+	
+		
 	}
 	
 	

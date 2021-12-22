@@ -430,7 +430,10 @@ public class ImageTools {
 	}
 
 	public static BufferedImage read(InputStream inputStream) throws IOException {
-		return ImageIO.read(inputStream);
+		try(inputStream)
+		{
+			return ImageIO.read(inputStream);
+		}
 	}
 
 	public static void write(BufferedImage bi, String formatName, File file) throws IOException {

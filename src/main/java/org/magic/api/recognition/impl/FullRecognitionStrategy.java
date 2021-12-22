@@ -12,18 +12,22 @@ public class FullRecognitionStrategy extends AbstractRecognitionStrategy
 	{
 		var ix = 0;
 		double max = 0;
-		for(var i=0;i<dataList.size();i++)
+		
+		var datas = allDatas();
+		
+		for(var i=0;i<size();i++)
 		{
-			double score = in.compareSURF(allDatas().get(i).getDescData());
+			double score = in.compareSURF(datas.get(i).getDescData());
 			if(score>max)
 			{
 				max=score;
 				ix=i;
 			}
 		}
+		
 		if(max>threshhold)
 		{
-			return new MatchResult(allDatas().get(ix).getStringData(),max);
+			return new MatchResult(datas.get(ix).getStringData(),max);
 		}
 		
 		return null;
@@ -34,5 +38,6 @@ public class FullRecognitionStrategy extends AbstractRecognitionStrategy
 	public String getName() {
 		return "Full Scan";
 	}
+
 
 }
