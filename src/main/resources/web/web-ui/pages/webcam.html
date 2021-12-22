@@ -72,8 +72,13 @@
 				
 				$.ajax({
 				  type: "POST",
-				  url: restserver+"/cards/recognize/10",
+				  url: restserver+"/cards/recognize/30",
 				  data: canvas.toDataURL("image/png"),
+				  success: function(data){
+						$("#contentResults").empty();
+						$("#contentResults").append("CardName = "+data.name + " <br/>Number = "+ data.setCode+ " ("+  data.number + "). <br/> SCORE =" + data.score.toFixed(2));
+					
+		  			},
 				});
 				
 				
@@ -109,11 +114,20 @@
                  <div class="panel panel-default">
                  	<div class="panel-heading">Webcam</div>
                     <div class="panel-body">
-                       <video id="videoElement" width="640" height="480" autoplay></video>
+                       <video id="videoElement" width="320" height="240" autoplay></video>
                        
                     </div>
                     <div class="panel-footer"></div>
                  </div>
+
+				<div class="col-lg-5">
+               		<div class="panel panel-default">
+                 	<div class="panel-heading">Result</div>
+                    <div class="panel-body" id="contentResults"></div>
+                    <div class="panel-footer"></div>
+                 </div>
+             </div>
+
              </div>
 
 			<div class="col-lg-5">
@@ -128,6 +142,12 @@
              </div>
 
 			</div>
+			
+			 <div class="row">
+               
+                </div>
+			
+			
     </div>
 </body>
 

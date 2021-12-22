@@ -396,9 +396,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 				var recog = MTG.getEnabledPlugin(MTGCardRecognition.class);
 				recog.loadAllCachedData();
 				
+				logger.debug("ContentType=" + request.contentType());
 				logger.debug(recog +" recognize card in " + recog.getDataList().keySet() + " " + recog.size() + " items");
-				var buffImg = ImageTools.read(request.bodyAsBytes());
+				var buffImg = ImageTools.readBase64(request.body().substring(request.body().indexOf(",")+1));// Find better solution
 				var buffrot = ImageTools.rotate(buffImg, 180);
+			
 				if(buffImg==null)
 					return "No readable Image";
 				
