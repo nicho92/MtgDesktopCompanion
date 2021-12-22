@@ -85,7 +85,6 @@ import org.magic.services.VersionChecker;
 import org.magic.services.keywords.AbstractKeyWordsManager;
 import org.magic.services.network.URLTools;
 import org.magic.services.providers.SealedProductProvider;
-import org.magic.services.recognition.ContourBoundingBox;
 import org.magic.services.recognition.ImageDesc;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.Chrono;
@@ -409,6 +408,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 								
 		}, transformer);
 
+
+		
+		
 		
 		
 		
@@ -828,6 +830,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		}, transformer);
 
+
+		get("/admin/recognize/caching/:setId", URLTools.HEADER_JSON, (request, response) -> {
+			MTG.getEnabledPlugin(MTGCardRecognition.class).downloadCardsData(MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(":setId")));
+			return "OK";
+		}, transformer);
 		
 		get("/admin/qwartz", URLTools.HEADER_JSON, (request, response) -> {
 			var serv = (QwartzServer) MTG.getPlugin("Qwartz", MTGServer.class);
