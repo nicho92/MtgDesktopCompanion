@@ -104,7 +104,6 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 	@Override
 	public final void loadAllCachedData() throws IOException
 	{
-		
 		for(File f : getFile("DATA").listFiles())
 		{
 			loadDatasFromFile(f);

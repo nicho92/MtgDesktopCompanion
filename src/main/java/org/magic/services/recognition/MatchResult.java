@@ -15,6 +15,9 @@ public class MatchResult {
 		return name;
 	}
 	
+	public String getNumber() {
+		return number;
+	}
 	
 	public MatchResult(String result, double score) {
 		super();

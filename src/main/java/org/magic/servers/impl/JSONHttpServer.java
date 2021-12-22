@@ -85,6 +85,7 @@ import org.magic.services.VersionChecker;
 import org.magic.services.keywords.AbstractKeyWordsManager;
 import org.magic.services.network.URLTools;
 import org.magic.services.providers.SealedProductProvider;
+import org.magic.services.recognition.ContourBoundingBox;
 import org.magic.services.recognition.ImageDesc;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.Chrono;
@@ -393,9 +394,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		post("/cards/recognize/:threeshold", URLTools.HEADER_JSON, (request, response) -> {
 				var recog = MTG.getEnabledPlugin(MTGCardRecognition.class);
-			
 				recog.loadAllCachedData();
-				logger.debug("recognize card in " + recog.getDataList().keySet() + " " + recog.size() + " items");
+				
+				logger.debug(recog +" recognize card in " + recog.getDataList().keySet() + " " + recog.size() + " items");
 				var buffImg = ImageTools.read(request.bodyAsBytes());
 				var buffrot = ImageTools.rotate(buffImg, 180);
 				if(buffImg==null)

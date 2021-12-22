@@ -372,7 +372,7 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 			if(currentCard==null || !currentCard.getName().equalsIgnoreCase(r.getName()))
 			{
 				logger.info("Looking for " + r.getName() + " " + r.getSetCode());
-				currentCard = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(r.getName(), new MagicEdition(r.getSetCode()), true).get(0);
+				currentCard = getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(r.getNumber(), new MagicEdition(r.getSetCode()));
 				modelCards.addItem(currentCard);
 				tableResults.scrollRectToVisible(tableResults.getCellRect(tableResults.getRowCount()-1, 0, true));
 			}
