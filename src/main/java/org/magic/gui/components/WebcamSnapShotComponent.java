@@ -104,6 +104,8 @@ public class WebcamSnapShotComponent extends MTGUIComponent {
 		
 		btnSnap.addActionListener(al->{
 			snapshotImages.add(webcamCanvas.lastDrawn());
+			btnSnap.setText(String.valueOf(snapshotImages.size()));
+			
 		});
 		
 		
@@ -122,7 +124,7 @@ public class WebcamSnapShotComponent extends MTGUIComponent {
 				running=true;
 				try {
 					logger.info("start " + webcamCanvas.getWebcam() +" " + running);
-					while(running) 
+					while(running && isVisible()) 
 					{
 						webcamCanvas.draw();
 					}
