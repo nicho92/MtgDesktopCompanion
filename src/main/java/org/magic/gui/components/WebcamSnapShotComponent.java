@@ -7,9 +7,10 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CancellationException;
+
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 
@@ -33,6 +34,12 @@ public class WebcamSnapShotComponent extends MTGUIComponent {
 	private boolean running=false;
 	private JButton btnClose ;
 	
+	
+	
+	@Override
+	public ImageIcon getIcon() {
+		return MTGConstants.ICON_WEBCAM;
+	}
 	
 	@Override
 	public String getTitle() {
