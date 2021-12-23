@@ -30,13 +30,11 @@
   
     <link href="//cdn.jsdelivr.net/npm/metismenu@latest/dist/metisMenu.min.css" rel="stylesheet">
  	<script src="//cdn.jsdelivr.net/npm/metismenu@latest/dist/metisMenu.min.js"></script>
-	 	
- 	
+	
  	<link href="//cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
     <link href="//cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-        <link href="//cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css" rel="stylesheet" type="text/css" />
-
-	
+    <link href="//cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css" rel="stylesheet" type="text/css" />
+ 	
     <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
     <script src="../dist/js/sb-admin-2.js"></script>
     <script src="../dist/js/rest-server.js"></script>
@@ -64,12 +62,11 @@
 				canvas.width=video.videoWidth;
 				canvas.height=video.videoHeight;
 				
-				
 				context.drawImage(video, 0, 0, canvas.width, canvas.height);
 				
 				$.ajax({
 				  type: "POST",
-				  url: restserver+"/cards/recognize/35",
+				  url: restserver+"/cards/recognize/"+$("input[type='number']").val(),
 				  data: canvas.toDataURL("image/png"),
 				  success: function(data){
 						$("#contentResults").empty();
@@ -111,13 +108,13 @@
                  <div class="panel panel-default">
                  	<div class="panel-heading">Webcam</div>
                     <div class="panel-body">
-						<div class="video-options">
 					        <select class="form-control" id="videoSource">
 					            <option value="">Select camera</option>
 					        </select>
-					    </div>
+						
                        <video id="videoElement"  autoplay style="width: 100%;"></video>
-                       <button class="btn" id="snap" style="width: 100%;"><i class="fa fa-camera"></i></button>
+                    <input type="number" value="35" min="0" max="100" step="1">   
+					<button class="btn" id="snap" style="width: 100%;"><i class="fa fa-camera"></i></button>
                     </div>
                     <div class="panel-footer"></div>
                  </div>
@@ -129,6 +126,7 @@
                  	<div class="panel-heading">Result</div>
                     <div class="panel-body" id="contentResults"></div>
                     <div class="panel-footer">
+					
 					 <button class="btn"><i class="fa"></i> Add to Stock</button> 
 					 <button class="btn"><i class="fa"></i> Add to Collection</button>
 					<button class="btn"><i class="fa"></i> Add to Alert</button>
