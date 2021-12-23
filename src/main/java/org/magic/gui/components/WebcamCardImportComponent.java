@@ -9,14 +9,14 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.CancellationException;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
@@ -64,7 +64,8 @@ import com.github.sarxos.webcam.Webcam;
 public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 	
 	
-	
+	private BufferedImage snapshotImage;
+
 	private static final long serialVersionUID = 1L;
 	private transient MTGCardRecognition strat;
 	private WebcamCanvas webcamCanvas;
@@ -96,7 +97,7 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		super.dispose();
 	}
 	
-	public WebcamCardImportComponent() {
+	public WebcamCardImportComponent(boolean snapshopMod) {
 		
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -117,22 +118,26 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		var panelControl = new JPanel();
-		var cboWebcams = UITools.createCombobox(WebcamUtils.inst().listWebcam(),MTGConstants.ICON_WEBCAM);
+		var cboWebcams = UITools.createCombobox(WebcamUtils.inst().listWebcam(),MTGConstants.ICON_NEW);
 		var cboAreaDetector = UITools.createCombobox(new AbstractRecognitionArea[] { new AutoDetectAreaStrat(),new ManualAreaStrat()});
 		var chkpause = new JCheckBox("Pause");
 		var sldThreshold = new JSlider(0,100,35);
 		var lblThreshHoldValue = new JLabel(String.valueOf(sldThreshold.getValue()));
 		var thrsh = new JPanel();
 		var controlWebcamPanel = new JPanel();
-		var btnStarting = new JButton("Detect",MTGConstants.PLAY_ICON);
+		var btnStarting = new JButton("Start",MTGConstants.PLAY_ICON);
 		var panneauBas = new JPanel();
 		var panneauBasButtons = new JPanel();
 		var btnRemove = new JButton(MTGConstants.ICON_DELETE);
 		var btnClose = new JButton(MTGConstants.ICON_IMPORT);
 		var btnReloadCams = new JButton(MTGConstants.ICON_REFRESH);
 		var btnAddCam = new JButton(MTGConstants.ICON_NEW);
+		var btnSnapShot= new JButton(MTGConstants.ICON_WEBCAM);
+		
 		
 		modelCards = new MagicCardTableModel();
+		
+		
 		listModel = new DefaultListModel<>();
 		strat = getEnabledPlugin(MTGCardRecognition.class);
 		
@@ -161,14 +166,24 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		controlWebcamPanel.add(btnAddCam);
 
 		panelControl.add(controlWebcamPanel, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 0));
+		if(!snapshopMod) {
 		panelControl.add(new JLabel(capitalize("LOADING_EDITIONS")+ ":"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 1));
 		panelControl.add(new JScrollPane(deco.getContentPanel()), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 2));
 		panelControl.add(buzy, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 3));
-
-		
 		panelControl.add(cboAreaDetector, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 4));
 		panelControl.add(thrsh, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 5));
+		}
+		
 		panelControl.add(btnStarting, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 6));
+		
+		if(snapshopMod)
+			panelControl.add(btnSnapShot, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 7));
+		
+		
+		btnSnapShot.addActionListener(al->{
+			snapshotImage = webcamCanvas.lastDrawn();
+			dispose();
+		});
 		
 		
 		
@@ -183,7 +198,10 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		panneauBas.add(scrollPane,BorderLayout.CENTER);
 
 		getContentPane().add(panelControl, BorderLayout.EAST);
-		getContentPane().add(panneauBas,BorderLayout.SOUTH);
+		
+		if(!snapshopMod)
+			getContentPane().add(panneauBas,BorderLayout.SOUTH);
+		
 		getContentPane().add(webcamCanvas, BorderLayout.CENTER);
 
 	
@@ -307,6 +325,7 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		
 		swWebcamReader = new SwingWorker<>()
 		{
+			
 			@Override
 			protected Void doInBackground() 
 			{
@@ -317,7 +336,9 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 					{
 						webcamCanvas.draw();
 						var img = webcamCanvas.lastDrawn();
-						if(strat!=null && img!=null && !pause && !isCancelled()) 
+						
+						
+						if(strat!=null && img!=null && !pause && !isCancelled() && !snapshopMod) 
 						{
 								var matches = webcamCanvas.getAreaRecognitionStrategy().recognize(img, strat,sldThreshold.getValue());
 								MatchResult res = !matches.isEmpty() ? matches.get(0):null;
@@ -351,10 +372,16 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 					logger.info("Stopping webcam " + webcamCanvas.getWebcam());
 					running=false;
 					get();
-				} catch(InterruptedException ex)
+				}
+				catch(InterruptedException ex)
 				{
 					Thread.currentThread().interrupt();
-				}catch (Exception e) {
+				}
+				catch(CancellationException ex)
+				{
+					logger.error("Cancelling");
+				}
+				catch (Exception e) {
 					logger.error("Error Stopping webcam " + webcamCanvas.getWebcam(),e);
 				} 
 				
@@ -381,6 +408,12 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 			logger.error("Error loading card for result " + r);
 		}
 		
+	}
+	
+	public BufferedImage getSnappedImages()
+	{
+		
+		return snapshotImage;
 	}
 	
 	public List<MagicCard> getFindedCards()

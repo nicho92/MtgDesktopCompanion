@@ -53,7 +53,7 @@ public class WebCamImport extends AbstractCardExport {
 	@Override
 	public List<MagicCardStock> importStockFromFile(File f) throws IOException {
 		
-		var c = new WebcamCardImportComponent();
+		var c = new WebcamCardImportComponent(false);
 		c.setVisible(true);
 				
 		return c.getFindedCards().stream().map(card->{
@@ -71,7 +71,7 @@ public class WebCamImport extends AbstractCardExport {
 
 	@Override
 	public MagicDeck importDeckFromFile(File f) throws IOException {
-		var c = new WebcamCardImportComponent();
+		var c = new WebcamCardImportComponent(false);
 		c.setVisible(true);
 		return c.getSelectedDeck();
 	}

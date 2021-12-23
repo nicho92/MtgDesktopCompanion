@@ -17,6 +17,7 @@ import java.util.concurrent.Callable;
 import java.util.stream.Stream;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -34,6 +35,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.FileTools;
+import org.magic.tools.ImageTools;
 import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 
@@ -46,11 +48,17 @@ public class GedPanel<T extends MTGStorable> extends MTGUIComponent {
 	private transient T instance;
 	private ImagePanel viewPanel;
 	private AbstractBuzyIndicatorComponent buzy;
+	private JButton btnLoadFromUrl;
+	private JButton btnLoadFromWebcam;
 	
 	public void init(Class<T> t, T instance)
 	{
 		this.classe=t;
 		this.instance=instance;
+		
+		btnLoadFromUrl.setEnabled(instance!=null);
+		btnLoadFromWebcam.setEnabled(instance!=null);
+		
 		
 		if(isVisible())
 			onVisible();
@@ -76,16 +84,46 @@ public class GedPanel<T extends MTGStorable> extends MTGUIComponent {
 		var panneauHaut = new JPanel();
 		panneauCenter = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		viewPanel = new ImagePanel(true, false, true);
-		var btnLoadFromUrl = UITools.createBindableJButton("Import from URL", MTGConstants.ICON_WEBSITE, KeyEvent.VK_U, "importUrl");
+		btnLoadFromUrl = UITools.createBindableJButton("", MTGConstants.ICON_WEBSITE, KeyEvent.VK_U, "importUrl");
+		btnLoadFromWebcam= UITools.createBindableJButton("", MTGConstants.ICON_WEBCAM, KeyEvent.VK_W, "importwebcam");
+		
+		
+		btnLoadFromUrl.setEnabled(false);
+		btnLoadFromWebcam.setEnabled(false);
+		
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		add(panneauHaut, BorderLayout.NORTH);
 		add(panneauCenter, BorderLayout.CENTER);
 		
 		panneauHaut.add(new JLabel(capitalize("DRAG_HERE")));
 		panneauHaut.add(btnLoadFromUrl);
+		panneauHaut.add(btnLoadFromWebcam);
 		panneauHaut.add(buzy);
 		
-		
+		btnLoadFromWebcam.addActionListener(al->{
+			
+			var g = new WebcamCardImportComponent(true);
+			g.setVisible(true);
+			
+			var img = g.getSnappedImages();
+			
+			
+			if(img!=null) {
+					try {
+						var f = Files.createTempFile("picture",".png").toFile();
+						ImageTools.saveImageInPng(img,f);
+						var entry = new GedEntry<T>(FileTools.readFileAsBinary(f),classe, instance.getStoreId(),f.getName());
+						MTG.getEnabledPlugin(MTGGedStorage.class).store(entry);
+						addEntry(entry);
+					} catch (IOException e) {
+					logger.error(e);
+					}
+			}else
+			{
+				logger.error("img is null");
+			}
+			
+		});
 		
 		btnLoadFromUrl.addActionListener(al->{
 			var url = JOptionPane.showInputDialog("URL");

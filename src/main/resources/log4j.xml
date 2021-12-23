@@ -54,7 +54,7 @@
     <logger name="org.mongodb.driver"><level value="ERROR"/></logger>
     <logger name="org.cache2k.core"><level value="ERROR"/></logger>
    <logger name="spark.embeddedserver.jetty"><level value="ERROR"/></logger>
-    
+    <logger name="com.github.sarxos.webcam"><level value="ERROR"></level></logger>
     
     
     <root>
