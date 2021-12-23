@@ -34,7 +34,9 @@ public class WebcamCanvas extends JPanel
 		add(canvas);
 		canvas.addMouseListener(strat);
 		canvas.addMouseMotionListener(strat);
-		strat.init(cam.getViewSize().width, cam.getViewSize().height);
+		
+		if(strat!=null)
+			strat.init(cam.getViewSize().width, cam.getViewSize().height);
 	}
 
 
@@ -48,18 +50,25 @@ public class WebcamCanvas extends JPanel
 		}
 		setSize(w.getViewSize());
 		canvas.setSize(w.getViewSize());
-		strat.init(cam.getViewSize().width, cam.getViewSize().height);
+		
+		if(strat!=null)
+			strat.init(cam.getViewSize().width, cam.getViewSize().height);
+		
 		canvas.setPreferredSize(new Dimension(cam.getViewSize().width, cam.getViewSize().height));
 		add(canvas);
 	}
 
 	public void setAreaStrat(AbstractRecognitionArea s)
 	{
+		if(s==null)
+			return;
+		
 		strat = s;
 		canvas.removeMouseListener(strat);
 		canvas.removeMouseMotionListener(strat);
 		canvas.addMouseListener(strat);
 		canvas.addMouseMotionListener(strat);
+		
 		strat.init(cam.getViewSize().width, cam.getViewSize().height);
 	}
 
@@ -107,7 +116,11 @@ public class WebcamCanvas extends JPanel
 		var gi = canvas.getGraphics();
 		var g = buf.getGraphics();
 		g.drawImage(lastDrawn, 0, 0, null);
-		strat.draw(g);
+		
+		if(strat!=null)
+			strat.draw(g);
+		
+		
 		if(gi!=null)
 			gi.drawImage(buf, 0, 0, null);
 	}

@@ -8,7 +8,7 @@ import org.apache.commons.lang.NotImplementedException;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
-import org.magic.gui.components.WebcamCardImportComponent;
+import org.magic.gui.components.dialog.WebcamCardImportDialog;
 import org.magic.services.MTGControler;
 
 public class WebCamImport extends AbstractCardExport {
@@ -53,7 +53,7 @@ public class WebCamImport extends AbstractCardExport {
 	@Override
 	public List<MagicCardStock> importStockFromFile(File f) throws IOException {
 		
-		var c = new WebcamCardImportComponent(false);
+		var c = new WebcamCardImportDialog();
 		c.setVisible(true);
 				
 		return c.getFindedCards().stream().map(card->{
@@ -71,7 +71,7 @@ public class WebCamImport extends AbstractCardExport {
 
 	@Override
 	public MagicDeck importDeckFromFile(File f) throws IOException {
-		var c = new WebcamCardImportComponent(false);
+		var c = new WebcamCardImportDialog();
 		c.setVisible(true);
 		return c.getSelectedDeck();
 	}

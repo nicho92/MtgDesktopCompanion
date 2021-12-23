@@ -1,4 +1,4 @@
-package org.magic.gui.components;
+package org.magic.gui.components.dialog;
 
 import static org.magic.tools.MTG.capitalize;
 import static org.magic.tools.MTG.getEnabledPlugin;
@@ -42,7 +42,7 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.AbstractDelegatedImporterDialog;
 import org.magic.gui.abstracts.AbstractRecognitionArea;
-import org.magic.gui.components.dialog.IPCamAddDialog;
+import org.magic.gui.components.WebcamCanvas;
 import org.magic.gui.decorators.JListFilterDecorator;
 import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.MagicEditionsJLabelRenderer;
@@ -61,7 +61,7 @@ import org.utils.webcam.WebcamUtils;
 
 import com.github.sarxos.webcam.Webcam;
 
-public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
+public class WebcamCardImportDialog extends AbstractDelegatedImporterDialog {
 	
 	
 	private BufferedImage snapshotImage;
@@ -97,7 +97,7 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		super.dispose();
 	}
 	
-	public WebcamCardImportComponent(boolean snapshopMod) {
+	public WebcamCardImportDialog() {
 		
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -118,7 +118,7 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		var panelControl = new JPanel();
-		var cboWebcams = UITools.createCombobox(WebcamUtils.inst().listWebcam(),MTGConstants.ICON_NEW);
+		var cboWebcams = UITools.createCombobox(WebcamUtils.inst().listWebcam(),MTGConstants.ICON_WEBCAM);
 		var cboAreaDetector = UITools.createCombobox(new AbstractRecognitionArea[] { new AutoDetectAreaStrat(),new ManualAreaStrat()});
 		var chkpause = new JCheckBox("Pause");
 		var sldThreshold = new JSlider(0,100,35);
@@ -132,7 +132,6 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		var btnClose = new JButton(MTGConstants.ICON_IMPORT);
 		var btnReloadCams = new JButton(MTGConstants.ICON_REFRESH);
 		var btnAddCam = new JButton(MTGConstants.ICON_NEW);
-		var btnSnapShot= new JButton(MTGConstants.ICON_WEBCAM);
 		
 		
 		modelCards = new MagicCardTableModel();
@@ -166,24 +165,13 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		controlWebcamPanel.add(btnAddCam);
 
 		panelControl.add(controlWebcamPanel, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 0));
-		if(!snapshopMod) {
+		
 		panelControl.add(new JLabel(capitalize("LOADING_EDITIONS")+ ":"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 1));
 		panelControl.add(new JScrollPane(deco.getContentPanel()), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 2));
 		panelControl.add(buzy, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 3));
 		panelControl.add(cboAreaDetector, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 4));
 		panelControl.add(thrsh, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 5));
-		}
-		
 		panelControl.add(btnStarting, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 6));
-		
-		if(snapshopMod)
-			panelControl.add(btnSnapShot, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 7));
-		
-		
-		btnSnapShot.addActionListener(al->{
-			snapshotImage = webcamCanvas.lastDrawn();
-			dispose();
-		});
 		
 		
 		
@@ -198,9 +186,6 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 		panneauBas.add(scrollPane,BorderLayout.CENTER);
 
 		getContentPane().add(panelControl, BorderLayout.EAST);
-		
-		if(!snapshopMod)
-			getContentPane().add(panneauBas,BorderLayout.SOUTH);
 		
 		getContentPane().add(webcamCanvas, BorderLayout.CENTER);
 
@@ -338,7 +323,7 @@ public class WebcamCardImportComponent extends AbstractDelegatedImporterDialog {
 						var img = webcamCanvas.lastDrawn();
 						
 						
-						if(strat!=null && img!=null && !pause && !isCancelled() && !snapshopMod) 
+						if(strat!=null && img!=null && !pause && !isCancelled()) 
 						{
 								var matches = webcamCanvas.getAreaRecognitionStrategy().recognize(img, strat,sldThreshold.getValue());
 								MatchResult res = !matches.isEmpty() ? matches.get(0):null;

@@ -176,7 +176,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 				}
 			};
 	
-			ThreadManager.getInstance().runInEdt(init, "loading collection");
+			ThreadManager.getInstance().runInEdt(init, "calculate collection");
 	}
 
 	public void initGUI() throws SQLException, ClassNotFoundException {

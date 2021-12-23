@@ -6,8 +6,11 @@ import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.ComponentAdapter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -102,27 +105,68 @@ public class GedPanel<T extends MTGStorable> extends MTGUIComponent {
 		
 		btnLoadFromWebcam.addActionListener(al->{
 			
-			var g = new WebcamCardImportComponent(true);
-			g.setVisible(true);
+			var g = new WebcamSnapShotComponent();
+			var diag = MTGUIComponent.createJDialog(g, true, true);
+			
+			diag.addWindowListener(new WindowAdapter() {
+
+				@Override
+				public void windowClosing(WindowEvent e) {
+					g.onDestroy();
+				}
+								
+			});
+			
+			
+			g.getBtnClose().addActionListener(l->{
+				g.onDestroy();
+				diag.dispose();	
+			});
+			
+			diag.setVisible(true);
+			
+			
 			
 			var img = g.getSnappedImages();
-			
-			
-			if(img!=null) {
-					try {
-						var f = Files.createTempFile("picture",".png").toFile();
-						ImageTools.saveImageInPng(img,f);
-						var entry = new GedEntry<T>(FileTools.readFileAsBinary(f),classe, instance.getStoreId(),f.getName());
-						MTG.getEnabledPlugin(MTGGedStorage.class).store(entry);
-						addEntry(entry);
-					} catch (IOException e) {
-					logger.error(e);
+			if(!img.isEmpty()) {
+				buzy.start(img.size());
+				SwingWorker<Void,File> sw = new SwingWorker<>() {
+
+					@Override
+					protected Void doInBackground() throws Exception {
+						for(var snap : img)
+						{
+							var f = Files.createTempFile("picture",".png").toFile();
+							ImageTools.saveImageInPng(snap,f);
+							publish(f);
+						}
+						return null;
 					}
-			}else
-			{
-				logger.error("img is null");
+					
+					@Override
+					protected void process(List<File> chunks)
+					{
+						buzy.progressSmooth(chunks.size());
+						for(File f :chunks) {
+							try {
+								var entry = new GedEntry<T>(FileTools.readFileAsBinary(f),classe, instance.getStoreId(),f.getName());
+								MTG.getEnabledPlugin(MTGGedStorage.class).store(entry);
+								addEntry(entry);
+							} catch (IOException e) {
+								logger.error(e);
+							}
+						}
+					}
+
+					@Override
+					protected void done() {
+						buzy.end();
+					}
+				};
+				
+				ThreadManager.getInstance().runInEdt(sw, "importing snapshots");
+				
 			}
-			
 		});
 		
 		btnLoadFromUrl.addActionListener(al->{
