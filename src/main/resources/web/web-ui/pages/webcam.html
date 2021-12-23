@@ -45,40 +45,37 @@
     <script src="../dist/js/mtgcompanion-ui.js"></script>
   
   	<script>
+	
+
+
+
   	$(document).ready(function() {
   		$("nav").load("menu.html");
-  		
-  	var video = document.querySelector("#videoElement");
-
-			if (navigator.mediaDevices.getUserMedia) {
-			  navigator.mediaDevices.getUserMedia({ video: true })
-			    .then(function (stream) {
-			      video.srcObject = stream;
-			    })
-			    .catch(function (err0r) {
-			      console.log("Something went wrong!");
-			    });
-
-			// Elements for taking the snapshot
-			var canvas = document.getElementById('canvas');
-			var context = canvas.getContext('2d');
-			var video = document.getElementById('videoElement');
+  			
+  			if (navigator.mediaDevices.getUserMedia) 
+			{
+				// Elements for taking the snapshot
+				var canvas = document.getElementById('canvas');
+				var context = canvas.getContext('2d');
+				var video = document.getElementById('videoElement');
 			
 			// Trigger photo take
-			document.getElementById("snap").addEventListener("click", function() {
+			$("#snap").click(function() {
+				canvas.width=video.videoWidth;
+				canvas.height=video.videoHeight;
 				
-				context.drawImage(video, 0, 0, 640, 480);
 				
+				context.drawImage(video, 0, 0, canvas.width, canvas.height);
 				
 				$.ajax({
 				  type: "POST",
-				  url: restserver+"/cards/recognize/30",
+				  url: restserver+"/cards/recognize/35",
 				  data: canvas.toDataURL("image/png"),
 				  success: function(data){
 						$("#contentResults").empty();
 						$("#contentResults").append("CardName = "+data.name + " <br/>Number = "+ data.setCode+ " ("+  data.number + "). <br/> SCORE =" + data.score.toFixed(2));
-					
-		  			},
+						$("#contentResults").append("<br/><img src='"+restserver+"/pics/cards/"+data.setCode+"/"+data.number+"'/>");
+		  			}
 				});
 				
 				
@@ -95,7 +92,7 @@
 <body>
 
     <div id="wrapper">
-
+ <canvas id="canvas" hidden ></canvas>
         <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0"></nav>
 
@@ -110,45 +107,37 @@
             </div>
              <!-- /.row -->
             <div class="row">
-		     <div class="col-lg-5">
+		     <div class="col-lg-4">
                  <div class="panel panel-default">
                  	<div class="panel-heading">Webcam</div>
                     <div class="panel-body">
-                       <video id="videoElement" width="320" height="240" autoplay></video>
-                       
+						<div class="video-options">
+					        <select class="form-control" id="videoSource">
+					            <option value="">Select camera</option>
+					        </select>
+					    </div>
+                       <video id="videoElement"  autoplay style="width: 100%;"></video>
+                       <button class="btn" id="snap" style="width: 100%;"><i class="fa fa-camera"></i></button>
                     </div>
                     <div class="panel-footer"></div>
                  </div>
+             </div>
 
-				<div class="col-lg-5">
-               		<div class="panel panel-default">
+			<div class="col-lg-4" >
+			
+               	<div class="panel panel-default">
                  	<div class="panel-heading">Result</div>
                     <div class="panel-body" id="contentResults"></div>
-                    <div class="panel-footer"></div>
-                 </div>
-             </div>
-
-             </div>
-
-			<div class="col-lg-5">
-                 <div class="panel panel-default">
-                 	<div class="panel-heading">Capture</div>
-                    <div class="panel-body">
-						<button id="snap">Capture</button>
-                       <canvas id="canvas" width="640" height="480"></canvas>
-                    </div>
-                    <div class="panel-footer"></div>
+                    <div class="panel-footer">
+					 <button class="btn"><i class="fa"></i> Add to Stock</button> 
+					 <button class="btn"><i class="fa"></i> Add to Collection</button>
+					<button class="btn"><i class="fa"></i> Add to Alert</button>
+					</div>
                  </div>
              </div>
 
 			</div>
-			
-			 <div class="row">
-               
-                </div>
-			
-			
     </div>
 </body>
-
+<script src="../dist/js/webcam.js"></script>
 </html>

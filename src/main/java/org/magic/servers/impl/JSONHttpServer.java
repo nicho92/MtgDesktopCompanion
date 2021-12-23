@@ -746,13 +746,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		get("/dash/format/:format", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGDashBoard.class).getShakerFor(MagicFormat.FORMATS.valueOf(request.params(":format"))), transformer);
 
-		get("/pics/cards/:idEd/:name/:extra", URLTools.HEADER_JSON, (request, response) -> {
-			MTGCardVariation extra = MTGCardVariation.valueOf(request.params(":extra").toUpperCase());  
-			
+		get("/pics/cards/:idEd/:cardNumber", URLTools.HEADER_JSON, (request, response) -> {
 			var baos = new ByteArrayOutputStream();
-
-			MagicEdition ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(ID_ED));
-			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( request.params(NAME), ed, true,extra).get(0);
+			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(request.params(":cardNumber"), request.params(ID_ED));
 			BufferedImage im = getEnabledPlugin(MTGPictureProvider.class).getPicture(mc);
 			ImageTools.write(im, "png", baos);
 			
@@ -764,23 +760,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return imageInByte;
 		});
 
-		get("/pics/cardname/:extra/:name", URLTools.HEADER_JSON, (request, response) -> {
-			
-			MTGCardVariation extra = MTGCardVariation.valueOf(request.params(":extra").toUpperCase());  
-			
-			var baos = new ByteArrayOutputStream();
-			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( request.params(NAME), null, true,extra).get(0);
-			BufferedImage im = getEnabledPlugin(MTGPictureProvider.class).getPicture(mc);
-			ImageTools.write(im, "png", baos);
-			baos.flush();
-			byte[] imageInByte = baos.toByteArray();
-			baos.close();
-			response.type("image/png");
-
-			return imageInByte;
-		});
-		
-		
 		get("/decks/list", URLTools.HEADER_JSON, (request, response) -> {
 
 			
