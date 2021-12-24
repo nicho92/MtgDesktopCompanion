@@ -133,7 +133,6 @@ public class WebcamCardImportDialog extends AbstractDelegatedImporterDialog {
 		var btnReloadCams = new JButton(MTGConstants.ICON_REFRESH);
 		var btnAddCam = new JButton(MTGConstants.ICON_NEW);
 		
-		
 		modelCards = new MagicCardTableModel();
 		
 		
@@ -180,13 +179,15 @@ public class WebcamCardImportDialog extends AbstractDelegatedImporterDialog {
 		thrsh.add(chkpause);
 		panneauBasButtons.add(btnRemove);
 		panneauBasButtons.add(btnClose);
+		
 		panneauBas.add(panneauBasButtons,BorderLayout.EAST);
+		
 		var scrollPane = new JScrollPane(tableResults);
 		scrollPane.setPreferredSize(new Dimension(2, 150));
 		panneauBas.add(scrollPane,BorderLayout.CENTER);
 
 		getContentPane().add(panelControl, BorderLayout.EAST);
-		
+		getContentPane().add(panneauBas,BorderLayout.SOUTH);
 		getContentPane().add(webcamCanvas, BorderLayout.CENTER);
 
 	

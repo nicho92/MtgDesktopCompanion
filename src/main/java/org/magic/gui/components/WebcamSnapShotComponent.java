@@ -158,9 +158,11 @@ public class WebcamSnapShotComponent extends MTGUIComponent {
 				}
 				catch(CancellationException ex)
 				{
+					running=false;
 					logger.error("Cancelling");
 				}
 				catch (Exception e) {
+					running=false;
 					logger.error("Error Stopping webcam " + webcamCanvas.getWebcam(),e);
 				} 
 				
