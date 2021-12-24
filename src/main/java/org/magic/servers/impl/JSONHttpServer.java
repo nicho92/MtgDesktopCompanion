@@ -53,7 +53,6 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.WebShopConfig;
 import org.magic.api.beans.enums.EnumItems;
-import org.magic.api.beans.enums.MTGCardVariation;
 import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;
@@ -403,7 +402,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 				if(buffImg==null)
 					return "No readable Image";
 				
-				return recog.getMatch(new ImageDesc(buffImg,buffrot), Integer.parseInt(request.params(":threeshold"))/100);
+				return recog.getMatch(new ImageDesc(buffImg,buffrot), Integer.parseInt(request.params(":threeshold")));
 				
 								
 		}, transformer);
