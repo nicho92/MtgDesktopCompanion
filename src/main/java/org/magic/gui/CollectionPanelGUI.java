@@ -201,7 +201,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		UITools.bindJButton(btnExport, KeyEvent.VK_E, "Collection export");
 		groupShopPanel = new GroupedShoppingPanel();
 		btnMassCollection = UITools.createBindableJButton(null, MTGConstants.ICON_MASS_IMPORT, KeyEvent.VK_I, "Collection massImport");
-		btnGenerateWebSite = UITools.createBindableJButton(null, MTGConstants.ICON_WEBSITE, KeyEvent.VK_W, "Collection website");
+		btnGenerateWebSite = UITools.createBindableJButton(null, MTGConstants.ICON_WEBSITE_24, KeyEvent.VK_W, "Collection website");
 		cardsSetPanel = new CardsEditionTablePanel();
 		deckPanel = new CardsDeckCheckerPanel();
 		splitListPanel = new JSplitPane();

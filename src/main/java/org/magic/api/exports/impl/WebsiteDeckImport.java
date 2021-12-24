@@ -83,7 +83,7 @@ public class WebsiteDeckImport extends AbstractCardExport {
 
 	@Override
 	public Icon getIcon() {
-		return MTGConstants.ICON_WEBSITE;
+		return MTGConstants.ICON_WEBSITE_24;
 	}
 
 	@Override

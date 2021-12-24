@@ -74,7 +74,7 @@ public class GradingEditorPane extends MTGUIComponent {
 		
 		
 		txtSerialNumber = new JTextField(10);
-		var btnLoad = UITools.createBindableJButton(capitalize("LOAD"), MTGConstants.ICON_WEBSITE, KeyEvent.VK_L, "Grade info loading");
+		var btnLoad = UITools.createBindableJButton(capitalize("LOAD"), MTGConstants.ICON_WEBSITE_24, KeyEvent.VK_L, "Grade info loading");
 		btnSave = UITools.createBindableJButton(capitalize("UPDATE"), MTGConstants.ICON_SAVE, KeyEvent.VK_G, "Grade info saving");
 		
 		

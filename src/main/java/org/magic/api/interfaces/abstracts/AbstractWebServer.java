@@ -223,7 +223,7 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 	
 	@Override
 	public Icon getIcon() {
-		return MTGConstants.ICON_WEBSITE;
+		return MTGConstants.ICON_WEBSITE_24;
 	}
 	
 	@Override

@@ -196,7 +196,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		JPanel panelDAO = createBoxPanel("DATABASES",MTGConstants.ICON_TAB_DAO,daoPanelLayout,true);
 		JPanel panelConfig = createBoxPanel("CONFIGURATION",MTGConstants.ICON_TAB_ADMIN,configPanelLayout,false);
 		JPanel panelLogs = createBoxPanel("LOG",MTGConstants.ICON_TAB_RULES,new BorderLayout(),true);
-		JPanel panelWebSite = createBoxPanel("WEBSITE",MTGConstants.ICON_WEBSITE,websitePanelLayout,true);
+		JPanel panelWebSite = createBoxPanel("WEBSITE",MTGConstants.ICON_WEBSITE_24,websitePanelLayout,true);
 		JPanel panelGameProfil = createBoxPanel("GAME",MTGConstants.ICON_TAB_GAME,gameProfilPanelLayout,true);
 		JPanel panelModule = createBoxPanel("Modules",MTGConstants.ICON_TAB_PLUGIN,modulesPanelLayout,true);
 		JPanel panelCurrency = createBoxPanel("CURRENCY",MTGConstants.ICON_TAB_PRICES,currencyPanelLayout,true);
