@@ -1,8 +1,6 @@
 package org.magic.gui.components;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.io.IOException;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -21,7 +19,6 @@ import org.magic.gui.models.GedEntryTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
-import org.magic.tools.ImageTools;
 import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 

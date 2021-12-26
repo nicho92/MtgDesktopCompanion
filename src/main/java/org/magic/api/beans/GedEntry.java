@@ -1,7 +1,5 @@
 package org.magic.api.beans;
 
-import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
 
 import org.magic.api.interfaces.MTGStorable;

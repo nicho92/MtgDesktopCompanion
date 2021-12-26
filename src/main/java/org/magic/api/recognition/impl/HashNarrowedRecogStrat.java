@@ -6,9 +6,7 @@ import java.util.Map;
 
 import org.magic.api.beans.MTGDocumentation;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractRecognitionStrategy;
-import org.magic.services.recognition.DescContainer;
 import org.magic.services.recognition.ImageDesc;
 import org.magic.services.recognition.MatchResult;
 

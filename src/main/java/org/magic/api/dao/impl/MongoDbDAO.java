@@ -52,7 +52,6 @@ import org.magic.tools.IDGenerator;
 import org.magic.tools.ImageTools;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.CommandResult;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.FindIterable;

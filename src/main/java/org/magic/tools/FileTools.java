@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
@@ -34,7 +33,6 @@ import org.magic.services.MTGLogger;
 import org.magic.services.network.URLTools;
 import org.magic.services.recognition.DescContainer;
 
-import com.google.common.hash.Hashing;
 import com.google.common.io.Files;
 import com.google.gson.JsonElement;
 
