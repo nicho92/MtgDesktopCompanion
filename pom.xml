@@ -48,7 +48,6 @@
 	</properties>
 
 	<repositories>
-		
 		<repository>
 			<id>jcenter</id>
 			<url>https://jcenter.bintray.com</url>
@@ -65,6 +64,11 @@
 	
 	
 <dependencies>
+		<dependency>
+		    <groupId>com.github.ben-manes.caffeine</groupId>
+		    <artifactId>caffeine</artifactId>
+		    <version>3.0.5</version>
+		</dependency>
 	<dependency>
 	    <groupId>org.apache.poi</groupId>
 	    <artifactId>poi</artifactId>

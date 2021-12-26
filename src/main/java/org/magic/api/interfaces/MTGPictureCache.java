@@ -11,8 +11,4 @@ public interface MTGPictureCache extends MTGCache<MagicCard, BufferedImage> {
 
 	public void put(BufferedImage im, MagicCard mc) throws IOException;
 
-	public void clear();
-	
-	public long size();
-
 }

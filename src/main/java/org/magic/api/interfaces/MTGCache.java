@@ -10,5 +10,7 @@ public interface MTGCache<U,V> extends MTGPlugin{
 
 	public void clear();
 
+	public long size();
+
 	
 }
