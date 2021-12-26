@@ -21,6 +21,7 @@ public class AutoDetectAreaStrat extends AbstractRecognitionArea {
     public List<MatchResult> recognize(BufferedImage in, MTGCardRecognition strat,int recogTresh) {
         results.clear();
         bounds = ContourBoundingBox.getContourBoundingBox(in);
+       
         for (ContourBoundingBox bound : bounds) 
         {
             var norm = ImageTools.getScaledImage(bound.getTransformedImage(in,false));

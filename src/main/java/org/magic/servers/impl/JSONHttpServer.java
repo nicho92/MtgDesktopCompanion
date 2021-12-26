@@ -84,7 +84,8 @@ import org.magic.services.VersionChecker;
 import org.magic.services.keywords.AbstractKeyWordsManager;
 import org.magic.services.network.URLTools;
 import org.magic.services.providers.SealedProductProvider;
-import org.magic.services.recognition.ImageDesc;
+import org.magic.services.recognition.area.AutoDetectAreaStrat;
+import org.magic.services.recognition.area.ManualAreaStrat;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.Chrono;
 import org.magic.tools.ImageTools;
@@ -391,23 +392,17 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/cards/number/:idEd/:cNumber", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(request.params(":cNumber"), request.params(ID_ED)), transformer);
 
 		post("/cards/recognize/:threeshold", URLTools.HEADER_JSON, (request, response) -> {
-				var recog = MTG.getEnabledPlugin(MTGCardRecognition.class);
-				recog.loadAllCachedData();
-				
-				logger.debug("ContentType=" + request.contentType());
-				logger.debug(recog +" recognize card in " + recog.getDataList().keySet() + " " + recog.size() + " items");
-				var buffImg = ImageTools.readBase64(request.body().substring(request.body().indexOf(",")+1));// Find better solution
-				var buffrot = ImageTools.rotate(buffImg, 180);
+			var recog = MTG.getEnabledPlugin(MTGCardRecognition.class);
+			var strat = new ManualAreaStrat();
+			var buffImg = ImageTools.readBase64(request.body().substring(request.body().indexOf(",")+1));// Find better solution
 			
-				if(buffImg==null)
-					return "No readable Image";
-				
-				return recog.getMatch(new ImageDesc(buffImg,buffrot), Integer.parseInt(request.params(":threeshold")));
-				
-								
+			if(buffImg==null)
+				return "No readable Image";
+			
+			recog.loadAllCachedData();
+			logger.debug(recog +" recognize card in " + recog.getDataList().keySet() + " " + recog.size() + " items");
+			return strat.recognize(buffImg,recog,Integer.parseInt(request.params(":threeshold")));
 		}, transformer);
-
-
 		
 		
 		

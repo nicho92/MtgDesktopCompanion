@@ -68,10 +68,13 @@
 				  type: "POST",
 				  url: restserver+"/cards/recognize/"+$("input[type='number']").val(),
 				  data: canvas.toDataURL("image/png"),
-				  success: function(data){
+				  success: function(datas){
+					  
+					  $.each(datas, function( index, data ) {
 						$("#contentResults").empty();
 						$("#contentResults").append("CardName = "+data.name + " <br/>Number = "+ data.setCode+ " ("+  data.number + "). <br/> SCORE =" + data.score.toFixed(2));
-						$("#contentResults").append("<br/><img src='"+restserver+"/pics/cards/"+data.setCode+"/"+data.number+"'/>");
+						$("#contentResults").append("<br/><img src='"+restserver+"/pics/cards/"+data.setCode+"/"+data.number+"'/><br/>");
+					  });
 		  			}
 				});
 				

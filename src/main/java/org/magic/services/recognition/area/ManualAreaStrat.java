@@ -26,6 +26,15 @@ public class ManualAreaStrat extends AbstractRecognitionArea {
     @Override
     public ArrayList<MatchResult> recognize(BufferedImage in, MTGCardRecognition strat,int recogTresh) {
 		ArrayList<MatchResult> res = new ArrayList<>();
+		
+		
+		if(bound==null)
+		{
+			init(in.getWidth(), in.getHeight());
+		}
+		
+		
+		
 		var norm = ImageTools.getScaledImage(bound.getTransformedImage(in,false));
 		var flip = ImageTools.getScaledImage(bound.getTransformedImage(in,true));
        

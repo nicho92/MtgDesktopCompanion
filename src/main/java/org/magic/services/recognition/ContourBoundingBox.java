@@ -5,6 +5,9 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+import org.magic.services.MTGLogger;
+
 import boofcv.alg.distort.RemovePerspectiveDistortion;
 import boofcv.alg.filter.binary.BinaryImageOps;
 import boofcv.alg.filter.binary.Contour;
@@ -23,6 +26,7 @@ import georegression.struct.point.Point2D_I32;
 public class ContourBoundingBox
 {
     private static Point2D_I32[] farpoints;
+    protected Logger logger = MTGLogger.getLogger(this.getClass());
 
     static
     {
@@ -69,7 +73,8 @@ public class ContourBoundingBox
         }
 		catch(Exception e)
 		{
-			return null;
+			logger.error(e);
+			return in;
 		}
 	}
     
