@@ -62,7 +62,7 @@ public class PluginRegistry {
 	}
 	
 	
-	public List<String> getStringMethod(Class classe)
+	public List<String> getStringMethod(Class<?> classe)
 	{
 		List<String> meths = new ArrayList<>();
 		Method[] mths = classe.getMethods();
@@ -108,6 +108,7 @@ public class PluginRegistry {
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	public <T> T newInstance(String classname) throws ClassNotFoundException {
 		try {
 			logger.trace("\tload plugin :  " + classname);
@@ -118,13 +119,14 @@ public class PluginRegistry {
 		}
 	}
 	
-	public PluginEntry getEntryFor(Object k)
+	public <T extends MTGPlugin> PluginEntry<T> getEntryFor(Object k)
 	{
 		return getEntry(ClassUtils.getAllInterfaces(k.getClass()).get(0));
 	}
 	
 	
-	public PluginEntry getEntry(Class p)
+	@SuppressWarnings("unchecked")
+	public  <T extends MTGPlugin> PluginEntry<T> getEntry(Class p)
 	{
 		return registry.get(p);
 	}
@@ -156,8 +158,6 @@ public class PluginRegistry {
 		registry.put(MTGCardRecognition.class, new PluginEntry<>(MTGCardRecognition.class,false, "/strategies", "/strategy", "org.magic.api.recognition.impl",PLUGINS.STRATEGY));
 		registry.put(MTGTrackingService.class, new PluginEntry<>(MTGTrackingService.class,true, "/trackings", "/tracker", "org.magic.api.tracking.impl",PLUGINS.TRACKING));
 		registry.put(MTGExternalShop.class, new PluginEntry<>(MTGExternalShop.class,false, "/externalsShops", "/extshop", "org.magic.api.externalshop.impl",PLUGINS.EXTERNAL_SHOP));
-		
-		
 		registry.put(AbstractJDashlet.class, new PluginEntry<>(AbstractJDashlet.class,true,"/dashlets", "/dashlet", "org.magic.gui.dashlet",PLUGINS.DASHLET));
 
 	}
@@ -176,8 +176,10 @@ public class PluginRegistry {
 		return ret;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public synchronized <T extends MTGPlugin> List<T> listPlugins(Class<T> classe)
 	{
+		
 		PluginEntry<T> entry = registry.get(classe);
 		
 		if(!entry.getPlugins().isEmpty())

@@ -71,7 +71,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 				cs.setPrice(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text().replaceAll("\\$", "")));
 				cs.setPriceDayChange(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text().replaceAll("\\$", "")));
 				cs.setProviderName(getName());
-				String set = e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).text();
+				var set = e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).text();
 				cs.setFoil(set.contains("(Foil)"));
 				set = set.replace("_\\(Foil\\)", "");
 				cs.setEd(getCodeForExt(set));
@@ -86,7 +86,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 				cs.setPrice(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text().replaceAll("\\$", "")));
 				cs.setPriceDayChange(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text().replaceAll("\\$", "")));
 				cs.setProviderName(getName());
-				String set = e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).text();
+				var set = e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).text();
 				cs.setFoil(set.contains("(Foil)"));
 				set = set.replace("_\\(Foil\\)", "");
 				cs.setEd(getCodeForExt(set));
