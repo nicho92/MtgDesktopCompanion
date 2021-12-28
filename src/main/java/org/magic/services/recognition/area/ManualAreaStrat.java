@@ -33,11 +33,9 @@ public class ManualAreaStrat extends AbstractRecognitionArea {
 			init(in.getWidth(), in.getHeight());
 		}
 		
-		
-		
 		var norm = ImageTools.getScaledImage(bound.getTransformedImage(in,false));
 		var flip = ImageTools.getScaledImage(bound.getTransformedImage(in,true));
-       
+    
         var id = new ImageDesc(norm,flip);
         var m = strat.getMatch(id, recogTresh/100f);
         if(m != null)

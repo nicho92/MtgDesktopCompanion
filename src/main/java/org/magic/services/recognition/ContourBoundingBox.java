@@ -50,8 +50,7 @@ public class ContourBoundingBox
         {
             Planar<GrayF32> input = ConvertBufferedImage.convertFromPlanar(in, null, true, GrayF32.class);
 
-            RemovePerspectiveDistortion<Planar<GrayF32>> removePerspective =
-                    new RemovePerspectiveDistortion<>(300, 418, ImageType.pl(3, GrayF32.class));
+            RemovePerspectiveDistortion<Planar<GrayF32>> removePerspective =new RemovePerspectiveDistortion<>(300, 418, ImageType.pl(3, GrayF32.class));
 
             int start = longEdge();
 
@@ -59,7 +58,10 @@ public class ContourBoundingBox
             {
                 start = (start+2)%4;
             }
-
+            
+            
+            input.setNumberOfBands(3);
+            
             if( !removePerspective.apply(input,
                     new Point2D_F64(corners[start].x,corners[start].y),
                     new Point2D_F64(corners[(start+1)%4].x,corners[(start+1)%4].y),
@@ -73,7 +75,7 @@ public class ContourBoundingBox
         }
 		catch(Exception e)
 		{
-			logger.error(e);
+			logger.error("RemovePerspectiveDistortion.apply Error: " + e);
 			return in;
 		}
 	}
