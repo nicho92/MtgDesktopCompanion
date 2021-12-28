@@ -2,11 +2,13 @@ package org.magic.api.recognition.impl;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import org.magic.api.beans.MTGDocumentation;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.abstracts.AbstractRecognitionStrategy;
+import org.magic.services.recognition.DescContainer;
 import org.magic.services.recognition.ImageDesc;
 import org.magic.services.recognition.MatchResult;
 
@@ -14,11 +16,8 @@ import org.magic.services.recognition.MatchResult;
 public class HashNarrowedRecogStrat extends AbstractRecognitionStrategy{
 
 
-	@Override
-	public STATUT getStatut() {
-		return STATUT.DEV;
-	}
-	
+	private List<DescContainer> datas;
+
 	@Override
 	public MTGDocumentation getDocumentation() {
 		try {
@@ -31,7 +30,7 @@ public class HashNarrowedRecogStrat extends AbstractRecognitionStrategy{
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		var m = super.getDefaultAttributes();
-		m.put("LIMIT_TO_TOP_N_HASH_MATCH", "1000");
+		m.put("LIMIT_TO_TOP_N_HASH_MATCH", "500");
 		return m;
 	}
 	
@@ -42,16 +41,17 @@ public class HashNarrowedRecogStrat extends AbstractRecognitionStrategy{
 	}
 
 	@Override
-	public MatchResult getMatch(ImageDesc in, double threshhold)
+	public synchronized MatchResult getMatch(ImageDesc in, double threshhold)
 	{
+		datas= allDatas();
 		sortByHash(in);
 		var ix = 0;
 		double max = 0;
 		int size = Math.min(dataList.size(),getInt("LIMIT_TO_TOP_N_HASH_MATCH"));
-
+		
 		for(var i=0;i<size;i++)
 		{
-			double score = in.compareSURF(allDatas().get(i).getDescData());
+			double score = in.compareSURF(datas.get(i).getDescData());
 			if(score>max)
 			{
 				max=score;
@@ -60,15 +60,15 @@ public class HashNarrowedRecogStrat extends AbstractRecognitionStrategy{
 		}
 		if(max>threshhold)
 		{
-			return new MatchResult(allDatas().get(ix).getStringData(),max);
+			return new MatchResult(datas.get(ix).getStringData(),max);
 		}
 		return null;
 	}
 
 	private void sortByHash(ImageDesc id)
 	{
-		allDatas().forEach(d->d.setMatch(id.compareHashWithFlip(d.getDescData())));
-		Collections.sort(allDatas());
+		datas.forEach(d->d.setMatch(id.compareHashWithFlip(d.getDescData())));
+		Collections.sort(datas);
 	}
 
 	
