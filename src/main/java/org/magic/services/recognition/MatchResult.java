@@ -5,6 +5,7 @@ public class MatchResult {
 	private String name;
 	private String setCode;
 	private String number;
+	private String scryfallId;
 	private double score;
 	
 	public String getSetCode() {
@@ -19,6 +20,14 @@ public class MatchResult {
 		return number;
 	}
 	
+	public String getScryfallId() {
+		return scryfallId;
+	}
+	
+	public double getScore() {
+		return score;
+	}
+	
 	public MatchResult(String result, double score) {
 		super();
 		this.result = result;
@@ -27,6 +36,7 @@ public class MatchResult {
 		name = split[0];
 		setCode = split[1].toUpperCase();
 		number = split[3];
+		scryfallId = split[4];
 	}
 
 	public int hashCode() {
@@ -55,6 +65,6 @@ public class MatchResult {
 
 	@Override
 	public String toString() {
-		return "MatchResult [name=" + name + ", setCode=" + setCode + ", number="+ number +", score=" + score + "]";
+		return "MatchResult [name=" + name + ", setCode=" + setCode + ", number="+ number +",scryfall="+ scryfallId +", score=" + score + "]";
 	}
 }
