@@ -114,7 +114,7 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 	{
 			if(dataList.get(FilenameUtils.getBaseName(handle.getName()))!=null)
 			{
-				logger.debug(handle + " is already loaded");
+				logger.trace(handle + " is already loaded");
 			}
 			else
 			{

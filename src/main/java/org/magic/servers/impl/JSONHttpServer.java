@@ -84,6 +84,7 @@ import org.magic.services.VersionChecker;
 import org.magic.services.keywords.AbstractKeyWordsManager;
 import org.magic.services.network.URLTools;
 import org.magic.services.providers.SealedProductProvider;
+import org.magic.services.recognition.area.AutoDetectAreaStrat;
 import org.magic.services.recognition.area.ManualAreaStrat;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.Chrono;
@@ -397,14 +398,13 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		post("/cards/recognize/:threeshold", URLTools.HEADER_JSON, (request, response) -> {
 			var recog = MTG.getEnabledPlugin(MTGCardRecognition.class);
-			var strat = new ManualAreaStrat();
+			var strat = new AutoDetectAreaStrat();
 			var buffImg = ImageTools.readBase64(request.body().substring(request.body().indexOf(",")+1));// Find better solution
 			
 			if(buffImg==null)
 				return "No readable Image";
 			
 			recog.loadAllCachedData();
-			logger.debug(recog +" recognize card in " + recog.getDataList().keySet() + " " + recog.size() + " items");
 			return strat.recognize(buffImg,recog,Integer.parseInt(request.params(":threeshold")));
 		}, transformer);
 		
