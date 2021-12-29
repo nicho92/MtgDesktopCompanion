@@ -408,10 +408,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return strat.recognize(buffImg,recog,Integer.parseInt(request.params(":threeshold")));
 		}, transformer);
 		
-		
-		
-		
-		
 		put("/cards/move/:from/:to/:id", URLTools.HEADER_JSON, (request, response) -> {
 			var from = new MagicCollection(request.params(":from"));
 			var to = new MagicCollection(request.params(":to"));
@@ -766,10 +762,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 				@Override
 				public Object call() throws Exception {
 					var arr = new JsonArray();
-					var exp = new JsonExport();
-
+					
 					for (MagicDeck d : manager.listDecks()) {
-						var el = exp.toJsonDeck(d);
+						var el = converter.toJsonDeck(d);
 							  el.remove("main");
 							  el.remove("sideboard");
 						arr.add(el);
@@ -785,7 +780,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/deck/:idDeck", URLTools.HEADER_JSON,(request, response) -> {
 			
 				var d = manager.getDeck(Integer.parseInt(request.params(":idDeck")));
-				var el= new JsonExport().toJsonDeck(d);
+				var el= converter.toJsonDeck(d);
 				el.getAsJsonObject().addProperty("colors", d.getColors());
 				
 				return el;
@@ -821,7 +816,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/admin/caches", URLTools.HEADER_JSON, (request, response) -> {
 			return cache.entries().keySet();
 		}, transformer);
-		
 		
 		get("/admin/jdbc", URLTools.HEADER_JSON, (request, response) -> {
 			var arr = new JsonArray();

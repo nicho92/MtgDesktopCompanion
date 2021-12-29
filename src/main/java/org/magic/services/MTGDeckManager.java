@@ -219,7 +219,7 @@ public class MTGDeckManager extends Observable {
 	}
 
 	public Map<MTGRarity, Integer> analyseRarities(List<MagicCard> cards) {
-		TreeMap<MTGRarity, Integer> rarity = new TreeMap<>();
+		Map<MTGRarity, Integer> rarity = new TreeMap<>();
 		cards.forEach(card->{
 			
 			if(card.getRarity()!=null)
