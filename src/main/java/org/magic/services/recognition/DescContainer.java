@@ -14,6 +14,11 @@ public class DescContainer implements Comparable<DescContainer>{
 	
 	
 	@Override
+	public String toString() {
+		return getStringData();
+	}
+	
+	@Override
 	public int compareTo(DescContainer dc) {
 		return Double.compare(dc.getMatch(),match);
 	}

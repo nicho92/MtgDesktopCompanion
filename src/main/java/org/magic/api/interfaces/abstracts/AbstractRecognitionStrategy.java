@@ -23,6 +23,7 @@ import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.recognition.DescContainer;
 import org.magic.services.recognition.ImageDesc;
+import org.magic.services.recognition.MatchResult;
 import org.magic.tools.FileTools;
 import org.magic.tools.ImageTools;
 
@@ -54,7 +55,7 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 	public final Map<String, List<DescContainer>> getDataList() {
 		return dataList;
 	}
-	
+		
 	@Override
 	public boolean isSetCached(MagicEdition ed) {
 		return getSetDirectory(ed.getId()).exists();
@@ -108,6 +109,9 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 			loadDatasFromFile(f);
 		}
 	}
+	
+	
+	
 	
 	
 	private final void loadDatasFromFile(File handle) throws IOException

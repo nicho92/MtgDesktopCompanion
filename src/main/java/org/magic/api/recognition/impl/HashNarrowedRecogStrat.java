@@ -47,11 +47,13 @@ public class HashNarrowedRecogStrat extends AbstractRecognitionStrategy{
 		sortByHash(in);
 		var ix = 0;
 		double max = 0;
-		int size = Math.min(dataList.size(),getInt("LIMIT_TO_TOP_N_HASH_MATCH"));
+		int size = Math.min(size(),getInt("LIMIT_TO_TOP_N_HASH_MATCH"));
 		
 		for(var i=0;i<size;i++)
 		{
 			double score = in.compareSURF(datas.get(i).getDescData());
+			logger.debug(datas.get(i).getName() + " " + score);
+			
 			if(score>max)
 			{
 				max=score;
