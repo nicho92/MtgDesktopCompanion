@@ -7,6 +7,7 @@ public class MatchResult {
 	private String number;
 	private String scryfallId;
 	private double score;
+	private String id;
 	
 	public String getSetCode() {
 		return setCode;
@@ -28,6 +29,10 @@ public class MatchResult {
 		return score;
 	}
 	
+	public String getId() {
+		return id;
+	}
+	
 	public MatchResult(String result, double score) {
 		super();
 		this.result = result;
@@ -36,6 +41,7 @@ public class MatchResult {
 		name = split[0];
 		setCode = split[1].toUpperCase();
 		number = split[3];
+		id = split[2];
 		scryfallId = split[4];
 	}
 

@@ -660,7 +660,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 					return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(COLLECTION))));
 				}
 			})
-
 		, transformer);
 	
 		

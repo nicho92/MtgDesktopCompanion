@@ -24,7 +24,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.recognition.DescContainer;
 import org.magic.services.recognition.ImageDesc;
 import org.magic.tools.FileTools;
-import org.magic.tools.IDGenerator;
 import org.magic.tools.ImageTools;
 
 
@@ -200,7 +199,7 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 		
 		if(topimg!=null)
 		{
-				String key = card.getName()+"|"+card.getCurrentSet().getId()+"|"+IDGenerator.generate(card)+"|"+card.getCurrentSet().getNumber()+"|"+card.getScryfallId();
+				String key = card.getName()+"|"+card.getCurrentSet().getId()+"|"+card.getId()+"|"+card.getCurrentSet().getNumber()+"|"+card.getScryfallId();
 				try
 				{
 					add(new DescContainer(new ImageDesc(ImageTools.getScaledImage(topimg)), key));
