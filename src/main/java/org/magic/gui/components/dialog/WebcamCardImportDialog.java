@@ -121,7 +121,7 @@ public class WebcamCardImportDialog extends AbstractDelegatedImporterDialog {
 		var cboWebcams = UITools.createCombobox(WebcamUtils.inst().listWebcam(),MTGConstants.ICON_WEBCAM);
 		var cboAreaDetector = UITools.createCombobox(new AbstractRecognitionArea[] { new AutoDetectAreaStrat(),new ManualAreaStrat()});
 		var chkpause = new JCheckBox("Pause");
-		var sldThreshold = new JSlider(0,100,35);
+		var sldThreshold = new JSlider(0,100,40);
 		var lblThreshHoldValue = new JLabel(String.valueOf(sldThreshold.getValue()));
 		var thrsh = new JPanel();
 		var controlWebcamPanel = new JPanel();

@@ -398,7 +398,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		post("/cards/recognize/:threeshold", URLTools.HEADER_JSON, (request, response) -> {
 			var recog = MTG.getEnabledPlugin(MTGCardRecognition.class);
-			var strat = new AutoDetectAreaStrat();
+			var strat = new ManualAreaStrat();
 			var buffImg = ImageTools.readBase64(request.body().substring(request.body().indexOf(",")+1));// Find better solution
 			
 			if(buffImg==null)

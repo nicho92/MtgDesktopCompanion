@@ -24,7 +24,7 @@ public class ManualAreaStrat extends AbstractRecognitionArea {
     private int height;
 
     @Override
-    public ArrayList<MatchResult> recognize(BufferedImage in, MTGCardRecognition strat,int recogTresh) {
+    public List<MatchResult> recognize(BufferedImage in, MTGCardRecognition strat,int recogTresh) {
 		ArrayList<MatchResult> res = new ArrayList<>();
 		
 		
