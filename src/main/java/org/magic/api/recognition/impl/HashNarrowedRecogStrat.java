@@ -52,14 +52,16 @@ public class HashNarrowedRecogStrat extends AbstractRecognitionStrategy{
 		for(var i=0;i<size;i++)
 		{
 			double score = in.compareSURF(datas.get(i).getDescData());
-			logger.debug(datas.get(i).getName() + " " + score);
-			
 			if(score>max)
 			{
 				max=score;
 				ix=i;
 			}
 		}
+		
+		
+		logger.debug("Max =" + max + " "  + datas.get(ix).getStringData());
+		
 		if(max>threshhold)
 		{
 			return new MatchResult(datas.get(ix).getStringData(),max);
