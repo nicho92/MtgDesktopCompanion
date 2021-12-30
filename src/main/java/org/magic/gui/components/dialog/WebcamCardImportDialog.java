@@ -53,6 +53,7 @@ import org.magic.services.providers.IconSetProvider;
 import org.magic.services.recognition.MatchResult;
 import org.magic.services.recognition.area.AutoDetectAreaStrat;
 import org.magic.services.recognition.area.ManualAreaStrat;
+import org.magic.services.recognition.area.RadiusAreaStrat;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.tools.MTG;
@@ -119,7 +120,7 @@ public class WebcamCardImportDialog extends AbstractDelegatedImporterDialog {
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		var panelControl = new JPanel();
 		var cboWebcams = UITools.createCombobox(WebcamUtils.inst().listWebcam(),MTGConstants.ICON_WEBCAM);
-		var cboAreaDetector = UITools.createCombobox(new AbstractRecognitionArea[] { new AutoDetectAreaStrat(),new ManualAreaStrat()});
+		var cboAreaDetector = UITools.createCombobox(new AbstractRecognitionArea[] { new AutoDetectAreaStrat(),new ManualAreaStrat(), new RadiusAreaStrat()});
 		var chkpause = new JCheckBox("Pause");
 		var sldThreshold = new JSlider(0,100,40);
 		var lblThreshHoldValue = new JLabel(String.valueOf(sldThreshold.getValue()));
