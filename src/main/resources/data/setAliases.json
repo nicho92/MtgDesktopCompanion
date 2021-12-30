@@ -1,0 +1,65 @@
+{
+	"DelverLens": {
+		"nameSet": {
+			"Magic 2015": "Magic 2015 Core Set",
+			"Magic 2014": "Magic 2014 Core Set"
+		}
+	},
+	
+	"MTGoldFish": {
+		"idSet": {
+			"7ED": "7E",
+			"APC": "AP",
+			"EXO": "EX",
+			"HOP": "PC1",
+			"INV": "IN",
+			"MIR": "MI",
+			"MMQ": "MM",
+			"MP2": "MS3",
+			"MPS": "MS2",
+			"MPS_AKH": "MS3",
+			"NEM": "NE",
+			"NMS": "NE",
+			"ODY": "OD",
+			"P02": "PO2",
+			"pARL": "PRM-ARN",
+			"PCY": "PR",
+			"pFNM": "PRM-FNM",
+			"pGPX": "PRM-GPP",
+			"pGRU": "PRM-GUR",
+			"pJGP": "PRM-JUD",
+			"PLS": "PS",
+			"pMEI": "PRM-MED",
+			"pMGD": "PRM-GDP",
+			"PUMA": "PRM-UMA",
+			"STH": "ST",
+			"TMP": "TE",
+			"UDS": "UD",
+			"ULG": "UL",
+			"USD": "UD",
+			"USG": "UZ",
+			"VIS": "VI",
+			"WTH": "WL"
+		},
+		"nameSet": {
+			"Magic 2015": "Magic+2015+Core+Set",
+			"Magic 2014": "Magic+2014+Core+Set",
+			"Grand Prix": "Grand+Prix+Promos",
+			"Prerelease Events": "Prerelease+Cards",
+			"Champs+and+States": "Champs+Promos",
+			"Ugins+Fate+promos": "Ugins+Fate+Promos",
+			"Magic+Game+Day": "Game+Day+Promos",
+			"Media+Inserts": "Media+Promos",
+			"Judge+Gift+Program": "Judge+Promos",
+			"Friday+Night+Magic": "FNM+Promos",
+			"Arena+League": "Arena+Promos",
+			"Masterpiece+Series+Amonkhet+Invocations": "Amonkhet+Invocations",
+			"Masterpiece+Series+Kaladesh+Inventions": "Kaladesh+Inventions",
+			"You+Make+the+Cube": "Treasure+Chest",
+			"Modern+Masters+2015+Edition": "Modern+Masters+2015",
+			"Guru": "Guru+Lands",
+			"Modern+Masters+2017": "Modern+Masters+2017+Edition",
+			"Modern+Horizons+1+Timeshifts": "Modern+Horizons+2"
+		}
+	}
+}

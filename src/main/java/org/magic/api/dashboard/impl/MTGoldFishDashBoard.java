@@ -25,6 +25,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.enums.MTGCardVariation;
+import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;
@@ -321,13 +322,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 	}
 	
-	
-	public static void main(String[] args) throws IOException {
-		var dash = new MTGoldFishDashBoard();
-		dash.getOnlineShakesForEdition(new MagicEdition("VOW"));
-	}
-	
-	
 	@Override
 	protected EditionsShakers getOnlineShakesForEdition(MagicEdition edition) throws IOException {
 		var list = new EditionsShakers();
@@ -521,7 +515,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		mapConcordance.put("PGPX", "PRM-GPP");
 		mapConcordance.put("PUMA", "PRM-UMA");
 		// p15A
-
+	
 	}
 
 	private String replace(String id, boolean byValue) {
