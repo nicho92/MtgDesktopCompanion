@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
-import java.util.TreeMap;
 
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -25,10 +24,10 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.enums.MTGCardVariation;
-import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;
+import org.magic.services.providers.SetAliasesProvider;
 import org.magic.tools.UITools;
 import org.mozilla.javascript.Parser;
 import org.mozilla.javascript.ast.AstNode;
@@ -41,14 +40,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	private static final String SET_EXTRA = "SET_EXTRA";
 	private static final String MOVERS_DETAILS = WEBSITE+"/movers-details/";
 
-	private Map<String, String> mapConcordance;
 	boolean isPaperparsing=true;
-
-
-	public MTGoldFishDashBoard() {
-		super();
-		initConcordance();
-	}
 
 
 	@Override
@@ -186,7 +178,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	
 	@Override
 	protected HistoryPrice<MagicEdition> getOnlinePricesVariation(MagicEdition me) throws IOException {
-		String url = WEBSITE+"/sets/" + replace(me.getId(), false) + "#" + getString(FORMAT);
+		String url = WEBSITE+"/sets/" + SetAliasesProvider.inst().getSetIdFor(this,me) + "#" + getString(FORMAT);
 		HistoryPrice<MagicEdition> historyPrice = new HistoryPrice<>(me);
 		historyPrice.setCurrency(getCurrency());
 		
@@ -310,7 +302,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				if(set.equalsIgnoreCase("XZNR"))
 					set="ZNR";
 				
-				cs.setEd(replace(set.toUpperCase(), true));
+				cs.setEd(SetAliasesProvider.inst().getReversedSetIdFor(this,set.toUpperCase()));
 
 				list.add(cs);
 
@@ -332,7 +324,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		if(edition==null)
 			return list;
 		
-		var urlEditionChecker = WEBSITE+"/sets/" + replace(edition.getId().toUpperCase(), false)+"/All+Cards";
+		var urlEditionChecker = WEBSITE+"/sets/" + SetAliasesProvider.inst().getSetIdFor(this,edition)+"/All+Cards";
 		
 		urlEditionChecker = URLTools.getLocation(urlEditionChecker);
 		
@@ -477,62 +469,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		default:
 			return editionName;
 		}
-	}
-
-	private void initConcordance() {
-		mapConcordance = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-		mapConcordance.put("HOP", "PC1");
-		mapConcordance.put("TMP", "TE");
-		mapConcordance.put("STH", "ST");
-		mapConcordance.put("PCY", "PR");
-		mapConcordance.put("MIR", "MI");
-		mapConcordance.put("UDS", "UD");
-		mapConcordance.put("NMS", "NE");
-		mapConcordance.put("NEM", "NE");
-		mapConcordance.put("ULG", "UL");
-		mapConcordance.put("USG", "UZ");
-		mapConcordance.put("WTH", "WL");
-		mapConcordance.put("ODY", "OD");
-		mapConcordance.put("EXO", "EX");
-		mapConcordance.put("APC", "AP");
-		mapConcordance.put("PLS", "PS");
-		mapConcordance.put("INV", "IN");
-		mapConcordance.put("MMQ", "MM");
-		mapConcordance.put("VIS", "VI");
-		mapConcordance.put("7ED", "7E");
-		mapConcordance.put("USD", "UD");
-		mapConcordance.put("MPS", "MS2");
-		mapConcordance.put("MP2", "MS3");
-		mapConcordance.put("P02", "PO2");
-		mapConcordance.put("MPS_AKH", "MS3");
-		mapConcordance.put("pGRU", "PRM-GUR");
-		mapConcordance.put("pMGD", "PRM-GDP");
-		mapConcordance.put("pMEI", "PRM-MED");
-		mapConcordance.put("pJGP", "PRM-JUD");
-		mapConcordance.put("pGPX", "PRM-GPP");
-		mapConcordance.put("pFNM", "PRM-FNM");
-		mapConcordance.put("pARL", "PRM-ARN");
-		mapConcordance.put("PGPX", "PRM-GPP");
-		mapConcordance.put("PUMA", "PRM-UMA");
-		// p15A
-	
-	}
-
-	private String replace(String id, boolean byValue) {
-
-		if (byValue) {
-			for (Entry<String, String> entry : mapConcordance.entrySet()) {
-				if (Objects.equals(id, entry.getValue())) {
-					return entry.getKey();
-				}
-			}
-		} else {
-			if (mapConcordance.get(id) != null)
-				return mapConcordance.get(id);
-		}
-
-		return id;
-
 	}
 
 	@Override
