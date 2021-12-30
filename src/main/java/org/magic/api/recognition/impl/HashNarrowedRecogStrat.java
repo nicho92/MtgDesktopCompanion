@@ -43,30 +43,11 @@ public class HashNarrowedRecogStrat extends AbstractRecognitionStrategy{
 	@Override
 	public synchronized MatchResult getMatch(ImageDesc in, double threshhold)
 	{
-		datas= allDatas();
+		datas = allDatas();
 		sortByHash(in);
-		var ix = 0;
-		double max = 0;
-		int size = Math.min(size(),getInt("LIMIT_TO_TOP_N_HASH_MATCH"));
-		
-		for(var i=0;i<size;i++)
-		{
-			double score = in.compareSURF(datas.get(i).getDescData());
-			if(score>max)
-			{
-				max=score;
-				ix=i;
-			}
-		}
+		return result(datas,in,Math.min(datas.size(),getInt("LIMIT_TO_TOP_N_HASH_MATCH")),threshhold);
 		
 		
-		logger.debug("Max =" + max + " "  + datas.get(ix).getStringData());
-		
-		if(max>threshhold)
-		{
-			return new MatchResult(datas.get(ix).getStringData(),max);
-		}
-		return null;
 	}
 
 	private void sortByHash(ImageDesc id)

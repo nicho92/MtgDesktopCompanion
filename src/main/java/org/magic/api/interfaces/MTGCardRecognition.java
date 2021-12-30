@@ -19,7 +19,6 @@ public interface MTGCardRecognition extends MTGPlugin {
 	public void finalizeLoad();
 	public void clear();
 	public void clear(MagicEdition ed);
-	public int size();
 	public boolean isSetCached(MagicEdition ed);
 	public boolean isSetLoaded(MagicEdition ed);
 	public File downloadCardsData(MagicEdition set) throws IOException;

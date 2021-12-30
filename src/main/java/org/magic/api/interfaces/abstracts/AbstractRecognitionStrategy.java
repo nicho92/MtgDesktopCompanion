@@ -80,6 +80,30 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 		
 	}
 	
+	protected MatchResult result(List<DescContainer> datas, ImageDesc in, int size, double threshhold)
+	{
+		var ix = 0;
+		double max = 0;
+		for(var i=0;i<size;i++)
+		{
+			double score = in.compareSURF(datas.get(i).getDescData());
+			if(score>max)
+			{
+				max=score;
+				ix=i;
+			}
+		}
+	
+		logger.debug("Max =" + max + " "  + datas.get(ix).getStringData());
+		
+		if(max>threshhold)
+		{
+			return new MatchResult(datas.get(ix).getStringData(),max);
+		}
+		return null;
+	}
+	
+	
 	@Override
 	public void clear(MagicEdition ed) {
 		dataList.remove(ed.getId());
@@ -88,11 +112,6 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 	@Override
 	public void clear() {
 		dataList.clear();
-	}
-	
-	@Override
-	public int size() {
-		return allDatas().size();
 	}
 	
 
