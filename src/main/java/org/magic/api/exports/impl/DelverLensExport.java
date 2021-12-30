@@ -15,6 +15,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
+import org.magic.services.providers.SetAliasesProvider;
 import org.magic.tools.FileTools;
 
 public class DelverLensExport extends AbstractFormattedFileCardExport{
@@ -23,6 +24,7 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 	private static final String REGEX_VAR = "\"(\\d+)\",\"(\\d+)\",\"(.*?)\",\"(.*?)\",\"(\\d+)\",\"(.*?)\",\"(.*?)\",\"(foil)?\",\"(signed)?\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\"";
 	private static final String REGEX = "REGEX";
 	private String columns= "Count,Tradelist Count,Name,Edition,Card Number,Condition,Language,Foil,Signed,Artist Proof,Altered Art,Misprint,Promo,Textless,My Price";
+	
 	
 	@Override
 	public String getFileExtension() {
@@ -36,13 +38,14 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 	
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
+		
 		var temp = new StringBuilder(columns);
 		temp.append(System.lineSeparator());
 		stock.forEach(st->{
 			temp.append("\"").append(st.getQte()).append("\"").append(getSeparator());
 			temp.append("\"").append(st.getQte()).append("\"").append(getSeparator());
 			temp.append("\"").append(st.getProduct().getName()).append("\"").append(getSeparator());
-			temp.append("\"").append(st.getProduct().getCurrentSet().getSet()).append("\"").append(getSeparator());
+			temp.append("\"").append(SetAliasesProvider.inst().getSetNameFor(this,st.getProduct().getCurrentSet())).append("\"").append(getSeparator());
 			temp.append("\"").append(st.getProduct().getCurrentSet().getNumber()).append("\"").append(getSeparator());
 			temp.append("\"").append(st.getCondition()).append("\"").append(getSeparator());
 			temp.append("\"").append(st.getLanguage()).append("\"").append(getSeparator());
@@ -68,7 +71,7 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 			MagicEdition ed = null;
 			
 			try {			   
-				ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(m.group(4));
+				ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(SetAliasesProvider.inst().getReversedSetNameFor(this,m.group(4)));
 			}
 			catch(Exception e)
 			{
