@@ -1,5 +1,7 @@
 {
 	"Archidekt": {
+		"nameSet": {},
+		"idSet": {},
 		"conditions": {
 		  "MINT":"NM",
 		  "NEAR_MINT":"NM",
