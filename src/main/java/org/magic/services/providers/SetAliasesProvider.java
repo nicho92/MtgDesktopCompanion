@@ -69,7 +69,7 @@ public class SetAliasesProvider {
 		}
 		catch(Exception e)
 		{
-			return ed.getId();
+			return ed.getSet();
 		}
 	}
 	

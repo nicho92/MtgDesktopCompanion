@@ -151,7 +151,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		}
 							  
 							  
-		String url = WEBSITE +"/price/"+convert(packaging.getEdition().getSet().replace(" ", "+").replace(":",""))+"/"+convert(packaging.getEdition().getSet().replace(" ", "+").replace(":",""))+selead+ "-sealed#"+ getString(FORMAT);
+		String url = WEBSITE +"/price/"+convert(packaging.getEdition())+"/"+convert(packaging.getEdition())+selead+ "-sealed#"+ getString(FORMAT);
 		
 		
 		Document d = URLTools.extractAsHtml(url);
@@ -197,11 +197,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			if (cardName.indexOf('/') > -1)
 				cardName = cardName.substring(0, cardName.indexOf('/')).trim();
 
-			String editionName = RegExUtils.replaceAll(mc.getCurrentSet().toString(), " ", "+");
-			editionName = RegExUtils.replaceAll(editionName, "'", "");
-			editionName = RegExUtils.replaceAll(editionName, ",", "");
-			editionName = RegExUtils.replaceAll(editionName, ":", "");
-
+			
 			var pfoil="";
 			
 			if(mc.getCurrentSet().isFoilOnly() || foil)
@@ -232,10 +228,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			if(mc.getCurrentSet().getId().equals("PUMA")||mc.getCurrentSet().getId().equals("STA"))
 				extend="";
 			
-			
-			url = WEBSITE + "/price/" + convert(editionName) + extra+pfoil+"/" + cardName +extend+ "#" + getString(FORMAT);
-		
-			System.out.println(url);
+			url = WEBSITE + "/price/" + convert(mc.getCurrentSet()) + extra+pfoil+"/" + cardName +extend+ "#" + getString(FORMAT);
+
 		try {
 			Document d = URLTools.extractAsHtml(url);
 			parsing(d,historyPrice);
@@ -412,49 +406,13 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		return ret;
 	}
 
-	@Deprecated
-	private String convert(String editionName) {
+	private String convert(MagicEdition ed) {
+		String editionName = RegExUtils.replaceAll(SetAliasesProvider.inst().getSetNameFor(this, ed), " ", "+");
+			editionName = RegExUtils.replaceAll(editionName, "'", "");
+			editionName = RegExUtils.replaceAll(editionName, ",", "");
+			editionName = RegExUtils.replaceAll(editionName, ":", "");
+		return editionName;
 
-		switch (editionName) {
-		case "Magic+2015":
-			return "Magic+2015+Core+Set";
-		case "Magic+2014":
-			return "Magic+2014+Core+Set";
-		case "Grand+Prix":
-			return "Grand+Prix+Promos";
-		case "Prerelease+Events":
-			return "Prerelease+Cards";
-		case "Champs+and+States":
-			return "Champs+Promos";
-		case "Ugins+Fate+promos":
-			return "Ugins+Fate+Promos";
-		case "Magic+Game+Day":
-			return "Game+Day+Promos";
-		case "Media+Inserts":
-			return "Media+Promos";
-		case "Judge+Gift+Program":
-			return "Judge+Promos";
-		case "Friday+Night+Magic":
-			return "FNM+Promos";
-		case "Arena+League":
-			return "Arena+Promos";
-		case "Masterpiece+Series+Amonkhet+Invocations":
-			return "Amonkhet+Invocations";
-		case "Masterpiece+Series+Kaladesh+Inventions":
-			return "Kaladesh+Inventions";
-		case "You+Make+the+Cube":
-			return "Treasure+Chest";
-		case "Modern+Masters+2015+Edition":
-			return "Modern+Masters+2015";
-		case "Guru":
-			return "Guru+Lands";
-		case "Modern+Masters+2017":
-			return "Modern+Masters+2017+Edition";
-		case "Modern+Horizons+1+Timeshifts":
-			return "Modern+Horizons+2";
-		default:
-			return editionName;
-		}
 	}
 
 	@Override
