@@ -27,7 +27,7 @@ import org.magic.api.beans.enums.MTGCardVariation;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;
-import org.magic.services.providers.SetAliasesProvider;
+import org.magic.services.providers.PluginsAliasesProvider;
 import org.magic.tools.UITools;
 import org.mozilla.javascript.Parser;
 import org.mozilla.javascript.ast.AstNode;
@@ -163,7 +163,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	
 	@Override
 	protected HistoryPrice<MagicEdition> getOnlinePricesVariation(MagicEdition me) throws IOException {
-		String url = WEBSITE+"/sets/" + SetAliasesProvider.inst().getSetIdFor(this,me) + "#" + getString(FORMAT);
+		String url = WEBSITE+"/sets/" + PluginsAliasesProvider.inst().getSetIdFor(this,me) + "#" + getString(FORMAT);
 		HistoryPrice<MagicEdition> historyPrice = new HistoryPrice<>(me);
 		historyPrice.setCurrency(getCurrency());
 		
@@ -281,7 +281,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				if(set.equalsIgnoreCase("XZNR"))
 					set="ZNR";
 				
-				cs.setEd(SetAliasesProvider.inst().getReversedSetIdFor(this,set.toUpperCase()));
+				cs.setEd(PluginsAliasesProvider.inst().getReversedSetIdFor(this,set.toUpperCase()));
 
 				list.add(cs);
 
@@ -303,7 +303,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		if(edition==null)
 			return list;
 		
-		var urlEditionChecker = WEBSITE+"/sets/" + SetAliasesProvider.inst().getSetIdFor(this,edition)+"/All+Cards";
+		var urlEditionChecker = WEBSITE+"/sets/" + PluginsAliasesProvider.inst().getSetIdFor(this,edition)+"/All+Cards";
 		
 		urlEditionChecker = URLTools.getLocation(urlEditionChecker);
 		
@@ -407,7 +407,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	}
 
 	private String convert(MagicEdition ed) {
-		String editionName = RegExUtils.replaceAll(SetAliasesProvider.inst().getSetNameFor(this, ed), " ", "+");
+		String editionName = RegExUtils.replaceAll(PluginsAliasesProvider.inst().getSetNameFor(this, ed), " ", "+");
 			editionName = RegExUtils.replaceAll(editionName, "'", "");
 			editionName = RegExUtils.replaceAll(editionName, ",", "");
 			editionName = RegExUtils.replaceAll(editionName, ":", "");

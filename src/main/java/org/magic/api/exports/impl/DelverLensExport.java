@@ -15,7 +15,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
-import org.magic.services.providers.SetAliasesProvider;
+import org.magic.services.providers.PluginsAliasesProvider;
 import org.magic.tools.FileTools;
 
 public class DelverLensExport extends AbstractFormattedFileCardExport{
@@ -45,7 +45,7 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 			temp.append("\"").append(st.getQte()).append("\"").append(getSeparator());
 			temp.append("\"").append(st.getQte()).append("\"").append(getSeparator());
 			temp.append("\"").append(st.getProduct().getName()).append("\"").append(getSeparator());
-			temp.append("\"").append(SetAliasesProvider.inst().getSetNameFor(this,st.getProduct().getCurrentSet())).append("\"").append(getSeparator());
+			temp.append("\"").append(PluginsAliasesProvider.inst().getSetNameFor(this,st.getProduct().getCurrentSet())).append("\"").append(getSeparator());
 			temp.append("\"").append(st.getProduct().getCurrentSet().getNumber()).append("\"").append(getSeparator());
 			temp.append("\"").append(st.getCondition()).append("\"").append(getSeparator());
 			temp.append("\"").append(st.getLanguage()).append("\"").append(getSeparator());
@@ -71,7 +71,7 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 			MagicEdition ed = null;
 			
 			try {			   
-				ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(SetAliasesProvider.inst().getReversedSetNameFor(this,m.group(4)));
+				ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(PluginsAliasesProvider.inst().getReversedSetNameFor(this,m.group(4)));
 			}
 			catch(Exception e)
 			{

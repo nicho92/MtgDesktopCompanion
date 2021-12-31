@@ -1,4 +1,17 @@
 {
+	"Archidekt": {
+		"conditions": {
+		  "MINT":"NM",
+		  "NEAR_MINT":"NM",
+		  "GOOD":"NM",
+		  "LIGHTLY_PLAYED":"LP",
+		  "PLAYED":"MP",
+		  "POOR":"HP",
+		  "DAMAGED":"D"
+		}
+	},
+
+
 	"DelverLens": {
 		"nameSet": {
 			"Magic 2015": "Magic 2015 Core Set",

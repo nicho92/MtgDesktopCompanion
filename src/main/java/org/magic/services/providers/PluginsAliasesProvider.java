@@ -2,6 +2,7 @@ package org.magic.services.providers;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
@@ -9,23 +10,23 @@ import org.magic.services.network.URLTools;
 
 import com.google.gson.JsonObject;
 
-public class SetAliasesProvider {
+public class PluginsAliasesProvider {
 
 	private JsonObject jsonData;
-	private Logger logger = MTGLogger.getLogger(SetAliasesProvider.class);
-	private static SetAliasesProvider inst;
+	private Logger logger = MTGLogger.getLogger(PluginsAliasesProvider.class);
+	private static PluginsAliasesProvider inst;
 	
-	public static SetAliasesProvider inst()
+	public static PluginsAliasesProvider inst()
 	{
 		if(inst==null)
-			inst = new SetAliasesProvider();
+			inst = new PluginsAliasesProvider();
 		
 		return inst;
 	}
 	
 	
 	
-	private SetAliasesProvider() {
+	private PluginsAliasesProvider() {
 		try {
 			jsonData = URLTools.extractAsJson(MTGConstants.MTG_DESKTOP_ALIASES_URL).getAsJsonObject();
 		}
@@ -34,6 +35,8 @@ public class SetAliasesProvider {
 			logger.error("No Error getting file "+  MTGConstants.MTG_DESKTOP_ALIASES_URL + " :"+e);
 		}
 	}
+	
+	
 	
 	
 	public String getReversedSetIdFor(MTGPlugin plug, String setId)
@@ -61,6 +64,34 @@ public class SetAliasesProvider {
 			return setName;
 		}
 	}
+	
+	public EnumCondition getReversedConditionFor(MTGPlugin plug, String conditionName, EnumCondition defaultCondition)
+	{
+		try{
+			var ret= jsonData.get(plug.getName()).getAsJsonObject().get("conditions").getAsJsonObject().entrySet().stream().filter(e->e.getValue().getAsString().equals(conditionName)).findFirst().orElseThrow();
+			return EnumCondition.valueOf(ret.getKey());
+		}
+		catch(Exception e)
+		{
+			logger.error(e);
+			return defaultCondition;
+		}
+	}
+	
+	
+	public String getConditionFor(MTGPlugin plug, EnumCondition condition)
+	{
+		try{
+			return jsonData.get(plug.getName()).getAsJsonObject().get("conditions").getAsJsonObject().get(condition.name()).getAsString();
+		}
+		catch(Exception e)
+		{
+			return condition.name();
+		}
+	}
+	
+	
+	
 	
 	public String getSetNameFor(MTGPlugin plug, MagicEdition ed)
 	{
