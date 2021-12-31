@@ -42,21 +42,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 	boolean isPaperparsing=true;
 
-
-	@Override
-	public int hashCode() {
-		return getName().hashCode();
-	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		
-		if(obj ==null)
-			return false;
-		
-		return hashCode()==obj.hashCode();
-	}
-	
 	
 	private void parsing(Document d, HistoryPrice<?> historyPrice)
 	{
@@ -250,7 +235,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			
 			url = WEBSITE + "/price/" + convert(editionName) + extra+pfoil+"/" + cardName +extend+ "#" + getString(FORMAT);
 		
-
+			System.out.println(url);
 		try {
 			Document d = URLTools.extractAsHtml(url);
 			parsing(d,historyPrice);
@@ -427,6 +412,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		return ret;
 	}
 
+	@Deprecated
 	private String convert(String editionName) {
 
 		switch (editionName) {
