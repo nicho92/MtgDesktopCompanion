@@ -91,6 +91,9 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		if(mc.getCurrentSet().getId().equals("H1R"))
 			mc.setTimeshifted(true);
 		
+		if(mc.getCurrentSet().getId().equals("TSR") && Integer.parseInt(mc.getCurrentSet().getNumber())>=290)
+			mc.setTimeshifted(true);
+		
 	}
 	
 	
