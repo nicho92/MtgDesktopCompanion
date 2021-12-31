@@ -189,9 +189,11 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			return historyPrice;
 			
 			String cardName = RegExUtils.replaceAll(mc.getName(), " ", "+");
+			cardName = RegExUtils.replaceAll(cardName, ":", "+");
 			cardName = RegExUtils.replaceAll(cardName, "'", "");
 			cardName = RegExUtils.replaceAll(cardName, ",", "");
 
+			
 			if (cardName.indexOf('/') > -1)
 				cardName = cardName.substring(0, cardName.indexOf('/')).trim();
 
