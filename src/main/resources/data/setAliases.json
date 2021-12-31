@@ -41,18 +41,21 @@
 			"WTH": "WL"
 		},
 		"nameSet": {
-			"Magic 2015": "Magic+2015+Core+Set",
-			"Magic 2014": "Magic+2014+Core+Set",
-			"Champs and States": "Champs+Promos",
-			"Media Inserts": "Media+Promos",
-			"Judge Gift Program": "Judge+Promos",
-			"Friday Night Magic": "FNM+Promos",
-			"Arena League": "Arena+Promos",
-			"Amonkhet Invocations": "Amonkhet+Invocations",
-			"Kaladesh Inventions": "Kaladesh+Inventions",
-			"Guru": "Guru+Lands",
-			"Modern Masters 2017": "Modern+Masters+2017+Edition",
-			"Modern Horizons 1 Timeshifts": "Modern+Horizons+2"
+			"Magic 2015": "Magic 2015 Core Set",
+			"Magic 2014": "Magic 2014 Core Set",
+			"Champs and States": "Champs Promos",
+			"Media Inserts": "Media Promos",
+			"Judge Gift Program": "Judge Promos",
+			"Friday Night Magic": "FNM Promos",
+			"Arena League": "Arena Promos",
+			"Amonkhet Invocations": "Amonkhet Invocations",
+			"Kaladesh Inventions": "Kaladesh Inventions",
+			"Guru": "Guru Lands",
+			"Modern Masters 2017": "Modern Masters 2017 Edition",
+			"Modern Horizons 1 Timeshifts": "Modern Horizons 2",
+			"Crimson Vow Commander":"Innistrad Crimson Vow Commander",
+			"Midnight Hunt Commander":"Innistrad Midnight Hunt Commander"
 		}
+		
 	}
 }
