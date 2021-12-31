@@ -5,6 +5,7 @@
 			"Magic 2014": "Magic 2014 Core Set"
 		}
 	},
+	
 	"MTGoldFish": {
 		"idSet": {
 			"7ED": "7E",
@@ -48,8 +49,6 @@
 			"Judge Gift Program": "Judge Promos",
 			"Friday Night Magic": "FNM Promos",
 			"Arena League": "Arena Promos",
-			"Amonkhet Invocations": "Amonkhet Invocations",
-			"Kaladesh Inventions": "Kaladesh Inventions",
 			"Guru": "Guru Lands",
 			"Modern Masters 2017": "Modern Masters 2017 Edition",
 			"Modern Horizons 1 Timeshifts": "Modern Horizons 2",
