@@ -52,6 +52,7 @@ import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.WebShopConfig;
+import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.beans.shop.Category;
@@ -79,6 +80,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
 import org.magic.services.PluginRegistry;
+import org.magic.services.ReportNotificationManager;
 import org.magic.services.TransactionService;
 import org.magic.services.VersionChecker;
 import org.magic.services.keywords.AbstractKeyWordsManager;
@@ -1131,6 +1133,20 @@ public class JSONHttpServer extends AbstractMTGServer {
 			
 			return temp.toString();
 		});		
+		
+		
+		get("/share/announce/:id",URLTools.HEADER_HTML,(request,response) -> {
+			response.type(URLTools.HEADER_HTML);
+			
+			ReportNotificationManager report = new ReportNotificationManager();
+			
+			var announce = MTG.getEnabledPlugin(MTGDao.class).getAnnounceById(Integer.parseInt(request.params(":id")));
+			
+			return report.generate(FORMAT_NOTIFICATION.HTML, announce, "facebook");
+			
+			
+		});		
+		
 	}
 
 
