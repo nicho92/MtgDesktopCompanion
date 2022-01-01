@@ -1,4 +1,19 @@
 {
+	"DeckBox":{
+		"nameSet": {},
+		"idSet": {},
+		"conditions": {
+			  "MINT":"Mint",
+			  "NEAR_MINT":"Near Mint",
+			  "GOOD":"Good (Lightly Played)",
+			  "LIGHTLY_PLAYED":"Good (Lightly Played)",
+			  "PLAYED":"Played",
+			  "POOR":"Poor",
+			  "DAMAGED":"Heavily Played"
+			}
+	},
+
+
 	"Archidekt": {
 		"nameSet": {},
 		"idSet": {},
