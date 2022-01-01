@@ -17,6 +17,7 @@ import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
+import org.magic.services.providers.PluginsAliasesProvider;
 import org.magic.tools.FileTools;
 
 public class DeckBoxExport extends AbstractFormattedFileCardExport {
@@ -32,30 +33,6 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 		return ".csv";
 	}
 
-	private String translate(EnumCondition condition)
-	{
-		switch (condition)
-		{
-		 case LIGHTLY_PLAYED : return "Good (Lightly Played)";
-		 case NEAR_MINT : return "Near Mint";
-		 case PROXY : return "";
-		 default : return condition.name(); 
-		}
-	}
-	
-	private EnumCondition reverse(String condition)
-	{
-		switch (condition)
-		{
-		 case "Good (Lightly Played)": return EnumCondition.LIGHTLY_PLAYED;
-		 case "Near Mint":  return EnumCondition.NEAR_MINT;
-		 case "Heavily Played": return EnumCondition.POOR;
-		 case "": return null;
-		 default : EnumCondition.valueOf(condition.toUpperCase());
-		}
-		return EnumCondition.valueOf(condition.toUpperCase());
-	}
-	
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File dest) throws IOException {
 		var line = new StringBuilder(columns);
@@ -71,7 +48,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 			line.append(name).append(getSeparator());
 			line.append(mc.getProduct().getCurrentSet().getSet()).append(getSeparator());
 			line.append(mc.getProduct().getCurrentSet().getNumber()).append(getSeparator());
-			line.append(translate(mc.getCondition())).append(getSeparator());
+			line.append(PluginsAliasesProvider.inst().getConditionFor(this,mc.getCondition())).append(getSeparator());
 			line.append(mc.getLanguage()).append(getSeparator());
 			line.append(mc.isFoil()?"foil":"").append(getSeparator());
 			line.append(mc.isSigned()?"signed":"").append(getSeparator());
@@ -159,7 +136,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 				MagicCardStock mcs = MTGControler.getInstance().getDefaultStock();
 					   mcs.setQte(Integer.parseInt(m.group(1)));
 					   mcs.setProduct(mc);
-					   mcs.setCondition(reverse(m.group(6)));
+					   mcs.setCondition(PluginsAliasesProvider.inst().getReversedConditionFor(this,m.group(6),null));
 					   
 					   if(!m.group(7).isEmpty())
 						   mcs.setLanguage(m.group(7));

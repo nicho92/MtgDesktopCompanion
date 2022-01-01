@@ -67,6 +67,10 @@ public class PluginsAliasesProvider {
 	
 	public EnumCondition getReversedConditionFor(MTGPlugin plug, String conditionName, EnumCondition defaultCondition)
 	{
+		
+		if(conditionName==null)
+			return defaultCondition;
+	
 		try{
 			var ret= jsonData.get(plug.getName()).getAsJsonObject().get("conditions").getAsJsonObject().entrySet().stream().filter(e->e.getValue().getAsString().equals(conditionName)).findFirst().orElseThrow();
 			return EnumCondition.valueOf(ret.getKey());
@@ -81,6 +85,9 @@ public class PluginsAliasesProvider {
 	
 	public String getConditionFor(MTGPlugin plug, EnumCondition condition)
 	{
+		if(condition==null)
+			return "";
+		
 		try{
 			return jsonData.get(plug.getName()).getAsJsonObject().get("conditions").getAsJsonObject().get(condition.name()).getAsString();
 		}
