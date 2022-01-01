@@ -117,9 +117,11 @@ public class DiscordBotServer extends AbstractMTGServer {
 		var m = p.matcher(event.getMessage().getContentRaw());
 		if(m.find())
 		{
-			logger.debug("Received message :" + event.getMessage().getContentRaw() + " from " + event.getAuthor().getName()+ " in "+event.getGuild().getName()+ "#" + event.getChannel().getName() + " ");
 			
-			
+			if(event.isFromGuild())
+				logger.debug("Received channel message :" + event.getMessage().getContentRaw() + " from " + event.getAuthor().getName()+ " in "+event.getGuild().getName()+ "#" + event.getChannel().getName() + " ");
+			else
+				logger.debug("Received MP message :" + event.getMessage().getContentRaw() + " from " + event.getAuthor().getName());
 			
 			var name=m.group(1).trim();
 			
@@ -222,8 +224,8 @@ public class DiscordBotServer extends AbstractMTGServer {
 
 	private void responseHelp(MessageReceivedEvent event) {
 		MessageChannel channel = event.getChannel();
-		channel.sendTyping().queue();
-		channel.sendMessage(":face_with_monocle: It's simple Einstein, put card name in bracket like {Black Lotus} or {Black Lotus| LEA} if you want to specify a set\n "
+		channel.sendTyping().queue(); 
+		channel.sendMessage(":face_with_monocle: It's simple "+event.getAuthor().getName()+", put card name in bracket like {Black Lotus} or {Black Lotus| LEA} if you want to specify a set\n "
 				+ "If you want to have prices variation for a set type {variation|<setName>} "
 				+ "and {format|"+StringUtils.join(FORMATS.values(),",")+"} for format shakes").queue();
 		

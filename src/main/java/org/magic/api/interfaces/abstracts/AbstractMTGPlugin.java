@@ -96,7 +96,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 			confdir.mkdir();
 		load();
 
-		if (!new File(confdir, getName() + ".conf").exists()) {
+		if (!getName().isEmpty() && !new File(confdir, getName() + ".conf").exists()) {
 			initDefault();
 			save();
 
