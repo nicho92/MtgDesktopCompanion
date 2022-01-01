@@ -18,6 +18,7 @@ import org.magic.api.beans.EditionsShakers;
 import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.MTGSealedProduct.EXTRA;
+import org.magic.api.beans.MagicFormat.FORMATS;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
@@ -241,6 +242,11 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		}
 	}
 	
+	public static void main(String[] args) throws IOException {
+		new MTGoldFishDashBoard().getOnlineShakerFor(FORMATS.MODERN);
+	}
+	
+	
 	@Override
 	public List<CardShake> getOnlineShakerFor(MagicFormat.FORMATS f) throws IOException {
 		List<CardShake> list = new ArrayList<>();
@@ -276,12 +282,9 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				cs.setFoil(false);
 				
 				
-				String set = e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).select("span svg title").text();
-				
-				if(set.equalsIgnoreCase("XZNR"))
-					set="ZNR";
-				
-				cs.setEd(PluginsAliasesProvider.inst().getReversedSetIdFor(this,set.toUpperCase()));
+				String set = e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).getElementsByTag("a").get(0).attr("data-card-id");
+			
+				cs.setEd(PluginsAliasesProvider.inst().getReversedSetIdFor(this,StringUtils.substringBetween(set, "[", "]").toUpperCase()));
 
 				list.add(cs);
 
