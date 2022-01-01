@@ -334,6 +334,7 @@ public static final ImageIcon ICON_TAB_SIMILARITY=new ImageIcon(MTGConstants.cla
 	public static final int ROTATED_TIMEOUT = 15;
 	public static final Paint PICTURE_PAINTER = PaintUtils.NIGHT_GRAY;
 	public static final int DISCORD_MAX_CHARACTER = 2000;
+	public static final int DAY_ANNOUNCES_UPDATE = 10;
 	
 	
 	

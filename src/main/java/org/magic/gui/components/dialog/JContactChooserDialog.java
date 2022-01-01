@@ -44,8 +44,8 @@ public class JContactChooserDialog extends JDialog {
 	
 
 	public JContactChooserDialog() {
-		setTitle(capitalize("OPEN_DECK"));
-		setIconImage(MTGConstants.ICON_DECK.getImage());
+		setTitle(capitalize("CONTACT"));
+		setIconImage(MTGConstants.ICON_USER.getImage());
 		setSize(950, 600);
 
 		var decksModel = new ContactTableModel();
