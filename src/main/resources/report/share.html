@@ -1,0 +1,25 @@
+<head>
+<meta charset="utf-8">
+
+<title>Social Network MTGCompanion Shares</title>
+
+ <#list modele as announce>
+
+<!--  Facebook -->
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://mtgcompanion.me/trades-ui/pages/announce.html?id=${announce.id}">
+	<meta property="og:title" id="ogTitle" content="${announce.title}">
+	<meta property="og:description" content="My MTGCompanion marketplace">
+	<meta property="og:image" content="https://mtgcompanion.me/trades-ui/dist/img/logo2.png">
+	
+<!-- Twitter -->
+	<meta property="twitter:card" content="summary_large_image">
+	<meta property="twitter:url" content="https://mtgcompanion.me/trades-ui/pages/announce.html?id=${announce.id}">
+	<meta property="twitter:title" content="${announce.title}">
+	<meta property="twitter:description" content="My MTGCompanion marketplace">
+	<meta property="twitter:image" content="https://mtgcompanion.me/trades-ui/dist/img/logo2.png">
+	
+	
+	
+</#list>
+</head>

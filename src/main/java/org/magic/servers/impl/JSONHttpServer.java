@@ -1142,7 +1142,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			
 			var announce = MTG.getEnabledPlugin(MTGDao.class).getAnnounceById(Integer.parseInt(request.params(":id")));
 			
-			return report.generate(FORMAT_NOTIFICATION.HTML, announce, "facebook");
+			return report.generate(FORMAT_NOTIFICATION.HTML, announce, "share");
 			
 			
 		});		
