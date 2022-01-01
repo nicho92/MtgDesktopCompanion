@@ -57,7 +57,6 @@
 				var context = canvas.getContext('2d');
 				var video = document.getElementById('videoElement');
 			
-			// Trigger photo take
 			$("#snap").click(function() {
 				canvas.width=video.videoWidth;
 				canvas.height=video.videoHeight;
@@ -74,13 +73,37 @@
 						$("#contentResults").empty();
 						$("#contentResults").append("CardName = "+data.name + " <br/>Number = "+ data.setCode+ " ("+  data.number + "). <br/> SCORE =" + data.score.toFixed(2));
 						$("#contentResults").append("<br/><img src='"+restserver+"/pics/cards/"+data.setCode+"/"+data.number+"'/><br/>");
+						
+						
+						$("#btnStock").attr("data-id",data.id);
+						$("#btnAlert").attr("data-id",data.id);
+						$("#btnCollection").attr("data-id",data.id);
+						
 					  });
 		  			}
 				});
-				
-				
 			});
-
+				
+			
+			$("#btnStock").click(function() {
+				addStock($(this).attr("data-id"),function(){
+					alert("done");
+				})
+			});
+			
+			$("#btnAlert").click(function() {
+				addAlert($(this).attr("data-id"),function(){
+					alert("done");
+				})
+			});
+			
+			$("#btnCollection").click(function() {
+				addCardtoDefaultLibrary($(this).attr("data-id"),function(){
+					alert("done");
+				})
+			});
+			
+			
 
 			}
   	});
