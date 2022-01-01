@@ -12,6 +12,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.magic.api.beans.CardDominance;
@@ -130,7 +131,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		
 		
 		String data = table.html();
-		data = data.substring(data.indexOf('['), data.indexOf(']') + 1);
+		data = StringUtils.substringBetween(data, "[", "]");
 		JsonElement root = URLTools.toJson(data);
 		var arr = root.getAsJsonArray();
 		for (var i = 0; i < arr.size(); i++) {
@@ -205,7 +206,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		Element js = d.getElementsByTag("body").get(0).getElementsByTag("script").get(29);
 
 		String html = js.html();
-		html = html.substring(html.indexOf("[[") + 1, html.indexOf("]]") + 1);
+		html = StringUtils.substringBetween(html,"[[","]]");
 
 		var p = Pattern.compile("\\[(.*?)\\]");
 		var m = p.matcher(html);

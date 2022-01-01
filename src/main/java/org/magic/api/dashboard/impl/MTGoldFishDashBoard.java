@@ -242,10 +242,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		}
 	}
 	
-	public static void main(String[] args) throws IOException {
-		new MTGoldFishDashBoard().getOnlineShakerFor(FORMATS.MODERN);
-	}
-	
 	
 	@Override
 	public List<CardShake> getOnlineShakerFor(MagicFormat.FORMATS f) throws IOException {
@@ -276,14 +272,10 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				cs.setName(StringUtils.remove(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text(), "(RL)").trim());
 				cs.setLink(WEBSITE+e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).getElementsByTag("a").get(0).attr("href"));
 				cs.setPrice(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(3).text()));
-				
 				cs.setPriceDayChange(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text()));
 				cs.setPercentDayChange(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text())/100);
 				cs.setFoil(false);
-				
-				
 				String set = e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).getElementsByTag("a").get(0).attr("data-card-id");
-			
 				cs.setEd(PluginsAliasesProvider.inst().getReversedSetIdFor(this,StringUtils.substringBetween(set, "[", "]").toUpperCase()));
 
 				list.add(cs);
