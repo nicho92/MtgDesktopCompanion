@@ -150,7 +150,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 
 	@Override
 	public String getName() {
-		return "CardTrader";
+		return CardTraderConstants.CARDTRADER_NAME;
 	}
 
 	@Override
