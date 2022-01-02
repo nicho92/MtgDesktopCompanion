@@ -10,7 +10,6 @@ import javax.swing.ImageIcon;
 
 import org.api.cardtrader.services.CardTraderConstants;
 import org.api.cardtrader.services.CardTraderService;
-import org.api.cardtrader.services.URLCallListener;
 import org.api.cardtrader.tools.URLCallInfo;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
@@ -36,10 +35,7 @@ public class CardTraderStockExport extends AbstractCardExport {
 	{
 		serv = new CardTraderService(getAuthenticator().get("TOKEN"));
 		
-		serv.setListener(new URLCallListener() {
-			
-			@Override
-			public void notify(URLCallInfo callInfo) {
+		serv.setListener((URLCallInfo callInfo)->{
 				var netinfo = new NetworkInfo();
 				
 				netinfo.setDuration(callInfo.getDuration());
@@ -50,7 +46,6 @@ public class CardTraderStockExport extends AbstractCardExport {
 
 				URLTools.getNetworksInfos().add(netinfo);
 				
-			}
 		});
 		
 	}
@@ -82,7 +77,6 @@ public class CardTraderStockExport extends AbstractCardExport {
 				var categ = mp.getCategorie();
 				var exp = mp.getExpansion();
 				var bluePrint = serv.listBluePrints(categ,null,exp).stream().filter(bp->bp.getId().equals(mp.getIdBlueprint())).findFirst().orElse(null);
-				
 				if(bluePrint!=null)
 				{
 					MagicCard mc=null;
