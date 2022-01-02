@@ -30,7 +30,7 @@ public class GedBrowserPanel extends MTGUIComponent {
 	private GedEntryTableModel model;
 	private AbstractBuzyIndicatorComponent buzy;
 	//private ImagePanel imgPanel;
-	private AbstractObservableWorker<List<GedEntry<MTGStorable>>, GedEntry<MTGStorable>, MTGGedStorage> sw;
+	private transient AbstractObservableWorker<List<GedEntry<MTGStorable>>, GedEntry<MTGStorable>, MTGGedStorage> sw;
 	
 	public GedBrowserPanel() {
 		setLayout(new BorderLayout(0, 0));

@@ -16,7 +16,6 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
-import javax.swing.SwingWorker;
 
 import org.apache.commons.lang3.time.DateUtils;
 import org.jdesktop.swingx.JXTable;

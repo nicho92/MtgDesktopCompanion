@@ -42,6 +42,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.magic.api.beans.Announce;
 import org.magic.api.beans.GedEntry;
 import org.magic.api.beans.HistoryPrice;
+import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
@@ -52,7 +53,6 @@ import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.WebShopConfig;
-import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.beans.shop.Category;
@@ -723,7 +723,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			var ret = new JsonObject();
 			HistoryPrice<MagicCard> resNormal = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(mc,false);
 			HistoryPrice<MagicCard> resFoil = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(mc,true);
-			
+			ret.addProperty("currency", MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getSymbol());
 			ret.add("normal", build(resNormal));
 			ret.add("foil", build(resFoil));
 			
