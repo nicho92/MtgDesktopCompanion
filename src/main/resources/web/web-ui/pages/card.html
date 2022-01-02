@@ -286,7 +286,7 @@
 	   			 		var pc = new Number(( ( vallast - valpreLast ) / valpreLast ) * 100);
 	   					
   	   	   					
-  	   	   					$("#lastPrice").html(vallast.toFixed(2)+"$");
+  	   	   					$("#lastPrice").html(vallast.toFixed(2)+""+json_data.currency);
   	   	   				
   	   	   					if(vallast>valpreLast)
    	   						{
