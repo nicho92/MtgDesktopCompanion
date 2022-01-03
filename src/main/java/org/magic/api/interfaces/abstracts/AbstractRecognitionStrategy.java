@@ -93,8 +93,9 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 				ix=i;
 			}
 		}
-	
-		logger.debug("Max =" + max + " "  + datas.get(ix).getStringData());
+		
+		if(!datas.isEmpty())
+			logger.debug("Max =" + max + " "  + datas.get(ix).getStringData());
 		
 		if(max>threshhold)
 		{

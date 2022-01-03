@@ -30,7 +30,6 @@ public class JExportButton extends JButton {
 
 	public JExportButton(MODS mod) {
 		this.mod=mod;
-		
 		setName(mod.toString());
 		
 		if(mod == MODS.EXPORT)
@@ -38,7 +37,6 @@ public class JExportButton extends JButton {
 		else
 			setIcon(MTGConstants.ICON_IMPORT);
 	}
-	
 	
 	public void initAlertsExport(Callable<List<MagicCardAlert>> callable, AbstractBuzyIndicatorComponent lblLoading ) {
 		
@@ -90,7 +88,6 @@ public class JExportButton extends JButton {
 			menu.setLocation(p.x, p.y + this.getHeight());
 		});
 	}
-
 	
 	public void initCardsExport(Callable<MagicDeck> callable, AbstractBuzyIndicatorComponent lblLoading ) {
 		

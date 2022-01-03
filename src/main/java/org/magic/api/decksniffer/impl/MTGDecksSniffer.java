@@ -96,6 +96,16 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 		return deck;
 	}
 
+	public static void main(String[] args) throws IOException {
+		
+		MTGDecksSniffer sniff= new MTGDecksSniffer();
+		
+		sniff.setProperty("FORMAT", "Standard");
+		sniff.getDeckList().forEach(System.out::println);
+		
+	}
+	
+	
 	@Override
 	public List<RetrievableDeck> getDeckList() throws IOException {
 		var url = getString(URL) + "/" + getString(FORMAT) + "/decklists/page:1";
@@ -108,8 +118,8 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 			url = getString(URL) + "/" + getString(FORMAT) + "/decklists/page:" + nbPage;
 			Document d = URLTools.extractAsHtml(url);
 
-			Elements trs = d.select("table.table tr");
-
+			Elements trs = d.select("table.hidden-xs tr ");
+		
 			for (var j = 1; j < trs.size(); j++) {
 				Element tr = trs.get(j);
 				var deck = new RetrievableDeck();
@@ -120,7 +130,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 				} catch (URISyntaxException e) {
 					deck.setUrl(null);
 				}
-				deck.setAuthor(tr.select("td").get(1).select("strong").get(1).text());
+			//	deck.setAuthor(tr.select("td").get(1).select("strong").get(1).text());
 
 				String manas = tr.select("td").get(3).html();
 
