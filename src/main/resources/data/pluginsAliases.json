@@ -13,7 +13,19 @@
 			}
 	},
 
-
+	"LigaMagic": {
+		"nameSet": {},
+		"idSet": {},
+		"conditions": {
+		  "MINT":"M",
+		  "NEAR_MINT":"NM",
+		  "GOOD":"NM",
+		  "LIGHTLY_PLAYED":"SP",
+		  "PLAYED":"MP",
+		  "POOR":"HP",
+		  "DAMAGED":"D"
+		}
+	},	
 	"Archidekt": {
 		"nameSet": {},
 		"idSet": {},
