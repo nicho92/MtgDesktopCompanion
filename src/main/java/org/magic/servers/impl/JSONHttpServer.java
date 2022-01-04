@@ -302,6 +302,10 @@ public class JSONHttpServer extends AbstractMTGServer {
 				(request, response) -> getEnabledPlugin(MTGCardsIndexer.class).suggestCardName(request.params(":val")),
 				transformer);
 		
+		get("/cards/suggestcard/:val", URLTools.HEADER_JSON,
+				(request, response) -> getEnabledPlugin(MTGCardsIndexer.class).search("name:"+request.params(":val")),
+				transformer);
+		
 		get("/cards/light/:name", URLTools.HEADER_JSON,(request, response) -> {
 			List<MagicCard> list= getEnabledPlugin(MTGCardsProvider.class).searchCardByName(request.params(NAME), null, true);
 			var arr = new JsonArray();

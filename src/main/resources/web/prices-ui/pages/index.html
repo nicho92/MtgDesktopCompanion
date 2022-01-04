@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <link rel="icon" type="image/png" href="../assets/img/favicon.ico">
+  <link rel="icon" type="image/png" href="../dist/img/favicon.ico">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
     MTGCompanion - Prices
@@ -16,13 +16,44 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mouse0270-bootstrap-notify/3.1.5/bootstrap-notify.min.js"></script>
   
+  <script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
+  
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css" rel="stylesheet" />
+  <link href="//cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
+  <link href="../dist/css/paper-dashboard.css" rel="stylesheet" />
+ 
+  <script src="../dist/js/demo.js"></script>
+  <script src="../dist/js/rest-server.js"></script>
   
-  <link href="../assets/css/paper-dashboard.css?v=2.0.1" rel="stylesheet" />
-  <link href="../assets/css/demo.css" rel="stylesheet" />
-  <script src="../assets/js/demo.js"></script>
+  
+  <script>
+	  $(document).ready(function() {
+		  
+		  	 new Autocomplete('#autocomplete', {
+				 search: input => {
+			      return new Promise(resolve => {
+			        
+			    	if (input.length < 3) {
+			          return resolve([])
+			        }
+
+			        fetch(restserver+'/cards/suggestcard/'+input)
+			          .then(response => response.json())
+			          .then(data => {resolve(data)})
+			      })
+			    },
+			    getResultValue: result =>result.name ,
+			    onSubmit: result => {
+			      alert(result);
+			    }
+			  });
+		
+			
+	 });
+</script>
   
   
   
@@ -43,16 +74,15 @@
             <a class="navbar-brand" href="javascript:;">MTGCompanion</a>
           </div>
           <div class="collapse navbar-collapse justify-content-center" id="navigation">
-            <form>
-              <div class="input-group no-border">
-                <input type="text" value="" class="form-control" placeholder="Search..." style="width:350px"> 
-                <div class="input-group-append">
-                  <div class="input-group-text">
-                    <i class="nc-icon nc-zoom-split"></i>
-                  </div>
-                </div>
+             
+             
+              <div id="autocomplete" class="autocomplete input-group no-border ">
+                <input type="text" value="" class=" autocomplete-input" placeholder="Search..." style="width:350px">
+                 <ul class="autocomplete-result-list"></ul>
               </div>
-            </form>
+              
+              
+              
           </div>
         </div>
       </nav>
@@ -68,7 +98,7 @@
 					  <img class="img img-fluid" src="https://c1.scryfall.com/file/scryfall-cards/large/front/1/1/112394a6-7819-43b4-adad-f6900aff2936.jpg?1635444876"/>
                     </div>
                   </div>
-                  <div class="col-7 col-md-8">
+                  <div class="col-7 col-md-7">
                     <div class="numbers">
                       <p class="card-category">Innistrad : Crimson Vow</p>
                       <p class="card-title">Sorin the Mirthless<p>
@@ -82,6 +112,34 @@
               </div>
             </div>
           </div>
+          
+           <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="card card-stats">
+              <div class="card-body ">
+                <div class="row">
+                  <div class="col-5 col-md-4">
+                    <div class="icon-big text-center icon-warning">
+                      <i class="nc-icon nc-favourite-28 text-primary"></i>
+                    </div>
+                  </div>
+                  <div class="col-7 col-md-8">
+                    <div class="numbers">
+                      <p class="card-category">Followers</p>
+                      <p class="card-title">+45K<p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer ">
+                <hr>
+                <div class="stats">
+                  <i class="fa fa-refresh"></i>
+                  Update now
+                </div>
+              </div>
+            </div>
+          </div>
+          
           <div class="col-lg-3 col-md-6 col-sm-6">
             <div class="card card-stats">
               <div class="card-body ">
@@ -108,58 +166,8 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-3 col-md-6 col-sm-6">
-            <div class="card card-stats">
-              <div class="card-body ">
-                <div class="row">
-                  <div class="col-5 col-md-4">
-                    <div class="icon-big text-center icon-warning">
-                      <i class="nc-icon nc-vector text-danger"></i>
-                    </div>
-                  </div>
-                  <div class="col-7 col-md-8">
-                    <div class="numbers">
-                      <p class="card-category">Errors</p>
-                      <p class="card-title">23<p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card-footer ">
-                <hr>
-                <div class="stats">
-                  <i class="fa fa-clock-o"></i>
-                  In the last hour
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6 col-sm-6">
-            <div class="card card-stats">
-              <div class="card-body ">
-                <div class="row">
-                  <div class="col-5 col-md-4">
-                    <div class="icon-big text-center icon-warning">
-                      <i class="nc-icon nc-favourite-28 text-primary"></i>
-                    </div>
-                  </div>
-                  <div class="col-7 col-md-8">
-                    <div class="numbers">
-                      <p class="card-category">Followers</p>
-                      <p class="card-title">+45K<p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card-footer ">
-                <hr>
-                <div class="stats">
-                  <i class="fa fa-refresh"></i>
-                  Update now
-                </div>
-              </div>
-            </div>
-          </div>
+         
+         
         </div>
         <div class="row">
           <div class="col-md-12">
