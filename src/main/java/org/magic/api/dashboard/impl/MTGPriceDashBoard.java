@@ -23,6 +23,7 @@ import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
+import org.magic.api.beans.enums.EnumMarketType;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGConstants;
@@ -40,6 +41,10 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		return STATUT.DEV;
 	}
 
+	@Override
+	public EnumMarketType getMarket() {
+		return EnumMarketType.US_MARKET;
+	}
 	
 	@Override
 	public List<CardShake> getOnlineShakerFor(MagicFormat.FORMATS f) throws IOException {

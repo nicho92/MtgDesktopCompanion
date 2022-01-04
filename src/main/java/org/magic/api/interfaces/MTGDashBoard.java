@@ -15,6 +15,7 @@ import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
+import org.magic.api.beans.enums.EnumMarketType;
 
 public interface MTGDashBoard extends MTGPriceSuggester {
 
@@ -38,5 +39,7 @@ public interface MTGDashBoard extends MTGPriceSuggester {
 	
 	public Currency getCurrency();
 	
-
+	public EnumMarketType getMarket();
+	
+	
 }

@@ -7,6 +7,7 @@ import java.util.Map;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.enums.EnumMarketType;
 
 public interface MTGPricesProvider extends MTGPriceSuggester {
 
@@ -18,4 +19,6 @@ public interface MTGPricesProvider extends MTGPriceSuggester {
 	
 	public void alertDetected(List<MagicPrice> okz);
 
+	public EnumMarketType getMarket();
+	
 }

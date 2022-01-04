@@ -21,6 +21,7 @@ import org.magic.api.beans.MTGSealedProduct.EXTRA;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
+import org.magic.api.beans.enums.EnumMarketType;
 import org.magic.api.beans.enums.MTGCardVariation;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGConstants;
@@ -102,6 +103,13 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			return true;
 		});
 	}
+	
+	
+	@Override
+	public EnumMarketType getMarket() {
+		return EnumMarketType.US_MARKET;
+	}
+	
 	
 	@Override
 	public HistoryPrice<MTGSealedProduct> getOnlinePricesVariation(MTGSealedProduct packaging) throws IOException {

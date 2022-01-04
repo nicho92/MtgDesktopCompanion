@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.enums.EnumMarketType;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.providers.MTGJsonPricer;
 
@@ -29,6 +30,15 @@ public class MkmPricer extends AbstractPricesProvider {
 		return MTGJsonPricer.getInstance().getPriceFor(card);
 	}
 
+	
+
+	
+	@Override
+	public EnumMarketType getMarket() {
+		return EnumMarketType.EU_MARKET;
+	}
+	
+	
 	@Override
 	public Icon getIcon() {
 		return new ImageIcon(MkmPricer.class.getResource("/icons/plugins/magiccardmarket.png"));

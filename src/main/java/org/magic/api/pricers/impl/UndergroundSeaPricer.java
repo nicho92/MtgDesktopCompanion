@@ -10,6 +10,7 @@ import org.jsoup.nodes.Document;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.beans.enums.EnumMarketType;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.network.URLTools;
 import org.magic.tools.UITools;
@@ -32,6 +33,12 @@ public class UndergroundSeaPricer extends AbstractPricesProvider {
 		return "UnderGroundSea";
 	}
 
+
+	
+	@Override
+	public EnumMarketType getMarket() {
+		return EnumMarketType.NONE;
+	}
 	
 	private String getUrl()
 	{

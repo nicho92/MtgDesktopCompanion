@@ -10,6 +10,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.enums.EnumMarketType;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.MTGHttpClient;
@@ -31,6 +32,13 @@ public class MagicVillePricer extends AbstractPricesProvider {
 		super();
 		httpclient = URLTools.newClient();
 
+	}
+	
+
+	
+	@Override
+	public EnumMarketType getMarket() {
+		return EnumMarketType.EU_MARKET;
 	}
 
 	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {

@@ -15,6 +15,7 @@ import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat.FORMATS;
+import org.magic.api.beans.enums.EnumMarketType;
 import org.magic.api.exports.impl.EchoMTGExport;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.network.MTGHttpClient;
@@ -184,6 +185,12 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 	@Override
 	public HistoryPrice<MTGSealedProduct> getOnlinePricesVariation(MTGSealedProduct packaging) throws IOException {
 		return new HistoryPrice<>(packaging);
+	}
+
+
+	@Override
+	public EnumMarketType getMarket() {
+		return EnumMarketType.US_MARKET;
 	}
 
 }

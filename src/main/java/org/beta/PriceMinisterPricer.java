@@ -1,4 +1,4 @@
-package org.magic.api.pricers.impl;
+package org.beta;
 
 import java.io.IOException;
 import java.util.ArrayList;

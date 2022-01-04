@@ -30,6 +30,7 @@ import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat.FORMATS;
+import org.magic.api.beans.enums.EnumMarketType;
 import org.magic.api.beans.enums.MTGCardVariation;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.network.NetworkInfo;
@@ -44,6 +45,11 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	private InterestsService interestService;
 	private PriceService pricesService;
 	private AnalyticsService analyticService;
+	
+	@Override
+	public EnumMarketType getMarket() {
+		return EnumMarketType.US_MARKET;
+	}
 	
 	@Override
 	public String getVersion() {
