@@ -88,9 +88,34 @@
 				$("#cardSet").html(card.editions[0].set);
 				
 				$.get(restserver+"/dash/variations/card/"+card.id,function(data){
-					   demo.initCharts(data);
+					   	charts.initCharts(data);
+						
+						var mapNormal = Object.values(data.normal).map(e=>e.value);
+						var mapFoil =  Object.values(data.foil).map(e=>e.value);
+					
+						var valueN = mapNormal.slice(-1)[0];
+						var valueF =mapFoil.slice(-1)[0];
+						
+						var valueWeekN = mapNormal.slice(-7)[0];
+						var valueWeekF =mapFoil.slice(-7)[0];
+						
+	   			
+						var percentWeekNormal = new Number(( ( valueN - valueWeekN ) / valueWeekN ) * 100).toFixed(2);
+						var percentWeekFoil= new Number(( ( valueF - valueWeekF ) / valueWeekF ) * 100).toFixed(2);
+					
+						var iconN = (valueWeekN > valueN)? "<i class='fa fa-arrow-down' aria-hidden='true'></i>":"<i class='fa fa-arrow-up' aria-hidden='true'></i>";
+						var iconF = (valueWeekF > valueF)? "<i class='fa fa-arrow-down' aria-hidden='true'></i>":"<i class='fa fa-arrow-up' aria-hidden='true'></i>";
+						
+						
+						$("#weekPC").html(" Normal : " +percentWeekNormal +"%  Foil : " + percentWeekFoil +"%");	
+						
+						
+						$("#lastPriceNormal").html(iconN + " " + data.currency + " " + valueN.toLocaleString({ minimumFractionDigits: 2 }));
+						$("#lastPriceFoil").html(iconF + " " + data.currency + " " + valueF.toLocaleString({ minimumFractionDigits: 2 })+ "(Foil)");
+		
 				});
 							
+			
 					
 			
 				
@@ -171,7 +196,8 @@
                   <div class="col-7 col-md-8">
                     <div class="numbers">
                       <p class="card-category">Market Price</p>
-                      <p class="card-title">$ 1,345<p>
+                      <p class="card-title" id="lastPriceNormal"><p>
+					  <p class="card-title" id="lastPriceFoil"><p>
                     </div>
                   </div>
                 </div>
@@ -179,8 +205,9 @@
               <div class="card-footer ">
                 <hr>
                 <div class="stats">
-                  <i class="fa fa-calendar-o"></i>
-                  Last day
+						<i class="fa fa-calendar-o"></i>Last day <span id="dayPC"/>
+						<br/>
+						<i class="fa fa-calendar-o"></i>Last Week <span id="weekPC"/>
                 </div>
               </div>
             </div>

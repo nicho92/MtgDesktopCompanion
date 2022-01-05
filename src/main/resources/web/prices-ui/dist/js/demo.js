@@ -1,4 +1,4 @@
-demo = {
+charts = {
  
   initCharts: function(datas) {
     chartColor = "#FFFFFF";
@@ -38,16 +38,19 @@ demo = {
     var chartOptions = {
       legend: {
         display: true,
-        position: 'top'
+        position: 'bottom'
       }
     };
 
-    var lineChart = new Chart(speedCanvas, {
+    new Chart(speedCanvas, {
       type: 'line',
       hover: false,
       data: dateLabels,
       options: chartOptions
     });
+
+
+
   },
 
 };
