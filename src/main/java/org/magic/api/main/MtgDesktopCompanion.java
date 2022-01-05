@@ -44,11 +44,14 @@ public class MtgDesktopCompanion {
 		launch.start();
 		chrono.start();
 		try {
-			MTGControler.getInstance().loadAccountsConfiguration();
-			MTGLogger.changeLevel(MTGControler.getInstance().get("loglevel"));
 			
 			boolean updated = MTGControler.getInstance().updateConfigMods();
 
+			
+			MTGControler.getInstance().loadAccountsConfiguration();
+			MTGLogger.changeLevel(MTGControler.getInstance().get("loglevel"));
+			
+	
 			logger.trace("result config updated : " + updated);
 
 			if (updated)

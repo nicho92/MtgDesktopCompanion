@@ -35,21 +35,47 @@
 		  	 new Autocomplete('#autocomplete', {
 				 search: input => {
 			      return new Promise(resolve => {
-			        
-			    	if (input.length < 3) {
-			          return resolve([])
-			        }
-
+					       if (input.length < 3) {
+					          return resolve([])
+					        }
 			        fetch(restserver+'/cards/suggestcard/'+input)
 			          .then(response => response.json())
-			          .then(data => {resolve(data)})
+			          .then(data => {
+							resolve(data)
+						})
 			      })
 			    },
 			    getResultValue: result =>result.name ,
+		 renderResult: (result, props) => `
+			    <li ${props}>
+			      <div class="result-title">
+			        ${result.name}
+			      </div>
+			      <div class="result-set">
+							<i class="ss ss-2x ss-${result.editions[0].keyRuneCode.toLowerCase()}"></i>
+							 ${result.editions[0].set}
+			      </div>
+			    </li>
+			  `,
+
+
 			    onSubmit: result => {
-			      alert(result);
+			      load(result);
 			    }
+
+
+
 			  });
+	
+	
+	
+			function load(card)
+			{
+				$("#cardpic").attr("src","https://api.scryfall.com/cards/"+card.scryfallId+"?format=image");
+				$("#cardTitle").html(card.name);
+				$("#cardSet").html(card.editions[0].set);
+			}
+	
 		
 			
 	 });
@@ -95,13 +121,13 @@
                 <div class="row">
                   <div class="col-5 col-md-4">
                     <div class="icon-big text-center icon-warning">
-					  <img class="img img-fluid" src="https://c1.scryfall.com/file/scryfall-cards/large/front/1/1/112394a6-7819-43b4-adad-f6900aff2936.jpg?1635444876"/>
+					  <img class="img img-fluid" id="cardpic" src=""/>
                     </div>
                   </div>
                   <div class="col-7 col-md-7">
                     <div class="numbers">
-                      <p class="card-category">Innistrad : Crimson Vow</p>
-                      <p class="card-title">Sorin the Mirthless<p>
+                      <p class="card-category" id="cardSet"></p>
+                      <p class="card-title" id="cardTitle"><p>
                     </div>
                   </div>
                 </div>
