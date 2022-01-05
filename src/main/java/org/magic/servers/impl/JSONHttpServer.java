@@ -730,7 +730,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			ret.addProperty("currency", MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getSymbol());
 			ret.add("normal", build(resNormal));
 			ret.add("foil", build(resFoil));
-			
+			ret.addProperty("provider",getEnabledPlugin(MTGDashBoard.class).getName());
 			return ret;
 		
 		});
