@@ -107,8 +107,6 @@
 						var iconF = (valueWeekF > valueF)? "<i class='fa fa-arrow-down' aria-hidden='true'></i>":"<i class='fa fa-arrow-up' aria-hidden='true'></i>";
 						
 						
-						$("#weekPC").html(" Normal : " +percentWeekNormal +"%  Foil : " + percentWeekFoil +"%");	
-						
 						
 						$("#lastPriceNormal").html(iconN + " " + data.currency + " " + valueN.toLocaleString({ minimumFractionDigits: 2 }));
 						$("#lastPriceFoil").html(iconF + " " + data.currency + " " + valueF.toLocaleString({ minimumFractionDigits: 2 })+ "(Foil)");
@@ -205,14 +203,16 @@
               <div class="card-footer ">
                 <hr>
                 <div class="stats">
-						<i class="fa fa-calendar-o"></i>Last day <span id="dayPC"/>
-						<br/>
-						<i class="fa fa-calendar-o"></i>Last Week <span id="weekPC"/>
+						<i class="fa fa-calendar-o"></i>Last day 
                 </div>
               </div>
             </div>
           </div>
         </div>
+
+		
+
+
 
        <div class="row">
           <div class="col-md-12">
