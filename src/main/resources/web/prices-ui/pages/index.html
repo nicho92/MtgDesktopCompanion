@@ -33,6 +33,17 @@
   
   <script>
 	  $(document).ready(function() {
+		  	
+		  $(document).ajaxStart(function () 
+					{
+					    $('.loading').html("<div class='spinner-border text-primary'></div>"); 
+					});
+
+					$(document).ajaxStop(function() 
+					{
+						 $('.loading').html("");  
+					});
+		  
 		  
 		  	 new Autocomplete('#autocomplete', {
 				 search: input => {
@@ -70,26 +81,24 @@
 	
 	
 			
-		if($_GET("id"))
-		{
-			$.get(restserver+"/cards/"+$_GET("id"),function(data){
-					  load(data);
-			});
-		}
-	
-	
-	
-	
+			if($_GET("id"))
+			{
+				$.get(restserver+"/cards/"+$_GET("id"),function(data){
+					load(data);
+				});
+			}
 	
 			function load(card)
 			{
 				$("#cardpic").attr("src","https://api.scryfall.com/cards/"+card.scryfallId+"?format=image");
 				$("#cardTitle").html(card.name);
 				$("#cardSet").html(card.editions[0].set);
+				$("#linkshare").html("<a href='"+window.location+"?id="+card.id+"'>copy</a>");
+				
 				
 				$.get(restserver+"/dash/variations/card/"+card.id,function(data){
 					   	charts.initCharts(data);
-						
+					   	$("#provider").html(data.provider);
 						var mapNormal = Object.values(data.normal).map(e=>e.value);
 						var mapFoil =  Object.values(data.foil).map(e=>e.value);
 					
@@ -103,13 +112,13 @@
 						var percentWeekNormal = new Number(( ( valueN - valueWeekN ) / valueWeekN ) * 100).toFixed(2);
 						var percentWeekFoil= new Number(( ( valueF - valueWeekF ) / valueWeekF ) * 100).toFixed(2);
 					
-						var iconN = (valueWeekN > valueN)? "<i class='fa fa-arrow-down' aria-hidden='true'></i>":"<i class='fa fa-arrow-up' aria-hidden='true'></i>";
-						var iconF = (valueWeekF > valueF)? "<i class='fa fa-arrow-down' aria-hidden='true'></i>":"<i class='fa fa-arrow-up' aria-hidden='true'></i>";
+						var iconN = (valueWeekN > valueN)? "<i class='fa fa-arrow-down text-danger' aria-hidden='true'></i>":"<i class='fa fa-arrow-up text-success' aria-hidden='true'></i>";
+						var iconF = (valueWeekF > valueF)? "<i class='fa fa-arrow-down text-danger' aria-hidden='true'></i>":"<i class='fa fa-arrow-up text-success' aria-hidden='true'></i>";
 						
 						
 						
-						$("#lastPriceNormal").html(iconN + " " + data.currency + " " + valueN.toLocaleString({ minimumFractionDigits: 2 }));
-						$("#lastPriceFoil").html(iconF + " " + data.currency + " " + valueF.toLocaleString({ minimumFractionDigits: 2 })+ "(Foil)");
+						$("#lastPriceNormal").html(iconN + " " + data.currency + " " + valueN.toFixed(2));
+						$("#lastPriceFoil").html(iconF + " <i class='ss ss-mythic ss-2x ss-pmei'></i>" + data.currency + " " + valueF.toFixed(2));
 		
 				});
 							
@@ -143,15 +152,10 @@
             <a class="navbar-brand" href="javascript:;">MTGCompanion</a>
           </div>
           <div class="collapse navbar-collapse justify-content-center" id="navigation">
-             
-             
               <div id="autocomplete" class="autocomplete input-group no-border ">
                 <input type="text" value="" class=" autocomplete-input" placeholder="Search..." style="width:350px">
                  <ul class="autocomplete-result-list"></ul>
               </div>
-              
-              
-              
           </div>
         </div>
       </nav>
@@ -194,6 +198,7 @@
                   <div class="col-7 col-md-8">
                     <div class="numbers">
                       <p class="card-category">Market Price</p>
+                      <div class="loading"></div>
                       <p class="card-title" id="lastPriceNormal"><p>
 					  <p class="card-title" id="lastPriceFoil"><p>
                     </div>
@@ -208,6 +213,31 @@
               </div>
             </div>
           </div>
+          
+            <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="card card-stats">
+              <div class="card-body ">
+                <div class="row">
+                  <div class="col-5 col-md-4">
+                    <div class="icon-big text-center icon-warning">
+                      <i class="fa fa-share-alt text-warning"></i>
+                    </div>
+                  </div>
+                  <div class="col-7 col-md-8">
+                    <div class="numbers">
+                      <p class="card-category">Share</p>
+                    </div>
+                    <span id="linkshare"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer ">
+                <hr>
+              </div>
+            </div>
+          </div>
+          
+          
         </div>
 
 		
@@ -227,7 +257,7 @@
               <div class="card-footer">
                 <hr />
                 <div class="card-stats">
-                  <i class="fa fa-check"></i> MTGGoldFish
+                  <i class="fa fa-check"></i> <span id="provider"></span>
                 </div>
               </div>
             </div>
