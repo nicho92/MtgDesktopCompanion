@@ -25,7 +25,8 @@
   <link href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css" rel="stylesheet" />
   <link href="//cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
   <link href="../dist/css/paper-dashboard.css" rel="stylesheet" />
- 
+  
+<script src="../dist/js/js-var.js"></script>
   <script src="../dist/js/demo.js"></script>
   <script src="../dist/js/rest-server.js"></script>
   
@@ -66,6 +67,17 @@
 
 
 			  });
+	
+	
+			
+		if($_GET("id"))
+		{
+			$.get(restserver+"/cards/"+$_GET("id"),function(data){
+					  load(data);
+			});
+		}
+	
+	
 	
 	
 	
