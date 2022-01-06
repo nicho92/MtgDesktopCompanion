@@ -46,15 +46,41 @@ charts = {
     };
 
     var dateLabels = {
-      labels: Object.values(datas.normal).map(e=>moment(e.date).format("MM/YYYY")),
+      labels: Object.values(datas.normal).map(e=>moment(e.date)),
       datasets: [dataNormal, dataFoil]
     };
+const zoomOptions = {
+  pan: {
+    enabled: true,
+    modifierKey: 'ctrl',
+  },
+  zoom: {
+    drag: {
+      enabled: true,
+    },
+    mode: 'xy',
+  },
+};
+
 
     var chartOptions = {
       legend: {
         display: true,
         position: 'bottom'
+      },
+	scales: {
+      xAxes: [{
+        type: 'time'
+      }]
+    },
+ plugins: {
+      zoom: zoomOptions,
+      title: {
+        display: true,
+        position: 'bottom',
+        text: (ctx) => 'Zoom: ' + zoomStatus() + ', Pan: ' + panStatus()
       }
+    }
     };
 	
 	
