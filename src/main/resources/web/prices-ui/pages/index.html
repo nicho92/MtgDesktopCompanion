@@ -67,7 +67,7 @@
 						      </div>
 						      <div class="result-set">
 										<i class="ss ss-2x ss-${result.editions[0].keyRuneCode.toLowerCase()}"></i>
-										 ${result.editions[0].set}
+										 ${result.editions[0].set} 
 						      </div>
 						    </li>
 						  `,
@@ -115,12 +115,29 @@
 						var iconN = (valueWeekN > valueN)? "<i class='fa fa-arrow-down text-danger' aria-hidden='true'></i>":"<i class='fa fa-arrow-up text-success' aria-hidden='true'></i>";
 						var iconF = (valueWeekF > valueF)? "<i class='fa fa-arrow-down text-danger' aria-hidden='true'></i>":"<i class='fa fa-arrow-up text-success' aria-hidden='true'></i>";
 						
+						try {
+								$("#lastPriceNormal").html(iconN + " " + data.currency + " " + valueN.toFixed(2));
+								
+								$("#normalPriceChange").html((valueN-valueWeekN).toFixed(2));
+        	              		$("#normalPercentChange").html(percentWeekNormal+"%");
+							}
+							catch(error)
+							{
+								$("#lastPriceNormal").html("");	
+							}
 						
 						
-						$("#lastPriceNormal").html(iconN + " " + data.currency + " " + valueN.toFixed(2));
-						$("#lastPriceFoil").html(iconF + " <i class='ss ss-mythic ss-2x ss-pmei'></i>" + data.currency + " " + valueF.toFixed(2));
-		
-				});
+						
+						try {
+								$("#lastPriceFoil").html(iconF + " <i class='ss ss-mythic ss-2x ss-pmei'></i>" + data.currency + " " + valueF.toFixed(2));
+								$("#foilPriceChange").html((valueF-valueWeekF).toFixed(2));
+								$("#foilPercentChange").html(percentWeekFoil+"%");
+							}
+							catch(error)
+							{
+								$("#lastPriceFoil").html(" <i class='ss ss-mythic ss-2x ss-pmei'></i> -");	
+							}
+					});
 							
 			
 					
@@ -192,7 +209,7 @@
                 <div class="row">
                   <div class="col-5 col-md-4">
                     <div class="icon-big text-center icon-warning">
-                      <i class="nc-icon nc-money-coins text-success"></i>
+                      <i class="fa fa-money text-warning"></i>
                     </div>
                   </div>
                   <div class="col-7 col-md-8">
@@ -213,14 +230,46 @@
               </div>
             </div>
           </div>
+			
+		 <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="card card-stats">
+              <div class="card-body ">
+                <div class="row">
+                  <div class="col-5 col-md-4">
+                    <div class="icon-big text-center icon-warning">
+                      <i class="fa fa-exchange text-success"></i>
+                    </div>
+                  </div>
+                  <div class="col-7 col-md-8">
+                    <div class="numbers">
+                      <p class="card-category">Variations</p>
+                    </div>
+						€ <span id="normalPriceChange"></span><br/>
+                      	<span id="normalPercentChange"></span><br/>
+						 <hr>
+						F€ <span id="foilPriceChange"></span><br/>
+						F<span id="foilPercentChange"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer ">
+                <hr>
+                <div class="stats">
+						<i class="fa fa-calendar-o"></i>Last week 
+                </div>
+              </div>
+            </div>
+          </div>	
+
+
           
             <div class="col-lg-3 col-md-6 col-sm-6">
             <div class="card card-stats">
               <div class="card-body ">
                 <div class="row">
                   <div class="col-5 col-md-4">
-                    <div class="icon-big text-center icon-warning">
-                      <i class="fa fa-share-alt text-warning"></i>
+                    <div class="icon-big text-center icon-danger">
+                      <i class="fa fa-share-alt text-alert"></i>
                     </div>
                   </div>
                   <div class="col-7 col-md-8">
@@ -252,7 +301,7 @@
                 <p class="card-category">History prices</p>
               </div>
               <div class="card-body">
-                <canvas id="speedChart" width="400" height="100"></canvas>
+                <canvas id="chart" width="400" height="100"></canvas>
               </div>
               <div class="card-footer">
                 <hr />

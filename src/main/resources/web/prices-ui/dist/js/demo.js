@@ -1,3 +1,6 @@
+var chart;
+
+
 charts = {
  
  copyToClipboard: function(element) {
@@ -8,13 +11,15 @@ charts = {
   $temp.remove();
   },
  
- 
- 
   initCharts: function(datas) {
+	
+	if(chart!=null)
+		chart.destroy();
+	
     chartColor = "#FFFFFF";
 
-    
-    var speedCanvas = document.getElementById("speedChart");
+    var chartCanvas = document.getElementById("chart");
+
 	
     var dataNormal = {
       data: Object.values(datas.normal).map(e=>e.value),
@@ -51,8 +56,12 @@ charts = {
         position: 'bottom'
       }
     };
-
-    new Chart(speedCanvas, {
+	
+	
+	
+	
+	
+   chart= new Chart(chartCanvas, {
       type: 'line',
       hover: false,
       data: dateLabels,
