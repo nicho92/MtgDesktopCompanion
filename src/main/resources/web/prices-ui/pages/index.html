@@ -13,12 +13,14 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mouse0270-bootstrap-notify/3.1.5/bootstrap-notify.min.js"></script>
   <script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
+  <script src="//cdn.jsdelivr.net/npm/datatables@latest/media/js/jquery.dataTables.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/datatables-bootstrap@latest/js/dataTables.bootstrap.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/datatables-responsive@latest/js/dataTables.responsive.min.js"></script>
    
-
 
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
@@ -26,8 +28,9 @@
   <link href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css" rel="stylesheet" />
   <link href="//cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
   <link href="../dist/css/paper-dashboard.css" rel="stylesheet" />
+  <link href="//cdn.jsdelivr.net/npm/datatables@latest/media/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
   
-<script src="../dist/js/js-var.js"></script>
+  <script src="../dist/js/js-var.js"></script>
   <script src="../dist/js/demo.js"></script>
   <script src="../dist/js/rest-server.js"></script>
   
@@ -140,9 +143,59 @@
 							}
 					});
 							
-			
 					
-			
+				var table = $('#table').DataTable( {
+				    	language: {
+				    	    processing: "<img src='../dist/img/loading.gif' width='50' height='50'>"
+				    	 },
+				    	"bInfo" : false,
+				    	"responsive": true,
+				        "processing": true,
+				        "pageLength": 5,
+				        "bLengthChange": false,
+				        "paginationType":"simple",
+				      	"searching": false,
+				      	"order": [[ 1, "asc" ]],
+				        "ajax": {"url":restserver+"/prices/"+card.editions[0].id+"/"+card.name,"dataSrc":""},
+				        "columns": [
+				        	{ "data": "site" },
+				            { 
+				        		"data" : "value",
+				        		 "render": function(data, type, row, meta){
+		  			                  return data.toFixed(2);
+		  			                }
+				        	},
+				            { "data": "currency",
+				            	"defaultContent": ""
+				           	},
+				          	{ "data": "quality",
+				           	  "defaultContent": ""
+				           	},
+				           	{ "data": "foil",
+					          "defaultContent": "",
+	 						  "render": function(data, type, row, meta){
+		  			                   if(type === 'display'){
+					                	  if(data)
+											return '<i class="ss  ss-mythic ss-grad ss-2x ss-pmei"></i>';	
+											else
+											return "";
+		  			                   }
+		  			                   return data;
+		  			                }
+					        },
+				            { 
+		  			                "data": "url",
+		  			                "render": function(data, type, row, meta){
+		  			                   if(type === 'display'){
+		  			                	  data = '<a class="fa fa-share" target="_blank" href="' + data + '"></a>';	
+		  			                   }
+		  			                   return data;
+		  			                }
+		  			        }
+				        ]
+				    } );
+					
+				 	$( table.table().container() ).removeClass( 'form-inline' );
 				
 			}
 	
@@ -180,140 +233,176 @@
       <!-- End Navbar -->
       <div class="content">
         <div class="row">
-          <div class="col-lg-3 col-md-6 col-sm-6">
-            <div class="card card-stats">
-              <div class="card-body ">
-                <div class="row">
-                  <div class="col-5 col-md-4">
-                    <div class="icon-big text-center icon-warning">
-					  <img class="img img-fluid" id="cardpic" src=""/>
-                    </div>
-                  </div>
-                  <div class="col-7 col-md-7">
-                    <div class="numbers">
-                      <p class="card-category" id="cardSet"></p>
-                      <p class="card-title" id="cardTitle"><p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card-footer ">
-                <hr>
-                <div class="stats"> </div>
-              </div>
-            </div>
-          </div>
-           
-          <div class="col-lg-3 col-md-6 col-sm-6">
-            <div class="card card-stats">
-              <div class="card-body ">
-                <div class="row">
-                  <div class="col-5 col-md-4">
-                    <div class="icon-big text-center icon-warning">
-                      <i class="fa fa-money text-warning"></i>
-                    </div>
-                  </div>
-                  <div class="col-7 col-md-8">
-                    <div class="numbers">
-                      <p class="card-category">Market Price</p>
-                      <div class="loading"></div>
-                      <p class="card-title" id="lastPriceNormal"><p>
-					  <p class="card-title" id="lastPriceFoil"><p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card-footer ">
-                <hr>
-                <div class="stats">
-						<i class="fa fa-calendar-o"></i>Last day 
-                </div>
-              </div>
-            </div>
-          </div>
-			
-		 <div class="col-lg-3 col-md-6 col-sm-6">
-            <div class="card card-stats">
-              <div class="card-body ">
-                <div class="row">
-                  <div class="col-5 col-md-4">
-                    <div class="icon-big text-center icon-warning">
-                      <i class="fa fa-exchange text-success"></i>
-                    </div>
-                  </div>
-                  <div class="col-7 col-md-8">
-                    <div class="numbers">
-                      <p class="card-category">Variations</p>
-                    </div>
-						€ <span id="normalPriceChange"></span><br/>
-                      	<span id="normalPercentChange"></span><br/>
-						 <hr>
-						F€ <span id="foilPriceChange"></span><br/>
-						F<span id="foilPercentChange"></span>
-                  </div>
-                </div>
-              </div>
-              <div class="card-footer ">
-                <hr>
-                <div class="stats">
-						<i class="fa fa-calendar-o"></i>Last week 
-                </div>
-              </div>
-            </div>
-          </div>	
 
 
-          
-            <div class="col-lg-3 col-md-6 col-sm-6">
-            <div class="card card-stats">
-              <div class="card-body ">
-                <div class="row">
-                  <div class="col-5 col-md-4">
-                    <div class="icon-big text-center icon-danger">
-                      <i class="fa fa-share-alt text-alert"></i>
-                    </div>
-                  </div>
-                  <div class="col-7 col-md-8">
-                    <div class="numbers">
-                      <p class="card-category">Share</p>
-                    </div>
-                    <span id="linkshare"></span>
-                  </div>
-                </div>
-              </div>
-              <div class="card-footer ">
-                <hr>
-              </div>
-            </div>
-          </div>
-          
-          
-        </div>
-
-		
+					<div class="col-lg-3 col-md-6 col-sm-6">
+						<div class="card card-stats">
+							<div class="card-body ">
+								<div class="row">
+									<div class="col-5 col-md-4">
+										<div class="icon-big text-center icon-warning">
+											<img class="img img-fluid" id="cardpic" src="" />
+										</div>
+									</div>
+									<div class="col-7 col-md-7">
+										<div class="numbers">
+											<p class="card-category" id="cardSet"></p>
+											<p class="card-title" id="cardTitle">
+											<p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="card-footer ">
+								<hr>
+								<div class="stats"></div>
+							</div>
+						</div>
+					</div>
 
 
 
-       <div class="row">
-          <div class="col-md-12">
-            <div class="card card-chart">
-              <div class="card-header">
-                <h5 class="card-title">Prices Variations</h5>
-                <p class="card-category">History prices</p>
-              </div>
-              <div class="card-body">
-                <canvas id="chart" width="400" height="100"></canvas>
-              </div>
-              <div class="card-footer">
-                <hr />
-                <div class="card-stats">
-                  <i class="fa fa-check"></i> <span id="provider"></span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+					<div class="col-lg-3 col-md-6 col-sm-6">
+						<div class="card card-stats">
+							<div class="card-body ">
+								<div class="row">
+									<div class="col-5 col-md-4">
+										<div class="icon-big text-center icon-warning">
+											<i class="fa fa-money text-warning"></i>
+										</div>
+									</div>
+									<div class="col-7 col-md-8">
+										<div class="numbers">
+											<p class="card-category">Market Price</p>
+											<div class="loading"></div>
+											<p class="card-title" id="lastPriceNormal">
+											<p>
+											<p class="card-title" id="lastPriceFoil">
+											<p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="card-footer ">
+								<hr>
+								<div class="stats">
+									<i class="fa fa-calendar-o"></i>Last day
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-3 col-md-6 col-sm-6">
+						<div class="card card-stats">
+							<div class="card-body ">
+								<div class="row">
+									<div class="col-5 col-md-4">
+										<div class="icon-big text-center icon-warning">
+											<i class="fa fa-exchange text-success"></i>
+										</div>
+									</div>
+									<div class="col-7 col-md-8">
+										<div class="numbers">
+											<p class="card-category">Variations</p>
+										</div>
+										<span id="normalPriceChange"></span><br /> <span
+											id="normalPercentChange"></span><br />
+										<hr>
+										<i class='ss ss-mythic ss-2x ss-pmei'></i><span
+											id="foilPriceChange"></span><br /> <i
+											class='ss ss-mythic ss-2x ss-pmei'></i><span
+											id="foilPercentChange"></span>
+									</div>
+								</div>
+							</div>
+							<div class="card-footer ">
+								<hr>
+								<div class="stats">
+									<i class="fa fa-calendar-o"></i>Last week
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-3 col-md-6 col-sm-6">
+						<div class="card card-stats">
+							<div class="card-body ">
+								<div class="row">
+									<div class="col-5 col-md-4">
+										<div class="icon-big text-center icon-danger">
+											<i class="fa fa-share-alt text-alert"></i>
+										</div>
+									</div>
+									<div class="col-7 col-md-8">
+										<div class="numbers">
+											<p class="card-category">Share</p>
+										</div>
+										<span id="linkshare"></span>
+									</div>
+								</div>
+							</div>
+							<div class="card-footer ">
+								<hr>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				
+				<div class="row">
+					<div class="col-md-12">
+						<div class="card card-chart">
+							<div class="card-header">
+								<h5 class="card-title">Prices Variations</h5>
+								<p class="card-category">History prices</p>
+							</div>
+							<div class="card-body">
+								<canvas id="chart" width="400" height="100"></canvas>
+							</div>
+							<div class="card-footer">
+								<hr />
+								<div class="card-stats">
+									<i class="fa fa-check"></i> <span id="provider"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				
+				<div class="row">
+					<div class="col-md-12">
+						<div class="card card-table">
+							<div class="card-header">
+								<h5 class="card-title">Offers</h5>
+								<p class="card-category">Shops</p>
+							</div>
+							<div class="card-body">
+								<div class="table-responsive">
+									<table class="table" id="table" style="width: 100%;">
+										<thead>
+											<tr>
+												<th>website</th>
+												<th>prices</th>
+												<th>currency</th>
+												<th>quality</th>
+												<th>foil</th>
+												<th>link</th>
+											</tr>
+										</thead>
+									</table>
+								</div>
+							</div>
+							<div class="card-footer">
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				
+
+
+			</div>
       <footer class="footer footer-black  footer-white ">
         <div class="container-fluid">
           <div class="row">

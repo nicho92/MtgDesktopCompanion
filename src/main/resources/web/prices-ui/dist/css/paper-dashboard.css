@@ -2963,7 +2963,8 @@ License - nucleoapp.com/license/
 .table-shopping .td-name {
   font-weight: 400;
   font-size: 1.5em; }
-  .table-shopping .td-name small {
+
+.table-shopping .td-name small {
     color: #9A9A9A;
     font-size: 0.75em;
     font-weight: 300; }
