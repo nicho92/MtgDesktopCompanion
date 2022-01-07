@@ -92,7 +92,7 @@
 				$("#cardpic").attr("src","https://api.scryfall.com/cards/"+card.scryfallId+"?format=image");
 				$("#cardTitle").html(card.name);
 				$("#cardSet").html(card.editions[0].set);
-				$("#linkshare").html("<a href='"+window.location+"?id="+card.id+"'>copy</a>");
+				$("#linkshare").attr("href", window.location.origin + window.location.pathname+"?id="+card.id);
 				
 				
 				$.get(restserver+"/dash/variations/card/"+card.id,function(data){
@@ -117,7 +117,13 @@
 						try {
 								$("#lastPriceNormal").html(iconN + " " + data.currency + " " + valueN.toFixed(2));
 								
-								$("#normalPriceChange").html((valueN-valueWeekN).toFixed(2));
+								var symbol ="";
+								
+								if((valueN-valueWeekN)>0)
+									symbol = "+";
+								
+								
+								$("#normalPriceChange").html(data.currency + " " +symbol+ (valueN-valueWeekN).toFixed(2));
         	              		$("#normalPercentChange").html(percentWeekNormal+"%");
 							}
 							catch(error)
@@ -127,7 +133,15 @@
 						
 						try {
 								$("#lastPriceFoil").html(iconF + " <i class='ss ss-mythic ss-2x ss-pmei'></i>" + data.currency + " " + valueF.toFixed(2));
-								$("#foilPriceChange").html((valueF-valueWeekF).toFixed(2));
+								
+								var symbol ="";
+								
+								if((valueF-valueWeekF)>0)
+									symbol = "+";
+								
+								
+								
+								$("#foilPriceChange").html(data.currency + " " +symbol+ (valueF-valueWeekF).toFixed(2));
 								$("#foilPercentChange").html(percentWeekFoil+"%");
 							}
 							catch(error)
@@ -171,7 +185,7 @@
 				           	  "defaultContent": ""
 				           	},
 				           	{ 
-							   "data": "foil",
+							  "data": "foil",
 					          "defaultContent": "",
 	 						  "render": function(d, type, row, meta){
 		  			                   if(type === 'display'){
@@ -188,20 +202,22 @@
 									"defaultContent": "",
 		  			                "render": function(d, type, row, meta){
 		  			                   if(type === 'display'){
-		  			                	  return '<a class="fa fa-share" target="_blank" href="' + d + '"></a>';	
+		  			                	  return '<a class="fa fa-share" target="_blank" href="' + d + '"></a>';
 		  			                   }
 		  			                   return d;
 		  			                }
 		  			        }
 				        ]
 				    } );
-			 		$( table.table().container() ).removeClass( 'form-inline' );
-					$.fn.dataTable.ext.errMode = 'none';
+			 		
+					$( table.table().container() ).removeClass( 'form-inline' );
+					
+			 		$.fn.dataTable.ext.errMode = 'none';
 				
 					$.get(restserver+"/admin/plugins/list",function(data){
-									data.PRICER.filter(function (entry) {return entry.enabled === true;}).forEach( function(item,index){
-											$("#tabPrices").append("<li class='nav-item' ><a name='btnLoadPrice' class='nav-link '' aria-current='page'  ><i class='fa fa-3 fa-shopping-cart' aria-hidden='true'></i>"+item.name+"</a></li>");
-									});
+							data.PRICER.filter(function (entry) {return entry.enabled === true;}).forEach( function(item,index){
+									$("#tabPrices").append("<li class='nav-item' ><a name='btnLoadPrice' class='nav-link '' aria-current='page'  ><i class='fa fa-3 fa-shopping-cart' aria-hidden='true'></i>"+item.name+"</a></li>");
+							});
 					});
 					}
 					
@@ -213,7 +229,11 @@
 								table.ajax.url(restserver+"/prices/details/"+$(this).text()+"/"+card.id).load();
 						});				
 					
-				
+					$(document).on('click',"a[id='linkshare']",function(e){
+						e.preventDefault();
+						navigator.clipboard.writeText($(this).attr("href"));
+						$("#confirmMessage").show().delay(3000).fadeOut();
+					});	
 				
 			
 				
@@ -282,7 +302,7 @@
 							</div>
 							<div class="card-footer ">
 								<hr>
-								<div class="stats"><i class="fa fa-share-alt" aria-hidden="true"></i></div>
+								<div class="stats"><a href="" id="linkshare" target="_blank"><i class="fa fa-share-alt" aria-hidden="true"></i></a><span id="confirmMessage" style=" display: none; ">Copied !</span></div>
 							</div>
 						</div>
 						
@@ -324,15 +344,16 @@
 									</div>
 									
 									<div class="col-7 col-md-10">
-										<div class="numbers">
+										<div class="numbers" >
 											<p class="card-category">Variations</p>
 										</div>
-										<span id="normalPriceChange"></span><br /> <span
-											id="normalPercentChange"></span><br />
-										<hr>
-										<i class='ss ss-mythic ss-2x ss-pmei'></i><span
-											id="foilPriceChange"></span><br /> <i
-											class='ss ss-mythic ss-2x ss-pmei'></i><span id="foilPercentChange"></span>
+										<div class="numbers-small">
+											<span id="normalPriceChange"></span><br /> 
+											<span id="normalPercentChange"></span><br />
+											<hr>
+											<i class='ss ss-mythic ss-2x ss-pmei'></i><span	id="foilPriceChange"></span><br /> 
+											<i class='ss ss-mythic ss-2x ss-pmei'></i><span id="foilPercentChange"></span>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -396,19 +417,20 @@
 				</div>
 
 		</div>
-
-
-			</div>
-			<footer class="footer footer-black  footer-white ">
-				<div class="container-fluid">
-					<div class="row">
-						<nav class="footer-nav">
-						</nav>
-					</div>
-				</div>
-			</footer>
-		</div>
 	</div>
+	<footer class="footer footer-black  footer-white ">
+		<div class="container-fluid">
+			<div class="row">
+				<nav class="footer-nav">
+				</nav>
+			</div>
+		</div>
+	</footer>
+		
+	<div class="toast" role="alert" aria-live="polite" aria-atomic="true" data-delay="10000">
+	  <div role="alert" aria-live="assertive" aria-atomic="true">...</div>
+	</div>
+		
 	
 </body>
 

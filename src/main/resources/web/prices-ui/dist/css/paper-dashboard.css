@@ -3687,7 +3687,12 @@ License - nucleoapp.com/license/
     border-radius: 50%;
     margin-bottom: 15px; }
   .card .numbers {
-    font-size: 2em; }
+    font-size: 2em; 
+   }
+   .card .numbers-small {
+    font-size: 14pt; 
+     text-align: right;
+   }
   .card .big-title {
     font-size: 12px;
     text-align: center;
