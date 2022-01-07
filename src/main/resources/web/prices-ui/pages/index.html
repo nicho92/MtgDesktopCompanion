@@ -37,17 +37,17 @@
   
   <script>
 	  $(document).ready(function() {
-		  	
+			var table;
+			
 		  $(document).ajaxStart(function () 
-					{
-					    $('.loading').html("<div class='spinner-border text-primary'></div>"); 
-					});
-
-					$(document).ajaxStop(function() 
-					{
-						 $('.loading').html("");  
-					});
-		  
+			{
+			    $('.loading').html("<div class='spinner-border text-primary'></div>"); 
+			});
+	
+			$(document).ajaxStop(function() 
+			{
+				 $('.loading').html("");  
+			});
 		  
 		  	 new Autocomplete('#autocomplete', {
 				 search: input => {
@@ -78,12 +78,7 @@
 			    onSubmit: result => {
 			      load(result);
 			    }
-
-
-
-			  });
-	
-	
+		  });
 			
 			if($_GET("id"))
 			{
@@ -91,7 +86,7 @@
 					load(data);
 				});
 			}
-	
+				
 			function load(card)
 			{
 				$("#cardpic").attr("src","https://api.scryfall.com/cards/"+card.scryfallId+"?format=image");
@@ -130,8 +125,6 @@
 								$("#lastPriceNormal").html("");	
 							}
 						
-						
-						
 						try {
 								$("#lastPriceFoil").html(iconF + " <i class='ss ss-mythic ss-2x ss-pmei'></i>" + data.currency + " " + valueF.toFixed(2));
 								$("#foilPriceChange").html((valueF-valueWeekF).toFixed(2));
@@ -142,27 +135,33 @@
 								$("#lastPriceFoil").html(" <i class='ss ss-mythic ss-2x ss-pmei'></i> -");	
 							}
 					});
-							
 					
-				var table = $('#table').DataTable( {
+				
+				if(table==null)
+				{
+					table = $('#table').DataTable( {
 				    	language: {
 				    	    processing: "<img src='../dist/img/loading.gif' width='50' height='50'>"
 				    	 },
+						"ajax": {"url":"/","dataSrc":""},
 				    	"bInfo" : false,
 				    	"responsive": true,
 				        "processing": true,
-				        "pageLength": 5,
+				        "pageLength": 10,
 				        "bLengthChange": false,
 				        "paginationType":"simple",
 				      	"searching": false,
 				      	"order": [[ 1, "asc" ]],
-				        "ajax": {"url":restserver+"/prices/"+card.editions[0].id+"/"+card.name,"dataSrc":""},
 				        "columns": [
-				        	{ "data": "site" },
+				        	{ 
+								"data": "site",
+								"defaultContent": "", 
+							},
 				            { 
-				        		"data" : "value",
-				        		 "render": function(data, type, row, meta){
-		  			                  return data.toFixed(2);
+				        		 "data" : "value",
+								 "defaultContent": "",
+				        		 "render": function(d, type, row, meta){
+		  			                  return d.toFixed(2);
 		  			                }
 				        	},
 				            { "data": "currency",
@@ -171,31 +170,52 @@
 				          	{ "data": "quality",
 				           	  "defaultContent": ""
 				           	},
-				           	{ "data": "foil",
+				           	{ 
+							   "data": "foil",
 					          "defaultContent": "",
-	 						  "render": function(data, type, row, meta){
+	 						  "render": function(d, type, row, meta){
 		  			                   if(type === 'display'){
-					                	  if(data)
+					                	  if(d)
 											return '<i class="ss  ss-mythic ss-grad ss-2x ss-pmei"></i>';	
 											else
 											return "";
 		  			                   }
-		  			                   return data;
+		  			                   return d;
 		  			                }
 					        },
 				            { 
 		  			                "data": "url",
-		  			                "render": function(data, type, row, meta){
+									"defaultContent": "",
+		  			                "render": function(d, type, row, meta){
 		  			                   if(type === 'display'){
-		  			                	  data = '<a class="fa fa-share" target="_blank" href="' + data + '"></a>';	
+		  			                	  return '<a class="fa fa-share" target="_blank" href="' + d + '"></a>';	
 		  			                   }
-		  			                   return data;
+		  			                   return d;
 		  			                }
 		  			        }
 				        ]
 				    } );
+			 		$( table.table().container() ).removeClass( 'form-inline' );
+					$.fn.dataTable.ext.errMode = 'none';
+				
+					$.get(restserver+"/admin/plugins/list",function(data){
+									data.PRICER.filter(function (entry) {return entry.enabled === true;}).forEach( function(item,index){
+											$("#tabPrices").append("<li class='nav-item' ><a name='btnLoadPrice' class='nav-link '' aria-current='page'  ><i class='fa fa-3 fa-shopping-cart' aria-hidden='true'></i>"+item.name+"</a></li>");
+									});
+					});
+					}
 					
-				 	$( table.table().container() ).removeClass( 'form-inline' );
+					table.clear().draw();
+								
+					$(document).on('click',"a[name='btnLoadPrice']",function(){
+								$("#tabPrices li a").removeClass("active");
+								$(this).addClass("active");
+								table.ajax.url(restserver+"/prices/details/"+$(this).text()+"/"+card.id).load();
+						});				
+					
+				
+				
+			
 				
 			}
 	
@@ -209,33 +229,40 @@
 </head>
 
 <body class="">
-  <div class="wrapper ">
-    <div class="main-panel">
-      <!-- Navbar -->
-      <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
-        <div class="container-fluid">
-          <div class="navbar-wrapper">
-		  <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-bar navbar-kebab"></span>
-            <span class="navbar-toggler-bar navbar-kebab"></span>
-            <span class="navbar-toggler-bar navbar-kebab"></span>
-          </button>
-            <a class="navbar-brand" href="javascript:;">MTGCompanion</a>
-          </div>
-          <div class="collapse navbar-collapse justify-content-center" id="navigation">
-              <div id="autocomplete" class="autocomplete input-group no-border ">
-                <input type="text" value="" class=" autocomplete-input" placeholder="Search..." style="width:350px">
-                 <ul class="autocomplete-result-list"></ul>
-              </div>
-          </div>
-        </div>
-      </nav>
-      <!-- End Navbar -->
-      <div class="content">
-        <div class="row">
 
-
-					<div class="col-lg-3 col-md-6 col-sm-6">
+	<div class="wrapper ">
+		<div class="main-panel">
+		
+		
+			<!-- Navbar -->
+			<nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+				<div class="container-fluid">
+					<div class="navbar-wrapper">
+						<button class="navbar-toggler collapsed" type="button" data-toggle="collapse"
+							data-target="#navigation" aria-controls="navigation-index" aria-expanded="false"
+							aria-label="Toggle navigation">
+							<span class="navbar-toggler-bar navbar-kebab"></span>
+							<span class="navbar-toggler-bar navbar-kebab"></span>
+							<span class="navbar-toggler-bar navbar-kebab"></span>
+						</button>
+						<a class="navbar-brand" href="javascript:;">MTGCompanion</a>
+					</div>
+					<div class="collapse navbar-collapse justify-content-center" id="navigation">
+						<div id="autocomplete" class="autocomplete input-group no-border ">
+							<input type="text" value="" class=" autocomplete-input" placeholder="Search..."
+								style="width:350px">
+							<ul class="autocomplete-result-list"></ul>
+						</div>
+					</div>
+				</div>
+			</nav>
+			<!-- End Navbar -->
+			
+			
+			<div class="content">
+				<div class="row">
+				
+					<div class="col col-lg-3 col-md-6 col-sm-12">
 						<div class="card card-stats">
 							<div class="card-body ">
 								<div class="row">
@@ -255,14 +282,10 @@
 							</div>
 							<div class="card-footer ">
 								<hr>
-								<div class="stats"></div>
+								<div class="stats"><i class="fa fa-share-alt" aria-hidden="true"></i></div>
 							</div>
 						</div>
-					</div>
-
-
-
-					<div class="col-lg-3 col-md-6 col-sm-6">
+						
 						<div class="card card-stats">
 							<div class="card-body ">
 								<div class="row">
@@ -290,9 +313,7 @@
 								</div>
 							</div>
 						</div>
-					</div>
-
-					<div class="col-lg-3 col-md-6 col-sm-6">
+					
 						<div class="card card-stats">
 							<div class="card-body ">
 								<div class="row">
@@ -310,8 +331,7 @@
 										<hr>
 										<i class='ss ss-mythic ss-2x ss-pmei'></i><span
 											id="foilPriceChange"></span><br /> <i
-											class='ss ss-mythic ss-2x ss-pmei'></i><span
-											id="foilPercentChange"></span>
+											class='ss ss-mythic ss-2x ss-pmei'></i><span id="foilPercentChange"></span>
 									</div>
 								</div>
 							</div>
@@ -323,34 +343,8 @@
 							</div>
 						</div>
 					</div>
-
-					<div class="col-lg-3 col-md-6 col-sm-6">
-						<div class="card card-stats">
-							<div class="card-body ">
-								<div class="row">
-									<div class="col-5 col-md-4">
-										<div class="icon-big text-center icon-danger">
-											<i class="fa fa-share-alt text-alert"></i>
-										</div>
-									</div>
-									<div class="col-7 col-md-8">
-										<div class="numbers">
-											<p class="card-category">Share</p>
-										</div>
-										<span id="linkshare"></span>
-									</div>
-								</div>
-							</div>
-							<div class="card-footer ">
-								<hr>
-							</div>
-						</div>
-					</div>
-				</div>
-				
-				
-				<div class="row">
-					<div class="col-md-12">
+					
+					<div class="col-lg-9  col-md-9">
 						<div class="card card-chart">
 							<div class="card-header">
 								<h5 class="card-title">Prices Variations</h5>
@@ -367,10 +361,12 @@
 							</div>
 						</div>
 					</div>
+					</div>
+					
 				</div>
 
-				
-				<div class="row">
+
+				<div class="row ">
 					<div class="col-md-12">
 						<div class="card card-table">
 							<div class="card-header">
@@ -378,6 +374,13 @@
 								<p class="card-category">Shops</p>
 							</div>
 							<div class="card-body">
+								<ul class="nav nav-tabs" id="tabPrices">
+
+
+								</ul>
+
+
+
 								<div class="table-responsive">
 									<table class="table" id="table" style="width: 100%;">
 										<thead>
@@ -398,21 +401,22 @@
 						</div>
 					</div>
 				</div>
-				
-				
+
+
 
 
 			</div>
-      <footer class="footer footer-black  footer-white ">
-        <div class="container-fluid">
-          <div class="row">
-            <nav class="footer-nav">
-            </nav>
-          </div>
-        </div>
-      </footer>
-    </div>
-  </div>
- </body>
+			<footer class="footer footer-black  footer-white ">
+				<div class="container-fluid">
+					<div class="row">
+						<nav class="footer-nav">
+						</nav>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div>
+	
+</body>
 
 </html>

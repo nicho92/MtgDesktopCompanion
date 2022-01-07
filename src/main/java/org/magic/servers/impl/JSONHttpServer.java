@@ -544,6 +544,18 @@ public class JSONHttpServer extends AbstractMTGServer {
 			})
 			, transformer);
 			
+		get("/prices/details/:provider/:idCards", URLTools.HEADER_JSON, (request, response) -> 
+				getCached(request.pathInfo(), new Callable<Object>() {
+					
+					@Override
+					public List<MagicPrice> call() throws Exception {
+						MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(ID_CARDS));
+						return MTG.getPlugin(request.params(":provider").trim(),MTGPricesProvider.class).getPrice(mc);
+					}
+				})
+		, transformer);
+		
+		
 		
 	
 		get("/alerts/list", URLTools.HEADER_JSON,
