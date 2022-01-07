@@ -74,6 +74,9 @@ public class TransactionService
 			try {
 				var js = new JavaScript();
 				js.addVariable("total", t.total());
+				js.addVariable("qty",t.getItems().size());
+				js.addVariable("transaction",t);
+				
 				Object ret = js.runContent(MTGControler.getInstance().getWebConfig().getShippingRules());
 				t.setShippingPrice(Double.parseDouble(ret.toString()));
 			} catch (Exception e1) {
