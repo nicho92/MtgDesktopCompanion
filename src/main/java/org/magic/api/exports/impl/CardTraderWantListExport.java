@@ -88,7 +88,7 @@ public class CardTraderWantListExport extends AbstractCardExport {
 	
 	@Override
 	public Icon getIcon() {
-		return new ImageIcon(MKMFileWantListExport.class.getResource("/icons/plugins/"+CardTraderConstants.CARDTRADER_NAME+".png"));
+		return new ImageIcon(MKMFileWantListExport.class.getResource("/icons/plugins/"+CardTraderConstants.CARDTRADER_NAME.toLowerCase()+".png"));
 	}
 	
 }
