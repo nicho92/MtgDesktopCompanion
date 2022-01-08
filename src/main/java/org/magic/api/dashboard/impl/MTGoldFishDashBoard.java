@@ -213,9 +213,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			
 			var extra="";
 			var extend="";
-			if(mc.isExtraCard() && !mc.isExtendedArt() && !mc.isShowCase() && !mc.isBorderLess() && !mc.isTimeshifted() && !mc.getCurrentSet().getSet().toLowerCase().contains("promo"))
-				extra="+Promos";
-			else if(mc.isExtendedArt())
+			if(mc.isExtendedArt())
 				extend="-extended";
 			else if(mc.isShowCase())
 				extend="-showcase";

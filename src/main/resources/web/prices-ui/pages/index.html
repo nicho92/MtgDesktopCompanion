@@ -86,6 +86,20 @@
 					load(data);
 				});
 			}
+			
+			
+			function getArrowIcon(number)
+			{
+				if(number>0)
+					return "<i class='fa fa-arrow-up text-success' aria-hidden='true'></i>";					
+				if(number<0)
+					return "<i class='fa fa-arrow-down text-danger' aria-hidden='true'></i>";
+					
+					
+				return "<i class='fa fa-equals text-warning' aria-hidden='true'></i>";
+				
+			}
+			
 				
 			function load(card)
 			{
@@ -107,12 +121,14 @@
 						var valueWeekN = mapNormal.slice(-7)[0];
 						var valueWeekF =mapFoil.slice(-7)[0];
 						
-	   			
+						console.log("N="+valueN +" N-7="+valueWeekN);
+						console.log("FN="+valueF +" FN-7="+valueWeekF);
+						
 						var percentWeekNormal = new Number(( ( valueN - valueWeekN ) / valueWeekN ) * 100).toFixed(2);
 						var percentWeekFoil= new Number(( ( valueF - valueWeekF ) / valueWeekF ) * 100).toFixed(2);
 					
-						var iconN = (valueWeekN > valueN)? "<i class='fa fa-arrow-down text-danger' aria-hidden='true'></i>":"<i class='fa fa-arrow-up text-success' aria-hidden='true'></i>";
-						var iconF = (valueWeekF > valueF)? "<i class='fa fa-arrow-down text-danger' aria-hidden='true'></i>":"<i class='fa fa-arrow-up text-success' aria-hidden='true'></i>";
+						var iconN = getArrowIcon(valueN-valueWeekN);
+						var iconF = getArrowIcon(valueF-valueWeekF);
 						
 						try {
 								$("#lastPriceNormal").html(iconN + " " + data.currency + " " + valueN.toFixed(2));
@@ -131,7 +147,7 @@
 								$("#lastPriceNormal").html("");	
 							}
 						
-						try {
+							try {
 								$("#lastPriceFoil").html(iconF + " <i class='ss ss-mythic ss-2x ss-pmei'></i>" + data.currency + " " + valueF.toFixed(2));
 								
 								var symbol ="";
@@ -175,13 +191,16 @@
 				        		 "data" : "value",
 								 "defaultContent": "",
 				        		 "render": function(d, type, row, meta){
-		  			                  return d.toFixed(2);
-		  			                }
+				        			 if(type === 'display'){
+				        			 	return d.toFixed(2) + " " + row.currency;
+				        			 }
+				        			 else
+			        				 {
+			        				  return d;
+			        				 }
+	  			                }
 				        	},
-				            { "data": "currency",
-				            	"defaultContent": ""
-				           	},
-				          	{ "data": "quality",
+				            { "data": "quality",
 				           	  "defaultContent": ""
 				           	},
 				           	{ 
@@ -403,7 +422,6 @@
 									<tr>
 										<th>website</th>
 										<th>prices</th>
-										<th>currency</th>
 										<th>quality</th>
 										<th>foil</th>
 										<th>link</th>
