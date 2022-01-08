@@ -41,7 +41,7 @@
 			
 		  $(document).ajaxStart(function () 
 			{
-			    $('.loading').html("<div class='spinner-border text-primary'></div>"); 
+			    $('.loading').html("<img src='../dist/img/loading.gif' width='25' height='25'>"); 
 			});
 	
 			$(document).ajaxStop(function() 
@@ -309,6 +309,7 @@
 						<div class="card card-stats">
 							<div class="card-body ">
 								<div class="row">
+								
 									<div class="col-5 col-md-2">
 										<div class="icon-big text-center icon-warning">
 											<i class="fa fa-money text-warning"></i>
@@ -316,7 +317,8 @@
 									</div>
 									<div class="col-7 col-md-10">
 										<div class="numbers">
-											<p class="card-category">Market Price</p>
+										
+											<p class="card-category">Market Price<span class="loading"></span></p>
 											<p class="card-title" id="lastPriceNormal">
 											<p>
 											<p class="card-title" id="lastPriceFoil">
@@ -344,7 +346,7 @@
 									
 									<div class="col-7 col-md-10">
 										<div class="numbers" >
-											<p class="card-category">Variations</p>
+											<p class="card-category">Variations<span class="loading"></span></p>
 										</div>
 										<div class="numbers-small">
 											<span id="normalPriceChange"></span><br /> 
@@ -368,7 +370,7 @@
 					<div class="col-lg-9  col-md-9">
 						<div class="card card-chart">
 							<div class="card-header">
-								<h5 class="card-title">Prices Variations</h5>
+								<h5 class="card-title">Prices Variations</h5><span class="loading"></span>
 								<p class="card-category">History prices</p>
 							</div>
 							<div class="card-body">
