@@ -17,6 +17,7 @@ import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
 import org.api.mkm.services.ArticleService;
 import org.api.mkm.services.CartServices;
+import org.api.mkm.services.InsightService;
 import org.api.mkm.services.ProductServices;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.api.mkm.tools.MkmConstants;
@@ -172,7 +173,7 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 					logger.info(getName() + " found no product for " + card);
 					return lists;
 				}
-
+			
 				var aServ = new ArticleService();
 				EnumMap<ARTICLES_ATT, String> aatts = new EnumMap<>(ARTICLES_ATT.class);
 				aatts.put(ARTICLES_ATT.start, "0");

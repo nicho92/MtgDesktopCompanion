@@ -97,8 +97,10 @@
 					
 					
 				return "<i class='fa fa-equals text-warning' aria-hidden='true'></i>";
-				
 			}
+			
+			
+			
 			
 				
 			function load(card)
@@ -121,15 +123,16 @@
 						var valueWeekN = mapNormal.slice(-7)[0];
 						var valueWeekF =mapFoil.slice(-7)[0];
 						
-						console.log("N="+valueN +" N-7="+valueWeekN);
-						console.log("FN="+valueF +" FN-7="+valueWeekF);
-						
 						var percentWeekNormal = new Number(( ( valueN - valueWeekN ) / valueWeekN ) * 100).toFixed(2);
 						var percentWeekFoil= new Number(( ( valueF - valueWeekF ) / valueWeekF ) * 100).toFixed(2);
 					
 						var iconN = getArrowIcon(valueN-valueWeekN);
 						var iconF = getArrowIcon(valueF-valueWeekF);
 						
+						
+						var minN = data.normal.reduce(function(res, obj) {return (obj.value < res.value) ? obj : res;});
+						var maxN = data.normal.reduce(function(res, obj) {return (obj.value > res.value) ? obj : res;});
+											
 						try {
 								$("#lastPriceNormal").html(iconN + " " + data.currency + " " + valueN.toFixed(2));
 								
@@ -141,6 +144,9 @@
 								
 								$("#normalPriceChange").html(data.currency + " " +symbol+ (valueN-valueWeekN).toFixed(2));
         	              		$("#normalPercentChange").html(percentWeekNormal+"%");
+        	              		
+        	              		$("#minmaxNormal").html("<i class='fa fa-arrow-down text-danger' aria-hidden='true'></i>"+moment(minN.date).format("MMM-YYYY") + " " + minN.value.toFixed(2)+ data.currency + " , <i class='fa fa-arrow-up text-success' aria-hidden='true'></i>"+moment(maxN.date).format("MMM-YYYY")+ " "+maxN.value.toFixed(2)+ data.currency);
+        	              		
 							}
 							catch(error)
 							{
@@ -155,10 +161,14 @@
 								if((valueF-valueWeekF)>0)
 									symbol = "+";
 								
-								
-								
+								var minF = data.foil.reduce(function(res, obj) {return (obj.value < res.value) ? obj : res;});
+								var maxF = data.foil.reduce(function(res, obj) {return (obj.value > res.value) ? obj : res;});
+							
 								$("#foilPriceChange").html(data.currency + " " +symbol+ (valueF-valueWeekF).toFixed(2));
 								$("#foilPercentChange").html(percentWeekFoil+"%");
+					      		$("#minmaxFoil").html("<i class='fa fa-arrow-down text-danger' aria-hidden='true'></i>"+moment(minF.date).format("MMM-YYYY") + " " + minF.value.toFixed(2)+ data.currency + " , <i class='fa fa-arrow-up text-success' aria-hidden='true'></i>"+moment(maxF.date).format("MMM-YYYY")+ " "+maxF.value.toFixed(2)+ data.currency);
+				        	       
+								
 							}
 							catch(error)
 							{
@@ -288,8 +298,7 @@
 					</div>
 					<div class="collapse navbar-collapse justify-content-center" id="navigation">
 						<div id="autocomplete" class="autocomplete input-group no-border ">
-							<input type="text" value="" class=" autocomplete-input" placeholder="Search..."
-								style="width:350px">
+							<input type="text" value="" class=" autocomplete-input" placeholder="Search with card name..." style="width:350px">
 							<ul class="autocomplete-result-list"></ul>
 						</div>
 					</div>
@@ -321,7 +330,7 @@
 							</div>
 							<div class="card-footer ">
 								<hr>
-								<div class="stats"><a href="" id="linkshare" target="_blank"><i class="fa fa-share-alt" aria-hidden="true"></i></a><span id="confirmMessage" style=" display: none; ">Copied !</span></div>
+								<div class="stats"><a href="" id="linkshare" target="_blank"><i class="fa fa-share-alt" aria-hidden="true"></i>Share </a><span id="confirmMessage" style=" display: none; ">Copied !</span></div>
 							</div>
 						</div>
 						
@@ -368,9 +377,11 @@
 											<p class="card-category">Variations<span class="loading"></span></p>
 										</div>
 										<div class="numbers-small">
-											<span id="normalPriceChange"></span> (<span id="normalPercentChange"></span>) 
+											<span id="normalPriceChange"></span> (<span id="normalPercentChange"></span>)<br/>
+											<span id="minmaxNormal"></span>
 											<hr>
-											<i class='ss ss-mythic ss-2x ss-pmei'></i><span	id="foilPriceChange"></span> ( <span id="foilPercentChange"></span>)
+											<i class='ss ss-mythic ss-2x ss-pmei'></i><span	id="foilPriceChange"></span> ( <span id="foilPercentChange"></span>)<br/>
+											<span id="minmaxFoil"></span>
 										</div>
 									</div>
 								</div>

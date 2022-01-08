@@ -41,18 +41,19 @@ charts = {
       labels: Object.values(datas.normal).map(e=>moment(e.date)),
       datasets: [dataNormal, dataFoil]
     };
-const zoomOptions = {
-  pan: {
-    enabled: true,
-    modifierKey: 'ctrl',
-  },
-  zoom: {
-    drag: {
-      enabled: true,
-    },
-    mode: 'xy',
-  },
-};
+    
+	const zoomOptions = {
+	  pan: {
+	    enabled: true,
+	    modifierKey: 'ctrl',
+	  },
+	  zoom: {
+	    drag: {
+	      enabled: true,
+	    },
+	    mode: 'xy',
+	  },
+	};
 
 
     var chartOptions = {
