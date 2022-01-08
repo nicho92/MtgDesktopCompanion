@@ -32,13 +32,13 @@
 			  minLength: 3,
  		      source: function( request, response ) { 
  		        $.ajax({
- 		          url: restserver+"/cards/suggest/" + request.term,
+ 		          url: restserver+"/cards/suggestcard/" + request.term,
  		          dataType: "json",
  		          data: {
  		            term: request.term
  		          },
  		          success: function( data ) {
- 		            response( data );
+ 		        	response( data.map(d=>d.name) );
  		          }
  		        });
  		      }

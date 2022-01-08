@@ -70,8 +70,8 @@
 						        ${result.name}
 						      </div>
 						      <div class="result-set">
-										<i class="ss ss-2x ss-${result.editions[0].keyRuneCode.toLowerCase()}"></i>
-										 ${result.editions[0].set} 
+										<i class="ss ss-2x ss-${result.keyrune.toLowerCase()}"></i>
+										 ${result.set}
 						      </div>
 						    </li>
 						  `,
@@ -91,7 +91,7 @@
 			{
 				$("#cardpic").attr("src","https://api.scryfall.com/cards/"+card.scryfallId+"?format=image");
 				$("#cardTitle").html(card.name);
-				$("#cardSet").html(card.editions[0].set);
+				$("#cardSet").html(card.set);
 				$("#linkshare").attr("href", window.location.origin + window.location.pathname+"?id="+card.id);
 				
 				
@@ -335,9 +335,8 @@
 					
 						<div class="card card-stats">
 							<div class="card-body ">
-								
 								<div class="row">
-									<div class="col-5 col-md-2">
+									<div class="col-5 col-md-2 col-sm-1">
 										<div class="icon-big text-center icon-warning">
 											<i class="fa fa-exchange text-success"></i>
 										</div>

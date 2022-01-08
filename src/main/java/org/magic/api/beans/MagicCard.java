@@ -17,6 +17,8 @@ import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.interfaces.abstracts.AbstractProduct;
 import org.magic.tools.IDGenerator;
 
+import com.google.gson.JsonObject;
+
 public class MagicCard extends AbstractProduct {
 	private static final long serialVersionUID = 1L;
 
@@ -837,6 +839,30 @@ public class MagicCard extends AbstractProduct {
 
 	public void setDateUpdated(Date dateUpdated) {
 		this.dateUpdated = dateUpdated;
+	}
+
+	public JsonObject toLightJson() {
+		var obj = new JsonObject();
+				obj.addProperty("id", getId());
+				obj.addProperty("name", getName());
+				obj.addProperty("cost", getCost());
+				obj.addProperty("type", getFullType());
+				obj.addProperty("text", getText());
+				obj.addProperty("set", getCurrentSet().getSet());
+				obj.addProperty("setId", getCurrentSet().getId());
+				obj.addProperty("setSize", getCurrentSet().getCardCountOfficial());
+				obj.addProperty("number", getCurrentSet().getNumber());
+				obj.addProperty("keyrune", getCurrentSet().getKeyRuneCode());
+				obj.addProperty("multiverse", getCurrentSet().getMultiverseid());
+				obj.addProperty("scryfallId", getScryfallId());
+				obj.addProperty("showcase", isShowCase());
+				obj.addProperty("extendedArt", isExtendedArt());
+				obj.addProperty("borderless", isBorderLess());
+		
+		
+		return obj;
+		
+		
 	}
 
 

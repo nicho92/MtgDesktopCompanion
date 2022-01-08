@@ -298,14 +298,12 @@ public class JSONHttpServer extends AbstractMTGServer {
 				(request, response) -> getEnabledPlugin(MTGCardsProvider.class).searchCardByCriteria(request.params(":att"), request.params(":val"), null, Boolean.parseBoolean(request.params(":exact"))),
 				transformer);
 		
-		get("/cards/suggest/:val", URLTools.HEADER_JSON,
-				(request, response) -> getEnabledPlugin(MTGCardsIndexer.class).suggestCardName(request.params(":val")),
-				transformer);
-		
 		get("/cards/suggestcard/:val", URLTools.HEADER_JSON,
-				(request, response) -> getEnabledPlugin(MTGCardsIndexer.class).search("name:"+request.params(":val")),
+				(request, response) -> getEnabledPlugin(MTGCardsIndexer.class).search("name:\""+request.params(":val")+"\"").stream().map(MagicCard::toLightJson).toList(),
 				transformer);
 		
+		
+		//used only in chromeplugin
 		get("/cards/light/:name", URLTools.HEADER_JSON,(request, response) -> {
 			List<MagicCard> list= getEnabledPlugin(MTGCardsProvider.class).searchCardByName(request.params(NAME), null, true);
 			var arr = new JsonArray();
@@ -313,14 +311,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 			for(MagicCard mc : list)
 			{
 				List<MagicCollection> cols = getEnabledPlugin(MTGDao.class).listCollectionFromCards(mc);
-				
-				var obj = new JsonObject();
-							obj.addProperty("name", mc.getName());
-							obj.addProperty("cost", mc.getCost());
-							obj.addProperty("type", mc.getFullType());
-							obj.addProperty("set", mc.getCurrentSet().getSet());
-							obj.addProperty("multiverse", mc.getCurrentSet().getMultiverseid());
-							obj.add("collections", converter.toJsonElement(cols));
+				var obj = mc.toLightJson();
+				obj.add("collections", converter.toJsonElement(cols));
 				arr.add(obj);			
 			}
 			return arr;

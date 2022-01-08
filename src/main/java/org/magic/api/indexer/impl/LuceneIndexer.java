@@ -56,10 +56,10 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 	private Directory dir;
 	private Analyzer analyzer ;
 	private JsonExport serializer;
-
-@Override
-public Map<String, String> getDefaultAttributes() {
-	return Map.of(BOOST, "false",
+	
+	@Override
+	public Map<String, String> getDefaultAttributes() {
+			return Map.of(BOOST, "false",
 							MIN_TERM_FREQ, "1",
 							FIELDS,"cost,text,color,type,cmc,rarity,extraLayout,rotatedCardName,borderless,showcase,extend,timeshifted",
 							MAX_RESULTS,"20",
@@ -70,7 +70,7 @@ public Map<String, String> getDefaultAttributes() {
 		super();
 		serializer=new JsonExport();
 		analyzer = new StandardAnalyzer();
-		
+			
 		if(!getFile(DIRECTORY).exists())
 			logger.warn("Index is not initiated at "+getFile(DIRECTORY)+", please launch it from config panel");
 	}
@@ -123,6 +123,9 @@ public Map<String, String> getDefaultAttributes() {
 		
 		List<MagicCard> ret = new ArrayList<>();
 		
+		
+		
+		
 		try (IndexReader indexReader = DirectoryReader.open(dir))
 		{
 			var searcher = new IndexSearcher(indexReader);
@@ -133,6 +136,8 @@ public Map<String, String> getDefaultAttributes() {
 			 searcher.search(query,collector);
 			 
 			 var top= searcher.search(query, Math.max(1, collector.getTotalHits()));
+
+			 logger.debug("found " + top.totalHits +" items for " + q);
 			 
 			 for(var i =0;i<top.totalHits.value;i++)
 				 ret.add(serializer.fromJson(searcher.doc(top.scoreDocs[i].doc).get("data"),MagicCard.class));
