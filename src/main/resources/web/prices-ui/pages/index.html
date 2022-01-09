@@ -97,10 +97,6 @@
 					
 				return "<i class='fa fa-equals text-warning' aria-hidden='true'></i>";
 			}
-			
-			
-			
-			
 				
 			function load(card)
 			{
@@ -109,6 +105,7 @@
 				$("#cardSet").html(card.set);
 				$("#linkshare").attr("href", window.location.origin + window.location.pathname+"?id="+card.id);
 				
+				window.title="MTGCompanion - " + card.name; 
 				
 				$.get(restserver+"/dash/variations/card/"+card.id,function(data){
 					   	
@@ -247,7 +244,7 @@
 				
 					$.get(restserver+"/admin/plugins/list",function(data){
 							data.PRICER.filter(function (entry) {return entry.enabled === true;}).forEach( function(item,index){
-									$("#tabPrices").append("<li class='nav-item' ><a name='btnLoadPrice' class='nav-link '' aria-current='page'  ><i class='fa fa-3 fa-shopping-cart' aria-hidden='true'></i>"+item.name+"</a></li>");
+									$("#tabPrices").append("<li class='nav-item' style='style='cursor: pointer;'><a name='btnLoadPrice' class='nav-link' aria-current='page'  ><i class='fa fa-3 fa-shopping-cart' aria-hidden='true'></i>"+item.name+"</a></li>");
 							});
 					});
 					}

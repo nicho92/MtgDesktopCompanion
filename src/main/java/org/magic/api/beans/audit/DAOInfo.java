@@ -1,4 +1,4 @@
-package org.magic.api.beans;
+package org.magic.api.beans.audit;
 
 import java.io.Serializable;
 import java.time.Instant;

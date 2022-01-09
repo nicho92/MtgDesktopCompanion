@@ -2,8 +2,8 @@ package org.magic.gui.models.conf;
 
 import java.time.Instant;
 
+import org.magic.api.beans.audit.ThreadInfo;
 import org.magic.gui.abstracts.GenericTableModel;
-import org.magic.services.threads.ThreadInfo;
 
 public class TaskTableModel extends GenericTableModel<ThreadInfo> {
 

@@ -39,7 +39,6 @@ public class MTGConstants {
 	public static final String CONF_FILENAME = "mtgcompanion-conf.xml";
 	public static final File CONF_DIR = new File(SystemUtils.getUserHome() + "/.magicDeskCompanion/");
 	public static final File DATA_DIR = new File(CONF_DIR,"data");
-	public static final File MTG_EVENTS_FILE= new File(MTGConstants.DATA_DIR,"events.json");
 	public static final File MTG_WALLPAPER_DIRECTORY = new File(MTGConstants.DATA_DIR, "downloadWallpaper");
 	public static final File NATIVE_DIR = new File("./natives");
 	public static final URL TOOLTIPS_FILE = MTGConstants.class.getResource("/data/tips.properties");
@@ -121,7 +120,6 @@ public class MTGConstants {
 	public static final String KEYSTORE_PASS = "changeit";
 
 	public static final String WEBUI_LOCATION = "web/web-ui";
-	public static final String EVENTUI_LOCATION = "web/event-ui";
 	public static final String WEBSHOP_LOCATION = "web/shop-ui";
 	public static final String WEBCOLLECTION_LOCATION = "web/collection-ui";
 	public static final String WEBTRADES_LOCATION = "web/trades-ui";

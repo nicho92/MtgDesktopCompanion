@@ -2,7 +2,8 @@ package org.magic.services.threads;
 
 import java.time.Instant;
 
-import org.magic.services.threads.ThreadInfo.STATE;
+import org.magic.api.beans.audit.ThreadInfo;
+import org.magic.api.beans.audit.ThreadInfo.STATE;
 import org.magic.tools.Chrono;
 
 public abstract class MTGRunnable implements Runnable{

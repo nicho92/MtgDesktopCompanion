@@ -14,10 +14,10 @@ import org.api.cardtrader.tools.URLCallInfo;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.audit.NetworkInfo;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
-import org.magic.services.network.NetworkInfo;
-import org.magic.services.network.URLTools;
+import org.magic.services.providers.TechnicalServiceAuditor;
 import org.magic.tools.MTG;
 
 public class CardTraderStockExport extends AbstractCardExport {
@@ -44,7 +44,7 @@ public class CardTraderStockExport extends AbstractCardExport {
 				netinfo.setRequest(callInfo.getRequest());
 				netinfo.setReponse(callInfo.getResponse());
 
-				URLTools.getNetworksInfos().add(netinfo);
+				TechnicalServiceAuditor.inst().store(netinfo);
 				
 		});
 		

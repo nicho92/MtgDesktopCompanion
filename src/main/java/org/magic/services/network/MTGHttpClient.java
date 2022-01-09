@@ -30,9 +30,11 @@ import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
+import org.magic.api.beans.audit.NetworkInfo;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.services.network.RequestBuilder.METHOD;
+import org.magic.services.providers.TechnicalServiceAuditor;
 import org.magic.tools.Chrono;
 
 import com.google.common.collect.ImmutableMap;
@@ -113,7 +115,7 @@ public class MTGHttpClient {
 		info.setEnd(Instant.now());
 		info.setDuration(c.stopInMillisecond());
 		logger.trace(req + " " + c.stopInMillisecond() +"ms");
-		URLTools.getNetworksInfos().add(info);
+		TechnicalServiceAuditor.inst().store(info);
 		
 		return response;
 	}

@@ -9,7 +9,6 @@ import java.util.Map;
 
 import org.magic.api.beans.Announce;
 import org.magic.api.beans.ConverterItem;
-import org.magic.api.beans.DAOInfo;
 import org.magic.api.beans.GedEntry;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
@@ -30,8 +29,6 @@ public interface MTGDao extends MTGPlugin{
 	public void removeCard(MagicCard mc, MagicCollection collection) throws SQLException;
 	public void moveCard(MagicCard mc, MagicCollection from, MagicCollection to) throws SQLException;
 	public List<MagicCard> listCards() throws SQLException;
-	public List<DAOInfo> listInfoDaos();
-
 	
 	public int getCardsCount(MagicCollection list, MagicEdition me) throws SQLException;
 	public Map<String, Integer> getCardsCountGlobal(MagicCollection c) throws SQLException;

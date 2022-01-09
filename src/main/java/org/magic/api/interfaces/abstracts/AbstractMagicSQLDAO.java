@@ -23,8 +23,8 @@ import java.util.stream.Collectors;
 
 import org.magic.api.beans.Announce;
 import org.magic.api.beans.Announce.STATUS;
+import org.magic.api.beans.audit.DAOInfo;
 import org.magic.api.beans.ConverterItem;
-import org.magic.api.beans.DAOInfo;
 import org.magic.api.beans.GedEntry;
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MTGSealedProduct;
@@ -55,6 +55,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
 import org.magic.services.TransactionService;
 import org.magic.services.providers.SealedProductProvider;
+import org.magic.services.providers.TechnicalServiceAuditor;
 import org.magic.tools.CryptoUtils;
 import org.magic.tools.IDGenerator;
 import org.magic.tools.ImageTools;
@@ -2069,7 +2070,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		var start=Instant.now();
 		var daoInfo = new DAOInfo();
 		
-		listdao.add(daoInfo);
+		TechnicalServiceAuditor.inst().store(daoInfo);
 		
 		daoInfo.setCreationDate(start);
 		try {

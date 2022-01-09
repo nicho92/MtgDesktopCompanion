@@ -17,6 +17,7 @@ import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.magic.api.beans.audit.NetworkInfo;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.services.network.RequestBuilder.METHOD;
@@ -48,23 +49,9 @@ public class URLTools {
 	public static final String USER_AGENT = "User-Agent";
 	public static final String CONTENT_TYPE="Content-Type";
 	public static final String REFERER_POLICY = "Referrer Policy";
-	private static List<NetworkInfo> listNetworks;
 	
 	private URLTools()	{
 	}
-	
-	
-	
-	public static List<NetworkInfo> getNetworksInfos()
-	{
-		if(listNetworks==null)
-			listNetworks=new ArrayList<>();
-		
-		return listNetworks;
-	}
-	
-	
-	
 	
 	public static String getExternalIp()
 	{

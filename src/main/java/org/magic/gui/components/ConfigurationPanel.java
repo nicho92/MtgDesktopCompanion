@@ -116,7 +116,6 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 	private JCheckBox chckbxHistory;
 	private JCheckBox chckbxPackages;
 	private JCheckBox chckbxSealed;
-	private JCheckBox chckbxEvents;
 	private JComboBox<MTGServer> cboServers;
 	private JCheckBox chckbxShopping;
 	private JCheckBox chckbxAnnounce;
@@ -452,7 +451,6 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		chckbxRss = new JCheckBox(capitalize("RSS_MODULE"));
 		chckbxWallpaper = new JCheckBox(capitalize("WALLPAPER"));
 		chckbxSealed = new JCheckBox(capitalize("PACKAGES"));
-		chckbxEvents = new JCheckBox(capitalize("EVENTS"));
 		chckbxShopping = new JCheckBox(capitalize("SHOP"));
 		chckbxAnnounce=  new JCheckBox(capitalize("ANNOUNCE"));
 		
@@ -466,7 +464,6 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		chckbxHistory.setSelected(MTGControler.getInstance().get("modules/history").equals("true"));
 		chckbxCardBuilder.setSelected(MTGControler.getInstance().get("modules/cardbuilder").equals("true"));
 		chckbxSealed.setSelected(MTGControler.getInstance().get("modules/sealed").equals("true"));
-		chckbxEvents.setSelected(MTGControler.getInstance().get("modules/event").equals("true"));
 		chckbxShopping.setSelected(MTGControler.getInstance().get("modules/webshop").equals("true"));
 		chckbxAnnounce.setSelected(MTGControler.getInstance().get("modules/announce").equals("true"));
 		
@@ -484,7 +481,6 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		chckbxCollection.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/collection", chckbxCollection.isSelected()));
 		chckbxSearch.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/search", chckbxSearch.isSelected()));
 		chckbxSealed.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/sealed",chckbxSealed.isSelected()));
-		chckbxEvents.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/event",chckbxEvents.isSelected()));
 		chckbxShopping.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/webshop",chckbxShopping.isSelected()));
 		chckbxAnnounce.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/announce",chckbxAnnounce.isSelected()));
 		
@@ -502,9 +498,8 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		panelModule.add(chckbxHistory, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  5, 2));
 		panelModule.add(chckbxCardBuilder, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  6, 2));
 		panelModule.add(chckbxSealed, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  1, 3));
-		panelModule.add(chckbxEvents, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  3, 3));
-		panelModule.add(chckbxShopping, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  5, 3));
-		panelModule.add(chckbxAnnounce, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  6, 3));
+		panelModule.add(chckbxShopping, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  3, 3));
+		panelModule.add(chckbxAnnounce, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  5, 3));
 		
 
 	

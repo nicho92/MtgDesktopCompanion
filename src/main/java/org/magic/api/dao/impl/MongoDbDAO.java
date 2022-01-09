@@ -28,7 +28,6 @@ import org.bson.json.JsonMode;
 import org.bson.json.JsonWriterSettings;
 import org.magic.api.beans.Announce;
 import org.magic.api.beans.ConverterItem;
-import org.magic.api.beans.DAOInfo;
 import org.magic.api.beans.GedEntry;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
@@ -39,6 +38,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.SealedStock;
+import org.magic.api.beans.audit.DAOInfo;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.MTGNewsProvider;
@@ -46,6 +46,7 @@ import org.magic.api.interfaces.MTGStorable;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGConstants;
 import org.magic.services.PluginRegistry;
+import org.magic.services.providers.TechnicalServiceAuditor;
 import org.magic.tools.Chrono;
 import org.magic.tools.CryptoUtils;
 import org.magic.tools.IDGenerator;
@@ -186,7 +187,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 										e.setDuration(event.getElapsedTime(TimeUnit.MILLISECONDS));
 										e.setEndDate(Instant.now());
 										e.setClasseName(event.getClass().getCanonicalName());
-									listdao.add(e);
+									TechnicalServiceAuditor.inst().store(e);
 								}
 								
 								@Override
@@ -201,7 +202,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 									e.setMessage(event.getThrowable().getMessage());
 									e.setDuration(event.getElapsedTime(TimeUnit.MILLISECONDS));
 									e.setEndDate(Instant.now());
-									listdao.add(e);
+									TechnicalServiceAuditor.inst().store(e);
 								}
 							})
 			                .build();

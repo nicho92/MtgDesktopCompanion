@@ -49,7 +49,6 @@ public class MTGControler {
 	private XMLConfiguration config;
 	private FileBasedConfigurationBuilder<XMLConfiguration> builder;
 	private LanguageService langService;
-	private EventsManager eventsManager;
 	private ApilayerCurrencyConverter currencyService;
 	private LookAndFeelProvider lafService;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
@@ -334,14 +333,6 @@ public class MTGControler {
 			lafService = new LookAndFeelProvider();
 			return lafService;
 		}
-	}
-
-	
-	public EventsManager getEventsManager() {
-		if (eventsManager == null) 
-			eventsManager = new EventsManager();
-		
-		return eventsManager;
 	}
 	
 	public LanguageService getLangService() {

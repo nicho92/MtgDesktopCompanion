@@ -2,30 +2,32 @@ package org.magic.gui.models.conf;
 
 import java.time.Instant;
 
-import org.magic.api.beans.audit.DAOInfo;
+import org.magic.api.beans.audit.JsonQueryInfo;
 import org.magic.gui.abstracts.GenericTableModel;
 
-public class QueriesTableModel extends GenericTableModel<DAOInfo> {
+public class JsonInfoTableModel extends GenericTableModel<JsonQueryInfo> {
 
 	private static final long serialVersionUID = 1L;
 
-	public QueriesTableModel() {
-		setColumns("query","creationDate","endDate","duration","message");
+	
+	public JsonInfoTableModel() {
+		setColumns("method","url","start","end","duration","status","contentType","ip");
 		setWritable(false);
 	}
 	
 	
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
-		if(columnIndex==1 || columnIndex==2)
+		if(columnIndex==2 || columnIndex==3)
 			return Instant.class;
 		
-		if(columnIndex==3)
+		if(columnIndex==4)
 			return Long.class;
 		
 		
 		return super.getColumnClass(columnIndex);
 	}
+	
 	
 	
 }

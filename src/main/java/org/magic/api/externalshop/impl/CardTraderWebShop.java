@@ -10,6 +10,7 @@ import org.api.cardtrader.services.CardTraderConstants;
 import org.api.cardtrader.services.CardTraderService;
 import org.api.cardtrader.tools.URLCallInfo;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.audit.NetworkInfo;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionStatus;
@@ -22,8 +23,7 @@ import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.api.interfaces.abstracts.AbstractProduct;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
-import org.magic.services.network.NetworkInfo;
-import org.magic.services.network.URLTools;
+import org.magic.services.providers.TechnicalServiceAuditor;
 import org.magic.tools.MTG;
 
 public class CardTraderWebShop extends AbstractExternalShop {
@@ -54,7 +54,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 			ni.setReponse(callInfo.getResponse());
 			ni.setRequest(callInfo.getRequest());
 			
-			URLTools.getNetworksInfos().add(ni);
+			TechnicalServiceAuditor.inst().store(ni);
 				
 			
 		});

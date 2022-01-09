@@ -20,6 +20,7 @@ import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.MapTableModel;
+import org.magic.gui.models.conf.JsonInfoTableModel;
 import org.magic.gui.models.conf.NetworkTableModel;
 import org.magic.gui.models.conf.QueriesTableModel;
 import org.magic.gui.models.conf.TaskTableModel;
@@ -27,8 +28,7 @@ import org.magic.gui.models.conf.ThreadsTableModel;
 import org.magic.servers.impl.JSONHttpServer;
 import org.magic.servers.impl.QwartzServer;
 import org.magic.services.MTGConstants;
-import org.magic.services.network.URLTools;
-import org.magic.services.threads.ThreadManager;
+import org.magic.services.providers.TechnicalServiceAuditor;
 import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 
@@ -40,7 +40,7 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private ThreadsTableModel modelT;
+	private ThreadsTableModel modelThreads;
 	private Timer t;
 	private JVMemoryPanel memoryPanel;
 	private TaskTableModel modelTasks;
@@ -50,17 +50,19 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 	private GenericTableModel<JsonObject> modelScript;
 	private MapTableModel<String, Long> modelDao;
 	private MapTableModel<String,Object> modelCacheJson;
+	private JsonInfoTableModel modelJsonServerInfo;
 	
 	
 	public TechnicalMonitorPanel() {
 		setLayout(new BorderLayout(0, 0));
-		modelT = new ThreadsTableModel();
+		modelThreads = new ThreadsTableModel();
 		modelTasks = new TaskTableModel();
 		modelNetwork = new NetworkTableModel();
 		queryModel = new QueriesTableModel();
 		modelConfig = new MapTableModel<>();
 		modelDao = new MapTableModel<>();
 		modelCacheJson = new MapTableModel<>();
+		modelJsonServerInfo = new JsonInfoTableModel();
 		
 		modelScript = new GenericTableModel<JsonObject>()
 				{
@@ -81,11 +83,15 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 		add(tabs, BorderLayout.CENTER);
 		
 		
-		modelTasks.bind(ThreadManager.getInstance().listTasks());	
-		modelNetwork.bind(URLTools.getNetworksInfos());
-		modelConfig.init(System.getProperties().entrySet());
-		queryModel.bind(MTG.getEnabledPlugin(MTGDao.class).listInfoDaos());
+		modelTasks.bind(TechnicalServiceAuditor.inst().getTasksInfos());	
+		modelNetwork.bind(TechnicalServiceAuditor.inst().getNetworkInfos());
+		queryModel.bind(TechnicalServiceAuditor.inst().getDaoInfos());
+		modelJsonServerInfo.bind(TechnicalServiceAuditor.inst().getJsonInfo());
+
+		modelConfig.init(TechnicalServiceAuditor.inst().systemInfos());
+	
 		modelDao.init(MTG.getEnabledPlugin(MTGDao.class).getDBSize());
+		
 		
 		var tableTasks = UITools.createNewTable(modelTasks);
 		UITools.initTableFilter(tableTasks);
@@ -105,6 +111,8 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 		var tableCacheJson = UITools.createNewTable(modelCacheJson);
 		UITools.initTableFilter(tableCacheJson);
 		
+		var tableJsonInfo= UITools.createNewTable(modelJsonServerInfo);
+		UITools.initTableFilter(tableJsonInfo);
 		
 		TableCellRenderer durationRenderer = (JTable table, Object value, boolean isSelected,boolean hasFocus, int row, int column)->{
 						var lab= new JLabel(DurationFormatUtils.formatDurationHMS((Long)value));
@@ -123,25 +131,28 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 		tableNetwork.setDefaultRenderer(Long.class, durationRenderer);
 		tableQueries.setDefaultRenderer(Long.class, durationRenderer);
 		tableDaos.setDefaultRenderer(Long.class, sizeRenderer);
+		tableJsonInfo.setDefaultRenderer(Long.class, durationRenderer);
+		
 		
 		tabs.addTab("Config",MTGConstants.ICON_SMALL_HELP,new JScrollPane(UITools.createNewTable(modelConfig)));
-		tabs.addTab("Threads",MTGConstants.ICON_TAB_ADMIN,new JScrollPane(UITools.createNewTable(modelT)));
+		tabs.addTab("Threads",MTGConstants.ICON_TAB_ADMIN,new JScrollPane(UITools.createNewTable(modelThreads)));
 		tabs.addTab("Tasks",MTGConstants.ICON_TAB_ADMIN,new JScrollPane(tableTasks));
 		tabs.addTab("Network",MTGConstants.ICON_TAB_NETWORK,new JScrollPane(tableNetwork));
 		tabs.addTab("Qwartz Script",MTGConstants.ICON_SMALL_SCRIPT,new JScrollPane(tableScripts));
 		tabs.addTab("Queries",MTGConstants.ICON_TAB_DAO,new JScrollPane(tableQueries));
 		tabs.addTab("DB Size",MTGConstants.ICON_TAB_DAO,new JScrollPane(tableDaos));
 		tabs.addTab("JsonServer Cache",MTGConstants.ICON_TAB_CACHE,new JScrollPane(tableCacheJson));
-		
-		
-		
+		tabs.addTab("JsonServer Queries",MTGConstants.ICON_TAB_SERVER,new JScrollPane(tableJsonInfo));
 		UITools.addTab(tabs, new LoggerViewPanel());
+		
+		
+		
 		
 		var panel = new JPanel();
 		add(panel, BorderLayout.NORTH);
 		
 	
-		btnClean.addActionListener(ae -> ThreadManager.getInstance().clean());
+		btnClean.addActionListener(ae -> TechnicalServiceAuditor.inst().cleanAll());
 		
 		panel.add(btnClean);
 		
@@ -151,14 +162,15 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 		panel.add(memoryPanel);
 		
 		t = new Timer(5000, e ->{ 
-			modelT.init(ManagementFactory.getThreadMXBean().dumpAllThreads(true, true));
+			modelThreads.init(ManagementFactory.getThreadMXBean().dumpAllThreads(true, true));
 			memoryPanel.refresh();
 			modelTasks.fireTableDataChanged();
 			modelNetwork.fireTableDataChanged();
 			modelConfig.fireTableDataChanged();
 			queryModel.fireTableDataChanged();
 			modelDao.fireTableDataChanged();
-			
+			modelJsonServerInfo.fireTableDataChanged();
+
 			
 			if(MTG.getPlugin("Qwartz", MTGServer.class).isAlive()) {
 				try {
@@ -178,7 +190,8 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 				try {
 					modelCacheJson.init( ((JSONHttpServer)MTG.getPlugin("Json Http Server", MTGServer.class)).getCache().entries() );
 					modelCacheJson.fireTableDataChanged();
-				
+					
+					
 				}
 				catch(Exception ex)
 				{

@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -53,6 +54,7 @@ import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.WebShopConfig;
+import org.magic.api.beans.audit.JsonQueryInfo;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.beans.shop.Category;
@@ -86,6 +88,7 @@ import org.magic.services.VersionChecker;
 import org.magic.services.keywords.AbstractKeyWordsManager;
 import org.magic.services.network.URLTools;
 import org.magic.services.providers.SealedProductProvider;
+import org.magic.services.providers.TechnicalServiceAuditor;
 import org.magic.services.recognition.area.ManualAreaStrat;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.Chrono;
@@ -133,7 +136,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 	private static final String RETURN_OK = "{\"result\":\"OK\"}";
 	private static final String CACHE_TIMEOUT = "CACHE_TIMEOUT";
 	private JsonExport converter;
-
+	
+	private Instant start;
 	private AbstractEmbeddedCacheProvider<String, Object> cache;
 	
 	private String error(String msg) {
@@ -146,8 +150,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 		return cache;
 	}
 	
+	
 	public JSONHttpServer() {
-		
 		manager = new MTGDeckManager();
 		converter = new JsonExport();
 		transformer = new ResponseTransformer() {
@@ -235,7 +239,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			running = false;
 			logger.error(e);
 		});
-
+		
 		exception(Exception.class, (Exception exception, Request req, Response res) -> {
 			logger.error("Error :" + req.headers(URLTools.REFERER) + ":" + exception.getMessage(), exception);
 			res.status(500);
@@ -246,11 +250,35 @@ public class JSONHttpServer extends AbstractMTGServer {
 			res.status(404);
 			return error("Not Found");
 		});
+		
+		before("/*", (request, response) -> {
+			response.type(URLTools.HEADER_JSON);
+			response.header(ACCESS_CONTROL_ALLOW_ORIGIN, getString(ACCESS_CONTROL_ALLOW_ORIGIN));
+			response.header(ACCESS_CONTROL_REQUEST_METHOD, getString(ACCESS_CONTROL_REQUEST_METHOD));
+			response.header(ACCESS_CONTROL_ALLOW_HEADERS, getString(ACCESS_CONTROL_ALLOW_HEADERS));
+			start=Instant.now(); //TODO not sure...
+			
+		});
+	
 
 		after((request, response) -> {
 			if (getBoolean(ENABLE_GZIP)) {
 				response.header("Content-Encoding", "gzip");
 			}
+			var info= new JsonQueryInfo();
+			info.setStart(start);
+			info.setContentType(request.contentType());
+			info.setIp(request.ip());
+			info.setMethod(request.requestMethod());
+			info.setUrl(request.uri());
+			info.setParameters(request.params());
+			info.setAttributs(request.attributes());
+			info.setHeaders(request.headers());			
+			info.setStatus(response.status());
+			info.setEnd(Instant.now());
+			TechnicalServiceAuditor.inst().store(info);
+		
+			
 		});
 		
 		options("/*", (request, response) -> {
@@ -272,13 +300,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 	@SuppressWarnings("unchecked")
 	private void initRoutes() {
 
-		before("/*", (request, response) -> {
-			response.type(URLTools.HEADER_JSON);
-			response.header(ACCESS_CONTROL_ALLOW_ORIGIN, getWhiteHeader(request));
-			response.header(ACCESS_CONTROL_REQUEST_METHOD, getString(ACCESS_CONTROL_REQUEST_METHOD));
-			response.header(ACCESS_CONTROL_ALLOW_HEADERS, getString(ACCESS_CONTROL_ALLOW_HEADERS));
-		});
-	
 		get("/cards/search/:att/:val", URLTools.HEADER_JSON,
 				(request, response) -> getEnabledPlugin(MTGCardsProvider.class).searchCardByCriteria(request.params(":att"), request.params(":val"), null, false),
 				transformer);
@@ -827,7 +848,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		get("/admin/jdbc", URLTools.HEADER_JSON, (request, response) -> {
 			var arr = new JsonArray();
-			MTG.getEnabledPlugin(MTGDao.class).listInfoDaos().forEach(info->arr.add(info.toJson()));
+			TechnicalServiceAuditor.inst().getDaoInfos().forEach(info->arr.add(info.toJson()));
 			return arr;
 			
 		}, transformer);
@@ -845,19 +866,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 				objExe.addProperty("executor", ThreadManager.getInstance().getExecutor().getClass().getCanonicalName());
 				
 			var arr = new JsonArray();
-			for(var e : ThreadManager.getInstance().listTasks())
-			{
-				var obj = new JsonObject();
-				obj.addProperty("name", e.getName());
-				obj.addProperty("status", e.getStatus().name());
-				obj.addProperty("type", e.getType().name());
-				obj.addProperty("created", e.getCreatedDate().toEpochMilli());
-				obj.addProperty("start", e.getStartDate().toEpochMilli());
-				obj.addProperty("end", e.getEndDate().toEpochMilli());
-				obj.addProperty("durationInMillis", e.getDuration());
-				arr.add(obj);
-			}
-
+			for(var e : TechnicalServiceAuditor.inst().getTasksInfos())
+				arr.add(e.toJson());
+	
 
 			var objRet = new JsonObject();
 				objRet.add("factory", objExe);
@@ -870,7 +881,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		get("/admin/network", URLTools.HEADER_JSON, (request, response) -> {
 			var arr = new JsonArray();
-			URLTools.getNetworksInfos().forEach(net->{
+			TechnicalServiceAuditor.inst().getNetworkInfos().forEach(net->{
 				arr.add(net.toJson());
 			});
 			return arr;
@@ -896,17 +907,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return "done in " + c.stop() +" s";
 		}, transformer);
 		
-		
-		get("/events", URLTools.HEADER_JSON, (request, response) -> {
-			MTGControler.getInstance().getEventsManager().load();
-			return MTGControler.getInstance().getEventsManager().getEvents();
-		}, transformer);
-		
-		
-		get("/events/:id", URLTools.HEADER_JSON, (request, response) -> {
-			MTGControler.getInstance().getEventsManager().load();
-			return MTGControler.getInstance().getEventsManager().getEventById(Integer.parseInt(request.params(":id")));
-		}, transformer);
 		
 		get("/webshop/config", URLTools.HEADER_JSON, (request, response) -> 
 			
@@ -1236,17 +1236,5 @@ public class JSONHttpServer extends AbstractMTGServer {
 	public String getVersion() {
 		return POMReader.readVersionFromPom(Spark.class, "/META-INF/maven/com.sparkjava/spark-core/pom.properties");
 	}
-
-	private String getWhiteHeader(Request request) {
-		logger.debug("request :" + request.pathInfo() + " from " + request.ip());
-
-		for (String k : request.headers())
-			logger.trace("---" + k + "=" + request.headers(k));
-
-		return getString(ACCESS_CONTROL_ALLOW_ORIGIN);
-	}
-
-
-
 
 }

@@ -14,10 +14,12 @@ import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
 import org.apache.log4j.Logger;
+import org.magic.api.beans.audit.ThreadInfo;
+import org.magic.api.beans.audit.ThreadInfo.STATE;
+import org.magic.api.beans.audit.ThreadInfo.TYPE;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
-import org.magic.services.threads.ThreadInfo.STATE;
-import org.magic.services.threads.ThreadInfo.TYPE;
+import org.magic.services.providers.TechnicalServiceAuditor;
 import org.magic.tools.Chrono;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
@@ -28,7 +30,6 @@ public class ThreadManager {
 	private ThreadPoolExecutor executor;
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	private ThreadFactory factory;
-	private List<ThreadInfo> tasksMap;
 	
 	
 	public static ThreadManager getInstance() {
@@ -48,7 +49,7 @@ public class ThreadManager {
 		
 		task.getInfo().setName(name);
 		
-		tasksMap.add(task.getInfo());
+		TechnicalServiceAuditor.inst().store(task.getInfo());
 		
 		executor.execute(task);
 	}
@@ -56,7 +57,7 @@ public class ThreadManager {
 	public Future<?> submitThread(MTGRunnable task, String name) {
 		
 		task.getInfo().setName(name);
-		tasksMap.add(task.getInfo());
+		TechnicalServiceAuditor.inst().store(task.getInfo());
 		return submitCallable(Executors.callable(task), name);
 	}
 	
@@ -68,7 +69,7 @@ public class ThreadManager {
 	public void invokeLater(MTGRunnable task, String name) {
 		
 		task.getInfo().setName(name);
-		tasksMap.add(task.getInfo());
+		TechnicalServiceAuditor.inst().store(task.getInfo());
 		SwingUtilities.invokeLater(task);
 	}
 	
@@ -77,7 +78,7 @@ public class ThreadManager {
 		var info = new ThreadInfo(runnable);
 			  info.setName(name);
 			  info.setType(TYPE.WORKER);
-		tasksMap.add(info);			
+			  TechnicalServiceAuditor.inst().store(info);			
 		
 		runnable.execute();
 		var c = new Chrono();
@@ -108,9 +109,6 @@ public class ThreadManager {
 		
 		var tpc = MTGControler.getInstance().getThreadPoolConfig();
 		
-		tasksMap = new ArrayList<>();
-		
-		
 		factory = new ThreadFactoryBuilder()
 						.setNameFormat(tpc.getNameFormat())
 						.setDaemon(tpc.isDaemon())
@@ -132,11 +130,6 @@ public class ThreadManager {
 		executor.shutdown();
 	}
 	
-	public List<ThreadInfo> listTasks()
-	{
-		return tasksMap;
-	}
-
 	public ThreadFactory getFactory() {
 		return factory;
 	}
@@ -145,10 +138,6 @@ public class ThreadManager {
 		return executor;
 	}
 
-	public void clean() {
-		tasksMap.removeIf(t->t.getStatus()==STATE.FINISHED);
-		
-	}
 	
 	
 	

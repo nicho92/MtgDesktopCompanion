@@ -1,7 +1,10 @@
-package org.magic.services.threads;
+package org.magic.api.beans.audit;
 
 import java.io.Serializable;
 import java.time.Instant;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 public class ThreadInfo implements Serializable {
 
@@ -18,6 +21,21 @@ public class ThreadInfo implements Serializable {
 	private Instant endDate;
 	private long duration;
 	private String name;
+	
+	public JsonElement toJson()
+	{
+		var obj = new JsonObject();
+		obj.addProperty("name", getName());
+		obj.addProperty("status", getStatus().name());
+		obj.addProperty("type", getType().name());
+		obj.addProperty("created", getCreatedDate().toEpochMilli());
+		obj.addProperty("start",getStartDate().toEpochMilli());
+		obj.addProperty("end", getEndDate().toEpochMilli());
+		obj.addProperty("durationInMillis", getDuration());
+		return obj;
+	}
+	
+	
 	public Instant getCreatedDate() {
 		return createdDate;
 	}
