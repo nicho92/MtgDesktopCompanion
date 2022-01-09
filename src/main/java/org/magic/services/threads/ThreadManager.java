@@ -17,7 +17,7 @@ import org.magic.api.beans.audit.ThreadInfo.STATE;
 import org.magic.api.beans.audit.ThreadInfo.TYPE;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
-import org.magic.services.providers.TechnicalServiceAuditor;
+import org.magic.services.TechnicalServiceManager;
 import org.magic.tools.Chrono;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
@@ -47,7 +47,7 @@ public class ThreadManager {
 		
 		task.getInfo().setName(name);
 		
-		TechnicalServiceAuditor.inst().store(task.getInfo());
+		TechnicalServiceManager.inst().store(task.getInfo());
 		
 		executor.execute(task);
 	}
@@ -55,7 +55,7 @@ public class ThreadManager {
 	public Future<?> submitThread(MTGRunnable task, String name) {
 		
 		task.getInfo().setName(name);
-		TechnicalServiceAuditor.inst().store(task.getInfo());
+		TechnicalServiceManager.inst().store(task.getInfo());
 		return submitCallable(Executors.callable(task), name);
 	}
 	
@@ -67,7 +67,7 @@ public class ThreadManager {
 	public void invokeLater(MTGRunnable task, String name) {
 		
 		task.getInfo().setName(name);
-		TechnicalServiceAuditor.inst().store(task.getInfo());
+		TechnicalServiceManager.inst().store(task.getInfo());
 		SwingUtilities.invokeLater(task);
 	}
 	
@@ -76,7 +76,7 @@ public class ThreadManager {
 		var info = new ThreadInfo(runnable);
 			  info.setName(name);
 			  info.setType(TYPE.WORKER);
-			  TechnicalServiceAuditor.inst().store(info);			
+			  TechnicalServiceManager.inst().store(info);			
 		
 		runnable.execute();
 		var c = new Chrono();

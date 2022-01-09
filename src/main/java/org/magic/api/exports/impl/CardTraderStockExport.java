@@ -17,7 +17,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.audit.NetworkInfo;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
-import org.magic.services.providers.TechnicalServiceAuditor;
+import org.magic.services.TechnicalServiceManager;
 import org.magic.tools.MTG;
 
 public class CardTraderStockExport extends AbstractCardExport {
@@ -44,7 +44,7 @@ public class CardTraderStockExport extends AbstractCardExport {
 				netinfo.setRequest(callInfo.getRequest());
 				netinfo.setReponse(callInfo.getResponse());
 
-				TechnicalServiceAuditor.inst().store(netinfo);
+				TechnicalServiceManager.inst().store(netinfo);
 				
 		});
 		

@@ -23,7 +23,7 @@ import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.api.interfaces.abstracts.AbstractProduct;
 import org.magic.api.interfaces.abstracts.AbstractStockItem;
-import org.magic.services.providers.TechnicalServiceAuditor;
+import org.magic.services.TechnicalServiceManager;
 import org.magic.tools.MTG;
 
 public class CardTraderWebShop extends AbstractExternalShop {
@@ -54,7 +54,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 			ni.setReponse(callInfo.getResponse());
 			ni.setRequest(callInfo.getRequest());
 			
-			TechnicalServiceAuditor.inst().store(ni);
+			TechnicalServiceManager.inst().store(ni);
 				
 			
 		});

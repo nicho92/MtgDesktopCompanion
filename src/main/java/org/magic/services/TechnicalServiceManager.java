@@ -1,4 +1,4 @@
-package org.magic.services.providers;
+package org.magic.services;
 
 import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
@@ -12,24 +12,24 @@ import org.magic.api.beans.audit.NetworkInfo;
 import org.magic.api.beans.audit.ThreadInfo;
 import org.magic.api.beans.audit.ThreadInfo.STATE;
 
-public class TechnicalServiceAuditor {
+public class TechnicalServiceManager {
 
-	private static TechnicalServiceAuditor inst;
+	private static TechnicalServiceManager inst;
 	
 	private List<JsonQueryInfo> jsonInfo;
 	private List<DAOInfo> daoInfos;
 	private List<NetworkInfo> networkInfos;
 	private List<ThreadInfo> tasksInfos;
 
-	public static TechnicalServiceAuditor inst()
+	public static TechnicalServiceManager inst()
 	{
 		if(inst==null)
-			inst = new TechnicalServiceAuditor();
+			inst = new TechnicalServiceManager();
 		
 		return inst;
 	}
 	
-	public TechnicalServiceAuditor() {
+	public TechnicalServiceManager() {
 		jsonInfo= new ArrayList<>();
 		networkInfos = new ArrayList<>();
 		daoInfos = new ArrayList<>();

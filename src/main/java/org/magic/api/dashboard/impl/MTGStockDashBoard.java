@@ -34,7 +34,7 @@ import org.magic.api.beans.audit.NetworkInfo;
 import org.magic.api.beans.enums.EnumMarketType;
 import org.magic.api.beans.enums.MTGCardVariation;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
-import org.magic.services.providers.TechnicalServiceAuditor;
+import org.magic.services.TechnicalServiceManager;
 
 public class MTGStockDashBoard extends AbstractDashBoard {
 
@@ -77,7 +77,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 				netinfo.setRequest(callInfo.getRequest());
 				netinfo.setReponse(callInfo.getResponse());
 
-				TechnicalServiceAuditor.inst().store(netinfo);
+				TechnicalServiceManager.inst().store(netinfo);
 		};
 		
 		

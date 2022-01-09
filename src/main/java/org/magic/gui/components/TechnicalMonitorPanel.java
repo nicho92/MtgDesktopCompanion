@@ -28,7 +28,7 @@ import org.magic.gui.models.conf.ThreadsTableModel;
 import org.magic.servers.impl.JSONHttpServer;
 import org.magic.servers.impl.QwartzServer;
 import org.magic.services.MTGConstants;
-import org.magic.services.providers.TechnicalServiceAuditor;
+import org.magic.services.TechnicalServiceManager;
 import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 
@@ -83,12 +83,12 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 		add(tabs, BorderLayout.CENTER);
 		
 		
-		modelTasks.bind(TechnicalServiceAuditor.inst().getTasksInfos());	
-		modelNetwork.bind(TechnicalServiceAuditor.inst().getNetworkInfos());
-		queryModel.bind(TechnicalServiceAuditor.inst().getDaoInfos());
-		modelJsonServerInfo.bind(TechnicalServiceAuditor.inst().getJsonInfo());
+		modelTasks.bind(TechnicalServiceManager.inst().getTasksInfos());	
+		modelNetwork.bind(TechnicalServiceManager.inst().getNetworkInfos());
+		queryModel.bind(TechnicalServiceManager.inst().getDaoInfos());
+		modelJsonServerInfo.bind(TechnicalServiceManager.inst().getJsonInfo());
 
-		modelConfig.init(TechnicalServiceAuditor.inst().systemInfos());
+		modelConfig.init(TechnicalServiceManager.inst().systemInfos());
 	
 		modelDao.init(MTG.getEnabledPlugin(MTGDao.class).getDBSize());
 		
@@ -152,7 +152,7 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 		add(panel, BorderLayout.NORTH);
 		
 	
-		btnClean.addActionListener(ae -> TechnicalServiceAuditor.inst().cleanAll());
+		btnClean.addActionListener(ae -> TechnicalServiceManager.inst().cleanAll());
 		
 		panel.add(btnClean);
 		
@@ -162,7 +162,7 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 		panel.add(memoryPanel);
 		
 		t = new Timer(5000, e ->{ 
-			modelThreads.init(TechnicalServiceAuditor.inst().getThreadsInfos());
+			modelThreads.init(TechnicalServiceManager.inst().getThreadsInfos());
 			memoryPanel.refresh();
 			modelTasks.fireTableDataChanged();
 			modelNetwork.fireTableDataChanged();

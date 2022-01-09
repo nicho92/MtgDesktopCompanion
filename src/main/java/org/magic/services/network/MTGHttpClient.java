@@ -33,8 +33,8 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.audit.NetworkInfo;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
+import org.magic.services.TechnicalServiceManager;
 import org.magic.services.network.RequestBuilder.METHOD;
-import org.magic.services.providers.TechnicalServiceAuditor;
 import org.magic.tools.Chrono;
 
 import com.google.common.collect.ImmutableMap;
@@ -115,7 +115,7 @@ public class MTGHttpClient {
 		info.setEnd(Instant.now());
 		info.setDuration(c.stopInMillisecond());
 		logger.trace(req + " " + c.stopInMillisecond() +"ms");
-		TechnicalServiceAuditor.inst().store(info);
+		TechnicalServiceManager.inst().store(info);
 		
 		return response;
 	}

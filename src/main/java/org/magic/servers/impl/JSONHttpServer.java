@@ -84,12 +84,12 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
 import org.magic.services.PluginRegistry;
 import org.magic.services.ReportNotificationManager;
+import org.magic.services.TechnicalServiceManager;
 import org.magic.services.TransactionService;
 import org.magic.services.VersionChecker;
 import org.magic.services.keywords.AbstractKeyWordsManager;
 import org.magic.services.network.URLTools;
 import org.magic.services.providers.SealedProductProvider;
-import org.magic.services.providers.TechnicalServiceAuditor;
 import org.magic.services.recognition.area.ManualAreaStrat;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.Chrono;
@@ -277,7 +277,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			info.setHeaders(request.headers().stream().collect(Collectors.toMap(s->s,request::headers)));			
 			info.setStatus(response.status());
 			info.setEnd(Instant.now());
-			TechnicalServiceAuditor.inst().store(info);
+			TechnicalServiceManager.inst().store(info);
 		
 		});
 		
@@ -848,7 +848,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		get("/admin/jdbc", URLTools.HEADER_JSON, (request, response) -> {
 			var arr = new JsonArray();
-			TechnicalServiceAuditor.inst().getDaoInfos().forEach(info->arr.add(info.toJson()));
+			TechnicalServiceManager.inst().getDaoInfos().forEach(info->arr.add(info.toJson()));
 			return arr;
 			
 		}, transformer);
@@ -866,7 +866,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 				objExe.addProperty("executor", ThreadManager.getInstance().getExecutor().getClass().getCanonicalName());
 				
 			var arr = new JsonArray();
-			for(var e : TechnicalServiceAuditor.inst().getTasksInfos())
+			for(var e : TechnicalServiceManager.inst().getTasksInfos())
 				arr.add(e.toJson());
 	
 
@@ -881,7 +881,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		get("/admin/network", URLTools.HEADER_JSON, (request, response) -> {
 			var arr = new JsonArray();
-			TechnicalServiceAuditor.inst().getNetworkInfos().forEach(net->{
+			TechnicalServiceManager.inst().getNetworkInfos().forEach(net->{
 				arr.add(net.toJson());
 			});
 			return arr;

@@ -46,7 +46,7 @@ import org.magic.api.interfaces.MTGStorable;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGConstants;
 import org.magic.services.PluginRegistry;
-import org.magic.services.providers.TechnicalServiceAuditor;
+import org.magic.services.TechnicalServiceManager;
 import org.magic.tools.Chrono;
 import org.magic.tools.CryptoUtils;
 import org.magic.tools.IDGenerator;
@@ -187,7 +187,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 										e.setDuration(event.getElapsedTime(TimeUnit.MILLISECONDS));
 										e.setEndDate(Instant.now());
 										e.setClasseName(event.getClass().getCanonicalName());
-									TechnicalServiceAuditor.inst().store(e);
+									TechnicalServiceManager.inst().store(e);
 								}
 								
 								@Override
@@ -202,7 +202,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 									e.setMessage(event.getThrowable().getMessage());
 									e.setDuration(event.getElapsedTime(TimeUnit.MILLISECONDS));
 									e.setEndDate(Instant.now());
-									TechnicalServiceAuditor.inst().store(e);
+									TechnicalServiceManager.inst().store(e);
 								}
 							})
 			                .build();
