@@ -8,6 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.SwingWorker;
@@ -42,6 +43,8 @@ public class TransactionsPanel extends MTGUIComponent {
 	public TransactionsPanel() {
 		setLayout(new BorderLayout(0, 0));
 		panneauHaut = new JPanel();
+		var splitPanel = new JSplitPane();
+		
 		var stockDetailPanel = new StockItemPanel();
 		var tabbedPane = new JTabbedPane();
 		contactPanel = new ContactPanel(true);
@@ -55,6 +58,9 @@ public class TransactionsPanel extends MTGUIComponent {
 		
 		btnMerge.setEnabled(false);
 		btnDelete.setEnabled(false);
+		splitPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		splitPanel.setDividerLocation(.5);
+		splitPanel.setResizeWeight(0.5);
 		
 		table = UITools.createNewTable(model);
 		table.setDefaultRenderer(Date.class, new DateTableCellEditorRenderer(true));
@@ -73,9 +79,12 @@ public class TransactionsPanel extends MTGUIComponent {
 		
 		table.packAll();
 		
-		add(new JScrollPane(table));
+		
+		
+		splitPanel.setLeftComponent(new JScrollPane(table));
+		splitPanel.setRightComponent(tabbedPane);
 		add(panneauHaut, BorderLayout.NORTH);
-		add(tabbedPane,BorderLayout.SOUTH);
+		add(splitPanel,BorderLayout.CENTER);
 		panneauHaut.add(btnRefresh);
 		panneauHaut.add(btnMerge);
 		panneauHaut.add(btnDelete);

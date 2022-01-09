@@ -86,8 +86,9 @@ public class AnnouncesGUI extends MTGUIComponent {
 		UITools.addTab(tabbedPane, itemsPanel);
 		UITools.addTab(tabbedPane, contactPanel);
 		UITools.addTab(tabbedPane, gedPanel);
-		splitCentral.setDividerLocation(.5);
 		
+		splitCentral.setDividerLocation(.5);
+		splitCentral.setResizeWeight(0.5);
 		
 		btnSave.setEnabled(false);
 		btnDelete.setEnabled(false);

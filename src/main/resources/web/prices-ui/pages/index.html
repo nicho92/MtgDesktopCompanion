@@ -95,7 +95,6 @@
 				if(number<0)
 					return "<i class='fa fa-arrow-down text-danger' aria-hidden='true'></i>";
 					
-					
 				return "<i class='fa fa-equals text-warning' aria-hidden='true'></i>";
 			}
 			
@@ -112,28 +111,23 @@
 				
 				
 				$.get(restserver+"/dash/variations/card/"+card.id,function(data){
-					   	charts.initCharts(data);
+					   	
+						charts.initCharts(data);
 					   	$("#provider").html(data.provider);
+					   	
+					   	
 						var mapNormal = Object.values(data.normal).map(e=>e.value);
 						var mapFoil =  Object.values(data.foil).map(e=>e.value);
-					
-						var valueN = mapNormal.slice(-1)[0];
-						var valueF =mapFoil.slice(-1)[0];
-						
-						var valueWeekN = mapNormal.slice(-7)[0];
-						var valueWeekF =mapFoil.slice(-7)[0];
-						
-						var percentWeekNormal = new Number(( ( valueN - valueWeekN ) / valueWeekN ) * 100).toFixed(2);
-						var percentWeekFoil= new Number(( ( valueF - valueWeekF ) / valueWeekF ) * 100).toFixed(2);
-					
-						var iconN = getArrowIcon(valueN-valueWeekN);
-						var iconF = getArrowIcon(valueF-valueWeekF);
-						
-						
-						var minN = data.normal.reduce(function(res, obj) {return (obj.value < res.value) ? obj : res;});
-						var maxN = data.normal.reduce(function(res, obj) {return (obj.value > res.value) ? obj : res;});
 											
 						try {
+							var valueN = mapNormal.slice(-1)[0];
+							var valueWeekN = mapNormal.slice(-7)[0];
+							var percentWeekNormal = new Number(( ( valueN - valueWeekN ) / valueWeekN ) * 100).toFixed(2);
+							var iconN = getArrowIcon(valueN-valueWeekN);
+							var minN = data.normal.reduce(function(res, obj) {return (obj.value < res.value) ? obj : res;});
+							var maxN = data.normal.reduce(function(res, obj) {return (obj.value > res.value) ? obj : res;});
+							
+							
 								$("#lastPriceNormal").html(iconN + " " + data.currency + " " + valueN.toFixed(2));
 								
 								var symbol ="";
@@ -150,10 +144,20 @@
 							}
 							catch(error)
 							{
-								$("#lastPriceNormal").html("");	
+								$("#lastPriceNormal").html("-");	
 							}
+							
 						
 							try {
+								
+								var valueF =mapFoil.slice(-1)[0];
+								var valueWeekF =mapFoil.slice(-7)[0];
+								var percentWeekFoil= new Number(( ( valueF - valueWeekF ) / valueWeekF ) * 100).toFixed(2);
+								var iconF = getArrowIcon(valueF-valueWeekF);
+								var minF = data.foil.reduce(function(res, obj) {return (obj.value < res.value) ? obj : res;});
+								var maxF = data.foil.reduce(function(res, obj) {return (obj.value > res.value) ? obj : res;});
+							
+								
 								$("#lastPriceFoil").html(iconF + " <i class='ss ss-mythic ss-2x ss-pmei'></i>" + data.currency + " " + valueF.toFixed(2));
 								
 								var symbol ="";
@@ -161,9 +165,7 @@
 								if((valueF-valueWeekF)>0)
 									symbol = "+";
 								
-								var minF = data.foil.reduce(function(res, obj) {return (obj.value < res.value) ? obj : res;});
-								var maxF = data.foil.reduce(function(res, obj) {return (obj.value > res.value) ? obj : res;});
-							
+						
 								$("#foilPriceChange").html(data.currency + " " +symbol+ (valueF-valueWeekF).toFixed(2));
 								$("#foilPercentChange").html(percentWeekFoil+"%");
 					      		$("#minmaxFoil").html("<i class='fa fa-arrow-down text-danger' aria-hidden='true'></i>"+moment(minF.date).format("MMM-YYYY") + " " + minF.value.toFixed(2)+ data.currency + " , <i class='fa fa-arrow-up text-success' aria-hidden='true'></i>"+moment(maxF.date).format("MMM-YYYY")+ " "+maxF.value.toFixed(2)+ data.currency);

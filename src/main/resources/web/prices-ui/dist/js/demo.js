@@ -11,7 +11,9 @@ charts = {
     chartColor = "#FFFFFF";
 
     var chartCanvas = document.getElementById("chart");
-
+	
+	var dataDates = Object.values(datas.normal).map(e=>moment(e.date)).concat(Object.values(datas.foil).map(e=>moment(e.date)));
+	
 	
     var dataNormal = {
       data: Object.values(datas.normal).map(e=>e.value),
@@ -38,7 +40,7 @@ charts = {
     };
 
     var dateLabels = {
-      labels: Object.values(datas.normal).map(e=>moment(e.date)),
+      labels: dataDates,
       datasets: [dataNormal, dataFoil]
     };
     
