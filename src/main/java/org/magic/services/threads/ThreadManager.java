@@ -21,6 +21,8 @@ import org.magic.services.TechnicalServiceManager;
 import org.magic.tools.Chrono;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 public class ThreadManager {
 
@@ -132,8 +134,25 @@ public class ThreadManager {
 		return factory;
 	}
 	
-	public ThreadPoolExecutor getExecutor() {
-		return executor;
+	public JsonObject toJson() {
+		var objExe = new JsonObject();
+			objExe.addProperty("activeCount", executor.getActiveCount());
+			objExe.addProperty("completeTaskCount", executor.getCompletedTaskCount());
+			objExe.addProperty("corePoolSize", executor.getCorePoolSize());
+			objExe.addProperty("poolSize", executor.getPoolSize());
+			objExe.addProperty("taskCount", executor.getTaskCount());
+			objExe.addProperty("factory", executor.getThreadFactory().toString());
+			objExe.addProperty("executor", executor.getClass().getCanonicalName());
+		
+	var arr = new JsonArray();
+	for(var e : TechnicalServiceManager.inst().getTasksInfos())
+		arr.add(e.toJson());
+
+	var objRet = new JsonObject();
+		objRet.add("factory", objExe);
+		objRet.add("tasks", arr);
+
+		return objRet;
 	}
 
 	

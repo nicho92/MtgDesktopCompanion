@@ -854,35 +854,13 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		
 		get("/admin/threads", URLTools.HEADER_JSON, (request, response) -> {
-			
-			var objExe = new JsonObject();
-				objExe.addProperty("activeCount", ThreadManager.getInstance().getExecutor().getActiveCount());
-				objExe.addProperty("completeTaskCount", ThreadManager.getInstance().getExecutor().getCompletedTaskCount());
-				objExe.addProperty("corePoolSize", ThreadManager.getInstance().getExecutor().getCorePoolSize());
-				objExe.addProperty("poolSize", ThreadManager.getInstance().getExecutor().getPoolSize());
-				objExe.addProperty("taskCount", ThreadManager.getInstance().getExecutor().getTaskCount());
-				objExe.addProperty("factory", ThreadManager.getInstance().getExecutor().getThreadFactory().toString());
-				objExe.addProperty("executor", ThreadManager.getInstance().getExecutor().getClass().getCanonicalName());
-				
-			var arr = new JsonArray();
-			for(var e : TechnicalServiceManager.inst().getTasksInfos())
-				arr.add(e.toJson());
-	
-
-			var objRet = new JsonObject();
-				objRet.add("factory", objExe);
-				objRet.add("tasks", arr);
-			
-			return objRet;
-			
+			return ThreadManager.getInstance().toJson();
 		}, transformer);
 		
 		
 		get("/admin/network", URLTools.HEADER_JSON, (request, response) -> {
 			var arr = new JsonArray();
-			TechnicalServiceManager.inst().getNetworkInfos().forEach(net->{
-				arr.add(net.toJson());
-			});
+			TechnicalServiceManager.inst().getNetworkInfos().forEach(net->arr.add(net.toJson()));
 			return arr;
 		}, transformer);
 		
