@@ -17,7 +17,6 @@ import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
 import org.api.mkm.services.ArticleService;
 import org.api.mkm.services.CartServices;
-import org.api.mkm.services.InsightService;
 import org.api.mkm.services.ProductServices;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.api.mkm.tools.MkmConstants;

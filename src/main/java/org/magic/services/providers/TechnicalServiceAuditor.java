@@ -1,5 +1,6 @@
 package org.magic.services.providers;
 
+import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -77,6 +78,10 @@ public class TechnicalServiceAuditor {
 
 	public Set<Entry<Object, Object>> systemInfos() {
 		return System.getProperties().entrySet();
+	}
+
+	public java.lang.management.ThreadInfo[] getThreadsInfos() {
+		return ManagementFactory.getThreadMXBean().dumpAllThreads(true, true);
 	}
 	
 	

@@ -162,7 +162,7 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 		panel.add(memoryPanel);
 		
 		t = new Timer(5000, e ->{ 
-			modelThreads.init(ManagementFactory.getThreadMXBean().dumpAllThreads(true, true));
+			modelThreads.init(TechnicalServiceAuditor.inst().getThreadsInfos());
 			memoryPanel.refresh();
 			modelTasks.fireTableDataChanged();
 			modelNetwork.fireTableDataChanged();

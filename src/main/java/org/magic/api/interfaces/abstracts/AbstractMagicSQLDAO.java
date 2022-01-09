@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 
 import org.magic.api.beans.Announce;
 import org.magic.api.beans.Announce.STATUS;
-import org.magic.api.beans.audit.DAOInfo;
 import org.magic.api.beans.ConverterItem;
 import org.magic.api.beans.GedEntry;
 import org.magic.api.beans.Grading;
@@ -37,6 +36,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.SealedStock;
+import org.magic.api.beans.audit.DAOInfo;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionDirection;
