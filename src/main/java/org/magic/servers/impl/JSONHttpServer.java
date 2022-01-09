@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.time.Instant;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -273,12 +274,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 			info.setUrl(request.uri());
 			info.setParameters(request.params());
 			info.setAttributs(request.attributes());
-			info.setHeaders(request.headers());			
+			info.setHeaders(request.headers().stream().collect(Collectors.toMap(s->s,request::headers)));			
 			info.setStatus(response.status());
 			info.setEnd(Instant.now());
 			TechnicalServiceAuditor.inst().store(info);
 		
-			
 		});
 		
 		options("/*", (request, response) -> {

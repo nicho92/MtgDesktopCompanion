@@ -19,7 +19,7 @@ public class JsonQueryInfo implements Serializable {
 	private int status;
 	private Map<String, String> params;
 	private Set<String> attributes;
-	private Set<String> headers;
+	private Map<String, String> headers;
 	
 	@Override
 	public String toString() {
@@ -113,11 +113,11 @@ public class JsonQueryInfo implements Serializable {
 		return attributes;
 	}
 
-	public void setHeaders(Set<String> headers) {
+	public void setHeaders(Map<String,String> headers) {
 		this.headers = headers;
 	}
 	
-	public Set<String> getHeaders() {
+	public Map<String, String> getHeaders() {
 		return headers;
 	}
 	
