@@ -11,7 +11,7 @@
 	</issueManagement>
 	<groupId>com.github.nicho92</groupId>
 	<artifactId>magic-api</artifactId>
-	<version>2.29</version>
+	<version>2.30</version>
 	<packaging>jar</packaging>
 	<organization>
 		<name>Nicolas Pihen</name>
@@ -180,7 +180,7 @@
 		<dependency>
 			<groupId>org.jooq</groupId>
 			<artifactId>jooq</artifactId>
-			<version>3.16.0</version>
+			<version>3.16.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.icoderman</groupId>
@@ -550,7 +550,7 @@
 		<dependency>
 			<groupId>org.mozilla</groupId>
 			<artifactId>rhino</artifactId>
-			<version>1.7.14-RC1</version>
+			<version>1.7.14</version>
 		</dependency>
 		<dependency>
 			<groupId>cat.inspiracio</groupId>
