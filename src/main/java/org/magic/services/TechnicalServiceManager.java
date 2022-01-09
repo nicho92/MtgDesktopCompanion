@@ -74,6 +74,9 @@ public class TechnicalServiceManager {
 	
 	public void cleanAll() {
 		tasksInfos.removeIf(t->t.getStatus()==STATE.FINISHED);
+		networkInfos.removeIf(t->t.getEnd()!=null);
+		daoInfos.removeIf(t->t.getEndDate()!=null);
+		jsonInfo.removeIf(t->t.getEnd()!=null);
 	}
 
 	public Set<Entry<Object, Object>> systemInfos() {
