@@ -9,8 +9,12 @@ import java.sql.SQLException;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGServer;
+import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.components.TechnicalMonitorPanel;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.services.threads.MTGRunnable;
+import org.magic.services.threads.ThreadManager;
 
 public class ServerLauncher {
 	public static void main(String[] args) throws SQLException, IOException 
@@ -26,6 +30,8 @@ public class ServerLauncher {
 		getEnabledPlugin(MTGCardsProvider.class).init();
 		getEnabledPlugin(MTGDao.class).init();
 		
+
+		
 		
 		var arg = args[0];
 		
@@ -38,7 +44,14 @@ public class ServerLauncher {
 			preparing(arg).start();
 		}
 		
-		
+		ThreadManager.getInstance().invokeLater(new MTGRunnable() {
+			
+			@Override
+			protected void auditedRun() {
+				MTGUIComponent.createJDialog(new TechnicalMonitorPanel(), true, false).setVisible(true);
+				
+			}
+		},"running server console");
 		
 	}
 	
