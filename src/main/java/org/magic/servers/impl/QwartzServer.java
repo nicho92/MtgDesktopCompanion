@@ -172,8 +172,8 @@ public class QwartzServer extends AbstractMTGServer {
 		    	  var jobObj = new JsonObject();
 		    	  					 jobObj.addProperty("jobGroup", jobKey.getGroup());
 		    	  					 jobObj.addProperty("jobName", jobKey.getName());
-		    	  					 jobObj.addProperty("nextFireTime", UITools.formatDateTime(trigger.getNextFireTime()));
-		    	  					 jobObj.addProperty("lastFireTime", UITools.formatDateTime(trigger.getPreviousFireTime()));
+		    	  					 jobObj.addProperty("nextFireTime", trigger.getNextFireTime().getTime());
+		    	  					 jobObj.addProperty("lastFireTime", trigger.getPreviousFireTime().getTime());
 		    	  					simpleJobList.add(jobObj);
 		      }
 		    }

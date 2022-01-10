@@ -28,7 +28,7 @@ public class JsonQueryInfo extends AbstractAuditableItem {
 			jo.addProperty("end", getEnd().toEpochMilli());
 			jo.addProperty("duration", getDuration());
 			jo.addProperty("contentType", getContentType());
-			
+			jo.addProperty("ip", getIp());
 			var arr = new JsonArray();
 			attributes.forEach(arr::add);
 			jo.add("attributes", arr);

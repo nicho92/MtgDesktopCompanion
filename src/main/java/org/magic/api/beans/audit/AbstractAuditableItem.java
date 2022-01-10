@@ -14,7 +14,7 @@ public abstract class AbstractAuditableItem implements Serializable {
 	
 	public abstract JsonObject toJson();
 	
-	public AbstractAuditableItem() {
+	protected AbstractAuditableItem() {
 		start= Instant.now();
 	}
 
