@@ -4,6 +4,7 @@ import java.time.Instant;
 
 import org.magic.api.beans.audit.JsonQueryInfo;
 import org.magic.gui.abstracts.GenericTableModel;
+import org.magic.services.network.URLTools;
 
 public class JsonInfoTableModel extends GenericTableModel<JsonQueryInfo> {
 
@@ -11,7 +12,7 @@ public class JsonInfoTableModel extends GenericTableModel<JsonQueryInfo> {
 
 	
 	public JsonInfoTableModel() {
-		setColumns("method","url","start","end","duration","status","contentType","ip");
+		setColumns("method","url","start","end","duration","status","contentType","ip","source");
 		setWritable(false);
 	}
 	
@@ -26,6 +27,15 @@ public class JsonInfoTableModel extends GenericTableModel<JsonQueryInfo> {
 		
 		
 		return super.getColumnClass(columnIndex);
+	}
+	
+	@Override
+	public Object getValueAt(int row, int column) {
+		
+		if(column==8)
+			return items.get(row).getHeaders().get(URLTools.ORIGIN);
+		
+		return super.getValueAt(row, column);
 	}
 	
 	

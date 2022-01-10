@@ -3,9 +3,7 @@ package org.magic.api.beans.audit;
 import java.util.Map;
 import java.util.Set;
 
-import org.magic.api.exports.impl.JsonExport;
-import org.magic.services.MTGConstants;
-
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 public class JsonQueryInfo extends AbstractAuditableItem {
@@ -23,8 +21,29 @@ public class JsonQueryInfo extends AbstractAuditableItem {
 	
 	@Override
 	public JsonObject toJson() {
-		return new JsonExport().toJsonElement(this).getAsJsonObject();
-
+		var jo = new JsonObject();
+			jo.addProperty("url", getUrl());
+			jo.addProperty("method", getMethod());
+			jo.addProperty("start", getStart().toEpochMilli());
+			jo.addProperty("end", getEnd().toEpochMilli());
+			jo.addProperty("duration", getDuration());
+			jo.addProperty("contentType", getContentType());
+			
+			var arr = new JsonArray();
+			attributes.forEach(arr::add);
+			jo.add("attributes", arr);
+			
+			var objHeaders = new JsonObject();
+			headers.entrySet().forEach(e->objHeaders.addProperty(e.getKey(), e.getValue()));
+			jo.add("headers", objHeaders);
+			
+			var objParams = new JsonObject();
+			params.entrySet().forEach(e->objParams.addProperty(e.getKey(), e.getValue()));
+			jo.add("params", objParams);
+			
+			
+			
+		return jo;
 	}
 	
 	public void setUrl(String url) {

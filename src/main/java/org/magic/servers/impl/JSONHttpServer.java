@@ -186,7 +186,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			Cache<String, Object> guava = CacheBuilder.newBuilder().expireAfterWrite(timeout, TimeUnit.MINUTES).build();
 			
 			public String getName() {
-				return "";
+				return "Guava";
 			}
 
 			@Override
@@ -227,6 +227,25 @@ public class JSONHttpServer extends AbstractMTGServer {
 		logger.info("Server " + getName() +" started on port " + getInt(SERVER_PORT));
 	}
 	
+
+	private void addInfo(Request request, Response response) {
+		var info= new JsonQueryInfo();
+		info.setStart(start);
+		info.setContentType(request.contentType());
+		info.setIp(request.ip());
+		info.setMethod(request.requestMethod());
+		info.setUrl(request.uri());
+		info.setParameters(request.params());
+		info.setAttributs(request.attributes());
+		info.setHeaders(request.headers().stream().collect(Collectors.toMap(s->s,request::headers)));			
+		info.setStatus(response.status());
+		info.setEnd(Instant.now());
+		TechnicalServiceManager.inst().store(info);
+		
+	}
+
+
+	
 	private void initVars() {
 		
 		Spark.
@@ -240,14 +259,16 @@ public class JSONHttpServer extends AbstractMTGServer {
 			logger.error(e);
 		});
 		
-		exception(Exception.class, (Exception exception, Request req, Response res) -> {
-			logger.error("Error :" + req.headers(URLTools.REFERER) + ":" + exception.getMessage(), exception);
-			res.status(500);
-			res.body(error(exception.getMessage()));
+		exception(Exception.class, (Exception exception, Request request, Response response) -> {
+			logger.error("Error :" + request.headers(URLTools.REFERER) + ":" + exception.getMessage(), exception);
+			response.status(500);
+			response.body(error(exception.getMessage()));
+			addInfo(request,response);
 		});
 
 		notFound((req, res) -> {
 			res.status(404);
+			addInfo(req,res);
 			return error("Not Found");
 		});
 		
@@ -265,18 +286,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			if (getBoolean(ENABLE_GZIP)) {
 				response.header("Content-Encoding", "gzip");
 			}
-			var info= new JsonQueryInfo();
-			info.setStart(start);
-			info.setContentType(request.contentType());
-			info.setIp(request.ip());
-			info.setMethod(request.requestMethod());
-			info.setUrl(request.uri());
-			info.setParameters(request.params());
-			info.setAttributs(request.attributes());
-			info.setHeaders(request.headers().stream().collect(Collectors.toMap(s->s,request::headers)));			
-			info.setStatus(response.status());
-			info.setEnd(Instant.now());
-			TechnicalServiceManager.inst().store(info);
+			addInfo(request,response);
 		
 		});
 		
@@ -295,6 +305,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 
 	}
+
 
 	@SuppressWarnings("unchecked")
 	private void initRoutes() {
@@ -749,15 +760,18 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return getCached(request.pathInfo(), new Callable<Object>() {
 				@Override
 				public Object call() throws Exception {
+					
+					var dash = getEnabledPlugin(MTGDashBoard.class);
+					
 					MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(ID_CARDS));
 					var ret = new JsonObject();
-					HistoryPrice<MagicCard> resNormal = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(mc,false);
-					HistoryPrice<MagicCard> resFoil = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(mc,true);
+					var resNormal = dash.getPriceVariation(mc,false);
+					var resFoil = dash.getPriceVariation(mc,true);
 					ret.addProperty("currency", MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getSymbol());
 					ret.add("normal", build(resNormal));
 					ret.add("foil", build(resFoil));
-					ret.addProperty("provider",getEnabledPlugin(MTGDashBoard.class).getName());
-					ret.addProperty("dateUpdate",getEnabledPlugin(MTGDashBoard.class).getUpdatedDate().toInstant().toEpochMilli());
+					ret.addProperty("provider",dash.getName());
+					ret.addProperty("dateUpdate",dash.getUpdatedDate().toInstant().toEpochMilli());
 					return ret;
 					
 				}});
@@ -859,6 +873,12 @@ public class JSONHttpServer extends AbstractMTGServer {
 			
 		}, transformer);
 		
+		get("/admin/jsonQueries", URLTools.HEADER_JSON, (request, response) -> {
+			var arr = new JsonArray();
+			TechnicalServiceManager.inst().getJsonInfo().forEach(info->arr.add(info.toJson()));
+			return arr;
+			
+		}, transformer);
 		
 		get("/admin/threads", URLTools.HEADER_JSON, (request, response) -> {
 			return ThreadManager.getInstance().toJson();
