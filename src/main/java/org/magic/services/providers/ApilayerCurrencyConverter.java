@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.util.Currency;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.magic.services.MTGConstants;
@@ -107,6 +108,12 @@ public class ApilayerCurrencyConverter {
 		return ret;
 		
 	}
+	
+	public Map<String,Double> getChanges()
+	{
+		return map;
+	}
+	
 	
 	public boolean isEnable() {
 		return MTGControler.getInstance().get("currencylayer-converter-enable").equals("true");

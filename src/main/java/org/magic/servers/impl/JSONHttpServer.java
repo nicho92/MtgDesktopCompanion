@@ -414,6 +414,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/categories", URLTools.HEADER_JSON, (request, response) -> EnumItems.values(), transformer);
 		
 		
+		
+		
 		get("/cards/name/:idEd/:cName", URLTools.HEADER_JSON, (request, response) -> {
 			MagicEdition ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(ID_ED));
 			return getEnabledPlugin(MTGCardsProvider.class).searchCardByName(
@@ -858,6 +860,12 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/admin/qwartz", URLTools.HEADER_JSON, (request, response) -> {
 			var serv = (QwartzServer) MTG.getPlugin("Qwartz", MTGServer.class);
 			return serv.toJsonDetails();
+		}, transformer);
+		
+		get("/admin/currency", URLTools.HEADER_JSON, (request, response) -> {
+			MTGControler.getInstance().getCurrencyService().clean();
+			return MTGControler.getInstance().getCurrencyService().getChanges();
+			
 		}, transformer);
 		
 		get("/admin/caches", URLTools.HEADER_JSON, (request, response) -> {
