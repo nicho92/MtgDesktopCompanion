@@ -192,7 +192,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 			@Override
 			public void clear() {
 				guava.invalidateAll();
-				
 			}
 			
 			@Override
