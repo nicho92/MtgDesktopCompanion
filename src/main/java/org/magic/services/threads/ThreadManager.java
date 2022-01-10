@@ -12,9 +12,9 @@ import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
 import org.apache.log4j.Logger;
-import org.magic.api.beans.audit.ThreadInfo;
-import org.magic.api.beans.audit.ThreadInfo.STATE;
-import org.magic.api.beans.audit.ThreadInfo.TYPE;
+import org.magic.api.beans.audit.TaskInfo;
+import org.magic.api.beans.audit.TaskInfo.STATE;
+import org.magic.api.beans.audit.TaskInfo.TYPE;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.TechnicalServiceManager;
@@ -75,7 +75,7 @@ public class ThreadManager {
 	
 	public void runInEdt(SwingWorker<?, ?> runnable,String name) {
 		
-		var info = new ThreadInfo(runnable);
+		var info = new TaskInfo(runnable);
 			  info.setName(name);
 			  info.setType(TYPE.WORKER);
 			  TechnicalServiceManager.inst().store(info);			

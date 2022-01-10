@@ -88,7 +88,7 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 		queryModel.bind(TechnicalServiceManager.inst().getDaoInfos());
 		modelJsonServerInfo.bind(TechnicalServiceManager.inst().getJsonInfo());
 
-		modelConfig.init(TechnicalServiceManager.inst().systemInfos());
+		modelConfig.init(TechnicalServiceManager.inst().getSystemInfo());
 	
 		modelDao.init(MTG.getEnabledPlugin(MTGDao.class).getDBSize());
 		

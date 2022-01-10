@@ -6,7 +6,7 @@ import java.time.Instant;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-public class ThreadInfo implements Serializable {
+public class TaskInfo implements Serializable {
 
 	/**
 	 * 
@@ -70,7 +70,7 @@ public class ThreadInfo implements Serializable {
 	private transient Runnable runnable;
 	
 	
-	public ThreadInfo(Runnable r) {
+	public TaskInfo(Runnable r) {
 		this.runnable=r;
 		createdDate = Instant.now();
 	}

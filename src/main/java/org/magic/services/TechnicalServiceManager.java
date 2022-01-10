@@ -1,6 +1,7 @@
 package org.magic.services;
 
 import java.lang.management.ManagementFactory;
+import java.lang.management.ThreadInfo;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -9,8 +10,8 @@ import java.util.Set;
 import org.magic.api.beans.audit.DAOInfo;
 import org.magic.api.beans.audit.JsonQueryInfo;
 import org.magic.api.beans.audit.NetworkInfo;
-import org.magic.api.beans.audit.ThreadInfo;
-import org.magic.api.beans.audit.ThreadInfo.STATE;
+import org.magic.api.beans.audit.TaskInfo;
+import org.magic.api.beans.audit.TaskInfo.STATE;
 
 public class TechnicalServiceManager {
 
@@ -19,7 +20,7 @@ public class TechnicalServiceManager {
 	private List<JsonQueryInfo> jsonInfo;
 	private List<DAOInfo> daoInfos;
 	private List<NetworkInfo> networkInfos;
-	private List<ThreadInfo> tasksInfos;
+	private List<TaskInfo> tasksInfos;
 
 	public static TechnicalServiceManager inst()
 	{
@@ -48,7 +49,7 @@ public class TechnicalServiceManager {
 		return daoInfos;
 	}
 	
-	public List<ThreadInfo> getTasksInfos() {
+	public List<TaskInfo> getTasksInfos() {
 		return tasksInfos;
 	}
 	
@@ -62,7 +63,7 @@ public class TechnicalServiceManager {
 		networkInfos.add(info);
 	}
 	
-	public void store(ThreadInfo info)
+	public void store(TaskInfo info)
 	{
 		tasksInfos.add(info);
 	}
@@ -79,11 +80,11 @@ public class TechnicalServiceManager {
 		jsonInfo.removeIf(t->t.getEnd()!=null);
 	}
 
-	public Set<Entry<Object, Object>> systemInfos() {
+	public Set<Entry<Object, Object>> getSystemInfo() {
 		return System.getProperties().entrySet();
 	}
 
-	public java.lang.management.ThreadInfo[] getThreadsInfos() {
+	public ThreadInfo[] getThreadsInfos() {
 		return ManagementFactory.getThreadMXBean().dumpAllThreads(true, true);
 	}
 	

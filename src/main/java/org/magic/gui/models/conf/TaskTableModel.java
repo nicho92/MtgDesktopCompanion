@@ -2,10 +2,10 @@ package org.magic.gui.models.conf;
 
 import java.time.Instant;
 
-import org.magic.api.beans.audit.ThreadInfo;
+import org.magic.api.beans.audit.TaskInfo;
 import org.magic.gui.abstracts.GenericTableModel;
 
-public class TaskTableModel extends GenericTableModel<ThreadInfo> {
+public class TaskTableModel extends GenericTableModel<TaskInfo> {
 
 	private static final long serialVersionUID = 1L;
 
