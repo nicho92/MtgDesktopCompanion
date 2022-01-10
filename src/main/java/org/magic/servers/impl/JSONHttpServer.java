@@ -1145,17 +1145,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return temp.toString();
 		});		
 		
-		
 		get("/share/announce/:id",URLTools.HEADER_HTML,(request,response) -> {
 			response.type(URLTools.HEADER_HTML);
-			
-			ReportNotificationManager report = new ReportNotificationManager();
-			
+			var report = new ReportNotificationManager();
 			var announce = MTG.getEnabledPlugin(MTGDao.class).getAnnounceById(Integer.parseInt(request.params(":id")));
-			
 			return report.generate(FORMAT_NOTIFICATION.HTML, announce, "share");
-			
-			
 		});		
 		
 	}
