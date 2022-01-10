@@ -3,6 +3,9 @@ package org.magic.api.beans.audit;
 import java.util.Map;
 import java.util.Set;
 
+import org.magic.api.exports.impl.JsonExport;
+import org.magic.services.MTGConstants;
+
 import com.google.gson.JsonObject;
 
 public class JsonQueryInfo extends AbstractAuditableItem {
@@ -20,12 +23,9 @@ public class JsonQueryInfo extends AbstractAuditableItem {
 	
 	@Override
 	public JsonObject toJson() {
-		var e = new JsonObject();
-		
-		
-		return e;
+		return new JsonExport().toJsonElement(this).getAsJsonObject();
+
 	}
-	
 	
 	public void setUrl(String url) {
 		this.url = url;

@@ -746,16 +746,23 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		
 		get("/dash/variations/card/:idCards", URLTools.HEADER_JSON, (request, response) -> {
-			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(ID_CARDS));
-
-			var ret = new JsonObject();
-			HistoryPrice<MagicCard> resNormal = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(mc,false);
-			HistoryPrice<MagicCard> resFoil = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(mc,true);
-			ret.addProperty("currency", MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getSymbol());
-			ret.add("normal", build(resNormal));
-			ret.add("foil", build(resFoil));
-			ret.addProperty("provider",getEnabledPlugin(MTGDashBoard.class).getName());
-			return ret;
+			return getCached(request.pathInfo(), new Callable<Object>() {
+				@Override
+				public Object call() throws Exception {
+					MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(ID_CARDS));
+					var ret = new JsonObject();
+					HistoryPrice<MagicCard> resNormal = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(mc,false);
+					HistoryPrice<MagicCard> resFoil = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(mc,true);
+					ret.addProperty("currency", MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getSymbol());
+					ret.add("normal", build(resNormal));
+					ret.add("foil", build(resFoil));
+					ret.addProperty("provider",getEnabledPlugin(MTGDashBoard.class).getName());
+					ret.addProperty("dateUpdate",getEnabledPlugin(MTGDashBoard.class).getUpdatedDate().toInstant().toEpochMilli());
+					return ret;
+					
+				}});
+			
+			
 		
 		});
 		
