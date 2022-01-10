@@ -1,22 +1,16 @@
 package org.magic.api.beans.audit;
 
-import java.io.Serializable;
-import java.time.Instant;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
 
 import com.google.gson.JsonObject;
 
-public class NetworkInfo implements Serializable {
+public class NetworkInfo extends AbstractAuditableItem{
 
 	private static final long serialVersionUID = 1L;
 	
 	private transient HttpResponse response;
 	private transient HttpRequestBase request;
-	private long duration;
-	private Instant start;
-	private Instant end;
 
 	
 	public HttpResponse getResponse() {
@@ -25,24 +19,7 @@ public class NetworkInfo implements Serializable {
 	public void setReponse(HttpResponse response) {
 		this.response = response;
 	}
-	public long getDuration() {
-		return duration;
-	}
-	public void setDuration(long duration) {
-		this.duration = duration;
-	}
-	public Instant getStart() {
-		return start;
-	}
-	public void setStart(Instant start) {
-		this.start = start;
-	}
-	public Instant getEnd() {
-		return end;
-	}
-	public void setEnd(Instant end) {
-		this.end = end;
-	}
+	
 	public void setRequest(HttpRequestBase req) {
 		this.request=req;
 	}
@@ -61,7 +38,7 @@ public class NetworkInfo implements Serializable {
 		return toJson().get("contentType").getAsString();
 	}
 	
-	
+	@Override
 	public JsonObject toJson() {
 		var jo = new JsonObject();
 		jo.addProperty("url", getRequest().getURI().toASCIIString());

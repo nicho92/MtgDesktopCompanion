@@ -22,13 +22,13 @@ public abstract class MTGRunnable implements Runnable{
 	}
 	
 	public void start() {
-		info.setStartDate(Instant.now());
+		info.setStart(Instant.now());
 		info.setStatus(STATE.STARTED);
 		chrono.start();
 	}
 	
 	public void end() {
-		info.setEndDate(Instant.now());
+		info.setEnd(Instant.now());
 		info.setStatus(STATE.FINISHED);
 		info.setDuration(chrono.stop());
 	}

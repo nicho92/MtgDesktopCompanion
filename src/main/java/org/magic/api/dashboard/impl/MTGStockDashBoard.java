@@ -71,8 +71,8 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 				
 				var netinfo = new NetworkInfo();
 				
-				netinfo.setDuration(callInfo.getDuration());
 				netinfo.setEnd(callInfo.getStart());
+				netinfo.setDuration(callInfo.getDuration());
 				netinfo.setStart(callInfo.getStart());
 				netinfo.setRequest(callInfo.getRequest());
 				netinfo.setReponse(callInfo.getResponse());

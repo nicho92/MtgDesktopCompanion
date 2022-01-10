@@ -1,17 +1,14 @@
 package org.magic.api.beans.audit;
 
-import java.io.Serializable;
-import java.time.Instant;
 import java.util.Map;
 import java.util.Set;
 
-public class JsonQueryInfo implements Serializable {
+import com.google.gson.JsonObject;
+
+public class JsonQueryInfo extends AbstractAuditableItem {
 
 
 	private static final long serialVersionUID = 1L;
-	private long duration;
-	private Instant start;
-	private Instant end;
 	private String ip;
 	private String contentType;
 	private String method;
@@ -22,14 +19,13 @@ public class JsonQueryInfo implements Serializable {
 	private Map<String, String> headers;
 	
 	@Override
-	public String toString() {
-		return getStart() + " " + getDuration() + " " + getUrl();
+	public JsonObject toJson() {
+		var e = new JsonObject();
+		
+		
+		return e;
 	}
 	
-	public JsonQueryInfo() {
-		start=Instant.now();
-	}
-
 	
 	public void setUrl(String url) {
 		this.url = url;
@@ -39,31 +35,6 @@ public class JsonQueryInfo implements Serializable {
 		return url;
 	}
 	
-	public long getDuration() {
-		return duration;
-	}
-
-	public void setDuration(long duration) {
-		this.duration = duration;
-	}
-
-	public Instant getStart() {
-		return start;
-	}
-
-	public void setStart(Instant start) {
-		this.start = start;
-	}
-
-	public Instant getEnd() {
-		return end;
-	}
-
-	public void setEnd(Instant end) {
-		this.end = end;
-		setDuration(getEnd().toEpochMilli()-getStart().toEpochMilli());
-	}
-
 	public String getIp() {
 		return ip;
 	}
@@ -120,5 +91,7 @@ public class JsonQueryInfo implements Serializable {
 	public Map<String, String> getHeaders() {
 		return headers;
 	}
+
+	
 	
 }

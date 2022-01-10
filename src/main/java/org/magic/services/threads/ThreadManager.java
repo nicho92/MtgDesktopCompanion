@@ -81,25 +81,21 @@ public class ThreadManager {
 			  TechnicalServiceManager.inst().store(info);			
 		
 		runnable.execute();
-		var c = new Chrono();
-		
+	
 		runnable.addPropertyChangeListener((PropertyChangeEvent ev)->{
 			if(ev.getNewValue().toString().equals("STARTED"))
 			{ 
-				info.setStartDate(Instant.now());
+				info.setStart(Instant.now());
 				info.setStatus(STATE.STARTED);
-				c.start();
 			}
 			
 			if(ev.getNewValue().toString().equals("DONE")) {
-				info.setEndDate(Instant.now());
-				info.setDuration(c.stopInMillisecond());
+				info.setEnd(Instant.now());
 				info.setStatus(STATE.FINISHED);
 			}
 			
 			if(ev.getNewValue().toString().equals("CANCELED")) {
-				info.setEndDate(Instant.now());
-				info.setDuration(c.stopInMillisecond());
+				info.setEnd(Instant.now());
 				info.setStatus(STATE.CANCELED);
 			}
 		});

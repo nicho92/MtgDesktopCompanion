@@ -1,36 +1,28 @@
 package org.magic.api.beans.audit;
 
-import java.io.Serializable;
 import java.time.Instant;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-public class TaskInfo implements Serializable {
+public class TaskInfo extends AbstractAuditableItem {
 
-	/**
-	 * 
-	 */
-	
 	public enum STATE {NEW,STARTED,CANCELED,FINISHED}
 	public enum TYPE {WORKER,RUNNABLE}
 	
 	private static final long serialVersionUID = 1L;
 	private Instant createdDate;
-	private Instant startDate;
-	private Instant endDate;
-	private long duration;
 	private String name;
 	
-	public JsonElement toJson()
+	@Override
+	public JsonObject toJson()
 	{
 		var obj = new JsonObject();
 		obj.addProperty("name", getName());
 		obj.addProperty("status", getStatus().name());
 		obj.addProperty("type", getType().name());
 		obj.addProperty("created", getCreatedDate().toEpochMilli());
-		obj.addProperty("start",getStartDate().toEpochMilli());
-		obj.addProperty("end", getEndDate().toEpochMilli());
+		obj.addProperty("start",getStart().toEpochMilli());
+		obj.addProperty("end", getEnd().toEpochMilli());
 		obj.addProperty("durationInMillis", getDuration());
 		return obj;
 	}
@@ -43,26 +35,6 @@ public class TaskInfo implements Serializable {
 
 	public void setCreatedDate(Instant createdDate) {
 		this.createdDate = createdDate;
-	}
-
-
-	public Instant getStartDate() {
-		return startDate;
-	}
-
-
-	public void setStartDate(Instant startDate) {
-		this.startDate = startDate;
-	}
-
-
-	public Instant getEndDate() {
-		return endDate;
-	}
-
-
-	public void setEndDate(Instant endDate) {
-		this.endDate = endDate;
 	}
 
 	private STATE status = STATE.NEW;
@@ -91,12 +63,6 @@ public class TaskInfo implements Serializable {
 		this.name = name;
 	}
 	
-	public long getDuration() {
-		return duration;
-	}
-	public void setDuration(long duration) {
-		this.duration = duration;
-	}
 	public TYPE getType() {
 		return type;
 	}

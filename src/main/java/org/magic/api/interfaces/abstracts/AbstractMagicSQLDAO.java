@@ -2072,7 +2072,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		
 		TechnicalServiceManager.inst().store(daoInfo);
 		
-		daoInfo.setCreationDate(start);
+		daoInfo.setStart(start);
 		try {
 			daoInfo.setConnectionName(pst.getConnection().toString());
 		} catch (SQLException e) {
@@ -2106,11 +2106,11 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		
 		try {
 			int rs = pst.executeUpdate();
-			daoInfo.setEndDate(Instant.now());
+			daoInfo.setEnd(Instant.now());
 			return rs;
 		} catch (SQLException e) {
 			daoInfo.setMessage(e.getMessage());
-			daoInfo.setEndDate(Instant.now());
+			daoInfo.setEnd(Instant.now());
 			throw e;
 		}
 	}
@@ -2119,11 +2119,11 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		var daoInfo=buildInfo(pst);
 		try {
 			ResultSet rs = pst.executeQuery();
-			daoInfo.setEndDate(Instant.now());
+			daoInfo.setEnd(Instant.now());
 			
 			return rs;
 		} catch (SQLException e) {
-			daoInfo.setEndDate(Instant.now());
+			daoInfo.setEnd(Instant.now());
 			daoInfo.setMessage(e.getMessage());
 			throw e;
 		}

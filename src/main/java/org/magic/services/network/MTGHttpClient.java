@@ -35,7 +35,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.services.TechnicalServiceManager;
 import org.magic.services.network.RequestBuilder.METHOD;
-import org.magic.tools.Chrono;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
@@ -84,8 +83,6 @@ public class MTGHttpClient {
 	{
 		var info = new NetworkInfo();
 		info.setRequest(req);
-		var c = new Chrono();
-		c.start();
 		info.setStart(Instant.now());
 		try{
 			response = httpclient.execute(req,httpContext);
@@ -113,8 +110,6 @@ public class MTGHttpClient {
 			}, httpContext));
 		}
 		info.setEnd(Instant.now());
-		info.setDuration(c.stopInMillisecond());
-		logger.trace(req + " " + c.stopInMillisecond() +"ms");
 		TechnicalServiceManager.inst().store(info);
 		
 		return response;

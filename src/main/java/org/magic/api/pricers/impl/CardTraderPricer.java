@@ -135,9 +135,9 @@ public class CardTraderPricer extends AbstractPricesProvider {
 			service.setListener((URLCallInfo callInfo)-> {
 				
 				var ni = new NetworkInfo();
-				ni.setDuration(callInfo.getDuration());
 				ni.setStart(callInfo.getStart());
 				ni.setEnd(callInfo.getEnd());
+				ni.setDuration(callInfo.getDuration());
 				ni.setReponse(callInfo.getResponse());
 				ni.setRequest(callInfo.getRequest());
 				

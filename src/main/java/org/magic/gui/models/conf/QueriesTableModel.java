@@ -10,7 +10,7 @@ public class QueriesTableModel extends GenericTableModel<DAOInfo> {
 	private static final long serialVersionUID = 1L;
 
 	public QueriesTableModel() {
-		setColumns("query","creationDate","endDate","duration","message");
+		setColumns("query","start","end","duration","message");
 		setWritable(false);
 	}
 	

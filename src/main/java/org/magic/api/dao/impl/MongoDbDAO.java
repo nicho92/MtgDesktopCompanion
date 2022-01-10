@@ -185,7 +185,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 								@Override
 								public void commandSucceeded(CommandSucceededEvent event) {
 										e.setDuration(event.getElapsedTime(TimeUnit.MILLISECONDS));
-										e.setEndDate(Instant.now());
+										e.setEnd(Instant.now());
 										e.setClasseName(event.getClass().getCanonicalName());
 									TechnicalServiceManager.inst().store(e);
 								}
@@ -201,7 +201,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 								public void commandFailed(CommandFailedEvent event) {
 									e.setMessage(event.getThrowable().getMessage());
 									e.setDuration(event.getElapsedTime(TimeUnit.MILLISECONDS));
-									e.setEndDate(Instant.now());
+									e.setEnd(Instant.now());
 									TechnicalServiceManager.inst().store(e);
 								}
 							})
