@@ -20,11 +20,13 @@ import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.MapTableModel;
+import org.magic.gui.models.conf.DiscordInfoTableModel;
 import org.magic.gui.models.conf.JsonInfoTableModel;
 import org.magic.gui.models.conf.NetworkTableModel;
 import org.magic.gui.models.conf.QueriesTableModel;
 import org.magic.gui.models.conf.TaskTableModel;
 import org.magic.gui.models.conf.ThreadsTableModel;
+import org.magic.servers.impl.DiscordBotServer;
 import org.magic.servers.impl.JSONHttpServer;
 import org.magic.servers.impl.QwartzServer;
 import org.magic.services.MTGConstants;
@@ -51,7 +53,7 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 	private MapTableModel<String, Long> modelDao;
 	private MapTableModel<String,Object> modelCacheJson;
 	private JsonInfoTableModel modelJsonServerInfo;
-	
+	private DiscordInfoTableModel discordModel;
 	
 	public TechnicalMonitorPanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -63,6 +65,8 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 		modelDao = new MapTableModel<>();
 		modelCacheJson = new MapTableModel<>();
 		modelJsonServerInfo = new JsonInfoTableModel();
+		discordModel = new DiscordInfoTableModel();
+		
 		
 		modelScript = new GenericTableModel<JsonObject>()
 				{
@@ -87,9 +91,8 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 		modelNetwork.bind(TechnicalServiceManager.inst().getNetworkInfos());
 		queryModel.bind(TechnicalServiceManager.inst().getDaoInfos());
 		modelJsonServerInfo.bind(TechnicalServiceManager.inst().getJsonInfo());
-
+		discordModel.bind(TechnicalServiceManager.inst().getDiscordInfos());
 		modelConfig.init(TechnicalServiceManager.inst().getSystemInfo());
-	
 		modelDao.init(MTG.getEnabledPlugin(MTGDao.class).getDBSize());
 		
 		
@@ -114,6 +117,10 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 		var tableJsonInfo= UITools.createNewTable(modelJsonServerInfo);
 		UITools.initTableFilter(tableJsonInfo);
 		
+		var tableDiscordInfo= UITools.createNewTable(discordModel);
+		UITools.initTableFilter(tableDiscordInfo);
+		
+		
 		TableCellRenderer durationRenderer = (JTable table, Object value, boolean isSelected,boolean hasFocus, int row, int column)->{
 						var lab= new JLabel(DurationFormatUtils.formatDurationHMS((Long)value));
 						lab.setOpaque(false);
@@ -132,7 +139,7 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 		tableQueries.setDefaultRenderer(Long.class, durationRenderer);
 		tableDaos.setDefaultRenderer(Long.class, sizeRenderer);
 		tableJsonInfo.setDefaultRenderer(Long.class, durationRenderer);
-		
+		tableDiscordInfo.setDefaultRenderer(Long.class, durationRenderer);
 		
 		tabs.addTab("Config",MTGConstants.ICON_SMALL_HELP,new JScrollPane(UITools.createNewTable(modelConfig)));
 		tabs.addTab("Threads",MTGConstants.ICON_TAB_ADMIN,new JScrollPane(UITools.createNewTable(modelThreads)));
@@ -141,6 +148,7 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 		tabs.addTab("Qwartz Script",MTGConstants.ICON_SMALL_SCRIPT,new JScrollPane(tableScripts));
 		tabs.addTab("Queries",MTGConstants.ICON_TAB_DAO,new JScrollPane(tableQueries));
 		tabs.addTab("DB Size",MTGConstants.ICON_TAB_DAO,new JScrollPane(tableDaos));
+		tabs.addTab("Discord",new DiscordBotServer().getIcon()  ,new JScrollPane(tableDiscordInfo));
 		tabs.addTab("JsonServer Cache",MTGConstants.ICON_TAB_CACHE,new JScrollPane(tableCacheJson));
 		tabs.addTab("JsonServer Queries",MTGConstants.ICON_TAB_SERVER,new JScrollPane(tableJsonInfo));
 		UITools.addTab(tabs, new LoggerViewPanel());
@@ -170,7 +178,7 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 			queryModel.fireTableDataChanged();
 			modelDao.fireTableDataChanged();
 			modelJsonServerInfo.fireTableDataChanged();
-
+			discordModel.fireTableDataChanged();
 			
 			if(MTG.getPlugin("Qwartz", MTGServer.class).isAlive()) {
 				try {

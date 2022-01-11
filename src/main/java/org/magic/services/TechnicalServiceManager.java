@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.magic.api.beans.audit.DAOInfo;
+import org.magic.api.beans.audit.DiscordInfo;
 import org.magic.api.beans.audit.JsonQueryInfo;
 import org.magic.api.beans.audit.NetworkInfo;
 import org.magic.api.beans.audit.TaskInfo;
@@ -21,6 +22,7 @@ public class TechnicalServiceManager {
 	private List<DAOInfo> daoInfos;
 	private List<NetworkInfo> networkInfos;
 	private List<TaskInfo> tasksInfos;
+	private List<DiscordInfo> discordInfos;
 
 	public static TechnicalServiceManager inst()
 	{
@@ -35,9 +37,15 @@ public class TechnicalServiceManager {
 		networkInfos = new ArrayList<>();
 		daoInfos = new ArrayList<>();
 		tasksInfos = new ArrayList<>();
+		discordInfos = new ArrayList<>();
 	}
 	
-	 public List<JsonQueryInfo> getJsonInfo() {
+	
+	public List<DiscordInfo> getDiscordInfos() {
+		return discordInfos;
+	}
+	
+	public List<JsonQueryInfo> getJsonInfo() {
 		return jsonInfo;
 	}
 
@@ -86,6 +94,11 @@ public class TechnicalServiceManager {
 
 	public ThreadInfo[] getThreadsInfos() {
 		return ManagementFactory.getThreadMXBean().dumpAllThreads(true, true);
+	}
+
+	public void store(DiscordInfo info) {
+		discordInfos.add(info);
+		
 	}
 	
 	

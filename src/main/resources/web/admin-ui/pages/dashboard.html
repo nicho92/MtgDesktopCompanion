@@ -27,14 +27,18 @@
   <link href="../dist/css/now-ui-dashboard.css" rel="stylesheet" />
   
   
-  <script src="../dist/demo/demo.js"></script>
+  <script src="../dist/js/now-ui-charts.js"></script>
   
   
   
   <script>
     $(document).ready(function() {
-      // Javascript method's body can be found in assets/js/demos.js
-      demo.initDashboardPageCharts();
+     
+    	$.get("https://mtgcompanion.me:1234/admin/jsonQueries",function(data){
+    		demo.initDashboardPageCharts();	
+    	});
+    	
+      	
 
     });
   </script>

@@ -5,6 +5,7 @@ import static org.magic.tools.MTG.listEnabledPlugins;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -32,6 +33,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat.FORMATS;
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.audit.DiscordInfo;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
@@ -44,6 +46,7 @@ import org.magic.api.sorters.PricesCardsShakeSorter;
 import org.magic.api.sorters.PricesCardsShakeSorter.SORT;
 import org.magic.servers.impl.NavigableEmbed.EmbedButton;
 import org.magic.services.MTGConstants;
+import org.magic.services.TechnicalServiceManager;
 import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 
@@ -112,6 +115,13 @@ public class DiscordBotServer extends AbstractMTGServer {
 	}
 	
 	private void analyseMessage(MessageReceivedEvent event) {
+		var info = new DiscordInfo();
+		info.setAuthor(event.getAuthor());
+		info.setGuild(event.getGuild());
+		info.setChannel(event.getChannel());
+		info.setMessage(event.getMessage().getContentRaw());
+		
+		
 		
 		var p = Pattern.compile(REGEX);
 		var m = p.matcher(event.getMessage().getContentRaw());
@@ -130,18 +140,27 @@ public class DiscordBotServer extends AbstractMTGServer {
 			if(name.equalsIgnoreCase("help"))
 			{
 				responseHelp(event);
+				info.setEnd(Instant.now());
+				TechnicalServiceManager.inst().store(info);
+				
 				return;
 			}
 			
 			if(name.toLowerCase().startsWith("variation|"))
 			{
 				responseChardShake(event,name);
+				info.setEnd(Instant.now());
+				TechnicalServiceManager.inst().store(info);
+				
 				return;
 			}
 			
 			if(name.toLowerCase().startsWith("format|"))
 			{
 				responseFormats(event,name);
+				info.setEnd(Instant.now());
+				TechnicalServiceManager.inst().store(info);
+				
 				return;
 			}
 			
@@ -149,11 +168,19 @@ public class DiscordBotServer extends AbstractMTGServer {
 			if(name.toLowerCase().startsWith("mkm"))
 			{
 				responseMkmStock(event);
+				info.setEnd(Instant.now());
+				TechnicalServiceManager.inst().store(info);
+				
 				return;
 			}
 			
 			
 			responseSearch(event,name);
+			info.setEnd(Instant.now());
+			TechnicalServiceManager.inst().store(info);
+			
+		
+			
 		}	
 	}
 
@@ -202,6 +229,8 @@ public class DiscordBotServer extends AbstractMTGServer {
 		} catch (IOException e) {
 			event.getChannel().sendMessage("Hoopsy " +e ).queue();
 		}
+		
+		
 	}
 
 
@@ -231,9 +260,6 @@ public class DiscordBotServer extends AbstractMTGServer {
 		
 		if(!getString(PRICE_KEYWORDS).isEmpty())
 			channel.sendMessage("Also you can type one of this keyword if you want to get prices : " + getString(PRICE_KEYWORDS)).queue();
-		
-		
-		
 		
 	}
 
