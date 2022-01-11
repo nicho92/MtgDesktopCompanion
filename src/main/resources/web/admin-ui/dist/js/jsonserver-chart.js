@@ -204,8 +204,6 @@ jsonserver = {
       }
     });
 
-    var cardStatsMiniLineColor = "#fff",
-      cardStatsMiniDotColor = "#fff";
 
     ctx = document.getElementById('lineChartExample').getContext("2d");
 
@@ -218,7 +216,7 @@ jsonserver = {
     gradientFill.addColorStop(1, "rgba(249, 99, 59, 0.40)");
 
     myChart = new Chart(ctx, {
-      type: 'line',
+      type: 'pie',
       responsive: true,
       data: {
         labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
