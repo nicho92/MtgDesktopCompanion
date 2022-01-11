@@ -15,6 +15,7 @@ import static spark.Spark.options;
 import static spark.Spark.port;
 import static spark.Spark.post;
 import static spark.Spark.put;
+import static spark.Spark.staticFiles;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -262,6 +263,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 			running = false;
 			logger.error(e);
 		});
+		
+		if(getBoolean("ENABLE_WEB_ADMIN"))
+			staticFiles.location("/web/admin-ui");
 		
 		exception(Exception.class, (Exception exception, Request request, Response response) -> {
 			logger.error("Error :" + request.headers(URLTools.REFERER) + ":" + exception.getMessage(), exception);
@@ -1237,7 +1241,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		map.put(KEYSTORE_URI, new File(MTGConstants.DATA_DIR,"jetty.jks").getAbsolutePath());
 		map.put(KEYSTORE_PASS, "changeit");
 		map.put(CACHE_TIMEOUT, "60");
-		
+		map.put("ENABLE_WEB_ADMIN", "true");
 		return map;
 	}
 

@@ -3073,27 +3073,12 @@ img {
   box-shadow: 0px 10px 25px 0px rgba(0, 0, 0, 0.3);
 }
 
-/* --------------------------------
-
-Nucleo Outline Web Font - nucleoapp.com/
-License - nucleoapp.com/license/
-Created using IcoMoon - icomoon.io
-
--------------------------------- */
-@font-face {
-  font-family: 'Nucleo Outline';
-  src: url("../fonts/nucleo-outline.eot");
-  src: url("../fonts/nucleo-outline.eot") format("embedded-opentype"), url("../fonts/nucleo-outline.woff2") format("woff2"), url("../fonts/nucleo-outline.woff") format("woff"), url("../fonts/nucleo-outline.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
 
 /*------------------------
 	base class definition
 -------------------------*/
 .now-ui-icons {
   display: inline-block;
-  font: normal normal normal 14px/1 'Nucleo Outline';
   font-size: inherit;
   speak: none;
   text-transform: none;
