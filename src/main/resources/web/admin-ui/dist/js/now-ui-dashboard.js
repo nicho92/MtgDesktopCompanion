@@ -1,50 +1,5 @@
-/*!
 
- =========================================================
- * site.product_name - vsite.current_version
- =========================================================
 
- * Product Page: site.link_tim
- * Copyright site.year Creative Tim (http://www.creative-tim.com)
-
- * Designed by www.invisionapp.com Coded by www.creative-tim.com
-
- =========================================================
-
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
- */
-
-/*!
-
- =========================================================
- * Now UI Dashboard - v1.5.0
- =========================================================
-
- * Product Page: https://www.creative-tim.com/product/now-ui-dashboard
- * Copyright 2019 Creative Tim (http://www.creative-tim.com)
-
- * Designed by www.invisionapp.com Coded by www.creative-tim.com
-
- =========================================================
-
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
- */
-
-(function() {
-  isWindows = navigator.platform.indexOf('Win') > -1 ? true : false;
-
-  if (isWindows) {
-    // if we are on windows OS we activate the perfectScrollbar function
-    var ps = new PerfectScrollbar('.sidebar-wrapper');
-    var ps2 = new PerfectScrollbar('.main-panel');
-
-    $('html').addClass('perfect-scrollbar-on');
-  } else {
-    $('html').addClass('perfect-scrollbar-off');
-  }
-})();
 
 transparent = true;
 transparentDemo = true;
@@ -151,31 +106,6 @@ $(window).resize(function() {
     $('body').removeClass('sidebar-mini');
   }
 });
-
-nowuiDashboard = {
-  misc: {
-    navbar_menu_visible: 0
-  },
-
-  showNotification: function(from, align) {
-    color = 'primary';
-
-    $.notify({
-      icon: "now-ui-icons ui-1_bell-53",
-      message: "Welcome to <b>Now Ui Dashboard</b> - a beautiful freebie for every web developer."
-
-    }, {
-      type: color,
-      timer: 8000,
-      placement: {
-        from: from,
-        align: align
-      }
-    });
-  }
-
-
-};
 
 function hexToRGB(hex, alpha) {
   var r = parseInt(hex.slice(1, 3), 16),
