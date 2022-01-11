@@ -1,10 +1,15 @@
 package org.magic.api.beans.audit;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+
+import nl.basjes.parse.useragent.UserAgent;
+import nl.basjes.parse.useragent.UserAgent.ImmutableUserAgent;
 
 public class JsonQueryInfo extends AbstractAuditableItem {
 
@@ -18,6 +23,14 @@ public class JsonQueryInfo extends AbstractAuditableItem {
 	private Map<String, String> params;
 	private Set<String> attributes;
 	private Map<String, String> headers;
+	private UserAgent userAgent;
+	
+	public JsonQueryInfo() {
+		params=new HashMap<>();
+		attributes = new HashSet<>();
+		headers = new HashMap<>();
+	}
+	
 	
 	@Override
 	public JsonObject toJson() {
@@ -29,6 +42,7 @@ public class JsonQueryInfo extends AbstractAuditableItem {
 			jo.addProperty("duration", getDuration());
 			jo.addProperty("contentType", getContentType());
 			jo.addProperty("ip", getIp());
+			
 			var arr = new JsonArray();
 			attributes.forEach(arr::add);
 			jo.add("attributes", arr);
@@ -41,7 +55,11 @@ public class JsonQueryInfo extends AbstractAuditableItem {
 			params.entrySet().forEach(e->objParams.addProperty(e.getKey(), e.getValue()));
 			jo.add("params", objParams);
 			
-			
+			var objUa = new JsonObject();
+			if(userAgent!=null)
+				userAgent.toMap().entrySet().forEach(e->objUa.addProperty(e.getKey(), e.getValue()));
+
+			jo.add("userAgent", objUa);
 			
 		return jo;
 	}
@@ -109,6 +127,11 @@ public class JsonQueryInfo extends AbstractAuditableItem {
 	
 	public Map<String, String> getHeaders() {
 		return headers;
+	}
+
+	public void setUserAgent(ImmutableUserAgent ua) {
+		this.userAgent=ua;
+		
 	}
 
 	

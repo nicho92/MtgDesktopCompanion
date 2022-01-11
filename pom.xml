@@ -96,6 +96,11 @@
   <artifactId>svgSalamander</artifactId>
   <version>1.1.3</version>
 </dependency>
+	 <dependency>
+    <groupId>nl.basjes.parse.useragent</groupId>
+    <artifactId>yauaa</artifactId>
+    <version>6.7</version>
+</dependency>
 	 
 	<dependency>
     <groupId>com.squareup.okhttp3</groupId>

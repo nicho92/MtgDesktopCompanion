@@ -103,6 +103,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
+import nl.basjes.parse.useragent.UserAgent;
+import nl.basjes.parse.useragent.UserAgentAnalyzer;
 import spark.Request;
 import spark.Response;
 import spark.ResponseTransformer;
@@ -136,7 +138,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 	private static final String RETURN_OK = "{\"result\":\"OK\"}";
 	private static final String CACHE_TIMEOUT = "CACHE_TIMEOUT";
 	private JsonExport converter;
-	
+	private UserAgentAnalyzer ua ;
 	private Instant start;
 	private AbstractEmbeddedCacheProvider<String, Object> cache;
 	
@@ -154,6 +156,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 	public JSONHttpServer() {
 		manager = new MTGDeckManager();
 		converter = new JsonExport();
+		ua = UserAgentAnalyzer.newBuilder().build();
 		transformer = new ResponseTransformer() {
 			@Override
 			public String render(Object model) throws Exception {
@@ -229,16 +232,18 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 	private void addInfo(Request request, Response response) {
 		var info= new JsonQueryInfo();
-		info.setStart(start);
-		info.setContentType(request.contentType());
-		info.setIp(request.ip());
-		info.setMethod(request.requestMethod());
-		info.setUrl(request.uri());
-		info.setParameters(request.params());
-		info.setAttributs(request.attributes());
-		info.setHeaders(request.headers().stream().collect(Collectors.toMap(s->s,request::headers)));			
-		info.setStatus(response.status());
-		info.setEnd(Instant.now());
+			info.setStart(start);
+			info.setContentType(request.contentType());
+			info.setIp(request.ip());
+			info.setMethod(request.requestMethod());
+			info.setUrl(request.uri());
+			info.setParameters(request.params());
+			info.setAttributs(request.attributes());
+			info.setHeaders(request.headers().stream().collect(Collectors.toMap(s->s,request::headers)));			
+			info.setStatus(response.status());
+			info.setUserAgent(ua.parse(request.userAgent()));
+			info.setEnd(Instant.now());
+			
 		TechnicalServiceManager.inst().store(info);
 		
 	}

@@ -41,7 +41,7 @@ public class DAOInfo extends AbstractAuditableItem{
 	public long getDuration() {
 		return duration;
 	}
-
+	
 	@Override
 	public JsonObject toJson() {
 		var obj = new JsonObject();
