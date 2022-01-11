@@ -58,7 +58,7 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 			init();
 		
 		Filter cheapFictionFilter = filter(where("name").is(mc.getName())
-														  .and("sku").contains(mc.getCurrentSet().getId())
+														  .and("sku").contains(mc.getCurrentSet().getId().toUpperCase())
 														  .and("is_foil").is(String.valueOf(foil))
 														  );
 		
