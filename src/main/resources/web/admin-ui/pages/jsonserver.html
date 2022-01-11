@@ -27,7 +27,7 @@
   <link href="../dist/css/now-ui-dashboard.css" rel="stylesheet" />
   
   
-  <script src="../dist/js/now-ui-charts.js"></script>
+  <script src="../dist/js/jsonserver-chart.js"></script>
   
   
   
@@ -35,7 +35,7 @@
     $(document).ready(function() {
      
     	$.get("https://mtgcompanion.me:1234/admin/jsonQueries",function(data){
-    		demo.initDashboardPageCharts();	
+    		jsonserver.initDashboardPageCharts(data);	
     	});
     	
       	

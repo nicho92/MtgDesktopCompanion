@@ -1,9 +1,16 @@
-demo = {
+jsonserver = {
   
-  
-
-  initDashboardPageCharts: function() {
-
+    initDashboardPageCharts: function(datas) {
+	
+	var dayCounts = datas.reduce(function (result, d) {
+								    var day = moment(d.start).format("YYYY-MM-DD");
+								    if (!result[day]) {
+								        result[day] = 0;
+								    }
+								    result[day]++;
+								    return result;
+									}, {});
+	
     chartColor = "#FFFFFF";
 
     // General configuration for the charts with Line gradientStroke
@@ -117,10 +124,10 @@ demo = {
     gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
     gradientFill.addColorStop(1, "rgba(255, 255, 255, 0.24)");
 
-    var myChart = new Chart(ctx, {
+    new Chart(ctx, {
       type: 'line',
       data: {
-        labels: ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"],
+        labels: Object.keys(dayCounts),
         datasets: [{
           label: "Data",
           borderColor: chartColor,
@@ -135,7 +142,7 @@ demo = {
           fill: true,
           backgroundColor: gradientFill,
           borderWidth: 2,
-          data: [50, 150, 100, 190, 130, 90, 150, 160, 120, 140, 190, 95]
+          data: Object.values(dayCounts)
         }]
       },
       options: {
@@ -196,6 +203,9 @@ demo = {
         }
       }
     });
+
+    var cardStatsMiniLineColor = "#fff",
+      cardStatsMiniDotColor = "#fff";
 
     ctx = document.getElementById('lineChartExample').getContext("2d");
 
@@ -338,6 +348,140 @@ demo = {
     };
 
     var viewsChart = new Chart(e, a);
-  }
+  },
 
+  initGoogleMaps: function() {
+    var myLatlng = new google.maps.LatLng(40.748817, -73.985428);
+    var mapOptions = {
+      zoom: 13,
+      center: myLatlng,
+      scrollwheel: false, //we disable de scroll over the map, it is a really annoing when you scroll through page
+      styles: [{
+        "featureType": "water",
+        "elementType": "geometry",
+        "stylers": [{
+          "color": "#e9e9e9"
+        }, {
+          "lightness": 17
+        }]
+      }, {
+        "featureType": "landscape",
+        "elementType": "geometry",
+        "stylers": [{
+          "color": "#f5f5f5"
+        }, {
+          "lightness": 20
+        }]
+      }, {
+        "featureType": "road.highway",
+        "elementType": "geometry.fill",
+        "stylers": [{
+          "color": "#ffffff"
+        }, {
+          "lightness": 17
+        }]
+      }, {
+        "featureType": "road.highway",
+        "elementType": "geometry.stroke",
+        "stylers": [{
+          "color": "#ffffff"
+        }, {
+          "lightness": 29
+        }, {
+          "weight": 0.2
+        }]
+      }, {
+        "featureType": "road.arterial",
+        "elementType": "geometry",
+        "stylers": [{
+          "color": "#ffffff"
+        }, {
+          "lightness": 18
+        }]
+      }, {
+        "featureType": "road.local",
+        "elementType": "geometry",
+        "stylers": [{
+          "color": "#ffffff"
+        }, {
+          "lightness": 16
+        }]
+      }, {
+        "featureType": "poi",
+        "elementType": "geometry",
+        "stylers": [{
+          "color": "#f5f5f5"
+        }, {
+          "lightness": 21
+        }]
+      }, {
+        "featureType": "poi.park",
+        "elementType": "geometry",
+        "stylers": [{
+          "color": "#dedede"
+        }, {
+          "lightness": 21
+        }]
+      }, {
+        "elementType": "labels.text.stroke",
+        "stylers": [{
+          "visibility": "on"
+        }, {
+          "color": "#ffffff"
+        }, {
+          "lightness": 16
+        }]
+      }, {
+        "elementType": "labels.text.fill",
+        "stylers": [{
+          "saturation": 36
+        }, {
+          "color": "#333333"
+        }, {
+          "lightness": 40
+        }]
+      }, {
+        "elementType": "labels.icon",
+        "stylers": [{
+          "visibility": "off"
+        }]
+      }, {
+        "featureType": "transit",
+        "elementType": "geometry",
+        "stylers": [{
+          "color": "#f2f2f2"
+        }, {
+          "lightness": 19
+        }]
+      }, {
+        "featureType": "administrative",
+        "elementType": "geometry.fill",
+        "stylers": [{
+          "color": "#fefefe"
+        }, {
+          "lightness": 20
+        }]
+      }, {
+        "featureType": "administrative",
+        "elementType": "geometry.stroke",
+        "stylers": [{
+          "color": "#fefefe"
+        }, {
+          "lightness": 17
+        }, {
+          "weight": 1.2
+        }]
+      }]
+    };
+
+    var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+    var marker = new google.maps.Marker({
+      position: myLatlng,
+      title: "Hello World!"
+    });
+
+    // To add the marker to the map, call setMap();
+    marker.setMap(map);
+  }
 };
