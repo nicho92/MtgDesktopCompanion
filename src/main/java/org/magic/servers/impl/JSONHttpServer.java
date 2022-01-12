@@ -104,7 +104,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-import nl.basjes.parse.useragent.UserAgent;
 import nl.basjes.parse.useragent.UserAgentAnalyzer;
 import spark.Request;
 import spark.Response;
@@ -871,6 +870,10 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return serv.toJsonDetails();
 		}, transformer);
 		
+		get("/admin/discord", URLTools.HEADER_JSON, (request, response) -> {
+			return 	TechnicalServiceManager.inst().getDiscordInfos();
+		}, transformer);
+		
 		get("/admin/currency", URLTools.HEADER_JSON, (request, response) -> {
 			MTGControler.getInstance().getCurrencyService().clean();
 			return MTGControler.getInstance().getCurrencyService().getChanges();
@@ -882,35 +885,25 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 		
 		get("/admin/jdbc", URLTools.HEADER_JSON, (request, response) -> {
-			var arr = new JsonArray();
-			TechnicalServiceManager.inst().getDaoInfos().forEach(info->arr.add(info.toJson()));
-			return arr;
-			
+			return TechnicalServiceManager.inst().getDaoInfos();
 		}, transformer);
 		
 		get("/admin/jsonQueries", URLTools.HEADER_JSON, (request, response) -> {
-			var arr = new JsonArray();
-			TechnicalServiceManager.inst().getJsonInfo().forEach(info->arr.add(info.toJson()));
-			return arr;
-			
+			return TechnicalServiceManager.inst().getJsonInfo();
 		}, transformer);
 		
 		get("/admin/threads", URLTools.HEADER_JSON, (request, response) -> {
 			return ThreadManager.getInstance().toJson();
 		}, transformer);
 		
-		
 		get("/admin/network", URLTools.HEADER_JSON, (request, response) -> {
-			var arr = new JsonArray();
-			TechnicalServiceManager.inst().getNetworkInfos().forEach(net->arr.add(net.toJson()));
-			return arr;
+			return TechnicalServiceManager.inst().getNetworkInfos();
 		}, transformer);
 		
 		get("/admin/clearCache", URLTools.HEADER_JSON, (request, response) -> {
 			clearCache();
 			return "ok";
 		}, transformer);
-		
 		
 		get("/admin/plugins/list", URLTools.HEADER_JSON, (request, response) -> {
 			var obj = new JsonObject();

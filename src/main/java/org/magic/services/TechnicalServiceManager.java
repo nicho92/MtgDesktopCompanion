@@ -1,5 +1,7 @@
 package org.magic.services;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadInfo;
 import java.util.ArrayList;
@@ -7,12 +9,15 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.magic.api.beans.audit.AbstractAuditableItem;
 import org.magic.api.beans.audit.DAOInfo;
 import org.magic.api.beans.audit.DiscordInfo;
 import org.magic.api.beans.audit.JsonQueryInfo;
 import org.magic.api.beans.audit.NetworkInfo;
 import org.magic.api.beans.audit.TaskInfo;
 import org.magic.api.beans.audit.TaskInfo.STATE;
+import org.magic.api.exports.impl.JsonExport;
+import org.magic.tools.FileTools;
 
 public class TechnicalServiceManager {
 
@@ -23,7 +28,9 @@ public class TechnicalServiceManager {
 	private List<NetworkInfo> networkInfos;
 	private List<TaskInfo> tasksInfos;
 	private List<DiscordInfo> discordInfos;
-
+	private JsonExport export ; 
+	
+	
 	public static TechnicalServiceManager inst()
 	{
 		if(inst==null)
@@ -32,12 +39,26 @@ public class TechnicalServiceManager {
 		return inst;
 	}
 	
+	public void store() throws IOException
+	{
+		storeItems(jsonInfo);
+	}
+	
+	private  <T extends AbstractAuditableItem> void storeItems(List<T> items) throws IOException
+	{
+		FileTools.saveFile(new File(MTGConstants.DATA_DIR,"test.json"), export.toJson(items));
+	}
+	
+	
+	
 	public TechnicalServiceManager() {
 		jsonInfo= new ArrayList<>();
 		networkInfos = new ArrayList<>();
 		daoInfos = new ArrayList<>();
 		tasksInfos = new ArrayList<>();
 		discordInfos = new ArrayList<>();
+		
+		export = new JsonExport();
 	}
 	
 	

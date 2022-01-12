@@ -2,7 +2,20 @@ jsonserver = {
   
     initDashboardPageCharts: function(datas) {
 	
-	var dayCounts = datas.reduce(function (result, d) {
+	const CHART_COLORS = [
+	  'rgb(255, 99, 132)',
+	  'rgb(255, 159, 64)',
+	  'rgb(255, 205, 86)',
+	  'rgb(75, 192, 192)',
+	  'rgb(54, 162, 235)',
+	  'rgb(153, 102, 255)',
+	  'rgb(201, 203, 207)'
+	];
+	
+	
+	
+	
+		var dayCounts = datas.reduce(function (result, d) {
 								    var day = moment(d.start).format("YYYY-MM-DD");
 								    if (!result[day]) {
 								        result[day] = 0;
@@ -11,13 +24,52 @@ jsonserver = {
 								    return result;
 									}, {});
 	
+	
+		var deviceCount = datas.reduce(function (result, d) {
+								    var device = d.userAgent.OperatingSystemName
+								    if (!result[device]) {
+								        result[device] = 0;
+								    }
+								    result[device]++;
+								    return result;
+									}, {});
+									
+		var browserCount = datas.reduce(function (result, d) {
+								    var device = d.userAgent.AgentName
+								    if (!result[device]) {
+								        result[device] = 0;
+								    }
+								    result[device]++;
+								    return result;
+									}, {});
+	
+		var hourCount = datas.reduce(function (result, d) {
+								    var hour = moment(d.start).format('HH')+"H";
+								    if (!result[hour]) {
+								        result[hour] = 0;
+								    }
+								    result[hour]++;
+								    return result;
+									}, {});
+	
+		var endpointCount = datas.reduce(function (result, d) {
+								    var uri = d.url.substring(0,d.url.lastIndexOf("/"));
+								    if (!result[uri]) {
+								        result[uri] = 0;
+								    }
+								    result[uri]++;
+								    return result;
+									}, {});
+	
+	
+	
     chartColor = "#FFFFFF";
 
     // General configuration for the charts with Line gradientStroke
     gradientChartOptionsConfiguration = {
       maintainAspectRatio: false,
       legend: {
-        display: false
+        display: true
       },
       tooltips: {
         bodySpacing: 4,
@@ -45,7 +97,7 @@ jsonserver = {
         }],
         xAxes: [{
           display: 0,
-          gridLines: 0,
+          gridLines: 5,
           ticks: {
             display: false
           },
@@ -91,10 +143,9 @@ jsonserver = {
           }
         }],
         xAxes: [{
-          display: 0,
           gridLines: 0,
           ticks: {
-            display: false
+            display: true
           },
           gridLines: {
             zeroLineColor: "transparent",
@@ -204,58 +255,66 @@ jsonserver = {
       }
     });
 
-
-    ctx = document.getElementById('lineChartExample').getContext("2d");
-
-    gradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
-    gradientStroke.addColorStop(0, '#80b6f4');
-    gradientStroke.addColorStop(1, chartColor);
-
-    gradientFill = ctx.createLinearGradient(0, 170, 0, 50);
-    gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
-    gradientFill.addColorStop(1, "rgba(249, 99, 59, 0.40)");
-
-    myChart = new Chart(ctx, {
-      type: 'pie',
+	
+    new Chart( document.getElementById('deviceRepartitionChart').getContext("2d"), {
+      type: 'doughnut',
       responsive: true,
       data: {
-        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        labels: Object.keys(deviceCount),
         datasets: [{
-          label: "Active Users",
-          borderColor: "#f96332",
           pointBorderColor: "#FFF",
           pointBackgroundColor: "#f96332",
-          pointBorderWidth: 2,
           pointHoverRadius: 4,
           pointHoverBorderWidth: 1,
           pointRadius: 4,
           fill: true,
-          backgroundColor: gradientFill,
+          backgroundColor:  CHART_COLORS,
           borderWidth: 2,
-          data: [542, 480, 430, 550, 530, 453, 380, 434, 568, 610, 700, 630]
+          data: Object.values(deviceCount)
+        }]
+      },
+      options: gradientChartOptionsConfiguration
+    });
+
+    new Chart( document.getElementById('browserrepartitionchart').getContext("2d"), {
+      type: 'pie',
+      responsive: true,
+      data: {
+        labels: Object.keys(browserCount),
+        datasets: [{
+          label: "Active Users",
+          pointBorderColor: "#FFF",
+          pointBackgroundColor: "#f96332",
+          pointHoverRadius: 4,
+          pointHoverBorderWidth: 1,
+          pointRadius: 4,
+          fill: true,
+          backgroundColor:  CHART_COLORS,
+          borderWidth: 2,
+          data: Object.values(browserCount)
         }]
       },
       options: gradientChartOptionsConfiguration
     });
 
 
-    ctx = document.getElementById('lineChartExampleWithNumbersAndGrid').getContext("2d");
 
-    gradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
-    gradientStroke.addColorStop(0, '#18ce0f');
-    gradientStroke.addColorStop(1, chartColor);
 
+
+
+
+	ctx = document.getElementById('hourRepartitionChart').getContext("2d")
     gradientFill = ctx.createLinearGradient(0, 170, 0, 50);
     gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
     gradientFill.addColorStop(1, hexToRGB('#18ce0f', 0.4));
 
-    myChart = new Chart(ctx, {
+    new Chart(ctx, {
       type: 'line',
       responsive: true,
       data: {
-        labels: ["12pm,", "3pm", "6pm", "9pm", "12am", "3am", "6am", "9am"],
+        labels: Object.keys(hourCount),
         datasets: [{
-          label: "Email Stats",
+          label: "Connections by hours",
           borderColor: "#18ce0f",
           pointBorderColor: "#FFF",
           pointBackgroundColor: "#18ce0f",
@@ -266,14 +325,14 @@ jsonserver = {
           fill: true,
           backgroundColor: gradientFill,
           borderWidth: 2,
-          data: [40, 500, 650, 700, 1200, 1250, 1300, 1900]
+          data: Object.values(hourCount)
         }]
       },
       options: gradientChartOptionsConfigurationWithNumbersAndGrid
     });
 
-    var e = document.getElementById("barChartSimpleGradientsNumbers").getContext("2d");
 
+    var e = document.getElementById("requestedEndpoint").getContext("2d");
     gradientFill = ctx.createLinearGradient(0, 170, 0, 50);
     gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
     gradientFill.addColorStop(1, hexToRGB('#2CA8FF', 0.6));
@@ -281,9 +340,8 @@ jsonserver = {
     var a = {
       type: "bar",
       data: {
-        labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+        labels: Object.keys(endpointCount),
         datasets: [{
-          label: "Active Countries",
           backgroundColor: gradientFill,
           borderColor: "#2CA8FF",
           pointBorderColor: "#FFF",
@@ -294,7 +352,7 @@ jsonserver = {
           pointRadius: 4,
           fill: true,
           borderWidth: 1,
-          data: [80, 99, 86, 96, 123, 85, 100, 75, 88, 90, 123, 155]
+          data: Object.values(endpointCount)
         }]
       },
       options: {
@@ -315,7 +373,7 @@ jsonserver = {
         scales: {
           yAxes: [{
             gridLines: 0,
-            gridLines: {
+			gridLines: {
               zeroLineColor: "transparent",
               drawBorder: false
             }
@@ -324,7 +382,7 @@ jsonserver = {
             display: 0,
             gridLines: 0,
             ticks: {
-              display: false
+              display: true
             },
             gridLines: {
               zeroLineColor: "transparent",
@@ -345,141 +403,34 @@ jsonserver = {
       }
     };
 
-    var viewsChart = new Chart(e, a);
-  },
+    new Chart(e, a);
 
-  initGoogleMaps: function() {
-    var myLatlng = new google.maps.LatLng(40.748817, -73.985428);
-    var mapOptions = {
-      zoom: 13,
-      center: myLatlng,
-      scrollwheel: false, //we disable de scroll over the map, it is a really annoing when you scroll through page
-      styles: [{
-        "featureType": "water",
-        "elementType": "geometry",
-        "stylers": [{
-          "color": "#e9e9e9"
-        }, {
-          "lightness": 17
-        }]
-      }, {
-        "featureType": "landscape",
-        "elementType": "geometry",
-        "stylers": [{
-          "color": "#f5f5f5"
-        }, {
-          "lightness": 20
-        }]
-      }, {
-        "featureType": "road.highway",
-        "elementType": "geometry.fill",
-        "stylers": [{
-          "color": "#ffffff"
-        }, {
-          "lightness": 17
-        }]
-      }, {
-        "featureType": "road.highway",
-        "elementType": "geometry.stroke",
-        "stylers": [{
-          "color": "#ffffff"
-        }, {
-          "lightness": 29
-        }, {
-          "weight": 0.2
-        }]
-      }, {
-        "featureType": "road.arterial",
-        "elementType": "geometry",
-        "stylers": [{
-          "color": "#ffffff"
-        }, {
-          "lightness": 18
-        }]
-      }, {
-        "featureType": "road.local",
-        "elementType": "geometry",
-        "stylers": [{
-          "color": "#ffffff"
-        }, {
-          "lightness": 16
-        }]
-      }, {
-        "featureType": "poi",
-        "elementType": "geometry",
-        "stylers": [{
-          "color": "#f5f5f5"
-        }, {
-          "lightness": 21
-        }]
-      }, {
-        "featureType": "poi.park",
-        "elementType": "geometry",
-        "stylers": [{
-          "color": "#dedede"
-        }, {
-          "lightness": 21
-        }]
-      }, {
-        "elementType": "labels.text.stroke",
-        "stylers": [{
-          "visibility": "on"
-        }, {
-          "color": "#ffffff"
-        }, {
-          "lightness": 16
-        }]
-      }, {
-        "elementType": "labels.text.fill",
-        "stylers": [{
-          "saturation": 36
-        }, {
-          "color": "#333333"
-        }, {
-          "lightness": 40
-        }]
-      }, {
-        "elementType": "labels.icon",
-        "stylers": [{
-          "visibility": "off"
-        }]
-      }, {
-        "featureType": "transit",
-        "elementType": "geometry",
-        "stylers": [{
-          "color": "#f2f2f2"
-        }, {
-          "lightness": 19
-        }]
-      }, {
-        "featureType": "administrative",
-        "elementType": "geometry.fill",
-        "stylers": [{
-          "color": "#fefefe"
-        }, {
-          "lightness": 20
-        }]
-      }, {
-        "featureType": "administrative",
-        "elementType": "geometry.stroke",
-        "stylers": [{
-          "color": "#fefefe"
-        }, {
-          "lightness": 17
-        }, {
-          "weight": 1.2
-        }]
-      }]
-    };
+$('#tableEndpoints').DataTable({
+                  'data' : datas,
+				  'order': [[ 2, "desc" ]],
+				  "responsive": true,
+                  'columns' : [
+                      {'data' : 'url'},
+                      {'data' : 'method'},
+                      {
+                          'data' : 'start',
+                          render : function(d,type,row){
+                              return moment(d).format('DD MMM YYYY, HH:mm:ss');
+                          }
+                        },
+                      {'data' : 'end',
+                      render : function(d,type,row){
+                               return moment(d).format('DD MMM YYYY, HH:mm:ss');
+                      }
+                    },
+                      {'data' : 'duration'},
+                      {'data' : 'ip'}
+                  ]
 
-    var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+        });
+	
 
-    var marker = new google.maps.Marker({
-      position: myLatlng,
-      title: "Hello World!"
-    });
 
-    // To add the marker to the map, call setMap();
-    marker.setMap(map);
-  }
+
+    }
 };
