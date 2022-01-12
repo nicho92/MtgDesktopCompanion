@@ -56,6 +56,7 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.JDAInfo;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Activity.ActivityType;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -113,6 +114,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 			
 		};
 	}
+	
 	
 	private void analyseMessage(MessageReceivedEvent event) {
 		var info = new DiscordInfo();
