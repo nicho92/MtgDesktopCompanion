@@ -24,6 +24,9 @@ public class JsonQueryInfo extends AbstractAuditableItem {
 	private Map<String, Object> attributes;
 	private Map<String, String> headers;
 	private UserAgent userAgent;
+	private String sessionId;
+	private String path;
+	private Map<String, String> queryParams;
 	
 	public JsonQueryInfo() {
 		params=new HashMap<>();
@@ -42,6 +45,14 @@ public class JsonQueryInfo extends AbstractAuditableItem {
 			jo.addProperty("duration", getDuration());
 			jo.addProperty("contentType", getContentType());
 			jo.addProperty("ip", getIp());
+			jo.addProperty("sessionID", getSessionId());
+			jo.addProperty("path", getPath());
+			
+			
+			var objQParams= new JsonObject();
+			queryParams.entrySet().forEach(e->objQParams.addProperty(e.getKey(), String.valueOf(e.getValue())));
+			jo.add("query", objQParams);
+			
 			
 			var objAttributes = new JsonObject();
 			attributes.entrySet().forEach(e->objAttributes.addProperty(e.getKey(), String.valueOf(e.getValue())));
@@ -130,6 +141,32 @@ public class JsonQueryInfo extends AbstractAuditableItem {
 
 	public void setUserAgent(ImmutableUserAgent ua) {
 		this.userAgent=ua;
+		
+	}
+
+	public String getSessionId() {
+		return sessionId;
+	}
+
+	public void setSessionId(String id) {
+		this.sessionId=id;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String servletPath) {
+		this.path=servletPath;
+	}
+	
+	public Map<String, String> getQueryParams() {
+		return queryParams;
+	}
+
+
+	public void setQuery(Map<String, String> map) {
+		this.queryParams=map;
 		
 	}
 
