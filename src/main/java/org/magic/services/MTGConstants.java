@@ -119,6 +119,7 @@ public class MTGConstants {
 	public static final String KEYSTORE_NAME = "jssecacerts";
 	public static final String KEYSTORE_PASS = "changeit";
 
+	public static final String ADMINUI_LOCATION = "web/admin-ui";
 	public static final String WEBUI_LOCATION = "web/web-ui";
 	public static final String WEBSHOP_LOCATION = "web/shop-ui";
 	public static final String WEBCOLLECTION_LOCATION = "web/collection-ui";

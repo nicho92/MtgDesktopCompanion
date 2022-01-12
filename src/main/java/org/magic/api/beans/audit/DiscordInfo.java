@@ -20,7 +20,10 @@ public class DiscordInfo extends AbstractAuditableItem {
 	@Override
 	public JsonObject toJson() {
 		var obj = new JsonObject();
-		
+			obj.addProperty("start", getStart().toEpochMilli());
+			obj.addProperty("end", getEnd().toEpochMilli());
+			obj.addProperty("duration", getDuration());
+			
 		var userObj = new JsonObject();
 			userObj.addProperty("id", user.getId());
 			userObj.addProperty("name", user.getName());
