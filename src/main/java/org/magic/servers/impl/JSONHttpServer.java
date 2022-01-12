@@ -55,7 +55,10 @@ import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.WebShopConfig;
+import org.magic.api.beans.audit.DAOInfo;
+import org.magic.api.beans.audit.DiscordInfo;
 import org.magic.api.beans.audit.JsonQueryInfo;
+import org.magic.api.beans.audit.NetworkInfo;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.beans.shop.Category;
@@ -231,7 +234,10 @@ public class JSONHttpServer extends AbstractMTGServer {
 	
 
 	private void addInfo(Request request, Response response) {
-		var info= new JsonQueryInfo();
+		
+		if(!request.uri().startsWith("/admin"))
+		{
+			var info= new JsonQueryInfo();
 			info.setStart(start);
 			info.setContentType(request.contentType());
 			info.setIp(request.ip());
@@ -243,9 +249,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 			info.setStatus(response.status());
 			info.setUserAgent(ua.parse(request.userAgent()));
 			info.setEnd(Instant.now());
-			
-		TechnicalServiceManager.inst().store(info);
-		
+			TechnicalServiceManager.inst().store(info);
+		}
 	}
 
 
@@ -871,7 +876,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 		
 		get("/admin/discord", URLTools.HEADER_JSON, (request, response) -> {
-			return 	TechnicalServiceManager.inst().getDiscordInfos();
+			return 	TechnicalServiceManager.inst().getDiscordInfos().stream().map(DiscordInfo::toJson).toList();
 		}, transformer);
 		
 		get("/admin/currency", URLTools.HEADER_JSON, (request, response) -> {
@@ -885,11 +890,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 		
 		get("/admin/jdbc", URLTools.HEADER_JSON, (request, response) -> {
-			return TechnicalServiceManager.inst().getDaoInfos();
+			return TechnicalServiceManager.inst().getDaoInfos().stream().map(DAOInfo::toJson).toList();
 		}, transformer);
 		
 		get("/admin/jsonQueries", URLTools.HEADER_JSON, (request, response) -> {
-			return TechnicalServiceManager.inst().getJsonInfo();
+			return TechnicalServiceManager.inst().getJsonInfo().stream().map(JsonQueryInfo::toJson).toList();
 		}, transformer);
 		
 		get("/admin/threads", URLTools.HEADER_JSON, (request, response) -> {
@@ -897,7 +902,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 		
 		get("/admin/network", URLTools.HEADER_JSON, (request, response) -> {
-			return TechnicalServiceManager.inst().getNetworkInfos();
+			return TechnicalServiceManager.inst().getNetworkInfos().stream().map(NetworkInfo::toJson).toList();
 		}, transformer);
 		
 		get("/admin/clearCache", URLTools.HEADER_JSON, (request, response) -> {

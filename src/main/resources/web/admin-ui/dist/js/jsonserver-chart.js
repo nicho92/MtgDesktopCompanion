@@ -16,7 +16,7 @@ jsonserver = {
 	
 	
 		var dayCounts = datas.reduce(function (result, d) {
-								    var day = moment(d.start).format("YYYY-MM-DD");
+								    var day = moment(d.start).format("YYYY-MM-DD HH");
 								    if (!result[day]) {
 								        result[day] = 0;
 								    }
@@ -54,20 +54,19 @@ jsonserver = {
 	
 		var endpointCount = datas.reduce(function (result, d) {
 								    var uri = d.url.substring(0,d.url.lastIndexOf("/"));
-								    if (!result[uri]) {
-								        result[uri] = 0;
-								    }
-								    result[uri]++;
+								    result[uri] = d.duration;
+								    console.log(result);
 								    return result;
 									}, {});
 	
 	
 	
-    chartColor = "#FFFFFF";
+    var chartColor = "#FFFFFF";
 
     // General configuration for the charts with Line gradientStroke
     gradientChartOptionsConfiguration = {
       maintainAspectRatio: false,
+      responsive: true,
       legend: {
         display: true
       },

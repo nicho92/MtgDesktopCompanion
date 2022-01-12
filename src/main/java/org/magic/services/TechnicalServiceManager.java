@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadInfo;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -41,12 +42,18 @@ public class TechnicalServiceManager {
 	
 	public void store() throws IOException
 	{
-		storeItems(jsonInfo);
+		storeItems(JsonQueryInfo.class,jsonInfo);
+		storeItems(DAOInfo.class,daoInfos);
+		storeItems(NetworkInfo.class,networkInfos);
+		storeItems(TaskInfo.class,tasksInfos);
+		storeItems(DiscordInfo.class,discordInfos);
+		
+		
 	}
 	
-	private  <T extends AbstractAuditableItem> void storeItems(List<T> items) throws IOException
+	private <T extends AbstractAuditableItem> void storeItems(Class<T> classe, List<T> items) throws IOException
 	{
-		FileTools.saveFile(new File(MTGConstants.DATA_DIR,"test.json"), export.toJson(items));
+		FileTools.saveFile(new File(MTGConstants.DATA_DIR,classe.getName()+"_"+new Date().hashCode()+"_.json"), export.toJson(items));
 	}
 	
 	
