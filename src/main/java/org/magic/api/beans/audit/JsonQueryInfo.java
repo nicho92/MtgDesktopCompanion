@@ -21,13 +21,13 @@ public class JsonQueryInfo extends AbstractAuditableItem {
 	private String url;
 	private int status;
 	private Map<String, String> params;
-	private Set<String> attributes;
+	private Map<String, Object> attributes;
 	private Map<String, String> headers;
 	private UserAgent userAgent;
 	
 	public JsonQueryInfo() {
 		params=new HashMap<>();
-		attributes = new HashSet<>();
+		attributes = new HashMap<>();
 		headers = new HashMap<>();
 	}
 	
@@ -43,9 +43,9 @@ public class JsonQueryInfo extends AbstractAuditableItem {
 			jo.addProperty("contentType", getContentType());
 			jo.addProperty("ip", getIp());
 			
-			var arr = new JsonArray();
-			attributes.forEach(arr::add);
-			jo.add("attributes", arr);
+			var objAttributes = new JsonObject();
+			attributes.entrySet().forEach(e->objAttributes.addProperty(e.getKey(), String.valueOf(e.getValue())));
+			jo.add("attributes", objAttributes);
 			
 			var objHeaders = new JsonObject();
 			headers.entrySet().forEach(e->objHeaders.addProperty(e.getKey(), e.getValue()));
@@ -106,18 +106,17 @@ public class JsonQueryInfo extends AbstractAuditableItem {
 
 	public void setParameters(Map<String, String> params) {
 		this.params=params;
-		
 	}
 
 	public Map<String, String> getParams() {
 		return params;
 	}
 	
-	public void setAttributs(Set<String> attributes) {
+	public void setAttributs(Map<String,Object> attributes) {
 		this.attributes=attributes;
 	}
 	
-	public Set<String> getAttributes() {
+	public Map<String,Object> getAttributes() {
 		return attributes;
 	}
 

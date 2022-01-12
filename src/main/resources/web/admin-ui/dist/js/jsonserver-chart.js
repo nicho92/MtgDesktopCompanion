@@ -54,8 +54,10 @@ jsonserver = {
 	
 		var endpointCount = datas.reduce(function (result, d) {
 								    var uri = d.url.substring(0,d.url.lastIndexOf("/"));
-								    result[uri] = d.duration;
-								    console.log(result);
+								     if (!result[uri]) {
+								        result[uri] = 0;
+								    }
+								    result[uri] += d.duration;
 								    return result;
 									}, {});
 	
