@@ -49,7 +49,7 @@ public class DiscordInfo extends AbstractAuditableItem {
 			var channelObj = new JsonObject();
 				channelObj.addProperty("name", channel.getName());
 				channelObj.addProperty("id", channel.getId());
-				channelObj.addProperty("historySize", channel.getHistory().size());
+				channelObj.addProperty("mention", channel.getAsMention());
 				obj.add("channel", channelObj);
 		}
 			
