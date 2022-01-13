@@ -1,5 +1,7 @@
 package org.magic.api.beans.audit;
 
+import java.net.URI;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
 
@@ -48,6 +50,7 @@ public class NetworkInfo extends AbstractAuditableItem{
 		jo.addProperty("duration", getDuration());
 		jo.addProperty("aborted", getRequest().isAborted());
 		jo.addProperty("protocol", getRequest().getRequestLine().getProtocolVersion().toString());
+		jo.addProperty("host", getRequest().getURI().getHost());
 		
 		if(getResponse()!=null) {
 			

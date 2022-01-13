@@ -120,7 +120,7 @@ var  gradientChartOptionsConfigurationWithNumbersAndGrid = {
 	
 	
 		
-jsonserver = {
+server = {
   
     initDashboardPageCharts: function(data, start, end) {
 		var datas = data.filter(a => {
@@ -141,7 +141,7 @@ jsonserver = {
 	
 	
 		var deviceCount = datas.reduce(function (result, d) {
-								    var device = d.userAgent.OperatingSystemName
+								    var device = d.userAgent.DeviceName
 								    if (!result[device]) {
 								        result[device] = 0;
 								    }

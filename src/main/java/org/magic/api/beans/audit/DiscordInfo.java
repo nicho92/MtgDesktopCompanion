@@ -16,6 +16,7 @@ public class DiscordInfo extends AbstractAuditableItem {
 	private Guild guild;
 	private MessageChannel channel;
 	private String message;
+	private String error;
 
 	@Override
 	public JsonObject toJson() {
@@ -92,6 +93,14 @@ public class DiscordInfo extends AbstractAuditableItem {
 	public void setMessage(String contentRaw) {
 		this.message=contentRaw;
 		
+	}
+
+	public void setError(String message2) {
+		this.error=message2;
+	}
+	
+	public String getError() {
+		return error;
 	}
 
 }

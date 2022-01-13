@@ -30,7 +30,7 @@
   <link href="../dist/css/now-ui-dashboard.css" rel="stylesheet" />
   
   
-  <script src="../dist/js/jsonserver-chart.js"></script>
+  <script src="../dist/js/discord-chart.js"></script>
   
   
   
@@ -52,12 +52,12 @@
 		server.initDashboardPageCharts(alldatas, start, end);	
 	}); 
 
-    	$.get("https://mtgcompanion.me:1234/admin/jsonQueries",function(data){
-			var startDate = moment("2000-01-01");
-			var endDate = moment();
-			alldatas = data;
-			server.initDashboardPageCharts(data, startDate, endDate);	
-   		});
+   	$.get("https://mtgcompanion.me:1234/admin/discord",function(data){
+		var startDate = moment("2000-01-01");
+		var endDate = moment();
+		alldatas = data;
+		server.initDashboardPageCharts(data, startDate, endDate);	
+  		});
 
 });
   </script>
@@ -67,10 +67,10 @@
 
 <body class="">
   <div class="wrapper ">
-    <div class="sidebar" data-color="blue">
-      <!--
+   <!--
         Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
     -->
+    <div class="sidebar" data-color="orange">
       <div class="logo">
         <span class="simple-text">
           MTGCompanion Admin Center
@@ -78,7 +78,7 @@
       </div>
       <div class="sidebar-wrapper" id="sidebar-wrapper">
         <ul class="nav">
-          <li class="active ">
+          <li>
             <a href="./jsonserver.html">
               <i class="fas fa-tachometer-alt"></i>
               <p>JSonServer</p>
@@ -90,7 +90,7 @@
               <p>Network</p>
             </a>
           </li>
- 		  <li >
+ 		  <li class="active">
             <a href="./discord.html">
            <i class="fab fa-discord"></i>
               <p>Discord</p>
@@ -156,82 +156,6 @@
         <canvas id="bigDashboardChart"></canvas>
       </div>
       <div class="content">
-        <div class="row">
-          <div class="col-lg-4">
-            <div class="card card-chart">
-              <div class="card-header">
-                <h5 class="card-category">Devices</h5>
-                <h4 class="card-title">Devices</h4>
-                <div class="dropdown">
-                  <button type="button" class="btn btn-round btn-outline-default dropdown-toggle btn-simple btn-icon no-caret" data-toggle="dropdown">
- 					<i class="fas fa-cog"></i>
-                  </button>
-                  <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="#">Pie</a>
-                    <a class="dropdown-item" href="#">Doughnut</a>
-                    <a class="dropdown-item" href="#">Bar</a>
-                  </div>
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="chart-area">
-                  <canvas id="deviceRepartitionChart"></canvas>
-                </div>
-              </div>
-              <div class="card-footer">
-                <div class="stats">
-                  <i class="fa fa-calendar" aria-hidden="true"></i> <span name="lastUpdate">Just Updated</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-chart">
-              <div class="card-header">
-                <h5 class="card-category">Connections</h5>
-                <h4 class="card-title">Hours connection repartition</h4>
-                <div class="dropdown">
-                    <button type="button" class="btn btn-round btn-outline-default dropdown-toggle btn-simple btn-icon no-caret" data-toggle="dropdown">
-                    <i class="fas fa-cog"></i>
-                  </button>
-                  <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="#">Pie</a>
-                    <a class="dropdown-item" href="#">Doughnut</a>
-                    <a class="dropdown-item" href="#">Bar</a>
-                  </div>
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="chart-area">
-                  <canvas id="hourRepartitionChart"></canvas>
-                </div>
-              </div>
-              <div class="card-footer">
-                <div class="stats">
-                 <i class="fa fa-calendar" aria-hidden="true"></i> <span name="lastUpdate">Just Updated</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div class="card card-chart">
-              <div class="card-header">
-                <h5 class="card-category">Endpoint</h5>
-                <h4 class="card-title">Most requested endpoint</h4>
-              </div>
-              <div class="card-body">
-                <div class="chart-area">
-                  <canvas id="requestedEndpoint"></canvas>
-                </div>
-              </div>
-              <div class="card-footer">
-                <div class="stats">
-                  <i class="now-ui-icons ui-2_time-alarm"></i> Last 7 days
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
         <div class="row">
           <div class="col-md-6 ">
             <div class="card  card-tasks ">
