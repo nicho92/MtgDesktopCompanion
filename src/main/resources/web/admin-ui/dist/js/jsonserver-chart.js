@@ -1,72 +1,24 @@
-jsonserver = {
-  
-    initDashboardPageCharts: function(datas) {
-	
-	const CHART_COLORS = [
-	  'rgb(255, 99, 132)',
-	  'rgb(255, 159, 64)',
-	  'rgb(255, 205, 86)',
-	  'rgb(75, 192, 192)',
-	  'rgb(54, 162, 235)',
-	  'rgb(153, 102, 255)',
-	  'rgb(201, 203, 207)'
-	];
-	
-	
-	
-	
-		var dayCounts = datas.reduce(function (result, d) {
-								    var day = moment(d.start).format("YYYY-MM-DD HH");
-								    if (!result[day]) {
-								        result[day] = 0;
-								    }
-								    result[day]++;
-								    return result;
-									}, {});
-	
-	
-		var deviceCount = datas.reduce(function (result, d) {
-								    var device = d.userAgent.OperatingSystemName
-								    if (!result[device]) {
-								        result[device] = 0;
-								    }
-								    result[device]++;
-								    return result;
-									}, {});
-									
-		var browserCount = datas.reduce(function (result, d) {
-								    var device = d.userAgent.AgentName
-								    if (!result[device]) {
-								        result[device] = 0;
-								    }
-								    result[device]++;
-								    return result;
-									}, {});
-	
-		var hourCount = datas.reduce(function (result, d) {
-								    var hour = moment(d.start).format('HH')+"H";
-								    if (!result[hour]) {
-								        result[hour] = 0;
-								    }
-								    result[hour]++;
-								    return result;
-									}, {});
-	
-		var endpointCount = datas.reduce(function (result, d) {
-								    var uri = d.url.substring(0,d.url.lastIndexOf("/"));
-								     if (!result[uri]) {
-								        result[uri] = 0;
-								    }
-								    result[uri] += d.duration;
-								    return result;
-									}, {});
-	
-	
-	
-    var chartColor = "#FFFFFF";
+var tableEndPoint;
+var bigDashboard;
+var deviceRepartitionChart;
+var browserrepartitionchart;
+var hourRepartitionChart;
+var requestedEndpoint;
 
-    // General configuration for the charts with Line gradientStroke
-    gradientChartOptionsConfiguration = {
+
+const chartColor = "#FFFFFF";
+
+const CHART_COLORS = [
+			  'rgb(80, 200, 120)',
+			  'rgb(0, 173, 239)',
+			  'rgb(230, 96, 0)',
+			  'rgb(255, 203, 0)',
+			  'rgb(54, 162, 235)',
+			  'rgb(153, 102, 255)',
+			  'rgb(201, 203, 207)'
+			];
+
+var  gradientChartOptionsConfiguration = {
       maintainAspectRatio: false,
       responsive: true,
       legend: {
@@ -120,7 +72,7 @@ jsonserver = {
       }
     };
 
-    gradientChartOptionsConfigurationWithNumbersAndGrid = {
+var  gradientChartOptionsConfigurationWithNumbersAndGrid = {
       maintainAspectRatio: false,
       legend: {
         display: false
@@ -165,7 +117,75 @@ jsonserver = {
         }
       }
     };
+	
+	
+		
+jsonserver = {
+  
+    initDashboardPageCharts: function(data, start, end) {
+		var datas = data.filter(a => {
+				 var date = moment(a.start);
+				 	end = moment(end);
+				 	start = moment(start);
+				  return (date.isAfter(start) && date.isBefore(end));
+		});
 
+		var dayCounts = datas.reduce(function (result, d) {
+								    var day = moment(d.start).format("YYYY-MM-DD HH");
+								    if (!result[day]) {
+								        result[day] = 0;
+								    }
+								    result[day]++;
+								    return result;
+									}, {});
+	
+	
+		var deviceCount = datas.reduce(function (result, d) {
+								    var device = d.userAgent.OperatingSystemName
+								    if (!result[device]) {
+								        result[device] = 0;
+								    }
+								    result[device]++;
+								    return result;
+									}, {});
+									
+		var browserCount = datas.reduce(function (result, d) {
+								    var device = d.userAgent.AgentName
+								    if (!result[device]) {
+								        result[device] = 0;
+								    }
+								    result[device]++;
+								    return result;
+									}, {});
+	
+		var hourCount = datas.reduce(function (result, d) {
+								    var hour = moment(d.start).format('HH')+"H";
+								    if (!result[hour]) {
+								        result[hour] = 0;
+								    }
+								    result[hour]++;
+								    return result;
+									}, {});
+	
+		var endpointCount = datas.reduce(function (result, d) {
+								    var uri = d.url.substring(0,d.url.lastIndexOf("/"));
+								     if (!result[uri]) {
+								        result[uri] = 0;
+								    }
+								    result[uri] += d.duration;
+								    return result;
+									}, {});
+	
+	
+	if(bigDashboard!=null){
+		bigDashboard.destroy();
+		deviceRepartitionChart.destroy();
+		browserrepartitionchart.destroy();
+		hourRepartitionChart.destroy();
+		requestedEndpoint.destroy();
+	}
+	
+ 
     var ctx = document.getElementById('bigDashboardChart').getContext("2d");
 
     var gradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
@@ -176,7 +196,7 @@ jsonserver = {
     gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
     gradientFill.addColorStop(1, "rgba(255, 255, 255, 0.24)");
 
-    new Chart(ctx, {
+    bigDashboard = new Chart(ctx, {
       type: 'line',
       data: {
         labels: Object.keys(dayCounts),
@@ -257,7 +277,7 @@ jsonserver = {
     });
 
 	
-    new Chart( document.getElementById('deviceRepartitionChart').getContext("2d"), {
+    deviceRepartitionChart = new Chart( document.getElementById('deviceRepartitionChart').getContext("2d"), {
       type: 'doughnut',
       responsive: true,
       data: {
@@ -277,7 +297,7 @@ jsonserver = {
       options: gradientChartOptionsConfiguration
     });
 
-    new Chart( document.getElementById('browserrepartitionchart').getContext("2d"), {
+   browserrepartitionchart=  new Chart( document.getElementById('browserrepartitionchart').getContext("2d"), {
       type: 'pie',
       responsive: true,
       data: {
@@ -309,7 +329,7 @@ jsonserver = {
     gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
     gradientFill.addColorStop(1, hexToRGB('#18ce0f', 0.4));
 
-    new Chart(ctx, {
+  hourRepartitionChart =  new Chart(ctx, {
       type: 'line',
       responsive: true,
       data: {
@@ -404,15 +424,24 @@ jsonserver = {
       }
     };
 
-    new Chart(e, a);
+   requestedEndpoint =  new Chart(e, a);
 
-$('#tableEndpoints').DataTable({
+
+	if(tableEndPoint==null)
+	{ 
+		tableEndPoint =$('#tableEndpoints').DataTable({
                   'data' : datas,
 				  'order': [[ 2, "desc" ]],
 				  "responsive": true,
                   'columns' : [
-                      {'data' : 'url'},
-                      {'data' : 'method'},
+                      {
+					   'data' : 'url',
+ 					   'defaultContent': ""
+					},
+                      {
+					   'data' : 'method',
+ 					   'defaultContent': ""
+					},
                       {
                           'data' : 'start',
                           render : function(d,type,row){
@@ -429,9 +458,11 @@ $('#tableEndpoints').DataTable({
                   ]
 
         });
-	
-
-
-
-    }
+	}
+	else
+	{
+		tableEndPoint.clear().rows.add(datas).draw();
+		
+	}
+  }
 };

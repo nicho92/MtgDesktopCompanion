@@ -15,13 +15,16 @@
   <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.9.0/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" />
    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
-     
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+   
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
-   <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
   <script src="../dist/js/now-ui-dashboard.js" type="text/javascript"></script>
   <link href="../dist/css/now-ui-dashboard.css" rel="stylesheet" />
@@ -32,14 +35,31 @@
   
   
   <script>
+	
     $(document).ready(function() {
-     
-    	$.get("https://mtgcompanion.me:1234/admin/jsonQueries",function(data){
-    		jsonserver.initDashboardPageCharts(data);	
-   	});
-      	
+		var alldatas;
+		var nowDate = moment();
 
-    });
+	setInterval(function(){
+		 $("span[name='lastUpdate']").html(moment(nowDate).fromNow());
+	}, 1000);
+	
+	$('#daterange').daterangepicker({
+	    startDate: moment().subtract(7, 'days'),
+	    endDate: nowDate,
+		maxDate:nowDate,
+	}, function(start, end, label) {
+			jsonserver.initDashboardPageCharts(alldatas, start, end);	
+	}); 
+
+    	$.get("https://mtgcompanion.me:1234/admin/jsonQueries",function(data){
+			var startDate = moment("2000-01-01");
+			var endDate = moment();
+			alldatas = data;
+			jsonserver.initDashboardPageCharts(data, startDate, endDate);	
+   		});
+
+});
   </script>
 
 
@@ -101,10 +121,10 @@
           <div class="collapse navbar-collapse justify-content-end" id="navigation">
             <form>
               <div class="input-group no-border">
-                <input type="text" value="" class="form-control" placeholder="Search...">
+                <input type="text" value="" id="daterange" class="form-control" placeholder="dates">
                 <div class="input-group-append">
                   <div class="input-group-text">
-                    <i class="fa fa-search fa-fw"></i>
+                    <i class="fa fa-calendar fa-fw"></i>
                   </div>
                 </div>
               </div>
@@ -114,24 +134,14 @@
                 <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                  <i class="fas fa-cog fa-2x"></i>
                   <p>
-                    <span class="d-lg-none d-md-block">Some Actions</span>
+                    <span class="d-lg-none d-md-block">Refresh</span>
                   </p>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <a class="dropdown-item" href="#">Something else here</a>
+                  <a class="dropdown-item" href="#">AutoRefresh</a>
                 </div>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#pablo">
-                  <i class="fa fa-user" aria-hidden="true"></i>
-                  <p>
-                    <span class="d-lg-none d-md-block">Account</span>
-                  </p>
-                </a>
-              </li>
-            </ul>
+	            </ul>
           </div>
         </div>
       </nav>
@@ -164,7 +174,7 @@
               </div>
               <div class="card-footer">
                 <div class="stats">
-                  <i class="fa fa-calendar" aria-hidden="true"></i> Just Updated
+                  <i class="fa fa-calendar" aria-hidden="true"></i> <span name="lastUpdate">Just Updated</span>
                 </div>
               </div>
             </div>
@@ -192,7 +202,7 @@
               </div>
               <div class="card-footer">
                 <div class="stats">
-                 <i class="fa fa-calendar" aria-hidden="true"></i> Just Updated
+                 <i class="fa fa-calendar" aria-hidden="true"></i> <span name="lastUpdate">Just Updated</span>
                 </div>
               </div>
             </div>
