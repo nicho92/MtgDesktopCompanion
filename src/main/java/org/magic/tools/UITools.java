@@ -603,11 +603,17 @@ public class UITools {
 
 	public static String formatDate(Date indexDate) {
 		
+		return formatDate(indexDate,MTGControler.getInstance().getLangService().get(DATE_FORMAT));
+	}
+	
+	public static String formatDate(Date indexDate, String format) {
+		
 		if(indexDate==null)
 			return "";
 		
-		return new SimpleDateFormat(MTGControler.getInstance().getLangService().get(DATE_FORMAT)).format(indexDate);
+		return new SimpleDateFormat(format).format(indexDate);
 	}
+	
 	
 	public static String formatDate(Instant date) {
 		return new SimpleDateFormat(MTGControler.getInstance().getLangService().get(DATE_FORMAT)+" HH:mm:ss.S").format(Date.from(date));
