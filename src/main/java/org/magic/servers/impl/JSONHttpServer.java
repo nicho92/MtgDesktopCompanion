@@ -246,8 +246,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 			info.setQuery(request.queryParams().stream().collect(Collectors.toMap(q->q, request::queryParams)));
 			info.setSessionId(request.session().id());
 			info.setPath(request.servletPath());
-			
-
 			info.setAttributs(request.attributes().stream().collect(Collectors.toMap(a->a, request::attribute)));
 			info.setHeaders(request.headers().stream().collect(Collectors.toMap(s->s,request::headers)));			
 			info.setStatus(response.status());
@@ -426,9 +424,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/keywords", URLTools.HEADER_JSON, (request, response) -> AbstractKeyWordsManager.getInstance().toJson(), transformer);
 		
 		get("/categories", URLTools.HEADER_JSON, (request, response) -> EnumItems.values(), transformer);
-		
-		
-		
 		
 		get("/cards/name/:idEd/:cName", URLTools.HEADER_JSON, (request, response) -> {
 			MagicEdition ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(ID_ED));
@@ -1176,25 +1171,21 @@ public class JSONHttpServer extends AbstractMTGServer {
 	
 	
 	private JsonArray build(HistoryPrice<MagicCard> res) {
-		
-		
 		var arr = new JsonArray();
-		
 		for (Entry<Date, Double> val : res) {
 			var obj = new JsonObject();
 			obj.add("date", new JsonPrimitive(val.getKey().getTime()));
 			obj.add("value", new JsonPrimitive(val.getValue()));
-
 			arr.add(obj);
 		}
-		
 		return arr;
-		
 	}
 
 	@Override
 	public void stop() throws IOException {
 		Spark.stop();
+		
+		TechnicalServiceManager.inst().store();
 		logger.info("Server stop");
 		running = false;
 	}

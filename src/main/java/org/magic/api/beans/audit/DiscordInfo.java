@@ -12,19 +12,28 @@ public class DiscordInfo extends AbstractAuditableItem {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private User user;
-	private Guild guild;
-	private MessageChannel channel;
+	private transient User user;
+	private transient Guild guild;
+	private transient MessageChannel channel;
 	private String message;
 	private String error;
 
+	
+	@Override
+	public void fromJson(JsonObject obj) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+	
 	@Override
 	public JsonObject toJson() {
 		var obj = new JsonObject();
 			obj.addProperty("start", getStart().toEpochMilli());
 			obj.addProperty("end", getEnd().toEpochMilli());
 			obj.addProperty("duration", getDuration());
-			
+			obj.addProperty("message", message);
 		var userObj = new JsonObject();
 			userObj.addProperty("id", user.getId());
 			userObj.addProperty("name", user.getName());
@@ -42,6 +51,7 @@ public class DiscordInfo extends AbstractAuditableItem {
 				guildObj.addProperty("icon", guild.getIconUrl());
 				guildObj.addProperty("name", guild.getName());
 				guildObj.addProperty("description", guild.getDescription());
+				guildObj.addProperty("etest", guild.getVanityUrl());
 			obj.add("guild", guildObj);
 		}
 		
@@ -72,8 +82,6 @@ public class DiscordInfo extends AbstractAuditableItem {
 	public String getMessage() {
 		return message;
 	}
-	
-	
 	
 	public void setAuthor(User author) {
 		this.user=author;

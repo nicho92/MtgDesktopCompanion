@@ -1,4 +1,6 @@
 var bigDashboard;
+var tablediscordMsg;
+
 
 const chartColor = "#FFFFFF";
 		
@@ -111,6 +113,39 @@ server = {
         }
       }
     });
+	
+	if(tablediscordMsg==null)
+	{ 
+		tablediscordMsg =$('#tablediscordMsg').DataTable({
+                  'data' : datas,
+				  'order': [[ 2, "desc" ]],
+				  "responsive": true,
+                  'columns' : [
+                      {
+					   'data' : 'user.name',
+ 					   'defaultContent': ""
+					},
+                      {
+					   'data' : 'guild.name',
+ 					   'defaultContent': ""
+					},
+                      {
+                          'data' : 'start',
+                          render : function(d,type,row){
+                              return moment(d).format('DD MMM YYYY, HH:mm:ss');
+                          }
+                        },
+                      {'data' : 'duration'}
+                  ]
 
+        });
+	}
+	else
+	{
+		tableEndPoint.clear().rows.add(datas).draw();
+		
+	}
+	
+	
   }
 };

@@ -23,9 +23,21 @@ public class TaskInfo extends AbstractAuditableItem {
 		obj.addProperty("created", getCreatedDate().toEpochMilli());
 		obj.addProperty("start",getStart().toEpochMilli());
 		obj.addProperty("end", getEnd().toEpochMilli());
-		obj.addProperty("durationInMillis", getDuration());
+		obj.addProperty("duration", getDuration());
 		return obj;
 	}
+	
+	@Override
+	public void fromJson(JsonObject obj) {
+		setName(obj.get("name").getAsString());
+		setStatus(STATE.valueOf(obj.get("status").getAsString()));
+		setType(TYPE.valueOf(obj.get("type").getAsString()));
+		setCreatedDate(Instant.ofEpochMilli(obj.get("created").getAsLong()));
+		setStart(Instant.ofEpochMilli(obj.get("start").getAsLong()));
+		setEnd(Instant.ofEpochMilli(obj.get("end").getAsLong()));
+		setDuration(obj.get("duration").getAsLong());
+	}
+	
 	
 	
 	public Instant getCreatedDate() {

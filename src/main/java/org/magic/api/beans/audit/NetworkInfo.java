@@ -1,7 +1,5 @@
 package org.magic.api.beans.audit;
 
-import java.net.URI;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpRequestBase;
 
@@ -39,6 +37,14 @@ public class NetworkInfo extends AbstractAuditableItem{
 	{
 		return toJson().get("contentType").getAsString();
 	}
+	
+	
+	@Override
+	public void fromJson(JsonObject obj) {
+		
+		//can't do
+	}
+	
 	
 	@Override
 	public JsonObject toJson() {

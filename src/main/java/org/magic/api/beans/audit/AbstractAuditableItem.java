@@ -13,6 +13,8 @@ public abstract class AbstractAuditableItem implements Serializable {
 	protected long duration;
 	
 	public abstract JsonObject toJson();
+	public abstract void fromJson(JsonObject obj);
+	
 	
 	protected AbstractAuditableItem() {
 		start= Instant.now();
@@ -42,6 +44,8 @@ public abstract class AbstractAuditableItem implements Serializable {
 	public void setDuration(long duration) {
 			this.duration=duration;
 	}
+
+	
 	
 	
 	

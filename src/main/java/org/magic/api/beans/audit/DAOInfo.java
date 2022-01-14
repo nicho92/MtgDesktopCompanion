@@ -1,5 +1,7 @@
 package org.magic.api.beans.audit;
 
+import java.time.Instant;
+
 import org.magic.api.interfaces.MTGDao;
 
 import com.google.gson.JsonObject;
@@ -38,19 +40,26 @@ public class DAOInfo extends AbstractAuditableItem{
 		return query;
 	}
 
-	public long getDuration() {
-		return duration;
+	@Override
+	public void fromJson(JsonObject obj) {
+		setStart(Instant.ofEpochMilli(obj.get("start").getAsLong()));
+		setEnd(Instant.ofEpochMilli(obj.get("end").getAsLong()));
+		setDuration(obj.get("duration").getAsLong());
+		setConnectionName(obj.get("connection").getAsString());
+		setQuery(obj.get("sql").getAsString());
+		setClasseName(obj.get("statement").getAsString());
 	}
+	
 	
 	@Override
 	public JsonObject toJson() {
 		var obj = new JsonObject();
-		obj.addProperty("creationDate",getStart().toEpochMilli());
+		obj.addProperty("start",getStart().toEpochMilli());
 		
 		if(getEnd()!=null)
-			obj.addProperty("endDate",getEnd().toEpochMilli());
+			obj.addProperty("end",getEnd().toEpochMilli());
 		else
-			obj.addProperty("endDate","");
+			obj.addProperty("end","");
 		
 		obj.addProperty("duration",getDuration());
 		obj.addProperty("statement", getClasseName());

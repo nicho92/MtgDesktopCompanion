@@ -12,6 +12,7 @@ import java.util.Map;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.audit.AbstractAuditableItem;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
@@ -111,7 +112,6 @@ public class JsonExport extends AbstractCardExport {
 		json.forEach(el->list.add(gson.fromJson(el.toString(),classe)));
 		return list;
 	}
-	
 
 	@Override
 	public MagicDeck importDeck(String f,String name)  {
@@ -122,7 +122,6 @@ public class JsonExport extends AbstractCardExport {
 			
 		if (root.get(ID)!=null)
 			deck.setId(root.get(ID).getAsInt());
-	
 			
 		if (!root.get(NAME).isJsonNull())
 			deck.setName(root.get(NAME).getAsString());

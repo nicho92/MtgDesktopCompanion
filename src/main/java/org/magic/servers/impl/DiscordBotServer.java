@@ -50,8 +50,6 @@ import org.magic.services.TechnicalServiceManager;
 import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 
-import com.google.gson.JsonObject;
-
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -75,7 +73,6 @@ public class DiscordBotServer extends AbstractMTGServer {
 	private static final String ACTIVITY = "ACTIVITY";
 	private static final String ACTIVITY_TYPE = "ACTIVITY_TYPE";
 	private static final String THUMBNAIL_IMAGE = "THUMBNAIL_IMAGE";
-	private static final String SHOWPRICE = "SHOWPRICE";
 	private static final String AUTOSTART = "AUTOSTART";
 	private static final String TOKEN = "TOKEN";
 	private static final String SHOWCOLLECTIONS = "SHOW_COLLECTIONS";
@@ -311,7 +308,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 			for (var x = 0; x < liste.size(); x++) {
 				MagicCard result = liste.get(x);
 				BiFunction<MagicCard, Integer, MessageEmbed> getEmbed = (c, resultIndex) -> {
-					var embed=parseCard(result,getBoolean(SHOWPRICE)||priceask,info);
+					var embed=parseCard(result,priceask,info);
 					var eb = new EmbedBuilder(embed);
 					if (liste.size() > 1)
 						eb.setFooter("Result " + (resultIndex + 1) + "/" + liste.size(), null);
@@ -517,7 +514,6 @@ public class DiscordBotServer extends AbstractMTGServer {
 	public Map<String, String> getDefaultAttributes() {
 		var map = new HashMap<String,String>();
 				map.put(AUTOSTART, "false");
-				map.put(SHOWPRICE, "true");
 				map.put(THUMBNAIL_IMAGE, "THUMBNAIL");
 				map.put(SHOWCOLLECTIONS,"true");
 				map.put(PRICE_KEYWORDS,"price,prix,how much,cost");
