@@ -4,12 +4,15 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadInfo;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.audit.AbstractAuditableItem;
@@ -20,7 +23,9 @@ import org.magic.api.beans.audit.NetworkInfo;
 import org.magic.api.beans.audit.TaskInfo;
 import org.magic.api.beans.audit.TaskInfo.STATE;
 import org.magic.api.exports.impl.JsonExport;
+import org.magic.services.network.URLTools;
 import org.magic.tools.FileTools;
+import org.magic.tools.UITools;
 
 public class TechnicalServiceManager {
 
@@ -60,15 +65,27 @@ public class TechnicalServiceManager {
 		
 	}
 	
-	public void restore()
-	{
-		
-	}
 	
+	public void restore() throws IOException
+	{
+		for(File f : listFilesFor(JsonQueryInfo.class))
+			URLTools.toJson(FileTools.readFile(f)).getAsJsonArray().forEach(je->jsonInfo.add(new JsonQueryInfo(je.getAsJsonObject())));
+	
+	}
+
+	private <T extends AbstractAuditableItem> List<File> listFilesFor(Class<T> classe)
+	{
+		try(Stream<Path> s = Files.list(logsDirectory.toPath())){
+			return s.map(Path::toFile).filter(p->p.getName().startsWith(classe.getSimpleName()+"_")).toList();
+		} catch (IOException e) {
+			logger.error(e);
+			return new ArrayList<>();
+		}
+	}
 	
 	private <T extends AbstractAuditableItem> void storeItems(Class<T> classe, List<T> items) throws IOException
 	{
-		FileTools.saveFile(Paths.get(logsDirectory.getAbsolutePath(),classe.getSimpleName()+"_"+new Date().hashCode()+"_.json").toFile(), export.toJson(items.stream().map(AbstractAuditableItem::toJson).toList()));
+		FileTools.saveFile(Paths.get(logsDirectory.getAbsolutePath(),classe.getSimpleName()+"_"+UITools.formatDate(new Date(),"ddMMYYYY")+"_.json").toFile(), export.toJson(items.stream().map(AbstractAuditableItem::toJson).toList()));
 	}
 	
 	
@@ -79,6 +96,13 @@ public class TechnicalServiceManager {
 		tasksInfos = new ArrayList<>();
 		discordInfos = new ArrayList<>();
 		export = new JsonExport();
+		
+		
+		try {
+			restore();
+		} catch (IOException e) {
+		logger.error("error restore previous log",e);
+		}
 	}
 	
 	

@@ -29,7 +29,7 @@
   <script src="../dist/js/now-ui-dashboard.js" type="text/javascript"></script>
   <link href="../dist/css/now-ui-dashboard.css" rel="stylesheet" />
   
-  
+  <script src="../dist/js/rest-server.js"></script>
   <script src="../dist/js/jsonserver-chart.js"></script>
   
   
@@ -52,7 +52,7 @@
 		server.initDashboardPageCharts(alldatas, start, end);	
 	}); 
 
-    	$.get("https://mtgcompanion.me:1234/admin/jsonQueries",function(data){
+    	$.get(restserver+"/admin/jsonQueries",function(data){
 			var startDate = moment("2000-01-01");
 			var endDate = moment();
 			alldatas = data;

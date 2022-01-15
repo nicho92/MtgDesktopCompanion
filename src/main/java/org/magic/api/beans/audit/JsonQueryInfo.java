@@ -52,6 +52,7 @@ public class JsonQueryInfo extends AbstractAuditableItem {
 		setStart(Instant.ofEpochMilli(obj.get("start").getAsLong()));
 		setEnd(Instant.ofEpochMilli(obj.get("end").getAsLong()));
 		setDuration(obj.get("duration").getAsLong());
+		
 		if(obj.get("contentType")!=null)
 			setContentType(obj.get("contentType").getAsString());
 		
