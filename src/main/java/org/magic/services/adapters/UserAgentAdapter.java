@@ -2,6 +2,9 @@ package org.magic.services.adapters;
 
 import java.lang.reflect.Type;
 
+import org.apache.log4j.Logger;
+import org.magic.services.MTGLogger;
+
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -13,10 +16,10 @@ import com.google.gson.JsonSerializer;
 import nl.basjes.parse.useragent.UserAgent;
 import nl.basjes.parse.useragent.UserAgentAnalyzer;
 	
-public class UserAgentAdapter implements JsonSerializer<UserAgent>, JsonDeserializer<UserAgent>
-	{
+public class UserAgentAdapter implements JsonSerializer<UserAgent>, JsonDeserializer<UserAgent>	{
 	
-	 	UserAgentAnalyzer analyse = UserAgentAnalyzer.newBuilder().build();
+	private Logger logger = MTGLogger.getLogger(this.getClass());
+	private UserAgentAnalyzer analyse = UserAgentAnalyzer.newBuilder().build();
 	
 	
 	  @Override
@@ -30,7 +33,13 @@ public class UserAgentAdapter implements JsonSerializer<UserAgent>, JsonDeserial
 	  @Override
 	  public UserAgent deserialize(JsonElement obj, Type typeOfT, JsonDeserializationContext context) throws JsonParseException
 	  {
-	    return analyse.parse(obj.getAsJsonObject().get("Useragent").getAsString());
+		  try {
+			  return analyse.parse(obj.getAsJsonObject().get("Useragent").getAsString());
+		  }catch(Exception e)
+		  {
+			  logger.error("error parsing " + obj);
+			  return null;
+		  }
 	  }
 	
 }
