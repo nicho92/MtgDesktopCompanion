@@ -14,9 +14,9 @@
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.9.0/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" />
-   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/maplibre-gl@1.15.2/dist/maplibre-gl.css"/>
    
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -25,8 +25,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
   <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-
+  <script src='https://unpkg.com/maplibre-gl@2.0.0/dist/maplibre-gl.js'></script>
   <script src="../dist/js/now-ui-dashboard.js" type="text/javascript"></script>
+  
+  
   <link href="../dist/css/now-ui-dashboard.css" rel="stylesheet" />
   
   <script src="../dist/js/rest-server.js"></script>
@@ -52,7 +54,8 @@
 		server.initDashboardPageCharts(alldatas, start, end);	
 	}); 
 
-    	$.get(restserver+"/admin/jsonQueries",function(data){
+    	//$.get(restserver+"/admin/jsonQueries",function(data){
+    	$.get("https://mtgcompanion.me:1234/admin/jsonQueries",function(data){
 			var startDate = moment("2000-01-01");
 			var endDate = moment();
 			alldatas = data;
@@ -271,17 +274,46 @@
             </div>
           </div>
           <div class="col-md-6">
-            <div class="card card-chart h-100 ">
+            <div class="card card-chart">
               <div class="card-header">
                 <h5 class="card-category">Devices</h5>
                 <h4 class="card-title"> Browser</h4>
               </div>
-              <div class="card-body  h-50">
+              <div class="card-body h-50">
                  <canvas id="browserrepartitionchart"></canvas>
               </div>
             </div>
           </div>
         </div>
+        
+        
+        <div class="row">
+        	<div class="col-lg-6 col-md-6">
+            <div class="card card-chart">
+              <div class="card-header">
+                <h5 class="card-category">Connections</h5>
+                <h4 class="card-title">Connections Map</h4>
+              </div>
+              <div class="card-body">
+               <div class="map" id="connectionMap"></div>
+              </div>
+              <div class="card-footer">
+                <div class="stats">
+                 <i class="fa fa-calendar" aria-hidden="true"></i> <span name="lastUpdate">Just Updated</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+        
+        
+        </div>
+        
+        
+        
+        
+        
+        
       </div>
       <footer class="footer">
         <div class=" container-fluid ">
