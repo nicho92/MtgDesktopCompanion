@@ -116,8 +116,8 @@ public class DiscordBotServer extends AbstractMTGServer {
 	
 	private void analyseMessage(MessageReceivedEvent event) {
 		var info = new DiscordInfo();
-		info.setAuthor(event.getAuthor());
-		info.setChannel(event.getChannel());
+		info.parse(event.getAuthor());
+		info.parse(event.getChannel());
 		info.setMessage(event.getMessage().getContentRaw());
 		
 		
@@ -129,7 +129,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 			
 			if(event.isFromGuild())
 			{
-				info.setGuild(event.getGuild());
+				info.parse(event.getGuild());
 				logger.debug("Received channel message :" + event.getMessage().getContentRaw() + " from " + event.getAuthor().getName()+ " in "+event.getGuild().getName()+ "#" + event.getChannel().getName() + " ");
 			}
 			else

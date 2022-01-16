@@ -1,7 +1,17 @@
 package org.magic.api.beans.audit;
 
+import java.net.URI;
+import java.time.Instant;
+
 import org.apache.http.HttpResponse;
+import org.apache.http.ProtocolVersion;
+import org.apache.http.StatusLine;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.entity.BasicHttpEntity;
+import org.apache.http.impl.DefaultHttpRequestFactory;
+import org.apache.http.impl.io.DefaultHttpRequestParserFactory;
+import org.apache.http.message.BasicHttpRequest;
+import org.apache.http.message.BasicHttpResponse;
 
 import com.google.gson.JsonObject;
 
@@ -38,15 +48,56 @@ public class NetworkInfo extends AbstractAuditableItem{
 		return toJson().get("contentType").getAsString();
 	}
 	
-	
-	@Override
-	public void fromJson(JsonObject obj) {
+	public void fromJson(JsonObject o) {
 		
-		//can't do
+		try {
+			
+			request = new HttpRequestBase() {
+				@Override
+				public String getMethod() {
+					return o.get("method").getAsString();
+				}
+			};
+			request.setURI(URI.create(o.get("url").getAsString()));
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		
+		StatusLine sl = new StatusLine() {
+			
+			@Override
+			public int getStatusCode() {
+				return o.get("reponsesCode").getAsInt();
+			}
+			
+			@Override
+			public String getReasonPhrase() {
+				return o.get("reponsesMessage").getAsString();
+			}
+			
+			@Override
+			public ProtocolVersion getProtocolVersion() {
+				return new ProtocolVersion(o.get("protocol").getAsString(),1,1);
+			}
+		};
+		
+		
+		 response = new BasicHttpResponse(sl);
+		 
+		 BasicHttpEntity entity = new BasicHttpEntity();
+		 				 entity.setContentType(o.get("contentType").getAsString());
+		 
+		 response.setEntity(entity);
+		 response.setHeader("Server", o.get("serverType").getAsString());
+		 
+		 
+		 start = Instant.ofEpochMilli(o.get("start").getAsLong());
+		 end = Instant.ofEpochMilli(o.get("end").getAsLong());
+		 duration = o.get("duration").getAsLong();
 	}
 	
 	
-	@Override
 	public JsonObject toJson() {
 		var jo = new JsonObject();
 		jo.addProperty("url", getRequest().getURI().toASCIIString());
@@ -80,9 +131,4 @@ public class NetworkInfo extends AbstractAuditableItem{
 	
 	}
 	
-	
-	
-	
-	
-
 }

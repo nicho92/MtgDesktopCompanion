@@ -54,8 +54,6 @@ import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.WebShopConfig;
-import org.magic.api.beans.audit.DAOInfo;
-import org.magic.api.beans.audit.DiscordInfo;
 import org.magic.api.beans.audit.JsonQueryInfo;
 import org.magic.api.beans.audit.NetworkInfo;
 import org.magic.api.beans.enums.EnumItems;
@@ -872,7 +870,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 		
 		get("/admin/discord", URLTools.HEADER_JSON, (request, response) -> {
-			return 	TechnicalServiceManager.inst().getDiscordInfos().stream().map(DiscordInfo::toJson).toList();
+			return 	TechnicalServiceManager.inst().getDiscordInfos();
 		}, transformer);
 		
 		get("/admin/currency", URLTools.HEADER_JSON, (request, response) -> {
@@ -885,12 +883,17 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return cache.entries().keySet();
 		}, transformer);
 		
+		get("/admin/logdump", URLTools.HEADER_JSON, (request, response) -> {
+			TechnicalServiceManager.inst().store();
+			return "OK";
+		}, transformer);
+		
 		get("/admin/jdbc", URLTools.HEADER_JSON, (request, response) -> {
-			return TechnicalServiceManager.inst().getDaoInfos().stream().map(DAOInfo::toJson).toList();
+			return TechnicalServiceManager.inst().getDaoInfos();
 		}, transformer);
 		
 		get("/admin/jsonQueries", URLTools.HEADER_JSON, (request, response) -> {
-			return TechnicalServiceManager.inst().getJsonInfo().stream().map(JsonQueryInfo::toJson).toList();
+			return TechnicalServiceManager.inst().getJsonInfo();
 		}, transformer);
 		
 		get("/admin/threads", URLTools.HEADER_JSON, (request, response) -> {

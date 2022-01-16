@@ -8,94 +8,69 @@ import net.dv8tion.jda.api.entities.User;
 
 public class DiscordInfo extends AbstractAuditableItem {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	private transient User user;
-	private transient Guild guild;
-	private transient MessageChannel channel;
+	private JsonObject user;
+	private JsonObject guild;
+	private JsonObject channel;
 	private String message;
 	private String error;
 
-	
-	@Override
-	public void fromJson(JsonObject obj) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
-	
-	@Override
-	public JsonObject toJson() {
-		var obj = new JsonObject();
-			obj.addProperty("start", getStart().toEpochMilli());
-			obj.addProperty("end", getEnd().toEpochMilli());
-			obj.addProperty("duration", getDuration());
-			obj.addProperty("message", message);
-		var userObj = new JsonObject();
-			userObj.addProperty("id", user.getId());
-			userObj.addProperty("name", user.getName());
-			userObj.addProperty("descriminator", user.getDiscriminator());
-			userObj.addProperty("mention", user.getAsMention());
-			userObj.addProperty("avatar", user.getAvatarUrl());
-			userObj.addProperty("id", user.getId());
-		obj.add("user", userObj);
-		
-		if(guild!=null)
-		{
-			var guildObj = new JsonObject();
-				guildObj.addProperty("id", guild.getId());
-				guildObj.addProperty("banner", guild.getBannerUrl());
-				guildObj.addProperty("icon", guild.getIconUrl());
-				guildObj.addProperty("name", guild.getName());
-				guildObj.addProperty("description", guild.getDescription());
-				guildObj.addProperty("etest", guild.getVanityUrl());
-			obj.add("guild", guildObj);
-		}
-		
-		if(channel!=null)
-		{
-			var channelObj = new JsonObject();
-				channelObj.addProperty("name", channel.getName());
-				channelObj.addProperty("id", channel.getId());
-				channelObj.addProperty("mention", channel.getAsMention());
-				obj.add("channel", channelObj);
-		}
-			
-		return obj;
-	}
-
-	public User getUser() {
+	public JsonObject getUser() {
 		return user;
 	}
 	
-	public Guild getGuild() {
+	public JsonObject getGuild() {
 		return guild;
 	}
 	
-	public MessageChannel getChannel() {
+	public JsonObject getChannel() {
 		return channel;
 	}
+	
+	public void setChannel(JsonObject channel) {
+		this.channel = channel;
+	}
+	
+	public void setGuild(JsonObject guild) {
+		this.guild = guild;
+	}
+	
+	public void setUser(JsonObject user) {
+		this.user = user;
+	}
+	
 	
 	public String getMessage() {
 		return message;
 	}
 	
-	public void setAuthor(User author) {
-		this.user=author;
+	public void parse(User author) {
+		user = new JsonObject();
+		user.addProperty("id", author.getId());
+		user.addProperty("name", author.getName());
+		user.addProperty("descriminator", author.getDiscriminator());
+		user.addProperty("mention", author.getAsMention());
+		user.addProperty("avatar", author.getAvatarUrl());
+		user.addProperty("id", author.getId());
 		
 	}
 
-	public void setGuild(Guild guild) {
-		this.guild=guild;
+	public void parse(Guild g) {
+		guild = new JsonObject();
+		guild.addProperty("id", g.getId());
+		guild.addProperty("banner", g.getBannerUrl());
+		guild.addProperty("icon", g.getIconUrl());
+		guild.addProperty("name", g.getName());
+		guild.addProperty("description", g.getDescription());
+		guild.addProperty("etest", g.getVanityUrl());
 		
 	}
 
-	public void setChannel(MessageChannel channel) {
-		this.channel=channel;
-		
+	public void parse(MessageChannel c) {
+		channel = new JsonObject();
+		channel.addProperty("name", c.getName());
+		channel.addProperty("id", c.getId());
+		channel.addProperty("mention", c.getAsMention());
 	}
 
 	public void setMessage(String contentRaw) {

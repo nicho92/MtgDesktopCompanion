@@ -2,61 +2,33 @@ package org.magic.api.beans.audit;
 
 import java.time.Instant;
 
-import com.google.gson.JsonObject;
-
 public class TaskInfo extends AbstractAuditableItem {
 
 	public enum STATE {NEW,STARTED,CANCELED,FINISHED}
 	public enum TYPE {WORKER,RUNNABLE}
 	
 	private static final long serialVersionUID = 1L;
-	private Instant createdDate;
+	private Instant created;
 	private String name;
-	
-	@Override
-	public JsonObject toJson()
-	{
-		var obj = new JsonObject();
-		obj.addProperty("name", getName());
-		obj.addProperty("status", getStatus().name());
-		obj.addProperty("type", getType().name());
-		obj.addProperty("created", getCreatedDate().toEpochMilli());
-		obj.addProperty("start",getStart().toEpochMilli());
-		obj.addProperty("end", getEnd().toEpochMilli());
-		obj.addProperty("duration", getDuration());
-		return obj;
-	}
-	
-	@Override
-	public void fromJson(JsonObject obj) {
-		setName(obj.get("name").getAsString());
-		setStatus(STATE.valueOf(obj.get("status").getAsString()));
-		setType(TYPE.valueOf(obj.get("type").getAsString()));
-		setCreatedDate(Instant.ofEpochMilli(obj.get("created").getAsLong()));
-		setStart(Instant.ofEpochMilli(obj.get("start").getAsLong()));
-		setEnd(Instant.ofEpochMilli(obj.get("end").getAsLong()));
-		setDuration(obj.get("duration").getAsLong());
-	}
-	
-	
-	
-	public Instant getCreatedDate() {
-		return createdDate;
-	}
-
-
-	public void setCreatedDate(Instant createdDate) {
-		this.createdDate = createdDate;
-	}
-
 	private STATE status = STATE.NEW;
 	private TYPE type=TYPE.RUNNABLE;
 	private transient Runnable runnable;
 	
 	
+
+	
+	public Instant getCreated() {
+		return created;
+	}
+
+
+	public void setCreated(Instant createdDate) {
+		this.created = createdDate;
+	}
+
 	public TaskInfo(Runnable r) {
 		this.runnable=r;
-		createdDate = Instant.now();
+		created = Instant.now();
 	}
 	
 	

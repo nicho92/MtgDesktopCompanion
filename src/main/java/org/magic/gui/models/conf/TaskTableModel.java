@@ -11,7 +11,7 @@ public class TaskTableModel extends GenericTableModel<TaskInfo> {
 
 	
 	public TaskTableModel() {
-		setColumns("name","createdDate","start","end","status","type","duration");
+		setColumns("name","created","start","end","status","type","duration");
 		setWritable(false);
 	}
 	

@@ -1,13 +1,9 @@
 package org.magic.api.beans.audit;
 
-import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.gson.JsonObject;
-
 import nl.basjes.parse.useragent.UserAgent;
-import nl.basjes.parse.useragent.UserAgentAnalyzer;
 
 public class JsonQueryInfo extends AbstractAuditableItem {
 
@@ -25,7 +21,6 @@ public class JsonQueryInfo extends AbstractAuditableItem {
 	private String sessionId;
 	private String path;
 	private Map<String, String> queryParams;
-	private static UserAgentAnalyzer analyse = UserAgentAnalyzer.newBuilder().build();
 	
 	
 	public JsonQueryInfo() {
@@ -36,91 +31,7 @@ public class JsonQueryInfo extends AbstractAuditableItem {
 		queryParams = new HashMap<>();
 	}
 	
-	public JsonQueryInfo(JsonObject asJsonObject) {
-		params=new HashMap<>();
-		attributes = new HashMap<>();
-		headers = new HashMap<>();
-		queryParams = new HashMap<>();
-		fromJson(asJsonObject);
-	}
 
-	@Override
-	public void fromJson(JsonObject obj)
-	{
-		setUrl(obj.get("url").getAsString());
-		setMethod(obj.get("method").getAsString());
-		setStart(Instant.ofEpochMilli(obj.get("start").getAsLong()));
-		setEnd(Instant.ofEpochMilli(obj.get("end").getAsLong()));
-		setDuration(obj.get("duration").getAsLong());
-		
-		if(obj.get("contentType")!=null)
-			setContentType(obj.get("contentType").getAsString());
-		
-		setIp(obj.get("ip").getAsString());
-		setSessionId(obj.get("sessionID").getAsString());
-		setPath(obj.get("path").getAsString());
-		
-		obj.get("query").getAsJsonObject().entrySet().forEach(e->{
-			getQueryParams().put(e.getKey(), e.getValue().getAsString());
-		});
-		
-		obj.get("attributes").getAsJsonObject().entrySet().forEach(e->{
-			getAttributes().put(e.getKey(), e.getValue().getAsString());
-		});
-		
-		obj.get("headers").getAsJsonObject().entrySet().forEach(e->{
-			getHeaders().put(e.getKey(), e.getValue().getAsString());
-		});
-		
-		obj.get("params").getAsJsonObject().entrySet().forEach(e->{
-			getParams().put(e.getKey(), e.getValue().getAsString());
-		});
-		
-		setUserAgent(analyse.parse(obj.get("userAgent").getAsJsonObject().get("Useragent").getAsString()));
-		
-		
-	}
-	
-	@Override
-	public JsonObject toJson() {
-		var jo = new JsonObject();
-			jo.addProperty("url", getUrl());
-			jo.addProperty("method", getMethod());
-			jo.addProperty("start", getStart().toEpochMilli());
-			jo.addProperty("end", getEnd().toEpochMilli());
-			jo.addProperty("duration", getDuration());
-			jo.addProperty("contentType", getContentType());
-			jo.addProperty("ip", getIp());
-			jo.addProperty("sessionID", getSessionId());
-			jo.addProperty("path", getPath());
-			
-			
-			var objQParams= new JsonObject();
-			queryParams.entrySet().forEach(e->objQParams.addProperty(e.getKey(), String.valueOf(e.getValue())));
-			jo.add("query", objQParams);
-			
-			
-			var objAttributes = new JsonObject();
-			attributes.entrySet().forEach(e->objAttributes.addProperty(e.getKey(), String.valueOf(e.getValue())));
-			jo.add("attributes", objAttributes);
-			
-			var objHeaders = new JsonObject();
-			headers.entrySet().forEach(e->objHeaders.addProperty(e.getKey(), e.getValue()));
-			jo.add("headers", objHeaders);
-			
-			var objParams = new JsonObject();
-			params.entrySet().forEach(e->objParams.addProperty(e.getKey(), e.getValue()));
-			jo.add("params", objParams);
-			
-			var objUa = new JsonObject();
-			if(userAgent!=null)
-				userAgent.toMap().entrySet().forEach(e->objUa.addProperty(e.getKey(), e.getValue()));
-
-			jo.add("userAgent", objUa);
-			
-		return jo;
-	}
-	
 	public void setUrl(String url) {
 		this.url = url;
 	}
@@ -216,6 +127,11 @@ public class JsonQueryInfo extends AbstractAuditableItem {
 		
 	}
 
+	
+	public UserAgent getUserAgent() {
+		return userAgent;
+	}
+	
 	
 	
 }

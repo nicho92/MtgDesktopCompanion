@@ -68,15 +68,27 @@ public class TechnicalServiceManager {
 	
 	public void restore() throws IOException
 	{
-		for(File f : listFilesFor(JsonQueryInfo.class))
-			URLTools.toJson(FileTools.readFile(f)).getAsJsonArray().forEach(je->jsonInfo.add(new JsonQueryInfo(je.getAsJsonObject())));
-	
+		
+		for(File f : listFiles())
+		{
+			if(f.getName().startsWith(JsonQueryInfo.class.getSimpleName()+"_"))
+				jsonInfo.addAll(export.fromJsonList(FileTools.readFile(f), JsonQueryInfo.class));
+			else if(f.getName().startsWith(DAOInfo.class.getSimpleName()+"_"))
+				daoInfos.addAll(export.fromJsonList(FileTools.readFile(f), DAOInfo.class));
+			else if(f.getName().startsWith(TaskInfo.class.getSimpleName()+"_"))
+				tasksInfos.addAll(export.fromJsonList(FileTools.readFile(f), TaskInfo.class));		
+			else if(f.getName().startsWith(NetworkInfo.class.getSimpleName()+"_"))
+				networkInfos.addAll(export.fromJsonList(FileTools.readFile(f), NetworkInfo.class));
+			else if(f.getName().startsWith(DiscordInfo.class.getSimpleName()+"_"))
+				discordInfos.addAll(export.fromJsonList(FileTools.readFile(f), DiscordInfo.class));	
+			
+		}
 	}
 
-	private <T extends AbstractAuditableItem> List<File> listFilesFor(Class<T> classe)
+	private List<File> listFiles()
 	{
 		try(Stream<Path> s = Files.list(logsDirectory.toPath())){
-			return s.map(Path::toFile).filter(p->p.getName().startsWith(classe.getSimpleName()+"_")).toList();
+			return s.map(Path::toFile).toList();
 		} catch (IOException e) {
 			logger.error(e);
 			return new ArrayList<>();
@@ -85,7 +97,7 @@ public class TechnicalServiceManager {
 	
 	private <T extends AbstractAuditableItem> void storeItems(Class<T> classe, List<T> items) throws IOException
 	{
-		FileTools.saveFile(Paths.get(logsDirectory.getAbsolutePath(),classe.getSimpleName()+"_"+UITools.formatDate(new Date(),"ddMMYYYY")+"_.json").toFile(), export.toJson(items.stream().map(AbstractAuditableItem::toJson).toList()));
+		FileTools.saveFile(Paths.get(logsDirectory.getAbsolutePath(),classe.getSimpleName()+"_"+UITools.formatDate(new Date(),"ddMMYYYY")+"_.json").toFile(), export.toJson(items));
 	}
 	
 	

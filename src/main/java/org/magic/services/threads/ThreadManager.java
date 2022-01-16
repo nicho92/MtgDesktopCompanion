@@ -15,13 +15,12 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.audit.TaskInfo;
 import org.magic.api.beans.audit.TaskInfo.STATE;
 import org.magic.api.beans.audit.TaskInfo.TYPE;
+import org.magic.api.exports.impl.JsonExport;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.TechnicalServiceManager;
-import org.magic.tools.Chrono;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 public class ThreadManager {
@@ -140,13 +139,10 @@ public class ThreadManager {
 			objExe.addProperty("factory", executor.getThreadFactory().toString());
 			objExe.addProperty("executor", executor.getClass().getCanonicalName());
 		
-	var arr = new JsonArray();
-	for(var e : TechnicalServiceManager.inst().getTasksInfos())
-		arr.add(e.toJson());
 
 	var objRet = new JsonObject();
 		objRet.add("factory", objExe);
-		objRet.add("tasks", arr);
+		objRet.add("tasks", new JsonExport().toJsonArray(TechnicalServiceManager.inst().getTasksInfos()));
 
 		return objRet;
 	}

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,12 +14,16 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.audit.AbstractAuditableItem;
+import org.magic.api.beans.audit.NetworkInfo;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.services.adapters.InstantAdapter;
+import org.magic.services.adapters.MTGStockItemAdapter;
+import org.magic.services.adapters.NetworkInfoAdapter;
+import org.magic.services.adapters.UserAgentAdapter;
 import org.magic.services.network.URLTools;
 import org.magic.tools.FileTools;
-import org.magic.tools.InterfaceAdapter;
 import org.magic.tools.POMReader;
 
 import com.google.common.reflect.TypeToken;
@@ -27,6 +32,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+
+import nl.basjes.parse.useragent.UserAgent;
 
 public class JsonExport extends AbstractCardExport {
 
@@ -42,14 +49,22 @@ public class JsonExport extends AbstractCardExport {
 	private Gson gson;
 	
 	public JsonExport() {
-		gson=new GsonBuilder().registerTypeAdapter(MTGStockItem.class, new InterfaceAdapter<>())
-				.setDateFormat("yyyy-MM-dd hh:mm").setPrettyPrinting().create();
+		gson=new GsonBuilder()
+				.registerTypeAdapter(MTGStockItem.class, new MTGStockItemAdapter())
+				.registerTypeAdapter(Instant.class, new InstantAdapter())
+				.registerTypeAdapter(UserAgent.class, new UserAgentAdapter())
+				.registerTypeHierarchyAdapter(NetworkInfo.class, new NetworkInfoAdapter())
+				.setDateFormat("yyyy-MM-dd hh:mm").setPrettyPrinting()
+				.create();
 	}
 	
 	public void removePrettyString() {
 		gson=new GsonBuilder()
-				.registerTypeAdapter(MTGStockItem.class, new InterfaceAdapter<>())
-				.setDateFormat("yyyy-MM-dd  HH:mm").create();
+				.registerTypeAdapter(MTGStockItem.class, new MTGStockItemAdapter())
+				.registerTypeAdapter(Instant.class, new InstantAdapter())
+				.registerTypeHierarchyAdapter(NetworkInfo.class, new NetworkInfoAdapter())
+				.setDateFormat("yyyy-MM-dd HH:mm")
+				.create();
 	}
 	
 	

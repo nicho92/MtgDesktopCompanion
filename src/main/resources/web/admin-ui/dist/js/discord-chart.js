@@ -135,7 +135,10 @@ server = {
                               return moment(d).format('DD MMM YYYY, HH:mm:ss');
                           }
                         },
-                      {'data' : 'duration'}
+                      {'data' : 'duration'},
+                      {'data' : 'message'}
+                      
+                      
                   ]
 
         });

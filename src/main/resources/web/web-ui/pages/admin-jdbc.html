@@ -58,15 +58,15 @@
  		        "ajax": {"url":restserver+'/admin/jdbc',"dataSrc":""},
  		        "columns": [
  		        	{ 
-		                "data": "sql",
+		                "data": "query",
 		                "defaultContent": ""
 		            },
 		            { 
-		                "data": "statement",
+		                "data": "canonicalName",
 		                "defaultContent": ""
 		            },
  		        	{ 
-		                "data": "creationDate",
+		                "data": "start",
 		                "defaultContent": "",
 		                "render": function(data, type, row, meta){
 		                	 if(type === 'display'){

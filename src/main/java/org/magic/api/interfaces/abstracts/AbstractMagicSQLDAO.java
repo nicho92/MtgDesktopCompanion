@@ -2097,6 +2097,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		
 		daoInfo.setQuery(pst.toString().substring(index));
 		daoInfo.setClasseName(pst.getClass().getCanonicalName());
+		daoInfo.setDaoName(this.getName());
 		return daoInfo;
 	}
 	
