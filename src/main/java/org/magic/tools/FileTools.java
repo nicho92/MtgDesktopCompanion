@@ -336,5 +336,17 @@ public class FileTools {
 	}
 
 
+
+	public static List<File> listFiles(File dir) 
+	{
+			try(Stream<Path> s = java.nio.file.Files.list(dir.toPath())){
+				return s.map(Path::toFile).toList();
+			} catch (IOException e) {
+				logger.error(e);
+				return new ArrayList<>();
+			}
+	}
+		
+
 	
 }

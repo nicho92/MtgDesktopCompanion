@@ -1,4 +1,4 @@
-package org.beta;
+ package org.beta;
 
 import java.io.IOException;
 
@@ -13,15 +13,12 @@ public class TEst {
 	public static void main(String[] args) throws IOException {
 		TechnicalServiceManager.inst().restore();
 		var lst = TechnicalServiceManager.inst().getJsonInfo();
-		
-		var demoKey="a8dc51356cb04465a1c44a8a4c773946";
-		lst.stream().map(JsonQueryInfo::getIp).distinct().forEach(ip->{
+			lst.stream().map(JsonQueryInfo::getIp).distinct().forEach(ip->{
 			
 			try {
 				
-				var o = URLTools.extractAsJson("https://api.geoapify.com/v1/ipinfo?&ip="+ip+"&apiKey="+demoKey).getAsJsonObject();
-				
-				
+				//var o = URLTools.extractAsJson("https://api.geoapify.com/v1/ipinfo?&ip="+ip+"&apiKey=a8dc51356cb04465a1c44a8a4c773946").getAsJsonObject();
+				var o = URLTools.extractAsJson("https://ipapi.co/"+ip+"/json").getAsJsonObject();
 				System.out.println(o);
 			} catch (IOException e) {
 				
