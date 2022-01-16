@@ -430,7 +430,7 @@ server = {
 
 	var map = new maplibregl.Map({
 	  container: 'connectionMap',
-	  style: `https://maps.geoapify.com/v1/styles/klokantech-basic/style.json?apiKey=a8dc51356cb04465a1c44a8a4c773946`,
+	  style: 'https://maps.geoapify.com/v1/styles/klokantech-basic/style.json?apiKey=a8dc51356cb04465a1c44a8a4c773946',
 	});
 	map.addControl(new maplibregl.NavigationControl());
 
