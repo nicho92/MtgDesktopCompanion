@@ -30,8 +30,8 @@ public class JsonQueryInfo extends AbstractAuditableItem {
 		headers = new HashMap<>();
 		queryParams = new HashMap<>();
 	}
-	
 
+	
 	public void setUrl(String url) {
 		this.url = url;
 	}
