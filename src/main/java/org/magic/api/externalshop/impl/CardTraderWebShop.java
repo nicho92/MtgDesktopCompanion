@@ -21,8 +21,8 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
-import org.magic.api.interfaces.abstracts.AbstractProduct;
-import org.magic.api.interfaces.abstracts.AbstractStockItem;
+import org.magic.api.interfaces.abstracts.extra.AbstractProduct;
+import org.magic.api.interfaces.abstracts.extra.AbstractStockItem;
 import org.magic.services.TechnicalServiceManager;
 import org.magic.tools.MTG;
 

@@ -34,6 +34,7 @@ import org.magic.api.interfaces.MTGPictureEditor;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGPlugin.PLUGINS;
+import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.api.interfaces.MTGPool;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.MTGScript;
@@ -43,7 +44,6 @@ import org.magic.api.interfaces.MTGTextGenerator;
 import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.api.interfaces.MTGTrackingService;
 import org.magic.api.interfaces.MTGWallpaperProvider;
-import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.reflections.Reflections;
 
 public class PluginRegistry {

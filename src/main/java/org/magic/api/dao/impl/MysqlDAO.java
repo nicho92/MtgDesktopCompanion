@@ -6,7 +6,7 @@ import java.io.PrintStream;
 import java.sql.SQLException;
 import java.util.Map;
 
-import org.magic.api.interfaces.abstracts.AbstractMagicSQLDAO;
+import org.magic.api.interfaces.abstracts.extra.AbstractMagicSQLDAO;
 
 public class MysqlDAO extends AbstractMagicSQLDAO {
 

@@ -22,7 +22,7 @@ import org.magic.api.beans.audit.NetworkInfo;
 import org.magic.api.beans.audit.TaskInfo;
 import org.magic.api.beans.audit.TaskInfo.STATE;
 import org.magic.api.exports.impl.JsonExport;
-import org.magic.api.interfaces.abstracts.AbstractEmbeddedCacheProvider;
+import org.magic.api.interfaces.abstracts.extra.AbstractEmbeddedCacheProvider;
 import org.magic.tools.FileTools;
 import org.magic.tools.UITools;
 

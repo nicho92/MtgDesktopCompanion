@@ -2,7 +2,7 @@ package org.magic.servers.impl;
 
 import javax.swing.Icon;
 
-import org.magic.api.interfaces.abstracts.AbstractWebServer;
+import org.magic.api.interfaces.abstracts.extra.AbstractWebServer;
 import org.magic.services.MTGConstants;
 
 public class CollectionsWebServer extends AbstractWebServer {

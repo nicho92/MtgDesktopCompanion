@@ -14,7 +14,7 @@ import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGPromoType;
 import org.magic.api.beans.enums.MTGRarity;
-import org.magic.api.interfaces.abstracts.AbstractProduct;
+import org.magic.api.interfaces.abstracts.extra.AbstractProduct;
 import org.magic.tools.IDGenerator;
 
 import com.google.gson.JsonObject;

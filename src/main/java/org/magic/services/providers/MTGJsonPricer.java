@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
 import org.api.mkm.tools.MkmConstants;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.interfaces.abstracts.AbstractMTGJsonProvider;
+import org.magic.api.interfaces.abstracts.extra.AbstractMTGJsonProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.services.network.URLTools;

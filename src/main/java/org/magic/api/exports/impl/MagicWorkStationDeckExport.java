@@ -8,7 +8,7 @@ import java.io.StringReader;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
+import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 
 public class MagicWorkStationDeckExport extends AbstractFormattedFileCardExport {
 

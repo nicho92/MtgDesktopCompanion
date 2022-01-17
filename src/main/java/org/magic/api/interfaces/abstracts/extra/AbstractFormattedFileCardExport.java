@@ -1,4 +1,4 @@
-package org.magic.api.interfaces.abstracts;
+package org.magic.api.interfaces.abstracts.extra;
 
 import static org.magic.tools.MTG.getEnabledPlugin;
 
@@ -17,6 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
 import org.magic.tools.UITools;
 

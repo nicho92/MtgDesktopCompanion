@@ -56,7 +56,7 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPictureCache;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGServer;
-import org.magic.api.interfaces.abstracts.AbstractWebServer;
+import org.magic.api.interfaces.abstracts.extra.AbstractWebServer;
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;

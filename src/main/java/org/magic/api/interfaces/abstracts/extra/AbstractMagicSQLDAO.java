@@ -1,4 +1,4 @@
-package org.magic.api.interfaces.abstracts;
+package org.magic.api.interfaces.abstracts.extra;
 
 import static org.magic.tools.MTG.getEnabledPlugin;
 import static org.magic.tools.MTG.getPlugin;
@@ -49,6 +49,7 @@ import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.MTGPool;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.MTGStorable;
+import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.api.pool.impl.NoPool;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;

@@ -1,4 +1,4 @@
-package org.magic.api.interfaces.abstracts;
+package org.magic.api.interfaces.abstracts.extra;
 
 import java.awt.Image;
 import java.io.File;
@@ -26,6 +26,7 @@ import org.magic.api.criterias.MTGCrit.OPERATOR;
 import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.criterias.builders.JsonCriteriaBuilder;
+import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;
 import org.magic.tools.Chrono;

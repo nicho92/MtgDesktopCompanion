@@ -34,7 +34,7 @@ import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.criterias.builders.SQLCriteriaBuilder;
 import org.magic.api.interfaces.MTGPool;
-import org.magic.api.interfaces.abstracts.AbstractMTGJsonProvider;
+import org.magic.api.interfaces.abstracts.extra.AbstractMTGJsonProvider;
 import org.magic.api.pool.impl.HikariPool;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.MTGRunnable;

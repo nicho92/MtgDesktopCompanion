@@ -1,4 +1,4 @@
-package org.magic.api.interfaces.abstracts;
+package org.magic.api.interfaces.abstracts.extra;
 
 import java.io.Writer;
 
@@ -6,6 +6,8 @@ import javax.script.Bindings;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+
+import org.magic.api.interfaces.abstracts.AbstractMTGScript;
 
 public abstract class AbstractJSR223MTGScript extends AbstractMTGScript  {
 

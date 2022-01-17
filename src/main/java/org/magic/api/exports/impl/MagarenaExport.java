@@ -8,7 +8,7 @@ import java.io.IOException;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.api.interfaces.abstracts.AbstractFormattedFileCardExport;
+import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.tools.FileTools;
 
 public class MagarenaExport extends AbstractFormattedFileCardExport

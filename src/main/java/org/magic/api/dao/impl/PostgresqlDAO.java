@@ -13,7 +13,7 @@ import java.util.Map;
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.MTGStockItem;
-import org.magic.api.interfaces.abstracts.AbstractMagicSQLDAO;
+import org.magic.api.interfaces.abstracts.extra.AbstractMagicSQLDAO;
 import org.postgresql.util.PGobject;
 
 import com.google.gson.JsonArray;

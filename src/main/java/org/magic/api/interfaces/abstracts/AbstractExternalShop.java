@@ -16,6 +16,7 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
+import org.magic.api.interfaces.abstracts.extra.AbstractProduct;
 import org.magic.services.MTGControler;
 import org.magic.tools.MTG;
 import org.magic.tools.WooCommerceTools;
@@ -81,20 +82,7 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 			
 		return list;
 	}
-	
-	public static void main(String[] args) throws IOException, SQLException {
-		MTGControler.getInstance().init();
-		var commerce = MTG.getPlugin(WooCommerceTools.WOO_COMMERCE_NAME, MTGExternalShop.class);
-		
-		
-		var list  = commerce.listStock(" Time Spiral Remastered").stream().filter(p->!p.getTiersAppIds().isEmpty()).toList();
-		
-		commerce.saveOrUpdateStock(list, true);
-		
-	}
-	
-	
-	
+
 	@Override
 	public void saveOrUpdateStock(List<MTGStockItem> items,boolean allShop) throws IOException {	
 			saveOrUpdateStock(items);

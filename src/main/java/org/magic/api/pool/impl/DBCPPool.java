@@ -14,12 +14,12 @@ import org.apache.commons.pool2.impl.BaseObjectPoolConfig;
 import org.apache.commons.pool2.impl.GenericKeyedObjectPoolConfig;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.magic.api.interfaces.abstracts.AbstractMTGPlugin;
-import org.magic.api.interfaces.abstracts.AbstractPool;
+import org.magic.api.interfaces.abstracts.AbstractPoolProvider;
 import org.magic.tools.POMReader;
 
 import com.mchange.v2.c3p0.cfg.C3P0Config;
 
-public class DBCPPool extends AbstractPool {
+public class DBCPPool extends AbstractPoolProvider {
 
 	
 	private BasicDataSource dataSource;

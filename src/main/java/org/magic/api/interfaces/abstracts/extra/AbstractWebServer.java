@@ -1,4 +1,4 @@
-package org.magic.api.interfaces.abstracts;
+package org.magic.api.interfaces.abstracts.extra;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +29,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.Jetty;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.magic.api.interfaces.MTGServer;
+import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.servers.impl.JSONHttpServer;
 import org.magic.services.MTGConstants;
 import org.magic.services.PluginRegistry;

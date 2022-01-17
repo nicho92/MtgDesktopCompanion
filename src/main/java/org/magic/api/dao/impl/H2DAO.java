@@ -9,7 +9,7 @@ import java.util.Map;
 import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MTGDocumentation;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
-import org.magic.api.interfaces.abstracts.AbstractMagicSQLDAO;
+import org.magic.api.interfaces.abstracts.extra.AbstractMagicSQLDAO;
 import org.magic.services.MTGConstants;
 import org.magic.tools.FileTools;
 

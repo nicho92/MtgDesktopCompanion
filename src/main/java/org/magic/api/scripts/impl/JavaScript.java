@@ -2,7 +2,7 @@ package org.magic.api.scripts.impl;
 
 import java.util.Map;
 
-import org.magic.api.interfaces.abstracts.AbstractJSR223MTGScript;
+import org.magic.api.interfaces.abstracts.extra.AbstractJSR223MTGScript;
 
 
 public class JavaScript extends AbstractJSR223MTGScript {
