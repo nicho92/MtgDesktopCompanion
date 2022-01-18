@@ -21,7 +21,7 @@ public class JsonQueryInfo extends AbstractAuditableItem {
 	private String sessionId;
 	private String path;
 	private Map<String, String> queryParams;
-	
+	private Location location;
 	
 	public JsonQueryInfo() {
 		super();
@@ -30,7 +30,15 @@ public class JsonQueryInfo extends AbstractAuditableItem {
 		headers = new HashMap<>();
 		queryParams = new HashMap<>();
 	}
-
+	
+	public void setLocation(Location location) {
+		this.location = location;
+	}
+	
+	public Location getLocation() {
+		return location;
+	}
+	
 	
 	public void setUrl(String url) {
 		this.url = url;
