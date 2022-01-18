@@ -120,7 +120,7 @@ public class TechnicalServiceManager {
 
 	private <T extends AbstractAuditableItem> void storeItems(Class<T> classe, List<T> items) throws IOException
 	{
-		FileTools.saveFile(Paths.get(logsDirectory.getAbsolutePath(),classe.getSimpleName()+"_"+UITools.formatDate(new Date(),"ddMMYYYY")+"_.json").toFile(), export.toJson(items));
+		FileTools.saveFile(Paths.get(logsDirectory.getAbsolutePath(),classe.getSimpleName()+".json").toFile(), export.toJson(items));
 	}
 	
 
