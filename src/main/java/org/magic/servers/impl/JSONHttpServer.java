@@ -870,7 +870,12 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 		
 		get("/admin/discord", URLTools.HEADER_JSON, (request, response) -> {
-			return 	TechnicalServiceManager.inst().getDiscordInfos();
+			var ret = new JsonObject();
+			var serv = (DiscordBotServer) MTG.getPlugin("Discord", MTGServer.class);
+			var je = serv.toJsonDetails();
+			ret.add("servers", je);
+			ret.add("queries",converter.toJsonElement(TechnicalServiceManager.inst().getDiscordInfos()));
+			return ret;
 		}, transformer);
 		
 		get("/admin/currency", URLTools.HEADER_JSON, (request, response) -> {

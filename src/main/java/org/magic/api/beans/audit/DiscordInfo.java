@@ -44,33 +44,34 @@ public class DiscordInfo extends AbstractAuditableItem {
 		return message;
 	}
 	
-	public void parse(User author) {
-		user = new JsonObject();
+	public static JsonObject parse(User author) {
+		var user = new JsonObject();
 		user.addProperty("id", author.getId());
 		user.addProperty("name", author.getName());
 		user.addProperty("descriminator", author.getDiscriminator());
 		user.addProperty("mention", author.getAsMention());
 		user.addProperty("avatar", author.getAvatarUrl());
 		user.addProperty("id", author.getId());
-		
+		return user;
 	}
 
-	public void parse(Guild g) {
-		guild = new JsonObject();
+	public static JsonObject parse(Guild g) {
+		var guild = new JsonObject();
 		guild.addProperty("id", g.getId());
 		guild.addProperty("banner", g.getBannerUrl());
 		guild.addProperty("icon", g.getIconUrl());
 		guild.addProperty("name", g.getName());
 		guild.addProperty("description", g.getDescription());
 		guild.addProperty("etest", g.getVanityUrl());
-		
+		return guild;
 	}
 
-	public void parse(MessageChannel c) {
-		channel = new JsonObject();
+	public static JsonObject parse(MessageChannel c) {
+		var channel = new JsonObject();
 		channel.addProperty("name", c.getName());
 		channel.addProperty("id", c.getId());
 		channel.addProperty("mention", c.getAsMention());
+		return channel;
 	}
 
 	public void setMessage(String contentRaw) {
