@@ -54,9 +54,8 @@
 		server.initDashboardPageCharts(alldatas, start, end);	
 	}); 
 
-    	//$.get(restserver+"/admin/jsonQueries",function(data){
-    	$.get("https://mtgcompanion.me:1234/admin/jsonQueries",function(data){
-			var startDate = moment("2000-01-01");
+    	$.get(restserver+"/admin/jsonQueries",function(data){
+    		var startDate = moment("2000-01-01");
 			var endDate = moment();
 			alldatas = data;
 			server.initDashboardPageCharts(data, startDate, endDate);	
@@ -226,7 +225,7 @@
             <div class="card card-chart">
               <div class="card-header">
                 <h5 class="card-category">Endpoint</h5>
-                <h4 class="card-title">Most requested endpoint</h4>
+                <h4 class="card-title">Duration</h4>
               </div>
               <div class="card-body">
                 <div class="chart-area">

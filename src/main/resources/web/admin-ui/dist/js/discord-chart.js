@@ -1,5 +1,8 @@
 var bigDashboard;
 var tablediscordMsg;
+var tablediscordGuilds;
+var topUserChart;
+
 
 
 const chartColor = "#FFFFFF";
@@ -7,7 +10,7 @@ const chartColor = "#FFFFFF";
 server = {
   
     initDashboardPageCharts: function(data, start, end) {
-		var datas = data.filter(a => {
+		var datas = data.queries.filter(a => {
 				 var date = moment(a.start);
 				 	end = moment(end);
 				 	start = moment(start);
@@ -22,9 +25,43 @@ server = {
 								    result[day]++;
 								    return result;
 									}, {});
+		
+		var endpointCount = datas.reduce(function (result, d) {
+								    var u = d.user.name;
+								     if (!result[u]) {
+								        result[u] = 0;
+								    }
+								    result[u]++;
+								    return result;
+									}, {});
+		
+		
+		var words = [
+			  {text: "Liliana of the Veil", weight: 13},
+			  {text: "MH2", weight: 10.5},
+			  {text: "AFR", weight: 9.4},
+			  {text: "CounterSpell", weight: 8},
+			  {text: "Amonkhet", weight: 6.2},
+			  {text: "Emrakul", weight: 5},
+			  {text: "Sorin, the Mercieless", weight: 5},
+			];
+		
+		
+		
+		var c = $('#tagWords').jQCloud(words,{
+		  shape: 'rectangular',
+		  autoResize: true,
+		  width: 500,
+  		  height: 350
+
+		}); 
+		
+		console.log(c);
+		
 	
 	if(bigDashboard!=null){
 		bigDashboard.destroy();
+		topUserChart.destroy();
 	}
 	
  
@@ -113,6 +150,113 @@ server = {
         }
       }
     });
+	
+	
+	var e = document.getElementById("topUserChart").getContext("2d");
+    gradientFill = ctx.createLinearGradient(0, 170, 0, 50);
+    gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
+    gradientFill.addColorStop(1, hexToRGB('#2CA8FF', 0.6));
+
+    var a = {
+      type: "bar",
+      data: {
+        labels: Object.keys(endpointCount),
+        datasets: [{
+          backgroundColor: gradientFill,
+          borderColor: "#2CA8FF",
+          pointBorderColor: "#FFF",
+          pointBackgroundColor: "#2CA8FF",
+          pointBorderWidth: 2,
+          pointHoverRadius: 4,
+          pointHoverBorderWidth: 1,
+          pointRadius: 4,
+          fill: true,
+          borderWidth: 1,
+          data: Object.values(endpointCount)
+        }]
+      },
+      options: {
+        maintainAspectRatio: false,
+        legend: {
+          display: false
+        },
+        tooltips: {
+          bodySpacing: 4,
+          mode: "nearest",
+          intersect: 0,
+          position: "nearest",
+          xPadding: 10,
+          yPadding: 10,
+          caretPadding: 10
+        },
+        responsive: 1,
+        scales: {
+          yAxes: [{
+            gridLines: 0,
+			gridLines: {
+              zeroLineColor: "transparent",
+              drawBorder: false
+            }
+          }],
+          xAxes: [{
+            display: 0,
+            gridLines: 0,
+            ticks: {
+              display: true
+            },
+            gridLines: {
+              zeroLineColor: "transparent",
+              drawTicks: false,
+              display: false,
+              drawBorder: false
+            }
+          }]
+        },
+        layout: {
+          padding: {
+            left: 0,
+            right: 0,
+            top: 15,
+            bottom: 15
+          }
+        }
+      }
+    };
+
+   topUserChart =  new Chart(e, a);
+	
+	
+	
+	
+	
+	
+	if(tablediscordGuilds==null)
+	{
+		tablediscordGuilds =$('#tablediscordGuilds').DataTable({
+                  'data' : data.server.guilds,
+				  "responsive": true,
+                  'columns' : [
+                      {
+                          'data' : 'name',
+                          render : function(d,type,row){
+							if(row.icon!=null)
+                              return "<img class='rounded img-fluid ' src='"+row.icon+"'>"+d;
+                              
+                              return d;
+                          }
+                        }
+                  ]
+
+        });
+	}
+	else
+	{
+		tablediscordGuilds.clear().rows.add(data.server.guilds).draw();
+		
+	}
+	
+	
+	
 	
 	if(tablediscordMsg==null)
 	{ 
