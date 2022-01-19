@@ -83,10 +83,6 @@ public class DiscordBotServer extends AbstractMTGServer {
 	private static final String PRICE_KEYWORDS = "PRICE_KEYWORDS";
 	private static final String RESULTS_SHAKES="RESULTS_SHAKES";
 	private static final String REGEX ="\\{(.*?)\\}";
-	
-	private JsonExport serializer;
-	
-	
 	private JDA jda;
 	private ListenerAdapter listener;
 
@@ -121,11 +117,17 @@ public class DiscordBotServer extends AbstractMTGServer {
 	public JsonObject toJsonDetails()
 	{
 		var jo  = new JsonObject();
+		if(isAlive()) {
+		
 		var arrGuilds = new JsonArray();
 			jda.getGuilds().forEach(g->arrGuilds.add(DiscordInfo.parse(g)));
-			 jo.add("guilds", arrGuilds);
-		
-			 
+			jo.add("guilds", arrGuilds);
+			jo.add("user", DiscordInfo.parse(jda.getSelfUser()));
+			jo.addProperty("presenceActivity", jda.getPresence().getActivity().getType().name());
+			jo.addProperty("presenceValue", jda.getPresence().getActivity().getName());
+			
+		}
+
 		return jo;
 	}
 	
@@ -478,7 +480,6 @@ public class DiscordBotServer extends AbstractMTGServer {
 			
 			logger.info("Server " + getName() +" started");
 			
-			serializer = new JsonExport();
 		} catch (Exception e) {
 			logger.error(e);
 			throw new IOException(e);
