@@ -123,8 +123,13 @@ public class DiscordBotServer extends AbstractMTGServer {
 			jda.getGuilds().forEach(g->arrGuilds.add(DiscordInfo.parse(g)));
 			jo.add("guilds", arrGuilds);
 			jo.add("user", DiscordInfo.parse(jda.getSelfUser()));
-			jo.addProperty("presenceActivity", jda.getPresence().getActivity().getType().name());
+			try {
+			jo.addProperty("presenceActivity", String.valueOf(jda.getPresence().getActivity()));
 			jo.addProperty("presenceValue", jda.getPresence().getActivity().getName());
+			}catch(Exception e)
+			{
+				logger.error(e);
+			}
 			
 		}
 
