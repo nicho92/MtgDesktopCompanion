@@ -105,15 +105,15 @@ public class TechnicalServiceManager {
 		
 		for(File f : FileTools.listFiles(logsDirectory))
 		{
-			if(f.getName().startsWith(JsonQueryInfo.class.getSimpleName()+"_"))
+			if(f.getName().startsWith(JsonQueryInfo.class.getSimpleName()))
 				jsonInfo.addAll(export.fromJsonList(FileTools.readFile(f), JsonQueryInfo.class));
-			else if(f.getName().startsWith(DAOInfo.class.getSimpleName()+"_"))
+			else if(f.getName().startsWith(DAOInfo.class.getSimpleName()))
 				daoInfos.addAll(export.fromJsonList(FileTools.readFile(f), DAOInfo.class));
-			else if(f.getName().startsWith(TaskInfo.class.getSimpleName()+"_"))
+			else if(f.getName().startsWith(TaskInfo.class.getSimpleName()))
 				tasksInfos.addAll(export.fromJsonList(FileTools.readFile(f), TaskInfo.class));		
-			else if(f.getName().startsWith(NetworkInfo.class.getSimpleName()+"_"))
+			else if(f.getName().startsWith(NetworkInfo.class.getSimpleName()))
 				networkInfos.addAll(export.fromJsonList(FileTools.readFile(f), NetworkInfo.class));
-			else if(f.getName().startsWith(DiscordInfo.class.getSimpleName()+"_"))
+			else if(f.getName().startsWith(DiscordInfo.class.getSimpleName()))
 				discordInfos.addAll(export.fromJsonList(FileTools.readFile(f), DiscordInfo.class));	
 		}
 	}
