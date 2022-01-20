@@ -23,7 +23,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
-  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
   <script src='https://unpkg.com/maplibre-gl@2.0.0/dist/maplibre-gl.js'></script>
   <script src="../dist/js/now-ui-dashboard.js" type="text/javascript"></script>
@@ -42,6 +42,14 @@
 		var alldatas;
 		var nowDate = moment();
 
+	$('#sidebar').load('inc_sidebar.html',function(){
+		$("#jsonserver").addClass("active");	
+	});
+	
+	
+	
+		
+		
 	setInterval(function(){
 		 $("span[name='lastUpdate']").html(moment(nowDate).fromNow());
 	}, 1000);
@@ -69,49 +77,10 @@
 
 <body class="">
   <div class="wrapper ">
-    <div class="sidebar" data-color="blue">
+    <div class="sidebar" id="sidebar" data-color="blue">
       <!--
         Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
     -->
-      <div class="logo">
-        <span class="simple-text">
-          MTGCompanion Admin Center
-        </span>
-      </div>
-      <div class="sidebar-wrapper" id="sidebar-wrapper">
-        <ul class="nav">
-          <li class="active ">
-            <a href="./jsonserver.html">
-              <i class="fas fa-tachometer-alt"></i>
-              <p>JSonServer</p>
-            </a>
-          </li>
-           <li >
-            <a href="./network.html">
-             <i class="fa fa-cloud" aria-hidden="true"></i>
-              <p>Network</p>
-            </a>
-          </li>
- 		  <li >
-            <a href="./discord.html">
-           <i class="fab fa-discord"></i>
-              <p>Discord</p>
-            </a>
-          </li>
-          <li>
-            <a href="./discord.html">
-           <i class="fas fa-database"></i>
-              <p>Database</p>
-            </a>
-          </li>
-          <li>
-            <a href="./discord.html">
-           <i class="fas fa-tasks"></i>
-              <p>Tasks</p>
-            </a>
-          </li>
-        </ul>
-      </div>
     </div>
     <div class="main-panel" id="main-panel">
       <!-- Navbar -->

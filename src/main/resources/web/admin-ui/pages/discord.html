@@ -40,7 +40,11 @@
     $(document).ready(function() {
 		var alldatas;
 		var nowDate = moment();
-
+		$('#sidebar').load('inc_sidebar.html',function(){
+			$("#discord").addClass("active");	
+		});
+		
+		
 	setInterval(function(){
 		 $("span[name='lastUpdate']").html(moment(nowDate).fromNow());
 	}, 1000);
@@ -72,46 +76,8 @@
    <!--
         Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
     -->
-    <div class="sidebar" data-color="orange">
-      <div class="logo">
-        <span class="simple-text">
-          MTGCompanion Admin Center
-        </span>
-      </div>
-      <div class="sidebar-wrapper" id="sidebar-wrapper">
-        <ul class="nav">
-          <li>
-            <a href="./jsonserver.html">
-              <i class="fas fa-tachometer-alt"></i>
-              <p>JSonServer</p>
-            </a>
-          </li>
-           <li >
-            <a href="./network.html">
-             <i class="fa fa-cloud" aria-hidden="true"></i>
-              <p>Network</p>
-            </a>
-          </li>
- 		  <li class="active">
-            <a href="./discord.html">
-           <i class="fab fa-discord"></i>
-              <p>Discord</p>
-            </a>
-          </li>
-          <li >
-            <a href="./discord.html">
-           <i class="fas fa-database"></i>
-              <p>Database</p>
-            </a>
-          </li>
-          <li>
-            <a href="./discord.html">
-           <i class="fas fa-tasks"></i>
-              <p>Tasks</p>
-            </a>
-          </li>
-        </ul>
-      </div>
+    <div class="sidebar" id="sidebar" data-color="orange">
+      
     </div>
     <div class="main-panel" id="main-panel">
       <!-- Navbar -->
