@@ -36,8 +36,14 @@ server = {
 									}, {});
 		
 		var messageCount = datas.reduce(function (result, d) {
-								    var u = d.message;
-								     if (!result[u]) {
+								    var u = d.message.match(/\{(.*)\}/)[1];
+								  
+								  	if(u.indexOf("|")>0)
+								  		u=u.substring(u.indexOf("|")+1);
+								  
+								  	u=u.toLowerCase();
+								  
+								    if (!result[u]) {
 								        result[u] = 0;
 								    }
 								    result[u]++;
@@ -47,6 +53,8 @@ server = {
 		$.each(messageCount, function( data, index) {
 			 words.push( {text: data, weight: index});
 		});
+		
+		console.log(words);
 		
 		$('#tagWords').jQCloud(words,{
 		  shape: 'rectangular',

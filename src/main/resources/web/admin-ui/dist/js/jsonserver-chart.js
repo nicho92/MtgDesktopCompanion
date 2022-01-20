@@ -438,7 +438,14 @@ server = {
 	});
 	map.addControl(new maplibregl.NavigationControl());
 	$.each(countriesCount,function(index, value){
-    	new maplibregl.Marker().setLngLat([value.longitude, value.latitude]).addTo(map);
+		try{
+    		new maplibregl.Marker().setLngLat([value.longitude, value.latitude]).addTo(map);
+    		}
+    		catch(error)
+    		{
+				console.log(error + " " + JSON.stringify(value));
+			}
+
 	});
 
 
