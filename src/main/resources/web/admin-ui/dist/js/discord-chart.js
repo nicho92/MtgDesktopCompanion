@@ -35,29 +35,25 @@ server = {
 								    return result;
 									}, {});
 		
+		var messageCount = datas.reduce(function (result, d) {
+								    var u = d.message;
+								     if (!result[u]) {
+								        result[u] = 0;
+								    }
+								    result[u]++;
+								    return result;
+									}, {});
+		var words =[];
+		$.each(messageCount, function( data, index) {
+			 words.push( {text: data, weight: index});
+		});
 		
-		var words = [
-			  {text: "Liliana of the Veil", weight: 13},
-			  {text: "MH2", weight: 10.5},
-			  {text: "AFR", weight: 9.4},
-			  {text: "CounterSpell", weight: 8},
-			  {text: "Amonkhet", weight: 6.2},
-			  {text: "Emrakul", weight: 5},
-			  {text: "Sorin, the Mercieless", weight: 5},
-			];
-		
-		
-		
-		var c = $('#tagWords').jQCloud(words,{
+		$('#tagWords').jQCloud(words,{
 		  shape: 'rectangular',
 		  autoResize: true,
 		  width: 500,
   		  height: 350
-
 		}); 
-		
-		console.log(c);
-		
 	
 	if(bigDashboard!=null){
 		bigDashboard.destroy();
