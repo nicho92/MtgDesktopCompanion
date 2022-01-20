@@ -31,7 +31,7 @@
   <link href="../dist/css/now-ui-dashboard.css" rel="stylesheet" />
  	
  	<script src="../dist/js/rest-server.js"></script>
- 	<script src="../dist/js/discord-chart.js"></script>
+ 	<script src="../dist/js/network-chart.js"></script>
   
   
   
@@ -41,7 +41,7 @@
 		var alldatas;
 		var nowDate = moment();
 		$('#sidebar').load('inc_sidebar.html',function(){
-			$("#discord").addClass("active");	
+			$("#network").addClass("active");	
 		});
 		
 		
@@ -57,8 +57,7 @@
 		server.initDashboardPageCharts(alldatas, start, end);	
 	}); 
 
-	$.get(restserver+"/admin/discord",function(data){
-	//$.get("https://mtgcompanion.me:1234/admin/discord",function(data){
+	$.get(restserver+"/admin/network",function(data){
 		var startDate = moment("2000-01-01");
 		var endDate = moment();
 		alldatas = data;
@@ -76,7 +75,7 @@
    <!--
         Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
     -->
-    <div class="sidebar" id="sidebar" data-color="orange">
+    <div class="sidebar" id="sidebar" data-color="red">
       
     </div>
     <div class="main-panel" id="main-panel">
