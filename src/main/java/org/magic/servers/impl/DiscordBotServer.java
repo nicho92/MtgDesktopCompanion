@@ -107,7 +107,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 			
 			@Override
 			public void onReady(ReadyEvent event) {
-		    	logger.debug(getName() + " bot invited in " + event.getJDA().getGuilds().stream().toList());
+		    	logger.debug(getName() + " bot started");
 			}
 	
 		};

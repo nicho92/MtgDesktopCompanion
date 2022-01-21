@@ -1,4 +1,6 @@
 var bigDashboard;
+var tableUrlCalls;
+var domainrequestschart;
 
 
 const chartColor = "#FFFFFF";
@@ -21,12 +23,84 @@ server = {
 								    result[day]++;
 								    return result;
 									}, {});
-		
+									
+									
+		var domainCount = datas.reduce(function (result, d) {
+								    var u = d.host;
+								     if (!result[u]) {
+								        result[u] = 0;
+								    }
+								    result[u]++;
+								    return result;
+									}, {});
 		
 	if(bigDashboard!=null){
 		bigDashboard.destroy();
+		domainrequestschart.destroy();
+	}
+	
+	
+	
+	
+	if(tableUrlCalls==null)
+	{
+		tableUrlCalls =$('#tableUrlCalls').DataTable({
+                  'data' : data,
+				  'responsive': true,
+			  	  'order': [[ 2, "desc" ]],
+		
+                 "columns": [
+ 		        	{ 
+		                "data": "method",
+		                "defaultContent": ""
+		            },
+ 		        	{ 
+		                "data": "url",
+		                "defaultContent": ""
+		            },
+		            { 
+		                "data": "start",
+		                "defaultContent": "",
+		                "render": function(data, type, row, meta){
+		                	 if(type === 'display'){
+									return new Date(data).toLocaleString();		                		 
+		                	 }
+		                   return data;
+		                }
+		            },
+		            { 
+		                "data": "end",
+		                "defaultContent": "",
+		                "render": function(data, type, row, meta){
+		                	 if(type === 'display'){
+									return new Date(data).toLocaleString();		                		 
+		                	 }
+		                   return data;
+		                }
+		            },
+		            { 
+		                "data": "duration",
+		                "defaultContent": ""
+		            },
+		            { 
+		                "data": "reponsesMessage",
+		                "defaultContent": ""
+		            },
+					 { 
+		                "data": "serverType",
+		                "defaultContent": ""
+		            }
+		            
+		            ]
+
+        });
+	}
+	else
+	{
+		tableUrlCalls.clear().rows.add(data).draw();
 		
 	}
+	
 	
  
     var ctx = document.getElementById('bigDashboardChart').getContext("2d");
@@ -114,6 +188,81 @@ server = {
         }
       }
     });
+	
+	var e = document.getElementById("domainrequestschart").getContext("2d");
+    gradientFill = ctx.createLinearGradient(0, 170, 0, 50);
+    gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
+    gradientFill.addColorStop(1, hexToRGB('#2CA8FF', 0.6));
+
+    var a = {
+      type: "bar",
+      data: {
+        labels: Object.keys(domainCount),
+        datasets: [{
+          backgroundColor: gradientFill,
+          borderColor: "#2CA8FF",
+          pointBorderColor: "#FFF",
+          pointBackgroundColor: "#2CA8FF",
+          pointBorderWidth: 2,
+          pointHoverRadius: 4,
+          pointHoverBorderWidth: 1,
+          pointRadius: 4,
+          fill: true,
+          borderWidth: 1,
+          data: Object.values(domainCount)
+        }]
+      },
+      options: {
+        maintainAspectRatio: false,
+        legend: {
+          display: false
+        },
+        tooltips: {
+          bodySpacing: 4,
+          mode: "nearest",
+          intersect: 0,
+          position: "nearest",
+          xPadding: 10,
+          yPadding: 10,
+          caretPadding: 10
+        },
+        responsive: 1,
+        scales: {
+          yAxes: [{
+            gridLines: 0,
+			gridLines: {
+              zeroLineColor: "transparent",
+              drawBorder: false
+            }
+          }],
+          xAxes: [{
+            display: 0,
+            gridLines: 0,
+            ticks: {
+              display: true
+            },
+            gridLines: {
+              zeroLineColor: "transparent",
+              drawTicks: false,
+              display: false,
+              drawBorder: false
+            }
+          }]
+        },
+        layout: {
+          padding: {
+            left: 0,
+            right: 0,
+            top: 15,
+            bottom: 15
+          }
+        }
+      }
+    };
+
+   domainrequestschart =  new Chart(e, a);
+	
+	
 	
   }
 };

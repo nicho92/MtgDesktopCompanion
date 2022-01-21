@@ -130,7 +130,7 @@
       </div>
       <div class="content">
         <div class="row">
-          <div class="col-md-6 ">
+          <div class="col-md-8 ">
             <div class="card  card-tasks ">
               <div class="card-header ">
                 <h5 class="card-category">Server</h5>
@@ -138,14 +138,16 @@
               </div>
               <div class="card-body ">
                 <div class="table-full-width table-responsive">
-                  <table id="tablediscordMsg" class="table">
+                  <table id="tableUrlCalls" class="table">
 						<thead>
 						            <tr>
-						                <th>User</th>
-						                <th>Guild</th>
-						                <th>Start</th>
-						                <th>Duration</th>
-						                <th>Message</th>
+						              <th>method</th>
+						                <th>url</th>
+						                <th>start</th>
+						                <th>end</th>
+						                <th>duration</th>
+						                <th>response</th>
+										<th>serverType</th>
 						            </tr>
 						        </thead>
                     <tbody>
@@ -160,41 +162,17 @@
               </div>
             </div>
           </div>
-          <div class="col-md-6">
-           <div class="card card-chart">
-              <div class="card-header">
-                <h5 class="card-category">Users</h5>
-                <h4 class="card-title">Top User</h4>
-              </div>
-              <div class="card-body">
-                <div class="chart-area">
-                  <canvas id="topUserChart"></canvas>
-                </div>
-              </div>
-              <div class="card-footer">
-                <div class="stats">
-                   <i class="fa fa-calendar" aria-hidden="true"></i> <span name="lastUpdate">Just Updated</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-          <div class="card  card-tasks ">
+          
+ 		<div class="col-md-4 ">
+            <div class="card  card-chart ">
               <div class="card-header ">
-                <h5 class="card-category">Server</h5>
+                <h5 class="card-category">Domain</h5>
                 <h4 class="card-title">Requests</h4>
               </div>
               <div class="card-body ">
-                <div class="table-full-width table-responsive">
-                  <table id="tablediscordGuilds" class="table">
-						<thead>
-						            <tr>
-						                <th>Guild</th>
-						            </tr>
-						        </thead>
-                    <tbody>
-                  </table>
-                </div>
+					  <div class="chart-area">
+                  			<canvas id="domainrequestschart"></canvas>
+               		 </div>
               </div>
               <div class="card-footer ">
                 <hr>
@@ -204,25 +182,7 @@
               </div>
             </div>
           </div>
-          
-           <div class="col-md-6">
-           <div class="card card-chart">
-              <div class="card-header">
-                <h5 class="card-category">Request</h5>
-                <h4 class="card-title">Top search</h4>
-              </div>
-              <div class="card-body">
-                  <div id="tagWords" class="chart-area" ></div>
-              </div>
-              <div class="card-footer">
-                <div class="stats">
-                  <i class="fa fa-calendar" aria-hidden="true"></i> <span name="lastUpdate">Just Updated</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          
+
           
         </div>
       </div>
