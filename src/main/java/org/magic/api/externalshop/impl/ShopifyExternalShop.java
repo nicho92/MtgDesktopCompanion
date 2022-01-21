@@ -11,8 +11,31 @@ import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 
+import com.shopify.ShopifySdk;
+
 public class ShopifyExternalShop extends AbstractExternalShop {
 
+	public static void main(String[] args) {
+		
+		var pass="";
+		
+		var build = ShopifySdk.newBuilder()
+				  .withSubdomain("")
+				  .withAccessToken(pass).build();
+	 
+		
+		var products= build.getProducts();
+		
+		for(var prod :products.values())
+		{
+			System.out.println(prod.getTitle());
+				
+		}
+		
+	}
+	
+	
+	
 	@Override
 	public List<MTGProduct> listProducts(String name) throws IOException {
 		// TODO Auto-generated method stub
@@ -27,7 +50,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 
 	@Override
 	public List<String> listAuthenticationAttributes() {
-		return List.of("CLIENT_ID", "CLIENT_SECRET","CODE","URL") ;
+		return List.of("SUBDOMAIN", "ACCESS_TOKEN") ;
 	}
 	
 	
