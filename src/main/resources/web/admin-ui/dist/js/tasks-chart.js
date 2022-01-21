@@ -22,8 +22,6 @@ server = {
 								    result[day]++;
 								    return result;
 									}, {});
-									
-									
 		
 	if(bigDashboard!=null){
 		bigDashboard.destroy();
