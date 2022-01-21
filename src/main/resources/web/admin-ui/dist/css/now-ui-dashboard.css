@@ -4062,6 +4062,26 @@ img {
   color: #18ce0f;
 }
 
+
+
+
+
+
+.sidebar[data-color="purple"]:after,
+.off-canvas-sidebar[data-color="purple"]:after {
+  background: #8080c0;
+}
+
+.sidebar[data-color="purple"] .nav li.active>a:not([data-toggle="collapse"]),
+.off-canvas-sidebar[data-color="purple"] .nav li.active>a:not([data-toggle="collapse"]) {
+  color: #8080c0;
+}
+
+.sidebar[data-color="purple"] .nav li.active>a:not([data-toggle="collapse"]) i,
+.off-canvas-sidebar[data-color="purple"] .nav li.active>a:not([data-toggle="collapse"]) i {
+  color: #8080c0;
+}
+
 .sidebar[data-color="orange"]:after,
 .off-canvas-sidebar[data-color="orange"]:after {
   background: #f96332;

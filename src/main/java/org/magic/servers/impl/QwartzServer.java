@@ -173,8 +173,16 @@ public class QwartzServer extends AbstractMTGServer {
 		    	  					 jobObj.addProperty("jobGroup", jobKey.getGroup());
 		    	  					 jobObj.addProperty("jobName", jobKey.getName());
 		    	  					 jobObj.addProperty("nextFireTime", trigger.getNextFireTime().getTime());
-		    	  					 jobObj.addProperty("lastFireTime", trigger.getPreviousFireTime().getTime());
-		    	  					simpleJobList.add(jobObj);
+		    	  					
+		    	  					 	try {
+		    	  					 		jobObj.addProperty("lastFireTime", trigger.getPreviousFireTime().getTime());
+		    	  					 	}
+		    	  					 	catch(Exception e)
+		    	  					 	{
+		    	  					 		jobObj.addProperty("lastFireTime", 0);	
+		    	  					 	}
+		    	  					
+		    	  					 simpleJobList.add(jobObj);
 		      }
 		    }
 		  }
