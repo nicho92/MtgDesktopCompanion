@@ -73,7 +73,7 @@ server = {
 	}
 	else
 	{
-		tableUrlCalls.clear().rows.add(data).draw();
+		tableQueriesCalls.clear().rows.add(data).draw();
 		
 	}
 	
