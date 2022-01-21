@@ -85,6 +85,7 @@ public class MTGHttpClient {
 		info.setRequest(req);
 		info.setStart(Instant.now());
 		try{
+			logger.debug("execute " + req);
 			response = httpclient.execute(req,httpContext);
 			info.setReponse(response);
 		}

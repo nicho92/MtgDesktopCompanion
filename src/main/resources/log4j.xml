@@ -32,6 +32,8 @@
     </appender>
     
     <logger name="freemarker.cache"><level value="ERROR"/></logger>
+    <logger name="com.shopify"><level value="ERROR"/></logger>
+    
     <logger name="org.cache2k"><level value="ERROR"/></logger>
     <logger name="org.api.mkm"><level value="ERROR"/></logger>
     <logger name="org.api.cardtrader"><level value="ERROR"/></logger>
