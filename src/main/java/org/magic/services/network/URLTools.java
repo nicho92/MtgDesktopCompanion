@@ -5,10 +5,16 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.groovy.util.Maps;
+import org.apache.http.Header;
 import org.apache.log4j.Logger;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
@@ -23,6 +29,7 @@ import org.magic.tools.XMLTools;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 
 
 public class URLTools {
@@ -59,7 +66,25 @@ public class URLTools {
 		}
 	}
 	
-
+	
+	
+	public static Map<String,String> parseLinksHeader(Header header)
+	{
+		Map<String,String> map = new HashMap<>();
+		
+		if(header==null)
+			return map;
+		
+		Pattern p = Pattern.compile("<(.*?)>;\\srel=\"(.*?)\"");
+		
+		var m = p.matcher(header.getValue());
+		while(m.find())
+			map.put(m.group(2), m.group(1));
+		
+		return map;
+		
+	}
+	
 
 	public static String decode(String s) {
 		return URLDecoder.decode(s, MTGConstants.DEFAULT_ENCODING);
@@ -78,6 +103,16 @@ public class URLTools {
 	public static JsonElement toJson(String content)
 	{
 		return JsonParser.parseString(content);
+	}
+	
+	public static JsonElement toJson(InputStream content)
+	{
+		try(var reader = new InputStreamReader(content))
+		{
+			return JsonParser.parseReader(new InputStreamReader(content));
+		} catch (IOException e) {
+			return null;
+		}
 	}
 	
 	public static org.w3c.dom.Document toXml(File f) throws IOException {
@@ -178,8 +213,6 @@ public class URLTools {
 		
 			
 	}
-
-
 	
 	
 }

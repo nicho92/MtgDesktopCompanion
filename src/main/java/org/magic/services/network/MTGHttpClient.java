@@ -47,7 +47,6 @@ public class MTGHttpClient {
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private HttpResponse response;
 	
-	
 	public HttpClient getHttpclient() {
 		return httpclient;
 	}
@@ -59,7 +58,6 @@ public class MTGHttpClient {
 	public HttpClientContext getHttpContext() {
 		return httpContext;
 	}
-	
 	
 	public MTGHttpClient() {
 		httpclient = HttpClients.custom()
@@ -112,7 +110,6 @@ public class MTGHttpClient {
 		}
 		info.setEnd(Instant.now());
 		TechnicalServiceManager.inst().store(info);
-		
 		return response;
 	}
 	
@@ -237,7 +234,6 @@ public class MTGHttpClient {
 		return RequestBuilder.build();
 	}
 
-	
 	
 }
 

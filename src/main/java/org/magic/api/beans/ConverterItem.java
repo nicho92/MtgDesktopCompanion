@@ -5,11 +5,11 @@ import java.io.Serializable;
 public class ConverterItem implements Serializable, Comparable<ConverterItem>
 { 
 	private static final long serialVersionUID = 1L;
-	private int id=-1;
+	private Long id=-1L;
 	private boolean updated=false;
 	private String name;
-	private int inputId;
-	private int outputId;
+	private Long inputId;
+	private Long outputId;
 	private String lang="";
 	private String source;
 	private String destination;
@@ -24,12 +24,17 @@ public class ConverterItem implements Serializable, Comparable<ConverterItem>
 	}
 	
 	
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setId(Long id) {
+		this.id=id;
+
+	}
+	
+	public void setId(Integer id) {
+		this.id = id.longValue();
 	}
 
 	public boolean isUpdated() {
@@ -40,7 +45,7 @@ public class ConverterItem implements Serializable, Comparable<ConverterItem>
 		this.updated = updated;
 	}
 	
-	public Integer getIdFor(String name)
+	public Long getIdFor(String name)
 	{
 		if(destination.equalsIgnoreCase(name))
 			return outputId;
@@ -48,11 +53,20 @@ public class ConverterItem implements Serializable, Comparable<ConverterItem>
 		if(source.equalsIgnoreCase(name))
 			return inputId;
 		
-		return -1;
+		return -1L;
 	}
 	
 	
-	public ConverterItem(String source, String dest, String name, String lang, int inputId, int outputId ) {
+	public ConverterItem(String source, String dest, String name, String lang, Integer inputId, Integer outputId ) {
+		this.source=source;
+		this.destination=dest;
+		this.name = name;
+		this.inputId = inputId.longValue();
+		this.outputId = outputId.longValue();
+		this.lang = lang;
+	}
+	
+	public ConverterItem(String source, String dest, String name, String lang, Long inputId, Long outputId ) {
 		this.source=source;
 		this.destination=dest;
 		this.name = name;
@@ -60,6 +74,7 @@ public class ConverterItem implements Serializable, Comparable<ConverterItem>
 		this.outputId = outputId;
 		this.lang = lang;
 	}
+	
 
 	public String getSource() {
 		return source;
@@ -84,21 +99,31 @@ public class ConverterItem implements Serializable, Comparable<ConverterItem>
 		this.name = name;
 	}
 	
-	public int getInputId() {
+	public Long getInputId() {
 		return inputId;
 	}
 
-	public void setInputId(int inputId) {
+	public void setInputId(Integer inputId) {
+		this.inputId = inputId.longValue();
+	}
+	
+	public void setInputId(Long inputId) {
 		this.inputId = inputId;
 	}
 
-	public int getOutputId() {
+	public Long getOutputId() {
 		return outputId;
 	}
 
-	public void setOutputId(int outputId) {
+	public void setOutputId(Integer outputId) {
+		this.outputId = outputId.longValue();
+	}
+	
+	public void setOutputId(Long outputId) {
 		this.outputId = outputId;
 	}
+
+	
 
 	public String getLang() {
 		return lang;
@@ -109,6 +134,6 @@ public class ConverterItem implements Serializable, Comparable<ConverterItem>
 
 	@Override
 	public int compareTo(ConverterItem o) {
-		return getId() - o.getId();
+		return (int) (getId() - o.getId());
 	}
 }

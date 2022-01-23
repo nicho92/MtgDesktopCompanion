@@ -43,10 +43,10 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 	}
 	
 	
-	protected List<ConverterItem> getRefs(String lang, int id)
+	protected List<ConverterItem> getRefs(String lang, Long id)
 	{
 		try {
-			return MTG.getEnabledPlugin(MTGDao.class).listConversionItems().stream().filter(p->(p.getLang().equalsIgnoreCase(lang) && (p.getInputId()==id || p.getOutputId()==id))).toList();
+			return MTG.getEnabledPlugin(MTGDao.class).listConversionItems().stream().filter(p->(p.getLang().equalsIgnoreCase(lang) && (p.getInputId().equals(id) || p.getOutputId().equals(id)))).toList();
 		} catch (SQLException e) {
 			logger.error(e);
 			return new ArrayList<>();
@@ -127,7 +127,7 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 								c.setIdCategory(172);
 								c.setCategoryName("Test");
 				try {
-					int ret = createProduct(p,c);
+					var ret = createProduct(p,c);
 					
 					if(ret>0)
 					{
@@ -149,10 +149,10 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 	
 	
 	@Override
-	public int createProduct(MTGExternalShop input, MTGProduct t,String lang,Category c) throws IOException {
+	public Long createProduct(MTGExternalShop input, MTGProduct t,String lang,Category c) throws IOException {
 		Localization defaultLoc = new Localization(1, "English");
 		defaultLoc.setName(t.getName());
-		int ret = createProduct(t,c);
+		var ret = createProduct(t,c);
 		try {
 			
 			updateConversion(input.getName(), t.getName(),lang,t.getProductId(), ret);
@@ -163,7 +163,7 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 	}
 
 	@Override
-	public  void updateConversion(String sourcename, String productName, String language, Integer idProduct, int idDestProduct ) throws IOException
+	public  void updateConversion(String sourcename, String productName, String language, Long idProduct, Long idDestProduct ) throws IOException
 	{
 		try {
 			MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateConversionItem(new ConverterItem(sourcename,getName(), productName,language, idProduct, idDestProduct));

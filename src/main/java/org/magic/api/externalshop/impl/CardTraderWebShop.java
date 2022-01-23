@@ -81,7 +81,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 								    it.setQte(mp.getQty());
 								    it.setPrice(mp.getPrice().getValue());
 								var prod = AbstractProduct.createDefaultProduct();
-								prod.setProductId(mp.getIdBlueprint());
+								prod.setProductId(mp.getIdBlueprint().longValue());
 								prod.setName(mp.getName()); 
 								prod.setEdition(toExpansion(mp.getExpansion()));
 								prod.setCategory(toCategory(mp.getCategorie()));
@@ -101,7 +101,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 			var product = AbstractProduct.createDefaultProduct();
 				product.setName(bp.getName());
 				product.setUrl(bp.getImageUrl());
-				product.setProductId(bp.getId());
+				product.setProductId(bp.getId().longValue());
 				product.setCategory(toCategory(bp.getCategorie()));				
 				product.setEdition(toExpansion(bp.getExpansion()));
 				notify(product);
@@ -130,7 +130,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public int createProduct(MTGProduct t, Category c) throws IOException {
+	public Long createProduct(MTGProduct t, Category c) throws IOException {
 		throw new IOException("Can't create product to " + getName());
 	}
 
@@ -266,7 +266,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public MTGStockItem getStockById(EnumItems typeStock, Integer id) throws IOException {
+	public MTGStockItem getStockById(EnumItems typeStock, Long id) throws IOException {
 		// TODO Auto-generated method stub
 		return null;
 	}

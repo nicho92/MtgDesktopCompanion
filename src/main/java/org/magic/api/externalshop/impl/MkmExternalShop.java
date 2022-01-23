@@ -159,8 +159,8 @@ public class MkmExternalShop extends AbstractExternalShop {
 		var list= loadStock(search);
 		itemsBkcp.clear();
 		list.forEach(item->{
-			getRefs(item.getLanguage(),item.getProduct().getProductId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getDestination(),String.valueOf(converterItem.getOutputId())));
-			getRefs(item.getLanguage(),item.getProduct().getProductId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getSource(),String.valueOf(converterItem.getInputId())));
+			getRefs(item.getLanguage(),item.getProduct().getProductId().longValue()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getDestination(),String.valueOf(converterItem.getOutputId())));
+			getRefs(item.getLanguage(),item.getProduct().getProductId().longValue()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getSource(),String.valueOf(converterItem.getInputId())));
 			itemsBkcp.put(item, new SimpleEntry<>(item.getQte(), item.getPrice()) );
 		});
 			
@@ -177,8 +177,8 @@ public class MkmExternalShop extends AbstractExternalShop {
 		var list= loadTransaction();
 		list.forEach(t->
 			t.getItems().forEach(item->{
-				getRefs(item.getLanguage(),item.getProduct().getProductId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getDestination(),String.valueOf(converterItem.getOutputId())));
-				getRefs(item.getLanguage(),item.getProduct().getProductId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getSource(),String.valueOf(converterItem.getInputId())));
+				getRefs(item.getLanguage(),item.getProduct().getProductId().longValue()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getDestination(),String.valueOf(converterItem.getOutputId())));
+				getRefs(item.getLanguage(),item.getProduct().getProductId().longValue()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getSource(),String.valueOf(converterItem.getInputId())));
 			})
 			);
 		
@@ -264,17 +264,17 @@ public class MkmExternalShop extends AbstractExternalShop {
 	private LightArticle parse(MTGStockItem it) {
 		var ret = new LightArticle();
 		
-		ret.setIdArticle(getRefs(it.getLanguage(), it.getId()).get(0).getIdFor(getName()));
+		ret.setIdArticle(getRefs(it.getLanguage(), it.getId()).get(0).getIdFor(getName()).intValue());
 		
 		
-		ret.setIdProduct(it.getProduct().getProductId());
+		ret.setIdProduct(it.getProduct().getProductId().intValue());
 		ret.setLanguage(Tools.listLanguages().stream().filter(l->l.getLanguageName().equalsIgnoreCase(it.getLanguage())).findFirst().orElse(new Localization(1, it.getLanguage())));
 		ret.setCount(it.getQte());
 		return ret;
 	}
 
 	@Override
-	public int createProduct(MTGProduct t,Category c) throws IOException {
+	public Long createProduct(MTGProduct t,Category c) throws IOException {
 		throw new IOException("Not able to create product in Mkm");
 	}
 	
@@ -333,7 +333,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 			item.setLanguage(article.getLanguage().getLanguageName());
 			item.setPrice(article.getPrice());
 			item.setProduct(toProduct(article.getProduct()));
-			item.getProduct().setProductId(article.getIdProduct());
+			item.getProduct().setProductId(Long.valueOf(article.getIdProduct()));
 			
 			if(article.getCondition()!=null)
 				item.setCondition(MkmOnlineExport.convert(article.getCondition()));
@@ -370,7 +370,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 	private MTGProduct toProduct(LightProduct product) {
 		var p = AbstractProduct.createDefaultProduct();
 		p.setName(product.getEnName());
-		p.setProductId(product.getIdProduct());
+		p.setProductId(Long.valueOf(product.getIdProduct()));
 		
 		try {
 		p.setEdition(MTG.getEnabledPlugin(MTGCardsProvider.class).getSetByName(product.getExpansion()));
@@ -418,7 +418,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public MTGStockItem getStockById(EnumItems typeStock,Integer id) throws IOException {
+	public MTGStockItem getStockById(EnumItems typeStock,Long id) throws IOException {
 			return loadStock(String.valueOf(id)).stream().findAny().orElse(null);
 	}
 
@@ -428,8 +428,8 @@ public class MkmExternalShop extends AbstractExternalShop {
 		init();
 		var transformed = stocks.stream().map(it->{
 			var art = new Article();
-			art.setIdArticle(it.getId());
-			art.setIdProduct(it.getProduct().getProductId());
+			art.setIdArticle(it.getId().intValue());
+			art.setIdProduct(it.getProduct().getProductId().intValue());
 			art.setPrice(it.getPrice());
 			art.setCondition(MkmOnlineExport.convert(it.getCondition()));
 			art.setFoil(it.isFoil());
@@ -450,8 +450,8 @@ public class MkmExternalShop extends AbstractExternalShop {
 			try {
 				
 				var ret = new LightArticle();
-					  ret.setIdArticle(it.getId());
-					  ret.setIdProduct(it.getProduct().getProductId());
+					  ret.setIdArticle(it.getId().intValue());
+					  ret.setIdProduct(it.getProduct().getProductId().intValue());
 					  ret.setCount(it.getQte());
 					  logger.debug(it + " new = " + it.getQte() + "  old=" + itemsBkcp.get(it).getKey() + " = " +  changeQty);
 					  mkmStockService.changeQte(ret, changeQty);

@@ -685,7 +685,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 	, transformer);
 		
 		get("/sealed/get/:id", URLTools.HEADER_JSON,
-				(request, response) -> getEnabledPlugin(MTGDao.class).getSealedStockById(Integer.parseInt(request.params(":id"))), transformer);
+				(request, response) -> getEnabledPlugin(MTGDao.class).getSealedStockById(Long.parseLong(request.params(":id"))), transformer);
 		
 		get("/stock/list", URLTools.HEADER_JSON,(request, response) -> { 
 			
@@ -697,7 +697,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 
 		get("/stock/get/:idStock", URLTools.HEADER_JSON,
-				(request, response) -> getEnabledPlugin(MTGDao.class).getStockById(Integer.parseInt(request.params(":idStock"))), transformer);
+				(request, response) -> getEnabledPlugin(MTGDao.class).getStockById(Long.parseLong(request.params(":idStock"))), transformer);
 		
 		get("/stock/list/:collection", URLTools.HEADER_JSON,(request, response) ->
 			 getCached(request.pathInfo(), new Callable<Object>() {
@@ -999,7 +999,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			for(MTGProduct p : ret)
 				{
 					Category c = extShop.listCategories().stream().filter(cat->cat.getIdCategory()==Integer.parseInt(request.params(":idCategory"))).findFirst().orElse(new Category());
-					int res = extShop.createProduct(srcShop,p,request.params(":language"),c);
+					var res = extShop.createProduct(srcShop,p,request.params(":language"),c);
 					arr.add(res);
 				}
 			return arr;

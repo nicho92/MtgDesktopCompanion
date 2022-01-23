@@ -744,9 +744,9 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 					pst.setString(1,n.getName());
 					pst.setString(2,n.getLang());
 					pst.setString(3, n.getSource());
-					pst.setInt(4, n.getInputId());
+					pst.setLong(4, n.getInputId());
 					pst.setString(5, n.getDestination());
-					pst.setInt(6, n.getOutputId());
+					pst.setLong(6, n.getOutputId());
 					executeUpdate(pst);
 					logger.debug(n.getName() +" created");
 					n.setUpdated(false);
@@ -760,10 +760,10 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setString(1,n.getName());
 				pst.setString(2,n.getLang());
 				pst.setString(3, n.getSource());
-				pst.setInt(4, n.getInputId());
+				pst.setLong(4, n.getInputId());
 				pst.setString(5, n.getDestination());
-				pst.setInt(6, n.getOutputId());
-				pst.setInt(7, n.getId());
+				pst.setLong(6, n.getOutputId());
+				pst.setLong(7, n.getId());
 				executeUpdate(pst);
 				logger.debug(n.getName() +" updated");
 				n.setUpdated(false);	
@@ -777,7 +777,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	@Override
 	public void deleteConversionItem(ConverterItem n) throws SQLException {
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("DELETE FROM conversionsItems where id=?")) {
-			pst.setInt(1, n.getId());
+			pst.setLong(1, n.getId());
 			executeUpdate(pst);
 		}
 		logger.debug(n +" deleted");
@@ -1307,7 +1307,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		var sql = "DELETE FROM sealed WHERE id=?";
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(sql)) 
 		{
-			pst.setInt(1, state.getId());
+			pst.setLong(1, state.getId());
 			executeUpdate(pst);
 			notify(state);
 		}
@@ -1315,10 +1315,10 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	}
 	
 	@Override
-	public SealedStock getSealedStockById(int id) throws SQLException {
+	public SealedStock getSealedStockById(Long id) throws SQLException {
 		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from sealed where id=?")) 
 		{
-				pst.setInt(1, id);
+				pst.setLong(1, id);
 				ResultSet rsC = executeQuery(pst);
 				rsC.next();
 				return readSealed(rsC);
@@ -1383,7 +1383,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setString(7, (state.getMagicCollection()==null)?MTGControler.getInstance().get(DEFAULT_LIBRARY):state.getMagicCollection().getName());
 				pst.setDouble(8, state.getPrice());
 				storeTiersApps(pst,9,state.getTiersAppIds());
-				pst.setInt(10, state.getId());
+				pst.setLong(10, state.getId());
 				executeUpdate(pst);
 				
 				state.setUpdated(false);
@@ -1701,11 +1701,11 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	
 	
 	@Override
-	public MagicCardStock getStockById(Integer id) throws SQLException {
+	public MagicCardStock getStockById(Long id) throws SQLException {
 		
 		
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM stocks where idstock=?")) {
-			pst.setInt(1, id);
+			pst.setLong(1, id);
 			var rs = executeQuery(pst);
 			
 			rs.next();
@@ -1787,7 +1787,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				storeGrade(pst, 11,state.getGrade());
 				storeTiersApps(pst, 12,state.getTiersAppIds());
 				pst.setBoolean(13, state.isEtched());
-				pst.setInt(14, state.getId());
+				pst.setLong(14, state.getId());
 				executeUpdate(pst);
 			} catch (Exception e) {
 				logger.error(e);

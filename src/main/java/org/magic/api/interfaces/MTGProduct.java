@@ -6,9 +6,9 @@ import org.magic.api.beans.shop.Category;
 
 public interface MTGProduct extends MTGStorable {
 
-	public Integer getProductId();
+	public Long getProductId();
 
-	public void setProductId(Integer id);
+	public void setProductId(Long id);
 
 	public String getUrl();
 

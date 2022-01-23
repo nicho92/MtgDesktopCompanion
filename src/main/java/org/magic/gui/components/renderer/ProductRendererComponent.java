@@ -24,7 +24,7 @@ public class ProductRendererComponent extends JPanel {
 	private JLabel lblProductSet;
 	private JLabel lblProductType;
 	private JLabel lblImage;
-	private transient Map<Integer,Image> temp;
+	private transient Map<Long,Image> temp;
 	
 	public ProductRendererComponent() {
 		

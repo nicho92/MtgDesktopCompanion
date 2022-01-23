@@ -128,12 +128,12 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	}
 		
 	@Override
-	public MagicCardStock getStockById(Integer id) throws SQLException {
+	public MagicCardStock getStockById(Long id) throws SQLException {
 		return listStocks().stream().filter(mc->mc.getId().equals(id)).findAny().orElse(null);
 	}
 	
 	@Override
-	public MTGStockItem getStockById(EnumItems typeStock, Integer id) throws SQLException {
+	public MTGStockItem getStockById(EnumItems typeStock, Long id) throws SQLException {
 		if(typeStock==EnumItems.CARD)
 			return getStockById(id);
 			

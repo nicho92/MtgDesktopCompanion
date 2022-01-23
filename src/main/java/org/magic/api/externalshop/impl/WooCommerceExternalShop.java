@@ -148,7 +148,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
     		var prod = AbstractProduct.createDefaultProduct();
 
 			prod.setName(objItem.get("name").getAsString());
-    		prod.setProductId(objItem.get(PRODUCT_ID).getAsInt());
+    		prod.setProductId(objItem.get(PRODUCT_ID).getAsLong());
     		prod.setUrl("");
     		entry.setProduct(prod);
     		entry.setLanguage(entry.getProduct().getName().toLowerCase().contains("français")?"French":"English");
@@ -164,7 +164,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public int createProduct(MTGProduct p,Category c) throws IOException {
+	public Long createProduct(MTGProduct p,Category c) throws IOException {
 		init();
 		
 		Map<Object,Object> ret = client.create(EndpointBaseType.PRODUCTS.getValue(), toWooCommerceAttributs(p,null,c.getIdCategory()));
@@ -172,14 +172,14 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		if(!ret.isEmpty() && ret.get("id") !=null)
 		{
 			logger.info(p + " created in " + getName() + " with id = " + ret.get("id"));
-			return Integer.parseInt(ret.get("id").toString());
+			return Long.parseLong(ret.get("id").toString());
 		}
 		else
 		{
 			logger.error(ret);
 		}
 		
-		return -1;
+		return -1L;
 	}
 
 	@Override
@@ -201,7 +201,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 			var p = AbstractProduct.createDefaultProduct();
 			JsonObject obj = element.getAsJsonObject();
 	
-			p.setProductId(obj.get("id").getAsInt());
+			p.setProductId(obj.get("id").getAsLong());
 			p.setName(obj.get("name").getAsString());
 			
 			JsonObject objCateg = obj.get(CATEGORIES).getAsJsonArray().get(0).getAsJsonObject();
@@ -337,7 +337,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public MTGStockItem getStockById( EnumItems typeStock,Integer id) throws IOException {
+	public MTGStockItem getStockById( EnumItems typeStock,Long id) throws IOException {
 		return null;
 	}
 
@@ -350,7 +350,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 			vars.put(PRICE, String.valueOf(it.getPrice()));
 			vars.put("regular_price", String.valueOf(it.getPrice()));
 			vars.put(STOCK_QUANTITY, it.getQte());
-			var ret = client.update(EndpointBaseType.PRODUCTS.getValue(),it.getId(),vars );
+			var ret = client.update(EndpointBaseType.PRODUCTS.getValue(),it.getId().intValue(),vars );
 	        logger.debug("price =" +ret.get(PRICE) + " Qte ="+ ret.get(STOCK_QUANTITY));
 			it.setUpdated(false);
 		}
@@ -442,7 +442,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 			
 			MTGProduct p = AbstractProduct.createDefaultProduct();
 			JsonObject obj = element.getAsJsonObject();
-			p.setProductId(obj.get("id").getAsInt());
+			p.setProductId(obj.get("id").getAsLong());
 			p.setName(obj.get("name").getAsString());
 			
 			

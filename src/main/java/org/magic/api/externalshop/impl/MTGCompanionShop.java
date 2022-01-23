@@ -73,7 +73,7 @@ public class MTGCompanionShop extends AbstractExternalShop {
 					card.setEdition(card.getCurrentSet());
 					card.setCategory(new Category(0, EnumItems.CARD.name()));
 					card.setUrl(MTG.getEnabledPlugin(MTGPictureProvider.class).generateUrl(card));
-					card.setProductId(card.getId().hashCode());
+					card.setProductId(Long.valueOf(card.getId().hashCode()));
 					notify(card);
 					ret.add(card);
 		});
@@ -81,7 +81,7 @@ public class MTGCompanionShop extends AbstractExternalShop {
 		products.forEach(ss->{
 					ss.setName(ss.getTypeProduct() + " " + (ss.getExtra()!=null ? ss.getExtra():"")+ " "  + ss.getEdition() + " " + ss.getLang());
 					ss.setUrl(ss.getUrl());
-					ss.setProductId(ss.hashCode());
+					ss.setProductId(Long.valueOf(ss.hashCode()));
 					ss.setCategory(new Category(1,EnumItems.SEALED.name()));
 					notify(ss);
 			ret.add(ss);
@@ -91,7 +91,7 @@ public class MTGCompanionShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public int createProduct(MTGProduct t,Category c) throws IOException {
+	public Long createProduct(MTGProduct t,Category c) throws IOException {
 		throw new IOException("not implemented " + t); 
 	}
 
@@ -157,7 +157,7 @@ public class MTGCompanionShop extends AbstractExternalShop {
 		
 	}
 	@Override
-	public MTGStockItem getStockById(EnumItems typeStock, Integer id) throws IOException {
+	public MTGStockItem getStockById(EnumItems typeStock, Long id) throws IOException {
 		try {
 			return MTG.getEnabledPlugin(MTGDao.class).getStockById(typeStock,id);
 			}

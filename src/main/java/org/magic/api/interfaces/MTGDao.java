@@ -55,7 +55,7 @@ public interface MTGDao extends MTGPlugin{
 	
 
 	public List<MTGStockItem> listStockItems()throws SQLException;
-	public MTGStockItem getStockById(EnumItems typeStock, Integer id)throws SQLException;
+	public MTGStockItem getStockById(EnumItems typeStock, Long id)throws SQLException;
 	public void saveOrUpdateStock(MTGStockItem stock) throws SQLException;
 
 	
@@ -66,7 +66,7 @@ public interface MTGDao extends MTGPlugin{
 	public List<MagicCardStock> listStocks(List<MagicCollection> cols) throws SQLException;
 	public List<MagicCardStock> listStocks() throws SQLException;
 	public MagicCardStock getStockWithTiersID(String key,String id) throws SQLException;
-	public MagicCardStock getStockById(Integer id) throws SQLException;
+	public MagicCardStock getStockById(Long id) throws SQLException;
 	public void saveOrUpdateCardStock(MagicCardStock state) throws SQLException;
 	public void deleteStock(List<MagicCardStock> state) throws SQLException;
 	public void deleteStock(MagicCardStock state) throws SQLException;
@@ -78,7 +78,7 @@ public interface MTGDao extends MTGPlugin{
 	public List<SealedStock> listSealedStocks(MagicCollection c, MagicEdition ed) throws SQLException;
 	public void saveOrUpdateSealedStock(SealedStock state) throws SQLException;
 	public void deleteStock(SealedStock state) throws SQLException;
-	public SealedStock getSealedStockById(int id) throws SQLException;
+	public SealedStock getSealedStockById(Long id) throws SQLException;
 	
 
 	

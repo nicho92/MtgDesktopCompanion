@@ -13,7 +13,7 @@ import org.magic.api.interfaces.MTGStockItem;
 public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStockItem {
 	
 	protected static final long serialVersionUID = 1L;
-	protected Integer id=-1;
+	protected Long id=-1L;
 	protected MagicCollection magicCollection;
 	protected Integer qte=1;
 	protected String comment;
@@ -148,12 +148,18 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 		this.price = price;
 	}
 	@Override
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
+	
+	@Override
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 	@Override
 	public void setId(Integer id) {
-		this.id = id;
+		this.id = id.longValue();
 	}
 	@Override
 	public MagicCollection getMagicCollection() {
@@ -187,11 +193,10 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 	public void setLanguage(String language) {
 		this.language = language;
 	}
-
 	
 	@Override
 	public int hashCode() {
-		return getId();
+		return getId().intValue();
 	}
 	
 	public boolean isUpdated() {
@@ -204,7 +209,7 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 
 	@Override
 	public int compareTo(MTGStockItem o) {
-		return getId()-o.getId();
+		return (int) (getId()-o.getId());
 	}
 	
 	

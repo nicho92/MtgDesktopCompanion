@@ -18,9 +18,11 @@ public interface MTGStockItem extends MTGStorable, Comparable<MTGStockItem> {
 
 	public 	void setPrice(Double price);
 
-	public 	Integer getId();
-
+	public 	Long getId();
+	
 	public 	void setId(Integer id);
+	
+	public 	void setId(Long id);
 
 	public 	MagicCollection getMagicCollection();
 

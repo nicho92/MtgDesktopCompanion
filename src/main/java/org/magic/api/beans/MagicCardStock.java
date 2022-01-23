@@ -12,12 +12,12 @@ public class MagicCardStock extends AbstractStockItem<MagicCard> {
 
 	public MagicCardStock(MagicCard c) {
 		super();
-		id = -1;
+		id = -1L;
 		setProduct(c);
 	}
 	
 	public MagicCardStock() {
-		id=-1;
+		id=-1L;
 		tiersAppIds= new HashMap<>();
 	}
 	
