@@ -224,7 +224,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" decks (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, description "+longTextStorage()+", name VARCHAR(250), dateCreation DATE, dateUpdate DATE, tags VARCHAR(250), commander " +beanStorage()+", main " +beanStorage()+", sideboard " +beanStorage()+", averagePrice DECIMAL)");
 			logger.debug("Create table decks");
 
-			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" conversionsItems (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, name VARCHAR(255),lang VARCHAR(25), source VARCHAR(25),inputId INTEGER,destination VARCHAR(25),outputId INTEGER)");
+			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" conversionsItems (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, name VARCHAR(255),lang VARCHAR(25), source VARCHAR(25),inputId BIGINT,destination VARCHAR(25),outputId BIGINT)");
 			logger.debug("Create table conversionsItems");
 			
 			
@@ -1021,9 +1021,9 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			it.setId(rs.getInt("id"));
 			it.setName(rs.getString("name"));
 			it.setSource(rs.getString("source"));
-			it.setInputId(rs.getInt("inputId"));
+			it.setInputId(rs.getLong("inputId"));
 			it.setDestination(rs.getString("destination"));
-			it.setOutputId(rs.getInt("outputId"));
+			it.setOutputId(rs.getLong("outputId"));
 			it.setLang(rs.getString("lang"));
 		return it;
 	}

@@ -21,7 +21,22 @@ public class Category implements Serializable{
 		this.idCategory = idCategory;
 		this.categoryName = categoryName;
 	}
-
+	
+	
+	@Override
+	public int hashCode() {
+		return idCategory;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		
+		if(obj==null)
+			return false;
+		
+		return obj.hashCode()==hashCode();
+		
+	}
 
 
 	public int getIdCategory() {
