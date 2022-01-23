@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.api.cardtrader.enums.ConditionEnum;
 import org.api.cardtrader.modele.Categorie;
+import org.api.cardtrader.modele.User;
 import org.api.cardtrader.services.CardTraderConstants;
 import org.api.cardtrader.services.CardTraderService;
 import org.api.cardtrader.tools.URLCallInfo;
@@ -163,7 +164,6 @@ public class CardTraderWebShop extends AbstractExternalShop {
 			trans.setDatePayment(o.getDatePaid());
 			trans.setDateCreation(o.getDateCreation());
 			
-			
 			if(o.getDatePaid()!=null)
 				trans.setStatut(TransactionStatus.PAID);
 			
@@ -212,14 +212,20 @@ public class CardTraderWebShop extends AbstractExternalShop {
 			
 			trans.setSourceShopName(getName());
 			
+			User u = o.getBuyer();
+				
+			if(u==null)
+				u=o.getSeller();
+			
+			
 			Contact c = new Contact();
-					c.setName(o.getBuyer().getUsername());
+					c.setName(u.getUsername());
 					c.setAddress(o.getBillingAddress().getStreet());
 					c.setZipCode(o.getBillingAddress().getZip());
 					c.setCity(o.getBillingAddress().getCity());
 					c.setCountry(o.getBillingAddress().getCountry());
-					c.setEmail(o.getBuyer().getEmail());
-					c.setTelephone(o.getBuyer().getPhone());	
+					c.setEmail(u.getEmail());
+					c.setTelephone(u.getPhone());	
 					
 			trans.setContact(c);
 			return trans;
