@@ -2,81 +2,144 @@ package org.magic.api.pricers.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Currency;
+import java.util.HashMap;
 import java.util.List;
+import java.util.stream.StreamSupport;
 
+import org.apache.http.entity.StringEntity;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.enums.MTGBorder;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
+import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
 public class ChannelFireballPricer extends AbstractPricesProvider {
 
-	private static final String BASEURL="https://shop.channelfireball.com";
-	
+	private MTGHttpClient c = new MTGHttpClient();
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
 	}
 
+	public static void main(String[] args) throws IOException {
+		
+		var mc = new MagicCard();
+			mc.setName("Sorin the Mirthless");
+			mc.getEditions().add(new MagicEdition("VOW", "Crimson Vow"));
+			mc.setBorder(MTGBorder.BORDERLESS);
+		
+		new  ChannelFireballPricer().getLocalePrice(mc);
+	}
+	
+	
+	
 	@Override
 	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
-		ArrayList<MagicPrice> list = new ArrayList<>();
-		var el = URLTools.extractAsJson(BASEURL+"/search/suggest.json?q="+URLTools.encode(card.getName())+"&resources%5Btype%5D=product&resources%5Blimit%5D=10&resources%5Boptions%5D%5Bfields%5D=title").getAsJsonObject();
-		var products = el.get("resources").getAsJsonObject().get("results").getAsJsonObject().get("products").getAsJsonArray();
+		var list = new ArrayList<MagicPrice>();
+		
+		String idProduct=findIdProduct(card);
 		
 		
-		for(JsonElement product : products)
+		if(idProduct!=null)
 		{
-			var obj = product.getAsJsonObject();
-			
-			if(obj.get("available").getAsBoolean() && obj.get("type").getAsString().equals("MTG Single"))
+			JsonArray arts = findArticles(idProduct);
+			for(JsonElement el : arts)
 			{
-				var docPage = URLTools.extractAsString(BASEURL+obj.get("url").getAsString());
-				var startTag = "product: ";
-				docPage = docPage.substring(docPage.indexOf(startTag)+startTag.length());
-				var endTag = "\n";
-				docPage = docPage.substring(0,docPage.indexOf(endTag)-1);
-			
-				var arrArticles = URLTools.toJson(docPage).getAsJsonObject().get("variants").getAsJsonArray();
-				for(JsonElement article : arrArticles)
-				{
-					var art = article.getAsJsonObject();
+				var obj = el.getAsJsonObject();
+				var price = new MagicPrice();
+					price.setSite(getName());
+					price.setCurrency(Currency.getInstance("USD"));
+					price.setMagicCard(card);
+					price.setShopItem(obj);
+					price.setUrl("https://channelfireball.com/product/"+idProduct);
 					
-					if(art.get("available").getAsBoolean())
-					{
-						var mp = new MagicPrice();
-								   mp.setSite(getName());
-								   mp.setUrl(BASEURL+obj.get("url").getAsString());
-								   mp.setCurrency("USD");
-								   mp.setCountry("USA");
-								   mp.setQuality(art.get("title").getAsString().replace("Foil", "").trim());
-								   mp.setMagicCard(card);
-								   mp.setFoil(obj.get("title").getAsString().toLowerCase().contains("foil"));
-								   mp.setValue(art.get("price").getAsDouble()/100);
-								   mp.setLanguage("English");
-								   
-								   
-								   var set = art.get("name").getAsString().substring(art.get("name").getAsString().indexOf("["));
-								   		mp.setSeller(set.substring(1,set.indexOf("]")));
-
-//								   boolean showcase = art.get("name").getAsString().toLowerCase().contains("(showcase)")
-//								   boolean borderless = art.get("name").getAsString().toLowerCase().contains("(borderless)")
-//								   boolean extended = art.get("name").getAsString().toLowerCase().contains("(extended art)")
-//							   
-								   
-								   
-								   if(mp.getSeller().startsWith(card.getCurrentSet().getSet()))
-									   list.add(mp);
-					}
-				}
-				
+					price.setSellerUrl("https://channelfireball.com/store/"+obj.get("account").getAsJsonObject().get("sellerDetails").getAsJsonObject().get("slug").getAsString());
+					price.setSeller(obj.get("account").getAsJsonObject().get("sellerDetails").getAsJsonObject().get("storeName").getAsString());
+					price.setFoil(obj.get("sku").getAsJsonObject().get("printing").getAsString().equalsIgnoreCase("FO"));
+					price.setLanguage(obj.get("sku").getAsJsonObject().get("language").getAsString());
+					price.setQuality(obj.get("sku").getAsJsonObject().get("condition").getAsString());
+					price.setValue(obj.get("price").getAsJsonObject().get("price").getAsDouble());
+					price.setCountry(obj.get("shipping").getAsJsonObject().get("countries").getAsJsonArray().toString());
+				notify(price);	
+				list.add(price);
 				
 			}
+			
 		}
+		
 		logger.info(getName() + " found " + list.size() +" offers");
 		return list;
+	}
+
+	private JsonArray findArticles(String idProduct) throws IOException {
+		var jsonFindId="{"
+				+ "	\"operationName\": \"getProductById\","
+				+ "	\"variables\": {"
+				+ "		\"id\": \""+idProduct+"\","
+				+ "		\"page\": 0,"
+				+ "		\"size\": 10,"
+				+ "		\"filter\": {"
+				+ "			\"listing\": {"
+				+ "				\"terms\": {"
+				+ "					\"shipping.countries.keyword\": null"
+				+ "				}"
+				+ "			}"
+				+ "		},"
+				+ "		\"sort\": [\"price.price,asc\"]"
+				+ "	},"
+				+ "	\"query\": \"query getProductById($id: String!, $page: Int!, $size: Int!, $filter: FilterInput!, $sort: [String!]) {  getProductById(id: $id, page: $page, size: $size, filter: $filter, sort: $sort) {    id    title    listings {      totalHits      hits {        id        account {          id          sellerDetails {            storeName: store_name           slug            __typename          }          __typename        }        sku {          id          productId: product_id          condition          language          printing          __typename        }        price {          price          __typename        }        inventory {          quantity          __typename        }        shipping {          countries          __typename        }        __typename      }      __typename    }    __typename  }}\""
+				+ "}";
+		
+		
+		var ret = c.doPost("https://api.channelfireball.com/api/v1/graphql", new StringEntity(jsonFindId), new HashMap<>());
+		var jresults = URLTools.toJson(ret.getEntity().getContent()).getAsJsonObject().get("data").getAsJsonObject().get("getProductById").getAsJsonObject().get("listings").getAsJsonObject();
+		return jresults.get("hits").getAsJsonArray();
+	}
+
+	private String findIdProduct(MagicCard card) throws IOException {
+		var jsonSearch ="{"
+				+ "	\"operationName\": \"ProductAndListingSearch\","
+				+ "	\"variables\": {"
+				+ "		\"filter\": {"
+				+ "			\"product\": {"
+				+ "				\"terms\": {"
+				+ "					\"tags.keyword\": [\"Magic: The Gathering\"]"
+				+ "				},"
+				+ "				\"title\": \""+card.getName()+"\""
+				+ "			}"
+				+ "		},"
+				+ "		\"page\": 0,"
+				+ "		\"size\": 10"
+				+ "	},"
+				+ "	\"query\": \"query ProductAndListingSearch($filter: FilterInput, $page: Int!, $size: Int!, $sort: [String!]) {  simpleSearch(filter: $filter, page: $page, size: $size, sort: $sort) {    totalHits    hits {      id      title      tags      attributes {        setName   setCode   imageSrc   attribute   cleanName   productId    __typename      }      listings {        aggs        __typename      }      __typename    }    __typename  }}\""
+				+ "}";
+		
+		
+		var ret = c.doPost("https://api.channelfireball.com/api/v1/graphql", new StringEntity(jsonSearch), new HashMap<>());
+		var arrResults = URLTools.toJson(ret.getEntity().getContent()).getAsJsonObject().get("data").getAsJsonObject().get("simpleSearch").getAsJsonObject().get("hits").getAsJsonArray();
+		
+		
+		var list = StreamSupport.stream(arrResults.spliterator(), true).filter(je->{
+			var obj = je.getAsJsonObject();
+			var testSet = obj.get("attributes").getAsJsonObject().get("setCode").getAsString().equalsIgnoreCase(card.getCurrentSet().getId());
+			var testQty = obj.get("listings").getAsJsonObject().get("aggs").getAsJsonObject().get("Inventory").getAsJsonObject().get("totalHits").getAsInt()>0;
+			var cbdless= obj.get("title").getAsString().contains("(Borderless)");
+			var cshocase =obj.get("title").getAsString().contains("(Showcase");
+			
+			return testSet && testQty;
+		}).toList();
+		
+		
+		logger.debug(list);
+		
+		return list.get(0).getAsJsonObject().get("id").getAsString();
 	}
 
 	@Override
@@ -86,7 +149,7 @@ public class ChannelFireballPricer extends AbstractPricesProvider {
 	
 	@Override
 	public String getVersion() {
-		return "2.0";
+		return "3.0";
 	}
 
 }
