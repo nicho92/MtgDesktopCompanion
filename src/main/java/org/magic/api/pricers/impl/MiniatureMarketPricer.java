@@ -3,6 +3,7 @@ package org.magic.api.pricers.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -10,6 +11,7 @@ import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
+import org.magic.services.MTGControler;
 import org.magic.services.network.URLTools;
 import org.magic.tools.UITools;
 
@@ -57,7 +59,7 @@ public class MiniatureMarketPricer extends AbstractPricesProvider {
 			for(Element div : divs)
 			{
 				var mp = new MagicPrice();
-						mp.setCountry("USA");
+						mp.setCountry(Locale.US.getDisplayCountry(MTGControler.getInstance().getLocale()));
 						mp.setMagicCard(card);
 						mp.setCurrency("USD");
 						mp.setUrl(je.get("productUrl").getAsString());

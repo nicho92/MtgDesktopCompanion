@@ -3,6 +3,7 @@ package org.magic.api.pricers.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -11,6 +12,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.beans.enums.EnumMarketType;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
+import org.magic.services.MTGControler;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
@@ -65,7 +67,7 @@ public class MagicCorporationPricer extends AbstractPricesProvider {
 				{
 					var mp = new MagicPrice();
 						mp.setMagicCard(card);
-						mp.setCountry("FR");
+						mp.setCountry(Locale.FRANCE.getDisplayCountry(MTGControler.getInstance().getLocale()));
 						mp.setCurrency("EUR");
 						mp.setQuality(tr.select("td").get(1).text());
 						mp.setValue(UITools.parseDouble(tr.select("td").get(3).text().replace("\u0080", "")));

@@ -3,6 +3,7 @@ package org.magic.api.pricers.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -11,6 +12,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
+import org.magic.services.MTGControler;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
@@ -73,7 +75,7 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 			mp.setUrl(nodes.item(0).getChildNodes().item(11).getTextContent());
 			mp.setSeller(getName());
 			mp.setValue(Double.parseDouble(nodes.item(0).getChildNodes().item(7).getTextContent()));
-
+			mp.setCountry(Locale.US.getDisplayCountry(MTGControler.getInstance().getLocale()));
 			list.add(mp);
 			logger.info(getName() + " found " + list.size() + " items");
 

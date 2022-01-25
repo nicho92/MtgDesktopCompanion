@@ -3,6 +3,7 @@ package org.magic.api.pricers.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.commons.text.StringEscapeUtils;
 import org.jsoup.nodes.Document;
@@ -11,6 +12,7 @@ import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
+import org.magic.services.MTGControler;
 import org.magic.services.network.URLTools;
 
 public class MagicBazarPricer extends AbstractPricesProvider {
@@ -62,7 +64,7 @@ public class MagicBazarPricer extends AbstractPricesProvider {
 				mp.setQuality(e.getElementsByClass("etat").html());
 				mp.setValue(Double.parseDouble(clean(e.select("div.prix").text())));
 				mp.setCurrency("EUR");
-				mp.setCountry("France");
+				mp.setCountry(Locale.FRANCE.getDisplayCountry(MTGControler.getInstance().getLocale()));
 				mp.setSite(getName());
 				mp.setSellerUrl(page);
 				mp.setUrl(page);

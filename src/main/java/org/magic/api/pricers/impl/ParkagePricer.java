@@ -3,11 +3,13 @@ package org.magic.api.pricers.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.beans.enums.EnumMarketType;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
+import org.magic.services.MTGControler;
 import org.magic.services.network.URLTools;
 
 public class ParkagePricer extends AbstractPricesProvider {
@@ -39,7 +41,7 @@ public class ParkagePricer extends AbstractPricesProvider {
 				if(!tr.select("select").hasAttr("disabled"))
 				{
 					var mp = new MagicPrice();
-							mp.setCountry("FR");
+							mp.setCountry(Locale.FRANCE.getDisplayCountry(MTGControler.getInstance().getLocale()));
 							mp.setMagicCard(card);
 							mp.setCurrency("EUR");
 							mp.setSite(getName());

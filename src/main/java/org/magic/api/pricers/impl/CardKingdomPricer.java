@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.jsoup.select.Elements;
@@ -15,6 +16,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.services.network.URLTools;
 import org.magic.tools.Chrono;
 import org.magic.tools.FileTools;
@@ -146,7 +148,7 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 			mp.setMagicCard(card);
 			mp.setValue(UITools.parseDouble(price));
 			mp.setCurrency("USD");
-			mp.setCountry("USA");
+			mp.setCountry(Locale.US.getDisplayCountry(MTGControler.getInstance().getLocale()));
 			mp.setSeller(getName());
 			mp.setSite(getName());
 			mp.setUrl(url+"?partner=Mtgdesktopcompanion&utm_source=Mtgdesktopcompanion&utm_medium=affiliate&utm_campaign=condition");

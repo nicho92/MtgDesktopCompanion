@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Currency;
 import java.util.List;
+import java.util.Locale;
 
 import org.jsoup.nodes.Document;
 import org.magic.api.beans.MagicCard;
@@ -12,6 +13,7 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumMarketType;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
+import org.magic.services.MTGControler;
 import org.magic.services.network.URLTools;
 import org.magic.tools.UITools;
 import org.mozilla.javascript.Parser;
@@ -87,6 +89,7 @@ public class UndergroundSeaPricer extends AbstractPricesProvider {
 				mp.setCurrency(Currency.getInstance("USD"));
 				mp.setLanguage("EN");
 				mp.setCountry("China");
+				mp.setCountry(Locale.CHINA.getDisplayCountry(MTGControler.getInstance().getLocale()));
 			}
 			
 			if(visitedNode.getType()==Token.EXPR_RESULT)
