@@ -10,9 +10,7 @@ import java.util.stream.StreamSupport;
 
 import org.apache.http.entity.StringEntity;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.beans.enums.MTGBorder;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
@@ -24,24 +22,6 @@ public class ChannelFireballPricer extends AbstractPricesProvider {
 
 	private MTGHttpClient c = new MTGHttpClient();
 
-	@Override
-	public STATUT getStatut() {
-		return STATUT.BETA;
-	}
-
-	public static void main(String[] args) throws IOException {
-		
-		var mc = new MagicCard();
-			mc.setName("Voldaren Bloodcaster");
-			mc.setFlavorName("Dracula, Lord of Blood");
-			mc.getEditions().add(new MagicEdition("VOW", "Crimson Vow"));
-			mc.setBorder(MTGBorder.BORDERLESS);
-		
-		new  ChannelFireballPricer().getLocalePrice(mc);
-	}
-	
-	
-	
 	@Override
 	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 		var list = new ArrayList<MagicPrice>();
@@ -82,21 +62,21 @@ public class ChannelFireballPricer extends AbstractPricesProvider {
 
 	private JsonArray findArticles(String idProduct) throws IOException {
 		var jsonFindId="{"
-				+ "	\"operationName\": \"getProductById\","
-				+ "	\"variables\": {"
-				+ "		\"id\": \""+idProduct+"\","
-				+ "		\"page\": 0,"
-				+ "		\"size\": "+getString("MAX_RESULTS")+","
-				+ "		\"filter\": {"
-				+ "			\"listing\": {"
-				+ "				\"terms\": {"
-				+ "					\"shipping.countries.keyword\": null"
-				+ "				}"
-				+ "			}"
-				+ "		},"
-				+ "		\"sort\": [\"price.price,asc\"]"
-				+ "	},"
-				+ "	\"query\": \"query getProductById($id: String!, $page: Int!, $size: Int!, $filter: FilterInput!, $sort: [String!]) {  getProductById(id: $id, page: $page, size: $size, filter: $filter, sort: $sort) {    id    title    listings {      totalHits      hits {        id        account {          id          sellerDetails {            storeName: store_name           slug            __typename          }          __typename        }        sku {          id          productId: product_id          condition          language          printing          __typename        }        price {          price          __typename        }        inventory {          quantity          __typename        }        shipping {          countries          __typename        }        __typename      }      __typename    }    __typename  }}\""
+				+ "\"operationName\": \"getProductById\","
+				+ "\"variables\": {"
+				+ "\"id\": \""+idProduct+"\","
+				+ "\"page\": 0,"
+				+ "\"size\": "+getString("MAX_RESULTS")+","
+				+ "\"filter\": {"
+				+ "\"listing\": {"
+				+ "\"terms\": {"
+				+ "\"shipping.countries.keyword\": null"
+				+ "}"
+				+ "}"
+				+ "},"
+				+ "\"sort\": [\"price.price,asc\"]"
+				+ "},"
+				+ "\"query\": \"query getProductById($id: String!, $page: Int!, $size: Int!, $filter: FilterInput!, $sort: [String!]) {  getProductById(id: $id, page: $page, size: $size, filter: $filter, sort: $sort) {    id    title    listings {      totalHits      hits {        id        account {          id          sellerDetails {            storeName: store_name           slug            __typename          }          __typename        }        sku {          id          productId: product_id          condition          language          printing          __typename        }        price {          price          __typename        }        inventory {          quantity          __typename        }        shipping {          countries          __typename        }        __typename      }      __typename    }    __typename  }}\""
 				+ "}";
 		
 		
@@ -107,20 +87,20 @@ public class ChannelFireballPricer extends AbstractPricesProvider {
 
 	private String findIdProduct(MagicCard card) throws IOException {
 		var jsonSearch ="{"
-				+ "	\"operationName\": \"ProductAndListingSearch\","
-				+ "	\"variables\": {"
-				+ "		\"filter\": {"
-				+ "			\"product\": {"
-				+ "				\"terms\": {"
-				+ "					\"tags.keyword\": [\"Magic: The Gathering\"]"
-				+ "				},"
-				+ "				\"title\": \""+card.getName()+(card.getFlavorName()!=null?" - "+card.getFlavorName():"") +"\""
-				+ "			}"
-				+ "		},"
-				+ "		\"page\": 0,"
-				+ "		\"size\": 20"
-				+ "	},"
-				+ "	\"query\": \"query ProductAndListingSearch($filter: FilterInput, $page: Int!, $size: Int!, $sort: [String!]) {  simpleSearch(filter: $filter, page: $page, size: $size, sort: $sort) {    totalHits    hits {      id      title      tags      attributes {        setName   setCode   imageSrc   attribute   cleanName   productId    __typename      }      listings {        aggs        __typename      }      __typename    }    __typename  }}\""
+				+ "\"operationName\": \"ProductAndListingSearch\","
+				+ "\"variables\": {"
+				+ "\"filter\": {"
+				+ "\"product\": {"
+				+ "\"terms\": {"
+				+ "\"tags.keyword\": [\"Magic: The Gathering\"]"
+				+ "},"
+				+ "\"title\": \""+card.getName()+(card.getFlavorName()!=null?" - "+card.getFlavorName():"") +"\""
+				+ "}"
+				+ "},"
+				+ "\"page\": 0,"
+				+ "\"size\": 20"
+				+ "},"
+				+ "\"query\": \"query ProductAndListingSearch($filter: FilterInput, $page: Int!, $size: Int!, $sort: [String!]) {  simpleSearch(filter: $filter, page: $page, size: $size, sort: $sort) {    totalHits    hits {      id      title      tags      attributes {        setName   setCode   imageSrc   attribute   cleanName   productId    __typename      }      listings {        aggs        __typename      }      __typename    }    __typename  }}\""
 				+ "}";
 		
 		var ret = c.doPost("https://api.channelfireball.com/api/v1/graphql", new StringEntity(jsonSearch), new HashMap<>());
@@ -131,15 +111,17 @@ public class ChannelFireballPricer extends AbstractPricesProvider {
 			var obj = je.getAsJsonObject();
 			var testSet = obj.get("attributes").getAsJsonObject().get("setCode").getAsString().equalsIgnoreCase(card.getCurrentSet().getId());
 			var testQty = obj.get("listings").getAsJsonObject().get("aggs").getAsJsonObject().get("Inventory").getAsJsonObject().get("totalHits").getAsInt()>0;
-			var cbdless= obj.get("title").getAsString().contains("(Borderless)");
-			var cshocase =obj.get("title").getAsString().contains("(Showcase");
-			
 			return testSet && testQty;
 		}).toList();
 		
+		if(card.isShowCase() && card.getFlavorName()==null)
+			list = list.stream().filter(je->je.getAsJsonObject().get("title").getAsString().contains("(Showcase")).toList();
+		else if(card.isBorderLess() && card.getFlavorName()==null)
+			list = list.stream().filter(je->je.getAsJsonObject().get("title").getAsString().contains("(Borderless)")).toList();
+		
 		if(list.isEmpty())
 			return null;
-		
+	
 		
 		return list.get(0).getAsJsonObject().get("id").getAsString();
 	}
