@@ -8,6 +8,7 @@ import java.util.Locale;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.enums.EnumMarketType;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.network.RequestBuilder;
@@ -20,6 +21,12 @@ public class BigOrBitCardsPricer extends AbstractPricesProvider {
 	@Override
 	public String getName() {
 		return "BigOrBitCards";
+	}
+	
+	
+	 @Override
+	public EnumMarketType getMarket() {
+		 return EnumMarketType.EU_MARKET;
 	}
 
 	@Override
