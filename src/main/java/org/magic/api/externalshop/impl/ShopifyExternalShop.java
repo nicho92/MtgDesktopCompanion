@@ -2,13 +2,12 @@ package org.magic.api.externalshop.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.StreamSupport;
 
 import org.apache.groovy.util.Maps;
-import org.api.cardtrader.services.CardTraderService;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;
@@ -49,9 +48,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	
 	private JsonObject readId(String entityName, Long id) throws IOException 
 	{
-		var build=build("https://"+getAuthenticator().get("SUBDOMAIN")+".myshopify.com/admin/api/2022-01/"+entityName.toLowerCase()+"s/"+id+".json");
-		var resp = build.execute();
-		
+		var resp=build("https://"+getAuthenticator().get("SUBDOMAIN")+".myshopify.com/admin/api/2022-01/"+entityName.toLowerCase()+"s/"+id+".json",METHOD.GET).execute();
 		return URLTools.toJson(resp.getEntity().getContent()).getAsJsonObject().get(entityName).getAsJsonObject();
 	}
 	
@@ -59,8 +56,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	private JsonArray read(String entityName, Map<String,String> attributs) throws IOException 
 	{
 		JsonArray arr = new JsonArray();
-		
-		var build=build("https://"+getAuthenticator().get("SUBDOMAIN")+".myshopify.com/admin/api/2022-01/"+entityName.toLowerCase()+"s.json");
+		var build=build("https://"+getAuthenticator().get("SUBDOMAIN")+".myshopify.com/admin/api/2022-01/"+entityName.toLowerCase()+"s.json",METHOD.GET);
 		
 		if(attributs!=null && !attributs.isEmpty())
 			attributs.entrySet().forEach(e->build.addContent(e.getKey(), e.getValue()));
@@ -73,17 +69,17 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 		
 		while(next!=null)
 		{
-			resp = build(next).execute();
+			resp = build(next,METHOD.GET).execute();
 			next = URLTools.parseLinksHeader(resp.getFirstHeader("Link")).get("next");
 			arr.addAll(URLTools.toJson(resp.getEntity().getContent()).getAsJsonObject().get(entityName+"s").getAsJsonArray());
 		}
 		return arr;
 	}
 
-	private RequestBuilder build(String url) {
+	private RequestBuilder build(String url,METHOD m) {
 		return RequestBuilder.build()
 				  .url(url)
-				  .method(METHOD.GET)
+				  .method(m)
 				  .setClient(client)
 				  .addHeader("X-Shopify-Access-Token", getAuthenticator().get("ACCESS_TOKEN"))
 				  .addHeader(URLTools.ACCEPT, URLTools.HEADER_JSON)
@@ -96,8 +92,9 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 		
 		for(JsonElement el : obj.get("variants").getAsJsonArray())
 		{
-			AbstractStockItem<MTGProduct> it = AbstractStockItem.generateDefault();
+				AbstractStockItem<MTGProduct> it = AbstractStockItem.generateDefault();
 									  it.setProduct(parseProduct(obj));
+									  it.getProduct().setEdition(new MagicEdition(el.getAsJsonObject().get("option3").getAsString(), el.getAsJsonObject().get("option3").getAsString()));
 									  it.setId(el.getAsJsonObject().get("id").getAsLong());
 									  it.setPrice(el.getAsJsonObject().get("price").getAsDouble());
 									  it.setQte(el.getAsJsonObject().get("inventory_quantity").getAsInt());
@@ -108,7 +105,6 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	}
 	
 	private MTGProduct parseProduct(JsonObject sp) {
-		
 		MTGProduct p = AbstractProduct.createDefaultProduct();
 				   p.setProductId(sp.get("id").getAsLong());
 				   p.setName(sp.get("title").getAsString());
@@ -139,21 +135,21 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 
 	@Override
 	public List<MTGProduct> listProducts(String name) throws IOException {
-		var ret = new ArrayList<MTGProduct>();
-		var arr = read(PRODUCTS,name!=null?Maps.of("title", name):null);
-		for(JsonElement a: arr )
-		{
-			ret.add(parseProduct(a.getAsJsonObject()));
-		}
-		
-		return ret;
+		return StreamSupport.stream(read(PRODUCTS,null).spliterator(), true)
+							.filter(je->je.getAsJsonObject().get("title").getAsString().toLowerCase().contains(name.toLowerCase()))
+							.map(a->parseProduct(a.getAsJsonObject()))
+							.toList();
 	}
 	
 
 	@Override
 	protected List<MTGStockItem> loadStock(String name) throws IOException {
 		var ret = new ArrayList<MTGStockItem>();
-		var arr = read(PRODUCTS,name!=null?Maps.of("title", name):null);
+		//need to load all products because title search is strict only
+		var arr = StreamSupport.stream(read(PRODUCTS,null).spliterator(), true)
+				.filter(je->je.getAsJsonObject().get("title").getAsString().toLowerCase().contains(name.toLowerCase()))
+				.toList();
+
 		for(JsonElement a: arr )
 		{
 			ret.addAll(parseVariants(a.getAsJsonObject()));
@@ -175,15 +171,11 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	
 	@Override
 	public List<Category> listCategories() throws IOException {
-		var ret = new LinkedHashSet<Category>();
-		var arr = read(PRODUCTS,Maps.of("fields","product_type"));
+		return  StreamSupport.stream(read(PRODUCTS,Maps.of("fields","product_type")).spliterator(),true).map(je->{
+			var s = je.getAsJsonObject().get("product_type").getAsString();
+			return new Category(s.hashCode(), s);
+			}).distinct().toList();
 		
-		for(JsonElement e : arr)
-		{
-			var s = e.getAsJsonObject().get("product_type").getAsString();
-			ret.add(new Category(s.hashCode(), s));
-		}
-		return new ArrayList<>(ret);
 	}
 
 	@Override
@@ -191,7 +183,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 		
 		var obj= readId(VARIANTS,id);
 		
-		AbstractStockItem<MTGProduct> it = AbstractStockItem.generateDefault();
+		var it = AbstractStockItem.generateDefault();
 		  it.setId(obj.get("id").getAsLong());
 		  it.setPrice(obj.get("price").getAsDouble());
 		  it.setQte(obj.get("inventory_quantity").getAsInt());
@@ -216,8 +208,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	
 	@Override
 	public Integer saveOrUpdateContact(Contact c) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		return -1;
 	}
 
 	@Override
@@ -266,16 +257,14 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 
 	@Override
 	public List<Transaction> listTransactions(Contact c) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<>();
 	}
 
 
 
 	@Override
 	protected List<Transaction> loadTransaction() throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<>();
 	}
 
 	

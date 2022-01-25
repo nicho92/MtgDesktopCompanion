@@ -189,9 +189,13 @@ public class CardTraderWebShop extends AbstractExternalShop {
 							var prod = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(oi.getScryfallId());
 							prod.setEdition(prod.getCurrentSet());
 							item.setProduct(prod);
-						} catch (Exception e) {
+						} catch (Exception e)
+						{
 							logger.error(e);
-					}
+							var prod = AbstractProduct.createDefaultProduct();
+							prod.setName(oi.getName());
+							item.setProduct(prod);	
+						}
 				}
 				else
 				{

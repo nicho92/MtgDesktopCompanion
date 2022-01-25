@@ -91,7 +91,12 @@ public abstract class AbstractProduct implements MTGProduct {
 
 class GenericProduct extends AbstractProduct
 {
-
+	
+	@Override
+	public String toString() {
+		return getName();
+	}
+	
 	private static final long serialVersionUID = 1L;
 	
 }
