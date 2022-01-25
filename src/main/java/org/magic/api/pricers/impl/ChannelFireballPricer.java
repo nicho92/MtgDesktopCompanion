@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Currency;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.StreamSupport;
 
 import org.apache.http.entity.StringEntity;
@@ -31,7 +32,8 @@ public class ChannelFireballPricer extends AbstractPricesProvider {
 	public static void main(String[] args) throws IOException {
 		
 		var mc = new MagicCard();
-			mc.setName("Sorin the Mirthless");
+			mc.setName("Voldaren Bloodcaster");
+			mc.setFlavorName("Dracula, Lord of Blood");
 			mc.getEditions().add(new MagicEdition("VOW", "Crimson Vow"));
 			mc.setBorder(MTGBorder.BORDERLESS);
 		
@@ -84,7 +86,7 @@ public class ChannelFireballPricer extends AbstractPricesProvider {
 				+ "	\"variables\": {"
 				+ "		\"id\": \""+idProduct+"\","
 				+ "		\"page\": 0,"
-				+ "		\"size\": 10,"
+				+ "		\"size\": "+getString("MAX_RESULTS")+","
 				+ "		\"filter\": {"
 				+ "			\"listing\": {"
 				+ "				\"terms\": {"
@@ -112,15 +114,14 @@ public class ChannelFireballPricer extends AbstractPricesProvider {
 				+ "				\"terms\": {"
 				+ "					\"tags.keyword\": [\"Magic: The Gathering\"]"
 				+ "				},"
-				+ "				\"title\": \""+card.getName()+"\""
+				+ "				\"title\": \""+card.getName()+(card.getFlavorName()!=null?" - "+card.getFlavorName():"") +"\""
 				+ "			}"
 				+ "		},"
 				+ "		\"page\": 0,"
-				+ "		\"size\": 10"
+				+ "		\"size\": 20"
 				+ "	},"
 				+ "	\"query\": \"query ProductAndListingSearch($filter: FilterInput, $page: Int!, $size: Int!, $sort: [String!]) {  simpleSearch(filter: $filter, page: $page, size: $size, sort: $sort) {    totalHits    hits {      id      title      tags      attributes {        setName   setCode   imageSrc   attribute   cleanName   productId    __typename      }      listings {        aggs        __typename      }      __typename    }    __typename  }}\""
 				+ "}";
-		
 		
 		var ret = c.doPost("https://api.channelfireball.com/api/v1/graphql", new StringEntity(jsonSearch), new HashMap<>());
 		var arrResults = URLTools.toJson(ret.getEntity().getContent()).getAsJsonObject().get("data").getAsJsonObject().get("simpleSearch").getAsJsonObject().get("hits").getAsJsonArray();
@@ -136,8 +137,9 @@ public class ChannelFireballPricer extends AbstractPricesProvider {
 			return testSet && testQty;
 		}).toList();
 		
+		if(list.isEmpty())
+			return null;
 		
-		logger.debug(list);
 		
 		return list.get(0).getAsJsonObject().get("id").getAsString();
 	}
@@ -151,5 +153,11 @@ public class ChannelFireballPricer extends AbstractPricesProvider {
 	public String getVersion() {
 		return "3.0";
 	}
+	
+	@Override
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("MAX_RESULTS","10");
+	}
+	
 
 }
