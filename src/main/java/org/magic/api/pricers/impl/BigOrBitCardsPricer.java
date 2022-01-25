@@ -25,11 +25,23 @@ public class BigOrBitCardsPricer extends AbstractPricesProvider {
 	@Override
 	protected List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 		
+		
+		var extra="";
+		
+		if(card.isExtendedArt())
+			extra=" (Extended Art)";
+		else if(card.isShowCase())
+			extra=" (Showcase)";
+		else if(card.isBorderLess())
+			extra=" (Borderless Art)";
+		
+		logger.info(getName() + " looking for " + card+extra);
+		
 		var doc = RequestBuilder.build().method(METHOD.GET).url("https://www.bigorbitcards.co.uk/").setClient(URLTools.newClient())
 				.addContent("search_performed", "Y")
 				.addContent("product_variants","N")
-				.addContent("match","selected")
-				.addContent("q",card.getName())
+				.addContent("match","All")
+				.addContent("q",card.getName() + extra)
 				.addContent("pname","Y")
 				.addContent("category_name","Magic the Gathering")
 				.addContent("subcats","Y")
@@ -49,6 +61,7 @@ public class BigOrBitCardsPricer extends AbstractPricesProvider {
 				mp.setSite(getName());
 				mp.setCurrency(Currency.getInstance(Locale.UK));
 				mp.setCountry(Locale.UK.getDisplayCountry(MTGControler.getInstance().getLocale()));
+				mp.setLanguage("English");
 				mp.setMagicCard(card);
 				mp.setFoil(e.select("bdi.compact_bdi_title").first().text().contains("(Foil)"));
 				mp.setUrl(e.select("bdi.compact_bdi_title a").first().attr("href"));
@@ -60,9 +73,11 @@ public class BigOrBitCardsPricer extends AbstractPricesProvider {
 				mp.setValue(UITools.parseDouble(spanPrices.get(1).text().substring(ind)));
 				
 				notify(mp);
+				
 			ret.add(mp);
 		});
 		
+		logger.info(getName() + " found" + ret.size() + " items");
 		return ret;
 	}
 
