@@ -1,95 +1,171 @@
 package org.magic.api.pricers.impl;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.ParserConfigurationException;
-
+import org.apache.groovy.util.Maps;
+import org.apache.http.entity.StringEntity;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGControler;
-import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.RequestBuilder.METHOD;
+import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
-import org.magic.tools.XMLTools;
-import org.w3c.dom.Document;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 
 public class TCGPlayerPricer extends AbstractPricesProvider {
 
+	private MTGHttpClient c = URLTools.newClient();
+	
 	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
 	}
 
+	
+	public static void main(String[] args) throws IOException {
+		
+		var mc = new MagicCard();
+		mc.setName("Sorin the Mirthless");
+		mc.getEditions().add(new MagicEdition("VOW", "Innistrad: Crimson Vow"));
+		new TCGPlayerPricer().getLocalePrice(mc);
+	}
 
 	@Override
 	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
-		List<MagicPrice> list = new ArrayList<>();
-		var url = getString("URL");
-		url = url.replace("%API_KEY%", getString("API_KEY"));
-
-		var set = URLTools.encode(card.getCurrentSet().getSet());
-
-		if (set.contains("Edition"))
-			set = set.replace("Edition", "");
-
-		var name = card.getName();
-		name = name.replaceAll(" \\(.*$", "");
-		name = name.replace("'", "%27");
-		name = name.replace(" ", "+");
-
-		setProperty("KEYWORD", "s=" + set + "p=" + name);
-
-		String link = url.replace("%SET%", set);
-		link = link.replace("%CARTE%", name);
-
-		logger.info(getName() + " looking " + " for " + link);
-
+		var list = new ArrayList<MagicPrice>();
+		int idResults = parseIdFor(card);
 		
-		DocumentBuilder dBuilder;
-		try {
-			dBuilder =  XMLTools.createSecureXMLDocumentBuilder();
-		} catch (ParserConfigurationException e1) {
-			throw new IOException(e1);
-		}
-
-		Document doc = null;
-
-		try {
-			doc = dBuilder.parse(RequestBuilder.build().setClient(URLTools.newClient()).url(link).method(METHOD.GET).execute().getEntity().getContent());
-			logger.trace(doc);
-
-			doc.getDocumentElement().normalize();
-
-			var nodes = doc.getElementsByTagName("product");
-
+		
+		JsonArray arr = parseResultsFor(idResults);
+		
+		for(JsonElement e: arr)
+		{
 			var mp = new MagicPrice();
-			mp.setMagicCard(card);
-			mp.setCurrency("USD");
-			mp.setSite(getName());
-			mp.setUrl(nodes.item(0).getChildNodes().item(11).getTextContent());
-			mp.setSeller(getName());
-			mp.setValue(Double.parseDouble(nodes.item(0).getChildNodes().item(7).getTextContent()));
-			mp.setCountry(Locale.US.getDisplayCountry(MTGControler.getInstance().getLocale()));
-			list.add(mp);
-			logger.info(getName() + " found " + list.size() + " items");
-
-			if (list.size() > getInt("MAX") && getInt("MAX") > -1)
-				return list.subList(0, getInt("MAX"));
-
-		} catch (Exception e) {
-			logger.error(e);
-			return list;
+				mp.setUrl("https://www.tcgplayer.com/product/"+idResults+"?partner=MTGCompanion");
+				mp.setCurrency(Currency.getInstance("USD"));
+				mp.setCountry(Locale.US.getDisplayCountry(MTGControler.getInstance().getLocale()));
+				mp.setSite(getName());
+				mp.setMagicCard(card);
+				mp.setSeller(e.getAsJsonObject().get("sellerName").getAsString());
+				mp.setLanguage(e.getAsJsonObject().get("language").getAsString());
+				mp.setQuality(e.getAsJsonObject().get("condition").getAsString());
+				mp.setValue(e.getAsJsonObject().get("price").getAsDouble());
+				mp.setSellerUrl("https://www.tcgplayer.com/search/product/all?seller="+e.getAsJsonObject().get("sellerKey").getAsString()+"&view=grid&partner=MTGCompanion");
+				mp.setFoil(e.getAsJsonObject().get("printing").getAsString().equalsIgnoreCase("Foil"));
+				
+				list.add(mp);
+				
 		}
-
 		return list;
 
 	}
+
+	private JsonArray parseResultsFor(int idResults) throws  IOException {
+		var json ="""
+				{
+				    "filters": {
+				        "term": {
+				            "sellerStatus": "Live",
+				            "channelId": 0,
+				            "language": ["English"]
+				        },
+				        "range": {
+				            "quantity": {
+				                "gte": 1
+				            }
+				        },
+				        "exclude": {
+				            "channelExclusion": 0
+				        }
+				    },
+				    "from": 0,
+				    "size": $MAX,
+				    "sort": {
+				        "field": "price+shipping",
+				        "order": "asc"
+				    },
+				    "context": {
+				        "shippingCountry": "FR",
+				        "cart": {}
+				    },
+				    "aggregations": ["listingType"]
+				}
+					""".replace("$MAX", getString("MAX"));
+		
+		
+		var res = c.doPost("https://mpapi.tcgplayer.com/v2/product/"+idResults+"/listings", new StringEntity(json), Maps.of("content-type", URLTools.HEADER_JSON));
+		
+		return URLTools.toJson(res.getEntity().getContent()).getAsJsonObject().get("results").getAsJsonArray().get(0).getAsJsonObject().get("results").getAsJsonArray();
+	}
+
+
+	private int parseIdFor(MagicCard card) throws UnsupportedEncodingException, IOException {
+
+		var setName = card.getCurrentSet().getSet().replace(":", "").replaceAll(" ", "-");
+		var json ="""
+				{
+					    "algorithm": "",
+					    "from": 0,
+					    "size": 24,
+					    "filters": {
+					        "term": {
+					            "productLineName": ["magic"],
+					            "productName": ["$cardName"],
+					            "setName": ["$setName"],
+								"productTypeName": ["Cards"],
+					            "language": ["English"]
+					        },
+					        "range": {},
+					        "match": {}
+					    },
+					    "listingSearch": {
+					        "filters": {
+					            "term": {},
+					            "range": {
+					                "quantity": {
+					                    "gte": 1
+					                }
+					            },
+					            "exclude": {
+					                "channelExclusion": 0
+					            }
+					        },
+					        "context": {
+					            "cart": {}
+					        }
+					    },
+					    "context": {
+					        "cart": {},
+					        "shippingCountry": "FR"
+					    },
+					    "sort": {
+					        "field": "product-name",
+					        "order": "asc"
+					    }
+					}
+					""".replace("$cardName", card.getName()).replace("$setName", setName);
+		
+		var res = c.doPost("https://mpapi.tcgplayer.com/v2/search/request?q=&isList=false", new StringEntity(json), Maps.of("content-type", URLTools.HEADER_JSON));
+		var arr =URLTools.toJson(res.getEntity().getContent()).getAsJsonObject().get("results").getAsJsonArray().get(0).getAsJsonObject().get("results").getAsJsonArray();
+		
+		
+		if(arr.size()>1)
+		{
+			logger.warn("Multiple results : " + arr);
+		}
+		
+		return arr.get(0).getAsJsonObject().get("productId").getAsInt();
+	}
+
 
 	@Override
 	public String getName() {
@@ -99,12 +175,7 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		return Map.of(
-								"MAX", "-1",
-								"API_KEY", "MTGCompanion",
-								"URL", "http://partner.tcgplayer.com/x3/phl.asmx/p?v=3&pk=%API_KEY%&s=%SET%&p=%CARTE%",
-								"WEBSITE", "http://www.tcgplayer.com/",
-								"KEYWORD", "");
+		return Map.of("MAX", "10");
 
 	}
 
