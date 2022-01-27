@@ -405,10 +405,6 @@ public class MagicCard extends AbstractProduct {
 		this.edhrecRank = edhrecRank;
 	}
 
-	public void setTcgPlayerId(Integer tcgPlayerId) {
-		this.tcgPlayerId = tcgPlayerId;
-	}
-
 	public void setMtgstocksId(int mtgstocksId) {
 		this.mtgstocksId = mtgstocksId;
 	}
