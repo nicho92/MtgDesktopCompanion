@@ -50,21 +50,6 @@ public class TechnicalServiceManager {
 	}
 	
 	
-	public static void main(String[] args) {
-		
-		var trans = new IPTranslator();
-		
-		TechnicalServiceManager.inst().getJsonInfo().forEach(info->{
-			
-			info.setLocation(trans.getLocationFor(info.getIp()));
-		});
-		
-		TechnicalServiceManager.inst().store();
-		
-	}
-	
-	
-	
 	public TechnicalServiceManager() {
 		jsonInfo= new ArrayList<>();
 		networkInfos = new ArrayList<>();

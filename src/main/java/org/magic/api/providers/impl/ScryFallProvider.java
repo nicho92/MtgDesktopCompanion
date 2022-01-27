@@ -91,7 +91,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	}
 	
 	
-	public SVGIcon getSvgFileFor(String idSet) throws IOException
+	public SVGIcon getSvgFileFor(String idSet)
 	{
 		var ic = new SVGIcon();
 		ic.setSvgURI(URI.create("https://c2.scryfall.com/file/scryfall-symbols/sets/"+idSet.toLowerCase()+".svg"));
