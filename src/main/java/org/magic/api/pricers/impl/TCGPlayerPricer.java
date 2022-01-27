@@ -31,7 +31,10 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 	@Override
 	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 		var list = new ArrayList<MagicPrice>();
-		var idResults = parseIdFor(card);
+		
+		var idResults = card.getTcgPlayerId(); 
+		if(idResults==null)
+				idResults = parseIdFor(card);
 		
 		if(idResults==null)
 		{

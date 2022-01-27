@@ -366,7 +366,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				mc.setFunny(rs.getBoolean(IS_FUNNY));
 				mc.setSecurityStamp(rs.getString(SECURITYSTAMP));
 				mc.setRebalanced(rs.getBoolean(IS_REBALANCED));
-				
+				mc.setTcgPlayerId(rs.getInt(TCGPLAYER_PRODUCT_ID));
 				
 				if(rs.getString(FINISHES)!=null)
 				{
