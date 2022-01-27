@@ -7,11 +7,12 @@ import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import org.apache.groovy.util.Maps;
 import org.apache.http.entity.StringEntity;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGControler;
@@ -30,22 +31,19 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 		return STATUT.BETA;
 	}
 
-	
-	public static void main(String[] args) throws IOException {
-		
-		var mc = new MagicCard();
-		mc.setName("Sorin the Mirthless");
-		mc.getEditions().add(new MagicEdition("VOW", "Innistrad: Crimson Vow"));
-		new TCGPlayerPricer().getLocalePrice(mc);
-	}
-
 	@Override
 	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 		var list = new ArrayList<MagicPrice>();
-		int idResults = parseIdFor(card);
+		var idResults = parseIdFor(card);
 		
+		if(idResults==null)
+		{
+			logger.info(getName() + " found nothing");
+			return list;
+		}
 		
 		JsonArray arr = parseResultsFor(idResults);
+		logger.info(getName() + " found " + arr.size() + " results");
 		
 		for(JsonElement e: arr)
 		{
@@ -108,9 +106,18 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 	}
 
 
-	private int parseIdFor(MagicCard card) throws UnsupportedEncodingException, IOException {
+	private Integer parseIdFor(MagicCard card) throws UnsupportedEncodingException, IOException {
 
 		var setName = card.getCurrentSet().getSet().replace(":", "").replaceAll(" ", "-");
+		
+		var extra ="";
+		if(card.isShowCase())
+			extra=" (Showcase)";
+		else if(card.isBorderLess())
+			extra=" (Borderless)";
+		else if(card.isExtendedArt())
+			extra=" (Extended Art)";
+		
 		var json ="""
 				{
 					    "algorithm": "",
@@ -144,24 +151,23 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 					        }
 					    },
 					    "context": {
-					        "cart": {},
-					        "shippingCountry": "FR"
+					        "cart": {}
+					        
 					    },
 					    "sort": {
 					        "field": "product-name",
 					        "order": "asc"
 					    }
 					}
-					""".replace("$cardName", card.getName()).replace("$setName", setName);
+					""".replace("$cardName", card.getName() + extra)
+						.replace("$setName", setName);
 		
 		var res = c.doPost("https://mpapi.tcgplayer.com/v2/search/request?q=&isList=false", new StringEntity(json), Maps.of("content-type", URLTools.HEADER_JSON));
 		var arr =URLTools.toJson(res.getEntity().getContent()).getAsJsonObject().get("results").getAsJsonArray().get(0).getAsJsonObject().get("results").getAsJsonArray();
 		
+		if(arr.isEmpty())
+			return null;
 		
-		if(arr.size()>1)
-		{
-			logger.warn("Multiple results : " + arr);
-		}
 		
 		return arr.get(0).getAsJsonObject().get("productId").getAsInt();
 	}
