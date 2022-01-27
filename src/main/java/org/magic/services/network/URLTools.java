@@ -13,7 +13,6 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.groovy.util.Maps;
 import org.apache.http.Header;
 import org.apache.log4j.Logger;
 import org.commonmark.node.Node;
@@ -29,7 +28,6 @@ import org.magic.tools.XMLTools;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
 
 
 public class URLTools {

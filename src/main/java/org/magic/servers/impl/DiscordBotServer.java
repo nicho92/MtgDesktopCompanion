@@ -35,7 +35,6 @@ import org.magic.api.beans.MagicFormat.FORMATS;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.beans.audit.DiscordInfo;
 import org.magic.api.beans.enums.MTGColor;
-import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;

@@ -2,7 +2,6 @@ package org.magic.gui.models.conf;
 
 import java.time.Instant;
 
-import org.magic.api.beans.audit.DAOInfo;
 import org.magic.api.beans.audit.DiscordInfo;
 import org.magic.gui.abstracts.GenericTableModel;
 

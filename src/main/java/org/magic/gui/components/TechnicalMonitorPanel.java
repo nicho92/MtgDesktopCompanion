@@ -3,7 +3,6 @@ import static org.magic.tools.MTG.capitalize;
 
 import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
-import java.lang.management.ManagementFactory;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;

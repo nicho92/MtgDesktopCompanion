@@ -8,9 +8,6 @@ import org.apache.http.ProtocolVersion;
 import org.apache.http.StatusLine;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.BasicHttpEntity;
-import org.apache.http.impl.DefaultHttpRequestFactory;
-import org.apache.http.impl.io.DefaultHttpRequestParserFactory;
-import org.apache.http.message.BasicHttpRequest;
 import org.apache.http.message.BasicHttpResponse;
 
 import com.google.gson.JsonObject;

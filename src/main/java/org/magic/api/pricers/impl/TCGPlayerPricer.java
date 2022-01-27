@@ -1,14 +1,11 @@
 package org.magic.api.pricers.impl;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 import org.apache.groovy.util.Maps;
 import org.apache.http.entity.StringEntity;
@@ -106,7 +103,7 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 	}
 
 
-	private Integer parseIdFor(MagicCard card) throws UnsupportedEncodingException, IOException {
+	private Integer parseIdFor(MagicCard card) throws IOException {
 
 		var setName = card.getCurrentSet().getSet().replace(":", "").replaceAll(" ", "-");
 		

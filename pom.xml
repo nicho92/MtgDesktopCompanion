@@ -134,22 +134,22 @@
 		<dependency>
 		    <groupId>com.formdev</groupId>
 		    <artifactId>flatlaf</artifactId>
-		    <version>2.0</version>
+		    <version>2.0.1</version>
 		</dependency>
 		<dependency>
 		  <groupId>com.formdev</groupId>
 		  <artifactId>flatlaf-intellij-themes</artifactId>
-		  <version>2.0</version>
+		  <version>2.0.1</version>
 		</dependency>
 		<dependency>
     	<groupId>com.formdev</groupId>
 	    	<artifactId>flatlaf-extras</artifactId>
-	    	<version>2.0</version>
+	    	<version>2.0.1</version>
 		</dependency>
 		<dependency>
     		<groupId>com.formdev</groupId>
     		<artifactId>flatlaf-swingx</artifactId>
-    		<version>2.0</version>
+    		<version>2.0.1</version>
 		</dependency>
 		<dependency>
 		    <groupId>com.h2database</groupId>
@@ -179,7 +179,7 @@
 		<dependency>
 			<groupId>org.jooq</groupId>
 			<artifactId>jooq</artifactId>
-			<version>3.16.2</version>
+			<version>3.16.3</version>
 		</dependency>
 		<dependency>
 			<groupId>com.icoderman</groupId>
@@ -280,7 +280,7 @@
 		<dependency>
 			<groupId>org.mariadb.jdbc</groupId>
 			<artifactId>mariadb-java-client</artifactId>
-			<version>3.0.2-rc</version>
+			<version>3.0.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.xerial</groupId>

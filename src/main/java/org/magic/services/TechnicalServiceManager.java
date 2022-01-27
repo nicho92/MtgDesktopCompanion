@@ -6,7 +6,6 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadInfo;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -23,7 +22,6 @@ import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.abstracts.extra.AbstractEmbeddedCacheProvider;
 import org.magic.services.providers.IPTranslator;
 import org.magic.tools.FileTools;
-import org.magic.tools.UITools;
 
 public class TechnicalServiceManager {
 

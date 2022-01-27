@@ -17,9 +17,7 @@ import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.extra.AbstractProduct;
-import org.magic.services.MTGControler;
 import org.magic.tools.MTG;
-import org.magic.tools.WooCommerceTools;
 
 public abstract class AbstractExternalShop extends AbstractMTGPlugin implements MTGExternalShop {
 
