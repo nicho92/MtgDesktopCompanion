@@ -70,7 +70,11 @@ public class NetworkInfo extends AbstractAuditableItem{
 			
 			@Override
 			public String getReasonPhrase() {
-				return o.get("reponsesMessage").getAsString();
+				
+				if(o.get("reponsesMessage")!=null)
+					return o.get("reponsesMessage").getAsString();
+				
+				return "";
 			}
 			
 			@Override
