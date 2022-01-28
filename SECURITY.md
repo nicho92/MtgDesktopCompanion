@@ -4,11 +4,6 @@
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 2.26    | :white_check_mark: |
-| 2.25    | :white_check_mark: |
-| 2.24    | :x: 			   |
-| 2.23    | :x: 			   |
-| 2.21    | :x:				   |
-| 2.20    | :x:                |
-| < 2.19  | :x:                |
-
+| 2.30    | :white_check_mark: |
+| 2.29    | :white_check_mark: |
+| < 2.28    | :x: 			   |
