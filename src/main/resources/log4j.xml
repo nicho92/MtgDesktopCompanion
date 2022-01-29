@@ -33,6 +33,7 @@
     
     <logger name="freemarker.cache"><level value="ERROR"/></logger>
     <logger name="org.cache2k"><level value="ERROR"/></logger>
+    <logger name="org.ehcache"><level value="ERROR"/></logger>
     <logger name="org.api.mkm"><level value="ERROR"/></logger>
     <logger name="org.api.cardtrader"><level value="ERROR"/></logger>
     <logger name="org.mtgstock.services"><level value="ERROR"/></logger>

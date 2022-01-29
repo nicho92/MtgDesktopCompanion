@@ -82,7 +82,6 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 				};
 		
 		var tabs = new JTabbedPane();
-		var btnClean = UITools.createBindableJButton("Clean",MTGConstants.ICON_DELETE, KeyEvent.VK_C , "Cleaning");
 		add(tabs, BorderLayout.CENTER);
 		
 		
@@ -159,10 +158,6 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 		add(panel, BorderLayout.NORTH);
 		
 	
-		btnClean.addActionListener(ae -> TechnicalServiceManager.inst().cleanAll());
-		
-		panel.add(btnClean);
-		
 		
 		
 		memoryPanel = new JVMemoryPanel();

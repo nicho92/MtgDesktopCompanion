@@ -67,7 +67,7 @@ public class TechnicalServiceManager {
 	
 	
 	
-	public void store()
+	public void close()
 	{
 		try {
 			storeItems(JsonQueryInfo.class,jsonInfo);

@@ -887,11 +887,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return cache.entries().keySet();
 		}, transformer);
 		
-		get("/admin/logdump", URLTools.HEADER_JSON, (request, response) -> {
-			TechnicalServiceManager.inst().store();
-			return "OK";
-		}, transformer);
-		
 		get("/admin/jdbc", URLTools.HEADER_JSON, (request, response) -> {
 			return TechnicalServiceManager.inst().getDaoInfos();
 		}, transformer);
@@ -1192,7 +1187,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 	public void stop() throws IOException {
 		Spark.stop();
 		
-		TechnicalServiceManager.inst().store();
+		TechnicalServiceManager.inst().close();
 		logger.info("Server stop");
 		running = false;
 	}
