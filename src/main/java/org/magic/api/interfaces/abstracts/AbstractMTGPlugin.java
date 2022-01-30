@@ -50,7 +50,6 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 	}
 	
 	
-	
 	@Override
 	public ObjectName getObjectName() {
 		try {

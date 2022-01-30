@@ -46,6 +46,17 @@ public abstract class AbstractPricesProvider extends AbstractMTGPlugin implement
 	}
 	
 	
+	@Override
+	public MagicPrice getBestPrice(MagicCard card) {
+		try {
+			return getPrice(card).stream().min(new MagicPricesComparator()).orElse(null);
+		} catch (IOException e) {
+			logger.error(e);
+			return null;
+		}
+	}
+	
+	
 	private List<MagicPrice> retrieveMap(Map<MagicCard,Integer> map)
 	{
 			List<MagicPrice> ret = new ArrayList<>();

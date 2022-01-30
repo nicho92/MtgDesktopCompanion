@@ -78,7 +78,7 @@ public interface MTGPlugin extends Comparable<MTGPlugin> {
 	public Map<String,String> getDefaultAttributes();
 	
 	public List<String> listAuthenticationAttributes();
-	
+		
 	default AccountAuthenticator getAuthenticator() {
 			return AccountsManager.inst().getAuthenticator(this);
 	}

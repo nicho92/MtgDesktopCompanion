@@ -70,6 +70,7 @@ import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGGedStorage;
 import org.magic.api.interfaces.MTGPictureProvider;
+import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGServer;
@@ -585,7 +586,16 @@ public class JSONHttpServer extends AbstractMTGServer {
 				})
 		, transformer);
 		
-		
+		get("/partner/:idCards", URLTools.HEADER_JSON, (request, response) -> 
+			getCached(request.pathInfo(), new Callable<Object>() {
+				
+				@Override
+				public List<MagicPrice> call() throws Exception {
+					MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(ID_CARDS));
+					return MTG.listEnabledPlugins(MTGPricesProvider.class).stream().filter(MTGPlugin::isPartner).map(pricer->pricer.getBestPrice(mc)).toList();
+				}
+			})
+		, transformer);
 		
 	
 		get("/alerts/list", URLTools.HEADER_JSON,

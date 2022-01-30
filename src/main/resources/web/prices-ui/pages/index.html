@@ -173,6 +173,15 @@
 							{
 								$("#lastPriceFoil").html(" <i class='ss ss-mythic ss-2x ss-pmei'></i> -");	
 							}
+							
+							
+
+							$.get(restserver+"/partner/"+card.id,function(data){
+								data.forEach( function(item,index){
+									var img="https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/src/main/resources/icons/plugins/"+item.site.toLowerCase().replace(" ","%20")+".png";
+									$("#partner").html("<a target='_blank' href='"+item.url+"'><img src='"+img+"'/>"+ item.site + " <span class='numbers-small'>" + item.value.toFixed(2) + " " + item.currency +"</span></a>");	
+								});
+							});
 					});
 					
 				
@@ -239,6 +248,9 @@
 				    } );
 			 		
 					$( table.table().container() ).removeClass( 'form-inline' );
+					
+					
+					
 					
 			 		$.fn.dataTable.ext.errMode = 'none';
 				
@@ -410,10 +422,20 @@
 								</div>
 							</div>
 						</div>
+						
+						<div class="card card-table">
+							<div class="card-header">
+								<h5 class="card-title">Partnership</h5><span class="loading"></span>
+								<p class="card-category">Best Prices</p>
+							</div>
+							<div class="card-body" id="partner">
+																	
+							</div>
+							<div class="card-footer"></div>
+						</div>
 					</div>
-					</div>
-					
 				</div>
+			</div>
 
 
 				<div class="row ">

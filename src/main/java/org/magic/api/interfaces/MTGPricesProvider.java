@@ -13,6 +13,8 @@ public interface MTGPricesProvider extends MTGPriceSuggester {
 
 	public List<MagicPrice> getPrice(MagicCard card) throws IOException;
 	
+	public MagicPrice getBestPrice(MagicCard card);
+	
 	public List<MagicPrice> getPrice(MagicDeck d,boolean side) throws IOException;
 
 	public Map<String, List<MagicPrice>> getPricesBySeller(List<MagicCard> cards) throws IOException;
