@@ -133,7 +133,7 @@ public class RequestBuilder
 		return this;
 	}
 	
-	public JsonElement toJson() throws IOException
+	public JsonElement toJson()
 	{
 		return URLTools.toJson(toContentString());
 	}
@@ -174,7 +174,7 @@ public class RequestBuilder
 		} 
 	}
 	
-	public Document toHtml() throws IOException {
+	public Document toHtml() {
 		return URLTools.toHtml(toContentString());
 	}
 

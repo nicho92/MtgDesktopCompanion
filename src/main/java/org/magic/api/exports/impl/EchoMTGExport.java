@@ -57,7 +57,7 @@ public class EchoMTGExport extends AbstractCardExport {
 		
 		
 		deck.getMain().entrySet().forEach(entry->{
-				try {
+				
 					JsonElement list = RequestBuilder.build().method(METHOD.POST)
 							 .url(BASE_URL+"/api/inventory/add/")
 							 .addContent("auth", authToken)
@@ -75,9 +75,7 @@ public class EchoMTGExport extends AbstractCardExport {
 					
 					notify(entry.getKey());
 					
-				} catch (IOException e) {
-					logger.error("error for " + entry.getKey(),e);
-				}
+				
 		});
 		
 	}

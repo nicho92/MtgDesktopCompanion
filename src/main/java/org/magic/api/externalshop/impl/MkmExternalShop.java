@@ -159,8 +159,8 @@ public class MkmExternalShop extends AbstractExternalShop {
 		var list= loadStock(search);
 		itemsBkcp.clear();
 		list.forEach(item->{
-			getRefs(item.getLanguage(),item.getProduct().getProductId().longValue()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getDestination(),String.valueOf(converterItem.getOutputId())));
-			getRefs(item.getLanguage(),item.getProduct().getProductId().longValue()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getSource(),String.valueOf(converterItem.getInputId())));
+			getRefs(item.getLanguage(),item.getProduct().getProductId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getDestination(),String.valueOf(converterItem.getOutputId())));
+			getRefs(item.getLanguage(),item.getProduct().getProductId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getSource(),String.valueOf(converterItem.getInputId())));
 			itemsBkcp.put(item, new SimpleEntry<>(item.getQte(), item.getPrice()) );
 		});
 			
@@ -177,8 +177,8 @@ public class MkmExternalShop extends AbstractExternalShop {
 		var list= loadTransaction();
 		list.forEach(t->
 			t.getItems().forEach(item->{
-				getRefs(item.getLanguage(),item.getProduct().getProductId().longValue()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getDestination(),String.valueOf(converterItem.getOutputId())));
-				getRefs(item.getLanguage(),item.getProduct().getProductId().longValue()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getSource(),String.valueOf(converterItem.getInputId())));
+				getRefs(item.getLanguage(),item.getProduct().getProductId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getDestination(),String.valueOf(converterItem.getOutputId())));
+				getRefs(item.getLanguage(),item.getProduct().getProductId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getSource(),String.valueOf(converterItem.getInputId())));
 			})
 			);
 		

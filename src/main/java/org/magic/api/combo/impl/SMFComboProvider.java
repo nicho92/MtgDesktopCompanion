@@ -1,6 +1,5 @@
 package org.magic.api.combo.impl;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +45,7 @@ public class SMFComboProvider extends AbstractComboProvider {
 			return cbos;
 		}
 		
-		 try {
+		 
 			Document d = RequestBuilder.build().url(cardUri).method(METHOD.GET).setClient(c).toHtml();
 			String idAttribute= d.getElementById("dataAttribute").attr("value");
 			
@@ -64,21 +63,16 @@ public class SMFComboProvider extends AbstractComboProvider {
 				var cbo = new MTGCombo();
 						 cbo.setName(el.getElementsByTag("h4").text());
 						 cbo.setPlugin(this);
-					 try {
+					
 						 var details = RequestBuilder.build().url(BASE_URL+"/"+el.getElementsByTag("a").attr("href")).method(METHOD.GET).setClient(c).toHtml();
 						var article = details.getElementsByTag("article");
 						article.select("div.panel").remove();
 						cbo.setComment(article.text());
 						cbos.add(cbo);				
-					} catch (IOException e) {
-						logger.error(e);
-					}
+					
 			});
 			
-		} catch (IOException e) {
-			logger.error(e);
-			return cbos;
-		}
+		
 		
 		
 		

@@ -1,6 +1,5 @@
 package org.magic.api.combo.impl;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,12 +24,9 @@ public class MTGCombosProvider extends AbstractComboProvider {
 		
 		
 			Document d;
-			try {
+			
 				d = RequestBuilder.build().url(BASE+"index.php").setClient(URLTools.newClient()).method(METHOD.POST).addContent("search", mc.getName()).addContent("submit", "Search >").toHtml();
-			} catch (IOException e) {
-				logger.error("Error loading " + BASE,e);
-				return ret;
-			}
+			
 			
 			Elements elsTitles = d.select("td span.text15");
 			Elements elsContent = d.select("td[bgcolor=#CFDEDA]");

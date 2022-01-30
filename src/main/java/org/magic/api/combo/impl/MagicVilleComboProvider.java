@@ -1,6 +1,5 @@
 package org.magic.api.combo.impl;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,27 +33,22 @@ public class MagicVilleComboProvider extends AbstractComboProvider {
 			return ret;
 		}
 		
-		try {
+	
 			Document req = RequestBuilder.build().setClient(c).url(BASE_URL+"resultats").addHeader(URLTools.ACCEPT_LANGUAGE, "en-US,en;q=0.5").method(METHOD.POST).addContent("card_to_search["+id+"]", mc.getName()).toHtml();
 			req.select("tr[id]").forEach(tr->{
 				var cbo = new MTGCombo();
 						 cbo.setName(tr.child(1).text());
 						 cbo.setPlugin(this);
 			
-				try {
+				
 					var cboDetail = RequestBuilder.build().setClient(c).url(BASE_URL+tr.child(0).select("a").attr("href")).method(METHOD.GET).toHtml();
 					cbo.setComment(cboDetail.select("div[align=justify]").text());
 					notify(cbo);
 					ret.add(cbo);
-				} catch (IOException e) {
-					logger.error("error getting detail for " + cbo, e);
-				}
+				
 			});
 			
-		} catch (IOException e) {
-			logger.error("error looking for card " + mc +" with id = "+id,e);
-			return ret;
-		}
+		
 		return ret;
 	}
 
