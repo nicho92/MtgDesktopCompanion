@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.audit.AbstractAuditableItem;
@@ -21,6 +23,8 @@ import org.magic.api.beans.audit.TaskInfo.STATE;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.abstracts.extra.AbstractEmbeddedCacheProvider;
 import org.magic.services.providers.IPTranslator;
+import org.magic.services.threads.MTGRunnable;
+import org.magic.services.threads.ThreadManager;
 import org.magic.tools.FileTools;
 
 public class TechnicalServiceManager {
@@ -60,14 +64,27 @@ public class TechnicalServiceManager {
 		translator = new IPTranslator();
 		try {
 			restore();
+			logger.info("Restauration log done");
 		} catch (IOException e) {
 			logger.error("error restore previous log",e);
 		}
+		
+		
+		logger.info("Starting Log backup timer");
+		ThreadManager.getInstance().timer(new MTGRunnable() {
+			
+			@Override
+			protected void auditedRun() {
+				storeAll();
+				
+			}
+		},"TechnicalService Timer",1,TimeUnit.HOURS);
+		
 	}
 	
 	
 	
-	public void close()
+	public void storeAll()
 	{
 		try {
 			storeItems(JsonQueryInfo.class,jsonInfo);
@@ -132,6 +149,12 @@ public class TechnicalServiceManager {
 		info.setLocation(translator.getLocationFor(info.getIp()));
 		jsonInfo.add(info);
 	}
+
+	public void store(DiscordInfo info) {
+		discordInfos.add(info);
+		
+	}
+	
 	
 	public void store(NetworkInfo info)
 	{
@@ -163,10 +186,5 @@ public class TechnicalServiceManager {
 		return ManagementFactory.getThreadMXBean().dumpAllThreads(true, true);
 	}
 
-	public void store(DiscordInfo info) {
-		discordInfos.add(info);
-		
-	}
-	
 	
 }

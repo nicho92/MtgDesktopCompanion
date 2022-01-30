@@ -2,11 +2,14 @@ package org.magic.services.threads;
 
 import java.beans.PropertyChangeEvent;
 import java.time.Instant;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
@@ -145,6 +148,22 @@ public class ThreadManager {
 		objRet.add("tasks", new JsonExport().toJsonArray(TechnicalServiceManager.inst().getTasksInfos()));
 
 		return objRet;
+	}
+
+	public void timer(MTGRunnable mtgRunnable, String name, int time, TimeUnit seconds) {
+		
+		mtgRunnable.getInfo().setName(name);
+		//TechnicalServiceManager.inst().store(mtgRunnable.getInfo());
+		
+		
+		Timer timer = new Timer(true);
+		timer.scheduleAtFixedRate(new TimerTask() {
+			@Override
+			public void run() {
+				mtgRunnable.run();
+			}
+		}, TimeUnit.MINUTES.toMillis(5), seconds.toMillis(time));
+		
 	}
 
 	
