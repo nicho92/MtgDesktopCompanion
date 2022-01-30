@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
@@ -19,9 +18,7 @@ import org.magic.api.beans.audit.DiscordInfo;
 import org.magic.api.beans.audit.JsonQueryInfo;
 import org.magic.api.beans.audit.NetworkInfo;
 import org.magic.api.beans.audit.TaskInfo;
-import org.magic.api.beans.audit.TaskInfo.STATE;
 import org.magic.api.exports.impl.JsonExport;
-import org.magic.api.interfaces.abstracts.extra.AbstractEmbeddedCacheProvider;
 import org.magic.services.providers.IPTranslator;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
@@ -30,11 +27,6 @@ import org.magic.tools.FileTools;
 public class TechnicalServiceManager {
 
 	private static TechnicalServiceManager inst;
-	
-	
-	AbstractEmbeddedCacheProvider<AbstractAuditableItem, List<AbstractAuditableItem>> cache;
-	
-	
 	private List<JsonQueryInfo> jsonInfo;
 	private List<DAOInfo> daoInfos;
 	private List<NetworkInfo> networkInfos;
@@ -44,6 +36,8 @@ public class TechnicalServiceManager {
 	private JsonExport export;
 	private File logsDirectory = new File(MTGConstants.DATA_DIR,"audits");
 	private IPTranslator translator;
+	public static final int SCHEDULE_TIMER_MS=1;
+	
 	
 	public static TechnicalServiceManager inst()
 	{
@@ -70,7 +64,7 @@ public class TechnicalServiceManager {
 		}
 		
 		
-		logger.info("Starting Log backup timer");
+		logger.info("Starting Log backup timer scheduled at " + TimeUnit.HOURS.toMillis(SCHEDULE_TIMER_MS) +" ms");
 		ThreadManager.getInstance().timer(new MTGRunnable() {
 			
 			@Override
@@ -78,11 +72,9 @@ public class TechnicalServiceManager {
 				storeAll();
 				
 			}
-		},"TechnicalService Timer",1,TimeUnit.HOURS);
+		},"TechnicalService Timer",SCHEDULE_TIMER_MS,TimeUnit.HOURS);
 		
 	}
-	
-	
 	
 	public void storeAll()
 	{
@@ -171,13 +163,6 @@ public class TechnicalServiceManager {
 		daoInfos.add(info);
 	}
 	
-	public void cleanAll() {
-		tasksInfos.removeIf(t->t.getStatus()==STATE.FINISHED);
-		networkInfos.removeIf(t->t.getEnd()!=null);
-		daoInfos.removeIf(t->t.getEnd()!=null);
-		jsonInfo.removeIf(t->t.getEnd()!=null);
-	}
-
 	public Set<Entry<Object, Object>> getSystemInfo() {
 		return System.getProperties().entrySet();
 	}

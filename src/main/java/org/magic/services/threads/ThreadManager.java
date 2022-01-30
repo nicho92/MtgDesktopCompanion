@@ -150,7 +150,7 @@ public class ThreadManager {
 		return objRet;
 	}
 
-	public void timer(MTGRunnable mtgRunnable, String name, int time, TimeUnit seconds) {
+	public void timer(MTGRunnable mtgRunnable, String name, int time, TimeUnit timeUnit) {
 		
 		mtgRunnable.getInfo().setName(name);
 		//TechnicalServiceManager.inst().store(mtgRunnable.getInfo());
@@ -162,7 +162,7 @@ public class ThreadManager {
 			public void run() {
 				mtgRunnable.run();
 			}
-		}, TimeUnit.MINUTES.toMillis(5), seconds.toMillis(time));
+		}, TimeUnit.MINUTES.toMillis(5), timeUnit.toMillis(time));
 		
 	}
 
