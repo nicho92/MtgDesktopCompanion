@@ -1,10 +1,14 @@
-package org.beta;
+package org.magic.api.exports.impl;
 
+import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
@@ -13,7 +17,9 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.CardsPatterns;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.api.interfaces.abstracts.AbstractMTGPlugin;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.providers.PluginsAliasesProvider;
 import org.magic.tools.FileTools;
@@ -144,7 +150,7 @@ public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 				MagicCardStock mcs = MTGControler.getInstance().getDefaultStock();
 					   mcs.setQte(Integer.parseInt(m.group(1)));
 					   mcs.setProduct(mc);
-					   mcs.setCondition(PluginsAliasesProvider.inst().getReversedConditionFor(this,m.group(6),null));
+					   mcs.setCondition(PluginsAliasesProvider.inst().getReversedConditionFor(new CardKingdomCardExport(),m.group(6),null));
 					   
 					   if(!m.group(7).isEmpty())
 						   mcs.setLanguage(m.group(7));
@@ -205,6 +211,12 @@ public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 		return new String[0];
 	}
 
+	
+	@Override
+	public Icon getIcon() {
+		return new ImageIcon(new ImageIcon(AbstractMTGPlugin.class.getResource("/icons/plugins/card kingdom.png")).getImage().getScaledInstance(MTGConstants.MENU_ICON_SIZE, MTGConstants.MENU_ICON_SIZE, Image.SCALE_SMOOTH));
+	}
+	
 	@Override
 	protected String getStringPattern() {
 		if(getString(REGEX).isEmpty())
