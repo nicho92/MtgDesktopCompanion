@@ -45,7 +45,7 @@ public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 		{
 			
 			String name=mc.getProduct().getName();
-			String set = PluginsAliasesProvider.inst().getSetNameFor(this , mc.getProduct().getCurrentSet());
+			String set = PluginsAliasesProvider.inst().getSetNameFor(new CardKingdomCardExport() , mc.getProduct().getCurrentSet());
 			
 			
 			if(name.contains("//") && (!mc.getProduct().getLayout().toString().equalsIgnoreCase(MTGLayout.SPLIT.toString())))
@@ -58,11 +58,6 @@ public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 				name = name + " (Showcase)";
 				set = set + " Variants";
 			}
-			
-			if(set.contains("Mystery Booster") || set.contentEquals("The List"))
-				set = "Mystery Booster/The List";
-			
-			
 			
 			if(mc.getProduct().getName().contains(getSeparator()))
 				name="\""+mc.getProduct().getName()+"\"";
@@ -108,7 +103,7 @@ public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 			MagicEdition ed = null;
 			
 			try {			   
-				ed = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetByName(m.group(4));
+				ed = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetByName( PluginsAliasesProvider.inst().getReversedSetNameFor(new CardKingdomCardExport() , m.group(4)));
 			}
 			catch(Exception e)
 			{
