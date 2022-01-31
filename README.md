@@ -14,7 +14,18 @@ Personal Magic the Gathering card manager Deck Builder and Collection Editor
 
 
 # Website : 
-[MTG Companion website](https://www.MtgCompanion.org/)
+[MTG Companion website](https://www.mtgcompanion.org/)
+
+[MTG Web pricer Servers](https://mtgcompanion.me/prices-ui)
+
+[MTG Web Shop Servers](https://mtgcompanion.me/shop-ui)
+
+[MTG Web Trader Servers](https://mtgcompanion.me/trades-ui/pages/index.html)
+
+[MTG Web Collection Servers](https://mtgcompanion.me/collection-ui/pages/index.html)
+
+[MTG Discord Bot](https://top.gg/bot/448196866774007808) 
+
 
 [![GitHub stars](https://img.shields.io/badge/download-2.30-green.svg)](https://github.com/nicho92/MtgDesktopCompanion/releases/)
 
