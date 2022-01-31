@@ -16,7 +16,7 @@ Personal Magic the Gathering card manager Deck Builder and Collection Editor
 # Website : 
 [MTG Companion website](https://www.mtgcompanion.org/)
 
-[MTG Web pricer Servers](https://mtgcompanion.me/price-ui)
+[MTG Web pricer Servers](https://mtgcompanion.me/prices-ui)
 
 [MTG Web Shop Servers](https://mtgcompanion.me/shop-ui)
 
