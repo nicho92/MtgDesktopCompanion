@@ -13,7 +13,9 @@ import java.util.Map;
 
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -61,16 +63,15 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 		
 		
 		var filtres =where("name").is(mc.getName())
-				  .and("sku").contains(mc.getCurrentSet().getId().toUpperCase())
-				  .and("is_foil").is(String.valueOf(foil));
-		
-		
+				.and("sku").contains(mc.getCurrentSet().getId().toUpperCase())
+				.and("is_foil").is(String.valueOf(foil));
+				
 		if(mc.isShowCase())
-			filtres=filtres.and("variants").is("Showcase");
-		else 	if(mc.isBorderLess())
-			filtres=filtres.and("variants").is("Borderless");
+			filtres=filtres.and("variation").is("Showcase");
+		else if(mc.isBorderLess())
+			filtres=filtres.and("variation").is("Borderless");
 		else if (mc.isExtendedArt())
-			filtres=filtres.and("variants").is("Extended Art");
+			filtres=filtres.and("variation").is("Extended Art");
 			
 		
 		
@@ -100,10 +101,6 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 	}
 	
 
-	
-	
-	
-
 	public CardKingdomPricer() {
 		
 		jsonFile=new File(MTGConstants.DATA_DIR,"mtgkingdom.json");
@@ -127,7 +124,7 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 		
 	}
 	
-	
+
 
 	public List<MagicPrice> getPrices(MagicCard card,boolean foil) throws IOException {
 
