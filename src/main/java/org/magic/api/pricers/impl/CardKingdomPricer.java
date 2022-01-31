@@ -59,10 +59,23 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 		if(cont==null)
 			init();
 		
-		Filter cheapFictionFilter = filter(where("name").is(mc.getName())
-														  .and("sku").contains(mc.getCurrentSet().getId().toUpperCase())
-														  .and("is_foil").is(String.valueOf(foil))
-														  );
+		
+		var filtres =where("name").is(mc.getName())
+				  .and("sku").contains(mc.getCurrentSet().getId().toUpperCase())
+				  .and("is_foil").is(String.valueOf(foil));
+		
+		
+		if(mc.isShowCase())
+			filtres=filtres.and("variants").is("Showcase");
+		else 	if(mc.isBorderLess())
+			filtres=filtres.and("variants").is("Borderless");
+		else if (mc.isExtendedArt())
+			filtres=filtres.and("variants").is("Extended Art");
+			
+		
+		
+		
+		Filter cheapFictionFilter = filter(filtres);
 		
 		Chrono c = new Chrono();
 		
