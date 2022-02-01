@@ -629,12 +629,12 @@ public class UITools {
 
 
 	public static void addTab(JTabbedPane pane, MTGUIComponent comp) {
-		pane.addTab(capitalize(comp.getTitle()), comp.getIcon(),comp);
+		pane.addTab(capitalize(comp.getTitle()), ImageTools.resize(comp.getIcon(), 15, 15),comp);
 		
 	}
 	public static int daysBetween(Date d1, Date d2)
 	{
-		return (int) ChronoUnit.DAYS.between(d1.toInstant(), d2.toInstant());
+		return daysBetween(d1.toInstant(), d2.toInstant());
 	}
 	
 	

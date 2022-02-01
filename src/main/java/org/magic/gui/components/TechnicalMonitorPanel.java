@@ -30,6 +30,7 @@ import org.magic.servers.impl.JSONHttpServer;
 import org.magic.servers.impl.QwartzServer;
 import org.magic.services.MTGConstants;
 import org.magic.services.TechnicalServiceManager;
+import org.magic.tools.ImageTools;
 import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 
@@ -148,7 +149,7 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 		tabs.addTab("Qwartz Script",MTGConstants.ICON_SMALL_SCRIPT,new JScrollPane(tableScripts));
 		tabs.addTab("Queries",MTGConstants.ICON_TAB_DAO,new JScrollPane(tableQueries));
 		tabs.addTab("DB Size",MTGConstants.ICON_TAB_DAO,new JScrollPane(tableDaos));
-		tabs.addTab("Discord",new DiscordBotServer().getIcon()  ,new JScrollPane(tableDiscordInfo));
+		tabs.addTab("Discord",ImageTools.resize(new DiscordBotServer().getIcon(),15,15)  ,new JScrollPane(tableDiscordInfo));
 		tabs.addTab("JsonServer Cache",MTGConstants.ICON_TAB_CACHE,new JScrollPane(tableCacheJson));
 		tabs.addTab("JsonServer Queries",MTGConstants.ICON_TAB_SERVER,new JScrollPane(tableJsonInfo));
 		UITools.addTab(tabs, new LoggerViewPanel());
