@@ -54,6 +54,13 @@
 			    	$('#contactWebsite').html("<a href='"+data.contact.website+"'>"+data.contact.website+"</a>");
 			    	$('#contactAddress').html(data.contact.address);
 			    	$('#contactCountry').html(data.contact.country);
+			    	
+			    	
+			    	if(data.sealedEnabled == false)
+					{
+						$("#navSealed").hide();
+					}
+			       	
 			    	if(data.googleAnalyticsId)
 			       	{
 			        	window.dataLayer = window.dataLayer || [];

@@ -53,6 +53,8 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 	private MapTableModel<String,Object> modelCacheJson;
 	private JsonInfoTableModel modelJsonServerInfo;
 	private DiscordInfoTableModel discordModel;
+	private GedBrowserPanel gedPanel;
+	
 	
 	public TechnicalMonitorPanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -65,7 +67,7 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 		modelCacheJson = new MapTableModel<>();
 		modelJsonServerInfo = new JsonInfoTableModel();
 		discordModel = new DiscordInfoTableModel();
-		
+		gedPanel = new GedBrowserPanel();
 		
 		modelScript = new GenericTableModel<JsonObject>()
 				{
@@ -150,6 +152,8 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 		tabs.addTab("JsonServer Cache",MTGConstants.ICON_TAB_CACHE,new JScrollPane(tableCacheJson));
 		tabs.addTab("JsonServer Queries",MTGConstants.ICON_TAB_SERVER,new JScrollPane(tableJsonInfo));
 		UITools.addTab(tabs, new LoggerViewPanel());
+		UITools.addTab(tabs, gedPanel);
+		
 		
 		
 		
