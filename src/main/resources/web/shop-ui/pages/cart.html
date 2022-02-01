@@ -43,7 +43,12 @@
     		var currency = "";
     		var percentReduction = 0;
     		var currencyCode = "";
-    		 
+    		if(data.sealedEnabled == false)
+			{
+				$("#navSealed").hide();
+			}
+	 
+			
 	    			$('#siteTitle').html(data.siteTitle);
 			    	$('#bannerTitle').html(data.bannerTitle);
 			       	$('#bannerText').html(data.bannerText);
@@ -193,9 +198,7 @@
 	        		
 		    } );
 		 
-	   	 	
-	 
-			
+		
 			$('#tableCart').on('click', '#deleteFromCard', function (e) {
 				removeStockId($(this).attr("data"));
 				dtTable.row($(this).parents('tr')).remove().draw(false);

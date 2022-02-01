@@ -133,6 +133,11 @@
 			    $('#contactAddress').html(data.contact.address);
 		    	$('#contactCountry').html(data.contact.country);
 		    	
+		    	
+		    	if(data.sealedEnabled == false)
+				{
+					$("#navSealed").hide();
+				}
 				if(data.googleAnalyticsId)
 			       	{
 			        	window.dataLayer = window.dataLayer || [];
