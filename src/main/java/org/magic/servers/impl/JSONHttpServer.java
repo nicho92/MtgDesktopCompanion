@@ -253,6 +253,14 @@ public class JSONHttpServer extends AbstractMTGServer {
 			TechnicalServiceManager.inst().store(info);
 		}
 	}
+	
+
+	private <T> List<T> paginate(List<T> elements, int pageNumber, int size)
+	{
+		 int skipCount = (pageNumber - 1) * size; 
+		 return elements.stream().skip(skipCount).limit(size).toList();
+	}
+	
 
 
 	
@@ -722,19 +730,24 @@ public class JSONHttpServer extends AbstractMTGServer {
 		 , transformer);
 		
 		
-		get("/stock/list/:collection/:startpage/:paginate", URLTools.HEADER_JSON,(request, response) ->
+		get("/stock/list/:collection", URLTools.HEADER_JSON,(request, response) ->
 		 getCached(request.pathInfo(), new Callable<Object>() {
-			 
-			 int skipCount = (Integer.parseInt(request.params(":startpage")) - 1) * Integer.parseInt(request.params(":paginate")); 
-			 
 			@Override
 			public Object call() throws Exception {
-				return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(COLLECTION)))).stream().skip(skipCount).limit(Integer.parseInt(request.params(":paginate"))).toList();
+				
+				
+				logger.info(request.queryParams());
+				logger.info(request.params());
+				logger.info(request.attributes());
+				
+				return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(COLLECTION))));
+				
+				//return paginate(getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(COLLECTION)))),Integer.parseInt(request.params(":startpage")),Integer.parseInt(request.params(":paginate")));
 			}
 		})
 		 , transformer);
 		
-	
+		
 		
 		get("/stock/list/:collection/:idSet", URLTools.HEADER_JSON, (request, response) ->
 			getCached(request.pathInfo(), new Callable<Object>() {
