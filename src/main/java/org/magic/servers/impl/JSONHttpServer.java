@@ -675,6 +675,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 			})
 			, transformer);
 		
+		
+		//TODO REMOVE
 		get("/sealed/sets/:collection", URLTools.HEADER_JSON,(request, response) ->
 		
 		 getCached(request.pathInfo(), new Callable<Object>() {
@@ -720,6 +722,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		, transformer);
 	
 		
+		//TODO REMOVE
 		get("/stock/sets/:collection", URLTools.HEADER_JSON,(request, response) ->
 			
 			 getCached(request.pathInfo(), new Callable<Object>() {

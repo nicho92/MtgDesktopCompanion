@@ -153,6 +153,16 @@ $("#btnsearch").click(function(){
 	$(location).attr("href","./category.html?search="+$( "#searchText").val());
 });
 
+
+$("#searchText").keyup(function(e){
+	
+	$("#searchText").focus();
+    if(e.keyCode === 13)
+    {
+       $("#btnsearch").click();
+    }
+});
+
   
 	
  $("#searchText").autocomplete({
