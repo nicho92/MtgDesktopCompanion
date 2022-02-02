@@ -269,8 +269,12 @@ public class WebShopConfigPanel extends MTGUIComponent {
 							   var diag = new CardSearchImportDialog();
 								   diag.setVisible(true); 
 								   topProduct= MTGControler.getInstance().getDefaultStock();
-								   topProduct.setProduct(diag.getSelected());
-								   cardPanel.setProduct(topProduct);
+								   if(diag.getSelected()!=null)
+								   {
+									   topProduct.setProduct(diag.getSelected());
+									   cardPanel.setProduct(topProduct);   
+								   }
+									
 		});
 		
 		
