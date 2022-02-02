@@ -103,14 +103,11 @@
 							   		});//end pagination
 								
 						    	
-						    	    $.ajax({
-					       			 url: restserver+"/sealed/sets/"+value.name
-					  			    }).then(function(data) {
-					  				
-					  				  $.each(data,function( i ) {
-					  					$("#categories").append("<li class='list-group-item'><i class='ss ss-2x ss-"+data[i].id.toLowerCase()+"'></i> <a href='sealed.html?idSet="+data[i].id+"'>"+data[i].set+"</a></li>");
-					  				  });//end each sets
-					    			});//end ajax sets
+							   		const arrayUniqueByKey = [...new Map(data.map(item => [item.edition.id, item.edition])).values()];
+							    	arrayUniqueByKey.forEach( function(item,index){
+										$("#categories").append("<li class='list-group-item'><i class='ss ss-2x ss-"+item.id.toLowerCase()+"'></i> <a href='category.html?idSet="+item.id+"'>"+item.set+"</a></li>");
+									});
+							   		
 					    	
 					
 			    		});//end ajax url

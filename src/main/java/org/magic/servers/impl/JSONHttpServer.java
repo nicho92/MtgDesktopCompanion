@@ -675,17 +675,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			})
 			, transformer);
 		
-		
-		//TODO REMOVE
-		get("/sealed/sets/:collection", URLTools.HEADER_JSON,(request, response) ->
-		
-		 getCached(request.pathInfo(), new Callable<Object>() {
-			@Override
-			public List<MagicEdition> call() throws Exception {
-				return getEnabledPlugin(MTGDao.class).listSealedStocks().stream().filter(ss->ss.getMagicCollection().getName().equalsIgnoreCase(request.params(COLLECTION))).map(mp->mp.getProduct().getEdition()).distinct().sorted().toList();
-			}
-		})
-		 , transformer);
+	
 		
 		get("/sealed/list/:collection/:idSet", URLTools.HEADER_JSON, (request, response) ->
 		getCached(request.pathInfo(), new Callable<Object>() {
@@ -721,17 +711,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 			})
 		, transformer);
 	
-		
-		//TODO REMOVE
-		get("/stock/sets/:collection", URLTools.HEADER_JSON,(request, response) ->
-			
-			 getCached(request.pathInfo(), new Callable<Object>() {
-				@Override
-				public List<MagicEdition> call() throws Exception {
-					return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(COLLECTION)))).stream().map(mcs->mcs.getProduct().getEdition()).distinct().sorted().toList();
-				}
-			})
-		, transformer);
 	
 		
 		get("/stock/list/:collection/:idSet", URLTools.HEADER_JSON, (request, response) ->

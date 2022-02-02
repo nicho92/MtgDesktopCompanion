@@ -13,9 +13,7 @@ import java.util.Map;
 
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.exports.impl.CardKingdomCardExport;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
