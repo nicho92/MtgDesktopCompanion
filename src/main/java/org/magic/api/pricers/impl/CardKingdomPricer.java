@@ -13,11 +13,16 @@ import java.util.Map;
 
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.enums.MTGFrameEffects;
+import org.magic.api.beans.enums.MTGLayout;
+import org.magic.api.exports.impl.CardKingdomCardExport;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.network.URLTools;
+import org.magic.services.providers.PluginsAliasesProvider;
 import org.magic.tools.Chrono;
 import org.magic.tools.FileTools;
 import org.magic.tools.InstallCert;
@@ -60,7 +65,16 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 			init();
 		
 		
-		var filtres =where("name").is(mc.getName())
+        String name = mc.getName();
+		
+		
+		if(name.contains("//") && (!mc.getLayout().toString().equalsIgnoreCase(MTGLayout.SPLIT.toString())))
+		{
+			name = name.split(" //")[0];
+		}
+		
+		
+		var filtres =where("name").is(name)
 				.and("sku").contains(mc.getCurrentSet().getId().toUpperCase())
 				.and("is_foil").is(String.valueOf(foil));
 				
@@ -72,6 +86,12 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 			filtres=filtres.and("variation").is("Extended Art");
 			
 		
+		if(PluginsAliasesProvider.inst().getSetNameFor(new CardKingdomCardExport() , mc.getCurrentSet()).contains("Mystery Booster"))
+		{
+			filtres = where("name").is(name)
+					  .and("edition").is(PluginsAliasesProvider.inst().getSetNameFor(new CardKingdomCardExport() , mc.getCurrentSet()))
+					  .and("is_foil").is(String.valueOf(foil));
+		}
 		
 		
 		Filter cheapFictionFilter = filter(filtres);
