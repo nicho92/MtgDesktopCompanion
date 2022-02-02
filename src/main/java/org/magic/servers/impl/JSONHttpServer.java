@@ -710,7 +710,30 @@ public class JSONHttpServer extends AbstractMTGServer {
 				}
 			})
 		, transformer);
+		
+		get("/stock/list/:collection", URLTools.HEADER_JSON,(request, response) ->
+			 getCached(request.pathInfo(), new Callable<Object>() {
 	
+				@Override
+				public Object call() throws Exception {
+					return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(COLLECTION))));
+				}
+			})
+		 , transformer);
+		
+		
+		get("/stock/list/:collection/:startpage/:paginate", URLTools.HEADER_JSON,(request, response) ->
+		 getCached(request.pathInfo(), new Callable<Object>() {
+			 
+			 int skipCount = (Integer.parseInt(request.params(":startpage")) - 1) * Integer.parseInt(request.params(":paginate")); 
+			 
+			@Override
+			public Object call() throws Exception {
+				return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(COLLECTION)))).stream().skip(skipCount).limit(Integer.parseInt(request.params(":paginate"))).toList();
+			}
+		})
+		 , transformer);
+		
 	
 		
 		get("/stock/list/:collection/:idSet", URLTools.HEADER_JSON, (request, response) ->
