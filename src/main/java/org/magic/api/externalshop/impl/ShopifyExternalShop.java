@@ -98,7 +98,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 									  it.setId(el.getAsJsonObject().get("id").getAsLong());
 									  it.setPrice(el.getAsJsonObject().get("price").getAsDouble());
 									  it.setQte(el.getAsJsonObject().get("inventory_quantity").getAsInt());
-									  it.setFoil(el.getAsJsonObject().get("option1").getAsString().toLowerCase().contains("foil"));
+									  it.setFoil(el.getAsJsonObject().get("option"+getString("FOIL_OPTION_NUMBER")).getAsString().toLowerCase().contains("foil"));
 									  ret.add(it);
 		}
 		return ret;
