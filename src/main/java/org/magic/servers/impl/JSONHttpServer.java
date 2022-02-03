@@ -662,15 +662,22 @@ public class JSONHttpServer extends AbstractMTGServer {
 	, transformer);
 		
 		
-		get("/sealed/list", URLTools.HEADER_JSON,(request, response) ->
-				getCached(request.pathInfo(), new Callable<Object>() {
+		get("/sealed/list", URLTools.HEADER_JSON,(request, response) ->{
+			var data=(List<SealedStock>)getCached(request.pathInfo(), new Callable<Object>() {
 		
 					@Override
 					public List<SealedStock> call() throws Exception {
 						return getEnabledPlugin(MTGDao.class).listSealedStocks();
 					}
-				})
-		, transformer);
+				});
+			
+			if(request.queryParams("page")!=null)
+				return paginate(data,Integer.parseInt(request.queryParams("page")),Integer.parseInt(request.queryParams("paginate")));
+			else
+				return data;
+			
+			
+		}, transformer);
 		
 		
 		get("/sealed/list/:collection", URLTools.HEADER_JSON,(request, response) ->
@@ -708,46 +715,24 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		get("/stock/get/:idStock", URLTools.HEADER_JSON,
 				(request, response) -> getEnabledPlugin(MTGDao.class).getStockById(Long.parseLong(request.params(":idStock"))), transformer);
-		
-		get("/stock/list/:collection", URLTools.HEADER_JSON,(request, response) ->
-			 getCached(request.pathInfo(), new Callable<Object>() {
-
-				@Override
-				public Object call() throws Exception {
-					return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(COLLECTION))));
-				}
-			})
-		, transformer);
-		
-		get("/stock/list/:collection", URLTools.HEADER_JSON,(request, response) ->
-			 getCached(request.pathInfo(), new Callable<Object>() {
 	
-				@Override
-				public Object call() throws Exception {
-					return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(COLLECTION))));
-				}
-			})
-		 , transformer);
 		
 		
-		get("/stock/list/:collection", URLTools.HEADER_JSON,(request, response) ->
-		 getCached(request.pathInfo(), new Callable<Object>() {
-			@Override
-			public Object call() throws Exception {
-				
-				
-				logger.info(request.queryParams());
-				logger.info(request.params());
-				logger.info(request.attributes());
-				
-				return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(COLLECTION))));
-				
-				//return paginate(getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(COLLECTION)))),Integer.parseInt(request.params(":startpage")),Integer.parseInt(request.params(":paginate")));
-			}
-		})
-		 , transformer);
-		
-		
+		get("/stock/list/:collection", URLTools.HEADER_JSON,(request, response) ->{
+			
+			List<MagicCardStock> data = (List<MagicCardStock>) getCached(request.pathInfo(), new Callable<Object>() {
+																															@Override
+																															public Object call() throws Exception {
+																															return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(COLLECTION))));
+																														}
+																													});
+			if(request.queryParams("page")!=null)
+				return paginate(data,Integer.parseInt(request.queryParams("page")),Integer.parseInt(request.queryParams("paginate")));
+			else
+				return data;
+			
+		},transformer);
+		 
 		
 		get("/stock/list/:collection/:idSet", URLTools.HEADER_JSON, (request, response) ->
 			getCached(request.pathInfo(), new Callable<Object>() {
