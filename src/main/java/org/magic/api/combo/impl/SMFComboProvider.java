@@ -1,5 +1,6 @@
 package org.magic.api.combo.impl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +47,10 @@ public class SMFComboProvider extends AbstractComboProvider {
 		}
 		
 		 
-			Document d = RequestBuilder.build().url(cardUri).method(METHOD.GET).setClient(c).toHtml();
+			Document d;
+			try {
+				d = RequestBuilder.build().url(cardUri).method(METHOD.GET).setClient(c).toHtml();
+			
 			String idAttribute= d.getElementById("dataAttribute").attr("value");
 			
 			d = RequestBuilder.build().url(BASE_URL+"/index.php").method(METHOD.GET).setClient(c)
@@ -56,7 +60,9 @@ public class SMFComboProvider extends AbstractComboProvider {
 						.addContent("dataIsValidated", "1")
 						.addContent("dataAttribute", idAttribute)
 						.toHtml();
-			
+			} catch (IOException e) {
+				return cbos;
+			}
 			
 			d.select("div.media-body").forEach(el->{
 				
@@ -64,10 +70,16 @@ public class SMFComboProvider extends AbstractComboProvider {
 						 cbo.setName(el.getElementsByTag("h4").text());
 						 cbo.setPlugin(this);
 					
-						 var details = RequestBuilder.build().url(BASE_URL+"/"+el.getElementsByTag("a").attr("href")).method(METHOD.GET).setClient(c).toHtml();
-						var article = details.getElementsByTag("article");
-						article.select("div.panel").remove();
-						cbo.setComment(article.text());
+						 Document details;
+						try {
+							details = RequestBuilder.build().url(BASE_URL+"/"+el.getElementsByTag("a").attr("href")).method(METHOD.GET).setClient(c).toHtml();
+							var article = details.getElementsByTag("article");
+							article.select("div.panel").remove();
+							cbo.setComment(article.text());
+						} catch (IOException e) {
+							logger.error(e);
+						}
+						
 						cbos.add(cbo);				
 					
 			});

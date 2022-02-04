@@ -12,11 +12,13 @@ import javax.imageio.ImageIO;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpResponse;
+import org.apache.http.ParseException;
 import org.apache.http.util.EntityUtils;
 import org.jsoup.nodes.Document;
 import org.magic.tools.XMLTools;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 public class RequestBuilder
 {
@@ -53,12 +55,8 @@ public class RequestBuilder
 		return content;
 	}
 
-	public String toContentString() {
-		try {
-			return EntityUtils.toString(execute().getEntity());
-		}  catch (Exception e) {
-			return "";
-		}
+	public String toContentString() throws IOException {
+		return EntityUtils.toString(execute().getEntity());
 	}
 	
 	@Override
@@ -135,7 +133,13 @@ public class RequestBuilder
 	
 	public JsonElement toJson()
 	{
-		return URLTools.toJson(toContentString());
+		try {
+			return URLTools.toJson(toContentString());
+		} catch (IOException e) {
+			var je = new JsonObject();
+			je.addProperty("error", e.getMessage());
+			return je;
+		}
 	}
 	
 
@@ -174,7 +178,7 @@ public class RequestBuilder
 		} 
 	}
 	
-	public Document toHtml() {
+	public Document toHtml() throws IOException {
 		return URLTools.toHtml(toContentString());
 	}
 

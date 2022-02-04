@@ -1,5 +1,6 @@
 package org.magic.api.combo.impl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,15 +35,28 @@ public class MagicVilleComboProvider extends AbstractComboProvider {
 		}
 		
 	
-			Document req = RequestBuilder.build().setClient(c).url(BASE_URL+"resultats").addHeader(URLTools.ACCEPT_LANGUAGE, "en-US,en;q=0.5").method(METHOD.POST).addContent("card_to_search["+id+"]", mc.getName()).toHtml();
+			Document req;
+			try {
+				req = RequestBuilder.build().setClient(c).url(BASE_URL+"resultats").addHeader(URLTools.ACCEPT_LANGUAGE, "en-US,en;q=0.5").method(METHOD.POST).addContent("card_to_search["+id+"]", mc.getName()).toHtml();
+			} catch (IOException e) {
+				logger.error(e);
+				return ret;
+			}
+			
 			req.select("tr[id]").forEach(tr->{
 				var cbo = new MTGCombo();
 						 cbo.setName(tr.child(1).text());
 						 cbo.setPlugin(this);
 			
 				
-					var cboDetail = RequestBuilder.build().setClient(c).url(BASE_URL+tr.child(0).select("a").attr("href")).method(METHOD.GET).toHtml();
-					cbo.setComment(cboDetail.select("div[align=justify]").text());
+					Document cboDetail;
+					try {
+						cboDetail = RequestBuilder.build().setClient(c).url(BASE_URL+tr.child(0).select("a").attr("href")).method(METHOD.GET).toHtml();
+						cbo.setComment(cboDetail.select("div[align=justify]").text());
+					} catch (IOException e) {
+						logger.error(e);
+					}
+					
 					notify(cbo);
 					ret.add(cbo);
 				
