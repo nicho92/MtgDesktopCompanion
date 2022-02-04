@@ -7,12 +7,15 @@
   
     <link href="//cdn.jsdelivr.net/npm/jquery-ui-dist@latest/jquery-ui.min.css" rel="stylesheet">
     <link href="../dist/css/style.css" rel="stylesheet" type="text/css">
+    
   	<script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
  	<script src="//cdn.jsdelivr.net/npm/jquery-ui-dist@latest/jquery-ui.min.js"></script>
+ 	<script src="//cdn.jsdelivr.net/npm/jquery.ui.widget@latest/jquery.ui.widget.js"></script>
 	
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" type="text/javascript"></script>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-		<script async src="https://www.googletagmanager.com/gtag/js"></script>
+	<script async src="https://www.googletagmanager.com/gtag/js"></script>
+ 
  
     <script src="https://pagination.js.org/dist/2.1.5/pagination.min.js"></script>
     <link href="https://pagination.js.org/dist/2.1.5/pagination.css" rel="stylesheet" type="text/css">
@@ -23,6 +26,7 @@
 
 	var percentReduction=0;
     var currency = "";
+    var paginator;
     function generateProduct(datas)
     {
     	var append="";
@@ -35,9 +39,40 @@
     	
     }
     
-    
-    
-    
+    function paginate(d)
+    {
+    	paginator = $('#pagination').pagination({
+    	    dataSource: d,
+    	    pageSize: data.productPagination,
+    	    autoHidePrevious: true,
+    	    autoHideNext: true,
+    	    pageRange: 8,
+    	    callback: function(dproducts, pagination) {
+	
+				if(dproducts.length==0)
+				{
+					 $('#products').html("No result found");
+					return;
+				}	
+	
+	
+    	    	var html = generateProduct(dproducts);
+    	        $('#products').html(html);
+    	     
+				$('button[name="addCartButton"]').each(function() {
+		       		
+    	        	$(this).click(function() {
+    	        		addCartStockId($(this),percentReduction);
+		    		});
+				});
+				
+				tilt($('.card-img-top'));
+    	    }
+		
+
+    	})
+    }
+  
     
     $(document).ready(function() {	
     	
@@ -82,7 +117,7 @@
 								        url: restserver+"/stock/list/"+value.name
 								    }).then(function(data) {
 								    	data=data.reverse();
-								    	for(let i=0;i<maxLastProduct;i++)
+								    	for(let i=0;i<data.maxLastProduct;i++)
 							    		{
 											if(data[i].qte>0)
 							    				$('#need-product').append(generateStockCardHTML(data[i],currency,true,0));
@@ -98,6 +133,18 @@
 		       			$("#searchcardContainer").hide();
 		       		}
 			    	
+			       	$("#slider").slider({
+			            range: true,
+			            min: 0,
+			            max: 1000,
+			            values: [ 0, 1000 ],
+			            slide: function( event, ui ) {
+			             	$( "#amount" ).val( data.currencySymbol + ui.values[ 0 ] + " - "+data.currencySymbol+ " " + ui.values[ 1 ] );
+			            }
+			          });
+			       	
+			       
+			       	
 			    	$.each( data.collections, function( key, value ) {
 			    		var url=restserver+"/stock/list/"+value.name;
 			    		if($_GET("idSet"))
@@ -116,37 +163,18 @@
 			    		  $.ajax({
 						        url: url
 						    }).then(function(d) {
-						    
-						    	$('#pagination').pagination({
-						    	    dataSource: d,
-						    	    pageSize: data.productPagination,
-						    	    autoHidePrevious: true,
-						    	    autoHideNext: true,
-						    	    pageRange: 8,
-						    	    callback: function(dproducts, pagination) {
-							
-										if(dproducts.length==0)
-										{
-											 $('#products').html("No result found");
-											return;
-										}	
-							
-							
-						    	    	var html = generateProduct(dproducts);
-						    	        $('#products').html(html);
-						    	     
-										$('button[name="addCartButton"]').each(function() {
-								       		
-						    	        	$(this).click(function() {
-						    	        		addCartStockId($(this),percentReduction);
-								    		});
-										});
-										
-										tilt($('.card-img-top'));
-						    	    }
-								
-
-						    	})
+						    	
+						    	$("#btnFilter").click(function(){
+						    		
+						    		var min = 	$("#slider").slider("values")[0];
+						    		var max = 	$("#slider").slider("values")[1];
+						    		
+						    		paginate(d.filter(function(x){ return x.price >= min && x.price <= max}));
+						       	});
+						    	
+						    	
+						    	paginate(d);
+						    	
 						    
 								const arrayUniqueByKey = [...new Map(d.map(item => [item.edition.id, item.edition])).values()];
 						    	arrayUniqueByKey.forEach( function(item,index){
@@ -189,6 +217,19 @@
 <div class="container">
     <div class="row" >
         <div class="col-12 col-sm-3">
+        	<div class="card bg-light mb-3">
+                <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-list"></i> Options</div>
+               	<div class="card-body">
+               	Prices : <div id="slider"></div>
+               	<input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+               	</div>
+               	<div class="card-footer">
+               		<button id="btnFilter" class="btn btn-success btn-block"><i class="fas fa-filter"></i> Apply Filter </button>
+               	</div>
+               	
+            </div>
+        
+        
             <div class="card bg-light mb-3">
                 <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-list"></i> Sets</div>
                 <ul id="categories" class="list-group category_block">
