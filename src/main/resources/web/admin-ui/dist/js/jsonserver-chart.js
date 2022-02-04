@@ -480,8 +480,28 @@ server = {
                                return moment(d).format('DD MMM YYYY, HH:mm:ss');
                       }
                     },
-                      {'data' : 'duration'},
-                      {'data' : 'ip'}
+                    {
+						'data' : 'duration',
+						'defaultContent': ""
+                    },
+                    {
+						'data' : 'ip',
+						 'defaultContent': ""
+					},
+                    { 
+		                "data": "location",
+		                "defaultContent": "",
+		                "render": function(d, type, row, meta){
+		                	 if(type === 'display'){
+								return d.country_name;		                		 
+		                	 }
+		                   return data;
+		                }
+		            },
+		            { 
+		                "data": "userAgent.AgentName",
+		                "defaultContent": ""
+		            }
                   ]
 
         });

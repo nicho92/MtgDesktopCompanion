@@ -1031,11 +1031,13 @@ public class JSONHttpServer extends AbstractMTGServer {
 			try{ 
 				MTG.getEnabledPlugin(MTGDao.class).deleteFavorites(Integer.parseInt(request.params(":idContact")), Integer.parseInt(request.params(":idAnnounce")),request.params(":classename"));
 				return "ok";
-			}catch(Exception e)
-			{
-				return e;
-			}
+				}
+			catch(Exception e)
+				{
+					return e;
+				}
 		}, transformer);
+		
 		
 		get("/favorites/:classename/:idContact", URLTools.HEADER_JSON, (request, response) -> {
 			try{ 
