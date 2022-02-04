@@ -709,13 +709,13 @@ public class JSONHttpServer extends AbstractMTGServer {
 	
 		
 		get("/sealed/list/:collection/:idSet", URLTools.HEADER_JSON, (request, response) ->
-		getCached(request.pathInfo(), new Callable<Object>() {
-			@Override
-			public List<SealedStock> call() throws Exception {
-				return getEnabledPlugin(MTGDao.class).listSealedStocks(new MagicCollection(request.params(COLLECTION)),new MagicEdition(request.params(ID_SET)));
-			}
-		})
-	, transformer);
+			getCached(request.pathInfo(), new Callable<Object>() {
+				@Override
+				public List<SealedStock> call() throws Exception {
+					return getEnabledPlugin(MTGDao.class).listSealedStocks(new MagicCollection(request.params(COLLECTION)),new MagicEdition(request.params(ID_SET)));
+				}
+			})
+		, transformer);
 		
 		get("/sealed/get/:id", URLTools.HEADER_JSON,
 				(request, response) -> getEnabledPlugin(MTGDao.class).getSealedStockById(Long.parseLong(request.params(":id"))), transformer);
@@ -1239,7 +1239,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		map.put(SERVER_PORT, "8080");
 		map.put(AUTOSTART, FALSE);
-		map.put(ENABLE_GZIP, FALSE);
+		map.put(ENABLE_GZIP, TRUE);
 		map.put(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
 		map.put(ACCESS_CONTROL_REQUEST_METHOD, "GET,PUT,POST,DELETE,OPTIONS");
 		map.put(ACCESS_CONTROL_ALLOW_HEADERS,"Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin");

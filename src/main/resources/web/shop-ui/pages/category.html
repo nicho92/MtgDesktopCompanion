@@ -180,6 +180,11 @@
 						    	$("#btnFilter").click(function(){
 						    		var min = 	$("#slider").slider("values")[0];
 						    		var max = 	$("#slider").slider("values")[1];
+						    		
+						    		if(percentReduction)
+						    			max = max + (max*percentReduction)+1;
+						    		
+						    		
 						    		d.sort(eval($("#cboSort").val()));
 						    		paginate(d.filter(function(x){ return x.price >= min && x.price <= max}));
 						       	});
