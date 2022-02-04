@@ -9,6 +9,7 @@ import org.magic.services.MTGLogger;
 import org.magic.services.network.URLTools;
 import org.magic.tools.TCache;
 
+import com.google.common.net.InetAddresses;
 import com.google.gson.JsonObject;
 
 public class IPTranslator {
@@ -24,6 +25,13 @@ public class IPTranslator {
 	
 	public Location getLocationFor(String ip)
 	{
+		
+		if(InetAddresses.forString(ip).isAnyLocalAddress())
+		{
+			return null;
+		}
+		
+		
 		try {
 			return cache.get(ip, new Callable<Location>() {
 				

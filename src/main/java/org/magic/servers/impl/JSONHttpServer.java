@@ -100,6 +100,7 @@ import org.magic.tools.POMReader;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.RemovalNotification;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -114,6 +115,10 @@ import spark.route.HttpMethod;
 
 public class JSONHttpServer extends AbstractMTGServer {
 
+	private static final String CLASSENAME = ":classename";
+	private static final String ID_CONTACT = ":idContact";
+	private static final String PAGE = "page";
+	private static final String PAGINATE = "paginate";
 	private static final String ERROR = "error";
 	private static final String CLASS = ":class";
 	private static final String PROVIDER = ":provider";
@@ -187,7 +192,12 @@ public class JSONHttpServer extends AbstractMTGServer {
 		var timeout = this.getInt(CACHE_TIMEOUT);
 		
 		cache = new AbstractEmbeddedCacheProvider<>() {
-			Cache<String, Object> guava = CacheBuilder.newBuilder().expireAfterWrite(timeout, TimeUnit.MINUTES).build();
+			Cache<String, Object> guava = CacheBuilder.newBuilder()
+													  .expireAfterWrite(timeout, TimeUnit.MINUTES)
+													  .removalListener((RemovalNotification<String, Object> notification)->
+															logger.debug(notification.getKey() + " is removed " + notification.getCause())
+													  )
+													  .build();
 			
 			public String getName() {
 				return "Guava";
@@ -195,6 +205,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 			@Override
 			public void clear() {
+				guava.stats();
 				guava.invalidateAll();
 			}
 			
@@ -217,6 +228,14 @@ public class JSONHttpServer extends AbstractMTGServer {
 				guava.put(key, value);
 				
 			}
+			
+			@Override
+			public Object getStat()
+			{
+				return guava.stats();
+			}
+			
+			
 		};
 		
 		
@@ -474,26 +493,26 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 
 		
-		get("/cards/list/:col", URLTools.HEADER_JSON, (request, response) -> {
-			return getCached(request.pathInfo(), new Callable<Object>() {
+		get("/cards/list/:col", URLTools.HEADER_JSON, (request, response) -> 
+			getCached(request.pathInfo(), new Callable<Object>() {
 				@Override
 				public List<MagicCard> call() throws Exception {
 						var col = new MagicCollection(request.params(":col"));
 						return getEnabledPlugin(MTGDao.class).listCardsFromCollection(col, null);
 				}
-			});
-		}, transformer);
+			})
+		, transformer);
 		
-		get("/cards/list/:col/:idEd", URLTools.HEADER_JSON, (request, response) -> {
-			return getCached(request.pathInfo(), new Callable<Object>() {
+		get("/cards/list/:col/:idEd", URLTools.HEADER_JSON, (request, response) -> 
+			getCached(request.pathInfo(), new Callable<Object>() {
 				@Override
 				public List<MagicCard> call() throws Exception {
 					var col = new MagicCollection(request.params(":col"));
 					var ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(ID_ED));
 					return getEnabledPlugin(MTGDao.class).listCardsFromCollection(col, ed);
 				}
-				});
-		}, transformer);
+				})
+		, transformer);
 
 		get("/cards/:id", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(":id")), transformer);
 		
@@ -541,8 +560,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/editions/:idSet", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(ID_SET)), transformer);
 
 		
-		get("/editions/list/:colName", URLTools.HEADER_JSON, (request, response) -> {
-			return getCached(request.pathInfo(), new Callable<Object>() {
+		get("/editions/list/:colName", URLTools.HEADER_JSON, (request, response) -> 
+			getCached(request.pathInfo(), new Callable<Object>() {
 				
 				public List<MagicEdition> call() throws Exception{
 					var eds = new ArrayList<MagicEdition>();
@@ -554,11 +573,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 					return eds;
 				}
 				
-			});
-			
-			
-
-		}, transformer);
+			})
+		, transformer);
 
 		get("/prices/:idSet/:name", URLTools.HEADER_JSON, (request, response) -> 
 			getCached(request.pathInfo(), new Callable<Object>() {
@@ -589,7 +605,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 					@Override
 					public List<MagicPrice> call() throws Exception {
 						MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(ID_CARDS));
-						return MTG.getPlugin(request.params(":provider").trim(),MTGPricesProvider.class).getPrice(mc);
+						return MTG.getPlugin(request.params(PROVIDER).trim(),MTGPricesProvider.class).getPrice(mc);
 					}
 				})
 		, transformer);
@@ -671,8 +687,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 					}
 				});
 			
-			if(request.queryParams("page")!=null)
-				return paginate(data,Integer.parseInt(request.queryParams("page")),Integer.parseInt(request.queryParams("paginate")));
+			if(request.queryParams(PAGE)!=null && request.queryParams(PAGINATE)!=null)
+				return paginate(data,Integer.parseInt(request.queryParams(PAGE)),Integer.parseInt(request.queryParams(PAGINATE)));
 			else
 				return data;
 			
@@ -721,13 +737,14 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/stock/list/:collection", URLTools.HEADER_JSON,(request, response) ->{
 			
 			List<MagicCardStock> data = (List<MagicCardStock>) getCached(request.pathInfo(), new Callable<Object>() {
-																															@Override
-																															public Object call() throws Exception {
-																															return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(COLLECTION))));
-																														}
-																													});
-			if(request.queryParams("page")!=null)
-				return paginate(data,Integer.parseInt(request.queryParams("page")),Integer.parseInt(request.queryParams("paginate")));
+								@Override
+								public Object call() throws Exception {
+								return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MagicCollection(request.params(COLLECTION))));
+							}
+						});
+			
+			if(request.queryParams(PAGE)!=null && request.queryParams(PAGINATE)!=null)
+				return paginate(data,Integer.parseInt(request.queryParams(PAGE)),Integer.parseInt(request.queryParams(PAGINATE)));
 			else
 				return data;
 			
@@ -776,8 +793,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 
 		
-		get("/dash/variations/card/:idCards", URLTools.HEADER_JSON, (request, response) -> {
-			return getCached(request.pathInfo(), new Callable<Object>() {
+		get("/dash/variations/card/:idCards", URLTools.HEADER_JSON, (request, response) -> 
+			getCached(request.pathInfo(), new Callable<Object>() {
 				@Override
 				public Object call() throws Exception {
 					
@@ -794,11 +811,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 					ret.addProperty("dateUpdate",dash.getUpdatedDate().toInstant().toEpochMilli());
 					return ret;
 					
-				}});
-			
-			
-		
-		});
+				}})
+		);
 		
 		
 		get("/dash/edition/:idEd", URLTools.HEADER_JSON, (request, response) -> {
@@ -823,11 +837,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return imageInByte;
 		});
 
-		get("/decks/list", URLTools.HEADER_JSON, (request, response) -> {
-
-			
-			return getCached(request.pathInfo(), new Callable<Object>() {
-
+		get("/decks/list", URLTools.HEADER_JSON, (request, response) -> 
+			getCached(request.pathInfo(), new Callable<Object>() {
 				@Override
 				public Object call() throws Exception {
 					var arr = new JsonArray();
@@ -843,8 +854,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 				 
 				 
 				 
-			 });
-		}, transformer);
+			 })
+		, transformer);
 
 		get("/deck/:idDeck", URLTools.HEADER_JSON,(request, response) -> {
 			
@@ -896,25 +907,15 @@ public class JSONHttpServer extends AbstractMTGServer {
 			
 		}, transformer);
 		
-		get("/admin/caches", URLTools.HEADER_JSON, (request, response) -> {
-			return cache.entries().keySet();
-		}, transformer);
+		get("/admin/caches", URLTools.HEADER_JSON, (request, response) -> cache.entries().keySet(), transformer);
 		
-		get("/admin/jdbc", URLTools.HEADER_JSON, (request, response) -> {
-			return TechnicalServiceManager.inst().getDaoInfos();
-		}, transformer);
+		get("/admin/jdbc", URLTools.HEADER_JSON, (request, response) -> TechnicalServiceManager.inst().getDaoInfos(), transformer);
 		
-		get("/admin/jsonQueries", URLTools.HEADER_JSON, (request, response) -> {
-			return TechnicalServiceManager.inst().getJsonInfo();
-		}, transformer);
+		get("/admin/jsonQueries", URLTools.HEADER_JSON, (request, response) -> TechnicalServiceManager.inst().getJsonInfo(), transformer);
 		
-		get("/admin/threads", URLTools.HEADER_JSON, (request, response) -> {
-			return ThreadManager.getInstance().toJson();
-		}, transformer);
+		get("/admin/threads", URLTools.HEADER_JSON, (request, response) -> ThreadManager.getInstance().toJson(), transformer);
 		
-		get("/admin/network", URLTools.HEADER_JSON, (request, response) -> {
-			return TechnicalServiceManager.inst().getNetworkInfos().stream().map(NetworkInfo::toJson).toList();
-		}, transformer);
+		get("/admin/network", URLTools.HEADER_JSON, (request, response) -> TechnicalServiceManager.inst().getNetworkInfos().stream().map(NetworkInfo::toJson).toList(), transformer);
 		
 		get("/admin/clearCache", URLTools.HEADER_JSON, (request, response) -> {
 			clearCache();
@@ -1018,7 +1019,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		put("/favorites/:classename/:idContact/:idAnnounce", URLTools.HEADER_JSON, (request, response) -> {
 			try{ 
-				MTG.getEnabledPlugin(MTGDao.class).saveFavorites(Integer.parseInt(request.params(":idContact")), Integer.parseInt(request.params(":idAnnounce")),request.params(":classename"));
+				MTG.getEnabledPlugin(MTGDao.class).saveFavorites(Integer.parseInt(request.params(ID_CONTACT)), Integer.parseInt(request.params(":idAnnounce")),request.params(CLASSENAME));
 				return "ok";
 			}catch(Exception e)
 			{
@@ -1029,7 +1030,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		delete("/favorites/:classename/:idContact/:idAnnounce", URLTools.HEADER_JSON, (request, response) -> {
 			try{ 
-				MTG.getEnabledPlugin(MTGDao.class).deleteFavorites(Integer.parseInt(request.params(":idContact")), Integer.parseInt(request.params(":idAnnounce")),request.params(":classename"));
+				MTG.getEnabledPlugin(MTGDao.class).deleteFavorites(Integer.parseInt(request.params(ID_CONTACT)), Integer.parseInt(request.params(":idAnnounce")),request.params(CLASSENAME));
 				return "ok";
 				}
 			catch(Exception e)
@@ -1041,8 +1042,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		get("/favorites/:classename/:idContact", URLTools.HEADER_JSON, (request, response) -> {
 			try{ 
-				var cont = MTG.getEnabledPlugin(MTGDao.class).getContactById(Integer.parseInt(request.params(":idContact")));
-				return MTG.getEnabledPlugin(MTGDao.class).listFavorites(cont,request.params(":classename"));
+				var cont = MTG.getEnabledPlugin(MTGDao.class).getContactById(Integer.parseInt(request.params(ID_CONTACT)));
+				return MTG.getEnabledPlugin(MTGDao.class).listFavorites(cont,request.params(CLASSENAME));
 			}catch(Exception e)
 			{
 				logger.error(e);
