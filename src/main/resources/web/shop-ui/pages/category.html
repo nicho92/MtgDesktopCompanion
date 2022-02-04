@@ -39,6 +39,28 @@
     	
     }
     
+ 	
+    function SortByDate(x,y,order) {
+   		return x.id - y.id;
+    }
+    
+    function SortByDateDesc(x,y,order) {
+   		return y.id - x.id;
+    }
+
+    function SortByPrice(x,y) {
+   		return x.price - y.price;
+    }
+    
+    function SortByPriceDesc(x,y) {
+   		return y.price - x.price;
+    }
+    
+    function SortByName(x,y) {
+      	return ((x.name == y.name) ? 0 : ((x.name > y.name) ? 1 : -1 ));
+    }
+    
+    
     function paginate(d)
     {
     	paginator = $('#pagination').pagination({
@@ -133,16 +155,7 @@
 		       			$("#searchcardContainer").hide();
 		       		}
 			    	
-			       	$("#slider").slider({
-			            range: true,
-			            min: 0,
-			            max: 1000,
-			            values: [ 0, 1000 ],
-			            slide: function( event, ui ) {
-			             	$( "#amount" ).val( data.currencySymbol + ui.values[ 0 ] + " - "+data.currencySymbol+ " " + ui.values[ 1 ] );
-			            }
-			          });
-			       	
+			       
 			       
 			       	
 			    	$.each( data.collections, function( key, value ) {
@@ -165,12 +178,26 @@
 						    }).then(function(d) {
 						    	
 						    	$("#btnFilter").click(function(){
-						    		
 						    		var min = 	$("#slider").slider("values")[0];
 						    		var max = 	$("#slider").slider("values")[1];
-						    		
+						    		d.sort(eval($("#cboSort").val()));
 						    		paginate(d.filter(function(x){ return x.price >= min && x.price <= max}));
 						       	});
+						    	
+						    	
+						       	var maxRange = Math.max.apply(Math, d.map(function(o) { return o.price; }));
+						       	
+						       	$("#slider").slider({
+						            range: true,
+						            min: 0,
+						            max: maxRange,
+						            values: [ 0, maxRange ],
+						            slide: function( event, ui ) {
+						             	$( "#amount" ).val( data.currencySymbol + ui.values[ 0 ] + " - "+data.currencySymbol+ " " + ui.values[ 1 ] );
+						            }
+						          });
+						       	
+						    	
 						    	
 						    	
 						    	paginate(d);
@@ -220,9 +247,14 @@
         	<div class="card bg-light mb-3">
                 <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-list"></i> Options</div>
                	<div class="card-body">
-               	Prices : <div id="slider"></div>
-               	<input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
-               	</div>
+               	Prices : <div id="slider"></div><input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;"></div>
+               	Sort : <select class="form-control" id="cboSort">
+					<option value="SortByName">Name</option>
+					<option value="SortByPrice">Price (asc)</option>
+					<option value="SortByPriceDesc">Price (desc)</option>
+					<option value="SortByDateDesc">Latest Product</option>
+				</select>
+               	
                	<div class="card-footer">
                		<button id="btnFilter" class="btn btn-success btn-block"><i class="fas fa-filter"></i> Apply Filter </button>
                	</div>
