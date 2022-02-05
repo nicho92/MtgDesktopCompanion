@@ -472,12 +472,24 @@ server = {
                       {
                           'data' : 'start',
                           render : function(d,type,row){
-                              return moment(d).format('DD MMM YYYY, HH:mm:ss');
+                             	if(type === 'display'){
+                              	 return moment(d).format('DD MMM YYYY, HH:mm:ss');
+                              	 }
+                              	 else
+                              	 {
+									return d;
+								}
                           }
                         },
                       {'data' : 'end',
                       render : function(d,type,row){
-                               return moment(d).format('DD MMM YYYY, HH:mm:ss');
+							if(type === 'display'){
+                              	 return moment(d).format('DD MMM YYYY, HH:mm:ss');
+                              	 }
+                              	 else
+                              	 {
+									return d;
+								}
                       }
                     },
                     {
