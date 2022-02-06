@@ -12,7 +12,6 @@ import javax.imageio.ImageIO;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpResponse;
-import org.apache.http.ParseException;
 import org.apache.http.util.EntityUtils;
 import org.jsoup.nodes.Document;
 import org.magic.tools.XMLTools;

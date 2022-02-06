@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.stream.StreamSupport;
 
 import org.apache.groovy.util.Maps;
+import org.apache.http.entity.StringEntity;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.shop.Category;
@@ -22,6 +23,7 @@ import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
+import org.magic.tools.ImageTools;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -29,6 +31,7 @@ import com.google.gson.JsonObject;
 
 public class ShopifyExternalShop extends AbstractExternalShop {
 	
+	private static final String MYSHOPIFY_COM_API_VERSION = ".myshopify.com/admin/api/2022-01/";
 	private static final String CUSTOMERS = "customer";
 	private static final String PRODUCTS = "product";
 	private static final String VARIANTS = "variant";
@@ -48,15 +51,14 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	
 	private JsonObject readId(String entityName, Long id) throws IOException 
 	{
-		var resp=build("https://"+getAuthenticator().get("SUBDOMAIN")+".myshopify.com/admin/api/2022-01/"+entityName.toLowerCase()+"s/"+id+".json",METHOD.GET).execute();
+		var resp=build("https://"+getAuthenticator().get("SUBDOMAIN")+MYSHOPIFY_COM_API_VERSION+entityName.toLowerCase()+"s/"+id+".json",METHOD.GET).execute();
 		return URLTools.toJson(resp.getEntity().getContent()).getAsJsonObject().get(entityName).getAsJsonObject();
 	}
-	
 	
 	private JsonArray read(String entityName, Map<String,String> attributs) throws IOException 
 	{
 		JsonArray arr = new JsonArray();
-		var build=build("https://"+getAuthenticator().get("SUBDOMAIN")+".myshopify.com/admin/api/2022-01/"+entityName.toLowerCase()+"s.json",METHOD.GET);
+		var build=build("https://"+getAuthenticator().get("SUBDOMAIN")+MYSHOPIFY_COM_API_VERSION+entityName.toLowerCase()+"s.json",METHOD.GET);
 		
 		if(attributs!=null && !attributs.isEmpty())
 			attributs.entrySet().forEach(e->build.addContent(e.getKey(), e.getValue()));
@@ -220,7 +222,25 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	
 	@Override
 	public Long createProduct(MTGProduct t, Category c) throws IOException {
-		// TODO Auto-generated method stub
+		
+		var obj = new JsonObject();
+		var prodobj = new JsonObject();
+			obj.add("product", prodobj);
+			
+			prodobj.addProperty("title", t.getName());
+			prodobj.addProperty("product_type", t.getCategory().getCategoryName());
+			var images = new JsonArray();
+				var imageObj = new JsonObject();
+					imageObj.addProperty("attachment", ImageTools.toBase64(URLTools.extractAsImage(t.getUrl())));
+				
+				
+				images.add(imageObj);
+					
+		var res = client.doPost("https://"+getAuthenticator().get("SUBDOMAIN")+MYSHOPIFY_COM_API_VERSION+"products.json", new StringEntity(obj.toString()), Map.of("X-Shopify-Access-Token", getAuthenticator().get("ACCESS_TOKEN"),URLTools.ACCEPT, URLTools.HEADER_JSON));
+		
+		
+		System.out.println(res);
+		
 		return 0L;
 	}
 
