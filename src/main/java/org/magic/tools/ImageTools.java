@@ -128,7 +128,7 @@ public class ImageTools {
 			return imgs;
 		
 		var cols = 10;
-		var rows = 7;
+		var rows = 8;
 		var chunkWidth = 100;
 		var chunkHeight = 100;
 		

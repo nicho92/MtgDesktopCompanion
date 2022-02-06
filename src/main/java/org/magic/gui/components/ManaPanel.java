@@ -109,6 +109,16 @@ public class ManaPanel extends JPanel {
 		map.put("T",50);
 		map.put("Q",51);
 		map.put("C",69);
+		map.put("W/U/P", 70);
+		map.put("W/B/P", 71);
+		map.put("U/R/P", 72);
+		map.put("U/B/P", 73);
+		map.put("R/W/P", 74);
+		map.put("R/G/P", 75);
+		map.put("G/W/P", 76);
+		map.put("G/U/P", 77);
+		map.put("B/R/P", 78);
+		map.put("B/G/P", 79);
 		map.put("\u221e",52);
 		map.put("\u00BD",53);
 		map.put("CHAOS",67);
@@ -128,6 +138,7 @@ public class ManaPanel extends JPanel {
 		} catch (NumberFormatException ne) {
 			val= map.get(el);
 		}
+		
 		
 		List<Image> lst = new ArrayList<>();
 		
