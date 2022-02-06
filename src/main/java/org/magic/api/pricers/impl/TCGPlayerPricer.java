@@ -21,6 +21,7 @@ import com.google.gson.JsonElement;
 
 public class TCGPlayerPricer extends AbstractPricesProvider {
 
+	private static final String RESULTS = "results";
 	private MTGHttpClient c = URLTools.newClient();
 	
 	@Override
@@ -102,7 +103,7 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 		
 		var res = c.doPost("https://mpapi.tcgplayer.com/v2/product/"+idResults+"/listings", new StringEntity(json), Maps.of("content-type", URLTools.HEADER_JSON));
 		
-		return URLTools.toJson(res.getEntity().getContent()).getAsJsonObject().get("results").getAsJsonArray().get(0).getAsJsonObject().get("results").getAsJsonArray();
+		return URLTools.toJson(res.getEntity().getContent()).getAsJsonObject().get(RESULTS).getAsJsonArray().get(0).getAsJsonObject().get(RESULTS).getAsJsonArray();
 	}
 
 
@@ -163,7 +164,7 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 						.replace("$setName", setName);
 		
 		var res = c.doPost("https://mpapi.tcgplayer.com/v2/search/request?q=&isList=false", new StringEntity(json), Maps.of("content-type", URLTools.HEADER_JSON));
-		var arr =URLTools.toJson(res.getEntity().getContent()).getAsJsonObject().get("results").getAsJsonArray().get(0).getAsJsonObject().get("results").getAsJsonArray();
+		var arr =URLTools.toJson(res.getEntity().getContent()).getAsJsonObject().get(RESULTS).getAsJsonArray().get(0).getAsJsonObject().get(RESULTS).getAsJsonArray();
 		
 		if(arr.isEmpty())
 			return null;
