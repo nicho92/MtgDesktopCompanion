@@ -1158,28 +1158,30 @@ public class JSONHttpServer extends AbstractMTGServer {
 			MTG.getEnabledPlugin(MTGExternalShop.class).enableContact(request.params(":token"))
 		, transformer);
 		
-		get("/",URLTools.HEADER_HTML,(request,response) -> {
-			
-			var temp = new StringBuilder();
-			response.type(URLTools.HEADER_HTML);
-			
-			Spark.routes().stream().filter(rm->rm.getHttpMethod()!=HttpMethod.after && rm.getHttpMethod()!=HttpMethod.before && rm.getHttpMethod()!=HttpMethod.options).forEach(rm->{
-				temp.append(rm.getHttpMethod());
-				temp.append("&nbsp;");
-				temp.append("<a href='").append(rm.getMatchUri()).append("'>").append(rm.getMatchUri()).append("</a>");
-				temp.append("<br/>");
-			});
-			
-			return temp.toString();
-		});		
-		
+	
 		get("/share/announce/:id",URLTools.HEADER_HTML,(request,response) -> {
 			response.type(URLTools.HEADER_HTML);
 			var report = new ReportNotificationManager();
 			var announce = MTG.getEnabledPlugin(MTGDao.class).getAnnounceById(Integer.parseInt(request.params(":id")));
 			return report.generate(FORMAT_NOTIFICATION.HTML, announce, "share");
-		});		
+		});
 		
+		if(getBoolean("INDEX_ROUTES")) {
+			get("/",URLTools.HEADER_HTML,(request,response) -> {
+				
+				var temp = new StringBuilder();
+				response.type(URLTools.HEADER_HTML);
+				
+				Spark.routes().stream().filter(rm->rm.getHttpMethod()!=HttpMethod.after && rm.getHttpMethod()!=HttpMethod.before && rm.getHttpMethod()!=HttpMethod.options).forEach(rm->{
+					temp.append(rm.getHttpMethod());
+					temp.append("&nbsp;");
+					temp.append("<a href='").append(rm.getMatchUri()).append("'>").append(rm.getMatchUri()).append("</a>");
+					temp.append("<br/>");
+				});
+				
+				return temp.toString();
+			});		
+		}
 	}
 
 
@@ -1249,6 +1251,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		map.put(KEYSTORE_URI, new File(MTGConstants.DATA_DIR,"jetty.jks").getAbsolutePath());
 		map.put(KEYSTORE_PASS, "changeit");
 		map.put(CACHE_TIMEOUT, "60");
+		map.put("INDEX_ROUTES", "true");
 		return map;
 	}
 
