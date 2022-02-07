@@ -42,10 +42,6 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	public static void main(String[] args) throws IOException {
 		MTGControler.getInstance().loadAccountsConfiguration();
 		
-		var it = new ShopifyExternalShop().getContactByEmail("nicolas.pihen@gmail.com");
-		
-		System.out.println(it);
-		System.exit(0);
 	}
 	
 	
@@ -226,22 +222,30 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 		var obj = new JsonObject();
 		var prodobj = new JsonObject();
 			obj.add("product", prodobj);
-			
 			prodobj.addProperty("title", t.getName());
-			prodobj.addProperty("product_type", t.getCategory().getCategoryName());
+			prodobj.addProperty("product_type",c.getCategoryName());
+			prodobj.addProperty("vendor", getString("DEFAULT_VENDOR"));
+			prodobj.addProperty("body_html", t.getName());
 			var images = new JsonArray();
 				var imageObj = new JsonObject();
 					imageObj.addProperty("attachment", ImageTools.toBase64(URLTools.extractAsImage(t.getUrl())));
-				
-				
-				images.add(imageObj);
+					images.add(imageObj);
+			prodobj.add("images", images);
 					
-		var res = client.doPost("https://"+getAuthenticator().get("SUBDOMAIN")+MYSHOPIFY_COM_API_VERSION+"products.json", new StringEntity(obj.toString()), Map.of("X-Shopify-Access-Token", getAuthenticator().get("ACCESS_TOKEN"),URLTools.ACCEPT, URLTools.HEADER_JSON));
-		
-		
-		System.out.println(res);
-		
-		return 0L;
+		var res = client.doPost("https://"+getAuthenticator().get("SUBDOMAIN")+MYSHOPIFY_COM_API_VERSION+"products.json", 
+												new StringEntity(obj.toString()), 
+												Map.of("X-Shopify-Access-Token", getAuthenticator().get("ACCESS_TOKEN"),URLTools.ACCEPT, URLTools.HEADER_JSON,URLTools.CONTENT_TYPE,URLTools.HEADER_JSON)
+											);
+		try {
+			var content = URLTools.toJson(res.getEntity().getContent());
+			logger.info("ret="+content);
+			return content.getAsJsonObject().get("product").getAsJsonObject().get("id").getAsLong();
+		}
+		catch(Exception e)
+		{
+			logger.error(e);
+			return null;
+		}
 	}
 
 
@@ -309,8 +313,8 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 		var m = super.getDefaultAttributes();
 			m.put("FOIL_OPTION_NUMBER", "1");
 			m.put("SET_OPTION_NUMBER", "2");
-			
-			return m;
+			m.put("DEFAULT_VENDOR", "MTGCompanion");
+		return m;
 	}
 
 }
