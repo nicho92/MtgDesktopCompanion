@@ -63,7 +63,7 @@
 	}); 
 
     	$.get(restserver+"/admin/jsonQueries",function(data){
-    		var startDate = moment("2000-01-01");
+    		var startDate = moment().subtract(7,'d');
 			var endDate = moment();
 			alldatas = data;
 			server.initDashboardPageCharts(data, startDate, endDate);	
