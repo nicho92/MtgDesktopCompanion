@@ -51,9 +51,13 @@ server = {
 									}, {});
 		var words =[];
 		
+		
+		
 		$.each(messageCount, function( data, index) {
 			 words.push( {text: data, weight: index});
 		});
+		
+		console.log(words);
 	
 		$('#tagWords').jQCloud(words,{
 		  shape: 'rectangular',
@@ -292,7 +296,7 @@ server = {
 	}
 	else
 	{
-		tableEndPoint.clear().rows.add(datas).draw();
+		tablediscordMsg.clear().rows.add(datas).draw();
 		
 	}
 	
