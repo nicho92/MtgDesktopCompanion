@@ -31,6 +31,8 @@ import com.google.gson.JsonObject;
 
 public class ShopifyExternalShop extends AbstractExternalShop {
 	
+	private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
+	private static final String SUBDOMAIN = "SUBDOMAIN";
 	private static final String MYSHOPIFY_COM_API_VERSION = ".myshopify.com/admin/api/2022-01/";
 	private static final String CUSTOMERS = "customer";
 	private static final String PRODUCTS = "product";
@@ -47,14 +49,14 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	
 	private JsonObject readId(String entityName, Long id) throws IOException 
 	{
-		var resp=build("https://"+getAuthenticator().get("SUBDOMAIN")+MYSHOPIFY_COM_API_VERSION+entityName.toLowerCase()+"s/"+id+".json",METHOD.GET).execute();
+		var resp=build("https://"+getAuthenticator().get(SUBDOMAIN)+MYSHOPIFY_COM_API_VERSION+entityName.toLowerCase()+"s/"+id+".json",METHOD.GET).execute();
 		return URLTools.toJson(resp.getEntity().getContent()).getAsJsonObject().get(entityName).getAsJsonObject();
 	}
 	
 	private JsonArray read(String entityName, Map<String,String> attributs) throws IOException 
 	{
 		JsonArray arr = new JsonArray();
-		var build=build("https://"+getAuthenticator().get("SUBDOMAIN")+MYSHOPIFY_COM_API_VERSION+entityName.toLowerCase()+"s.json",METHOD.GET);
+		var build=build("https://"+getAuthenticator().get(SUBDOMAIN)+MYSHOPIFY_COM_API_VERSION+entityName.toLowerCase()+"s.json",METHOD.GET);
 		
 		if(attributs!=null && !attributs.isEmpty())
 			attributs.entrySet().forEach(e->build.addContent(e.getKey(), e.getValue()));
@@ -79,7 +81,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 				  .url(url)
 				  .method(m)
 				  .setClient(client)
-				  .addHeader("X-Shopify-Access-Token", getAuthenticator().get("ACCESS_TOKEN"))
+				  .addHeader("X-Shopify-Access-Token", getAuthenticator().get(ACCESS_TOKEN))
 				  .addHeader(URLTools.ACCEPT, URLTools.HEADER_JSON)
 				  .addContent("limit","250");
 	}
@@ -138,7 +140,6 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 							.map(a->parseProduct(a.getAsJsonObject()))
 							.toList();
 	}
-	
 
 	@Override
 	protected List<MTGStockItem> loadStock(String name) throws IOException {
@@ -206,7 +207,39 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	
 	@Override
 	public Integer saveOrUpdateContact(Contact c) throws IOException {
-		return -1;
+		var obj = new JsonObject();
+		var prodobj = new JsonObject();
+			obj.add("customer", prodobj);
+			prodobj.addProperty("first_name", c.getName());
+			prodobj.addProperty("last_name",c.getLastName());
+			prodobj.addProperty("email", c.getEmail());
+			prodobj.addProperty("phone", c.getTelephone());
+			prodobj.addProperty("verified_email", false);
+			var addresses = new JsonArray();
+				var imageObj = new JsonObject();
+					imageObj.addProperty("address1", c.getAddress());
+					imageObj.addProperty("city", c.getCity());
+					imageObj.addProperty("country", c.getCountry());
+					imageObj.addProperty("zip", c.getZipCode());
+					addresses.add(imageObj);
+			prodobj.add("addresses", addresses);
+					
+		var res = client.doPost("https://"+getAuthenticator().get(SUBDOMAIN)+MYSHOPIFY_COM_API_VERSION+"customers.json", 
+												new StringEntity(obj.toString()), 
+												Map.of("X-Shopify-Access-Token", getAuthenticator().get(ACCESS_TOKEN),URLTools.ACCEPT, URLTools.HEADER_JSON,URLTools.CONTENT_TYPE,URLTools.HEADER_JSON)
+											);
+		try {
+			var content = URLTools.toJson(res.getEntity().getContent());
+			logger.info("ret="+content);
+			c.setId(content.getAsJsonObject().get("customer").getAsJsonObject().get("id").getAsInt());
+			
+			return c.getId();
+		}
+		catch(Exception e)
+		{
+			logger.error(e);
+			return null;
+		}
 	}
 
 	@Override
@@ -232,9 +265,9 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 					images.add(imageObj);
 			prodobj.add("images", images);
 					
-		var res = client.doPost("https://"+getAuthenticator().get("SUBDOMAIN")+MYSHOPIFY_COM_API_VERSION+"products.json", 
+		var res = client.doPost("https://"+getAuthenticator().get(SUBDOMAIN)+MYSHOPIFY_COM_API_VERSION+"products.json", 
 												new StringEntity(obj.toString()), 
-												Map.of("X-Shopify-Access-Token", getAuthenticator().get("ACCESS_TOKEN"),URLTools.ACCEPT, URLTools.HEADER_JSON,URLTools.CONTENT_TYPE,URLTools.HEADER_JSON)
+												Map.of("X-Shopify-Access-Token", getAuthenticator().get(ACCESS_TOKEN),URLTools.ACCEPT, URLTools.HEADER_JSON,URLTools.CONTENT_TYPE,URLTools.HEADER_JSON)
 											);
 		try {
 			var content = URLTools.toJson(res.getEntity().getContent());
@@ -305,7 +338,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 
 	@Override
 	public List<String> listAuthenticationAttributes() {
-		return List.of("SUBDOMAIN", "ACCESS_TOKEN") ;
+		return List.of(SUBDOMAIN, ACCESS_TOKEN) ;
 	}
 
 	@Override

@@ -56,8 +56,6 @@ server = {
 		$.each(messageCount, function( data, index) {
 			 words.push( {text: data, weight: index});
 		});
-		
-		console.log(words);
 	
 		$('#tagWords').jQCloud(words,{
 		  shape: 'rectangular',
