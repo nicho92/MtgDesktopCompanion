@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.stream.StreamSupport;
 
 import org.apache.groovy.util.Maps;
+import org.apache.http.HttpResponse;
 import org.apache.http.entity.StringEntity;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumItems;
@@ -223,23 +224,48 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 					imageObj.addProperty("zip", c.getZipCode());
 					addresses.add(imageObj);
 			prodobj.add("addresses", addresses);
-					
-		var res = client.doPost("https://"+getAuthenticator().get(SUBDOMAIN)+MYSHOPIFY_COM_API_VERSION+"customers.json", 
+		
+			HttpResponse res =null;
+			
+			if(c.getId()<0)
+			{
+				res = client.doPost("https://"+getAuthenticator().get(SUBDOMAIN)+MYSHOPIFY_COM_API_VERSION+"customers.json", 
 												new StringEntity(obj.toString()), 
 												Map.of("X-Shopify-Access-Token", getAuthenticator().get(ACCESS_TOKEN),URLTools.ACCEPT, URLTools.HEADER_JSON,URLTools.CONTENT_TYPE,URLTools.HEADER_JSON)
 											);
-		try {
-			var content = URLTools.toJson(res.getEntity().getContent());
-			logger.info("ret="+content);
-			c.setId(content.getAsJsonObject().get("customer").getAsJsonObject().get("id").getAsInt());
-			
-			return c.getId();
-		}
-		catch(Exception e)
-		{
-			logger.error(e);
-			return null;
-		}
+				
+				try {
+					var content = URLTools.toJson(res.getEntity().getContent());
+					logger.info("ret="+content);
+					c.setId(content.getAsJsonObject().get("customer").getAsJsonObject().get("id").getAsInt());
+					
+					return c.getId();
+				}
+				catch(Exception e)
+				{
+					logger.error(e);
+					return null;
+				}
+			}
+			else
+			{
+				res = client.doPut("https://"+getAuthenticator().get(SUBDOMAIN)+MYSHOPIFY_COM_API_VERSION+"customers/"+c.getId()+".json", 
+						new StringEntity(obj.toString()), 
+						Map.of("X-Shopify-Access-Token", getAuthenticator().get(ACCESS_TOKEN),URLTools.ACCEPT, URLTools.HEADER_JSON,URLTools.CONTENT_TYPE,URLTools.HEADER_JSON)
+					);
+				
+				
+				try {
+					var content = URLTools.toJson(res.getEntity().getContent());
+					logger.info("ret="+content);
+					return c.getId();
+				}
+				catch(Exception e)
+				{
+					logger.error(e);
+					return null;
+				}
+			}
 	}
 
 	@Override
