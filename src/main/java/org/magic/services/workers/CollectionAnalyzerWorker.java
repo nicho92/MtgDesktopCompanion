@@ -16,6 +16,7 @@ import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.api.sorters.PricesCardsShakeSorter;
+import org.magic.api.sorters.PricesCardsShakeSorter.SORT;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.CollectionAnalyzerTreeTableModel;
 import org.magic.gui.models.MapTableModel;
@@ -63,7 +64,7 @@ public class CollectionAnalyzerWorker extends SwingWorker<Void, MagicEdition> {
 			cacheModel.addRow(ed, evaluator.getCacheDate(ed));
 			List<CardShake> list = new ArrayList<>(evaluator.prices(ed).values());
 			AbstractDashBoard.convert(list);
-			Collections.sort(list,new PricesCardsShakeSorter());
+			Collections.sort(list,new PricesCardsShakeSorter(SORT.PRICE,false));
 			collectionModel.saveRow(ed,list);
 		}
 		return null;
