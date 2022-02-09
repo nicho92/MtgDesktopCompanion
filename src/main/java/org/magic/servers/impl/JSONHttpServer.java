@@ -1,4 +1,4 @@
-package org.magic.servers.impl;
+ package org.magic.servers.impl;
 
 import static org.magic.tools.MTG.getEnabledPlugin;
 import static org.magic.tools.MTG.getPlugin;
@@ -885,7 +885,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		get("/admin/recognize/caching/:setId", URLTools.HEADER_JSON, (request, response) -> {
 			MTG.getEnabledPlugin(MTGCardRecognition.class).downloadCardsData(MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(":setId")));
-			return "OK";
+			return RETURN_OK;
 		}, transformer);
 		
 		get("/admin/qwartz", URLTools.HEADER_JSON, (request, response) -> {
@@ -919,7 +919,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		get("/admin/clearCache", URLTools.HEADER_JSON, (request, response) -> {
 			clearCache();
-			return "ok";
+			return RETURN_OK;
 		}, transformer);
 		
 		get("/admin/plugins/list", URLTools.HEADER_JSON, (request, response) -> {
@@ -1020,7 +1020,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		put("/favorites/:classename/:idContact/:idAnnounce", URLTools.HEADER_JSON, (request, response) -> {
 			try{ 
 				MTG.getEnabledPlugin(MTGDao.class).saveFavorites(Integer.parseInt(request.params(ID_CONTACT)), Integer.parseInt(request.params(":idAnnounce")),request.params(CLASSENAME));
-				return "ok";
+				return RETURN_OK;
 			}catch(Exception e)
 			{
 				return e;
@@ -1031,7 +1031,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		delete("/favorites/:classename/:idContact/:idAnnounce", URLTools.HEADER_JSON, (request, response) -> {
 			try{ 
 				MTG.getEnabledPlugin(MTGDao.class).deleteFavorites(Integer.parseInt(request.params(ID_CONTACT)), Integer.parseInt(request.params(":idAnnounce")),request.params(CLASSENAME));
-				return "ok";
+				return RETURN_OK;
 				}
 			catch(Exception e)
 				{
@@ -1091,7 +1091,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			{
 				t.setStatut(TransactionStatus.CANCELATION_ASK);
 				MTG.getEnabledPlugin(MTGExternalShop.class).saveOrUpdateTransaction(t);
-				return "OK";
+				return RETURN_OK;
 			}
 			else
 			{
