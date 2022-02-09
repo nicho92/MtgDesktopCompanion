@@ -25,8 +25,9 @@ public class IPTranslator {
 	
 	public Location getLocationFor(String ip)
 	{
+		var inaddr = InetAddresses.forString(ip);
 		
-		if(InetAddresses.forString(ip).isAnyLocalAddress())
+		if(inaddr.isAnyLocalAddress() || inaddr.isLoopbackAddress() || inaddr.isSiteLocalAddress())
 		{
 			return null;
 		}
