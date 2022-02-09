@@ -48,6 +48,9 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 		return "https://"+getAuthenticator().get(SUBDOMAIN)+MYSHOPIFY_COM_API_VERSION;
 	}
 	
+	
+	
+	
 	private RequestBuilder build(String url,METHOD m) {
 		return RequestBuilder.build()
 				  .url(url)
