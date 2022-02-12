@@ -104,6 +104,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	protected static final String SECURITYSTAMP = "securityStamp";
 	protected static final String FINISHES = "finishes";
 	protected static final String IS_REBALANCED="isRebalanced";
+	protected static final String SIGNATURE="signature";
 			
 	protected static final String FORCE_RELOAD = "FORCE_RELOAD";
 	

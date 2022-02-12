@@ -100,11 +100,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		return ic;
 	}
 	
-	
-	
-	
-	
-	
 	public void downloadBulkFile(File f) throws IOException
 	{
 		URLTools.download(BULK_FILE_URL, f);

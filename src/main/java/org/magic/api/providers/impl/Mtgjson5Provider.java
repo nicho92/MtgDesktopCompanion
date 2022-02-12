@@ -270,6 +270,9 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 				if (map.get(ORIGINAL_TYPE) != null)
 					mc.setOriginalType(String.valueOf(map.get(ORIGINAL_TYPE)));
 				
+				if (map.get(SIGNATURE) != null)
+					mc.setSignature(String.valueOf(map.get(SIGNATURE)));
+				
 				if (map.get(SUPERTYPES) != null)
 					mc.getSupertypes().addAll((List<String>) map.get(SUPERTYPES));
 			

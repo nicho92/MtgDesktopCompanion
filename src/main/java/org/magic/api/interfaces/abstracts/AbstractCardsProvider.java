@@ -189,7 +189,6 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		
 	}
 	
-	
 	@Override
 	public List<MagicCard> searchByCriteria(List<MTGCrit> crits) throws IOException {
 		return searchByCriteria(crits.stream().toArray(MTGCrit[]::new));
@@ -211,7 +210,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		var b = new Booster();
 	
 		try {
-			for (MagicCard mc : searchCardByEdition(me))
+			for (MagicCard mc : searchCardByEdition(me).stream().filter(mc->mc.isMainFace()).toList())
 			{
 				if (mc.getRarity()==MTGRarity.COMMON && !mc.isBasicLand())
 					common.add(mc);

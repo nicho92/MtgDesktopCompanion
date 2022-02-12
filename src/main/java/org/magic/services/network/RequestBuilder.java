@@ -113,6 +113,13 @@ public class RequestBuilder
 		return this;
 	}
 	
+	public RequestBuilder addHeaders(Map<String, String> headers2) {
+		
+		headers2.entrySet().forEach(e->headers.put(e.getKey(),e.getValue()));
+		return this;
+	}
+	
+	
 	public RequestBuilder addHeader(String k, String c)
 	{
 		headers.put(k, c);
@@ -194,6 +201,8 @@ public class RequestBuilder
 		content.put("", s);
 		return this;
 	}
+
+
 
 	
 }

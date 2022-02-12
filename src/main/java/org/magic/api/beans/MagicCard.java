@@ -82,6 +82,7 @@ public class MagicCard extends AbstractProduct {
 	private List<MTGFinishes> finishes;
 	private String securityStamp;
 	private boolean isRebalanced;
+	private String signature;
 	
 	public MTGCardVariation getExtra()
 	{
@@ -103,6 +104,18 @@ public class MagicCard extends AbstractProduct {
 		
 	}
 	
+	public String getSignature() {
+		return signature;
+	}
+
+	public void setSignature(String signature) {
+		this.signature = signature;
+	}
+
+	public void setTcgPlayerId(Integer tcgPlayerId) {
+		this.tcgPlayerId = tcgPlayerId;
+	}
+
 	public boolean isRebalanced() {
 		return isRebalanced;
 	}
@@ -859,6 +872,10 @@ public class MagicCard extends AbstractProduct {
 		return obj;
 		
 		
+	}
+
+	public boolean isMainFace() {
+		return (getSide()==null || getSide().equals("a"));
 	}
 
 

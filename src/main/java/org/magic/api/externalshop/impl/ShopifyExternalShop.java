@@ -19,7 +19,6 @@ import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.api.interfaces.abstracts.extra.AbstractProduct;
 import org.magic.api.interfaces.abstracts.extra.AbstractStockItem;
-import org.magic.services.MTGControler;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
@@ -32,13 +31,15 @@ import com.google.gson.JsonObject;
 
 public class ShopifyExternalShop extends AbstractExternalShop {
 	
+	private static final String FOIL_OPTION_NUMBER = "FOIL_OPTION_NUMBER";
+	private static final String SET_OPTION_NUMBER = "SET_OPTION_NUMBER";
 	private static final String X_SHOPIFY_ACCESS_TOKEN = "X-Shopify-Access-Token";
 	private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
 	private static final String SUBDOMAIN = "SUBDOMAIN";
 	private static final String MYSHOPIFY_COM_API_VERSION = ".myshopify.com/admin/api/2022-01/";
-	private static final String CUSTOMERS = "customer";
-	private static final String PRODUCTS = "product";
-	private static final String VARIANTS = "variant";
+	private static final String CUSTOMER = "customer";
+	private static final String PRODUCT = "product";
+	private static final String VARIANT = "variant";
 	private MTGHttpClient client = URLTools.newClient();
 	
 	
@@ -48,7 +49,14 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 		return "https://"+getAuthenticator().get(SUBDOMAIN)+MYSHOPIFY_COM_API_VERSION;
 	}
 	
+
 	
+	private Map<String, String> headers() {
+		return Map.of(X_SHOPIFY_ACCESS_TOKEN, getAuthenticator().get(ACCESS_TOKEN),URLTools.ACCEPT, URLTools.HEADER_JSON,URLTools.CONTENT_TYPE,URLTools.HEADER_JSON);
+	}
+
+
+
 	
 	
 	private RequestBuilder build(String url,METHOD m) {
@@ -56,8 +64,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 				  .url(url)
 				  .method(m)
 				  .setClient(client)
-				  .addHeader(X_SHOPIFY_ACCESS_TOKEN, getAuthenticator().get(ACCESS_TOKEN))
-				  .addHeader(URLTools.ACCEPT, URLTools.HEADER_JSON)
+				  .addHeaders(headers())
 				  .addContent("limit","250");
 	}
 	
@@ -101,11 +108,11 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 		{
 				AbstractStockItem<MTGProduct> it = AbstractStockItem.generateDefault();
 									  it.setProduct(parseProduct(obj));
-									  it.getProduct().setEdition(new MagicEdition(el.getAsJsonObject().get("option3").getAsString(), el.getAsJsonObject().get("option3").getAsString()));
+									  it.getProduct().setEdition(new MagicEdition(el.getAsJsonObject().get("option"+getString(SET_OPTION_NUMBER)).getAsString(), el.getAsJsonObject().get("option"+getString(SET_OPTION_NUMBER)).getAsString()));
 									  it.setId(el.getAsJsonObject().get("id").getAsLong());
 									  it.setPrice(el.getAsJsonObject().get("price").getAsDouble());
 									  it.setQte(el.getAsJsonObject().get("inventory_quantity").getAsInt());
-									  it.setFoil(el.getAsJsonObject().get("option"+getString("FOIL_OPTION_NUMBER")).getAsString().toLowerCase().contains("foil"));
+									  it.setFoil(el.getAsJsonObject().get("option"+getString(FOIL_OPTION_NUMBER)).getAsString().toLowerCase().contains("foil"));
 									  ret.add(it);
 		}
 		return ret;
@@ -142,7 +149,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 
 	@Override
 	public List<MTGProduct> listProducts(String name) throws IOException {
-		return StreamSupport.stream(read(PRODUCTS,null).spliterator(), true)
+		return StreamSupport.stream(read(PRODUCT,null).spliterator(), true)
 							.filter(je->je.getAsJsonObject().get("title").getAsString().toLowerCase().contains(name.toLowerCase()))
 							.map(a->parseProduct(a.getAsJsonObject()))
 							.toList();
@@ -152,7 +159,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	protected List<MTGStockItem> loadStock(String name) throws IOException {
 		var ret = new ArrayList<MTGStockItem>();
 		//need to load all products because title search is strict only
-		var arr = StreamSupport.stream(read(PRODUCTS,null).spliterator(), true)
+		var arr = StreamSupport.stream(read(PRODUCT,null).spliterator(), true)
 				.filter(je->je.getAsJsonObject().get("title").getAsString().toLowerCase().contains(name.toLowerCase()))
 				.toList();
 
@@ -165,7 +172,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	
 	@Override
 	public List<Contact> listContacts() throws IOException {
-		var arr = read(CUSTOMERS,null);
+		var arr = read(CUSTOMER,null);
 		var ret = new ArrayList<Contact>();
 		for(JsonElement je : arr)
 		{
@@ -177,7 +184,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	
 	@Override
 	public List<Category> listCategories() throws IOException {
-		return  StreamSupport.stream(read(PRODUCTS,Maps.of("fields","product_type")).spliterator(),true).map(je->{
+		return  StreamSupport.stream(read(PRODUCT,Maps.of("fields","product_type")).spliterator(),true).map(je->{
 			var s = je.getAsJsonObject().get("product_type").getAsString();
 			return new Category(s.hashCode(), s);
 			}).distinct().toList();
@@ -187,21 +194,21 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	@Override
 	public MTGStockItem getStockById(EnumItems typeStock, Long id) throws IOException {
 		
-		var obj= readId(VARIANTS,id);
+		var obj= readId(VARIANT,id);
 		
 		var it = AbstractStockItem.generateDefault();
 		  it.setId(obj.get("id").getAsLong());
 		  it.setPrice(obj.get("price").getAsDouble());
 		  it.setQte(obj.get("inventory_quantity").getAsInt());
-		  it.setFoil(obj.get("option1").getAsString().toLowerCase().contains("foil"));
-		  it.setProduct(parseProduct(readId(PRODUCTS,obj.get("product_id").getAsLong())));
+		  it.setFoil(obj.get("option"+getString(FOIL_OPTION_NUMBER)).getAsString().toLowerCase().contains("foil"));
+		  it.setProduct(parseProduct(readId(PRODUCT,obj.get("product_id").getAsLong())));
 		  return it;
 	
 	}
 
 	@Override
 	public Contact getContactByEmail(String email) throws IOException {
-		var arr = read(CUSTOMERS,Maps.of("email", email));
+		var arr = read(CUSTOMER,Maps.of("email", email));
 		try {
 			return parseContact(arr.getAsJsonArray().get(0).getAsJsonObject());
 		}
@@ -216,7 +223,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	public Integer saveOrUpdateContact(Contact c) throws IOException {
 		var obj = new JsonObject();
 		var prodobj = new JsonObject();
-			obj.add("customer", prodobj);
+			obj.add(CUSTOMER, prodobj);
 			prodobj.addProperty("first_name", c.getName());
 			prodobj.addProperty("last_name",c.getLastName());
 			prodobj.addProperty("email", c.getEmail());
@@ -237,13 +244,13 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 			{
 				res = client.doPost(getBaseUrl()+"customers.json", 
 												new StringEntity(obj.toString()), 
-												Map.of(X_SHOPIFY_ACCESS_TOKEN, getAuthenticator().get(ACCESS_TOKEN),URLTools.ACCEPT, URLTools.HEADER_JSON,URLTools.CONTENT_TYPE,URLTools.HEADER_JSON)
+												headers()
 											);
 				
 				try {
 					var content = URLTools.toJson(res.getEntity().getContent());
 					logger.info("ret="+content);
-					c.setId(content.getAsJsonObject().get("customer").getAsJsonObject().get("id").getAsInt());
+					c.setId(content.getAsJsonObject().get(CUSTOMER).getAsJsonObject().get("id").getAsInt());
 					
 					return c.getId();
 				}
@@ -257,7 +264,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 			{
 				res = client.doPut(getBaseUrl()+"customers/"+c.getId()+".json", 
 						new StringEntity(obj.toString()), 
-						Map.of(X_SHOPIFY_ACCESS_TOKEN, getAuthenticator().get(ACCESS_TOKEN),URLTools.ACCEPT, URLTools.HEADER_JSON,URLTools.CONTENT_TYPE,URLTools.HEADER_JSON)
+						headers()
 					);
 				
 				
@@ -276,17 +283,65 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 
 	@Override
 	protected void saveOrUpdateStock(List<MTGStockItem> it) throws IOException {
-		// TODO Auto-generated method stub
-
+			HttpResponse res =null;
+		
+			for(MTGStockItem c : it)
+			{
+			
+				var obj = new JsonObject();
+				var objVariant = new JsonObject();
+				obj.add(VARIANT, objVariant);
+				
+				objVariant.addProperty("price", c.getPrice());
+				objVariant.addProperty("option"+getString(FOIL_OPTION_NUMBER), c.isFoil());
+				objVariant.addProperty("option"+getString(SET_OPTION_NUMBER), c.getProduct().getEdition().getSet());
+				objVariant.addProperty("inventory_quantity",c.getQte());
+				
+				
+				if(c.getId()<0)
+				{
+					res = client.doPost(getBaseUrl()+"products/"+c.getProduct().getProductId()+"/variants.json", 
+													new StringEntity(obj.toString()), 
+													headers()
+												);
+					
+					try {
+						var content = URLTools.toJson(res.getEntity().getContent());
+						logger.info("ret="+content);
+						c.setId(content.getAsJsonObject().get(VARIANT).getAsJsonObject().get("id").getAsInt());
+					}
+					catch(Exception e)
+					{
+						logger.error(e);
+					}
+				}
+				else
+				{
+					res = client.doPut(getBaseUrl()+"variants/"+c.getId()+".json", 
+							new StringEntity(obj.toString()), 
+							headers()
+						);
+					
+					
+					try {
+						var content = URLTools.toJson(res.getEntity().getContent());
+						logger.info("ret="+content);
+					}
+					catch(Exception e)
+					{
+						logger.error(e);
+					}
+				}
+			}
 	}
 	
-	
+
 	@Override
 	public Long createProduct(MTGProduct t, Category c) throws IOException {
 		
 		var obj = new JsonObject();
 		var prodobj = new JsonObject();
-			obj.add("product", prodobj);
+			obj.add(PRODUCT, prodobj);
 			prodobj.addProperty("title", t.getName());
 			prodobj.addProperty("product_type",c.getCategoryName());
 			prodobj.addProperty("vendor", getString("DEFAULT_VENDOR"));
@@ -299,12 +354,12 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 					
 		var res = client.doPost(getBaseUrl()+"products.json", 
 												new StringEntity(obj.toString()), 
-												Map.of(X_SHOPIFY_ACCESS_TOKEN, getAuthenticator().get(ACCESS_TOKEN),URLTools.ACCEPT, URLTools.HEADER_JSON,URLTools.CONTENT_TYPE,URLTools.HEADER_JSON)
+												headers()
 											);
 		try {
 			var content = URLTools.toJson(res.getEntity().getContent());
 			logger.info("ret="+content);
-			return content.getAsJsonObject().get("product").getAsJsonObject().get("id").getAsLong();
+			return content.getAsJsonObject().get(PRODUCT).getAsJsonObject().get("id").getAsLong();
 		}
 		catch(Exception e)
 		{
@@ -376,8 +431,8 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		var m = super.getDefaultAttributes();
-			m.put("FOIL_OPTION_NUMBER", "1");
-			m.put("SET_OPTION_NUMBER", "2");
+			m.put(FOIL_OPTION_NUMBER, "1");
+			m.put(SET_OPTION_NUMBER, "2");
 			m.put("DEFAULT_VENDOR", "MTGCompanion");
 		return m;
 	}
