@@ -108,7 +108,13 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 		{
 				AbstractStockItem<MTGProduct> it = AbstractStockItem.generateDefault();
 									  it.setProduct(parseProduct(obj));
-									  it.getProduct().setEdition(new MagicEdition(el.getAsJsonObject().get("option"+getString(SET_OPTION_NUMBER)).getAsString(), el.getAsJsonObject().get("option"+getString(SET_OPTION_NUMBER)).getAsString()));
+									 try {
+										 it.getProduct().setEdition(new MagicEdition(el.getAsJsonObject().get("option"+getString(SET_OPTION_NUMBER)).getAsString(), el.getAsJsonObject().get("option"+getString(SET_OPTION_NUMBER)).getAsString()));
+									 }
+									 catch(Exception e)
+									 {
+										logger.error("Error getting option"+getString(SET_OPTION_NUMBER) + " for " + obj,e);
+									 }
 									  it.setId(el.getAsJsonObject().get("id").getAsLong());
 									  it.setPrice(el.getAsJsonObject().get("price").getAsDouble());
 									  it.setQte(el.getAsJsonObject().get("inventory_quantity").getAsInt());
@@ -294,7 +300,12 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 				
 				objVariant.addProperty("price", c.getPrice());
 				objVariant.addProperty("option"+getString(FOIL_OPTION_NUMBER), c.isFoil());
+				try {
 				objVariant.addProperty("option"+getString(SET_OPTION_NUMBER), c.getProduct().getEdition().getSet());
+				}catch(Exception e)
+				{
+					logger.error("no set found for " + c);
+				}
 				objVariant.addProperty("inventory_quantity",c.getQte());
 				
 				
