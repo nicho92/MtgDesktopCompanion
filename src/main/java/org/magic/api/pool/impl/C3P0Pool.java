@@ -7,12 +7,13 @@ import java.util.Map;
 
 import org.magic.api.interfaces.abstracts.AbstractPoolProvider;
 
+import com.mchange.v2.c3p0.AbstractComboPooledDataSource;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 
 public class C3P0Pool extends AbstractPoolProvider {
 
-	private ComboPooledDataSource datasource;
+	private AbstractComboPooledDataSource datasource;
 	
 	
 	@Override
