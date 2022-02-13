@@ -60,10 +60,11 @@ public class MTGHttpClient {
 	}
 	
 	public MTGHttpClient() {
+		
 		httpclient = HttpClients.custom()
 					 .setUserAgent(MTGConstants.USER_AGENT)
 					 .setRedirectStrategy(LaxRedirectStrategy.INSTANCE)
-					 .setDefaultRequestConfig(RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build())
+					 .setDefaultRequestConfig(RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).setConnectTimeout(MTGConstants.CONNECTION_TIMEOUT).build())
 					 .build();
 		httpContext = new HttpClientContext();
 		cookieStore = new BasicCookieStore();

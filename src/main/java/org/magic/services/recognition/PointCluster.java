@@ -1,7 +1,7 @@
 package org.magic.services.recognition;
 import georegression.struct.point.Point2D_F32;
 
-public class PointCluster implements Comparable
+public class PointCluster implements Comparable<PointCluster>
 {
     private Point2D_F32 loc;
     private int count;
@@ -39,13 +39,9 @@ public class PointCluster implements Comparable
     }
 
     @Override
-    public int compareTo(Object o)
+    public int compareTo(PointCluster o)
     {
-        if (o instanceof PointCluster)
-        {
-            PointCluster other = (PointCluster) o;
-            return Double.compare(getTotalLen(), other.getTotalLen());
-        }
-        return 0;
+             return Double.compare(getTotalLen(), o.getTotalLen());
+     
     }
 }
