@@ -12,7 +12,7 @@ public class MagidexPicturesProvider extends AbstractPicturesProvider {
 
 	@Override
 	public STATUT getStatut() {
-		return STATUT.DEV;
+		return STATUT.DEPRECATED;
 	}
 
 	

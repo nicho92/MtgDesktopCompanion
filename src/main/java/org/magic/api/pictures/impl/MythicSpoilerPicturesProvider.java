@@ -25,7 +25,7 @@ public class MythicSpoilerPicturesProvider extends AbstractPicturesProvider {
 		// This will properly escape the url
 		URI uri=null;
 		try {
-			uri = new URI("http", "mythicspoiler.com", "/" + cardSet.toLowerCase() + "/cards/" + cardName + ".jpg",
+			uri = new URI("https", "mythicspoiler.com", "/" + cardSet.toLowerCase() + "/cards/" + cardName + ".jpg",
 					null, null);
 		} catch (URISyntaxException e1) {
 			logger.error(e1);
