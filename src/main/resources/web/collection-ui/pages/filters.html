@@ -1,0 +1,101 @@
+<style>
+
+.filter-image-container {
+	display: inline-flex;
+	align-items: center;
+	justify-items: center;
+	height: 30px
+}
+
+.filter-panel {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between
+}
+
+
+</style>
+
+<div class="filter-panel">
+	<fieldset class="filter-group-colors">
+			<button class="btn btn-default filter filter-W" data-filter="W">
+				<div class="filter-image-container">
+					<i class="ms ms-w ms-3x"></i>
+				</div>
+				<div>White</div>
+			</button>
+			<button class="btn btn-default filter filter-U" data-filter="U">
+				<div class="filter-image-container">
+					<i class="ms ms-u ms-3x"></i>
+				</div>
+				<div>Blue</div>
+			</button>
+			<button class="btn btn-default filter filter-B" data-filter="B">
+				<div class="filter-image-container">
+					<i class="ms ms-b ms-3x"></i>
+
+				</div>
+				<div>Black</div>
+			</button>
+			<button class="btn btn-default filter filter-R" data-filter="R">
+				<div class="filter-image-container">
+					<i class="ms ms-r ms-3x"></i>
+				</div>
+				<div>Red</div>
+			</button>
+			<button class="btn btn-default filter filter-G" data-filter="G">
+				<div class="filter-image-container">
+					<i class="ms ms-g ms-3x"></i>
+				</div>
+				<div>Green</div>
+			</button>
+			<button class="btn btn-default filter filter-C" data-filter="C">
+				<div class="filter-image-container">
+					<i class="ms ms-c ms-3x"></i>
+				</div>
+				<div>Colorless</div>
+			</button>
+			<button class="btn btn-default filter filter-M" data-filter="M">
+				<div class="filter-image-container">
+					<i class="ms ms-ci-5 ms-3x"></i>
+
+				</div>
+				<div>Multi-Color</div>
+			</button>
+			<button class="btn btn-default filter filter-L active"
+				data-filter=".L">
+				<div class="filter-image-container">
+					<i class="ms ms-land ms-3x"></i>
+				</div>
+				<div>Lands</div>
+			</button>
+	
+	</fieldset>
+	
+	<fieldset class="filter-group-rarities">
+			<button class="btn btn-default filter filter-rarity-C" data-filter=".Common">
+				<div class="filter-image-container">
+					<i class="ms ms-planeswalker ms-3x"></i>
+				</div>
+				<div>Common</div>
+			</button>
+			<button class="btn btn-default filter filter-rarity-U" data-filter=".Uncommon">
+				<div class="filter-image-container">
+					<i class="ms ms-planeswalker ms-3x"></i>
+				</div>
+				<div>Uncommon</div>
+			</button>
+			<button class="btn btn-default filter filter-rarity-R active" data-filter=".Rare">
+				<div class="filter-image-container">
+					<i class="ms ms-planeswalker ms-3x"></i>
+				</div>
+				<div>Rare</div>
+			</button>
+			<button class="btn btn-default filter filter-rarity-M" data-filter=".Mythic">
+				<div class="filter-image-container">
+					<i class="ms ms-planeswalker ms-3x"></i>
+				</div>
+				<div>Mythic</div>
+			</button>
+	</fieldset>
+</div>

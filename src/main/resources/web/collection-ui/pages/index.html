@@ -24,7 +24,8 @@
   		 <link href="//cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css" rel="stylesheet" type="text/css" />
          <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
 		 <link href="//cdn.jsdelivr.net/npm/jquery-ui-dist@latest/jquery-ui.min.css" rel="stylesheet">
-		 <link href="../dist/css/styles.css" rel="stylesheet" />
+		 
+		<link href="../dist/css/styles.css" rel="stylesheet" />
 		<meta property="og:url"           content="index.html" />
 		<meta property="og:type"          content="website" />
 		<meta property="og:title"         content="MTGCompanion - Collections" />
@@ -96,6 +97,7 @@
 							
 							if($_GET("set"))
 							{
+								$("#filter").load("filters.html");	
 								 $.ajax({
 								        url: restserver+"/cards/list/"+$_GET("collection")+"/"+$_GET("set")
 								    	}).then(function(data) {
@@ -158,12 +160,13 @@
         </nav>
         <!-- Header-->
         <header class="bg-dark py-3">
-          
+         
         </header>
         <!-- Section-->
         <section class="py-5">
             <div class="container px-4 px-lg-5 mt-5">
-				
+				  <div id="filter"></div>
+       
 				<br/>
                 <div id="listSet" class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
 					<!-- Elements contents-->
@@ -171,6 +174,9 @@
               </div>
             </div>
         </section>
+        
+        
+        
         <!-- Footer-->
         <footer class="py-5 bg-dark">
             <div class="container"><p class="m-0 text-center text-white"></p></div>
