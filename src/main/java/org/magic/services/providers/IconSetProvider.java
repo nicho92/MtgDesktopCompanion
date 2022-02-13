@@ -239,6 +239,9 @@ public class IconSetProvider {
 		equiv.put("J19", "PMEI");
 		equiv.put("HHO", "PMEI");
 		equiv.put("PURL", "PMEI");
+		equiv.put("PL22", "PMEI");
+		
+		
 		equiv.put("UGIN", "FRF");
 		
 		equiv.put("PF19", "PMEI");

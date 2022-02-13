@@ -20,7 +20,7 @@
   <script src="//cdn.jsdelivr.net/npm/datatables@latest/media/js/jquery.dataTables.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/datatables-bootstrap@latest/js/dataTables.bootstrap.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/datatables-responsive@latest/js/dataTables.responsive.min.js"></script>
-   
+  <script src="//cdnjs.cloudflare.com/ajax/libs/tilt.js/1.2.1/tilt.jquery.min.js" type="text/javascript"></script>
 
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
@@ -49,6 +49,10 @@
 				 $('.loading').html("");  
 			});
 		  
+			 $("#cardpic").tilt({
+				 scale: 1.2,
+			 });
+			
 		  	 new Autocomplete('#autocomplete', {
 				 search: input => {
 			      return new Promise(resolve => {
@@ -106,6 +110,11 @@
 				$("#linkshare").attr("href", window.location.origin + window.location.pathname+"?id="+card.id);
 				
 				window.title="MTGCompanion - " + card.name; 
+				
+				
+				
+				
+				
 				
 				$.get(restserver+"/dash/variations/card/"+card.id,function(data){
 					   	
