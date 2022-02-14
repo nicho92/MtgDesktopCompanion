@@ -108,13 +108,13 @@
 													var filterKey = $(this).attr("data-filter-key");
 													var filterValue = $(this).attr("data-filter");
 													$("#listSet").empty();
-													
-													
 													filteredData= data.filter(function (item) {
-														return item[filterKey] == filterValue
+														
+														if(filterKey=="colors" && filterValue=="M")
+															return item[filterKey].length>1;
+														
+														return item[filterKey] == filterValue || item[filterKey].indexOf(filterValue) > -1
 													});
-													
-													
 													$.each( filteredData, function( key, value ) {
 														$("#listSet").append(buildCard(value));
 														tilt($('.card-img-top'));
