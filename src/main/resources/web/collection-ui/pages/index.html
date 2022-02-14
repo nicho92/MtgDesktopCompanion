@@ -97,12 +97,33 @@
 							
 							if($_GET("set"))
 							{
-								$("#filter").load("filters.html");	
+								
 								 $.ajax({
 								        url: restserver+"/cards/list/"+$_GET("collection")+"/"+$_GET("set")
 								    	}).then(function(data) {
+											
+								    		$("#filter").load("filters.html", function(){
 												
-											var sortAtt=$_GET("sort");
+												$("button").click(function(){
+													var filterKey = $(this).attr("data-filter-key");
+													var filterValue = $(this).attr("data-filter");
+													$("#listSet").empty();
+													
+													
+													filteredData= data.filter(function (item) {
+														return item[filterKey] == filterValue
+													});
+													
+													
+													$.each( filteredData, function( key, value ) {
+														$("#listSet").append(buildCard(value));
+														tilt($('.card-img-top'));
+													});
+													
+												});
+											});	
+					
+								    		var sortAtt=$_GET("sort");
 											
 											if(!sortAtt)
 												sortAtt=("name");
