@@ -20,9 +20,9 @@ public class GuavaCache extends AbstractCacheProvider {
 	
 	public GuavaCache() {
 		 cache = CacheBuilder.newBuilder()
-				 			 .maximumSize(getInt("MAX_ITEM"))
-				 			 .expireAfterAccess(getInt("EXPIRATION_MINUTE"), TimeUnit.MINUTES)
-				 			 .build();
+								 			.maximumSize(getInt("MAX_ITEM"))
+								 			.expireAfterAccess(getInt("EXPIRATION_MINUTE"), TimeUnit.MINUTES)
+								 			.build();
 	}
 	
 	

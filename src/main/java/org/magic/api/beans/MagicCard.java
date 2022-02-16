@@ -867,7 +867,12 @@ public class MagicCard extends AbstractProduct {
 				obj.addProperty("showcase", isShowCase());
 				obj.addProperty("extendedArt", isExtendedArt());
 				obj.addProperty("borderless", isBorderLess());
-		
+				obj.addProperty("doubleFaced", isDoubleFaced());
+				obj.addProperty("timeshifted", isTimeshifted());
+				
+				
+				
+				
 		
 		return obj;
 		

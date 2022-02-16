@@ -2,17 +2,23 @@ package org.magic.gui.components;
 import static org.magic.tools.MTG.capitalize;
 
 import java.awt.BorderLayout;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.Timer;
+import javax.swing.WindowConstants;
 import javax.swing.table.TableCellRenderer;
 
 import org.apache.commons.lang3.time.DurationFormatUtils;
+import org.apache.lucene.luke.app.desktop.LukeMain;
+import org.apache.lucene.luke.app.desktop.components.LukeWindowProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.abstracts.GenericTableModel;
@@ -28,6 +34,7 @@ import org.magic.servers.impl.DiscordBotServer;
 import org.magic.servers.impl.JSONHttpServer;
 import org.magic.servers.impl.QwartzServer;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.services.TechnicalServiceManager;
 import org.magic.tools.ImageTools;
 import org.magic.tools.MTG;
@@ -166,6 +173,24 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 		
 		memoryPanel = new JVMemoryPanel();
 		panel.add(memoryPanel);
+		
+		
+		var btnLuke = new JButton("Luke");
+		
+		btnLuke.addActionListener(al->{
+			try {
+				var lukeFrame= new LukeWindowProvider().get();
+				lukeFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+				lukeFrame.setLocationRelativeTo(this);
+				lukeFrame.setSize(800, 600);
+				lukeFrame.setVisible(true);
+				
+			} catch (IOException e1) {
+				MTGControler.getInstance().notify(e1);
+			}
+		});
+		
+		panel.add(btnLuke);
 		
 		t = new Timer(5000, e ->{ 
 			modelThreads.init(TechnicalServiceManager.inst().getThreadsInfos());
