@@ -870,10 +870,9 @@ public class MagicCard extends AbstractProduct {
 				obj.addProperty("doubleFaced", isDoubleFaced());
 				obj.addProperty("timeshifted", isTimeshifted());
 				
+				if(isDoubleFaced() && isMainFace())
+					obj.add("otherSide", getRotatedCard().toLightJson());
 				
-				
-				
-		
 		return obj;
 		
 		
