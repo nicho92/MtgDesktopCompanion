@@ -193,7 +193,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		cache = new AbstractEmbeddedCacheProvider<>() {
 			Cache<String, Object> guava = CacheBuilder.newBuilder()
-													  .expireAfterWrite(timeout, TimeUnit.MINUTES)
+													  .expireAfterAccess(timeout, TimeUnit.MINUTES)
 													  .removalListener((RemovalNotification<String, Object> notification)->
 															logger.debug(notification.getKey() + " is removed " + notification.getCause())
 													  )
@@ -205,7 +205,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 			@Override
 			public void clear() {
-				guava.stats();
 				guava.invalidateAll();
 			}
 			
