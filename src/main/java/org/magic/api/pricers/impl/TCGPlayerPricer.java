@@ -49,7 +49,7 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 		for(JsonElement e: arr)
 		{
 			var mp = new MagicPrice();
-				mp.setUrl("https://www.tcgplayer.com/product/"+idResults+"?partner=MTGCompanion");
+				mp.setUrl("https://www.tcgplayer.com/product/"+idResults+"?partner=MTGCompanion&utm_campaign=affiliate&utm_medium=MTGCompanion&utm_source=MTGCompanion");
 				mp.setCurrency(Currency.getInstance("USD"));
 				mp.setCountry(Locale.US.getDisplayCountry(MTGControler.getInstance().getLocale()));
 				mp.setSite(getName());
@@ -58,7 +58,7 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 				mp.setLanguage(e.getAsJsonObject().get("language").getAsString());
 				mp.setQuality(e.getAsJsonObject().get("condition").getAsString());
 				mp.setValue(e.getAsJsonObject().get("price").getAsDouble());
-				mp.setSellerUrl("https://www.tcgplayer.com/search/product/all?seller="+e.getAsJsonObject().get("sellerKey").getAsString()+"&view=grid&partner=MTGCompanion");
+				mp.setSellerUrl("https://www.tcgplayer.com/search/product/all?seller="+e.getAsJsonObject().get("sellerKey").getAsString()+"&view=grid&partner=MTGCompanion&utm_campaign=affiliate&utm_medium=MTGCompanion&utm_source=MTGCompanion");
 				mp.setFoil(e.getAsJsonObject().get("printing").getAsString().equalsIgnoreCase("Foil"));
 				
 				list.add(mp);
@@ -66,6 +66,11 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 		}
 		return list;
 
+	}
+	
+	@Override
+	public boolean isPartner() {
+		return true;
 	}
 
 	private JsonArray parseResultsFor(int idResults) throws  IOException {
