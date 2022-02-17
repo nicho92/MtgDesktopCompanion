@@ -1,6 +1,5 @@
 package org.magic.services.keywords;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +31,7 @@ public class MTGJsonKeyWordsProvider extends AbstractKeyWordsManager {
 				
 				list.add(new MTGKeyWord("Flip",TYPE.ACTION));
 				
-			} catch (IOException e) {
+			} catch (Exception e) {
 				logger.error(e);
 			}
 		

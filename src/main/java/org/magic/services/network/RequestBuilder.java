@@ -141,7 +141,7 @@ public class RequestBuilder
 	{
 		try {
 			return URLTools.toJson(toContentString());
-		} catch (IOException e) {
+		} catch (Exception e) {
 			var je = new JsonObject();
 			je.addProperty("error", e.getMessage());
 			return je;
