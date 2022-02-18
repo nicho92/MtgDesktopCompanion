@@ -28,7 +28,7 @@ public class CardAbilitiesPanel extends MTGUIComponent {
 
 	@Override
 	public String getTitle() {
-		return "Keywords";
+		return "ABILITIES";
 	}
 
 	@Override

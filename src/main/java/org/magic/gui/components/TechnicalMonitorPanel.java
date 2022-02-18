@@ -174,24 +174,6 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 		memoryPanel = new JVMemoryPanel();
 		panel.add(memoryPanel);
 		
-		
-		var btnLuke = new JButton("Luke");
-		
-		btnLuke.addActionListener(al->{
-			try {
-				var lukeFrame= new LukeWindowProvider().get();
-				lukeFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-				lukeFrame.setLocationRelativeTo(this);
-				lukeFrame.setSize(800, 600);
-				lukeFrame.setVisible(true);
-				
-			} catch (IOException e1) {
-				MTGControler.getInstance().notify(e1);
-			}
-		});
-		
-		panel.add(btnLuke);
-		
 		t = new Timer(5000, e ->{ 
 			modelThreads.init(TechnicalServiceManager.inst().getThreadsInfos());
 			memoryPanel.refresh();

@@ -352,14 +352,14 @@ public class CardSearchPanel extends MTGUIComponent {
 
 		tabbedCardsInfo.addTab(capitalize("DETAILS"), MTGConstants.ICON_TAB_DETAILS,detailCardPanel, null);
 		tabbedCardsInfo.addTab(capitalize("EDITION"), MTGConstants.ICON_BACK,editionDetailPanel, null);
-		tabbedCardsInfo.addTab(capitalize("PRICES"), MTGConstants.ICON_TAB_PRICES,priceTablePanel, null);
+		UITools.addTab(tabbedCardsInfo,priceTablePanel);
 		UITools.addTab(tabbedCardsInfo,txtRulesArea);
 		tabbedCardsInfo.addTab(capitalize("PRICE_VARIATIONS"), MTGConstants.ICON_TAB_VARIATIONS,historyChartPanel, null);
-		tabbedCardsInfo.addTab(capitalize("MORE_LIKE_THIS"), MTGConstants.ICON_TAB_SIMILARITY,similarityPanel, null);
+		UITools.addTab(tabbedCardsInfo,similarityPanel);
 		tabbedCardsInfo.addTab(capitalize("DECK_MODULE"), MTGConstants.ICON_TAB_DECK,deckPanel, null);
 		tabbedCardsInfo.addTab(capitalize("STOCK"), MTGConstants.ICON_TAB_STOCK,stockPanel, null);
-		tabbedCardsInfo.addTab(capitalize("ABILITIES"), abilitiesPanel.getIcon(),abilitiesPanel, null);
-		
+		UITools.addTab(tabbedCardsInfo,abilitiesPanel);
+	
 		if (MTGControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
 			tabbedCardsInfo.addTab("Object", MTGConstants.ICON_TAB_JSON, panelJson, null);
 

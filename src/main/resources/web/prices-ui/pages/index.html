@@ -186,10 +186,11 @@
 							
 
 							$.get(restserver+"/partner/"+card.id,function(data){
+								$("#partner").empty();
 								data.forEach( function(item,index){
 									if(item!=null){
 										var img="https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/src/main/resources/icons/plugins/"+item.site.toLowerCase().replace(" ","%20")+".png";
-										$("#partner").html("<a target='_blank' href='"+item.url+"'><img src='"+img+"'/>"+ item.site + " <span class='numbers-small'>" + item.value.toFixed(2) + " " + item.currency +"</span></a>");
+										$("#partner").append("<a target='_blank' href='"+item.url+"'><img src='"+img+"'/>"+ item.site + " <span class='numbers-small'>" + item.value.toFixed(2) + " " + item.currency +"</span></a><br/>");
 									}
 								});
 							});

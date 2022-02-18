@@ -190,7 +190,7 @@ public class PricesTablePanel extends MTGUIComponent {
 
 	@Override
 	public String getTitle() {
-		return "Prices";
+		return "PRICES";
 	}
 	
 	

@@ -7,6 +7,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.IOException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -14,18 +15,19 @@ import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.MTGCardsIndexer;
+import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.SimilarityCardsTableModel;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.tools.UITools;
 
-public class SimilarityCardPanel extends JPanel {
+public class SimilarityCardPanel extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
 	private MagicCard currentCard;
 	private JXTable tableSimilarity;
 	private SimilarityCardsTableModel model;
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-
+	
 	
 	public JXTable getTableSimilarity() {
 		return tableSimilarity;
@@ -39,14 +41,15 @@ public class SimilarityCardPanel extends JPanel {
 		
 		add(new JScrollPane(tableSimilarity), BorderLayout.CENTER);
 		
-		addComponentListener(new ComponentAdapter() {
-			@Override
-			public void componentShown(ComponentEvent componentEvent) {
-				init(currentCard);
-			}
-		});
+		
 	}
 
+	@Override
+	public void onVisible() {
+		init(currentCard);
+	}
+	
+	
 	public void init(MagicCard mc) {
 		currentCard = mc;
 		
@@ -58,6 +61,17 @@ public class SimilarityCardPanel extends JPanel {
 		}
 		
 		}
+	}
+
+	
+	@Override
+	public ImageIcon getIcon() {
+		return MTGConstants.ICON_TAB_SIMILARITY;
+	}
+	
+	@Override
+	public String getTitle() {
+		return "MORE_LIKE_THIS";
 	}
 
 	
