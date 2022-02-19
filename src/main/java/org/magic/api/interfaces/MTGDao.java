@@ -88,7 +88,7 @@ public interface MTGDao extends MTGPlugin{
 	public void deleteOrderEntry(OrderEntry state) throws SQLException;
 	public List<OrderEntry> listOrderForEdition(MagicEdition ed);
 	public List<OrderEntry> listOrdersAt(Date d);
-	public List<Date> listDatesOrders();
+	
 	public List<OrderEntry> listOrdersByDescription(String desc, boolean strict);
 
 	

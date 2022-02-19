@@ -74,6 +74,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	private static final String CREATE_TABLE = "CREATE TABLE ";
 	private static final String EDITION = "edition";
 	protected MTGPool pool;
+	private List<MagicCollection> colls = new ArrayList<>();
 	protected abstract String getAutoIncrementKeyWord();
 	protected abstract String getjdbcnamedb();
 	protected abstract String beanStorage();
@@ -368,6 +369,8 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	@Override
 	public <T extends MTGStorable> GedEntry<T> readEntry(String classename, String idInstance, String fileName) throws SQLException {
 		var ged = new GedEntry<T>();
+		
+		
 		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT fileContent, md5 from ged where className = ? and IdInstance = ? and fileName= ?")) 
 		{
 				pst.setString(1, classename);
@@ -914,7 +917,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	
 	@Override
 	public Contact getContactById(int id) throws SQLException {
-		
+	
 		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from contacts where id=?")) 
 		{
 				pst.setInt(1, id);
@@ -926,18 +929,18 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	
 	@Override
 	public List<Contact> listContacts() throws SQLException {
-		List<Contact> colls = new ArrayList<>();
+		List<Contact> cts = new ArrayList<>();
 		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from contacts")) 
 		{
 				ResultSet rs = executeQuery(pst);
 			
 				while(rs.next())
-					colls.add(readContact(rs));
+					cts.add(readContact(rs));
 				
 				
 		}
 		
-		return colls;
+		return cts;
 		
 	}
 	
@@ -960,7 +963,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	
 	@Override
 	public List<Transaction> listTransactions(Contact idct)  throws SQLException {
-		List<Transaction> colls = new ArrayList<>();
+		List<Transaction> ctx = new ArrayList<>();
 		
 		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from transactions, contacts where fk_idcontact=? and contacts.id=transactions.fk_idcontact and contacts.contact_name=?")) 
 		{
@@ -969,26 +972,26 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			ResultSet rs = executeQuery(pst);
 			
 				while (rs.next()) {
-					colls.add(readTransaction(rs));
+					ctx.add(readTransaction(rs));
 				}
 				logger.trace( colls.size() + " transactions");
 		}
-		return colls;
+		return ctx;
 	}
 	
 	
 	@Override
 	public List<Transaction> listTransactions()  throws SQLException {
-		List<Transaction> colls = new ArrayList<>();
+		List<Transaction> ctx  = new ArrayList<>();
 		
 		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from transactions");ResultSet rs = executeQuery(pst)) 
 		{
 				while (rs.next()) {
-					colls.add(readTransaction(rs));
+					ctx.add(readTransaction(rs));
 				}
 				logger.trace( colls.size() + " transactions");
 		}
-		return colls;
+		return ctx;
 	}
 	
 	
@@ -1556,6 +1559,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	@Override
 	public void saveCollection(MagicCollection col) throws SQLException {
+		colls.add(col);
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("insert into collections values (?)")) {
 			pst.setString(1, col.getName().replace("'", "\'"));
 			executeUpdate(pst);
@@ -1564,7 +1568,9 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	@Override
 	public void removeCollection(MagicCollection col) throws SQLException {
-
+		
+		colls.remove(col);
+		
 		if (col.getName().equals(MTGControler.getInstance().get(DEFAULT_LIBRARY)))
 			throw new SQLException(col.getName() + " can not be deleted");
 
@@ -1581,7 +1587,11 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	@Override
 	public List<MagicCollection> listCollections() throws SQLException {
-		List<MagicCollection> colls = new ArrayList<>();
+		
+		if(!colls.isEmpty())
+			return colls;
+		
+		
 		try (var c =  pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * FROM collections")) 
 		{
 			try (ResultSet rs = executeQuery(pst)) {

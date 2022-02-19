@@ -198,10 +198,7 @@ public class UITools {
 				table.setDefaultEditor(EnumCondition.class, new ComboBoxEditor<>(EnumCondition.values()));
 				table.setDefaultEditor(TransactionStatus.class, new ComboBoxEditor<>(TransactionStatus.values()));
 				table.setDefaultEditor(Level.class,  new ComboBoxEditor<Level>(MTGLogger.getLevels()) );
-				
-				
-				table.putClientProperty("terminateEditOnFocusLost", true);
-				
+
 				try {
 					table.setDefaultEditor(MagicCollection.class, new ComboBoxEditor<>(getEnabledPlugin(MTGDao.class).listCollections()));
 				} catch (Exception e1) {
@@ -209,7 +206,7 @@ public class UITools {
 				}
 				
 				table.setColumnControlVisible(true);
-				
+				table.putClientProperty("terminateEditOnFocusLost", true);
 				table.setRowHeight(MTGConstants.TABLE_ROW_HEIGHT);
 				table.setPreferredScrollableViewportSize(new java.awt.Dimension(800,600));
 				try {

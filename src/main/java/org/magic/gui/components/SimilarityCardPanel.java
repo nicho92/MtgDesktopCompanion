@@ -3,22 +3,17 @@ package org.magic.gui.components;
 import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.io.IOException;
 
 import javax.swing.ImageIcon;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.SimilarityCardsTableModel;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGLogger;
 import org.magic.tools.UITools;
 
 public class SimilarityCardPanel extends MTGUIComponent {

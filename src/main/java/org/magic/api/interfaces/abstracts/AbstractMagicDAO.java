@@ -3,9 +3,7 @@ package org.magic.api.interfaces.abstracts;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.magic.api.beans.Announce;
 import org.magic.api.beans.ConverterItem;
@@ -44,7 +42,8 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	
 	protected TCache<MagicCardAlert> listAlerts;
 	protected TCache<OrderEntry> listOrders;
-
+	
+	
 	protected abstract void initAlerts();
 	protected abstract void initOrders();
 	
@@ -380,13 +379,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		
 	}
 	
-	@Override
-	public List<Date> listDatesOrders() {
-		Set<Date> d = new HashSet<>();
-			listOrders().forEach(o->d.add(o.getTransactionDate()));
-	
-			return new ArrayList<>(d);
-	}
+
 	
 	@Override
 	public void updateCard(MagicCard c, MagicCard newC, MagicCollection col) throws SQLException {
