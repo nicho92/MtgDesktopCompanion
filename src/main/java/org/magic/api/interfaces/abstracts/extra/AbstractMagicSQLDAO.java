@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 import org.magic.api.beans.Announce;
@@ -74,7 +76,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	private static final String CREATE_TABLE = "CREATE TABLE ";
 	private static final String EDITION = "edition";
 	protected MTGPool pool;
-	private List<MagicCollection> colls = new ArrayList<>();
+	
 	protected abstract String getAutoIncrementKeyWord();
 	protected abstract String getjdbcnamedb();
 	protected abstract String beanStorage();
@@ -917,13 +919,23 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	
 	@Override
 	public Contact getContactById(int id) throws SQLException {
-	
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from contacts where id=?")) 
-		{
-				pst.setInt(1, id);
-				ResultSet rsC = executeQuery(pst);
-				rsC.next();
-				return readContact(rsC);
+		
+		try {
+			return listContacts.get(String.valueOf(id), new Callable<Contact>() {
+				
+				@Override
+				public Contact call() throws Exception {
+					try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from contacts where id=?")) 
+					{
+							pst.setInt(1, id);
+							ResultSet rsC = executeQuery(pst);
+							rsC.next();
+							return readContact(rsC);
+					}
+				}
+			});
+		} catch (ExecutionException e) {
+			throw new SQLException(e);
 		}
 	}
 	
@@ -974,7 +986,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				while (rs.next()) {
 					ctx.add(readTransaction(rs));
 				}
-				logger.trace( colls.size() + " transactions");
+				logger.trace( ctx.size() + " transactions");
 		}
 		return ctx;
 	}
@@ -989,7 +1001,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				while (rs.next()) {
 					ctx.add(readTransaction(rs));
 				}
-				logger.trace( colls.size() + " transactions");
+				logger.trace( ctx.size() + " transactions");
 		}
 		return ctx;
 	}
@@ -1559,7 +1571,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	@Override
 	public void saveCollection(MagicCollection col) throws SQLException {
-		colls.add(col);
+		listCollections.put(col.getName(),col);
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("insert into collections values (?)")) {
 			pst.setString(1, col.getName().replace("'", "\'"));
 			executeUpdate(pst);
@@ -1569,7 +1581,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	@Override
 	public void removeCollection(MagicCollection col) throws SQLException {
 		
-		colls.remove(col);
+		listCollections.remove(col.getName());
 		
 		if (col.getName().equals(MTGControler.getInstance().get(DEFAULT_LIBRARY)))
 			throw new SQLException(col.getName() + " can not be deleted");
@@ -1588,19 +1600,19 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	@Override
 	public List<MagicCollection> listCollections() throws SQLException {
 		
-		if(!colls.isEmpty())
-			return colls;
+		if(!listCollections.isEmpty())
+			return listCollections.values();
 		
 		
 		try (var c =  pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * FROM collections")) 
 		{
 			try (ResultSet rs = executeQuery(pst)) {
 				while (rs.next()) {
-					colls.add(new MagicCollection(rs.getString(1)));
+					listCollections.put(rs.getString(1),new MagicCollection(rs.getString(1)));
 				}
 			}
 		}
-		return colls;
+		return listCollections.values();
 	}
 
 	@Override

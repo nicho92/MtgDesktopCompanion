@@ -1,9 +1,8 @@
-package org.magic.api.interfaces.abstracts.extra;
+package org.magic.api.interfaces.abstracts;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.enums.CardsPatterns;
 import org.magic.api.interfaces.MTGTokensProvider;
-import org.magic.api.interfaces.abstracts.AbstractMTGPlugin;
 
 public abstract class AbstractTokensProvider extends AbstractMTGPlugin implements MTGTokensProvider {
 

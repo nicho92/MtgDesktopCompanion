@@ -22,7 +22,7 @@ import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGPictureProvider;
-import org.magic.api.interfaces.abstracts.extra.AbstractTokensProvider;
+import org.magic.api.interfaces.abstracts.AbstractTokensProvider;
 import org.magic.services.network.URLTools;
 import org.magic.tools.MTG;
 import org.w3c.dom.Document;

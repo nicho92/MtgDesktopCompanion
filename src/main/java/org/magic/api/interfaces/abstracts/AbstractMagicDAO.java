@@ -42,7 +42,8 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	
 	protected TCache<MagicCardAlert> listAlerts;
 	protected TCache<OrderEntry> listOrders;
-	
+	protected TCache<Contact> listContacts;
+	protected TCache<MagicCollection> listCollections;
 	
 	protected abstract void initAlerts();
 	protected abstract void initOrders();
@@ -67,6 +68,8 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	protected AbstractMagicDAO() {
 		listAlerts = new TCache<>("alerts");
 		listOrders = new TCache<>("orders");
+		listContacts = new TCache<>("contacts");
+		listCollections = new TCache<>("collections");
 		serialiser=new JsonExport();
 	}
 	
