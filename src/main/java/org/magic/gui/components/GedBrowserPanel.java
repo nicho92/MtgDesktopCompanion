@@ -29,7 +29,7 @@ public class GedBrowserPanel extends MTGUIComponent {
 	private JComboBox<MTGGedStorage> cboGed;
 	private GedEntryTableModel model;
 	private AbstractBuzyIndicatorComponent buzy;
-	//private ImagePanel imgPanel;
+
 	private transient AbstractObservableWorker<List<GedEntry<MTGStorable>>, GedEntry<MTGStorable>, MTGGedStorage> sw;
 	
 	public GedBrowserPanel() {
@@ -38,8 +38,6 @@ public class GedBrowserPanel extends MTGUIComponent {
 		cboGed = UITools.createCombobox(MTGGedStorage.class,true);
 		var panneauHaut = new JPanel();
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
-		//imgPanel = new ImagePanel(true, false, true);
-	//	imgPanel.setPreferredSize(new Dimension(250,0));
 		cboGed.setSelectedItem(MTG.getEnabledPlugin(MTGGedStorage.class));
 		cboGed.addItemListener(il->reload());
 		table = UITools.createNewTable(model);
@@ -51,28 +49,15 @@ public class GedBrowserPanel extends MTGUIComponent {
 				lab.setText(UITools.humanReadableSize((Long)value));
 				return lab;
 		});
-		
-		
-//		table.getSelectionModel().addListSelectionListener(il->{
-//			
-//			if(!il.getValueIsAdjusting())
-//			{
-//				GedEntry<?> entry = UITools.getTableSelection(table, 0);
-//				try {
-//					imgPanel.setImg(ImageTools.read(entry.getContent()));
-//				} catch (IOException e) {
-//					logger.error(e);
-//				}
-//			}
-//			
-//		});
-//		
-		
+	
 		panneauHaut.add(cboGed);
 		panneauHaut.add(buzy);
 		add(panneauHaut, BorderLayout.NORTH);
 		add(new JScrollPane(table),BorderLayout.CENTER);
-//		add(imgPanel,BorderLayout.EAST);
+	}
+	
+	@Override
+	public void onFirstShowing() {
 		reload();
 	}
 	

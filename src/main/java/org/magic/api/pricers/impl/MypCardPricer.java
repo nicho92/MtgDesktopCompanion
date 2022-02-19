@@ -14,6 +14,7 @@ import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
+import org.magic.tools.UITools;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -104,7 +105,7 @@ public class MypCardPricer extends AbstractPricesProvider {
 				mp.setSellerUrl(BASE_URL+"/"+mp.getSeller());
 				mp.setQuality(tds.get(2).text());
 				mp.setLanguage(tds.get(2).select("span.flag-icon").attr("title"));
-				mp.setValue(Double.parseDouble(tds.get(4).text().replaceAll("R\\$ ", "").replace(",", ".")));
+				mp.setValue(UITools.parseDouble(tds.get(4).text().replaceAll("R\\$ ", "")));
 				mp.setUrl(urlC);
 				list.add(mp);
 		}
