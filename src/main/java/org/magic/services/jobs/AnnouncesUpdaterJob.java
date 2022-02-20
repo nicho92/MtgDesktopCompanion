@@ -20,7 +20,7 @@ public class AnnouncesUpdaterJob implements Job {
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		try {
-			var list = MTG.getEnabledPlugin(MTGDao.class).listAnnounces(true);
+			var list = MTG.getEnabledPlugin(MTGDao.class).listAnnounces();
 			
 			list.stream().filter(a->a.getEndDate().before(new Date()) && a.getStatus()==STATUS.ACTIVE).toList().forEach(a->{
 				logger.debug("Found " + a + " is expired at " + a.getEndDate());

@@ -200,7 +200,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" transactions (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, dateTransaction TIMESTAMP, message VARCHAR(250), stocksItem "+beanStorage()+", statut VARCHAR(15), transporter VARCHAR(50), shippingPrice DECIMAL, transporterShippingCode VARCHAR(50),currency VARCHAR(5),datePayment TIMESTAMP NULL ,dateSend TIMESTAMP NULL , paymentProvider VARCHAR(50),fk_idcontact INTEGER)");
 			logger.debug("Create table transactions");
 			
-			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+"  contacts (id " + getAutoIncrementKeyWord() + " PRIMARY KEY, contact_name VARCHAR(250), contact_lastname VARCHAR(250), contact_password VARCHAR(250),contact_telephone VARCHAR(250), contact_country VARCHAR(250), contact_zipcode VARCHAR(10), contact_city VARCHAR(50), contact_address VARCHAR(250), contact_website VARCHAR(250),contact_email VARCHAR(100) UNIQUE, emailAccept "+getBoolean()+", contact_active "+getBoolean()+", temporaryToken VARCHAR("+TransactionService.TOKENSIZE+"))");
+			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" contacts (id " + getAutoIncrementKeyWord() + " PRIMARY KEY, contact_name VARCHAR(250), contact_lastname VARCHAR(250), contact_password VARCHAR(250),contact_telephone VARCHAR(250), contact_country VARCHAR(250), contact_zipcode VARCHAR(10), contact_city VARCHAR(50), contact_address VARCHAR(250), contact_website VARCHAR(250),contact_email VARCHAR(100) UNIQUE, emailAccept "+getBoolean()+", contact_active "+getBoolean()+", temporaryToken VARCHAR("+TransactionService.TOKENSIZE+"))");
 			logger.debug("Create table contacts");
 	
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" orders (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, idTransaction VARCHAR(50), description VARCHAR(250),edition VARCHAR(5),itemPrice DECIMAL(10,3),shippingPrice  DECIMAL(10,3), currency VARCHAR(4), transactionDate DATE,typeItem VARCHAR(50),typeTransaction VARCHAR(50),sources VARCHAR(50),seller VARCHAR(50))");
@@ -436,16 +436,21 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	}
 		
 	@Override
-	public List<Announce> listAnnounces(int max,boolean all) throws SQLException {
+	public List<Announce> listAnnounces(int max,STATUS stat) throws SQLException {
 		List<Announce> colls = new ArrayList<>();
 		
-		var sql = "SELECT * from announces where endDate >= now() and startDate <= now()  ORDER BY id DESC";
+		var sql = "SELECT * from announces where statusAnnounce=?  ORDER BY id DESC";
 		
-		if(all)
+		if(stat==null)
 			sql = "SELECT * from announces ORDER BY id DESC";
 		
 		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement(sql)) 
 		{
+			
+			if(stat!=null)
+				pst.setString(1, stat.name());
+			
+			
 				if(max>0)
 					pst.setMaxRows(max);
 				

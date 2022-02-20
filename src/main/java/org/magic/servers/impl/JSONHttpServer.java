@@ -41,6 +41,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.magic.api.beans.Announce;
+import org.magic.api.beans.Announce.STATUS;
 import org.magic.api.beans.GedEntry;
 import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
@@ -1063,11 +1064,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		get("/announces/get/:id", URLTools.HEADER_JSON, (request, response) -> MTG.getEnabledPlugin(MTGDao.class).getAnnounceById(Integer.parseInt(request.params(":id"))), transformer);
 
-		get("/announces/stats", URLTools.HEADER_JSON, (request, response) -> MTG.getEnabledPlugin(MTGDao.class).listAnnounces(false).stream().collect(Collectors.groupingBy(Announce::getCategorie, Collectors.counting())), transformer);
+		get("/announces/stats", URLTools.HEADER_JSON, (request, response) -> MTG.getEnabledPlugin(MTGDao.class).listAnnounces(-1,STATUS.ACTIVE).stream().collect(Collectors.groupingBy(Announce::getCategorie, Collectors.counting())), transformer);
 		
-		get("/announces/list", URLTools.HEADER_JSON, (request, response) -> MTG.getEnabledPlugin(MTGDao.class).listAnnounces(true), transformer);
+		get("/announces/list", URLTools.HEADER_JSON, (request, response) -> MTG.getEnabledPlugin(MTGDao.class).listAnnounces(), transformer);
 		
-		get("/announces/last/:qty", URLTools.HEADER_JSON, (request, response) -> MTG.getEnabledPlugin(MTGDao.class).listAnnounces(Integer.parseInt(request.params(":qty")),false), transformer);
+		get("/announces/last/:qty", URLTools.HEADER_JSON, (request, response) -> MTG.getEnabledPlugin(MTGDao.class).listAnnounces(Integer.parseInt(request.params(":qty")),STATUS.ACTIVE), transformer);
 
 		get("/announces/keyword/:search", URLTools.HEADER_JSON, (request, response) -> MTG.getEnabledPlugin(MTGDao.class).listAnnounces(URLTools.decode(request.params(":search"))), transformer);
 
@@ -1076,7 +1077,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/announces/contact/:id", URLTools.HEADER_JSON, (request, response) -> {
 			var c = new Contact();
 			c.setId(Integer.parseInt(request.params(":id")));
-			return MTG.getEnabledPlugin(MTGDao.class).listAnnounces(c);
+			return MTG.getEnabledPlugin(MTGDao.class).listAnnounces(c).stream().filter(a->a.getStatus()==STATUS.ACTIVE).toList();
 		}, transformer);
 		
 		get("/webshop/:dest/categories", URLTools.HEADER_JSON, (request, response) ->MTG.getPlugin(request.params(":dest"), MTGExternalShop.class).listCategories(), transformer);

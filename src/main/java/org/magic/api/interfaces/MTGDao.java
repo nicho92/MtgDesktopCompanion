@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.magic.api.beans.Announce;
+import org.magic.api.beans.Announce.STATUS;
 import org.magic.api.beans.ConverterItem;
 import org.magic.api.beans.GedEntry;
 import org.magic.api.beans.MagicCard;
@@ -118,9 +119,9 @@ public interface MTGDao extends MTGPlugin{
 	public void deleteFavorites(int idContact, int idAnnounce,String classename) throws SQLException;
 	public List<Announce> listFavorites(Contact c,String classename) throws SQLException;
 	
-	public List<Announce> listAnnounces(boolean all) throws SQLException;
+	public List<Announce> listAnnounces() throws SQLException;
 	public List<Announce> listAnnounces(Contact c) throws SQLException;
-	public List<Announce> listAnnounces(int max,boolean all) throws SQLException;
+	public List<Announce> listAnnounces(int max,STATUS stat) throws SQLException;
 	public List<Announce> listAnnounces(String textSearch) throws SQLException;
 	public List<Announce> listAnnounces(EnumItems valueOf)throws SQLException;
 	

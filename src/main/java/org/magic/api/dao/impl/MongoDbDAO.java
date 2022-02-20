@@ -27,6 +27,7 @@ import org.bson.conversions.Bson;
 import org.bson.json.JsonMode;
 import org.bson.json.JsonWriterSettings;
 import org.magic.api.beans.Announce;
+import org.magic.api.beans.Announce.STATUS;
 import org.magic.api.beans.ConverterItem;
 import org.magic.api.beans.GedEntry;
 import org.magic.api.beans.MagicCard;
@@ -878,13 +879,15 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	
 	
 	@Override
-	public List<Announce> listAnnounces(int max,boolean all) {
+	public List<Announce> listAnnounces(int max,STATUS stat) {
 		List<Announce> trans = new ArrayList<>();
 		
 		var it = db.getCollection(colAnnounces, BasicDBObject.class).find().sort(Sorts.descending("id"));
 			
 		if(max>0) 
 			it = it.limit(max);
+		
+		//TODO add filter for status
 		
 		it.forEach((Consumer<BasicDBObject>) result ->{
 			Announce o = deserialize(result.toString(), Announce.class);

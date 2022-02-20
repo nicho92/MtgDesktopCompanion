@@ -90,23 +90,23 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	}
 	
 	@Override
-	public List<Announce> listAnnounces(boolean all) throws SQLException {
-		return listAnnounces(-1,all);
+	public List<Announce> listAnnounces() throws SQLException {
+		return listAnnounces(-1,null);
 	}
 
 	@Override
 	public List<Announce> listAnnounces(Contact contact) throws SQLException {
-		return listAnnounces(true).stream().filter(a->a.getContact().getId()==contact.getId()).toList();
+		return listAnnounces().stream().filter(a->a.getContact().getId()==contact.getId()).toList();
 	}
 	
 	@Override
 	public List<Announce> listAnnounces(String textSearch) throws SQLException {
-		return listAnnounces(true).stream().filter(a->a.getTitle().toLowerCase().contains(textSearch)||a.getDescription().toLowerCase().contains(textSearch)).toList();
+		return listAnnounces().stream().filter(a->a.getTitle().toLowerCase().contains(textSearch)||a.getDescription().toLowerCase().contains(textSearch)).toList();
 	}
 	
 	@Override
 	public List<Announce> listAnnounces(EnumItems type) throws SQLException {
-		return listAnnounces(true).stream().filter(a->a.getCategorie()==type).toList();
+		return listAnnounces().stream().filter(a->a.getCategorie()==type).toList();
 	}
 	
 	@Override
@@ -335,7 +335,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		}
 		
 		logger.debug("duplicate announces");
-		for(Announce oe : listAnnounces(true))
+		for(Announce oe : listAnnounces())
 		{
 			oe.setId(-1);
 			dao.saveOrUpdateAnnounce(oe);

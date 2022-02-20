@@ -206,7 +206,7 @@ public class AnnouncesGUI extends MTGUIComponent {
 			
 			@Override
 			protected List<Announce> doInBackground() throws Exception {
-					return plug.listAnnounces(true);
+					return plug.listAnnounces();
 			}
 			
 			@Override
