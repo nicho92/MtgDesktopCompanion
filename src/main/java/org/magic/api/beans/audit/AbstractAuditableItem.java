@@ -9,9 +9,15 @@ public abstract class AbstractAuditableItem implements Serializable {
 	protected Instant start;
 	protected Instant end;
 	protected long duration;
+	protected StackTraceElement[] stackTrace;
+	
+	
+	
+	
 	
 	protected AbstractAuditableItem() {
 		start= Instant.now();
+		stackTrace = Thread.currentThread().getStackTrace();
 	}
 
 	public Instant getStart() {
@@ -38,7 +44,16 @@ public abstract class AbstractAuditableItem implements Serializable {
 	public void setDuration(long duration) {
 			this.duration=duration;
 	}
+	
+	public void setStackTrace(StackTraceElement[] stackTrace) {
+		this.stackTrace = stackTrace;
+	}
+	
+	public StackTraceElement[] getStackTrace() {
+		return stackTrace;
+	}
 
+	
 	
 	
 	

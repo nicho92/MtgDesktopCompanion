@@ -20,6 +20,7 @@ import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.adapters.InstantAdapter;
 import org.magic.services.adapters.MTGStockItemAdapter;
 import org.magic.services.adapters.NetworkInfoAdapter;
+import org.magic.services.adapters.StackTraceElementAdapter;
 import org.magic.services.adapters.UserAgentAdapter;
 import org.magic.services.network.URLTools;
 import org.magic.tools.FileTools;
@@ -52,6 +53,7 @@ public class JsonExport extends AbstractCardExport {
 				.registerTypeAdapter(MTGStockItem.class, new MTGStockItemAdapter())
 				.registerTypeAdapter(Instant.class, new InstantAdapter())
 				.registerTypeAdapter(UserAgent.class, new UserAgentAdapter())
+				.registerTypeAdapter(StackTraceElement.class, new StackTraceElementAdapter())
 				.registerTypeHierarchyAdapter(NetworkInfo.class, new NetworkInfoAdapter())
 				.setDateFormat("yyyy-MM-dd hh:mm").setPrettyPrinting()
 				.create();
@@ -62,6 +64,8 @@ public class JsonExport extends AbstractCardExport {
 				.registerTypeAdapter(MTGStockItem.class, new MTGStockItemAdapter())
 				.registerTypeAdapter(Instant.class, new InstantAdapter())
 				.registerTypeHierarchyAdapter(NetworkInfo.class, new NetworkInfoAdapter())
+				.registerTypeAdapter(UserAgent.class, new UserAgentAdapter())
+				.registerTypeAdapter(StackTraceElement.class, new StackTraceElementAdapter())
 				.setDateFormat("yyyy-MM-dd HH:mm")
 				.create();
 	}
