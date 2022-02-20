@@ -3,6 +3,8 @@ package org.magic.api.beans.audit;
 import java.io.Serializable;
 import java.time.Instant;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 public abstract class AbstractAuditableItem implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -17,7 +19,14 @@ public abstract class AbstractAuditableItem implements Serializable {
 	
 	protected AbstractAuditableItem() {
 		start= Instant.now();
-		stackTrace = Thread.currentThread().getStackTrace();
+		
+		
+		if(Thread.currentThread().getStackTrace().length>13)
+			stackTrace = ArrayUtils.subarray(Thread.currentThread().getStackTrace(),3,14);
+		else
+			stackTrace = Thread.currentThread().getStackTrace();
+		
+		
 	}
 
 	public Instant getStart() {
