@@ -106,7 +106,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 			
 			@Override
 			public void onReady(ReadyEvent event) {
-		    	logger.debug(getName() + " bot started");
+		    	logger.trace(getName() + " bot started");
 			}
 	
 		};
@@ -216,11 +216,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 				
 				return;
 			}
-			
-			
-			
-			
-			
+
 			responseSearch(event,name,info);
 			info.setEnd(Instant.now());
 			TechnicalServiceManager.inst().store(info);
