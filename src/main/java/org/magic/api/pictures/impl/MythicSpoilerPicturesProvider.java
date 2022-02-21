@@ -12,21 +12,19 @@ public class MythicSpoilerPicturesProvider extends AbstractPicturesProvider {
 
 	@Override
 	public STATUT getStatut() {
-		return STATUT.DEV;
+		return STATUT.DEPRECATED;
 	}
 
 	
 	public String generateUrl(MagicCard mc)
 	{
 		String cardSet = mc.getCurrentSet().getId();
-		String cardName = mc.getName().toLowerCase().replace(" ", "").replace("-", "").replace("'", "")
-				.replace(",", "").replace("/", "");
+		String cardName = mc.getName().toLowerCase().replace(" ", "").replace("-", "").replace("'", "").replace(",", "").replace("/", "");
 
 		// This will properly escape the url
 		URI uri=null;
 		try {
-			uri = new URI("https", "mythicspoiler.com", "/" + cardSet.toLowerCase() + "/cards/" + cardName + ".jpg",
-					null, null);
+			uri = new URI("https", "mythicspoiler.com", "/" + cardSet.toLowerCase() + "/cards/" + cardName + ".jpg",null, null);
 		} catch (URISyntaxException e1) {
 			logger.error(e1);
 			return null;

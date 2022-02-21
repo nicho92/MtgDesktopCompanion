@@ -171,10 +171,13 @@ public class DiscordBotServer extends AbstractMTGServer {
 				return;
 			}
 			
-			if(name.toLowerCase().startsWith("variation|"))
+			if(name.toLowerCase().startsWith("set|"))
 			{
 				try {
-					responseChardShake(event,name);
+					boolean noFoil= StringUtils.containsAnyIgnoreCase(info.getMessage(),"nofoil","no foil");
+					boolean foilOnly = StringUtils.containsAnyIgnoreCase(info.getMessage(),"foil","onlyfoil");
+					
+					responseChardShake(event,name,noFoil,foilOnly);
 				} catch (IOException e) {
 					info.setError(e.getMessage());
 					event.getChannel().sendMessage("Hoopsy...error for "+e.getMessage()).queue();
@@ -272,13 +275,23 @@ public class DiscordBotServer extends AbstractMTGServer {
 	}
 
 
-	private void responseChardShake(MessageReceivedEvent event,String name) throws IOException {
+	private void responseChardShake(MessageReceivedEvent event,String name, boolean noFoil, boolean foilOnly) throws IOException {
 	
 			event.getChannel().sendTyping().queue();
 			
-			String ed=name.substring(name.indexOf('|')+1,name.length()).toUpperCase().trim();
+			
+			
+			
+				String ed=name.substring(name.indexOf('|')+1,name.length()).toUpperCase().trim();
 				EditionsShakers  eds = MTG.getEnabledPlugin(MTGDashBoard.class).getShakesForEdition(new MagicEdition(ed));
 				var chks = eds.getShakes().stream().filter(cs->cs.getPriceDayChange()!=0).sorted(new PricesCardsShakeSorter(SORT.DAY_PERCENT_CHANGE,false)).toList();
+				
+				if(noFoil)
+					chks = chks.stream().filter(cs->!cs.isFoil()).toList();
+				else if(foilOnly)
+					chks = chks.stream().filter(CardShake::isFoil).toList();
+				
+				
 				var res =  StringUtils.substring(notifFormater.generate(FORMAT_NOTIFICATION.MARKDOWN, chks.subList(0, getInt(RESULTS_SHAKES)),CardShake.class),0,MTGConstants.DISCORD_MAX_CHARACTER);
 				event.getChannel().sendMessage(res).queue();
 			
@@ -289,7 +302,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 		MessageChannel channel = event.getChannel();
 		channel.sendTyping().queue(); 
 		channel.sendMessage(":face_with_monocle: It's simple "+event.getAuthor().getName()+", put card name in bracket like {Black Lotus} or {Black Lotus| LEA} if you want to specify a set\n "
-				+ "If you want to have prices variation for a set type {variation|<setName>} "
+				+ "If you want to have prices variation for a set type {set|<setName>} "
 				+ "and {format|"+StringUtils.join(FORMATS.values(),",")+"} for format shakes").queue();
 		
 		if(!getString(PRICE_KEYWORDS).isEmpty())

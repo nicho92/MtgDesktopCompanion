@@ -15,6 +15,12 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 
 	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
 
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEPRECATED;
+	}
+	
+	
 	public DeckMasterPicturesProvider() {
 		super();
 
