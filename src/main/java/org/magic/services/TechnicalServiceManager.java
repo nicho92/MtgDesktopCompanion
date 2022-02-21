@@ -11,6 +11,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.audit.AbstractAuditableItem;
 import org.magic.api.beans.audit.DAOInfo;
@@ -56,6 +57,17 @@ public class TechnicalServiceManager {
 		discordInfos = new ArrayList<>();
 		export = new JsonExport();
 		translator = new IPTranslator();
+		
+		if(!logsDirectory.exists())
+		{
+			try {
+				FileUtils.forceMkdir(logsDirectory);
+			} catch (IOException e) {
+				logger.error("error creating " + logsDirectory.getAbsolutePath() +": "+e);
+			}
+		}
+		
+		
 		try {
 			restore();
 			logger.info("Restauration log done");
