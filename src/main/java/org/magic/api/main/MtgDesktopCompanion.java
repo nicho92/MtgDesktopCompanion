@@ -50,7 +50,7 @@ public class MtgDesktopCompanion {
 			
 			MTGControler.getInstance().loadAccountsConfiguration();
 			MTGLogger.changeLevel(MTGControler.getInstance().get("loglevel"));
-			
+
 	
 			logger.trace("result config updated : " + updated);
 

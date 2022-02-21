@@ -103,10 +103,10 @@ public class ThreadManager {
 		});
 	}
 	
-	private ThreadManager() {
-		
-		var tpc = MTGControler.getInstance().getThreadPoolConfig();
-		
+	
+	
+	public void initThreadPoolConfig(ThreadPoolConfig tpc)
+	{
 		factory = new ThreadFactoryBuilder()
 						.setNameFormat(tpc.getNameFormat())
 						.setDaemon(tpc.isDaemon())

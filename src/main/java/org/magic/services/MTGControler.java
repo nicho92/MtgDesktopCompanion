@@ -60,6 +60,8 @@ public class MTGControler {
 		logger.info("***********************"+MTGConstants.MTG_APP_NAME+"****************************");
 		logger.info("Running with Java " + Runtime.version());
 		
+		
+		
 		var conf = new File(MTGConstants.CONF_DIR, MTGConstants.CONF_FILENAME);
 		
 		if (!conf.exists())
@@ -96,6 +98,9 @@ public class MTGControler {
 			
 			langService = new LanguageService();
 			langService.changeLocal(getLocale());
+			
+			ThreadManager.getInstance().initThreadPoolConfig(getThreadPoolConfig());
+			
 		} catch (Exception e) {
 			logger.error("error init", e);
 		}
@@ -305,7 +310,7 @@ public class MTGControler {
 		return st;
 	}
 	
-	public ThreadPoolConfig getThreadPoolConfig() {
+	private ThreadPoolConfig getThreadPoolConfig() {
 		var tpc = new ThreadPoolConfig();
 
 		tpc.setThreadPool(THREADPOOL.valueOf(get("threadsExecutor/threadPool","FIXED")));
