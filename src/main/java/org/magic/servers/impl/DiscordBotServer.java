@@ -280,7 +280,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 			event.getChannel().sendTyping().queue();
 			
 			
-			
+				logger.debug("search " + name + " with noFoil="+noFoil + " and foilOnly ="+foilOnly);
 			
 				String ed=name.substring(name.indexOf('|')+1,name.length()).toUpperCase().trim();
 				EditionsShakers  eds = MTG.getEnabledPlugin(MTGDashBoard.class).getShakesForEdition(new MagicEdition(ed));
@@ -290,7 +290,6 @@ public class DiscordBotServer extends AbstractMTGServer {
 					chks = chks.stream().filter(cs->!cs.isFoil()).toList();
 				else if(foilOnly)
 					chks = chks.stream().filter(CardShake::isFoil).toList();
-				
 				
 				var res =  StringUtils.substring(notifFormater.generate(FORMAT_NOTIFICATION.MARKDOWN, chks.subList(0, getInt(RESULTS_SHAKES)),CardShake.class),0,MTGConstants.DISCORD_MAX_CHARACTER);
 				event.getChannel().sendMessage(res).queue();
@@ -302,7 +301,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 		MessageChannel channel = event.getChannel();
 		channel.sendTyping().queue(); 
 		channel.sendMessage(":face_with_monocle: It's simple "+event.getAuthor().getName()+", put card name in bracket like {Black Lotus} or {Black Lotus| LEA} if you want to specify a set\n "
-				+ "If you want to have prices variation for a set type {set|<setName>} "
+				+ "If you want to have prices variation for a set, type {set|<setName>} "
 				+ "and {format|"+StringUtils.join(FORMATS.values(),",")+"} for format shakes").queue();
 		
 		if(!getString(PRICE_KEYWORDS).isEmpty())
