@@ -210,7 +210,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		var b = new Booster();
 	
 		try {
-			for (MagicCard mc : searchCardByEdition(me).stream().filter(mc->mc.isMainFace()).toList())
+			for (MagicCard mc : searchCardByEdition(me).stream().filter(MagicCard::isMainFace).toList())
 			{
 				if (mc.getRarity()==MTGRarity.COMMON && !mc.isBasicLand())
 					common.add(mc);
