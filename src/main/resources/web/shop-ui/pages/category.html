@@ -39,28 +39,6 @@
     	
     }
     
- 	
-    function SortByDate(x,y,order) {
-   		return x.id - y.id;
-    }
-    
-    function SortByDateDesc(x,y,order) {
-   		return y.id - x.id;
-    }
-
-    function SortByPrice(x,y) {
-   		return x.price - y.price;
-    }
-    
-    function SortByPriceDesc(x,y) {
-   		return y.price - x.price;
-    }
-    
-    function SortByName(x,y) {
-      	return ((x.name == y.name) ? 0 : ((x.name > y.name) ? 1 : -1 ));
-    }
-    
-    
     function paginate(d)
     {
     	paginator = $('#pagination').pagination({
@@ -198,7 +176,7 @@
 						            max: maxRange,
 						            values: [ 0, maxRange ],
 						            slide: function( event, ui ) {
-						             	$( "#amount" ).val( data.currencySymbol + ui.values[ 0 ] + " - "+data.currencySymbol+ " " + ui.values[ 1 ] );
+						             	$( "#amount" ).val( currency + ui.values[ 0 ] + " - "+currency+ " " + ui.values[ 1 ] );
 						            }
 						          });
 						       	

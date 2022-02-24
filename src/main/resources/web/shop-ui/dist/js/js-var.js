@@ -1,3 +1,28 @@
+
+ 	
+    function SortByDate(x,y,order) {
+   		return x.id - y.id;
+    }
+    
+    function SortByDateDesc(x,y,order) {
+   		return y.id - x.id;
+    }
+
+    function SortByPrice(x,y) {
+   		return x.price - y.price;
+    }
+    
+    function SortByPriceDesc(x,y) {
+   		return y.price - x.price;
+    }
+    
+    function SortByName(x,y) {
+      	return ((x.name == y.name) ? 0 : ((x.name > y.name) ? 1 : -1 ));
+    }
+    
+    
+
+
  function $_GET(param) 
  {
 	    	var vars = {};

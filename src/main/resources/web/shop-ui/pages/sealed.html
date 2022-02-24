@@ -15,13 +15,16 @@
 
     <script src="https://pagination.js.org/dist/2.1.5/pagination.min.js"></script>
     <link href="https://pagination.js.org/dist/2.1.5/pagination.css" rel="stylesheet" type="text/css">
-    	<link href="../css/extra.css" rel="stylesheet" type="text/css">
+    
+    
+    <link href="../css/extra.css" rel="stylesheet" type="text/css">
  
     
     <script>
 
 	var percentReduction=0;
     var currency = "";
+    var paginator;
     function generateProduct(datas)
     {
     	var append="";
@@ -35,7 +38,30 @@
     }
     
     
-    
+    function paginate(d)
+    {
+    	paginator = $('#pagination').pagination({
+    	    dataSource: d,
+    	    pageSize: 12,
+    	    autoHidePrevious: true,
+    	    autoHideNext: true,
+    	    pageRange: 8,
+    	    callback: function(data, pagination) {
+				if(data.length==0)
+				{
+					 $('#products').html("No result found");
+					return;
+				}	
+    	    	var html = generateProduct(data);
+    	        $('#products').html(html);
+				$('button[name="addCartButton"]').each(function() {
+		       		$(this).click(function() {
+		       			addCartStockId($(this),percentReduction);
+		    		});
+		    	});
+    	    }
+   		});//end pagination
+    }
     
     
     $(document).ready(function() {	
@@ -80,34 +106,49 @@
 						        url: url
 						    }).then(function(data) {
 			
-							    	$('#pagination').pagination({
-							    	    dataSource: data,
-							    	    pageSize: 12,
-							    	    autoHidePrevious: true,
-							    	    autoHideNext: true,
-							    	    pageRange: 8,
-							    	    callback: function(data, pagination) {
-											if(data.length==0)
-											{
-												 $('#products').html("No result found");
-												return;
-											}	
-							    	    	var html = generateProduct(data);
-							    	        $('#products').html(html);
-											$('button[name="addCartButton"]').each(function() {
-									       		$(this).click(function() {
-									       			addCartStockId($(this),percentReduction);
-									    		});
-									    	});
-							    	    }
-							   		});//end pagination
-								
 						    	
+						       	paginate(data);
+						   		
+								
+							   		$("#btnFilter").click(function(){
+							    		var min = 	$("#slider").slider("values")[0];
+							    		var max = 	$("#slider").slider("values")[1];
+							    		
+							    		if(percentReduction)
+							    			max = max + (max*percentReduction)+1;
+							    		
+							    		
+							    		data.sort(eval($("#cboSort").val()));
+							    		paginate(data.filter(function(x){ return x.price >= min && x.price <= max}));
+							       	});
+							    	
+							    	
+							       	var maxRange = Math.max.apply(Math, data.map(function(o) { return o.price; }));
+							       	
+							       	$("#slider").slider({
+							            range: true,
+							            min: 0,
+							            max: maxRange,
+							            values: [ 0, maxRange ],
+							            slide: function( event, ui ) {
+							             	$( "#amount" ).val( currency + ui.values[ 0 ] + " - "+currency+ " " + ui.values[ 1 ] );
+							            }
+							          });
+							       	
+							    
+							   		
 							   		const arrayUniqueByKey = [...new Map(data.map(item => [item.edition.id, item.edition])).values()];
 							    	arrayUniqueByKey.forEach( function(item,index){
 										$("#categories").append("<li class='list-group-item'><i class='ss ss-2x ss-"+item.id.toLowerCase()+"'></i> <a href='category.html?idSet="+item.id+"'>"+item.set+"</a></li>");
 									});
 							   		
+							    	const arrayUniqueByKeyTypeProduct = [...new Set(data.map(item => item.product.typeProduct))];;
+							    	arrayUniqueByKeyTypeProduct.forEach( function(item,index){
+							    		
+										$("#cboSealedType").append("<option value='"+item+"')>"+item+"</option>");
+									});
+							    	
+							    	
 					    	
 					
 			    		});//end ajax url
@@ -153,6 +194,28 @@
 <div class="container">
     <div class="row" >
         <div class="col-12 col-sm-3">
+        
+        	<div class="card bg-light mb-3">
+                <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-list"></i> Options</div>
+               	<div class="card-body">
+               	Prices : <div id="slider"></div><input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;"></div>
+               	Sealed : <select class="form-control" id="cboSealedType"></select>
+               	
+               	
+               	Sort : <select class="form-control" id="cboSort">
+					<option value="SortByName">Name</option>
+					<option value="SortByPrice">Price (asc)</option>
+					<option value="SortByPriceDesc">Price (desc)</option>
+					<option value="SortByDateDesc">Latest Product</option>
+				</select>
+               	
+               	<div class="card-footer">
+               		<button id="btnFilter" class="btn btn-success btn-block"><i class="fas fa-filter"></i> Apply Filter </button>
+               	</div>
+               	
+            </div>
+        
+        
             <div class="card bg-light mb-3">
                 <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-list"></i> Sets</div>
                 <ul id="categories" class="list-group category_block">
