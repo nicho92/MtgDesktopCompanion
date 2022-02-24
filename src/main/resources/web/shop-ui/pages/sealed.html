@@ -107,19 +107,26 @@
 						    }).then(function(data) {
 			
 						    	
-						       	paginate(data);
+						       		paginate(data);
 						   		
 								
 							   		$("#btnFilter").click(function(){
 							    		var min = 	$("#slider").slider("values")[0];
 							    		var max = 	$("#slider").slider("values")[1];
+							    		var filteredData = data;
+							    		
 							    		
 							    		if(percentReduction)
 							    			max = max + (max*percentReduction)+1;
 							    		
+							    		if($("#cboSealedType").val()!="")
+						    			{
+							    			filteredData = filteredData.filter(function(x){ return x.product.typeProduct==$("#cboSealedType").val()});
+						    			}
 							    		
-							    		data.sort(eval($("#cboSort").val()));
-							    		paginate(data.filter(function(x){ return x.price >= min && x.price <= max}));
+							    		
+							    		filteredData.sort(eval($("#cboSort").val()));
+							    		paginate(filteredData.filter(function(x){ return x.price >= min && x.price <= max}));
 							       	});
 							    	
 							    	
@@ -139,13 +146,12 @@
 							   		
 							   		const arrayUniqueByKey = [...new Map(data.map(item => [item.edition.id, item.edition])).values()];
 							    	arrayUniqueByKey.forEach( function(item,index){
-										$("#categories").append("<li class='list-group-item'><i class='ss ss-2x ss-"+item.id.toLowerCase()+"'></i> <a href='category.html?idSet="+item.id+"'>"+item.set+"</a></li>");
+										$("#categories").append("<li class='list-group-item'><i class='ss ss-2x ss-"+item.id.toLowerCase()+"'></i> <a href='sealed.html?idSet="+item.id+"'>"+item.set+"</a></li>");
 									});
 							   		
 							    	const arrayUniqueByKeyTypeProduct = [...new Set(data.map(item => item.product.typeProduct))];;
 							    	arrayUniqueByKeyTypeProduct.forEach( function(item,index){
-							    		
-										$("#cboSealedType").append("<option value='"+item+"')>"+item+"</option>");
+							    		$("#cboSealedType").append("<option value='"+item+"')>"+item+"</option>");
 									});
 							    	
 							    	
@@ -199,7 +205,9 @@
                 <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-list"></i> Options</div>
                	<div class="card-body">
                	Prices : <div id="slider"></div><input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;"></div>
-               	Sealed : <select class="form-control" id="cboSealedType"></select>
+               	Sealed : <select class="form-control" id="cboSealedType">
+               			<option></option>
+               			 </select>
                	
                	
                	Sort : <select class="form-control" id="cboSort">
