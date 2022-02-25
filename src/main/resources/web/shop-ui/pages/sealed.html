@@ -120,10 +120,10 @@
 							    			max = max + (max*percentReduction)+1;
 							    		
 							    		if($("#cboSealedType").val()!="")
-						    			{
-							    			filteredData = filteredData.filter(function(x){ return x.product.typeProduct==$("#cboSealedType").val()});
-						    			}
-							    		
+						    				filteredData = filteredData.filter(function(x){ return x.product.typeProduct==$("#cboSealedType").val()});
+						    			
+							    		if($("#onlyStock").is(':checked'))
+							    			filteredData = filteredData.filter(function(x){ return x.qte>0});
 							    		
 							    		filteredData.sort(eval($("#cboSort").val()));
 							    		paginate(filteredData.filter(function(x){ return x.price >= min && x.price <= max}));
@@ -205,11 +205,13 @@
                 <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-list"></i> Options</div>
                	<div class="card-body">
                	Prices : <div id="slider"></div><input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;"></div>
+               	<div class="form-check">
+				  <input class="form-check-input" type="checkbox" id="onlyStock">
+				  <label class="form-check-label" for="flexCheckDefault">In Stock Only</label>
+				</div>
                	Sealed : <select class="form-control" id="cboSealedType">
                			<option></option>
                			 </select>
-               	
-               	
                	Sort : <select class="form-control" id="cboSort">
 					<option value="SortByName">Name</option>
 					<option value="SortByPrice">Price (asc)</option>

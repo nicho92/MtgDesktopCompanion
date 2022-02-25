@@ -49,10 +49,6 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<repositories>
-		<!-- <repository>
-			<id>jcenter</id>
-			<url>https://jcenter.bintray.com</url>
-		</repository> -->
 		<repository>
 			<id>reposilite-repository</id>
 			<url>https://repo.panda-lang.org/releases</url>
