@@ -17,6 +17,7 @@ import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 import org.magic.tools.MTG;
+import org.magic.tools.UITools;
 
 import com.google.gson.JsonObject;
 
@@ -32,7 +33,7 @@ public class MoxfieldDeckSniffer extends AbstractDeckSniffer {
 	
 	@Override
 	public String[] listFilter() {
-		return new String[]{"Archon","Australian Highlander","Brawl","Canadian Highlander","Centurion","Commander","CommanderPrecons","Conquest","DuelCommander","Gladiator","Historic","Historic Brawl","Legacy","Leviathan","Modern","Old School","Oathbreaker","Pauper","Pauper EDH","Penny Dreadful","Pioneer","Premodern","Primordial","Standard","Vintage","None"};
+		return new String[]{"Archon","highlanderAustralian","Brawl","highlanderCanadian","Centurion","Commander","CommanderPrecons","Conquest","DuelCommander","Gladiator","Historic","HistoricBrawl","Legacy","Leviathan","Modern","OldSchool","Oathbreaker","Pauper","PauperEDH","PennyDreadful","Pioneer","Premodern","Primordial","Standard","Vintage","None"};
 	}
 
 	@Override
@@ -56,6 +57,7 @@ public class MoxfieldDeckSniffer extends AbstractDeckSniffer {
 			load(json,"commanders",map);
 			
 			deck.setCommander(map.keySet().iterator().next());
+			deck.getMain().put(deck.getCommander(), 1);
 		}
 		
 		
@@ -71,7 +73,7 @@ public class MoxfieldDeckSniffer extends AbstractDeckSniffer {
 				var scryId = entry.getValue().getAsJsonObject().get("card").getAsJsonObject().get("scryfall_id").getAsString();
 				var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(scryId);
 				main.put(mc, qty);
-				
+				notify(mc);
 			} catch (IOException e) {
 				logger.error(entry.getKey() + " is not found");
 			}
@@ -105,6 +107,9 @@ public class MoxfieldDeckSniffer extends AbstractDeckSniffer {
 				dekElement.setName(jo.get("name").getAsString());
 				dekElement.setAuthor(jo.get("authors").getAsJsonArray().get(0).getAsJsonObject().get("userName").getAsString());
 				dekElement.setUrl(URI.create("https://api.moxfield.com/v2/decks/all/"+jo.get("publicId").getAsString()));
+				dekElement.setDescription(UITools.formatDateTime(UITools.parseGMTDate(jo.get("createdAtUtc").getAsString())));
+				
+				
 			ret.add(dekElement);
 		}
 		
