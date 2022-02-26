@@ -69,7 +69,7 @@ public class CardsDeckCheckerPanel extends JComponent {
 
 						@Override
 						protected List<MagicDeck> doInBackground() throws Exception {
-							return manager.listDecksWith(selectedCard);
+							return manager.listDecksWith(selectedCard,false);
 						}
 						@Override
 						protected void done() {

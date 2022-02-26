@@ -29,11 +29,6 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 
 	private Map<String,Integer> mapCodes;
 	
-	@Override
-	public STATUT getStatut() {
-		return STATUT.DEPRECATED;
-	}
-	
 	public MTGSalvationDeckSniffer() {
 		super();
 		

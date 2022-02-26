@@ -13,6 +13,8 @@ import java.util.Set;
 
 import org.magic.api.beans.MagicFormat.AUTHORIZATION;
 import org.magic.api.beans.enums.MTGColor;
+import org.magic.tools.IDGenerator;
+
 
 public class MagicDeck implements Serializable {
 
@@ -97,7 +99,11 @@ public class MagicDeck implements Serializable {
 		getSideBoard().compute(mc, (k,v)->(v==null)?1:v+1);
 	}
 
-	public boolean hasCard(MagicCard mc) {
+	public boolean hasCard(MagicCard mc,boolean strict) {
+		
+		if(strict)
+			return !getMain().keySet().stream().filter(k->IDGenerator.generate(k).equals(IDGenerator.generate(mc))).findAny().isEmpty();
+		
 		return !getMain().keySet().stream().filter(k->k.getName().equalsIgnoreCase(mc.getName())).findAny().isEmpty();
 	}
 

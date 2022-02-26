@@ -24,7 +24,6 @@ import org.magic.services.network.URLTools;
 public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
 	private static final String MAX_PAGE = "MAX_PAGE";
-	private static final String FORMAT = "FORMAT";
 	private static final String TIMEOUT = "TIMEOUT";
 	private static final String URL = "URL";
 	private Map<Integer, String> cacheColor;
@@ -170,7 +169,6 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of(URL, "https://deckstats.net/decks/f/",
 							  TIMEOUT, "0",
-							  FORMAT, "standard",
 							  MAX_PAGE, "2");
 
 	}

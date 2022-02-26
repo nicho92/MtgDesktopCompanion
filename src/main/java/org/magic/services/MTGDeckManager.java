@@ -133,12 +133,12 @@ public class MTGDeckManager extends Observable {
 		return decks;
 	}
 	
-	public List<MagicDeck> listDecksWith(MagicCard mc)
+	public List<MagicDeck> listDecksWith(MagicCard mc,boolean strict)
 	{
 		List<MagicDeck> decks = new ArrayList<>();
 		for (MagicDeck deck : listDecks()) 
 		{
-				if(deck.hasCard(mc))
+				if(deck.hasCard(mc,strict))
 				{
 					decks.add(deck);
 					setChanged();
