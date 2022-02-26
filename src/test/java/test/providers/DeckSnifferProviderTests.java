@@ -44,7 +44,7 @@ public class DeckSnifferProviderTests {
 		System.out.println("FILTERS" + p.listFilter());
 
 			try {
-				List<RetrievableDeck> decks = p.getDeckList();
+				List<RetrievableDeck> decks = p.getDeckList(p.listFilter()[0]);
 				System.out.println("Retrieve decklist OK");
 				RetrievableDeck d = decks.get(0);
 				MagicDeck deck = p.getDeck(d);
