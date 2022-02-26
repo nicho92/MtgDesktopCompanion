@@ -83,7 +83,7 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 	}
 	
 	@Override
-	public List<RetrievableDeck> getDeckList() throws IOException {
+	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
 		List<RetrievableDeck> ret = new ArrayList<>();
 		
 		
@@ -91,7 +91,7 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 						.setClient(URLTools.newClient())
 						.url(BASE_URI+"/decks/cards/").method(METHOD.GET)
 						.addContent("orderBy", "-createdAt")
-						.addContent("formats", String.valueOf(ArrayUtils.indexOf(listFilter(), getString("FORMAT"))+1))
+						.addContent("formats", String.valueOf(ArrayUtils.indexOf(listFilter(), filter)+1))
 						.addContent("pageSize", getString("PAGE_SIZE"))
 						.addContent("page","1")
 						.addHeader("accept", URLTools.HEADER_JSON)
@@ -136,8 +136,7 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 	
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		return Map.of("FORMAT", "",
-							   "PAGE_SIZE","50");
+		return Map.of("PAGE_SIZE","50");
 	}
 
 }

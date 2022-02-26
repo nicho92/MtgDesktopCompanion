@@ -25,7 +25,6 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 	
 	private static final String MAX_PAGE = "MAX_PAGE";
 	private static final String URL = "URL";
-	private static final String FORMAT = "FORMAT";
 	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
 
 	public MTGDecksSniffer() {
@@ -97,15 +96,15 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public List<RetrievableDeck> getDeckList() throws IOException {
-		var url = getString(URL) + "/" + getString(FORMAT) + "/decklists/page:1";
+	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
+		var url = getString(URL) + "/" + filter + "/decklists/page:1";
 		logger.debug("get List deck at " + url);
 		List<RetrievableDeck> list = new ArrayList<>();
 		var nbPage = 1;
 		var maxPage = getInt(MAX_PAGE);
 
 		for (var i = 1; i <= maxPage; i++) {
-			url = getString(URL) + "/" + getString(FORMAT) + "/decklists/page:" + nbPage;
+			url = getString(URL) + "/" + filter + "/decklists/page:" + nbPage;
 			Document d = URLTools.extractAsHtml(url);
 
 			Elements trs = d.select("table.hidden-xs tr ");
@@ -160,7 +159,6 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of(URL, "https://mtgdecks.net",
-							   FORMAT, "Standard",
 							   MAX_PAGE, "2",
 							   LOAD_CERTIFICATE, "true");
 	}

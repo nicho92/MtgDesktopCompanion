@@ -31,7 +31,6 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 
 	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
 	private static final String URL_JSON = "URL_JSON";
-	private static final String FORMAT = "FORMAT";
 	private static final String URI_BASE="https://tappedout.net";
 	private MTGHttpClient httpclient;
 
@@ -161,12 +160,12 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 
 	}
 
-	public List<RetrievableDeck> getDeckList() throws IOException {
+	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
 
 		if(httpclient==null)
 			initConnexion();
 		
-		String tappedJson = RegExUtils.replaceAll(getString(URL_JSON), "%FORMAT%", getString(FORMAT));
+		String tappedJson = RegExUtils.replaceAll(getString(URL_JSON), "%FORMAT%", filter);
 		logger.debug("sniff url : " + tappedJson);
 
 		String responseBody = httpclient.toString(httpclient.doGet(tappedJson));
@@ -200,7 +199,6 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of(LOAD_CERTIFICATE,"true",
-								FORMAT, "standard",
 								URL_JSON, URI_BASE+"/api/deck/latest/%FORMAT%");
 	}
 

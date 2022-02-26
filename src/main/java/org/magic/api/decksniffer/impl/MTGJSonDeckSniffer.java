@@ -79,7 +79,7 @@ public class MTGJSonDeckSniffer extends AbstractDeckSniffer {
 	
 
 	@Override
-	public List<RetrievableDeck> getDeckList() throws IOException {
+	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
 		var d = URLTools.extractAsJson(AbstractMTGJsonProvider.MTG_JSON_DECKS_LIST);
 		var arr = d.getAsJsonObject().get("data").getAsJsonArray();
 		

@@ -12,7 +12,7 @@ public interface MTGDeckSniffer extends MTGPlugin {
 
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException;
 
-	public List<RetrievableDeck> getDeckList() throws IOException;
+	public List<RetrievableDeck> getDeckList(String filter) throws IOException;
 
 	public void connect() throws IOException;
 

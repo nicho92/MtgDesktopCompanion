@@ -32,7 +32,6 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 	private static final String LEGACY = "legacy";
 	private static final String MODERN = "modern";
 	private static final String STANDARD = "standard";
-	private static final String FORMAT = "FORMAT";
 
 
 	@Override
@@ -106,14 +105,14 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public List<RetrievableDeck> getDeckList() throws IOException {
-		String url = getString(URL) + "/magic/deck/search?format=" + getString(FORMAT);
+	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
+		String url = getString(URL) + "/magic/deck/search?format=" + filter;
 		logger.debug("get List deck at " + url);
 		List<RetrievableDeck> list = new ArrayList<>();
 		int maxPage = getInt(MAX_PAGE);
 
 		for (var i = 1; i <= maxPage; i++) {
-			url = getString(URL) + "/magic/deck/search?format=" + getString(FORMAT) + "&page=" + i;
+			url = getString(URL) + "/magic/deck/search?format=" + filter + "&page=" + i;
 			Document d = IncapsulaParser.readUrl(url);
 			
 			for (Element tr : d.getElementsByClass("gradeA")) {
@@ -167,9 +166,8 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		return Map.of(FORMAT, STANDARD,
-								URL, "https://decks.tcgplayer.com",
-								MAX_PAGE, "1");
+		return Map.of(	URL, "https://decks.tcgplayer.com",
+						MAX_PAGE, "1");
 
 	}
 

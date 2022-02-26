@@ -127,13 +127,13 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public List<RetrievableDeck> getDeckList() throws IOException {
+	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
 
 		int nbPage = getInt(MAX_PAGE);
 		List<RetrievableDeck> list = new ArrayList<>();
 		
 		for (var i = 1; i <= nbPage; i++) {
-			Document d = URLTools.extractAsHtml(getString(URL) + "/" + getString(FORMAT) + "/?lng=fr&page=" + i);
+			Document d = URLTools.extractAsHtml(getString(URL) + "/" + filter + "/?lng=fr&page=" + i);
 			Elements e = d.select("tr.deck_row");
 
 			for (Element cont : e) {

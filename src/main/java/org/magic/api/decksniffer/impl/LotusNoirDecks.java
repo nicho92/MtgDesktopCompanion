@@ -22,8 +22,7 @@ import org.magic.services.network.URLTools;
 
 public class LotusNoirDecks extends AbstractDeckSniffer {
 
-	
-	private static final String FORMAT = "FORMAT";
+
 	private static final String URL = "URL";
 	private static final String MAX_PAGE = "MAX_PAGE";
 
@@ -75,9 +74,9 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public List<RetrievableDeck> getDeckList() throws IOException {
+	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
 
-		String decksUrl = getString(URL) + "?dpage=" + getString(MAX_PAGE) + "&action=" + getString(FORMAT);
+		String decksUrl = getString(URL) + "?dpage=" + getString(MAX_PAGE) + "&action=" + filter;
 
 		logger.debug("snif decks : " + decksUrl);
 
@@ -85,7 +84,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 		List<RetrievableDeck> list = new ArrayList<>();
 
 		for (var i = 1; i <= nbPage; i++) {
-			Document d = URLTools.extractAsHtml(getString(URL) + "?dpage=" + i + "&action=" + getString(FORMAT));
+			Document d = URLTools.extractAsHtml(getString(URL) + "?dpage=" + i + "&action=" + filter);
 
 			Elements e = d.select("div.thumb_page");
 
@@ -151,7 +150,6 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of(URL, "http://www.lotusnoir.info/magic/decks/",
-			FORMAT, "decks-populaires",
 			MAX_PAGE, "2");
 	
 

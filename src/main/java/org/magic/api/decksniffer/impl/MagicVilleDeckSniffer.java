@@ -23,7 +23,6 @@ import org.magic.services.network.URLTools;
 public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 
 	
-	private static final String FORMAT = "FORMAT";
 	private String baseUrl="https://www.magic-ville.com/fr/decks/";
 	private HashMap<String,String> mapCodes;
 
@@ -76,7 +75,7 @@ public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public List<RetrievableDeck> getDeckList() throws IOException {
+	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
 		
 		List<RetrievableDeck> ret = new ArrayList<>();
 		int maxPage=getInt("MAX_PAGE");
@@ -85,7 +84,7 @@ public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 		for(var currPage=0;currPage<maxPage;currPage++)
 		{
 			var d = RequestBuilder.build().method(METHOD.GET).setClient(URLTools.newClient())
-						.url(baseUrl + mapCodes.get(getString(FORMAT))+"&pointeur="+currPage)
+						.url(baseUrl + mapCodes.get(filter)+"&pointeur="+currPage)
 						.toHtml();
 				Elements trs = d.select("tr[height=33]");
 				for(Element tr : trs)
@@ -122,8 +121,7 @@ public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 	
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		return Map.of(FORMAT, "STANDARD",
-								"MAX_PAGE", "1");
+		return Map.of("MAX_PAGE", "1");
 	}
 	
 	@Override

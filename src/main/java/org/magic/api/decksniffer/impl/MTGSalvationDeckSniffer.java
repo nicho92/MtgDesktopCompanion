@@ -103,9 +103,9 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 		return deck;
 	}
 
-	public List<RetrievableDeck> getDeckList() throws IOException {
+	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
 
-		String url = getString("URL") + "/decks?filter-format=" + getFormatCode(getString("FORMAT"))+ "&filter-deck-time-frame=" + getString("FILTER");
+		String url = getString("URL") + "/decks?filter-format=" + getFormatCode(filter)+ "&filter-deck-time-frame=" + getString("FILTER");
 
 		List<RetrievableDeck> list = new ArrayList<>();
 
@@ -186,7 +186,6 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of("URL", "https://www.mtgsalvation.com/",
 								"MAX_PAGE", "2",
-								"FORMAT", "Modern",
 								"FILTER", "1");// HOT=1, NEW=2, TOPWEEK=3,TOPMONTH=4,TOPALLTIME=5
 	}
 

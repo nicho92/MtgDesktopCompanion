@@ -35,9 +35,6 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 	private static final String MODERN = "modern";
 	private static final String STANDARD = "standard";
 	private static final String SUPPORT = "SUPPORT";
-	private static final String FORMAT = "FORMAT";
-
-	
 
 	private boolean metagames = false;
 
@@ -102,7 +99,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 	}
 	
 	
-	public List<RetrievableDeck> getDeckList() throws IOException {
+	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
 		var url = "";
 		metagames = getBoolean("METAGAME");
 
@@ -116,9 +113,9 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 		for (var i = 1; i <= maxPage; i++) {
 
 			if (!metagames)
-				url = getString("URL") + "/deck/custom/" + getString(FORMAT) + "?page=" + nbPage + "#"+ getString(SUPPORT);
+				url = getString("URL") + "/deck/custom/" + filter + "?page=" + nbPage + "#"+ getString(SUPPORT);
 			else
-				url = getString("URL") + "metagame/" + getString(FORMAT) + "#" + getString(SUPPORT);
+				url = getString("URL") + "metagame/" + filter + "#" + getString(SUPPORT);
 
 			logger.debug("sniff url : " + url);
 
@@ -183,7 +180,6 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of(SUPPORT, "paper",
-								FORMAT, STANDARD,
 								"URL", "https://www.mtggoldfish.com/",
 								"MAX_PAGE", "2",
 								"METAGAME", "false");

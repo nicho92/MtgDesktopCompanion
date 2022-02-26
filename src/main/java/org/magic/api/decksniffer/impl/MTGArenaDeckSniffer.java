@@ -95,7 +95,7 @@ public class MTGArenaDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public List<RetrievableDeck> getDeckList() throws IOException {
+	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
 		
 		if(arena==null)
 			init();

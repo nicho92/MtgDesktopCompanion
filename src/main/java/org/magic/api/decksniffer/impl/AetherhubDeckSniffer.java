@@ -125,13 +125,13 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public List<RetrievableDeck> getDeckList() throws IOException {
+	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
 		List<RetrievableDeck> list = new ArrayList<>();
 		
 		Map<String,String> headers = new HashMap<>();
 		headers.put(URLTools.CONTENT_TYPE, URLTools.HEADER_JSON);
 		headers.put(URLTools.USER_AGENT,MTGConstants.USER_AGENT);
-		var resp = httpclient.doPost(uriPost+formats.get(getString(FORMAT)), new StringEntity(postReqData), headers);
+		var resp = httpclient.doPost(uriPost+formats.get(filter), new StringEntity(postReqData), headers);
 		var ret = httpclient.toString(resp);
 		
 		logger.trace(ret);
@@ -184,11 +184,6 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
-	}
-
-	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of(FORMAT, "All");	
 	}
 
 	@Override

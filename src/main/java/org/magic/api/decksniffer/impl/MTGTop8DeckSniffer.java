@@ -112,7 +112,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public List<RetrievableDeck> getDeckList() throws IOException {
+	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
 		MTGHttpClient httpClient = URLTools.newClient();
 		var res = new StringBuilder();
 		for (var i = 0; i < getInt("MAX_PAGE"); i++) {
@@ -123,7 +123,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 			nvps.put("event_titre", getString("EVENT_FILTER"));
 			nvps.put("deck_titre", "");
 			nvps.put("player", "");
-			nvps.put("format", formats.get(getString("FORMAT")));
+			nvps.put("format", formats.get(filter));
 			nvps.put("MD_check", "1");
 			nvps.put("cards", getString("CARD_FILTER"));
 			nvps.put("date_start", getString("DATE_START_FILTER"));
@@ -171,7 +171,6 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of("URL", "http://mtgtop8.com/",
 		"EVENT_FILTER", "",
-		"FORMAT", "Standard",
 		"MAX_PAGE", "2",
 		"TIMEOUT", "0",
 		"CARD_FILTER", "",

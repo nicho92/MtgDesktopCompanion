@@ -600,7 +600,7 @@ public class ConstructPanel extends MTGUIComponent {
 						if (res == JFileChooser.APPROVE_OPTION) 
 						{
 							buzyLabel.start();
-							DeckImportWorker importWork = new DeckImportWorker(exp, buzyLabel, f) {
+							var importWork = new DeckImportWorker(exp, buzyLabel, f) {
 								@Override
 								protected void done() {
 									super.done();
@@ -772,7 +772,6 @@ public class ConstructPanel extends MTGUIComponent {
 								var itemSelCommander = new JMenuItem(capitalize("SELECT_COMMANDER"));
 								menu.add(itemSelCommander);
 								itemSelCommander.addActionListener(ae->deck.setCommander(mc));
-							
 							}
 					}
 					
@@ -781,10 +780,6 @@ public class ConstructPanel extends MTGUIComponent {
 					
 					
 					itemMove.addActionListener(ae->{
-						
-						
-						
-						
 						if(f==STACK.MAIN)
 						{
 							List<MagicCard> list = UITools.getTableSelections(tableDeck, 0);
@@ -841,8 +836,6 @@ public class ConstructPanel extends MTGUIComponent {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				MagicCard mc = UITools.getTableSelection(table, 0);
-				
-				//tableCards.convertRowIndexToModel(i)
 				int sel = table.getSelectedRow();
 				if (e.getKeyChar() == '+') {
 					if(f==STACK.MAIN)

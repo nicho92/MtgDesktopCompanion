@@ -84,17 +84,11 @@ public class MoxfieldDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("FORMAT", "Standard");	
-	}
-	
-	
-	@Override
-	public List<RetrievableDeck> getDeckList() throws IOException {
+	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
 		var json = RequestBuilder.build()
 					  .setClient(client)
 					  .method(METHOD.GET)
-					  .url("https://api.moxfield.com/v2/decks/search?pageNumber=1&pageSize=128&sortType=updated&sortDirection=Descending&fmt="+getString("FORMAT")+"&filter=")
+					  .url("https://api.moxfield.com/v2/decks/search?pageNumber=1&pageSize=128&sortType=updated&sortDirection=Descending&fmt="+filter+"&filter=")
 					  .toJson();
 		
 		

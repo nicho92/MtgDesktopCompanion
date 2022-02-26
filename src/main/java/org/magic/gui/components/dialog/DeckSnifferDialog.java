@@ -84,8 +84,7 @@ public class DeckSnifferDialog extends AbstractDelegatedImporterDialog {
 						cboFormats.addActionListener(e -> {
 							try {
 								lblLoad.start();
-								selectedSniffer.setProperty("FORMAT", cboFormats.getSelectedItem());
-								model.init(selectedSniffer.getDeckList());
+								model.init(selectedSniffer.getDeckList(cboFormats.getSelectedItem().toString()));
 								model.fireTableDataChanged();
 								lblLoad.end();
 							} catch (Exception e1) {

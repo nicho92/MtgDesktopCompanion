@@ -27,7 +27,6 @@ public class MTGADecksSniffer extends AbstractDeckSniffer {
 
 	private static final String TRUE = "true";
 	private static final String FALSE = "false";
-	private static final String FORMAT = "FORMAT";
 	private static final String URL="https://mtgadecks.net";
 	
 	
@@ -73,7 +72,7 @@ public class MTGADecksSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public List<RetrievableDeck> getDeckList() throws IOException {
+	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
 		
 		List<RetrievableDeck> ret = new ArrayList<>();
 		
@@ -114,8 +113,8 @@ public class MTGADecksSniffer extends AbstractDeckSniffer {
 				 .addContent("&order[0][column]","3")
 				 .addContent("&order[0][dir]","desc");
 				 
-				 if(!getString(FORMAT).isEmpty())
-					 e.addContent("data", "archetype="+ArrayUtils.indexOf(listFilter(), getString(FORMAT)));
+				 if(filter!=null && !filter.isEmpty())
+					 e.addContent("data", "archetype="+ArrayUtils.indexOf(listFilter(),filter));
 					 
 					 
 				 var arr = e.toJson().getAsJsonObject().get("data").getAsJsonArray();
@@ -162,10 +161,6 @@ public class MTGADecksSniffer extends AbstractDeckSniffer {
 		return "MTGADecks";
 	}
 
-	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of(FORMAT, "");
-	}
-
+	
 	
 }

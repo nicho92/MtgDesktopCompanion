@@ -270,8 +270,7 @@ public class MTGDeckManager extends Observable {
 			List<MTGDeckSniffer> deckServices = listEnabledPlugins(MTGDeckSniffer.class);
 			MTGDeckSniffer sniffer = deckServices.get(random.nextInt(deckServices.size()));
 			String[] formats = sniffer.listFilter();
-			sniffer.setProperty("FORMAT", formats[random.nextInt(formats.length)]);
-			List<RetrievableDeck> availableDecks = sniffer.getDeckList();
+			List<RetrievableDeck> availableDecks = sniffer.getDeckList(formats[random.nextInt(formats.length)]);
 			RetrievableDeck d = availableDecks.get(random.nextInt(availableDecks.size()));
 			return sniffer.getDeck(d);
 			
