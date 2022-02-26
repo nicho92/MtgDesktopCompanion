@@ -125,14 +125,4 @@ public class MoxfieldDeckSniffer extends AbstractDeckSniffer {
 	public String getName() {
 		return "MoxField";
 	}
-
-	public static void main(String[] args) throws IOException {
-		var prov = new MoxfieldDeckSniffer();
-		var rDeck = prov.getDeckList().get(0);
-		
-		prov.getDeck(rDeck);
-		
-
-	}
-
 }
