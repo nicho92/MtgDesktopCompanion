@@ -450,6 +450,8 @@ public class UITools {
 	
 	public static String formatDouble(Object f)
 	{
+		if(f==null)
+			return "";
 		return new DecimalFormat("#0.0#").format(f);
 	}
 	

@@ -46,7 +46,7 @@ public class DeckPricePanel extends JComponent {
 	public void initDeck(MagicDeck d) {
 		this.deck = d;
 		try {
-			lblPrice.setText(String.valueOf(d.getAveragePrice()));
+			lblPrice.setText(UITools.formatDouble(d.getAveragePrice()));
 			enableControle(true);
 		} catch (Exception e) {
 			lblPrice.setText("");
@@ -67,7 +67,7 @@ public class DeckPricePanel extends JComponent {
 	
 	public void updatePrice()
 	{
-		lblPrice.setText(String.valueOf(total) + " " + MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getCurrencyCode());
+		lblPrice.setText(String.valueOf(UITools.formatDouble(total)) + " " + MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getCurrencyCode());
 	}
 	
 
