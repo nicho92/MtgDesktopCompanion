@@ -28,6 +28,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.beans.enums.MTGExportCategory;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.pricers.impl.MagicCardMarketPricer2;
@@ -54,8 +55,8 @@ public class MkmOnlineExport extends AbstractCardExport {
 	}
 
 	@Override
-	public CATEGORIES getCategory() {
-		return CATEGORIES.ONLINE;
+	public MTGExportCategory getCategory() {
+		return MTGExportCategory.ONLINE;
 	}
 	
 	@Override

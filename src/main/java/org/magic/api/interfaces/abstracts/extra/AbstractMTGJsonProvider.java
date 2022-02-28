@@ -282,7 +282,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 			return false;
 		} catch (Exception e) {
 			version = temp;
-			logger.error("Error getting last version ",e);
+			logger.error("Error getting last version " + e);
 			return false;
 		}
 

@@ -335,7 +335,7 @@ public class StockPanelGUI extends MTGUIComponent {
 							
 						}
 					});
-					menu.add(it);
+					UITools.buildCategorizedMenu(menu,it,exp);
 				}
 			}
 

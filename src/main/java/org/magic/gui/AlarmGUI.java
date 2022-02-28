@@ -486,7 +486,7 @@ public class AlarmGUI extends MTGUIComponent {
 						}
 					});
 
-					menu.add(it);
+					UITools.buildCategorizedMenu(menu,it,exp);
 				}
 			}
 

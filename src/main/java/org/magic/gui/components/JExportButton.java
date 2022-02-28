@@ -23,6 +23,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.CardExportWorker;
 import org.magic.services.workers.StockExportWorker;
+import org.magic.tools.UITools;
 
 public class JExportButton extends JButton {
 	private static final long serialVersionUID = 1L;
@@ -79,7 +80,7 @@ public class JExportButton extends JButton {
 						}
 					});
 
-					menu.add(it);
+					UITools.buildCategorizedMenu(menu,it,exp);
 				}
 				
 			}
@@ -130,7 +131,7 @@ public class JExportButton extends JButton {
 						}
 					});
 
-					menu.add(it);
+					UITools.buildCategorizedMenu(menu,it,exp);
 				}
 				
 			}
@@ -184,7 +185,7 @@ public class JExportButton extends JButton {
 						}
 					});
 
-					menu.add(it);
+					UITools.buildCategorizedMenu(menu,it,exp);
 				}
 				
 			}

@@ -9,6 +9,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.enums.MTGExportCategory;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.services.MTGControler;
 import org.magic.tools.FileTools;
@@ -30,9 +31,9 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 	}
 	
 	@Override
-	public CATEGORIES getCategory() {
+	public MTGExportCategory getCategory() {
 		if(needFile())
-			return CATEGORIES.FILE;
+			return MTGExportCategory.FILE;
 		
 		return null;
 	}

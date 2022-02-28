@@ -41,10 +41,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.MenuElement;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.LineBorder;
 import javax.swing.table.TableCellRenderer;
@@ -66,6 +69,7 @@ import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.MTGCardVariation;
 import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.criterias.QueryAttribute;
+import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
@@ -153,6 +157,28 @@ public class UITools {
 		}
 		
 		return instance;
+	}
+	
+	
+	public static void buildCategorizedMenu(JPopupMenu menu, JMenuItem it, MTGCardsExport exp)
+	{
+		boolean foundCateg=false;
+		for(var m : menu.getSubElements())
+		{
+			if(m instanceof JMenuItem subMenuCategory && subMenuCategory.getText().equals(exp.getCategory().name()))	
+				{
+						foundCateg=true;
+						subMenuCategory.add(it);
+						break;
+				}
+		}
+		if(!foundCateg)
+		{
+			JMenu itCateg = new JMenu(exp.getCategory().name());
+			itCateg.setIcon(exp.getCategory().getIcon());
+			itCateg.add(it);
+			menu.add(itCateg);
+		}
 	}
 	
 	

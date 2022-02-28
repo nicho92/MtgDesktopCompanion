@@ -619,7 +619,8 @@ public class ConstructPanel extends MTGUIComponent {
 						}
 					});
 				
-					menu.add(it);
+					UITools.buildCategorizedMenu(menu,it,exp);
+
 
 				}
 			}

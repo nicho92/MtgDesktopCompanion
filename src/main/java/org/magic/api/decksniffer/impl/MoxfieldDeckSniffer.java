@@ -24,6 +24,7 @@ import com.google.gson.JsonObject;
 public class MoxfieldDeckSniffer extends AbstractDeckSniffer {
 	
 	
+	private static final String BASE_URI = "https://api.moxfield.com/v2";
 	MTGHttpClient client;
 	
 	
@@ -88,7 +89,7 @@ public class MoxfieldDeckSniffer extends AbstractDeckSniffer {
 		var json = RequestBuilder.build()
 					  .setClient(client)
 					  .method(METHOD.GET)
-					  .url("https://api.moxfield.com/v2/decks/search?pageNumber=1&pageSize=128&sortType=updated&sortDirection=Descending&fmt="+filter+"&filter=")
+					  .url(BASE_URI+"/decks/search?pageNumber=1&pageSize=128&sortType=updated&sortDirection=Descending&fmt="+filter+"&filter=")
 					  .toJson();
 		
 		
@@ -100,7 +101,7 @@ public class MoxfieldDeckSniffer extends AbstractDeckSniffer {
 			var dekElement = new RetrievableDeck();
 				dekElement.setName(jo.get("name").getAsString());
 				dekElement.setAuthor(jo.get("authors").getAsJsonArray().get(0).getAsJsonObject().get("userName").getAsString());
-				dekElement.setUrl(URI.create("https://api.moxfield.com/v2/decks/all/"+jo.get("publicId").getAsString()));
+				dekElement.setUrl(URI.create(BASE_URI+"/decks/all/"+jo.get("publicId").getAsString()));
 				dekElement.setDescription(UITools.formatDateTime(UITools.parseGMTDate(jo.get("createdAtUtc").getAsString())));
 				
 				
