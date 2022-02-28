@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
+import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
@@ -63,7 +64,7 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 		StringBuilder temp = new StringBuilder();
 		var endOfLine="\r\n";
-		temp.append("Set\tName (Oracle)\tName\tVersion\tLanguage\tQty (R)\tQty (F)\tNotes\tRarity\tNumber\tColor\tCost\tP/T\tArtist\tBorder\tCopyright\tType\tBuy Qty\tSell Qty\tBuy Price\tSell Price\tGrade (R)\tGrade (F)\tPrice (R)\tPrice (F)\tProxies	Used\tType (Oracle)\tLegality\tRating\tObject");
+		temp.append("Name (Oracle)	Name	Set	Language	Qty (R)	Qty (F)	Proxies	Buy Qty	Number	Cost	Rarity	Legality");
 		temp.append(endOfLine);
 		
 		
@@ -111,11 +112,24 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 			var regularNumber =Integer.parseInt(m.group(6)); 
 			var setCode = PluginsAliasesProvider.inst().getSetIdFor(this, new MagicEdition(m.group(1)));
 			var lang=m.group(5);
-			var cardNumber =m.group(10).split("/")[0].replaceFirst("^0+(?!$)", "");
 			var cardName = m.group(2);
 			
+			
+			
+			
 			try {
-				var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(cardNumber, setCode);
+				MagicCard mc=null;
+				
+				if(!m.group(10).isEmpty())
+				{
+					var cardNumber=m.group(10).split("/")[0].replaceFirst("^0+(?!$)", "");
+					mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(cardNumber, setCode);
+				}
+				else
+				{
+					mc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(setCode),true).get(0);
+				}
+				
 				if(mc!=null)
 				{
 					var mcs = MTGControler.getInstance().getDefaultStock();
@@ -166,7 +180,7 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	protected String getStringPattern() {
-		return "(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)";
+		return "(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)";
 	}
 
 	@Override
