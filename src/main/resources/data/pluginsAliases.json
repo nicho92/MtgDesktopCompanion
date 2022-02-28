@@ -58,7 +58,32 @@
 	
 	"Magic Album":{
 		"idSet": {
-			"OD": "ODY"
+			"OD": "ODY",
+			"MI":"MIR",
+			"HL":"HML",
+			"IA":"ICE",
+			"NE":"NEM",
+			"PY":"PCY",
+			"CH":"CHR",
+			"UL":"ULG",
+			"LG":"LEG",
+			"VI":"VIS",
+			"EX":"EXO",
+			"TE":"TMP",
+			"UD":"UDS",
+			"AL":"ALL",
+			"DK":"DRK",
+			"DS":"DST",
+			"PS":"PLS",
+			"AP":"APC",
+			"FE":"FEM",
+			"4E":"4ED",
+			"R":"3ED",
+			"TO":"TOR",
+			"MM":"MMQ",
+			"SH":"STH",
+			"GP":"GPT",
+			"US":"USG"
 		}
 	},
 	
