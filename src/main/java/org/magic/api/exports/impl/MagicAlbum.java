@@ -8,8 +8,12 @@ import java.util.List;
 
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
+import org.magic.services.providers.PluginsAliasesProvider;
 import org.magic.tools.FileTools;
+import org.magic.tools.MTG;
 
 public class MagicAlbum extends AbstractFormattedFileCardExport {
 
@@ -55,10 +59,20 @@ public class MagicAlbum extends AbstractFormattedFileCardExport {
 			
 			var foilnumber = ( !m.group(7).isEmpty()) ? Integer.parseInt(m.group(7)):0;
 			var regularNumber =Integer.parseInt(m.group(6)); 
-			var setCode = m.group(1);
+			var setCode = PluginsAliasesProvider.inst().getSetIdFor(this, new MagicEdition(m.group(1)));
 			var lang=m.group(5);
 			var cardNumber =m.group(10).split("/")[0].replaceFirst("^0+(?!$)", "");
+			var cardName = m.group(2);
+			var mcs = new MagicCardStock();
 			
+			
+			try {
+				var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(cardNumber, setCode);
+				
+				
+			} catch (IOException e) {
+				logger.error("error getting " + cardName);
+			}
 			
 			
 			
