@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -123,6 +124,11 @@ public class FileTools {
 		
 	public static String readFile(File f) throws IOException
 	{
+		return readFile(f,MTGConstants.DEFAULT_ENCODING);
+	}
+	
+	public static String readFile(File f,Charset charset) throws IOException
+	{
 		if(f==null || !f.exists())
 		{
 			logger.warn(f +" doesn't exist");
@@ -130,8 +136,9 @@ public class FileTools {
 		}
 		
 		logger.debug("opening file " + f);
-		return FileUtils.readFileToString(f,MTGConstants.DEFAULT_ENCODING);
+		return FileUtils.readFileToString(f,charset);
 	}
+	
 	
 	public static JsonElement readJson(File f) throws IOException
 	{

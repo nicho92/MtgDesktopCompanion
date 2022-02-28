@@ -56,6 +56,12 @@
 		}
 	},
 	
+	"Magic Album":{
+		"idSet": {
+			"OD": "ODY"
+		}
+	},
+	
 	"MTGoldFish": {
 		"idSet": {
 			"7ED": "7E",

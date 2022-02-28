@@ -4,6 +4,7 @@ import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -87,10 +88,15 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 		}
 	}
 	
+
+	public List<Matcher> matches(File f,boolean removeBlank, Charset charset) throws IOException
+	{
+		return matches(FileUtils.readFileToString(f, charset),removeBlank);
+	}
 	
 	public List<Matcher> matches(File f,boolean removeBlank) throws IOException
 	{
-		return matches(FileUtils.readFileToString(f, MTGConstants.DEFAULT_ENCODING),removeBlank);
+		return matches(f, removeBlank,MTGConstants.DEFAULT_ENCODING);
 	}
 
 	public List<Matcher> matches(String content,boolean removeBlank)
