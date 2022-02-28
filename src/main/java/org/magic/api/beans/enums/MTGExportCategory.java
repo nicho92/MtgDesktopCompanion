@@ -9,7 +9,8 @@ public enum MTGExportCategory {
 		FILE (MTGConstants.ICON_NEW), 
 		ONLINE (MTGConstants.ICON_WEBSITE), 
 		MANUAL (MTGConstants.ICON_MANUAL), 
-		APPLICATION (MTGConstants.ICON_CONFIG);
+		APPLICATION (MTGConstants.ICON_CONFIG), 
+		NONE (MTGConstants.ICON_CANCEL);
 		
 		
 		private ImageIcon icon;

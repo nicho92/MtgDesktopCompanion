@@ -35,7 +35,7 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 		if(needFile())
 			return MTGExportCategory.FILE;
 		
-		return null;
+		return MTGExportCategory.NONE;
 	}
 	
 	

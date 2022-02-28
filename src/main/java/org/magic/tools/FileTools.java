@@ -53,9 +53,7 @@ public class FileTools {
 	            fileOuputStream.write(content);
 		 } 
 	}
-
 	
-
 	public static void appendLine(File f,String line) throws IOException
 	{
 		String correctFilename= f.getName().replaceAll(CORRECT_REGEX, "_");
@@ -66,11 +64,23 @@ public class FileTools {
 	
 	public static void saveFile(File f,String data) throws IOException
 	{
+		saveFile(f,data,MTGConstants.DEFAULT_ENCODING);
+	}
+	
+
+
+	public static void saveFile(File f, String data, Charset enc) throws IOException {
 		String correctFilename= f.getName().replaceAll(CORRECT_REGEX, "_");
 		f=new File(f.getParentFile(),correctFilename);
 		logger.debug("saving file " + f);
-		FileUtils.write(f, data,MTGConstants.DEFAULT_ENCODING);
+		FileUtils.write(f, data,enc);
+		
 	}
+		
+
+	
+
+	
 	
 	public static void saveProperties(File f,Properties props) throws IOException
 	{
@@ -352,7 +362,8 @@ public class FileTools {
 				return new ArrayList<>();
 			}
 	}
-		
+
+
 
 	
 }

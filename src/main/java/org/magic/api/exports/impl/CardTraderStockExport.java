@@ -15,6 +15,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.audit.NetworkInfo;
+import org.magic.api.beans.enums.MTGExportCategory;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.TechnicalServiceManager;
@@ -47,6 +48,11 @@ public class CardTraderStockExport extends AbstractCardExport {
 				
 		});
 		
+	}
+	
+	@Override
+	public MTGExportCategory getCategory() {
+		return MTGExportCategory.ONLINE;
 	}
 	
 	
@@ -143,7 +149,7 @@ public class CardTraderStockExport extends AbstractCardExport {
 	
 	@Override
 	public Icon getIcon() {
-		return new ImageIcon(MKMFileWantListExport.class.getResource("/icons/plugins/"+CardTraderConstants.CARDTRADER_NAME.toLowerCase()+".png"));
+		return new ImageIcon(CardTraderStockExport.class.getResource("/icons/plugins/"+CardTraderConstants.CARDTRADER_NAME.toLowerCase()+".png"));
 	}
 	
 }
