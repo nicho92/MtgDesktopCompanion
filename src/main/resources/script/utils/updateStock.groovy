@@ -1,9 +1,9 @@
 import org.magic.api.beans.*;
 
-
 	 dao.listStocks().each{ c->
 		try {
-			MagicCard newC = provider.getCardByNumber(c.getProduct().getCurrentSet().getNumber(), c.getEdition());
+			System.out.println(c);
+			MagicCard newC = provider.getCardByNumber(c.getProduct().getCurrentSet().getNumber(), c.getProduct().getEdition());
 			if(newC!=null)
 			{
 				System.out.println(newC);
