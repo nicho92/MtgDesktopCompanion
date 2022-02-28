@@ -83,7 +83,7 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 			temp.append(mcs.getProduct().getCost()).append("\t");
 			temp.append(mcs.getProduct().isCreature()?mcs.getProduct().getPower()+"/"+mcs.getProduct().getToughness():"").append("\t");
 			temp.append(mcs.getProduct().getArtist()).append("\t");
-			temp.append(mcs.getProduct().getBorder().toPrettyString()).append("\t");
+			temp.append(mcs.getProduct().getBorder()!=null?mcs.getProduct().getBorder().toPrettyString():"").append("\t");
 			temp.append("™ & © "+Calendar.getInstance().get(Calendar.YEAR)+" Wizards of the Coast").append("\t");
 			temp.append(mcs.getProduct().getFullType()).append("\t");
 			
