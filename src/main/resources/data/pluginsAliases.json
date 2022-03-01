@@ -60,6 +60,7 @@
 		"idSet": {
 			"A":"LEA",
 			"B":"LEB",
+			"AQ":"ATQ",
 			"OD": "ODY",
 			"MI":"MIR",
 			"HL":"HML",
@@ -82,7 +83,7 @@
 			"AP":"APC",
 			"FE":"FEM",
 			"4E":"4ED",
-			"4EF":"FBB",
+			"4EF":"4BB",
 			"5E":"5ED",
 			"6E":"6ED",
 			"R":"3ED",
@@ -95,7 +96,6 @@
 			"RF":"3ED",
 			"IN":"INV",
 			"JU":"JUD",
-			"REN":"RIN",
 			"MR":"MRD",
 			"BIN":"PHPR",
 			"CFX":"CON",
@@ -104,6 +104,7 @@
 			"FD":"5DN",
 			"9E":"9ED",
 			"7E":"7ED",
+			"8E":"8ED",
 			"PT":"POR",
 			"P2":"P02"
 		}
