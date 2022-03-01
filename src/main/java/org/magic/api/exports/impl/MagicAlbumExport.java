@@ -102,6 +102,10 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 		
 	}
 	
+	public static void main(String[] args) {
+		File f = new File("G:\\Mon Drive\\magicalbum.csv");
+	}
+	
 	
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
@@ -112,7 +116,7 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 			var regularNumber = ( !m.group(6).isEmpty()) ? Integer.parseInt(m.group(6)):0;
 			var setCode = PluginsAliasesProvider.inst().getSetIdFor(this, new MagicEdition(m.group(1)));
 			var lang=m.group(5);
-			var cardName = m.group(2).replace("’", "'");
+			var cardName = m.group(2).replace("’", "'").replace("│", " // ");
 			
 			try {
 				MagicCard mc=null;
