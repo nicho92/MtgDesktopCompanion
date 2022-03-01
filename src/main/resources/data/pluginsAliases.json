@@ -58,6 +58,8 @@
 	
 	"Magic Album":{
 		"idSet": {
+			"A":"LEA",
+			"B":"LEB",
 			"OD": "ODY",
 			"MI":"MIR",
 			"HL":"HML",
@@ -80,7 +82,7 @@
 			"AP":"APC",
 			"FE":"FEM",
 			"4E":"4ED",
-			"R":"REV",
+			"R":"3ED",
 			"TO":"TOR",
 			"MM":"MMQ",
 			"SH":"STH",
@@ -90,6 +92,7 @@
 			"RF":"3ED",
 			"IN":"INV",
 			"JU":"JUD",
+			"REN":"RIN",
 			"MR":"MRD",
 			"BIN":"PHPR",
 			"CFX":"CON",
@@ -97,6 +100,8 @@
 			"SC":"SCG",
 			"FD":"5DN",
 			"9E":"9ED",
+			"7E":"7ED",
+			"PT":"POR",
 			"P2":"P02"
 		}
 	},

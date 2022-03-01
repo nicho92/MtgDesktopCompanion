@@ -67,6 +67,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
+import org.magic.tools.FileTools;
 import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 
@@ -302,7 +303,12 @@ public class StockPanelGUI extends MTGUIComponent {
 						
 						if (res == JFileChooser.APPROVE_OPTION)
 						{
-							AbstractObservableWorker<List<MagicCardStock>, MagicCard, MTGCardsExport> sw = new AbstractObservableWorker<>(lblLoading,exp) 
+							
+							int total = -1;
+							if(fileImport!=null)
+								total = FileTools.linesCount(fileImport);
+							
+							AbstractObservableWorker<List<MagicCardStock>, MagicCard, MTGCardsExport> sw = new AbstractObservableWorker<>(lblLoading,exp,total) 
 							{
 								@Override
 								protected List<MagicCardStock> doInBackground() throws Exception {

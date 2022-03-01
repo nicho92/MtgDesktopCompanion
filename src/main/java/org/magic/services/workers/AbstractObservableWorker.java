@@ -46,7 +46,7 @@ public abstract class AbstractObservableWorker<T, V, P extends MTGPlugin> extend
 	
 	
 	@SuppressWarnings("unchecked")
-	protected AbstractObservableWorker(AbstractBuzyIndicatorComponent buzy,P plug,int size) {
+	protected AbstractObservableWorker(AbstractBuzyIndicatorComponent buzy,P plug,Integer size) {
 		this.buzy=buzy;
 		this.plug=plug;
 		o=(Observable obs, Object c)->publish((V)c);

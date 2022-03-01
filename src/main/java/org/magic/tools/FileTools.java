@@ -61,7 +61,18 @@ public class FileTools {
 		FileUtils.write(f, line,MTGConstants.DEFAULT_ENCODING,true);
 	}
 	
+	public static int linesCount(File f)
+	{
+		try {
+			return Files.readLines(f,MTGConstants.DEFAULT_ENCODING).size();
+		} catch (IOException e) {
+			logger.error(e);
+			return -1;
+		}
+	}
 	
+	
+	 
 	public static void saveFile(File f,String data) throws IOException
 	{
 		saveFile(f,data,MTGConstants.DEFAULT_ENCODING);
