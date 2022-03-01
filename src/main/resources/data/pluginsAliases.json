@@ -90,7 +90,13 @@
 			"IN":"INV",
 			"JU":"JUD",
 			"MR":"MRD",
-			"BIN":"PHPR"
+			"BIN":"PHPR",
+			"CFX":"CON",
+			"ON":"ONS",
+			"SC":"SCG",
+			"FD":"5DN",
+			"9E":"9ED",
+			"P2":"P02"
 		}
 	},
 	

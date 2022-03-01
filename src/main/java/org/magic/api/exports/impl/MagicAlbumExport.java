@@ -109,13 +109,10 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 		matches(content, true ).forEach(m->{
 			
 			var foilnumber = ( !m.group(7).isEmpty()) ? Integer.parseInt(m.group(7)):0;
-			var regularNumber =Integer.parseInt(m.group(6)); 
+			var regularNumber = ( !m.group(6).isEmpty()) ? Integer.parseInt(m.group(6)):0;
 			var setCode = PluginsAliasesProvider.inst().getSetIdFor(this, new MagicEdition(m.group(1)));
 			var lang=m.group(5);
-			var cardName = m.group(2);
-			
-			
-			
+			var cardName = m.group(2).replace("’", "'");
 			
 			try {
 				MagicCard mc=null;
@@ -127,7 +124,17 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 				}
 				else
 				{
-					mc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(setCode),true).get(0);
+					var listmc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(setCode),true);
+					
+					if(listmc.isEmpty())
+					{
+						logger.error(cardName + " is not found in set "+setCode);
+						mc=null;
+					}
+					else
+					{
+						mc=listmc.get(0);
+					}
 				}
 				
 				if(mc!=null)
@@ -137,20 +144,20 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 					mcs.setQte(regularNumber);
 					mcs.setLanguage(lang);
 					ret.add(mcs);
-				}
+				
 				
 				if(foilnumber>0)
 				{
-					var mcs = MTGControler.getInstance().getDefaultStock();
-					mcs.setProduct(mc);
-					mcs.setQte(regularNumber);
-					mcs.setLanguage(lang);
-					mcs.setFoil(true);
-					ret.add(mcs);
+					var mcsF = MTGControler.getInstance().getDefaultStock();
+					mcsF.setProduct(mc);
+					mcsF.setQte(regularNumber);
+					mcsF.setLanguage(lang);
+					mcsF.setFoil(true);
+					ret.add(mcsF);
 				}
 				
 				notify(mc);
-				
+				}
 			} catch (IOException e) {
 				logger.error("error getting " + cardName);
 			}
