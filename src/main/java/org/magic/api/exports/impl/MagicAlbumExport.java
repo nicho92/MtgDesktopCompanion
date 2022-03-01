@@ -102,8 +102,11 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 		
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		File f = new File("G:\\Mon Drive\\magicalbum.csv");
+		MTGControler.getInstance();
+		MTG.getEnabledPlugin(MTGCardsProvider.class).init();
+		new MagicAlbumExport().importStockFromFile(f);
 	}
 	
 	
@@ -118,27 +121,43 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 			var lang=m.group(5);
 			var cardName = m.group(2).replace("’", "'").replace("│", " // ");
 			
-			try {
+		
 				MagicCard mc=null;
 				
-				if(!m.group(10).isEmpty())
+				if(!m.group(12).isEmpty())
 				{
-					var cardNumber=m.group(10).split("/")[0].replaceFirst("^0+(?!$)", "");
-					mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(cardNumber, setCode);
-				}
-				else
-				{
-					var listmc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(setCode),true);
-					
-					if(listmc.isEmpty())
+					try{ 
+						var cardNumber=m.group(12).split("/")[0].replaceFirst("^0+(?!$)", "");
+						mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(cardNumber, setCode);
+					}
+					catch(Exception e)
 					{
-						logger.error(cardName + " is not found in set "+setCode);
 						mc=null;
 					}
-					else
-					{
-						mc=listmc.get(0);
+					
+				}
+				
+				
+				if(mc==null)
+				{
+					List<MagicCard> listmc;
+					try {
+						listmc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(setCode),true);
+
+						if(listmc.isEmpty())
+						{
+							logger.error(cardName + " is not found in set "+setCode);
+							mc=null;
+						}
+						else
+						{
+							mc=listmc.get(0);
+						}
+					} catch (IOException e) {
+						mc=null;
+						logger.error(e);
 					}
+					
 				}
 				
 				if(mc!=null)
@@ -162,9 +181,7 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 				
 				notify(mc);
 				}
-			} catch (IOException e) {
-				logger.error("error getting " + cardName);
-			}
+			
 			
 			
 		});
