@@ -75,6 +75,7 @@
 			"DK":"DRK",
 			"DS":"DST",
 			"PS":"PLS",
+			"CS":"CSP",
 			"AP":"APC",
 			"FE":"FEM",
 			"4E":"4ED",
@@ -83,7 +84,13 @@
 			"MM":"MMQ",
 			"SH":"STH",
 			"GP":"GPT",
-			"US":"USG"
+			"US":"USG",
+			"WL":"WTH",
+			"RF":"REV",
+			"IN":"INV",
+			"JU":"JUD",
+			"MR":"MRD",
+			"BIN":"PHPR"
 		}
 	},
 	
