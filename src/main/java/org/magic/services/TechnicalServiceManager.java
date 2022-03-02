@@ -121,10 +121,12 @@ public class TechnicalServiceManager {
 				discordInfos.addAll(export.fromJsonList(FileTools.readFile(f), DiscordInfo.class));	
 		}
 	}
-
+	
+	//TODO Error when file is too big
 	private <T extends AbstractAuditableItem> void storeItems(Class<T> classe, List<T> items) throws IOException
 	{
-		FileTools.saveFile(Paths.get(logsDirectory.getAbsolutePath(),classe.getSimpleName()+".json").toFile(), export.toJson(items));
+		
+		FileTools.saveLargeFile(Paths.get(logsDirectory.getAbsolutePath(),classe.getSimpleName()+".json").toFile(), export.toJson(items),MTGConstants.DEFAULT_ENCODING);
 	}
 	
 

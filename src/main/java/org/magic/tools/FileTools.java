@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
@@ -77,19 +79,30 @@ public class FileTools {
 	{
 		saveFile(f,data,MTGConstants.DEFAULT_ENCODING);
 	}
-	
-
 
 	public static void saveFile(File f, String data, Charset enc) throws IOException {
 		String correctFilename= f.getName().replaceAll(CORRECT_REGEX, "_");
 		f=new File(f.getParentFile(),correctFilename);
 		logger.debug("saving file " + f);
 		FileUtils.write(f, data,enc);
-		
 	}
-		
-
 	
+	
+	public static void saveLargeFile(File f, String data, Charset enc) throws IOException {
+		logger.debug("saving file " + f);
+		try (final OutputStream os = new FileOutputStream(f, true)) {
+	        final InputStream inputStream = IOUtils.toInputStream(data,enc);
+	        if (inputStream != null) {
+	            byte[] buffer = new byte[1024];
+	            int bytesRead;
+	            while ((bytesRead = inputStream.read(buffer)) != -1) {
+	                os.write(buffer, 0, bytesRead);
+	            }
+	            inputStream.close();
+	        }
+		}
+	    
+	}
 
 	
 	
