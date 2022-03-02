@@ -268,7 +268,7 @@ public class JsonExport extends AbstractCardExport {
 		var jsonparams = new JsonArray();
 
 		for (MagicCardStock mc : stock) {
-			jsonparams.add(new Gson().toJsonTree(mc));
+			jsonparams.add(gson.toJsonTree(mc));
 			notify(mc.getProduct());
 		}
 		try (var out = new FileWriter(f)) {
@@ -282,7 +282,7 @@ public class JsonExport extends AbstractCardExport {
 		List<MagicCardStock> list = new ArrayList<>();
 		for (var i = 0; i < root.size(); i++) {
 			var line = root.get(i).getAsJsonObject();
-			var mc = new Gson().fromJson(line, MagicCardStock.class);
+			var mc = gson.fromJson(line, MagicCardStock.class);
 			notify(mc.getProduct());
 			list.add(mc);
 		}
@@ -307,7 +307,6 @@ public class JsonExport extends AbstractCardExport {
 			obj.addProperty("enabled", plug.isEnable());
 			obj.addProperty("version", plug.getVersion());
 			obj.addProperty("status", plug.getStatut().name());
-			//obj.add("config", toJsonElement(plug.getProperties()))
 			arr.add(obj);
 		}
 		return arr;
