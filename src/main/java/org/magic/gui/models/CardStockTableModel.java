@@ -44,14 +44,8 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 		}
 		else
 		{
-			for(var i=0;i<=items.size();i++)
-			{
-				if(items.get(i).getId().equals(t.getId()))
-				{
-					items.set(i, t);
-					break;
-				}
-			}
+			items.removeIf(e -> t.getId().equals(e.getId()));
+			items.add(t);
 		}
 	}
 	
