@@ -143,9 +143,8 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 				
 				if(mc==null)
 				{
-					List<MagicCard> listmc;
 					try {
-						listmc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(setCode),true);
+						var listmc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(setCode),true);
 
 						if(listmc.isEmpty())
 						{
@@ -171,6 +170,7 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 					mcs.setProduct(mc);
 					mcs.setQte(regularNumber);
 					mcs.setLanguage(lang);
+					mcs.setFoil(false);
 					ret.add(mcs);
 				}
 				
