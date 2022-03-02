@@ -283,6 +283,7 @@ public class JsonExport extends AbstractCardExport {
 		for (var i = 0; i < root.size(); i++) {
 			var line = root.get(i).getAsJsonObject();
 			var mc = gson.fromJson(line, MagicCardStock.class);
+			mc.setId(-1);
 			notify(mc.getProduct());
 			list.add(mc);
 		}
