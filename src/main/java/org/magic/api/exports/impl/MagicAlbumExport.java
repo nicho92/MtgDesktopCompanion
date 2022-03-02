@@ -188,7 +188,7 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 				{
 					var mcsP = MTGControler.getInstance().getDefaultStock();
 					mcsP.setProduct(mc);
-					mcsP.setQte(regularNumber);
+					mcsP.setQte(proxyNumber);
 					mcsP.setLanguage(lang);
 					mcsP.setFoil(false);
 					mcsP.setCondition(EnumCondition.PROXY);
