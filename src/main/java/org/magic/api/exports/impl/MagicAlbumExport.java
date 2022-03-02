@@ -165,12 +165,14 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 				
 				if(mc!=null)
 				{
+					
+				if(regularNumber>0) {
 					var mcs = MTGControler.getInstance().getDefaultStock();
 					mcs.setProduct(mc);
 					mcs.setQte(regularNumber);
 					mcs.setLanguage(lang);
 					ret.add(mcs);
-				
+				}
 				
 				if(foilnumber>0)
 				{
@@ -188,7 +190,7 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 					mcsP.setProduct(mc);
 					mcsP.setQte(regularNumber);
 					mcsP.setLanguage(lang);
-					mcsP.setFoil(true);
+					mcsP.setFoil(false);
 					mcsP.setCondition(EnumCondition.PROXY);
 					ret.add(mcsP);
 				}
