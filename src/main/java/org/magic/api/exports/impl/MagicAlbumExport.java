@@ -12,6 +12,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
@@ -64,7 +65,7 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 		StringBuilder temp = new StringBuilder();
 		var endOfLine="\r\n";
-		temp.append("Name (Oracle)	Name	Set	Language	Qty (R)	Qty (F)	Proxies	Buy Qty	Number	Cost	Rarity	Legality");
+		temp.append("Set\tName (Oracle)\tName\tVersion\tLanguage\tQty (R)\tQty (F)\tBuy Qty\tProxies\tNotes\tRarity\tNumber\tColor\tCost\tP/T\tArtist\tBorder\tCopyright\tType\tSell Qty\tGrade (R)\tGrade (F)\tPrice (R)\tPrice (F)\tUsed\tType (Oracle)\tLegality\tBuy Price\tSell Price\tRating\tObject\r\n");
 		temp.append(endOfLine);
 		
 		
@@ -85,7 +86,7 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 			temp.append(mcs.getProduct().isCreature()?mcs.getProduct().getPower()+"/"+mcs.getProduct().getToughness():"").append("\t");
 			temp.append(mcs.getProduct().getArtist()).append("\t");
 			temp.append(mcs.getProduct().getBorder()!=null?mcs.getProduct().getBorder().toPrettyString():"").append("\t");
-			temp.append("™ & © "+Calendar.getInstance().get(Calendar.YEAR)+" Wizards of the Coast").append("\t");
+			temp.append("™ & © "+mcs.getProduct().getCurrentSet().getReleaseDate()+" Wizards of the Coast").append("\t");
 			temp.append(mcs.getProduct().getFullType()).append("\t");
 			
 			
@@ -117,9 +118,11 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 			
 			var foilnumber = ( !m.group(7).isEmpty()) ? Integer.parseInt(m.group(7)):0;
 			var regularNumber = ( !m.group(6).isEmpty()) ? Integer.parseInt(m.group(6)):0;
+			var proxyNumber = ( !m.group(9).isEmpty()) ? Integer.parseInt(m.group(9)):0;
 			var setCode = PluginsAliasesProvider.inst().getSetIdFor(this, new MagicEdition(m.group(1)));
 			var lang=m.group(5);
 			var cardName = m.group(2).replace("’", "'").replace("│", " // ");
+			
 			
 		
 				MagicCard mc=null;
@@ -173,11 +176,24 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 				{
 					var mcsF = MTGControler.getInstance().getDefaultStock();
 					mcsF.setProduct(mc);
-					mcsF.setQte(regularNumber);
+					mcsF.setQte(foilnumber);
 					mcsF.setLanguage(lang);
 					mcsF.setFoil(true);
 					ret.add(mcsF);
 				}
+				
+				if(proxyNumber>0)
+				{
+					var mcsP = MTGControler.getInstance().getDefaultStock();
+					mcsP.setProduct(mc);
+					mcsP.setQte(regularNumber);
+					mcsP.setLanguage(lang);
+					mcsP.setFoil(true);
+					mcsP.setCondition(EnumCondition.PROXY);
+					ret.add(mcsP);
+				}
+				
+				
 				
 				notify(mc);
 				}
