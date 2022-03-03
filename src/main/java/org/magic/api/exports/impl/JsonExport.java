@@ -126,8 +126,15 @@ public class JsonExport extends AbstractCardExport {
 	public <T> List<T> fromJsonList(String s,Class<T> classe)
 	{
 		ArrayList<T> list = new ArrayList<>();
-		var json= gson.fromJson(s,JsonArray.class);
-		json.forEach(el->list.add(gson.fromJson(el.toString(),classe)));
+		try{
+			var json= gson.fromJson(s,JsonArray.class);
+			json.forEach(el->list.add(gson.fromJson(el.toString(),classe)));
+		}
+		catch(Exception e)
+		{
+			logger.error(e);
+		}
+		
 		return list;
 	}
 

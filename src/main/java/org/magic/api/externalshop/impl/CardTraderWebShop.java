@@ -51,7 +51,6 @@ public class CardTraderWebShop extends AbstractExternalShop {
 			var ni = new NetworkInfo();
 			ni.setStart(callInfo.getStart());
 			ni.setEnd(callInfo.getEnd());
-			ni.setDuration(callInfo.getDuration());
 			ni.setReponse(callInfo.getResponse());
 			ni.setRequest(callInfo.getRequest());
 			

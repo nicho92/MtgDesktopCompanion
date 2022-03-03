@@ -9,11 +9,9 @@ import org.magic.tools.Chrono;
 public abstract class MTGRunnable implements Runnable{
 	
 	private TaskInfo info;
-	private Chrono chrono;
 	
 	protected MTGRunnable() {
 		info = new TaskInfo(this);
-		chrono= new Chrono();
 	}
 	
 	
@@ -24,13 +22,12 @@ public abstract class MTGRunnable implements Runnable{
 	public void start() {
 		info.setStart(Instant.now());
 		info.setStatus(STATE.STARTED);
-		chrono.start();
 	}
 	
 	public void end() {
 		info.setEnd(Instant.now());
 		info.setStatus(STATE.FINISHED);
-		info.setDuration(chrono.stop());
+	
 	}
 	
 	

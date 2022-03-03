@@ -70,10 +70,8 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		URLCallListener urlNotifier = (URLCallInfo callInfo)->{
 				
 				var netinfo = new NetworkInfo();
-				
-				netinfo.setEnd(callInfo.getStart());
-				netinfo.setDuration(callInfo.getDuration());
-				netinfo.setStart(callInfo.getStart());
+				netinfo.setStart(callInfo.getStart());				
+				netinfo.setEnd(callInfo.getEnd());
 				netinfo.setRequest(callInfo.getRequest());
 				netinfo.setReponse(callInfo.getResponse());
 

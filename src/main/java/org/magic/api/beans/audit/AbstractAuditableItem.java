@@ -50,6 +50,7 @@ public abstract class AbstractAuditableItem implements Serializable {
 		return duration;
 	}
 
+
 	public void setDuration(long duration) {
 			this.duration=duration;
 	}
