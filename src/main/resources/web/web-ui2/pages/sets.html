@@ -31,15 +31,15 @@
 			
 			$("#sidenav-main" ).load("inc/menu.html" );
 			$("#navbarBlur").load("inc/nav.html",function(){
-					$("[name='categTitle']").html("Collection");
-					$("#menuCollection").addClass("bg-gradient-primary");
+					$("[name='categTitle']").html("Sets");
+					$("#menuSets").addClass("bg-gradient-primary");
 			});
 			
 			$("#navfooter").load("inc/footer.html");
 			$("#settingPanel").load("inc/settingPanel.html");
 			
-			$.get(restserver+"/collections/list",function(data){
-				$('#collectionCount').html(data.length);
+			$.get(restserver+"/editions/list",function(data){
+				$('#editionsCount').html(data.length);
 			});
 			
 			$('#tableEditions').DataTable( {
@@ -179,8 +179,8 @@
                 <i class="material-icons opacity-10">collections_bookmark</i>
               </div>
               <div class="text-end pt-1">
-                <p class="text-sm mb-0 text-capitalize">Collection</p>
-                <h4 class="mb-0" id="collectionCount">0</h4>
+                <p class="text-sm mb-0 text-capitalize">Editions</p>
+                <h4 class="mb-0" id="editionsCount">0</h4>
               </div>
             </div>
             <hr class="dark horizontal my-0">

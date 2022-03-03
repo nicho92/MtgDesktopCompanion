@@ -98,7 +98,7 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 		FileTools.copyDirJarToDirectory(getWebLocation(), dest);
 		logger.debug("copying " + getWebLocation() + " to " + dest);
 		
-		var js = Paths.get(dest.getAbsolutePath(),MTGConstants.WEBUI_LOCATION,"dist","js",REST_JS_FILENAME).toFile();
+		var js = Paths.get(dest.getAbsolutePath(),getWebLocation(),"dist","js",REST_JS_FILENAME).toFile();
 		
 		logger.debug("copying " + js + " to " + dest);
 		
