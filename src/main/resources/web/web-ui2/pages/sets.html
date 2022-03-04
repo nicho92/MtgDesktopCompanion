@@ -58,15 +58,22 @@
 		            { 
 		                "data": "id",
 		                "render": function(data, type, row, meta) {
-										if(type === 'display')
-										{	                	   				
-													return '<a href="list-cards.html?set=' + data + '"><i class="ss ss-'+row.keyRuneCode.toLowerCase()+' ss-common ss-2x"></i></a>';
-		                				}
-		                				return data;
+								if(type === 'display')
+								{	                	   				
+											return '<a href="list-cards.html?set=' + data + '"><i class="ss ss-'+row.keyRuneCode.toLowerCase()+' ss-common ss-2x"></i></a>';
+                				}
+                				return data;
 			            }
 		            }, 
 		            {
-						 "data": "set" 
+						 "data": "set",
+					 	 "render": function(data, type, row, meta) {
+								if(type === 'display')
+								{	                	   				
+											return '<a href="list-cards.html?set=' + row.id + '">'+data+'</a>';
+                				}
+                				return data;
+			            }
 					},
 					{
 						 "data": "type" 
@@ -91,13 +98,9 @@
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
-	
 	<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main"></aside>
-  
-  
-  
-  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-	<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true"></nav>
+  	<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+		<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true"></nav>
    
     <div class="container-fluid py-4">
 
