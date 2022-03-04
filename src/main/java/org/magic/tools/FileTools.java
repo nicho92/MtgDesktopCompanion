@@ -90,7 +90,7 @@ public class FileTools {
 	
 	public static void saveLargeFile(File f, String data, Charset enc) throws IOException {
 		logger.debug("saving file " + f);
-		try (final OutputStream os = new FileOutputStream(f, true)) {
+		try (final OutputStream os = new FileOutputStream(f, false)) {
 	        final InputStream inputStream = IOUtils.toInputStream(data,enc);
 	        if (inputStream != null) {
 	            byte[] buffer = new byte[1024];
