@@ -84,7 +84,7 @@
 		                "data": "name",
 		                "render": function(data, type, row, meta){
 			                   if(type === 'display'){
-			                	   data='<span  class="mtg-tooltip" data-set="'+row.editions[0].id+'" scryfallid="'+row.scryfallId+'" multiverseId="'+row.editions[0].multiverseId+'" data-name="'+data+'">'+data+'</span>';	
+			                	   return '<a  href="card.html?scryfallid='+row.scryfallId+'" class="mtg-tooltip" data-set="'+row.editions[0].id+'" scryfallid="'+row.scryfallId+'" multiverseId="'+row.editions[0].multiverseId+'" data-name="'+data+'">'+data+'</a>';	
 			                   }
 			                   return data;
 			                }
@@ -155,26 +155,9 @@
 			                }
 					},
 					{
-					"data":"id",
-					"defaultContent": "",
-				 	"render": function(data, type, row, meta){
-			                   if(type === 'display'){
-			                       return"";
-			                   }
-			                   return data;
-			                }
+					"data":"side",
+					"defaultContent": ""
 					},
-						{
-					"data":"id",
-					"defaultContent": "",
-				 	"render": function(data, type, row, meta){
-			                   if(type === 'display'){
-			                       return"";
-			                   }
-			                   return data;
-			                }
-					}
-						
 		        ],
 		        "fnDrawCallback" :function(oSettings, json) {
 		        	mtgtooltip($(".mtg-tooltip"));
@@ -227,8 +210,7 @@
 						                <th>Type</th>
 						                <th>Cost</th>
    										<th>Layout</th>
-										<th> </th>
-										<th> </th>
+										<th>Side</th>
 						            </tr>
 						        </thead>
                 </table>
