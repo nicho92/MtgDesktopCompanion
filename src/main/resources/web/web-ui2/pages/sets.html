@@ -7,25 +7,25 @@
   <title>MTG Web Companion</title>
   
    <link rel="icon" type="image/png" href="../dist/img/logo-ct.png">
-  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+  <link href="//fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <link id="pagestyle" href="../dist/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css"/>
-  <link href="https://cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
-   <link href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css"/>
+  <link href="//cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
+   <link href="//cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="//unpkg.com/@trevoreyre/autocomplete-js/dist/style.css" rel="stylesheet" />
   <script src="//unpkg.com/@trevoreyre/autocomplete-js"></script>    
 
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="  crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.5.5/perfect-scrollbar.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scrollbar/8.7.4/smooth-scrollbar.min.js"></script>
+  <script src="//code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="  crossorigin="anonymous"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+  <script src="//cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.5.5/perfect-scrollbar.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/smooth-scrollbar/8.7.4/smooth-scrollbar.min.js"></script>
   
-  <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
-  <script src="https://cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script>
+  <script src="//cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+  <script src="//cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script>
   <script src="../dist/js/rest-server.js"></script>
   <script src="../dist/js/js-var.js"></script>
 
@@ -43,7 +43,7 @@
 			$("#settingPanel").load("inc/settingPanel.html");
 			$("#selectedCol").html($_GET('col'));
 			
-				var restService=restserver+"/editions/list";
+			var restService=restserver+"/editions/list";
 			if($_GET('col')!=null)
 				restService=restserver+"/editions/list/"+$_GET('col');
 			
@@ -51,8 +51,12 @@
 			$('#tableEditions').DataTable( {
 				"responsive": true,
 		        "processing": true,
+				"language": {
+		    	    "search": "Filter",
+		    	    "processing": "<img src='../dist/img/loading.gif' width='50' height='50'>"
+		    	  },
 		        "pageLength": 25,
-		        "order": [[ 2, "desc" ]],
+		        "order": [[ 3, "desc" ]],
 		        "ajax": {"url":restService,"dataSrc":""},
 		        "columns": [
 		            { 
@@ -60,7 +64,7 @@
 		                "render": function(data, type, row, meta) {
 								if(type === 'display')
 								{	                	   				
-											return '<a href="list-cards.html?set=' + data + '"><i class="ss ss-'+row.keyRuneCode.toLowerCase()+' ss-common ss-2x"></i></a>';
+											return '<i class="ss ss-'+row.keyRuneCode.toLowerCase()+' ss-common ss-2x"></i>';
                 				}
                 				return data;
 			            }
@@ -69,8 +73,12 @@
 						 "data": "set",
 					 	 "render": function(data, type, row, meta) {
 								if(type === 'display')
-								{	                	   				
-											return '<a href="list-cards.html?set=' + row.id + '">'+data+'</a>';
+								{	                	  
+									
+									   if($_GET('col')!=null)
+				                	   		data = '<a href="cards.html?set=' + row.id + '&col='+$_GET('col')+'">'+data+'</a>';
+				                	   else
+				                	   		data = '<a href="cards.html?set=' + row.id + '">'+data+'</a>';
                 				}
                 				return data;
 			            }
@@ -98,7 +106,7 @@
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
-	<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main"></aside>
+	<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start menu-left bg-gradient-dark" id="sidenav-main"></aside>
   	<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
 		<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true"></nav>
    
@@ -110,10 +118,10 @@
             <div class="card-header pb-0">
               <div class="row">
                 <div class="col-lg-6 col-7">
-                  <h6>Collections</h6>
+                  <h6>Sets</h6>
                   <p class="text-sm mb-0">
                     <i class="fa fa-check text-info" aria-hidden="true"></i>
-                    Stats from <span id="selectedCol">
+                    Sets present in <span id="selectedCol">
                   </p>
                 </div>
                 <div class="col-lg-6 col-5 my-auto text-end">

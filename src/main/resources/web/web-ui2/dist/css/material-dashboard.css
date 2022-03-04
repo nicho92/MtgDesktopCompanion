@@ -68,6 +68,11 @@
   :root {
     scroll-behavior: smooth; } }
 
+
+.menu-left{ 
+	margin-left: 1rem!important;
+}
+
 body {
   margin: 0;
   font-family: var(--bs-body-font-family);
@@ -6510,45 +6515,6 @@ textarea.form-control-lg {
 
 .mb-auto {
   margin-bottom: auto !important; }
-
-.ms-0 {
-  margin-left: 0 !important; }
-
-.ms-1 {
-  margin-left: 0.25rem !important; }
-
-.ms-2 {
-  margin-left: 0.5rem !important; }
-
-.ms-3 {
-  margin-left: 1rem !important; }
-
-.ms-4 {
-  margin-left: 1.5rem !important; }
-
-.ms-5 {
-  margin-left: 3rem !important; }
-
-.ms-6 {
-  margin-left: 4rem !important; }
-
-.ms-7 {
-  margin-left: 6rem !important; }
-
-.ms-8 {
-  margin-left: 8rem !important; }
-
-.ms-9 {
-  margin-left: 10rem !important; }
-
-.ms-10 {
-  margin-left: 12rem !important; }
-
-.ms-11 {
-  margin-left: 14rem !important; }
-
-.ms-12 {
-  margin-left: 16rem !important; }
 
 .ms-auto {
   margin-left: auto !important; }
