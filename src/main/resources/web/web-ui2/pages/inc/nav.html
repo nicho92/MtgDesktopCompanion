@@ -5,13 +5,12 @@
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
             <li class="breadcrumb-item text-sm text-dark active" aria-current="page"  name="categTitle">Dashboard</li>
           </ol>
-          <h6 class="font-weight-bolder mb-0" name="categTitle">Dashboard</h6>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center">
             <div class="input-group input-group-outline">
 						<div id="autocomplete" class="autocomplete input-group no-border ">
-							<input type="text" value="" class="form-control autocomplete-input" placeholder="Search card..." style="width:450px">
+							<input type="text" value="" class="form-control autocomplete-input" placeholder="Search card..." style="width:250px">
 							<ul class="autocomplete-result-list"></ul>
 						</div>
             </div>
@@ -55,7 +54,7 @@
 						})
 			      })
 			    },
-			    getResultValue: result =>result.name ,
+			    getResultValue: result =>result.name , 
 				debounceTime: 500, 
 				renderResult: (result, props) => `
 						    <li ${props}>
@@ -69,7 +68,7 @@
 						    </li>
 						  `,
 			    onSubmit: result => {
-			      alert(result);
+			    	window.location.href = "./card.html?scryfallid="+result.scryfallId;
 			    }
 		  });
 

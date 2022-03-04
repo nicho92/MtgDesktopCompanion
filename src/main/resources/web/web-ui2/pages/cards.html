@@ -6,17 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>MTG Web Companion</title>
   
-   <link rel="icon" type="image/png" href="../dist/img/logo-ct.png">
-	<link href="https://cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
-  	<link href="https://cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css" rel="stylesheet" type="text/css" />
+  <link rel="icon" type="image/png" href="../dist/img/logo-ct.png">
+  <link href="https://cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
+  <link href="https://cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css" rel="stylesheet" type="text/css" />
 
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <link id="pagestyle" href="../dist/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css"/>
   <link href="https://cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
-   <link href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-   <link href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css" rel="stylesheet" />
  
   <script src="//unpkg.com/@trevoreyre/autocomplete-js"></script>    
 
@@ -32,7 +32,7 @@
   <script src="https://cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script>
   <script src="../dist/js/rest-server.js"></script>
   <script src="../dist/js/js-var.js"></script>
-<script src="../dist/js/mtgcompanion-ui.js"></script>
+  <script src="../dist/js/mtgcompanion-ui.js"></script>
 
 	
 		<script>
@@ -42,12 +42,14 @@
 			$("#navbarBlur").load("inc/nav.html",function(){
 					$("[name='categTitle']").html("Sets");
 					$("#menuSets").addClass("bg-gradient-primary");
+					$("#menuSets").addClass("active");
 			});
 			
 			$("#navfooter").load("inc/footer.html");
 			$("#settingPanel").load("inc/settingPanel.html");
-			$("#selectedSet").html($_GET('set'));
 			
+			$("#selectedSet").html($_GET('set'));
+			$("#selectedCol").html($_GET('col'));
 			
 		var set = restserver+"/cards/"+$_GET("set")+"/cards";
 		
@@ -191,7 +193,7 @@
                   <h6>Cards</h6>
                   <p class="text-sm mb-0">
                     <i class="fa fa-check text-info" aria-hidden="true"></i>
-                    Stats from <span id="selectedSet">
+                    Cards from <span id="selectedCol"></span> <span id="selectedSet"></span>
                   </p>
                 </div>
                 <div class="col-lg-6 col-5 my-auto text-end">
@@ -202,17 +204,17 @@
             <div class="card-body px-0 pb-2">
               <div class="table-responsive">
                 <table id="tableCards" class="table align-items-center mb-0" style="width:100%">
-						        <thead>
-						            <tr>
-						            	<th>N°</th>
-						                <th>Name</th>
-						                <th>Rarity</th>
-						                <th>Type</th>
-						                <th>Cost</th>
-   										<th>Layout</th>
-										<th>Side</th>
-						            </tr>
-						        </thead>
+			        <thead>
+			            <tr>
+			            	<th>N°</th>
+			                <th>Name</th>
+			                <th>Rarity</th>
+			                <th>Type</th>
+			                <th>Cost</th>
+							<th>Layout</th>
+							<th>Side</th>
+			            </tr>
+			        </thead>
                 </table>
               </div>
             </div>

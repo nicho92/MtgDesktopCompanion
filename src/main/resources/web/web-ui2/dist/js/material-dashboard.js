@@ -584,12 +584,20 @@ window.onload = function() {
   }
 };
 
+
+var sidenav;
+var body;
+var className;
+
+$(window).on('load',function(){ 
+
 // Toggle Sidenav
 const iconNavbarSidenav = document.getElementById('iconNavbarSidenav');
 const iconSidenav = document.getElementById('iconSidenav');
-const sidenav = document.getElementById('sidenav-main');
-let body = document.getElementsByTagName('body')[0];
-let className = 'g-sidenav-pinned';
+sidenav = document.getElementById('sidenav-main');
+body = document.getElementsByTagName('body')[0];
+className = 'g-sidenav-pinned';
+
 
 if (iconNavbarSidenav) {
   iconNavbarSidenav.addEventListener("click", toggleSidenav);
@@ -598,6 +606,11 @@ if (iconNavbarSidenav) {
 if (iconSidenav) {
   iconSidenav.addEventListener("click", toggleSidenav);
 }
+
+
+});
+
+
 
 function toggleSidenav() {
   if (body.classList.contains(className)) {
