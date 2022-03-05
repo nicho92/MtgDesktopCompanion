@@ -40,15 +40,15 @@
 			
 			$("#sidenav-main" ).load("inc/menu.html" );
 			$("#navbarBlur").load("inc/nav.html",function(){
-					$("[name='categTitle']").html("Sealed");
-					$("#menuSealeds").addClass("bg-gradient-primary");
-					$("#menuSealeds").addClass("active");
+					$("[name='categTitle']").html("Alerts");
+					$("#menuAlerts").addClass("bg-gradient-primary");
+					$("#menuAlerts").addClass("active");
 			});
 			
 			$("#navfooter").load("inc/footer.html");
 			$("#settingPanel").load("inc/settingPanel.html");
 			
-			$('#tableStock').DataTable( {
+			$('#tableAlerts').DataTable( {
 		    	"language": {
 		    	    "search": "Filter",
 		    	    "processing": "<img src='../dist/img/loading.gif' width='50' height='50'>"
@@ -56,71 +56,52 @@
 		    	"responsive": true,
 		        "processing": true,
 		        "pageLength": 50,
-		        "order": [[ 0, "desc" ]],
-		        "ajax": {"url":restserver+"/sealed/list","dataSrc":""},
+		        "order": [[ 1, "desc" ]],
+		        "ajax": {"url":restserver+"/alerts/list","dataSrc":""},
 		        "columns": [
-		        	{ 
-		                "data": "product.name",
-		                "defaultContent": "",
-		                "render": function(data, type, row, meta){
-		                	 if(type === 'display'){
-		                		return '<span  class="mtg-tooltip" productUrl="'+row.url+'">'+data+'</span>';	                		 
-		                	 }
+	        	{ 
+	                "data": "card.name",
+	                "defaultContent": "",
+	                "render": function(data, type, row, meta){
+	                	 if(type === 'display'){
+	                 		 return '<a  href="card.html?scryfallid='+row.card.scryfallId+'" class="mtg-tooltip" data-set="'+row.card.editions[0].id+'" scryfallid="'+row.card.scryfallId+'" multiverseId="'+row.card.editions[0].multiverseId+'" data-name="'+data+'">'+data+'</a>';
+	                	 }
+	                   return data;
+	                }
+	                
+	                
+	                
+	            }, 
+	            { 
+	                "data": "card.editions",
+	                "defaultContent": "",
+	                "render": function(data, type, row, meta){
+	                	 if(type === 'display'){
+								data='<i class="ss ss-'+data[0].id.toLowerCase()+' ss-common ss-2x"></i> '+data[0].set;	                		 
+	                	 }
+	                   return data;
+	                }
+	            },
+	            { 
+	                "data": "card.types",
+	                "defaultContent": "",
+		        	  "render": function(data, type, row, meta){
+		                   if(type === 'display'){
+		                       data = '<i class="ms ms-'+data[0].toLowerCase()+' ms-2x"></i>'+data;
+		                   }
 		                   return data;
-		                }
-		                
-		                
-		            }, 
-		            { 
-		                "data": "edition",
-		                "defaultContent": "",
-		                "render": function(data, type, row, meta){
-		                	 if(type === 'display'){
-		                		 return '<i class="ss ss-'+data.keyRuneCode.toLowerCase()+' ss-common ss-2x"></i> '+data.set;	                		 
-		                	 }
-		                   return data.set;
-		                }
-		            },
-		            { 
-		                "data": "magicCollection",
-		                "defaultContent": "",
-		                "render": function(data, type, row, meta){
-		                	if(data)
-		                   		return data.name;
-		                	else
-		                		return "";
-		                }
-		            },
-		            { 
-		                "data": "qte",
-		                "defaultContent": ""
-		            },
-		            { 
-		                "data": "language",
-		                "defaultContent": ""
-		            },
-		            { 
-		                "data": "condition",
-		                "defaultContent": ""
-		            },
-		            { 
-		                "data": "price",
-		                "render": function(data, type, row, meta){
-			                   return data.toFixed(2);
-			                }
-		            }
-		           
-		        ],
+		              }
+	            },
+	            { 
+	                "data": "price",
+	                "defaultContent": ""
+	            }
+	           
+	        ],
 		        "fnDrawCallback" :function(oSettings, json) {
-					var dt = $('#tableStock').DataTable();
-					var cardCount=dt.column(3).data().sum();
-					var totalPrice = dt.column(6).data().sum();
+					var dt = $('#tableAlerts').DataTable();
 					
-					$("#totalPrice").html(totalPrice.toFixed(2));
-					$("#cardCount").html(cardCount);
-					 
-					
-					mtgtooltipStock($(".mtg-tooltip"));
+					mtgtooltip($(".mtg-tooltip"));
 		        }
 		        
 			 } );
@@ -185,22 +166,19 @@
           <div class="card">
           <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3">Stocks</h6>
+                <h6 class="text-white text-capitalize ps-3">Alerts</h6>
               </div>
             </div>
             <div class="card-body px-0 pb-2">
               <div class="table-responsive">
-                <table id="tableStock" class="table align-items-center mb-0" style="width:100%">
+                <table id="tableAlerts" class="table align-items-center mb-0" style="width:100%">
 			        <thead>
-			            <tr>
-						                <th>item</th>
-						                <th>edition</th>
-						                <th>collection</th>
-						                <th>qty</th>
-						                <th>language</th>
-						                <th>condition</th>
-						                <th>price</th>
-						            </tr>
+	           			<tr>
+				                <th>card</th>
+				                <th>edition</th>
+				                <th>type</th>
+				                <th>bid</th>
+				            </tr>
 			        </thead>
                 </table>
               </div>
