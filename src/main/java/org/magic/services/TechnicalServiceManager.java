@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -38,7 +39,6 @@ public class TechnicalServiceManager {
 	private File logsDirectory = new File(MTGConstants.DATA_DIR,"audits");
 	private IPTranslator translator;
 	public static final int SCHEDULE_TIMER_MS=1;
-	
 	
 	public static TechnicalServiceManager inst()
 	{
@@ -91,11 +91,11 @@ public class TechnicalServiceManager {
 	public void storeAll()
 	{
 		try {
-			storeItems(JsonQueryInfo.class,jsonInfo);
-			storeItems(DAOInfo.class,daoInfos);
-			storeItems(NetworkInfo.class,networkInfos);
-			storeItems(TaskInfo.class,tasksInfos);
-			storeItems(DiscordInfo.class,discordInfos);
+			storeItems(JsonQueryInfo.class,jsonInfo.stream().filter(Objects::nonNull).toList());
+			storeItems(DAOInfo.class,daoInfos.stream().filter(Objects::nonNull).toList());
+			storeItems(NetworkInfo.class,networkInfos.stream().filter(Objects::nonNull).toList());
+			storeItems(TaskInfo.class,tasksInfos.stream().filter(Objects::nonNull).toList());
+			storeItems(DiscordInfo.class,discordInfos.stream().filter(Objects::nonNull).toList());
 		}
 		catch(Exception e)
 		{
@@ -104,28 +104,31 @@ public class TechnicalServiceManager {
 		
 	}
 	
+	
 	public void restore() throws IOException
 	{
 		
 		for(File f : FileTools.listFiles(logsDirectory))
 		{
 			if(f.getName().startsWith(JsonQueryInfo.class.getSimpleName()))
-				jsonInfo.addAll(export.fromJsonList(FileTools.readFile(f), JsonQueryInfo.class));
+				jsonInfo.addAll(restore(f,JsonQueryInfo.class).stream().distinct().toList());
 			else if(f.getName().startsWith(DAOInfo.class.getSimpleName()))
-				daoInfos.addAll(export.fromJsonList(FileTools.readFile(f), DAOInfo.class));
+				daoInfos.addAll(restore(f,DAOInfo.class).stream().distinct().toList());
 			else if(f.getName().startsWith(TaskInfo.class.getSimpleName()))
-				tasksInfos.addAll(export.fromJsonList(FileTools.readFile(f), TaskInfo.class));		
+				tasksInfos.addAll(restore(f,TaskInfo.class).stream().distinct().toList());		
 			else if(f.getName().startsWith(NetworkInfo.class.getSimpleName()))
-				networkInfos.addAll(export.fromJsonList(FileTools.readFile(f), NetworkInfo.class));
+				networkInfos.addAll(restore(f,NetworkInfo.class).stream().distinct().toList());
 			else if(f.getName().startsWith(DiscordInfo.class.getSimpleName()))
-				discordInfos.addAll(export.fromJsonList(FileTools.readFile(f), DiscordInfo.class));	
+				discordInfos.addAll(restore(f,DiscordInfo.class).stream().distinct().toList());	
 		}
 	}
 	
-	//TODO Error when file is too big
+	private <T  extends AbstractAuditableItem> List<T> restore(File f, Class<T> classe) throws IOException {
+		return export.fromJsonList(FileTools.readFile(f), classe);
+	}
+
 	private <T extends AbstractAuditableItem> void storeItems(Class<T> classe, List<T> items) throws IOException
 	{
-		
 		FileTools.saveLargeFile(Paths.get(logsDirectory.getAbsolutePath(),classe.getSimpleName()+".json").toFile(), export.toJson(items),MTGConstants.DEFAULT_ENCODING);
 	}
 	

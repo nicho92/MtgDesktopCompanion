@@ -122,6 +122,7 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 		
 		
 		TableCellRenderer durationRenderer = (JTable table, Object value, boolean isSelected,boolean hasFocus, int row, int column)->{
+						
 						var lab= new JLabel(DurationFormatUtils.formatDurationHMS((Long)value));
 						lab.setOpaque(false);
 						return lab;

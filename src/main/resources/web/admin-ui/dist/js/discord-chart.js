@@ -244,10 +244,14 @@ server = {
                       {
                           'data' : 'name',
                           render : function(d,type,row){
-							if(row.icon!=null)
-                              return "<img class='rounded img-fluid ' src='"+row.icon+"'>"+d;
-                              
-                              return d;
+	
+								if(type === 'display'){
+									if(row.icon!=null)
+		                              return "<img class='rounded img-fluid ' src='"+row.icon+"'>"+d;
+		                            else
+		                            	return "<img class='rounded' height='128px' width='128px' src='https://static.thenounproject.com/png/1455872-200.png'>"+d;
+                              	}
+                              	return d;
                           }
                         }
                   ]
@@ -281,7 +285,13 @@ server = {
                       {
                           'data' : 'start',
                           render : function(d,type,row){
-                              return moment(d).format('DD MMM YYYY, HH:mm:ss');
+                            if(type === 'display'){
+                              	 return moment(d).format('DD MMM YYYY, HH:mm:ss');
+                              	 }
+                              	 else
+                              	 {
+									return d;
+									}
                           }
                         },
                       {'data' : 'duration'},

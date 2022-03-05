@@ -14,7 +14,7 @@ public class DiscordInfo extends AbstractAuditableItem {
 	private JsonObject channel;
 	private String message;
 	private String error;
-
+	
 	public JsonObject getUser() {
 		return user;
 	}
