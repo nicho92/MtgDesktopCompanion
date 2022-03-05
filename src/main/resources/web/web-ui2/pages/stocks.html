@@ -156,6 +156,18 @@
 		           
 		        ],
 		        "fnDrawCallback" :function(oSettings, json) {
+					var dt = $('#tableStock').DataTable();
+					var cardCount=dt.column(4).data().sum();
+					var totalPrice = dt.column(10).data().sum();
+					var totalFoil = dt.column(7).data().filter(function(item){
+						return item===true;
+					}).length;
+					
+					
+					$("#totalPrice").html(totalPrice.toFixed(2));
+					$("#cardCount").html(cardCount);
+					$("#totalFoil").html(totalFoil);
+					
 		        	mtgtooltip($(".mtg-tooltip"));
 		        }
 		        
@@ -176,6 +188,66 @@
    
     <div class="container-fluid py-4">
 
+	<div class="row">
+       
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+            <div class="card-header p-3 pt-2">
+              <div class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
+                <i class="material-icons opacity-10">style</i>
+              </div>
+              <div class="text-end pt-1">
+                <p class="text-sm mb-0 text-capitalize">Cards</p>
+                <h4 class="mb-0" id="cardCount">0 cards</h4>
+              </div>
+            </div>
+            <hr class="dark horizontal my-0">
+            <div class="card-footer p-3">
+              <p class="mb-0">&nbsp;</p>
+            </div>
+          </div>
+        </div>
+        
+        
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+            <div class="card-header p-3 pt-2">
+              <div class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
+                <i class="material-icons opacity-10">grade</i>
+              </div>
+              <div class="text-end pt-1">
+                <p class="text-sm mb-0 text-capitalize">Foil</p>
+                <h4 class="mb-0" id="totalFoil">0</h4>
+              </div>
+            </div>
+            <hr class="dark horizontal my-0">
+            <div class="card-footer p-3">
+              <p class="mb-0">&nbsp;</p>
+            </div>
+          </div>
+        </div>
+        
+        
+        <div class="col-xl-3 col-sm-6">
+          <div class="card">
+            <div class="card-header p-3 pt-2">
+              <div class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
+                <i class="material-icons opacity-10">payments</i>
+              </div>
+              <div class="text-end pt-1">
+                <p class="text-sm mb-0 text-capitalize">Prices</p>
+                  <h4 class="mb-0" id="totalPrice">0.0</h4>
+              </div>
+            </div>
+            <hr class="dark horizontal my-0">
+            <div class="card-footer p-3"><p class="mb-0">&nbsp;</p></div>
+          </div>
+        </div>
+        
+        
+        
+      </div>
+	  <br/><br/><br/>
       <div class="row mb-4">
         <div class="col-lg-12 col-md-6 mb-md-0 mb-4">
           <div class="card">
