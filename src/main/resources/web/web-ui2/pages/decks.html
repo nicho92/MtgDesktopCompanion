@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>MTG Web Companion</title>
+  
+  <link rel="icon" type="image/png" href="../dist/img/logo-ct.png">
+  <link href="https://cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
+  <link href="https://cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css" rel="stylesheet" type="text/css" />
+
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link id="pagestyle" href="../dist/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css"/>
+  <link href="https://cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css" rel="stylesheet" />
+ 
+  <script src="//unpkg.com/@trevoreyre/autocomplete-js"></script>    
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="  crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.5.5/perfect-scrollbar.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scrollbar/8.7.4/smooth-scrollbar.min.js"></script>
+  
+  <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script>
+  <script src="../dist/js/rest-server.js"></script>
+  <script src="../dist/js/js-var.js"></script>
+  <script src="../dist/js/mtgcompanion-ui.js"></script>
+
+	
+		<script>
+		$(document).ready(function() {
+			
+			$("#sidenav-main" ).load("inc/menu.html" );
+			$("#navbarBlur").load("inc/nav.html",function(){
+					$("[name='categTitle']").html("Decks");
+					$("#menuDecks").addClass("bg-gradient-primary");
+					$("#menuDecks").addClass("active");
+			});
+			
+			$("#navfooter").load("inc/footer.html");
+			$("#settingPanel").load("inc/settingPanel.html");
+			
+
+		    $('#tableDecks').DataTable( {
+		    	"language": {
+		    	    "search": "Filter",
+		    	    "processing": "<img src='../dist/img/loading.gif' width='50' height='50'>"
+		    	  },
+		    	"responsive": true,
+		        "processing": true,
+		        "order": [[ 3, "desc" ]],
+		        "pageLength": 50,
+		        "ajax": {"url":restserver+"/decks/list","dataSrc":""},
+		        "columns": [
+		        	{ 
+			                "data": "name",
+			                "defaultContent": "",
+			                "width": "25%",
+			                "render": function(data, type, row, meta)
+			                {
+				                if(type === 'display')
+				                {
+				                	return '<a href="deck.html?id='+row.id+'">'+data+'</a>';		   
+			                	}
+				                return data;
+				            }
+			        },
+			        { 
+		                "data": "colors",
+		                "defaultContent": "",
+		                "width": "8%",
+		                "render": function(data, type, row, meta)
+		                {
+			                   if(type === 'display'  && data !=null)
+			                   {
+			                	   
+			                	      var d=data.match(/[^{}]+(?=\})/g);
+				                	   if(d!=null)
+				                	   {
+				                		   var ret="";
+				                		   for (var i = 0; i < d.length; i++) {
+				                			    d[i]=formatMana(d[i]);
+				                				ret +='<i class="ms ms-'+d[i].toLowerCase()+' ms-cost ms-shadow"></i>';
+				                			}
+				                	   }
+			                   	   	   return ret;
+			                   		
+		                		}
+			            }
+		        	},
+		        	 { 
+		                "data": "description",
+		                "defaultContent": "",
+		                
+		        	},
+		        	{ 
+		                "data": "creationDate",
+		                "defaultContent": "",
+		                "render": function(data, type, row, meta)
+		                {
+			                if(type === 'display')
+			                {
+			                	return new Date(data).toLocaleDateString();		   
+		                	}
+			                return data;
+			            }
+		                
+		        	},
+		        	{ 
+		                "data": "tags",
+		                "defaultContent": "",
+		                "width": "10%",
+		                "render": function(data, type, row, meta)
+		                {
+		                	if(type === 'display' && data !=null)
+		                   {
+		                		 var ret="";
+			                	 for (var i = 0; i < data.length; i++) {
+			                		ret+="<i class='fa fa-tag fa-fw'></i>"+data[i]+"<br/>";
+			                	 }
+			                	 return ret;
+	                		}
+		                	return data;
+		                }
+		        	}	
+		        ]
+		    } );
+			
+		
+		});
+		
+		</script>
+	
+  
+</head>
+
+<body class="g-sidenav-show  bg-gray-200">
+	<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start menu-left bg-gradient-dark" id="sidenav-main"></aside>
+  	<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+		<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true"></nav>
+   
+    <div class="container-fluid py-4">
+
+	  <div class="row mb-4">
+        <div class="col-lg-12 col-md-6 mb-md-0 mb-4">
+          <div class="card">
+          <div class="card-header p-0 position-relative mt-n4 mx-3">
+              <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                <h6 class="text-white text-capitalize ps-3">Decks</h6>
+              </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+              <div class="table-responsive">
+                <table id="tableDecks" class="table align-items-center mb-0" style="width:100%">
+			        <thead>
+	           			 <tr>
+						            	<th>name</th>
+						            	<th>colors</th>
+						            	<th>description</th>
+						            	<th>date</th>
+						            	<th>tags</th>
+						            </tr>
+			        </thead>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="footer py-4" id="navfooter"></footer>
+    </div>
+	
+	
+  </main>
+  <div class="fixed-plugin">
+    <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
+      <i class="material-icons py-2">settings</i>
+    </a>
+    <div class="card shadow-lg" id="settingPanel">
+      
+    </div>
+  </div>
+ 
+  <script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+      var options = {
+        damping: '0.5'
+      }
+      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+  </script>
+  
+  
+   <script src="../dist/js/material-dashboard.js?v=3.0.0"></script>
+
+ 
+</body>
+
+</html>
