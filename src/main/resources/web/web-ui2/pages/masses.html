@@ -17,7 +17,9 @@
   <link href="https://cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
   <link href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css" rel="stylesheet" type="text/css">
   <link href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css" rel="stylesheet" />
- 
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css"  rel="stylesheet">
+  
+  
   <script src="//unpkg.com/@trevoreyre/autocomplete-js"></script>    
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="  crossorigin="anonymous"></script>
@@ -27,6 +29,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.5.5/perfect-scrollbar.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scrollbar/8.7.4/smooth-scrollbar.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
+  
   
   <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script>
@@ -40,51 +44,59 @@
 			
 			$("#sidenav-main" ).load("inc/menu.html" );
 			$("#navbarBlur").load("inc/nav.html",function(){
-					$("[name='categTitle']").html("Webcam");
-					$("#menuWebcam").addClass("bg-gradient-primary");
-					$("#menuWebcam").addClass("active");
+					$("[name='categTitle']").html("Mass Modifications");
+					$("#menuMasses").addClass("bg-gradient-primary");
+					$("#menuMasses").addClass("active");
 			});
 			
 			$("#navfooter").load("inc/footer.html");
 			$("#settingPanel").load("inc/settingPanel.html");
 			
-			if (navigator.mediaDevices.getUserMedia) 
-			{
-				// Elements for taking the snapshot
-				var canvas = document.getElementById('canvas');
-				var context = canvas.getContext('2d');
-				var video = document.getElementById('videoElement');
 			
-			$("#snap").click(function() {
-				canvas.width=video.videoWidth;
-				canvas.height=video.videoHeight;
-				
-				context.drawImage(video, 0, 0, canvas.width, canvas.height);
-				
-				$.ajax({
-				  type: "POST",
-				  url: restserver+"/cards/recognize/"+$("input[type='number']").val(),
-				  data: canvas.toDataURL("image/png"),
-				  success: function(datas){
-					  
-					  $.each(datas, function( index, data ) {
-						$("#contentResults").empty();
-						$("#contentResults").append("CardName = "+data.name + " <br/>Number = "+ data.setCode+ " ("+  data.number + "). <br/> SCORE =" + data.score.toFixed(2));
-						$("#contentResults").append("<br/><img src='"+restserver+"/pics/cards/"+data.setCode+"/"+data.number+"'/><br/>");
-						
-						
-						$("#btnStock").attr("data-id",data.id);
-						$("#btnAlert").attr("data-id",data.id);
-						$("#btnCollection").attr("data-id",data.id);
-						
-					  });
-		  			}
-				});
-			});
-				
-		
-
-			}
+			var idEd=null;
+	  		var idCol=null;
+	  		var idDestination=null;
+	  		
+			$.get({
+	  		    url: restserver+"/collections/list"
+	  	   		}).done(function(data) {
+	  	   			
+	  	   			for(var i=0;i<data.length;i++)
+	  				 {
+	  	   				
+	  				 	$("#listCollections").append("<option value='"+data[i].name+"'>"+data[i].name+"</option>");
+	  				 	$("#listDestinationsCols").append("<option value='"+data[i].name+"'>"+data[i].name+"</option>");
+	  				 }
+	  	   		
+	  	   			
+	  	   		 $('#listCollections').selectpicker('refresh');
+	  	   		 $("#listDestinationsCols").selectpicker('refresh');
+	  	   			  
+/* 	  	   			 $('#listCollections').selectpicker('refresh').change(function(e) {
+	  	   				
+	  	   				idCol= $(this).find("option:selected").val();
+	  	   				
+	  	   				$.ajax({
+	  	    		    	url: restserver+"/editions/list/"+idCol
+	  	    	   		}).done(function(d) {
+	  	    	   			
+	  	    	   			$('#listEditions').find("option").remove();
+	  	    	   			$("#listEditions").append("<option>-----------</option>")
+	  	    	   			for(var i=0;i<d.length;i++)
+	  	    	   			{
+			  	    	   		$("#listEditions").append("<option value='"+d[i].id+"'>"+d[i].set+"</option>")
+	  	    	   			}
+	  	    	   			$('#listEditions').selectpicker('refresh');
+	  	    	   			$('#listEditions').selectpicker().change(function(e) {
+	  		   					idEd= $(this).find("option:selected").val();
+	  		   			 	});
+	  	    	   		});
+	  	   			 }); 
+	  	   			 
+	  	   		 	 $('#listDestinationsCols').selectpicker().change(function(e) {
+	  	   		 		idDestination= $(this).find("option:selected").val();
+	  	   		 	 });*/
+	  	   		 })
 			
 		
 		});
@@ -97,93 +109,88 @@
 <body class="g-sidenav-show  bg-gray-200">
 	<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start menu-left bg-gradient-dark" id="sidenav-main"></aside>
   	<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-	<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true"></nav>
-	
-	
-	 <div class="container-fluid py-4">
-		
-		<div class="row">
-		
-		<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+		<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true"></nav>
+   
+    <div class="container-fluid py-4">
+
+	<div class="row">
+       
+        <div class="col-xl-6 col-sm-6 mb-xl-0 mb-4">
           <div class="card">
             <div class="card-header p-3 pt-2">
               <div class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
-                <i class="material-icons opacity-10">photo_camera</i>
+                <i class="material-icons opacity-10">output</i>
               </div>
               <div class="text-end pt-1">
-                <p class="text-sm mb-0 text-capitalize">WebCam Choose</p>
-                 <select id="videoSource">
-					   <option value="">Select camera</option>
-				 </select>
+                <p class="text-sm mb-0 text-capitalize">From</p>
+
+						<br/><select id="listCollections" class="selectpicker"><option value=""></option></select>                       
+							<select id="listEditions" class="selectpicker" data-live-search="true"><option value=""></option></select>
+
               </div>
             </div>
             <hr class="dark horizontal my-0">
             <div class="card-footer p-3">
-              <p class="mb-0">&nbsp;</p>
+              <p class="mb-0"><button id="btnSearch" type="button" class="btn btn-danger btn-circle"><i class="fa fa-search"></i></button></p>
             </div>
-          </div>
-        </div>
-		
-		<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-          <div class="card">
-            <div class="card-header p-3 pt-2">
-              <div class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
-                <i class="material-icons opacity-10">view_in_ar</i>
-              </div>
-              <div class="text-end pt-1">
-                <p class="text-sm mb-0 text-capitalize">Threshold</p>
-                <input type="number" value="30" min="0" max="100" step="1">   
-              </div>
-            </div>
-            <hr class="dark horizontal my-0">
-            <div class="card-footer p-3">
-              <p class="mb-0">&nbsp;</p>
-            </div>
-          </div>
-        </div>
-		
-		
-		</div>	
-		
-		<br/><br/>
-		
-		
-		
-		
-		
-	  <div class="row mb-4">
-        <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
-          <div class="card">
-          <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-              <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3">Camera</h6>
-              </div>
-            </div>
-            <div class="card-body px-4 pb-2">
-                 <video id="videoElement" autoplay style="width: 100%;"></video>
-            </div>
-               <button class="btn" id="snap" style="width: 100%;"><i class="fa fa-2x fa-camera"></i></button>
-             <canvas id="canvas" hidden ></canvas>
           </div>
         </div>
         
-        <div class="col-lg-4 col-md-6 mb-md-0 mb-4">
+        
+        <div class="col-xl-6 col-sm-6 mb-xl-0 mb-4">
           <div class="card">
-          	<div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-              <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3">Result</h6>
+            <div class="card-header p-3 pt-2">
+              <div class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
+                <i class="material-icons opacity-10">input</i>
+              </div>
+              <div class="text-end pt-1">
+                <p class="text-sm mb-0 text-capitalize">To</p>
+                <br/>
+                <select id="listDestinationsCols" class="form-control selectpicker" data-style="" data-live-search="true"><option value=""></option></select>
+                
+                
+                
               </div>
             </div>
-            <div class="card-body px-3 pb-2" id="contentResults"></div>
-            <div class="card-footer px-3 pb-2" id="contentResults">
-					 <button class="btn btn-primary" id="btnStock"><i class="fa"></i> Add to Stock</button> 
-					 <button class="btn btn-danger" id="btnCollection"><i class="fa"></i> Add to Collection</button>
-					<button class="btn btn-warning" id="btnAlert"><i class="fa"></i> Add to Alert</button>
-			</div>
+            <hr class="dark horizontal my-0">
+            <div class="card-footer p-3">
+              <p class="mb-0">&nbsp;</p>
+            </div>
           </div>
-          
         </div>
-       
+        
+        
+        
+      </div>
+	  <br/><br/><br/>
+      <div class="row mb-4">
+        <div class="col-lg-12 col-md-6 mb-md-0 mb-4">
+          <div class="card">
+          <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                <h6 class="text-white text-capitalize ps-3">Results</h6>
+              </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+              <div class="table-responsive">
+                <table id="tableCards" class="table align-items-center mb-0" style="width:100%">
+			        <thead>
+			            <tr>
+						            	<th>number</th>
+						                <th>card</th>
+						                <th>rarity</th>
+						                <th>actions</th>
+						            </tr>
+			        </thead>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+        
+        
       </div>
       <footer class="footer py-4" id="navfooter"></footer>
     </div>
@@ -211,7 +218,7 @@
   
   
    <script src="../dist/js/material-dashboard.js?v=3.0.0"></script>
-<script src="../dist/js/webcam.js"></script>
+
  
 </body>
 

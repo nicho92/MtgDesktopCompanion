@@ -604,7 +604,7 @@ function toggleSidenav() {
 
 let referenceButtons = document.querySelector('[data-class]');
 
-window.addEventListener("resize", navbarColorOnResize);
+/*window.addEventListener("resize", navbarColorOnResize);
 
 function navbarColorOnResize() {
   if (window.innerWidth > 1200) {
@@ -617,7 +617,7 @@ function navbarColorOnResize() {
     sidenav.classList.add('bg-white');
     sidenav.classList.remove('bg-transparent');
   }
-}
+}*/
 
 // Deactivate sidenav type buttons on resize and small screens
 window.addEventListener("resize", sidenavTypeOnResize);
