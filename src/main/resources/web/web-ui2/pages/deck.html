@@ -35,6 +35,107 @@
   <script src="../dist/js/mtgcompanion-ui.js"></script>
   
   <script>
+  		
+  		function print(element, deckData)
+  		{
+  			element.DataTable({
+	    		"data":deckData,
+		    	"responsive": true,
+		        "processing": true,
+		        "paging": false,
+		        "bLengthChange": false,
+		        "searching": false,
+		        "order": [[ 4, "asc" ]],
+		        "columns": [
+		        		{ 
+			        	  "data": "card.id",
+			        	  "defaultContent": "",
+			        	  "width": "2%",
+			        	  "render": function(data, type, row, meta){
+			                	 if(type === 'display'){
+										data="<a class='fa fa-search fa-fw' href='card.html?id="+data+"'/>";		                		 
+			                	 }
+			                   return data;
+			                }
+			        	},
+		        		{ 
+			        	  "data": "qty",
+			        	  "defaultContent": "",
+			        	  "width": "2%"
+			        	},
+			        	{ 
+			        	  "data": "card.name",
+			        	  "defaultContent": "",
+			        	  "width": "20%",
+		               	  "render": function(data, type, row, meta){
+			                   if(type === 'display'){
+			                	   data='<span  class="mtg-tooltip" data-set="'+row.card.editions[0].id+'" scryfallid="'+row.card.scryfallId+'" multiverseId="'+row.card.editions[0].multiverseId+'" data-name="'+data+'">'+data+'</span>';	
+			                   }
+			                 return data;
+			              }
+			        	},
+			        	 { 
+				        	  "data": "card.cost",
+				        	  "defaultContent": "",
+				        	  "width": "5%",
+				        	  "render": function(data, type, row, meta){
+				                   if(type === 'display'){
+				                	   if(data!=null)
+				                	   {
+					                	   var d=data.match(/[^{}]+(?=\})/g);
+					                	   if(d!=null){
+					                		   var ret="";
+					                		   for (var i = 0; i < d.length; i++) {
+					                				ret +='<i class="ms ms-'+formatMana(d[i]).toLowerCase()+' ms-cost ms-shadow"></i>';
+					                			}
+					                	   }
+				                   		}
+				                	   return ret;
+				                   }
+				                   
+				             }
+				        },
+			        	{ 
+				        	  "data": "card.editions",
+				        	  "defaultContent": "",
+				        	  "width": "5%",
+				        	  "render": function(data, type, row, meta){
+				                   if(type === 'display'){
+				                	   try {
+				                		   data = '<i class="ss ss-grad ss-'+data[0].id.toLowerCase()+' ss-'+row.card.rarity.toLowerCase()+' ss-2x ss-uncommon"></i>';
+				                	   }catch(error)
+				                	   {
+				                		   data="common";
+				                		   console.log(error);
+				                	   }
+				                       
+				                   }
+				                   return data;
+				                }
+				        },
+				        { 
+				        	  "data": "card.types",
+				        	  "defaultContent": "",
+				        	  "width": "15%",
+				        	  "render": function(data, type, row, meta){
+				                   if(type === 'display'){
+				                       data = '<i class="ms ms-'+data[0].toLowerCase()+' ms-2x"></i>'+data;
+				                   }
+				                   return data;
+				                }
+				        }
+				       
+			        ],
+			        "fnDrawCallback" :function(oSettings, json) {
+			        	mtgtooltip($(".mtg-tooltip"));
+			        }
+		    } );
+  			
+  			
+  		}
+  
+  
+  
 		$(document).ready(function() {
 			$("#sidenav-main" ).load("inc/menu.html" );
 			$("#navbarBlur").load("inc/nav.html",function(){
@@ -44,6 +145,14 @@
 			});
 			$("#navfooter").load("inc/footer.html");
 			$("#settingPanel").load("inc/settingPanel.html");
+			
+			$.ajax({
+	  	        url: restserver+"/deck/"+$_GET("id")
+	  	    }).then(function(data) {
+				print($("#tableMain"),data.main);
+	  	    	print($("#tableSide"),data.side);
+	
+	  	    });
 			
 			
 		});
@@ -125,22 +234,57 @@
             <div class="card-body px-0 pb-2">
 
 			            <div class="nav-wrapper position-relative end-0">
-			              <ul class="nav  nav-tabs nav-fill p-1" role="tablist">
+			              <ul class="nav nav-tabs nav-fill p-1" role="tablist">
 			                <li class="nav-item ">
-			                  <a class="nav-link active mb-0 px-0 py-1" data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="true">
+			                  <a class="nav-link" data-bs-toggle="tab" href="#tab1" role="tab" aria-selected="true">
 			                    <i class="material-icons text-lg position-relative">domain</i>
 			                    Main
 			                  </a>
 			                </li>
 			                <li class="nav-item">
-			                  <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
+			                  <a class="nav-link mb-0" data-bs-toggle="tab" href="#tab2" role="tab" aria-selected="false">
 			                    <i class="material-icons text-lg position-relative">domain_disabled</i>
 			                    Side
 			                  </a>
 			                </li>
 			             </ul>
-			           </div>
+			             
+			             <div class="tab-content">
+									<div class="tab-pane fade active in" id="tab1">
+										<table id="tableMain" class="display" style="width: 100%">
+											<thead>
+												<tr>
+													<th></th>
+													<th>Qty</th>
+													<th>Name</th>
+													<th>Cost</th>
+													<th>Rarity</th>
+													<th>Type</th>
 
+												</tr>
+											</thead>
+										</table>
+									</div>
+
+									<div class="tab-pane fade" id="tab2">
+										<table id="tableSide" class="display" style="width: 100%">
+											<thead>
+												<tr>
+													<th></th>
+													<th>Qty</th>
+													<th>Name</th>
+													<th>Cost</th>
+													<th>Rarity</th>
+													<th>Type</th>
+
+												</tr>
+											</thead>
+										</table>
+									</div>
+								</div>
+			             
+			           </div>
+						
             </div>
           </div>
         </div>
