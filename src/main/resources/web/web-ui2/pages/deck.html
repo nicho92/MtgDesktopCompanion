@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>MTG Web Companion</title>
+  
+  <link rel="icon" type="image/png" href="../dist/img/logo-ct.png">
+  <link href="https://cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
+  <link href="https://cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css" rel="stylesheet" type="text/css" />
+
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link id="pagestyle" href="../dist/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css"/>
+  <link href="https://cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css" rel="stylesheet" />
+ 
+  <script src="//unpkg.com/@trevoreyre/autocomplete-js"></script>    
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="  crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.5.5/perfect-scrollbar.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scrollbar/8.7.4/smooth-scrollbar.min.js"></script>
+  
+  <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script>
+  <script src="../dist/js/rest-server.js"></script>
+  <script src="../dist/js/js-var.js"></script>
+  <script src="../dist/js/mtgcompanion-ui.js"></script>
+  
+  <script>
+		$(document).ready(function() {
+			$("#sidenav-main" ).load("inc/menu.html" );
+			$("#navbarBlur").load("inc/nav.html",function(){
+				$("[name='categTitle']").html("Deck");
+				$("#menuDecks").addClass("bg-gradient-primary");
+				$("#menuDecks").addClass("active");
+			});
+			$("#navfooter").load("inc/footer.html");
+			$("#settingPanel").load("inc/settingPanel.html");
+			
+			
+		});
+  </script>
+  
+  
+</head>
+
+<body class="g-sidenav-show  bg-gray-200">
+  <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start menu-left bg-gradient-dark" id="sidenav-main">
+   
+  </aside>
+  
+  
+  
+  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    <!-- Navbar -->
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true"></nav>
+    <!-- End Navbar -->
+    <div class="container-fluid py-4">
+      
+      <div class="row mt-4">
+        <div class="col-lg-4 col-md-6 mt-4 mb-4">
+          <div class="card z-index-2 ">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 bg-transparent">
+              <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
+                <div class="chart">
+                  <canvas id="chart-bars" class="chart-canvas" height="170"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <h6 class="mb-0 ">CMC</h6>
+              <hr class="dark horizontal">
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mt-4 mb-4">
+          <div class="card z-index-2  ">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 bg-transparent">
+              <div class="bg-gradient-success shadow-success border-radius-lg py-3 pe-1">
+                <div class="chart">
+                  <canvas id="chart-line" class="chart-canvas" height="170"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <h6 class="mb-0 ">Types Repartition</h6>
+              <hr class="dark horizontal">
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 mt-4 mb-3">
+          <div class="card z-index-2 ">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
+              <div class="bg-gradient-dark shadow-dark border-radius-lg py-3 pe-1">
+                <div class="chart">
+                  <canvas id="chart-line-tasks" class="chart-canvas" height="170"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <h6 class="mb-0 ">Legalities</h6>
+              <hr class="dark horizontal">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-4">
+        <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
+          <div class="card">
+            <div class="card-header pb-0">
+              <div class="row">
+                <div class="col-lg-6 col-7">
+                  <h6>Deck</h6>
+                </div>
+              </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+
+			            <div class="nav-wrapper position-relative end-0">
+			              <ul class="nav  nav-tabs nav-fill p-1" role="tablist">
+			                <li class="nav-item ">
+			                  <a class="nav-link active mb-0 px-0 py-1" data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="true">
+			                    <i class="material-icons text-lg position-relative">domain</i>
+			                    Main
+			                  </a>
+			                </li>
+			                <li class="nav-item">
+			                  <a class="nav-link mb-0 px-0 py-1" data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
+			                    <i class="material-icons text-lg position-relative">domain_disabled</i>
+			                    Side
+			                  </a>
+			                </li>
+			             </ul>
+			           </div>
+
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-lg-4 col-md-6">
+          <div class="card h-100">
+            <div class="card-header pb-0">
+              <h6>Description</h6>
+              
+            </div>
+            <div class="card-body p-3">
+              
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer class="footer py-4  "></footer>
+    </div>
+  </main>
+  <div class="fixed-plugin">
+    <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
+      <i class="material-icons py-2">settings</i>
+    </a>
+    <div class="card shadow-lg" id="settingPanel">
+    </div>
+  </div>
+ 
+  <script>
+    var ctx = document.getElementById("chart-bars").getContext("2d");
+
+    new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: ["0", "1", "2", "3", "4", "5", "6", "7"],
+        datasets: [{
+          label: "Cmc",
+          tension: 0.4,
+          borderWidth: 0,
+          borderRadius: 4,
+          borderSkipped: false,
+          backgroundColor: "rgba(255, 255, 255, .8)",
+          data: [5, 2, 1, 4, 5, 7, 5,4],
+          maxBarThickness: 6
+        }, ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false,
+          }
+        },
+        interaction: {
+          intersect: false,
+          mode: 'index',
+        },
+        scales: {
+          y: {
+            grid: {
+              drawBorder: false,
+              display: true,
+              drawOnChartArea: true,
+              drawTicks: false,
+              borderDash: [5, 5],
+              color: 'rgba(255, 255, 255, .2)'
+            },
+            ticks: {
+              suggestedMin: 0,
+              suggestedMax: 500,
+              beginAtZero: true,
+              padding: 10,
+              font: {
+                size: 14,
+                weight: 300,
+                family: "Roboto",
+                style: 'normal',
+                lineHeight: 2
+              },
+              color: "#fff"
+            },
+          },
+          x: {
+            grid: {
+              drawBorder: false,
+              display: true,
+              drawOnChartArea: true,
+              drawTicks: false,
+              borderDash: [5, 5],
+              color: 'rgba(255, 255, 255, .2)'
+            },
+            ticks: {
+              display: true,
+              color: '#f8f9fa',
+              padding: 10,
+              font: {
+                size: 14,
+                weight: 300,
+                family: "Roboto",
+                style: 'normal',
+                lineHeight: 2
+              },
+            }
+          },
+        },
+      },
+    });
+
+
+    var ctx2 = document.getElementById("chart-line").getContext("2d");
+
+    new Chart(ctx2, {
+      type: "line",
+      data: {
+        labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        datasets: [{
+          label: "Mobile apps",
+          tension: 0,
+          borderWidth: 0,
+          pointRadius: 5,
+          pointBackgroundColor: "rgba(255, 255, 255, .8)",
+          pointBorderColor: "transparent",
+          borderColor: "rgba(255, 255, 255, .8)",
+          borderColor: "rgba(255, 255, 255, .8)",
+          borderWidth: 4,
+          backgroundColor: "transparent",
+          fill: true,
+          data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
+          maxBarThickness: 6
+
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false,
+          }
+        },
+        interaction: {
+          intersect: false,
+          mode: 'index',
+        },
+        scales: {
+          y: {
+            grid: {
+              drawBorder: false,
+              display: true,
+              drawOnChartArea: true,
+              drawTicks: false,
+              borderDash: [5, 5],
+              color: 'rgba(255, 255, 255, .2)'
+            },
+            ticks: {
+              display: true,
+              color: '#f8f9fa',
+              padding: 10,
+              font: {
+                size: 14,
+                weight: 300,
+                family: "Roboto",
+                style: 'normal',
+                lineHeight: 2
+              },
+            }
+          },
+          x: {
+            grid: {
+              drawBorder: false,
+              display: false,
+              drawOnChartArea: false,
+              drawTicks: false,
+              borderDash: [5, 5]
+            },
+            ticks: {
+              display: true,
+              color: '#f8f9fa',
+              padding: 10,
+              font: {
+                size: 14,
+                weight: 300,
+                family: "Roboto",
+                style: 'normal',
+                lineHeight: 2
+              },
+            }
+          },
+        },
+      },
+    });
+
+    var ctx3 = document.getElementById("chart-line-tasks").getContext("2d");
+
+    new Chart(ctx3, {
+      type: "line",
+      data: {
+        labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        datasets: [{
+          label: "Mobile apps",
+          tension: 0,
+          borderWidth: 0,
+          pointRadius: 5,
+          pointBackgroundColor: "rgba(255, 255, 255, .8)",
+          pointBorderColor: "transparent",
+          borderColor: "rgba(255, 255, 255, .8)",
+          borderWidth: 4,
+          backgroundColor: "transparent",
+          fill: true,
+          data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
+          maxBarThickness: 6
+
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false,
+          }
+        },
+        interaction: {
+          intersect: false,
+          mode: 'index',
+        },
+        scales: {
+          y: {
+            grid: {
+              drawBorder: false,
+              display: true,
+              drawOnChartArea: true,
+              drawTicks: false,
+              borderDash: [5, 5],
+              color: 'rgba(255, 255, 255, .2)'
+            },
+            ticks: {
+              display: true,
+              padding: 10,
+              color: '#f8f9fa',
+              font: {
+                size: 14,
+                weight: 300,
+                family: "Roboto",
+                style: 'normal',
+                lineHeight: 2
+              },
+            }
+          },
+          x: {
+            grid: {
+              drawBorder: false,
+              display: false,
+              drawOnChartArea: false,
+              drawTicks: false,
+              borderDash: [5, 5]
+            },
+            ticks: {
+              display: true,
+              color: '#f8f9fa',
+              padding: 10,
+              font: {
+                size: 14,
+                weight: 300,
+                family: "Roboto",
+                style: 'normal',
+                lineHeight: 2
+              },
+            }
+          },
+        },
+      },
+    });
+  </script>
+  <script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+      var options = {
+        damping: '0.5'
+      }
+      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+  </script>
+  
+  
+   <script src="../dist/js/material-dashboard.js?v=3.0.0"></script>
+
+ 
+</body>
+
+</html>
