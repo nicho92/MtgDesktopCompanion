@@ -89,9 +89,13 @@
 		                "render": function(data, type, row, meta){
 		                	if(type === 'display' && data!=null)
 		                	{
-								data='<i class="ss ss-'+data.id.toLowerCase()+' ss-common ss-2x"></i> '+data.set;	                		 
+								return '<i class="ss ss-'+data.id.toLowerCase()+' ss-common ss-2x"></i> '+data.set;	                		 
 		                	}
-		                   return data;
+		                	
+		                	if(data==null)
+		                		return "";
+		                	
+		                   return data.set;
 		                }
 		            },
 		            { 
