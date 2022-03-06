@@ -199,34 +199,6 @@ function sidebarType(a) {
     }
   }
 
-  // Remove logo-white/logo-dark
-
-  if ((color == 'bg-transparent' || color == 'bg-white') && bodyWhite) {
-    var navbarBrand = document.querySelector('.navbar-brand-img');
-    var navbarBrandImg = navbarBrand.src;
-
-    if (navbarBrandImg.includes('logo-ct.png')) {
-      var navbarBrandImgNew = navbarBrandImg.replace("logo-ct", "logo-ct-dark");
-      navbarBrand.src = navbarBrandImgNew;
-    }
-  } else {
-    var navbarBrand = document.querySelector('.navbar-brand-img');
-    var navbarBrandImg = navbarBrand.src;
-    if (navbarBrandImg.includes('logo-ct-dark.png')) {
-      var navbarBrandImgNew = navbarBrandImg.replace("logo-ct-dark", "logo-ct");
-      navbarBrand.src = navbarBrandImgNew;
-    }
-  }
-
-  if (color == 'bg-white' && bodyDark) {
-    var navbarBrand = document.querySelector('.navbar-brand-img');
-    var navbarBrandImg = navbarBrand.src;
-
-    if (navbarBrandImg.includes('logo-ct.png')) {
-      var navbarBrandImgNew = navbarBrandImg.replace("logo-ct", "logo-ct-dark");
-      navbarBrand.src = navbarBrandImgNew;
-    }
-  }
 }
 
 // Set Navbar Fixed

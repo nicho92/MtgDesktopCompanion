@@ -40,90 +40,51 @@
 			
 			$("#sidenav-main" ).load("inc/menu.html" );
 			$("#navbarBlur").load("inc/nav.html",function(){
-					$("[name='categTitle']").html("Sealed");
-					$("#menuSealeds").addClass("bg-gradient-primary");
-					$("#menuSealeds").addClass("active");
+					$("[name='categTitle']").html("Webcam");
+					$("#menuWebcam").addClass("bg-gradient-primary");
+					$("#menuWebcam").addClass("active");
 			});
 			
 			$("#navfooter").load("inc/footer.html");
 			$("#settingPanel").load("inc/settingPanel.html");
 			
-			$('#tableStock').DataTable( {
-		    	"language": {
-		    	    "search": "Filter",
-		    	    "processing": "<img src='../dist/img/loading.gif' width='50' height='50'>"
-		    	  },
-		    	"responsive": true,
-		        "processing": true,
-		        "pageLength": 50,
-		        "order": [[ 0, "desc" ]],
-		        "ajax": {"url":restserver+"/sealed/list","dataSrc":""},
-		        "columns": [
-		        	{ 
-		                "data": "product.name",
-		                "defaultContent": "",
-		                "render": function(data, type, row, meta){
-		                	 if(type === 'display'){
-		                		return '<span  class="mtg-tooltip" productUrl="'+row.url+'">'+data+'</span>';	                		 
-		                	 }
-		                   return data;
-		                }
-		                
-		                
-		            }, 
-		            { 
-		                "data": "edition",
-		                "defaultContent": "",
-		                "render": function(data, type, row, meta){
-		                	 if(type === 'display'){
-		                		 return '<i class="ss ss-'+data.keyRuneCode.toLowerCase()+' ss-common ss-2x"></i> '+data.set;	                		 
-		                	 }
-		                   return data.set;
-		                }
-		            },
-		            { 
-		                "data": "magicCollection",
-		                "defaultContent": "",
-		                "render": function(data, type, row, meta){
-		                	if(data)
-		                   		return data.name;
-		                	else
-		                		return "";
-		                }
-		            },
-		            { 
-		                "data": "qte",
-		                "defaultContent": ""
-		            },
-		            { 
-		                "data": "language",
-		                "defaultContent": ""
-		            },
-		            { 
-		                "data": "condition",
-		                "defaultContent": ""
-		            },
-		            { 
-		                "data": "price",
-		                "render": function(data, type, row, meta){
-			                   return data.toFixed(2);
-			                }
-		            }
-		           
-		        ],
-		        "fnDrawCallback" :function(oSettings, json) {
-					var dt = $('#tableStock').DataTable();
-					var cardCount=dt.column(3).data().sum();
-					var totalPrice = dt.column(6).data().sum();
-					
-					$("#totalPrice").html(totalPrice.toFixed(2));
-					$("#cardCount").html(cardCount);
-					 
-					
-					mtgtooltipStock($(".mtg-tooltip"));
-		        }
-		        
-			 } );
+			if (navigator.mediaDevices.getUserMedia) 
+			{
+				// Elements for taking the snapshot
+				var canvas = document.getElementById('canvas');
+				var context = canvas.getContext('2d');
+				var video = document.getElementById('videoElement');
+			
+			$("#snap").click(function() {
+				canvas.width=video.videoWidth;
+				canvas.height=video.videoHeight;
+				
+				context.drawImage(video, 0, 0, canvas.width, canvas.height);
+				
+				$.ajax({
+				  type: "POST",
+				  url: restserver+"/cards/recognize/"+$("input[type='number']").val(),
+				  data: canvas.toDataURL("image/png"),
+				  success: function(datas){
+					  
+					  $.each(datas, function( index, data ) {
+						$("#contentResults").empty();
+						$("#contentResults").append("CardName = "+data.name + " <br/>Number = "+ data.setCode+ " ("+  data.number + "). <br/> SCORE =" + data.score.toFixed(2));
+						$("#contentResults").append("<br/><img src='"+restserver+"/pics/cards/"+data.setCode+"/"+data.number+"'/><br/>");
+						
+						
+						$("#btnStock").attr("data-id",data.id);
+						$("#btnAlert").attr("data-id",data.id);
+						$("#btnCollection").attr("data-id",data.id);
+						
+					  });
+		  			}
+				});
+			});
+				
+		
+
+			}
 			
 		
 		});
@@ -136,21 +97,24 @@
 <body class="g-sidenav-show  bg-gray-200">
 	<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start menu-left bg-gradient-dark" id="sidenav-main"></aside>
   	<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-		<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true"></nav>
-   
-    <div class="container-fluid py-4">
-
-	<div class="row">
-       
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+	<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true"></nav>
+	
+	
+	 <div class="container-fluid py-4">
+		
+		<div class="row">
+		
+		<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
           <div class="card">
             <div class="card-header p-3 pt-2">
               <div class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
-                <i class="material-icons opacity-10">inventory_2</i>
+                <i class="material-icons opacity-10">photo_camera</i>
               </div>
               <div class="text-end pt-1">
-                <p class="text-sm mb-0 text-capitalize">Sealed</p>
-                <h4 class="mb-0" id="cardCount">0 item</h4>
+                <p class="text-sm mb-0 text-capitalize">WebCam Choose</p>
+                 <select id="videoSource">
+					   <option value="">Select camera</option>
+				 </select>
               </div>
             </div>
             <hr class="dark horizontal my-0">
@@ -159,55 +123,61 @@
             </div>
           </div>
         </div>
-      
-        <div class="col-xl-3 col-sm-6">
+		
+		<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
           <div class="card">
             <div class="card-header p-3 pt-2">
-              <div class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
-                <i class="material-icons opacity-10">payments</i>
+              <div class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
+                <i class="material-icons opacity-10">view_in_ar</i>
               </div>
               <div class="text-end pt-1">
-                <p class="text-sm mb-0 text-capitalize">Prices</p>
-                  <h4 class="mb-0" id="totalPrice">0.0</h4>
+                <p class="text-sm mb-0 text-capitalize">Threshold</p>
+                <input type="number" value="30" min="0" max="100" step="1">   
               </div>
             </div>
             <hr class="dark horizontal my-0">
-            <div class="card-footer p-3"><p class="mb-0">&nbsp;</p></div>
+            <div class="card-footer p-3">
+              <p class="mb-0">&nbsp;</p>
+            </div>
           </div>
         </div>
-        
-        
-        
-      </div>
-	  <br/><br/><br/>
-      <div class="row mb-4">
-      
-        <div class="col-lg-12 col-md-6 mb-md-0 mb-4">
+		
+		
+		</div>	
+		
+		<br/><br/>
+		
+		
+		
+		
+		
+	  <div class="row mb-4">
+        <div class="col-lg-6 col-md-6 mb-md-0 mb-4">
           <div class="card">
           <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3">Stocks</h6>
+                <h6 class="text-white text-capitalize ps-3">Camera</h6>
               </div>
             </div>
-            <div class="card-body px-0 pb-2">
-              <div class="table-responsive">
-                <table id="tableStock" class="table align-items-center mb-0" style="width:100%">
-			        <thead>
-			            <tr>
-						                <th>item</th>
-						                <th>edition</th>
-						                <th>collection</th>
-						                <th>qty</th>
-						                <th>language</th>
-						                <th>condition</th>
-						                <th>price</th>
-						            </tr>
-			        </thead>
-                </table>
-              </div>
+            <div class="card-body px-4 pb-2">
+                 <video id="videoElement" autoplay style="width: 100%;"></video>
             </div>
+               <button class="btn" id="snap" style="width: 100%;"><i class="fa fa-2x fa-camera"></i></button>
+             <canvas id="canvas" hidden ></canvas>
           </div>
         </div>
+        
+        <div class="col-lg-4 col-md-6 mb-md-0 mb-4">
+          <div class="card">
+          <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                <h6 class="text-white text-capitalize ps-3">Result</h6>
+              </div>
+            </div>
+            <div class="panel-body px-3 pb-2" id="contentResults"></div>
+          </div>
+        </div>
+        
       </div>
       <footer class="footer py-4" id="navfooter"></footer>
     </div>
@@ -235,7 +205,7 @@
   
   
    <script src="../dist/js/material-dashboard.js?v=3.0.0"></script>
-
+<script src="../dist/js/webcam.js"></script>
  
 </body>
 
