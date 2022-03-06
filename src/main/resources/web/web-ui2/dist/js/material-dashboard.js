@@ -656,11 +656,15 @@ function darkMode(el) {
   const btn_text_white = document.querySelectorAll('.btn.btn-link.text-white, .material-icons.text-white');
   const card_border = document.querySelectorAll('.card.border');
   const card_border_dark = document.querySelectorAll('.card.border.border-dark');
-
   const svg = document.querySelectorAll('g');
+  
+  
+  
 
   if (!el.getAttribute("checked")) {
     body.classList.add('dark-version');
+    
+    
     for (var i = 0; i < hr.length; i++) {
       if (hr[i].classList.contains('dark')) {
         hr[i].classList.remove('dark');
