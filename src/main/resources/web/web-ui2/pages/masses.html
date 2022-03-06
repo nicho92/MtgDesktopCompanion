@@ -53,106 +53,9 @@
 	  		var idCol=null;
 	  		var idDestination=null;
 	  		
-			$.get({
-	  		    url: restserver+"/collections/list"
-	  	   		}).done(function(data) {
-	  	   			
-	  	   			for(var i=0;i<data.length;i++)
-	  				 {
-	  	   			 	$("#listCollections").append("<option value='"+data[i].name+"'>"+data[i].name+"</option>");
-	  				 	$("#listDestinationsCols").append("<option value='"+data[i].name+"'>"+data[i].name+"</option>");
-	  				 }
-	  	   		
-	  	   			 $('#listCollections').change(function(e) {
-	  	   				
-	  	   				idCol= $(this).find("option:selected").val();
-	  	   				
-	  	   				$.ajax({
-	  	    		    	url: restserver+"/editions/list/"+idCol
-	  	    	   		}).done(function(d) {
-	  	    	   			
-	  	    	   			$('#listEditions').find("option").remove();
-	  	    	   			$("#listEditions").append("<option>-----------</option>")
-	  	    	   			for(var i=0;i<d.length;i++)
-	  	    	   			{
-			  	    	   		$("#listEditions").append("<option value='"+d[i].id+"'>"+d[i].set+"</option>")
-	  	    	   			}
-	  	    	   			$('#listEditions').change(function(e) {
-	  		   					idEd= $(this).find("option:selected").val();
-	  		   			 	});
-	  	    	   		});
-	  	   			 }); 
-	  	   			 
-	  	   		 	 $('#listDestinationsCols').change(function(e) {
-	  	   		 		idDestination= $(this).find("option:selected").val();
-	  	   		 	 });
-	  	   		 });
-			
-			$('#tableCards').DataTable({
-	    		"data":null,
-		    	"responsive": true,
-		        "processing": true,
-		        "paging": false,
-		        "bLengthChange": false,
-		        "order": [[ 1, "asc" ]],
-		        "columns": [
-		        		{ "data": "editions","defaultContent": "", 
-			        	  "width": "10%",
-			        	  "render": function(data, type, row, meta){
-			                   if(type === 'display'){
-			                       data = data[0].number;
-			                   }
-			                   return data;
-			                }
-		        		},	
-		        		{ "data": "name",
-			        	  "width": "30%",
-			        	  "render": function(data, type, row, meta){
-			                       data = '<span class="mtg-tooltip" scryfallid="'+row.scryfallId+'" data-set="'+idEd+'" data-name="'+data+'">'+data+'</span>';
-			                   return data;
-			                }
-			        	  
-			        	},
-			        	
-			        	{ "data": "editions","width": "10%", "defaultContent": "", 
-			        		"render": function(data, type, row, meta){
-				                   if(type === 'display'){
-				                       data = '<i class="ss ss-grad ss-'+data[0].id.toLowerCase()+' ss-'+row.rarity.toLowerCase()+' ss-2x ss-uncommon"></i>';
-				                   }
-				                   return data;
-				                }
-			        	
-			        	},
-			        	{ 
-			        	  "data": "id",
-			        	  "render": function(data, type, row, meta)
-			        	  {
-			                	 if(type === 'display'){
-			                		 var id=data;
-			                		 data='<button value="'+id+'" id="alertBtn" type="button" class="btn btn-circle btn-warning alertBtn" data-placement="bottom" data-toggle="tooltip" data-original-title="add alert"><i class="fa fa-bell-o"></i></button>&nbsp;';
-									data+='<button value="'+id+'" id="stockBtn" type="button" class="btn btn-circle btn-primary stockBtn" data-placement="bottom" data-toggle="tooltip" data-original-title="add to stock"><i class="fa fa-file-text"></i></button>&nbsp;';
-									data+='<button value="'+id+'" id="addCardBtn" type="button" class="btn btn-circle btn-danger addCardBtn" data-placement="bottom" data-toggle="tooltip" data-original-title="add to default library"><i class="fa fa-plus-circle"></i></button>&nbsp;';
-									data+='<button value="'+id+'" id="moveCardBtn" type="button" class="btn btn-circle btn-success moveCardBtn" data-placement="bottom" data-toggle="tooltip" data-original-title="add to default library"><i class="fa fa-arrow-circle-right"></i></button>&nbsp;';
-									  
-									
-			                	 }
-			                   return data;
-			               }	
-			        	}
-			        ],
-			        "fnDrawCallback" :function(oSettings, json) {
-			        	mtgtooltip($(".mtg-tooltip"));
-			        	
-			        	
-			        }
-		    } );
-  		
-			
-			
-			
-			$( "#btnSearch" ).click( function() {
+	  		$( "#btnSearch" ).click( function() {
 				$.ajax({
-	  				url: restserver+"/cards/list/"+idCol+"/"+idEd
+	  			url: restserver+"/cards/list/"+idCol+"/"+idEd
 	   	   		 }).done(function(data) {
 	   	   			
 	   	   			$('#tableCards').DataTable().clear();
@@ -195,8 +98,107 @@
 			   			moveCard($(this).attr('value'),idCol,idDestination,function() {});
 			   			$('#tableCards').DataTable().row( $(this).parents('tr')).remove().draw(); // need to move in moveCard callback
 			   		});
-		   		 });
+		
+			   		
+	   	   		 })
 	 	});
+  		
+	  		
+	  		
+	  		
+			$.get({
+	  		    url: restserver+"/collections/list"
+	  	   		}).done(function(data) {
+	  	   			
+	  	   			for(var i=0;i<data.length;i++)
+	  				 {
+	  	   			 	$("#listCollections").append("<option value='"+data[i].name+"'>"+data[i].name+"</option>");
+	  				 	$("#listDestinationsCols").append("<option value='"+data[i].name+"'>"+data[i].name+"</option>");
+	  				 }
+	  	   		
+	  	   			 $('#listCollections').change(function(e) {
+	  	   				
+	  	   				idCol= $(this).find("option:selected").val();
+	  	   				
+	  	   				$.ajax({
+	  	    		    	url: restserver+"/editions/list/"+idCol
+	  	    	   		}).done(function(d) {
+	  	    	   			
+	  	    	   			$('#listEditions').find("option").remove();
+	  	    	   			$("#listEditions").append("<option>-----------</option>")
+	  	    	   			for(var i=0;i<d.length;i++)
+	  	    	   			{
+			  	    	   		$("#listEditions").append("<option value='"+d[i].id+"'>"+d[i].set+"</option>")
+	  	    	   			}
+	  	    	   			$('#listEditions').change(function(e) {
+	  		   					idEd= $(this).find("option:selected").val();
+	  		   			 	});
+	  	    	   		});
+	  	   			 }); 
+	  	   			 
+	  	   		 	 $('#listDestinationsCols').change(function(e) {
+	  	   		 		idDestination= $(this).find("option:selected").val();
+	  	   		 	 });
+	  	   	});
+			$('#tableCards').DataTable({
+	    		"data":null,
+		    	"responsive": true,
+		        "processing": true,
+		        "paging": false,
+		        "bLengthChange": false,
+		        "order": [[ 1, "asc" ]],
+		        "columns": [
+		        		{ "data": "editions","defaultContent": "", 
+			        	  "width": "10%",
+			        	  "render": function(data, type, row, meta){
+			                   if(type === 'display'){
+			                       return data[0].number;
+			                   }
+			                   return data;
+			                }
+		        		},	
+		        		{ "data": "name",
+			        	  "width": "30%",
+			        	  "render": function(data, type, row, meta){
+			        		  if(type === 'display'){
+			                       return '<span class="mtg-tooltip" scryfallid="'+row.scryfallId+'" data-set="'+idEd+'" data-name="'+data+'">'+data+'</span>';
+			                   }  
+			        		  return data;
+			                }
+			        	  
+			        	},
+			        	
+			        	{ "data": "editions","width": "10%", "defaultContent": "", 
+			        		"render": function(data, type, row, meta){
+				                   if(type === 'display'){
+				                       return '<i class="ss ss-grad ss-'+data[0].id.toLowerCase()+' ss-'+row.rarity.toLowerCase()+' ss-2x ss-uncommon"></i>';
+				                   }
+				                   return data;
+				                }
+			        	
+			        	},
+			        	{ 
+			        	  "data": "id",
+			        	  "render": function(data, type, row, meta)
+			        	  {
+			                	 if(type === 'display'){
+			                		var id=data;
+			                		data='<button value="'+id+'" id="alertBtn" type="button" class="btn btn-circle btn-warning alertBtn" data-placement="bottom" data-toggle="tooltip" data-original-title="add alert"><i class="fa fa-bell-o"></i></button>&nbsp;';
+									data+='<button value="'+id+'" id="stockBtn" type="button" class="btn btn-circle btn-primary stockBtn" data-placement="bottom" data-toggle="tooltip" data-original-title="add to stock"><i class="fa fa-file-text"></i></button>&nbsp;';
+									data+='<button value="'+id+'" id="addCardBtn" type="button" class="btn btn-circle btn-danger addCardBtn" data-placement="bottom" data-toggle="tooltip" data-original-title="add to default library"><i class="fa fa-plus-circle"></i></button>&nbsp;';
+									data+='<button value="'+id+'" id="moveCardBtn" type="button" class="btn btn-circle btn-success moveCardBtn" data-placement="bottom" data-toggle="tooltip" data-original-title="add to default library"><i class="fa fa-arrow-circle-right"></i></button>&nbsp;';
+			                	 }
+			                   return data;
+			               }	
+			        	}
+			        ],
+			        "fnDrawCallback" :function(oSettings, json) {
+			        	mtgtooltip($(".mtg-tooltip"));
+			        	
+			        	
+			        }
+		    } );
+  		
 		});
 		
 		</script>
