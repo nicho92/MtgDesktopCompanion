@@ -45,19 +45,8 @@
 		        "paging": false,
 		        "bLengthChange": false,
 		        "searching": false,
-		        "order": [[ 4, "asc" ]],
+		        "order": [[ 1, "asc" ]],
 		        "columns": [
-		        		{ 
-			        	  "data": "card.id",
-			        	  "defaultContent": "",
-			        	  "width": "2%",
-			        	  "render": function(data, type, row, meta){
-			                	 if(type === 'display'){
-										data="<a class='fa fa-search fa-fw' href='card.html?id="+data+"'/>";		                		 
-			                	 }
-			                   return data;
-			                }
-			        	},
 		        		{ 
 			        	  "data": "qty",
 			        	  "defaultContent": "",
@@ -69,7 +58,9 @@
 			        	  "width": "20%",
 		               	  "render": function(data, type, row, meta){
 			                   if(type === 'display'){
-			                	   data='<span  class="mtg-tooltip" data-set="'+row.card.editions[0].id+'" scryfallid="'+row.card.scryfallId+'" multiverseId="'+row.card.editions[0].multiverseId+'" data-name="'+data+'">'+data+'</span>';	
+			                	   if(type === 'display'){
+				                		 return '<a  href="card.html?scryfallid='+row.card.scryfallId+'" class="mtg-tooltip" data-set="'+row.card.editions[0].id+'" scryfallid="'+row.card.scryfallId+'" multiverseId="'+row.card.editions[0].multiverseId+'" data-name="'+data+'">'+data+'</a>';
+				                	}
 			                   }
 			                 return data;
 			              }
@@ -92,6 +83,7 @@
 				                   		}
 				                	   return ret;
 				                   }
+			        	
 				                   
 				             }
 				        },
@@ -119,7 +111,7 @@
 				        	  "width": "15%",
 				        	  "render": function(data, type, row, meta){
 				                   if(type === 'display'){
-				                       data = '<i class="ms ms-'+data[0].toLowerCase()+' ms-2x"></i>'+data;
+				                       return '<i class="ms ms-'+data[0].toLowerCase()+' ms-2x"></i>'+data;
 				                   }
 				                   return data;
 				                }
@@ -149,6 +141,10 @@
 			$.ajax({
 	  	        url: restserver+"/deck/"+$_GET("id")
 	  	    }).then(function(data) {
+	  	    	
+	  	    	
+	  	    	$("#deckName").html(data.name);
+	  	    	
 				print($("#tableMain"),data.main);
 	  	    	print($("#tableSide"),data.side);
 	
@@ -227,7 +223,7 @@
             <div class="card-header pb-0">
               <div class="row">
                 <div class="col-lg-6 col-7">
-                  <h6>Deck</h6>
+                  <h6 id="deckName">Deck</h6>
                 </div>
               </div>
             </div>
@@ -235,14 +231,14 @@
 
 			            <div class="nav-wrapper position-relative end-0">
 			              <ul class="nav nav-tabs nav-fill p-1" role="tablist">
-			                <li class="nav-item ">
-			                  <a class="nav-link" data-bs-toggle="tab" href="#tab1" role="tab" aria-selected="true">
+			                <li class="nav-item">
+			                  <a class="nav-link active" data-bs-toggle="tab" href="#tab1" role="tab" aria-selected="true">
 			                    <i class="material-icons text-lg position-relative">domain</i>
 			                    Main
 			                  </a>
 			                </li>
 			                <li class="nav-item">
-			                  <a class="nav-link mb-0" data-bs-toggle="tab" href="#tab2" role="tab" aria-selected="false">
+			                  <a class="nav-link" data-bs-toggle="tab" href="#tab2" role="tab" aria-selected="false">
 			                    <i class="material-icons text-lg position-relative">domain_disabled</i>
 			                    Side
 			                  </a>
@@ -250,11 +246,10 @@
 			             </ul>
 			             
 			             <div class="tab-content">
-									<div class="tab-pane fade active in" id="tab1">
+									<div class="tab-pane fade active show" id="tab1">
 										<table id="tableMain" class="display" style="width: 100%">
 											<thead>
 												<tr>
-													<th></th>
 													<th>Qty</th>
 													<th>Name</th>
 													<th>Cost</th>
@@ -270,7 +265,6 @@
 										<table id="tableSide" class="display" style="width: 100%">
 											<thead>
 												<tr>
-													<th></th>
 													<th>Qty</th>
 													<th>Name</th>
 													<th>Cost</th>
