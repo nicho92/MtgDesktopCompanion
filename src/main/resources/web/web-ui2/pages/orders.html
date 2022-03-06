@@ -17,16 +17,13 @@
   <link href="https://cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
   <link href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css" rel="stylesheet" type="text/css">
   <link href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.10/dist/css/bootstrap-select.min.css"  rel="stylesheet">
-  
+ 
   <script src="//unpkg.com/@trevoreyre/autocomplete-js"></script>    
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="  crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.10/dist/js/bootstrap-select.min.js"></script>
-  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.5.5/perfect-scrollbar.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scrollbar/8.7.4/smooth-scrollbar.min.js"></script>
@@ -43,57 +40,91 @@
 			
 			$("#sidenav-main" ).load("inc/menu.html" );
 			$("#navbarBlur").load("inc/nav.html",function(){
-					$("[name='categTitle']").html("Mass Modifications");
-					$("#menuMasses").addClass("bg-gradient-primary");
-					$("#menuMasses").addClass("active");
+					$("[name='categTitle']").html("Orders");
+					$("#menuOrders").addClass("bg-gradient-primary");
+					$("#menuOrders").addClass("active");
 			});
 			
 			$("#navfooter").load("inc/footer.html");
 			$("#settingPanel").load("inc/settingPanel.html");
 			
-			
-			var idEd=null;
-	  		var idCol=null;
-	  		var idDestination=null;
-	  		
-			$.get({
-	  		    url: restserver+"/collections/list"
-	  	   		}).done(function(data) {
-	  	   			
-	  	   			for(var i=0;i<data.length;i++)
-	  				 {
-	  	   			 	$("#listCollections").append("<option value='"+data[i].name+"'>"+data[i].name+"</option>");
-	  				 	$("#listDestinationsCols").append("<option value='"+data[i].name+"'>"+data[i].name+"</option>");
-	  				 }
-	  	   		
-	  	   			
-	  	   			
-	  	   			
-	  	   			 $('#listCollections').selectpicker().change(function(e) {
-	  	   				
-	  	   				idCol= $(this).find("option:selected").val();
-	  	   				
-	  	   				$.ajax({
-	  	    		    	url: restserver+"/editions/list/"+idCol
-	  	    	   		}).done(function(d) {
-	  	    	   			
-	  	    	   			$('#listEditions').find("option").remove();
-	  	    	   			$("#listEditions").append("<option>-----------</option>")
-	  	    	   			for(var i=0;i<d.length;i++)
-	  	    	   			{
-			  	    	   		$("#listEditions").append("<option value='"+d[i].id+"'>"+d[i].set+"</option>")
-	  	    	   			}
-	  	    	   			$('#listEditions').selectpicker('refresh');
-	  	    	   			$('#listEditions').selectpicker().change(function(e) {
-	  		   					idEd= $(this).find("option:selected").val();
-	  		   			 	});
-	  	    	   		});
-	  	   			 }); 
-	  	   			 
-	  	   		 	 $('#listDestinationsCols').selectpicker('refresh').change(function(e) {
-	  	   		 		idDestination= $(this).find("option:selected").val();
-	  	   		 	 });
-	  	   		 });
+			$('#tableOrders').DataTable( {
+		    	"language": {
+		    	    "search": "Filter",
+		    	    "processing": "<img src='../dist/img/loading.gif' width='50' height='50'>"
+		    	  },
+		    	"responsive": true,
+		        "processing": true,
+		        "pageLength": 50,
+		        "order": [[ 2, "desc" ]],
+		        "ajax": {"url":restserver+"/orders/list","dataSrc":""},
+		        "columns": [
+	        	  	{ 
+		                "data": "id",
+		                "defaultContent": ""
+		            },
+		            { 
+		                "data": "source",
+		                "defaultContent": ""
+		            },
+		            { 
+		                "data": "transactionDate",
+		                "defaultContent": ""
+		            },
+		            { 
+		                "data": "type",
+		                "defaultContent": ""
+		            },
+		            { 
+		                "data": "typeTransaction",
+		                "defaultContent": ""
+		            },
+		            { 
+		                "data": "description",
+		                "defaultContent": ""
+		            },
+		        	{ 
+		                "data": "edition",
+		                "defaultContent": "",
+		                "render": function(data, type, row, meta){
+		                	if(type === 'display' && data!=null)
+		                	{
+								data='<i class="ss ss-'+data.id.toLowerCase()+' ss-common ss-2x"></i> '+data.set;	                		 
+		                	}
+		                   return data;
+		                }
+		            },
+		            { 
+		                "data": "itemPrice",
+		                "defaultContent": ""
+		            },		           
+		        ],
+		        "fnDrawCallback" :function(oSettings, json) {
+					var dt = $('#tableOrders').DataTable();
+					
+					var totalPaid = 0.0;
+					var totalSell = 0.0;
+					
+					dt.data().filter((item) => {
+						
+						if(item.typeTransaction=="BUY")
+						{
+						totalPaid +=item.itemPrice;
+						}
+						else
+						{
+							totalSell +=item.itemPrice;
+						}
+					});
+					
+					
+					$("#totalPaid").html(totalPaid.toFixed(2));
+					$("#totalSell").html(totalSell.toFixed(2));
+					 
+					
+		        }
+		        
+			 } );
 			
 		
 		});
@@ -112,48 +143,15 @@
 
 	<div class="row">
        
-        <div class="col-xl-6 col-sm-6 mb-xl-0 mb-4">
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
           <div class="card">
             <div class="card-header p-3 pt-2">
               <div class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
-                <i class="material-icons opacity-10">output</i>
+                <i class="material-icons opacity-10">savings</i>
               </div>
               <div class="text-end pt-1">
-                <p class="text-sm mb-0 text-capitalize">From</p>
-
-						<br/>
-							<select id="listCollections" class="selectpicker">
-								<option value=""></option>
-							</select>                       
-							<select id="listEditions" class="selectpicker">
-								<option value=""></option>
-							</select>
-
-              </div>
-            </div>
-            <hr class="dark horizontal my-0">
-            <div class="card-footer p-3">
-              <p class="mb-0"><button id="btnSearch" type="button" class="btn btn-danger btn-circle"><i class="fa fa-search"></i></button></p>
-            </div>
-          </div>
-        </div>
-        
-        
-        <div class="col-xl-6 col-sm-6 mb-xl-0 mb-4">
-          <div class="card">
-            <div class="card-header p-3 pt-2">
-              <div class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
-                <i class="material-icons opacity-10">input</i>
-              </div>
-              <div class="text-end pt-1">
-                <p class="text-sm mb-0 text-capitalize">To</p>
-                <br/>
-                <select id="listDestinationsCols" class="selectpicker" data-style="" data-live-search="true">
-                	<option value=""></option>
-                </select>
-                
-                
-                
+                <p class="text-sm mb-0 text-capitalize">Sell</p>
+                <h4 class="mb-0" id="totalSell">0.0</h4>
               </div>
             </div>
             <hr class="dark horizontal my-0">
@@ -162,28 +160,49 @@
             </div>
           </div>
         </div>
+      
+        <div class="col-xl-3 col-sm-6">
+          <div class="card">
+            <div class="card-header p-3 pt-2">
+              <div class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
+                <i class="material-icons opacity-10">paid</i>
+              </div>
+              <div class="text-end pt-1">
+                <p class="text-sm mb-0 text-capitalize">Paid</p>
+                  <h4 class="mb-0" id="totalPaid">0.0</h4>
+              </div>
+            </div>
+            <hr class="dark horizontal my-0">
+            <div class="card-footer p-3"><p class="mb-0">&nbsp;</p></div>
+          </div>
+        </div>
         
         
         
       </div>
 	  <br/><br/><br/>
       <div class="row mb-4">
+      
         <div class="col-lg-12 col-md-6 mb-md-0 mb-4">
           <div class="card">
           <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3">Results</h6>
+                <h6 class="text-white text-capitalize ps-3">Orders</h6>
               </div>
             </div>
             <div class="card-body px-0 pb-2">
               <div class="table-responsive">
-                <table id="tableCards" class="table align-items-center mb-0" style="width:100%">
+                <table id="tableOrders" class="table align-items-center mb-0" style="width:100%">
 			        <thead>
 			            <tr>
-						            	<th>number</th>
-						                <th>card</th>
-						                <th>rarity</th>
-						                <th>actions</th>
+						                <th>id</th>
+						                <th>Source</th>
+						                <th>Date</th>
+						                <th>Type</th>
+						                <th>Movement</th>
+						                <th>Description</th>
+						                <th>Edition</th>
+						                <th>Price</th>
 						            </tr>
 			        </thead>
                 </table>
@@ -191,10 +210,6 @@
             </div>
           </div>
         </div>
-        
-        
-        
-        
       </div>
       <footer class="footer py-4" id="navfooter"></footer>
     </div>
