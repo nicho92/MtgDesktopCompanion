@@ -94,11 +94,11 @@
 				        	  "render": function(data, type, row, meta){
 				                   if(type === 'display'){
 				                	   try {
-				                		   data = '<i class="ss ss-grad ss-'+data[0].id.toLowerCase()+' ss-'+row.card.rarity.toLowerCase()+' ss-2x ss-uncommon"></i>';
-				                	   }catch(error)
+				                		  return '<i class="ss ss-grad ss-'+data[0].id.toLowerCase()+' ss-'+row.card.rarity.toLowerCase()+' ss-2x ss-uncommon"></i>';
+				                	   }
+				                	   catch(error)
 				                	   {
 				                		   data="common";
-				                		   console.log(error);
 				                	   }
 				                       
 				                   }
@@ -147,7 +147,7 @@
 	  	    	
 				print($("#tableMain"),data.main);
 	  	    	print($("#tableSide"),data.side);
-	
+				
 	  	    });
 			
 			
@@ -309,11 +309,15 @@
  
   <script>
     var ctx = document.getElementById("chart-bars").getContext("2d");
-
+	
+    $.ajax({
+        url: restserver+"/deck/stats/"+$_GET("id")
+    }).then(function(datastat) {
+    	
     new Chart(ctx, {
       type: "bar",
       data: {
-        labels: ["0", "1", "2", "3", "4", "5", "6", "7"],
+        labels:  Object.keys(datastat.cmc),
         datasets: [{
           label: "Cmc",
           tension: 0.4,
@@ -321,7 +325,7 @@
           borderRadius: 4,
           borderSkipped: false,
           backgroundColor: "rgba(255, 255, 255, .8)",
-          data: [5, 2, 1, 4, 5, 7, 5,4],
+          data:  Object.values(datastat.cmc),
           maxBarThickness: 6
         }, ],
       },
@@ -388,7 +392,12 @@
       },
     });
 
-
+    });
+    
+    
+    
+    
+    
     var ctx2 = document.getElementById("chart-line").getContext("2d");
 
     new Chart(ctx2, {
