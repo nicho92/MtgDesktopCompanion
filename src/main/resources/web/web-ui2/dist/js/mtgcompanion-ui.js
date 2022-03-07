@@ -391,7 +391,7 @@ var dataNormal = {
 	
 	scales: {
 	    x: {
-               type: 'time',
+               type: 'time'
             }
     	}
 
