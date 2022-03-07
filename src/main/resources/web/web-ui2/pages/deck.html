@@ -35,95 +35,6 @@
   <script src="../dist/js/mtgcompanion-ui.js"></script>
   
   <script>
-  		
-  		function print(element, deckData)
-  		{
-  			element.DataTable({
-	    		"data":deckData,
-		    	"responsive": true,
-		        "processing": true,
-		        "paging": false,
-		        "bLengthChange": false,
-		        "searching": false,
-		        "order": [[ 1, "asc" ]],
-				"stripeClasses": [],
-		        "columns": [
-		        		{ 
-			        	  "data": "qty",
-			        	  "defaultContent": "",
-			        	  "width": "2%"
-			        	},
-			        	{ 
-			        	  "data": "card.name",
-			        	  "defaultContent": "",
-			        	  "width": "20%",
-		               	  "render": function(data, type, row, meta){
-			                   if(type === 'display'){
-			                	   if(type === 'display'){
-				                		 return '<a  href="card.html?scryfallid='+row.card.scryfallId+'" class="mtg-tooltip" data-set="'+row.card.editions[0].id+'" scryfallid="'+row.card.scryfallId+'" multiverseId="'+row.card.editions[0].multiverseId+'" data-name="'+data+'">'+data+'</a>';
-				                	}
-			                   }
-			                 return data;
-			              }
-			        	},
-			        	 { 
-				        	  "data": "card.cost",
-				        	  "defaultContent": "",
-				        	  "width": "5%",
-				        	  "render": function(data, type, row, meta){
-				                   if(type === 'display'){
-				                	   if(data!=null)
-				                	   {
-					                	   var d=data.match(/[^{}]+(?=\})/g);
-					                	   if(d!=null){
-					                		   var ret="";
-					                		   for (var i = 0; i < d.length; i++) {
-					                				ret +='<i class="ms ms-'+formatMana(d[i]).toLowerCase()+' ms-cost ms-shadow"></i>';
-					                			}
-					                	   }
-				                   		}
-				                	   return ret;
-				                   }
-			        	
-				                   
-				             }
-				        },
-			        	{ 
-				        	  "data": "card.editions",
-				        	  "defaultContent": "",
-				        	  "width": "5%",
-				        	  "render": function(data, type, row, meta){
-				                   if(type === 'display'){
-				                	   try {
-				                		  return '<i class="ss ss-grad ss-'+data[0].id.toLowerCase()+' ss-'+row.card.rarity.toLowerCase()+' ss-2x ss-uncommon"></i>';
-				                	   }
-				                	   catch(error)
-				                	   {
-				                		   data="common";
-				                	   }
-				                       
-				                   }
-				                   return data;
-				                }
-				        },
-				        { 
-				        	  "data": "card.types",
-				        	  "defaultContent": "",
-				        	  "width": "15%",
-				        	  "render": function(data, type, row, meta){
-				                   if(type === 'display'){
-				                       return '<i class="ms ms-'+data[0].toLowerCase()+' ms-2x"></i>'+data;
-				                   }
-				                   return data;
-				                }
-				        }
-				       
-			        ],
-			        "fnDrawCallback" :function(oSettings, json) {
-			        	mtgtooltip($(".mtg-tooltip"));
-			        }
-		    } );
-  		}
   
   
   
@@ -139,9 +50,10 @@
 			
 		
 			  $.ajax({
-        url: restserver+"/deck/stats/"+$_GET("id")
-    }).then(function(datastat) {
-    					Object.keys(datastat.legalities).forEach(function(item){
+				        url: restserver+"/deck/stats/"+$_GET("id")
+				    }).then(function(datastat) {
+    					
+						Object.keys(datastat.legalities).forEach(function(item){
 								var color = "text-success";
 								if(!datastat.legalities[item])
 										color = "text-danger";
@@ -163,7 +75,6 @@
 								'rgb(255,99,71)',
 								'rgb(147,112,219)'
 				    	  ]);
-				
 				});
 			
 			$.ajax({
@@ -188,24 +99,20 @@
 	  	        }	
 				
 				
-			data.tags.forEach(function(item){
-				$("#tags").append("<li class='list-group-item '><i class='fa fa-tags'></i>"+item+"</li>");
-			});
+				data.tags.forEach(function(item){
+					$("#tags").append("<li class='list-group-item '><i class='fa fa-tags'></i>"+item+"</li>");
+				});
 				
-				print($("#tableMain"),data.main);
-	  	    	print($("#tableSide"),data.side);
+				printDeck($("#tableMain"),data.main);
+	  	    	printDeck($("#tableSide"),data.side);
 				
 				var total =0;
 				data.main.forEach(function(item){
 					total += item.qty;	
 				});
+				
 				$("#cardTotal").html(total);
-				
-				
-				
 	  	    });
-			
-			
 		});
   </script>
   
@@ -213,11 +120,7 @@
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
-  <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start menu-left bg-gradient-dark" id="sidenav-main">
-   
-  </aside>
-  
-  
+  <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start menu-left bg-gradient-dark" id="sidenav-main"> </aside>
   
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
     <!-- Navbar -->
@@ -273,7 +176,7 @@
               <h6 class="mb-0 ">Rarities</h6>
             </div>
 			<div class="card-footer p-3">
-              		<p class="mb-0"><span class="text-success text-sm font-weight-bolder"  id="deckPrice"> </span> average price</p>
+              		<p class="mb-0">Average price : <span class="text-success text-sm font-weight-bolder"  id="deckPrice"> </span> </p>
               </div>
           </div>
         </div>

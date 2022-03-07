@@ -461,7 +461,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 		
 		get("/cards/number/:idEd/:cNumber", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(request.params(":cNumber"), request.params(ID_ED)), transformer);
-
+		
+		get("/cards/scryfall/:scryfallId", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(":scryfallId")), transformer);
+		
 		post("/cards/recognize/:threeshold", URLTools.HEADER_JSON, (request, response) -> {
 			var recog = MTG.getEnabledPlugin(MTGCardRecognition.class);
 			var strat = new ManualAreaStrat();

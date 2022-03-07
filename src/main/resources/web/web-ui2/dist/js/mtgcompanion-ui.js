@@ -218,6 +218,96 @@ function printBarChart(ctx,typeChart,keys,values,displayLegend,color, scales)
     });
 }
 
+		
+function printDeck(element, deckData)
+{
+	element.DataTable({
+		"data":deckData,
+    	"responsive": true,
+        "processing": true,
+        "paging": false,
+        "bLengthChange": false,
+        "searching": false,
+        "order": [[ 1, "asc" ]],
+		"stripeClasses": [],
+        "columns": [
+        		{ 
+	        	  "data": "qty",
+	        	  "defaultContent": "",
+	        	  "width": "2%"
+	        	},
+	        	{ 
+	        	  "data": "card.name",
+	        	  "defaultContent": "",
+	        	  "width": "20%",
+               	  "render": function(data, type, row, meta){
+	                   if(type === 'display'){
+	                	   if(type === 'display'){
+		                		 return '<a  href="card.html?scryfallid='+row.card.scryfallId+'" class="mtg-tooltip" data-set="'+row.card.editions[0].id+'" scryfallid="'+row.card.scryfallId+'" multiverseId="'+row.card.editions[0].multiverseId+'" data-name="'+data+'">'+data+'</a>';
+		                	}
+	                   }
+	                 return data;
+	              }
+	        	},
+	        	 { 
+		        	  "data": "card.cost",
+		        	  "defaultContent": "",
+		        	  "width": "5%",
+		        	  "render": function(data, type, row, meta){
+		                   if(type === 'display'){
+		                	   if(data!=null)
+		                	   {
+			                	   var d=data.match(/[^{}]+(?=\})/g);
+			                	   if(d!=null){
+			                		   var ret="";
+			                		   for (var i = 0; i < d.length; i++) {
+			                				ret +='<i class="ms ms-'+formatMana(d[i]).toLowerCase()+' ms-cost ms-shadow"></i>';
+			                			}
+			                	   }
+		                   		}
+		                	   return ret;
+		                   }
+	        	
+		                   
+		             }
+		        },
+	        	{ 
+		        	  "data": "card.editions",
+		        	  "defaultContent": "",
+		        	  "width": "5%",
+		        	  "render": function(data, type, row, meta){
+		                   if(type === 'display'){
+		                	   try {
+		                		  return '<i class="ss ss-grad ss-'+data[0].id.toLowerCase()+' ss-'+row.card.rarity.toLowerCase()+' ss-2x ss-uncommon"></i>';
+		                	   }
+		                	   catch(error)
+		                	   {
+		                		   data="common";
+		                	   }
+		                       
+		                   }
+		                   return data;
+		                }
+		        },
+		        { 
+		        	  "data": "card.types",
+		        	  "defaultContent": "",
+		        	  "width": "15%",
+		        	  "render": function(data, type, row, meta){
+		                   if(type === 'display'){
+		                       return '<i class="ms ms-'+data[0].toLowerCase()+' ms-2x"></i>'+data;
+		                   }
+		                   return data;
+		                }
+		        }
+		       
+	        ],
+	        "fnDrawCallback" :function(oSettings, json) {
+	        	mtgtooltip($(".mtg-tooltip"));
+	        }
+    } );
+}
+  
 
 function printChart(ctx, typeChart, label, keys,values, displayLegend, colors)
 {
