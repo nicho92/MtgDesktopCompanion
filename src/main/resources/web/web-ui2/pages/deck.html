@@ -123,8 +123,6 @@
 			        	mtgtooltip($(".mtg-tooltip"));
 			        }
 		    } );
-  			
-  			
   		}
   
   
@@ -139,6 +137,35 @@
 			$("#navfooter").load("inc/footer.html");
 			$("#settingPanel").load("inc/settingPanel.html");
 			
+		
+			  $.ajax({
+        url: restserver+"/deck/stats/"+$_GET("id")
+    }).then(function(datastat) {
+    					Object.keys(datastat.legalities).forEach(function(item){
+								var color = "text-success";
+								if(!datastat.legalities[item])
+										color = "text-danger";
+					
+								$("#legalities").append("<li class='list-group-item "+color+" '>"+item+"</li>");
+						});
+						
+				 	var ctx = document.getElementById("chart-bars").getContext("2d");
+					printBarChart(ctx,"bar",Object.keys(datastat.cmc),Object.values(datastat.cmc),false,"transparent");	
+				     
+				    var ctx2 = document.getElementById("chart-line").getContext("2d");
+					printBarChart(ctx2,"bar",Object.keys(datastat.types),Object.values(datastat.types),false,"transparent");	
+				  
+				    var ctx3 = document.getElementById("chart-line-tasks").getContext("2d");
+					printChart(ctx3, "doughnut", "Rarity", Object.keys(datastat.rarity),Object.values(datastat.rarity), false,  [
+				      			'rgb(0,0,0)',
+				      			'rgb(192,192,192)',
+				      			'rgb(255,215,0)',
+								'rgb(255,99,71)',
+								'rgb(147,112,219)'
+				    	  ]);
+				
+				});
+			
 			$.ajax({
 	  	        url: restserver+"/deck/"+$_GET("id")
 	  	    }).then(function(data) {
@@ -148,14 +175,22 @@
 	  	    	$("#description").html(data.description);
 				$("#deckPrice").html(data.averagePrice);
 				
+				var d=data.colors.match(/[^{}]+(?=\})/g);
+	  	        
+	  	        if(d!=null)
+	  	        {
+	  	        	for (var i = 0; i < d.length; i++)
+	      				$('#deckColor').append(' <i class="ms ms-3x ms-'+formatMana(d[i]).toLowerCase()+' ms-cost ms-shadow"></i>');
+	  	        }
+	  	        else
+	  	        {
+	  	        	$('#deckColor').append(' <i class="ms ms-3x ms-c ms-cost ms-shadow"></i>');
+	  	        }	
+				
 				
 			data.tags.forEach(function(item){
 				$("#tags").append("<li class='list-group-item '><i class='fa fa-tags'></i>"+item+"</li>");
-		});
-			
-		
-				
-				
+			});
 				
 				print($("#tableMain"),data.main);
 	  	    	print($("#tableSide"),data.side);
@@ -247,11 +282,14 @@
         <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
           <div class="card">
             <div class="card-header pb-0">
-              <div class="row">
-                <div class="col-lg-6 col-7">
-                  <h6 id="deckName">Deck</h6>
-                </div>
-              </div>
+            <div class="row">
+                    <div class="col-6 d-flex align-items-center">
+                      <h6 class="mb-0" id="deckName"> </h6>
+                    </div>
+                    <div class="col-6 text-end">
+                     <span id="deckColor"></span>
+                    </div>
+			</div>
             </div>
             <div class="card-body px-0 pb-2">
 
@@ -353,244 +391,7 @@
     <div class="card shadow-lg" id="settingPanel">
     </div>
   </div>
- 
-  <script>
-    var ctx = document.getElementById("chart-bars").getContext("2d");
-	
-    $.ajax({
-        url: restserver+"/deck/stats/"+$_GET("id")
-    }).then(function(datastat) {
-    	
 
-	
-		Object.keys(datastat.legalities).forEach(function(item){
-				
-				var color = "text-success";
-				if(!datastat.legalities[item])
-						color = "text-danger";
-				
-				
-				$("#legalities").append("<li class='list-group-item "+color+" '>"+item+"</li>");
-		});
-			
-		
-
-    new Chart(ctx, {
-      type: "bar",
-      data: {
-        labels:  Object.keys(datastat.cmc),
-        datasets: [{
-          label: "Qty",
-          tension: 0.4,
-          borderWidth: 0,
-          borderRadius: 4,
-          borderSkipped: false,
-          backgroundColor: "rgba(255, 255, 255, .8)",
-          data:  Object.values(datastat.cmc),
-          maxBarThickness: 6
-        }, ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            display: false,
-          }
-        },
-        interaction: {
-          intersect: false,
-          mode: 'index',
-        },
-        scales: {
-          y: {
-            grid: {
-              drawBorder: false,
-              display: true,
-              drawOnChartArea: true,
-              drawTicks: false,
-              borderDash: [5, 5],
-              color: 'rgba(255, 255, 255, .2)'
-            },
-            ticks: {
-              suggestedMin: 0,
-              suggestedMax: 500,
-              beginAtZero: true,
-              padding: 10,
-              font: {
-                size: 14,
-                weight: 300,
-                family: "Roboto",
-                style: 'normal',
-                lineHeight: 2
-              },
-              color: "#fff"
-            },
-          },
-          x: {
-            grid: {
-              drawBorder: false,
-              display: true,
-              drawOnChartArea: true,
-              drawTicks: false,
-              borderDash: [5, 5],
-              color: 'rgba(255, 255, 255, .2)'
-            },
-            ticks: {
-              display: true,
-              color: '#f8f9fa',
-              padding: 10,
-              font: {
-                size: 14,
-                weight: 300,
-                family: "Roboto",
-                style: 'normal',
-                lineHeight: 2
-              },
-            }
-          },
-        },
-      },
-    });
-
-  
-    
-    
-    
-    
-    
-    var ctx2 = document.getElementById("chart-line").getContext("2d");
-
-    new Chart(ctx2, {
-      type: "bar",
-      data: {
-        labels: Object.keys(datastat.types),
-        datasets: [{
-          label: "Types",
-          tension: 0,
-          borderWidth: 0,
-          pointRadius: 5,
-          pointBackgroundColor: "rgba(255, 255, 255, .8)",
-          pointBorderColor: "transparent",
-          borderColor: "rgba(255, 255, 255, .8)",
-          borderColor: "rgba(255, 255, 255, .8)",
-          borderWidth: 4,
-          backgroundColor: "transparent",
-          fill: true,
-          data: Object.values(datastat.types),
-          maxBarThickness: 6
-
-        }],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            display: false,
-          }
-        },
-        interaction: {
-          intersect: false,
-          mode: 'index',
-        },
-        scales: {
-          y: {
-            grid: {
-              drawBorder: false,
-              display: true,
-              drawOnChartArea: true,
-              drawTicks: false,
-              borderDash: [5, 5],
-              color: 'rgba(255, 255, 255, .2)'
-            },
-            ticks: {
-              display: true,
-              color: '#f8f9fa',
-              padding: 10,
-              font: {
-                size: 14,
-                weight: 300,
-                family: "Roboto",
-                style: 'normal',
-                lineHeight: 2
-              },
-            }
-          },
-          x: {
-            grid: {
-              drawBorder: false,
-              display: false,
-              drawOnChartArea: false,
-              drawTicks: false,
-              borderDash: [5, 5]
-            },
-            ticks: {
-              display: true,
-              color: '#f8f9fa',
-              padding: 10,
-              font: {
-                size: 14,
-                weight: 300,
-                family: "Roboto",
-                style: 'normal',
-                lineHeight: 2
-              },
-            }
-          },
-        },
-      },
-    });
-
-
-  
-
-
-    var ctx3 = document.getElementById("chart-line-tasks").getContext("2d");
-
-    new Chart(ctx3, {
-      type: "doughnut",
-      data: {
-        labels: Object.keys(datastat.rarity),
-        datasets: [{
-          label: "Rarity",
-          tension: 0,
-          borderWidth: 0,
-          pointRadius: 5,
-          pointBackgroundColor: "rgba(255, 255, 255, .8)",
-		  backgroundColor: [
-      			'rgb(0,0,0)',
-      			'rgb(192,192,192)',
-      			'rgb(255,215,0)',
-				'rgb(255,99,71)'
-    	  ],
-          pointBorderColor: "transparent",
-          borderColor: "rgba(255, 255, 255, .8)",
-          borderWidth: 4,
-          fill: true,
-          data: Object.values(datastat.rarity),
-          maxBarThickness: 6
-
-        }],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            display: false,
-          }
-        },
-        interaction: {
-          intersect: false,
-          mode: 'index',
-        },
-      },
-    });
-
-});
-
-  </script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {

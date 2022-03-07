@@ -131,7 +131,132 @@ function addCollection(name,callback)
    		 }).fail(function(data,status,error) {
    			alert(JSON.stringify(data) + " " + error);
    		 });
+}
+
+
+function printBarChart(ctx,typeChart,keys,values,displayLegend,color, scales)
+{
+	new Chart(ctx, {
+      type: typeChart,
+      data: {
+        labels: keys,
+        datasets: [{
+          label: "Types",
+          tension: 0,
+          borderWidth: 0,
+          pointRadius: 5,
+          pointBackgroundColor: "rgba(255, 255, 255, .8)",
+          pointBorderColor: "transparent",
+          borderColor: "rgba(255, 255, 255, .8)",
+          borderColor: "rgba(255, 255, 255, .8)",
+          borderWidth: 4,
+          backgroundColor: color,
+          fill: true,
+          data: values,
+          maxBarThickness: 6
+
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: displayLegend,
+          }
+        },
+        interaction: {
+          intersect: false,
+          mode: 'index',
+        },
+        scales: {
+          y: {
+            grid: {
+              drawBorder: false,
+              display: true,
+              drawOnChartArea: true,
+              drawTicks: false,
+              borderDash: [5, 5],
+              color: 'rgba(255, 255, 255, .2)'
+            },
+            ticks: {
+              display: true,
+              color: '#f8f9fa',
+              padding: 10,
+              font: {
+                size: 14,
+                weight: 300,
+                family: "Roboto",
+                style: 'normal',
+                lineHeight: 2
+              },
+            }
+          },
+          x: {
+            grid: {
+              drawBorder: false,
+              display: false,
+              drawOnChartArea: false,
+              drawTicks: false,
+              borderDash: [5, 5]
+            },
+            ticks: {
+              display: true,
+              color: '#f8f9fa',
+              padding: 10,
+              font: {
+                size: 14,
+                weight: 300,
+                family: "Roboto",
+                style: 'normal',
+                lineHeight: 2
+              },
+            }
+          },
+        }
+		},
+    });
+}
+
+
+function printChart(ctx, typeChart, label, keys,values, displayLegend, colors)
+{
+	return  new Chart(ctx, {
+      type: typeChart,
+      data: {
+        labels: keys,
+        datasets: [{
+          label: label,
+          tension: 0,
+          borderWidth: 0,
+          pointRadius: 5,
+          pointBackgroundColor: "rgba(255, 255, 255, .8)",
+		  backgroundColor: colors,
+          pointBorderColor: "transparent",
+          borderColor: "rgba(255, 255, 255, .8)",
+          borderWidth: 4,
+          fill: true,
+          data: values,
+          maxBarThickness: 6
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: displayLegend,
+          }
+        },
+        interaction: {
+          intersect: false,
+          mode: 'index',
+        },
+      },
+    });
+
 
 }
+
 
 
