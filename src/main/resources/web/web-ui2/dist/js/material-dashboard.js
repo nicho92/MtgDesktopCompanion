@@ -571,9 +571,6 @@ sidenav = document.getElementById('sidenav-main');
 body = document.getElementsByTagName('body')[0];
 className = 'g-sidenav-pinned';
 
-console.log(iconNavbarSidenav);
-
-
 if (iconNavbarSidenav) {
   iconNavbarSidenav.addEventListener("click", toggleSidenav);
 }
