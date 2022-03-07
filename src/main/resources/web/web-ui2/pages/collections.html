@@ -38,6 +38,7 @@
 		$(document).ready(function() {
 			
 			$("#sidenav-main" ).load("inc/menu.html" );
+			
 			$("#navbarBlur").load("inc/nav.html",function(){
 					$("[name='categTitle']").html("Collection");
 					$("#menuCollection").addClass("bg-gradient-primary");
@@ -200,7 +201,6 @@
 					$('#percentCount').html(((cardCount/totalCount)*100).toFixed(2) + " %");
 					$('#completeSets').html(completeSet+"/"+lineCount);
 				
-				//	$(this).removeClass('dataTable');
 				}	
 		    } );
 			
@@ -216,11 +216,9 @@
 <body class="g-sidenav-show  bg-gray-200">
 	
 	<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 menu-left fixed-start bg-gradient-dark" id="sidenav-main"></aside>
-  
-  
-  
-  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+  	<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
 	<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true"></nav>
+   
    
     <div class="container-fluid py-4">
       <div class="row">

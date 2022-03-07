@@ -12,7 +12,7 @@
 
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
-  <link id="pagestyle" href="../dist/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
+  <link href="../dist/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css"/>
   <link href="https://cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
   <link href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -44,7 +44,9 @@
 				$("[name='categTitle']").html("Deck");
 				$("#menuDecks").addClass("bg-gradient-primary");
 				$("#menuDecks").addClass("active");
+				document.getElementById('iconNavbarSidenav').addEventListener("click", toggleSidenav);
 			});
+			
 			$("#navfooter").load("inc/footer.html");
 			$("#settingPanel").load("inc/settingPanel.html");
 			
@@ -120,12 +122,11 @@
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
-  <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start menu-left bg-gradient-dark" id="sidenav-main"> </aside>
+ 	<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 menu-left fixed-start bg-gradient-dark" id="sidenav-main"></aside>
+  	<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+	<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true"></nav>
+   
   
-  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-    <!-- Navbar -->
-    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true"></nav>
-    <!-- End Navbar -->
     <div class="container-fluid py-4">
       
       <div class="row mt-4">
@@ -147,7 +148,7 @@
           </div>
         </div>
         <div class="col-lg-4 col-md-6 mt-4 mb-4">
-          <div class="card z-index-2  ">
+          <div class="card">
             <div class="card-header p-0 position-relative mt-n4 mx-3 bg-transparent">
               <div class="bg-gradient-success shadow-success border-radius-lg py-3 pe-1">
                 <div class="chart">

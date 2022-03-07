@@ -79,7 +79,7 @@ if (document.querySelector('.fixed-plugin')) {
   var fixedPluginCloseButton = document.querySelectorAll('.fixed-plugin-close-button');
   var navbar = document.getElementById('navbarBlur');
   var buttonNavbarFixed = document.getElementById('navbarFixed');
-
+	
   if (fixedPluginButton) {
     fixedPluginButton.onclick = function() {
       if (!fixedPlugin.classList.contains('show')) {
@@ -101,6 +101,7 @@ if (document.querySelector('.fixed-plugin')) {
   }
 
   fixedPluginCloseButton.forEach(function(el) {
+	
     el.onclick = function() {
       fixedPlugin.classList.remove('show');
     }
@@ -569,6 +570,8 @@ const iconSidenav = document.getElementById('iconSidenav');
 sidenav = document.getElementById('sidenav-main');
 body = document.getElementsByTagName('body')[0];
 className = 'g-sidenav-pinned';
+
+console.log(iconNavbarSidenav);
 
 
 if (iconNavbarSidenav) {
