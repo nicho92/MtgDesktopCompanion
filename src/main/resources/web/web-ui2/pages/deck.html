@@ -46,6 +46,7 @@
 		        "bLengthChange": false,
 		        "searching": false,
 		        "order": [[ 1, "asc" ]],
+				"stripeClasses": [],
 		        "columns": [
 		        		{ 
 			        	  "data": "qty",
@@ -144,9 +145,28 @@
 	  	    	
 	  	    	
 	  	    	$("#deckName").html(data.name);
-	  	    	
+	  	    	$("#description").html(data.description);
+				$("#deckPrice").html(data.averagePrice);
+				
+				
+			data.tags.forEach(function(item){
+				$("#tags").append("<li class='list-group-item '><i class='fa fa-tags'></i>"+item+"</li>");
+		});
+			
+		
+				
+				
+				
 				print($("#tableMain"),data.main);
 	  	    	print($("#tableSide"),data.side);
+				
+				var total =0;
+				data.main.forEach(function(item){
+					total += item.qty;	
+				});
+				$("#cardTotal").html(total);
+				
+				
 				
 	  	    });
 			
@@ -182,8 +202,10 @@
             </div>
             <div class="card-body">
               <h6 class="mb-0 ">CMC</h6>
-              <hr class="dark horizontal">
             </div>
+ 			<div class="card-footer p-3">
+              		<p class="mb-0"><span class="text-success text-sm font-weight-bolder"  id="cardTotal"> </span> cards</p>
+              </div>
           </div>
         </div>
         <div class="col-lg-4 col-md-6 mt-4 mb-4">
@@ -197,8 +219,10 @@
             </div>
             <div class="card-body">
               <h6 class="mb-0 ">Types Repartition</h6>
-              <hr class="dark horizontal">
             </div>
+			<div class="card-footer p-3">
+              		<p class="mb-0">&nbsp;</p>
+              </div>
           </div>
         </div>
         <div class="col-lg-4 mt-4 mb-3">
@@ -211,9 +235,11 @@
               </div>
             </div>
             <div class="card-body">
-              <h6 class="mb-0 ">Legalities</h6>
-              <hr class="dark horizontal">
+              <h6 class="mb-0 ">Rarities</h6>
             </div>
+			<div class="card-footer p-3">
+              		<p class="mb-0"><span class="text-success text-sm font-weight-bolder"  id="deckPrice"> </span> average price</p>
+              </div>
           </div>
         </div>
       </div>
@@ -284,15 +310,36 @@
         </div>
         
         <div class="col-lg-4 col-md-6">
-          <div class="card h-100">
+          <div class="card ">
             <div class="card-header pb-0">
               <h6>Description</h6>
-              
             </div>
             <div class="card-body p-3">
-              
+					<span id="description"></span>              
             </div>
           </div>
+<br/>
+		 <div class="card ">
+            <div class="card-header pb-0">
+              <h6>Legalities</h6>
+            </div>
+            <div class="card-body p-3">
+					  <ul class="list-group" id="legalities"></ul>            
+            </div>
+          </div>
+		
+<br/>
+		 <div class="card ">
+            <div class="card-header pb-0">
+              <h6>Tags</h6>
+            </div>
+            <div class="card-body p-3">
+					  <ul class="list-group" id="tags"></ul>            
+            </div>
+          </div>
+
+		
+
         </div>
       </div>
       
@@ -314,12 +361,26 @@
         url: restserver+"/deck/stats/"+$_GET("id")
     }).then(function(datastat) {
     	
+
+	
+		Object.keys(datastat.legalities).forEach(function(item){
+				
+				var color = "text-success";
+				if(!datastat.legalities[item])
+						color = "text-danger";
+				
+				
+				$("#legalities").append("<li class='list-group-item "+color+" '>"+item+"</li>");
+		});
+			
+		
+
     new Chart(ctx, {
       type: "bar",
       data: {
         labels:  Object.keys(datastat.cmc),
         datasets: [{
-          label: "Cmc",
+          label: "Qty",
           tension: 0.4,
           borderWidth: 0,
           borderRadius: 4,
@@ -392,7 +453,7 @@
       },
     });
 
-    });
+  
     
     
     
@@ -401,11 +462,11 @@
     var ctx2 = document.getElementById("chart-line").getContext("2d");
 
     new Chart(ctx2, {
-      type: "line",
+      type: "bar",
       data: {
-        labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        labels: Object.keys(datastat.types),
         datasets: [{
-          label: "Mobile apps",
+          label: "Types",
           tension: 0,
           borderWidth: 0,
           pointRadius: 5,
@@ -416,7 +477,7 @@
           borderWidth: 4,
           backgroundColor: "transparent",
           fill: true,
-          data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
+          data: Object.values(datastat.types),
           maxBarThickness: 6
 
         }],
@@ -480,25 +541,34 @@
         },
       },
     });
+
+
+  
+
 
     var ctx3 = document.getElementById("chart-line-tasks").getContext("2d");
 
     new Chart(ctx3, {
-      type: "line",
+      type: "doughnut",
       data: {
-        labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        labels: Object.keys(datastat.rarity),
         datasets: [{
-          label: "Mobile apps",
+          label: "Rarity",
           tension: 0,
           borderWidth: 0,
           pointRadius: 5,
           pointBackgroundColor: "rgba(255, 255, 255, .8)",
+		  backgroundColor: [
+      			'rgb(0,0,0)',
+      			'rgb(192,192,192)',
+      			'rgb(255,215,0)',
+				'rgb(255,99,71)'
+    	  ],
           pointBorderColor: "transparent",
           borderColor: "rgba(255, 255, 255, .8)",
           borderWidth: 4,
-          backgroundColor: "transparent",
           fill: true,
-          data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
+          data: Object.values(datastat.rarity),
           maxBarThickness: 6
 
         }],
@@ -515,53 +585,11 @@
           intersect: false,
           mode: 'index',
         },
-        scales: {
-          y: {
-            grid: {
-              drawBorder: false,
-              display: true,
-              drawOnChartArea: true,
-              drawTicks: false,
-              borderDash: [5, 5],
-              color: 'rgba(255, 255, 255, .2)'
-            },
-            ticks: {
-              display: true,
-              padding: 10,
-              color: '#f8f9fa',
-              font: {
-                size: 14,
-                weight: 300,
-                family: "Roboto",
-                style: 'normal',
-                lineHeight: 2
-              },
-            }
-          },
-          x: {
-            grid: {
-              drawBorder: false,
-              display: false,
-              drawOnChartArea: false,
-              drawTicks: false,
-              borderDash: [5, 5]
-            },
-            ticks: {
-              display: true,
-              color: '#f8f9fa',
-              padding: 10,
-              font: {
-                size: 14,
-                weight: 300,
-                family: "Roboto",
-                style: 'normal',
-                lineHeight: 2
-              },
-            }
-          },
-        },
       },
     });
+
+});
+
   </script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
