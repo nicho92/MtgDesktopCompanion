@@ -134,7 +134,7 @@ function addCollection(name,callback)
 }
 
 
-function printBarChart(ctx,typeChart,keys,values,displayLegend,color, scales)
+function printBarChart(ctx,typeChart,keys,values,displayLegend,color)
 {
 	new Chart(ctx, {
       type: typeChart,
@@ -347,6 +347,71 @@ function printChart(ctx, typeChart, label, keys,values, displayLegend, colors)
 
 
 }
+
+
+function printChartPrices(ctx, datas)
+{
+	var canvas = document.getElementById(ctx);
+
+var dataNormal = {
+      data: Object.values(datas.normal).map(e=>e.value),
+      fill: false,
+      borderColor: '#fbc658',
+      backgroundColor: 'transparent',
+      pointBorderColor: '#fbc658',
+      pointRadius: 1,
+      pointHoverRadius: 1,
+      pointBorderWidth: 1,
+ 	  label:"Normal"
+    };
+
+    var dataFoil= {
+      data: Object.values(datas.foil).map(e=>e.value),
+      fill: false,
+      borderColor: '#51CACF',
+      backgroundColor: 'transparent',
+      pointBorderColor: '#51CACF',
+      pointRadius: 1,
+      pointHoverRadius: 1,
+      pointBorderWidth: 1,
+	  label:"Foil"
+    };
+
+	var dateValues = Object.values(datas.normal).map(e=>e.date).concat(Object.values(datas.foil).map(e=>e.date));
+    var dateLabels = {
+      labels: dateValues,
+      datasets: [dataNormal, dataFoil]
+    };
+    
+	 var chartOptions = {
+      legend: {
+        display: true,
+        position: 'bottom'
+      },
+	
+	scales: {
+	    x: {
+               type: 'time',
+            }
+    	}
+
+
+    };
+	
+	
+	
+	
+	
+ new Chart(canvas, {
+      type: 'line',
+      hover: false,
+      data: dateLabels,
+      options: chartOptions,
+   });
+
+	
+}
+
 
 
 

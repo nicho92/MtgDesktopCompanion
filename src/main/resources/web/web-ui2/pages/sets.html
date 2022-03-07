@@ -25,7 +25,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.5.5/perfect-scrollbar.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scrollbar/8.7.4/smooth-scrollbar.min.js"></script>
   
   <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
@@ -63,7 +63,7 @@
 		    	    "processing": "<img src='../dist/img/loading.gif' width='50' height='50'>"
 		    	  },
 		        "pageLength": 25,
-		        "order": [[ 3, "desc" ]],
+		        "order": [[ 4, "desc" ]],
 		        "ajax": {"url":restService,"dataSrc":""},
 		        "columns": [
 		            { 
@@ -90,7 +90,15 @@
                 				return data;
 			            }
 					},
-					{
+						{
+						 "data": "cardCountOfficial",
+					 	 "render": function(data, type, row, meta) 
+						{
+									data = Number.parseInt(data);
+									return data;
+						}
+					},
+		            {
 						 "data": "type" 
 					},
 		            
@@ -134,6 +142,7 @@
                     <tr>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder">Set</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder ps-2">Name</th>
+					  <th class="text-secondary text-xxs font-weight-bolder">Cards</th>
 					  <th class="text-secondary text-xxs font-weight-bolder">Type</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">Release Date</th>
 
