@@ -60,12 +60,14 @@
 	var element=document.getElementById("dark-version");
 	if(storage.getItem("darkMode")!=null && element!=null)
 	{
-		if(storage.getItem("darkMode"))
+		console.log("DARK MOD = " + storage.getItem("darkMode") + " " + element.checked);
+		
+		if(storage.getItem("darkMode")==true)
 				element.checked = "true";
 		else
 				element.removeAttribute("checked");
 
-		darkMode(element);
+//		darkMode(element);
 	}
 
 </script>

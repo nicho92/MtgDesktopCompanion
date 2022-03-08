@@ -734,7 +734,9 @@ function darkMode(el) {
       card_border[i].classList.add('border-dark');
     }
     el.setAttribute("checked", "true");
-  } else {
+  } 
+else 
+{
     body.classList.remove('dark-version');
     storage.setItem("darkMode","false");
     for (var i = 0; i < hr.length; i++) {
