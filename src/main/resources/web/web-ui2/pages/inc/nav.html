@@ -3,7 +3,7 @@
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
-            <li class="breadcrumb-item text-sm text-dark active" aria-current="page"  name="categTitle">Dashboard</li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page"  name="categTitle"></li>
           </ol>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
@@ -16,7 +16,7 @@
             </div>
           </div>
           <ul class="navbar-nav justify-content-end">
-            <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+  			<li class="nav-item d-xl-none ps-3 d-flex align-items-center">
               <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
                 <div class="sidenav-toggler-inner">
                   <i class="sidenav-toggler-line"></i>
@@ -25,13 +25,25 @@
                 </div>
               </a>
             </li>
-            
           </ul>
+			<span id="loading"></span>
         </div>
       </div>
 
 
 <script>
+
+		$(document).ajaxStart(function () 
+		{
+		    $('#loading').html("<img src='../dist/img/loading.gif' width='25' height='25'>"); 
+		});
+
+		$(document).ajaxStop(function() 
+		{
+			 $('#loading').html("");  
+		});
+
+
  new Autocomplete('#autocomplete', {
 				 search: input => {
 			      return new Promise(resolve => {

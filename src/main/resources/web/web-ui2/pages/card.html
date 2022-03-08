@@ -44,14 +44,15 @@
 				/*$("#menuDecks").addClass("bg-gradient-primary");
 				$("#menuDecks").addClass("active");*/
 			});
-			
 			$("#navfooter").load("inc/footer.html");
 			$("#settingPanel").load("inc/settingPanel.html");
-			
-		
-			  		$.ajax({
-				        url: restserver+"/cards/scryfall/"+$_GET("scryfallid")
-				    }).then(function(card) {
+	
+	
+	
+	
+	  		$.ajax({
+			        url: restserver+"/cards/scryfall/"+$_GET("scryfallid")
+		    }).then(function(card) {
     					
 	
 						if(card.scryfallId)
@@ -128,7 +129,51 @@
 						
 						$.get(restserver+"/dash/variations/card/"+card.id,function(dprice){
 								printChartPrices("chartPrice",dprice);
+
+								var vallast = dprice.normal[dprice.normal.length - 1].value;
+								var vallastF = dprice.foil[dprice.foil.length - 1].value;
+								
+								var valpreLast = dprice.normal[dprice.normal.length - 7].value;
+								var pc = new Number(( ( vallast - valpreLast ) / valpreLast ) * 100);
+								
+								$("#priceVariation").html(pc.toFixed(2) +"%");
+								
+								if(pc>0)
+									$("#priceVariation").addClass("text-success");
+								else
+									$("#priceVariation").addClass("text-danger");
+								
+								
+								$("#lastPrice").html(vallast.toFixed(2) + " /  " + vallastF.toFixed(2) + "(F) " + dprice.currency);
 						});					
+						
+						 $.get({
+			  	  	        url: restserver+"/collections/cards/"+card.id
+					  	  	    }).then(function(data) {
+					  	  	    	for (var i = 0; i < data.length; i++) {
+					  	  	    		$('#collections').append(data[i].name);
+					  	  	    	}
+					  	  	    });
+						
+						
+						 	$("#alertBtn").click( function() {
+					  				$("#toastMessage").html(card.name + " has been added to Alerts");
+									$("#toastTitle").html("Add Alert to Card");
+									$("#infoToast").toast("show");
+					 		});
+					  		
+						
+							$("#stockBtn").click( function() {
+					  				$("#toastMessage").html(card.name + " has been added to Stock");
+									$("#toastTitle").html("Add card in Stock");
+									$("#infoToast").toast("show");
+					 		});
+						
+							$("#addCardBtn").click( function() {
+					  				$("#toastMessage").html(card.name + " has been added to default Library");
+									$("#toastTitle").html("Add card in Collection");
+									$("#infoToast").toast("show");
+					 		});
 						
 						
 						
@@ -148,7 +193,7 @@
 
     <div class="row ">
 
-    		<div class="col-lg-3 col-md-3">
+    		<div class="col-lg-2 col-md-3">
 				<div class="card">
 					<div class="card-header p-0 position-relative mt-n4 mx-3">
 						<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
@@ -162,6 +207,23 @@
 						<i><span id="artist"></span></i>
 					</div>
 				</div>
+				
+				<br/><br/>
+				<div class="card">
+					<div class="card-header p-0 position-relative mt-n4 mx-3">
+						<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+							<h6 class="text-white text-capitalize ps-3" id="cardname">Collections</h6>
+						</div>
+					</div>
+					<div class="card-body px-4 pb-2">
+						 <ul class="list-group" id="collections"></ul>       
+					</div>
+					<div class="card-footer p-3">
+						
+					</div>
+				</div>
+				
+				
 			</div>
         
 			<div class="col-lg-3 col-md-6">
@@ -235,6 +297,7 @@
 					</div>
 				</div>
 				<br/></br/>
+				
 				<div class="card">
 					<div class="card-header p-0 position-relative mt-n4 mx-3 ">
 						<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
@@ -247,22 +310,72 @@
 				</div>
 				
 				
+				<br/>
+				<br/>
+				<div class="card">
+					<div class="card-header p-0 position-relative mt-n4 mx-3 ">
+						<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+							<h6 class="text-white text-capitalize ps-3">Actions</h6>
+						</div>
+					</div>
+					<div class="card-body p-3" id="panelBtn">
+							<button id="alertBtn" type="button" class="btn btn-circle btn-warning toast-btn" data-bs-placement="bottom" data-bs-toggle="tooltip"="tooltip" title="add alert" >
+								<em class="fa fa-bell-o"></em>
+							</button>
+							<button id="stockBtn" type="button" class="btn btn-circle btn-primary toast-btn" data-bs-placement="bottom" data-bs-toggle="tooltip"="tooltip" title="add to stock">
+								<em class="fa fa-file-text"></em>
+							</button>
+							<button id="addCardBtn" type="button" class="btn btn-circle btn-danger toast-btn" data-bs-placement="bottom" data-bs-toggle="tooltip"="tooltip" title="add to default library">
+								<em class="fa fa-plus-circle"></em>
+							</button>
+					</div>
+				</div>
+				
+				
+				
+				
 </div>
 
 
 			<div class="col-lg-6 col-md-6">
+			
+					<div class="card ">
+					<div class="card-header p-0 position-relative mt-n4 mx-3 ">
+						<div class=" bg-gradient-primary  shadow-primary border-radius-lg pt-4 pb-3">
+							<h6 class="text-white text-capitalize ps-3" id="lastPrice"></h6>
+						</div>
+					</div>
+					<div class="card-body p-3">
+						 
+					</div>
+					<div class="card-footer p-3">
+		              <p class="mb-0" id="priceMouvement"><span class="text-sm font-weight-bolder" id="priceVariation"></span> since last week</p>
+		            </div>
+					
+				</div>
+			
+			
+			<br/><br/>
 				<div class="card ">
 					<div class="card-header p-0 position-relative mt-n4 mx-3 ">
 						<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-							<h6 class="text-white text-capitalize ps-3">Prices</h6>
+							<h6 class="text-white text-capitalize ps-3">History</h6>
 						</div>
 					</div>
 					<div class="card-body p-3">
 						<canvas id="chartPrice" width="400" height="200"></canvas>
 					</div>
 				</div>
+				
+			
+				
+				
+				
+				
 			</div>
-
+			
+			
+			
 </div>
 
 
@@ -294,6 +407,27 @@
   
    <script src="../dist/js/material-dashboard.js?v=3.0.0"></script>
 
+  <div class="position-fixed bottom-1 end-1 z-index-3">
+       
+		<div class="toast fade hide p-2 mt-2 bg-gradient-info" role="alert" aria-live="assertive" id="infoToast" aria-atomic="true">
+          <div class="toast-header bg-transparent border-0">
+            <i class="material-icons text-white me-2">notifications</i>
+            <span class="me-auto text-white font-weight-bold" id="toastTitle">Title</span>
+            <small class="text-white"></small>
+            <i class="fa fa-times text-md text-white cursor-pointer" data-bs-dismiss="toast" aria-label="Close"></i>
+          </div>
+          <hr class="horizontal light m-0">
+          <div class="toast-body text-white" id="toastMessage">
+           				 Hello, world! This is a notification message.
+          </div>
+        </div>
+
+
+
+
+
+
+  </div>
  
 </body>
 
