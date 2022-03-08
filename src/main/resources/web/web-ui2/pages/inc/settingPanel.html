@@ -1,6 +1,6 @@
 <div class="card-header pb-0 pt-3">
         <div class="float-start">
-          <h5 class="mt-3 mb-0">Material UI Configurator</h5>
+          <h5 class="mt-3 mb-0">MTGWebCompanion UI Configurator</h5>
           <p>See our dashboard options.</p>
         </div>
         <div class="float-end mt-4">
@@ -54,3 +54,18 @@
         <hr class="horizontal dark my-sm-4">
         
       </div>
+
+
+<script>
+	var element=document.getElementById("dark-version");
+	if(storage.getItem("darkMode")!=null && element!=null)
+	{
+		if(storage.getItem("darkMode"))
+				element.checked = "true";
+		else
+				element.removeAttribute("checked");
+
+		darkMode(element);
+	}
+
+</script>

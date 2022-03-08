@@ -1,7 +1,12 @@
 "use strict";
-(function() {
-  var isWindows = navigator.platform.indexOf('Win') > -1 ? true : false;
 
+
+var storage =localStorage;
+
+(function() {
+	var isWindows = navigator.platform.indexOf('Win') > -1 ? true : false;
+	
+	
   if (isWindows) {
     // if we are on windows OS we activate the perfectScrollbar function
     if (document.getElementsByClassName('main-content')[0]) {
@@ -639,6 +644,7 @@ function sidenavTypeOnResize() {
 
 // Light Mode / Dark Mode
 function darkMode(el) {
+	
   const body = document.getElementsByTagName('body')[0];
   const hr = document.querySelectorAll('div:not(.sidenav) > hr');
   const hr_card = document.querySelectorAll('div:not(.bg-gradient-dark) hr');
@@ -659,11 +665,11 @@ function darkMode(el) {
   const svg = document.querySelectorAll('g');
   
   
-  
-
-  if (!el.getAttribute("checked")) {
+  if (!el.getAttribute("checked")) 
+  {
     body.classList.add('dark-version');
-    
+    storage.setItem("darkMode","true");
+  
     
     for (var i = 0; i < hr.length; i++) {
       if (hr[i].classList.contains('dark')) {
@@ -730,6 +736,7 @@ function darkMode(el) {
     el.setAttribute("checked", "true");
   } else {
     body.classList.remove('dark-version');
+    storage.setItem("darkMode","false");
     for (var i = 0; i < hr.length; i++) {
       if (hr[i].classList.contains('light')) {
         hr[i].classList.add('dark');
@@ -794,5 +801,10 @@ function darkMode(el) {
       card_border_dark[i].classList.remove('border-dark');
     }
     el.removeAttribute("checked");
+
+
+ 
+
+
   }
 };
