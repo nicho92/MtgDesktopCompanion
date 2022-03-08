@@ -79,7 +79,7 @@
 		                }
 		            }
 				],
-				drawCallback: function () {
+				fnInitComplete: function () {
 					var dt = $('#tableCollections').DataTable();
 					$('#collectionCount').html(dt.column(0).data().count());
 				//	$(this).removeClass('dataTable');
@@ -189,7 +189,7 @@
 		            }
 		            
 		        ],
-				drawCallback: function () {
+		        fnInitComplete: function () {
 					var dt = $('#tableEditions').DataTable();
 					
 					var cardCount=dt.column(4).data().sum();

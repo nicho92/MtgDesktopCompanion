@@ -302,7 +302,7 @@ function printDeck(element, deckData)
 		        }
 		       
 	        ],
-	        "fnDrawCallback" :function(oSettings, json) {
+	        "fnInitComplete" :function(oSettings, json) {
 	        	mtgtooltip($(".mtg-tooltip"));
 	        }
     } );
@@ -311,7 +311,8 @@ function printDeck(element, deckData)
 
 function printChart(ctx, typeChart, label, keys,values, displayLegend, colors)
 {
-	return  new Chart(ctx, {
+
+	new Chart(ctx, {
       type: typeChart,
       data: {
         labels: keys,
@@ -353,7 +354,7 @@ function printChartPrices(ctx, datas)
 {
 	var canvas = document.getElementById(ctx);
 
-var dataNormal = {
+	var dataNormal = {
       data: Object.values(datas.normal).map(e=>e.value),
       fill: false,
       borderColor: '#fbc658',
@@ -398,11 +399,7 @@ var dataNormal = {
 
     };
 	
-	
-	
-	
-	
- new Chart(canvas, {
+	new Chart(canvas, {
       type: 'line',
       hover: false,
       data: dateLabels,

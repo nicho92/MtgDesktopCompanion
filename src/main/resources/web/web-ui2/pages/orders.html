@@ -103,13 +103,16 @@
 		                "defaultContent": ""
 		            },		           
 		        ],
-		        "fnDrawCallback" :function(oSettings, json) {
-					var dt = $('#tableOrders').DataTable();
+		        "fnInitComplete" :function(oSettings, json) {
+					
+		        	var dt = this.fnGetData();
 					
 					var totalPaid = 0.0;
 					var totalSell = 0.0;
 					
-					dt.data().filter((item) => {
+					
+					
+					dt.filter((item) => {
 						
 						if(item.typeTransaction=="BUY")
 						{
@@ -124,7 +127,27 @@
 					
 					$("#totalPaid").html(totalPaid.toFixed(2));
 					$("#totalSell").html(totalSell.toFixed(2));
-					 
+					
+
+				    
+				    var countTypes = dt.reduce(function (result, d) {
+					    var u = d.type;
+					     if (!result[u]) {
+					        result[u] = 0;
+					    }
+					    result[u]++;
+					    return result;
+						}, {});
+				    
+				    var ctx = document.getElementById("chartOrder").getContext("2d");
+				    printChart(ctx, "doughnut", "Types", Object.keys(countTypes),Object.values(countTypes), false,  [
+		      			'rgb(0,0,0)',
+		      			'rgb(192,192,192)',
+		      			'rgb(255,215,0)',
+						'rgb(255,99,71)',
+						'rgb(147,112,219)'
+			    	  ]);
+					
 					
 		        }
 		        
@@ -181,6 +204,13 @@
           </div>
         </div>
         
+        <div class="col-xl-3 col-sm-6">
+          <div class="card z-index-2 ">
+            <div class="card-body">
+               <canvas id="chartOrder" class="chart-canvas" height="100"></canvas>
+            </div>
+          </div>
+        </div>
         
         
       </div>

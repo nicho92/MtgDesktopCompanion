@@ -35,7 +35,33 @@
   <script src="../dist/js/js-var.js"></script>
   <script src="../dist/js/mtgcompanion-ui.js"></script>
   
+  <style>
+  .cardFlip {
+	    -webkit-transition:-webkit-transform 0.5s;
+	    transition:transform 0.5s;
+
+	}
+	.flipping {
+    	transform: translate(0, 20px) rotateY(90deg);
+    	-webkit-transform: translate(0, 20px) rotateY(90deg);
+	}
+  </style>
+  
+  
   <script>
+  
+  function turnCSS(elem, src) {
+	    $(elem)
+	        .addClass("flipping")
+	        .bind("transitionend webkittransitionend", function () { //should add more prefixes
+	        this.src = src;
+	        $(this)
+	            .unbind("transitionend webkittransitionend")
+	            .removeClass("flipping")
+	    })
+	}
+  
+  
  		$(document).ready(function() {
 			$("#sidenav-main" ).load("inc/menu.html" );
 			$("#navbarBlur").load("inc/nav.html",function(){
@@ -60,6 +86,8 @@
 						else if(card.editions[0].multiverseId)            
 							uri = "https://api.scryfall.com/cards/multiverse/"+card.editions[0].multiverseId+"?format=image";
 						
+						
+						
 						$('#pic').attr("src", uri);
 						$("#cardname").html(card.name);
 						$("#artist").html(card.artist);
@@ -68,6 +96,15 @@
 						$("#oracleText").append(card.text.replace(/\n/g, "<br />"));
 						
 						
+						var front = uri;
+						
+						if(card.layout=="TRANSFORM"){
+							var back = "https://api.scryfall.com/cards/"+card.scryfallId+"?format=image&face=back";
+							$("#pic").click(function () {
+							    var src = this.src == back ? front : back; //for toggling fun
+							    turnCSS(this, src)
+							})
+						}
 						if(card.power!=null)
   	    					$('#power').append(card.power+"/"+card.toughness);
   	    	
@@ -226,7 +263,8 @@
 						</div>
 					</div>
 					<div class="card-body px-4 pb-2">
-						<img class='img-fluid img-responsive' id='pic' data-holder-rendered="true" />
+						<img class='img-fluid img-responsive cardFlip' id='pic' data-holder-rendered="true" />
+						
 					</div>
 					<div class="card-footer p-3">
 						<i><span id="artist"></span></i>

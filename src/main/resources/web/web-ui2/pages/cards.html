@@ -115,11 +115,12 @@
 			                }
 		            },
 		            		            { 
-		         		 "data": "cost",
+		         		"data": "cost",
 		                "width": "7%",
 		                "defaultContent": "",
 		                "render": function(data, type, row, meta){
-		                   if(type === 'display'){
+		                   if(type === 'display')
+		                   {
 		                	   if(data!=null)
 		                	   {
 			                	   var d=data.match(/[^{}]+(?=\})/g);
@@ -130,8 +131,10 @@
 			                				ret +='<i class="ms ms-'+d[i].toLowerCase()+' ms-cost ms-shadow"></i>';
 			                			}
 			                	   }
-		                   		}
-		                	   return ret;
+			                	return ret;
+		                   	}
+		                   return data;
+		                	   
 		                   }
 		                   
 		             }
