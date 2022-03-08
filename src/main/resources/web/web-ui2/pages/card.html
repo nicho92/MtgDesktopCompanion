@@ -36,9 +36,9 @@
   <script src="../dist/js/mtgcompanion-ui.js"></script>
   
   <style>
-  .cardFlip {
-	    -webkit-transition:-webkit-transform 0.5s;
-	    transition:transform 0.5s;
+  	.cardFlip {
+	    -webkit-transition:-webkit-transform 0.7s;
+	    transition:transform 0.7s;
 
 	}
 	.flipping {
@@ -193,7 +193,14 @@
 								printChartPrices("chartPrice",dprice);
 
 								var vallast = dprice.normal[dprice.normal.length - 1].value;
-								var vallastF = dprice.foil[dprice.foil.length - 1].value;
+								
+								var vallastF =0.0;
+								
+								if(dprice.foil.length>1)
+								{
+									vallastF = dprice.foil[dprice.foil.length - 1].value;
+								}
+								
 								
 								var valpreLast = dprice.normal[dprice.normal.length - 7].value;
 								var pc = new Number(( ( vallast - valpreLast ) / valpreLast ) * 100);
