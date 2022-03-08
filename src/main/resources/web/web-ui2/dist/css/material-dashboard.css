@@ -13964,6 +13964,9 @@ label,
 
 .bg-gradient-light {
   background-image: linear-gradient(195deg, #EBEFF4 0%, #CED4DA 100%); }
+  
+.bg-gradient-brown {
+  background-image: linear-gradient(195deg, #ba844e 0%, #ba844e 100%); }
 
 .bg-gradient-dark {
   background-image: linear-gradient(195deg, #42424a 0%, #191919 100%); }

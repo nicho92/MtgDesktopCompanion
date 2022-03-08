@@ -114,6 +114,31 @@
 						  else if(card.border=="BORDERLESS")
 								$('#Borderless').append(" <i class='fa fa-check-circle'></i>");	
 						
+						
+			if(card.colors.length>1)
+  	    	{
+					$(".bg-gradient-primary").toggleClass("bg-gradient-warning");
+  	    	}
+  	    	else if(card.colors.length==0)
+  	    	{
+					$(".bg-gradient-primary").toggleClass("bg-gradient-brown");
+			}
+  	    	else
+  	    	{
+  	    		if(card.colors[0]=='WHITE')
+					$(".bg-gradient-primary").toggleClass("bg-gradient-light");
+  	  			if(card.colors[0]=='BLUE')
+					$(".bg-gradient-primary").toggleClass("bg-gradient-info");
+  				if(card.colors[0]=='BLACK')
+					$(".bg-gradient-primary").toggleClass("bg-gradient-dark");
+				if(card.colors[0]=='RED')
+					$(".bg-gradient-primary").toggleClass("bg-gradient-danger");
+				if(card.colors[0]=='GREEN')
+					$(".bg-gradient-primary").toggleClass("bg-gradient-success");
+  	    	}
+
+						
+						
 
 						if(card.cost!=null)
 				  	    	{
@@ -193,7 +218,7 @@
 
     <div class="row ">
 
-    		<div class="col-lg-2 col-md-3">
+    		<div class="col-lg-3 col-md-3">
 				<div class="card">
 					<div class="card-header p-0 position-relative mt-n4 mx-3">
 						<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
