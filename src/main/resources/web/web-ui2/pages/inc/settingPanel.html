@@ -58,16 +58,14 @@
 
 <script>
 	var element=document.getElementById("dark-version");
-	if(storage.getItem("darkMode")!=null && element!=null)
-	{
-		console.log("DARK MOD = " + storage.getItem("darkMode") + " " + element.checked);
-		
-		if(storage.getItem("darkMode")==true)
-				element.checked = "true";
-		else
-				element.removeAttribute("checked");
-
-//		darkMode(element);
-	}
-
+       /*   
+		if(storage.getItem("darkMode")!=null)
+		{ 
+			if(storage.getItem("darkMode"))
+				element.checked = "checked";
+			else
+				element.checked = false;
+		  	
+			darkMode(element);
+		 }*/
 </script>
