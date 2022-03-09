@@ -25,6 +25,7 @@ import java.nio.file.Path;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -557,7 +558,10 @@ public class JSONHttpServer extends AbstractMTGServer {
 				
 				@Override
 				public List<MagicEdition> call() throws Exception {
-					return getEnabledPlugin(MTGCardsProvider.class).listEditions();
+					var list = getEnabledPlugin(MTGCardsProvider.class).listEditions();
+					list.sort(Comparator.comparing(MagicEdition::getSet));
+					return list;
+					
 				}
 			})
 		, transformer);
