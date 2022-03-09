@@ -69,7 +69,7 @@
 		                "defaultContent": "",
 		                "render": function(data, type, row, meta){
 		                	 if(type === 'display'){
-		                		 return '<a  href="card.html?scryfallid='+row.product.scryfallId+'" class="mtg-tooltip" data-set="'+row.product.editions[0].id+'" scryfallid="'+row.product.scryfallId+'" multiverseId="'+row.product.editions[0].multiverseId+'" data-name="'+data+'">'+data+'</a>';
+								return generateLinkCard(row.product);
 		                	 }
 		                   return data;
 		                }

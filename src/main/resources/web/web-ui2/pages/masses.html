@@ -161,7 +161,7 @@
 			        	  "width": "30%",
 			        	  "render": function(data, type, row, meta){
 			        		  if(type === 'display'){
-			                       return '<span class="mtg-tooltip" scryfallid="'+row.scryfallId+'" data-set="'+idEd+'" data-name="'+data+'">'+data+'</span>';
+								return generateLinkCard(row);
 			                   }  
 			        		  return data;
 			                }

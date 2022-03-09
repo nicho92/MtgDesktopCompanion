@@ -15,6 +15,12 @@ function formatMana(manaString)
 }
 
 
+function generateLinkCard(card)
+{
+	 return '<a  href="card.html?scryfallid='+card.scryfallId+'" class="mtg-tooltip" data-set="'+card.editions[0].id+'" scryfallid="'+card.scryfallId+'" side="'+card.side+'" + multiverseId="'+card.editions[0].multiverseId+'" data-name="'+card.name+'">'+card.name+'</a>';
+}
+
+
 
 function mtgtooltip(element)
 {
@@ -34,7 +40,11 @@ function mtgtooltip(element)
 				uri = "https://api.scryfall.com/cards/"+scryfallid+"?format=image";
 			else if(multiverseId!="undefined" && multiverseId!=undefined)            
 				uri = "https://api.scryfall.com/cards/multiverse/"+multiverseId+"?format=image";
-  
+  			
+	
+			if($(this).attr("side")=="b")
+				uri +="&face=back";
+		
            return "<img class='img-fluid' src='"+uri+"'/>";
         }
     });
@@ -243,7 +253,7 @@ function printDeck(element, deckData)
                	  "render": function(data, type, row, meta){
 	                   if(type === 'display'){
 	                	   if(type === 'display'){
-		                		 return '<a  href="card.html?scryfallid='+row.card.scryfallId+'" class="mtg-tooltip" data-set="'+row.card.editions[0].id+'" scryfallid="'+row.card.scryfallId+'" multiverseId="'+row.card.editions[0].multiverseId+'" data-name="'+data+'">'+data+'</a>';
+		                		 return generateLinkCard(row.card);
 		                	}
 	                   }
 	                 return data;
