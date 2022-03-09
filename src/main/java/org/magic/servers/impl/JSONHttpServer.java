@@ -770,7 +770,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		get("/dash/collection", URLTools.HEADER_JSON, (request, response) -> {
 			List<MagicEdition> eds = getEnabledPlugin(MTGCardsProvider.class).listEditions();
-			var model = new MagicEditionsTableModel();
+			var model = new MagicEditionsTableModel(new MagicCollection(MTGControler.getInstance().get("default-library")));
 			model.init(eds);
 
 			var arr = new JsonArray();

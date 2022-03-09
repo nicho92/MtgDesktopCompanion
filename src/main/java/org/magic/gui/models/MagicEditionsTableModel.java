@@ -27,9 +27,39 @@ public class MagicEditionsTableModel extends GenericTableModel<MagicEdition> {
 
 	int countTotal = 0;
 	int countDefaultLibrary = 0;
+	private MagicCollection collection;
+	
+	
+	
+	public MagicEditionsTableModel(MagicCollection col) {
+		this.collection=col;
+		initColumns();
+	}
+	
+	public MagicEditionsTableModel() {
+		collection = new MagicCollection(MTGControler.getInstance().get("default-library"));
+		initColumns();
+	}
+	
+	
+	private void initColumns()
+	{
+		columns=new String[] { "EDITION_CODE",
+				"EDITION",
+				"EDITION_SIZE",
+				"DATE_RELEASE",
+				"PC_COMPLETE",
+				"QTY",
+				"EDITION_TYPE",
+				"EDITION_BLOCK",
+				"EDITION_ONLINE",
+				"PREVIEW"};
+
+	}
 	
 	@Override
 	public void init(List<MagicEdition> editions) {
+		
 		this.items = editions;
 		mapCount = new TreeMap<>();
 
@@ -44,10 +74,10 @@ public class MagicEditionsTableModel extends GenericTableModel<MagicEdition> {
 
 	public void calculate() {
 
-		var mc = new MagicCollection(MTGControler.getInstance().get("default-library"));
+		
 		Map<String, Integer> temp;
 		try {
-			temp = getEnabledPlugin(MTGDao.class).getCardsCountGlobal(mc);
+			temp = getEnabledPlugin(MTGDao.class).getCardsCountGlobal(collection);
 		
 		countDefaultLibrary = 0;
 		countTotal = 0;
@@ -84,20 +114,6 @@ public class MagicEditionsTableModel extends GenericTableModel<MagicEdition> {
 		this.countDefaultLibrary = countDefaultLibrary;
 	}
 
-	public MagicEditionsTableModel() {
-		columns=new String[] { "EDITION_CODE",
-				"EDITION",
-				"EDITION_SIZE",
-				"DATE_RELEASE",
-				"PC_COMPLETE",
-				"QTY",
-				"EDITION_TYPE",
-				"EDITION_BLOCK",
-				"EDITION_ONLINE",
-				"PREVIEW"};
-
-	}
-	
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		switch(columnIndex)

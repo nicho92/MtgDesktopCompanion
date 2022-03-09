@@ -48,9 +48,9 @@
 			
 			$("#sidenav-main" ).load("inc/menu.html" );
 			$("#navbarBlur").load("inc/nav.html",function(){
-					$("[name='categTitle']").html("Products Import");
-					$("#menuImportProduct").addClass("bg-gradient-primary");
-					$("#menuImportProduct").addClass("active");
+					$("[name='categTitle']").html("Transactions Import");
+					$("#menuTransactionImport").addClass("bg-gradient-primary");
+					$("#menuTransactionImport").addClass("active");
 			});
 			
 			$("#navfooter").load("inc/footer.html");
@@ -67,27 +67,25 @@
       	    	});
       	    });
       		
-			 $('#cboDest').on('change',function(e) {
-				var selectOutput= $(this).find("option:selected").val();
-	  	   			$.ajax({
-	  	    		    	url: restserver+"/webshop/"+selectOutput+"/categories"
-	  	    	   		}).done(function(d) {
-								$('#cboCategories').find("option").remove();
-								for(var i=0;i<d.length;i++)
-		  	    	   			{
-				  	    	   		$("#cboCategories").append("<option value='"+d[i].idCategory+"'>"+d[i].categoryName+"</option>")
-		  	    	   			}
-		  	    	   			$('#cboCategories').selectpicker('refresh');
-						});
-			
+
+			$("#sendBtn").click(function(){
+							
+								var datas = table.rows( { selected: true } ).data().toArray();
+								var dest = $("#cboDest").val();
+								var url=restserver+"/extShop/transactions/"+dest+"/save/"+$("#chkCreateProduct").is(':checked');								
+								
+								$.post(url,JSON.stringify(datas),function(d) {
+										alert(JSON.stringify(d));
+								},'json');
 			});
-			
+
+
 			var loaded=false;
 			var table = null;
       		$("#searchBtn").click(function() {
 	
       			$.ajax({
-			        url: restserver+"/extShop/"+$("#cboSource").val()+"/"+$("#searchProduct").val()
+			        url: restserver+"/extShop/transactions/from/"+$("#cboSource").val()
 			    }).then(function(data) {
 			    	if(loaded)
 						{
@@ -101,41 +99,76 @@
 						    	  },
 						    	"responsive": true,
 						        "processing": true,
-								"stripeClasses": [],
 						        "data": data,
 								"select":true,
 						        "columns": [
 						        	{ 
-						        		"data": "url",
-						        		"render": function(d, type, row, meta){
-							                   return "<img src="+d+" width='100px'></img>";
+						        		"data": "id",
+  										"width": "5%"
+						        	},
+									{
+										"data":"dateCreation",
+										  "width": "5%",
+									},
+									{
+										"data":"contact",	
+										 "width": "15%",
+										"render": function(d, type, row, meta){
+											  if(type === 'display'){
+													return d.name + " "+ d.lastName;
+												}
+												return d;
+											}
+									},
+									{ 
+						        		"data": "items",
+										"render": function(d, type, row, meta){
+							                    if(type === 'display'){
+												
+												 var content="<ul>";
+							                	  $.each(d,function(index, value){
+							                		  content+= "<li><img height=70  src='"+value.product.url+"'/> <strong>" + value.qte+"x</strong> " + value.product.name + " <br/>" + JSON.stringify(value.tiersAppIds);
+							                	  });
+							                	  content+="</ul>";											
+												
+												return content;
+												}
+												return d;
+							            	}
+						        	},
+									{ 
+						        		"data": "items",
+ 										"width": "5%",
+										"render": function(d, type, row, meta)
+										{
+							                	var total=0.0;
+												  $.each(d,function(index, value){
+							                		 total+= value.price;
+							                	  });
+							                	return total.toFixed(2) ;
 							            }
 						        	},
- 									{ 
-										"data": "productId" 
+									{
+										"data":"shippingPrice",
+										 "width": "5%",
+										"render": function(d, type, row, meta)
+										{
+							                	return d.toFixed(2) ;
+							            }
 									},
-						            { 
-										"data": "name" 
-									},
-									{ 
-										"data": "edition",
-										"render": function(d, type, row, meta){
-											if(d)
-									           return d.set;
-							            }, 
-										"defaultContent": ""
-									},
-									{ 
-										"data": "category.categoryName" ,
-										"defaultContent": ""
+									{
+										"data":"statut",
+										 "width": "5%"
 									}
+									
 						        ]
 					    		});
 							loaded=true;
 						}
 			    });
   	 		});
-			
+
+
 			
 			
 			
@@ -160,7 +193,7 @@
           <div class="card">
             <div class="card-header p-3 pt-2">
               <div class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
-                <i class="material-icons opacity-10">search</i>
+                <i class="material-icons opacity-10">receipt_long</i>
               </div>
               <div class="text-end pt-1">
                 <p class="text-sm mb-0 text-capitalize">From</p>
@@ -168,8 +201,6 @@
 							<select id="cboSource" class="form-select">
 								<option value="">Select Shops</option>
 							</select>
-							<br/>
-							<input type="text" value="" class="form-control" placeholder="Search product..."  id="searchProduct">       
               </div>
             </div>
             <hr class="dark horizontal my-0">
@@ -192,18 +223,6 @@
                 <select id="cboDest" class="form-select">
                 	<option value=""></option>
                 </select>
-                <br/>
-									 <select class="form-control" id="txtlangage">
-							            <option value="English">English</option>
-										<option value="French">French</option>
-							            <option value="German">German</option>
-							            <option value="Spanish">Spanish</option>
-										<option value="Japanese">Japanese</option>
-										<option value="Portugues">Portugues</option>
-										<option value="Italian">Italian</option>
-							         </select>
-								<br/>
-								<select class="form-control" id="cboCategories"></select>
               </div>
             </div>
             <div class="card-footer p-3">
@@ -221,19 +240,21 @@
           <div class="card">
           <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3">Results</h6>
+                <h6 class="text-white text-capitalize ps-3">Transactions</h6>
               </div>
             </div>
             <div class="card-body px-0 pb-2">
               <div class="table-responsive">
                <table id="tableResults" class="display" style="width:100%">
-						        <thead>
+						       <thead>
 						            <tr>
-						            	<th>Product</th>
-										<th>Id</th>
-						            	<th>Name</th>
-										<th>Expansion</th>
-										<th>Category</th>
+						            	<th>ID</th>
+										<th>Date</th>
+						            	<th>Contact</th>
+										<th>Products</th>
+										<th>Total</th>
+										<th>Shipping</th>
+										<th>Status</th>
 						            </tr>
 						        </thead>
 					</table>
