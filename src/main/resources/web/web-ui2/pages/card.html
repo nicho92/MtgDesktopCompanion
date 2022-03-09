@@ -92,13 +92,18 @@
 						$("#cardname").html(card.name);
 						$("#artist").html(card.artist);
 						$('#number').append(card.editions[0].number +"/" + card.editions[0].cardCountOfficial);
-						$('#types').append(card.types);
+						
+						if(card.types.length>0)
+							$('#types').append("<i class='ms ms-"+card.types[0].toLowerCase()+" ms-fw'></i>"+card.types);
+						else
+							$('#types').append(card.types);
+						
 						$("#oracleText").append(card.text.replace(/\n/g, "<br />"));
 						
 						
 						var front = uri;
 						
-						if(card.layout=="TRANSFORM"){
+						if(card.layout=="TRANSFORM" || card.layout=="MODAL_DFC"){
 							var back = "https://api.scryfall.com/cards/"+card.scryfallId+"?format=image&face=back";
 							$("#pic").click(function () {
 							    var src = this.src == back ? front : back; //for toggling fun
