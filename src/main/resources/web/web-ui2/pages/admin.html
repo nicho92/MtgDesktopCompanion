@@ -12,7 +12,7 @@
 
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
-  <link href="../dist/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
+  <link id="pagestyle" href="../dist/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css"/>
   <link href="https://cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
   <link href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -36,57 +36,108 @@
 
 	
 		<script>
+		
+			function generate(key,jsonarray)
+			{
+		  		$('#t'+key).DataTable({
+		  			"data":jsonarray,
+			    	"responsive": true,
+			    	"searching": false,
+			        "processing": true,
+			        "paging": false,
+			        "columns": [
+			        	{ 
+				        	  "data": "name",
+				        	  "defaultContent": "",
+				        	  "render": function(data, type, row, meta){
+				                	 if(type === 'display'){
+										data="<span class='editable'>"+data+"</span>";
+				                	 }
+				                   return data;
+				                }
+				        },
+			        	{ 
+				        	  "data": "enabled",
+				        	  "defaultContent": "",
+				        	  "render": function(data, type, row, meta){
+				                	 if(type === 'display'){
+										 if(data===true)
+				                			 	data="<span class='fa fa-check'/>";
+				                			 else
+				                				data="<span class='fa fa-times'/>";
+				                	 }
+				                   return data;
+				                }
+				        },
+			        	{ 
+				        	  "data": "version",
+				        	  "defaultContent": "",
+			        	},
+			        	{ 
+				        	  "data": "status",
+				        	  "defaultContent": "",
+			        	}],
+			        });
+		  		
+			}
+		
 		$(document).ready(function() {
 			
 			$("#sidenav-main" ).load("inc/menu.html" );
 			$("#navbarBlur").load("inc/nav.html",function(){
-					$("[name='categTitle']").html("Webcam");
-					$("#menuWebcam").addClass("bg-gradient-primary");
-					$("#menuWebcam").addClass("active");
+					$("[name='categTitle']").html("Admin");
+					$("#menuAdmin").addClass("bg-gradient-primary");
+					$("#menuAdmin").addClass("active");
 			});
 			
 			$("#navfooter").load("inc/footer.html");
 			$("#settingPanel").load("inc/settingPanel.html");
 			
-			if (navigator.mediaDevices.getUserMedia) 
-			{
-				// Elements for taking the snapshot
-				var canvas = document.getElementById('canvas');
-				var context = canvas.getContext('2d');
-				var video = document.getElementById('videoElement');
-			
-			$("#snap").click(function() {
-				canvas.width=video.videoWidth;
-				canvas.height=video.videoHeight;
-				
-				context.drawImage(video, 0, 0, canvas.width, canvas.height);
-				
-				$.ajax({
-				  type: "POST",
-				  url: restserver+"/cards/recognize/"+$("input[type='number']").val(),
-				  data: canvas.toDataURL("image/png"),
-				  success: function(datas){
-					  
-					  $.each(datas, function( index, data ) {
-						$("#contentResults").empty();
-						$("#contentResults").append("CardName = <a href='card.html?scryfallid="+data.scryfallId+"'>"+data.name + "</a> <br/>Number = "+ data.setCode+ " ("+  data.number + "). <br/> SCORE =" + data.score.toFixed(2));
-						$("#contentResults").append("<br/><img src='"+restserver+"/pics/cards/"+data.setCode+"/"+data.number+"'/><br/>");
-						
-						
-						$("#btnStock").attr("data-id",data.id);
-						$("#btnAlert").attr("data-id",data.id);
-						$("#btnCollection").attr("data-id",data.id);
-						
-					  });
-		  			}
-				});
+				$("#btnIndex").click( function() {
+	  			$.ajax({
+  	       				 url: restserver+"/admin/reindexation"
+  	   			 }).then(function(data) {
+					alert(data);
+	 			});
 			});
-				
-		
-
-			}
 			
-		
+			$("#btnClear").click( function() {
+	  			$.ajax({
+  	       				 url: restserver+"/admin/clearCache"
+  	   			 }).then(function(data) {
+					alert(data);
+	 			});
+			});
+			
+			
+			
+			$.ajax({
+		  	        url: restserver+"/admin/plugins/list"
+		  	    }).then(function(data) {
+		  	    	var keys = Object.keys(data);
+		  	    	
+		  	    	var classe="";
+		  	    	var classT="";
+		  	    	for (var i=0;i<keys.length;i++)
+		  	    	{
+		  	    		if(i==0)
+		  	    		{
+		  	    			classe="active";
+		  	    		    classT="active in";
+		  	    		}
+		  	    		else
+		  	    		{
+		  	    			classe="";	
+		  	    			classT="";
+		  	    		}
+		  	    	
+						$("#tabsCateg").append('<li class="nav-item"><a class="nav-link '+classe+'" data-bs-toggle="tab" href="#'+keys[i]+'" role="tab" aria-selected="true"><i class="material-icons text-lg position-relative">extension</i>'+keys[i]+'</a></li>');
+		  	    		var pluginsArray = data[keys[i]];
+		  	    		$("#contentPlugins").append("<div class='tab-pane fade "+classT+"' id='"+keys[i]+"'><table style='width: 100%' class='display' id='t"+keys[i]+"'><thead><tr><th>Name</th><th>Enable</th><th>Version</th><th>Status</th></tr></thead></table></div>");
+		  	    		generate(keys[i],pluginsArray);
+		  	    	}
+			});
+			
 		});
 		
 		</script>
@@ -97,25 +148,21 @@
 <body class="g-sidenav-show  bg-gray-200">
 	<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start menu-left bg-gradient-dark" id="sidenav-main"></aside>
   	<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-	<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true"></nav>
-	
-	
-	 <div class="container-fluid py-4">
-		
-		<div class="row">
-		
-		<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+		<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true"></nav>
+   
+    <div class="container-fluid py-4">
+
+	<div class="row">
+       
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
           <div class="card">
             <div class="card-header p-3 pt-2">
               <div class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
-                <i class="material-icons opacity-10">photo_camera</i>
+                <i class="material-icons opacity-10">view_list</i>
               </div>
               <div class="text-end pt-1">
-				<p class="text-sm mb-0 text-capitalize">WebCam Choose</p>
-				<br/>
-                 <select id="videoSource" class="form-select">
-					   <option value="">Select camera</option>
-				 </select>
+                <p class="text-sm mb-0 text-capitalize">Reload Indexation</p>
+  				<button type="button" class="btn btn-danger" id="btnIndex">Reload Index</button>
               </div>
             </div>
             <hr class="dark horizontal my-0">
@@ -124,64 +171,46 @@
             </div>
           </div>
         </div>
-		
-		<div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+      
+        <div class="col-xl-3 col-sm-6">
           <div class="card">
             <div class="card-header p-3 pt-2">
-              <div class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
-                <i class="material-icons opacity-10">view_in_ar</i>
+              <div class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
+                <i class="material-icons opacity-10">cached</i>
               </div>
               <div class="text-end pt-1">
-				<p class="text-sm mb-0 text-capitalize">Threshold</p>
-				<br/>
-                <input type="number" value="30" min="0" max="100" step="1" class="form-control">   
+                <p class="text-sm mb-0 text-capitalize">Clear Cache</p>
+               <button type="button" class="btn btn-info" id="btnClear">Reload Cache</button>
               </div>
             </div>
             <hr class="dark horizontal my-0">
-            <div class="card-footer p-3">
-              <p class="mb-0">&nbsp;</p>
-            </div>
-          </div>
-        </div>
-		
-		
-		</div>	
-		
-		<br/><br/>
-		
-	  <div class="row mb-4">
-        <div class="col-lg-6 col-md-6 mb-md-0 mb-4">
-          <div class="card">
-          <div class="card-header p-0 position-relative mt-n4 mx-3">
-              <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3">Camera</h6>
-              </div>
-            </div>
-            <div class="card-body px-4 pb-2">
-                 <video id="videoElement" autoplay style="width: 100%;"></video>
-            </div>
-               <button class="btn" id="snap" style="width: 100%;"><i class="fa fa-2x fa-camera"></i></button>
-             <canvas id="canvas" hidden ></canvas>
+            <div class="card-footer p-3"><p class="mb-0">&nbsp;</p></div>
           </div>
         </div>
         
-        <div class="col-lg-4 col-md-6 mb-md-0 mb-4">
+        
+        
+      </div>
+	  <br/><br/><br/>
+      <div class="row mb-4">
+      
+        <div class="col-lg-12 col-md-6 mb-md-0 mb-4">
           <div class="card">
-          	<div class="card-header p-0 position-relative mt-n4 mx-3">
+          <div class="card-header p-0 position-relative mt-n4 mx-3">
               <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3">Result</h6>
+                <h6 class="text-white text-capitalize ps-3">Plugins</h6>
               </div>
             </div>
-            <div class="card-body px-3 pb-2" id="contentResults"></div>
-            <div class="card-footer px-3 pb-2" id="contentResults">
-					 <button class="btn btn-primary" id="btnStock"><i class="fa"></i> Add to Stock</button> 
-					 <button class="btn btn-danger" id="btnCollection"><i class="fa"></i> Add to Collection</button>
-					<button class="btn btn-warning" id="btnAlert"><i class="fa"></i> Add to Alert</button>
-			</div>
+            <div class="card-body px-0 pb-2">
+ 					 <div class="nav-wrapper position-relative end-0">
+			              	<ul class="nav nav-tabs nav-fill p-1" role="tablist" id="tabsCateg"></ul>
+			             	<div class="tab-content" id="contentPlugins"></div>
+			           </div>
+
+
+            </div>
           </div>
-          
         </div>
-       
       </div>
       <footer class="footer py-4" id="navfooter"></footer>
     </div>
@@ -209,7 +238,7 @@
   
   
    <script src="../dist/js/material-dashboard.js?v=3.0.0"></script>
-<script src="../dist/js/webcam.js"></script>
+
  
 </body>
 
