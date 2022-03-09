@@ -8,6 +8,30 @@ table.dataTable tbody tr {
     background-color: transparent !important; 
 }
 
+.card-grid-item-transform-button {
+    position: absolute;
+    opacity: 0.60;
+    background: white;
+    -webkit-border-radius: 100%;
+    border-radius: 100%;
+    border: 2px solid #343242;
+    display: block;
+    height: 50px;
+    width: 50px;
+    padding: 7px;
+    cursor: pointer;
+    top: 5%;
+    right: 1%;
+    -webkit-transform-style: flat;
+    transform-style: flat;
+    -webkit-transition: background-color 200ms linear, opacity 50ms linear;
+    -o-transition: background-color 200ms linear, opacity 50ms linear;
+    transition: background-color 200ms linear, opacity 50ms linear;
+    z-index: 1000;
+    -webkit-transform: translateZ(0.01px);
+    transform: translateZ(0.01px);
+}
+
 
 :root {
   --bs-blue: #63B3ED;
