@@ -54,16 +54,15 @@
 			if($_GET('col')!=null)
 				set=restserver+"/cards/list/"+$_GET('col')+"/"+$_GET("set");
 			
-			if($_GET('search')!=null)
-				set=restserver+"/cards/search/name/"+$_GET('search');
-		
-			
 						
 			 $('#tableCards').DataTable( {
 		    	"language": {
 		    	    "search": "Filter",
 		    	    "processing": "<img src='../dist/img/loading.gif' width='50' height='50'>"
 		    	  },
+				"oSearch": {
+					"sSearch": $_GET('search')?decodeURIComponent($_GET('search')):""
+				},
 		    	"order": [[ 0, "asc" ]],
 		    	"responsive": true,
 		        "processing": true,

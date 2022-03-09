@@ -48,6 +48,25 @@
 			$("#navfooter").load("inc/footer.html");
 			$("#settingPanel").load("inc/settingPanel.html");
 			
+			$("#btnStock").click(function() {
+				addStock($(this).attr("data-id"),function(){
+					alert("done");
+				})
+			});
+			
+			$("#btnAlert").click(function() {
+				addAlert($(this).attr("data-id"),function(){
+					alert("done");
+				})
+			});
+			
+			$("#btnCollection").click(function() {
+				addCardtoDefaultLibrary($(this).attr("data-id"),function(){
+					alert("done");
+				})
+			});
+			
+			
 			if (navigator.mediaDevices.getUserMedia) 
 			{
 				// Elements for taking the snapshot
