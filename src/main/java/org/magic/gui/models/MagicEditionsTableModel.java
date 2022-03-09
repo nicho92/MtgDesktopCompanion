@@ -29,16 +29,13 @@ public class MagicEditionsTableModel extends GenericTableModel<MagicEdition> {
 	int countDefaultLibrary = 0;
 	private MagicCollection collection;
 	
-	
-	
-	public MagicEditionsTableModel(MagicCollection col) {
-		this.collection=col;
-		initColumns();
-	}
-	
 	public MagicEditionsTableModel() {
 		collection = new MagicCollection(MTGControler.getInstance().get("default-library"));
 		initColumns();
+	}
+	
+	public void setCollection(MagicCollection collection) {
+		this.collection = collection;
 	}
 	
 	
