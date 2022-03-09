@@ -559,7 +559,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 				@Override
 				public List<MagicEdition> call() throws Exception {
 					var list = getEnabledPlugin(MTGCardsProvider.class).listEditions();
-					list.sort(Comparator.comparing(MagicEdition::getSet));
+					Collections.sort(list);
 					return list;
 					
 				}
