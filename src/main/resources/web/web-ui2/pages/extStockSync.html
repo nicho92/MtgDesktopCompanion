@@ -107,7 +107,15 @@
   										"width": "5%"
 						        	},
 									{ 
-						        		"data": "product.name",
+						        		"data": "product",
+										"render": function(d, type, row, meta)
+										{	
+												
+												var ret = "<span class='mtg-tooltip' url='"+d.url+"'>"+d.name +"</span>";
+												d=d.name;
+												return ret;
+												
+							            }
 						        	},
 									{ 
 						        		"data": "price",
@@ -166,9 +174,13 @@
 									{
 										"data":"tiersAppIds",
 									}
-						        ]
+						        ],
+ 								fnInitComplete: function () {
+									loaded=true;
+									mtgtooltipProduct($(".mtg-tooltip"));
+								}
 					    		});
-							loaded=true;
+						
 						}
 			    });
   	 		});

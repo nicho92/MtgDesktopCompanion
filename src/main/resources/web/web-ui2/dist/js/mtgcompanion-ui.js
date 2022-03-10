@@ -20,7 +20,21 @@ function generateLinkCard(card)
 	 return '<a  href="card.html?scryfallid='+card.scryfallId+'" class="mtg-tooltip" data-set="'+card.editions[0].id+'" scryfallid="'+card.scryfallId+'" side="'+card.side+'" + multiverseId="'+card.editions[0].multiverseId+'" data-name="'+card.name+'">'+card.name+'</a>';
 }
 
-
+function mtgtooltipProduct(product)
+{
+	product.popover({
+        placement : 'top',
+		trigger : 'hover',
+        html : true,
+        content: function () {
+	
+	        var set = $(this).attr("url");
+       
+		   return "<img class='img-fluid' src='"+set+"'/>";
+        }
+    });
+	
+}
 
 function mtgtooltip(element)
 {
