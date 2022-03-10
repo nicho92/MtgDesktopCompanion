@@ -326,7 +326,7 @@ function printDeck(element, deckData)
 		        }
 		       
 	        ],
-	        "fnInitComplete" :function(oSettings, json) {
+	        "fnDrawCallback" :function(oSettings, json) {
 	        	mtgtooltip($(".mtg-tooltip"));
 	        }
     } );
