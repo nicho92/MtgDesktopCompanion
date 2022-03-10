@@ -62,9 +62,9 @@
 				        	  "render": function(data, type, row, meta){
 				                	 if(type === 'display'){
 										 if(data===true)
-				                			 	data="<span class='fa fa-check'/>";
+				                			 	return "<span class='fa fa-check'/>";
 				                			 else
-				                				data="<span class='fa fa-times'/>";
+				                				return "<span class='fa fa-times'/>";
 				                	 }
 				                   return data;
 				                }

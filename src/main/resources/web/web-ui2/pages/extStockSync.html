@@ -48,9 +48,9 @@
 			
 			$("#sidenav-main" ).load("inc/menu.html" );
 			$("#navbarBlur").load("inc/nav.html",function(){
-					$("[name='categTitle']").html("Transactions Import");
-					$("#menuTransactionImport").addClass("bg-gradient-primary");
-					$("#menuTransactionImport").addClass("active");
+					$("[name='categTitle']").html("Stocks Sync");
+					$("#menuStockSync").addClass("bg-gradient-primary");
+					$("#menuStockSync").addClass("active");
 			});
 			
 			$("#navfooter").load("inc/footer.html");
@@ -85,7 +85,7 @@
       		$("#searchBtn").click(function() {
 	
       			$.ajax({
-			        url: restserver+"/extShop/transactions/from/"+$("#cboSource").val()
+			        url: restserver+"/extShop/list/stock/"+$("#cboSource").val()
 			    }).then(function(data) {
 			    	if(loaded)
 						{
@@ -106,61 +106,66 @@
 						        		"data": "id",
   										"width": "5%"
 						        	},
-									{
-										"data":"dateCreation",
-										  "width": "5%",
-									},
-									{
-										"data":"contact",	
-										 "width": "15%",
-										"render": function(d, type, row, meta){
-											  if(type === 'display'){
-													return d.name + " "+ d.lastName;
-												}
-												return d;
-											}
-									},
 									{ 
-						        		"data": "items",
-										"render": function(d, type, row, meta){
-							                    if(type === 'display'){
-												
-												 var content="<ul>";
-							                	  $.each(d,function(index, value){
-							                		  content+= "<li><img height=70  src='"+value.product.url+"'/> <strong>" + value.qte+"x</strong> " + value.product.name + " <br/>" + JSON.stringify(value.tiersAppIds);
-							                	  });
-							                	  content+="</ul>";											
-												
-												return content;
-												}
-												return d;
-							            	}
+						        		"data": "product.name",
 						        	},
 									{ 
-						        		"data": "items",
+						        		"data": "price",
  										"width": "5%",
-										"render": function(d, type, row, meta)
-										{
-							                	var total=0.0;
-												  $.each(d,function(index, value){
-							                		 total+= value.price;
-							                	  });
-							                	return total.toFixed(2) ;
-							            }
-						        	},
-									{
-										"data":"shippingPrice",
-										 "width": "5%",
 										"render": function(d, type, row, meta)
 										{
 							                	return d.toFixed(2) ;
 							            }
+						        	},
+									{
+										"data":"qte",
+										 "width": "5%",
 									},
 									{
-										"data":"statut",
-										 "width": "5%"
+										"data":"language",
+									},
+									{
+										"data":"foil",
+										 "render": function(data, type, row, meta){
+							                	 if(type === 'display'){
+													 if(data===true)
+							                			 	return "<span class='fa fa-check'/>";
+							                			 else
+							                				return "<span class='fa fa-times'/>";
+							                	 }
+							                   return data;
+							                }
+									},
+									{
+										"data":"etched",
+										"render": function(data, type, row, meta){
+							                	 if(type === 'display'){
+													 if(data===true)
+							                			 	return "<span class='fa fa-check'/>";
+							                			 else
+							                				return "<span class='fa fa-times'/>";
+							                	 }
+							                   return data;
+							                }
+									},
+									{
+										"data":"altered",
+										"render": function(data, type, row, meta){
+							                	 if(type === 'display'){
+													 if(data===true)
+							                			 	return "<span class='fa fa-check'/>";
+							                			 else
+							                				return "<span class='fa fa-times'/>";
+							                	 }
+							                   return data;
+							                }
+									},
+									{
+										"data":"condition",
+									},
+									{
+										"data":"tiersAppIds",
 									}
-									
 						        ]
 					    		});
 							loaded=true;
@@ -223,11 +228,6 @@
                 <select id="cboDest" class="form-select">
                 	<option value=""></option>
                 </select>
-				 
-				Create product if not exist 
-				 <div class="form-check form-switch ps-0 ms-auto my-auto">
-            		<input class="form-check-input mt-1 ms-auto" type="checkbox" id="chkCreateProduct" >
-          		  </div>
               </div>
             </div>
             <div class="card-footer p-3">
@@ -254,12 +254,15 @@
 						       <thead>
 						            <tr>
 						            	<th>ID</th>
-										<th>Date</th>
-						            	<th>Contact</th>
 										<th>Products</th>
-										<th>Total</th>
-										<th>Shipping</th>
-										<th>Status</th>
+										<th>Price</th>
+										<th>Qte</th>
+										<th>Langage</th>
+										<th>foil</th>
+										<th>etched</th>
+										<th>altered</th>
+										<th>condition</th>
+										<th>extIDs</th>
 						            </tr>
 						        </thead>
 					</table>

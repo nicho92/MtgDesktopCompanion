@@ -113,7 +113,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 									 }
 									 catch(Exception e)
 									 {
-										logger.error("Error getting option"+getString(SET_OPTION_NUMBER) + " for " + obj,e);
+										logger.error("Error getting option"+getString(SET_OPTION_NUMBER) + " for " + obj +" :" + e);
 									 }
 									  it.setId(el.getAsJsonObject().get("id").getAsLong());
 									  it.setPrice(el.getAsJsonObject().get("price").getAsDouble());

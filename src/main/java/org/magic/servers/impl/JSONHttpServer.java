@@ -962,10 +962,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 		, transformer);
 		
 		get("/track/:provider/:number", URLTools.HEADER_JSON, (request, response) -> 
-		getPlugin(request.params(PROVIDER),MTGTrackingService.class).track(request.params(":number"))
-	, transformer);
-	
-	
+				getPlugin(request.params(PROVIDER),MTGTrackingService.class).track(request.params(":number"))
+		, transformer);
 		
 		get("/webshop/transaction/:id", URLTools.HEADER_JSON, (request, response) -> 
 			MTG.getPlugin(MTGConstants.MTG_APP_NAME,MTGExternalShop.class).getTransactionById(Integer.parseInt(request.params(":id")))
@@ -974,6 +972,15 @@ public class JSONHttpServer extends AbstractMTGServer {
 	
 		get("/extShop/:provider/:search", URLTools.HEADER_JSON, (request, response) -> 
 			getPlugin(request.params(PROVIDER),MTGExternalShop.class).listProducts(request.params(":search"))
+		, transformer);
+		
+		get("/extShop/list/stock/:provider", URLTools.HEADER_JSON, (request, response) -> 
+			 getCached(request.pathInfo(), new Callable<Object>() {
+				@Override
+				public Object call() throws Exception {
+					return getPlugin(request.params(PROVIDER),MTGExternalShop.class).listStock("");
+				}
+			})
 		, transformer);
 		
 		get("/extShop/transactions/from/:provider", URLTools.HEADER_JSON, (request, response) -> 
@@ -991,7 +998,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			arr.put(ERROR, new ArrayList<>());
 			
 			for(Transaction p : ret)
-				{
+			{
 				try {
 					extShop.createTransaction(p,Boolean.parseBoolean(request.params(":createProduct")));
 					arr.get("ok").add(p);
@@ -1000,7 +1007,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 					logger.error(e);
 					arr.get(ERROR).add(p);
 				}
-				}
+			}
 			return arr;
 				
 		}, transformer);
@@ -1015,17 +1022,15 @@ public class JSONHttpServer extends AbstractMTGServer {
 			List<MTGProduct> ret = converter.fromJsonList(new InputStreamReader(request.raw().getInputStream()), MTGProduct.class);
 			var arr = new JsonArray();
 			for(MTGProduct p : ret)
-				{
-					Category c = extShop.listCategories().stream().filter(cat->cat.getIdCategory()==Integer.parseInt(request.params(":idCategory"))).findFirst().orElse(new Category());
-					var res = extShop.createProduct(srcShop,p,request.params(":language"),c);
-					arr.add(res);
-				}
+			{
+				Category c = extShop.listCategories().stream().filter(cat->cat.getIdCategory()==Integer.parseInt(request.params(":idCategory"))).findFirst().orElse(new Category());
+				var res = extShop.createProduct(srcShop,p,request.params(":language"),c);
+				arr.add(res);
+			}
 			return arr;
 				
 		}, transformer);
 		
-		
-
 		put("/favorites/:classename/:idContact/:idAnnounce", URLTools.HEADER_JSON, (request, response) -> {
 			try{ 
 				MTG.getEnabledPlugin(MTGDao.class).saveFavorites(Integer.parseInt(request.params(ID_CONTACT)), Integer.parseInt(request.params(":idAnnounce")),request.params(CLASSENAME));
