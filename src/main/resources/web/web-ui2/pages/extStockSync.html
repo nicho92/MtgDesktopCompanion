@@ -173,6 +173,19 @@
 									},
 									{
 										"data":"tiersAppIds",
+										"render": function(data, type, row, meta){
+											 	 if(type === 'display'){
+								
+													var ret = "";
+													
+													Object.keys(data).forEach(function(item){
+															ret+='<i class="material-icons opacity-10">shopping_cart</i>'+item+ '('+data[item]+')<br/>';
+													});
+													return ret;
+														 
+							                	 }
+							                   return Object.keys(data);
+							                }
 									}
 						        ],
  								fnDrawCallback: function () {
