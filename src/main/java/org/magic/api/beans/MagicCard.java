@@ -316,6 +316,7 @@ public class MagicCard extends AbstractProduct {
 
 	public void setScryfallId(String scryfallId) {
 		this.scryfallId = scryfallId;
+		setUrl("https://api.scryfall.com/cards/"+scryfallId+"?format=image");
 	}
 
 	public Integer getMtgArenaId() {
