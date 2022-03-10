@@ -46,6 +46,8 @@ public class CardTraderWebShop extends AbstractExternalShop {
 			service = new CardTraderService(getAuthenticator().get(TOKEN));
 		
 		
+		service.setForceExpansionLoadingIfNotFound(false);
+		
 		service.setListener((URLCallInfo callInfo)-> {
 			
 			var ni = new NetworkInfo();
