@@ -40,9 +40,9 @@
 			
 			$("#sidenav-main" ).load("inc/menu.html" );
 			$("#navbarBlur").load("inc/nav.html",function(){
-					$("[name='categTitle']").html("Orders");
-					$("#menuOrders").addClass("bg-gradient-primary");
-					$("#menuOrders").addClass("active");
+					$("[name='categTitle']").html("Announces");
+					$("#menuAnnounces").addClass("bg-gradient-primary");
+					$("#menuAnnounces").addClass("active");
 			});
 			
 			$("#navfooter").load("inc/footer.html");
@@ -57,100 +57,42 @@
 		        "processing": true,
 		        "pageLength": 50,
 		        "order": [[ 2, "desc" ]],
-		        "ajax": {"url":restserver+"/orders/list","dataSrc":""},
+		        "ajax": {"url":restserver+"/announces/list","dataSrc":""},
 		        "columns": [
 	        	  	{ 
 		                "data": "id",
 		                "defaultContent": ""
 		            },
 		            { 
-		                "data": "source",
+		                "data": "title",
 		                "defaultContent": ""
 		            },
 		            { 
-		                "data": "transactionDate",
+		                "data": "creationDate",
 		                "defaultContent": ""
 		            },
 		            { 
-		                "data": "type",
+		                "data": "startDate",
 		                "defaultContent": ""
 		            },
 		            { 
-		                "data": "typeTransaction",
+		                "data": "endDate",
 		                "defaultContent": ""
 		            },
 		            { 
-		                "data": "description",
+		                "data": "totalPrice",
 		                "defaultContent": ""
 		            },
 		        	{ 
-		                "data": "edition",
+		                "data": "status",
 		                "defaultContent": "",
-		                "render": function(data, type, row, meta){
-		                	if(type === 'display' && data!=null)
-		                	{
-								return '<i class="ss ss-'+data.id.toLowerCase()+' ss-2x"></i> '+data.set;	                		 
-		                	}
-		                	
-		                	if(data==null)
-		                		return "";
-		                	
-		                   return data.set;
-		                }
-		            },
-		            { 
-		                "data": "itemPrice",
-		                "defaultContent": ""
-		            },		           
+		            }
+		                      
 		        ],
 		        "fnInitComplete" :function(oSettings, json) {
-		        	var dt = this.fnGetData();  
-				    var countTypes = dt.reduce(function (result, d) {
-					    var u = d.type;
-					     if (!result[u]) {
-					        result[u] = 0;
-					    }
-					    result[u]++;
-					    return result;
-						}, {});
-				    
-				    var ctx = document.getElementById("chartOrder").getContext("2d");
-				    printChart(ctx, "pie", "Types", Object.keys(countTypes),Object.values(countTypes), false,  [
-		      			'rgb(0,0,0)',
-		      			'rgb(192,192,192)',
-		      			'rgb(255,215,0)',
-						'rgb(255,99,71)',
-						'rgb(147,112,219)'
-			    	  ]);
 					
 		        },
 		        "fnDrawCallback" :function(oSettings, json) {
-					
-		        	var dt = this.fnGetData();
-					
-					var totalPaid = 0.0;
-					var totalSell = 0.0;
-					
-					
-					
-					dt.filter((item) => {
-						
-						if(item.typeTransaction=="BUY")
-						{
-						totalPaid +=item.itemPrice;
-						}
-						else
-						{
-							totalSell +=item.itemPrice;
-						}
-					});
-					
-					
-					$("#totalPaid").html(totalPaid.toFixed(2));
-					$("#totalSell").html(totalSell.toFixed(2));
-					
-
-				  
 					
 		        }
 		        
@@ -171,60 +113,13 @@
    
     <div class="container-fluid py-4">
 
-	<div class="row">
-       
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-          <div class="card">
-            <div class="card-header p-3 pt-2">
-              <div class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
-                <i class="material-icons opacity-10">savings</i>
-              </div>
-              <div class="text-end pt-1">
-                <p class="text-sm mb-0 text-capitalize">Sell</p>
-                <h4 class="mb-0" id="totalSell">0.0</h4>
-              </div>
-            </div>
-            <hr class="dark horizontal my-0">
-            <div class="card-footer p-3">
-              <p class="mb-0">&nbsp;</p>
-            </div>
-          </div>
-        </div>
-      
-        <div class="col-xl-3 col-sm-6">
-          <div class="card">
-            <div class="card-header p-3 pt-2">
-              <div class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
-                <i class="material-icons opacity-10">paid</i>
-              </div>
-              <div class="text-end pt-1">
-                <p class="text-sm mb-0 text-capitalize">Paid</p>
-                  <h4 class="mb-0" id="totalPaid">0.0</h4>
-              </div>
-            </div>
-            <hr class="dark horizontal my-0">
-            <div class="card-footer p-3"><p class="mb-0">&nbsp;</p></div>
-          </div>
-        </div>
-        
-        <div class="col-xl-3 col-sm-6">
-          <div class="card z-index-2 ">
-            <div class="card-body">
-               <canvas id="chartOrder" class="chart-canvas" height="100"></canvas>
-            </div>
-          </div>
-        </div>
-        
-        
-      </div>
-	  <br/><br/><br/>
-      <div class="row mb-4">
+	  <div class="row mb-4">
       
         <div class="col-lg-12 col-md-6 mb-md-0 mb-4">
           <div class="card">
           <div class="card-header p-0 position-relative mt-n4 mx-3">
               <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3">Orders</h6>
+                <h6 class="text-white text-capitalize ps-3">Announces</h6>
               </div>
             </div>
             <div class="card-body px-0 pb-2">
@@ -233,13 +128,12 @@
 			        <thead>
 			            <tr>
 						                <th>id</th>
-						                <th>Source</th>
-						                <th>Date</th>
-						                <th>Type</th>
-						                <th>Movement</th>
-						                <th>Description</th>
-						                <th>Edition</th>
-						                <th>Price</th>
+						                <th>title</th>
+						                <th>Creation date</th>
+						                <th>Start date</th>
+						                <th>End date</th>
+						                <th>totalPrice</th>
+						                <th>status</th>
 						            </tr>
 			        </thead>
                 </table>

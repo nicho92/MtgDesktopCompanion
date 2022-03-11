@@ -1,9 +1,3 @@
-/*!
- * Bootstrap v5.1.3 (https://getbootstrap.com/)
- * Copyright 2011-2021 The Bootstrap Authors
- * Copyright 2011-2021 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
- */
 table.dataTable tbody tr {
     background-color: transparent !important; 
 }
@@ -230,10 +224,12 @@ sup {
 
 a {
   color: #e91e63;
-  text-decoration: none; }
-  a:hover {
+  text-decoration: none; 
+  }
+a:hover {
     color: #e91e63;
-    text-decoration: none; }
+    text-decoration: none; 
+ }
 
 a:not([href]):not([class]), a:not([href]):not([class]):hover {
   color: inherit;
@@ -395,14 +391,6 @@ legend {
   outline-offset: -2px;
   -webkit-appearance: textfield; }
 
-/* rtl:raw:
-[type="tel"],
-[type="url"],
-[type="email"],
-[type="number"] {
-  direction: ltr;
-}
-*/
 ::-webkit-search-decoration {
   -webkit-appearance: none; }
 

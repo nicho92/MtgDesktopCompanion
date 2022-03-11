@@ -150,6 +150,8 @@ function sidebarColor(a) {
     parent.classList.remove('bg-gradient-danger');
   }
   parent.classList.add('bg-gradient-' + color);
+  
+  storage.setItem("color",color);
 }
 
 // Set Sidebar Type
