@@ -63,7 +63,7 @@
 			        	  "width": "50%",
 			              "render": function(data, type, row, meta){
 					           if(type === 'display'){
-					        	  	   return '<span  class="mtg-tooltip" data-set="'+row.ed+'" data-name="'+data+'">'+data+'</span>';	
+						    	  	   return '<a href="cards.html?search='+data+'&set='+row.ed+'"  class="mtg-tooltip" data-set="'+row.ed+'" data-name="'+data+'">'+data+'</a>';	
 					            }
 					            return data;
 					        }
