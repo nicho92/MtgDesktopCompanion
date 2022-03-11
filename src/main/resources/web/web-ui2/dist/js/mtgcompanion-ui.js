@@ -79,6 +79,22 @@ function mtgtooltipStock(element)
 	
 }
 
+function importDeck(url,provider, callback)
+{
+	$.ajax({
+		type: 'POST',
+		data: { 
+        	'url': url, 
+        	'provider': provider 
+    	},
+	    url: restserver+"/decks/import"
+   		 }).done(function(data) {
+   			callback(data);
+   		 }).fail(function(data,status,error) {
+   			alert(JSON.stringify(data) + " " + error);
+   		 });
+}
+
 
 function addCard(idCard,to,callback)
 {

@@ -69,6 +69,7 @@ import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
+import org.magic.api.interfaces.MTGDeckSniffer;
 import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGGedStorage;
 import org.magic.api.interfaces.MTGPictureProvider;
@@ -865,6 +866,18 @@ public class JSONHttpServer extends AbstractMTGServer {
 				 
 			 })
 		, transformer);
+		
+		post("/decks/import", URLTools.HEADER_JSON, (request, response) ->{
+			
+			var obj = request.body();
+			
+			System.out.println(obj);
+			
+			
+			return "ok";
+		}
+		, transformer);
+		
 
 		get("/deck/:idDeck", URLTools.HEADER_JSON,(request, response) -> {
 			
@@ -875,6 +888,19 @@ public class JSONHttpServer extends AbstractMTGServer {
 				return el;
 		},transformer);
 
+		
+		get("/deck/filters/:provider", URLTools.HEADER_JSON,(request, response) -> {
+			var plug = getPlugin(request.params(PROVIDER),MTGDeckSniffer.class);
+			return plug.listFilter();
+		},transformer);
+		
+		
+		get("/deck/search/:provider/:filter", URLTools.HEADER_JSON,(request, response) -> {
+			return getPlugin(request.params(PROVIDER),MTGDeckSniffer.class).getDeckList(request.params(":filter"));
+		},transformer);
+		
+
+		
 		get("/deck/stats/:idDeck", URLTools.HEADER_JSON, (request, response) -> {
 
 			MagicDeck d = manager.getDeck(Integer.parseInt(request.params(":idDeck")));

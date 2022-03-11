@@ -68,6 +68,16 @@
 		                "defaultContent": ""
 		            },
 		            { 
+		                "data": "contact",
+		                "defaultContent": "",
+		                "render": function(data, type, row, meta){
+			                   if(type === 'display'){
+			                       return data.name + " " + data.lastName;
+			                   }
+			                   return data.name;
+			                }
+		            },
+		            { 
 		                "data": "creationDate",
 		                "defaultContent": ""
 		            },
@@ -128,7 +138,8 @@
 			        <thead>
 			            <tr>
 						                <th>id</th>
-						                <th>title</th>
+						                <th>Title</th>
+						                <th>Contact</th>
 						                <th>Creation date</th>
 						                <th>Start date</th>
 						                <th>End date</th>
