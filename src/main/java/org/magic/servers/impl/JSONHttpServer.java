@@ -21,6 +21,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URI;
 import java.nio.file.Path;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -54,6 +55,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.WebShopConfig;
 import org.magic.api.beans.audit.JsonQueryInfo;
@@ -869,12 +871,16 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		post("/decks/import", URLTools.HEADER_JSON, (request, response) ->{
 			
-			var obj = request.body();
+			var obj = request.queryParamsSafe("url");
 			
-			System.out.println(obj);
+			var d = new RetrievableDeck();
+				d.setUrl(URI.create(obj));
 			
+			var deck = getPlugin(request.queryParamsSafe("provider"),MTGDeckSniffer.class).getDeck(d);
 			
-			return "ok";
+			manager.saveDeck(deck);
+			
+			return deck;
 		}
 		, transformer);
 		

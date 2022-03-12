@@ -45,8 +45,8 @@
 		$(document).ready(function() {
 			var table;
 			
-			
 			$("#sidenav-main" ).load("inc/menu.html" );
+			$("#notifs").load("inc/notifs.html");
 			$("#navbarBlur").load("inc/nav.html",function(){
 					$("[name='categTitle']").html("Decks Import");
 					$("#menuImportDeck").addClass("bg-gradient-primary");
@@ -147,12 +147,19 @@
 							        ],
 							    	"fnInitComplete" :function(oSettings, json) {
 							    		 loaded=true;
-							    		 $(".importDeckBtn").click( function() {
+							    		
+								    },
+								    "fnDrawCallback" :function(oSettings, json) {
+								    	 $(".importDeckBtn").click( function() {
 								   	  			importDeck($(this).attr('url'),$("#cboDest").val(), function(e) {	
-								   	  					alert(e);
+										   	  			$("#toastTitle").html(e.name + " has been imported");
+														$("#toastMessage").html("click <a href='deck.html?id="+e.id+"'>here</a> to view it");
+														$("#infoToast").toast("show");
+														
+														
 								   	  			});	
-								   	  		});
-								    }
+								   	  	});
+							        }
 					    	});
 							
 						}
@@ -260,7 +267,7 @@
   
   
    <script src="../dist/js/material-dashboard.js?v=3.0.0"></script>
-
+	<div id="notifs"></div>
  
 </body>
 
