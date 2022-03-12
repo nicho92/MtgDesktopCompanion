@@ -102,6 +102,7 @@
 						    	  },
 						    	"responsive": true,
 						        "processing": true,
+						        "ordering": false,
 								"stripeClasses": [],
 						        "data": data,
 						        "columns": [
@@ -139,7 +140,7 @@
 										"defaultContent": "",
 										"render": function(data, type, row, meta){
 											 if(type === 'display'){
-							                		return '<button url="'+data+'" id="btnImportDeck" type="button" class="btn btn-circle btn-success importDeckBtn" data-bs-placement="bottom" data-bs-toggle="tooltip" title="import Deck"><i class="fa fa-cloud-download"></i></button>';
+							                		return '<button url="'+data+'" name="'+row.name+'" id="btnImportDeck" type="button" class="btn btn-circle btn-success importDeckBtn" data-bs-placement="bottom" data-bs-toggle="tooltip" title="import Deck"><i class="fa fa-cloud-download"></i></button>';
 							                	 }
 							                   return data;
 										}
@@ -151,7 +152,7 @@
 								    },
 								    "fnDrawCallback" :function(oSettings, json) {
 								    	 $(".importDeckBtn").click( function() {
-								   	  			importDeck($(this).attr('url'),$("#cboDest").val(), function(e) {	
+								   	  			importDeck($(this).attr('url'),$(this).attr('name'),$("#cboDest").val(), function(e) {	
 										   	  			$("#toastTitle").html(e.name + " has been imported");
 														$("#toastMessage").html("click <a href='deck.html?id="+e.id+"'>here</a> to view it");
 														$("#infoToast").toast("show");

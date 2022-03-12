@@ -875,7 +875,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			
 			var d = new RetrievableDeck();
 				d.setUrl(URI.create(obj));
-			
+				d.setName(request.queryParamsSafe("name"));
 			var deck = getPlugin(request.queryParamsSafe("provider"),MTGDeckSniffer.class).getDeck(d);
 			
 			manager.saveDeck(deck);

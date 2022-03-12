@@ -79,13 +79,14 @@ function mtgtooltipStock(element)
 	
 }
 
-function importDeck(url,provider, callback)
+function importDeck(url,name,provider, callback)
 {
 	$.ajax({
 		type: 'POST',
 		data: { 
         	'url': url, 
-        	'provider': provider 
+        	'provider': provider,
+        	'name': name
     	},
 	    url: restserver+"/decks/import"
    		 }).done(function(data) {
