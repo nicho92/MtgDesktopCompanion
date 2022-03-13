@@ -27,7 +27,6 @@ import com.google.gson.JsonElement;
 
 public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 
-	private static final String FORMAT = "FORMAT";
 	private MTGHttpClient httpclient;
 	private Map<String,String> formats;
 	private String postReqData="{\"draw\":1,\"columns\":[{\"data\":\"name\",\"name\":\"name\",\"searchable\":true,\"orderable\":true,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"color\",\"name\":\"color\",\"searchable\":true,\"orderable\":true,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"tags\",\"name\":\"tags\",\"searchable\":true,\"orderable\":false,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"likes\",\"name\":\"likes\",\"searchable\":true,\"orderable\":true,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"views\",\"name\":\"views\",\"searchable\":true,\"orderable\":true,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"comments\",\"name\":\"comments\",\"searchable\":true,\"orderable\":true,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"updated\",\"name\":\"updated\",\"searchable\":true,\"orderable\":true,\"search\":{\"value\":\"7\",\"regex\":false}},{\"data\":\"updatedhidden\",\"name\":\"updatedhidden\",\"searchable\":false,\"orderable\":true,\"search\":{\"value\":\"\",\"regex\":false}},{\"data\":\"popularity\",\"name\":\"popularity\",\"searchable\":false,\"orderable\":true,\"search\":{\"value\":\"\",\"regex\":false}}],\"order\":[{\"column\":8,\"dir\":\"desc\"}],\"start\":0,\"length\":50,\"search\":{\"value\":\"\",\"regex\":false}}";
@@ -89,9 +88,9 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 		MagicDeck deck = info.toBaseDeck();
 		
 		var sideboard=false;
-		data = RegExUtils.replaceAll(data,"\\\\r\\\\n","\n");
+		data = RegExUtils.replaceAll(data,"\\r\\n","\n");
 		data = RegExUtils.replaceAll(data,"\"","");
-
+		
 		String[] lines = data.split("\n");
 		
 		for(var i=0;i<lines.length;i++)

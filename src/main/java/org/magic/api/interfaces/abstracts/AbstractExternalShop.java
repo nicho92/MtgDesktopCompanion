@@ -8,15 +8,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.api.mkm.modele.Localization;
 import org.magic.api.beans.ConverterItem;
-import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGExternalShop;
-import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
-import org.magic.api.interfaces.abstracts.extra.AbstractProduct;
 import org.magic.tools.MTG;
 
 public abstract class AbstractExternalShop extends AbstractMTGPlugin implements MTGExternalShop {
@@ -108,38 +104,24 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 	}
 	
 	
+	
+	//TODO make a function to update stock in cascade with transaction
 	@Override
-	public void createTransaction(Transaction t, boolean automaticProductCreation) throws IOException {
+	public void updateStockFromTransaction(Transaction t) throws IOException {
 	
 		logger.debug("Creating transaction " + t.getSourceShopName() +" in " + getName());
 		
-		t.getItems().forEach(mci->{
-			
-			if( automaticProductCreation &&  mci.getTiersAppIds(getName())==null)
-			{
-				MTGProduct p = AbstractProduct.createDefaultProduct();
-							 p.setName(mci.getProduct().getName());
-							 p.setUrl(mci.getUrl());
-							 
-				Category c = new Category();
-								c.setIdCategory(172);
-								c.setCategoryName("Test");
-				try {
-					var ret = createProduct(p,c);
-					
-					if(ret>0)
-					{
-						mci.getTiersAppIds().put(getName(), String.valueOf(ret));
-						MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateConversionItem(new ConverterItem( t.getSourceShopName(),getName(), mci.getProduct(),  mci.getId(),ret));
-					}
-					
-				} catch (Exception e) {
-					logger.error(e);
-				}
-			}
-		});
+		logger.info("change stock from " + getName() + " to " + t.getSourceShopName());
 		
-		saveOrUpdateTransaction(t);
+		t.getItems().forEach(msi->{
+			
+			if(msi.getTiersAppIds(getName())!=null)
+			{
+				logger.info(msi.getProduct() + " is synchronized with" + getName());
+			}
+			
+		});
+
 			
 	
 	}

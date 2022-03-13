@@ -28,8 +28,6 @@ public class Transaction implements Serializable {
 	private String sourceShopName;
 	private TransactionPayementProvider paymentProvider;
 	private TransactionStatus statut;
-
-	
 	
 	public String getSourceShopName() {
 		return sourceShopName;

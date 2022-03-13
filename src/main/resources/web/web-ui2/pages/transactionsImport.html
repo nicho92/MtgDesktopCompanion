@@ -72,7 +72,7 @@
 							
 								var datas = table.rows( { selected: true } ).data().toArray();
 								var dest = $("#cboDest").val();
-								var url=restserver+"/extShop/transactions/"+dest+"/save/"+$("#chkCreateProduct").is(':checked');								
+								var url=restserver+"/extShop/transactions/"+dest+"/save";								
 								
 								$.post(url,JSON.stringify(datas),function(d) {
 										alert(JSON.stringify(d));
@@ -224,10 +224,6 @@
                 	<option value=""></option>
                 </select>
 				 
-				Create product if not exist 
-				 <div class="form-check form-switch ps-0 ms-auto my-auto">
-            		<input class="form-check-input mt-1 ms-auto" type="checkbox" id="chkCreateProduct" >
-          		  </div>
               </div>
             </div>
             <div class="card-footer p-3">
