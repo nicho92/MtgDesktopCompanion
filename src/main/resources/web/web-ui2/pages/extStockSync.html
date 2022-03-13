@@ -40,33 +40,39 @@
 		}
 	</style>
 	<script>
-
-	var loadedSrc=false;
-	var table = null;
 	
-		function loadTable(tableElement,provider)
+		var tableSrc = null;
+		var tableDest = null;
+		
+		
+		function reloadTable(table, provider)
 		{
 			$.ajax({
 		        url: restserver+"/extShop/list/stock/"+provider
-		    }).then(function(data) {
-		    		if(loadedSrc)
-					{
-						table.clear().rows.add(data).draw();
-					}
-					else
-					{
-						table=tableElement.DataTable( {
+		    }).then(function(data){ 
+				table.clear().rows.add(data).draw();
+		    });
+		}
+		
+		function loadTable(tableElement,provider,handler)
+		{
+			
+			$.ajax({
+		        url: restserver+"/extShop/list/stock/"+provider
+		    }).then(function(data) 
+		    {
+					var e= tableElement.DataTable( {
 					    	"language": {
 					    	    "search": "Filter"
 					    	  },
 					    	"responsive": true,
 					        "processing": true,
 					        "data": data,
-							"select":true,
+							"select":'single',
 					        "columns": [
 					        	{ 
 					        		"data": "id",
-										"width": "5%"
+									"width": "5%"
 					        	},
 								{ 
 					        		"data": "product",
@@ -76,12 +82,11 @@
 											var ret = "<span class='mtg-tooltip' url='"+d.url+"'>"+d.name +"</span>";
 											d=d.name;
 											return ret;
-											
 						            }
 					        	},
 								{ 
 					        		"data": "price",
-										"width": "5%",
+									"width": "5%",
 									"render": function(d, type, row, meta)
 									{
 						                	return d.toFixed(2) ;
@@ -141,7 +146,7 @@
 												var ret = "";
 												
 												Object.keys(data).forEach(function(item){
-														ret+='<i class="material-icons opacity-10">shopping_cart</i>'+item+ '('+data[item]+')<br/>';
+													ret+='<i class="material-icons opacity-10">shopping_cart</i>'+item+ '('+data[item]+')<br/>';
 												});
 												return ret;
 													 
@@ -150,13 +155,15 @@
 						                }
 								}
 					        ],
-								fnDrawCallback: function () {
-								loadedSrc=true;
+							fnDrawCallback: function () {
 								mtgtooltipProduct($(".mtg-tooltip"));
 							}
 				    		});
 					
-					}
+					
+					handler(e);
+					
+				
 		    });
 		}
 	
@@ -164,10 +171,10 @@
 	
 	
 		$(document).ready(function() {
-			var table;
 			
 			
 			$("#sidenav-main" ).load("inc/menu.html" );
+			$("#notifs").load("inc/notifs.html");
 			$("#navbarBlur").load("inc/nav.html",function(){
 					$("[name='categTitle']").html("Stocks Sync");
 					$("#menuStockSync").addClass("bg-gradient-primary");
@@ -189,28 +196,43 @@
       	    });
       		
 
-			$("#sendBtn").click(function(){
-							
-								var datas = table.rows( { selected: true } ).data().toArray();
-								var dest = $("#cboDest").val();
-								var url=restserver+"/extShop/transactions/"+dest+"/save/"+$("#chkCreateProduct").is(':checked');								
-								
-								$.post(url,JSON.stringify(datas),function(d) {
-										alert(JSON.stringify(d));
-								},'json');
+			$("#searchDestBtn").click(function(){
+				
+				if(tableDest==null)
+					loadTable($("#tableDest"),$("#cboDest").val(),function(t){
+						tableDest = t;
+      				});
+				else
+					reloadTable(tableDest,$("#cboDest").val());
 			});
 
 
-      		$("#searchBtn").click(function() {
-	  			loadTable($("#tableResults"),$("#cboSource").val());
-      			
+      		$("#searchSrcBtn").click(function() {
+      			if(tableSrc==null)
+      				loadTable($("#tableResults"),$("#cboSource").val(),function(t){
+      					tableSrc = t;
+      				});
+      			else
+					reloadTable(tableSrc,$("#cboSource").val());
   	 		});
 
-
-			
-			
-			
-  			
+      		$("#joinButton").click(function() {
+      			var dataSrc = tableSrc.row( { selected: true } ).data();
+      			var dataDest = tableDest.row( { selected: true } ).data();
+      			$.post({
+      			  url: restserver+"/stock/sync/"+$("#cboSource").val()+"/"+$("#cboDest").val(),
+      			  data: JSON.stringify([dataSrc, dataDest]),
+      			  dataType: "json"
+      			}).done(function(result)
+      			{
+      				$("#toastMessage").html(dataSrc.id+"&"+dataDest.id + " has been linked");
+					$("#toastTitle").html("Link Done !");
+					$("#infoToast").toast("show");
+      				
+      			}).fail(function(err) {
+      			    alert( "error" );
+      		  });
+  	 		});
 		});
 		
 		</script>
@@ -227,7 +249,7 @@
 
 	<div class="row">
        
-        <div class="col-xl-6 col-sm-6 mb-xl-0 mb-4">
+        <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
           <div class="card">
             <div class="card-header p-3 pt-2">
               <div class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
@@ -243,13 +265,13 @@
             </div>
             <hr class="dark horizontal my-0">
             <div class="card-footer p-3">
-              <p class="mb-0"><button id="searchBtn" type="button" class="btn btn-danger btn-circle"><i class="fa fa-search"></i></button></p>
+              <p class="mb-0"><button id="searchSrcBtn" type="button" class="btn btn-danger btn-circle"><i class="fa fa-search"></i></button></p>
             </div>
           </div>
         </div>
         
         
-        <div class="col-xl-6 col-sm-6 mb-xl-0 mb-4">
+        <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
           <div class="card">
             <div class="card-header p-3 pt-2">
               <div class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
@@ -264,11 +286,27 @@
               </div>
             </div>
             <div class="card-footer p-3">
-					<button class="btn btn-danger btn-circle" type="button" id="sendBtn"><i class="fa fa-paper-plane"></i>Send</button>
+					<button class="btn btn-danger btn-circle" type="button" id="searchDestBtn"><i class="fa fa-search"></i></button>
             </div>
           </div>
         </div>
         
+         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+            <div class="card-header p-3 pt-2">
+              <div class="icon icon-lg icon-shape bg-gradient-warning shadow-warning text-center border-radius-xl mt-n4 position-absolute">
+                <i class="material-icons opacity-10">join_inner</i>
+              </div>
+              <div class="text-end pt-1">
+                <p class="text-sm mb-0 text-capitalize">Join products</p>
+                </div>
+            </div>
+            <div class="card-footer p-3">
+            <br/>
+					<button class="btn btn-warning btn-circle" type="button" id="joinButton"><i class="fa fa-random"></i></button>
+            </div>
+          </div>
+        </div>
         
         
       </div>
@@ -362,7 +400,7 @@
   
   
    <script src="../dist/js/material-dashboard.js?v=3.0.0"></script>
-
+ <div id="notifs"></div>
  
 </body>
 

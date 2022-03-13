@@ -124,11 +124,14 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 		return ret;
 	}
 	
+	
+	//TODO change product type
 	private MTGProduct parseProduct(JsonObject sp) {
 		MTGProduct p = AbstractProduct.createDefaultProduct();
 				   p.setProductId(sp.get("id").getAsLong());
 				   p.setName(sp.get("title").getAsString());
 				   p.setUrl(sp.get("image").getAsJsonObject().get("src").getAsString());
+				   p.setTypeProduct(EnumItems.CARD);
 				   notify(p);
 		return p;
 	}

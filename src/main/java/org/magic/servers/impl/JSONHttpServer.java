@@ -44,6 +44,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.magic.api.beans.Announce;
 import org.magic.api.beans.Announce.STATUS;
+import org.magic.api.beans.ConverterItem;
 import org.magic.api.beans.GedEntry;
 import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
@@ -79,6 +80,7 @@ import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGServer;
+import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.MTGTrackingService;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.api.interfaces.abstracts.extra.AbstractEmbeddedCacheProvider;
@@ -668,6 +670,24 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return RETURN_OK;
 		});
 
+		post("/stock/sync/:from/:to", (request, response) -> {
+			
+			
+			List<MTGStockItem> postItems= converter.fromJsonList(new InputStreamReader(request.raw().getInputStream()), MTGStockItem.class);
+			
+			if(postItems.size()<2)
+				throw new IOException("please choose source and destinationn product");
+			
+			var src = postItems.get(0);
+			var dest = postItems.get(1);
+			
+			var item = new ConverterItem(request.params(":from"),request.params(":to"),src.getProduct().getName(),src.getId(),dest.getId());
+			
+			getEnabledPlugin(MTGDao.class).saveOrUpdateConversionItem(item);
+			return RETURN_OK;
+		});
+		
+		
 		get("/pics/banner", URLTools.HEADER_JSON,(request, response) ->
 			getCached(request.pathInfo(), new Callable<Object>() {
 					@Override
