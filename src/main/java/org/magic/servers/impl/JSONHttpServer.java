@@ -26,7 +26,6 @@ import java.nio.file.Path;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -942,12 +941,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return obj;
 
 		}, transformer);
-
-
-		get("/admin/recognize/caching/:setId", URLTools.HEADER_JSON, (request, response) -> {
-			MTG.getEnabledPlugin(MTGCardRecognition.class).downloadCardsData(MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(":setId")));
-			return RETURN_OK;
-		}, transformer);
+		
+		
+	
 		
 		get("/admin/qwartz", URLTools.HEADER_JSON, (request, response) -> {
 			var serv = (QwartzServer) MTG.getPlugin("Qwartz", MTGServer.class);
@@ -989,6 +985,18 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return obj;
 		}, transformer);
 		
+		put("/admin/plugins/:type/:name/:enable", URLTools.HEADER_JSON, (request, response) -> {
+			var selectedProvider = PluginRegistry.inst().getPluginById((request.params(":type")+request.params(NAME)));
+			
+			if(selectedProvider==null)
+				throw new NullPointerException("Provider is not found");
+			
+			selectedProvider.enable(Boolean.parseBoolean(request.params(":enable")));
+			MTGControler.getInstance().setProperty(selectedProvider, selectedProvider.isEnable());
+			
+			return selectedProvider.toJson();
+		}, transformer);
+		
 		
 		get("/admin/reindexation", URLTools.HEADER_JSON, (request, response) -> {
 			Chrono c = new Chrono();
@@ -996,7 +1004,13 @@ public class JSONHttpServer extends AbstractMTGServer {
 				MTG.getEnabledPlugin(MTGCardsIndexer.class).initIndex();
 			return "done in " + c.stop() +" s";
 		}, transformer);
-
+		
+		get("/admin/recognize/caching/:setId", URLTools.HEADER_JSON, (request, response) -> {
+			MTG.getEnabledPlugin(MTGCardRecognition.class).downloadCardsData(MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(":setId")));
+			return RETURN_OK;
+		}, transformer);
+		
+		
 		get("/webshop/config", URLTools.HEADER_JSON, (request, response) -> 
 			
 			 getCached(request.pathInfo(), new Callable<Object>() {

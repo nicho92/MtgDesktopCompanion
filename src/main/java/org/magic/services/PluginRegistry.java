@@ -313,6 +313,11 @@ public class PluginRegistry {
 	}
 
 
+	public MTGPlugin getPluginById(String id) {
+		return listPlugins().stream().filter(p->p.getId().equals(id)).findFirst().orElse(null);
+	}
+
+
 	
 }
 

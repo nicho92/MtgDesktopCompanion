@@ -110,6 +110,33 @@
 			});
 			
 			
+			$.ajax({
+			    url: restserver+"/editions/list"
+		   		 }).done(function(data) {
+		   			 for(var i=0;i<data.length;i++)
+	   				 {
+	   				 	$("#listEditions").append("<option value='"+data[i].id+"'>"+data[i].set+"</option>")
+	   				 }
+		   			 
+		   			$('#btnRecogUpdate').on('click',function(){
+		   				
+		   				
+		   				
+		   				$.get(restserver+"/admin/recognize/caching/"+$("#listEditions").val(), function(e){
+		   					
+		   					alert(e);
+		   					
+		   				});
+		   				
+		   				
+		   				
+		   				
+		   			});
+		   			 
+		   			 
+		   		 });
+			
+			
 			
 			$.ajax({
 		  	        url: restserver+"/admin/plugins/list"
@@ -188,7 +215,22 @@
           </div>
         </div>
         
-        
+        <div class="col-xl-3 col-sm-6">
+          <div class="card">
+            <div class="card-header p-3 pt-2">
+              <div class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
+                <i class="material-icons opacity-10">preview</i>
+              </div>
+              <div class="text-end pt-1">
+                <p class="text-sm mb-0 text-capitalize">Update Recognition Data</p>
+                <br/>
+                <select id="listEditions" class="form-select"  data-live-search="true"><option value=""></option></select>
+               
+              </div>
+            </div>
+            <div class="card-footer text-end p-3"><button type="button" class="btn btn-info" id="btnRecogUpdate">calculate</button></div>
+          </div>
+        </div>
         
       </div>
 	  <br/><br/><br/>

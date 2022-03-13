@@ -15,6 +15,8 @@ import org.magic.services.AccountsManager;
 import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observer;
 
+import com.google.gson.JsonObject;
+
 public interface MTGPlugin extends Comparable<MTGPlugin> {
 	
 	
@@ -84,12 +86,28 @@ public interface MTGPlugin extends Comparable<MTGPlugin> {
 	}
 	
 	
+	default String getId() {
+		return getType()+getName();
+	}
+	
 	@Override
 	default int compareTo(MTGPlugin o) {
 		
 		if(o==null)
 			return -1;
 		
-		return getName().compareTo(o.getName());
+		return getId().compareTo(o.getName());
+	}
+
+	public default JsonObject toJson()
+	{
+		var obj = new JsonObject();
+		obj.addProperty("name", getName());
+		obj.addProperty("type", getType().toString());
+		obj.addProperty("enabled", isEnable());
+		obj.addProperty("version", getVersion());
+		obj.addProperty("status", getStatut().name());
+		return obj;
+		
 	}
 }
