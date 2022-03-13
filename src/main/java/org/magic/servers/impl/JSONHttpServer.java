@@ -369,11 +369,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			
 			
 		);
-		
-//		get("/cards/search/:att/:val/:exact", URLTools.HEADER_JSON,
-//				(request, response) -> getEnabledPlugin(MTGCardsProvider.class).searchCardByCriteria(request.params(":att"), request.params(":val"), null, Boolean.parseBoolean(request.params(":exact"))),
-//				transformer);
-		
+
 		get("/cards/suggestcard/:val", URLTools.HEADER_JSON,
 				(request, response) -> getEnabledPlugin(MTGCardsIndexer.class).search("name:\""+request.params(":val")+"\"").stream().map(MagicCard::toLightJson).toList(),
 				transformer);
@@ -764,7 +760,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 				(request, response) -> getEnabledPlugin(MTGDao.class).getStockById(Long.parseLong(request.params(":idStock"))), transformer);
 	
 		
-		
+
 		get("/stock/list/:collection", URLTools.HEADER_JSON,(request, response) ->{
 			
 			List<MagicCardStock> data = (List<MagicCardStock>) getCached(request.pathInfo(), new Callable<Object>() {
