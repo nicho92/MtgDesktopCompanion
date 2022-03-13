@@ -21,6 +21,7 @@ public interface MTGExternalShop extends MTGPlugin {
 	public MTGStockItem getStockById(EnumItems typeStock,Long id)throws IOException;
 	public void saveOrUpdateStock(MTGStockItem stock,boolean allShop)throws IOException;
 	public void saveOrUpdateStock(List<MTGStockItem> stocks,boolean allShop)throws IOException;
+	public void updateStockFromTransaction(Transaction t) throws IOException;
 	
 	
 	public List<Category> listCategories() throws IOException;
@@ -33,7 +34,6 @@ public interface MTGExternalShop extends MTGPlugin {
 
 	
 	public int saveOrUpdateTransaction(Transaction t) throws IOException;
-	public void updateStockFromTransaction(Transaction t) throws IOException;
 	public List<Transaction> listTransaction() throws IOException;
 	public void deleteTransaction(Transaction t) throws IOException;
 	public void deleteTransaction(List<Transaction> t) throws IOException;

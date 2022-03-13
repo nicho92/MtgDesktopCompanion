@@ -2,53 +2,52 @@
 <html lang="en">
 
 <head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>MTG Web Companion</title>
+  
+  <link rel="icon" type="image/png" href="../dist/img/logo-ct.png">
+  <link href="https://cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
+  <link href="https://cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css" rel="stylesheet" type="text/css" />
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-   <link rel="icon" type="image/x-icon" href="../dist/favicon.ico" />
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link id="pagestyle" href="../dist/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css"/>
+  <link href="https://cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css" rel="stylesheet" />
+
  
-    <title>MTGDesktopCompanion</title>
-	<script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
- 	<script src="//cdn.jsdelivr.net/npm/jquery-autocomplete@latest/jquery.autocomplete.min.js"></script>
-  	<script src="//cdn.jsdelivr.net/npm/jquery-ui-dist@latest/jquery-ui.min.js"></script>
- 	<link href="//cdn.jsdelivr.net/npm/jquery-ui-dist@latest/jquery-ui.min.css" rel="stylesheet">
- 	
- 	<link href="//cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
- 	<script src="//cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js"></script>
- 	<link href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.10/dist/css/bootstrap-select.min.css"  rel="stylesheet">
-   	<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.10/dist/js/bootstrap-select.min.js"></script>
+  <script src="//unpkg.com/@trevoreyre/autocomplete-js"></script>    
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="  crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.5.5/perfect-scrollbar.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scrollbar/8.7.4/smooth-scrollbar.min.js"></script>
+  
+  <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script>
+  <script src="../dist/js/rest-server.js"></script>
+  <script src="../dist/js/js-var.js"></script>
+  <script src="../dist/js/mtgcompanion-ui.js"></script>
   
   
-	<link href="//cdn.jsdelivr.net/npm/metismenu@latest/dist/metisMenu.min.css" rel="stylesheet">
- 	<script src="//cdn.jsdelivr.net/npm/metismenu@latest/dist/metisMenu.min.js"></script>
-	 	
- 	
- 	<link href="//cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
-    <link href="//cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    
-    <link href="//cdn.jsdelivr.net/npm/datatables@latest/media/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" >
- 	<script src="//cdn.jsdelivr.net/npm/datatables@latest/media/js/jquery.dataTables.min.js"></script>
-	<script src="//cdn.jsdelivr.net/npm/datatables-bootstrap@latest/js/dataTables.bootstrap.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/datatables-responsive@latest/js/dataTables.responsive.min.js"></script>
-	<link href="//cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css" rel="stylesheet" type="text/css" />
-	
-    <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
-    <script src="../dist/js/sb-admin-2.js"></script>
-    <script src="../dist/js/rest-server.js"></script>
-  	<script src="../dist/js/js-var.js"></script>
-  	<script src="../dist/js/js-btnActions.js"></script>
-    <script src="../dist/js/mtgcompanion-ui.js"></script>
-  
-  
-  
-  	<script>
-  	$(document).ready(function() {
-        $("nav").load("menu.html");
-  		
- 	 	$('#edsPrices').DataTable({
+  <script>
+		$(document).ready(function() {
+			$("#sidenav-main" ).load("inc/menu.html" );
+			$("#navbarBlur").load("inc/nav.html",function(){
+				$("[name='categTitle']").html("Dashboard");
+				$("#menuDashboard").addClass("bg-gradient-primary");
+				$("#menuDashboard").addClass("active");
+			});
+			$("#navfooter").load("inc/footer.html");
+			$("#settingPanel").load("inc/settingPanel.html");
+			
+			
+			$('#edsPrices').DataTable({
 	    		language: {
 		    	    processing: "<img src='../dist/img/loading.gif' width='50' height='50'>"
 		    	 },
@@ -58,13 +57,13 @@
 		        "pageLength": 10,
 		        "bLengthChange": false,
 		        "paginationType":"simple",
-		      	"order": [[ 1, "desc" ]],
+		      	"order": [[ 2, "desc" ]],
 		        "columns": [
 			        	{ "data": "name",
 			        	  "width": "50%",
 			              "render": function(data, type, row, meta){
 					           if(type === 'display'){
-					        	  	   data='<span  class="mtg-tooltip" data-set="'+row.ed+'" data-name="'+data+'">'+data+'</span>';	
+						    	  	   return '<a href="cards.html?search='+data+'&set='+row.ed+'"  class="mtg-tooltip" data-set="'+row.ed+'" data-name="'+data+'">'+data+'</a>';	
 					            }
 					            return data;
 					        }
@@ -73,7 +72,7 @@
 				        	  "width": "5%",
 				              "render": function(data, type, row, meta){
 						           if(type === 'display'){
-						        	   data = '<i class="ss ss-'+data.toLowerCase()+' ss-2x ss-common"></i>';	
+						        	   return '<i class="ss ss-'+data.toLowerCase()+' ss-2x ss-common"></i>';	
 						            }
 						            return data;
 						        }
@@ -82,10 +81,7 @@
 				        		"data" : "price",
 				        		"defaultContent": "",
 					              "render": function(data, type, row, meta){
-							           if(type === 'display'){
-							        	   
-							            }
-							            return data.toFixed(2);
+							           return data.toFixed(2);
 							        }
 				        		
 				        		
@@ -97,9 +93,9 @@
 					           if(type === 'display'){
 					        	   
 					        	   if(data>0)
-					        	   	data = '<i style="color:green" class="fa fa-arrow-circle-up"></i>+'+data.toFixed(2);
+					        	   		return '<i style="color:green" class="fa fa-arrow-circle-up"></i>+'+data.toFixed(2);
 					        	   if(data<0)
-						        	   	data = '<i style="color:red" class="fa fa-arrow-circle-down"></i>'+data.toFixed(2);
+						        	   	return '<i style="color:red" class="fa fa-arrow-circle-down"></i>'+data.toFixed(2);
 						        	   
 					        	   		
 					            }
@@ -124,201 +120,116 @@
 			        	mtgtooltip($(".mtg-tooltip"));
 			        }
 		    } );
- 	 	
- 	 	$('#cardWinLoose').DataTable({
-    		language: {
-	    	    processing: "<img src='../dist/img/loading.gif' width='50' height='50'>"
-	    	 },
-	    	"data":null,
-	    	"responsive": true,
-	        "processing": true,
-	        "pageLength": 10,
-	        "bLengthChange": false,
-	        "paginationType":"simple",
-	      	"order": [[ 1, "desc" ]],
-	        "columns": [
-		        	{ "data": "name",
-		        	  "width": "50%",
-		              "render": function(data, type, row, meta){
-			           if(type === 'display'){
-			                	   data='<span  class="mtg-tooltip" data-name="'+data+'">'+data+'</span>';	
-			            }
-			            return data;
-			        }
-		        	},
-		            { 
-		        		"data" : "price",
-		        		"defaultContent": "",
-			              "render": function(data, type, row, meta){
-					           if(type === 'display'){
-					        	   
-					            }
-					            return data.toFixed(2);
-					        }
-		        		
-		        		
-		            },
-		            { "data": "priceDayChange",
-		            	"defaultContent": "",
-			              "render": function(data, type, row, meta){
-					           if(type === 'display'){
-					        	   
-					        	   if(data>0)
-					        	   	data = '<i style="color:green" class="fa fa-arrow-circle-up"></i>+'+data.toFixed(2);
-					        	   if(data<0)
-						        	   	data = '<i style="color:red" class="fa fa-arrow-circle-down"></i>'+data.toFixed(2);
-						        	   
-					        	   		
-					            }
-					            return data;
-					        }
-		           	},
-		          	{ "data": "percentDayChange",
-		           	  "defaultContent": "",
-		              "render": function(data, type, row, meta){
-				           if(type === 'display'){
-				        	   if(data>0)
-				        	   	data = '+'+data.toFixed(2);
-				            }
-				            return data +"%";
-				        }
-		           	}
-		        ],
-		        "fnDrawCallback" :function(oSettings, json) {
-		        	mtgtooltip($(".mtg-tooltip"));
-		        }
-	    } );	
- 	 	
- 	 	
-  		
-  	 	$.ajax({
-		    url: restserver+"/editions/list"
-	   		 }).done(function(data) {
-	   			 for(var i=0;i<data.length;i++)
-	   				 {
-	   				 	$("#listEditions").append("<option value='"+data[i].id+"'>"+data[i].set+"</option>")
-	   				 }
-	   			$('#listEditions').selectpicker().change(function(e) {
-	   				
-	   				var idEd= $(this).find("option:selected").val();
-	   				
-	   				$.ajax({
-	   				    	url: restserver+"/dash/edition/"+idEd,
-	   				    	dataSrc:""
-	   			   		 }).done(function(data) {
-	   			   			$('#edsPrices').DataTable().clear();
-	   			   			for(var i=0;i<data.shakes.length;i++)
-	   			   			{
-	   			   				$('#edsPrices').DataTable().row.add(data.shakes[i]);
-	   			   			}
-	   			   			
-	   			   			$('#edsPrices').DataTable().draw();
-	   			   		 });
-	            });
-	   		 })
-	   		 
-	   		$('#listFormat').selectpicker().change(function(e) {
-   				
-   				var format= $(this).find("option:selected").val();
-   				
-   				$.ajax({
-   				    	url: restserver+"/dash/format/"+format.toUpperCase(),
-   				    	dataSrc:""
-   			   		 }).done(function(data) {
-   			   			$('#cardWinLoose').DataTable().clear();
-   			   			
-   			   			for(var i=0;i<data.length;i++)
-   			   			{
-   			   				$('#cardWinLoose').DataTable().row.add(data[i]);
-   			   			}
-   			   			
-   			   			$('#cardWinLoose').DataTable().draw();
-   			   		 });
-            });
-	   		 
-	   		 
-  	});
-  	</script>
-  	
+			
+			
+			$.ajax({
+			    url: restserver+"/editions/list"
+		   		 }).done(function(data) {
+		   			
+		   			 for(var i=0;i<data.length;i++)
+		   				 {
+		   				 	$("#listEditions").append("<option value='"+data[i].id+"'>"+data[i].set+"</option>")
+		   				 }
+		   			 
+		   			$('#listEditions').change(function(e) {
+		   				
+		   				var idEd= $(this).find("option:selected").val();
+		   				
+		   				$.ajax({
+		   				    	url: restserver+"/dash/edition/"+idEd,
+		   				    	dataSrc:""
+		   			   		 }).done(function(data) {
+		   			   			$('#edsPrices').DataTable().clear();
+		   			   			for(var i=0;i<data.shakes.length;i++)
+		   			   			{
+		   			   				$('#edsPrices').DataTable().row.add(data.shakes[i]);
+		   			   			}
+		   			   			
+		   			   			$('#edsPrices').DataTable().draw();
+		   			   		 });
+		            });
+		   			 
+		   			 
+		   		 });
+			
+			
+			
+			
+			
+			
+		});
+  </script>
   
-  	
-  	
+  
 </head>
 
-<body>
-
-    <div id="wrapper">
-
-        <!-- Navigation -->
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0"></nav>
-
-        <!-- Page Content -->
-        <div id="page-wrapper">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header"><i class="fa fa-dashboard fa-fw"></i>DashBoard</h1>
-                    </div>
-                </div>
+<body class="g-sidenav-show  bg-gray-200">
+	<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start menu-left bg-gradient-dark" id="sidenav-main"></aside>
+  	<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+	<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true"></nav>
+		
+    <!-- End Navbar -->
+    <div class="container-fluid py-4">
+     
+     <div class="row mb-4">
+     
+     </div>	
+     <div class="row mb-4">
+			
+		<div class="col-lg-6 col-md-6 mb-md-0 mb-4">
+          <div class="card">
+          <div class="card-header p-0 position-relative mt-n4 mx-3">
+              <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                <h6 class="text-white text-capitalize ps-3">Sets Variations</h6>
+              </div>
+             
             </div>
-             <!-- /.row -->
-            
-			<div class="row">
-			     <div class="col-lg-6">
-	                 <div class="panel panel-red">
-	                 	<div class="panel-heading">
-	                      		Variations for
-	        							<select id="listEditions" class="form-control" data-live-search="true"><option value=""></option></select>
-						        	
-	                   	</div>
-	                    <div class="panel-body">
-	                       <table id="edsPrices" class="display" style="width: 100%">
-										<thead>
-											<tr>
-												<th>Name</th>
-												<th>Edition</th>
-												<th>$</th>
-												<th>+/-</th>
-												<th>%</th>
-											</tr>
-										</thead>
-									</table>
-	                    </div>
-	                    <div class="panel-footer"></div>
-	                 </div>
-	             </div>
-			     <div class="col-lg-6">
-	                 <div class="panel panel-red">
-	                 	<div class="panel-heading">
-	                      		Winner/Looser for 
-	                      		<select id="listFormat" class="form-control">
-	                      			<option value="">----------</option>
-	                      			<option value="standard">STANDARD</option>
-	                      			<option value="modern">MODERN</option>
-	                      			<option value="legacy">LEGACY</option>
-	                      			<option value="vintage">VINTAGE</option>
-	                      			
-	                      		</select>
-	                   	</div>
-	                    <div class="panel-body">
-	                       <table id="cardWinLoose" class="display" style="width: 100%">
-										<thead>
-											<tr>
-												<th>Name</th>
-												<th>$</th>
-												<th>+/-</th>
-												<th>%</th>
-											</tr>
-										</thead>
-									</table>
-	                    </div>
-	                    <div class="panel-footer"></div>
-	                 </div>
-	             </div>
-	             </div>
-
+            <div class="card-body px-0 pb-2">
+             <select id="listEditions" class="form-select"  data-live-search="true"><option value=""></option></select>
+              <div class="table-responsive">
+                <table id="edsPrices" class="table align-items-center" style="width:100%">
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Edition</th>
+							<th>$</th>
+							<th>+/-</th>
+							<th>%</th>
+						</tr>
+					</thead>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
+        
+        
+      </div>
+       <footer class="footer py-4" id="navfooter"></footer>
     </div>
+  </main>
+  <div class="fixed-plugin">
+    <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
+      <i class="material-icons py-2">settings</i>
+    </a>
+    <div class="card shadow-lg" id="settingPanel">
+    </div>
+  </div>
+  
+  <script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+      var options = {
+        damping: '0.5'
+      }
+      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+  </script>
+  
+  
+   <script src="../dist/js/material-dashboard.js?v=3.0.0"></script>
+
+ 
 </body>
 
 </html>

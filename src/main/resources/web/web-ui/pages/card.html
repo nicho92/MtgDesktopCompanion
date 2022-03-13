@@ -2,547 +2,618 @@
 <html lang="en">
 
 <head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>MTG Web Companion</title>
+  
+  <link rel="icon" type="image/png" href="../dist/img/logo-ct.png">
+  <link href="https://cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
+  <link href="https://cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css" rel="stylesheet" type="text/css" />
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-	<meta http-equiv="cache-control" content="max-age=0" />
-	<meta http-equiv="cache-control" content="no-cache" />
-	<meta http-equiv="expires" content="0" />
-	<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
-	<meta http-equiv="pragma" content="no-cache" />
-   <link rel="icon" type="image/x-icon" href="../dist/favicon.ico" />
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link id="pagestyle" href="../dist/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css"/>
+  <link href="https://cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css" rel="stylesheet" />
  
+  <script src="//unpkg.com/@trevoreyre/autocomplete-js"></script>    
 
-    <title>MTGDesktopCompanion</title>
-	<script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
- 	<script src="//cdn.jsdelivr.net/npm/jquery-autocomplete@latest/jquery.autocomplete.min.js"></script>
-  	<script src="//cdn.jsdelivr.net/npm/jquery-ui-dist@latest/jquery-ui.min.js"></script>
- 	<link href="//cdn.jsdelivr.net/npm/jquery-ui-dist@latest/jquery-ui.min.css" rel="stylesheet">
- 	
- 	<link href="//cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
- 	<script src="//cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js"></script>
- 	<link href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.10/dist/css/bootstrap-select.min.css"  rel="stylesheet">
-   	<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.10/dist/js/bootstrap-select.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.5.5/perfect-scrollbar.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scrollbar/8.7.4/smooth-scrollbar.min.js"></script>
   
+  <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script>
+  <script src="../dist/js/rest-server.js"></script>
+  <script src="../dist/js/js-var.js"></script>
+  <script src="../dist/js/mtgcompanion-ui.js"></script>
   
-    <link href="//cdn.jsdelivr.net/npm/metismenu@latest/dist/metisMenu.min.css" rel="stylesheet">
- 	<script src="//cdn.jsdelivr.net/npm/metismenu@latest/dist/metisMenu.min.js"></script>
+  <style>
 	
- 	
- 	<link href="//cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
-    <link href="//cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="//cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css" rel="stylesheet" type="text/css" />
-  
-  
-  
-    <link href="//cdn.jsdelivr.net/npm/datatables@latest/media/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" >
- 	<script src="//cdn.jsdelivr.net/npm/datatables@latest/media/js/jquery.dataTables.min.js"></script>
-	<script src="//cdn.jsdelivr.net/npm/datatables-bootstrap@latest/js/dataTables.bootstrap.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/datatables-responsive@latest/js/dataTables.responsive.min.js"></script>
+	.list-group{
+    max-height: 300px;
+    overflow-y: scroll;
+	overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+}
 
+  	.cardFlip {
+	    -webkit-transition:-webkit-transform 0.7s;
+	    transition:transform 0.7s;
+
+	}
+	.flipping {
+    	transform: translate(0, 20px) rotateY(90deg);
+    	-webkit-transform: translate(0, 20px) rotateY(90deg);
+	}
+  </style>
+  
+  
+  <script>
+  	var table;
+	$.fn.dataTable.ext.errMode = 'none';
 	
-    <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
-    <script src="../dist/js/sb-admin-2.js"></script>
-    <script src="../dist/js/rest-server.js"></script>
-  	<script src="../dist/js/js-var.js"></script>
-  	<script src="../dist/js/js-btnActions.js"></script>
-    <script src="../dist/js/mtgcompanion-ui.js"></script>
-  
-  	<link href="//cdn.jsdelivr.net/npm/gl-morris-js@latest/morris.css" rel="stylesheet" type="text/css" >
-   	<script src="//cdn.jsdelivr.net/npm/gl-morris-js@latest/morris.min.js"></script>
-   	<script src="//cdn.jsdelivr.net/npm/raphael@latest/raphael.min.js"></script>
-  
-  
-  	<script>
-  	
-   	$(document).ready(function() {
-   		 $("nav").load("menu.html");
-   		 $( "#alertBtn" ).addClass("btn-warning");
-	   	 $( "#stockBtn" ).addClass("btn-primary");
-	   	 $( "#addCardBtn" ).addClass("btn-danger");
-		
-	   	$.fn.dataTable.ext.errMode = 'none';
-	   	
-	   	$("#alertBtn").click( function() {
-	  			addAlert($_GET("id"), function() {
-	  				$( "#alertBtn i" ).removeClass("fa-bell-o");
-	  				$( "#alertBtn i" ).addClass("fa-check-circle ");
-	  				  
-	  			});	
-	 		});
-	  		
-   	  	$("#stockBtn").click( function() {
-	  			addStock($_GET("id"),function() {
-	  				$( "#stockBtn i" ).removeClass("fa-file-text");
-	  				$( "#stockBtn i" ).addClass("fa-check-circle");
-	  				
-	  			});	
-	 		});
-   	  	
-   		$("#addCardBtn").click( function() {
-   			addCardtoDefaultLibrary($_GET("id"),function() {
-   				$( "#addCardBtn i" ).removeClass("fa-plus-circle");
-  				$( "#addCardBtn i" ).addClass("fa-check-circle");
-   			});
-	 	});
-   		 	
-		 $('#panelBtn').tooltip({
-	        selector: "[data-toggle=tooltip]",
-	        container: "body"
+  function turnCSS(elem, src) {
+	    $(elem)
+	        .addClass("flipping")
+	        .bind("transitionend webkittransitionend", function () { //should add more prefixes
+	        this.src = src;
+	        $(this)
+	            .unbind("transitionend webkittransitionend")
+	            .removeClass("flipping")
 	    })
-  		
-  		
-  	    $.ajax({
-  	        url: restserver+"/cards/"+$_GET("id")
-  	    }).then(function(data) {
-  	    	
-  	    	if(data.name!=null)
-  	    	{
-  	    		var extra = '';
-  	    		if($_GET('foil'))
-  	    			extra='<i class="ss  ss-mythic ss-grad ss-1x ss-pmei"></i>';
-  	    		
-  	    		$('#title').html(extra + " " + data.name);
-  	    	}
-  	    	
-  	    	$('#text').html(data.text.replace(/\n/g, "<br />"));
-  	    	
-  	    	if(data.flavor!=null)
-  	    		$('#text').append("<br/><i>"+data.flavor+"</i>");
-  	    	
-  	    	$('#types').append(data.types);
-  	    	
-  	    	if(data.power!=null)
-  	    		$('#power').append(data.power+"/"+data.toughness);
-  	    	
-  	    	if(data.loyalty!=null)
-  	    		$('#loyalty').append(data.loyalty);
-  	    	
-  	    	if(data.layout!=null)
-  	    		$('#layout').append(data.layout);
-  	    	
-  	   	
-  	    	if(data.promoCard==true)
-  	    		$('#promoCard').append(" <i class='fa fa-check-circle'></i>");
-  	    	else
-  	    		$('#promoCard').append(" <i class='fa fa-times-circle'></i>");
-  	    	
-  	    	if(data.reserved==true)
-  	    		$('#reserved').append(" <i class='fa fa-check-circle'></i>");
-  	    	else
-  	    		$('#reserved').append(" <i class='fa fa-times-circle'></i>");
-  	    	
-  	    	if(data.reprintedCard==true)
-  	    		$('#reprintedCard').append(" <i class='fa fa-check-circle'></i>");
-  	    	else
-  	    		$('#reprintedCard').append(" <i class='fa fa-times-circle'></i>");
-  	    	
-  	    	if(data.arenaCard==true)
-  	    		$('#arenaCard').append(" <i class='fa fa-check-circle'></i>");
-  	    	else
-  	    		$('#arenaCard').append(" <i class='fa fa-times-circle'></i>");
-  	    	
-  	    	if(data.mtgoCard==true)
-  	    		$('#mtgoCard').append(" <i class='fa fa-check-circle'></i>");
-  	    	else
-  	    		$('#mtgoCard').append(" <i class='fa fa-times-circle'></i>");
-  	    	
-  	    	if(data.onlineOnly==true)
-  	    		$('#onlineOnly').append(" <i class='fa fa-check-circle'></i>");
-  	    	else
-  	    		$('#onlineOnly').append(" <i class='fa fa-times-circle'></i>");
-  	    	
-  	    	
-  	    	
-  	    	$('#artist').html("<i>"+data.artist+"</i>");
-  	    	
-  	    	var uri = restserver+"/pics/cards/"+data.editions[0].id+"/"+data.name;
-  	    	
-  	    	if(data.scryfallId)
-				uri = "https://api.scryfall.com/cards/"+data.scryfallId+"?format=image";
-			else if(data.editions[0].multiverseId)            
-				uri = "https://api.scryfall.com/cards/multiverse/"+data.editions[0].multiverseId+"?format=image";
+	}
+  
+  
+$(document).ready(function() {
+			$("#sidenav-main" ).load("inc/menu.html" );
+			$("#notifs").load("inc/notifs.html");
+			$("#navbarBlur").load("inc/nav.html",function(){
+				$("[name='categTitle']").html("Card");
+				document.getElementById('iconNavbarSidenav').addEventListener("click", toggleSidenav);
+				/*$("#menuDecks").addClass("bg-gradient-primary");
+				$("#menuDecks").addClass("active");*/
+			});
+			$("#navfooter").load("inc/footer.html");
+			$("#settingPanel").load("inc/settingPanel.html");
+	
 			
-  	    	
-  	    	$('#pic').attr("src", uri);
-  	    	
-  	    	$('#number').append(data.editions[0].number)
-  	    	
-  	    	
-  	    	for (var i = 0; i < data.editions.length; i++) 
-  	    	{
-  	    		if(i==0)
-  	    			{
-  	    				$("#set").html('<i class="ss ss-'+data.editions[i].keyRuneCode.toLowerCase()+' ss-'+data.rarity.toLowerCase()+' ss-1x"></i>');
-  	    			}
-  	    		
-  	    		$('#reprints').append('<i class="ss ss-'+data.editions[i].keyRuneCode.toLowerCase()+' ss-'+data.rarity.toLowerCase()+' ss-2x"></i><a href="list-cards.html?set='+data.editions[i].id+'">'+ data.editions[i].set + "</a><br/>");
-  	   		}
-  	    	
-  	    	
-  	 	 json = data.legalities;
-	     keys = Object.keys(json);
-    	 keys.map(function(item) 
-					{
-    		 			var color="";
-    		 			
-    		 			if(json[item].formatLegality!=null)
-  		 				{
-    		 				
-    		 				if(json[item].formatLegality =='RESTRICTED')
-    		 					color="list-group-item-warning";
-    		 				
-    		 				if(json[item].formatLegality =="LEGAL")
-       		 					color="list-group-item-success";
-       		 				
-    		 				if(json[item].formatLegality =="BANNED" || json[item].formatLegality =="NOT_LEGAL")
-        		 				color="list-group-item-danger";
-  		 				}
-    		 			else
-   		 				{
-    		 				if(json[item].oldLegality)
-        		 				color="list-group-item-success";
-        		 			else
-        		 				color="list-group-item-danger";
-   		 				}
-    		 			
-    		 			
-    		 			
-    		 
-	 					$("#legalities").append("<li class='list-group-item " + color+ "'><i class='fa fa-tag fa-fw'></i>"+json[item].format+" " + json[item].formatLegality+"</li>");	
+			$.get(restserver+"/admin/plugins/list",function(data){
+					data.PRICER.filter(function (entry) {return entry.enabled === true;}).forEach( function(item,index){
+							$("#tabPrices").append("<li class='nav-item' style='style='cursor: pointer;'><a name='btnLoadPrice' class='nav-link' aria-current='page'  ><i class='fa fa-3 fa-shopping-cart' aria-hidden='true'></i>"+item.name+"</a></li>");
 					});
+			});
+			
+				if(table==null)
+				{
+					table = $('#table').DataTable( {
+				    	language: {
+				    	    processing: "<img src='../dist/img/loading.gif' width='50' height='50'>"
+				    	 },
+						"ajax": {"url":"/","dataSrc":""},
+				    	"bInfo" : false,
+				    	"responsive": true,
+				        "processing": true,
+				        "pageLength": 10,
+				        "bLengthChange": false,
+				        "paginationType":"simple",
+				      	"searching": false,
+				      	"order": [[ 1, "asc" ]],
+				        "columns": [
+				        	{ 
+								"data": "site",
+								"defaultContent": "", 
+							},
+				            { 
+				        		 "data" : "value",
+								 "defaultContent": "",
+				        		 "render": function(d, type, row, meta){
+				        			 if(type === 'display'){
+				        			 	return d.toFixed(2) + " " + row.currency;
+				        			 }
+				        			 else
+			        				 {
+			        				  return d;
+			        				 }
+	  			                }
+				        	},
+				            { "data": "quality",
+				           	  "defaultContent": ""
+				           	},
+				           	{ 
+							  "data": "foil",
+					          "defaultContent": "",
+	 						  "render": function(d, type, row, meta){
+		  			                   if(type === 'display'){
+					                	  if(d)
+											return '<i class="ss  ss-mythic ss-grad ss-2x ss-pmei"></i>';	
+											else
+											return "";
+		  			                   }
+		  			                   return d;
+		  			                }
+					        },
+				            { 
+		  			                "data": "url",
+									"defaultContent": "",
+		  			                "render": function(d, type, row, meta){
+		  			                   if(type === 'display'){
+		  			                	  return '<a class="fa fa-share" target="_blank" href="' + d + '"></a>';
+		  			                   }
+		  			                   return d;
+		  			                }
+		  			        }
+				        ]
+				    } );
+			 		
+					$( table.table().container() ).removeClass( 'form-inline' );
+					
+					}
+					table.clear().draw();
+				
+				
+	
+	  		$.ajax({
+			        url: restserver+"/cards/scryfall/"+$_GET("scryfallid")
+		    }).then(function(card) {
+    					
+	
+						if(card.scryfallId)
+							uri = "https://api.scryfall.com/cards/"+card.scryfallId+"?format=image";
+						else if(card.editions[0].multiverseId)            
+							uri = "https://api.scryfall.com/cards/multiverse/"+card.editions[0].multiverseId+"?format=image";
+						
+						
+						
+						$('#pic').attr("src", uri);
+						$("#cardname").html(card.name);
+						$("#artist").html(card.artist);
+						$('#number').append(card.editions[0].number +"/" + card.editions[0].cardCountOfficial);
+						
+						if(card.types.length>0)
+							$('#types').append("<i class='ms ms-"+card.types[0].toLowerCase()+" ms-fw'></i>"+card.types);
+						else
+							$('#types').append(card.types);
+						
+						$("#oracleText").append(card.text.replace(/\n/g, "<br />"));
+						
+						
+						var front = uri;
+						if(card.layout=="TRANSFORM" || card.layout=="MODAL_DFC"){
+						
+							$("#btnTransform").css("visibility", "visible");
+							
+							var back = "https://api.scryfall.com/cards/"+card.scryfallId+"?format=image&face=back";
+							$("#pic").click(function () {
+							    var src = this.src == back ? front : back; //for toggling fun
+							    turnCSS(this, src)
+							});
+							
+						}
+						if(card.power!=null)
+  	    					$('#power').append(card.power+"/"+card.toughness);
   	    	
-  	    		
+			  	    	if(card.loyalty!=null)
+			  	    		$('#loyalty').append(card.loyalty);
   	    	
-  	    	if(data.cost!=null)
+  	    				if(card.layout!=null)
+  	    					$('#layout').append(card.layout);
+
+						if(card.promoCard==true)
+			  	    		$('#promoCard').append(" <i class='fa fa-check-circle'></i>");
+			  	    	else
+			  	    		$('#promoCard').append(" <i class='fa fa-times-circle'></i>");
+			  	    	
+			  	    	if(card.reserved==true)
+			  	    		$('#reserved').append(" <i class='fa fa-check-circle'></i>");
+			  	    	else
+			  	    		$('#reserved').append(" <i class='fa fa-times-circle'></i>");
+			  	    	
+			  	    	if(card.reprintedCard==true)
+			  	    		$('#reprintedCard').append(" <i class='fa fa-check-circle'></i>");
+			  	    	else
+			  	    		$('#reprintedCard').append(" <i class='fa fa-times-circle'></i>");
+			  	    	
+			  	    	if(card.arenaCard==true)
+			  	    		$('#arenaCard').append(" <i class='fa fa-check-circle'></i>");
+			  	    	else
+			  	    		$('#arenaCard').append(" <i class='fa fa-times-circle'></i>");
+			  	    	
+			  	    	if(card.mtgoCard==true)
+			  	    		$('#mtgoCard').append(" <i class='fa fa-check-circle'></i>");
+			  	    	else
+			  	    		$('#mtgoCard').append(" <i class='fa fa-times-circle'></i>");
+			  	    	
+			  	    	if(card.onlineOnly==true)
+			  	    		$('#onlineOnly').append(" <i class='fa fa-check-circle'></i>");
+			  	    	else
+			  	    		$('#onlineOnly').append(" <i class='fa fa-times-circle'></i>");
+			  	    	
+				 		if(card.frameEffects.indexOf("SHOWCASE")>-1)
+		                   		$('#showcase').append(" <i class='fa fa-check-circle'></i>");
+						  else if(card.frameEffects.indexOf("EXTENDEDART")>-1)
+		                  		$('#extendedArt').append(" <i class='fa fa-check-circle'></i>");
+						  else if(card.border=="BORDERLESS")
+								$('#Borderless').append(" <i class='fa fa-check-circle'></i>");	
+						
+						
+			if(card.colors.length>1)
   	    	{
-  	    	   var d=data.cost.match(/[^{}]+(?=\})/g);
-  	      	   if(d!=null){
-  	      		   var ret="";
-  	      		   for (var i = 0; i < d.length; i++) {
-        			   d[i]=formatMana(d[i]);
-  	      			   $('#cost').append('<i class="ms ms-'+d[i].toLowerCase()+' ms-cost ms-shadow"></i>');
-  	      			}
-  	      	   }
+					$(".bg-gradient-primary").toggleClass("bg-gradient-warning");
   	    	}
-  	    	if(data.colors.length>1)
+  	    	else if(card.colors.length==0)
   	    	{
-  	    		$("div.panel").addClass("panel-yellow");
-  	    	}
-  	    	else if(data.colors.length==0)
-  	    	{
-  	    		$("div.panel").addClass("panel-default");
-  	    	}
+					$(".bg-gradient-primary").toggleClass("bg-gradient-brown");
+			}
   	    	else
   	    	{
-  	    		if(data.colors[0]=='WHITE')
-  	    			$("div.panel").addClass("panel-default");
-  	  			if(data.colors[0]=='BLUE')
-					$("div.panel").addClass("panel-primary");
-  				if(data.colors[0]=='BLACK')
-					$("div.panel").addClass("panel-black");
-				if(data.colors[0]=='RED')
-					$("div.panel").addClass("panel-red");
-				if(data.colors[0]=='GREEN')
-					$("div.panel").addClass("panel-green");
+  	    		if(card.colors[0]=='WHITE')
+					$(".bg-gradient-primary").toggleClass("bg-gradient-light");
+  	  			if(card.colors[0]=='BLUE')
+					$(".bg-gradient-primary").toggleClass("bg-gradient-info");
+  				if(card.colors[0]=='BLACK')
+					$(".bg-gradient-primary").toggleClass("bg-gradient-dark");
+				if(card.colors[0]=='RED')
+					$(".bg-gradient-primary").toggleClass("bg-gradient-danger");
+				if(card.colors[0]=='GREEN')
+					$(".bg-gradient-primary").toggleClass("bg-gradient-success");
   	    	}
-  	    	
-  	    	
-  	    	$.ajax({
-  	  			dataType: 'json',
-  	   	        url: restserver+"/dash/variations/card/"+$_GET("id")
-  	   	        }).then(function(json_data) {
-			  	   	    
-  	   	        	
-  	   	       var key= json_data.normal;
-		    	if($_GET("foil"))
-		    		key=json_data.foil;
-  	   	        	
-  	   	       var config = {
-		  	   	   	      data: key,
-		  	   	   		  element: 'priceVariation',
-			  	   	   	  xkey: 'date',
-		  	  	  		  ykeys: ['value'],
-		  	  	  		  labels: ['Price'],
-		  	  	  		  xLabels: 'month',
-		  	  	  		  hideHover: 'auto',
-		  	   	   	      fillOpacity: 0.6,
-		  	   	   	      behaveLikeLine: true,
-		  	   	   	      resize: true,
-		  	   	   	 	  pointSize:0
-		  	   	   	  };   
-  	   	       
-  	   	       
-		  	   	  
-  	   	       
-	   		  	   	   		
-		  	   	    Morris.Line(config);
-	   			 		var vallast = key[key.length - 1].value;
-	   					var valpreLast = key[key.length - 2].value;
-	   			 		var pc = new Number(( ( vallast - valpreLast ) / valpreLast ) * 100);
-	   					
-  	   	   					
-  	   	   					$("#lastPrice").html(vallast.toFixed(2)+""+json_data.currency);
-  	   	   				
-  	   	   					if(vallast>valpreLast)
-   	   						{
-  	   	   						$("#priceArrow").addClass("fa-arrow-circle-o-up");
-  	   	   						$("#pcVariation").html("+"+pc.toFixed(2)+"%");
-  	   						}
-  	   	   					else if(vallast<valpreLast)
-   	   						{
-	   	   						$("#priceArrow").addClass("fa-arrow-circle-o-down");
-	   	   						$("#pcVariation").html(pc.toFixed(2)+"%");
-	   						}
-  	   	   					else
-   	   						{
-   	   				  			$("#priceArrow").addClass("fa-pause");
-   	   						}
-  	   	    	});
-  	    	
-  			  $.ajax({
-  	  	        url: restserver+"/collections/cards/"+$_GET("id")
-		  	  	    }).then(function(data) {
-		  	  	    	for (var i = 0; i < data.length; i++) {
-		  	  	    		$('#collections').append("<i class='fa fa-folder'></i><a href='list-sets.html?col="+data[i].name+"'>"+data[i].name+"</a><br/>");
-		  	  	    	}
-		  	  	    });
-  			  
-  			 $('#tablePrices').DataTable( {
-			    	language: {
-			    	    processing: "<img src='../dist/img/loading.gif' width='50' height='50'>"
-			    	 },
-			    	"responsive": true,
-			        "processing": true,
-			        "pageLength": 5,
-			        "bLengthChange": false,
-			        "paginationType":"simple",
-			      	"searching": false,
-			      	"order": [[ 1, "asc" ]],
-			        "ajax": {"url":restserver+"/prices/"+data.editions[0].id+"/"+data.name,"dataSrc":""},
-			        "columns": [
-			        	{ 
-			        		"data": "site",
-			        		"defaultContent" : ""
-			        	},
-			            { 
-			        		"data" : "value",
-			        		"defaultContent" : "",
-			        		 "render": function(data, type, row, meta){
-	  			                  return data.toFixed(2);
-	  			                }
-			        	},
-			            { 
-			        	  "data": "currency",
-			              "defaultContent": ""
-			           	},
-			          	{ 
-			           	  "data": "quality",
-			           	  "defaultContent": ""
-			           	},
-						{
-			           	 "data": "foil",
-			           	 "defaultContent": "",
- 						 "render": function(data, type, row, meta){
-	  			                   if(type === 'display'){
-				                	  if(data)
-										return '<i class="ss  ss-mythic ss-grad ss-2x ss-pmei"></i>';	
-										else
-										return "";
-	  			                   }
-	  			                   return data;
-	  			                }
-			           	},
-			            { 
-	  			                "data": "url",
-	  			              	"defaultContent": "",
-	  			                "render": function(data, type, row, meta){
-	  			                   if(type === 'display'){
-	  			                	  data = '<a class="fa fa-share" target="_blank" href="' + data + '"></a>';	
-	  			                   }
-	  			                   return data;
-	  			                }
-	  			        }
-			        ]
-			    } );
-  	    	
-  	    });
-  	});
-  	</script>
-  	
-  	
+			
+			for (var i = 0; i < card.editions.length; i++) 
+  	    	{
+  	    		$('#reprints').append('<li class="list-group-item"><i class="ss ss-'+card.editions[i].keyRuneCode.toLowerCase()+' ss-'+card.rarity.toLowerCase()+' ss-2x"></i><a href="cards.html?search='+card.name+'&set='+card.editions[i].id+'">'+ card.editions[i].set + "</a></li>");
+  	   		}
+			
+						if(card.cost!=null)
+				  	    	{
+				  	    	   var d=card.cost.match(/[^{}]+(?=\})/g);
+				  	      	   if(d!=null){
+				  	      		   var ret="";
+				  	      		   for (var i = 0; i < d.length; i++) {
+				        			   d[i]=formatMana(d[i]);
+				  	      			   $('#cost').append('<i class="ms ms-'+d[i].toLowerCase()+' ms-cost ms-shadow"></i>');
+				  	      			}
+				  	      	   }
+				  	    	}
+						
+						$.get(restserver+"/dash/variations/card/"+card.id,function(dprice){
+								printChartPrices("chartPrice",dprice);
+
+								var vallast = dprice.normal[dprice.normal.length - 1].value;
+								
+								var vallastF =0.0;
+								
+								if(dprice.foil.length>1)
+								{
+									vallastF = dprice.foil[dprice.foil.length - 1].value;
+								}
+								
+								
+								var valpreLast = dprice.normal[dprice.normal.length - 7].value;
+								var pc = new Number(( ( vallast - valpreLast ) / valpreLast ) * 100);
+								
+								$("#priceVariation").html(pc.toFixed(2) +"%");
+								
+								if(pc>0)
+									$("#priceVariation").addClass("text-success");
+								else
+									$("#priceVariation").addClass("text-danger");
+								
+								
+								$("#lastPrice").html(vallast.toFixed(2) + " /  " + vallastF.toFixed(2) + "(F) " + dprice.currency);
+						});					
+						
+						 $.get({
+			  	  	        url: restserver+"/collections/cards/"+card.id
+					  	  	    }).then(function(data) {
+					  	  	    	for (var i = 0; i < data.length; i++) {
+					  	  	    		$('#collections').append(data[i].name);
+					  	  	    	}
+					  	  	    });
+						
+						
+						 	$("#alertBtn").click( function() {
+					  				$("#toastMessage").html(card.name + " has been added to Alerts");
+									$("#toastTitle").html("Add Alert to Card");
+									$("#infoToast").toast("show");
+					 		});
+					  		
+						
+							$("#stockBtn").click( function() {
+					  				$("#toastMessage").html(card.name + " has been added to Stock");
+									$("#toastTitle").html("Add card in Stock");
+									$("#infoToast").toast("show");
+					 		});
+						
+							$("#addCardBtn").click( function() {
+					  				$("#toastMessage").html(card.name + " has been added to default Library");
+									$("#toastTitle").html("Add card in Collection");
+									$("#infoToast").toast("show");
+					 		});
+						
+										
+					$(document).on('click',"a[name='btnLoadPrice']",function(){
+								$("#tabPrices li a").removeClass("active");
+								$(this).addClass("active");
+								table.ajax.url(restserver+"/prices/details/"+$(this).text()+"/"+card.id).load();
+						});				
+						
+				
+						
+				});
+			
+			
+		});
+</script>
 </head>
 
-<body>
+<body class="g-sidenav-show  bg-gray-200">
+ 	<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 menu-left fixed-start bg-gradient-dark" id="sidenav-main"></aside>
+  	<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+	<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true"></nav>
+  
+    <div class="container-fluid py-4">
 
-	<div id="wrapper">
+    <div class="row ">
 
-		<!-- Navigation -->
-		<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0"></nav>
-
-		<div id="page-wrapper">
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-lg-12">
-						<h1 class="page-header">
-							<span id="title">title</span>&nbsp;<em id="set"></em>
-						</h1>
+    		<div class="col-lg-3 col-md-3">
+				<div class="card">
+					<div class="card-header p-0 position-relative mt-n4 mx-3">
+						<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+							<h6 class="text-white text-capitalize ps-3" id="cardname">Card Name</h6>
+						</div>
+					</div>
+					<div class="card-body px-4 pb-2">
+						<img class='img-fluid img-responsive cardFlip' id='pic' data-holder-rendered="true" />
+						<button type="button" title="Transform" tabindex="-1" class="card-grid-item-transform-button" id="btnTransform" style="visibility: hidden;"><svg focusable="false" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path d="M884.3,357.6c116.8,117.7,151.7,277-362.2,320V496.4L243.2,763.8L522,1031.3V860.8C828.8,839.4,1244.9,604.5,884.3,357.6z"></path><path d="M557.8,288.2v138.4l230.8-213.4L557.8,0v142.8c-309.2,15.6-792.1,253.6-426.5,503.8C13.6,527.9,30,330.1,557.8,288.2z"></path></svg></button>
+					</div>
+					<div class="card-footer p-3">
+						<i><span id="artist"></span></i>
 					</div>
 				</div>
+				
+				<br/><br/>
+				<div class="card">
+					<div class="card-header p-0 position-relative mt-n4 mx-3">
+						<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+							<h6 class="text-white text-capitalize ps-3" id="cardname">Collections</h6>
+						</div>
+					</div>
+					<div class="card-body px-4 pb-2">
+						 <ul class="list-group" id="collections"></ul>       
+					</div>
+					<div class="card-footer p-3">
+						
+					</div>
+				</div>
+				
+				
 			</div>
-			<div class="row">
-				<div class="col-lg-3">
-					<div class="panel panel-default">
-						<div class="panel-heading">Pictures</div>
-						<div class="panel-body">
-							<p>
-								<img class='img-fluid img-responsive' id='pic' data-holder-rendered="true"/>
-							</p>
+        
+			<div class="col-lg-3 col-md-6">
+				<div class="card">
+					<div class="card-header p-0 position-relative mt-n4 mx-3">
+						<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+							<h6 class="text-white text-capitalize ps-3">Description</h6>
 						</div>
-						<div class="panel-footer">
-							<p id='artist'></p>
-						</div>
+					</div>
+					<div class="card-body p-3">
+						<table class="table table-borderless  table-hover specialCollapse">
+							<tbody>
+								<tr>
+									<td>
+										<p id="cost"><strong>Cost : </strong></p>
+									</td>
+									<td>
+										<p id="types"><strong>Types :</strong></p>
+									</td>
+									<td>
+										<p id="power"><strong>Power :</strong></p>
+									</td>
+								<tr>
+								<tr>
+									<td>
+										<p id="number"><strong>Number :</strong></p>
+									</td>
+									<td>
+										<p id="loyalty"><strong>Loyalty :</strong></p>
+									</td>
+									<td>
+										<p id="layout"><strong>Layout :</strong></p>
+									</td>
+				
+								</tr>
+								<tr>
+									<td>
+										<p id="reserved"><strong>Reserved :</strong></p>
+									</td>
+									<td>
+										<p id="promoCard"><strong>Promo :</strong></p>
+									</td>
+									<td>
+										<p id="reprintedCard"><strong>Reprinted :</strong></p>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<p id="arenaCard"><strong>MTGArena :</strong></p>
+									</td>
+									<td>
+										<p id="mtgoCard"><strong>MTGO :</strong></p>
+									</td>
+									<td>
+										<p id="onlineOnly"><strong>Online Only :</strong></p>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<p id="showcase"><strong>Showcase :</strong></p>
+									</td>
+									<td>
+										<p id="borderless"><strong>Borderless :</strong></p>
+									</td>
+									<td>
+										<p id="extendedArt"><strong>Extended Art :</strong></p>
+									</td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
 				</div>
-				<div class="col-lg-4">
-					<div class="panel">
-						<div class="panel-heading">Informations</div>
-						<div class="panel-body">
-							<table class="table table-borderless  table-hover specialCollapse">
-      							<tbody>
-      								<tr>
-									    <td><p id="cost"><strong>Cost : </strong></p></td>
-									    <td><p id="types"><strong>Types :</strong></p></td>
-										<td><p id="power"><strong>Power :</strong></p></td>
-									<tr>
-									<tr>
-										<td><p id="number"><strong>Number :</strong></p></td>
-										<td><p id="loyalty"><strong>Loyalty :</strong></p></td>
-										<td><p id="layout"><strong>Layout :</strong></p></td>
-										
-									</tr>
-									<tr>
-										<td><p id="reserved"><strong>Reserved :</strong></p></td>
-										<td><p id="promoCard"><strong>Promo :</strong></p></td>
-										<td><p id="reprintedCard"><strong>Reprinted :</strong></p></td>
-									</tr>
-									<tr>
-										<td><p id="arenaCard"><strong>MTGArena :</strong></p></td>
-										<td><p id="mtgoCard"><strong>MTGO :</strong></p></td>
-										<td><p id="onlineOnly"><strong>Online Only :</strong></p></td>
-									</tr>
-      							</tbody>
-      						</table>
-						
-						
-							
+				<br/></br/>
+				
+				<div class="card">
+					<div class="card-header p-0 position-relative mt-n4 mx-3 ">
+						<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+							<h6 class="text-white text-capitalize ps-3">Oracle Text</h6>
 						</div>
-						<div class="panel-footer"></div>
 					</div>
-					<div class="panel">
-						<div class="panel-heading">Oracle Text</div>
-						<div class="panel-body">
-							<p id="text"></p>
+					<div class="card-body p-3">
+						<p id="oracleText"></p>
+					</div>
+				</div>
+				<br/>
+				<br/>
+					<div class="card">
+					<div class="card-header p-0 position-relative mt-n4 mx-3 ">
+						<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+							<h6 class="text-white text-capitalize ps-3">Other Reprints</h6>
 						</div>
-						<div class="panel-footer"></div>
 					</div>
-					<div class="panel">
-						<div class="panel-heading">Actions</div>
-						<div class="panel-body" id='panelBtn'>
-							<button id="alertBtn" type="button" class="btn btn-circle" data-placement="bottom" data-toggle="tooltip" data-original-title="add alert">
+					<div class="card-body p-3">
+						 <ul class="list-group" id="reprints"></ul>       
+					</div>
+				</div>
+				
+				
+				<br/>
+				<br/>
+				<div class="card">
+					<div class="card-header p-0 position-relative mt-n4 mx-3 ">
+						<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+							<h6 class="text-white text-capitalize ps-3">Actions</h6>
+						</div>
+					</div>
+					<div class="card-body p-3" id="panelBtn">
+							<button id="alertBtn" type="button" class="btn btn-circle btn-warning toast-btn" data-bs-placement="bottom" data-bs-toggle="tooltip" title="add alert" >
 								<em class="fa fa-bell-o"></em>
 							</button>
-							<button id="stockBtn" type="button" class="btn btn-circle" data-placement="bottom" data-toggle="tooltip" data-original-title="add to stock">
+							<button id="stockBtn" type="button" class="btn btn-circle btn-primary toast-btn" data-bs-placement="bottom" data-bs-toggle="tooltip" title="add to stock">
 								<em class="fa fa-file-text"></em>
 							</button>
-							<button id="addCardBtn" type="button" class="btn btn-circle" data-placement="bottom" data-toggle="tooltip" data-original-title="add to default library">
+							<button id="addCardBtn" type="button" class="btn btn-circle btn-danger toast-btn" data-bs-placement="bottom" data-bs-toggle="tooltip" title="add to default library">
 								<em class="fa fa-plus-circle"></em>
 							</button>
-							<div id="dialog-message"></div>
-						</div>
-						<div class="panel-footer"></div>
 					</div>
 				</div>
-				<div class="col-lg-4">
-				
-					<div class="panel">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i id="priceArrow" class="fa fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="huge" id="lastPrice"></div>
-                                    <div class="medium" id="pcVariation"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 				
 				
-					<div class="panel">
-						<div class="panel-heading">Reprints</div>
-						<div class="panel-body">
-							<p id="reprints"></p>
+				
+				
+</div>
+
+
+			<div class="col-lg-6 col-md-6">
+			
+					<div class="card ">
+					<div class="card-header p-0 position-relative mt-n4 mx-3 ">
+						<div class=" bg-gradient-primary  shadow-primary border-radius-lg pt-4 pb-3">
+							<h6 class="text-white text-capitalize ps-3" id="lastPrice"></h6>
 						</div>
-						<div class="panel-footer"></div>
 					</div>
-					<div class="panel">
-						<div class="panel-heading">Formats</div>
-						<div class="panel-body">
-							<p id="legalities"></p>
-						</div>
-						<div class="panel-footer"></div>
+					<div class="card-body p-3">
+						 
 					</div>
-					<div class="panel">
-						<div class="panel-heading">Collections</div>
-						<div class="panel-body">
-							<p id="collections"></p>
+					<div class="card-footer p-3">
+		              <p class="mb-0" id="priceMouvement"><span class="text-sm font-weight-bolder" id="priceVariation"></span> since last week</p>
+		            </div>
+					
+				</div>
+			
+			
+			<br/><br/>
+				<div class="card ">
+					<div class="card-header p-0 position-relative mt-n4 mx-3 ">
+						<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+							<h6 class="text-white text-capitalize ps-3">History</h6>
 						</div>
-						<div class="panel-footer"></div>
+					</div>
+					<div class="card-body p-3">
+						<canvas id="chartPrice" width="400" height="100"></canvas>
 					</div>
 				</div>
-
-				<div class="row">
-					<div class="col-md-7">
-						<div class="panel">
-							<div class="panel-heading">Variation</div>
-							<div class="panel-body">
-								<div id="priceVariation" style="width: 100%;"></div>
-							</div>
-							<div class="panel-footer"></div>
+				
+				<br/><br/>
+					<div class="card ">
+					<div class="card-header p-0 position-relative mt-n4 mx-3 ">
+						<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+							<h6 class="text-white text-capitalize ps-3">Shops</h6>
 						</div>
 					</div>
-					<div class="col-md-4">
-						<div class="panel">
-							<div class="panel-heading">Prices</div>
-							<div class="panel-body">
-
-								<table id="tablePrices" class="display" style="width: 100%">
+					<div class="card-body p-3">
+						<ul class="nav nav-tabs" id="tabPrices"></ul>
+								<table class="table" id="table" style="width: 100%;">
 									<thead>
-										<tr>
-											<th>website</th>
-											<th>prices</th>
-											<th>currency</th>
-											<th>quality</th>
-											<th>foil</th>
-											<th>link</th>
-										</tr>
+									<tr>
+										<th>website</th>
+										<th>prices</th>
+										<th>quality</th>
+										<th>foil</th>
+										<th>link</th>
+									</tr>
 									</thead>
 								</table>
-
-							</div>
-							<div class="panel-footer"></div>
-						</div>
 					</div>
-				</div>
+				</div>	
+			
+				
+				
+				
+				
 			</div>
-		</div>
+			
+			
+			
+</div>
 
-	</div>
+
+
+      <footer class="footer py-4" id="navfooter"></footer>
+    </div>
+	
+	
+  </main>
+  <div class="fixed-plugin">
+    <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
+      <i class="material-icons py-2">settings</i>
+    </a>
+    <div class="card shadow-lg" id="settingPanel">
+      
+    </div>
+  </div>
+ 
+  <script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+      var options = {
+        damping: '0.5'
+      }
+      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+  </script>
+  
+  
+   <script src="../dist/js/material-dashboard.js?v=3.0.0"></script>
+
+   <div id="notifs"></div>
+ 
 </body>
 
 </html>

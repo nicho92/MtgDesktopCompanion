@@ -1,18 +1,18 @@
 package org.magic.servers.impl;
 
-import java.util.Map;
-
 import org.magic.api.interfaces.abstracts.extra.AbstractWebServer;
-import org.magic.services.MTGConstants;
 
 public class WebManagerServer extends AbstractWebServer {
 
 	@Override
 	protected String getWebLocation() {
-		return "web/"+getString("TEMPLATE");
+		return "web/web-ui";
 	}
 
-
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEV;
+	}
 
 	@Override
 	public String description() {
@@ -24,12 +24,5 @@ public class WebManagerServer extends AbstractWebServer {
 		return "Web UI Server";
 	}
 
-	@Override
-	public Map<String, String> getDefaultAttributes() {
-		var m = super.getDefaultAttributes();
-			m.put("TEMPLATE", "web-ui");
-			
-			return m;
-	}
-
+	
 }
