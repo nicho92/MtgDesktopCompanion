@@ -175,15 +175,16 @@
 			
 			$("#sidenav-main" ).load("inc/menu.html" );
 			$("#notifs").load("inc/notifs.html");
-			$("#navbarBlur").load("inc/nav.html",function(){
-					$("[name='categTitle']").html("Stocks Sync");
-					$("#menuStockSync").addClass("bg-gradient-primary");
-					$("#menuStockSync").addClass("active");
-			});
+			
 			
 			$("#navfooter").load("inc/footer.html");
 			$("#settingPanel").load("inc/settingPanel.html");
-			
+			$("#navbarBlur").load("inc/nav.html",function(){
+				$("[name='categTitle']").html("Stocks Sync");
+				$("#menuStockSync").addClass("bg-gradient-primary");
+				$("#menuStockSync").addClass("active");
+				document.getElementById('iconNavbarSidenav').addEventListener("click", toggleSidenav);
+			});
 			
 			$.ajax({
       	        url: restserver+"/admin/plugins/list"
