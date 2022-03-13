@@ -11,7 +11,7 @@ import org.magic.gui.components.shops.TransactionsPanel;
 import org.magic.gui.components.shops.WebShopConfigPanel;
 import org.magic.gui.components.shops.extshop.ConverterPanel;
 import org.magic.gui.components.shops.extshop.ProductsCreatorComponent;
-import org.magic.gui.components.shops.extshop.StockSynchronizerComponent;
+import org.magic.gui.components.shops.extshop.StockShopperComponent;
 import org.magic.gui.components.shops.extshop.TransactionCreatorComponent;
 import org.magic.services.MTGConstants;
 import org.magic.tools.UITools;
@@ -35,7 +35,7 @@ public class ShopGUI extends MTGUIComponent {
 		
 		UITools.addTab(subPane, new ProductsCreatorComponent());
 		UITools.addTab(subPane, new TransactionCreatorComponent());
-		UITools.addTab(subPane, new StockSynchronizerComponent());
+		UITools.addTab(subPane, new StockShopperComponent());
 		UITools.addTab(subPane, new ConverterPanel());
 		
 		UITools.addTab(pane, MTGUIComponent.build(subPane,"External Shop",MTGConstants.ICON_TAB_EXT_SHOP));

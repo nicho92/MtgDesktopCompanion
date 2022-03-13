@@ -39,9 +39,130 @@
 		    background-color: rgb(121, 174, 217) !important;
 		}
 	</style>
+	<script>
+
+	var loadedSrc=false;
+	var table = null;
+	
+		function loadTable(tableElement,provider)
+		{
+			$.ajax({
+		        url: restserver+"/extShop/list/stock/"+provider
+		    }).then(function(data) {
+		    		if(loadedSrc)
+					{
+						table.clear().rows.add(data).draw();
+					}
+					else
+					{
+						table=tableElement.DataTable( {
+					    	"language": {
+					    	    "search": "Filter"
+					    	  },
+					    	"responsive": true,
+					        "processing": true,
+					        "data": data,
+							"select":true,
+					        "columns": [
+					        	{ 
+					        		"data": "id",
+										"width": "5%"
+					        	},
+								{ 
+					        		"data": "product",
+									"render": function(d, type, row, meta)
+									{	
+											
+											var ret = "<span class='mtg-tooltip' url='"+d.url+"'>"+d.name +"</span>";
+											d=d.name;
+											return ret;
+											
+						            }
+					        	},
+								{ 
+					        		"data": "price",
+										"width": "5%",
+									"render": function(d, type, row, meta)
+									{
+						                	return d.toFixed(2) ;
+						            }
+					        	},
+								{
+									"data":"qte",
+									 "width": "5%",
+								},
+								{
+									"data":"language",
+								},
+								{
+									"data":"foil",
+									 "render": function(data, type, row, meta){
+						                	 if(type === 'display'){
+												 if(data===true)
+						                			 	return "<span class='fa fa-check'/>";
+						                			 else
+						                				return "<span class='fa fa-times'/>";
+						                	 }
+						                   return data;
+						                }
+								},
+								{
+									"data":"etched",
+									"render": function(data, type, row, meta){
+						                	 if(type === 'display'){
+												 if(data===true)
+						                			 	return "<span class='fa fa-check'/>";
+						                			 else
+						                				return "<span class='fa fa-times'/>";
+						                	 }
+						                   return data;
+						                }
+								},
+								{
+									"data":"altered",
+									"render": function(data, type, row, meta){
+						                	 if(type === 'display'){
+												 if(data===true)
+						                			 	return "<span class='fa fa-check'/>";
+						                			 else
+						                				return "<span class='fa fa-times'/>";
+						                	 }
+						                   return data;
+						                }
+								},
+								{
+									"data":"condition",
+								},
+								{
+									"data":"tiersAppIds",
+									"render": function(data, type, row, meta){
+										 	 if(type === 'display'){
+							
+												var ret = "";
+												
+												Object.keys(data).forEach(function(item){
+														ret+='<i class="material-icons opacity-10">shopping_cart</i>'+item+ '('+data[item]+')<br/>';
+												});
+												return ret;
+													 
+						                	 }
+						                   return Object.keys(data);
+						                }
+								}
+					        ],
+								fnDrawCallback: function () {
+								loadedSrc=true;
+								mtgtooltipProduct($(".mtg-tooltip"));
+							}
+				    		});
+					
+					}
+		    });
+		}
 	
 	
-		<script>
+	
+	
 		$(document).ready(function() {
 			var table;
 			
@@ -80,122 +201,9 @@
 			});
 
 
-			var loaded=false;
-			var table = null;
       		$("#searchBtn").click(function() {
-	
-      			$.ajax({
-			        url: restserver+"/extShop/list/stock/"+$("#cboSource").val()
-			    }).then(function(data) {
-			    	if(loaded)
-						{
-							table.clear().rows.add(data).draw();
-						}
-						else
-						{
-							table=$('#tableResults').DataTable( {
-						    	"language": {
-						    	    "search": "Filter"
-						    	  },
-						    	"responsive": true,
-						        "processing": true,
-						        "data": data,
-								"select":true,
-						        "columns": [
-						        	{ 
-						        		"data": "id",
-  										"width": "5%"
-						        	},
-									{ 
-						        		"data": "product",
-										"render": function(d, type, row, meta)
-										{	
-												
-												var ret = "<span class='mtg-tooltip' url='"+d.url+"'>"+d.name +"</span>";
-												d=d.name;
-												return ret;
-												
-							            }
-						        	},
-									{ 
-						        		"data": "price",
- 										"width": "5%",
-										"render": function(d, type, row, meta)
-										{
-							                	return d.toFixed(2) ;
-							            }
-						        	},
-									{
-										"data":"qte",
-										 "width": "5%",
-									},
-									{
-										"data":"language",
-									},
-									{
-										"data":"foil",
-										 "render": function(data, type, row, meta){
-							                	 if(type === 'display'){
-													 if(data===true)
-							                			 	return "<span class='fa fa-check'/>";
-							                			 else
-							                				return "<span class='fa fa-times'/>";
-							                	 }
-							                   return data;
-							                }
-									},
-									{
-										"data":"etched",
-										"render": function(data, type, row, meta){
-							                	 if(type === 'display'){
-													 if(data===true)
-							                			 	return "<span class='fa fa-check'/>";
-							                			 else
-							                				return "<span class='fa fa-times'/>";
-							                	 }
-							                   return data;
-							                }
-									},
-									{
-										"data":"altered",
-										"render": function(data, type, row, meta){
-							                	 if(type === 'display'){
-													 if(data===true)
-							                			 	return "<span class='fa fa-check'/>";
-							                			 else
-							                				return "<span class='fa fa-times'/>";
-							                	 }
-							                   return data;
-							                }
-									},
-									{
-										"data":"condition",
-									},
-									{
-										"data":"tiersAppIds",
-										"render": function(data, type, row, meta){
-											 	 if(type === 'display'){
-								
-													var ret = "";
-													
-													Object.keys(data).forEach(function(item){
-															ret+='<i class="material-icons opacity-10">shopping_cart</i>'+item+ '('+data[item]+')<br/>';
-													});
-													return ret;
-														 
-							                	 }
-							                   return Object.keys(data);
-							                }
-									}
-						        ],
- 								fnDrawCallback: function () {
-									loaded=true;
-									mtgtooltipProduct($(".mtg-tooltip"));
-								}
-					    		});
-						
-						}
-			    });
+	  			loadTable($("#tableResults"),$("#cboSource").val());
+      			
   	 		});
 
 
@@ -266,7 +274,7 @@
       </div>
 	  <br/><br/><br/>
       <div class="row mb-4">
-        <div class="col-lg-12 col-md-6 mb-md-0 mb-4">
+        <div class="col-lg-6 col-md-6 mb-md-0 mb-4">
           <div class="card">
           <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
@@ -296,7 +304,35 @@
           </div>
         </div>
         
-        
+        <div class="col-lg-6 col-md-6 mb-md-0 mb-4">
+          <div class="card">
+          <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                <h6 class="text-white text-capitalize ps-3">Stock Items</h6>
+              </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+              <div class="table-responsive">
+               <table id="tableDest" class="display" style="width:100%">
+						       <thead>
+						            <tr>
+						            	<th>ID</th>
+										<th>Products</th>
+										<th>Price</th>
+										<th>Qte</th>
+										<th>Langage</th>
+										<th>foil</th>
+										<th>etched</th>
+										<th>altered</th>
+										<th>condition</th>
+										<th>extIDs</th>
+						            </tr>
+						        </thead>
+					</table>
+              </div>
+            </div>
+          </div>
+        </div>
         
         
       </div>

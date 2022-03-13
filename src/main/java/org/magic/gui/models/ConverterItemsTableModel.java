@@ -8,7 +8,7 @@ public class ConverterItemsTableModel extends GenericTableModel<ConverterItem> {
 	private static final long serialVersionUID = 1L;
 	
 	public ConverterItemsTableModel() {
-		setColumns("id","name","lang","source","inputId","destination","outputId");
+		setColumns("id","name","source","inputId","destination","outputId");
 		setWritable(true);
 	}
 	
@@ -33,11 +33,10 @@ public class ConverterItemsTableModel extends GenericTableModel<ConverterItem> {
 		switch (column)
 		{
 			case 1:it.setName(val.toString());break;
-			case 2:it.setLang(val.toString());break;
-			case 3:it.setSource(val.toString());break;
-			case 4:it.setInputId(Integer.parseInt(val.toString()));break;
-			case 5:it.setDestination(val.toString());break;
-			case 6:it.setOutputId(Integer.parseInt(val.toString()));break;
+			case 2:it.setSource(val.toString());break;
+			case 3:it.setInputId(Integer.parseInt(val.toString()));break;
+			case 4:it.setDestination(val.toString());break;
+			case 5:it.setOutputId(Integer.parseInt(val.toString()));break;
 			default : return;
 		}
 		it.setUpdated(true);

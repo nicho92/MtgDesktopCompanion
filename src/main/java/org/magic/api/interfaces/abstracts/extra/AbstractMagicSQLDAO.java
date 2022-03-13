@@ -749,14 +749,13 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public void saveOrUpdateConversionItem(ConverterItem n) throws SQLException {
 		if (n.getId() < 0) 
 		{
-				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO conversionsItems (name, lang, source, inputId, destination, outputId) VALUES (?, ?, ?, ?, ?, ?)"))
+				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO conversionsItems (name, source, inputId, destination, outputId) VALUES (?, ?, ?, ?, ?)"))
 				{
 					pst.setString(1,n.getName());
-					pst.setString(2,n.getLang());
-					pst.setString(3, n.getSource());
-					pst.setLong(4, n.getInputId());
-					pst.setString(5, n.getDestination());
-					pst.setLong(6, n.getOutputId());
+					pst.setString(2, n.getSource());
+					pst.setLong(3, n.getInputId());
+					pst.setString(4, n.getDestination());
+					pst.setLong(5, n.getOutputId());
 					executeUpdate(pst);
 					logger.debug(n.getName() +" created");
 					n.setUpdated(false);
@@ -765,15 +764,14 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		}
 		else if(n.isUpdated())
 		{
-			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE conversionsItems SET name = ?, lang = ?, source = ?, inputId = ?, destination = ?, outputId = ? WHERE id = ?")) 
+			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE conversionsItems SET name = ?, source = ?, inputId = ?, destination = ?, outputId = ? WHERE id = ?")) 
 			{
 				pst.setString(1,n.getName());
-				pst.setString(2,n.getLang());
-				pst.setString(3, n.getSource());
-				pst.setLong(4, n.getInputId());
-				pst.setString(5, n.getDestination());
-				pst.setLong(6, n.getOutputId());
-				pst.setLong(7, n.getId());
+				pst.setString(2, n.getSource());
+				pst.setLong(3, n.getInputId());
+				pst.setString(4, n.getDestination());
+				pst.setLong(5, n.getOutputId());
+				pst.setLong(6, n.getId());
 				executeUpdate(pst);
 				logger.debug(n.getName() +" updated");
 				n.setUpdated(false);	
@@ -1044,7 +1042,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			it.setInputId(rs.getLong("inputId"));
 			it.setDestination(rs.getString("destination"));
 			it.setOutputId(rs.getLong("outputId"));
-			it.setLang(rs.getString("lang"));
 		return it;
 	}
 	

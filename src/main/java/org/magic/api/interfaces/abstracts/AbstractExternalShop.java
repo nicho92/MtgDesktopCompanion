@@ -44,7 +44,7 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 	protected List<ConverterItem> getRefs(String lang, Long id)
 	{
 		try {
-			return MTG.getEnabledPlugin(MTGDao.class).listConversionItems().stream().filter(p->(p.getLang().equalsIgnoreCase(lang) && (p.getInputId().equals(id) || p.getOutputId().equals(id)))).toList();
+			return MTG.getEnabledPlugin(MTGDao.class).listConversionItems().stream().filter(p->(p.getInputId().equals(id) || p.getOutputId().equals(id))).toList();
 		} catch (SQLException e) {
 			logger.error(e);
 			return new ArrayList<>();
@@ -130,7 +130,7 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 					if(ret>0)
 					{
 						mci.getTiersAppIds().put(getName(), String.valueOf(ret));
-						MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateConversionItem(new ConverterItem( t.getSourceShopName(),getName(), mci.getProduct(), mci.getLanguage(), mci.getId(),ret));
+						MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateConversionItem(new ConverterItem( t.getSourceShopName(),getName(), mci.getProduct(),  mci.getId(),ret));
 					}
 					
 				} catch (Exception e) {
@@ -145,26 +145,11 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 	}
 	
 	
-	
 	@Override
-	public Long createProduct(MTGExternalShop input, MTGProduct t,String lang,Category c) throws IOException {
-		Localization defaultLoc = new Localization(1, "English");
-		defaultLoc.setName(t.getName());
-		var ret = createProduct(t,c);
-		try {
-			
-			updateConversion(input.getName(), t.getName(),lang,t.getProductId(), ret);
-		} catch (IOException e) {
-			throw new IOException(e);
-		}
-		return ret;
-	}
-
-	@Override
-	public  void updateConversion(String sourcename, String productName, String language, Long idProduct, Long idDestProduct ) throws IOException
+	public  void updateConversion(String sourcename, String productName, Long idProduct, Long idDestProduct ) throws IOException
 	{
 		try {
-			MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateConversionItem(new ConverterItem(sourcename,getName(), productName,language, idProduct, idDestProduct));
+			MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateConversionItem(new ConverterItem(sourcename,getName(), productName,idProduct, idDestProduct));
 		} catch (SQLException e) {
 			throw new IOException(e);
 		}

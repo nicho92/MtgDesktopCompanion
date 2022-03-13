@@ -133,9 +133,6 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 		       }
 		});
 		
-		listOutput.addListSelectionListener(lll->btnSend.setText("update "+ listInput.getSelectedValuesList().size() + " items"));
-		
-		
 		listInput.addListSelectionListener(lll->{
 			btnSend.setEnabled(listInput.getSelectedIndex()>=0);
 			btnSend.setText("Insert "+ listInput.getSelectedValuesList().size() + " items");
@@ -185,17 +182,9 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 			protected Void doInBackground() throws Exception {
 					for(MTGProduct p : list)
 						{	
-							if(listOutput.getSelectedIndex()>-1)
-							{
-								plug.updateConversion(((MTGExternalShop)cboInput.getSelectedItem()).getName(), listOutput.getSelectedValue().getName(),cboLanguages.getSelectedItem().toString(),p.getProductId(),listOutput.getSelectedValue().getProductId());
-							}
-							else
-							{
-								var id = plug.createProduct((MTGExternalShop)cboInput.getSelectedItem(),p,cboLanguages.getSelectedItem().toString(),(Category)cboCategory.getSelectedItem());
+								var id = plug.createProduct(p,(Category)cboCategory.getSelectedItem());
 								p.setProductId(id);
-							}
-						
-							publish(p);
+								publish(p);
 						}
 					return null;
 			}

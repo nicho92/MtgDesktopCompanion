@@ -10,13 +10,9 @@ public class ConverterItem implements Serializable, Comparable<ConverterItem>
 	private String name;
 	private Long inputId;
 	private Long outputId;
-	private String lang="";
 	private String source;
 	private String destination;
 	
-	public ConverterItem() {
-		
-	}
 	
 	@Override
 	public String toString() {
@@ -57,22 +53,25 @@ public class ConverterItem implements Serializable, Comparable<ConverterItem>
 	}
 	
 	
-	public ConverterItem(String source, String dest, String name, String lang, Integer inputId, Integer outputId ) {
+	public ConverterItem(String source, String dest, String name, Integer inputId, Integer outputId ) {
 		this.source=source;
 		this.destination=dest;
 		this.name = name;
 		this.inputId = inputId.longValue();
 		this.outputId = outputId.longValue();
-		this.lang = lang;
 	}
 	
-	public ConverterItem(String source, String dest, String name, String lang, Long inputId, Long outputId ) {
+	public ConverterItem(String source, String dest, String name,Long inputId, Long outputId ) {
 		this.source=source;
 		this.destination=dest;
 		this.name = name;
 		this.inputId = inputId;
 		this.outputId = outputId;
-		this.lang = lang;
+	}
+	
+	public ConverterItem()
+	{
+		
 	}
 	
 
@@ -121,15 +120,6 @@ public class ConverterItem implements Serializable, Comparable<ConverterItem>
 	
 	public void setOutputId(Long outputId) {
 		this.outputId = outputId;
-	}
-
-	
-
-	public String getLang() {
-		return lang;
-	}
-	public void setLang(String lang) {
-		this.lang = lang;
 	}
 
 	@Override

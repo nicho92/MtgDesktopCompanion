@@ -53,6 +53,8 @@ public class MkmExternalShop extends AbstractExternalShop {
 	private static final String ID_GAME = "ID_GAME";
 	private boolean initied=false;
 	private StockService mkmStockService;
+	
+	
 	private void init()
 	{
 		if(!initied) {
@@ -77,6 +79,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 	
 	private List<File> loadFiles() throws IOException
 	{
+		
 		var serv = new StockService();
 		
 		File temp = new File(MTGConstants.DATA_DIR, "mkm_temp_card.csv"); 
@@ -95,7 +98,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 	
 	@Override
 	public List<MTGStockItem> loadStock(String search) throws IOException {
-		
+			init();
 			var ret = new ArrayList<MTGStockItem>();
 			for(File f : loadFiles())
 				try(CSVParser p = CSVFormat.Builder.create().setDelimiter(";").setHeader().build().parse(new FileReader(f))  )
@@ -113,6 +116,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 								  product.setEnName(art.get("English Name"));
 								  product.setIdProduct(Integer.parseInt(art.get("idProduct")));
 								  product.setRarity("");
+								  product.setImage("");
 								  try {
 									  item.setFoil(!art.get("Foil?").isEmpty());
 									  item.setSigned(!art.get("Signed?").isEmpty());

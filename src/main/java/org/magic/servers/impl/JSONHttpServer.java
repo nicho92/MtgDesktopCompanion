@@ -976,8 +976,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 				MTG.getEnabledPlugin(MTGCardsIndexer.class).initIndex();
 			return "done in " + c.stop() +" s";
 		}, transformer);
-		
-		
+
 		get("/webshop/config", URLTools.HEADER_JSON, (request, response) -> 
 			
 			 getCached(request.pathInfo(), new Callable<Object>() {
@@ -987,7 +986,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 					WebShopConfig conf =  MTGControler.getInstance().getWebConfig();
 					conf.getContact().setPassword(null);
 					return conf;
-					
 				}
 			})
 			
@@ -1048,15 +1046,13 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		post("/extShop/:from/:to/:idCategory/:language", URLTools.HEADER_JSON, (request, response) ->{ 
 				
-			MTGExternalShop srcShop  = MTG.getPlugin(request.params(":from"), MTGExternalShop.class);
 			MTGExternalShop extShop  = MTG.getPlugin(request.params(":to"), MTGExternalShop.class);
-			
 			List<MTGProduct> ret = converter.fromJsonList(new InputStreamReader(request.raw().getInputStream()), MTGProduct.class);
 			var arr = new JsonArray();
 			for(MTGProduct p : ret)
 			{
 				Category c = extShop.listCategories().stream().filter(cat->cat.getIdCategory()==Integer.parseInt(request.params(":idCategory"))).findFirst().orElse(new Category());
-				var res = extShop.createProduct(srcShop,p,request.params(":language"),c);
+				var res = extShop.createProduct(p,c);
 				arr.add(res);
 			}
 			return arr;
