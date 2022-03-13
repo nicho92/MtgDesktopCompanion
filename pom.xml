@@ -245,12 +245,12 @@
 		<dependency>
 			<groupId>com.fifesoft</groupId>
 			<artifactId>rsyntaxtextarea</artifactId>
-			<version>3.1.6</version>
+			<version>3.2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fifesoft</groupId>
 			<artifactId>autocomplete</artifactId>
-			<version>3.1.5</version>
+			<version>3.2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>net.dean.jraw</groupId>
