@@ -99,6 +99,7 @@
 						    	  },
 						    	"responsive": true,
 						        "processing": true,
+    							"order": [[ 1, "desc" ]],
 						        "data": data,
 								"select":true,
 						        "columns": [
@@ -133,7 +134,7 @@
 												
 												return content;
 												}
-												return d;
+												return JSON.stringify(d);
 							            	}
 						        	},
 									{ 
