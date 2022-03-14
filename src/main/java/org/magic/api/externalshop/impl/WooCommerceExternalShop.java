@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.beans.shop.Category;
@@ -23,6 +24,7 @@ import org.magic.services.MTGConstants;
 import org.magic.tools.UITools;
 import org.magic.tools.WooCommerceTools;
 
+import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -209,7 +211,9 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 					 c.setIdCategory(objCateg.get("id").getAsInt());
 					 c.setCategoryName(objCateg.get("name").getAsString());
 			p.setCategory(c);
-		
+			p.setTypeProduct(parseType(c));
+			
+			
 			
 			JsonObject img = obj.get(IMAGES).getAsJsonArray().get(0).getAsJsonObject();
 							p.setUrl(img.get("src").getAsString());
@@ -218,6 +222,15 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 					var stockItem = AbstractStockItem.generateDefault();
 					stockItem.setProduct(p);
 					stockItem.setId(p.getProductId());
+					
+					
+					if(List.of(EnumItems.BOOSTER,EnumItems.CONSTRUCTPACK,EnumItems.BOX,EnumItems.FATPACK,EnumItems.PRERELEASEPACK,EnumItems.BUNDLE, EnumItems.SEALED).contains(p.getTypeProduct()))
+							stockItem.setCondition(EnumCondition.SEALED);
+					else if(List.of(EnumItems.FULLSET,EnumItems.LOTS).contains(p.getTypeProduct()))
+						stockItem.setCondition(EnumCondition.OPENED);
+					else if(List.of(EnumItems.CARD).contains(p.getTypeProduct()))
+						stockItem.setCondition(EnumCondition.NEAR_MINT);
+					
 					try {
 						stockItem.setPrice(obj.get(PRICE).getAsDouble());
 					}
@@ -239,6 +252,21 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		return ret;
 		
 	
+	}
+
+	private EnumItems parseType(Category c) {
+		
+		//TODO VARIABLES THIS METHOD
+		switch( c.getIdCategory())
+		{
+			case 78 :return  EnumItems.CONSTRUCTPACK;
+			case 75 :return  EnumItems.BOX;
+			case 76 :return  EnumItems.BUNDLE;
+			case 77 :return  EnumItems.BOOSTER;
+			default : return EnumItems.CARD;
+		}
+		
+		
 	}
 
 	@Override
@@ -451,6 +479,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 					 c.setIdCategory(objCateg.get("id").getAsInt());
 					 c.setCategoryName(objCateg.get("name").getAsString());
 			p.setCategory(c);
+			p.setTypeProduct(parseType(c));
 			
 			JsonObject img = obj.get(IMAGES).getAsJsonArray().get(0).getAsJsonObject();
 			p.setUrl(img.get("src").getAsString());

@@ -645,6 +645,32 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return getEnabledPlugin(MTGDao.class).hasAlert(mc);
 
 		}, transformer);
+		
+		delete("/alerts/:id", URLTools.HEADER_JSON, (request, response) -> {
+			var alert = getEnabledPlugin(MTGDao.class).listAlerts().stream().filter(mca->mca.getId().equals(request.params(":id"))).findFirst().orElse(null);
+			
+			if(alert==null)
+				throw new NullPointerException("No alert with id="+request.params(":id"));
+			
+			getEnabledPlugin(MTGDao.class).deleteAlert(alert);
+			return RETURN_OK;
+
+		}, transformer);
+		
+		put("/alerts/:id/:value", URLTools.HEADER_JSON, (request, response) -> {
+			var alert = getEnabledPlugin(MTGDao.class).listAlerts().stream().filter(mca->mca.getId().equals(request.params(":id"))).findFirst().orElse(null);
+			
+			if(alert==null)
+				throw new NullPointerException("No alert with id="+request.params(":id"));
+			
+			alert.setPrice(Double.parseDouble(request.params(":value")));
+			getEnabledPlugin(MTGDao.class).updateAlert(alert);
+			return RETURN_OK;
+
+		}, transformer);
+		
+		
+		
 
 		put("/alerts/add/:idCards", (request, response) -> {
 			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(ID_CARDS));

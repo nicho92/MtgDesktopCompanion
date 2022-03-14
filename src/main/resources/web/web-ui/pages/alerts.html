@@ -27,7 +27,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.5.5/perfect-scrollbar.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scrollbar/8.7.4/smooth-scrollbar.min.js"></script>
-  
   <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script>
   <script src="../dist/js/rest-server.js"></script>
@@ -48,7 +47,11 @@
 			$("#navfooter").load("inc/footer.html");
 			$("#settingPanel").load("inc/settingPanel.html");
 			
-			$('#tableAlerts').DataTable( {
+				
+		   		
+			
+			
+			var table = $('#tableAlerts').DataTable( {
 		    	"language": {
 		    	    "search": "Filter",
 		    	    "processing": "<img src='../dist/img/loading.gif' width='50' height='50'>"
@@ -87,7 +90,7 @@
 	                "defaultContent": "",
 		        	  "render": function(data, type, row, meta){
 		                   if(type === 'display'){
-		                       data = '<i class="ms ms-'+data[0].toLowerCase()+' ms-2x"></i>'+data;
+								return '<i class="ms ms-'+data[0].toLowerCase()+' ms-2x"></i>'+data;
 		                   }
 		                   return data;
 		              }
@@ -95,13 +98,45 @@
 	            { 
 	                "data": "price",
 	                "defaultContent": ""
+	            },
+  				{ 
+	                "data": "id",
+	                "defaultContent": "",
+ 					"render": function(data, type, row, meta){
+		                   if(type === 'display'){
+		                     		var ret='<button value="'+data+'" type="button" class="btn btn-circle btn-warning updateBtn" data-bs-placement="bottom" data-bs-toggle="tooltip" title="Update Bids"><i class="fa fa-pencil"></i></button>&nbsp;';
+									ret+='<button value="'+data+'" type="button" class="btn btn-circle btn-primary deleteBtn" data-bs-placement="bottom" data-bs-toggle="tooltip" title="Delete Alert"><i class="fa fa-ban"></i></button>&nbsp;';
+									
+									return ret;
+		                   }
+		                   return data;
+		              }
 	            }
 	           
 	        ],
 		        "fnDrawCallback" :function(oSettings, json) {
-					var dt = $('#tableAlerts').DataTable();
 					
 					mtgtooltip($(".mtg-tooltip"));
+					
+					
+					$(".updateBtn").on('click',function() {
+							var id = $(this).attr('value');
+		   	  			
+	   	  			});	
+			
+					$(".deleteBtn").click( function() {
+		   	  			var id = $(this).attr('value');
+						$.ajax({
+							url:restserver+"/alerts/"+id,
+							type: 'DELETE'
+						}).done(function(data) {
+   							alert("OK");
+				   		 }).fail(function(data,status,error) {
+				   			alert(JSON.stringify(data) + " " + error);
+				   		 });
+	   	  			});	
+			
+					
 		        }
 		        
 			 } );
@@ -134,10 +169,11 @@
                 <table id="tableAlerts" class="table align-items-center mb-0" style="width:100%">
 			        <thead>
 	           			<tr>
-				                <th>card</th>
-				                <th>edition</th>
-				                <th>type</th>
-				                <th>bid</th>
+				                <th>Card</th>
+				                <th>Set</th>
+				                <th>Type</th>
+				                <th>Bid</th>
+  								<th>Actions</th>
 				            </tr>
 			        </thead>
                 </table>
