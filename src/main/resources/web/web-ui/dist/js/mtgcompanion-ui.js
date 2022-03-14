@@ -270,6 +270,7 @@ function printDeck(element, deckData)
         "bLengthChange": false,
         "searching": false,
         "order": [[ 1, "asc" ]],
+        "bSortClasses": false,
 		"stripeClasses": [],
         "columns": [
         		{ 
