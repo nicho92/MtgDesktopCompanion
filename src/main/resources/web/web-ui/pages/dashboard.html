@@ -76,7 +76,20 @@
 						            }
 						            return data;
 						        }
-				        	},
+				        },
+				        { 
+				        	  "data": "foil",
+				        	  "width": "5%",
+				              "render": function(data, type, row, meta){
+						           if(type === 'display'){
+						        	   if(data===true)
+			                			 	return "<span class='fa fa-check'/>";
+			                			 else
+			                				return "<span class='fa fa-times'/>";
+						            }
+						            return data;
+						        }
+				        },
 			            { 
 				        		"data" : "price",
 				        		"defaultContent": "",
@@ -192,6 +205,7 @@
 						<tr>
 							<th>Name</th>
 							<th>Edition</th>
+							<th>Foil</th>
 							<th>$</th>
 							<th>+/-</th>
 							<th>%</th>
