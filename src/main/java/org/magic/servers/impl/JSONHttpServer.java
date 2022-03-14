@@ -631,14 +631,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		, transformer);
 		
 	
-		get("/alerts/list", URLTools.HEADER_JSON,
-				(request, response) -> getCached(request.pathInfo(), new Callable<Object>() {
-						@Override
-						public List<MagicCardAlert> call() throws Exception {
-							return getEnabledPlugin(MTGDao.class).listAlerts();
-						}
-					})
-					, transformer);
+		get("/alerts/list", URLTools.HEADER_JSON,(request, response) -> getEnabledPlugin(MTGDao.class).listAlerts(), transformer);
 
 		get("/alerts/:idCards", URLTools.HEADER_JSON, (request, response) -> {
 			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(ID_CARDS));

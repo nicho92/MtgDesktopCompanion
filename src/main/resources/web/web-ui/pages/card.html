@@ -285,7 +285,7 @@ $(document).ready(function() {
 						
 						$.get(restserver+"/dash/variations/card/"+card.id,function(dprice){
 								printChartPrices("chartPrice",dprice);
-
+	
 								var vallast = dprice.normal[dprice.normal.length - 1].value;
 								
 								var vallastF =0.0;
@@ -306,7 +306,7 @@ $(document).ready(function() {
 								else
 									$("#priceVariation").addClass("text-danger");
 								
-								
+								$("#historyProvider").html("Price in " + dprice.currency + " by " + dprice.provider);
 								$("#lastPrice").html(vallast.toFixed(2) + " /  " + vallastF.toFixed(2) + "(F) " + dprice.currency);
 						});					
 						
@@ -547,6 +547,9 @@ $(document).ready(function() {
 					</div>
 					<div class="card-body p-3">
 						<canvas id="chartPrice" width="400" height="100"></canvas>
+					</div>
+					<div class="card-footer p-3">
+						<span id="historyProvider"></span>
 					</div>
 				</div>
 				

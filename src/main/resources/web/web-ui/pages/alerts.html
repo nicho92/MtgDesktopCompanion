@@ -130,7 +130,7 @@
 							url:restserver+"/alerts/"+id,
 							type: 'DELETE'
 						}).done(function(data) {
-   							alert("OK");
+   								table.row( $(this).parents('tr') ).remove().draw();
 				   		 }).fail(function(data,status,error) {
 				   			alert(JSON.stringify(data) + " " + error);
 				   		 });
