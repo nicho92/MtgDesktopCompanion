@@ -95,13 +95,13 @@
 		                "render": function(data, type, row, meta){
 		                   if(type === 'display'){
 		                	   try {
-		                	   		data = '<i class="ss ss-grad ss-'+data[0].keyRuneCode.toLowerCase()+' ss-'+row.rarity.toLowerCase()+' ss-2x ss-uncommon"></i>';
+		                	   		return '<i class="ss ss-grad ss-'+data[0].keyRuneCode.toLowerCase()+' ss-'+row.rarity.toLowerCase()+' ss-2x ss-uncommon"></i>';
 		                	   }catch(error)
 		                	   {
 		                		   console.log(error);
 		                	   }
 		                   }
-		                   return data;
+		                   return row.rarity;
 		                }
 		            }, 
 		            { 
