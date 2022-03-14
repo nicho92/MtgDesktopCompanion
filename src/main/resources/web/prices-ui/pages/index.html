@@ -86,7 +86,7 @@
 			
 			if($_GET("id"))
 			{
-				$.get(restserver+"/cards/"+$_GET("id"),function(data){
+				$.get(restserver+"/cards/scryfall/"+$_GET("id"),function(data){
 					load(data);
 				});
 			}
@@ -107,7 +107,7 @@
 				$("#cardpic").attr("src","https://api.scryfall.com/cards/"+card.scryfallId+"?format=image");
 				$("#cardTitle").html(card.name);
 				$("#cardSet").html(card.set);
-				$("#linkshare").attr("href", window.location.origin + window.location.pathname+"?id="+card.id);
+				$("#linkshare").attr("href", window.location.origin + window.location.pathname+"?id="+card.scryfallId);
 				
 				window.title="MTGCompanion - " + card.name; 
 				
