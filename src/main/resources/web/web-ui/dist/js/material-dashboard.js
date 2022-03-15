@@ -6,6 +6,19 @@ var storage =localStorage;
 (function() {
 	var isWindows = navigator.platform.indexOf('Win') > -1 ? true : false;
 	
+	   if(storage.getItem("darkMode")!=null)
+		{ 
+			if(storage.getItem("darkMode")=='true')
+			{
+				$("body").addClass("dark-version");
+			}
+			else
+			{
+				$("body").removeClass("dark-version");	
+			}	
+		}	
+    		
+			
 	
   if (isWindows) {
     // if we are on windows OS we activate the perfectScrollbar function

@@ -55,15 +55,9 @@
         
       </div>
 
+	<script>
+		if(storage.getItem("darkMode")!=null)
+				document.getElementById("dark-version").checked = storage.getItem("darkMode")=='true';
 
-<script>
-		var element=document.getElementById("dark-version");
-		
-        if(storage.getItem("darkMode")!=null)
-		{ 
-			element.checked = storage.getItem("darkMode")=='true';
-			
-			if(storage.getItem("darkMode")=='true')
-				darkMode(element);
-		}
-</script>
+	</script>
+
