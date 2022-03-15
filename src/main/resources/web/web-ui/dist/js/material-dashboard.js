@@ -108,7 +108,7 @@ function sidebarColor(a) {
 	if(storage.getItem("color")!=null)
 		oldColor=storage.getItem("color");
 
-  var elements= document.querySelectorAll(".bg-gradient-"+oldColor+" :not(.badge)"); 
+  var elements= document.querySelectorAll(".bg-gradient-"+oldColor); 
   var color = a.getAttribute("data-color");
 
   for (let i = 0; i < elements.length; i++) {
