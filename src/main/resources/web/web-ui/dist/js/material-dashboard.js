@@ -68,7 +68,6 @@ if (document.querySelector('.fixed-plugin')) {
   var fixedPluginButtonNav = document.querySelector('.fixed-plugin-button-nav');
   var fixedPluginCard = document.querySelector('.fixed-plugin .card');
   var navbar = document.getElementById('navbarBlur');
-  var buttonNavbarFixed = document.getElementById('navbarFixed');
 	
   if (fixedPluginButton) {
     fixedPluginButton.onclick = function() {
@@ -90,13 +89,6 @@ if (document.querySelector('.fixed-plugin')) {
     }
   }
 
-
-  if (navbar) {
-    if (navbar.getAttribute('data-scroll') == 'true' && buttonNavbarFixed) {
-      buttonNavbarFixed.setAttribute("checked", "true");
-    }
-  }
-
 }
 
 //Set Sidebar Color
@@ -107,7 +99,7 @@ function sidebarColor(a) {
 	if(storage.getItem("color")!=null)
 		oldColor=storage.getItem("color");
 
-  var elements= document.querySelectorAll(".bg-gradient-"+oldColor); 
+  var elements= document.querySelectorAll(".bg-gradient-"+oldColor+":not(btn)"); 
   var color = a.getAttribute("data-color");
 
   for (let i = 0; i < elements.length; i++) {
@@ -142,6 +134,7 @@ function sidebarColor(a) {
 	}
   storage.setItem("color",color);
 }
+
 
 // Set Sidebar Type
 function sidebarType(a) {
@@ -201,24 +194,6 @@ function sidebarType(a) {
   }
 
 }
-
-// Set Navbar Fixed
-function navbarFixed(el) {
-  let classes = ['position-sticky', 'blur', 'shadow-blur', 'mt-4', 'left-auto', 'top-1', 'z-index-sticky'];
-  const navbar = document.getElementById('navbarBlur');
-
-  if (!el.getAttribute("checked")) {
-    navbar.classList.add(...classes);
-    navbar.setAttribute('navbar-scroll', 'true');
-    navbarBlurOnScroll('navbarBlur');
-    el.setAttribute("checked", "true");
-  } else {
-    navbar.classList.remove(...classes);
-    navbar.setAttribute('navbar-scroll', 'false');
-    navbarBlurOnScroll('navbarBlur');
-    el.removeAttribute("checked");
-  }
-};
 
 
 // Set Navbar Minimized
@@ -340,7 +315,7 @@ function debounce(func, wait, immediate) {
 document.addEventListener("DOMContentLoaded", function() {
   var toastElList = [].slice.call(document.querySelectorAll(".toast"));
 
-  var toastList = toastElList.map(function(toastEl) {
+  toastElList.map(function(toastEl) {
     return new bootstrap.Toast(toastEl);
   });
 
@@ -357,157 +332,6 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   });
 });
-
-// Tabs navigation
-
-var total = document.querySelectorAll('.nav-pills');
-
-function initNavs() {
-  total.forEach(function(item, i) {
-    var moving_div = document.createElement('div');
-    var first_li = item.querySelector('li:first-child .nav-link');
-    var tab = first_li.cloneNode();
-    tab.innerHTML = "-";
-
-    moving_div.classList.add('moving-tab', 'position-absolute', 'nav-link');
-    moving_div.appendChild(tab);
-    item.appendChild(moving_div);
-
-    var list_length = item.getElementsByTagName("li").length;
-
-    moving_div.style.padding = '0px';
-    moving_div.style.width = item.querySelector('li:nth-child(1)').offsetWidth + 'px';
-    moving_div.style.transform = 'translate3d(0px, 0px, 0px)';
-    moving_div.style.transition = '.5s ease';
-
-    item.onmouseover = function(event) {
-      let target = getEventTarget(event);
-      let li = target.closest('li'); // get reference
-      if (li) {
-        let nodes = Array.from(li.closest('ul').children); // get array
-        let index = nodes.indexOf(li) + 1;
-        item.querySelector('li:nth-child(' + index + ') .nav-link').onclick = function() {
-          moving_div = item.querySelector('.moving-tab');
-          let sum = 0;
-          if (item.classList.contains('flex-column')) {
-            for (var j = 1; j <= nodes.indexOf(li); j++) {
-              sum += item.querySelector('li:nth-child(' + j + ')').offsetHeight;
-            }
-            moving_div.style.transform = 'translate3d(0px,' + sum + 'px, 0px)';
-            moving_div.style.height = item.querySelector('li:nth-child(' + j + ')').offsetHeight;
-          } else {
-            for (var j = 1; j <= nodes.indexOf(li); j++) {
-              sum += item.querySelector('li:nth-child(' + j + ')').offsetWidth;
-            }
-            moving_div.style.transform = 'translate3d(' + sum + 'px, 0px, 0px)';
-            moving_div.style.width = item.querySelector('li:nth-child(' + index + ')').offsetWidth + 'px';
-          }
-        }
-      }
-    }
-  });
-}
-
-setTimeout(function() {
-  initNavs();
-}, 100);
-
-// Tabs navigation resize
-
-window.addEventListener('resize', function(event) {
-  total.forEach(function(item, i) {
-    item.querySelector('.moving-tab').remove();
-    var moving_div = document.createElement('div');
-    var tab = item.querySelector(".nav-link.active").cloneNode();
-    tab.innerHTML = "-";
-
-    moving_div.classList.add('moving-tab', 'position-absolute', 'nav-link');
-    moving_div.appendChild(tab);
-
-    item.appendChild(moving_div);
-
-    moving_div.style.padding = '0px';
-    moving_div.style.transition = '.5s ease';
-
-    let li = item.querySelector(".nav-link.active").parentElement;
-
-    if (li) {
-      let nodes = Array.from(li.closest('ul').children); // get array
-      let index = nodes.indexOf(li) + 1;
-
-      let sum = 0;
-      if (item.classList.contains('flex-column')) {
-        for (var j = 1; j <= nodes.indexOf(li); j++) {
-          sum += item.querySelector('li:nth-child(' + j + ')').offsetHeight;
-        }
-        moving_div.style.transform = 'translate3d(0px,' + sum + 'px, 0px)';
-        moving_div.style.width = item.querySelector('li:nth-child(' + index + ')').offsetWidth + 'px';
-        moving_div.style.height = item.querySelector('li:nth-child(' + j + ')').offsetHeight;
-      } else {
-        for (var j = 1; j <= nodes.indexOf(li); j++) {
-          sum += item.querySelector('li:nth-child(' + j + ')').offsetWidth;
-        }
-        moving_div.style.transform = 'translate3d(' + sum + 'px, 0px, 0px)';
-        moving_div.style.width = item.querySelector('li:nth-child(' + index + ')').offsetWidth + 'px';
-
-      }
-    }
-  });
-
-  if (window.innerWidth < 991) {
-    total.forEach(function(item, i) {
-      if (!item.classList.contains('flex-column')) {
-        item.classList.remove('flex-row');
-        item.classList.add('flex-column', 'on-resize');
-        let li = item.querySelector(".nav-link.active").parentElement;
-        let nodes = Array.from(li.closest('ul').children); // get array
-        let index = nodes.indexOf(li) + 1;
-        let sum = 0;
-        for (var j = 1; j <= nodes.indexOf(li); j++) {
-          sum += item.querySelector('li:nth-child(' + j + ')').offsetHeight;
-        }
-        var moving_div = document.querySelector('.moving-tab');
-        moving_div.style.width = item.querySelector('li:nth-child(1)').offsetWidth + 'px';
-        moving_div.style.transform = 'translate3d(0px,' + sum + 'px, 0px)';
-
-      }
-    });
-  } else {
-    total.forEach(function(item, i) {
-      if (item.classList.contains('on-resize')) {
-        item.classList.remove('flex-column', 'on-resize');
-        item.classList.add('flex-row');
-        let li = item.querySelector(".nav-link.active").parentElement;
-        let nodes = Array.from(li.closest('ul').children); // get array
-        let index = nodes.indexOf(li) + 1;
-        let sum = 0;
-        for (var j = 1; j <= nodes.indexOf(li); j++) {
-          sum += item.querySelector('li:nth-child(' + j + ')').offsetWidth;
-        }
-        var moving_div = document.querySelector('.moving-tab');
-        moving_div.style.transform = 'translate3d(' + sum + 'px, 0px, 0px)';
-        moving_div.style.width = item.querySelector('li:nth-child(' + index + ')').offsetWidth + 'px';
-      }
-    })
-  }
-});
-
-// Function to remove flex row on mobile devices
-if (window.innerWidth < 991) {
-  total.forEach(function(item, i) {
-    if (item.classList.contains('flex-row')) {
-      item.classList.remove('flex-row');
-      item.classList.add('flex-column', 'on-resize');
-    }
-  });
-}
-
-function getEventTarget(e) {
-  e = e || window.event;
-  return e.target || e.srcElement;
-}
-
-// End tabs navigation
 
 window.onload = function() {
   // Material Design Input function
@@ -600,41 +424,6 @@ function toggleSidenav() {
   }
 }
 
-// Resize navbar color depends on configurator active type of sidenav
-
-let referenceButtons = document.querySelector('[data-class]');
-
-/*window.addEventListener("resize", navbarColorOnResize);
-
-function navbarColorOnResize() {
-  if (window.innerWidth > 1200) {
-    if (referenceButtons.classList.contains('active') && referenceButtons.getAttribute('data-class') === 'bg-transparent') {
-      sidenav.classList.remove('bg-white');
-    } else {
-      sidenav.classList.add('bg-white');
-    }
-  } else {
-    sidenav.classList.add('bg-white');
-    sidenav.classList.remove('bg-transparent');
-  }
-}*/
-
-// Deactivate sidenav type buttons on resize and small screens
-window.addEventListener("resize", sidenavTypeOnResize);
-window.addEventListener("load", sidenavTypeOnResize);
-
-function sidenavTypeOnResize() {
-  let elements = document.querySelectorAll('[onclick="sidebarType(this)"]');
-  if (window.innerWidth < 1200) {
-    elements.forEach(function(el) {
-      el.classList.add('disabled');
-    });
-  } else {
-    elements.forEach(function(el) {
-      el.classList.remove('disabled');
-    });
-  }
-}
 
 
 // Light Mode / Dark Mode
