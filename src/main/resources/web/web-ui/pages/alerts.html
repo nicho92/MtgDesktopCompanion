@@ -100,9 +100,8 @@
 	                "defaultContent": "",
  					"render": function(data, type, row, meta){
 		                   if(type === 'display'){
-		                     		var ret='<button value="'+data+'" type="button" class="btn btn-circle btn-warning updateBtn" data-bs-placement="bottom" data-bs-toggle="tooltip" title="Update Bids"><i class="fa fa-pencil"></i></button>&nbsp;';
+		                     		var ret='<button value="'+data+'" type="button"  data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="btn btn-circle btn-warning updateBtn" data-bs-placement="bottom" data-bs-toggle="tooltip" title="Update Bids"><i class="fa fa-pencil"></i></button>&nbsp;';
 									ret+='<button value="'+data+'" type="button" class="btn btn-circle btn-primary deleteBtn" data-bs-placement="bottom" data-bs-toggle="tooltip" title="Delete Alert"><i class="fa fa-ban"></i></button>&nbsp;';
-									
 									return ret;
 		                   }
 		                   return data;
@@ -113,13 +112,7 @@
 		        "fnDrawCallback" :function(oSettings, json) {
 					
 					mtgtooltip($(".mtg-tooltip"));
-					
-					
-					$(".updateBtn").on('click',function() {
-							var id = $(this).attr('value');
-		   	  			
-	   	  			});	
-			
+				
 					$(".deleteBtn").click( function() {
 		   	  			var id = $(this).attr('value');
 						$.ajax({
@@ -191,6 +184,27 @@
       
     </div>
   </div>
+ 
+ <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Change Bid</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+         <input type="text" class="form-control" id="bidValue">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-success" id="btnAddOk" >OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+ 
+ 
  
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
