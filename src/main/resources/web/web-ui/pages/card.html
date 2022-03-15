@@ -247,23 +247,41 @@ $(document).ready(function() {
 			if(card.colors.length>1)
   	    	{
 					$(".bg-gradient-primary").toggleClass("bg-gradient-warning");
+					$(".shadow-primary").toggleClass("shadow-warning");
+					
   	    	}
   	    	else if(card.colors.length==0)
   	    	{
 					$(".bg-gradient-primary").toggleClass("bg-gradient-brown");
+					$(".shadow-primary").toggleClass("shadow-brown");
 			}
   	    	else
   	    	{
   	    		if(card.colors[0]=='WHITE')
+				{ 
 					$(".bg-gradient-primary").toggleClass("bg-gradient-light");
+					$(".shadow-primary").toggleClass("shadow-light");
+				}
   	  			if(card.colors[0]=='BLUE')
+				{ 	
 					$(".bg-gradient-primary").toggleClass("bg-gradient-info");
+					$(".shadow-primary").toggleClass("shadow-info");
+				}
   				if(card.colors[0]=='BLACK')
+				{
 					$(".bg-gradient-primary").toggleClass("bg-gradient-dark");
+					$(".shadow-primary").toggleClass("shadow-dark");
+				}	
 				if(card.colors[0]=='RED')
+				{	
 					$(".bg-gradient-primary").toggleClass("bg-gradient-danger");
+					$(".shadow-primary").toggleClass("shadow-danger");
+				}
 				if(card.colors[0]=='GREEN')
+				{
 					$(".bg-gradient-primary").toggleClass("bg-gradient-success");
+					$(".shadow-primary").toggleClass("shadow-success");
+				}
   	    	}
 			
 			for (var i = 0; i < card.editions.length; i++) 

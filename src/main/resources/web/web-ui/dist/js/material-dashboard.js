@@ -4,8 +4,6 @@
 var storage =localStorage;
 
 (function() {
-	var isWindows = navigator.platform.indexOf('Win') > -1 ? true : false;
-	
 	   if(storage.getItem("darkMode")!=null)
 		{ 
 			if(storage.getItem("darkMode")=='true')
@@ -18,30 +16,7 @@ var storage =localStorage;
 			}	
 		}	
     		
-			
-	
-  if (isWindows) {
-    // if we are on windows OS we activate the perfectScrollbar function
-    if (document.getElementsByClassName('main-content')[0]) {
-      var mainpanel = document.querySelector('.main-content');
-      var ps = new PerfectScrollbar(mainpanel);
-    };
 
-    if (document.getElementsByClassName('sidenav')[0]) {
-      var sidebar = document.querySelector('.sidenav');
-      var ps1 = new PerfectScrollbar(sidebar);
-    };
-
-    if (document.getElementsByClassName('navbar-collapse')[0]) {
-      var fixedplugin = document.querySelector('.navbar-collapse');
-      var ps2 = new PerfectScrollbar(fixedplugin);
-    };
-
-    if (document.getElementsByClassName('fixed-plugin')[0]) {
-      var fixedplugin = document.querySelector('.fixed-plugin');
-      var ps3 = new PerfectScrollbar(fixedplugin);
-    };
-  };
 })();
 
 // Verify navbar blur on scroll
@@ -93,7 +68,6 @@ if (document.querySelector('.fixed-plugin')) {
   var fixedPluginButton = document.querySelector('.fixed-plugin-button');
   var fixedPluginButtonNav = document.querySelector('.fixed-plugin-button-nav');
   var fixedPluginCard = document.querySelector('.fixed-plugin .card');
-  var fixedPluginCloseButton = document.querySelectorAll('.fixed-plugin-close-button');
   var navbar = document.getElementById('navbarBlur');
   var buttonNavbarFixed = document.getElementById('navbarFixed');
 	
@@ -117,17 +91,6 @@ if (document.querySelector('.fixed-plugin')) {
     }
   }
 
-  fixedPluginCloseButton.forEach(function(el) {
-	el.onclick = function() {
-      fixedPlugin.classList.remove('show');
-    }
-  })
-
-  document.querySelector('body').onclick = function(e) {
-    if (e.target != fixedPluginButton && e.target != fixedPluginButtonNav && e.target.closest('.fixed-plugin .card') != fixedPluginCard) {
-      fixedPlugin.classList.remove('show');
-    }
-  }
 
   if (navbar) {
     if (navbar.getAttribute('data-scroll') == 'true' && buttonNavbarFixed) {
