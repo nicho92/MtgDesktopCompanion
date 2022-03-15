@@ -1,7 +1,7 @@
 <div class="card-header pb-0 pt-3">
         <div class="float-start">
           <h5 class="mt-3 mb-0">MTGWebCompanion UI Configurator</h5>
-          <p>See our dashboard options.</p>
+          <p>dashboard options.</p>
         </div>
         <div class="float-end mt-4">
           <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
@@ -56,6 +56,14 @@
       </div>
 
 	<script>
+		
+		  
+ 			document.querySelector('.fixed-plugin-close-button').onclick = function() {
+		      	document.querySelector('.fixed-plugin').classList.remove('show');
+		    };
+	
+	
+	
 		if(storage.getItem("darkMode")!=null)
 				document.getElementById("dark-version").checked = storage.getItem("darkMode")=='true';
 

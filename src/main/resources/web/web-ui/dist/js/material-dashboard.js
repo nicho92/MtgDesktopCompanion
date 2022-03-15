@@ -90,7 +90,6 @@ if (document.querySelectorAll('.input-group').length != 0) {
 
 if (document.querySelector('.fixed-plugin')) {
   var fixedPlugin = document.querySelector('.fixed-plugin');
-  var fixedPlugin = document.querySelector('.fixed-plugin');
   var fixedPluginButton = document.querySelector('.fixed-plugin-button');
   var fixedPluginButtonNav = document.querySelector('.fixed-plugin-button-nav');
   var fixedPluginCard = document.querySelector('.fixed-plugin .card');
@@ -119,8 +118,7 @@ if (document.querySelector('.fixed-plugin')) {
   }
 
   fixedPluginCloseButton.forEach(function(el) {
-	
-    el.onclick = function() {
+	el.onclick = function() {
       fixedPlugin.classList.remove('show');
     }
   })
@@ -141,29 +139,45 @@ if (document.querySelector('.fixed-plugin')) {
 
 //Set Sidebar Color
 function sidebarColor(a) {
-  var parent = document.querySelector(".nav-link.active");
+	
+	var oldColor="bg-gradient-primary";	
+	
+	if(storage.getItem("color")!=null)
+		oldColor=storage.getItem("color");
+
+  var elements= document.querySelectorAll(".bg-gradient-"+oldColor+" :not(.badge)"); 
   var color = a.getAttribute("data-color");
 
-  if (parent.classList.contains('bg-gradient-primary')) {
-    parent.classList.remove('bg-gradient-primary');
-  }
-  if (parent.classList.contains('bg-gradient-dark')) {
-    parent.classList.remove('bg-gradient-dark');
-  }
-  if (parent.classList.contains('bg-gradient-info')) {
-    parent.classList.remove('bg-gradient-info');
-  }
-  if (parent.classList.contains('bg-gradient-success')) {
-    parent.classList.remove('bg-gradient-success');
-  }
-  if (parent.classList.contains('bg-gradient-warning')) {
-    parent.classList.remove('bg-gradient-warning');
-  }
-  if (parent.classList.contains('bg-gradient-danger')) {
-    parent.classList.remove('bg-gradient-danger');
-  }
-  parent.classList.add('bg-gradient-' + color);
-  
+  for (let i = 0; i < elements.length; i++) {
+			
+		  var parent = elements[i];
+		  if (parent.classList.contains('bg-gradient-primary')) {
+		    parent.classList.remove('bg-gradient-primary');
+		 	parent.classList.remove('shadow-primary');
+		  }
+		  if (parent.classList.contains('bg-gradient-dark')) {
+		    parent.classList.remove('bg-gradient-dark');
+				parent.classList.remove('shadow-dark');
+		  }
+		  if (parent.classList.contains('bg-gradient-info')) {
+		    parent.classList.remove('bg-gradient-info');
+			parent.classList.remove('shadow-info');
+		  }
+		  if (parent.classList.contains('bg-gradient-success')) {
+		    parent.classList.remove('bg-gradient-success');
+			parent.classList.remove('shadow-success');
+		  }
+		  if (parent.classList.contains('bg-gradient-warning')) {
+		    parent.classList.remove('bg-gradient-warning');
+			parent.classList.remove('shadow-warning');
+		  }
+		  if (parent.classList.contains('bg-gradient-danger')) {
+		    parent.classList.remove('bg-gradient-danger');
+			parent.classList.remove('shadow-danger');
+		  }
+		  parent.classList.add('bg-gradient-' + color);
+		  parent.classList.add('shadow-' + color);
+	}
   storage.setItem("color",color);
 }
 
@@ -174,7 +188,11 @@ function sidebarType(a) {
   var body = document.querySelector("body");
   var bodyWhite = document.querySelector("body:not(.dark-version)");
   var bodyDark = body.classList.contains('dark-version');
-
+	
+	
+	storage.setItem("sideNavType",a.getAttribute('data-class'));
+	
+	
   var colors = [];
 
   for (var i = 0; i < parent.length; i++) {
