@@ -15,7 +15,6 @@ var storage =localStorage;
 				$("body").removeClass("dark-version");	
 			}	
 		}	
-    		
 
 })();
 
