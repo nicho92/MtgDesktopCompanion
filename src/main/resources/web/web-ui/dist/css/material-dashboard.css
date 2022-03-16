@@ -4093,8 +4093,26 @@ textarea.form-control-lg {
   text-align: center;
   white-space: nowrap;
   vertical-align: baseline;
-  border-radius: 0.45rem; }
-  .badge:empty {
+  border-radius: 0.45rem; 
+ }
+ 
+ .badge-success {
+    color: #339537;
+    background-color: #bce2be;
+}
+
+ .badge-warning {
+     color:#c87000;
+    background-color:#ffd59f
+}
+
+ .badge-danger {
+    color:#f61200;
+    background-color:#fcd3d0
+}
+
+
+.badge:empty {
     display: none; }
 
 .btn .badge {

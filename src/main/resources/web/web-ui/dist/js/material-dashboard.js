@@ -15,7 +15,6 @@ var storage =localStorage;
 				$("body").removeClass("dark-version");	
 			}	
 		}	
-
 })();
 
 // Verify navbar blur on scroll
@@ -141,13 +140,8 @@ function sidebarType(a) {
   var parent = a.parentElement.children;
   var color = a.getAttribute("data-class");
   var body = document.querySelector("body");
-  var bodyWhite = document.querySelector("body:not(.dark-version)");
   var bodyDark = body.classList.contains('dark-version');
-	
-	
-	storage.setItem("sideNavType",a.getAttribute('data-class'));
-	
-	
+  storage.setItem("sideNavType",a.getAttribute('data-class'));
   var colors = [];
 
   for (var i = 0; i < parent.length; i++) {
@@ -171,13 +165,15 @@ function sidebarType(a) {
 
 
   // Remove text-white/text-dark classes
-  if (color == 'bg-transparent' || color == 'bg-white') {
+  if (color == 'bg-transparent' || color == 'bg-white') 
+  {
     var textWhites = document.querySelectorAll('.sidenav .text-white');
     for (let i = 0; i < textWhites.length; i++) {
-      textWhites[i].classList.remove('text-white');
+	  textWhites[i].classList.remove('text-white');
       textWhites[i].classList.add('text-dark');
     }
-  } else {
+  } 
+else {
     var textDarks = document.querySelectorAll('.sidenav .text-dark');
     for (let i = 0; i < textDarks.length; i++) {
       textDarks[i].classList.add('text-white');
@@ -416,7 +412,8 @@ function toggleSidenav() {
     }, 100);
     sidenav.classList.remove('bg-transparent');
 
-  } else {
+  } 
+else {
     body.classList.add(className);
     sidenav.classList.add('bg-white');
     sidenav.classList.remove('bg-transparent');

@@ -63,7 +63,13 @@
 		        	{ 
 			                "data": "id",
 			                "defaultContent": "",
-			                "width": "3%"
+			                "width": "3%",
+ 							"render": function(data, type, row, meta){
+			                	 if(type === 'display'){
+									return "<a href='stock.html?id="+data+"&type=CARD'>"+data+"</a>";
+			                	 }
+		                   		return data;
+		                }
 			        },
 		        	{ 
 		                "data": "product.name",
@@ -91,10 +97,10 @@
 		                "data": "magicCollection",
 		                "defaultContent": "",
 		                "render": function(data, type, row, meta){
-		                	 if(type === 'display'){
-								return data.name;	                		 
-		                	 }
-		                   return data;
+								if(data!=null)
+									return data.name;
+									
+									return "";	                		 
 		                }
 		            },
 		            { 

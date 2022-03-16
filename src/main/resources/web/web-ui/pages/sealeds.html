@@ -60,6 +60,17 @@
 		        "order": [[ 0, "desc" ]],
 		        "ajax": {"url":restserver+"/sealed/list","dataSrc":""},
 		        "columns": [
+					{
+						  "data": "id",
+			                "defaultContent": "",
+			                "width": "3%",
+ 							"render": function(data, type, row, meta){
+			                	 if(type === 'display'){
+									return "<a href='stock.html?id="+data+"&type=SEALED'>"+data+"</a>";
+			                	 }
+		                   		return data;
+							}					
+					},
 		        	{ 
 		                "data": "product.name",
 		                "defaultContent": "",
@@ -114,8 +125,8 @@
 		        ],
 		        "fnDrawCallback" :function(oSettings, json) {
 					var dt = $('#tableStock').DataTable();
-					var cardCount=dt.column(3).data().sum();
-					var totalPrice = dt.column(6).data().sum();
+					var cardCount=dt.column(4).data().sum();
+					var totalPrice = dt.column(7).data().sum();
 					
 					$("#totalPrice").html(totalPrice.toFixed(2));
 					$("#cardCount").html(cardCount);
@@ -195,6 +206,7 @@
                 <table id="tableStock" class="table align-items-center mb-0" style="width:100%">
 			        <thead>
 			            <tr>
+										<th>id</th>
 						                <th>item</th>
 						                <th>edition</th>
 						                <th>collection</th>
