@@ -94,7 +94,7 @@
 				$("#productTitle").html(data.product.name);
 				$("#productPrice").val(data.price.toFixed(2));
 				$("#productQty").val(data.qte);
-				$("#productEdition").html(data.edition.set);
+				$("#productEdition").html('<i class="ss ss-grad ss-'+data.edition.keyRuneCode.toLowerCase()+'"></i>'+data.edition.set);
 				$("#productCollection").val(data.magicCollection.name).change();
 				$("#productCondition").val(data.condition).change();
 				
