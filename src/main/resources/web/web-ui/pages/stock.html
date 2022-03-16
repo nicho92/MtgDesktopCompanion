@@ -58,8 +58,8 @@
 				$("#productPrice").html(data.price.toFixed(2));
 				$("#productQty").html(data.qte);
 				$("#productEdition").html(data.edition.set);
-				
-				
+				$("#productCollection").html(data.magicCollection.name);
+				$("#productLangage").html(data.language);
 				
 				if(data.qte>2)
 				{
@@ -100,33 +100,62 @@
           <div class="card">
             <div class="card-body">
               <h5 class="mb-4">Product Details</h5>
-              <div class="row">
-                <div class="col-xl-5 col-lg-6 text-center">
-                  <img class="border-radius-lg shadow-lg mx-auto img-fluid img-responsive" src="" alt="" id="productImage">
-                </div>
-                <div class="col-lg-5 mx-auto">
-                  <h3 class="mt-lg-0 mt-4" id="productTitle"></h3>
-                  <h4 id='productEdition'></h4>
-                  <br>
-                  <h6 class="mb-0 mt-3">Price</h6>
-                  <h5 id='productPrice'></h5>
-                  <span class="badge badge-success" id='instock'>In Stock</span>
-                  <br>
-                  <label class="mt-4">Description</label>
-                  <span id='productDescription'>
-                  <div class="row mt-4">
-                    <div class="col-lg-2">
-                      <label>Quantity <span id='productQty'></span></label>
-					</div>
-                    </div>
-                  </div>
+              
 
-                </div>
-              </div>
-            
-            </div>
-          </div>
-        </div>
+	<div class="row">
+		<div class="col-xl-5 col-lg-6 text-center">
+			<img class="border-radius-lg shadow-lg mx-auto img-fluid img-responsive" src="" alt="" id="productImage">
+		</div>
+	
+	
+		<div class="col-lg-5 mx-auto">
+			<h3 class="mt-lg-0 mt-4" id="productTitle"></h3>
+			<h4 id='productEdition'></h4>
+			<br>
+			<h6 class="mb-0 mt-3">Price</h6>
+			<h5 id='productPrice'></h5>
+	
+			<h6 class="mb-0 mt-3">Stock</h6>
+			<span class="badge badge-success" id='instock'>In Stock</span> : <span id='productQty'></span>
+			<br />
+			<h6 class="mb-0 mt-3">Collection</h6>
+			<span id='productCollection'></span>
+			<br />
+			<h6 class="mb-0 mt-3">Langage</h6>
+			<span id='productLangage'></span>
+	
+				<div class="row mt-4">
+					<div class="col-lg-2">
+						<label class="ms-0">Quantity</label>
+							<select class="form-control" name="choices-quantity" id="choices-quantity" tabindex="-1" data-choice="active">
+									<option value="Choice 1">1</option>
+							</select>
+					</div>
+					<div class="col-lg-2">
+						<label class="ms-0">Quality</label>
+							<select class="form-control" name="choices-quantity" id="choices-quantity" tabindex="-1" data-choice="active">
+									<option value="Choice 1">1</option>
+							</select>
+					</div>
+					<div class="col-lg-2">
+						<label class="ms-0">Quantity</label>
+							<select class="form-control" name="choices-quantity" id="choices-quantity" tabindex="-1" data-choice="active">
+									<option value="Choice 1">1</option>
+							</select>
+					</div>
+				</div>
+	
+		</div>
+	
+	
+	
+	
+	</div>
+	</div>
+	
+	</div>
+	</div>
+	</div>
 
 
 
