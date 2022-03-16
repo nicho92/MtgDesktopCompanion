@@ -722,7 +722,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 						for(MagicEdition ed : MTG.getEnabledPlugin(MTGCardsProvider.class).listEditions())
 						{
 							try {
-								obj.addProperty( ed.getId(),SealedProductProvider.inst().get(ed,EnumItems.BANNER,"en").get(0).getUrl());
+								obj.addProperty( ed.getId(),SealedProductProvider.inst().get(ed,EnumItems.SET,"en").get(0).getUrl());
 							}
 							catch(Exception e)
 							{

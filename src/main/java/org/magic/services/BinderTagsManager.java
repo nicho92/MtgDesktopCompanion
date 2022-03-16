@@ -68,11 +68,11 @@ public class BinderTagsManager {
 		for(String id :ids)
 		{
 			try {
-				BufferedImage im = prov.get(prov.get(new MagicEdition(id),EnumItems.BANNER).get(0));
+				BufferedImage im = prov.get(prov.get(new MagicEdition(id),EnumItems.SET).get(0));
 				ims.add(im);
 			}catch(IndexOutOfBoundsException ioobe)
 			{
-				logger.error("No "+EnumItems.BANNER+" found for " + id);
+				logger.error("No "+EnumItems.SET+" found for " + id);
 			}
 					
 		}
