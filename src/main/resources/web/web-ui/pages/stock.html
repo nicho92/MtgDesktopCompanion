@@ -15,7 +15,12 @@
   <link id="pagestyle" href="../dist/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css"/>
   <link href="https://cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
-  <link href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" rel="stylesheet" type="text/css">
+  
+
+
+
+  
   <link href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css" rel="stylesheet" />
  
   <script src="//unpkg.com/@trevoreyre/autocomplete-js"></script>    
@@ -37,29 +42,64 @@
 
 
   <script>
+ 
 	$(document).ready(function() {
+			
+		
+		 var source = $_GET('type')=='CARD' ? "stock":"sealed";
+			
+		
 			$("#sidenav-main" ).load("inc/menu.html" );
 			$("#navbarBlur").load("inc/nav.html",function(){
 					$("[name='categTitle']").html("Stock");
-					$("#menuStocks").addClass("bg-gradient-primary");
-					$("#menuStocks").addClass("active");
+					
+					if(source=="stock")
+					{
+						$("#menuStocks").addClass("bg-gradient-primary");
+						$("#menuStocks").addClass("active");
+					}
+					else
+					{
+						$("#menuSealeds").addClass("bg-gradient-primary");
+						$("#menuSealeds").addClass("active");
+					}
 			});
 			
 			$("#navfooter").load("inc/footer.html");
 			$("#settingPanel").load("inc/settingPanel.html");
 			
-			var source = $_GET('type')=='CARD' ? "stock":"sealed";
+			
+			
+			$.get(restserver+"/collections/list",function(data){
+				
+				 for(var i=0;i<data.length;i++)
+   				 {
+   				 	$("#productCollection").append("<option value='"+data[i].name+"'>"+data[i].name+"</option>")
+   				 }
+			});
+			
+			
+			$.get(restserver+"/stock/conditions",function(data){
+				
+				 for(var i=0;i<data.length;i++)
+  				 {
+  				 	$("#productCondition").append("<option value='"+data[i]+"'>"+data[i]+"</option>")
+  				 }
+			});
 			
 			
 			$.get(restserver+"/"+source+"/get/"+$_GET('id'),function(data){
 				
 				$("#productImage").attr("src",data.url);
 				$("#productTitle").html(data.product.name);
-				$("#productPrice").html(data.price.toFixed(2));
-				$("#productQty").html(data.qte);
+				$("#productPrice").val(data.price.toFixed(2));
+				$("#productQty").val(data.qte);
 				$("#productEdition").html(data.edition.set);
-				$("#productCollection").html(data.magicCollection.name);
-				$("#productLangage").html(data.language);
+				$("#productCollection").val(data.magicCollection.name).change();
+				$("#productCondition").val(data.condition).change();
+				
+				
+				$("#productLangage").val(data.language).change();
 				
 				if(data.qte>2)
 				{
@@ -112,39 +152,36 @@
 			<h3 class="mt-lg-0 mt-4" id="productTitle"></h3>
 			<h4 id='productEdition'></h4>
 			<br>
-			<h6 class="mb-0 mt-3">Price</h6>
-			<h5 id='productPrice'></h5>
-	
-			<h6 class="mb-0 mt-3">Stock</h6>
-			<span class="badge badge-success" id='instock'>In Stock</span> : <span id='productQty'></span>
-			<br />
-			<h6 class="mb-0 mt-3">Collection</h6>
-			<span id='productCollection'></span>
-			<br />
-			<h6 class="mb-0 mt-3">Langage</h6>
-			<span id='productLangage'></span>
-	
+			<h6 class="mb-0 mt-3"><i class="fa-solid fa-money-bill-wave"></i>Price</h6>
+			<input type="number" value="" min="0" step="0.1" class="form-control" id="productPrice"/>   
+			
+			<h6 class="mb-0 mt-3"><i class="fa-solid fa-cubes-stacked"></i>Stock</h6>
+			<span class="badge badge-success" id='instock'>In Stock</span>
+			
+			<h6 class="mb-0 mt-3"><i class="fa-solid fa-book-bookmark"></i>Collection</h6>
+			<select class="form-select" id='productCollection'></select>
+			
 				<div class="row mt-4">
 					<div class="col-lg-2">
-						<label class="ms-0">Quantity</label>
-							<select class="form-control" name="choices-quantity" id="choices-quantity" tabindex="-1" data-choice="active">
-									<option value="Choice 1">1</option>
-							</select>
+						<h6 class="mb-0 mt-3"><i class="fa-solid fa-cubes"></i>Quantity</h6>
+							<input type="number" value="" min="0" max="100" step="1" class="form-control" id="productQty"/>   
 					</div>
 					<div class="col-lg-2">
-						<label class="ms-0">Quality</label>
-							<select class="form-control" name="choices-quantity" id="choices-quantity" tabindex="-1" data-choice="active">
-									<option value="Choice 1">1</option>
-							</select>
+						<h6 class="mb-0 mt-3"><i class="fa-solid fa-gem"></i>Quality</h6>
+							<select class="form-select" id='productCondition'></select>
 					</div>
 					<div class="col-lg-2">
-						<label class="ms-0">Quantity</label>
-							<select class="form-control" name="choices-quantity" id="choices-quantity" tabindex="-1" data-choice="active">
-									<option value="Choice 1">1</option>
+						<h6 class="mb-0 mt-3"><i class="fa-solid fa-language"></i>Lang</h6>
+							<select class="form-select" id='productLangage'>
+									  <option value="German">Deutsch</option>
+								      <option value="English">English</option>
+								      <option value="French">Français</option>
+								      <option value="Italian">Italiano</option>
 							</select>
 					</div>
 				</div>
-	
+				<br/>
+				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Save</button>
 		</div>
 	
 	

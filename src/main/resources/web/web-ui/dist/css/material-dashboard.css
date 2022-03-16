@@ -13278,6 +13278,14 @@ textarea.form-control-lg {
   .dark-version .table thead tr th,
   .dark-version .kanban-title-board {
     color: #fff !important; }
+    
+	.dark-version .form-control {
+		color: white !important;
+	}
+    .dark-version .form-select {
+		color: white !important;
+	}
+
   .dark-version .input-group.input-group-dynamic .form-control, .dark-version .input-group.input-group-static .form-control {
     background-image: linear-gradient(0deg, #e91e63 2px, rgba(156, 39, 176, 0) 0), linear-gradient(0deg, rgba(210, 210, 210, 0.6) 1px, rgba(209, 209, 209, 0) 0) !important;
     background-size: 0 100%, 100% 100%; }

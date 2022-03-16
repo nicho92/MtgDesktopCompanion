@@ -60,6 +60,7 @@ import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.WebShopConfig;
 import org.magic.api.beans.audit.JsonQueryInfo;
 import org.magic.api.beans.audit.NetworkInfo;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.beans.shop.Category;
@@ -630,8 +631,15 @@ public class JSONHttpServer extends AbstractMTGServer {
 			})
 		, transformer);
 		
+		
+		
+		get("/stock/conditions", URLTools.HEADER_JSON,(request, response) -> EnumCondition.values(), transformer);
+		
 	
 		get("/alerts/list", URLTools.HEADER_JSON,(request, response) -> getEnabledPlugin(MTGDao.class).listAlerts(), transformer);
+		
+		
+		
 
 		get("/alerts/:idCards", URLTools.HEADER_JSON, (request, response) -> {
 			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(ID_CARDS));
@@ -674,6 +682,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return RETURN_OK;
 		});
 
+		
+		
+		
 		put("/stock/add/:idCards", (request, response) -> {
 			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(ID_CARDS));
 			var stock = MTGControler.getInstance().getDefaultStock();
