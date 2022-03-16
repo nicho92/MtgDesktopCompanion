@@ -57,6 +57,9 @@
 				$("#productTitle").html(data.product.name);
 				$("#productPrice").html(data.price.toFixed(2));
 				$("#productQty").html(data.qte);
+				$("#productEdition").html(data.edition.set);
+				
+				
 				
 				if(data.qte>2)
 				{
@@ -103,13 +106,7 @@
                 </div>
                 <div class="col-lg-5 mx-auto">
                   <h3 class="mt-lg-0 mt-4" id="productTitle"></h3>
-                  <div class="rating">
-                    <i class="material-icons text-lg">grade</i>
-                    <i class="material-icons text-lg">grade</i>
-                    <i class="material-icons text-lg">grade</i>
-                    <i class="material-icons text-lg">grade</i>
-                    <i class="material-icons text-lg">star_outline</i>
-                  </div>
+                  <h4 id='productEdition'></h4>
                   <br>
                   <h6 class="mb-0 mt-3">Price</h6>
                   <h5 id='productPrice'></h5>
