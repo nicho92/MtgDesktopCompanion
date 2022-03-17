@@ -135,7 +135,7 @@
 					    return result;
 						}, {});
 				    var ctx = document.getElementById("status-chart").getContext("2d");
-				    printChart(ctx, "pie", "status",Object.keys(countStatus),Object.values(countStatus), false,  new ColorGenerator(15).generateRGB());
+				    printChart(ctx, "pie", "status",Object.keys(countStatus),Object.values(countStatus), true,  new ColorGenerator(15).generateRGB());
 					
 					
 						var countAmount= dt.reduce(function (result, d) {
