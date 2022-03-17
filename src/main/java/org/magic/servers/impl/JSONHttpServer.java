@@ -683,6 +683,37 @@ public class JSONHttpServer extends AbstractMTGServer {
 		});
 
 		
+
+		put("/stock/:type/update", (request, response) -> {
+			JsonObject postItems= readJsonObject(request);
+			
+			var source = request.params(":type");
+			
+			
+			MTGStockItem obj = null;
+			
+			if(source.equals("sealed"))
+				obj = getEnabledPlugin(MTGDao.class).getSealedStockById(postItems.get("id").getAsLong());
+			else
+				obj = getEnabledPlugin(MTGDao.class).getStockById(postItems.get("id").getAsLong());
+			
+			
+			if(obj==null)
+				throw new NullPointerException("no item found with id="+postItems.get("id"));
+			
+			
+				  obj.setQte(postItems.get("qty").getAsInt());
+				  obj.setPrice(postItems.get("price").getAsDouble());
+				  obj.setCondition(EnumCondition.valueOf(postItems.get("condition").getAsString()));
+				  obj.setLanguage(postItems.get("language").getAsString());
+				  obj.setMagicCollection(new MagicCollection(postItems.get("collection").getAsString()));
+				
+				  
+				  
+				  getEnabledPlugin(MTGDao.class).saveOrUpdateStock(obj);
+			
+			return obj;
+		});
 		
 		
 		put("/stock/add/:idCards", (request, response) -> {
@@ -1285,6 +1316,12 @@ public class JSONHttpServer extends AbstractMTGServer {
 			});		
 		}
 	}
+
+
+	private JsonObject readJsonObject(Request request) throws IOException {
+		return converter.fromJson(new InputStreamReader(request.raw().getInputStream()), JsonObject.class);
+	}
+
 
 
 	public void clearCache() {

@@ -97,8 +97,6 @@
 				$("#productEdition").html('<i class="ss ss-grad ss-'+data.edition.keyRuneCode.toLowerCase()+'"></i>'+data.edition.set);
 				$("#productCollection").val(data.magicCollection.name).change();
 				$("#productCondition").val(data.condition).change();
-				
-				
 				$("#productLangage").val(data.language).change();
 				
 				if(data.qte>2)
@@ -116,6 +114,31 @@
 					$("#instock").html("Low in stock")
 					$("#instock").addClass("badge-warning")	
 				}	
+				
+				
+				
+				$("#btnUpdate").on("click",function(){
+						var obj = {
+								id:	$_GET("id"),
+								price:$("#productPrice").val(),
+								qty: $("#productQty").val(),
+								condition:$("#productCondition").val(),
+								language:$("#productLangage").val(),
+								collection:$("#productCollection").val()
+						};
+						
+						$.ajax({
+								type: 'PUT',
+								data: JSON.stringify(obj),
+							    url: restserver+"/stock/"+source+"/update"
+						   		 }).done(function(data) {
+						   			callback(data);
+						   		 }).fail(function(data,status,error) {
+						   			alert(JSON.stringify(data) + " " + error);
+						   		 });
+						
+						
+				});
 				
 				
 			});
@@ -181,7 +204,7 @@
 					</div>
 				</div>
 				<br/>
-				<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Save</button>
+				<button id="btnUpdate" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Save</button>
 		</div>
 	
 	
