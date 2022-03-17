@@ -217,6 +217,20 @@
       			else
 					reloadTable(tableSrc,$("#cboSource").val());
   	 		});
+      		
+      		
+      		$( "#txtFilters" ).keyup(function() {
+      		 	
+      			$("input[type='search']").each(function( index, element){
+      				console.log(element);
+      				element.value = $( "#txtFilters" ).val();
+      			});
+      			
+      			
+      			
+      			
+      		});
+      		
 
       		$("#joinButton").click(function() {
       			var dataSrc = tableSrc.row( { selected: true } ).data();

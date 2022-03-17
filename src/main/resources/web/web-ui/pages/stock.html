@@ -16,8 +16,7 @@
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css"/>
   <link href="https://cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" rel="stylesheet" type="text/css">
-  
-
+  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-bs5.min.css">
 
 
   
@@ -32,6 +31,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.5.5/perfect-scrollbar.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scrollbar/8.7.4/smooth-scrollbar.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-bs4.min.js"></script>
+
   
   <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script>
@@ -88,16 +89,44 @@
 			});
 			
 			
+			$('#productComment').summernote({
+				disableDragAndDrop : true,
+				height : 250, // set editor height
+				focus : false
+
+			});
+			
+			
 			$.get(restserver+"/"+source+"/get/"+$_GET('id'),function(data){
 				
 				$("#productImage").attr("src",data.url);
 				$("#productTitle").html(data.product.name);
 				$("#productPrice").val(data.price.toFixed(2));
 				$("#productQty").val(data.qte);
-				$("#productEdition").html('<i class="ss ss-grad ss-'+data.edition.keyRuneCode.toLowerCase()+'"></i>'+data.edition.set);
+				try{
+					$("#productEdition").html('<i class="ss ss-grad ss-'+data.edition.keyRuneCode.toLowerCase()+'"></i>'+data.edition.set);
+				}
+				catch(error)
+				{
+					$("#productEdition").html('<i class="ss ss-grad ss-'+data.edition.id.toLowerCase()+'"></i>'+data.edition.set);
+				}
 				$("#productCollection").val(data.magicCollection.name).change();
 				$("#productCondition").val(data.condition).change();
 				$("#productLangage").val(data.language).change();
+				
+				$("#productComment").summernote("code", data.comment);
+				
+				if(source=="stock")
+				{
+					$("#cardExtra").show();
+					
+					$("#chkFoil").prop('checked', data.foil);
+					$("#chkEtched").prop('checked', data.etched);
+					$("#chkSigned").prop('checked', data.signed);
+					$("#chkAltered").prop('checked', data.altered);
+					
+				}
+				
 				
 				if(data.qte>2)
 				{
@@ -124,7 +153,12 @@
 								qty: $("#productQty").val(),
 								condition:$("#productCondition").val(),
 								language:$("#productLangage").val(),
-								collection:$("#productCollection").val()
+								collection:$("#productCollection").val(),
+								foil:$("#chkFoil").is(':checked'),
+								etched:$("#chkEtched").is(':checked'),
+								signed: $("#chkSigned").is(':checked'),
+								altered: $("#chkAltered").is(':checked'),
+								comment: $("#productComment").summernote('code')
 						};
 						
 						$.ajax({
@@ -132,7 +166,7 @@
 								data: JSON.stringify(obj),
 							    url: restserver+"/stock/"+source+"/update"
 						   		 }).done(function(data) {
-						   			callback(data);
+						   			alert("OK");
 						   		 }).fail(function(data,status,error) {
 						   			alert(JSON.stringify(data) + " " + error);
 						   		 });
@@ -196,14 +230,48 @@
 					<div class="col-lg-2">
 						<h6 class="mb-0 mt-3"><i class="fa-solid fa-language"></i>Lang</h6>
 							<select class="form-select" id='productLangage'>
-									  <option value="German">Deutsch</option>
+									  <option value="German">German</option>
 								      <option value="English">English</option>
-								      <option value="French">Français</option>
-								      <option value="Italian">Italiano</option>
+								      <option value="French">French</option>
+								      <option value="Italian">Italian</option>
 							</select>
 					</div>
 				</div>
+				
+				<div class="row mt-4" id="cardExtra" style="display:none">
+					<div class="col-lg-2">
+						<h6 class="mb-0 mt-3"><i class="fa-solid fa-star"></i>Foil</h6>
+						<div class="form-check form-switch ps-0 ms-auto my-auto is-filled">
+				            <input class="form-check-input mt-1 ms-auto" type="checkbox" id="chkFoil">
+				        </div>   
+					</div>
+					<div class="col-lg-2">
+						<h6 class="mb-0 mt-3"><i class="fa-solid fa-star-half-stroke"></i>Etched</h6>
+						<div class="form-check form-switch ps-0 ms-auto my-auto is-filled">
+				            <input class="form-check-input mt-1 ms-auto" type="checkbox" id="chkEtched">
+				        </div> 
+					</div>
+					<div class="col-lg-2">
+						<h6 class="mb-0 mt-3"><i class="fa-solid fa-paintbrush"></i>Altered</h6>
+						<div class="form-check form-switch ps-0 ms-auto my-auto is-filled">
+				            <input class="form-check-input mt-1 ms-auto" type="checkbox" id="chkAltered">
+				        </div> 
+					</div>
+					<div class="col-lg-2">
+						<h6 class="mb-0 mt-3"><i class="fa-solid fa-signature"></i>Signed</h6>
+						<div class="form-check form-switch ps-0 ms-auto my-auto is-filled">
+				            <input class="form-check-input mt-1 ms-auto" type="checkbox" id="chkSigned">
+				        </div> 
+					</div>
+				</div>
 				<br/>
+				
+				<h6 class="mb-0 mt-3"><i class="fa-solid fa-comment"></i>Comment</h6>
+				<section id="editor">
+					<div id="productComment"></div>
+				</section>
+				
+				
 				<button id="btnUpdate" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Save</button>
 		</div>
 	

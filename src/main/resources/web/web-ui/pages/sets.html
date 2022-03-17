@@ -71,8 +71,13 @@
 		                "data": "id",
 		                "render": function(data, type, row, meta) {
 								if(type === 'display')
-								{	                	   				
-											return '<i class="ss ss-'+row.keyRuneCode.toLowerCase()+' ss-2x"></i>';
+								{	
+									try{
+										return '<i class="ss ss-'+row.keyRuneCode.toLowerCase()+' ss-2x"></i>';
+									}catch(error)
+									{
+										return '<i class="ss ss-'+data.toLowerCase()+' ss-2x"></i>';
+									}
                 				}
                 				return data;
 			            }
@@ -100,7 +105,8 @@
 						}
 					},
 		            {
-						 "data": "type" 
+						 "data": "type",
+						 "defaultContent": ""
 					},
 		            
 					{ "data": "releaseDate",
