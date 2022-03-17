@@ -27,7 +27,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.5.5/perfect-scrollbar.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scrollbar/8.7.4/smooth-scrollbar.min.js"></script>
-  
+  <script src="https://cdn.jsdelivr.net/npm/random-color-array-generator@1.0.3/ColorGeneratorCDN.min.js"></script>
+
   <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script>
   <script src="../dist/js/rest-server.js"></script>
@@ -100,6 +101,54 @@
 		                      
 		        ],
 		        "fnInitComplete" :function(oSettings, json) {
+					var dt = this.fnGetData();  
+				    
+
+					var countHistory= dt.reduce(function (result, d) {
+					    var u = d.creationDate.substring(0,10);
+					     if (!result[u]) {
+					        result[u] = 0;
+					    }
+					    result[u]++;
+					    return result;
+						}, {});
+						
+						countHistory=	Object.keys(countHistory).sort().reduce(
+						  (obj, key) => { 
+						    obj[key] = countHistory[key]; 
+						    return obj;
+						  }, 
+						  {}
+						);
+						
+				    var ctx = document.getElementById("history-chart").getContext("2d");
+				    printChart(ctx, "line", "date",Object.keys(countHistory),Object.values(countHistory), false,  "transparent");
+
+
+
+					var countStatus= dt.reduce(function (result, d) {
+					    var u = d.status;
+					     if (!result[u]) {
+					        result[u] = 0;
+					    }
+					    result[u]++;
+					    return result;
+						}, {});
+				    var ctx = document.getElementById("status-chart").getContext("2d");
+				    printChart(ctx, "pie", "status",Object.keys(countStatus),Object.values(countStatus), false,  new ColorGenerator(15).generateRGB());
+					
+					
+						var countAmount= dt.reduce(function (result, d) {
+					    var u = d.type;
+					     if (!result[u]) {
+					        result[u] = 0;
+					    }
+					    result[u]+=d.totalPrice;
+					    return result;
+						}, {});
+				    var ctx = document.getElementById("amount-chart").getContext("2d");
+				    printBarChart(ctx, "bar", Object.keys(countAmount),Object.values(countAmount), false,  "transparent");
+					
 					
 		        },
 		        "fnDrawCallback" :function(oSettings, json) {
@@ -123,8 +172,58 @@
    
     <div class="container-fluid py-4">
 
-	  <div class="row mb-4">
-      
+	  
+	<div class="row mt-4">
+        <div class="col-lg-4 col-md-6 mt-4 mb-4">
+          <div class="card z-index-2 ">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 bg-transparent">
+              <div class="bg-gradient-info shadow-info border-radius-lg py-3 pe-1">
+                <div class="chart">
+                  <canvas id="history-chart" class="chart-canvas" height="170"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <h6 class="mb-0 ">	History</h6>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mt-4 mb-4">
+          <div class="card">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 bg-transparent">
+              <div class="bg-gradient-success shadow-success border-radius-lg py-3 pe-1">
+                <div class="chart">
+                  <canvas id="status-chart" class="chart-canvas" height="170"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <h6 class="mb-0 ">Status </h6>
+            </div>
+          </div>
+        </div>
+		 <div class="col-lg-4 col-md-6 mt-4 mb-4">
+          <div class="card">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 bg-transparent">
+              <div class="bg-gradient-info shadow-info border-radius-lg py-3 pe-1">
+                <div class="chart">
+                  <canvas id="amount-chart" class="chart-canvas" height="170"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <h6 class="mb-0 ">Amount </h6>
+            </div>
+
+          </div>
+        </div>       	
+
+
+      </div>
+
+<br/><br/>
+
+<div class="row mb-4">
         <div class="col-lg-12 col-md-6 mb-md-0 mb-4">
           <div class="card">
           <div class="card-header p-0 position-relative mt-n4 mx-3">

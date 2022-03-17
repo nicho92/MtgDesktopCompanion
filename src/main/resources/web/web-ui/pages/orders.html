@@ -27,7 +27,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.5.5/perfect-scrollbar.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scrollbar/8.7.4/smooth-scrollbar.min.js"></script>
-  
+    <script src="https://cdn.jsdelivr.net/npm/random-color-array-generator@1.0.3/ColorGeneratorCDN.min.js"></script>
   <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script>
   <script src="../dist/js/rest-server.js"></script>
@@ -36,6 +36,7 @@
 
 	
 		<script>
+		
 		$(document).ready(function() {
 			
 			$("#sidenav-main" ).load("inc/menu.html" );
@@ -105,7 +106,9 @@
 		        ],
 		        "fnInitComplete" :function(oSettings, json) {
 		        	var dt = this.fnGetData();  
-				    var countTypes = dt.reduce(function (result, d) {
+				    
+
+					var countTypes = dt.reduce(function (result, d) {
 					    var u = d.type;
 					     if (!result[u]) {
 					        result[u] = 0;
@@ -113,9 +116,8 @@
 					    result[u]++;
 					    return result;
 						}, {});
-				    
-				    var ctx = document.getElementById("chartOrder").getContext("2d");
-				    printChart(ctx, "pie", "Types", Object.keys(countTypes),Object.values(countTypes), false,  [
+				    var ctx = document.getElementById("type-chart").getContext("2d");
+				    printBarChart(ctx, "bar", Object.keys(countTypes),Object.values(countTypes), false,  [
 		      			'rgb(0,0,0)',
 		      			'rgb(192,192,192)',
 		      			'rgb(255,215,0)',
@@ -123,28 +125,63 @@
 						'rgb(147,112,219)'
 			    	  ]);
 					
+					
+					var countShop = dt.reduce(function (result, d) {
+					    var u = d.source;
+					     if (!result[u]) {
+					        result[u] = 0;
+					    }
+					    result[u]+=d.itemPrice;
+					    return result;
+					}, {});
+				    var ctx = document.getElementById("shop-chart").getContext("2d");
+				    printChart(ctx, "doughnut", "Types", Object.keys(countShop),Object.values(countShop), false, new ColorGenerator(25).generateRGB());
+					
+					
+					var countDate = dt.reduce(function (result, d) {
+					    var u = d.transactionDate;
+					     if (!result[u]) {
+					        result[u] = 0;
+					    }
+						result[u]++;
+					    return result;
+					}, {});
+					
+					countDate=	Object.keys(countDate).sort().reduce(
+						  (obj, key) => { 
+						    obj[key] = countDate[key]; 
+						    return obj;
+						  }, 
+						  {}
+						);
+				
+				    var ctx = document.getElementById("history-chart").getContext("2d");
+				    printChart(ctx, "line", "Transaction Count", Object.keys(countDate),Object.values(countDate), false, "transparent");
+					
+						var countShop = dt.reduce(function (result, d) {
+					    var u = d.source;
+					     if (!result[u]) {
+					        result[u] = 0;
+					    }
+					    result[u]+=d.itemPrice;
+					    return result;
+					}, {});
+				    var ctx = document.getElementById("shop-chart").getContext("2d");
+				    printChart(ctx, "doughnut", "Types", Object.keys(countShop),Object.values(countShop), false, new ColorGenerator(25).generateRGB());
+					
+					
 		        },
 		        "fnDrawCallback" :function(oSettings, json) {
-					
 		        	var dt = this.fnGetData();
-					
 					var totalPaid = 0.0;
 					var totalSell = 0.0;
-					
-					
-					
+			
 					dt.filter((item) => {
-						
 						if(item.typeTransaction=="BUY")
-						{
-						totalPaid +=item.itemPrice;
-						}
+							totalPaid +=item.itemPrice;
 						else
-						{
 							totalSell +=item.itemPrice;
-						}
 					});
-					
 					
 					$("#totalPaid").html(totalPaid.toFixed(2));
 					$("#totalSell").html(totalSell.toFixed(2));
@@ -173,7 +210,7 @@
 
 	<div class="row">
        
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
           <div class="card">
             <div class="card-header p-3 pt-2">
               <div class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
@@ -191,7 +228,7 @@
           </div>
         </div>
       
-        <div class="col-xl-3 col-sm-6">
+        <div class="col-xl-4 col-sm-6">
           <div class="card">
             <div class="card-header p-3 pt-2">
               <div class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
@@ -206,17 +243,59 @@
             <div class="card-footer p-3"><p class="mb-0">&nbsp;</p></div>
           </div>
         </div>
-        
-        <div class="col-xl-3 col-sm-6">
+      </div>
+
+		<div class="row mt-4">
+        <div class="col-lg-4 col-md-6 mt-4 mb-4">
           <div class="card z-index-2 ">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 bg-transparent">
+              <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
+                <div class="chart">
+                  <canvas id="history-chart" class="chart-canvas" height="170"></canvas>
+                </div>
+              </div>
+            </div>
             <div class="card-body">
-               <canvas id="chartOrder" class="chart-canvas" height="100"></canvas>
+              <h6 class="mb-0 ">Transactions History</h6>
             </div>
           </div>
         </div>
-        
-        
+        <div class="col-lg-4 col-md-6 mt-4 mb-4">
+          <div class="card">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 bg-transparent">
+              <div class="bg-gradient-success shadow-success border-radius-lg py-3 pe-1">
+                <div class="chart">
+                  <canvas id="shop-chart" class="chart-canvas" height="170"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <h6 class="mb-0 ">Shops </h6>
+            </div>
+
+          </div>
+        </div>
+		
+		 <div class="col-lg-4 col-md-6 mt-4 mb-4">
+          <div class="card">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 bg-transparent">
+              <div class="bg-gradient-info shadow-info border-radius-lg py-3 pe-1">
+                <div class="chart">
+                  <canvas id="type-chart" class="chart-canvas" height="170"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <h6 class="mb-0 ">Types </h6>
+            </div>
+
+          </div>
+        </div>       	
+
+
       </div>
+
+
 	  <br/><br/><br/>
       <div class="row mb-4">
       
