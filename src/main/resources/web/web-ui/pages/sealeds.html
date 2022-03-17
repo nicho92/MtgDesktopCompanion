@@ -27,6 +27,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.5.5/perfect-scrollbar.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scrollbar/8.7.4/smooth-scrollbar.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/random-color-array-generator@1.0.3/ColorGeneratorCDN.min.js"></script>
   
   <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script>
@@ -133,7 +134,49 @@
 					 
 					
 					mtgtooltipStock($(".mtg-tooltip"));
+		        },
+		        
+		        "fnInitComplete" :function(oSettings, json) {
+					var dt = this.fnGetData();  
+					
+					var countType= dt.reduce(function (result, d) {
+					    var u = d.product.typeProduct;
+					     if (!result[u]) {
+					        result[u] = 0;
+					    }
+					    result[u]+=d.qte;
+					    return result;
+						}, {});
+				    var ctx = document.getElementById("type-chart").getContext("2d");
+				    printBarChart(ctx, "bar", Object.keys(countType),Object.values(countType), false,  new ColorGenerator(15).generateRGB());
+					
+					
+				    var countConditions= dt.reduce(function (result, d) {
+					    var u = d.condition;
+					     if (!result[u]) {
+					        result[u] = 0;
+					    }
+					    result[u]+=d.qte;
+					    return result;
+						}, {});
+				    var ctx = document.getElementById("conditions-chart").getContext("2d");
+				    printChart(ctx, "pie","condition",Object.keys(countConditions),Object.values(countConditions), false,  new ColorGenerator(15).generateRGB());
+					
+				    
+				    var countAmounts= dt.reduce(function (result, d) {
+					    var u = d.product.typeProduct;
+					     if (!result[u]) {
+					        result[u] = 0;
+					    }
+					    result[u]+=d.price;
+					    return result;
+						}, {});
+				    var ctx = document.getElementById("amount-chart").getContext("2d");
+				    printChart(ctx, "doughnut","condition",Object.keys(countAmounts),Object.values(countAmounts), false,  new ColorGenerator(15).generateRGB());
+				    
 		        }
+		        
+		        
 		        
 			 } );
 			
@@ -187,10 +230,56 @@
             <div class="card-footer p-3"><p class="mb-0">&nbsp;</p></div>
           </div>
         </div>
-        
-        
-        
       </div>
+      
+      <div class="row mt-4">
+        <div class="col-lg-4 col-md-6 mt-4 mb-4">
+          <div class="card z-index-2 ">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 bg-transparent">
+              <div class="bg-gradient-warning shadow-warning border-radius-lg py-3 pe-1">
+                <div class="chart">
+                  <canvas id="type-chart" class="chart-canvas" height="170"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <h6 class="mb-0 ">	Types</h6>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mt-4 mb-4">
+          <div class="card">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 bg-transparent">
+              <div class="bg-gradient-success shadow-success border-radius-lg py-3 pe-1">
+                <div class="chart">
+                  <canvas id="conditions-chart" class="chart-canvas" height="170"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <h6 class="mb-0 ">Conditions </h6>
+            </div>
+          </div>
+        </div>
+		 <div class="col-lg-4 col-md-6 mt-4 mb-4">
+          <div class="card">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 bg-transparent">
+              <div class="bg-gradient-info shadow-info border-radius-lg py-3 pe-1">
+                <div class="chart">
+                  <canvas id="amount-chart" class="chart-canvas" height="170"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <h6 class="mb-0 ">Amount </h6>
+            </div>
+
+          </div>
+        </div>       	
+
+
+      </div>
+      
 	  <br/><br/><br/>
       <div class="row mb-4">
       

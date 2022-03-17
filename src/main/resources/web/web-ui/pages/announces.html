@@ -138,7 +138,7 @@
 				    printChart(ctx, "pie", "status",Object.keys(countStatus),Object.values(countStatus), true,  new ColorGenerator(15).generateRGB());
 					
 					
-						var countAmount= dt.reduce(function (result, d) {
+					var countAmount= dt.reduce(function (result, d) {
 					    var u = d.type;
 					     if (!result[u]) {
 					        result[u] = 0;
@@ -177,7 +177,7 @@
         <div class="col-lg-4 col-md-6 mt-4 mb-4">
           <div class="card z-index-2 ">
             <div class="card-header p-0 position-relative mt-n4 mx-3 bg-transparent">
-              <div class="bg-gradient-info shadow-info border-radius-lg py-3 pe-1">
+              <div class="bg-gradient-warning shadow-warning border-radius-lg py-3 pe-1">
                 <div class="chart">
                   <canvas id="history-chart" class="chart-canvas" height="170"></canvas>
                 </div>
