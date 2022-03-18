@@ -188,7 +188,7 @@ function addCollection(name,callback)
 
 function printBarChart(ctx,typeChart,keys,values,displayLegend,color,callback)
 {
-	var chart = new Chart(ctx, {
+	var sourceChart = new Chart(ctx, {
       type: typeChart,
       data: {
         labels: keys,
@@ -270,8 +270,7 @@ function printBarChart(ctx,typeChart,keys,values,displayLegend,color,callback)
     });
 
 	if(callback)
-		callback(chart);
-
+		callback(sourceChart);
 }
 
 		
@@ -368,7 +367,7 @@ function printDeck(element, deckData)
 
 function printChart(ctx, typeChart, label, keys,values, displayLegend, colors, callback)
 {
-	var chart = new Chart(ctx, {
+	var sourceChart= new Chart(ctx, {
       type: typeChart,
       data: {
         labels: keys,
@@ -401,9 +400,9 @@ function printChart(ctx, typeChart, label, keys,values, displayLegend, colors, c
         },
       },
     });
-	
+
 	if(callback)
-		callback(chart);
+		callback(sourceChart);
 
 }
 

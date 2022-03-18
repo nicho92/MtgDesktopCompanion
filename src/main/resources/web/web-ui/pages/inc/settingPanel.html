@@ -50,8 +50,11 @@
       </div>
 
 	<script>
-				
-			document.getElementById('iconNavbarSidenav').addEventListener("click", toggleSidenav);
+			
+			if(document.getElementById('iconNavbarSidenav'))
+				document.getElementById('iconNavbarSidenav').addEventListener("click", toggleSidenav);
+			else
+				console.log("iconNavbarSidenav is not loaded");	
 		  
  			document.querySelector('.fixed-plugin-close-button').onclick = function() {
 		      	document.querySelector('.fixed-plugin').classList.remove('show');

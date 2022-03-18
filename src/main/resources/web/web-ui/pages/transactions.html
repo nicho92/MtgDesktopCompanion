@@ -42,8 +42,7 @@
 	
 	
 		<script>
-		$(document).ready(function() {
-			var table;
+		var table;
 			var loaded=false;
 			var table = null;
 			var chart1=null;
@@ -51,6 +50,76 @@
 			var chart3=null;
 			
 			
+			
+		function printCharts(dt)
+		{
+					var countHistory= dt.reduce(function (result, d) {
+				    var u = d.dateCreation.substring(0,10);
+				     if (!result[u]) {
+				        result[u] = 0;
+				    }
+				    result[u]++;
+				    return result;
+					}, {});
+					
+					countHistory=	Object.keys(countHistory).sort().reduce(
+					  (obj, key) => { 
+					    obj[key] = countHistory[key]; 
+					    return obj;
+					  }, 
+					  {}
+					);
+					
+			    var ctx = document.getElementById("history-chart").getContext("2d");
+			    printChart(ctx, "line", "date",Object.keys(countHistory),Object.values(countHistory), false,  new ColorGenerator(1).generateRGB(),function(cht){
+					chart1=cht;	
+				});
+
+
+
+				var countStatus= dt.reduce(function (result, d) {
+				    var u = d.statut;
+				     if (!result[u]) {
+				        result[u] = 0;
+				    }
+				    result[u]++;
+				    return result;
+					}, {});
+			    var ctx = document.getElementById("status-chart").getContext("2d");
+			    printChart(ctx, "pie", "status",Object.keys(countStatus),Object.values(countStatus), true,  new ColorGenerator(15).generateRGB(),function(cht){
+					chart2=cht;	
+				});
+
+				
+				
+				var countAmount= dt.reduce(function (result, d) {
+				    var u = d.dateCreation.substring(0,10);
+				     if (!result[u]) {
+				        result[u] = 0;
+				    }
+					if(d.items.length > 0)
+						result[u]+=d.items.map(it => it.price).reduce((acc, bill) => bill + acc);
+				    return result;
+					}, {});
+					
+					
+				countAmount=	Object.keys(countAmount).sort().reduce(
+					  (obj, key) => { 
+					    obj[key] = countAmount[key]; 
+					    return obj;
+					  }, 
+					  {});
+			
+			    var ctx = document.getElementById("amount-chart").getContext("2d");
+			    printBarChart(ctx, "bar", Object.keys(countAmount),Object.values(countAmount), false,  "transparent",function(cht){
+					chart3=cht;	
+				});
+		}
+		
+		
+		
+		
+		$(document).ready(function() {
 			
 			$("#sidenav-main" ).load("inc/menu.html" );
 			$("#navbarBlur").load("inc/nav.html",function(){
@@ -89,9 +158,10 @@
       			$.ajax({
 			        url: restserver+"/extShop/transactions/from/"+$("#cboSource").val()
 			    }).then(function(data) {
-			    	if(loaded)
+			    		if(loaded)
 						{
 							table.clear().rows.add(data).draw();
+							printCharts(data);
 						}
 						else
 						{
@@ -104,7 +174,6 @@
 						        "processing": true,
     							"order": [[ 1, "desc" ]],
 						        "data": data,
-								"select":true,
 						        "columns": [
 						        	{ 
 						        		"data": "id",
@@ -166,79 +235,19 @@
 									}
 									
 						        ],
-					 "fnInitComplete" :function(oSettings, json) {
+						 "fnDrawCallback" :function(oSettings, json) {
+							
+							
+						},
+						 "fnInitComplete" :function(oSettings, json) {
 								var dt = this.fnGetData();
 								loaded=true;
-								
-								
-								
-								var countHistory= dt.reduce(function (result, d) {
-								    var u = d.dateCreation.substring(0,10);
-								     if (!result[u]) {
-								        result[u] = 0;
-								    }
-								    result[u]++;
-								    return result;
-									}, {});
-									
-									countHistory=	Object.keys(countHistory).sort().reduce(
-									  (obj, key) => { 
-									    obj[key] = countHistory[key]; 
-									    return obj;
-									  }, 
-									  {}
-									);
-									
-							    var ctx = document.getElementById("history-chart").getContext("2d");
-							    printChart(ctx, "line", "date",Object.keys(countHistory),Object.values(countHistory), false,  new ColorGenerator(1).generateRGB(),function (chart){
-									chart1=chart;
-								});
-			
-			
-			
-								var countStatus= dt.reduce(function (result, d) {
-								    var u = d.statut;
-								     if (!result[u]) {
-								        result[u] = 0;
-								    }
-								    result[u]++;
-								    return result;
-									}, {});
-							    var ctx = document.getElementById("status-chart").getContext("2d");
-							    printChart(ctx, "pie", "status",Object.keys(countStatus),Object.values(countStatus), true,  new ColorGenerator(15).generateRGB(),function (chart){
-									chart2=chart;
-								});
-								
-								
-								var countAmount= dt.reduce(function (result, d) {
-								    var u = d.dateCreation.substring(0,10);
-								     if (!result[u]) {
-								        result[u] = 0;
-								    }
-									if(d.items.length > 0)
-										result[u]+=d.items.map(it => it.price).reduce((acc, bill) => bill + acc);
-								    return result;
-									}, {});
-									
-									
-								countAmount=	Object.keys(countAmount).sort().reduce(
-									  (obj, key) => { 
-									    obj[key] = countAmount[key]; 
-									    return obj;
-									  }, 
-									  {});
-							
-							    var ctx = document.getElementById("amount-chart").getContext("2d");
-							    printBarChart(ctx, "bar", Object.keys(countAmount),Object.values(countAmount), false,  "transparent",function (chart){
-									chart3=chart;
-								});
-		        }
-		       
-					    		});
-						
-						}
-			    });
-  	 		});
+								printCharts(dt);
+				        }
+			   		});
+			}
+		 });
+	});
 
 
 			
