@@ -218,16 +218,16 @@
 			<h6 class="mb-0 mt-3"><i class="fa-solid fa-book-bookmark"></i>Collection</h6>
 			<select class="form-select" id='productCollection'></select>
 			
-				<div class="row mt-4">
-					<div class="col-lg-2">
+				<div class="row ">
+					<div class="col-lg-3">
 						<h6 class="mb-0 mt-3"><i class="fa-solid fa-cubes"></i>Quantity</h6>
 							<input type="number" value="" min="0" max="100" step="1" class="form-control" id="productQty"/>   
 					</div>
-					<div class="col-lg-2">
+					<div class="col-lg-3">
 						<h6 class="mb-0 mt-3"><i class="fa-solid fa-gem"></i>Quality</h6>
 							<select class="form-select" id='productCondition'></select>
 					</div>
-					<div class="col-lg-2">
+					<div class="col-lg-3">
 						<h6 class="mb-0 mt-3"><i class="fa-solid fa-language"></i>Lang</h6>
 							<select class="form-select" id='productLangage'>
 									  <option value="German">German</option>
@@ -238,20 +238,20 @@
 					</div>
 				</div>
 				
-				<div class="row mt-4" id="cardExtra" style="display:none">
-					<div class="col-lg-2">
+				<div class="row" id="cardExtra" style="display:none">
+					<div class="col-lg-3">
 						<h6 class="mb-0 mt-3"><i class="fa-solid fa-star"></i>Foil</h6>
 						<div class="form-check form-switch ps-0 ms-auto my-auto is-filled">
 				            <input class="form-check-input mt-1 ms-auto" type="checkbox" id="chkFoil">
 				        </div>   
 					</div>
-					<div class="col-lg-2">
+					<div class="col-lg-3">
 						<h6 class="mb-0 mt-3"><i class="fa-solid fa-star-half-stroke"></i>Etched</h6>
 						<div class="form-check form-switch ps-0 ms-auto my-auto is-filled">
 				            <input class="form-check-input mt-1 ms-auto" type="checkbox" id="chkEtched">
 				        </div> 
 					</div>
-					<div class="col-lg-2">
+					<div class="col-lg-3">
 						<h6 class="mb-0 mt-3"><i class="fa-solid fa-paintbrush"></i>Altered</h6>
 						<div class="form-check form-switch ps-0 ms-auto my-auto is-filled">
 				            <input class="form-check-input mt-1 ms-auto" type="checkbox" id="chkAltered">
@@ -270,7 +270,7 @@
 				<section id="editor">
 					<div id="productComment"></div>
 				</section>
-				
+				<br/>
 				
 				<button id="btnUpdate" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Save</button>
 		</div>
