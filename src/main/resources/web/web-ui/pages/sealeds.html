@@ -148,7 +148,7 @@
 					    return result;
 						}, {});
 				    var ctx = document.getElementById("type-chart").getContext("2d");
-				    printBarChart(ctx, "bar", Object.keys(countType),Object.values(countType), false,  new ColorGenerator(15).generateRGB());
+				    printBarChart(ctx, "bar","types", Object.keys(countType),Object.values(countType), false,  new ColorGenerator(15).generateRGB());
 					
 					
 				    var countConditions= dt.reduce(function (result, d) {

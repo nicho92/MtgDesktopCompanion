@@ -64,10 +64,10 @@
 						});
 						
 				 	var ctx = document.getElementById("chart-bars").getContext("2d");
-					printBarChart(ctx,"bar",Object.keys(datastat.cmc),Object.values(datastat.cmc),false,"transparent");	
+					printBarChart(ctx,"bar","Cmc",Object.keys(datastat.cmc),Object.values(datastat.cmc),false,"transparent");	
 				     
 				    var ctx2 = document.getElementById("chart-line").getContext("2d");
-					printBarChart(ctx2,"bar",Object.keys(datastat.types),Object.values(datastat.types),false,"transparent");	
+					printBarChart(ctx2,"bar","types",Object.keys(datastat.types),Object.values(datastat.types),false,"transparent");	
 				  
 				    var ctx3 = document.getElementById("chart-line-tasks").getContext("2d");
 					printChart(ctx3, "doughnut", "Rarity", Object.keys(datastat.rarity),Object.values(datastat.rarity), false,  [

@@ -184,14 +184,14 @@ function addCollection(name,callback)
 }
 
 
-function printBarChart(ctx,typeChart,keys,values,displayLegend,color,callback)
+function printBarChart(ctx,typeChart,label,keys,values,displayLegend,color,callback)
 {
 	var sourceChart = new Chart(ctx, {
       type: typeChart,
       data: {
         labels: keys,
         datasets: [{
-          label: "Types",
+          label: label,
           tension: 0,
           borderWidth: 0,
           pointRadius: 5,
@@ -378,7 +378,7 @@ function printChart(ctx, typeChart, label, keys,values, displayLegend, colors, c
 		  backgroundColor: colors,
           pointBorderColor: "transparent",
           borderColor: "rgba(255, 255, 255, .8)",
-          borderWidth: 1,
+          borderWidth: 2,
           fill: true,
           data: values,
           maxBarThickness: 2

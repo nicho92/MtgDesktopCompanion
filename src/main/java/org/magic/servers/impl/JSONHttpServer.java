@@ -707,8 +707,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 				  obj.setCondition(EnumCondition.valueOf(postItems.get("condition").getAsString()));
 				  obj.setLanguage(postItems.get("language").getAsString());
 				  obj.setMagicCollection(new MagicCollection(postItems.get("collection").getAsString()));
-				
-				  
+				  obj.setFoil(postItems.get("foil").getAsBoolean());
+				  obj.setAltered(postItems.get("altered").getAsBoolean());
+				  obj.setEtched(postItems.get("etched").getAsBoolean());
+				  obj.setSigned(postItems.get("signed").getAsBoolean());
+				  obj.setComment(postItems.get("comment").getAsString());
 				  
 				  getEnabledPlugin(MTGDao.class).saveOrUpdateStock(obj);
 			

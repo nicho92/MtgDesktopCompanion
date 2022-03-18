@@ -14637,7 +14637,7 @@ hr.horizontal {
   .navbar-vertical.navbar-expand-xs .navbar-collapse {
     display: block;
     overflow: auto;
-    height: calc(100vh - 360px); }
+    height: calc(100vh - 250px); }
   .navbar-vertical.navbar-expand-xs > [class*="container"] {
     flex-direction: column;
     align-items: stretch;
