@@ -33,15 +33,7 @@
   <script src="../dist/js/rest-server.js"></script>
   <script src="../dist/js/js-var.js"></script>
   <script src="../dist/js/mtgcompanion-ui.js"></script>
-	
-	<style>
-		table tbody tr.selected {
-		    background-color: rgb(121, 174, 217) !important;
-		}
-	</style>
-	
-	
-		<script>
+  <script>
 		var table;
 			var loaded=false;
 			var table = null;
@@ -144,17 +136,13 @@
       		
 		
       		$("#searchBtn").click(function() {
-				
-								
-								if(chart1)
-									chart1.destroy();
-								if(chart2)
-									chart2.destroy();
-								if(chart3)
-									chart3.destroy();
-									
-									
-									
+				if(chart1)
+					chart1.destroy();
+				if(chart2)
+					chart2.destroy();
+				if(chart3)
+					chart3.destroy();
+					
       			$.ajax({
 			        url: restserver+"/extShop/transactions/from/"+$("#cboSource").val()
 			    }).then(function(data) {
@@ -200,7 +188,7 @@
 												
 												 var content="<ul>";
 							                	  $.each(d,function(index, value){
-							                		  content+= "<li><img height=70  src='"+value.product.url+"'/> <strong>" + value.qte+"x</strong> " + value.product.name + " <br/>" + JSON.stringify(value.tiersAppIds);
+													  content+= "<li class='mtgtooltip' url='"+value.product.url+"'><strong>" + value.qte+"x</strong> " + value.product.name + " <br/>" + JSON.stringify(value.tiersAppIds)+"</li>";
 							                	  });
 							                	  content+="</ul>";											
 												
@@ -236,8 +224,7 @@
 									
 						        ],
 						 "fnDrawCallback" :function(oSettings, json) {
-							
-							
+							mtgtooltipProduct($(".mtgtooltip"));
 						},
 						 "fnInitComplete" :function(oSettings, json) {
 								var dt = this.fnGetData();

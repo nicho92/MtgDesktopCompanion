@@ -38,10 +38,8 @@ function mtgtooltipProduct(product)
 		trigger : 'hover',
         html : true,
         content: function () {
-	
-	        var set = $(this).attr("url");
-       
-		   return "<img class='img-fluid' src='"+set+"'/>";
+	      var set = $(this).attr("url");
+    	  return "<img class='img-fluid' src='"+set+"'/>";
         }
     });
 	
