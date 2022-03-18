@@ -186,9 +186,9 @@ function addCollection(name,callback)
 }
 
 
-function printBarChart(ctx,typeChart,keys,values,displayLegend,color)
+function printBarChart(ctx,typeChart,keys,values,displayLegend,color,callback)
 {
-	new Chart(ctx, {
+	var chart = new Chart(ctx, {
       type: typeChart,
       data: {
         labels: keys,
@@ -268,6 +268,10 @@ function printBarChart(ctx,typeChart,keys,values,displayLegend,color)
         }
 		},
     });
+
+	if(callback)
+		callback(chart);
+
 }
 
 		
@@ -362,10 +366,9 @@ function printDeck(element, deckData)
 }
   
 
-function printChart(ctx, typeChart, label, keys,values, displayLegend, colors)
+function printChart(ctx, typeChart, label, keys,values, displayLegend, colors, callback)
 {
-
-	new Chart(ctx, {
+	var chart = new Chart(ctx, {
       type: typeChart,
       data: {
         labels: keys,
@@ -398,7 +401,9 @@ function printChart(ctx, typeChart, label, keys,values, displayLegend, colors)
         },
       },
     });
-
+	
+	if(callback)
+		callback(chart);
 
 }
 
