@@ -1092,11 +1092,13 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/webshop/transaction/:id", URLTools.HEADER_JSON, (request, response) -> 
 			MTG.getPlugin(MTGConstants.MTG_APP_NAME,MTGExternalShop.class).getTransactionById(Integer.parseInt(request.params(":id")))
 		, transformer);
-
+		
 	
 		get("/extShop/:provider/:search", URLTools.HEADER_JSON, (request, response) -> 
 			getPlugin(request.params(PROVIDER),MTGExternalShop.class).listProducts(request.params(":search"))
 		, transformer);
+		
+		
 		
 		get("/extShop/list/stock/:provider", URLTools.HEADER_JSON, (request, response) -> 
 			 getCached(request.pathInfo(), new Callable<Object>() {
@@ -1109,6 +1111,10 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		get("/extShop/transactions/from/:provider", URLTools.HEADER_JSON, (request, response) -> 
 			getPlugin(request.params(PROVIDER),MTGExternalShop.class).listTransaction()
+		, transformer);
+		
+		get("/extShop/transactions/:provider/:id", URLTools.HEADER_JSON, (request, response) -> 
+			getPlugin(request.params(PROVIDER),MTGExternalShop.class).getTransactionById(Integer.parseInt(request.params(":id")))
 		, transformer);
 		
 		post("/extShop/transactions/:to/save", URLTools.HEADER_JSON, (request, response) ->{ 

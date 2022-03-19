@@ -605,6 +605,7 @@ public class UITools {
 	}
 	
 	public static Date parseGMTDate(String gmtDate) {
+		gmtDate=gmtDate.replace("\"", "");
 		return DatatypeConverter.parseDateTime(gmtDate).getTime();
 	}
 	

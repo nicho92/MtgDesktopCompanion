@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
+import org.magic.api.beans.enums.TransactionPayementProvider;
 import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;
@@ -27,6 +28,7 @@ import org.magic.tools.WooCommerceTools;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.icoderman.woocommerce.EndpointBaseType;
 import com.icoderman.woocommerce.WooCommerce;
@@ -417,12 +419,25 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	public Transaction getTransactionById(int parseInt) throws IOException {
 		init();
 		var ret = client.get(EndpointBaseType.ORDERS.getValue(), parseInt);
+		logger.debug(ret);
 		var t = new Transaction();
 			t.setId(parseInt);
 			t.setContact(toContact(new JsonExport().toJsonElement(ret.get(BILLING)).getAsJsonObject(), Integer.parseInt(ret.get("customer_id").toString())));
 			t.setStatut(tostatus(ret.get(STATUS).toString()));
 			t.setItems(toWooItems(new JsonExport().toJsonArray(ret.get(LINE_ITEMS))));
-			t.setCurrency(ret.get("currency").toString());
+			t.setCurrency(ret.get("currency").toString().replace("\"", ""));
+			t.setDateCreation(UITools.parseGMTDate(ret.get("date_created").toString()));
+			t.setDatePayment(ret.get(DATE_PAID).getClass()!=JsonNull.class?UITools.parseGMTDate(ret.get(DATE_PAID).toString()):null);
+			t.setDateSend(ret.get("date_completed").getClass()!=JsonNull.class?UITools.parseGMTDate(ret.get("date_completed").toString()):null);
+			
+			
+			switch(ret.get("payment_method").toString())
+			{
+				case "bacs":t.setPaymentProvider(TransactionPayementProvider.VIREMENT);break;
+				case "PayPal":t.setPaymentProvider(TransactionPayementProvider.PAYPAL);break;
+				default :t.setPaymentProvider(TransactionPayementProvider.VISA);break;
+			}
+			
 		return t;
 	}
 	

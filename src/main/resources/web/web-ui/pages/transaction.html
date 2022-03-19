@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>MTG Web Companion</title>
+  
+  <link rel="icon" type="image/png" href="../dist/img/logo-ct.png">
+  <link href="https://cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
+  <link href="https://cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css" rel="stylesheet" type="text/css" />
+
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link id="pagestyle" href="../dist/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css"/>
+  <link href="https://cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css" rel="stylesheet" />
+ 
+  <script src="//unpkg.com/@trevoreyre/autocomplete-js"></script>    
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.5.5/perfect-scrollbar.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scrollbar/8.7.4/smooth-scrollbar.min.js"></script>
+  
+  <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script>
+  <script src="../dist/js/rest-server.js"></script>
+  <script src="../dist/js/js-var.js"></script>
+  <script src="../dist/js/mtgcompanion-ui.js"></script>
+  <script>
+	$(document).ready(function() {
+			$("#sidenav-main" ).load("inc/menu.html" );
+			$("#navbarBlur").load("inc/nav.html",function(){
+					$("[name='categTitle']").html("Transaction");
+					$("#menuTransactions").addClass("bg-gradient-primary");
+					$("#menuTransactions").addClass("active");
+			});
+			
+			$("#navfooter").load("inc/footer.html");
+			$("#settingPanel").load("inc/settingPanel.html");
+			
+			
+			
+			$.get(restserver+"/extShop/transactions/"+$_GET('source')+"/"+$_GET('id'),function(data){
+				$("#idOrder").html(data.id);
+				$("#sourceShop").html($_GET('source'));
+				
+				$("#contactName").html(data.contact.name + " " +data.contact.lastName );
+				$("#contactAddress").html(data.contact.address + " <br/>" +data.contact.zipCode + " " +data.contact.city);
+				$("#contactEmail").html(data.contact.email);
+				
+				$("#dateCreation").html(data.dateCreation);
+				$("#datePaid").html(data.datePayment);
+				$("#dateSend").html(data.dateSend);
+				$("#statusTransaction").html(data.statut);
+				
+				
+				$("#paymentProvider").html(data.paymentProvider);
+				
+				$('#transactionItems').DataTable({
+		    		language: {
+			    	    processing: "<img src='../dist/img/loading.gif' width='50' height='50'>"
+			    	 },
+			    	"data":data.items,
+			    	"responsive": true,
+			        "processing": true,
+			        "pageLength": 10,
+			        "bLengthChange": false,
+			        "bPaginate":false,
+			        "bInfo": false, 
+			        "bFilter":false,
+			        "paginationType":"simple",
+			      	"order": [[ 0, "desc" ]],
+			        "columns": [
+				        	{ 
+				        	  "data": "product.url",
+				        	  "width": "5%",
+				        	  "defaultContent": "",
+				              "render": function(d, type, row, meta){
+						           if(type === 'display'){
+						        	   return '<img src="'+d+'" class="avatar avatar-xl me-3" alt="product image">';	
+						            }
+						            return data;
+						        }
+				        	},
+				        	{ 
+					        	  "data": "product",
+					        	  "defaultContent": "",
+					        	  "width": "40%",
+					              "render": function(d, type, row, meta){
+							        	   return d.name;	
+							        }
+					        	},
+				        	{ 
+				        		"data": "product.edition",
+				        		"defaultContent": "",
+					        	"width": "20%",
+					            "render": function(d, type, row, meta){
+							           if(type === 'display'){
+							        	  try{
+							        	   return '<i class="ss ss-'+d.keyRuneCode.toLowerCase()+' ss-2x"></i>'+d.set;
+							        	  }
+							        	  catch(error)
+							        	  {
+							        		  return d;
+							        	  }
+							            }
+							            return d;
+							        }
+					        },
+					        { 
+				        		"data" : "qte",
+				        		"defaultContent": "",
+				            },
+				            { 
+				        		"data" : "price",
+				        		"defaultContent": "",
+				        		 "render": function(d, type, row, meta){
+						        	   return d.toFixed(2);	
+						        }
+				            },
+				            { 
+				        		"data" : "price",
+				        		"defaultContent": "",
+				        		"render": function(d, type, row, meta){
+				        			  d=(row.qte*d);
+				        			  if(type === 'display'){
+				        				  return d.toFixed(2);
+				        			  }
+						        }
+				            	
+				            },
+				            
+				            
+				        ],
+				        "fnDrawCallback" :function(oSettings, json) {
+				        	
+				        },
+				        "fnInitComplete" :function(oSettings, json) {
+				        	var dt = this.fnGetData();
+				        	
+				        	
+				        	var totalProducts=dt.map(it => it.price*it.qte).reduce((acc, bill) => bill + acc);
+				        	
+				        	var delivery = data.shippingPrice;
+				        	
+				        	$("#totalProducts").html(data.currency+ " "+ totalProducts.toFixed(2));
+				        	$("#shippingPriceTransaction").html(data.currency+ " "+delivery.toFixed(2));
+
+				        	$("#totalTransaction").html(data.currency+ " "+(totalProducts + delivery).toFixed(2));
+				        	
+				        	
+				        }
+			    } );
+				
+				
+				
+				
+			});
+			
+			
+			
+	});
+ </script>
+</head>
+
+
+<body class="g-sidenav-show  bg-gray-200">
+	<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start menu-left bg-gradient-dark" id="sidenav-main"></aside>
+  	<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+	<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true"></nav>
+   
+    <div class="container-fluid py-4">
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          <div class="card mb-4">
+            <div class="card-header p-3 pb-0">
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="w-50">
+                  <h6>Order Details</h6>
+                  <p class="text-sm mb-0">
+                    Order no. <b id='idOrder'> </b> from <b id="sourceShop"></b>
+                  </p>
+                  <p class="text-sm">
+                   <span class="badge badge-sm bg-gradient-success" id="statusTransaction"></span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="card-body p-3 pt-0">
+              <hr class="horizontal dark mt-0 mb-4">
+             
+               
+              <div class="row">
+                <div class="col-lg-12 col-md-6 col-12">
+                  
+                  <table id="transactionItems" style="width:100%">
+	                  <thead>
+	                  	<tr>
+	                  		<th>Pic</th>
+	                  		<th>Product</th>
+	                  		<th>Edition</th>
+	                  		<th>Qty</th>
+	                  		<th>PU</th>
+	                  		<th>Total</th>
+	                  	</tr>
+	                  </thead>
+                  </table>
+                  
+                  
+                </div>
+              </div>
+              
+                                    
+              
+              <hr class="horizontal dark mt-4 mb-4">
+              <div class="row">
+                <div class="col-lg-3 col-md-6 col-12">
+                  <h6 class="mb-3">Track order</h6>
+                  <div class="timeline timeline-one-side">
+                    <div class="timeline-block mb-3">
+                      <span class="timeline-step">
+                        <i class="material-icons text-secondary text-lg">notifications</i>
+                      </span>
+                      <div class="timeline-content">
+                        <h6 class="text-dark text-sm font-weight-bold mb-0">Order received</h6>
+                        <p class="text-secondary font-weight-normal text-xs mt-1 mb-0" id="dateCreation"></p>
+                      </div>
+                    </div>
+                    <div class="timeline-block mb-3">
+                      <span class="timeline-step">
+                        <i class="material-icons text-secondary text-lg">code</i>
+                      </span>
+                      <div class="timeline-content">
+                        <h6 class="text-dark text-sm font-weight-bold mb-0">Order Paid</h6>
+                        <p class="text-secondary font-weight-normal text-xs mt-1 mb-0" id="datePaid"> </p>
+                      </div>
+                    </div>
+                    <div class="timeline-block mb-3">
+                      <span class="timeline-step">
+                        <i class="material-icons text-secondary text-lg">shopping_cart</i>
+                      </span>
+                      <div class="timeline-content">
+                        <h6 class="text-dark text-sm font-weight-bold mb-0">Order transmited</h6>
+                        <p class="text-secondary font-weight-normal text-xs mt-1 mb-0" id="dateSend"> </p>
+                      </div>
+                    </div>
+                    <div class="timeline-block mb-3">
+                      <span class="timeline-step">
+                        <i class="material-icons text-success text-gradient text-lg">done</i>
+                      </span>
+                      <div class="timeline-content">
+                        <h6 class="text-dark text-sm font-weight-bold mb-0">Order delivered</h6>
+                        <p class="text-secondary font-weight-normal text-xs mt-1 mb-0"> </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-5 col-md-6 col-12">
+                  <h6 class="mb-3">Payment details</h6>
+                  <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
+                    <img class="w-10 me-3 mb-0" src="https://img2.freepng.fr/20181128/gkr/kisspng-mastercard-logo-visa-credit-card-portable-network-mastercard-plus-datacenter-trkiyeampaposde-5bfe50c6987830.6480665815433934786245.jpg" alt="logo">
+                    <h6 class="mb-0" id="paymentProvider"></h6>
+                    <button type="button" class="btn btn-icon-only btn-rounded btn-outline-secondary mb-0 btn-sm d-flex align-items-center justify-content-center ms-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="We do not store card details">
+                      <i class="material-icons text-sm" aria-hidden="true">priority_high</i>
+                    </button>
+                  </div>
+                  <h6 class="mb-3 mt-4">Billing Information</h6>
+                  <ul class="list-group">
+                    <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
+                      <div class="d-flex flex-column">
+                        <h6 class="mb-3 text-sm" id="contactName"></h6>
+                        <span class="mb-2 text-xs">Address: <span class="text-dark font-weight-bold" id="contactAddress"></span></span>
+                        <span class="mb-2 text-xs">Email Address: <span class="text-dark font-weight-bold" id="contactEmail"></span></span>
+                        
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-lg-3 col-12 ms-auto">
+                  <h6 class="mb-3">Order Summary</h6>
+                  <div class="d-flex justify-content-between">
+                    <span class="mb-2 text-sm">
+                      Product Price:
+                    </span>
+                    <span class="text-dark font-weight-bold"  id="totalProducts"> </span>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <span class="mb-2 text-sm">
+                      Delivery:
+                    </span>
+                    <span class="text-dark font-weight-bold" id="shippingPriceTransaction"> </span>
+                  </div>
+                  <div class="d-flex justify-content-between mt-4">
+                    <span class="mb-2 text-lg">
+                      Total:
+                    </span>
+                    <span class="text-dark text-lg font-weight-bold"  id="totalTransaction"> </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+  </main>
+  <div class="fixed-plugin">
+    <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
+      <i class="material-icons py-2">settings</i>
+    </a>
+    <div class="card shadow-lg" id="settingPanel">
+      
+    </div>
+  </div>
+ 
+  
+   <script src="../dist/js/material-dashboard.js?v=3.0.0"></script>
+
+ 
+</body>
+
+</html>	
+	
+	
+	
