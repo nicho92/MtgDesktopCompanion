@@ -2213,11 +2213,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		state.setComment(rs.getString("comment"));
 		state.setId(rs.getInt("id"));
 		state.setQte(rs.getInt("qte"));
-		state.setCondition(EnumCondition.valueOf(rs.getString("conditionProduct")));
-		state.setMagicCollection(new MagicCollection(rs.getString(COLLECTION)));
-		state.setPrice(rs.getDouble("price"));
-		state.setTiersAppIds(readTiersApps(rs));
-		state.setLanguage(rs.getString("lang"));
+		
 		int ref = rs.getInt("numversion");
 		
 		  try 
@@ -2230,6 +2226,13 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		  {
 			logger.error("Error loading Packaging for "+ rs.getString("typeProduct") +" " + rs.getString(EXTRA_TYPE) + " " +rs.getString(EDITION),e);
 		  }
+		  
+		  state.setCondition(EnumCondition.valueOf(rs.getString("conditionProduct"))); 
+		  state.setMagicCollection(new MagicCollection(rs.getString(COLLECTION)));
+		  state.setPrice(rs.getDouble("price"));
+		  state.setTiersAppIds(readTiersApps(rs));
+		  state.setLanguage(rs.getString("lang"));
+		  
 		 return state;
 	}
 	
