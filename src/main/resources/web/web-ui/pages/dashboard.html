@@ -36,6 +36,101 @@
   
   
   <script>
+  
+  function datatable(element)
+  {
+	  element.DataTable({
+  		language: {
+	    	    processing: "<img src='../dist/img/loading.gif' width='50' height='50'>"
+	    	 },
+	    	"data":null,
+	    	"responsive": true,
+	        "processing": true,
+	        "pageLength": 10,
+	        "bLengthChange": false,
+	        "paginationType":"simple",
+	      	"order": [[ 3, "desc" ]],
+	        "columns": [
+		        	{ "data": "name",
+		        	  "width": "50%",
+		              "render": function(data, type, row, meta){
+				           if(type === 'display'){
+					    	  	   return '<a href="cards.html?search='+data+'&set='+row.ed+'" data-set="'+row.ed+'" data-name="'+data+'">'+data+'</a>';	
+				            }
+				            return data;
+				        }
+		        	},
+		        	{ "data": "ed",
+			        	  "width": "5%",
+			              "render": function(data, type, row, meta){
+					           if(type === 'display'){
+					        	   return '<i class="ss ss-'+data.toLowerCase()+' ss-2x ss-common"></i>';	
+					            }
+					            return data;
+					        }
+			        },
+			        { 
+			        	  "data": "foil",
+			        	  "width": "5%",
+			              "render": function(data, type, row, meta){
+					           if(type === 'display'){
+					        	   if(data===true)
+		                			 	return "<span class='fa fa-check'/>";
+		                			 else
+		                				return "<span class='fa fa-times'/>";
+					            }
+					            return data;
+					        }
+			        },
+		            { 
+			        		"data" : "price",
+			        		"defaultContent": "",
+				              "render": function(data, type, row, meta){
+						           return data.toFixed(2);
+						        }
+			        		
+			        		
+		            
+		            },
+		            { "data": "priceDayChange",
+		              "defaultContent": "",
+		              "render": function(data, type, row, meta){
+				           if(type === 'display'){
+				        	   
+				        	   if(data>0)
+				        	   		return '<i style="color:green" class="fa fa-arrow-circle-up"></i>+'+data.toFixed(2);
+				        	   if(data<0)
+					        	   	return '<i style="color:red" class="fa fa-arrow-circle-down"></i>'+data.toFixed(2);
+					        	   
+				        	   		
+				            }
+				            return data;
+				        }
+		           	},
+		          	{ 
+		           	  "data": "percentDayChange",
+		           	  "defaultContent": "",
+		              "render": function(data, type, row, meta){
+				           if(type === 'display'){
+				        	   data = data.toFixed(2);
+				        	   
+				        	   
+				        	   if(data>0)
+				        	   	data = '+'+data;
+				            }
+				            return data +"%";
+				        }
+		           	},
+		           	{ 
+			           	  "data": "cardVariation",
+			           	  "defaultContent": ""
+			              
+			        }
+		        ]
+	    } );
+  }
+  
+  
 		$(document).ready(function() {
 			$("#sidenav-main" ).load("inc/menu.html" );
 			$("#navbarBlur").load("inc/nav.html",function(){
@@ -49,92 +144,9 @@
 			$("#settingPanel").load("inc/settingPanel.html");
 			
 			
-			$('#edsPrices').DataTable({
-	    		language: {
-		    	    processing: "<img src='../dist/img/loading.gif' width='50' height='50'>"
-		    	 },
-		    	"data":null,
-		    	"responsive": true,
-		        "processing": true,
-		        "pageLength": 10,
-		        "bLengthChange": false,
-		        "paginationType":"simple",
-		      	"order": [[ 3, "desc" ]],
-		        "columns": [
-			        	{ "data": "name",
-			        	  "width": "50%",
-			              "render": function(data, type, row, meta){
-					           if(type === 'display'){
-						    	  	   return '<a href="cards.html?search='+data+'&set='+row.ed+'"  class="mtg-tooltip" data-set="'+row.ed+'" data-name="'+data+'">'+data+'</a>';	
-					            }
-					            return data;
-					        }
-			        	},
-			        	{ "data": "ed",
-				        	  "width": "5%",
-				              "render": function(data, type, row, meta){
-						           if(type === 'display'){
-						        	   return '<i class="ss ss-'+data.toLowerCase()+' ss-2x ss-common"></i>';	
-						            }
-						            return data;
-						        }
-				        },
-				        { 
-				        	  "data": "foil",
-				        	  "width": "5%",
-				              "render": function(data, type, row, meta){
-						           if(type === 'display'){
-						        	   if(data===true)
-			                			 	return "<span class='fa fa-check'/>";
-			                			 else
-			                				return "<span class='fa fa-times'/>";
-						            }
-						            return data;
-						        }
-				        },
-			            { 
-				        		"data" : "price",
-				        		"defaultContent": "",
-					              "render": function(data, type, row, meta){
-							           return data.toFixed(2);
-							        }
-				        		
-				        		
-			            
-			            },
-			            { "data": "priceDayChange",
-			              "defaultContent": "",
-			              "render": function(data, type, row, meta){
-					           if(type === 'display'){
-					        	   
-					        	   if(data>0)
-					        	   		return '<i style="color:green" class="fa fa-arrow-circle-up"></i>+'+data.toFixed(2);
-					        	   if(data<0)
-						        	   	return '<i style="color:red" class="fa fa-arrow-circle-down"></i>'+data.toFixed(2);
-						        	   
-					        	   		
-					            }
-					            return data;
-					        }
-			           	},
-			          	{ "data": "percentDayChange",
-			           	  "defaultContent": "",
-			              "render": function(data, type, row, meta){
-					           if(type === 'display'){
-					        	   data = data.toFixed(2);
-					        	   
-					        	   
-					        	   if(data>0)
-					        	   	data = '+'+data;
-					            }
-					            return data +"%";
-					        }
-			           	}
-			        ],
-			        "fnDrawCallback" :function(oSettings, json) {
-			        	mtgtooltip($(".mtg-tooltip"));
-			        }
-		    } );
+			datatable($('#edsPrices'));
+			datatable($('#formatPrices'));
+			
 			
 			
 			$.ajax({
@@ -142,9 +154,9 @@
 		   		 }).done(function(data) {
 		   			
 		   			 for(var i=0;i<data.length;i++)
-		   				 {
-		   				 	$("#listEditions").append("<option value='"+data[i].id+"'>"+data[i].set+"</option>")
-		   				 }
+	   				 {
+	   				 	$("#listEditions").append("<option value='"+data[i].id+"'>"+data[i].set+"</option>")
+	   				 }
 		   			 
 		   			$('#listEditions').change(function(e) {
 		   				
@@ -167,7 +179,23 @@
 		   			 
 		   		 });
 			
-			
+			$('#listFormats').change(function(e) {
+   				
+   				var idFormat= $(this).find("option:selected").val();
+   				
+   				$.ajax({
+   				    	url: restserver+"/dash/format/"+idFormat,
+   				    	dataSrc:""
+   			   		 }).done(function(data) {
+   			   			$('#formatPrices').DataTable().clear();
+   			   			for(var i=0;i<data.length;i++)
+   			   			{
+   			   				$('#formatPrices').DataTable().row.add(data[i]);
+   			   			}
+   			   			
+   			   			$('#formatPrices').DataTable().draw();
+   			   		 });
+            });
 			
 			
 			
@@ -211,6 +239,46 @@
 							<th>$</th>
 							<th>+/-</th>
 							<th>%</th>
+							<th>Variant</th>
+						</tr>
+					</thead>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+        <div class="col-lg-6 col-md-6 mb-md-0 mb-4">
+          <div class="card">
+          <div class="card-header p-0 position-relative mt-n4 mx-3">
+              <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                <h6 class="text-white text-capitalize ps-3">Format Variations</h6>
+              </div>
+             
+            </div>
+            <div class="card-body px-0 pb-2">
+             <select id="listFormats" class="form-select"  data-live-search="true">
+				<option value=""></option>
+             	<option value="STANDARD">Standard</option>
+             	<option value="LEGACY">Legacy</option>
+             	<option value="VINTAGE">Vintage</option>
+             	<option value="MODERN">Modern</option>
+             	<option value="PAUPER">Pauper</option>
+             	<option value="PIONEER">Pioneer</option>
+             	<option value="COMMANDER">Commander</option>
+             </select>
+              <div class="table-responsive">
+                <table id="formatPrices" class="table align-items-center" style="width:100%">
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Edition</th>
+							<th>Foil</th>
+							<th>$</th>
+							<th>+/-</th>
+							<th>%</th>
+							<th>Variant</th>
 						</tr>
 					</thead>
                 </table>

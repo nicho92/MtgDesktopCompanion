@@ -5,7 +5,6 @@ import static org.magic.tools.MTG.getEnabledPlugin;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -104,7 +103,7 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 			else if(!StringUtils.isBlank(line) && !line.equals("Deck"))
 			{
 				
-					SimpleEntry<String, Integer> entry = parseString(line);
+					var entry = parseString(line);
 					try 
 					{
 						MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(entry.getKey(), null, true).get(0);

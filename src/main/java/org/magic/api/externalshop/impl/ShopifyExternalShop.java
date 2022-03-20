@@ -40,6 +40,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	private static final String CUSTOMER = "customer";
 	private static final String PRODUCT = "product";
 	private static final String VARIANT = "variant";
+	private static final String ORDER = "order";
 	private MTGHttpClient client = URLTools.newClient();
 	
 	
@@ -136,6 +137,18 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 		return p;
 	}
 	
+	
+	private Transaction parseTransaction(JsonObject obj) {
+		
+		System.out.println(obj);
+		
+		return null;
+	}
+
+
+
+	
+	
 	private Contact parseContact(JsonObject obj) {
 		var c = new Contact();
 			c.setEmail(obj.get("email").getAsString());
@@ -178,6 +191,27 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 		}
 		return ret;
 	}
+	
+	
+
+	@Override
+	public Transaction getTransactionById(int id) throws IOException {
+		var obj= readId(ORDER,(long)id);
+		return parseTransaction(obj);
+	}
+
+
+	@Override
+	protected List<Transaction> loadTransaction() throws IOException {
+		var arr = read(ORDER,null);
+		var ret = new ArrayList<Transaction>();
+		for(JsonElement je : arr)
+		{
+			ret.add(parseTransaction(je.getAsJsonObject()));
+		}
+		return ret;
+	}
+
 	
 	@Override
 	public List<Contact> listContacts() throws IOException {
@@ -408,24 +442,11 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public Transaction getTransactionById(int parseInt) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public List<Transaction> listTransactions(Contact c) throws IOException {
 		return new ArrayList<>();
 	}
 
 
-
-	@Override
-	protected List<Transaction> loadTransaction() throws IOException {
-		return new ArrayList<>();
-	}
-
-	
 	@Override
 	public boolean enableContact(String token) throws IOException {
 		// TODO Auto-generated method stub

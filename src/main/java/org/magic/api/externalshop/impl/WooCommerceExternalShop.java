@@ -22,10 +22,10 @@ import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.api.interfaces.abstracts.extra.AbstractProduct;
 import org.magic.api.interfaces.abstracts.extra.AbstractStockItem;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.tools.UITools;
 import org.magic.tools.WooCommerceTools;
 
-import com.google.common.collect.Lists;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
@@ -134,6 +134,13 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		return ret;
 	}
 
+	
+	public static void main(String[] args) throws IOException {
+		MTGControler.getInstance().loadAccountsConfiguration();
+		new WooCommerceExternalShop().loadTransaction();
+		
+	}
+	
 
 	private List<MTGStockItem> toWooItems(JsonArray itemsArr) {
 		
@@ -150,17 +157,15 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
     		entry.setPrice(objItem.get("total").getAsDouble());
     		
     		var prod = AbstractProduct.createDefaultProduct();
-
-			prod.setName(objItem.get("name").getAsString());
-    		prod.setProductId(objItem.get(PRODUCT_ID).getAsLong());
-    		prod.setUrl("");
+	    		prod.setCategory(null);
+				prod.setName(objItem.get("name").getAsString());
+	    		prod.setProductId(objItem.get(PRODUCT_ID).getAsLong());
+	    		prod.setUrl("");
     		entry.setProduct(prod);
     		entry.setLanguage(entry.getProduct().getName().toLowerCase().contains("français")?"French":"English");
     		entry.getTiersAppIds().put(getName(), String.valueOf(entry.getId()));
     		ret.add(entry);
-    		
     	}
-		
 		return ret;
 	}
 
@@ -257,18 +262,19 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	}
 
 	private EnumItems parseType(Category c) {
-		
-		//TODO VARIABLES THIS METHOD
-		switch( c.getIdCategory())
+		for(String s : getArray("MAP_CATEG_TYPE"))
 		{
-			case 78 :return  EnumItems.CONSTRUCTPACK;
-			case 75 :return  EnumItems.BOX;
-			case 76 :return  EnumItems.BUNDLE;
-			case 77 :return  EnumItems.BOOSTER;
-			default : return EnumItems.CARD;
+			var arr = s.split("=");
+			
+			if(arr.length==2 && arr[1].equals(String.valueOf(c.getIdCategory())))
+			{
+				return EnumItems.valueOf(arr[0]);
+			}
 		}
 		
+		logger.warn("No category map found for " + c);
 		
+		return EnumItems.SEALED;
 	}
 
 	@Override
@@ -295,7 +301,14 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		return Map.of(PER_PAGE,"50");
+	
+		StringBuilder temp = new StringBuilder();
+		for(EnumItems it : EnumItems.values())
+		{
+			temp.append(it.name()).append("=").append("").append(",");
+		}
+		
+		return Map.of(PER_PAGE,"50","MAP_CATEG_TYPE",temp.toString().substring(0, temp.toString().length()-1));
 	}
 	
 	@Override
