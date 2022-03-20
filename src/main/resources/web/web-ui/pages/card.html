@@ -84,7 +84,11 @@ $(document).ready(function() {
 			$("#navfooter").load("inc/footer.html");
 			$("#settingPanel").load("inc/settingPanel.html");
 	
-			
+			$.get(restserver+"/admin/plugins/list",function(data){
+				data.PRICER.filter(function (entry) {return entry.enabled === true;}).forEach( function(item,index){
+						$("#tabPrices").append("<li class='nav-item' style='style='cursor: pointer;'><a name='btnLoadPrice' class='nav-link' aria-current='page'  ><i class='fa fa-3 fa-shopping-cart' aria-hidden='true'></i>"+item.name+"</a></li>");
+				});
+		});
 			
 				if(table==null)
 				{
@@ -369,7 +373,7 @@ $(document).ready(function() {
 					 		});
 						
 										
-					$(document).on('click',"a[name='btnLoadPrice']",function(){
+						$(document).on('click',"a[name='btnLoadPrice']",function(){
 								$("#tabPrices li a").removeClass("active");
 								$(this).addClass("active");
 								table.ajax.url(restserver+"/prices/details/"+$(this).text()+"/"+card.id).load();
@@ -595,7 +599,7 @@ $(document).ready(function() {
 						</div>
 					</div>
 					<div class="card-body p-3">
-						<ul class="nav nav-tabs" id="tabPrices"></ul>
+								<ul class="nav nav-tabs" id="tabPrices"></ul>
 								<table class="table" id="table" style="width: 100%;">
 									<thead>
 									<tr>
