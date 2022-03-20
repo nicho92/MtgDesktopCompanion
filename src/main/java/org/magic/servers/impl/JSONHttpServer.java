@@ -81,6 +81,7 @@ import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.MTGStockItem;
+import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.api.interfaces.MTGTrackingService;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.api.interfaces.abstracts.extra.AbstractEmbeddedCacheProvider;
@@ -370,7 +371,20 @@ public class JSONHttpServer extends AbstractMTGServer {
 			
 			
 		);
-
+		
+		
+		get("/cards/token/:scryfallId", URLTools.HEADER_JSON,(request, response) -> {
+			
+			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(":scryfallId"));
+			
+			if(mc!=null)
+			{
+				return getEnabledPlugin(MTGTokensProvider.class).generateTokenFor(mc);
+			}
+			
+			return null;
+		},transformer);
+		
 		get("/cards/suggestcard/:val", URLTools.HEADER_JSON,
 				(request, response) -> getEnabledPlugin(MTGCardsIndexer.class).search("name:\""+request.params(":val")+"\"").stream().map(MagicCard::toLightJson).toList(),
 				transformer);

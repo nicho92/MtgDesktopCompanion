@@ -38,7 +38,7 @@
   <style>
 	
 	.list-group{
-    max-height: 300px;
+    max-height: 200px;
     overflow-y: scroll;
 	overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
@@ -289,6 +289,23 @@ $(document).ready(function() {
   	    		$('#reprints').append('<li class="list-group-item"><i class="ss ss-'+card.editions[i].keyRuneCode.toLowerCase()+' ss-'+card.rarity.toLowerCase()+' ss-2x"></i><a href="cards.html?search='+card.name+'&set='+card.editions[i].id+'">'+ card.editions[i].set + "</a></li>");
   	   		}
 			
+			for (var i = 0; i < card.legalities.length; i++) 
+  	    	{
+				if(card.legalities[i].formatLegality=="LEGAL")
+				{
+					$('.badge[attr="'+card.legalities[i].format+'"]').removeClass("bg-danger");
+					$('.badge[attr="'+card.legalities[i].format+'"]').addClass("bg-success");
+				}
+				else if(card.legalities[i].formatLegality=="RESTRICTED")
+				{
+					$('.badge[attr="'+card.legalities[i].format+'"]').removeClass("bg-danger");
+					$('.badge[attr="'+card.legalities[i].format+'"]').addClass("bg-warning");
+				}
+				
+					
+  	   		}
+			
+			
 						if(card.cost!=null)
 				  	    	{
 				  	    	   var d=card.cost.match(/[^{}]+(?=\})/g);
@@ -508,6 +525,23 @@ $(document).ready(function() {
 						<i><span id="artist"></span></i>
 					</div>
 					
+				</div>
+				<br/>
+				<br/>
+					<div class="card">
+					<div class="card-header p-0 position-relative mt-n4 mx-3 ">
+						<div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+							<h6 class="text-white text-capitalize ps-3">Legalities</h6>
+						</div>
+					</div>
+					<div class="card-body p-3">
+						 <span class="badge bg-danger" attr="standard">STD</span>
+						 <span class="badge bg-danger" attr="modern">MDN</span>
+						 <span class="badge bg-danger" attr="legacy">LEG</span>
+						 <span class="badge bg-danger" attr="vintage">VIN</span>
+						 <span class="badge bg-danger" attr="pauper">PAU</span>
+						 <span class="badge bg-danger" attr="commander">CMD</span>
+					</div>
 				</div>
 				<br/>
 				<br/>
