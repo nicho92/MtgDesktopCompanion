@@ -1368,7 +1368,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setString(1, String.valueOf(state.getProduct().getEdition().getId()));
 				pst.setInt(2, state.getQte());
 				pst.setString(3, state.getComment());
-				pst.setString(4, state.getProduct().getLang());
+				pst.setString(4, state.getLanguage());
 				pst.setString(5, state.getProduct().getTypeProduct().name());
 				pst.setString(6, state.getCondition().name());
 				
@@ -2217,14 +2217,13 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		state.setMagicCollection(new MagicCollection(rs.getString(COLLECTION)));
 		state.setPrice(rs.getDouble("price"));
 		state.setTiersAppIds(readTiersApps(rs));
-		
+		state.setLanguage(rs.getString("lang"));
 		int ref = rs.getInt("numversion");
 		
 		  try 
 		  {
 			var list = SealedProductProvider.inst().get(getEnabledPlugin(MTGCardsProvider.class).getSetById(rs.getString(EDITION)),EnumItems.valueOf(rs.getString("typeProduct")),(rs.getString(EXTRA_TYPE)==null) ? null : MTGSealedProduct.EXTRA.valueOf(rs.getString(EXTRA_TYPE)));
 			MTGSealedProduct product = list.stream().filter(p->p.getNum()==ref).findFirst().orElse(list.get(0));
-			product.setLang(rs.getString("lang"));
 			state.setProduct(product);
 		  } 
 		  catch (Exception e) 
