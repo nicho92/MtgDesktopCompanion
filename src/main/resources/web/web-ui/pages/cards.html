@@ -70,6 +70,13 @@
 		        "ajax": {"url":set,
 		        		 "dataSrc":""
 		        		 },
+        		 "columnDefs": [
+        	            {
+        	                "targets": [ 6 ],
+        	                "visible": false,
+        	                "searchable": false
+        	            }
+        	        ],
 		        "columns": [
 		        	{ 
 			                "data": "id",
@@ -195,7 +202,6 @@
 			                <th>Type</th>
 			                <th>Cost</th>
 							<th>Layout</th>
-							<th>Side</th>
 			            </tr>
 			        </thead>
                 </table>
