@@ -45,6 +45,27 @@ function mtgtooltipProduct(product)
 	
 }
 
+function mtgtooltipTokenFor(element,scryfallId)
+{
+	
+			$.get(restserver+"/cards/token/"+scryfallId,function(data){
+					if(data!=null)
+						{
+							element.popover({
+					        placement : 'top',
+							trigger : 'hover',
+					        html : true,
+					        content: function () {
+						       	return "<img class='img-fluid' src='"+data.url+"'/>";
+					        	}
+    						});
+						}
+			});
+			
+}
+
+
+
 function mtgtooltip(element)
 {
 	element.popover({

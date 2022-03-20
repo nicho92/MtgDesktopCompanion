@@ -85,11 +85,6 @@ $(document).ready(function() {
 			$("#settingPanel").load("inc/settingPanel.html");
 	
 			
-			$.get(restserver+"/admin/plugins/list",function(data){
-					data.PRICER.filter(function (entry) {return entry.enabled === true;}).forEach( function(item,index){
-							$("#tabPrices").append("<li class='nav-item' style='style='cursor: pointer;'><a name='btnLoadPrice' class='nav-link' aria-current='page'  ><i class='fa fa-3 fa-shopping-cart' aria-hidden='true'></i>"+item.name+"</a></li>");
-					});
-			});
 			
 				if(table==null)
 				{
@@ -182,8 +177,8 @@ $(document).ready(function() {
 						else
 							$('#types').append(card.types);
 						
-						$("#oracleText").append(card.text.replace(/\n/g, "<br />"));
-						
+						$("#oracleText").append(card.text.replace(/\n/g, "<br />").replace(" token","<u><span class='mtg-tooltip'> token</span></u>"));
+						mtgtooltipTokenFor($(".mtg-tooltip"),card.scryfallId);
 						
 						var front = uri;
 						if(card.layout=="TRANSFORM" || card.layout=="MODAL_DFC"){
@@ -535,12 +530,12 @@ $(document).ready(function() {
 						</div>
 					</div>
 					<div class="card-body p-3">
-						 <span class="badge bg-danger" attr="standard">STD</span>
-						 <span class="badge bg-danger" attr="modern">MDN</span>
-						 <span class="badge bg-danger" attr="legacy">LEG</span>
-						 <span class="badge bg-danger" attr="vintage">VIN</span>
-						 <span class="badge bg-danger" attr="pauper">PAU</span>
-						 <span class="badge bg-danger" attr="commander">CMD</span>
+						 <span class="badge bg-danger" attr="standard" data-bs-placement="bottom" data-bs-toggle="tooltip" title="Banned">STD</span>
+						 <span class="badge bg-danger" attr="modern"   data-bs-placement="bottom" data-bs-toggle="tooltip" title="Banned">MDN</span>
+						 <span class="badge bg-danger" attr="legacy"   data-bs-placement="bottom" data-bs-toggle="tooltip" title="Banned">LEG</span>
+						 <span class="badge bg-danger" attr="vintage"  data-bs-placement="bottom" data-bs-toggle="tooltip" title="Banned">VIN</span>
+						 <span class="badge bg-danger" attr="pauper"   data-bs-placement="bottom" data-bs-toggle="tooltip" title="Banned">PAU</span>
+						 <span class="badge bg-danger" attr="commander" data-bs-placement="bottom" data-bs-toggle="tooltip" title="Banned">CMD</span>
 					</div>
 				</div>
 				<br/>
