@@ -73,6 +73,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 public class DiscordBotServer extends AbstractMTGServer {
 
 	
+	private static final String EXTERNAL_LINK = "EXTERNAL_LINK";
 	private static final String ACTIVITY = "ACTIVITY";
 	private static final String ACTIVITY_TYPE = "ACTIVITY_TYPE";
 	private static final String THUMBNAIL_IMAGE = "THUMBNAIL_IMAGE";
@@ -416,6 +417,9 @@ public class DiscordBotServer extends AbstractMTGServer {
 		temp.append(mc.getText()).append("\n");
 		temp.append("**Edition:** ").append(mc.getCurrentSet().getSet()).append("\n");
 		
+		if(!getString(EXTERNAL_LINK).isEmpty())
+			temp.append("**Url:** ").append(getString(EXTERNAL_LINK)+mc.getScryfallId()).append("\n");
+		
 		if(mc.getExtra()!=null)
 			temp.append("**").append(mc.getExtra().toPrettyString()).append("** ").append("\n");
 		
@@ -550,6 +554,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 				map.put(RESULTS_SHAKES,"10");
 				map.put(ACTIVITY_TYPE,ActivityType.WATCHING.name());
 				map.put(ACTIVITY,"bees flying");
+				map.put(EXTERNAL_LINK,"https://mtgcompanion.me/prices-ui/pages/index.html?id=");
 		
 		return map;
 	}
