@@ -13,9 +13,11 @@
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <link id="pagestyle" href="../dist/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css"/>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"/>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css"/>
+  
   <link href="https://cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
-   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css" rel="stylesheet" />
  
   <script src="//unpkg.com/@trevoreyre/autocomplete-js"></script>    
@@ -28,8 +30,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scrollbar/8.7.4/smooth-scrollbar.min.js"></script>
-  
-  <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
   <script src="https://cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script>
   <script src="../dist/js/rest-server.js"></script>
   <script src="../dist/js/js-var.js"></script>
@@ -99,7 +101,7 @@ $(document).ready(function() {
 						"ajax": {"url":"/","dataSrc":""},
 				    	"bInfo" : false,
 				    	"responsive": true,
-				        "processing": true,
+				    	"processing": true,
 				        "pageLength": 10,
 				        "bLengthChange": false,
 				        "paginationType":"simple",
@@ -447,7 +449,7 @@ $(document).ready(function() {
 						</div>
 					</div>
 					<div class="card-body p-3">
-						<table class="table table-borderless  table-hover specialCollapse">
+						<table class="table table-borderless table-responsive table-hover specialCollapse display responsive nowrap" style="width:100%">
 							<tbody>
 								<tr>
 									<td>
@@ -600,7 +602,7 @@ $(document).ready(function() {
 					</div>
 					<div class="card-body p-3">
 								<ul class="nav nav-tabs" id="tabPrices"></ul>
-								<table class="table" id="table" style="width: 100%;">
+								<table class="table" id="table">
 									<thead>
 									<tr>
 										<th>website</th>
