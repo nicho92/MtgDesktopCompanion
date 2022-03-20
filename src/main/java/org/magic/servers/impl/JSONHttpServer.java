@@ -26,6 +26,7 @@ import java.nio.file.Path;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -120,6 +121,7 @@ import spark.Response;
 import spark.ResponseTransformer;
 import spark.Spark;
 import spark.route.HttpMethod;
+import spark.routematch.RouteMatch;
 
 public class JSONHttpServer extends AbstractMTGServer {
 
@@ -1328,7 +1330,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 				var temp = new StringBuilder();
 				response.type(URLTools.HEADER_HTML);
 				
-				Spark.routes().stream().filter(rm->rm.getHttpMethod()!=HttpMethod.after && rm.getHttpMethod()!=HttpMethod.before && rm.getHttpMethod()!=HttpMethod.options).forEach(rm->{
+				Spark.routes().stream().filter(rm->rm.getHttpMethod()!=HttpMethod.after && rm.getHttpMethod()!=HttpMethod.before && rm.getHttpMethod()!=HttpMethod.options).sorted(Comparator.comparing(RouteMatch::getMatchUri)).forEach(rm->{
 					temp.append(rm.getHttpMethod());
 					temp.append("&nbsp;");
 					temp.append("<a href='").append(rm.getMatchUri()).append("'>").append(rm.getMatchUri()).append("</a>");
