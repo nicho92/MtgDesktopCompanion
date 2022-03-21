@@ -296,11 +296,15 @@ $(document).ready(function() {
 				{
 					$('.badge[attr="'+card.legalities[i].format+'"]').removeClass("bg-danger");
 					$('.badge[attr="'+card.legalities[i].format+'"]').addClass("bg-success");
+					$('.badge[attr="'+card.legalities[i].format+'"]').attr("data-bs-original-title","LEGAL");
+					
+					
 				}
 				else if(card.legalities[i].formatLegality=="RESTRICTED")
 				{
 					$('.badge[attr="'+card.legalities[i].format+'"]').removeClass("bg-danger");
 					$('.badge[attr="'+card.legalities[i].format+'"]').addClass("bg-warning");
+					$('.badge[attr="'+card.legalities[i].format+'"]').attr("data-bs-original-title","LEGAL");
 				}
 				
 					
