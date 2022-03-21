@@ -44,7 +44,7 @@ public class SealedStockTableModel extends GenericTableModel<SealedStock> {
 			case 1: return it.getProduct().getTypeProduct();
 			case 2 : return it.getProduct().getExtra();
 			case 3: return it.getProduct().getEdition();
-			case 4: return it.getProduct().getLang();
+			case 4: return it.getLanguage();
 			case 5: return it.getCondition();
 			case 6 : return it.getQte();
 			case 7 : return it.getMagicCollection();
@@ -61,7 +61,7 @@ public class SealedStockTableModel extends GenericTableModel<SealedStock> {
 		
 		switch(column)
 		{
-			case 4: it.getProduct().setLang(String.valueOf(aValue));break;
+			case 4: it.setLanguage(String.valueOf(aValue));break;
 			case 5: it.setCondition(EnumCondition.valueOf(aValue.toString()));break;
 			case 6: it.setQte(Integer.parseInt(String.valueOf(aValue)));break;
 			case 7: it.setMagicCollection(new MagicCollection(String.valueOf(aValue)));break;

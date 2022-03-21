@@ -132,61 +132,6 @@ function sidebarColor(a) {
 }
 
 
-// Set Sidebar Type
-function sidebarType(a) {
-	var parent = a.parentElement.children;
-	var color = a.getAttribute("data-class");
-	var body = document.querySelector("body");
-	var bodyDark = body.classList.contains('dark-version');
-	storage.setItem("sideNavType", a.getAttribute('data-class'));
-	var colors = [];
-
-	for (var i = 0; i < parent.length; i++) {
-		parent[i].classList.remove('active');
-		colors.push(parent[i].getAttribute('data-class'));
-	}
-
-	if (!a.classList.contains('active')) {
-		a.classList.add('active');
-	} else {
-		a.classList.remove('active');
-	}
-
-	var sidebar = document.querySelector('.sidenav');
-
-	for (var i = 0; i < colors.length; i++) {
-		sidebar.classList.remove(colors[i]);
-	}
-
-	sidebar.classList.add(color);
-
-
-	// Remove text-white/text-dark classes
-	if (color == 'bg-transparent' || color == 'bg-white') {
-		var textWhites = document.querySelectorAll('.sidenav .text-white');
-		for (let i = 0; i < textWhites.length; i++) {
-			textWhites[i].classList.remove('text-white');
-			textWhites[i].classList.add('text-dark');
-		}
-	}
-	else {
-		var textDarks = document.querySelectorAll('.sidenav .text-dark');
-		for (let i = 0; i < textDarks.length; i++) {
-			textDarks[i].classList.add('text-white');
-			textDarks[i].classList.remove('text-dark');
-		}
-	}
-
-	if (color == 'bg-transparent' && bodyDark) {
-		var textDarks = document.querySelectorAll('.navbar-brand .text-dark');
-		for (let i = 0; i < textDarks.length; i++) {
-			textDarks[i].classList.add('text-white');
-			textDarks[i].classList.remove('text-dark');
-		}
-	}
-
-}
-
 
 // Set Navbar Minimized
 function navbarMinimize(el) {
