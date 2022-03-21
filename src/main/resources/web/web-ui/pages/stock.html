@@ -48,7 +48,7 @@
 			
 		
 		 var source = $_GET('type')=='CARD' ? "stock":"sealed";
-			
+				
 		
 			$("#sidenav-main" ).load("inc/menu.html" );
 			$("#navbarBlur").load("inc/nav.html",function(){
@@ -104,10 +104,15 @@
 
 			});
 			
+			var queryUrl=restserver+"/"+source+"/get/"+$_GET('id');
 			
-			$.get(restserver+"/"+source+"/get/"+$_GET('id'),function(data){
+			if($_GET('shop'))
+				queryUrl=restserver+"/extShop/stock/"+$_GET('shop')+"/"+$_GET('id');
+			
+			
+			$.get(queryUrl,function(data){
 				
-				$("#productImage").attr("src",data.url);
+				$("#productImage").attr("src",data.product.url);
 				$("#productTitle").html(data.product.name);
 				$("#productPrice").val(data.price.toFixed(2));
 				$("#productQty").val(data.qte);

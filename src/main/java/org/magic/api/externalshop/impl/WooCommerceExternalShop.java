@@ -162,6 +162,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 				prod.setName(objItem.get("name").getAsString());
 	    		prod.setProductId(objItem.get(PRODUCT_ID).getAsLong());
 	    		prod.setUrl("");
+	    		
     		entry.setProduct(prod);
     		entry.setLanguage(entry.getProduct().getName().toLowerCase().contains("français")?"French":"English");
     		entry.getTiersAppIds().put(getName(), String.valueOf(entry.getId()));
@@ -368,7 +369,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 
 	@Override
 	public MTGStockItem getStockById( EnumItems typeStock,Long id) throws IOException {
-		return null;
+		return loadStock("").stream().filter(mcsi->mcsi.getId().equals(id)).findFirst().orElseThrow();
 	}
 
 	@Override

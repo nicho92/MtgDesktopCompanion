@@ -1109,10 +1109,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 		, transformer);
 		
 	
-		get("/extShop/:provider/:search", URLTools.HEADER_JSON, (request, response) -> 
+		get("/extShop/products/:provider/:search", URLTools.HEADER_JSON, (request, response) -> 
 			getPlugin(request.params(PROVIDER),MTGExternalShop.class).listProducts(request.params(":search"))
 		, transformer);
-		
 		
 		
 		get("/extShop/list/stock/:provider", URLTools.HEADER_JSON, (request, response) -> 
@@ -1122,6 +1121,10 @@ public class JSONHttpServer extends AbstractMTGServer {
 					return getPlugin(request.params(PROVIDER),MTGExternalShop.class).listStock("");
 				}
 			})
+		 , transformer);
+		
+		get("/extShop/stock/:provider/:id", URLTools.HEADER_JSON, (request, response) -> 
+				getPlugin(request.params(PROVIDER),MTGExternalShop.class).getStockById(null,Long.parseLong(request.params(":id")))
 		, transformer);
 		
 		get("/extShop/transactions/from/:provider", URLTools.HEADER_JSON, (request, response) -> 

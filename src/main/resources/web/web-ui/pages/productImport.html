@@ -87,7 +87,7 @@
       		$("#searchBtn").click(function() {
 	
       			$.ajax({
-			        url: restserver+"/extShop/"+$("#cboSource").val()+"/"+$("#searchProduct").val()
+			        url: restserver+"/extShop/products/"+$("#cboSource").val()+"/"+$("#searchProduct").val()
 			    }).then(function(data) {
 			    	if(loaded)
 						{

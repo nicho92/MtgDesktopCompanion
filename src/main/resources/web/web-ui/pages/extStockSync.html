@@ -73,7 +73,13 @@
 					        "columns": [
 					        	{ 
 					        		"data": "id",
-									"width": "5%"
+									"width": "5%",
+									"render": function(data, type, row, meta){
+					                	 if(type === 'display'){
+											return "<a href='stock.html?id="+data+"&shop="+provider+"'><i class='fa-solid fa-pen-to-square'></i></a>";
+					                	 }
+				                   		return data;
+				                	}
 					        	},
 								{ 
 					        		"data": "product",
