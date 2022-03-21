@@ -5,8 +5,10 @@ import java.util.Map;
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.beans.enums.EnumItems;
 
 public interface MTGStockItem extends MTGStorable, Comparable<MTGStockItem> {
+	
 	
 	public 	void setGrade(Grading grade);
 

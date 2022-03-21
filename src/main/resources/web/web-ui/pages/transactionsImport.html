@@ -106,7 +106,13 @@
 						        "columns": [
 						        	{ 
 						        		"data": "id",
-  										"width": "5%"
+  										"width": "5%",
+										"render": function(d,type,row,meta){
+											  if(type === 'display'){
+												return "<a href='transaction.html?source="+row.sourceShopName+"&id="+d+"' target='_blank'>"+d+"</a>";
+												}
+												return d;
+										}
 						        	},
 									{
 										"data":"dateCreation",

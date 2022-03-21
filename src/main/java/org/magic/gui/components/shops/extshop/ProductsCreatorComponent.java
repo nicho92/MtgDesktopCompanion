@@ -21,16 +21,15 @@ import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 
 import org.magic.api.beans.shop.Category;
-import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGProduct;
+import org.magic.api.interfaces.abstracts.extra.AbstractStockItem;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.renderer.ProductListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
-import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 
 
@@ -50,7 +49,6 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 	private AbstractBuzyIndicatorComponent buzy;
 	private JPanel panel;
 	private JButton btnSend;
-	private JComboBox<String> cboLanguages;
 	private JComboBox<Category> cboCategory;
 	private JCheckBox chkSearchInput;
 	private JCheckBox chkSearchOutput;
@@ -74,7 +72,6 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 		
 		cboInput = UITools.createCombobox(MTGExternalShop.class,true);
 		cboOutput= UITools.createCombobox(MTGExternalShop.class,true);
-		cboLanguages = UITools.createCombobox(MTG.getEnabledPlugin(MTGCardsProvider.class).getLanguages());
 		cboCategory = UITools.createCombobox(new ArrayList<>());
 		
 		chkSearchInput = new JCheckBox();
@@ -116,7 +113,6 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 		
 		
 		add(panel, BorderLayout.CENTER);
-		panel.add(cboLanguages);
 		panel.add(cboCategory);
 		panel.add(btnSend);
 
@@ -182,7 +178,9 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 			protected Void doInBackground() throws Exception {
 					for(MTGProduct p : list)
 					{	
-						//TODO store in stock item
+							AbstractStockItem<MTGProduct> it = AbstractStockItem.generateDefault();
+							it.setProduct(p);
+							plug.saveOrUpdateStock(it,false);
 							publish(p);
 					}
 					return null;

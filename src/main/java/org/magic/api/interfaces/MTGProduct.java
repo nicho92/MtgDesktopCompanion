@@ -30,4 +30,11 @@ public interface MTGProduct extends MTGStorable {
 
 	public Category getCategory();
 	
+	default boolean isSealed()
+	{
+		return getTypeProduct()!=EnumItems.CARD;
+	}
+	
+	
+	
 }

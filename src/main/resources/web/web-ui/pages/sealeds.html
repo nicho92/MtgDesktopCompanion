@@ -171,7 +171,9 @@
 					     if (!result[u]) {
 					        result[u] = 0;
 					    }
-					    result[u]+=d.price;
+						if(d.qte>0)
+					    	result[u]+=d.price;
+		
 					    return result;
 						}, {});
 				    var ctx = document.getElementById("amount-chart").getContext("2d");
@@ -274,7 +276,7 @@
               </div>
             </div>
             <div class="card-body">
-              <h6 class="mb-0 ">Amount </h6>
+              <h6 class="mb-0 ">Values </h6>
             </div>
 
           </div>
