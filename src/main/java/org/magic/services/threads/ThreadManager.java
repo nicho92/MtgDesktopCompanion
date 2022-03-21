@@ -19,7 +19,6 @@ import org.magic.api.beans.audit.TaskInfo;
 import org.magic.api.beans.audit.TaskInfo.STATE;
 import org.magic.api.beans.audit.TaskInfo.TYPE;
 import org.magic.api.exports.impl.JsonExport;
-import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.TechnicalServiceManager;
 

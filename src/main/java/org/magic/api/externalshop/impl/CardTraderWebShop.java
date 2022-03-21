@@ -132,13 +132,6 @@ public class CardTraderWebShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public Long createProduct(MTGProduct t, Category c) throws IOException {
-		throw new IOException("Can't create product to " + getName());
-	}
-
-	
-	
-	@Override
 	public List<Category> listCategories() throws IOException {
 		init();
 		try {

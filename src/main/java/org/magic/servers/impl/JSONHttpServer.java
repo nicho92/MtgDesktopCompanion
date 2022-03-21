@@ -323,7 +323,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 			response.header(ACCESS_CONTROL_ALLOW_ORIGIN, getString(ACCESS_CONTROL_ALLOW_ORIGIN));
 			response.header(ACCESS_CONTROL_REQUEST_METHOD, getString(ACCESS_CONTROL_REQUEST_METHOD));
 			response.header(ACCESS_CONTROL_ALLOW_HEADERS, getString(ACCESS_CONTROL_ALLOW_HEADERS));
-			
 			response.header("Content-Security-Policy","");
 			
 			start=Instant.now(); //TODO not sure...
@@ -1157,24 +1156,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return arr;
 				
 		}, transformer);
-		
-		
-		
-		post("/extShop/:from/:to/:idCategory/:language", URLTools.HEADER_JSON, (request, response) ->{ 
-				
-			MTGExternalShop extShop  = MTG.getPlugin(request.params(":to"), MTGExternalShop.class);
-			List<MTGProduct> ret = converter.fromJsonList(new InputStreamReader(request.raw().getInputStream()), MTGProduct.class);
-			var arr = new JsonArray();
-			for(MTGProduct p : ret)
-			{
-				Category c = extShop.listCategories().stream().filter(cat->cat.getIdCategory()==Integer.parseInt(request.params(":idCategory"))).findFirst().orElse(new Category());
-				var res = extShop.createProduct(p,c);
-				arr.add(res);
-			}
-			return arr;
-				
-		}, transformer);
-		
+	
 		put("/favorites/:classename/:idContact/:idAnnounce", URLTools.HEADER_JSON, (request, response) -> {
 			try{ 
 				MTG.getEnabledPlugin(MTGDao.class).saveFavorites(Integer.parseInt(request.params(ID_CONTACT)), Integer.parseInt(request.params(":idAnnounce")),request.params(CLASSENAME));

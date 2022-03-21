@@ -30,6 +30,8 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 	protected boolean signed=false;
 	protected boolean altered=false;
 	protected boolean oversize=false;
+	protected String sku;
+	
 	protected EnumCondition condition = EnumCondition.NEAR_MINT;
 	
 	@SuppressWarnings("unchecked")
@@ -91,7 +93,7 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 	public void setFoil(boolean foil) {
 		this.foil = foil;
 	}
-
+	
 	@Override
 	public boolean isSigned() {
 		return signed;
@@ -224,6 +226,15 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 	@Override
 	public String getUrl() {
 		return url;
+	}
+	
+	
+	public void setSku(String sku) {
+		this.sku = sku;
+	}
+	
+	public String getSku() {
+		return sku;
 	}
 	
 	

@@ -337,8 +337,9 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 				
 				objVariant.addProperty("price", c.getPrice());
 				objVariant.addProperty("option"+getString(FOIL_OPTION_NUMBER), c.isFoil());
+				
 				try {
-				objVariant.addProperty("option"+getString(SET_OPTION_NUMBER), c.getProduct().getEdition().getSet());
+					objVariant.addProperty("option"+getString(SET_OPTION_NUMBER), c.getProduct().getEdition().getSet());
 				}catch(Exception e)
 				{
 					logger.error("no set found for " + c);
@@ -383,40 +384,6 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 			}
 	}
 	
-
-	@Override
-	public Long createProduct(MTGProduct t, Category c) throws IOException {
-		
-		var obj = new JsonObject();
-		var prodobj = new JsonObject();
-			obj.add(PRODUCT, prodobj);
-			prodobj.addProperty("title", t.getName());
-			prodobj.addProperty("product_type",c.getCategoryName());
-			prodobj.addProperty("vendor", getString("DEFAULT_VENDOR"));
-			prodobj.addProperty("body_html", t.getName());
-			var images = new JsonArray();
-				var imageObj = new JsonObject();
-					imageObj.addProperty("attachment", ImageTools.toBase64(URLTools.extractAsImage(t.getUrl())));
-					images.add(imageObj);
-			prodobj.add("images", images);
-					
-		var res = client.doPost(getBaseUrl()+"products.json", 
-												new StringEntity(obj.toString()), 
-												headers()
-											);
-		try {
-			var content = URLTools.toJson(res.getEntity().getContent());
-			logger.info("ret="+content);
-			return content.getAsJsonObject().get(PRODUCT).getAsJsonObject().get("id").getAsLong();
-		}
-		catch(Exception e)
-		{
-			logger.error(e);
-			return null;
-		}
-	}
-
-
 	@Override
 	public void deleteContact(Contact contact) throws IOException {
 		// TODO Auto-generated method stub

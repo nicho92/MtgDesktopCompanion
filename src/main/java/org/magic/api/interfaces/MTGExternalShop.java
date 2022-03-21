@@ -14,7 +14,6 @@ public interface MTGExternalShop extends MTGPlugin {
 	
 	
 	public List<MTGProduct> listProducts(String name) throws IOException;
-	public Long createProduct(MTGProduct t,Category c) throws IOException;
 	
 	
 	public List<MTGStockItem> listStock(String search) throws IOException;

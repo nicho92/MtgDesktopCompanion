@@ -121,6 +121,14 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	    				if(!obj.get(DATE_PAID).isJsonNull())
 	    					t.setDatePayment(UITools.parseGMTDate(obj.get(DATE_PAID).getAsString()));
 	    				
+	    				
+	    				if(obj.get("payment_method")!=null)
+		    				switch(obj.get("payment_method").toString())
+		    				{
+		    					case "bacs":t.setPaymentProvider(TransactionPayementProvider.BANK_TRANSFERT);break;
+		    					case "PayPal":t.setPaymentProvider(TransactionPayementProvider.PAYPAL);break;
+		    					default :t.setPaymentProvider(TransactionPayementProvider.VISA);break;
+		    				}	
 	    			
 	    	t.setStatut(tostatus(obj.get(STATUS).toString()));
 	   	
@@ -133,14 +141,6 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	    }
 		return ret;
 	}
-
-	
-	public static void main(String[] args) throws IOException {
-		MTGControler.getInstance().loadAccountsConfiguration();
-		new WooCommerceExternalShop().loadTransaction();
-		
-	}
-	
 
 	private List<MTGStockItem> toWooItems(JsonArray itemsArr) {
 		
@@ -155,6 +155,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
     		entry.setId(objItem.get(PRODUCT_ID).getAsInt());
     		entry.setQte(objItem.get("quantity").getAsInt());
     		entry.setPrice(objItem.get("total").getAsDouble());
+    		entry.setSku(objItem.get("sku").getAsString());
     		
     		var prod = AbstractProduct.createDefaultProduct();
 	    		prod.setCategory(null);
@@ -167,28 +168,6 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
     		ret.add(entry);
     	}
 		return ret;
-	}
-
-
-
-	@Override
-	@SuppressWarnings("unchecked")
-	public Long createProduct(MTGProduct p,Category c) throws IOException {
-		init();
-		
-		Map<Object,Object> ret = client.create(EndpointBaseType.PRODUCTS.getValue(), toWooCommerceAttributs(p,null,c.getIdCategory()));
-		
-		if(!ret.isEmpty() && ret.get("id") !=null)
-		{
-			logger.info(p + " created in " + getName() + " with id = " + ret.get("id"));
-			return Long.parseLong(ret.get("id").toString());
-		}
-		else
-		{
-			logger.error(ret);
-		}
-		
-		return -1L;
 	}
 
 	@Override
@@ -244,6 +223,14 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 					catch(Exception e)
 					{
 						stockItem.setPrice(0.0);	
+					}
+					
+					try {
+						stockItem.setSku(obj.get("sku").getAsString());
+					}
+					catch(Exception e)
+					{
+							
 					}
 					
 					try {
@@ -432,7 +419,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	public Transaction getTransactionById(int parseInt) throws IOException {
 		init();
 		var ret = client.get(EndpointBaseType.ORDERS.getValue(), parseInt);
-		logger.debug(ret);
+	
 		var t = new Transaction();
 			t.setId(parseInt);
 			t.setContact(toContact(new JsonExport().toJsonElement(ret.get(BILLING)).getAsJsonObject(), Integer.parseInt(ret.get("customer_id").toString())));
@@ -446,7 +433,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 			
 			switch(ret.get("payment_method").toString())
 			{
-				case "bacs":t.setPaymentProvider(TransactionPayementProvider.VIREMENT);break;
+				case "bacs":t.setPaymentProvider(TransactionPayementProvider.BANK_TRANSFERT);break;
 				case "PayPal":t.setPaymentProvider(TransactionPayementProvider.PAYPAL);break;
 				default :t.setPaymentProvider(TransactionPayementProvider.VISA);break;
 			}

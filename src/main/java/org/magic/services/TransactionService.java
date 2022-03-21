@@ -247,7 +247,7 @@ public class TransactionService
 	public static void payingTransaction(Transaction t, String providerName) throws IOException {
 		t.setConfig(MTGControler.getInstance().getWebConfig());
 		
-		if(TransactionPayementProvider.VIREMENT.equals(t.getPaymentProvider()) || TransactionPayementProvider.PAYPALME.equals(t.getPaymentProvider()))
+		if(TransactionPayementProvider.BANK_TRANSFERT.equals(t.getPaymentProvider()) || TransactionPayementProvider.PAYPALME.equals(t.getPaymentProvider()))
 			t.setStatut(TransactionStatus.PAYMENT_SENT);
 		else
 			t.setStatut(TransactionStatus.PAID);

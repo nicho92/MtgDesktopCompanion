@@ -4,7 +4,6 @@ import java.time.Instant;
 
 import org.magic.api.beans.audit.TaskInfo;
 import org.magic.api.beans.audit.TaskInfo.STATE;
-import org.magic.tools.Chrono;
 
 public abstract class MTGRunnable implements Runnable{
 	

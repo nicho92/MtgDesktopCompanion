@@ -278,12 +278,6 @@ public class MkmExternalShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public Long createProduct(MTGProduct t,Category c) throws IOException {
-		throw new IOException("Not able to create product in Mkm");
-	}
-	
-	
-	@Override
 	public String getVersion() {
 		return MkmConstants.MKM_API_VERSION;
 	}

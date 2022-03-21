@@ -181,11 +181,10 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 			@Override
 			protected Void doInBackground() throws Exception {
 					for(MTGProduct p : list)
-						{	
-								var id = plug.createProduct(p,(Category)cboCategory.getSelectedItem());
-								p.setProductId(id);
-								publish(p);
-						}
+					{	
+						//TODO store in stock item
+							publish(p);
+					}
 					return null;
 			}
 			@Override

@@ -21,8 +21,6 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.SwingUtilities;
-import javax.swing.event.ListSelectionListener;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.ConverterItem;

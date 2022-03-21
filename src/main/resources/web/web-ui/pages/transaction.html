@@ -60,6 +60,15 @@
 				$("#dateSend").html(data.dateSend);
 				$("#statusTransaction").html(data.statut);
 				
+				try
+				{
+					$("#paymentMode").attr("src","https://cdn0.iconfinder.com/data/icons/flat-design-business-set-3/24/payment-method-"+data.paymentProvider.toLowerCase()+"-512.png");
+				}
+				catch(error)
+				{
+						
+					}	
+				
 				
 				$("#paymentProvider").html(data.paymentProvider);
 				
@@ -265,7 +274,7 @@
                 <div class="col-lg-5 col-md-6 col-12">
                   <h6 class="mb-3">Payment details</h6>
                   <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
-                    <img class="w-10 me-3 mb-0" src="https://img2.freepng.fr/20181128/gkr/kisspng-mastercard-logo-visa-credit-card-portable-network-mastercard-plus-datacenter-trkiyeampaposde-5bfe50c6987830.6480665815433934786245.jpg" alt="logo">
+                    <img class="w-10 me-3 mb-0" src="" alt="logo" id="paymentMode">
                     <h6 class="mb-0" id="paymentProvider"></h6>
                     <button type="button" class="btn btn-icon-only btn-rounded btn-outline-secondary mb-0 btn-sm d-flex align-items-center justify-content-center ms-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="We do not store card details">
                       <i class="material-icons text-sm" aria-hidden="true">priority_high</i>

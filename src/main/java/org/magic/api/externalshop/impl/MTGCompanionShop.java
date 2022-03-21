@@ -91,11 +91,6 @@ public class MTGCompanionShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public Long createProduct(MTGProduct t,Category c) throws IOException {
-		throw new IOException("not implemented " + t); 
-	}
-
-	@Override
 	public Icon getIcon() {
 		return new ImageIcon(MTGConstants.IMAGE_LOGO);
 	}

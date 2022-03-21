@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.magic.api.beans.WebShopConfig;
+import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.beans.enums.TransactionPayementProvider;
 import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.interfaces.MTGStockItem;
@@ -24,10 +25,14 @@ public class Transaction implements Serializable {
 	private double shippingPrice;
 	private WebShopConfig config;
 	private String transporterShippingCode;
+	private double feePercent;
 	private Currency currency;
 	private String sourceShopName;
 	private TransactionPayementProvider paymentProvider;
 	private TransactionStatus statut;
+	private TransactionDirection typeTransaction;
+	
+	
 	
 	public String getSourceShopName() {
 		return sourceShopName;
@@ -43,6 +48,7 @@ public class Transaction implements Serializable {
 		items = new ArrayList<>();
 		contact=new Contact();
 		statut = TransactionStatus.NEW;
+		typeTransaction=TransactionDirection.SELL;
 	}
 	
 	public Date getDateCreation() {
@@ -52,13 +58,28 @@ public class Transaction implements Serializable {
 	public void setDateCreation(Date dateCreation) {
 		this.dateCreation = dateCreation;
 	}
-
+	
+	public void setTypeTransaction(TransactionDirection typeTransaction) {
+		this.typeTransaction = typeTransaction;
+	}
+	
+	public TransactionDirection getTypeTransaction() {
+		return typeTransaction;
+	}
 
 
 	public Date getDatePayment() {
 		return datePayment;
 	}
 
+	
+	public double getFeePercent() {
+		return feePercent;
+	}
+	
+	public void setFeePercent(double feePercent) {
+		this.feePercent = feePercent;
+	}
 
 
 	public void setDatePayment(Date datePayment) {
