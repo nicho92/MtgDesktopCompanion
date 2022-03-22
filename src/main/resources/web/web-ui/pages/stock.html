@@ -160,9 +160,13 @@
 				$("#btnPhoto").on("click",function(){
 					
 					
-					
-					
 				});
+				
+				//MagicCardStock
+				$.get(restserver+"/ged/SealedStock/"+$_GET("id"), function(datas){
+					console.log(datas);
+				});
+				
 				
 				
 				
@@ -222,6 +226,7 @@
 	<div class="row">
 		<div class="col-xl-5 col-lg-6 text-center">
 			<img class="border-radius-lg shadow-lg mx-auto img-fluid img-responsive" src="" alt="" id="productImage">
+			
 		</div>
 	
 	
