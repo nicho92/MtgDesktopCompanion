@@ -1797,7 +1797,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		} else {
 			logger.debug("update Stock " + state);
 			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(
-					"update stocks set comments=?, conditions=?, foil=?,signedcard=?,langage=?, qte=? ,altered=?,price=?,idmc=?,collection=?,grading=?,tiersAppIds=?,etched=? where idstock=?")) {
+					"update stocks set comments=?, conditions=?, foil=?,signedcard=?,langage=?, qte=? ,altered=?,price=?,idmc=?,collection=?,grading=?,tiersAppIds=?,etched=?, mcard=? where idstock=?")) {
 				pst.setString(1, state.getComment());
 				pst.setString(2, state.getCondition().toString());
 				pst.setBoolean(3, state.isFoil());
@@ -1811,7 +1811,8 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				storeGrade(pst, 11,state.getGrade());
 				storeTiersApps(pst, 12,state.getTiersAppIds());
 				pst.setBoolean(13, state.isEtched());
-				pst.setLong(14, state.getId());
+				storeCard(pst, 14, state.getProduct());
+				pst.setLong(15, state.getId());
 				executeUpdate(pst);
 			} catch (Exception e) {
 				logger.error(e);
