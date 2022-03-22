@@ -20,7 +20,6 @@ public class SealedStock extends AbstractStockItem<MTGSealedProduct>  {
 	public void setProduct(MTGSealedProduct product) {
 		this.product=product;
 		edition = product.getEdition();
-		url = product.getUrl();
 		setCondition(EnumCondition.SEALED);
 	}
 	

@@ -23,7 +23,6 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 	protected Grading grade;
 	protected MagicEdition edition;
 	protected T product;
-	protected String url;
 	protected Map<String,String> tiersAppIds;
 	protected boolean foil=false;
 	protected boolean etched=false;
@@ -222,12 +221,6 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 		
 		return getId() == ((MTGStockItem)obj).getId();
 	}
-	
-	@Override
-	public String getUrl() {
-		return url;
-	}
-	
 	
 	public void setSku(String sku) {
 		this.sku = sku;

@@ -51,8 +51,6 @@ public interface MTGStockItem extends MTGStorable, Comparable<MTGStockItem> {
 	public 	void setTiersAppIds(Map<String, String> tiersAppIds);
 
 	public 	Map<String, String> getTiersAppIds();
-	
-	public String getUrl();
 
 	public 	boolean isEtched();
 

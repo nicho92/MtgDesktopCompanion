@@ -360,22 +360,34 @@ $(document).ready(function() {
 						
 						
 						 	$("#alertBtn").click( function() {
-					  				$("#toastMessage").html(card.name + " has been added to Alerts");
-									$("#toastTitle").html("Add Alert to Card");
-									$("#infoToast").toast("show");
+							
+									addAlert(card.id,function callback(){
+						  				$("#toastMessage").html(card.name + " has been added to Alerts");
+										$("#toastTitle").html("Add Alert to Card");
+										$("#infoToast").toast("show");
+									});
 					 		});
-					  		
-						
+					  								
 							$("#stockBtn").click( function() {
+								
+									addStock(card.id,function callback(){
+										
 					  				$("#toastMessage").html(card.name + " has been added to Stock");
 									$("#toastTitle").html("Add card in Stock");
 									$("#infoToast").toast("show");
+									});
+								
 					 		});
 						
 							$("#addCardBtn").click( function() {
+								
+								addCardtoDefaultLibrary(card.id,function callback(){
+								
 					  				$("#toastMessage").html(card.name + " has been added to default Library");
 									$("#toastTitle").html("Add card in Collection");
-									$("#infoToast").toast("show");
+									$("#infoToast").toast("show");	
+								});
+								
 					 		});
 						
 										
