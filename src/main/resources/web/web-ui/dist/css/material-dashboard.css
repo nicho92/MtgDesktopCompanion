@@ -1987,7 +1987,6 @@ textarea.form-control-lg {
   padding: 0.5rem 1rem 0.5rem 0;
   -moz-padding-start: -3px;
   background-color: transparent;
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
   background-repeat: no-repeat;
   background-position: right 0 center;
   background-size: 16px 12px;
@@ -2006,7 +2005,8 @@ textarea.form-control-lg {
     background-image: none; }
   .form-select:disabled {
     color: #6c757d;
-    background-color: #f0f2f5; }
+    background-color: #f0f2f5;
+ }
   .form-select:-moz-focusring {
     color: transparent;
     text-shadow: 0 0 0 #495057; }
@@ -2016,7 +2016,8 @@ textarea.form-control-lg {
   padding-bottom: 0.25rem;
   padding-left: 0.75rem;
   font-size: 0.75rem;
-  border-radius: 0.125rem; }
+  border-radius: 0.125rem; 
+}
 
 .form-select-lg {
   padding-top: 0.75rem;
@@ -5111,14 +5112,6 @@ textarea.form-control-lg {
   background-position: 50%;
   background-size: 100% 100%; }
 
-/* rtl:options: {
-  "autoRename": true,
-  "stringMap":[ {
-    "name"    : "prev-next",
-    "search"  : "prev",
-    "replace" : "next"
-  } ]
-} */
 .carousel-control-prev-icon {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' viewBox='0 0 16 16'%3e%3cpath d='M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z'/%3e%3c/svg%3e"); }
 
@@ -13285,6 +13278,11 @@ textarea.form-control-lg {
     .dark-version .form-select {
 		color: white !important;
 	}
+
+    .dark-version  option {
+		background-color: #1a2035 !important;
+	}
+
 
   .dark-version .input-group.input-group-dynamic .form-control, .dark-version .input-group.input-group-static .form-control {
     background-image: linear-gradient(0deg, #e91e63 2px, rgba(156, 39, 176, 0) 0), linear-gradient(0deg, rgba(210, 210, 210, 0.6) 1px, rgba(209, 209, 209, 0) 0) !important;
