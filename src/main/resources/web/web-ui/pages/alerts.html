@@ -32,6 +32,7 @@
   <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
   <script src="https://cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/random-color-array-generator@1.0.3/ColorGeneratorCDN.min.js"></script>
   <script src="../dist/js/rest-server.js"></script>
   <script src="../dist/js/js-var.js"></script>
   <script src="../dist/js/mtgcompanion-ui.js"></script>
@@ -58,9 +59,19 @@
 		    	"responsive": true,
 		        "processing": true,
 		        "pageLength": 50,
-		        "order": [[ 1, "desc" ]],
+		        "order": [[0, "desc" ]],
 		        "ajax": {"url":restserver+"/alerts/list","dataSrc":""},
 		        "columns": [
+{ 
+	                "data": "id",
+	                "defaultContent": "",
+ 						"render": function(data, type, row, meta){
+			                	 if(type === 'display'){
+									return "<a href='alert.html?id="+data+"'><i class='fa-solid fa-pen-to-square'></i></a>";
+			                	 }
+		                   		return data;
+		                }
+	            },
 	        	{ 
 	                "data": "card.name",
 	                "defaultContent": "",
@@ -94,25 +105,29 @@
 		                   return data;
 		              }
 	            },
+	{ 
+	                "data": "qty",
+	                "defaultContent": ""
+	            },
+ 				{ 
+	                "data": "foil",
+	                "defaultContent": "",
+					"render": function(data, type, row, meta){
+		                	 if(type === 'display'){
+								 if(data===true)
+		                			 	data="<span class='fa fa-check'/>";
+		                			 else
+		                				data="<span class='fa fa-times'/>";
+		                	 }
+		                   return data;
+		                }
+	            },
 	            { 
 	                "data": "price",
 	                "defaultContent": ""
-	            },
-  				{ 
-	                "data": "id",
-	                "defaultContent": "",
- 					"render": function(data, type, row, meta){
-		                   if(type === 'display'){
-		                     		var ret='<button value="'+data+'" type="button"  data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="btn btn-circle btn-warning updateBtn" data-bs-placement="bottom" data-bs-toggle="tooltip" title="Update Bids"><i class="fa fa-pencil"></i></button>&nbsp;';
-									ret+='<button value="'+data+'" type="button" class="btn btn-circle btn-primary deleteBtn" data-bs-placement="bottom" data-bs-toggle="tooltip" title="Delete Alert"><i class="fa fa-ban"></i></button>&nbsp;';
-									return ret;
-		                   }
-		                   return data;
-		              }
 	            }
-	           
 	        ],
-		        "fnDrawCallback" :function(oSettings, json) {
+		    "fnDrawCallback" :function(oSettings, json) {
 					
 					mtgtooltip($(".mtg-tooltip"));
 				
@@ -129,7 +144,51 @@
 	   	  			});	
 			
 					
-		        }
+		        },
+  				"fnInitComplete" :function(oSettings, json) {
+					var dt = this.fnGetData();  
+					
+					var countsets= dt.reduce(function (result, d) {
+					    var u = d.card.editions[0].set;
+					     if (!result[u]) {
+					        result[u] = 0;
+					    }
+					   	result[u]+=d.qty;
+					     
+					    return result;
+						}, {});
+				    var ctx = document.getElementById("sets-chart").getContext("2d");
+				    printBarChart(ctx, "bar","set", Object.keys(countsets),Object.values(countsets), false,  new ColorGenerator(15).generateRGB());
+
+					
+					var counttype= dt.reduce(function (result, d) {
+					    var u = d.card.types[0];
+					     if (!result[u]) {
+					        result[u] = 0;
+					    }
+					   	result[u]+=d.qty;
+					     
+					    return result;
+						}, {});
+				    var ctx = document.getElementById("type-chart").getContext("2d");
+				    printBarChart(ctx, "bar","types", Object.keys(counttype),Object.values(counttype), false,  new ColorGenerator(15).generateRGB());
+
+
+						var countFoil= dt.reduce(function (result, d) {
+					    var u = d.foil;
+					     if (!result[u]) {
+					        result[u] = 0;
+					    }
+					   	result[u]+=d.qty;
+					     
+					    return result;
+						}, {});
+				    var ctx = document.getElementById("foil-chart").getContext("2d");
+				    printChart(ctx, "pie","foil", Object.keys(countFoil),Object.values(countFoil), false,  new ColorGenerator(2).generateRGB());
+
+
+					
+				}
 		        
 			 } );
 			
@@ -147,7 +206,55 @@
 		<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true"></nav>
    
     <div class="container-fluid py-4">
+	
+	<div class="row mt-4">
+        <div class="col-lg-4 col-md-6 mt-4 mb-4">
+          <div class="card z-index-2 ">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 bg-transparent">
+              <div class="bg-gradient-warning shadow-warning border-radius-lg py-3 pe-1">
+                <div class="chart">
+                  <canvas id="sets-chart" class="chart-canvas" height="170"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <h6 class="mb-0 ">	Sets</h6>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mt-4 mb-4">
+          <div class="card">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 bg-transparent">
+              <div class="bg-gradient-success shadow-success border-radius-lg py-3 pe-1">
+                <div class="chart">
+                  <canvas id="foil-chart" class="chart-canvas" height="170"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <h6 class="mb-0 ">Foils </h6>
+            </div>
+          </div>
+        </div>
+		 <div class="col-lg-4 col-md-6 mt-4 mb-4">
+          <div class="card">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 bg-transparent">
+              <div class="bg-gradient-info shadow-info border-radius-lg py-3 pe-1">
+                <div class="chart">
+                  <canvas id="type-chart" class="chart-canvas" height="170"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <h6 class="mb-0 ">Types </h6>
+            </div>
 
+          </div>
+        </div>       	
+      </div>
+	<br/><br/>
+	
+	
 	  <div class="row mb-4">
         <div class="col-lg-12 col-md-6 mb-md-0 mb-4">
           <div class="card">
@@ -161,11 +268,13 @@
                 <table id="tableAlerts" class="table align-items-center mb-0" style="width:100%">
 			        <thead>
 	           			<tr>
+								<th></th>
 				                <th>Card</th>
 				                <th>Set</th>
 				                <th>Type</th>
+ 								<th>Qty</th>
+								<th>Foil</th>
 				                <th>Bid</th>
-  								<th>Actions</th>
 				            </tr>
 			        </thead>
                 </table>
