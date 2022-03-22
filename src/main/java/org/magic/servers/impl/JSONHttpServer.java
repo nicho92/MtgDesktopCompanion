@@ -64,7 +64,6 @@ import org.magic.api.beans.audit.NetworkInfo;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionStatus;
-import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.exports.impl.JsonExport;
@@ -79,7 +78,6 @@ import org.magic.api.interfaces.MTGGedStorage;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGPricesProvider;
-import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.MTGTokensProvider;
@@ -673,13 +671,18 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		}, transformer);
 		
-		put("/alerts/:scryfallId/:value", URLTools.HEADER_JSON, (request, response) -> {
+		put("/alerts/update/:scryfallId", URLTools.HEADER_JSON, (request, response) -> {
 			var alert = getEnabledPlugin(MTGDao.class).listAlerts().stream().filter(mca->mca.getCard().getScryfallId().equals(request.params(":scryfallId"))).findFirst().orElse(null);
 				
 			if(alert==null)
 				throw new NullPointerException("No alert with scryfallId="+request.params(":scryfallId"));
 			
-			alert.setPrice(Double.parseDouble(request.params(":value")));
+			JsonObject postItems= readJsonObject(request);
+			
+			alert.setPrice(postItems.get("bid").getAsDouble());
+			alert.setQty(postItems.get("qty").getAsInt());
+			alert.setFoil(postItems.get("foil").getAsBoolean());
+			
 			getEnabledPlugin(MTGDao.class).updateAlert(alert);
 			return RETURN_OK;
 
@@ -695,7 +698,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			alert.setCard(mc);
 			alert.setPrice(0.0);
 			getEnabledPlugin(MTGDao.class).saveAlert(alert);
-			return RETURN_OK;
+			return alert;
 		});
 
 		

@@ -325,7 +325,8 @@ $(document).ready(function() {
 						
 						$.get(restserver+"/dash/variations/card/"+card.id,function(dprice){
 								printChartPrices("chartPrice",dprice);
-	
+								
+							
 								var vallast = dprice.normal[dprice.normal.length - 1].value;
 								
 								var vallastF =0.0;
@@ -361,7 +362,7 @@ $(document).ready(function() {
 						
 						 	$("#alertBtn").click( function() {
 							
-									addAlert(card.id,function callback(){
+									addAlert(card.scryfallId,function callback(){
 						  				$("#toastMessage").html(card.name + " has been added to Alerts");
 										$("#toastTitle").html("Add Alert to Card");
 										$("#infoToast").toast("show");

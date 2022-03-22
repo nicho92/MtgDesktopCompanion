@@ -90,9 +90,9 @@
 	                "defaultContent": "",
 	                "render": function(data, type, row, meta){
 	                	 if(type === 'display'){
-								data='<i class="ss ss-'+data[0].id.toLowerCase()+' ss-2x"></i> '+data[0].set;	                		 
+								return '<i class="ss ss-'+data[0].id.toLowerCase()+' ss-2x"></i> '+data[0].set;	                		 
 	                	 }
-	                   return data;
+	                   	return data[0].set;
 	                }
 	            },
 	            { 
@@ -131,18 +131,7 @@
 					
 					mtgtooltip($(".mtg-tooltip"));
 				
-					$(".deleteBtn").click( function() {
-		   	  			var id = $(this).attr('value');
-						$.ajax({
-							url:restserver+"/alerts/"+id,
-							type: 'DELETE'
-						}).done(function(data) {
-   								table.row( $(this).parents('tr') ).remove().draw();
-				   		 }).fail(function(data,status,error) {
-				   			alert(JSON.stringify(data) + " " + error);
-				   		 });
-	   	  			});	
-			
+				
 					
 		        },
   				"fnInitComplete" :function(oSettings, json) {
