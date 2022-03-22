@@ -656,14 +656,14 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		
 
-		get("/alerts/:idCards", URLTools.HEADER_JSON, (request, response) -> {
-			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(ID_CARDS));
+		get("/alerts/:scryfallId", URLTools.HEADER_JSON, (request, response) -> {
+			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(":scryfallId"));
 			return getEnabledPlugin(MTGDao.class).hasAlert(mc);
 
 		}, transformer);
 		
-		delete("/alerts/:id", URLTools.HEADER_JSON, (request, response) -> {
-			var alert = getEnabledPlugin(MTGDao.class).listAlerts().stream().filter(mca->mca.getId().equals(request.params(":id"))).findFirst().orElse(null);
+		delete("/alerts/:scryfallId", URLTools.HEADER_JSON, (request, response) -> {
+			var alert = getEnabledPlugin(MTGDao.class).listAlerts().stream().filter(mca->mca.getCard().getScryfallId().equals(request.params(":scryfallId"))).findFirst().orElse(null);
 			
 			if(alert==null)
 				throw new NullPointerException("No alert with id="+request.params(":id"));
@@ -673,11 +673,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		}, transformer);
 		
-		put("/alerts/:id/:value", URLTools.HEADER_JSON, (request, response) -> {
-			var alert = getEnabledPlugin(MTGDao.class).listAlerts().stream().filter(mca->mca.getId().equals(request.params(":id"))).findFirst().orElse(null);
-			
+		put("/alerts/:scryfallId/:value", URLTools.HEADER_JSON, (request, response) -> {
+			var alert = getEnabledPlugin(MTGDao.class).listAlerts().stream().filter(mca->mca.getCard().getScryfallId().equals(request.params(":scryfallId"))).findFirst().orElse(null);
+				
 			if(alert==null)
-				throw new NullPointerException("No alert with id="+request.params(":id"));
+				throw new NullPointerException("No alert with scryfallId="+request.params(":scryfallId"));
 			
 			alert.setPrice(Double.parseDouble(request.params(":value")));
 			getEnabledPlugin(MTGDao.class).updateAlert(alert);
@@ -688,8 +688,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		
 
-		put("/alerts/add/:idCards", (request, response) -> {
-			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(ID_CARDS));
+		put("/alerts/add/:scryfallId", (request, response) -> {
+			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(":scryfallId"));
+			
 			var alert = new MagicCardAlert();
 			alert.setCard(mc);
 			alert.setPrice(0.0);

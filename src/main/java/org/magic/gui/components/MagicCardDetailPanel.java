@@ -500,7 +500,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 
 						@Override
 						protected Boolean doInBackground() throws Exception {
-							return getEnabledPlugin(MTGDao.class).hasAlert(magicCard);
+							return getEnabledPlugin(MTGDao.class).hasAlert(magicCard)!=null;
 						}
 						
 						@Override

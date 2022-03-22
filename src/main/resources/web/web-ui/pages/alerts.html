@@ -63,11 +63,11 @@
 		        "ajax": {"url":restserver+"/alerts/list","dataSrc":""},
 		        "columns": [
 { 
-	                "data": "id",
+	                "data": "card.scryfallId",
 	                "defaultContent": "",
  						"render": function(data, type, row, meta){
 			                	 if(type === 'display'){
-									return "<a href='alert.html?id="+data+"'><i class='fa-solid fa-pen-to-square'></i></a>";
+									return "<a href='alert.html?scryfallId="+data+"'><i class='fa-solid fa-pen-to-square'></i></a>";
 			                	 }
 		                   		return data;
 		                }

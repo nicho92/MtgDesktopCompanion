@@ -216,8 +216,8 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	}
 	
 	@Override
-	public boolean hasAlert(MagicCard mc) {
-		return listAlerts().stream().anyMatch(a->a.getCard().equals(mc));
+	public MagicCardAlert hasAlert(MagicCard mc) {
+		return listAlerts().stream().filter(a->a.getCard().equals(mc)).findFirst().orElse(null);
 	}
 	
 	@Override

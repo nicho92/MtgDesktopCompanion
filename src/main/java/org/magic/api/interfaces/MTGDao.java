@@ -112,7 +112,7 @@ public interface MTGDao extends MTGPlugin{
 	public void saveAlert(MagicCardAlert alert) throws SQLException;
 	public void updateAlert(MagicCardAlert alert) throws SQLException;
 	public void deleteAlert(MagicCardAlert alert) throws SQLException;
-	public boolean hasAlert(MagicCard mc);
+	public MagicCardAlert hasAlert(MagicCard mc);
 
 	
 	public void saveFavorites(int idContact, int idAnnounce, String classename) throws SQLException;
