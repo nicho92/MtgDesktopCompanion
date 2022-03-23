@@ -113,7 +113,10 @@
 			var queryUrl=restserver+"/"+source+"/get/"+$_GET('id');
 			
 			if($_GET('shop'))
+			{
+				$( "#btnPhoto" ).hide();
 				queryUrl=restserver+"/extShop/stock/"+$_GET('shop')+"/"+$_GET('id');
+			}
 			
 			
 			$.get(queryUrl,function(data){
@@ -163,12 +166,7 @@
 					$("#instock").addClass("badge-warning")	
 				}	
 				
-				$("#btnPhoto").on("click",function(){
-					
-					
-				});
 			
-				
 				$("#btnUpdate").on("click",function(){
 						var obj = {
 								id:	$_GET("id"),
