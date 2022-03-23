@@ -88,6 +88,12 @@
   				 }
 			});
 			
+			$( "#snapModal" ).on('shown.bs.modal', function(e){
+				    $(this).off('shown.bs.modal');
+    				$("#webcamInc").load("webcam-add.html");
+			});
+			
+			
 			
 			$('#productComment').summernote({
 				disableDragAndDrop : true,
@@ -161,14 +167,7 @@
 					
 					
 				});
-				
-				//MagicCardStock
-				$.get(restserver+"/ged/SealedStock/"+$_GET("id"), function(datas){
-					console.log(datas);
-				});
-				
-				
-				
+			
 				
 				$("#btnUpdate").on("click",function(){
 						var obj = {
@@ -214,9 +213,6 @@
 	<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true"></nav>
    
     <div class="container-fluid py-4">
-    
-
-
 	<div class="col-12">
           <div class="card">
             <div class="card-body">
@@ -299,10 +295,9 @@
 					<div id="productComment"></div>
 				</section>
 				<br/>
-				<button id="btnUpdate" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="fa-solid fa-floppy-disk"></i> Save</button>
-				<button id="btnPhoto" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="fa-solid fa-camera"></i> Take a pic</button>
-				
-				
+				<button id="btnUpdate" type="button" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+				<button id="btnPhoto" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#snapModal"><i class="fa-solid fa-camera"></i> Take a pic</button>
+			
 		</div>
 	
 	
@@ -321,11 +316,31 @@
     <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
       <i class="material-icons py-2">settings</i>
     </a>
-    <div class="card shadow-lg" id="settingPanel">
-      
-    </div>
+    <div class="card shadow-lg" id="settingPanel"> </div>
   </div>
  
+
+
+<div class="modal fade" id="snapModal" tabindex="-1" role="dialog" aria-labelledby="snapModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title font-weight-normal" id="snapModalLabel">Take a pic</h5>
+        <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      		<div id="webcamInc"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
   
    <script src="../dist/js/material-dashboard.js?v=3.0.0"></script>
   

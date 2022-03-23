@@ -104,6 +104,7 @@ import org.magic.tools.Chrono;
 import org.magic.tools.ImageTools;
 import org.magic.tools.MTG;
 import org.magic.tools.POMReader;
+import org.magic.tools.UITools;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -403,6 +404,17 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return arr;
 			
 		},transformer);
+		
+		
+		
+		post("/ged/uploadPic/:class/:id", URLTools.HEADER_JSON,(request, response) -> {
+			var buffImg = ImageTools.readBase64(request.body().substring(request.body().indexOf(",")+1));// Find better solution
+			if(buffImg==null)
+				return "No readable Image";
+			var entry = new GedEntry<>(ImageTools.toByteArray(buffImg),PluginRegistry.inst().loadClass("org.magic.api.beans."+request.params(CLASS)),request.params(":id"),"webupload_"+Instant.now().toEpochMilli()+".png");
+			MTG.getEnabledPlugin(MTGGedStorage.class).store(entry);
+			return RETURN_OK;
+		});
 		
 		
 		post("/ged/:class/:id", URLTools.HEADER_JSON,(request, response) -> {

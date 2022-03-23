@@ -31,13 +31,22 @@
 					canvas.height=video.videoHeight;
 					context.drawImage(video, 0, 0, canvas.width, canvas.height);
 					
-					$.ajax({
-					  type: "POST",
-					  url: restserver+"/ged/"+$_GET('class')+"/"+$_GET('id'),
+					var classe = "MagicCardStock";
+					if($_GET('type')=="SEALED")
+						classe="SealedStock";
+					
+					
+					$("#resultInfo").html("sending....");  			
+					
+					$.post({
+					  url: restserver+"/ged/uploadPic/"+classe+"/"+$_GET('id'),
 					  data: canvas.toDataURL("image/png"),
 					  success: function(datas){
-						  console.log(datas);
-			  			}
+						  $("#resultInfo").html("OK");  			
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown) {
+					     	$("#resultInfo").html(errorThrown);  		
+					  }
 					});
 				});
 			}
@@ -46,20 +55,11 @@
 </head>
 
 <body class="bg-gray-200">
-	 <div class="container-fluid py-4">
-	  <div class="row mb-4">
-        <div class="col-lg-6 col-md-6 mb-md-0 mb-4">
-          <div class="card">
-            <select id="videoSource" class="form-select"><option value="">Select camera</option></select><br/>
-            <div class="card-body">
-                 <video id="videoElement" autoplay style="width: 100%;"></video>
-            </div>
-            <button class="btn" id="snap" style="width: 100%;"><i class="fa fa-2x fa-camera"></i></button>
-            <canvas id="canvas" hidden ></canvas>
-          </div>
-        </div>
-      </div>
-    </div>
+	        <select id="videoSource" class="form-select"><option value="">Select camera</option></select><br/>
+             <video id="videoElement" autoplay style="width: 100%;"></video>
+			<span id="resultInfo" class="text-info"></span>
+			<button class="btn" id="snap" style="width: 100%;"><i class="fa fa-2x fa-camera"></i></button>
+			<canvas id="canvas" hidden ></canvas>
 </body>
 <script src="../dist/js/webcam.js"></script>
 </html>
