@@ -91,12 +91,12 @@
 						   		 }).done(function(data) {
 						   			alert("OK");
 						   		 }).fail(function(data,status,error) {
-						   			alert(JSON.stringify(data) + " " + error);
+						   			alert(error.responseJSON.error);
 						   		 });
 						
 						});
 					
-						$("#deleteBtn").click( function() {
+						$("#btnDelete").click( function() {
 		   	  			var id = $(this).attr('value');
 						$.ajax({
 							url:restserver+"/alerts/"+data.card.scryfallId,

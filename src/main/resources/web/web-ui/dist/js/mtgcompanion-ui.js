@@ -140,11 +140,11 @@ function addCard(idCard,to,callback)
 	
 }
 
-function addCardtoDefaultLibrary(idCard,callback)
+function addCardtoDefaultLibrary(idScryfall,callback)
 {
 	$.ajax({
 		type: 'PUT',
-	    url: restserver+"/cards/add/"+idCard
+	    url: restserver+"/cards/add/"+idScryfall
    		 }).done(function(data) {
    			callback();
    		 }).fail(function(data,status,error) {
@@ -153,11 +153,11 @@ function addCardtoDefaultLibrary(idCard,callback)
 	
 }
 
-function moveCard(idCard,from, to,callback)
+function moveCard(idScryfall,from, to,callback)
 {
 	$.ajax({
 		type: 'PUT',
-	    url: restserver+"/cards/move/"+from+"/"+to+"/"+idCard
+	    url: restserver+"/cards/move/"+from+"/"+to+"/"+idScryfall
    		 }).done(function(data) {
    			callback();
    		 }).fail(function(data,status,error) {
@@ -166,24 +166,24 @@ function moveCard(idCard,from, to,callback)
 }
 
 
-function addAlert(idCard,callback)
+function addAlert(idScryfall,callback)
 {
 	$.ajax({
 		type: 'PUT',
-	    url: restserver+"/alerts/add/"+idCard
+	    url: restserver+"/alerts/add/"+idScryfall
    		 }).done(function(data) {
    			callback();
-   		 }).fail(function(data,status,error) {
-   			alert(JSON.stringify(data) + " " + error);
+   		 }).fail(function(data) {
+   			alert(data.responseJSON.error);
    		 });
 }
 
 
-function addStock(idCard,callback)
+function addStock(idScryfall,callback)
 {
 	$.ajax({
 		type: 'PUT',
-	    url: restserver+"/stock/add/"+idCard
+	    url: restserver+"/stock/add/"+idScryfall
    		 }).done(function(data) {
    			callback();
    		 }).fail(function(data,status,error) {

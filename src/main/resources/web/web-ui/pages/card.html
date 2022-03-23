@@ -371,7 +371,7 @@ $(document).ready(function() {
 					  								
 							$("#stockBtn").click( function() {
 								
-									addStock(card.id,function callback(){
+									addStock(card.scryfallId,function callback(){
 										
 					  				$("#toastMessage").html(card.name + " has been added to Stock");
 									$("#toastTitle").html("Add card in Stock");
@@ -382,7 +382,7 @@ $(document).ready(function() {
 						
 							$("#addCardBtn").click( function() {
 								
-								addCardtoDefaultLibrary(card.id,function callback(){
+								addCardtoDefaultLibrary(card.scryfallId,function callback(){
 								
 					  				$("#toastMessage").html(card.name + " has been added to default Library");
 									$("#toastTitle").html("Add card in Collection");

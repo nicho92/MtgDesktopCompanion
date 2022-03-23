@@ -503,23 +503,23 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return strat.recognize(buffImg,recog,Integer.parseInt(request.params(":threeshold")));
 		}, transformer);
 		
-		put("/cards/move/:from/:to/:id", URLTools.HEADER_JSON, (request, response) -> {
+		put("/cards/move/:from/:to/:scryfallId", URLTools.HEADER_JSON, (request, response) -> {
 			var from = new MagicCollection(request.params(":from"));
 			var to = new MagicCollection(request.params(":to"));
-			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(":id"));
+			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(":scryfallId"));
 			getEnabledPlugin(MTGDao.class).moveCard(mc, from,to);
 			return RETURN_OK;
 		}, transformer);
 
-		put("/cards/add/:id", URLTools.HEADER_JSON, (request, response) -> {
+		put("/cards/add/:scryfallId", URLTools.HEADER_JSON, (request, response) -> {
 			var from = new MagicCollection(MTGControler.getInstance().get("default-library"));
-			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(":id"));
+			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(":scryfallId"));
 			CardsManagerService.saveCard(mc, from,null);
 			return RETURN_OK;
 		}, transformer);
 
-		put("/cards/add/:to/:id", URLTools.HEADER_JSON, (request, response) -> {
-			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(":id"));
+		put("/cards/add/:to/:scryfallId", URLTools.HEADER_JSON, (request, response) -> {
+			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(":id"));
 			CardsManagerService.saveCard(mc, new MagicCollection(request.params(":to")),null);
 			return RETURN_OK;
 		}, transformer);
@@ -750,8 +750,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 		});
 		
 		
-		put("/stock/add/:idCards", (request, response) -> {
-			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(ID_CARDS));
+		put("/stock/add/:scryfallId", (request, response) -> {
+			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(":scryfallId"));
 			var stock = MTGControler.getInstance().getDefaultStock();
 			stock.setQte(1);
 			stock.setProduct(mc);
