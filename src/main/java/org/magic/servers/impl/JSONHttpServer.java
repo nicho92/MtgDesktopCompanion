@@ -200,8 +200,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 		var timeout = this.getInt(CACHE_TIMEOUT);
 		
 		cache = new AbstractEmbeddedCacheProvider<>() {
-			Cache<String, Object> guava = CacheBuilder.newBuilder()
-													  .expireAfterAccess(timeout, TimeUnit.MINUTES)
+				Cache<String, Object> guava = CacheBuilder.newBuilder()
+													  .expireAfterWrite(timeout, TimeUnit.MINUTES)
 													  .removalListener((RemovalNotification<String, Object> notification)->
 															logger.debug(notification.getKey() + " is removed " + notification.getCause())
 													  )
@@ -248,13 +248,13 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		if(getBoolean(ENABLE_SSL))
 			Spark.secure(getString(KEYSTORE_URI), getString(KEYSTORE_PASS), null, null);
-		
-		initVars();
-		initRoutes();
-		Spark.init();
-		running = true;
-		logger.info("Server " + getName() +" started on port " + getInt(SERVER_PORT));
-	}
+			
+			initVars();
+			initRoutes();
+			Spark.init();
+			running = true;
+			logger.info("Server " + getName() +" started on port " + getInt(SERVER_PORT));
+		}
 	
 
 	private void addInfo(Request request, Response response) {
@@ -1043,7 +1043,19 @@ public class JSONHttpServer extends AbstractMTGServer {
 			
 		}, transformer);
 		
-		get("/admin/caches", URLTools.HEADER_JSON, (request, response) -> cache.entries().keySet(), transformer);
+		get("/admin/caches", URLTools.HEADER_JSON, (request, response) -> {
+			JsonArray arr = new JsonArray();
+			
+			cache.entries().keySet().forEach(s->{
+				
+					var obj = new JsonObject();
+						  obj.addProperty("url",s);
+						  obj.addProperty("size",s.length());
+						  arr.add(obj);
+			});
+			
+			return arr;
+		}, transformer);
 		
 		get("/admin/jdbc", URLTools.HEADER_JSON, (request, response) -> TechnicalServiceManager.inst().getDaoInfos(), transformer);
 		
