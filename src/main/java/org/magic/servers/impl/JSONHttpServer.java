@@ -360,19 +360,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/cards/search/:att/:val", URLTools.HEADER_JSON,
 				(request, response) -> getEnabledPlugin(MTGCardsProvider.class).searchCardByCriteria(request.params(":att"), request.params(":val"), null, false),
 				transformer);
-		
-		get("/version", "text", (request, response) ->  
-			 getCached(request.pathInfo(), new Callable<Object>() {
-				@Override
-				public String call() throws Exception {
-					return new VersionChecker().getVersion();
-				}
-			})
-			
-			
-		);
-		
-		
+	
 		get("/cards/token/:scryfallId", URLTools.HEADER_JSON,(request, response) -> {
 			
 			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(":scryfallId"));
@@ -480,15 +468,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/keywords", URLTools.HEADER_JSON, (request, response) -> AbstractKeyWordsManager.getInstance().toJson(), transformer);
 		
 		get("/categories", URLTools.HEADER_JSON, (request, response) -> EnumItems.values(), transformer);
-		
-		get("/cards/name/:idEd/:cName", URLTools.HEADER_JSON, (request, response) -> {
-			MagicEdition ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(ID_ED));
-			return getEnabledPlugin(MTGCardsProvider.class).searchCardByName(
-					request.params(":cName"), ed, true);
-		}, transformer);
-		
-		get("/cards/number/:idEd/:cNumber", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(request.params(":cNumber"), request.params(ID_ED)), transformer);
-		
+			
 		get("/cards/scryfall/:scryfallId", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(":scryfallId")), transformer);
 		
 		post("/cards/recognize/:threeshold", URLTools.HEADER_JSON, (request, response) -> {
@@ -777,29 +757,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return RETURN_OK;
 		});
 		
-		
-		get("/pics/banner", URLTools.HEADER_JSON,(request, response) ->
-			getCached(request.pathInfo(), new Callable<Object>() {
-					@Override
-					public JsonElement call() throws Exception {
-						
-						var obj = new JsonObject();
-						for(MagicEdition ed : MTG.getEnabledPlugin(MTGCardsProvider.class).listEditions())
-						{
-							try {
-								obj.addProperty( ed.getId(),SealedProductProvider.inst().get(ed,EnumItems.SET,"en").get(0).getUrl());
-							}
-							catch(Exception e)
-							{
-								//do nothing
-							}
-						}
-						return obj;
-					}
-				})
-	, transformer);
-		
-		
 		get("/sealed/list", URLTools.HEADER_JSON,(request, response) ->{
 			var data=(List<SealedStock>)getCached(request.pathInfo(), new Callable<Object>() {
 		
@@ -1034,7 +991,17 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 		
 		
-	
+		
+		get("/admin/version", "text", (request, response) ->  
+			 getCached(request.pathInfo(), new Callable<Object>() {
+				@Override
+				public String call() throws Exception {
+					return new VersionChecker().getVersion();
+				}
+			})
+		);
+		
+		
 		
 		get("/admin/qwartz", URLTools.HEADER_JSON, (request, response) -> {
 			var serv = (QwartzServer) MTG.getPlugin("Qwartz", MTGServer.class);
