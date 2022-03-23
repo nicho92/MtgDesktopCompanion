@@ -169,20 +169,22 @@ function moveCard(idScryfall,from, to,callback)
 function addAlert(idScryfall,callback)
 {
 	$.ajax({
-		type: 'PUT',
+		type: 'POST',
 	    url: restserver+"/alerts/add/"+idScryfall
-   		 }).done(function(data) {
-   			callback();
-   		 }).fail(function(data) {
-   			alert(data.responseJSON.error);
-   		 });
+   		})
+   		.done(function(alert) {
+   			callback(alert);
+   		})
+   		.fail(function(data,status,error) {
+			alert(JSON.stringify(data) + " " + error);
+		});
 }
 
 
 function addStock(idScryfall,callback)
 {
 	$.ajax({
-		type: 'PUT',
+		type: 'POST',
 	    url: restserver+"/stock/add/"+idScryfall
    		 }).done(function(data) {
    			callback();

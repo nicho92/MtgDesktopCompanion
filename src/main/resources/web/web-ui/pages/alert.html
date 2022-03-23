@@ -102,7 +102,7 @@
 							url:restserver+"/alerts/"+data.card.scryfallId,
 							type: 'DELETE'
 						}).done(function(data) {
-   							alert("OK");
+   							location.href = 'alerts.html';
 				   		 }).fail(function(data,status,error) {
 				   			alert(JSON.stringify(data) + " " + error);
 				   		 });

@@ -683,7 +683,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		
 
-		put("/alerts/add/:scryfallId", (request, response) -> {
+		post("/alerts/add/:scryfallId", (request, response) -> {
 			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(":scryfallId"));
 			
 			var alert = new MagicCardAlert();
@@ -691,7 +691,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			alert.setPrice(0.0);
 			getEnabledPlugin(MTGDao.class).saveAlert(alert);
 			return alert;
-		});
+		}, transformer);
 
 		
 
@@ -730,7 +730,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		});
 		
 		
-		put("/stock/add/:scryfallId", (request, response) -> {
+		post("/stock/add/:scryfallId", (request, response) -> {
 			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(":scryfallId"));
 			var stock = MTGControler.getInstance().getDefaultStock();
 			stock.setQte(1);
