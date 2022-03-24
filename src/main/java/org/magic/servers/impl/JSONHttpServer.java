@@ -463,6 +463,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 			}),transformer);
 		
 		
+		get("/orders/list/:idTransaction", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGDao.class).listOrdersByIdTransaction(request.params(":idTransaction")), transformer);
+		
+		
 		get("/orders/list", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGDao.class).listOrders(), transformer);
 		
 		get("/keywords", URLTools.HEADER_JSON, (request, response) -> AbstractKeyWordsManager.getInstance().toJson(), transformer);

@@ -370,6 +370,18 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		
 	}
 	
+	public List<OrderEntry> listOrdersByIdTransaction(String id) 
+	{
+		return listOrders().stream().filter(o->o.getIdTransation().equalsIgnoreCase(id)).toList();
+	}
+	
+	
+	public OrderEntry getOrderById(int id) 
+	{
+		return listOrders().stream().filter(o->o.getId()==id).findFirst().orElse(null);
+	}
+	
+	
 	
 	public List<OrderEntry> listOrderForEdition(MagicEdition ed) 
 	{

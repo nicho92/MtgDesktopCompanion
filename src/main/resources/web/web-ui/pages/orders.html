@@ -66,8 +66,14 @@
 		        "ajax": {"url":restserver+"/orders/list","dataSrc":""},
 		        "columns": [
 	        	  	{ 
-		                "data": "id",
-		                "defaultContent": ""
+		                "data": "idTransation",
+		                "defaultContent": "",
+						"render": function(d, type, row, meta){
+								  if(type === 'display'){
+										return "<a href='order.html?idTransaction="+d+"'>"+d+"</a>";
+									}
+									return d;
+								}
 		            },
 		            { 
 		                "data": "source",
