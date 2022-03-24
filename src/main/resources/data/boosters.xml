@@ -2373,7 +2373,14 @@
 		<bundle lang="en" num="1" url="https://i0.wp.com/amusengames.ca/wp-content/uploads/2022/03/MTGSNC_EN_BndlOtrBx_01_03.png"/>
 	</edition>
 	
+	<edition id="UNF">
+		<box lang="en" extra="collector" num="1" url="https://www.play-in.com/images/collector-booster-box-unfinity.png"/>
+		<box lang="en" extra="draft" num="2" url="https://www.play-in.com/images/draft-booster-box-unfinity.png"/>
+		<booster lang="en" extra="collector" num="1" url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/2/21/UNF_Booster.png"/>
+		<set lang="en" url="https://www.smfcorp.net/images/editions/gros_logos/242.png"/>
 	
+	
+	</edition>
 	
 	
 	
