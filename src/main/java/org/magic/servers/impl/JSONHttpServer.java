@@ -97,20 +97,17 @@ import org.magic.services.TransactionService;
 import org.magic.services.VersionChecker;
 import org.magic.services.keywords.AbstractKeyWordsManager;
 import org.magic.services.network.URLTools;
-import org.magic.services.providers.SealedProductProvider;
 import org.magic.services.recognition.area.ManualAreaStrat;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.Chrono;
 import org.magic.tools.ImageTools;
 import org.magic.tools.MTG;
 import org.magic.tools.POMReader;
-import org.magic.tools.UITools;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.RemovalNotification;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
@@ -206,6 +203,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 													  .removalListener((RemovalNotification<String, Object> notification)->
 															logger.debug(notification.getKey() + " is removed " + notification.getCause())
 													  )
+													  .recordStats()
 													  .build();
 			
 			public String getName() {
@@ -1082,6 +1080,17 @@ public class JSONHttpServer extends AbstractMTGServer {
 			MTG.getEnabledPlugin(MTGCardRecognition.class).downloadCardsData(MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(":setId")));
 			return RETURN_OK;
 		}, transformer);
+
+		
+			put("/webshop/config", URLTools.HEADER_JSON, (request, response) ->{ 
+				
+				var conf  = converter.fromJson(new InputStreamReader(request.raw().getInputStream()), WebShopConfig.class);
+				
+				System.out.println(conf);
+				
+				//MTGControler.getInstance().saveWebConfig(conf);
+				return RETURN_OK;
+			}, transformer);
 		
 		
 		get("/webshop/config", URLTools.HEADER_JSON, (request, response) -> 
@@ -1095,7 +1104,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 					return conf;
 				}
 			})
-			
 		, transformer);
 		
 		get("/track/:provider/:number", URLTools.HEADER_JSON, (request, response) -> 
