@@ -66,7 +66,7 @@
 			        url: url
 			    }).then(function(stockItem){
 			   	
-					$(".imageCard").attr('src',stockItem.url);
+					$(".imageCard").attr('src',stockItem.product.url);
 				
 			    	if(percentReduction>0)
 			    	{
