@@ -91,7 +91,7 @@ function generateStockCardHTML(data,currency, tosell, percentReduction)
 			
 			var append="<div class='col-sm'>";
   					append+="<div class='card'>";
-					append+="<img class='card-img-top' src='"+data.url+"'>";
+					append+="<img class='card-img-top' src='"+data.product.url+"'>";
     				append+="<div class='card-body'>";
            			
            			
