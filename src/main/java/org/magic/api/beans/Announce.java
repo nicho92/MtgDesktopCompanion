@@ -119,6 +119,12 @@ public class Announce implements MTGStorable, Comparable<Announce> {
 		return type;
 	}
 	
+	
+	@Override
+	public int hashCode() {
+		return getId();
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		

@@ -336,7 +336,10 @@ public class RadiusAreaStrat extends AbstractRecognitionArea
      */
     Point2D_F32 extrapolateAndCollide(LineSegment2D_F32 s1, LineSegment2D_F32 s2)
     {
-        float m1, b1, m2, b2;
+        float m1;
+        float b1;
+        float m2;
+        float b2;
 
         m1 = s1.slopeY() / s1.slopeX();
         b1 = s1.a.y - (s1.a.x * m1);
@@ -400,7 +403,7 @@ public class RadiusAreaStrat extends AbstractRecognitionArea
         this.width = width;
         this.height = height;
         points[0] = new Point2D_I32(width / 2, height / 2);
-        int dist = (int) (height / 2 * 0.85);
+        int dist = (int) (height / 2.0 * 0.85);
         points[1] = new Point2D_I32(width / 2 + dist, height / 2);
         updateCircle();
     }
@@ -458,23 +461,25 @@ public class RadiusAreaStrat extends AbstractRecognitionArea
     @Override
     public void mouseMoved(MouseEvent e)
     {
-
+    	//do nothing
     }
 
     @Override
     public void mouseEntered(MouseEvent e)
     {
+    	//do nothing
     }
 
     @Override
     public void mouseExited(MouseEvent e)
     {
+    	//do nothing
     }
 
     @Override
     public void mouseClicked(MouseEvent e)
     {
-
+    	//do nothing
     }
 
     /**
