@@ -117,7 +117,7 @@ public class CardSearchPanel extends MTGUIComponent {
 	private AbstractBuzyIndicatorComponent lblLoading;
 	private CardAbilitiesPanel abilitiesPanel;
 	private JButton defaultEnterButton;
-	
+	private GedPanel<MagicCard> gedPanel;
 	
 	public AbstractBuzyIndicatorComponent getLblLoading() {
 		return lblLoading;
@@ -219,6 +219,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		panelResultsCards = new JPanel();
 		abilitiesPanel = new CardAbilitiesPanel();
 		cmcChart = new CmcChartPanel();
+		gedPanel = new GedPanel<>();
 		manaRepartitionPanel = new ManaRepartitionPanel(false);
 		typeRepartitionPanel = new TypeRepartitionPanel(false);
 		stockPanel = new CardStockPanel();
@@ -359,7 +360,8 @@ public class CardSearchPanel extends MTGUIComponent {
 		tabbedCardsInfo.addTab(capitalize("DECK_MODULE"), MTGConstants.ICON_TAB_DECK,deckPanel, null);
 		tabbedCardsInfo.addTab(capitalize("STOCK"), MTGConstants.ICON_TAB_STOCK,stockPanel, null);
 		UITools.addTab(tabbedCardsInfo,abilitiesPanel);
-	
+		UITools.addTab(tabbedCardsInfo, gedPanel);
+		
 		if (MTGControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
 			tabbedCardsInfo.addTab("Object", MTGConstants.ICON_TAB_JSON, panelJson, null);
 
@@ -719,7 +721,10 @@ public class CardSearchPanel extends MTGUIComponent {
 			stockPanel.initMagicCardStock(selectedCard, new MagicCollection(MTGControler.getInstance().get("default-library")));
 			abilitiesPanel.init(selectedCard);
 			historyChartPanel.init(selectedCard, selectedEdition, selectedCard.getName());
-
+			gedPanel.init(MagicCard.class, selectedCard);
+			
+			
+			
 			((DefaultListModel<MagicEdition>) listEdition.getModel()).removeAllElements();
 			for (MagicEdition me : selectedCard.getEditions())
 				((DefaultListModel<MagicEdition>) listEdition.getModel()).addElement(me);
