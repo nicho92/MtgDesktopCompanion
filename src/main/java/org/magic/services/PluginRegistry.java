@@ -280,13 +280,12 @@ public class PluginRegistry {
 	}
 
 	public <T extends MTGPlugin> T getPlugin(String name,Class<T> type) {
-		logger.trace("searching for " + name +" plugin");
 		Optional<T> r = listPlugins(type).stream().filter(s->s.getName().equalsIgnoreCase(name)).findFirst();
 		
 		if(r.isPresent())
 			return r.get();
 		
-		logger.error(name + " doesn't exist or is not enabled");
+		logger.error(name.replaceAll("[\n\r\t]", "_") + " doesn't exist or is not enabled");
 		return null;
 	}
 	

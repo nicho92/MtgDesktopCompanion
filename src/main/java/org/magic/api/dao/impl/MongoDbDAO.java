@@ -538,7 +538,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		var c = new Chrono();
 		c.start();
 		db.getCollection(colCards, BasicDBObject.class).find(b).forEach((Consumer<BasicDBObject>) result -> ret.add(deserialize(result.get("card"), MagicCard.class)));
-		logger.debug("list cards from " + collection + "/" + me + " :" + b+": done in "+c.stop()+"s.");
+
 		
 		return ret;
 	}

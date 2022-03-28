@@ -165,11 +165,11 @@ public class FileTools {
 	{
 		if(f==null || !f.exists())
 		{
-			logger.warn(f +" doesn't exist");
+			logger.warn(f.getAbsolutePath().replaceAll("[\n\r\t]", "_") +" doesn't exist");
 			return "";
 		}
 		
-		logger.debug("opening file " + f);
+		logger.debug("opening file " + f.getAbsolutePath().replaceAll("[\n\r\t]", "_"));
 		return FileUtils.readFileToString(f,charset);
 	}
 	

@@ -14,6 +14,11 @@ import com.google.gson.JsonObject;
 
 public class NetworkInfo extends AbstractAuditableItem{
 
+	private static final String REPONSES_MESSAGE = "reponsesMessage";
+	private static final String CONTENT_TYPE = "contentType";
+	private static final String SERVER_TYPE = "serverType";
+
+	
 	private static final long serialVersionUID = 1L;
 	
 	private transient HttpResponse response;
@@ -37,12 +42,12 @@ public class NetworkInfo extends AbstractAuditableItem{
 	
 	public String getServer()
 	{
-		return toJson().get("serverType").getAsString();
+		return toJson().get(SERVER_TYPE).getAsString();
 	}
 
 	public String getContentType()
 	{
-		return toJson().get("contentType").getAsString();
+		return toJson().get(CONTENT_TYPE).getAsString();
 	}
 	
 	public void fromJson(JsonObject o) {
@@ -58,7 +63,7 @@ public class NetworkInfo extends AbstractAuditableItem{
 			request.setURI(URI.create(o.get("url").getAsString()));
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			//do nothing
 		} 
 		
 		StatusLine sl = new StatusLine() {
@@ -71,8 +76,8 @@ public class NetworkInfo extends AbstractAuditableItem{
 			@Override
 			public String getReasonPhrase() {
 				
-				if(o.get("reponsesMessage")!=null)
-					return o.get("reponsesMessage").getAsString();
+				if(o.get(REPONSES_MESSAGE)!=null)
+					return o.get(REPONSES_MESSAGE).getAsString();
 				
 				return "";
 			}
@@ -87,10 +92,10 @@ public class NetworkInfo extends AbstractAuditableItem{
 		 response = new BasicHttpResponse(sl);
 		 
 		 BasicHttpEntity entity = new BasicHttpEntity();
-		 				 entity.setContentType(o.get("contentType").getAsString());
+		 				 entity.setContentType(o.get(CONTENT_TYPE).getAsString());
 		 
 		 response.setEntity(entity);
-		 response.setHeader("Server", o.get("serverType").getAsString());
+		 response.setHeader("Server", o.get(SERVER_TYPE).getAsString());
 		 
 		 
 		 start = Instant.ofEpochMilli(o.get("start").getAsLong());
@@ -117,15 +122,15 @@ public class NetworkInfo extends AbstractAuditableItem{
 			if(getResponse().getEntity()!=null)
 			{
 				var contentT = getResponse().getEntity().getContentType();
-				jo.addProperty("contentType", contentT!=null?contentT.getValue():"");
+				jo.addProperty(CONTENT_TYPE, contentT!=null?contentT.getValue():"");
 			}
 			else
 			{
-				jo.addProperty("contentType", "");	
+				jo.addProperty(CONTENT_TYPE, "");	
 			}
 			
-			jo.addProperty("serverType", servT!=null?servT.getValue():"");
-			jo.addProperty("reponsesMessage", getResponse().getStatusLine().getReasonPhrase());
+			jo.addProperty(SERVER_TYPE, servT!=null?servT.getValue():"");
+			jo.addProperty(REPONSES_MESSAGE, getResponse().getStatusLine().getReasonPhrase());
 			jo.addProperty("reponsesCode", getResponse().getStatusLine().getStatusCode());
 		}
 		return jo;

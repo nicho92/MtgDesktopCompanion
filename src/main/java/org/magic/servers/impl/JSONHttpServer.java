@@ -121,6 +121,8 @@ import spark.routematch.RouteMatch;
 
 public class JSONHttpServer extends AbstractMTGServer {
 
+	private static final String TYPE = ":type";
+	private static final String SCRYFALL_ID = ":scryfallId";
 	private static final String CLASSENAME = ":classename";
 	private static final String ID_CONTACT = ":idContact";
 	private static final String PAGE = "page";
@@ -363,7 +365,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 	
 		get("/cards/token/:scryfallId", URLTools.HEADER_JSON,(request, response) -> {
 			
-			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(":scryfallId"));
+			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
 			
 			if(mc!=null)
 			{
@@ -472,7 +474,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		get("/categories", URLTools.HEADER_JSON, (request, response) -> EnumItems.values(), transformer);
 			
-		get("/cards/scryfall/:scryfallId", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(":scryfallId")), transformer);
+		get("/cards/scryfall/:scryfallId", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID)), transformer);
 		
 		post("/cards/recognize/:threeshold", URLTools.HEADER_JSON, (request, response) -> {
 			var recog = MTG.getEnabledPlugin(MTGCardRecognition.class);
@@ -489,14 +491,14 @@ public class JSONHttpServer extends AbstractMTGServer {
 		put("/cards/move/:from/:to/:scryfallId", URLTools.HEADER_JSON, (request, response) -> {
 			var from = new MagicCollection(request.params(":from"));
 			var to = new MagicCollection(request.params(":to"));
-			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(":scryfallId"));
+			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
 			getEnabledPlugin(MTGDao.class).moveCard(mc, from,to);
 			return RETURN_OK;
 		}, transformer);
 
 		put("/cards/add/:scryfallId", URLTools.HEADER_JSON, (request, response) -> {
 			var from = new MagicCollection(MTGControler.getInstance().get("default-library"));
-			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(":scryfallId"));
+			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
 			CardsManagerService.saveCard(mc, from,null);
 			return RETURN_OK;
 		}, transformer);
@@ -650,13 +652,13 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 
 		get("/alerts/:scryfallId", URLTools.HEADER_JSON, (request, response) -> {
-			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(":scryfallId"));
+			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
 			return getEnabledPlugin(MTGDao.class).hasAlert(mc);
 
 		}, transformer);
 		
 		delete("/alerts/:scryfallId", URLTools.HEADER_JSON, (request, response) -> {
-			var alert = getEnabledPlugin(MTGDao.class).listAlerts().stream().filter(mca->mca.getCard().getScryfallId().equals(request.params(":scryfallId"))).findFirst().orElse(null);
+			var alert = getEnabledPlugin(MTGDao.class).listAlerts().stream().filter(mca->mca.getCard().getScryfallId().equals(request.params(SCRYFALL_ID))).findFirst().orElse(null);
 			
 			if(alert==null)
 				throw new NullPointerException("No alert with id="+request.params(":id"));
@@ -667,10 +669,10 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 		
 		put("/alerts/update/:scryfallId", URLTools.HEADER_JSON, (request, response) -> {
-			var alert = getEnabledPlugin(MTGDao.class).listAlerts().stream().filter(mca->mca.getCard().getScryfallId().equals(request.params(":scryfallId"))).findFirst().orElse(null);
+			var alert = getEnabledPlugin(MTGDao.class).listAlerts().stream().filter(mca->mca.getCard().getScryfallId().equals(request.params(SCRYFALL_ID))).findFirst().orElse(null);
 				
 			if(alert==null)
-				throw new NullPointerException("No alert with scryfallId="+request.params(":scryfallId"));
+				throw new NullPointerException("No alert with scryfallId="+request.params(SCRYFALL_ID));
 			
 			JsonObject postItems= readJsonObject(request);
 			
@@ -687,7 +689,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 
 		post("/alerts/add/:scryfallId", (request, response) -> {
-			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(":scryfallId"));
+			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
 			
 			var alert = new MagicCardAlert();
 			alert.setCard(mc);
@@ -701,7 +703,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		put("/stock/:type/update", (request, response) -> {
 			JsonObject postItems= readJsonObject(request);
 			
-			var source = request.params(":type");
+			var source = request.params(TYPE);
 			
 			
 			MTGStockItem obj = null;
@@ -734,7 +736,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		
 		post("/stock/add/:scryfallId", (request, response) -> {
-			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(":scryfallId"));
+			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
 			var stock = MTGControler.getInstance().getDefaultStock();
 			stock.setQte(1);
 			stock.setProduct(mc);
@@ -971,9 +973,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 		},transformer);
 		
 		
-		get("/deck/search/:provider/:filter", URLTools.HEADER_JSON,(request, response) -> {
-			return getPlugin(request.params(PROVIDER),MTGDeckSniffer.class).getDeckList(request.params(":filter"));
-		},transformer);
+		get("/deck/search/:provider/:filter", URLTools.HEADER_JSON,(request, response) -> 
+			getPlugin(request.params(PROVIDER),MTGDeckSniffer.class).getDeckList(request.params(":filter"))
+		,transformer);
 		
 
 		
@@ -1059,7 +1061,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 		
 		put("/admin/plugins/:type/:name/:enable", URLTools.HEADER_JSON, (request, response) -> {
-			var selectedProvider = PluginRegistry.inst().getPluginById((request.params(":type")+request.params(NAME)));
+			var selectedProvider = PluginRegistry.inst().getPluginById((request.params(TYPE)+request.params(NAME)));
 			
 			if(selectedProvider==null)
 				throw new NullPointerException("Provider is not found");
@@ -1083,16 +1085,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return RETURN_OK;
 		}, transformer);
 
-		
-			put("/webshop/config", URLTools.HEADER_JSON, (request, response) ->{ 
-				
-				var conf  = converter.fromJson(new InputStreamReader(request.raw().getInputStream()), WebShopConfig.class);
-				
-				System.out.println(conf);
-				
-				//MTGControler.getInstance().saveWebConfig(conf);
-				return RETURN_OK;
-			}, transformer);
 		
 		
 		get("/webshop/config", URLTools.HEADER_JSON, (request, response) -> 
@@ -1220,7 +1212,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		get("/announces/keyword/:search", URLTools.HEADER_JSON, (request, response) -> MTG.getEnabledPlugin(MTGDao.class).listAnnounces(URLTools.decode(request.params(":search"))), transformer);
 
-		get("/announces/category/:type", URLTools.HEADER_JSON, (request, response) -> MTG.getEnabledPlugin(MTGDao.class).listAnnounces(EnumItems.valueOf(request.params(":type"))), transformer);
+		get("/announces/category/:type", URLTools.HEADER_JSON, (request, response) -> MTG.getEnabledPlugin(MTGDao.class).listAnnounces(EnumItems.valueOf(request.params(TYPE))), transformer);
 		
 		get("/announces/contact/:id", URLTools.HEADER_JSON, (request, response) -> {
 			var c = new Contact();

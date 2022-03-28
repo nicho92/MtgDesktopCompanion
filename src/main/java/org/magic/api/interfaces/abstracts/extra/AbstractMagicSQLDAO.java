@@ -1523,8 +1523,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		if (me != null)
 			sql = "SELECT mcard,dateUpdate FROM cards where collection= ? and edition = ?";
 
-		logger.trace(sql +" " + collection +" " + me);
-
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(sql)) {
 			pst.setString(1, collection.getName());
 			if (me != null)
