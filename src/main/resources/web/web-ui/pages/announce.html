@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>MTG Web Companion</title>
+  
+  <link rel="icon" type="image/png" href="../dist/img/logo-ct.png">
+  <link href="https://cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
+  <link href="https://cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css" rel="stylesheet" type="text/css" />
+
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link id="pagestyle" href="../dist/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"/>
+  <link href="https://cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-bs5.min.css">
+  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/owl.carousel@2.2.0/dist/assets/owl.carousel.min.css">
+
+  
+  <link href="https://unpkg.com/@trevoreyre/autocomplete-js/dist/style.css" rel="stylesheet" />
+ 
+  <script src="//unpkg.com/@trevoreyre/autocomplete-js"></script>    
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.5.5/perfect-scrollbar.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scrollbar/8.7.4/smooth-scrollbar.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-bs4.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/owl.carousel@2.2.0/dist/owl.carousel.min.js"></script>
+  
+  <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script>
+  <script src="../dist/js/rest-server.js"></script>
+  <script src="../dist/js/js-var.js"></script>
+  <script src="../dist/js/mtgcompanion-ui.js"></script>
+
+
+
+  <script>
+  function buildImage(ged, classes)
+  {
+  	try{
+  		return "<img id='"+ged.id +"' src='data:image/"+ged.ext+";base64,"+ ged.data + "' class='img-fluid "+classes+" ' />";
+  		}catch(error)
+  		{
+  		return "<img id='none' src='../dist/img/none.png' class='img-fluid "+classes+" ' />";	
+  		}
+  		
+
+  }
+
+  
+  
+  
+	$(document).ready(function() {
+			$("#sidenav-main" ).load("inc/menu.html" );
+			$("#navbarBlur").load("inc/nav.html",function(){
+					$("[name='categTitle']").html("Announce");
+					$("#menuAnnounces").addClass("bg-gradient-primary");
+					$("#menuAnnounces").addClass("active");
+			});
+			
+			$("#navfooter").load("inc/footer.html");
+			$("#settingPanel").load("inc/settingPanel.html");
+			
+			
+			
+			$( "#snapModal" ).on('shown.bs.modal', function(e){
+				    $(this).off('shown.bs.modal');
+    				$("#webcamInc").load("webcam-add.html");
+			});
+			
+			
+			
+			$('#announceDescription').summernote({
+				disableDragAndDrop : true,
+				height : 250, // set editor height
+				focus : false,
+				toolbar: [
+							    ['style', ['bold', 'italic', 'underline', 'clear']],
+							    ['font', ['strikethrough', 'superscript', 'subscript']],
+							    ['fontsize', ['fontsize']],
+							    ['color', ['color']],
+							    ['para', ['ul', 'ol', 'paragraph']],
+							    ['height', ['height']]
+							  ]
+
+			});
+			
+			$.ajax({
+				url : restserver + "/categories"
+			}).then(function(categs) {
+				$.each(categs, function(key, value) {
+					$("#announceCategory").append("<option value='"+value+"'>"+value+"</option>")
+				});
+			});
+			
+			$.each( ["MINT", "NEAR_MINT","GOOD", "LIGHTLY_PLAYED", "PLAYED", "POOR","PROXY","OVERSIZED","ONLINE","SEALED", "OPENED", "DAMAGED"], function(key, value) {
+					$("#announceCondition").append("<option value='"+value+"'>"+value+"</option>")
+				});	
+			
+			
+		
+			$.get(restserver+"/announces/get/"+$_GET("id"),function(data){
+				
+				
+				$.ajax({
+				    url: restserver+"/ged/Announce/"+ data.id
+				}).then(function(geds){
+					$.each( geds, function( key, ged ) {
+						var img = buildImage(ged,"");
+		    			var append="<div class='item'><div id='img-"+key+"' class='product-img'>"+img+"</div><span class='price-save'> test</span></div>";
+		    			$("#announceImage").append(img).append("&nbsp;");	
+					});
+					
+					$("#announceImage").owlCarousel({
+						autoplay: true,
+						nav: false,
+						autoplayHoverPause: true,
+						smartSpeed: 350,
+						dots: true,
+						margin: 30,
+						loop: true,
+						navText: ['<i class="fa-solid fa-chevron-left"></i>', '<i class="fa-solid fa-chevron-right"></i>'],
+						responsiveClass: true,
+						responsive: {
+							0: {
+								items: 1,
+							},
+							575: {
+								items: 1,
+							},
+							991: {
+								items: 1,
+							}
+						}
+					});
+					
+				});
+				
+				
+				
+				$("#announceTitle").html(data.title);
+				$("#announcePrice").val(data.totalPrice.toFixed(2));
+				$("#announceCategory").val(data.categorie).change();
+				$("#announceCondition").val(data.condition).change();
+				
+				$("#announceDescription").summernote("code", data.description);
+				
+				$("#status").html(data.status);
+				
+				if(data.status=="ACTIVE")
+				{
+					$("#status").addClass("badge-success")	
+				}
+				else if(data.status=="EXPIRED")
+				{
+					$("#status").addClass("badge-warning")	
+				}	
+				
+			
+				$("#btnUpdate").on("click",function(){
+						var obj = {
+								id:	$_GET("id"),
+								price:$("#announcePrice").val(),
+								condition:$("#announceCondition").val(),
+								description: $("#announceDescription").summernote('code')
+						};
+						
+						$.ajax({
+								type: 'PUT',
+								data: JSON.stringify(obj),
+							    url: restserver+"/announce/update"
+						   		 }).done(function(data) {
+						   			alert("OK");
+						   		 }).fail(function(data,status,error) {
+						   			alert(JSON.stringify(data) + " " + error);
+						   		 });
+						
+						
+				});
+				
+				
+			});
+			
+			
+			
+	});
+ </script>
+</head>
+
+
+<body class="g-sidenav-show  bg-gray-200">
+	<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start menu-left bg-gradient-dark" id="sidenav-main"></aside>
+  	<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+	<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true"></nav>
+   
+    <div class="container-fluid py-4">
+	<div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="mb-4">Announce Details</h5>
+              
+
+	<div class="row">
+		<div class="col-xl-5 col-lg-6 text-center">
+			<div id="announceImage" class="owl-carousel owl-theme"></div>
+		</div>
+	
+	
+		<div class="col-lg-5 mx-auto">
+			<h3 class="mt-lg-0 mt-4" id="announceTitle"></h3>
+			<br>
+			<h6 class="mb-0 mt-3"><i class="fa-solid fa-money-bill-wave"></i>Price</h6>
+			<input type="number" value="" min="0" step="0.1" class="form-control" id="announcePrice"/>
+			
+			   
+			<h6 class="mb-0 mt-3"><i class="fa-solid fa-cubes-stacked"></i>Status</h6>
+			<span class="badge badge-success" id='status'>In Stock</span>
+			
+		
+			
+				<div class="row ">
+					<div class="col-lg-3">
+						<h6 class="mb-0 mt-3"><i class="fa-solid fa-book-bookmark"></i>Category</h6>
+						<select class="form-select" id='announceCategory'></select>
+					</div>
+				
+				
+					<div class="col-lg-3">
+						<h6 class="mb-0 mt-3"><i class="fa-solid fa-gem"></i>Condition</h6>
+							<select class="form-select" id='announceCondition'></select>
+					</div>
+				</div>
+				
+				<br/>
+				
+				<h6 class="mb-0 mt-3"><i class="fa-solid fa-comment"></i>Comment</h6>
+				<section id="editor">
+					<div id="announceDescription"></div>
+				</section>
+				<br/>
+				<button id="btnUpdate" type="button" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Save</button>
+				<button id="btnPhoto" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#snapModal"><i class="fa-solid fa-camera"></i> Take a pic</button>
+			
+		</div>
+	
+	
+	
+	
+	</div>
+	</div>
+	
+	</div>
+	</div>
+	</div>
+
+
+  </main>
+  <div class="fixed-plugin">
+    <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
+      <i class="material-icons py-2">settings</i>
+    </a>
+    <div class="card shadow-lg" id="settingPanel"> </div>
+  </div>
+ 
+
+
+<div class="modal fade" id="snapModal" tabindex="-1" role="dialog" aria-labelledby="snapModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title font-weight-normal" id="snapModalLabel">Take a pic</h5>
+        <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      		<div id="webcamInc"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  
+   <script src="../dist/js/material-dashboard.js?v=3.0.0"></script>
+  
+</body>
+
+</html>	
+	
+	
+	
