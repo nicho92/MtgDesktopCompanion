@@ -291,9 +291,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 		 return elements.stream().skip(skipCount).limit(size).toList();
 	}
 	
-
-
-	
 	private void initVars() {
 		
 		Spark.
