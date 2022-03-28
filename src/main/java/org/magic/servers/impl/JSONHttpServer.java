@@ -100,6 +100,7 @@ import org.magic.services.network.URLTools;
 import org.magic.services.recognition.area.ManualAreaStrat;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.Chrono;
+import org.magic.tools.IDGenerator;
 import org.magic.tools.ImageTools;
 import org.magic.tools.MTG;
 import org.magic.tools.POMReader;
@@ -401,7 +402,16 @@ public class JSONHttpServer extends AbstractMTGServer {
 			var buffImg = ImageTools.readBase64(request.body().substring(request.body().indexOf(",")+1));// Find better solution
 			if(buffImg==null)
 				return "No readable Image";
-			var entry = new GedEntry<>(ImageTools.toByteArray(buffImg),PluginRegistry.inst().loadClass("org.magic.api.beans."+request.params(CLASS)),request.params(":id"),"webupload_"+Instant.now().toEpochMilli()+".png");
+			
+			
+			var id = request.params(":id");
+			
+			if(request.params(CLASS).equals("MagicCard"))
+				id = IDGenerator.generate(getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(":id")));
+			
+				
+				
+			var entry = new GedEntry<>(ImageTools.toByteArray(buffImg),PluginRegistry.inst().loadClass("org.magic.api.beans."+request.params(CLASS)),id,"webupload_"+Instant.now().toEpochMilli()+".png");
 			MTG.getEnabledPlugin(MTGGedStorage.class).store(entry);
 			return RETURN_OK;
 		});

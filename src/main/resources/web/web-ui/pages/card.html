@@ -74,7 +74,7 @@
 	}
   
   
-$(document).ready(function() {
+		$(document).ready(function() {
 			$("#sidenav-main" ).load("inc/menu.html" );
 			$("#notifs").load("inc/notifs.html");
 			$("#navbarBlur").load("inc/nav.html",function(){
@@ -90,7 +90,7 @@ $(document).ready(function() {
 				data.PRICER.filter(function (entry) {return entry.enabled === true;}).forEach( function(item,index){
 						$("#tabPrices").append("<li class='nav-item' style='style='cursor: pointer;'><a name='btnLoadPrice' class='nav-link' aria-current='page'  ><i class='fa fa-3 fa-shopping-cart' aria-hidden='true'></i>"+item.name+"</a></li>");
 				});
-		});
+			});
 			
 				if(table==null)
 				{
@@ -359,7 +359,14 @@ $(document).ready(function() {
 					  	  	    	}
 					  	  	    });
 						
-						
+							
+						 
+						 
+						 	$( "#snapModal" ).on('shown.bs.modal', function(e){
+						 		$(this).off('shown.bs.modal');
+				    			$("#webcamInc").load("webcam-add.html");
+							});
+						 
 						 	$("#alertBtn").click( function() {
 							
 									addAlert(card.scryfallId,function callback(){
@@ -436,6 +443,9 @@ $(document).ready(function() {
 							</button>
 							<button id="addCardBtn" type="button" class="btn btn-circle btn-danger toast-btn" data-bs-placement="bottom" data-bs-toggle="tooltip" title="add to default library">
 								<i class="fa-solid fa-circle-plus"></i>
+							</button>
+							<button id="addPicBtn" type="button" class="btn btn-circle btn-info toast-btn" data-bs-placement="bottom" data-bs-toggle="modal" data-bs-target="#snapModal" title="add a picture">
+								<i class="fa-solid fa-camera"></i>
 							</button>
 					</div>
 				</div>
@@ -671,7 +681,28 @@ $(document).ready(function() {
   
   
    <script src="../dist/js/material-dashboard.js?v=3.0.0"></script>
-
+	
+<div class="modal fade" id="snapModal" tabindex="-1" role="dialog" aria-labelledby="snapModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title font-weight-normal" id="snapModalLabel">Take a pic</h5>
+        <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      		<div id="webcamInc"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+	
+	
+	
    <div id="notifs"></div>
  
 </body>

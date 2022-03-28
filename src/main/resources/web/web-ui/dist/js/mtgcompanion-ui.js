@@ -127,11 +127,11 @@ function importDeck(url,name,provider, callback)
 }
 
 
-function addCard(idCard,to,callback)
+function addCard(idScryfall,to,callback)
 {
 	$.ajax({
 		type: 'PUT',
-	    url: restserver+"/cards/add/"+to+"/"+idCard
+	    url: restserver+"/cards/add/"+to+"/"+idScryfall
    		 }).done(function(data) {
    			callback();
    		 }).fail(function(data,status,error) {

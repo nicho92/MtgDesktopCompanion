@@ -31,7 +31,17 @@
 					canvas.height=video.videoHeight;
 					context.drawImage(video, 0, 0, canvas.width, canvas.height);
 					
-					var classe = "MagicCardStock";
+					var id = $_GET('id');
+					
+					
+					if($_GET('scryfallid'))
+					{
+						var classe = "MagicCard";
+						id = $_GET('scryfallid');
+					}
+					
+					if($_GET('type')=="CARD")
+						classe="MagicCardStock";
 					
 					if($_GET('type')=="SEALED")
 						classe="SealedStock";
@@ -39,10 +49,10 @@
 					if($_GET('type')=="ANNOUNCE")
 						classe="Announce";
 					
-					$("#resultInfo").html("sending....");  			
+					$("#resultInfo").html("sending "+classe + "/"+id+"....");  			
 					
 					$.post({
-					  url: restserver+"/ged/uploadPic/"+classe+"/"+$_GET('id'),
+					  url: restserver+"/ged/uploadPic/"+classe+"/"+id,
 					  data: canvas.toDataURL("image/png"),
 					  success: function(datas){
 						  $("#resultInfo").html("OK");  			
