@@ -84,7 +84,7 @@
 		<dependency>
 			<groupId>nl.basjes.parse.useragent</groupId>
 			<artifactId>yauaa</artifactId>
-			<version>6.11</version>
+			<version>6.12</version>
 		</dependency>
 		<dependency>
 			<groupId>com.squareup.okhttp3</groupId>
@@ -270,7 +270,7 @@
 		<dependency>
 			<groupId>org.mariadb.jdbc</groupId>
 			<artifactId>mariadb-java-client</artifactId>
-			<version>3.0.3</version>
+			<version>3.0.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.xerial</groupId>

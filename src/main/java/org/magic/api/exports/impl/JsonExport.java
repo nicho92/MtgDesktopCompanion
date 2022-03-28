@@ -63,9 +63,9 @@ public class JsonExport extends AbstractCardExport {
 		gson=new GsonBuilder()
 				.registerTypeAdapter(MTGStockItem.class, new MTGStockItemAdapter())
 				.registerTypeAdapter(Instant.class, new InstantAdapter())
-				.registerTypeHierarchyAdapter(NetworkInfo.class, new NetworkInfoAdapter())
 				.registerTypeAdapter(UserAgent.class, new UserAgentAdapter())
 				.registerTypeAdapter(StackTraceElement.class, new StackTraceElementAdapter())
+				.registerTypeHierarchyAdapter(NetworkInfo.class, new NetworkInfoAdapter())
 				.setDateFormat("yyyy-MM-dd HH:mm")
 				.create();
 	}

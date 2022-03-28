@@ -168,6 +168,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 	public JSONHttpServer() {
 		manager = new MTGDeckManager();
 		converter = new JsonExport();
+		
+		
+		if(getBoolean("PRETTY_PRINT"))
+			converter.removePrettyString();
+		
 		ua = UserAgentAnalyzer.newBuilder().build();
 		transformer = new ResponseTransformer() {
 			@Override
@@ -1407,6 +1412,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		map.put(KEYSTORE_PASS, "changeit");
 		map.put(CACHE_TIMEOUT, "60");
 		map.put("INDEX_ROUTES", "true");
+		map.put("PRETTY_PRINT", "false");
 		return map;
 	}
 
