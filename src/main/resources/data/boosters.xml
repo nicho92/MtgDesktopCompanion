@@ -238,16 +238,14 @@
 			url="https://crystal-cdn4.crystalcommerce.com/photos/30676/large/3bUFJFtBmXd4L6y8.jpg" />
 		<set lang='en'
 			url="http://mtgen.net/tmp/images/logo-word.png" />
-		<box lang="en"
-			url="https://images-na.ssl-images-amazon.com/images/I/51i%2BIf3BtvL._SX425_.jpg" />
-		<constructpack lang="en" num="1"
-			url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/92077.jpg" />
-		<constructpack lang="en" num="2"
-			url="https://mtgdb.it/sets/Tempesta/td1LargePic_en.jpg" />
-		<constructpack lang="en" num="3"
-			url="https://magic.wizards.com/sites/mtg/files/image_legacy_migration/global/images/magic_expansion_tempest_td2LargePic_en.jpg" />
-		<starter lang="en"
-			url="https://images-na.ssl-images-amazon.com/images/I/81FcCqtOjsL._SY450_.jpg" />
+		<box lang="en" url="https://images-na.ssl-images-amazon.com/images/I/51i%2BIf3BtvL._SX425_.jpg" />
+		
+		<constructpack lang="en" num="1" url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/92077.jpg" />
+		<constructpack lang="en" num="2" url="https://cdn.shopify.com/s/files/1/0265/2815/3659/products/51aiPO_EPTL_377x.jpg" />
+		<constructpack lang="en" num="3" url="https://crystal-cdn3.crystalcommerce.com/photos/30818/large/uuZbR5AQKjc75Vzs.jpg" />
+		<constructpack lang="en" num="4" url="https://www.dojotradebots.com/image/cache/pubimages/cards/TE_Tempest_Theme_Deck;_The_Flames_of_Rath_Reg-383x525.jpg" />
+		
+		<starter lang="en" url="https://images-na.ssl-images-amazon.com/images/I/81FcCqtOjsL._SY450_.jpg" />
 	</edition>
 	<edition id='WTH'>
 		<booster lang='en' num='1'
