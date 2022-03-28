@@ -56,6 +56,10 @@
   }
 
   
+  function readDate(dt)
+  {
+	  return dt.getFullYear() + "-" + ("0" + (dt.getMonth()+1)).slice(-2) + "-" + ("0" + dt.getDate()).slice(-2) + "T" + ("0" + dt.getHours()).slice(-2) + ":" + ("0" + dt.getMinutes()).slice(-2) + ":" + ("0" + dt.getSeconds()).slice(-2);
+  }
   
   
 	$(document).ready(function() {
@@ -102,8 +106,8 @@
 			});
 			
 			$.each( ["MINT", "NEAR_MINT","GOOD", "LIGHTLY_PLAYED", "PLAYED", "POOR","PROXY","OVERSIZED","ONLINE","SEALED", "OPENED", "DAMAGED"], function(key, value) {
-					$("#announceCondition").append("<option value='"+value+"'>"+value+"</option>")
-				});	
+				$("#announceCondition").append("<option value='"+value+"'>"+value+"</option>")
+			});	
 			
 			
 		
@@ -121,7 +125,7 @@
 					
 					$("#announceImage").owlCarousel({
 						autoplay: true,
-						nav: false,
+						nav: true,
 						autoplayHoverPause: true,
 						smartSpeed: 350,
 						dots: true,
@@ -153,10 +157,9 @@
 				
 				
 				
-				$("#creationDate").val(data.creationDate);
-				
-				$("#startDate").val(data.startDate);
-				$("#endDate").val(data.endDate);
+				$("#creationDate").val(readDate(new Date(data.creationDate)));
+				$("#startDate").val(readDate(new Date(data.startDate)));
+				$("#endDate").val(readDate(new Date(data.endDate)));
 				
 				$("#announceDescription").summernote("code", data.description);
 				
