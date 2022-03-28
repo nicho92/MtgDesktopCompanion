@@ -32,9 +32,12 @@
 					context.drawImage(video, 0, 0, canvas.width, canvas.height);
 					
 					var classe = "MagicCardStock";
+					
 					if($_GET('type')=="SEALED")
 						classe="SealedStock";
-					
+
+					if($_GET('type')=="ANNOUNCE")
+						classe="Announce";
 					
 					$("#resultInfo").html("sending....");  			
 					
