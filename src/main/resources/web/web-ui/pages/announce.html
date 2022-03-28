@@ -98,17 +98,21 @@
 			});
 			
 			$.ajax({
-				url : restserver + "/categories"
+				url : restserver + "/metadata/categories"
 			}).then(function(categs) {
 				$.each(categs, function(key, value) {
 					$("#announceCategory").append("<option value='"+value+"'>"+value+"</option>")
 				});
 			});
 			
-			$.each( ["MINT", "NEAR_MINT","GOOD", "LIGHTLY_PLAYED", "PLAYED", "POOR","PROXY","OVERSIZED","ONLINE","SEALED", "OPENED", "DAMAGED"], function(key, value) {
-				$("#announceCondition").append("<option value='"+value+"'>"+value+"</option>")
-			});	
 			
+			$.ajax({
+				url : restserver + "/metadata/conditions"
+			}).then(function(categs) {
+				$.each(categs, function(key, value) {
+					$("#announceCondition").append("<option value='"+value+"'>"+value+"</option>")
+				});
+			});
 			
 		
 			$.get(restserver+"/announces/get/"+$_GET("id"),function(data){

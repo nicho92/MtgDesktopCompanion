@@ -467,13 +467,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		get("/orders/list/:idTransaction", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGDao.class).listOrdersByIdTransaction(request.params(":idTransaction")), transformer);
 		
-		
 		get("/orders/list", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGDao.class).listOrders(), transformer);
 		
-		get("/keywords", URLTools.HEADER_JSON, (request, response) -> AbstractKeyWordsManager.getInstance().toJson(), transformer);
-		
-		get("/categories", URLTools.HEADER_JSON, (request, response) -> EnumItems.values(), transformer);
-			
 		get("/cards/scryfall/:scryfallId", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID)), transformer);
 		
 		post("/cards/recognize/:threeshold", URLTools.HEADER_JSON, (request, response) -> {
@@ -642,8 +637,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 		, transformer);
 		
 		
-		
-		get("/stock/conditions", URLTools.HEADER_JSON,(request, response) -> EnumCondition.values(), transformer);
 		
 	
 		get("/alerts/list", URLTools.HEADER_JSON,(request, response) -> getEnabledPlugin(MTGDao.class).listAlerts(), transformer);
@@ -996,8 +989,13 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 		
 		
+		get("/metadata/conditions", URLTools.HEADER_JSON,(request, response) -> EnumCondition.values(), transformer);
 		
-		get("/admin/version", "text", (request, response) ->  
+		get("/metadata/keywords", URLTools.HEADER_JSON, (request, response) -> AbstractKeyWordsManager.getInstance().toJson(), transformer);
+		
+		get("/metadata/categories", URLTools.HEADER_JSON, (request, response) -> EnumItems.values(), transformer);
+		
+		get("/metadata/version", "text", (request, response) ->  
 			 getCached(request.pathInfo(), new Callable<Object>() {
 				@Override
 				public String call() throws Exception {

@@ -41,7 +41,7 @@
 	
 	
 		$.ajax({
-			url : restserver + "/categories"
+			url : restserver + "/metadata/categories"
 		}).then(function(categs) {
 			$.each(categs, function(key, value) {
 				$("#categories").append("<option value='"+value+"'>"+value+"</option>")
