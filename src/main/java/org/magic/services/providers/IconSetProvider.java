@@ -308,6 +308,9 @@ public class IconSetProvider {
 		equiv.put("PF21", "PMEI");
 		equiv.put("OMIC", "MID");
 		equiv.put("OVOC", "VOW");
+		equiv.put("YNEO", "Y22");
+		equiv.put("YMID", "Y22");
+		
 		}
 	
 	private String getEquiv(String set) 
