@@ -14,7 +14,7 @@
 
 
 
-     <link href="//cdn.jsdelivr.net/npm/datatables@latest/media/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" >
+    <link href="//cdn.jsdelivr.net/npm/datatables@latest/media/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" >
  	<script src="//cdn.jsdelivr.net/npm/datatables@latest/media/js/jquery.dataTables.min.js"></script>
 	<script src="//cdn.jsdelivr.net/npm/datatables-bootstrap@latest/js/dataTables.bootstrap.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/datatables-responsive@latest/js/dataTables.responsive.min.js"></script>
@@ -90,10 +90,12 @@
 		        	var api = this.api(), data;
 		        	// Total over all pages
 		            total = 0;
+		        	
 					api.cells(null,7).render().each(function(item) {
 						total += item.qte*item.price;
 					})
 		 			
+					var transaction = data;
 					shippingPrice=eval(getConfig().shippingRules);
 					
 					 // Update footer

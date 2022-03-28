@@ -172,7 +172,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		converter = new JsonExport();
 		
 		
-		if(getBoolean("PRETTY_PRINT"))
+		if(!getBoolean("PRETTY_PRINT"))
 			converter.removePrettyString();
 		
 		ua = UserAgentAnalyzer.newBuilder().build();
