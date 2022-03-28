@@ -16,7 +16,7 @@
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"/>
   <link href="https://cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-bs5.min.css">
+  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.css">
   <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/owl.carousel@2.2.0/dist/assets/owl.carousel.min.css">
 
   
@@ -31,7 +31,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.5.5/perfect-scrollbar.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scrollbar/8.7.4/smooth-scrollbar.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-bs4.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/owl.carousel@2.2.0/dist/owl.carousel.min.js"></script>
   
   <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
@@ -39,7 +39,6 @@
   <script src="../dist/js/rest-server.js"></script>
   <script src="../dist/js/js-var.js"></script>
   <script src="../dist/js/mtgcompanion-ui.js"></script>
-
 
 
   <script>
@@ -83,19 +82,24 @@
 			
 			
 			$('#announceDescription').summernote({
-				disableDragAndDrop : true,
 				height : 250, // set editor height
 				focus : false,
 				toolbar: [
-							    ['style', ['bold', 'italic', 'underline', 'clear']],
-							    ['font', ['strikethrough', 'superscript', 'subscript']],
-							    ['fontsize', ['fontsize']],
-							    ['color', ['color']],
-							    ['para', ['ul', 'ol', 'paragraph']],
-							    ['height', ['height']]
-							  ]
+					  ['style', ['style']],
+					  ['font', ['bold', 'underline', 'clear']],
+					  ['fontname', ['fontname']],
+					  ['color', ['color']],
+					  ['para', ['ul', 'ol', 'paragraph']],
+					  ['table', ['table']],
+					  ['insert', ['link', 'video']],
+					  ['view', ['codeview', 'help']],
+					]
 
 			});
+			$('.dropdown-toggle').dropdown();
+			
+			
+			
 			
 			$.ajax({
 				url : restserver + "/metadata/categories"
@@ -265,9 +269,11 @@
 				<br/>
 				
 				<h6 class="mb-0 mt-3"><i class="fa-solid fa-comment"></i>Comment</h6>
+				
 				<section id="editor">
 					<div id="announceDescription"></div>
 				</section>
+				
 				<br/>
 				<button id="btnUpdate" type="button" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Save</button>
 				<button id="btnPhoto" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#snapModal"><i class="fa-solid fa-camera"></i> Take a pic</button>
