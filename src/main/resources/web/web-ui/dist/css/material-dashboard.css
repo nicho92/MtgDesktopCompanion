@@ -4141,6 +4141,10 @@ textarea.form-control-lg {
     color:#f61200;
     background-color:#fcd3d0
 }
+ .badge-info {
+    color:#ADD8E6;
+    background-color:#1E90FF
+}
 
 
 .badge:empty {
