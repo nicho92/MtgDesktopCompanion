@@ -66,12 +66,12 @@
 	        	  	{ 
 		                "data": "id",
 		                "defaultContent": "",
-		                "render": function(d, type, row, meta){
-							  if(type === 'display'){
-									return "<a href='announce.html?id="+d+"&type=ANNOUNCE'>"+d+"</a>";
-								}
-								return d;
-							}
+						"render": function(data, type, row, meta){
+			                	 if(type === 'display'){
+									return "<a href='announce.html?id="+data+"&type=ANNOUNCE'><i class='fa-solid fa-pen-to-square'></i></a>";
+			                	 }
+		                   		return data;
+							}					
 		            },
 		            { 
 		                "data": "title",

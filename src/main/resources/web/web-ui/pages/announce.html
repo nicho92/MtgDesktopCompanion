@@ -41,6 +41,14 @@
   <script src="../dist/js/mtgcompanion-ui.js"></script>
 
 
+
+<style>
+.img-fluid {
+	border-radius: 5%;
+}
+
+</style>
+
   <script>
   function buildImage(ged, classes)
   {
@@ -95,7 +103,6 @@
 					  ['view', ['codeview', 'help']],
 					]
 			});
-			$('.dropdown-toggle').dropdown();
 			
 			
 			
@@ -133,11 +140,7 @@
 					$("#announceImage").owlCarousel({
 						autoplay: true,
 						nav: true,
-						autoplayHoverPause: true,
-						smartSpeed: 350,
 						dots: true,
-						margin: 30,
-						loop: true,
 						navText: ['<i class="fa-solid fa-chevron-left"></i>', '<i class="fa-solid fa-chevron-right"></i>'],
 						responsiveClass: true,
 						responsive: {

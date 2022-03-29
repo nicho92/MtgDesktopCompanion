@@ -2,6 +2,36 @@ table.dataTable tbody tr {
     background-color: transparent !important; 
 }
 
+.note-editor .dropdown-toggle::after { all: unset; }
+
+
+
+.owl-nav {
+	position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+}
+
+.owl-prev, .owl-next {
+                position: absolute;
+                height: 100px;
+                color: inherit;
+                background: none;
+                border: none;
+                z-index: 100;
+                font-size: 2.5rem;
+                color: #cecece;
+}
+
+.owl-prev {
+                left: 0;
+}
+
+.owl-next {
+                right: 0;
+}
+
 
 
 .card-grid-item-transform-button {
