@@ -171,7 +171,8 @@
 						
 						
 						$('#pic').attr("src", uri);
-						$("#cardname").html(card.name);
+						$("#cardname").html('<i class="ss ss-grad ss-'+card.editions[0].keyRuneCode.toLowerCase()+' ss-'+card.rarity.toLowerCase()+' ss-2x"></i>');
+						$("#cardname").append( " " + card.name);
 						$("#artist").html(card.artist);
 						$('#number').append(card.editions[0].number +"/" + card.editions[0].cardCountOfficial);
 						
@@ -335,7 +336,7 @@
 						$.get(restserver+"/dash/variations/card/"+card.id,function(dprice){
 								printChartPrices("chartPrice",dprice);
 								
-							
+								try{
 								var vallast = dprice.normal[dprice.normal.length - 1].value;
 								
 								var vallastF =0.0;
@@ -358,6 +359,11 @@
 								
 								$("#historyProvider").html("Price in " + dprice.currency + " by " + dprice.provider);
 								$("#lastPrice").html(vallast.toFixed(2) + " /  " + vallastF.toFixed(2) + "(F) " + dprice.currency);
+								}
+								catch(error)
+								{
+									console.log(error);
+								}
 						});					
 						
 						 $.get({
