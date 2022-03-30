@@ -31,7 +31,7 @@
   <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
   <script src="https://cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/random-color-array-generator@1.0.3/ColorGeneratorCDN.min.js"></script>
   <script src="../dist/js/rest-server.js"></script>
   <script src="../dist/js/js-var.js"></script>
   <script src="../dist/js/mtgcompanion-ui.js"></script>
@@ -172,7 +172,86 @@
 		        ],
 		        "fnDrawCallback" :function(oSettings, json) {
 		        	mtgtooltip($(".mtg-tooltip"));
-		        }
+		        },
+  				"fnInitComplete" :function(oSettings, json) {
+						
+					var dt = this.fnGetData();  
+					
+					var countType= dt.reduce(function (result, d) {
+					    var u = d.types[0];
+					     if (!result[u]) {
+					        result[u] = 0;
+					    }
+					    result[u]++;
+					    return result;
+						}, {});
+				    var ctx = document.getElementById("type-chart").getContext("2d");
+				    printChart(ctx, "doughnut","types", Object.keys(countType),Object.values(countType), false,  new ColorGenerator(15).generateRGB());
+	
+	
+					
+					var countRarities= dt.reduce(function (result, d) {
+					    var u = d.rarity;
+					     if (!result[u]) {
+					        result[u] = 0;
+					    }
+					    result[u]++;
+					    return result;
+						}, {});
+				    var ctx = document.getElementById("rarities-chart").getContext("2d");
+					
+					var myColors=[];
+					$.each(Object.keys(countRarities), function( index,value ) {
+							
+							if(value=="COMMON")
+								myColors[index]="black";
+							else if(value=="UNCOMMON")
+								myColors[index]="grey";
+							else if(value=="RARE")
+								myColors[index]="rgb(255,215,0)";
+							else if(value=="MYTHIC")
+								myColors[index]="rgb(255,99,71)";
+							else 
+								myColors[index]="rgb(147,112,219)";
+							
+							
+					});
+
+
+				    printChart(ctx, "doughnut","rarity", Object.keys(countRarities),Object.values(countRarities), false,myColors);
+					
+				var countColors= dt.reduce(function (result, d) {
+					    	var u = "NONE";
+							
+							if(d.colors.length==0)
+								u="COLORLESS";
+							else if (d.colors.length>1)	
+								u="MULTI";
+							else u=d.colors[0];
+							
+						     if (!result[u]) {
+						        result[u] = 0;
+						     }
+	
+					    result[u]++;
+					    return result;
+						}, {});
+				    
+					var ctx = document.getElementById("colors-chart").getContext("2d");
+					 myColors=[];
+					$.each(Object.keys(countColors), function( index,value ) {
+							
+							if(value=="COLORLESS")
+								myColors[index]="grey";
+							else if(value=="MULTI")
+								myColors[index]="yellow";
+							else 	
+								myColors[index]=value;
+							
+					});
+					
+				    printChart(ctx, "pie","color", Object.keys(countColors),Object.values(countColors), false, myColors);
+				}
 		    } );
 		});
 </script>
@@ -184,6 +263,55 @@
 	<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true"></nav>
   
     <div class="container-fluid py-4">
+	<iv class="row mt-4">
+        <div class="col-lg-4 col-md-6 mt-4 mb-4">
+          <div class="card z-index-2 ">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 bg-transparent">
+              <div class="bg-gradient-warning shadow-warning border-radius-lg py-3 pe-1">
+                <div class="chart">
+                  <canvas id="type-chart" class="chart-canvas" height="170"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <h6 class="mb-0 ">	Types</h6>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 mt-4 mb-4">
+          <div class="card">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 bg-transparent">
+              <div class="bg-gradient-success shadow-success border-radius-lg py-3 pe-1">
+                <div class="chart">
+                  <canvas id="rarities-chart" class="chart-canvas" height="170"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <h6 class="mb-0 ">Rarities </h6>
+            </div>
+          </div>
+        </div>
+		 <div class="col-lg-4 col-md-6 mt-4 mb-4">
+          <div class="card">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 bg-transparent">
+              <div class="bg-gradient-info shadow-info border-radius-lg py-3 pe-1">
+                <div class="chart">
+                  <canvas id="colors-chart" class="chart-canvas" height="170"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <h6 class="mb-0 ">Colors </h6>
+            </div>
+
+          </div>
+        </div>       	
+
+
+      </div>
+
+
 
       <div class="row mb-4">
         <div class="col-lg-12 col-md-6 mb-md-0 mb-4">

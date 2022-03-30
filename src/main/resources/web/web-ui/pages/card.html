@@ -62,14 +62,12 @@
   	var table;
 	$.fn.dataTable.ext.errMode = 'none';
 	
-  function turnCSS(elem, src) {
+  function turn(elem, src) {
 	    $(elem)
 	        .addClass("flipping")
 	        .bind("transitionend webkittransitionend", function () { //should add more prefixes
 	        this.src = src;
-	        $(this)
-	            .unbind("transitionend webkittransitionend")
-	            .removeClass("flipping")
+	        $(this).unbind("transitionend webkittransitionend").removeClass("flipping");
 	    })
 	}
   
@@ -79,9 +77,8 @@
 			$("#notifs").load("inc/notifs.html");
 			$("#navbarBlur").load("inc/nav.html",function(){
 				$("[name='categTitle']").html("Card");
-				
-				/*$("#menuDecks").addClass("bg-gradient-primary");
-				$("#menuDecks").addClass("active");*/
+
+
 			});
 			$("#navfooter").load("inc/footer.html");
 			$("#settingPanel").load("inc/settingPanel.html");
@@ -183,7 +180,7 @@
 						else
 							$('#types').append(card.types);
 						
-						$("#oracleText").append(card.text.replace(/\n/g, "<br />").replace(" token","<u><span class='mtg-tooltip'> token</span></u>"));
+						$("#oracleText").html(card.text.replace(/\n/g, "<br />").replace(" token","<u><span class='mtg-tooltip'> token</span></u>"));
 						mtgtooltipTokenFor($(".mtg-tooltip"),card.scryfallId);
 						
 						var front = uri;
@@ -193,8 +190,20 @@
 							
 							var back = "https://api.scryfall.com/cards/"+card.scryfallId+"?format=image&face=back";
 							$("#pic").click(function () {
-							    var src = this.src == back ? front : back; //for toggling fun
-							    turnCSS(this, src)
+							    var src = this.src == back ? front : back; 
+							    turn(this, src);
+								
+								if(src==back)
+								{
+									$("#oracleText").html(card.rotatedCard.text.replace(/\n/g, "<br />").replace(" token","<u><span class='mtg-tooltip'> token</span></u>"));
+									mtgtooltipTokenFor($(".mtg-tooltip"),card.scryfallId);
+								}
+								else
+								{
+									$("#oracleText").html(card.text.replace(/\n/g, "<br />").replace(" token","<u><span class='mtg-tooltip'> token</span></u>"));
+									mtgtooltipTokenFor($(".mtg-tooltip"),card.scryfallId);
+								}
+			
 							});
 							
 						}
@@ -296,7 +305,7 @@
 				{
 					$('.badge[attr="'+card.legalities[i].format+'"]').removeClass("bg-danger");
 					$('.badge[attr="'+card.legalities[i].format+'"]').addClass("bg-success");
-					$('.badge[attr="'+card.legalities[i].format+'"]').attr("data-bs-original-title","LEGAL");
+					$('.badge[attr="'+card.legalities[i].format+'"]').attr("data-bs-original-title","Legal");
 					
 					
 				}
@@ -304,7 +313,7 @@
 				{
 					$('.badge[attr="'+card.legalities[i].format+'"]').removeClass("bg-danger");
 					$('.badge[attr="'+card.legalities[i].format+'"]').addClass("bg-warning");
-					$('.badge[attr="'+card.legalities[i].format+'"]').attr("data-bs-original-title","LEGAL");
+					$('.badge[attr="'+card.legalities[i].format+'"]').attr("data-bs-original-title","Restricted");
 				}
 				
 					
@@ -352,7 +361,7 @@
 						});					
 						
 						 $.get({
-			  	  	        url: restserver+"/collections/cards/"+card.id
+			  	  	        url: restserver+"/collections/cards/"+card.scryfallId
 					  	  	    }).then(function(data) {
 					  	  	    	for (var i = 0; i < data.length; i++) {
 					  	  	    		$('#collections').append(data[i].name);
@@ -360,6 +369,13 @@
 					  	  	    });
 						
 							
+							 $.get({
+			  	  	        url: restserver+"/cards/moreLike/"+card.scryfallId
+					  	  	    }).then(function(data) {
+					  	  	    	for (var i = 0; i < data.length; i++) {
+										$('#moreLikeThis').append('<li class="list-group-item"><i class="ss ss-'+data[i].keyrune.toLowerCase()+' ss-2x"></i><a href="card.html?scryfallid='+data[i].scryfallId+'">'+ data[i].name+ "</a></li>");
+					  	  	    	}
+					  	  	    });
 						 
 						 
 						 	$( "#snapModal" ).on('shown.bs.modal', function(e){
@@ -402,7 +418,7 @@
 						$(document).on('click',"a[name='btnLoadPrice']",function(){
 								$("#tabPrices li a").removeClass("active");
 								$(this).addClass("active");
-								table.ajax.url(restserver+"/prices/details/"+$(this).text()+"/"+card.id).load();
+								table.ajax.url(restserver+"/prices/details/"+$(this).text()+"/"+card.scryfallId).load();
 						});				
 						
 				
@@ -435,7 +451,7 @@
 						<button type="button" title="Transform" tabindex="-1" class="card-grid-item-transform-button" id="btnTransform" style="visibility: hidden;"><svg focusable="false" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path d="M884.3,357.6c116.8,117.7,151.7,277-362.2,320V496.4L243.2,763.8L522,1031.3V860.8C828.8,839.4,1244.9,604.5,884.3,357.6z"></path><path d="M557.8,288.2v138.4l230.8-213.4L557.8,0v142.8c-309.2,15.6-792.1,253.6-426.5,503.8C13.6,527.9,30,330.1,557.8,288.2z"></path></svg></button>
 					</div>
 					<div class="card-footer p-3 text-end">
-						<button id="alertBtn" type="button" class="btn btn-circle btn-warning toast-btn" data-bs-placement="bottom" data-bs-toggle="tooltip" title="add alert" >
+							<button id="alertBtn" type="button" class="btn btn-circle btn-warning toast-btn" data-bs-placement="bottom" data-bs-toggle="tooltip" title="add alert" >
 								<i class="fa-solid fa-bell"></i>
 							</button>
 							<button id="stockBtn" type="button" class="btn btn-circle btn-primary toast-btn" data-bs-placement="bottom" data-bs-toggle="tooltip" title="add to stock">
@@ -444,7 +460,7 @@
 							<button id="addCardBtn" type="button" class="btn btn-circle btn-danger toast-btn" data-bs-placement="bottom" data-bs-toggle="tooltip" title="add to default library">
 								<i class="fa-solid fa-circle-plus"></i>
 							</button>
-							<button id="addPicBtn" type="button" class="btn btn-circle btn-info toast-btn" data-bs-placement="bottom" data-bs-toggle="modal" data-bs-target="#snapModal" title="add a picture">
+							<button id="addPicBtn" type="button" class="btn btn-circle btn-info toast-btn" data-bs-placement="bottom" data-bs-toggle="modal" title="add a picture"  data-bs-target="#snapModal" >
 								<i class="fa-solid fa-camera"></i>
 							</button>
 					</div>
@@ -454,7 +470,7 @@
 				<div class="card">
 					<div class="card-header p-0 position-relative mt-n4 mx-3">
 						<div class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-2">
-							<h6 class="text-white text-capitalize ps-3" id="cardname">Collections</h6>
+							<h6 class="text-white text-capitalize ps-3">Collections</h6>
 						</div>
 					</div>
 					<div class="card-body px-4 pb-2">
@@ -465,6 +481,20 @@
 					</div>
 				</div>
 				
+				<br/><br/>
+				<div class="card">
+					<div class="card-header p-0 position-relative mt-n4 mx-3">
+						<div class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-2">
+							<h6 class="text-white text-capitalize ps-3" >More Like This</h6>
+						</div>
+					</div>
+					<div class="card-body px-4 pb-2">
+						 <ul class="list-group" id="moreLikeThis"></ul>       
+					</div>
+					<div class="card-footer p-3">
+						
+					</div>
+				</div>
 				
 			</div>
         

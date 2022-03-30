@@ -34,6 +34,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import javax.swing.Icon;
@@ -248,6 +249,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 			{
 				return guava.stats();
 			}
+
+			@Override
+			public void removeEntry(String params) {
+				guava.invalidate(params);
+			}
 			
 			
 		};
@@ -360,10 +366,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 	@SuppressWarnings("unchecked")
 	private void initRoutes() {
 
-		get("/cards/search/:att/:val", URLTools.HEADER_JSON,
-				(request, response) -> getEnabledPlugin(MTGCardsProvider.class).searchCardByCriteria(request.params(":att"), request.params(":val"), null, false),
-				transformer);
-	
 		get("/cards/token/:scryfallId", URLTools.HEADER_JSON,(request, response) -> {
 			
 			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
@@ -379,6 +381,16 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/cards/suggestcard/:val", URLTools.HEADER_JSON,
 				(request, response) -> getEnabledPlugin(MTGCardsIndexer.class).search("name:\""+request.params(":val")+"\"").stream().map(MagicCard::toLightJson).toList(),
 				transformer);
+		
+	
+		get("/cards/moreLike/:scryfallId", URLTools.HEADER_JSON,(request, response) -> {
+			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
+			return getEnabledPlugin(MTGCardsIndexer.class).similarity(mc).keySet().stream()
+																																 .filter(c->!c.getName().equals(mc.getName()))
+																																 .map(MagicCard::toLightJson)
+																																 .toList();
+		},transformer);
+		
 		
 		//used only in chromeplugin
 		get("/cards/light/:name", URLTools.HEADER_JSON,(request, response) -> {
@@ -536,8 +548,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 				})
 		, transformer);
 
-		get("/cards/:id", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(":id")), transformer);
-		
 		get("/cards/:idSet/cards", URLTools.HEADER_JSON, (request, response) -> 
 			 getCached(request.pathInfo(), new Callable<Object>() {
 				@Override
@@ -556,13 +566,10 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/collections/list", URLTools.HEADER_JSON,
 				(request, response) -> getEnabledPlugin(MTGDao.class).listCollections(), transformer);
 
-		get("/collections/cards/:idcards", URLTools.HEADER_JSON, (request, response) -> {
-			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(":idcards"));
+		get("/collections/cards/:scryfallId", URLTools.HEADER_JSON, (request, response) -> {
+			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
 			return getEnabledPlugin(MTGDao.class).listCollectionFromCards(mc);
 		}, transformer);
-
-		get("/collections/:name", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGDao.class)
-				.getCollection(request.params(NAME)), transformer);
 
 		put("/collections/add/:name", URLTools.HEADER_JSON, (request, response) -> {
 			getEnabledPlugin(MTGDao.class).saveCollection(request.params(NAME));
@@ -601,13 +608,12 @@ public class JSONHttpServer extends AbstractMTGServer {
 			})
 		, transformer);
 
-		get("/prices/:idSet/:name", URLTools.HEADER_JSON, (request, response) -> 
+		get("/prices/:scryfallId", URLTools.HEADER_JSON, (request, response) -> 
 			getCached(request.pathInfo(), new Callable<Object>() {
 				
 				@Override
 				public List<MagicPrice> call() throws Exception {
-					MagicEdition ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(ID_SET));
-					MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( request.params(NAME), ed, false).get(0);
+					MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId( request.params(SCRYFALL_ID));
 					List<MagicPrice> pricesret = new ArrayList<>();
 					for (MTGPricesProvider prices : listEnabledPlugins(MTGPricesProvider.class))
 					{
@@ -624,23 +630,23 @@ public class JSONHttpServer extends AbstractMTGServer {
 			})
 			, transformer);
 			
-		get("/prices/details/:provider/:idCards", URLTools.HEADER_JSON, (request, response) -> 
+		get("/prices/details/:provider/:scryfallId", URLTools.HEADER_JSON, (request, response) -> 
 				getCached(request.pathInfo(), new Callable<Object>() {
 					
 					@Override
 					public List<MagicPrice> call() throws Exception {
-						MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(ID_CARDS));
+						MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
 						return MTG.getPlugin(request.params(PROVIDER).trim(),MTGPricesProvider.class).getPrice(mc);
 					}
 				})
 		, transformer);
 		
-		get("/partner/:idCards", URLTools.HEADER_JSON, (request, response) -> 
+		get("/partner/:scryfallId", URLTools.HEADER_JSON, (request, response) -> 
 			getCached(request.pathInfo(), new Callable<Object>() {
 				
 				@Override
 				public List<MagicPrice> call() throws Exception {
-					MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(ID_CARDS));
+					MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
 					return MTG.listEnabledPlugins(MTGPricesProvider.class).stream().filter(MTGPlugin::isPartner).map(pricer->pricer.getBestPrice(mc)).toList();
 				}
 			})
@@ -1061,6 +1067,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			clearCache();
 			return RETURN_OK;
 		}, transformer);
+		
 		
 		get("/admin/plugins/list", URLTools.HEADER_JSON, (request, response) -> {
 			var obj = new JsonObject();

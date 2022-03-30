@@ -15,7 +15,6 @@ public abstract class AbstractEmbeddedCacheProvider<U, V> extends AbstractMTGPlu
 	public abstract Map<U, V> entries();
 
 	public abstract Object getStat() ;
-		
 
-
+	public abstract void removeEntry(String params) ;
 }

@@ -185,7 +185,7 @@
 							
 							
 
-							$.get(restserver+"/partner/"+card.id,function(data){
+							$.get(restserver+"/partner/"+card.scryfallId,function(data){
 								$("#partner").empty();
 								data.forEach( function(item,index){
 									if(item!=null){
@@ -278,7 +278,7 @@
 					$(document).on('click',"a[name='btnLoadPrice']",function(){
 								$("#tabPrices li a").removeClass("active");
 								$(this).addClass("active");
-								table.ajax.url(restserver+"/prices/details/"+$(this).text()+"/"+card.id).load();
+								table.ajax.url(restserver+"/prices/details/"+$(this).text()+"/"+card.scryfallId).load();
 						});				
 					
 					$(document).on('click',"a[id='linkshare']",function(e){
