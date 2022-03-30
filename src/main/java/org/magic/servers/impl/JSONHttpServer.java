@@ -974,6 +974,13 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}
 		, transformer);
 		
+		
+		delete("/deck/:idDeck", URLTools.HEADER_JSON,(request, response) -> {
+			
+			var d = manager.getDeck(Integer.parseInt(request.params(":idDeck")));
+			manager.remove(d);
+			return RETURN_OK;
+		},transformer);
 
 		get("/deck/:idDeck", URLTools.HEADER_JSON,(request, response) -> {
 			

@@ -72,13 +72,22 @@
 					printBarChart(ctx2,"bar","types",Object.keys(datastat.types),Object.values(datastat.types),false,"transparent");	
 				  
 				    var ctx3 = document.getElementById("chart-line-tasks").getContext("2d");
-					printChart(ctx3, "doughnut", "Rarity", Object.keys(datastat.rarity),Object.values(datastat.rarity), false,  [
-				      			'rgb(0,0,0)',
-				      			'rgb(192,192,192)',
-				      			'rgb(255,215,0)',
-								'rgb(255,99,71)',
-								'rgb(147,112,219)'
-				    	  ]);
+					
+					var myColors=[];
+					$.each(Object.keys(datastat.rarity), function( index,value ) {
+							
+							if(value=="Common")
+								myColors[index]="black";
+							else if(value=="Uncommon")
+								myColors[index]="grey";
+							else if(value=="Rare")
+								myColors[index]="rgb(255,215,0)";
+							else if(value=="Mythic")
+								myColors[index]="rgb(255,99,71)";
+							else 
+								myColors[index]="rgb(147,112,219)";
+					});
+					printChart(ctx3, "doughnut", "Rarity", Object.keys(datastat.rarity),Object.values(datastat.rarity), false, myColors);
 				});
 			
 			$.ajax({
@@ -116,6 +125,22 @@
 				});
 				
 				$("#cardTotal").html(total);
+				
+				
+				$("#btnDelete").click( function() {
+		   	  			var id = $(this).attr('value');
+						$.ajax({
+							url:restserver+"/deck/"+data.id,
+							type: 'DELETE'
+						}).done(function(data) {
+   							location.href = 'decks.html';
+				   		 }).fail(function(data,status,error) {
+				   			alert(JSON.stringify(data) + " " + error);
+				   		 });
+	   	  			});	
+				
+				
+				
 	  	    });
 		});
   </script>
@@ -282,7 +307,15 @@
 					  <ul class="list-group" id="tags"></ul>            
             </div>
           </div>
-
+<br/>
+		 <div class="card ">
+            <div class="card-header pb-0">
+              <h6>Actions</h6>
+            </div>
+            <div class="card-body p-3">
+					 <button id="btnDelete" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="fa-solid fa-trash"></i> Delete</button>            
+            </div>
+          </div>
 		
 
         </div>
