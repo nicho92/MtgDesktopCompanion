@@ -61,7 +61,7 @@
   {
 	  return dt.getFullYear() + "-" + ("0" + (dt.getMonth()+1)).slice(-2) + "-" + ("0" + dt.getDate()).slice(-2) + "T" + ("0" + dt.getHours()).slice(-2) + ":" + ("0" + dt.getMinutes()).slice(-2) + ":" + ("0" + dt.getSeconds()).slice(-2);
   }
-  
+
   
 	$(document).ready(function() {
 			$("#sidenav-main" ).load("inc/menu.html" );
@@ -196,8 +196,10 @@
 						data.totalPrice=$("#announcePrice").val();
 						data.condition=$("#announceCondition").val();
 						data.description=$("#announceDescription").summernote('code');
-				//		data.startDate=	$("#startDate").val();
-				//		data.endDate=$("#endDate").val();
+
+						
+						data.startDate=	new Date($("#startDate").val());
+						data.endDate= new Date($("#endDate").val());
 						data.type=$("#rdoBuy").is(':checked')?"BUY":"SELL";
 						
 						$.ajax({
@@ -266,7 +268,7 @@
 			
 			
 			<div class="row">
-				<div class="col-lg-4"><h6 class="mb-0 mt-3"><i class="fa-solid fa-calendar"></i>Creation</h6><input type="datetime-local" value="" class="form-control" id="creationDate"/></div>
+				<div class="col-lg-4"><h6 class="mb-0 mt-3"><i class="fa-solid fa-calendar"></i>Creation</h6><input type="datetime-local" value="" class="form-control" id="creationDate" disabled/></div>
 				<div class="col-lg-4"><h6 class="mb-0 mt-3"><i class="fa-solid fa-calendar"></i>Start</h6><input type="datetime-local" value="" class="form-control" id="startDate"/></div>
 				<div class="col-lg-4"><h6 class="mb-0 mt-3"><i class="fa-solid fa-calendar"></i>End</h6><input type="datetime-local" value="" class="form-control" id="endDate"/></div>
 			</div>
