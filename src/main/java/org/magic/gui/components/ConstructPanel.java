@@ -422,7 +422,11 @@ public class ConstructPanel extends MTGUIComponent {
 						protected Void doInBackground() throws Exception {
 							for (MagicCard mc : deck.getMain().keySet()) {
 								try {
-									updateM.put(getEnabledPlugin(MTGCardsProvider.class).searchCardByName(mc.getName(), mc.getCurrentSet(), true).get(0),deck.getMain().get(mc));
+									
+									var newMc= getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(mc.getCurrentSet().getNumber(), mc.getCurrentSet());
+									if(newMc==null)
+										newMc=mc;
+									updateM.put(newMc,deck.getMain().get(mc));
 									publish(mc);
 								} catch (Exception e) {
 									logger.error("error update " + mc,e);
@@ -430,7 +434,10 @@ public class ConstructPanel extends MTGUIComponent {
 							}
 							for (MagicCard mc : deck.getSideBoard().keySet()) {
 								try {
-									updateS.put(getEnabledPlugin(MTGCardsProvider.class).searchCardByName(mc.getName(), mc.getCurrentSet(), true).get(0),deck.getSideBoard().get(mc));
+									var newMc= getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(mc.getCurrentSet().getNumber(), mc.getCurrentSet());
+									if(newMc==null)
+										newMc=mc;
+									updateS.put(newMc,deck.getSideBoard().get(mc));
 									publish(mc);
 								} catch (Exception e) {
 									logger.error("error update " + mc,e);

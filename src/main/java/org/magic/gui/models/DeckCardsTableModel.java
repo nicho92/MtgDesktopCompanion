@@ -85,7 +85,7 @@ public class DeckCardsTableModel extends DefaultTableModel {
 			mc = deck.getValueAt(row);
 			break;
 		}
-
+		
 		if (column == 0)
 			return mc;
 

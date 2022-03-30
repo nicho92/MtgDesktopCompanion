@@ -150,13 +150,13 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	
 	@Override
 	public List<MagicCard> searchCardByName(String name, MagicEdition me, boolean exact) throws IOException {
-		return searchCardByCriteria("faceName",name, me, exact);
+		return searchCardByCriteria("name",name, me, exact);
 	}
 	
 	
 	@Override
 	public List<MagicCard> searchCardByName(String name, MagicEdition me, boolean exact, MTGCardVariation extra) throws IOException{
-		return searchCardByCriteria("faceName",name, me, exact,extra);
+		return searchCardByCriteria("name",name, me, exact,extra);
 	}
 	
 	

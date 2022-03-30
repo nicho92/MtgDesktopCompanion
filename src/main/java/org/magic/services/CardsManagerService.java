@@ -28,7 +28,11 @@ public class CardsManagerService {
 	public static MagicCard switchEditions(MagicCard mc, MagicEdition ed)
 	{
 		try {
-			return getEnabledPlugin(MTGCardsProvider.class).searchCardByName(mc.getName(), ed, true).get(0);
+			
+			if(mc.isDoubleFaced())
+				return getEnabledPlugin(MTGCardsProvider.class).searchCardByCriteria("faceName",mc.getName(), ed, false).get(0);
+			else	
+				return getEnabledPlugin(MTGCardsProvider.class).searchCardByName(mc.getName(), ed, true).get(0);
 		} catch (IOException e) {
 			logger.error(mc +" is not found in " + ed);
 			return mc;
