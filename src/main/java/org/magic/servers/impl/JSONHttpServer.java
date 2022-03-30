@@ -753,6 +753,15 @@ public class JSONHttpServer extends AbstractMTGServer {
 			getEnabledPlugin(MTGDao.class).saveOrUpdateCardStock(stock);
 			return RETURN_OK;
 		});
+		
+		
+		delete("/stock/:idStock", (request, response) -> {
+			var stock = getEnabledPlugin(MTGDao.class).getStockById(Long.parseLong(request.params(":idStock")));
+			getEnabledPlugin(MTGDao.class).deleteStock(stock);
+			
+			return RETURN_OK;
+		});
+		
 
 		post("/stock/sync/:from/:to", (request, response) -> {
 			

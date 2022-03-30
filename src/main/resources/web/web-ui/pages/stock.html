@@ -166,6 +166,19 @@
 					$("#instock").addClass("badge-warning")	
 				}	
 				
+				$("#btnDelete").click( function() {
+		   	  			var id = $(this).attr('value');
+						$.ajax({
+							url:restserver+"/stock/"+data.id,
+							type: 'DELETE'
+						}).done(function(data) {
+   							location.href = 'stocks.html';
+				   		 }).fail(function(data,status,error) {
+				   			alert(JSON.stringify(data) + " " + error);
+				   		 });
+				});
+				
+				
 			
 				$("#btnUpdate").on("click",function(){
 						var obj = {
@@ -295,7 +308,7 @@
 				<br/>
 				<button id="btnUpdate" type="button" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Save</button>
 				<button id="btnPhoto" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#snapModal"><i class="fa-solid fa-camera"></i> Take a pic</button>
-			
+				<button id="btnDelete" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="fa-solid fa-trash"></i> Delete</button>
 		</div>
 	
 	
