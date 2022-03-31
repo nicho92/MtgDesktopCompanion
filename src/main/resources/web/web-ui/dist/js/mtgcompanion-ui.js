@@ -319,23 +319,22 @@ function printDeck(element, deckData)
 		        	  "data": "card.cost",
 		        	  "defaultContent": "",
 		        	  "width": "5%",
-		        	  "render": function(data, type, row, meta){
-		                   if(type === 'display'){
-		                	   if(data!=null)
-		                	   {
+		        	  "render": function(data, type, row, meta) {
+		                   if(type === 'display') {
+		                	   if(data!=null) {
 			                	   var d=data.match(/[^{}]+(?=\})/g);
-			                	   if(d!=null){
+			                	   if(d!=null) {
 			                		   var ret="";
 			                		   for (var i = 0; i < d.length; i++) {
 			                				ret +='<i class="ms ms-'+formatMana(d[i]).toLowerCase()+' ms-cost ms-shadow"></i>';
 			                			}
+										return ret;
 			                	   }
+								   return "";
 		                   		}
-		                	   return ret;
-		                   }
-	        	
-		                   
-		             }
+ 		            		}//end display
+							return row.card.cmc;
+	        	 	}
 		        },
 	        	{ 
 		        	  "data": "card.editions",

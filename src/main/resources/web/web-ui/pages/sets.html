@@ -117,6 +117,19 @@
 					},
 					{ "data": "releaseDate",
 		               "defaultContent": ""
+		            },
+					{ 
+					  "data": "onlineOnly",
+		              "defaultContent": "",
+		                "render": function(data, type, row, meta){
+		                	 if(type === 'display'){
+								 if(data===true)
+		                			 	return "<span class='fa fa-check'/>";
+								else
+										return "";
+		                	 }
+		                   return data===true?"online":"";
+		                }
 		            }
 		        ]
 		    } );
@@ -160,7 +173,7 @@
 					  <th >Type</th>
 					  <th >Block</th>
                       <th >Release Date</th>
-
+ 					  <th >Online</th>
                     </tr>
                   </thead>
                 </table>
