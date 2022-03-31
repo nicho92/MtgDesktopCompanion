@@ -22,11 +22,13 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.conn.HttpClientConnectionManager;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.DefaultHttpResponseFactory;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.client.LaxRedirectStrategy;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
@@ -46,6 +48,8 @@ public class MTGHttpClient {
 	private BasicCookieStore cookieStore;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private HttpResponse response;
+	private HttpClientConnectionManager connectionManager ;
+	
 	
 	public HttpClient getHttpclient() {
 		return httpclient;
@@ -61,11 +65,23 @@ public class MTGHttpClient {
 	
 	public MTGHttpClient() {
 		
+		connectionManager = new PoolingHttpClientConnectionManager();
+		connectionManager.closeExpiredConnections();
+		
+		
 		httpclient = HttpClients.custom()
 					 .setUserAgent(MTGConstants.USER_AGENT)
 					 .setRedirectStrategy(LaxRedirectStrategy.INSTANCE)
-					 .setDefaultRequestConfig(RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).setConnectTimeout(MTGConstants.CONNECTION_TIMEOUT).build())
+					 .setConnectionManager(connectionManager)
+					 .setDefaultRequestConfig(RequestConfig.custom()
+							 							   .setCookieSpec(CookieSpecs.STANDARD)
+							 							   .setConnectTimeout(MTGConstants.CONNECTION_TIMEOUT)
+							 							   .setSocketTimeout(MTGConstants.CONNECTION_TIMEOUT)
+							 							   .setConnectionRequestTimeout(MTGConstants.CONNECTION_TIMEOUT)
+							 							   .build())
 					 .build();
+		
+		
 		httpContext = new HttpClientContext();
 		cookieStore = new BasicCookieStore();
 		httpContext.setCookieStore(cookieStore);
@@ -76,6 +92,10 @@ public class MTGHttpClient {
 		var ret = EntityUtils.toString(response.getEntity());
 		EntityUtils.consume(response.getEntity());
 		return ret;
+	}
+	
+	public HttpClientConnectionManager getConnectionManager() {
+		return connectionManager;
 	}
 	
 	public HttpResponse execute(HttpRequestBase req) throws IOException

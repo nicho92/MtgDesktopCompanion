@@ -30,7 +30,6 @@ import com.google.gson.JsonElement;
 public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 
 	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
-	private static final String URL_JSON = "URL_JSON";
 	private static final String URI_BASE="https://tappedout.net";
 	private MTGHttpClient httpclient;
 
@@ -63,11 +62,19 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	public String getName() {
 		return "TappedOut";
 	}
+	
+	public static void main(String[] args) throws IOException {
+		
+		MTGControler.getInstance().loadAccountsConfiguration();
+		var prov = new TappedOutDeckSniffer();
+		
+		prov.getDeckList("standard");
+	}
+	
 
 	private void initConnexion() throws IOException {
 		httpclient = URLTools.newClient();
 		httpclient.doGet(URI_BASE+"/accounts/login/?next=/");
-		
 		RequestBuilder b = httpclient.build().method(METHOD.POST)
 						  .url(URI_BASE+"/accounts/login/")
 						  .addContent("username", getAuthenticator().getLogin())
@@ -86,25 +93,23 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 						  .addHeader("sec-fetch-user", "?1")
 						  .addHeader("cache-control","no-cache");
 		
-		httpclient.execute(b);
-
-		logger.debug("Connection : " +  getAuthenticator().getLogin() + " " + httpclient.getResponse().getStatusLine().getReasonPhrase());
-		
+		var resp = httpclient.execute(b);
+		logger.debug("Connection : " +  getAuthenticator().getLogin() + " " + resp.getStatusLine().getReasonPhrase());
 	}
 
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 		if(httpclient==null)
 			initConnexion();
-		
-		logger.debug("sniff deck at " + info.getUrl());
-		
 
-		String responseBody = httpclient.toString(httpclient.doGet(info.getUrl().toString()));
+		logger.debug("sniff deck at " + info.getUrl());
+
 		logger.debug("sniff deck : "+ httpclient.getResponse().getStatusLine().getReasonPhrase());
-		
+
 		MagicDeck deck = info.toBaseDeck();
-		JsonElement root = URLTools.toJson(responseBody);
+		
+		
+		JsonElement root = RequestBuilder.build().url(info.getUrl().toString()).setClient(httpclient).method(METHOD.GET).toJson();
 		deck.setName(root.getAsJsonObject().get("name").getAsString());
 		deck.setDescription(root.getAsJsonObject().get("url").getAsString());
 		for (var i = 0; i < root.getAsJsonObject().get("inventory").getAsJsonArray().size(); i++) {
@@ -161,16 +166,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
-
-		if(httpclient==null)
-			initConnexion();
-		
-		String tappedJson = RegExUtils.replaceAll(getString(URL_JSON), "%FORMAT%", filter);
-		logger.debug("sniff url : " + tappedJson);
-
-		String responseBody = httpclient.toString(httpclient.doGet(tappedJson));
-		
-		JsonElement root = URLTools.toJson(responseBody);
+		JsonElement root = URLTools.extractAsJson(URI_BASE+"/api/deck/latest/"+ filter+"/");
 		List<RetrievableDeck> list = new ArrayList<>();
 
 		for (var i = 0; i < root.getAsJsonArray().size(); i++) {
@@ -198,8 +194,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		return Map.of(LOAD_CERTIFICATE,"true",
-								URL_JSON, URI_BASE+"/api/deck/latest/%FORMAT%");
+		return Map.of(LOAD_CERTIFICATE,"true");
 	}
 
 
