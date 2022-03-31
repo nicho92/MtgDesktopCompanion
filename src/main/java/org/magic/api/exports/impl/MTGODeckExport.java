@@ -59,6 +59,7 @@ public class MTGODeckExport extends AbstractFormattedFileCardExport {
 				else
 				{
 					String cname = m.group(2);
+					
 					try{
 						MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cname, null, true).get(0);
 						var qty = Integer.parseInt(m.group(1));

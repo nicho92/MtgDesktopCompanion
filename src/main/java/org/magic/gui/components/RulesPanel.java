@@ -50,7 +50,9 @@ public class RulesPanel extends MTGUIComponent{
 	}
 
 	public void init(MagicCard selectedCard) {
-		init(selectedCard.getRulings());
+		
+		if(selectedCard !=null)
+			init(selectedCard.getRulings());
 		
 	}
 

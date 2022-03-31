@@ -3,7 +3,7 @@ package org.magic.api.beans;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -36,8 +36,8 @@ public class MagicDeck implements Serializable {
 	public MagicDeck() 
 	{
 		id=-1;
-		mapDeck = new HashMap<>();
-		mapSideBoard = new HashMap<>();
+		mapDeck = new LinkedHashMap<>();
+		mapSideBoard = new LinkedHashMap<>();
 		tags = new ArrayList<>();
 		averagePrice = 0;
 		dateCreation=new Date();
