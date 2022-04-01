@@ -2,6 +2,7 @@ package org.magic.api.decksniffer.impl;
 
 import static org.magic.tools.MTG.getEnabledPlugin;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -11,6 +12,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.RegExUtils;
+import org.apache.http.util.EntityUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
@@ -23,6 +25,7 @@ import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
+import org.magic.tools.FileTools;
 import org.magic.tools.InstallCert;
 
 import com.google.gson.JsonElement;
@@ -63,15 +66,6 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		return "TappedOut";
 	}
 	
-	public static void main(String[] args) throws IOException {
-		
-		MTGControler.getInstance().loadAccountsConfiguration();
-		var prov = new TappedOutDeckSniffer();
-		
-		prov.getDeckList("standard");
-	}
-	
-
 	private void initConnexion() throws IOException {
 		httpclient = URLTools.newClient();
 		httpclient.doGet(URI_BASE+"/accounts/login/?next=/");
@@ -94,6 +88,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 						  .addHeader("cache-control","no-cache");
 		
 		var resp = httpclient.execute(b);
+		EntityUtils.consume(resp.getEntity());
 		logger.debug("Connection : " +  getAuthenticator().getLogin() + " " + resp.getStatusLine().getReasonPhrase());
 	}
 
@@ -103,13 +98,9 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 			initConnexion();
 
 		logger.debug("sniff deck at " + info.getUrl());
-
-		logger.debug("sniff deck : "+ httpclient.getResponse().getStatusLine().getReasonPhrase());
-
 		MagicDeck deck = info.toBaseDeck();
-		
-		
 		JsonElement root = RequestBuilder.build().url(info.getUrl().toString()).setClient(httpclient).method(METHOD.GET).toJson();
+
 		deck.setName(root.getAsJsonObject().get("name").getAsString());
 		deck.setDescription(root.getAsJsonObject().get("url").getAsString());
 		for (var i = 0; i < root.getAsJsonObject().get("inventory").getAsJsonArray().size(); i++) {
