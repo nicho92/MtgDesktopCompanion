@@ -78,23 +78,19 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 		return formats.keySet().toArray(new String[formats.keySet().size()]);
 	}
 	
+	boolean sideboard=false;
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 		
 		String uri="https://aetherhub.com/Deck/FetchDeckExport?deckId="+info.getUrl().getQuery().replace("id=","");
-		
-		var data = URLTools.extractAsString(uri);
+		var data = URLTools.extractAsJson(uri).getAsString();
+	
 		MagicDeck deck = info.toBaseDeck();
+		sideboard=false;
 		
-		var sideboard=false;
-		data = RegExUtils.replaceAll(data,"\\r\\n","\n");
-		data = RegExUtils.replaceAll(data,"\"","");
 		
-		String[] lines = data.split("\n");
-		
-		for(var i=0;i<lines.length;i++)
-		{
-			String line=lines[i].trim();
+		data.lines().forEach(s->{
+			String line=s.trim();
 			
 			if(line.startsWith("Sideboard") || line.startsWith("Maybeboard"))
 			{
@@ -118,7 +114,7 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 						logger.error("couldn't not find " + entry.getKey());
 					}
 			}
-		}
+		});
 		return deck;
 	}
 
