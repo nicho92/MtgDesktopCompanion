@@ -2,7 +2,6 @@ package org.magic.api.decksniffer.impl;
 
 import static org.magic.tools.MTG.getEnabledPlugin;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -25,7 +24,6 @@ import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
-import org.magic.tools.FileTools;
 import org.magic.tools.InstallCert;
 
 import com.google.gson.JsonElement;
