@@ -22,7 +22,7 @@ public class MTGJSonDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public String[] listFilter() {
-		return new String[] {""};
+		return new String[] {"<no filter>"};
 	}
 
 	@Override

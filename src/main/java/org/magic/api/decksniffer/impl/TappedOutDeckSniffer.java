@@ -56,7 +56,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public String[] listFilter() {
-		return new String[] { "latest", "standard", "modern", "legacy", "vintage", "edh", "tops", "pauper", "aggro","budget", "control" };
+		return new String[] { "latest", "standard", "modern", "legacy", "vintage", "edh", "pauper", "aggro","budget", "control" };
 	}
 
 	@Override
