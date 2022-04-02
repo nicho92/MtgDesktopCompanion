@@ -165,7 +165,7 @@ public class FileTools {
 	{
 		if(f==null || !f.exists())
 		{
-			logger.warn(f.getAbsolutePath().replaceAll("[\n\r\t]", "_") +" doesn't exist");
+			logger.warn(f+" doesn't exist");
 			return "";
 		}
 		
