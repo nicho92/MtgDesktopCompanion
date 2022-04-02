@@ -163,8 +163,8 @@ public class MkmExternalShop extends AbstractExternalShop {
 		var list= loadStock(search);
 		itemsBkcp.clear();
 		list.forEach(item->{
-			getRefs(item.getLanguage(),item.getProduct().getProductId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getDestination(),String.valueOf(converterItem.getOutputId())));
-			getRefs(item.getLanguage(),item.getProduct().getProductId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getSource(),String.valueOf(converterItem.getInputId())));
+			getRefs(item.getProduct().getProductId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getDestination(),String.valueOf(converterItem.getOutputId())));
+			getRefs(item.getProduct().getProductId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getSource(),String.valueOf(converterItem.getInputId())));
 			itemsBkcp.put(item, new SimpleEntry<>(item.getQte(), item.getPrice()) );
 		});
 			
@@ -181,8 +181,8 @@ public class MkmExternalShop extends AbstractExternalShop {
 		var list= loadTransaction();
 		list.forEach(t->
 			t.getItems().forEach(item->{
-				getRefs(item.getLanguage(),item.getProduct().getProductId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getDestination(),String.valueOf(converterItem.getOutputId())));
-				getRefs(item.getLanguage(),item.getProduct().getProductId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getSource(),String.valueOf(converterItem.getInputId())));
+				getRefs(item.getProduct().getProductId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getDestination(),String.valueOf(converterItem.getOutputId())));
+				getRefs(item.getProduct().getProductId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getSource(),String.valueOf(converterItem.getInputId())));
 			})
 			);
 		
@@ -268,7 +268,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 	private LightArticle parse(MTGStockItem it) {
 		var ret = new LightArticle();
 		
-		ret.setIdArticle(getRefs(it.getLanguage(), it.getId()).get(0).getIdFor(getName()).intValue());
+		ret.setIdArticle(getRefs(it.getId()).get(0).getIdFor(getName()).intValue());
 		
 		
 		ret.setIdProduct(it.getProduct().getProductId().intValue());

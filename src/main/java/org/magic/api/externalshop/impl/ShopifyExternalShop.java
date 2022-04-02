@@ -23,7 +23,6 @@ import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
-import org.magic.tools.ImageTools;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -140,9 +139,10 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	
 	private Transaction parseTransaction(JsonObject obj) {
 		
-		System.out.println(obj);
+		var t = new Transaction();
+		//TODO parsing trannsaction object
 		
-		return null;
+		return t;
 	}
 
 

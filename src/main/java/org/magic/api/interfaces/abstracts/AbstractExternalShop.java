@@ -37,7 +37,7 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 	}
 	
 	
-	protected List<ConverterItem> getRefs(String lang, Long id)
+	protected List<ConverterItem> getRefs(Long id)
 	{
 		try {
 			return MTG.getEnabledPlugin(MTGDao.class).listConversionItems().stream().filter(p->(p.getInputId().equals(id) || p.getOutputId().equals(id))).toList();
@@ -54,8 +54,8 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 		var list= loadTransaction();
 		list.forEach(t->
 			t.getItems().forEach(item->{
-				getRefs(item.getLanguage(),item.getId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getDestination(),String.valueOf(converterItem.getOutputId())));
-				getRefs(item.getLanguage(),item.getId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getSource(),String.valueOf(converterItem.getInputId())));
+				getRefs(item.getId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getDestination(),String.valueOf(converterItem.getOutputId())));
+				getRefs(item.getId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getSource(),String.valueOf(converterItem.getInputId())));
 			})
 			);
 		
@@ -67,8 +67,8 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 		var list= loadStock(search);
 		itemsBkcp.clear();
 		list.forEach(item->{
-			getRefs(item.getLanguage(),item.getId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getDestination(),String.valueOf(converterItem.getOutputId())));
-			getRefs(item.getLanguage(),item.getId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getSource(),String.valueOf(converterItem.getInputId())));
+			getRefs(item.getId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getDestination(),String.valueOf(converterItem.getOutputId())));
+			getRefs(item.getId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getSource(),String.valueOf(converterItem.getInputId())));
 			itemsBkcp.put(item, new SimpleEntry<>(item.getQte(), item.getPrice()) );
 		});
 		
