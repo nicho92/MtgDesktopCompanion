@@ -66,7 +66,9 @@ function replaceMana(content)
 	
 	
 	//change keyword by mana symbol
-	content=content.replace(/\{(.*?)\}/g,'<i class="ms ms-$1 ms-cost ms-shadow"></i>').toLowerCase();
+	content=content.replace(/\{(.*?)\}/g,function(val,matches){
+		return '<i class="ms ms-'+matches.toLowerCase()+' ms-cost ms-shadow"></i>'
+	});
 	
 	
 	

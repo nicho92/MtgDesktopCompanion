@@ -14,6 +14,28 @@ function formatMana(manaString)
 	return manaString;
 }
 
+function replaceMana(content)
+{
+  if(content==null)
+  	return content;
+
+
+ 	 //change linebreak
+	content = content.replace(/(?:\r\n|\r|\n)/g, '<br>');
+	
+	content=content.replace(/\{T\}/g,'<i class="ms ms-tap ms-cost ms-shadow"></i>');
+	
+	
+	//change keyword by mana symbol
+	content=content.replace(/\{(.*?)\}/g,function(val,matches){
+		return '<i class="ms ms-'+matches.toLowerCase()+' ms-cost ms-shadow"></i>'
+	});
+	
+	
+	
+	return content;
+}
+
 
 function generateLinkCard(card)
 {

@@ -71,6 +71,16 @@
 	    })
 	}
   
+  function manaText(card) {
+		$("#oracleText").html(replaceMana(card.text)
+								  .replace(/\n/g, "<br />")
+								  .replace(" token","<u><span class='mtg-tooltip'> token</span></u>"));
+		mtgtooltipTokenFor($(".mtg-tooltip"),card.scryfallId);
+  }
+
+
+
+
   
 		$(document).ready(function() {
 			$("#sidenav-main" ).load("inc/menu.html" );
@@ -181,8 +191,7 @@
 						else
 							$('#types').append(card.types);
 						
-						$("#oracleText").html(card.text.replace(/\n/g, "<br />").replace(" token","<u><span class='mtg-tooltip'> token</span></u>"));
-						mtgtooltipTokenFor($(".mtg-tooltip"),card.scryfallId);
+						manaText(card);
 						
 						var front = uri;
 						if(card.layout=="TRANSFORM" || card.layout=="MODAL_DFC"){
@@ -196,13 +205,11 @@
 								
 								if(src==back)
 								{
-									$("#oracleText").html(card.rotatedCard.text.replace(/\n/g, "<br />").replace(" token","<u><span class='mtg-tooltip'> token</span></u>"));
-									mtgtooltipTokenFor($(".mtg-tooltip"),card.scryfallId);
+									manaText(card.rotatedCard);
 								}
 								else
 								{
-									$("#oracleText").html(card.text.replace(/\n/g, "<br />").replace(" token","<u><span class='mtg-tooltip'> token</span></u>"));
-									mtgtooltipTokenFor($(".mtg-tooltip"),card.scryfallId);
+									manaText(card.rotatedCard);
 								}
 			
 							});
