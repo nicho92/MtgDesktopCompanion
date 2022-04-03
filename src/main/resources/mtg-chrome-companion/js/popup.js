@@ -1,14 +1,14 @@
 
 chrome.storage.sync.get('data', function(d) {
 	
-	var idMultiverse=0;
+	var scryfallId=0;
 	
 	for (var i = 0; i < d.data.length; i++) {
     	$('#content').append("<b>"+d.data[i].set+"</b>:");
     	
-    	if(d.data[i].hasOwnProperty('multiverse'))
+    	if(d.data[i].hasOwnProperty('scryfallId'))
     		{
-    		idMultiverse=d.data[0].multiverse;
+    		scryfallId=d.data[0].scryfallId;
     		}
     	
     	
@@ -18,6 +18,6 @@ chrome.storage.sync.get('data', function(d) {
 		}
 		$('#content').append("<br/>");
    	}
-	$('#cardPic').attr("src", "http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+idMultiverse+"&type=card");
+	$('#cardPic').attr("src", "https://api.scryfall.com/cards/"+scryfallId+"?format=image");
 	$('#cardname').append(d.data[0].name);
 });
