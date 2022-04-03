@@ -605,7 +605,19 @@ public class JSONHttpServer extends AbstractMTGServer {
 				
 			})
 		, transformer);
-
+		
+		
+		post("/prices/wizzard/:provider",URLTools.HEADER_JSON, (request, response) -> {
+			
+			var list = new ArrayList<MagicCard>();
+			
+			
+			return MTG.getPlugin(request.params(PROVIDER).trim(),MTGPricesProvider.class).getPricesBySeller(list);
+			
+			
+			
+		}, transformer);
+		
 		get("/prices/:scryfallId", URLTools.HEADER_JSON, (request, response) -> 
 			getCached(request.pathInfo(), new Callable<Object>() {
 				
@@ -697,7 +709,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		post("/alerts/add/:scryfallId", (request, response) -> {
 			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
-			
 			var alert = new MagicCardAlert();
 			alert.setCard(mc);
 			alert.setPrice(0.0);
