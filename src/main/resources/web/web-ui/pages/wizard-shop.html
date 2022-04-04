@@ -38,8 +38,9 @@
   <script src="../dist/js/rest-server.js"></script>
   <script src="../dist/js/js-var.js"></script>
   <script src="../dist/js/mtgcompanion-ui.js"></script>
+  
   <script>
-	
+  
 	function loadTree(data)
 	{
 		var dataArr = [];
@@ -51,29 +52,43 @@
 			var total=0;
 			qty=0;
 			$.each(data[element],function( index, prices ) {
-				dataArr.push( { "id" : "prices-"+index, "parent" : element,  "a_attr": { "href": prices.url},"text" : prices.magicCard.name + " " + prices.value.toFixed(2) + " " + prices.currency + " " + (prices.foil?"Foil":"")});
+				dataArr.push( { "id" : "prices-"+index, 
+								"parent" : element,  
+								"a_attr": { "href": prices.url},
+								"text" : prices.magicCard.name + " " + prices.value.toFixed(2) + " " + prices.currency + " " + (prices.foil?"Foil":""),
+								"icon":"fa-solid fa-shopping-cart fa-1x"
+							  });
 				total += prices.value;
 				qty++;
 			});
-			dataArr.push( { "id" : element,"parent" : "#", "text" : element + " ( Qty = "+qty+" Total = "+ total.toFixed(2) +")"});
+			dataArr.push( { "id" : element,
+							"parent" : "#", 
+							"text" : element + " ( Qty = "+qty+" Total = "+ total.toFixed(2) +")",
+							"icon":"fa-solid fa-user fa-1x"
+						  });
 			
 		});
 
-			$('#result_tree').jstree({ 'core' : {'data' : dataArr}}).bind("select_node.jstree", function (e, data) {
-				     console.log(data.a_attr);
+			$('#result_tree').jstree(	
+					{ 'core' :
+						{
+						'data' :dataArr
+						}
+					 
+					}).bind("select_node.jstree", function (e, data) {
+				 console.log(data.a_attr);
 			});
 			
 	}
 	
 
 
-
 	$(document).ready(function() {
 			$("#sidenav-main" ).load("inc/menu.html" );
 			$("#navbarBlur").load("inc/nav.html",function(){
 					$("[name='categTitle']").html("Wizard");
-					$("#menuTemplate").addClass("bg-gradient-primary");
-					$("#menuTemplate").addClass("active");
+					$("#menuWizard").addClass("bg-gradient-primary");
+					$("#menuWizard").addClass("active");
 			});
 			$("#navfooter").load("inc/footer.html");
 			$("#settingPanel").load("inc/settingPanel.html");
@@ -102,7 +117,7 @@
 						
 		 	});
 		
-			$('#tableCart').DataTable({
+			var dtable = $('#tableCart').DataTable({
 		 		"data":getCartItems(),
 		    	"responsive": false,
 		        "processing": true,
@@ -115,6 +130,14 @@
     			},
 		        "fnDrawCallback": function ( row, data, start, end, display ) {
 		        	mtgtooltip($(".mtg-tooltip"));
+		        	
+		        	
+		        	$('#tableCart').on('click', '#deleteFromCart', function (e) {
+		        		removeCartItem($(this).attr("data"));
+		        		dtable.row($(this).parents('tr')).remove().draw(false);
+		        		
+		        	});
+
 		        },
 		        "columns": [
 	        		{ 
@@ -134,9 +157,9 @@
 					  "defaultContent": "",
 			          "render": function(data, type, row, meta){
 		                   if(type === 'display'){
-		                	    data="<i class='ss ss-2x ss-"+data[0].keyRuneCode.toLowerCase()+" ss-"+row.rarity.toLowerCase()+" ss-2x'></i> ";	
+		                	    return "<i class='ss ss-2x ss-"+data[0].keyRuneCode.toLowerCase()+" ss-"+row.rarity.toLowerCase()+" ss-2x'></i> ";	
 		                   }
-		                 return data;
+		                 return data[0].set;
 		              }
 			        },
 					{ 
@@ -144,7 +167,7 @@
  					  "width": "25%",
 					   "render": function(data, type, row, meta){
 		                   if(type === 'display'){
-		                	  return '<i class="fa-solid fa-trash-can"></i>';
+		                	  return "<i id='deleteFromCart' class='fas fa-trash-alt fa-1x' data='"+data+"'/>";
 		                   }
 		                 return data;
 		              }

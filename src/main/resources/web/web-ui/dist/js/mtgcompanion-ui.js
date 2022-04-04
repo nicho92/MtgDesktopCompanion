@@ -37,11 +37,23 @@ function replaceMana(content)
 }
 
 
-function addCart(item)
+function removeCartItem(itemId)
+{
+		var array = jQuery.grep(getCartItems(), function(value) {
+			 return value.id != itemId;
+		});
+
+
+     	 storage.setItem("cart", JSON.stringify(array) );
+}
+
+
+function addCart(item, callback)
 {
 		var array = JSON.parse(storage.getItem("cart") || "[]");
 		array.push(item);
 		storage.setItem("cart", JSON.stringify(array) );
+		callback();
 }
 
 	   

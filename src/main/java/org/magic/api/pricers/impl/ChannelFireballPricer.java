@@ -109,7 +109,14 @@ public class ChannelFireballPricer extends AbstractPricesProvider {
 		
 		var list = StreamSupport.stream(arrResults.spliterator(), true).filter(je->{
 			var obj = je.getAsJsonObject();
-			var testSet = obj.get("attributes").getAsJsonObject().get("setCode").getAsString().equalsIgnoreCase(card.getCurrentSet().getId());
+			var testSet = true;
+			try {
+				testSet = obj.get("attributes").getAsJsonObject().get("setCode").getAsString().equalsIgnoreCase(card.getCurrentSet().getId());
+			}
+			catch(UnsupportedOperationException ex)
+			{
+				testSet=false;
+			}
 			var testQty = obj.get("listings").getAsJsonObject().get("aggs").getAsJsonObject().get("Inventory").getAsJsonObject().get("totalHits").getAsInt()>0;
 			return testSet && testQty;
 		}).toList();
