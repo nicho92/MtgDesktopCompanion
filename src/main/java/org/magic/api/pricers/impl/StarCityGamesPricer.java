@@ -24,7 +24,7 @@ public class StarCityGamesPricer extends AbstractPricesProvider {
 	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 		List<MagicPrice> ret = new ArrayList<>();
 		
-		String cardName = URLTools.encode("\""+card.getName()+"\"");
+		String cardName = card.getName();
 		RequestBuilder build = RequestBuilder.build().setClient(URLTools.newClient()).method(METHOD.GET).url("https://starcitygames.com/search/?card_name="+cardName);
 		Document page = build.toHtml();
 		Elements divs = page.select("div.hawk-results-item");

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>MTG Web Companion</title>
+  
+  <link rel="icon" type="image/png" href="../dist/img/logo-ct.png">
+  <link href="//cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
+  <link href="//cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css" rel="stylesheet" type="text/css" />
+
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+  <link href="//fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <link id="pagestyle" href="../dist/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"/>
+  <link href="//cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
+   <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="//unpkg.com/@trevoreyre/autocomplete-js/dist/style.css" rel="stylesheet" />
+ <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/themes/default/style.min.css" />
+  <script src="//unpkg.com/@trevoreyre/autocomplete-js"></script>    
+
+  <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.5.5/perfect-scrollbar.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/smooth-scrollbar/8.7.4/smooth-scrollbar.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/jstree.min.js"></script>
+  
+
+
+
+
+  <script src="//cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+  <script src="//cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script>
+  <script src="../dist/js/rest-server.js"></script>
+  <script src="../dist/js/js-var.js"></script>
+  <script src="../dist/js/mtgcompanion-ui.js"></script>
+  <script>
+	
+	function loadTree(data)
+	{
+		var dataArr = [];
+	
+		$('#result_tree').jstree("destroy").empty();
+	
+		
+		$.each(Object.keys(data),function( index, element ) {
+			var total=0;
+			qty=0;
+			$.each(data[element],function( index, prices ) {
+				dataArr.push( { "id" : "prices-"+index, "parent" : element,  "a_attr": { "href": prices.url},"text" : prices.magicCard.name + " " + prices.value.toFixed(2) + " " + prices.currency + " " + (prices.foil?"Foil":"")});
+				total += prices.value;
+				qty++;
+			});
+			dataArr.push( { "id" : element,"parent" : "#", "text" : element + " ( Qty = "+qty+" Total = "+ total.toFixed(2) +")"});
+			
+		});
+
+			$('#result_tree').jstree({ 'core' : {'data' : dataArr}}).bind("select_node.jstree", function (e, data) {
+				     console.log(data.a_attr);
+			});
+			
+	}
+	
+
+
+
+	$(document).ready(function() {
+			$("#sidenav-main" ).load("inc/menu.html" );
+			$("#navbarBlur").load("inc/nav.html",function(){
+					$("[name='categTitle']").html("Wizard");
+					$("#menuTemplate").addClass("bg-gradient-primary");
+					$("#menuTemplate").addClass("active");
+			});
+			$("#navfooter").load("inc/footer.html");
+			$("#settingPanel").load("inc/settingPanel.html");
+			
+				
+			$.ajax({
+  	        		url: restserver+"/admin/plugins/list"
+  	    	}).then(function(data) {
+  	    		$(data.PRICER).each(function( index,value ) {
+  	    			$("#cboSource").append('<option value="'+value.name+'">'+value.name+'</option>');
+  	    		});
+  	    	});
+			
+				$("#wizardBtn").click( function() {
+					$("#wizardBtn").prop('disabled', true);
+						$.post(restserver+"/prices/wizard/"+$("#cboSource").val(),JSON.stringify(getCartItems()))
+							.done(function( data ) {
+								loadTree(data);
+							})
+							.always(function (data)
+							{
+								$("#wizardBtn").prop('disabled', false);
+							}
+						
+						);
+						
+		 	});
+		
+			$('#tableCart').DataTable({
+		 		"data":getCartItems(),
+		    	"responsive": false,
+		        "processing": true,
+		        "pageLength": 10,
+		        "searching": false,
+		        "info":     false,
+		        "paging":   false,
+		        "language": {
+        				"emptyTable":  "Your cart is empty !!"
+    			},
+		        "fnDrawCallback": function ( row, data, start, end, display ) {
+		        	mtgtooltip($(".mtg-tooltip"));
+		        },
+		        "columns": [
+	        		{ 
+			          "data": "name",
+ 					  "width": "25%",
+					  "defaultContent": "<i>Not set</i>",
+					  "render": function(data, type, row, meta){
+		                   if(type === 'display'){
+		                	   return generateLinkCard(row);	
+		                   }
+		                 return data;
+		              }
+		        	},
+		        	{ 
+			          "data": "editions",
+					  "width": "25%",
+					  "defaultContent": "",
+			          "render": function(data, type, row, meta){
+		                   if(type === 'display'){
+		                	    data="<i class='ss ss-2x ss-"+data[0].keyRuneCode.toLowerCase()+" ss-"+row.rarity.toLowerCase()+" ss-2x'></i> ";	
+		                   }
+		                 return data;
+		              }
+			        },
+					{ 
+			          "data": "id",
+ 					  "width": "25%",
+					   "render": function(data, type, row, meta){
+		                   if(type === 'display'){
+		                	  return '<i class="fa-solid fa-trash-can"></i>';
+		                   }
+		                 return data;
+		              }
+		        	},
+			      	
+	        		],
+	        		
+		    } );
+			
+			
+			
+	});
+ </script>
+</head>
+
+
+<body class="g-sidenav-show  bg-gray-200">
+	<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start menu-left bg-gradient-dark" id="sidenav-main"></aside>
+  	<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+	<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true"></nav>
+   
+    <div class="container-fluid py-4">
+<div class="row">
+    <div class="col-lg-3 col-md-6 mb-md-0 mb-4">
+          <div class="card">
+          <div class="card-header p-0 position-relative mt-n4 mx-3">
+              <div class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-2">
+                <h6 class="text-white text-capitalize ps-3">Cart</h6>
+              </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+              <div class="table-responsive">
+                <table id="tableCart" class="table align-items-center mb-0" style="width:100%">
+			        <thead>
+	           			<tr>
+				                <th>Card</th>
+   								<th>Set</th>
+				                <th>Actions</th>
+				            </tr>
+			        </thead>
+                </table>
+              </div>
+            </div>
+				<div class="card-footer p-3 text-end">
+							<select id="cboSource" class="form-select">
+								<option value="">Select Pricers</option>
+							</select>
+					<button id="wizardBtn" type="button" class="btn btn-circle btn-success toast-btn"data-bs-placement="bottom" data-bs-toggle="tooltip"><i class="fa-solid fa-magnifying-glass"></i></button>
+				</div>
+          </div>
+        </div>
+	
+	 <div class="col-lg-9 col-md-6 mb-md-0 mb-4">
+          <div class="card">
+          <div class="card-header p-0 position-relative mt-n4 mx-3">
+              <div class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-2">
+                <h6 class="text-white text-capitalize ps-3">Results</h6>
+              </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+              <div class="table-responsive">
+                 <div id="result_tree"></div>
+              </div>
+            </div>
+			
+			</div>
+          </div>
+        </div>
+</div>
+	
+
+
+      </div>
+
+	</div>
+
+  </main>
+  <div class="fixed-plugin">
+    <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
+      <i class="material-icons py-2">settings</i>
+    </a>
+    <div class="card shadow-lg" id="settingPanel">
+      
+    </div>
+  </div>
+ 
+  
+   <script src="../dist/js/material-dashboard.js?v=3.0.0"></script>
+
+ 
+</body>
+
+</html>	
+	
+	
+	

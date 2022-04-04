@@ -37,6 +37,21 @@ function replaceMana(content)
 }
 
 
+function addCart(item)
+{
+		var array = JSON.parse(storage.getItem("cart") || "[]");
+		array.push(item);
+		storage.setItem("cart", JSON.stringify(array) );
+}
+
+	   
+function getCartItems()
+{
+	return JSON.parse(storage.getItem("cart") || "[]");
+}
+
+
+
 function generateLinkCard(card)
 {
 	 return '<a  href="card.html?scryfallid='+card.scryfallId+'" class="mtg-tooltip" data-set="'+card.editions[0].id+'" scryfallid="'+card.scryfallId+'" side="'+card.side+'" + multiverseId="'+card.editions[0].multiverseId+'" data-name="'+card.name+'">'+card.name+'</a>';

@@ -422,7 +422,17 @@
 								});
 								
 					 		});
-						
+							
+							$("#addCartBtn").click( function() {
+								
+									addCart(card,function callback(){
+										
+					  				$("#toastMessage").html(card.name + " has been added to cart");
+									$("#toastTitle").html("Add card in cart");
+									$("#infoToast").toast("show");
+									});
+								
+					 		});
 										
 						$(document).on('click',"a[name='btnLoadPrice']",function(){
 								$("#tabPrices li a").removeClass("active");
@@ -471,6 +481,9 @@
 							</button>
 							<button id="addPicBtn" type="button" class="btn btn-circle btn-info toast-btn" data-bs-placement="bottom" data-bs-toggle="modal" title="add a picture"  data-bs-target="#snapModal" >
 								<i class="fa-solid fa-camera"></i>
+							</button>
+							<button id="addCartBtn" type="button" class="btn btn-circle btn-success toast-btn"data-bs-placement="bottom" data-bs-toggle="tooltip" title="add to cart">
+								<i class="fa-solid fa-shopping-cart"></i>
 							</button>
 					</div>
 				</div>
