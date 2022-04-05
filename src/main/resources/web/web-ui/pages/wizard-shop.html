@@ -99,6 +99,9 @@
 			$("#settingPanel").load("inc/settingPanel.html");
 			
 				
+			
+			
+			
 			$.ajax({
   	        		url: restserver+"/admin/plugins/list"
   	    	}).then(function(data) {
@@ -179,8 +182,50 @@
 		        	},
 			      	
 	        		],
+			        "fnInitComplete": function ( row, data, start, end, display ) {
+			        		
+			        }
 	        		
 		    } );
+			
+			new Autocomplete('#importCardSearch', {
+				 search: input => {
+			      return new Promise(resolve => {
+					       if (input.length < 3) {
+					          return resolve([])
+					        }
+			        fetch(restserver+'/cards/suggestcard/'+input)
+			          .then(response => response.json())
+			          .then(data => {
+							resolve(data)
+						})
+			      })
+			    },
+			    getResultValue: result =>result.name , 
+				debounceTime: 500, 
+				renderResult: (result, props) => `
+						    <li ${props}>
+						      <div class="result-title">
+						        ${result.name}
+						      </div>
+						      <div class="result-set">
+										<i class="ss ss-2x ss-${result.keyrune.toLowerCase()}"></i>
+										 ${result.set} ${result.showcase?" - Showcase":""} ${result.extendedArt?" - Extended":""} ${result.borderless?" - Borderless":""}
+						      </div>
+						    </li>
+						  `,
+			    onSubmit: result => {
+			    	
+			    	$.get(restserver+"/cards/scryfall/"+result.scryfallId).done(function(data){
+			    		
+			    		addCart(data,function(){
+			    			dtable.row.add(data).draw(false);	
+			    		});
+				    		
+			    	});
+			    	
+			    }
+		  });
 			
 			
 			
@@ -198,31 +243,46 @@
 <div class="row">
     <div class="col-lg-3 col-md-6 mb-md-0 mb-4">
           <div class="card">
-          <div class="card-header p-0 position-relative mt-n4 mx-3">
-              <div class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-2">
-                <h6 class="text-white text-capitalize ps-3">Cart</h6>
-              </div>
-            </div>
-            <div class="card-body px-0 pb-2">
-              <div class="table-responsive">
-                <table id="tableCart" class="table align-items-center mb-0" style="width:100%">
-			        <thead>
-	           			<tr>
-				                <th>Card</th>
-   								<th>Set</th>
-				                <th>Actions</th>
-				            </tr>
-			        </thead>
-                </table>
-              </div>
-            </div>
-				<div class="card-footer p-3 text-end">
-							<select id="cboSource" class="form-select">
-								<option value="">Select Pricers</option>
-							</select>
-					<button id="wizardBtn" type="button" class="btn btn-circle btn-success toast-btn"data-bs-placement="bottom" data-bs-toggle="tooltip"><i class="fa-solid fa-magnifying-glass"></i></button>
-				</div>
-          </div>
+	          <div class="card-header p-0 position-relative mt-n4 mx-3">
+	              <div class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-2">
+	                <h6 class="text-white text-capitalize ps-3">Cart</h6>
+	              </div>
+	            </div>
+	            <div class="card-body px-0 pb-2">
+	              <div class="table-responsive">
+	                <table id="tableCart" class="table align-items-center mb-0" style="width:100%">
+				        <thead>
+		           			<tr>
+					                <th>Card</th>
+	   								<th>Set</th>
+					                <th> </th>
+					            </tr>
+				        </thead>
+	                </table>
+	              </div>
+	            </div>
+					<div class="card-footer p-3 text-end">
+								<select id="cboSource" class="form-select">
+									<option value="">Select Pricers</option>
+								</select>
+						<button id="wizardBtn" type="button" class="btn btn-circle btn-success toast-btn"data-bs-placement="bottom" data-bs-toggle="tooltip"><i class="fa-solid fa-magnifying-glass"></i></button>
+					</div>
+	          </div>
+	         <br/></br>
+	         <div class="card">
+	          <div class="card-header p-0 position-relative mt-n4 mx-3">
+	              <div class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-2">
+	                <h6 class="text-white text-capitalize ps-3">Add card</h6>
+	              </div>
+	            </div>
+	            <div class="card-body px-4 pb-4">
+	             		<div id="importCardSearch" class="autocomplete input-group no-border ">
+							<input type="text" value="" class="form-control autocomplete-input" placeholder="Import card...">
+							<ul class="autocomplete-result-list text-dark"></ul>
+						</div>
+	            </div>
+					
+	          </div>
         </div>
 	
 	 <div class="col-lg-9 col-md-6 mb-md-0 mb-4">

@@ -13306,9 +13306,10 @@ textarea.form-control-lg {
   .dark-version .kanban-title-board {
     color: #fff !important; }
     
-	.dark-version .form-control {
+   .dark-version .form-control {
 		color: white !important;
-	}
+		background-color: transparent !important;
+   }
     .dark-version .form-select {
 		color: white !important;
 	}

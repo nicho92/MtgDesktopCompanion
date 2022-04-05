@@ -68,6 +68,7 @@ import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardRecognition;
+import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
@@ -427,6 +428,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 		});
 		
 		
+		
+		
 		post("/ged/:class/:id", URLTools.HEADER_JSON,(request, response) -> {
 			
 			List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request.raw());
@@ -490,6 +493,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/orders/list", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGDao.class).listOrders(), transformer);
 		
 		get("/cards/scryfall/:scryfallId", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID)), transformer);
+		
+		post("/cards/import/:provider", URLTools.HEADER_JSON,(request, response) -> {
+			var content = request.body();
+			return converter.toJsonDeck(MTG.getPlugin(request.params(PROVIDER).trim(),MTGCardsExport.class).importDeck(content, "webimport"));
+		}, transformer);
 		
 		post("/cards/recognize/:threeshold", URLTools.HEADER_JSON, (request, response) -> {
 			var recog = MTG.getEnabledPlugin(MTGCardRecognition.class);
