@@ -51,23 +51,26 @@
 		$.each(Object.keys(data),function( index, element ) {
 			var total=0;
 			qty=0;
+			
 			$.each(data[element],function( index, prices ) {
 				dataArr.push( { "id" : "prices-"+index, 
 								"parent" : element,  
-								"a_attr": { "href": prices.url},
+								"a_attr": { "href": prices.sellerUrl},
 								"text" : prices.magicCard.name + " " + prices.value.toFixed(2) + " " + prices.currency + " " + (prices.foil?"Foil":""),
 								"icon":"fa-solid fa-shopping-cart fa-1x"
 							  });
 				total += prices.value;
 				qty++;
 			});
+			
+			
+			
 			dataArr.push( { "id" : element,
 							"parent" : "#", 
-							"text" : element + " ( Qty = "+qty+" Total = "+ total.toFixed(2) +")",
+							"text" : element + " (Qty = "+qty+" Total = "+ total.toFixed(2) +")",
 							"icon":"fa-solid fa-user fa-1x"
 						  });
-			
-		});
+			});
 
 			$('#result_tree').jstree(	
 					{ 'core' :
@@ -76,8 +79,10 @@
 						}
 					 
 					}).bind("select_node.jstree", function (e, data) {
-				 console.log(data.a_attr);
-			});
+							var url = data.node.a_attr.href;
+							if(url!="#")
+								window.open(url, '_blank').focus();
+					});
 			
 	}
 	
