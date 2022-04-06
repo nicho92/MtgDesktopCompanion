@@ -63,7 +63,7 @@ public class MTGODeckExport extends AbstractFormattedFileCardExport {
 					
 					MagicEdition ed = null;
 					try {
-					if(!m.group(4).isEmpty())
+					if(m.group(4)!=null)
 							ed=getEnabledPlugin(MTGCardsProvider.class).getSetById(m.group(4));
 					}
 					catch(Exception e)
