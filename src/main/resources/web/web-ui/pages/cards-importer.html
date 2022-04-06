@@ -22,8 +22,6 @@
 			$("#btnImport").click(function(e){
 				
 				var str = $("#txtContent").val();
-				
-				
 				$.post({
 					  url: restserver+"/cards/import/MTGO",
 					  data: str,
@@ -35,10 +33,7 @@
 					  	}
 					});
 			});
-			
-			
-		
-		});
+	});
 </script>
 </head>
 
