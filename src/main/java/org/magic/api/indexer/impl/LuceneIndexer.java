@@ -144,7 +144,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 			 
 			 
 		} catch (Exception e) {
-			logger.error(e);
+			logger.trace(e);
 		}
 		
 		return ret;
