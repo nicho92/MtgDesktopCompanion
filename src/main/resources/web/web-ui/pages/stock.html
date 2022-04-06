@@ -88,6 +88,16 @@
   				 }
 			});
 			
+			$.get(restserver+"/metadata/categories",function(data){
+				
+				 for(var i=0;i<data.length;i++)
+ 				 {
+ 				 	$("#productType").append("<option value='"+data[i]+"'>"+data[i]+"</option>")
+ 				 }
+			});
+			
+			
+			
 			$( "#snapModal" ).on('shown.bs.modal', function(e){
 				    $(this).off('shown.bs.modal');
     				$("#webcamInc").load("webcam-add.html");
@@ -134,6 +144,7 @@
 				}
 				$("#productCollection").val(data.magicCollection.name).change();
 				$("#productCondition").val(data.condition).change();
+				$("#productType").val(data.product.typeProduct).change();
 				$("#productLangage").val(data.language).change();
 				
 				$("#productComment").summernote("code", data.comment);
@@ -258,6 +269,10 @@
 					<div class="col-lg-3">
 						<h6 class="mb-0 mt-3"><i class="fa-solid fa-gem"></i>Quality</h6>
 							<select class="form-select" id='productCondition'></select>
+					</div>
+					<div class="col-lg-3"  style="display:none" >
+						<h6 class="mb-0 mt-3"><i class="fa-solid fa-sheet-plastic"></i>Type</h6>
+							<select class="form-select" id='productType'></select>
 					</div>
 					<div class="col-lg-3">
 						<h6 class="mb-0 mt-3"><i class="fa-solid fa-language"></i>Lang</h6>
