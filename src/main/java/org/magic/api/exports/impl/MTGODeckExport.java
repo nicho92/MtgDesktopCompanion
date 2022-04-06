@@ -8,6 +8,7 @@ import java.util.regex.Matcher;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.tools.FileTools;
@@ -60,8 +61,19 @@ public class MTGODeckExport extends AbstractFormattedFileCardExport {
 				{
 					String cname = m.group(2);
 					
+					MagicEdition ed = null;
+					try {
+					if(!m.group(4).isEmpty())
+							ed=getEnabledPlugin(MTGCardsProvider.class).getSetById(m.group(4));
+					}
+					catch(Exception e)
+					{
+						logger.error(m.group(4) + " isn't a valid set");
+					}
+					
+					
 					try{
-						MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cname, null, true).get(0);
+						MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cname.trim(), ed, true).get(0);
 						var qty = Integer.parseInt(m.group(1));
 						
 						if(side)
@@ -98,7 +110,7 @@ public class MTGODeckExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	protected String getStringPattern() {
-		return "^\\s*$|(\\d+) (.*?)$";
+		return "^\\s*$|(\\d+) (.*?)(\\[(.*?)\\])?$";
 	}
 
 	@Override

@@ -140,7 +140,7 @@ public class ManualImportDialog extends AbstractDelegatedImporterDialog {
 				}
 				catch(Exception e)
 				{
-					logger.error("error",e);
+					logger.error("error"+e);
 				}
 				
 			}
