@@ -16,6 +16,17 @@
             </div>
           </div>
           <ul class="navbar-nav justify-content-end">
+			
+			<li class="nav-item dropdown pe-2">
+              <a href="wizard-shop.html" class="nav-link text-body p-0 position-relative">
+               <span class="material-icons">shopping_cart</span>
+               <span class="position-absolute top-5 start-100 translate-middle badge rounded-pill bg-danger border border-white small py-1 px-2">
+                  <span class="small" id="cartCount">2</span>
+                </span>
+              </a>
+            </li>
+
+
   			<li class="nav-item d-xl-none ps-3 d-flex align-items-center">
               <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
                 <div class="sidenav-toggler-inner">
@@ -25,7 +36,13 @@
                 </div>
               </a>
             </li>
+			
+
+
+
+
           </ul>
+		
 			<span id="loading"></span>
         </div>
       </div>
@@ -45,7 +62,11 @@
 		{
 			 $('#loading').html("");  
 		});
-
+	
+	
+		document.getElementById("cartCount").innerHTML=getCartItems().length;
+	
+	
 
  		new Autocomplete('#autocomplete', {
 				 search: input => {
