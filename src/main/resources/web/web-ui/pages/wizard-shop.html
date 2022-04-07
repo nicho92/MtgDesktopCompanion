@@ -47,14 +47,15 @@
 	
 		$('#result_tree').jstree("destroy").empty();
 	
-		
-		$.each(Object.keys(data),function( index, element ) {
-			var total=0;
-			qty=0;
+		var total=0;
+		var qty=0;
 			
-			$.each(data[element],function( index, prices ) {
-				dataArr.push( { "id" : "prices-"+index, 
-								"parent" : element,  
+		$.each(Object.keys(data),function( index, seller ) {
+			$.each(data[seller],function( index, prices ) 
+			{
+				
+					dataArr.push( { "id" : "prices-"+seller+"-"+index, 
+								"parent" : seller,  
 								"a_attr": { "href": prices.sellerUrl},
 								"text" : prices.magicCard.name + " " + prices.value.toFixed(2) + " " + prices.currency + " " + (prices.foil?"Foil":""),
 								"icon":"fa-solid fa-shopping-cart fa-1x"
@@ -63,13 +64,14 @@
 				qty++;
 			});
 			
-			
-			
-			dataArr.push( { "id" : element,
+			dataArr.push( { "id" : seller,
 							"parent" : "#", 
-							"text" : element + " (Qty = "+qty+" Total = "+ total.toFixed(2) +")",
+							"text" : seller + " (Qty = "+qty+" Total = "+ total.toFixed(2) +")",
 							"icon":"fa-solid fa-user fa-1x"
 						  });
+				
+			total =0;
+			qty=0;
 			});
 
 			$('#result_tree').jstree(	
@@ -138,8 +140,6 @@
     			},
 		        "fnDrawCallback": function ( row, data, start, end, display ) {
 		        	mtgtooltip($(".mtg-tooltip"));
-		        	
-		        	
 		        	$('#tableCart').on('click', '#deleteFromCart', function (e) {
 		        		removeCartItem($(this).attr("data"));
 		        		dtable.row($(this).parents('tr')).remove().draw(false);
