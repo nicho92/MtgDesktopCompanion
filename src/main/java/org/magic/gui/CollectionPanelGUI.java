@@ -228,7 +228,6 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		
 		//////// MODELS
 		model = new MagicEditionsTableModel();
-		DefaultRowSorter<TableModel, Integer> sorterEditions = new TableRowSorter<>(model);
 		tableEditions = UITools.createNewTable(model);
 		UITools.initTableFilter(tableEditions);
 		
@@ -252,7 +251,6 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		
 		UITools.setDefaultRenderer(tableEditions, render);
 		tableEditions.setRowHeight(25);
-		tableEditions.setRowSorter(sorterEditions);
 		
 		///////// LAYOUT
 		setLayout(new BorderLayout(0, 0));
@@ -311,18 +309,9 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		btnMassCollection.setToolTipText(capitalize("COLLECTION_IMPORT"));
 		btnGenerateWebSite.setToolTipText(capitalize("GENERATE_WEBSITE"));
 
-		List<SortKey> keys = new ArrayList<>();
-		var sortKey = new SortKey(3, SortOrder.DESCENDING);// column index 2
-		keys.add(sortKey);
-		try {
-		sorterEditions.setSortKeys(keys);
-		}
-		catch(NullPointerException e)
-		{
-			logger.error(e);
-		}
-
-
+		
+		UITools.sort(tableEditions,3,SortOrder.DESCENDING);
+		
 		initPopupCollection();
 		initActions();
 

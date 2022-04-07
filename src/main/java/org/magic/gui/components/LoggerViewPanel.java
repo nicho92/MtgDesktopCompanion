@@ -3,9 +3,7 @@ package org.magic.gui.components;
 import static org.magic.tools.MTG.capitalize;
 
 import java.awt.BorderLayout;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -14,7 +12,6 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.RowFilter;
-import javax.swing.RowSorter;
 import javax.swing.SortOrder;
 import javax.swing.Timer;
 import javax.swing.table.TableModel;
@@ -61,12 +58,7 @@ public class LoggerViewPanel extends MTGUIComponent {
 		panel.add(btnRefresh);
 		panel.add(cboChooseLevel);
 		
-		datesorter = new TableRowSorter<>(table.getModel());
-		List<RowSorter.SortKey> sortKeys = new ArrayList<>();
-		var columnIndexToSort = 1;
-		sortKeys.add(new RowSorter.SortKey(columnIndexToSort, SortOrder.DESCENDING));
-		datesorter.setSortKeys(sortKeys);
-		table.setRowSorter(datesorter);
+		UITools.sort(table, 1, SortOrder.DESCENDING);
 		
 		model.setDefaultHiddenComlumns(2,3,4);
 		

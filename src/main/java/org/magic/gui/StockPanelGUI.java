@@ -32,6 +32,7 @@ import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextPane;
+import javax.swing.SortOrder;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileFilter;
@@ -60,7 +61,6 @@ import org.magic.gui.components.PriceSuggesterComponent;
 import org.magic.gui.components.PricesTablePanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
-import org.magic.gui.components.shops.StockItemsSynchronizationPanel;
 import org.magic.gui.models.CardStockTableModel;
 import org.magic.gui.renderer.StockTableRenderer;
 import org.magic.services.MTGConstants;
@@ -100,7 +100,6 @@ public class StockPanelGUI extends MTGUIComponent {
 	private CardsDeckCheckerPanel deckPanel;
 	private GradingEditorPane gradePanel;
 	private GedPanel gedPanel;
-	private StockItemsSynchronizationPanel tiercesIdsPanel;
 	
 	private static Boolean[] values = { null, true, false };
 	private JComboBox<EnumCondition> cboQuality;
@@ -492,7 +491,6 @@ public class StockPanelGUI extends MTGUIComponent {
 		pricePanel.init(selectedStock.getProduct(), selectedStock.isFoil());
 		jsonPanel.show(selectedStock);
 		deckPanel.init(selectedStock.getProduct());
-		tiercesIdsPanel.init(selectedStock);
 		gradePanel.setGrading(selectedStock.getGrade());
 		gedPanel.init(MagicCardStock.class, selectedStock);
 		}
@@ -530,7 +528,6 @@ public class StockPanelGUI extends MTGUIComponent {
 		gedPanel = new GedPanel<>();
 		var tabPanel = new JTabbedPane();
 		setLayout(new BorderLayout(0, 0));
-		tiercesIdsPanel = new StockItemsSynchronizationPanel();
 		deckPanel = new CardsDeckCheckerPanel();
 		model = new CardStockTableModel();
 		magicCardDetailPanel = new MagicCardDetailPanel();
@@ -583,7 +580,11 @@ public class StockPanelGUI extends MTGUIComponent {
 		UITools.setDefaultRenderer(table, new StockTableRenderer());
 		table.packAll();
 		UITools.initTableFilter(table);
-
+		UITools.sort(table,0,SortOrder.DESCENDING);
+		
+		
+		
+		
 		magicCardDetailPanel.enableThumbnail(true);
 
 		splitPane = new JSplitPane();
@@ -603,7 +604,6 @@ public class StockPanelGUI extends MTGUIComponent {
 		tabPanel.addTab(MTGControler.getInstance().getLangService().get("PRICE_VARIATIONS"),MTGConstants.ICON_TAB_VARIATIONS,historyPricePanel);
 		tabPanel.addTab(capitalize("DECK_MODULE"), MTGConstants.ICON_TAB_DECK,deckPanel);
 		tabPanel.addTab(capitalize("GED"), MTGConstants.ICON_TAB_GED,gedPanel);
-		tabPanel.addTab(tiercesIdsPanel.getTitle(), tiercesIdsPanel.getIcon(),tiercesIdsPanel);
 		
 		
 		
