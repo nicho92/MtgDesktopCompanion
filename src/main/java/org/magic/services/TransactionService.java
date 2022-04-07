@@ -48,6 +48,7 @@ public class TransactionService
 	
 	public static int createContact(Contact c) throws IOException
 	{
+		
 		c.setTemporaryToken(RandomStringUtils.random(TOKENSIZE, true, true));
 		c.setActive(false);
 		

@@ -17,7 +17,7 @@ public class Contact implements Serializable {
 	private String city;
 	private String website;
 	private boolean emailAccept=true;
-	private transient String password="changeit";
+	private transient String pass="changeit";
 	private boolean active=false;
 	private String temporaryToken;
 	
@@ -77,11 +77,11 @@ public class Contact implements Serializable {
 	}
 
 	public void setPassword(String password) {
-		this.password = password;
+		this.pass = password;
 	}
 	
 	public String getPassword() {
-		return password;
+		return pass;
 	}
 	
 	public String getWebsite() {

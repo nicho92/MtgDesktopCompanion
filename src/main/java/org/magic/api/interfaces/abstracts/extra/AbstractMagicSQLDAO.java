@@ -2100,7 +2100,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		try {
 			daoInfo.setConnectionName(pst.getConnection().toString());
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error(e);
 		}
 		
 		
