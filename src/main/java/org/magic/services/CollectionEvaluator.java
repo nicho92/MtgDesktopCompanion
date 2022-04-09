@@ -43,6 +43,25 @@ public class CollectionEvaluator extends Observable
 		return directory;
 	}
 	
+	public static Map<MagicEdition, Integer> analyse(MagicCollection collection) throws IOException
+	{
+		var ret = new HashMap<MagicEdition, Integer>();
+		
+		try {
+			var temp = getEnabledPlugin(MTGDao.class).getCardsCountGlobal(collection);
+			for (MagicEdition me : getEnabledPlugin(MTGCardsProvider.class).listEditions()) {
+				ret.put(me, (temp.get(me.getId()) == null) ? 0 : temp.get(me.getId()));
+			}
+		} catch (SQLException e) {
+			logger.error("error in calculation",e);
+		}
+		
+		return ret;
+		
+	}
+	
+	
+	
 	public CollectionEvaluator() throws IOException {
 		init();
 	}
