@@ -70,6 +70,57 @@
 					$("#orderEdition").append("<option value='"+JSON.stringify(value)+"'>"+value.set+"</option>")
 				});
 			});
+			
+			
+			if($_GET('id'))
+			{
+				$.ajax({
+						url : restserver + "/orders/id/"+$_GET('id')
+				}).then(function(data) {
+					  $("#orderIdTransaction").val(data.idTransation);
+			 		  $("#orderPrice").val(data.itemPrice);
+		 			  $("#orderShippingPrice").val(data.shippingPrice);
+					  $("#orderDescription").val(data.description);
+					  $("#orderSource").val(data.source);
+					  $("#rdoBuy").prop( "checked",data.typeTransaction=="BUY");
+					  $("#rdoSell").prop( "checked",data.typeTransaction=="SELL");
+			 		  $("#orderCurrency").val(data.currency).change();
+					  $("#orderType").val(data.type).change();
+					  $("#orderCreationDate").val(readDate(new Date(data.transactionDate)));
+					  $("#orderEdition").val(JSON.stringify(data.edition)).change();
+				});
+			}
+			
+			
+			$("#btnSave").click(function(){
+												var obj = {
+													idTransation : 		 $("#orderIdTransaction").val(),
+													typeTransaction : $("#rdoBuy").is(':checked')?"BUY":"SELL",
+													currency: 				 $("#orderCurrency").val(),
+													itemPrice:			 $("#orderPrice").val(),
+													shippingPrice:		 $("#orderShippingPrice").val(),		
+													description:			 $("#orderDescription").val(),
+													transactionDate:  new Date($("#orderCreationDate").val()),
+													edition :				 JSON.parse($("#orderEdition").val()),
+													updated: 				true,
+													source:					$("#orderSource").val(),
+													type:					$("#orderType").val(),
+													id:						$_GET('id')?$_GET('id'):-1
+													
+												};
+											
+											$.ajax({
+														type: 'POST',
+														data: JSON.stringify(obj),
+													    url: restserver+"/orders/new"
+												   		 }).done(function(data) {
+												   			alert(data);
+												 			$('#modal').modal().hide();
+												   		 }).fail(function(data,status,error) {
+												   			alert(JSON.stringify(data) + " " + error);
+												   		 });
+									});
+			
 		
 	});
  </script>

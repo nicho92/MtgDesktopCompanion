@@ -59,33 +59,8 @@
 			 	$( "#modal" ).on('shown.bs.modal', function(e){
 						 		$(this).off('shown.bs.modal');
 				    			$("#modalinc").load("order-add.html",function(){
-										$("#btnSave").click(function(){
-												var obj = {
-													idTransation : 		 $("#orderIdTransaction").val(),
-													typeTransaction : $("#rdoBuy").is(':checked')?"BUY":"SELL",
-													currency: 				 $("#orderCurrency").val(),
-													itemPrice:			 $("#orderPrice").val(),
-													shippingPrice:		 $("#orderShippingPrice").val(),		
-													description:			 $("#orderDescription").val(),
-													transactionDate:  new Date($("#orderCreationDate").val()),
-													edition :				 JSON.parse($("#orderEdition").val()),
-													updated: 				true,
-													source:					$("#orderSource").val(),
-													type:					$("#orderType").val()
-												};
-											
-											$.ajax({
-																type: 'POST',
-																data: JSON.stringify(obj),
-															    url: restserver+"/orders/new"
-														   		 }).done(function(data) {
-														   			alert(data);
-														 			$('#modal').modal('hide');
-														   		 }).fail(function(data,status,error) {
-														   			alert(JSON.stringify(data) + " " + error);
-														   		 });
-										});
-				});
+										
+					});
 				});
 			
 			
@@ -148,7 +123,17 @@
 		            { 
 		                "data": "itemPrice",
 		                "defaultContent": ""
-		            },		           
+		            },
+   					{ 
+		                "data": "id",
+		                "defaultContent": "",
+						"render": function(data, type, row, meta){
+			                	 if(type === 'display'){
+									return "<a href='order-add.html?id="+data+"'><i class='fa-solid fa-pen-to-square'></i></a>";
+			                	 }
+		                   		return data;
+							}					
+		            },
 		        ],
 		        "fnInitComplete" :function(oSettings, json) {
 		        	var dt = this.fnGetData();  
@@ -383,6 +368,7 @@
 						                <th>Description</th>
 						                <th>Edition</th>
 						                <th>Price</th>
+										<th> </th>
 						            </tr>
 			        </thead>
                 </table>
