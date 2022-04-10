@@ -99,7 +99,7 @@ public class StockPanelGUI extends MTGUIComponent {
 	private JButton btnApplyModification;
 	private CardsDeckCheckerPanel deckPanel;
 	private GradingEditorPane gradePanel;
-	private GedPanel gedPanel;
+	private GedPanel<MagicCardStock> gedPanel;
 	
 	private static Boolean[] values = { null, true, false };
 	private JComboBox<EnumCondition> cboQuality;
