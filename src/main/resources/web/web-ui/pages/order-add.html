@@ -71,38 +71,6 @@
 				});
 			});
 		
-		
-		
-		
-		$("#btnSave").click(function(){
-				var obj = {
-					idTransation : 		 $("#orderIdTransaction").val(),
-					typeTransaction : $("#rdoBuy").is(':checked')?"BUY":"SELL",
-					currency: 				 $("#orderCurrency").val(),
-					itemPrice:			 $("#orderPrice").val(),
-					shippingPrice:		 $("#orderShippingPrice").val(),		
-					description:			 $("#orderDescription").val(),
-					transactionDate:  new Date($("#orderCreationDate").val()),
-					edition :				 JSON.parse($("#orderEdition").val()),
-					updated: 				true,
-					type:					$("#orderType").val()
-				};
-			
-			$.ajax({
-								type: 'POST',
-								data: JSON.stringify(obj),
-							    url: restserver+"/orders/new"
-						   		 }).done(function(data) {
-						   			alert(data);
-						   		 }).fail(function(data,status,error) {
-						   			alert(JSON.stringify(data) + " " + error);
-						   		 });
-			
-			
-		});
-		
-		
-		
 	});
  </script>
 </head>
