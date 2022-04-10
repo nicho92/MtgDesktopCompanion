@@ -54,6 +54,14 @@
 			$("#navfooter").load("inc/footer.html");
 			$("#settingPanel").load("inc/settingPanel.html");
 			
+			
+			
+			 	$( "#modal" ).on('shown.bs.modal', function(e){
+						 		$(this).off('shown.bs.modal');
+				    			$("#modalinc").load("order-add.html");
+				});
+			
+			
 			$('#tableOrders').DataTable( {
 		    	"language": {
 		    	    "search": "Filter",
@@ -254,6 +262,24 @@
             <div class="card-footer p-3"><p class="mb-0">&nbsp;</p></div>
           </div>
         </div>
+
+		 <div class="col-xl-4 col-sm-6">
+          <div class="card">
+            <div class="card-header p-3 pt-2">
+              <div class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
+                <i class="material-icons opacity-10">add_circle</i>
+              </div>
+              <div class="text-end pt-1">
+                <p class="text-sm mb-0 text-capitalize">new entry</p>
+                  <button id="addEntryBtn" type="button" class="btn btn-primary" data-bs-toggle="modal" title="Add a new Entry"  data-bs-target="#modal">Add a new Entry</button>
+              </div>
+            </div>
+            <hr class="dark horizontal my-0">
+            <div class="card-footer p-3"><p class="mb-0">&nbsp;</p></div>
+          </div>
+        </div>
+
+
       </div>
 
 		<div class="row mt-4">
@@ -364,7 +390,23 @@
   
   
    <script src="../dist/js/material-dashboard.js?v=3.0.0"></script>
-
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      		<div id="modalinc"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
  
 </body>
 

@@ -56,6 +56,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.WebShopConfig;
@@ -86,8 +87,8 @@ import org.magic.api.interfaces.MTGTrackingService;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.api.interfaces.abstracts.extra.AbstractEmbeddedCacheProvider;
 import org.magic.api.sorters.CardsEditionSorter;
-import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.services.CardsManagerService;
+import org.magic.services.CollectionEvaluator;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
@@ -492,6 +493,17 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		get("/orders/list", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGDao.class).listOrders(), transformer);
 		
+		
+		post("/orders/new", URLTools.HEADER_JSON, (request, response) ->{
+			var a=converter.fromJson(new InputStreamReader(request.raw().getInputStream()), OrderEntry.class);
+			MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateOrderEntry(a);
+			
+			return RETURN_OK;
+
+		}, transformer);
+		
+		
+		
 		get("/cards/scryfall/:scryfallId", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID)), transformer);
 		
 		post("/cards/import/:provider", URLTools.HEADER_JSON,(request, response) -> {
@@ -875,35 +887,10 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/stock/searchCard/:collection/:cardName", URLTools.HEADER_JSON,
 				(request, response) -> getEnabledPlugin(MTGDao.class).listStocks(request.params(":cardName"),List.of(new MagicCollection(request.params(COLLECTION)))), transformer);
 		
-		get("/dash/collection", URLTools.HEADER_JSON, (request, response) -> {
-			List<MagicEdition> eds = getEnabledPlugin(MTGCardsProvider.class).listEditions();
-			var model = new MagicEditionsTableModel();
-			model.init(eds);
+		get("/dash/collection", URLTools.HEADER_JSON, (request, response) ->CollectionEvaluator.analyseToJson(new MagicCollection(MTGControler.getInstance().get("default-library"))), transformer);
 
-			var arr = new JsonArray();
-			double pc = 0;
-			for (MagicEdition ed : eds) {
-				var obj = new JsonObject();
-				obj.add("edition", converter.toJsonElement(ed));
-				obj.addProperty("set", ed.getId());
-				obj.addProperty("name", ed.getSet());
-				obj.addProperty("release", ed.getReleaseDate());
-				obj.add("qty", new JsonPrimitive(model.getMapCount().get(ed)));
-				obj.add("cardNumber", new JsonPrimitive(ed.getCardCount()));
-				obj.addProperty("defaultLibrary", MTGControler.getInstance().get("default-library"));
-				pc = 0;
-				if (ed.getCardCount() > 0)
-					pc = (double) model.getMapCount().get(ed) / ed.getCardCount();
-				else
-					pc = (double) model.getMapCount().get(ed) / 1;
-
-				obj.add("pc", new JsonPrimitive(pc));
-
-				arr.add(obj);
-			}
-			return arr;
-		}, transformer);
-
+		get("/dash/collection/:collection", URLTools.HEADER_JSON, (request, response) -> CollectionEvaluator.analyseToJson(new MagicCollection(request.params(":collection"))), transformer);
+		
 		
 		get("/dash/variations/card/:idCards", URLTools.HEADER_JSON, (request, response) -> 
 			getCached(request.pathInfo(), new Callable<Object>() {

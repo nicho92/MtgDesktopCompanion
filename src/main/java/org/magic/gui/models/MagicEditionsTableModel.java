@@ -1,8 +1,6 @@
 package org.magic.gui.models;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
-
-import java.sql.SQLException;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -11,8 +9,8 @@ import javax.swing.ImageIcon;
 
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.GenericTableModel;
+import org.magic.services.CollectionEvaluator;
 import org.magic.services.MTGControler;
 import org.magic.services.providers.IconSetProvider;
 
@@ -33,11 +31,6 @@ public class MagicEditionsTableModel extends GenericTableModel<MagicEdition> {
 		collection = new MagicCollection(MTGControler.getInstance().get("default-library"));
 		initColumns();
 	}
-	
-	public void setCollection(MagicCollection collection) {
-		this.collection = collection;
-	}
-	
 	
 	private void initColumns()
 	{
@@ -71,23 +64,10 @@ public class MagicEditionsTableModel extends GenericTableModel<MagicEdition> {
 
 	public void calculate() {
 
-		
-		Map<String, Integer> temp;
 		try {
-			temp = getEnabledPlugin(MTGDao.class).getCardsCountGlobal(collection);
-		
-		countDefaultLibrary = 0;
-		countTotal = 0;
-		for (MagicEdition me : items) {
-			mapCount.put(me, (temp.get(me.getId()) == null) ? 0 : temp.get(me.getId()));
-			countDefaultLibrary += mapCount.get(me);
-		}
-
-		for (MagicEdition me : items)
-			countTotal += me.getCardCount();
-		
-		} catch (SQLException e) {
-			logger.error("error in calculation",e);
+			mapCount = CollectionEvaluator.analyse(collection);
+		} catch (IOException e) {
+			logger.error("can't evaluate for " + collection + " : " + e);
 		}
 	}
 
@@ -95,20 +75,16 @@ public class MagicEditionsTableModel extends GenericTableModel<MagicEdition> {
 		return mapCount;
 	}
 
-	public int getCountTotal() {
-		return countTotal;
+
+	public Integer  getCountTotal() {
+		return items.stream().mapToInt(MagicEdition::getCardCount).sum();
 	}
 
-	public void setCountTotal(int countTotal) {
-		this.countTotal = countTotal;
-	}
 
+	
+	
 	public int getCountDefaultLibrary() {
-		return countDefaultLibrary;
-	}
-
-	public void setCountDefaultLibrary(int countDefaultLibrary) {
-		this.countDefaultLibrary = countDefaultLibrary;
+		return mapCount.values().stream().mapToInt(Integer::intValue).sum();
 	}
 
 	@Override
@@ -166,7 +142,6 @@ public class MagicEditionsTableModel extends GenericTableModel<MagicEdition> {
 		return "";
 
 	}
-
 
 
 }

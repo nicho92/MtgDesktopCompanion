@@ -100,7 +100,7 @@
 		        "processing": true,
 		        "pageLength": 25,
 		        "order": [[ 2, "desc" ]],
-		        "ajax": {"url":restserver+"/dash/collection","dataSrc":""},
+		        "ajax": {"url":restserver+"/dash/collection"+($_GET('col')?"/"+$_GET('col'):""),"dataSrc":""},
 		        "columns": [
 		        	{ 
 		                "data": "set",

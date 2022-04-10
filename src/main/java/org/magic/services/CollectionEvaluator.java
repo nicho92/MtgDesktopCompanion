@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.TreeMap;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
@@ -28,6 +29,10 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.tools.FileTools;
 import org.utils.patterns.observer.Observable;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 public class CollectionEvaluator extends Observable
 {
@@ -45,7 +50,7 @@ public class CollectionEvaluator extends Observable
 	
 	public static Map<MagicEdition, Integer> analyse(MagicCollection collection) throws IOException
 	{
-		var ret = new HashMap<MagicEdition, Integer>();
+		var ret = new TreeMap<MagicEdition, Integer>();
 		
 		try {
 			var temp = getEnabledPlugin(MTGDao.class).getCardsCountGlobal(collection);
@@ -59,6 +64,34 @@ public class CollectionEvaluator extends Observable
 		return ret;
 		
 	}
+	
+	public static JsonArray analyseToJson(MagicCollection collection) throws IOException
+	{
+		var transformer = new JsonExport();
+		var arr = new JsonArray();
+		analyse(collection).entrySet().forEach(entry->{
+			var obj = new JsonObject();
+			obj.add("edition", transformer.toJsonElement(entry.getKey()));
+			obj.addProperty("set", entry.getKey().getId());
+			obj.addProperty("name", entry.getKey().getSet());
+			obj.addProperty("release", entry.getKey().getReleaseDate());
+			obj.add("qty", new JsonPrimitive(entry.getValue()));
+			obj.add("cardNumber", new JsonPrimitive(entry.getKey().getCardCount()));
+			obj.addProperty("defaultLibrary", MTGControler.getInstance().get("default-library"));
+			double pc = 0;
+			if (entry.getKey().getCardCount() > 0)
+				pc = entry.getValue().doubleValue() / entry.getKey().getCardCount();
+			else
+				pc = entry.getValue().doubleValue();
+
+			obj.add("pc", new JsonPrimitive(pc));
+
+			arr.add(obj);
+		});
+		return arr;
+		
+	}
+	
 	
 	
 	
