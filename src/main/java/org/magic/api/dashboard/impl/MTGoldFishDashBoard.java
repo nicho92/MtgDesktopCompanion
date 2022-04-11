@@ -234,9 +234,18 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				}
 				else if(filteredArray.size()>1)
 				{
+					for(JsonElement el : filteredArray)
+					{
+						System.out.println(el);
+					}
+					
 					
 				}
 			}
+			
+		if(item==null)
+			return null;
+			
 	
 		return URLTools.getLocation(WEBSITE+"/q?utf8=%E2%9C%93&query_string="+URLTools.encode(item.get("id").getAsString()))+"#" + getString(FORMAT);
 	}
@@ -245,9 +254,9 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	public static void main(String[] args) throws IOException {
 		
 		var mc = new MagicCard();
-			mc.setName("Humility");
+			mc.setName("Teferi, Hero of Dominaria");
 		var ed = new MagicEdition();
-			ed.setId("TMP");
+			ed.setId("M21");
 			mc.getEditions().add(ed);
 			
 		
