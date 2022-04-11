@@ -231,7 +231,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				extend="-"+mc.getFlavorName().replace(" ", "+");
 			
 			
-			if(mc.getCurrentSet().getId().equals("PUMA")||mc.getCurrentSet().getId().equals("STA"))
+			if(mc.getCurrentSet().getId().equals("PUMA")||mc.getCurrentSet().getId().equals("STA")||mc.getCurrentSet().getId().equals("SLD"))
 				extend="";
 			
 			url = WEBSITE + "/price/" + convert(mc.getCurrentSet()) + extra+pfoil+"/" + cardName +extend+ "#" + getString(FORMAT);

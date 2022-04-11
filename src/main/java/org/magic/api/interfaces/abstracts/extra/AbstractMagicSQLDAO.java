@@ -1517,7 +1517,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	@Override
 	public List<MagicCard> listCardsFromCollection(MagicCollection collection, MagicEdition me) throws SQLException {
 		
-		List<MagicCard> ret = new ArrayList<>();
+		var ret = new ArrayList<MagicCard>();
 		var sql = "SELECT mcard,dateUpdate FROM cards where collection= ?";
 		
 		if (me != null)
@@ -1529,7 +1529,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setString(2, me.getId());
 			try (ResultSet rs = executeQuery(pst)) {
 				while (rs.next()) {
-					MagicCard mc = readCard(rs,MCARD);
+					var mc = readCard(rs,MCARD);
 					ret.add(mc);
 					notify(mc);
 				}
@@ -1541,7 +1541,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	@Override
 	public List<String> listEditionsIDFromCollection(MagicCollection collection) throws SQLException {
 		var sql = "SELECT distinct(edition) FROM cards where collection=?";
-		List<String> retour = new ArrayList<>();
+		var retour = new ArrayList<String>();
 		logger.trace(sql);
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(sql)) {
 			pst.setString(1, collection.getName());
@@ -1627,7 +1627,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	@Override
 	public List<MagicCollection> listCollectionFromCards(MagicCard mc) throws SQLException {
-		List<MagicCollection> cols = new ArrayList<>();
+		var cols = new ArrayList<MagicCollection>();
 		
 		if (mc.getEditions().isEmpty())
 			throw new SQLException("No edition defined");
