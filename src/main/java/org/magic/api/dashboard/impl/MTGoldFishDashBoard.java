@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.StreamSupport;
 
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.util.EntityUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -25,11 +27,17 @@ import org.magic.api.beans.enums.EnumMarketType;
 import org.magic.api.beans.enums.MTGCardVariation;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGConstants;
+import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
+import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.providers.PluginsAliasesProvider;
 import org.magic.tools.UITools;
 import org.mozilla.javascript.Parser;
 import org.mozilla.javascript.ast.AstNode;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 public class MTGoldFishDashBoard extends AbstractDashBoard {
 	private static final String TIMEOUT = "TIMEOUT";
@@ -182,6 +190,69 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			logger.error(e);
 			return historyPrice;
 		}
+	}
+	
+	
+	
+	private String searchUrlFor(MagicCard mc,boolean foil)
+	{
+		var arr = RequestBuilder.build().setClient(URLTools.newClient())
+				  .method(METHOD.GET)
+				  .url(WEBSITE+"/autocomplete?term="+URLTools.encode(mc.getName()))
+				  .addHeader("x-requested-with", "XMLHttpRequest")
+				  .addHeader("accept", "application/json, text/javascript, */*; q=0.01")
+				  .addHeader("referer", WEBSITE)
+				  .toJson().getAsJsonArray();
+		
+		
+			JsonObject item=null;
+			
+			if(arr.isEmpty())
+			{
+				logger.debug("No url found for " + mc);
+				return null;
+			}
+			
+			if(arr.size()==1)
+			{
+				logger.debug("Found 1 item in query");
+				item = arr.get(0).getAsJsonObject();
+			}
+			else
+			{
+				var filteredArray = new JsonArray();
+				
+				for(JsonElement el : arr)
+				{
+					if(el.getAsJsonObject().get("id").getAsString().contains("["+PluginsAliasesProvider.inst().getSetIdFor(this,mc.getCurrentSet())+"]") && el.getAsJsonObject().get("foil").getAsBoolean()==foil){
+						filteredArray.add(el.getAsJsonObject());
+					}
+				}
+				
+				if(filteredArray.size()==1) {
+					item = filteredArray.get(0).getAsJsonObject(); 
+				}
+				else if(filteredArray.size()>1)
+				{
+					
+				}
+			}
+	
+		return URLTools.getLocation(WEBSITE+"/q?utf8=%E2%9C%93&query_string="+URLTools.encode(item.get("id").getAsString()))+"#" + getString(FORMAT);
+	}
+	
+	
+	public static void main(String[] args) throws IOException {
+		
+		var mc = new MagicCard();
+			mc.setName("Humility");
+		var ed = new MagicEdition();
+			ed.setId("TMP");
+			mc.getEditions().add(ed);
+			
+		
+		System.out.println(new MTGoldFishDashBoard().searchUrlFor(mc,false));
+		
 	}
 	
 	
