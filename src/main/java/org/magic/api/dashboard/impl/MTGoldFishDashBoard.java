@@ -1,6 +1,7 @@
 package org.magic.api.dashboard.impl;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,12 +24,15 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.enums.EnumMarketType;
 import org.magic.api.beans.enums.MTGCardVariation;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 import org.magic.services.providers.PluginsAliasesProvider;
+import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 import org.mozilla.javascript.Parser;
 import org.mozilla.javascript.ast.AstNode;
@@ -204,11 +208,11 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		
 		
 			JsonObject item=null;
-			logger.debug(arr );
+			logger.trace(arr );
 			
 			if(arr.isEmpty())
 			{
-				logger.debug("No url found for " + mc);
+				logger.trace("No url found for " + mc);
 				return null;
 			}
 			
@@ -226,16 +230,16 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 					}
 				}
 				
-				logger.debug("filtered with set and foil :" + filteredArray);
+				logger.trace("filtered with set and foil :" + filteredArray);
 				
 				
 				if(filteredArray.size()==1) {
-					logger.debug("Found 1 item for " + mc + " " + mc.getCurrentSet());
+					logger.trace("Found 1 item for " + mc + " " + mc.getCurrentSet());
 					item = filteredArray.get(0).getAsJsonObject(); 
 				}
 				else if(filteredArray.size()>1)
 				{
-					logger.debug("Found "+filteredArray.size()+" items for " + mc + " " + mc.getCurrentSet());
+					logger.trace("Found "+filteredArray.size()+" items for " + mc + " " + mc.getCurrentSet());
 					for(JsonElement el : filteredArray)
 					{
 							if(el.getAsJsonObject().get("id").getAsString().contains(mc.getCurrentSet().getNumber())){
@@ -243,6 +247,10 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 							}
 							else if(!el.getAsJsonObject().get("variation").isJsonNull() && mc.getExtra()!=null)
 							{
+								
+								if(mc.getFlavorName()!=null && mc.getFlavorName().equalsIgnoreCase(el.getAsJsonObject().get("variation").getAsString())){
+									item=el.getAsJsonObject();
+								}
 								
 								if(mc.getExtra()==MTGCardVariation.SHOWCASE && el.getAsJsonObject().get("variation").getAsString().equals("Showcase")) {
 									item=el.getAsJsonObject();
@@ -259,6 +267,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 								if(mc.getExtra()==MTGCardVariation.TIMESHIFTED && (el.getAsJsonObject().get("variation").getAsString().equals("Retro")||el.getAsJsonObject().get("variation").getAsString().equals("Timeshifted"))) {
 									item=el.getAsJsonObject();
 								}
+								
+								break;
 							}
 							else if(!el.getAsJsonObject().get("finish").getAsString().equals("regular"))
 								item=el.getAsJsonObject();
@@ -275,6 +285,21 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			
 	
 		return URLTools.getLocation(WEBSITE+"/q?utf8=%E2%9C%93&query_string="+URLTools.encode(item.get("id").getAsString()))+"#" + getString(FORMAT);
+	}
+	
+	public static void main(String[] args) throws IOException, SQLException {
+		MTGControler.getInstance();
+		MTG.getEnabledPlugin(MTGCardsProvider.class).init();
+		
+		
+		var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber("297", "VOW");
+		
+		var ret = new MTGoldFishDashBoard().searchUrlFor(mc, true);
+		
+		System.out.println(ret);
+		
+		
+		
 	}
 	
 	public HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, boolean foil) throws IOException {
