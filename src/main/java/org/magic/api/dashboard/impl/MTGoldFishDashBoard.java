@@ -6,11 +6,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.StreamSupport;
 
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.util.EntityUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -25,12 +23,11 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.enums.EnumMarketType;
 import org.magic.api.beans.enums.MTGCardVariation;
-import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.URLTools;
 import org.magic.services.network.RequestBuilder.METHOD;
+import org.magic.services.network.URLTools;
 import org.magic.services.providers.PluginsAliasesProvider;
 import org.magic.tools.UITools;
 import org.mozilla.javascript.Parser;
@@ -244,17 +241,22 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 							if(el.getAsJsonObject().get("id").getAsString().contains(mc.getCurrentSet().getNumber())){
 								item=el.getAsJsonObject();
 							}
-							else if(!el.getAsJsonObject().get("variation").isJsonNull())
+							else if(!el.getAsJsonObject().get("variation").isJsonNull() && mc.getExtra()!=null)
 							{
+								
 								if(mc.getExtra()==MTGCardVariation.SHOWCASE && el.getAsJsonObject().get("variation").getAsString().equals("Showcase")) {
 									item=el.getAsJsonObject();
-								}else  if(mc.getExtra()==MTGCardVariation.BORDERLESS && el.getAsJsonObject().get("variation").getAsString().equals("Borderless")) {
+								}
+								if(mc.getExtra()==MTGCardVariation.BORDERLESS && el.getAsJsonObject().get("variation").getAsString().equals("Borderless")) {
 									item=el.getAsJsonObject();
-								}else  if(mc.getExtra()==MTGCardVariation.EXTENDEDART && el.getAsJsonObject().get("variation").getAsString().equals("Extended")) {
+								}
+								if(mc.getExtra()==MTGCardVariation.EXTENDEDART && el.getAsJsonObject().get("variation").getAsString().equals("Extended")) {
 									item=el.getAsJsonObject();
-								}else  if(mc.getExtra()==MTGCardVariation.JAPANESEALT && el.getAsJsonObject().get("variation").getAsString().equals("Japanese")) {
+								}
+								if(mc.getExtra()==MTGCardVariation.JAPANESEALT && el.getAsJsonObject().get("variation").getAsString().equals("Japanese")) {
 									item=el.getAsJsonObject();
-								}else  if(mc.getExtra()==MTGCardVariation.TIMESHIFTED && (el.getAsJsonObject().get("variation").getAsString().equals("Retro")||el.getAsJsonObject().get("variation").getAsString().equals("Timeshifted"))) {
+								}
+								if(mc.getExtra()==MTGCardVariation.TIMESHIFTED && (el.getAsJsonObject().get("variation").getAsString().equals("Retro")||el.getAsJsonObject().get("variation").getAsString().equals("Timeshifted"))) {
 									item=el.getAsJsonObject();
 								}
 							}
