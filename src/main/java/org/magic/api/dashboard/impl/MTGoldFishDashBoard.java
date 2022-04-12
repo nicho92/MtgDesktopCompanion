@@ -25,6 +25,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.enums.EnumMarketType;
 import org.magic.api.beans.enums.MTGCardVariation;
+import org.magic.api.beans.enums.MTGFrameEffects;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.RequestBuilder;
@@ -206,6 +207,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		
 		
 			JsonObject item=null;
+			logger.debug(arr );
 			
 			if(arr.isEmpty())
 			{
@@ -215,59 +217,68 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			
 			if(arr.size()==1)
 			{
-				logger.debug("Found 1 item in query");
 				item = arr.get(0).getAsJsonObject();
 			}
 			else
 			{
 				var filteredArray = new JsonArray();
-				
 				for(JsonElement el : arr)
 				{
 					if(el.getAsJsonObject().get("id").getAsString().contains("["+PluginsAliasesProvider.inst().getSetIdFor(this,mc.getCurrentSet())+"]") && el.getAsJsonObject().get("foil").getAsBoolean()==foil){
-						filteredArray.add(el.getAsJsonObject());
+						filteredArray.add(el);
 					}
 				}
 				
+				logger.debug("filtered with set and foil :" + filteredArray);
+				
+				
 				if(filteredArray.size()==1) {
+					logger.debug("Found 1 item for " + mc + " " + mc.getCurrentSet());
 					item = filteredArray.get(0).getAsJsonObject(); 
 				}
 				else if(filteredArray.size()>1)
 				{
+					logger.debug("Found "+filteredArray.size()+" items for " + mc + " " + mc.getCurrentSet());
 					for(JsonElement el : filteredArray)
 					{
-						System.out.println(el);
+							if(el.getAsJsonObject().get("id").getAsString().contains(mc.getCurrentSet().getNumber())){
+								item=el.getAsJsonObject();
+							}
+							else if(!el.getAsJsonObject().get("variation").isJsonNull())
+							{
+								if(mc.getExtra()==MTGCardVariation.SHOWCASE && el.getAsJsonObject().get("variation").getAsString().equals("Showcase")) {
+									item=el.getAsJsonObject();
+								}else  if(mc.getExtra()==MTGCardVariation.BORDERLESS && el.getAsJsonObject().get("variation").getAsString().equals("Borderless")) {
+									item=el.getAsJsonObject();
+								}else  if(mc.getExtra()==MTGCardVariation.EXTENDEDART && el.getAsJsonObject().get("variation").getAsString().equals("Extended")) {
+									item=el.getAsJsonObject();
+								}else  if(mc.getExtra()==MTGCardVariation.JAPANESEALT && el.getAsJsonObject().get("variation").getAsString().equals("Japanese")) {
+									item=el.getAsJsonObject();
+								}else  if(mc.getExtra()==MTGCardVariation.TIMESHIFTED && (el.getAsJsonObject().get("variation").getAsString().equals("Retro")||el.getAsJsonObject().get("variation").getAsString().equals("Timeshifted"))) {
+									item=el.getAsJsonObject();
+								}
+							}
+							else if(!el.getAsJsonObject().get("finish").getAsString().equals("regular"))
+								item=el.getAsJsonObject();
 					}
-					
-					
-				}
 			}
+		}
+			
 			
 		if(item==null)
+		{
+			logger.debug("item is null");
 			return null;
+		}
 			
 	
 		return URLTools.getLocation(WEBSITE+"/q?utf8=%E2%9C%93&query_string="+URLTools.encode(item.get("id").getAsString()))+"#" + getString(FORMAT);
 	}
 	
-	
-	public static void main(String[] args) throws IOException {
-		
-		var mc = new MagicCard();
-			mc.setName("Teferi, Hero of Dominaria");
-		var ed = new MagicEdition();
-			ed.setId("M21");
-			mc.getEditions().add(ed);
-			
-		
-		System.out.println(new MTGoldFishDashBoard().searchUrlFor(mc,false));
-		
-	}
-	
-	
 	public HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, boolean foil) throws IOException {
 
-		var url = "";
+		var url = "";//searchUrlFor(mc,foil);
+		
 		HistoryPrice<MagicCard> historyPrice = new HistoryPrice<>(mc);
 		historyPrice.setCurrency(getCurrency());
 		historyPrice.setFoil(foil);
