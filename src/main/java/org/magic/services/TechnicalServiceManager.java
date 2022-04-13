@@ -75,13 +75,7 @@ public class TechnicalServiceManager {
 			}
 		}
 		
-		
-		try {
-			restore();
-			logger.info("Restauration log done");
-		} catch (IOException e) {
-			logger.error("error restore previous log",e);
-		}
+	
 		
 		
 		logger.info("Starting Log backup timer scheduled at " + TimeUnit.HOURS.toMillis(SCHEDULE_TIMER_MS) +" ms");
@@ -113,10 +107,7 @@ public class TechnicalServiceManager {
 					logger.error(e);
 				}
 		}
-		else
-		{
-			logger.warn("TechnicalService is not enabled");
-		}
+
 	}
 	
 	

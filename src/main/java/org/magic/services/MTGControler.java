@@ -103,7 +103,7 @@ public class MTGControler {
 			
 			
 			TechnicalServiceManager.inst().enable(get("technical-log").equals("true"));
-			
+			TechnicalServiceManager.inst().restore();
 			
 		} catch (Exception e) {
 			logger.error("error init", e);
