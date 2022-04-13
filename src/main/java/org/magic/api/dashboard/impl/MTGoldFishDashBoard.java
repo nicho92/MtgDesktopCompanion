@@ -222,14 +222,15 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			else
 			{
 				var filteredArray = new JsonArray();
+				var set = PluginsAliasesProvider.inst().getSetIdFor(this,mc.getCurrentSet());
 				for(JsonElement el : arr)
 				{
-					if(el.getAsJsonObject().get("id").getAsString().contains("["+PluginsAliasesProvider.inst().getSetIdFor(this,mc.getCurrentSet())+"]") && el.getAsJsonObject().get("foil").getAsBoolean()==foil){
+					if(el.getAsJsonObject().get("id").getAsString().contains("["+set+"]") && el.getAsJsonObject().get("foil").getAsBoolean()==foil){
 						filteredArray.add(el);
 					}
 				}
 				
-				logger.trace("filtered with set and foil :" + filteredArray);
+				logger.debug("filtered with set "+set+" and foil : " + foil+ " : " +  filteredArray);
 				
 				
 				if(filteredArray.size()==1) {
@@ -238,7 +239,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				}
 				else if(filteredArray.size()>1)
 				{
-					logger.trace("Found "+filteredArray.size()+" items for " + mc + " " + mc.getCurrentSet());
 					for(JsonElement el : filteredArray)
 					{
 							if(el.getAsJsonObject().get("id").getAsString().contains(mc.getCurrentSet().getNumber())){
@@ -266,9 +266,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 								if(mc.getExtra()==MTGCardVariation.TIMESHIFTED && (el.getAsJsonObject().get("variation").getAsString().equals("Retro")||el.getAsJsonObject().get("variation").getAsString().equals("Timeshifted"))) {
 									item=el.getAsJsonObject();
 								}
-							
 							}
-							else if(!el.getAsJsonObject().get("finish").getAsString().equals("regular"))
+							else if(el.getAsJsonObject().get("variation").isJsonNull())
 							{
 								item=el.getAsJsonObject();
 							}
@@ -292,27 +291,21 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		MTGControler.getInstance();
 		MTG.getEnabledPlugin(MTGCardsProvider.class).init();
 		
-		
-		var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber("297", "VOW");
-		
-		var ret = new MTGoldFishDashBoard().searchUrlFor(mc, true);
-		
+		var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber("60", "VOC");
+		var ret = new MTGoldFishDashBoard().searchUrlFor(mc, false);
 		System.out.println(ret);
-		
-		
-		
 	}
 	
 	public HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, boolean foil) throws IOException {
 
-		var url =searchUrlFor(mc,foil);
+		var url ="";//searchUrlFor(mc,foil);
 		
 		HistoryPrice<MagicCard> historyPrice = new HistoryPrice<>(mc);
 		historyPrice.setCurrency(getCurrency());
 		historyPrice.setFoil(foil);
 		
-		/*
-		if(mc==null)
+		
+		if(mc==null )
 			return historyPrice;
 			
 			String cardName = RegExUtils.replaceAll(mc.getName(), " ", "+");
@@ -354,7 +347,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				extend="";
 			
 			url = WEBSITE + "/price/" + convert(mc.getCurrentSet()) + extra+pfoil+"/" + cardName +extend+ "#" + getString(FORMAT);
-*/
+
 		try {
 			Document d = URLTools.extractAsHtml(url);
 			parsing(d,historyPrice);
