@@ -206,7 +206,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				  .addHeader("referer", WEBSITE)
 				  .toJson().getAsJsonArray();
 		
-		
 			JsonObject item=null;
 			logger.trace(arr );
 			
@@ -267,15 +266,17 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 								if(mc.getExtra()==MTGCardVariation.TIMESHIFTED && (el.getAsJsonObject().get("variation").getAsString().equals("Retro")||el.getAsJsonObject().get("variation").getAsString().equals("Timeshifted"))) {
 									item=el.getAsJsonObject();
 								}
-								
-								break;
+							
 							}
 							else if(!el.getAsJsonObject().get("finish").getAsString().equals("regular"))
+							{
 								item=el.getAsJsonObject();
+							}
 					}
 			}
 		}
-			
+		
+		logger.debug("Founded " + item);
 			
 		if(item==null)
 		{
@@ -304,13 +305,13 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	
 	public HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, boolean foil) throws IOException {
 
-		var url = "";//searchUrlFor(mc,foil);
+		var url =searchUrlFor(mc,foil);
 		
 		HistoryPrice<MagicCard> historyPrice = new HistoryPrice<>(mc);
 		historyPrice.setCurrency(getCurrency());
 		historyPrice.setFoil(foil);
 		
-		
+		/*
 		if(mc==null)
 			return historyPrice;
 			
@@ -353,7 +354,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				extend="";
 			
 			url = WEBSITE + "/price/" + convert(mc.getCurrentSet()) + extra+pfoil+"/" + cardName +extend+ "#" + getString(FORMAT);
-
+*/
 		try {
 			Document d = URLTools.extractAsHtml(url);
 			parsing(d,historyPrice);
