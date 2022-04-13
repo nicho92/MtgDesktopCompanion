@@ -21,6 +21,7 @@
   </modules>
   <currencylayer-access-api></currencylayer-access-api>
   <tooltip>false</tooltip>
+  <technical-log>false</technical-log>
   <default-library>Library</default-library>
   <loglevel>DEBUG</loglevel>
   <default-website-dir></default-website-dir>

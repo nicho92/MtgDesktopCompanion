@@ -38,6 +38,8 @@ public class TechnicalServiceManager {
 	private JsonExport export;
 	private File logsDirectory = new File(MTGConstants.DATA_DIR,"audits");
 	private IPTranslator translator;
+	private boolean enable =true;
+	
 	public static final int SCHEDULE_TIMER_MS=1;
 	
 	public static TechnicalServiceManager inst()
@@ -46,6 +48,12 @@ public class TechnicalServiceManager {
 			inst = new TechnicalServiceManager();
 		
 		return inst;
+	}
+	
+	
+	public void enable(boolean enable)
+	{
+		this.enable =enable;
 	}
 	
 	
@@ -90,37 +98,53 @@ public class TechnicalServiceManager {
 	
 	public void storeAll()
 	{
-		try {
-			storeItems(JsonQueryInfo.class,jsonInfo.stream().filter(Objects::nonNull).toList());
-			storeItems(DAOInfo.class,daoInfos.stream().filter(Objects::nonNull).toList());
-			storeItems(NetworkInfo.class,networkInfos.stream().filter(Objects::nonNull).toList());
-			storeItems(TaskInfo.class,tasksInfos.stream().filter(Objects::nonNull).toList());
-			storeItems(DiscordInfo.class,discordInfos.stream().filter(Objects::nonNull).toList());
-		}
-		catch(Exception e)
-		{
-			logger.error(e);
-		}
 		
+		if(enable) 
+		{
+				try {
+					storeItems(JsonQueryInfo.class,jsonInfo.stream().filter(Objects::nonNull).toList());
+					storeItems(DAOInfo.class,daoInfos.stream().filter(Objects::nonNull).toList());
+					storeItems(NetworkInfo.class,networkInfos.stream().filter(Objects::nonNull).toList());
+					storeItems(TaskInfo.class,tasksInfos.stream().filter(Objects::nonNull).toList());
+					storeItems(DiscordInfo.class,discordInfos.stream().filter(Objects::nonNull).toList());
+				}
+				catch(Exception e)
+				{
+					logger.error(e);
+				}
+		}
+		else
+		{
+			logger.warn("TechnicalService is not enabled");
+		}
 	}
 	
 	
 	public void restore() throws IOException
 	{
 		
-		for(File f : FileTools.listFiles(logsDirectory))
+		if(enable)
 		{
-			if(f.getName().startsWith(JsonQueryInfo.class.getSimpleName()))
-				jsonInfo.addAll(restore(f,JsonQueryInfo.class).stream().distinct().toList());
-			else if(f.getName().startsWith(DAOInfo.class.getSimpleName()))
-				daoInfos.addAll(restore(f,DAOInfo.class).stream().distinct().toList());
-			else if(f.getName().startsWith(TaskInfo.class.getSimpleName()))
-				tasksInfos.addAll(restore(f,TaskInfo.class).stream().distinct().toList());		
-			else if(f.getName().startsWith(NetworkInfo.class.getSimpleName()))
-				networkInfos.addAll(restore(f,NetworkInfo.class).stream().distinct().toList());
-			else if(f.getName().startsWith(DiscordInfo.class.getSimpleName()))
-				discordInfos.addAll(restore(f,DiscordInfo.class).stream().distinct().toList());	
+			for(File f : FileTools.listFiles(logsDirectory))
+			{
+				if(f.getName().startsWith(JsonQueryInfo.class.getSimpleName()))
+					jsonInfo.addAll(restore(f,JsonQueryInfo.class).stream().distinct().toList());
+				else if(f.getName().startsWith(DAOInfo.class.getSimpleName()))
+					daoInfos.addAll(restore(f,DAOInfo.class).stream().distinct().toList());
+				else if(f.getName().startsWith(TaskInfo.class.getSimpleName()))
+					tasksInfos.addAll(restore(f,TaskInfo.class).stream().distinct().toList());		
+				else if(f.getName().startsWith(NetworkInfo.class.getSimpleName()))
+					networkInfos.addAll(restore(f,NetworkInfo.class).stream().distinct().toList());
+				else if(f.getName().startsWith(DiscordInfo.class.getSimpleName()))
+					discordInfos.addAll(restore(f,DiscordInfo.class).stream().distinct().toList());	
+			}
 		}
+		else
+		{
+			logger.warn("TechnicalService is not enabled");
+		}
+		
+		
 	}
 	
 	private <T  extends AbstractAuditableItem> List<T> restore(File f, Class<T> classe) throws IOException {
@@ -129,7 +153,10 @@ public class TechnicalServiceManager {
 
 	private <T extends AbstractAuditableItem> void storeItems(Class<T> classe, List<T> items) throws IOException
 	{
-		FileTools.saveLargeFile(Paths.get(logsDirectory.getAbsolutePath(),classe.getSimpleName()+".json").toFile(), export.toJson(items),MTGConstants.DEFAULT_ENCODING);
+		if(enable) 
+		{
+			FileTools.saveLargeFile(Paths.get(logsDirectory.getAbsolutePath(),classe.getSimpleName()+".json").toFile(), export.toJson(items),MTGConstants.DEFAULT_ENCODING);
+		}
 	}
 	
 

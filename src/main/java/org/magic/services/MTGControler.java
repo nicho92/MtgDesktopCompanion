@@ -101,6 +101,10 @@ public class MTGControler {
 			
 			ThreadManager.getInstance().initThreadPoolConfig(getThreadPoolConfig());
 			
+			
+			TechnicalServiceManager.inst().enable(get("technical-log").equals("true"));
+			
+			
 		} catch (Exception e) {
 			logger.error("error init", e);
 		}
@@ -116,6 +120,8 @@ public class MTGControler {
 			setProperty("/currencylayer-converter-enable", FALSE);
 
 		}
+		
+		
 		
 		
 	}

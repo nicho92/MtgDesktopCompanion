@@ -331,7 +331,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		var chkboxAutoDelete = new JCheckBox(capitalize("AUTO_STOCK_DELETE"));
 		var btnDefaultStock = new JButton("Default Stock");
 		var chkboxPrerelease = new JCheckBox();		
-	
+		var chkTechnicalLog = new JCheckBox();
 		
 		var panelAutoStock = new JPanel();
 		cboEditionLands = UITools.createComboboxEditions();
@@ -351,7 +351,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		chkboxPrerelease.getModel().setSelected( MTGControler.getInstance().get("notifyPrerelease").equals("true"));
 		chkboxAutoAdd.setSelected(MTGControler.getInstance().get("collections/stockAutoAdd").equals("true"));
 		chkboxAutoDelete.setSelected(MTGControler.getInstance().get("collections/stockAutoDelete").equals("true"));
-		
+		chkTechnicalLog.setSelected(MTGControler.getInstance().get("technical-log").equals("true"));
 		
 		panelCheckCache.add(chckbxIconset);
 		panelCheckCache.add(chckbxIconcards);
@@ -381,6 +381,9 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 
 		panelConfig.add(new JLabel(capitalize("UPDATE_PRERELEASE")+" :"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 7));
 		panelConfig.add(chkboxPrerelease, UITools.createGridBagConstraints(null, GridBagConstraints.WEST, 1, 7));
+		
+		panelConfig.add(new JLabel(capitalize("TECHNICAL_SERVICE_LOG")+" :"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 8));
+		panelConfig.add(chkTechnicalLog, UITools.createGridBagConstraints(null, GridBagConstraints.WEST, 1, 8));
 		
 		
 
@@ -709,7 +712,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		chkEnabledAutocomplete.addItemListener(ie -> MTGControler.getInstance().setProperty("autocompletion", chkEnabledAutocomplete.isSelected()));
 		chkEnabledChrome.addItemListener(ie -> MTGControler.getInstance().setProperty("ui/chromedisabled", chkEnabledChrome.isSelected()));
 		chkboxPrerelease.addItemListener(ie -> MTGControler.getInstance().setProperty("notifyPrerelease", chkboxPrerelease.isSelected()));
-
+		chkTechnicalLog.addItemListener(ie -> MTGControler.getInstance().setProperty("technical-log", chkTechnicalLog.isSelected()));
 		
 		btnSaveCode.addActionListener(e -> MTGControler.getInstance().setProperty("currencylayer-access-api",txtCurrencyFieldApiCode.getText()));
 		btnUpdateCurrency.addActionListener(ae -> {
