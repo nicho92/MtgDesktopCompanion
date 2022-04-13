@@ -37,7 +37,7 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 	}
 	
 	
-	private JsonObject getCardId(MagicCard c) throws IOException
+	private JsonObject getCardId(MagicCard c)
 	{
 		var edi = c.getCurrentSet();
 		

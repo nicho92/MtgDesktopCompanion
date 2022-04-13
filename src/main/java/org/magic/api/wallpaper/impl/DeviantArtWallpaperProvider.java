@@ -83,7 +83,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 		return list;
 	}
 
-	private JsonObject readOffset(int offset,String search) throws IOException {
+	private JsonObject readOffset(int offset,String search) {
 		return  build.clean()
 				  .method(METHOD.GET)
 				  .url(BASE_URL+"/api/v1/oauth2/browse/newest")

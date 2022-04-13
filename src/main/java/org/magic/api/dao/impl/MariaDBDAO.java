@@ -60,11 +60,12 @@ public class MariaDBDAO extends AbstractMagicSQLDAO {
 				   .append(" -p").append(getString(PASS))
 				   .append(" --port ").append(getString(SERVERPORT));
 		
-		var rt = Runtime.getRuntime();
+		var pb = new ProcessBuilder(getString(MARIA_DUMP_PATH) + "/mysqldump",getString(DB_NAME), "-h",getString(SERVERNAME),"-u",getString(LOGIN),"-p",getString(PASS),"--port",getString(SERVERPORT));
+		
 		logger.info("begin Backup " + getString(DB_NAME));
 		Process child;
 
-		child = rt.exec(dumpCommand.toString());
+		child = pb.start();
 		try (var ps = new PrintStream(f)) {
 			var in = child.getInputStream();
 			int ch;

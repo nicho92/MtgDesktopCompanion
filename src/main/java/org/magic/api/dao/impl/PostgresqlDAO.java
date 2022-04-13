@@ -136,15 +136,10 @@ public class PostgresqlDAO extends AbstractMagicSQLDAO {
 		if (getString(URL_PGDUMP).length() <= 0) {
 			throw new NullPointerException("Please fill URL_PGDUMP var");
 		}
-
-		String dumpCommand = getString(URL_PGDUMP) + "/pg_dump" + " -d" + getString(DB_NAME)
-				+ " -h" + getString(SERVERNAME) + " -U" + getString(LOGIN) + " -p"
-				+ getString(SERVERPORT);
-
-		var rt = Runtime.getRuntime();
-		logger.info("begin Backup :" + dumpCommand);
-
-		Process child = rt.exec(dumpCommand);
+	
+		ProcessBuilder pb = new ProcessBuilder(getString(URL_PGDUMP) + "/pg_dump", "-d", getString(DB_NAME),"-h",getString(SERVERNAME),"-U",getString(LOGIN),"-p",getString(SERVERPORT));
+		
+		Process child = pb.start();
 		try (var ps = new PrintStream(f)) {
 			var in = child.getInputStream();
 			int ch;

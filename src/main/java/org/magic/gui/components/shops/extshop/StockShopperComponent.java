@@ -98,9 +98,7 @@ public class StockShopperComponent extends MTGUIComponent {
 		txtSearch.addActionListener(al->btnLoad.doClick());
 		
 		
-		tableInput.getSelectionModel().addListSelectionListener(il->{
-			btnBind.setEnabled(tableInput.getSelectedRow()>-1);
-		});
+		tableInput.getSelectionModel().addListSelectionListener(il->btnBind.setEnabled(tableInput.getSelectedRow()>-1));
 		
 		
 		btnBind.addActionListener(al->{

@@ -53,18 +53,13 @@ public class MysqlDAO extends AbstractMagicSQLDAO {
 		if (!getFile(MYSQL_DUMP_PATH).exists())
 			throw new IOException(getString(MYSQL_DUMP_PATH) + " doesn't exist");
 
-		var dumpCommand = new StringBuilder();
-		dumpCommand.append(getString(MYSQL_DUMP_PATH)).append("/mysqldump ").append(getString(DB_NAME))
-				   .append(" -h ").append(getString(SERVERNAME))
-				   .append(" -u ").append(getString(LOGIN))
-				   .append(" -p").append(getString(PASS))
-				   .append(" --port ").append(getString(SERVERPORT));
 		
-		var rt = Runtime.getRuntime();
+		var pb = new ProcessBuilder(getString(MYSQL_DUMP_PATH) + "/mysqldump",getString(DB_NAME), "-h",getString(SERVERNAME),"-u",getString(LOGIN),"-p",getString(PASS),"--port",getString(SERVERPORT));
+		
 		logger.info("begin Backup " + getString(DB_NAME));
 		Process child;
 
-		child = rt.exec(dumpCommand.toString());
+		child = pb.start();
 		try (var ps = new PrintStream(f)) {
 			var in = child.getInputStream();
 			int ch;
