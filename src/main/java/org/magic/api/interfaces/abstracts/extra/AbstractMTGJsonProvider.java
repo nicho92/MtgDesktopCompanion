@@ -215,8 +215,11 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	public String[] getLanguages() {
 		
 		var ret = new String[0];
-		
-		URLTools.extractAsJson(MTG_JSON_ENUM_VALUES).getAsJsonObject().get("data").getAsJsonObject().get(FOREIGN_DATA).getAsJsonObject().get(LANGUAGE).getAsJsonArray().forEach(je->ArrayUtils.add(ret, je.getAsString()));
+		try {
+			URLTools.extractAsJson(MTG_JSON_ENUM_VALUES).getAsJsonObject().get("data").getAsJsonObject().get(FOREIGN_DATA).getAsJsonObject().get(LANGUAGE).getAsJsonArray().forEach(je->ArrayUtils.add(ret, je.getAsString()));
+		} catch (IOException ex) {
+			logger.error(ex);
+		}
 		
 		return ret;
 	}
