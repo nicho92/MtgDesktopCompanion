@@ -55,17 +55,13 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 			var qte = Integer.parseInt(main.get(0).getElementsByClass(SUBDECK_GROUP_CARD_QTY).get(i).text());
 			String cardName = main.get(0).getElementsByClass("subdeck-group__card-name").get(i).text();
 
-			MagicEdition ed = null;
-			if (MagicCard.isBasicLand(cardName)) {
-				ed = new MagicEdition(MTGControler.getInstance().get("default-land-deck"));
-			}
-
+			
 			if (cardName.contains("//"))
 				cardName = cardName.substring(0, cardName.indexOf("//")).trim();
 
 			MagicCard mc;
 			try {
-				mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( cardName, ed, true).get(0);
+				mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( cardName, null, true).get(0);
 				deck.getMain().put(mc, qte);
 				notify(mc);
 			} catch (IndexOutOfBoundsException e1) {
@@ -81,15 +77,11 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 				var qte = Integer.parseInt(main.get(1).getElementsByClass(SUBDECK_GROUP_CARD_QTY).get(i).text());
 				String cardName = main.get(1).getElementsByClass("subdeck-group__card-name").get(i).text();
 
-				MagicEdition ed = null;
-				if (MagicCard.isBasicLand(cardName)) {
-					ed = new MagicEdition(MTGControler.getInstance().get("default-land-deck"));
-				}
-
+				
 				if (cardName.contains("//"))
 					cardName = cardName.substring(0, cardName.indexOf("//")).trim();
 				try {
-					MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( cardName, ed, true).get(0);
+					MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( cardName, null, true).get(0);
 					deck.getSideBoard().put(mc, qte);
 					
 				}

@@ -89,7 +89,6 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 	private JComboBox<MagicCollection> cboCollections;
 	private JComboBox<Level> cboLogLevels;
 	private JTextFieldFileChooser txtdirWebsite;
-	private JComboBox<MagicEdition> cboEditionLands;
 	private JTextField txtMinPrice;
 	private JCheckBox cbojsonView;
 	private JTextField txtWebSiteCertificate;
@@ -334,8 +333,6 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		var chkTechnicalLog = new JCheckBox();
 		
 		var panelAutoStock = new JPanel();
-		cboEditionLands = UITools.createComboboxEditions();
-		
 		var panelBtnConfigBackup = new JPanel();
 		var btnExportConfig = new JButton(capitalize(EXPORT));
 		var btnImportConfig = new JButton(capitalize("IMPORT"));
@@ -365,8 +362,6 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		
 		panelConfig.add(new JLabel(capitalize("MAIN_COLLECTION") + " :"), UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 0));
 		panelConfig.add(cboCollections, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 0));
-		panelConfig.add(new JLabel(capitalize("DEFAULT_LAND_IMPORT") + " :"), UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 1));
-		panelConfig.add(cboEditionLands, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 1));
 		panelConfig.add(new JLabel(capitalize("SHOW_LOW_PRICES") + " :"), UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 3));
 		panelConfig.add(txtMinPrice, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 3));
 		panelConfig.add(btnSavePrice, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 3));
@@ -683,12 +678,6 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 				}
 		});
 		
-
-		cboEditionLands.addItemListener(ie ->{
-			if (ie.getStateChange() == ItemEvent.SELECTED) 
-				MTGControler.getInstance().setProperty("default-land-deck",((MagicEdition) cboEditionLands.getSelectedItem()).getId());
-		});
-
 		cboCollections.addItemListener(ie -> {
 			if (ie.getStateChange() == ItemEvent.SELECTED)
 				MTGControler.getInstance().setProperty(DEFAULT_LIBRARY,cboCollections.getSelectedItem());
@@ -947,16 +936,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 				cboLogLevels.setSelectedIndex(i);
 
 		}
-		try {
-			for (MagicEdition col : getEnabledPlugin(MTGCardsProvider.class).listEditions()) {
-				if (col.getId().equalsIgnoreCase(MTGControler.getInstance().get("default-land-deck"))) {
-					cboEditionLands.setSelectedItem(col);
-				}
-			}
-
-		} catch (Exception e1) {
-			logger.error(e1);
-		}
+		
 	}
 	
 	

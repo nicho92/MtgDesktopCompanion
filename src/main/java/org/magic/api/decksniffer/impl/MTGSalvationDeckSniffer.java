@@ -76,12 +76,8 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 				try {
 					var qte = Integer.parseInt(s.substring(0, s.indexOf(' ')));
 					cardName = s.substring(s.indexOf(' '), s.length()).trim();
-					MagicEdition ed = null;
-					if (MagicCard.isBasicLand(cardName)) {
-						ed = new MagicEdition(MTGControler.getInstance().get("default-land-deck"));
-					}
-					MagicCard mc = getEnabledPlugin(MTGCardsProvider.class)
-							.searchCardByName( cardName, ed, true).get(0);
+					
+					MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( cardName, null, true).get(0);
 					if (!sideboard) {
 						deck.getMain().put(mc, qte);
 					} else {

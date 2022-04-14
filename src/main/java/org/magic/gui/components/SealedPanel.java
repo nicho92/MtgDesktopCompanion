@@ -305,9 +305,8 @@ public class SealedPanel extends JPanel {
 	private void addLands() {
 		var qte = Integer.parseInt(txtNumberLand.getText());
 		var land = cboLands.getSelectedItem().toString();
-		var ed = new MagicEdition(MTGControler.getInstance().get("default-land-deck"));
 		try {
-			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( land, ed, true)
+			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( land, null, true)
 					.get(0);
 
 			for (var i = 0; i < qte; i++) {
