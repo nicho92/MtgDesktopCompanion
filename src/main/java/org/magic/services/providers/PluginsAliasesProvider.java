@@ -102,28 +102,38 @@ public class PluginsAliasesProvider {
 	
 	public String getSetNameFor(MTGPlugin plug, MagicEdition ed)
 	{
-		try{
-			return jsonData.get(plug.getName()).getAsJsonObject().get("nameSet").getAsJsonObject().get(ed.getSet()).getAsString();
-		}
-		catch(Exception e)
-		{
-			return ed.getSet();
-		}
+		return getSetNameFor(plug,ed.getId());
 	}
 	
 	
 	public String getSetIdFor(MTGPlugin plug, MagicEdition ed)
 	{
-		try{
-			return jsonData.get(plug.getName()).getAsJsonObject().get("idSet").getAsJsonObject().get(ed.getId()).getAsString();
-		}
-		catch(Exception e)
-		{
-			return ed.getId();
-		}
+		return getSetIdFor(plug,ed.getId());
 	}
 	
 	
+	public String getSetIdFor(MTGPlugin plug, String ed)
+	{
+		logger.debug("looking for " + ed + " for " +plug.getName());
+		try{
+			return jsonData.get(plug.getName()).getAsJsonObject().get("idSet").getAsJsonObject().get(ed).getAsString();
+		}
+		catch(Exception e)
+		{
+			return ed;
+		}
+	}
+	
+	public String getSetNameFor(MTGPlugin plug, String ed)
+	{
+		try{
+			return jsonData.get(plug.getName()).getAsJsonObject().get("nameSet").getAsJsonObject().get(ed).getAsString();
+		}
+		catch(Exception e)
+		{
+			return ed;
+		}
+	}
 	
 	
 }

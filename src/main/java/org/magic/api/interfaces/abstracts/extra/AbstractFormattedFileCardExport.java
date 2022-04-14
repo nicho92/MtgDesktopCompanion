@@ -21,6 +21,7 @@ import org.magic.api.beans.enums.MTGExportCategory;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
+import org.magic.services.providers.PluginsAliasesProvider;
 import org.magic.tools.UITools;
 
 public abstract class AbstractFormattedFileCardExport extends AbstractCardExport {
@@ -62,9 +63,9 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 		MagicEdition ed = null;
 		try {
 			if(setSearch==FORMAT_SEARCH.ID) 
-				ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(m.group(gEdition));
+				ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(PluginsAliasesProvider.inst().getSetIdFor(this,m.group(gEdition)));
 			else
-				ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(m.group(gEdition));
+				ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(PluginsAliasesProvider.inst().getSetNameFor(this,m.group(gEdition)));
 			
 		} catch (Exception e) {
 			ed = null;
