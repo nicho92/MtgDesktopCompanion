@@ -114,7 +114,6 @@ public class PluginsAliasesProvider {
 	
 	public String getSetIdFor(MTGPlugin plug, String ed)
 	{
-		logger.debug("looking for " + ed + " for " +plug.getName());
 		try{
 			return jsonData.get(plug.getName()).getAsJsonObject().get("idSet").getAsJsonObject().get(ed).getAsString();
 		}
