@@ -287,14 +287,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		return URLTools.getLocation(WEBSITE+"/q?utf8=%E2%9C%93&query_string="+URLTools.encode(item.get("id").getAsString()))+"#" + getString(FORMAT);
 	}
 	
-	public static void main(String[] args) throws IOException, SQLException {
-		MTGControler.getInstance();
-		MTG.getEnabledPlugin(MTGCardsProvider.class).init();
-		
-		var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber("60", "VOC");
-		var ret = new MTGoldFishDashBoard().searchUrlFor(mc, false);
-		System.out.println(ret);
-	}
 	
 	public HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, boolean foil) throws IOException {
 

@@ -102,7 +102,7 @@ public class PluginsAliasesProvider {
 	
 	public String getSetNameFor(MTGPlugin plug, MagicEdition ed)
 	{
-		return getSetNameFor(plug,ed.getId());
+		return getSetNameFor(plug,ed.getSet());
 	}
 	
 	
