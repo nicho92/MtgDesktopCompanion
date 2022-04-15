@@ -141,7 +141,7 @@ server = {
 	
 	
 		var deviceCount = datas.reduce(function (result, d) {
-								    var device = d.userAgent.DeviceName
+								    var device = d.userAgent.DeviceClass
 								    if (!result[device]) {
 								        result[device] = 0;
 								    }
