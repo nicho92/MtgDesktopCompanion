@@ -123,15 +123,24 @@ var  gradientChartOptionsConfigurationWithNumbersAndGrid = {
 server = {
   
     initDashboardPageCharts: function(data, start, end) {
+	
+			var sup7=end.diff(start, 'days')>=7;
+
 		var datas = data.filter(a => {
 				 var date = moment(a.start);
 				 	end = moment(end);
 				 	start = moment(start);
 				  return (date.isAfter(start) && date.isBefore(end));
 		});
-
+	
 		var dayCounts = datas.reduce(function (result, d) {
-								    var day = moment(d.start).format("YYYY-MM-DD HH");
+									if(sup7)
+										var day = moment(d.start).format("YYYY-MM-DD");
+									else
+										var day = moment(d.start).format("YYYY-MM-DD HH");
+										
+										
+										
 								    if (!result[day]) {
 								        result[day] = 0;
 								    }
