@@ -43,7 +43,7 @@ public class MTGConstants {
 	public static final File NATIVE_DIR = new File("./natives");
 	public static final URL TOOLTIPS_FILE = MTGConstants.class.getResource("/data/tips.properties");
 	public static final Image SAMPLE_PIC = Toolkit.getDefaultToolkit().getImage(MTGConstants.class.getResource("/data/sample.png"));
-	public static final File MTG_DESKTOP_ALIASES_FILE = new File("./src/main/resources/data/pluginsAliases.json");
+	public static final URL MTG_DESKTOP_ALIASES_FILE =  MTGConstants.class.getResource("/data/pluginsAliases.json");
 	
 	public static final float WEIGHT_CARD=1.7009714f;
 	public static final float WEIGHT_BOOSTER=28.7f;

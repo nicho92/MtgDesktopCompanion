@@ -179,6 +179,7 @@ public class FileTools {
 		return URLTools.toJson(readFile(f));
 	}
 	
+
 	private FileTools() {	}
 
 	public static void extractConfig(File fzip) throws IOException 

@@ -7,7 +7,6 @@ import org.magic.api.interfaces.MTGPlugin;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.services.network.URLTools;
-import org.magic.tools.FileTools;
 
 import com.google.gson.JsonObject;
 
@@ -16,7 +15,7 @@ public class PluginsAliasesProvider {
 	private JsonObject jsonData;
 	private Logger logger = MTGLogger.getLogger(PluginsAliasesProvider.class);
 	private static PluginsAliasesProvider inst;
-	private boolean LocalAliases = false; //true uses local source
+	private boolean useLocalAliases = false; //true uses local source
 	
 	public static PluginsAliasesProvider inst()
 	{
@@ -30,10 +29,10 @@ public class PluginsAliasesProvider {
 	
 	private PluginsAliasesProvider() {
 		
-		if (LocalAliases) {
+		if (useLocalAliases) {
 			try {
 				logger.error(MTGConstants.MTG_DESKTOP_ALIASES_FILE);
-			jsonData = FileTools.readJson(MTGConstants.MTG_DESKTOP_ALIASES_FILE).getAsJsonObject();
+				jsonData = URLTools.toJson(MTGConstants.MTG_DESKTOP_ALIASES_FILE.openStream()).getAsJsonObject();
 			}
 			catch(Exception e) {
 				logger.error("No Error getting file "+  MTGConstants.MTG_DESKTOP_ALIASES_URL + " :"+e);
