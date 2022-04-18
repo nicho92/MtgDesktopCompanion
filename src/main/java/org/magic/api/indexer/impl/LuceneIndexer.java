@@ -126,7 +126,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		
 		
 		
-		try (IndexReader indexReader = DirectoryReader.open(dir))
+		try (var indexReader = DirectoryReader.open(dir))
 		{
 			var searcher = new IndexSearcher(indexReader);
 			var query = new QueryParser("name", analyzer).parse(q);
@@ -194,7 +194,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		
 		logger.debug("search similar cards for " + mc);
 		
-		try (IndexReader indexReader = DirectoryReader.open(dir))
+		try (var indexReader = DirectoryReader.open(dir))
 		{
 			
 		 var searcher = new IndexSearcher(indexReader);
@@ -212,11 +212,8 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 			  
 			  
 			  
-			 ScoreDoc d = top.scoreDocs[0];
-			 logger.trace("found doc id="+d.doc);
-			 var like = mlt.like(d.doc);
-			 
-			 logger.trace("mlt="+Arrays.asList(mlt.retrieveInterestingTerms(d.doc)));
+			 var scoreDoc = top.scoreDocs[0];
+			 var like = mlt.like(scoreDoc.doc);
 			 logger.trace("Like query="+like);
 			 var likes = searcher.search(like,getInt(MAX_RESULTS));
 			 
@@ -246,7 +243,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 			open();
 		
 		var iwc = new IndexWriterConfig(analyzer);
-		  				   iwc.setOpenMode(OpenMode.CREATE);
+		  	iwc.setOpenMode(OpenMode.CREATE);
 		var indexWriter = new IndexWriter(dir, iwc);
 	    
 		for(MagicCard mc : getEnabledPlugin(MTGCardsProvider.class).listAllCards())
@@ -290,7 +287,9 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		          		fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
 		          		
 		           doc.add(new Field("mtgcompId", IDGenerator.generate(mc), fieldType));		
-           		   doc.add(new Field("name", mc.getName(), fieldType));
+		           doc.add(new Field("scryfallId",String.valueOf(mc.getScryfallId()),fieldType));
+		     		
+		           doc.add(new Field("name", mc.getName(), fieldType));
            		   
            		   if(mc.getCost()!=null)
            			   doc.add(new Field("cost", mc.getCost(),fieldType));
@@ -315,7 +314,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 	     		  doc.add(new Field("showcase",String.valueOf(mc.isShowCase()),fieldType));
 	     		  doc.add(new Field("extend",String.valueOf(mc.isExtendedArt()),fieldType));
 	     		  doc.add(new Field("timeshifted",String.valueOf(mc.isTimeshifted()),fieldType));
-	     		  
+	     		 
 	     		  
 					if(mc.getExtra() != null)
 						doc.add(new Field("extraLayout", mc.getExtra().toPrettyString(), fieldType));
