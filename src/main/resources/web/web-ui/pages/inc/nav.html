@@ -20,7 +20,7 @@
 			<li class="nav-item dropdown pe-2">
               <a href="wizard-shop.html" class="nav-link text-body p-0 position-relative">
                <span class="material-icons">shopping_cart</span>
-               <span class="position-absolute top-5 start-100 translate-middle badge rounded-pill bg-danger border border-white small py-1 px-2">
+               <span  id="cartBadge" class="position-absolute top-5 start-100 translate-middle badge rounded-pill bg-danger border border-white small py-1 px-2">
                   <span class="small" id="cartCount">2</span>
                 </span>
               </a>
@@ -63,7 +63,8 @@
 			 $('#loading').html("");  
 		});
 	
-	
+		
+		document.getElementById("cartBadge").style.visibility=(getCartItems().length<=0)?"hidden":"";		
 		document.getElementById("cartCount").innerHTML=getCartItems().length;
 	
 	

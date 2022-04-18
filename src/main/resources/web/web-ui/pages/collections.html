@@ -201,8 +201,8 @@
 								    								return val==1;
 																}).length;
 					
-					$('#cardCount').html(cardCount + " cards");
-					$("#cardTotal").html(totalCount);
+					$('#cardCount').html(cardCount.toLocaleString() + " cards");
+					$("#cardTotal").html(totalCount.toLocaleString());
 					$('#percentCount').html(((cardCount/totalCount)*100).toFixed(2) + " %");
 					$('#completeSets').html(completeSet+"/"+lineCount);
 				

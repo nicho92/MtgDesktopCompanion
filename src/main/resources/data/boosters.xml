@@ -2278,7 +2278,14 @@
 		<bundle lang="en" num="2" extra="gift" url="https://media.wizards.com/2021/images/daily/en_wufy32ffye.png"/>
 		<bundle lang="en" num="3" url="https://media.wizards.com/2021/images/daily/en_weyDw38dsn.png"/>
 	</edition>
-
+	<edition id="AFC">
+		<set lang="en" url="https://www.mtgnexus.com/img/sets/1692-afc-logo.png"/>
+		<constructpack lang="en" num="1" url="https://cdn.shopify.com/s/files/1/0272/1828/0515/products/MTGAFR_EN_CmndrOtrBx_03_01_1024x.png?v=1626151623"/>
+		<constructpack lang="en" num="2" url="https://cdn.shopify.com/s/files/1/0272/1828/0515/products/MTGAFR_EN_CmndrOtrBx_02_01_1024x.png?v=1626151623"/>
+		<constructpack lang="en" num="3" url="https://cdn.shopify.com/s/files/1/0272/1828/0515/products/MTGAFR_EN_CmndrOtrBx_01_01_1024x.png?v=1626151623"/>
+		<constructpack lang="en" num="4" url="https://cdn.shopify.com/s/files/1/0272/1828/0515/products/MTGAFR_EN_CmndrOtrBx_04_01_1024x.png?v=1626151623"/>
+		
+	</edition>
 
 
 	<edition id="CC1">
