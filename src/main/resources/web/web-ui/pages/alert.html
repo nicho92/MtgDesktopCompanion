@@ -70,7 +70,7 @@
 				$("#chkFoil").prop('checked', data.foil);
 					
 					
-				$.get(restserver+"/dash/variations/card/"+data.card.id,function(dprice){
+				$.get(restserver+"/dash/variations/card/"+data.card.scryfallId,function(dprice){
 						printChartPrices("chartPrice",dprice);
 				});
 					

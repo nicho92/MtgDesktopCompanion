@@ -124,7 +124,7 @@ function buildCard(card)
                          "  <img class='card-img-top' src='"+url+"' alt='"+card.name+"'>"+
                            " <div class='card-body p-5'>"+
                              "   <div class='text-center'>"+
-                               "    <h5 class='fw-bolder'><a href='card.html?id="+card.id+"'>"+card.name+"</a></h5>"+
+                               "    <h5 class='fw-bolder'><a href='card.html?id="+card.scryfallId+"'>"+card.name+"</a></h5>"+
                                 		card.rarity+
                                 " </div></div></div></div>";
 	                        	

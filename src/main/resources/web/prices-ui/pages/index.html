@@ -116,7 +116,7 @@
 				
 				
 				
-				$.get(restserver+"/dash/variations/card/"+card.id,function(data){
+				$.get(restserver+"/dash/variations/card/"+card.scryfallId,function(data){
 					   	
 						charts.initCharts(data);
 					   	$("#provider").html(data.provider);

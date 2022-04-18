@@ -894,14 +894,14 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/dash/collection/:collection", URLTools.HEADER_JSON, (request, response) -> CollectionEvaluator.analyseToJson(new MagicCollection(request.params(":collection"))), transformer);
 		
 		
-		get("/dash/variations/card/:idCards", URLTools.HEADER_JSON, (request, response) -> 
+		get("/dash/variations/card/:scryfallId", URLTools.HEADER_JSON, (request, response) -> 
 			getCached(request.pathInfo(), new Callable<Object>() {
 				@Override
 				public Object call() throws Exception {
 					
 					var dash = getEnabledPlugin(MTGDashBoard.class);
 					
-					MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(ID_CARDS));
+					MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
 					var ret = new JsonObject();
 					var resNormal = dash.getPriceVariation(mc,false);
 					var resFoil = dash.getPriceVariation(mc,true);
