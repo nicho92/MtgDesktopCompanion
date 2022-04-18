@@ -544,16 +544,16 @@ public class UITools {
 								var key = getModelValueAt(table,row, extraPos);
 								if(key!=null) {
 									var extraVariations = MTGCardVariation.valueOf(key.toString());
-									mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, ed, false,extraVariations).get(0);	
+									mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, ed, true,extraVariations).get(0);	
 								}
 								else
 								{
-									mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, ed, false).get(0);
+									mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, ed, true).get(0);
 								}
 							}
 							else
 							{
-								mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, ed, false).get(0);
+								mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, ed, true).get(0);
 							}
 								pane.setMagicCard(mc);
 								
