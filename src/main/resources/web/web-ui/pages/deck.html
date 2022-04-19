@@ -52,7 +52,8 @@
 			$("#navfooter").load("inc/footer.html");
 			$("#settingPanel").load("inc/settingPanel.html");
 			
-		
+	
+				
 			  $.ajax({
 				        url: restserver+"/deck/stats/"+$_GET("id")
 				    }).then(function(datastat) {
@@ -125,6 +126,40 @@
 				});
 				
 				$("#cardTotal").html(total);
+				
+				
+				
+							var tm = false;
+				$( "#drawhandModal" ).on('shown.bs.modal', function(e){
+					
+							if(tm) 
+							{
+									tm=false;return;
+							}
+							else 
+							{
+									var deck= [];
+							data.main.forEach(element => {
+								for (let i = 0; i < element.qty; i++) 
+									deck.push(element.card);	
+							});
+							deck = deck.sort((a, b) => 0.5 - Math.random());
+							for (let i = 0; i < 5; i++) 
+							{
+								var card = deck.pop();
+								$("#handSampleContent").append("<img class='img-fluid img-responsive ' src='https://api.scryfall.com/cards/"+card.scryfallId+"?format=image'>");
+							}	 
+								tm= true;
+							}
+					
+					
+						
+				});
+				
+				
+				
+				
+				
 				
 				
 				$("#btnDelete").click( function() {
@@ -313,7 +348,8 @@
               <h6>Actions</h6>
             </div>
             <div class="card-body p-3">
-					 <button id="btnDelete" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="fa-solid fa-trash"></i> Delete</button>            
+ 					 <button id="btnDelete" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="fa-solid fa-trash"></i> Delete</button>
+					 <button id="btnDrawHand" type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#drawhandModal"><i class="fa-solid fa-hand"></i> Draw hand</button>            
             </div>
           </div>
 		
@@ -331,6 +367,23 @@
     <div class="card shadow-lg" id="settingPanel">
     </div>
   </div>
+
+
+<div class="modal fade" id="drawhandModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="handSampleContent">
+        	
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success"  data-bs-dismiss="modal" >OK</button>
+      </div>
+    </div>
+  </div>
+</div>
 
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
