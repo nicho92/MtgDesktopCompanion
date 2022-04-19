@@ -5,7 +5,6 @@ import static org.magic.tools.MTG.getEnabledPlugin;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedHashMap;
