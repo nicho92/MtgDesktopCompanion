@@ -138,7 +138,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 	private static final String ENABLE_SSL = "ENABLE_SSL";
 	private static final String NAME = ":name";
 	private static final String ID_ED = ":idEd";
-	private static final String ID_CARDS = ":idCards";
 	private static final String PASSTOKEN = "PASSWORD-TOKEN";
 	private static final String ACCESS_CONTROL_ALLOW_HEADERS = "Access-Control-Allow-Headers";
 	private static final String ACCESS_CONTROL_REQUEST_METHOD = "Access-Control-Request-Method";
