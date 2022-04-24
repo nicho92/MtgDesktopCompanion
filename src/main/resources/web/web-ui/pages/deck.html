@@ -18,7 +18,8 @@
   <link href="//cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
   <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="//unpkg.com/@trevoreyre/autocomplete-js/dist/style.css" rel="stylesheet" />
- 
+  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+
   <script src="//unpkg.com/@trevoreyre/autocomplete-js"></script>    
 
   <script src="//code.jquery.com/jquery-3.6.0.min.js" ></script>
@@ -28,14 +29,15 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/1.5.5/perfect-scrollbar.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/smooth-scrollbar/8.7.4/smooth-scrollbar.min.js"></script>
-  
+  <script src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
   <script src="//cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
   <script src="//cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
   <script src="//cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script>
   <script src="../dist/js/rest-server.js"></script>
   <script src="../dist/js/js-var.js"></script>
   <script src="../dist/js/mtgcompanion-ui.js"></script>
-  
+ 
   <script>
   
   
@@ -95,7 +97,7 @@
 	  	        url: restserver+"/deck/"+$_GET("id")
 	  	    }).then(function(data) {
 	  	    	
-	  	    	
+
 	  	    	$("#deckName").html(data.name);
 	  	    	$("#description").html(data.description);
 				$("#deckPrice").html(data.averagePrice);
@@ -125,20 +127,26 @@
 					total += item.qty;	
 				});
 				
+			$("#handSampleContent").slick({
+									  	slidesToShow: 5,
+							  	  		slidesToScroll: 1,
+										infinite: true,
+									});
+									
+								
+						
 				$("#cardTotal").html(total);
-				
-				
-				
 							var tm = false;
-				$( "#drawhandModal" ).on('shown.bs.modal', function(e){
-					
+						$( "#drawhandModal" ).on('shown.bs.modal', function(e){
+							
+							
 							if(tm) 
 							{
 									tm=false;return;
 							}
 							else 
 							{
-									var deck= [];
+							var deck= [];
 							data.main.forEach(element => {
 								for (let i = 0; i < element.qty; i++) 
 									deck.push(element.card);	
@@ -147,8 +155,10 @@
 							for (let i = 0; i < 5; i++) 
 							{
 								var card = deck.pop();
-								$("#handSampleContent").append("<img class='img-fluid img-responsive ' src='https://api.scryfall.com/cards/"+card.scryfallId+"?format=image'>");
-							}	 
+								$("#draw"+i).attr("src","https://api.scryfall.com/cards/"+card.scryfallId+"?format=image");
+							}
+							
+							$('#handSampleContent').slick('refresh');
 								tm= true;
 							}
 					
@@ -369,14 +379,18 @@
   </div>
 
 
-<div class="modal fade" id="drawhandModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
+<div class="modal fade " id="drawhandModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body" id="handSampleContent">
-        	
+      	<div class="modal-body" id="handSampleContent">
+        	<img id="draw0" alt="draw1"/>
+			<img id="draw1" alt="draw2"/>
+			<img id="draw2" alt="draw3"/>
+			<img id="draw3" alt="draw4"/>
+			<img id="draw4" alt="draw5"/>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-success"  data-bs-dismiss="modal" >OK</button>
