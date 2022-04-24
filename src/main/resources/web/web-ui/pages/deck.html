@@ -136,29 +136,25 @@
 								
 						
 				$("#cardTotal").html(total);
-							var tm = false;
+						
+						var tm = false;
 						$( "#drawhandModal" ).on('shown.bs.modal', function(e){
-							
-							
-							if(tm) 
-							{
+							if(tm){
 									tm=false;return;
 							}
-							else 
-							{
-							var deck= [];
-							data.main.forEach(element => {
-								for (let i = 0; i < element.qty; i++) 
-									deck.push(element.card);	
-							});
-							deck = deck.sort((a, b) => 0.5 - Math.random());
-							for (let i = 0; i < 5; i++) 
-							{
-								var card = deck.pop();
-								$("#draw"+i).attr("src","https://api.scryfall.com/cards/"+card.scryfallId+"?format=image");
-							}
-							
-							$('#handSampleContent').slick('refresh');
+							else{
+								var deck= [];
+								data.main.forEach(element => {
+									for (let i = 0; i < element.qty; i++) 
+										deck.push(element.card);	
+								});
+								deck = deck.sort((a, b) => 0.5 - Math.random());
+								for (let i = 0; i < 5; i++) 
+								{
+									$("#draw"+i).attr("src","https://api.scryfall.com/cards/"+deck.pop().scryfallId+"?format=image");
+								}
+								
+								$('#handSampleContent').slick('refresh');
 								tm= true;
 							}
 					
