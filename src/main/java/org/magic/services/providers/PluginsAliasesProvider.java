@@ -49,7 +49,10 @@ public class PluginsAliasesProvider {
 		}
 	}
 	
-	
+	public String getReversedSetIdFor(MTGPlugin plug, MagicEdition set)
+	{
+		return getReversedSetIdFor(plug, set.getId());
+	}
 	
 	
 	public String getReversedSetIdFor(MTGPlugin plug, String setId)
@@ -64,6 +67,11 @@ public class PluginsAliasesProvider {
 		}
 	}
 	
+	
+	public String getReversedSetNameFor(MTGPlugin plug, MagicEdition set)
+	{
+		return getReversedSetNameFor(plug, set.getId());
+	}
 
 	public String getReversedSetNameFor(MTGPlugin plug, String setName)
 	{
@@ -90,7 +98,6 @@ public class PluginsAliasesProvider {
 		}
 		catch(Exception e)
 		{
-			logger.error(e);
 			return defaultCondition;
 		}
 	}

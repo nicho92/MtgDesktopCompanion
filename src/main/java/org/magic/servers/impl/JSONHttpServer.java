@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -102,6 +103,7 @@ import org.magic.services.network.URLTools;
 import org.magic.services.recognition.area.ManualAreaStrat;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.Chrono;
+import org.magic.tools.FileTools;
 import org.magic.tools.IDGenerator;
 import org.magic.tools.ImageTools;
 import org.magic.tools.MTG;
@@ -971,6 +973,19 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return deck;
 		}
 		, transformer);
+		
+		get("/deck/export/:provider/:idDeck", (request, response) -> {
+			var plug = getPlugin(request.params(PROVIDER),MTGCardsExport.class);
+			var d = manager.getDeck(Integer.parseInt(request.params(":idDeck")));
+			var p = Files.createTempFile(d.getName(), ".tmp");
+			var f = p.toFile();
+			
+			plug.exportDeck(d, f);
+			
+			return FileTools.readFile(f);
+		});
+		
+		
 		
 		
 		delete("/deck/:idDeck", URLTools.HEADER_JSON,(request, response) -> {
