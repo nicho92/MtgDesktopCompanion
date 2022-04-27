@@ -217,7 +217,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public int saveOrUpdateTransaction(Transaction t) throws IOException {
+	public Long saveOrUpdateTransaction(Transaction t) throws IOException {
 		init();
 		var stocks= new ArrayList<LightArticle>();
 		for(File f : loadFiles())
@@ -485,9 +485,9 @@ public class MkmExternalShop extends AbstractExternalShop {
 
 
 	@Override
-	public Transaction getTransactionById(int parseInt) throws IOException {
+	public Transaction getTransactionById(Long parseInt) throws IOException {
 		var serv = new OrderService();
-		return toTransaction(serv.getOrderById(parseInt));
+		return toTransaction(serv.getOrderById(parseInt.intValue()));
 	}
 
 

@@ -140,7 +140,7 @@ public class MTGCompanionShop extends AbstractExternalShop {
 		}
 	}
 	@Override
-	public int saveOrUpdateTransaction(Transaction t)  throws IOException {
+	public Long saveOrUpdateTransaction(Transaction t)  throws IOException {
 			try {
 				return MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateTransaction(t);
 				}
@@ -190,9 +190,9 @@ public class MTGCompanionShop extends AbstractExternalShop {
 
 	
 	@Override
-	public Transaction getTransactionById(int parseInt) throws IOException {
+	public Transaction getTransactionById(Long id) throws IOException {
 		try {
-			return MTG.getEnabledPlugin(MTGDao.class).getTransaction(parseInt);
+			return MTG.getEnabledPlugin(MTGDao.class).getTransaction(id);
 		} catch (SQLException e) {
 			throw new IOException(e);
 		}

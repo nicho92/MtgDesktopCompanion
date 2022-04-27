@@ -14,7 +14,7 @@ import org.magic.api.interfaces.MTGStockItem;
 
 public class Transaction implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private int id=-1;
+	private Long id=-1L;
 	private Date dateCreation;
 	private Date datePayment;
 	private Date dateSend;
@@ -186,13 +186,19 @@ public class Transaction implements Serializable {
 		this.message = message;
 	}
 	
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
 	public void setId(int id) {
-		this.id = id;
+		setId(Long.valueOf(id));
 	}
+	
+	public void setId(Long id) {
+		this.id=id;
+
+	}
+	
 	
 	public List<MTGStockItem> getItems() {
 		return items;

@@ -32,11 +32,11 @@ public interface MTGExternalShop extends MTGPlugin {
 	public Contact getContactByLogin(String login, String passw) throws IOException;
 
 	
-	public int saveOrUpdateTransaction(Transaction t) throws IOException;
+	public Long saveOrUpdateTransaction(Transaction t) throws IOException;
 	public List<Transaction> listTransaction() throws IOException;
 	public void deleteTransaction(Transaction t) throws IOException;
 	public void deleteTransaction(List<Transaction> t) throws IOException;
-	public Transaction getTransactionById(int parseInt) throws IOException;
+	public Transaction getTransactionById(Long id) throws IOException;
 	
 	public void updateConversion(String name, String destName, Long idProduct, Long idDestProduct) throws IOException;
 	public List<Transaction> listTransactions(Contact c) throws IOException;

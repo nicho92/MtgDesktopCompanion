@@ -19,6 +19,7 @@ import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.api.interfaces.abstracts.extra.AbstractProduct;
 import org.magic.api.interfaces.abstracts.extra.AbstractStockItem;
+import org.magic.services.MTGControler;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
@@ -137,10 +138,28 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	}
 	
 	
+	public static void main(String[] args) throws IOException {
+		
+		MTGControler.getInstance().loadAccountsConfiguration();
+		
+		var shop = new ShopifyExternalShop();
+		
+		var list = shop.listTransaction();
+		
+		
+		
+	}
+	
+	
 	private Transaction parseTransaction(JsonObject obj) {
 		
 		var t = new Transaction();
-		//TODO parsing trannsaction object
+		
+		t.setId(obj.get("id").getAsLong());
+		t.setCurrency(obj.get("currency").getAsString());
+		
+		
+		//TODO parsing transaction object
 		
 		return t;
 	}
@@ -195,8 +214,8 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	
 
 	@Override
-	public Transaction getTransactionById(int id) throws IOException {
-		var obj= readId(ORDER,(long)id);
+	public Transaction getTransactionById(Long id) throws IOException {
+		var obj= readId(ORDER,id);
 		return parseTransaction(obj);
 	}
 
@@ -397,9 +416,9 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public int saveOrUpdateTransaction(Transaction t) throws IOException {
+	public Long saveOrUpdateTransaction(Transaction t) throws IOException {
 		// TODO Auto-generated method stub
-		return 0;
+		return 0L;
 	}
 
 	@Override
