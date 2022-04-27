@@ -2,7 +2,10 @@ package org.magic.api.exports.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
@@ -13,11 +16,19 @@ import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.services.MTGControler;
+import org.magic.services.MTGDeckManager;
 import org.magic.tools.FileTools;
 import org.magic.tools.POMReader;
 
+import com.google.gson.internal.LinkedTreeMap;
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.converters.Converter;
+import com.thoughtworks.xstream.converters.MarshallingContext;
+import com.thoughtworks.xstream.converters.UnmarshallingContext;
 import com.thoughtworks.xstream.converters.extended.NamedMapConverter;
+import com.thoughtworks.xstream.io.HierarchicalStreamReader;
+import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
 
 public class XMLExport extends AbstractCardExport {
@@ -28,6 +39,14 @@ public class XMLExport extends AbstractCardExport {
 	public String getFileExtension() {
 		return ".xml";
 	}
+	
+	public static void main(String[] args) throws IOException, SQLException {
+		var export = new XMLExport();
+		MTGControler.getInstance().init();
+		var d = new MTGDeckManager().getDeck(196);
+		export.exportDeck(d, new File("c:/test.xml"));
+	}
+	
 
 	public XMLExport() {
 		xstream = new XStream(new StaxDriver());
@@ -39,6 +58,34 @@ public class XMLExport extends AbstractCardExport {
 		xstream.alias("foreigneData", MagicCardNames.class);
 		xstream.alias("legality", MagicFormat.class);
 		xstream.registerConverter(new NamedMapConverter(xstream.getMapper(), "entry", "card", MagicCard.class, "qty", Integer.class));
+		xstream.registerConverter(new Converter() {
+			
+			@Override
+			public boolean canConvert(Class type) {
+				return type.equals(LinkedTreeMap.class);
+			}
+			
+			@Override
+			public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
+				var value = reader.getValue();
+				System.out.println(value);
+				
+				return value;
+			}
+			
+			@Override
+			public void marshal(Object source, HierarchicalStreamWriter writer, MarshallingContext context) {
+				LinkedTreeMap<Object, Object> map= (LinkedTreeMap)source;
+				for (var entry : map.entrySet()) {
+		            writer.startNode(entry.getKey().toString());
+		            writer.setValue(entry.getValue().toString());
+		            writer.endNode();
+		        }
+				
+				
+			}
+		});
+		
 	}
 	
 	@Override

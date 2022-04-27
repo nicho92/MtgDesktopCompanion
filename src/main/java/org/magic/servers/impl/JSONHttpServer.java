@@ -21,6 +21,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -293,6 +294,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 			info.setEnd(Instant.now());
 			TechnicalServiceManager.inst().store(info);
 		}
+		
+		
+		
 	}
 	
 
@@ -977,12 +981,22 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/deck/export/:provider/:idDeck", (request, response) -> {
 			var plug = getPlugin(request.params(PROVIDER),MTGCardsExport.class);
 			var d = manager.getDeck(Integer.parseInt(request.params(":idDeck")));
-			var p = Files.createTempFile(d.getName(), ".tmp");
+			var p = Files.createTempFile("deck",plug.getFileExtension());
 			var f = p.toFile();
-			
+			var ct = Files.probeContentType(p)==null?"text/plain":Files.probeContentType(p);
 			plug.exportDeck(d, f);
+			response.raw().setContentType(ct);
 			
-			return FileTools.readFile(f);
+			if(ImageTools.isImage(p))
+			{
+				var b = Files.readAllBytes(p);
+				response.raw().getOutputStream().write(b);
+				return response;
+			}
+			else
+			{
+				return FileTools.readFile(f);
+			}
 		});
 		
 		

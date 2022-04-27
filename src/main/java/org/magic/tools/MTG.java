@@ -1,6 +1,6 @@
 package org.magic.tools;
 
-import java.util.ArrayList;
+import java.util.ArrayList;import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -39,7 +39,7 @@ public class MTG {
 
 	public static <T extends MTGPlugin> List<T> listEnabledPlugins(Class<T> t) 
 	{
-		return PluginRegistry.inst().listEnabledPlugins(t);
+		return PluginRegistry.inst().listEnabledPlugins(t).stream().sorted(Comparator.comparing(MTGPlugin::getName)).toList();
 	}
 	
 	public static <T extends MTGPlugin> List<T> listPlugins(String[] names, Class<T> t) 
