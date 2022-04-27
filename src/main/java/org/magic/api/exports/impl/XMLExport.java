@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
@@ -40,14 +38,6 @@ public class XMLExport extends AbstractCardExport {
 		return ".xml";
 	}
 	
-	public static void main(String[] args) throws IOException, SQLException {
-		var export = new XMLExport();
-		MTGControler.getInstance().init();
-		var d = new MTGDeckManager().getDeck(196);
-		export.exportDeck(d, new File("c:/test.xml"));
-	}
-	
-
 	public XMLExport() {
 		xstream = new XStream(new StaxDriver());
 		xstream.alias("deck", MagicDeck.class);
