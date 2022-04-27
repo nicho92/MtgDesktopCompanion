@@ -204,7 +204,7 @@ server = {
             }
           }],
           xAxes: [{
-            display: 0,
+            display: true,
             gridLines: 0,
             ticks: {
               display: true
