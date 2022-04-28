@@ -131,7 +131,13 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 		MTGProduct p = AbstractProduct.createDefaultProduct();
 				   p.setProductId(sp.get("id").getAsLong());
 				   p.setName(sp.get("title").getAsString());
-				   p.setUrl(sp.get("image").getAsJsonObject().get("src").getAsString());
+				   try{
+					   p.setUrl(sp.get("image").getAsJsonObject().get("src").getAsString());
+				   }
+				   catch(IllegalStateException ise)
+				   {
+					   logger.error(p + " has no url");
+				   }
 				   p.setTypeProduct(EnumItems.CARD);
 				   notify(p);
 		return p;
@@ -144,9 +150,9 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 		
 		var shop = new ShopifyExternalShop();
 		
-		var list = shop.listTransaction();
+		var list = shop.loadStock("");
 		
-		
+		System.out.println(list);
 		
 	}
 	
