@@ -54,9 +54,14 @@
 
 
 	"DelverLens": {
-		"nameSet": {
-			"Magic 2015": "Magic 2015 Core Set",
-			"Magic 2014": "Magic 2014 Core Set"
+		"conditions": {
+		  "MINT":"Near Mint",
+		  "NEAR_MINT":"Near Mint",
+		  "GOOD":"Slightly Played",
+		  "LIGHTLY_PLAYED":"Slightly Played",
+		  "PLAYED":"Moderatly Played",
+		  "POOR":"Heavily Played",
+		  "DAMAGED":"Heavily Played"
 		}
 	},
 	

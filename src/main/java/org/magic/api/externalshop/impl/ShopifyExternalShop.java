@@ -11,6 +11,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.entity.StringEntity;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumItems;
+import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
@@ -24,6 +25,7 @@ import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
+import org.magic.tools.UITools;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -134,7 +136,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 				   try{
 					   p.setUrl(sp.get("image").getAsJsonObject().get("src").getAsString());
 				   }
-				   catch(IllegalStateException ise)
+				   catch(Exception ise)
 				   {
 					   logger.error(p + " has no url");
 				   }
@@ -150,7 +152,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 		
 		var shop = new ShopifyExternalShop();
 		
-		var list = shop.loadStock("");
+		var list = shop.listTransaction();
 		
 		System.out.println(list);
 		
@@ -159,13 +161,37 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	
 	private Transaction parseTransaction(JsonObject obj) {
 		
-		var t = new Transaction();
+	var t = new Transaction();
 		
 		t.setId(obj.get("id").getAsLong());
 		t.setCurrency(obj.get("currency").getAsString());
+		t.setDateCreation(UITools.parseGMTDate(obj.get("created_at").getAsString()));
+		t.setContact(parseContact(obj.get("customer").getAsJsonObject()));
+		t.setDatePayment(UITools.parseGMTDate(obj.get("processed_at").getAsString()));
+		t.setSourceShopName(getName());
+		
+		if(obj.get("note")!=null)
+			t.setMessage(obj.get("note").getAsString());
 		
 		
-		//TODO parsing transaction object
+		if(obj.get("financial_status")!=null)
+			t.setStatut(TransactionStatus.PAID);
+		
+		
+		obj.get("line_items").getAsJsonArray().forEach(je->{
+			
+			var item = je.getAsJsonObject(); 
+			AbstractStockItem<MTGProduct> it = AbstractStockItem.generateDefault();
+			  	it.setProduct(parseProduct(item));
+			  	it.setId(item.get("variant_id").getAsLong());
+			  	it.setPrice(item.get("price").getAsDouble());
+			  	it.setQte(item.get("quantity").getAsInt());
+			
+			t.getItems().add(it);
+			
+		});
+		
+		
 		
 		return t;
 	}
