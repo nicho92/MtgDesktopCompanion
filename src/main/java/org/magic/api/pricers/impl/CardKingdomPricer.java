@@ -64,7 +64,7 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 		
 		
         String name = mc.getName();
-		
+        String ed = PluginsAliasesProvider.inst().getSetNameFor(new CardKingdomCardExport() , mc.getCurrentSet());
 		
 		if(name.contains("//") && (!mc.getLayout().toString().equalsIgnoreCase(MTGLayout.SPLIT.toString())))
 		{
@@ -88,6 +88,22 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 		{
 			filtres = where("name").is(name)
 					  .and("edition").is(PluginsAliasesProvider.inst().getSetNameFor(new CardKingdomCardExport() , mc.getCurrentSet()))
+					  .and("is_foil").is(String.valueOf(foil));
+		}
+		
+		if(ed.contains("Duel Decks"))
+		{
+			ed = ed.replace("vs.", "Vs.");
+		}
+		
+		if(mc.isToken())
+		{
+			name = name + " Token";
+			//ed = PluginsAliasesProvider.inst().getSetNameFor(new CardKingdomCardExport() , mc.getCurrentSet());
+			ed = ed.replace(" Tokens", "");
+			ed = PluginsAliasesProvider.inst().getSetNameFor(new CardKingdomCardExport() , ed);
+			filtres = where("name").is(name)
+					  .and("edition").is(ed)
 					  .and("is_foil").is(String.valueOf(foil));
 		}
 		
