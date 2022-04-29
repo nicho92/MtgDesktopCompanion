@@ -212,7 +212,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" collections ( name VARCHAR("+COLLECTION_COLUMN_SIZE+") PRIMARY KEY)");
 			logger.debug("Create table collections");
 			
-			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+"stocks (idstock "+getAutoIncrementKeyWord()+" PRIMARY KEY , idmc varchar("+CARD_ID_SIZE+"), mcard "+beanStorage()+", collection VARCHAR("+COLLECTION_COLUMN_SIZE+"),comments "+longTextStorage()+", conditions VARCHAR(30),foil "+getBoolean()+", signedcard "+getBoolean()+", langage VARCHAR(20), qte integer,altered "+getBoolean()+",price DECIMAL, grading "+beanStorage()+", tiersAppIds "+beanStorage()+",etched "+getBoolean()+")");
+			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" stocks (idstock "+getAutoIncrementKeyWord()+" PRIMARY KEY , idmc varchar("+CARD_ID_SIZE+"), mcard "+beanStorage()+", collection VARCHAR("+COLLECTION_COLUMN_SIZE+"),comments "+longTextStorage()+", conditions VARCHAR(30),foil "+getBoolean()+", signedcard "+getBoolean()+", langage VARCHAR(20), qte integer,altered "+getBoolean()+",price DECIMAL, grading "+beanStorage()+", tiersAppIds "+beanStorage()+",etched "+getBoolean()+")");
 			logger.debug("Create table stocks");
 			
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" alerts (id varchar("+CARD_ID_SIZE+") PRIMARY KEY, mcard "+beanStorage()+", amount DECIMAL, foil "+getBoolean()+",qte integer)");
@@ -962,10 +962,10 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	
 	
 	@Override
-	public Transaction getTransaction(int id) throws SQLException {
+	public Transaction getTransaction(Long id) throws SQLException {
 		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from transactions where id=?")) 
 		{
-				pst.setInt(1, id);
+				pst.setLong(1, id);
 				ResultSet rs = executeQuery(pst);
 			
 				rs.next();
@@ -1205,7 +1205,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	
 	
 	@Override
-	public int saveOrUpdateTransaction(Transaction t) {
+	public Long saveOrUpdateTransaction(Transaction t) {
 		if (t.getId() < 0) 
 		{
 		
@@ -1244,7 +1244,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 					
 				} catch (Exception e) {
 					logger.error("error insert", e);
-					return -1;
+					return -1L;
 				}
 		
 		}
@@ -1276,13 +1276,13 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				else
 					pst.setString(8, null);
 				
-				pst.setInt(9, t.getId());
+				pst.setLong(9, t.getId());
 				executeUpdate(pst);
 				return t.getId();
 				
 			} catch (Exception e) {
 				logger.error("error update", e);
-				return -1;
+				return -1L;
 			}
 		}
 	}
@@ -1293,7 +1293,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public void deleteTransaction(Transaction t) throws SQLException {
 		logger.debug("delete Transaction " + t );
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("DELETE FROM transactions where id=?")) {
-			pst.setInt(1, t.getId());
+			pst.setLong(1, t.getId());
 			executeUpdate(pst);
 		}
 		

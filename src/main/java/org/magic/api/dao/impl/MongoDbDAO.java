@@ -948,7 +948,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 	
 	@Override
-	public int saveOrUpdateTransaction(Transaction t) throws SQLException {
+	public Long saveOrUpdateTransaction(Transaction t) throws SQLException {
 		if (t.getId() == -1) {
 			t.setId(Integer.parseInt(getNextSequence().toString()));
 			db.getCollection(colTransactions, BasicDBObject.class).insertOne(BasicDBObject.parse(serialize(t)));
@@ -1045,7 +1045,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	
 	@Override
-	public Transaction getTransaction(int id) throws SQLException {
+	public Transaction getTransaction(Long id) throws SQLException {
 		return deserialize(db.getCollection(colTransactions,BasicDBObject.class).find(Filters.eq("id", id)).first(),Transaction.class);
 	}
 	

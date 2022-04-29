@@ -335,14 +335,14 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public int saveOrUpdateTransaction(Transaction t) throws IOException {
+	public Long saveOrUpdateTransaction(Transaction t) throws IOException {
 		init();
 		if(t.getId()>0)
 		{
 			Map<String,Object> content = new HashMap<>();
 			   content.put("post", createOrder(t));
 
-			 client.update(EndpointBaseType.ORDERS.getValue(),t.getId(),content);
+			 client.update(EndpointBaseType.ORDERS.getValue(),t.getId().intValue(),content);
 		}
 		else
 		{
@@ -411,14 +411,14 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	@Override
 	public void deleteTransaction(Transaction t) throws IOException {
 		init();
-		client.delete(EndpointBaseType.ORDERS.getValue(), t.getId());
+		client.delete(EndpointBaseType.ORDERS.getValue(), t.getId().intValue());
 		
 	}
 
 	@Override
-	public Transaction getTransactionById(int parseInt) throws IOException {
+	public Transaction getTransactionById(Long parseInt) throws IOException {
 		init();
-		var ret = client.get(EndpointBaseType.ORDERS.getValue(), parseInt);
+		var ret = client.get(EndpointBaseType.ORDERS.getValue(), parseInt.intValue());
 	
 		var t = new Transaction();
 			t.setId(parseInt);

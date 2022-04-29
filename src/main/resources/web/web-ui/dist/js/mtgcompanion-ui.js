@@ -45,7 +45,8 @@ function removeCartItem(itemId)
 
 
      	 storage.setItem("cart", JSON.stringify(array) );
-document.getElementById("cartCount").innerHTML=getCartItems().length;
+         document.getElementById("cartBadge").style.visibility=(getCartItems().length<=0)?"hidden":"";
+		 document.getElementById("cartCount").innerHTML=getCartItems().length;
 }
 
 
@@ -54,6 +55,7 @@ function addCart(item, callback)
 		var array = JSON.parse(storage.getItem("cart") || "[]");
 		array.push(item);
 		storage.setItem("cart", JSON.stringify(array) );
+		document.getElementById("cartBadge").style.visibility=(getCartItems().length<=0)?"hidden":"";
 		document.getElementById("cartCount").innerHTML=getCartItems().length;
 		callback();
 }

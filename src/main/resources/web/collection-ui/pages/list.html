@@ -98,7 +98,7 @@
 						"width": "15%",
 						"render": function (data, type, row, meta) {
 							if (type === 'display') {
-								return "<span scryfallid='" + row.scryfallId + "' multiverseid='" + row.editions[0].multiverseId + "' class='mtg-tooltip'> <a href='card.html?id="+  row.id+"'>" + data + "</a></span>";
+								return "<span scryfallid='" + row.scryfallId + "' multiverseid='" + row.editions[0].multiverseId + "' class='mtg-tooltip'> <a href='card.html?id="+  row.scryfallId+"'>" + data + "</a></span>";
 							}
 							return data;
 						}

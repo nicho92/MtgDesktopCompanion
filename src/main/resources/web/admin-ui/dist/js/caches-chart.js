@@ -36,7 +36,7 @@ server = {
                   'data' : data,
 				  'responsive': true,
 			  	  'order': [[ 0, "asc" ]],
-		
+		  		  "pageLength": 50,
                "columns": [
  		        	{ 
 		                "data": "url",

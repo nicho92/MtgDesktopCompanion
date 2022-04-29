@@ -11,20 +11,20 @@ import java.util.Map;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
 import org.magic.services.providers.PluginsAliasesProvider;
 import org.magic.tools.FileTools;
+import org.magic.tools.UITools;
 
 public class DelverLensExport extends AbstractFormattedFileCardExport{
 
 	
-	private static final String REGEX_VAR = "\"(\\d+)\",\"(\\d+)\",\"(.*?)\",\"(.*?)\",\"(\\d{1,4}[a-z]?)\",\"(.*?)\",\"(.*?)\",\"(foil)?\",\"(signed)?\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\"";
+	private static final String REGEX_VAR = "(.*?); (.*?); (.*?).; (.*?); (.*?); (.*?); (.*?); (.*?); (.*?); (.*?); (.*?); (.*?)$";
 	private static final String REGEX = "REGEX";
-	private String columns= "Count,Tradelist Count,Name,Edition,Card Number,Condition,Language,Foil,Signed,Artist Proof,Altered Art,Misprint,Promo,Textless,My Price";
-	
+	private String columns= "Name; Edition; Price; Language; Collector's number; Condition; Currency; Edition code; Foil; List name; Quantity; Scryfall ID";
 	
 	@Override
 	public String getFileExtension() {
@@ -42,25 +42,23 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 		var temp = new StringBuilder(columns);
 		temp.append(System.lineSeparator());
 		stock.forEach(st->{
-			temp.append("\"").append(st.getQte()).append("\"").append(getSeparator());
-			temp.append("\"").append(st.getQte()).append("\"").append(getSeparator());
-			temp.append("\"").append(st.getProduct().getName()).append("\"").append(getSeparator());
-			temp.append("\"").append(PluginsAliasesProvider.inst().getSetNameFor(this,st.getProduct().getCurrentSet())).append("\"").append(getSeparator());
-			temp.append("\"").append(st.getProduct().getCurrentSet().getNumber()).append("\"").append(getSeparator());
-			temp.append("\"").append(st.getCondition()).append("\"").append(getSeparator());
-			temp.append("\"").append(st.getLanguage()).append("\"").append(getSeparator());
-			temp.append("\"").append(st.isFoil()?"foil":"").append("\"").append(getSeparator());
-			temp.append("\"").append(st.isSigned()?"signed":"").append("\"").append(getSeparator());
-			temp.append("\"").append("").append("\"").append(getSeparator());
-			temp.append("\"").append("").append("\"").append(getSeparator());
-			temp.append("\"").append("").append("\"").append(getSeparator());
-			temp.append("\"").append("").append("\"").append(getSeparator());
-			temp.append("\"").append("").append("\"").append(getSeparator());
-			temp.append("\"").append(st.getPrice()).append("\"").append(getSeparator());
+			temp.append(st.getProduct().getName()).append(getSeparator());
+			temp.append(PluginsAliasesProvider.inst().getSetNameFor(this,st.getProduct().getCurrentSet())).append(getSeparator());
+			temp.append(UITools.formatDouble(st.getPrice())).append(getSeparator());
+			temp.append(st.getLanguage()).append(getSeparator());
+			temp.append(st.getProduct().getCurrentSet().getNumber()).append(getSeparator());
+			temp.append(PluginsAliasesProvider.inst().getConditionFor(this,st.getCondition())).append(getSeparator());
+			temp.append(MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getCurrencyCode()).append(getSeparator());
+			temp.append(PluginsAliasesProvider.inst().getSetIdFor(this,st.getProduct().getCurrentSet())).append(getSeparator());
+			temp.append(st.isFoil()?"Foil":"").append(getSeparator());
+			temp.append(st.getMagicCollection()).append(getSeparator());
+			temp.append(st.getQte()).append(getSeparator());
+			temp.append(st.getProduct().getScryfallId()).append(getSeparator());
 			temp.append(System.lineSeparator());
 		});
 		FileTools.saveFile(f, temp.toString());
 	}
+	
 	
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
@@ -68,60 +66,22 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 		
 		matches(content,true).forEach(m->{
 			
-			MagicEdition ed = null;
-			
-			try {			   
-				ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(PluginsAliasesProvider.inst().getReversedSetNameFor(this,m.group(4)));
-			}
-			catch(Exception e)
-			{
-				logger.error("Edition not found for " + m.group(4));
-			}
-			
-			String cname = cleanName(m.group(3));
-			
-			String number=null;
-			try {
-				number = m.group(5);
-			}
-			catch(IndexOutOfBoundsException e)
-			{
-				//do nothing
-			}
-			
 			MagicCard mc=null;
-			
-			if(number!=null && ed !=null)
-			{
 				try {
-					mc = getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(number, ed);
+					mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(m.group(12));
 				} catch (Exception e) {
-					logger.error("no card found with number " + number + "/"+ ed);
+					logger.error(e);
 				}
-			}
 			
-			if(mc==null)
-			{
-				try {
-					mc = parseMatcherWithGroup(m, 3, 4, true, FORMAT_SEARCH.NAME,FORMAT_SEARCH.NAME);
-				} catch (Exception e) {
-					logger.error("no card found for" + cname + "/"+ ed);
-				}
-			}
-
 			if(mc!=null)
 			{
-				MagicCardStock st = MTGControler.getInstance().getDefaultStock();
+				var st = MTGControler.getInstance().getDefaultStock();
 				st.setProduct(mc);
-				st.setLanguage(m.group(7));
-				st.setQte(Integer.parseInt(m.group(1)));
-				st.setFoil(m.group(8)!=null);
-				st.setSigned(m.group(9)!=null);
-				st.setAltered(m.group(11)!=null);
-				
-				if(!m.group(15).isEmpty())
-					st.setPrice(Double.parseDouble(m.group(15)));
-				
+				st.setLanguage(m.group(4));
+				st.setQte(Integer.parseInt(m.group(11)));
+				st.setFoil(m.group(9)!=null);
+				st.setCondition(PluginsAliasesProvider.inst().getReversedConditionFor(this, m.group(6), EnumCondition.NEAR_MINT)  );
+				st.setPrice(UITools.parseDouble(m.group(3).trim()));
 				list.add(st);
 			}
 		});
@@ -136,9 +96,8 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 		d.setName(name);
 		
 		for(MagicCardStock st : importStock(content))
-		{
 			d.getMain().put(st.getProduct(), st.getQte());
-		}
+	
 		return d;
 	}
 
@@ -179,7 +138,7 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 	public Map<String, String> getDefaultAttributes() {
 		
 		var m = super.getDefaultAttributes();
-			 m.put("SEPARATOR", ",");
+			 m.put("SEPARATOR", ";");
 			m.put(REGEX,defaultRegex());
 			
 			return m;

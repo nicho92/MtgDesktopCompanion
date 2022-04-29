@@ -48,7 +48,7 @@ server = {
                   'data' : data,
 				  'responsive': true,
 			  	  'order': [[ 2, "desc" ]],
-		
+				  "pageLength": 50,
                  "columns": [
  		        	{ 
 		                "data": "method",
@@ -236,7 +236,7 @@ server = {
             }
           }],
           xAxes: [{
-            display: 0,
+            display: true,
             gridLines: 0,
             ticks: {
               display: true

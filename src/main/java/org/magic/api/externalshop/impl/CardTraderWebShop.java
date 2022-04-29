@@ -264,9 +264,9 @@ public class CardTraderWebShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public int saveOrUpdateTransaction(Transaction t) throws IOException {
+	public Long saveOrUpdateTransaction(Transaction t) throws IOException {
 		// TODO Auto-generated method stub
-		return 0;
+		return 0L;
 	}
 
 	@Override
@@ -299,7 +299,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public Transaction getTransactionById(int parseInt) throws IOException {
+	public Transaction getTransactionById(Long parseInt) throws IOException {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -48,14 +48,13 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 		c.start();
 		cont = parse(jsonFile);
 		logger.debug("Init " + jsonFile +" dataFile in " + c.stop() +"s");
-		
-		
 	}
 	
 	
 	private String getUrlFor(MagicCard mc,boolean foil) throws IOException 
 	{
 		if(!jsonFile.exists()|| FileTools.daysBetween(jsonFile)>1) {
+			logger.debug(jsonFile + " is not present or out of date. Downloading new one");
 			FileTools.saveFile(jsonFile, URLTools.extractAsJson(API_URI).toString());
 		}
 	

@@ -36,7 +36,7 @@ server = {
                   'data' : data.tasks,
 				  'responsive': true,
 			  	  'order': [[ 1, "desc" ]],
-		
+		  		  "pageLength": 50,
                "columns": [
  		        	{ 
 		                "data": "name",

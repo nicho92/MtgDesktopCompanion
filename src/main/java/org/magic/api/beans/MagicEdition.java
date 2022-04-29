@@ -115,9 +115,6 @@ public class MagicEdition implements MTGStorable, Comparable<MagicEdition> {
 		return translations;
 	}
 
-	public void setTranslations(Map<String, String> translations) {
-		this.translations = translations;
-	}
 	
 	public MagicEdition(String idMe)
 	{

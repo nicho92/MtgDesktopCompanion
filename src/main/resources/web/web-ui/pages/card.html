@@ -336,7 +336,7 @@
 				  	      	   }
 				  	    	}
 						
-						$.get(restserver+"/dash/variations/card/"+card.id,function(dprice){
+						$.get(restserver+"/dash/variations/card/"+card.scryfallId,function(dprice){
 								printChartPrices("chartPrice",dprice);
 								
 								try{
@@ -628,7 +628,7 @@
 					<div class="card">
 					<div class="card-header p-0 position-relative mt-n4 mx-3 ">
 						<div class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-2">
-							<h6 class="text-white text-capitalize ps-3">Other Reprints</h6>
+							<h6 class="text-white text-capitalize ps-3">Reprints</h6>
 						</div>
 					</div>
 					<div class="card-body p-3">

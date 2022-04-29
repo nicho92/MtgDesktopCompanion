@@ -105,7 +105,7 @@ public class BestCardsDashlet extends AbstractJDashlet {
 	@Override
 	public void init() {
 		lblLoading.start();
-		SwingWorker<List<CardDominance>, Void> sw = new SwingWorker<List<CardDominance>, Void>() {
+		var sw = new SwingWorker<List<CardDominance>, Void>() {
 			
 			@Override
 			protected List<CardDominance> doInBackground() throws Exception {

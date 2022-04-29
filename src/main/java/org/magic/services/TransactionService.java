@@ -69,7 +69,7 @@ public class TransactionService
 		
 	}
 	
-	public static int saveTransaction(Transaction t, boolean reloadShipping) throws IOException {
+	public static Long saveTransaction(Transaction t, boolean reloadShipping) throws IOException {
 		t.setConfig(MTGControler.getInstance().getWebConfig());
 		if(reloadShipping) {
 			try {
@@ -145,11 +145,11 @@ public class TransactionService
 	}
 	
 	
-	public static Integer newTransaction(Transaction t) throws IOException {
+	public static Long newTransaction(Transaction t) throws IOException {
 		t.setConfig(MTGControler.getInstance().getWebConfig());
 		t.setStatut(TransactionStatus.NEW);
 		t.setCurrency(t.getConfig().getCurrency());
-		int ret = saveTransaction(t,false);
+		var ret = saveTransaction(t,false);
 		sendMail(t,"TransactionNew","Transaction received");
 		
 		MTGControler.getInstance().notify(new MTGNotification("New Transaction","New transaction from " + t.getContact(),MESSAGE_TYPE.INFO));

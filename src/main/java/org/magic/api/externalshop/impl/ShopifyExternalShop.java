@@ -11,6 +11,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.entity.StringEntity;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumItems;
+import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
@@ -19,10 +20,12 @@ import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.api.interfaces.abstracts.extra.AbstractProduct;
 import org.magic.api.interfaces.abstracts.extra.AbstractStockItem;
+import org.magic.services.MTGControler;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
+import org.magic.tools.UITools;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -130,17 +133,65 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 		MTGProduct p = AbstractProduct.createDefaultProduct();
 				   p.setProductId(sp.get("id").getAsLong());
 				   p.setName(sp.get("title").getAsString());
-				   p.setUrl(sp.get("image").getAsJsonObject().get("src").getAsString());
+				   try{
+					   p.setUrl(sp.get("image").getAsJsonObject().get("src").getAsString());
+				   }
+				   catch(Exception ise)
+				   {
+					   logger.error(p + " has no url");
+				   }
 				   p.setTypeProduct(EnumItems.CARD);
 				   notify(p);
 		return p;
 	}
 	
 	
+	public static void main(String[] args) throws IOException {
+		
+		MTGControler.getInstance().loadAccountsConfiguration();
+		
+		var shop = new ShopifyExternalShop();
+		
+		var list = shop.listTransaction();
+		
+		System.out.println(list);
+		
+	}
+	
+	
 	private Transaction parseTransaction(JsonObject obj) {
 		
-		var t = new Transaction();
-		//TODO parsing trannsaction object
+	var t = new Transaction();
+		
+		t.setId(obj.get("id").getAsLong());
+		t.setCurrency(obj.get("currency").getAsString());
+		t.setDateCreation(UITools.parseGMTDate(obj.get("created_at").getAsString()));
+		t.setContact(parseContact(obj.get("customer").getAsJsonObject()));
+		t.setDatePayment(UITools.parseGMTDate(obj.get("processed_at").getAsString()));
+		t.setSourceShopName(getName());
+		
+		if(obj.get("note")!=null)
+			t.setMessage(obj.get("note").getAsString());
+		
+		
+		if(obj.get("financial_status")!=null)
+			t.setStatut(TransactionStatus.PAID);
+		
+		
+		obj.get("line_items").getAsJsonArray().forEach(je->{
+			
+			var item = je.getAsJsonObject(); 
+			AbstractStockItem<MTGProduct> it = AbstractStockItem.generateDefault();
+			  	it.setProduct(parseProduct(item));
+			  	it.setId(item.get("variant_id").getAsLong());
+			  	it.setPrice(item.get("price").getAsDouble());
+			  	it.setQte(item.get("quantity").getAsInt());
+			
+			t.getItems().add(it);
+			
+		});
+		
+		
 		
 		return t;
 	}
@@ -195,8 +246,8 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	
 
 	@Override
-	public Transaction getTransactionById(int id) throws IOException {
-		var obj= readId(ORDER,(long)id);
+	public Transaction getTransactionById(Long id) throws IOException {
+		var obj= readId(ORDER,id);
 		return parseTransaction(obj);
 	}
 
@@ -397,9 +448,9 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public int saveOrUpdateTransaction(Transaction t) throws IOException {
+	public Long saveOrUpdateTransaction(Transaction t) throws IOException {
 		// TODO Auto-generated method stub
-		return 0;
+		return 0L;
 	}
 
 	@Override

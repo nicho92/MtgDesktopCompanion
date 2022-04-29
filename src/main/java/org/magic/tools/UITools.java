@@ -455,14 +455,14 @@ public class UITools {
 	public static Double parseDouble(String text) {
 		try {
 			
+			
 			if(text.isBlank())
 				return 0.0;
 			
-			text=text.replace(",", ".").replaceAll("[$,]","").replaceAll("[%,]", "").trim();
+			text=text.replace(",", ".").replaceAll("[$,]","").replaceAll("[%,]", "").replace('\u00A0',' ').trim();
 			
 			if(StringUtils.countMatches(text, '.')>1)
 				text=text.replaceFirst("\\.", "");
-			
 			
 			return Double.parseDouble(text);
 		} catch (Exception e) {
@@ -544,16 +544,16 @@ public class UITools {
 								var key = getModelValueAt(table,row, extraPos);
 								if(key!=null) {
 									var extraVariations = MTGCardVariation.valueOf(key.toString());
-									mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, ed, false,extraVariations).get(0);	
+									mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, ed, true,extraVariations).get(0);	
 								}
 								else
 								{
-									mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, ed, false).get(0);
+									mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, ed, true).get(0);
 								}
 							}
 							else
 							{
-								mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, ed, false).get(0);
+								mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, ed, true).get(0);
 							}
 								pane.setMagicCard(mc);
 								

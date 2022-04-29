@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -102,6 +103,7 @@ import org.magic.services.network.URLTools;
 import org.magic.services.recognition.area.ManualAreaStrat;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.Chrono;
+import org.magic.tools.FileTools;
 import org.magic.tools.IDGenerator;
 import org.magic.tools.ImageTools;
 import org.magic.tools.MTG;
@@ -138,7 +140,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 	private static final String ENABLE_SSL = "ENABLE_SSL";
 	private static final String NAME = ":name";
 	private static final String ID_ED = ":idEd";
-	private static final String ID_CARDS = ":idCards";
 	private static final String PASSTOKEN = "PASSWORD-TOKEN";
 	private static final String ACCESS_CONTROL_ALLOW_HEADERS = "Access-Control-Allow-Headers";
 	private static final String ACCESS_CONTROL_REQUEST_METHOD = "Access-Control-Request-Method";
@@ -292,6 +293,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 			info.setEnd(Instant.now());
 			TechnicalServiceManager.inst().store(info);
 		}
+		
+		
+		
 	}
 	
 
@@ -894,14 +898,14 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/dash/collection/:collection", URLTools.HEADER_JSON, (request, response) -> CollectionEvaluator.analyseToJson(new MagicCollection(request.params(":collection"))), transformer);
 		
 		
-		get("/dash/variations/card/:idCards", URLTools.HEADER_JSON, (request, response) -> 
+		get("/dash/variations/card/:scryfallId", URLTools.HEADER_JSON, (request, response) -> 
 			getCached(request.pathInfo(), new Callable<Object>() {
 				@Override
 				public Object call() throws Exception {
 					
 					var dash = getEnabledPlugin(MTGDashBoard.class);
 					
-					MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardById(request.params(ID_CARDS));
+					MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
 					var ret = new JsonObject();
 					var resNormal = dash.getPriceVariation(mc,false);
 					var resFoil = dash.getPriceVariation(mc,true);
@@ -972,6 +976,29 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return deck;
 		}
 		, transformer);
+		
+		get("/deck/export/:provider/:idDeck", (request, response) -> {
+			var plug = getPlugin(request.params(PROVIDER),MTGCardsExport.class);
+			var d = manager.getDeck(Integer.parseInt(request.params(":idDeck")));
+			var p = Files.createTempFile("deck",plug.getFileExtension());
+			var f = p.toFile();
+			var ct = Files.probeContentType(p)==null?"text/plain":Files.probeContentType(p);
+			plug.exportDeck(d, f);
+			response.raw().setContentType(ct);
+			
+			if(ImageTools.isImage(p))
+			{
+				var b = Files.readAllBytes(p);
+				response.raw().getOutputStream().write(b);
+				return response;
+			}
+			else
+			{
+				return FileTools.readFile(f);
+			}
+		});
+		
+		
 		
 		
 		delete("/deck/:idDeck", URLTools.HEADER_JSON,(request, response) -> {
@@ -1135,7 +1162,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		, transformer);
 		
 		get("/webshop/transaction/:id", URLTools.HEADER_JSON, (request, response) -> 
-			MTG.getPlugin(MTGConstants.MTG_APP_NAME,MTGExternalShop.class).getTransactionById(Integer.parseInt(request.params(":id")))
+			MTG.getPlugin(MTGConstants.MTG_APP_NAME,MTGExternalShop.class).getTransactionById(Long.valueOf(request.params(":id")))
 		, transformer);
 		
 	
@@ -1162,7 +1189,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		, transformer);
 		
 		get("/extShop/transactions/:provider/:id", URLTools.HEADER_JSON, (request, response) -> 
-			getPlugin(request.params(PROVIDER),MTGExternalShop.class).getTransactionById(Integer.parseInt(request.params(":id")))
+			getPlugin(request.params(PROVIDER),MTGExternalShop.class).getTransactionById(Long.valueOf(request.params(":id")))
 		, transformer);
 		
 		post("/extShop/transactions/:to/save", URLTools.HEADER_JSON, (request, response) ->{ 
@@ -1258,7 +1285,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			
 			Contact c=converter.fromJson(request.queryParams("user"), Contact.class);
 			
-			var t =MTG.getEnabledPlugin(MTGExternalShop.class).getTransactionById(Integer.parseInt(request.params(":id")));
+			var t =MTG.getEnabledPlugin(MTGExternalShop.class).getTransactionById(Long.valueOf(request.params(":id")));
 			
 			if(t.getContact().getId()==c.getId())
 			{
