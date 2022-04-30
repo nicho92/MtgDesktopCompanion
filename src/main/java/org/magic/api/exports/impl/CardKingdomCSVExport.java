@@ -47,6 +47,14 @@ public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 			String name=mc.getProduct().getName();
 			String set = PluginsAliasesProvider.inst().getSetNameFor(new CardKingdomCardExport() , mc.getProduct().getCurrentSet());
 			
+			if(mc.getProduct().isToken())
+			{
+				name = name + " Token";
+				set = set.replace(" Tokens", "");
+				set = PluginsAliasesProvider.inst().getSetNameFor(new CardKingdomCardExport(), set);
+			}
+			
+			
 			
 			if(name.contains("//") && (!mc.getProduct().getLayout().toString().equalsIgnoreCase(MTGLayout.SPLIT.toString())))
 			{
