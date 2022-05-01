@@ -1047,6 +1047,12 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 		
 		
+		get("/metadata/recognition/list", URLTools.HEADER_JSON, (request, response) -> {
+			MTG.getEnabledPlugin(MTGCardRecognition.class).downloadCardsData(MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(":setId")));
+			return RETURN_OK;
+		}, transformer);
+
+		
 		get("/metadata/conditions", URLTools.HEADER_JSON,(request, response) -> EnumCondition.values(), transformer);
 		
 		get("/metadata/keywords", URLTools.HEADER_JSON, (request, response) -> AbstractKeyWordsManager.getInstance().toJson(), transformer);
@@ -1061,7 +1067,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 				}
 			})
 		);
-		
 		
 		
 		get("/admin/qwartz", URLTools.HEADER_JSON, (request, response) -> {
@@ -1142,7 +1147,12 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return RETURN_OK;
 		}, transformer);
 
-		
+		get("/admin/recognize/list", URLTools.HEADER_JSON, (request, response) -> {
+			
+			MTG.getEnabledPlugin(MTGCardRecognition.class).loadAllCachedData();
+			
+			return MTG.getEnabledPlugin(MTGCardRecognition.class).getDataList().keySet();
+		}, transformer);
 		
 		get("/webshop/config", URLTools.HEADER_JSON, (request, response) -> 
 			

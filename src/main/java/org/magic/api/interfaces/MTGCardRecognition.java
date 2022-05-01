@@ -24,5 +24,4 @@ public interface MTGCardRecognition extends MTGPlugin {
 	public File downloadCardsData(MagicEdition set) throws IOException;
 	public Map<String, List<DescContainer>> getDataList();
 	void loadAllCachedData() throws IOException;
-
 }
