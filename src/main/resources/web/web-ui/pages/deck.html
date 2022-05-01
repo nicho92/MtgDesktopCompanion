@@ -136,27 +136,52 @@
 								
 						
 				$("#cardTotal").html(total);
+				
+				
+				
+				var em = false;
+				$( "#exportModal" ).on('shown.bs.modal', function(e){
+					if(tm){
+						em=false;return;
+					}
+					else{
+						$.get(restserver+"/admin/plugins/list",function(data) {
+				  	    	
+							data.EXPORT.filter(function (entry) {return entry.enabled === true;}).forEach( function(item,index){
+								$("#selectExport").append('<option value="'+item.name+'">'+item.name+'</option>');
+							});
+							
+				  	    });
+						em=true;	
+					}
+					
+					
+					
+					
+				});
+					
+				
+				
+				var tm = false;
+				$( "#drawhandModal" ).on('shown.bs.modal', function(e){
+					if(tm){
+							tm=false;return;
+					}
+					else{
+						var deck= [];
+						data.main.forEach(element => {
+							for (let i = 0; i < element.qty; i++) 
+								deck.push(element.card);	
+						});
+						deck = deck.sort((a, b) => 0.5 - Math.random());
+						for (let i = 0; i < 5; i++) 
+						{
+							$("#draw"+i).attr("src","https://api.scryfall.com/cards/"+deck.pop().scryfallId+"?format=image");
+						}
 						
-						var tm = false;
-						$( "#drawhandModal" ).on('shown.bs.modal', function(e){
-							if(tm){
-									tm=false;return;
-							}
-							else{
-								var deck= [];
-								data.main.forEach(element => {
-									for (let i = 0; i < element.qty; i++) 
-										deck.push(element.card);	
-								});
-								deck = deck.sort((a, b) => 0.5 - Math.random());
-								for (let i = 0; i < 5; i++) 
-								{
-									$("#draw"+i).attr("src","https://api.scryfall.com/cards/"+deck.pop().scryfallId+"?format=image");
-								}
-								
-								$('#handSampleContent').slick('refresh');
-								tm= true;
-							}
+						$('#handSampleContent').slick('refresh');
+						tm= true;
+					}
 					
 					
 						
@@ -356,6 +381,7 @@
             <div class="card-body p-3">
  					 <button id="btnDelete" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="fa-solid fa-trash"></i> Delete</button>
 					 <button id="btnDrawHand" type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#drawhandModal"><i class="fa-solid fa-hand"></i> Draw hand</button>            
+					 <button id="btnExport" type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exportModal"><i class="fa-solid fa-file-export"></i> Export</button>
             </div>
           </div>
 		
@@ -394,6 +420,26 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade " id="exportModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      	<div class="modal-body" id="handSampleContent">
+        <select class="form-select" id='selectExport'></select>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success"  data-bs-dismiss="modal" >OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
 
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
