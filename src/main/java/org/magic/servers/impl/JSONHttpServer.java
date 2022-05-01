@@ -1150,8 +1150,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/admin/recognize/list", URLTools.HEADER_JSON, (request, response) -> {
 			
 			MTG.getEnabledPlugin(MTGCardRecognition.class).loadAllCachedData();
-			
 			return MTG.getEnabledPlugin(MTGCardRecognition.class).getDataList().keySet();
+
 		}, transformer);
 		
 		get("/webshop/config", URLTools.HEADER_JSON, (request, response) -> 
