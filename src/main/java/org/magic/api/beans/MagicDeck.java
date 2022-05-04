@@ -21,6 +21,7 @@ public class MagicDeck implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Map<MagicCard, Integer> mapDeck;
 	private Map<MagicCard, Integer> mapSideBoard;
+	private Map<MagicCard, Integer> mapMaybeBoard;
 	private int id;
 	
 	private String description;
@@ -38,6 +39,7 @@ public class MagicDeck implements Serializable {
 		id=-1;
 		mapDeck = new LinkedHashMap<>();
 		mapSideBoard = new LinkedHashMap<>();
+		mapMaybeBoard =new LinkedHashMap<>(); 
 		tags = new ArrayList<>();
 		averagePrice = 0;
 		dateCreation=new Date();
@@ -60,6 +62,11 @@ public class MagicDeck implements Serializable {
 	public MagicCard getSideValueAt(int pos) {
 		return new ArrayList<>(getSideBoard().keySet()).get(pos);
 	}
+	
+	public MagicCard getMaybeValueAt(int pos) {
+		return new ArrayList<>(getMaybeBoard().keySet()).get(pos);
+	}
+	
 	
 	public int getNbCards() {
 		return getMain().entrySet().stream().mapToInt(Entry::getValue).sum();
@@ -87,6 +94,14 @@ public class MagicDeck implements Serializable {
 			getSideBoard().put(mc, getSideBoard().get(mc) - 1);
 	}
 	
+	public void removeMaybe(MagicCard mc) {
+		if (getMaybeBoard().get(mc) == 0)
+			getMaybeBoard().remove(mc);
+		else
+			getMaybeBoard().put(mc, getMaybeBoard().get(mc) - 1);
+	}
+	
+	
 	public void delete(MagicCard mc) {
 		mapDeck.remove(mc);
 	}
@@ -98,6 +113,11 @@ public class MagicDeck implements Serializable {
 	public void addSide(MagicCard mc) {
 		getSideBoard().compute(mc, (k,v)->(v==null)?1:v+1);
 	}
+	
+	public void addMaybe(MagicCard mc) {
+		getMaybeBoard().compute(mc, (k,v)->(v==null)?1:v+1);
+	}
+	
 
 	public boolean hasCard(MagicCard mc,boolean strict) {
 		
@@ -141,10 +161,15 @@ public class MagicDeck implements Serializable {
 		return toList(getMain().entrySet());
 	}
 
-
 	public List<MagicCard> getSideAsList() {
 		return toList(getSideBoard().entrySet());
 	}
+	
+	public List<MagicCard> getMaybeAsList() {
+		return toList(getMaybeBoard().entrySet());
+	}
+
+	
 	
 	private List<MagicCard> toList(Set<Entry<MagicCard, Integer>> entrySet) {
 		ArrayList<MagicCard> deck = new ArrayList<>();
@@ -227,6 +252,15 @@ public class MagicDeck implements Serializable {
 	public void setSideBoard(Map<MagicCard, Integer> mapSideBoard) {
 		this.mapSideBoard = mapSideBoard;
 	}
+	
+	public Map<MagicCard, Integer> getMaybeBoard() {
+		return mapMaybeBoard;
+	}
+	
+	public void setMaybeBoard(Map<MagicCard, Integer> mapMaybeBoard) {
+		this.mapMaybeBoard = mapMaybeBoard;
+	}
+	
 
 	public String getName() {
 		return name;
