@@ -2378,6 +2378,17 @@
 		<bundle lang="en" num="1" url="https://i0.wp.com/amusengames.ca/wp-content/uploads/2022/03/MTGSNC_EN_BndlOtrBx_01_03.png"/>
 	</edition>
 	
+	<edition id="NCC">
+		<set lang="en" url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/f/f1/New_Capenna_logo.png"/>
+		<constructpack lang="en" num="1" url="https://cdn.shoplightspeed.com/shops/636471/files/44453626/image.jpg"></constructpack>
+		<constructpack lang="en" num="2" url="https://cdn.shoplightspeed.com/shops/636471/files/44456755/image.jpg"></constructpack>
+		<constructpack lang="en" num="3" url="https://cdn.shoplightspeed.com/shops/636471/files/44453380/image.jpg"></constructpack>
+		<constructpack lang="en" num="4" url="https://cdn.shoplightspeed.com/shops/636471/files/42127569/image.jpg"></constructpack>
+		<constructpack lang="en" num="5" url="https://cdn.shoplightspeed.com/shops/636471/files/44457167/image.jpg"></constructpack>
+	</edition>
+	
+	
+	
 	<edition id="CLB">
 		<bundle lang="en" num="1" url="https://media.wizards.com/2022/wpn/w12/9w6081zyun.png"/>
 		<prereleasepack lang="en" url="https://games-island.eu/media/image/product/703621/md/commander-legends-battle-for-baldurs-gate-prerelease-pack-englisch.png"/>
