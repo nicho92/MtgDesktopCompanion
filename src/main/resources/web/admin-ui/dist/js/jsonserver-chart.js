@@ -519,6 +519,16 @@ server = {
 		                   return data;
 		                }
 		            },
+		             { 
+		                "data": "location",
+		                "defaultContent": "",
+		                "render": function(d, type, row, meta){
+		                	 if(type === 'display'){
+								return d.city;		                		 
+		                	 }
+		                   return data;
+		                }
+		            },
 		            { 
 		                "data": "userAgent.AgentName",
 		                "defaultContent": ""

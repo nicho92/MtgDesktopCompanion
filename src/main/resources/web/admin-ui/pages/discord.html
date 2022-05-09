@@ -164,16 +164,7 @@
            <div class="card card-chart">
               <div class="card-header">
                 <h5 class="card-category">Activity</h5>
-                <h4 class="card-title">Top</h4>
-                 <div class="dropdown">
-                  <button type="button" class="btn btn-round btn-outline-default dropdown-toggle btn-simple btn-icon no-caret" data-toggle="dropdown">
- 					<i class="fas fa-cog"></i>
-                  </button>
-                  <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="#">User</a>
-                    <a class="dropdown-item" href="#">Guild</a>
-                  </div>
-                </div>
+                <h4 class="card-title">Top Users</h4>
               </div>
               <div class="card-body">
                 <div class="chart-area">
@@ -186,7 +177,26 @@
                 </div>
               </div>
             </div>
+            
+            <div class="card card-chart">
+              <div class="card-header">
+                <h5 class="card-category">Activity</h5>
+                <h4 class="card-title">Top Guilds</h4>
+              </div>
+              <div class="card-body">
+                <div class="chart-area">
+                  <canvas id="topGuildChart"></canvas>
+                </div>
+              </div>
+              <div class="card-footer">
+                <div class="stats">
+                   <i class="fa fa-calendar" aria-hidden="true"></i> <span name="lastUpdate">Just Updated</span>
+                </div>
+              </div>
+            </div>
+            
           </div>
+           
           <div class="col-md-6">
           <div class="card  card-tasks ">
               <div class="card-header ">

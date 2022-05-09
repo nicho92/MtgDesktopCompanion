@@ -2,6 +2,7 @@ var bigDashboard;
 var tablediscordMsg;
 var tablediscordGuilds;
 var topUserChart;
+var topGuildChart;
 
 
 
@@ -26,7 +27,7 @@ server = {
 								    return result;
 									}, {});
 		
-		var endpointCount = datas.reduce(function (result, d) {
+		var usersCount = datas.reduce(function (result, d) {
 								    var u = d.user.name;
 								     if (!result[u]) {
 								        result[u] = 0;
@@ -34,6 +35,23 @@ server = {
 								    result[u]++;
 								    return result;
 									}, {});
+		
+		
+		var guildsCount = datas.reduce(function (result, d) {
+								    
+								    if(d.guild==null)
+								    	var u = "direct";
+								    	else
+								    	var u = d.guild.name;
+								    
+								    
+								    if (!result[u]) {
+								        result[u] = 0;
+								    }
+								    result[u]++;
+								    return result;
+									}, {});
+		
 		
 		var messageCount = datas.reduce(function (result, d) {
 								    var u = d.message.match(/\{(.*)\}/)[1];
@@ -67,6 +85,7 @@ server = {
 	if(bigDashboard!=null){
 		bigDashboard.destroy();
 		topUserChart.destroy();
+		topGuildChart.destroy();
 	}
 	
  
@@ -165,7 +184,7 @@ server = {
     var a = {
       type: "bar",
       data: {
-        labels: Object.keys(endpointCount),
+        labels: Object.keys(usersCount),
         datasets: [{
           backgroundColor: gradientFill,
           borderColor: "#2CA8FF",
@@ -177,7 +196,7 @@ server = {
           pointRadius: 4,
           fill: true,
           borderWidth: 1,
-          data: Object.values(endpointCount)
+          data: Object.values(usersCount)
         }]
       },
       options: {
@@ -230,6 +249,80 @@ server = {
 
    topUserChart =  new Chart(e, a);
 	
+	
+	
+	var e = document.getElementById("topGuildChart").getContext("2d");
+    gradientFill = ctx.createLinearGradient(0, 170, 0, 50);
+    gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
+    gradientFill.addColorStop(1, hexToRGB('#ec4c40', 0.6));
+
+    var a = {
+      type: "bar",
+      data: {
+        labels: Object.keys(guildsCount),
+        datasets: [{
+          backgroundColor: gradientFill,
+          borderColor: "#ec4c40",
+          pointBorderColor: "#FFF",
+          pointBackgroundColor: "#ec4c40",
+          pointBorderWidth: 2,
+          pointHoverRadius: 4,
+          pointHoverBorderWidth: 1,
+          pointRadius: 4,
+          fill: true,
+          borderWidth: 1,
+          data: Object.values(guildsCount)
+        }]
+      },
+      options: {
+        maintainAspectRatio: false,
+        legend: {
+          display: false
+        },
+        tooltips: {
+          bodySpacing: 4,
+          mode: "nearest",
+          intersect: 0,
+          position: "nearest",
+          xPadding: 10,
+          yPadding: 10,
+          caretPadding: 10
+        },
+        responsive: 1,
+        scales: {
+          yAxes: [{
+            gridLines: 0,
+			gridLines: {
+              zeroLineColor: "transparent",
+              drawBorder: false
+            }
+          }],
+          xAxes: [{
+            display: true,
+            gridLines: 0,
+            ticks: {
+              display: true
+            },
+            gridLines: {
+              zeroLineColor: "transparent",
+              drawTicks: false,
+              display: false,
+              drawBorder: false
+            }
+          }]
+        },
+        layout: {
+          padding: {
+            left: 0,
+            right: 0,
+            top: 15,
+            bottom: 15
+          }
+        }
+      }
+    };
+
+   topGuildChart =  new Chart(e, a);
 	
 	
 	
