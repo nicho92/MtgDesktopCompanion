@@ -39,6 +39,7 @@ public class URLTools {
 	public static final String HEADER_JSON="application/json";
 	public static final String HEADER_HTML="text/html";
 	public static final String HEADER_CSS="text/css";
+	public static final String HEADER_TEXT="text/plain";
 	
 	public static final String REFERER = "Referer";
 	public static final String HOST = "Host";

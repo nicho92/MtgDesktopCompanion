@@ -15,6 +15,7 @@ import static spark.Spark.options;
 import static spark.Spark.port;
 import static spark.Spark.post;
 import static spark.Spark.put;
+import static spark.Spark.halt;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -1374,6 +1375,49 @@ public class JSONHttpServer extends AbstractMTGServer {
 			var report = new ReportNotificationManager();
 			var announce = MTG.getEnabledPlugin(MTGDao.class).getAnnounceById(Integer.parseInt(request.params(":id")));
 			return report.generate(FORMAT_NOTIFICATION.HTML, announce, "share");
+		});
+		
+		
+		
+		get("/robots.txt",URLTools.HEADER_TEXT,(req,res) ->{
+			return """
+					User-agent: Googlebot
+					Disallow: /
+					User-agent: googlebot-image
+					Disallow: /
+					User-agent: googlebot-mobile
+					Disallow: /
+					User-agent: MSNBot
+					Disallow: /
+					User-agent: Slurp
+					Disallow: /
+					User-agent: Teoma
+					Disallow: /
+					User-agent: Gigabot
+					Disallow: /
+					User-agent: Robozilla
+					Disallow: /
+					User-agent: Nutch
+					Disallow: /
+					User-agent: ia_archiver
+					Disallow: /
+					User-agent: baiduspider
+					Disallow: /
+					User-agent: naverbot
+					Disallow: /
+					User-agent: yeti
+					Disallow: /
+					User-agent: yahoo-mmcrawler
+					Disallow: /
+					User-agent: psbot
+					Disallow: /
+					User-agent: yahoo-blogs/v3.9
+					Disallow: /
+					User-agent: *
+					Disallow: /
+					Disallow: /cgi-bin/
+					""";
+			
 		});
 		
 		if(getBoolean("INDEX_ROUTES")) {

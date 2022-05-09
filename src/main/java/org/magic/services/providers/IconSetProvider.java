@@ -296,6 +296,7 @@ public class IconSetProvider {
 		equiv.put("C21","AFC");
 		equiv.put("MAFR","AFR");
 		equiv.put("OAFC", "AFR");
+		equiv.put("ASNC", "SNC");
 		equiv.put("CMB2", "MB1");
 		equiv.put("FMB1", "MB1");
 		equiv.put("SMID","MID");
