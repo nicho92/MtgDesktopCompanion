@@ -58,8 +58,8 @@
 	}); 
 
 	$.get(restserver+"/admin/qwartz",function(data){
-		var startDate = moment("2000-01-01");
-		var endDate = moment();
+		var startDate = moment().subtract(7, 'days');
+		var endDate = nowDate;
 		alldatas = data;
 		server.initDashboardPageCharts(data, startDate, endDate);	
   		});
