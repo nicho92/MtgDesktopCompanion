@@ -124,7 +124,7 @@ server = {
   
     initDashboardPageCharts: function(data, start, end) {
 	
-			var sup7=end.diff(start, 'days')>=7;
+		var sup7=end.diff(start, 'days')>=7;
 
 		var datas = data.filter(a => {
 				 var date = moment(a.start);

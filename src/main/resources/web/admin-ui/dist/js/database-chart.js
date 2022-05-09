@@ -7,6 +7,8 @@ const chartColor = "#FFFFFF";
 server = {
   
     initDashboardPageCharts: function(data, start, end) {
+	
+		var sup7=end.diff(start, 'days')>=7;
 		var datas = data.filter(a => {
 				 var date = moment(a.start);
 				 	end = moment(end);
@@ -15,21 +17,15 @@ server = {
 		});
 
 		var dayCounts = datas.reduce(function (result, d) {
-								    var day = moment(d.start).format("YYYY-MM-DD HH");
+								    if(sup7)
+										var day = moment(d.start).format("YYYY-MM-DD");
+									else
+										var day = moment(d.start).format("YYYY-MM-DD HH");
+										
 								    if (!result[day]) {
 								        result[day] = 0;
 								    }
 								    result[day]++;
-								    return result;
-									}, {});
-									
-									
-		var domainCount = datas.reduce(function (result, d) {
-								    var u = d.host;
-								     if (!result[u]) {
-								        result[u] = 0;
-								    }
-								    result[u]++;
 								    return result;
 									}, {});
 		
