@@ -153,16 +153,13 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 		var shop = new ShopifyExternalShop();
 		
 		var list = shop.listTransaction();
-		
-		System.out.println(list);
-		
 	}
 	
 	
 	private Transaction parseTransaction(JsonObject obj) {
 		
 	var t = new Transaction();
-		
+		logger.debug(obj);
 		t.setId(obj.get("id").getAsLong());
 		t.setCurrency(obj.get("currency").getAsString());
 		t.setDateCreation(UITools.parseGMTDate(obj.get("created_at").getAsString()));
@@ -183,7 +180,15 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 			var item = je.getAsJsonObject(); 
 			AbstractStockItem<MTGProduct> it = AbstractStockItem.generateDefault();
 			  	it.setProduct(parseProduct(item));
+			  	
+			  	try {
 			  	it.setId(item.get("variant_id").getAsLong());
+			  	}
+			  	catch(Exception e)
+			  	{
+			  		logger.warn("No variant_id found for " + it.getProduct());
+			  	}
+			  	
 			  	it.setPrice(item.get("price").getAsDouble());
 			  	it.setQte(item.get("quantity").getAsInt());
 			
