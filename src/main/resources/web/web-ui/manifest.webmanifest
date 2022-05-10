@@ -1,0 +1,83 @@
+{
+  "background_color": "#e37f54",
+  "description": "Magic The Gathering Cards Manager",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "MTG Web Companion",
+  "orientation": "landscape",
+  "scope": "/",
+  "short_name": "MTG Companion",
+  "start_url": "/",
+  "theme_color": "#ffffff",
+  "categories": ["games", "finance","developer","news"],
+  "iarc_rating_id": "e84b072d-71b3-4d3e-86ae-31a8ce4e53b7",
+  "related_applications": [
+	  {
+		"platform": "desktop",
+		"url": "www.mtgcompanion.org",
+		"id": "mtgdesktopCompanion"
+	  }
+  ],
+  "screenshots": [
+    {
+      "src": "https://mtgcompanion.me/webui.png",
+      "sizes": "1280x800",
+      "type": "image/png"
+    }
+  ],
+  "icons": [
+    {
+      "src": "dist/img/16.png",
+      "type": "image/png",
+      "sizes": "16x16",
+      "purpose": "any"
+    },
+    {
+      "src": "dist/img/24.png",
+      "type": "image/png",
+      "sizes": "24x24",
+      "purpose": "any"
+    },
+    {
+      "src": "dist/img/32.png",
+      "type": "image/png",
+      "sizes": "32x32",
+      "purpose": "any"
+    },
+    {
+      "src": "dist/img/64.png",
+      "type": "image/png",
+      "sizes": "64x64",
+      "purpose": "any"
+    },
+    {
+      "src": "dist/img/96.png",
+      "type": "image/png",
+      "sizes": "96x96",
+      "purpose": "any"
+    },
+    {
+      "src": "dist/img/256.png",
+      "type": "image/png",
+      "sizes": "256x256",
+      "purpose": "any"
+    },
+    {
+      "src": "dist/img/512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts" : [
+  {
+    "name": "Collection",
+    "url": "/",
+    "description": "Show your collections"
+  },
+  {
+    "name": "Sets",
+    "url": "pages/sets.html"
+  }
+]
+}

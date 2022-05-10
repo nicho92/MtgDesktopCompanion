@@ -230,11 +230,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" conversionsItems (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, name VARCHAR(255),lang VARCHAR(25), source VARCHAR(25),inputId BIGINT,destination VARCHAR(25),outputId BIGINT)");
 			logger.debug("Create table conversionsItems");
 			
-			
-			
-			
-			
-			
 			postCreation(stat);
 	
 			logger.debug("populate collections");
