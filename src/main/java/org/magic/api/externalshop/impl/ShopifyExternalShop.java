@@ -146,16 +146,6 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	}
 	
 	
-	public static void main(String[] args) throws IOException {
-		
-		MTGControler.getInstance().loadAccountsConfiguration();
-		
-		var shop = new ShopifyExternalShop();
-		
-		var list = shop.listTransaction();
-	}
-	
-	
 	private Transaction parseTransaction(JsonObject obj) {
 		
 	var t = new Transaction();
