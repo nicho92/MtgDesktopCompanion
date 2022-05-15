@@ -301,8 +301,18 @@ public class MkmExternalShop extends AbstractExternalShop {
 		Contact c = new Contact();
 		
 				var name = o.getBuyer().getAddress().getName();
-				c.setLastName(name.substring(0, name.indexOf(" ")).trim());
-				c.setName(name.substring(name.indexOf(" ")).trim());
+				
+				if(name.indexOf(" ")>1)
+				{ 
+					c.setLastName(name.substring(0, name.indexOf(" ")).trim());
+					c.setName(name.substring(name.indexOf(" ")).trim());
+				}
+				else
+				{
+					c.setLastName(name.trim());
+					c.setName("");
+				}
+					
 				c.setAddress(o.getBuyer().getAddress().getStreet());
 				c.setZipCode(o.getBuyer().getAddress().getZip());
 				c.setCity(o.getBuyer().getAddress().getCity());
