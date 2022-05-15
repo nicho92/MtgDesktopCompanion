@@ -2409,6 +2409,23 @@
 		<set lang="en" url="https://www.smfcorp.net/images/editions/gros_logos/242.png"/>
 	</edition>
 	
+	<edition id="2X2">
+		<set lang="en" url="https://media.wizards.com/2022/images/daily/fr_1ZVOMvSnWA.png"/>
+		<booster lang="en" extra="draft" num="1" url="https://media.wizards.com/2022/images/daily/fr_AUTkNkBSkT.png"/>
+		<booster lang="en" extra="collector" num="2" url="https://media.wizards.com/2022/images/daily/fr_nTlXuPqw8N.png"/>
+		<box lang="en" extra="draft" num="1" url="https://media.wizards.com/2022/images/daily/fr_EYVqZzUuhu.png"/>
+		<box lang="en" extra="collector" num="2" url="https://media.wizards.com/2022/images/daily/fr_yvfZZcx6f2.png"/>
+	</edition>
+	
+	<edition id="DMU">
+		<set lang="en" url="https://media.wizards.com/2022/images/daily/fr_pzcHKlH4uh.png"/>
+		<box lang="en" extra="draft" num="1" url="https://media.wizards.com/2022/images/daily/fr_vJ5TMWneKk.png"/>
+		<box lang="en" extra="collector" num="2" url="https://media.wizards.com/2022/images/daily/fr_9eBcyFZbQ5.png"/>
+		<box lang="en" extra="set" num="3" url="https://media.wizards.com/2022/images/daily/fr_yYfBt6paRl.png"/>
+		<booster lang="en" extra="jump" num="1" url="https://media.wizards.com/2022/images/daily/fr_TzNITdWD3V.png"/>
+		
+		
+	</edition>
 	
 	
 	
