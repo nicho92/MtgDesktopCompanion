@@ -338,8 +338,6 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				mc.setArtist(rs.getString(ARTIST));
 				mc.setFlavor(rs.getString(FLAVOR_TEXT));
 				mc.setWatermarks(rs.getString(WATERMARK));
-				mc.setOriginalText(rs.getString(ORIGINAL_TEXT));
-				mc.setOriginalType(rs.getString(ORIGINAL_TYPE));
 				mc.setMkmId(rs.getInt(MCM_ID));
 				mc.setMtgArenaId(rs.getInt("mtgArenaId"));
 				

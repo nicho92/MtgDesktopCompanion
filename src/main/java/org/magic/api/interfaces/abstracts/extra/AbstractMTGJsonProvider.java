@@ -57,8 +57,6 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	protected static final String SUBTYPES = "subtypes";
 	protected static final String TYPES = "types";
 	protected static final String SUPERTYPES = "supertypes";
-	protected static final String ORIGINAL_TYPE = "originalType";
-	protected static final String ORIGINAL_TEXT = "originalText";
 	protected static final String FLAVOR_TEXT = "flavorText";
 	protected static final String FLAVOR_NAME = "flavorName";
 	protected static final String LAYOUT = "layout";

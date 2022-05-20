@@ -1389,7 +1389,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setString(1, String.valueOf(state.getProduct().getEdition().getId()));
 				pst.setInt(2, state.getQte());
 				pst.setString(3, state.getComment());
-				pst.setString(4, state.getProduct().getLang());
+				pst.setString(4, state.getLanguage());
 				pst.setString(5, state.getProduct().getTypeProduct().name());
 				pst.setString(6, state.getCondition().name());
 				pst.setString(7, (state.getMagicCollection()==null)?MTGControler.getInstance().get(DEFAULT_LIBRARY):state.getMagicCollection().getName());

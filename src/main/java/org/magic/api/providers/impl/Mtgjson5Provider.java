@@ -264,12 +264,6 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 					mc.setEdhrecRank(Double.valueOf(map.get(EDHREC_RANK).toString()).intValue());
 				}
 				
-				if (map.get(ORIGINAL_TEXT) != null)
-					mc.setOriginalText(String.valueOf(map.get(ORIGINAL_TEXT)));
-				
-				if (map.get(ORIGINAL_TYPE) != null)
-					mc.setOriginalType(String.valueOf(map.get(ORIGINAL_TYPE)));
-				
 				if (map.get(SIGNATURE) != null)
 					mc.setSignature(String.valueOf(map.get(SIGNATURE)));
 				

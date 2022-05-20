@@ -27,8 +27,6 @@ public class MagicCard extends AbstractProduct {
 	private Integer cmc;
 	private String cost="";
 	private String text="";
-	private String originalText="";
-	private String originalType="";
 	private String power="";
 	private String toughness="";
 	private Integer loyalty;
@@ -609,22 +607,6 @@ public class MagicCard extends AbstractProduct {
 		colorIndicator = new ArrayList<>();
 		finishes = new ArrayList<>();
 		setTypeProduct(EnumItems.CARD);
-	}
-
-	public String getOriginalText() {
-		return originalText;
-	}
-
-	public void setOriginalText(String originalText) {
-		this.originalText = originalText;
-	}
-
-	public String getOriginalType() {
-		return originalType;
-	}
-
-	public void setOriginalType(String originalType) {
-		this.originalType = originalType;
 	}
 
 	public List<MagicFormat> getLegalities() {
