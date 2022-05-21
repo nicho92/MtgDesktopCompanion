@@ -237,6 +237,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			for(String s : MTGConstants.getDefaultCollectionsNames())
 				stat.executeUpdate("insert into collections values ('"+s+"')");
 			
+			
 			createIndex(stat);
 			
 			

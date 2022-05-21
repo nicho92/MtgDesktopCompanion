@@ -44,6 +44,7 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.ContactPanel;
+import org.magic.gui.components.ContactSelectionPanel;
 import org.magic.gui.components.JLangLabel;
 import org.magic.gui.components.ServerStatePanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
@@ -76,7 +77,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 	private JSpinner spinnerReduction ;
 	private JSpinner averageDeliverayDay ;	
 	private RSyntaxTextArea txtdeliveryRules ;
-	private ContactPanel contactPanel;
+	private ContactSelectionPanel contactPanel;
 	private JTextField txtPaypalClientId;
 	private JTextField txtPaypalSendMoneyLink;
 	private JTextField txtWebsiteUrl;
@@ -102,7 +103,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 	public WebShopConfigPanel() {
 		
 		setLayout(new BorderLayout());
-		contactPanel = new ContactPanel(false);
+		contactPanel = new ContactSelectionPanel();
 		var container = new JXTaskPaneContainer();
 		container.setBackgroundPainter(new MattePainter(MTGConstants.PICTURE_PAINTER, true));
 		

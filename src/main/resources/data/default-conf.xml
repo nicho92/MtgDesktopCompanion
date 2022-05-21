@@ -898,17 +898,7 @@
       <bannerTitle>My MTG WebPage</bannerTitle>
       <bannerText>Banner Text</bannerText>
       <aboutText>Best trading service for best prices !</aboutText>
-      <contact>
-        <name>John</name>
-        <lastName>Doe</lastName>
-        <email>mtgdesktopcompanion@gmail.com</email>
-        <telephone>33123456789</telephone>
-        <country></country>
-        <address></address>
-        <website>https://www.mtgcompanion.org</website>
-        <zipcode></zipcode>
-        <city></city>
-      </contact>
+      <contact>1</contact>
       <slides>https://mtgrocks.com/wp-content/uploads/2021/02/strixhaven-witherbloom-school-of-mages.jpg;https://www.candlekeep.co.uk/wp-content/uploads/2021/03/MTGMH2_EN_4C_8.png;https://images.ctfassets.net/s5n2t79q9icq/7oGBuDbOW6Twt1DTs7lQF/5bf0a7426b55a85cae9ed4040cb08ee6/dkfh6t9ds_en.jpg</slides>
       <collections>Library</collections>
       <products>

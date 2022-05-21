@@ -241,18 +241,18 @@ public class MTGControler {
 			for(String s : get("/shopSite/config/slides","").split(";"))
 		       conf.getSlidesLinksImage().add(s);
 			   
-			var contact = new Contact();
+			
+			var id = get("/shopSite/config/contact","");
+			
+			Contact contact = new Contact();
+			try {
+				contact = MTG.getEnabledPlugin(MTGDao.class).getContactById(Integer.parseInt(id));
+			} catch (NumberFormatException | SQLException e) {
+				logger.error("No contact found with id = " + id);
+			}
 			
 			
-			contact.setName(get("/shopSite/config/contact/name",""));
-			contact.setLastName(get("/shopSite/config/contact/lastName",""));
-			contact.setEmail(get("/shopSite/config/contact/email",""));
-			contact.setTelephone(get("/shopSite/config/contact/telephone",""));
-			contact.setCountry(get("/shopSite/config/contact/country",""));
-			contact.setAddress(get("/shopSite/config/contact/address",""));
-			contact.setWebsite(get("/shopSite/config/contact/website",""));
-			contact.setZipCode(get("/shopSite/config/contact/zipcode",""));
-			contact.setCity(get("/shopSite/config/contact/city",""));
+			
 			conf.setContact(contact);
 		
 		return conf;
@@ -283,15 +283,7 @@ public class MTGControler {
 		setProperty("/shopSite/config/ganalyticsId",wsc.getGoogleAnalyticsId());
 		setProperty("/shopSite/config/percentReduction",wsc.getPercentReduction());
 		setProperty("/shopSite/config/collections",StringUtils.join(wsc.getCollections(),";"));
-		setProperty("/shopSite/config/contact/name",wsc.getContact().getName());
-		setProperty("/shopSite/config/contact/lastName",wsc.getContact().getLastName());
-		setProperty("/shopSite/config/contact/email",wsc.getContact().getEmail());
-		setProperty("/shopSite/config/contact/telephone",wsc.getContact().getTelephone());
-		setProperty("/shopSite/config/contact/country",wsc.getContact().getCountry());
-		setProperty("/shopSite/config/contact/address",wsc.getContact().getAddress());
-		setProperty("/shopSite/config/contact/zipcode",wsc.getContact().getZipCode());
-		setProperty("/shopSite/config/contact/city",wsc.getContact().getCity());
-		setProperty("/shopSite/config/contact/website",wsc.getContact().getWebsite());
+		setProperty("/shopSite/config/contact",wsc.getContact().getId());
 		setProperty("/shopSite/delivery/shippingRules", wsc.getShippingRules());
 		setProperty("/shopSite/delivery/deliveryDay",wsc.getAverageDeliveryTime());
 		

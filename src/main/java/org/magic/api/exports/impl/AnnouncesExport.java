@@ -16,6 +16,7 @@ import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.MTGExportCategory;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.api.interfaces.abstracts.extra.AbstractStockItem;
 import org.magic.services.MTGControler;
 import org.magic.tools.MTG;
 
@@ -27,6 +28,10 @@ public class AnnouncesExport extends AbstractCardExport {
 		return MODS.EXPORT;
 	}
 	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEV;
+	}
 	
 	@Override
 	public MTGExportCategory getCategory() {
@@ -52,16 +57,13 @@ public class AnnouncesExport extends AbstractCardExport {
 			a.setCondition(EnumCondition.OPENED);
 			a.setCurrency(MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
 			a.setTotalPrice(deck.getAveragePrice());
-			
+			a.setContact(MTGControler.getInstance().getWebConfig().getContact());
 			var sb = new StringBuilder("//MAIN");
-			deck.getMain().entrySet().forEach(e->{
-				sb.append(e.getValue()).append(" ").append(e.getKey()).append("<br/>");
-			});
+			deck.getMain().entrySet().forEach(e->sb.append(e.getValue()).append(" ").append(e.getKey()).append("<br/>"));
 			
 			sb.append("//SIDEBOARD");
-			deck.getSideBoard().entrySet().forEach(e->{
-				sb.append(e.getValue()).append(" ").append(e.getKey()).append("<br/>");
-			});
+			deck.getSideBoard().entrySet().forEach(e->sb.append(e.getValue()).append(" ").append(e.getKey()).append("<br/>"));
+			a.setDescription(sb.toString());
 			
 			
 			
@@ -85,7 +87,7 @@ public class AnnouncesExport extends AbstractCardExport {
 				a.setCondition(mcs.getCondition());
 				a.setCurrency(MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
 				a.setTotalPrice(mcs.getPrice());
-				
+				a.setContact(MTGControler.getInstance().getWebConfig().getContact());
 				MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateAnnounce(a);
 				
 				notify(mcs.getProduct());
