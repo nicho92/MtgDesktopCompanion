@@ -9,12 +9,14 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.magic.api.beans.Announce;
+import org.magic.api.beans.GedEntry;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.MTGExportCategory;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.api.interfaces.MTGGedStorage;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.interfaces.abstracts.extra.AbstractStockItem;
 import org.magic.services.MTGControler;
@@ -58,10 +60,11 @@ public class AnnouncesExport extends AbstractCardExport {
 			a.setCurrency(MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
 			a.setTotalPrice(deck.getAveragePrice());
 			a.setContact(MTGControler.getInstance().getWebConfig().getContact());
-			var sb = new StringBuilder("//MAIN");
+			var sb = new StringBuilder("//MAIN<br/>");
+			
 			deck.getMain().entrySet().forEach(e->sb.append(e.getValue()).append(" ").append(e.getKey()).append("<br/>"));
 			
-			sb.append("//SIDEBOARD");
+			sb.append("//SIDEBOARD<br/>");
 			deck.getSideBoard().entrySet().forEach(e->sb.append(e.getValue()).append(" ").append(e.getKey()).append("<br/>"));
 			a.setDescription(sb.toString());
 			
@@ -88,6 +91,7 @@ public class AnnouncesExport extends AbstractCardExport {
 				a.setCurrency(MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
 				a.setTotalPrice(mcs.getPrice());
 				a.setContact(MTGControler.getInstance().getWebConfig().getContact());
+				
 				MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateAnnounce(a);
 				
 				notify(mcs.getProduct());

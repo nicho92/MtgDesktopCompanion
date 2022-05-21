@@ -1,22 +1,27 @@
 package org.magic.gui.components;
 
 import java.awt.BorderLayout;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import org.magic.api.beans.GedEntry;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGGedStorage;
 import org.magic.api.interfaces.MTGStorable;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.GedEntryTableModel;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.tools.MTG;
@@ -29,7 +34,9 @@ public class GedBrowserPanel extends MTGUIComponent {
 	private JComboBox<MTGGedStorage> cboGed;
 	private GedEntryTableModel model;
 	private AbstractBuzyIndicatorComponent buzy;
-
+	private JButton btnDelete;
+	
+	
 	private transient AbstractObservableWorker<List<GedEntry<MTGStorable>>, GedEntry<MTGStorable>, MTGGedStorage> sw;
 	
 	public GedBrowserPanel() {
@@ -40,6 +47,8 @@ public class GedBrowserPanel extends MTGUIComponent {
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 		cboGed.setSelectedItem(MTG.getEnabledPlugin(MTGGedStorage.class));
 		cboGed.addItemListener(il->reload());
+		btnDelete = new JButton(MTGConstants.ICON_DELETE);
+		btnDelete.setEnabled(false);
 		table = UITools.createNewTable(model);
 		UITools.initTableFilter(table);
 		
@@ -51,9 +60,36 @@ public class GedBrowserPanel extends MTGUIComponent {
 		});
 	
 		panneauHaut.add(cboGed);
+		panneauHaut.add(btnDelete);
 		panneauHaut.add(buzy);
 		add(panneauHaut, BorderLayout.NORTH);
 		add(new JScrollPane(table),BorderLayout.CENTER);
+		
+		
+		table.getSelectionModel().addListSelectionListener(lsl->{
+			btnDelete.setEnabled(UITools.getTableSelection(table, 0)!=null);
+		});
+		
+		btnDelete.addActionListener(al->{
+			GedEntry<MTGStorable> select = UITools.getTableSelection(table, 0);
+			var confirm = JOptionPane.showConfirmDialog(this, MTG.capitalize("CONFIRM_DELETE",select));
+			if(confirm==JOptionPane.YES_OPTION)
+			{
+				try {
+					MTG.getEnabledPlugin(MTGDao.class).deleteEntry(select);
+					model.removeItem(select);
+					btnDelete.setEnabled(false);
+				} catch (Exception e) {
+					MTGControler.getInstance().notify(e);
+				}
+			}
+			
+			
+			
+		});
+		
+		
+		
 	}
 	
 	@Override
