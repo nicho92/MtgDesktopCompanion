@@ -238,6 +238,10 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				stat.executeUpdate("insert into collections values ('"+s+"')");
 			
 			
+			stat.executeUpdate("INSERT INTO contacts (id, contact_name, contact_lastname, contact_password, contact_telephone, contact_country, contact_zipcode, contact_city, contact_address, contact_website, contact_email, emailAccept, temporaryToken, contact_active) VALUES (1, 'MTG', 'Companion', NULL, '123456789', 'FR', '123456', 'Somewhere', 'In the middle of nowhere', 'https://www.mtgcompanion.org', 'mtgdesktopcompanion@gmail.com', '1', NULL, '1');");
+			
+			
+			
 			createIndex(stat);
 			
 			
