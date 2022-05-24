@@ -110,7 +110,7 @@ public class MTGHttpClient {
 		}
 		catch(Exception e)
 		{
-			logger.error(e);
+			logger.error(req.getURI() + " " + e);
 			info.setReponse(DefaultHttpResponseFactory.INSTANCE.newHttpResponse(new StatusLine() {
 				
 				@Override

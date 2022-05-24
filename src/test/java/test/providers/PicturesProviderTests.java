@@ -115,13 +115,6 @@ public class PicturesProviderTests {
 		}
 
 		try {
-			p.getSetLogo(ed.getId(), "Rare");
-			System.out.println("getLogo OK" );
-		} catch (Exception e) {
-			System.out.println("getLogo ERROR "+e );
-		}
-		
-		try {
 			p.getPicture(mc);
 			System.out.println("getPictures cache OK" );
 		} catch (Exception e) {

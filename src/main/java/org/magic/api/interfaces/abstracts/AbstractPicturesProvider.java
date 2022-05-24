@@ -88,24 +88,6 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 	}
 	
 	@Override
-	public BufferedImage getSetLogo(String set, String rarity) throws IOException {
-		
-		
-		try {
-			return setCache.get(set+rarity, new Callable<BufferedImage>() {
-				@Override
-				public BufferedImage call() throws Exception {
-					return URLTools.extractAsImage("http://gatherer.wizards.com/Handlers/Image.ashx?type=symbol&set=" + set + "&size="+ getProperty("SET_SIZE","medium") + "&rarity=" + rarity.substring(0, 1));
-				}
-			});
-		} catch (ExecutionException e) {
-			logger.error(e);
-		}
-		
-		return null;
-	}
-	
-	@Override
 	public BufferedImage getForeignNamePicture(MagicCardNames fn, MagicCard mc) throws IOException {
 		MagicCard foreignCard = mc.toForeign(fn);
 		return getPicture(foreignCard);

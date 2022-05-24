@@ -338,39 +338,6 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		}
 	}
 
-	private void setMagicLogo(final String set, final String rarity) {
-		
-		
-		
-		var sw = new SwingWorker<BufferedImage, Void>(){
-
-			@Override
-			protected BufferedImage doInBackground() throws Exception {
-				return getEnabledPlugin(MTGPictureProvider.class).getSetLogo(set, rarity);
-			}
-			
-			@Override
-			protected void done() {
-				try {
-					lblLogoSet.setIcon(new ImageIcon(get()));
-				}
-				catch (InterruptedException e) {
-					Thread.currentThread().interrupt();
-					lblLogoSet.setIcon(null);
-				}
-				catch (Exception e) {
-					lblLogoSet.setIcon(null);
-				}
-			}
-			
-		};
-		
-		
-		
-		ThreadManager.getInstance().runInEdt(sw, "loading logo");
-
-	}
-
 	private BindingGroup initDataBindings() {
 		BeanProperty<MagicCard, Integer> cmcProperty = BeanProperty.create("cmc");
 		BeanProperty<JTextField, String> textProperty = BeanProperty.create("text");
@@ -456,11 +423,6 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 
 		if (magicCard != null && !magicCard.getEditions().isEmpty()) 
 		{
-		
-			if(magicCard.getRarity()!=null)
-				setMagicLogo(magicCard.getCurrentSet().getId(), magicCard.getRarity().toPrettyString());
-			
-
 			int showCount = magicCard.getCurrentSet().getCardCountOfficial();
 			if(showCount==0)
 				showCount=magicCard.getCurrentSet().getCardCount();

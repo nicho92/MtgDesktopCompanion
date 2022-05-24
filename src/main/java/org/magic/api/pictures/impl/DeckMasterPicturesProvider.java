@@ -63,43 +63,6 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 	}
 
 	@Override
-	public BufferedImage getSetLogo(String setID, String rarity) throws IOException {
-
-		switch (setID) {
-		case "ICE":
-			setID = "IA";
-			break;
-		case "FEM":
-			setID = "FE";
-			break;
-		case "LEA":
-			setID = "1E";
-			break;
-		case "LEB":
-			setID = "2E";
-			break;
-		case "2ED":
-			setID = "2U";
-			break;
-		case "LEG":
-			setID = "LE";
-			break;
-		case "ATQ":
-			setID = "AQ";
-			break;
-		case "ARN":
-			setID = "AN";
-			break;
-		default:
-			break;
-		}
-
-		var u =getString("URL") + "/images/sets/" + setID.toUpperCase() + "_"+ rarity.substring(0, 1).toUpperCase() + ".png";
-		var im= URLTools.extractAsImage(u);
-		return resizeIconSet(im);
-	}
-
-	@Override
 	public String getName() {
 		return "Deck Master";
 	}
