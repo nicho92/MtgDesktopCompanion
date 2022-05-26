@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.regex.Matcher;
 
-import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.tools.FileTools;
@@ -30,7 +29,7 @@ public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		var temp = new StringBuilder();
-		for (MagicCard mc : deck.getMain().keySet()) {
+		for (var mc : deck.getMain().keySet()) {
 			temp.append("MD,");
 			temp.append(deck.getMain().get(mc) + getSeparator());
 			temp.append("\"" + mc.getName() + "\",");
@@ -38,7 +37,7 @@ public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 			temp.append("\n");
 			notify(mc);
 		}
-		for (MagicCard mc : deck.getSideBoard().keySet()) {
+		for (var mc : deck.getSideBoard().keySet()) {
 			temp.append("SB,");
 			temp.append(deck.getSideBoard().get(mc) + getSeparator());
 			temp.append("\"" + mc.getName() + "\",");
@@ -59,8 +58,8 @@ public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 			
 			for(Matcher m : matches(f,true))
 			{
-				MagicCard mc = parseMatcherWithGroup(m, 3, 4, true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NAME);
-				Integer qte = Integer.parseInt(m.group(2));
+				var mc = parseMatcherWithGroup(m, 3, 4, true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NAME);
+				var qte = Integer.parseInt(m.group(2));
 				
 				if(mc!=null) {
 					if (m.group(1).startsWith("SB"))

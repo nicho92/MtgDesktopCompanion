@@ -50,7 +50,7 @@ public class CardKingdomCardExport extends AbstractCardExport {
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		var temp = new StringBuilder();
 		
-		String s = BASE_URL+"?partner=Mtgdesktopcompanion&utm_source=Mtgdesktopcompanion&utm_medium=affiliate&utm_campaign=Mtgdesktopcompanion&c=";
+		var s = BASE_URL+"?partner=Mtgdesktopcompanion&utm_source=Mtgdesktopcompanion&utm_medium=affiliate&utm_campaign=Mtgdesktopcompanion&c=";
 		
 		for(Entry<MagicCard, Integer> e : deck.getMain().entrySet())
 			temp.append(e.getValue()).append(" ").append(e.getKey()).append("||");
