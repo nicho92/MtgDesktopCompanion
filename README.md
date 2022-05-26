@@ -27,7 +27,7 @@ Personal Magic the Gathering card manager Deck Builder and Collection Editor
 [MTG Discord Bot](https://top.gg/bot/448196866774007808) 
 
 
-[![GitHub stars](https://img.shields.io/badge/download-2.32-green.svg)](https://github.com/nicho92/MtgDesktopCompanion/releases/)
+[![GitHub stars](https://img.shields.io/badge/download-2.34-green.svg)](https://github.com/nicho92/MtgDesktopCompanion/releases/)
 
 # Launch
 ```
