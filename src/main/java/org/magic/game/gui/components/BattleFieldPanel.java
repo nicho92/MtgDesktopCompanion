@@ -13,6 +13,7 @@ import javax.swing.JPopupMenu;
 
 import org.magic.game.actions.battlefield.ChangeBackGroundActions;
 import org.magic.game.actions.battlefield.FlipaCoinActions;
+import org.magic.game.actions.battlefield.RollAD20Actions;
 import org.magic.game.actions.battlefield.SelectedTapActions;
 import org.magic.game.actions.battlefield.UnselectAllAction;
 import org.magic.game.model.CardSpell;
@@ -76,7 +77,9 @@ public class BattleFieldPanel extends DraggablePanel {
 		battlefieldMenu.add(new JMenuItem(new UnselectAllAction()));
 		battlefieldMenu.add(new JMenuItem(new SelectedTapActions()));
 		battlefieldMenu.add(new JMenuItem(new FlipaCoinActions()));
+		battlefieldMenu.add(new JMenuItem(new RollAD20Actions()));
 		battlefieldMenu.add(new JMenuItem(new ChangeBackGroundActions()));
+		
 		setComponentPopupMenu(battlefieldMenu);
 	}
 
