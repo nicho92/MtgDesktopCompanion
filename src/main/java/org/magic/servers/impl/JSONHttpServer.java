@@ -15,7 +15,6 @@ import static spark.Spark.options;
 import static spark.Spark.port;
 import static spark.Spark.post;
 import static spark.Spark.put;
-import static spark.Spark.halt;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;

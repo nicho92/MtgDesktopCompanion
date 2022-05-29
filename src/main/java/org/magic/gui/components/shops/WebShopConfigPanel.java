@@ -43,7 +43,6 @@ import org.magic.api.beans.WebShopConfig;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.abstracts.MTGUIComponent;
-import org.magic.gui.components.ContactPanel;
 import org.magic.gui.components.ContactSelectionPanel;
 import org.magic.gui.components.JLangLabel;
 import org.magic.gui.components.ServerStatePanel;

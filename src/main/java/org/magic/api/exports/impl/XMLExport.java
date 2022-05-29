@@ -2,7 +2,6 @@ package org.magic.api.exports.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 import org.magic.api.beans.MagicCard;
@@ -14,8 +13,6 @@ import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
-import org.magic.services.MTGControler;
-import org.magic.services.MTGDeckManager;
 import org.magic.tools.FileTools;
 import org.magic.tools.POMReader;
 

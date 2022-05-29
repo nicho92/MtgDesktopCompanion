@@ -1,13 +1,11 @@
 package org.magic.gui.components;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.sql.SQLException;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.ListCellRenderer;
 import javax.swing.SwingConstants;
 
 import org.magic.api.beans.shop.Contact;

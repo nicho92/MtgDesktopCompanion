@@ -5,8 +5,6 @@ import static org.magic.tools.MTG.getEnabledPlugin;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;

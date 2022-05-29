@@ -1,7 +1,6 @@
 package org.magic.gui.components;
 
 import java.awt.BorderLayout;
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.swing.ImageIcon;
