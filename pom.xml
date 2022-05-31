@@ -53,8 +53,17 @@
 			<id>reposilite-repository</id>
 			<url>https://repo.panda-lang.org/releases</url>
 		</repository>
+		 <repository>
+		    <id>tomp2p.net</id>
+		    <url>http://tomp2p.net/dev/mvn/</url>
+		  </repository>
 	</repositories>
 	<dependencies>
+		<dependency>
+		  <groupId>net.tomp2p</groupId>
+		  <artifactId>TomP2P</artifactId>
+		  <version>4.4</version>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
