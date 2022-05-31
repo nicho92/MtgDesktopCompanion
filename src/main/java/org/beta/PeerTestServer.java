@@ -43,7 +43,7 @@ public class PeerTestServer extends AbstractMTGServer {
 		} 
 		logger.info("Starting peer with id="+peer.getPeerID().intValue());
 		
-		detect();
+		//detect();
 		
 		
 	}
