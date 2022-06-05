@@ -9,14 +9,21 @@ import java.util.Map;
 import org.apache.commons.lang3.SystemUtils;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 
+import net.tomp2p.connection.PeerConnection;
+import net.tomp2p.connection.PeerException;
+import net.tomp2p.dht.PeerBuilderDHT;
+import net.tomp2p.dht.PeerDHT;
 import net.tomp2p.futures.FutureBootstrap;
-import net.tomp2p.p2p.Peer;
 import net.tomp2p.p2p.PeerBuilder;
 import net.tomp2p.peers.Number160;
+import net.tomp2p.peers.PeerAddress;
+import net.tomp2p.peers.PeerStatusListener;
+import net.tomp2p.peers.RTT;
+import net.tomp2p.storage.Data;
 
 public class PeerTestServer extends AbstractMTGServer {
 
-	private Peer peer;
+	private PeerDHT  peer;
 	public static void main(String[] args) throws IOException {
 		
 		new PeerTestServer().start();
@@ -34,17 +41,18 @@ public class PeerTestServer extends AbstractMTGServer {
 					  "USERNAME",SystemUtils.getUserName(),
 					  "AUTO_START","false",
 					  "PEER_NODE_MASTER","mtgcompanion.me:9090",
-					  "IS_MASTER","true");
+					  "IS_MASTER","true",
+					  "BEHIND_FIREWALL","true");
 	}
 	
 
 	@Override
 	public void start() throws IOException {
 		try {
-			peer = new PeerBuilder(new Number160(SecureRandom.getInstanceStrong()))
-					.ports(getInt("PORT"))
-					.start();
-					
+			peer = new PeerBuilderDHT(new PeerBuilder(new Number160(SecureRandom.getInstanceStrong()))
+					.ports(9898)
+					.behindFirewall(getBoolean("BEHIND_FIREWALL"))
+					.start()).start();
 		} catch (Exception e) {
 			throw new IOException(e);
 		} 
@@ -53,36 +61,92 @@ public class PeerTestServer extends AbstractMTGServer {
 		if(!getBoolean("IS_MASTER")) {
 			connectMaster();
 		}
+		
+		listening();
+		
+		
 	}
 
+	private void listening() {
+		
+		try {
+			Data data = new Data("test");
+			var fp = peer.put(Number160.createHash("TEST")).data(data).start();
+			
+			fp.awaitListenersUninterruptibly();
+			
+			if(fp.isSuccess())
+			{
+				logger.info("Message done");
+			}
+			else
+			{
+				logger.warn("Error put " + fp.failedReason());
+			}
+			
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+		
+		peer.peerBean().addPeerStatusListener(new PeerStatusListener() {
+			
+			@Override
+			public boolean peerFound(PeerAddress remotePeer, PeerAddress referrer, PeerConnection peerConnection, RTT roundTripTime) {
+				logger.info("Peer Found " + remotePeer.inetAddress()+":"+remotePeer.tcpPort());
+				return false;
+			}
+			
+			@Override
+			public boolean peerFailed(PeerAddress remotePeer, PeerException exception) {
+				logger.warn("Peer Failed " + remotePeer.inetAddress()+":"+remotePeer.tcpPort());
+				return false;
+			}
+		});
+
+	}
+
+
 	private void connectMaster() throws NumberFormatException, UnknownHostException {
-		FutureBootstrap fb = peer.bootstrap().inetAddress(InetAddress.getByName(getString("PEER_NODE_MASTER").split(":")[0])).ports(Integer.parseInt(getString("PEER_NODE_MASTER").split(":")[1])).start();
+		FutureBootstrap fb = peer.peer().bootstrap().inetAddress(InetAddress.getByName(getString("PEER_NODE_MASTER").split(":")[0])).ports(Integer.parseInt(getString("PEER_NODE_MASTER").split(":")[1])).start();
 		
 		fb.awaitUninterruptibly();
 		if(fb.isSuccess()) {
-           var fd= peer.discover().peerAddress(fb.bootstrapTo().iterator().next()).start().awaitUninterruptibly();
-           logger.info(fd);
+			logger.info("Bootstrap done ");
+			
+			var fd = peer.peer().discover().peerAddress(fb.bootstrapTo().iterator().next()).start().awaitUninterruptibly();
+			if(fd.isSuccess())
+				logger.info("Discover done");
+			else
+				logger.error(fd.failedReason());
         }
-		
 	}
 	
 	@Override
 	public String getVersion() {
-		return "5.0-Beta8";
+		return "5.0-Beta8.1";
 	}
 
 
 	@Override
 	public void stop() throws IOException {
 		
-		if(peer!=null)
-			peer.shutdown();
-		
+		    peer.peer().announceShutdown().start().awaitUninterruptibly();
+		    var isDisconnected = peer.shutdown().awaitUninterruptibly();
+		    if (isDisconnected.isSuccess()) {
+		      logger.info("Peer successfully disconnected.");
+		    } else {
+		      logger.warn("Peer disconnection failed : "+isDisconnected.failedReason());
+		    }
 	}
 
 	@Override
 	public boolean isAlive() {
-		return peer!=null && !peer.isShutdown();
+		return peer!=null && !peer.peer().isShutdown();
 	}
 
 	@Override

@@ -62,7 +62,7 @@
 		<dependency>
 		  <groupId>net.tomp2p</groupId>
 		  <artifactId>tomp2p-all</artifactId>
-		  <version>5.0-Beta8</version>
+		  <version>5.0-Beta8.1</version>
 		</dependency>
 
 		<dependency>
