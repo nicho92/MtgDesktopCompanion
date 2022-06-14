@@ -57,7 +57,8 @@
     <logger name="org.cache2k.core"><level value="ERROR"/></logger>
     <logger name="spark.embeddedserver.jetty"><level value="ERROR"/></logger>
     <logger name="spark.Request"><level value="ERROR"/></logger>
-    <logger name="net.tomp2p"><level value="INFO"/></logger>
+    <logger name="net.tomp2p"><level value="ERROR"/></logger>
+    <logger name="io.netty"><level value="ERROR"/></logger>
     <logger name="com.github.sarxos.webcam"><level value="ERROR"></level></logger>
     
     

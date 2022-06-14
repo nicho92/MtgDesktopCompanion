@@ -264,6 +264,7 @@ public class StockPanelGUI extends MTGUIComponent {
 					it.setText(exp.getName());
 					it.addActionListener(itemEvent -> {
 						var jf = new JFileChooser(".");
+						jf.setFileHidingEnabled(false);
 						jf.setFileFilter(new FileFilter() {
 
 							@Override

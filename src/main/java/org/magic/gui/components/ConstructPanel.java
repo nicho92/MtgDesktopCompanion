@@ -569,6 +569,7 @@ public class ConstructPanel extends MTGUIComponent {
 					it.addActionListener(itEvent -> {
 						
 						var jf = new JFileChooser(MTGConstants.DATA_DIR);
+						jf.setFileHidingEnabled(false);
 						jf.setFileFilter(new FileFilter() {
 							@Override
 							public String getDescription() {
