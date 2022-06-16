@@ -10,17 +10,11 @@ import java.util.Map;
 import org.apache.commons.lang3.SystemUtils;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 
-import net.tomp2p.connection.PeerConnection;
-import net.tomp2p.connection.PeerException;
 import net.tomp2p.dht.PeerBuilderDHT;
 import net.tomp2p.dht.PeerDHT;
 import net.tomp2p.p2p.PeerBuilder;
 import net.tomp2p.peers.Number160;
 import net.tomp2p.peers.Number640;
-import net.tomp2p.peers.PeerAddress;
-import net.tomp2p.peers.PeerStatusListener;
-import net.tomp2p.peers.RTT;
-import net.tomp2p.replication.IndirectReplication;
 import net.tomp2p.storage.Data;
 
 
@@ -68,12 +62,7 @@ public class PeerTestServer extends AbstractMTGServer {
 			connectMaster();
 		}
 		
-		addData("Nicho","test");
-		
-		
-		var d = readData("Nicho");
-		
-		logger.info("Data read : " + d);		
+		addData("Name",SystemUtils.getUserName());
 		
 	}
 
