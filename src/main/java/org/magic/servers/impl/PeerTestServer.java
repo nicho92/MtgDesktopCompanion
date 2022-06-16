@@ -67,7 +67,8 @@ public class PeerTestServer extends AbstractMTGServer {
 		
 		
 		
-		putData("Nicho", "Nicolas Pihen / MTGCompanion");
+		addData("Nicho","Hello Nicho");
+		
 		
 	}
 
@@ -91,19 +92,22 @@ public class PeerTestServer extends AbstractMTGServer {
 		
 	}
 	
-	private boolean putData(String k,Object data)
+	private void addData(String k,Object data)
 	{
 		try {
 			var d = new Data(data);
-			var fa = peer.put(Number160.createHash(k)).data(d).start().awaitUninterruptibly();
+			var fa = peer.add(Number160.createHash(k)).data(d).start().awaitUninterruptibly();
 			if(fa.isCompleted())
-				return fa.isSuccess();
+			{
+				var res = fa.isSuccess();
+				logger.info("add data with key="+k + " :" + res);
+				
+			}
 		}
 		catch(Exception e)
 		{
 			logger.error(e);
 		}
-		return false;
 	}	
 	
 
