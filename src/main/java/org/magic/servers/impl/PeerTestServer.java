@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.security.SecureRandom;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.SystemUtils;
@@ -15,9 +16,11 @@ import net.tomp2p.dht.PeerBuilderDHT;
 import net.tomp2p.dht.PeerDHT;
 import net.tomp2p.p2p.PeerBuilder;
 import net.tomp2p.peers.Number160;
+import net.tomp2p.peers.Number640;
 import net.tomp2p.peers.PeerAddress;
 import net.tomp2p.peers.PeerStatusListener;
 import net.tomp2p.peers.RTT;
+import net.tomp2p.replication.IndirectReplication;
 import net.tomp2p.storage.Data;
 
 
@@ -65,21 +68,26 @@ public class PeerTestServer extends AbstractMTGServer {
 			connectMaster();
 		}
 		
+		addData("Nicho","test");
 		
 		
-		addData("Nicho","Hello Nicho");
+		var d = readData("Nicho");
 		
+		logger.info("Data read : " + d);		
 		
 	}
 
 	
-	private Data readData(String k)
+	private Map<Number640, Data> readData(String k)
 	{
 		
 		try {
 			var fa = peer.get(Number160.createHash(k)).all().start().awaitUninterruptibly();
 			if(fa.isCompleted())
-				return fa.data();
+			{
+				logger.info("reading data with key="+k+" : "+ fa.isSuccess());
+				return fa.dataMap();
+			}
 			
 		}
 		catch(Exception e)
@@ -88,7 +96,7 @@ public class PeerTestServer extends AbstractMTGServer {
 		}
 
 		
-		return null;
+		return new HashMap<>();
 		
 	}
 	
@@ -96,7 +104,7 @@ public class PeerTestServer extends AbstractMTGServer {
 	{
 		try {
 			var d = new Data(data);
-			var fa = peer.add(Number160.createHash(k)).data(d).start().awaitUninterruptibly();
+			var fa = peer.put(Number160.createHash(k)).data(d).start().awaitUninterruptibly();
 			if(fa.isCompleted())
 			{
 				var res = fa.isSuccess();
