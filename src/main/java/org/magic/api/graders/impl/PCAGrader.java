@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.Grading;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
@@ -22,8 +21,8 @@ public class PCAGrader extends AbstractGradersProvider {
 	@Override
 	public Grading loadGrading(String identifier) throws IOException {
 		
-		String url=getWebSite()+"/resumeBdd/"+identifier+"/1";
-		Document d = RequestBuilder.build().method(METHOD.GET)
+		var url=getWebSite()+"/resumeBdd/"+identifier+"/1";
+		var d = RequestBuilder.build().method(METHOD.GET)
 				   .setClient(URLTools.newClient())
 				   .url(url)
 				   .toHtml();

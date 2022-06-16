@@ -229,8 +229,8 @@ public class ImageTools {
 		return resize(img, h, width);
 	}
 	
-	public static void resize(BufferedImage img, Dimension d) {
-		resize(img,(int)d.getHeight(),(int)d.getWidth());
+	public static BufferedImage resize( Image img, Dimension d) {
+		return resize(img,(int)d.getHeight(),(int)d.getWidth());
 		
 	}
 	
@@ -252,7 +252,7 @@ public class ImageTools {
 
 	}
 	
-	public static BufferedImage resize(BufferedImage img, int newH, int newW) {
+	public static BufferedImage resize( Image img, int newH, int newW) {
 		var tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
 		var dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
 

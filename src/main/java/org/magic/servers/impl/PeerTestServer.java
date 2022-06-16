@@ -13,13 +13,11 @@ import net.tomp2p.connection.PeerConnection;
 import net.tomp2p.connection.PeerException;
 import net.tomp2p.dht.PeerBuilderDHT;
 import net.tomp2p.dht.PeerDHT;
-import net.tomp2p.futures.FutureBootstrap;
 import net.tomp2p.p2p.PeerBuilder;
 import net.tomp2p.peers.Number160;
 import net.tomp2p.peers.PeerAddress;
 import net.tomp2p.peers.PeerStatusListener;
 import net.tomp2p.peers.RTT;
-import net.tomp2p.storage.Data;
 
 public class PeerTestServer extends AbstractMTGServer {
 
@@ -69,30 +67,6 @@ public class PeerTestServer extends AbstractMTGServer {
 
 	private void listening() {
 		
-		try {
-			Data data = new Data("test");
-			var fp = peer.put(Number160.createHash("TEST")).data(data).start();
-			
-			fp.awaitListenersUninterruptibly();
-			
-			if(fp.isSuccess())
-			{
-				logger.info("Message done");
-			}
-			else
-			{
-				logger.warn("Error put " + fp.failedReason());
-			}
-			
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		
-		
-		
-		
 		peer.peerBean().addPeerStatusListener(new PeerStatusListener() {
 			
 			@Override
@@ -103,7 +77,7 @@ public class PeerTestServer extends AbstractMTGServer {
 			
 			@Override
 			public boolean peerFailed(PeerAddress remotePeer, PeerException exception) {
-				logger.warn("Peer Failed " + remotePeer.inetAddress()+":"+remotePeer.tcpPort());
+				logger.warn("Peer Failed " + remotePeer.inetAddress()+":"+remotePeer.tcpPort() +" : " + exception.getMessage());
 				return false;
 			}
 		});
@@ -112,17 +86,22 @@ public class PeerTestServer extends AbstractMTGServer {
 
 
 	private void connectMaster() throws NumberFormatException, UnknownHostException {
-		FutureBootstrap fb = peer.peer().bootstrap().inetAddress(InetAddress.getByName(getString("PEER_NODE_MASTER").split(":")[0])).ports(Integer.parseInt(getString("PEER_NODE_MASTER").split(":")[1])).start();
-		
+		var fb = peer.peer().bootstrap().inetAddress(InetAddress.getByName(getString("PEER_NODE_MASTER").split(":")[0])).ports(Integer.parseInt(getString("PEER_NODE_MASTER").split(":")[1])).start();
 		fb.awaitUninterruptibly();
-		if(fb.isSuccess()) {
-			logger.info("Bootstrap done ");
-			
+		
+		if(fb.isSuccess())
+		{
+			logger.info("Bootstrap done. Discovering...");
 			var fd = peer.peer().discover().peerAddress(fb.bootstrapTo().iterator().next()).start().awaitUninterruptibly();
+
 			if(fd.isSuccess())
 				logger.info("Discover done");
 			else
-				logger.error(fd.failedReason());
+				logger.error("Discover error : " + fd.failedReason());
+        }
+		else
+        {
+        	logger.error("Bootstrap error for "+getString("PEER_NODE_MASTER") +" : " + fb.failedReason());
         }
 	}
 	
@@ -131,10 +110,8 @@ public class PeerTestServer extends AbstractMTGServer {
 		return "5.0-Beta8.1";
 	}
 
-
 	@Override
 	public void stop() throws IOException {
-		
 		    peer.peer().announceShutdown().start().awaitUninterruptibly();
 		    var isDisconnected = peer.shutdown().awaitUninterruptibly();
 		    if (isDisconnected.isSuccess()) {

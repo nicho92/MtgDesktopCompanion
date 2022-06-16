@@ -53,6 +53,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.threads.ThreadManager;
+import org.magic.tools.ImageTools;
 import org.magic.tools.UITools;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
@@ -153,7 +154,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		add(lblLogoSet, UITools.createGridBagConstraints(null, null, 5, 0,2,2));
 
 		lblThumbnail = new JLabel("");
-		add(lblThumbnail, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 7, 1,2,9));
+		add(lblThumbnail, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 7, 1,2,9));
 
 		fullTypeJTextField = new JTextField();
 		add(fullTypeJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 1));
@@ -563,11 +564,6 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 				ThreadManager.getInstance().runInEdt(sw,"loading " + magicCard + " languages");
 				}
 		}
-		
-
-		
-		
-		
 		//
 		var bindingGroup = new BindingGroup();
 		//
@@ -587,6 +583,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 	}
 
 	protected void loadPics(MagicCard mc,MagicCardNames fn) {
+		
 		SwingWorker<ImageIcon, Void> sw = new SwingWorker<>()
 		{
 			@Override
@@ -608,9 +605,12 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 			@Override
 			protected void done() {
 				try {
-					lblThumbnail.setIcon(get());
-					repaint();
-				}catch(InterruptedException ex)
+					if(get().getIconHeight()>369)
+						lblThumbnail.setIcon(ImageTools.resize(get(),266,369));
+					else
+						lblThumbnail.setIcon(get());
+				}
+				catch(InterruptedException ex)
 				{
 					Thread.currentThread().interrupt();
 				} catch (Exception e) {
