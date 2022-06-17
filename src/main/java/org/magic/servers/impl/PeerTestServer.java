@@ -62,8 +62,8 @@ public class PeerTestServer extends AbstractMTGServer {
 			connectMaster();
 		}
 		
-		addData("Name",SystemUtils.getUserName());
-		
+		logger.info(readData("Name"));
+	
 	}
 
 	
@@ -98,7 +98,6 @@ public class PeerTestServer extends AbstractMTGServer {
 			{
 				var res = fa.isSuccess();
 				logger.info("add data with key="+k + " :" + res);
-				
 			}
 		}
 		catch(Exception e)
