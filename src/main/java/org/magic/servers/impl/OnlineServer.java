@@ -25,7 +25,7 @@ import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATE;
 import org.magic.services.MTGConstants;
 
-public class MTGGameRoomServer extends AbstractMTGServer {
+public class OnlineServer extends AbstractMTGServer {
 
 	private static final String SERVER_PORT = "SERVER-PORT";
 	private static final String PLAYER = "PLAYER";
@@ -98,7 +98,7 @@ public class MTGGameRoomServer extends AbstractMTGServer {
 
 	@Override
 	public String description() {
-		return "Enable local player room server";
+		return "Enable MTGCOmpanion users to share MTG datas";
 	}
 
 	public void speak(SpeakAction sa) {
@@ -116,7 +116,7 @@ public class MTGGameRoomServer extends AbstractMTGServer {
 		session.write(new ListPlayersAction(list));
 	}
 
-	public MTGGameRoomServer() throws IOException {
+	public OnlineServer() throws IOException {
 
 		super();
 		acceptor = new NioSocketAcceptor();
@@ -150,7 +150,7 @@ public class MTGGameRoomServer extends AbstractMTGServer {
 
 	@Override
 	public String getName() {
-		return "MTG Game Server";
+		return "MTG Online Server";
 	}
 
 	@Override
@@ -164,14 +164,14 @@ public class MTGGameRoomServer extends AbstractMTGServer {
 				 "IDLE-TIME", "10",
 				 "BUFFER-SIZE", "2048",
 				 "AUTOSTART", "false",
-				 "WELCOME_MESSAGE", "Welcome to my MTG Desktop Gaming Room",
+				 "WELCOME_MESSAGE", "Welcome to my MTG Online services",
 				 MAX_CLIENT, "0");
 
 	}
 	
 	@Override
 	public Icon getIcon() {
-		return MTGConstants.ICON_GAME;
+		return MTGConstants.ICON_TAB_NETWORK;
 	}
 
 	@Override
