@@ -8,11 +8,9 @@ import java.util.Locale;
 
 import javax.swing.AbstractAction;
 
-import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.game.network.actions.SpeakAction;
-import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observable;
 
 public class Player extends Observable implements Serializable {
@@ -43,8 +41,6 @@ public class Player extends Observable implements Serializable {
 	private Locale local;
 	private transient BufferedImage icon;
 	private int poisonCounter;
-
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public STATE getState() {
 		return state;
@@ -479,7 +475,6 @@ public class Player extends Observable implements Serializable {
 		setChanged();
 		notifyObservers(new SpeakAction(this, string));
 		GameManager.getInstance().getActualTurn().getActions().add(string);
-		logger.trace(toDetailledString());
 	}
 
 	public void logAction(AbstractAction act) {
