@@ -17,6 +17,7 @@
     <sealed>true</sealed>
     <event>false</event>
     <mkm>false</mkm>
+    <network>true</network>
     <webshop>true</webshop>
   </modules>
   <currencylayer-access-api></currencylayer-access-api>
