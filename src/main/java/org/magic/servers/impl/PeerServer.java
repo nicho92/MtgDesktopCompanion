@@ -18,17 +18,10 @@ import net.tomp2p.peers.Number640;
 import net.tomp2p.storage.Data;
 
 
-public class PeerTestServer extends AbstractMTGServer {
+public class PeerServer extends AbstractMTGServer {
 
 	private static final String PEER_NODE_MASTER = "PEER_NODE_MASTER";
 	private PeerDHT  peer;
-	
-	
-	public static void main(String[] args) throws IOException {
-		
-		new PeerTestServer().start();
-	}
-	
 	
 	@Override
 	public STATUT getStatut() {
