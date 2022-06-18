@@ -21,7 +21,6 @@ import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -32,16 +31,12 @@ import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGNetworkClient;
+import org.magic.api.network.MinaClient;
+import org.magic.api.network.actions.AbstractNetworkAction;
+import org.magic.api.network.actions.ListPlayersAction;
+import org.magic.api.network.actions.SpeakAction;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATE;
-import org.magic.game.network.MinaClient;
-import org.magic.game.network.actions.AbstractNetworkAction;
-import org.magic.game.network.actions.ListPlayersAction;
-import org.magic.game.network.actions.ReponseAction;
-import org.magic.game.network.actions.ReponseAction.CHOICE;
-import org.magic.game.network.actions.RequestPlayAction;
-import org.magic.game.network.actions.ShareDeckAction;
-import org.magic.game.network.actions.SpeakAction;
 import org.magic.gui.components.dialog.JDeckChooserDialog;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
@@ -66,15 +61,11 @@ public class GamingRoomPanel extends JPanel {
 	private PlayerTableModel mod;
 	private JTextField txtName;
 	private JList<AbstractNetworkAction> list = new JList<>(new DefaultListModel<>());
-	private JButton btnPlayGame;
 	private JButton btnConnect;
 	private JButton btnLogout;
 	private JTextArea editorPane;
 	private JComboBox<STATE> cboStates;
-	private JButton btnShareDeck;
 	private JButton btnColorChoose;
-	private Player otherplayer = null;
-	private JButton btnDeck ;
 	
 	private transient Observer obs = new Observer() {
 
@@ -84,41 +75,13 @@ public class GamingRoomPanel extends JPanel {
 
 		@Override
 		public void update(Observable o, Object arg) {
-			if (arg instanceof ShareDeckAction lpa) {
-				printMessage(lpa);
-			}
 			if (arg instanceof ListPlayersAction lpa) {
 				mod.init(lpa.getList());
 			}
 			if (arg instanceof SpeakAction lpa) {
 				printMessage(lpa);
 			}
-			if (arg instanceof RequestPlayAction lpa) {
-				int res = JOptionPane.showConfirmDialog(getRootPane(),
-						capitalize("CHALLENGE_REQUEST",lpa.getRequestPlayer()),
-						capitalize("NEW_GAME_REQUEST"),
-						JOptionPane.YES_NO_OPTION);
-
-				if (res == JOptionPane.YES_OPTION) {
-					client.reponse(lpa, CHOICE.YES);
-				} else {
-					client.reponse(lpa, CHOICE.NO);
-				}
-			}
-			if (arg instanceof ReponseAction rep) {
-				ReponseAction resp = rep;
-				if (resp.getReponse().equals(ReponseAction.CHOICE.YES)) {
-					printMessage(new SpeakAction(resp.getRequest().getAskedPlayer(),
-							capitalize("CHALLENGE_ACCEPTED")));
-					client.changeStatus(STATE.GAMING);
-					GamePanelGUI.getInstance().setPlayer(client.getPlayer());
-					GamePanelGUI.getInstance().addPlayer(resp.getRequest().getAskedPlayer());
-					GamePanelGUI.getInstance().initGame();
-				} else {
-					printMessage(new SpeakAction(resp.getRequest().getAskedPlayer(),
-							" " + capitalize("CHALLENGE_DECLINE")));
-				}
-			}
+			
 		}
 	};
 
@@ -137,12 +100,9 @@ public class GamingRoomPanel extends JPanel {
 		mod = new PlayerTableModel();
 		table = UITools.createNewTable(mod);
 		var panneauBas = new JPanel();
-		btnDeck = new JButton("Change deck");
-		btnPlayGame = new JButton("Ask for Game");
 		var panel = new JPanel();
 		editorPane = new JTextArea();
 		var panel1 = new JPanel();
-		btnShareDeck = new JButton(MTGConstants.ICON_DECK);
 		btnColorChoose = new JButton(MTGConstants.ICON_GAME_COLOR);
 		cboStates = new JComboBox<>(new DefaultComboBoxModel<>(STATE.values()));
 		var panelChatBox = new JPanel();
@@ -155,14 +115,12 @@ public class GamingRoomPanel extends JPanel {
 		txtName.setText(MTGControler.getInstance().get("/game/player-profil/name"));
 		btnLogout.setEnabled(false);
 		table.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
-		btnPlayGame.setEnabled(false);
 		panel.setLayout(new BorderLayout(0, 0));
 		panelChatBox.setLayout(new BorderLayout(0, 0));
 		editorPane.setText(capitalize("CHAT_INTRO_TEXT"));
 		editorPane.setLineWrap(true);
 		editorPane.setWrapStyleWord(true);
 		editorPane.setRows(2);
-		btnShareDeck.setToolTipText("Share a deck");
 		
 
 		
@@ -197,14 +155,11 @@ public class GamingRoomPanel extends JPanel {
 		panneauHaut.add(btnLogout);
 		add(new JScrollPane(table), BorderLayout.CENTER);
 		add(panneauBas, BorderLayout.SOUTH);
-		panneauBas.add(btnDeck);
-		panneauBas.add(btnPlayGame);
 		add(panel, BorderLayout.EAST);
 		panel.add(new JScrollPane(list), BorderLayout.CENTER);
 		panel.add(panelChatBox, BorderLayout.SOUTH);
 		panelChatBox.add(editorPane, BorderLayout.CENTER);
 		panelChatBox.add(panel1, BorderLayout.NORTH);
-		panel1.add(btnShareDeck);
 		panel1.add(btnColorChoose);
 		panel1.add(cboStates);
 		
@@ -257,30 +212,6 @@ public class GamingRoomPanel extends JPanel {
 			client.logout();
 		});
 	
-
-		
-		table.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				int modelrow = table.convertRowIndexToModel(table.getSelectedRow());
-				otherplayer = (Player) table.getModel().getValueAt(modelrow, 0);
-
-				if (otherplayer != null && otherplayer.getDeck() != null)
-					btnPlayGame.setEnabled(true);
-
-			}
-		});
-	
-	
-
-		btnPlayGame.addActionListener(e -> {
-			int res = JOptionPane.showConfirmDialog(getRootPane(), "Want to play with " + otherplayer + " ?",
-					"Gaming request", JOptionPane.YES_NO_OPTION);
-			if (res == JOptionPane.YES_OPTION)
-				client.requestPlay(otherplayer);
-		});
-		
-		
 		btnColorChoose.addActionListener(ae -> {
 			var c = JColorChooser.showDialog(null, "Choose Text Color", Color.BLACK);
 			
@@ -311,25 +242,7 @@ public class GamingRoomPanel extends JPanel {
 
 		});
 
-		btnDeck.addActionListener(ae -> {
-
-			var diag = new JDeckChooserDialog();
-			diag.setVisible(true);
-			MagicDeck d = diag.getSelectedDeck();
-			client.updateDeck(d);
-		});
-
 	
-
-		btnShareDeck.addActionListener(ae -> {
-			var diag = new JDeckChooserDialog();
-			diag.setVisible(true);
-			var d = diag.getSelectedDeck();
-			var p = (Player) table.getModel().getValueAt(table.getSelectedRow(), 0);
-			client.sendDeck(d, p);
-		});
-		
-		
 		cboStates.addItemListener(ie -> client.changeStatus((STATE) cboStates.getSelectedItem()));
 
 	}

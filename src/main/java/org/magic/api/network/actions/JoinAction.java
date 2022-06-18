@@ -1,4 +1,4 @@
-package org.magic.game.network.actions;
+package org.magic.api.network.actions;
 
 import org.magic.game.model.Player;
 

@@ -1,4 +1,4 @@
-package org.magic.game.network;
+package org.magic.api.network;
 
 import java.awt.Color;
 import java.net.InetSocketAddress;
@@ -10,18 +10,12 @@ import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.filter.codec.serialization.ObjectSerializationCodecFactory;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
-import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGNetworkClient;
+import org.magic.api.network.actions.ChangeStatusAction;
+import org.magic.api.network.actions.JoinAction;
+import org.magic.api.network.actions.SpeakAction;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATE;
-import org.magic.game.network.actions.ChangeDeckAction;
-import org.magic.game.network.actions.ChangeStatusAction;
-import org.magic.game.network.actions.JoinAction;
-import org.magic.game.network.actions.ReponseAction;
-import org.magic.game.network.actions.ReponseAction.CHOICE;
-import org.magic.game.network.actions.RequestPlayAction;
-import org.magic.game.network.actions.ShareDeckAction;
-import org.magic.game.network.actions.SpeakAction;
 import org.utils.patterns.observer.Observable;
 
 public class MinaClient  extends Observable implements MTGNetworkClient {
@@ -70,20 +64,9 @@ public class MinaClient  extends Observable implements MTGNetworkClient {
 	}
 
 	@Override
-	public void updateDeck(MagicDeck d) {
-		p.setDeck(d);
-		session.write(new ChangeDeckAction(p, d));
-	}
-
-	@Override
 	public void sendMessage(String text) {
 		var act = new SpeakAction(p, text);
 		session.write(act);
-	}
-
-	@Override
-	public void sendDeck(MagicDeck d, Player to) {
-		session.write(new ShareDeckAction(p, d, to));
 	}
 
 	@Override
@@ -96,17 +79,6 @@ public class MinaClient  extends Observable implements MTGNetworkClient {
 	@Override
 	public void logout() {
 		session.closeOnFlush();
-	}
-
-	@Override
-	public void requestPlay(Player otherplayer) {
-		session.write(new RequestPlayAction(p, otherplayer));
-
-	}
-
-	@Override
-	public void reponse(RequestPlayAction pa, CHOICE c) {
-		session.write(new ReponseAction(pa, c));
 	}
 
 	@Override

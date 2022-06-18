@@ -10,7 +10,7 @@ import javax.swing.AbstractAction;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
-import org.magic.game.network.actions.SpeakAction;
+import org.magic.api.network.actions.SpeakAction;
 import org.utils.patterns.observer.Observable;
 
 public class Player extends Observable implements Serializable {

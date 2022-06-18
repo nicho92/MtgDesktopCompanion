@@ -16,17 +16,13 @@ import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.filter.codec.serialization.ObjectSerializationCodecFactory;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
+import org.magic.api.network.actions.AbstractNetworkAction;
+import org.magic.api.network.actions.ChangeStatusAction;
+import org.magic.api.network.actions.JoinAction;
+import org.magic.api.network.actions.ListPlayersAction;
+import org.magic.api.network.actions.SpeakAction;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATE;
-import org.magic.game.network.actions.AbstractNetworkAction;
-import org.magic.game.network.actions.ChangeDeckAction;
-import org.magic.game.network.actions.ChangeStatusAction;
-import org.magic.game.network.actions.JoinAction;
-import org.magic.game.network.actions.ListPlayersAction;
-import org.magic.game.network.actions.ReponseAction;
-import org.magic.game.network.actions.RequestPlayAction;
-import org.magic.game.network.actions.ShareDeckAction;
-import org.magic.game.network.actions.SpeakAction;
 import org.magic.services.MTGConstants;
 
 public class MTGGameRoomServer extends AbstractMTGServer {
@@ -42,10 +38,6 @@ public class MTGGameRoomServer extends AbstractMTGServer {
 		private void playerUpdate(ChangeStatusAction act) {
 			((Player) acceptor.getManagedSessions().get(act.getPlayer().getId()).getAttribute(PLAYER))
 					.setState(act.getPlayer().getState());
-		}
-
-		private void sendDeck(ShareDeckAction act) {
-			acceptor.getManagedSessions().get(act.getTo().getId()).write(act);
 		}
 
 		private void join(IoSession session, JoinAction ja) {
@@ -81,17 +73,8 @@ public class MTGGameRoomServer extends AbstractMTGServer {
 			
 			if (message instanceof AbstractNetworkAction act) {
 				switch (act.getAct()) {
-				case REQUEST_PLAY:
-					requestGaming((RequestPlayAction) act);
-					break;
-				case RESPONSE:
-					response((ReponseAction) act);
-					break;
 				case JOIN:
 					join(session, (JoinAction) act);
-					break;
-				case CHANGE_DECK:
-					changeDeck(session, (ChangeDeckAction) act);
 					break;
 				case SPEAK:
 					speak((SpeakAction) act);
@@ -99,21 +82,12 @@ public class MTGGameRoomServer extends AbstractMTGServer {
 				case CHANGE_STATUS:
 					playerUpdate((ChangeStatusAction) act);
 					break;
-				case SHARE:
-					sendDeck((ShareDeckAction) act);
-					break;
 				default:
 					break;
 				}
 			}
 		}
 
-		private void response(ReponseAction act) {
-			IoSession s = acceptor.getManagedSessions().get(act.getRequest().getRequestPlayer().getId());
-			IoSession s2 = acceptor.getManagedSessions().get(act.getRequest().getAskedPlayer().getId());
-			s.write(act);
-			s2.write(act);
-		}
 
 		@Override
 		public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
@@ -131,20 +105,7 @@ public class MTGGameRoomServer extends AbstractMTGServer {
 		for (IoSession s : acceptor.getManagedSessions().values())
 			s.write(sa);
 	}
-
-	protected void changeDeck(IoSession session, ChangeDeckAction cda) {
-		Player p = (Player) session.getAttribute(PLAYER);
-		p.setDeck(cda.getDeck());
-		session.setAttribute(PLAYER, p);
-
-	}
-
-	protected void requestGaming(RequestPlayAction p) {
-		IoSession s = acceptor.getManagedSessions().get(p.getAskedPlayer().getId());
-		s.write(p);
-
-	}
-
+	
 	public void refreshPlayers(IoSession session) {
 		List<Player> list = new ArrayList<>();
 		for (IoSession s : acceptor.getManagedSessions().values()) {
