@@ -19,7 +19,7 @@ public class NetworkGUI extends MTGUIComponent {
 	
 	@Override
 	public ImageIcon getIcon() {
-		return MTGConstants.ICON_TAB_CHAT;
+		return MTGConstants.ICON_TAB_NETWORK;
 	}
 	
 	

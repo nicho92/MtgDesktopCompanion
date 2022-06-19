@@ -638,8 +638,8 @@
 							</commandLineArguments>
 						</program>
 						<program>
-							<mainClass>org.magic.api.main.GameClient</mainClass>
-							<name>game-client</name>
+							<mainClass>org.magic.api.main.NetworkClient</mainClass>
+							<name>net-client</name>
 						</program>
 						<program>
 							<mainClass>org.magic.api.main.ServerLauncher</mainClass>

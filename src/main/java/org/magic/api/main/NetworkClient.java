@@ -6,13 +6,13 @@ import java.sql.SQLException;
 
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
-import org.magic.gui.GameGUI;
+import org.magic.game.gui.components.NetworkChatPanel;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 
-public class GameClient {
+public class NetworkClient {
 
 	public static void main(String[] args) throws SQLException {
 		MTGControler.getInstance();
@@ -23,10 +23,10 @@ public class GameClient {
 			
 			@Override
 			protected void auditedRun() {
-				MTGUIComponent.createJFrame(new GameGUI(), true, true).setVisible(true);
+				MTGUIComponent.createJFrame(new NetworkChatPanel(), true, true).setVisible(true);
 				
 			}
-		},"Loading Game Client");
+		},"Loading Network Client");
 	}
 	
 }

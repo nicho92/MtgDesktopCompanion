@@ -36,8 +36,7 @@ public class OnlineServer extends AbstractMTGServer {
 	private IoHandlerAdapter adapter = new IoHandlerAdapter() {
 
 		private void playerUpdate(ChangeStatusAction act) {
-			((Player) acceptor.getManagedSessions().get(act.getPlayer().getId()).getAttribute(PLAYER))
-					.setState(act.getPlayer().getState());
+			((Player) acceptor.getManagedSessions().get(act.getPlayer().getId()).getAttribute(PLAYER)).setState(act.getPlayer().getState());
 		}
 
 		private void join(IoSession session, JoinAction ja) {

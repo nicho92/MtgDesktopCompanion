@@ -7,15 +7,15 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.ItemEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
@@ -29,15 +29,16 @@ import javax.swing.table.DefaultTableModel;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGNotification;
-import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.api.network.MinaClient;
 import org.magic.api.network.actions.AbstractNetworkAction;
+import org.magic.api.network.actions.ChangeStatusAction;
 import org.magic.api.network.actions.ListPlayersAction;
 import org.magic.api.network.actions.SpeakAction;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATE;
-import org.magic.gui.components.dialog.JDeckChooserDialog;
+import org.magic.gui.abstracts.GenericTableModel;
+import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -48,18 +49,14 @@ import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
 
-public class NetworkChatPanel extends JPanel {
+public class NetworkChatPanel extends MTGUIComponent {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JTextField txtServer;
 	private JTextField txtPort;
 	private JXTable table;
 	private transient MTGNetworkClient client;
 	private PlayerTableModel mod;
-	private JTextField txtName;
 	private JList<AbstractNetworkAction> list = new JList<>(new DefaultListModel<>());
 	private JButton btnConnect;
 	private JButton btnLogout;
@@ -81,7 +78,6 @@ public class NetworkChatPanel extends JPanel {
 			if (arg instanceof SpeakAction lpa) {
 				printMessage(lpa);
 			}
-			
 		}
 	};
 
@@ -91,12 +87,10 @@ public class NetworkChatPanel extends JPanel {
 		btnLogout = new JButton(capitalize("LOGOUT"));
 		var lblIp = new JLabel(capitalize("HOST") + " :");
 		btnConnect = new JButton(capitalize("CONNECT"));
-		var lblName = new JLabel(capitalize("NAME") + " :");
 		var panneauHaut = new JPanel();
 		txtServer = new JTextField();
 		var lblPort = new JLabel("Port :");
 		txtPort = new JTextField();
-		txtName = new JTextField();
 		mod = new PlayerTableModel();
 		table = UITools.createNewTable(mod);
 		var panneauBas = new JPanel();
@@ -111,8 +105,6 @@ public class NetworkChatPanel extends JPanel {
 		txtServer.setColumns(10);
 		txtPort.setText("18567");
 		txtPort.setColumns(10);
-		txtName.setColumns(10);
-		txtName.setText(MTGControler.getInstance().get("/game/player-profil/name"));
 		btnLogout.setEnabled(false);
 		table.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
 		panel.setLayout(new BorderLayout(0, 0));
@@ -149,8 +141,6 @@ public class NetworkChatPanel extends JPanel {
 		panneauHaut.add(txtServer);
 		panneauHaut.add(lblPort);
 		panneauHaut.add(txtPort);
-		panneauHaut.add(lblName);
-		panneauHaut.add(txtName);
 		panneauHaut.add(btnConnect);
 		panneauHaut.add(btnLogout);
 		add(new JScrollPane(table), BorderLayout.CENTER);
@@ -172,7 +162,7 @@ public class NetworkChatPanel extends JPanel {
 			try {
 				client = new MinaClient(txtServer.getText(), Integer.parseInt(txtPort.getText()));
 				client.addObserver(obs);
-				client.getPlayer().setName(txtName.getText());
+				client.getPlayer().setName(MTGControler.getInstance().get("/game/player-profil/name"));
 				client.join();
 
 				ThreadManager.getInstance().executeThread(new MTGRunnable() {
@@ -180,13 +170,11 @@ public class NetworkChatPanel extends JPanel {
 					@Override
 					protected void auditedRun() {
 						while (client.isActive()) {
-							txtName.setEnabled(!client.isActive());
 							txtServer.setEnabled(!client.isActive());
 							txtPort.setEnabled(!client.isActive());
 							btnConnect.setEnabled(false);
 							btnLogout.setEnabled(true);
 						}
-						txtName.setEnabled(true);
 						txtServer.setEnabled(true);
 						txtPort.setEnabled(true);
 						btnConnect.setEnabled(true);
@@ -243,71 +231,46 @@ public class NetworkChatPanel extends JPanel {
 		});
 
 	
-		cboStates.addItemListener(ie -> client.changeStatus((STATE) cboStates.getSelectedItem()));
+		cboStates.addItemListener(ie -> {
+			if(ie.getStateChange()==ItemEvent.SELECTED)
+				client.changeStatus((STATE) cboStates.getSelectedItem());
+		});
 
+	}
+
+	@Override
+	public String getTitle() {
+		return "Network";
+	}
+	
+	
+	@Override
+	public ImageIcon getIcon() {
+		return MTGConstants.ICON_TAB_CHAT;
 	}
 
 	
 
 }
 
-class PlayerTableModel extends DefaultTableModel {
+class PlayerTableModel extends GenericTableModel<Player> {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	private static final String[] columns = { capitalize("PLAYER"),
-			capitalize("DECK"),
-			capitalize("CARD_COLOR"),
-			capitalize("FORMAT"),
-			capitalize("COUNTRY"),
-			capitalize("STATE") };
-	private List<Player> players;
-
-	public void init(List<Player> play) {
-		this.players = play;
-		fireTableDataChanged();
+	
+	public PlayerTableModel() {
+		columns = new String[]{ capitalize("PLAYER"),capitalize("COUNTRY"),capitalize("STATE")};
+		setWritable(false);
 	}
-
-	@Override
-	public boolean isCellEditable(int row, int column) {
-		return false;
-	}
-
-	@Override
-	public int getColumnCount() {
-		return columns.length;
-	}
-
-	@Override
-	public String getColumnName(int column) {
-		return columns[column];
-	}
-
-	@Override
-	public int getRowCount() {
-		if (players == null)
-			return 0;
-
-		return players.size();
-	}
-
+	
 	@Override
 	public Object getValueAt(int row, int column) {
 		switch (column) {
 		case 0:
-			return players.get(row);
+			return items.get(row);
 		case 1:
-			return players.get(row).getDeck();
+			return items.get(row).getLocal();
 		case 2:
-			return players.get(row).getDeck().getColors();
-		case 3:
-			return players.get(row).getDeck().getLegality();
-		case 4:
-			return players.get(row).getLocal();
-		case 5:
-			return players.get(row).getState();
+			return items.get(row).getState();
 		default:
 			return null;
 		}
