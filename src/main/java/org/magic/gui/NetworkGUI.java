@@ -6,7 +6,7 @@ import java.awt.BorderLayout;
 
 import javax.swing.ImageIcon;
 
-import org.magic.game.gui.components.GamingRoomPanel;
+import org.magic.game.gui.components.NetworkChatPanel;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
 
@@ -26,7 +26,7 @@ public class NetworkGUI extends MTGUIComponent {
 	public NetworkGUI() {
 		setLayout(new BorderLayout());
 		
-		add(new GamingRoomPanel(),BorderLayout.CENTER);
+		add(new NetworkChatPanel(),BorderLayout.CENTER);
 	}
 
 }

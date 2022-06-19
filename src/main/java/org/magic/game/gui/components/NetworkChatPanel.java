@@ -48,7 +48,7 @@ import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
 
-public class GamingRoomPanel extends JPanel {
+public class NetworkChatPanel extends JPanel {
 
 	/**
 	 * 
@@ -85,7 +85,7 @@ public class GamingRoomPanel extends JPanel {
 		}
 	};
 
-	public GamingRoomPanel() {
+	public NetworkChatPanel() {
 		setLayout(new BorderLayout(0, 0));
 	
 		btnLogout = new JButton(capitalize("LOGOUT"));
