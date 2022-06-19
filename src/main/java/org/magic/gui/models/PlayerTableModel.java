@@ -1,9 +1,6 @@
 package org.magic.gui.models;
 
-import static org.magic.tools.MTG.capitalize;
-
-import java.util.Locale;
-
+import org.apache.tools.ant.taskdefs.Local;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATUS;
 import org.magic.gui.abstracts.GenericTableModel;
@@ -13,7 +10,7 @@ public class PlayerTableModel extends GenericTableModel<Player> {
 	private static final long serialVersionUID = 1L;
 	
 	public PlayerTableModel() {
-		columns = new String[]{ capitalize("PLAYER"),capitalize("COUNTRY"),capitalize("STATE")};
+		columns = new String[]{"PLAYER","COUNTRY","STATE"};
 		setWritable(false);
 	}
 	
@@ -23,7 +20,7 @@ public class PlayerTableModel extends GenericTableModel<Player> {
 		switch (c)
 		{
 			case 0 : return Player.class;
-			case 1 : return Locale.class;
+			case 1 : return Local.class;
 			case 2 : return STATUS.class;
 			default : return super.getColumnClass(c);
 		}

@@ -18,7 +18,7 @@ import org.magic.game.model.Player.STATUS;
 import org.magic.services.MTGControler;
 import org.utils.patterns.observer.Observable;
 
-public class MinaClient  extends Observable implements MTGNetworkClient {
+public class MinaClient extends Observable implements MTGNetworkClient {
 
 	private IoConnector connector;
 	private IoSession session;
