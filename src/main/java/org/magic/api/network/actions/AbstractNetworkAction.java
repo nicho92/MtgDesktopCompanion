@@ -10,7 +10,7 @@ public abstract class AbstractNetworkAction implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public enum ACTIONS {
-		JOIN, CHANGE_DECK, SPEAK, LIST_PLAYER, CHANGE_STATUS
+		JOIN, SPEAK, LIST_PLAYER, CHANGE_STATUS
 	}
 
 	private ACTIONS act;
