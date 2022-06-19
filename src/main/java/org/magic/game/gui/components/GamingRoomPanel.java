@@ -107,7 +107,7 @@ public class GamingRoomPanel extends JPanel {
 		cboStates = new JComboBox<>(new DefaultComboBoxModel<>(STATE.values()));
 		var panelChatBox = new JPanel();
 		
-		txtServer.setText("");
+		txtServer.setText("mtgcompanion.me");
 		txtServer.setColumns(10);
 		txtPort.setText("18567");
 		txtPort.setColumns(10);
