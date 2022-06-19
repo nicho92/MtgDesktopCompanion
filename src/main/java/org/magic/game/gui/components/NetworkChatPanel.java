@@ -161,7 +161,6 @@ public class NetworkChatPanel extends MTGUIComponent {
 			try {
 				client = new MinaClient(txtServer.getText(), Integer.parseInt(txtPort.getText()));
 				client.addObserver(obs);
-				client.getPlayer().setName(MTGControler.getInstance().get("/game/player-profil/name"));
 				client.join();
 
 				ThreadManager.getInstance().executeThread(new MTGRunnable() {

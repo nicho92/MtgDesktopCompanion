@@ -39,7 +39,7 @@ public class Player extends Observable implements Serializable {
 	private Zone battlefield;
 	private ManaPool manaPool;
 	private Locale local;
-	private transient BufferedImage icon;
+	private transient BufferedImage avatar;
 	private int poisonCounter;
 
 	public STATUS getState() {
@@ -50,12 +50,12 @@ public class Player extends Observable implements Serializable {
 		this.state = state;
 	}
 
-	public BufferedImage getIcon() {
-		return icon;
+	public BufferedImage getAvatar() {
+		return avatar;
 	}
 
-	public void setIcon(BufferedImage icon) {
-		this.icon = icon;
+	public void setAvatar(BufferedImage icon) {
+		this.avatar = icon;
 	}
 
 	public Locale getLocal() {

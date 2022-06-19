@@ -3,7 +3,6 @@ package org.magic.api.network;
 import java.awt.Color;
 import java.net.InetSocketAddress;
 
-import org.apache.mina.core.future.ConnectFuture;
 import org.apache.mina.core.service.IoConnector;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IoSession;
@@ -16,6 +15,7 @@ import org.magic.api.network.actions.JoinAction;
 import org.magic.api.network.actions.SpeakAction;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATUS;
+import org.magic.services.MTGControler;
 import org.utils.patterns.observer.Observable;
 
 public class MinaClient  extends Observable implements MTGNetworkClient {
@@ -37,23 +37,18 @@ public class MinaClient  extends Observable implements MTGNetworkClient {
 		}
 	};
 
-	@Override
-	public Player getPlayer() {
-		return p;
-	}
-
 	private IoSession getSession() {
 		return session;
 	}
 
 	public MinaClient(String server, int port) {
 
-		p = new Player();
+		p = MTGControler.getInstance().getProfilPlayer();
 		connector = new NioSocketConnector();
 		connector.getFilterChain().addLast("codec", new ProtocolCodecFilter(new ObjectSerializationCodecFactory()));
 		connector.setHandler(adapter);
 
-		ConnectFuture connFuture = connector.connect(new InetSocketAddress(server, port));
+		var connFuture = connector.connect(new InetSocketAddress(server, port));
 		connFuture.awaitUninterruptibly();
 		session = connFuture.getSession();
 	}
@@ -81,8 +76,8 @@ public class MinaClient  extends Observable implements MTGNetworkClient {
 	}
 
 	@Override
-	public void changeStatus(STATUS selectedItem) {
-		p.setState(selectedItem);
+	public void changeStatus(STATUS s) {
+		p.setState(s);
 		session.write(new ChangeStatusAction(p));
 	}
 

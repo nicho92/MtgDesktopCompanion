@@ -12,6 +12,8 @@ import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.Locale;
 
+import javax.swing.ImageIcon;
+
 import org.apache.commons.configuration2.XMLConfiguration;
 import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
 import org.apache.commons.configuration2.builder.fluent.Parameters;
@@ -293,7 +295,6 @@ public class MTGControler {
 		setProperty("/shopSite/payments/paypalSendMoneyUri",wsc.getSetPaypalSendMoneyUri().toString());
 	}
 	
-
 	public MagicCardStock getDefaultStock() {
 		var defaultBool = FALSE;
 		var st = new MagicCardStock();
@@ -444,7 +445,7 @@ public class MTGControler {
 
 		var url = config.getString("/game/player-profil/avatar");
 		try {
-			p.setIcon(ImageTools.read(new File(url)));
+			p.setAvatar(ImageTools.resize(ImageTools.read(new File(url)), 100,100));
 		} catch (Exception e) {
 			logger.error("error loading icon player " + p + " "+e);
 		}

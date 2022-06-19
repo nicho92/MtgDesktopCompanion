@@ -945,8 +945,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 
 	private void loadIcon() {
 		try {
-			lblIconAvatar.setIcon(new ImageIcon(ImageTools.resize(
-					ImageTools.read(new File(MTGControler.getInstance().get("/game/player-profil/avatar"))), 100, 100)));
+			lblIconAvatar.setIcon(new ImageIcon(MTGControler.getInstance().getProfilPlayer().getAvatar()));
 
 		} catch (Exception e) {
 			lblIconAvatar.setIcon(null);
