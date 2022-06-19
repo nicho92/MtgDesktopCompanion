@@ -171,7 +171,7 @@ public class OnlineServer extends AbstractMTGServer {
 	
 	@Override
 	public Icon getIcon() {
-		return MTGConstants.ICON_TAB_NETWORK;
+		return MTGConstants.ICON_NETWORK;
 	}
 
 	@Override
