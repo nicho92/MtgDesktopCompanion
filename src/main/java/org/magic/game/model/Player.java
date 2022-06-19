@@ -23,12 +23,12 @@ public class Player extends Observable implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public enum STATE {
+	public enum STATUS {
 		CONNECTED, BUSY, AWAY, GAMING
 	}
 
 	private Long id;
-	private STATE state;
+	private STATUS state;
 	private int life;
 	private String name;
 	private MagicDeck deck;
@@ -42,11 +42,11 @@ public class Player extends Observable implements Serializable {
 	private transient BufferedImage icon;
 	private int poisonCounter;
 
-	public STATE getState() {
+	public STATUS getState() {
 		return state;
 	}
 
-	public void setState(STATE state) {
+	public void setState(STATUS state) {
 		this.state = state;
 	}
 

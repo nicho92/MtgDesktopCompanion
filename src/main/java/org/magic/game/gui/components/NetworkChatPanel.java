@@ -10,7 +10,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
@@ -25,20 +24,18 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.api.network.MinaClient;
 import org.magic.api.network.actions.AbstractNetworkAction;
-import org.magic.api.network.actions.ChangeStatusAction;
 import org.magic.api.network.actions.ListPlayersAction;
 import org.magic.api.network.actions.SpeakAction;
-import org.magic.game.model.Player;
-import org.magic.game.model.Player.STATE;
-import org.magic.gui.abstracts.GenericTableModel;
+import org.magic.game.model.Player.STATUS;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.components.JLangLabel;
+import org.magic.gui.models.PlayerTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -61,7 +58,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 	private JButton btnConnect;
 	private JButton btnLogout;
 	private JTextArea editorPane;
-	private JComboBox<STATE> cboStates;
+	private JComboBox<STATUS> cboStates;
 	private JButton btnColorChoose;
 	
 	private transient Observer obs = new Observer() {
@@ -73,7 +70,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		@Override
 		public void update(Observable o, Object arg) {
 			if (arg instanceof ListPlayersAction lpa) {
-				mod.init(lpa.getList());
+				mod.bind(lpa.getList());
 			}
 			if (arg instanceof SpeakAction lpa) {
 				printMessage(lpa);
@@ -85,11 +82,11 @@ public class NetworkChatPanel extends MTGUIComponent {
 		setLayout(new BorderLayout(0, 0));
 	
 		btnLogout = new JButton(capitalize("LOGOUT"));
-		var lblIp = new JLabel(capitalize("HOST") + " :");
+		var lblIp = new JLangLabel("HOST",true);
 		btnConnect = new JButton(capitalize("CONNECT"));
 		var panneauHaut = new JPanel();
 		txtServer = new JTextField();
-		var lblPort = new JLabel("Port :");
+		var lblPort = new JLangLabel("Port",true);
 		txtPort = new JTextField();
 		mod = new PlayerTableModel();
 		table = UITools.createNewTable(mod);
@@ -98,7 +95,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		editorPane = new JTextArea();
 		var panel1 = new JPanel();
 		btnColorChoose = new JButton(MTGConstants.ICON_GAME_COLOR);
-		cboStates = new JComboBox<>(new DefaultComboBoxModel<>(STATE.values()));
+		cboStates = new JComboBox<>(new DefaultComboBoxModel<>(STATUS.values()));
 		var panelChatBox = new JPanel();
 		
 		txtServer.setText("mtgcompanion.me");
@@ -106,9 +103,8 @@ public class NetworkChatPanel extends MTGUIComponent {
 		txtPort.setText("18567");
 		txtPort.setColumns(10);
 		btnLogout.setEnabled(false);
-		table.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
-		panel.setLayout(new BorderLayout(0, 0));
-		panelChatBox.setLayout(new BorderLayout(0, 0));
+		panel.setLayout(new BorderLayout());
+		panelChatBox.setLayout(new BorderLayout());
 		editorPane.setText(capitalize("CHAT_INTRO_TEXT"));
 		editorPane.setLineWrap(true);
 		editorPane.setWrapStyleWord(true);
@@ -143,13 +139,16 @@ public class NetworkChatPanel extends MTGUIComponent {
 		panneauHaut.add(txtPort);
 		panneauHaut.add(btnConnect);
 		panneauHaut.add(btnLogout);
+		
 		add(new JScrollPane(table), BorderLayout.CENTER);
 		add(panneauBas, BorderLayout.SOUTH);
 		add(panel, BorderLayout.EAST);
 		panel.add(new JScrollPane(list), BorderLayout.CENTER);
 		panel.add(panelChatBox, BorderLayout.SOUTH);
+		
 		panelChatBox.add(editorPane, BorderLayout.CENTER);
 		panelChatBox.add(panel1, BorderLayout.NORTH);
+		
 		panel1.add(btnColorChoose);
 		panel1.add(cboStates);
 		
@@ -183,10 +182,6 @@ public class NetworkChatPanel extends MTGUIComponent {
 					}
 					
 				},"alived connection listener");
-						
-						
-						
-						
 	
 			} catch (Exception e) {
 				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
@@ -204,8 +199,8 @@ public class NetworkChatPanel extends MTGUIComponent {
 			var c = JColorChooser.showDialog(null, "Choose Text Color", Color.BLACK);
 			
 			if(c!=null) {
-			editorPane.setForeground(c);
-			MTGControler.getInstance().setProperty("/game/player-profil/foreground", c.getRGB());
+				editorPane.setForeground(c);
+				MTGControler.getInstance().setProperty("/game/player-profil/foreground", c.getRGB());
 			}
 		});
 
@@ -233,7 +228,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 	
 		cboStates.addItemListener(ie -> {
 			if(ie.getStateChange()==ItemEvent.SELECTED)
-				client.changeStatus((STATE) cboStates.getSelectedItem());
+				client.changeStatus((STATUS) cboStates.getSelectedItem());
 		});
 
 	}
@@ -253,27 +248,4 @@ public class NetworkChatPanel extends MTGUIComponent {
 
 }
 
-class PlayerTableModel extends GenericTableModel<Player> {
 
-	private static final long serialVersionUID = 1L;
-	
-	public PlayerTableModel() {
-		columns = new String[]{ capitalize("PLAYER"),capitalize("COUNTRY"),capitalize("STATE")};
-		setWritable(false);
-	}
-	
-	@Override
-	public Object getValueAt(int row, int column) {
-		switch (column) {
-		case 0:
-			return items.get(row);
-		case 1:
-			return items.get(row).getLocal();
-		case 2:
-			return items.get(row).getState();
-		default:
-			return null;
-		}
-	}
-
-}

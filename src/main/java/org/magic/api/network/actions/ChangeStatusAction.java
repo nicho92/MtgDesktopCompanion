@@ -1,7 +1,7 @@
 package org.magic.api.network.actions;
 
 import org.magic.game.model.Player;
-import org.magic.game.model.Player.STATE;
+import org.magic.game.model.Player.STATUS;
 
 public class ChangeStatusAction extends AbstractNetworkAction {
 
@@ -16,7 +16,7 @@ public class ChangeStatusAction extends AbstractNetworkAction {
 		this.player = p;
 	}
 
-	public ChangeStatusAction(Player p, STATE s) {
+	public ChangeStatusAction(Player p, STATUS s) {
 		setAct(ACTIONS.CHANGE_STATUS);
 		p.setState(s);
 		this.player = p;

@@ -15,7 +15,7 @@ import org.magic.api.network.actions.ChangeStatusAction;
 import org.magic.api.network.actions.JoinAction;
 import org.magic.api.network.actions.SpeakAction;
 import org.magic.game.model.Player;
-import org.magic.game.model.Player.STATE;
+import org.magic.game.model.Player.STATUS;
 import org.utils.patterns.observer.Observable;
 
 public class MinaClient  extends Observable implements MTGNetworkClient {
@@ -65,8 +65,7 @@ public class MinaClient  extends Observable implements MTGNetworkClient {
 
 	@Override
 	public void sendMessage(String text) {
-		var act = new SpeakAction(p, text);
-		session.write(act);
+		session.write(new SpeakAction(p, text));
 	}
 
 	@Override
@@ -82,7 +81,7 @@ public class MinaClient  extends Observable implements MTGNetworkClient {
 	}
 
 	@Override
-	public void changeStatus(STATE selectedItem) {
+	public void changeStatus(STATUS selectedItem) {
 		p.setState(selectedItem);
 		session.write(new ChangeStatusAction(p));
 	}

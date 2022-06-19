@@ -22,7 +22,7 @@ import org.magic.api.network.actions.JoinAction;
 import org.magic.api.network.actions.ListPlayersAction;
 import org.magic.api.network.actions.SpeakAction;
 import org.magic.game.model.Player;
-import org.magic.game.model.Player.STATE;
+import org.magic.game.model.Player.STATUS;
 import org.magic.services.MTGConstants;
 
 public class OnlineServer extends AbstractMTGServer {
@@ -46,7 +46,7 @@ public class OnlineServer extends AbstractMTGServer {
 				session.closeOnFlush();
 				return;
 			}
-			ja.getPlayer().setState(STATE.CONNECTED);
+			ja.getPlayer().setState(STATUS.CONNECTED);
 			ja.getPlayer().setId(session.getId());
 			session.setAttribute(PLAYER, ja.getPlayer());
 			speak(new SpeakAction(ja.getPlayer(), " is now connected"));

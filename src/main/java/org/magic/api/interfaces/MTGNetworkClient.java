@@ -3,7 +3,7 @@ package org.magic.api.interfaces;
 import java.awt.Color;
 
 import org.magic.game.model.Player;
-import org.magic.game.model.Player.STATE;
+import org.magic.game.model.Player.STATUS;
 import org.utils.patterns.observer.Observer;
 
 public interface MTGNetworkClient {
@@ -19,7 +19,7 @@ public interface MTGNetworkClient {
 
 	void logout();
 	
-	void changeStatus(STATE selectedItem);
+	void changeStatus(STATUS selectedItem);
 
 	boolean isActive();
 
