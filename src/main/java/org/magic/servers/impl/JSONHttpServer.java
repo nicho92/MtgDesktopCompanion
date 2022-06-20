@@ -1510,8 +1510,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 		map.put(KEYSTORE_URI, new File(MTGConstants.DATA_DIR,"jetty.jks").getAbsolutePath());
 		map.put(KEYSTORE_PASS, "changeit");
 		map.put(CACHE_TIMEOUT, "60");
-		map.put("INDEX_ROUTES", "true");
-		map.put("PRETTY_PRINT", "false");
+		map.put("INDEX_ROUTES", TRUE);
+		map.put("PRETTY_PRINT", FALSE);
 		return map;
 	}
 
