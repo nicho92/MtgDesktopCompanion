@@ -11,6 +11,7 @@ import javax.swing.AbstractAction;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.network.actions.SpeakAction;
+import org.magic.tools.ImageTools;
 import org.utils.patterns.observer.Observable;
 
 public class Player extends Observable implements Serializable {
@@ -39,7 +40,7 @@ public class Player extends Observable implements Serializable {
 	private Zone battlefield;
 	private ManaPool manaPool;
 	private Locale local;
-	private transient BufferedImage avatar;
+	private byte[] avatar;
 	private int poisonCounter;
 
 	public STATUS getState() {
@@ -51,11 +52,11 @@ public class Player extends Observable implements Serializable {
 	}
 
 	public BufferedImage getAvatar() {
-		return avatar;
+		return ImageTools.fromByteArray(avatar);
 	}
 
 	public void setAvatar(BufferedImage icon) {
-		this.avatar = icon;
+		this.avatar = ImageTools.toByteArray(icon);
 	}
 
 	public Locale getLocal() {

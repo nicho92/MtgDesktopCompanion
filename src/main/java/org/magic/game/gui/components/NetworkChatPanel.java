@@ -109,7 +109,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		editorPane.setLineWrap(true);
 		editorPane.setWrapStyleWord(true);
 		editorPane.setRows(2);
-		
+		table.setRowHeight(100);
 
 		
 		try {

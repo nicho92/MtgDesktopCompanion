@@ -1,5 +1,7 @@
 package org.magic.gui.models;
 
+import javax.swing.ImageIcon;
+
 import org.apache.tools.ant.taskdefs.Local;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATUS;
@@ -10,7 +12,7 @@ public class PlayerTableModel extends GenericTableModel<Player> {
 	private static final long serialVersionUID = 1L;
 	
 	public PlayerTableModel() {
-		columns = new String[]{"PLAYER","COUNTRY","STATE"};
+		columns = new String[]{"PLAYER","COUNTRY","STATE","ICON"};
 		setWritable(false);
 	}
 	
@@ -22,6 +24,7 @@ public class PlayerTableModel extends GenericTableModel<Player> {
 			case 0 : return Player.class;
 			case 1 : return Local.class;
 			case 2 : return STATUS.class;
+			case 3 : return ImageIcon.class;
 			default : return super.getColumnClass(c);
 		}
 	}
@@ -35,6 +38,8 @@ public class PlayerTableModel extends GenericTableModel<Player> {
 			return items.get(row).getLocal();
 		case 2:
 			return items.get(row).getState();
+		case 3:
+			return new ImageIcon(items.get(row).getAvatar());
 		default:
 			return null;
 		}

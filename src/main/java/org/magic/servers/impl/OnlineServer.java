@@ -90,7 +90,7 @@ public class OnlineServer extends AbstractMTGServer {
 
 		@Override
 		public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
-			logger.error("error sesion", cause);
+			logger.error("error session", cause);
 			refreshPlayers(session);
 		}
 	};
