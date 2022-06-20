@@ -76,6 +76,7 @@ import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPlugin;
+import org.magic.game.model.Player;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.renderer.MTGPluginCellRenderer;
@@ -83,6 +84,7 @@ import org.magic.gui.renderer.MagicCollectionIconListRenderer;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.gui.renderer.MagicEditionIconListRenderer.SIZE;
 import org.magic.gui.renderer.MagicEditionJLabelRenderer;
+import org.magic.gui.renderer.PlayerRenderer;
 import org.magic.gui.renderer.PluginIconListRenderer;
 import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
 import org.magic.gui.renderer.standard.ComboBoxEditor;
@@ -214,6 +216,8 @@ public class UITools {
 				table.setDefaultRenderer(Instant.class, new DateTableCellEditorRenderer());
 				table.setDefaultRenderer(MagicEdition.class, new MagicEditionJLabelRenderer());
 				table.setDefaultRenderer(MTGPlugin.class, new MTGPluginCellRenderer());
+				table.setDefaultRenderer(Player.class, new PlayerRenderer());
+				
 				
 				table.setDefaultEditor(Double.class, new DoubleCellEditorRenderer());
 				table.setDefaultEditor(Integer.class, new NumberCellEditorRenderer());

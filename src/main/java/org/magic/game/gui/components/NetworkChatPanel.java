@@ -36,7 +36,6 @@ import org.magic.game.model.Player.STATUS;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.JLangLabel;
 import org.magic.gui.models.PlayerTableModel;
-import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.MTGRunnable;
