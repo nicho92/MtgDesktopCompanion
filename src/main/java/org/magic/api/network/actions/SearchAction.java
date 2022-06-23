@@ -13,14 +13,22 @@ public class SearchAction  extends AbstractNetworkAction{
 
 	private static final long serialVersionUID = 1L;
 
+	private MagicCard mc;
 	
-	public SearchAction()
+	
+	public SearchAction(MagicCard mc)
 	{
 		setAct(ACTIONS.SEARCH);
+		this.mc=mc;
+	}
+	
+	@Override
+	public String toString() {
+		return "SearchAction : " + mc;
 	}
 	
 	
-	public List<MagicCollection> search(MagicCard mc)
+	public List<MagicCollection> search()
 	{
 		try {
 			return MTG.getEnabledPlugin(MTGDao.class).listCollectionFromCards(mc);

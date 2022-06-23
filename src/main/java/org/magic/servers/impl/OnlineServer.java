@@ -109,9 +109,8 @@ public class OnlineServer extends AbstractMTGServer {
 	
 	public void refreshPlayers(IoSession session) {
 		List<Player> list = new ArrayList<>();
-		for (IoSession s : acceptor.getManagedSessions().values()) {
-			if (session.getId() != ((Player) s.getAttribute(PLAYER)).getId())
-				list.add((Player) s.getAttribute(PLAYER));
+		for (IoSession s : acceptor.getManagedSessions().values().stream().filter(s->session.getId() != ((Player) s.getAttribute(PLAYER)).getId()).toList()) {
+			list.add((Player) s.getAttribute(PLAYER));
 		}
 
 		session.write(new ListPlayersAction(list));

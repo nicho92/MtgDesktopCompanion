@@ -9,9 +9,11 @@ import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.filter.codec.serialization.ObjectSerializationCodecFactory;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
+import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.api.network.actions.ChangeStatusAction;
 import org.magic.api.network.actions.JoinAction;
+import org.magic.api.network.actions.SearchAction;
 import org.magic.api.network.actions.SpeakAction;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATUS;
@@ -64,6 +66,12 @@ public class MinaClient extends Observable implements MTGNetworkClient {
 	}
 
 	@Override
+	public void search(MagicCard mc) {
+		session.write(new SearchAction(mc));
+		
+	}
+	
+	@Override
 	public void sendMessage(String text, Color c) {
 		var act = new SpeakAction(p, text);
 		act.setColor(c);
@@ -88,5 +96,6 @@ public class MinaClient extends Observable implements MTGNetworkClient {
 		
 		return getSession().isActive();
 	}
+
 	
 }

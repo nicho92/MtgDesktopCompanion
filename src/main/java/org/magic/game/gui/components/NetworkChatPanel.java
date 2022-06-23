@@ -10,6 +10,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
@@ -27,6 +28,8 @@ import javax.swing.JTextField;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGNotification;
+import org.magic.api.beans.MagicCard;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.api.network.MinaClient;
 import org.magic.api.network.actions.AbstractNetworkAction;
@@ -40,6 +43,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
+import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
@@ -59,6 +63,9 @@ public class NetworkChatPanel extends MTGUIComponent {
 	private JTextArea editorPane;
 	private JComboBox<STATUS> cboStates;
 	private JButton btnColorChoose;
+	private JButton btnSearch;
+
+	
 	
 	private transient Observer obs = new Observer() {
 
@@ -76,7 +83,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 			}
 		}
 	};
-
+	
 	public NetworkChatPanel() {
 		setLayout(new BorderLayout(0, 0));
 	
@@ -109,7 +116,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		editorPane.setWrapStyleWord(true);
 		editorPane.setRows(2);
 		table.setRowHeight(100);
-
+		btnSearch = new JButton("Search");
 		
 		try {
 			editorPane.setForeground(new Color(Integer.parseInt(MTGControler.getInstance().get("/game/player-profil/foreground"))));
@@ -150,12 +157,26 @@ public class NetworkChatPanel extends MTGUIComponent {
 		
 		panel1.add(btnColorChoose);
 		panel1.add(cboStates);
-		
+		panel1.add(btnSearch);
 		
 		initActions();
 	}
 	
 	private void initActions() {
+		
+		btnSearch.addActionListener(ae->{
+			
+			MagicCard mc;
+			try {
+				mc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName("Black Lotus", null, false).get(0);
+				client.search(mc);
+			} catch (IOException e1) {
+				logger.error("error search",e1);
+			}
+			
+		});
+		
+		
 		btnConnect.addActionListener(ae -> {
 			try {
 				client = new MinaClient(txtServer.getText(), Integer.parseInt(txtPort.getText()));

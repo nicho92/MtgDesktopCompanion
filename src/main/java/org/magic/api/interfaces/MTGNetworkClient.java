@@ -2,6 +2,7 @@ package org.magic.api.interfaces;
 
 import java.awt.Color;
 
+import org.magic.api.beans.MagicCard;
 import org.magic.game.model.Player.STATUS;
 import org.utils.patterns.observer.Observer;
 
@@ -20,6 +21,8 @@ public interface MTGNetworkClient {
 	public boolean isActive();
 
 	public void addObserver(Observer obs);
+
+	public void search(MagicCard mc);
 
 		
 }
