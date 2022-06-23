@@ -69,7 +69,7 @@ public class MinaClient extends Observable implements MTGNetworkClient {
 		act.setColor(c);
 		session.write(act);
 	}
-
+	
 	@Override
 	public void logout() {
 		session.closeOnFlush();

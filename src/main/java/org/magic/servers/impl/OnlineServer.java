@@ -40,8 +40,7 @@ public class OnlineServer extends AbstractMTGServer {
 		}
 
 		private void join(IoSession session, JoinAction ja) {
-			if (!getString(MAX_CLIENT).equals("0")
-					&& acceptor.getManagedSessions().size() >= getInt(MAX_CLIENT)) {
+			if (!getString(MAX_CLIENT).equals("0") && acceptor.getManagedSessions().size() >= getInt(MAX_CLIENT)) {
 				session.write(new SpeakAction(null, "Number of users reached (" + getString(MAX_CLIENT) + ")"));
 				session.closeOnFlush();
 				return;
@@ -49,12 +48,12 @@ public class OnlineServer extends AbstractMTGServer {
 			ja.getPlayer().setState(STATUS.CONNECTED);
 			ja.getPlayer().setId(session.getId());
 			session.setAttribute(PLAYER, ja.getPlayer());
-			speak(new SpeakAction(ja.getPlayer(), " is now connected"));
+			execute(new SpeakAction(ja.getPlayer(), " is now connected"));
 			session.write(session.getId());
 
 			refreshPlayers(session);
 		}
-
+		
 		@Override
 		public void sessionCreated(IoSession session) throws Exception {
 			logger.debug("New Session " + session.getRemoteAddress());
@@ -65,25 +64,31 @@ public class OnlineServer extends AbstractMTGServer {
 		public void sessionIdle(IoSession session, IdleStatus status) throws Exception {
 			refreshPlayers(session); // refresh list users
 		}
+		
+		private void execute(AbstractNetworkAction act) {
+			
+			logger.debug("Send " + act + " to " + acceptor.getManagedSessions().values());
+			
+			for (IoSession s : acceptor.getManagedSessions().values())
+				s.write(act);
+		}
+
+		
 
 		@Override
 		public void messageReceived(IoSession session, Object message) throws Exception {
 			logger.info(message);
-			
 			if (message instanceof AbstractNetworkAction act) {
 				switch (act.getAct()) {
-				case JOIN:
-					join(session, (JoinAction) act);
-					break;
-				case SPEAK:
-					speak((SpeakAction) act);
-					break;
-				case CHANGE_STATUS:
-					playerUpdate((ChangeStatusAction) act);
-					break;
-				default:
-					break;
-				}
+					case JOIN:
+						join(session, (JoinAction) act);
+						break;
+					case CHANGE_STATUS:
+						playerUpdate((ChangeStatusAction) act);
+						break;
+					default:execute(act);
+						break;
+					}
 			}
 		}
 
@@ -100,10 +105,7 @@ public class OnlineServer extends AbstractMTGServer {
 		return "Enable MTGCOmpanion users to share MTG datas";
 	}
 
-	public void speak(SpeakAction sa) {
-		for (IoSession s : acceptor.getManagedSessions().values())
-			s.write(sa);
-	}
+
 	
 	public void refreshPlayers(IoSession session) {
 		List<Player> list = new ArrayList<>();
