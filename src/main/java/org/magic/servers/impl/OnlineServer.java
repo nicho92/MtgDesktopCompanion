@@ -102,7 +102,7 @@ public class OnlineServer extends AbstractMTGServer {
 
 	@Override
 	public String description() {
-		return "Enable MTGCOmpanion users to share MTG datas";
+		return "Enable MTGCompanion users to share MTG datas";
 	}
 
 

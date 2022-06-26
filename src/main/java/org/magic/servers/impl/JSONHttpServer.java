@@ -164,17 +164,13 @@ public class JSONHttpServer extends AbstractMTGServer {
 		return "{\"error\":\"" + msg + "\"}";
 	}
 	
-	
-	
 	public AbstractEmbeddedCacheProvider<String, Object> getCache() {
 		return cache;
 	}
 	
-	
 	public JSONHttpServer() {
 		manager = new MTGDeckManager();
 		converter = new JsonExport();
-		
 		
 		if(!getBoolean("PRETTY_PRINT"))
 			converter.removePrettyString();
@@ -186,8 +182,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 				return converter.toJson(model);
 			}
 		};
-		
-		
 	}
 	
 	private Object getCached(String k, Callable<Object> call)
@@ -202,7 +196,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		return cache.getItem(k);
 	}
-	
 
 	@Override
 	public void start() throws IOException {
@@ -260,10 +253,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 			
 		};
 		
-		
 		if(getBoolean(ENABLE_SSL))
 			Spark.secure(getString(KEYSTORE_URI), getString(KEYSTORE_PASS), null, null);
-			
 			initVars();
 			initRoutes();
 			Spark.init();
@@ -293,11 +284,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			info.setEnd(Instant.now());
 			TechnicalServiceManager.inst().store(info);
 		}
-		
-		
-		
 	}
-	
 
 	private <T> List<T> paginate(List<T> elements, int pageNumber, int size)
 	{
@@ -375,8 +362,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			
 			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
 			
-			if(mc!=null)
-			{
+			if(mc!=null) {
 				return getEnabledPlugin(MTGTokensProvider.class).generateTokenFor(mc);
 			}
 			

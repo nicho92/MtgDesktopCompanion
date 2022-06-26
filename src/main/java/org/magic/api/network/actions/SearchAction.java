@@ -28,7 +28,7 @@ public class SearchAction  extends AbstractNetworkAction{
 	}
 	
 	
-	public List<MagicCollection> search()
+	public List<MagicCollection> getResponse()
 	{
 		try {
 			return MTG.getEnabledPlugin(MTGDao.class).listCollectionFromCards(mc);

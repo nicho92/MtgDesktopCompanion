@@ -72,7 +72,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 	@Override
 	public boolean isEmblemizer(MagicCard mc) {
 	
-		if(mc.getLayout()==MTGLayout.EMBLEM)
+		if(mc.isEmblem())
 			return false;
 		
 		

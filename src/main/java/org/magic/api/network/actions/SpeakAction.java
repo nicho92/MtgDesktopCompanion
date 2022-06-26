@@ -10,9 +10,9 @@ public class SpeakAction extends AbstractNetworkAction {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	Player p;
-	String text;
-	Color color;
+	private Player p;
+	private String text;
+	private Color color;
 
 	public SpeakAction(Player p, String text) {
 		this.p = p;

@@ -104,7 +104,7 @@ public class MarkovGenerator extends AbstractMTGTextGenerator {
 	
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-	return Map.of("CACHE_FILE", new File(MTGConstants.DATA_DIR,"markov.gen").getAbsolutePath(),
+		return Map.of("CACHE_FILE", new File(MTGConstants.DATA_DIR,"markov.gen").getAbsolutePath(),
 							"NGEN", "5",
 							"TAG_NAME","CARD_NAME");
 	}
