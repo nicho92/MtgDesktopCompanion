@@ -7,6 +7,7 @@ import java.util.List;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.game.model.Player;
 import org.magic.tools.MTG;
 
 public class SearchAction  extends AbstractNetworkAction{
@@ -16,8 +17,9 @@ public class SearchAction  extends AbstractNetworkAction{
 	private MagicCard mc;
 	
 	
-	public SearchAction(MagicCard mc)
+	public SearchAction(Player p,MagicCard mc)
 	{
+		super(p);
 		setAct(ACTIONS.SEARCH);
 		this.mc=mc;
 	}

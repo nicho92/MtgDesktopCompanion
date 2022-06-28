@@ -10,12 +10,11 @@ public class SpeakAction extends AbstractNetworkAction {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Player p;
 	private String text;
 	private Color color;
 
 	public SpeakAction(Player p, String text) {
-		this.p = p;
+		super(p);
 		this.text = text;
 		color = Color.BLACK;
 		setAct(ACTIONS.SPEAK);
@@ -29,14 +28,6 @@ public class SpeakAction extends AbstractNetworkAction {
 		this.color = color;
 	}
 
-	public Player getP() {
-		return p;
-	}
-
-	public void setP(Player p) {
-		this.p = p;
-	}
-
 	public String getText() {
 		return text;
 	}
@@ -47,8 +38,8 @@ public class SpeakAction extends AbstractNetworkAction {
 
 	@Override
 	public String toString() {
-		if (getP() != null)
-			return getP() + " : " + getText();
+		if (getInitiator() != null)
+			return getInitiator() + " : " + getText();
 		else
 			return getText();
 	}

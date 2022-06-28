@@ -2,6 +2,8 @@ package org.magic.api.network.actions;
 
 import java.io.Serializable;
 
+import org.magic.game.model.Player;
+
 public abstract class AbstractNetworkAction implements Serializable {
 
 	/**
@@ -14,6 +16,7 @@ public abstract class AbstractNetworkAction implements Serializable {
 	}
 
 	private ACTIONS act;
+	protected Player initiator;
 
 	public ACTIONS getAct() {
 		return act;
@@ -22,7 +25,15 @@ public abstract class AbstractNetworkAction implements Serializable {
 	public void setAct(ACTIONS act) {
 		this.act = act;
 	}
-
 	
-
+	
+	protected AbstractNetworkAction(Player p) {
+		this.initiator=p;
+	}
+	
+	
+	public Player getInitiator() {
+		return initiator;
+	}
+	
 }

@@ -8,21 +8,20 @@ public class JoinAction extends AbstractNetworkAction {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	Player p1;
 
 	public JoinAction(Player p1) {
-		this.p1 = p1;
+		super(p1);
 		setAct(ACTIONS.JOIN);
 
 	}
 
-	public Player getPlayer() {
-		return p1;
-	}
-
 	@Override
 	public String toString() {
-		return getPlayer() + " join the channel";
+		return getInitiator() + " join the channel";
+		
 	}
-
+	
+	
+	
+	
 }

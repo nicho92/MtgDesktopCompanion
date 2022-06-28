@@ -36,7 +36,7 @@ public class OnlineServer extends AbstractMTGServer {
 	private IoHandlerAdapter adapter = new IoHandlerAdapter() {
 
 		private void playerUpdate(ChangeStatusAction act) {
-			((Player) acceptor.getManagedSessions().get(act.getPlayer().getId()).getAttribute(PLAYER)).setState(act.getPlayer().getState());
+			((Player) acceptor.getManagedSessions().get(act.getInitiator().getId()).getAttribute(PLAYER)).setState(act.getInitiator().getState());
 		}
 
 		private void join(IoSession session, JoinAction ja) {
@@ -45,10 +45,10 @@ public class OnlineServer extends AbstractMTGServer {
 				session.closeOnFlush();
 				return;
 			}
-			ja.getPlayer().setState(STATUS.CONNECTED);
-			ja.getPlayer().setId(session.getId());
-			session.setAttribute(PLAYER, ja.getPlayer());
-			execute(new SpeakAction(ja.getPlayer(), " is now connected"));
+			ja.getInitiator().setState(STATUS.CONNECTED);
+			ja.getInitiator().setId(session.getId());
+			session.setAttribute(PLAYER, ja.getInitiator());
+			execute(new SpeakAction(ja.getInitiator(), " is now connected"));
 			session.write(session.getId());
 
 			refreshPlayers(session);
@@ -117,13 +117,12 @@ public class OnlineServer extends AbstractMTGServer {
 	}
 
 	public OnlineServer() throws IOException {
-
-		super();
 		acceptor = new NioSocketAcceptor();
 		acceptor.setHandler(adapter);
 		acceptor.getFilterChain().addLast("codec", new ProtocolCodecFilter(new ObjectSerializationCodecFactory()));
 		acceptor.getSessionConfig().setReadBufferSize(getInt("BUFFER-SIZE"));
 		acceptor.getSessionConfig().setIdleTime(IdleStatus.BOTH_IDLE,getInt("IDLE-TIME"));
+		
 	}
 
 	@Override

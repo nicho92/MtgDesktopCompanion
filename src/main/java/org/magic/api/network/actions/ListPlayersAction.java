@@ -13,6 +13,7 @@ public class ListPlayersAction extends AbstractNetworkAction {
 	private List<Player> list;
 
 	public ListPlayersAction(List<Player> p) {
+		super(null);
 		setAct(ACTIONS.LIST_PLAYER);
 		this.list = p;
 	}
