@@ -4,7 +4,6 @@
 Personal Magic the Gathering card manager Deck Builder and Collection Editor
 
 [![GitHub issues](https://img.shields.io/github/issues/nicho92/MtgDesktopCompanion.svg)](https://github.com/nicho92/MtgDesktopCompanion/issues)
-[![Build Status](https://api.travis-ci.com/nicho92/MtgDesktopCompanion.svg?branch=master)](https://api.travis-ci.com/nicho92/MtgDesktopCompanion.svg?branch=master)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=org.magic%3Amagic-api&metric=alert_status)](https://sonarcloud.io/dashboard?id=org.magic%3Amagic-api)
 [![GitHub forks](https://img.shields.io/github/forks/nicho92/MtgDesktopCompanion.svg)](https://github.com/nicho92/MtgDesktopCompanion/network)
 [![GitHub stars](https://img.shields.io/github/stars/nicho92/MtgDesktopCompanion.svg)](https://github.com/nicho92/MtgDesktopCompanion/stargazers)
