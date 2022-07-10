@@ -67,7 +67,7 @@ public class MTGGamePediaKeywordProvider extends AbstractKeyWordsManager {
 		if(statics==null || statics.isEmpty())
 		{
 			statics=parse("Static",SELEC_ABILITIES,true).stream().map(s->new MTGKeyWord(s, MTGKeyWord.EVENT.STATIC, MTGKeyWord.TYPE.ABILITIES)).toList();
-			statics.addAll(getEvergreens().stream().filter(mt->mt.getEvent()==EVENT.STATIC).toList());
+			getEvergreens().stream().filter(mt->mt.getEvent()==EVENT.STATIC).forEach(statics::add);
 			
 			
 		}
@@ -80,7 +80,7 @@ public class MTGGamePediaKeywordProvider extends AbstractKeyWordsManager {
 		if(activateds==null || activateds.isEmpty())
 		{
 			activateds = parse("Activated",SELEC_ABILITIES,true).stream().map(s->new MTGKeyWord(s, MTGKeyWord.EVENT.ACTIVATED, MTGKeyWord.TYPE.ABILITIES)).toList();
-			activateds.addAll(getEvergreens().stream().filter(mt->mt.getEvent()==EVENT.ACTIVATED).toList());
+			getEvergreens().stream().filter(mt->mt.getEvent()==EVENT.ACTIVATED).forEach(activateds::add);
 		}
 		
 		return activateds;
@@ -92,7 +92,7 @@ public class MTGGamePediaKeywordProvider extends AbstractKeyWordsManager {
 		if(triggereds==null || triggereds.isEmpty())
 		{
 			triggereds = parse("Triggered",SELEC_ABILITIES,true).stream().map(s->new MTGKeyWord(s, MTGKeyWord.EVENT.TRIGGERED, MTGKeyWord.TYPE.ABILITIES)).toList();
-			triggereds.addAll(getEvergreens().stream().filter(mt->mt.getEvent()==EVENT.TRIGGERED).toList());
+			getEvergreens().stream().filter(mt->mt.getEvent()==EVENT.TRIGGERED).forEach(triggereds::add);
 		}
 		
 		return triggereds;
@@ -104,7 +104,7 @@ public class MTGGamePediaKeywordProvider extends AbstractKeyWordsManager {
 		if(actions==null || actions.isEmpty())
 		{
 				actions= parse("Keyword_action","div.crDiv li a",false).stream().map(s->new MTGKeyWord(s, MTGKeyWord.TYPE.ACTION)).toList();
-				actions.addAll(getEvergreens().stream().filter(mt->mt.getType()==TYPE.ACTION).toList());
+				getEvergreens().stream().filter(mt->mt.getType()==TYPE.ACTION).forEach(actions::add);
 				actions.add(new MTGKeyWord("Flip", TYPE.ACTION));
 		}
 		return actions;

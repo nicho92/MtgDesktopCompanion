@@ -64,6 +64,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.react.GenericMessageReactionEvent;
@@ -379,7 +380,8 @@ public class DiscordBotServer extends AbstractMTGServer {
 
 	private void applyControl(String emote, Message message, boolean enabled) {
 			try{
-				message.addReaction(emote).queue();
+				
+				message.addReaction(Emoji.fromFormatted(emote)).queue();
 			}
 			catch(InsufficientPermissionException ex)
 			{
@@ -389,7 +391,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 			
 			
 			if (!enabled) {
-				message.getReactions().parallelStream().filter(r -> r.getReactionEmote().getEmote().getName().equals(emote))
+				message.getReactions().parallelStream().filter(r -> r.getEmoji().getName().equals(emote))
 								   .forEach(r -> {
 									   	try {
 											r.retrieveUsers().submit().get().parallelStream().forEach(u -> r.removeReaction(u).queue());
@@ -757,7 +759,7 @@ class ReactionListener extends ListenerAdapter {
 			return;
 		
 		
-		ReactionCallback cb = actionMap.getOrDefault(event.getReactionEmote().getName(), null);
+		ReactionCallback cb = actionMap.getOrDefault(event.getEmoji().getName(), null);
 	
 		if (cb != null) {
 			cb.exec(event);

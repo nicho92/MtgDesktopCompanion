@@ -197,7 +197,7 @@ public class MTGPath implements Path {
 
 	@Override
 	public int compareTo(Path other) {
-		return this.compareTo(other);
+		return other.compareTo(this);
 	}
 
 	public boolean isMtgPathRoot()
