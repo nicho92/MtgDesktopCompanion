@@ -197,6 +197,9 @@ public class MTGPath implements Path {
 
 	@Override
 	public int compareTo(Path other) {
+		if(other==null)
+			return -1;
+		
 		return other.compareTo(this);
 	}
 
