@@ -2,7 +2,6 @@ package org.magic.gui.components.renderer;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.ImageIcon;

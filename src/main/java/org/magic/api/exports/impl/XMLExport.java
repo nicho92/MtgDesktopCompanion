@@ -54,10 +54,7 @@ public class XMLExport extends AbstractCardExport {
 			
 			@Override
 			public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
-				var value = reader.getValue();
-				System.out.println(value);
-				
-				return value;
+				return reader.getValue();
 			}
 			
 			@Override

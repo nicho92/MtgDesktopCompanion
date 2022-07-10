@@ -68,7 +68,6 @@ import org.magic.services.providers.IconSetProvider;
 import org.magic.services.providers.SealedProductProvider;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.FileTools;
-import org.magic.tools.ImageTools;
 import org.magic.tools.InstallCert;
 import org.magic.tools.MTG;
 import org.magic.tools.UITools;
@@ -540,20 +539,20 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		);
 		
 		
-		var lblCardsLanguage = new JLabel(capitalize("CARD_LANGUAGE") + " :");
+		var lblCardsLanguage = new JLangLabel("CARD_LANGUAGE",true);
 		JComboBox<String> cboLanguages = UITools.createCombobox(getEnabledPlugin(MTGCardsProvider.class).getLanguages());
-		var lblLook = new JLabel(capitalize("LOOK") + " :");
+		var lblLook = new JLangLabel("LOOK",true);
 		JComboBox<LookAndFeelInfo> cboLook = UITools.createCombobox(MTGControler.getInstance().getLafService().getAllLookAndFeel());
-		var lblPicsSize = new JLabel(capitalize("THUMBNAIL_SIZE") + ": ");
+		var lblPicsSize = new JLangLabel("THUMBNAIL_SIZE",true);
 		var btnSavePicSize = new JButton(capitalize("SAVE"));
 		resizerPanel = new JResizerPanel(MTGControler.getInstance().getPictureProviderDimension());
-		var lblShowJsonPanel = new JLabel(capitalize("SHOW_OBJECT_PANEL") + " :");
+		var lblShowJsonPanel = new JLangLabel("SHOW_OBJECT_PANEL",true);
 		cbojsonView = new JCheckBox();
-		var lblShowTooltip = new JLabel(capitalize("SHOW_TOOLTIP") + " :");
+		var lblShowTooltip = new JLangLabel("SHOW_TOOLTIP",true);
 		chkToolTip = new JCheckBox("");
-		var lblToolPosition = new JLabel(capitalize("TAB_POSITION") + " :");
+		var lblToolPosition = new JLangLabel("TAB_POSITION",true);
 		JComboBox<String> cboToolPosition = UITools.createCombobox(new String[] { "TOP", "LEFT", "RIGHT", "BOTTOM" });
-		var lblFont = new JLabel(capitalize("FONT") + " :");
+		var lblFont = new JLangLabel("FONT",true);
 		var chooseFontPanel = new JFontChooser();
 		chooseFontPanel.initFont(MTGControler.getInstance().getFont());
 		var btnSaveFont = new JButton(capitalize("SAVE"));

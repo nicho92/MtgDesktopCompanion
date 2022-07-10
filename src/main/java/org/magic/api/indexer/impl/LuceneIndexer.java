@@ -165,7 +165,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		 logger.debug("looking terms for "+ field);
 		 
 		 try {
-			 IndexReader reader = DirectoryReader.open(dir);
+			 var reader = DirectoryReader.open(dir);
 			 		var terms = MultiTerms.getTerms(reader, field);
 			 		var it = terms.iterator();
 			 		var term = it.next();

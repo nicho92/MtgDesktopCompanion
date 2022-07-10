@@ -12,8 +12,6 @@ import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.Locale;
 
-import javax.swing.ImageIcon;
-
 import org.apache.commons.configuration2.XMLConfiguration;
 import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
 import org.apache.commons.configuration2.builder.fluent.Parameters;

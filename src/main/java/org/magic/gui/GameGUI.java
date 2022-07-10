@@ -5,10 +5,8 @@ import static org.magic.tools.MTG.capitalize;
 import java.awt.BorderLayout;
 
 import javax.swing.ImageIcon;
-import javax.swing.JTabbedPane;
 
 import org.magic.game.gui.components.GamePanelGUI;
-import org.magic.game.gui.components.NetworkChatPanel;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
 public class GameGUI extends MTGUIComponent {
