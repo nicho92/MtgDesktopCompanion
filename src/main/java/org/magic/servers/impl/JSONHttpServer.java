@@ -1364,8 +1364,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		
 		
-		get("/robots.txt",URLTools.HEADER_TEXT,(req,res) ->{
-			return """
+		get("/robots.txt",URLTools.HEADER_TEXT,(req,res) ->
+			 """
 					User-agent: Googlebot
 					Disallow: /
 					User-agent: googlebot-image
@@ -1401,9 +1401,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 					User-agent: *
 					Disallow: /
 					Disallow: /cgi-bin/
-					""";
+					"""
 			
-		});
+		);
 		
 		if(getBoolean("INDEX_ROUTES")) {
 			get("/",URLTools.HEADER_HTML,(request,response) -> {

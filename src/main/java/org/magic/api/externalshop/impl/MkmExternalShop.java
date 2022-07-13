@@ -82,10 +82,10 @@ public class MkmExternalShop extends AbstractExternalShop {
 		
 		var serv = new StockService();
 		
-		File temp = new File(MTGConstants.DATA_DIR, "mkm_temp_card.csv"); 
-		File temp2 = new File(MTGConstants.DATA_DIR, "mkm_temp_sealed.csv"); 
+		var temp = new File(MTGConstants.DATA_DIR, "mkm_temp_card.csv"); 
+		var temp2 = new File(MTGConstants.DATA_DIR, "mkm_temp_sealed.csv"); 
 		
-		Game g = new Game();
+		var g = new Game();
 		g.setIdGame(getInt(ID_GAME));
 		
 		serv.exportStock(temp,getInt(ID_GAME),false);
@@ -288,7 +288,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 	}
 	
 	private Transaction toTransaction(Order o) {
-		Transaction t = new Transaction();
+		var t = new Transaction();
 							t.setId(o.getIdOrder());
 							t.setTransporterShippingCode(null);
 							t.setDateCreation(o.getState().getDateBought());
@@ -298,7 +298,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 							t.setMessage(o.getNote());
 							t.setSourceShopName(getName());
 							
-		Contact c = new Contact();
+		var c = new Contact();
 		
 				var name = o.getBuyer().getAddress().getName();
 				

@@ -76,13 +76,7 @@ public class MarkovGenerator extends AbstractMTGTextGenerator {
 		  {
 			  try {
 				logger.debug("loading cache from " + cache);
-				
-				for(String l : FileUtils.readLines(cache,MTGConstants.DEFAULT_ENCODING))
-						{
-							rs.addText(l);
-						}
-				
-				
+				FileUtils.readLines(cache,MTGConstants.DEFAULT_ENCODING).forEach(rs::addText);
 			} catch (Exception e) {
 				logger.error("error loading file "+cache.getAbsolutePath(),e);
 			}

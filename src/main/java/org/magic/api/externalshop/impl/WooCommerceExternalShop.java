@@ -230,7 +230,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 					}
 					catch(Exception e)
 					{
-							
+							//do nothing
 					}
 					
 					try {

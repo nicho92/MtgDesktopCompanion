@@ -32,6 +32,14 @@ import com.google.gson.JsonObject;
 
 public class ShopifyExternalShop extends AbstractExternalShop {
 	
+	private static final String JSON = ".json";
+	private static final String OPTION = "option";
+	private static final String INVENTORY_QUANTITY = "inventory_quantity";
+	private static final String FIRST_NAME = "first_name";
+	private static final String TITLE = "title";
+	private static final String LAST_NAME = "last_name";
+	private static final String PRICE = "price";
+	private static final String EMAIL = "email";
 	private static final String FOIL_OPTION_NUMBER = "FOIL_OPTION_NUMBER";
 	private static final String SET_OPTION_NUMBER = "SET_OPTION_NUMBER";
 	private static final String X_SHOPIFY_ACCESS_TOKEN = "X-Shopify-Access-Token";
@@ -73,7 +81,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	
 	private JsonObject readId(String entityName, Long id) throws IOException 
 	{
-		var resp=build(getBaseUrl()+entityName.toLowerCase()+"s/"+id+".json",METHOD.GET).execute();
+		var resp=build(getBaseUrl()+entityName.toLowerCase()+"s/"+id+JSON,METHOD.GET).execute();
 		return URLTools.toJson(resp.getEntity().getContent()).getAsJsonObject().get(entityName).getAsJsonObject();
 	}
 	
@@ -111,16 +119,16 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 				AbstractStockItem<MTGProduct> it = AbstractStockItem.generateDefault();
 									  it.setProduct(parseProduct(obj));
 									 try {
-										 it.getProduct().setEdition(new MagicEdition(el.getAsJsonObject().get("option"+getString(SET_OPTION_NUMBER)).getAsString(), el.getAsJsonObject().get("option"+getString(SET_OPTION_NUMBER)).getAsString()));
+										 it.getProduct().setEdition(new MagicEdition(el.getAsJsonObject().get(OPTION+getString(SET_OPTION_NUMBER)).getAsString(), el.getAsJsonObject().get(OPTION+getString(SET_OPTION_NUMBER)).getAsString()));
 									 }
 									 catch(Exception e)
 									 {
 										logger.error("Error getting option"+getString(SET_OPTION_NUMBER) + " for " + obj +" :" + e);
 									 }
 									  it.setId(el.getAsJsonObject().get("id").getAsLong());
-									  it.setPrice(el.getAsJsonObject().get("price").getAsDouble());
-									  it.setQte(el.getAsJsonObject().get("inventory_quantity").getAsInt());
-									  it.setFoil(el.getAsJsonObject().get("option"+getString(FOIL_OPTION_NUMBER)).getAsString().toLowerCase().contains("foil"));
+									  it.setPrice(el.getAsJsonObject().get(PRICE).getAsDouble());
+									  it.setQte(el.getAsJsonObject().get(INVENTORY_QUANTITY).getAsInt());
+									  it.setFoil(el.getAsJsonObject().get(OPTION+getString(FOIL_OPTION_NUMBER)).getAsString().toLowerCase().contains("foil"));
 									  ret.add(it);
 		}
 		return ret;
@@ -131,7 +139,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	private MTGProduct parseProduct(JsonObject sp) {
 		MTGProduct p = AbstractProduct.createDefaultProduct();
 				   p.setProductId(sp.get("id").getAsLong());
-				   p.setName(sp.get("title").getAsString());
+				   p.setName(sp.get(TITLE).getAsString());
 				   try{
 					   p.setUrl(sp.get("image").getAsJsonObject().get("src").getAsString());
 				   }
@@ -152,7 +160,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 		t.setId(obj.get("id").getAsLong());
 		t.setCurrency(obj.get("currency").getAsString());
 		t.setDateCreation(UITools.parseGMTDate(obj.get("created_at").getAsString()));
-		t.setContact(parseContact(obj.get("customer").getAsJsonObject()));
+		t.setContact(parseContact(obj.get(CUSTOMER).getAsJsonObject()));
 		t.setDatePayment(UITools.parseGMTDate(obj.get("processed_at").getAsString()));
 		t.setSourceShopName(getName());
 		
@@ -178,7 +186,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 			  		logger.warn("No variant_id found for " + it.getProduct());
 			  	}
 			  	
-			  	it.setPrice(item.get("price").getAsDouble());
+			  	it.setPrice(item.get(PRICE).getAsDouble());
 			  	it.setQte(item.get("quantity").getAsInt());
 			
 			t.getItems().add(it);
@@ -196,9 +204,9 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	
 	private Contact parseContact(JsonObject obj) {
 		var c = new Contact();
-			c.setEmail(obj.get("email").getAsString());
-			c.setName(!obj.get("first_name").isJsonNull()?obj.get("first_name").getAsString():"");
-			c.setLastName(!obj.get("last_name").isJsonNull()?obj.get("last_name").getAsString():"");
+			c.setEmail(obj.get(EMAIL).getAsString());
+			c.setName(!obj.get(FIRST_NAME).isJsonNull()?obj.get(FIRST_NAME).getAsString():"");
+			c.setLastName(!obj.get(LAST_NAME).isJsonNull()?obj.get(LAST_NAME).getAsString():"");
 			c.setActive(obj.get("state").getAsString().equalsIgnoreCase("enabled"));
 			c.setId(obj.get("id").getAsInt());
 			if(obj.get("default_address")!=null) {
@@ -217,7 +225,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 	@Override
 	public List<MTGProduct> listProducts(String name) throws IOException {
 		return StreamSupport.stream(read(PRODUCT,null).spliterator(), true)
-							.filter(je->je.getAsJsonObject().get("title").getAsString().toLowerCase().contains(name.toLowerCase()))
+							.filter(je->je.getAsJsonObject().get(TITLE).getAsString().toLowerCase().contains(name.toLowerCase()))
 							.map(a->parseProduct(a.getAsJsonObject()))
 							.toList();
 	}
@@ -227,7 +235,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 		var ret = new ArrayList<MTGStockItem>();
 		//need to load all products because title search is strict only
 		var arr = StreamSupport.stream(read(PRODUCT,null).spliterator(), true)
-				.filter(je->je.getAsJsonObject().get("title").getAsString().toLowerCase().contains(name.toLowerCase()))
+				.filter(je->je.getAsJsonObject().get(TITLE).getAsString().toLowerCase().contains(name.toLowerCase()))
 				.toList();
 
 		for(JsonElement a: arr )
@@ -286,9 +294,9 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 		
 		var it = AbstractStockItem.generateDefault();
 		  it.setId(obj.get("id").getAsLong());
-		  it.setPrice(obj.get("price").getAsDouble());
-		  it.setQte(obj.get("inventory_quantity").getAsInt());
-		  it.setFoil(obj.get("option"+getString(FOIL_OPTION_NUMBER)).getAsString().toLowerCase().contains("foil"));
+		  it.setPrice(obj.get(PRICE).getAsDouble());
+		  it.setQte(obj.get(INVENTORY_QUANTITY).getAsInt());
+		  it.setFoil(obj.get(OPTION+getString(FOIL_OPTION_NUMBER)).getAsString().toLowerCase().contains("foil"));
 		  it.setProduct(parseProduct(readId(PRODUCT,obj.get("product_id").getAsLong())));
 		  return it;
 	
@@ -296,7 +304,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 
 	@Override
 	public Contact getContactByEmail(String email) throws IOException {
-		var arr = read(CUSTOMER,Maps.of("email", email));
+		var arr = read(CUSTOMER,Maps.of(EMAIL, email));
 		try {
 			return parseContact(arr.getAsJsonArray().get(0).getAsJsonObject());
 		}
@@ -312,9 +320,9 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 		var obj = new JsonObject();
 		var prodobj = new JsonObject();
 			obj.add(CUSTOMER, prodobj);
-			prodobj.addProperty("first_name", c.getName());
-			prodobj.addProperty("last_name",c.getLastName());
-			prodobj.addProperty("email", c.getEmail());
+			prodobj.addProperty(FIRST_NAME, c.getName());
+			prodobj.addProperty(LAST_NAME,c.getLastName());
+			prodobj.addProperty(EMAIL, c.getEmail());
 			prodobj.addProperty("phone", c.getTelephone());
 			prodobj.addProperty("verified_email", false);
 			var addresses = new JsonArray();
@@ -350,7 +358,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 			}
 			else
 			{
-				res = client.doPut(getBaseUrl()+"customers/"+c.getId()+".json", 
+				res = client.doPut(getBaseUrl()+"customers/"+c.getId()+JSON, 
 						new StringEntity(obj.toString()), 
 						headers()
 					);
@@ -380,16 +388,16 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 				var objVariant = new JsonObject();
 				obj.add(VARIANT, objVariant);
 				
-				objVariant.addProperty("price", c.getPrice());
-				objVariant.addProperty("option"+getString(FOIL_OPTION_NUMBER), c.isFoil());
+				objVariant.addProperty(PRICE, c.getPrice());
+				objVariant.addProperty(OPTION+getString(FOIL_OPTION_NUMBER), c.isFoil());
 				
 				try {
-					objVariant.addProperty("option"+getString(SET_OPTION_NUMBER), c.getProduct().getEdition().getSet());
+					objVariant.addProperty(OPTION+getString(SET_OPTION_NUMBER), c.getProduct().getEdition().getSet());
 				}catch(Exception e)
 				{
 					logger.error("no set found for " + c);
 				}
-				objVariant.addProperty("inventory_quantity",c.getQte());
+				objVariant.addProperty(INVENTORY_QUANTITY,c.getQte());
 				
 				
 				if(c.getId()<0)
@@ -411,7 +419,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 				}
 				else
 				{
-					res = client.doPut(getBaseUrl()+"variants/"+c.getId()+".json", 
+					res = client.doPut(getBaseUrl()+"variants/"+c.getId()+JSON, 
 							new StringEntity(obj.toString()), 
 							headers()
 						);

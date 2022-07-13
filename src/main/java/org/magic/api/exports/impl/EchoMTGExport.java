@@ -31,7 +31,7 @@ public class EchoMTGExport extends AbstractCardExport {
 		return List.of("EMAIL","PASSWORD");
 	}
 	
-	private void connect() throws IOException
+	private void connect()
 	{
 		client = URLTools.newClient();
 		

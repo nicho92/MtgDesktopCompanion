@@ -37,7 +37,7 @@ public class JFontChooser extends JComponent {
 	}
 	
 	
-	private static Integer[] fontSizes = new Integer[]{8, 9, 10, 11, 12, 14, 16, 18, 20,22, 24, 26, 28, 36, 48, 72};
+	private Integer[] fontSizes = new Integer[]{8, 9, 10, 11, 12, 14, 16, 18, 20,22, 24, 26, 28, 36, 48, 72};
 	
 	private JComboBox<String> cboFontFamilies;
 	private JComboBox<Styles> cboFontStyles;
@@ -56,7 +56,7 @@ public class JFontChooser extends JComponent {
 		add(cboFontSize);
 
 		
-		cboFontFamilies.setRenderer((JList<? extends String> arg0, String f, int arg2,boolean arg3, boolean arg4)->{
+		cboFontFamilies.setRenderer((JList<? extends String> jlist, String f, int arg2,boolean arg3, boolean arg4)->{
 			var ft = new Font(f, Font.PLAIN, 14);
 			var l = new JLabel(f);
 				   l.setFont(ft);

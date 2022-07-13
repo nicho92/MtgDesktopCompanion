@@ -102,14 +102,6 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 		
 	}
 	
-	public static void main(String[] args) throws IOException {
-		File f = new File("G:\\Mon Drive\\magicalbum.csv");
-		MTGControler.getInstance();
-		MTG.getEnabledPlugin(MTGCardsProvider.class).init();
-		new MagicAlbumExport().importStockFromFile(f);
-	}
-	
-	
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
 		var ret = new ArrayList<MagicCardStock>();

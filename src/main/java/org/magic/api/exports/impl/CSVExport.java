@@ -35,7 +35,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 			List<MagicCardStock> stock = new ArrayList<>();
 			for(Matcher part : matches(content, true)) 
 			{
-				MagicCardStock mcs = MTGControler.getInstance().getDefaultStock();
+				var mcs = MTGControler.getInstance().getDefaultStock();
 				
 				MagicEdition ed = null;
 				

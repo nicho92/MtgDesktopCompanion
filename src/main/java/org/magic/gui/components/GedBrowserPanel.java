@@ -65,9 +65,7 @@ public class GedBrowserPanel extends MTGUIComponent {
 		add(new JScrollPane(table),BorderLayout.CENTER);
 		
 		
-		table.getSelectionModel().addListSelectionListener(lsl->{
-			btnDelete.setEnabled(UITools.getTableSelection(table, 0)!=null);
-		});
+		table.getSelectionModel().addListSelectionListener(lsl->btnDelete.setEnabled(UITools.getTableSelection(table, 0)!=null));
 		
 		btnDelete.addActionListener(al->{
 			GedEntry<MTGStorable> select = UITools.getTableSelection(table, 0);

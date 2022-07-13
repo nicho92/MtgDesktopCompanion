@@ -2,7 +2,6 @@ package org.magic.api.exports.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.regex.Matcher;
 
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
@@ -56,7 +55,7 @@ public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 			deck.setName(name);
 			
 			
-			for(Matcher m : matches(f,true))
+			for(var m : matches(f,true))
 			{
 				var mc = parseMatcherWithGroup(m, 3, 4, true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NAME);
 				var qte = Integer.parseInt(m.group(2));
