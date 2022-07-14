@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.magic.game.model.Player;
+import org.magic.tools.UITools;
 
 
 public class PlayerPanel extends JPanel {
@@ -53,7 +54,7 @@ public class PlayerPanel extends JPanel {
 		}
 		lblName.setText(p.getName());
 		lblCountry.setText(p.getLocal().getDisplayCountry());
-		lblStatus.setText(p.getState().name());
+		lblStatus.setText(p.getState().name() + " (" + UITools.formatDateTime(p.getOnlineConnectionDate())+")");
 	
 		
 	}

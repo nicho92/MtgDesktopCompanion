@@ -71,11 +71,10 @@ public class OnlineServer extends AbstractMTGServer {
 			
 			logger.debug("Send " + act + " to " + acceptor.getManagedSessions().values());
 			
+			
 			for (IoSession s : acceptor.getManagedSessions().values())
 				s.write(act);
 		}
-
-		
 
 		@Override
 		public void messageReceived(IoSession session, Object message) throws Exception {

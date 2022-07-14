@@ -255,6 +255,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		if(getBoolean(ENABLE_SSL))
 			Spark.secure(getString(KEYSTORE_URI), getString(KEYSTORE_PASS), null, null);
+			
 			initVars();
 			initRoutes();
 			Spark.init();
