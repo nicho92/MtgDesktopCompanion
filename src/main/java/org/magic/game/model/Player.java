@@ -3,6 +3,7 @@ package org.magic.game.model;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -42,7 +43,9 @@ public class Player extends Observable implements Serializable {
 	private Locale local;
 	private byte[] avatar;
 	private int poisonCounter;
-
+	private Date onlineConnectionDate;
+	
+	
 	public STATUS getState() {
 		return state;
 	}
@@ -528,6 +531,14 @@ public class Player extends Observable implements Serializable {
 		battlefield.add(tok);
 		logAction("Create token " + tok);
 
+	}
+
+	public Date getOnlineConnectionDate() {
+		return onlineConnectionDate;
+	}
+
+	public void setOnlineConnectionDate(Date onlineConnectionDate) {
+		this.onlineConnectionDate = onlineConnectionDate;
 	}
 
 }

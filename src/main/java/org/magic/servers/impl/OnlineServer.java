@@ -3,6 +3,7 @@ package org.magic.servers.impl;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -47,6 +48,7 @@ public class OnlineServer extends AbstractMTGServer {
 			}
 			ja.getInitiator().setState(STATUS.CONNECTED);
 			ja.getInitiator().setId(session.getId());
+			ja.getInitiator().setOnlineConnectionDate(new Date());
 			session.setAttribute(PLAYER, ja.getInitiator());
 			execute(new SpeakAction(ja.getInitiator(), " is now connected"));
 			session.write(session.getId());

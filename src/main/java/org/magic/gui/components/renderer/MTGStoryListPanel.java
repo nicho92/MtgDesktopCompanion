@@ -14,6 +14,7 @@ import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MTGStory;
 import org.magic.services.MTGControler;
+import org.magic.tools.UITools;
 
 public class MTGStoryListPanel extends JPanel {
 
@@ -64,12 +65,7 @@ public class MTGStoryListPanel extends JPanel {
 
 		var lblAuthor = new JLabel(value.getAuthor());
 		lblAuthor.setFont(MTGControler.getInstance().getFont().deriveFont( Font.ITALIC, 11));
-		var gbclblAuthor = new GridBagConstraints();
-		gbclblAuthor.anchor = GridBagConstraints.WEST;
-		gbclblAuthor.insets = new Insets(0, 0, 5, 5);
-		gbclblAuthor.gridx = 1;
-		gbclblAuthor.gridy = 1;
-		add(lblAuthor, gbclblAuthor);
+		add(lblAuthor, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 1, 1));
 
 		var editorPane = new JEditorPane();
 		editorPane.setEditable(false);

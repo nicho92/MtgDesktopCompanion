@@ -67,7 +67,7 @@ public class GedEntryComponent extends JPanel {
 			l.setIcon(new ImageIcon(entry.getContent()));
 		}catch(Exception ex)
 		{
-			ex.printStackTrace();
+			logger.error(ex);
 		}
 		
 		
