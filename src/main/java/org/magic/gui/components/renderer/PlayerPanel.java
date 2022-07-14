@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 
 import org.magic.game.model.Player;
 
-import groovyjarjarantlr4.v4.parse.ANTLRParser.exceptionGroup_return;
 
 public class PlayerPanel extends JPanel {
 	private JLabel lblIcon;
