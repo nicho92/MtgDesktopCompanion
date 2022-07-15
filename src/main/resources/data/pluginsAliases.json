@@ -13,6 +13,20 @@
 			"Magic 2015":"2015 Core Set"
 		}
 	},
+	"UrzaGatherer":{
+		"nameSet": {},
+		"idSet": {},
+		"conditions": {
+			  "MINT":"Mint",
+			  "NEAR_MINT":"Presque mint",
+			  "NEAR_MINT":"Excellent",
+			  "GOOD":"Bon",
+			  "LIGHTLY_PLAYED":"Légèrement jouée",
+			  "PLAYED":"Jouée",
+			  "POOR":"Mauvaise",
+			  "DAMAGED":"Endommagé"
+			}
+	},
 	"DeckBox":{
 		"nameSet": {},
 		"idSet": {},
@@ -26,7 +40,6 @@
 			  "DAMAGED":"Heavily Played"
 			}
 	},
-
 	"LigaMagic": {
 		"nameSet": {},
 		"idSet": {},
