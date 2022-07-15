@@ -672,9 +672,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 	
 		get("/alerts/list", URLTools.HEADER_JSON,(request, response) -> getEnabledPlugin(MTGDao.class).listAlerts(), transformer);
-		
-		
-		
 
 		get("/alerts/:scryfallId", URLTools.HEADER_JSON, (request, response) -> {
 			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));

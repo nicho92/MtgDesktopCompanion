@@ -19,7 +19,6 @@
 		"conditions": {
 			  "MINT":"Mint",
 			  "NEAR_MINT":"Presque mint",
-			  "NEAR_MINT":"Excellent",
 			  "GOOD":"Bon",
 			  "LIGHTLY_PLAYED":"Légèrement jouée",
 			  "PLAYED":"Jouée",
