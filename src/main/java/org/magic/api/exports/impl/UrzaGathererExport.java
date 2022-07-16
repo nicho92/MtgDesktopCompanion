@@ -140,8 +140,7 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	protected String getStringPattern() {
-		// TODO Auto-generated method stub
-		return null;
+		return "\\\"(.*?)\\\",\\\"(.*?)\\\",(.*?),(.*?),\\\"(.*?)\\\",(\\d+),(\\d+),(.*?),(\\d+),(\\d+),(\\d+),(\\d+),(.*?),(.*?),(\\d+),\\\"(.*?)\\\",(\\d+),(\\d+),(.*?),(\\d+),\\\"(.*?)\\\",\\\"(.*?)\\\",\\\"(.*?)\\\",(\\d+),(\\d+)";
 	}
 
 	@Override
