@@ -1,15 +1,22 @@
 package org.magic.api.exports.impl;
 
+import static org.magic.tools.MTG.getEnabledPlugin;
+
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
+import org.magic.services.MTGControler;
 import org.magic.services.providers.PluginsAliasesProvider;
 import org.magic.tools.FileTools;
+import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 
 public class UrzaGathererExport extends AbstractFormattedFileCardExport {
@@ -41,11 +48,76 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 		var d = new MagicDeck();
 		d.setName(name);
 		
-		for(MagicCardStock st : importStock(content))
-			d.getMain().put(st.getProduct(), st.getQte());
+		
 	
 		return d;
 	}
+	
+	public static void main(String[] args) throws IOException {
+		MTGControler.getInstance();
+		MTG.getEnabledPlugin(MTGCardsProvider.class).init();
+		
+		new UrzaGathererExport().importStockFromFile(new File("D:\\Desktop\\test.csv"));
+		
+	}
+	
+	
+	@Override
+	public List<MagicCardStock> importStock(String content) throws IOException {
+		List<MagicCardStock> list = new ArrayList<>();
+		
+		matches(content, true).forEach(m->{
+			
+			MagicCard mc=null;
+			try {
+				mc= getEnabledPlugin(MTGCardsProvider.class).searchCardByName(m.group(1),null,true).stream().filter(c->{
+					
+					return (!m.group(18).isEmpty()&&m.group(18).equals(c.getCurrentSet().getMultiverseid()))||
+						   (m.group(15).equals(c.getCurrentSet().getNumber()));
+					
+				}).findFirst().orElse(null);
+				
+				
+				
+			} catch (Exception e) {
+				logger.error(e);
+			}
+		
+		if(mc!=null)
+		{
+			var st = MTGControler.getInstance().getDefaultStock();
+			st.setProduct(mc);
+			st.setLanguage(m.group(23));
+			st.setFoil(Integer.parseInt(m.group(11))>0);
+			
+			
+			
+			st.setCondition(PluginsAliasesProvider.inst().getReversedConditionFor(this, m.group(21), EnumCondition.NEAR_MINT)  );
+			st.setComment(m.group(19));
+			
+			
+			if(st.isFoil()) {
+				st.setPrice(UITools.parseDouble(m.group(13).trim()));
+				st.setQte(Integer.parseInt(m.group(14)));
+			}
+			else {
+				st.setPrice(UITools.parseDouble(m.group(13).trim()));
+				st.setQte(Integer.parseInt(m.group(10)));
+			}
+			list.add(st);
+			notify(mc);
+		}
+		});
+		
+
+		
+		return list;
+		
+		
+	}
+	
+	
+	
 
 	
 	@Override
@@ -114,13 +186,7 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 		
 	}
 
-	@Override
-	public List<MagicCardStock> importStock(String content) throws IOException {
-		// TODO Auto-generated method stub
-		return super.importStock(content);
-	}
-	
-	
+
 	
 	
 	@Override
@@ -135,7 +201,7 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	protected String[] skipLinesStartWith() {
-		return new String[] {"sep=,","Name"};
+		return new String[] {"\"sep=,","Name"};
 	}
 
 	@Override
