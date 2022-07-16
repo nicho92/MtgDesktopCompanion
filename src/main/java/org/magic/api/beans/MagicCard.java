@@ -466,6 +466,12 @@ public class MagicCard extends AbstractProduct {
 		return getColors().size()>1;
 	}
 	
+	public boolean isColorless() {
+		return getColors().isEmpty();
+	}
+
+	
+	
 	public boolean isInstant()
 	{
 		return getTypes().toString().toLowerCase().contains("instant");
@@ -865,5 +871,6 @@ public class MagicCard extends AbstractProduct {
 		return (getSide()==null || getSide().equals("a"));
 	}
 
+	
 
 }

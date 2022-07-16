@@ -484,6 +484,7 @@ public class UITools {
 	{
 		if(f==null)
 			return "";
+		
 		return new DecimalFormat("#0.0#").format(f);
 	}
 	
