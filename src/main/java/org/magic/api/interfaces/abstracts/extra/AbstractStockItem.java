@@ -16,7 +16,7 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 	protected Long id=-1L;
 	protected MagicCollection magicCollection;
 	protected Integer qte=1;
-	protected String comment;
+	protected String comment="";
 	protected String language="English";
 	protected boolean updated=false;
 	protected Double price=0.0;
