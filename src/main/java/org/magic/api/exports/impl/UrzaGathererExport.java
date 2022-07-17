@@ -47,21 +47,9 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 	public MagicDeck importDeck(String content, String name) throws IOException {
 		var d = new MagicDeck();
 		d.setName(name);
-		
-		
-	
 		return d;
 	}
-	
-	public static void main(String[] args) throws IOException {
-		MTGControler.getInstance();
-		MTG.getEnabledPlugin(MTGCardsProvider.class).init();
-		
-		new UrzaGathererExport().importStockFromFile(new File("D:\\Desktop\\test.csv"));
-		
-	}
-	
-	
+
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
 		List<MagicCardStock> list = new ArrayList<>();
@@ -83,37 +71,68 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 				logger.error(e);
 			}
 		
+			
+			
+			
+			
+			
 		if(mc!=null)
 		{
+			
+			int nbFoil = Integer.parseInt(m.group(11));
+			int nbNormal = Integer.parseInt(m.group(10));
+			int nbEtched = Integer.parseInt(m.group(12));
+			
 			var st = MTGControler.getInstance().getDefaultStock();
 			st.setProduct(mc);
 			st.setLanguage(m.group(23));
-			st.setFoil(Integer.parseInt(m.group(11))>0);
+			st.setFoil(false);
+			
+			var strCondition = m.group(21);
+			if(strCondition.indexOf("x")>-1)
+				strCondition = strCondition.substring(strCondition.indexOf("x")+1);
 			
 			
 			
-			st.setCondition(PluginsAliasesProvider.inst().getReversedConditionFor(this, m.group(21), EnumCondition.NEAR_MINT)  );
+			st.setCondition(PluginsAliasesProvider.inst().getReversedConditionFor(this, strCondition, EnumCondition.NEAR_MINT)  );
 			st.setComment(m.group(19));
-			
-			
-			if(st.isFoil()) {
-				st.setPrice(UITools.parseDouble(m.group(13).trim()));
-				st.setQte(Integer.parseInt(m.group(14)));
-			}
-			else {
-				st.setPrice(UITools.parseDouble(m.group(13).trim()));
-				st.setQte(Integer.parseInt(m.group(10)));
-			}
+			st.setPrice(UITools.parseDouble(m.group(13).trim()));
+			st.setQte(nbNormal);
 			list.add(st);
+			
+			
+			if(nbFoil>0)
+			{
+				var st2 = MTGControler.getInstance().getDefaultStock();
+				st2.setProduct(mc);
+				st2.setLanguage(st.getLanguage());
+				st2.setCondition(st.getCondition());
+				st2.setComment(st.getComment());
+				st2.setFoil(true);
+				st2.setPrice(UITools.parseDouble(m.group(14).trim()));
+				st2.setQte(nbFoil);
+				list.add(st2);
+			}
+			
+			if(nbEtched>0)
+			{
+				var st3 = MTGControler.getInstance().getDefaultStock();
+				st3.setProduct(mc);
+				st3.setLanguage(st.getLanguage());
+				st3.setCondition(st.getCondition());
+				st3.setComment(st.getComment());
+				st3.setPrice(UITools.parseDouble(m.group(14).trim()));
+				st3.setEtched(true);
+				st3.setQte(nbEtched);
+				list.add(st3);
+			}
+			
+			
 			notify(mc);
 		}
 		});
 		
-
-		
 		return list;
-		
-		
 	}
 	
 	
