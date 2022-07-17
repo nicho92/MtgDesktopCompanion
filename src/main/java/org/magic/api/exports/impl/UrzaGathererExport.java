@@ -40,6 +40,9 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 		StringBuilder temp = new StringBuilder("\"sep=").append(getSeparator()).append("\"").append(System.lineSeparator());
 		  			  temp.append(COLUMNS).append(",Deck count,Sideboard count,Maybeboard count").append(System.lineSeparator());
 		
+		  			  
+		  			  
+		  			  
 		deck.getMain().entrySet().forEach(entry->{
 			
 				var mcs= MTGControler.getInstance().getDefaultStock();
@@ -64,8 +67,20 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 				.append(getSeparator()).append(entry.getValue())
 				.append(getSeparator()).append(0)
 				.append(System.lineSeparator());
-	});  		
+		});  		
 		
+		deck.getMaybeBoard().entrySet().forEach(entry->{
+			
+			var mcs= MTGControler.getInstance().getDefaultStock();
+			mcs.setProduct(entry.getKey());
+			mcs.setQte(entry.getValue());
+			
+			writeLine(temp, mcs);
+			temp.append(getSeparator()).append(0)
+				.append(getSeparator()).append(0)
+				.append(getSeparator()).append(entry.getValue())
+				.append(System.lineSeparator());
+		});  	
 		  			  
 		FileTools.saveFile(dest, temp.toString());  			  
 	}
