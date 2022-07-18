@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.regex.Matcher;
 
 import org.magic.api.beans.MagicCard;
@@ -17,7 +19,6 @@ import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
 import org.magic.services.providers.PluginsAliasesProvider;
 import org.magic.tools.FileTools;
-import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 
 public class UrzaGathererExport extends AbstractFormattedFileCardExport {
@@ -40,47 +41,9 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 		StringBuilder temp = new StringBuilder("\"sep=").append(getSeparator()).append("\"").append(System.lineSeparator());
 		  			  temp.append(COLUMNS).append(",Deck count,Sideboard count,Maybeboard count").append(System.lineSeparator());
 		
-		  			  
-		  			  
-		  			  
-		deck.getMain().entrySet().forEach(entry->{
-			
-				var mcs= MTGControler.getInstance().getDefaultStock();
-				mcs.setProduct(entry.getKey());
-				mcs.setQte(entry.getValue());
-				
-				writeLine(temp, mcs);
-				temp.append(getSeparator()).append(entry.getValue())
-					.append(getSeparator()).append(0)
-					.append(getSeparator()).append(0)
-					.append(System.lineSeparator());
-		});  			  
-		
-		deck.getSideBoard().entrySet().forEach(entry->{
-			
-			var mcs= MTGControler.getInstance().getDefaultStock();
-			mcs.setProduct(entry.getKey());
-			mcs.setQte(entry.getValue());
-			
-			writeLine(temp, mcs);
-			temp.append(getSeparator()).append(0)
-				.append(getSeparator()).append(entry.getValue())
-				.append(getSeparator()).append(0)
-				.append(System.lineSeparator());
-		});  		
-		
-		deck.getMaybeBoard().entrySet().forEach(entry->{
-			
-			var mcs= MTGControler.getInstance().getDefaultStock();
-			mcs.setProduct(entry.getKey());
-			mcs.setQte(entry.getValue());
-			
-			writeLine(temp, mcs);
-			temp.append(getSeparator()).append(0)
-				.append(getSeparator()).append(0)
-				.append(getSeparator()).append(entry.getValue())
-				.append(System.lineSeparator());
-		});  	
+		writeDeckLine(temp,deck.getMain().entrySet(),1);
+		writeDeckLine(temp,deck.getSideBoard().entrySet(),2);
+		writeDeckLine(temp,deck.getMaybeBoard().entrySet(),3);
 		  			  
 		FileTools.saveFile(dest, temp.toString());  			  
 	}
@@ -158,10 +121,6 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 		return list;
 	}
 	
-	
-	
-
-	
 	private MagicCard readCard(Matcher m) {
 		try {
 			return getEnabledPlugin(MTGCardsProvider.class).searchCardByName(m.group(1),null,true).stream().filter(c->{
@@ -193,6 +152,27 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 		
 		
 	}
+	
+	
+	private void writeDeckLine(StringBuilder temp, Set<Entry<MagicCard, Integer>> set, int i )
+	{
+		
+		set.forEach(entry->{
+			var mcs= MTGControler.getInstance().getDefaultStock();
+			mcs.setProduct(entry.getKey());
+			mcs.setQte(entry.getValue());
+			
+			writeLine(temp, mcs);
+			
+			temp.append(getSeparator()).append((i==1)?entry.getValue():0)
+			.append(getSeparator()).append((i==2)?entry.getValue():0)
+			.append(getSeparator()).append((i==3)?entry.getValue():0)
+			.append(System.lineSeparator());
+		});
+		
+		
+	}
+	
 	
 	private void writeLine(StringBuilder temp,MagicCardStock mcs) {
 		temp.append("\"").append(mcs.getProduct().getName()).append("\"").append(getSeparator());
