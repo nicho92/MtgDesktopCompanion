@@ -69,57 +69,50 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 			int nbNormal = Integer.parseInt(m.group(10));
 			int nbEtched = Integer.parseInt(m.group(12));
 			
-			var st = MTGControler.getInstance().getDefaultStock();
-			st.setProduct(mc);
-			st.setLanguage(m.group(23));
-			st.setFoil(false);
-			
-			var strCondition = m.group(21);
-			if(strCondition.indexOf("x")>-1)
-				strCondition = strCondition.substring(strCondition.indexOf("x")+1);
-			
-			
-			
-			st.setCondition(PluginsAliasesProvider.inst().getReversedConditionFor(this, strCondition, EnumCondition.NEAR_MINT)  );
-			st.setComment(m.group(19));
-			st.setPrice(UITools.parseDouble(m.group(13).trim()));
-			st.setQte(nbNormal);
+			var st = buildStockItem(mc,m,nbNormal,false);
 			list.add(st);
 			
 			
 			if(nbFoil>0)
-			{
-				var st2 = MTGControler.getInstance().getDefaultStock();
-				st2.setProduct(mc);
-				st2.setLanguage(st.getLanguage());
-				st2.setCondition(st.getCondition());
-				st2.setComment(st.getComment());
-				st2.setFoil(true);
-				st2.setPrice(UITools.parseDouble(m.group(14).trim()));
-				st2.setQte(nbFoil);
-				list.add(st2);
-			}
+				list.add(buildStockItem(mc,m,nbFoil,true));
+
 			
 			if(nbEtched>0)
 			{
-				var st3 = MTGControler.getInstance().getDefaultStock();
-				st3.setProduct(mc);
-				st3.setLanguage(st.getLanguage());
-				st3.setCondition(st.getCondition());
-				st3.setComment(st.getComment());
-				st3.setPrice(UITools.parseDouble(m.group(14).trim()));
-				st3.setEtched(true);
+				var st3 = buildStockItem(mc,m,nbEtched,false);
 				st3.setQte(nbEtched);
 				list.add(st3);
 			}
-			
-			
 			notify(mc);
 		}
 		});
 		
 		return list;
 	}
+	
+	private MagicCardStock buildStockItem(MagicCard mc , Matcher m,Integer qty,boolean foil)
+	{
+
+		var st = MTGControler.getInstance().getDefaultStock();
+		st.setProduct(mc);
+		st.setLanguage(m.group(23));
+		st.setFoil(foil);
+		st.setComment(m.group(19));
+		if(foil)
+			st.setPrice(UITools.parseDouble(m.group(14).trim()));
+		else
+			st.setPrice(UITools.parseDouble(m.group(13).trim()));
+		st.setQte(qty);
+		var strCondition = m.group(21);
+		if(strCondition.indexOf("x")>-1)
+			strCondition = strCondition.substring(strCondition.indexOf("x")+1);
+		
+		st.setCondition(PluginsAliasesProvider.inst().getReversedConditionFor(this, strCondition, EnumCondition.NEAR_MINT)  );
+		
+	
+		return st;
+	}
+	
 	
 	private MagicCard readCard(Matcher m) {
 		try {
