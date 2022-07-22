@@ -246,11 +246,11 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 		m.put(SSL_ENABLED, FALSE);
 		m.put(KEYSTORE_URI, new File(MTGConstants.DATA_DIR,"jetty.jks").getAbsolutePath());
 		m.put(KEYSTORE_PASS, "changeit");
-		try {
-			m.put(REST_BACKEND_URI, "http://"+InetAddress.getLocalHost().getHostAddress()+":8080");
-		} catch (UnknownHostException e) {
+//		try {
+//			m.put(REST_BACKEND_URI, "http://"+InetAddress.getLocalHost().getHostAddress()+":8080");
+//		} catch (UnknownHostException e) {
 			m.put(REST_BACKEND_URI, "http://localhost:8080");
-		}
+//		}
 		m.put(JSON_SERVER_START,"true");
 		
 		return m;

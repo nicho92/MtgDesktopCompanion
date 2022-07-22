@@ -656,8 +656,7 @@
 					<repositoryName>lib</repositoryName>
 					<repositoryLayout>flat</repositoryLayout>
 					<useWildcardClassPath>true</useWildcardClassPath>
-					<includeConfigurationDirectoryInClasspath>true
-					</includeConfigurationDirectoryInClasspath>
+					<includeConfigurationDirectoryInClasspath>true</includeConfigurationDirectoryInClasspath>
 					<assembleDirectory>${project.build.directory}/executable
 					</assembleDirectory>
 					<binFileExtensions>
@@ -667,7 +666,7 @@
 						-Djdk.tls.client.protocols="TLSv1,TLSv1.1,TLSv1.2"
 						-Djava.library.path="./natives"
 					</extraJvmArguments>
-					<showConsoleWindow>false</showConsoleWindow>
+					<showConsoleWindow>true</showConsoleWindow>
 				</configuration>
 				<executions>
 					<execution>
