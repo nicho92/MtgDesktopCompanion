@@ -245,7 +245,8 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 			logger.info("Index already loaded");
 			return;
 		}
-			
+		
+		logger.info("Loading cards indexing.... may takes few minutes...");
 		
 		if(dir==null)
 			open();

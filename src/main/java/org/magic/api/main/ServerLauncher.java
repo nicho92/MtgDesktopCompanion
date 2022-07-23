@@ -3,6 +3,7 @@ package org.magic.api.main;
 import static org.magic.tools.MTG.getEnabledPlugin;
 import static org.magic.tools.MTG.getPlugin;
 
+import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -54,14 +55,19 @@ public class ServerLauncher {
 			preparing(arg).start();
 		}
 		
-		ThreadManager.getInstance().invokeLater(new MTGRunnable() {
-			
-			@Override
-			protected void auditedRun() {
-				MTGUIComponent.createJDialog(new TechnicalMonitorPanel(), true, false).setVisible(true);
-				
-			}
-		},"running server console");
+		
+		if(!GraphicsEnvironment.isHeadless())
+		{
+			ThreadManager.getInstance().invokeLater(new MTGRunnable() {
+				@Override
+				protected void auditedRun() {
+					MTGUIComponent.createJDialog(new TechnicalMonitorPanel(), true, false).setVisible(true);
+				}
+			},"running server console");
+		}
+		
+		
+
 		
 	}
 	
