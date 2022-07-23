@@ -234,9 +234,18 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		return ret;
 		
 	}
+	
 
 	@Override
-	public void initIndex() throws IOException {
+	public void initIndex(boolean force) throws IOException {
+		
+		
+		if(getFile(DIRECTORY).exists() && !force)
+		{
+			logger.info("Index already loaded");
+			return;
+		}
+			
 		
 		if(dir==null)
 			open();

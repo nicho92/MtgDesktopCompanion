@@ -775,7 +775,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 				{
 					@Override
 					protected Void doInBackground() throws Exception {
-						getEnabledPlugin(MTGCardsIndexer.class).initIndex();
+						getEnabledPlugin(MTGCardsIndexer.class).initIndex(true);
 						return null;
 					}
 					

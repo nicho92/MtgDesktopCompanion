@@ -1122,7 +1122,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/admin/reindexation", URLTools.HEADER_JSON, (request, response) -> {
 			Chrono c = new Chrono();
 						 c.start();
-				MTG.getEnabledPlugin(MTGCardsIndexer.class).initIndex();
+				MTG.getEnabledPlugin(MTGCardsIndexer.class).initIndex(true);
 			return "done in " + c.stop() +" s";
 		}, transformer);
 		

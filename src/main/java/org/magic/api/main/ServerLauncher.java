@@ -6,6 +6,7 @@ import static org.magic.tools.MTG.getPlugin;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGServer;
@@ -15,6 +16,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
+import org.magic.tools.MTG;
 
 public class ServerLauncher {
 	public static void main(String[] args) throws SQLException, IOException 
@@ -30,7 +32,15 @@ public class ServerLauncher {
 		getEnabledPlugin(MTGCardsProvider.class).init();
 		getEnabledPlugin(MTGDao.class).init();
 		
-
+		
+		try {
+			MTG.getEnabledPlugin(MTGCardsIndexer.class).initIndex(false);
+		} catch (IOException e) {
+			//do nothing
+		}
+		
+		
+		
 		
 		
 		var arg = args[0];
