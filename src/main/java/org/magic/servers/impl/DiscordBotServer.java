@@ -70,6 +70,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.react.GenericMessageReactionEvent;
 import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 
 public class DiscordBotServer extends AbstractMTGServer {
 
@@ -491,6 +492,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 			initListener();
 			jda = JDABuilder.createDefault(getAuthenticator().get(TOKEN))
 							.addEventListeners(listener)
+							.enableIntents(GatewayIntent.MESSAGE_CONTENT)
 							.build();
 			
 			if(!StringUtils.isEmpty(getString(ACTIVITY_TYPE)) && !StringUtils.isEmpty(getString(ACTIVITY)))

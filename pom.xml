@@ -151,7 +151,7 @@
 		<dependency>
 			<groupId>com.github.nicho92</groupId>
 			<artifactId>mtgstock-api-java</artifactId>
-			<version>0.1.20</version>
+			<version>0.1.21</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.nicho92</groupId>
@@ -267,12 +267,12 @@
 		<dependency>
 			<groupId>org.mariadb.jdbc</groupId>
 			<artifactId>mariadb-java-client</artifactId>
-			<version>3.0.6</version>
+			<version>3.0.7</version>
 		</dependency>
 		<dependency>
 			<groupId>org.xerial</groupId>
 			<artifactId>sqlite-jdbc</artifactId>
-			<version>3.36.0.3</version>
+			<version>3.39.2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -287,22 +287,22 @@
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-core</artifactId>
-			<version>9.2.0</version>
+			<version>9.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-queries</artifactId>
-			<version>9.2.0</version>
+			<version>9.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-queryparser</artifactId>
-			<version>9.2.0</version>
+			<version>9.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-backward-codecs</artifactId>
-			<version>9.2.0</version>
+			<version>9.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.jtattoo</groupId>
@@ -460,12 +460,12 @@
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
-			<version>2.9.0</version>
+			<version>2.9.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
-			<version>2.6.1</version>
+			<version>2.7.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
@@ -531,7 +531,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.4.0</version>
+			<version>42.4.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mozilla</groupId>
@@ -556,12 +556,12 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>2.0.0-alpha7</version>
+			<version>2.0.0-beta1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>2.0.0-alpha7</version>
+			<version>2.0.0-beta1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.swinglabs.swingx</groupId>
