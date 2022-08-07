@@ -2,9 +2,7 @@ package org.magic.api.interfaces.abstracts.extra;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +26,6 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.Jetty;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
-import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.servers.impl.JSONHttpServer;
@@ -36,7 +33,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.PluginRegistry;
 import org.magic.services.network.URLTools;
 import org.magic.tools.FileTools;
-import org.magic.tools.MTG;
 
 public abstract class AbstractWebServer extends AbstractMTGServer {
 

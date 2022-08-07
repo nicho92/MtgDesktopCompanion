@@ -1,7 +1,5 @@
 package org.magic.api.pictures.impl;
 
-import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Map;
@@ -39,28 +37,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 		return getString("URL") + "/card.php?multiverseid=" + mc.getCurrentSet().getMultiverseid();
 	}
 
-	private BufferedImage resizeIconSet(BufferedImage img) {
-		var mode = getString("ICON_SET_SIZE");
-
-		var newW = 27;
-		var newH = 30;
-
-		if (mode.equalsIgnoreCase("large")) {
-			newW = 118;
-			newH = 130;
-		}
-
-		var tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
-		var dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
-
-		Graphics2D g2d = dimg.createGraphics();
-		
-		g2d.drawImage(tmp, 0, 0, null);
-		g2d.dispose();
-
-		return dimg;
-	}
-
+	
 	@Override
 	public String getName() {
 		return "Deck Master";

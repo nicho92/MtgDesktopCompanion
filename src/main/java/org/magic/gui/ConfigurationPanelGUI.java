@@ -73,7 +73,6 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 	
 	
 	
-	@SuppressWarnings("unchecked")
 	public ConfigurationPanelGUI() {
 
 		setLayout(new BorderLayout(0, 0));
