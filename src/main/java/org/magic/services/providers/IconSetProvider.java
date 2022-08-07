@@ -279,6 +279,7 @@ public class IconSetProvider {
 		equiv.put("HA3", "HA1");
 		equiv.put("HA4","HA1");
 		equiv.put("HA5", "HA1");
+		equiv.put("HA6","HA1");
 		equiv.put("CMB1","MB1");
 		equiv.put("PLGS", "PMEI");
 		equiv.put("AJMP","JMP");
