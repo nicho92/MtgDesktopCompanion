@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -109,9 +110,8 @@ public class DiscordBotServer extends AbstractMTGServer {
 			
 			@Override
 			public void onReady(ReadyEvent event) {
-		    	logger.trace(getName() + " bot started");
+				logger.info("Server " + getName() +" started");
 			}
-	
 		};
 	}
 	
@@ -301,7 +301,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 		channel.sendTyping().queue(); 
 		channel.sendMessage(":face_with_monocle: It's simple "+event.getAuthor().getName()+", put card name in bracket like {Black Lotus} or {Black Lotus| LEA} if you want to specify a set\n "
 				+ "If you want to have prices variation for a set, type {set|<setName>} "
-				+ "and {format|"+StringUtils.join(FORMATS.values(),",")+"} for format shakes. https://www.mtgcompanion.org/policy.html").queue();
+				+ "and {format|"+StringUtils.join(FORMATS.values(),",")+"} for format shakes.\nPolicy: https://www.mtgcompanion.org/policy.html").queue();
 		
 		if(!getString(PRICE_KEYWORDS).isEmpty())
 			channel.sendMessage("Also you can type one of this keyword if you want to get prices : " + getString(PRICE_KEYWORDS)).queue();
@@ -498,7 +498,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 			if(!StringUtils.isEmpty(getString(ACTIVITY_TYPE)) && !StringUtils.isEmpty(getString(ACTIVITY)))
 				jda.getPresence().setPresence(Activity.of(ActivityType.valueOf(getString(ACTIVITY_TYPE)), getString(ACTIVITY)), isAlive());
 			
-			logger.info("Server " + getName() +" started");
+			
 			
 		} catch (Exception e) {
 			logger.error(e);
