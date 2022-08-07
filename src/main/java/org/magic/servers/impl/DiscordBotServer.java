@@ -301,7 +301,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 		channel.sendTyping().queue(); 
 		channel.sendMessage(":face_with_monocle: It's simple "+event.getAuthor().getName()+", put card name in bracket like {Black Lotus} or {Black Lotus| LEA} if you want to specify a set\n "
 				+ "If you want to have prices variation for a set, type {set|<setName>} "
-				+ "and {format|"+StringUtils.join(FORMATS.values(),",")+"} for format shakes").queue();
+				+ "and {format|"+StringUtils.join(FORMATS.values(),",")+"} for format shakes. https://www.mtgcompanion.org/policy.html").queue();
 		
 		if(!getString(PRICE_KEYWORDS).isEmpty())
 			channel.sendMessage("Also you can type one of this keyword if you want to get prices : " + getString(PRICE_KEYWORDS)).queue();
