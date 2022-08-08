@@ -42,12 +42,12 @@ public class ShortKeyManager {
 	}
 	
 	public void setShortCutTo(int key, JButton b) {
-		b.setMnemonic(key);
 		
 		var tt= b.getToolTipText();
+		b.setMnemonic(key);
 		
 		if(tt==null)
-			b.setToolTipText("( Alt+" + KeyEvent.getKeyText(key)+" )");
+			b.setToolTipText(b.getName() + "( Alt+" + KeyEvent.getKeyText(key)+" )");
 		else
 			b.setToolTipText(tt + " ( Alt+" + KeyEvent.getKeyText(key)+" )");
 		

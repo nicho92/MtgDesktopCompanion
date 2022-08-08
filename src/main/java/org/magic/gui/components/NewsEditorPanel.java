@@ -68,12 +68,11 @@ public class NewsEditorPanel extends JPanel {
 		componentGbc0.gridy = 1;
 		add(categorieJTextField, componentGbc0);
 
-		var nameLabel = new JLabel(capitalize("NAME") + ": ");
 		var labelGbc2 = new GridBagConstraints();
 		labelGbc2.insets = new Insets(5, 5, 5, 5);
 		labelGbc2.gridx = 0;
 		labelGbc2.gridy = 2;
-		add(nameLabel, labelGbc2);
+		add(new JLangLabel("NAME",true), labelGbc2);
 
 		nameJTextField = new JTextField();
 		var componentGbc2 = new GridBagConstraints();

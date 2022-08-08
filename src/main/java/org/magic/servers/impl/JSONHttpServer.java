@@ -879,7 +879,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		get("/dash/collection", URLTools.HEADER_JSON, (request, response) ->CollectionEvaluator.analyseToJson(new MagicCollection(MTGControler.getInstance().get("default-library"))), transformer);
 
-		get("/dash/collection/:collection", URLTools.HEADER_JSON, (request, response) -> CollectionEvaluator.analyseToJson(new MagicCollection(request.params(":collection"))), transformer);
+		get("/dash/collection/:collection", URLTools.HEADER_JSON, (request, response) -> CollectionEvaluator.analyseToJson(new MagicCollection(request.params(COLLECTION))), transformer);
 		
 		
 		get("/dash/variations/card/:scryfallId", URLTools.HEADER_JSON, (request, response) -> 
