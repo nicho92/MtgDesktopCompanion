@@ -1,7 +1,5 @@
 package org.magic.gui.components;
 
-import static org.magic.tools.MTG.capitalize;
-
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;

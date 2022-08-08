@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
@@ -447,9 +448,9 @@ public class DiscordBotServer extends AbstractMTGServer {
 		
 		if(price) {
 			
+			
 			StringBuilder errMsg = new StringBuilder();
-			
-			
+		
 			listEnabledPlugins(MTGPricesProvider.class).forEach(prov->{
 				List<MagicPrice> prices = null;
 					
