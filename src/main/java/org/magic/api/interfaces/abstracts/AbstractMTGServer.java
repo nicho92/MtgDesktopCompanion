@@ -46,58 +46,69 @@ public abstract class AbstractMTGServer extends AbstractMTGPlugin implements MTG
 	
 	protected AbstractMTGServer() {
 		notifFormater = new ReportNotificationManager();
+	}
+	
+	@Override
+	public Map<String, String> getDefaultAttributes() {
+		var m = super.getDefaultAttributes();
+		m.put("TIMEOUT_CACHE_MINUTES", "720");
+		return m;
+	}
+	
+	
+	protected void initCache()
+	{
+		var cacheTime = getInt("TIMEOUT_CACHE_MINUTES");
+		
 		cache = new AbstractEmbeddedCacheProvider<>() {
-						Cache<String, Object> guava = CacheBuilder.newBuilder()
-												  .expireAfterWrite(1, TimeUnit.HOURS)
-												  .removalListener((RemovalNotification<String, Object> notification)->
-														logger.debug(notification.getKey() + " is removed " + notification.getCause())
-												  )
-												  .recordStats()
-												  .build();
-		
-		public String getName() {
-			return "Guava";
-		}
+			Cache<String, Object> guava = CacheBuilder.newBuilder()
+									  .expireAfterWrite(cacheTime, TimeUnit.HOURS)
+									  .removalListener((RemovalNotification<String, Object> notification)->
+											logger.debug(notification.getKey() + " is removed " + notification.getCause())
+									  )
+									  .recordStats()
+									  .build();
 
-		@Override
-		public void clear() {
-			guava.invalidateAll();
-		}
-		
-		@Override
-		public long size() {
-			return 0;
-		}
-		
-		public Object getItem(String k) {
-			return guava.getIfPresent(k);
-		}
-		
-		@Override
-		public Map<String,Object> entries() {
-			return guava.asMap();
-		}
-		
-		@Override
-		public void put(Object value, String key) throws IOException {
-			guava.put(key, value);
-			
-		}
-		
-		@Override
-		public Object getStat()
-		{
-			return guava.stats();
-		}
+			public String getName() {
+				return "Guava";
+			}
 
-		@Override
-		public void removeEntry(String params) {
-			guava.invalidate(params);
-		}
-		
-		
-	};
-		
+			@Override
+			public void clear() {
+				guava.invalidateAll();
+			}
+
+			@Override
+			public long size() {
+				return 0;
+			}
+
+			public Object getItem(String k) {
+				return guava.getIfPresent(k);
+			}
+
+			@Override
+			public Map<String, Object> entries() {
+				return guava.asMap();
+			}
+
+			@Override
+			public void put(Object value, String key) throws IOException {
+				guava.put(key, value);
+
+			}
+
+			@Override
+			public Object getStat() {
+				return guava.stats();
+			}
+
+			@Override
+			public void removeEntry(String params) {
+				guava.invalidate(params);
+			}
+
+		};
 	}
 
 	@Override

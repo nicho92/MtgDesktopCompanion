@@ -183,6 +183,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		if(getBoolean(ENABLE_SSL))
 			Spark.secure(getString(KEYSTORE_URI), getString(KEYSTORE_PASS), null, null);
 			
+			initCache();
 			initVars();
 			initRoutes();
 			Spark.init();
@@ -1404,7 +1405,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 	
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		var map = new HashMap<String,String>();
+		var map = super.getDefaultAttributes();
 		
 		map.put(SERVER_PORT, "8080");
 		map.put(AUTOSTART, FALSE);

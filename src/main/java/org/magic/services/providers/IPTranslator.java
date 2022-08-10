@@ -25,15 +25,20 @@ public class IPTranslator {
 	
 	public Location getLocationFor(String ip)
 	{
-		var inaddr = InetAddresses.forString(ip);
-		
-		if(inaddr.isAnyLocalAddress() || inaddr.isLoopbackAddress() || inaddr.isSiteLocalAddress())
-		{
-			return null;
-		}
-		
 		
 		try {
+			
+
+			var inaddr = InetAddresses.forString(ip);
+			
+			if(inaddr.isAnyLocalAddress() || inaddr.isLoopbackAddress() || inaddr.isSiteLocalAddress())
+			{
+				return null;
+			}
+			
+			
+			
+			
 			return cache.get(ip, new Callable<Location>() {
 				
 				@Override
@@ -43,7 +48,7 @@ public class IPTranslator {
 					
 				}
 			});
-		} catch (ExecutionException e) {
+		} catch (Exception e) {
 			logger.error(e);
 			return null;
 		}

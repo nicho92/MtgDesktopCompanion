@@ -240,7 +240,7 @@ public class IconSetProvider {
 		equiv.put("HHO", "PMEI");
 		equiv.put("PURL", "PMEI");
 		equiv.put("PL22", "PMEI");
-		
+		equiv.put("PRCQ", "PMEI");
 		
 		equiv.put("UGIN", "FRF");
 		

@@ -132,7 +132,7 @@ public class TechnicalServiceManager {
 		}
 		else
 		{
-			logger.warn("TechnicalService is not enabled");
+			logger.warn("TechnicalService is disabled");
 		}
 		
 		
