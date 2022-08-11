@@ -119,6 +119,7 @@ public class ManaPanel extends JPanel {
 		map.put("G/U/P", 77);
 		map.put("B/R/P", 78);
 		map.put("B/G/P", 79);
+		map.put("TIX", 80);
 		map.put("\u221e",52);
 		map.put("\u00BD",53);
 		map.put("CHAOS",67);
