@@ -25,7 +25,7 @@ Personal Magic the Gathering card manager Deck Builder and Collection Editor
 
 [MTG Discord Bot](https://top.gg/bot/448196866774007808) 
 
-[Docker Web UI](https://hub.docker.com/repository/docker/mtgcompanion/mtgdesktopcompanion)
+[Docker Web UI](https://hub.docker.com/r/mtgcompanion/mtgdesktopcompanion)
 
 [![GitHub stars](https://img.shields.io/badge/download-2.35-green.svg)](https://github.com/nicho92/MtgDesktopCompanion/releases/)
 
