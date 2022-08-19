@@ -125,7 +125,7 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
         src.setStsIncludeSubDomains(true);
         httpsConfig.addCustomizer(src);
 	
-        SslContextFactory sslContextFactory = new SslContextFactory.Server();
+        var sslContextFactory = new SslContextFactory.Server();
         sslContextFactory.setKeyStorePath(getFile(KEYSTORE_URI).getAbsolutePath());
         sslContextFactory.setKeyStorePassword(getString(KEYSTORE_PASS));
         
