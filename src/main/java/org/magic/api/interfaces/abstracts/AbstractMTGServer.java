@@ -62,7 +62,7 @@ public abstract class AbstractMTGServer extends AbstractMTGPlugin implements MTG
 		
 		cache = new AbstractEmbeddedCacheProvider<>() {
 			Cache<String, Object> guava = CacheBuilder.newBuilder()
-									  .expireAfterWrite(cacheTime, TimeUnit.HOURS)
+									  .expireAfterWrite(cacheTime, TimeUnit.MINUTES)
 									  .removalListener((RemovalNotification<String, Object> notification)->
 											logger.debug(notification.getKey() + " is removed " + notification.getCause())
 									  )

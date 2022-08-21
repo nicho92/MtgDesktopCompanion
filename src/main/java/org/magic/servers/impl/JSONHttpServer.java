@@ -762,17 +762,15 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/sealed/get/:id", URLTools.HEADER_JSON,
 				(request, response) -> getEnabledPlugin(MTGDao.class).getSealedStockById(Long.parseLong(request.params(":id"))), transformer);
 		
-		get("/stock/list", URLTools.HEADER_JSON,(request, response) -> { 
-			return getCached(request.pathInfo(), new Callable<Object>() {
+		get("/stock/list", URLTools.HEADER_JSON,(request, response) ->  
+			getCached(request.pathInfo(), new Callable<Object>() {
 
 				@Override
 				public Object call() throws Exception {
 					return getEnabledPlugin(MTGDao.class).listStocks();
 				}
-				
-				
-			});
-		}, transformer);
+			})
+		, transformer);
 
 		get("/stock/get/:idStock", URLTools.HEADER_JSON,
 				(request, response) -> getEnabledPlugin(MTGDao.class).getStockById(Long.parseLong(request.params(":idStock"))), transformer);
@@ -1295,7 +1293,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		get("/robots.txt",URLTools.HEADER_TEXT,(req,res) ->
 			 """
-					User-agent: Googlebot
+			 		User-agent: Googlebot
 					Disallow: /
 					User-agent: googlebot-image
 					Disallow: /
