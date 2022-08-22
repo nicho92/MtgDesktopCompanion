@@ -42,6 +42,7 @@ import javax.swing.ImageIcon;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.lang3.time.DateUtils;
 import org.magic.api.beans.Announce;
 import org.magic.api.beans.Announce.STATUS;
 import org.magic.api.beans.ConverterItem;
@@ -107,6 +108,8 @@ import org.magic.tools.ImageTools;
 import org.magic.tools.MTG;
 import org.magic.tools.POMReader;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -286,7 +289,19 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 	@SuppressWarnings("unchecked")
 	private void initRoutes() {
-
+		
+		post("/auth",(request, response) -> {
+			var c = MTG.getEnabledPlugin(MTGExternalShop.class).getContactByLogin(request.queryParams("email"),request.queryParams("password"));
+			var obj = new JsonObject();
+			obj.addProperty("accessToken", JWT.create().withIssuer(MTGConstants.MTG_APP_NAME)
+							   .withExpiresAt(DateUtils.addMinutes(new Date(), 1))
+							   .withClaim("name", c.getName())
+							   .withClaim("email", c.getEmail())
+							   .sign(Algorithm.HMAC256(getString("JWT_SECRET"))));
+			return obj;
+		},transformer);
+		
+		
 		get("/cards/token/:scryfallId", URLTools.HEADER_JSON,(request, response) -> {
 			
 			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
@@ -1224,6 +1239,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 		
 		
+		
+		
+		
 		post("/transaction/add", URLTools.HEADER_JSON, (request, response) -> {
 			try{ 
 				Transaction t=converter.fromJson(new InputStreamReader(request.raw().getInputStream()), Transaction.class);
@@ -1418,6 +1436,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		map.put(KEYSTORE_PASS, "changeit");
 		map.put("INDEX_ROUTES", TRUE);
 		map.put("PRETTY_PRINT", FALSE);
+		map.put("JWT_SECRET","CHANGEIT");
 		return map;
 	}
 
