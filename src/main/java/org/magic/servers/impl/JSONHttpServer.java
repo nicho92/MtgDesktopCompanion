@@ -294,7 +294,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			var c = MTG.getEnabledPlugin(MTGExternalShop.class).getContactByLogin(request.queryParams("email"),request.queryParams("password"));
 			var obj = new JsonObject();
 			obj.addProperty("accessToken", JWT.create().withIssuer(MTGConstants.MTG_APP_NAME)
-							   .withExpiresAt(DateUtils.addMinutes(new Date(), 1))
+							   .withExpiresAt(DateUtils.addMinutes(new Date(), getInt("JWT_EXPIRATION_MINUTES")))
 							   .withClaim("name", c.getName())
 							   .withClaim("email", c.getEmail())
 							   .sign(Algorithm.HMAC256(getString("JWT_SECRET"))));
@@ -1437,6 +1437,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		map.put("INDEX_ROUTES", TRUE);
 		map.put("PRETTY_PRINT", FALSE);
 		map.put("JWT_SECRET","CHANGEIT");
+		map.put("JWT_EXPIRATION_MINUTES", "60");
 		return map;
 	}
 
