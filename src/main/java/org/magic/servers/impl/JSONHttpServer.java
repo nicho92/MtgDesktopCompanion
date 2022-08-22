@@ -290,7 +290,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 	@SuppressWarnings("unchecked")
 	private void initRoutes() {
 		
-		post("/auth",(request, response) -> {
+		post("/services/auth",URLTools.HEADER_JSON,(request, response) -> {
 			var c = MTG.getEnabledPlugin(MTGExternalShop.class).getContactByLogin(request.queryParams("email"),request.queryParams("password"));
 			var obj = new JsonObject();
 			obj.addProperty("accessToken", JWT.create().withIssuer(MTGConstants.MTG_APP_NAME)
