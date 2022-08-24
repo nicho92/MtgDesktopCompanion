@@ -42,7 +42,6 @@ import javax.swing.ImageIcon;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.lang3.time.DateUtils;
 import org.magic.api.beans.Announce;
 import org.magic.api.beans.Announce.STATUS;
 import org.magic.api.beans.ConverterItem;
@@ -109,8 +108,6 @@ import org.magic.tools.ImageTools;
 import org.magic.tools.MTG;
 import org.magic.tools.POMReader;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -156,6 +153,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 	private JsonExport converter;
 	private UserAgentAnalyzer ua ;
 	private Instant start;
+	private JWTServices jwtService;
 	
 	
 	private String error(String msg) {
@@ -191,6 +189,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 			initVars();
 			initRoutes();
 			Spark.init();
+			
+			jwtService = new JWTServices(getString("JWT_SECRET"), getInt("JWT_EXPIRATION_MINUTES"),MTGConstants.MTG_APP_NAME);
+			
 			running = true;
 			logger.info("Server " + getName() +" started on port " + getInt(SERVER_PORT));
 		}
@@ -294,7 +295,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		post("/services/auth",URLTools.HEADER_JSON,(request, response) -> {
 			var c = MTG.getEnabledPlugin(MTGExternalShop.class).getContactByLogin(request.queryParams("email"),request.queryParams("password"));
 			
-			var jwtService = new JWTServices(getString("JWT_SECRET"), getInt("JWT_EXPIRATION_MINUTES"));
+			
 			var obj = new JsonObject();
 			var tok = jwtService.generateToken(c);
 			
