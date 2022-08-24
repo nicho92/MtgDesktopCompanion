@@ -89,6 +89,7 @@ import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.api.sorters.CardsEditionSorter;
 import org.magic.services.CardsManagerService;
 import org.magic.services.CollectionEvaluator;
+import org.magic.services.JWTServices;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
@@ -292,13 +293,10 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		post("/services/auth",URLTools.HEADER_JSON,(request, response) -> {
 			var c = MTG.getEnabledPlugin(MTGExternalShop.class).getContactByLogin(request.queryParams("email"),request.queryParams("password"));
+			
+			var jwtService = new JWTServices(getString("JWT_SECRET"), getInt("JWT_EXPIRATION_MINUTES"));
 			var obj = new JsonObject();
-			var tok = JWT.create()
-											   .withIssuer(MTGConstants.MTG_APP_NAME)
-											   .withExpiresAt(DateUtils.addMinutes(new Date(), getInt("JWT_EXPIRATION_MINUTES")))
-											   .withClaim("name", c.getName())
-											   .withClaim("email", c.getEmail())
-											   .sign(Algorithm.HMAC512(getString("JWT_SECRET")));
+			var tok = jwtService.generateToken(c);
 			
 			obj.addProperty("accessToken",tok);
 			
