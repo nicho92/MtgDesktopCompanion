@@ -293,11 +293,15 @@ public class JSONHttpServer extends AbstractMTGServer {
 		post("/services/auth",URLTools.HEADER_JSON,(request, response) -> {
 			var c = MTG.getEnabledPlugin(MTGExternalShop.class).getContactByLogin(request.queryParams("email"),request.queryParams("password"));
 			var obj = new JsonObject();
-			obj.addProperty("accessToken", JWT.create().withIssuer(MTGConstants.MTG_APP_NAME)
-							   .withExpiresAt(DateUtils.addMinutes(new Date(), getInt("JWT_EXPIRATION_MINUTES")))
-							   .withClaim("name", c.getName())
-							   .withClaim("email", c.getEmail())
-							   .sign(Algorithm.HMAC256(getString("JWT_SECRET"))));
+			var tok = JWT.create()
+											   .withIssuer(MTGConstants.MTG_APP_NAME)
+											   .withExpiresAt(DateUtils.addMinutes(new Date(), getInt("JWT_EXPIRATION_MINUTES")))
+											   .withClaim("name", c.getName())
+											   .withClaim("email", c.getEmail())
+											   .sign(Algorithm.HMAC512(getString("JWT_SECRET")));
+			
+			obj.addProperty("accessToken",tok);
+			
 			return obj;
 		},transformer);
 		
