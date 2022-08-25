@@ -190,7 +190,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			initRoutes();
 			Spark.init();
 			
-			jwtService = new JWTServices(getString("JWT_SECRET"), getInt("JWT_EXPIRATION_MINUTES"),MTGConstants.MTG_APP_NAME);
+			jwtService = new JWTServices(getString("JWT_SECRET"), getInt("JWT_EXPIRATION_MINUTES"),getInt("JWT_REFRESH_EXPIRATION_MINUTES"),MTGConstants.MTG_APP_NAME);
 			
 			running = true;
 			logger.info("Server " + getName() +" started on port " + getInt(SERVER_PORT));
@@ -297,9 +297,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 			
 			
 			var obj = new JsonObject();
-			var tok = jwtService.generateToken(c);
+			var tok = jwtService.generateToken(Map.of("name",c.getName(),"email",c.getEmail()));
 			
 			obj.addProperty("accessToken",tok);
+			obj.addProperty("refreshToken",tok);
+			
 			
 			return obj;
 		},transformer);
@@ -1439,8 +1441,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 		map.put(KEYSTORE_PASS, "changeit");
 		map.put("INDEX_ROUTES", TRUE);
 		map.put("PRETTY_PRINT", FALSE);
-		map.put("JWT_SECRET","CHANGEIT");
+		map.put("JWT_SECRET","MySecretKeyIsNotTooWeakForThisPowerfullApplication");
 		map.put("JWT_EXPIRATION_MINUTES", "60");
+		map.put("JWT_REFRESH_EXPIRATION_MINUTES","21600");
 		return map;
 	}
 

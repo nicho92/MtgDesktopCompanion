@@ -63,19 +63,31 @@
     		<version>11.0.11</version>
 		</dependency>-->
 		<dependency>
-		    <groupId>com.fasterxml.jackson.core</groupId>
-		    <artifactId>jackson-core</artifactId>
-		    <version>2.13.3</version>
+    		<groupId>io.jsonwebtoken</groupId>
+    		<artifactId>jjwt-api</artifactId>
+    		<version>0.11.5</version>
 		</dependency>
 		<dependency>
-		    <groupId>com.auth0</groupId>
-		    <artifactId>java-jwt</artifactId>
-		    <version>4.0.0</version>
+		    <groupId>io.jsonwebtoken</groupId>
+		    <artifactId>jjwt-impl</artifactId>
+		    <version>0.11.5</version>
+		    <scope>runtime</scope>
+		</dependency>
+		<dependency>
+		    <groupId>io.jsonwebtoken</groupId>
+		    <artifactId>jjwt-gson</artifactId>
+		    <version>0.11.5</version>
+		    <scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
 			<version>5.2.2</version>
+		</dependency>
+		<dependency>
+    		<groupId>org.apache.logging.log4j</groupId>
+    		<artifactId>log4j-core</artifactId>
+    		<version>2.18.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.poi</groupId>
