@@ -190,7 +190,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			initRoutes();
 			Spark.init();
 			
-			jwtService = new JWTServices(getString("JWT_SECRET"), getInt("JWT_EXPIRATION_MINUTES"),getInt("JWT_REFRESH_EXPIRATION_MINUTES"),MTGConstants.MTG_APP_NAME);
+			jwtService = new JWTServices(getString("JWT_SECRET"), MTGConstants.MTG_APP_NAME);
 			
 			running = true;
 			logger.info("Server " + getName() +" started on port " + getInt(SERVER_PORT));
@@ -297,10 +297,13 @@ public class JSONHttpServer extends AbstractMTGServer {
 			
 			
 			var obj = new JsonObject();
-			var tok = jwtService.generateToken(Map.of("name",c.getName(),"email",c.getEmail()));
+			var m = new HashMap<String,Object>();
+				m.put("name", c.getName());
+				m.put("mail", c.getEmail());
+				m.put("sub", c.getId());
 			
-			obj.addProperty("accessToken",tok);
-			obj.addProperty("refreshToken",tok);
+			obj.addProperty("accessToken",jwtService.generateToken(m,getInt("JWT_EXPIRATION_MINUTES")));
+			obj.addProperty("refreshToken",jwtService.generateToken(m,getInt("JWT_REFRESH_EXPIRATION_MINUTES")));
 			
 			
 			return obj;
