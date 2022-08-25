@@ -36,6 +36,7 @@ public class JWTServices {
 	{
 		return JWT.create()
 		   .withIssuer(issuer)
+		   .withIssuedAt(new Date())
 		   .withExpiresAt(DateUtils.addMinutes(new Date(),expirationMinute))
 		   .withClaim("name", c.getName())
 		   .withClaim("email", c.getEmail())
