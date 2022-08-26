@@ -2,7 +2,9 @@ package org.magic.services;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.time.DateUtils;
@@ -19,6 +21,7 @@ public class JWTServices {
 	private Key secret;
 	private SignatureAlgorithm algo;
 
+	private List<String> refreshedTokenRepository = new ArrayList<>();
 	
 	public JWTServices(String secret, String issuer) {
 		this.issuer = issuer;
@@ -30,9 +33,9 @@ public class JWTServices {
 		this.secret=Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
 	}
 	
-	public String generateToken(Map<String,Object> claims, int timeoutInMinutes)
+	public String generateToken(Map<String,Object> claims, int timeoutInMinutes,boolean store)
 	{
-		return Jwts.builder()
+		var tok= Jwts.builder()
 				.setClaims(claims)
 				.setSubject(null)
 				.setIssuer(issuer)
@@ -40,6 +43,13 @@ public class JWTServices {
 				.setExpiration(DateUtils.addMinutes(new Date(System.currentTimeMillis()), timeoutInMinutes))
 				.signWith(secret,algo)
 				.compact();
+		
+		
+		if(store)
+			refreshedTokenRepository.add(tok);
+		
+		
+		return tok;
 	}
 	
 	
@@ -61,20 +71,4 @@ public class JWTServices {
 		}
 			
 	}
-
-	public static void main(String[] args) {
-		var service = new JWTServices("MySecretKeyIsNotTooWeakForThisPowerfullApp", "MTGCompanion");
-		var tok  = service.generateToken(Map.of("name","nico"),15);
-		
-		System.out.println(tok);
-		
-		service.validateToken(tok);
-		
-		
-		
-		
-	}
-	
-	
-	
 }

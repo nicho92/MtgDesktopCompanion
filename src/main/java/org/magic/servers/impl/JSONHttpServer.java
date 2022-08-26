@@ -302,8 +302,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 				m.put("mail", c.getEmail());
 				m.put("sub", c.getId());
 			
-			obj.addProperty("accessToken",jwtService.generateToken(m,getInt("JWT_EXPIRATION_MINUTES")));
-			obj.addProperty("refreshToken",jwtService.generateToken(m,getInt("JWT_REFRESH_EXPIRATION_MINUTES")));
+			obj.addProperty("accessToken",jwtService.generateToken(m,getInt("JWT_EXPIRATION_MINUTES"),false));
+			obj.addProperty("refreshToken",jwtService.generateToken(m,getInt("JWT_REFRESH_EXPIRATION_MINUTES"),true));
 			
 			
 			return obj;
