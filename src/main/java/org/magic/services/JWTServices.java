@@ -35,7 +35,7 @@ public class JWTServices {
 	
 	public String generateToken(Map<String,Object> claims, int timeoutInMinutes,boolean store)
 	{
-		var tok= Jwts.builder()
+		var tok=Jwts.builder()
 				.setClaims(claims)
 				.setSubject(null)
 				.setIssuer(issuer)
@@ -55,7 +55,6 @@ public class JWTServices {
 	
 	public boolean validateToken(String token)
 	{
-		
 		try {
 			Jwts.parserBuilder()
 				 .setSigningKey(secret)

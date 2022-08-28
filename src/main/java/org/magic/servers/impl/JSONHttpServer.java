@@ -305,11 +305,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 			obj.addProperty("accessToken",jwtService.generateToken(m,getInt("JWT_EXPIRATION_MINUTES"),false));
 			obj.addProperty("refreshToken",jwtService.generateToken(m,getInt("JWT_REFRESH_EXPIRATION_MINUTES"),true));
 			
+			response.cookie("x-auth-token", obj.get("accessToken").getAsString());
 			
 			return obj;
 		},transformer);
-		
-		
+			
 		get("/cards/token/:scryfallId", URLTools.HEADER_JSON,(request, response) -> {
 			
 			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
