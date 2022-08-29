@@ -3,6 +3,7 @@ package org.magic.services;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -19,16 +20,21 @@ public class JWTServices {
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private String issuer;
 	private Key secret;
-	private SignatureAlgorithm algo;
+	private static SignatureAlgorithm algo = SignatureAlgorithm.HS256;
 
 	private List<String> refreshedTokenRepository = new ArrayList<>();
 	
 	public JWTServices(String secret, String issuer) {
 		this.issuer = issuer;
-		this.algo = SignatureAlgorithm.HS256;
 		setSecret(secret);
 	}
-		
+	
+	public static String generateRandomSecret()
+	{
+		var sk = Keys.secretKeyFor(algo);
+		return Base64.getEncoder().encodeToString(sk.getEncoded());
+	}
+	
 	public void setSecret(String secret) {
 		this.secret=Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
 	}
@@ -61,6 +67,7 @@ public class JWTServices {
 				 .requireIssuer(issuer)
 				 .build()
 				 .parseClaimsJws(token);
+			
 			return true;
 		}
 		catch(Exception ex)

@@ -1444,7 +1444,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		map.put(KEYSTORE_PASS, "changeit");
 		map.put("INDEX_ROUTES", TRUE);
 		map.put("PRETTY_PRINT", FALSE);
-		map.put("JWT_SECRET","MySecretKeyIsNotTooWeakForThisPowerfullApplication");
+		map.put("JWT_SECRET",JWTServices.generateRandomSecret());
 		map.put("JWT_EXPIRATION_MINUTES", "60");
 		map.put("JWT_REFRESH_EXPIRATION_MINUTES","21600");
 		return map;
