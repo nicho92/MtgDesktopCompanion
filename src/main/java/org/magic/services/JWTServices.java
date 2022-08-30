@@ -28,12 +28,7 @@ public class JWTServices {
 		this.issuer = issuer;
 		setSecret(secret);
 	}
-	
-	public static String generateRandomSecret()
-	{
-		var sk = Keys.secretKeyFor(algo);
-		return Base64.getEncoder().encodeToString(sk.getEncoded());
-	}
+
 	
 	public void setSecret(String secret) {
 		this.secret=Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
@@ -77,4 +72,11 @@ public class JWTServices {
 		}
 			
 	}
+	
+	public static String generateRandomSecret()
+	{
+		var sk = Keys.secretKeyFor(algo);
+		return Base64.getEncoder().encodeToString(sk.getEncoded());
+	}
+	
 }

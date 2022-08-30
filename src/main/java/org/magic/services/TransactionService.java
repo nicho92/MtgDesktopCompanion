@@ -56,7 +56,7 @@ public class TransactionService
 		
 		c.setTemporaryToken(MTGControler.getInstance().getWebConfig().getWebsiteUrl()+"/pages/validate.html?token="+c.getTemporaryToken());
 		
-		EmailNotifier plug = (EmailNotifier)MTG.getPlugin(MTGConstants.EMAIL_NOTIFIER_NAME, MTGNotifier.class);
+		var plug = (EmailNotifier)MTG.getPlugin(MTGConstants.EMAIL_NOTIFIER_NAME, MTGNotifier.class);
 			try {
 					var not = new MTGNotification("["+MTGControler.getInstance().getWebConfig().getSiteTitle()+ "] Email verification", new ReportNotificationManager().generate(plug.getFormat(), c, "ContactValidation"), MTGNotification.MESSAGE_TYPE.INFO);
 					plug.send(c.getEmail(),not);
@@ -143,8 +143,7 @@ public class TransactionService
 		}
 		
 	}
-	
-	
+		
 	public static Long newTransaction(Transaction t) throws IOException {
 		t.setConfig(MTGControler.getInstance().getWebConfig());
 		t.setStatut(TransactionStatus.NEW);

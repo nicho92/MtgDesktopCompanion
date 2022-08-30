@@ -273,11 +273,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 		});
 		
 		options("/*", (request, response) -> {
-			String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
+			var accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
 			if (accessControlRequestHeaders != null) {
 				response.header(ACCESS_CONTROL_ALLOW_HEADERS, accessControlRequestHeaders);
 			}
-			String accessControlRequestMethod = request.headers(ACCESS_CONTROL_REQUEST_METHOD);
+			var accessControlRequestMethod = request.headers(ACCESS_CONTROL_REQUEST_METHOD);
 			if (accessControlRequestMethod != null) {
 				response.header("Access-Control-Allow-Methods", accessControlRequestMethod);
 			}
@@ -306,6 +306,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			obj.addProperty("refreshToken",jwtService.generateToken(m,getInt("JWT_REFRESH_EXPIRATION_MINUTES"),true));
 			
 			response.cookie("x-auth-token", obj.get("accessToken").getAsString());
+
 			
 			return obj;
 		},transformer);
@@ -341,7 +342,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			
 			for(MagicCard mc : list)
 			{
-				List<MagicCollection> cols = getEnabledPlugin(MTGDao.class).listCollectionFromCards(mc);
+				var cols = getEnabledPlugin(MTGDao.class).listCollectionFromCards(mc);
 				var obj = mc.toLightJson();
 				obj.add("collections", converter.toJsonElement(cols));
 				arr.add(obj);			
