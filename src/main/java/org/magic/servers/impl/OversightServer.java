@@ -80,6 +80,7 @@ public class OversightServer extends AbstractMTGServer {
 	public void stop() {
 		tache.cancel();
 		timer.purge();
+		timer.cancel();
 		running = false;
 	}
 

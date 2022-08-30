@@ -14,7 +14,7 @@ import org.magic.services.MTGConstants;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.JDAInfo;
-import net.dv8tion.jda.api.requests.restaction.MessageAction;
+import net.dv8tion.jda.api.utils.FileUpload;
 
 
 public class DiscordNotifier extends AbstractMTGNotifier {
@@ -76,8 +76,8 @@ public class DiscordNotifier extends AbstractMTGNotifier {
 			}
 			else
 			{
-				MessageAction ret=chan.sendFile(notification.getFile(),msg.toString());
-				chan.sendMessage(ret.complete()).queue();
+				var ret=chan.sendFiles(FileUpload.fromData(notification.getFile()));
+				chan.sendMessage(ret.complete().getContentDisplay()).queue();
 			}
 			
 			
