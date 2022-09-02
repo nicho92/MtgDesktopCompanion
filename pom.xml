@@ -90,6 +90,21 @@
     		<version>2.18.0</version>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>2.18.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
 			<version>5.2.2</version>
@@ -100,11 +115,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-api</artifactId>
-			<version>2.18.0</version>
-		</dependency>
+		
 		<dependency>
 			<groupId>com.formdev</groupId>
 			<artifactId>svgSalamander</artifactId>
@@ -178,17 +189,17 @@
 		<dependency>
 			<groupId>com.github.nicho92</groupId>
 			<artifactId>mtgstock-api-java</artifactId>
-			<version>0.1.21</version>
+			<version>0.1.23</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.nicho92</groupId>
 			<artifactId>cardtrader-api-java</artifactId>
-			<version>0.0.34</version>
+			<version>0.0.35</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.nicho92</groupId>
 			<artifactId>mkm-api-java</artifactId>
-			<version>0.20.2</version>
+			<version>0.20.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.javatuples</groupId>
@@ -580,16 +591,7 @@
 			<artifactId>rome-utils</artifactId>
 			<version>1.18.0</version>
 		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>2.0.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>2.0.0</version>
-		</dependency>
+		
 		<dependency>
 			<groupId>org.swinglabs.swingx</groupId>
 			<artifactId>swingx-all</artifactId>
