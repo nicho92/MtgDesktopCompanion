@@ -155,8 +155,16 @@ public class JSONHttpServer extends AbstractMTGServer {
 	private JWTServices jwtService;
 	
 	
-	private String error(String msg) {
-		return "{\"error\":\"" + msg + "\"}";
+	private JsonObject error(Request req, Response response, String msg, int code) {
+		response.status(code);
+		
+		var obj = new JsonObject();
+			obj.addProperty("method", req.requestMethod());
+			obj.addProperty("uri", req.pathInfo());
+			obj.addProperty("code", code);
+			obj.addProperty(ERROR, msg);
+			
+		return obj;
 	}
 	
 	
@@ -240,15 +248,13 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		exception(Exception.class, (Exception exception, Request request, Response response) -> {
 			logger.error("Error :" + request.headers(URLTools.REFERER) + ":" + exception.getMessage(), exception);
-			response.status(500);
-			response.body(error(exception.getMessage()));
 			addInfo(request,response);
+			response.body(error(request,response, exception.getMessage(),500).toString());
 		});
 
 		notFound((req, res) -> {
-			res.status(404);
 			addInfo(req,res);
-			return error("Not Found");
+			return error(req, res,"Not Found",404);
 		});
 		
 		before("/*", (request, response) -> {
@@ -258,15 +264,17 @@ public class JSONHttpServer extends AbstractMTGServer {
 			response.header(ACCESS_CONTROL_ALLOW_HEADERS, getString(ACCESS_CONTROL_ALLOW_HEADERS));
 			response.header("Content-Security-Policy","");
 			
+			if (getBoolean(ENABLE_GZIP)) {
+				response.header("Content-Encoding", "gzip");
+			}
+			
 			start=Instant.now(); //TODO not sure...
 			
 		});
 	
 
 		after((request, response) -> {
-			if (getBoolean(ENABLE_GZIP)) {
-				response.header("Content-Encoding", "gzip");
-			}
+			
 			addInfo(request,response);
 		
 		});

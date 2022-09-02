@@ -21,7 +21,7 @@ public class JWTServices {
 	private String issuer;
 	private Key secret;
 	private static SignatureAlgorithm algo = SignatureAlgorithm.HS256;
-
+	private String aud;
 	private List<String> refreshedTokenRepository = new ArrayList<>();
 	
 	public JWTServices(String secret, String issuer) {
@@ -30,6 +30,11 @@ public class JWTServices {
 	}
 
 	
+	public void setAudience(String aud)
+	{
+		this.aud=aud;
+	}
+	
 	public void setSecret(String secret) {
 		this.secret=Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
 	}
@@ -37,6 +42,7 @@ public class JWTServices {
 	public String generateToken(Map<String,Object> claims, int timeoutInMinutes,boolean store)
 	{
 		var tok=Jwts.builder()
+				.setAudience(aud)
 				.setClaims(claims)
 				.setSubject(null)
 				.setIssuer(issuer)
