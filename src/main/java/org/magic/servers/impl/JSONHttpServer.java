@@ -273,11 +273,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		});
 	
 
-		after((request, response) -> {
-			
-			addInfo(request,response);
-		
-		});
+		after(this::addInfo);
 		
 		options("/*", (request, response) -> {
 			var accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
@@ -294,6 +290,13 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 
 	}
+	
+	
+	private void sendToken(Response res, String token)
+	{
+		res.header("x-auth-token", token);
+	}
+	
 
 
 	@SuppressWarnings("unchecked")
@@ -312,8 +315,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 			obj.addProperty("accessToken",jwtService.generateToken(m,getInt("JWT_EXPIRATION_MINUTES"),false));
 			obj.addProperty("refreshToken",jwtService.generateToken(m,getInt("JWT_REFRESH_EXPIRATION_MINUTES"),true));
 			
-			response.cookie("x-auth-token", obj.get("accessToken").getAsString());
-
+			sendToken(response,obj.get("accessToken").getAsString());
+			
 			
 			return obj;
 		},transformer);
