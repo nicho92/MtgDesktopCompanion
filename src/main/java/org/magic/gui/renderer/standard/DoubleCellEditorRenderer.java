@@ -93,18 +93,18 @@ public class DoubleCellEditorRenderer extends AbstractCellEditor implements Tabl
 		
 		if(enableArrow) {
 			l.setHorizontalTextPosition(SwingConstants.LEFT);
-			if (((Double) value).doubleValue() > 0)
+			if (val > 0)
 			{
 				l.setIcon(MTGConstants.ICON_UP);
 			}
 	
-			if (((Double) value).doubleValue() < 0)
+			if (val < 0)
 			{
 				l.setIcon(MTGConstants.ICON_DOWN);
 				
 			}
 	
-			if (((Double) value).doubleValue() == 0)
+			if (val == 0)
 			{
 				l.setIcon(MTGConstants.ICON_STANDBY);
 			}
