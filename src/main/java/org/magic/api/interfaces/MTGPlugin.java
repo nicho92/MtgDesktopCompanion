@@ -8,11 +8,11 @@ import java.util.Properties;
 import javax.management.ObjectName;
 import javax.swing.Icon;
 
-import org.apache.log4j.Logger;
-import org.magic.api.beans.AccountAuthenticator;
+import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGDocumentation;
+import org.magic.api.beans.technical.AccountAuthenticator;
 import org.magic.services.AccountsManager;
-import org.magic.services.MTGLogger;
+import org.magic.services.logging.MTGLogger;
 import org.utils.patterns.observer.Observer;
 
 import com.google.gson.JsonObject;

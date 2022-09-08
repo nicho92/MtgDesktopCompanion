@@ -7,8 +7,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-import org.apache.log4j.Logger;
-import org.magic.services.MTGLogger;
+import org.apache.logging.log4j.Logger;
+import org.magic.services.logging.MTGLogger;
 import org.w3c.dom.Document;
 
 public class XMLTools {

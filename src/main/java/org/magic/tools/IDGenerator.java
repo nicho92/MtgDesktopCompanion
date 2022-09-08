@@ -1,10 +1,10 @@
 package org.magic.tools;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.services.MTGLogger;
+import org.magic.services.logging.MTGLogger;
 
 public class IDGenerator {
 

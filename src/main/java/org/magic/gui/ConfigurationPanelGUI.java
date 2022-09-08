@@ -16,7 +16,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 
 import org.jdesktop.swingx.JXTreeTable;
-import org.magic.api.beans.PluginEntry;
+import org.magic.api.beans.technical.PluginEntry;
 import org.magic.api.interfaces.MTGCardRecognition;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsIndexer;

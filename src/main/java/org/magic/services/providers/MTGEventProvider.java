@@ -15,12 +15,12 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.util.EntityUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.magic.api.beans.MagicEvent;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGLogger;
+import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
 
 public class MTGEventProvider {

@@ -8,13 +8,13 @@ import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.gui.components.JTextFieldFileChooser;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
+import org.magic.services.logging.MTGLogger;
 import org.magic.tools.FileTools;
 
 public class ChromeDownloader extends JDialog {

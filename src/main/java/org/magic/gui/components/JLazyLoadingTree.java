@@ -19,14 +19,14 @@ import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.sorters.CardsEditionSorter;
-import org.magic.services.MTGLogger;
+import org.magic.services.logging.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 public class JLazyLoadingTree extends JTree {
 

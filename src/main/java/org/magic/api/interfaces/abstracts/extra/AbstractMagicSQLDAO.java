@@ -25,8 +25,6 @@ import java.util.stream.Collectors;
 
 import org.magic.api.beans.Announce;
 import org.magic.api.beans.Announce.STATUS;
-import org.magic.api.beans.ConverterItem;
-import org.magic.api.beans.GedEntry;
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.MagicCard;
@@ -38,7 +36,6 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.SealedStock;
-import org.magic.api.beans.audit.DAOInfo;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionDirection;
@@ -46,6 +43,9 @@ import org.magic.api.beans.enums.TransactionPayementProvider;
 import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
+import org.magic.api.beans.technical.ConverterItem;
+import org.magic.api.beans.technical.GedEntry;
+import org.magic.api.beans.technical.audit.DAOInfo;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.MTGPool;
@@ -251,7 +251,8 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			return false;
 		}
 		catch (SQLException e) {
-			logger.error("error creating",e);
+			logger.error("error "+e.getMessage());
+			logger.trace("error",e);
 			return false;
 		}
 	}

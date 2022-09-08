@@ -8,8 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.magic.api.beans.ConverterItem;
 import org.magic.api.beans.shop.Transaction;
+import org.magic.api.beans.technical.ConverterItem;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGStockItem;

@@ -6,10 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
-import org.magic.api.beans.AccountAuthenticator;
+import org.apache.logging.log4j.Logger;
+import org.magic.api.beans.technical.AccountAuthenticator;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGPlugin;
+import org.magic.services.logging.MTGLogger;
 import org.magic.tools.CryptoUtils;
 import org.magic.tools.FileTools;
 

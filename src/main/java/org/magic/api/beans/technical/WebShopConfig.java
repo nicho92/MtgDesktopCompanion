@@ -1,4 +1,4 @@
-package org.magic.api.beans;
+package org.magic.api.beans.technical;
 
 import java.io.Serializable;
 import java.net.URI;
@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
 
+import org.magic.api.beans.MagicCardStock;
+import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.shop.Contact;
 
 public class WebShopConfig implements Serializable {

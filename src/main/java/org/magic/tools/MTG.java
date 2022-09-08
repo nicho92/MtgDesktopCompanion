@@ -5,11 +5,11 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 import org.magic.services.PluginRegistry;
+import org.magic.services.logging.MTGLogger;
 
 public class MTG {
 	protected static Logger logger = MTGLogger.getLogger(MTG.class);

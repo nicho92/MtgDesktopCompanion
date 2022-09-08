@@ -11,12 +11,12 @@ import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingWorker;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
+import org.magic.services.logging.MTGLogger;
 import org.magic.services.providers.SealedProductProvider;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.ImageTools;

@@ -14,8 +14,8 @@ import java.util.TreeMap;
 
 import org.apache.commons.configuration2.XMLConfiguration;
 import org.apache.commons.lang3.ClassUtils;
-import org.apache.log4j.Logger;
-import org.magic.api.beans.PluginEntry;
+import org.apache.logging.log4j.Logger;
+import org.magic.api.beans.technical.PluginEntry;
 import org.magic.api.interfaces.MTGCardRecognition;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsIndexer;
@@ -44,6 +44,7 @@ import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.api.interfaces.MTGTrackingService;
 import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
+import org.magic.services.logging.MTGLogger;
 import org.reflections.Reflections;
 
 public class PluginRegistry {

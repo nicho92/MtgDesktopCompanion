@@ -5,10 +5,10 @@ import java.io.File;
 import javax.script.ScriptException;
 
 import org.apache.commons.io.FilenameUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.magic.api.interfaces.MTGScript;
-import org.magic.services.MTGLogger;
 import org.magic.services.PluginRegistry;
+import org.magic.services.logging.MTGLogger;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;

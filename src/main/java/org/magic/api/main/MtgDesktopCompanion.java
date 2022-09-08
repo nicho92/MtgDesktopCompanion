@@ -10,7 +10,7 @@ import java.io.IOException;
 import javax.swing.JOptionPane;
 import javax.swing.plaf.FontUIResource;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -20,7 +20,7 @@ import org.magic.gui.MagicGUI;
 import org.magic.gui.components.dialog.MTGSplashScreen;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
+import org.magic.services.logging.MTGLogger;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.Chrono;

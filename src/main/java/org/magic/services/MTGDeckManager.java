@@ -16,17 +16,18 @@ import java.util.Random;
 import java.util.TreeMap;
 
 import org.apache.commons.math3.distribution.HypergeometricDistribution;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicFormat.FORMATS;
-import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGRarity;
+import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDeckSniffer;
+import org.magic.services.logging.MTGLogger;
 import org.magic.tools.MTG;
 import org.utils.patterns.observer.Observable;
 

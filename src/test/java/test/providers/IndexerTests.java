@@ -1,6 +1,6 @@
 package test.providers;
 
-import org.apache.log4j.Level;
+import org.apache.logging.log4j.Level;
 import org.junit.Before;
 import org.junit.Test;
 import org.magic.api.beans.MagicCard;
@@ -10,7 +10,7 @@ import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.indexer.impl.LuceneIndexer;
 import org.magic.api.interfaces.MTGCardsIndexer;
-import org.magic.services.MTGLogger;
+import org.magic.services.logging.MTGLogger;
 
 import com.google.common.collect.Lists;
 

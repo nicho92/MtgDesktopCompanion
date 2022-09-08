@@ -12,7 +12,7 @@ import java.util.Map;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.RetrievableDeck;
+import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.exports.impl.MagicWorkStationDeckExport;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.network.RequestBuilder;

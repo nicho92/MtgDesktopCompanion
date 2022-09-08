@@ -58,8 +58,8 @@ import javax.xml.bind.DatatypeConverter;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.JXSearchField;
 import org.jdesktop.swingx.JXSearchField.SearchMode;
 import org.jdesktop.swingx.JXTable;
@@ -93,8 +93,8 @@ import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;
 import org.magic.gui.renderer.standard.NumberCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 import org.magic.services.ShortKeyManager;
+import org.magic.services.logging.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 import org.panda_lang.pandomium.Pandomium;
 

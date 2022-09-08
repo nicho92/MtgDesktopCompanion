@@ -10,8 +10,8 @@ import javax.management.ObjectName;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.apache.log4j.Logger;
-import org.magic.services.MTGLogger;
+import org.apache.logging.log4j.Logger;
+import org.magic.services.logging.MTGLogger;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;

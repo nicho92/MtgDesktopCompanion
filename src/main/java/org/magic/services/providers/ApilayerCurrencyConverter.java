@@ -8,10 +8,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
+import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
 import org.magic.tools.FileTools;
 
@@ -120,18 +120,18 @@ public class ApilayerCurrencyConverter {
 	}
 	
 	public void init() throws IOException {
-			JsonObject obj;
+			JsonObject obj = new JsonObject();
 			map.clear();
-			if(!cache.exists())
+			if(!cache.exists() && !token.isEmpty())
 			{
 				
 				logger.debug(cache.getAbsolutePath() + " doesn't exist. Will create it from website");
-				JsonElement parse = URLTools.extractAsJson("http://apilayer.net/api/live?access_key="+token);
+				var parse = URLTools.extractAsJson("http://apilayer.net/api/live?access_key="+token);
 				obj = parse.getAsJsonObject().get("quotes").getAsJsonObject();
 				FileTools.saveFile(cache, obj.toString());
 				logger.debug(cache.getAbsolutePath() + " created");
 			}
-			else
+			else //if(!token.isEmpty())
 			{
 				obj = FileTools.readJson(cache).getAsJsonObject();
 			}

@@ -6,8 +6,8 @@ import java.util.Deque;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-import org.magic.services.MTGLogger;
+import org.apache.logging.log4j.Logger;
+import org.magic.services.logging.MTGLogger;
 import org.utils.patterns.observer.Observable;
 
 public class SpellStack extends Observable {

@@ -2,7 +2,7 @@ package org.magic.gui.models.conf;
 
 import java.time.Instant;
 
-import org.magic.api.beans.audit.NetworkInfo;
+import org.magic.api.beans.technical.audit.NetworkInfo;
 import org.magic.gui.abstracts.GenericTableModel;
 
 public class NetworkTableModel extends GenericTableModel<NetworkInfo> {

@@ -48,7 +48,6 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableRowSorter;
 
-import org.apache.log4j.Level;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
@@ -231,7 +230,7 @@ public class ConstructPanel extends MTGUIComponent {
 		btnExports.setEnabled(false);
 		btnExports.setToolTipText(capitalize("EXPORT_AS"));
 		importLogPanel.enabledAutoLoad();
-		importLogPanel.setLevel(Level.ERROR);
+		importLogPanel.setLevel(org.apache.logging.log4j.Level.ERROR);
 		panneauDeck.setDividerLocation(0.5);
 		panneauDeck.setResizeWeight(0.5);
 		panneauDeck.setOrientation(JSplitPane.VERTICAL_SPLIT);

@@ -41,8 +41,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
 import org.jdesktop.swingx.painter.MattePainter;
@@ -63,7 +63,7 @@ import org.magic.gui.components.dialog.DefaultStockEditorDialog;
 import org.magic.gui.models.MapTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
+import org.magic.services.logging.MTGLogger;
 import org.magic.services.providers.IconSetProvider;
 import org.magic.services.providers.SealedProductProvider;
 import org.magic.services.threads.ThreadManager;
@@ -234,7 +234,8 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 			@Override
 			public void setValueAt(Object aValue, int row, int column) {
 				logger.info( keys.get(row).getKey()+ " change to " + aValue);
-				MTGLogger.getLogger(keys.get(row).getKey()).setLevel(Level.toLevel(aValue.toString()));
+				
+				MTGLogger.changeLevel(MTGLogger.getLogger(keys.get(row).getKey()),aValue.toString());
 				keys.get(row).setValue(Level.toLevel(aValue.toString()));
 			}
 			@Override
@@ -249,7 +250,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		
 		model.setWritable(true);
 		
-		for( Logger g : MTGLogger.getLoggers().stream().filter(l->!l.getName().startsWith("org.magic.")).toList())
+		for( var g : MTGLogger.getLoggers().stream().filter(l->!l.getName().startsWith("org.magic.")).toList())
 			model.addRow(g.getName(), g.getLevel());
 		
 		var tableLoggers = UITools.createNewTable(model);

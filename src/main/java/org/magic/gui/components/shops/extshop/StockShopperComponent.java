@@ -23,7 +23,7 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.ConverterItem;
+import org.magic.api.beans.technical.ConverterItem;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGStockItem;

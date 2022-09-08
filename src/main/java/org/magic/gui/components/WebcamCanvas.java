@@ -6,9 +6,9 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.magic.gui.abstracts.AbstractRecognitionArea;
-import org.magic.services.MTGLogger;
+import org.magic.services.logging.MTGLogger;
 
 import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.WebcamLockException;

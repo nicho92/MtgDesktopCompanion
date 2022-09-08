@@ -10,11 +10,11 @@ import java.awt.image.BufferedImage;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
-import org.magic.services.MTGLogger;
+import org.magic.services.logging.MTGLogger;
 
 public class FlipActions extends AbstractAction {
 

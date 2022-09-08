@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 
 import javax.swing.Icon;
 
-import org.magic.api.beans.GedEntry;
+import org.magic.api.beans.technical.GedEntry;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGStorable;
 import org.magic.api.interfaces.abstracts.AbstractFileStorage;

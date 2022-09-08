@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.ParseException;
-import org.magic.api.beans.AccountAuthenticator;
+import org.magic.api.beans.technical.AccountAuthenticator;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.abstracts.AbstractCommand;
 import org.magic.console.AbstractResponse;

@@ -17,7 +17,6 @@ import java.util.Optional;
 import java.util.TreeMap;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.EditionsShakers;
 import org.magic.api.beans.MagicCard;
@@ -37,7 +36,6 @@ import com.google.gson.JsonPrimitive;
 public class CollectionEvaluator extends Observable
 {
 	private static final String PRICE_JSON = "_price.json";
-	protected static Logger logger = MTGLogger.getLogger(CollectionEvaluator.class);
 	private MagicCollection collection ;
 	private File directory;
 	private JsonExport serialiser;

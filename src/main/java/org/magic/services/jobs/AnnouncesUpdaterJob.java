@@ -3,10 +3,10 @@ package org.magic.services.jobs;
 import java.sql.SQLException;
 import java.util.Date;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.Announce.STATUS;
 import org.magic.api.interfaces.MTGDao;
-import org.magic.services.MTGLogger;
+import org.magic.services.logging.MTGLogger;
 import org.magic.tools.MTG;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;

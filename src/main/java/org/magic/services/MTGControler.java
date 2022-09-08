@@ -20,19 +20,20 @@ import org.apache.commons.configuration2.tree.xpath.XPathExpressionEngine;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.LocaleUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.Wallpaper;
-import org.magic.api.beans.WebShopConfig;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.shop.Contact;
+import org.magic.api.beans.technical.WebShopConfig;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.game.model.Player;
+import org.magic.services.logging.MTGLogger;
 import org.magic.services.providers.ApilayerCurrencyConverter;
 import org.magic.services.providers.LookAndFeelProvider;
 import org.magic.services.threads.ThreadManager;
@@ -443,7 +444,8 @@ public class MTGControler {
 
 		var url = config.getString("/game/player-profil/avatar");
 		try {
-			p.setAvatar(ImageTools.resize(ImageTools.read(new File(url)), 100,100));
+			if(!url.isEmpty())
+				p.setAvatar(ImageTools.resize(ImageTools.read(new File(url)), 100,100));
 		} catch (Exception e) {
 			logger.error("error loading icon player " + p + " "+e);
 		}

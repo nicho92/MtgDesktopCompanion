@@ -7,11 +7,11 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 
-import org.apache.log4j.Level;
+import org.apache.logging.log4j.Level;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.services.MTGLogger;
+import org.magic.services.logging.MTGLogger;
 
 public class TestTools {
 

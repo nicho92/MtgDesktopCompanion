@@ -1,6 +1,6 @@
 package org.magic.gui.models;
 
-import org.magic.api.beans.ConverterItem;
+import org.magic.api.beans.technical.ConverterItem;
 import org.magic.gui.abstracts.GenericTableModel;
 
 public class ConverterItemsTableModel extends GenericTableModel<ConverterItem> {

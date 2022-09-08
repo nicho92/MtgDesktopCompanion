@@ -36,7 +36,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.border.LineBorder;
 import javax.swing.text.BadLocationException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.japura.gui.model.DefaultListCheckModel;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
@@ -50,7 +50,7 @@ import org.magic.api.interfaces.MTGTextGenerator;
 import org.magic.gui.components.MagicTextPane;
 import org.magic.gui.components.ManaPanel;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGLogger;
+import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
 import org.magic.tools.ImageTools;
 import org.magic.tools.UITools;

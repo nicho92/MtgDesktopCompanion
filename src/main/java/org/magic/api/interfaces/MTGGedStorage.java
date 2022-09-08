@@ -6,7 +6,7 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.magic.api.beans.GedEntry;
+import org.magic.api.beans.technical.GedEntry;
 
 public interface MTGGedStorage extends MTGPlugin{
 

@@ -25,8 +25,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.border.Border;
 
-import org.apache.log4j.Logger;
-import org.magic.services.MTGLogger;
+import org.apache.logging.log4j.Logger;
+import org.magic.services.logging.MTGLogger;
 
 
 public class FileDropDecorator

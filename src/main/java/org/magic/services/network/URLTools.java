@@ -14,14 +14,14 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGLogger;
+import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.tools.ImageTools;
 import org.magic.tools.XMLTools;

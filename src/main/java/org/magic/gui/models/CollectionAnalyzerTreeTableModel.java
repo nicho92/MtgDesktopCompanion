@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicEdition;
-import org.magic.services.MTGLogger;
+import org.magic.services.logging.MTGLogger;
 public class CollectionAnalyzerTreeTableModel extends AbstractTreeTableModel {
 
 	private static final String[] columnsNames = { "EDITION","PRICE" };

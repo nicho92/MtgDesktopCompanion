@@ -6,10 +6,10 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.enums.CardsPatterns;
 import org.magic.api.exports.impl.JsonExport;
-import org.magic.services.MTGLogger;
+import org.magic.services.logging.MTGLogger;
 
 public class BeanTools {
 

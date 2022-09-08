@@ -2,8 +2,8 @@ package org.magic.api.dav;
 
 import java.util.Date;
 
-import org.apache.log4j.Logger;
-import org.magic.services.MTGLogger;
+import org.apache.logging.log4j.Logger;
+import org.magic.services.logging.MTGLogger;
 import org.magic.tools.IDGenerator;
 
 import io.milton.http.Auth;

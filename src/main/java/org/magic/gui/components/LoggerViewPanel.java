@@ -17,7 +17,7 @@ import javax.swing.Timer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
-import org.apache.log4j.Level;
+import org.apache.logging.log4j.Level;
 import org.jdesktop.swingx.JXTable;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.conf.LogTableModel;

@@ -17,7 +17,7 @@ import java.util.concurrent.ExecutionException;
 import javax.swing.SwingWorker;
 import javax.swing.Timer;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.graphics.ReflectionRenderer;
 import org.jdesktop.swingx.painter.MattePainter;
@@ -25,7 +25,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGLogger;
+import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;

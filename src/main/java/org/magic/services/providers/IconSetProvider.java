@@ -13,11 +13,11 @@ import java.util.TreeMap;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGLogger;
+import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
 import org.magic.tools.Chrono;
 import org.magic.tools.ImageTools;

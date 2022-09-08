@@ -1,4 +1,4 @@
-package org.magic.api.beans;
+package org.magic.api.beans.technical;
 
 import java.util.ArrayList;
 import java.util.List;

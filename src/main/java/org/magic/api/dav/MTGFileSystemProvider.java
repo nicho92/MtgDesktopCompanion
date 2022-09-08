@@ -29,12 +29,12 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.commons.lang.NotImplementedException;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGDao;
-import org.magic.services.MTGLogger;
+import org.magic.services.logging.MTGLogger;
 
 public class MTGFileSystemProvider extends FileSystemProvider {
 

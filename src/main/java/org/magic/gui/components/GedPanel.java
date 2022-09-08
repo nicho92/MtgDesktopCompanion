@@ -26,7 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 
 import org.apache.commons.io.FilenameUtils;
-import org.magic.api.beans.GedEntry;
+import org.magic.api.beans.technical.GedEntry;
 import org.magic.api.interfaces.MTGGedStorage;
 import org.magic.api.interfaces.MTGStorable;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;

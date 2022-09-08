@@ -6,10 +6,10 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.List;
 
-import org.magic.api.beans.WebShopConfig;
 import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.beans.enums.TransactionPayementProvider;
 import org.magic.api.beans.enums.TransactionStatus;
+import org.magic.api.beans.technical.WebShopConfig;
 import org.magic.api.interfaces.MTGStockItem;
 
 public class Transaction implements Serializable {

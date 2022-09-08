@@ -1,4 +1,4 @@
-package org.magic.api.beans.audit;
+package org.magic.api.beans.technical.audit;
 
 import com.google.gson.JsonObject;
 

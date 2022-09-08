@@ -3,9 +3,13 @@ package org.utils.patterns.observer;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.Logger;
+import org.magic.services.logging.MTGLogger;
+
 public class Observable {
 	private boolean changed = false;
 	private List<Observer> obs;
+	protected static Logger logger = MTGLogger.getLogger(Observable.class);
 
 	public Observable() {
 		obs = new ArrayList<>();

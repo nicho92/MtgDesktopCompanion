@@ -11,7 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingWorker;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.ConverterItem;
+import org.magic.api.beans.technical.ConverterItem;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.ConverterItemsTableModel;

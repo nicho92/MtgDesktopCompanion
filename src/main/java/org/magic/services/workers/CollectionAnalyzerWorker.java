@@ -10,7 +10,7 @@ import java.util.concurrent.ExecutionException;
 import javax.swing.JLabel;
 import javax.swing.SwingWorker;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.JXTreeTable;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicEdition;
@@ -22,7 +22,7 @@ import org.magic.gui.models.CollectionAnalyzerTreeTableModel;
 import org.magic.gui.models.MapTableModel;
 import org.magic.services.CollectionEvaluator;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
+import org.magic.services.logging.MTGLogger;
 import org.magic.tools.UITools;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;

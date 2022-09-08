@@ -11,7 +11,8 @@ import java.util.Properties;
 
 import javax.swing.JButton;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.magic.services.logging.MTGLogger;
 import org.magic.tools.FileTools;
 import org.magic.tools.IDGenerator;
 

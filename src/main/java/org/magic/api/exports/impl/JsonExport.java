@@ -13,7 +13,7 @@ import java.util.Map;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.audit.NetworkInfo;
+import org.magic.api.beans.technical.audit.NetworkInfo;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;

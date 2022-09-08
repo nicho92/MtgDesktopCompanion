@@ -1,4 +1,4 @@
-package org.magic.api.beans;
+package org.magic.api.beans.technical;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -15,9 +15,6 @@ public class AccountAuthenticator implements Serializable {
 	public AccountAuthenticator() {
 		tokens = new HashMap<>();
 	}
-	
-	
-	
 
 	public AccountAuthenticator(String login,String password) {
 		tokens = new HashMap<>();

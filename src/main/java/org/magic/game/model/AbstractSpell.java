@@ -3,12 +3,12 @@ package org.magic.game.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.game.model.abilities.AbstractAbilities;
 import org.magic.game.model.costs.Cost;
 import org.magic.game.model.effects.AbstractEffect;
-import org.magic.services.MTGLogger;
+import org.magic.services.logging.MTGLogger;
 
 public abstract class AbstractSpell implements Spell  {
 

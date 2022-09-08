@@ -2,13 +2,13 @@ package org.magic.gui.models.conf;
 
 import java.util.Date;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.spi.LoggingEvent;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.LogEvent;
 import org.magic.gui.abstracts.GenericTableModel;
-import org.magic.services.MTGAppender;
-import org.magic.services.MTGLogger;
+import org.magic.services.logging.MTGAppender;
+import org.magic.services.logging.MTGLogger;
 
-public class LogTableModel extends GenericTableModel<LoggingEvent> {
+public class LogTableModel extends GenericTableModel<LogEvent> {
 
 	private static final long serialVersionUID = 1L;
 	private transient MTGAppender app;
@@ -41,10 +41,10 @@ public class LogTableModel extends GenericTableModel<LoggingEvent> {
 			return app.getEvents().get(row).getThreadName();
 		
 		if (column == 2)
-			return new Date(app.getEvents().get(row).getTimeStamp());
+			return new Date(app.getEvents().get(row).getInstant().getEpochMillisecond());
 
 		if (column == 3)
-			return app.getEvents().get(row).getLocationInformation().getClassName();
+			return app.getEvents().get(row).getSource().getClassName();
 
 		if (column == 4)
 			return app.getEvents().get(row).getMessage();

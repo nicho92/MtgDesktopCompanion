@@ -4,7 +4,7 @@ import static org.magic.tools.MTG.listPlugins;
 
 import java.util.List;
 
-import org.apache.log4j.Level;
+import org.apache.logging.log4j.Level;
 import org.junit.Before;
 import org.junit.Test;
 import org.magic.api.beans.MagicCard;
@@ -20,7 +20,7 @@ import org.magic.api.pictures.impl.GathererPicturesProvider;
 import org.magic.api.pictures.impl.MythicSpoilerPicturesProvider;
 import org.magic.api.pictures.impl.PersonalSetPicturesProvider;
 import org.magic.api.pictures.impl.ScryFallPicturesProvider;
-import org.magic.services.MTGLogger;
+import org.magic.services.logging.MTGLogger;
 
 
 public class PicturesProviderTests {

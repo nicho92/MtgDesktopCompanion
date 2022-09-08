@@ -5,8 +5,8 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-import org.magic.services.MTGLogger;
+import org.apache.logging.log4j.Logger;
+import org.magic.services.logging.MTGLogger;
 
 import boofcv.alg.distort.RemovePerspectiveDistortion;
 import boofcv.alg.filter.binary.BinaryImageOps;

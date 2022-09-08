@@ -6,10 +6,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.enums.CardsPatterns;
-import org.magic.services.MTGLogger;
+import org.magic.services.logging.MTGLogger;
 import org.utils.patterns.observer.Observable;
 
 public class ManaPool extends Observable implements Serializable {

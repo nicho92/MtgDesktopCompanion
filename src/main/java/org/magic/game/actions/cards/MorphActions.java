@@ -10,13 +10,13 @@ import java.util.regex.Pattern;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.game.gui.components.DisplayableCard;
-import org.magic.services.MTGLogger;
 import org.magic.services.keywords.AbstractKeyWordsManager;
+import org.magic.services.logging.MTGLogger;
 
 public class MorphActions extends AbstractAction {
 

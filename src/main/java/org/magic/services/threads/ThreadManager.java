@@ -14,13 +14,13 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
-import org.apache.log4j.Logger;
-import org.magic.api.beans.audit.TaskInfo;
-import org.magic.api.beans.audit.TaskInfo.STATE;
-import org.magic.api.beans.audit.TaskInfo.TYPE;
+import org.apache.logging.log4j.Logger;
+import org.magic.api.beans.technical.audit.TaskInfo;
+import org.magic.api.beans.technical.audit.TaskInfo.STATE;
+import org.magic.api.beans.technical.audit.TaskInfo.TYPE;
 import org.magic.api.exports.impl.JsonExport;
-import org.magic.services.MTGLogger;
 import org.magic.services.TechnicalServiceManager;
+import org.magic.services.logging.MTGLogger;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gson.JsonObject;

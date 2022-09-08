@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.SerializationUtils;
-import org.magic.api.beans.GedEntry;
+import org.magic.api.beans.technical.GedEntry;
 import org.magic.api.interfaces.MTGGedStorage;
 import org.magic.api.interfaces.MTGStorable;
 

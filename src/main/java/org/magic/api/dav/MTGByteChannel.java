@@ -10,12 +10,12 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.CardsManagerService;
-import org.magic.services.MTGLogger;
+import org.magic.services.logging.MTGLogger;
 
 public class MTGByteChannel implements SeekableByteChannel {
 

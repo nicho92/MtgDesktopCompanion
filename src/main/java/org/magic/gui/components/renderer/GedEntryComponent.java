@@ -17,11 +17,11 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.JXLabel;
-import org.magic.api.beans.GedEntry;
+import org.magic.api.beans.technical.GedEntry;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGLogger;
+import org.magic.services.logging.MTGLogger;
 import org.magic.tools.ImageTools;
 
 @SuppressWarnings("rawtypes") 

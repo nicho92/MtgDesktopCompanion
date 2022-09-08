@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.swing.SwingWorker;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCard;
@@ -13,7 +13,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
+import org.magic.services.logging.MTGLogger;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 

@@ -9,11 +9,11 @@ import java.util.Properties;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.entity.ByteArrayEntity;
-import org.apache.log4j.Logger;
-import org.magic.api.beans.AccountAuthenticator;
+import org.apache.logging.log4j.Logger;
+import org.magic.api.beans.technical.AccountAuthenticator;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGLogger;
+import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
 

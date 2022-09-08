@@ -44,8 +44,6 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.magic.api.beans.Announce;
 import org.magic.api.beans.Announce.STATUS;
-import org.magic.api.beans.ConverterItem;
-import org.magic.api.beans.GedEntry;
 import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.beans.MagicCard;
@@ -57,16 +55,18 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.beans.OrderEntry;
-import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.beans.SealedStock;
-import org.magic.api.beans.WebShopConfig;
-import org.magic.api.beans.audit.JsonQueryInfo;
-import org.magic.api.beans.audit.NetworkInfo;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
+import org.magic.api.beans.technical.ConverterItem;
+import org.magic.api.beans.technical.GedEntry;
+import org.magic.api.beans.technical.RetrievableDeck;
+import org.magic.api.beans.technical.WebShopConfig;
+import org.magic.api.beans.technical.audit.JsonQueryInfo;
+import org.magic.api.beans.technical.audit.NetworkInfo;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardRecognition;
 import org.magic.api.interfaces.MTGCardsExport;
@@ -273,7 +273,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 		});
 	
 
-		after(this::addInfo);
+		after((request, response) -> {
+			
+			addInfo(request,response);
+		
+		});
 		
 		options("/*", (request, response) -> {
 			var accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
@@ -290,13 +294,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 
 	}
-	
-	
-	private void sendToken(Response res, String token)
-	{
-		res.header("x-auth-token", token);
-	}
-	
 
 
 	@SuppressWarnings("unchecked")
@@ -315,8 +312,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 			obj.addProperty("accessToken",jwtService.generateToken(m,getInt("JWT_EXPIRATION_MINUTES"),false));
 			obj.addProperty("refreshToken",jwtService.generateToken(m,getInt("JWT_REFRESH_EXPIRATION_MINUTES"),true));
 			
-			sendToken(response,obj.get("accessToken").getAsString());
-			
+			response.cookie("x-auth-token", obj.get("accessToken").getAsString());
+
 			
 			return obj;
 		},transformer);

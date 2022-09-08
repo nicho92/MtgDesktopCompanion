@@ -1,6 +1,5 @@
 package org.magic.api.beans;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -13,10 +12,11 @@ import java.util.Set;
 
 import org.magic.api.beans.MagicFormat.AUTHORIZATION;
 import org.magic.api.beans.enums.MTGColor;
+import org.magic.api.interfaces.MTGStorable;
 import org.magic.tools.IDGenerator;
 
 
-public class MagicDeck implements Serializable {
+public class MagicDeck implements MTGStorable {
 
 	private static final long serialVersionUID = 1L;
 	private Map<MagicCard, Integer> mapDeck;
@@ -45,6 +45,15 @@ public class MagicDeck implements Serializable {
 		dateCreation=new Date();
 		dateUpdate=new Date();
 	}
+	
+
+	@Override
+	public String getStoreId() {
+		return String.valueOf(getId());
+	}
+	
+	
+	
 	
 	public int getId() {
 		return id;
@@ -305,6 +314,5 @@ public class MagicDeck implements Serializable {
 		
 		
 	}
-	
-	
+
 }

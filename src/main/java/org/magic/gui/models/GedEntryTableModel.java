@@ -1,6 +1,6 @@
 package org.magic.gui.models;
 
-import org.magic.api.beans.GedEntry;
+import org.magic.api.beans.technical.GedEntry;
 import org.magic.api.interfaces.MTGStorable;
 import org.magic.gui.abstracts.GenericTableModel;
 

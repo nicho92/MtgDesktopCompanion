@@ -39,7 +39,7 @@ import org.fife.ui.autocomplete.DefaultCompletionProvider;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rtextarea.RTextScrollPane;
 import org.jfree.ui.ExtensionFileFilter;
-import org.magic.api.beans.PluginEntry;
+import org.magic.api.beans.technical.PluginEntry;
 import org.magic.api.interfaces.MTGScript;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;

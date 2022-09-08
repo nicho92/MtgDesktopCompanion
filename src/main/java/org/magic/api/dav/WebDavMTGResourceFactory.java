@@ -4,11 +4,11 @@ import static org.magic.tools.MTG.getEnabledPlugin;
 
 import java.sql.SQLException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.servers.impl.WebDAVServer;
-import org.magic.services.MTGLogger;
 import org.magic.services.PluginRegistry;
+import org.magic.services.logging.MTGLogger;
 
 import io.milton.common.Path;
 import io.milton.http.ResourceFactory;

@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.RetrievableDeck;
+import org.magic.api.beans.technical.RetrievableDeck;
 
 public interface MTGDeckSniffer extends MTGPlugin {
 

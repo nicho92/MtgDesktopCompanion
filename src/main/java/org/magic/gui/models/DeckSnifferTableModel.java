@@ -1,6 +1,6 @@
 package org.magic.gui.models;
 
-import org.magic.api.beans.RetrievableDeck;
+import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.gui.abstracts.GenericTableModel;
 
 public class DeckSnifferTableModel extends GenericTableModel<RetrievableDeck> {

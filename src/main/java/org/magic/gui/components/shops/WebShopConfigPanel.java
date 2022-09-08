@@ -39,7 +39,7 @@ import org.jdesktop.swingx.JXTaskPaneContainer;
 import org.jdesktop.swingx.painter.MattePainter;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.WebShopConfig;
+import org.magic.api.beans.technical.WebShopConfig;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.abstracts.MTGUIComponent;

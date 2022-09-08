@@ -5,14 +5,14 @@
 	<name>MagicDesktopCompanion</name>
 	<description>Cards manager for magic the gathering</description>
 	<url>https://www.mtgcompanion.org</url>
-	<issueManagement>
-		<system>GitHub</system>
-		<url>https://github.com/nicho92/MtgDesktopCompanion/issues</url>
-	</issueManagement>
 	<groupId>com.github.nicho92</groupId>
 	<artifactId>magic-api</artifactId>
 	<version>2.36</version>
 	<packaging>jar</packaging>
+	<issueManagement>
+		<system>GitHub</system>
+		<url>https://github.com/nicho92/MtgDesktopCompanion/issues</url>
+	</issueManagement>
 	<organization>
 		<name>Nicolas Pihen</name>
 		<url>https://www.mtgcompanion.org</url>
@@ -43,6 +43,7 @@
 		<system>Travis CI</system>
 		<url>https://travis-ci.org/nicho92/MtgDesktopCompanion</url>
 	</ciManagement>
+	
 	<properties>
 		<maven.compiler.source>16</maven.compiler.source>
 		<maven.compiler.target>16</maven.compiler.target>
@@ -95,14 +96,14 @@
 			<version>2.18.0</version>
 		</dependency>
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>2.0.0</version>
+    		<groupId>org.apache.logging.log4j</groupId>
+    		<artifactId>log4j-slf4j-impl</artifactId>
+    		<version>2.18.0</version>
 		</dependency>
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>2.0.0</version>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-jcl</artifactId>
+		    <version>2.18.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.poi</groupId>
@@ -645,7 +646,26 @@
 			</resource>
 		</resources>
 		<plugins>
-
+			<plugin>
+			  <groupId>org.apache.maven.plugins</groupId>
+			  <artifactId>maven-compiler-plugin</artifactId>
+			  <version>3.1</version>
+			  <executions>
+			    <execution>
+			      <id>log4j-plugin-processor</id>
+			      <goals>
+			        <goal>compile</goal>
+			      </goals>
+			      <phase>process-classes</phase>
+			      <configuration>
+			        <proc>only</proc>
+			        <annotationProcessors>
+			          <annotationProcessor>org.apache.logging.log4j.core.config.plugins.processor.PluginProcessor</annotationProcessor>
+			        </annotationProcessors>
+			      </configuration>
+			    </execution>
+			  </executions>
+			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>appassembler-maven-plugin</artifactId>
@@ -757,6 +777,7 @@
 			</plugin>-->
 		</plugins>
 	</build>
+
 
 
 </project>

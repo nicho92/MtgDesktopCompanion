@@ -4,7 +4,8 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.magic.services.logging.MTGLogger;
 
 public class LanguageService {
 

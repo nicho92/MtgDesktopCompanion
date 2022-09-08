@@ -1,4 +1,4 @@
-package org.magic.api.beans.audit;
+package org.magic.api.beans.technical.audit;
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -9,10 +9,6 @@ public abstract class AbstractAuditableItem implements Serializable {
 	protected Instant start;
 	protected Instant end;
 	protected long duration;
-//	protected StackTraceElement[] stackTrace;
-	
-	
-	
 	
 	@Override
 	public String toString() {
@@ -24,14 +20,6 @@ public abstract class AbstractAuditableItem implements Serializable {
 	
 	protected AbstractAuditableItem() {
 		start= Instant.now();
-		
-		
-//		if(Thread.currentThread().getStackTrace().length>13)
-//			stackTrace = ArrayUtils.subarray(Thread.currentThread().getStackTrace(),3,14);
-//		else
-//			stackTrace = Thread.currentThread().getStackTrace();
-		
-		
 	}
 	
 	public Instant getStart() {
@@ -59,19 +47,5 @@ public abstract class AbstractAuditableItem implements Serializable {
 	public void setDuration(long duration) {
 			this.duration=duration;
 	}
-	
-//	public void setStackTrace(StackTraceElement[] stackTrace) {
-//		this.stackTrace = stackTrace;
-//	}
-//	
-//	public StackTraceElement[] getStackTrace() {
-//		return stackTrace;
-//	}
 
-	
-	
-	
-	
-	
-	
 }

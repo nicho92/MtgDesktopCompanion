@@ -1,4 +1,4 @@
-package org.magic.api.beans.audit;
+package org.magic.api.beans.technical.audit;
 
 import java.util.HashMap;
 import java.util.Map;

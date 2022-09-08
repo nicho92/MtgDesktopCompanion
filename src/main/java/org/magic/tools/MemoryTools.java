@@ -2,9 +2,9 @@ package org.magic.tools;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
-import org.magic.api.beans.MemoryInfo;
-import org.magic.services.MTGLogger;
+import org.apache.logging.log4j.Logger;
+import org.magic.api.beans.technical.MemoryInfo;
+import org.magic.services.logging.MTGLogger;
 import org.openjdk.jol.info.ClassLayout;
 import org.openjdk.jol.info.GraphLayout;
 import org.openjdk.jol.util.Multiset;

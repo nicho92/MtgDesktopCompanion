@@ -3,7 +3,7 @@ package org.magic.tools;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.magic.services.MTGLogger;
+import org.magic.services.logging.MTGLogger;
 
 public class POMReader {
 

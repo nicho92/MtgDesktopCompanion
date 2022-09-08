@@ -20,7 +20,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.text.BadLocationException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsIndexer;
@@ -28,7 +28,7 @@ import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.AbstractDelegatedImporterDialog;
 import org.magic.gui.components.editor.JTagsPanel;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGLogger;
+import org.magic.services.logging.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.DeckImportWorker;
 public class ManualImportDialog extends AbstractDelegatedImporterDialog {
@@ -37,12 +37,12 @@ public class ManualImportDialog extends AbstractDelegatedImporterDialog {
 	private static final long serialVersionUID = 1L;
 	private JTextPane editorPane;
 	private JTagsPanel tagsPanel;
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private int start;
 	private int position;
 	private AbstractBuzyIndicatorComponent lblLoading;
 	private MagicDeck importedDeck;
-	
+	private  Logger logger = MTGLogger.getLogger(this.getClass());
+
 	
 	
 	public String getStringDeck() {

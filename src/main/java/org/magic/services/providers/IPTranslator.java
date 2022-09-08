@@ -1,11 +1,10 @@
 package org.magic.services.providers;
 
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 
-import org.apache.log4j.Logger;
-import org.magic.api.beans.audit.Location;
-import org.magic.services.MTGLogger;
+import org.apache.logging.log4j.Logger;
+import org.magic.api.beans.technical.audit.Location;
+import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
 import org.magic.tools.TCache;
 

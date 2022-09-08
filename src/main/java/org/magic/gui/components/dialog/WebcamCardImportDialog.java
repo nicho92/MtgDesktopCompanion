@@ -31,7 +31,7 @@ import javax.swing.JSlider;
 import javax.swing.ListCellRenderer;
 import javax.swing.SwingWorker;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
@@ -48,7 +48,7 @@ import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.MagicEditionsJLabelRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGLogger;
+import org.magic.services.logging.MTGLogger;
 import org.magic.services.providers.IconSetProvider;
 import org.magic.services.recognition.MatchResult;
 import org.magic.services.recognition.area.AutoDetectAreaStrat;

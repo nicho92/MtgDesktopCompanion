@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.magic.api.beans.Announce;
-import org.magic.api.beans.ConverterItem;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
@@ -19,6 +18,7 @@ import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
+import org.magic.api.beans.technical.ConverterItem;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPool;

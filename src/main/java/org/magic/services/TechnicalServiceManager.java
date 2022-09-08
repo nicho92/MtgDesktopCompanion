@@ -13,14 +13,15 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
-import org.magic.api.beans.audit.AbstractAuditableItem;
-import org.magic.api.beans.audit.DAOInfo;
-import org.magic.api.beans.audit.DiscordInfo;
-import org.magic.api.beans.audit.JsonQueryInfo;
-import org.magic.api.beans.audit.NetworkInfo;
-import org.magic.api.beans.audit.TaskInfo;
+import org.apache.logging.log4j.Logger;
+import org.magic.api.beans.technical.audit.AbstractAuditableItem;
+import org.magic.api.beans.technical.audit.DAOInfo;
+import org.magic.api.beans.technical.audit.DiscordInfo;
+import org.magic.api.beans.technical.audit.JsonQueryInfo;
+import org.magic.api.beans.technical.audit.NetworkInfo;
+import org.magic.api.beans.technical.audit.TaskInfo;
 import org.magic.api.exports.impl.JsonExport;
+import org.magic.services.logging.MTGLogger;
 import org.magic.services.providers.IPTranslator;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
@@ -74,9 +75,7 @@ public class TechnicalServiceManager {
 				logger.error("error creating " + logsDirectory.getAbsolutePath() +": "+e);
 			}
 		}
-		
 	
-		
 		
 		logger.info("Starting Log backup timer scheduled at " + TimeUnit.HOURS.toMillis(SCHEDULE_TIMER_MS) +" ms");
 		ThreadManager.getInstance().timer(new MTGRunnable() {

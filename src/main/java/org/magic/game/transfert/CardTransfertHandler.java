@@ -16,11 +16,11 @@ import javax.swing.JWindow;
 import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.Draggable;
 import org.magic.game.gui.components.DraggablePanel;
-import org.magic.services.MTGLogger;
+import org.magic.services.logging.MTGLogger;
 
 public class CardTransfertHandler extends TransferHandler {
 

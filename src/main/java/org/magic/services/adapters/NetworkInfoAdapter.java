@@ -2,7 +2,7 @@ package org.magic.services.adapters;
 
 import java.lang.reflect.Type;
 
-import org.magic.api.beans.audit.NetworkInfo;
+import org.magic.api.beans.technical.audit.NetworkInfo;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;

@@ -14,7 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.http.entity.StringEntity;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.RetrievableDeck;
+import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGConstants;

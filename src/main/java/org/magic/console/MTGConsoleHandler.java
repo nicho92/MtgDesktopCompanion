@@ -9,13 +9,13 @@ import java.util.StringTokenizer;
 
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IoSession;
 import org.magic.api.interfaces.MTGCommand;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGLogger;
 import org.magic.services.PluginRegistry;
+import org.magic.services.logging.MTGLogger;
 
 public class MTGConsoleHandler extends IoHandlerAdapter {
 

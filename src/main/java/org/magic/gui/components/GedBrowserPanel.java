@@ -12,7 +12,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
-import org.magic.api.beans.GedEntry;
+import org.magic.api.beans.technical.GedEntry;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGGedStorage;
 import org.magic.api.interfaces.MTGStorable;
