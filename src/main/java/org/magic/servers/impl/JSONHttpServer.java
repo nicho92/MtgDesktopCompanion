@@ -247,7 +247,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		});
 		
 		exception(Exception.class, (Exception exception, Request request, Response response) -> {
-			logger.error("Error :" + request.headers(URLTools.REFERER) + ":" + exception.getMessage(), exception);
+			logger.error("Error :{} : {} ",request.headers(URLTools.REFERER),exception.getMessage(), exception);
 			addInfo(request,response);
 			response.body(error(request,response, exception.getMessage(),500).toString());
 		});
@@ -273,11 +273,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		});
 	
 
-		after((request, response) -> {
-			
-			addInfo(request,response);
-		
-		});
+		after(this::addInfo);
 		
 		options("/*", (request, response) -> {
 			var accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");

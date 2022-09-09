@@ -69,7 +69,7 @@ public abstract class AbstractFileStorage extends AbstractMTGPlugin implements M
 	public <T extends MTGStorable> GedEntry<T>  read(Path p) throws IOException
 	{
 		GedEntry<T> ged = SerializationUtils.deserialize(java.nio.file.Files.readAllBytes(p));
-		logger.debug("reading " + p + " :" + ged.getClasse() + " " + ged.getName());
+		logger.debug("reading {} : {} {}",p,ged.getClasse(),ged.getName());
 		
 		notify(ged);
 		return ged;
@@ -80,7 +80,7 @@ public abstract class AbstractFileStorage extends AbstractMTGPlugin implements M
 	{
 		
 		var p = getPath(entry);
-		logger.info("store :"+ p.toAbsolutePath());
+		logger.info("store : {} ",p.toAbsolutePath());
 		
 		if(p.getParent()!=null && !Files.exists(p.getParent()))
 			Files.createDirectories(p.getParent());
@@ -106,7 +106,7 @@ public abstract class AbstractFileStorage extends AbstractMTGPlugin implements M
 	
 	@Override
 	public <T extends MTGStorable>  boolean delete(GedEntry<T> entry) {
-		logger.info("removing " + entry);
+		logger.info("removing {}",entry);
 		
 		try {
 			Files.delete(getPath(entry));

@@ -15,7 +15,6 @@ import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
 import org.magic.tools.FileTools;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 

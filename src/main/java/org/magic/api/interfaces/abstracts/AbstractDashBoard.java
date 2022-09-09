@@ -73,7 +73,7 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 			}
 			
 		} catch (NullPointerException e) {
-			logger.debug("no card found for " + mc +" foil="+foil );
+			logger.debug("no card found for {} foil={}",mc,foil );
 			return 0.0;
 		} catch (IOException e) {
 			logger.error(e);
@@ -130,11 +130,11 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 		var c = evaluator.getCacheDate(edition);
 		var d = new Date();
 		
-		logger.trace(edition + " cache : " + c);
+		logger.trace("{} cache : {}",edition,c);
 		
 		if(c==null || !DateUtils.isSameDay(c, d))
 		{
-			logger.debug(edition + " not in cache.Loading it");
+			logger.debug("{} not in cache.Loading it",edition);
 			evaluator.initCache(edition,getOnlineShakesForEdition(edition));	
 		}
 		EditionsShakers ret = evaluator.loadFromCache(edition);

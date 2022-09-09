@@ -116,12 +116,9 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 	
 	private MagicCard readCard(Matcher m) {
 		try {
-			return getEnabledPlugin(MTGCardsProvider.class).searchCardByName(m.group(1),null,true).stream().filter(c->{
-				
-				return (!m.group(18).isEmpty()&&m.group(18).equals(c.getCurrentSet().getMultiverseid()))||
-					   (m.group(15).equals(c.getCurrentSet().getNumber()));
-				
-			}).findFirst().orElse(null);
+			return getEnabledPlugin(MTGCardsProvider.class).searchCardByName(m.group(1),null,true).stream().filter(c->
+				(!m.group(18).isEmpty()&&m.group(18).equals(c.getCurrentSet().getMultiverseid()))||(m.group(15).equals(c.getCurrentSet().getNumber()))
+			).findFirst().orElse(null);
 		} catch (Exception e) {
 			logger.error(e);
 			return null;

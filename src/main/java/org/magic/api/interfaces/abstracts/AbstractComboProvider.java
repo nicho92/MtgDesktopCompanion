@@ -33,7 +33,7 @@ public abstract class AbstractComboProvider extends AbstractMTGPlugin implements
 				}
 			});
 		} catch (ExecutionException e) {
-			logger.error("Error loading combo cache for " + getName(),e);
+			logger.error("Error loading combo cache for {} : {}",getName(),e);
 			return new ArrayList<>();
 		}
 	}
