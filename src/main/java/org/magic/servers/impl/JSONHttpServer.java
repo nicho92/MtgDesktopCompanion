@@ -200,7 +200,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			jwtService = new JWTServices(getString("JWT_SECRET"), MTGConstants.MTG_APP_NAME);
 			
 			running = true;
-			logger.info("Server " + getName() +" started on port " + getInt(SERVER_PORT));
+			logger.info("Server {} started on port {}",getName(),getInt(SERVER_PORT));
 		}
 	
 
@@ -1326,45 +1326,43 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		
 		get("/robots.txt",URLTools.HEADER_TEXT,(req,res) ->
-			 """
-			 		User-agent: Googlebot
-					Disallow: /
-					User-agent: googlebot-image
-					Disallow: /
-					User-agent: googlebot-mobile
-					Disallow: /
-					User-agent: MSNBot
-					Disallow: /
-					User-agent: Slurp
-					Disallow: /
-					User-agent: Teoma
-					Disallow: /
-					User-agent: Gigabot
-					Disallow: /
-					User-agent: Robozilla
-					Disallow: /
-					User-agent: Nutch
-					Disallow: /
-					User-agent: ia_archiver
-					Disallow: /
-					User-agent: baiduspider
-					Disallow: /
-					User-agent: naverbot
-					Disallow: /
-					User-agent: yeti
-					Disallow: /
-					User-agent: yahoo-mmcrawler
-					Disallow: /
-					User-agent: psbot
-					Disallow: /
-					User-agent: yahoo-blogs/v3.9
-					Disallow: /
-					User-agent: *
-					Disallow: /
-					Disallow: /cgi-bin/
-					"""
-			
-		);
+			"""
+			\tUser-agent: Googlebot
+			\tDisallow: /
+			\tUser-agent: googlebot-image
+			\tDisallow: /
+			\tUser-agent: googlebot-mobile
+			\tDisallow: /
+			\tUser-agent: MSNBot
+			\tDisallow: /
+			\tUser-agent: Slurp
+			\tDisallow: /
+			\tUser-agent: Teoma
+			\tDisallow: /
+			\tUser-agent: Gigabot
+			\tDisallow: /
+			\tUser-agent: Robozilla
+			\tDisallow: /
+			\tUser-agent: Nutch
+			\tDisallow: /
+			\tUser-agent: ia_archiver
+			\tDisallow: /
+			\tUser-agent: baiduspider
+			\tDisallow: /
+			\tUser-agent: naverbot
+			\tDisallow: /
+			\tUser-agent: yeti
+			\tDisallow: /
+			\tUser-agent: yahoo-mmcrawler
+			\tDisallow: /
+			\tUser-agent: psbot
+			\tDisallow: /
+			\tUser-agent: yahoo-blogs/v3.9
+			\tDisallow: /
+			\tUser-agent: *
+			\tDisallow: /
+			\tDisallow: /cgi-bin/
+			\t""");
 		
 		if(getBoolean("INDEX_ROUTES")) {
 			get("/",URLTools.HEADER_HTML,(request,response) -> {
