@@ -128,7 +128,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 				try {
 					FileTools.loadProperties(confFile, props);
 				} catch (IOException e) {
-					logger.error("error loading file " + confFile, e);
+					logger.error("error loading file {} : {}",confFile, e);
 				}
 			}
 		loaded=true;
@@ -138,7 +138,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 		try {
 			FileTools.saveProperties(confFile, props);
 		} catch (Exception e) {
-			logger.error("error writing file " + confFile, e);
+			logger.error("error writing file {} : {}",confFile, e.getMessage());
 		}
 	}
 
@@ -149,7 +149,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 
 	@Override
 	public void setProperty(String k, Object value) {
-		logger.debug("setProperty " + k + "="+value);
+		logger.debug("setProperty {}={}",k,value);
 		if (value == null)
 			value = "";
 
@@ -213,7 +213,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 	public String getString(String k) {
 
 		if (props.getProperty(k) == null) {
-			logger.error(k + " is not found in " + getName());
+			logger.error("{} is not found in {}",k,getName());
 			props.put(k, getDefaultAttributes().get(k));
 			save();
 			load();
@@ -272,7 +272,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 	
 	@Override
 	public void unload() {
-		logger.trace("Unloading " + getName());
+		logger.trace("Unloading {}",getName());
 		
 	}
 	

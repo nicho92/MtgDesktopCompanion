@@ -48,7 +48,7 @@ public class AbstractMTGDavResource implements DigestResource  {
             	logger.warn("that password is incorrect");
             }
         } else {
-        	logger.warn("user not found: " + digestRequest.getUser());
+        	logger.warn("user not found: {}",digestRequest.getUser());
         }
         return null;
 	}

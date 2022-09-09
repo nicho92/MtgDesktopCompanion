@@ -208,7 +208,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 
 	public Booster generateBooster(MagicEdition me) throws IOException {
 
-		logger.debug("opening booster for " + me);
+		logger.debug("opening booster for {}",me);
 		List<MagicCard> common = new ArrayList<>();
 		List<MagicCard> uncommon = new ArrayList<>();
 		List<MagicCard> rare = new ArrayList<>();
@@ -254,7 +254,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		b.setCards(resList);
 		b.setEdition(me);
 		
-		logger.trace(b.getEdition() + ":" + b + ":" + b.getCards());
+		logger.trace("generating cards for edition {} : {}",b.getEdition(),b.getCards());
 
 		return b;
 	}

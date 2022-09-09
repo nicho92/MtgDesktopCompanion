@@ -41,7 +41,7 @@ public class ManualImportDialog extends AbstractDelegatedImporterDialog {
 	private int position;
 	private AbstractBuzyIndicatorComponent lblLoading;
 	private MagicDeck importedDeck;
-	private  Logger logger = MTGLogger.getLogger(this.getClass());
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	
 	

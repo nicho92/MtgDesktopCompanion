@@ -84,7 +84,7 @@ public abstract class AbstractJSR223MTGScript extends AbstractMTGScript  {
 			
 			if(engine==null)
 			{
-				logger.error(getEngineName() + " is not found");
+				logger.error("{} is not found",getEngineName());
 				return;
 			}
 			binds = engine.createBindings();

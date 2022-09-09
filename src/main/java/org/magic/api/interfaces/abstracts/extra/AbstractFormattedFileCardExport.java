@@ -84,7 +84,7 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 				return getEnabledPlugin(MTGCardsProvider.class).searchCardByName( cname, ed, true).get(0);
 			
 		} catch (Exception e) {
-			logger.error("Couldn't find card "+ cname + " ["+ed+"] :" + e);
+			logger.error("Couldn't find card {} [{}] : {}",cname,ed,e);
 			return null;
 		}
 	}
