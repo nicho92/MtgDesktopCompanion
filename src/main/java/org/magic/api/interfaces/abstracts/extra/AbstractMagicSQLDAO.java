@@ -68,6 +68,7 @@ import com.google.gson.JsonObject;
 
 public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
+	private static final String UPDATED = "{} updated";
 	private static final String BOOLEAN = "BOOLEAN";
 	private static final String EXTRA_TYPE = "extra";
 	private static final String COLLECTION = "collection";
@@ -512,7 +513,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 					pst.setString(13, n.getStatus().name());
 					pst.setInt(14, n.getId());
 					executeUpdate(pst);
-					logger.debug("{} updated",n);
+					logger.debug(UPDATED,n);
 				}	
 				
 		}
@@ -775,7 +776,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setLong(5, n.getOutputId());
 				pst.setLong(6, n.getId());
 				executeUpdate(pst);
-				logger.debug("{} updated",n.getName());
+				logger.debug(UPDATED,n.getName());
 				n.setUpdated(false);	
 			}	
 			
@@ -865,7 +866,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setInt(9,d.getId());
 				executeUpdate(pst);
 			}	
-			logger.debug("{} updated",d.getName());
+			logger.debug(UPDATED,d.getName());
 		}
 		
 		return d.getId();
