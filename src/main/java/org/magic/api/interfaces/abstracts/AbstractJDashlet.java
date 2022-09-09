@@ -104,7 +104,7 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 		if (!confdir.exists())
 		{
 			boolean ret = confdir.mkdirs();
-			logger.debug(confdir + " doesn't exist, create it="+ret);
+			logger.debug("{} doesn't exist, create id={}",confdir,ret);
 			
 		}
 	

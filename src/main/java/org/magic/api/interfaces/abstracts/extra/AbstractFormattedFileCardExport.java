@@ -114,7 +114,7 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 				if(m.find())
 					ret.add(m);
 				else
-					logger.error("no match for " + line);
+					logger.error("no match for {}",line);
 			}
 			
 		}

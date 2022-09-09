@@ -87,7 +87,7 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 				{
 					for(var extComName :  it.getTiersAppIds().keySet().stream().filter(s->!s.equalsIgnoreCase(getName())).toList())
 					{
-						logger.debug("Updating " + it.getProduct().getName() + " on " + extComName + " with id=" + it.getTiersAppIds(extComName));
+						logger.debug("Updating {} on {} with id={}",it.getProduct().getName(),extComName,it.getTiersAppIds(extComName));
 						it.setId(Integer.parseInt( it.getTiersAppIds(extComName)));
 						MTG.getPlugin(extComName, MTGExternalShop.class).saveOrUpdateStock(it, false);
 					}
@@ -108,11 +108,6 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 	//TODO make a function to update stock in cascade with transaction
 	@Override
 	public void updateStockFromTransaction(Transaction t) throws IOException {
-	
-		logger.debug("Creating transaction " + t.getSourceShopName() +" in " + getName());
-		
-		logger.info("change stock from " + getName() + " to " + t.getSourceShopName());
-		
 		t.getItems().forEach(msi->{
 			
 			if(msi.getTiersAppIds(getName())!=null)

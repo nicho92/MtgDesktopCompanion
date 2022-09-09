@@ -261,26 +261,26 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 			}
 			catch(FileNotFoundException ex)
 			{
-				logger.error(fversion + " doesn't exist"); 
+				logger.error("{} doesn't exist",fversion); 
 			} catch (IOException e) {
 				logger.error(e);
 			}
 			
 			try {
-				logger.debug("check new version of " + toString() + " (" + temp + ")");
+				logger.debug("check new version of {} ({})",this,temp);
 	
 				JsonElement d = URLTools.extractAsJson(MTG_JSON_VERSION);
 				version = d.getAsJsonObject().get("data").getAsJsonObject().get("version").getAsString();
 				if (!version.equals(temp)) {
-					logger.info("new version datafile exist (" + version + "). Downloading it");
+					logger.info("new version datafile exist ({}). Downloading it",version);
 					return true;
 				}
 
-			logger.debug("check new version of " + this + ": up to date");
+			logger.debug("check new version of {} : up to date",this);
 			return false;
 		} catch (Exception e) {
 			version = temp;
-			logger.error("Error getting last version " + e);
+			logger.error("Error getting last version",e);
 			return false;
 		}
 
