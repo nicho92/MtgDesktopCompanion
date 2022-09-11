@@ -47,7 +47,7 @@ public class LogTableModel extends GenericTableModel<LogEvent> {
 			return app.getEvents().get(row).getSource().getClassName();
 
 		if (column == 4)
-			return app.getEvents().get(row).getMessage();
+			return app.getEvents().get(row).getMessage().getFormattedMessage();
 
 		return "";
 	}

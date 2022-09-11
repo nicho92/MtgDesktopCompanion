@@ -93,11 +93,10 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 	{
 		
 		FileTools.copyDirJarToDirectory(getWebLocation(), dest);
-		logger.debug("copying " + getWebLocation() + " to " + dest);
+		logger.debug("copying {} to {}",getWebLocation(),dest);
 		
 		var js = Paths.get(dest.getAbsolutePath(),getWebLocation(),"dist","js",REST_JS_FILENAME).toFile();
-		
-		logger.debug("copying " + js + " to " + dest);
+		logger.debug("copying {} to {} ",js,dest);
 		
 		FileTools.saveFile(js, "var restserver='" + getString(REST_BACKEND_URI) + "';");
 	}
@@ -190,7 +189,7 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 			}
 			
 			
-			logger.info("Server "+ getName() + "("+getVersion()+") start on port " + getInt(SERVER_PORT) + " @ " + webRootLocation);
+			logger.info("Server {} ({}) start on port {} @ {}",getName(),getVersion(),getInt(SERVER_PORT),webRootLocation);
 		} catch (Exception e) {
 			logger.error(e);
 			throw new IOException(e);

@@ -94,7 +94,7 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 		}
 		
 		if(!datas.isEmpty())
-			logger.debug("Max =" + max + " "  + datas.get(ix).getStringData());
+			logger.debug("Max ={} {}",max,datas.get(ix).getStringData());
 		
 		if(max>threshhold)
 		{
@@ -138,11 +138,11 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 	{
 			if(dataList.get(FilenameUtils.getBaseName(handle.getName()))!=null)
 			{
-				logger.trace(handle + " is already loaded");
+				logger.trace("{} is already loaded",handle);
 			}
 			else
 			{
-				logger.info("Loading " + handle.getAbsolutePath());
+				logger.info("Loading {}",handle.getAbsolutePath());
 				ByteBuffer buf = FileTools.getBuffer(handle);
 				FileTools.readUTF8(buf);
 				buf.getInt();
@@ -165,9 +165,9 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 	@Override
 	public File downloadCardsData(MagicEdition set) throws IOException
 	{
-		logger.info("downloading " + set);
+		logger.info("downloading {}",set);
 		List<MagicCard> cards = getEnabledPlugin(MTGCardsProvider.class).searchCardByEdition(set);
-		logger.info("Loading cards from " + set +" " + cards.size() + " found");
+		logger.info("Loading cards from {} {} found",set,cards.size());
 		
 		for(MagicCard card:cards)
 		{
@@ -200,7 +200,7 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 		}
 		else
 		{	
-			logger.info(set +" doesn't exist. Building it");
+			logger.info("{} doesn't exist. Building it",set);
 			try {
 				loadDatasFromFile(downloadCardsData(set));
 			} catch (IOException e) {
@@ -230,7 +230,7 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 				}
 				catch(Exception e)
 				{
-					logger.error("Couldn't process card: "+card.toString()+"; "+e.getLocalizedMessage()+"\n");
+					logger.error("Couldn't process card: {} : {} ",card,e);
 				}
 		}
 	}
