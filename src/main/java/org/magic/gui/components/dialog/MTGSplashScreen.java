@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JWindow;
 
+import org.apache.logging.log4j.core.LogEvent;
 import org.magic.services.MTGConstants;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
@@ -73,7 +74,17 @@ public class MTGSplashScreen extends JWindow implements Observer {
 
 	@Override
 	public void update(Observable o, Object msg) {
-		progressBar.setString(String.valueOf(msg));
+		
+		
+		if(msg instanceof LogEvent le)
+		{
+			progressBar.setString(le.getMessage().getFormattedMessage());
+		}
+		else
+		{
+			progressBar.setString(String.valueOf(msg));	
+		}
+		
 	}
 
 }
