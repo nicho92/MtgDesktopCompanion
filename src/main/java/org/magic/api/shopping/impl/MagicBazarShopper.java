@@ -43,7 +43,7 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 		Document listOrders = URLTools.toHtml(client.toString(client.doGet(urlListOrders)));
 		Elements e = listOrders.select("div.total_list a");
 		
-		logger.debug("Found " + e.size() + " orders");
+		logger.debug("Found {} orders",e.size());
 		for(var i=0;i<e.size();i++)
 		{
 			String id = e.get(i).select("div.num_commande").text();
@@ -91,7 +91,7 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 						}
 						catch(Exception ex)
 						{
-							logger.error(set + " is not found");
+							logger.error("{} is not found",set);
 						}
 						
 						

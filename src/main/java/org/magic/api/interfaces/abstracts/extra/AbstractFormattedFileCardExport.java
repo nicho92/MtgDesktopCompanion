@@ -102,7 +102,7 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 
 	public List<Matcher> matches(String content,boolean removeBlank)
 	{
-		logger.debug("Parsing content with pattern : " + getStringPattern());
+		logger.debug("Parsing content with pattern : {}",getStringPattern());
 		List<Matcher> ret = new ArrayList<>();
 		for(String line : splitLines(content,removeBlank)) 
 		{

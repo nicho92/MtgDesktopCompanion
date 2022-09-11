@@ -51,7 +51,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 
-		logger.debug("sniff url : " + info.getUrl());
+		logger.debug("sniff url : {} ",info.getUrl());
 
 		MagicDeck deck = info.toBaseDeck();
 		Document d = URLTools.extractAsHtml(info.getUrl().toString());
@@ -90,7 +90,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 					}
 					catch(Exception e)
 					{
-						logger.error("No card found for " + name + " "+ ed);
+						logger.error("No card found for {} {}",name,ed);
 					}
 				}
 			}
@@ -117,7 +117,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 			else
 				url = getString("URL") + "metagame/" + filter + "#" + getString(SUPPORT);
 
-			logger.debug("sniff url : " + url);
+			logger.debug("sniff url : {} ",url);
 
 			var d = URLTools.extractAsHtml(url);
 			logger.trace(d);
@@ -162,7 +162,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 					list.add(deck);
 				
 				} catch (URISyntaxException e1) {
-					logger.error("Error setting url for " + deck.getName());
+					logger.error("Error setting url for {}",deck.getName());
 				}
 
 			}

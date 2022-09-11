@@ -41,7 +41,7 @@ public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTG
 			try {
 				FileUtils.forceMkdir(getFile(DIR));
 			} catch (IOException e) {
-				logger.error("Error creating " + getFile(DIR),e);
+				logger.error("Error creating {} {}",getFile(DIR),e);
 			}
 	}
 	
@@ -89,7 +89,7 @@ public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTG
 	@Override
 	public Object run(File f) throws ScriptException {
 		try {
-			logger.debug("running " + f);
+			logger.debug("running {}",f);
 			return runContent(FileTools.readFile(f));
 		} catch (IOException e) {
 			throw new ScriptException(e);

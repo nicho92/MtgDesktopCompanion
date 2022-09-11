@@ -84,7 +84,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 				cs.setMagicCollection(to);
 				saveOrUpdateCardStock(cs);
 			} catch (SQLException e) {
-				logger.error("Error saving stock for" + mc + " from " + from + " to " + to);
+				logger.error("Error saving stock for {} from {} to {}",mc,from,to);
 			}
 		});
 	}
@@ -261,7 +261,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 				dao.saveCollection(col);
 			}catch(Exception e)
 			{
-				logger.error(col +" already exist");
+				logger.error("{} already exist",col);
 			}
 			
 			for (MagicCard mc : listCardsFromCollection(col)) {
@@ -269,7 +269,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 					dao.saveCard(mc, col);
 				}catch(Exception e)
 				{
-					logger.error("error saving " + mc + " in "+ col + " :"+e);
+					logger.error("error saving {} in {} :{}",mc,col,e);
 				}
 			}
 		}

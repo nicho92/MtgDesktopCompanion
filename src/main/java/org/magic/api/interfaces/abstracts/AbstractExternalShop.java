@@ -112,7 +112,7 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 			
 			if(msi.getTiersAppIds(getName())!=null)
 			{
-				logger.info(msi.getProduct() + " is synchronized with" + getName());
+				logger.info("{} is synchronized with {}",msi.getProduct(), getName());
 			}
 			
 		});

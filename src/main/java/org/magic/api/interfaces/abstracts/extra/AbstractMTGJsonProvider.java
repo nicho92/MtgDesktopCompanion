@@ -133,7 +133,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	protected void download() {
 		try {
 			if (hasNewVersion()||!getDataFile().exists() || getDataFile().length() == 0 || getBoolean(FORCE_RELOAD)) {
-				logger.info("Downloading "+version + " datafile");
+				logger.info("Downloading {} datafile",version);
 				URLTools.download(getOnlineDataFileZip(), tempZipFile);
 				FileTools.unZipIt(tempZipFile,getDataFile());
 				FileTools.saveFile(fversion,version);
