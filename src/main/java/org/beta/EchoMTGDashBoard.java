@@ -59,7 +59,7 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 			if(obj.get("setcode").getAsString().equalsIgnoreCase(edi.getId()))
 				return obj;
 		}		
-		logger.debug(edi + " is not found. Loading first one "+list.getAsJsonArray().get(0).getAsJsonObject());
+		logger.debug("{} is not found. Loading first one : {}",edi,list.getAsJsonArray().get(0).getAsJsonObject());
 		return list.getAsJsonArray().get(0).getAsJsonObject();
 	}
 	
@@ -77,14 +77,14 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 							
 							
 				var ret = RequestBuilder.build().method(METHOD.GET).setClient(client)
-				 .url(EchoMTGExport.BASE_URL+"/cache/"+id.get("emid").getAsString()+".r.json")
-				 .addHeader(URLTools.ACCEPT, URLTools.HEADER_JSON+", text/javascript, */*; q=0.01")
-				 .addHeader(URLTools.ACCEPT_ENCODING, "gzip, deflate, br")
-				 .addHeader(URLTools.ACCEPT_LANGUAGE, "en-US,en;q=0.9,fr-FR;q=0.8,fr;q=0.7")
-				 .addHeader(URLTools.X_REQUESTED_WITH, "XMLHttpRequest")
-				 .addHeader(URLTools.HOST, WEBSITE)
-				 .addHeader(URLTools.REFERER, EchoMTGExport.BASE_URL+id.get("url").getAsString())
-				 .toJson().getAsJsonArray();
+												 .url(EchoMTGExport.BASE_URL+"/cache/"+id.get("emid").getAsString()+".r.json")
+												 .addHeader(URLTools.ACCEPT, URLTools.HEADER_JSON+", text/javascript, */*; q=0.01")
+												 .addHeader(URLTools.ACCEPT_ENCODING, "gzip, deflate, br")
+												 .addHeader(URLTools.ACCEPT_LANGUAGE, "en-US,en;q=0.9,fr-FR;q=0.8,fr;q=0.7")
+												 .addHeader(URLTools.X_REQUESTED_WITH, "XMLHttpRequest")
+												 .addHeader(URLTools.HOST, WEBSITE)
+												 .addHeader(URLTools.REFERER, EchoMTGExport.BASE_URL+id.get("url").getAsString())
+												 .toJson().getAsJsonArray();
 		
 		
 		ret.forEach(arr->{

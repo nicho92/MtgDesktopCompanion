@@ -55,7 +55,7 @@ public class GenericTableModel<T> extends AbstractTableModel {
 			s = BeanUtils.describe(classe).keySet();
 			columns = Arrays.copyOf(s.toArray(), s.size(),String[].class);
 		} catch (Exception e) {
-			logger.error("error calculate columns for " + classe,e);
+			logger.error("error calculate columns for {} : {}",classe,e);
 		}
 	}
 	
