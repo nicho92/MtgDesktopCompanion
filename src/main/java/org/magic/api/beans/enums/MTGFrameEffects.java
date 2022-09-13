@@ -41,7 +41,7 @@ public enum MTGFrameEffects{
 		try {
 			return MTGFrameEffects.valueOf(s.toUpperCase());
 		}
-		catch(IllegalArgumentException e)
+		catch(Exception e)
 		{
 			return null;
 		}

@@ -38,7 +38,7 @@ public enum MTGRarity implements Comparator<MTGRarity>{
 		try {
 			return MTGRarity.valueOf(s.toUpperCase());
 		}
-		catch(IllegalArgumentException e)
+		catch(Exception e)
 		{
 			return null;
 		}

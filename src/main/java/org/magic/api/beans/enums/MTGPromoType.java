@@ -56,7 +56,7 @@ public enum MTGPromoType {
 		try {
 			return MTGPromoType.valueOf(s.toUpperCase());
 		}
-		catch(IllegalArgumentException e)
+		catch(Exception e)
 		{
 			return null;
 		}

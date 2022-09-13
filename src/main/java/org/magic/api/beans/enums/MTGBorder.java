@@ -22,7 +22,7 @@ public enum MTGBorder{
 		try {
 			return MTGBorder.valueOf(s.toUpperCase());
 		}
-		catch(IllegalArgumentException e)
+		catch(Exception e)
 		{
 			return null;
 		}

@@ -455,15 +455,17 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 							 set.setMultiverseid(rs.getString(MULTIVERSE_ID));
 							 mc.getEditions().add(set);
 				
-				for(String ids : rs.getString("printings").split(",")) 
-				{
-					if(!ids.equals(set.getId()))
+							 
+				if(rs.getString("printings")!=null)
+					for(String ids : rs.getString("printings").split(",")) 
 					{
-						MagicEdition ed = getSetById(ids);
-						mc.getEditions().add(ed);
+						if(!ids.equals(set.getId()))
+						{
+							MagicEdition ed = getSetById(ids);
+							mc.getEditions().add(ed);
+						}
 					}
-				}
-				
+					
 				int split = mc.getName().indexOf("/");
 				if(split>1 && load)
 				{
