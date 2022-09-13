@@ -993,12 +993,15 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		}, transformer);
 		
-		
 		get("/metadata/recognition/list", URLTools.HEADER_JSON, (request, response) -> {
-			MTG.getEnabledPlugin(MTGCardRecognition.class).downloadCardsData(MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(":setId")));
-			return ok(request,response,"recognition list for " + request.params(":setId") + " downloaded");
+			return MTG.getEnabledPlugin(MTGCardRecognition.class).getDataList();
 		}, transformer);
-
+		
+		
+		get("/metadata/recognition/download/:idSet", URLTools.HEADER_JSON, (request, response) -> {
+			MTG.getEnabledPlugin(MTGCardRecognition.class).downloadCardsData(MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(ID_SET)));
+			return ok(request,response,"recognition list for " + request.params(ID_SET) + " downloaded");
+		}, transformer);
 		
 		get("/metadata/conditions", URLTools.HEADER_JSON,(request, response) -> EnumCondition.values(), transformer);
 		
