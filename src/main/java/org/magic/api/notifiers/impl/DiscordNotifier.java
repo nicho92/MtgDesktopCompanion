@@ -64,11 +64,11 @@ public class DiscordNotifier extends AbstractMTGNotifier {
 			
 			if(message.length()>MTGConstants.DISCORD_MAX_CHARACTER)
 			{
-				logger.warn("Message is too long : " + msg.length() + ">"+MTGConstants.DISCORD_MAX_CHARACTER+". Will truncate it");
+				logger.warn("Message is too long : {} > {}. Will truncate it",msg.length(),MTGConstants.DISCORD_MAX_CHARACTER);
 				message=message.substring(0, MTGConstants.DISCORD_MAX_CHARACTER);
 			}
 			
-			logger.debug("send " + message +": File="+notification.getFile());
+			logger.debug("send {} File : {} ",message,notification.getFile());
 	
 			if(notification.getFile()==null)
 			{
@@ -83,8 +83,6 @@ public class DiscordNotifier extends AbstractMTGNotifier {
 			
 			
 			
-		} catch (LoginException e) {
-			logger.error("couldn't init login",e);
 		} catch (InterruptedException e) {
 			logger.error("error await",e);
 			 Thread.currentThread().interrupt();

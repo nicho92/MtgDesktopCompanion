@@ -83,8 +83,6 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 		ctx.addServlet(holderPwd, "/*");
 		
 		extraConfig();
-		
-		logger.trace(ctx.dump());
 		server.setHandler(ctx);
 	
 	}

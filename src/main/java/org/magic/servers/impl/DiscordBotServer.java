@@ -61,9 +61,9 @@ import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Activity.ActivityType;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -299,7 +299,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 
 
 	private void responseHelp(MessageReceivedEvent event) {
-		MessageChannel channel = event.getChannel();
+		var channel = event.getChannel();
 		channel.sendTyping().queue(); 
 		channel.sendMessage(":face_with_monocle: It's simple "+event.getAuthor().getName()+", put card name in bracket like {Black Lotus} or {Black Lotus| LEA} if you want to specify a set\n "
 				+ "If you want to have prices variation for a set, type {set|<setName>} "
@@ -323,7 +323,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 			name=name.substring(0, name.indexOf('|')).trim();
 		}
 		
-		MessageChannel channel = event.getChannel();
+		var channel = event.getChannel();
 			channel.sendTyping().queue();
 
 			try {

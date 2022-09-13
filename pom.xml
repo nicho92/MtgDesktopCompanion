@@ -272,6 +272,12 @@
 			<groupId>io.milton</groupId>
 			<artifactId>milton-server-ce</artifactId>
 			<version>3.1.1.488</version>
+			<exclusions>
+				<exclusion>
+					<groupId>io.milton</groupId>
+					<artifactId>milton-mail-api</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.fifesoft</groupId>
@@ -346,7 +352,7 @@
 		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
-			<version>5.0.0-alpha.18</version>
+			<version>5.0.0-alpha.19</version>
 			<exclusions>
 				<exclusion>
 					<groupId>club.minnced</groupId>
@@ -617,9 +623,8 @@
 		<dependency>
 			<groupId>org.python</groupId>
 			<artifactId>jython-standalone</artifactId>
-			<version>2.7.3rc1</version>
+			<version>2.7.3</version>
 		</dependency>
-
 	</dependencies>
 
 	<build>
