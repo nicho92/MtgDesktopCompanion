@@ -178,8 +178,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 		return obj;
 	}
 	
-	
-	
 	public JSONHttpServer() {
 		manager = new MTGDeckManager();
 		converter = new JsonExport();
@@ -371,7 +369,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		post("/ged/uploadPic/:class/:id", URLTools.HEADER_JSON,(request, response) -> {
 			var buffImg = ImageTools.readBase64(request.body().substring(request.body().indexOf(",")+1));// Find better solution
 			if(buffImg==null)
-				return "No readable Image";
+				return error(request, response, "No readable Image",500);
 			
 			
 			var id = request.params(":id");
@@ -457,9 +455,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		post("/orders/new", URLTools.HEADER_JSON, (request, response) ->{
 			var a=converter.fromJson(new InputStreamReader(request.raw().getInputStream()), OrderEntry.class);
 			MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateOrderEntry(a);
-			
 			return ok(request,response,a.getId());
-
 		}, transformer);
 		
 		
