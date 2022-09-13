@@ -148,7 +148,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 	private ResponseTransformer transformer;
 	private MTGDeckManager manager;
 	private boolean running = false;
-	private static final String RETURN_OK = "{\"result\":\"OK\"}";
 	private JsonExport converter;
 	private UserAgentAnalyzer ua ;
 	private Instant start;
@@ -166,6 +165,19 @@ public class JSONHttpServer extends AbstractMTGServer {
 			
 		return obj;
 	}
+	
+	private JsonObject ok(Request req, Response response, Object msg) {
+		response.status(200);
+		
+		var obj = new JsonObject();
+			obj.addProperty("method", req.requestMethod());
+			obj.addProperty("uri", req.pathInfo());
+			obj.addProperty("code", 200);
+			obj.addProperty("msg", converter.toJson(msg));
+			
+		return obj;
+	}
+	
 	
 	
 	public JSONHttpServer() {
@@ -284,7 +296,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			if (accessControlRequestMethod != null) {
 				response.header("Access-Control-Allow-Methods", accessControlRequestMethod);
 			}
-			return RETURN_OK;
+			return "OK";
 		});
 		
 		
@@ -371,7 +383,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 				
 			var entry = new GedEntry<>(ImageTools.toByteArray(buffImg),PluginRegistry.inst().loadClass("org.magic.api.beans."+request.params(CLASS)),id,"webupload_"+Instant.now().toEpochMilli()+".png");
 			MTG.getEnabledPlugin(MTGGedStorage.class).store(entry);
-			return RETURN_OK;
+			return ok(request,response,"Picture uploaded");
 		});
 		
 		
@@ -446,7 +458,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			var a=converter.fromJson(new InputStreamReader(request.raw().getInputStream()), OrderEntry.class);
 			MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateOrderEntry(a);
 			
-			return RETURN_OK;
+			return ok(request,response,a.getId());
 
 		}, transformer);
 		
@@ -476,20 +488,20 @@ public class JSONHttpServer extends AbstractMTGServer {
 			var to = new MagicCollection(request.params(":to"));
 			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
 			getEnabledPlugin(MTGDao.class).moveCard(mc, from,to);
-			return RETURN_OK;
+			return ok(request,response,mc + " is moved from " + from + " to " + to);
 		}, transformer);
 
 		put("/cards/add/:scryfallId", URLTools.HEADER_JSON, (request, response) -> {
 			var from = new MagicCollection(MTGControler.getInstance().get("default-library"));
 			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
 			CardsManagerService.saveCard(mc, from,null);
-			return RETURN_OK;
+			return ok(request,response,mc + " is added to " + from);
 		}, transformer);
 
 		put("/cards/add/:to/:scryfallId", URLTools.HEADER_JSON, (request, response) -> {
 			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(":id"));
 			CardsManagerService.saveCard(mc, new MagicCollection(request.params(":to")),null);
-			return RETURN_OK;
+			return ok(request,response,mc + " is added to " + request.params(":to"));
 		}, transformer);
 
 		
@@ -539,7 +551,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		put("/collections/add/:name", URLTools.HEADER_JSON, (request, response) -> {
 			getEnabledPlugin(MTGDao.class).saveCollection(request.params(NAME));
-			return RETURN_OK;
+			return ok(request,response,NAME + " is added");
 		});
 
 		get("/editions/list", URLTools.HEADER_JSON,(request, response) ->
@@ -641,7 +653,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 				throw new NullPointerException("No alert with id="+request.params(":id"));
 			
 			getEnabledPlugin(MTGDao.class).deleteAlert(alert);
-			return RETURN_OK;
+			return ok(request,response,alert);
 
 		}, transformer);
 		
@@ -658,7 +670,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			alert.setFoil(postItems.get("foil").getAsBoolean());
 			
 			getEnabledPlugin(MTGDao.class).updateAlert(alert);
-			return RETURN_OK;
+			return ok(request,response,alert);
 
 		}, transformer);
 		
@@ -718,15 +730,14 @@ public class JSONHttpServer extends AbstractMTGServer {
 			stock.setProduct(mc);
 
 			getEnabledPlugin(MTGDao.class).saveOrUpdateCardStock(stock);
-			return RETURN_OK;
+			return ok(request,response,stock);
 		});
 		
 		
 		delete("/stock/:idStock", (request, response) -> {
 			var stock = getEnabledPlugin(MTGDao.class).getStockById(Long.parseLong(request.params(":idStock")));
 			getEnabledPlugin(MTGDao.class).deleteStock(stock);
-			
-			return RETURN_OK;
+			return ok(request,response,stock);
 		});
 		
 
@@ -736,7 +747,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			List<MTGStockItem> postItems= converter.fromJsonList(new InputStreamReader(request.raw().getInputStream()), MTGStockItem.class);
 			
 			if(postItems.size()<2)
-				throw new IOException("please choose source and destinationn product");
+				throw new IOException("please choose source and destination product");
 			
 			var src = postItems.get(0);
 			var dest = postItems.get(1);
@@ -744,7 +755,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			var item = new ConverterItem(request.params(":from"),request.params(":to"),src.getProduct().getName(),src.getId(),dest.getId());
 			
 			getEnabledPlugin(MTGDao.class).saveOrUpdateConversionItem(item);
-			return RETURN_OK;
+			return ok(request,response,item);
 		});
 		
 		get("/sealed/list", URLTools.HEADER_JSON,(request, response) ->{
@@ -945,7 +956,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			
 			var d = manager.getDeck(Integer.parseInt(request.params(":idDeck")));
 			manager.remove(d);
-			return RETURN_OK;
+			return ok(request,response,d);
 		},transformer);
 
 		get("/deck/:idDeck", URLTools.HEADER_JSON,(request, response) -> {
@@ -989,7 +1000,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		get("/metadata/recognition/list", URLTools.HEADER_JSON, (request, response) -> {
 			MTG.getEnabledPlugin(MTGCardRecognition.class).downloadCardsData(MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(":setId")));
-			return RETURN_OK;
+			return ok(request,response,"recognition list for " + request.params(":setId") + " downloaded");
 		}, transformer);
 
 		
@@ -1052,7 +1063,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		get("/admin/clearCache", URLTools.HEADER_JSON, (request, response) -> {
 			clearCache();
-			return RETURN_OK;
+			return ok(request,response,"cache clear");
 		}, transformer);
 		
 		
@@ -1084,7 +1095,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		get("/admin/recognize/caching/:setId", URLTools.HEADER_JSON, (request, response) -> {
 			MTG.getEnabledPlugin(MTGCardRecognition.class).downloadCardsData(MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(":setId")));
-			return RETURN_OK;
+			return ok(request,response,request.params(":setId") + "card's data recognition downloaded");
 		}, transformer);
 
 		get("/admin/recognize/list", URLTools.HEADER_JSON, (request, response) -> {
@@ -1170,7 +1181,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		put("/favorites/:classename/:idContact/:idAnnounce", URLTools.HEADER_JSON, (request, response) -> {
 			try{ 
 				MTG.getEnabledPlugin(MTGDao.class).saveFavorites(Integer.parseInt(request.params(ID_CONTACT)), Integer.parseInt(request.params(":idAnnounce")),request.params(CLASSENAME));
-				return RETURN_OK;
+				return ok(request, response,"favorites saved for announces " + request.params(":idAnnounce"));
 			}catch(Exception e)
 			{
 				return e;
@@ -1181,7 +1192,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		delete("/favorites/:classename/:idContact/:idAnnounce", URLTools.HEADER_JSON, (request, response) -> {
 			try{ 
 				MTG.getEnabledPlugin(MTGDao.class).deleteFavorites(Integer.parseInt(request.params(ID_CONTACT)), Integer.parseInt(request.params(":idAnnounce")),request.params(CLASSENAME));
-				return RETURN_OK;
+				return ok(request, response,"favorites deleted for announces " + request.params(":idAnnounce"));
 				}
 			catch(Exception e)
 				{
@@ -1241,7 +1252,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			{
 				t.setStatut(TransactionStatus.CANCELATION_ASK);
 				MTG.getEnabledPlugin(MTGExternalShop.class).saveOrUpdateTransaction(t);
-				return RETURN_OK;
+				return ok(request, response,t);
 			}
 			else
 			{
@@ -1249,10 +1260,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 			}
 			
 		}, transformer);
-		
-		
-		
-		
 		
 		post("/transaction/add", URLTools.HEADER_JSON, (request, response) -> {
 			try{ 
