@@ -2428,6 +2428,18 @@
 		<booster lang="en" extra="set" num="4" url="https://www.redcapscorner.com/wp-content/uploads/Dominaria-United-Set-Booster.png"/>
 	</edition>
 	
+	<edition id="40K">
+		<set lang="en" url="https://media.wizards.com/2022/images/daily/en_G3clXBBtb2.png"/>
+		<constructpack lang="en" num="1" url="https://media.wizards.com/2022/images/daily/en_RqziN7tTlB.png"/>
+		<constructpack lang="en" num="2" url="https://media.wizards.com/2022/images/daily/en_28aEEzFwrh.png"/>
+		<constructpack lang="en" num="3" url="https://media.wizards.com/2022/images/daily/en_5rETqK40Gg.png"/>
+		<constructpack lang="en" num="4" url="https://media.wizards.com/2022/images/daily/en_58XpqyZBGF.png"/>
+		
+		<constructpack lang="en" num="5" extra="collector" url="https://media.wizards.com/2022/images/daily/en_QPDzXDKMyY.png"/>
+		<constructpack lang="en" num="6" extra="collector" url="https://media.wizards.com/2022/images/daily/en_pLP0wmRzr8.png"/>
+		<constructpack lang="en" num="7" extra="collector" url="https://media.wizards.com/2022/images/daily/en_RWzFIFkEBV.png"/>
+		<constructpack lang="en" num="8" extra="collector" url="https://media.wizards.com/2022/images/daily/en_HVZ1xYuXcl.png"/>
+	</edition>
 	
 	
 
