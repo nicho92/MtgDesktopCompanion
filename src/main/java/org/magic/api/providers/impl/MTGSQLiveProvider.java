@@ -316,7 +316,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 			
 			
 		}
-		catch (SQLException e) 
+		catch (Exception e) 
 		{
 			logger.error(e);
 		}
