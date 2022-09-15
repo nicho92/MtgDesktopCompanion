@@ -109,7 +109,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 			
 			@Override
 			public void onReady(ReadyEvent event) {
-				logger.info("Server " + getName() +" started");
+				logger.info("Server {} started",getName());
 			}
 		};
 	}
@@ -155,14 +155,14 @@ public class DiscordBotServer extends AbstractMTGServer {
 			if(event.isFromGuild())
 			{
 				info.setGuild(DiscordInfo.parse(event.getGuild()));
-				logger.debug("Received channel message :" + event.getMessage().getContentRaw() + " from " + event.getAuthor().getName()+ " in "+event.getGuild().getName()+ "#" + event.getChannel().getName() + " ");
+				logger.debug("Received channel message : {} from {} in {}#{}",event.getMessage().getContentRaw(),event.getAuthor().getName(),event.getGuild().getName(),event.getChannel().getName());
 			}
 			else
-				logger.debug("Received MP message :" + event.getMessage().getContentRaw() + " from " + event.getAuthor().getName());
+				logger.debug("Received MP message : {} from {}",event.getMessage().getContentRaw(),event.getAuthor().getName());
 			
 			var name=m.group(1).trim();
 			
-			logger.debug("parsing " + name + " values");
+			logger.debug("parsing {} values",name);
 			
 			if(name.equalsIgnoreCase("help"))
 			{
@@ -281,7 +281,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 			event.getChannel().sendTyping().queue();
 			
 			
-				logger.debug("search " + name + " with noFoil="+noFoil + " and foilOnly ="+foilOnly);
+				logger.debug("search {} with nofoil={} and foilOnly={}",name,noFoil,foilOnly);
 			
 				String ed=name.substring(name.indexOf('|')+1,name.length()).toUpperCase().trim();
 				EditionsShakers  eds = MTG.getEnabledPlugin(MTGDashBoard.class).getShakesForEdition(new MagicEdition(ed));
@@ -517,7 +517,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 			jda.shutdown();
 			jda.getPresence().setPresence(OnlineStatus.OFFLINE,false);
 			
-			logger.info("Server " + getName() +" stopped");
+			logger.info("Server {} stopped",getName());
 		}
 	}
 

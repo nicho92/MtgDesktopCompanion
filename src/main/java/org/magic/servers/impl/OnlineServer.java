@@ -58,7 +58,7 @@ public class OnlineServer extends AbstractMTGServer {
 		
 		@Override
 		public void sessionCreated(IoSession session) throws Exception {
-			logger.debug("New Session " + session.getRemoteAddress());
+			logger.debug("New Session {} ",session.getRemoteAddress());
 			session.write(new SpeakAction(null, getString("WELCOME_MESSAGE")));
 		}
 
@@ -69,7 +69,7 @@ public class OnlineServer extends AbstractMTGServer {
 		
 		private void execute(AbstractNetworkAction act) {
 			
-			logger.debug("Send " + act + " to " + acceptor.getManagedSessions().values());
+			logger.debug("Send {} to {} ",act,acceptor.getManagedSessions().values());
 			
 			
 			for (IoSession s : acceptor.getManagedSessions().values())
@@ -129,7 +129,7 @@ public class OnlineServer extends AbstractMTGServer {
 	@Override
 	public void start() throws IOException {
 		acceptor.bind(new InetSocketAddress(getInt(SERVER_PORT)));
-		logger.info("Server started on port " + getString(SERVER_PORT) + " ...");
+		logger.info("Server started on port {}",getString(SERVER_PORT));
 	}
 
 	@Override

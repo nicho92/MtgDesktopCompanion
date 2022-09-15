@@ -52,7 +52,7 @@ public class MtgDesktopCompanion {
 			MTGLogger.changeLevel(MTGControler.getInstance().get("loglevel"));
 
 	
-			logger.trace("result config updated : " + updated);
+			logger.trace("result config updated : {}",updated);
 
 			if (updated)
 				MTGControler.getInstance().notify(new MTGNotification(capitalize("NEW"), capitalize("NEW_MODULE_INSTALLED"), MESSAGE_TYPE.INFO));
