@@ -78,7 +78,7 @@ public class ApilayerCurrencyConverter {
 		}
 		catch(Exception e)
 		{
-			logger.error("Error convert " + from + " to " + to +", return default value",e);
+			logger.error("Error convert {} to {}, return default value",from,to,e);
 			return value;
 		}
 		
@@ -124,11 +124,11 @@ public class ApilayerCurrencyConverter {
 			if(!cache.exists() && !token.isEmpty())
 			{
 				
-				logger.debug(cache.getAbsolutePath() + " doesn't exist. Will create it from website");
+				logger.debug("{} doesn't exist. Will create it from website",cache.getAbsolutePath());
 				var parse = URLTools.extractAsJson("http://apilayer.net/api/live?access_key="+token);
 				obj = parse.getAsJsonObject().get("quotes").getAsJsonObject();
 				FileTools.saveFile(cache, obj.toString());
-				logger.debug(cache.getAbsolutePath() + " created");
+				logger.debug("{} created",cache.getAbsolutePath());
 			}
 			else //if(!token.isEmpty())
 			{

@@ -104,7 +104,7 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 					
 				}
 			} catch (Exception e) {
-				logger.error("error" + aValue, e);
+				logger.error("error {}" ,aValue, e);
 			}
 		}
 		
@@ -114,7 +114,7 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 			try {
 				getEnabledPlugin(MTGDao.class).updateAlert(alert);
 			} catch (Exception e) {
-				logger.error("error set " + aValue, e);
+				logger.error("error set {}",aValue, e);
 			}
 		}
 		
@@ -125,7 +125,7 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 			try {
 				getEnabledPlugin(MTGDao.class).updateAlert(alert);
 			} catch (Exception e) {
-				logger.error("error set" + aValue, e);
+				logger.error("error set {}",aValue, e);
 			}
 		}
 		
@@ -135,7 +135,7 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 			try {
 				getEnabledPlugin(MTGDao.class).updateAlert(alert);
 			} catch (Exception e) {
-				logger.error("error set " + aValue, e);
+				logger.error("error set {}",aValue, e);
 			}
 		}
 		

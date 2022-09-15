@@ -63,7 +63,7 @@ public class CardExportWorker extends SwingWorker<Void, MagicCard> {
 			exp.exportDeck(export, f);
 		} catch (Exception e) {
 			err=e;
-			logger.error("error export with " + exp,e);
+			logger.error("error export with {}",exp,e);
 		}
 		return null;
 	}

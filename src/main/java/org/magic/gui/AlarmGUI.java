@@ -333,7 +333,7 @@ public class AlarmGUI extends MTGUIComponent {
 										
 										
 									} catch (IOException e1) {
-										logger.error("error adding price for" + alert.getCard() + " with " + p,e1);
+										logger.error("error adding price for {} with {} : {}",alert.getCard(),p,e1);
 									}
 									
 								});
@@ -345,7 +345,7 @@ public class AlarmGUI extends MTGUIComponent {
 									try {
 										getEnabledPlugin(MTGDao.class).updateAlert(alert);
 									} catch (SQLException e) {
-										logger.error("error updating " + alert,e);
+										logger.error("error updating {}",alert,e);
 									}
 								}
 								publish(alert);

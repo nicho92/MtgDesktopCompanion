@@ -103,7 +103,7 @@ public class AlertTrendServer extends AbstractMTGServer {
 					{
 						if(!not.isEmpty())
 						{
-							logger.debug("notify with " + not);
+							logger.debug("notify with {} ",not);
 							MTGNotifier notifier = getPlugin(not, MTGNotifier.class);
 							notif.setMessage(notifFormater.generate(notifier.getFormat(), ret, CardShake.class));
 							try {
@@ -124,7 +124,7 @@ public class AlertTrendServer extends AbstractMTGServer {
 		};
 
 		timer.scheduleAtFixedRate(tache, 0, Long.parseLong(getString(TIMEOUT_MINUTE)) * 60000);
-		logger.info("Server start with " + getString(TIMEOUT_MINUTE) + " min timeout");
+		logger.info("Server start with {} min timeout",getString(TIMEOUT_MINUTE));
 
 	}
 

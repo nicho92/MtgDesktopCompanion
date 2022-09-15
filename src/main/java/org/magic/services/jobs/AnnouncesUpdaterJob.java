@@ -23,22 +23,22 @@ public class AnnouncesUpdaterJob implements Job {
 			var list = MTG.getEnabledPlugin(MTGDao.class).listAnnounces();
 			
 			list.stream().filter(a->a.getEndDate().before(new Date()) && a.getStatus()==STATUS.ACTIVE).toList().forEach(a->{
-				logger.debug("Found " + a + " is expired at " + a.getEndDate());
+				logger.debug("Found {} is expired at {}",a,a.getEndDate());
 				a.setStatus(STATUS.EXPIRED);
 				try {
 					MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateAnnounce(a);
 				} catch (SQLException e) {
-					logger.error("can't update " + a +" " + e);
+					logger.error("can't update {}",a,e);
 				}
 			});
 			
 			list.stream().filter(a->a.getStartDate().before(new Date()) && a.getStatus()==STATUS.SOON).toList().forEach(a->{
-				logger.debug("Found " + a + " is now online since " + a.getStartDate());
+				logger.debug("Found {}  is now online since {}",a, a.getStartDate());
 				a.setStatus(STATUS.ACTIVE);
 				try {
 					MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateAnnounce(a);
 				} catch (SQLException e) {
-					logger.error("can't update " + a +" " + e);
+					logger.error("can't update {}",a,e);
 				}
 				
 			});

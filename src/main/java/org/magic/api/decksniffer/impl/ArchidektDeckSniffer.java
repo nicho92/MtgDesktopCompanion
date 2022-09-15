@@ -74,7 +74,7 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 			}
 			catch(Exception ex)
 			{
-				logger.error("error parsing " + e, ex);
+				logger.error("error parsing {}",e, ex);
 			}
 			
 		}
@@ -122,7 +122,7 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 			}
 			catch(Exception ex)
 			{
-				logger.error("error parsing " + el, ex);
+				logger.error("error parsing {}",el, ex);
 			}
 		}
 		

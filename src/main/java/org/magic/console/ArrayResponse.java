@@ -22,7 +22,6 @@ public class ArrayResponse extends AbstractResponse {
 		this.classe=cls;
 		this.attributes=attributes;
 		this.element=element;
-		logger.debug("REPONSE:" + element);
 	}
 	
 
@@ -33,9 +32,6 @@ public class ArrayResponse extends AbstractResponse {
 		at.addRule();
 		at.addRow(getAttributes());
 		at.addRule();
-		
-		
-		
 		
 		if(element.isJsonArray())
 		{	

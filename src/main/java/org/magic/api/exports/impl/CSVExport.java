@@ -44,7 +44,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 				}
 				catch(Exception e)
 				{
-					logger.error("edition " + part.group(2) + " is not found");
+					logger.error("edition {} is not found",part.group(2));
 				}
 				
 				
@@ -55,7 +55,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 				catch(Exception e)
 				{
 					logger.debug(part.group());
-					logger.error("card with number " + part.group(13)+ " is not found");
+					logger.error("card with number {} is not found",part.group(13));
 				}
 				
 				if(mc==null)
@@ -65,7 +65,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 					}
 					catch(Exception e)
 					{
-						logger.error("card with name " + part.group(1)+ " is not found");
+						logger.error("card with name {} is not found",part.group(1));
 					}
 				}
 				
@@ -215,7 +215,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 					}
 					catch(Exception e)
 					{
-						logger.error("no cards found for " + name +" " + set);
+						logger.error("no cards found for {} {} ",name,set);
 					}
 					
 					if(mc!=null) {

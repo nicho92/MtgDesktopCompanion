@@ -110,7 +110,7 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 					}
 					catch(Exception e)
 					{
-						logger.error("couldn't not find " + entry.getKey());
+						logger.error("couldn't not find {}",entry.getKey());
 					}
 			}
 		});

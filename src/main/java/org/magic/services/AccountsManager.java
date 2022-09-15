@@ -63,7 +63,7 @@ public class AccountsManager {
 		
 		if(auth==null)
 		{
-			logger.warn("No Authentifcator found for " + plug +" Please fill it in config");
+			logger.warn("No Authentifcator found for {}. Please fill it in config",plug );
 			auth = new AccountAuthenticator();
 		}
 			
@@ -101,7 +101,7 @@ public class AccountsManager {
 		try {
 			return CryptoUtils.encrypt(p.toJson(AccountsManager.inst().listAuthEntries()),getKey());
 		} catch (IOException e) {
-			logger.error("Error getting keypass " + e);
+			logger.error("Error getting keypass : {}",e.getMessage());
 			return "";
 		}
 		
@@ -113,12 +113,12 @@ public class AccountsManager {
 			try {
 				loadConfig(new JsonExport().fromJson(CryptoUtils.decrypt(content,getKey()), JsonObject.class));
 			} catch (Exception e) {
-				logger.error("Error while decryptions " + e);
+				logger.error("Error while decryptions {}",e.getMessage());
 			}
 		}
 		else
 		{
-			logger.warn("content =" + content);
+			logger.warn("content ={}",content);
 		}
 	}
 	

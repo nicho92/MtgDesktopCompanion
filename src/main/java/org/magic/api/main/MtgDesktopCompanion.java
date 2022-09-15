@@ -88,7 +88,7 @@ public class MtgDesktopCompanion {
 					}
 				});
 				long time = chrono.stop();
-				logger.info(MTGConstants.MTG_APP_NAME + " started in " + time + " sec");
+				logger.info("{} started in {} sec",MTGConstants.MTG_APP_NAME ,time);
 				
 			}
 		}, "Running Main App GUI");
