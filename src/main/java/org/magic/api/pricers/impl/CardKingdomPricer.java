@@ -47,14 +47,14 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 		var c = new Chrono();
 		c.start();
 		cont = parse(jsonFile);
-		logger.debug("Init " + jsonFile +" dataFile in " + c.stop() +"s");
+		logger.debug("Init {} dataFile in {}s",jsonFile,c.stop());
 	}
 	
 	
 	private String getUrlFor(MagicCard mc,boolean foil) throws IOException 
 	{
 		if(!jsonFile.exists()|| FileTools.daysBetween(jsonFile)>1) {
-			logger.debug(jsonFile + " is not present or out of date. Downloading new one");
+			logger.debug("{} is not present or out of date. Downloading new one",jsonFile);
 			FileTools.saveFile(jsonFile, URLTools.extractAsJson(API_URI).toString());
 		}
 	
@@ -112,21 +112,21 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 		Chrono c = new Chrono();
 		
 		c.start();
-		logger.debug("Reading file " + jsonFile + " with " + cheapFictionFilter );
+		logger.debug("Reading file {} with ",jsonFile,cheapFictionFilter );
 		List<Map<String, Object>> arr = cont.read("$.data[?]",cheapFictionFilter);
 		var res = c.stop();
-		logger.debug("Ending reading with " + res + " sec");
+		logger.debug("Ending reading after {}sec",res);
 		try {
 			
 			if(arr.size()>1)
 			{
-				logger.warn(" found multiples values for " + mc + " " + arr);			
+				logger.warn(" found multiples values for {} : {}", mc,arr);			
 			}
 			return arr.get(0).get("url").toString();
 		}
 		catch(Exception e)
 		{
-			logger.error("No product found for "+mc + " foil="+foil) ;
+			logger.error("No product found for {} foil={}",mc,foil) ;
 		}
 		return null;
 	}
@@ -170,14 +170,14 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 		Elements prices = null;
 		Elements qualities = null;
 
-		logger.info(getName() + " looking for prices " + card +" foil="+foil);
+		logger.info("{} looking for prices {} foil={}",getName(),card,foil);
 		try {
 			var doc = URLTools.extractAsHtml(url);
 			qualities = doc.select(".cardTypeList li");
 			prices = doc.select(".stylePrice");
 
 		} catch (Exception e) {
-			logger.info(getName() + " no item : " + e.getMessage());
+			logger.info("{} no item : {}",getName(),e.getMessage());
 			return list;
 		}
 
@@ -200,7 +200,7 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 			if (!qualities.get(i).hasClass("disabled"))
 				lstPrices.add(mp);
 		}
-		logger.info(getName() + " found " + lstPrices.size() +" offers");
+		logger.info("{} found {} offers",getName(), lstPrices.size());
 		return lstPrices;
 	}
 

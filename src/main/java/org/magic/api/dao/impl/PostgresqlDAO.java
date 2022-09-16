@@ -146,7 +146,7 @@ public class PostgresqlDAO extends AbstractMagicSQLDAO {
 			while ((ch = in.read()) != -1) {
 				ps.write(ch);
 			}
-			logger.info("Backup " + getString(DB_NAME) + " done");
+			logger.info("Backup {} done",getString(DB_NAME));
 		}
 
 	}
