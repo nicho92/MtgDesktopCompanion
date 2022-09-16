@@ -42,7 +42,7 @@ public class BigOrBitCardsPricer extends AbstractPricesProvider {
 		else if(card.isBorderLess())
 			extra=" (Borderless Art)";
 		
-		logger.info(getName() + " looking for " + card+extra);
+		logger.info("{} looking for {} with extra={}",getName(),card,extra);
 		
 		var doc = RequestBuilder.build().method(METHOD.GET).url("https://www.bigorbitcards.co.uk/").setClient(URLTools.newClient())
 				.addContent("search_performed", "Y")
@@ -84,7 +84,7 @@ public class BigOrBitCardsPricer extends AbstractPricesProvider {
 			ret.add(mp);
 		});
 		
-		logger.info(getName() + " found" + ret.size() + " items");
+		logger.info("{} found {} items ",getName(),ret.size());
 		return ret;
 	}
 

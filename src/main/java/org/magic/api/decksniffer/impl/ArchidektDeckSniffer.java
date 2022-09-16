@@ -39,7 +39,7 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 		
-		logger.debug("sniff deck at " + info.getUrl());
+		logger.debug("sniff deck at {}",info.getUrl());
 		
 		MagicDeck deck = info.toBaseDeck();
 				  

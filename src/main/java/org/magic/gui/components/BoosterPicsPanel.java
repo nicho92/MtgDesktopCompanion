@@ -63,7 +63,7 @@ public class BoosterPicsPanel extends JTabbedPane {
 				protected ImageIcon doInBackground() {
 					
 					List<MTGSealedProduct> l = SealedProductProvider.inst().get(ed,EnumItems.BOOSTER);
-					logger.trace("loading booster :" + l);
+					logger.trace("loading booster : {}",l);
 					l.forEach(i->
 					{
 						try {
@@ -74,7 +74,7 @@ public class BoosterPicsPanel extends JTabbedPane {
 							
 						}catch(Exception e)
 						{
-							logger.error("error " + e);
+							logger.error("error ",e);
 						}
 					});
 					return null;

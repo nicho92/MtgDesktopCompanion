@@ -73,7 +73,7 @@ public class BinderTagsManager {
 				ims.add(im);
 			}catch(IndexOutOfBoundsException ioobe)
 			{
-				logger.error("No "+EnumItems.SET+" found for " + id);
+				logger.error("No {} found for {}",EnumItems.SET,id);
 			}
 					
 		}

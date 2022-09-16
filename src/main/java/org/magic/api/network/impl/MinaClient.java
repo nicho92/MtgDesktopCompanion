@@ -1,4 +1,4 @@
-package org.magic.api.network;
+package org.magic.api.network.impl;
 
 import java.awt.Color;
 import java.net.InetSocketAddress;

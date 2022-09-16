@@ -115,7 +115,7 @@ public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 			}
 			catch(Exception e)
 			{
-				logger.error("Edition not found for " + m.group(4));
+				logger.error("Edition not found for {}",m.group(4));
 			}
 			
 			String cname = cleanName(m.group(3));
@@ -136,7 +136,7 @@ public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 				try {
 					mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(number, ed);
 				} catch (Exception e) {
-					logger.error("no card found with number " + number + "/"+ ed);
+					logger.error("no card found with number {}/{}",number,ed);
 				}
 			}
 			
@@ -145,7 +145,7 @@ public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 				try {
 					mc = parseMatcherWithGroup(m, 3, 4, true, FORMAT_SEARCH.NAME,FORMAT_SEARCH.NAME);
 				} catch (Exception e) {
-					logger.error("no card found for" + cname + "/"+ ed);
+					logger.error("no card found for {} / {} ",cname,ed);
 				}
 			}
 
@@ -169,7 +169,7 @@ public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 			}
 			else
 			{
-				logger.error("No cards found for " + cname);
+				logger.error("No cards found for {}" ,cname);
 			}
 			
 			
