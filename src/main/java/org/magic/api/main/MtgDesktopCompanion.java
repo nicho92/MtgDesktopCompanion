@@ -60,7 +60,7 @@ public class MtgDesktopCompanion {
 			getEnabledPlugin(MTGCardsProvider.class).init();
 			getEnabledPlugin(MTGDao.class).init();
 			
-			logger.info("Init "+MTGConstants.MTG_APP_NAME+" GUI");
+			logger.info("Init {} GUI",MTGConstants.MTG_APP_NAME);
 		} catch (Exception e) {
 			logger.error("Error initialisation", e);
 			JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
