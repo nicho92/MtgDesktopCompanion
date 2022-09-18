@@ -129,7 +129,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 				d.getMain().put(mc, w.getCount());
 				
 			} catch (Exception e) {
-				logger.error("could not import " + w);
+				logger.error("could not import {}",w);
 			}
 		}
 
@@ -165,7 +165,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 					List<Product> list = pService.findProduct(mc.getName(), atts);
 					if(!list.isEmpty())
 					{
-						logger.debug("found multiple product for " + mc +" : " + list.size());
+						logger.debug("found multiple product for {} : {}",mc,list.size());
 						var prod = MagicCardMarketPricer2.getProductFromCard(mc,list);
 						
 						if(prod!=null)
@@ -175,7 +175,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 			}
 			catch(Exception ex)
 			{
-				logger.error("could not export " + mc,ex);
+				logger.error("could not export {}",mc,ex);
 				p=null;
 			}	
 		
@@ -193,7 +193,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 			
 				wants.add(w);
 			} else {
-				logger.debug("could not find product for " + mc + " (" + mc.getCurrentSet()+")");
+				logger.debug("could not find product for {} ({}) ",mc,mc.getCurrentSet());
 			}
 			notify(mc);
 		}
@@ -201,7 +201,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 		int max = getInt(MAX_WANTLIST_SIZE);
 		if (wants.size() <= max) {
 			var l = wlService.createWantList(deck.getName());
-			logger.debug("Create " + l + " list with " + wants.size() + " items id="+l.getIdWantsList());
+			logger.debug("Create {} list with {} items id={}" ,l,wants.size(),l.getIdWantsList());
 			wlService.addItem(l, wants);
 		} else {
 
@@ -209,7 +209,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 
 			for (var i = 0; i < decoupes.size(); i++) {
 				var wl = wlService.createWantList(deck.getName() + "-" + (i + 1));
-				logger.debug("Create " + wl + " list with " + decoupes.get(i).size() + " items");
+				logger.debug("Create {} list with {} items ",wl ,decoupes.get(i).size());
 				wlService.addItem(wl, decoupes.get(i));
 			}
 
@@ -254,7 +254,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 				}
 				catch(Exception e)
 				{
-					logger.error("Error getting mkm product for " + mcs.getProduct() + " " + mcs.getProduct().getCurrentSet() + " : " +e.getMessage());
+					logger.error("Error getting mkm product for {} {} : {}" ,mcs.getProduct(),mcs.getProduct().getCurrentSet(),e.getMessage());
 					logger.trace(e);
 				}
 				
@@ -262,7 +262,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 				
 				if(p==null)
 				{
-					logger.error("No product found for " + mcs.getProduct() + " "+ mcs.getProduct().getCurrentSet());
+					logger.error("No product found for {} {}",mcs.getProduct(),mcs.getProduct().getCurrentSet());
 				}
 				else
 				{
@@ -284,14 +284,14 @@ public class MkmOnlineExport extends AbstractCardExport {
 						if(mcs.getTiersAppIds().get(getName())!=null)
 						{
 							try {
-								String id = mcs.getTiersAppIds().get(getName());
+								var id = mcs.getTiersAppIds().get(getName());
 								a.setIdArticle(Integer.parseInt(id));
-								logger.debug("Item " + mcs + " is present for " + getName() +" with id="+id + " and idproduct="+p.getIdProduct());
+								logger.debug("Item {} is present for {} with id={} and idProduct={}",mcs,getName(),id,p.getIdProduct());
 								serv.updateArticles(a);
 							}
 							catch(Exception e)
 							{
-								logger.error("Error updating " + mcs,e);
+								logger.error("Error updating {}", mcs,e);
 							}
 						}
 						else
@@ -354,7 +354,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 			}
 			catch(Exception e)
 			{
-				logger.error("Error getting langage for " + a);
+				logger.error("Error getting langage for {}", a);
 			}
 			
 			

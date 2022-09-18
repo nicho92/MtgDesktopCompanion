@@ -76,7 +76,7 @@ public class MoxfieldDeckSniffer extends AbstractDeckSniffer {
 				main.put(mc, qty);
 				notify(mc);
 			} catch (IOException e) {
-				logger.error(entry.getKey() + " is not found");
+				logger.error("{} is not found",entry.getKey());
 			}
 			
 		});

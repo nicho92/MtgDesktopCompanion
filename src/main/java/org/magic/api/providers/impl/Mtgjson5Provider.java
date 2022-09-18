@@ -86,7 +86,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 
 
 	public void init() {
-		logger.info("init " + this);
+		logger.info("init {}",this);
 
 		Configuration.setDefaults(new Configuration.Defaults() {
 
@@ -116,9 +116,9 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 		try {
 	
 			chrono.start();
-			logger.debug(this + " : parsing db file");
+			logger.debug("{} : parsing db file",this);
 			ctx = JsonPath.parse(getDataFile());
-			logger.debug(this + " : parsing OK in " + chrono.stop()+"s");
+			logger.debug("{} : parsing OK in {}s", this, chrono.stop());
 		}
 		catch(Exception e)
 		{
@@ -173,7 +173,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 		List<String> currentSet = new ArrayList<>();
 		ArrayList<MagicCard> ret = new ArrayList<>();
 		
-		logger.debug("parsing " + jsquery);
+		logger.debug("parsing {}",jsquery);
 
 		List<Map<String, Object>> cardsElement = ctx.withListeners(fr -> {
 			if (fr.path().startsWith("$['data']")) {
@@ -483,7 +483,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 		try {
 			cardsElement = ctx.read(jsquery, List.class);
 		} catch (Exception e) {
-			logger.error("error in " + jsquery +" " +  e);
+			logger.error("error in {} : {}",jsquery,e);
 			return ;
 		}
 
@@ -537,7 +537,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 			codeEd.stream().map(this::generateEdition).forEach(eds::add);
 		}
 
-		logger.debug("Loading editions OK in " + chrono.stop() + " sec.");
+		logger.debug("Loading editions OK in {}s",chrono.stop());
 		
 		return eds;
 	}
@@ -614,7 +614,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 		try {
 			ed.setCardCountOfficial(ctx.read(base + ".baseSetSize", Integer.class));
 		} catch (PathNotFoundException pnfe) {
-			logger.warn("baseSetSize not found in " + ed.getId());
+			logger.warn("baseSetSize not found in {}",ed.getId());
 			
 		}
 		
@@ -654,7 +654,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 		try {
 			ed.setCardCount(ctx.read(base + ".totalSetSize", Integer.class));
 		} catch (PathNotFoundException pnfe) {
-			logger.warn("totalSetSize not found in " + ed.getId() + ", manual calculation");
+			logger.warn("totalSetSize not found in {}. Manual calculation",ed.getId());
 			if (ed.getCardCount() == 0)
 				try {
 					ed.setCardCount(ctx.read(base + ".cards.length()"));

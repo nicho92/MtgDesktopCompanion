@@ -55,7 +55,7 @@ public class MypCardPricer extends AbstractPricesProvider {
 			o=e.getAsJsonArray().get(0).getAsJsonObject();
 		}catch(Exception ex)
 		{
-			logger.error("error getting " +card + " at " + url,ex);
+			logger.error("error getting {} at {} ",card,url,ex);
 			return new ArrayList<>();
 		}
 		
@@ -109,7 +109,7 @@ public class MypCardPricer extends AbstractPricesProvider {
 				mp.setUrl(urlC);
 				list.add(mp);
 		}
-		logger.debug(getName() + " found " + list.size() + " offers");
+		logger.debug("{} found {} offers ",getName(),list.size());
 	}
 	
 

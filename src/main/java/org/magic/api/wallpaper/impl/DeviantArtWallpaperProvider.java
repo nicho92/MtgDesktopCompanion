@@ -54,10 +54,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 		    var ret= readOffset(offset,search);
 				    while(ret.get("has_more").getAsBoolean()) 
 				    {
-				    	logger.trace(ret);
 					    ret.get("results").getAsJsonArray().forEach(el->{
-					    	
-					    	logger.trace(el);
 					    	try {
 					    		var p = new Wallpaper();
 					    		p.setFormat("png");
@@ -65,7 +62,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 					    		p.setUrl(new URI(el.getAsJsonObject().get("content").getAsJsonObject().get("src").getAsString()));
 					    		list.add(p);
 							} catch (Exception e) {
-								logger.error("Error for " + el.getAsJsonObject().get("title"),e);
+								logger.error("Error for {}",el.getAsJsonObject().get("title"),e);
 							}
 					    });
 					    
