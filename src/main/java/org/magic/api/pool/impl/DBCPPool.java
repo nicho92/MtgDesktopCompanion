@@ -67,7 +67,7 @@ public class DBCPPool extends AbstractPoolProvider {
 	@Override
 	public void init(String url, String user, String pass, boolean enable) {
 
-		logger.debug("init connection to " + url + ", Pooling="+enable);
+		logger.debug("init connection to {} pool={}",url,enable);
 		dataSource =  new BasicDataSource();
         dataSource.setUrl(url);
         dataSource.setUsername(user);

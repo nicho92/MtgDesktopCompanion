@@ -79,7 +79,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		
 		HttpResponse resp = httpclient.execute(login, httpContext);
 		
-		logger.debug("Connection : " +  resp.getStatusLine().getReasonPhrase());
+		logger.debug("Connection : {}",resp.getStatusLine().getReasonPhrase());
 		
 	}
 
@@ -192,7 +192,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 				List<LoyaltyAbilities> abs = AbilitiesFactory.getInstance().getLoyaltyAbilities(mc);
 				if(abs.size()>3)
 				{
-					logger.error(getName() + " can't generate 4 abitilities planeswalker. removing last ability");
+					logger.error("{} can't generate 4 abitilities planeswalker. removing last ability",getName());
 					abs.remove(abs.size()-1);
 				}
 				
@@ -244,10 +244,10 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		build.addParameter("edit", FALSE);
 
 		try {
-			logger.debug("generate " + build.build());
+			logger.debug("generate {}",build.build());
 			var get = new HttpGet(build.build());
 			HttpResponse resp = httpclient.execute(get, httpContext);
-			logger.debug("generate " + resp.getStatusLine().getReasonPhrase());
+			logger.debug("generate {}",resp.getStatusLine().getReasonPhrase());
 			BufferedImage im = ImageTools.read(resp.getEntity().getContent());
 			EntityUtils.consume(resp.getEntity());
 			return im;

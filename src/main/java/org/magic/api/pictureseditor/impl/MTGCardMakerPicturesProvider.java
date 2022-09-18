@@ -32,7 +32,7 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 		try {
 			return URLTools.extractAsImage(getPictureURL(mc).toString());
 		} catch (Exception e) {
-			logger.error("Error reading pics for " + mc, e);
+			logger.error("Error reading pics for {}" ,mc, e);
 			return null;
 		}
 

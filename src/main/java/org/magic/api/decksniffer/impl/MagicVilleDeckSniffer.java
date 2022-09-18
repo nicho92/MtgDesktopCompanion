@@ -58,7 +58,7 @@ public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 		}
 		catch(IndexOutOfBoundsException e)
 		{
-			logger.warn("error adding current observer to " + imp);
+			logger.warn("error adding current observer to {}" ,imp);
 		}
 		
 		content = content.replace("<br />","").replace("[U]", "[M21]");
@@ -111,7 +111,7 @@ public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 						de.setDescription(tds.get(4).text());
 						ret.add(de);
 					} catch (URISyntaxException e) {
-						logger.error("error for url " + baseUrl+tds.get(0).select("a").attr("href"));
+						logger.error("error for url {}",baseUrl+tds.get(0).select("a").attr("href"));
 					}
 				}
 		}

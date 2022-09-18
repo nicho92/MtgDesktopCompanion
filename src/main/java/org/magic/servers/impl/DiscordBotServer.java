@@ -27,7 +27,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.api.mkm.modele.InsightElement;
 import org.api.mkm.services.InsightService;
 import org.magic.api.beans.CardShake;
-import org.magic.api.beans.EditionsShakers;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
@@ -155,10 +154,10 @@ public class DiscordBotServer extends AbstractMTGServer {
 			if(event.isFromGuild())
 			{
 				info.setGuild(DiscordInfo.parse(event.getGuild()));
-				logger.debug("Received channel message : {} from {} in {}#{}",event.getMessage().getContentRaw(),event.getAuthor().getName(),event.getGuild().getName(),event.getChannel().getName());
+				logger.info("Received channel message : {} from {} in {}#{}",event.getMessage().getContentRaw(),event.getAuthor().getName(),event.getGuild().getName(),event.getChannel().getName());
 			}
 			else
-				logger.debug("Received MP message : {} from {}",event.getMessage().getContentRaw(),event.getAuthor().getName());
+				logger.info("Received MP message : {} from {}",event.getMessage().getContentRaw(),event.getAuthor().getName());
 			
 			var name=m.group(1).trim();
 			
@@ -261,7 +260,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 
 	private void responseMkmStock(MessageReceivedEvent event) throws IOException {
 		event.getChannel().sendTyping().queue();
-		InsightService serv = new InsightService();
+		var serv = new InsightService();
 			
 			Collections.sort(serv.getHighestPercentStockReduction(), (InsightElement o1, InsightElement o2) -> {
 					if(o1.getChangeValue()>o2.getChangeValue())
@@ -284,7 +283,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 				logger.debug("search {} with nofoil={} and foilOnly={}",name,noFoil,foilOnly);
 			
 				String ed=name.substring(name.indexOf('|')+1,name.length()).toUpperCase().trim();
-				EditionsShakers  eds = MTG.getEnabledPlugin(MTGDashBoard.class).getShakesForEdition(new MagicEdition(ed));
+				var  eds = MTG.getEnabledPlugin(MTGDashBoard.class).getShakesForEdition(new MagicEdition(ed));
 				var chks = eds.getShakes().stream().filter(cs->cs.getPriceDayChange()!=0).sorted(new PricesCardsShakeSorter(SORT.DAY_PERCENT_CHANGE,false)).toList();
 				
 				if(noFoil)

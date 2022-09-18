@@ -178,7 +178,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 						    logger.trace(build);
 						    
 						    String ret = httpclient.toString(httpclient.execute(build));
-						    logger.trace("RESPONSE: "+ret);
+						    logger.trace("RESPONSE: {}",ret);
 						    
 						    JsonElement el = URLTools.toJson(ret);
 		
@@ -207,7 +207,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 									.put("X-Requested-With","XMLHttpRequest").build();
 	            
 				var response = URLTools.toJson(httpclient.toString(httpclient.doPost(UPLOAD_URL, ent, map)));
-				 logger.trace("response:"+response);
+				 logger.trace("response: {}",response);
 				 
 				 if(response.getAsJsonObject().get("error")!=null)
 					 throw new IOException(response.getAsJsonObject().get("error").getAsString());

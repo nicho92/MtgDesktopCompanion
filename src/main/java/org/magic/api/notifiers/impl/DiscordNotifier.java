@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import javax.security.auth.login.LoginException;
-
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;

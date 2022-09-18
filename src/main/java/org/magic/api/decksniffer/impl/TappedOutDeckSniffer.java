@@ -86,7 +86,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		
 		var resp = httpclient.execute(b);
 		EntityUtils.consume(resp.getEntity());
-		logger.debug("Connection : " +  getAuthenticator().getLogin() + " " + resp.getStatusLine().getReasonPhrase());
+		logger.debug("Connection with user = {} : {}",getAuthenticator().getLogin(),resp.getStatusLine().getReasonPhrase());
 	}
 
 	@Override

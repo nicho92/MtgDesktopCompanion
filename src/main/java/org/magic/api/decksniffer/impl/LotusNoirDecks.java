@@ -35,7 +35,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 		MagicDeck deck = info.toBaseDeck();
 
-		logger.debug("get deck at " + info.getUrl());
+		logger.debug("get deck at {}",info.getUrl());
 
 		var d = URLTools.extractAsHtml(info.getUrl().toString());
 		var e = d.select("div.demi_page>table").select(MTGConstants.HTML_TAG_TR);
@@ -65,7 +65,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 						deck.getSideBoard().put(mc, qte);
 				}catch(Exception ex)
 				{
-					logger.error("ERror loading card" + cont,ex);
+					logger.error("Error loading card {}",cont,ex);
 				}
 				
 			}
@@ -78,15 +78,14 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 
 		String decksUrl = getString(URL) + "?dpage=" + getString(MAX_PAGE) + "&action=" + filter;
 
-		logger.debug("snif decks : " + decksUrl);
+		logger.debug("snif decks : {} ",decksUrl);
 
 		int nbPage = getInt(MAX_PAGE);
 		List<RetrievableDeck> list = new ArrayList<>();
 
 		for (var i = 1; i <= nbPage; i++) {
-			Document d = URLTools.extractAsHtml(getString(URL) + "?dpage=" + i + "&action=" + filter);
-
-			Elements e = d.select("div.thumb_page");
+			var d = URLTools.extractAsHtml(getString(URL) + "?dpage=" + i + "&action=" + filter);
+			var e = d.select("div.thumb_page");
 
 			for (Element cont : e) {
 				var deck = new RetrievableDeck();
@@ -98,7 +97,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 				var deckColor = new StringBuilder();
 				for (Element element : value)
 				{
-					String land = element.text().split(" ")[1];
+					var land = element.text().split(" ")[1];
 					switch (land) 
 					{
 						case "Plain","Plains":

@@ -99,7 +99,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 							}
 							catch(IndexOutOfBoundsException err)
 							{
-								logger.error("Error getting " + name,err);
+								logger.error("Error getting {}",name,err);
 							}
 						}
 					}
@@ -134,7 +134,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 					nvps.put(" compet_check[" + c.toUpperCase() + "]", "1");
 			}
 
-			logger.debug("snif decks : " + getString("URL") + "/search");
+			logger.debug("snif decks : {}",getString("URL") + "/search");
 
 			res.append(httpClient.doPost(getString("URL") + "/search", nvps.build(), null));
 		}

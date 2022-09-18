@@ -60,7 +60,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 		for (Element a : d.select("span.deck-type"))
 			deck.getTags().add(a.text());
 
-		String plainDeck = d.select("section.deck-export-section pre").get(1).text();
+		var plainDeck = d.select("section.deck-export-section pre").get(1).text();
 
 		var sideboard = false;
 
@@ -84,7 +84,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 					notify(mc);
 
 				} catch (Exception e) {
-					logger.error("error getting" + cardName +" : " + e);
+					logger.error("error getting {} : {}",cardName,e);
 				}
 			}
 		}
@@ -103,7 +103,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 
 		for (var i = 1; i <= getInt("MAX_PAGE"); i++) {
 			String link = url + "&page=" + nbPage;
-			logger.debug("sniff url : " + link);
+			logger.debug("sniff url :  {}",link);
 
 			var d = URLTools.extractAsHtml(link);
 

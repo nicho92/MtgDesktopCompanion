@@ -101,7 +101,7 @@ public class DashBoardGUI2 extends MTGUIComponent {
 						addDash(desktop,dash);
 
 					} catch (Exception e) {
-						logger.error("Could not add " + f, e);
+						logger.error("Could not add {}",f, e);
 					}
 				}
 			}
@@ -125,7 +125,7 @@ public class DashBoardGUI2 extends MTGUIComponent {
 							try {
 								addDash(desktop,PluginRegistry.inst().newInstance(dash.getClass()));
 							} catch (Exception ex) {
-								logger.error("Error Loading " + dash, ex);
+								logger.error("Error Loading {}", dash, ex);
 							}
 						});
 					mntmCategory.add(mntmNewMenuItem);
@@ -188,7 +188,7 @@ public class DashBoardGUI2 extends MTGUIComponent {
 				try {
 					FileUtils.deleteDirectory(new File(AbstractJDashlet.confdir,name));
 				} catch (IOException e1) {
-					logger.error("Error delete directory " +name,e1);
+					logger.error("Error delete directory {}",name,e1);
 				}
 				
 			}
@@ -200,7 +200,7 @@ public class DashBoardGUI2 extends MTGUIComponent {
 			public void editingStopped(TabEditingEvent e) {
 				var f = new File(AbstractJDashlet.confdir,e.getOldTitle());
 				boolean res = f.renameTo(new File(AbstractJDashlet.confdir,e.getNewTitle()));
-				logger.debug("Renaming dashbord "+e.getOldTitle() + " to " + e.getNewTitle()+ ":"+res);
+				logger.debug("Renaming dashbord {} to {} : {} ",e.getOldTitle(),e.getNewTitle(),res);
 			}
 			
 			@Override
@@ -257,7 +257,7 @@ public class DashBoardGUI2 extends MTGUIComponent {
 
 				try (var fos = new FileOutputStream(f)) {
 					dash.getProperties().store(fos, "");
-					logger.trace("saving " + f + " :" + dash.getProperties());
+					logger.trace("saving {}:{}",f,dash.getProperties());
 					
 				} catch (IOException e) {
 					logger.error(e);
@@ -270,7 +270,7 @@ public class DashBoardGUI2 extends MTGUIComponent {
 
 	private void addDash(JDesktopPane desktop, AbstractJDashlet dash) {
 			try { 
-				logger.debug("loading " + dash.getName());
+				logger.debug("loading {}",dash.getName());
 				dash.initGUI();
 				desktop.add(dash);
 				dash.init();
@@ -290,14 +290,14 @@ public class DashBoardGUI2 extends MTGUIComponent {
 							try {
 								FileTools.deleteFile(conf);
 							} catch (IOException e1) {
-								logger.error("error removing " + conf);
+								logger.error("error removing {}",conf);
 							}
 						}
 					}
 				});
 				
 			} catch (Exception e) {
-				logger.error("error adding " + dash,e);
+				logger.error("error adding {}",dash,e);
 				MTGControler.getInstance().notify(e);
 			} 
 	}
