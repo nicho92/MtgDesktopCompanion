@@ -91,7 +91,7 @@ public class CollectionAnalyzerTreeTableModel extends AbstractTreeTableModel {
 	
 	@Override
 	public int getIndexOfChild(Object parent, Object child) {
-		logger.debug("getIndexOfChild("+parent+","+child+")");
+		logger.debug("getIndexOfChild({},{})",parent,child);
 		return 0;
 	}
 	

@@ -83,7 +83,7 @@ public class CollectionAnalyzerWorker extends SwingWorker<Void, MagicEdition> {
 		try {
 			get();
 		} catch (InterruptedException e) {
-			logger.error("Interruption " + e);
+			logger.error("Interruption",e);
 			Thread.currentThread().interrupt();
 		} catch (ExecutionException e) {
 			logger.error(e);

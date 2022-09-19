@@ -94,7 +94,7 @@ public class CloudFlareAuthorizer {
                     logger.warn("Getting CAPTCHA request from bittrex, throttling retries");
                     Thread.sleep(15000);
                 }
-                logger.trace("Failure HTML: " + response.responseText);
+                logger.trace("Failure HTML: {}",response.responseText);
                 return response.responseText;
             }
 
@@ -110,7 +110,7 @@ public class CloudFlareAuthorizer {
                 .findFirst();
 
         if(cfClearanceCookie.isPresent()) {
-            logger.debug("Cloudflare DDos authorization success, cf_clearance: {}"+cfClearanceCookie.get().getValue());
+            logger.debug("Cloudflare DDos authorization success, cf_clearance: {}",cfClearanceCookie.get().getValue());
         }else{
             logger.debug("Cloudflare DDoS is not currently active");
         }
@@ -160,7 +160,7 @@ public class CloudFlareAuthorizer {
                 throw new IllegalStateException("BUG: could not find toFixed inside CF JS challenge code");
             }
 
-            logger.debug(String.format("CloudFlare JS challenge code: %s", jsCode));
+            logger.debug("CloudFlare JS challenge code: {}", jsCode);
             return new BigDecimal(engine.eval(jsCode).toString()).setScale(10, RoundingMode.HALF_UP).toString();
         }
         throw new IllegalStateException("BUG: could not find initial CF JS challenge code in: "+responseHtml);

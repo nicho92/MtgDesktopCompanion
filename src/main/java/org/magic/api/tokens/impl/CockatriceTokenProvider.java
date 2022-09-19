@@ -60,7 +60,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 			init();
 		
 		String expression = CARD_REVERSE_RELATED + mc.getName() + "\"][not(contains(name,'Emblem'))]";
-		logger.trace("looking for token : " + expression);
+		logger.trace("looking for token : {}",expression);
 		try {
 			var nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 			return (nodeList.getLength() > 0);
@@ -81,7 +81,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 	
 		String expression = CARD_REVERSE_RELATED + mc.getName() + "\"][contains(name,'Emblem')]";
 		
-		logger.trace("looking for emblem : " + expression);
+		logger.trace("looking for emblem : {}",expression);
 		try {
 			var nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 			return (nodeList.getLength() > 0);
@@ -99,7 +99,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		
 		
 		String expression = "//card[set=\'" + ed.getId() + "']";
-		logger.debug("Expression =" + expression);
+		logger.debug("Expression ={}",expression);
 		try {
 			var nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 			
@@ -151,10 +151,10 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 			var value = (Element) nodeList.item(0);
 			return build(value, mc.getCurrentSet());
 		} catch (XPathExpressionException e) {
-			logger.error("erreur generate token for" + mc, e);
+			logger.error("erreur generate token for {}",mc, e);
 			return null;
 		} catch (IOException e) {
-			logger.error("getSetById error " + mc, e);
+			logger.error("getSetById error {}", mc, e);
 			return null;
 		}
 	}
@@ -236,7 +236,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		if (tok.getLayout()==MTGLayout.EMBLEM)
 			expression = "//card[name=\"" + tok.getName() + " (Emblem)\"]";
 
-		logger.trace(expression + " for " + tok);
+		logger.trace("{} for {}",expression, tok);
 
 		NodeList nodeList;
 		try {
@@ -266,7 +266,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		try {
 			if (map == null)
 				{
-				logger.error("no pics found for" + tok);
+				logger.error("no pics found for {}",tok);
 				return null;
 				}
 			
@@ -276,10 +276,10 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 			else
 				u = map.get(map.keySet().iterator().next());
 
-			logger.debug("Load token pics : " + u);
+			logger.debug("Load token pics : {}",u);
 			return URLTools.extractAsImage(u.toString());
 		} catch (Exception e) {
-			logger.error("error pics reading for " + tok, e);
+			logger.error("error pics reading for {}",tok, e);
 			return getEnabledPlugin(MTGPictureProvider.class).getBackPicture();
 		}
 	}

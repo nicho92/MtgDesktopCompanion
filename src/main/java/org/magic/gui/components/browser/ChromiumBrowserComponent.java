@@ -59,7 +59,7 @@ public class ChromiumBrowserComponent extends MTGUIBrowserComponent {
 
 	@Override
 	public void loadURL(String url) {
-		logger.debug("browse to " + url);
+		logger.debug("browse to {}",url);
 		browser.loadURL(url);
 	}
 

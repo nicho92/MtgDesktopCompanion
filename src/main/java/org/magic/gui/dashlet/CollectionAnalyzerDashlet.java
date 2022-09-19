@@ -218,7 +218,7 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 		if(sw!=null && !sw.isDone())
 		{
 			boolean ret = sw.cancel(true);
-			logger.debug(sw + " is canceled"+ret );
+			logger.debug("{} is canceled {}",sw,ret );
 		}
 		
 		

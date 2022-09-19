@@ -128,7 +128,7 @@ public class CollectionEvaluator extends Observable
 			try {
 				initCache(ed);
 			} catch (IOException e) {
-				logger.error("couldn't load " + ed,e);
+				logger.error("couldn't load {}",ed,e);
 			}
 		});
 	}
@@ -144,7 +144,7 @@ public class CollectionEvaluator extends Observable
 			if(!ret.isEmpty())
 				FileTools.saveFile(new File(directory,edition.getId()+PRICE_JSON), serialiser.toJsonElement(ret).toString());
 		} catch (IOException e) {
-			logger.error(edition.getId() + " is not found",e);
+			logger.error("{} is not found",edition.getId(),e);
 		}
 		
 	}
@@ -156,7 +156,7 @@ public class CollectionEvaluator extends Observable
 			try {
 				ret= getPlugin(provider, MTGDashBoard.class).getShakesForEdition(edition);
 			} catch (Exception e) {
-				logger.error(edition.getId() + " is not found " + e);
+				logger.error("{} is not found ",edition.getId(),e);
 			}
 			return ret;
 	}
@@ -177,7 +177,7 @@ public class CollectionEvaluator extends Observable
 					eds.add(ed);
 				}catch(Exception e)
 				{
-					logger.error("error get edition " + key,e);
+					logger.error("error get edition {}",key,e);
 				}});
 		} catch (SQLException e) {
 			logger.error("error sql get editions ",e);
@@ -222,7 +222,7 @@ public class CollectionEvaluator extends Observable
 		if(cache.get(ed)!=null)
 			return cache.get(ed);
 		
-		logger.trace("caculate prices for" + ed);
+		logger.trace("caculate prices for {}",ed);
 		
 		
 		Map<MagicCard,CardShake> ret = new HashMap<>();
@@ -235,9 +235,8 @@ public class CollectionEvaluator extends Observable
 			}
 			else
 			{
-				logger.trace(fich + " is not found for " + ed.getId() +" : " + ed.getSet());
+				logger.trace("{} is not found for {}: {}",fich,ed.getId(),ed.getSet());
 				list= new EditionsShakers();
-				
 			}	
 			List<MagicCard> cards = getEnabledPlugin(MTGDao.class).listCardsFromCollection(collection, ed);
 			for(MagicCard mc : cards) 
@@ -286,7 +285,7 @@ public class CollectionEvaluator extends Observable
 		}
 		catch(Exception e)
 		{
-			logger.error("error loading " + ed, e);
+			logger.error("error loading {}",ed, e);
 		}
 		
 		var eds = new EditionsShakers();
