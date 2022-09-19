@@ -233,8 +233,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 			private static final long serialVersionUID = 1L;
 			@Override
 			public void setValueAt(Object aValue, int row, int column) {
-				logger.info( keys.get(row).getKey()+ " change to " + aValue);
-				
+				logger.info("{} change to {}",keys.get(row).getKey(),aValue);
 				MTGLogger.changeLevel(MTGLogger.getLogger(keys.get(row).getKey()),aValue.toString());
 				keys.get(row).setValue(Level.toLevel(aValue.toString()));
 			}

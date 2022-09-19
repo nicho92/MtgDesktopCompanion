@@ -57,7 +57,7 @@ public class DAOFileSystemStorage extends AbstractFileStorage {
 		var cIdInstance = p.getParent().getFileName().toString();
 		var cFName = p.getFileName().toString();
 		
-		logger.debug("reading " +cIdClasse +" / " + cIdInstance + " / " + cFName);
+		logger.debug("reading {}/{}/{}",cIdClasse,cIdInstance,cFName);
 		
 		try {
 			return MTG.getEnabledPlugin(MTGDao.class).readEntry(cIdClasse, cIdInstance, cFName);
@@ -80,7 +80,7 @@ public class DAOFileSystemStorage extends AbstractFileStorage {
 
 	@Override
 	public Stream<Path> listDirectory(Path p) throws IOException {
-		logger.debug("listDirectory " + p.getParent().getFileName() + " " + p.getFileName());
+		logger.debug("listDirectory {}/{}",p.getParent().getFileName(),p.getFileName());
 		try {
 			return MTG.getEnabledPlugin(MTGDao.class).listEntries(p.getParent().getFileName().toString(),p.getFileName().toString()).stream().map(ge->Path.of(p.getParent().getFileName().toString(),p.getFileName().toString(),ge.getName()));
 		} catch (Exception e) {
@@ -91,7 +91,7 @@ public class DAOFileSystemStorage extends AbstractFileStorage {
 
 	@Override
 	public <T extends MTGStorable> boolean delete(GedEntry<T> entry) {
-		logger.debug("delete " + entry.getClasse() + " "+ entry.getId());
+		logger.debug("delete {}/{}",entry.getClasse(),entry.getId());
 		try {
 			return MTG.getEnabledPlugin(MTGDao.class).deleteEntry(entry);
 		} catch (SQLException e) {

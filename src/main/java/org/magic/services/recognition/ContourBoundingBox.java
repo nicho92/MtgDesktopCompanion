@@ -75,7 +75,7 @@ public class ContourBoundingBox
         }
 		catch(Exception e)
 		{
-			logger.error("RemovePerspectiveDistortion.apply Error: " + e);
+			logger.error("RemovePerspectiveDistortion.apply", e);
 			return in;
 		}
 	}

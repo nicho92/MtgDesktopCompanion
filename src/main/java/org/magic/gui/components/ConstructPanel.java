@@ -428,7 +428,7 @@ public class ConstructPanel extends MTGUIComponent {
 									updateM.put(newMc,deck.getMain().get(mc));
 									publish(mc);
 								} catch (Exception e) {
-									logger.error("error update " + mc,e);
+									logger.error("error update {}",mc,e);
 								}
 							}
 							for (MagicCard mc : deck.getSideBoard().keySet()) {
@@ -439,7 +439,7 @@ public class ConstructPanel extends MTGUIComponent {
 									updateS.put(newMc,deck.getSideBoard().get(mc));
 									publish(mc);
 								} catch (Exception e) {
-									logger.error("error update " + mc,e);
+									logger.error("error update {}",mc,e);
 									
 								}
 							}
@@ -476,7 +476,7 @@ public class ConstructPanel extends MTGUIComponent {
 
 				@Override
 				protected Void doInBackground() throws Exception {
-					logger.debug("saving " + deck);
+					logger.debug("saving {}",deck);
 					deckManager.saveDeck(deck);
 					p.setDeck(deck);
 					return null;
@@ -590,7 +590,7 @@ public class ConstructPanel extends MTGUIComponent {
 						} 
 						else if(!exp.needFile() && !exp.needDialogForDeck(MODS.IMPORT))
 						{
-							logger.trace(exp + " need no file. Skip");
+							logger.trace("{} need no file. Skip",exp);
 							res = JFileChooser.APPROVE_OPTION;
 						}
 						else 
@@ -707,7 +707,7 @@ public class ConstructPanel extends MTGUIComponent {
 					comp.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD));
 				}
 				catch(Exception e){
-					logger.error("error applying font " + value + " "+ deck +":"+e);
+					logger.error("error applying font {}  {}",value,deck,e);
 				}
 			
 			

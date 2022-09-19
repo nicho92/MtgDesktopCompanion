@@ -39,7 +39,7 @@ public class ConsoleServer extends AbstractMTGServer {
 		handler.setWelcomeMessage(getString("STARTUP_MESSAGE"));
 		acceptor.setHandler(handler);
 		acceptor.bind(new InetSocketAddress(getInt(SERVER_PORT)));
-		logger.info("Server started on port " + getString(SERVER_PORT));
+		logger.info("Server started on port {}",getString(SERVER_PORT));
 	}
 
 	@Override

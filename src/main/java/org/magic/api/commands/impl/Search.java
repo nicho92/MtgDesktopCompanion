@@ -31,8 +31,8 @@ public class Search extends AbstractCommand {
 	@Override
 	public AbstractResponse run(String[] args)throws ParseException, ClassNotFoundException, InstantiationException, IllegalAccessException, IOException {
 	
-		logger.debug("running "+ this +" with " + Arrays.asList(args));
-		
+		logger.debug("running {} with {}", this,Arrays.asList(args));
+			
 		CommandLine cl = parser.parse(opts, args);
 		
 		if (cl.hasOption("c")) {

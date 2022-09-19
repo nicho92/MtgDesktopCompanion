@@ -29,8 +29,8 @@ public class Server extends AbstractCommand {
 	
 	@Override
 	public AbstractResponse run(String[] args) throws ClassNotFoundException, InstantiationException,IllegalAccessException, ParseException, IOException, InvocationTargetException, NoSuchMethodException {
-		logger.debug("running "+ this +" with " + Arrays.asList(args));
-		
+		logger.debug("running {} with {}", this,Arrays.asList(args));
+			
 		CommandLine cl = parser.parse(opts, args);
 		MTGServer serv = null;
 		
