@@ -51,14 +51,17 @@ public class MarkovGenerator extends AbstractMTGTextGenerator {
 		  {
 			  logger.debug("Init MarkovGenerator");
 			  var build = new StringBuilder();
+			  var count =0;
 			  for(MagicCard mc : getEnabledPlugin(MTGCardsIndexer.class).listCards())
 			  {
+				  
 				  if((mc.getText()!=null || !mc.getText().isEmpty() || !mc.getText().equalsIgnoreCase("null"))) {
 						  String r = mc.getText().replace(CardsPatterns.REMINDER.getPattern(), "")
 								  				 .replace("\n", " ")
 								  				 .replace(mc.getName(), getString("TAG_NAME"))
 								  				 .trim();
-						  
+						 
+						  count++;
 						  rs.addText(r);
 						  
 						  build.append(r).append(System.lineSeparator());
@@ -66,19 +69,23 @@ public class MarkovGenerator extends AbstractMTGTextGenerator {
 			  }
 			  
 			try {
-				saveCache(build.toString());
+				if(count>0)
+					saveCache(build.toString());
+				else
+					logger.warn("No cards to index {}",count);
+				
 			} catch (IOException e) {
-				logger.error("error saving file "+cache.getAbsolutePath(),e);
+				logger.error("error saving file {}",cache.getAbsolutePath(),e);
 			}
 			
 		  }
 		  else
 		  {
 			  try {
-				logger.debug("loading cache from " + cache);
-				FileUtils.readLines(cache,MTGConstants.DEFAULT_ENCODING).forEach(rs::addText);
+				logger.debug("loading cache from {}",cache);
+				FileTools.readAllLines(cache).forEach(rs::addText);
 			} catch (Exception e) {
-				logger.error("error loading file "+cache.getAbsolutePath(),e);
+				logger.error("error loading file {} ",cache.getAbsolutePath(),e);
 			}
 		  }
 		  
@@ -87,7 +94,7 @@ public class MarkovGenerator extends AbstractMTGTextGenerator {
 	
 	private void saveCache(String s) throws IOException
 	{
-		logger.debug("saving cache to " + cache);
+		logger.debug("saving cache to {}",cache);
 		FileTools.saveFile(cache, s);		
 	}
 

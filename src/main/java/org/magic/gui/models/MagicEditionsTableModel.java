@@ -118,6 +118,10 @@ public class MagicEditionsTableModel extends GenericTableModel<MagicEdition> {
 			return e.getReleaseDate();
 
 		if (column == 4) {
+			
+			if(mapCount.get(e)==null)
+				return -1;
+			
 			if (e.getCardCount() > 0)
 				return (double) mapCount.get(e) / e.getCardCount();
 			else

@@ -83,13 +83,13 @@ public class FileTools {
 	public static void saveFile(File f, String data, Charset enc) throws IOException {
 		String correctFilename= f.getName().replaceAll(CORRECT_REGEX, "_");
 		f=new File(f.getParentFile(),correctFilename);
-		logger.debug("saving file " + f);
+		logger.debug("saving file {}",f);
 		FileUtils.write(f, data,enc);
 	}
 	
 	
 	public static void saveLargeFile(File f, String data, Charset enc) throws IOException {
-		logger.debug("saving file " + f);
+		logger.debug("saving file {}", f);
 		try (final OutputStream os = new FileOutputStream(f, false)) {
 	        final InputStream inputStream = IOUtils.toInputStream(data,enc);
 	        if (inputStream != null) {
@@ -135,7 +135,7 @@ public class FileTools {
 	{
 			String correctFilename= f.getName().replaceAll(CORRECT_REGEX, "_");
 			f=new File(f.getParentFile(),correctFilename);
-			logger.debug("deleting file " + f);
+			logger.debug("deleting file {}",f);
 			FileUtils.forceDelete(f);
 	}
 	
@@ -165,12 +165,14 @@ public class FileTools {
 	{
 		if(f==null || !f.exists())
 		{
-			logger.warn(f+" doesn't exist");
+			logger.warn("{} doesn't exist",f);
 			return "";
 		}
-		
-		logger.debug("opening file " + f.getAbsolutePath().replaceAll("[\n\r\t]", "_"));
-		return FileUtils.readFileToString(f,charset);
+		else
+		{
+			logger.debug("opening file {}", f.getAbsolutePath());
+			return FileUtils.readFileToString(f,charset);
+		}
 	}
 	
 	
@@ -321,7 +323,7 @@ public class FileTools {
  		try (var zis = new ZipInputStream(new FileInputStream(src))) {
  			var ze = zis.getNextEntry();
  			while (ze != null) {
-				logger.info("unzip : " + src.getAbsoluteFile());
+				logger.info("unzip : {}",src.getAbsoluteFile());
  				try (var fos = new FileOutputStream(dst)) {
 					int len;
 					while ((len = zis.read(buffer)) > 0) {
@@ -334,7 +336,7 @@ public class FileTools {
 			logger.error(ex);
 		}
  		boolean del = FileUtils.deleteQuietly(src);
-		logger.debug("removing " + src + "=" + del);
+		logger.debug("removing {}={}",src,del);
  	}
 
 	public static void copyDirJarToDirectory(String path, File writeDirectory) throws IOException {
@@ -350,7 +352,7 @@ public class FileTools {
 		        	
 		        	var f = new File(writeDirectory,name);
 		        	
-		        	logger.debug("writing " + f);
+		        	logger.debug("writing {}", f);
 		        	
 		        	if(entry.isDirectory())
 		        		FileUtils.forceMkdir(f);
@@ -366,7 +368,7 @@ public class FileTools {
 
 
 	public static List<String> readAllLines(File f) throws IOException {
-		logger.debug("opening file " + f);
+		logger.debug("opening file {}",f);
 		return Files.readLines(f, MTGConstants.DEFAULT_ENCODING);
 	}
 
