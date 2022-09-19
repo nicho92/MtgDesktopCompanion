@@ -437,7 +437,7 @@ public class CardSearchPanel extends MTGUIComponent {
 									try {
 										return MTG.getEnabledPlugin(MTGDao.class).listCollectionFromCards(mc).contains(diag.getCollection());
 									} catch (SQLException e) {
-										logger.error("error sql for " + mc +" : " + e);
+										logger.error("error sql for {} : {}",mc,e);
 										return false;
 									}
 								}).toList();
@@ -507,7 +507,7 @@ public class CardSearchPanel extends MTGUIComponent {
 							}
 							catch(Exception e)
 							{
-								logger.error("error sorting result "+e);
+								logger.error("error sorting result {}",e);
 							}
 							
 							return cards;
@@ -631,7 +631,7 @@ public class CardSearchPanel extends MTGUIComponent {
 					MagicEdition ed = (MagicEdition) BeanUtils.cloneBean(selectedEdition);
 								 ed.setMultiverseid(String.valueOf(selLang.getGathererId()));
 
-					logger.trace("change lang to " + selLang + " for " + ed);
+					logger.trace("change lang to {} for {}",selLang,ed);
 					cardsPicPanel.showCard(selectedCard);
 			} catch (Exception e1) {
 				logger.error(e1);
@@ -743,7 +743,7 @@ public class CardSearchPanel extends MTGUIComponent {
 			return;
 		
 		
-		logger.debug("results " + cards.size() + " cards");
+		logger.debug("results {} cards",cards.size());
 
 		if (!cards.isEmpty()) {
 			cardsModeltable.init(cards);

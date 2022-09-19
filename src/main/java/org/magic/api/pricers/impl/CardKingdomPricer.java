@@ -112,7 +112,7 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 		Chrono c = new Chrono();
 		
 		c.start();
-		logger.debug("Reading file {} with ",jsonFile,cheapFictionFilter );
+		logger.debug("Reading file {} with {} ",jsonFile,cheapFictionFilter );
 		List<Map<String, Object>> arr = cont.read("$.data[?]",cheapFictionFilter);
 		var res = c.stop();
 		logger.debug("Ending reading after {}sec",res);

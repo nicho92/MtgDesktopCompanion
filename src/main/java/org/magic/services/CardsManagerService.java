@@ -35,7 +35,7 @@ public class CardsManagerService {
 			else	
 				return getEnabledPlugin(MTGCardsProvider.class).searchCardByName(mc.getName(), ed, true).get(0);
 		} catch (IOException e) {
-			logger.error(mc +" is not found in " + ed);
+			logger.error("{} is not found in {}",mc,ed);
 			return mc;
 		}
 	}
@@ -52,7 +52,7 @@ public class CardsManagerService {
 				}
 				catch(Exception e)
 				{
-						logger.error("Can't remove returned card " + mc.getRotatedCard(),e);
+						logger.error("Can't remove returned card {}",mc.getRotatedCard(),e);
 				}
 		
 		if(MTGControler.getInstance().get("collections/stockAutoDelete").equals("true"))
@@ -84,7 +84,7 @@ public class CardsManagerService {
 		}
 		catch(Exception e)
 		{
-				logger.error("Can't move returned card " + mc.getRotatedCard(),e);
+				logger.error("Can't move returned card {}",mc.getRotatedCard(),e);
 		}
 		
 	}
@@ -107,7 +107,7 @@ public class CardsManagerService {
 		}
 		catch(Exception e)
 		{
-				logger.error("Can't save returned card " + mc.getRotatedCard(),e);
+				logger.error("Can't save returned card {}",mc.getRotatedCard(),e);
 		}
 		
 		

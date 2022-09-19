@@ -64,7 +64,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 		}
 		catch(Exception e)
 		{
-			logger.error("No authenticator "+e);
+			logger.error("No authenticator {}",e);
 		}
 	}
 	

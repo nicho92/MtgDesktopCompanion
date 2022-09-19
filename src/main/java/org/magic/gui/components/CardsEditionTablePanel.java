@@ -177,7 +177,7 @@ public class CardsEditionTablePanel extends JPanel {
 								CardsManagerService.saveCard(mc, (MagicCollection)cboCollection.getSelectedItem(),null);
 								publish(mc);
 							} catch (SQLException e) {
-								logger.error("couln't save " + mc,e);
+								logger.error("couln't save {}", mc,e);
 							}
 						return null;
 						}

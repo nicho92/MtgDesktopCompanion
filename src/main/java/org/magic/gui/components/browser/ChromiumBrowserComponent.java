@@ -42,7 +42,7 @@ public class ChromiumBrowserComponent extends MTGUIBrowserComponent {
 			
 			
 		} catch (UnsatisfiedLinkError e) {
-			logger.error("maybe add : -Djava.library.path=\""+MTGConstants.NATIVE_DIR+"\" at jvm startup args");
+			logger.error("maybe add : -Djava.library.path=\"{}\" at jvm startup args",MTGConstants.NATIVE_DIR);
 			throw new IOException(e);
 		} 
 			

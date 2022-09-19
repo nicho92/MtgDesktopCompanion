@@ -993,9 +993,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		}, transformer);
 		
-		get("/metadata/recognition/list", URLTools.HEADER_JSON, (request, response) -> {
-			return MTG.getEnabledPlugin(MTGCardRecognition.class).getDataList();
-		}, transformer);
+		get("/metadata/recognition/list", URLTools.HEADER_JSON, (request, response) -> MTG.getEnabledPlugin(MTGCardRecognition.class).getDataList(), transformer);
 		
 		
 		get("/metadata/recognition/download/:idSet", URLTools.HEADER_JSON, (request, response) -> {

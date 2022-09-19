@@ -97,7 +97,7 @@ public class CardTraderStockExport extends AbstractCardExport {
 						mcs.setUpdated(true);
 						notify(mcs.getProduct());
 					} catch (IOException e) {
-						logger.error("Error for getting card " + bluePrint.getProductUrl());
+						logger.error("Error for getting card {}",bluePrint.getProductUrl());
 					}
 
 					
@@ -106,7 +106,7 @@ public class CardTraderStockExport extends AbstractCardExport {
 				}
 				else
 				{
-					logger.error("BluePrints " + mp.getIdBlueprint() +" not found");
+					logger.error("BluePrints {} not found",mp.getIdBlueprint());
 				}
 				
 			

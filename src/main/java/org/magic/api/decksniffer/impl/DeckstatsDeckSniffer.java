@@ -81,7 +81,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
 		MagicDeck deck = info.toBaseDeck();
 
-		logger.debug("get deck " + info.getUrl());
+		logger.debug("get deck {}",info.getUrl());
 		Document d = URLTools.extractAsHtml(info.getUrl().toString());
 		
 		if (d.select("div#deck_overview_info") != null)
@@ -119,7 +119,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 			}
 			catch(Exception ex)
 			{
-				logger.error("error parsing -> "+s);
+				logger.error("error parsing -> {}",s);
 			}
 		}
 		return deck;

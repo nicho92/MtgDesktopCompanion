@@ -90,7 +90,7 @@ public class CardTraderPricer extends AbstractPricesProvider {
 		
 		if(bps.isEmpty())
 		{
-			logger.info(getName() + " found nothing");
+			logger.info("{} found nothing",getName());
 			return ret;
 		}
 		
@@ -99,7 +99,7 @@ public class CardTraderPricer extends AbstractPricesProvider {
 		
 		Chrono c = new Chrono();
 		c.start();
-		logger.debug("Begin searching " + bp);
+		logger.debug("Begin searching {}",bp);
 		service.listMarketProductByBluePrint(bp).forEach(marketItem->{
 			
 			if(ArrayUtils.contains(getArray(COUNTRY_FILTER),marketItem.getSeller().getCountryCode()) || getString(COUNTRY_FILTER).isEmpty())
@@ -123,7 +123,7 @@ public class CardTraderPricer extends AbstractPricesProvider {
 		});
 		
 		
-		logger.info(getName() + " found " + ret.size() + " items in " + c.stop() +" ms");
+		logger.info("{} found {} items in {}ms",getName(),ret.size(),c.stop());
 		return ret;
 		
 	}

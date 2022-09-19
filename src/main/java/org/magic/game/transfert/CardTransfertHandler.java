@@ -106,7 +106,7 @@ public class CardTransfertHandler extends TransferHandler {
 				src.getParent().repaint();
 				
 				
-				logger.debug("move " + src.getMagicCard().getName() + " from "+ ((Draggable) src.getParent()).getOrigine() + " to " + target.getOrigine());
+				logger.debug("move {} from {} to {}",src.getMagicCard().getName(),((Draggable) src.getParent()).getOrigine() ,target.getOrigine());
 				((Draggable) src.getParent()).moveCard(src, target.getOrigine());
 				target.addComponent(src);
 

@@ -56,7 +56,7 @@ public class ChannelFireballPricer extends AbstractPricesProvider {
 			
 		}
 		
-		logger.info(getName() + " found " + list.size() +" offers");
+		logger.info("{} found {} offers",getName(),list.size());
 		return list;
 	}
 
