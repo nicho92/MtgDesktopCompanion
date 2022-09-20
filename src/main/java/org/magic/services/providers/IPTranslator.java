@@ -26,20 +26,11 @@ public class IPTranslator {
 	{
 		
 		try {
-			
-
 			var inaddr = InetAddresses.forString(ip);
-			
 			if(inaddr.isAnyLocalAddress() || inaddr.isLoopbackAddress() || inaddr.isSiteLocalAddress())
-			{
 				return null;
-			}
-			
-			
-			
 			
 			return cache.get(ip, new Callable<Location>() {
-				
 				@Override
 				public Location call() throws Exception {
 					var o = URLTools.extractAsJson("https://ipapi.co/"+ip+"/json").getAsJsonObject();
@@ -47,6 +38,10 @@ public class IPTranslator {
 					
 				}
 			});
+		}
+		catch(IllegalArgumentException e)
+		{
+			return null;
 		} catch (Exception e) {
 			logger.error(e);
 			return null;
