@@ -10,7 +10,6 @@ import static spark.Spark.delete;
 import static spark.Spark.exception;
 import static spark.Spark.get;
 import static spark.Spark.initExceptionHandler;
-import static spark.Spark.internalServerError;
 import static spark.Spark.notFound;
 import static spark.Spark.options;
 import static spark.Spark.port;
@@ -178,6 +177,20 @@ public class JSONHttpServer extends AbstractMTGServer {
 		return obj;
 	}
 	
+	private void storeToken(Response response, String string)
+	{
+		response.cookie("x-auth-token", string);
+	}
+	
+	private String readToken(Request request)
+	{
+		return request.cookie("x-auth-token");
+	}
+
+	
+	
+	
+	
 	public JSONHttpServer() {
 		manager = new MTGDeckManager();
 		converter = new JsonExport();
@@ -315,9 +328,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 			obj.addProperty("accessToken",jwtService.generateToken(m,getInt("JWT_EXPIRATION_MINUTES"),false));
 			obj.addProperty("refreshToken",jwtService.generateToken(m,getInt("JWT_REFRESH_EXPIRATION_MINUTES"),true));
 			
-			response.cookie("x-auth-token", obj.get("accessToken").getAsString());
-
-			
+			storeToken(response,obj.get("accessToken").getAsString());
+						
 			return obj;
 		},transformer);
 			
