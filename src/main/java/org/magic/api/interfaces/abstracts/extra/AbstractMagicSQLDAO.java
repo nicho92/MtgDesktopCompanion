@@ -892,15 +892,14 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setString(2, IDGenerator.generateSha256(password));
 				pst.setBoolean(3, true);
 				ResultSet rs = executeQuery(pst);
-				rs.next();
+				var res = rs.next();
 				
+				if(res==false)
+					throw new SQLException("No result Found");
+				
+					
 				return readContact(rs);
 		}
-		catch(SQLException sqlde)
-		{
-			return null;
-		}
-		
 	}
 
 	@Override
