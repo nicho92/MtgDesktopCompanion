@@ -10,6 +10,7 @@ import static spark.Spark.delete;
 import static spark.Spark.exception;
 import static spark.Spark.get;
 import static spark.Spark.initExceptionHandler;
+import static spark.Spark.internalServerError;
 import static spark.Spark.notFound;
 import static spark.Spark.options;
 import static spark.Spark.port;
@@ -150,7 +151,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 	private boolean running = false;
 	private JsonExport converter;
 	private UserAgentAnalyzer ua ;
-	private Instant start;
 	private JWTServices jwtService;
 	
 	
@@ -219,7 +219,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		if(!request.uri().startsWith("/admin"))
 		{
 			var info= new JsonQueryInfo();
-			info.setStart(start);
+			info.setStart(Instant.ofEpochMilli(Long.parseLong(response.raw().getHeader("startAt"))));
 			info.setContentType(request.contentType());
 			info.setIp(request.ip());
 			info.setMethod(request.requestMethod());
@@ -257,11 +257,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 		});
 		
 		exception(Exception.class, (Exception exception, Request request, Response response) -> {
-			logger.error("Error :{} : {} ",request.headers(URLTools.REFERER),exception.getMessage(), exception);
-			addInfo(request,response);
+			logger.error("{} : {} ",request.uri(),exception.getMessage(), exception);
 			response.body(error(request,response, exception.getMessage(),500).toString());
+			addInfo(request,response);
 		});
-
+		
 		notFound((req, res) -> {
 			addInfo(req,res);
 			return error(req, res,"Not Found",404);
@@ -273,12 +273,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 			response.header(ACCESS_CONTROL_REQUEST_METHOD, getString(ACCESS_CONTROL_REQUEST_METHOD));
 			response.header(ACCESS_CONTROL_ALLOW_HEADERS, getString(ACCESS_CONTROL_ALLOW_HEADERS));
 			response.header("Content-Security-Policy","");
+			response.header("startAt", String.valueOf(Instant.now().toEpochMilli()));
 			
 			if (getBoolean(ENABLE_GZIP)) {
 				response.header("Content-Encoding", "gzip");
 			}
-			
-			start=Instant.now(); //TODO not sure...
 			
 		});
 	
@@ -305,10 +304,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 	@SuppressWarnings("unchecked")
 	private void initRoutes() {
 		
-		post("/services/auth",URLTools.HEADER_JSON,(request, response) -> {
+		post("/services/auth",(request, response) -> {
 			var c = MTG.getEnabledPlugin(MTGExternalShop.class).getContactByLogin(request.queryParams("email"),request.queryParams("password"));
-			
-			
 			var obj = new JsonObject();
 			var m = new HashMap<String,Object>();
 				m.put("name", c.getName());
