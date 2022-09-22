@@ -186,10 +186,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 	{
 		return request.cookie("x-auth-token");
 	}
-
-	
-	
-	
 	
 	public JSONHttpServer() {
 		manager = new MTGDeckManager();
@@ -332,6 +328,14 @@ public class JSONHttpServer extends AbstractMTGServer {
 						
 			return obj;
 		},transformer);
+		
+		
+		get("/services/auth",(request, response) -> {
+				return jwtService.validateToken(readToken(request));
+		},transformer);
+		
+		
+		
 			
 		get("/cards/token/:scryfallId", URLTools.HEADER_JSON,(request, response) -> {
 			
@@ -640,9 +644,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 			})
 		, transformer);
 		
-		
-		
-	
 		get("/alerts/list", URLTools.HEADER_JSON,(request, response) -> getEnabledPlugin(MTGDao.class).listAlerts(), transformer);
 
 		get("/alerts/:scryfallId", URLTools.HEADER_JSON, (request, response) -> {
