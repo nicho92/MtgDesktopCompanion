@@ -61,22 +61,14 @@ public class JWTServices {
 	}
 	
 	
-	public boolean validateToken(String token)
+	public Jws<Claims> validateToken(String token) throws ExpiredJwtException
 	{
-		try {
-			Jwts.parserBuilder()
+			return Jwts.parserBuilder()
 				 .setSigningKey(secret)
 				 .requireIssuer(issuer)
 				 .build()
 				 .parseClaimsJws(token);
-			
-			return true;
-		}
-		catch(Exception ex)
-		{
-			logger.warn(ex);
-			return false;
-		}
+		
 			
 	}
 	
