@@ -147,7 +147,7 @@ public class ImagePanel extends JXPanel {
 				MagicCard rcard =mc.getRotatedCard();
 				imgBack = getEnabledPlugin(MTGPictureProvider.class).getPicture(rcard);
 			} catch (Exception e) {
-				logger.error("error loading rotated card : " + mc.getRotatedCard(),e);
+				logger.error("error loading rotated card : {}",mc.getRotatedCard(),e);
 
 			}
 		}

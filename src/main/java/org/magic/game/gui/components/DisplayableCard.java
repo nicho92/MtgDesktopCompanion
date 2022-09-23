@@ -388,7 +388,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 					try {
 						it = new JMenuItem(generateActionFromKey(k));
 					} catch (Exception e) {
-						logger.trace("error " + k + " : " + e);
+						logger.trace("error {} : {}",k,e);
 						it = new JMenuItem(k.getKeyword());
 					}
 					actions.add(it);
@@ -460,7 +460,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 		try {
 			this.magicCard = (MagicCard) BeanUtils.cloneBean(mc);
 		} catch (Exception e1) {
-			logger.error("error setting " + mc, e1);
+			logger.error("error setting {}",mc, e1);
 		}
 
 		

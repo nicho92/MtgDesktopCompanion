@@ -136,13 +136,13 @@ public class LigaMagicExport extends AbstractCardExport {
 					}
 					else
 					{
-						logger.error("can't find card " + enName );
+						logger.error("can't find card {}",enName );
 					}
 			
 				}
 				catch(Exception e)
 				{
-					logger.error("Error importing " +  enName);
+					logger.error("Error importing {}",enName);
 				}
 				
 			}
@@ -156,7 +156,7 @@ public class LigaMagicExport extends AbstractCardExport {
 		var set = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetByName(edName);
 		
 		if(set==null)
-			logger.warn("Can't find set '" + edName +"' for card " + enName);
+			logger.warn("Can't find set '{}' for card {}",edName,enName);
 		
 		
 		return MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(enName, set, true).get(0);

@@ -44,7 +44,7 @@ public class DeckImportWorker extends SwingWorker<MagicDeck, MagicCard> {
 			return exp.importDeckFromFile(f);
 		} catch (Exception e) {
 			err=e;
-			logger.error("error export with " + exp,e);
+			logger.error("error export with {}", exp,e);
 		}
 		return null;
 	}

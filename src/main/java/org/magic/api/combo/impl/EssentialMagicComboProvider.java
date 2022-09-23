@@ -83,7 +83,7 @@ public class EssentialMagicComboProvider extends AbstractComboProvider {
 							MagicCard card = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(a.text(), null, true).get(0);
 							cbo.addCard(card);
 						} catch (IOException e) {
-							logger.error("No card found for " + a.text());
+							logger.error("No card found for {}", a.text());
 						}
 					}
 					tr.select("a").remove();

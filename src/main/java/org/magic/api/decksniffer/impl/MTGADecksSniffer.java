@@ -62,7 +62,7 @@ public class MTGADecksSniffer extends AbstractDeckSniffer {
 				}
 				catch(Exception e)
 				{
-					logger.error("error loading " + s + ":" +e);
+					logger.error("error loading {} : {}",s,e);
 				}
 				
 			}

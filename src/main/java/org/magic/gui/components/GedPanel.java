@@ -72,7 +72,7 @@ public class GedPanel<T extends MTGStorable> extends MTGUIComponent {
 		if(classe==null)
 			return;
 		
-		logger.debug("Show ged for " + classe.getSimpleName());
+		logger.debug("Show ged for {}",classe.getSimpleName());
 		try {
 			listDirectory(MTG.getEnabledPlugin(MTGGedStorage.class).getPath(classe,instance));
 		} catch (IOException e) {
@@ -181,7 +181,7 @@ public class GedPanel<T extends MTGStorable> extends MTGUIComponent {
 							publish(entry);
 							
 						} catch (Exception e) {
-							logger.error("Error uploading " + url,e);
+							logger.error("Error uploading {}",url,e);
 						}	
 					return null;
 				}
@@ -218,7 +218,7 @@ public class GedPanel<T extends MTGStorable> extends MTGUIComponent {
 							publish(entry);
 							
 						} catch (Exception e) {
-							logger.error("Error uploading " + f,e);
+							logger.error("Error uploading {}",f,e);
 						}	
 						
 					}

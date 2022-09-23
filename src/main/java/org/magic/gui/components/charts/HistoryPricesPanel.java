@@ -113,7 +113,7 @@ public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 						try {
 							cpVariations = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(me);
 						} catch (IOException e1) {
-							logger.error("error init " + me, e1);
+							logger.error("error init {}",me, e1);
 						}
 					}
 					else
@@ -122,14 +122,14 @@ public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 							cpVariations = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(card, false);
 							
 						} catch (IOException e) {
-							logger.error("error init " + card, e);
+							logger.error("error init {}",card, e);
 						}
 						
 						try {
 							cpVariationsF = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(card, true);
 							
 						} catch (IOException e) {
-							logger.error("error init FOIL " + card, e);
+							logger.error("error init FOIL {}",card, e);
 						}
 					}
 					return null;
@@ -208,7 +208,7 @@ public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 						}
 				
 					} catch (Exception e) {
-						logger.error("error show eds " + edition+ " :" + e);
+						logger.error("error show eds {}:{}",edition,e);
 					}
 				}
 			}

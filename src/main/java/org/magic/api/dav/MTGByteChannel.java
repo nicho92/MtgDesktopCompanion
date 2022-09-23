@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.util.Optional;
 import java.util.Set;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
@@ -27,9 +26,6 @@ public class MTGByteChannel implements SeekableByteChannel {
 	private boolean open;
 	
 	public MTGByteChannel(MTGPath path, MTGDao dao, Set<? extends OpenOption> options, FileAttribute<?>[] attrs) {
-		
-		logger.debug("new ByteChannel for " + path + " opts : " + options + " " + ArrayUtils.toString(attrs));
-		
 		this.path=path;
 		this.dao=dao;
 		content = new byte[0];

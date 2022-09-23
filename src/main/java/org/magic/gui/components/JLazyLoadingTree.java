@@ -142,7 +142,7 @@ public class JLazyLoadingTree extends JTree {
 			SwingWorker<List<MyNode>, Void> worker = new SwingWorker<>() {
 				@Override
 				protected List<MyNode> doInBackground() {
-					logger.trace("loading cards from " + col + "/" + ed);
+					logger.trace("loading cards from {}/{}",col,ed);
 
 					List<MyNode> children = new ArrayList<>();
 					try {
@@ -154,7 +154,7 @@ public class JLazyLoadingTree extends JTree {
 							children.add(n);
 						}
 					} catch (SQLException e) {
-						logger.error("unknow edition " + ed.getId());
+						logger.error("unknow edition {}",ed.getId());
 					}
 					return children;
 				}
@@ -162,7 +162,7 @@ public class JLazyLoadingTree extends JTree {
 				@Override
 				protected void done() {
 					try {
-						logger.trace("loading cards from " + col + "/" + ed + " done");
+						logger.trace("loading cards from {}/{} done",col,ed);
 						setChildren(get());
 						model.nodeStructureChanged(MyNode.this);
 					}
@@ -186,7 +186,7 @@ public class JLazyLoadingTree extends JTree {
 			SwingWorker<List<MyNode>, Void> worker = new SwingWorker<>() {
 				@Override
 				protected List<MyNode> doInBackground() throws Exception {
-					logger.debug("loading editions from " + c);
+					logger.debug("loading editions from {}",c);
 					List<MyNode> children = new ArrayList<>();
 					for (String ed : getEnabledPlugin(MTGDao.class).listEditionsIDFromCollection(c)) {
 						var n = new MyNode(getEnabledPlugin(MTGCardsProvider.class).getSetById(ed));
@@ -199,7 +199,7 @@ public class JLazyLoadingTree extends JTree {
 				@Override
 				protected void done() {
 					try {
-						logger.debug("loading editions from " + c + " done");
+						logger.debug("loading editions from {} done",c);
 						setChildren(get());
 						model.nodeStructureChanged(MyNode.this);
 					}catch(InterruptedException ex)
@@ -207,7 +207,7 @@ public class JLazyLoadingTree extends JTree {
 						Thread.currentThread().interrupt();
 					}
 					catch (Exception e) {
-						logger.error("error loading edition from " +c,e);
+						logger.error("error loading edition from {}",c,e);
 					}
 					super.done();
 				}

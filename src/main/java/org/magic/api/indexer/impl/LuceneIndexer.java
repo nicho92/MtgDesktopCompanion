@@ -71,7 +71,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		analyzer = new StandardAnalyzer();
 			
 		if(!getFile(DIRECTORY).exists())
-			logger.warn("Index is not initiated at "+getFile(DIRECTORY)+", please launch it from config panel");
+			logger.warn("Index is not initiated at {}, please launch it from config panel",getFile(DIRECTORY));
 	}
 	
 	@Override
@@ -136,7 +136,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 			 
 			 var top= searcher.search(query, Math.max(1, collector.getTotalHits()));
 
-			 logger.debug("found " + top.totalHits +" items for " + q);
+			 logger.debug("found {} items for {}",top.totalHits,q);
 			 
 			 for(var i =0;i<top.totalHits.value;i++)
 				 ret.add(serializer.fromJson(searcher.doc(top.scoreDocs[i].doc).get("data"),MagicCard.class));
@@ -162,7 +162,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		
 		 Map<String,Long> map= new LinkedHashMap<>();
 		
-		 logger.debug("looking terms for "+ field);
+		 logger.debug("looking terms for {}",field);
 		 
 		 try {
 			 var reader = DirectoryReader.open(dir);
@@ -173,7 +173,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		               map.put(term.utf8ToString(), it.totalTermFreq());
 		               term = it.next();
 		            }
-		            logger.debug("looking terms for "+ field +" " + map.size());
+		            logger.debug("looking terms for {} : {} ",field,map.size());
 		} catch (Exception e) {
 			logger.error("error ",e);
 		}
@@ -191,7 +191,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		if(dir==null)
 			open();
 		
-		logger.debug("search similar cards for " + mc);
+		logger.debug("search similar cards for {}",mc);
 		
 		try (var indexReader = DirectoryReader.open(dir))
 		{
@@ -213,19 +213,19 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 			  
 			 var scoreDoc = top.scoreDocs[0];
 			 var like = mlt.like(scoreDoc.doc);
-			 logger.trace("Like query="+like);
+			 logger.trace("Like query={}",like);
 			 var likes = searcher.search(like,getInt(MAX_RESULTS));
 			 
 			 for(ScoreDoc l : likes.scoreDocs)
 				 ret.put(serializer.fromJson(searcher.doc(l.doc).get("data"),MagicCard.class),l.score);
 
-			 logger.debug("found " + likes.scoreDocs.length + " results");
+			 logger.debug("found {} results",likes.scoreDocs.length);
 			 close();
 			
 		 }
 		 else
 		 {
-			 logger.error("can't found "+mc);
+			 logger.error("can't found {}",mc);
 		 }
 		 
 		} catch (ParseException e) {
@@ -260,7 +260,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 			try {
 				indexWriter.addDocument(toDocuments(mc));
 			} catch (IllegalArgumentException e) {
-				logger.error("Error indexing " + mc + " " + mc.getCurrentSet(),e);
+				logger.error("Error indexing {} {}",mc,mc.getCurrentSet(),e);
 			}
 		}
 		

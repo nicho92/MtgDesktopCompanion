@@ -56,7 +56,7 @@ public class InstallCert {
 		            map.put(alias, keystore.getCertificate(alias));
 		    }
 		} catch (Exception e) {
-			logger.error("error reading " + keystoreFile, e);
+			logger.error("error reading {}",keystoreFile, e);
 		} 
 		return map;
 	}
@@ -90,7 +90,7 @@ public class InstallCert {
 				throw new FileNotFoundException("Couldn't not create " + keystoreFile);
 		}
 
-		logger.debug("Loading KeyStore " + keystoreFile.getAbsolutePath() + "...");
+		logger.debug("Loading KeyStore{}",keystoreFile.getAbsolutePath());
 		try (InputStream in = new FileInputStream(keystoreFile)) {
 			var ks = KeyStore.getInstance(KeyStore.getDefaultType());
 			ks.load(in, phrase);
@@ -103,12 +103,12 @@ public class InstallCert {
 			context.init(null, new TrustManager[] { tm }, null);
 			SSLSocketFactory factory = context.getSocketFactory();
 
-			logger.debug("Opening connection to " + host + ":" + port + "...");
+			logger.debug("Opening connection to {}:{}...",host,port);
 			try (SSLSocket socket = (SSLSocket) factory.createSocket(host, port)) {
 				socket.setSoTimeout(10000);
 				logger.debug("Starting SSL handshake...");
 				socket.startHandshake();
-				logger.debug("No errors, " + website +" is already trusted");
+				logger.debug("No errors, {} is already trusted",website);
 				return;
 			} catch (SSLException e) {
 				logger.error(e);
@@ -120,7 +120,7 @@ public class InstallCert {
 				return;
 			}
 
-			logger.debug("Server sent " + chain.length + " certificate(s):");
+			logger.debug("Server sent {} certificate(s)",chain.length);
 			var sha1 = MessageDigest.getInstance("SHA1");
 			var md5 = MessageDigest.getInstance("MD5");
 
@@ -139,7 +139,7 @@ public class InstallCert {
 			ks.store(out, phrase);
 			out.close();
 
-			logger.debug("Added certificate to keystore '" + f + "' using alias '" + alias + "'");
+			logger.debug("Added certificate to keystore '{}' using alias {}",f,alias);
 			
 			System.setProperty("javax.net.ssl.trustStore",f.getAbsolutePath());
 			

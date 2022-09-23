@@ -59,7 +59,7 @@ public class LookAndFeelProvider {
 			
 			FlatLaf.registerCustomDefaultsSource(MTGConstants.DATA_DIR);
 			
-			logger.debug("loading look&feel custom file : " + new File(MTGConstants.DATA_DIR,"FlatLaf.properties").getAbsolutePath() + " : " + new File(MTGConstants.DATA_DIR,"FlatLaf.properties").exists());
+			logger.debug("loading look&feel custom file : {} : {}",new File(MTGConstants.DATA_DIR,"FlatLaf.properties").getAbsolutePath(),new File(MTGConstants.DATA_DIR,"FlatLaf.properties").exists());
 			
 			FlatAnimatedLafChange.showSnapshot();
 			UIManager.setLookAndFeel(lookAndFeel);
@@ -92,7 +92,7 @@ public class LookAndFeelProvider {
 				SubstanceLookAndFeel look = c.getConstructor().newInstance();
 				list.add(new LookAndFeelInfo(look.getID(), c.getName()));
 			} catch (Exception e) {
-				logger.error("error for " + c, e);
+				logger.error("error for {}",c, e);
 			}
 		}
 		
@@ -102,7 +102,7 @@ public class LookAndFeelProvider {
 				var look = c.getConstructor().newInstance();
 				list.add(new LookAndFeelInfo("JTatoo " + look.getID(), c.getName()));
 			} catch (Exception e) {
-				logger.error("Loading " + c, e);
+				logger.error("Loading {}",c, e);
 			}
 		}
 	
@@ -113,7 +113,7 @@ public class LookAndFeelProvider {
 				
 				list.add(new LookAndFeelInfo("FlatLaf " + look.getID(), c.getName()));
 			} catch (Exception e) {
-				logger.trace("Loading " + c + " : " + e);
+				logger.trace("Loading {}:{}",c,e);
 			}
 		}
 

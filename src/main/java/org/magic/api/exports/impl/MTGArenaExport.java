@@ -127,7 +127,7 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 		try {
 			txt =trf.getTransferData(DataFlavor.stringFlavor).toString();
 		
-			logger.debug("copy from clipboard ok : " + txt);
+			logger.debug("copy from clipboard ok : {}", txt);
 		} catch (UnsupportedFlavorException e) {
 			throw new IOException(e);
 		} 
@@ -155,7 +155,7 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 				}
 				catch(Exception e)
 				{
-					logger.error("Error loading cards " + m.group(),e);
+					logger.error("Error loading cards {}", m.group(),e);
 				}
 				
 			}

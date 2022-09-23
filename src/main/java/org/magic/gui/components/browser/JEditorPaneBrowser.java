@@ -44,7 +44,7 @@ public class JEditorPaneBrowser extends MTGUIBrowserComponent {
 	
 	@Override
 	public void loadURL(String url) {
-		logger.debug("loading " + url);
+		logger.debug("loading {}",url);
 		currentUrl=url;
 		var sw = new SwingWorker<String,Void>()
 				{

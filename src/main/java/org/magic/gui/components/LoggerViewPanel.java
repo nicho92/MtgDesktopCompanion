@@ -107,7 +107,7 @@ public class LoggerViewPanel extends MTGUIComponent {
 	
 	public void setClassFilter(Class c)
 	{
-		logger.debug("Filtering logs for " + c.getName() );
+		logger.debug("Filtering logs for {}",c.getName() );
 		TableRowSorter<LogTableModel> sorter = new TableRowSorter<>(model);
 		sorter.setRowFilter(RowFilter.regexFilter(c.getName()));
 		table.setRowSorter(sorter);

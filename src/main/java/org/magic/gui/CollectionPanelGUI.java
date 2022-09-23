@@ -494,7 +494,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 							jsonPanel.show(curr.getUserObject());
 
 						} catch (Exception e) {
-							logger.error("error refresh " + curr.getUserObject() +":"+e.getLocalizedMessage());
+							logger.error("error refresh {} : {}",curr.getUserObject(),e.getLocalizedMessage());
 						}
 						
 					}
@@ -510,7 +510,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 					initCardSelectionGui(card,(MagicCollection) ((DefaultMutableTreeNode) curr.getParent().getParent()).getUserObject());
 				}catch(Exception e)
 				{
-					logger.error("error updating " + card + " in " + curr.getParent());
+					logger.error("error updating {} in {}" ,card,curr.getParent());
 				}
 			}
 		});
@@ -564,7 +564,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 							if(d.hasChange())
 								tree.refresh(node);
 							
-							logger.trace("closing mass import with change =" + d.hasChange());
+							logger.trace("closing mass import with change ={}",d.hasChange());
 						});
 						
 						itSync.addActionListener(ae->{
@@ -789,7 +789,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 							list.add(mc);
 						
 						progressBar.start(list.size());
-						logger.debug("save " + list.size() + " cards from " + eds);
+						logger.debug("save {} cards from {}",list.size(),eds);
 						
 						
 						SwingWorker<Void, MagicCard> sw = new SwingWorker<>()
@@ -894,9 +894,9 @@ public class CollectionPanelGUI extends MTGUIComponent {
 						var sourceCol = new MagicCollection(node.getPath()[1].toString());
 						List<MagicCard> list = dao.listCardsFromCollection(sourceCol, me);
 						
-						logger.debug(list.size() + " items in " + sourceCol +"/"+me);
+						logger.debug("{} items in {}/{}", list.size(), sourceCol,me);
 						sets.removeAll(list);
-						logger.debug(sets.size() + " items to insert int " + col +"/"+me);
+						logger.debug("{} items to insert in {}/{}",sets.size(),col,me);
 				
 				progressBar.start(sets.size());
 				
@@ -948,7 +948,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 						var coldest = new MagicCollection(selectedCols);
 						var colcurrent = new MagicCollection(node.getPath()[1].toString());
 						List<MagicCard> listtoDelete = dao.listCardsFromCollection(colcurrent, me);
-						logger.trace(listtoDelete.size() + " items to remove from " + coldest +"/"+me);
+						logger.trace("{} items to remove from {}/{}",listtoDelete.size(),coldest,me);
 				
 				progressBar.start(listtoDelete.size());
 				
@@ -1012,7 +1012,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			var edition = (MagicEdition) ((DefaultMutableTreeNode) path.getPathComponent(2)).getUserObject();
 			var d = new MassMoverDialog(col, edition);
 			d.setVisible(true);
-			logger.debug("closing mass import with change =" + d.hasChange());
+			logger.debug("closing mass import with change ={}",d.hasChange());
 			
 			if(d.hasChange())
 				tree.refresh((DefaultMutableTreeNode)path.getPathComponent(2));

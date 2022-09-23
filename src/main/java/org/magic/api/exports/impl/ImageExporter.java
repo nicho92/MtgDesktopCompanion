@@ -91,7 +91,7 @@ public class ImageExporter extends AbstractCardExport{
 						
 					}	
 				}
-				logger.debug(mc +" " + columnNumber +" " + xcard+"/"+ycard);
+				logger.debug("{}  {}  {}/{}",mc,columnNumber,xcard,ycard);
 				
 				g.drawImage(cardPic, null, xcard, ycard);
 				
@@ -119,7 +119,7 @@ public class ImageExporter extends AbstractCardExport{
 		try {
 			g.drawImage(ImageIO.read(ImageExporter.class.getResource( "/icons/logo_src.png" )) , 10, 10,50,50, null);
 		} catch (IOException e) {
-			logger.error("error loading logo_src.png : "+e.getMessage());
+			logger.error("error loading logo_src.png :{} ",e.getMessage());
 		}
 		
 		g.setFont(MTGControler.getInstance().getFont().deriveFont((float)headerSize-30)); 

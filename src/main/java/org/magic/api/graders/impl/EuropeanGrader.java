@@ -42,7 +42,7 @@ public class EuropeanGrader extends AbstractGradersProvider {
 				grad.setNumberID(identifier);
 				grad.setUrlInfo(url+"?certificate="+identifier);
 				
-		logger.debug("Found " + trs.text());
+		logger.debug("Found {}",trs);
 		
 		trs.forEach(tr->{
 			

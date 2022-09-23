@@ -69,9 +69,9 @@ public class EchoMTGExport extends AbstractCardExport {
 							 .toJson();
 					
 					if(list.getAsJsonObject().get("status").getAsString().equalsIgnoreCase("error"))
-						logger.error("error loading " + entry.getKey()+ ": " + list.getAsJsonObject().get("message").getAsString());
+						logger.error("error loading {}: {}",entry.getKey(),list.getAsJsonObject().get("message").getAsString());
 					else
-						logger.debug("export: " + list.getAsJsonObject().get("message").getAsString());
+						logger.debug("export: {}",list.getAsJsonObject().get("message").getAsString());
 					
 					notify(entry.getKey());
 					
@@ -106,7 +106,7 @@ public class EchoMTGExport extends AbstractCardExport {
 			try {
 				ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(ob.get("set_code").getAsString());
 			} catch (Exception e) {
-				logger.error("error with " + ob,e);
+				logger.error("error with {}",ob,e);
 			}
 			
 			

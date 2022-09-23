@@ -54,7 +54,7 @@ public class MTG {
 				}
 				catch(Exception e)
 				{
-					logger.error("Can't add " + name + " " + t +" :" + e);
+					logger.error("Can't add {} {} : {}" ,name,t,e);
 				}
 		}
 		return list;

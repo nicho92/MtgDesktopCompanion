@@ -39,7 +39,7 @@ public class GuavaCache extends AbstractCacheProvider {
 
 	@Override
 	public void put(BufferedImage im, MagicCard mc) throws IOException {
-		logger.debug("put " + mc + " in cache");
+		logger.debug("put {} in cache ",mc);
 		cache.put(generateIdIndex(mc), im);
 
 	}

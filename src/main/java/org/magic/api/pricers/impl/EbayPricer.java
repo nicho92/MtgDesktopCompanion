@@ -39,14 +39,14 @@ public class EbayPricer extends AbstractPricesProvider {
 			b.addContent("itemFilter(0).value(1)", "FixedPrice");
 		}
 	
-		logger.info(getName() + " looking for " + keyword);
+		logger.info("{} looking for {}",getName(),keyword);
 		
 		JsonElement root = b.toJson();
 
 		JsonElement articles = root.getAsJsonObject().entrySet().iterator().next().getValue().getAsJsonArray().get(0).getAsJsonObject().get("searchResult");
 
 		if (articles.getAsJsonArray().get(0).getAsJsonObject().get("item") == null) {
-			logger.info(getName() + " find nothing");
+			logger.info("{} find nothing",getName());
 			return prices;
 		}
 
@@ -86,7 +86,7 @@ public class EbayPricer extends AbstractPricesProvider {
 			prices.add(mp);
 		}
 
-		logger.info(getName() + " found " + prices.size() +" offers");
+		logger.info("{} found {} offers",getName(),prices.size());
 		
 		return prices;
 	}

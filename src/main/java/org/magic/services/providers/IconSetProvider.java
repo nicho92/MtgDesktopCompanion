@@ -55,7 +55,7 @@ public class IconSetProvider {
 			chrono.start();
 			logger.trace("Init IconSet cache");
 			initCache();
-			logger.trace("Init IconSet cache : done " + chrono.stop() + " sec");
+			logger.trace("Init IconSet cache : done {}sec",chrono.stop());
 		} catch (Exception e) {
 			logger.error("error init cache", e);
 		}
@@ -101,19 +101,19 @@ public class IconSetProvider {
 
 		var iconFile = new File(localDirectory, id + EXT);
 		if (iconFile.exists()) {
-			logger.trace("load from cache " + iconFile);
+			logger.trace("load from cache {}",iconFile);
 			return ImageTools.read(iconFile);
 		} 
 		else {
 			BufferedImage im = null;
-			logger.trace("load from jar " + id);
+			logger.trace("load from jar {}",id);
 
 			try {
 				String equivSet = getEquiv(id);
 				im = ImageTools.readLocal(IconSetProvider.class.getResource(MTGConstants.SET_ICON_DIR + equivSet + EXT));
 				ImageTools.saveImage(im, iconFile, "png");
 			} catch (Exception ex) {
-				logger.trace("couldnt load icons for " + id +"=" + getEquiv(id));
+				logger.trace("couldnt load icons for {}={}",id,getEquiv(id));
 				im = ImageTools.readLocal(IconSetProvider.class.getResource(MTGConstants.SET_ICON_DIR+"PMTG1_set.png"));
 			}
 			return im;

@@ -79,7 +79,7 @@ public class HandPanel extends DraggablePanel {
 		if (sw != null && !sw.isDone())
 		{
 			boolean ret = sw.cancel(true);
-			logger.debug("Closing initThumbnails SwingWorker : "+ret);
+			logger.debug("Closing initThumbnails SwingWorker : {}",ret);
 		}
 
 		c.weightx = 1;
@@ -124,7 +124,7 @@ public class HandPanel extends DraggablePanel {
 				}catch(CancellationException e)
 				{
 					
-					logger.info(this +" is canceled");
+					logger.info("{} is canceled",this);
 				}
 				catch(InterruptedException | ExecutionException ex)
 				{

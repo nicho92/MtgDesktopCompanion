@@ -97,7 +97,7 @@ public class ForgeDeckExport extends AbstractFormattedFileCardExport {
 					}
 					else
 					{
-						logger.error("no card for " + m.group());
+						logger.error("no card for {}",m!=null?m.group():"");
 					}
 				}
 				catch(NullPointerException e)

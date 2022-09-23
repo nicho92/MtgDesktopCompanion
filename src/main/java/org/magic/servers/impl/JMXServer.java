@@ -51,22 +51,22 @@ public class JMXServer extends AbstractMTGServer {
 				} 
 			})
 		);
-		logger.debug(getName() +" started in " + c.stop() +"s.");
+		logger.debug("{} started in {}s.",getName(),c.stop());
 	}
 
 	@Override
 	public void stop() throws IOException {
 		
-		logger.debug(getName() +" is stopping");
+		logger.debug("{} is stopping",getName());
 		var ok=true;
 		for(ObjectName n : names)
 		{
 			try {
 				mbs.unregisterMBean(n);
-				logger.debug("unloading "+n);
+				logger.debug("unloading {}",n);
 			} catch (Exception e) {
 				ok=false;
-				logger.error("error unloading" + n,e);
+				logger.error("error unloading {}",n,e);
 			}
 		}
 		

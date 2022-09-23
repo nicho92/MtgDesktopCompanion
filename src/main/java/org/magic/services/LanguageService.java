@@ -66,7 +66,7 @@ public class LanguageService {
 		return rbundle.getString(key);
 		}catch(Exception e)
 		{
-			logger.trace("no bundle key found for " + key);
+			logger.trace("no bundle key found for {}",key);
 			return key.toLowerCase();
 		}
 	}

@@ -78,7 +78,7 @@ public class MTGArenaDeckSniffer extends AbstractDeckSniffer {
 			qtys.add(arr.get(i).getAsInt());
 		}
 		
-		logger.debug("found " + ids.size() +" ids and " + qtys.size() +" qty");
+		logger.debug("found {} ids and {} qty",ids.size(),qtys.size());
 		
 		
 		for(var i=0;i<ids.size();i++)
@@ -88,7 +88,7 @@ public class MTGArenaDeckSniffer extends AbstractDeckSniffer {
 				map.put(mc, qtys.get(i));
 				notify(mc);
 			} catch (IOException e) {
-				logger.error("no cards found for " + ids.get(i));
+				logger.error("no cards found for {}",ids.get(i));
 			}
 		}
 		

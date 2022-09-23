@@ -413,7 +413,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			
 				try {
 					logger.debug(request);
-					logger.debug("Uploading " + fi);
+					logger.debug("Uploading {}",fi);
 					var entry = new GedEntry<>(fi.get(),PluginRegistry.inst().loadClass("org.magic.api.beans."+request.params(CLASS)),request.params(":id"),fi.getName());
 					MTG.getEnabledPlugin(MTGGedStorage.class).store(entry);
 					fileObj.addProperty("url", (getBoolean(ENABLE_SSL)?"https://":"http://")+request.headers("Host")+"/ged/"+request.params(CLASS)+"/"+request.params(":id"));
