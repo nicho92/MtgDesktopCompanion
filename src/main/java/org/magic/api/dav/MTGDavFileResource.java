@@ -66,20 +66,20 @@ public class MTGDavFileResource extends AbstractMTGDavResource implements FileRe
 	
 	@Override
 	public void copyTo(CollectionResource toCollection, String name)throws NotAuthorizedException, BadRequestException, ConflictException {
-		logger.debug("copyTo " + toCollection + " " + name);
+		logger.debug("copyTo {} {}", toCollection,name);
 		
 	}
 
 	@Override
 	public void moveTo(CollectionResource toCollection, String name)throws ConflictException, NotAuthorizedException, BadRequestException {
-		logger.debug("moveTo " + toCollection + " " + name);
+		logger.debug("moveTo {} {}", toCollection,name);
 		
 		
 	}
 
 	@Override
 	public String processForm(Map<String, String> parameters, Map<String, FileItem> files) throws BadRequestException, NotAuthorizedException, ConflictException {
-		logger.debug("processForm " + parameters + " " + files);
+		logger.debug("processForm {} {}",parameters,files);
 		
 		return null;
 	}

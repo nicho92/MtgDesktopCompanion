@@ -59,7 +59,7 @@ public class MTGControler {
 	
 	private MTGControler() {
 		logger.info("***********************"+MTGConstants.MTG_APP_NAME+"****************************");
-		logger.info("Running with Java " + Runtime.version());
+		logger.info("Running with Java {}",Runtime.version());
 		
 		
 		
@@ -67,7 +67,7 @@ public class MTGControler {
 		
 		if (!conf.exists())
 			try {
-				logger.info(conf+" file doesn't exist. creating one from default file");
+				logger.info("{} file doesn't exist. creating one from default file",conf);
 				FileUtils.copyURLToFile(getClass().getResource("/data/default-conf.xml"),conf);
 				logger.info("conf file created");
 			} catch (IOException e1) {
@@ -78,7 +78,7 @@ public class MTGControler {
 			try {
 				FileUtils.forceMkdir(MTGConstants.DATA_DIR);
 			} catch (IOException e1) {
-				logger.error("error creating " + MTGConstants.DATA_DIR,e1);
+				logger.error("error creating {}",MTGConstants.DATA_DIR,e1);
 			}
 		
 		
@@ -117,7 +117,7 @@ public class MTGControler {
 		}
 		catch(Exception e)
 		{
-			logger.warn("error init currency services" + e.getMessage());
+			logger.warn("error init currency services {}",e.getMessage());
 			setProperty("/currencylayer-converter-enable", FALSE);
 
 		}
@@ -249,7 +249,7 @@ public class MTGControler {
 			try {
 				contact = MTG.getEnabledPlugin(MTGDao.class).getContactById(Integer.parseInt(id));
 			} catch (NumberFormatException | SQLException e) {
-				logger.error("No contact found with id = " + id);
+				logger.error("No contact found with id = {}",id);
 			}
 			
 			
@@ -379,27 +379,27 @@ public class MTGControler {
 			
 			if(config.childConfigurationsAt("/"+root).isEmpty())
 			{
-				logger.debug("add config root: /" + root);
+				logger.debug("add config root: /{}",root);
 				config.addProperty("/"+root,"");
 			}
 			
 			config.addProperty("/" + root + " " + elem + "/class", classname.getName());
 			setProperty(classname.getDeclaredConstructor().newInstance(), false);
-			logger.debug("add module " + path + " " + classname.getName());
+			logger.debug("add module {} {}",path,classname.getName());
 				
 		} catch (IllegalArgumentException e ) {
-			logger.error("Error inserting : " + path + " for " + classname ,e);
+			logger.error("Error inserting : {} for {}",path,classname ,e);
 		}
 		catch( InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | SecurityException e)
 		{
-			logger.error("Error loading :"+ classname ,e);
+			logger.error("Error loading : {}",classname ,e);
 		}
 	}
 	
 	public void setProperty(Object k, Object c) {
 		try {
 			var path = "";
-			logger.trace("set " + k + " to " + c);
+			logger.trace("set {} to {}",k,c);
 
 			if(k instanceof MTGPlugin){
 				path = PluginRegistry.inst().getEntryFor(k).getXpath()+"[class='" + k.getClass().getName() + "']/enable";
@@ -412,7 +412,7 @@ public class MTGControler {
 			config.setProperty(path, c);
 			builder.save();
 		} catch (Exception e) {
-			logger.error("Error saving "+k+"="+ c, e);
+			logger.error("Error saving {}={}",k,c, e);
 		}
 	}
 	
@@ -422,7 +422,7 @@ public class MTGControler {
 		try {
 			return LocaleUtils.toLocale(config.getString("locale"));
 		} catch (Exception e) {
-			logger.error("Could not load " + config.getString("locale"));
+			logger.error("Could not load {}",config.getString("locale"));
 			return langService.getDefault();
 		}
 	}
@@ -447,7 +447,7 @@ public class MTGControler {
 			if(!url.isEmpty())
 				p.setAvatar(ImageTools.resize(ImageTools.read(new File(url)), 100,100));
 		} catch (Exception e) {
-			logger.error("error loading icon player " + p + " "+e);
+			logger.error("error loading icon player {},{}",p,e.getMessage());
 		}
 		return p;
 	}

@@ -48,7 +48,7 @@ public class MTGCombosProvider extends AbstractComboProvider {
 						}
 						catch(IndexOutOfBoundsException ioobe)
 						{
-							logger.error("No content at " + i);
+							logger.error("No content at {}", i);
 						}
 			}
 				

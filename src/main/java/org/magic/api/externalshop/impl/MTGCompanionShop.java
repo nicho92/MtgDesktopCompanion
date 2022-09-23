@@ -66,7 +66,7 @@ public class MTGCompanionShop extends AbstractExternalShop {
 		var products = SealedProductProvider.inst().search(name);
 		
 		
-		logger.debug("Found " + products + " for " + name);
+		logger.debug("Found {} for {}",products,name);
 		var ret = new ArrayList<MTGProduct>();
 		
 		cards.forEach(card->{

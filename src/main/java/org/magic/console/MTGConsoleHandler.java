@@ -36,7 +36,7 @@ public class MTGConsoleHandler extends IoHandlerAdapter {
 
 	@Override
 	public void sessionOpened(IoSession session) throws Exception {
-		logger.debug("Connection from " + session.getRemoteAddress());
+		logger.debug("Connection from {}",session.getRemoteAddress());
 	
 		if(wcMessage.isEmpty())
 			wcMessage="Welcome to MTG Desktop Companion Server";
@@ -47,7 +47,7 @@ public class MTGConsoleHandler extends IoHandlerAdapter {
 
 	@Override
 	public void sessionClosed(IoSession session) throws Exception {
-		logger.debug("client disconnection : " + session.getRemoteAddress() + " is Disconnection");
+		logger.debug("client disconnection : {}",session.getRemoteAddress());
 
 	}
 
@@ -126,7 +126,7 @@ public class MTGConsoleHandler extends IoHandlerAdapter {
 			else
 			{
 				c.setHandler(this);
-				logger.debug("message="+line + " commandLine="+Arrays.asList(commandeLine) + " Command="+c);
+				logger.debug("message={} commandeLine={} Command={}",line,Arrays.asList(commandeLine),c);
 				AbstractResponse ret = c.run(commandeLine);
 				session.write(ret+EOL);
 				c.quit();

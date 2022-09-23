@@ -894,7 +894,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				ResultSet rs = executeQuery(pst);
 				var res = rs.next();
 				
-				if(res==false)
+				if(!res)
 					throw new SQLException("No result Found");
 				
 					
