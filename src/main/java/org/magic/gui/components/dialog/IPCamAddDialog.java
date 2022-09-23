@@ -23,8 +23,8 @@ public class IPCamAddDialog extends JDialog
 	private JTextField txtUrl;
 	private JComboBox<IpCamMode> comboBox;
 	private boolean hasNew=false;
-	
-	public IPCamAddDialog() 
+
+	public IPCamAddDialog()
 	{
 		var gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0};
@@ -32,49 +32,49 @@ public class IPCamAddDialog extends JDialog
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		getContentPane().setLayout(gridBagLayout);
-		
+
 		getContentPane().add(new JLabel("Camera Name :"), UITools.createGridBagConstraints(null, null, 0, 1));
 		getContentPane().add(new JLabel("Camera URI : "), UITools.createGridBagConstraints(null, null, 0, 2));
 		getContentPane().add(new JLabel("Camera Mode :"), UITools.createGridBagConstraints(null, null, 0, 3));
-		
-		
+
+
 		txtName = new JTextField(10);
 		getContentPane().add(txtName, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 1));
-		
+
 		txtUrl = new JTextField(10);
 		getContentPane().add(txtUrl, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 2));
-		
+
 		comboBox = UITools.createCombobox(IpCamMode.values());
 		getContentPane().add(comboBox, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 3));
-		
-		
+
+
 		var btnAdd = new JButton(MTGConstants.ICON_CHECK);
 		var btnCancel = new JButton(MTGConstants.ICON_DELETE);
 		var panel = new JPanel();
 		       panel.add(btnAdd);
 		       panel.add(btnCancel);
 		getContentPane().add(panel, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 4));
-		
-		
+
+
 		setLocationRelativeTo(null);
 		pack();
-		
-		
+
+
 		btnAdd.addActionListener(al->{
-			
+
 			if(!txtName.getText().isEmpty() && !txtUrl.getText().isEmpty())
 			{
 				WebcamUtils.inst().registerIPCam(txtName.getText(),txtUrl.getText(),(IpCamMode)comboBox.getSelectedItem());
 				hasNew=true;
 				dispose();
 			}
-			
+
 		});
-		
+
 		btnCancel.addActionListener(al->dispose());
-		
+
 	}
-	
+
 	public boolean isHasNew() {
 		return hasNew;
 	}

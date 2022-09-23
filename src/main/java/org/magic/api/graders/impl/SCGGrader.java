@@ -13,28 +13,28 @@ import org.magic.tools.UITools;
 import com.google.gson.JsonElement;
 
 public class SCGGrader extends AbstractGradersProvider {
-	
+
 	@Override
 	public Grading loadGrading(String identifier) throws IOException {
-		
+
 		var ret = RequestBuilder.build().url("https://api.gosgc.com/v1/pop-report/GetCertAuthCode/"+identifier+"/empty/empty").method(METHOD.GET).setClient(URLTools.newClient()).toJson().getAsJsonObject();
-		
+
 		Entry<String,JsonElement> entry=ret.entrySet().stream().filter(e->e.getValue().getAsString().equals("1")).findFirst().orElse(null);
-		
-		
+
+
 		if(entry==null)
 			throw new IOException("No result found");
-		
+
 		var grad = new Grading();
 		grad.setNumberID(identifier);
 		grad.setUrlInfo("https://www.gosgc.com/auth-code");
 		grad.setGraderName(getName());
 		grad.setGradeDate(UITools.parseGMTDate(ret.get("gradeDate").getAsString()));
 		grad.setGradeNote(parse(entry.getKey()));
-		
-		
+
+
 		return grad;
-		
+
 	}
 
 	private Double parse(String key) {
@@ -61,7 +61,7 @@ public class SCGGrader extends AbstractGradersProvider {
 			case "grade1": return 1.0;
 			default : return 0.0;
 		}
-		
+
 	}
 
 

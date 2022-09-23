@@ -32,18 +32,18 @@ public class MariaDBDAO extends AbstractMagicSQLDAO {
 	protected String longTextStorage() {
 		return "LONGTEXT";
 	}
-	
-	
+
+
 	@Override
 	protected String getdbSizeQuery() {
 		return "SELECT Round(Sum(data_length + index_length), 1) FROM information_schema.tables WHERE  table_schema = '"+getString(DB_NAME)+"'";
 	}
-	
+
 	@Override
 	public String getName() {
 		return "MariaDB";
 	}
-	
+
 	@Override
 	public void backup(File f) throws SQLException, IOException {
 
@@ -59,9 +59,9 @@ public class MariaDBDAO extends AbstractMagicSQLDAO {
 				   .append(" -u ").append(getString(LOGIN))
 				   .append(" -p").append(getString(PASS))
 				   .append(" --port ").append(getString(SERVERPORT));
-		
+
 		var pb = new ProcessBuilder(getString(MARIA_DUMP_PATH) + "/mysqldump",getString(DB_NAME), "-h",getString(SERVERNAME),"-u",getString(LOGIN),"-p",getString(PASS),"--port",getString(SERVERPORT));
-		
+
 		logger.info("begin Backup " + getString(DB_NAME));
 		Process child;
 
@@ -77,17 +77,17 @@ public class MariaDBDAO extends AbstractMagicSQLDAO {
 
 	}
 
-	
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		var m = super.getDefaultAttributes();
-		
+
 		m.put(SERVERPORT, "3306");
 		m.put(PARAMS, "?autoDeserialize=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&autoReconnect=true");
 		m.put(MARIA_DUMP_PATH, "C:\\Program Files (x86)\\Mysql\\bin");
 		return m;
 	}
-	
+
 
 	@Override
 	public String createListStockSQL() {

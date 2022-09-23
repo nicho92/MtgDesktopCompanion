@@ -28,7 +28,7 @@ import org.magic.tools.UITools;
 public class BestCardsDashlet extends AbstractJDashlet {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private JXTable table;
@@ -37,20 +37,20 @@ public class BestCardsDashlet extends AbstractJDashlet {
 	private JComboBox<String> cboFilter;
 	private AbstractBuzyIndicatorComponent lblLoading;
 
-	
+
 	@Override
 	public ImageIcon getDashletIcon() {
 		return MTGConstants.ICON_UP;
 	}
-	
+
 	@Override
 	public String getCategory() {
 		return "Market";
 	}
-	
-	
-	
-	
+
+
+
+
 	@Override
 	public String getName() {
 		return "Most Played cards";
@@ -62,7 +62,7 @@ public class BestCardsDashlet extends AbstractJDashlet {
 		getContentPane().add(panneauHaut, BorderLayout.NORTH);
 
 		cboFormat = UITools.createCombobox(MagicFormat.FORMATS.values());
-		
+
 		panneauHaut.add(cboFormat);
 
 		cboFilter = UITools.createCombobox(getEnabledPlugin(MTGDashBoard.class).getDominanceFilters());
@@ -78,13 +78,13 @@ public class BestCardsDashlet extends AbstractJDashlet {
 
 		cboFormat.addItemListener(ie -> {
 			if(ie.getStateChange()==ItemEvent.SELECTED)
-				init();	
+				init();
 		});
 
 		cboFilter.addItemListener(ie -> {
-			
+
 			if(ie.getStateChange()==ItemEvent.SELECTED)
-				init();	
+				init();
 		});
 
 		if (getProperties().size() > 0) {
@@ -106,12 +106,12 @@ public class BestCardsDashlet extends AbstractJDashlet {
 	public void init() {
 		lblLoading.start();
 		var sw = new SwingWorker<List<CardDominance>, Void>() {
-			
+
 			@Override
 			protected List<CardDominance> doInBackground() throws Exception {
 				return getEnabledPlugin(MTGDashBoard.class).getBestCards((MagicFormat.FORMATS) cboFormat.getSelectedItem(), cboFilter.getSelectedItem().toString());
 			}
-			
+
 			@Override
 			protected void done() {
 
@@ -122,7 +122,7 @@ public class BestCardsDashlet extends AbstractJDashlet {
 					table.setRowSorter(new TableRowSorter<>(models));
 					setProperty("FORMAT", cboFormat.getSelectedItem().toString());
 					setProperty("FILTER", cboFilter.getSelectedItem().toString());
-					
+
 				}
 				catch(InterruptedException ex)
 				{
@@ -134,10 +134,10 @@ public class BestCardsDashlet extends AbstractJDashlet {
 				}
 				lblLoading.end();
 			}
-			
+
 		};
-		
-		
+
+
 		ThreadManager.getInstance().runInEdt(sw, "Loading best cards");
 	}
 

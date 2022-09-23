@@ -19,11 +19,11 @@ import org.magic.tools.UITools;
 public class MTGStoryListPanel extends JPanel {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private JLabel lblicon;
-	
+
 	public MTGStoryListPanel(MTGStory value) {
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		var gridBagLayout = new GridBagLayout();
@@ -34,10 +34,10 @@ public class MTGStoryListPanel extends JPanel {
 		setLayout(gridBagLayout);
 
 		lblicon = new JLabel();
-		
+
 		if(value.getIcon()!=null)
 			lblicon.setIcon(new ImageIcon(value.getIcon()));
-		
+
 		var gbclblicon = new GridBagConstraints();
 		gbclblicon.gridheight = 3;
 		gbclblicon.insets = new Insets(0, 0, 0, 5);

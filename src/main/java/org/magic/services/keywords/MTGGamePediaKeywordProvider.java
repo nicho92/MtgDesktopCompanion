@@ -14,7 +14,7 @@ import org.magic.services.network.URLTools;
 
 
 public class MTGGamePediaKeywordProvider extends AbstractKeyWordsManager {
-	
+
 	private static final String SELEC_ABILITIES = "div.mw-category-group a[title]";
 	private List<MTGKeyWord> statics;
 	private List<MTGKeyWord> activateds;
@@ -39,7 +39,7 @@ public class MTGGamePediaKeywordProvider extends AbstractKeyWordsManager {
 					int pos = name.indexOf('[');
 					if(pos>0)
 						name=name.substring(0,pos);
-					
+
 					if(type.equalsIgnoreCase("Action"))
 						evergreens.add(new MTGKeyWord(name, TYPE.ACTION,true));
 					else if(type.equalsIgnoreCase("Static ability"))
@@ -58,9 +58,9 @@ public class MTGGamePediaKeywordProvider extends AbstractKeyWordsManager {
 		}
 		return evergreens;
 	}
-	
-	
-	
+
+
+
 	@Override
 	public List<MTGKeyWord> getStaticsAbilities()
 	{
@@ -68,12 +68,12 @@ public class MTGGamePediaKeywordProvider extends AbstractKeyWordsManager {
 		{
 			statics=parse("Static",SELEC_ABILITIES,true).stream().map(s->new MTGKeyWord(s, MTGKeyWord.EVENT.STATIC, MTGKeyWord.TYPE.ABILITIES)).toList();
 			getEvergreens().stream().filter(mt->mt.getEvent()==EVENT.STATIC).forEach(statics::add);
-			
-			
+
+
 		}
 		return statics;
 	}
-	
+
 	@Override
 	public List<MTGKeyWord> getActivatedAbilities()
 	{
@@ -82,10 +82,10 @@ public class MTGGamePediaKeywordProvider extends AbstractKeyWordsManager {
 			activateds = parse("Activated",SELEC_ABILITIES,true).stream().map(s->new MTGKeyWord(s, MTGKeyWord.EVENT.ACTIVATED, MTGKeyWord.TYPE.ABILITIES)).toList();
 			getEvergreens().stream().filter(mt->mt.getEvent()==EVENT.ACTIVATED).forEach(activateds::add);
 		}
-		
+
 		return activateds;
 	}
-	
+
 	@Override
 	public List<MTGKeyWord> getTriggeredAbilities()
 	{
@@ -94,10 +94,10 @@ public class MTGGamePediaKeywordProvider extends AbstractKeyWordsManager {
 			triggereds = parse("Triggered",SELEC_ABILITIES,true).stream().map(s->new MTGKeyWord(s, MTGKeyWord.EVENT.TRIGGERED, MTGKeyWord.TYPE.ABILITIES)).toList();
 			getEvergreens().stream().filter(mt->mt.getEvent()==EVENT.TRIGGERED).forEach(triggereds::add);
 		}
-		
+
 		return triggereds;
 	}
-	
+
 	@Override
 	public List<MTGKeyWord> getKeywordActions()
 	{
@@ -109,7 +109,7 @@ public class MTGGamePediaKeywordProvider extends AbstractKeyWordsManager {
 		}
 		return actions;
 	}
-	
+
 	@Override
 	public List<MTGKeyWord> getWordsAbilities()
 	{
@@ -118,9 +118,9 @@ public class MTGGamePediaKeywordProvider extends AbstractKeyWordsManager {
 
 		return words;
 	}
-	
-	
-	
+
+
+
 	private List<String> parse(String page,String select,boolean isKeyword)
 	{
 		List<String> list = new ArrayList<>();
@@ -131,13 +131,13 @@ public class MTGGamePediaKeywordProvider extends AbstractKeyWordsManager {
 				list = els.stream().map(Element::text).toList();
 				list.remove(page+" ability");
 				list.remove("Keyword_action");
-				
+
 			} catch (IOException e) {
 				logger.error(e);
 			}
 			return list;
 	}
-	
 
-	
+
+
 }

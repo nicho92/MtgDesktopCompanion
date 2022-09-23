@@ -16,12 +16,12 @@ public class DorkBox extends AbstractMTGNotifier {
 		Notify n = Notify.create()
 	      .title(notification.getTitle())
 	      .text(notification.getMessage());
-	      
-	      
-	      
+
+
+
 	    if(getBoolean("DARK"))
 	    	n.darkStyle();
-	      
+
 		switch (notification.getType())
 		{
 			case WARNING : n.showWarning();break;
@@ -30,8 +30,8 @@ public class DorkBox extends AbstractMTGNotifier {
 			case NONE: break;
 			default:n.showInformation();break;
 		}
-		
-		
+
+
 	}
 
 	@Override

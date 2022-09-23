@@ -21,27 +21,27 @@ import org.magic.tools.MTG;
 
 public class AnnouncesExport extends AbstractCardExport {
 
-	
+
 	@Override
 	public MODS getMods() {
 		return MODS.EXPORT;
 	}
-	
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
 	}
-	
+
 	@Override
 	public MTGExportCategory getCategory() {
 		return MTGExportCategory.APPLICATION;
 	}
-	
+
 	@Override
 	public boolean needFile() {
 		return false;
 	}
-	
+
 	@Override
 	public String getFileExtension() {
 		return null;
@@ -58,24 +58,24 @@ public class AnnouncesExport extends AbstractCardExport {
 			a.setTotalPrice(deck.getAveragePrice());
 			a.setContact(MTGControler.getInstance().getWebConfig().getContact());
 			var sb = new StringBuilder("//MAIN<br/>");
-			
+
 			deck.getMain().entrySet().forEach(e->sb.append(e.getValue()).append(" ").append(e.getKey()).append("<br/>"));
-			
+
 			sb.append("//SIDEBOARD<br/>");
 			deck.getSideBoard().entrySet().forEach(e->sb.append(e.getValue()).append(" ").append(e.getKey()).append("<br/>"));
 			a.setDescription(sb.toString());
-			
-			
-			
+
+
+
 			MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateAnnounce(a);
-			
+
 			notify(deck);
 		} catch (Exception e) {
 			logger.error(e);
 		}
 
 	}
-	
+
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 		for(var mcs : stock)
@@ -88,16 +88,16 @@ public class AnnouncesExport extends AbstractCardExport {
 				a.setCurrency(MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
 				a.setTotalPrice(mcs.getPrice());
 				a.setContact(MTGControler.getInstance().getWebConfig().getContact());
-				
+
 				MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateAnnounce(a);
-				
+
 				notify(mcs.getProduct());
 			} catch (Exception e) {
 				logger.error(e);
 			}
 		}
 	}
-	
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of("COLLECTIONS_SELL","To Sell",

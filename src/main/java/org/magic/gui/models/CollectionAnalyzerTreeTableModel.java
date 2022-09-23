@@ -17,35 +17,35 @@ public class CollectionAnalyzerTreeTableModel extends AbstractTreeTableModel {
 	private static final String[] columnsNames = { "EDITION","PRICE" };
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private Map<MagicEdition,List<CardShake>> editions;
-	
-	
+
+
 	public CollectionAnalyzerTreeTableModel() {
 		super("T");
 		editions = new TreeMap<>();
 	}
-	
 
-	
+
+
 	public void saveRow(MagicEdition ed, List<CardShake> loadFromCache) {
 		editions.put(ed, loadFromCache);
 	}
-	
-	
+
+
 	@Override
 	public String getColumnName(int column) {
 		return capitalize(columnsNames[column]);
 	}
-	
+
 	@Override
 	public int getColumnCount() {
 		return columnsNames.length;
 	}
-	
+
 	@Override
 	public Object getValueAt(Object node, int column) {
 		if (node instanceof MagicEdition ed)
 		{
-			switch (column) 
+			switch (column)
 			{
 				case 0:return node;
 				case 1: return total(ed);
@@ -54,8 +54,8 @@ public class CollectionAnalyzerTreeTableModel extends AbstractTreeTableModel {
 		}
 		else if(node instanceof CardShake cs)
 		{
-			
-			switch (column) 
+
+			switch (column)
 			{
 				case 0:return node;
 				case 1: return cs.getPrice();
@@ -67,11 +67,11 @@ public class CollectionAnalyzerTreeTableModel extends AbstractTreeTableModel {
 
 	Double total;
 	private Double total(MagicEdition node) {
-		
+
 		total=0.0;
 		editions.get(node).forEach(cs->total=total+cs.getPrice());
 		return total;
-		
+
 	}
 
 	@Override
@@ -88,23 +88,23 @@ public class CollectionAnalyzerTreeTableModel extends AbstractTreeTableModel {
 		}
 		return editions.size();
 	}
-	
+
 	@Override
 	public int getIndexOfChild(Object parent, Object child) {
 		logger.debug("getIndexOfChild({},{})",parent,child);
 		return 0;
 	}
-	
-	
+
+
 	@Override
 	public boolean isLeaf(Object node) {
-		
+
 		if(node instanceof String)
 			return false;
-		
+
 		return !(node instanceof MagicEdition);
 	}
-	
+
 	@Override
 	public boolean isCellEditable(Object node, int column) {
 		return false;

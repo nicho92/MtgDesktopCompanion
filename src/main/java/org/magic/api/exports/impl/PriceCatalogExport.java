@@ -27,12 +27,12 @@ public class PriceCatalogExport extends AbstractFormattedFileCardExport {
 	public Icon getIcon() {
 		return MTGConstants.ICON_EURO;
 	}
-	
+
 	@Override
 	public MODS getMods() {
 		return MODS.EXPORT;
 	}
-	
+
 	@Override
 	public String getFileExtension() {
 		return ".csv";
@@ -43,25 +43,25 @@ public class PriceCatalogExport extends AbstractFormattedFileCardExport {
 			String[] exportedPricesProperties = getArray("PROPERTIES_PRICE");
 			String[] exportedCardsProperties = getArray("PROPERTIES_CARD");
 			var bw = new StringBuilder();
-			
-			
+
+
 			for (String k : exportedCardsProperties)
 				bw.append(k).append(getSeparator());
-			
+
 			for (String k : exportedPricesProperties)
 				bw.append(k).append(getSeparator());
 
 			bw.append(System.lineSeparator());
-			
+
 			if(getString(PRICER).isEmpty())
 				throw new IOException("PRICER parameter must be set");
-			
-			
+
+
 			for(String pricer : getArray(PRICER))
-			{	
+			{
 					MTGPricesProvider prov = getPlugin(pricer,MTGPricesProvider.class);
-			
-					for (MagicCard mc : deck.getMain().keySet()) 
+
+					for (MagicCard mc : deck.getMain().keySet())
 					{
 						for (MagicPrice prices : prov.getPrice(mc)) {
 							for (String k : exportedCardsProperties) {
@@ -75,7 +75,7 @@ public class PriceCatalogExport extends AbstractFormattedFileCardExport {
 									throw new IOException(e);
 								}
 							}
-		
+
 							for (String p : exportedPricesProperties) {
 								String val;
 								try {
@@ -86,7 +86,7 @@ public class PriceCatalogExport extends AbstractFormattedFileCardExport {
 								} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
 									throw new IOException(e);
 								}
-		
+
 							}
 							bw.append(System.lineSeparator());
 						}
@@ -94,7 +94,7 @@ public class PriceCatalogExport extends AbstractFormattedFileCardExport {
 					}
 			}
 			FileTools.saveFile(dest, bw.toString());
-			
+
 
 	}
 
@@ -114,7 +114,7 @@ public class PriceCatalogExport extends AbstractFormattedFileCardExport {
 		m.put(PRICER, "");
 		m.put("PROPERTIES_CARD", "number,name,cost,supertypes,types,subtypes,editions");
 		m.put("PROPERTIES_PRICE", "site,seller,value,currency,language,quality,foil");
-		
+
 		return m;
 	}
 

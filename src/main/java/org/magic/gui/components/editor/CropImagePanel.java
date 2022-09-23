@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 
 public class CropImagePanel extends JPanel implements MouseListener, MouseMotionListener {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private int dragStatus = 0;
@@ -58,15 +58,15 @@ public class CropImagePanel extends JPanel implements MouseListener, MouseMotion
 
 	public Rectangle getCroppedDimension()
 	{
-		
+
 		int w = c1 - c3;
 		int h = c2 - c4;
 		w = w * -1;
 		h = h * -1;
 		return new Rectangle(c1, c2, w, h);
 	}
-	
-	
+
+
 	public BufferedImage getCroppedImage() {
 		try {
 			int w = c1 - c3;

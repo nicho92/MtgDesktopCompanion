@@ -26,16 +26,16 @@ public class ManualAreaStrat extends AbstractRecognitionArea {
     @Override
     public List<MatchResult> recognize(BufferedImage in, MTGCardRecognition strat,int recogTresh) {
 		ArrayList<MatchResult> res = new ArrayList<>();
-		
-		
+
+
 		if(bound==null)
 		{
 			init(in.getWidth(), in.getHeight());
 		}
-		
+
 		var norm = ImageTools.getScaledImage(bound.getTransformedImage(in,false));
 		var flip = ImageTools.getScaledImage(bound.getTransformedImage(in,true));
-    
+
         var id = new ImageDesc(norm,flip);
         var m = strat.getMatch(id, recogTresh/100f);
         if(m != null)
@@ -48,9 +48,8 @@ public class ManualAreaStrat extends AbstractRecognitionArea {
     private void updateBoundedZone()
 	{
 		List<Point2D_I32> pts = new ArrayList<>();
-		for(var ix=0; ix<points.length; ix++)
-		{
-			pts.add(new Point2D_I32(points[ix].x,points[ix].y));
+		for (Point2D_I32 point : points) {
+			pts.add(new Point2D_I32(point.x,point.y));
 		}
 		bound = new ContourBoundingBox(pts);
 	}

@@ -65,8 +65,8 @@ public class NetworkChatPanel extends MTGUIComponent {
 	private JButton btnColorChoose;
 	private JButton btnSearch;
 
-	
-	
+
+
 	private transient Observer obs = new Observer() {
 
 		private void printMessage(AbstractNetworkAction sa) {
@@ -83,10 +83,10 @@ public class NetworkChatPanel extends MTGUIComponent {
 			}
 		}
 	};
-	
+
 	public NetworkChatPanel() {
 		setLayout(new BorderLayout(0, 0));
-	
+
 		btnLogout = new JButton(capitalize("LOGOUT"));
 		var lblIp = new JLangLabel("HOST",true);
 		btnConnect = new JButton(capitalize("CONNECT"));
@@ -103,7 +103,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		btnColorChoose = new JButton(MTGConstants.ICON_GAME_COLOR);
 		cboStates = new JComboBox<>(new DefaultComboBoxModel<>(STATUS.values()));
 		var panelChatBox = new JPanel();
-		
+
 		txtServer.setText("mtgcompanion.me");
 		txtServer.setColumns(10);
 		txtPort.setText("18567");
@@ -117,13 +117,13 @@ public class NetworkChatPanel extends MTGUIComponent {
 		editorPane.setRows(2);
 		table.setRowHeight(100);
 		btnSearch = new JButton("Search");
-		
+
 		try {
 			editorPane.setForeground(new Color(Integer.parseInt(MTGControler.getInstance().get("/game/player-profil/foreground"))));
 		} catch (Exception e) {
 			editorPane.setForeground(Color.BLACK);
 		}
-		
+
 		list.setCellRenderer(new DefaultListCellRenderer() {
 			private static final long serialVersionUID = 1L;
 			@Override
@@ -145,27 +145,27 @@ public class NetworkChatPanel extends MTGUIComponent {
 		panneauHaut.add(txtPort);
 		panneauHaut.add(btnConnect);
 		panneauHaut.add(btnLogout);
-		
+
 		add(new JScrollPane(table), BorderLayout.CENTER);
 		add(panneauBas, BorderLayout.SOUTH);
 		add(panel, BorderLayout.EAST);
 		panel.add(new JScrollPane(list), BorderLayout.CENTER);
 		panel.add(panelChatBox, BorderLayout.SOUTH);
-		
+
 		panelChatBox.add(editorPane, BorderLayout.CENTER);
 		panelChatBox.add(panel1, BorderLayout.NORTH);
-		
+
 		panel1.add(btnColorChoose);
 		panel1.add(cboStates);
 		panel1.add(btnSearch);
-		
+
 		initActions();
 	}
-	
+
 	private void initActions() {
-		
+
 		btnSearch.addActionListener(ae->{
-			
+
 			MagicCard mc;
 			try {
 				mc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName("Black Lotus", null, false).get(0);
@@ -173,10 +173,10 @@ public class NetworkChatPanel extends MTGUIComponent {
 			} catch (IOException e1) {
 				logger.error("error search",e1);
 			}
-			
+
 		});
-		
-		
+
+
 		btnConnect.addActionListener(ae -> {
 			try {
 				client = new MinaClient(txtServer.getText(), Integer.parseInt(txtPort.getText()));
@@ -197,26 +197,26 @@ public class NetworkChatPanel extends MTGUIComponent {
 						txtPort.setEnabled(true);
 						btnConnect.setEnabled(true);
 						btnLogout.setEnabled(false);
-						
+
 					}
-					
+
 				},"alived connection listener");
-	
+
 			} catch (Exception e) {
 				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 			}
 		});
 
-	
+
 
 		btnLogout.addActionListener(ae -> {
 			client.sendMessage("logged out");
 			client.logout();
 		});
-	
+
 		btnColorChoose.addActionListener(ae -> {
 			var c = JColorChooser.showDialog(null, "Choose Text Color", Color.BLACK);
-			
+
 			if(c!=null) {
 				editorPane.setForeground(c);
 				MTGControler.getInstance().setProperty("/game/player-profil/foreground", c.getRGB());
@@ -244,7 +244,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 
 		});
 
-	
+
 		cboStates.addItemListener(ie -> {
 			if(ie.getStateChange()==ItemEvent.SELECTED)
 				client.changeStatus((STATUS) cboStates.getSelectedItem());
@@ -256,14 +256,14 @@ public class NetworkChatPanel extends MTGUIComponent {
 	public String getTitle() {
 		return "Network";
 	}
-	
-	
+
+
 	@Override
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_TAB_CHAT;
 	}
 
-	
+
 
 }
 

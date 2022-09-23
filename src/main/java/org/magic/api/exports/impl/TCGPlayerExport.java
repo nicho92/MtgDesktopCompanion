@@ -19,10 +19,10 @@ import org.magic.tools.UITools;
 
 public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 
-	
+
 	private static final String COLUMNS="Quantity,Name,Simple Name,Set,Card Number,Set Code,External ID,Printing,Condition,Language,Rarity,Product ID,SKU,Price,Price Each";
-	
-	
+
+
 	@Override
 	public String getFileExtension() {
 		return ".csv";
@@ -38,33 +38,33 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 		var d = new MagicDeck();
 		d.setName(name);
 		d.setDescription("import from " + getName());
-		
+
 		importStock(f).forEach(mcs->d.add(mcs.getProduct()));
-		
+
 		return d;
 	}
-	
-	
+
+
 	@Override
 	public void exportStock(List<MagicCardStock> stocks, File f) throws IOException {
-	
+
 		var temp = new StringBuilder();
-		
+
 		temp.append(COLUMNS).append(System.lineSeparator());
-		
+
 		for(MagicCardStock mcs : stocks)
 		{
 			try {
 			temp.append(mcs.getQte()).append(getSeparator());
 			temp.append(toFullName(mcs.getProduct())).append(getSeparator());
-			
+
 			if(mcs.getProduct().getName().contains(","))
 				temp.append("\"").append(mcs.getProduct()).append("\"");
 			else
 				temp.append(mcs.getProduct());
-			
+
 			temp.append(getSeparator());
-			
+
 			temp.append(mcs.getProduct().getCurrentSet().getSet()).append(getSeparator());
 			temp.append(mcs.getProduct().getCurrentSet().getNumber()).append(getSeparator());
 			temp.append(mcs.getProduct().getCurrentSet().getId()).append(getSeparator());
@@ -86,31 +86,31 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 		}
 		FileTools.saveFile(f, temp.toString());
 	}
-	
 
-	
+
+
 
 	private String toFullName(MagicCard magicCard) {
 		var temp = new StringBuilder();
-		
+
 			if(magicCard.getName().contains(","))
 				temp.append("\"").append(magicCard.getName()).append("\"");
 			else
 				temp.append(magicCard.getName());
-			
+
 			if(magicCard.isShowCase())
 				temp.append(" (Showcase)");
 			if(magicCard.isBorderLess())
 				temp.append(" (Borderless)");
 			if(magicCard.isExtendedArt())
 				temp.append(" (Extended Art)");
-					
+
 		return temp.toString();
 	}
 
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
-		
+
 		List<MagicCardStock> ret = new ArrayList<>();
 		matches(content, true).forEach(m->{
 			var st = new MagicCardStock();
@@ -121,7 +121,7 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 			st.setFoil(m.group(8).equalsIgnoreCase("foil"));
 			st.setCondition(translate(m.group(9)));
 			var found = false;
-			
+
 			try {
 				var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(m.group(5), MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(m.group(6)));
 				st.setProduct(mc);
@@ -129,8 +129,8 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 			} catch (Exception e) {
 				logger.error("error for " + m.group(),e);
 			}
-			
-			
+
+
 			if(!found)
 			{
 				try {
@@ -142,16 +142,16 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 				}
 			}
 
-			
+
 			if(!found)
 				logger.error("No card found for " + m.group());
 			else
 				ret.add(st);
-			
+
 		});
 		return ret;
-		
-		
+
+
 	}
 
 	private String translate(EnumCondition condition) {
@@ -163,21 +163,21 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 		case PLAYED:		return "Heavily Played";
 		case POOR:			return "Damaged";
 		default:			return "Mint";
-		
+
 		}
 	}
-	
+
 	private EnumCondition translate(String group) {
 		if(group.equalsIgnoreCase("Near Mint"))
 			return EnumCondition.NEAR_MINT;
 		if(group.equalsIgnoreCase("Lightly Played"))
-			return EnumCondition.LIGHTLY_PLAYED; 
+			return EnumCondition.LIGHTLY_PLAYED;
 		if(group.equalsIgnoreCase("Heavily Played"))
-			return EnumCondition.PLAYED; 
+			return EnumCondition.PLAYED;
 		if(group.equalsIgnoreCase("Damaged"))
-			return EnumCondition.POOR; 
+			return EnumCondition.POOR;
 
-		return EnumCondition.GOOD; 
+		return EnumCondition.GOOD;
 	}
 
 	@Override

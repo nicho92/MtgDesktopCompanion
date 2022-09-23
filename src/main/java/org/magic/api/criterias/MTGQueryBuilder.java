@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface MTGQueryBuilder<T> {
 
-	
+
 	public T build(MTGCrit<?>... crits);
 	public T build(List<MTGCrit> crits);
 

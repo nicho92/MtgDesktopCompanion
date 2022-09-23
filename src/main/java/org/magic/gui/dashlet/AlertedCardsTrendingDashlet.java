@@ -19,16 +19,16 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
 
 public class AlertedCardsTrendingDashlet extends AbstractJDashlet {
-	
+
 	private static final long serialVersionUID = 1L;
 	private CardAlertTableModel model;
 
-	
+
 	@Override
 	public ImageIcon getDashletIcon() {
 		return MTGConstants.ICON_ALERT;
 	}
-	
+
 
 	@Override
 	public String getName() {
@@ -44,8 +44,8 @@ public class AlertedCardsTrendingDashlet extends AbstractJDashlet {
 	public String getCategory() {
 		return "Collection";
 	}
-	
-	
+
+
 	@Override
 	public void initGUI() {
 		var scrollPane = new JScrollPane();
@@ -58,17 +58,17 @@ public class AlertedCardsTrendingDashlet extends AbstractJDashlet {
 		historyPricesPanel.setPreferredSize(new Dimension(119, 200));
 		getContentPane().add(historyPricesPanel, BorderLayout.SOUTH);
 		table.getColumnModel().getColumn(1).setCellRenderer(new MagicEditionsComboBoxCellRenderer(false));
-		
+
 		table.getSelectionModel().addListSelectionListener(event -> {
 			if (!event.getValueIsAdjusting()) {
 				ThreadManager.getInstance().invokeLater(new MTGRunnable() {
-					
+
 					@Override
 					protected void auditedRun() {
 						MagicCardAlert alt = UITools.getTableSelection(table,0);
 						historyPricesPanel.init(alt.getCard(), alt.getCard().getCurrentSet(),alt.getCard().toString());
 						historyPricesPanel.revalidate();
-						
+
 					}
 				}, " loading prices alerts");
 
@@ -83,7 +83,7 @@ public class AlertedCardsTrendingDashlet extends AbstractJDashlet {
 		}
 
 		table.packAll();
-	
+
 	}
 
 }

@@ -23,7 +23,7 @@ public class CardShakerTableModel extends GenericTableModel<CardShake> {
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
-		
+
 		switch (columnIndex) {
 			case 0:
 				return CardShake.class;
@@ -33,7 +33,7 @@ public class CardShakerTableModel extends GenericTableModel<CardShake> {
 				return Boolean.class;
 			case 8:
 				return MTGCardVariation.class;
-			
+
 		default:
 			return Double.class;
 
@@ -45,7 +45,7 @@ public class CardShakerTableModel extends GenericTableModel<CardShake> {
 	public Object getValueAt(int row, int column) {
 		try {
 			CardShake mp = items.get(row);
-			
+
 			switch (column) {
 			case 0:
 				return mp;
@@ -63,7 +63,7 @@ public class CardShakerTableModel extends GenericTableModel<CardShake> {
 				return UITools.roundDouble(mp.getPercentWeekChange());
 			case 7: return mp.isFoil();
 			case 8: return mp.getCardVariation();
-				
+
 
 			default:return 0;
 			}

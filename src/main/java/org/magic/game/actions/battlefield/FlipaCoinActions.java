@@ -13,7 +13,7 @@ import org.magic.game.gui.components.GamePanelGUI;
 public class FlipaCoinActions extends AbstractAction {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 

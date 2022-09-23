@@ -33,8 +33,8 @@ public class IconSetProvider {
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private static final String EXT = "_set.png";
 	private Map<String,String> equiv;
-	
-	
+
+
 	public void clean() throws IOException {
 		FileUtils.cleanDirectory(localDirectory);
 	}
@@ -43,11 +43,11 @@ public class IconSetProvider {
 		cache24 = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 		cache16 = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 		var chrono = new Chrono();
-		
+
 		localDirectory = new File(MTGConstants.DATA_DIR, "sets_icons");
-		
+
 		initEquiv();
-		
+
 		if (!localDirectory.exists())
 			localDirectory.mkdir();
 
@@ -71,10 +71,10 @@ public class IconSetProvider {
 	public ImageIcon getSVGIcon(String id)
 	{
 		var ic = new SVGIcon();
-	
-			
+
+
 			var localF = new File(localDirectory, getEquiv(id)+".svg");
-			
+
 			if(!localF.exists())
 			{
 				try {
@@ -85,25 +85,25 @@ public class IconSetProvider {
 					return getSVGIcon("PMTG1");
 				}
 			}
-				
+
 			ic.setSvgURI(localF.toURI());
-			
-				
-	
+
+
+
 		ic.setAntiAlias(true);
 		ic.setAutosize(1);
-		
+
 		return ic;
 	}
-	
-	
+
+
 	private BufferedImage extract(String id) throws IOException {
 
 		var iconFile = new File(localDirectory, id + EXT);
 		if (iconFile.exists()) {
 			logger.trace("load from cache {}",iconFile);
 			return ImageTools.read(iconFile);
-		} 
+		}
 		else {
 			BufferedImage im = null;
 			logger.trace("load from jar {}",id);
@@ -124,7 +124,7 @@ public class IconSetProvider {
 	private void initEquiv()
 	{
 		equiv = new HashMap<>();
-		
+
 		equiv.put("NMS", "NEM");
 		equiv.put("PI13", "PIDW");
 		equiv.put("PI14", "PIDW");
@@ -189,7 +189,7 @@ public class IconSetProvider {
 		equiv.put("PSUS", "PDCI");
 		equiv.put("PJAS", "PDCI");
 		equiv.put("PJSE", "PDCI");
-		
+
 		equiv.put("PW09", "PDCI");
 		equiv.put("PW08", "PDCI");
 		equiv.put("PW21", "PMEI");
@@ -197,7 +197,7 @@ public class IconSetProvider {
 		equiv.put("PW10", "PMEI");
 		equiv.put("PW11", "PMEI");
 		equiv.put("PW12", "PMEI");
-		
+
 		equiv.put("PWPN","PDCI");
 		equiv.put("PG08", "PDCI");
 		equiv.put("PG07", "PDCI");
@@ -241,9 +241,9 @@ public class IconSetProvider {
 		equiv.put("PURL", "PMEI");
 		equiv.put("PL22", "PMEI");
 		equiv.put("PRCQ", "PMEI");
-		
+
 		equiv.put("UGIN", "FRF");
-		
+
 		equiv.put("PF19", "PMEI");
 		equiv.put("PSS3", "PMEI");
 		equiv.put("HTR", "PMEI");
@@ -312,20 +312,20 @@ public class IconSetProvider {
 		equiv.put("OVOC", "VOW");
 		equiv.put("YNEO", "Y22");
 		equiv.put("YMID", "Y22");
-		
+
 		}
-	
-	private String getEquiv(String set) 
+
+	private String getEquiv(String set)
 	{
 		if(equiv.get(set)!=null)
 			return equiv.get(set);
-	
+
 
 		if(set.length()==4 && set.toLowerCase().startsWith("p"))
 			set=set.substring(1);
-		
-		
-		
+
+
+
 		return set;
 	}
 
@@ -340,14 +340,14 @@ public class IconSetProvider {
 	public ImageIcon get24(String id) {
 		if(id==null)
 			return null;
-		
+
 		return cache24.get(id);
 	}
 
 	public ImageIcon get16(String id) {
 		if(id==null)
 			return null;
-		
+
 		return cache16.get(id);
 	}
 

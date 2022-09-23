@@ -32,8 +32,8 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 
 	public AetherhubDeckSniffer() {
 		super();
-		
-		formats = new HashMap<>();	
+
+		formats = new HashMap<>();
 		formats.put("All", "");
 		formats.put("Standard", "?formatId=1");
 		formats.put("Modern", "?formatId=2");
@@ -46,26 +46,26 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 		formats.put("Pauper", "?formatId=9");
 		formats.put("Brawl", "?formatId=10");
 		formats.put("Limited", "?formatId=11");
-		
+
 		formats.put("MTGA Events Decks", "?formatId=13");
 		formats.put("MTG Arena Standard", "?formatId=14");
 		formats.put("Other", "?formatId=15");
 		formats.put("MTGA Historic", "?formatId=16");
 		formats.put("Pioneer", "?formatId=17");
-		
+
 		httpclient = URLTools.newClient();
 
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		
+
 		if(obj ==null)
 			return false;
-		
+
 		return hashCode()==obj.hashCode();
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return (getType()+getName()).hashCode();
@@ -76,30 +76,30 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 	public String[] listFilter() {
 		return formats.keySet().toArray(new String[formats.keySet().size()]);
 	}
-	
+
 	boolean sideboard=false;
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
-		
+
 		String uri="https://aetherhub.com/Deck/FetchDeckExport?deckId="+info.getUrl().getQuery().replace("id=","");
 		var data = URLTools.extractAsJson(uri).getAsString();
-	
+
 		MagicDeck deck = info.toBaseDeck();
 		sideboard=false;
-		
-		
+
+
 		data.lines().forEach(s->{
 			String line=s.trim();
-			
+
 			if(line.startsWith("Sideboard") || line.startsWith("Maybeboard"))
 			{
 				sideboard=true;
 			}
 			else if(!StringUtils.isBlank(line) && !line.equals("Deck"))
 			{
-				
+
 					var entry = parseString(line);
-					try 
+					try
 					{
 						MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(entry.getKey(), null, true).get(0);
 						notify(mc);
@@ -120,24 +120,24 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 	@Override
 	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
 		List<RetrievableDeck> list = new ArrayList<>();
-		
+
 		Map<String,String> headers = new HashMap<>();
 		headers.put(URLTools.CONTENT_TYPE, URLTools.HEADER_JSON);
 		headers.put(URLTools.USER_AGENT,MTGConstants.USER_AGENT);
 		var resp = httpclient.doPost(uriPost+formats.get(filter), new StringEntity(postReqData), headers);
 		var ret = httpclient.toString(resp);
-		
+
 		logger.trace(ret);
 		var el = URLTools.toJson(ret).getAsJsonObject();
 		var arr = el.get("metadecks").getAsJsonArray();
-		
+
 		for(JsonElement je : arr)
 		{
 			var d = new RetrievableDeck();
 			    d.setAuthor(je.getAsJsonObject().get("username").getAsString());
 			    d.setName(je.getAsJsonObject().get("name").getAsString());
 			    d.setDescription(je.getAsJsonObject().get("updated").toString());
-			    
+
 			    var colors = je.getAsJsonObject().get("color").getAsJsonArray();
 			    var temp = new StringBuilder();
 			    if (colors.get(0).getAsInt() > 0) {
@@ -156,13 +156,13 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
                 	temp.append("{G}");
                 }
                 d.setColor(temp.toString());
-                
+
                 try {
 					d.setUrl(new URI("https://aetherhub.com/Deck/Public?id="+je.getAsJsonObject().get("id").getAsInt()));
 				} catch (URISyntaxException e) {
 					logger.error(e);
 				}
-               
+
 			    list.add(d);
 		}
 		return list;

@@ -38,18 +38,19 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 	protected static final String TRUE = "true";
 	protected static final String FALSE = "false";
 	private boolean loaded = false;
-	
+
+	@Override
 	public boolean isPartner()
 	{
 		return false;
 	}
-	
+
 	@Override
 	public List<String> listAuthenticationAttributes() {
 		return new ArrayList<>();
 	}
-	
-	
+
+
 	@Override
 	public ObjectName getObjectName() {
 		try {
@@ -58,18 +59,18 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 			return null;
 		}
 	}
-	
+
 	@Override
 	public MTGDocumentation getDocumentation() {
 		try {
-			return new MTGDocumentation(new URL(MTGConstants.MTG_DESKTOP_WIKI_RAW_URL+"/"+getName().replace(" ", "-")+".md"),FORMAT_NOTIFICATION.MARKDOWN);	
+			return new MTGDocumentation(new URL(MTGConstants.MTG_DESKTOP_WIKI_RAW_URL+"/"+getName().replace(" ", "-")+".md"),FORMAT_NOTIFICATION.MARKDOWN);
 		}
 		catch(Exception e)
 		{
-			return null;	
+			return null;
 		}
 	}
-	
+
 	@Override
 	public boolean isLoaded() {
 		return loaded;
@@ -79,7 +80,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 		setChanged();
 		notifyObservers(obj);
 	}
-	
+
 	@Override
 	public String getVersion() {
 		return "1.0";
@@ -88,7 +89,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 	protected AbstractMTGPlugin() {
 		props = new Properties();
 		load();
-		
+
 
 		confdir = new File(MTGConstants.CONF_DIR, getType().name().toLowerCase());
 		if (!confdir.exists())
@@ -100,18 +101,19 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 			save();
 
 		}
-		
+
 	}
 
 	public String getProperty(String k, String defaultVal) {
-		
+
 		if(props.getProperty(k)==null || props.getProperty(k).isEmpty())
 			return defaultVal;
-		
-		
+
+
 		return props.getProperty(k, defaultVal);
 	}
 
+	@Override
 	public File getConfFile() {
 		return confFile;
 	}
@@ -120,11 +122,12 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 		return confdir;
 	}
 
+	@Override
 	public void load() {
 			confFile = new File(confdir, getName() + ".conf");
-			if (confFile.exists()) 
+			if (confFile.exists())
 			{
-				
+
 				try {
 					FileTools.loadProperties(confFile, props);
 				} catch (IOException e) {
@@ -134,6 +137,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 		loaded=true;
 	}
 
+	@Override
 	public void save() {
 		try {
 			FileTools.saveProperties(confFile, props);
@@ -164,7 +168,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 			return null;
 		}
 	}
-	
+
 	public Long getLong(String k) {
 		try {
 			return Long.parseLong(getString(k));
@@ -172,7 +176,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 			return null;
 		}
 	}
-	
+
 
 	public double getDouble(String k) {
 		return Double.parseDouble(getString(k));
@@ -181,8 +185,8 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 	public boolean getBoolean(String k) {
 		if(StringUtils.isEmpty(getString(k)))
 			return false;
-			
-		
+
+
 		return getString(k).equalsIgnoreCase("true")||getString(k).equalsIgnoreCase("yes");
 	}
 
@@ -193,8 +197,8 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 	public List<String> getList(String k) {
 		return Arrays.asList(getArray(k));
 	}
-	
-	
+
+
 	public URL getURL(String k)
 	{
 		try {
@@ -204,7 +208,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 		}
 		return null;
 	}
-	
+
 	public File getFile(String k) {
 		return new File(getString(k));
 	}
@@ -226,7 +230,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 	public boolean isEnable() {
 		if(isPartner())
 			return true;
-		
+
 		return enable;
 	}
 
@@ -254,6 +258,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 		return getName();
 	}
 
+	@Override
 	public STATUT getStatut() {
 		return STATUT.STABLE;
 	}
@@ -261,21 +266,21 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 	protected void initDefault() {
 		getDefaultAttributes().entrySet().forEach(e->setProperty(e.getKey(), e.getValue()));
 	}
-	
+
 
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return new HashMap<>();
 	}
-	
-	
-	
+
+
+
 	@Override
 	public void unload() {
 		logger.trace("Unloading {}",getName());
-		
+
 	}
-	
+
 	@Override
 	public Icon getIcon() {
 		try {
@@ -286,12 +291,12 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 			return MTGConstants.ICON_DEFAULT_PLUGIN;
 		}
 	}
-	
+
 	@Override
 	public String termsAndCondition() {
 		return "Copyright" + '\u00A9' + " "+ Calendar.getInstance().get(Calendar.YEAR) + ", All data are property of "+ getName();
 
 	}
-	
-	
+
+
 }

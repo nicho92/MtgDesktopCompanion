@@ -14,7 +14,7 @@ import org.magic.services.MTGControler;
 public class BoosterPanel extends JPanel {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	int lastColumn = -1;

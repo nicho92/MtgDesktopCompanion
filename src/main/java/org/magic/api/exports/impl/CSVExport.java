@@ -33,12 +33,12 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
 			List<MagicCardStock> stock = new ArrayList<>();
-			for(Matcher part : matches(content, true)) 
+			for(Matcher part : matches(content, true))
 			{
 				var mcs = MTGControler.getInstance().getDefaultStock();
-				
+
 				MagicEdition ed = null;
-				
+
 				try {
 					ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(part.group(2));
 				}
@@ -46,8 +46,8 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 				{
 					logger.error("edition {} is not found",part.group(2));
 				}
-				
-				
+
+
 				MagicCard mc = null;
 				try {
 					mc = getEnabledPlugin(MTGCardsProvider.class).getCardByNumber( part.group(13), ed);
@@ -57,7 +57,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 					logger.debug(part.group());
 					logger.error("card with number {} is not found",part.group(13));
 				}
-				
+
 				if(mc==null)
 				{
 					try {
@@ -68,9 +68,9 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 						logger.error("card with name {} is not found",part.group(1));
 					}
 				}
-				
+
 				if(mc!=null) {
-				
+
 					mcs.setProduct(mc);
 					mcs.setLanguage(part.group(3));
 					mcs.setQte(Integer.parseInt(part.group(4)));
@@ -88,7 +88,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 				}
 			}
 			return stock;
-	
+
 
 	}
 
@@ -96,11 +96,11 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 
 		var bw = new StringBuilder();
-		
+
 			bw.append(columns).append(getSeparator());
 			bw.append(StringUtils.join(getArray(EXTRA_PROPERTIES),getSeparator())).append(System.lineSeparator());
-			
-			for (MagicCardStock mcs : stock) 
+
+			for (MagicCardStock mcs : stock)
 			{
 				bw.append("\""+mcs.getProduct().getName()+"\"").append(getSeparator());
 				bw.append(mcs.getProduct().getCurrentSet()).append(getSeparator());
@@ -117,10 +117,10 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 				bw.append(mcs.getComment()).append(getSeparator());
 				bw.append(mcs.getMagicCollection()).append(getSeparator());
 				bw.append(mcs.getProduct().getCurrentSet().getNumber()).append(getSeparator());
-				
+
 				writeExtraMap(mcs.getProduct(),bw);
 				bw.append(System.lineSeparator());
-				
+
 				notify(mcs.getProduct());
 			}
 			FileTools.saveFile(f, bw.toString());
@@ -129,21 +129,21 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 	@Override
 	public void exportDeck(MagicDeck deck, File f) throws IOException {
 
-		
+
 		var bw = new StringBuilder();
 		String[] extraProperties = getArray(EXTRA_PROPERTIES);
-		
+
 		bw.append("Name").append(getSeparator()).append("Edition").append(getSeparator()).append("Qty");
-		
+
 		if(extraProperties.length>0)
 			bw.append(getSeparator());
-		
+
 		for (String k : extraProperties)
 			bw.append(k).append(getSeparator());
 
 		bw.append(System.lineSeparator());
 
-		
+
 		for (Entry<MagicCard, Integer> entry : deck.getMain().entrySet())
 		{
 			bw.append("\""+entry.getKey()+"\"").append(getSeparator());
@@ -152,9 +152,9 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 			writeExtraMap(entry.getKey(),bw);
 			bw.append(System.lineSeparator());
 		}
-			
+
 		bw.append(System.lineSeparator());
-		
+
 		for (Entry<MagicCard, Integer> entry : deck.getSideBoard().entrySet())
 		{
 			bw.append("\""+entry.getKey()+"\"").append(getSeparator());
@@ -165,13 +165,13 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 		}
 
 		FileTools.saveFile(f, bw.toString());
-		
+
 	}
 
 
-	private void writeExtraMap(MagicCard mc, StringBuilder bw) 
+	private void writeExtraMap(MagicCard mc, StringBuilder bw)
 	{
-			for (String k : getArray(EXTRA_PROPERTIES)) 
+			for (String k : getArray(EXTRA_PROPERTIES))
 			{
 				String val = null;
 				try {
@@ -179,12 +179,12 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 				} catch (Exception e) {
 					logger.error("Error reading bean", e);
 				}
-				
+
 				if (val == null)
 					val = "";
-				
+
 				bw.append(val.replaceAll(System.lineSeparator(), "")).append(getSeparator());
-				
+
 			}
 			notify(mc);
 	}
@@ -195,9 +195,9 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 		var deck = new MagicDeck();
 		deck.setName(n);
 		var isSide=false;
-		
+
 		for(String line : UITools.stringLineSplit(content, false)) {
-				
+
 				if(line.isBlank())
 				{
 					isSide=true;
@@ -217,20 +217,20 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 					{
 						logger.error("no cards found for {} {} ",name,set);
 					}
-					
+
 					if(mc!=null) {
 						if(isSide)
 							deck.getSideBoard().put(mc, Integer.parseInt(qte));
 						else
 							deck.getMain().put(mc, Integer.parseInt(qte));
-						
+
 						notify(mc);
 					}
 				}
 		}
 		return deck;
 	}
-	
+
 	@Override
 	public String getFileExtension() {
 		return ".csv";
@@ -246,13 +246,13 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 		return "\"(.*?)\";(.*?);(.*?);(\\d+);("+StringUtils.join(EnumCondition.values(), "|")+")?;(true|false);(true|false);(true|false);(.*?);(\\d+.\\d+);(.*?)?;(.*?)?;(.*?)?;";
 	}
 
-	
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		var m = super.getDefaultAttributes();
 		m.put(EXTRA_PROPERTIES, "id,cost,supertypes,types,subtypes,layout,showCase,fullArt,extendedArt");
 		m.put("SEPARATOR", ";");
-		
+
 		return m;
 	}
 

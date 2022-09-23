@@ -12,7 +12,7 @@ import org.magic.game.model.Turn;
 public class CleanUpPhase extends AbstractAction {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	String detail = "<html>The cleanup step is the second and final step of the ending phase. <br/>"

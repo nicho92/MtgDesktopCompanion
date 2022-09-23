@@ -114,7 +114,7 @@ public class MagicWebSiteGenerator extends Observable {
 
 	}
 
-	
+
 	private void generateCardsTemplate(MagicCard mc) throws IOException, TemplateException {
 		var cardTemplate = cfg.getTemplate("page-card.html");
 

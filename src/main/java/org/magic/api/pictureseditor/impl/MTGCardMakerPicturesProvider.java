@@ -28,6 +28,7 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 		return cadre;
 	}
 
+	@Override
 	public BufferedImage getPicture(MagicCard mc, MagicEdition ed) {
 		try {
 			return URLTools.extractAsImage(getPictureURL(mc).toString());
@@ -58,17 +59,17 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 		}
 
 	}
-	
+
 	private String powerorloyalty(MagicCard mc) {
-		
+
 		if(extractColorless(mc.getCost()) > 0)
 			return String.valueOf(extractColorless(mc.getCost()));
 		else if (mc.getCost().contains("X"))
 				return "X";
-						
+
 		return "0";
 	}
-	
+
 
 	private URL getPictureURL(MagicCard mc) throws MalformedURLException {
 
@@ -113,26 +114,26 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 	@Override
 	public void setFoil(Boolean b) {
 		//do nothing
-		
+
 	}
 
 	@Override
 	public void setTextSize(int size) {
-		//do nothing		
+		//do nothing
 	}
 
 	@Override
 	public void setCenter(boolean center) {
-		//do nothing		
+		//do nothing
 	}
 	@Override
 	public void setColorIndicator(boolean selected) {
-		//do nothing		
+		//do nothing
 	}
 
 	@Override
 	public void setColorAccentuation(String c) {
-		//do nothing		
+		//do nothing
 	}
 
 

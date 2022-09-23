@@ -29,12 +29,12 @@ import com.thoughtworks.xstream.io.xml.StaxDriver;
 public class XMLExport extends AbstractCardExport {
 
 	private XStream xstream;
-	
+
 	@Override
 	public String getFileExtension() {
 		return ".xml";
 	}
-	
+
 	public XMLExport() {
 		xstream = new XStream(new StaxDriver());
 		xstream.alias("deck", MagicDeck.class);
@@ -46,17 +46,17 @@ public class XMLExport extends AbstractCardExport {
 		xstream.alias("legality", MagicFormat.class);
 		xstream.registerConverter(new NamedMapConverter(xstream.getMapper(), "entry", "card", MagicCard.class, "qty", Integer.class));
 		xstream.registerConverter(new Converter() {
-			
+
 			@Override
 			public boolean canConvert(Class type) {
 				return type.equals(LinkedTreeMap.class);
 			}
-			
+
 			@Override
 			public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
 				return reader.getValue();
 			}
-			
+
 			@Override
 			public void marshal(Object source, HierarchicalStreamWriter writer, MarshallingContext context) {
 				LinkedTreeMap<Object, Object> map= (LinkedTreeMap)source;
@@ -65,16 +65,16 @@ public class XMLExport extends AbstractCardExport {
 		            writer.setValue(entry.getValue().toString());
 		            writer.endNode();
 		        }
-				
-				
+
+
 			}
 		});
-		
+
 	}
-	
+
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
-		
+
 		String xml = xstream.toXML(deck);
 		FileTools.saveFile(dest, xml);
 
@@ -84,19 +84,19 @@ public class XMLExport extends AbstractCardExport {
 	public MagicDeck importDeck(String f, String name) throws IOException {
 		return (MagicDeck)xstream.fromXML(f);
 	}
-	
+
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 		String xml = xstream.toXML(stock);
 		FileTools.saveFile(f, xml);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
 		return (List<MagicCardStock>)xstream.fromXML(content);
 	}
-	
+
 
 	@Override
 	public String getName() {

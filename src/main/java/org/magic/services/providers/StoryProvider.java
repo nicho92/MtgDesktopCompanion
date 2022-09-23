@@ -27,7 +27,7 @@ public class StoryProvider {
 		this.local = local;
 	}
 
-	
+
 
 	public int getOffset() {
 		return offset;
@@ -43,7 +43,7 @@ public class StoryProvider {
 			var e = arr.get(i);
 			var finale = StringEscapeUtils.unescapeJava(e.toString());
 			Document d = Jsoup.parse(finale);
-			
+
 			var story = new MTGStory();
 				story.setTitle(d.select("div.title h3").html());
 				story.setAuthor(StringEscapeUtils.unescapeHtml3(d.select("span.author").html()));
@@ -53,7 +53,7 @@ public class StoryProvider {
 			try {
 				var bgImage = d.select("div.image").attr("style");
 				story.setIcon(loadPics(new URL(bgImage.substring(bgImage.indexOf("url(") + 5, bgImage.indexOf("');")))));
-				
+
 			} catch (Exception e2) {
 				logger.error("Error loading story ", e2);
 			}

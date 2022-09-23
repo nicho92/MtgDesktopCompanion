@@ -19,7 +19,7 @@ import org.magic.services.logging.MTGLogger;
 public class NumberCellEditorRenderer extends AbstractCellEditor implements TableCellEditor, TableCellRenderer{
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private JSpinner spinner;
@@ -34,7 +34,7 @@ public class NumberCellEditorRenderer extends AbstractCellEditor implements Tabl
 		formater =NumberFormat.getNumberInstance();
 		formater.setGroupingUsed(false);
 	}
-	
+
 
 	@Override
 	public Object getCellEditorValue() {
@@ -49,9 +49,9 @@ public class NumberCellEditorRenderer extends AbstractCellEditor implements Tabl
 
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
-		
+
 		var text = String.valueOf(value);
-		if(StringUtils.isNumeric(text)) 
+		if(StringUtils.isNumeric(text))
 		{
 			try {
 				text = formater.format(value);
@@ -60,8 +60,8 @@ public class NumberCellEditorRenderer extends AbstractCellEditor implements Tabl
 				//do nothing
 			}
 		}
-		
-		
+
+
 		var l= new JLabel(text,SwingConstants.CENTER);
 		   l.setOpaque(true);
 			if(isSelected)
@@ -74,9 +74,9 @@ public class NumberCellEditorRenderer extends AbstractCellEditor implements Tabl
 				l.setBackground(table.getBackground());
 				l.setForeground(table.getForeground());
 			}
-	
-		
-		
+
+
+
 		return l;
 	}
 

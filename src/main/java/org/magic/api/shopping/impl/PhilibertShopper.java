@@ -19,13 +19,13 @@ import org.magic.tools.UITools;
 public class PhilibertShopper extends AbstractMagicShopper {
 
 	private static final String BASE_URL="https://www.philibertnet.com/";
-	
+
 	@Override
 	public List<OrderEntry> listOrders() throws IOException {
 		MTGHttpClient c = URLTools.newClient();
 		List<OrderEntry> ret = new ArrayList<>();
-		
-		
+
+
 		var s = RequestBuilder.build()
 					  .method(METHOD.POST)
 					  .url(BASE_URL+"/en/authentication")
@@ -49,15 +49,15 @@ public class PhilibertShopper extends AbstractMagicShopper {
 														   .method(METHOD.GET)
 														   .addHeader("x-requested-with","XMLHttpRequest")
 														   .toHtml();
-				
+
 				String date = orderPage.select("table.table td.step-by-step-date").first().text();
-				
-				
+
+
 				for(Element tr : orderPage.select("table").get(1).select("tbody>tr.item"))
 				{
-					
+
 					int index = tr.selectFirst("td:has(input)")!=null?0:1; //check if first column is checkbox or not
-			
+
 					var oe = new OrderEntry();
 								oe.setSource(getName());
 								oe.setIdTransation(id);
@@ -68,16 +68,16 @@ public class PhilibertShopper extends AbstractMagicShopper {
 								oe.setTypeTransaction(TransactionDirection.BUY);
 					if(oe.getItemPrice()>0)
 						ret.add(oe);
-					
+
 				}
-			
+
 			}
 			catch(Exception e)
 			{
 				logger.error("couldn't get order page for " + id + " " + e);
 			}
 		}
-		
+
 		return ret;
 	}
 
@@ -85,8 +85,8 @@ public class PhilibertShopper extends AbstractMagicShopper {
 	public List<String> listAuthenticationAttributes() {
 		return AccountsManager.generateLoginPasswordsKeys();
 	}
-	
-	
+
+
 	@Override
 	public String getName() {
 		return "Philibert";

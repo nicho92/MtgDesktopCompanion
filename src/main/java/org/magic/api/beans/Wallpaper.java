@@ -28,11 +28,11 @@ public class Wallpaper {
 			else
 				setPicture(ImageTools.readLocal(getUrl().toURL()));
 		}
-		
+
 		return this;
 	}
-	
-	
+
+
 	public void setPicture(BufferedImage picture) {
 		this.picture = picture;
 	}

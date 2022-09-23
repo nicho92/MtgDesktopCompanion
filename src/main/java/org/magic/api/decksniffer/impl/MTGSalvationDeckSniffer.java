@@ -26,10 +26,10 @@ import org.mozilla.javascript.ast.AstNode;
 public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 
 	private Map<String,Integer> mapCodes;
-	
+
 	public MTGSalvationDeckSniffer() {
 		super();
-		
+
 		mapCodes = new HashMap<>();
 		mapCodes.put("Standard", 32);
 		mapCodes.put("Casual", 16);
@@ -38,9 +38,9 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 		mapCodes.put("Legacy", 4);
 		mapCodes.put("Vintage", 8);
 		mapCodes.put("Modern", 1);
-		
+
 	}
-	
+
 
 	@Override
 	public String[] listFilter() {
@@ -74,7 +74,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 				try {
 					var qte = Integer.parseInt(s.substring(0, s.indexOf(' ')));
 					cardName = s.substring(s.indexOf(' '), s.length()).trim();
-					
+
 					MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( cardName, null, true).get(0);
 					if (!sideboard) {
 						deck.getMain().put(mc, qte);
@@ -92,6 +92,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 		return deck;
 	}
 
+	@Override
 	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
 
 		String url = getString("URL") + "/decks?filter-format=" + getFormatCode(filter)+ "&filter-deck-time-frame=" + getString("FILTER");
@@ -99,7 +100,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 		List<RetrievableDeck> list = new ArrayList<>();
 
 		var nbPage = 1;
-		
+
 
 		for (var i = 1; i <= getInt("MAX_PAGE"); i++) {
 			String link = url + "&page=" + nbPage;
@@ -170,7 +171,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 	public String getName() {
 		return "MTGSalvation";
 	}
-	
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of("URL", "https://www.mtgsalvation.com/",

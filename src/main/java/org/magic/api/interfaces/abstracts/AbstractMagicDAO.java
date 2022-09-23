@@ -36,29 +36,29 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	protected static final String SERVERNAME = "SERVERNAME";
 	protected static final String DRIVER ="DRIVER";
 	protected static final String PARAMETERS = "PARAMETERS";
-	
+
 	protected JsonExport serialiser;
-	
-	
+
+
 	protected TCache<MagicCardAlert> listAlerts;
 	protected TCache<OrderEntry> listOrders;
 	protected TCache<Contact> listContacts;
 	protected TCache<MagicCollection> listCollections;
-	
+
 	protected abstract void initAlerts();
 	protected abstract void initOrders();
-	
+
 	@Override
 	public boolean isSQL() {
 		return false;
 	}
-	
+
 	@Override
 	public PLUGINS getType() {
 		return PLUGINS.DAO;
 	}
-	
-	
+
+
 	@Override
 	public void init(MTGPool pool) throws SQLException {
 		logger.debug("Pool isn't necessary");
@@ -72,14 +72,14 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		listCollections = new TCache<>("collections");
 		serialiser=new JsonExport();
 	}
-	
+
 	@Override
 	public void moveCard(MagicCard mc, MagicCollection from, MagicCollection to) throws SQLException {
 		removeCard(mc, from);
 		saveCard(mc, to);
-		
+
 		listStocks(mc, from,true).forEach(cs->{
-		
+
 			try {
 				cs.setMagicCollection(to);
 				saveOrUpdateCardStock(cs);
@@ -88,7 +88,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 			}
 		});
 	}
-	
+
 	@Override
 	public List<Announce> listAnnounces() throws SQLException {
 		return listAnnounces(-1,null);
@@ -98,50 +98,50 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	public List<Announce> listAnnounces(Contact contact) throws SQLException {
 		return listAnnounces().stream().filter(a->a.getContact().getId()==contact.getId()).toList();
 	}
-	
+
 	@Override
 	public List<Announce> listAnnounces(String textSearch) throws SQLException {
 		return listAnnounces().stream().filter(a->a.getTitle().toLowerCase().contains(textSearch)||a.getDescription().toLowerCase().contains(textSearch)).toList();
 	}
-	
+
 	@Override
 	public List<Announce> listAnnounces(EnumItems type) throws SQLException {
 		return listAnnounces().stream().filter(a->a.getCategorie()==type).toList();
 	}
-	
+
 	@Override
 	public List<MagicCardStock> listStocks(List<MagicCollection> cols) throws SQLException {
 		return listStocks().stream().filter(st->cols.contains(st.getMagicCollection())).toList();
 	}
-	
+
 	@Override
 	public List<MagicCardStock> listStocks(String cardName, List<MagicCollection> cols) throws SQLException {
 		return listStocks(cols).stream().filter(st->st.getProduct().getName().equalsIgnoreCase(cardName)).toList();
 	}
-	
+
 	@Override
 	public List<MTGStockItem> listStockItems() throws SQLException {
 		List<MTGStockItem> ret = new ArrayList<>();
-		
+
 		ret.addAll(listStocks());
 		ret.addAll(listSealedStocks());
-		
+
 		return ret;
 	}
-		
+
 	@Override
 	public MagicCardStock getStockById(Long id) throws SQLException {
 		return listStocks().stream().filter(mc->mc.getId().equals(id)).findAny().orElse(null);
 	}
-	
+
 	@Override
 	public MTGStockItem getStockById(EnumItems typeStock, Long id) throws SQLException {
 		if(typeStock==EnumItems.CARD)
 			return getStockById(id);
-			
+
 		return getSealedStockById(id);
 	}
-	
+
 	@Override
 	public void saveOrUpdateStock(MTGStockItem stock) throws SQLException {
 		if(stock.getProduct().getTypeProduct()==EnumItems.CARD)
@@ -149,27 +149,27 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		else
 			saveOrUpdateSealedStock((SealedStock)stock);
 	}
-	
+
 	@Override
 	public List<SealedStock> listSealedStocks(MagicCollection c) throws SQLException {
 		return listSealedStocks().stream().filter(ss->ss.getMagicCollection().getName().equalsIgnoreCase(c.getName())).toList();
 	}
-	
+
 	@Override
 	public List<SealedStock> listSealedStocks(MagicCollection c, MagicEdition ed) throws SQLException {
 		return listSealedStocks().stream().filter(ss->ss.getMagicCollection().getName().equalsIgnoreCase(c.getName())&& ss.getProduct().getEdition().getId().equalsIgnoreCase(ed.getId())).toList();
 	}
-	
+
 	@Override
 	public void saveCollection(String name) throws SQLException {
 		saveCollection(new MagicCollection(name));
 	}
-	
+
 	@Override
 	public List<MagicCard> listCardsFromCollection(String collectionName) throws SQLException {
 		return listCardsFromCollection(new MagicCollection(collectionName));
 	}
-	
+
 	@Override
 	public List<MagicCard> listCardsFromCollection(String collectionName, MagicEdition me) throws SQLException {
 		return listCardsFromCollection(new MagicCollection(collectionName), me);
@@ -183,30 +183,30 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		orders.add(state);
 		deleteOrderEntry(orders);
 	}
-	
+
 	@Override
 	public List<OrderEntry> listOrdersByDescription(String desc, boolean strict) {
-				
+
 		if(strict)
 			return listOrders().stream().filter(o->o.getDescription().equalsIgnoreCase(desc)).toList();
 		else
 			return listOrders().stream().filter(o->o.getDescription().contains(desc)).toList();
-		
+
 	}
-	
+
 	@Override
 	public void deleteTransaction(List<Transaction> t) throws SQLException {
 		for(Transaction transaction : t)
 			deleteTransaction(transaction);
-		
+
 	}
-	
-	
+
+
 	@Override
 	public List<MagicCardStock> listStocks(MagicCard mc) throws SQLException {
 		return listStocks().stream().filter(st->st.getProduct().getName().equals(mc.getName())).toList();
 	}
-		
+
 	@Override
 	public void deleteStock(MagicCardStock state) throws SQLException
 	{
@@ -214,45 +214,45 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		stock.add(state);
 		deleteStock(stock);
 	}
-	
+
 	@Override
 	public MagicCardAlert hasAlert(MagicCard mc) {
 		return listAlerts().stream().filter(a->a.getCard().equals(mc)).findFirst().orElse(null);
 	}
-	
+
 	@Override
 	public List<MagicCardAlert> listAlerts() {
 		if (listAlerts.isEmpty())
 			initAlerts();
-		
+
 		return listAlerts.values();
 	}
-	
+
 	@Override
 	public List<OrderEntry> listOrders() {
 		if (listOrders.isEmpty())
 			initOrders();
-		
+
 		return listOrders.values();
 	}
-	
-	
 
-	
+
+
+
 	@Override
 	public MagicCardStock getStockWithTiersID(String key, String id) throws SQLException {
-		
+
 		if(key==null)
 			return null;
-		
+
 		return listStocks().stream().filter(st->id.equals(st.getTiersAppIds(key))).findAny().orElse(null);
 	}
-	
-	
+
+
 
 	@Override
 	public void duplicateTo(MTGDao dao) throws SQLException {
-		
+
 		dao.init(null);
 		logger.debug("duplicate collection");
 		for (MagicCollection col : listCollections())
@@ -263,7 +263,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 			{
 				logger.error("{} already exist",col);
 			}
-			
+
 			for (MagicCard mc : listCardsFromCollection(col)) {
 				try {
 					dao.saveCard(mc, col);
@@ -273,32 +273,32 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 				}
 			}
 		}
-		
+
 		logger.debug("duplicate stock");
 		for(MagicCardStock stock : listStocks())
 		{
 			stock.setId(-1);
 			dao.saveOrUpdateCardStock(stock);
 		}
-			
+
 		logger.debug("duplicate alerts");
 		for(MagicCardAlert alert : listAlerts())
 			dao.saveAlert(alert);
-		
+
 		logger.debug("duplicate news");
 		for(MagicNews news : listNews())
 		{
 			news.setId(-1);
 			dao.saveOrUpdateNews(news);
 		}
-		
+
 		logger.debug("duplicate orders");
 		for(OrderEntry oe : listOrders())
 		{
 			oe.setId(-1);
 			dao.saveOrUpdateOrderEntry(oe);
 		}
-		
+
 		logger.debug("duplicate sealed");
 		for(SealedStock oe : listSealedStocks())
 		{
@@ -312,51 +312,51 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 			oe.setId(-1);
 			dao.saveOrUpdateContact(oe);
 		}
-		
+
 		logger.debug("duplicate transactions");
 		for(Transaction oe : listTransactions())
 		{
 			oe.setId(-1);
 			dao.saveOrUpdateTransaction(oe);
 		}
-		
+
 		logger.debug("duplicate conversions items");
 		for(ConverterItem oe : listConversionItems())
 		{
 			dao.saveOrUpdateConversionItem(oe);
 		}
-		
-		
+
+
 		logger.debug("duplicate decks");
 		for(MagicDeck oe : listDecks())
 		{
 			oe.setId(-1);
 			dao.saveOrUpdateDeck(oe);
 		}
-		
+
 		logger.debug("duplicate announces");
 		for(Announce oe : listAnnounces())
 		{
 			oe.setId(-1);
 			dao.saveOrUpdateAnnounce(oe);
 		}
-		
+
 	}
 
-	
+
 	@Override
 	public List<MagicCard> synchronizeCollection(MagicCollection col) throws SQLException {
-		
+
 		List<MagicCard> cols = listCardsFromCollection(col);
-		
+
 		List<MagicCard> toSave = listStocks().stream()
 				  .filter(st->st.getMagicCollection().equals(col))
 				  .filter(st->!cols.contains(st.getProduct()))
 				  .map(MagicCardStock::getProduct)
 				  .toList();
-		
+
 		List<MagicCard> ret = new ArrayList<>();
-		
+
 		toSave.forEach(mc->{
 			try {
 				saveCard(mc, col);
@@ -365,55 +365,58 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 				logger.error("error saving {} {}",mc , e);
 			}
 		});
-		
+
 		return ret;
-		
+
 	}
-	
-	public List<OrderEntry> listOrdersByIdTransaction(String id) 
+
+	@Override
+	public List<OrderEntry> listOrdersByIdTransaction(String id)
 	{
 		return listOrders().stream().filter(o->o.getIdTransation().equalsIgnoreCase(id)).toList();
 	}
-	
-	
-	public OrderEntry getOrderById(int id) 
+
+
+	@Override
+	public OrderEntry getOrderById(int id)
 	{
 		return listOrders().stream().filter(o->o.getId()==id).findFirst().orElse(null);
 	}
-	
-	
-	
-	public List<OrderEntry> listOrderForEdition(MagicEdition ed) 
+
+
+
+	@Override
+	public List<OrderEntry> listOrderForEdition(MagicEdition ed)
 	{
 		return listOrders().stream().filter(o->o.getEdition()!=null && o.getEdition().equals(ed)).toList();
 	}
-	
+
 	@Override
 	public List<OrderEntry> listOrdersAt(Date d) {
 		return listOrders().stream().filter(o->o.getTransactionDate().equals(d)).toList();
-		
-	}
-	
 
-	
+	}
+
+
+
 	@Override
 	public void updateCard(MagicCard c, MagicCard newC, MagicCollection col) throws SQLException {
 		saveCard(newC,col);
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		
+
 		if(obj ==null)
 			return false;
-		
+
 		return hashCode()==obj.hashCode();
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return getName().hashCode();
 	}
 
-	
+
 }

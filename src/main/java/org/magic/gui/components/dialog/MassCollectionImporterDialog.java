@@ -46,7 +46,7 @@ public class MassCollectionImporterDialog extends JDialog {
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JComboBox<MagicEdition> cboEditions;
 	private JComboBox<String> cboByType;
-	
+
 
 	public MassCollectionImporterDialog() {
 		setIconImage(MTGConstants.ICON_MASS_IMPORT.getImage());
@@ -63,20 +63,20 @@ public class MassCollectionImporterDialog extends JDialog {
 		List<MagicCard> ret = new ArrayList<>();
 		try {
 			ret = new ArrayList<>(getEnabledPlugin(MTGCardsProvider.class).searchCardByEdition((MagicEdition)cboEditions.getSelectedItem()));
-			
+
 			if(cboByType.getSelectedItem().equals(NUMBER))
 				ret.removeIf(ca->without.contains(ca.getCurrentSet().getNumber()));
 			else
 				ret.removeIf(ca->without.contains(ca.getName()));
-			
+
 			return ret;
-			
+
 		} catch (IOException e) {
 			return ret;
 		}
 	}
-	
-	
+
+
 	private void initGUI() {
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		deck = new MagicDeck();
@@ -85,11 +85,11 @@ public class MassCollectionImporterDialog extends JDialog {
 
 		var lblImport = new JLabel(capitalize("IMPORT") + " ");
 		panelCollectionInput.add(lblImport);
-		
-		
+
+
 		cboEditions =UITools.createComboboxEditions();
 		panelCollectionInput.add(cboEditions);
-		
+
 		var lblNewLabel = new JLabel(capitalize("BY"));
 		panelCollectionInput.add(lblNewLabel);
 
@@ -98,19 +98,19 @@ public class MassCollectionImporterDialog extends JDialog {
 
 		var lblIn = new JLabel("in");
 		panelCollectionInput.add(lblIn);
-		
+
 		JComboBox<MagicCollection> cboCollections = UITools.createComboboxCollection();
 		panelCollectionInput.add(cboCollections);
 
 		var panneauBas = new JPanel();
 		getContentPane().add(panneauBas, BorderLayout.SOUTH);
 		var progressBar = AbstractBuzyIndicatorComponent.createProgressComponent();
-		
+
 
 		final var checkNewOne = new JCheckBox(capitalize("IMPORT_OTHER_SERIE"));
 
 		var btnInverse = new JButton("Inverse");
-		
+
 		var btnImport = new JButton(capitalize("IMPORT"),MTGConstants.ICON_MASS_IMPORT);
 
 		panneauBas.add(btnInverse);
@@ -122,16 +122,16 @@ public class MassCollectionImporterDialog extends JDialog {
 		panneauBas.add(progressBar);
 
 		var txtNumbersInput = new JTextPane();
-		
+
 		txtNumbersInput.setPreferredSize(new Dimension(600, 300));
-		
+
 
 		getContentPane().add(new JScrollPane(txtNumbersInput), BorderLayout.CENTER);
 
 
 		setModal(true);
 		setLocationRelativeTo(null);
-		
+
 		pack();
 
 		btnInverse.addActionListener(e -> {
@@ -142,10 +142,10 @@ public class MassCollectionImporterDialog extends JDialog {
 
 			txtNumbersInput.setText(temp.toString());
 		});
-		
 
-		
-		
+
+
+
 		btnImport.addActionListener(e -> {
 			final MagicEdition ed = (MagicEdition) cboEditions.getSelectedItem();
 			final MagicCollection col = (MagicCollection) cboCollections.getSelectedItem();
@@ -154,7 +154,7 @@ public class MassCollectionImporterDialog extends JDialog {
 				ids = txtNumbersInput.getText().replace("\n", " ").replace("  ", " ").trim().split(" ");
 			else
 				ids = txtNumbersInput.getText().split("\n");
-		
+
 			AbstractObservableWorker<Void, MagicCard, MTGCardsProvider> sw = new AbstractObservableWorker<>(progressBar,getEnabledPlugin(MTGCardsProvider.class),ids.length) {
 
 				@Override
@@ -165,8 +165,8 @@ public class MassCollectionImporterDialog extends JDialog {
 							MESSAGE_TYPE.INFO
 							));
 				}
-				
-				
+
+
 
 				@Override
 				protected void done() {
@@ -193,12 +193,12 @@ public class MassCollectionImporterDialog extends JDialog {
 
 							deck.add(mc);
 							CardsManagerService.saveCard(mc,col,null);
-							
+
 						} catch (Exception e1) {
 							logger.error(e1);
 						}
 					}
-					
+
 					return null;
 				}
 			};
@@ -214,7 +214,7 @@ public class MassCollectionImporterDialog extends JDialog {
 
 	public void setDefaultEdition(MagicEdition magicEdition) {
 		cboEditions.setSelectedItem(magicEdition);
-		
+
 	}
 
 }

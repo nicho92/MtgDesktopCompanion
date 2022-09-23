@@ -12,12 +12,12 @@ public class AnnouncesTableModel extends GenericTableModel<Announce> {
 
 	private static final long serialVersionUID = 1L;
 
-		
+
 	public AnnouncesTableModel() {
 		setColumns("id","type","categorie","title","totalPrice","contact","startDate","endDate","status");
 	}
-	
-	
+
+
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex)
@@ -30,10 +30,10 @@ public class AnnouncesTableModel extends GenericTableModel<Announce> {
 		case 6|7 : return Date.class;
 		case 8 : return Announce.STATUS.class;
 		default : return super.getColumnClass(columnIndex);
-		
+
 		}
 	}
-	
+
 	@Override
 	public Object getValueAt(int row, int column) {
 		switch (column)
@@ -48,9 +48,9 @@ public class AnnouncesTableModel extends GenericTableModel<Announce> {
 		case 7 : return items.get(row).getEndDate();
 		case 8 : return items.get(row).getStatus();
 		default : return super.getValueAt(row, column);
-		
+
 		}
 	}
-	
-	
+
+
 }

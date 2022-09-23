@@ -19,7 +19,7 @@ public class MKMFileWantListExport extends AbstractFormattedFileCardExport {
 
 		var deck = new MagicDeck();
 		deck.setName(dname);
-		
+
 		matches(f,true).forEach(m->{
 			var qty = Integer.parseInt(m.group(1));
 			var mc = parseMatcherWithGroup(m, 2, 3, false, FORMAT_SEARCH.NAME,FORMAT_SEARCH.NAME);
@@ -38,15 +38,15 @@ public class MKMFileWantListExport extends AbstractFormattedFileCardExport {
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 
 		var temp = new StringBuilder();
-			
+
 			for (MagicCard mc : deck.getMain().keySet()) {
 				if (mc.getCurrentSet().getMkmName() != null)
 					temp.append(deck.getMain().get(mc)).append(getSeparator()).append(mc.getName()).append(getSeparator()).append("(").append(mc.getCurrentSet().getMkmName());
 				else
 					temp.append(deck.getSideBoard().get(mc)).append(getSeparator()).append(mc.getName()).append(getSeparator()).append("(").append(mc.getCurrentSet().getSet());
-			
+
 				try {
-					
+
 					if(mc.isPromoCard())
 					{
 						temp.append(": Promos");
@@ -55,18 +55,18 @@ public class MKMFileWantListExport extends AbstractFormattedFileCardExport {
 					{
 						if(mc.isExtraCard())
 							temp.append(": Extras");
-					}					
+					}
 				}catch (Exception e) {
 					//do nothing
 				}
-				
+
 				temp.append(")\n");
-				
-				
+
+
 				notify(mc);
 			}
-			
-			for (MagicCard mc : deck.getSideBoard().keySet()) 
+
+			for (MagicCard mc : deck.getSideBoard().keySet())
 			{
 				if (mc.getCurrentSet().getMkmName() != null)
 					temp.append(deck.getSideBoard().get(mc)).append(getSeparator()).append(mc.getName()).append(getSeparator()).append("(").append(mc.getCurrentSet().getMkmName()).append(")\n");
@@ -75,17 +75,17 @@ public class MKMFileWantListExport extends AbstractFormattedFileCardExport {
 				notify(mc);
 			}
 			FileTools.saveFile(dest, temp.toString());
-		
+
 	}
 
-	
+
 
 	@Override
 	public String getFileExtension() {
 		return ".txt";
 	}
-	
-	
+
+
 	@Override
 	public String getName() {
 		return "MKM File";
@@ -115,15 +115,15 @@ public class MKMFileWantListExport extends AbstractFormattedFileCardExport {
 	protected String getSeparator() {
 		return " ";
 	}
-	
-	
+
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		
+
 		var m = super.getDefaultAttributes();
 		m.put("SEPARATOR", getSeparator());
 		return m;
 	}
-	
+
 
 }

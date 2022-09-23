@@ -20,49 +20,49 @@ public class HistoryPrice<T> implements Iterable<Map.Entry<Date,Double>> {
 	private boolean foil;
 	private String serieName;
 	private String support;
-	
-	
+
+
 	public HistoryPrice(T pack) {
 		this.pack=pack;
 		this.foil=false;
 		variations = new TreeMap<>();
 		currency=Currency.getInstance("USD");
 	}
-	
+
 	public String getSupport() {
 		return support;
 	}
-	
+
 	public void setSupport(String support) {
 		this.support = support;
 	}
-	
+
 
 	public void setSerieName(String s) {
 		this.serieName=s;
 	}
-	
+
 	public String getSerieName() {
 		return serieName;
 	}
-	
+
 	@Override
 	public String toString() {
 		return (pack + ((foil)?"(foil)":""));
 
 	}
-	
+
 	public T getItem() {
 		return pack;
 	}
-	
+
 	public boolean isEmpty()
 	{
 		return variations.isEmpty();
 	}
-	
-	
-	
+
+
+
 	public boolean isFoil() {
 		return foil;
 	}
@@ -75,58 +75,58 @@ public class HistoryPrice<T> implements Iterable<Map.Entry<Date,Double>> {
 	{
 		if(isEmpty())
 			return null;
-		
+
 		List<Entry<Date, Double>> res = asList();
 		return res.get(res.size()-val).getKey();
 	}
-	
+
 	public Date getLastWeek()
 	{
 		return getLastValueAt(7);
 	}
-	
+
 	public Date getYesterday()
 	{
 		return getLastValueAt(2);
 	}
-	
+
 	public Date getLastDay()
 	{
 		return getLastValueAt(1);
 	}
-	
+
 	public Entry<Date, Double> getHigher()
 	{
 		return Collections.max(variations.entrySet(), (Entry<Date,Double> e1, Entry<Date,Double> e2) -> e1.getValue().compareTo(e2.getValue()));
 	}
-	
+
 	public Entry<Date, Double> getLower()
 	{
 		return Collections.min(variations.entrySet(), (Entry<Date,Double> e1, Entry<Date,Double> e2) -> e1.getValue().compareTo(e2.getValue()));
 	}
-	
+
 	public Double getLastValue()
 	{
 		return variations.get(getLastDay());
 	}
-	
-	
+
+
 	public List<Entry<Date, Double>> asList()
 	{
 		return new ArrayList<>(entrySet());
 	}
-	
-	
+
+
 	public void put(Date date,Double p)
 	{
 		variations.put(date, p);
 	}
-	
-	
+
+
 	public Map<Date, Double> getVariations() {
 		return variations;
 	}
-	
+
 	public Double get(Date d)
 	{
 		try {
@@ -137,13 +137,13 @@ public class HistoryPrice<T> implements Iterable<Map.Entry<Date,Double>> {
 			return 0.0;
 		}
 	}
-	
-	
+
+
 	public Collection<Double> values()
 	{
 		return variations.values();
 	}
-	
+
 	public Set<Entry<Date, Double>> entrySet()
 	{
 		return variations.entrySet();
@@ -161,22 +161,22 @@ public class HistoryPrice<T> implements Iterable<Map.Entry<Date,Double>> {
 	public Iterator<Entry<Date, Double>> iterator() {
 		return variations.entrySet().iterator();
 	}
-	
+
 	public CardShake toCardShake()
 	{
-		
+
 		if(!variations.isEmpty())
 		{
 			Date now = getLastDay();
 			Date yesterday = getYesterday();
 			Date week = getLastWeek();
-	
+
 			double valDay = get(now) - get(yesterday);
-			double valWeek = get(now) - get(week);		 
+			double valWeek = get(now) - get(week);
 			double pcWeek = (get(now) - get(week))/get(week)*100;
 			double pcDay = (get(now) - get(yesterday))/get(yesterday)*100;
 			var cs = new CardShake();
-			
+
 			if(pack instanceof MagicCard mc) {
 				cs.setCard(mc);
 				cs.setName(cs.getCard().getName());
@@ -190,9 +190,9 @@ public class HistoryPrice<T> implements Iterable<Map.Entry<Date,Double>> {
 			cs.setPrice(get(now));
 			return cs;
 		}
-		
+
 		return null;
 	}
 
-	
+
 }

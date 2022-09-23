@@ -8,20 +8,20 @@ import org.magic.api.interfaces.MTGComparator;
 
 public class CardsEditionSorter implements MTGComparator<MagicCard> {
 
-	
+
 	@Override
 	public String toString() {
 		return "Edition Sorter";
 	}
-	
+
 	@Override
 	public int compare(MagicCard o1, MagicCard o2) {
-		
+
 		try {
-			
+
 		boolean o1NullNumber=StringUtils.isEmpty(o1.getCurrentSet().getNumber());
 		boolean o2NullNumber=StringUtils.isEmpty(o2.getCurrentSet().getNumber());
-	
+
 		if (!o1NullNumber && !o2NullNumber && (o1.getCurrentSet().equals(o2.getCurrentSet()))) {
 			int n1 = calculate(o1.getCurrentSet().getNumber());
 			int n2 = calculate(o2.getCurrentSet().getNumber());
@@ -34,13 +34,13 @@ public class CardsEditionSorter implements MTGComparator<MagicCard> {
 			ret = name(o1, o2);
 
 		return ret;
-		
+
 		}
 		catch(Exception e)
 		{
 			return 0;
 		}
-		
+
 	}
 
 	private int test(MagicCard o1, MagicCard o2) {
@@ -80,6 +80,7 @@ public class CardsEditionSorter implements MTGComparator<MagicCard> {
 		return o1.getName().compareTo(o2.getName());
 	}
 
+	@Override
 	public int getWeight(MagicCard mc) {
 
 		if (mc.getColors().isEmpty()) {
@@ -101,7 +102,7 @@ public class CardsEditionSorter implements MTGComparator<MagicCard> {
 		}
 
 		return MTGColor.determine(mc.getColors()).getPosition();
-		
+
 	}
 
 }

@@ -21,13 +21,13 @@ import org.magic.tools.UITools;
 import com.google.common.collect.Lists;
 
 public class TransactionDashlet extends AbstractJDashlet {
-	
+
 	private static final long serialVersionUID = 1L;
 	private static final String PROPERTY = "PROPERTY";
 	private JCheckBox chkSumOrTotal;
 	private JComboBox<String> cboProperty;
 	private TransactionChartPanel chart;
-	
+
 	@Override
 	public String getCategory() {
 		return "Financial";
@@ -36,29 +36,29 @@ public class TransactionDashlet extends AbstractJDashlet {
 	@Override
 	public void initGUI() {
 		getContentPane().setLayout(new BorderLayout(0, 0));
-		
+
 		var panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
-		
+
 		cboProperty = UITools.createCombobox(Lists.newArrayList("transporter","contact","dateCreation","statut"));
 		panel.add(cboProperty);
-		
+
 		chkSumOrTotal = new JCheckBox("Count");
 		panel.add(chkSumOrTotal);
-		
+
 		chart = new TransactionChartPanel(true);
-		
-		
+
+
 		getContentPane().add(chart,BorderLayout.CENTER);
-		
-		
+
+
 		chkSumOrTotal.addChangeListener(e->init());
 		cboProperty.addItemListener(ie -> {
 			if(ie.getStateChange()==ItemEvent.SELECTED)
-				init();	
+				init();
 		});
-		
-		
+
+
 		if (getProperties().size() > 0) {
 			var r = new Rectangle((int) Double.parseDouble(getString("x")),
 					(int) Double.parseDouble(getString("y")), (int) Double.parseDouble(getString("w")),
@@ -66,10 +66,10 @@ public class TransactionDashlet extends AbstractJDashlet {
 
 			if(!getString(PROPERTY).isEmpty())
 				cboProperty.setSelectedItem(getString(PROPERTY));
-			
-			
+
+
 			chkSumOrTotal.setSelected(getString("COUNT").equals("true"));
-			
+
 			setBounds(r);
 		}
 
@@ -96,5 +96,5 @@ public class TransactionDashlet extends AbstractJDashlet {
 		return "Transactions Analyse";
 	}
 
-	
+
 }

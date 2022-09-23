@@ -20,8 +20,8 @@ import org.magic.tools.UITools;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 public class WebsiteExportWorker extends SwingWorker<Void, Integer> {
-	
-	
+
+
 	private String templateName;
 	private File dest;
 	protected AbstractBuzyIndicatorComponent buzy;
@@ -38,8 +38,8 @@ public class WebsiteExportWorker extends SwingWorker<Void, Integer> {
 		this.buzy=buzy;
 		o=(Observable obs, Object c)->publish((Integer)c);
 	}
-	
-	
+
+
 	@Override
 	protected Void doInBackground() throws Exception {
 		var gen = new MagicWebSiteGenerator(templateName, dest.getAbsolutePath());
@@ -48,17 +48,17 @@ public class WebsiteExportWorker extends SwingWorker<Void, Integer> {
 
 		return null;
 	}
-	
+
 	@Override
 	protected void process(List<Integer> chunks) {
 		buzy.progressSmooth(chunks.size());
 	}
-	
-	
+
+
 	@Override
 	protected void done() {
-		
-		
+
+
 		try {
 			get();
 		}
@@ -73,14 +73,14 @@ public class WebsiteExportWorker extends SwingWorker<Void, Integer> {
 			buzy.end();
 			return;
 		}
-		
-		
+
+
 		int res = JOptionPane.showConfirmDialog(null,capitalize("WEBSITE_CONFIRMATION_VIEW"));
 
 		if (res == JOptionPane.YES_OPTION) {
 			var p = Paths.get(dest.getAbsolutePath());
 			UITools.browse(p.toUri().toASCIIString());
-			
+
 		}
 		buzy.end();
 	}

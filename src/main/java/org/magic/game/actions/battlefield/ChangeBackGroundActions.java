@@ -19,14 +19,14 @@ import org.magic.tools.ImageTools;
 public class ChangeBackGroundActions extends AbstractAction {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	private File lastDir = MTGConstants.DATA_DIR;
-	
-	
+
+
 	public ChangeBackGroundActions() {
 		super("Change Background");
 		putValue(SHORT_DESCRIPTION, "Change the background of Battlefield");
@@ -40,9 +40,9 @@ public class ChangeBackGroundActions extends AbstractAction {
 		var choose = new JFileChooser(lastDir);
 		choose.showOpenDialog(null);
 		if (choose.getSelectedFile() != null) {
-			
+
 			lastDir = choose.getCurrentDirectory();
-			
+
 			BufferedImage im;
 			try {
 				im = ImageTools.read(choose.getSelectedFile());

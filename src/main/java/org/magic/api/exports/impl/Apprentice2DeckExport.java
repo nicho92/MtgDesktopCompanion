@@ -44,22 +44,22 @@ public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 			temp.append(System.lineSeparator());
 			notify(mc);
 		}
-		
+
 		FileTools.saveFile(dest, temp.toString());
-		
+
 	}
-	
+
 	@Override
 	public MagicDeck importDeck(String f,String name) throws IOException {
 		var deck = new MagicDeck();
 			deck.setName(name);
-			
-			
+
+
 			for(var m : matches(f,true))
 			{
 				var mc = parseMatcherWithGroup(m, 3, 4, true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NAME);
 				var qte = Integer.parseInt(m.group(2));
-				
+
 				if(mc!=null) {
 					if (m.group(1).startsWith("SB"))
 						deck.getSideBoard().put(mc, qte);

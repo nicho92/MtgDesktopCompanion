@@ -32,7 +32,7 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
 
 public class TrendingDashlet extends AbstractJDashlet {
-	
+
 	private static final long serialVersionUID = 1L;
 	private JXTable table;
 	private CardShakerTableModel modStandard;
@@ -43,12 +43,13 @@ public class TrendingDashlet extends AbstractJDashlet {
 	public ImageIcon getDashletIcon() {
 		return MTGConstants.ICON_EURO;
 	}
-	
+
 	@Override
 	public String getCategory() {
 		return "Market";
 	}
 
+	@Override
 	public void initGUI() {
 		JButton btnRefresh;
 		JPanel panel;
@@ -62,18 +63,18 @@ public class TrendingDashlet extends AbstractJDashlet {
 
 		btnRefresh = new JButton("");
 		btnRefresh.addActionListener(ae -> init());
-		
+
 		cboFormats.addItemListener(ie -> {
 			if(ie.getStateChange()==ItemEvent.SELECTED)
 				init();
 		});
-		
-		
+
+
 		btnRefresh.setIcon(MTGConstants.ICON_REFRESH);
 		panneauHaut.add(btnRefresh);
 		panneauHaut.add(lblLoading);
 
-		
+
 
 		modStandard = new CardShakerTableModel();
 		table = UITools.createNewTable(modStandard);
@@ -86,11 +87,11 @@ public class TrendingDashlet extends AbstractJDashlet {
 		table.getColumnExt(modStandard.getColumnName(5)).setVisible(false);
 		table.getColumnExt(modStandard.getColumnName(6)).setVisible(false);
 
-	
+
 		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
-		
-		
-		
+
+
+
 		if (getProperties().size() > 0) {
 			var r = new Rectangle((int) Double.parseDouble(getString("x")),
 					(int) Double.parseDouble(getString("y")), (int) Double.parseDouble(getString("w")),
@@ -112,7 +113,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 				try {
 					CardShake cs = UITools.getTableSelection(table, 0);
 					UITools.browse(cs.getLink());
-				
+
 				}catch(Exception ex)
 				{
 					logger.error("error", ex);
@@ -125,18 +126,19 @@ public class TrendingDashlet extends AbstractJDashlet {
 		getContentPane().add(panel, BorderLayout.SOUTH);
 	}
 
+	@Override
 	public void init() {
-		
-		
-		
+
+
+
 		SwingWorker<List<CardShake>, CardShake> sw = new SwingWorker<>()
 		{
-			
+
 			@Override
 			protected List<CardShake> doInBackground() throws Exception {
 				return getEnabledPlugin(MTGDashBoard.class).getShakerFor((MagicFormat.FORMATS) cboFormats.getSelectedItem());
 			}
-			
+
 			@Override
 			protected void done() {
 				try {
@@ -149,7 +151,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 				}
 				catch (Exception e) {
 					logger.error(e);
-				} 
+				}
 				lblLoading.end();
 				setProperty("FORMAT", ((MagicFormat.FORMATS) cboFormats.getSelectedItem()).toString());
 
@@ -166,9 +168,9 @@ public class TrendingDashlet extends AbstractJDashlet {
 					// do nothing
 				}
 			}
-			
+
 		};
-		
+
 		lblLoading.start();
 		ThreadManager.getInstance().runInEdt(sw,"Init Formats Dashlet");
 

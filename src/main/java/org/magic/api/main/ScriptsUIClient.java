@@ -15,20 +15,20 @@ import org.magic.services.threads.ThreadManager;
 public class ScriptsUIClient {
 
 	public static void main(String[] args) throws SQLException {
-		
+
 		MTGControler.getInstance();
-		
+
 		getEnabledPlugin(MTGCardsProvider.class).init();
 		getEnabledPlugin(MTGDao.class).init();
-		
+
 		ThreadManager.getInstance().invokeLater(new MTGRunnable() {
-			
+
 			@Override
 			protected void auditedRun() {
 				MTGUIComponent.createJFrame(new ScriptPanel(), true, true).setVisible(true);
-				
+
 			}
 		}, "Loading Script Client");
 	}
-	
+
 }

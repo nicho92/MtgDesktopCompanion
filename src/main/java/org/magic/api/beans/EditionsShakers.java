@@ -12,24 +12,24 @@ public class EditionsShakers implements Iterable<CardShake> {
 	private String providerName;
 	private Date date;
 	private MagicEdition edition;
-	
+
 	public EditionsShakers() {
 		shakes = new ArrayList<>();
 	}
-	
+
 	public void addShake(CardShake shake)
 	{
 		shakes.add(shake);
 	}
-	
+
 	public MagicEdition getEdition() {
 		return edition;
 	}
-	
+
 	public void setEdition(MagicEdition edition) {
 		this.edition = edition;
 	}
-	
+
 	public List<CardShake> getShakes() {
 		return shakes;
 	}
@@ -62,12 +62,12 @@ public class EditionsShakers implements Iterable<CardShake> {
 	public boolean isEmpty() {
 		return shakes.isEmpty();
 	}
-	
+
 	public int getSize()
 	{
 		return shakes.size();
 	}
-	
+
 	public CardShake getShakeFor(MagicCard mc, boolean foil)
 	{
 		Optional<CardShake> opt = shakes.stream().filter(s->s.getName().equalsIgnoreCase(mc.getName()) && s.isFoil()==foil).findAny();
@@ -75,8 +75,8 @@ public class EditionsShakers implements Iterable<CardShake> {
 			return opt.get();
 		else
 			return null;
-		
+
 	}
-	
+
 
 }

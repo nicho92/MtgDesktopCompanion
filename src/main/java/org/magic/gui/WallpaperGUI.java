@@ -57,14 +57,14 @@ public class WallpaperGUI extends MTGUIComponent {
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_WALLPAPER;
 	}
-	
+
 	@Override
 	public String getTitle() {
 		return capitalize("WALLPAPER");
 	}
-	
-	
-	
+
+
+
 	public void addComponent(JWallThumb i) {
 		if (index >= val) {
 			c.gridy = c.gridy + 1;
@@ -74,7 +74,7 @@ public class WallpaperGUI extends MTGUIComponent {
 		c.gridx = c.gridx + 1;
 		panelThumnail.add(i, c);
 		index++;
-		
+
 		revalidate();
 
 	}
@@ -87,8 +87,8 @@ public class WallpaperGUI extends MTGUIComponent {
 
 		panelThumnail = new JPanel();
 		add(new JScrollPane(panelThumnail), BorderLayout.CENTER);
-		
-		
+
+
 		c = new GridBagConstraints();
 		c.insets = new Insets(2, 2, 2, 2);
 		c.anchor = GridBagConstraints.NORTHWEST;
@@ -107,13 +107,13 @@ public class WallpaperGUI extends MTGUIComponent {
 		panel.add(cboWallpapersProv);
 
 		txtSearch = UITools.createSearchField();
-		
+
 		panel.add(txtSearch);
 		txtSearch.setColumns(20);
 
-		
-		txtSearch.addActionListener(e ->{ 
-			
+
+		txtSearch.addActionListener(e ->{
+
 			panelThumnail.removeAll();
 			panelThumnail.revalidate();
 			index = 0;
@@ -122,7 +122,7 @@ public class WallpaperGUI extends MTGUIComponent {
 			c.gridx = 0;
 			c.gridy = 0;
 			lblLoad.start();
-			
+
 			SwingWorker<List<Wallpaper>, Wallpaper> sw = new SwingWorker<>() {
 
 				@Override
@@ -144,12 +144,12 @@ public class WallpaperGUI extends MTGUIComponent {
 					for (Wallpaper w : chunks) {
 						var thumb = new JWallThumb(w);
 						addComponent(thumb);
-						
+
 						thumb.addMouseListener(new MouseAdapter() {
 							@Override
 							public void mouseClicked(MouseEvent e) {
 								thumb.selected(!thumb.isSelected());
-	
+
 							}
 						});
 				}
@@ -157,13 +157,13 @@ public class WallpaperGUI extends MTGUIComponent {
 
 				@Override
 				protected void done() {
-					lblLoad.end();				
+					lblLoad.end();
 				}
 			};
-			
-			
+
+
 			ThreadManager.getInstance().runInEdt(sw,"searching " + txtSearch.getText());
-		
+
 		});
 
 		lblLoad = AbstractBuzyIndicatorComponent.createLabelComponent();
@@ -195,7 +195,7 @@ public class WallpaperGUI extends MTGUIComponent {
 
 			if (!error)
 				MTGControler.getInstance().notify(new MTGNotification("OK", MTGControler.getInstance().getLangService().get("FINISHED"), MESSAGE_TYPE.INFO));
-			
+
 
 		});
 
@@ -205,7 +205,7 @@ public class WallpaperGUI extends MTGUIComponent {
 
 class JWallThumb extends JLabel {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private boolean selected = false;
@@ -260,19 +260,19 @@ class JWallThumb extends JLabel {
 		setVerticalTextPosition(SwingConstants.BOTTOM);
 		setText(w.getName());
 		setOpaque(true);
-		
+
 		if(w.getPicture()==null)
 			try {
 				wall = w.load();
 			} catch (IOException e) {
 				logger.error(e);
 			}
-		
+
 		resizePic(400);
 	}
 
-	
-	
+
+
 	@Override
 	public Dimension getPreferredSize() {
 		return new Dimension(size, size + fontHeight);

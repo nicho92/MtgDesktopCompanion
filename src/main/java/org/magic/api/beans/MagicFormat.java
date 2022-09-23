@@ -8,8 +8,8 @@ public class MagicFormat implements Serializable {
 
 	public enum FORMATS {STANDARD, LEGACY, VINTAGE, MODERN, COMMANDER, PAUPER, PIONEER, BRAWL, FRONTIER}
 	public enum AUTHORIZATION {LEGAL, RESTRICTED, BANNED,  NOT_LEGAL}
-	
-	
+
+
 	public static String toString(FORMATS f)
 	{
 		return StringUtils.capitalize(f.name().toLowerCase());
@@ -23,32 +23,33 @@ public class MagicFormat implements Serializable {
 	public MagicFormat() {
 
 	}
-	
+
 	public MagicFormat(String format, AUTHORIZATION legality)
 	{
 		this.format=format;
 		formatLegality=legality;
 	}
-	
+
 	public AUTHORIZATION getFormatLegality() {
 		return formatLegality;
 	}
-	
+
 	public void setFormatLegality(AUTHORIZATION formatLegality) {
 		this.formatLegality = formatLegality;
 	}
-	
-	
+
+
 	public String getFormat() {
 		return format;
 	}
-	
+
 
 
 	public void setFormat(String format) {
 		this.format = format;
 	}
-	
+
+	@Override
 	public String toString() {
 		return getFormat() + " " + formatLegality;
 	}
@@ -60,10 +61,7 @@ public class MagicFormat implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null)
-			return false;
-
-		if (this.getClass() != obj.getClass())
+		if ((obj == null) || (this.getClass() != obj.getClass()))
 			return false;
 
 		return getFormat().equalsIgnoreCase(((MagicFormat) obj).getFormat());
@@ -72,6 +70,6 @@ public class MagicFormat implements Serializable {
 
 	public void setFormat(FORMATS standard) {
 		format = StringUtils.capitalize(standard.name().toLowerCase());
-		
+
 	}
 }

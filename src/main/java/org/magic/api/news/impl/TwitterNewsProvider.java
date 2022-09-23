@@ -22,7 +22,7 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 
 	private TwitterFactory tf;
 
-	
+
 	@Override
 	public List<String> listAuthenticationAttributes() {
 		return List.of("CONSUMER_KEY","CONSUMER_SECRET","ACCESS_TOKEN","ACCESS_TOKEN_SECRET");
@@ -30,7 +30,7 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 
 	@Override
 	public List<MagicNewsContent> listNews(MagicNews n) throws IOException {
-		
+
 		if(tf==null)
 		{
 			ConfigurationBuilder cb = new ConfigurationBuilder();
@@ -39,9 +39,9 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 					.setOAuthAccessTokenSecret(getAuthenticator().get("ACCESS_TOKEN_SECRET"));
 			tf = new TwitterFactory(cb.build());
 		}
-		
-		
-		
+
+
+
 		var twitter = tf.getInstance();
 		var query = new Query(n.getName());
 		query.setCount(getInt("MAX_RESULT"));
@@ -60,7 +60,7 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 					content.setContent(status.getText());
 					content.setLink(new URL(
 							"https://mobile.twitter.com/" + status.getUser().getScreenName() + "/status/" + status.getId()));
-					
+
 					content.setTitle(status.getText());
 					ret.add(content);
 				}
@@ -83,7 +83,7 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 		return STATUT.DEV;
 	}
 
-	
+
 	@Override
 	public String getVersion() {
 		return Version.getVersion();
@@ -95,5 +95,5 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 								"LOG", "false");
 
 	}
-	
+
 }

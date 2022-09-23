@@ -18,24 +18,24 @@ import org.magic.services.network.URLTools;
 public class MagicBazarPricer extends AbstractPricesProvider {
 
 	private static final String BASE_URL="https://en.play-in.com/";
-	
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
 	}
-	
+
 	private String getPage(String name) throws IOException
 	{
 		String autocomplete = BASE_URL+"/api/autocompletion.php?search="+URLTools.encode(name);
 		Document ret = URLTools.extractAsHtml(autocomplete);
 		return BASE_URL+ret.select("a").first().attr("href");
-		
+
 	}
-	
+
 
 	@Override
 	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
-		
+
 		List<MagicPrice> list = new ArrayList<>();
 
 		String page = getPage(card.getName());
@@ -43,22 +43,21 @@ public class MagicBazarPricer extends AbstractPricesProvider {
 
 		try {
 			Document doc = URLTools.extractAsHtml(page);
-			Elements els = doc.select("div.filterElement"); 
+			Elements els = doc.select("div.filterElement");
 			var lang = "";
 			var set = "";
-			for (var i = 0; i < els.size(); i++) {
-				Element e = els.get(i);
+			for (Element e : els) {
 				var mp = new MagicPrice();
-				
+
 				if(!e.select("img.langue_big").first().attr("alt").isEmpty())
 					lang=e.select("img.langue_big").first().attr("alt");
-				
-				
+
+
 				if(!e.getElementsByClass("name_ext").text().isEmpty())
 					set=e.getElementsByClass("name_ext").text();
-				
-				
-				
+
+
+
 				mp.setMagicCard(card);
 				mp.setLanguage(lang);
 				mp.setQuality(e.getElementsByClass("etat").html());

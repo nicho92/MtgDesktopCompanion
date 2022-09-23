@@ -22,31 +22,31 @@ public class ServersGUI extends MTGUIComponent {
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_TAB_ACTIVESERVER;
 	}
-	
+
 	@Override
 	public String getTitle() {
 		return capitalize("ACTIVE_SERVERS");
 	}
-	
-	
+
+
 	public ServersGUI() {
-		
+
 		List<MTGServer> list = listPlugins(MTGServer.class);
-		
-		
+
+
 		setLayout(new GridLayout(list.size(), 1, 0, 0));
-		
+
 		ThreadManager.getInstance().invokeLater(new MTGRunnable() {
-			
+
 			@Override
 			protected void auditedRun() {
 				for (MTGServer s : list) {
 					add(new ServerStatePanel(s));
 				}
-				
+
 			}
 		}, "adding Servers Panels");
-		
-		
+
+
 	}
 }

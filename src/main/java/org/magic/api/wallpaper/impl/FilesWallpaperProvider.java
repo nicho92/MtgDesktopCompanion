@@ -56,7 +56,7 @@ public class FilesWallpaperProvider extends AbstractWallpaperProvider {
 		return "File";
 	}
 
-	
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of("DIRECTORY", ".",

@@ -85,18 +85,18 @@ public class CardBuilder2GUI extends MTGUIComponent {
 	private JXTable listNames;
 	private MagicCardNamesTableModel namesModel;
 
-	
+
 	@Override
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_BUILDER;
 	}
-	
+
 	@Override
 	public String getTitle() {
 		return capitalize("BUILDER_MODULE");
 	}
-	
-	
+
+
 	@Override
 	public void onFirstShowing() {
 		try {
@@ -105,9 +105,9 @@ public class CardBuilder2GUI extends MTGUIComponent {
 		} catch (IOException e) {
 			logger.error(e);
 		}
-		
+
 	}
-	
+
 	public CardBuilder2GUI() {
 		try {
 			//////////////////////////////////////////////////// INIT LOCAL COMPONENTS
@@ -168,12 +168,12 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				protected void paintComponent(Graphics g) {
 					super.paintComponent(g);
 					g.drawImage(cardImage, 0, 0, null);
-					
-					
+
+
 					if (magicCardEditorPanel.getImagePanel().getCroppedImage() != null && getEnabledPlugin(MTGPictureEditor.class).getMode()==MOD.LOCAL)
 						g.drawImage(magicCardEditorPanel.getImagePanel().getCroppedImage(), 35, 68, 329, 242, null);
-					
-					
+
+
 					revalidate();
 				}
 			};
@@ -191,11 +191,11 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			spinCommon.setModel(new SpinnerNumberModel(0, 0, null, 1));
 			spinUnco.setModel(new SpinnerNumberModel(0, 0, null, 1));
 			spinRare.setModel(new SpinnerNumberModel(0, 0, null, 1));
-			
-			List<MagicEdition> eds = provider.listEditions();	
+
+			List<MagicEdition> eds = provider.listEditions();
 			cboSets.setModel(new DefaultComboBoxModel<>(eds.toArray(new MagicEdition[eds.size()])));
-			
-			
+
+
 			//////////////////////////////////////////////////// LAYOUT CONFIGURATION
 			setLayout(new BorderLayout(0, 0));
 			panelSets.setLayout(new BorderLayout(0, 0));
@@ -213,7 +213,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			var gbcSpinUnco = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 1);
 			var gbcLblRareMythic = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 2);
 			var gbcSpinRare = UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 2);
-		
+
 			var gridBagLayout = (GridBagLayout) magicCardEditorPanel.getLayout();
 			gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0};
 			gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0 };
@@ -222,8 +222,8 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			panelBooster.setLayout(gblPanelBooster);
 			splitcardEdPanel.setDividerLocation(0.5);
 			splitcardEdPanel.setResizeWeight(0.5);
-			
-			
+
+
 			//////////////////////////////////////////////////// PANEL ADDS
 			add(tabbedPane);
 			panelCards.add(panelCardsHaut, BorderLayout.NORTH);
@@ -259,7 +259,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			legalitiesPanel.add(tglLeg);
 			legalitiesPanel.add(tglVin);
 			splitcardEdPanel.setLeftComponent(new JScrollPane(editionsTable));
-			
+
 			splitcardEdPanel.setRightComponent( new JScrollPane(cardsTable));
 			panelSets.add(magicEditionDetailPanel, BorderLayout.EAST);
 			panelMisc.add(foreignNamesEditorPanel);
@@ -269,11 +269,11 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			buttonsForeignNamesPanel.add(btnAddName);
 			buttonsForeignNamesPanel.add(btnRemoveName);
 
-			
+
 			//////////////////////////////////////////////////// COMPONENT CONFIG
-			
+
 			splitcardEdPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
-			
+
 			btnSaveEdition.setIcon(MTGConstants.ICON_SAVE);
 			btnNewSet.setIcon(MTGConstants.ICON_NEW);
 			btnRemoveEdition.setIcon(MTGConstants.ICON_DELETE);
@@ -281,7 +281,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			btnSaveEdition.setToolTipText("Save the set");
 			btnNewSet.setToolTipText("New set");
 			btnRemoveEdition.setToolTipText("Delete Set");
-			
+
 			panelEditionHaut.add(btnRefreshSet);
 			btnImport.setToolTipText("Import existing card");
 			btnSaveCard.setToolTipText("Save the card");
@@ -291,8 +291,8 @@ public class CardBuilder2GUI extends MTGUIComponent {
 
 			magicEditionDetailPanel.setEditable(true);
 
-			
-			
+
+
 			btnRefresh.setIcon(MTGConstants.ICON_REFRESH);
 			btnRemoveCard.setIcon(MTGConstants.ICON_DELETE);
 			btnNewCard.setIcon(MTGConstants.ICON_NEW);
@@ -303,20 +303,20 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			buttonsForeignNamesPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 
 			//////////////////////////////////////////////////// ACTION LISTENER
-			
+
 			magicCardEditorPanel.getSizeSpinner().addChangeListener(ce->getEnabledPlugin(MTGPictureEditor.class).setTextSize((Integer)magicCardEditorPanel.getSizeSpinner().getValue()));
 			magicCardEditorPanel.getColorIndicatorJCheckBox().addActionListener(ae->getEnabledPlugin(MTGPictureEditor.class).setColorIndicator(magicCardEditorPanel.getColorIndicatorJCheckBox().isSelected()));
 			magicCardEditorPanel.getChboxFoil().addActionListener(ae->getEnabledPlugin(MTGPictureEditor.class).setFoil(magicCardEditorPanel.getChboxFoil().isSelected()));
 			magicCardEditorPanel.getCboColorAccent().addItemListener(ie-> getEnabledPlugin(MTGPictureEditor.class).setColorAccentuation(magicCardEditorPanel.getCboColorAccent().getSelectedItem().toString()));
-			
-			
+
+
 			btnRefreshSet.addActionListener(e->{
-				
+
 				MagicEdition ed = (MagicEdition) editionsTable.getValueAt(editionsTable.getSelectedRow(), 1);
 				try {
 					List<MagicCard> cards = provider.getCards(ed);
 					ed.setCardCount(cards.size());
-					
+
 					cards.forEach(mc->mc.getCurrentSet().setNumber(null));
 					Collections.sort(cards,new CardsEditionSorter());
 					for(var i=0;i<cards.size();i++)
@@ -324,27 +324,27 @@ public class CardBuilder2GUI extends MTGUIComponent {
 							cards.get(i).getCurrentSet().setNumber(String.valueOf((i+1)));
 						}
 					provider.saveEdition(ed,cards);
-					
-					
-					
-					
-					
-					
+
+
+
+
+
+
 				} catch (IOException e1) {
 					logger.error(e1);
 				}
-				
-				
-				
-				
+
+
+
+
 			});
-			
+
 			btnRemoveName.addActionListener(e -> {
 				int row = listNames.getSelectedRow();
 				namesModel.removeRow(row);
 				namesModel.fireTableDataChanged();
 			});
-			
+
 			btnAddName.addActionListener(e -> {
 
 				var name = new MagicCardNames();
@@ -440,10 +440,10 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			cardsTable.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent me) {
-					
+
 					if(UITools.getTableSelections(cardsTable, 1).isEmpty())
 						return;
-					
+
 					MagicCard ed = UITools.getTableSelection(cardsTable, 0);
 					if (me.getClickCount() == 2) {
 						initCard(ed);
@@ -455,10 +455,10 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			editionsTable.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent me) {
-					
+
 					if(UITools.getTableSelections(editionsTable, 1).isEmpty())
 						return;
-					
+
 					MagicEdition ed =UITools.getTableSelection(editionsTable, 1);
 					try {
 						initEdition(ed);
@@ -469,17 +469,17 @@ public class CardBuilder2GUI extends MTGUIComponent {
 					}
 				}
 			});
-			
-			
+
+
 			btnSaveCard.addActionListener(e -> {
-				
-				
+
+
 				btnRefresh.doClick();
-				
+
 				MagicEdition me = (MagicEdition) cboSets.getSelectedItem();
 				var mc = magicCardEditorPanel.getMagicCard();
 				me.setNumber(mc.getCurrentSet().getNumber());
-	
+
 				if (mc.getId() == null)
 					mc.setId(DigestUtils.sha256Hex(me.getSet() + mc.getId() + mc.getName()));
 
@@ -500,7 +500,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			btnRefresh.addActionListener(e -> {
 				try {
 					BufferedImage img = getEnabledPlugin(MTGPictureEditor.class).getPicture(magicCardEditorPanel.getMagicCard(),(MagicEdition) cboSets.getSelectedItem());
-					
+
 					if(img!=null)
 					{
 						cardImage = ImageTools.scaleResize(img,panelPictures.getWidth());

@@ -23,9 +23,9 @@ public class MagarenaExport extends AbstractFormattedFileCardExport
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		var build = new StringBuilder();
 		deck.getMain().entrySet().forEach(e->build.append(e.getValue()).append(" ").append(e.getKey()).append("\n"));
-		
+
 		build.append(">").append(deck.getDescription());
-		
+
 		FileTools.saveFile(dest, build.toString());
 	}
 
@@ -34,22 +34,22 @@ public class MagarenaExport extends AbstractFormattedFileCardExport
 		var deck = new MagicDeck();
 		deck.setName(name);
 		matches(f, true).forEach(m->{
-			
+
 			try {
 				MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(m.group(4),null,true).get(0);
 				var qty = Integer.parseInt(m.group(3));
 				deck.getMain().put(mc, qty);
-				
+
 			} catch (Exception e) {
 				logger.error("error getting " + m.group(4));
 			}
-			
+
 			if(m.group().startsWith(">"))
 				deck.setDescription(m.group());
-			
+
 		});
-		
-		
+
+
 		return deck;
 	}
 

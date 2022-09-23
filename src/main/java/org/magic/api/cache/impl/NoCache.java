@@ -11,7 +11,7 @@ public class NoCache extends AbstractCacheProvider {
 		super();
 	}
 
-	
+
 	@Override
 	public String getName() {
 		return "No Cache";
@@ -33,7 +33,7 @@ public class NoCache extends AbstractCacheProvider {
 		// nothing to do
 
 	}
-	
+
 	@Override
 	public String getVersion() {
 		return "1";

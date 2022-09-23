@@ -16,19 +16,19 @@ public class PluginsAliasesProvider {
 	private Logger logger = MTGLogger.getLogger(PluginsAliasesProvider.class);
 	private static PluginsAliasesProvider inst;
 	private boolean useLocalAliases = false; //true uses local source
-	
+
 	public static PluginsAliasesProvider inst()
 	{
 		if(inst==null)
 			inst = new PluginsAliasesProvider();
-		
+
 		return inst;
 	}
-	
-	
-	
+
+
+
 	private PluginsAliasesProvider() {
-		
+
 		if (useLocalAliases) {
 			try {
 				logger.error(MTGConstants.MTG_DESKTOP_ALIASES_FILE);
@@ -48,13 +48,13 @@ public class PluginsAliasesProvider {
 		}
 		}
 	}
-	
+
 	public String getReversedSetIdFor(MTGPlugin plug, MagicEdition set)
 	{
 		return getReversedSetIdFor(plug, set.getId());
 	}
-	
-	
+
+
 	public String getReversedSetIdFor(MTGPlugin plug, String setId)
 	{
 		try{
@@ -66,8 +66,8 @@ public class PluginsAliasesProvider {
 			return setId;
 		}
 	}
-	
-	
+
+
 	public String getReversedSetNameFor(MTGPlugin plug, MagicEdition set)
 	{
 		return getReversedSetNameFor(plug, set.getId());
@@ -85,13 +85,13 @@ public class PluginsAliasesProvider {
 			return setName;
 		}
 	}
-	
+
 	public EnumCondition getReversedConditionFor(MTGPlugin plug, String conditionName, EnumCondition defaultCondition)
 	{
-		
+
 		if(conditionName==null)
 			return defaultCondition;
-	
+
 		try{
 			var ret= jsonData.get(plug.getName()).getAsJsonObject().get("conditions").getAsJsonObject().entrySet().stream().filter(e->e.getValue().getAsString().equals(conditionName)).findFirst().orElseThrow();
 			return EnumCondition.valueOf(ret.getKey());
@@ -101,13 +101,13 @@ public class PluginsAliasesProvider {
 			return defaultCondition;
 		}
 	}
-	
-	
+
+
 	public String getConditionFor(MTGPlugin plug, EnumCondition condition)
 	{
 		if(condition==null)
 			return "";
-		
+
 		try{
 			return jsonData.get(plug.getName()).getAsJsonObject().get("conditions").getAsJsonObject().get(condition.name()).getAsString();
 		}
@@ -116,22 +116,22 @@ public class PluginsAliasesProvider {
 			return condition.name();
 		}
 	}
-	
-	
-	
-	
+
+
+
+
 	public String getSetNameFor(MTGPlugin plug, MagicEdition ed)
 	{
 		return getSetNameFor(plug,ed.getSet());
 	}
-	
-	
+
+
 	public String getSetIdFor(MTGPlugin plug, MagicEdition ed)
 	{
 		return getSetIdFor(plug,ed.getId());
 	}
-	
-	
+
+
 	public String getSetIdFor(MTGPlugin plug, String ed)
 	{
 		try{
@@ -142,7 +142,7 @@ public class PluginsAliasesProvider {
 			return ed;
 		}
 	}
-	
+
 	public String getSetNameFor(MTGPlugin plug, String ed)
 	{
 		try{
@@ -153,6 +153,6 @@ public class PluginsAliasesProvider {
 			return ed;
 		}
 	}
-	
-	
+
+
 }

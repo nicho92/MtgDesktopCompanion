@@ -49,26 +49,26 @@ public class MTGHttpClient {
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private HttpResponse response;
 	private HttpClientConnectionManager connectionManager ;
-	
-	
+
+
 	public HttpClient getHttpclient() {
 		return httpclient;
 	}
-	
+
 	public HttpResponse getResponse() {
 		return response;
 	}
-	
+
 	public HttpClientContext getHttpContext() {
 		return httpContext;
 	}
-	
+
 	public MTGHttpClient() {
-		
+
 		connectionManager = new PoolingHttpClientConnectionManager();
 		connectionManager.closeExpiredConnections();
-		
-		
+
+
 		httpclient = HttpClients.custom()
 					 .setUserAgent(MTGConstants.USER_AGENT)
 					 .setRedirectStrategy(LaxRedirectStrategy.INSTANCE)
@@ -80,49 +80,49 @@ public class MTGHttpClient {
 							 							   .setConnectionRequestTimeout(MTGConstants.CONNECTION_TIMEOUT)
 							 							   .build())
 					 .build();
-		
-		
+
+
 		httpContext = new HttpClientContext();
 		cookieStore = new BasicCookieStore();
 		httpContext.setCookieStore(cookieStore);
 	}
-	
+
 	public String toString(HttpResponse response) throws IOException
 	{
 		var ret = EntityUtils.toString(response.getEntity());
 		EntityUtils.consume(response.getEntity());
 		return ret;
 	}
-	
+
 	public HttpClientConnectionManager getConnectionManager() {
 		return connectionManager;
 	}
-	
+
 	public HttpResponse execute(HttpRequestBase req) throws IOException
 	{
 		var info = new NetworkInfo();
 		info.setRequest(req);
 		info.setStart(Instant.now());
 		try{
-			logger.debug("execute " + req);
+			logger.debug("execute {}",req);
 			response = httpclient.execute(req,httpContext);
 			info.setReponse(response);
 		}
 		catch(Exception e)
 		{
-			logger.error(req.getURI() + " " + e);
+			logger.error( "uri={}",req.getURI(),e);
 			info.setReponse(DefaultHttpResponseFactory.INSTANCE.newHttpResponse(new StatusLine() {
-				
+
 				@Override
 				public int getStatusCode() {
 					return -1;
 				}
-				
+
 				@Override
 				public String getReasonPhrase() {
 					return e.getLocalizedMessage();
 				}
-				
+
 				@Override
 				public ProtocolVersion getProtocolVersion() {
 					return null;
@@ -133,25 +133,25 @@ public class MTGHttpClient {
 		TechnicalServiceManager.inst().store(info);
 		return response;
 	}
-	
+
 
 	public HttpResponse execute(RequestBuilder builder) throws IOException
 	{
-		
+
 		if(builder.getMethod()== METHOD.GET)
 			return doGet(builder.getUrl(),builder.getHeaders(),builder.getContent());
 
 		if(builder.getMethod()== METHOD.POST)
 			return doPost(builder.getUrl(), builder.getContent(), builder.getHeaders());
-		
+
 		if(builder.getMethod()== METHOD.PUT)
 			return doPut(builder.getUrl(), builder.getContent(), builder.getHeaders());
-		
-		
+
+
 		throw new IOException("choose a method with METHOD.POST/GET/PUT");
-		
+
 	}
-	
+
 	public HttpResponse doPut(String url, Map<String, String> entities, Map<String, String> headers) throws IOException {
 		return doPut(url,new UrlEncodedFormEntity(entities.entrySet().stream().map(e-> new BasicNameValuePair(e.getKey(), e.getValue())).toList()),headers);
 	}
@@ -161,32 +161,32 @@ public class MTGHttpClient {
 		try {
 			if(entities!=null)
 				putReq.setEntity(entities);
-			
+
 			if(headers!=null)
 				headers.entrySet().forEach(e->putReq.addHeader(e.getKey(), e.getValue()));
-			
+
 			return execute(putReq);
 		} catch (UnsupportedEncodingException e1) {
 			throw new IOException(e1);
 		}
 	}
-	
+
 	public HttpResponse doPost(String url, Map<String,String> entities, Map<String,String> headers) throws IOException
 	{
 		return doPost(url,new UrlEncodedFormEntity(entities.entrySet().stream().map(e-> new BasicNameValuePair(e.getKey(), e.getValue())).toList()),headers);
 	}
 
-	
+
 	public HttpResponse doPost(String url, HttpEntity entities, Map<String,String> headers) throws IOException
 	{
 		var postReq = new HttpPost(url);
 			try {
 				if(entities!=null)
 					postReq.setEntity(entities);
-				
+
 				if(headers!=null)
 					headers.entrySet().forEach(e->postReq.addHeader(e.getKey(), e.getValue()));
-				
+
 				return execute(postReq);
 
 			} catch (UnsupportedEncodingException e1) {
@@ -194,12 +194,12 @@ public class MTGHttpClient {
 			}
 
 	}
-	
+
 	public HttpResponse doGet(String url, Map<String,String> headers,Map<String,String> entities) throws IOException
 	{
 		var getReq = new HttpGet(url);
-		
-		if(entities!=null && !entities.isEmpty()) 
+
+		if(entities!=null && !entities.isEmpty())
 		{
 			try {
 				var builder = new URIBuilder(url);
@@ -209,18 +209,18 @@ public class MTGHttpClient {
 				throw new IOException(e1);
 			}
 		}
-		
-		
+
+
 		if(headers!=null && !headers.isEmpty())
 		{
 			for(Entry<String, String> e : headers.entrySet())
 				getReq.addHeader(e.getKey(), e.getValue());
-			
+
 		}
-		
-		
+
+
 		return  execute(getReq);
-		
+
 	}
 
 	public HttpResponse doGet(String url) throws IOException
@@ -237,7 +237,7 @@ public class MTGHttpClient {
 			}
 		}
 		return value;
-		
+
 	}
 
 	public List<Cookie> getCookies() {
@@ -249,13 +249,13 @@ public class MTGHttpClient {
 	public Builder<String, String> buildMap() {
 		return new ImmutableMap.Builder<>();
 	}
-	
+
 	public RequestBuilder build()
 	{
 		return RequestBuilder.build();
 	}
 
-	
+
 }
 
 

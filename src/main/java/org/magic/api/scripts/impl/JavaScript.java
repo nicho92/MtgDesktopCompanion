@@ -21,18 +21,18 @@ public class JavaScript extends AbstractJSR223MTGScript {
 	public String getEngineName() {
 		return getString("ENGINE");
 	}
-	
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
 	}
-	
-	
+
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		var m = super.getDefaultAttributes();
 		m.put("ENGINE", "rhino");
 		return m;
 	}
-	
+
 }

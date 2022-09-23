@@ -36,7 +36,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 	public String[] listFilter() {
 		return new String[] { STANDARD, MODERN, LEGACY, VINTAGE, COMMANDER,PIONEER,PAUPER};
 	}
-	
+
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 		logger.debug("get deck at " + info.getUrl());
@@ -53,7 +53,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 			var qte = Integer.parseInt(main.get(0).getElementsByClass(SUBDECK_GROUP_CARD_QTY).get(i).text());
 			String cardName = main.get(0).getElementsByClass("subdeck-group__card-name").get(i).text();
 
-			
+
 			if (cardName.contains("//"))
 				cardName = cardName.substring(0, cardName.indexOf("//")).trim();
 
@@ -66,7 +66,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 				logger.error(cardName +" is not found : " + e1);
 			}
 
-			
+
 		}
 
 		if (main.size() > 1) {
@@ -75,18 +75,18 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 				var qte = Integer.parseInt(main.get(1).getElementsByClass(SUBDECK_GROUP_CARD_QTY).get(i).text());
 				String cardName = main.get(1).getElementsByClass("subdeck-group__card-name").get(i).text();
 
-				
+
 				if (cardName.contains("//"))
 					cardName = cardName.substring(0, cardName.indexOf("//")).trim();
 				try {
 					MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( cardName, null, true).get(0);
 					deck.getSideBoard().put(mc, qte);
-					
+
 				}
 				 catch (IndexOutOfBoundsException e1) {
 					logger.error(cardName +" is not found : " + e1);
 				}
-					
+
 			}
 		}
 
@@ -104,7 +104,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 		for (var i = 1; i <= maxPage; i++) {
 			url = getString(URL) + "/magic/deck/search?format=" + filter + "&page=" + i;
 			Document d = IncapsulaParser.readUrl(url);
-			
+
 			for (Element tr : d.getElementsByClass("gradeA")) {
 				var deck = new RetrievableDeck();
 
@@ -126,12 +126,12 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 				String link = getString(URL) + tr.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).getElementsByTag("a").attr("href");
 				String deckPlayer = tr.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text();
 				String deckDesc = tr.getElementsByTag(MTGConstants.HTML_TAG_TD).get(3).text();
-				
+
 				deck.setColor(mana);
 				deck.setAuthor(deckPlayer);
 				deck.setName(deckName);
 				deck.setDescription(deckDesc);
-				
+
 				try {
 					deck.setUrl(new URI(link));
 				} catch (URISyntaxException e) {

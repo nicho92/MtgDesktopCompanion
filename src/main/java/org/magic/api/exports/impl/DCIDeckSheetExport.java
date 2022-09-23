@@ -50,7 +50,7 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 	public String getVersion() {
 		return POMReader.readVersionFromPom(PdfDocument.class, "/META-INF/maven/com.itextpdf/kernel/pom.properties");
 	}
-	
+
 
 	@Override
 	public MagicDeck importDeck(String f,String n) throws IOException {
@@ -61,35 +61,35 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 	public String getFileExtension() {
 		return ".pdf";
 	}
-	
-	
+
+
 	private Paragraph createParagraphe(String text, float x, float y)
 	{
 
 		try {
 			var font  = PdfFontFactory.createFont(StandardFonts.HELVETICA);
-		
+
 			return new Paragraph(text)
 					.setFont(font)
 					.setFontSize(11)
 					.setFixedPosition(x, y, 200)
 					.setTextAlignment(TextAlignment.LEFT);
-			
-			
+
+
 		} catch (IOException e) {
 			logger.error(e);
-			
+
 			return new Paragraph(text)
 					.setFontSize(11)
 					.setFixedPosition(x, y, 200)
 					.setTextAlignment(TextAlignment.LEFT);
-		}	
+		}
 	}
-	
-	
+
+
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
-		
+
 		try (
 				var pdfSrc = new PdfDocument(new PdfReader(this.getClass().getResource("/data/mtg_constructed_deck_registration_sheet.pdf").openStream()));
 				var docSrc = new Document(pdfSrc);
@@ -97,32 +97,32 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 				var docDest = new Document(pdfDest)
 			)
 			{
-			
+
 			pdfDest.setDefaultPageSize(PageSize.A4);
 			pdfSrc.copyPagesTo(1,1,pdfDest);
-	
+
 			float h = pdfDest.getDefaultPageSize().getHeight();
 			float w = pdfDest.getDefaultPageSize().getWidth();
-			
+
 			// HEADER
 			docDest.add(createParagraphe(getString(LAST_NAME).substring(0, 1).toUpperCase(), w-35, h-103));
-		
-			
+
+
 			if (!getString(FORCED_DATE).equalsIgnoreCase(""))
 				docDest.add(createParagraphe(getString(FORCED_DATE), w/3.2f, h-127));
 			else
 				docDest.add(createParagraphe(new SimpleDateFormat(getString(DATE_FORMAT)).format(new Date()), w/3.2f, h-127));
-			
+
 			docDest.add(createParagraphe(getString(LOCATION),w/3.2f,h-150));
-			
+
 			docDest.add(createParagraphe(getString(EVENT_NAME),w/1.40f,h-127));
 			docDest.add(createParagraphe(deck.getName(),w/1.40f,h-150));
 			if (getString(DECK_DESIGNER).equals(""))
 				docDest.add(createParagraphe(getString(LAST_NAME) + " " + getString(FIRST_NAME),w /1.40f, h-175));
 			else
 				docDest.add(createParagraphe(getString(DECK_DESIGNER),w /1.40f, h - 175));
-			
-			
+
+
 			// MAIN DECK
 			var count = 0;
 			for (Entry<MagicCard, Integer> e : deck.getMain().entrySet().stream().filter(e->!e.getKey().isBasicLand()).toList()) {
@@ -144,34 +144,34 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 				notify(mc);
 				count += 18;
 			}
-			
+
 			// BOTTOM card count
 			docDest.add(createParagraphe(String.valueOf(deck.getMainAsList().size()),(w/2)-25,40));
 			docDest.add(createParagraphe(String.valueOf(deck.getSideAsList().size()),w-55,95));
-			
+
 			// LEFT TEXT
 			var p = createParagraphe(getString(LAST_NAME),60,90);
 					  p.setRotationAngle(1.5708f);
 			docDest.add(p);
-			
+
 			p = createParagraphe(getString(FIRST_NAME),60,300);
 			p.setRotationAngle(1.5708f);
 			docDest.add(p);
-			
-			
-			
+
+
+
 			var dci = getString(DCI_NUMBER);
 			count = 0;
 			for (var i = 0; i < dci.length(); i++) {
 				var c = dci.charAt(i);
-				
+
 				p = createParagraphe(String.valueOf(c),60,(430 + count));
 				p.setRotationAngle(1.5708f);
 				docDest.add(p);
 				count += 22;
 			}
-			
-			
+
+
 		} catch (Exception e) {
 			throw new IOException(e.getMessage());
 		}
@@ -204,6 +204,6 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 								FORCED_DATE, "");
 
 	}
-	
-	
+
+
 }

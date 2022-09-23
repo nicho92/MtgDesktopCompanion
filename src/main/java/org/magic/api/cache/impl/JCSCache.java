@@ -19,22 +19,22 @@ import org.magic.tools.ImageTools;
 import org.magic.tools.POMReader;
 
 public class JCSCache extends AbstractCacheProvider {
-	
-	
+
+
 	private CacheAccess<String, byte[]> picturesCache;
-	
+
 	public JCSCache() {
 		super();
 		JCS.setConfigProperties(props);
 		picturesCache = JCS.getInstance("default");
 	}
-	
+
 	@Override
 	public void unload() {
 		JCS.shutdown();
 	}
-	
-	
+
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		var m = new HashMap<String, String>();
@@ -62,7 +62,7 @@ public class JCSCache extends AbstractCacheProvider {
 				m.put("jcs.auxiliary.DC.attributes.ShutdownSpoolTimeLimit","60");
 		return m;
 	}
-	
+
 	@Override
 	public BufferedImage getItem(MagicCard mc) {
 		return ImageTools.fromByteArray(picturesCache.get(generateIdIndex(mc)));
@@ -71,23 +71,23 @@ public class JCSCache extends AbstractCacheProvider {
 	@Override
 	public void put(BufferedImage im, MagicCard mc) throws IOException {
 		logger.debug("put {} in cache",mc);
-		
+
 		picturesCache.put(generateIdIndex(mc), ImageTools.toByteArray(im));
-		
+
 		logger.debug(picturesCache.getStats());
 	}
-	
+
 	@Override
 	public String getVersion() {
 		return POMReader.readVersionFromPom(JCS.class, "/META-INF/maven/org.apache.commons/commons-jcs-core/pom.properties");
 	}
-	
+
 
 	@Override
 	public Icon getIcon() {
 		return new ImageIcon(AbstractMTGPlugin.class.getResource("/icons/plugins/apache.png"));
 	}
-	
+
 
 
 	@Override
@@ -100,28 +100,28 @@ public class JCSCache extends AbstractCacheProvider {
 	public String getName() {
 		return "JCS";
 	}
-	
+
 	@Override
 	public long size() {
 		return FileUtils.sizeOfDirectory(getFile("jcs.auxiliary.DC.attributes.DiskPath"));
 	}
-	
+
 
 	@Override
 	public int hashCode() {
 		return getName().hashCode();
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		
+
 		if(obj ==null)
 			return false;
-		
+
 		return hashCode()==obj.hashCode();
 	}
-	
-	
+
+
 
 }
 

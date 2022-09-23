@@ -29,7 +29,7 @@ import org.magic.services.MTGControler;
 public class DefaultStockEditorDialog extends JDialog {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private static final String CHECKBOX_PROPERTIES = "selected";
@@ -50,7 +50,7 @@ public class DefaultStockEditorDialog extends JDialog {
 	private JLabel lblCondition;
 	private JComboBox<EnumCondition> cboConditions;
 
-	
+
 	/**
 	 * Create the dialog.
 	 */
@@ -82,14 +82,14 @@ public class DefaultStockEditorDialog extends JDialog {
 		componentGbc0.gridx = 1;
 		componentGbc0.gridy = 0;
 		mcontentPane.add(alteredJCheckBox, componentGbc0);
-		
+
 		var signedLabel = new JLabel("Signed:");
 				var labelGbc5 = new GridBagConstraints();
 				labelGbc5.insets = new Insets(5, 5, 5, 5);
 				labelGbc5.gridx = 2;
 				labelGbc5.gridy = 0;
 				mcontentPane.add(signedLabel, labelGbc5);
-		
+
 				signedJCheckBox = new JCheckBox();
 				var componentGbc5 = new GridBagConstraints();
 				componentGbc5.insets = new Insets(5, 0, 5, 0);
@@ -112,14 +112,14 @@ public class DefaultStockEditorDialog extends JDialog {
 		componentGbc1.gridx = 1;
 		componentGbc1.gridy = 1;
 		mcontentPane.add(foilJCheckBox, componentGbc1);
-		
+
 		var oversizeLabel = new JLabel("Oversize:");
 				var labelGbc3 = new GridBagConstraints();
 				labelGbc3.insets = new Insets(5, 5, 5, 5);
 				labelGbc3.gridx = 2;
 				labelGbc3.gridy = 1;
 				mcontentPane.add(oversizeLabel, labelGbc3);
-		
+
 				oversizeJCheckBox = new JCheckBox();
 				var componentGbc3 = new GridBagConstraints();
 				componentGbc3.insets = new Insets(5, 0, 5, 0);
@@ -127,14 +127,14 @@ public class DefaultStockEditorDialog extends JDialog {
 				componentGbc3.gridx = 3;
 				componentGbc3.gridy = 1;
 				mcontentPane.add(oversizeJCheckBox, componentGbc3);
-				
+
 				var qteLabel = new JLabel("Qte:");
 						var labelGbc4 = new GridBagConstraints();
 						labelGbc4.insets = new Insets(5, 5, 5, 5);
 						labelGbc4.gridx = 0;
 						labelGbc4.gridy = 2;
 						mcontentPane.add(qteLabel, labelGbc4);
-				
+
 				panel1 = new JPanel();
 				var gbcpanel1 = new GridBagConstraints();
 				gbcpanel1.gridwidth = 3;
@@ -145,22 +145,22 @@ public class DefaultStockEditorDialog extends JDialog {
 				lblQtyValue = new JLabel();
 				lblQtyValue.setPreferredSize(new Dimension(50, 25));
 				mcontentPane.add(panel1, gbcpanel1);
-				
+
 						qteJSlider = new JSlider();
 						panel1.add(qteJSlider);
 						qteJSlider.addChangeListener(event->lblQtyValue.setText("" + qteJSlider.getValue()));
 						qteJSlider.setPaintLabels(true);
-						
-						
+
+
 						panel1.add(lblQtyValue);
-		
+
 						var languageLabel = new JLabel("Language:");
 				var labelGbc2 = new GridBagConstraints();
 				labelGbc2.insets = new Insets(5, 5, 5, 5);
 				labelGbc2.gridx = 0;
 				labelGbc2.gridy = 3;
 				mcontentPane.add(languageLabel, labelGbc2);
-				
+
 						languageJTextField = new JTextField();
 						var componentGbc2 = new GridBagConstraints();
 						componentGbc2.gridwidth = 3;
@@ -169,7 +169,7 @@ public class DefaultStockEditorDialog extends JDialog {
 						componentGbc2.gridx = 1;
 						componentGbc2.gridy = 3;
 						mcontentPane.add(languageJTextField, componentGbc2);
-						
+
 						lblCondition = new JLabel("Condition :");
 						var gbclblCondition = new GridBagConstraints();
 						gbclblCondition.anchor = GridBagConstraints.EAST;
@@ -178,18 +178,18 @@ public class DefaultStockEditorDialog extends JDialog {
 						gbclblCondition.gridx = 0;
 						gbclblCondition.gridy = 4;
 						mcontentPane.add(lblCondition, gbclblCondition);
-						
-						
+
+
 						DefaultComboBoxModel<EnumCondition> modCondition = new DefaultComboBoxModel<>(EnumCondition.values());
 						cboConditions = new JComboBox<>(modCondition);
-						
+
 						cboConditions.addItemListener(ie->
 						{
 							if(ie.getStateChange()==ItemEvent.SELECTED)
 								magicCardStock.setCondition(EnumCondition.valueOf(cboConditions.getSelectedItem().toString()));
-									
+
 						});
-						
+
 						var gbccboConditions = new GridBagConstraints();
 						gbccboConditions.gridwidth = 3;
 						gbccboConditions.insets = new Insets(0, 0, 5, 5);
@@ -197,7 +197,7 @@ public class DefaultStockEditorDialog extends JDialog {
 						gbccboConditions.gridx = 1;
 						gbccboConditions.gridy = 4;
 						mcontentPane.add(cboConditions, gbccboConditions);
-						
+
 						panel = new JPanel();
 						var gbcpanel = new GridBagConstraints();
 						gbcpanel.gridwidth = 4;
@@ -205,14 +205,14 @@ public class DefaultStockEditorDialog extends JDialog {
 						gbcpanel.gridx = 0;
 						gbcpanel.gridy = 5;
 						mcontentPane.add(panel, gbcpanel);
-						
+
 						btnSave = new JButton(MTGConstants.ICON_SAVE);
 						btnSave.addActionListener(e->{
 							MTGControler.getInstance().setDefaultStock(getMagicCardStock());
 							dispose();
 						});
 						panel.add(btnSave);
-						
+
 						btnCancel = new JButton(MTGConstants.ICON_DELETE);
 						btnCancel.addActionListener(e->dispose());
 						panel.add(btnCancel);
@@ -221,7 +221,7 @@ public class DefaultStockEditorDialog extends JDialog {
 			mbindingGroup = initDataBindings();
 		}
 		pack();
-		
+
 	}
 
 	protected BindingGroup initDataBindings() {

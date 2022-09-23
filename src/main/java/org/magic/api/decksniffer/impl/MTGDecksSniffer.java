@@ -22,7 +22,7 @@ import org.magic.tools.InstallCert;
 
 public class MTGDecksSniffer extends AbstractDeckSniffer {
 
-	
+
 	private static final String MAX_PAGE = "MAX_PAGE";
 	private static final String URL = "URL";
 	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
@@ -39,12 +39,12 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 				}
 			}
 	}
-	
+
 	@Override
 	public String[] listFilter() {
 		return new String[] { "Standard", "Modern", "Legacy", "Vintage", "Commander", "Historic", "Pauper", "Pioneer",	"Highlander" };
 	}
-	
+
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 
@@ -76,7 +76,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 				MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, null, true).get(0);
 
 				notify(mc);
-				
+
 				if (!isSideboard)
 					deck.getMain().put(mc, Integer.parseInt(qte));
 				else
@@ -87,7 +87,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 				{
 					logger.error("No card found for " + name);
 				}
-				
+
 			}
 
 		}
@@ -108,7 +108,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 			Document d = URLTools.extractAsHtml(url);
 
 			Elements trs = d.select("table.hidden-xs tr ");
-		
+
 			for (var j = 1; j < trs.size(); j++) {
 				Element tr = trs.get(j);
 				var deck = new RetrievableDeck();

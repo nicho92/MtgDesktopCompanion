@@ -13,10 +13,10 @@ public class LanguageService {
 	private StringBuilder temp;
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 
-	
+
 	public String get(String k, Object... values) {
 		String t = get(k);
-		
+
 		for (var i = 0; i < values.length; i++) {
 			t = t.replaceFirst("%" + (i + 1), String.valueOf(values[i]));
 		}
@@ -49,7 +49,7 @@ public class LanguageService {
 	public Locale getDefault() {
 		return Locale.ENGLISH;
 	}
-	
+
 	public Locale[] getAvailableLocale() {
 		return new Locale[] { Locale.ENGLISH, Locale.FRENCH, Locale.JAPANESE, new Locale("pt", "br"), new Locale("nl", "be")};
 	}

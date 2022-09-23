@@ -12,7 +12,7 @@ public class UPSTrackingService extends AbstractTrackingService {
 	@Override
 	public Tracking track(String number) throws IOException {
 		var t = new Tracking(number);
-		
+
 		t.setTrackingUri("https://www.ups.com/track?loc=fr_FR&tracknum="+number);
 		t.setProductName("UPS");
 		t.addStep(new TrackingStep(new Date(),"no detail",""));

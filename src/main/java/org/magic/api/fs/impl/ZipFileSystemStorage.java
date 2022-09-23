@@ -11,9 +11,9 @@ import org.magic.services.MTGConstants;
 
 public class ZipFileSystemStorage extends AbstractFileStorage {
 
-	
-	
-	
+
+
+
 	@Override
 	public void initFileSystem() throws IOException {
 		Map<String, Object> env = new HashMap<>();
@@ -25,10 +25,10 @@ public class ZipFileSystemStorage extends AbstractFileStorage {
 	public String getName() {
 		return "Zip";
 	}
-	
-	
-	
-	
+
+
+
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of("ROOT", Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "ged.zip").toAbsolutePath().toString());
@@ -38,16 +38,16 @@ public class ZipFileSystemStorage extends AbstractFileStorage {
 
 	@Override
 	public void unload() {
-		
+
 		try {
 			if(getFilesSystem()==null)
 				return;
-	
+
 			if(getFilesSystem().isOpen())
 				getFilesSystem().close();
 		} catch (IOException e) {
 			logger.error("Error closing fs",e);
 		}
-		
+
 	}
 }

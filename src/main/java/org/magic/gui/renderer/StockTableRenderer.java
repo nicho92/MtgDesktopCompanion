@@ -28,8 +28,8 @@ public class StockTableRenderer implements TableCellRenderer{
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 		pane = new DefaultTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-		
-		
+
+
 		if(value instanceof Boolean)
 		{
 			pane= new BooleanCellEditorRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
@@ -51,12 +51,12 @@ public class StockTableRenderer implements TableCellRenderer{
 					((JPanel)pane).add(new JLabel(plug.getIcon()));
 				else
 					((JPanel)pane).add(new JLabel(e.getKey()));
-			}	
+			}
 			 );
-		} 
+		}
 		else if(value instanceof Grading g)
 		{
-			
+
 			try {
 				var c = PluginRegistry.inst().getPlugin(g.getGraderName(), MTGGraders.class).getIcon();
 				pane= new JLabel(g.toString(),c,SwingConstants.LEFT);
@@ -72,7 +72,7 @@ public class StockTableRenderer implements TableCellRenderer{
 		{
 			pane = new MagicEditionJLabelRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 		}
-		
+
 		if (((MTGStockItem) table.getModel().getValueAt(row, 0)).isUpdated()) {
 			pane.setBackground(Color.GREEN);
 			pane.setForeground(table.getForeground());

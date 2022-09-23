@@ -6,7 +6,7 @@ public enum EnumCondition {
 
 	MINT, NEAR_MINT, GOOD, LIGHTLY_PLAYED, PLAYED, POOR,PROXY, OVERSIZED,ONLINE,SEALED, OPENED, DAMAGED;
 
-	
+
 	public String toPrettyString() {
 		return StringUtils.capitalize(name().toLowerCase());
 	}

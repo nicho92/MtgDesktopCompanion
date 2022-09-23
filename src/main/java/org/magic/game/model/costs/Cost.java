@@ -8,5 +8,5 @@ public interface Cost  extends Serializable{
 	{
 		return false;
 	}
-	
+
 }

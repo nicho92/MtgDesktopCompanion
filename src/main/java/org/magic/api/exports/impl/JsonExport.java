@@ -47,7 +47,7 @@ public class JsonExport extends AbstractCardExport {
 	private static final String TAGS = "tags";
 	private static final String DESCRIPTION = "description";
 	private Gson gson;
-	
+
 	public JsonExport() {
 		gson=new GsonBuilder()
 				.registerTypeAdapter(MTGStockItem.class, new MTGStockItemAdapter())
@@ -58,7 +58,7 @@ public class JsonExport extends AbstractCardExport {
 				.setDateFormat("yyyy-MM-dd hh:mm").setPrettyPrinting()
 				.create();
 	}
-	
+
 	public void removePrettyString() {
 		gson=new GsonBuilder()
 				.registerTypeAdapter(MTGStockItem.class, new MTGStockItemAdapter())
@@ -69,51 +69,51 @@ public class JsonExport extends AbstractCardExport {
 				.setDateFormat("yyyy-MM-dd HH:mm")
 				.create();
 	}
-	
-	
-	
+
+
+
 	public String toJson(Object o)
 	{
-		
+
 		return gson.toJson(o);
 	}
-	
+
 	public JsonElement toJsonElement(Object o)
 	{
 		return gson.toJsonTree(o);
 	}
-	
+
 	public JsonArray toJsonArray(Object o,String arrAtts)
 	{
 		return toJsonElement(o).getAsJsonObject().get(arrAtts).getAsJsonArray();
 	}
-	
+
 	public JsonArray toJsonArray(Object o)
 	{
 		return toJsonElement(o).getAsJsonArray();
 	}
-	
+
 
 	public <U,V> Map<U,V> fromJsonCollection(String json) {
-		return gson.fromJson(json, new TypeToken<Map<U, V>>() 
+		return gson.fromJson(json, new TypeToken<Map<U, V>>()
 		{
 			private static final long serialVersionUID = 1L;
 		}.getType());
-		
+
 	}
-	
-			
+
+
 	public <T> T fromJson(String s,Class<T> classe)
 	{
 		return gson.fromJson(s, classe);
 	}
-	
+
 
 	public <T> T fromJson(Reader reader, Class<T> classItem) {
 		return gson.fromJson(reader, classItem);
 	}
 
-	
+
 	public <T> List<T> fromJsonList(Reader s,Class<T> classe)
 	{
 		ArrayList<T> list = new ArrayList<>();
@@ -121,8 +121,8 @@ public class JsonExport extends AbstractCardExport {
 		json.forEach(el->list.add(gson.fromJson(el.toString(),classe)));
 		return list;
 	}
-	
-	
+
+
 	public <T> List<T> fromJsonList(String s,Class<T> classe)
 	{
 		ArrayList<T> list = new ArrayList<>();
@@ -134,7 +134,7 @@ public class JsonExport extends AbstractCardExport {
 		{
 			logger.error(e);
 		}
-		
+
 		return list;
 	}
 
@@ -144,10 +144,10 @@ public class JsonExport extends AbstractCardExport {
 
 		var deck = new MagicDeck();
 			deck.setName(name);
-			
+
 		if (root.get(ID)!=null)
 			deck.setId(root.get(ID).getAsInt());
-			
+
 		if (!root.get(NAME).isJsonNull())
 			deck.setName(root.get(NAME).getAsString());
 
@@ -181,7 +181,7 @@ public class JsonExport extends AbstractCardExport {
 		if (root.get(AVERAGE_PRICE)!=null)
 			deck.setAveragePrice(root.get(AVERAGE_PRICE).getAsDouble());
 
-		
+
 		if (!root.get(TAGS).isJsonNull()) {
 			var arr = root.get(TAGS).getAsJsonArray();
 			for (var i = 0; i < arr.size(); i++)
@@ -238,7 +238,7 @@ public class JsonExport extends AbstractCardExport {
 			tags.add(s);
 
 		json.add(TAGS, tags);
-		
+
 		var main = new JsonArray();
 
 		for (MagicCard mc : deck.getMain().keySet()) {
@@ -297,15 +297,15 @@ public class JsonExport extends AbstractCardExport {
 
 		return list;
 	}
-	
-	
+
+
 	@Override
 	public String getVersion() {
 		return POMReader.readVersionFromPom(Gson.class, "/META-INF/maven/com.google.code.gson/gson/pom.properties");
 	}
 
 
-	
+
 	public <T extends MTGPlugin> JsonArray convert(List<T> l) {
 		var arr = new JsonArray();
 		for (MTGPlugin plug : l) {
@@ -314,5 +314,5 @@ public class JsonExport extends AbstractCardExport {
 		return arr;
 	}
 
-	
+
 }

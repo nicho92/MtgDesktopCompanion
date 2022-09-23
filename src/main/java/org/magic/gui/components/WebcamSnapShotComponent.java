@@ -25,7 +25,7 @@ import org.utils.webcam.WebcamUtils;
 import com.github.sarxos.webcam.Webcam;
 
 public class WebcamSnapShotComponent extends MTGUIComponent {
-	
+
 	private List<BufferedImage> snapshotImages;
 
 	private static final long serialVersionUID = 1L;
@@ -33,14 +33,14 @@ public class WebcamSnapShotComponent extends MTGUIComponent {
 	private transient SwingWorker<Void, MatchResult> swWebcamReader;
 	private boolean running=false;
 	private JButton btnClose ;
-	
-	
-	
+
+
+
 	@Override
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_WEBCAM;
 	}
-	
+
 	@Override
 	public String getTitle() {
 		return "Card Detector";
@@ -51,23 +51,23 @@ public class WebcamSnapShotComponent extends MTGUIComponent {
 		webcamCanvas.close();
 		running=false;
 		logger.debug("Closing cam done");
-		
+
 		if(swWebcamReader!=null)
 			swWebcamReader.cancel(true);
 
 	}
-	
+
 	public WebcamSnapShotComponent() {
 		snapshotImages = new ArrayList<>();
 		setLayout(new BorderLayout(0, 0));
-		
+
 		var gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0,0.0, 0.0, 0.0};
-		
-		
+
+
 		var panelControl = new JPanel();
 		var cboWebcams = UITools.createCombobox(WebcamUtils.inst().listWebcam(),MTGConstants.ICON_WEBCAM);
 		var controlWebcamPanel = new JPanel();
@@ -76,8 +76,8 @@ public class WebcamSnapShotComponent extends MTGUIComponent {
 		btnClose = new JButton(MTGConstants.ICON_IMPORT);
 		var btnReloadCams = new JButton(MTGConstants.ICON_REFRESH);
 		var btnAddCam = new JButton(MTGConstants.ICON_NEW);
-		
-		
+
+
 		webcamCanvas = new WebcamCanvas((Webcam)cboWebcams.getSelectedItem(),null);
 
 		panelControl.setLayout(gridBagLayout);
@@ -89,10 +89,10 @@ public class WebcamSnapShotComponent extends MTGUIComponent {
 		panelControl.add(btnStarting, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 1));
 		panelControl.add(btnSnap, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 2));
 		panelControl.add(btnClose, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 3));
-		
-		
+
+
 		add(panelControl, BorderLayout.EAST);
-		
+
 		add(webcamCanvas, BorderLayout.CENTER);
 
 		btnReloadCams.addActionListener(al->{
@@ -100,7 +100,7 @@ public class WebcamSnapShotComponent extends MTGUIComponent {
 			((DefaultComboBoxModel<Webcam>)cboWebcams.getModel()).addAll(WebcamUtils.inst().listWebcam());
 			cboWebcams.setSelectedItem(webcamCanvas.getWebcam());
 		});
-		
+
 		btnAddCam.addActionListener(al->{
 			var diag = new IPCamAddDialog();
 						   diag.setModal(true);
@@ -108,30 +108,30 @@ public class WebcamSnapShotComponent extends MTGUIComponent {
 			if(diag.isHasNew())
 				btnReloadCams.doClick();
 		});
-		
+
 		btnSnap.addActionListener(al->{
 			snapshotImages.add(webcamCanvas.lastDrawn());
 			btnSnap.setText(String.valueOf(snapshotImages.size()));
-			
+
 		});
-		
-		
+
+
 		btnStarting.addActionListener(al->{
 			webcamCanvas.setWebcam((Webcam)cboWebcams.getSelectedItem());
 			webcamCanvas.revalidate();
 			ThreadManager.getInstance().runInEdt(swWebcamReader, "Webcam");
-		});		
-		
+		});
+
 		swWebcamReader = new SwingWorker<>()
 		{
-			
+
 			@Override
-			protected Void doInBackground() 
+			protected Void doInBackground()
 			{
 				running=true;
 				try {
 					logger.info("start " + webcamCanvas.getWebcam() +" " + running);
-					while(running && isVisible()) 
+					while(running && isVisible())
 					{
 						webcamCanvas.draw();
 					}
@@ -140,13 +140,13 @@ public class WebcamSnapShotComponent extends MTGUIComponent {
 				{
 					logger.error("Error in webcam" ,e);
 				}
-				
+
 				return null;
 			}
-			
+
 			@Override
 			protected void done() {
-				
+
 				try {
 					logger.info("Stopping webcam " + webcamCanvas.getWebcam());
 					running=false;
@@ -164,21 +164,21 @@ public class WebcamSnapShotComponent extends MTGUIComponent {
 				catch (Exception e) {
 					running=false;
 					logger.error("Error Stopping webcam " + webcamCanvas.getWebcam(),e);
-				} 
-				
+				}
+
 			}
 		};
 	}
-	
+
 	public JButton getBtnClose() {
 		return btnClose;
 	}
-	
-	
+
+
 	public List<BufferedImage> getSnappedImages()
 	{
-		
+
 		return snapshotImages;
 	}
-		
+
 }

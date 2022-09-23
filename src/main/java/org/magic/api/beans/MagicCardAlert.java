@@ -17,11 +17,11 @@ public class MagicCardAlert {
 	public int getQty() {
 		return qty;
 	}
-	
+
 	public void setQty(int qty) {
 		this.qty = qty;
 	}
-	
+
 	@Override
 	public String toString() {
 		return String.valueOf(card);
@@ -64,20 +64,18 @@ public class MagicCardAlert {
 		this.price = price;
 	}
 
+	@Override
 	public int hashCode() {
 		if(getId()==null)
 			return -1;
-		
-		
+
+
 		return getId().hashCode();
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null)
-			return false;
-
-		if (this.getClass() != obj.getClass())
+		if ((obj == null) || (this.getClass() != obj.getClass()))
 			return false;
 
 		return ((MagicCardAlert) obj).getId().equals(getId());
@@ -104,5 +102,5 @@ public class MagicCardAlert {
 	public void setFoil(boolean foil) {
 		this.foil = foil;
 	}
-	
+
 }

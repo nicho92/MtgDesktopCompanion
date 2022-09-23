@@ -9,7 +9,7 @@ import org.magic.services.logging.MTGLogger;
 public abstract class AbstractCounter implements Serializable {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
@@ -20,16 +20,14 @@ public abstract class AbstractCounter implements Serializable {
 
 	public abstract String describe();
 
+	@Override
 	public String toString() {
 		return describe();
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null)
-			return false;
-
-		if (this.getClass() != obj.getClass())
+		if ((obj == null) || (this.getClass() != obj.getClass()))
 			return false;
 
 		return ((AbstractCounter) obj).hashCode() == this.hashCode();

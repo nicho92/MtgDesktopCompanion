@@ -22,8 +22,8 @@ public class RSSNewsProvider extends AbstractMagicNewsProvider {
 
 	@Override
 	public List<MagicNewsContent> listNews(MagicNews rssBean) throws IOException {
-		
-		
+
+
 		if(input==null)
 			input = new SyndFeedInput();
 
@@ -62,7 +62,7 @@ public class RSSNewsProvider extends AbstractMagicNewsProvider {
 
 		} catch (IllegalArgumentException | FeedException e) {
 			throw new IOException(e);
-		} 
+		}
 
 	}
 
@@ -71,7 +71,7 @@ public class RSSNewsProvider extends AbstractMagicNewsProvider {
 		return "RSS";
 	}
 
-	
+
 	@Override
 	public String getVersion() {
 		return "1.12.2";

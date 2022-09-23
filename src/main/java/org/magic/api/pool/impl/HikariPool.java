@@ -19,8 +19,8 @@ import com.zaxxer.hikari.HikariDataSource;
 public class HikariPool extends AbstractPoolProvider {
 
 	private HikariDataSource datasource;
-	
-	
+
+
 	@Override
 	public Connection getConnection() throws SQLException {
 		return datasource.getConnection();
@@ -29,9 +29,9 @@ public class HikariPool extends AbstractPoolProvider {
 	@Override
 	public void close() throws SQLException {
 		datasource.close();
-		
+
 	}
-	
+
 	@Override
 	public MTGDocumentation getDocumentation() {
 		try {
@@ -40,8 +40,8 @@ public class HikariPool extends AbstractPoolProvider {
 			return super.getDocumentation();
 		}
 	}
-	
-	
+
+
 	@Override
 	public void init(String url, String user, String pass, boolean enable) {
 		var c = new HikariConfig(props);
@@ -50,12 +50,12 @@ public class HikariPool extends AbstractPoolProvider {
 					 c.setPassword(pass);
 					 c.setThreadFactory(ThreadManager.getInstance().getFactory());
 		datasource = new HikariDataSource(c);
-		
+
 		  if(!enable) {
 			  datasource.setMinimumIdle(1);
 	          datasource.setMaximumPoolSize(1);
 		  }
-		
+
 	}
 
 	@Override
@@ -63,17 +63,17 @@ public class HikariPool extends AbstractPoolProvider {
 		return "Hikari";
 	}
 
-	
+
 	@Override
 	public String getVersion() {
 		return POMReader.readVersionFromPom(com.zaxxer.hikari.pool.HikariPool.class, "/META-INF/maven/com.zaxxer/HikariCP/pom.properties");
 	}
-	
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-	
+
 		var map = new HashMap<String,String>();
-		
+
 		map.put("autoCommit", TRUE);
 		map.put("connectionTimeout", "30000");
 		map.put("poolName", "mtg-hikari-pool");
@@ -99,8 +99,8 @@ public class HikariPool extends AbstractPoolProvider {
 		map.put("dataSource.cacheCallableStmts",TRUE);
 		map.put("dataSource.cacheServerConfiguration",TRUE);
 		return map;
-		
+
 	}
-	
+
 
 }

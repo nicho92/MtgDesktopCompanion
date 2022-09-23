@@ -4,9 +4,9 @@ import org.magic.game.model.effects.AbstractEffect;
 
 public class LoyaltyAbilities extends ActivatedAbilities {
 
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -14,7 +14,7 @@ public class LoyaltyAbilities extends ActivatedAbilities {
 	public boolean isLoyalty() {
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
 		var build = new StringBuilder();
@@ -26,18 +26,18 @@ public class LoyaltyAbilities extends ActivatedAbilities {
 	public boolean isResolved() {
 		return true;
 	}
-	
+
 	@Override
 	public String getTitle() {
 		return getCost() + ":" + getEffects();
 	}
-	
-	
+
+
 	public AbstractEffect getEffect()
 	{
 		return getEffects().get(0);
 	}
-	
-	
-	
+
+
+
 }

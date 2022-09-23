@@ -18,11 +18,11 @@ import org.utils.patterns.observer.Observer;
 import com.google.gson.JsonObject;
 
 public interface MTGPlugin extends Comparable<MTGPlugin> {
-	
-	
+
+
 	Logger loggerMain = MTGLogger.getLogger(MTGPlugin.class);
 
-	
+
 	public enum PLUGINS {
 		PROVIDER, DASHBOARD, PRICER, SERVER, HOPPER, EXPORT, DECKSNIFFER, DAO, TOKEN, CACHE, NEWS, WALLPAPER, NOTIFIER,DASHLET,COMMAND,EDITOR, INDEXER,GENERATOR, SCRIPT, POOL,COMBO, GRADING, GED, STRATEGY, PICTURE, SHOPPER, TRACKING, EXTERNAL_SHOP;
 	}
@@ -30,21 +30,21 @@ public interface MTGPlugin extends Comparable<MTGPlugin> {
 	public enum STATUT {
 		DEV, BETA, STABLE, DEPRECATED,BUGGED
 	}
-	
+
 	public Properties getProperties();
 
 	public void setProperty(String k, Object value);
 
 	public String getString(String k);
-	
+
 	public boolean isEnable();
 
 	public void save();
 
 	public void load();
-	
+
 	public boolean isLoaded();
-	
+
 	public void unload();
 
 	public void enable(boolean t);
@@ -64,38 +64,38 @@ public interface MTGPlugin extends Comparable<MTGPlugin> {
 	public void removeObservers();
 
 	public void removeObserver(Observer o);
-	
+
 	public List<Observer> listObservers();
-	
+
 	public Icon getIcon() ;
-	
+
 	public ObjectName getObjectName();
 
 	public String termsAndCondition();
-	
+
 	public MTGDocumentation getDocumentation();
-	
+
 	public boolean isPartner();
-	
+
 	public Map<String,String> getDefaultAttributes();
-	
+
 	public List<String> listAuthenticationAttributes();
-		
+
 	default AccountAuthenticator getAuthenticator() {
 			return AccountsManager.inst().getAuthenticator(this);
 	}
-	
-	
+
+
 	default String getId() {
 		return getType()+getName();
 	}
-	
+
 	@Override
 	default int compareTo(MTGPlugin o) {
-		
+
 		if(o==null)
 			return -1;
-		
+
 		return getId().compareTo(o.getName());
 	}
 
@@ -108,6 +108,6 @@ public interface MTGPlugin extends Comparable<MTGPlugin> {
 		obj.addProperty("version", getVersion());
 		obj.addProperty("status", getStatut().name());
 		return obj;
-		
+
 	}
 }

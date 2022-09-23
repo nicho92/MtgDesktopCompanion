@@ -16,17 +16,17 @@ public class NetworkClient {
 
 	public static void main(String[] args) throws SQLException {
 		MTGControler.getInstance();
-		
+
 		getEnabledPlugin(MTGCardsProvider.class).init();
 		getEnabledPlugin(MTGDao.class).init();
 		ThreadManager.getInstance().invokeLater(new MTGRunnable() {
-			
+
 			@Override
 			protected void auditedRun() {
 				MTGUIComponent.createJFrame(new NetworkChatPanel(), true, true).setVisible(true);
-				
+
 			}
 		},"Loading Network Client");
 	}
-	
+
 }

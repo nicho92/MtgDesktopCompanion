@@ -20,35 +20,35 @@ public class MkmWantListChooserDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private transient WantsService serv;
 	private JComboBox<Wantslist> cboWants ;
-	
+
 	public MkmWantListChooserDialog() {
 		serv = new WantsService();
 		setLayout(new BorderLayout());
 		setTitle("Mkm - WantList");
 		setLocationRelativeTo(null);
 		setModal(true);
-		
+
 		try {
-			
+
 			var pane = new JPanel();
 			cboWants = UITools.createCombobox(serv.getWantList());
 			var btnNewWantList = new JButton(MTGConstants.ICON_NEW);
 			var btnOK = new JButton(MTGConstants.ICON_CHECK);
 			var btnCancel = new JButton(MTGConstants.ICON_CANCEL);
-			
+
 			pane.add(btnNewWantList);
 			pane.add(btnOK);
 			pane.add(btnCancel);
-			
+
 			getContentPane().add(cboWants,BorderLayout.CENTER);
 			getContentPane().add(pane,BorderLayout.SOUTH);
-			
-			
+
+
 			pack();
-			
-			
-			
-			
+
+
+
+
 			btnNewWantList.addActionListener(l->{
 				String name = JOptionPane.showInputDialog("Want List Name ? ");
 				try {
@@ -59,28 +59,28 @@ public class MkmWantListChooserDialog extends JDialog {
 					MTGControler.getInstance().notify(e);
 				}
 			});
-			
+
 			btnOK.addActionListener(l->dispose());
 			btnCancel.addActionListener(l->{
 				cboWants.setSelectedItem(null);
 				dispose();
 			});
-			
-			
+
+
 		} catch (IOException e) {
 			MTGControler.getInstance().notify(e);
 		}
 	}
-	
-	
+
+
 	public Wantslist getSelectedWantList()
 	{
-		
+
 		if(cboWants.getSelectedItem()!=null)
 			return (Wantslist)cboWants.getSelectedItem();
-		
+
 		return null;
 	}
-	
-	
+
+
 }

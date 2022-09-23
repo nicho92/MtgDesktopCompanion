@@ -29,38 +29,38 @@ public class WooCommerceShopper extends AbstractMagicShopper{
 							   PER_PAGE,"100");
 	}
 
-	
+
 
 	@Override
 	public String getName() {
 		return "WooCommerce";
 	}
-	
+
 	private void init()
 	{
 		wooCommerce = WooCommerceTools.newClient(getAuthenticator(),getVersion());
 	}
-	
-	
+
+
 	@Override
 	public List<OrderEntry> listOrders() throws IOException {
-		
+
 		if(wooCommerce==null)
 			init();
-		
-		
+
+
 		List<OrderEntry> list = new ArrayList<>();
-		
+
 		Map<String, String> parameters = new HashMap<>();
 						    parameters.put("per_page", getString(PER_PAGE));
 						    parameters.put("status", getString(STATUS));
-						    
+
 		@SuppressWarnings("unchecked")
 		List<JsonElement> ret = wooCommerce.getAll(EndpointBaseType.ORDERS.getValue(),parameters);
 		for(JsonElement el : ret)
 		{
 			var obj = el.getAsJsonObject();
-			
+
 			for(JsonElement item : obj.get("line_items").getAsJsonArray())
 			{
 				var itemObj = item.getAsJsonObject();
@@ -89,6 +89,6 @@ public class WooCommerceShopper extends AbstractMagicShopper{
 	public List<String> listAuthenticationAttributes() {
 		return WooCommerceTools.generateKeysForWooCommerce();
 	}
-	
+
 
 }

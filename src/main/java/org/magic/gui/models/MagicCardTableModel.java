@@ -10,7 +10,7 @@ import org.magic.services.MTGControler;
 public class MagicCardTableModel extends GenericTableModel<MagicCard> {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	public MagicCardTableModel() {
 		columns=new String[] {
 				"CARD_NAME",
@@ -29,11 +29,11 @@ public class MagicCardTableModel extends GenericTableModel<MagicCard> {
 				"BORDERLESS",
 				"TIMESHIFTED",
 				"SIDE"};
-		
+
 		setDefaultHiddenComlumns(1,8,9,10,11,12,13,14,15);
-		
+
 	}
-	
+
 	@Override
 	public Class<?> getColumnClass(int columnIndex)
 	{
@@ -50,7 +50,7 @@ public class MagicCardTableModel extends GenericTableModel<MagicCard> {
 			default:return String.class;
 		}
 	}
-	
+
 	@Override
 	public Object getValueAt(int row, int column) {
 		try {
@@ -98,12 +98,12 @@ public class MagicCardTableModel extends GenericTableModel<MagicCard> {
 	}
 
 	private String powerorloyalty(MagicCard mc) {
-		
+
 		if(mc.isCreature())
 			return mc.getPower() + "/" + mc.getToughness();
 		else if(mc.isPlaneswalker())
 			return String.valueOf(mc.getLoyalty());
-		
+
 		return "";
 	}
 
@@ -115,5 +115,5 @@ public class MagicCardTableModel extends GenericTableModel<MagicCard> {
 		return "";
 	}
 
-	
+
 }

@@ -15,7 +15,8 @@ public class TypeRepartitionPanel extends Abstract3DPieChart<MagicCard,String> {
 
 
 	private static final long serialVersionUID = 1L;
-	
+
+	@Override
 	public PieDataset3D<String> getDataSet() {
 		var dataset = new StandardPieDataset3D<String>();
 		for (Entry<String, Integer> entry : manager.analyseTypes(items).entrySet()) {

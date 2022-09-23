@@ -16,10 +16,10 @@ import org.magic.services.network.URLTools;
 public class SMFComboProvider extends AbstractComboProvider {
 
 	private static final String BASE_URL="https://www.smfcorp.net";
-	
+
 	@Override
 	public List<MTGCombo> loadComboWith(MagicCard mc) {
-		
+
 		List<MTGCombo> cbos = new ArrayList<>();
 		MTGHttpClient c = URLTools.newClient();
 		String cardUri;
@@ -37,22 +37,22 @@ public class SMFComboProvider extends AbstractComboProvider {
 						  .addHeader("sec-fetch-mode","core")
 						  .addHeader("sec-fetch-site","same-origin")
 						  .toHtml();
-			
+
 			cardUri=d.select("tr.contentTrPair>td>a").attr("href");
 			cardUri = BASE_URL+cardUri.substring(cardUri.lastIndexOf('/'));
-			
+
 		} catch (Exception e) {
 			logger.error(e);
 			return cbos;
 		}
-		
-		 
+
+
 			Document d;
 			try {
 				d = RequestBuilder.build().url(cardUri).method(METHOD.GET).setClient(c).toHtml();
-			
+
 			String idAttribute= d.getElementById("dataAttribute").attr("value");
-			
+
 			d = RequestBuilder.build().url(BASE_URL+"/index.php").method(METHOD.GET).setClient(c)
 						.addContent("objet", "combos")
 						.addContent("action", "refreshPage")
@@ -63,13 +63,13 @@ public class SMFComboProvider extends AbstractComboProvider {
 			} catch (IOException e) {
 				return cbos;
 			}
-			
+
 			d.select("div.media-body").forEach(el->{
-				
+
 				var cbo = new MTGCombo();
 						 cbo.setName(el.getElementsByTag("h4").text());
 						 cbo.setPlugin(this);
-					
+
 						 Document details;
 						try {
 							details = RequestBuilder.build().url(BASE_URL+"/"+el.getElementsByTag("a").attr("href")).method(METHOD.GET).setClient(c).toHtml();
@@ -79,18 +79,18 @@ public class SMFComboProvider extends AbstractComboProvider {
 						} catch (IOException e) {
 							logger.error(e);
 						}
-						
-						cbos.add(cbo);				
-					
+
+						cbos.add(cbo);
+
 			});
-			
-		
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
+
+
 		return cbos;
 	}
 

@@ -27,22 +27,22 @@ public class JWTServices {
 	private static SignatureAlgorithm algo = SignatureAlgorithm.HS256;
 	private String aud;
 	private List<String> refreshedTokenRepository = new ArrayList<>();
-	
+
 	public JWTServices(String secret, String issuer) {
 		this.issuer = issuer;
 		setSecret(secret);
 	}
 
-	
+
 	public void setAudience(String aud)
 	{
 		this.aud=aud;
 	}
-	
+
 	public void setSecret(String secret) {
 		this.secret=Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
 	}
-	
+
 	public String generateToken(Map<String,Object> claims, int timeoutInMinutes,boolean store)
 	{
 		var tok=Jwts.builder()
@@ -54,16 +54,16 @@ public class JWTServices {
 				.setExpiration(DateUtils.addMinutes(new Date(System.currentTimeMillis()), timeoutInMinutes))
 				.signWith(secret,algo)
 				.compact();
-		
-		
+
+
 		if(store)
 			refreshedTokenRepository.add(tok);
-		
-		
+
+
 		return tok;
 	}
-	
-	
+
+
 	public Jws<Claims> validateToken(String token) throws ExpiredJwtException
 	{
 			return Jwts.parserBuilder()
@@ -71,14 +71,14 @@ public class JWTServices {
 				 .requireIssuer(issuer)
 				 .build()
 				 .parseClaimsJws(token);
-		
-			
+
+
 	}
-	
+
 	public static String generateRandomSecret()
 	{
 		var sk = Keys.secretKeyFor(algo);
 		return Base64.getEncoder().encodeToString(sk.getEncoded());
 	}
-	
+
 }

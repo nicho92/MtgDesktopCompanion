@@ -16,19 +16,20 @@ import org.magic.api.interfaces.abstracts.AbstractCardExport;
 
 public class MTGDesktopCompanionExport extends AbstractCardExport {
 
-	
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEPRECATED;
 	}
-	
-	
+
+
 
 	@Override
 	public String getName() {
 		return "MTGDesktopCompanion";
 	}
 
+	@Override
 	public void exportDeck(MagicDeck deck, File name) throws IOException {
 		deck.setDateUpdate(new Date());
 
@@ -50,13 +51,13 @@ public class MTGDesktopCompanionExport extends AbstractCardExport {
 	public String getFileExtension() {
 		return ".deck";
 	}
-	
+
 	@Override
 	public MagicDeck importDeck(String f, String name) throws IOException {
 		throw new IOException("Not Supported");
 	}
-	
-	
+
+
 	@Override
 	public MagicDeck importDeckFromFile(File f) throws IOException {
 		try {

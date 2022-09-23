@@ -42,10 +42,10 @@ public class WebShopConfig implements Serializable {
 	private boolean sealedEnabled;
 	private String extraCss;
 	private int productPagination;
-	
-	
-	
-	
+
+
+
+
 	public WebShopConfig() {
 		delivery= new ArrayList<>();
 		links= new ArrayList<>();
@@ -54,16 +54,16 @@ public class WebShopConfig implements Serializable {
 		needcollections = new ArrayList<>();
 		contact=new Contact();
 	}
-	
+
 	public String getExtraCss() {
 		return extraCss;
 	}
-	
+
 	 public void setExtraCss(String extraCss) {
 		this.extraCss = extraCss;
 	}
-	
-	
+
+
 	public boolean isEnableGed() {
 		return enableGed;
 	}
@@ -95,26 +95,26 @@ public class WebShopConfig implements Serializable {
 	public void setPaypalClientId(String paypalClientId) {
 		this.paypalClientId = paypalClientId;
 	}
-	
+
 	public String getPaypalClientId() {
 		return paypalClientId;
 	}
-	
+
 	public void setCurrencyCode(String currencyCode) {
 		this.currencyCode = currencyCode;
 	}
-	
-	
-	
+
+
+
 	public String getCurrencyCode() {
 		return currencyCode;
 	}
-	
+
 	public Currency getCurrency()
 	{
 		return Currency.getInstance(getCurrencyCode());
 	}
-	
+
 	public String getShippingRules() {
 		return shippingRules;
 	}
@@ -128,69 +128,69 @@ public class WebShopConfig implements Serializable {
 	public void setAverageDeliveryTime(int averageDeliveryTime) {
 		this.averageDeliveryTime = averageDeliveryTime;
 	}
-	
+
 	public int getAverageDeliveryTime() {
 		return averageDeliveryTime;
 	}
-	
+
 	public String getGoogleAnalyticsId() {
 		return googleAnalyticsId;
 	}
-	
+
 	public void setGoogleAnalyticsId(String googleAnalyticsId) {
 		this.googleAnalyticsId = googleAnalyticsId;
 	}
-	
+
 	public List<MagicCollection> getNeedcollections() {
 		return needcollections;
 	}
-	
+
 	public void setNeedcollections(List<MagicCollection> needcollections) {
 		this.needcollections = needcollections;
 	}
-	
+
 	public String getCurrencySymbol() {
 		return currencySymbol;
 	}
-	
+
 	public void setCurrency(Currency c)
 	{
 		setCurrencySymbol(c.getSymbol());
 		setCurrencyCode(c.getCurrencyCode());
 	}
-	
+
 	public void setCurrencySymbol(String currencySymbol) {
 		this.currencySymbol = currencySymbol;
 	}
-	
+
 	public int getMaxLastProduct() {
 		return maxLastProduct;
 	}
-	
+
 	public void setMaxLastProduct(int maxLastProduct) {
 		this.maxLastProduct = maxLastProduct;
 	}
-	
-	
+
+
 	public void setTopProduct(MagicCardStock topProduct) {
 		this.topProduct = topProduct;
 	}
-	
-	
+
+
 	public MagicCardStock getTopProduct() {
 		return topProduct;
 	}
-	
-	
+
+
 	public List<String> getSlidesLinksImage() {
 		return slidesLinksImage;
 	}
-	
+
 	public void setSlidesLinksImage(List<String> slidesLinksImage) {
 		this.slidesLinksImage = slidesLinksImage;
 	}
-	
-	
+
+
 	public String getSiteTitle() {
 		return siteTitle;
 	}
@@ -215,7 +215,7 @@ public class WebShopConfig implements Serializable {
 	public void setAboutText(String aboutText) {
 		this.aboutText = aboutText;
 	}
-	
+
 	public List<String> getLinks() {
 		return links;
 	}
@@ -235,18 +235,18 @@ public class WebShopConfig implements Serializable {
 		this.collections = collections;
 	}
 
-	
+
 	public double getPercentReduction() {
 		return percentReduction;
 	}
-	
+
 	public void setPercentReduction(double percentReduction) {
 		this.percentReduction = percentReduction;
 	}
 	public List<String> getDelivery() {
 		return delivery;
 	}
-	
+
 	public void setDelivery(List<String> delivery) {
 		this.delivery = delivery;
 	}
@@ -254,7 +254,7 @@ public class WebShopConfig implements Serializable {
 	public void setPaypalSendMoneyUri(URI ppuri) {
 		this.setPaypalSendMoneyUri = ppuri;
 	}
-	
+
 	public URI getSetPaypalSendMoneyUri() {
 		return setPaypalSendMoneyUri;
 	}
@@ -262,7 +262,7 @@ public class WebShopConfig implements Serializable {
 	public void setAutomaticValidation(boolean selected) {
 		this.automaticValidation=selected;
 	}
-	
+
 	public boolean isAutomaticValidation() {
 		return automaticValidation;
 	}
@@ -270,7 +270,7 @@ public class WebShopConfig implements Serializable {
 	public boolean isAutomaticProduct() {
 		return automaticProduct;
 	}
-	
+
 	public void setAutomaticProduct(boolean automaticProduct) {
 		this.automaticProduct = automaticProduct;
 	}
@@ -278,7 +278,7 @@ public class WebShopConfig implements Serializable {
 	public String getWebsiteUrl() {
 		return websiteUrl;
 	}
-	
+
 	public void setWebsiteUrl(String websiteUrl) {
 		this.websiteUrl = websiteUrl;
 	}
@@ -286,7 +286,7 @@ public class WebShopConfig implements Serializable {
 	public boolean isSealedEnabled() {
 		return sealedEnabled;
 	}
-	
+
 	public void setSealedEnabled(boolean sealedEnabled) {
 		this.sealedEnabled = sealedEnabled;
 	}
@@ -294,9 +294,9 @@ public class WebShopConfig implements Serializable {
 	public int getProductPagination() {
 		return productPagination;
 	}
-	
+
 	public void setProductPagination(int productPagination) {
 		this.productPagination = productPagination;
 	}
-	
+
 }

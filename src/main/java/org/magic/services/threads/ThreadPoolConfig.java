@@ -9,12 +9,12 @@ public class ThreadPoolConfig {
 	private boolean daemon;
 	private String nameFormat;
 
-	
+
 	@Override
 	public String toString() {
 		return threadPool + " CorePool=" + corePool + " daemon="+daemon;
 	}
-	
+
 	public String getNameFormat() {
 		return nameFormat;
 	}
@@ -45,5 +45,5 @@ public class ThreadPoolConfig {
 	public void setDaemon(boolean daemon) {
 		this.daemon = daemon;
 	}
-		
+
 }

@@ -15,9 +15,9 @@ import org.magic.services.MTGControler;
 import org.magic.services.providers.IconSetProvider;
 
 public class MagicEditionsTableModel extends GenericTableModel<MagicEdition> {
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -26,12 +26,12 @@ public class MagicEditionsTableModel extends GenericTableModel<MagicEdition> {
 	int countTotal = 0;
 	int countDefaultLibrary = 0;
 	private MagicCollection collection;
-	
+
 	public MagicEditionsTableModel() {
 		collection = new MagicCollection(MTGControler.getInstance().get("default-library"));
 		initColumns();
 	}
-	
+
 	private void initColumns()
 	{
 		columns=new String[] { "EDITION_CODE",
@@ -46,10 +46,10 @@ public class MagicEditionsTableModel extends GenericTableModel<MagicEdition> {
 				"PREVIEW"};
 
 	}
-	
+
 	@Override
 	public void init(List<MagicEdition> editions) {
-		
+
 		this.items = editions;
 		mapCount = new TreeMap<>();
 
@@ -60,7 +60,7 @@ public class MagicEditionsTableModel extends GenericTableModel<MagicEdition> {
 		}
 		fireTableDataChanged();
 	}
-	
+
 
 	public void calculate() {
 
@@ -81,8 +81,8 @@ public class MagicEditionsTableModel extends GenericTableModel<MagicEdition> {
 	}
 
 
-	
-	
+
+
 	public int getCountDefaultLibrary() {
 		return mapCount.values().stream().mapToInt(Integer::intValue).sum();
 	}
@@ -100,7 +100,7 @@ public class MagicEditionsTableModel extends GenericTableModel<MagicEdition> {
 			default : return super.getColumnClass(columnIndex);
 		}
 	}
-	
+
 
 	@Override
 	public Object getValueAt(int row, int column) {
@@ -118,10 +118,10 @@ public class MagicEditionsTableModel extends GenericTableModel<MagicEdition> {
 			return e.getReleaseDate();
 
 		if (column == 4) {
-			
+
 			if(mapCount.get(e)==null)
 				return -1;
-			
+
 			if (e.getCardCount() > 0)
 				return (double) mapCount.get(e) / e.getCardCount();
 			else
@@ -139,7 +139,7 @@ public class MagicEditionsTableModel extends GenericTableModel<MagicEdition> {
 
 		if (column == 8)
 			return e.isOnlineOnly();
-		
+
 		if (column == 9)
 			return e.isPreview();
 

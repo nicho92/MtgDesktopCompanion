@@ -60,7 +60,7 @@ import org.utils.patterns.observer.Observer;
 public class MagicCardDetailPanel extends JPanel implements Observer {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private transient BindingGroup mBindingGroup;
@@ -95,7 +95,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 	private DefaultListModel<MagicCollection> listModelCollection;
 	private JPanel panelSwitchLangage;
 	private transient Observable obs;
-	
+
 
 	public void setEditable(boolean b) {
 		txtWatermark.setEditable(b);
@@ -142,14 +142,14 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		add(new JLangLabel("CARD_LEGALITIES",true), UITools.createGridBagConstraints(null, null, 0, 8));
 		add(new JLangLabel("CARD_WATERMARK",true), UITools.createGridBagConstraints(null, null, 2, 7));
 
-		
-		
+
+
 		nameJTextField = new JTextField();
 		add(nameJTextField, UITools.createGridBagConstraints(null,GridBagConstraints.HORIZONTAL,1,0));
 
 		cmcJTextField = new JTextField();
 		add(cmcJTextField, UITools.createGridBagConstraints(null,GridBagConstraints.HORIZONTAL,4,0));
-		
+
 		lblLogoSet = new JLabel("");
 		add(lblLogoSet, UITools.createGridBagConstraints(null, null, 5, 0,2,2));
 
@@ -176,27 +176,27 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 
 		txtArtist = new JTextField(10);
 		add(txtArtist, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 7));
-	
+
 		txtWatermark = new JTextField(10);
 		add(txtWatermark, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 4, 7,3,null));
 
 		var p = new JPanel();
-		
+
 		btnCopy = new JButton(MTGConstants.ICON_COPY);
 		btnCopy.setEnabled(false);
 		btnCopy.setToolTipText("Copy to clipboard");
 		btnCopy.addActionListener(ae -> {
 			try {
 				getPlugin(MTGConstants.DEFAULT_CLIPBOARD_NAME,MTGCardsExport.class).exportDeck(MagicDeck.toDeck(Arrays.asList(getMagicCard())),null);
-				
+
 			} catch (Exception e) {
 				logger.error(e);
 				MTGControler.getInstance().notify(e);
 			}
 		});
-		
 
-		
+
+
 		btnAlert = new JButton(MTGConstants.ICON_ALERT);
 		btnAlert.setEnabled(false);
 		btnAlert.addActionListener(ae -> {
@@ -215,7 +215,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 				MTGControler.getInstance().notify(e);
 			}
 		});
-		
+
 		btnStock = new JButton(MTGConstants.ICON_STOCK);
 		btnStock.setEnabled(false);
 		btnStock.setToolTipText(capitalize("ADD_CARDS_STOCKS"));
@@ -230,13 +230,13 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 				MTGControler.getInstance().notify(e);
 			}
 		});
-		
-		
-		
+
+
+
 		p.add(btnCopy);
 		p.add(btnAlert);
 		p.add(btnStock);
-		
+
 		add(p, UITools.createGridBagConstraints(null, null, 8, 0));
 
 
@@ -244,7 +244,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 
 		panelDetailCreature = new JPanel();
 		loyaltyJTextField = new JTextField(5);
-	
+
 		powerJTextField = new JTextField(2);
 		toughnessJTextField = new JTextField(2);
 		var flowLayout = (FlowLayout) panelDetailCreature.getLayout();
@@ -255,15 +255,15 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		panelDetailCreature.add(new JLabel("/"));
 		panelDetailCreature.add(toughnessJTextField);
 		add(panelDetailCreature,UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 2,3,null));
-		
+
 
 		lstFormats = new JList<>(new DefaultListModel<>());
 		lstFormats.setCellRenderer((JList<? extends MagicFormat> list, MagicFormat obj, int arg2,boolean arg3, boolean arg4)->{
 			var l = new JLabel(obj.getFormat());
-					
+
 					if(obj.getFormatLegality()!=null)
 					{
-						
+
 						switch (obj.getFormatLegality()) {
 							case BANNED: l.setIcon(MTGConstants.ICON_SMALL_DELETE);break;
 							case LEGAL:l.setIcon(MTGConstants.ICON_SMALL_CHECK);break;
@@ -271,23 +271,23 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 							case RESTRICTED:l.setIcon(MTGConstants.ICON_SMALL_EQUALS);break;
 							default: break;
 						}
-						
+
 						l.setToolTipText(obj.getFormat() + ":" + obj.getFormatLegality().name());
 					}
-					
-						
+
+
 				return l;
 		});
 		add(new JScrollPane(lstFormats), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 8,2,2));
-		
-		
+
+
 
 		txtTextPane = new MagicTextPane();
 		txtTextPane.setBorder(new LineBorder(Color.GRAY));
 		txtTextPane.setBackground(Color.WHITE);
 		add(txtTextPane, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 4,6,2));
 
-	
+
 		txtFlavorArea = new JTextPane();
 		txtFlavorArea.setFont(txtFlavorArea.getFont().deriveFont(Font.ITALIC));
 		add(txtFlavorArea, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 6,6,null));
@@ -295,16 +295,16 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		listModelCollection = new DefaultListModel<>();
 		listCollection = new JList<>(listModelCollection);
 		listCollection.setCellRenderer((JList<? extends MagicCollection> list, MagicCollection obj, int arg2,boolean arg3, boolean arg4)->new JLabel(obj.getName(),MTGConstants.ICON_COLLECTION,SwingConstants.LEFT));
-		
-		add(new JScrollPane(listCollection), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 4, 8,3,2));		
-		
-		
+
+		add(new JScrollPane(listCollection), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 4, 8,3,2));
+
+
 		panelSwitchLangage = new JPanel();
 		var flowLayout1 = (FlowLayout) panelSwitchLangage.getLayout();
 		flowLayout1.setAlignment(FlowLayout.LEFT);
 
 		add(panelSwitchLangage, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 10,9,null));
-		
+
 		if (magicCard != null) {
 			mBindingGroup = initDataBindings();
 		}
@@ -323,10 +323,10 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 
 	public void setMagicCard(MagicCard newMagicCard, boolean update) {
 		magicCard = newMagicCard;
-		
+
 		btnStock.setEnabled(magicCard!=null);
 		btnCopy.setEnabled(magicCard!=null);
-		
+
 		if (update) {
 			if (mBindingGroup != null) {
 				mBindingGroup.unbind();
@@ -405,14 +405,14 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		} catch (Exception e) {
 			rarityJTextField.setText("");
 		}
-		
+
 		try {
 			if (magicCard != null)
 				txtLayoutField.setText(magicCard.getLayout().toPrettyString());
 		} catch (Exception e) {
 			txtLayoutField.setText("");
 		}
-		
+
 
 		txtTextPane.updateTextWithIcons();
 
@@ -421,16 +421,16 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 			loadPics(magicCard,null);
 		}
 
-		if (magicCard != null && !magicCard.getEditions().isEmpty()) 
+		if (magicCard != null && !magicCard.getEditions().isEmpty())
 		{
 			int showCount = magicCard.getCurrentSet().getCardCountOfficial();
 			if(showCount==0)
 				showCount=magicCard.getCurrentSet().getCardCount();
-			
+
 			lblnumberInSet.setText(magicCard.getCurrentSet().getNumber() + "/"+ showCount);
 		}
 
-		if (magicCard != null && enableCollectionLookup && !magicCard.getEditions().isEmpty()) 
+		if (magicCard != null && enableCollectionLookup && !magicCard.getEditions().isEmpty())
 		{
 			var sw = new SwingWorker<List<MagicCollection>, Void>()
 					{
@@ -438,7 +438,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 							protected List<MagicCollection> doInBackground() throws Exception {
 								return getEnabledPlugin(MTGDao.class).listCollectionFromCards(magicCard);
 							}
-							
+
 							@Override
 							protected void done() {
 								listModelCollection.removeAllElements();
@@ -450,13 +450,13 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 									logger.error(e);
 								}
 							}
-							
+
 					};
 			ThreadManager.getInstance().runInEdt(sw, "loadCollections");
 		}
 
 		if (magicCard != null && enableCollectionLookup) {
-			
+
 			var sw = new SwingWorker<Boolean, Void>()
 					{
 
@@ -464,10 +464,10 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 						protected Boolean doInBackground() throws Exception {
 							return getEnabledPlugin(MTGDao.class).hasAlert(magicCard)!=null;
 						}
-						
+
 						@Override
 						protected void done() {
-							
+
 							try {
 								if (get().booleanValue()) {
 									btnAlert.setToolTipText(capitalize("HAD_ALERT"));
@@ -481,42 +481,42 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 							} catch (Exception e) {
 								logger.error(e);
 							}
-							
+
 						}
-						
+
 					};
-			
-			
-			
+
+
+
 			ThreadManager.getInstance().runInEdt(sw, "Get alerts for " + magicCard);
 		}
-		
-		
-		
+
+
+
 		((DefaultListModel<MagicFormat>) lstFormats.getModel()).removeAllElements();
 
 		if (magicCard != null)
 			for (MagicFormat mf : magicCard.getLegalities())
 				((DefaultListModel<MagicFormat>) lstFormats.getModel()).addElement(mf);
 
-		
-		
+
+
 		var groupLanguagesButtons = new ButtonGroup();
-		
+
 		if(magicCard!=null)
 		{
-			
+
 				panelSwitchLangage.removeAll();
 				panelSwitchLangage.revalidate();
-			
+
 				if(enableCollectionLookup)
 				{
-				
+
 				SwingWorker<Void, MagicCardNames> sw = new SwingWorker<>(){
 
 					@Override
 					protected void process(List<MagicCardNames> chunks) {
-						
+
 						chunks.forEach(fn->{
 							var tglLangButton = new JToggleButton(fn.getLanguage());
 							tglLangButton.setContentAreaFilled(false);
@@ -524,7 +524,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 							tglLangButton.setFont(tglLangButton.getFont().deriveFont(tglLangButton.getFont().getSize()-2));
 							AbstractAction act = new AbstractAction() {
 								private static final long serialVersionUID = 1L;
-								
+
 								@Override
 								public void actionPerformed(ActionEvent e) {
 									obs.setChanged();
@@ -536,11 +536,11 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 									txtFlavorArea.setText(fn.getFlavor());
 									if (thumbnail)
 										loadPics(magicCard,fn);
-									
+
 								}
 							};
 							act.putValue(Action.NAME, fn.getLanguage());
-							
+
 							tglLangButton.setActionCommand(fn.getLanguage());
 							tglLangButton.setAction(act);
 							groupLanguagesButtons.add(tglLangButton);
@@ -548,11 +548,11 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 
 							if(!MTGControler.getInstance().get("langage").equalsIgnoreCase("english") && fn.getGathererId()>0 && fn.getLanguage().equalsIgnoreCase(MTGControler.getInstance().get("langage")))
 								tglLangButton.doClick();
-							
+
 						});
-					
-					
-					
+
+
+
 					}
 
 					@Override
@@ -583,7 +583,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 	}
 
 	protected void loadPics(MagicCard mc,MagicCardNames fn) {
-		
+
 		SwingWorker<ImageIcon, Void> sw = new SwingWorker<>()
 		{
 			@Override
@@ -599,9 +599,9 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 					logger.error("Error loading pics for" + mc, e);
 				}
 				return icon;
-				
+
 			}
-			
+
 			@Override
 			protected void done() {
 				try {
@@ -616,13 +616,13 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 				} catch (Exception e) {
 					logger.error(e);
 				}
-				
+
 			}
 		};
-		
+
 		ThreadManager.getInstance().runInEdt(sw,"loading " + mc + " picture");
 	}
-	
+
 	@Override
 	public void update(Observable o, Object ob) {
 		setMagicCard((MagicCard) ob);

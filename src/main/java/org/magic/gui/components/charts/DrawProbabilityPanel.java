@@ -40,8 +40,8 @@ public class DrawProbabilityPanel extends JPanel {
 		calc = new MTGDeckManager();
 		table = UITools.createNewTable(null);
 		table.setDefaultRenderer(Double.class, new DoubleCellEditorRenderer(true,false));
-		
-		
+
+
 		add(new JScrollPane(table), BorderLayout.CENTER);
 		var panel = new JPanel();
 		panel.setBackground(Color.WHITE);
@@ -59,7 +59,7 @@ public class DrawProbabilityPanel extends JPanel {
 
 	public void init(MagicDeck d, MagicCard c) {
 		this.d=d;
-		
+
 		if (c != null)
 			initCard(c);
 	}
@@ -68,7 +68,7 @@ public class DrawProbabilityPanel extends JPanel {
 		model = new AbstractTableModel() {
 
 			/**
-			 * 
+			 *
 			 */
 			private static final long serialVersionUID = 1L;
 
@@ -89,12 +89,12 @@ public class DrawProbabilityPanel extends JPanel {
 					return UITools.roundDouble(calc.getProbability(d,r, card));
 				}
 			}
-			
+
 			@Override
 			public Class<?> getColumnClass(int columnIndex) {
 				if(columnIndex>0)
 					return Double.class;
-				
+
 				return super.getColumnClass(columnIndex);
 			}
 
@@ -118,7 +118,7 @@ public class DrawProbabilityPanel extends JPanel {
 		model = new AbstractTableModel() {
 
 			/**
-			 * 
+			 *
 			 */
 			private static final long serialVersionUID = 1L;
 
@@ -143,10 +143,10 @@ public class DrawProbabilityPanel extends JPanel {
 			public Class<?> getColumnClass(int columnIndex) {
 				if(columnIndex>0)
 					return Double.class;
-				
+
 				return super.getColumnClass(columnIndex);
 			}
-			
+
 			@Override
 			public int getRowCount() {
 				return d.getMain().keySet().size();

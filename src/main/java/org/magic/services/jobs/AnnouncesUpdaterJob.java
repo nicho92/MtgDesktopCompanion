@@ -15,13 +15,13 @@ import org.quartz.JobExecutionException;
 public class AnnouncesUpdaterJob implements Job {
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 
-	
-	
+
+
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		try {
 			var list = MTG.getEnabledPlugin(MTGDao.class).listAnnounces();
-			
+
 			list.stream().filter(a->a.getEndDate().before(new Date()) && a.getStatus()==STATUS.ACTIVE).toList().forEach(a->{
 				logger.debug("Found {} is expired at {}",a,a.getEndDate());
 				a.setStatus(STATUS.EXPIRED);
@@ -31,7 +31,7 @@ public class AnnouncesUpdaterJob implements Job {
 					logger.error("can't update {}",a,e);
 				}
 			});
-			
+
 			list.stream().filter(a->a.getStartDate().before(new Date()) && a.getStatus()==STATUS.SOON).toList().forEach(a->{
 				logger.debug("Found {}  is now online since {}",a, a.getStartDate());
 				a.setStatus(STATUS.ACTIVE);
@@ -40,9 +40,9 @@ public class AnnouncesUpdaterJob implements Job {
 				} catch (SQLException e) {
 					logger.error("can't update {}",a,e);
 				}
-				
+
 			});
-			
+
 		} catch (SQLException e) {
 			logger.error(e);
 		}

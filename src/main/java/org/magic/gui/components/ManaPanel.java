@@ -20,7 +20,7 @@ import org.magic.tools.ImageTools;
 
 public class ManaPanel extends JPanel {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private int rowHeight = MTGConstants.TABLE_ROW_HEIGHT;
@@ -75,7 +75,7 @@ public class ManaPanel extends JPanel {
 	}
 
 	private void init() {
-	
+
 		map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 		map.put("X", 21);
 		map.put("Y",22);
@@ -127,7 +127,7 @@ public class ManaPanel extends JPanel {
 		map.put("P",59);
 		map.put("hr",58);
 		map.put("hw",57);
-		
+
 
 	}
 
@@ -139,13 +139,13 @@ public class ManaPanel extends JPanel {
 		} catch (NumberFormatException ne) {
 			val= map.get(el);
 		}
-		
-		
+
+
 		List<Image> lst = new ArrayList<>();
-		
+
 		BufferedImage[] imgs = ImageTools.splitManaImage();
-		
-		
+
+
 		if (val == 100)// mox lotus
 		{
 			lst.add(imgs[65]);

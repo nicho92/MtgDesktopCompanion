@@ -9,7 +9,7 @@ public class MTGNotification implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public enum FORMAT_NOTIFICATION {HTML,TEXT,MARKDOWN}
 	public enum MESSAGE_TYPE{ERROR,WARNING,INFO,NONE}
-	
+
 	private Date date;
 	private String sender;
 	private String message;
@@ -17,15 +17,15 @@ public class MTGNotification implements Serializable {
 	private MESSAGE_TYPE type;
 	private Exception exception;
 	private File file;
-	
-	
-	
-	
+
+
+
+
 	public MTGNotification() {
 		date = new Date();
 		type=MESSAGE_TYPE.INFO;
 	}
-	
+
 	public MTGNotification(String title,Exception e)
 	{
 		this.message=e.getMessage();
@@ -34,7 +34,7 @@ public class MTGNotification implements Serializable {
 		date = new Date();
 		type=MESSAGE_TYPE.ERROR;
 	}
-	
+
 	public MTGNotification(String title,String msg,MESSAGE_TYPE t)
 	{
 		this.message=msg;
@@ -42,11 +42,11 @@ public class MTGNotification implements Serializable {
 		date = new Date();
 		type=t;
 	}
-	
+
 	public File getFile() {
 		return file;
 	}
-	
+
 	public void setFile(File file) {
 		this.file = file;
 	}
@@ -54,18 +54,18 @@ public class MTGNotification implements Serializable {
 	public Exception getException() {
 		return exception;
 	}
-	
-	
+
+
 	@Override
 	public String toString() {
 		return getDate() + ":"+ getMessage();
 	}
-	
-	
+
+
 	public Date getDate() {
 		return date;
 	}
-	
+
 	public String getSender() {
 		return sender;
 	}
@@ -90,9 +90,9 @@ public class MTGNotification implements Serializable {
 	public void setType(MESSAGE_TYPE type) {
 		this.type = type;
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 }

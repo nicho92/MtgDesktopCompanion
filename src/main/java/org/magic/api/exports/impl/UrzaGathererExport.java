@@ -22,15 +22,15 @@ import org.magic.tools.FileTools;
 import org.magic.tools.UITools;
 
 public class UrzaGathererExport extends AbstractFormattedFileCardExport {
-	
+
 	private static final String COLUMNS="Name,Type,Color,Rarity,Author,Power,Toughness,Mana cost,Converted mana cost,Count,Foil count,Special foil count,Price,Foil price,Number,Set,ID,Multiverse ID,Comments,To trade,Condition,Grading,Languages,TCG ID,Cardmarket ID";
-	
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
 	}
-	
-	
+
+
 	@Override
 	public String getFileExtension() {
 		return ".csv";
@@ -40,12 +40,12 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		StringBuilder temp = new StringBuilder("\"sep=").append(getSeparator()).append("\"").append(System.lineSeparator());
 		  			  temp.append(COLUMNS).append(",Deck count,Sideboard count,Maybeboard count").append(System.lineSeparator());
-		
+
 		writeDeckLine(temp,deck.getMain().entrySet(),1);
 		writeDeckLine(temp,deck.getSideBoard().entrySet(),2);
 		writeDeckLine(temp,deck.getMaybeBoard().entrySet(),3);
-		  			  
-		FileTools.saveFile(dest, temp.toString());  			  
+
+		FileTools.saveFile(dest, temp.toString());
 	}
 
 	@Override
@@ -58,25 +58,25 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
 		List<MagicCardStock> list = new ArrayList<>();
-		
+
 		matches(content, true).forEach(m->{
-			
+
 		MagicCard mc=readCard(m);
 		if(mc!=null)
 		{
-			
+
 			int nbFoil = Integer.parseInt(m.group(11));
 			int nbNormal = Integer.parseInt(m.group(10));
 			int nbEtched = Integer.parseInt(m.group(12));
-			
+
 			var st = buildStockItem(mc,m,nbNormal,false);
 			list.add(st);
-			
-			
+
+
 			if(nbFoil>0)
 				list.add(buildStockItem(mc,m,nbFoil,true));
 
-			
+
 			if(nbEtched>0)
 			{
 				var st3 = buildStockItem(mc,m,nbEtched,false);
@@ -86,10 +86,10 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 			notify(mc);
 		}
 		});
-		
+
 		return list;
 	}
-	
+
 	private MagicCardStock buildStockItem(MagicCard mc , Matcher m,Integer qty,boolean foil)
 	{
 
@@ -106,14 +106,14 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 		var strCondition = m.group(21);
 		if(strCondition.indexOf("x")>-1)
 			strCondition = strCondition.substring(strCondition.indexOf("x")+1);
-		
+
 		st.setCondition(PluginsAliasesProvider.inst().getReversedConditionFor(this, strCondition, EnumCondition.NEAR_MINT)  );
-		
-	
+
+
 		return st;
 	}
-	
-	
+
+
 	private MagicCard readCard(Matcher m) {
 		try {
 			return getEnabledPlugin(MTGCardsProvider.class).searchCardByName(m.group(1),null,true).stream().filter(c->
@@ -130,40 +130,40 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 		StringBuilder temp = new StringBuilder("\"sep=").append(getSeparator()).append("\"").append(System.lineSeparator());
 					  temp.append(COLUMNS).append(System.lineSeparator());
-					  
+
 					  for(var mcs : stock)
 						{
 							writeLine(temp,mcs);
 							temp.append(System.lineSeparator());
-							
+
 						}
-		
+
 		FileTools.saveFile(f, temp.toString());
-		
-		
+
+
 	}
-	
-	
+
+
 	private void writeDeckLine(StringBuilder temp, Set<Entry<MagicCard, Integer>> set, int i )
 	{
-		
+
 		set.forEach(entry->{
 			var mcs= MTGControler.getInstance().getDefaultStock();
 			mcs.setProduct(entry.getKey());
 			mcs.setQte(entry.getValue());
-			
+
 			writeLine(temp, mcs);
-			
+
 			temp.append(getSeparator()).append((i==1)?entry.getValue():0)
 			.append(getSeparator()).append((i==2)?entry.getValue():0)
 			.append(getSeparator()).append((i==3)?entry.getValue():0)
 			.append(System.lineSeparator());
 		});
-		
-		
+
+
 	}
-	
-	
+
+
 	private void writeLine(StringBuilder temp,MagicCardStock mcs) {
 		temp.append("\"").append(mcs.getProduct().getName()).append("\"").append(getSeparator());
 		temp.append("\"").append(mcs.getProduct().getFullType()).append("\"").append(getSeparator());
@@ -174,14 +174,14 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 		temp.append(mcs.getProduct().getToughness()).append(getSeparator());
 		temp.append(mcs.getProduct().getCost()).append(getSeparator());
 		temp.append(mcs.getProduct().getCmc()).append(getSeparator());
-		
+
 		temp.append(!mcs.isFoil()?mcs.getQte():0).append(getSeparator());
 		temp.append(mcs.isFoil()?mcs.getQte():0).append(getSeparator());
 		temp.append(mcs.isEtched()?mcs.getQte():0).append(getSeparator());
-		
+
 		temp.append("$").append(!mcs.isFoil()?UITools.formatDouble(mcs.getPrice()).replace(",", "."):0).append(getSeparator());
 		temp.append("$").append(mcs.isFoil()?UITools.formatDouble(mcs.getPrice()).replace(",", "."):0).append(getSeparator());
-		
+
 		temp.append(mcs.getProduct().getCurrentSet().getNumber()).append(getSeparator());
 		temp.append("\"").append(mcs.getProduct().getCurrentSet().getSet()).append("\"").append(getSeparator());
 		temp.append("-1").append(getSeparator());
@@ -198,15 +198,15 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 
 
 	private String parseColors(MagicCard mc) {
-		
-		
+
+
 		if(mc.isMultiColor())
 			return "Multi-couleurs";
-		
+
 		if(mc.isColorless())
 			return "Sans couleur";
-		
-		
+
+
 		switch(mc.getColors().get(0))
 		{
 			case WHITE: return "Blanc";
@@ -216,12 +216,12 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 			case GREEN: return "Vert";
 			default : return "";
 		}
-		
+
 	}
 
 
-	
-	
+
+
 	@Override
 	public String getName() {
 	return "UrzaGatherer";
@@ -247,6 +247,6 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 		return ",";
 	}
 
-	
+
 
 }

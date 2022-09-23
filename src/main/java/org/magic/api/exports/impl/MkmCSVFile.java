@@ -16,10 +16,10 @@ import org.magic.tools.FileTools;
 
 public class MkmCSVFile extends AbstractFormattedFileCardExport {
 
-	
-	private static String header="\"Name,\"\"Expansion\"\",\"\"Language\"\",\"\"Price\"\",\"\"Count\"\",\"\"Condition\"\",\"\"inShoppingCart\"\",\"\"lastEdited\"\",\"\"Foil\"\",\"\"Signed\"\",\"\"Altered\"\",\"\"Playset\"\",\"\"LocName\"\",\"\"Rarity\"\",\"\"Comments\"\",\"\"abbreviation\"\",\"\"releaseDate\"\"\""; 
-			
-	
+
+	private static String header="\"Name,\"\"Expansion\"\",\"\"Language\"\",\"\"Price\"\",\"\"Count\"\",\"\"Condition\"\",\"\"inShoppingCart\"\",\"\"lastEdited\"\",\"\"Foil\"\",\"\"Signed\"\",\"\"Altered\"\",\"\"Playset\"\",\"\"LocName\"\",\"\"Rarity\"\",\"\"Comments\"\",\"\"abbreviation\"\",\"\"releaseDate\"\"\"";
+
+
 	@Override
 	public String getFileExtension() {
 		return ".csv";
@@ -36,7 +36,7 @@ public class MkmCSVFile extends AbstractFormattedFileCardExport {
 	public MagicDeck importDeck(String f, String name) throws IOException {
 		var d = new MagicDeck();
 		d.setName(name);
-		
+
 		for(MagicCardStock st : importStock(f))
 		{
 			d.getMain().put(st.getProduct(), st.getQte());
@@ -46,17 +46,17 @@ public class MkmCSVFile extends AbstractFormattedFileCardExport {
 
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
-		
+
 		List<MagicCardStock> ret = new ArrayList<>();
-		
-		
+
+
 		content =content.replace("\"MYS\"", "\"MB1\"")
 				.replace("\"DTL\"", "\"FBB\"");
-		
+
 		matches(content, true).forEach(m->{
 
 			MagicCard mc = parseMatcherWithGroup(m, 1, 16, true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NAME);
-			
+
 			if(mc==null)
 			{
 				try {
@@ -66,7 +66,7 @@ public class MkmCSVFile extends AbstractFormattedFileCardExport {
 					logger.error("Card is not found with this provider : " + m.group());
 				}
 			}
-			
+
 			if(mc!=null) {
 				var stock = new MagicCardStock(mc);
 				stock.setLanguage(m.group(3));
@@ -76,8 +76,8 @@ public class MkmCSVFile extends AbstractFormattedFileCardExport {
 				var count = Integer.parseInt(m.group(5));
 				if(Boolean.parseBoolean(m.group(12)))
 					count = count*4;
-				
-				
+
+
 				try {
 					stock.setPrice(Double.parseDouble(m.group(4)));
 				}
@@ -94,10 +94,10 @@ public class MkmCSVFile extends AbstractFormattedFileCardExport {
 				logger.debug("No card found for " + m.group());
 			}
 		});
-		
+
 		return ret;
 	}
-	
+
 
 	@Override
 	public String getName() {
@@ -123,7 +123,7 @@ public class MkmCSVFile extends AbstractFormattedFileCardExport {
 	protected String getSeparator() {
 		return ",";
 	}
-	
+
 	@Override
 	public Icon getIcon() {
 		return new ImageIcon(MKMFileWantListExport.class.getResource("/icons/plugins/magiccardmarket.png"));

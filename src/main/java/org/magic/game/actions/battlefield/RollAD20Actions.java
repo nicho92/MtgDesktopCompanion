@@ -13,7 +13,7 @@ import org.magic.game.gui.components.GamePanelGUI;
 public class RollAD20Actions extends AbstractAction {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -26,7 +26,7 @@ public class RollAD20Actions extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		var b = RandomUtils.nextInt(1,21);
-		
+
 		GamePanelGUI.getInstance().getPlayer().logAction("Run a D20 : "+b);
 
 	}

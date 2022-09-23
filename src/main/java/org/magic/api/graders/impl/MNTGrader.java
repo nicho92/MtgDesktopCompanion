@@ -14,9 +14,9 @@ public class MNTGrader extends AbstractGradersProvider {
 
 	@Override
 	public Grading loadGrading(String identifier) throws IOException {
-		
+
 		MTGHttpClient c = URLTools.newClient();
-		
+
 		var el = RequestBuilder.build()
 						.setClient(c)
 						.url(getWebSite()+"/wp-admin/admin-ajax.php")
@@ -32,7 +32,7 @@ public class MNTGrader extends AbstractGradersProvider {
 						.addHeader("sec-fetch-dest", "empty")
 						.addHeader("sec-fetch-mode","cors")
 						.toJson();
-		
+
 		var grad = new Grading();
 		grad.setNumberID(identifier);
 		grad.setCentering(el.getAsJsonObject().get("grade_center").getAsJsonObject().get("value").getAsDouble());
@@ -42,10 +42,10 @@ public class MNTGrader extends AbstractGradersProvider {
 		grad.setGradeNote(el.getAsJsonObject().get("final_grade").getAsJsonObject().get("value").getAsDouble());
 		grad.setGradeDate(UITools.parseDate(el.getAsJsonObject().get("year").getAsJsonObject().get("value").getAsString(), "YYYY-MM"));
 		grad.setGraderName(getName());
-		
-		
+
+
 		return grad;
-		
+
 	}
 
 	@Override

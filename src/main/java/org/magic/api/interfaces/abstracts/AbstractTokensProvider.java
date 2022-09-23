@@ -10,15 +10,15 @@ public abstract class AbstractTokensProvider extends AbstractMTGPlugin implement
 	public PLUGINS getType() {
 		return PLUGINS.TOKEN;
 	}
-	
+
 	@Override
 	public boolean isTokenizer(MagicCard mc) {
 		return CardsPatterns.hasPattern(mc.getText(), CardsPatterns.CREATE_TOKEN);
 	}
-	
+
 	@Override
 	public boolean isEmblemizer(MagicCard mc) {
 		return CardsPatterns.hasPattern(mc.getText(), CardsPatterns.CREATE_EMBLEM);
 	}
-	
+
 }

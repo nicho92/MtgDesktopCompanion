@@ -14,16 +14,16 @@ public class ArrayResponse extends AbstractResponse {
 	private JsonElement element;
 	private List<String> attributes;
 	private Class classe;
-	
-	
-	
+
+
+
 	public ArrayResponse(Class cls, List<String> attributes, JsonElement element)
 	{
 		this.classe=cls;
 		this.attributes=attributes;
 		this.element=element;
 	}
-	
+
 
 	@Override
 	public String show() {
@@ -32,9 +32,9 @@ public class ArrayResponse extends AbstractResponse {
 		at.addRule();
 		at.addRow(getAttributes());
 		at.addRule();
-		
+
 		if(element.isJsonArray())
-		{	
+		{
 			for(var i=0;i<getElement().getAsJsonArray().size();i++)
 			{
 				var obj = getElement().getAsJsonArray().get(i).getAsJsonObject();
@@ -73,7 +73,7 @@ public class ArrayResponse extends AbstractResponse {
 		}
 		return at.render();
 	}
-	
+
 	public JsonElement getElement() {
 		return element;
 	}
@@ -86,13 +86,13 @@ public class ArrayResponse extends AbstractResponse {
 			try {
 				return new ArrayList<>(BeanUtils.describe(classe.getConstructor().newInstance()).keySet());
 			} catch (Exception e) {
-				
+
 				return new ArrayList<>();
 			}
 		}
 		return attributes;
 	}
-	
+
 	public void setAttributes(List<String> attributes) {
 		this.attributes = attributes;
 	}

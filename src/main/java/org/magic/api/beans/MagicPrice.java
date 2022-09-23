@@ -16,8 +16,8 @@ public class MagicPrice implements Comparable<MagicPrice> {
 	private MagicCard magicCard;
 	private int qty = 1;
 	private String sellerUrl;
-	
-	
+
+
 	public String getSellerUrl() {
 		return sellerUrl;
 	}
@@ -29,11 +29,11 @@ public class MagicPrice implements Comparable<MagicPrice> {
 	public void setQty(int qty) {
 		this.qty = qty;
 	}
-	
+
 	public int getQty() {
 		return qty;
 	}
-	
+
 	public MagicCard getMagicCard() {
 		return magicCard;
 	}
@@ -91,14 +91,14 @@ public class MagicPrice implements Comparable<MagicPrice> {
 		return currency;
 	}
 
-	
+
 	public void setCurrency(String currencyCode)
 	{
 		if(!currencyCode.isEmpty())
 			this.currency=Currency.getInstance(currencyCode.toUpperCase());
 	}
-	
-	
+
+
 	public void setCurrency(Currency currency) {
 		this.currency = currency;
 	}
@@ -127,14 +127,16 @@ public class MagicPrice implements Comparable<MagicPrice> {
 		this.value = value;
 	}
 
+	@Override
 	public String toString() {
 		return String.valueOf(magicCard);
 	}
 
+	@Override
 	public int compareTo(MagicPrice o) {
 		return (int) (getValue() - o.getValue());
 	}
-	
+
 	public void setCountry(String c) {
 		country = c;
 

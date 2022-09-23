@@ -5,7 +5,7 @@ import java.io.Serializable;
 import com.google.gson.annotations.SerializedName;
 
 public class Location implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 	private String city;
 	private String region;
@@ -18,7 +18,7 @@ public class Location implements Serializable {
 	private String timezone;
 	@SerializedName(value = "country_area")private Double countryArea;
 	private String operator;
-		
+
 		public String getCity() {
 			return city;
 		}

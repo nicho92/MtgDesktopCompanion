@@ -12,33 +12,33 @@ import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 
 public class PCAGrader extends AbstractGradersProvider {
-	
+
 	@Override
 	public String getWebSite() {
 		return "https://pcagrade.com";
 	}
-	
+
 	@Override
 	public Grading loadGrading(String identifier) throws IOException {
-		
+
 		var url=getWebSite()+"/resumeBdd/"+identifier+"/1";
 		var d = RequestBuilder.build().method(METHOD.GET)
 				   .setClient(URLTools.newClient())
 				   .url(url)
 				   .toHtml();
-		
-		
+
+
 		Elements els = d.select("li.mb-1");
-		
+
 		if(els.isEmpty())
 		{
 			logger.debug(identifier +" is not found for " + getName());
 			return null;
 		}
-		
+
 		els.get(3).select("strong").remove();
 		els.get(5).select("strong").remove();
-	
+
 		var g = new Grading();
 		g.setGraderName(getName());
 		g.setNumberID(identifier);

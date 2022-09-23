@@ -14,12 +14,12 @@ import org.magic.tools.UITools;
 public class CardKingdomCardExport extends AbstractCardExport {
 
 	private static final String BASE_URL="https://www.cardkingdom.com/builder";
-	
+
 	@Override
 	public String getFileExtension() {
 		return "";
 	}
-	
+
 	@Override
 	public boolean needDialogForDeck(MODS mod) {
 		return false;
@@ -29,35 +29,35 @@ public class CardKingdomCardExport extends AbstractCardExport {
 	public boolean needDialogForStock(MODS mod) {
 		return false;
 	}
-	
+
 	@Override
 	public boolean needFile() {
 		return false;
 	}
-	
+
 	@Override
 	public MODS getMods() {
 		return MODS.EXPORT;
 	}
-	
+
 	@Override
 	public MTGExportCategory getCategory() {
 		return MTGExportCategory.ONLINE;
 	}
-	
-	
+
+
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		var temp = new StringBuilder();
-		
+
 		var s = BASE_URL+"?partner=Mtgdesktopcompanion&utm_source=Mtgdesktopcompanion&utm_medium=affiliate&utm_campaign=Mtgdesktopcompanion&c=";
-		
+
 		for(Entry<MagicCard, Integer> e : deck.getMain().entrySet())
 			temp.append(e.getValue()).append(" ").append(e.getKey()).append("||");
-		
-			
+
+
 		s = s + URLTools.encode(temp.toString());
-			
+
 		UITools.browse(s);
 
 	}
@@ -76,5 +76,5 @@ public class CardKingdomCardExport extends AbstractCardExport {
 	public boolean isPartner() {
 		return true;
 	}
-	
+
 }

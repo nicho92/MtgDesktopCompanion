@@ -91,7 +91,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	private String colAnnounces="announces";
 	private String colGed="ged";
 	private String colFavorites="favorites";
-	
+
 	private String dbIDField = "db_id";
 	private String dbAlertField = "alertItem";
 	private String dbNewsField = "newsItem";
@@ -101,7 +101,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	private MongoClient client;
 	private JsonWriterSettings setts;
 	private String[] collectionsNames = new String[] {colCards,colCollects,colStocks,colAlerts,colNews,colOrders,colSealed,colTransactions,colContacts,colDecks,colConversionItem,colAnnounces,colGed,colFavorites};
-	
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 	return Map.of(
@@ -114,20 +114,20 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			PARAMETERS, ""
 			);
 	}
-			
+
 	private <T> T deserialize(Object o, Class<T> classe) {
-		
+
 		if(o==null)
 			return null;
-	
+
 		return serialiser.fromJson(String.valueOf(o.toString()), classe);
 
 	}
-	
+
 	private MagicDeck deserializeDeck(BasicDBObject o) {
 		if(o==null)
 			return null;
-		
+
 		return serialiser.importDeck(o.toJson(setts),o.getString("name"));
 	}
 
@@ -135,13 +135,13 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		return serialiser.toJson(o);
 	}
 
-	
+
 	@Override
 	public String getVersion() {
 		return "3.12.10";
-	
+
 	}
-	
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
@@ -152,37 +152,38 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		if(client!=null)
 			client.close();
 	}
-	
-	
+
+
+	@Override
 	public void init() throws SQLException {
 
 		var pojoCodecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),fromProviders(PojoCodecProvider.builder().automatic(true).build()));
-			
-		setts = JsonWriterSettings.builder().outputMode(JsonMode.RELAXED).build();
-		
 
-		
+		setts = JsonWriterSettings.builder().outputMode(JsonMode.RELAXED).build();
+
+
+
 		var temp = new StringBuilder();
 					  temp.append(getString(DRIVER)).append(getString(LOGIN)).append(":").append(getString(PASS));
 					  temp.append("@").append(getString(SERVERNAME));
 					  if(!getString(SERVERPORT).isEmpty())
 						  temp.append(":").append(getString(SERVERPORT));
-					  
+
 					  temp.append("/").append(getString(DB_NAME));
-					  
+
 					  if(!getString(PARAMETERS).isEmpty())
 						  temp.append("?").append(getString(PARAMETERS));
-					  
-					  
-			logger.debug("{} connected to {}",getName(),temp);		  
-				
+
+
+			logger.debug("{} connected to {}",getName(),temp);
+
 			MongoClientSettings settings = MongoClientSettings.builder()
 			                .applyConnectionString(new ConnectionString(temp.toString()))
 			                .addCommandListener(new CommandListener() {
-								
-			                	
+
+
 			                	DAOInfo e;
-			                	
+
 								@Override
 								public void commandSucceeded(CommandSucceededEvent event) {
 										e.setDuration(event.getElapsedTime(TimeUnit.MILLISECONDS));
@@ -190,7 +191,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 										e.setClasseName(event.getClass().getCanonicalName());
 									TechnicalServiceManager.inst().store(e);
 								}
-								
+
 								@Override
 								public void commandStarted(CommandStartedEvent event) {
 									e = new DAOInfo();
@@ -198,7 +199,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 									e.setQuery(event.getCommand().getFirstKey() + " " + event.getCommand().get(event.getCommand().getFirstKey()));
 									e.setConnectionName(event.getConnectionDescription().toString());
 								}
-								
+
 								@Override
 								public void commandFailed(CommandFailedEvent event) {
 									e.setMessage(event.getThrowable().getMessage());
@@ -208,19 +209,19 @@ public class MongoDbDAO extends AbstractMagicDAO {
 								}
 							})
 			                .build();
-			
+
 			client = MongoClients.create(settings);
-		
+
 			db = client.getDatabase(getString(DB_NAME)).withCodecRegistry(pojoCodecRegistry);
-			
+
 			createDB();
 			logger.info("init {} done",getName());
-			
-		
+
+
 	}
 
 	public boolean createDB() {
-		
+
 			var populateCollections=true;
 			for(String s : collectionsNames)
 			{
@@ -231,7 +232,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 					populateCollections=false;
 				}
 			}
-			
+
 			if(populateCollections)
 				for(String s:  MTGConstants.getDefaultCollectionsNames())
 					try {
@@ -239,28 +240,28 @@ public class MongoDbDAO extends AbstractMagicDAO {
 					} catch (SQLException e) {
 						logger.error(e);
 					}
-			
-			
+
+
 		return populateCollections;
 	}
-	
-	
+
+
 
 	@Override
 	public <T extends MTGStorable> boolean storeEntry(GedEntry<T> gedItem) {
-		
+
 		var obj = BasicDBObject.parse(gedItem.toJson().toString());
 			  obj.put("md5", CryptoUtils.getMD5(gedItem.getContent()));
-		
+
 		db.getCollection(colGed, BasicDBObject.class).insertOne(obj);
 		notify(true);
 		return true;
 	}
-	
-	
+
+
 	@Override
 	public <T extends MTGStorable> GedEntry<T> readEntry(String classe, String idInstance, String fileName) throws SQLException {
-		try{ 
+		try{
 			return (GedEntry<T>) list(classe,idInstance,fileName).get(0);
 		}
 		catch(IndexOutOfBoundsException ioobe)
@@ -268,106 +269,106 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			throw new SQLException(ioobe);
 		}
 	}
-	
+
 	@Override
 	public <T extends MTGStorable> List<GedEntry<T>> listAllEntries() throws SQLException {
 		return list(null,null,null);
 	}
-	
+
 	@Override
 	public <T extends MTGStorable> List<GedEntry<T>> listEntries(String classename, String id) {
 		return list(classename,id,null);
 	}
-	
-	
+
+
 	private <T extends MTGStorable> List<GedEntry<T>> list(String classename, String id, String fileName) {
-		
+
 		var arr = new ArrayList<GedEntry<T>>();
-		FindIterable<BasicDBObject> it = null; 
-		
-		Bson f = null;		
-		
+		FindIterable<BasicDBObject> it = null;
+
+		Bson f = null;
+
 		if(classename!=null && id!=null  && fileName==null)
 			f = Filters.and(Filters.eq("classe", classename),Filters.eq("id", id));
-		
+
 		if(classename!=null && id!=null && fileName!=null)
 			f= Filters.and(Filters.eq("classe", classename),Filters.eq("id", id),Filters.eq("name", fileName));
-		
-		
+
+
 		logger.debug("reading entries with f={}",f);
-		
+
 		if(f==null)
 			it = db.getCollection(colGed, BasicDBObject.class).find();
 		else
 			it = db.getCollection(colGed, BasicDBObject.class).find(f);
-		
-		it.forEach((Consumer<BasicDBObject>) result -> { 
+
+		it.forEach((Consumer<BasicDBObject>) result -> {
 			var entry = new GedEntry<T>();
 				entry.setId(result.get("id").toString());
 				entry.setName(result.get("name").toString());
 				entry.setContent(CryptoUtils.fromBase64(result.getString("data")));
 				entry.setIsImage(ImageTools.isImage(entry.getContent()));
-				
+
 				try {
 					entry.setClasse(PluginRegistry.inst().loadClass(result.getString("classe")));
 				} catch (ClassNotFoundException e) {
 					logger.debug("can't load {}",classename,e);
 				}
-				
-				
+
+
 				if(CryptoUtils.getMD5(entry.getContent()).equals(result.get("md5")))
 					arr.add(entry);
 				else
 					logger.error("MD5 error for {}",entry.getName());
-				
+
 			}
 		);
 		return arr;
 	}
-	
-	
-	
-	
+
+
+
+
 	@Override
 	public <T extends MTGStorable> boolean deleteEntry(GedEntry<T> gedItem) {
 		db.getCollection(colGed).deleteOne(Filters.and(Filters.eq("name", gedItem.getName()),Filters.eq("classe", gedItem.getClasse().getCanonicalName()),Filters.eq("id", gedItem.getId())));
 		notify(gedItem);
 		return true;
 	}
-	
-	
-	
+
+
+
 	@Override
 	public void deleteStock(SealedStock state) throws SQLException {
 		db.getCollection(colSealed).deleteOne(Filters.eq("id", state.getId()));
 		notify(state);
-		
+
 	}
-	
+
 	@Override
 	public void deleteConversionItem(ConverterItem n) throws SQLException {
 		db.getCollection(colConversionItem).deleteOne(Filters.eq("id", n.getId()));
 		notify(n);
-		
+
 	}
-	
+
 
 	@Override
 	public void deleteContact(Contact contact)throws SQLException {
-		
+
 		if(!listTransactions(contact).isEmpty())
 			throw new SQLException(contact + " has transactions and can't be removed ");
-		
+
 		db.getCollection(colContacts).deleteOne(Filters.eq("id", contact.getId()));
 		notify(contact);
-		
+
 	}
-	
-		
+
+
 	@Override
 	public List<MagicDeck> listDecks() throws SQLException {
 		List<MagicDeck> stocks = new ArrayList<>();
-		db.getCollection(colDecks, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result -> { 
+		db.getCollection(colDecks, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result -> {
 				MagicDeck d = deserializeDeck(result);
 				stocks.add(d);
 				notify(d);
@@ -375,24 +376,24 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		);
 		return stocks;
 	}
-	
+
 	@Override
 	public List<ConverterItem> listConversionItems() throws SQLException {
 		List<ConverterItem> stocks = new ArrayList<>();
 		db.getCollection(colConversionItem, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result -> stocks.add(deserialize(result, ConverterItem.class)));
 		return stocks;
 	}
-	
-	
+
+
 	@Override
 	public MagicDeck getDeckById(Integer id) throws SQLException {
 		return deserializeDeck(db.getCollection(colDecks,BasicDBObject.class)
 								 .find(Filters.eq("id", id))
 								 .first());
-		
+
 	}
-	
-	
+
+
 
 	@Override
 	public Integer saveOrUpdateDeck(MagicDeck state) throws SQLException {
@@ -406,27 +407,27 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			UpdateResult res = db.getCollection(colDecks, BasicDBObject.class).replaceOne(Filters.eq("id", state.getId()),BasicDBObject.parse(serialiser.toJsonDeck(state).toString()));
 			logger.trace(res);
 		}
-		
+
 		notify(state);
 		return state.getId();
 	}
-	
+
 	@Override
 	public void deleteDeck(MagicDeck d) throws SQLException {
 		logger.debug("Deleting {} : {}" ,d, d.getId());
 		DeleteResult dr = db.getCollection(colDecks, BasicDBObject.class).deleteOne(Filters.eq("id",d.getId()));
 		logger.debug("result={}",dr);
 	}
-	
-	
-	
+
+
+
 	@Override
 	public List<SealedStock> listSealedStocks() throws SQLException {
 		List<SealedStock> stocks = new ArrayList<>();
 		db.getCollection(colSealed, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result -> stocks.add(deserialize(result, SealedStock.class)));
 		return stocks;
 	}
-	
+
 	@Override
 	public void saveOrUpdateConversionItem(ConverterItem state) throws SQLException {
 		logger.debug("saving conversion {}",state);
@@ -435,17 +436,17 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			db.getCollection(colConversionItem, BasicDBObject.class).insertOne(BasicDBObject.parse(serialize(state)));
 			state.setUpdated(false);
 		} else {
-			
+
 			UpdateResult res = db.getCollection(colConversionItem, BasicDBObject.class).replaceOne(Filters.eq("id", state.getId()),BasicDBObject.parse(serialize(state)));
 			logger.trace(res);
 			state.setUpdated(false);
 		}
-		
+
 		notify(state);
-		
+
 	}
-	
-	
+
+
 	@Override
 	public void saveOrUpdateSealedStock(SealedStock state) throws SQLException {
 		logger.debug("saving stock {}",state);
@@ -454,19 +455,19 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			db.getCollection(colSealed, BasicDBObject.class).insertOne(BasicDBObject.parse(serialize(state)));
 
 		} else {
-			
+
 			UpdateResult res = db.getCollection(colSealed, BasicDBObject.class).replaceOne(Filters.eq("id", state.getId()),BasicDBObject.parse(serialize(state)));
 			logger.trace(res);
 		}
-		
+
 		notify(state);
-		
+
 	}
 
 	@Override
 	public void saveCard(MagicCard mc, MagicCollection collection) throws SQLException {
 		logger.debug("saveCard {} in {}",mc,collection);
-		
+
 		var obj = new BasicDBObject();
 		obj.put(dbIDField, IDGenerator.generate(mc));
 		obj.put("card", mc);
@@ -474,7 +475,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		obj.put("dateUpdate", new Date().getTime());
 		obj.put("set", mc.getCurrentSet().getId().toUpperCase());
 		String json = serialize(obj);
-		
+
 		db.getCollection(colCards, BasicDBObject.class).insertOne(BasicDBObject.parse(json));
 	}
 
@@ -495,7 +496,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 				.add(deserialize(result.get("card").toString(), MagicCard.class)));
 		return list;
 	}
-	
+
 	@Override
 	public Map<String, Integer> getCardsCountGlobal(MagicCollection c) throws SQLException {
 		Map<String, Integer> map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
@@ -508,7 +509,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 
 
-	
+
 	@Override
 	public List<MagicCard> listCardsFromCollection(MagicCollection collection) throws SQLException {
 		return listCardsFromCollection(collection, null);
@@ -523,15 +524,15 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			return (int) db.getCollection(colCards, BasicDBObject.class).countDocuments(new BasicDBObject(dbColIDField, cols.getName()));
 		}
 	}
-	
-	
+
+
 	@Override
 	public List<MagicCard> listCardsFromCollection(MagicCollection collection, MagicEdition me) throws SQLException {
-	
+
 		List<MagicCard> ret = new ArrayList<>();
-		
+
 		var b = Filters.eq(dbColIDField,collection.getName());
-		
+
 		if (me != null) {
 			b = Filters.and(b,Filters.eq("card.editions.0.id",me.getId().toUpperCase()));
 		}
@@ -539,7 +540,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		c.start();
 		db.getCollection(colCards, BasicDBObject.class).find(b).forEach((Consumer<BasicDBObject>) result -> ret.add(deserialize(result.get("card"), MagicCard.class)));
 
-		
+
 		return ret;
 	}
 
@@ -589,28 +590,28 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		return getString(SERVERNAME)+":"+getInt(SERVERPORT);
 	}
 
-	
+
 	public static void main(String[] args) throws SQLException {
-		
+
 		MongoDbDAO dao = new MongoDbDAO();
 		dao.init();
-		
-		
+
+
 		dao.getDBSize();
-		
+
 	}
-	
-	
+
+
 	@Override
 	public Map<String,Long> getDBSize() {
-		
+
 		var map = new HashMap<String,Long>();
-		
+
 		for(String col : collectionsNames)
 			{
 				map.put(col, db.runCommand(new BasicDBObject("collStats", col)).getInteger("size").longValue());
 			}
-		
+
 		return map;
 	}
 
@@ -648,6 +649,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		return ret;
 	}
 
+	@Override
 	public List<MagicCardStock> listStocks() throws SQLException {
 		List<MagicCardStock> stocks = new ArrayList<>();
 		db.getCollection(colStocks, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result -> stocks
@@ -667,7 +669,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			db.getCollection(colStocks, BasicDBObject.class).insertOne(BasicDBObject.parse(serialize(obj)));
 
 		} else {
-			
+
 			var obj = new BasicDBObject();
 			obj.put(dbStockField, state);
 			obj.put(dbIDField, IDGenerator.generate(state.getProduct()));
@@ -691,8 +693,8 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	@Override
 	public void initAlerts() {
-		db.getCollection(colAlerts, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result ->{ 
-				
+		db.getCollection(colAlerts, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result ->{
+
 				MagicCardAlert al = deserialize(result.get(dbAlertField).toString(), MagicCardAlert.class);
 				listAlerts.put(al.getId(),al);
 				});
@@ -755,7 +757,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	@Override
 	public List<MagicNews> listNews() {
 		List<MagicNews> news = new ArrayList<>();
-		db.getCollection(colNews, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result ->{ 
+		db.getCollection(colNews, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result ->{
 			MagicNews mn = deserialize(result.get(dbNewsField).toString(), MagicNews.class);
 			try{
 				mn.setProvider(getPlugin(result.get(dbTypeNewsField).toString(),MTGNewsProvider.class));
@@ -776,7 +778,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	@Override
 	public void saveOrUpdateNews(MagicNews state) {
-	
+
 		if (state.getId() == -1) {
 			logger.debug("saving {}",state);
 			state.setId(Integer.parseInt(getNextSequence().toString()));
@@ -813,7 +815,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			UpdateResult res = db.getCollection(colOrders, BasicDBObject.class).replaceOne(Filters.eq("id", state.getId()),BasicDBObject.parse(serialize(state)));
 			logger.debug(res);
 		}
-		
+
 	}
 
 	@Override
@@ -831,25 +833,25 @@ public class MongoDbDAO extends AbstractMagicDAO {
 				OrderEntry o = deserialize(result, OrderEntry.class);
 				listOrders.put(o.getId(),o);
 			});
-		
+
 	}
-	
+
 	@Override
 	public void executeQuery(String query) throws SQLException {
 		throw new SQLException("Not implemented");
-		
+
 	}
-	
+
 
 	@Override
 	public boolean equals(Object obj) {
-		
+
 		if(obj ==null)
 			return false;
-		
+
 		return hashCode()==obj.hashCode();
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return getName().hashCode();
@@ -862,39 +864,39 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			Transaction o = deserialize(result.toString(), Transaction.class);
 			trans.add(o);
 		});
-		
+
 		return trans;
 	}
 
-	
+
 
 	@Override
 	public Announce getAnnounceById(int id) throws SQLException {
 		return deserialize(db.getCollection(colAnnounces,BasicDBObject.class)
 								 .find(Filters.eq("id", id))
 								 .first(),Announce.class);
-		
+
 	}
-	
-	
-	
+
+
+
 	@Override
 	public List<Announce> listAnnounces(int max,STATUS stat) {
 		List<Announce> trans = new ArrayList<>();
-		
+
 		var it = db.getCollection(colAnnounces, BasicDBObject.class).find().sort(Sorts.descending("id"));
-			
-		if(max>0) 
+
+		if(max>0)
 			it = it.limit(max);
-		
+
 		//TODO add filter for status
-		
+
 		it.forEach((Consumer<BasicDBObject>) result ->{
 			Announce o = deserialize(result.toString(), Announce.class);
 			trans.add(o);
 		});
-		
-		
+
+
 		return trans;
 	}
 
@@ -909,18 +911,18 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			logger.trace(res);
 		}
 		return t.getId();
-		
+
 	}
 
 	@Override
 	public void deleteAnnounce(Announce a) throws SQLException {
 		DeleteResult rs = db.getCollection(colAnnounces).deleteOne(Filters.eq("id",a.getId()));
 		logger.debug(rs);
-		
+
 	}
 
-	
-	
+
+
 	@Override
 	public List<Transaction> listTransactions() throws SQLException {
 
@@ -929,8 +931,8 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			Transaction o = deserialize(result.toString(), Transaction.class);
 			trans.add(o);
 		});
-		
-		
+
+
 		return trans;
 	}
 
@@ -942,11 +944,11 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			Contact o = deserialize(result.toString(), Contact.class);
 			trans.add(o);
 		});
-		
-		
+
+
 		return trans;
 	}
-	
+
 	@Override
 	public Long saveOrUpdateTransaction(Transaction t) throws SQLException {
 		if (t.getId() == -1) {
@@ -971,9 +973,9 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	@Override
 	public boolean enableContact(String token) throws SQLException {
-		
+
 		Contact doc = deserialize(db.getCollection(colContacts, BasicDBObject.class).find(Filters.eq("temporaryToken",token)).first(),Contact.class);
-		
+
 		if(doc!=null)
 		{
 			doc.setTemporaryToken(null);
@@ -981,39 +983,39 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			saveOrUpdateContact(doc);
 			return true;
 		}
-		
+
 		return false;
-			
+
 	}
-	
-	
+
+
 	@Override
 	public void changePassword(Contact c, String newPassword) throws SQLException {
 		var passBson = new BasicDBObject();
-		passBson.put(PASSWORD, IDGenerator.generateSha256(newPassword)); 
+		passBson.put(PASSWORD, IDGenerator.generateSha256(newPassword));
 
 		var updateBson = new BasicDBObject();
-		updateBson.put("$set", passBson); 
-		
-		
+		updateBson.put("$set", passBson);
+
+
 		var res = db.getCollection(colContacts, BasicDBObject.class).updateOne(Filters.eq("id",c.getId()),updateBson);
 		logger.debug(res);
 	}
-	
-	
+
+
 	@Override
 	public int saveOrUpdateContact(Contact c) throws SQLException {
-		if (c.getId() == -1) 
+		if (c.getId() == -1)
 		{
 			c.setPassword(IDGenerator.generateSha256(c.getPassword()));
 			if(db.getCollection(colContacts, BasicDBObject.class).find(Filters.eq(EMAIL,c.getEmail())).first()!=null)
 				throw new SQLException("Please choose another email");
-		
+
 			c.setId(Integer.parseInt(getNextSequence().toString()));
-			
+
 			db.getCollection(colContacts, BasicDBObject.class).insertOne(BasicDBObject.parse(serialize(c)));
 
-		} 
+		}
 		else {
 			var contactUpdateData = new BasicDBObject();
 			try {
@@ -1021,21 +1023,21 @@ public class MongoDbDAO extends AbstractMagicDAO {
 					try {
 						if(!k.equalsIgnoreCase(PASSWORD))
 							contactUpdateData.put(k, PropertyUtils.getProperty(c,k));
-						
+
 					}  catch (Exception e) {
 						logger.error(e);
 					}
-					
+
 				});
 			} catch (Exception e) {
 				logger.error(e);
 			}
-			
-		
+
+
 			var update = new BasicDBObject();
 						  update.put("$set", contactUpdateData);
-		
-			
+
+
 			var res = db.getCollection(colContacts, BasicDBObject.class).updateOne(Filters.eq("id",c.getId()),update);
 			logger.debug(res);
 		}
@@ -1043,12 +1045,12 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 
 
-	
+
 	@Override
 	public Transaction getTransaction(Long id) throws SQLException {
 		return deserialize(db.getCollection(colTransactions,BasicDBObject.class).find(Filters.eq("id", id)).first(),Transaction.class);
 	}
-	
+
 	@Override
 	public Contact getContactById(int id) throws SQLException {
 		return deserialize(db.getCollection(colContacts).find(Filters.eq("id", id),BasicDBObject.class).first(),Contact.class);
@@ -1078,35 +1080,35 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	@Override
 	public void saveFavorites(int idContact, int idAnnounce, String classeName) throws SQLException {
-		
+
 		var obj = new BasicDBObject();
 			obj.put("idContact", idContact);
 			obj.put("idAnnounce", idAnnounce);
 			obj.put("classeName", classeName);
-			
+
 		db.getCollection(colFavorites, BasicDBObject.class).insertOne(obj);
-		
+
 	}
 
 	@Override
 	public void deleteFavorites(int idContact, int idAnnounce, String classeName) throws SQLException {
 		DeleteResult rs = db.getCollection(colFavorites).deleteOne(Filters.and(Filters.eq("idContact", idContact),Filters.eq("idAnnounce",idAnnounce),Filters.eq("classeName",classeName)));
 		logger.debug(rs);
-		
+
 	}
 
 	@Override
 	public List<Announce> listFavorites(Contact c, String classeName) throws SQLException {
 		List<Announce> trans = new ArrayList<>();
 		db.getCollection(colFavorites, BasicDBObject.class).find(Filters.and(Filters.eq("idContact", c.getId()),Filters.eq("classeName",classeName))).forEach((Consumer<BasicDBObject>) result ->{
-			
+
 			try {
 				var announce = getAnnounceById(Integer.parseInt(result.get("idAnnounce").toString()));
 				trans.add(announce);
 			}catch (Exception e) {
 				logger.error(e);
 			}
-			
+
 		});
 		return trans;
 	}

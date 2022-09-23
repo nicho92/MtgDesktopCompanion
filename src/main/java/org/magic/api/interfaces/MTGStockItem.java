@@ -7,12 +7,13 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.enums.EnumCondition;
 
 public interface MTGStockItem extends MTGStorable, Comparable<MTGStockItem> {
-	
-	
+
+
 	public 	void setGrade(Grading grade);
 
 	public 	Grading getGrade();
 
+	@Override
 	public 	String toString();
 
 	public 	Double getPrice();
@@ -20,9 +21,9 @@ public interface MTGStockItem extends MTGStorable, Comparable<MTGStockItem> {
 	public 	void setPrice(Double price);
 
 	public 	Long getId();
-	
+
 	public 	void setId(Integer id);
-	
+
 	public 	void setId(Long id);
 
 	public 	MagicCollection getMagicCollection();
@@ -72,7 +73,7 @@ public interface MTGStockItem extends MTGStorable, Comparable<MTGStockItem> {
 	public <T extends MTGProduct> T getProduct();
 
 	public EnumCondition getCondition();
-	
+
 	public void setCondition(EnumCondition condtion);
 
 }

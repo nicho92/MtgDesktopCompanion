@@ -21,16 +21,16 @@ import com.google.gson.JsonObject;
 
 public class MypCardPricer extends AbstractPricesProvider {
 
-	
+
 	private static final String BASE_URL="https://mypcards.com";
 	private MTGHttpClient client;
-	
-	
+
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
 	}
-	
+
 	@Override
 	public String getName() {
 		return "Mypcards";
@@ -40,17 +40,17 @@ public class MypCardPricer extends AbstractPricesProvider {
 	protected List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 
 		List<MagicPrice> list = new ArrayList<>();
-		
+
 		String set = card.getCurrentSet().getId();
-			
+
 		if(client==null)
 			client=URLTools.newClient();
-		
-		
+
+
 		String url=BASE_URL+"/produto/search";
 		JsonElement e = RequestBuilder.build().url(url).setClient(client).method(METHOD.GET).addContent("term",card.getName()).toJson();
 		JsonObject o = null;
-		
+
 		try{
 			o=e.getAsJsonArray().get(0).getAsJsonObject();
 		}catch(Exception ex)
@@ -58,9 +58,9 @@ public class MypCardPricer extends AbstractPricesProvider {
 			logger.error("error getting {} at {} ",card,url,ex);
 			return new ArrayList<>();
 		}
-		
+
 		var qtyVariation = o.get("qtd").getAsInt();
-		
+
 		if(qtyVariation==1)
 		{
 			parsingOffers(BASE_URL + "/produto/"+o.get("idproduto").getAsInt()+"/"+o.get("slugnomeptproduto").getAsString(),list,card);
@@ -68,7 +68,7 @@ public class MypCardPricer extends AbstractPricesProvider {
 		else
 		{
 			Elements divs = RequestBuilder.build().method(METHOD.GET).url(BASE_URL + "/magic").setClient(client).addContent("ProdutoSearch[query]", card.getName()).toHtml().select("div.card");
-			
+
 			for(Element div : divs)
 			{
 				if(div.select("a div").toString().contains("magic_"+set.toLowerCase()+"_"))
@@ -83,7 +83,7 @@ public class MypCardPricer extends AbstractPricesProvider {
 
 		return list;
 	}
-	
+
 	private void parsingOffers(String urlC, List<MagicPrice> list,MagicCard card) throws IOException {
 		Elements trs = URLTools.extractAsHtml(urlC).select("table.table tr[data-key]");
 		for(Element tr : trs)
@@ -111,6 +111,6 @@ public class MypCardPricer extends AbstractPricesProvider {
 		}
 		logger.debug("{} found {} offers ",getName(),list.size());
 	}
-	
+
 
 }

@@ -5,16 +5,16 @@ import java.io.Serializable;
 import org.magic.tools.UITools;
 
 public class MemoryInfo implements Serializable, Comparable<MemoryInfo> {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private Class<?> classe;
 	private long count;
 	private long size;
-	
+
 	public MemoryInfo() {
 	}
-	
+
 	public MemoryInfo(Class<?> classe, long count, long size) {
 		this.classe = classe;
 		this.count = count;
@@ -51,8 +51,8 @@ public class MemoryInfo implements Serializable, Comparable<MemoryInfo> {
 	public void setSize(long size) {
 		this.size = size;
 	}
-	
-	
+
+
 	@Override
 	public String toString() {
 		return "COUNT="+getCount()+"\tSIZE="+getSize()+"\tAVG="+UITools.formatDouble(getAvg()) +"\t"+getClasse();
@@ -62,6 +62,6 @@ public class MemoryInfo implements Serializable, Comparable<MemoryInfo> {
 	public int compareTo(MemoryInfo mem) {
 		return (int) (getCount()-mem.getCount());
 	}
-	
+
 
 }

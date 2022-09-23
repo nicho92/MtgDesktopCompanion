@@ -28,7 +28,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 	private static final String URL = "URL";
 	private Map<Integer, String> cacheColor;
 
-	
+
 	public DeckstatsDeckSniffer() {
 		super();
 		cacheColor = new HashMap<>();
@@ -83,23 +83,23 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
 		logger.debug("get deck {}",info.getUrl());
 		Document d = URLTools.extractAsHtml(info.getUrl().toString());
-		
+
 		if (d.select("div#deck_overview_info") != null)
 			deck.setDescription(d.select("div#deck_overview_info").select("div.deck_text_editable_container").text());
 		else
 			deck.setDescription("From " + getName() +" at " + info.getUrl());
-		
+
 		for (Element a : d.select("a.deck_tags_list_tag"))
 			deck.getTags().add(a.text());
 
 		Elements e = d.select("textarea#deck_code");
 		String content= e.html();
-		
+
 		String[] arr  = content.split("\n");
-		
+
 		arr = ArrayUtils.remove(arr, 0); //remove deck name
 		arr = ArrayUtils.remove(arr, 0); //remove //main
-		
+
 		for(String s : arr)
 		{
 			try {
@@ -130,7 +130,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
 		int nbPage = getInt(MAX_PAGE);
 		List<RetrievableDeck> list = new ArrayList<>();
-		
+
 		for (var i = 1; i <= nbPage; i++) {
 			Document d = URLTools.extractAsHtml(getString(URL) + "/" + filter + "/?lng=fr&page=" + i);
 			Elements e = d.select("tr.deck_row");
@@ -177,8 +177,8 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 	public String getVersion() {
 		return "3.0";
 	}
-	
 
-	
+
+
 
 }

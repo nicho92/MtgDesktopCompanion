@@ -18,11 +18,11 @@ public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 	private static final String IMAGES_TAG = "images";
 	private static final String TITLE_TAG = "title";
 	private static final String CLIENTID="CLIENTID";
-	
+
 	@Override
 	public List<Wallpaper> search(String search) {
-		
-		
+
+
 		List<Wallpaper> ret = new ArrayList<>();
 		MTGHttpClient c = URLTools.newClient();
 		Map<String,String> h = new HashMap<>();
@@ -33,33 +33,33 @@ public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 			logger.error("please fill CLIENTID attribute in config panel");
 			return ret;
 		}
-		
-		
+
+
 		try {
-			
+
 			String query=search.trim().replace(" ", " AND ");
-	
+
 			e.put("q", query);
 			e.put("mature", "true");
 			h.put("Authorization","Client-ID "+getAuthenticator().get(CLIENTID));
-			
-			
+
+
 			String s= c.toString(c.doGet("https://api.imgur.com/3/gallery/search/"+getString("SORT").toLowerCase()+"/"+getString("WINDOW"), h,e));
-			
+
 			URLTools.toJson(s).getAsJsonObject().get("data").getAsJsonArray().forEach(je->{
-				
+
 				var defaultTitle =je.getAsJsonObject().get(TITLE_TAG).getAsString();
-				
+
 				if(je.getAsJsonObject().get(IMAGES_TAG)!=null)
 				{
 					je.getAsJsonObject().get(IMAGES_TAG).getAsJsonArray().forEach(im->{
 						var w = new Wallpaper();
-						
+
 						if(!im.getAsJsonObject().get(TITLE_TAG).isJsonNull())
 							w.setName(im.getAsJsonObject().get(TITLE_TAG).getAsString());
 						else
 							w.setName(defaultTitle);
-						
+
 						w.setUrl(URI.create(im.getAsJsonObject().get("link").getAsString()));
 						w.setFormat(FilenameUtils.getExtension(String.valueOf(w.getUrl())));
 						ret.add(w);
@@ -72,19 +72,19 @@ public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 							w.setName(defaultTitle);
 							w.setUrl(URI.create(je.getAsJsonObject().get("link").getAsString()));
 							w.setFormat(FilenameUtils.getExtension(String.valueOf(w.getUrl())));
-					
+
 					ret.add(w);
 					notify(w);
 				}
-				
-				
-				
-				
+
+
+
+
 			});
 		} catch (IOException ex) {
 			logger.error(ex);
 		}
-		
+
 		return ret;
 
 	}
@@ -99,8 +99,8 @@ public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 	public List<String> listAuthenticationAttributes() {
 		return List.of(CLIENTID);
 	}
-	
-	
+
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of("SORT", "time",

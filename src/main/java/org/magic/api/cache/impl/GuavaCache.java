@@ -16,22 +16,22 @@ import com.google.common.cache.CacheBuilder;
 public class GuavaCache extends AbstractCacheProvider {
 
 	Cache<String, BufferedImage> cache;
-	
-	
+
+
 	public GuavaCache() {
 		 cache = CacheBuilder.newBuilder()
 								 			.maximumSize(getInt("MAX_ITEM"))
 								 			.expireAfterAccess(getInt("EXPIRATION_MINUTE"), TimeUnit.MINUTES)
 								 			.build();
 	}
-	
-	
+
+
 	@Override
 	public long size() {
 		return cache.asMap().entrySet().stream().mapToLong(MemoryTools::sizeOf).sum();
 	}
-	
-	
+
+
 	@Override
 	public BufferedImage getItem(MagicCard mc) {
 		return cache.getIfPresent(generateIdIndex(mc));
@@ -47,7 +47,7 @@ public class GuavaCache extends AbstractCacheProvider {
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of("MAX_ITEM","1000","EXPIRATION_MINUTE","10");
 	}
-	
+
 	@Override
 	public void clear() {
 		cache.invalidateAll();
@@ -58,11 +58,11 @@ public class GuavaCache extends AbstractCacheProvider {
 	public String getName() {
 		return "Guava";
 	}
-	
+
 	@Override
 	public String getVersion() {
 		return POMReader.readVersionFromPom(GuavaCache.class, "/META-INF/maven/com.google.guava/guava/pom.properties");
 	}
-	
+
 
 }

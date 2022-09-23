@@ -18,20 +18,20 @@ public class CardCastleExport extends AbstractFormattedFileCardExport {
 	public String getFileExtension() {
 		return ".csv";
 	}
-	
+
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		var build = new StringBuilder();
 		build.append(header).append("\n");
-		
+
 		deck.getMain().entrySet().forEach(entry->{
-			
+
 			String name = entry.getKey().getName();
-			
+
 			if(name.contains(","))
 				name="\""+name+"\"";
-			
-			
+
+
 			build.append(entry.getValue()).append(getSeparator());
 			build.append(name).append(getSeparator());
 			build.append(entry.getKey().getCurrentSet().getSet()).append(getSeparator());
@@ -40,7 +40,7 @@ public class CardCastleExport extends AbstractFormattedFileCardExport {
 		});
 		FileTools.saveFile(dest, build.toString());
 	}
-	
+
 	@Override
 	public MagicDeck importDeck(String f, String name) throws IOException {
 		var deck = new MagicDeck();
@@ -89,7 +89,7 @@ public class CardCastleExport extends AbstractFormattedFileCardExport {
 		return ",";
 	}
 
-	
-	
+
+
 
 }

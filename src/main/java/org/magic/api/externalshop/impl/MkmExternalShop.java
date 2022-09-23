@@ -49,12 +49,12 @@ import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 
 public class MkmExternalShop extends AbstractExternalShop {
-	
+
 	private static final String ID_GAME = "ID_GAME";
 	private boolean initied=false;
 	private StockService mkmStockService;
-	
-	
+
+
 	private void init()
 	{
 		if(!initied) {
@@ -67,35 +67,35 @@ public class MkmExternalShop extends AbstractExternalShop {
 		}
 		mkmStockService = new StockService();
 	}
-	
-	
+
+
 	@Override
 	public List<Category> listCategories() throws IOException {
 		return new GameService().listCategories().stream().map(c->
 			new Category(c.getIdCategory(), c.getCategoryName())
 		).toList();
 	}
-	
-	
+
+
 	private List<File> loadFiles() throws IOException
 	{
-		
+
 		var serv = new StockService();
-		
-		var temp = new File(MTGConstants.DATA_DIR, "mkm_temp_card.csv"); 
-		var temp2 = new File(MTGConstants.DATA_DIR, "mkm_temp_sealed.csv"); 
-		
+
+		var temp = new File(MTGConstants.DATA_DIR, "mkm_temp_card.csv");
+		var temp2 = new File(MTGConstants.DATA_DIR, "mkm_temp_sealed.csv");
+
 		var g = new Game();
 		g.setIdGame(getInt(ID_GAME));
-		
+
 		serv.exportStock(temp,getInt(ID_GAME),false);
 		serv.exportStock(temp2,getInt(ID_GAME),true);
-		
+
 		return List.of(temp,temp2);
-		
+
 	}
-	
-	
+
+
 	@Override
 	public List<MTGStockItem> loadStock(String search) throws IOException {
 			init();
@@ -104,11 +104,11 @@ public class MkmExternalShop extends AbstractExternalShop {
 				try(CSVParser p = CSVFormat.Builder.create().setDelimiter(";").setHeader().build().parse(new FileReader(f))  )
 				{
 					p.iterator().forEachRemaining(art->{
-		
+
 						if(art.get("English Name").toLowerCase().contains(search.toLowerCase()) || art.get("Exp. Name").toLowerCase().contains(search.toLowerCase()) ||art.get("idArticle").equalsIgnoreCase(search.toLowerCase())) {
-						
+
 							var item = AbstractStockItem.generateDefault();
-				
+
 							var product = new LightProduct();
 								  product.setIdGame(1);
 								  product.setLocName(art.get("Local Name"));
@@ -128,7 +128,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 										item.setCondition(EnumCondition.SEALED);
 										product.setRarity(null);
 									}
-								  
+
 								  item.setProduct(toProduct(product));
 								  item.setQte(Integer.parseInt(art.get("Amount")));
 								  item.setPrice(UITools.parseDouble(art.get("Price")));
@@ -136,14 +136,14 @@ public class MkmExternalShop extends AbstractExternalShop {
 								  item.setComment(art.get("Comments"));
 								  try {
 									  var loc = Tools.listLanguages().get(Integer.parseInt(art.get("Language"))-1);
-									  item.setLanguage(loc.getLanguageName());  
+									  item.setLanguage(loc.getLanguageName());
 								  }
 								  catch(Exception e)
 								  {
 									  logger.error("No language for code =" + art.get("Language"));
 								  }
 								  ret.add(item);
-								  
+
 								  notify(item);
 						}
 					});
@@ -154,7 +154,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 			}
 		return ret;
 	}
-	
+
 	@Override
 	/*
 	 * Overrried to take as MkmIdProduct
@@ -167,12 +167,12 @@ public class MkmExternalShop extends AbstractExternalShop {
 			getRefs(item.getProduct().getProductId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getSource(),String.valueOf(converterItem.getInputId())));
 			itemsBkcp.put(item, new SimpleEntry<>(item.getQte(), item.getPrice()) );
 		});
-			
+
 		return list;
 	}
-	
-	
-	
+
+
+
 	@Override
 	/*
 	 * Overrried to take as MkmIdProduct
@@ -185,22 +185,22 @@ public class MkmExternalShop extends AbstractExternalShop {
 				getRefs(item.getProduct().getProductId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getSource(),String.valueOf(converterItem.getInputId())));
 			})
 			);
-		
+
 		return list;
 	}
-	
-	
+
+
 	@Override
 	protected List<Transaction> loadTransaction()  {
 		init();
-		
+
 		var ret = new ArrayList<Transaction>();
 		try {
 			var serv = new OrderService();
-			
+
 			for(String t: getArray("STATE"))
 				ret.addAll(serv.listOrders(ACTOR.valueOf(getString("ACTOR")),STATE.valueOf(t),1).stream().map(this::toTransaction).toList());
-			
+
 			return ret;
 		} catch (IOException e) {
 			logger.error(e);
@@ -224,11 +224,11 @@ public class MkmExternalShop extends AbstractExternalShop {
 		{
 			stocks.addAll(mkmStockService.readStockFile(f, getInt(ID_GAME)));
 		}
-				
+
 		logger.info(getName() + " will only update his stock from this transation");
 		logger.debug(getName() + " loaded " + stocks.size() +" items");
-		
-		
+
+
 		t.getItems().stream().map(it -> {
 			if(it.getTiersAppIds(getName())==null)
 			{
@@ -239,7 +239,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 			{
 				return parse(it);
 			}
-			
+
 		}).filter(Objects::nonNull).toList().forEach(art->{
 			var articles = stocks.stream().filter(pl->pl.getIdProduct()==art.getIdProduct()).toList();
 			if(articles.size()>1)
@@ -255,22 +255,22 @@ public class MkmExternalShop extends AbstractExternalShop {
 				try {
 					mkmStockService.changeQte(art, -art.getCount());
 				} catch (IOException e) {
-					logger.error(e);				
-				}	
+					logger.error(e);
+				}
 			}
 		});
 		return t.getId();
 	}
 
-	
-	
-	
+
+
+
 	private LightArticle parse(MTGStockItem it) {
 		var ret = new LightArticle();
-		
+
 		ret.setIdArticle(getRefs(it.getId()).get(0).getIdFor(getName()).intValue());
-		
-		
+
+
 		ret.setIdProduct(it.getProduct().getProductId().intValue());
 		ret.setLanguage(Tools.listLanguages().stream().filter(l->l.getLanguageName().equalsIgnoreCase(it.getLanguage())).findFirst().orElse(new Localization(1, it.getLanguage())));
 		ret.setCount(it.getQte());
@@ -286,7 +286,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 	public String getName() {
 		return MkmConstants.MKM_NAME;
 	}
-	
+
 	private Transaction toTransaction(Order o) {
 		var t = new Transaction();
 							t.setId(o.getIdOrder());
@@ -297,13 +297,13 @@ public class MkmExternalShop extends AbstractExternalShop {
 							t.setCurrency(o.getCurrencyCode());
 							t.setMessage(o.getNote());
 							t.setSourceShopName(getName());
-							
+
 		var c = new Contact();
-		
+
 				var name = o.getBuyer().getAddress().getName();
-				
+
 				if(name.indexOf(" ")>1)
-				{ 
+				{
 					c.setLastName(name.substring(0, name.indexOf(" ")).trim());
 					c.setName(name.substring(name.indexOf(" ")).trim());
 				}
@@ -312,29 +312,29 @@ public class MkmExternalShop extends AbstractExternalShop {
 					c.setLastName(name.trim());
 					c.setName("");
 				}
-					
+
 				c.setAddress(o.getBuyer().getAddress().getStreet());
 				c.setZipCode(o.getBuyer().getAddress().getZip());
 				c.setCity(o.getBuyer().getAddress().getCity());
 				c.setId(o.getBuyer().getIdUser());
 				c.setEmailAccept(false);
 				c.setEmail(null);
-				
+
 		t.setContact(c);
 		t.setShippingPrice(o.getShippingMethod().getPrice());
 		t.setTransporterShippingCode(o.getTrackingNumber());
-		
-		
+
+
 		if(t.getDateCreation()!=null)
 			t.setStatut(TransactionStatus.NEW);
-		
+
 		if(t.getDatePayment()!=null)
 			t.setStatut(TransactionStatus.PAID);
 
 		if(t.getDateSend()!=null)
 			t.setStatut(TransactionStatus.SENT);
-		
-	
+
+
 		o.getArticle().forEach(article->{
 			var item = AbstractStockItem.generateDefault();
 			item.setId(article.getIdArticle());
@@ -342,10 +342,10 @@ public class MkmExternalShop extends AbstractExternalShop {
 			item.setPrice(article.getPrice());
 			item.setProduct(toProduct(article.getProduct()));
 			item.getProduct().setProductId(Long.valueOf(article.getIdProduct()));
-			
+
 			if(article.getCondition()!=null)
 				item.setCondition(MkmOnlineExport.convert(article.getCondition()));
-			
+
 			item.setQte(article.getCount());
 			item.setFoil(article.isFoil());
 			item.setAltered(article.isAltered());
@@ -355,52 +355,52 @@ public class MkmExternalShop extends AbstractExternalShop {
 		});
 		return t;
 	}
-	
-	
+
+
 	private MTGProduct toProduct(Product p) {
 		var product = new LightProduct();
-		
+
 		product.setIdProduct(p.getIdProduct());
 		product.setEnName(p.getEnName());
 		product.setExpansion(p.getExpansionName());
 		product.setImage(p.getImage());
 		product.setRarity(p.getRarity());
-		
+
 		MTGProduct prod=  toProduct(product);
 		prod.setCategory(new Category(0,p.getCategoryName()));
-	
-		
+
+
 		return prod;
-		
+
 	}
-	
-	
+
+
 	private MTGProduct toProduct(LightProduct product) {
 		var p = AbstractProduct.createDefaultProduct();
 		p.setName(product.getEnName());
 		p.setProductId(Long.valueOf(product.getIdProduct()));
-		
+
 		try {
 		p.setEdition(MTG.getEnabledPlugin(MTGCardsProvider.class).getSetByName(product.getExpansion()));
 		}
 		catch(Exception e)
 		{
-			p.setEdition(new MagicEdition("set",product.getExpansion()));	
+			p.setEdition(new MagicEdition("set",product.getExpansion()));
 		}
-			
+
 		if(product.getImage()!=null && product.getImage().startsWith("//"))
 			p.setUrl("https:"+ product.getImage());
 		else
 			p.setUrl(product.getImage());
-		
+
 		if(product.getRarity()==null)
 			p.setTypeProduct(EnumItems.SEALED);
 		else
 			p.setTypeProduct(EnumItems.CARD);
-				
-				
+
+
 		return p;
-		
+
 	}
 
 	@Override
@@ -430,7 +430,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 			return loadStock(String.valueOf(id)).stream().findAny().orElse(null);
 	}
 
-	
+
 	@Override
 	public void saveOrUpdateStock(List<MTGStockItem> stocks) throws IOException {
 		init();
@@ -445,18 +445,18 @@ public class MkmExternalShop extends AbstractExternalShop {
 			art.setAltered(it.isAltered());
 			return art;
 		}).toList();
-		
-		
-		
-		
+
+
+
+
 		var retour = mkmStockService.updateArticles(transformed);
 		stocks.forEach(mtg->mtg.setUpdated(retour.stream().map(LightArticle::getIdArticle).noneMatch(i-> i.intValue() == mtg.getId())));
-		
+
 		stocks.stream().filter(it->!it.getQte().equals(itemsBkcp.get(it).getKey())).forEach(it->{
-			
+
 			int changeQty = (it.getQte()-itemsBkcp.get(it).getKey());
 			try {
-				
+
 				var ret = new LightArticle();
 					  ret.setIdArticle(it.getId().intValue());
 					  ret.setIdProduct(it.getProduct().getProductId().intValue());
@@ -466,13 +466,13 @@ public class MkmExternalShop extends AbstractExternalShop {
 			} catch (IOException e) {
 				logger.error(e);
 			}
-			
+
 		});
-		
-		
+
+
 	}
-	
-	
+
+
 
 	@Override
 	public List<Contact> listContacts() throws IOException {
@@ -490,7 +490,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 	public void deleteTransaction(Transaction t) throws IOException {
 		throw new IOException("Transaction can't be deleted");
 
-		
+
 	}
 
 

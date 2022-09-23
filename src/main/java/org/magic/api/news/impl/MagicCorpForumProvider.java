@@ -18,14 +18,14 @@ public class MagicCorpForumProvider extends AbstractMagicNewsProvider {
 	private static final String PAGINATION = "PAGINATION";
 	private String prefixForum = "gathering-forum-viewtopic-";
 
-	
+
 	@Override
 	public List<MagicNewsContent> listNews(MagicNews n) throws IOException {
 		List<MagicNewsContent> ret = new ArrayList<>();
 		var maxpage = 0;
 		Document d = URLTools.extractAsHtml(n.getUrl());
 		try {
-			
+
 			String text = d.select("div.jump_page").text();
 			maxpage = Integer.parseInt(text.substring(text.indexOf('/')+1,text.indexOf('-')).trim());
 		} catch (Exception e) {
@@ -55,13 +55,13 @@ public class MagicCorpForumProvider extends AbstractMagicNewsProvider {
 		return ret;
 	}
 
-	
+
 
 	@Override
 	public String getName() {
 		return "MagicCorporation";
 	}
-	
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
@@ -77,7 +77,7 @@ public class MagicCorpForumProvider extends AbstractMagicNewsProvider {
 	public String getVersion() {
 		return "0.5b";
 	}
-	
+
 
 
 }

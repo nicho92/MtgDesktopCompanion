@@ -7,7 +7,7 @@ import org.magic.game.model.Player;
 public abstract class AbstractNetworkAction implements Serializable {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -25,15 +25,15 @@ public abstract class AbstractNetworkAction implements Serializable {
 	public void setAct(ACTIONS act) {
 		this.act = act;
 	}
-	
-	
+
+
 	protected AbstractNetworkAction(Player p) {
 		this.initiator=p;
 	}
-	
-	
+
+
 	public Player getInitiator() {
 		return initiator;
 	}
-	
+
 }

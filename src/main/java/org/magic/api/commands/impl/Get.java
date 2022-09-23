@@ -24,37 +24,37 @@ public class Get extends AbstractCommand {
 		opts.addOption("e", "equal", false, "strict search");
 		opts.addOption("s", "set", true, "search in edition");
 	}
-	
+
 	@Override
 	public AbstractResponse run(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, ParseException, IOException
-	{	
+	{
 
 		logger.debug("running {} with {}", this,Arrays.asList(args));
-			
+
 		CommandLine cl = parser.parse(opts, args);
 		String name=null;
 		MagicEdition edition=null;
 		boolean strict=cl.hasOption("e");
-		
-		
+
+
 		if (cl.hasOption("?")) {
 			return usage();
 		}
-		
+
 		if(cl.getOptions().length==0)
 		{
 			name = cl.getArgList().get(0);
 			name = name.substring(name.indexOf(' '), name.length()).trim();
 		}
-		
+
 		if (cl.hasOption("n")) {
 			name = cl.getOptionValue("n");
 		}
-		
+
 		if (cl.hasOption("s")) {
 			edition = new MagicEdition(cl.getOptionValue("s"));
 		}
-		
+
 		if(name!=null)
 		{
 			try {
@@ -65,7 +65,7 @@ public class Get extends AbstractCommand {
 				return null;
 			}
 		}
-		
+
 		return null;
 	}
 

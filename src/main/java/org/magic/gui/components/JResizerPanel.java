@@ -12,24 +12,24 @@ import org.magic.services.MTGConstants;
 
 public class JResizerPanel extends JComponent {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private JLabel lblDimension;
 	private Dimension dimension;
 	private JSpinner spinner;
-	
+
 	public JResizerPanel(Dimension d) {
 		dimension=d;
 		init();
 	}
-	
+
 	public Dimension getDimension() {
 		return dimension;
 	}
-	
-	
-	
+
+
+
 	private void init() {
 		setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		spinner = new JSpinner();
@@ -38,7 +38,7 @@ public class JResizerPanel extends JComponent {
 		add(spinner);
 		lblDimension = new JLabel("");
 		add(lblDimension);
-		
+
 		update();
 		spinner.addChangeListener(ce-> {
 			Number val = (Number)spinner.getValue();
@@ -48,8 +48,8 @@ public class JResizerPanel extends JComponent {
 			update();
 		});
 	}
-	
-	
+
+
 	private void update()
 	{
 		lblDimension.setText((int)dimension.getWidth()+"x"+(int)dimension.getHeight());

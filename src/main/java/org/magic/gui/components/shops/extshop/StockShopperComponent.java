@@ -48,8 +48,8 @@ public class StockShopperComponent extends MTGUIComponent {
 	private MTGStockItem selectedItem;
 	JButton btnSave;
 	JButton btnBind;
-	
-	
+
+
 	public StockShopperComponent() {
 		setLayout(new BorderLayout(0, 0));
 
@@ -58,13 +58,13 @@ public class StockShopperComponent extends MTGUIComponent {
 		var panelNorth = new JPanel();
 		var panelSouth =new JPanel();
 		var btnLoad = UITools.createBindableJButton("", MTGConstants.ICON_SEARCH, KeyEvent.VK_F ,"search stocks");
-		
+
 		btnSave = UITools.createBindableJButton("", MTGConstants.ICON_SAVE, KeyEvent.VK_S ,"save stocks");
 		var btnReload= UITools.createBindableJButton("", MTGConstants.ICON_REFRESH, KeyEvent.VK_R ,"reload stocks");
 		btnBind= UITools.createBindableJButton("", MTGConstants.ICON_MERGE, KeyEvent.VK_B ,"Bind with");
 		btnBind.setEnabled(false);
 		panelCenter.setLayout(new BorderLayout());
-		
+
 		cboInput = UITools.createCombobox(MTGExternalShop.class,true);
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		modelInput = new StockItemTableModel();
@@ -72,15 +72,15 @@ public class StockShopperComponent extends MTGUIComponent {
 		tableInput.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		UITools.initTableFilter(tableInput);
 		UITools.setDefaultRenderer(tableInput, new StockTableRenderer());
-		
-		
+
+
 		for(var i : new int[] {4,5,8})
 			tableInput.getColumnExt(modelInput.getColumnName(i)).setVisible(false);
-	
+
 		add(panelNorth, BorderLayout.NORTH);
 		add(panelCenter,BorderLayout.CENTER);
 		add(panelSouth,BorderLayout.SOUTH);
-		
+
 		panelNorth.add(cboInput);
 		panelNorth.add(txtSearch);
 		panelNorth.add(btnLoad);
@@ -88,67 +88,67 @@ public class StockShopperComponent extends MTGUIComponent {
 		panelNorth.add(btnBind);
 		panelNorth.add(buzy);
 		panelNorth.add(btnSave);
-		
+
 		panelCenter.add(new JScrollPane(tableInput), BorderLayout.CENTER);
-		
-		
+
+
 		btnLoad.addActionListener(il->loadProducts((MTGExternalShop)cboInput.getSelectedItem(),modelInput,txtSearch.getText()));
 		btnReload.addActionListener(il->loadProducts((MTGExternalShop)cboInput.getSelectedItem(),modelInput,txtSearch.getText()));
-		
+
 		txtSearch.addActionListener(al->btnLoad.doClick());
-		
-		
+
+
 		tableInput.getSelectionModel().addListSelectionListener(il->btnBind.setEnabled(tableInput.getSelectedRow()>-1));
-		
-		
+
+
 		btnBind.addActionListener(al->{
 			var menu = new JPopupMenu();
 			for (MTGExternalShop exp : MTG.listPlugins(MTGExternalShop.class)) {
 				var it = new JMenuItem(exp.getName(), exp.getIcon());
 				menu.add(it);
 				it.addActionListener(itl->{
-					
+
 					MTGStockItem sourceItem = UITools.getTableSelection(tableInput,0);
-					
+
 					var comp = new StockShopperComponent();
 					comp.setSelectedProvider(exp);
 					var diag = MTGUIComponent.createJDialog(comp, true, true);
 					comp.enableSelectionMode(true,diag);
 					diag.setVisible(true);
-					
+
 					MTGStockItem destItem = comp.getSelectedItem();
-					
+
 					if(destItem!=null)
 					{
 						sourceItem.getTiersAppIds().put(exp.getName(), String.valueOf(destItem.getId()));
-						
+
 						var converter = new ConverterItem(cboInput.getSelectedItem().toString(),exp.getName(),sourceItem.getProduct().getName(),sourceItem.getId(),destItem.getId());
-						
+
 						try {
 							MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateConversionItem(converter);
 						} catch (SQLException e) {
 							MTGControler.getInstance().notify(e);
 						}
 					}
-					
-					
+
+
 				});
-				
-				
+
+
 			}
 			Point p = btnBind.getLocationOnScreen();
 			menu.show(btnBind, 0, 0);
 			menu.setLocation(p.x, p.y + btnBind.getHeight());
 		});
-		
-		
+
+
 		btnSave.addActionListener(al->{
 			var ret = modelInput.getItems().stream().filter(MTGStockItem::isUpdated).toList();
-			
+
 			var shop = (MTGExternalShop)cboInput.getSelectedItem();
-			
+
 			var rets= JOptionPane.showConfirmDialog(this, "Update " + ret.size() + " items ?","Update", JOptionPane.YES_NO_OPTION);
-			
+
 			if(rets == JOptionPane.YES_OPTION)
 				try {
 					shop.saveOrUpdateStock(ret,true);
@@ -157,7 +157,7 @@ public class StockShopperComponent extends MTGUIComponent {
 				}
 		});
 	}
-	
+
 	public MTGStockItem getSelectedItem() {
 		return selectedItem;
 	}
@@ -169,7 +169,7 @@ public class StockShopperComponent extends MTGUIComponent {
 		if(b)
 		{
 			tableInput.addMouseListener(new MouseAdapter() {
-				
+
 					@Override
 					public void mouseClicked(MouseEvent e) {
 						if(e.getClickCount()>=2)
@@ -178,30 +178,30 @@ public class StockShopperComponent extends MTGUIComponent {
 							diag.dispose();
 						}
 					}
-				
+
 			});
-			
-			
-			
+
+
+
 		}
-		
+
 	}
 
 	private void setSelectedProvider(MTGExternalShop exp) {
 		cboInput.setSelectedItem(exp);
-		
+
 	}
 
 	private void loadProducts(MTGExternalShop ext,StockItemTableModel model,String search) {
 		model.clear();
-		
+
 		AbstractObservableWorker<List<MTGStockItem>,MTGStockItem,MTGExternalShop> sw = new AbstractObservableWorker<>(buzy,ext)
 		{
 			@Override
 			protected List<MTGStockItem> doInBackground() throws Exception {
 					return plug.listStock(search);
 			}
-			
+
 			@Override
 			protected void done() {
 				try {
@@ -214,7 +214,7 @@ public class StockShopperComponent extends MTGUIComponent {
 				}
 			}
 		};
-		
+
 		ThreadManager.getInstance().runInEdt(sw,"load stock");
 	}
 

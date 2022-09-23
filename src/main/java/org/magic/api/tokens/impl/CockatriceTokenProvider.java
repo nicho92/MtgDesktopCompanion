@@ -45,20 +45,20 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 	private void init()
 	{
 		try {
-			document = URLTools.extractAsXml(getString("URL")); 
+			document = URLTools.extractAsXml(getString("URL"));
 			xPath = XPathFactory.newInstance().newXPath();
 		} catch (Exception e) {
 			logger.error(e);
 		}
 	}
-	
-	
+
+
 	@Override
 	public boolean isTokenizer(MagicCard mc) {
-		
+
 		if(xPath==null)
 			init();
-		
+
 		String expression = CARD_REVERSE_RELATED + mc.getName() + "\"][not(contains(name,'Emblem'))]";
 		logger.trace("looking for token : {}",expression);
 		try {
@@ -71,16 +71,16 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 
 	@Override
 	public boolean isEmblemizer(MagicCard mc) {
-	
+
 		if(mc.isEmblem())
 			return false;
-		
-		
+
+
 		if(xPath==null)
 			init();
-	
+
 		String expression = CARD_REVERSE_RELATED + mc.getName() + "\"][contains(name,'Emblem')]";
-		
+
 		logger.trace("looking for emblem : {}",expression);
 		try {
 			var nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
@@ -90,21 +90,21 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		}
 	}
 
-	
+
 	@Override
 	public List<MagicCard> listTokensFor(MagicEdition ed) throws IOException {
-		
+
 		if(xPath==null)
 			init();
-		
-		
+
+
 		String expression = "//card[set=\'" + ed.getId() + "']";
 		logger.debug("Expression ={}",expression);
 		try {
 			var nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
-			
+
 			var ret = new ArrayList<MagicCard>();
-			
+
 			for(var i = 0; i<nodeList.getLength();i++)
 				ret.add(build((Element)nodeList.item(i), ed));
 
@@ -114,17 +114,17 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		{
 			logger.error(e);
 		}
-		
+
 		return new ArrayList<>();
 	}
-	
-	
+
+
 	@Override
 	public MagicCard generateEmblemFor(MagicCard mc) throws IOException {
-		
+
 		if(xPath==null)
 			init();
-		
+
 		String expression = CARD_REVERSE_RELATED + mc.getName() + "\"][contains(name,'Emblem')]";
 		logger.debug(expression);
 		try {
@@ -136,15 +136,15 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 			return null;
 		}
 	}
-	
-	
+
+
 	@Override
 	public MagicCard generateTokenFor(MagicCard mc) {
-		
+
 		if(xPath==null)
 			init();
-		
-		
+
+
 		String expression = CARD_REVERSE_RELATED + mc.getName() + "\"][not(contains(name,'emblem'))]";
 		try {
 			var nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
@@ -158,27 +158,27 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 			return null;
 		}
 	}
-	
-	
+
+
 	private MagicCard build(Element value, MagicEdition ed) throws IOException {
-		
-		
+
+
 		var tok = new MagicCard();
-		
+
 		tok.setCmc(0);
 		tok.setName(value.getElementsByTagName("name").item(0).getTextContent().replaceAll("\\(Emblem\\)", "").replaceAll("\\(Token\\)", "").trim());
 		String types = value.getElementsByTagName("type").item(0).getTextContent();
-		
-		
+
+
 		MTGLayout layout = types.startsWith("Emblem")?MTGLayout.EMBLEM:MTGLayout.TOKEN;
 
 		tok.getSupertypes().add(layout.toPrettyString());
-		
+
 		tok.getSubtypes().add(types.substring(types.indexOf("\u2014") + 1));
-		
+
 		tok.setLayout(layout);
 		tok.getEditions().add(getEnabledPlugin(MTGCardsProvider.class).getSetById(ed.getId()));
-		
+
 		if(layout==MTGLayout.EMBLEM)
 			tok.getCurrentSet().setNumber("E");
 		else
@@ -203,13 +203,13 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 			tok.setPower(value.getElementsByTagName("pt").item(0).getTextContent().substring(0, value.getElementsByTagName("pt").item(0).getTextContent().indexOf('/')).trim());
 			tok.setToughness(value.getElementsByTagName("pt").item(0).getTextContent().substring(value.getElementsByTagName("pt").item(0).getTextContent().indexOf('/') + 1).trim());
 		}
-		
+
 		if (value.getElementsByTagName("text").item(0) != null)
 			tok.setText(value.getElementsByTagName("text").item(0).getTextContent());
 
 		NodeList sets = value.getElementsByTagName("set");
-		
-		
+
+
 		tok.getEditions().add(MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(ed.getId()));
 		for (var s = 0; s < sets.getLength(); s++) {
 			String idSet = sets.item(s).getTextContent();
@@ -220,17 +220,17 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 
 		}
 		tok.setId(DigestUtils.sha256Hex(tok.getCurrentSet().getId() + tok.getName()));
-		
+
 		return tok;
 	}
 
 	@Override
 	public BufferedImage getPictures(MagicCard tok) throws IOException {
-		
+
 		if(xPath==null)
 			init();
-		
-		
+
+
 		String expression = "//card[name=\"" + tok.getName() + "\"]";
 
 		if (tok.getLayout()==MTGLayout.EMBLEM)
@@ -269,7 +269,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 				logger.error("no pics found for {}",tok);
 				return null;
 				}
-			
+
 			URL u = null;
 			if (map.get(tok.getCurrentSet().getId()) != null) // error on
 				u = map.get(tok.getCurrentSet().getId());
@@ -300,16 +300,16 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 	public int hashCode() {
 		return getName().hashCode();
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		
+
 		if(obj ==null)
 			return false;
-		
+
 		return hashCode()==obj.hashCode();
 	}
 
-	
+
 
 }

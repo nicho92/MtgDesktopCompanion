@@ -27,11 +27,11 @@ public class MTGPricePricer extends AbstractPricesProvider {
 		if (getString(API_KEY).equals(""))
 			throw new NullPointerException("API_KEY must be filled");
 
-	
+
 		String set = card.getCurrentSet().getSet().replace(" ", "_");
 
 		String url = getString("WS_URL") + "?apiKey=" + getString(API_KEY) + "&s=" + set;
-		
+
 		List<MagicPrice> ret = new ArrayList<>();
 
 		logger.info(getName() + " looking for price at " + url);
@@ -80,8 +80,8 @@ public class MTGPricePricer extends AbstractPricesProvider {
 
 			return ret;
 		}
-		
-		
+
+
 		return ret;
 
 	}
@@ -94,7 +94,7 @@ public class MTGPricePricer extends AbstractPricesProvider {
 
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		
+
 		return Map.of("MAX", "5",
 							   "WS_URL", "http://www.mtgprice.com/api",
 								API_KEY, "",

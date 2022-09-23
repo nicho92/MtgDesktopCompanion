@@ -19,7 +19,7 @@ public class FileCache extends AbstractCacheProvider {
 
 	private static final String DIRECTORY = "DIRECTORY";
 	private static final String FORMAT = "FORMAT";
-	
+
 
 	public FileCache() {
 		super();
@@ -89,42 +89,42 @@ public class FileCache extends AbstractCacheProvider {
 
 	}
 
-	
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of(DIRECTORY, Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(),"cachePics").toFile().getAbsolutePath(),
 							   FORMAT,"png");
 	}
-	
+
 	@Override
 	public String getVersion() {
 		return "1";
 	}
-	
+
 	@Override
 	public long size() {
-		
+
 		if(getFile(DIRECTORY)!=null)
 			return FileUtils.sizeOfDirectory(getFile(DIRECTORY));
-		
-		
+
+
 		return 0;
 	}
-	
+
 
 	@Override
 	public int hashCode() {
 		return getName().hashCode();
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		
+
 		if(obj ==null)
 			return false;
-		
+
 		return hashCode()==obj.hashCode();
 	}
-	
+
 
 }

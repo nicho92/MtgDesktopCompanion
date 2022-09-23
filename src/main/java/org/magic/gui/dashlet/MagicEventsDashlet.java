@@ -26,7 +26,7 @@ import org.magic.tools.UITools;
 
 public class MagicEventsDashlet extends AbstractJDashlet {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private JXTable table;
@@ -47,7 +47,8 @@ public class MagicEventsDashlet extends AbstractJDashlet {
 	public ImageIcon getDashletIcon() {
 		return MTGConstants.ICON_GAME;
 	}
-	
+
+	@Override
 	public void initGUI() {
 
 		provider = new MTGEventProvider();
@@ -65,7 +66,7 @@ public class MagicEventsDashlet extends AbstractJDashlet {
 		panneauHaut.add(cboMonth);
 		panneauHaut.add(lblLoading);
 
-	
+
 		eventsModel = new MapTableModel<>();
 		eventsModel.setColumnNames("Event","Start Date");
 
@@ -106,9 +107,10 @@ public class MagicEventsDashlet extends AbstractJDashlet {
 		}
 	}
 
+	@Override
 	public void init() {
 		ThreadManager.getInstance().executeThread(new MTGRunnable() {
-			
+
 			@Override
 			protected void auditedRun() {
 				lblLoading.start();
@@ -136,7 +138,7 @@ public class MagicEventsDashlet extends AbstractJDashlet {
 				lblLoading.end();
 				eventsModel.fireTableDataChanged();
 				table.packAll();
-				
+
 			}
 		}, "Init Events Dashlet");
 	}

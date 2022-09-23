@@ -46,18 +46,18 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 	private static final String SSL_ENABLED = "SSL_ENABLED";
 	private static final String KEYSTORE_URI = "KEYSTORE_URI";
 	private static final String KEYSTORE_PASS = "KEYSTORE_PASS";
-	
-	
+
+
 	private Server server;
 	private URL webRootLocation;
 	protected ServletContextHandler ctx;
-	
+
 	protected abstract String getWebLocation();
-	
+
 	private void initServlet() {
 		ctx = new ServletContextHandler();
 		ctx.setContextPath("/");
-		
+
 		var holderPwd = new ServletHolder("mtg-web-ui", new DefaultServlet());
 					  holderPwd.setInitParameter("resourceBase", webRootLocation.toString());
 					  holderPwd.setInitParameter("dirAllowed", getString(ALLOW_LIST_DIR));
@@ -68,8 +68,8 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 			protected void doGet(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
 				  response.setContentType(URLTools.HEADER_HTML+";charset="+MTGConstants.DEFAULT_ENCODING);
 				  response.setStatus(HttpServletResponse.SC_OK);
-				  try { 
-					  response.getWriter().println("var restserver='" + getString(REST_BACKEND_URI) + "';");  
+				  try {
+					  response.getWriter().println("var restserver='" + getString(REST_BACKEND_URI) + "';");
 				  }
 				  catch(Exception e)
 				  {
@@ -78,41 +78,41 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 				  }
 			}
 		});
-	
+
 		ctx.addServlet(holderJs,"/dist/js/"+REST_JS_FILENAME);
 		ctx.addServlet(holderPwd, "/*");
-		
+
 		extraConfig();
 		server.setHandler(ctx);
-	
+
 	}
 
 	public void exportWeb(File dest) throws IOException
 	{
-		
+
 		FileTools.copyDirJarToDirectory(getWebLocation(), dest);
 		logger.debug("copying {} to {}",getWebLocation(),dest);
-		
+
 		var js = Paths.get(dest.getAbsolutePath(),getWebLocation(),"dist","js",REST_JS_FILENAME).toFile();
 		logger.debug("copying {} to {} ",js,dest);
-		
+
 		FileTools.saveFile(js, "var restserver='" + getString(REST_BACKEND_URI) + "';");
 	}
-	
+
 
 	@Override
 	public String getVersion() {
 		return Jetty.VERSION;
 	}
-	
-	
+
+
 	public void extraConfig()
 	{
 		//do nothing by default
 	}
-	
-	
-	
+
+
+
 	public ServerConnector createHttpsConnector(HttpConfiguration httpConfig)
 	{
 
@@ -121,72 +121,72 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
         src.setStsMaxAge(2000);
         src.setStsIncludeSubDomains(true);
         httpsConfig.addCustomizer(src);
-	
+
         var sslContextFactory = new SslContextFactory.Server();
         sslContextFactory.setKeyStorePath(getFile(KEYSTORE_URI).getAbsolutePath());
         sslContextFactory.setKeyStorePassword(getString(KEYSTORE_PASS));
-        
+
         var https = new ServerConnector(server,new SslConnectionFactory(sslContextFactory,HttpVersion.HTTP_1_1.asString()),new HttpConnectionFactory(httpsConfig));
         	https.setPort(getInt(SERVER_SSL_PORT));
         	https.setIdleTimeout(500000);
-	     
-	     
-	     
+
+
+
         return https;
 	}
-	
-	
+
+
 	@Override
 	public void start() throws IOException {
 		try {
 
 			server = new Server();
 			Connector httpsConnector=null;
-			
-			
+
+
 			var httpConfig = new HttpConfiguration();
 				 httpConfig.setSecureScheme("https");
 				 httpConfig.setSecurePort(getInt(SERVER_SSL_PORT));
 				 httpConfig.setOutputBufferSize(32768);
-			
-		
-			
+
+
+
 			try(var http = new ServerConnector(server,new HttpConnectionFactory(httpConfig)))
 			{
 				 http.setPort(getInt(SERVER_PORT));
 			     http.setIdleTimeout(30000);
 			     server.setConnectors(new Connector[] {http});
 			}
-			
-			
+
+
 
 			 if(getBoolean(SSL_ENABLED)) {
 				 httpsConnector = createHttpsConnector(httpConfig);
-				server.setConnectors(ArrayUtils.add(server.getConnectors(), httpsConnector));    
+				server.setConnectors(ArrayUtils.add(server.getConnectors(), httpsConnector));
 			 }
-			
-	       
-	        
-	        
-			
+
+
+
+
+
 			webRootLocation = MTGConstants.class.getResource("/"+getWebLocation());
 			if (webRootLocation == null) {
 				throw new IllegalStateException("Unable to determine webroot URL location: " + webRootLocation);
 			}
 
-			
+
 			initServlet();
-			
+
 			server.start();
-			
+
 			if(getBoolean(JSON_SERVER_START))
 			{
 				MTGServer jserv = PluginRegistry.inst().getPlugin(new JSONHttpServer().getName(), MTGServer.class);
 				if(!jserv.isAlive())
 					jserv.start();
 			}
-			
-			
+
+
 			logger.info("Server {} ({}) start on port {} @ {}",getName(),getVersion(),getInt(SERVER_PORT),webRootLocation);
 		} catch (Exception e) {
 			logger.error(e);
@@ -215,24 +215,24 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 			return false;
 	}
 
-	
+
 	@Override
 	public Icon getIcon() {
 		return MTGConstants.ICON_WEBSITE_24;
 	}
-	
+
 	@Override
 	public boolean isAutostart() {
 		return getBoolean(AUTOSTART);
 	}
-	
-	
-	
+
+
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		
+
 		var m = new HashMap<String,String>();
-		
+
 		m.put(SERVER_PORT, "80");
 		m.put(SERVER_SSL_PORT, "443");
 		m.put(AUTOSTART, FALSE);
@@ -246,9 +246,9 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 			m.put(REST_BACKEND_URI, "http://localhost:8080");
 //		}
 		m.put(JSON_SERVER_START,"true");
-		
+
 		return m;
 	}
-	
+
 
 }

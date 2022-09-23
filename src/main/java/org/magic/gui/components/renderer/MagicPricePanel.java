@@ -22,12 +22,12 @@ public class MagicPricePanel extends JPanel {
 
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
 	public MagicPricePanel(MagicPrice price) {
-	
+
 		setBackground(SystemColor.inactiveCaptionBorder);
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		var gridBagLayout = new GridBagLayout();

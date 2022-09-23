@@ -34,8 +34,8 @@ public class MagicCardmarketShopper extends AbstractMagicShopper {
 			logger.error(e);
 		}
 	}
-	
-	
+
+
 	private OrderEntry toOrder(LightArticle a, Order o,TransactionDirection t)
 	{
 		var entrie = new OrderEntry();
@@ -48,11 +48,11 @@ public class MagicCardmarketShopper extends AbstractMagicShopper {
 		entrie.setSource(getName());
 		entrie.setItemPrice(a.getPrice());
 		entrie.setDescription(a.getProduct().getEnName());
-		
+
 		if(a.getProduct().getExpansion()!=null)
 		{
 			entrie.setType(EnumItems.CARD);
-			
+
 			try {
 				entrie.setEdition(getEnabledPlugin(MTGCardsProvider.class).getSetByName(a.getProduct().getExpansion()));
 			} catch (IOException e) {
@@ -63,25 +63,25 @@ public class MagicCardmarketShopper extends AbstractMagicShopper {
 		{
 			entrie.setType(EnumItems.BOX);
 		}
-		
+
 		return entrie;
 	}
-	
+
 	@Override
 	public List<OrderEntry> listOrders() throws IOException
 	{
 		if(!initied)
 			init();
-		
+
 		List<OrderEntry> entries = new ArrayList<>();
 		var serv = new OrderService();
-		
+
 		serv.listOrders(ACTOR.buyer, STATE.bought, null).forEach(o->o.getArticle().forEach(a->entries.add(toOrder(a, o,TransactionDirection.BUY))));
 		serv.listOrders(ACTOR.buyer, STATE.received, null).forEach(o->o.getArticle().forEach(a->entries.add(toOrder(a, o,TransactionDirection.BUY))));
 		serv.listOrders(ACTOR.buyer, STATE.paid, null).forEach(o->o.getArticle().forEach(a->entries.add(toOrder(a, o,TransactionDirection.BUY))));
 		serv.listOrders(ACTOR.seller, STATE.received, null).forEach(o->o.getArticle().forEach(a->entries.add(toOrder(a, o,TransactionDirection.SELL))));
 		serv.listOrders(ACTOR.seller, STATE.sent, null).forEach(o->o.getArticle().forEach(a->entries.add(toOrder(a, o,TransactionDirection.SELL))));
-	
+
 		return entries;
 	}
 
@@ -89,10 +89,10 @@ public class MagicCardmarketShopper extends AbstractMagicShopper {
 	public String getName() {
 		return MkmConstants.MKM_NAME;
 	}
-	
+
 	@Override
 	public String getVersion() {
 		return MkmConstants.MKM_API_VERSION;
 	}
-	
+
 }

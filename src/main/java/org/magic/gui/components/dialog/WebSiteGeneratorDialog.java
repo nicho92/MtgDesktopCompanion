@@ -31,7 +31,7 @@ import org.magic.tools.UITools;
 
 public class WebSiteGeneratorDialog extends JDialog {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -100,14 +100,14 @@ public class WebSiteGeneratorDialog extends JDialog {
 		var gbclblChooseYourPrices = UITools.createGridBagConstraints(null, null,1, 0);
 		panneaucentral.add(lblChooseYourPrices, gbclblChooseYourPrices);
 
-		
+
 		list = new JList<>(cols.toArray(new MagicCollection[cols.size()]));
 		list.setCellRenderer(new MagicCollectionIconListRenderer());
 		lstProviders = new JList<>(listEnabledPlugins(MTGPricesProvider.class)
 				.toArray(new MTGPricesProvider[listEnabledPlugins(MTGPricesProvider.class).size()]));
 		lstProviders.setCellRenderer(new PluginIconListRenderer());
 		panneaucentral.add(new JScrollPane(list), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 1));
-		
+
 
 		panneaucentral.add(new JScrollPane(lstProviders), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 1));
 

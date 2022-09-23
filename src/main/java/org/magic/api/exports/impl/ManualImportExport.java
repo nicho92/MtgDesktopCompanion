@@ -31,35 +31,35 @@ public class ManualImportExport extends AbstractCardExport {
 		throw new NotImplementedException("not implemented");
 
 	}
-	
+
 	@Override
 	public MTGExportCategory getCategory() {
 		return MTGExportCategory.MANUAL;
 	}
-	
+
 
 	@Override
 	public boolean needFile() {
 		return false;
 	}
-	
+
 	@Override
 	public boolean needDialogForDeck(MODS mod) {
 		return true;
 	}
-	
+
 	@Override
 	public boolean needDialogForStock(MODS mod) {
 		return true;
 	}
-	
-	
+
+
 	@Override
 	public MagicDeck importDeck(String name,String f) throws IOException {
 		return importDeckFromFile(null);
 
 	}
-	
+
 	@Override
 	public List<MagicCardStock> importStockFromFile(File f) throws IOException {
 		var diag = new ManualImportDialog();
@@ -67,7 +67,7 @@ public class ManualImportExport extends AbstractCardExport {
 		var d =  diag.getSelectedDeck();
 		return importFromDeck(d);
 	}
-	
+
 
 	@Override
 	public MagicDeck importDeckFromFile(File f) throws IOException {
@@ -83,7 +83,7 @@ public class ManualImportExport extends AbstractCardExport {
 
 	}
 
-	
+
 
 	@Override
 	public Icon getIcon() {

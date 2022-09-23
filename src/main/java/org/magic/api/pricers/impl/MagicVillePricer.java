@@ -17,49 +17,50 @@ import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
 
 public class MagicVillePricer extends AbstractPricesProvider {
-	
+
 	private static final String MAX = "MAX";
 	private static final String WEBSITE = "https://www.magic-ville.com/";
 	private MTGHttpClient httpclient;
-	
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
 	}
-	
-	
+
+
 	public MagicVillePricer() {
 		super();
 		httpclient = URLTools.newClient();
 
 	}
-	
 
-	
+
+
 	@Override
 	public EnumMarketType getMarket() {
 		return EnumMarketType.EU_MARKET;
 	}
 
+	@Override
 	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 		List<MagicPrice> list = new ArrayList<>();
-			
+
 		String res = httpclient.toString(httpclient.doPost(WEBSITE+"/fr/resultats.php?zbob=1", httpclient.buildMap().put("recherche_titre", card.getName()).build(), null));
 		if(res.length()>100)
 		{
 			logger.error("too much result");
 			return list;
 		}
-		
+
 		var key = "ref=";
 		var code = res.substring(res.indexOf(key), res.indexOf("\";"));
 		String url = WEBSITE+"/fr/register/show_card_sale?"+code;
-		
+
 		logger.info(getName() + " looking for prices " + card);
 
-		
+
 		Document doc =URLTools.extractAsHtml(url);
-		
+
 		Element table = null;
 		try {
 			table = doc.select("table[width=98%]").get(2); // select the first table.
@@ -93,7 +94,7 @@ public class MagicVillePricer extends AbstractPricesProvider {
 
 		}
 
-	
+
 		if (list.size() > getInt(MAX) && getInt(MAX) > -1)
 			return list.subList(0, getInt(MAX));
 
@@ -107,11 +108,11 @@ public class MagicVillePricer extends AbstractPricesProvider {
 		return "Magic-Ville";
 	}
 
-	
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of(MAX, "5");
-		
+
 
 	}
 

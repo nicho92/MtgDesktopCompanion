@@ -3,25 +3,25 @@ package org.magic.game.model.costs;
 public abstract class NumberCost implements Cost {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	protected Integer value;
 	protected String modifier;
 	protected String x;
-	
+
 	public Integer getValue() {
 		return value;
 	}
-	
-	
+
+
 	@Override
 	public boolean isNumberCost()
 	{
 		return true;
 	}
 
-	
+
 	protected NumberCost(int value) {
 		super();
 		setValue(value);
@@ -39,7 +39,7 @@ public abstract class NumberCost implements Cost {
 		else
 			setValue(x);
 	}
-	
+
 	public void setValue(Integer value) {
 		this.value = value;
 
@@ -54,6 +54,6 @@ public abstract class NumberCost implements Cost {
 		return modifier;
 	}
 
-	
-	
+
+
 }

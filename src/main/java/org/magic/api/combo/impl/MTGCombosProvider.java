@@ -15,25 +15,25 @@ import org.magic.services.network.URLTools;
 
 public class MTGCombosProvider extends AbstractComboProvider {
 
-	
+
 	private static final String BASE ="https://mtgcombos.com/";
-	
-	
+
+
 	@Override
 	public List<MTGCombo> loadComboWith(MagicCard mc) {
 		List<MTGCombo> ret = new ArrayList<>();
-		
-		
+
+
 			Document d;
-			
+
 				try {
 					d = RequestBuilder.build().url(BASE+"index.php").setClient(URLTools.newClient()).method(METHOD.POST).addContent("search", mc.getName()).addContent("submit", "Search >").toHtml();
 				} catch (IOException e) {
 					logger.error(e);
 					return ret;
 				}
-					
-			
+
+
 			Elements elsTitles = d.select("td span.text15");
 			Elements elsContent = d.select("td[bgcolor=#CFDEDA]");
 			for(var i=0;i<elsTitles.size();i++)
@@ -51,7 +51,7 @@ public class MTGCombosProvider extends AbstractComboProvider {
 							logger.error("No content at {}", i);
 						}
 			}
-				
+
 		return ret;
 	}
 

@@ -21,9 +21,9 @@ import org.magic.services.network.URLTools;
 
 public class EssentialMagicComboProvider extends AbstractComboProvider {
 
-	
+
 	private static final String BASE ="http://www.essentialmagic.com/";
-	
+
 	@Override
 	public List<MTGCombo> loadComboWith(MagicCard mc) {
 		List<MTGCombo> ret = new ArrayList<>();
@@ -34,10 +34,10 @@ public class EssentialMagicComboProvider extends AbstractComboProvider {
 					.addContent("selInvalid", getString("GURU_APPROVED_CODE"))
 					.addContent("txtName","")
 					.addContent("txtCreator","")
-					.addContent("cnbtxtCard", mc.getName()) 
+					.addContent("cnbtxtCard", mc.getName())
 					.addContent("cnbhdnCard","5")
 					.addContent("selDateCompare","BETWEEN")
-					.addContent("txtDate","") 
+					.addContent("txtDate","")
 					.addContent("selFormat","-1")
 					.addContent("selThemes","0")
 					.addContent("selRatingCompare",">=")
@@ -62,21 +62,21 @@ public class EssentialMagicComboProvider extends AbstractComboProvider {
 					.addHeader(URLTools.ACCEPT_ENCODING, "gzip, deflate")
 					.addHeader(URLTools.ACCEPT_LANGUAGE, "fr-FR,fr;q=0.9")
 					.toHtml();
-			
-			
+
+
 			Elements trs = d.select("table.defaulttablestyle tr");
-			
-			
+
+
 			trs.forEach(tr->{
-				
+
 				var cbo = new MTGCombo();
 				cbo.setPlugin(this);
 				cbo.setName(tr.select("div.Label").text());
-				
+
 				if(!cbo.getName().isEmpty())
 				{
 					Elements as = tr.select("b>a");
-					
+
 					for(Element a : as)
 					{
 						try {
@@ -96,8 +96,8 @@ public class EssentialMagicComboProvider extends AbstractComboProvider {
 			logger.error("Error loading " + BASE,e);
 			return ret;
 		}
-		
-		
+
+
 		return ret;
 	}
 
@@ -105,10 +105,10 @@ public class EssentialMagicComboProvider extends AbstractComboProvider {
 	public String getName() {
 		return "EssentialMagic";
 	}
-	
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of("GURU_APPROVED_CODE", "1");
 	}
-	
+
 }

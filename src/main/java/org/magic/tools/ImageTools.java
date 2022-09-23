@@ -41,15 +41,15 @@ public class ImageTools {
 
 	private static BufferedImage[] imgs;
 	private static Logger logger = MTGLogger.getLogger(ImageTools.class);
-	
+
 	private ImageTools() {
 	}
-	
+
 	public static boolean isImage(File f)
 	{
 		return isImage(f.toPath());
 	}
-	
+
 
 	public static boolean isImage(byte[] array)
 	{
@@ -62,20 +62,20 @@ public class ImageTools {
 			return false;
 		}
 	}
-	
-	
+
+
 	public static boolean isImage(Path f)
 	{
 		if(f==null)
 			return false;
-		
+
 			try {
 				return Files.probeContentType(f).startsWith("image");
 			} catch (Exception e) {
 				return false;
 			}
 	}
-	
+
 	public static BufferedImage rotate(BufferedImage img, double angle) {
         double angleRadians = Math.toRadians(angle);
         int width = img.getWidth();
@@ -98,20 +98,20 @@ public class ImageTools {
 
         return result;
     }
-	
+
 	public static BufferedImage getScaledImage(BufferedImage src){
-		
+
 		var squareSize = 300;
 		var finalw = squareSize;
 		var finalh = squareSize;
 		double factor;
 		if(src.getWidth() > src.getHeight()){
 			factor = ((double)src.getHeight()/(double)src.getWidth());
-			finalh = (int)(finalw * factor);                
+			finalh = (int)(finalw * factor);
 		}else{
 			factor = ((double)src.getWidth()/(double)src.getHeight());
 			finalw = (int)(finalh * factor);
-		}   
+		}
 
 		var resizedImg = new BufferedImage(finalw, finalh, Transparency.TRANSLUCENT);
 		Graphics2D g2 = resizedImg.createGraphics();
@@ -120,18 +120,18 @@ public class ImageTools {
 		g2.dispose();
 		return resizedImg;
 	}
-	
-	
+
+
 	public static BufferedImage[] splitManaImage()
 	{
 		if(imgs!=null)
 			return imgs;
-		
+
 		var cols = 10;
 		var rows = 9;
 		var chunkWidth = 100;
 		var chunkHeight = 100;
-		
+
 		var count=0;
 		BufferedImage image;
 		imgs= new BufferedImage[cols*rows];
@@ -150,9 +150,9 @@ public class ImageTools {
 				logger.error(e);
 			}
 			return imgs;
-		
+
 	}
-		
+
 	public static byte[] toByteArray(BufferedImage o) {
         if(o != null) {
             BufferedImage image = o;
@@ -166,7 +166,7 @@ public class ImageTools {
         }
         return new byte[0];
 	}
-	
+
 	public static BufferedImage fromByteArray(byte[] imagebytes) {
         try  (var stream = new ByteArrayInputStream(imagebytes)){
             if (imagebytes != null && (imagebytes.length > 0)) {
@@ -177,18 +177,18 @@ public class ImageTools {
             throw new IllegalArgumentException(e.toString());
         }
     }
-	
+
 
 	public static void saveImage(BufferedImage img, File f, String format) throws IOException {
 		ImageIO.write(img, format, f);
 	}
 
-	
+
 	public static BufferedImage trimAlpha(BufferedImage img) {
-		
+
 		if(img==null)
 			return img;
-		
+
 	    int width = img.getWidth();
 	    int height = img.getHeight();
 	    int x0;
@@ -219,7 +219,7 @@ public class ImageTools {
 
 	    return img.getSubimage(x0, 0, x1-x0, height);
 	}
-	
+
 	public static BufferedImage scaleResize(BufferedImage img, int width)
 	{
 		int oldW=img.getWidth();
@@ -228,13 +228,13 @@ public class ImageTools {
 		int h = (int) (width/ratio);
 		return resize(img, h, width);
 	}
-	
+
 	public static BufferedImage resize( Image img, Dimension d) {
 		return resize(img,(int)d.getHeight(),(int)d.getWidth());
-		
+
 	}
-	
-	
+
+
 	public static BufferedImage mirroring(BufferedImage image) {
 		var tx = AffineTransform.getScaleInstance(-1, 1);
 		tx.translate(-image.getWidth(null), 0);
@@ -242,7 +242,7 @@ public class ImageTools {
 		image = op.filter(image, null);
 		return image;
 	}
-	
+
 	public static void initGraphics(Graphics2D g2d)
 	{
 		 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -251,23 +251,23 @@ public class ImageTools {
 		   g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
 
 	}
-	
+
 	public static BufferedImage resize( Image img, int newH, int newW) {
 		var tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
 		var dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
 
 		Graphics2D g2d = dimg.createGraphics();
 				  initGraphics(g2d);
-				  
-				  
+
+
 		g2d.drawImage(tmp, 0, 0, null);
 		g2d.dispose();
 
 		return dimg;
 	}
-	
+
 	public static BufferedImage imageToBufferedImage(Image im) {
-		
+
 		var bi = new BufferedImage(im.getWidth(null),im.getHeight(null),BufferedImage.TYPE_INT_RGB);
 		var bg = bi.getGraphics();
 	     bg.drawImage(im, 0, 0, null);
@@ -302,12 +302,12 @@ public class ImageTools {
 
 		return newImage;
 	}
-	
+
 
 	public static String toBase64(Image img) {
 		if(img==null)
 			return null;
-	
+
 		try (var os = new ByteArrayOutputStream())
 		{
 		    ImageIO.write((BufferedImage)img, "png", os);
@@ -319,45 +319,45 @@ public class ImageTools {
 		   return null;
 		}
 	}
-	
-	
+
+
 
 	public static BufferedImage toImage(byte[] img) throws IOException {
-	    return ImageIO.read(new ByteArrayInputStream(img));	
+	    return ImageIO.read(new ByteArrayInputStream(img));
 	}
-	
+
 
 	public static ImageIcon resize(Icon icon, int newH, int newW) {
 		var ic = ((ImageIcon)icon).getImage().getScaledInstance(newH, newW, Image.SCALE_SMOOTH);
 		return new ImageIcon(ic);
 	}
 
-	
+
 	public static BufferedImage readBase64(String base) throws IOException
 	{
 		BufferedImage image = null;
 		byte[] imageByte;
-		
+
 		if(base==null)
 			return null;
-		
+
 		imageByte = CryptoUtils.fromBase64(base);
-		
+
 		try(var bis = new ByteArrayInputStream(imageByte))
 		{
-			image = ImageIO.read(bis);	
+			image = ImageIO.read(bis);
 		}
-		
+
 		return image;
 	}
-	
+
 	public static void saveImageInPng(BufferedImage img, File f) throws IOException {
 		Iterator<ImageWriter> iw = ImageIO.getImageWritersByFormatName("png");
-		
+
 		if(!iw.hasNext())
 			throw new IOException("PNG Writer not found");
-		
-		
+
+
 		ImageWriter writer = iw.next();
 
 		ImageWriteParam writeParam = writer.getDefaultWriteParam();
@@ -374,34 +374,34 @@ public class ImageTools {
 		}
 
 	}
-		
-	
+
+
 	public static Dimension toMM(Dimension d)
 	{
 		var bd = BigDecimal.valueOf((d.getWidth() * 25.4) / MTGConstants.DPI);
 				   bd=bd.setScale(2, RoundingMode.HALF_UP);
-				   
+
 		var bd2 = BigDecimal.valueOf((d.getHeight() * 25.4) / MTGConstants.DPI);
-	    		   bd2=bd2.setScale(2, RoundingMode.HALF_UP);				   
-				   
+	    		   bd2=bd2.setScale(2, RoundingMode.HALF_UP);
+
 		return new Dimension((int)bd.doubleValue(), (int)bd2.doubleValue());
 	}
-	
-	
+
+
 	public static double toMM(double d)
 	{
 		var bd = BigDecimal.valueOf((d * 25.4) / MTGConstants.DPI);
 		bd=bd.setScale(2, RoundingMode.HALF_UP);
 		return bd.doubleValue();
 	}
-	
+
 	public static double toPX(double val)
 	{
 		var bd = BigDecimal.valueOf((val / 25.4) * MTGConstants.DPI);
 		bd=bd.setScale(2, RoundingMode.HALF_UP);
 		return bd.doubleValue();
 	}
-	
+
 
 	 private static void setDPI(IIOMetadata metadata) throws IIOInvalidTreeException {
 			double dotsPerMilli = 1.0 * MTGConstants.DPI / 10 / 2.54;
@@ -424,7 +424,7 @@ public class ImageTools {
 	public static BufferedImage read(File file) throws IOException {
 		return ImageIO.read(file);
 	}
-		
+
 	public static BufferedImage read(byte[] imageInByte) throws IOException {
 		return read(new ByteArrayInputStream(imageInByte));
 	}
@@ -438,14 +438,14 @@ public class ImageTools {
 
 	public static void write(BufferedImage bi, String formatName, File file) throws IOException {
 		ImageIO.write(bi, formatName, file);
-		
+
 	}
 
 	public static void write(BufferedImage bi, String formatName, ByteArrayOutputStream baos) throws IOException {
 		ImageIO.write(bi, formatName, baos);
-		
+
 	}
 
-	
-	
+
+
 }

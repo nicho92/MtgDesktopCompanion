@@ -21,7 +21,7 @@ public class MagicCardListRenderer implements ListCellRenderer<MagicCard> {
 	@Override
 	public Component getListCellRendererComponent(JList<? extends MagicCard> list, MagicCard value, int index,boolean isSelected, boolean cellHasFocus) {
 		render.setMagicCard(value);
-		
+
 		if (isSelected) {
 			render.setBackground(list.getSelectionBackground());
 		} else {

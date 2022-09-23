@@ -23,30 +23,30 @@ public class ApilayerCurrencyConverter {
 	private HashMap<String, Double> map;
 	private File cache;
 	private String token;
-	
+
 	public ApilayerCurrencyConverter(String token) {
 		this.token=token;
 		map = new HashMap<>();
 		cache=Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(),"conversionData.json").toFile();
 	}
-	
+
 	public Currency getCurrentCurrency()
 	{
-		
+
 		if(!MTGControler.getInstance().get("currency").isEmpty())
 			return Currency.getInstance(MTGControler.getInstance().get("currency"));
 		else
 			return Currency.getInstance(MTGControler.getInstance().getLocale());
 	}
-	
+
 	public Double convertTo(Currency from, Double value)
 	{
 		if(value==null)
 			return 0.0;
-		
+
 		return convert(from.getCurrencyCode(),getCurrentCurrency().getCurrencyCode(), value);
 	}
-	
+
 	public Date getCurrencyDateCache()
 	{
 		if(cache.exists())
@@ -54,26 +54,26 @@ public class ApilayerCurrencyConverter {
 		else
 			return null;
 	}
-	
+
 	public Double convert(Currency from, Currency to, double value)
 	{
 		return convert(from.getCurrencyCode(), to.getCurrencyCode(), value);
 	}
-	
+
 	public Double convert(String from, String to, double value)
 	{
 		double ret=0;
-		
+
 		if(from.equalsIgnoreCase(to))
 			return value;
-		
-		
+
+
 		try {
 			if(!from.equalsIgnoreCase("USD")&&!to.equalsIgnoreCase("USD"))
 				ret= usdConvert("USD", to, 1)*usdConvert(from, "USD", 1)*value;
 			else
 				ret= usdConvert(from, to, value);
-	
+
 			return ret;
 		}
 		catch(Exception e)
@@ -81,21 +81,21 @@ public class ApilayerCurrencyConverter {
 			logger.error("Error convert {} to {}, return default value",from,to,e);
 			return value;
 		}
-		
-		
-			
+
+
+
 	}
-	
+
 	public void clean() throws IOException
 	{
 		FileTools.deleteFile(cache);
 		init();
 	}
-	
+
 	private Double usdConvert(String from, String to, double value) {
-		
+
 		double ret = 0;
-		
+
 		if(from.equals("USD"))
 		{
 			ret = (value * map.get(to));
@@ -105,25 +105,25 @@ public class ApilayerCurrencyConverter {
 		ret = value / map.get(from);
 		}
 		return ret;
-		
+
 	}
-	
+
 	public Map<String,Double> getChanges()
 	{
 		return map;
 	}
-	
-	
+
+
 	public boolean isEnable() {
 		return MTGControler.getInstance().get("currencylayer-converter-enable").equals("true");
 	}
-	
+
 	public void init() throws IOException {
 			JsonObject obj = new JsonObject();
 			map.clear();
 			if(!cache.exists() && !token.isEmpty())
 			{
-				
+
 				logger.debug("{} doesn't exist. Will create it from website",cache.getAbsolutePath());
 				var parse = URLTools.extractAsJson("http://apilayer.net/api/live?access_key="+token);
 				obj = parse.getAsJsonObject().get("quotes").getAsJsonObject();
@@ -135,11 +135,11 @@ public class ApilayerCurrencyConverter {
 				obj = FileTools.readJson(cache).getAsJsonObject();
 			}
 			obj.entrySet().forEach(entry->map.put(entry.getKey().substring(3),entry.getValue().getAsDouble()));
-		
+
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 }

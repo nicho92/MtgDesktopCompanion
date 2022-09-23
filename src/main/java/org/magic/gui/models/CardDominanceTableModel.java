@@ -6,7 +6,7 @@ import org.magic.gui.abstracts.GenericTableModel;
 public class CardDominanceTableModel extends GenericTableModel<CardDominance> {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	public CardDominanceTableModel() {
 		columns=new String[] { "CARD",
 				"POSITION",

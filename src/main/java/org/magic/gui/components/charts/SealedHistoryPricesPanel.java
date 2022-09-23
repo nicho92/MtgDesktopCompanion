@@ -20,30 +20,30 @@ import org.magic.services.threads.ThreadManager;
 public class SealedHistoryPricesPanel extends Abstract2DHistoChart<Void> {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private transient HistoryPrice<?> cpVariations;
 	private String title="";
 	private MTGSealedProduct pack;
-	
-	
+
+
 	@Override
 	public String getTitle() {
 		return StringUtils.isBlank(title)?"Price History":title;
 	}
-	
-	
+
+
 	@Override
 	public void onVisible() {
 		init(pack,title);
 	}
-	
+
 	public void init(MTGSealedProduct pack, String title) {
 		this.pack=pack;
 		this.title = title;
-		
-		if(isVisible()) 
+
+		if(isVisible())
 		{
 				SwingWorker<Void, Void> s=  new SwingWorker<>(){
 
@@ -52,18 +52,18 @@ public class SealedHistoryPricesPanel extends Abstract2DHistoChart<Void> {
 						cpVariations = getEnabledPlugin(MTGDashBoard.class).getPriceVariation(pack);
 						return null;
 					}
-					
+
 					@Override
 					protected void done() {
 						refresh();
 					}
-					
+
 				};
-						
+
 				ThreadManager.getInstance().runInEdt(s, "loading history price for "+ pack);
 		}
 	}
-	
+
 	@Override
 	public TimeSeriesCollection getDataSet() {
 		var dataset = new TimeSeriesCollection();
@@ -75,5 +75,5 @@ public class SealedHistoryPricesPanel extends Abstract2DHistoChart<Void> {
 		dataset.addSeries(series1);
 		return dataset;
 	}
-	
+
 }

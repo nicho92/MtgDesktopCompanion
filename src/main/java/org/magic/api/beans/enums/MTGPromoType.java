@@ -7,12 +7,12 @@ import com.google.gson.annotations.SerializedName;
 public enum MTGPromoType {
 
 
-	
-	@SerializedName(alternate = "arenaleague", value = "ARENALEAGUE") 		ARENALEAGUE, 				 
+
+	@SerializedName(alternate = "arenaleague", value = "ARENALEAGUE") 		ARENALEAGUE,
 	@SerializedName(alternate = "boosterfun", value = "BOOSTERFUN")   		BOOSTERFUN,
 	@SerializedName(alternate = "boxtopper", value = "BOXTOPPER") 	  		BOXTOPPER,
-	@SerializedName(alternate = "brawldeck", value = "BRAWLDECK") 	 		BRAWLDECK, 
-	@SerializedName(alternate = "bundle", value = "BUNDLE") 		  		BUNDLE, 
+	@SerializedName(alternate = "brawldeck", value = "BRAWLDECK") 	 		BRAWLDECK,
+	@SerializedName(alternate = "bundle", value = "BUNDLE") 		  		BUNDLE,
 	@SerializedName(alternate = "buyabox", value = "BUYABOX") 		  		BUYABOX,
 	@SerializedName(alternate = "convention", value = "CONVENTION")   		CONVENTION,
 	@SerializedName(alternate = "datestamped", value = "DATESTAMPED")   	DATESTAMPED,
@@ -28,7 +28,7 @@ public enum MTGPromoType {
 	@SerializedName(alternate = "intropack", value = "INTROPACK") 			INTROPACK,
 	@SerializedName(alternate = "jpwalker", value = "JPWALKER") 			JPWALKER,
 	@SerializedName(alternate = "judgegift", value = "JUDGEGIFT") 			JUDGEGIFT,
-	@SerializedName(alternate = "league", value = "LEAGUE") 				LEAGUE, 
+	@SerializedName(alternate = "league", value = "LEAGUE") 				LEAGUE,
 	@SerializedName(alternate = "mediainsert", value = "MEDIAINSERT") 		MEDIAINSERT,
 	@SerializedName(alternate = "openhouse", value = "OPENHOUSE") 			OPENHOUSE,
 	@SerializedName(alternate = "planeswalkerstamped", value = "PLANESWALKERSTAMPED") 			PLANESWALKERSTAMPED,
@@ -43,14 +43,14 @@ public enum MTGPromoType {
 	@SerializedName(alternate = "tourney", value = "TOURNEY") 				TOURNEY,
 	@SerializedName(alternate = "wizardsplaynetwork", value = "WIZARDSPLAYNETWORK") WIZARDSPLAYNETWORK,
 	@SerializedName(alternate = "draculaseries", value = "DRACULASERIES") DRACULASERIES;
-	
-	
+
+
 
 	public String toPrettyString() {
 		return StringUtils.capitalize(name().toLowerCase());
 	}
 
-	
+
 	public static MTGPromoType parseByLabel(String s)
 	{
 		try {
@@ -61,5 +61,5 @@ public enum MTGPromoType {
 			return null;
 		}
 	}
-	
+
 }

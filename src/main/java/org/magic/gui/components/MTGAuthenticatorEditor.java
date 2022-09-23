@@ -30,27 +30,27 @@ public class MTGAuthenticatorEditor extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private MapTableModel<String, String> tableModel;
-	
+
 	public MTGAuthenticatorEditor() {
 			tableModel = new MapTableModel<>() {
-			
+
 			private static final long serialVersionUID = 1L;
-			
+
 			@Override
 			public boolean isCellEditable(int row, int column) {
 				return column>0;
 			}
 		};
-		
+
 		var table = UITools.createNewTable(tableModel);
 		var panelWest = new JPanel();
 		var panelSouth = new JPanel();
-	
+
 		var panelButtons = new JPanel();
 		var comboBox = UITools.createCombobox(AccountsManager.inst().listAvailablePlugins());
 		var btnNewButton = new JButton(MTGConstants.ICON_NEW);
 		var listModel = new DefaultListModel<MTGPlugin>();
-		var list = new JList<MTGPlugin>(listModel);
+		var list = new JList<>(listModel);
 		var btnSave = UITools.createBindableJButton("",MTGConstants.ICON_SAVE, KeyEvent.VK_S,"Save");
 		var btnExportConfig = UITools.createBindableJButton("",MTGConstants.ICON_EXPORT, KeyEvent.VK_E,"Export");
 		var btnImportConfig = UITools.createBindableJButton("",MTGConstants.ICON_IMPORT, KeyEvent.VK_I,"Import");
@@ -58,7 +58,7 @@ public class MTGAuthenticatorEditor extends JPanel {
 		var btnKeyGenerator = UITools.createBindableJButton("",MTGConstants.ICON_TAB_LOCK, KeyEvent.VK_K,"Create KeyFile");
 		setLayout(new BorderLayout(0, 0));
 		panelWest.setLayout(new BorderLayout(0, 0));
-			
+
 		add(new JScrollPane(table), BorderLayout.CENTER);
 		add(panelWest, BorderLayout.WEST);
 		panelButtons.add(btnKeyGenerator);
@@ -71,7 +71,7 @@ public class MTGAuthenticatorEditor extends JPanel {
 		panelSouth.add(btnDeleteConfig);
 		panelSouth.add(btnImportConfig);
 		panelSouth.add(btnExportConfig);
-		
+
 		btnDeleteConfig.setEnabled(false);
 		tableModel.setWritable(true);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -79,10 +79,10 @@ public class MTGAuthenticatorEditor extends JPanel {
 		comboBox.setRenderer(new PluginIconListRenderer());
 		list.setCellRenderer(new PluginIconListRenderer());
 		table.packAll();
-	
-		
+
+
 		btnSave.addActionListener(al->{
-			
+
 			try {
 				AccountsManager.inst().getKey();
 				AccountsManager.inst().saveConfig();
@@ -90,13 +90,13 @@ public class MTGAuthenticatorEditor extends JPanel {
 				MTGControler.getInstance().notify(e);
 			}
 		});
-		
-		
+
+
 		btnKeyGenerator.addActionListener(al->{
-			
+
 			String key = JOptionPane.showInputDialog("Define a Key Pass :");
 			String key2 = JOptionPane.showInputDialog("Confirm Key Pass :");
-			
+
 			if(!key.equals(key2))
 			{
 				MTGControler.getInstance().notify(new MTGNotification("KeyPass", "KeyPass are different",MESSAGE_TYPE.ERROR));
@@ -109,21 +109,21 @@ public class MTGAuthenticatorEditor extends JPanel {
 					MTGControler.getInstance().notify(e);
 				}
 			}
-			
+
 		});
-		
+
 		btnExportConfig.addActionListener(al->{
-			
+
 			try {
 				AccountsManager.inst().getKey();
 			} catch (IOException e1) {
 				MTGControler.getInstance().notify(e1);
 				return;
 			}
-			
+
 			JFileChooser f = new JFileChooser();
 			 			 f.showSaveDialog(this);
-					 
+
 			if(f.getSelectedFile()!=null)
 			{
 				try {
@@ -134,7 +134,7 @@ public class MTGAuthenticatorEditor extends JPanel {
 				}
 			}
 		});
-		
+
 		btnImportConfig.addActionListener(al->{
 			try {
 				AccountsManager.inst().getKey();
@@ -142,64 +142,64 @@ public class MTGAuthenticatorEditor extends JPanel {
 				MTGControler.getInstance().notify(e1);
 				return;
 			}
-			
+
 			JFileChooser f = new JFileChooser();
 						 f.showOpenDialog(this);
-			
-						 
-						 
+
+
+
 			if(f.getSelectedFile()!=null)
 			{
 				try {
-					
+
 					AccountsManager.inst().loadConfig(FileTools.readFile(f.getSelectedFile()));
 					AccountsManager.inst().saveConfig();
-					
+
 					listModel.removeAllElements();
 					listModel.addAll(AccountsManager.inst().listAuthEntries().keySet());
-					
-					
+
+
 				} catch (Exception e) {
 					MTGControler.getInstance().notify(e);
-				
-				} 
+
+				}
 			}
-			
-			
+
+
 		});
-		
-		
+
+
 		btnDeleteConfig.addActionListener(al->{
-			
+
 			AccountsManager.inst().removeEntry(list.getSelectedValue());
 			listModel.removeElementAt(list.getSelectedIndex());
 			list.updateUI();
 		});
-		
-		
+
+
 		btnNewButton.addActionListener(al->{
-		
-			
+
+
 			var auth = new AccountAuthenticator();
 			for (String k : ((MTGPlugin)comboBox.getSelectedItem()).listAuthenticationAttributes())
 			{
 					auth.addToken(k, "");
 			}
-			
+
 			AccountsManager.inst().addAuthentication((MTGPlugin)comboBox.getSelectedItem(), auth);
 			listModel.addElement((MTGPlugin)comboBox.getSelectedItem());
 			list.updateUI();
-			
+
 		});
-		
-		
+
+
 		list.addListSelectionListener(al->{
 			if(!al.getValueIsAdjusting())
 			{
 				int idx = list.getSelectedIndex();
-				
+
 				btnDeleteConfig.setEnabled(idx>-1);
-				
+
 				if (idx > -1)
 				{
 						MTGPlugin plug = listModel.getElementAt(idx);
@@ -209,11 +209,11 @@ public class MTGAuthenticatorEditor extends JPanel {
 		});
 	}
 
-	
+
 
 	public void init(AccountAuthenticator account)
 	{
 		tableModel.init(account.getTokens());
 	}
-	
+
 }

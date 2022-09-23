@@ -47,7 +47,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 	public BoosterBoxDashlet() {
 		super();
 	}
-	
+
 	@Override
 	public ImageIcon getDashletIcon() {
 		return MTGConstants.ICON_DOLLARS;
@@ -57,12 +57,12 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 	public String getName() {
 		return "Booster Box";
 	}
-	
+
 	@Override
 	public String getCategory() {
 		return "Financial";
 	}
-	
+
 
 	@Override
 	public void init() {
@@ -119,7 +119,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 		scrollPane1.setViewportView(list1);
 
 		btnCalculate.addActionListener(e -> ThreadManager.getInstance().executeThread(new MTGRunnable() {
-			
+
 			@Override
 			protected void auditedRun() {
 				try {
@@ -165,7 +165,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 				} catch (Exception e1) {
 					logger.error(e1);
 				}
-				
+
 			}
 		}, "Open Box"));
 

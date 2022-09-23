@@ -30,41 +30,41 @@ import org.magic.tools.ImageTools;
 
 
 public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin implements MTGCardRecognition {
-	
+
 	protected Map<String,List<DescContainer>> dataList;
-	
+
 	@Override
 	public PLUGINS getType() {
 		return PLUGINS.STRATEGY;
 	}
-	
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		var m = new HashMap<String,String>();
 		m.put("DATA",Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(),"recog").toFile().getAbsolutePath());
-		
+
 		return m;
 	}
-	
+
 	protected AbstractRecognitionStrategy() {
 		dataList =new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 	}
-	
+
 	@Override
 	public final Map<String, List<DescContainer>> getDataList() {
 		return dataList;
 	}
-		
+
 	@Override
 	public boolean isSetCached(MagicEdition ed) {
 		return getSetDirectory(ed.getId()).exists();
 	}
-	
+
 	@Override
 	public boolean isSetLoaded(MagicEdition ed) {
 		return dataList.containsKey(ed.getId());
 	}
-	
+
 	protected List<DescContainer> allDatas()
 	{
 		return dataList.values().stream().flatMap(List::stream).collect(Collectors.toList());
@@ -73,12 +73,12 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 	public final boolean isCached(MagicEdition ed) {
 		return getSetDirectory(ed.getId()).exists();
 	}
-	
+
 	protected void add(DescContainer dc) {
-		dataList.computeIfAbsent(dc.getSetCode(), v->new ArrayList<DescContainer>()).add(dc);
-		
+		dataList.computeIfAbsent(dc.getSetCode(), v->new ArrayList<>()).add(dc);
+
 	}
-	
+
 	protected MatchResult result(List<DescContainer> datas, ImageDesc in, int size, double threshhold)
 	{
 		var ix = 0;
@@ -92,34 +92,34 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 				ix=i;
 			}
 		}
-		
+
 		if(!datas.isEmpty())
 			logger.debug("Max ={} {}",max,datas.get(ix).getStringData());
-		
+
 		if(max>threshhold)
 		{
 			return new MatchResult(datas.get(ix).getStringData(),max);
 		}
 		return null;
 	}
-	
-	
+
+
 	@Override
 	public void clear(MagicEdition ed) {
 		dataList.remove(ed.getId());
 	}
-	
+
 	@Override
 	public void clear() {
 		dataList.clear();
 	}
-	
+
 
 	@Override
 	public void finalizeLoad() {
 		//do nothing
 	}
-	
+
 	@Override
 	public final void loadAllCachedData() throws IOException
 	{
@@ -128,12 +128,12 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 			loadDatasFromFile(f);
 		}
 	}
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
 	private final void loadDatasFromFile(File handle) throws IOException
 	{
 			if(dataList.get(FilenameUtils.getBaseName(handle.getName()))!=null)
@@ -158,17 +158,17 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 					}
 				}
 			}
-		
-		
+
+
 	}
-	
+
 	@Override
 	public File downloadCardsData(MagicEdition set) throws IOException
 	{
 		logger.info("downloading {}",set);
 		List<MagicCard> cards = getEnabledPlugin(MTGCardsProvider.class).searchCardByEdition(set);
 		logger.info("Loading cards from {} {} found",set,cards.size());
-		
+
 		for(MagicCard card:cards)
 		{
 			if(!card.isBasicLand() )
@@ -177,14 +177,14 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 				notify(card);
 			}
 		}
-		
+
 		File f = getSetDirectory(set.getId());
 		FileTools.writeSetRecognition(f,set,cards.size(),dataList.get(set.getId()));
-		
+
 		return f;
-		
+
 	}
-	
+
 
 	@Override
 	public final void loadDatasForSet(MagicEdition set)
@@ -199,7 +199,7 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 			}
 		}
 		else
-		{	
+		{
 			logger.info("{} doesn't exist. Building it",set);
 			try {
 				loadDatasFromFile(downloadCardsData(set));
@@ -207,10 +207,10 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 				logger.error(e);
 			}
 		}
-		
+
 	}
-	
-	
+
+
 	private void addFromCard(MagicCard card)
 	{
 		BufferedImage topimg;
@@ -220,7 +220,7 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 			logger.error(e1);
 			topimg=null;
 		}
-		
+
 		if(topimg!=null)
 		{
 				String key = card.getName()+"|"+card.getCurrentSet().getId()+"|"+card.getId()+"|"+card.getCurrentSet().getNumber()+"|"+card.getScryfallId();
@@ -234,11 +234,11 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 				}
 		}
 	}
-	
+
 	private File getSetDirectory(String set)
 	{
 		return new File(getFile("DATA"),set.toLowerCase()+".dat");
 	}
 
-	
+
 }

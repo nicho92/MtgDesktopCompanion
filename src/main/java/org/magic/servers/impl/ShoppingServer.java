@@ -34,7 +34,7 @@ public class ShoppingServer extends AbstractWebServer {
 		super.exportWeb(dest);
 		FileTools.saveFile(Paths.get(dest.getAbsolutePath(),"css","extra.css").toFile(), MTGControler.getInstance().getWebConfig().getExtraCss());
 	}
-	
+
 	@Override
 	public void extraConfig() {
 				var holderCss = new ServletHolder("extraCssServlet", new DefaultServlet() {
@@ -43,8 +43,8 @@ public class ShoppingServer extends AbstractWebServer {
 					protected void doGet(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
 						  response.setContentType(URLTools.HEADER_CSS+";charset="+MTGConstants.DEFAULT_ENCODING);
 						  response.setStatus(HttpServletResponse.SC_OK);
-						  try { 
-							  response.getWriter().println(MTGControler.getInstance().getWebConfig().getExtraCss());  
+						  try {
+							  response.getWriter().println(MTGControler.getInstance().getWebConfig().getExtraCss());
 						  }
 						  catch(Exception e)
 						  {
@@ -53,14 +53,14 @@ public class ShoppingServer extends AbstractWebServer {
 						  }
 					}
 				});
-			
+
 				ctx.addServlet(holderCss,"/css/extra.css");
-		
-		
-		
+
+
+
 	}
-	
-	
+
+
 	@Override
 	protected String getWebLocation() {
 		return MTGConstants.WEBSHOP_LOCATION;
@@ -70,10 +70,10 @@ public class ShoppingServer extends AbstractWebServer {
 	public Icon getIcon() {
 		return MTGConstants.ICON_SHOP;
 	}
-	
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
 	}
-	
+
 }

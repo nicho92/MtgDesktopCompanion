@@ -48,7 +48,7 @@ import org.magic.services.logging.MTGLogger;
 import org.reflections.Reflections;
 
 public class PluginRegistry {
-	
+
 	private Map<Class,PluginEntry> registry;
 	private static PluginRegistry instance;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
@@ -57,12 +57,12 @@ public class PluginRegistry {
 	private XMLConfiguration config;
 	private Map<String,String> pluginsToDelete;
 	private boolean needUpdate;
-	
+
 	public Map<String,String> getPluginsToDelete() {
 		return pluginsToDelete;
 	}
-	
-	
+
+
 	public List<String> getStringMethod(Class<?> classe)
 	{
 		List<String> meths = new ArrayList<>();
@@ -82,33 +82,33 @@ public class PluginRegistry {
  		}
 		return meths;
 	}
-	
-	
+
+
 	public static PluginRegistry inst() {
 		if(instance==null)
 			instance = new PluginRegistry();
-		
+
 		return instance;
 	}
-	
+
 	public void setConfig(XMLConfiguration config) {
 		this.config = config;
 	}
-	
+
 	private PluginRegistry() {
 			classLoader = PluginRegistry.class.getClassLoader();
 			registry=new HashMap<>();
 			pluginsToDelete=new TreeMap<>();
 			init();
 	}
-	
+
 	public <T> T newInstance(Class<T> classname) throws ClassNotFoundException {
-		
+
 		return newInstance(classname.getName());
-		
+
 	}
-	
-	
+
+
 	@SuppressWarnings("unchecked")
 	public <T> T newInstance(String classname) throws ClassNotFoundException {
 		try {
@@ -119,19 +119,19 @@ public class PluginRegistry {
 			return null;
 		}
 	}
-	
+
 	public <T extends MTGPlugin> PluginEntry<T> getEntryFor(Object k)
 	{
 		return getEntry(ClassUtils.getAllInterfaces(k.getClass()).get(0));
 	}
-	
-	
+
+
 	@SuppressWarnings("unchecked")
 	public  <T extends MTGPlugin> PluginEntry<T> getEntry(Class p)
 	{
 		return registry.get(p);
 	}
-	
+
 	private void init()
 	{
 		registry.put(MTGNotifier.class, new PluginEntry<>(MTGNotifier.class,true,"/notifiers","/notifier", "org.magic.api.notifiers.impl",PLUGINS.NOTIFIER));
@@ -162,34 +162,34 @@ public class PluginRegistry {
 		registry.put(AbstractJDashlet.class, new PluginEntry<>(AbstractJDashlet.class,true,"/dashlets", "/dashlet", "org.magic.gui.dashlet",PLUGINS.DASHLET));
 
 	}
-	
-	
+
+
 	public Class loadClass(String name) throws ClassNotFoundException
 	{
 		return classLoader.loadClass(name);
 	}
-	
-	
+
+
 	public <T extends MTGPlugin> List<Class<T>> listClasses()
 	{
 		List<Class<T>> ret = new ArrayList<>();
 		registry.keySet().forEach(ret::add);
 		return ret;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public synchronized <T extends MTGPlugin> List<T> listPlugins(Class<T> classe)
 	{
-		
+
 		PluginEntry<T> entry = registry.get(classe);
-		
+
 		if(!entry.getPlugins().isEmpty())
 			return entry.getPlugins();
-		
+
 		var listRemoved = new ArrayList<String>();
-		
+
 		logger.debug("loading " + classe.getSimpleName());
-		for (var i = 1; i <= config.getList("/"+entry.getElement()+"/class").size(); i++) 
+		for (var i = 1; i <= config.getList("/"+entry.getElement()+"/class").size(); i++)
 		{
 			var s = config.getString(entry.getXpath()+"[" + i + "]/class");
 			T prov = null;
@@ -201,7 +201,7 @@ public class PluginRegistry {
 				listRemoved.add(entry.getXpath()+"[class='"+s+"']");
 				needUpdate=true;
 			}
-			if (prov != null) 
+			if (prov != null)
 			{
 				try {
 					prov.enable(config.getBoolean(entry.getXpath()+"[" + i + "]/enable"));
@@ -214,21 +214,21 @@ public class PluginRegistry {
 				entry.getPlugins().add(prov);
 			}
 		}
-		
-		
+
+
 		if(needUpdate)
 		{
 			listRemoved.stream().forEach(config::clearTree);
 		}
-	
+
 		return entry.getPlugins().stream().toList();
 	}
-	
+
 	public boolean needUpdate()
 	{
 		return needUpdate;
 	}
-	
+
 	public Set<Entry<Class, PluginEntry>> entrySet() {
 		return registry.entrySet();
 	}
@@ -239,8 +239,8 @@ public class PluginRegistry {
 		PluginRegistry.inst().listClasses().stream().forEach(c->PluginRegistry.inst().listPlugins(c).forEach(list::add));
 		return list;
 	}
-	
-	
+
+
 	public List<Class> getClasses(String packageName) {
 		ArrayList<Class> classes = new ArrayList<>();
 		var classReflections = new Reflections(packageName);
@@ -251,7 +251,7 @@ public class PluginRegistry {
 		return classes;
 	}
 
-	
+
 	public boolean updateConfigWithNewModule() {
 		entrySet().forEach(p->
 		{
@@ -276,38 +276,38 @@ public class PluginRegistry {
 				}
 			}
 		}
-		
+
 		return retour;
 	}
 
 	public <T extends MTGPlugin> T getPlugin(String name,Class<T> type) {
 		Optional<T> r = listPlugins(type).stream().filter(s->s.getName().equalsIgnoreCase(name)).findFirst();
-		
+
 		if(r.isPresent())
 			return r.get();
-		
+
 		logger.error(name.replaceAll("[\n\r\t]", "_") + " doesn't exist or is not enabled");
 		return null;
 	}
-	
+
 
 	public MTGPlugin getPlugin(String name) {
 		Optional<MTGPlugin> r = listPlugins().stream().filter(p->p.getName().equalsIgnoreCase(name)).findFirst();
-		
+
 		if(r.isPresent())
 			return r.get();
-		
-		
+
+
 		logger.error(name + " doesn't exist");
 		return null;
-		
+
 	}
-	
+
 
 	public <T extends MTGPlugin> List<T> listEnabledPlugins(Class<T> t) {
 		return listPlugins(t).stream().filter(MTGPlugin::isEnable).sorted().toList();
 	}
-	
+
 	public <T extends MTGPlugin> T getEnabledPlugins(Class<T> t) {
 		return listPlugins(t).stream().filter(MTGPlugin::isEnable).findFirst().orElse(null);
 	}
@@ -318,7 +318,7 @@ public class PluginRegistry {
 	}
 
 
-	
+
 }
 
 

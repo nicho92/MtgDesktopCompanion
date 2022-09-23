@@ -7,7 +7,7 @@ import org.magic.api.interfaces.MTGNewsProvider;
 public class MagicNews implements Serializable {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private Integer id;
@@ -52,6 +52,7 @@ public class MagicNews implements Serializable {
 		this.url = url;
 	}
 
+	@Override
 	public String toString() {
 		return getName();
 	}

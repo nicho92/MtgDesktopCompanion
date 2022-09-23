@@ -58,10 +58,10 @@ public class ContourBoundingBox
             {
                 start = (start+2)%4;
             }
-            
-            
+
+
             input.setNumberOfBands(3);
-            
+
             if( !removePerspective.apply(input,
                     new Point2D_F64(corners[start].x,corners[start].y),
                     new Point2D_F64(corners[(start+1)%4].x,corners[(start+1)%4].y),
@@ -79,7 +79,7 @@ public class ContourBoundingBox
 			return in;
 		}
 	}
-    
+
 	 public static List<ContourBoundingBox> getContourBoundingBox(BufferedImage in)
 	    {
 	        List<ContourBoundingBox> bounds = new ArrayList<>();
@@ -138,7 +138,7 @@ public class ContourBoundingBox
             cornersf[i] = new Point2D_F64(corners[i].x, corners[i].y);
             int j = (i+1)%4;
             midpoints[i] = new Point2D_I32(
-                (corners[i].x + corners[j].x)/2, 
+                (corners[i].x + corners[j].x)/2,
                 (corners[i].y + corners[j].y)/2
             );
             slopes[i] = slope(corners[i],corners[j]);
@@ -184,7 +184,7 @@ public class ContourBoundingBox
 
     public double area()
     {
-        return midpoints[0].distance(midpoints[2]) * 
+        return midpoints[0].distance(midpoints[2]) *
             midpoints[1].distance(midpoints[3]);
     }
 

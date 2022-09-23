@@ -13,7 +13,7 @@ public class MagicEdition implements MTGStorable, Comparable<MagicEdition> {
 	public static final long serialVersionUID = 1L;
 
 	private String set;
-	
+
 	@SerializedName(alternate = "multiverse_id", value = "multiverseId") private String multiverseId;
 
 	private String layout;
@@ -35,17 +35,17 @@ public class MagicEdition implements MTGStorable, Comparable<MagicEdition> {
 	private int tcgplayerGroupId;
 	private boolean preview;
 	private boolean foreignOnly;
-	
-	
+
+
 	private String number;
-	
-	
+
+
 	@Override
 	public String getStoreId() {
 		return getId();
 	}
-	
-	
+
+
 	public boolean isForeignOnly() {
 		return foreignOnly;
 	}
@@ -81,11 +81,11 @@ public class MagicEdition implements MTGStorable, Comparable<MagicEdition> {
 	public String getMultiverseid() {
 		return multiverseId;
 	}
-	
+
 	public void setMultiverseid(String multiverseid) {
 		this.multiverseId = multiverseid;
 	}
-	
+
 	public Integer getMkmid() {
 		return mkmid;
 	}
@@ -115,14 +115,14 @@ public class MagicEdition implements MTGStorable, Comparable<MagicEdition> {
 		return translations;
 	}
 
-	
+
 	public MagicEdition(String idMe)
 	{
 		setId(idMe);
 		booster = new ArrayList<>();
 		translations = new HashMap<>();
 	}
-	
+
 	public MagicEdition(String idMe,String name)
 	{
 		setId(idMe);
@@ -178,15 +178,9 @@ public class MagicEdition implements MTGStorable, Comparable<MagicEdition> {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null)
+		if((obj == null) || (this.getClass() != obj.getClass()) || (getId()==null))
 			return false;
 
-		if (this.getClass() != obj.getClass())
-			return false;
-		
-		if(getId()==null)
-			return false;
-	
 		return getId().equals(((MagicEdition) obj).getId());
 	}
 
@@ -236,13 +230,10 @@ public class MagicEdition implements MTGStorable, Comparable<MagicEdition> {
 	}
 
 	public int compare(MagicEdition o1, MagicEdition o2) {
-		
-		if(o1==null || o2==null)
+
+		if(o1==null || o2==null || o1.getSet()==null || o2.getSet()==null)
 			return -1;
-		
-		if(o1.getSet()==null || o2.getSet()==null)
-			return -1;
-		
+
 		return o1.getSet().compareTo(o2.getSet());
 	}
 
@@ -261,9 +252,9 @@ public class MagicEdition implements MTGStorable, Comparable<MagicEdition> {
 
 	public void setKeyRuneCode(String r) {
 		keyRuneCode=r;
-		
+
 	}
-	
+
 	public String getKeyRuneCode() {
 		return keyRuneCode;
 	}
@@ -276,5 +267,5 @@ public class MagicEdition implements MTGStorable, Comparable<MagicEdition> {
 		this.tcgplayerGroupId = tcgplayerGroupId;
 	}
 
-	
+
 }

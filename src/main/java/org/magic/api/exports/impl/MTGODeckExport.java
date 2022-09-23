@@ -44,13 +44,13 @@ public class MTGODeckExport extends AbstractFormattedFileCardExport {
 
 		FileTools.saveFile(dest, temp.toString());
 	}
-	
+
 	@Override
 	public MagicDeck importDeck(String f, String deckName) throws IOException {
 		var deck = new MagicDeck();
 			deck.setName(deckName);
 			var side=false;
-			
+
 			for(Matcher m : matches(f,false))
 			{
 				if(m.group().isEmpty())
@@ -60,7 +60,7 @@ public class MTGODeckExport extends AbstractFormattedFileCardExport {
 				else
 				{
 					String cname = m.group(2);
-					
+
 					MagicEdition ed = null;
 					try {
 					if(m.group(4)!=null)
@@ -70,12 +70,12 @@ public class MTGODeckExport extends AbstractFormattedFileCardExport {
 					{
 						logger.error(m.group(4) + " isn't a valid set");
 					}
-					
-					
+
+
 					try{
 						MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cname.trim(), ed, true).get(0);
 						var qty = Integer.parseInt(m.group(1));
-						
+
 						if(side)
 						{
 							deck.getSideBoard().put(mc, qty);
@@ -84,7 +84,7 @@ public class MTGODeckExport extends AbstractFormattedFileCardExport {
 						{
 							deck.getMain().put(mc, qty);
 						}
-						
+
 						notify(mc);
 					}
 					catch(Exception e)
@@ -94,7 +94,7 @@ public class MTGODeckExport extends AbstractFormattedFileCardExport {
 				}
 			}
 			return deck;
-		
+
 
 	}
 
@@ -118,6 +118,6 @@ public class MTGODeckExport extends AbstractFormattedFileCardExport {
 		return " ";
 	}
 
-	
+
 
 }

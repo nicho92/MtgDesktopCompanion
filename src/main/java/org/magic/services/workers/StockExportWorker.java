@@ -27,13 +27,13 @@ public class StockExportWorker extends SwingWorker<Void, MagicCard> {
 	private File f;
 	private List<MagicCardStock> export;
 	private Exception err;
-	
-	
-	
+
+
+
 	public StockExportWorker(MTGCardsExport exp,List<MagicCardStock> export,AbstractBuzyIndicatorComponent buzy,File f) {
 		init(exp,export,buzy,f);
 	}
-	
+
 	public void init(MTGCardsExport exp,List<MagicCardStock> export,AbstractBuzyIndicatorComponent buzy,File f) {
 		this.exp=exp;
 		this.buzy=buzy;
@@ -43,9 +43,9 @@ public class StockExportWorker extends SwingWorker<Void, MagicCard> {
 		o=(Observable obs, Object c)->publish((MagicCard)c);
 		exp.addObserver(o);
 	}
-	
-	
-	
+
+
+
 	@Override
 	protected Void doInBackground(){
 		try {
@@ -56,12 +56,12 @@ public class StockExportWorker extends SwingWorker<Void, MagicCard> {
 		}
 		return null;
 	}
-	
+
 	@Override
 	protected void process(List<MagicCard> chunks) {
 		buzy.progressSmooth(chunks.size());
 	}
-	
+
 	@Override
 	protected void done() {
 		try {
@@ -70,7 +70,7 @@ public class StockExportWorker extends SwingWorker<Void, MagicCard> {
 			logger.error(e);
 		}
 		buzy.end();
-		
+
 		if(err!=null)
 		{
 			MTGControler.getInstance().notify(err);
@@ -83,7 +83,7 @@ public class StockExportWorker extends SwingWorker<Void, MagicCard> {
 					MESSAGE_TYPE.INFO
 					));
 		}
-		
+
 	}
-	
+
 }

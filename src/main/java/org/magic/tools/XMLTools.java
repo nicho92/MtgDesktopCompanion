@@ -16,12 +16,12 @@ public class XMLTools {
 	private static Logger logger = MTGLogger.getLogger(XMLTools.class);
 
 	private XMLTools() {}
-	
-	
+
+
 	public static DocumentBuilder createSecureXMLDocumentBuilder() throws ParserConfigurationException
 	{
 		try {
-			
+
 			var df= DocumentBuilderFactory.newInstance();
 		    	df.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
 		    	df.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
@@ -29,7 +29,7 @@ public class XMLTools {
 		    	df.setXIncludeAware(false);
 		    	df.setExpandEntityReferences(false);
 		    	return df.newDocumentBuilder();
-			
+
 		}
 		catch(Exception e)
 		{
@@ -37,12 +37,12 @@ public class XMLTools {
 			return null;
 		}
 	}
-	
-	
-	
+
+
+
 	public static String parseXML(Document document,String xpath)	throws XPathExpressionException {
 		return XPathFactory.newInstance().newXPath().evaluate(xpath, document.getDocumentElement());
 	}
-	
-	
+
+
 }

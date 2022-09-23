@@ -30,7 +30,7 @@ import org.magic.tools.UITools;
 public class DeckPricePanel extends JComponent {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private JComboBox<MTGPricesProvider> cboPricers;
@@ -41,8 +41,8 @@ public class DeckPricePanel extends JComponent {
 	private double total = 0;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JButton btnCheckPrice;
-	
-	
+
+
 	public void initDeck(MagicDeck d) {
 		this.deck = d;
 		try {
@@ -53,52 +53,52 @@ public class DeckPricePanel extends JComponent {
 		}
 		model.clear();
 	}
-	
+
 	public void enableControle(boolean b)
 	{
 		cboPricers.setEnabled(b);
 		btnCheckPrice.setEnabled(b);
 	}
-	
+
 	public JButton getBtnCheckPrice() {
 		return btnCheckPrice;
 	}
-	
-	
+
+
 	public void updatePrice()
 	{
 		lblPrice.setText(String.valueOf(UITools.formatDouble(total)) + " " + MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getCurrencyCode());
 	}
-	
+
 
 	public DeckPricePanel() {
 		setLayout(new BorderLayout(0, 0));
 
 		btnCheckPrice = new JButton(MTGConstants.ICON_EURO);
 		var panel = new JPanel();
-		
+
 		add(panel, BorderLayout.NORTH);
 
 		cboPricers = UITools.createCombobox(MTGPricesProvider.class,false);
 		panel.add(cboPricers);
 
-		
+
 		enableControle(false);
-		
+
 
 		btnCheckPrice.addActionListener(ae -> {
 			model.clear();
-			
+
 			AbstractObservableWorker<List<MagicPrice>, MagicPrice, MTGPricesProvider> sw = new AbstractObservableWorker<>((MTGPricesProvider)cboPricers.getSelectedItem()) {
 
 				@Override
 				protected List<MagicPrice> doInBackground() throws Exception {
 					return plug.getPrice(deck, false);
 				}
-				
+
 				@Override
 				protected void done() {
-					
+
 						try {
 							total = get().stream().mapToDouble(MagicPrice::getValue).sum();
 						} catch (InterruptedException e) {
@@ -107,17 +107,17 @@ public class DeckPricePanel extends JComponent {
 						} catch (ExecutionException e) {
 							logger.error("error getting prices",e);
 						}
-					
+
 						deck.setAveragePrice(total);
-						
+
 					updatePrice();
 				}
-				
+
 				@Override
 				protected void process(List<MagicPrice> p) {
 					model.addItems(p);
 				}
-				
+
 			};
 
 			ThreadManager.getInstance().runInEdt(sw, "loading deck price");
@@ -129,7 +129,7 @@ public class DeckPricePanel extends JComponent {
 		panel.add(lblPrice);
 		lblPrice.setFont(MTGControler.getInstance().getFont().deriveFont( Font.BOLD, 13));
 
-		
+
 		model = new CardsPriceTableModel();
 		tablePrice = UITools.createNewTable(model);
 		tablePrice.addMouseListener(new MouseAdapter() {
@@ -138,7 +138,7 @@ public class DeckPricePanel extends JComponent {
 				if (ev.getClickCount() == 2 && !ev.isConsumed()) {
 					ev.consume();
 					try {
-						
+
 						MagicPrice url = UITools.getTableSelection(tablePrice, 0);
 						UITools.browse(url.getUrl());
 					} catch (Exception e) {

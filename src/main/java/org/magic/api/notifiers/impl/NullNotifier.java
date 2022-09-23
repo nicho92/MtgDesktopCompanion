@@ -11,7 +11,7 @@ public class NullNotifier extends AbstractMTGNotifier {
 	public FORMAT_NOTIFICATION getFormat() {
 		return FORMAT_NOTIFICATION.TEXT;
 	}
-	
+
 	@Override
 	public void send(MTGNotification notification) throws IOException {
 		// do nothing

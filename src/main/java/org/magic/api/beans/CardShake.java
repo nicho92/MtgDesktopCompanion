@@ -9,7 +9,7 @@ import org.magic.api.beans.enums.MTGCardVariation;
 public class CardShake implements Serializable {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private String name;
@@ -27,8 +27,8 @@ public class CardShake implements Serializable {
 	private boolean foil;
 	private boolean etched;
 	private MTGCardVariation cardVariation;
-	
-	
+
+
 	public CardShake() {
 		price = 0.0;
 		priceDayChange = 0;
@@ -40,7 +40,7 @@ public class CardShake implements Serializable {
 		foil = false;
 		etched = false;
 	}
-	
+
 	public CardShake(boolean foil) {
 		price = 0.0;
 		priceDayChange = 0;
@@ -51,33 +51,33 @@ public class CardShake implements Serializable {
 		dateUpdate=new Date();
 		this.foil=foil;
 	}
-	
+
 	public void init(double price, double lastDayPrice,double lastWeekPrice) {
 		this.price=price;
 		priceDayChange = price-lastDayPrice;
-		
-		
+
+
 		if(lastDayPrice==0)
 			lastDayPrice=1;
-		
+
 		if(lastWeekPrice==0)
 			lastWeekPrice=1;
-		
-		
+
+
 		percentDayChange = ((price-lastDayPrice)/lastDayPrice)/100;
-		
+
 		priceWeekChange = price-lastWeekPrice;
 		percentWeekChange = ((price-lastWeekPrice)/lastWeekPrice)/100;
-		
+
 		currency=Currency.getInstance("USD");
-		
+
 		dateUpdate=new Date();
 	}
-	
+
 	public boolean isEtched() {
 		return etched;
 	}
-	
+
 	public void setEtched(boolean etched) {
 		this.etched = etched;
 	}
@@ -85,7 +85,7 @@ public class CardShake implements Serializable {
 	public MTGCardVariation getCardVariation() {
 		return cardVariation;
 	}
-	
+
 	public void setCardVariation(MTGCardVariation cardVariation) {
 		this.cardVariation = cardVariation;
 	}
@@ -94,12 +94,12 @@ public class CardShake implements Serializable {
 	public boolean isFoil() {
 		return foil;
 	}
-	
+
 	public void setFoil(boolean foil) {
 		this.foil = foil;
 	}
-	
-	
+
+
 
 	public Currency getCurrency() {
 		return currency;
@@ -206,7 +206,7 @@ public class CardShake implements Serializable {
 
 	public void setProviderName(String name2) {
 		this.providerName=name2;
-		
+
 	}
 
 }

@@ -14,7 +14,7 @@ import org.magic.services.MTGConstants;
 public class CardSearchImportDialog extends JDialog {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	JButton selectCard;

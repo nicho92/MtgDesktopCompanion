@@ -18,43 +18,43 @@ public class PluginEntry <T extends MTGPlugin>
 	private List<T> plugins;
 	private PLUGINS type;
 	private Class<T> classeType;
-	
+
 	@Override
 	public String toString() {
 		return getClasspath()+ " " + getXpath();
 	}
-	
+
 	public void setPlugins(List<T> plugins) {
 		this.plugins = plugins;
 	}
-	
+
 
 	public JsonObject toJson() {
 		var obj = new JsonObject();
 		obj.addProperty("TYPE", getType().name());
 		obj.addProperty("MULTI", isMultiprovider());
 		obj.addProperty("CLASSPATH", getClasspath());
-		
+
 		var arr = new JsonArray();
 		getPlugins().forEach(p->arr.add(p.toJson()));
-		
-		
+
+
 		obj.add("plugins", arr);
-		
+
 		return obj;
-		
+
 	}
 
-	
-	
+
+
 	public List<T> getPlugins() {
 		return plugins;
 	}
-	
+
 	public Class<T> getParametrizedClass() {
 		return classeType;
 	}
-	
+
 	public PluginEntry (Class<T> classType,boolean multiprovider,String root, String element,String classpath,PLUGINS type)
 	{
 		this.classeType=classType;
@@ -65,27 +65,27 @@ public class PluginEntry <T extends MTGPlugin>
 		this.setMultiprovider(multiprovider);
 		plugins = new ArrayList<>();
 	}
-	
+
 	public PLUGINS getType() {
 		return type;
 	}
-	
+
 	public String getRoot() {
 		return root;
 	}
-	
+
 	public String getElement() {
 		return element;
 	}
-	
+
 	public String getClasspath() {
 		return classpath;
 	}
-	
+
 	public String getXpath() {
 		return root+element;
 	}
-	
+
 	public void setClasspath(String classpath) {
 		this.classpath = classpath;
 	}
@@ -98,5 +98,5 @@ public class PluginEntry <T extends MTGPlugin>
 		this.multiprovider = multiprovider;
 	}
 
-	
+
 }

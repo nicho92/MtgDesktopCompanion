@@ -17,8 +17,8 @@ import org.magic.services.providers.IconSetProvider;
 public class MagicEditionJLabelRenderer implements TableCellRenderer {
 
 	private Font f = MTGControler.getInstance().getFont().deriveFont(Font.PLAIN);
-	
-	
+
+
 	public MagicEditionJLabelRenderer() {
 		var flowLayout = new FlowLayout();
 		flowLayout.setVgap(0);
@@ -30,14 +30,14 @@ public class MagicEditionJLabelRenderer implements TableCellRenderer {
 
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
-		
-		
+
+
 		if(value==null)
 			return new DefaultTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-		
+
 		pane.removeAll();
 		pane.setBackground(table.getBackground());
-		
+
 		MagicEdition ed = (MagicEdition) value;
 		var l = new JLabel(IconSetProvider.getInstance().get16(ed.getId()));
 			l.setText(ed.getSet());
@@ -53,7 +53,7 @@ public class MagicEditionJLabelRenderer implements TableCellRenderer {
 				l.setForeground(table.getForeground());
 				pane.setBackground(table.getBackground());
 			}
-			
+
 			l.setFont(f);
 			pane.add(l);
 		return pane;

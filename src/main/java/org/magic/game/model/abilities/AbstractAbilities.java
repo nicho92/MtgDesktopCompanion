@@ -10,37 +10,38 @@ public abstract class AbstractAbilities extends AbstractSpell {
 		super();
 	}
 
-	
+
 	public boolean isStatic()
 	{
 		return false;
 	}
-	
+
 	public boolean isTriggered()
 	{
 		return false;
 	}
-	
+
 	public boolean isMana()
 	{
 		return false;
-	}	
+	}
 
 	public boolean isLoyalty()
 	{
 		return false;
 	}
-	
+
 	public boolean isActivated()
 	{
 		return false;
 	}
-	
+
+	@Override
 	public boolean isStackable()
 	{
 		return true;
 	}
-	
-	
+
+
 
 }

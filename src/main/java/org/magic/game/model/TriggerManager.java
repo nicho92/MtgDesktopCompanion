@@ -18,20 +18,20 @@ public class TriggerManager extends Observable {
 		  SPELL_CAST,
 		  CREATURE_DEALS_DAMAGE,
 		  CREATURE_DIES,
-		  CREATURE_ATTACKS, 
+		  CREATURE_ATTACKS,
 		  BECOME_BLOCKED,
 		  AURA_ATTACH,
 		  ENCOUNTER,
 		  TAPPED}
 
-	
-	
+
+
 	private Map<TRIGGERS,List<AbstractSpell>> triggers;
-	
+
 	public TriggerManager() {
 		triggers=new EnumMap<>(TRIGGERS.class);
 	}
-	
+
 	public void register(TRIGGERS t, AbstractSpell as)
 	{
 		triggers.computeIfAbsent(t, k->new ArrayList<>());
@@ -39,13 +39,13 @@ public class TriggerManager extends Observable {
 		setChanged();
 		notifyObservers(as);
 	}
-	
-	
+
+
 	public void register(TRIGGERS t,List<AbstractSpell> a)
 	{
 		a.forEach(as->register(t, a));
 	}
-	
+
 	public void trigger(TRIGGERS t,MagicCard mc)
 	{
 		//TODO implements triggering
@@ -55,5 +55,5 @@ public class TriggerManager extends Observable {
 		return triggers.entrySet();
 	}
 
-	
+
 }

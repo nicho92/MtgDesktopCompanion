@@ -21,18 +21,18 @@ public class AutoDetectAreaStrat extends AbstractRecognitionArea {
     public List<MatchResult> recognize(BufferedImage in, MTGCardRecognition strat,int recogTresh) {
         results.clear();
         bounds = ContourBoundingBox.getContourBoundingBox(in);
-       
-        for (ContourBoundingBox bound : bounds) 
+
+        for (ContourBoundingBox bound : bounds)
         {
             var norm = ImageTools.getScaledImage(bound.getTransformedImage(in,false));
             var flip = ImageTools.getScaledImage(bound.getTransformedImage(in,true));
             var i = new ImageDesc(norm,flip);
-          
+
             MatchResult mr = strat.getMatch(i, recogTresh/100.0);
             if (mr != null) {
                 results.add(mr);
             }
-    
+
          }
         return results;
     }

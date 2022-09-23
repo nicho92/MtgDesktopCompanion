@@ -20,32 +20,32 @@ public abstract class AbstractPricesProvider extends AbstractMTGPlugin implement
 	public PLUGINS getType() {
 		return PLUGINS.PRICER;
 	}
-	
+
 	protected abstract List<MagicPrice> getLocalePrice(MagicCard card) throws IOException;
-	
-	
+
+
 	@Override
 	public Map<String, List<MagicPrice>> getPricesBySeller(List<MagicCard> cards) throws IOException {
 		Map<String, List<MagicPrice>> map = new HashMap<>();
-		
+
 		for(MagicCard mc : cards)
 		{
 			notify(mc);
 			List<MagicPrice> prices = getPrice(mc);
-			
+
 			for(MagicPrice mp : prices)
 				map.computeIfAbsent(mp.getSeller(),v->new ArrayList<>()).add(mp);
 		}
 		return map;
 	}
-	
-	
+
+
 	@Override
 	public EnumMarketType getMarket() {
 		return EnumMarketType.US_MARKET;
 	}
-	
-	
+
+
 	@Override
 	public MagicPrice getBestPrice(MagicCard card) {
 		try {
@@ -55,17 +55,17 @@ public abstract class AbstractPricesProvider extends AbstractMTGPlugin implement
 			return null;
 		}
 	}
-	
-	
+
+
 	private List<MagicPrice> retrieveMap(Map<MagicCard,Integer> map)
 	{
 			List<MagicPrice> ret = new ArrayList<>();
-		
+
 			map.entrySet().forEach(e->{
 				try {
 					MagicPrice p = getPrice(e.getKey()).stream().min(new MagicPricesComparator()).orElse(null);
 					if(p!=null)
-					{ 
+					{
 						p.setMagicCard(e.getKey());
 						p.setQty(e.getValue());
 						p.setValue(p.getValue()*e.getValue());
@@ -76,24 +76,24 @@ public abstract class AbstractPricesProvider extends AbstractMTGPlugin implement
 					logger.error(e1);
 				}
 		});
-		
+
 		return ret;
 	}
-	
+
 	@Override
 	public List<MagicPrice> getPrice(MagicDeck d,boolean side) throws IOException {
-		
+
 		List<MagicPrice> ret = new ArrayList<>();
 		ret.addAll(retrieveMap(d.getMain()));
-			
+
 			if(side)
 				ret.addAll(retrieveMap(d.getSideBoard()));
-		
-		
+
+
 		return ret;
 	}
-	
-	
+
+
 	@Override
 	public Double getSuggestedPrice(MagicCard mc, boolean foil) {
 		try {
@@ -103,8 +103,9 @@ public abstract class AbstractPricesProvider extends AbstractMTGPlugin implement
 			return 0.0;
 		}
 	}
-	
-	
+
+
+	@Override
 	public List<MagicPrice> getPrice(MagicCard card) throws IOException
 	{
 		return new ArrayList<>(getLocalePrice(card)
@@ -119,8 +120,8 @@ public abstract class AbstractPricesProvider extends AbstractMTGPlugin implement
 										}
 								).toList());
 	}
-	
-	
+
+
 	@Override
 	public void alertDetected(List<MagicPrice> p) {
 		// do nothing

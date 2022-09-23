@@ -5,9 +5,9 @@ import org.magic.gui.abstracts.GenericTableModel;
 
 public class ContactTableModel extends GenericTableModel<Contact> {
 
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -16,15 +16,15 @@ public class ContactTableModel extends GenericTableModel<Contact> {
 		setWritable(false);
 		columns = new String[] { "ID","CONTACT_NAME","LASTNAME","ADDRESS","ZIP","CITY","COUNTRY","EMAIL","TELEPHONE","ACTIVE","EMAIL_ACCEPT" };
 	}
-	
-	
-	
+
+
+
 	@Override
 	public Object getValueAt(int row, int column) {
-		
+
 		Contact it = items.get(row);
-		
-		switch (column) 
+
+		switch (column)
 		{
 			case 0 : return it;
 			case 1 : return it.getName();
@@ -40,13 +40,13 @@ public class ContactTableModel extends GenericTableModel<Contact> {
 			default : return 0;
 		}
 	}
-	
+
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		if(columnIndex>=9)
 			return Boolean.class;
-		
+
 		return super.getColumnClass(columnIndex);
 	}
-	
+
 }

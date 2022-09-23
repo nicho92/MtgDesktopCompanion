@@ -41,12 +41,13 @@ public class EditionsDashlet extends AbstractJDashlet {
 	public ImageIcon getDashletIcon() {
 		return MTGConstants.ICON_EURO;
 	}
-	
+
 	@Override
 	public String getCategory() {
 		return "Market";
 	}
-	
+
+	@Override
 	public void initGUI() {
 		var panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
@@ -64,12 +65,12 @@ public class EditionsDashlet extends AbstractJDashlet {
 		table.getColumnModel().getColumn(5).setCellRenderer(new DoubleCellEditorRenderer(true));
 		table.getColumnModel().getColumn(6).setCellRenderer(new DoubleCellEditorRenderer(true,true));
 
-		
+
 
 		cboEditions.addItemListener(ie -> {
-			
+
 			if(ie.getStateChange()==ItemEvent.SELECTED)
-				init();	
+				init();
 		});
 
 		if (getProperties().size() > 0) {
@@ -93,7 +94,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 		} catch (Exception e) {
 			// do nothing
 		}
-		
+
 		UITools.initTableFilter(table);
 		UITools.initCardToolTipTable(table, 0, 1, 8,new Callable<Void>() {
 			@Override
@@ -101,7 +102,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 				try {
 					CardShake cs = UITools.getTableSelection(table, 0);
 					UITools.browse(cs.getLink());
-				
+
 				}catch(Exception ex)
 				{
 					logger.error("error", ex);
@@ -120,7 +121,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 	public void init() {
 
 		if (cboEditions.getSelectedItem() != null)
-		{	
+		{
 			lblLoading.start();
 			SwingWorker<EditionsShakers, Void> sw = new SwingWorker<>()
 			{
@@ -135,7 +136,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 						return new EditionsShakers();
 					}
 				}
-				
+
 				@Override
 				protected void done() {
 					try {
@@ -153,7 +154,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 					lblLoading.end();
 				}
 			};
-			
+
 			ThreadManager.getInstance().runInEdt(sw,"loading " + cboEditions.getSelectedItem() + " in editionDashlet");
 		}
 

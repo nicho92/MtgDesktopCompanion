@@ -9,8 +9,8 @@ import org.magic.api.beans.MagicEdition;
 public interface MTGPictureEditor extends MTGPlugin {
 
 	enum MOD { LOCAL,URI,FILE}
-	
-	
+
+
 	public void setFoil(Boolean b);
 	public void setTextSize(int size);
 	public void setCenter(boolean center);

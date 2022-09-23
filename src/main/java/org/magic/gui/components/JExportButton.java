@@ -32,15 +32,15 @@ public class JExportButton extends JButton {
 	public JExportButton(MODS mod) {
 		this.mod=mod;
 		setName(mod.toString());
-		
+
 		if(mod == MODS.EXPORT)
 			setIcon(MTGConstants.ICON_EXPORT);
 		else
 			setIcon(MTGConstants.ICON_IMPORT);
 	}
-	
+
 	public void initAlertsExport(Callable<List<MagicCardAlert>> callable, AbstractBuzyIndicatorComponent lblLoading ) {
-		
+
 		addActionListener(ae -> {
 			var menu = new JPopupMenu();
 
@@ -51,7 +51,7 @@ public class JExportButton extends JButton {
 						int result = JFileChooser.CANCEL_OPTION;
 						File f = null;
 						List<MagicCardAlert> export  = null;
-						
+
 						try {
 							export = callable.call();
 						}
@@ -60,7 +60,7 @@ public class JExportButton extends JButton {
 							MTGControler.getInstance().notify(e);
 							return;
 						}
-						
+
 						if(exp.needFile())
 						{
 							var jf = new JFileChooser(".");
@@ -72,26 +72,26 @@ public class JExportButton extends JButton {
 						{
 							result = JFileChooser.APPROVE_OPTION;
 						}
-						
+
 						if (result == JFileChooser.APPROVE_OPTION)
 						{
-								lblLoading.start(export.size()); 
+								lblLoading.start(export.size());
 								ThreadManager.getInstance().runInEdt(new CardExportWorker(exp,export.stream().map(MagicCardAlert::getCard).toList(), lblLoading, f), "export alerts " + exp);
 						}
 					});
 
 					UITools.buildCategorizedMenu(menu,it,exp);
 				}
-				
+
 			}
 			Point p = this.getLocationOnScreen();
 			menu.show(this, 0, 0);
 			menu.setLocation(p.x, p.y + this.getHeight());
 		});
 	}
-	
+
 	public void initCardsExport(Callable<MagicDeck> callable, AbstractBuzyIndicatorComponent lblLoading ) {
-		
+
 		addActionListener(ae -> {
 			var menu = new JPopupMenu();
 
@@ -102,7 +102,7 @@ public class JExportButton extends JButton {
 						int result = JFileChooser.CANCEL_OPTION;
 						File f = null;
 						MagicDeck export  = null;
-						
+
 						try {
 							export = callable.call();
 						}
@@ -111,7 +111,7 @@ public class JExportButton extends JButton {
 							MTGControler.getInstance().notify(e);
 							return;
 						}
-						
+
 						if(exp.needFile())
 						{
 							var jf = new JFileChooser(".");
@@ -123,26 +123,26 @@ public class JExportButton extends JButton {
 						{
 							result = JFileChooser.APPROVE_OPTION;
 						}
-						
+
 						if (result == JFileChooser.APPROVE_OPTION)
 						{
-								lblLoading.start(export.getMainAsList().size()); 
+								lblLoading.start(export.getMainAsList().size());
 								ThreadManager.getInstance().runInEdt(new CardExportWorker(exp, export, lblLoading, f), "export search " + exp);
 						}
 					});
 
 					UITools.buildCategorizedMenu(menu,it,exp);
 				}
-				
+
 			}
 			Point p = this.getLocationOnScreen();
 			menu.show(this, 0, 0);
 			menu.setLocation(p.x, p.y + this.getHeight());
 		});
 	}
-	
+
 	public void initStockExport(Callable<List<MagicCardStock>> callable,AbstractBuzyIndicatorComponent lblLoading) {
-		
+
 		addActionListener(ae -> {
 			var menu = new JPopupMenu();
 
@@ -153,7 +153,7 @@ public class JExportButton extends JButton {
 						int result = JFileChooser.CANCEL_OPTION;
 						File f = null;
 						List<MagicCardStock> export  = null;
-						
+
 						try {
 							export = callable.call();
 						}
@@ -162,8 +162,8 @@ public class JExportButton extends JButton {
 							MTGControler.getInstance().notify(e);
 							return;
 						}
-						
-						
+
+
 						if(exp.needFile())
 						{
 							var jf = new JFileChooser(".");
@@ -175,28 +175,28 @@ public class JExportButton extends JButton {
 						{
 							result = JFileChooser.APPROVE_OPTION;
 						}
-						
-						
+
+
 						if (result == JFileChooser.APPROVE_OPTION)
 						{
-							
-								lblLoading.start(export.size()); 
+
+								lblLoading.start(export.size());
 								ThreadManager.getInstance().runInEdt(new StockExportWorker(exp, export, lblLoading, f), "export search " + exp);
 						}
 					});
 
 					UITools.buildCategorizedMenu(menu,it,exp);
 				}
-				
+
 			}
 			Point p = this.getLocationOnScreen();
 			menu.show(this, 0, 0);
 			menu.setLocation(p.x, p.y + this.getHeight());
 		});
-		
+
 	}
 
 
-	
-	
+
+
 }

@@ -6,27 +6,27 @@ import org.magic.gui.abstracts.GenericTableModel;
 public class ConverterItemsTableModel extends GenericTableModel<ConverterItem> {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	public ConverterItemsTableModel() {
 		setColumns("id","name","source","inputId","destination","outputId");
 		setWritable(true);
 	}
-	
+
 	@Override
 	public Object getValueAt(int row, int column) {
-		
+
 		if(column==0)
 			return items.get(row);
-			
+
 		return super.getValueAt(row, column);
 	}
-	
-	
+
+
 	@Override
 	public boolean isCellEditable(int row, int column) {
 		return writable && column>0;
 	}
-	
+
 	@Override
 	public void setValueAt(Object val, int row, int column) {
 		ConverterItem it = items.get(row);
@@ -40,8 +40,8 @@ public class ConverterItemsTableModel extends GenericTableModel<ConverterItem> {
 			default : return;
 		}
 		it.setUpdated(true);
-		
+
 	}
-	
-	
+
+
 }

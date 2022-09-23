@@ -23,13 +23,13 @@ import org.magic.tools.UITools;
 public class StockItemPanel extends MTGUIComponent {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private JXTable table;
 	private StockItemTableModel model;
 	private ImagePanel viewer;
-	
+
 	public StockItemPanel() {
 		setLayout(new BorderLayout(0, 0));
 		model = new StockItemTableModel();
@@ -37,18 +37,18 @@ public class StockItemPanel extends MTGUIComponent {
 		viewer = new ImagePanel(false,false,false);
 		viewer.setPreferredSize(new Dimension(250,1));
 		UITools.setDefaultRenderer(table, new StockTableRenderer());
-		
-		
-		
+
+
+
 		for(int i : model.defaultHiddenColumns())
 		{
-			table.getColumnExt(model.getColumnName(i)).setVisible(false);	
+			table.getColumnExt(model.getColumnName(i)).setVisible(false);
 		}
-		
+
 		add(new JScrollPane(table),BorderLayout.CENTER);
 		add(viewer,BorderLayout.EAST);
-		
-		
+
+
 		table.getSelectionModel().addListSelectionListener(event -> {
 			if (!event.getValueIsAdjusting()) {
 				MTGStockItem selection = UITools.getTableSelection(table, 0);
@@ -58,29 +58,29 @@ public class StockItemPanel extends MTGUIComponent {
 
 				try {
 					viewer.setUrlImage(selection.getProduct().getUrl());
-					
+
 				} catch (Exception e) {
 					logger.error(e);
 				}
 			}
 		});
-		
-		
+
+
 	}
 
-		
+
 	@Override
 	public void onHide() {
 		boolean isUpdatedModel = model.getItems().stream().anyMatch(MTGStockItem::isUpdated);
-		
+
 		if(isUpdatedModel)
 		{
 			MTGControler.getInstance().notify(new MTGNotification("Item Updated", "Don't forget to save your updates", MESSAGE_TYPE.WARNING));
 		}
-		
+
 	}
-	
-	
+
+
 	public void initItems(List<MTGStockItem> st) {
 
 		try {
@@ -92,14 +92,14 @@ public class StockItemPanel extends MTGUIComponent {
 
 	}
 
-	
-	
+
+
 
 	@Override
 	public String getTitle() {
 		return "Products";
 	}
-	
+
 	@Override
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_TAB_STOCK;
@@ -110,5 +110,5 @@ public class StockItemPanel extends MTGUIComponent {
 		return model.getItems();
 	}
 
-	
+
 }

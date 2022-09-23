@@ -16,7 +16,7 @@ public class MemoryCache extends AbstractCacheProvider {
 	public STATUT getStatut() {
 		return STATUT.DEPRECATED;
 	}
-	
+
 	public MemoryCache() {
 		super();
 		cache = new HashMap<>();
@@ -53,16 +53,16 @@ public class MemoryCache extends AbstractCacheProvider {
 	public long size() {
 		return cache.entrySet().stream().mapToLong(MemoryTools::sizeOf).sum();
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		
+
 		if(obj ==null)
 			return false;
-		
+
 		return hashCode()==obj.hashCode();
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return getName().hashCode();

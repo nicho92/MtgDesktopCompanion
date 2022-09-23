@@ -21,7 +21,7 @@ import org.jdesktop.swingx.calendar.SingleDaySelectionModel;
 import org.magic.tools.MTG;
 
 public class JXDateTimePicker extends JXDatePicker {
- 
+
 	private static final long serialVersionUID = 1L;
 	private JSpinner timeSpinner;
     private JPanel timePanel;
@@ -38,7 +38,7 @@ public class JXDateTimePicker extends JXDatePicker {
         setDate(d);
         setFormats(MTG.lang("DATE_FORMAT")+ " HH:mm");
     }
-    
+
     @Override
     public void commitEdit() throws ParseException {
         commitTime();
@@ -64,7 +64,7 @@ public class JXDateTimePicker extends JXDatePicker {
     private JPanel createTimePanel() {
         JPanel newPanel = new JPanel();
         newPanel.setLayout(new FlowLayout());
-    
+
         SpinnerDateModel dateModel = new SpinnerDateModel();
         timeSpinner = new JSpinner(dateModel);
         if( timeFormat == null ) timeFormat = DateFormat.getTimeInstance( DateFormat.SHORT );

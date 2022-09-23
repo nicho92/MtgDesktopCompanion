@@ -27,24 +27,24 @@ public class CardExportWorker extends SwingWorker<Void, MagicCard> {
 	private File f;
 	private MagicDeck export;
 	private Exception err;
-	
-	
+
+
 	public CardExportWorker(MTGCardsExport exp,List<MagicCard> export,AbstractBuzyIndicatorComponent buzy,File f) {
-		
+
 		var d = new MagicDeck();
 		d.setName("Export Alerts");
 		export.stream().forEach(mc->d.getMain().put(mc, 1));
-		
-		
-		
+
+
+
 		init(exp,d,buzy,f);
 	}
-	
-	
+
+
 	public CardExportWorker(MTGCardsExport exp,MagicDeck export,AbstractBuzyIndicatorComponent buzy,File f) {
 		init(exp,export,buzy,f);
 	}
-	
+
 	public void init(MTGCardsExport exp,MagicDeck export,AbstractBuzyIndicatorComponent buzy,File f) {
 		this.exp=exp;
 		this.buzy=buzy;
@@ -54,9 +54,9 @@ public class CardExportWorker extends SwingWorker<Void, MagicCard> {
 		o=(Observable obs, Object c)->publish((MagicCard)c);
 		exp.addObserver(o);
 	}
-	
-	
-	
+
+
+
 	@Override
 	protected Void doInBackground(){
 		try {
@@ -67,12 +67,12 @@ public class CardExportWorker extends SwingWorker<Void, MagicCard> {
 		}
 		return null;
 	}
-	
+
 	@Override
 	protected void process(List<MagicCard> chunks) {
 		buzy.progressSmooth(chunks.size());
 	}
-	
+
 	@Override
 	protected void done() {
 		try {
@@ -81,7 +81,7 @@ public class CardExportWorker extends SwingWorker<Void, MagicCard> {
 			logger.error(e);
 		}
 		buzy.end();
-		
+
 		if(err!=null)
 		{
 			MTGControler.getInstance().notify(err);
@@ -94,7 +94,7 @@ public class CardExportWorker extends SwingWorker<Void, MagicCard> {
 					MESSAGE_TYPE.INFO
 					));
 		}
-		
+
 	}
-	
+
 }

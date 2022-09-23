@@ -9,6 +9,6 @@ public abstract class AbstractGradersProvider extends AbstractMTGPlugin implemen
 		return PLUGINS.GRADING;
 	}
 
-	
-	
+
+
 }

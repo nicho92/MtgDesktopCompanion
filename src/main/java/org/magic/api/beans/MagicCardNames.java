@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class MagicCardNames implements Serializable {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private String language;
@@ -15,32 +15,32 @@ public class MagicCardNames implements Serializable {
 	private String flavor;
 	private int gathererId;
 
-	
+
 	public String getFlavor() {
 		return flavor;
 	}
-	
+
 	public void setFlavor(String flavor) {
 		this.flavor = flavor;
 	}
-	
+
 	public String getText() {
 		return text;
 	}
-	
+
 	public void setText(String text) {
 		this.text = text;
 	}
-	
+
 	public String getType() {
 		return type;
 	}
-	
+
 	public void setType(String type) {
 		this.type = type;
 	}
-	
-	
+
+
 	public String getLanguage() {
 		return language;
 	}

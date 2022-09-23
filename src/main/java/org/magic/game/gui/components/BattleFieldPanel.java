@@ -26,7 +26,7 @@ import org.magic.tools.ImageTools;
 public class BattleFieldPanel extends DraggablePanel {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	JPopupMenu battlefieldMenu = new JPopupMenu();
@@ -79,10 +79,11 @@ public class BattleFieldPanel extends DraggablePanel {
 		battlefieldMenu.add(new JMenuItem(new FlipaCoinActions()));
 		battlefieldMenu.add(new JMenuItem(new RollAD20Actions()));
 		battlefieldMenu.add(new JMenuItem(new ChangeBackGroundActions()));
-		
+
 		setComponentPopupMenu(battlefieldMenu);
 	}
 
+	@Override
 	public void addComponent(DisplayableCard c) {
 		this.add(c);
 		c.setPosition(getOrigine());

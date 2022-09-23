@@ -30,35 +30,35 @@ public class MTGJSonDeckSniffer extends AbstractDeckSniffer {
 		var el = URLTools.extractAsJson(info.getUrl().toString()).getAsJsonObject();
 		var mainBoard = el.get("data").getAsJsonObject().get("mainBoard").getAsJsonArray();
 		JsonArray sideBoard=null;
-		
+
 		if(el.getAsJsonObject().get("sideBoard")!=null)
 			sideBoard = el.getAsJsonObject().get("sideBoard").getAsJsonArray();
-		
-		
+
+
 		MagicDeck deck = info.toBaseDeck();
-		
+
 		try {
 			deck.getTags().add(el.getAsJsonObject().get("type").getAsString());
 		}catch(Exception e)
 		{
 			//do nothing
 		}
-		
-				  
-		
+
+
+
 		init(deck,mainBoard,false);
-		
+
 		if(sideBoard!=null)
-			init(deck,sideBoard,true);	  
-				  
+			init(deck,sideBoard,true);
+
 		return deck;
 	}
-	
-	
+
+
 	private void init(MagicDeck d, JsonArray arr, boolean side)
 	{
 			arr.forEach(element->{
-			
+
 			var ed = element.getAsJsonObject().get("printings").getAsJsonArray().get(0).getAsString();
 			var qty = element.getAsJsonObject().get("count").getAsInt();
 			var name = element.getAsJsonObject().get("name").getAsString();
@@ -68,26 +68,26 @@ public class MTGJSonDeckSniffer extends AbstractDeckSniffer {
 					d.getMain().put(mc, qty);
 				else
 					d.getSideBoard().put(mc, qty);
-				
+
 				notify(mc);
 			} catch (IOException e) {
 				logger.error("error loading " + name+"/"+ed,e);
 			}
-			
+
 		});
 	}
-	
+
 
 	@Override
 	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
 		var d = URLTools.extractAsJson(AbstractMTGJsonProvider.MTG_JSON_DECKS_LIST);
 		var arr = d.getAsJsonObject().get("data").getAsJsonArray();
-		
+
 		List<RetrievableDeck> decks = new ArrayList<>();
 		arr.forEach(element ->{
-			
+
 			var ob = element.getAsJsonObject();
-			
+
 			var rd = new RetrievableDeck();
 							rd.setName(ob.get("name").getAsString());
 							rd.setAuthor("MtgJson");
@@ -97,13 +97,13 @@ public class MTGJSonDeckSniffer extends AbstractDeckSniffer {
 							} catch (Exception e) {
 								logger.error(e);
 							}
-							
-			decks.add(rd);				
-			
+
+			decks.add(rd);
+
 		});
-		
+
 		return decks;
-		
+
 	}
 
 	@Override

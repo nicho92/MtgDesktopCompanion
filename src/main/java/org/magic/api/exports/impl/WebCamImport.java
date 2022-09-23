@@ -14,32 +14,32 @@ import org.magic.services.MTGControler;
 
 public class WebCamImport extends AbstractCardExport {
 
-	
+
 	@Override
 	public MODS getMods() {
 		return MODS.IMPORT;
 	}
-	
+
 	@Override
 	public boolean needFile() {
 		return false;
 	}
-	
+
 	@Override
 	public boolean needDialogForDeck(MODS mod) {
 		return true;
 	}
-	
+
 	@Override
 	public boolean needDialogForStock(MODS mod) {
 		return true;
 	}
-	
+
 	@Override
 	public MTGExportCategory getCategory() {
 		return MTGExportCategory.MANUAL;
 	}
-	
+
 	@Override
 	public String getFileExtension() {
 		return ".dat";
@@ -50,20 +50,20 @@ public class WebCamImport extends AbstractCardExport {
 		throw new NotImplementedException("Not Implemented");
 
 	}
-	
+
 	@Override
 	public List<MagicCardStock> importStockFromFile(File f) throws IOException {
-		
+
 		var c = new WebcamCardImportDialog();
 		c.setVisible(true);
-				
+
 		return c.getFindedCards().stream().map(card->{
 			MagicCardStock st = MTGControler.getInstance().getDefaultStock();
 			st.setProduct(card);
 			return st;
 		}).toList();
 	}
-	
+
 
 	@Override
 	public String getName() {

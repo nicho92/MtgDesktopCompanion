@@ -92,16 +92,16 @@ public class MagicCardEditorPanel extends JPanel {
 	private JPanel panelImageButtons;
 	private JButton btnImage;
 	private JButton btnUrl;
-	private CropImagePanel imagePanel;	
+	private CropImagePanel imagePanel;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 
 	public MagicCardEditorPanel(MagicCard newMagicCard) {
 		setMagicCard(newMagicCard);
 	}
-	
-	
-	
+
+
+
 
 	public MagicCardEditorPanel() {
 		var gridBagLayout = new GridBagLayout();
@@ -273,7 +273,7 @@ public class MagicCardEditorPanel extends JPanel {
 		add(rarityLabel, labelgbc14);
 
 		rarityJComboBox = UITools.createCombobox(MTGRarity.values());
-		
+
 		var componentgbc14 = new GridBagConstraints();
 		componentgbc14.insets = new Insets(5, 0, 5, 0);
 		componentgbc14.fill = GridBagConstraints.HORIZONTAL;
@@ -372,8 +372,8 @@ public class MagicCardEditorPanel extends JPanel {
 		add(textLabel, labelgbc16);
 		var panelEditor = new JPanel();
 		panelEditor.setLayout(new BorderLayout());
-		
-		
+
+
 		textJEditorPane = new MagicTextPane(false);
 		var componentgbc16 = new GridBagConstraints();
 		componentgbc16.gridwidth = 3;
@@ -382,13 +382,13 @@ public class MagicCardEditorPanel extends JPanel {
 		componentgbc16.fill = GridBagConstraints.BOTH;
 		componentgbc16.gridx = 1;
 		componentgbc16.gridy = 4;
-		
+
 		panelEditor.add(new JScrollPane(textJEditorPane),BorderLayout.CENTER);
 		var scrollPane = new JScrollPane(new JSuggestedPanel(textJEditorPane,getEnabledPlugin(MTGTextGenerator.class)));
 		scrollPane.setPreferredSize(new Dimension(panelEditor.getWidth(), 60));
 		panelEditor.add(scrollPane,BorderLayout.SOUTH);
 		panelEditor.setPreferredSize(new Dimension(textJEditorPane.getWidth(), 150));
-		
+
 		add(panelEditor, componentgbc16);
 
 		var flavorLabel = new JLabel(capitalize("CARD_FLAVOR") + ":");
@@ -497,7 +497,7 @@ public class MagicCardEditorPanel extends JPanel {
 		componentgbc11.gridx = 1;
 		componentgbc11.gridy = 10;
 		add(numberJTextField, componentgbc11);
-		
+
 		var lblFoil = new JLabel(
 						"Foil :");
 				var gbclblFoil = new GridBagConstraints();
@@ -505,21 +505,21 @@ public class MagicCardEditorPanel extends JPanel {
 				gbclblFoil.gridx = 2;
 				gbclblFoil.gridy = 10;
 				add(lblFoil, gbclblFoil);
-		
+
 				chboxFoil = new JCheckBox();
 				var gbcchboxFoil = new GridBagConstraints();
 				gbcchboxFoil.insets = new Insets(5, 0, 5, 0);
 				gbcchboxFoil.gridx = 3;
 				gbcchboxFoil.gridy = 10;
 				add(chboxFoil, gbcchboxFoil);
-		
+
 				var gathererCodeLabel = new JLabel("Gatherer ID:");
 				var labelgbc5 = new GridBagConstraints();
 				labelgbc5.insets = new Insets(5, 5, 5, 5);
 				labelgbc5.gridx = 0;
 				labelgbc5.gridy = 11;
 				add(gathererCodeLabel, labelgbc5);
-		
+
 				gathererCodeJTextField = new JTextField();
 				var componentgbc5 = new GridBagConstraints();
 				componentgbc5.insets = new Insets(5, 0, 5, 5);
@@ -527,14 +527,14 @@ public class MagicCardEditorPanel extends JPanel {
 				componentgbc5.gridx = 1;
 				componentgbc5.gridy = 11;
 				add(gathererCodeJTextField, componentgbc5);
-		
+
 		lblTxtSize = new JLabel("Text Size :");
 		var gbclblTxtSize = new GridBagConstraints();
 		gbclblTxtSize.insets = new Insets(0, 0, 5, 5);
 		gbclblTxtSize.gridx = 2;
 		gbclblTxtSize.gridy = 11;
 		add(lblTxtSize, gbclblTxtSize);
-		
+
 		spinner = new JSpinner();
 		spinner.setModel(new SpinnerNumberModel(32, 18, 38, 1));
 		var gbcspinner = new GridBagConstraints();
@@ -542,7 +542,7 @@ public class MagicCardEditorPanel extends JPanel {
 		gbcspinner.gridx = 3;
 		gbcspinner.gridy = 11;
 		add(spinner, gbcspinner);
-		
+
 		panelImageButtons = new JPanel();
 		var gbcpanelImageButtons = new GridBagConstraints();
 		gbcpanelImageButtons.gridheight = 3;
@@ -557,7 +557,7 @@ public class MagicCardEditorPanel extends JPanel {
 		gblpanelImageButtons.columnWeights = new double[]{1.0, Double.MIN_VALUE};
 		gblpanelImageButtons.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		panelImageButtons.setLayout(gblpanelImageButtons);
-		
+
 		btnImage = new JButton("Image");
 		btnImage.addActionListener(e -> {
 
@@ -576,7 +576,7 @@ public class MagicCardEditorPanel extends JPanel {
 		gbcbtnImage.gridx = 0;
 		gbcbtnImage.gridy = 0;
 		panelImageButtons.add(btnImage, gbcbtnImage);
-		
+
 		btnUrl = new JButton("URL");
 		var gbcbtnUrl = new GridBagConstraints();
 		gbcbtnUrl.fill = GridBagConstraints.HORIZONTAL;
@@ -589,7 +589,7 @@ public class MagicCardEditorPanel extends JPanel {
 					magicCard.setImageName(urlImage);
 					showCrop();
 		});
-		
+
 		imagePanel = new CropImagePanel();
 		imagePanel.setBorder(new LineBorder(Color.BLACK));
 		var gbcimagePanel = new GridBagConstraints();
@@ -599,21 +599,21 @@ public class MagicCardEditorPanel extends JPanel {
 		gbcimagePanel.gridx = 1;
 		gbcimagePanel.gridy = 12;
 		add(imagePanel, gbcimagePanel);
-		
+
 		lblColorIndicator = new JLabel("Color Indicator");
 		var gbclblColorIndicator = new GridBagConstraints();
 		gbclblColorIndicator.insets = new Insets(0, 0, 5, 5);
 		gbclblColorIndicator.gridx = 2;
 		gbclblColorIndicator.gridy = 12;
 		add(lblColorIndicator, gbclblColorIndicator);
-		
+
 		chkColorIndicator = new JCheckBox("");
 		var gbcchkColorIndicator = new GridBagConstraints();
 		gbcchkColorIndicator.insets = new Insets(0, 0, 5, 0);
 		gbcchkColorIndicator.gridx = 3;
 		gbcchkColorIndicator.gridy = 12;
 		add(chkColorIndicator, gbcchkColorIndicator);
-		
+
 		lblColorOrientation = new JLabel("Color Orientation :");
 		var gbclblColorOrientation = new GridBagConstraints();
 		gbclblColorOrientation.anchor = GridBagConstraints.NORTH;
@@ -621,9 +621,9 @@ public class MagicCardEditorPanel extends JPanel {
 		gbclblColorOrientation.gridx = 2;
 		gbclblColorOrientation.gridy = 13;
 		add(lblColorOrientation, gbclblColorOrientation);
-		
+
 		cboColorAccent = new JComboBox<>(new DefaultComboBoxModel<>(new String[] {"", "C", "G", "W", "WU", "WB", "U", "UB", "UR", "C", "B", "BR", "BG", "R", "RG", "TW", "G", "GW", "GU"}));
-		
+
 		var gbccomboBox = new GridBagConstraints();
 		gbccomboBox.anchor = GridBagConstraints.NORTH;
 		gbccomboBox.insets = new Insets(0, 0, 5, 0);
@@ -639,25 +639,25 @@ public class MagicCardEditorPanel extends JPanel {
 
 
 	private void showCrop() {
-	
+
 		BufferedImage buff;
 		try {
 			if(magicCard.getImageName().startsWith("http"))
 				buff = URLTools.extractAsImage(magicCard.getImageName());
 			else
 				buff = ImageTools.read(new File(magicCard.getImageName()));
-			
+
 			if(buff!=null) {
 				var i = new ImageIcon(buff).getImage();
 				imagePanel.setImage(i.getScaledInstance(imagePanel.getWidth(), imagePanel.getHeight(), Image.SCALE_SMOOTH));
 				imagePanel.revalidate();
 				imagePanel.repaint();
 			}
-			
+
 		} catch (Exception e) {
 			logger.error("error cropping",e);
 		}
-		
+
 	}
 
 	public JCheckBox getChboxFoil() {
@@ -671,7 +671,7 @@ public class MagicCardEditorPanel extends JPanel {
 		magicCard.setText(textJEditorPane.getText());
 		return magicCard;
 	}
-	
+
 	public void setMagicCard(MagicCard newMagicCard) {
 		magicCard = newMagicCard;
 		cboSuperType.unselectAll();
@@ -691,13 +691,13 @@ public class MagicCardEditorPanel extends JPanel {
 			cboTypes.setSelectedElements(magicCard.getTypes());
 			cboSubtypes.setSelectedElements(magicCard.getSubtypes());
 		}
-		
+
 	}
-	
+
 	public JCheckBox getColorIndicatorJCheckBox() {
 		return chkColorIndicator;
 	}
-	
+
 	public JSpinner getSizeSpinner() {
 		return spinner;
 	}
@@ -707,8 +707,8 @@ public class MagicCardEditorPanel extends JPanel {
 	public CropImagePanel getImagePanel() {
 		return imagePanel;
 	}
-	
-	
+
+
 	protected BindingGroup initDataBindings() {
 		BeanProperty<MagicCard, String> artistProperty = BeanProperty.create("artist");
 		BeanProperty<JTextField, String> textProperty = BeanProperty.create("text");
@@ -774,13 +774,13 @@ public class MagicCardEditorPanel extends JPanel {
 		BeanProperty<JTextField, String> textProperty10 = BeanProperty.create("text");
 		AutoBinding<MagicCard, String, JTextField, String> autoBinding19 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, watermarksProperty, watermarksJTextField, textProperty10);
 		autoBinding19.bind();
-		
+
 		BeanProperty<MagicCard, String> loyaltyProperty = BeanProperty.create("loyalty");
 		BeanProperty<JTextField, String> textProperty11 = BeanProperty.create("text");
 		AutoBinding<MagicCard, String, JTextField, String> autoBinding20 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, loyaltyProperty, loyaltyJTextField, textProperty11);
 		autoBinding20.bind();
-		
-		
+
+
 		//
 		var bindingGroup = new BindingGroup();
 		//
@@ -800,7 +800,7 @@ public class MagicCardEditorPanel extends JPanel {
 		bindingGroup.addBinding(autoBinding20);
 		return bindingGroup;
 	}
-	
 
-	
+
+
 }

@@ -22,8 +22,8 @@ public class JEditorPaneBrowser extends MTGUIBrowserComponent {
 	private JEditorPane browse;
 	private transient MTGHttpClient client;
 	private String currentUrl="";
-	
-	
+
+
 	public JEditorPaneBrowser() {
 		setLayout(new BorderLayout());
 		browse = new JEditorPane() ;
@@ -33,15 +33,15 @@ public class JEditorPaneBrowser extends MTGUIBrowserComponent {
 		browse.setEditable(false);
 		add(browse,BorderLayout.CENTER);
 		client = URLTools.newClient();
-		
+
 	}
-	
+
 	@Override
 	public String getCurrentURL() {
 		return currentUrl;
 	}
-	
-	
+
+
 	@Override
 	public void loadURL(String url) {
 		logger.debug("loading {}",url);
@@ -54,10 +54,10 @@ public class JEditorPaneBrowser extends MTGUIBrowserComponent {
 						var w = Safelist.basic();
 						w.addTags("img");
 						w.addAttributes("img", "src");
-						
+
 						return Jsoup.clean(RequestBuilder.build().clean().url(url).method(METHOD.GET).setClient(client).toHtml().html(),w);
 					}
-			
+
 					@Override
 					protected void done() {
 						try {
@@ -69,10 +69,10 @@ public class JEditorPaneBrowser extends MTGUIBrowserComponent {
 						}
 					}
 				};
-		
+
 		ThreadManager.getInstance().runInEdt(sw, "loading text from " + url);
-		
-		
+
+
 	}
-	
+
 }

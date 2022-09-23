@@ -10,7 +10,7 @@ import org.magic.api.interfaces.MTGStockItem;
 import org.magic.gui.abstracts.charts.Abstract3DBarChart;
 
 public class TransactionBalance3DChartPanel extends Abstract3DBarChart<Transaction,String,Double, String> {
-	
+
 	public TransactionBalance3DChartPanel(boolean displayPanel) {
 		super(displayPanel);
 		}
@@ -18,15 +18,16 @@ public class TransactionBalance3DChartPanel extends Abstract3DBarChart<Transacti
 	private static final String BALANCE = "Balance";
 	private static final long serialVersionUID = 1L;
 
+	@Override
 	public CategoryDataset3D<String,Double, String>  getDataSet() {
 		var dataset = new StandardCategoryDataset3D<String,Double, String>();
 		var serieB = new DefaultKeyedValues<String, Double>();
 		var serieS = new DefaultKeyedValues<String, Double>();
-		
+
 		serieB.put(BALANCE,0.0);
 		serieS.put(BALANCE,0.0);
-		
-		
+
+
 		for (Transaction t : items)
 			for(MTGStockItem mcs : t.getItems())
 				{
@@ -35,10 +36,10 @@ public class TransactionBalance3DChartPanel extends Abstract3DBarChart<Transacti
 					else
 						serieS.put(BALANCE,serieS.getValue(BALANCE)+(mcs.getPrice()*mcs.getQte()));
 				}
-		
+
 		dataset.addSeriesAsRow("Sell",serieS);
 		dataset.addSeriesAsRow("Buy",serieB);
-		
+
 		return dataset;
 	}
 

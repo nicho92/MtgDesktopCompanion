@@ -23,7 +23,7 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 
 	private static final String RESULTS = "results";
 	private MTGHttpClient c = URLTools.newClient();
-	
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
@@ -32,20 +32,20 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 	@Override
 	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 		var list = new ArrayList<MagicPrice>();
-		
-		var idResults = card.getTcgPlayerId(); 
+
+		var idResults = card.getTcgPlayerId();
 		if(idResults==null)
 				idResults = parseIdFor(card);
-		
+
 		if(idResults==null)
 		{
 			logger.info(getName() + " found nothing");
 			return list;
 		}
-		
+
 		JsonArray arr = parseResultsFor(idResults);
 		logger.info(getName() + " found " + arr.size() + " results");
-		
+
 		for(JsonElement e: arr)
 		{
 			var mp = new MagicPrice();
@@ -60,14 +60,14 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 				mp.setValue(e.getAsJsonObject().get("price").getAsDouble());
 				mp.setSellerUrl("https://www.tcgplayer.com/search/product/all?seller="+e.getAsJsonObject().get("sellerKey").getAsString()+"&view=grid&partner=MTGCompanion&utm_campaign=affiliate&utm_medium=MTGCompanion&utm_source=MTGCompanion");
 				mp.setFoil(e.getAsJsonObject().get("printing").getAsString().equalsIgnoreCase("Foil"));
-				
+
 				list.add(mp);
-				
+
 		}
 		return list;
 
 	}
-	
+
 	@Override
 	public boolean isPartner() {
 		return true;
@@ -104,10 +104,10 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 				    "aggregations": ["listingType"]
 				}
 					""".replace("$MAX", getString("MAX"));
-		
-		
+
+
 		var res = c.doPost("https://mpapi.tcgplayer.com/v2/product/"+idResults+"/listings", new StringEntity(json), Maps.of("content-type", URLTools.HEADER_JSON));
-		
+
 		return URLTools.toJson(res.getEntity().getContent()).getAsJsonObject().get(RESULTS).getAsJsonArray().get(0).getAsJsonObject().get(RESULTS).getAsJsonArray();
 	}
 
@@ -115,7 +115,7 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 	private Integer parseIdFor(MagicCard card) throws IOException {
 
 		var setName = card.getCurrentSet().getSet().replace(":", "").replaceAll(" ", "-");
-		
+
 		var extra ="";
 		if(card.isShowCase())
 			extra=" (Showcase)";
@@ -123,7 +123,7 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 			extra=" (Borderless)";
 		else if(card.isExtendedArt())
 			extra=" (Extended Art)";
-		
+
 		var json ="""
 				{
 					    "algorithm": "",
@@ -158,7 +158,7 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 					    },
 					    "context": {
 					        "cart": {}
-					        
+
 					    },
 					    "sort": {
 					        "field": "product-name",
@@ -167,14 +167,14 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 					}
 					""".replace("$cardName", card.getName() + extra)
 						.replace("$setName", setName);
-		
+
 		var res = c.doPost("https://mpapi.tcgplayer.com/v2/search/request?q=&isList=false", new StringEntity(json), Maps.of("content-type", URLTools.HEADER_JSON));
 		var arr =URLTools.toJson(res.getEntity().getContent()).getAsJsonObject().get(RESULTS).getAsJsonArray().get(0).getAsJsonObject().get(RESULTS).getAsJsonArray();
-		
+
 		if(arr.isEmpty())
 			return null;
-		
-		
+
+
 		return arr.get(0).getAsJsonObject().get("productId").getAsInt();
 	}
 

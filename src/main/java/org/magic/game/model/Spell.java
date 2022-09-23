@@ -8,7 +8,7 @@ import org.magic.game.model.effects.AbstractEffect;
 
 public interface Spell extends Serializable {
 
-	
+
 	public List<Cost> getCosts();
 	public List<AbstractEffect> getEffects();
 	public void resolve();

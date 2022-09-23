@@ -34,7 +34,7 @@ import com.icoderman.woocommerce.WooCommerce;
 
 public class WooCommerceExternalShop extends AbstractExternalShop {
 
-	
+
 	private static final String ADDRESS_1 = "address_1";
 	private static final String LINE_ITEMS = "line_items";
 	private static final String PRODUCT_ID = "product_id";
@@ -53,61 +53,61 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	private static final String STATUS = "status";
 	private static final String DATE_PAID = "date_paid";
 	private WooCommerce client;
-	
+
 	private void init()
 	{
 		if(client==null)
 			client = WooCommerceTools.newClient(getAuthenticator());
 	}
-	
+
 	@Override
 	public List<String> listAuthenticationAttributes() {
 		return WooCommerceTools.generateKeysForWooCommerce();
 	}
-	
-	
+
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Category> listCategories() throws IOException {
 		init();
-		
+
 		var params = new HashMap<String, String>();
-		
+
 		params.put("per_page", getString(PER_PAGE));
-		
-		
+
+
 		List<JsonElement> res = client.getAll(EndpointBaseType.PRODUCTS_CATEGORIES.getValue(),params);
-		 
+
 		var ret = new ArrayList<Category>();
-		 
+
 		 res.forEach(je->{
-			 
+
 			 var objCateg = je.getAsJsonObject();
 			 var c = new Category();
 			 	 c.setIdCategory(objCateg.get("id").getAsInt());
 			 	 c.setCategoryName(objCateg.get("name").getAsString());
-			 
+
 			 	ret.add(c);
 		 });
-		 
+
 		 return ret;
-		 
+
 	}
-	
-	
-	
+
+
+
 	@SuppressWarnings("unchecked")
 	@Override
 	protected List<Transaction> loadTransaction() throws IOException{
 		init();
-		
+
 		Map<String, String> parameters = new HashMap<>();
 	    					parameters.put(STATUS, "any");
 	    					parameters.put("per_page", getString(PER_PAGE));
 	    List<JsonElement> res = client.getAll(EndpointBaseType.ORDERS.getValue(),parameters);
-		
+
 	    var ret = new ArrayList<Transaction>();
-	   
+
 	    for(JsonElement el : res)
 	    {
 	    	var obj = el.getAsJsonObject();
@@ -119,22 +119,22 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	    				t.setSourceShopName(getName());
 	    				if(!obj.get(DATE_PAID).isJsonNull())
 	    					t.setDatePayment(UITools.parseGMTDate(obj.get(DATE_PAID).getAsString()));
-	    				
-	    				
+
+
 	    				if(obj.get("payment_method")!=null)
 		    				switch(obj.get("payment_method").toString())
 		    				{
 		    					case "bacs":t.setPaymentProvider(TransactionPayementProvider.BANK_TRANSFERT);break;
 		    					case "PayPal":t.setPaymentProvider(TransactionPayementProvider.PAYPAL);break;
 		    					default :t.setPaymentProvider(TransactionPayementProvider.VISA);break;
-		    				}	
-	    			
+		    				}
+
 	    	t.setStatut(tostatus(obj.get(STATUS).toString()));
-	   	
+
 	    	var contactObj = obj.get(BILLING).getAsJsonObject();
-	    	t.setContact(toContact(contactObj,obj.get("customer_id").getAsInt()));	
-	    	
-	    	
+	    	t.setContact(toContact(contactObj,obj.get("customer_id").getAsInt()));
+
+
 	    	t.setItems(toWooItems(obj.get(LINE_ITEMS).getAsJsonArray()));
 	    	ret.add(t);
 	    }
@@ -142,26 +142,26 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	}
 
 	private List<MTGStockItem> toWooItems(JsonArray itemsArr) {
-		
+
 		var ret = new ArrayList<MTGStockItem>();
-		
+
 		for(JsonElement item : itemsArr)
     	{
-    		
+
     		var entry = AbstractStockItem.generateDefault();
-			
+
     		var objItem = item.getAsJsonObject();
     		entry.setId(objItem.get(PRODUCT_ID).getAsInt());
     		entry.setQte(objItem.get("quantity").getAsInt());
     		entry.setPrice(objItem.get("total").getAsDouble());
     		entry.setSku(objItem.get("sku").getAsString());
-    		
+
     		var prod = AbstractProduct.createDefaultProduct();
 	    		prod.setCategory(null);
 				prod.setName(objItem.get("name").getAsString());
 	    		prod.setProductId(objItem.get(PRODUCT_ID).getAsLong());
 	    		prod.setUrl("");
-	    		
+
     		entry.setProduct(prod);
     		entry.setLanguage(entry.getProduct().getName().toLowerCase().contains("français")?"French":"English");
     		entry.getTiersAppIds().put(getName(), String.valueOf(entry.getId()));
@@ -174,7 +174,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	public String getName() {
 		return WooCommerceTools.WOO_COMMERCE_NAME;
 	}
-	
+
 	@Override
 	public List<MTGStockItem> loadStock(String search) throws IOException {
 		init();
@@ -182,49 +182,49 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		Map<String, String> parameters = new HashMap<>();
 										 parameters.put("per_page", getString(PER_PAGE));
 										 parameters.put("search", search.replace(" ", "%20"));
-										 
+
 		List<JsonObject> res = client.getAll(EndpointBaseType.PRODUCTS.getValue(),parameters);
 
 		res.forEach(element->{
 			var p = AbstractProduct.createDefaultProduct();
 			JsonObject obj = element.getAsJsonObject();
-	
+
 			p.setProductId(obj.get("id").getAsLong());
 			p.setName(obj.get("name").getAsString());
-			
+
 			JsonObject objCateg = obj.get(CATEGORIES).getAsJsonArray().get(0).getAsJsonObject();
 			Category c = new Category();
 					 c.setIdCategory(objCateg.get("id").getAsInt());
 					 c.setCategoryName(objCateg.get("name").getAsString());
 			p.setCategory(c);
 			p.setTypeProduct(parseType(c));
-			
-			
-			
+
+
+
 			JsonObject img = obj.get(IMAGES).getAsJsonArray().get(0).getAsJsonObject();
 							p.setUrl(img.get("src").getAsString());
-			
-			
+
+
 					var stockItem = AbstractStockItem.generateDefault();
 					stockItem.setProduct(p);
 					stockItem.setId(p.getProductId());
-					
-					
+
+
 					if(List.of(EnumItems.BOOSTER,EnumItems.CONSTRUCTPACK,EnumItems.BOX,EnumItems.FATPACK,EnumItems.PRERELEASEPACK,EnumItems.BUNDLE, EnumItems.SEALED).contains(p.getTypeProduct()))
 							stockItem.setCondition(EnumCondition.SEALED);
 					else if(List.of(EnumItems.FULLSET,EnumItems.LOTS).contains(p.getTypeProduct()))
 						stockItem.setCondition(EnumCondition.OPENED);
 					else if(List.of(EnumItems.CARD).contains(p.getTypeProduct()))
 						stockItem.setCondition(EnumCondition.NEAR_MINT);
-					
+
 					try {
 						stockItem.setPrice(obj.get(PRICE).getAsDouble());
 					}
 					catch(Exception e)
 					{
-						stockItem.setPrice(0.0);	
+						stockItem.setPrice(0.0);
 					}
-					
+
 					try {
 						stockItem.setSku(obj.get("sku").getAsString());
 					}
@@ -232,51 +232,51 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 					{
 							//do nothing
 					}
-					
+
 					try {
-						stockItem.setQte(obj.get(STOCK_QUANTITY).getAsInt());	
+						stockItem.setQte(obj.get(STOCK_QUANTITY).getAsInt());
 					}catch(Exception e)
 					{
-						stockItem.setQte(0);	
+						stockItem.setQte(0);
 					}
 				notify(stockItem);
-				ret.add(stockItem);	
+				ret.add(stockItem);
 		});
-		
+
 		return ret;
-		
-	
+
+
 	}
 
 	private EnumItems parseType(Category c) {
 		for(String s : getArray("MAP_CATEG_TYPE"))
 		{
 			var arr = s.split("=");
-			
+
 			if(arr.length==2 && arr[1].equals(String.valueOf(c.getIdCategory())))
 			{
 				return EnumItems.valueOf(arr[0]);
 			}
 		}
-		
+
 		logger.warn("No category map found for " + c);
-		
+
 		return EnumItems.SEALED;
 	}
 
 	@Override
 	public List<MTGProduct> listProducts(String name) throws IOException {
 		init();
-		
+
 		Map<String, String> productInfo = new HashMap<>();
 
 		productInfo.put("search", name.replace(" ", "%20"));
-		
+
 		@SuppressWarnings("unchecked")
 		List<JsonObject> res = client.getAll(EndpointBaseType.PRODUCTS.getValue(),productInfo);
-		
+
 		List<MTGProduct> ret =  new ArrayList<>();
-	
+
 		res.forEach(element->{
 			var p = parseProduct(element);
 			notify(p);
@@ -284,20 +284,20 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		});
 		return ret;
 	}
-	
-	
+
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-	
+
 		StringBuilder temp = new StringBuilder();
 		for(EnumItems it : EnumItems.values())
 		{
 			temp.append(it.name()).append("=").append("").append(",");
 		}
-		
+
 		return Map.of(PER_PAGE,"50","MAP_CATEG_TYPE",temp.toString().substring(0, temp.toString().length()-1));
 	}
-	
+
 	@Override
 	public Integer saveOrUpdateContact(Contact c) throws IOException {
 		var attributs = new HashMap<String, Object>();
@@ -310,13 +310,13 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 			  objAddr.addProperty(POSTCODE, c.getZipCode());
 			  objAddr.addProperty(EMAIL, c.getZipCode());
 			  objAddr.addProperty(PHONE, c.getTelephone());
-			  
+
 			  attributs.put(BILLING, objAddr);
 			  attributs.put("shipping", objAddr);
 			  attributs.put(FIRST_NAME, c.getName());
 			  attributs.put(LAST_NAME, c.getLastName());
 			  attributs.put(EMAIL, c.getEmail());
-			  
+
 			  if(c.getId()>0)
 				  {
 				  	client.update(EndpointBaseType.CUSTOMERS.getValue(),c.getId(), attributs);
@@ -348,10 +348,10 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		{
 			Map<String,Object> content = new HashMap<>();
 							   content.put("post", createOrder(t));
-			
+
 			@SuppressWarnings("unchecked")
 			Map<Object,Object> ret=  client.create(EndpointBaseType.ORDERS.getValue(),content);
-			
+
 			if(!ret.isEmpty() && ret.get("id") !=null)
 			{
 				t.setId(Integer.parseInt(ret.get("id").toString()));
@@ -362,7 +362,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 				logger.error(ret);
 			}
 		}
-		
+
 		return t.getId();
 	}
 
@@ -376,7 +376,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		init();
 		Map<String, Object> vars = new HashMap<>();
 		for(MTGStockItem it : stock)
-		{	
+		{
 			vars.put(PRICE, String.valueOf(it.getPrice()));
 			vars.put("regular_price", String.valueOf(it.getPrice()));
 			vars.put(STOCK_QUANTITY, it.getQte());
@@ -389,12 +389,12 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	@Override
 	public List<Contact> listContacts() throws IOException {
 		init();
-		
+
 		var params = new HashMap<String,String>();
 		params.put("per_page", getString(PER_PAGE));
 		List<JsonObject> res = client.getAll(EndpointBaseType.CUSTOMERS.getValue(),params);
 		var ret = new ArrayList<Contact>();
-		 
+
 		res.forEach(obj->{
 			var contact = toContact(obj, obj.get("id").getAsInt());
 			ret.add(contact);
@@ -412,14 +412,14 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	public void deleteTransaction(Transaction t) throws IOException {
 		init();
 		client.delete(EndpointBaseType.ORDERS.getValue(), t.getId().intValue());
-		
+
 	}
 
 	@Override
 	public Transaction getTransactionById(Long parseInt) throws IOException {
 		init();
 		var ret = client.get(EndpointBaseType.ORDERS.getValue(), parseInt.intValue());
-	
+
 		var t = new Transaction();
 			t.setId(parseInt);
 			t.setContact(toContact(new JsonExport().toJsonElement(ret.get(BILLING)).getAsJsonObject(), Integer.parseInt(ret.get("customer_id").toString())));
@@ -429,24 +429,24 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 			t.setDateCreation(UITools.parseGMTDate(ret.get("date_created").toString()));
 			t.setDatePayment(ret.get(DATE_PAID).getClass()!=JsonNull.class?UITools.parseGMTDate(ret.get(DATE_PAID).toString()):null);
 			t.setDateSend(ret.get("date_completed").getClass()!=JsonNull.class?UITools.parseGMTDate(ret.get("date_completed").toString()):null);
-			
-			
+
+
 			switch(ret.get("payment_method").toString())
 			{
 				case "bacs":t.setPaymentProvider(TransactionPayementProvider.BANK_TRANSFERT);break;
 				case "PayPal":t.setPaymentProvider(TransactionPayementProvider.PAYPAL);break;
 				default :t.setPaymentProvider(TransactionPayementProvider.VISA);break;
 			}
-			
+
 		return t;
 	}
-	
-	
+
+
 	private JSONObject createOrder(Transaction t)
 	{
 		var obj = new JSONObject();
 		var items = new JSONArray();
-		
+
 		var contact = new JSONObject();
 				   contact.put(FIRST_NAME, t.getContact().getName());
 				   contact.put(LAST_NAME, t.getContact().getLastName());
@@ -456,20 +456,20 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 				   contact.put(ADDRESS_1, t.getContact().getAddress());
 				   contact.put("city", t.getContact().getCity());
 				   contact.put(POSTCODE, t.getContact().getZipCode());
-				   
+
 		obj.put(BILLING, contact);
 		obj.put("shipping", contact);
 		obj.put(LINE_ITEMS, items);
 		obj.put("set_paid", t.getStatut().equals(TransactionStatus.PAID));
 		obj.put("created_via", MTGConstants.MTG_APP_NAME);
-		
+
 		if(t.getPaymentProvider()!=null)
 		{
 			obj.put("payment_method_title", t.getPaymentProvider().name());
 			obj.put(DATE_PAID, t.getDatePayment().getTime());
 		}
-		
-		
+
+
 		for(MTGStockItem st : t.getItems())
 		{
 			var line = new JSONObject();
@@ -479,30 +479,30 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		}
 		return obj;
 	}
-	
-	
+
+
 	private MTGProduct parseProduct(JsonObject element) {
-			
+
 			MTGProduct p = AbstractProduct.createDefaultProduct();
 			JsonObject obj = element.getAsJsonObject();
 			p.setProductId(obj.get("id").getAsLong());
 			p.setName(obj.get("name").getAsString());
-			
-			
+
+
 			JsonObject objCateg = obj.get(CATEGORIES).getAsJsonArray().get(0).getAsJsonObject();
 			Category c = new Category();
 					 c.setIdCategory(objCateg.get("id").getAsInt());
 					 c.setCategoryName(objCateg.get("name").getAsString());
 			p.setCategory(c);
 			p.setTypeProduct(parseType(c));
-			
+
 			JsonObject img = obj.get(IMAGES).getAsJsonArray().get(0).getAsJsonObject();
 			p.setUrl(img.get("src").getAsString());
 			return p;
-		
+
 	}
 
-	
+
 	private Map<String, Object> toWooCommerceAttributs(MTGProduct product,String status, int idCategory)
 	{
 		Map<String, Object> productInfo = new HashMap<>();
@@ -512,14 +512,14 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
         productInfo.put(CATEGORIES, WooCommerceTools.entryToJsonArray("id",String.valueOf(idCategory)));
         productInfo.put(STATUS, status==null?"private":status);
         productInfo.put(IMAGES, WooCommerceTools.entryToJsonArray("src",product.getUrl().startsWith("//")?"https:"+product.getUrl():product.getUrl()));
-		 
+
 		return productInfo;
 	}
-	
+
 	private TransactionStatus tostatus(String status) {
-		
+
 		status = status.replace("\"", "");
-		
+
 		switch(status)
 		{
 			case "pending" : return TransactionStatus.NEW;
@@ -541,43 +541,43 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	}
 
 	private Contact toContact(JsonObject contactObj, int id) {
-		
+
 		var c = new Contact();
 			c.setId(id);
-			
+
 			try {
 				if(contactObj.get(FIRST_NAME)!=null)
 					c.setName(contactObj.get(FIRST_NAME).getAsString());
-				
+
 				if(contactObj.get(LAST_NAME)!=null)
 					c.setLastName(contactObj.get(LAST_NAME).getAsString());
-				
+
 				if(contactObj.get(ADDRESS_1)!=null)
 					c.setAddress(contactObj.get(ADDRESS_1).getAsString());
-				
+
 				if(contactObj.get(POSTCODE)!=null)
 					c.setZipCode(contactObj.get(POSTCODE).getAsString());
-				
+
 				if(contactObj.get("city")!=null)
 					c.setCity(contactObj.get("city").getAsString());
-				
+
 				if(contactObj.get(COUNTRY)!=null)
 					c.setCountry(contactObj.get(COUNTRY).getAsString());
-				
+
 				if(contactObj.get(EMAIL)!=null)
 					c.setEmail(contactObj.get(EMAIL).getAsString());
-				
+
 				if(contactObj.get(PHONE)!=null)
 					c.setTelephone(contactObj.get(PHONE).getAsString());
-				
-				
+
+
 			c.setEmailAccept(false);
 			}
 			catch(Exception e)
 			{
 				logger.error(e);
 			}
-		
+
 		return c;
 
 	}
@@ -600,7 +600,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		return false;
 	}
 
-	
+
 }
 
 

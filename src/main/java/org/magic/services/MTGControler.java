@@ -53,18 +53,18 @@ public class MTGControler {
 	private ApilayerCurrencyConverter currencyService;
 	private LookAndFeelProvider lafService;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
-	
+
 	private MTGNotifier notifier;
-	
-	
+
+
 	private MTGControler() {
 		logger.info("***********************"+MTGConstants.MTG_APP_NAME+"****************************");
 		logger.info("Running with Java {}",Runtime.version());
-		
-		
-		
+
+
+
 		var conf = new File(MTGConstants.CONF_DIR, MTGConstants.CONF_FILENAME);
-		
+
 		if (!conf.exists())
 			try {
 				logger.info("{} file doesn't exist. creating one from default file",conf);
@@ -80,9 +80,9 @@ public class MTGControler {
 			} catch (IOException e1) {
 				logger.error("error creating {}",MTGConstants.DATA_DIR,e1);
 			}
-		
-		
-		
+
+
+
 		var params = new Parameters();
 		builder = new FileBasedConfigurationBuilder<>(XMLConfiguration.class)
 				.configure(params.xml()
@@ -94,23 +94,23 @@ public class MTGControler {
 
 		try {
 			config = builder.getConfiguration();
-			
+
 			PluginRegistry.inst().setConfig(config);
-			
+
 			langService = new LanguageService();
 			langService.changeLocal(getLocale());
-			
+
 			ThreadManager.getInstance().initThreadPoolConfig(getThreadPoolConfig());
-			
-			
+
+
 			TechnicalServiceManager.inst().enable(get("technical-log").equals("true"));
 			TechnicalServiceManager.inst().restore();
-			
+
 		} catch (Exception e) {
 			logger.error("error init", e);
 		}
-		
-		
+
+
 		currencyService = new ApilayerCurrencyConverter(get("currencylayer-access-api"));
 		try {
 			currencyService.init();
@@ -121,13 +121,13 @@ public class MTGControler {
 			setProperty("/currencylayer-converter-enable", FALSE);
 
 		}
-		
-		
-		
-		
+
+
+
+
 	}
-	
-	
+
+
 	public void closeApp()
 	{
 		PluginRegistry.inst().listPlugins().forEach(MTGPlugin::unload);
@@ -135,16 +135,16 @@ public class MTGControler {
 		TechnicalServiceManager.inst().storeAll();
 		System.exit(0);
 	}
-	
-	
-	
+
+
+
 	private Font f;
 	public Font getFont()
 	{
 		if(f!=null)
 			return f;
-		
-		
+
+
 		try {
 		String family = get("/ui/font/family");
 		var style = Integer.parseInt(get("/ui/font/style"));
@@ -153,24 +153,24 @@ public class MTGControler {
 		}
 		catch(Exception e)
 		{
-			f = MTGConstants.DEFAULT_FONT;	
+			f = MTGConstants.DEFAULT_FONT;
 		}
-		
+
 		return f;
 	}
-	
+
 	public void saveAccounts()
 	{
 		setProperty("accounts",AccountsManager.inst().exportConfig());
-			
+
 		logger.debug("accounts saved");
 	}
-	
+
 	public void loadAccountsConfiguration()
 	{
 		AccountsManager.inst().loadConfig(get("accounts"));
 	}
-	
+
 	public void setDefaultStock(MagicCardStock st) {
 		setProperty("collections/defaultStock/signed",st.isSigned());
 		setProperty("collections/defaultStock/altered",st.isAltered());
@@ -180,7 +180,7 @@ public class MTGControler {
 		setProperty("collections/defaultStock/qty",st.getQte());
 		setProperty("collections/defaultStock/etched",st.isEtched());
 	}
-	
+
 	public WebShopConfig getWebConfig()
 	{
 		var conf = new WebShopConfig();
@@ -191,13 +191,13 @@ public class MTGControler {
 			conf.setCurrency(getCurrencyService().getCurrentCurrency());
 			conf.setMaxLastProduct(Integer.parseInt(get("/shopSite/config/maxLastProductSlide","4")));
 			conf.setProductPagination(Integer.parseInt(get("/shopSite/config/productPaginationSlide","12")));
-			
-			
+
+
 			conf.setPercentReduction(Double.parseDouble(get("/shopSite/config/percentReduction","0")));
 			conf.setGoogleAnalyticsId(get("/shopSite/config/ganalyticsId",""));
 			conf.setEnableGed(Boolean.parseBoolean(get("/shopSite/config/enableGed",FALSE)));
 			conf.setExtraCss(get("/shopSite/config/extracss",""));
-			
+
 			conf.setPaypalClientId(get("/shopSite/payments/paypalclientId",""));
 			try {
 				conf.setPaypalSendMoneyUri(new URI(get("/shopSite/payments/paypalSendMoneyUri","")));
@@ -205,7 +205,7 @@ public class MTGControler {
 				logger.error(e1);
 				conf.setPaypalSendMoneyUri(null);
 			}
-			
+
 			conf.setBic(get("/shopSite/payments/banqAccount/bic",""));
 			conf.setIban(get("/shopSite/payments/banqAccount/iban",""));
 			conf.setAverageDeliveryTime(Integer.parseInt(get("/shopSite/delivery/deliveryDay","2")));
@@ -215,7 +215,7 @@ public class MTGControler {
 			conf.setWebsiteUrl(get("/shopSite/config/websiteUrl","http://localhost"));
 			conf.setSealedEnabled(get("/shopSite/config/sealedEnabled",FALSE).equalsIgnoreCase("true"));
 			try {
-				
+
 				if(conf.isAutomaticProduct())
 					conf.setTopProduct(TransactionService.getBestProduct());
 				else
@@ -225,43 +225,43 @@ public class MTGControler {
 			{
 				//do nothing
 			}
-			
+
 			for(String s : get("/shopSite/config/collections","").split(";"))
 			{
 				if(!s.isEmpty())
 					conf.getCollections().add(new MagicCollection(s));
 			}
-			
+
 			for(String s : get("/shopSite/config/needCollections","").split(";"))
 			{
 				if(!s.isEmpty())
 					conf.getNeedcollections().add(new MagicCollection(s));
 			}
-					      
-			
+
+
 			for(String s : get("/shopSite/config/slides","").split(";"))
 		       conf.getSlidesLinksImage().add(s);
-			   
-			
+
+
 			var id = get("/shopSite/config/contact","");
-			
+
 			Contact contact = new Contact();
 			try {
 				contact = MTG.getEnabledPlugin(MTGDao.class).getContactById(Integer.parseInt(id));
 			} catch (NumberFormatException | SQLException e) {
 				logger.error("No contact found with id = {}",id);
 			}
-			
-			
-			
+
+
+
 			conf.setContact(contact);
-		
+
 		return conf;
 	}
-	
+
 
 	public void saveWebConfig(WebShopConfig wsc) {
-		
+
 		setProperty("/shopSite/config/siteTitle",wsc.getSiteTitle());
 		setProperty("/shopSite/config/bannerTitle",wsc.getBannerTitle());
 		setProperty("/shopSite/config/bannerText",wsc.getBannerText());
@@ -270,14 +270,14 @@ public class MTGControler {
 		setProperty("/shopSite/config/enableGed",wsc.isEnableGed());
 		setProperty("/shopSite/config/extracss",wsc.getExtraCss());
 
-		
+
 		setProperty("/shopSite/config/slides",StringUtils.join(wsc.getSlidesLinksImage(),";"));
 		setProperty("/shopSite/config/products/top",new JsonExport().toJsonElement(wsc.getTopProduct()));
 		setProperty("/shopSite/config/products/autoSelection",wsc.isAutomaticProduct());
 		setProperty("/shopSite/config/maxLastProductSlide",wsc.getMaxLastProduct());
 		setProperty("/shopSite/config/productPaginationSlide",wsc.getProductPagination());
-		
-		
+
+
 		setProperty("/shopSite/config/autoValidation",wsc.isAutomaticValidation());
 		setProperty("/shopSite/config/needCollections",StringUtils.join(wsc.getNeedcollections(),";"));
 		setProperty("/shopSite/config/sealedEnabled",wsc.isSealedEnabled());
@@ -287,13 +287,13 @@ public class MTGControler {
 		setProperty("/shopSite/config/contact",wsc.getContact().getId());
 		setProperty("/shopSite/delivery/shippingRules", wsc.getShippingRules());
 		setProperty("/shopSite/delivery/deliveryDay",wsc.getAverageDeliveryTime());
-		
+
 		setProperty("/shopSite/payments/banqAccount/bic",wsc.getBic());
 		setProperty("/shopSite/payments/banqAccount/iban",wsc.getIban());
 		setProperty("/shopSite/payments/paypalclientId",wsc.getPaypalClientId());
 		setProperty("/shopSite/payments/paypalSendMoneyUri",wsc.getSetPaypalSendMoneyUri().toString());
 	}
-	
+
 	public MagicCardStock getDefaultStock() {
 		var defaultBool = FALSE;
 		var st = new MagicCardStock();
@@ -304,32 +304,32 @@ public class MTGControler {
 					   st.setLanguage(get("collections/defaultStock/language","English"));
 					   st.setCondition(EnumCondition.valueOf(get("collections/defaultStock/condition","NEAR_MINT")));
 					   st.setQte(Integer.parseInt(get("collections/defaultStock/qty","1")));
-					   
+
 		return st;
 	}
-	
+
 	private ThreadPoolConfig getThreadPoolConfig() {
 		var tpc = new ThreadPoolConfig();
 
 		tpc.setThreadPool(THREADPOOL.valueOf(get("threadsExecutor/threadPool","FIXED")));
 		tpc.setDaemon(Boolean.parseBoolean(get("threadsExecutor/daemon","true")));
 		tpc.setNameFormat(get("threadsExecutor/nameFormat","mtg-threadpool-%d"));
-		
+
 		if(get("threadsExecutor/value","AUTO").equals("AUTO"))
 			tpc.setCorePool(Runtime.getRuntime().availableProcessors());
 		else
 			tpc.setCorePool(Integer.parseInt(get("threadsExecutor/value","-1")));
-		
+
 		return tpc;
 	}
-	
-	
+
+
 
 	public ApilayerCurrencyConverter getCurrencyService() {
 		return currencyService;
 	}
 
-	
+
 	public LookAndFeelProvider getLafService() {
 		if (lafService != null) {
 			return lafService;
@@ -338,7 +338,7 @@ public class MTGControler {
 			return lafService;
 		}
 	}
-	
+
 	public LanguageService getLangService() {
 		if (langService != null) {
 			return langService;
@@ -354,7 +354,7 @@ public class MTGControler {
 		return inst;
 	}
 
-	
+
 
 	public Dimension getPictureProviderDimension() {
 		var w = Integer.parseInt(get("/card-pictures-dimension/width"));
@@ -362,7 +362,7 @@ public class MTGControler {
 		return new Dimension(w, h);
 	}
 
-	
+
 	public Dimension getCardsGameDimension() {
 		var w = Integer.parseInt(get("/game/cards/card-width"));
 		var h = Integer.parseInt(get("/game/cards/card-height"));
@@ -376,17 +376,17 @@ public class MTGControler {
 		String root = k[1];
 		String elem = k[2];
 		try {
-			
+
 			if(config.childConfigurationsAt("/"+root).isEmpty())
 			{
 				logger.debug("add config root: /{}",root);
 				config.addProperty("/"+root,"");
 			}
-			
+
 			config.addProperty("/" + root + " " + elem + "/class", classname.getName());
 			setProperty(classname.getDeclaredConstructor().newInstance(), false);
 			logger.debug("add module {} {}",path,classname.getName());
-				
+
 		} catch (IllegalArgumentException e ) {
 			logger.error("Error inserting : {} for {}",path,classname ,e);
 		}
@@ -395,7 +395,7 @@ public class MTGControler {
 			logger.error("Error loading : {}",classname ,e);
 		}
 	}
-	
+
 	public void setProperty(Object k, Object c) {
 		try {
 			var path = "";
@@ -415,9 +415,9 @@ public class MTGControler {
 			logger.error("Error saving {}={}",k,c, e);
 		}
 	}
-	
-	
-	
+
+
+
 	public Locale getLocale() {
 		try {
 			return LocaleUtils.toLocale(config.getString("locale"));
@@ -427,8 +427,8 @@ public class MTGControler {
 		}
 	}
 
-	
-	
+
+
 	public String get(String prop, String defaut) {
 		return config.getString(prop, defaut);
 	}
@@ -455,9 +455,9 @@ public class MTGControler {
 	public boolean updateConfigMods() {
 		return PluginRegistry.inst().updateConfigWithNewModule();
 	}
-	
-	
-	
+
+
+
 	public void saveWallpaper(Wallpaper p) throws IOException {
 		if (!MTGConstants.MTG_WALLPAPER_DIRECTORY.exists())
 			MTGConstants.MTG_WALLPAPER_DIRECTORY.mkdir();
@@ -466,30 +466,30 @@ public class MTGControler {
 				new File(MTGConstants.MTG_WALLPAPER_DIRECTORY, p.getName() + "." + p.getFormat()), p.getFormat());
 
 	}
-	
-	
+
+
 	public void notify(Exception e)
 	{
 		logger.error("error",e);
 		notify(new MTGNotification(getLangService().getCapitalize(getLangService().getError()),e));
 	}
-	
-	
+
+
 	public void notify(MTGNotification notif)
 	{
 		try {
 			if(notifier==null)
 				notifier=getPlugin(MTGConstants.DEFAULT_NOTIFIER_NAME, MTGNotifier.class);
-			
+
 			notifier.send(notif);
 		} catch (Exception e) {
 			logger.error(notif.getMessage());
 		}
 	}
-	
+
 	public void cleaning() {
 		 if(PluginRegistry.inst().needUpdate())
-		 {	
+		 {
 			 try {
 				builder.save();
 				logger.info("cleaning " + MTGConstants.CONF_FILENAME +" done");
@@ -501,10 +501,10 @@ public class MTGControler {
 
 
 	public void init() throws SQLException {
-		
+
 		MTG.getEnabledPlugin(MTGDao.class).init();
 		loadAccountsConfiguration();
-		
+
 	}
 
 

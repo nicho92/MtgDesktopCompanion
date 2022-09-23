@@ -11,13 +11,13 @@ public class GroovyScript extends AbstractJSR223MTGScript {
 	{
 		return "groovy";
 	}
-	
+
 	@Override
 	public String getName()
 	{
 		return "Groovy";
 	}
-	
+
 	@Override
 	public String getVersion() {
 		return GroovySystem.getVersion();
@@ -28,5 +28,5 @@ public class GroovyScript extends AbstractJSR223MTGScript {
 		return "groovy";
 	}
 
-	
+
 }

@@ -22,7 +22,7 @@ public class EmailNotifier extends AbstractMTGNotifier{
 	public FORMAT_NOTIFICATION getFormat() {
 		return FORMAT_NOTIFICATION.HTML;
 	}
-	
+
 	@Override
 	public String getName() {
 		return MTGConstants.EMAIL_NOTIFIER_NAME;
@@ -32,7 +32,7 @@ public class EmailNotifier extends AbstractMTGNotifier{
 	public boolean isExternal() {
 		return true;
 	}
-	
+
 
 	@Override
 	public Map<String, String> getDefaultAttributes() {
@@ -46,18 +46,18 @@ public class EmailNotifier extends AbstractMTGNotifier{
 								"SSL", "true");
 	}
 
-	
+
 	public void send(String sendMail, MTGNotification notification) throws IOException {
-		
+
 		if(StringUtils.isEmpty(sendMail))
 		{
 			logger.warn("No email filled");
 			return;
 		}
-		
+
 		HtmlEmail email;
 		try {
-			
+
 			email = new HtmlEmail();
 			email.setHtmlMsg("<html>"+notification.getMessage()+"</html>");
 			email.setHostName(getString("SMTP"));
@@ -69,20 +69,20 @@ public class EmailNotifier extends AbstractMTGNotifier{
 			email.setTextMsg(notification.getMessage());
 			email.addTo(sendMail);
 			email.send();
-			
+
 		}catch(EmailException ex)
 		{
 			throw new IOException(ex);
 		}
-		
+
 	}
-	
+
 
 	@Override
 	public void send(MTGNotification notification) throws IOException {
 		HtmlEmail email;
 		try {
-			
+
 			email = new HtmlEmail();
 			email.setHtmlMsg("<html>"+notification.getMessage()+"</html>");
 			email.setHostName(getString("SMTP"));
@@ -95,13 +95,13 @@ public class EmailNotifier extends AbstractMTGNotifier{
 			for(String to : getArray("SEND_TO"))
 				email.addTo(to);
 			email.send();
-			
+
 		}catch(EmailException ex)
 		{
 			throw new IOException(ex);
 		}
-		
+
 	}
 
-	
+
 }

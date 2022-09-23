@@ -12,7 +12,7 @@ import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.tools.UITools;
 
 public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	public StockItemTableModel() {
@@ -33,7 +33,7 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 				"IDS"
 			};
 	}
-	
+
 	@Override
 	public void addItem(MTGStockItem t) {
 		if(t.getId()==-1)
@@ -52,7 +52,7 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 			}
 		}
 	}
-	
+
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex) {
@@ -84,15 +84,15 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 			return EnumCondition.class;
 		case 13:
 			return Map.class;
-			
+
 		default:
 			return super.getColumnClass(columnIndex);
 		}
 	}
-	
+
 	@Override
 	public boolean isCellEditable(int row, int column) {
-		
+
 		if(writable)
 			return (column ==9 || column==10);
 		else
@@ -139,7 +139,7 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 
 	@Override
 	public void setValueAt(Object aValue, int row, int column) {
-		
+
 		switch (column) {
 		case 9:
 			items.get(row).setQte((Integer) aValue);
@@ -147,14 +147,14 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 		case 10:
 			items.get(row).setPrice(Double.parseDouble(aValue.toString()));
 			break;
-			
+
 		default:
 			break;
 		}
-		
+
 		items.get(row).setUpdated(true);
 
-		
+
 	}
 
 

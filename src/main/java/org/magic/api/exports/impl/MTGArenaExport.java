@@ -27,22 +27,22 @@ import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
 
 public class MTGArenaExport extends AbstractFormattedFileCardExport {
-	
+
 	Map<String,String> correpondance;
 	boolean side=false;
-	
+
 	public MTGArenaExport() {
 		correpondance = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 		correpondance.put("DOM", "DAR");
-		
-		
+
+
 	}
-	
+
 	@Override
 	public String getFileExtension() {
 		return "";
 	}
-	
+
 	@Override
 	public boolean needFile() {
 		return false;
@@ -50,9 +50,9 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
-		
+
 		var temp = new StringBuilder();
-		
+
 		for(Map.Entry<MagicCard, Integer> entry : deck.getMain().entrySet())
 		{
 			temp.append(entry.getValue())
@@ -65,9 +65,9 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 				.append(entry.getKey().getCurrentSet().getNumber())
 				.append("\r\n");
 			notify(entry.getKey());
-			
+
 		}
-		
+
 		if(!deck.getSideBoard().isEmpty())
 			for(Map.Entry<MagicCard, Integer> entry : deck.getSideBoard().entrySet())
 			{
@@ -85,25 +85,25 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 
 		var selection = new StringSelection(temp.toString());
 		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(selection, selection);
-		
+
 		logger.debug("saved in clipboard");
 
 	}
-	
+
 
 	private String reverse(String s) {
-		
+
 		if(correpondance.containsValue(s))
 			for(Entry<String, String> k : correpondance.entrySet())
 				if(k.getValue().equalsIgnoreCase(s))
 					return k.getKey();
-		
+
 		return s;
 	}
-	
-	
+
+
 	private String translate(String s) {
-		
+
 		if(correpondance.get(s)!=null)
 			return correpondance.get(s);
 		else
@@ -116,22 +116,22 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 		deck.setName(dname);
 		side=false;
 		Transferable trf = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(this);
-		
+
 		if(trf==null)
 		{
 			MTGControler.getInstance().notify(new MTGNotification("Error", "Clipboard is empty", MESSAGE_TYPE.INFO));
 			return deck;
 		}
-		
+
 		var txt ="";
 		try {
 			txt =trf.getTransferData(DataFlavor.stringFlavor).toString();
-		
+
 			logger.debug("copy from clipboard ok : {}", txt);
 		} catch (UnsupportedFlavorException e) {
 			throw new IOException(e);
-		} 
-	
+		}
+
 		matches(txt,false).forEach(m->
 		{
 			if(StringUtils.isAllEmpty(m.group()))
@@ -151,19 +151,19 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 						deck.getMain().put(mc, qte);
 					else
 						deck.getSideBoard().put(getEnabledPlugin(MTGCardsProvider.class).searchCardByName( name.trim(), me, true).get(0), qte);
-				
+
 				}
 				catch(Exception e)
 				{
 					logger.error("Error loading cards {}", m.group(),e);
 				}
-				
+
 			}
-			
+
 		});
-		
+
 		return deck;
-		
+
 	}
 
 
@@ -176,19 +176,19 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 	public STATUT getStatut() {
 		return STATUT.DEV;
 	}
-	
+
 
 	@Override
 	public int hashCode() {
 		return getName().hashCode();
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		
+
 		if(obj ==null)
 			return false;
-		
+
 		return hashCode()==obj.hashCode();
 	}
 

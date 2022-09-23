@@ -27,33 +27,33 @@ public abstract class AbstractCommand extends AbstractMTGPlugin implements MTGCo
 	protected Options opts = new Options();
 	protected JsonExport json;
 	protected MTGConsoleHandler handler;
-	
+
 	public void initOptions()
 	{
 		opts.addOption("?", "help", false, " : help for command");
 	}
-	
+
 	protected AbstractCommand() {
 		json = new JsonExport();
 		initOptions();
 	}
-	
+
 	@Override
 	public void setHandler(MTGConsoleHandler handler) {
 		this.handler=handler;
 	}
-	
-	
+
+
 	@Override
 	public String toString() {
 		return getCommandName();
 	}
-	
+
 	@Override
 	public String getCommandName() {
 		return getClass().getSimpleName();
 	}
-	
+
 
 	protected JsonElement toObject(String string) {
 		var obj = new JsonObject();
@@ -61,8 +61,8 @@ public abstract class AbstractCommand extends AbstractMTGPlugin implements MTGCo
 		return obj;
 	}
 
-	
-	
+
+
 	@Override
 	public AbstractResponse usage() {
 		var formatter = new HelpFormatter();
@@ -75,15 +75,15 @@ public abstract class AbstractCommand extends AbstractMTGPlugin implements MTGCo
 		} catch (UnsupportedEncodingException e) {
 			return new TextResponse(e.getMessage());
 		}
-	
+
 	}
-	
-	
+
+
 	@Override
 	public String getName() {
 		return getCommandName();
 	}
-	
+
 	 @Override
 	public PLUGINS getType() {
 		return PLUGINS.COMMAND;
@@ -94,22 +94,22 @@ public abstract class AbstractCommand extends AbstractMTGPlugin implements MTGCo
 	public Icon getIcon() {
 		return new ImageIcon(AbstractCommand.class.getResource("/icons/plugins/console.png"));
 	}
-	 
-	 
+
+
 	@Override
 	public void quit() {
 		// nothing to do
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		
+
 		if(obj ==null)
 			return false;
-		
+
 		return hashCode()==obj.hashCode();
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return (getType()+getName()).hashCode();

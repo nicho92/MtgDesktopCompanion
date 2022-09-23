@@ -22,37 +22,37 @@ public class MkmPricer extends AbstractPricesProvider {
 
 	@Override
 	protected List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
-		
+
 		logger.debug(getName() +" looking for prices " + card);
-		
+
 		MTGJsonPricer.getInstance().expirationDay(getInt("EXPIRE_FILE_DAYS"));
-		
+
 		return MTGJsonPricer.getInstance().getPriceFor(card);
 	}
 
-	
 
-	
+
+
 	@Override
 	public EnumMarketType getMarket() {
 		return EnumMarketType.EU_MARKET;
 	}
-	
-	
+
+
 	@Override
 	public Icon getIcon() {
 		return new ImageIcon(MkmPricer.class.getResource("/icons/plugins/magiccardmarket.png"));
 	}
-	
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
 	}
-	
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of("EXPIRE_FILE_DAYS","1");
 	}
-	
-	
+
+
 }

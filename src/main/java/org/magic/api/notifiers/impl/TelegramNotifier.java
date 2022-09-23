@@ -19,32 +19,32 @@ public class TelegramNotifier extends AbstractMTGNotifier {
 	public FORMAT_NOTIFICATION getFormat() {
 		return FORMAT_NOTIFICATION.MARKDOWN;
 	}
-	
+
 	@Override
 	public boolean isExternal() {
 		return true;
 	}
-	
+
 	@Override
 	public void send(MTGNotification notification) throws IOException {
-		
-		
+
+
 		var urlString = "https://api.telegram.org/bot%s/sendMessage?parse_mode="+getFormat().name().toLowerCase()+"&chat_id=%s&text=%s";
 
 		var apiToken = getAuthenticator().get("TOKEN");
 		var chatId = getString("CHANNEL");
 		var msg = URLTools.encode(notification.getMessage());
-		
+
 		if(msg.length()>4096)
 		{
 			logger.error("Message is too long : " + msg.length() + ">4096. Will truncate it");
 			msg = msg.substring(0, 4096);
-			
+
 		}
-		
+
 		urlString = String.format(urlString, apiToken, chatId, msg);
 		var sb = new StringBuilder();
-		
+
 		var is = new BufferedInputStream(URLTools.extractAsInputStream(urlString));
 		var br = new BufferedReader(new InputStreamReader(is));
 		var inputLine = "";
@@ -61,13 +61,13 @@ public class TelegramNotifier extends AbstractMTGNotifier {
 	public String getName() {
 		return "Telegram";
 	}
-	
+
 	@Override
 	public List<String> listAuthenticationAttributes() {
 		return List.of("TOKEN");
-		
+
 	}
-	
+
 
 	@Override
 	public Map<String, String> getDefaultAttributes() {

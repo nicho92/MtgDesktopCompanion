@@ -11,7 +11,7 @@ import org.magic.game.model.counters.BonusCounter;
 public class BonusCounterActions extends AbstractAction {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private DisplayableCard card;

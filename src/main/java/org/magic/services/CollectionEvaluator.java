@@ -41,15 +41,15 @@ public class CollectionEvaluator extends Observable
 	private JsonExport serialiser;
 	private Map<MagicEdition,Map<MagicCard,CardShake>> cache;
 	private int minPrice=0;
-	
+
 	public File getDirectory() {
 		return directory;
 	}
-	
+
 	public static Map<MagicEdition, Integer> analyse(MagicCollection collection) throws IOException
 	{
 		var ret = new TreeMap<MagicEdition, Integer>();
-		
+
 		try {
 			var temp = getEnabledPlugin(MTGDao.class).getCardsCountGlobal(collection);
 			for (MagicEdition me : getEnabledPlugin(MTGCardsProvider.class).listEditions()) {
@@ -58,11 +58,11 @@ public class CollectionEvaluator extends Observable
 		} catch (SQLException e) {
 			logger.error("error in calculation",e);
 		}
-		
+
 		return ret;
-		
+
 	}
-	
+
 	public static JsonArray analyseToJson(MagicCollection collection) throws IOException
 	{
 		var transformer = new JsonExport();
@@ -87,28 +87,28 @@ public class CollectionEvaluator extends Observable
 			arr.add(obj);
 		});
 		return arr;
-		
+
 	}
-	
-	
-	
-	
+
+
+
+
 	public CollectionEvaluator() throws IOException {
 		init();
 	}
-	
+
 	public CollectionEvaluator(MagicCollection c) throws IOException {
 		collection=c;
 		init();
 	}
-	
-	
+
+
 	public void setCollection(MagicCollection collection) {
 		this.collection = collection;
 		cache.clear();
 
 	}
-	
+
 	private void init() throws IOException
 	{
 		cache = new HashMap<>();
@@ -116,12 +116,12 @@ public class CollectionEvaluator extends Observable
 		if(!directory.exists())
 			FileUtils.forceMkdir(directory);
 
-		
-		
+
+
 		serialiser= new JsonExport();
 	}
-	
-	
+
+
 	public void initCache() throws IOException
 	{
 		getEnabledPlugin(MTGCardsProvider.class).listEditions().forEach(ed->{
@@ -132,12 +132,12 @@ public class CollectionEvaluator extends Observable
 			}
 		});
 	}
-	
+
 	public void clearUICache()
 	{
 		cache.clear();
 	}
-	
+
 	public void initCache(MagicEdition edition,EditionsShakers ret) throws IOException
 	{
 		try {
@@ -146,10 +146,10 @@ public class CollectionEvaluator extends Observable
 		} catch (IOException e) {
 			logger.error("{} is not found",edition.getId(),e);
 		}
-		
+
 	}
-	
-	
+
+
 	public EditionsShakers initCache(MagicEdition edition,String provider) throws IOException
 	{
 		var ret = new EditionsShakers();
@@ -160,13 +160,13 @@ public class CollectionEvaluator extends Observable
 			}
 			return ret;
 	}
-	
-	
+
+
 	public EditionsShakers initCache(MagicEdition edition) throws IOException
 	{
 		return initCache(edition,getEnabledPlugin(MTGDashBoard.class).getName());
 	}
-	
+
 	public List<MagicEdition> getEditions()
 	{
 		List<MagicEdition> eds = new ArrayList<>();
@@ -184,8 +184,8 @@ public class CollectionEvaluator extends Observable
 		}
 		return eds;
 		}
-	
-	
+
+
 	public Map<MagicCard,CardShake> prices()
 	{
 		Map<MagicCard,CardShake> ret = new HashMap<>();
@@ -196,13 +196,13 @@ public class CollectionEvaluator extends Observable
 		);
 		return ret;
 	}
-	
+
 	public boolean hasCache(MagicEdition ed)
 	{
 		return new File(directory,ed.getId()+PRICE_JSON).exists();
 	}
-	
-	
+
+
 	public Date getCacheDate(MagicEdition ed)
 	{
 		var fich = new File(directory,ed.getId()+PRICE_JSON);
@@ -214,17 +214,17 @@ public class CollectionEvaluator extends Observable
 		}
 		return null;
 	}
-	
-	
+
+
 	public synchronized Map<MagicCard,CardShake> prices(MagicEdition ed)
 	{
-		
+
 		if(cache.get(ed)!=null)
 			return cache.get(ed);
-		
+
 		logger.trace("caculate prices for {}",ed);
-		
-		
+
+
 		Map<MagicCard,CardShake> ret = new HashMap<>();
 		try {
 			var fich = new File(directory,ed.getId()+PRICE_JSON);
@@ -237,17 +237,17 @@ public class CollectionEvaluator extends Observable
 			{
 				logger.trace("{} is not found for {}: {}",fich,ed.getId(),ed.getSet());
 				list= new EditionsShakers();
-			}	
+			}
 			List<MagicCard> cards = getEnabledPlugin(MTGDao.class).listCardsFromCollection(collection, ed);
-			for(MagicCard mc : cards) 
+			for(MagicCard mc : cards)
 			{
 					Optional<CardShake> cs = list.getShakes().stream().filter(sk->sk.getName().equals(mc.getName())).findFirst();
 					if(cs.isPresent())
 					{
-						
+
 						CardShake shak = cs.get();
 						shak.setCard(mc);
-						
+
 						if(shak.getPrice()>=minPrice)
 							ret.put(mc, shak);
 					}
@@ -257,29 +257,29 @@ public class CollectionEvaluator extends Observable
 						csn.setName(mc.getName());
 						csn.setCard(mc);
 						csn.setPrice(0.0);
-						
+
 						if(csn.getPrice()>=minPrice)
 							ret.put(mc, csn);
 					}
-					
+
 			}
-			
+
 			setChanged();
 			notifyObservers(ed);
-			
-			
+
+
 		} catch (SQLException e) {
 			logger.error(e);
 		}
-		
-		
+
+
 		cache.put(ed, ret);
 		return ret;
 	}
-	
+
 	public EditionsShakers loadFromCache(MagicEdition ed) {
 		try {
-			if(new File(directory,ed.getId()+PRICE_JSON).exists()) {	
+			if(new File(directory,ed.getId()+PRICE_JSON).exists()) {
 				return serialiser.fromJson(FileUtils.readFileToString(new File(directory,ed.getId()+PRICE_JSON),MTGConstants.DEFAULT_ENCODING),EditionsShakers.class);
 			}
 		}
@@ -287,48 +287,48 @@ public class CollectionEvaluator extends Observable
 		{
 			logger.error("error loading {}",ed, e);
 		}
-		
+
 		var eds = new EditionsShakers();
 		eds.setEdition(ed);
 		return eds;
-		
-		
+
+
 	}
 
 	public void export(File f) throws IOException{
-		
+
 		var temp = new StringBuilder("EDITION;CARDNAME;PRICE");
 		temp.append(System.lineSeparator());
 		for(Entry<MagicCard, CardShake> e : prices().entrySet())
 		{
-			if(e.getValue()!=null) 
+			if(e.getValue()!=null)
 			{
 				temp.append(e.getKey().getCurrentSet()).append(";").append(e.getKey().getName()).append(";").append(e.getValue().getPrice()).append(System.lineSeparator());
 			}
-			else 
+			else
 			{
 				temp.append(e.getKey().getCurrentSet()).append(";").append(e.getKey().getName()).append(";").append("NC").append(System.lineSeparator());
 			}
 		}
 		FileTools.saveFile(f, temp.toString());
-		
+
 	}
-	
-	
+
+
 	public Double total(MagicEdition ed) {
 		return prices(ed).values().stream().mapToDouble(CardShake::getPrice).sum();
 	}
 
 	public Double total() {
-		Double total=0.0;
+		double total=0.0;
 		for(MagicEdition ed : getEditions())
 			total=total+total(ed);
-		
+
 		return total;
 	}
 
 	public void setMinPrice(int i) {
 		this.minPrice=i;
-		
+
 	}
 }

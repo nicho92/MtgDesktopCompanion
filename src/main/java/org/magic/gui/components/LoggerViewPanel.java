@@ -25,7 +25,7 @@ import org.magic.gui.renderer.standard.DateTableCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.tools.UITools;
 public class LoggerViewPanel extends MTGUIComponent {
-	
+
 	private static final long serialVersionUID = 1L;
 	private JXTable table;
 	private LogTableModel model;
@@ -34,21 +34,21 @@ public class LoggerViewPanel extends MTGUIComponent {
 	private JButton btnRefresh;
 	private JComboBox<Level> cboChooseLevel;
 	private transient TableRowSorter<TableModel> datesorter;
-	
-	
+
+
 	public LoggerViewPanel() {
 		model = new LogTableModel();
 		cboChooseLevel = UITools.createCombobox(new Level[] {null, Level.INFO, Level.ERROR, Level.DEBUG, Level.TRACE });
 		var panel = new JPanel();
 		table = UITools.createNewTable(model);
-		
-		
+
+
 		table.setDefaultRenderer(Date.class, new DateTableCellEditorRenderer(true));
-		
+
 		btnRefresh = new JButton(MTGConstants.ICON_REFRESH);
 		t = new Timer(1000, e -> model.fireTableDataChanged());
 		chckbxAutorefresh = new JCheckBox("Auto-refresh");
-		
+
 		setLayout(new BorderLayout(0, 0));
 
 
@@ -57,14 +57,14 @@ public class LoggerViewPanel extends MTGUIComponent {
 		panel.add(chckbxAutorefresh);
 		panel.add(btnRefresh);
 		panel.add(cboChooseLevel);
-		
+
 		UITools.sort(table, 1, SortOrder.DESCENDING);
-		
+
 		model.setDefaultHiddenComlumns(2,3,4);
-		
-		
+
+
 		btnRefresh.addActionListener(ae -> model.fireTableDataChanged());
-		
+
 		chckbxAutorefresh.addItemListener(ie -> {
 
 			if (chckbxAutorefresh.isSelected()) {
@@ -75,9 +75,9 @@ public class LoggerViewPanel extends MTGUIComponent {
 				btnRefresh.setEnabled(true);
 			}
 		});
-		
+
 		cboChooseLevel.addActionListener(ae->{
-			
+
 			if(cboChooseLevel.getSelectedItem()!=null)
 			{
 				TableRowSorter<LogTableModel> sorter = new TableRowSorter<>(model);
@@ -87,24 +87,24 @@ public class LoggerViewPanel extends MTGUIComponent {
 			else
 			{
 				table.setRowSorter(datesorter);
-				
+
 			}
 		});
-		
+
 		table.packAll();
 	}
-	
+
 	public void enabledAutoLoad()
 	{
 		chckbxAutorefresh.doClick();
 	}
-	
+
 	public void setLevel(Level l)
 	{
 		cboChooseLevel.setSelectedItem(l);
 	}
-	
-	
+
+
 	public void setClassFilter(Class c)
 	{
 		logger.debug("Filtering logs for {}",c.getName() );
@@ -112,7 +112,7 @@ public class LoggerViewPanel extends MTGUIComponent {
 		sorter.setRowFilter(RowFilter.regexFilter(c.getName()));
 		table.setRowSorter(sorter);
 	}
-	
+
 	@Override
 	public void onDestroy() {
 		t.stop();

@@ -73,7 +73,7 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 
 public class DiscordBotServer extends AbstractMTGServer {
 
-	
+
 	private static final String EXTERNAL_LINK = "EXTERNAL_LINK";
 	private static final String ACTIVITY = "ACTIVITY";
 	private static final String ACTIVITY_TYPE = "ACTIVITY_TYPE";
@@ -92,33 +92,33 @@ public class DiscordBotServer extends AbstractMTGServer {
 	public String getVersion() {
 		return JDAInfo.VERSION;
 	}
-	
-	
+
+
 	private void initListener()
 	{
 		listener = new ListenerAdapter() {
 			@Override
 			public void onMessageReceived(MessageReceivedEvent event)
 			{
-				if (event.getAuthor().isBot()) 
+				if (event.getAuthor().isBot())
 					return;
-				
+
 				analyseMessage(event);
 			}
-			
+
 			@Override
 			public void onReady(ReadyEvent event) {
 				logger.info("Server {} started",getName());
 			}
 		};
 	}
-	
-	
+
+
 	public JsonObject toJsonDetails()
 	{
 		var jo  = new JsonObject();
 		if(isAlive()) {
-		
+
 		var arrGuilds = new JsonArray();
 			jda.getGuilds().forEach(g->arrGuilds.add(DiscordInfo.parse(g)));
 			jo.add("guilds", arrGuilds);
@@ -130,27 +130,27 @@ public class DiscordBotServer extends AbstractMTGServer {
 			{
 				logger.error(e);
 			}
-			
+
 		}
 
 		return jo;
 	}
-	
-	
-	
+
+
+
 	private void analyseMessage(MessageReceivedEvent event) {
 		var info = new DiscordInfo();
 		info.setUser(DiscordInfo.parse(event.getAuthor()));
 		info.setChannel(DiscordInfo.parse(event.getChannel()));
-		
-		
+
+
 		info.setMessage(event.getMessage().getContentRaw());
-		
+
 		var p = Pattern.compile(REGEX);
 		var m = p.matcher(event.getMessage().getContentRaw());
 		if(m.find())
 		{
-			
+
 			if(event.isFromGuild())
 			{
 				info.setGuild(DiscordInfo.parse(event.getGuild()));
@@ -158,26 +158,26 @@ public class DiscordBotServer extends AbstractMTGServer {
 			}
 			else
 				logger.info("Received MP message : {} from {}",event.getMessage().getContentRaw(),event.getAuthor().getName());
-			
+
 			var name=m.group(1).trim();
-			
+
 			logger.debug("parsing {} values",name);
-			
+
 			if(name.equalsIgnoreCase("help"))
 			{
 				responseHelp(event);
 				info.setEnd(Instant.now());
 				TechnicalServiceManager.inst().store(info);
-				
+
 				return;
 			}
-			
+
 			if(name.toLowerCase().startsWith("set|"))
 			{
 				try {
 					boolean noFoil= StringUtils.containsAnyIgnoreCase(info.getMessage(),"nofoil","no foil");
 					boolean foilOnly = StringUtils.containsAnyIgnoreCase(info.getMessage(),"foil","onlyfoil");
-					
+
 					responseChardShake(event,name,noFoil,foilOnly);
 				} catch (IOException e) {
 					info.setError(e.getMessage());
@@ -185,10 +185,10 @@ public class DiscordBotServer extends AbstractMTGServer {
 				}
 				info.setEnd(Instant.now());
 				TechnicalServiceManager.inst().store(info);
-				
+
 				return;
 			}
-			
+
 			if(name.toLowerCase().startsWith("format|"))
 			{
 				try {
@@ -199,11 +199,11 @@ public class DiscordBotServer extends AbstractMTGServer {
 				}
 				info.setEnd(Instant.now());
 				TechnicalServiceManager.inst().store(info);
-				
+
 				return;
 			}
-			
-			
+
+
 			if(name.toLowerCase().startsWith("mkm"))
 			{
 				try {
@@ -214,103 +214,103 @@ public class DiscordBotServer extends AbstractMTGServer {
 				}
 				info.setEnd(Instant.now());
 				TechnicalServiceManager.inst().store(info);
-				
+
 				return;
 			}
 
 			responseSearch(event,name,info);
 			info.setEnd(Instant.now());
 			TechnicalServiceManager.inst().store(info);
-			
-		
-			
-		}	
+
+
+
+		}
 	}
 
-	
+
 	private void responseFormats(MessageReceivedEvent event,String content) throws IOException {
 		String format="";
 		try {
 			event.getChannel().sendTyping().queue();
 			format=content.substring(content.indexOf('|')+1,content.length()).toUpperCase().trim();
 			List<CardShake> ret= MTG.getEnabledPlugin(MTGDashBoard.class).getShakerFor(FORMATS.valueOf(format));
-			Collections.sort(ret, new PricesCardsShakeSorter(SORT.DAY_PERCENT_CHANGE,false));	
-			
+			Collections.sort(ret, new PricesCardsShakeSorter(SORT.DAY_PERCENT_CHANGE,false));
+
 			var res = StringUtils.substring(notifFormater.generate(FORMAT_NOTIFICATION.MARKDOWN, ret.subList(0, getInt(RESULTS_SHAKES)),CardShake.class),0,MTGConstants.DISCORD_MAX_CHARACTER);
-			
+
 			event.getChannel().sendMessage(res).queue();
-		
+
 		}
 		catch(IllegalArgumentException e)
 		{
 			logger.error(e);
-			throw new IOException("format " + format + " is not found... try with : " + StringUtils.join(FORMATS.values(),",")); 
+			throw new IOException("format " + format + " is not found... try with : " + StringUtils.join(FORMATS.values(),","));
 		}
 		catch(Exception e)
 		{
 			logger.error(e);
-			throw new IOException("Hoopsy Error "); 
+			throw new IOException("Hoopsy Error ");
 		}
-		
+
 	}
-	
-	
-	
+
+
+
 
 
 	private void responseMkmStock(MessageReceivedEvent event) throws IOException {
 		event.getChannel().sendTyping().queue();
 		var serv = new InsightService();
-			
+
 			Collections.sort(serv.getHighestPercentStockReduction(), (InsightElement o1, InsightElement o2) -> {
 					if(o1.getChangeValue()>o2.getChangeValue())
 						return -1;
 					else
 						return 1;
 			});
-			
+
 			var res =  StringUtils.substring(notifFormater.generate(FORMAT_NOTIFICATION.MARKDOWN, serv.getHighestPercentStockReduction(),InsightElement.class),0,MTGConstants.DISCORD_MAX_CHARACTER);
 			event.getChannel().sendMessage(StringUtils.substring(res,0,MTGConstants.DISCORD_MAX_CHARACTER)).queue();
-		
+
 	}
 
 
 	private void responseChardShake(MessageReceivedEvent event,String name, boolean noFoil, boolean foilOnly) throws IOException {
-	
+
 			event.getChannel().sendTyping().queue();
-			
-			
+
+
 				logger.debug("search {} with nofoil={} and foilOnly={}",name,noFoil,foilOnly);
-			
+
 				String ed=name.substring(name.indexOf('|')+1,name.length()).toUpperCase().trim();
 				var  eds = MTG.getEnabledPlugin(MTGDashBoard.class).getShakesForEdition(new MagicEdition(ed));
 				var chks = eds.getShakes().stream().filter(cs->cs.getPriceDayChange()!=0).sorted(new PricesCardsShakeSorter(SORT.DAY_PERCENT_CHANGE,false)).toList();
-				
+
 				if(noFoil)
 					chks = chks.stream().filter(cs->!cs.isFoil()).toList();
 				else if(foilOnly)
 					chks = chks.stream().filter(CardShake::isFoil).toList();
-				
+
 				var res =  StringUtils.substring(notifFormater.generate(FORMAT_NOTIFICATION.MARKDOWN, chks.subList(0, getInt(RESULTS_SHAKES)),CardShake.class),0,MTGConstants.DISCORD_MAX_CHARACTER);
 				event.getChannel().sendMessage(res).queue();
-			
+
 	}
 
 
 	private void responseHelp(MessageReceivedEvent event) {
 		var channel = event.getChannel();
-		channel.sendTyping().queue(); 
+		channel.sendTyping().queue();
 		channel.sendMessage(":face_with_monocle: It's simple "+event.getAuthor().getName()+", put card name in bracket like {Black Lotus} or {Black Lotus| LEA} if you want to specify a set\n "
 				+ "If you want to have prices variation for a set, type {set|<setName>} "
 				+ "and {format|"+StringUtils.join(FORMATS.values(),",")+"} for format shakes.\nPolicy: https://www.mtgcompanion.org/policy.html").queue();
-		
+
 		if(!getString(PRICE_KEYWORDS).isEmpty())
 			channel.sendMessage("Also you can type one of this keyword if you want to get prices : " + getString(PRICE_KEYWORDS)).queue();
-		
+
 	}
 
 
-	private void responseSearch(MessageReceivedEvent event,String name, DiscordInfo info) 
+	private void responseSearch(MessageReceivedEvent event,String name, DiscordInfo info)
 	{
 		boolean priceask = !StringUtils.isEmpty(getString(PRICE_KEYWORDS)) && StringUtils.containsAny(event.getMessage().getContentRaw().toLowerCase(), getArray(PRICE_KEYWORDS));
 		final List<MagicCard> liste = new ArrayList<>();
@@ -321,24 +321,24 @@ public class DiscordBotServer extends AbstractMTGServer {
 			ed.setId(name.substring(name.indexOf('|')+1,name.length()).toUpperCase().trim());
 			name=name.substring(0, name.indexOf('|')).trim();
 		}
-		
+
 		var channel = event.getChannel();
 			channel.sendTyping().queue();
 
 			try {
 				liste.addAll(getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, ed, false));
 			}
-			catch(Exception e)	
+			catch(Exception e)
 			{
 				logger.error(e);
 			}
-			
+
 			if(liste.isEmpty())
 			{
 				channel.sendMessage("Sorry i can't find "+name ).queue();
 				return;
 			}
-			
+
 			var builder = new NavigableEmbed.Builder(event.getChannel());
 			for (var x = 0; x < liste.size(); x++) {
 				MagicCard result = liste.get(x);
@@ -347,21 +347,21 @@ public class DiscordBotServer extends AbstractMTGServer {
 					var eb = new EmbedBuilder(embed);
 					if (liste.size() > 1)
 						eb.setFooter("Result " + (resultIndex + 1) + "/" + liste.size(), null);
-					
+
 					return eb.build();
 				};
 				int finalIndex = x;
 				builder.addEmbed(() -> getEmbed.apply(result, finalIndex));
 			}
-			
+
 			NavigableEmbed navEb = builder.build();
-			
-			
+
+
 			if(liste.size()>1)
 			{
 				applyControl(EmbedButton.PREVIOUS.getIcon(), navEb.getMessage(), navEb.getWidth() > 1);
 				applyControl(EmbedButton.NEXT.getIcon(), navEb.getMessage(), navEb.getWidth() > 1);
-		
+
 				var rl = new ReactionListener(jda, navEb.getMessage(), false, 30L * 1000L);
 				rl.addController(event.getAuthor());
 				rl.addResponse(EmbedButton.PREVIOUS.getIcon(), ev -> {
@@ -376,13 +376,13 @@ public class DiscordBotServer extends AbstractMTGServer {
 				});
 
 			}
-		
+
 	}
 
 
 	private void applyControl(String emote, Message message, boolean enabled) {
 			try{
-				
+
 				message.addReaction(Emoji.fromFormatted(emote)).queue();
 			}
 			catch(InsufficientPermissionException ex)
@@ -390,14 +390,14 @@ public class DiscordBotServer extends AbstractMTGServer {
 				message.getChannel().sendMessage(ex.getLocalizedMessage() ).queue();
 				return;
 			}
-			
-			
+
+
 			if (!enabled) {
 				message.getReactions().parallelStream().filter(r -> r.getEmoji().getName().equals(emote))
 								   .forEach(r -> {
 									   	try {
 											r.retrieveUsers().submit().get().parallelStream().forEach(u -> r.removeReaction(u).queue());
-										} 
+										}
 									   	catch(InterruptedException ex){
 									   		Thread.currentThread().interrupt();
 									   	}
@@ -407,32 +407,32 @@ public class DiscordBotServer extends AbstractMTGServer {
 								   	});
 		}
 	}
-	
-	
+
+
 	private MessageEmbed parseCard(MagicCard mc,boolean price,DiscordInfo info) {
-		
+
 		var eb = new EmbedBuilder();
 		eb.setDescription("");
 		eb.setTitle(mc.getName()+ " " + (mc.getCost()!=null?mc.getCost():""));
 		eb.setColor(MTGColor.determine(mc.getColors()).toColor());
-			
+
 		var temp = new StringBuilder();
 		temp.append(mc.getTypes()+"\n");
 		temp.append(mc.getText()).append("\n");
 		temp.append("**Edition:** ").append(mc.getCurrentSet().getSet()).append("\n");
-		
+
 		if(!getString(EXTERNAL_LINK).isEmpty())
 			temp.append("**Url:** ").append(getString(EXTERNAL_LINK)+mc.getScryfallId()).append("\n");
-		
+
 		if(mc.getExtra()!=null)
 			temp.append("**").append(mc.getExtra().toPrettyString()).append("** ").append("\n");
-		
+
 		temp.append("**Reserved:** ");
 		if(mc.isReserved())
 			temp.append(":white_check_mark: \n");
 		else
 			temp.append(":no_entry_sign:  \n");
-		
+
 		if(getBoolean(SHOWCOLLECTIONS)) {
 			try {
 				temp.append("**Present in:** "+getEnabledPlugin(MTGDao.class).listCollectionFromCards(mc).toString());
@@ -441,20 +441,20 @@ public class DiscordBotServer extends AbstractMTGServer {
 			}
 		}
 		eb.setDescription(temp.toString());
-	
+
 		if(getString(THUMBNAIL_IMAGE).equalsIgnoreCase("THUMBNAIL"))
 			eb.setThumbnail(MTG.getEnabledPlugin(MTGPictureProvider.class).generateUrl(mc));
 		else
 			eb.setImage(MTG.getEnabledPlugin(MTGPictureProvider.class).generateUrl(mc));
-		
+
 		if(price) {
-			
-			
+
+
 			StringBuilder errMsg = new StringBuilder();
-		
+
 			listEnabledPlugins(MTGPricesProvider.class).forEach(prov->{
 				List<MagicPrice> prices = null;
-					
+
 					try {
 						prices = prov.getPrice(mc);
 						Collections.sort(prices, new MagicPricesComparator());
@@ -464,7 +464,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 						logger.error(e);
 						errMsg.append(prov).append(":").append(e);
 					}
-					
+
 					try {
 						if(prices!=null && !prices.isEmpty()) {
 							prices = prices.stream().filter(MagicPrice::isFoil).sorted(new MagicPricesComparator()).toList();
@@ -475,18 +475,18 @@ public class DiscordBotServer extends AbstractMTGServer {
 						errMsg.append(prov).append(":").append(e);
 						logger.error("error on prices",e);
 					}
-					
-					
+
+
 				}
 			);
-			
+
 			if(!errMsg.isEmpty())
 				info.setError(errMsg.toString());
-			
+
 		}
 		return eb.build();
 	}
-	
+
 	@Override
 	public void start() throws IOException {
 		try {
@@ -495,17 +495,17 @@ public class DiscordBotServer extends AbstractMTGServer {
 							.addEventListeners(listener)
 							.enableIntents(GatewayIntent.MESSAGE_CONTENT)
 							.build();
-			
+
 			if(!StringUtils.isEmpty(getString(ACTIVITY_TYPE)) && !StringUtils.isEmpty(getString(ACTIVITY)))
 				jda.getPresence().setPresence(Activity.of(ActivityType.valueOf(getString(ACTIVITY_TYPE)), getString(ACTIVITY)), isAlive());
-			
-			
-			
+
+
+
 		} catch (Exception e) {
 			logger.error(e);
 			throw new IOException(e);
 		}
-		
+
 
 	}
 
@@ -515,7 +515,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 		{
 			jda.shutdown();
 			jda.getPresence().setPresence(OnlineStatus.OFFLINE,false);
-			
+
 			logger.info("Server {} stopped",getName());
 		}
 	}
@@ -542,12 +542,12 @@ public class DiscordBotServer extends AbstractMTGServer {
 		return "Discord";
 	}
 
-	
+
 	@Override
 	public Icon getIcon() {
 		return new ImageIcon(DiscordBotServer.class.getResource("/icons/plugins/discord.png"));
 	}
-	
+
 
 	@Override
 	public Map<String, String> getDefaultAttributes() {
@@ -560,10 +560,10 @@ public class DiscordBotServer extends AbstractMTGServer {
 				map.put(ACTIVITY_TYPE,ActivityType.WATCHING.name());
 				map.put(ACTIVITY,"bees flying");
 				map.put(EXTERNAL_LINK,"https://mtgcompanion.me/prices-ui/pages/index.html?id=");
-		
+
 		return map;
 	}
-	
+
 }
 
 //=================================================================EMBEDED MESSAGE
@@ -583,8 +583,8 @@ class NavigableEmbed extends ListenerAdapter {
 			return icon;
 		}
 	}
-	
-	
+
+
 	// Preferences
 	private List<List<Supplier<MessageEmbed>>> embeds;
 	private MessageChannel channel;
@@ -695,7 +695,7 @@ class NavigableEmbed extends ListenerAdapter {
 		}
 
 		public Builder addEmbed( Supplier<MessageEmbed> embedSupplier) {
-			
+
 			ArrayList<Supplier<MessageEmbed>> list = new ArrayList<>();
 			list.add(embedSupplier);
 			embeds.add(list);
@@ -757,13 +757,13 @@ class ReactionListener extends ListenerAdapter {
 
 	@Override
 	public void onGenericMessageReaction(GenericMessageReactionEvent event) {
-		
+
 		if (message == null || event.getMessageIdLong() != message.getIdLong() || event.getUser()==null|| !controllers.contains(event.getUser().getId()))
 			return;
-		
-		
+
+
 		ReactionCallback cb = actionMap.getOrDefault(event.getEmoji().getName(), null);
-	
+
 		if (cb != null) {
 			cb.exec(event);
 			if (oneTimeUse) disable();

@@ -35,18 +35,18 @@ public class ImagePanel extends JXPanel {
 
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private static final long serialVersionUID = 1L;
-	
-	
-	
+
+
+
 	private transient BufferedImage imgFront = null;
 	private transient BufferedImage imgBack;
 	private transient ReflectionRenderer renderer;
 	private transient BufferedImage printed;
-	
-	
+
+
 	boolean launched = false;
 	private Timer timer;
-	
+
 	private double zoomFactor = 1;
 	private double xDiff=0;
 	private double yDiff=0;
@@ -58,8 +58,8 @@ public class ImagePanel extends JXPanel {
 	private boolean zoomable;
 	private boolean debug = false;
 	private boolean reflection = true;
-	
-	private void setActions(boolean moveable,boolean rotable,boolean zoomable) 
+
+	private void setActions(boolean moveable,boolean rotable,boolean zoomable)
 	{
 		var interactionManager = new GestionnaireEvenements();
 		this.rotable=rotable;
@@ -70,40 +70,40 @@ public class ImagePanel extends JXPanel {
 		this.addMouseWheelListener(interactionManager);
 	}
 
-	
+
 	public ImagePanel() {
 		initGUI();
 		setActions(true,true,true);
 	}
-	
+
 	public ImagePanel(boolean moveable,boolean rotable,boolean zoomable) {
 		initGUI();
 		setActions(moveable,rotable,zoomable);
 	}
-	
+
 	public void setDebug(boolean debug) {
 		this.debug = debug;
 	}
-	
+
 	public void setReflection(boolean reflection) {
 		this.reflection = reflection;
 	}
-	
+
 	public void setImg(BufferedImage img)
     {
 			if(img==null)
 				return;
-		
+
 	   		imgBack=img;
 	   		imgFront=img;
 	   		printed=img;
-	   		
+
 
 	   		if(reflection) {
 				imgFront = renderer.appendReflection(imgFront);
 				imgBack = renderer.appendReflection(ImageTools.mirroring(imgBack));
 			}
-	   		
+
 	   		repaint();
     }
 
@@ -114,12 +114,12 @@ public class ImagePanel extends JXPanel {
 			protected BufferedImage doInBackground() throws Exception {
 				return URLTools.extractAsImage(url);
 			}
-			
+
 			@Override
 			protected void done() {
 				try {
 					setImg(get());
-					
+
 				} catch (InterruptedException e) {
 					Thread.currentThread().interrupt();
 				} catch (ExecutionException e) {
@@ -128,20 +128,20 @@ public class ImagePanel extends JXPanel {
 			}
 		};
 
-		ThreadManager.getInstance().runInEdt(sw, "loading product image");		
+		ThreadManager.getInstance().runInEdt(sw, "loading product image");
 	}
-	
 
-	public void showCard(MagicCard mc) 
+
+	public void showCard(MagicCard mc)
 	{
 		if(mc == null)
 			return;
-		
-		if (!mc.isDoubleFaced()) 
+
+		if (!mc.isDoubleFaced())
 		{
 			imgBack = getEnabledPlugin(MTGPictureProvider.class).getBackPicture();
-		} 
-		else 
+		}
+		else
 		{
 			try {
 				MagicCard rcard =mc.getRotatedCard();
@@ -153,19 +153,19 @@ public class ImagePanel extends JXPanel {
 		}
 
 		ThreadManager.getInstance().executeThread(new MTGRunnable() {
-			
+
 			@Override
 			protected void auditedRun() {
 				try {
 					imgFront = getEnabledPlugin(MTGPictureProvider.class).getPicture(mc);
-					
+
 					if(mc.isFlippable())
 						imgBack = ImageTools.rotate(imgFront, 180);
-					
-					
+
+
 					if(mc.getLayout()==MTGLayout.SPLIT)
 						imgFront= ImageTools.rotate(imgFront, 90);
-					
+
 			   		if(reflection) {
 						imgFront = renderer.appendReflection(imgFront);
 						imgBack = renderer.appendReflection(ImageTools.mirroring(imgBack));
@@ -176,40 +176,40 @@ public class ImagePanel extends JXPanel {
 				}
 
 				repaint();
-				
+
 			}
-		
-			
+
+
 		}, "show img for " + mc);
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		
+
 		Graphics2D g2 = (Graphics2D) g;
-		ImageTools.initGraphics(g2);				   
-				   
+		ImageTools.initGraphics(g2);
+
 		if (printed == null)
 			return;
-	
+
 
 		var pX = (int) ((getWidth() - (printed.getWidth() * xScale)) / 2);
 		var pY = (getHeight() - printed.getHeight()) / 2;
-		
-		
+
+
 
 		if (xScale < 0)
 			printed = imgBack;
 		else
 			printed = imgFront;
 
-		
+
 		var at = new AffineTransform();
 					    at.translate(pX+xDiff, pY+yDiff);
 					    at.scale(xScale, 1);
-	
-		if(debug) 
+
+		if(debug)
 		{
 			g2.setColor(Color.red);
 			g2.drawString("FRAME : W="+getWidth() +" h="+getHeight(), 5, 20);
@@ -217,24 +217,24 @@ public class ImagePanel extends JXPanel {
 			g2.drawString("IMAGE : W=" + (int)(printed.getWidth()*zoomFactor) + " H=" + (int)(printed.getHeight()*zoomFactor), 5, 50);
 			g2.drawString("AT =" + at,5,65);
 		}
-		
+
 		g2.transform(at);
 		g2.drawImage(printed, 0, 0,(int)(printed.getWidth()*zoomFactor),(int)( printed.getHeight()*zoomFactor),null);
 		g2.dispose();
 
 
 	}
-	
-	
+
+
 	public double getZoomFactor() {
 		return zoomFactor;
 	}
-	
+
 	public void setZoomFactor(double zoomFactor) {
 		this.zoomFactor = zoomFactor;
 	}
 
-	
+
 	private void initGUI() {
 		setLayout(new BorderLayout(0, 0));
 		renderer = new ReflectionRenderer();
@@ -263,52 +263,52 @@ public class ImagePanel extends JXPanel {
 
 		@Override
 		public void mouseWheelMoved(MouseWheelEvent e) {
-			
+
 			if(!zoomable)
 				return;
-			
+
 			if (e.getWheelRotation() == -1) // zoom
 				zoomFactor *= 1.1;
 			else
 				zoomFactor /=1.1;
 
-			
+
 			repaint();
 		}
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			
+
 			if(!rotable)
 				return;
-			
-			if (!launched) 
+
+			if (!launched)
 			{
 				timer.start();
 				launched = true;
 			}
 		}
-	
-		
+
+
 		@Override
 		public void mousePressed(MouseEvent e) {
-			 startPoint = e.getPoint(); 
-					 
+			 startPoint = e.getPoint();
+
 		}
-		
-		
+
+
 		@Override
 		public void mouseDragged(MouseEvent e) {
 			if(!moveable)
 				return;
-			
+
 			var curPoint = e.getPoint();
 		        xDiff = (double)curPoint.x - startPoint.x;
 		        yDiff = (double)curPoint.y - startPoint.y;
 		        repaint();
 		}
 
-		
+
 
 	}
 

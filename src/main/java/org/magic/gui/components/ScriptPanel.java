@@ -51,7 +51,7 @@ import org.magic.tools.Chrono;
 import org.magic.tools.FileTools;
 import org.magic.tools.UITools;
 public class ScriptPanel extends MTGUIComponent {
-	
+
 	private static final long serialVersionUID = 1L;
 	private RSyntaxTextArea editorPane;
 	private JTextPane resultPane;
@@ -60,14 +60,14 @@ public class ScriptPanel extends MTGUIComponent {
 	private JLabel lblInfo;
 	private File currentFile;
 	private transient Future<?> f;
-	
-	
+
+
 	@Override
 	public String getTitle() {
 		return "Script";
 	}
-	
-	
+
+
 	public ScriptPanel() {
 		setLayout(new BorderLayout());
 		editorPane = new RSyntaxTextArea();
@@ -77,16 +77,16 @@ public class ScriptPanel extends MTGUIComponent {
 		var paneHaut = new JPanel();
 		var paneBas = new JPanel();
 		var btnOpen = UITools.createBindableJButton(null, MTGConstants.ICON_OPEN, KeyEvent.VK_O,"open");
-		var btnSaveButton = UITools.createBindableJButton(null, MTGConstants.ICON_SAVE, KeyEvent.VK_S,"save"); 
-		var btnNewButton = UITools.createBindableJButton(null, MTGConstants.ICON_NEW, KeyEvent.VK_N,"new"); 
-		var btnRun =  UITools.createBindableJButton(null, MTGConstants.PLAY_ICON, KeyEvent.VK_R,"run"); 
-		var btnStop =  UITools.createBindableJButton(null, MTGConstants.ICON_DELETE, KeyEvent.VK_K,"stop"); 
-		var btnClear =  UITools.createBindableJButton(null, MTGConstants.ICON_SMALL_CLEAR, KeyEvent.VK_C,"clear"); 
-				
+		var btnSaveButton = UITools.createBindableJButton(null, MTGConstants.ICON_SAVE, KeyEvent.VK_S,"save");
+		var btnNewButton = UITools.createBindableJButton(null, MTGConstants.ICON_NEW, KeyEvent.VK_N,"new");
+		var btnRun =  UITools.createBindableJButton(null, MTGConstants.PLAY_ICON, KeyEvent.VK_R,"run");
+		var btnStop =  UITools.createBindableJButton(null, MTGConstants.ICON_DELETE, KeyEvent.VK_K,"stop");
+		var btnClear =  UITools.createBindableJButton(null, MTGConstants.ICON_SMALL_CLEAR, KeyEvent.VK_C,"clear");
+
 		lblInfo = new JLabel("Result");
 		cboScript = UITools.createCombobox(MTGScript.class, true);
 		chkShowReturn = new JCheckBox("Show return");
-		
+
 		setPreferredSize(new Dimension(800, 600));
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		splitPane.setLeftComponent(new RTextScrollPane(editorPane));
@@ -95,7 +95,7 @@ public class ScriptPanel extends MTGUIComponent {
 		splitPane.setResizeWeight(0.5);
 		editorPane.setSyntaxEditingStyle(((MTGScript)cboScript.getSelectedItem()).getContentType());
 		btnStop.setEnabled(false);
-		
+
 		paneHaut.add(cboScript);
 		paneHaut.add(btnNewButton);
 		paneHaut.add(btnOpen);
@@ -108,26 +108,26 @@ public class ScriptPanel extends MTGUIComponent {
 		add(paneBas,BorderLayout.SOUTH);
 		paneBas.setLayout(new BorderLayout(0, 0));
 		paneBas.add(lblInfo, BorderLayout.WEST);
-		
-		paneBas.add(btnClear, BorderLayout.EAST);
-		
-		new AutoCompletion(createCompletionProvider()).install(editorPane);
-		
-		
-		
 
-		
+		paneBas.add(btnClear, BorderLayout.EAST);
+
+		new AutoCompletion(createCompletionProvider()).install(editorPane);
+
+
+
+
+
 		btnClear.addActionListener(al->resultPane.setText(""));
-		
+
 		btnNewButton.addActionListener(al->{
 			currentFile=null;
 			editorPane.setText("");
 			resultPane.setText("");
 		});
-		
+
 		cboScript.addItemListener(il->editorPane.setSyntaxEditingStyle(((MTGScript)cboScript.getSelectedItem()).getContentType()));
-		
-		
+
+
 		btnStop.addActionListener(e->{
 			if(f!=null)
 			{
@@ -135,23 +135,23 @@ public class ScriptPanel extends MTGUIComponent {
 				logger.debug("Canceling " + f);
 			}
 		});
-		
-		
-		
+
+
+
 		btnRun.addActionListener(al->{
-			
+
 			var c = new Chrono();
 			c.start();
 			btnRun.setEnabled(false);
 			btnStop.setEnabled(true);
-			
-			
+
+
 			f = ThreadManager.getInstance().submitThread(new MTGRunnable() {
-				
+
 				@Override
 				protected void auditedRun() {
 					try {
-						
+
 						lblInfo.setText("Running");
 						MTGScript scripter = (MTGScript)cboScript.getSelectedItem();
 						scripter.init();
@@ -159,28 +159,28 @@ public class ScriptPanel extends MTGUIComponent {
 						scripter.setOutput(writer);
 						Object ret = scripter.runContent(editorPane.getText());
 						appendResult(writer.toString()+"\n");
-						
+
 						if(chkShowReturn.isSelected())
 							appendResult("Return :" + ret+"\n");
-						
-					} 
+
+					}
 					catch (Exception e) {
 						logger.error("error scriptinng",e);
 						appendResult(e.getMessage()+"\n",Color.RED);
 					}
-					
+
 					lblInfo.setText("Running time : " + c.stop() +"s.");
 					btnRun.setEnabled(true);
 					btnStop.setEnabled(false);
-					
+
 				}
 			}, "executing script");
 		});
-		
-		
-		
-		
-		
+
+
+
+
+
 		addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentShown(ComponentEvent componentEvent) {
@@ -190,10 +190,10 @@ public class ScriptPanel extends MTGUIComponent {
 			}
 
 		});
-		
-		
+
+
 		btnSaveButton.addActionListener(al->{
-			
+
 			int ret=JFileChooser.CANCEL_OPTION;
 			if(currentFile !=null)
 			{
@@ -201,7 +201,7 @@ public class ScriptPanel extends MTGUIComponent {
 				if(res==JOptionPane.YES_OPTION)
 					ret=JFileChooser.APPROVE_OPTION;
 			}
-			
+
 			if(ret==JFileChooser.CANCEL_OPTION)
 			{
 				var choose = new JFileChooser(MTGConstants.DATA_DIR);
@@ -212,32 +212,32 @@ public class ScriptPanel extends MTGUIComponent {
 					currentFile = choose.getSelectedFile();
 				}
 			}
-			
+
 			if(ret==JFileChooser.APPROVE_OPTION && currentFile!=null)
 			{
 				try {
 					FileTools.saveFile(currentFile, editorPane.getText());
-					
+
 					if(FilenameUtils.getExtension(currentFile.getName()).isEmpty())
 					{
 						var fext = new File(currentFile.getParentFile(),currentFile.getName()+"."+((MTGScript)cboScript.getSelectedItem()).getExtension());
 						boolean bext = currentFile.renameTo(fext);
 						logger.debug("No extenstion, renaname to " + fext +":"+bext);
 					}
-					
-					
+
+
 					appendResult(currentFile.getAbsolutePath() + " is saved", Color.CYAN);
 				} catch (IOException e) {
 					MTGControler.getInstance().notify(e);
 				}
 			}
 		});
-		
+
 		btnOpen.addActionListener(al-> {
 			var choose = new JFileChooser(MTGConstants.DATA_DIR);
-			
+
 			choose.setFileFilter(new ExtensionFileFilter(cboScript.getSelectedItem().toString(), ((MTGScript)cboScript.getSelectedItem()).getExtension()));
-			
+
 			int ret = choose.showOpenDialog(this);
 			if(ret==JFileChooser.APPROVE_OPTION)
 			{
@@ -247,12 +247,12 @@ public class ScriptPanel extends MTGUIComponent {
 				} catch (IOException e) {
 					MTGControler.getInstance().notify(e);
 				}
-				
+
 			}
 		});
-		
+
 	}
-	
+
 	private CompletionProvider createCompletionProvider() {
 		var provider = new DefaultCompletionProvider();
 		Set<String> sets = new HashSet<>();
@@ -267,9 +267,9 @@ public class ScriptPanel extends MTGUIComponent {
 	{
 		appendResult(msg, defaultColor);
 	}
-	
+
 	private Color defaultColor=StyleContext.getDefaultStyleContext().getForeground(SimpleAttributeSet.EMPTY);
-	
+
 	private void appendResult(String msg, Color c)
     {
 		var sc = StyleContext.getDefaultStyleContext();
@@ -282,7 +282,7 @@ public class ScriptPanel extends MTGUIComponent {
     }
 
 
-	
+
 	@Override
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_SCRIPT;

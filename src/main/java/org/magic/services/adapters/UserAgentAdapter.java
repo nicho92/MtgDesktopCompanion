@@ -12,7 +12,7 @@ import com.google.gson.JsonSerializer;
 
 import nl.basjes.parse.useragent.UserAgent;
 import nl.basjes.parse.useragent.UserAgent.MutableUserAgent;
-	
+
 public class UserAgentAdapter implements JsonSerializer<UserAgent>, JsonDeserializer<UserAgent>	{
 	  @Override
 	  public JsonElement serialize(UserAgent src, Type typeOfSrc, JsonSerializationContext context)
@@ -29,5 +29,5 @@ public class UserAgentAdapter implements JsonSerializer<UserAgent>, JsonDeserial
 		  obj.getAsJsonObject().entrySet().forEach(s->ua.set(s.getKey(), s.getValue().getAsString(), 1));
 		  return ua;
 	  }
-	
+
 }

@@ -11,7 +11,7 @@ import java.util.Set;
 public class BoosterPackContainer implements Serializable {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private transient Map<MagicEdition, Integer> pack;

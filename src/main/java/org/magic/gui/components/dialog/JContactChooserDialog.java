@@ -29,7 +29,7 @@ import org.magic.tools.UITools;
 public class JContactChooserDialog extends JDialog {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private JXTable table;
@@ -41,7 +41,7 @@ public class JContactChooserDialog extends JDialog {
 		return selectedContact;
 	}
 
-	
+
 
 	public JContactChooserDialog() {
 		setTitle(capitalize("CONTACT"));
@@ -50,7 +50,7 @@ public class JContactChooserDialog extends JDialog {
 
 		var decksModel = new ContactTableModel();
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
-		
+
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
@@ -62,8 +62,8 @@ public class JContactChooserDialog extends JDialog {
 				selectedContact = null;
 			}
 		});
-		
-		
+
+
 		AbstractObservableWorker<List<Contact>, Contact, MTGDao> sw2 = new AbstractObservableWorker<>(buzy,MTG.getEnabledPlugin(MTGDao.class))
 				{
 
@@ -79,28 +79,28 @@ public class JContactChooserDialog extends JDialog {
 					@Override
 					protected void done() {
 						super.done();
-						
+
 						table.packAll();
 					}
 				};
-		
+
 		ThreadManager.getInstance().runInEdt(sw2,"loading contacts");
-		
-		
+
+
 		table = UITools.createNewTable(decksModel);
 				UITools.initTableFilter(table);
 
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		
+
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent event) {
-				
+
 				if(UITools.getTableSelections(table, 0).isEmpty())
 					return;
-				
+
 				selectedContact = UITools.getTableSelection(table, 0);
-			
+
 				if (event.getClickCount() == 2) {
 					dispose();
 				}
@@ -133,9 +133,9 @@ public class JContactChooserDialog extends JDialog {
 
 		panelBas.add(btnCancel);
 		panelBas.add(buzy);
-		
+
 		setLocationRelativeTo(null);
 		setModal(true);
-		
+
 	}
 }

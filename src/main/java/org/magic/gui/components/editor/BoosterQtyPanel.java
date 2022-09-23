@@ -11,7 +11,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.tools.UITools;
 
 public class BoosterQtyPanel extends JComponent {
-	
+
 	private static final long serialVersionUID = 1L;
 	private JComboBox<MagicEdition> cboEditions;
 	private JSpinner spinner;

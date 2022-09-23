@@ -24,7 +24,7 @@ public class DAOFileSystemStorage extends AbstractFileStorage {
 
 	@Override
 	public void initFileSystem() throws IOException {
-		
+
 		if(!MTG.getEnabledPlugin(MTGDao.class).isEnable())
 			try {
 				MTG.getEnabledPlugin(MTGDao.class).init();
@@ -37,8 +37,8 @@ public class DAOFileSystemStorage extends AbstractFileStorage {
 	public Path getRoot() throws IOException {
 		return Path.of("");
 	}
-	
-	
+
+
 	@Override
 	public <T extends MTGStorable> List<GedEntry<T>> listAll() throws IOException {
 		try {
@@ -47,25 +47,25 @@ public class DAOFileSystemStorage extends AbstractFileStorage {
 			throw new IOException(e);
 		}
 	}
-	
-	
+
+
 	@Override
 	public <T extends MTGStorable> GedEntry<T> read(Path p) throws IOException {
-		
-		
+
+
 		var cIdClasse = p.getParent().getParent().getFileName().toString();
 		var cIdInstance = p.getParent().getFileName().toString();
 		var cFName = p.getFileName().toString();
-		
+
 		logger.debug("reading {}/{}/{}",cIdClasse,cIdInstance,cFName);
-		
+
 		try {
 			return MTG.getEnabledPlugin(MTGDao.class).readEntry(cIdClasse, cIdInstance, cFName);
 		} catch (SQLException e) {
 			logger.error(e);
 		}
-		
-		
+
+
 		return null;
 	}
 
@@ -104,7 +104,7 @@ public class DAOFileSystemStorage extends AbstractFileStorage {
 	public <T extends MTGStorable> Path getPath(Class<T> classe, T instance) throws IOException {
 		return Path.of(classe.getCanonicalName(), instance.getStoreId());
 	}
-	
+
 	@Override
 	public Icon getIcon() {
 		return MTGConstants.ICON_DATABASE;

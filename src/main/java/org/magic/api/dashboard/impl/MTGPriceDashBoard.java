@@ -45,16 +45,16 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	public EnumMarketType getMarket() {
 		return EnumMarketType.US_MARKET;
 	}
-	
+
 	@Override
 	public List<CardShake> getOnlineShakerFor(MagicFormat.FORMATS f) throws IOException {
 		List<CardShake> list = new ArrayList<>();
 		String url = getString(WEBSITE) + "/taneLayout/mtg_price_tracker.jsp?period=" + getString("PERIOD");
 		logger.debug("Get Shake for " + url);
-		
+
 		Document doc = URLTools.extractAsHtml(url);
 		try {
-			
+
 			String date = doc.getElementsByClass("span6").get(1).text().replace("Updated:", "")
 					.replace("UTC ", "").trim();
 			var forma = new SimpleDateFormat("E MMMM dd hh:mm:ss yyyy", Locale.ENGLISH);
@@ -133,8 +133,8 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		list.setProviderName(getName());
 		list.setEdition(edition);
 		list.setDate(new Date());
-		
-		
+
+
 		String data = table.html();
 		data = StringUtils.substringBetween(data, "[", "]");
 		JsonElement root = URLTools.toJson(data);
@@ -166,21 +166,21 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	}
 
 	private String convert(String name) {
-		
+
 		if(name==null)
 			return "";
-		
+
 		if (name.equalsIgnoreCase("Limited Edition Alpha"))
 			return "Alpha";
 
 		return name;
 	}
-	
+
 	@Override
 	protected HistoryPrice<MagicEdition> getOnlinePricesVariation(MagicEdition ed) throws IOException {
 		return new HistoryPrice<>(ed);
 	}
-	
+
 
 	@Override
 	public HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, boolean foil) throws IOException {
@@ -256,6 +256,6 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	public HistoryPrice<MTGSealedProduct> getOnlinePricesVariation(MTGSealedProduct packaging) throws IOException {
 		return new HistoryPrice<>(packaging);
 	}
-	
+
 
 }

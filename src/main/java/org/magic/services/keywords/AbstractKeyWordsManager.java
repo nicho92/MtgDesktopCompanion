@@ -23,22 +23,22 @@ public abstract class AbstractKeyWordsManager {
 
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 
-	
+
 	public abstract List<MTGKeyWord> getStaticsAbilities();
 	public abstract List<MTGKeyWord> getActivatedAbilities();
 	public abstract List<MTGKeyWord> getTriggeredAbilities();
 	public abstract List<MTGKeyWord> getKeywordActions();
 	public abstract List<MTGKeyWord> getWordsAbilities();
 	private static AbstractKeyWordsManager inst;
-	
+
 	private JsonObject ret;
-	
-	
+
+
 	public static AbstractKeyWordsManager getInstance()
 	{
 		if(inst ==null)
 			inst = new MTGJsonKeyWordsProvider();
-		
+
 		return inst;
 	}
 
@@ -51,8 +51,8 @@ public abstract class AbstractKeyWordsManager {
 		keys.addAll(getWordsAbilities());
 		return keys;
 	}
-	
-	
+
+
 	public MTGKeyWord generateFromKeyString(String key) {
 		for (MTGKeyWord k : getList())
 			if (key.equalsIgnoreCase(k.getKeyword()))
@@ -64,24 +64,24 @@ public abstract class AbstractKeyWordsManager {
 	public Set<MTGKeyWord> getKeywordsFrom(MagicCard mc) {
 		return getKeywordsFrom(mc.getText());
 	}
-	
+
 	public Set<MTGKeyWord> getKeywordsFrom(String cardContent) {
 		return getList().stream()
 				   .filter(kw->String.valueOf(cardContent.toLowerCase()).contains(kw.getKeyword().toLowerCase()))
 				   .distinct()
 				   .collect(Collectors.toSet());
 	}
-	
+
 	public Set<MTGKeyWord> getKeywordsFrom(MagicCard mc,EVENT t) {
 		return getKeywordsFrom(mc).stream()
 				   .filter(l->l.getEvent()==t)
 				   .distinct()
 				   .collect(Collectors.toSet());
 	}
-	
+
 	public boolean asKeyword(MagicCard mc,String key) {
 		return getKeywordsFrom(mc).stream().anyMatch(l->l.getKeyword().equalsIgnoreCase(key));
-				   
+
 	}
 
 	public Set<MTGKeyWord> getKeywordsFrom(MagicCard mc,TYPE t) {
@@ -95,9 +95,9 @@ public abstract class AbstractKeyWordsManager {
 	{
 		if(ret!=null)
 			return ret;
-		
+
 		ret = new JsonObject();
-		
+
 		getStaticsAbilities().forEach(mk->{
 			try {
 				Elements trs = URLTools.extractAsHtml(MTGGamePediaKeywordProvider.BASE_URI+mk.getKeyword().replace(" ", "_")).select("table.infobox tr");
@@ -107,10 +107,10 @@ public abstract class AbstractKeyWordsManager {
 				logger.error(e);
 			}
 		});
-		
-		
-		
-		
+
+
+
+
 		for(TYPE t : TYPE.values())
 		{
 			var arr = new JsonArray();
@@ -123,13 +123,13 @@ public abstract class AbstractKeyWordsManager {
 						   if(kw.getEvent()!=null)
 							   o.addProperty("event", kw.getEvent().name());
 
-				arr.add(o);		   	   
+				arr.add(o);
 			});
-			
+
 			ret.add(t.name().toLowerCase(), arr);
 		}
-		
+
 		return ret;
 	}
-	
+
 }

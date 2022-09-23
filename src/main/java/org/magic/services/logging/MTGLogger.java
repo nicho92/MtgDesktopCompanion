@@ -18,7 +18,7 @@ public class MTGLogger {
 	protected static final Level[] LEVELS = Level.values();
 
 	private MTGLogger() {}
-	
+
 	public static Level[] getLevels()
 	{
 		return LEVELS;
@@ -27,7 +27,7 @@ public class MTGLogger {
 	public static Logger getLogger(Class<?> c) {
 		return getLogger(c.getName());
 	}
-	
+
 	public static Logger getLogger(String n) {
 		return LogManager.getLogger(n);
 	}
@@ -62,5 +62,5 @@ public class MTGLogger {
 	public static MTGAppender getMTGAppender() {
 		return (MTGAppender) getAppender("APPS");
 	}
-	
+
 }

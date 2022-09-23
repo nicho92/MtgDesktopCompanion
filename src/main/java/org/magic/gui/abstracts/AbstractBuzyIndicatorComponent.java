@@ -20,41 +20,41 @@ public abstract class AbstractBuzyIndicatorComponent extends JComponent implemen
 	public abstract void end();
 	public abstract int getValue();
 	public abstract JComponent getBuzyComponent();
-	
+
 	public static AbstractBuzyIndicatorComponent createLabelComponent()
 	{
 		return new JBuzyLabel();
 	}
-	
+
 	public static AbstractBuzyIndicatorComponent createProgressComponent()
 	{
 		return new JBuzyProgress();
 	}
-	
-	
+
+
 	protected AbstractBuzyIndicatorComponent() {
 		setVisible(false);
 		setLayout(new BorderLayout());
 	}
-	
+
 	public void progress()
 	{
 		progress(1);
 	}
-	
+
 	public void progressSmooth(int step)
 	{
 		for(var i=0;i<step;i++)
 			progress();
 	}
-	
-	
+
+
 	public void progress(int step)
 	{
 		setValue(getValue()+step);
 	}
-	
-	
+
+
 	@Override
 	public void update(Observable o, Object obj) {
 		if(obj instanceof Integer i)

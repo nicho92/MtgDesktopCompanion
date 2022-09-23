@@ -22,25 +22,25 @@ public class ChromeDownloader extends JDialog {
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public ChromeDownloader() {
-		
+
 		setTitle("Chrome Plugin");
 		setIconImage(MTGConstants.ICON_CHROME.getImage());
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
-		
+
 		var panelCenter = new JPanel();
 		getContentPane().add(panelCenter, BorderLayout.CENTER);
 		txtDirectory = new JTextFieldFileChooser(30,JFileChooser.DIRECTORIES_ONLY,System.getProperty("user.home"));
 		panelCenter.add(txtDirectory);
-		
+
 		var panelButtons = new JPanel();
 		getContentPane().add(panelButtons, BorderLayout.SOUTH);
-		
+
 		var btnCancel = new JButton(MTGConstants.ICON_DELETE);
 		btnCancel.addActionListener(ae->dispose());
-		
+
 		panelButtons.add(btnCancel);
-		
+
 		var btnExport = new JButton(MTGConstants.ICON_EXPORT);
 		btnExport.addActionListener(e-> {
 			try {
@@ -51,10 +51,10 @@ public class ChromeDownloader extends JDialog {
 				logger.error("error extracting files ",e1);
 				MTGControler.getInstance().notify(e1);
 			}
-			
+
 		});
 		panelButtons.add(btnExport);
-		
+
 		pack();
 	}
 

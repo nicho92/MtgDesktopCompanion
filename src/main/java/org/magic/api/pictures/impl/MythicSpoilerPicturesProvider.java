@@ -15,7 +15,8 @@ public class MythicSpoilerPicturesProvider extends AbstractPicturesProvider {
 		return STATUT.DEPRECATED;
 	}
 
-	
+
+	@Override
 	public String generateUrl(MagicCard mc)
 	{
 		String cardSet = mc.getCurrentSet().getId();
@@ -35,7 +36,7 @@ public class MythicSpoilerPicturesProvider extends AbstractPicturesProvider {
 			return null;
 		}
 	}
-	
+
 
 	@Override
 	public String getName() {

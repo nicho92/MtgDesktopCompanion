@@ -20,7 +20,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.providers.SealedProductProvider;
 
 public class PackagesBrowserPanel extends MTGUIComponent{
-	
+
 	private static final long serialVersionUID = 1L;
 	private transient SealedProductProvider provider;
 	private DefaultTreeModel model;
@@ -28,25 +28,25 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 	private JXTree tree;
 	private boolean view;
 
-	
+
 	public PackagesBrowserPanel(boolean viewThumbnail) {
 		provider = SealedProductProvider.inst();
 		this.view = viewThumbnail;
 		initGUI();
 
 	}
-	
+
 
 	public JXTree getTree() {
 		return tree;
 	}
-	
+
 	public ImagePanel getThumbnailPanel()
 	{
 		return panelDraw;
 	}
-	
-	
+
+
 	public void setMagicEdition(MagicEdition ed)
 	{
 		var root = (DefaultMutableTreeNode)model.getRoot();
@@ -66,12 +66,12 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 		for (var i = 0; i < tree.getRowCount(); i++) {
 		    tree.expandRow(i);
 		}
-		
+
 		if(view)
 			panelDraw.setImg(null);
-		
+
 	}
-	
+
 	private void initGUI() {
 		setLayout(new BorderLayout(0, 0));
 
@@ -81,7 +81,7 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 		if(view) {
 			add(panelDraw, BorderLayout.CENTER);
 		}
-		
+
 		var panel = new JPanel();
 		panel.setLayout(new BorderLayout(0, 0));
 		if(!view)
@@ -90,42 +90,42 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 		}
 		else
 		{
-			add(panel, BorderLayout.WEST);	
+			add(panel, BorderLayout.WEST);
 		}
-		
+
 		tree = new JXTree(model);
 		tree.setCellRenderer(new MagicCardsTreeCellRenderer());
 
 		panel.add(new JScrollPane(tree),BorderLayout.CENTER);
-		
-		
-		
+
+
+
 		tree.addTreeSelectionListener(e-> {
 				DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
-				
+
 				if(selectedNode!=null && (selectedNode.getUserObject() instanceof MTGSealedProduct msp))
 					load(msp);
 			});
 	}
-	
+
 	public void load(MTGSealedProduct p)
 	{
 			panelDraw.setImg(provider.get(p));
 			panelDraw.revalidate();
 			panelDraw.repaint();
 	}
-	
-	
+
+
 	public void initTree()
 	{
 		var root = (DefaultMutableTreeNode)model.getRoot();
 		root.removeAllChildren();
-		
+
 		provider.listEditions().forEach(ed->{
-			
+
 			var edNode = new DefaultMutableTreeNode(ed);
 			root.add(edNode);
-			
+
 			Arrays.asList(EnumItems.values()).forEach(t->{
 				List<MTGSealedProduct> pks = provider.get(ed, t);
 				if(!pks.isEmpty())
@@ -136,12 +136,12 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 				}
 			});
 		});
-	
 
-		
+
+
 		if(view)
 			panelDraw.setImg(null);
-		
+
 	}
 
 	public void reload()
@@ -150,13 +150,13 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 		tree.expandRow(0);
 
 	}
-	
-	
+
+
 	@Override
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_PACKAGE;
 	}
-	
+
 
 	@Override
 	public String getTitle() {

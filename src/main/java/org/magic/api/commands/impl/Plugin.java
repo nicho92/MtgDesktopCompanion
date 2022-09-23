@@ -25,44 +25,44 @@ public class Plugin extends AbstractCommand {
 		opts.addOption("e", "enable", false, "enable");
 		opts.addOption("d", "disable", false, "disable");
 	}
-	
-	
+
+
 	@Override
 	public AbstractResponse run(String[] args) throws ClassNotFoundException, InstantiationException,IllegalAccessException, ParseException, IOException, InvocationTargetException, NoSuchMethodException {
-		
+
 		logger.debug("running {} with {}", this,Arrays.asList(args));
-		
+
 		CommandLine cl = parser.parse(opts, args);
 		MTGPlugin plugin = null ;
-		
-		
+
+
 		if (cl.hasOption("l")) {
 			return new ArrayResponse(MTGPlugin.class, List.of("type","name","enabled","version"),json.convert(PluginRegistry.inst().listPlugins()));
 		}
-		
+
 		if(cl.hasOption("n"))
 		{
 			String name = cl.getOptionValue("n");
 			plugin = PluginRegistry.inst().getPlugin(name);
 			MTGControler.getInstance().setProperty(plugin, plugin.isEnable());
 		}
-		
+
 		if(cl.hasOption("e") || cl.hasOption("d"))
 		{
 			if(plugin == null)
 				return new TextResponse("please use -n <name> to load plugin");
-				
-				
+
+
 			plugin.enable(cl.hasOption("e"));
 			MTGControler.getInstance().setProperty(plugin, plugin.isEnable());
 
-			
+
 			return new TextResponse(plugin + " " + plugin.isEnable() +" OK");
-			
-			
+
+
 		}
 		return usage();
-		
-		
+
+
 	}
 }

@@ -19,7 +19,7 @@ public abstract class Abstract3DPieChart<B,C extends Comparable<C>> extends MTGU
 
 	private static final long serialVersionUID = 1L;
 	protected PiePlot3D plot;
-	
+
 	@Override
 	public void refresh() {
 		initPlot();
@@ -37,27 +37,27 @@ public abstract class Abstract3DPieChart<B,C extends Comparable<C>> extends MTGU
 	@SuppressWarnings("rawtypes")
 	protected void createNewChart() {
 		chart= Chart3DFactory.createPieChart(
-                getTitle(), 
-                "", 
+                getTitle(),
+                "",
                 getDataSet());
-		
+
 		plot = (PiePlot3D) chart.getPlot();
-		
-		
+
+
 		if(!showLegend())
 			chart.setLegendBuilder((Plot3D plotA, Anchor2D anchor, Orientation orientation, ChartStyle style)->new TextElement(""));
-		
+
 		if(showLabel())
 			plot.setSectionLabelGenerator((  PieDataset3D dataset, Comparable<?> key)->key.toString());
 		else
 			plot.setSectionLabelGenerator(( PieDataset3D dataset, Comparable<?> key)->"");
-		
-		
-		plot.setToolTipGenerator(( PieDataset3D dataset, Comparable<?> key)->key.toString() + " : " + dataset.getValue(key));
-		
-	}
-	
 
-	
+
+		plot.setToolTipGenerator(( PieDataset3D dataset, Comparable<?> key)->key.toString() + " : " + dataset.getValue(key));
+
+	}
+
+
+
 
 }

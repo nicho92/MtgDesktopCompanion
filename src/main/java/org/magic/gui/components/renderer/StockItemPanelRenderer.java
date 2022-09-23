@@ -27,12 +27,12 @@ public class StockItemPanelRenderer extends JPanel {
 
 	public StockItemPanelRenderer(MTGStockItem mc) {
 		initGUI();
-		
+
 		if(mc!=null)
 			setProduct(mc);
 	}
-	
-	
+
+
 	private void initGUI() {
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 
@@ -52,14 +52,14 @@ public class StockItemPanelRenderer extends JPanel {
 		lblEdition = new JLabel();
 		add(lblEdition, UITools.createGridBagConstraints(GridBagConstraints.WEST, GridBagConstraints.VERTICAL, 1, 2));
 
-	
+
 	}
 
 	public void setProduct(MTGStockItem mc) {
-		
+
 		if(mc==null)
 			return;
-		
+
 		lblName.setText(mc.getProduct().getName());
 		lblEdition.setText(mc.getProduct().getEdition().getSet());
 		lblEdition.setIcon(IconSetProvider.getInstance().get24(mc.getProduct().getEdition().getId()));

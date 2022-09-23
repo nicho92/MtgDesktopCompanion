@@ -16,16 +16,16 @@ public class NetworkGUI extends MTGUIComponent {
 	public String getTitle() {
 		return capitalize("NETWORK");
 	}
-	
+
 	@Override
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_TAB_NETWORK;
 	}
-	
-	
+
+
 	public NetworkGUI() {
 		setLayout(new BorderLayout());
-		
+
 		add(new NetworkChatPanel(),BorderLayout.CENTER);
 	}
 

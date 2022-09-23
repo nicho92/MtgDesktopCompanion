@@ -16,7 +16,7 @@ public class ManaRepartitionPanel extends Abstract3DPieChart<MagicCard,MTGColor>
 	}
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Override
 	public String getTitle() {
 		return "Mana";
@@ -25,15 +25,16 @@ public class ManaRepartitionPanel extends Abstract3DPieChart<MagicCard,MTGColor>
 	@Override
 	protected void initPlot() {
 		var source = new StandardColorSource<MTGColor>();
-		
+
 		for(MTGColor c : MTGColor.values())
 			source.setColor(c,c.toColor());
 
-	
+
 		plot.setSectionColorSource(source);
-		
+
 	}
-	
+
+	@Override
 	public PieDataset3D<MTGColor> getDataSet() {
 		var dataset = new StandardPieDataset3D<MTGColor>();
 		for (Entry<MTGColor, Integer> data : manager.analyseColors(items).entrySet()) {

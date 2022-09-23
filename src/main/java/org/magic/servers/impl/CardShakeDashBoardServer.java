@@ -41,13 +41,15 @@ public class CardShakeDashBoardServer extends AbstractMTGServer {
 		super();
 		timer = new Timer();
 	}
-	
+
+	@Override
 	public void start() {
 		running = true;
 		tache = new TimerTask() {
+			@Override
 			public void run() {
-				
-					File dest; 
+
+					File dest;
 					CollectionEvaluator evaluator;
 					try {
 						evaluator = new CollectionEvaluator(new MagicCollection(getString(COLLECTION)));
@@ -57,16 +59,16 @@ public class CardShakeDashBoardServer extends AbstractMTGServer {
 						logger.error(e1);
 						return;
 					}
-					
-					
+
+
 					for(File f : evaluator.getDirectory().listFiles(pathname->!pathname.isDirectory())){
 						try {
 							FileUtils.moveFileToDirectory(f, dest, true);
 						} catch (IOException e) {
 							logger.error(e);
-						}	
+						}
 					}
-					
+
 					logger.debug("updating cache");
 					try {
 						evaluator.initCache();
@@ -74,8 +76,8 @@ public class CardShakeDashBoardServer extends AbstractMTGServer {
 						logger.error(e);
 					}
 					logger.info("cache update done");
-					
-				
+
+
 			}
 		};
 
@@ -84,7 +86,8 @@ public class CardShakeDashBoardServer extends AbstractMTGServer {
 
 	}
 
-	
+
+	@Override
 	public void stop() {
 		tache.cancel();
 		timer.purge();
@@ -119,7 +122,7 @@ public class CardShakeDashBoardServer extends AbstractMTGServer {
 	public String getVersion() {
 		return "1.5";
 	}
-	
+
 
 
 }

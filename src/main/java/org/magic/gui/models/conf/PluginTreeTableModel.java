@@ -66,7 +66,7 @@ public class PluginTreeTableModel<T extends MTGPlugin> extends AbstractTreeTable
 		if (node instanceof MTGPlugin) {
 			selectedProvider = (T) node;
 			if (column == ENABLED_INDEX) {
-				
+
 
 				selectedProvider.enable(Boolean.parseBoolean(strValue));
 				MTGControler.getInstance().setProperty(selectedProvider, selectedProvider.isEnable());
@@ -76,14 +76,14 @@ public class PluginTreeTableModel<T extends MTGPlugin> extends AbstractTreeTable
 						p.enable(false);
 						MTGControler.getInstance().setProperty(p, p.isEnable());
 					});
-				
-				
+
+
 				if(listElements.stream().filter(MTGPlugin::isEnable).count()==0)
 				{
 					selectedProvider.enable(true);
 					MTGControler.getInstance().setProperty(selectedProvider, selectedProvider.isEnable());
 				}
-				
+
 			}
 		}
 		if (node instanceof Entry e && (column == 1)) {
@@ -96,7 +96,7 @@ public class PluginTreeTableModel<T extends MTGPlugin> extends AbstractTreeTable
 	@Override
 	public Object getValueAt(Object node, int column) {
 		if (node instanceof MTGPlugin prov) {
-			
+
 			switch (column) {
 			case 0:
 				return prov;

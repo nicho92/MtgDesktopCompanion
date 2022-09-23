@@ -5,7 +5,7 @@ import org.magic.game.model.Player;
 public class JoinAction extends AbstractNetworkAction {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -18,10 +18,10 @@ public class JoinAction extends AbstractNetworkAction {
 	@Override
 	public String toString() {
 		return getInitiator() + " join the channel";
-		
+
 	}
-	
-	
-	
-	
+
+
+
+
 }

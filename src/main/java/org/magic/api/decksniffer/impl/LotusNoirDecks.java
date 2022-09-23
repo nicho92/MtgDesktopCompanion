@@ -45,18 +45,18 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 				sideboard = true;
 
 			if (cont2.text().length() > 0) {
-				
+
 				Integer qte = parseString(cont2.text()).getValue();
 				String cardName = parseString(cont2.text()).getKey();
 
 				if (cardName.contains("//")) // for transformatble cards
 					cardName = cardName.substring(0, cardName.indexOf("//")).trim();
-				
+
 				try {
 					MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, null, true).get(0);
-	
+
 					notify(mc);
-					
+
 					if (!sideboard)
 						deck.getMain().put(mc, qte);
 					else
@@ -65,7 +65,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 				{
 					logger.error("Error loading card {}",cont,ex);
 				}
-				
+
 			}
 		}
 		return deck;
@@ -96,7 +96,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 				for (Element element : value)
 				{
 					var land = element.text().split(" ")[1];
-					switch (land) 
+					switch (land)
 					{
 						case "Plain","Plains":
 							deckColor.append("{W}");
@@ -115,7 +115,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 							break;
 						default:
 							break;
-					} 
+					}
 				}
 				deck.setName(name);
 				try {
@@ -143,12 +143,12 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 		return getName();
 	}
 
-	
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of(URL, "http://www.lotusnoir.info/magic/decks/",
 			MAX_PAGE, "2");
-	
+
 
 	}
 

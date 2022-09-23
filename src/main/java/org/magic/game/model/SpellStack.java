@@ -42,6 +42,7 @@ public class SpellStack extends Observable {
 		return new ArrayList<>(stack);
 	}
 
+	@Override
 	public String toString() {
 		var b = new StringBuilder();
 		Iterator<AbstractSpell> it = stack.iterator();

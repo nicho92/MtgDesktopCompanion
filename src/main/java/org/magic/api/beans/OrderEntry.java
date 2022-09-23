@@ -9,16 +9,16 @@ import org.magic.api.beans.enums.TransactionDirection;
 
 public class OrderEntry implements Serializable {
 
-	
+
 	private static final long serialVersionUID = 1L;
-	
-	
+
+
 	private Integer id=-1;
 	private EnumItems type;
 	private String description;
 	private Double itemPrice=0.0;
 	private Double shippingPrice=0.0;
-	
+
 	private Currency currency;
 	private Date transactionDate;
 	private String seller;
@@ -27,47 +27,44 @@ public class OrderEntry implements Serializable {
 	private MagicEdition edition;
 	private String source;
 	private boolean updated;
-	
-	
+
+
 	public Integer getId() {
 		return id;
 	}
-	
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	
-	
+
+
 	@Override
 	public int hashCode() {
 		return getId().hashCode();
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		
-		if(obj==null)
+
+		if((obj==null) || !(obj instanceof OrderEntry))
 			return false;
-		
-		if(!(obj instanceof OrderEntry))
-			return false;
-		
-		
+
+
 		return getId() ==((OrderEntry)obj).getId();
-		
+
 	}
-	
+
 	@Override
 	public String toString() {
 		return getIdTransation();
 	}
-	
+
 	public OrderEntry() {
 		transactionDate=new Date();
 		itemPrice=0.0;
 		updated=true;
 	}
-	
+
 
 	public boolean isUpdated() {
 		return updated;
@@ -117,11 +114,11 @@ public class OrderEntry implements Serializable {
 	public void setCurrency(Currency currency) {
 		this.currency = currency;
 	}
-	
+
 	public void setCurrency(String currency) {
 		this.currency = Currency.getInstance(currency);
 	}
-	
+
 	public Date getTransactionDate() {
 		return transactionDate;
 	}
@@ -147,5 +144,5 @@ public class OrderEntry implements Serializable {
 		this.edition = edition;
 	}
 
-	
+
 }

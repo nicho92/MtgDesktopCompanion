@@ -25,21 +25,21 @@ public class SimulatedWebcam extends Webcam {
     	super(new DummyWebcamDevice(MTGConstants.SAMPLE_PIC));
     }
 
-    
+
     public void setImageUrl(URL u)
     {
     	((DummyWebcamDevice)getDevice()).setURL(u);
     }
-    
-    
+
+
     public void setImageUrl(File u)
     {
     	((DummyWebcamDevice)getDevice()).setFile(u);
     }
-    
+
 }
 
-class DummyWebcamDevice implements WebcamDevice 
+class DummyWebcamDevice implements WebcamDevice
 {
 
     private BufferedImage buffer;
@@ -74,7 +74,7 @@ class DummyWebcamDevice implements WebcamDevice
 		init();
 	}
 
- 
+
     private void init()
     {
     	  time = System.currentTimeMillis();
@@ -88,7 +88,7 @@ class DummyWebcamDevice implements WebcamDevice
           dimensions[0] = new Dimension(display.getWidth(),display.getHeight());
           open = false;
     }
-  
+
 	public void setFile(File f)
     {
     	 try {
@@ -97,7 +97,7 @@ class DummyWebcamDevice implements WebcamDevice
              bounce = null;
          }
     }
-    
+
     public void setURL(URL f)
     {
     	 try {
@@ -106,8 +106,9 @@ class DummyWebcamDevice implements WebcamDevice
              bounce = null;
          }
     }
- 
-    public String getName()
+
+    @Override
+	public String getName()
     {
         return "Simulated Webcam";
     }

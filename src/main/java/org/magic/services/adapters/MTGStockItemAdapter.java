@@ -15,19 +15,20 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 public final class MTGStockItemAdapter implements JsonDeserializer<MTGStockItem>, JsonSerializer<MTGStockItem> {
-  
-    public MTGStockItem deserialize(JsonElement elem, Type interfaceType, JsonDeserializationContext context) throws JsonParseException {
+
+    @Override
+	public MTGStockItem deserialize(JsonElement elem, Type interfaceType, JsonDeserializationContext context) throws JsonParseException {
        	return context.deserialize(elem, typeForName(EnumItems.valueOf(elem.getAsJsonObject().get("product").getAsJsonObject().get("typeProduct").getAsString())));
     }
 
     private Type typeForName(final EnumItems t) {
-    	
-    	
+
+
     	if(t.equals(EnumItems.CARD))
     		return MagicCardStock.class;
-    	
+
     	return SealedStock.class;
-  
+
     }
 
 	@Override

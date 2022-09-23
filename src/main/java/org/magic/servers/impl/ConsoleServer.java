@@ -69,7 +69,7 @@ public class ConsoleServer extends AbstractMTGServer {
 		return getBoolean("AUTOSTART");
 	}
 
-	
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of(SERVER_PORT, "5152",

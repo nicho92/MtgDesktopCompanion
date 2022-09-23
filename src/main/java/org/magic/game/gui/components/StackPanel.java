@@ -19,7 +19,7 @@ import org.utils.patterns.observer.Observer;
 
 public class StackPanel extends MTGUIComponent implements Observer {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private static final String START = "Start";
@@ -32,19 +32,19 @@ public class StackPanel extends MTGUIComponent implements Observer {
 	private long startTime=SECONDE;
 	private JButton btnPause;
 	private boolean enabledChrono = true;
-	
-	
+
+
 	public StackPanel(boolean enableChrono) {
 		model = new DefaultListModel<>();
 		setLayout(new BorderLayout(0, 0));
 		this.enabledChrono=enableChrono;
-		
+
 		if(enableChrono)
 		{
 			timer = new Timer(1000,e->{
 				startTime=startTime-1;
 				lblCounter.setText(String.valueOf(startTime));
-				
+
 				if(startTime==0)
 				{
 					timer.stop();
@@ -52,7 +52,7 @@ public class StackPanel extends MTGUIComponent implements Observer {
 					{
 						lblCounter.setText("RESOLVING " + model.size() + " spell(s)");
 						GameManager.getInstance().getStack().unstack();
-						
+
 					}
 					else
 					{
@@ -60,17 +60,17 @@ public class StackPanel extends MTGUIComponent implements Observer {
 					}
 				}
 			});
-			
+
 			lblCounter = new JLabel(String.valueOf(startTime));
 			var panelChrono = new JPanel();
-		
+
 			add(panelChrono, BorderLayout.NORTH);
 			panelChrono.add(lblCounter);
-		
+
 			btnPause = new JButton(PAUSE);
-			
+
 			btnPause.addActionListener(ae->{
-					
+
 					if(timer.isRunning())
 					{
 						timer.stop();
@@ -84,26 +84,26 @@ public class StackPanel extends MTGUIComponent implements Observer {
 			});
 			panelChrono.add(btnPause);
 		}
-		
+
 		listStack = new JList<>(model);
-	
+
 		listStack.setCellRenderer(new StackItemRenderer());
-		
+
 		add(new JScrollPane(listStack ), BorderLayout.CENTER);
-		
-		
+
+
 	}
-	
-	
+
+
 	public void enableChrono(boolean b)
 	{
-		
+
 		if(!enabledChrono)
 			return;
-		
-		
+
+
 		startTime=SECONDE;
-		
+
 		if(b)
 		{
 			timer.start();
@@ -114,21 +114,21 @@ public class StackPanel extends MTGUIComponent implements Observer {
 			timer.stop();
 			btnPause.setText(START);
 		}
-		
-		
+
+
 	}
-	
+
 	public void addStack(AbstractSpell sp)
 	{
 		model.add(0,sp);
-		
-		
+
+
 		if(!model.isEmpty())
 		{
 			enableChrono(true);
 		}
 	}
-	
+
 	public void removeStack()
 	{
 		try {
@@ -139,11 +139,11 @@ public class StackPanel extends MTGUIComponent implements Observer {
 			}
 	}
 
-	
+
 
 	@Override
 	public void update(Observable o, Object ob) {
-		
+
 		if(ob!=null)
 			addStack((AbstractSpell)ob);
 		else

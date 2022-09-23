@@ -58,7 +58,7 @@ public class MinaClient extends Observable implements MTGNetworkClient {
 	@Override
 	public void join() {
 		session.write(new JoinAction(p));
-	} 
+	}
 
 	@Override
 	public void sendMessage(String text) {
@@ -68,16 +68,16 @@ public class MinaClient extends Observable implements MTGNetworkClient {
 	@Override
 	public void search(MagicCard mc) {
 		session.write(new SearchAction(p,mc));
-		
+
 	}
-	
+
 	@Override
 	public void sendMessage(String text, Color c) {
 		var act = new SpeakAction(p, text);
 		act.setColor(c);
 		session.write(act);
 	}
-	
+
 	@Override
 	public void logout() {
 		session.closeOnFlush();
@@ -93,9 +93,9 @@ public class MinaClient extends Observable implements MTGNetworkClient {
 	public boolean isActive() {
 		if(getSession()==null)
 			return false;
-		
+
 		return getSession().isActive();
 	}
 
-	
+
 }

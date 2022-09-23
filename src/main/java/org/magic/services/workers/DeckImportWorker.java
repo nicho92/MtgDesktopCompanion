@@ -26,7 +26,7 @@ public class DeckImportWorker extends SwingWorker<MagicDeck, MagicCard> {
 	protected AbstractBuzyIndicatorComponent buzy;
 	private File f;
 	protected Exception err;
-	
+
 	public DeckImportWorker(MTGCardsExport exp,AbstractBuzyIndicatorComponent buzy,File f) {
 		this.exp=exp;
 		this.buzy=buzy;
@@ -35,9 +35,9 @@ public class DeckImportWorker extends SwingWorker<MagicDeck, MagicCard> {
 		o=(Observable obs, Object c)->publish((MagicCard)c);
 		exp.addObserver(o);
 	}
-	
-	
-	
+
+
+
 	@Override
 	protected MagicDeck doInBackground(){
 		try {
@@ -48,7 +48,7 @@ public class DeckImportWorker extends SwingWorker<MagicDeck, MagicCard> {
 		}
 		return null;
 	}
-	
+
 	@Override
 	protected void process(List<MagicCard> chunks) {
 		chunks.forEach(cs->{
@@ -56,7 +56,7 @@ public class DeckImportWorker extends SwingWorker<MagicDeck, MagicCard> {
 			buzy.progress();
 		});
 	}
-	
+
 	@Override
 	protected void done() {
 		try {
@@ -65,7 +65,7 @@ public class DeckImportWorker extends SwingWorker<MagicDeck, MagicCard> {
 			logger.error(e);
 		}
 		buzy.end();
-		
+
 		if(err!=null)
 		{
 			MTGControler.getInstance().notify(err);
@@ -78,7 +78,7 @@ public class DeckImportWorker extends SwingWorker<MagicDeck, MagicCard> {
 					MESSAGE_TYPE.INFO
 					));
 		}
-		
+
 	}
-	
+
 }

@@ -22,7 +22,7 @@ public class MTGSplashScreen extends JWindow implements Observer {
 	private static final long serialVersionUID = 1L;
 	private JProgressBar progressBar;
 
-	
+
 	public void start() {
 		setVisible(true);
 		progressBar.setValue(0);
@@ -31,7 +31,7 @@ public class MTGSplashScreen extends JWindow implements Observer {
 	public MTGSplashScreen() {
 		JPanel panel = new JPanel() {
 			/**
-			 * 
+			 *
 			 */
 			private static final long serialVersionUID = 1L;
 
@@ -74,17 +74,17 @@ public class MTGSplashScreen extends JWindow implements Observer {
 
 	@Override
 	public void update(Observable o, Object msg) {
-		
-		
+
+
 		if(msg instanceof Message le)
 		{
 			progressBar.setString(le.getFormattedMessage());
 		}
 		else
 		{
-			progressBar.setString(String.valueOf(msg));	
+			progressBar.setString(String.valueOf(msg));
 		}
-		
+
 	}
 
 }

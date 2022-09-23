@@ -30,10 +30,12 @@ public class CocatriceDeckExport extends AbstractCardExport {
 		return STATUT.DEV;
 	}
 
+	@Override
 	public String getFileExtension() {
 		return ".cod";
 	}
 
+	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		var temp = new StringBuilder();
 		var endZoneTag = "</zone>";
@@ -61,10 +63,10 @@ public class CocatriceDeckExport extends AbstractCardExport {
 		FileTools.saveFile(dest, temp.toString());
 
 	}
-	
-	
-	
-	
+
+
+
+
 
 	@Override
 	public MagicDeck importDeck(String f,String n) throws IOException {
@@ -112,7 +114,7 @@ public class CocatriceDeckExport extends AbstractCardExport {
 		return "Cockatrice";
 	}
 
-	
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of(DEFAULT_PRICE, "0");

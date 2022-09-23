@@ -9,6 +9,6 @@ public abstract class AbstractPoolProvider extends AbstractMTGPlugin implements 
 	public PLUGINS getType() {
 		return PLUGINS.POOL;
 	}
-	
-	
+
+
 }

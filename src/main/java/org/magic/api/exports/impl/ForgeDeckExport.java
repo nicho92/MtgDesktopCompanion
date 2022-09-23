@@ -19,24 +19,24 @@ public class ForgeDeckExport extends AbstractFormattedFileCardExport {
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		var temp = new StringBuilder();
-		
+
 		temp.append("[metadata]\n");
 		temp.append("Name=").append(deck.getName()).append("\n");
-		
+
 		if(deck.getCommander()!=null)
 		{
 			temp.append("[Commander]\n");
 			temp.append("1 ").append(deck.getCommander().getName()).append("|").append(deck.getCommander().getCurrentSet().getId().toUpperCase()).append("\n");
 		}
-		
-		
+
+
 		temp.append("[Main]\n");
 		deck.getMain().entrySet().stream().filter(mc->mc.getKey()!=deck.getCommander()).sorted((e1,e2)->e1.getKey().getName().compareTo(e2.getKey().getName())).forEach(e->temp.append(e.getValue()).append(" ").append(e.getKey().getName()).append("|").append(e.getKey().getCurrentSet().getId().toUpperCase()).append("|1\n"));
-	
+
 		temp.append("[Sideboard]\n");
 		deck.getSideBoard().entrySet().stream().sorted((e1,e2)->e1.getKey().getName().compareTo(e2.getKey().getName())).forEach(e->temp.append(e.getValue()).append(" ").append(e.getKey().getName()).append("|").append(e.getKey().getCurrentSet().getId().toUpperCase()).append("|1\n"));
-	
-		
+
+
 		FileTools.saveFile(dest, temp.toString());
 
 	}
@@ -45,7 +45,7 @@ public class ForgeDeckExport extends AbstractFormattedFileCardExport {
 	public MagicDeck importDeck(String content, String name) throws IOException {
 		var d = new MagicDeck();
 				  d.setName(name);
-		
+
 				  var deckNameTag ="Name=";
 		for(String s : splitLines(content,true))
 		{
@@ -55,9 +55,9 @@ public class ForgeDeckExport extends AbstractFormattedFileCardExport {
 				break;
 			}
 		}
-				  
-				  
-				  
+
+
+
 		var side=false;
 		var commander = false;
 		for(Matcher m : matches(content, true))
@@ -70,30 +70,30 @@ public class ForgeDeckExport extends AbstractFormattedFileCardExport {
 			{
 				commander=true;
 			}
-			
-			
+
+
 			if(m.groupCount()>1)
 			{
 				try {
 				MagicCard mc = parseMatcherWithGroup(m, 3, 4, true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NAME);
 				var qty = Integer.parseInt(m.group(2));
-				
+
 					if(mc!=null)
 					{
 						if(side)
 							d.getSideBoard().put(mc, qty);
 						else
 							d.getMain().put(mc, qty);
-						
+
 						if(commander)
 						{
 							d.setCommander(mc);
 							commander=false;
 						}
-						
-						
+
+
 						notify(mc);
-						
+
 					}
 					else
 					{
@@ -104,7 +104,7 @@ public class ForgeDeckExport extends AbstractFormattedFileCardExport {
 				{
 					//do nothing
 				}
-				
+
 			}
 		}
 		return d;

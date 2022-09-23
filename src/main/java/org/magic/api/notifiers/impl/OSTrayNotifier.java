@@ -18,27 +18,27 @@ public class OSTrayNotifier extends AbstractMTGNotifier {
 	private SystemTray tray;
 
 	public SystemTray getTray() {
-		
+
 		if(tray==null)
 			init();
-		
+
 		return tray;
 	}
-	
+
 	public TrayIcon getTrayNotifier() {
-		
+
 		if(trayNotifier==null)
 			init();
 
 		return trayNotifier;
 	}
-	
+
 	@Override
 	public FORMAT_NOTIFICATION getFormat() {
 		return FORMAT_NOTIFICATION.TEXT;
 	}
 
-	
+
 	private void init()
 	{
 		try {
@@ -55,7 +55,7 @@ public class OSTrayNotifier extends AbstractMTGNotifier {
 			logger.error(e);
 		}
 	}
-	
+
 	private MessageType convert(MESSAGE_TYPE type) {
 		switch(type)
 		{
@@ -66,12 +66,12 @@ public class OSTrayNotifier extends AbstractMTGNotifier {
 		 default: return MessageType.INFO;
 		}
 	}
-	
+
 	@Override
 	public void send(MTGNotification notification) throws IOException {
 		getTrayNotifier().displayMessage(notification.getTitle(), notification.getMessage(), convert(notification.getType()));
 	}
-	
+
 	@Override
 	public boolean isEnable() {
 		return SystemTray.isSupported();
@@ -85,13 +85,13 @@ public class OSTrayNotifier extends AbstractMTGNotifier {
 
 	@Override
 	public boolean equals(Object obj) {
-		
+
 		if(obj ==null)
 			return false;
-		
+
 		return hashCode()==obj.hashCode();
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return getName().hashCode();

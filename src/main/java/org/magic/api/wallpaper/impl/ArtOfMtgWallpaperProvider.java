@@ -16,7 +16,7 @@ import org.magic.services.network.URLTools;
 
 public class ArtOfMtgWallpaperProvider extends AbstractWallpaperProvider {
 
-	
+
 	@Override
 	public List<Wallpaper> search(String search) {
 		List<Wallpaper> list = new ArrayList<>();

@@ -12,7 +12,7 @@ import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 
 public class MagicWorkStationDeckExport extends AbstractFormattedFileCardExport {
 
-	
+
 	@Override
 	public String getFileExtension() {
 		return ".mwDeck";
@@ -47,31 +47,31 @@ public class MagicWorkStationDeckExport extends AbstractFormattedFileCardExport 
 		}
 
 	}
-	
+
 	@Override
 	public MagicDeck importDeck(String f,String name) throws IOException {
 		try (var read = new BufferedReader(new StringReader(f))) {
 			var deck = new MagicDeck();
 			deck.setName(name);
 			matches(f,true).forEach(m->{
-				var mc = parseMatcherWithGroup(m, 4, 3, true, FORMAT_SEARCH.ID,FORMAT_SEARCH.NAME); 
+				var mc = parseMatcherWithGroup(m, 4, 3, true, FORMAT_SEARCH.ID,FORMAT_SEARCH.NAME);
 				var qte = Integer.parseInt(m.group(2));
-					if(mc!=null) 
+					if(mc!=null)
 					{
 						if(m.group(1)!=null && m.group(1).trim().startsWith("SB"))
 							deck.getSideBoard().put(mc, qte);
 						else
 							deck.getMain().put(mc, qte);
-						
+
 						notify(mc);
 					}
 					else
 					{
 						logger.warn("No card found for " + m.group());
 					}
-					
+
 			});
-			
+
 			return deck;
 		}
 	}

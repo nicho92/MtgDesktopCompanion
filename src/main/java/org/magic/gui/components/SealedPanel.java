@@ -60,7 +60,7 @@ import org.magic.tools.UITools;
 public class SealedPanel extends JPanel {
 	private static final String SORT_BY = "SORT_BY";
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private AbstractBuzyIndicatorComponent lblLoading;
@@ -80,7 +80,7 @@ public class SealedPanel extends JPanel {
 	private MagicCardDetailPanel panelDetail;
 	private JProgressBar progressBar;
 
-	
+
 	private transient MTGDeckManager deckManager;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	int column=0;
@@ -145,7 +145,7 @@ public class SealedPanel extends JPanel {
 		gbccboEditions.gridx = 0;
 		gbccboEditions.gridy = 0;
 		panel.add(cboEditions, gbccboEditions);
-	
+
 		btnAddBoosters = new JButton(MTGConstants.ICON_NEW);
 		var gbcbtnAddBoosters = new GridBagConstraints();
 		gbcbtnAddBoosters.anchor = GridBagConstraints.NORTH;
@@ -253,7 +253,7 @@ public class SealedPanel extends JPanel {
 
 		panelDeck = new GraveyardPanel() {
 			/**
-			 * 
+			 *
 			 */
 			private static final long serialVersionUID = 1L;
 
@@ -334,7 +334,7 @@ public class SealedPanel extends JPanel {
 
 	protected void open() {
 		deck = new MagicDeck();
-		
+
 		deck.setDescription("Sealed from " + model.getSealedPack());
 		deck.setName("sealed from " + model.getSealedPack().toList().size() + " boosters");
 
@@ -342,15 +342,15 @@ public class SealedPanel extends JPanel {
 		panelDeck.removeAll();
 		panelDeck.revalidate();
 		panelDeck.repaint();
-		
+
 		lblLoading.start();
 		list = new ArrayList<>();
 		SwingWorker<Void, Booster> sw = new SwingWorker<>()
 		{
-	
+
 			@Override
 			protected void process(List<Booster> chunks) {
-				
+
 				chunks.forEach(e->{
 					column++;
 					for(MagicCard mc : e.getCards()) {
@@ -358,18 +358,18 @@ public class SealedPanel extends JPanel {
 						DisplayableCard c = createCard(mc);
 						panelOpenedBooster.addComponent(c, column);
 					}
-					
+
 				});
-				
+
 			}
-			
+
 			@Override
 			protected void done() {
 				lblLoading.end();
 				panelOpenedBooster.setList(list);
 				refreshStats();
 			}
-			
+
 			@Override
 			protected Void doInBackground() throws Exception {
 				column=0;
@@ -387,9 +387,9 @@ public class SealedPanel extends JPanel {
 				}
 				return null;
 			}
-			
+
 		};
-		
+
 		ThreadManager.getInstance().runInEdt(sw,"opening boosters");
 	}
 
@@ -401,10 +401,10 @@ public class SealedPanel extends JPanel {
 	}
 
 	public void sort(MTGComparator<MagicCard> sorter) {
-		
+
 		if(list==null)
 			return;
-		
+
 		logger.trace("sorting with " + sorter +" : " + list.size() + " items");
 		Collections.sort(list, sorter);
 		logger.trace("sorting with " + sorter + " done");

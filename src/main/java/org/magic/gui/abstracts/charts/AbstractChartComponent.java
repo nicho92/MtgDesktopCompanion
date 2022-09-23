@@ -17,27 +17,27 @@ public abstract class AbstractChartComponent<T> extends MTGUIComponent {
 	protected transient MTGDeckManager manager;
 
 	public abstract void refresh();
-	
+
 
 	protected AbstractChartComponent() {
 		items = new ArrayList<>();
 		manager = new MTGDeckManager();
 		setLayout(new BorderLayout());
-		
+
 	}
-	
+
 	protected void initPlot()
-	{	
-		
-		
+	{
+
+
 	}
-	
+
 	public boolean showLegend()
 	{
 		return true;
 	}
 
-	
+
 	public boolean showLabel()
 	{
 		return true;
@@ -47,25 +47,25 @@ public abstract class AbstractChartComponent<T> extends MTGUIComponent {
 	@Override
 	public void onFirstShowing() {
 		onVisible();
-		init(items);	
-	
+		init(items);
+
 	}
 
 	public void init(Set<T> items)
 	{
 		this.items = new ArrayList<>(items);
-	
+
 		if(isVisible())
 			refresh();
 	}
-	
+
 	public void init(List<T> items)
 	{
 		this.items = items;
-		
+
 		if(isVisible())
 			refresh();
 	}
-	
+
 
 }

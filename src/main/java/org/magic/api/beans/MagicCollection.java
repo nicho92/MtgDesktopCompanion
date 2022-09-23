@@ -5,7 +5,7 @@ import org.magic.api.interfaces.MTGStorable;
 public class MagicCollection implements MTGStorable {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private String name;
@@ -32,31 +32,28 @@ public class MagicCollection implements MTGStorable {
 		return name;
 	}
 
-	
+
 	@Override
 	public int hashCode() {
 		return getName().hashCode();
 	}
-	
+
 	@Override
 	public String getStoreId() {
 		return getName();
 	}
-	
-	
+
+
 	@Override
 	public boolean equals(Object obj) {
-		
-		if(obj==null)
+
+		if((obj==null) || !(obj instanceof MagicCollection))
 			return false;
-		
-		if(!(obj instanceof MagicCollection))
-			return false;
-		
+
 		return ((MagicCollection)obj).getName().equalsIgnoreCase(getName());
-		
-		
-		
+
+
+
 	}
-	
+
 }

@@ -23,14 +23,14 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
 
 public class CardsDeckCheckerPanel extends JComponent {
-	
+
 	private static final long serialVersionUID = 1L;
 	private AbstractBuzyIndicatorComponent buzyLabel;
 	private JXTable table;
 	private DeckSelectionTableModel model;
 	private MagicCard selectedCard;
 	private transient MTGDeckManager manager;
-	
+
 	public CardsDeckCheckerPanel() {
 		setLayout(new BorderLayout(0, 0));
 		buzyLabel = AbstractBuzyIndicatorComponent.createLabelComponent();
@@ -40,7 +40,7 @@ public class CardsDeckCheckerPanel extends JComponent {
 		table = UITools.createNewTable(model);
 		table.getColumnModel().getColumn(1).setCellRenderer(new ManaCellRenderer());
 
-		
+
 		add(panel, BorderLayout.NORTH);
 		panel.add(buzyLabel);
 		add(new JScrollPane(table), BorderLayout.CENTER);
@@ -52,7 +52,7 @@ public class CardsDeckCheckerPanel extends JComponent {
 			}
 		});
 	}
-	
+
 	public void init(MagicCard mc)
 	{
 		this.selectedCard=mc;
@@ -82,14 +82,14 @@ public class CardsDeckCheckerPanel extends JComponent {
 							}
 							buzyLabel.end();
 						}
-						
+
 					};
-			
-			
+
+
 			ThreadManager.getInstance().runInEdt(sw, "search " + selectedCard +" in decks");
-			
+
 		}
-		
+
 	}
 
 }

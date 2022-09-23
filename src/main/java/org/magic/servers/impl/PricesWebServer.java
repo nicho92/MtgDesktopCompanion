@@ -16,8 +16,8 @@ public class PricesWebServer extends AbstractWebServer {
 		return "Price Web Server";
 	}
 
-	
-	
+
+
 	@Override
 	protected String getWebLocation() {
 		return MTGConstants.WEBPRICES_LOCATION;
@@ -27,10 +27,10 @@ public class PricesWebServer extends AbstractWebServer {
 	public Icon getIcon() {
 		return MTGConstants.ICON_DOLLARS;
 	}
-	
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
 	}
-	
+
 }

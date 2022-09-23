@@ -4,7 +4,7 @@ import org.magic.api.interfaces.MTGTextGenerator;
 
 public abstract class AbstractMTGTextGenerator extends AbstractMTGPlugin implements MTGTextGenerator {
 
-	
+
 	@Override
 	public PLUGINS getType() {
 		return PLUGINS.GENERATOR;
@@ -15,6 +15,6 @@ public abstract class AbstractMTGTextGenerator extends AbstractMTGPlugin impleme
 	{
 		return suggestWords(new String[] {start});
 	}
-	
-	
+
+
 }

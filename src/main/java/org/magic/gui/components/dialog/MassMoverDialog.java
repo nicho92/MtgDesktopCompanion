@@ -33,7 +33,7 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
 public class MassMoverDialog extends JDialog {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private JXTable tableCards;
@@ -57,8 +57,8 @@ public class MassMoverDialog extends JDialog {
 
 		cboCollections = UITools.createComboboxCollection();
 		dao = getEnabledPlugin(MTGDao.class);
-		
-		
+
+
 		this.toSaveCol = col;
 		this.toSaveEd = ed;
 
@@ -71,7 +71,7 @@ public class MassMoverDialog extends JDialog {
 		panel.add(cboCollections);
 		panel.add(lblWaiting);
 
-	
+
 		model = new MagicCardTableModel();
 		try {
 			if (ed == null)
@@ -92,9 +92,9 @@ public class MassMoverDialog extends JDialog {
 		btnMove.addActionListener(e -> {
 			btnMove.setEnabled(false);
 
-			
+
 			SwingWorker<Void, MagicCard> sw = new SwingWorker<>() {
-				
+
 				@Override
 				protected void done() {
 					model.fireTableDataChanged();
@@ -140,17 +140,17 @@ public class MassMoverDialog extends JDialog {
 							logger.error(e1);
 						}
 					}
-					
-					
 
-					
+
+
+
 					return null;
 
 				}
 			};
-			
-			
-			
+
+
+
 			if (tableCards.getSelectedRowCount() > 0) {
 				lblWaiting.start(tableCards.getSelectedRowCount());
 				ThreadManager.getInstance().runInEdt(sw, "mass movement");

@@ -9,13 +9,13 @@ public class NumberSorter implements Comparator<String>{
 	public NumberSorter() {
 		p = Pattern.compile("\\d+");
 	}
-	
+
 	@Override
 	public int compare(String num1, String num2)
 	{
 		var m1 = p.matcher(num1);
 		var m2 = p.matcher(num2);
-		
+
 		if(m1.find() && m2.find())
 		{
 			try {
@@ -26,10 +26,10 @@ public class NumberSorter implements Comparator<String>{
 			} catch (NumberFormatException e) {
 				return -1;
 			}
-			
+
 		}
 		return -1;
-		
-		
+
+
 	}
 }

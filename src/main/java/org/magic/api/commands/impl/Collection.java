@@ -26,17 +26,17 @@ import com.google.gson.JsonPrimitive;
 
 public class Collection extends AbstractCommand {
 
-	
+
 	@Override
 	public void initOptions() {
 		super.initOptions();
 		opts.addOption("l", "list", false, "list Collections");
 		opts.addOption("s", "sets", false, "list editions");
 	}
-	
+
 	@Override
 	public AbstractResponse run(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException,ParseException, IOException, InvocationTargetException, NoSuchMethodException {
-	
+
 		logger.debug("running {} with {}", this,Arrays.asList(args));
 		CommandLine cl = parser.parse(opts, args);
 		if (cl.hasOption("l")) {
@@ -46,7 +46,7 @@ public class Collection extends AbstractCommand {
 				return null;
 			}
 		}
-		
+
 		if (cl.hasOption("s")) {
 			List<MagicEdition> eds = getEnabledPlugin(MTGCardsProvider.class).listEditions();
 			var model = new MagicEditionsTableModel();
@@ -71,7 +71,7 @@ public class Collection extends AbstractCommand {
 			}
 			return new ArrayResponse(JsonArray.class, Arrays.asList("edition","release","qty","cardNumber","defaultLibrary","pc"), arr);
 		}
-		
+
 		if (cl.hasOption("l")) {
 			try {
 				return new ArrayResponse(MagicCollection.class, null, json.toJsonArray(getEnabledPlugin(MTGDao.class).listCollections()));
@@ -82,9 +82,9 @@ public class Collection extends AbstractCommand {
 		if (cl.hasOption("?")) {
 			return usage();
 		}
-		
+
 		return null;
 	}
 
-	
+
 }

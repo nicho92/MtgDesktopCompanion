@@ -13,19 +13,19 @@ public class QueriesTableModel extends GenericTableModel<DAOInfo> {
 		setColumns("query","start","end","duration","message");
 		setWritable(false);
 	}
-	
-	
+
+
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		if(columnIndex==1 || columnIndex==2)
 			return Instant.class;
-		
+
 		if(columnIndex==3)
 			return Long.class;
-		
-		
+
+
 		return super.getColumnClass(columnIndex);
 	}
-	
-	
+
+
 }

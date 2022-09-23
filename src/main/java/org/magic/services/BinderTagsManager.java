@@ -33,15 +33,15 @@ public class BinderTagsManager {
 	public Dimension getDimension() {
 		return d;
 	}
-	
+
 	public void setLogo(LOGO addlogo) {
 		this.addlogo = addlogo;
 	}
-	
+
 	public void setBackColor(Color backColor) {
 		this.backColor = backColor;
 	}
-	
+
 	public void setBorder(boolean border) {
 		this.border = border;
 	}
@@ -54,15 +54,15 @@ public class BinderTagsManager {
 		this.d=d;
 		lst = new ArrayList<>();
 	}
-	
+
 	public void setEditions(List<MagicEdition> eds)
 	{
 		clear();
 		addIds(eds.stream().map(MagicEdition::getId).toList());
 	}
-	
-	
-	
+
+
+
 	public void addIds(List<String> ids)
 	{
 		List<BufferedImage> ims = new ArrayList<>();
@@ -75,29 +75,29 @@ public class BinderTagsManager {
 			{
 				logger.error("No {} found for {}",EnumItems.SET,id);
 			}
-					
+
 		}
 		create(ims);
 	}
-	
+
 	public void clear()
 	{
 		lst.clear();
 	}
 
-	
-	
+
+
 	private void create(List<BufferedImage> imgs) {
 
 		var offset = 1;
 		height = offset;
 		width=1;
-	
+
 		if(d==null)
 			width=imgs.get(0).getWidth(null);
 		else
 			width=(int) d.getWidth();
-		
+
 		if(addlogo!=null)
 		{
 			if(!lst.isEmpty())
@@ -105,30 +105,30 @@ public class BinderTagsManager {
 			else
 				lst.add(ImageTools.scaleResize(prov.getLogo(addlogo), width));
 		}
-		
+
 		for (BufferedImage im : imgs) {
 			im=ImageTools.scaleResize(im, width);
 			height += im.getHeight()+space;
 			lst.add(im);
 		}
-		
+
 		if(d!=null && d.getHeight()>0)
 			height=(int)d.getHeight();
-		
-		
+
+
 	}
 
 	public BufferedImage generate() {
 
 		var newImage = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
 		Graphics2D g2 = newImage.createGraphics();
-		
+
 		if(backColor!=null)
 		{
 			g2.setColor(backColor);
 			g2.fillRect(0,0,newImage.getWidth(),newImage.getHeight());
 		}
-		
+
 		if(border)
 		{
 			var thik=1;
@@ -136,8 +136,8 @@ public class BinderTagsManager {
 			g2.setStroke(new BasicStroke(thik));
 			g2.drawRect(0, 0, newImage.getWidth()-thik,newImage.getHeight()-thik);
 		}
-		
-		
+
+
 		var x = 10;
 		for (BufferedImage im : lst) {
 			g2.drawImage(im, null, 0, x);
@@ -146,13 +146,13 @@ public class BinderTagsManager {
 		g2.dispose();
 		return newImage;
 	}
-	
-	
+
+
 
 	public void setSpace(int value) {
 		this.space=value*10;
-		
+
 	}
-	
+
 
 }

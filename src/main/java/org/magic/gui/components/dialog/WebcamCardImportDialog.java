@@ -63,8 +63,8 @@ import org.utils.webcam.WebcamUtils;
 import com.github.sarxos.webcam.Webcam;
 
 public class WebcamCardImportDialog extends AbstractDelegatedImporterDialog {
-	
-	
+
+
 	private BufferedImage snapshotImage;
 
 	private static final long serialVersionUID = 1L;
@@ -79,8 +79,8 @@ public class WebcamCardImportDialog extends AbstractDelegatedImporterDialog {
 	private MagicCardTableModel modelCards;
 	private JXTable tableResults;
 	private boolean pause=false;
-	
-	
+
+
 	@Override
 	public String getTitle() {
 		return "Card Detector";
@@ -91,32 +91,32 @@ public class WebcamCardImportDialog extends AbstractDelegatedImporterDialog {
 		webcamCanvas.close();
 		running=false;
 		logger.debug("Closing cam done");
-		
+
 		if(swWebcamReader!=null)
 			swWebcamReader.cancel(true);
-		
+
 		super.dispose();
 	}
-	
+
 	public WebcamCardImportDialog() {
-		
+
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				dispose();
 			}
 		});
-		
-		
+
+
 		setLayout(new BorderLayout(0, 0));
-		
+
 		var gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 59, 0, 0,0};
 		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0,0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0,Double.MIN_VALUE};
-		
-		
+
+
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		var panelControl = new JPanel();
 		var cboWebcams = UITools.createCombobox(WebcamUtils.inst().listWebcam(),MTGConstants.ICON_WEBCAM);
@@ -133,11 +133,11 @@ public class WebcamCardImportDialog extends AbstractDelegatedImporterDialog {
 		var btnClose = new JButton(MTGConstants.ICON_IMPORT);
 		var btnReloadCams = new JButton(MTGConstants.ICON_REFRESH);
 		var btnAddCam = new JButton(MTGConstants.ICON_NEW);
-		
+
 		modelCards = new MagicCardTableModel();
 		listModel = new DefaultListModel<>();
 		strat = getEnabledPlugin(MTGCardRecognition.class);
-		
+
 		try {
 			getEnabledPlugin(MTGCardsProvider.class).listEditions().stream().sorted().forEach(listModel::addElement);
 		} catch (IOException e1) {
@@ -147,40 +147,40 @@ public class WebcamCardImportDialog extends AbstractDelegatedImporterDialog {
 		var listEds = new JList<>(listModel);
 		var deco = JListFilterDecorator.decorate(listEds,(MagicEdition t, String u)->t.getSet().toLowerCase().contains(u.toLowerCase()));
 
-		
+
 		webcamCanvas = new WebcamCanvas((Webcam)cboWebcams.getSelectedItem(),(AbstractRecognitionArea)cboAreaDetector.getSelectedItem());
 
-		
-		
+
+
 		panelControl.setLayout(gridBagLayout);
 		panneauBasButtons.setLayout(new BoxLayout(panneauBasButtons, BoxLayout.Y_AXIS));
 		panneauBas.setLayout(new BorderLayout());
-	
 
-		
+
+
 		controlWebcamPanel.add(cboWebcams);
 		controlWebcamPanel.add(btnReloadCams);
 		controlWebcamPanel.add(btnAddCam);
 
 		panelControl.add(controlWebcamPanel, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 0));
-		
+
 		panelControl.add(new JLangLabel("LOADING_EDITIONS",true), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 1));
 		panelControl.add(new JScrollPane(deco.getContentPanel()), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 2));
 		panelControl.add(buzy, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 3));
 		panelControl.add(cboAreaDetector, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 4));
 		panelControl.add(thrsh, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 5));
 		panelControl.add(btnStarting, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 6));
-		
-		
-		
+
+
+
 		thrsh.add(sldThreshold);
 		thrsh.add(lblThreshHoldValue);
 		thrsh.add(chkpause);
 		panneauBasButtons.add(btnRemove);
 		panneauBasButtons.add(btnClose);
-		
+
 		panneauBas.add(panneauBasButtons,BorderLayout.EAST);
-		
+
 		var scrollPane = new JScrollPane(tableResults);
 		scrollPane.setPreferredSize(new Dimension(2, 150));
 		panneauBas.add(scrollPane,BorderLayout.CENTER);
@@ -189,21 +189,21 @@ public class WebcamCardImportDialog extends AbstractDelegatedImporterDialog {
 		getContentPane().add(panneauBas,BorderLayout.SOUTH);
 		getContentPane().add(webcamCanvas, BorderLayout.CENTER);
 
-	
+
 		tableResults.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
 		tableResults.getColumnModel().getColumn(6).setCellRenderer(new MagicEditionsJLabelRenderer());
-	
+
 		listEds.setCellRenderer(new ListCellRenderer<>() {
 			JLabel l = new JLabel();
 			@Override
 			public Component getListCellRendererComponent(JList<? extends MagicEdition> list,MagicEdition value, int index, boolean isSelected, boolean cellHasFocus) {
-				if (value != null) 
+				if (value != null)
 				{
 					ImageIcon ic= IconSetProvider.getInstance().get16(value.getId());
-					
+
 					l.setText(value.getSet());
 					l.setIcon(ic);
-					
+
 					l.setOpaque(true);
 					if (isSelected) {
 						l.setBackground(list.getSelectionBackground());
@@ -212,26 +212,26 @@ public class WebcamCardImportDialog extends AbstractDelegatedImporterDialog {
 						l.setBackground(list.getBackground());
 						l.setForeground(list.getForeground());
 					}
-					
+
 					if(MTG.getEnabledPlugin(MTGCardRecognition.class).isSetCached(value))
 						l.setBackground(Color.CYAN);
-					
+
 					if(MTG.getEnabledPlugin(MTGCardRecognition.class).isSetLoaded(value))
 						l.setBackground(Color.GREEN);
 
-					
-					
+
+
 				}
-				
+
 				return l;
 
 			}
 		});
-		
-	
-		
-		
-	
+
+
+
+
+
 		sldThreshold.addChangeListener(cl->lblThreshHoldValue.setText(String.valueOf(sldThreshold.getValue())));
 		cboAreaDetector.addActionListener(il->webcamCanvas.setAreaStrat((AbstractRecognitionArea)cboAreaDetector.getSelectedItem()));
 		btnClose.addActionListener(il->dispose());
@@ -240,7 +240,7 @@ public class WebcamCardImportDialog extends AbstractDelegatedImporterDialog {
 			((DefaultComboBoxModel<Webcam>)cboWebcams.getModel()).addAll(WebcamUtils.inst().listWebcam());
 			cboWebcams.setSelectedItem(webcamCanvas.getWebcam());
 		});
-		
+
 		btnAddCam.addActionListener(al->{
 			var diag = new IPCamAddDialog();
 						   diag.setModal(true);
@@ -248,40 +248,40 @@ public class WebcamCardImportDialog extends AbstractDelegatedImporterDialog {
 			if(diag.isHasNew())
 				btnReloadCams.doClick();
 		});
-		
-		
 
-		
+
+
+
 		chkpause.addChangeListener(l->pause=chkpause.isSelected());
-				
+
 		btnRemove.addActionListener(l->{
 			List<MagicCard> cards = UITools.getTableSelections(tableResults,0);
-			
+
 			if(!cards.isEmpty())
 				modelCards.removeItem(cards);
-			
+
 		});
-		
+
 		listEds.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent me) {
-				if(me.getClickCount()==2) 
+				if(me.getClickCount()==2)
 				{
 						MagicEdition ed = listEds.getSelectedValue();
-						buzy.start(ed.getCardCount());		
+						buzy.start(ed.getCardCount());
 						pause=true;
 						AbstractObservableWorker<Void, Void, MTGCardRecognition> work = new AbstractObservableWorker<>(buzy,strat,ed.getCardCount()) {
 							@Override
 							protected Void doInBackground() throws Exception {
-								
+
 								if(!plug.isSetLoaded(ed))
 									plug.loadDatasForSet(ed);
 								else
 									plug.clear(ed);
-									
+
 								return null;
 							}
-							
+
 							@Override
 							protected void done() {
 								super.done();
@@ -290,40 +290,40 @@ public class WebcamCardImportDialog extends AbstractDelegatedImporterDialog {
 								listEds.updateUI();
 							}
 						};
-						
+
 						ThreadManager.getInstance().runInEdt(work, "building " + ed + " recognition");
 				}
-				
+
 			}
 		});
-			
-		
+
+
 		btnStarting.addActionListener(al->{
 			webcamCanvas.setWebcam((Webcam)cboWebcams.getSelectedItem());
 			webcamCanvas.revalidate();
 			ThreadManager.getInstance().runInEdt(swWebcamReader, "Webcam");
-		});		
+		});
 
-		
+
 		setModal(true);
 		pack();
-		
+
 		swWebcamReader = new SwingWorker<>()
 		{
-			
+
 			@Override
-			protected Void doInBackground() 
+			protected Void doInBackground()
 			{
 				running=true;
 				try {
 					logger.info("start " + webcamCanvas.getWebcam() +" " + running);
-					while(running) 
+					while(running)
 					{
 						webcamCanvas.draw();
 						var img = webcamCanvas.lastDrawn();
-						
-						
-						if(strat!=null && img!=null && !pause && !isCancelled()) 
+
+
+						if(strat!=null && img!=null && !pause && !isCancelled())
 						{
 								var matches = webcamCanvas.getAreaRecognitionStrategy().recognize(img, strat,sldThreshold.getValue());
 								MatchResult res = !matches.isEmpty() ? matches.get(0):null;
@@ -338,21 +338,21 @@ public class WebcamCardImportDialog extends AbstractDelegatedImporterDialog {
 				{
 					logger.error("Error in webcam" ,e);
 				}
-				
+
 				return null;
 			}
-			
-			
-		
-			
+
+
+
+
 			@Override
 			protected void process(List<MatchResult> chunks) {
 				addResult( chunks.get(0));
 			}
-			
+
 			@Override
 			protected void done() {
-				
+
 				try {
 					logger.info("Stopping webcam " + webcamCanvas.getWebcam());
 					running=false;
@@ -368,19 +368,19 @@ public class WebcamCardImportDialog extends AbstractDelegatedImporterDialog {
 				}
 				catch (Exception e) {
 					logger.error("Error Stopping webcam " + webcamCanvas.getWebcam(),e);
-				} 
-				
+				}
+
 			}
 		};
-		
-	
-		
+
+
+
 	}
-	
-	
+
+
 	protected void addResult(MatchResult r) {
 		try {
-			
+
 			if(currentCard==null || !currentCard.getName().equalsIgnoreCase(r.getName()))
 			{
 				logger.info("Looking for " + r.getName() + " " + r.getSetCode());
@@ -388,24 +388,25 @@ public class WebcamCardImportDialog extends AbstractDelegatedImporterDialog {
 				modelCards.addItem(currentCard);
 				tableResults.scrollRectToVisible(tableResults.getCellRect(tableResults.getRowCount()-1, 0, true));
 			}
-			
+
 		} catch (IOException e) {
 			logger.error("Error loading card for result " + r);
 		}
-		
+
 	}
-	
+
 	public BufferedImage getSnappedImages()
 	{
-		
+
 		return snapshotImage;
 	}
-	
+
 	public List<MagicCard> getFindedCards()
 	{
 		return modelCards.getItems();
 	}
-	
+
+	@Override
 	public MagicDeck getSelectedDeck() {
 		var d = new MagicDeck();
 		d.setDescription("Imported from " + getTitle());
@@ -413,9 +414,9 @@ public class WebcamCardImportDialog extends AbstractDelegatedImporterDialog {
 		getFindedCards().forEach(d::add);
 		return d;
 	}
-	
-	
 
-	
-	
+
+
+
+
 }

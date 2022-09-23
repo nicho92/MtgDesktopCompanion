@@ -17,12 +17,12 @@ import org.magic.tools.MTG;
 
 public class MTGJsonTokensProvider extends AbstractTokensProvider {
 
-	
+
 	private AbstractMTGJsonProvider prov;
-	
-	
+
+
 	public MTGJsonTokensProvider() {
-		
+
 		if(MTG.getEnabledPlugin(MTGCardsProvider.class) instanceof AbstractMTGJsonProvider p)
 		{
 			this.prov = p;
@@ -32,12 +32,12 @@ public class MTGJsonTokensProvider extends AbstractTokensProvider {
 			prov = (AbstractMTGJsonProvider)MTG.getPlugin(getString("PROVIDER"), MTGCardsProvider.class);
 		}
 	}
-	
+
 	@Override
 	public List<MagicCard> listTokensFor(MagicEdition ed) throws IOException {
 		return prov.listToken(ed);
 	}
-	
+
 	@Override
 	public MagicCard generateTokenFor(MagicCard mc) throws IOException {
 		return prov.getTokenFor(mc,MTGLayout.TOKEN);
@@ -47,7 +47,7 @@ public class MTGJsonTokensProvider extends AbstractTokensProvider {
 	public MagicCard generateEmblemFor(MagicCard mc) throws IOException {
 		return prov.getTokenFor(mc,MTGLayout.EMBLEM);
 	}
-	
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of("PROVIDER","MTGSQLive");

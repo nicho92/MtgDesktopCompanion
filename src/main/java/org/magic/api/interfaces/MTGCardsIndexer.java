@@ -9,7 +9,7 @@ import org.magic.api.beans.MagicCard;
 
 public interface MTGCardsIndexer extends MTGPlugin {
 
-	
+
 	public Map<MagicCard,Float> similarity(MagicCard mc) throws IOException;
 	public void initIndex(boolean force) throws IOException;
 	public long size();

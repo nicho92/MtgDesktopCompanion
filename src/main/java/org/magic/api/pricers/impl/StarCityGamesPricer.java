@@ -19,18 +19,18 @@ import org.magic.services.network.URLTools;
 public class StarCityGamesPricer extends AbstractPricesProvider {
 
 	NumberFormat format = NumberFormat.getCurrencyInstance();
-	
+
 	@Override
 	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 		List<MagicPrice> ret = new ArrayList<>();
-		
+
 		String cardName = card.getName();
 		RequestBuilder build = RequestBuilder.build().setClient(URLTools.newClient()).method(METHOD.GET).url("https://starcitygames.com/search/?card_name="+cardName);
 		Document page = build.toHtml();
 		Elements divs = page.select("div.hawk-results-item");
 		for(Element div : divs)
 		{
-			
+
 			try {
 					logger.debug(div);
 			}
@@ -38,12 +38,12 @@ public class StarCityGamesPricer extends AbstractPricesProvider {
 			{
 				logger.error(getName() +" has error : " + e);
 			}
-				
+
 		}
 		logger.info(getName() + " found " + ret.size() + " items");
 
 		return ret;
-		
+
 	}
 
 
@@ -67,6 +67,6 @@ public class StarCityGamesPricer extends AbstractPricesProvider {
 	public String getVersion() {
 		return "0.5";
 	}
-	
+
 
 }

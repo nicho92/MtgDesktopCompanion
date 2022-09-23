@@ -50,10 +50,12 @@ public class AlertTrendServer extends AbstractMTGServer {
 		super();
 		timer = new Timer();
 	}
-	
+
+	@Override
 	public void start() {
 		running = true;
 		tache = new TimerTask() {
+			@Override
 			public void run() {
 				List<CardShake> ret=new ArrayList<>();
 				if (getEnabledPlugin(MTGDao.class).listAlerts() != null)
@@ -63,16 +65,16 @@ public class AlertTrendServer extends AbstractMTGServer {
 							if(cpv!=null)
 							{
 								var cs = cpv.toCardShake();
-								
+
 								if(cs!=null) {
 								alert.setShake(cs);
-								
+
 								if(Math.abs(cs.getPercentDayChange())>=getInt(ALERT_MIN_PERCENT))
 									ret.add(cs);
-							
+
 								if(getInt(THREAD_PAUSE)!=null)
 									Thread.sleep(getInt(THREAD_PAUSE));
-								
+
 								}
 							}
 						}
@@ -92,13 +94,13 @@ public class AlertTrendServer extends AbstractMTGServer {
 							running=false;
 						}
 					}
-				
+
 				if(!ret.isEmpty())
 				{
 					var notif = new MTGNotification();
 					notif.setTitle("Alert Trend Cards");
 					notif.setType(MESSAGE_TYPE.INFO);
-					
+
 					for(String not : getArray(NOTIFIER))
 					{
 						if(!not.isEmpty())
@@ -112,13 +114,13 @@ public class AlertTrendServer extends AbstractMTGServer {
 								logger.error(e);
 							}
 						}
-						
+
 					}
-					
-					
-					
+
+
+
 				}
-				
+
 
 			}
 		};
@@ -128,7 +130,8 @@ public class AlertTrendServer extends AbstractMTGServer {
 
 	}
 
-	
+
+	@Override
 	public void stop() {
 		tache.cancel();
 		timer.purge();
@@ -151,7 +154,7 @@ public class AlertTrendServer extends AbstractMTGServer {
 		return getBoolean(AUTOSTART);
 	}
 
-	
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of(AUTOSTART, "false",
@@ -166,6 +169,6 @@ public class AlertTrendServer extends AbstractMTGServer {
 		return "1.5";
 	}
 
-	
-	
+
+
 }

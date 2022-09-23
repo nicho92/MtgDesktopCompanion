@@ -14,7 +14,7 @@ import org.magic.game.model.ZoneEnum;
 public class ScryActions extends AbstractAction {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	DisplayableCard c;

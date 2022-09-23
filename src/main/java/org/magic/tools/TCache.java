@@ -22,62 +22,62 @@ public class TCache<T>{
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 
 	private String name;
-	
+
 	public TCache(String name) {
 		this.name=name;
 		init();
 	}
-	
+
 	public void init() {
 		loader = CacheBuilder.newBuilder()
 				.recordStats()
 				.build();
 	}
-	
-	
+
+
 	private Cache<String, T> getCache()
 	{
 		logger.trace(name+"-"+loader.stats());
 		return loader;
 	}
-	
+
 	public void put(String k, T value)
 	{
 		getCache().put(k, value);
 	}
-	
+
 	public void remove(String k)
 	{
 		getCache().invalidate(k);
 	}
-	
-	
+
+
 	public boolean has(String k)
 	{
 		return getCache().getIfPresent(k)!=null;
 	}
-	
+
 	public T get(String k, Callable<T> call) throws ExecutionException
 	{
 		return getCache().get(k,call);
 	}
-	
-	
+
+
 	public List<T> values()
 	{
 		return new ArrayList<>(getCache().asMap().values());
 	}
-	
+
 	public List<String> keys()
 	{
 		return new ArrayList<>(getCache().asMap().keySet());
 	}
-	
+
 	public int size()
 	{
 		return getCache().asMap().size();
 	}
-	
+
 	public boolean isEmpty()
 	{
 		return getCache().asMap().isEmpty();
@@ -85,10 +85,10 @@ public class TCache<T>{
 
 	public void put(Integer id, T state) {
 		put(String.valueOf(id),state);
-		
+
 	}
 
-	
+
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(loader,ToStringStyle.MULTI_LINE_STYLE);
@@ -104,9 +104,9 @@ public class TCache<T>{
 
 	public void clean() {
 		loader.invalidateAll();
-		
+
 	}
-	
-	
-	
+
+
+
 }

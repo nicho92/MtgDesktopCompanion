@@ -12,5 +12,5 @@ public abstract class Abstract2DHistoChart<B> extends MTGUI2DChartComponent<B,Ti
 	protected void createNewChart() {
 		chart = ChartFactory.createTimeSeriesChart(getTitle(), "Date", "Value", getDataSet(),showLegend(), true, false);
 	}
-	
+
 }

@@ -15,11 +15,12 @@ import org.magic.api.criterias.MTGCrit;
 
 public class SQLCriteriaBuilder extends AbstractQueryBuilder<Query>
 {
+	@Override
 	@SuppressWarnings("unchecked")
 	public Query build(MTGCrit<?>... crits)
 	{
 		Query query = select(field("*")).from(table("cards"));
-		
+
 			for(MTGCrit<?> c:crits)
 			{
 				if(c.isList())
@@ -28,7 +29,7 @@ public class SQLCriteriaBuilder extends AbstractQueryBuilder<Query>
 				}
 				else
 				{
-					
+
 					switch(c.getOperator())
 					{
 						case EQ : ((SelectWhereStep<Record3<Object, Object, Object>>) query).where(field(c.getAtt()).eq(getValueFor(c.getFirst())));break;
@@ -43,10 +44,10 @@ public class SQLCriteriaBuilder extends AbstractQueryBuilder<Query>
 					}
 				}
 			}
-		
+
 		return query;
 	}
 
-	
-	
+
+
 }

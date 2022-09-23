@@ -28,7 +28,7 @@ import georegression.struct.point.Point2D_F64;
 
 public class ImageDesc
 {
-	
+
 	private static float detectThreshold = 10;
     private static int extractRadius = 2;
     private static int initialSampleSize = 2;
@@ -36,8 +36,8 @@ public class ImageDesc
     private static int numberScalesPerOctave = 3;
     private static int numberOfOctaves = 4;
     private static int maxFeaturesPerScale = 50;
-    
-    
+
+
     private static DetectDescribePoint<GrayF32, BrightFeature> detDesc =
             FactoryDetectDescribe.surfStable(
                     getHessianConf(),
@@ -48,10 +48,10 @@ public class ImageDesc
 
     private static ConfigFastHessian getHessianConf()
 	{
-		return new ConfigFastHessian(detectThreshold, extractRadius, maxFeaturesPerScale,initialSampleSize, initialSize, numberScalesPerOctave, numberOfOctaves); 
+		return new ConfigFastHessian(detectThreshold, extractRadius, maxFeaturesPerScale,initialSampleSize, initialSize, numberScalesPerOctave, numberOfOctaves);
 	}
-    
-    
+
+
     private static ScoreAssociation<BrightFeature> scorer =
             FactoryAssociation.defaultScore(detDesc.getDescriptionType());
     private static AssociateDescription<BrightFeature> associate =

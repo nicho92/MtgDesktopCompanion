@@ -4,7 +4,7 @@ import org.magic.game.gui.components.DisplayableCard;
 
 public class BonusCounter extends AbstractCounter {
 
-	
+
 	private static final long serialVersionUID = 1L;
 	int powerModifier;
 	int toughnessModifier;
@@ -84,21 +84,21 @@ public class BonusCounter extends AbstractCounter {
 		return build.toString();
 
 	}
-	
+
 
 	@Override
 	public int hashCode() {
 		return "bonus".hashCode();
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		
+
 		if(obj ==null)
 			return false;
-		
+
 		return hashCode()==obj.hashCode();
 	}
-	
+
 
 }

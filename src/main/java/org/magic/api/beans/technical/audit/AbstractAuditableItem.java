@@ -9,19 +9,19 @@ public abstract class AbstractAuditableItem implements Serializable {
 	protected Instant start;
 	protected Instant end;
 	protected long duration;
-	
+
 	@Override
 	public String toString() {
 		return getClass()+""+start+""+end+""+duration;
 	}
-	
-	
-	
-	
+
+
+
+
 	protected AbstractAuditableItem() {
 		start= Instant.now();
 	}
-	
+
 	public Instant getStart() {
 		return start;
 	}

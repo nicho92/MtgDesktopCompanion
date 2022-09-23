@@ -16,26 +16,26 @@ public class IPTranslator {
 	private TCache<Location> cache;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 
-	
+
 	public IPTranslator() {
 		cache = new TCache<>("ips");
 	}
-	
-	
+
+
 	public Location getLocationFor(String ip)
 	{
-		
+
 		try {
 			var inaddr = InetAddresses.forString(ip);
 			if(inaddr.isAnyLocalAddress() || inaddr.isLoopbackAddress() || inaddr.isSiteLocalAddress())
 				return null;
-			
+
 			return cache.get(ip, new Callable<Location>() {
 				@Override
 				public Location call() throws Exception {
 					var o = URLTools.extractAsJson("https://ipapi.co/"+ip+"/json").getAsJsonObject();
 					return translate(o);
-					
+
 				}
 			});
 		}
@@ -47,11 +47,11 @@ public class IPTranslator {
 			return null;
 		}
 	}
-	
+
 
 	private Location translate(JsonObject o) {
 		var loc = new Location();
-		
+
 		if(o.get("error")!=null)
 		{
 			logger.error("IP={} Reason={}",o.get("ip") , o.get("reason"));
@@ -70,9 +70,9 @@ public class IPTranslator {
 			loc.setCountryArea(o.get("country_area").getAsDouble());
 			loc.setOperator(o.get("org").getAsString());
 			return loc;
-			
-			
+
+
 	}
-	
-	
+
+
 }

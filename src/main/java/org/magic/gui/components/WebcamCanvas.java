@@ -13,7 +13,7 @@ import org.magic.services.logging.MTGLogger;
 import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.WebcamLockException;
 
-public class WebcamCanvas extends JPanel 
+public class WebcamCanvas extends JPanel
 {
 	private static final long serialVersionUID = 1L;
 	private transient Webcam webcam;
@@ -34,14 +34,14 @@ public class WebcamCanvas extends JPanel
 		add(canvas);
 		canvas.addMouseListener(strat);
 		canvas.addMouseMotionListener(strat);
-		
+
 		if(strat!=null)
 			strat.init(webcam.getViewSize().width, webcam.getViewSize().height);
 	}
 
-	
-	
-	
+
+
+
 
 	public void setWebcam(Webcam w)
 	{
@@ -53,10 +53,10 @@ public class WebcamCanvas extends JPanel
 		}
 		setSize(w.getViewSize());
 		canvas.setSize(w.getViewSize());
-		
+
 		if(strat!=null)
 			strat.init(webcam.getViewSize().width, webcam.getViewSize().height);
-		
+
 		canvas.setPreferredSize(new Dimension(webcam.getViewSize().width, webcam.getViewSize().height));
 		add(canvas);
 	}
@@ -65,13 +65,13 @@ public class WebcamCanvas extends JPanel
 	{
 		if(s==null)
 			return;
-		
+
 		strat = s;
 		canvas.removeMouseListener(strat);
 		canvas.removeMouseMotionListener(strat);
 		canvas.addMouseListener(strat);
 		canvas.addMouseMotionListener(strat);
-		
+
 		strat.init(webcam.getViewSize().width, webcam.getViewSize().height);
 	}
 
@@ -87,7 +87,7 @@ public class WebcamCanvas extends JPanel
 	{
 		return lastDrawn;
 	}
-	
+
 	public AbstractRecognitionArea getAreaRecognitionStrategy() {
 		return strat;
 	}
@@ -99,29 +99,29 @@ public class WebcamCanvas extends JPanel
 			try {
 				webcam.open();
 				logger.debug("webcam open = " + webcam.isOpen());
-			
+
 			}catch(WebcamLockException e)
 			{
 				logger.error(webcam + " is locked");
 			}
 		}
-		
+
 		if(!webcam.isOpen())
 		{
 			logger.warn("cam is not opened");
 			return;
 		}
-		
-		
-		
+
+
+
 		lastDrawn = webcam.getImage();
-		
+
 		if(lastDrawn==null)
 		{
 			logger.warn("Lastdrawn is null with " + webcam);
 			return;
 		}
-		
+
 		if(buf == null || buf.getHeight() != lastDrawn.getHeight() || buf.getWidth() != lastDrawn.getWidth())
 		{
 			buf = new BufferedImage(lastDrawn.getWidth(),lastDrawn.getHeight(),BufferedImage.TYPE_3BYTE_BGR);
@@ -129,11 +129,11 @@ public class WebcamCanvas extends JPanel
 		var gi = canvas.getGraphics();
 		var g = buf.getGraphics();
 		g.drawImage(lastDrawn, 0, 0, null);
-		
+
 		if(strat!=null)
 			strat.draw(g);
-		
-		
+
+
 		if(gi!=null)
 			gi.drawImage(buf, 0, 0, null);
 	}
@@ -142,7 +142,7 @@ public class WebcamCanvas extends JPanel
 	{
 		boolean ret = webcam.close();
 		logger.debug(webcam + " is closed : " + ret);
-		
+
 	}
 
 }

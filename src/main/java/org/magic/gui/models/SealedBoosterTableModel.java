@@ -8,7 +8,7 @@ import org.magic.api.beans.BoosterPackContainer;
 import org.magic.api.beans.MagicEdition;
 public class SealedBoosterTableModel extends DefaultTableModel {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 

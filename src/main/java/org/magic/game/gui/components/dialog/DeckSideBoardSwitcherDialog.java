@@ -22,7 +22,7 @@ import org.magic.services.MTGConstants;
 public class DeckSideBoardSwitcherDialog extends JDialog {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private MagicDeck savedDeck;
@@ -109,7 +109,7 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 			init();
 		});
 		panel.add(lblDecksize);
-		
+
 		lightDescribeCardPanel = new LightDescribeCardPanel();
 		panel.add(lightDescribeCardPanel);
 
@@ -128,23 +128,23 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 		});
 		panel1.add(btnCancel);
 
-		
+
 		initDescribe(listMain);
 		initDescribe(listSide);
-		
+
 		pack();
 	}
-	
-	
+
+
 	private void initDescribe(JList<MagicCard> list)
 	{
 		list.addListSelectionListener(ls->lightDescribeCardPanel.setCard(list.getSelectedValue()));
 	}
-	
+
 
 	private void refresh() {
 		lblDecksize.setText("DeckSize : " + savedDeck.getNbCards());
-		
+
 	}
 
 	private void init() {

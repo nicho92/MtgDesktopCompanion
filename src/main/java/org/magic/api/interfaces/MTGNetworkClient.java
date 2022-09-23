@@ -15,7 +15,7 @@ public interface MTGNetworkClient {
 	public void sendMessage(String text, Color c);
 
 	public void logout();
-	
+
 	public void changeStatus(STATUS selectedItem);
 
 	public boolean isActive();
@@ -24,5 +24,5 @@ public interface MTGNetworkClient {
 
 	public void search(MagicCard mc);
 
-		
+
 }

@@ -15,8 +15,9 @@ public abstract class AbstractRecognitionArea implements MouseInputListener
     public abstract String getName();
 
     public abstract void draw(Graphics g);
-  
-    public String toString()
+
+    @Override
+	public String toString()
 	{
 		return getName();
     }

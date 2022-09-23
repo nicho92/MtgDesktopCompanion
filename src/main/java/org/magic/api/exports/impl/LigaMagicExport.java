@@ -32,22 +32,22 @@ public class LigaMagicExport extends AbstractCardExport {
 	public String getFileExtension() {
 		return ".xls";
 	}
-	
+
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
 		throw new IOException(" Not implemented, please run by a file");
 	}
-	
-	
+
+
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
-		
+
 		try(Workbook workbook = new XSSFWorkbook();	var out = new FileOutputStream(f))
 		{
-		
-		
+
+
 		var sheet = workbook.createSheet(MTGConstants.MTG_APP_NAME);
-		
+
 		var colNum=0;
 		var rowNum=0;
 		Row row = sheet.createRow(rowNum++);
@@ -59,10 +59,10 @@ public class LigaMagicExport extends AbstractCardExport {
 										var cell= row.createCell(colNum++,CellType.STRING);
 										cell.setCellValue(s);
 										}
-			
-			
+
+
 			for(MagicCardStock st : stock)
-			{	
+			{
 				colNum=0;
 				row = sheet.createRow(rowNum++);
 				row.createCell(colNum++,CellType.STRING).setCellValue(st.getProduct().getForeignNames().stream().filter(mcn->mcn.getLanguage().contains("Portuguese")).findFirst().orElse(st.getProduct().getForeignNames().get(0)).getName());
@@ -82,31 +82,31 @@ public class LigaMagicExport extends AbstractCardExport {
 				row.createCell(colNum++,CellType.NUMERIC).setCellValue(st.getProduct().getCurrentSet().getSet().length()==4 && st.getProduct().getCurrentSet().getSet().startsWith("P")?1:0);
 				row.createCell(colNum++,CellType.NUMERIC).setCellValue(st.getProduct().getText().isBlank()?1:0);
 				row.createCell(colNum++,CellType.NUMERIC).setCellValue(0);
-				
+
 				notify(st.getProduct());
 			}
             workbook.write(out);
         }
-       
-		
+
+
 	}
-	
-	
+
+
 	@Override
 	public List<MagicCardStock> importStockFromFile(File f) throws IOException {
-		
+
 		var ret = new ArrayList<MagicCardStock>();
-		
+
 		try(Workbook workbook =  WorkbookFactory.create(f))
 		{
-		
+
 			Iterator<Row> it = workbook.getSheetAt(0).iterator();
 			it.next(); //skip title line
-			
+
 			while(it.hasNext())
 			{
 				Row row = it.next();
-				
+
 				var enName="";
 				try {
 					enName = row.getCell(1).getStringCellValue();
@@ -118,9 +118,9 @@ public class LigaMagicExport extends AbstractCardExport {
 					var foil = row.getCell(7)!=null && row.getCell(7).getNumericCellValue()==1;
 					var etched = row.getCell(8)!=null && row.getCell(8).getNumericCellValue()==1;
 					var altered = row.getCell(9)!=null && row.getCell(9).getNumericCellValue()==1;
-					
+
 					var mc = findCard(enName,edName);
-						
+
 					if(mc!=null)
 					{
 						var stockItem = new MagicCardStock();
@@ -138,27 +138,27 @@ public class LigaMagicExport extends AbstractCardExport {
 					{
 						logger.error("can't find card {}",enName );
 					}
-			
+
 				}
 				catch(Exception e)
 				{
 					logger.error("Error importing {}",enName);
 				}
-				
+
 			}
 		}
-		
+
 		return ret;
 	}
-	
+
 
 	private MagicCard findCard(String enName, String edName) throws IOException {
 		var set = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetByName(edName);
-		
+
 		if(set==null)
 			logger.warn("Can't find set '{}' for card {}",edName,enName);
-		
-		
+
+
 		return MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(enName, set, true).get(0);
 	}
 
@@ -168,24 +168,24 @@ public class LigaMagicExport extends AbstractCardExport {
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		exportStock(importFromDeck(deck), dest);
 	}
-	
+
 	@Override
 	public MagicDeck importDeckFromFile(File f) throws IOException {
 		var d = new MagicDeck();
 			 d.setName(FilenameUtils.getBaseName(f.getName()));
-			 
+
 			 importStockFromFile(f).forEach(mcs->d.getMain().put(mcs.getProduct(), mcs.getQte()));
-			 
+
 		return d;
 	}
-	
+
 
 	@Override
 	public String getVersion() {
 		return Version.getVersion();
 	}
 
-	
+
 
 	@Override
 	public MagicDeck importDeck(String f, String name) throws IOException {

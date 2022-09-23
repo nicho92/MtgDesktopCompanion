@@ -4,12 +4,12 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.MTGComparator;
 
 public class TypesSorter implements MTGComparator<MagicCard> {
-	
+
 	@Override
 	public String toString() {
 		return "Type Sorter";
 	}
-	
+
 	@Override
 	public int compare(MagicCard mc1, MagicCard mc2) {
 

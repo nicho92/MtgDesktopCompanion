@@ -14,28 +14,28 @@ import org.magic.services.MTGConstants;
 
 public class RulesPanel extends MTGUIComponent{
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private JTextArea txtRulesArea;
-	
-	
+
+
 	public RulesPanel() {
 		setLayout(new BorderLayout());
 		txtRulesArea = new JTextArea();
 		txtRulesArea.setLineWrap(true);
-		txtRulesArea.setWrapStyleWord(true); 
+		txtRulesArea.setWrapStyleWord(true);
 		txtRulesArea.setEditable(false);
-		
+
 		add(new JScrollPane(txtRulesArea), BorderLayout.CENTER);
-		
+
 	}
-	
+
 	@Override
 	public String getTitle() {
 		return "RULES";
 	}
-	
+
 	@Override
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_TAB_RULES;
@@ -50,10 +50,10 @@ public class RulesPanel extends MTGUIComponent{
 	}
 
 	public void init(MagicCard selectedCard) {
-		
+
 		if(selectedCard !=null)
 			init(selectedCard.getRulings());
-		
+
 	}
 
 }

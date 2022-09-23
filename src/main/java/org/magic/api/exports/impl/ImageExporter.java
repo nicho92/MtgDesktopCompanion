@@ -23,49 +23,49 @@ import org.magic.tools.ImageTools;
 
 public class ImageExporter extends AbstractCardExport{
 	private static final String FORMAT = "FORMAT";
-	
+
 	int columnsCount = 5;
 	int cardGroup = 3;
 	int columnsSpace = 10;
 	int cardWidthSize = 175;
 	int headerSize=75;
 
-	
+
 	public BufferedImage generateImageFor(MagicDeck d)
 	{
 		List<MagicCard> cards =  d.getMainAsList();
-		
-		
+
+
 		Collections.sort(cards, new CardNameSorter());
 
-		
+
 		int suggestedNbLines = cards.size()/((cardGroup)*columnsCount);
-		
-		
+
+
 		BufferedImage tempPic = getEnabledPlugin(MTGPictureProvider.class).getBackPicture();
 		tempPic=ImageTools.scaleResize(tempPic,cardWidthSize);
-		
+
 		logger.debug("{} cards, by group of {} and columns={} lines={}.w={} h={}",cards.size(),cardGroup,columnsCount,suggestedNbLines,tempPic.getWidth(),tempPic.getHeight());
-		
+
 		int cardSpace = (int) (tempPic.getHeight()/9.72);
 		int  picHeight = suggestedNbLines * (tempPic.getHeight()+((cardGroup+1)*cardSpace))+headerSize;
-		
-		
+
+
 		var ret = new BufferedImage((cardWidthSize+columnsSpace)*columnsCount, picHeight, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g = (Graphics2D) ret.getGraphics();
-		
-		
+
+
 		var start = headerSize + 10;
 		var ycard=start;
 		var xcard=0;
 		var cardCount = 0;
 		var columnNumber=1;
-		
+
 		drawHeader(g,d,ret);
-		
-		for(MagicCard mc : cards) 
+
+		for(MagicCard mc : cards)
 		{
-			
+
 			try {
 				BufferedImage cardPic = getEnabledPlugin(MTGPictureProvider.class).getPicture(mc);
 				cardPic=ImageTools.scaleResize(cardPic,cardWidthSize);
@@ -88,32 +88,32 @@ public class ImageExporter extends AbstractCardExport{
 						cardCount=0;
 						ycard=start;
 						logger.debug("new Line");
-						
-					}	
+
+					}
 				}
 				logger.debug("{}  {}  {}/{}",mc,columnNumber,xcard,ycard);
-				
+
 				g.drawImage(cardPic, null, xcard, ycard);
-				
-				
-				
+
+
+
 				notify(mc);
-				
-			
+
+
 			} catch (IOException e) {
 				logger.error(e);
 			}
-			
+
 		}
-		
+
 		g.dispose();
 		return ret;
 	}
-	
-	
+
+
 	private void drawHeader(Graphics2D g, MagicDeck d, BufferedImage ret) {
-		
-		
+
+
 		g.setColor(Color.ORANGE);
 		g.fillRect(0, 0, ret.getWidth(),headerSize);
 		try {
@@ -121,8 +121,8 @@ public class ImageExporter extends AbstractCardExport{
 		} catch (IOException e) {
 			logger.error("error loading logo_src.png :{} ",e.getMessage());
 		}
-		
-		g.setFont(MTGControler.getInstance().getFont().deriveFont((float)headerSize-30)); 
+
+		g.setFont(MTGControler.getInstance().getFont().deriveFont((float)headerSize-30));
 		g.setColor(Color.WHITE);
 		g.drawString(d.getName(),70,headerSize-25);
 	}
@@ -145,7 +145,7 @@ public class ImageExporter extends AbstractCardExport{
 		throw new IOException("Not Implemented");
 	}
 
-	
+
 	@Override
 	public MODS getMods() {
 		return MODS.EXPORT;
@@ -159,12 +159,12 @@ public class ImageExporter extends AbstractCardExport{
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of(FORMAT, "png",
-								"SORTER","ColorSorter"); 
+								"SORTER","ColorSorter");
 	}
-	
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
 	}
-	
+
 }

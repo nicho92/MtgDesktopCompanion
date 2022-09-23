@@ -7,17 +7,17 @@ import org.magic.api.interfaces.MTGComparator;
 public class CardsDeckSorter implements MTGComparator<MagicCard> {
 
 	MagicDeck deck;
-	
-	
+
+
 	@Override
 	public String toString() {
 		return "Deck Sorter";
 	}
-	
+
 	@Override
 	public int compare(MagicCard o1, MagicCard o2) {
 		var ret =0;
-		try 
+		try
 		{
 			ret = test(o1, o2);
 			if (ret == 0)
@@ -27,15 +27,15 @@ public class CardsDeckSorter implements MTGComparator<MagicCard> {
 		{
 			ret = 0;
 		}
-		
+
 		return ret;
 	}
-	
+
 	public CardsDeckSorter(MagicDeck d)
 	{
 		this.deck=d;
 	}
-	
+
 
 	private int test(MagicCard o1, MagicCard o2) {
 
@@ -62,48 +62,49 @@ public class CardsDeckSorter implements MTGComparator<MagicCard> {
 		if (mc.getName().equalsIgnoreCase("Mountain"))
 			return 9;
 
-		return 10; 
+		return 10;
 	}
 
 	private int name(MagicCard o1, MagicCard o2) {
 		return o1.getName().compareTo(o2.getName());
 	}
 
+	@Override
 	public int getWeight(MagicCard mc) {
 
-		
-		
+
+
 		if(deck.getCommander()==mc)
 			return 0;
-		
+
 		if(mc.isPlaneswalker())
 			return 1;
-		
+
 		if(mc.isCreature() && !mc.isArtifact())
 			return 2;
-		
+
 		if(mc.isArtifact())
 			return 3;
-		
+
 		if(mc.isRitual())
 			return 4;
-		
+
 		if(mc.isInstant())
 			return 5;
-		
-		
+
+
 		if(mc.isEnchantment())
 			return 6;
-		
-		
-		
+
+
+
 		if(mc.isLand() && !mc.isBasicLand())
 			return 7;
-		
+
 		if(mc.isBasicLand())
 			return land(mc);
-		
-		
+
+
 		return 100;
 	}
 

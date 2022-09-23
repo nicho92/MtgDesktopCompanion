@@ -25,7 +25,7 @@ import org.magic.services.logging.MTGLogger;
 public class CardTransfertHandler extends TransferHandler {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private final DataFlavor localObjectFlavor;
@@ -104,8 +104,8 @@ public class CardTransfertHandler extends TransferHandler {
 				src.getParent().revalidate();
 				target.updatePanel();
 				src.getParent().repaint();
-				
-				
+
+
 				logger.debug("move {} from {} to {}",src.getMagicCard().getName(),((Draggable) src.getParent()).getOrigine() ,target.getOrigine());
 				((Draggable) src.getParent()).moveCard(src, target.getOrigine());
 				target.addComponent(src);

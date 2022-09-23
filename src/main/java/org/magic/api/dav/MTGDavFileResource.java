@@ -21,12 +21,12 @@ import io.milton.resource.FileResource;
 
 public class MTGDavFileResource extends AbstractMTGDavResource implements FileResource
 {
-	
+
 	public MTGDavFileResource(MTGPath path, MTGFileSystem fs, String log, String pass) {
 		super(path, fs, log, pass);
-	
+
 	}
-	
+
 
 
 	@Override
@@ -34,7 +34,7 @@ public class MTGDavFileResource extends AbstractMTGDavResource implements FileRe
 		out.write(fs.getSerializer().toJsonElement(new String(Files.readAllBytes(mtgpath),MTGConstants.DEFAULT_ENCODING)).toString().getBytes());
 	}
 
-	
+
 	@Override
 	public Long getMaxAgeSeconds(Auth auth) {
 		return null;
@@ -49,7 +49,7 @@ public class MTGDavFileResource extends AbstractMTGDavResource implements FileRe
 	public Long getContentLength() {
 		return null;
 	}
-	
+
 	@Override
 	public Date getCreateDate() {
 		return new Date(mtgpath.readAttributes().creationTime().toMillis());
@@ -63,24 +63,24 @@ public class MTGDavFileResource extends AbstractMTGDavResource implements FileRe
 			throw new BadRequestException(this);
 		}
 	}
-	
+
 	@Override
 	public void copyTo(CollectionResource toCollection, String name)throws NotAuthorizedException, BadRequestException, ConflictException {
 		logger.debug("copyTo {} {}", toCollection,name);
-		
+
 	}
 
 	@Override
 	public void moveTo(CollectionResource toCollection, String name)throws ConflictException, NotAuthorizedException, BadRequestException {
 		logger.debug("moveTo {} {}", toCollection,name);
-		
-		
+
+
 	}
 
 	@Override
 	public String processForm(Map<String, String> parameters, Map<String, FileItem> files) throws BadRequestException, NotAuthorizedException, ConflictException {
 		logger.debug("processForm {} {}",parameters,files);
-		
+
 		return null;
 	}
 

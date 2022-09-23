@@ -10,7 +10,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-	
+
 public class NetworkInfoAdapter implements JsonSerializer<NetworkInfo>, JsonDeserializer<NetworkInfo>
 	{
 	  @Override
@@ -26,5 +26,5 @@ public class NetworkInfoAdapter implements JsonSerializer<NetworkInfo>, JsonDese
 	    ni.fromJson(json.getAsJsonObject());
 	    return ni;
 	  }
-	
+
 }

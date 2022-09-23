@@ -13,5 +13,5 @@ public abstract class Abstract2DBarChart<B> extends MTGUI2DChartComponent<B,Cate
 	protected void createNewChart() {
 		chart = ChartFactory.createBarChart(getTitle(), "", "", getDataSet(),PlotOrientation.VERTICAL, showLegend(), true, false);
 	}
-	
+
 }

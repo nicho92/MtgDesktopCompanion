@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public enum CardsPatterns {
-	
+
 	COST_LIFE_PATTERN 			("\\QPay\\E (.*?) \\Qlife\\E"),
 	MANA_PATTERN 				("\\{(.*?)\\}"),
 	COUNTERS					("(?:[Pp]ut) (a|an|two|three|four|five|six|seven|eight|nine|ten) (.*?) counter[s]? on "),
@@ -14,24 +14,24 @@ public enum CardsPatterns {
 	CREATE_TOKEN 				("[Cc]reate[s]? (.*?) token[s]?"),
 	CREATE_EMBLEM 				("You get an emblem with (.*?)"),
 	RULES_LINE					("^(\\d{1,3})\\.(\\d{1,3})?([a-z])?"),
-	LOYALTY_PATTERN				("\\[(.*?)\\][ ]?: (.*?)$"), 
+	LOYALTY_PATTERN				("\\[(.*?)\\][ ]?: (.*?)$"),
 	ROLL_DICE					("then  roll a d(\\d+)");
-	
-	
+
+
 	public static final String REGEX_ANY_STRING = "(.*?)";
-	
+
 	private String pattern = "";
-	
+
 	CardsPatterns(String name){
 	    this.pattern = name;
 	}
-	
+
 	@Override
 	public String toString()
 	{
 		return pattern;
 	}
-	
+
 	public String getPattern() {
 		return pattern;
 	}
@@ -41,13 +41,13 @@ public enum CardsPatterns {
 		var p = Pattern.compile(pat.getPattern());
 		return p.matcher(s);
 	}
-	
-	
+
+
 	public static boolean hasPattern(String s , CardsPatterns pat)
 	{
 		var p = Pattern.compile(pat.getPattern());
 		var m = p.matcher(s);
 		return m.find();
 	}
-	
+
 }

@@ -26,25 +26,26 @@ public class MTGPath implements Path {
 	private FileSystem fs;
 	private List<String> parts;
 
-	
+
+	@Override
 	public String toString()
 	{
 		return String.join(fs.getSeparator(), parts);
 	}
-	
-	public MTGPath(FileSystem fs,String first, String... more) 
+
+	public MTGPath(FileSystem fs,String first, String... more)
 	{
 		init(fs,first,more);
 	}
-	
-	private void init(FileSystem fs, String first, String... more) 
+
+	private void init(FileSystem fs, String first, String... more)
 	{
 		this.fs=fs;
 		parts = new ArrayList<>();
-	
-		if(first!=null) 
+
+		if(first!=null)
 			parts.addAll(Arrays.asList(StringUtils.split(first,fs.getSeparator(),-1)));
-		
+
 		if(more!=null)
 			parts.addAll(Arrays.asList(more));
 	}
@@ -52,7 +53,7 @@ public class MTGPath implements Path {
 	public List<String> getParts() {
 		return parts;
 	}
-	
+
 	@Override
 	public FileSystem getFileSystem() {
 		return fs;
@@ -83,7 +84,7 @@ public class MTGPath implements Path {
         }
 		return new MTGPath(fs, parts.get(getNameCount()-1));
 	}
-	
+
 	@Override
 	public File toFile() {
 		return new File(toString());
@@ -93,7 +94,7 @@ public class MTGPath implements Path {
 	public int getNameCount() {
 		return parts.size();
 	}
-	
+
 	public String getStringFileName()
 	{
 		try {
@@ -118,9 +119,9 @@ public class MTGPath implements Path {
 
 	@Override
 	public boolean startsWith(Path other) {
-		
+
 		var ret = false;
-		
+
 		if(other instanceof MTGPath p)
 		{
 			List<String> l = p.getParts();
@@ -128,9 +129,9 @@ public class MTGPath implements Path {
 			{
 				ret = l.get(i).equalsIgnoreCase(parts.get(i));
 			}
-			
+
 			return ret;
-			
+
 		}
 		return ret;
 	}
@@ -138,7 +139,7 @@ public class MTGPath implements Path {
 	@Override
 	public boolean endsWith(Path other) {
 		var ret = false;
-		
+
 		if(other instanceof MTGPath p)
 		{
 			List<String> l = p.getParts();
@@ -199,7 +200,7 @@ public class MTGPath implements Path {
 	public int compareTo(Path other) {
 		if(other==null)
 			return -1;
-		
+
 		return other.compareTo(this);
 	}
 
@@ -207,7 +208,7 @@ public class MTGPath implements Path {
 	{
 		return parts.size()<=1;
 	}
-	
+
 	public boolean isCollection()
 	{
 		return parts.size()==2;
@@ -217,70 +218,70 @@ public class MTGPath implements Path {
 	{
 		return parts.size()==3;
 	}
-	
+
 	public boolean isCard()
 	{
 		return parts.size()==4;
 	}
-	
+
 	public MagicCollection getCollection()
 	{
 		return new MagicCollection(getParts().get(1));
 	}
-	
+
 	public String getIDEdition()
 	{
 		return getParts().get(2);
 	}
-	
+
 	public String getCardName()
 	{
 		return getParts().get(3);
 	}
-	
+
 	public BasicFileAttributes readAttributes() {
 		return new BasicFileAttributes() {
-			
+
 			@Override
 			public long size() {
 				return 0;
 			}
-			
+
 			@Override
 			public FileTime lastModifiedTime() {
 				return FileTime.fromMillis(new Date().getTime());
 			}
-			
+
 			@Override
 			public FileTime lastAccessTime() {
 				return FileTime.fromMillis(new Date().getTime());
 			}
-			
+
 			@Override
 			public boolean isSymbolicLink() {
 				return false;
 			}
-			
+
 			@Override
 			public boolean isRegularFile() {
 				return isCard();
 			}
-			
+
 			@Override
 			public boolean isOther() {
 				return false;
 			}
-			
+
 			@Override
 			public boolean isDirectory() {
 				return !isRegularFile();
 			}
-			
+
 			@Override
 			public Object fileKey() {
 				return null;
 			}
-			
+
 			@Override
 			public FileTime creationTime() {
 				return FileTime.fromMillis(new Date().getTime());

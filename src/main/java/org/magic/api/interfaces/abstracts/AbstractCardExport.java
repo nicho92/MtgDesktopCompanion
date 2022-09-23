@@ -15,7 +15,8 @@ import org.magic.services.MTGControler;
 import org.magic.tools.FileTools;
 
 public abstract class AbstractCardExport extends AbstractMTGPlugin implements MTGCardsExport {
-		
+
+	@Override
 	public MODS getMods() {
 		return MODS.BOTH;
 	}
@@ -24,46 +25,47 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 	public PLUGINS getType() {
 		return PLUGINS.EXPORT;
 	}
-	
+
 	@Override
 	public boolean needFile() {
 		return true;
 	}
-	
+
 	@Override
 	public MTGExportCategory getCategory() {
 		if(needFile())
 			return MTGExportCategory.FILE;
-		
+
 		return MTGExportCategory.NONE;
 	}
-	
-	
+
+
 	protected String cleanName(String cname) {
 		cname = cname.replace("\"","").trim();
 		if(cname.indexOf('/') > 1)
 			cname=cname.substring(0,cname.indexOf('/')).trim();
-		
+
 		if(cname.indexOf('(')>1)
 			cname=cname.substring(0,cname.indexOf('(')).trim();
-		
-		
-		
+
+
+
 		return cname;
 	}
-	
+
 	@Override
 	public boolean needDialogForDeck(MODS mod) {
 		return false;
 	}
-	
+
 	 @Override
 	public boolean needDialogForStock(MODS mod) {
 		return false;
 	}
-	
-	
-	
+
+
+
+	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 		var d = new MagicDeck();
 		d.setName(FilenameUtils.getBaseName(f.getName()));
@@ -71,7 +73,7 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 		for (MagicCardStock mcs : stock) {
 			d.getMain().put(mcs.getProduct(), mcs.getQte());
 		}
-		exportDeck(d, f); 
+		exportDeck(d, f);
 	}
 
 	protected List<MagicCardStock> importFromDeck(MagicDeck deck) {
@@ -94,18 +96,18 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 	public List<MagicCardStock> importStock(String content) throws IOException {
 		return importFromDeck(importDeck(content, "defaultImport from " + getName()));
 	}
-	
-	
+
+
 	@Override
 	public MagicDeck importDeckFromFile(File f) throws IOException {
 		return importDeck(FileTools.readFile(f),FilenameUtils.getBaseName(f.getName()));
 	}
-	
+
 	@Override
 	public List<MagicCardStock> importStockFromFile(File f) throws IOException {
 		return importStock(FileTools.readFile(f));
 	}
-	
-	
+
+
 
 }

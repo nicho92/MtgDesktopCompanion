@@ -14,7 +14,7 @@ public interface MTGCardRecognition extends MTGPlugin {
 
 
 	public MatchResult getMatch(ImageDesc id, double thresh);
-	
+
 	public void loadDatasForSet(MagicEdition ed);
 	public void finalizeLoad();
 	public void clear();

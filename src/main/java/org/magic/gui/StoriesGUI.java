@@ -32,7 +32,7 @@ import org.magic.tools.UITools;
 public class StoriesGUI extends MTGUIComponent {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private AbstractBuzyIndicatorComponent lblLoading;
@@ -45,13 +45,13 @@ public class StoriesGUI extends MTGUIComponent {
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_STORY;
 	}
-	
+
 	@Override
 	public String getTitle() {
 		return capitalize("HISTORY_MODULE");
 	}
-	
-	
+
+
 	public StoriesGUI() {
 		provider = new StoryProvider(MTGControler.getInstance().getLocale());
 
@@ -82,20 +82,20 @@ public class StoriesGUI extends MTGUIComponent {
 								}
 								@Override
 								protected void done() {
-									
+
 									try {
 										editorPane.setText(get());
-										
+
 									} catch (InterruptedException e) {
 										Thread.currentThread().interrupt();
 									} catch (Exception e) {
 										MTGControler.getInstance().notify(e);
 									}
-									
+
 									lblLoading.end();
 								}
-								
-								
+
+
 							};
 					ThreadManager.getInstance().runInEdt(sw, "Load story");
 				} else {
@@ -108,7 +108,7 @@ public class StoriesGUI extends MTGUIComponent {
 			}
 		});
 
-		
+
 
 		var panel = new JPanel();
 		add(panel, BorderLayout.NORTH);
@@ -135,9 +135,9 @@ public class StoriesGUI extends MTGUIComponent {
 	}
 
 	public void initStories() {
-		
+
 		SwingWorker<Void, MTGStory> sw = new SwingWorker<>() {
-			
+
 			@Override
 			protected Void doInBackground(){
 				try {
@@ -146,19 +146,19 @@ public class StoriesGUI extends MTGUIComponent {
 				} catch (IOException e) {
 					logger.error(e);
 				}
-				
+
 				return null;
 			}
-			
+
 			@Override
 			protected void done() {
 				lblLoading.end();
 			}
-			
+
 		};
-		
-		
-		
+
+
+
 		lblLoading.start();
 		ThreadManager.getInstance().runInEdt(sw, "loading stories");
 	}

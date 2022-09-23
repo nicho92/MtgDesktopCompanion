@@ -14,10 +14,11 @@ import org.magic.services.network.URLTools;
 
 public class MagicTradersPricer extends AbstractPricesProvider {
 
+	@Override
 	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 
 		logger.info(getName() + " looking for prices " + getString("URL"));
-		
+
 		var is = URLTools.extractAsInputStream(getString("URL"));
 		try (var read = new BufferedReader(new InputStreamReader(is))) {
 			String line;
@@ -51,7 +52,7 @@ public class MagicTradersPricer extends AbstractPricesProvider {
 
 						return list;
 					}
-				
+
 
 			}
 			logger.info(getName() + " found " + list.size() +" offers");
@@ -72,6 +73,7 @@ public class MagicTradersPricer extends AbstractPricesProvider {
 		return cname;
 	}
 
+	@Override
 	public String getName() {
 		return "Magic Traders";
 	}
@@ -80,11 +82,11 @@ public class MagicTradersPricer extends AbstractPricesProvider {
 	public STATUT getStatut() {
 		return STATUT.DEPRECATED;
 	}
-	
-	
+
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-	
+
 		return Map.of("URL", "http://classic.magictraders.com/pricelists/current-magic-excel.txt",
 							   "WEBSITE", "http://classic.magictraders.com",
 							   "KEYWORD", "");

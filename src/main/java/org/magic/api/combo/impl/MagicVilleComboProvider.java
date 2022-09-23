@@ -15,16 +15,16 @@ import org.magic.services.network.URLTools;
 
 public class MagicVilleComboProvider extends AbstractComboProvider {
 
-	
+
 	private static final String BASE_URL="https://www.magic-ville.com/fr/combos/";
-	
-	
+
+
 	@Override
 	public List<MTGCombo> loadComboWith(MagicCard mc) {
 		List<MTGCombo> ret = new ArrayList<>();
-		
+
 		MTGHttpClient c = URLTools.newClient();
-		
+
 		String id;
 		try {
 			Document req = RequestBuilder.build().setClient(c).url(BASE_URL+"submit_search").method(METHOD.POST).addContent("n", mc.getName()).toHtml();
@@ -33,8 +33,8 @@ public class MagicVilleComboProvider extends AbstractComboProvider {
 			logger.error("error looking for card " + mc +" : ", e);
 			return ret;
 		}
-		
-	
+
+
 			Document req;
 			try {
 				req = RequestBuilder.build().setClient(c).url(BASE_URL+"resultats").addHeader(URLTools.ACCEPT_LANGUAGE, "en-US,en;q=0.5").method(METHOD.POST).addContent("card_to_search["+id+"]", mc.getName()).toHtml();
@@ -42,13 +42,13 @@ public class MagicVilleComboProvider extends AbstractComboProvider {
 				logger.error(e);
 				return ret;
 			}
-			
+
 			req.select("tr[id]").forEach(tr->{
 				var cbo = new MTGCombo();
 						 cbo.setName(tr.child(1).text());
 						 cbo.setPlugin(this);
-			
-				
+
+
 					Document cboDetail;
 					try {
 						cboDetail = RequestBuilder.build().setClient(c).url(BASE_URL+tr.child(0).select("a").attr("href")).method(METHOD.GET).toHtml();
@@ -56,13 +56,13 @@ public class MagicVilleComboProvider extends AbstractComboProvider {
 					} catch (IOException e) {
 						logger.error(e);
 					}
-					
+
 					notify(cbo);
 					ret.add(cbo);
-				
+
 			});
-			
-		
+
+
 		return ret;
 	}
 

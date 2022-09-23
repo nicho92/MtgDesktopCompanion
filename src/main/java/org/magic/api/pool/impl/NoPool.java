@@ -11,7 +11,7 @@ public class NoPool extends AbstractPoolProvider {
 	private String url;
 	private String user;
 	private String pass;
-	
+
 	@Override
 	public Connection getConnection() throws SQLException {
 		return DriverManager.getConnection(url, user, pass);

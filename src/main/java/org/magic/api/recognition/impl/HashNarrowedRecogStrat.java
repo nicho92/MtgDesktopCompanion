@@ -26,14 +26,14 @@ public class HashNarrowedRecogStrat extends AbstractRecognitionStrategy{
 			return super.getDocumentation();
 		}
 	}
-	
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		var m = super.getDefaultAttributes();
 		m.put("LIMIT_TO_TOP_N_HASH_MATCH", "500");
 		return m;
 	}
-	
+
 	@Override
 	public String getName()
 	{
@@ -46,8 +46,8 @@ public class HashNarrowedRecogStrat extends AbstractRecognitionStrategy{
 		datas = allDatas();
 		sortByHash(in);
 		return result(datas,in,Math.min(datas.size(),getInt("LIMIT_TO_TOP_N_HASH_MATCH")),threshhold);
-		
-		
+
+
 	}
 
 	private void sortByHash(ImageDesc id)
@@ -56,6 +56,6 @@ public class HashNarrowedRecogStrat extends AbstractRecognitionStrategy{
 		Collections.sort(datas);
 	}
 
-	
+
 
 }

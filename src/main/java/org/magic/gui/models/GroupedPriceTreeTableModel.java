@@ -19,39 +19,39 @@ public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 
 	private Map<String, List<MagicPrice>> listElements;
 
-	
+
 	public GroupedPriceTreeTableModel() {
 		super(new Object());
 		listElements = new HashMap<>();
 	}
-	
+
 	public void init(Map<String, List<MagicPrice>> map)
 	{
 		listElements= map;
 		modelSupport.fireNewRoot();
 	}
-	
-	
-	
-	
+
+
+
+
 	public void addItem(String key, List<MagicPrice> list)
 	{
 		listElements.computeIfAbsent(key, v->new ArrayList<>()).addAll(list);
 		modelSupport.fireNewRoot();
 	}
-	
-	
+
+
 	@Override
 	public Class<?> getColumnClass(int column) {
 		if(column==5)
 			return Boolean.class;
-		
+
 		if(column==2)
 			return Double.class;
-		
+
 		return super.getColumnClass(column);
 	}
-	
+
 	protected int getPosition(MagicPrice k, List<MagicPrice> p) {
 		for (var i = 0; i < p.size(); i++) {
 			if (p.get(i).equals(k))
@@ -76,11 +76,11 @@ public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 		}
 		return listElements.size();
 	}
-	
+
 	@Override
 	public Object getValueAt(Object node, int column) {
 		if (node instanceof String) {
-			switch (column) 
+			switch (column)
 			{
 			case 0:
 				return node;
@@ -91,7 +91,7 @@ public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 			default:
 				return "";
 			}
-		} 
+		}
 		else if (node instanceof MagicPrice emp) {
 			switch (column) {
 			case 0:
@@ -140,7 +140,7 @@ public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 		return node instanceof MagicPrice;
 	}
 
-	
+
 	@Override
 	public boolean isCellEditable(Object node, int column) {
 		return false;

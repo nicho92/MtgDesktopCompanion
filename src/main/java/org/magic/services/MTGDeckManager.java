@@ -32,17 +32,17 @@ import org.magic.tools.MTG;
 import org.utils.patterns.observer.Observable;
 
 public class MTGDeckManager extends Observable {
-	
+
 	private MTGCardsExport serialis;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 
-	
-	
+
+
 	public MTGDeckManager() {
 		serialis = MTG.getPlugin("Json", MTGCardsExport.class);
 	}
-	
-		
+
+
 	public static boolean isArenaDeck(MagicDeck d)
 	{
 		for(MagicCard mc : d.getUniqueCards())
@@ -50,39 +50,39 @@ public class MTGDeckManager extends Observable {
 			if(!mc.isArenaCard())
 				return false;
 		}
-		
+
 		return true;
 	}
-	
+
 	public static boolean isLegal(MagicDeck magicDeck, MagicFormat.FORMATS format) {
-		
+
 		if(format==FORMATS.COMMANDER)
 			return isCommander(magicDeck);
-		
+
 		if(magicDeck.getMainAsList().size()<60)
 			return false;
-		
+
 		var mf = new MagicFormat();
 		mf.setFormat(MagicFormat.toString(format));
 		return magicDeck.isCompatibleFormat(mf);
 
 	}
-	
+
 	public static boolean isCommander(MagicDeck magicDeck) {
-		
+
 		if(magicDeck.getMainAsList().size()!=100)
 			return false;
-		
+
 		for(Entry<MagicCard, Integer> entry : magicDeck.getMain().entrySet())
 		{
 			if(!entry.getKey().isBasicLand() && entry.getValue()>1)
 				return false;
 		}
-		
-		
+
+
 		return true;
 	}
-	
+
 
 	public MagicDeck getDeck(Integer id)  {
 		try {
@@ -91,8 +91,8 @@ public class MTGDeckManager extends Observable {
 			return null;
 		}
 	}
-	
-	
+
+
 
 	public List<MagicDeck> listDecks() {
 		try {
@@ -102,27 +102,27 @@ public class MTGDeckManager extends Observable {
 			return new ArrayList<>();
 		}
 	}
-	
+
 	public List<MagicDeck> listLocalDecks()
 	{
 		List<MagicDeck> decks = new ArrayList<>();
-		for (File f : new File(MTGConstants.DATA_DIR, "decks").listFiles((File dir, String name)->name.toLowerCase().endsWith(serialis.getFileExtension().toLowerCase()))) 
+		for (File f : new File(MTGConstants.DATA_DIR, "decks").listFiles((File dir, String name)->name.toLowerCase().endsWith(serialis.getFileExtension().toLowerCase())))
 		{
 			try {
 				var deck = serialis.importDeckFromFile(f);
 				decks.add(deck);
 			} catch (Exception e) {
-				logger.error("error import deck " + f, e);
+				logger.error("error import deck {}",f, e);
 			}
 		}
 		return decks;
 	}
-	
-	
+
+
 	public List<MagicDeck> listDecksWithTag(String tag)
 	{
 		List<MagicDeck> decks = new ArrayList<>();
-		for (MagicDeck deck : listDecks()) 
+		for (MagicDeck deck : listDecks())
 		{
 				if(deck.getTags().contains(tag))
 				{
@@ -133,11 +133,11 @@ public class MTGDeckManager extends Observable {
 		}
 		return decks;
 	}
-	
+
 	public List<MagicDeck> listDecksWith(MagicCard mc,boolean strict)
 	{
 		List<MagicDeck> decks = new ArrayList<>();
-		for (MagicDeck deck : listDecks()) 
+		for (MagicDeck deck : listDecks())
 		{
 				if(deck.hasCard(mc,strict))
 				{
@@ -156,7 +156,7 @@ public class MTGDeckManager extends Observable {
 			logger.error(e);
 			throw new IOException(e);
 		}
-		
+
 	}
 
 	public void remove(MagicDeck selectedDeck) throws IOException {
@@ -181,9 +181,9 @@ public class MTGDeckManager extends Observable {
 		TreeMap<Integer, Integer> cmcs = new TreeMap<>();
 		cards.forEach(card->{
 			if ((card.getCmc() != null) && !card.isLand())
-				cmcs.put(card.getCmc(), cmcs.get(card.getCmc())==null ? 1 : cmcs.get(card.getCmc())+1);	
+				cmcs.put(card.getCmc(), cmcs.get(card.getCmc())==null ? 1 : cmcs.get(card.getCmc())+1);
 		});
-		
+
 		return cmcs;
 	}
 
@@ -196,15 +196,15 @@ public class MTGDeckManager extends Observable {
 	public Map<MTGColor,Integer> analyseColors(List<MagicCard> cards)
 	{
 		TreeMap<MTGColor, Integer> colors = new TreeMap<>();
-		
+
 		if(cards==null)
 			return colors;
-		
+
 		cards.forEach(card->colors.compute(MTGColor.determine(card.getColors()), (k,v)->(v==null)?1:v+1));
-		
+
 		return colors;
 	}
-	
+
 	public Map<MagicCard, List<Double>> analyseDrawing(MagicDeck d) {
 		Map<MagicCard, List<Double>> ret = new HashMap<>();
 
@@ -222,29 +222,26 @@ public class MTGDeckManager extends Observable {
 	public Map<MTGRarity, Integer> analyseRarities(List<MagicCard> cards) {
 		Map<MTGRarity, Integer> rarity = new TreeMap<>();
 		cards.forEach(card->{
-			
+
 			if(card.getRarity()!=null)
 				rarity.put(card.getRarity(), rarity.get(card.getRarity())==null? 1 : rarity.get(card.getRarity())+1);
-		
+
 		});
 		return rarity;
 
 	}
-	
+
 	public double getProbability(MagicDeck deck, int turn, MagicCard mc) {
-		if(deck==null)
-			return 0;
-		
-		if(mc==null)
+		if((deck==null) || (mc==null))
 			return  0;
-		
+
 		var drawedCards = 7;
 
 		if (turn <= 0)
 			drawedCards = 7;
 		else
 			drawedCards = drawedCards + turn;
-		
+
 		var cardCount = deck.getCardCountByName(mc.getName());
 		var deckSize = deck.getNbCards();
 		try {
@@ -255,26 +252,26 @@ public class MTGDeckManager extends Observable {
 
 	}
 
-	
+
 	public MagicDeck generateRandomDeck() throws IOException
 	{
 		try {
 			Random random= SecureRandom.getInstanceStrong();
-			
+
 			List<MTGDeckSniffer> deckServices = listEnabledPlugins(MTGDeckSniffer.class);
 			MTGDeckSniffer sniffer = deckServices.get(random.nextInt(deckServices.size()));
 			String[] formats = sniffer.listFilter();
 			List<RetrievableDeck> availableDecks = sniffer.getDeckList(formats[random.nextInt(formats.length)]);
 			RetrievableDeck d = availableDecks.get(random.nextInt(availableDecks.size()));
 			return sniffer.getDeck(d);
-			
+
 		} catch (NoSuchAlgorithmException e) {
 			logger.error(e);
 			return new MagicDeck();
 		}
 	}
-	
-	
-	
-	
+
+
+
+
 }

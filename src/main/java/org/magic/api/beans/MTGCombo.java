@@ -9,21 +9,21 @@ import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.interfaces.MTGComboProvider;
 
 public class MTGCombo {
-	
+
 	private List<MagicCard> cards;
 	private String name;
 	private String comment;
 	private MTGComboProvider plugin;
-	
-	
+
+
 	public void setPlugin(MTGComboProvider plugin) {
 		this.plugin = plugin;
 	}
-	
+
 	public MTGComboProvider getPlugin() {
 		return plugin;
 	}
-	
+
 	public List<MagicCard> getCards() {
 		return cards;
 	}
@@ -42,11 +42,11 @@ public class MTGCombo {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
-	
+
 	public MTGCombo() {
 		cards = new ArrayList<>();
 	}
-	
+
 	public String getColors() {
 		Set<String> cmap = new LinkedHashSet<>();
 		for (MagicCard mc : getCards()) {
@@ -56,15 +56,15 @@ public class MTGCombo {
 		}
 		return cmap.toString();
 	}
-	
-	
+
+
 	@Override
 	public String toString() {
 		return getName();
 	}
 	public void addCard(MagicCard card) {
 		cards.add(card);
-		
+
 	}
-	
+
 }

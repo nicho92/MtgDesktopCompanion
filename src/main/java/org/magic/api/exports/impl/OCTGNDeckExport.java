@@ -24,10 +24,12 @@ public class OCTGNDeckExport extends AbstractCardExport {
 
 	private static final String SHARED = "SHARED";
 
+	@Override
 	public String getFileExtension() {
 		return ".o8d";
 	}
 
+	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		var temp = new StringBuilder();
 
@@ -37,7 +39,7 @@ public class OCTGNDeckExport extends AbstractCardExport {
 		for (MagicCard mc : deck.getMain().keySet()) {
 			temp.append("<card qty='").append(deck.getMain().get(mc)).append("' id='" + mc.getId() + "'>")
 					.append(mc.getName()).append("</card>");
-			
+
 			notify(mc);
 		}
 		temp.append("</section>");
@@ -102,15 +104,15 @@ public class OCTGNDeckExport extends AbstractCardExport {
 		return "OCTGN";
 	}
 
-	
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		
+
 		var m = super.getDefaultAttributes();
 		m.put("MAGIC_GAME_ID", "a6c8d2e8-7cd8-11dd-8f94-e62b56d89593");
 		m.put("SLEEVE_ID", "0");
 		m.put(SHARED, "False");
-		
+
 		return m;
 
 	}

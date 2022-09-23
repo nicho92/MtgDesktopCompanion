@@ -11,7 +11,7 @@ import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 
 public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStockItem {
-	
+
 	protected static final long serialVersionUID = 1L;
 	protected Long id=-1L;
 	protected MagicCollection magicCollection;
@@ -30,28 +30,30 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 	protected boolean altered=false;
 	protected boolean oversize=false;
 	protected String sku;
-	
+
 	protected EnumCondition condition = EnumCondition.NEAR_MINT;
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public T getProduct() {
 		return product;
 	}
-	
+
 	@Override
 	public String getStoreId() {
 		return String.valueOf(getId());
 	}
-	
+
 	public void setProduct(T product)
 	{
 		this.product = product;
 	}
-	
+
+	@Override
 	public EnumCondition getCondition() {
 		return condition;
 	}
+	@Override
 	public void setCondition(EnumCondition condition) {
 		this.condition = condition;
 	}
@@ -92,12 +94,12 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 	public void setFoil(boolean foil) {
 		this.foil = foil;
 	}
-	
+
 	@Override
 	public boolean isSigned() {
 		return signed;
 	}
-	
+
 	@Override
 	public void setSigned(boolean signed) {
 		this.signed = signed;
@@ -108,12 +110,12 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 	}
 
 
-	
+
 	@Override
 	public String getTiersAppIds(String name) {
 		return tiersAppIds.get(name);
 	}
-	
+
 	@Override
 	public Map<String, String> getTiersAppIds() {
 		return tiersAppIds;
@@ -123,7 +125,7 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 	public void setTiersAppIds(Map<String, String> tiersAppIds) {
 		this.tiersAppIds = tiersAppIds;
 	}
-	
+
 	@Override
 	public void setGrade(Grading grade) {
 		this.grade = grade;
@@ -139,7 +141,7 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 	public String toString() {
 		return String.valueOf(getId());
 	}
-	
+
 	@Override
 	public Double getPrice() {
 		return price;
@@ -152,12 +154,12 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 	public Long getId() {
 		return id;
 	}
-	
+
 	@Override
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	@Override
 	public void setId(Integer id) {
 		this.id = id.longValue();
@@ -194,12 +196,13 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 	public void setLanguage(String language) {
 		this.language = language;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return getId().intValue();
 	}
-	
+
+	@Override
 	public boolean isUpdated() {
 		return updated;
 	}
@@ -212,40 +215,40 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 	public int compareTo(MTGStockItem o) {
 		return (int) (getId()-o.getId());
 	}
-	
-	
+
+
 	@Override
 	public boolean equals(Object obj) {
 		if(!(obj instanceof MTGStockItem))
 			return false;
-		
+
 		return getId() == ((MTGStockItem)obj).getId();
 	}
-	
+
 	public void setSku(String sku) {
 		this.sku = sku;
 	}
-	
+
 	public String getSku() {
 		return sku;
 	}
-	
-	
+
+
 	public static AbstractStockItem<MTGProduct> generateDefault()
 	{
 		return new GenericItem();
 	}
-	
+
 }
 
 class GenericItem extends AbstractStockItem<MTGProduct>
 {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 }
 
 

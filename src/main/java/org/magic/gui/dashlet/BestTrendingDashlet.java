@@ -41,7 +41,7 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 	private static final String TRUE = "true";
 	private static final String FALSE = "false";
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private JXTable table;
@@ -55,13 +55,13 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 	private JCheckBox boxP;
 	private JCheckBox boxPioneer;
 	private JComboBox<PricesCardsShakeSorter.SORT> cboSorter;
-	
+
 
 	@Override
 	public ImageIcon getDashletIcon() {
 		return MTGConstants.ICON_UP;
 	}
-	
+
 	@Override
 	public String getName() {
 		return "Winners/Loosers";
@@ -71,11 +71,11 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 	public String getCategory() {
 		return "Market";
 	}
-	
+
 	@Override
 	public void init() {
-		
-		
+
+
 		SwingWorker<List<CardShake>, Void> sw = new SwingWorker<>()
 		{
 
@@ -97,12 +97,12 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MagicFormat.FORMATS.PIONEER));
 					if (boxP.isSelected())
 						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MagicFormat.FORMATS.PAUPER));
-				
+
 					if(!boxM.isSelected() && !boxS.isSelected() && !boxL.isSelected() && !boxV.isSelected() && !boxP.isSelected())
 						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(null));
-					
-					
-				
+
+
+
 					int val = (Integer) spinner.getValue();
 					setProperty("LIMIT", String.valueOf(val));
 					setProperty("STD", String.valueOf(boxS.isSelected()));
@@ -112,21 +112,21 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 					setProperty("PAU", String.valueOf(boxP.isSelected()));
 					setProperty("PIO",String.valueOf(boxPioneer.isSelected()));
 					setProperty("SORT",String.valueOf(cboSorter.getSelectedItem()));
-					
-					
+
+
 					ret.addAll(shakes.subList(0, val));
 					ret.addAll(shakes.subList(shakes.size() - (val + 1), shakes.size())); // x last
-					
+
 				} catch (Exception e) {
 					logger.error(e);
 				}
 				return ret;
 
 			}
-			
+
 			@Override
 			protected void done() {
-				
+
 				List<CardShake> ret;
 				try {
 					ret = get();
@@ -140,10 +140,10 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 					Thread.currentThread().interrupt();
 				}catch (Exception e) {
 					logger.error(e);
-				} 
-				
+				}
+
 			}
-	
+
 		};
 		ThreadManager.getInstance().runInEdt(sw,"update best trending");
 	}
@@ -160,9 +160,9 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 				init();
 			}
 		};
-		
+
 		cboSorter = UITools.createCombobox(PricesCardsShakeSorter.SORT.values());
-		
+
 		boxS = new JCheckBox();
 		boxS.setAction(a);
 		boxS.setText("STD");
@@ -181,16 +181,16 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 		boxPioneer = new JCheckBox();
 		boxPioneer.setAction(a);
 		boxPioneer.setText("PIO");
-		
-		
+
+
 		spinner = new JSpinner();
 		spinner.addChangeListener(ce -> init());
 		cboSorter.addItemListener(ie -> {
 			if(ie.getStateChange()==ItemEvent.SELECTED)
-				init();	
+				init();
 		});
-		
-		
+
+
 		spinner.setModel(new SpinnerNumberModel(5, 1, null, 1));
 		panneauHaut.add(spinner);
 		panneauHaut.add(boxS);
@@ -200,7 +200,7 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 		panneauHaut.add(boxP);
 		panneauHaut.add(boxPioneer);
 		panneauHaut.add(cboSorter);
-		
+
 		modStandard = new CardShakerTableModel();
 		table = UITools.createNewTable(modStandard);
 		table.getColumnModel().getColumn(4).setCellRenderer(new DoubleCellEditorRenderer(true,true));
@@ -210,8 +210,8 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 
 		table.getColumnExt(modStandard.getColumnName(5)).setVisible(false);
 		table.getColumnExt(modStandard.getColumnName(6)).setVisible(false);
-	
-		
+
+
 		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
 		UITools.initTableFilter(table);
 		UITools.initCardToolTipTable(table, 0, 1, 8,new Callable<Void>() {
@@ -220,7 +220,7 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 				CardShake cs=null;
 					cs = UITools.getTableSelection(table, 0);
 					UITools.browse(cs.getLink());
-				
+
 				return null;
 			}
 		});

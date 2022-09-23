@@ -21,14 +21,14 @@ public class StackTraceElementAdapter implements JsonSerializer<StackTraceElemen
 
 	@Override
 	public StackTraceElement deserialize(JsonElement je, Type arg1, JsonDeserializationContext ctx) throws JsonParseException {
-		
+
 		var obj = je.getAsJsonObject();
 		var fName="";
 		if(obj.get(FILE_NAME)!=null)
 			fName=obj.get(FILE_NAME).getAsString();
-		
+
 		return new StackTraceElement(obj.get(CLASS_NAME).getAsString(), obj.get(METHOD_NAME).getAsString(), fName, obj.get(LINE_NUMBER).getAsInt());
-		
+
 	}
 
 	@Override

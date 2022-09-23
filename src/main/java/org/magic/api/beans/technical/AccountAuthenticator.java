@@ -6,12 +6,12 @@ import java.util.Map;
 import java.util.Properties;
 
 public class AccountAuthenticator implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 	public static final String PASSWORD = "PASSWORD";
 	public static final String LOGIN = "LOGIN";
 	protected Map<String,String> tokens;
-	
+
 	public AccountAuthenticator() {
 		tokens = new HashMap<>();
 	}
@@ -25,49 +25,49 @@ public class AccountAuthenticator implements Serializable {
 	public Map<String, String> getTokens() {
 		return tokens;
 	}
-	
+
 	public Properties getTokensAsProperties()
 	{
 		var prop = new Properties();
 		getTokens().forEach(prop::put);
 		return prop;
-		
+
 	}
-	
-	
+
+
 	public void addToken(String k, String val)
 	{
 		tokens.put(k, val);
 	}
-	
-	
+
+
 	public void addLoginPassword(String login,String password)
 	{
 		tokens.put(LOGIN, login);
 		tokens.put(PASSWORD, password);
 	}
-	
+
 	public String get(String key)
 	{
 		return tokens.getOrDefault(key,"");
 	}
-	
+
 	public String get(String key,String defaultValue)
 	{
 		return tokens.getOrDefault(key,defaultValue);
 	}
-	
-	
+
+
 	public String getLogin()
 	{
 		return get(LOGIN);
 	}
-	
+
 	public String getPassword()
 	{
 		return get(PASSWORD);
 	}
 
-	
-	
+
+
 }

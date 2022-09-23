@@ -75,18 +75,18 @@ public class WizardsOfTheCoastWallpaperProvider extends AbstractWallpaperProvide
 		return "Wizard Of The Coast";
 	}
 
-	
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of("URL", "https://magic.wizards.com/en/see-more-wallpaper");
-		
+
 	}
 
 	@Override
 	public Icon getIcon() {
 		return new ImageIcon(AbstractMTGPlugin.class.getResource("/icons/plugins/gatherer.png"));
 	}
-	
+
 	@Override
 	public String getVersion() {
 		return "0.1";

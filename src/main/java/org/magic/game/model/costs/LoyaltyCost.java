@@ -7,7 +7,7 @@ public class LoyaltyCost extends NumberCost {
 	public LoyaltyCost(int value) {
 		super(value);
 	}
-	
+
 	public LoyaltyCost(String string) {
 		super(string);
 	}
@@ -23,6 +23,6 @@ public class LoyaltyCost extends NumberCost {
 	public boolean isX() {
 		return getValue()==null;
 	}
-	
-	
+
+
 }

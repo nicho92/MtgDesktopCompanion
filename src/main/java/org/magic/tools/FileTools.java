@@ -50,19 +50,19 @@ public class FileTools {
 
 	public static void saveFile(File f, byte[] content) throws IOException {
 		 Files.touch(f);
-		 try (var fileOuputStream = new FileOutputStream(f)) 
+		 try (var fileOuputStream = new FileOutputStream(f))
 		 {
 	            fileOuputStream.write(content);
-		 } 
+		 }
 	}
-	
+
 	public static void appendLine(File f,String line) throws IOException
 	{
 		String correctFilename= f.getName().replaceAll(CORRECT_REGEX, "_");
 		f=new File(f.getParentFile(),correctFilename);
 		FileUtils.write(f, line,MTGConstants.DEFAULT_ENCODING,true);
 	}
-	
+
 	public static int linesCount(File f)
 	{
 		try {
@@ -72,9 +72,9 @@ public class FileTools {
 			return -1;
 		}
 	}
-	
-	
-	 
+
+
+
 	public static void saveFile(File f,String data) throws IOException
 	{
 		saveFile(f,data,MTGConstants.DEFAULT_ENCODING);
@@ -86,8 +86,8 @@ public class FileTools {
 		logger.debug("saving file {}",f);
 		FileUtils.write(f, data,enc);
 	}
-	
-	
+
+
 	public static void saveLargeFile(File f, String data, Charset enc) throws IOException {
 		logger.debug("saving file {}", f);
 		try (final OutputStream os = new FileOutputStream(f, false)) {
@@ -101,20 +101,20 @@ public class FileTools {
 	            inputStream.close();
 	        }
 		}
-	    
+
 	}
 
-	
-	
+
+
 	public static void saveProperties(File f,Properties props) throws IOException
 	{
 		try (var fos = new FileOutputStream(f)){
 			props.store(fos, "");
 		}
 	}
-	
-	
-	
+
+
+
 	public static void loadProperties(File f,Properties props) throws IOException
 	{
 		props.clear();
@@ -122,15 +122,15 @@ public class FileTools {
 			props.load(fis);
 		}
 	}
-	
+
 	public static void saveFile(File f,Properties props) throws IOException
 	{
 		try (var fos = new FileOutputStream(f)){
 			props.store(fos, "");
 		}
 	}
-	
-	
+
+
 	public static void deleteFile(File f) throws IOException
 	{
 			String correctFilename= f.getName().replaceAll(CORRECT_REGEX, "_");
@@ -138,13 +138,13 @@ public class FileTools {
 			logger.debug("deleting file {}",f);
 			FileUtils.forceDelete(f);
 	}
-	
-	
+
+
 	public static byte[] readFileAsBinary(File f) throws IOException
 	{
 		return Files.toByteArray(f);
 	}
-	
+
 
 	public static String readUTF8(ByteBuffer buf)
 	{
@@ -155,12 +155,12 @@ public class FileTools {
 		res = new String(str,StandardCharsets.UTF_8);
 		return res;
 	}
-		
+
 	public static String readFile(File f) throws IOException
 	{
 		return readFile(f,MTGConstants.DEFAULT_ENCODING);
 	}
-	
+
 	public static String readFile(File f,Charset charset) throws IOException
 	{
 		if(f==null || !f.exists())
@@ -174,35 +174,35 @@ public class FileTools {
 			return FileUtils.readFileToString(f,charset);
 		}
 	}
-	
-	
+
+
 	public static JsonElement readJson(File f) throws IOException
 	{
 		return URLTools.toJson(readFile(f));
 	}
-	
+
 
 	private FileTools() {	}
 
-	public static void extractConfig(File fzip) throws IOException 
+	public static void extractConfig(File fzip) throws IOException
 	{
 		IOFileFilter fileFilter1 =   FileFilterUtils.notFileFilter(FileFilterUtils.nameFileFilter("logs", null));
 		IOFileFilter fileFilter2 =   FileFilterUtils.notFileFilter(FileFilterUtils.nameFileFilter("data", null));
 		IOFileFilter exceptFilter =   FileFilterUtils.and(fileFilter1, fileFilter2 );
-		
-		
+
+
 		try (var out = new ZipOutputStream(new FileOutputStream(fzip))) {
 			for(File f : FileUtils.listFilesAndDirs(MTGConstants.CONF_DIR, FileFileFilter.INSTANCE, exceptFilter))
 				addFile(f,out);
 		}
-	
+
 	}
-	
+
 	public static void decompressGzipFile(File fileZip,File dest) {
-		
+
 		if(dest.isDirectory())
 			dest=new File(dest,FilenameUtils.removeExtension(fileZip.getName()));
-		
+
         try (
         		var fis = new FileInputStream(fileZip);
         		var gis = new GZIPInputStream(fis);
@@ -217,35 +217,34 @@ public class FileTools {
         } catch (IOException e) {
             logger.error(e);
         }
-        
+
     }
-	
+
 
 	public static synchronized void writeSetRecognition(File f,MagicEdition ed,int sizeOfSet, List<DescContainer> desc) throws IOException
 	{
-		
+
 		if(!f.getParentFile().exists())
 		{
 			FileUtils.forceMkdir(f.getParentFile());
 		}
-			
-		
-		
+
+
+
 		try(var out = new DataOutputStream(new FileOutputStream(f)))
 		{
 			out.writeUTF(ed.getSet());
 			out.writeInt(sizeOfSet);
 			out.writeInt(desc.size());
-				
-				for(var i=0;i<desc.size();i++)
-				{
-					out.writeUTF(desc.get(i).getStringData());
-					desc.get(i).getDescData().writeOut(out);
+
+				for (DescContainer element : desc) {
+					out.writeUTF(element.getStringData());
+					element.getDescData().writeOut(out);
 				}
 		}
 
 	}
-	
+
 	public static ByteBuffer getBuffer(File f) throws IOException
 	{
 		try(var aFile = new RandomAccessFile(f.getAbsolutePath(),"r"))
@@ -257,22 +256,22 @@ public class FileTools {
 			buffer.flip();
 			return buffer;
 		}
-		
+
 	}
-	
-	public static void unzip(File fileZip,File dest) throws IOException 
+
+	public static void unzip(File fileZip,File dest) throws IOException
 	{
-		
+
 		if(!dest.isDirectory())
 			throw new IOException(dest + " is not a directory");
-		
+
 		try(var zipFile = new ZipFile(fileZip)){
 			Enumeration<? extends ZipEntry> entries = zipFile.entries();
-			while (entries.hasMoreElements()) 
+			while (entries.hasMoreElements())
 			{
 				var zipEntry = entries.nextElement();
 				var f = new File(dest, zipEntry.getName());
-	        	
+
 	        	if(zipEntry.isDirectory())
 	        	{
 	        		FileUtils.forceMkdir(f);
@@ -282,31 +281,31 @@ public class FileTools {
 	        		FileUtils.forceMkdirParent(f);
 	        		FileUtils.touch(f);
 	        	}
-	        	
-	        	
+
+
 		       	try(var fos = new FileOutputStream(f))
 		       	{
 		       		IOUtils.write(zipFile.getInputStream(zipEntry).readAllBytes(), fos);
 		       	}
-		         
+
 		    }
 		}
 	}
 
-	
+
 	private static void addFile(File f, ZipOutputStream out) throws IOException
 	{
 		if(f.isDirectory())
 			return;
-		
+
 		try (var in = new FileInputStream(f)) {
 			out.putNextEntry(new ZipEntry(MTGConstants.CONF_DIR.toPath().relativize(f.toPath()).toString()));
 			IOUtils.write(in.readAllBytes(), out);
 			out.closeEntry();
 		}
 	}
-	
-	
+
+
 	public static void zip(File dir,File dest) throws IOException {
 		try (var out = new ZipOutputStream(new FileOutputStream(dest))) {
 			for (File doc : dir.listFiles()) {
@@ -316,8 +315,8 @@ public class FileTools {
 			}
 		}
 	}
-	
-	
+
+
 	public static void unZipIt(File src,File dst) {
 		var buffer = new byte[1024];
  		try (var zis = new ZipInputStream(new FileInputStream(src))) {
@@ -340,7 +339,7 @@ public class FileTools {
  	}
 
 	public static void copyDirJarToDirectory(String path, File writeDirectory) throws IOException {
-		
+
 		try(var jarFile = new JarFile(FileTools.class.getProtectionDomain().getCodeSource().getLocation().getPath()))
 		{
 		    final Enumeration<JarEntry> entries = jarFile.entries(); //gives ALL entries in jar
@@ -348,12 +347,12 @@ public class FileTools {
 		        final JarEntry entry = entries.nextElement();
 		        final String name = entry.getName();
 		        if (name.startsWith(path + "/")) { //filter according to the path
-		        	
-		        	
+
+
 		        	var f = new File(writeDirectory,name);
-		        	
+
 		        	logger.debug("writing {}", f);
-		        	
+
 		        	if(entry.isDirectory())
 		        		FileUtils.forceMkdir(f);
 		        	else
@@ -361,8 +360,8 @@ public class FileTools {
 		        }
 		    }
 		}
-		
-		
+
+
 	}
 
 
@@ -380,7 +379,7 @@ public class FileTools {
 
 
 
-	public static List<File> listFiles(File dir) 
+	public static List<File> listFiles(File dir)
 	{
 			try(Stream<Path> s = java.nio.file.Files.list(dir.toPath())){
 				return s.map(Path::toFile).toList();
@@ -392,5 +391,5 @@ public class FileTools {
 
 
 
-	
+
 }

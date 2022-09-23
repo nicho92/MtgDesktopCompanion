@@ -16,7 +16,7 @@ public class MysqlDAO extends AbstractMagicSQLDAO {
 	protected String getAutoIncrementKeyWord() {
 		return "INTEGER AUTO_INCREMENT";
 	}
-	
+
 
 	@Override
 	protected String getjdbcnamedb() {
@@ -33,7 +33,8 @@ public class MysqlDAO extends AbstractMagicSQLDAO {
 		return "LONGTEXT";
 	}
 
-	
+
+	@Override
 	public String getdbSizeQuery() {
 		return "SELECT table_name AS 'Table', (data_length + index_length) as size FROM information_schema.TABLES WHERE table_schema = '"+getString(DB_NAME)+"' ORDER BY size DESC";
 	}
@@ -43,7 +44,7 @@ public class MysqlDAO extends AbstractMagicSQLDAO {
 	public String getName() {
 		return "MySQL";
 	}
-	
+
 	@Override
 	public void backup(File f) throws SQLException, IOException {
 
@@ -53,9 +54,9 @@ public class MysqlDAO extends AbstractMagicSQLDAO {
 		if (!getFile(MYSQL_DUMP_PATH).exists())
 			throw new IOException(getString(MYSQL_DUMP_PATH) + " doesn't exist");
 
-		
+
 		var pb = new ProcessBuilder(getString(MYSQL_DUMP_PATH) + "/mysqldump",getString(DB_NAME), "-h",getString(SERVERNAME),"-u",getString(LOGIN),"-p",getString(PASS),"--port",getString(SERVERPORT));
-		
+
 		logger.info("begin Backup " + getString(DB_NAME));
 		Process child;
 
@@ -75,13 +76,13 @@ public class MysqlDAO extends AbstractMagicSQLDAO {
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		var m = super.getDefaultAttributes();
-		
+
 		m.put(SERVERPORT, "3306");
 		m.put(PARAMS, "?autoDeserialize=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&autoReconnect=true");
 		m.put(MYSQL_DUMP_PATH, "C:\\Program Files (x86)\\Mysql\\bin");
 		return m;
 	}
-	
+
 
 
 	@Override

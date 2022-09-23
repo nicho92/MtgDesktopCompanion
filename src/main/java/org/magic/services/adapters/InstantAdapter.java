@@ -10,7 +10,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-	
+
 public class InstantAdapter implements JsonSerializer<Instant>, JsonDeserializer<Instant>
 	{
 	  @Override
@@ -24,5 +24,5 @@ public class InstantAdapter implements JsonSerializer<Instant>, JsonDeserializer
 	  {
 	    return Instant.ofEpochMilli(Long.parseLong(json.getAsString()));
 	  }
-	
+
 }

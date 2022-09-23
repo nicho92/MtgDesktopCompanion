@@ -23,7 +23,7 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 	protected int newW=MTGConstants.DEFAULT_PIC_HEIGHT;
 	protected int newH=MTGConstants.DEFAULT_PIC_WIDTH;
 	protected TCache<BufferedImage> setCache;
-	
+
 	@Override
 	public PLUGINS getType() {
 		return PLUGINS.PICTURE;
@@ -32,7 +32,7 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 	protected AbstractPicturesProvider() {
 		super();
 		setCache = new TCache<>("setIcons");
-		
+
 		try {
 			setSize(MTGControler.getInstance().getPictureProviderDimension());
 		}
@@ -41,7 +41,7 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 			logger.error("couldn't set size",e);
 		}
 	}
-	
+
 	public BufferedImage getOnlinePicture(MagicCard mc) throws IOException {
 		try {
 			return URLTools.extractAsImage(generateUrl(mc));
@@ -49,22 +49,22 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 			return null;
 		}
 	}
-	
+
 	@Override
 	public BufferedImage getFullSizePicture(MagicCard mc) throws IOException {
 		if (getEnabledPlugin(MTGPictureCache.class).getItem(mc) != null) {
 			logger.trace("cached {} ({}) found",mc,mc.getCurrentSet());
 			return getEnabledPlugin(MTGPictureCache.class).getItem(mc);
 		}
-		
-		
+
+
 		BufferedImage bufferedImage  = null;
 		if(mc.isSpecialTokenOrExtra())
 			bufferedImage =MTG.getEnabledPlugin(MTGTokensProvider.class).getPictures(mc);
-		else 
+		else
 			bufferedImage  = getOnlinePicture(mc);
-		
-		
+
+
 		if (bufferedImage != null)
 		{
 			getEnabledPlugin(MTGPictureCache.class).put(bufferedImage, mc);
@@ -75,16 +75,16 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 			return getBackPicture();
 		}
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	@Override
 	public BufferedImage getPicture(MagicCard mc) throws IOException {
 		return resizeCard(getFullSizePicture(mc), newW, newH);
 	}
-	
+
 	@Override
 	public BufferedImage getForeignNamePicture(MagicCardNames fn, MagicCard mc) throws IOException {
 		MagicCard foreignCard = mc.toForeign(fn);
@@ -112,16 +112,16 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 			return null;
 		return ImageTools.resize(img, newH, newW);
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		
+
 		if(obj ==null)
 			return false;
-		
+
 		return hashCode()==obj.hashCode();
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return (getType()+getName()).hashCode();

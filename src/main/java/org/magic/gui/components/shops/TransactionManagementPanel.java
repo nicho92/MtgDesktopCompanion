@@ -30,7 +30,7 @@ import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 
 public class TransactionManagementPanel extends MTGUIComponent {
-	
+
 	private static final long serialVersionUID = 1L;
 	private static final String TRACKING = "Tracking";
 	private Transaction t;
@@ -41,7 +41,7 @@ public class TransactionManagementPanel extends MTGUIComponent {
 	private JButton btnPaid;
 	private JButton btnTrack;
 	private JButton btnCancel;
-	
+
 	public void setTransaction(Transaction t)
 	{
 		this.t=t;
@@ -52,8 +52,8 @@ public class TransactionManagementPanel extends MTGUIComponent {
 		btnTrack.setEnabled(t!=null && t.getStatut()==TransactionStatus.SENT);
 		btnCancel.setEnabled(t!=null  && (t.getStatut()==TransactionStatus.PAID || t.getStatut()==TransactionStatus.CANCELATION_ASK || t.getStatut()==TransactionStatus.IN_PROGRESS || t.getStatut()==TransactionStatus.PAYMENT_WAITING || t.getStatut()==TransactionStatus.NEW) );
 	}
-	
-	
+
+
 	public TransactionManagementPanel() {
 		setLayout(new BorderLayout(0, 0));
 		loader = AbstractBuzyIndicatorComponent.createProgressComponent();
@@ -63,30 +63,30 @@ public class TransactionManagementPanel extends MTGUIComponent {
 		btnPaid = new JButton("Mark as Paid", MTGConstants.ICON_TAB_PRICES);
 		btnTrack = new JButton("Track", MTGConstants.ICON_TAB_DELIVERY);
 		btnCancel = new JButton("Cancel", MTGConstants.ICON_SMALL_CANCEL);
-		
-		
+
+
 		btnSend.setEnabled(false);
 		btnSave.setEnabled(false);
 		btnAcceptTransaction.setEnabled(false);
 		btnPaid.setEnabled(false);
 		btnTrack.setEnabled(false);
 		btnCancel.setEnabled(false);
-		
+
 		var panelCenter = new JPanel();
 		panelCenter.setLayout(new GridLayout(7,1));
-		
+
 		panelCenter.add(btnSave);
 		panelCenter.add(btnAcceptTransaction);
 		panelCenter.add(btnPaid);
 		panelCenter.add(btnCancel);
-		
+
 		panelCenter.add(btnSend);
 		panelCenter.add(btnTrack);
-	
-		
+
+
 		add(panelCenter, BorderLayout.NORTH);
 		add(loader,BorderLayout.SOUTH);
-	
+
 		btnSave.addActionListener(e->{
 			try {
 				TransactionService.saveTransaction(t,true);
@@ -94,7 +94,7 @@ public class TransactionManagementPanel extends MTGUIComponent {
 				MTGControler.getInstance().notify(e1);
 			}
 		});
-		
+
 		btnPaid.addActionListener(e->{
 			try {
 				TransactionService.payingTransaction(t, "Paypal");
@@ -102,14 +102,14 @@ public class TransactionManagementPanel extends MTGUIComponent {
 				MTGControler.getInstance().notify(e1);
 			}
 		});
-		
-		
+
+
 		btnTrack.addActionListener(e->{
 			try {
-				
+
 				var ret = MTG.getPlugin(t.getTransporter(), MTGTrackingService.class).track(t.getTransporterShippingCode());
-				
-				
+
+
 				if(ret.isFinished())
 				{
 					t.setStatut(TransactionStatus.CLOSED);
@@ -125,56 +125,56 @@ public class TransactionManagementPanel extends MTGUIComponent {
 				MTGControler.getInstance().notify(e1);
 			}
 		});
-		
-		
-		
-		
+
+
+
+
 		btnSend.addActionListener(e->{
 			var pane = new JPanel();
-			
+
 			JComboBox<MTGTrackingService> cboService = UITools.createCombobox(MTGTrackingService.class, false);
 			var field = new JTextField(t.getTransporterShippingCode(),25);
 			var btnV = new JButton("OK");
 			var btnC = new JButton("Cancel");
-				
+
 			pane.add(cboService);
 			pane.add(new JLabel("Tracking #"));
 			pane.add(field);
 			pane.add(btnV);
 			pane.add(btnC);
 			var jd = MTGUIComponent.createJDialog(MTGUIComponent.build(pane,TRACKING,MTGConstants.ICON_TAB_DELIVERY),false,true);
-			
+
 			btnV.addActionListener(al->{
 				if(cboService.getSelectedItem()!=null)
 					t.setTransporter(cboService.getSelectedItem().toString());
-				
+
 				t.setTransporterShippingCode(field.getText());
-				
+
 				try {
 					TransactionService.sendTransaction(t);
 				} catch (IOException e1) {
 					MTGControler.getInstance().notify(e1);
 				}
-				
+
 				jd.dispose();
 			});
-			
+
 			btnC.addActionListener(al->jd.dispose());
-			
+
 			jd.setVisible(true);
-				
+
 		});
-		
+
 		btnCancel.addActionListener(e->{
 		loader.start(t.getItems().size());
-			var sw = new SwingWorker<Void, MagicCardStock>() 
+			var sw = new SwingWorker<Void, MagicCardStock>()
 			{
 				@Override
 				protected Void doInBackground() throws Exception {
 					TransactionService.cancelTransaction(t);
 					return null;
 				}
-				
+
 				@Override
 				protected void process(List<MagicCardStock> chunks) {
 					loader.progressSmooth(chunks.size());
@@ -182,7 +182,7 @@ public class TransactionManagementPanel extends MTGUIComponent {
 
 				@Override
 				protected void done() {
-					
+
 					if(t.getStatut()!=TransactionStatus.CANCELED)
 					{
 						try {
@@ -195,23 +195,23 @@ public class TransactionManagementPanel extends MTGUIComponent {
 					}
 				}
 			};
-			
-			
-			
+
+
+
 			ThreadManager.getInstance().runInEdt(sw, "update stock for transactions");
 		});
 
 		btnAcceptTransaction.addActionListener(e->{
 			loader.start(t.getItems().size());
-			var sw = new SwingWorker<List<MTGStockItem>, MTGStockItem>() 
+			var sw = new SwingWorker<List<MTGStockItem>, MTGStockItem>()
 			{
 				@Override
 				protected List<MTGStockItem> doInBackground() throws Exception {
 					return TransactionService.validateTransaction(t);
 				}
-				
-				
-				
+
+
+
 				@Override
 				protected void process(List<MTGStockItem> chunks) {
 					loader.progressSmooth(chunks.size());
@@ -219,7 +219,7 @@ public class TransactionManagementPanel extends MTGUIComponent {
 
 				@Override
 				protected void done() {
-					
+
 					if(t.getStatut()!=TransactionStatus.IN_PROGRESS)
 					{
 						try {
@@ -234,7 +234,7 @@ public class TransactionManagementPanel extends MTGUIComponent {
 			};
 			ThreadManager.getInstance().runInEdt(sw, "update stock for transactions");
 	});
-	
+
 	}
 
 

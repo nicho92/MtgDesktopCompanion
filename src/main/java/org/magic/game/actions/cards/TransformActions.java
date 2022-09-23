@@ -14,7 +14,7 @@ import org.magic.services.logging.MTGLogger;
 public class TransformActions extends AbstractAction {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private DisplayableCard card;

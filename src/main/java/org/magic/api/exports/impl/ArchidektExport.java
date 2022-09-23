@@ -20,25 +20,25 @@ public class ArchidektExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
-		
+
 		exportStock(importFromDeck(deck), dest);
 	}
-	
+
 
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
-		
+
 		List<MagicCardStock> ret = new ArrayList<>();
 		matches(content, true).forEach(m->{
-			
+
 			MagicCardStock st = MTGControler.getInstance().getDefaultStock();
 						   st.setQte(Integer.parseInt(m.group(1)));
-						   
+
 			 MagicCard mc = parseMatcherWithGroup(m, 2, 8, true, FORMAT_SEARCH.ID,FORMAT_SEARCH.NAME);
-			 
+
 			 if(mc!=null)
 			 {
-				 
+
 				 st.setProduct(mc);
 				 st.setFoil(m.group(3).equalsIgnoreCase("true"));
 				 st.setCondition(PluginsAliasesProvider.inst().getReversedConditionFor(this, m.group(4),EnumCondition.GOOD));
@@ -49,24 +49,24 @@ public class ArchidektExport extends AbstractFormattedFileCardExport {
 		});
 		return ret;
 	}
-	
+
 
 	@Override
 	public MagicDeck importDeck(String f, String name) throws IOException {
 		var d = new MagicDeck();
 		d.setName(name);
-		
+
 		for(MagicCardStock st : importStock(f))
 			d.getMain().put(st.getProduct(), st.getQte());
-	
+
 		return d;
 	}
-	
+
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
-		
+
 		var temp = new StringBuilder();
-		
+
 		for(MagicCardStock mcs : stock)
 		{
 			temp.append(mcs.getQte()).append(getSeparator());
@@ -80,12 +80,12 @@ public class ArchidektExport extends AbstractFormattedFileCardExport {
 			temp.append(mcs.getProduct().getCurrentSet().getMultiverseid());
 			temp.append(System.lineSeparator());
 		}
-		
+
 		FileTools.saveFile(f, temp.toString());
-		
-		
-		
-		
+
+
+
+
 	}
 
 	@Override
@@ -112,7 +112,7 @@ public class ArchidektExport extends AbstractFormattedFileCardExport {
 	protected String getSeparator() {
 		return ",";
 	}
-	
+
 
 	@Override
 	public String getFileExtension() {

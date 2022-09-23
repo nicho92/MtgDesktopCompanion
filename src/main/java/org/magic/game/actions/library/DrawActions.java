@@ -14,7 +14,7 @@ import org.magic.services.MTGControler;
 public class DrawActions extends AbstractAction {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 

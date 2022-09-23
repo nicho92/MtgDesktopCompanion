@@ -78,7 +78,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	private static final String CREATE_TABLE = "CREATE TABLE ";
 	private static final String EDITION = "edition";
 	protected MTGPool pool;
-	
+
 	protected abstract String getAutoIncrementKeyWord();
 	protected abstract String getjdbcnamedb();
 	protected abstract String beanStorage();
@@ -89,54 +89,54 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	protected static final int COLLECTION_COLUMN_SIZE=30;
 	protected static final int CARD_ID_SIZE=50;
 
-	
+
 	protected List<MTGStockItem> readStockItemFrom(ResultSet rs,String field) throws SQLException {
 		return serialiser.fromJsonList(rs.getObject(field).toString(), MTGStockItem.class);
 	}
-	
+
 	protected void storeTransactionItems(PreparedStatement pst, int position, List<MTGStockItem> grd) throws SQLException {
 		pst.setString(position, serialiser.toJsonElement(grd).toString());
-		
+
 	}
 
 	protected Grading readGrading(ResultSet rs) throws SQLException {
 		return serialiser.fromJson(rs.getString("grading"), Grading.class);
 	}
-	
-	
+
+
 	protected void storeGrade(PreparedStatement pst, int position, Grading grd) throws SQLException {
 		pst.setString(position, serialiser.toJsonElement(grd).toString());
 	}
 
 	protected Map<MagicCard, Integer> readDeckBoard(ResultSet rs, String field) throws SQLException {
-		
+
 		Map<MagicCard, Integer> ret = new HashMap<>();
 		serialiser.fromJson(rs.getString(field), JsonArray.class).forEach(je->{
-			
+
 			MagicCard mc = serialiser.fromJson(je.getAsJsonObject().get("card").toString(), MagicCard.class);
 			Integer qte = je.getAsJsonObject().get("qty").getAsInt();
-			
+
 			ret.put(mc, qte);
-			
-			
+
+
 		});
-		
+
 		return ret;
 	}
-	
+
 	protected void storeDeckBoard(PreparedStatement pst, int i, Map<MagicCard, Integer> board) throws SQLException {
-		
+
 		var arr = new JsonArray();
-		
+
 		board.entrySet().forEach(e->{
-			
+
 			var obj = new JsonObject();
 			obj.addProperty("qty", e.getValue());
 			obj.add("card", serialiser.toJsonElement(e.getKey()));
 			arr.add(obj);
-			
+
 		});
-		
+
 		pst.setString(i, arr.toString());
 	}
 
@@ -144,7 +144,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	protected Map<String, String> readTiersApps(ResultSet rs) throws SQLException {
 		return serialiser.fromJson(rs.getString("tiersAppIds"), Map.class);
 	}
-	
+
 	protected void storeTiersApps(PreparedStatement pst, int i, Map<String, String> tiersAppIds) throws SQLException {
 		pst.setString(i, serialiser.toJsonElement(tiersAppIds).toString());
 	}
@@ -162,67 +162,67 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		{
 			return null;
 		}
-		
+
 		if(mc==null)
 			return null;
-		
+
 		try {
 			mc.setDateUpdated(rs.getDate("dateUpdate"));
 		} catch (Exception e) {
 			//do nothing
 		}
 		return mc;
-		
+
 	}
-	
-	
+
+
 	protected boolean enablePooling()
 	{
 		return true;
 	}
 
-	
+
 	protected boolean isJsonCompatible()
 	{
 		return true;
 	}
-	
+
 	public boolean createDB() {
 		try (var cont =  pool.getConnection();Statement stat = cont.createStatement()) {
-			
+
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" favorites (id_contact INTEGER, id_announce INTEGER, classeName VARCHAR(30) )");
 			logger.debug("Create table favorites");
-			
+
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" ged (id "+getAutoIncrementKeyWord()+" PRIMARY KEY,creationDate TIMESTAMP, className VARCHAR(250), idInstance VARCHAR(250), fileName VARCHAR(250), fileContent " + longTextStorage() + ", md5 VARCHAR(35) )");
 			logger.debug("Create table ged");
-			
+
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" announces (id "+getAutoIncrementKeyWord()+" PRIMARY KEY,creationDate TIMESTAMP , startDate TIMESTAMP ,endDate TIMESTAMP, title VARCHAR(150), description " + longTextStorage() + ", total DECIMAL(10,2), currency VARCHAR(5), stocksItem "+beanStorage() + ",typeAnnounce VARCHAR(10), fk_idcontact INTEGER, category VARCHAR(50), percentReduction DECIMAL(10,2), conditions VARCHAR(50), statusAnnounce VARCHAR(25))");
 			logger.debug("Create table announces");
-			
+
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" transactions (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, dateTransaction TIMESTAMP, message VARCHAR(250), stocksItem "+beanStorage()+", statut VARCHAR(15), transporter VARCHAR(50), shippingPrice DECIMAL, transporterShippingCode VARCHAR(50),currency VARCHAR(5),datePayment TIMESTAMP NULL ,dateSend TIMESTAMP NULL , paymentProvider VARCHAR(50),fk_idcontact INTEGER)");
 			logger.debug("Create table transactions");
-			
+
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" contacts (id " + getAutoIncrementKeyWord() + " PRIMARY KEY, contact_name VARCHAR(250), contact_lastname VARCHAR(250), contact_password VARCHAR(250),contact_telephone VARCHAR(250), contact_country VARCHAR(250), contact_zipcode VARCHAR(10), contact_city VARCHAR(50), contact_address VARCHAR(250), contact_website VARCHAR(250),contact_email VARCHAR(100) UNIQUE, emailAccept "+getBoolean()+", contact_active "+getBoolean()+", temporaryToken VARCHAR("+TransactionService.TOKENSIZE+"))");
 			logger.debug("Create table contacts");
-	
+
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" orders (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, idTransaction VARCHAR(50), description VARCHAR(250),edition VARCHAR(5),itemPrice DECIMAL(10,3),shippingPrice  DECIMAL(10,3), currency VARCHAR(4), transactionDate DATE,typeItem VARCHAR(50),typeTransaction VARCHAR(50),sources VARCHAR(50),seller VARCHAR(50))");
 			logger.debug("Create table orders");
-			
+
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" cards (ID varchar("+CARD_ID_SIZE+"),mcard "+beanStorage()+", edition VARCHAR(5), cardprovider VARCHAR(20), collection VARCHAR("+COLLECTION_COLUMN_SIZE+"), dateUpdate TIMESTAMP)");
 			logger.debug("Create table cards");
-			
+
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" collections ( name VARCHAR("+COLLECTION_COLUMN_SIZE+") PRIMARY KEY)");
 			logger.debug("Create table collections");
-			
+
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" stocks (idstock "+getAutoIncrementKeyWord()+" PRIMARY KEY , idmc varchar("+CARD_ID_SIZE+"), mcard "+beanStorage()+", collection VARCHAR("+COLLECTION_COLUMN_SIZE+"),comments "+longTextStorage()+", conditions VARCHAR(30),foil "+getBoolean()+", signedcard "+getBoolean()+", langage VARCHAR(20), qte integer,altered "+getBoolean()+",price DECIMAL, grading "+beanStorage()+", tiersAppIds "+beanStorage()+",etched "+getBoolean()+")");
 			logger.debug("Create table stocks");
-			
+
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" alerts (id varchar("+CARD_ID_SIZE+") PRIMARY KEY, mcard "+beanStorage()+", amount DECIMAL, foil "+getBoolean()+",qte integer)");
 			logger.debug("Create table alerts");
-			
+
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" news (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, name VARCHAR(100), url VARCHAR(255), categorie VARCHAR(50),typeNews VARCHAR(50))");
 			logger.debug("Create table news");
-			
+
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" sealed (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, edition VARCHAR(5), qte integer, comment "+longTextStorage()+",lang VARCHAR(50),typeProduct VARCHAR(25),conditionProduct VARCHAR(25),statut VARCHAR(10), extra VARCHAR(10),collection VARCHAR("+COLLECTION_COLUMN_SIZE+"),price DECIMAL, tiersAppIds "+beanStorage()+", numversion integer)");
 			logger.debug("Create table selead");
 
@@ -231,22 +231,22 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" conversionsItems (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, name VARCHAR(255),lang VARCHAR(25), source VARCHAR(25),inputId BIGINT,destination VARCHAR(25),outputId BIGINT)");
 			logger.debug("Create table conversionsItems");
-			
+
 			postCreation(stat);
-	
+
 			logger.debug("populate collections");
-			
+
 			for(String s : MTGConstants.getDefaultCollectionsNames())
 				stat.executeUpdate("insert into collections values ('"+s+"')");
-			
-			
+
+
 			stat.executeUpdate("INSERT INTO contacts (id, contact_name, contact_lastname, contact_password, contact_telephone, contact_country, contact_zipcode, contact_city, contact_address, contact_website, contact_email, emailAccept, temporaryToken, contact_active) VALUES (1, 'MTG', 'Companion', NULL, '123456789', 'FR', '123456', 'Somewhere', 'In the middle of nowhere', 'https://www.mtgcompanion.org', 'mtgdesktopcompanion@gmail.com', '1', NULL, '1');");
-			
-			
-			
+
+
+
 			createIndex(stat);
-			
-			
+
+
 			return true;
 		} catch (SQLIntegrityConstraintViolationException e) {
 			logger.debug("database already created");
@@ -258,13 +258,13 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			return false;
 		}
 	}
-	
-	
+
+
 	@Override
 	public List<Announce> listFavorites(Contact contact, String classename) throws SQLException {
-		
+
 		var ret = new ArrayList<Announce>();
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT id_announce from favorites where id_contact= ? and classename=?")) 
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT id_announce from favorites where id_contact= ? and classename=?"))
 		{
 			pst.setInt(1, contact.getId());
 			pst.setString(2, classename);
@@ -278,42 +278,42 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				{
 					logger.error(e);
 				}
-				
+
 			}
 		}
-		
+
 		return ret;
 	}
-	
-	
+
+
 	@Override
 	public void deleteFavorites(int idContact, int idAnnounce, String classename) throws SQLException {
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("DELETE FROM favorites WHERE id_contact= ? and id_announce=? and classename=?")) 
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("DELETE FROM favorites WHERE id_contact= ? and id_announce=? and classename=?"))
 		{
 				pst.setInt(1, idContact);
 				pst.setInt(2, idAnnounce);
 				pst.setString(3, classename);
 				executeUpdate(pst);
 		}
-		
+
 	}
-	
+
 	@Override
 	public void saveFavorites(int idContact, int idAnnounce,String classename) throws SQLException {
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("INSERT INTO favorites (id_contact,id_announce,classeName) VALUES (?,?,?)")) 
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("INSERT INTO favorites (id_contact,id_announce,classeName) VALUES (?,?,?)"))
 		{
 				pst.setInt(1, idContact);
 				pst.setInt(2, idAnnounce);
 				pst.setString(3, classename);
 				executeUpdate(pst);
 		}
-		
+
 	}
-	
-	
+
+
 	@Override
 	public <T extends MTGStorable> boolean storeEntry(GedEntry<T> gedItem) throws SQLException {
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("INSERT INTO ged (creationDate, className, idInstance, fileContent,fileName, md5) VALUES (?, ?, ?, ?,?,?)")) 
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("INSERT INTO ged (creationDate, className, idInstance, fileContent,fileName, md5) VALUES (?, ?, ?, ?,?,?)"))
 		{
 				pst.setTimestamp(1, new Timestamp(Instant.now().toEpochMilli()));
 				pst.setString(2, gedItem.getClasse().getCanonicalName());
@@ -323,37 +323,37 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setString(6, CryptoUtils.getMD5(gedItem.getContent()));
 				executeUpdate(pst);
 				return true;
-				
+
 		}
 	}
-	
+
 	@Override
 	public <T extends MTGStorable> List<GedEntry<T>> listAllEntries() throws SQLException {
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT className,idInstance,fileName from ged")) 
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT className,idInstance,fileName from ged"))
 		{
 				var rs = executeQuery(pst);
-				
+
 				var arr = new ArrayList<GedEntry<T>>();
 					while(rs.next())
 					{
 						arr.add(readEntry(rs.getString("className"),rs.getString("idInstance"),rs.getString("fileName")));
 					}
 				return arr;
-		} 
+		}
 	}
-	
-	
-	
+
+
+
 	@Override
 	public <T extends MTGStorable> List<GedEntry<T>> listEntries(String classename, String id) throws SQLException {
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT fileName from ged where className = ? and IdInstance = ?")) 
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT fileName from ged where className = ? and IdInstance = ?"))
 		{
 				pst.setString(1, classename);
 				pst.setString(2,id);
 				var rs = executeQuery(pst);
-				
+
 				var arr = new ArrayList<GedEntry<T>>();
-				
+
 					while(rs.next())
 					{
 						var entry = new GedEntry<T>();
@@ -369,14 +369,14 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			throw new SQLException(e);
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends MTGStorable> GedEntry<T> readEntry(String classename, String idInstance, String fileName) throws SQLException {
 		var ged = new GedEntry<T>();
-		
-		
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT fileContent, md5 from ged where className = ? and IdInstance = ? and fileName= ?")) 
+
+
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT fileContent, md5 from ged where className = ? and IdInstance = ? and fileName= ?"))
 		{
 				pst.setString(1, classename);
 				pst.setString(2,idInstance);
@@ -386,32 +386,32 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				ged.setId(idInstance);
 				ged.setName(fileName);
 				ged.setContent(CryptoUtils.fromBase64(rs.getString("fileContent")));
-				
+
 				if(rs.getString("md5")!=null && !CryptoUtils.getMD5(ged.getContent()).equals(rs.getString("md5")))
-					throw new SQLException("MD5 Error for " + fileName +" : " + CryptoUtils.getMD5(ged.getContent()) + " " + rs.getString("md5")); 
+					throw new SQLException("MD5 Error for " + fileName +" : " + CryptoUtils.getMD5(ged.getContent()) + " " + rs.getString("md5"));
 
 				ged.setIsImage(ImageTools.isImage(ged.getContent()));
 		}
-		
+
 		try {
 				ged.setClasse(PluginRegistry.inst().loadClass(classename));
 			} catch (ClassNotFoundException e) {
 				logger.error(e);
 			}
-		
-			notify(ged);
-		
-			return ged;
-		
-	}
-		
 
-	
-	
-	
+			notify(ged);
+
+			return ged;
+
+	}
+
+
+
+
+
 	@Override
 	public <T extends MTGStorable> boolean deleteEntry(GedEntry<T> gedItem) throws SQLException {
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("DELETE FROM ged where className = ? and IdInstance = ? and fileName= ?")) 
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("DELETE FROM ged where className = ? and IdInstance = ? and fileName= ?"))
 		{
 				pst.setString(1, gedItem.getClasse().getCanonicalName());
 				pst.setString(2,gedItem.getId());
@@ -420,45 +420,45 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				return true;
 		}
 	}
-	
 
-	
-	
-	
+
+
+
+
 	@Override
 	public Announce getAnnounceById(int id) throws SQLException {
-		
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from announces where id=?")) 
+
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from announces where id=?"))
 		{
 				pst.setInt(1, id);
 				var rs = executeQuery(pst);
 				rs.next();
 				return readAnnounce(rs);
-				
+
 		}
 	}
-		
+
 	@Override
 	public List<Announce> listAnnounces(int max,STATUS stat) throws SQLException {
 		List<Announce> colls = new ArrayList<>();
-		
+
 		var sql = "SELECT * from announces where statusAnnounce=?  ORDER BY id DESC";
-		
+
 		if(stat==null)
 			sql = "SELECT * from announces ORDER BY id DESC";
-		
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement(sql)) 
+
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement(sql))
 		{
-			
+
 			if(stat!=null)
 				pst.setString(1, stat.name());
-			
-			
+
+
 				if(max>0)
 					pst.setMaxRows(max);
-				
+
 				var rs = executeQuery(pst);
-			
+
 				while (rs.next()) {
 					Announce d = readAnnounce(rs);
 					colls.add(d);
@@ -470,7 +470,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	@Override
 	public int saveOrUpdateAnnounce(Announce n) throws SQLException {
-		if (n.getId() < 0) 
+		if (n.getId() < 0)
 		{
 				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO announces (creationDate, startDate, endDate, title, description, total, currency, stocksItem, typeAnnounce, fk_idcontact,category,percentReduction,conditions,statusAnnounce) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",Statement.RETURN_GENERATED_KEYS))
 				{
@@ -491,12 +491,12 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 					executeUpdate(pst);
 					n.setId(getGeneratedKey(pst));
 					logger.debug("{} created",n);
-					
+
 				}
 		}
 		else
 		{
-				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE announces SET startDate = ?, endDate =?,title=?,  description = ?, total = ?, currency = ?, stocksItem = ?, typeAnnounce = ?, fk_idcontact = ?, category=? , percentReduction=?, conditions=?, statusAnnounce=? WHERE id = ?;")) 
+				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE announces SET startDate = ?, endDate =?,title=?,  description = ?, total = ?, currency = ?, stocksItem = ?, typeAnnounce = ?, fk_idcontact = ?, category=? , percentReduction=?, conditions=?, statusAnnounce=? WHERE id = ?;"))
 				{
 					pst.setTimestamp(1, new Timestamp(n.getStartDate().getTime()));
 					pst.setTimestamp(2,new Timestamp(n.getEndDate().getTime()));
@@ -514,13 +514,13 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 					pst.setInt(14, n.getId());
 					executeUpdate(pst);
 					logger.debug(UPDATED,n);
-				}	
-				
+				}
+
 		}
-		n.setUpdated(false);		
+		n.setUpdated(false);
 		return n.getId();
 
-		
+
 	}
 	@Override
 	public void deleteAnnounce(Announce a) throws SQLException {
@@ -529,34 +529,34 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			executeUpdate(pst);
 		}
 		logger.debug("{} is deleted",a);
-		
+
 	}
 	protected void postCreation(Statement stat) throws SQLException
 	{
 		//do nothing
 	}
-	
-	
+
+
 	protected String notExistSyntaxt()
 	{
 		return IF_NOT_EXISTS;
 	}
-	
-	
-	
+
+
+
 	public void createIndex(Statement stat) throws SQLException {
 		stat.executeUpdate("CREATE INDEX idx_id ON cards (ID);");
 		stat.executeUpdate("CREATE INDEX idx_ed ON cards (edition);");
 		stat.executeUpdate("CREATE INDEX idx_col ON cards (collection);");
 		stat.executeUpdate("CREATE INDEX idx_cprov ON cards (cardprovider);");
 		stat.executeUpdate("CREATE INDEX idx_dateUpdt ON cards (dateUpdate);");
-		
+
 		stat.executeUpdate("CREATE INDEX idx_stk_idmc ON stocks (idmc);");
 		stat.executeUpdate("CREATE INDEX idx_stk_col ON stocks (collection);");
 		stat.executeUpdate("CREATE INDEX idx_stk_com ON stocks (comments);");
 		stat.executeUpdate("CREATE INDEX idx_stk_con ON stocks (conditions);");
 		stat.executeUpdate("CREATE INDEX idx_stk_lang ON stocks (langage);");
-		
+
 		stat.executeUpdate("CREATE INDEX idx_ord_idt ON orders (idTransaction);");
 		stat.executeUpdate("CREATE INDEX idx_ord_des ON orders (description);");
 		stat.executeUpdate("CREATE INDEX idx_ord_ed ON orders (edition);");
@@ -565,23 +565,23 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		stat.executeUpdate("CREATE INDEX idx_ord_tra ON orders (typeTransaction);");
 		stat.executeUpdate("CREATE INDEX idx_ord_src ON orders (sources);");
 		stat.executeUpdate("CREATE INDEX idx_ord_sel ON orders (seller);");
-		
+
 		stat.executeUpdate("CREATE INDEX idx_news_nam ON news (name);");
 		stat.executeUpdate("CREATE INDEX idx_news_url ON news (url);");
 		stat.executeUpdate("CREATE INDEX idx_news_ctg ON news (categorie);");
 		stat.executeUpdate("CREATE INDEX idx_news_typ ON news (typeNews);");
-		
+
 		stat.executeUpdate("CREATE INDEX idx_sld_edition ON sealed (edition);");
 		stat.executeUpdate("CREATE INDEX idx_sld_comment ON sealed (comment);");
 		stat.executeUpdate("CREATE INDEX idx_sld_lang ON sealed (lang);");
 		stat.executeUpdate("CREATE INDEX idx_sld_type ON sealed (typeProduct);");
 		stat.executeUpdate("CREATE INDEX idx_sld_cdt ON sealed (conditionProduct);");
 		stat.executeUpdate("CREATE INDEX idx_sld_ext ON sealed (extra);");
-		
+
 		stat.executeUpdate("CREATE INDEX idx_trx_statut ON transactions (statut);");
 		stat.executeUpdate("CREATE INDEX idx_trx_msg ON transactions (message);");
 		stat.executeUpdate("CREATE INDEX idx_trx_transpter ON transactions (transporter);");
-		
+
 		stat.executeUpdate("CREATE INDEX idx_ctc_name ON contacts (contact_name);");
 		stat.executeUpdate("CREATE INDEX idx_ctc_lname ON contacts (contact_lastname);");
 		stat.executeUpdate("CREATE INDEX idx_ctc_country ON contacts (contact_country);");
@@ -590,19 +590,19 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		stat.executeUpdate("CREATE INDEX idx_ctc_city ON contacts (contact_city);");
 		stat.executeUpdate("CREATE INDEX idx_ctc_site ON contacts (contact_website);");
 		stat.executeUpdate("CREATE INDEX idx_ctc_mail ON contacts (contact_email);");
-		
+
 		stat.executeUpdate("CREATE INDEX idx_dck_name ON decks (name);");
 		stat.executeUpdate("CREATE INDEX idx_dck_tags ON decks (tags);");
-		
+
 		stat.executeUpdate("CREATE INDEX idx_alrt_ida ON alerts (id);");
-		
-		
+
+
 		stat.executeUpdate("CREATE INDEX idx_conv_id ON conversionsItems (id);");
 		stat.executeUpdate("CREATE INDEX idx_conv_name ON conversionsItems (name);");
 		stat.executeUpdate("CREATE INDEX idx_conv_lang ON conversionsItems (lang);");
 		stat.executeUpdate("CREATE INDEX idx_conv_source ON conversionsItems (source);");
 		stat.executeUpdate("CREATE INDEX idx_conv_dest ON conversionsItems (destination);");
-		
+
 		stat.executeUpdate("CREATE INDEX idx_creationDate ON announces (creationDate);");
 		stat.executeUpdate("CREATE INDEX idx_startDate ON announces (startDate);");
 		stat.executeUpdate("CREATE INDEX idx_endDate ON announces (endDate);");
@@ -612,14 +612,14 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		stat.executeUpdate("CREATE INDEX idx_category ON announces (category);");
 		stat.executeUpdate("CREATE INDEX idx_conditions ON announces (conditions);");
 		stat.executeUpdate("CREATE INDEX idx_statusAnnounce ON announces (statusAnnounce);");
-		
-		
-		
-		
+
+
+
+
 		stat.executeUpdate("ALTER TABLE cards ADD PRIMARY KEY (ID,edition,collection);");
 
 	}
-	
+
 	@Override
 	public void unload() {
 		super.unload();
@@ -630,11 +630,11 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				logger.error(e);
 			}
 	}
-	
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		var map = new HashMap<String,String>();
-		
+
 		map.put(SERVERNAME, "localhost");
 		map.put(SERVERPORT, "");
 		map.put(DB_NAME, "mtgdesktopclient");
@@ -643,11 +643,12 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		map.put(PARAMS, "");
 		return map;
 	}
-	
+
+	@Override
 	public String getDBLocation() {
 		return getString(SERVERNAME) + "/" + getString(DB_NAME);
 	}
-	
+
 
 	@Override
 	public String getVersion() {
@@ -658,7 +659,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			return "1.0";
 		}
 	}
-	
+
 	protected String getBoolean()
 	{
 		return BOOLEAN;
@@ -668,16 +669,16 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public Map<String,Long> getDBSize() {
 		String sql = getdbSizeQuery();
 		var map = new HashMap<String,Long>();
-		
-		
-		
-		
+
+
+
+
 		if(sql==null)
 			return map;
-		
-		
+
+
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(sql); ResultSet rs = executeQuery(pst);) {
-			
+
 			while(rs.next())
 			{
 				map.put(rs.getString(1), rs.getLong(2));
@@ -690,7 +691,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	}
 
-	
+
 	protected String getjdbcUrl()
 	{
 		var url = new StringBuilder();
@@ -698,18 +699,18 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 		if(!getString(SERVERPORT).isEmpty())
 			url.append(":").append(getString(SERVERPORT));
-	
+
 		if(!getString(DB_NAME).isEmpty())
 			url.append("/").append(getString(DB_NAME));
-			
-		if(!getString(PARAMS).isEmpty())	
+
+		if(!getString(PARAMS).isEmpty())
 			url.append(getString(PARAMS));
-		
+
 		return url.toString();
 	}
-	
 
-	
+
+
 	@Override
 	public void init(MTGPool p) throws SQLException {
 		pool = p;
@@ -723,22 +724,23 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		createDB();
 	}
 
-	
-	 
+
+
+	@Override
 	public void init() throws SQLException {
 		logger.info("init {}",getName());
 		init(getEnabledPlugin(MTGPool.class));
 	}
 
-	
+
 	@Override
 	public List<ConverterItem> listConversionItems() throws SQLException {
 		List<ConverterItem> colls = new ArrayList<>();
-		
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from conversionsItems")) 
+
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from conversionsItems"))
 		{
 				var rs = executeQuery(pst);
-			
+
 				while (rs.next()) {
 					ConverterItem d = readConversionItem(rs);
 					colls.add(d);
@@ -750,7 +752,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	@Override
 	public void saveOrUpdateConversionItem(ConverterItem n) throws SQLException {
-		if (n.getId() < 0) 
+		if (n.getId() < 0)
 		{
 				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO conversionsItems (name, source, inputId, destination, outputId) VALUES (?, ?, ?, ?, ?)"))
 				{
@@ -763,11 +765,11 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 					logger.debug("{} created",n.getName());
 					n.setUpdated(false);
 				}
-				
+
 		}
 		else if(n.isUpdated())
 		{
-			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE conversionsItems SET name = ?, source = ?, inputId = ?, destination = ?, outputId = ? WHERE id = ?")) 
+			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE conversionsItems SET name = ?, source = ?, inputId = ?, destination = ?, outputId = ? WHERE id = ?"))
 			{
 				pst.setString(1,n.getName());
 				pst.setString(2, n.getSource());
@@ -777,14 +779,14 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setLong(6, n.getId());
 				executeUpdate(pst);
 				logger.debug(UPDATED,n.getName());
-				n.setUpdated(false);	
-			}	
-			
+				n.setUpdated(false);
+			}
+
 		}
-		
-		
+
+
 	}
-	
+
 	@Override
 	public void deleteConversionItem(ConverterItem n) throws SQLException {
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("DELETE FROM conversionsItems where id=?")) {
@@ -792,47 +794,47 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			executeUpdate(pst);
 		}
 		logger.debug("{} deleted",n);
-		
+
 	}
-	
-	
-	
+
+
+
 	@Override
 	public List<MagicDeck> listDecks() throws SQLException {
 		List<MagicDeck> colls = new ArrayList<>();
-		
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from decks")) 
+
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from decks"))
 		{
 				ResultSet rs = executeQuery(pst);
-			
+
 				while (rs.next()) {
-					
+
 						MagicDeck d = readDeck(rs);
 						colls.add(d);
 						notify(d);
-					
+
 				}
 		}
 		return colls;
 	}
-	
+
 	@Override
 	public MagicDeck getDeckById(Integer id) throws SQLException {
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from decks where id=?")) 
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from decks where id=?"))
 		{
 				pst.setInt(1, id);
 				ResultSet rs = executeQuery(pst);
-			
+
 				rs.next();
 				return readDeck(rs);
-				
+
 		}
 	}
-	
-	
+
+
 	@Override
 	public Integer saveOrUpdateDeck(MagicDeck d) throws SQLException {
-		if (d.getId() < 0) 
+		if (d.getId() < 0)
 		{
 				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO decks (description, name, dateCreation, dateUpdate, tags, commander, main, sideboard, averagePrice) VALUES (?,?,?,?,?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS))
 				{
@@ -847,13 +849,13 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 					pst.setDouble(9, d.getAveragePrice());
 					executeUpdate(pst);
 					d.setId(getGeneratedKey(pst));
-				}	
+				}
 				logger.debug("{} saved with id={}",d.getName(),d.getId());
-				
+
 		}
 		else
 		{
-			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE decks SET description = ?, name = ?, dateUpdate=?, tags= ?, commander= ?, main= ?, sideboard= ?, averagePrice= ? WHERE id= ?")) 
+			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE decks SET description = ?, name = ?, dateUpdate=?, tags= ?, commander= ?, main= ?, sideboard= ?, averagePrice= ? WHERE id= ?"))
 			{
 				pst.setString(1, d.getDescription());
 				pst.setString(2, d.getName());
@@ -865,13 +867,13 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setDouble(8, d.getAveragePrice());
 				pst.setInt(9,d.getId());
 				executeUpdate(pst);
-			}	
+			}
 			logger.debug(UPDATED,d.getName());
 		}
-		
+
 		return d.getId();
 	}
-	
+
 	@Override
 	public void deleteDeck(MagicDeck d) throws SQLException {
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("DELETE FROM decks where id=?")) {
@@ -880,57 +882,57 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		}
 		logger.debug("Deck {} deleted",d.getName());
 	}
-	
-	
-	
-	
+
+
+
+
 	@Override
 	public Contact getContactByLogin(String email, String password) throws SQLException {
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from contacts where contact_email=? and contact_password=? and contact_active=?")) 
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from contacts where contact_email=? and contact_password=? and contact_active=?"))
 		{
 				pst.setString(1, email);
 				pst.setString(2, IDGenerator.generateSha256(password));
 				pst.setBoolean(3, true);
 				ResultSet rs = executeQuery(pst);
 				var res = rs.next();
-				
+
 				if(!res)
 					throw new SQLException("No result Found");
-				
-					
+
+
 				return readContact(rs);
 		}
 	}
 
 	@Override
 	public Contact getContactByEmail(String email) throws SQLException {
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from contacts where contact_email=? and contact_active=?")) 
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from contacts where contact_email=? and contact_active=?"))
 		{
 				pst.setString(1, email);
 				pst.setBoolean(2, true);
 				ResultSet rs = executeQuery(pst);
 				rs.next();
-				
+
 				return readContact(rs);
 		}
 		catch(SQLException sqlde)
 		{
 			return null;
 		}
-		
+
 	}
-	
-	
-	
+
+
+
 	@Override
 	public Contact getContactById(int id) throws SQLException {
-		
+
 		try {
 			return listContacts.get(String.valueOf(id), new Callable<Contact>() {
-				
+
 				@Override
 				public Contact call() throws Exception {
-					try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from contacts where id=?")) 
+					try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from contacts where id=?"))
 					{
 							pst.setInt(1, id);
 							ResultSet rsC = executeQuery(pst);
@@ -943,64 +945,64 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			throw new SQLException(e);
 		}
 	}
-	
+
 	@Override
 	public List<Contact> listContacts() throws SQLException {
 		List<Contact> cts = new ArrayList<>();
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from contacts")) 
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from contacts"))
 		{
 				ResultSet rs = executeQuery(pst);
-			
+
 				while(rs.next())
 					cts.add(readContact(rs));
-				
-				
+
+
 		}
-		
+
 		return cts;
-		
+
 	}
-	
-	
-	
+
+
+
 	@Override
 	public Transaction getTransaction(Long id) throws SQLException {
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from transactions where id=?")) 
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from transactions where id=?"))
 		{
 				pst.setLong(1, id);
 				ResultSet rs = executeQuery(pst);
-			
+
 				rs.next();
 				return readTransaction(rs);
-				
-				
+
+
 		}
-	
+
 	}
-	
+
 	@Override
 	public List<Transaction> listTransactions(Contact idct)  throws SQLException {
 		List<Transaction> ctx = new ArrayList<>();
-		
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from transactions, contacts where fk_idcontact=? and contacts.id=transactions.fk_idcontact and contacts.contact_name=?")) 
+
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from transactions, contacts where fk_idcontact=? and contacts.id=transactions.fk_idcontact and contacts.contact_name=?"))
 		{
 			pst.setInt(1, idct.getId());
 			pst.setString(2, idct.getName());
 			ResultSet rs = executeQuery(pst);
-			
+
 				while (rs.next()) {
 					ctx.add(readTransaction(rs));
 				}
 		}
 		return ctx;
 	}
-	
-	
+
+
 	@Override
 	public List<Transaction> listTransactions()  throws SQLException {
 		List<Transaction> ctx  = new ArrayList<>();
-		
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from transactions");ResultSet rs = executeQuery(pst)) 
+
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from transactions");ResultSet rs = executeQuery(pst))
 		{
 				while (rs.next()) {
 					ctx.add(readTransaction(rs));
@@ -1008,11 +1010,11 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		}
 		return ctx;
 	}
-	
-	
+
+
 	private Contact readContact(ResultSet rs) throws SQLException
 	{
-		
+
 		var contact = new Contact();
 		contact.setId(rs.getInt("id"));
 		contact.setName(rs.getString("contact_name"));
@@ -1029,13 +1031,13 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		contact.setEmailAccept(rs.getBoolean("emailAccept"));
 		notify(contact);
 		return contact;
-		
+
 	}
-	
-	
+
+
 	private ConverterItem readConversionItem(ResultSet rs) throws SQLException {
 		ConverterItem it = new ConverterItem();
-		
+
 			it.setId(rs.getInt("id"));
 			it.setName(rs.getString("name"));
 			it.setSource(rs.getString("source"));
@@ -1044,13 +1046,13 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			it.setOutputId(rs.getLong("outputId"));
 		return it;
 	}
-	
-	
-	
+
+
+
 	private MagicDeck readDeck(ResultSet rs) throws SQLException{
-		
+
 		var deck = new MagicDeck();
-		
+
 		deck.setId(rs.getInt("id"));
 		deck.setName(rs.getString("name"));
 		deck.setAveragePrice(rs.getDouble("averagePrice"));
@@ -1058,20 +1060,20 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		deck.setCreationDate(rs.getDate("dateCreation"));
 		deck.setDateUpdate(rs.getDate("dateUpdate"));
 		deck.setDescription(rs.getString("description"));
-		
+
 		deck.setMain(readDeckBoard(rs, "main"));
 		deck.setSideBoard(readDeckBoard(rs, "sideboard"));
-		
+
 		if(rs.getString("tags")!=null && !rs.getString("tags").isEmpty())
 			deck.setTags(Arrays.asList(rs.getString("tags").split("\\|")));
 
 		return deck;
-		
+
 	}
-	
+
 	private Transaction readTransaction(ResultSet rs) throws SQLException {
 		var state = new Transaction();
-		
+
 		state.setDateCreation(rs.getTimestamp("dateTransaction"));
 		state.setId(rs.getInt("id"));
 		state.setMessage(rs.getString("message"));
@@ -1085,33 +1087,33 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		state.setTransporterShippingCode(rs.getString("transporterShippingCode"));
 		state.setDatePayment(rs.getTimestamp("datePayment"));
 		state.setDateSend(rs.getTimestamp("dateSend"));
-		
+
 		var pp = rs.getString("paymentProvider");
 		if(pp!=null)
 			state.setPaymentProvider(TransactionPayementProvider.valueOf(pp));
-		
-		
-		
-		return state;	
+
+
+
+		return state;
 	}
-	
-	
+
+
 	@Override
 	public boolean enableContact(String token) throws SQLException {
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from contacts where temporaryToken=? and contact_active=false")) 
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from contacts where temporaryToken=? and contact_active=false"))
 		{
 				pst.setString(1, token);
 				ResultSet rs = executeQuery(pst);
 				rs.next();
 				var ct= readContact(rs);
-				
+
 				ct.setActive(true);
 				ct.setTemporaryToken(null);
-				
+
 				saveOrUpdateContact(ct);
-				
+
 				return true;
-				
+
 		}
 		catch(Exception sqlde)
 		{
@@ -1119,9 +1121,9 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			return false;
 		}
 	}
-	
-	
-	
+
+
+
 	@Override
 	public void changePassword(Contact ct, String newPassword) throws SQLException {
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE contacts SET contact_password = ? WHERE contacts.id = ?;")) {
@@ -1130,14 +1132,14 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			pst.setInt(2, ct.getId());
 			executeUpdate(pst);
 		}
-		
+
 	}
-	
-	
+
+
 	@Override
 	public void deleteContact(Contact t) throws SQLException {
 		logger.debug("delete Contact {}",t );
-		
+
 		if(listTransactions(t).isEmpty()) {
 			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("DELETE FROM contacts where id=?")) {
 				pst.setInt(1, t.getId());
@@ -1148,15 +1150,15 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		{
 			throw new SQLException(t + "{} has transactions and can't be removed ");
 		}
-		
+
 	}
-	
-	
+
+
 	@Override
 	public int saveOrUpdateContact(Contact ct) throws SQLException {
-		if (ct.getId() < 0) 
+		if (ct.getId() < 0)
 		{
-				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO contacts (contact_name, contact_lastname, contact_password, contact_telephone, contact_country, contact_address, contact_zipcode, contact_city, contact_website,contact_email, emailAccept, contact_active,temporaryToken ) VALUES (?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?);",Statement.RETURN_GENERATED_KEYS)) 
+				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO contacts (contact_name, contact_lastname, contact_password, contact_telephone, contact_country, contact_address, contact_zipcode, contact_city, contact_website,contact_email, emailAccept, contact_active,temporaryToken ) VALUES (?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?);",Statement.RETURN_GENERATED_KEYS))
 				{
 					pst.setString(1, ct.getName());
 					pst.setString(2, ct.getLastName());
@@ -1175,12 +1177,12 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 					ct.setId(getGeneratedKey(pst));
 					logger.debug("save Contact with id={}",ct.getId());
 					return ct.getId();
-				}	
+				}
 		}
 		else
 		{
 			logger.debug("update Contact {}",ct.getId());
-			
+
 			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE contacts SET contact_name = ?, contact_lastname = ?, contact_telephone = ?, contact_country = ?, contact_address = ?, contact_zipcode=?, contact_city=?, contact_website = ?,contact_email=?,emailAccept=?, contact_active=?, temporaryToken=? WHERE contacts.id = ?;",Statement.RETURN_GENERATED_KEYS)) {
 				pst.setString(1, ct.getName());
 				pst.setString(2, ct.getLastName());
@@ -1195,71 +1197,71 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setBoolean(11, ct.isActive());
 				pst.setString(12, ct.getTemporaryToken());
 				pst.setInt(13, ct.getId());
-				
+
 				executeUpdate(pst);
 				return ct.getId();
 			}
 		}
-		
+
 	}
-	
-	
+
+
 	@Override
 	public Long saveOrUpdateTransaction(Transaction t) {
-		if (t.getId() < 0) 
+		if (t.getId() < 0)
 		{
-		
+
 				logger.debug("save transaction ");
-				
+
 				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO transactions (dateTransaction, message, stocksItem, statut,transporter,shippingPrice,transporterShippingCode, currency,datePayment,dateSend,paymentProvider, fk_idcontact) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",Statement.RETURN_GENERATED_KEYS)) {
 					pst.setTimestamp(1, new Timestamp(t.getDateCreation().getTime()));
 					pst.setString(2, t.getMessage());
-					storeTransactionItems(pst,3, t.getItems());			
+					storeTransactionItems(pst,3, t.getItems());
 					pst.setString(4, t.getStatut().name());
 					pst.setString(5, t.getTransporter());
 					pst.setDouble(6, t.getShippingPrice());
 					pst.setString(7, t.getTransporterShippingCode());
 					pst.setString(8, t.getCurrency().getCurrencyCode());
-					
+
 					if(t.getDatePayment()!=null)
 						pst.setTimestamp(9, new Timestamp(t.getDatePayment().getTime()));
 					else
 						pst.setTimestamp(9, null);
-					
+
 					if(t.getDateSend()!=null)
 						pst.setTimestamp(10, new Timestamp(t.getDateSend().getTime()));
 					else
 						pst.setTimestamp(10, null);
-					
+
 					if(t.getPaymentProvider()!=null)
 						pst.setString(11, t.getPaymentProvider().name());
 					else
 						pst.setString(11, null);
-					
+
 					pst.setInt(12, t.getContact().getId());
 					executeUpdate(pst);
 					t.setId(getGeneratedKey(pst));
-					
+
 					return t.getId();
-					
+
 				} catch (Exception e) {
 					logger.error("error insert", e);
 					return -1L;
 				}
-		
+
 		}
 		else
 		{
 
 			logger.debug("update transaction {}",t.getId());
-			
+
 			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE transactions SET statut = ?, transporter=?, shippingPrice=?, transporterShippingCode=?,stocksItem=?,datePayment=?,dateSend=?,paymentProvider=? WHERE id = ?;",Statement.RETURN_GENERATED_KEYS)) {
 				pst.setString(1, t.getStatut().name());
 				pst.setString(2, t.getTransporter());
 				pst.setDouble(3, t.getShippingPrice());
 				pst.setString(4, t.getTransporterShippingCode());
-				storeTransactionItems(pst,5, t.getItems());		
-				
+				storeTransactionItems(pst,5, t.getItems());
+
 				if(t.getDatePayment()!=null)
 					pst.setTimestamp(6,  new Timestamp(t.getDatePayment().getTime()));
 				else
@@ -1269,26 +1271,26 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 					pst.setTimestamp(7, new Timestamp(t.getDateSend().getTime()));
 				else
 					pst.setTimestamp(7, null);
-				
-				
+
+
 				if(t.getPaymentProvider()!=null)
 					pst.setString(8, t.getPaymentProvider().name());
 				else
 					pst.setString(8, null);
-				
+
 				pst.setLong(9, t.getId());
 				executeUpdate(pst);
 				return t.getId();
-				
+
 			} catch (Exception e) {
 				logger.error("error update", e);
 				return -1L;
 			}
 		}
 	}
-	
-	
-	
+
+
+
 	@Override
 	public void deleteTransaction(Transaction t) throws SQLException {
 		logger.debug("delete Transaction {}",t );
@@ -1296,10 +1298,10 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			pst.setLong(1, t.getId());
 			executeUpdate(pst);
 		}
-		
+
 	}
-	
-	
+
+
 	@Override
 	public void deleteTransaction(List<Transaction> state) throws SQLException {
 		logger.debug("remove transactions : {} items ",state.size());
@@ -1315,25 +1317,25 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			pst.executeUpdate(sql);
 		}
 	}
-	
-	
-	
+
+
+
 	@Override
 	public void deleteStock(SealedStock state) throws SQLException {
 		logger.debug("delete {} in sealed stock",state.getId());
 		var sql = "DELETE FROM sealed WHERE id=?";
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(sql)) 
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(sql))
 		{
 			pst.setLong(1, state.getId());
 			executeUpdate(pst);
 			notify(state);
 		}
-		
+
 	}
-	
+
 	@Override
 	public SealedStock getSealedStockById(Long id) throws SQLException {
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from sealed where id=?")) 
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from sealed where id=?"))
 		{
 				pst.setLong(1, id);
 				ResultSet rsC = executeQuery(pst);
@@ -1341,13 +1343,13 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				return readSealed(rsC);
 		}
 	}
-	
-	
+
+
 	@Override
 	public List<SealedStock> listSealedStocks() throws SQLException {
 		List<SealedStock> colls = new ArrayList<>();
-		
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from sealed");ResultSet rs = executeQuery(pst)) 
+
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from sealed");ResultSet rs = executeQuery(pst))
 		{
 				while (rs.next()) {
 					var state = readSealed(rs);
@@ -1356,7 +1358,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		}
 		return colls;
 	}
-	
+
 	@Override
 	public void saveOrUpdateSealedStock(SealedStock state) throws SQLException {
 
@@ -1371,17 +1373,17 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setString(4, state.getLanguage());
 				pst.setString(5, state.getProduct().getTypeProduct().name());
 				pst.setString(6, state.getCondition().name());
-				
+
 				if(state.getProduct().getExtra()!=null)
 					pst.setString(7, state.getProduct().getExtra().name());
 				else
 					pst.setString(7, null);
-				
+
 				pst.setString(8, (state.getMagicCollection()==null)?MTGControler.getInstance().get(DEFAULT_LIBRARY):state.getMagicCollection().getName());
 				pst.setDouble(9, state.getPrice());
 				storeTiersApps(pst,10,state.getTiersAppIds());
 				pst.setInt(11, state.getProduct().getNum());
-				
+
 				executeUpdate(pst);
 				state.setId(getGeneratedKey(pst));
 			} catch (Exception e) {
@@ -1402,16 +1404,16 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				storeTiersApps(pst,9,state.getTiersAppIds());
 				pst.setLong(10, state.getId());
 				executeUpdate(pst);
-				
+
 				state.setUpdated(false);
 			} catch (Exception e) {
 				logger.error("error update",e);
 			}
 		}
 		notify(state);
-		
+
 	}
-	
+
 	@Override
 	public void saveCard(MagicCard mc, MagicCollection collection) throws SQLException {
 		logger.debug("saving {} in {}",mc,collection);
@@ -1437,23 +1439,23 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			executeUpdate(pst);
 		}
 	}
-	
+
 	@Override
 	public void moveCard(MagicCard mc, MagicCollection from, MagicCollection to) throws SQLException {
 		logger.debug("move {} from {} to {}",mc,from,to);
-		
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("update cards set collection= ? where id=? and collection=?")) 
+
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("update cards set collection= ? where id=? and collection=?"))
 		{
 			pst.setString(1, to.getName());
 			pst.setString(2, IDGenerator.generate(mc));
 			pst.setString(3, from.getName());
 			int res = executeUpdate(pst);
-			
+
 			logger.debug("move result:{}={}",mc, res);
 		}
-		
+
 		listStocks(mc, from,true).forEach(cs->{
-			
+
 			try {
 				cs.setMagicCollection(to);
 				saveOrUpdateCardStock(cs);
@@ -1461,9 +1463,9 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				logger.error("Error saving stock for {} from {} to {}",mc,from,to);
 			}
 		});
-		
+
 	}
-	
+
 
 	@Override
 	public List<MagicCard> listCards() throws SQLException {
@@ -1512,14 +1514,14 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public List<MagicCard> listCardsFromCollection(MagicCollection collection) throws SQLException {
 		return listCardsFromCollection(collection, null);
 	}
-	
+
 
 	@Override
 	public List<MagicCard> listCardsFromCollection(MagicCollection collection, MagicEdition me) throws SQLException {
-		
+
 		var ret = new ArrayList<MagicCard>();
 		var sql = "SELECT mcard,dateUpdate FROM cards where collection= ?";
-		
+
 		if (me != null)
 			sql = "SELECT mcard,dateUpdate FROM cards where collection= ? and edition = ?";
 
@@ -1546,7 +1548,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(sql)) {
 			pst.setString(1, collection.getName());
 			try (ResultSet rs = executeQuery(pst)) {
-				
+
 				while (rs.next()) {
 					retour.add(rs.getString(EDITION));
 				}
@@ -1557,7 +1559,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	@Override
 	public MagicCollection getCollection(String name) throws SQLException {
-		
+
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM collections where name= ?")) {
 			pst.setString(1, name);
 			try (ResultSet rs = executeQuery(pst)) {
@@ -1580,9 +1582,9 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	@Override
 	public void removeCollection(MagicCollection col) throws SQLException {
-		
+
 		listCollections.remove(col.getName());
-		
+
 		if (col.getName().equals(MTGControler.getInstance().get(DEFAULT_LIBRARY)))
 			throw new SQLException(col.getName() + " can not be deleted");
 
@@ -1599,12 +1601,12 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	@Override
 	public List<MagicCollection> listCollections() throws SQLException {
-		
+
 		if(!listCollections.isEmpty())
 			return listCollections.values();
-		
-		
-		try (var c =  pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * FROM collections")) 
+
+
+		try (var c =  pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * FROM collections"))
 		{
 			try (ResultSet rs = executeQuery(pst)) {
 				while (rs.next()) {
@@ -1628,20 +1630,20 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	@Override
 	public List<MagicCollection> listCollectionFromCards(MagicCard mc) throws SQLException {
 		var cols = new ArrayList<MagicCollection>();
-		
+
 		if (mc.getEditions().isEmpty())
 			throw new SQLException("No edition defined");
-		
+
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT collection FROM cards WHERE id=? and edition=?")) {
 			String id = IDGenerator.generate(mc);
-			
+
 			logger.trace("SELECT collection FROM cards WHERE id={} and edition='{}'",id,mc.getCurrentSet().getId());
-			
-			
+
+
 			pst.setString(1, id);
 			pst.setString(2, mc.getCurrentSet().getId());
 			try (ResultSet rs = executeQuery(pst)) {
-				
+
 				while (rs.next()) {
 					cols.add(new MagicCollection(rs.getString(COLLECTION)));
 				}
@@ -1665,39 +1667,39 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			pst.executeUpdate(sql);
 		}
 	}
-	
-	
-	
+
+
+
 
 	@Override
 	public List<MagicCardStock> listStocks(MagicCard mc, MagicCollection col,boolean editionStrict) throws SQLException {
-		
+
 		String sql = createListStockSQL();
-		
+
 		if(editionStrict)
 			sql ="SELECT * FROM stocks where collection=? and idmc=?";
-		
+
 		logger.trace("sql={}",sql);
-		
+
 		List<MagicCardStock> colls = new ArrayList<>();
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(sql)) {
 			pst.setString(1, col.getName());
-			
+
 			if(editionStrict)
 				pst.setString(2, IDGenerator.generate(mc));
 			else if (!isJsonCompatible())
 				pst.setString(2, "%"+mc.getName()+"%");
 			else
 				pst.setString(2, mc.getName());
-			
+
 			try (ResultSet rs = executeQuery(pst)) {
-				
+
 				while (rs.next()) {
 					var state = readStock(rs);
 					colls.add(state);
 				}
 				logger.trace("loading {} items FROM stock for {}",colls.size(),mc);
-				
+
 			}
 
 		}
@@ -1708,7 +1710,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	@Override
 	public List<MagicCardStock> listStocks(List<MagicCollection> cols) throws SQLException {
 		List<MagicCardStock> colls = new ArrayList<>();
-		
+
 		var stmt = String.format("SELECT * FROM stocks where collection in  (%s)",cols.stream().map(c->"'"+c.getName()+"'").collect(Collectors.joining(", ")));
 		logger.trace("loading stock with SQL={}",stmt);
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(stmt); ResultSet rs = executeQuery(pst);) {
@@ -1720,32 +1722,33 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		}
 		return colls;
 	}
-	
-	
+
+
 	@Override
 	public MagicCardStock getStockById(Long id) throws SQLException {
-		
-		
+
+
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM stocks where idstock=?")) {
 			pst.setLong(1, id);
 			var rs = executeQuery(pst);
-			
+
 			rs.next();
-			
+
 			return readStock(rs);
 		}
 	}
-	
 
-	
-	
+
+
+
+	@Override
 	public List<MagicCardStock> listStocks() throws SQLException {
 		List<MagicCardStock> colls = new ArrayList<>();
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM stocks"); ResultSet rs = executeQuery(pst);) {
 			while (rs.next()) {
 				var state = readStock(rs);
 				colls.add(state);
-			
+
 			}
 			logger.debug("load {} item(s) from stock",colls.size());
 		}
@@ -1757,7 +1760,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		try (ResultSet rs = pst.getGeneratedKeys()) {
 			rs.next();
 				return rs.getInt(1);
-			
+
 		} catch (Exception e) {
 			logger.error("couldn't retrieve id : {}",e.getMessage());
 		}
@@ -1844,9 +1847,9 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public void saveAlert(MagicCardAlert alert) throws SQLException {
 
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("insert into alerts ( id,mcard,amount,qte) values (?,?,?,?)")) {
-			
+
 			alert.setId(IDGenerator.generate(alert.getCard()));
-			
+
 			pst.setString(1, alert.getId());
 			storeCard(pst, 2, alert.getCard());
 			pst.setDouble(3, alert.getPrice());
@@ -1872,7 +1875,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public void deleteAlert(MagicCardAlert alert) throws SQLException 
+	public void deleteAlert(MagicCardAlert alert) throws SQLException
 	{
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("DELETE FROM alerts where id=?")) {
 			pst.setString(1, alert.getId());
@@ -1949,15 +1952,15 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	@Override
 	public void initOrders() {
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM orders"); ResultSet rs = executeQuery(pst);) 
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM orders"); ResultSet rs = executeQuery(pst);)
 		{
 			while (rs.next()) {
 				var state = new OrderEntry();
-				
+
 				state.setId(rs.getInt("id"));
 				state.setIdTransation(rs.getString("idTransaction"));
 				state.setDescription(rs.getString("description"));
-				
+
 				setEdition(state,rs);
 				state.setCurrency(Currency.getInstance(rs.getString("currency")));
 				state.setTransactionDate(rs.getDate("transactionDate"));
@@ -1977,7 +1980,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			logger.error(e);
 		}
 	}
-	
+
 
 	private void setEdition(OrderEntry state, ResultSet rs) {
 		try {
@@ -1986,13 +1989,13 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				state.setEdition(new MagicEdition("pMEI",""));
 				return;
 			}
-			
-			
+
+
 			state.setEdition(getEnabledPlugin(MTGCardsProvider.class).getSetById(rs.getString(EDITION)));
 		} catch (Exception e) {
 			state.setEdition(null);
 		}
-		
+
 	}
 	@Override
 	public void deleteOrderEntry(List<OrderEntry> state) throws SQLException {
@@ -2007,30 +2010,30 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		try (var c = pool.getConnection();Statement pst = c.createStatement()) {
 			pst.executeUpdate(sql);
 		}
-		
+
 
 		if (listOrders != null)
 		{
 			state.forEach(d->listOrders.remove(String.valueOf(d.getId())));
 		}
-		
+
 	}
-	
+
 	@Override
 	public void saveOrUpdateOrderEntry(OrderEntry state) throws SQLException {
 
 		if (state.getId() < 0) {
 			logger.debug("save order {}",state);
 			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO orders (idTransaction, description, edition, itemPrice, shippingPrice, currency, transactionDate, typeItem, typeTransaction, sources, seller) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",Statement.RETURN_GENERATED_KEYS)) {
-				
+
 				pst.setString(1, state.getIdTransation());
 				pst.setString(2, state.getDescription());
-				
+
 				if(state.getEdition()!=null)
 					pst.setString(3, state.getEdition().getId());
 				else
 					pst.setString(3, null);
-				
+
 				pst.setDouble(4, state.getItemPrice());
 				pst.setDouble(5,state.getShippingPrice());
 				pst.setString(6,state.getCurrency().getCurrencyCode());
@@ -2051,15 +2054,15 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 					"UPDATE orders SET "
 					+ "idTransaction= ?, description=?, edition=?,itemPrice=?,shippingPrice=?,currency=?,transactionDate=?,typeItem=?,typeTransaction=?,sources=?,seller=? "
 					+ "WHERE id = ?")) {
-				
+
 				pst.setString(1, state.getIdTransation());
 				pst.setString(2, state.getDescription());
-				
+
 				if(state.getEdition()!=null)
 					pst.setString(3, state.getEdition().getId());
 				else
 					pst.setString(3, null);
-				
+
 				pst.setDouble(4, state.getItemPrice());
 				pst.setDouble(5,state.getShippingPrice());
 				pst.setString(6,state.getCurrency().getCurrencyCode());
@@ -2078,57 +2081,57 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public void updateCard(MagicCard card,MagicCard newC, MagicCollection col) throws SQLException {
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE cards SET mcard= ? WHERE id = ? and collection = ?"))
 		{
-			
+
 			storeCard(pst, 1, newC);
 			pst.setString(2, IDGenerator.generate(card));
 			pst.setString(3, col.getName());
 			executeUpdate(pst);
 		}
-		
-	}
-	
 
-	
+	}
+
+
+
 	private DAOInfo buildInfo(Statement pst)
 	{
 		var start=Instant.now();
 		var daoInfo = new DAOInfo();
-		
+
 		TechnicalServiceManager.inst().store(daoInfo);
-		
+
 		daoInfo.setStart(start);
 		try {
 			daoInfo.setConnectionName(pst.getConnection().toString());
 		} catch (SQLException e) {
 			logger.error(e);
 		}
-		
-		
+
+
 		var index = 0;
-		
+
 		if(pst.toString().toUpperCase().indexOf("SELECT")>-1)
 			index=pst.toString().toUpperCase().indexOf("SELECT");
 
 		if(pst.toString().toUpperCase().indexOf("UPDATE")>-1)
 			index=pst.toString().toUpperCase().indexOf("UPDATE");
-		
+
 		if(pst.toString().toUpperCase().indexOf("INSERT")>-1)
 			index=pst.toString().toUpperCase().indexOf("INSERT");
 
 		if(pst.toString().toUpperCase().indexOf("DELETE")>-1)
 			index=pst.toString().toUpperCase().indexOf("DELETE");
 
-		
+
 		daoInfo.setQuery(pst.toString().substring(index));
 		daoInfo.setClasseName(pst.getClass().getCanonicalName());
 		daoInfo.setDaoName(this.getName());
 		return daoInfo;
 	}
-	
-	
+
+
 	private int executeUpdate(PreparedStatement pst) throws SQLException {
 		var daoInfo=buildInfo(pst);
-		
+
 		try {
 			int rs = pst.executeUpdate();
 			daoInfo.setEnd(Instant.now());
@@ -2145,41 +2148,41 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		try {
 			ResultSet rs = pst.executeQuery();
 			daoInfo.setEnd(Instant.now());
-			
+
 			return rs;
 		} catch (SQLException e) {
 			daoInfo.setEnd(Instant.now());
 			daoInfo.setMessage(e.getMessage());
 			throw e;
 		}
-		
-		
-		
+
+
+
 	}
-	
+
 	@Override
 	public void executeQuery(String query) throws SQLException {
 		try (var c = pool.getConnection(); Statement pst = c.createStatement())
 		{
 			pst.execute(query);
 		}
-		
+
 	}
 
 	@Override
 	public boolean isSQL() {
 		return true;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		
+
 		if(obj ==null)
 			return false;
-		
+
 		return hashCode()==obj.hashCode();
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return (getType()+getName()).hashCode();
@@ -2203,38 +2206,38 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			  a.setStatus(STATUS.valueOf(rs.getString("statusAnnounce")));
 			  if(rs.getObject("stocksItem")!=null)
 				  a.setItems(readStockItemFrom(rs,"stocksItem"));
-			  
+
 		return a;
 	}
-	
+
 	private SealedStock readSealed(ResultSet rs) throws SQLException {
 		var state = new SealedStock();
 		state.setComment(rs.getString("comment"));
 		state.setId(rs.getInt("id"));
 		state.setQte(rs.getInt("qte"));
-		
+
 		int ref = rs.getInt("numversion");
-		
-		  try 
+
+		  try
 		  {
 			var list = SealedProductProvider.inst().get(getEnabledPlugin(MTGCardsProvider.class).getSetById(rs.getString(EDITION)),EnumItems.valueOf(rs.getString("typeProduct")),(rs.getString(EXTRA_TYPE)==null) ? null : MTGSealedProduct.EXTRA.valueOf(rs.getString(EXTRA_TYPE)));
 			MTGSealedProduct product = list.stream().filter(p->p.getNum()==ref).findFirst().orElse(list.get(0));
 			state.setProduct(product);
-		  } 
-		  catch (Exception e) 
+		  }
+		  catch (Exception e)
 		  {
 			logger.error("Error loading Packaging for {} {} {} : {}",rs.getString("typeProduct"),rs.getString(EXTRA_TYPE),rs.getString(EDITION),e);
 		  }
-		  
-		  state.setCondition(EnumCondition.valueOf(rs.getString("conditionProduct"))); 
+
+		  state.setCondition(EnumCondition.valueOf(rs.getString("conditionProduct")));
 		  state.setMagicCollection(new MagicCollection(rs.getString(COLLECTION)));
 		  state.setPrice(rs.getDouble("price"));
 		  state.setTiersAppIds(readTiersApps(rs));
 		  state.setLanguage(rs.getString("lang"));
-		  
+
 		 return state;
 	}
-	
+
 	private MagicCardStock readStock(ResultSet rs) throws SQLException
 	{
 		var state = new MagicCardStock(readCard(rs,MCARD));
@@ -2255,15 +2258,15 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			state.setGrade(readGrading(rs));
 			state.setTiersAppIds(readTiersApps(rs));
 			state.setEtched(rs.getBoolean("etched"));
-			
+
 			if(state.getTiersAppIds()==null)
 				state.setTiersAppIds(new HashMap<>());
 
-		
-		
+
+
 		return state;
 
 	}
-	
+
 
 }

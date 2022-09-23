@@ -16,8 +16,8 @@ public class TradesServer extends AbstractWebServer {
 		return "WebTraders";
 	}
 
-	
-	
+
+
 	@Override
 	protected String getWebLocation() {
 		return MTGConstants.WEBTRADES_LOCATION;
@@ -27,10 +27,10 @@ public class TradesServer extends AbstractWebServer {
 	public Icon getIcon() {
 		return MTGConstants.ICON_ANNOUNCES;
 	}
-	
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
 	}
-	
+
 }

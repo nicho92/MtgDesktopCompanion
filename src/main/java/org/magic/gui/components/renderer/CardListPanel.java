@@ -18,7 +18,7 @@ import org.magic.tools.UITools;
 public class CardListPanel extends JPanel {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private JLabel lblName;
@@ -33,12 +33,12 @@ public class CardListPanel extends JPanel {
 
 	public CardListPanel(MagicCard mc) {
 		initGUI();
-		
+
 		if(mc!=null)
 			setMagicCard(mc);
 	}
-	
-	
+
+
 	private void initGUI() {
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 
@@ -68,17 +68,17 @@ public class CardListPanel extends JPanel {
 	}
 
 	public void setMagicCard(MagicCard mc) {
-		
+
 		if(mc==null)
 			return;
-		
+
 		lblName.setText(mc.getName());
 		lblType.setText(mc.getFullType());
 		lblEdition.setText(mc.getCurrentSet().toString());
 		lblEdition.setIcon(IconSetProvider.getInstance().get24(mc.getCurrentSet().getId()));
 		if(mc.getRarity()!=null)
 			lblRarity.setText(mc.getRarity().toPrettyString());
-		
+
 		manaPanel.setManaCost(mc.getCost());
 	}
 }

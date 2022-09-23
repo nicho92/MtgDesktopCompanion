@@ -46,7 +46,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 			return new String[] { STANDARD, MODERN, PAUPER, LEGACY, VINTAGE, ARENA_STANDARD,"block", COMMANDER, "limited",
 					 "canadian_highlander", "penny_dreadful", "tiny_Leaders", "free_Form","pioneer"};
 	}
-	
+
 
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
@@ -55,10 +55,10 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 
 		MagicDeck deck = info.toBaseDeck();
 		Document d = URLTools.extractAsHtml(info.getUrl().toString());
-	
+
 		Elements trs = d.select("table.deck-view-deck-table").get(0).select(MTGConstants.HTML_TAG_TR);
 		var sideboard = false;
-		for (Element tr : trs) 
+		for (Element tr : trs)
 		{
 			if (tr.hasClass("deck-category-header") && tr.text().contains("Sideboard"))
 			{
@@ -74,18 +74,18 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 					var p = Pattern.compile("\\["+CardsPatterns.REGEX_ANY_STRING+"\\]");
 					var m  = p.matcher(tds.get(1).select("a").first().attr("data-card-id"));
 					MagicEdition ed  = null;
-					
+
 					if(m.find())
 						ed = new MagicEdition(m.group(1));
-						
+
 					try {
 						MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, ed, false).get(0);
-						
+
 						if(sideboard)
 							deck.getSideBoard().put(mc, qty);
 						else
 							deck.getMain().put(mc, qty);
-						
+
 						notify(mc);
 					}
 					catch(Exception e)
@@ -97,8 +97,9 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 		}
 		return deck;
 	}
-	
-	
+
+
+	@Override
 	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
 		var url = "";
 		metagames = getBoolean("METAGAME");
@@ -121,46 +122,46 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 
 			var d = URLTools.extractAsHtml(url);
 			logger.trace(d);
-			
+
 			Elements e = d.select("div.archetype-tile");
 
 			for (Element cont : e) {
-				
+
 				var deck = new RetrievableDeck();
-				try 
+				try
 				{
 					var desc = cont.select("span.deck-price-" + getString(SUPPORT) + "> a");
 					var colors = cont.select("span.manacost").attr("aria-label");
 					var deckColor = new StringBuilder();
-						
+
 					if (colors.contains("white"))
 						deckColor.append("{W}");
-	
+
 					if (colors.contains("blue"))
 						deckColor.append("{U}");
-	
+
 					if (colors.contains("black"))
 						deckColor.append("{B}");
-	
+
 					if (colors.contains("red"))
 						deckColor.append("{R}");
-	
+
 					if (colors.contains("green"))
 						deckColor.append("{G}");
-	
-				
+
+
 					deck.setName(desc.get(0).text());
 					deck.setUrl(new URI(getString("URL") + desc.get(0).attr("href")));
-					
+
 					if (metagames)
 						deck.setAuthor("MtgGoldFish");
 					else
 						deck.setAuthor(cont.select("div.deck-tile-author").text());
-	
+
 					deck.setColor(deckColor.toString());
-	
+
 					list.add(deck);
-				
+
 				} catch (URISyntaxException e1) {
 					logger.error("Error setting url for {}",deck.getName());
 				}
@@ -176,7 +177,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 	public String getName() {
 		return "MTGoldFish";
 	}
-	
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of(SUPPORT, "paper",
@@ -184,10 +185,10 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 								"MAX_PAGE", "2",
 								"METAGAME", "false");
 	}
-	
-	
-	
-	
+
+
+
+
 
 	@Override
 	public String getVersion() {

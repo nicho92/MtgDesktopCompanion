@@ -24,7 +24,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.tools.ImageTools;
 
-@SuppressWarnings("rawtypes") 
+@SuppressWarnings("rawtypes")
 public class GedEntryComponent extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -36,73 +36,73 @@ public class GedEntryComponent extends JPanel {
 	private int h=100;
 	protected transient Logger logger = MTGLogger.getLogger(GedEntryComponent.class);
 
-	
+
 	public boolean isSelected() {
 		return selected;
 	}
-	
+
 	public GedEntry getEntry() {
 		return entry;
 	}
-	
-	public GedEntryComponent(GedEntry e, int w,int h) 
+
+	public GedEntryComponent(GedEntry e, int w,int h)
 	{
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		setLayout(new BorderLayout(0, 0));
 		this.w=w;
 		this.h=h;
 
-		
+
 		lblDelete = new JLabel(MTGConstants.ICON_SMALL_DELETE);
 		lblDelete.setHorizontalAlignment(SwingConstants.RIGHT);
 		add(lblDelete, BorderLayout.NORTH);
-		
-		
+
+
 		var l = new JXLabel();
 		l.setHorizontalAlignment(SwingConstants.CENTER);
 		this.entry = e;
 		l.setText(entry.getName());
-	
+
 		try {
 			l.setIcon(new ImageIcon(entry.getContent()));
 		}catch(Exception ex)
 		{
 			logger.error(ex);
 		}
-		
-		
+
+
 		l.setLineWrap(true);
 		defaultColor = getBackground();
-		
+
 		if(entry.isImage())
 			l.setIcon(getThumbnail());
-		
+
 		l.setVerticalTextPosition(SwingConstants.BOTTOM);
 		l.setHorizontalTextPosition(SwingConstants.CENTER);
-		
+
 		setToolTipText(e.getName());
 		setOpaque(true);
 		setPreferredSize(new Dimension(w,h));
-		
+
 		add(l);
-		
+
 	}
-	
-	
+
+
 
 	public ImageIcon getThumbnail()
 	{
 			   var buff = getPicture();
-			   
+
 			   if(buff!=null)
 				   return new ImageIcon(buff.getScaledInstance(w, h, Image.SCALE_SMOOTH));
 
 			   return null;
 	}
-	
+
 	public BufferedImage getPicture()
 	{
-		   if(entry.isImage()) 
+		   if(entry.isImage())
 		   {
 			   try {
 				   return ImageTools.read(entry.getContent());
@@ -110,18 +110,18 @@ public class GedEntryComponent extends JPanel {
 				   return null;
 			   }
 		   }
-		   
+
 		   return null;
 	}
 
-	
-	
+
+
 	public void setCallable(Callable<Void> callable)
 	{
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent me) {
-				
+
 				if(me.getClickCount()==2)
 				{
 					try {
@@ -129,7 +129,7 @@ public class GedEntryComponent extends JPanel {
 					} catch (Exception e) {
 						logger.error(e);
 					}
-					
+
 				}
 				else
 				{
@@ -140,16 +140,16 @@ public class GedEntryComponent extends JPanel {
 					else
 						setBackground(defaultColor);
 				}
-				
-				
-				
-				
-				
+
+
+
+
+
 			}
 		});
 	}
-	
-	
+
+
 	public JLabel getRemoveComponent() {
 		return lblDelete;
 	}

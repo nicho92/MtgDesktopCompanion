@@ -6,7 +6,7 @@ import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 
 public enum MTGFrameEffects{
-	
+
 	LEGENDARY,
 	MIRACLE,
 	NYXTOUCHED,
@@ -26,7 +26,7 @@ public enum MTGFrameEffects{
 	SNOW,
 	COMPANION,
 	WAXINGANDWANINGMOONDFC;
-	
+
 	public String toPrettyString() {
 		return StringUtils.capitalize(name().toLowerCase());
 	}
@@ -35,7 +35,7 @@ public enum MTGFrameEffects{
 	{
 		return names.stream().map(MTGFrameEffects::parseByLabel).filter(Objects::nonNull).toList();
 	}
-	
+
 	public static MTGFrameEffects parseByLabel(String s)
 	{
 		try {

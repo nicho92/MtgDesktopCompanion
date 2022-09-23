@@ -10,32 +10,32 @@ import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.services.MTGConstants;
 
 public class JBuzyLabel extends AbstractBuzyIndicatorComponent {
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private JLabel label;
 	private int max;
 	private int currentVal;
-	
-	
+
+
 	@Override
 	public JComponent getBuzyComponent() {
 		return label;
 	}
-	
+
 	public JBuzyLabel() {
 		super();
 		label = new JLabel(MTGConstants.ICON_LOADING);
 		label.setHorizontalAlignment(SwingConstants.LEFT);
 		add(label,BorderLayout.CENTER);
-	
+
 		setValue(0);
 		max=-1;
-	
+
 	}
-	
+
 	@Override
 	public void setText(String s) {
 		label.setText(s);
@@ -74,10 +74,10 @@ public class JBuzyLabel extends AbstractBuzyIndicatorComponent {
 
 	@Override
 	public int getValue() {
-		
+
 		if(currentVal>=max)
 			return max;
-		
+
 		return currentVal;
 	}
 }

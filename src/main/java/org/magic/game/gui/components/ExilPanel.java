@@ -13,7 +13,7 @@ import org.magic.game.model.ZoneEnum;
 public class ExilPanel extends DraggablePanel {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 

@@ -14,22 +14,22 @@ import org.magic.tools.MemoryTools;
 public class Cache2kCache extends AbstractCacheProvider {
 
 	Cache<String, BufferedImage> cache;
-	
+
 	public Cache2kCache() {
 		cache = new Cache2kBuilder<String, BufferedImage>() {}
 	    .expireAfterWrite(getInt("EXPIRATION_MINUTE"), TimeUnit.MINUTES)
 	    .entryCapacity(getLong("CAPACITY"))
 	    .build();
 	}
-	
-	
+
+
 	@Override
 	public BufferedImage getItem(MagicCard mc) {
 		return cache.get(generateIdIndex(mc));
 	}
-	
-	
-	
+
+
+
 
 	@Override
 	public void put(BufferedImage im, MagicCard mc) throws IOException {
@@ -48,14 +48,14 @@ public class Cache2kCache extends AbstractCacheProvider {
 	public long size() {
 		return cache.asMap().entrySet().stream().mapToLong(MemoryTools::sizeOf).sum();
 	}
-	
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		return Map.of("EXPIRATION_MINUTE","10", 
+		return Map.of("EXPIRATION_MINUTE","10",
 							    "CAPACITY","100");
 	}
-	
-	
+
+
 	@Override
 	public String getName() {
 		return "Cache2k";

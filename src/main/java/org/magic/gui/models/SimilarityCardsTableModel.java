@@ -9,10 +9,10 @@ import org.magic.gui.abstracts.GenericTableModel;
 
 public class SimilarityCardsTableModel extends GenericTableModel<MagicCard> {
 
-	
+
 	private static final long serialVersionUID = 1L;
 	private transient Map<MagicCard,Float> map;
-	
+
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex) {
@@ -28,7 +28,7 @@ public class SimilarityCardsTableModel extends GenericTableModel<MagicCard> {
 	@Override
 	public Object getValueAt(int row, int column) {
 
-		
+
 		MagicCard r = new ArrayList<>(map.keySet()).get(row);
 		switch (column) {
 		case 0:return r;

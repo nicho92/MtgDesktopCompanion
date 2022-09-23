@@ -16,19 +16,19 @@ public class ChromiumBrowserComponent extends MTGUIBrowserComponent {
 	private transient PandomiumClient client;
 	private transient CefBrowser browser;
 	private String currentUrl;
-	
-	
+
+
 	public ChromiumBrowserComponent() throws IOException {
 		setLayout(new BorderLayout());
-		
-		
+
+
 		try {
 			client = UITools.getPandomiumInstance().createClient();
 			browser = client.loadURL("about:blank");
 			add(browser.getUIComponent(),BorderLayout.CENTER);
-			
+
 			client.getCefClient().addLoadHandler(new CefLoadHandlerAdapter() {
-				
+
 				@Override
 				public void onLoadingStateChange(CefBrowser browser, boolean isLoading, boolean canGoBack, boolean canGoForward) {
 					if(!isLoading)
@@ -37,24 +37,24 @@ public class ChromiumBrowserComponent extends MTGUIBrowserComponent {
 						observable.notifyObservers(browser.getURL());
 					}
 				}
-					
+
 			});
-			
-			
+
+
 		} catch (UnsatisfiedLinkError e) {
 			logger.error("maybe add : -Djava.library.path=\"{}\" at jvm startup args",MTGConstants.NATIVE_DIR);
 			throw new IOException(e);
-		} 
-			
+		}
+
 	}
-	
-	
-	
+
+
+
 
 	@Override
 	public String getCurrentURL() {
 		return currentUrl;
-				
+
 	}
 
 	@Override
@@ -63,6 +63,6 @@ public class ChromiumBrowserComponent extends MTGUIBrowserComponent {
 		browser.loadURL(url);
 	}
 
-	
+
 
 }

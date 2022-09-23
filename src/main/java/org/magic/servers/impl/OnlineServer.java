@@ -31,8 +31,8 @@ public class OnlineServer extends AbstractMTGServer {
 	private static final String SERVER_PORT = "SERVER-PORT";
 	private static final String PLAYER = "PLAYER";
 	private static final String MAX_CLIENT = "MAX_CLIENT";
-	
-	
+
+
 	private IoAcceptor acceptor;
 	private IoHandlerAdapter adapter = new IoHandlerAdapter() {
 
@@ -55,7 +55,7 @@ public class OnlineServer extends AbstractMTGServer {
 
 			refreshPlayers(session);
 		}
-		
+
 		@Override
 		public void sessionCreated(IoSession session) throws Exception {
 			logger.debug("New Session {} ",session.getRemoteAddress());
@@ -66,12 +66,12 @@ public class OnlineServer extends AbstractMTGServer {
 		public void sessionIdle(IoSession session, IdleStatus status) throws Exception {
 			refreshPlayers(session); // refresh list users
 		}
-		
+
 		private void execute(AbstractNetworkAction act) {
-			
+
 			logger.debug("Send {} to {} ",act,acceptor.getManagedSessions().values());
-			
-			
+
+
 			for (IoSession s : acceptor.getManagedSessions().values())
 				s.write(act);
 		}
@@ -107,7 +107,7 @@ public class OnlineServer extends AbstractMTGServer {
 	}
 
 
-	
+
 	public void refreshPlayers(IoSession session) {
 		List<Player> list = new ArrayList<>();
 		for (IoSession s : acceptor.getManagedSessions().values().stream().filter(s->session.getId() != ((Player) s.getAttribute(PLAYER)).getId()).toList()) {
@@ -123,7 +123,7 @@ public class OnlineServer extends AbstractMTGServer {
 		acceptor.getFilterChain().addLast("codec", new ProtocolCodecFilter(new ObjectSerializationCodecFactory()));
 		acceptor.getSessionConfig().setReadBufferSize(getInt("BUFFER-SIZE"));
 		acceptor.getSessionConfig().setIdleTime(IdleStatus.BOTH_IDLE,getInt("IDLE-TIME"));
-		
+
 	}
 
 	@Override
@@ -168,7 +168,7 @@ public class OnlineServer extends AbstractMTGServer {
 				 MAX_CLIENT, "0");
 
 	}
-	
+
 	@Override
 	public Icon getIcon() {
 		return MTGConstants.ICON_NETWORK;
@@ -178,5 +178,5 @@ public class OnlineServer extends AbstractMTGServer {
 	public String getVersion() {
 		return "2.0.21";
 	}
-	
+
 }

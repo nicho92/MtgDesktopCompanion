@@ -49,6 +49,6 @@ public class JVMemoryPanel extends JPanel {
 			setColor(Color.BLACK, Color.RED);
 		else
 			setColor(defaultFront, defaultBack);
-		
+
 	}
 }

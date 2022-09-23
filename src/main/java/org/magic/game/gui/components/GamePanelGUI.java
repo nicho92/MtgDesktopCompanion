@@ -51,7 +51,7 @@ import org.utils.patterns.observer.Observer;
 public class GamePanelGUI extends JPanel implements Observer {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private JSpinner spinLife;
@@ -75,7 +75,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 	private TurnsPanel turnsPanel;
 	private ExilPanel exilPanel;
 	private StackPanel stackPanel;
-	
+
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public static GamePanelGUI getInstance() {
@@ -118,7 +118,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 		panelBattleField.setPlayer(p1);
 		panelLibrary.setPlayer(p1);
 		exilPanel.setPlayer(p1);
-		
+
 	}
 
 	private GamePanelGUI() {
@@ -127,11 +127,11 @@ public class GamePanelGUI extends JPanel implements Observer {
 
 		panneauDroit = new JPanel();
 		stackPanel=new StackPanel(true);
-		
+
 		GameManager.getInstance().getStack().addObserver(stackPanel);
-		
+
 		panelInfo = new JPanel();
-			
+
 
 		add(panneauDroit, BorderLayout.CENTER);
 		panneauDroit.setLayout(new BorderLayout(0, 0));
@@ -148,7 +148,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 		gblpanelActions.columnWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		gblpanelActions.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		panelActions.setLayout(gblpanelActions);
-		
+
 		var btnStart = new JButton(MTGConstants.PLAY_ICON);
 				btnStart.setToolTipText(capitalize("START"));
 				btnStart.addActionListener(ae -> {
@@ -165,7 +165,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 					new DrawHandActions().actionPerformed(ae);
 					clean();
 				});
-						
+
 				var btnSideboard = new JButton(MTGConstants.ICON_IMPORT);
 								btnSideboard.setToolTipText(capitalize("SIDEBOARD"));
 								btnSideboard.addActionListener(e -> {
@@ -173,7 +173,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 									gui.setVisible(true);
 									player.setDeck(gui.getDeck());
 								});
-								
+
 								var btnNewGame = new JButton(MTGConstants.ICON_OPEN);
 										btnNewGame.setToolTipText(capitalize("CHOOSE_DECK"));
 										btnNewGame.addActionListener(ae -> {
@@ -187,7 +187,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 													p1.setDeck(deck);
 													setPlayer(p1);
 													GameManager.getInstance().initGame();
-													
+
 												}
 											} catch (Exception e) {
 												logger.error("Error loading deck", e);
@@ -205,7 +205,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 								gbcbtnSideboard.gridx = 1;
 								gbcbtnSideboard.gridy = 0;
 								panelActions.add(btnSideboard, gbcbtnSideboard);
-				
+
 								var gbcbtnStart = new GridBagConstraints();
 						gbcbtnStart.fill = GridBagConstraints.HORIZONTAL;
 						gbcbtnStart.insets = new Insets(0, 0, 5, 0);
@@ -337,8 +337,8 @@ public class GamePanelGUI extends JPanel implements Observer {
 		scrollActions.setPreferredSize(new Dimension((int) MTGControler.getInstance().getCardsGameDimension().getWidth(), 0));
 		tabbedPane.addTab(capitalize("EVENTS"), null, scrollActions,null);
 
-		
-		
+
+
 		var pane = new JPanel();
 		pane.setLayout(new BorderLayout());
 
@@ -347,8 +347,8 @@ public class GamePanelGUI extends JPanel implements Observer {
 
 		tabbedPane.addTab(capitalize("DESCRIPTION"), MTGConstants.ICON_TAB_DETAILS, pane, null);
 		tabbedPane.addTab(capitalize("STACK"), MTGConstants.ICON_TAB_DECK, stackPanel, null);
-		
-		
+
+
 		var panelPics = new JPanel();
 		tabbedPane.addTab(capitalize("PICTURES"), MTGConstants.ICON_TAB_PICTURE, panelPics, null);
 		panelPics.setLayout(new BorderLayout(0, 0));
@@ -473,7 +473,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 	}
 
 	public void describeCard(DisplayableCard mc) {
-		
+
 		panneauHaut.setCard(mc.getMagicCard());
 		lblThumbnailPics.setIcon(new ImageIcon(mc.getFullResPics().getScaledInstance(223, 310, Image.SCALE_SMOOTH)));
 	}
@@ -487,11 +487,11 @@ public class GamePanelGUI extends JPanel implements Observer {
 		return lblHandCount;
 	}
 
-	
+
 	public JLabel getLblLibraryCount() {
 		return lblLibraryCount;
 	}
-	
+
 	public ManaPoolPanel getManaPoolPanel() {
 		return manaPoolPanel;
 	}

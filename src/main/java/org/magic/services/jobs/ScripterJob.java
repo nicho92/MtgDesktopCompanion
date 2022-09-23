@@ -15,15 +15,15 @@ import org.quartz.JobExecutionException;
 
 public class ScripterJob implements Job {
 
-	
+
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 
-	
+
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
-		
+
 		var name=context.getJobDetail().getJobDataMap().get("SCRIPT_NAME").toString();
-		
+
 		var optScripter = PluginRegistry.inst().listEnabledPlugins(MTGScript.class).stream().filter(s->FilenameUtils.getExtension(name).toLowerCase().endsWith(s.getExtension().toLowerCase())).findAny();
 		if(optScripter.isPresent())
 		{
@@ -39,8 +39,8 @@ public class ScripterJob implements Job {
 		{
 			logger.error("No scripter found for "+ name + ". Available ext are : " + PluginRegistry.inst().listEnabledPlugins(MTGScript.class).stream().map(MTGScript::getExtension).toList());
 		}
-		
-		
+
+
 
 	}
 

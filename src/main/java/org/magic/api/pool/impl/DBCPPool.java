@@ -21,15 +21,15 @@ import com.mchange.v2.c3p0.cfg.C3P0Config;
 
 public class DBCPPool extends AbstractPoolProvider {
 
-	
+
 	private BasicDataSource dataSource;
-	
-	
+
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-			
+
 		var map = new HashMap<String,String>();
-		
+
 		map.put("defaultAutoCommit",TRUE);
 		map.put("cacheState",TRUE);
 		map.put("lifo",String.valueOf(BaseObjectPoolConfig.DEFAULT_LIFO));
@@ -60,10 +60,10 @@ public class DBCPPool extends AbstractPoolProvider {
 		map.put("testOnBorrow",TRUE);
 		map.put("testOnReturn",FALSE);
 		map.put("fastFailValidation",FALSE);
-		
+
 		return map;
 	}
-	
+
 	@Override
 	public void init(String url, String user, String pass, boolean enable) {
 
@@ -78,9 +78,9 @@ public class DBCPPool extends AbstractPoolProvider {
 				BeanUtils.setProperty(dataSource, ks.getKey().toString(), ks.getValue());
 			} catch (Exception e) {
 				logger.error(e);
-			} 
+			}
         });
-        
+
         if(!enable) {
 			  dataSource.setMinIdle(1);
 	          dataSource.setMaxIdle(1);
@@ -93,28 +93,28 @@ public class DBCPPool extends AbstractPoolProvider {
 	public String getVersion() {
 		return POMReader.readVersionFromPom(C3P0Config.class, "/META-INF/maven/org.apache.commons/commons-pool2/pom.properties");
 	}
-	
+
 	@Override
 	public Connection getConnection() throws SQLException {
 		return dataSource.getConnection();
 	}
-	
+
 
 	@Override
 	public void close() throws SQLException {
 		dataSource.close();
-		
+
 	}
 
 	@Override
 	public String getName() {
 		return "DBCP2";
 	}
-	
+
 
 	@Override
 	public Icon getIcon() {
 		return new ImageIcon(AbstractMTGPlugin.class.getResource("/icons/plugins/apache.png"));
 	}
-	
+
 }

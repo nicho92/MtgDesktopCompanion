@@ -8,5 +8,5 @@ public interface MTGComparator<T extends MagicCard> extends Comparator<MagicCard
 
 	public int getWeight(T mc);
 
-	
+
 }

@@ -16,20 +16,20 @@ import org.magic.tools.UITools;
 public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private Color c;
-	
-	
+
+
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 
 		if (column == 4)
 			value = NumberFormat.getPercentInstance().format((double) value);
-		
+
 		Component pane;
-		
+
 		if(value instanceof ImageIcon ic)
 		{
 			pane=new JLabel(ic);
@@ -43,11 +43,11 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 		{
 			pane = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 		}
-		
+
 		pane.setBackground(c);
-		
+
 		double val = (double) table.getValueAt(row, 4);
-		
+
 		if (val>= 0.1 && val<0.5) {
 			pane.setBackground(MTGConstants.COLLECTION_1PC);
 			pane.setForeground(Color.BLACK);
@@ -70,8 +70,8 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 
 		if(isSelected)
 			UITools.applyDefaultSelection(pane);
-		
-		
+
+
 		return pane;
 	}
 

@@ -14,36 +14,36 @@ public class DiscordInfo extends AbstractAuditableItem {
 	private JsonObject channel;
 	private String message;
 	private String error;
-	
+
 	public JsonObject getUser() {
 		return user;
 	}
-	
+
 	public JsonObject getGuild() {
 		return guild;
 	}
-	
+
 	public JsonObject getChannel() {
 		return channel;
 	}
-	
+
 	public void setChannel(JsonObject channel) {
 		this.channel = channel;
 	}
-	
+
 	public void setGuild(JsonObject guild) {
 		this.guild = guild;
 	}
-	
+
 	public void setUser(JsonObject user) {
 		this.user = user;
 	}
-	
-	
+
+
 	public String getMessage() {
 		return message;
 	}
-	
+
 	public static JsonObject parse(User author) {
 		var user = new JsonObject();
 		user.addProperty("id", author.getId());
@@ -76,13 +76,13 @@ public class DiscordInfo extends AbstractAuditableItem {
 
 	public void setMessage(String contentRaw) {
 		this.message=contentRaw;
-		
+
 	}
 
 	public void setError(String message2) {
 		this.error=message2;
 	}
-	
+
 	public String getError() {
 		return error;
 	}

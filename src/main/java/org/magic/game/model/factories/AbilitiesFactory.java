@@ -22,29 +22,29 @@ public class AbilitiesFactory implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private static AbilitiesFactory inst;
-	
+
 	public static AbilitiesFactory getInstance()
 	{
-		
+
 		if(inst==null)
 			inst=new AbilitiesFactory();
-		
+
 		return inst;
 	}
-	
-	
+
+
 	private AbilitiesFactory() {
-		
+
 	}
-	
+
 	private List<String> listSentences(MagicCard mc)
 	{
 		return Arrays.asList(mc.getText().split("\n"));
 	}
-	
+
 	public List<AbstractAbilities> getAbilities(MagicCard mc)
 	{
-		
+
 		mc.setText(removeParenthesis(mc.getText()));
 		List<AbstractAbilities> ret = new ArrayList<>();
 		ret.addAll(getActivatedAbilities(mc));
@@ -53,13 +53,13 @@ public class AbilitiesFactory implements Serializable{
 		ret.addAll(getStaticAbilities(mc));
 		return ret;
 	}
-	
+
 	private String removeParenthesis(String text)
 	{
 		return text.replaceAll(CardsPatterns.REMINDER.getPattern(),"");
 	}
-	
-	
+
+
 	public List<AbstractAbilities> getActivatedAbilities(MagicCard mc) {
 		List<AbstractAbilities> ret = new ArrayList<>();
 		if(!mc.isPlaneswalker())
@@ -67,21 +67,21 @@ public class AbilitiesFactory implements Serializable{
 			for(String s : listSentences(mc))
 			{
 				int end = s.indexOf('.');
-				
+
 				if(s.indexOf(':')>1 && s.indexOf(':')<end)
 				{
 					String[] costs = s.substring(0,s.indexOf(':')).split(",");
 					var abs = new ActivatedAbilities();
 					abs.setCard(mc);
-					
+
 					for(String c : costs)
 						abs.addCost(CostsFactory.getInstance().parseCosts(c.trim()));
-					
+
 					abs.addEffect(EffectsFactory.getInstance().parseEffect(mc,s.substring(s.indexOf(':')+1)));
-					
-					
+
+
 					ret.add(abs);
-					
+
 				}
 			}
 		}
@@ -92,13 +92,13 @@ public class AbilitiesFactory implements Serializable{
 		List<LoyaltyAbilities> list = new ArrayList<>();
 		if(mc.isPlaneswalker())
 		{
-			
+
 			for(String s : listSentences(mc))
 			{
-				
+
 				Matcher m  = CardsPatterns.extract(s, CardsPatterns.LOYALTY_PATTERN);
 				if(m.matches()) {
-				
+
 				var abilities = new LoyaltyAbilities();
 				abilities.setCard(mc);
 				String c = m.group(1);
@@ -124,7 +124,7 @@ public class AbilitiesFactory implements Serializable{
 					catch(Exception e)
 					{
 						abilities.setCost(new LoyaltyCost("-"));
-					}	
+					}
 				}
 				abilities.addEffect(EffectsFactory.getInstance().parseEffect(mc,m.group(2)));
 				list.add(abilities);
@@ -132,7 +132,7 @@ public class AbilitiesFactory implements Serializable{
 			}
 		}
 		return list;
-		
+
 	}
 
 	public List<StaticAbilities> getStaticAbilities(MagicCard mc) {
@@ -153,7 +153,7 @@ public class AbilitiesFactory implements Serializable{
 									   t.setCard(mc);
 									   t.setCost(null);
 									   t.init(k,listSentences(mc).subList(i, listSentences(mc).size()));
-									   
+
 					arr.add(t);
 				}
 			}
@@ -162,5 +162,5 @@ public class AbilitiesFactory implements Serializable{
 		return arr;
 	}
 
-	
+
 }

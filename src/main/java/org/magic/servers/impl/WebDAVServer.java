@@ -26,32 +26,32 @@ public class WebDAVServer extends AbstractMTGServer {
 	private static final String AUTOSTART = "AUTOSTART";
 	private Server server;
 	private static final String SERVER_PORT = "SERVER-PORT";
-	
-	
+
+
 	@Override
 	public void start() throws IOException {
 		server = new Server(getInt(SERVER_PORT));
-		
-		
+
+
 		var ctx = new ServletContextHandler(ServletContextHandler.SESSIONS);
 		ctx.setContextPath("/");
-		
+
 		var handler = new ServletHandler();
-		
+
 		ctx.addServlet(new ServletHolder("default", new MiltonServlet()),"/");
-		
-		
+
+
 		FilterHolder fh = handler.addFilterWithMapping(MiltonFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));
 					 fh.setInitParameter("resource.factory.class", WebDavMTGResourceFactory.class.getCanonicalName());
-					 
+
 
 		ctx.addFilter(fh, "/*", EnumSet.of(DispatcherType.REQUEST));
-					 
+
 		logger.trace(ctx.dump());
-	
+
 		ctx.setHandler(handler);
 		server.setHandler(ctx);
-		
+
 		try {
 			server.start();
 			logger.info("Webdav start on port http://"+InetAddress.getLocalHost().getHostName() + ":"+getInt(SERVER_PORT));
@@ -94,8 +94,8 @@ public class WebDAVServer extends AbstractMTGServer {
 	public String getName() {
 		return "WebDAV";
 	}
-	
-	
+
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of(
@@ -105,12 +105,12 @@ public class WebDAVServer extends AbstractMTGServer {
 						PASS, "pass");
 	}
 
-	
+
 	@Override
 	public String getVersion() {
 		return POMReader.readVersionFromPom(MiltonServlet.class, "/META-INF/maven/io.milton/milton-server-ce/pom.properties");
 	}
-	
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
@@ -123,7 +123,7 @@ public class WebDAVServer extends AbstractMTGServer {
 	public String getPassword() {
 		return getString(PASS);
 	}
-	
+
 }
 
 

@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Contact implements Serializable {
 
-	
+
 	private static final long serialVersionUID = 1L;
 	private int id=-1;
 	private String name;
@@ -20,17 +20,18 @@ public class Contact implements Serializable {
 	private transient String pass="changeit";
 	private boolean active=false;
 	private String temporaryToken;
-	
 
+
+	@Override
 	public boolean equals(Object obj) {
 	    if(!(obj instanceof Contact))
 	    	return false;
-	    
+
 	    return ((Contact)obj).getId()==getId();
 	}
-	
 
-	
+
+
 	public String getTemporaryToken() {
 		return temporaryToken;
 	}
@@ -38,12 +39,12 @@ public class Contact implements Serializable {
 	public void setTemporaryToken(String temporaryToken) {
 		this.temporaryToken = temporaryToken;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return getId();
 	}
-	
+
 	public String getZipCode() {
 		return zipCode;
 	}
@@ -79,11 +80,11 @@ public class Contact implements Serializable {
 	public void setPassword(String password) {
 		this.pass = password;
 	}
-	
+
 	public String getPassword() {
 		return pass;
 	}
-	
+
 	public String getWebsite() {
 		return website;
 	}
@@ -91,11 +92,11 @@ public class Contact implements Serializable {
 	public boolean isEmailAccept() {
 		return emailAccept;
 	}
-	
+
 	public void setEmailAccept(boolean emailAccept) {
 		this.emailAccept = emailAccept;
 	}
-	
+
 
 	public void setWebsite(String website) {
 		this.website = website;
@@ -106,8 +107,8 @@ public class Contact implements Serializable {
 	public String toString() {
 		return getName() +" " + getLastName();
 	}
-	
-	
+
+
 	public String getName() {
 		return name;
 	}
@@ -144,7 +145,7 @@ public class Contact implements Serializable {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	
-	
-	
+
+
+
 }

@@ -30,12 +30,13 @@ public class ShoppingDashlet extends AbstractJDashlet {
 	public ImageIcon getDashletIcon() {
 		return MTGConstants.ICON_SHOP;
 	}
-	
+
 	@Override
 	public String getCategory() {
 		return "Market";
 	}
-	
+
+	@Override
 	public void initGUI() {
 		var panel = new JPanel();
 		var groupedShoppingPanel = new GroupedShoppingPanel();
@@ -44,40 +45,40 @@ public class ShoppingDashlet extends AbstractJDashlet {
 		JList<MagicCard> list = new JList<>(model);
 		var panneauHaut = new JPanel();
 		var btnClear = new JButton(MTGConstants.ICON_DELETE);
-		
+
 		getContentPane().add(panel, BorderLayout.NORTH);
 		list.setCellRenderer(new MagicCardListRenderer());
 		panneauHaut.add(btnClear);
 		panneauHaut.add(btnPast);
 		getContentPane().add(new JScrollPane(list), BorderLayout.CENTER);
 		getContentPane().add(panneauHaut, BorderLayout.NORTH);
-		
+
 		btnClear.addActionListener(ae->model.removeAllElements());
-		
-		
-		
+
+
+
 		btnPast.addActionListener(al->{
-			
+
 			try {
 				MagicDeck d = getPlugin(MTGConstants.DEFAULT_CLIPBOARD_NAME,MTGCardsExport.class).importDeck(null,null);
 				d.getMain().keySet().forEach(model::addElement);
-				
-				
+
+
 				groupedShoppingPanel.enableControle(!model.isEmpty());
-				
+
 				groupedShoppingPanel.initListCards(IntStream.range(0,model.size()).mapToObj(model::get).toList());
-				
-				
+
+
 			} catch (Exception e) {
 				logger.error(e);
 				MTGControler.getInstance().notify(e);
 			}
-			
+
 		});
-		
+
 	getContentPane().add(groupedShoppingPanel, BorderLayout.EAST);
-	
-		
+
+
 		if (getProperties().size() > 0) {
 			var r = new Rectangle((int) Double.parseDouble(getString("x")),
 					(int) Double.parseDouble(getString("y")), (int) Double.parseDouble(getString("w")),
@@ -86,7 +87,7 @@ public class ShoppingDashlet extends AbstractJDashlet {
 			setBounds(r);
 		}
 	}
-		
+
 	@Override
 	public String getName() {
 		return "Shopping";
@@ -96,7 +97,7 @@ public class ShoppingDashlet extends AbstractJDashlet {
 	@Override
 	public void init() {
 		// do nothing
-		
+
 	}
 
 

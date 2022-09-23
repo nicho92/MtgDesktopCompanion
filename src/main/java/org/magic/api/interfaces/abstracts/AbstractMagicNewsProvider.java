@@ -12,5 +12,5 @@ public abstract class AbstractMagicNewsProvider extends AbstractMTGPlugin implem
 	public PLUGINS getType() {
 		return PLUGINS.NEWS;
 	}
-	
+
 }

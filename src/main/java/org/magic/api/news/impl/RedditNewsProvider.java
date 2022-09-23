@@ -24,21 +24,21 @@ import net.dean.jraw.pagination.Paginator;
 public class RedditNewsProvider extends AbstractMagicNewsProvider {
 
 	private NetworkAdapter adapter;
-	
+
 	@Override
 	public List<MagicNewsContent> listNews(MagicNews n) throws IOException {
-		
-		
+
+
 		if(adapter==null)
 			adapter = new OkHttpNetworkAdapter(new UserAgent(MTGConstants.MTG_APP_NAME));
-		
+
 		List<MagicNewsContent> ret = new ArrayList<>();
 		var credentials = Credentials.script(getAuthenticator().get("USER"), getAuthenticator().get("PASSWORD"),getAuthenticator().get("APPID"), getAuthenticator().get("SECRET"));
 		var reddit = OAuthHelper.automatic(adapter, credentials);
 		Paginator<Submission> pagin = reddit.subreddit(n.getName()).posts().limit(getInt("LIMIT")).build();
-		
+
 		List<Submission> l = pagin.next();
-		
+
 		l.forEach(s->{
 			var content = new MagicNewsContent();
 			content.setAuthor(s.getAuthor());
@@ -52,20 +52,20 @@ public class RedditNewsProvider extends AbstractMagicNewsProvider {
 			ret.add(content);
 		});
 		return ret;
-		
+
 	}
-	
+
 	@Override
 	public String getVersion() {
 		return Version.get();
 	}
-	
+
 @Override
 public List<String> listAuthenticationAttributes() {
 	return List.of("USER","PASSWORD","APPID","SECRET");
 }
-	
-	
+
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 			return Map.of("LIMIT", "10");
@@ -77,5 +77,5 @@ public List<String> listAuthenticationAttributes() {
 	public String getName() {
 		return "Reddit";
 	}
-	
+
 }

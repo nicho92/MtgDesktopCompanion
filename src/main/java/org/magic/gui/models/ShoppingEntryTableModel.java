@@ -14,29 +14,29 @@ public class ShoppingEntryTableModel extends GenericTableModel<OrderEntry> {
 	public ShoppingEntryTableModel() {
 		columns=new String[]{"ID", "SOURCE","DATE","TYPE","MOVE","DESCRIPTION","EDITION","PRICE" };
 	}
-	
+
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		if(columns[columnIndex].equals("ID"))
 			return OrderEntry.class;
-		
+
 		if(columns[columnIndex].equals("DATE"))
 			return Date.class;
-		
+
 		if(columns[columnIndex].equals("PRICE"))
 			return Double.class;
-		
+
 		if(columns[columnIndex].equals("EDITION"))
 			return MagicEdition.class;
-		
+
 		return super.getColumnClass(columnIndex);
 	}
-	
-	
+
+
 	@Override
 	public Object getValueAt(int row, int column) {
 		OrderEntry e = items.get(row);
-		switch (column) { 
+		switch (column) {
 			case 0 : return e;
 			case 1 : return e.getSource();
 			case 2 : return e.getTransactionDate();
@@ -46,7 +46,7 @@ public class ShoppingEntryTableModel extends GenericTableModel<OrderEntry> {
 			case 6 : return e.getEdition();
 			case 7 : return e.getItemPrice();
 			default : return new Object();
-			
+
 		}
 	}
 }

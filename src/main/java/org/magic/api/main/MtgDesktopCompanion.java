@@ -36,30 +36,30 @@ public class MtgDesktopCompanion {
 
 	public MtgDesktopCompanion() {
 		chrono = new Chrono();
-		
+
 		launch = new MTGSplashScreen();
 		MTGLogger.getMTGAppender().addObserver(launch);
-		
-		
+
+
 		launch.start();
 		chrono.start();
 		try {
-			
+
 			boolean updated = MTGControler.getInstance().updateConfigMods();
 
-			
+
 			MTGControler.getInstance().loadAccountsConfiguration();
 			MTGLogger.changeLevel(MTGControler.getInstance().get("loglevel"));
 
-	
+
 			logger.trace("result config updated : {}",updated);
 
 			if (updated)
 				MTGControler.getInstance().notify(new MTGNotification(capitalize("NEW"), capitalize("NEW_MODULE_INSTALLED"), MESSAGE_TYPE.INFO));
-				
+
 			getEnabledPlugin(MTGCardsProvider.class).init();
 			getEnabledPlugin(MTGDao.class).init();
-			
+
 			logger.info("Init {} GUI",MTGConstants.MTG_APP_NAME);
 		} catch (Exception e) {
 			logger.error("Error initialisation", e);
@@ -67,7 +67,7 @@ public class MtgDesktopCompanion {
 		}
 
 		ThreadManager.getInstance().invokeLater(new MTGRunnable() {
-			
+
 			@Override
 			protected void auditedRun() {
 				var gui = new MagicGUI();
@@ -75,11 +75,11 @@ public class MtgDesktopCompanion {
 				MTGControler.getInstance().getLafService().setLookAndFeel(gui,MTGControler.getInstance().get("lookAndFeel"),false);
 				gui.setExtendedState(Frame.MAXIMIZED_BOTH);
 				gui.setVisible(true);
-				
+
 				MTGControler.getInstance().cleaning();
-				
+
 				launch.stop();
-				
+
 				listEnabledPlugins(MTGServer.class).stream().filter(MTGServer::isAutostart).forEach(s->{
 					try {
 						s.start();
@@ -89,7 +89,7 @@ public class MtgDesktopCompanion {
 				});
 				long time = chrono.stop();
 				logger.info("{} started in {} sec",MTGConstants.MTG_APP_NAME ,time);
-				
+
 			}
 		}, "Running Main App GUI");
 	}

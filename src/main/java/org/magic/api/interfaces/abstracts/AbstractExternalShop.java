@@ -17,16 +17,16 @@ import org.magic.tools.MTG;
 
 public abstract class AbstractExternalShop extends AbstractMTGPlugin implements MTGExternalShop {
 
-	
+
 	protected abstract List<Transaction> loadTransaction() throws IOException;
 	protected abstract List<MTGStockItem> loadStock(String search) throws IOException;
-	protected abstract void saveOrUpdateStock(List<MTGStockItem> it) throws IOException ;	
-	
-	protected Map<MTGStockItem, Map.Entry<Integer,Double>> itemsBkcp; 
-	
-	
-	
-	
+	protected abstract void saveOrUpdateStock(List<MTGStockItem> it) throws IOException ;
+
+	protected Map<MTGStockItem, Map.Entry<Integer,Double>> itemsBkcp;
+
+
+
+
 	@Override
 	public PLUGINS getType() {
 		return PLUGINS.EXTERNAL_SHOP;
@@ -35,8 +35,8 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 	protected AbstractExternalShop() {
 		itemsBkcp = new HashMap<>();
 	}
-	
-	
+
+
 	protected List<ConverterItem> getRefs(Long id)
 	{
 		try {
@@ -46,11 +46,11 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 			return new ArrayList<>();
 		}
 	}
-	
-	
+
+
 	@Override
 	public List<Transaction> listTransaction() throws IOException {
-		
+
 		var list= loadTransaction();
 		list.forEach(t->
 			t.getItems().forEach(item->{
@@ -58,7 +58,7 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 				getRefs(item.getId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getSource(),String.valueOf(converterItem.getInputId())));
 			})
 			);
-		
+
 		return list;
 	}
 
@@ -71,16 +71,16 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 			getRefs(item.getId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getSource(),String.valueOf(converterItem.getInputId())));
 			itemsBkcp.put(item, new SimpleEntry<>(item.getQte(), item.getPrice()) );
 		});
-		
-		
-			
+
+
+
 		return list;
 	}
 
 	@Override
-	public void saveOrUpdateStock(List<MTGStockItem> items,boolean allShop) throws IOException {	
+	public void saveOrUpdateStock(List<MTGStockItem> items,boolean allShop) throws IOException {
 			saveOrUpdateStock(items);
-		
+
 			if(allShop)
 			{
 				for(var it :items )
@@ -91,37 +91,37 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 						it.setId(Integer.parseInt( it.getTiersAppIds(extComName)));
 						MTG.getPlugin(extComName, MTGExternalShop.class).saveOrUpdateStock(it, false);
 					}
-					
-					
+
+
 				}
 			}
 	}
-	
+
 
 	@Override
-	public void saveOrUpdateStock(MTGStockItem it,boolean allShop) throws IOException {	
+	public void saveOrUpdateStock(MTGStockItem it,boolean allShop) throws IOException {
 		saveOrUpdateStock(List.of(it),allShop);
 	}
-	
-	
-	
+
+
+
 	//TODO make a function to update stock in cascade with transaction
 	@Override
 	public void updateStockFromTransaction(Transaction t) throws IOException {
 		t.getItems().forEach(msi->{
-			
+
 			if(msi.getTiersAppIds(getName())!=null)
 			{
 				logger.info("{} is synchronized with {}",msi.getProduct(), getName());
 			}
-			
+
 		});
 
-			
-	
+
+
 	}
-	
-	
+
+
 	@Override
 	public  void updateConversion(String sourcename, String productName, Long idProduct, Long idDestProduct ) throws IOException
 	{
@@ -131,14 +131,14 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 			throw new IOException(e);
 		}
 	}
-	
+
 	@Override
 	public void deleteTransaction(List<Transaction> list) throws IOException {
 		for(Transaction t : list)
 			deleteTransaction(t);
 	}
-	
-	
+
+
 }
 
 

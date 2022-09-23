@@ -18,7 +18,7 @@ import org.magic.services.MTGControler;
 public class SearchCardFrame extends JDialog {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	HandPanel pane;

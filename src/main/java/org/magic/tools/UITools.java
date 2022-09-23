@@ -108,11 +108,11 @@ public class UITools {
 	private static Pandomium instance;
 	protected static Logger logger = MTGLogger.getLogger(UITools.class);
 
-	
-	
+
+
 	private UITools() {}
-	
-	
+
+
 	public static final int getComponentIndex(Component component) {
 	    if (component != null && component.getParent() != null) {
 	      Container c = component.getParent();
@@ -124,7 +124,7 @@ public class UITools {
 
 	    return -1;
 	  }
-	
+
 	public static String humanReadableSize(long bytes) {
 	    long absB = bytes == Long.MIN_VALUE ? Long.MAX_VALUE : Math.abs(bytes);
 	    if (absB < 1024) {
@@ -139,15 +139,15 @@ public class UITools {
 	    value *= Long.signum(bytes);
 	    return String.format("%.1f %ciB", value / 1024.0, ci.current());
 	}
-	
+
 	public static void setDefaultRenderer(JTable table, TableCellRenderer render) {
 
 		for (var i = 0; i < table.getColumnCount(); i++) {
 			table.getColumnModel().getColumn(i).setCellRenderer(render);
 		}
 	}
-	
-	
+
+
 	public static Pandomium getPandomiumInstance()
 	{
 		if(instance==null)
@@ -155,21 +155,21 @@ public class UITools {
 			instance = Pandomium.builder()
 								.nativeDirectory(MTGConstants.NATIVE_DIR.getAbsolutePath())
 								.build();
-			
+
 			logger.debug("loading pandomium");
-			
+
 		}
-		
+
 		return instance;
 	}
-	
-	
+
+
 	public static void buildCategorizedMenu(JPopupMenu menu, JMenuItem it, MTGCardsExport exp)
 	{
 		boolean foundCateg=false;
 		for(var m : menu.getSubElements())
 		{
-			if(m instanceof JMenuItem subMenuCategory && subMenuCategory.getText().equals(exp.getCategory().name()))	
+			if(m instanceof JMenuItem subMenuCategory && subMenuCategory.getText().equals(exp.getCategory().name()))
 				{
 						foundCateg=true;
 						subMenuCategory.add(it);
@@ -184,9 +184,9 @@ public class UITools {
 			menu.add(itCateg);
 		}
 	}
-	
-	
-	
+
+
+
 	public static void browse(String uri)
 	{
 		try {
@@ -196,14 +196,14 @@ public class UITools {
 			logger.error(e);
 		}
 	}
-	
-	
+
+
 	public static JXTable createNewTable(TableModel mod)
 	{
 		var table = new JXTable();
 				if(mod!=null)
 					table.setModel(mod);
-		
+
 				table.setDefaultRenderer(Boolean.class, new BooleanCellEditorRenderer());
 				table.setDefaultRenderer(Double.class, new DoubleCellEditorRenderer());
 				table.setDefaultRenderer(Integer.class, new NumberCellEditorRenderer());
@@ -211,14 +211,14 @@ public class UITools {
 				table.setDefaultRenderer(boolean.class, new BooleanCellEditorRenderer());
 				table.setDefaultRenderer(double.class, new DoubleCellEditorRenderer());
 				table.setDefaultRenderer(int.class, new NumberCellEditorRenderer());
-				
+
 				table.setDefaultRenderer(Date.class, new DateTableCellEditorRenderer());
 				table.setDefaultRenderer(Instant.class, new DateTableCellEditorRenderer());
 				table.setDefaultRenderer(MagicEdition.class, new MagicEditionJLabelRenderer());
 				table.setDefaultRenderer(MTGPlugin.class, new MTGPluginCellRenderer());
 				table.setDefaultRenderer(Player.class, new PlayerRenderer());
-				
-				
+
+
 				table.setDefaultEditor(Double.class, new DoubleCellEditorRenderer());
 				table.setDefaultEditor(Integer.class, new NumberCellEditorRenderer());
 				table.setDefaultEditor(Long.class, new NumberCellEditorRenderer());
@@ -229,14 +229,14 @@ public class UITools {
 				table.setDefaultEditor(Date.class, new DateTableCellEditorRenderer());
 				table.setDefaultEditor(EnumCondition.class, new ComboBoxEditor<>(EnumCondition.values()));
 				table.setDefaultEditor(TransactionStatus.class, new ComboBoxEditor<>(TransactionStatus.values()));
-				table.setDefaultEditor(Level.class,  new ComboBoxEditor<Level>(MTGLogger.getLevels()) );
+				table.setDefaultEditor(Level.class,  new ComboBoxEditor<>(MTGLogger.getLevels()) );
 
 				try {
 					table.setDefaultEditor(MagicCollection.class, new ComboBoxEditor<>(getEnabledPlugin(MTGDao.class).listCollections()));
 				} catch (Exception e1) {
 					logger.error(e1);
 				}
-				
+
 				table.setColumnControlVisible(true);
 				table.putClientProperty("terminateEditOnFocusLost", true);
 				table.setRowHeight(MTGConstants.TABLE_ROW_HEIGHT);
@@ -248,49 +248,49 @@ public class UITools {
 				{
 					//do nothing
 				}
-				
+
 		return table;
 	}
-	
-	
+
+
 	public static String[] stringLineSplit(String s,boolean removeBlank)
 	{
 		if(removeBlank)
 			return s.split("["+System.lineSeparator()+"]+");
-		
+
 		return s.lines().toArray(String[]::new);
 	}
-	
+
 	public static GridBagConstraints createGridBagConstraints(Integer anchor,Integer fill,int col,int line)
 	{
 		var cons = new GridBagConstraints();
-		
+
 		if(anchor!=null)
 			cons.anchor = anchor;
-		
+
 		if(fill!=null)
 			cons.fill = fill;
-		
+
 		cons.insets = new Insets(0, 0, 5, 5);
 		cons.gridx = col;
 		cons.gridy = line;
-		
+
 		return cons;
 	}
-	
+
 	public static GridBagConstraints createGridBagConstraints(Integer anchor,Integer fill,int col,int line,Integer gridW, Integer gridH)
 	{
 		var cons = createGridBagConstraints(anchor,fill,col,line);
-		
+
 		if(gridW!=null)
 			cons.gridwidth = gridW;
-		
+
 		if(gridH!=null)
 			cons.gridheight = gridH;
-		
+
 		return cons;
 	}
-	
+
 	public static JTextField createSearchField()
 	{
 		JTextField txtSearch;
@@ -299,23 +299,23 @@ public class UITools {
 		  txtSearch= new JTextField(capitalize("SEARCH_MODULE"));
 		}
 		else
-		{	
+		{
 		  txtSearch = new JXSearchField(capitalize("SEARCH_MODULE"));
 		  ((JXSearchField)txtSearch).setSearchMode(SearchMode.REGULAR);
 		  ((JXSearchField)txtSearch).setRecentSearchesSaveKey("K");
 		  ((JXSearchField)txtSearch).setBackground(Color.WHITE);
 		}
-		
-		
+
+
 		if(MTGControler.getInstance().get("autocompletion").equals("true")) {
 			autocomplete(txtSearch);
 		}
-		
-		
+
+
 		return txtSearch;
 	}
-	
-	
+
+
 	public static void autocomplete(JTextField txtSearch) {
 
 		  final List<String> res = new ArrayList<>();
@@ -325,11 +325,11 @@ public class UITools {
 				res.clear();
 				if(!txtSearch.getText().isEmpty())
 					res.addAll(getEnabledPlugin(MTGCardsIndexer.class).suggestCardName(txtSearch.getText()));
-				
+
 			}
 		});
 		AutoCompleteDecorator.decorate(txtSearch,res,false);
-		
+
 	}
 
 	public static <T extends MTGPlugin> JComboBox<T> createCombobox(Class<T> classe,boolean all)
@@ -343,7 +343,7 @@ public class UITools {
 		combo.setRenderer(new PluginIconListRenderer());
 		return combo;
 	}
-	
+
 	public static JButton createBindableJButton(String text, Icon ic, int key, String name)
 	{
 		var b = new JButton(text, ic);
@@ -351,7 +351,7 @@ public class UITools {
 		ShortKeyManager.inst().setShortCutTo(key, b);
 		return b;
 	}
-	
+
 	public static void bindJButton(JButton b, int key, String name)
 	{
 		b.setName(name);
@@ -365,7 +365,7 @@ public class UITools {
 		combo.setRenderer(new MagicEditionIconListRenderer(s));
 		return combo;
 	}
-	
+
 	public static JComboBox<MagicEdition> createComboboxEditions()
 	{
 		try {
@@ -377,24 +377,24 @@ public class UITools {
 			return new JComboBox<>();
 		}
 	}
-	
+
 	public static <T> JComboBox<T> createCombobox(T[] items)
 	{
 		return createCombobox(Arrays.asList(items));
 	}
-	
+
 	public static <T> JComboBox<T> createCombobox(List<T> items)
 	{
 		return createCombobox(items, MTGConstants.ICON_MANA_INCOLOR);
 	}
-	
+
 	public static <T> JComboBox<T> createCombobox(List<T> items,ImageIcon i)
 	{
 		DefaultComboBoxModel<T> model = new DefaultComboBoxModel<>();
 		JComboBox<T> combo = new JComboBox<>(model);
-		
+
 		items.stream().forEach(model::addElement);
-			
+
 			combo.setRenderer((list,value, index,isSelected,cellHasFocus)->{
 					JLabel l ;
 					if(value==null)
@@ -415,11 +415,11 @@ public class UITools {
 						}
 						else
 						{
-							l.setIcon(i);	
+							l.setIcon(i);
 						}
-						
+
 					}
-					
+
 					l.setOpaque(true);
 					if (isSelected) {
 						l.setBackground(list.getSelectionBackground());
@@ -428,23 +428,23 @@ public class UITools {
 						l.setBackground(list.getBackground());
 						l.setForeground(list.getForeground());
 					}
-					
+
 					return l;
 			});
-			
-			
+
+
 		return combo;
 	}
-	
-	
-	
-	
+
+
+
+
 
 	public static JComboBox<MagicCollection> createComboboxCollection()
 	{
 		DefaultComboBoxModel<MagicCollection> model = new DefaultComboBoxModel<>();
 		JComboBox<MagicCollection> combo = new JComboBox<>(model);
-	
+
 		try {
 			getEnabledPlugin(MTGDao.class).listCollections().stream().forEach(model::addElement);
 			combo.setRenderer(new MagicCollectionIconListRenderer());
@@ -455,19 +455,19 @@ public class UITools {
 		}
 
 	}
-	
+
 	public static Double parseDouble(String text) {
 		try {
-			
-			
+
+
 			if(text.isBlank())
 				return 0.0;
-			
+
 			text=text.replace(",", ".").replaceAll("[$,]","").replaceAll("[%,]", "").replace('\u00A0',' ').trim();
-			
+
 			if(StringUtils.countMatches(text, '.')>1)
 				text=text.replaceFirst("\\.", "");
-			
+
 			return Double.parseDouble(text);
 		} catch (Exception e) {
 			logger.error("error parsing '" + text +"' :", e);
@@ -479,15 +479,15 @@ public class UITools {
 	{
 		return BigDecimal.valueOf(d).setScale(2, RoundingMode.HALF_EVEN).doubleValue();
 	}
-	
+
 	public static String formatDouble(Object f)
 	{
 		if(f==null)
 			return "";
-		
+
 		return new DecimalFormat("#0.0#").format(f);
 	}
-	
+
 	public static void initTableFilter(JTable table)
 	{
 			try {
@@ -500,34 +500,34 @@ public class UITools {
 				logger.error("error setting TableFilter of " + table,e);
 			}
 	}
-	
-	
+
+
 	public static <V> void initCardToolTipTable(final JTable table, final Integer cardPos, final Integer edPos, final Integer extraPos, Callable<V> dblClick) {
 		final var popUp = new JPopupMenu();
 		table.addMouseListener(new MouseAdapter() {
-			
+
 			@Override
-			public void mouseClicked(MouseEvent e) 
+			public void mouseClicked(MouseEvent e)
 			{
 					e.consume();
 					if(e.getClickCount()==2 && dblClick!=null)
 					{
-					
+
 						ThreadManager.getInstance().submitCallable(dblClick,"initTooltip");
 					}
-					else 
+					else
 					{
-						
+
 						var row = table.rowAtPoint(e.getPoint());
 						var pane = new MagicCardDetailPanel();
 						pane.enableThumbnail(true);
 						table.setRowSelectionInterval(row, row);
-						
+
 						var cardName = getModelValueAt(table,row, cardPos.intValue()).toString();
-	
+
 						if (cardName.indexOf('(') >= 0)
 							cardName = cardName.substring(0, cardName.indexOf('(')).trim();
-	
+
 						MagicEdition ed = null;
 						try {
 							if (edPos != null) {
@@ -539,17 +539,17 @@ public class UITools {
 						{
 							logger.error("no edition defined");
 						}
-						
-						
-						
+
+
+
 						try {
 							MagicCard mc =null;
-							if (extraPos != null) 
+							if (extraPos != null)
 							{
 								var key = getModelValueAt(table,row, extraPos);
 								if(key!=null) {
 									var extraVariations = MTGCardVariation.valueOf(key.toString());
-									mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, ed, true,extraVariations).get(0);	
+									mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, ed, true,extraVariations).get(0);
 								}
 								else
 								{
@@ -561,7 +561,7 @@ public class UITools {
 								mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, ed, true).get(0);
 							}
 								pane.setMagicCard(mc);
-								
+
 								popUp.setBorder(new LineBorder(Color.black));
 								popUp.setVisible(false);
 								popUp.removeAll();
@@ -569,18 +569,18 @@ public class UITools {
 								popUp.add(pane, BorderLayout.CENTER);
 								popUp.show(table, e.getX()+5, e.getY()+5);
 								popUp.setVisible(true);
-		
+
 							} catch (IndexOutOfBoundsException ex) {
 								logger.error(cardName + "is not found");
 							} catch (IOException e1) {
 								logger.error("error loading " + cardName,e1);
 							}
-						
+
 				}
 			}
 		});
 	}
-		
+
 	public static <T> List<T> getTableSelections(JTable tableCards,int columnID) {
 		int[] viewRow = tableCards.getSelectedRows();
 		List<T> listCards = new ArrayList<>();
@@ -591,7 +591,7 @@ public class UITools {
 	}
 
 	public static <T> T getTableSelection(JTable tableCards,int columnID) {
-		try{ 
+		try{
 			return (T) getTableSelections(tableCards, columnID).get(0);
 		}
 		catch(IndexOutOfBoundsException e)
@@ -604,28 +604,28 @@ public class UITools {
 	{
 		return (T) tableCards.getModel().getValueAt(tableCards.convertRowIndexToModel(row), column);
 	}
-	
+
 
 	public static void applyDefaultSelection(Component pane) {
 			pane.setForeground(SystemColor.textHighlightText);
 			pane.setBackground(SystemColor.inactiveCaption);
 	}
-	
+
 	public static Date parseGMTDate(String gmtDate) {
 		gmtDate=gmtDate.replace("\"", "");
 		return DatatypeConverter.parseDateTime(gmtDate).getTime();
 	}
-	
+
 
 	public static Date parseDate(String indexDate) {
-		
+
 		return parseDate(indexDate, MTGControler.getInstance().getLangService().get(DATE_FORMAT));
 	}
-	
+
 	public static Date parseDate(String indexDate,String format) {
 		if(indexDate==null)
 			return new Date();
-		
+
 		try {
 			return new SimpleDateFormat(format).parse(indexDate);
 		} catch (ParseException e) {
@@ -635,53 +635,53 @@ public class UITools {
 	}
 
 	public static String formatDate(Date indexDate) {
-		
+
 		return formatDate(indexDate,MTGControler.getInstance().getLangService().get(DATE_FORMAT));
 	}
-	
+
 	public static String formatDate(Date indexDate, String format) {
-		
+
 		if(indexDate==null)
 			return "";
-		
+
 		return new SimpleDateFormat(format).format(indexDate);
 	}
-	
-	
+
+
 	public static String formatDate(Instant date) {
 		return new SimpleDateFormat(MTGControler.getInstance().getLangService().get(DATE_FORMAT)+" HH:mm:ss.S").format(Date.from(date));
 	}
-	
-	
+
+
 	public static String formatDateTime(Date indexDate) {
 		if(indexDate==null)
 			return "";
-		
+
 		return new SimpleDateFormat(MTGControler.getInstance().getLangService().get(DATE_FORMAT) +" HH:mm:ss").format(indexDate);
 	}
 
 
 	public static void addTab(JTabbedPane pane, MTGUIComponent comp) {
 		pane.addTab(capitalize(comp.getTitle()), ImageTools.resize(comp.getIcon(), 15, 15),comp);
-		
+
 	}
 	public static int daysBetween(Date d1, Date d2)
 	{
 		return daysBetween(d1.toInstant(), d2.toInstant());
 	}
-	
-	
-	
+
+
+
 	public static int daysBetween(Instant d1, Instant d2)
 	{
 		return (int) ChronoUnit.DAYS.between(d1, d2);
 	}
-	
-	
-	
+
+
+
 	public static List<Integer> getSelectedRows(JXTable table) {
 		int[] viewRow = table.getSelectedRows();
-		
+
 		var ret = new ArrayList<Integer>();
 		for(int i : viewRow)
 			ret.add(table.convertRowIndexToModel(i));
@@ -697,8 +697,8 @@ public class UITools {
 		List<RowSorter.SortKey> sortKeys = new ArrayList<>();
 		sortKeys.add(new RowSorter.SortKey(index, order));
 		sorter.setSortKeys(sortKeys);
-		
-		
+
+
 	}
 
 

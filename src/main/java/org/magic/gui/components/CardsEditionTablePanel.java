@@ -45,7 +45,7 @@ import org.magic.tools.UITools;
 
 public class CardsEditionTablePanel extends JPanel {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private JXTable table;
@@ -57,21 +57,21 @@ public class CardsEditionTablePanel extends JPanel {
 	private JComboBox<MagicCollection> cboCollection;
 	private transient AbstractObservableWorker<List<MagicCard>, MagicCard,MTGCardsProvider> sw;
 	private JCheckBox chkNeededCards;
-	
-	
+
+
 	public CardsEditionTablePanel() {
 		setLayout(new BorderLayout(0, 0));
-		
+
 		var panneauHaut = new JPanel();
 		model = new MagicCardTableModel();
-		
+
 		table = UITools.createNewTable(model);
 		buzy=AbstractBuzyIndicatorComponent.createProgressComponent();
-		
+
 		table.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
 		table.getColumnModel().getColumn(6).setCellRenderer(new MagicEditionsJLabelRenderer());
 		table.setColumnControlVisible(true);
-		
+
 		for(int i : model.defaultHiddenColumns())
 			table.getColumnExt(model.getColumnName(i)).setVisible(false);
 
@@ -79,26 +79,26 @@ public class CardsEditionTablePanel extends JPanel {
 		sorterCards = new TableRowSorter<>(model);
 		sorterCards.setComparator(7, new NumberSorter());
 		table.setRowSorter(sorterCards);
-		
+
 		UITools.initTableFilter(table);
-		
+
 		panneauHaut.add(buzy);
 		add(new JScrollPane(table), BorderLayout.CENTER);
 		add(panneauHaut,BorderLayout.NORTH);
-		
+
 		var panneauBas = new JPanel();
 		add(panneauBas, BorderLayout.SOUTH);
-		
+
 		cboCollection =  UITools.createComboboxCollection();
 		panneauBas.add(cboCollection);
-		
+
 		btnImport = new JButton(MTGConstants.ICON_MASS_IMPORT_SMALL);
 		btnImport.setEnabled(false);
 		panneauBas.add(btnImport);
-		
+
 		chkNeededCards = new JCheckBox(capitalize("FILTER_NEEDED"));
 		panneauBas.add(chkNeededCards);
-		
+
 		addComponentListener(new ComponentAdapter() {
 			@Override
 			public void componentShown(ComponentEvent componentEvent) {
@@ -106,10 +106,10 @@ public class CardsEditionTablePanel extends JPanel {
 			}
 
 		});
-		
+
 		chkNeededCards.addActionListener(il->{
-			
-			
+
+
 			if(chkNeededCards.isSelected()) {
 				AbstractObservableWorker<List<MagicCard>,MagicCard, MTGDao> work = new AbstractObservableWorker<>(buzy,getEnabledPlugin(MTGDao.class),model.getRowCount()) {
 
@@ -117,7 +117,7 @@ public class CardsEditionTablePanel extends JPanel {
 					protected List<MagicCard> doInBackground() throws Exception {
 						return plug.listCardsFromCollection(MTGControler.getInstance().get("default-library"),currentEdition);
 					}
-					
+
 					@Override
 					protected void error(Exception e) {
 					logger.error(e);
@@ -134,13 +134,13 @@ public class CardsEditionTablePanel extends JPanel {
 							logger.error(e);
 						}
 					}
-					
-					
 
-					
-					
+
+
+
+
 				};
-				
+
 				ThreadManager.getInstance().runInEdt(work, "filtering missing cards");
 			}
 			else
@@ -148,16 +148,16 @@ public class CardsEditionTablePanel extends JPanel {
 				init(currentEdition);
 			}
 		});
-		
-		
+
+
 		btnImport.addActionListener(ae->{
 			List<MagicCard> list = getSelectedCards();
-			
+
 			int res = JOptionPane.showConfirmDialog(null,capitalize("COLLECTION_IMPORT") + " :" + list.size() + " cards in " + cboCollection.getSelectedItem());
 			if(res==JOptionPane.YES_OPTION)
 			{
 				buzy.start(list.size());
-				
+
 				SwingWorker<Void, MagicCard> swImp = new SwingWorker<>()
 				{
 				@Override
@@ -181,36 +181,36 @@ public class CardsEditionTablePanel extends JPanel {
 							}
 						return null;
 						}
-					
+
 						};
-				
-				
-				
+
+
+
 				ThreadManager.getInstance().runInEdt(swImp, "import cards in "+cboCollection.getSelectedItem());
 			}
 		});
 	}
-	
+
 	public MagicCard getSelectedCard()
 	{
 		if(table.getSelectedRow()>-1)
 		{
 			return UITools.getTableSelection(table, 0);
 		}
-		
+
 		return null;
 	}
-	
+
 	public List<MagicCard> getSelectedCards()
 	{
 		return UITools.getTableSelections(table,0);
 	}
-	
-	
+
+
 	public JXTable getTable() {
 		return table;
 	}
-	
+
 	public void init(MagicEdition ed)
 	{
 		this.currentEdition=ed;
@@ -218,29 +218,29 @@ public class CardsEditionTablePanel extends JPanel {
 		if(isVisible())
 			refresh();
 	}
-	
+
 	public void enabledImport(boolean t)
 	{
 		btnImport.setEnabled(t);
 	}
-	
+
 	private void refresh()
 	{
 		if(currentEdition==null)
 			return;
-	
-		
+
+
 		btnImport.setEnabled(false);
-		
-		
+
+
 		if(sw!=null && !sw.isDone())
 		{
 			sw.cancel(true);
 		}
-		
-		
+
+
 		sw = new AbstractObservableWorker<>(buzy,getEnabledPlugin(MTGCardsProvider.class),currentEdition.getCardCount()) {
-			
+
 			@Override
 			protected List<MagicCard> doInBackground() {
 				List<MagicCard> cards = new ArrayList<>();
@@ -252,16 +252,16 @@ public class CardsEditionTablePanel extends JPanel {
 					logger.error(e);
 					return cards;
 				}
-				
+
 			}
-			
+
 			@Override
 			protected void process(List<MagicCard> chunks) {
 				super.process(chunks);
 				model.addItems(chunks);
 			}
-			
-			
+
+
 			@Override
 			protected void done() {
 				try {
@@ -275,14 +275,14 @@ public class CardsEditionTablePanel extends JPanel {
 					logger.error(e);
 				}
 			}
-			
-			
-			
+
+
+
 		};
-		
+
 		ThreadManager.getInstance().runInEdt(sw, "loading edition "+currentEdition);
 	}
-	
-	
+
+
 
 }

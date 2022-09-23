@@ -64,7 +64,7 @@ public class JTagsPanel extends JComponent {
 		panelAdds.setLayout(new BorderLayout(0, 0));
 
 		btnAdd = new JButton();
-		
+
 		AbstractAction action = new AbstractAction("+") {
 			private static final long serialVersionUID = 1L;
 			@Override
@@ -111,7 +111,7 @@ public class JTagsPanel extends JComponent {
 	public void changeFont(Font f) {
 		this.componentFont = f;
 	}
-	
+
 	public List<String> getValues() {
 		return tags;
 	}
@@ -138,7 +138,7 @@ public class JTagsPanel extends JComponent {
 	public void setEditable(boolean l) {
 		isEditable = l;
 		panelAdds.setVisible(isEditable);
-		
+
 		if(isEditable)
 			for (Component c : getComponents()) {
 				if (c instanceof TagLabel t) {
@@ -157,8 +157,8 @@ public class JTagsPanel extends JComponent {
 		tags.add(t);
 		addLabel(t);
 	}
-	
-	
+
+
 	public void addTags(List<String> list) {
 		list.forEach(this::addTag);
 	}
@@ -169,10 +169,10 @@ public class JTagsPanel extends JComponent {
 		panelTags.revalidate();
 		panelTags.repaint();
 	}
-	
+
 	private void addLabel(String s) {
 		var tab = new TagLabel(s, fontForeground, fontBackground, componentFont);
-	
+
 		if (isEditable)
 			tab.addMouseListener(new TagMouseListener(tab));
 
@@ -181,7 +181,7 @@ public class JTagsPanel extends JComponent {
 		repaint();
 	}
 
-	
+
 
 	class TagMouseListener extends MouseAdapter {
 		private TagLabel tagLabel;
@@ -214,7 +214,7 @@ public class JTagsPanel extends JComponent {
 }
 
 class TagLabel extends JLabel {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	public TagLabel(String t, Color f, Color b, Font font) {
@@ -222,12 +222,12 @@ class TagLabel extends JLabel {
 		setFont(font);
 		init(f,b);
 	}
-	
+
 	public TagLabel(String t) {
 		super(t);
 		init(Color.BLACK,Color.WHITE);
 	}
-	
+
 	private void init(Color f, Color b)
 	{
 		setForeground(f);
@@ -244,10 +244,7 @@ class TagLabel extends JLabel {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null)
-			return false;
-
-		if (obj.getClass() != this.getClass())
+		if ((obj == null) || (obj.getClass() != this.getClass()))
 			return false;
 
 		return this.getText().equals(((TagLabel) obj).getText());

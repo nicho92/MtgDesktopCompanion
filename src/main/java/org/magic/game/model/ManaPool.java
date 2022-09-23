@@ -15,7 +15,7 @@ import org.utils.patterns.observer.Observable;
 public class ManaPool extends Observable implements Serializable {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private Map<String, Integer> pool;
@@ -23,7 +23,7 @@ public class ManaPool extends Observable implements Serializable {
 
 	public ManaPool() {
 		pool = new HashMap<>();
-		
+
 	}
 
 	public int getMana(String color) {
@@ -81,6 +81,7 @@ public class ManaPool extends Observable implements Serializable {
 		pool.values().clear();
 	}
 
+	@Override
 	public String toString() {
 
 		var build = new StringBuilder();

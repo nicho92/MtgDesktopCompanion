@@ -23,7 +23,7 @@ public class MagicDeck implements MTGStorable {
 	private Map<MagicCard, Integer> mapSideBoard;
 	private Map<MagicCard, Integer> mapMaybeBoard;
 	private int id;
-	
+
 	private String description;
 	private String name="No Name";
 	private Date dateCreation;
@@ -33,28 +33,28 @@ public class MagicDeck implements MTGStorable {
 	private MagicCard commander;
 
 	public enum BOARD {MAIN, SIDE}
-	
-	public MagicDeck() 
+
+	public MagicDeck()
 	{
 		id=-1;
 		mapDeck = new LinkedHashMap<>();
 		mapSideBoard = new LinkedHashMap<>();
-		mapMaybeBoard =new LinkedHashMap<>(); 
+		mapMaybeBoard =new LinkedHashMap<>();
 		tags = new ArrayList<>();
 		averagePrice = 0;
 		dateCreation=new Date();
 		dateUpdate=new Date();
 	}
-	
+
 
 	@Override
 	public String getStoreId() {
 		return String.valueOf(getId());
 	}
-	
-	
-	
-	
+
+
+
+
 	public int getId() {
 		return id;
 	}
@@ -63,7 +63,7 @@ public class MagicDeck implements MTGStorable {
 		this.id = id;
 	}
 
-	
+
 	public MagicCard getValueAt(int pos) {
 		return new ArrayList<>(getMain().keySet()).get(pos);
 	}
@@ -71,16 +71,16 @@ public class MagicDeck implements MTGStorable {
 	public MagicCard getSideValueAt(int pos) {
 		return new ArrayList<>(getSideBoard().keySet()).get(pos);
 	}
-	
+
 	public MagicCard getMaybeValueAt(int pos) {
 		return new ArrayList<>(getMaybeBoard().keySet()).get(pos);
 	}
-	
-	
+
+
 	public int getNbCards() {
 		return getMain().entrySet().stream().mapToInt(Entry::getValue).sum();
 	}
-	
+
 	public boolean isEmpty() {
 		return getMain().isEmpty() && getSideBoard().isEmpty();
 	}
@@ -88,56 +88,56 @@ public class MagicDeck implements MTGStorable {
 	public List<MagicCard> getUniqueCards() {
 		return getMain().keySet().stream().toList();
 	}
-	
+
 	public int getCardCountByName(String name) {
 			return getMain().entrySet().stream().filter(e->e.getKey().getName().equals(name)).mapToInt(Entry::getValue).sum();
 	}
-	
-	
+
+
 	public void remove(MagicCard mc) {
 		if (getMain().get(mc) == 0)
 			getMain().remove(mc);
 		else
 			getMain().put(mc, getMain().get(mc) - 1);
 	}
-	
+
 	public void removeSide(MagicCard mc) {
 		if (getSideBoard().get(mc) == 0)
 			getSideBoard().remove(mc);
 		else
 			getSideBoard().put(mc, getSideBoard().get(mc) - 1);
 	}
-	
+
 	public void removeMaybe(MagicCard mc) {
 		if (getMaybeBoard().get(mc) == 0)
 			getMaybeBoard().remove(mc);
 		else
 			getMaybeBoard().put(mc, getMaybeBoard().get(mc) - 1);
 	}
-	
-	
+
+
 	public void delete(MagicCard mc) {
 		mapDeck.remove(mc);
 	}
-		
+
 	public void add(MagicCard mc) {
 		getMain().compute(mc, (k,v)->(v==null)?1:v+1);
 	}
-	
+
 	public void addSide(MagicCard mc) {
 		getSideBoard().compute(mc, (k,v)->(v==null)?1:v+1);
 	}
-	
+
 	public void addMaybe(MagicCard mc) {
 		getMaybeBoard().compute(mc, (k,v)->(v==null)?1:v+1);
 	}
-	
+
 
 	public boolean hasCard(MagicCard mc,boolean strict) {
-		
+
 		if(strict)
 			return !getMain().keySet().stream().filter(k->IDGenerator.generate(k).equals(IDGenerator.generate(mc))).findAny().isEmpty();
-		
+
 		return !getMain().keySet().stream().filter(k->k.getName().equalsIgnoreCase(mc.getName())).findAny().isEmpty();
 	}
 
@@ -152,7 +152,7 @@ public class MagicDeck implements MTGStorable {
 	}
 
 	public String getColors() {
-		
+
 		Set<MTGColor> cmap = new LinkedHashSet<>();
 		for (MagicCard mc : getUniqueCards())
 		{
@@ -166,11 +166,11 @@ public class MagicDeck implements MTGStorable {
 			}
 		}
 		var tmp = new StringBuilder();
-		
+
 		cmap.stream().sorted().map(MTGColor::toManaCode).forEach(tmp::append);
 		return tmp.toString();
 	}
-	
+
 	public List<MagicCard> getMainAsList() {
 		return toList(getMain().entrySet());
 	}
@@ -178,32 +178,32 @@ public class MagicDeck implements MTGStorable {
 	public List<MagicCard> getSideAsList() {
 		return toList(getSideBoard().entrySet());
 	}
-	
+
 	public List<MagicCard> getMaybeAsList() {
 		return toList(getMaybeBoard().entrySet());
 	}
 
-	
-	
+
+
 	private List<MagicCard> toList(Set<Entry<MagicCard, Integer>> entrySet) {
 		ArrayList<MagicCard> deck = new ArrayList<>();
 
 		for (Entry<MagicCard, Integer> c : entrySet)
 			for (var i = 0; i < c.getValue(); i++)
 				deck.add(c.getKey());
-		
+
 		return deck;
-		
+
 	}
-	
+
 	public boolean isCompatibleFormat(MagicFormat mf) {
-		for (MagicCard mc : mapDeck.keySet()) 
+		for (MagicCard mc : mapDeck.keySet())
 		{
 			long num = mc.getLegalities().stream().filter(mf::equals).toList().stream().filter(f->f.getFormatLegality()==AUTHORIZATION.LEGAL || f.getFormatLegality()==AUTHORIZATION.RESTRICTED).count();
-			
+
 			if(num<=0)
 				return false;
-			
+
 		}
 		return true;
 	}
@@ -221,8 +221,8 @@ public class MagicDeck implements MTGStorable {
 
 		return d;
 	}
-	
-	
+
+
 	public List<String> getTags() {
 		return tags;
 	}
@@ -242,7 +242,7 @@ public class MagicDeck implements MTGStorable {
 	public Date getDateCreation() {
 		return dateCreation;
 	}
-	
+
 	public Date getDateUpdate() {
 		return dateUpdate;
 	}
@@ -251,6 +251,7 @@ public class MagicDeck implements MTGStorable {
 		this.dateUpdate = dateUpdate;
 	}
 
+	@Override
 	public String toString() {
 		return getName();
 	}
@@ -266,20 +267,20 @@ public class MagicDeck implements MTGStorable {
 	public void setSideBoard(Map<MagicCard, Integer> mapSideBoard) {
 		this.mapSideBoard = mapSideBoard;
 	}
-	
+
 	public Map<MagicCard, Integer> getMaybeBoard() {
 		return mapMaybeBoard;
 	}
-	
+
 	public void setMaybeBoard(Map<MagicCard, Integer> mapMaybeBoard) {
 		this.mapMaybeBoard = mapMaybeBoard;
 	}
-	
+
 
 	public String getName() {
 		return name;
 	}
-	
+
 	public Map<MagicCard, Integer> getMain() {
 		return mapDeck;
 	}
@@ -291,7 +292,7 @@ public class MagicDeck implements MTGStorable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -307,17 +308,17 @@ public class MagicDeck implements MTGStorable {
 	public MagicCard getCommander() {
 		return commander;
 	}
-	
+
 	public MagicCard getCompanion() {
 
 		Optional<MagicCard> opt= getUniqueCards().stream().filter(MagicCard::isCompanion).findFirst();
-		
+
 		if(opt.isPresent())
 			return opt.get();
 		else
 			return null;
-		
-		
+
+
 	}
 
 }

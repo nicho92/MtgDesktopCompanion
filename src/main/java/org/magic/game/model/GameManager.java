@@ -13,19 +13,19 @@ public class GameManager{
 
 	private SpellStack stack;
 	private TriggerManager triggers;
-	
-	
+
+
 	private GameManager() {
 		turns = new ArrayList<>();
 		players = new ArrayList<>();
 		stack = new SpellStack();
 		triggers = new TriggerManager();
 	}
-	
+
 	public TriggerManager getTriggers() {
 		return triggers;
 	}
-	
+
 	public void setTriggers(TriggerManager triggers) {
 		this.triggers = triggers;
 	}

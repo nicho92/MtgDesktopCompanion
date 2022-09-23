@@ -21,11 +21,11 @@ import org.magic.services.network.URLTools;
 
 public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 
-	
+
 	private String baseUrl="https://www.magic-ville.com/fr/decks/";
 	private HashMap<String,String> mapCodes;
 
-	public MagicVilleDeckSniffer() 
+	public MagicVilleDeckSniffer()
 	{
 		mapCodes = new HashMap<>();
 		mapCodes.put("PIONEER",  "resultats?data=1&dci=TP&tour_cur=1&tour_orig=1");
@@ -40,7 +40,7 @@ public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 		mapCodes.put("TINY LEADERS",  "resultats?data=1&alt=TinyLeaders");
 		mapCodes.put("EDH Peasant",  "resultats?data=1&alt=EDHPeasant");
 	}
-	
+
 	@Override
 	public String[] listFilter() {
 		return mapCodes.keySet().stream().toArray(String[]::new);
@@ -52,7 +52,7 @@ public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 		var urlimport = baseUrl+doc.select("div.lil_menu > a[href^=dl_mws]").first().attr("href");
 		var content = RequestBuilder.build().setClient(URLTools.newClient()).method(METHOD.GET).url(urlimport).toContentString();
 		var imp = new MagicWorkStationDeckExport();
-		
+
 		try {
 			imp.addObserver(listObservers().get(0));
 		}
@@ -60,26 +60,26 @@ public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 		{
 			logger.warn("error adding current observer to {}" ,imp);
 		}
-		
+
 		content = content.replace("<br />","").replace("[U]", "[M21]");
-		
+
 		var d = imp.importDeck(content, info.getName());
 		d.setCreationDate(new Date());
 		d.setDateUpdate(new Date());
-		d.setDescription(getName() +" at  " + info.getUrl());	
-		
-		
-		
+		d.setDescription(getName() +" at  " + info.getUrl());
+
+
+
 		return d;
 	}
 
 	@Override
 	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
-		
+
 		List<RetrievableDeck> ret = new ArrayList<>();
 		int maxPage=getInt("MAX_PAGE");
-		
-		
+
+
 		for(var currPage=0;currPage<maxPage;currPage++)
 		{
 			var d = RequestBuilder.build().method(METHOD.GET).setClient(URLTools.newClient())
@@ -89,8 +89,8 @@ public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 				for(Element tr : trs)
 				{
 					Elements tds = tr.select("td");
-					
-					
+
+
 					try {
 						var de = new RetrievableDeck();
 						de.setName(tds.get(0).text());
@@ -100,10 +100,10 @@ public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 						tds.get(3).select("img").forEach(e->{
 							var img = e.attr("src");
 							img = img.substring(img.indexOf("png/")+4,img.indexOf(".png"));
-							
+
 							if(img.length()>1)
 								img = img.substring(1);
-							
+
 							if(img.equals("W")||img.equals("U")||img.equals("B")||img.equals("G")||img.equals("R"))
 								temp.append("{").append(img).append("}");
 						});
@@ -117,12 +117,12 @@ public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 		}
 		return ret;
 	}
-	
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of("MAX_PAGE", "1");
 	}
-	
+
 	@Override
 	public String getName() {
 		return "Magic-Ville";

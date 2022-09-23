@@ -15,34 +15,34 @@ public class MagicEditionIconListRenderer implements ListCellRenderer<MagicEditi
 	public enum SIZE {SMALL,MEDIUM}
 	private SIZE size;
 	private JLabel l;
-	
-	
+
+
 	public MagicEditionIconListRenderer(SIZE s) {
 		size=s;
 		l = new JLabel();
 	}
-	
+
 	public MagicEditionIconListRenderer() {
 		size=SIZE.MEDIUM;
 		l = new JLabel();
 	}
-	
+
 	@Override
 	public Component getListCellRendererComponent(JList<? extends MagicEdition> list, MagicEdition value, int index,boolean isSelected, boolean cellHasFocus) {
-		
-		if (value != null) 
+
+		if (value != null)
 		{
 			ImageIcon ic;
 			if(size==SIZE.SMALL)
 				ic = IconSetProvider.getInstance().get16(value.getId());
 			else
 				ic = IconSetProvider.getInstance().get24(value.getId());
-			
+
 			l.setText(value.getSet());
 			l.setIcon(ic);
 			l.setOpaque(true);
-			
-			
+
+
 			if (isSelected) {
 				l.setBackground(list.getSelectionBackground());
 				l.setForeground(list.getSelectionForeground());
@@ -51,9 +51,9 @@ public class MagicEditionIconListRenderer implements ListCellRenderer<MagicEditi
 				l.setForeground(list.getForeground());
 			}
 		}
-		
+
 		return l;
-		
+
 
 	}
 

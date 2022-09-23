@@ -20,26 +20,26 @@ public class IDGenerator {
 			return "";
 		}
 	}
-	
+
 	public static String generateMD5(String s)
 	{
 		return DigestUtils.md5Hex(s).toUpperCase();
 	}
-	
+
 	public static String generateSha256(String s)
 	{
 		return DigestUtils.sha256Hex(s).toUpperCase();
 	}
-	
+
 
 	public static String generate(MagicCard mc, MagicEdition ed) {
-		
+
 		String number=ed.getNumber();
-		
-		
+
+
 		if(number!=null&&number.isEmpty() )
 			number=null;
-			
+
 		var id = String.valueOf((mc.getName() + ed + number + ed.getMultiverseid()));
 		id = DigestUtils.sha1Hex(id);
 
@@ -47,6 +47,6 @@ public class IDGenerator {
 
 		return id;
 	}
-	
-		
+
+
 }

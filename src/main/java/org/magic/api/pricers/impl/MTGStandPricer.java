@@ -15,9 +15,9 @@ import com.google.gson.JsonElement;
 
 public class MTGStandPricer extends AbstractPricesProvider {
 
-	
+
 	private static final String BASE_URL="https://www.mtgstand.com/";
-	
+
 	@Override
 	public String getName() {
 		return "MTGStand";
@@ -25,22 +25,22 @@ public class MTGStandPricer extends AbstractPricesProvider {
 
 	@Override
 	protected List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
-		
-		
+
+
 		String cur=MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getCurrencyCode();
-		
+
 		String url=BASE_URL+"/api/"+getString("TOKEN")+"/getseller/"+card.getScryfallId()+"/"+cur;
 		logger.debug(getName() +" looking for prices at " + url);
-		
+
 		List<MagicPrice> ret = new ArrayList<>();
-		
+
 		var arr = URLTools.extractAsJson(url).getAsJsonArray();
-		
+
 		if(arr.size()<=0)
 		{
 			return ret;
 		}
-		
+
 		for(JsonElement el : arr)
 		{
 			var p = new MagicPrice();
@@ -54,7 +54,7 @@ public class MTGStandPricer extends AbstractPricesProvider {
 			p.setQty(el.getAsJsonObject().get("quantity").getAsInt());
 			p.setCountry(el.getAsJsonObject().get("user_country").getAsString());
 			p.setSite(getName());
-		
+
 			if(!el.getAsJsonObject().get("SellingPrice"+cur).isJsonNull())
 			{
 				p.setValue(el.getAsJsonObject().get("SellingPrice"+cur).getAsDouble());
@@ -76,6 +76,6 @@ public class MTGStandPricer extends AbstractPricesProvider {
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of("TOKEN", "");
 	}
-	
+
 
 }

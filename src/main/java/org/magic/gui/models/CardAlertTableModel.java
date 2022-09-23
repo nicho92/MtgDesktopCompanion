@@ -12,7 +12,7 @@ import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.CardsManagerService;
 
 public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	public CardAlertTableModel() {
@@ -22,7 +22,7 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
-		switch (columnIndex) { 
+		switch (columnIndex) {
 		case 0:
 			return MagicCardAlert.class;
 		case 1:
@@ -46,8 +46,8 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 		}
 
 	}
-	
-	
+
+
 
 	@Override
 	public boolean isCellEditable(int row, int column) {
@@ -56,11 +56,11 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 
 	@Override
 	public Object getValueAt(int row, int column) {
-		
+
 		if(getItems().isEmpty())
 			return null;
-		
-		
+
+
 		switch (column) {
 		case 0:
 			return getItems().get(row);
@@ -89,11 +89,11 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 	@Override
 	public void setValueAt(Object aValue, int row, int column) {
 		MagicCardAlert alert = getItems().get(row);
-		if (column == 1) 
+		if (column == 1)
 		{
 			MagicEdition ed = (MagicEdition) aValue;
 			try {
-				if(!ed.equals(alert.getCard().getCurrentSet())) 
+				if(!ed.equals(alert.getCard().getCurrentSet()))
 				{
 					getEnabledPlugin(MTGDao.class).deleteAlert(alert);
 					MagicCard mc = CardsManagerService.switchEditions(alert.getCard(), ed);
@@ -101,14 +101,14 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 					alert2.setCard(mc);
 					alert2.setPrice(alert.getPrice());
 					getEnabledPlugin(MTGDao.class).saveAlert(alert2);
-					
+
 				}
 			} catch (Exception e) {
 				logger.error("error {}" ,aValue, e);
 			}
 		}
-		
-		if(column==2) 
+
+		if(column==2)
 		{
 			alert.setQty(Integer.parseInt(aValue.toString()));
 			try {
@@ -117,9 +117,9 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 				logger.error("error set {}",aValue, e);
 			}
 		}
-		
-		
-		if(column==3) 
+
+
+		if(column==3)
 		{
 			alert.setFoil(Boolean.parseBoolean(aValue.toString()));
 			try {
@@ -128,8 +128,8 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 				logger.error("error set {}",aValue, e);
 			}
 		}
-		
-		if(column==4) 
+
+		if(column==4)
 		{
 			alert.setPrice(Double.parseDouble(aValue.toString()));
 			try {
@@ -138,11 +138,11 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 				logger.error("error set {}",aValue, e);
 			}
 		}
-		
-		
-		
+
+
+
 		fireTableDataChanged();
-		
+
 	}
 
 

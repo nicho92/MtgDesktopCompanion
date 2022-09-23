@@ -10,5 +10,5 @@ import org.magic.api.criterias.MTGCrit;
 public interface MTGQueryable  {
 	public List<MagicCard> searchByCriteria(MagicCollection c, MTGCrit<?>... crits) throws IOException;
 	public List<MagicCard> searchByCriteria(MagicCollection c, List<MTGCrit> crits) throws IOException;
-	
+
 }

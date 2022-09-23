@@ -24,8 +24,8 @@ public class MTGArenaDeckSniffer extends AbstractDeckSniffer {
 	private static final String ARENA_LOG_FILE = "ARENA_LOG_FILE";
 
 	private MTGArenaTools arena ;
-	
-	
+
+
 	private void init()
 	{
 		try {
@@ -34,7 +34,7 @@ public class MTGArenaDeckSniffer extends AbstractDeckSniffer {
 			logger.error(e);
 		}
 	}
-	
+
 	@Override
 	public String[] listFilter() {
 		return new String[] { "Game"};
@@ -42,10 +42,10 @@ public class MTGArenaDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
-		
+
 		if(arena==null)
 			init();
-		
+
 			var d = info.toBaseDeck();
 			arena.readDecks().get("payload").getAsJsonArray().forEach(je->{
 				var obj = je.getAsJsonObject();
@@ -55,32 +55,32 @@ public class MTGArenaDeckSniffer extends AbstractDeckSniffer {
 					load(obj,d.getSideBoard(),"sideboard");
 				}
 			});
-				  
-				  
-		
+
+
+
 		return d;
 	}
-	
+
 	private void load(JsonObject obj, Map<MagicCard, Integer> map, String string) {
 		var arr = obj.get(string).getAsJsonArray();
-		
+
 		List<String> ids= new ArrayList<>();
 		List<Integer> qtys = new ArrayList<>();
-		
-		
+
+
 		for(var i=0;i<arr.size();i=i+2)
 		{
 			ids.add(arr.get(i).getAsString());
 		}
-		
+
 		for(var i=1;i<arr.size();i=i+2)
 		{
 			qtys.add(arr.get(i).getAsInt());
 		}
-		
+
 		logger.debug("found {} ids and {} qty",ids.size(),qtys.size());
-		
-		
+
+
 		for(var i=0;i<ids.size();i++)
 		{
 			try {
@@ -91,24 +91,24 @@ public class MTGArenaDeckSniffer extends AbstractDeckSniffer {
 				logger.error("no cards found for {}",ids.get(i));
 			}
 		}
-		
+
 	}
 
 	@Override
 	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
-		
+
 		if(arena==null)
 			init();
-		
+
 		List<RetrievableDeck> ret = new ArrayList<>();
 		JsonObject json = arena.readDecks();
-		
+
 		json.get("payload").getAsJsonArray().forEach(je->{
-			
+
 			var obj = je.getAsJsonObject();
 			var d = new RetrievableDeck();
 							d.setName(obj.get("name").getAsString());
-							
+
 							if(d.getName().startsWith("?"))
 							{
 								d.setName(d.getName().substring(d.getName().indexOf("_")+1));
@@ -118,7 +118,7 @@ public class MTGArenaDeckSniffer extends AbstractDeckSniffer {
 							{
 								d.setAuthor(arena.getAccount());
 							}
-							
+
 							try {
 							d.setDescription(obj.get("description").getAsString());
 							}
@@ -126,16 +126,16 @@ public class MTGArenaDeckSniffer extends AbstractDeckSniffer {
 							{
 								//do nothing
 							}
-							
+
 							try {
 								d.setUrl(new URI(obj.get("id").getAsString()));
 							} catch (URISyntaxException e) {
 								logger.error(e);
 							}
-							
+
 							ret.add(d);
 		});
-		
+
 		return ret;
 	}
 
@@ -143,7 +143,7 @@ public class MTGArenaDeckSniffer extends AbstractDeckSniffer {
 	public String getName() {
 		return "MTGArena";
 	}
-	
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of(ARENA_LOG_FILE,"C:\\Users\\"+System.getProperty("user.name")+"\\AppData\\LocalLow\\Wizards Of The Coast\\MTGA\\Player.log");

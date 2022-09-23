@@ -12,7 +12,7 @@ public abstract class Abstract3DBarChart<B,C extends Comparable<C>,D extends Com
 
 	private static final long serialVersionUID = 1L;
 	protected CategoryPlot3D plot;
-	
+
 	@Override
 	public void refresh() {
 		initPlot();
@@ -23,16 +23,16 @@ public abstract class Abstract3DBarChart<B,C extends Comparable<C>,D extends Com
 	@Override
 	protected void createNewChart() {
 		chart = Chart3DFactory.createBarChart(
-                getTitle(), 
-                "", 
-                getDataSet(), 
+                getTitle(),
+                "",
+                getDataSet(),
                 "", "", "");
-	
-		
+
+
 		plot = (CategoryPlot3D) chart.getPlot();
 	}
-	
 
-	
+
+
 
 }

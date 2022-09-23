@@ -17,25 +17,25 @@ import org.magic.services.MTGConstants;
 public class DoubleCellEditorRenderer extends AbstractCellEditor implements TableCellEditor, TableCellRenderer{
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private JFormattedTextField fmtTxtField;
 	private NumberFormat format = new DecimalFormat();
 	private boolean enableArrow;
-	
-	
+
+
 	public DoubleCellEditorRenderer() {
 		fmtTxtField = new JFormattedTextField(format);
 		enableArrow=false;
 	}
-	
+
 	public DoubleCellEditorRenderer(boolean enabledArrow)
 	{
 		this.enableArrow=enabledArrow;
 		fmtTxtField = new JFormattedTextField(format);
 	}
-	
+
 	public DoubleCellEditorRenderer(boolean enablePercent, boolean enabledArrow)
 	{
 		this.enableArrow=enabledArrow;
@@ -59,23 +59,23 @@ public class DoubleCellEditorRenderer extends AbstractCellEditor implements Tabl
 
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
-		
-		
+
+
 		format.setMaximumFractionDigits(2);
 		format.setMaximumFractionDigits(2);
 
 		Double val=-1.0 ;
-		
-		
+
+
 		if(value==null)
 			return new JLabel();
-		
-		
+
+
 		if(value instanceof Long l)
 			val = l.doubleValue();
 		else if(value instanceof Double l)
 			val = l;
-		
+
 
 		var l= new JLabel(format.format(val),SwingConstants.CENTER);
 		l.setOpaque(true);
@@ -88,31 +88,31 @@ public class DoubleCellEditorRenderer extends AbstractCellEditor implements Tabl
 		{
 			l.setBackground(table.getBackground());
 			l.setForeground(table.getForeground());
-			
+
 		}
-		
+
 		if(enableArrow) {
 			l.setHorizontalTextPosition(SwingConstants.LEFT);
 			if (val > 0)
 			{
 				l.setIcon(MTGConstants.ICON_UP);
 			}
-	
+
 			if (val < 0)
 			{
 				l.setIcon(MTGConstants.ICON_DOWN);
-				
+
 			}
-	
+
 			if (val == 0)
 			{
 				l.setIcon(MTGConstants.ICON_STANDBY);
 			}
-			
+
 		}
-		
+
 		return l;
 	}
 
-	
+
 }

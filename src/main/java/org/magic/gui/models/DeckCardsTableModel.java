@@ -14,7 +14,7 @@ import org.magic.services.CardsManagerService;
 public class DeckCardsTableModel extends DefaultTableModel {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -38,10 +38,10 @@ public class DeckCardsTableModel extends DefaultTableModel {
 
 		if (columnIndex == 3)
 			return List.class;
-		
+
 		if (columnIndex == 5)
 			return Boolean.class;
-		
+
 		if (columnIndex == 4)
 			return Integer.class;
 
@@ -85,7 +85,7 @@ public class DeckCardsTableModel extends DefaultTableModel {
 			mc = deck.getValueAt(row);
 			break;
 		}
-		
+
 		if (column == 0)
 			return mc;
 
@@ -109,7 +109,7 @@ public class DeckCardsTableModel extends DefaultTableModel {
 			}
 
 		}
-		
+
 		if (column == 5)
 			return mc.isArenaCard();
 
@@ -146,7 +146,7 @@ public class DeckCardsTableModel extends DefaultTableModel {
 	public void setValueAt(Object aValue, int row, int column) {
 
 		MagicCard mc = (this.t == TYPE.DECK) ? deck.getValueAt(row) : deck.getSideValueAt(row);
-		
+
 		if (column == 3) {
 			MagicEdition ed = (MagicEdition) aValue;
 
@@ -181,7 +181,7 @@ public class DeckCardsTableModel extends DefaultTableModel {
 					deck.getSideBoard().put(deck.getSideValueAt(row), Integer.valueOf(aValue.toString()));
 				}
 			}
-			
+
 		}
 		fireTableDataChanged();
 	}

@@ -24,14 +24,14 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 	public String getFileExtension() {
 		return ".dck";
 	}
-	
-	
+
+
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		var temp = new StringBuilder();
 		temp.append("NAME: " + deck.getName() + "\n");
-	
-		
+
+
 		for (MagicCard mc : deck.getMain().keySet().stream().filter(mc->mc!=deck.getCommander()).sorted((mc,mc2)->mc.getName().compareTo(mc2.getName())).toList()) {
 			temp.append(deck.getMain().get(mc)).append(" ").append("[").append(mc.getCurrentSet().getId())
 					.append(":").append(mc.getCurrentSet().getNumber()).append("]").append(" ")
@@ -44,7 +44,7 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 					.append("]").append(" ").append(mc.getName()).append("\n");
 			notify(mc);
 		}
-		
+
 		if(deck.getCommander()!=null)
 		{
 			temp.append("SB: ").append("1").append(" ").append("[")
@@ -52,27 +52,27 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 			.append("]").append(" ").append(deck.getCommander().getName()).append("\n");
 			notify(deck.getCommander());
 		}
-		
+
 		FileTools.saveFile(dest, temp.toString());
 	}
-	
+
 	@Override
 	public MagicDeck importDeck(String f,String dname) throws IOException {
 			var deck = new MagicDeck();
 			deck.setName(dname);
 
 			matches(f,true).forEach(m->{
-			
+
 				var cname = cleanName(m.group(5));
 				MagicEdition ed = null;
-				try {			   
+				try {
 					ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(m.group(3));
 				}
 				catch(Exception e)
 				{
 					logger.error("Edition not found for " + m.group(3));
 				}
-				
+
 				String number=null;
 				try {
 					number = m.group(4);
@@ -81,7 +81,7 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 				{
 					//do nothing
 				}
-				
+
 				MagicCard mc = null;
 				if(number!=null && ed !=null)
 				{
@@ -91,7 +91,7 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 						logger.error("no card found with number " + number + "/"+ ed);
 					}
 				}
-				
+
 				if(mc==null)
 				{
 					try {
@@ -99,10 +99,10 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 					} catch (Exception e) {
 						logger.error("no card found for" + cname + "/"+ ed);
 					}
-				
+
 				}
-				
-				
+
+
 				if(m.group(1)!=null)
 				{
 					deck.getSideBoard().put(mc, Integer.parseInt(m.group(2)));
@@ -111,7 +111,7 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 				{
 					deck.getMain().put(mc, Integer.parseInt(m.group(2)));
 				}
-				
+
 				if(deck.getSideAsList().size()==1 && deck.getMainAsList().size()>=99)
 				{
 					var card = deck.getSideAsList().get(0);
@@ -121,9 +121,9 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 				}
 				notify(mc);
 			});
-			
+
 			return deck;
-		
+
 
 	}
 

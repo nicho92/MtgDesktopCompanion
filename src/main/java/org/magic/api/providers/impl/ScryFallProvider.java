@@ -75,7 +75,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
 	private static final String BULK_FILE_URL="https://archive.scryfall.com/json/scryfall-all-cards.json";
 	private String baseURI = "";
-	
+
 	public ScryFallProvider() {
 		super();
 		if(getBoolean(LOAD_CERTIFICATE))
@@ -89,8 +89,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		}
 		baseURI=getString("URL");
 	}
-	
-	
+
+
 	public SVGIcon getSvgFileFor(String idSet)
 	{
 		var ic = new SVGIcon();
@@ -99,14 +99,14 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		ic.setAutosize(1);
 		return ic;
 	}
-	
+
 	public void downloadBulkFile(File f) throws IOException
 	{
 		URLTools.download(BULK_FILE_URL, f);
 	}
 
-	
-	
+
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of(LOAD_CERTIFICATE, "true",
@@ -114,15 +114,15 @@ public class ScryFallProvider extends AbstractCardsProvider {
 								"MULTILANG",FALSE,
 								"LOAD_RULING",FALSE);
 	}
-	
+
 	@Override
 	public void init() {
 		baseURI=getString("URL");
 	}
-	
-	
-	
-	
+
+
+
+
 	@Override
 	public MagicCard getCardById(String id,MagicEdition ed) throws IOException {
 		try {
@@ -132,13 +132,13 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			return null;
 		}
 	}
-	
-	
+
+
 	@Override
 	public MagicCard getCardByScryfallId(String crit) throws IOException {
 		return getCardById(crit);
 	}
-	
+
 
 	public JsonObject getJsonFor(MagicCard mc)
 	{
@@ -149,20 +149,20 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			return null;
 		}
 	}
-	
-	
+
+
 
 	@Override
 	public List<MagicCard> listAllCards() throws IOException {
 		throw new IOException("Not Implemented");
 	}
-	
-	
+
+
 	@Override
 	public MagicCard getCardByArenaId(String id) throws IOException {
 		return searchCardByCriteria("arenaId",id, null, true).get(0);
 	}
-	
+
 	@Override
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact) throws IOException {
 		List<MagicCard> list = new ArrayList<>();
@@ -174,7 +174,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 		var url = new StringBuilder(baseURI);
 				url.append(CARDS);
-				
+
 		if (att.equals(NAME))
 			url.append(SEARCH_Q).append(URLTools.encode("++" + comparator + " include:extras"));
 		else if (att.equals("custom"))
@@ -234,14 +234,14 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	@Override
 	public List<MagicEdition> loadEditions() throws IOException {
 			String url = baseURI + "/sets";
-			var root = URLTools.extractAsJson(url).getAsJsonObject(); 
+			var root = URLTools.extractAsJson(url).getAsJsonObject();
 			List<MagicEdition> eds = new ArrayList<>();
 			for (var i = 0; i < root.get("data").getAsJsonArray().size(); i++) {
 				var e = root.get("data").getAsJsonArray().get(i).getAsJsonObject();
 				MagicEdition ed = generateEdition(e.getAsJsonObject());
 				eds.add(ed);
 			}
-		
+
 		return eds;
 	}
 
@@ -253,22 +253,22 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	@Override
 	public List<QueryAttribute> loadQueryableAttributs() {
 		List<QueryAttribute> arr = new ArrayList<>();
-		
+
 		for(String s :Lists.newArrayList(NAME, "custom", "type", "oracle", "mana",RARITY, "cube", ARTIST, "flavor", WATERMARK, BORDER, FRAME))
 		{
 			arr.add(new QueryAttribute(s,String.class));
 		}
-		
+
 		for(String s :Lists.newArrayList(CMC, POWER, TOUGHNESS,LOYALTY))
 		{
 			arr.add(new QueryAttribute(s,Integer.class));
 		}
-		
+
 		for(String s :Lists.newArrayList("is","foil","nonfoil",OVERSIZED,"promo","reprint","story_spotlight","variation"))
 		{
 			arr.add(new QueryAttribute(s,Boolean.class));
 		}
-		
+
 		arr.add(new QueryAttribute("set",MagicEdition.class));
 		arr.add(new QueryAttribute(COLOR, MTGColor.class));
 		arr.add(new QueryAttribute(COLOR_IDENTITY, MTGColor.class));
@@ -276,26 +276,26 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		arr.add(new QueryAttribute(FINISHES,MTGFinishes.class));
 		return arr;
 	}
-	
+
 	@Override
 	public MTGQueryBuilder<?> getMTGQueryManager() {
 		MTGQueryBuilder<String> b= new ScryfallCriteriaBuilder();
-		
+
 		initBuilder(b);
-		
+
 		return b;
 	}
-	
-	
+
+
 
 	@Override
 	public List<MagicCard> searchByCriteria(MTGCrit<?>[] crits) throws IOException {
 		throw new IOException("Not Yet Implemented");
 	}
-	
-	
-	
-	
+
+
+
+
 
 	@Override
 	public String getVersion() {
@@ -313,10 +313,10 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	}
 
 	private MagicCard loadCard(JsonObject obj, boolean exact, String search){
-		
+
 		try {
 			return cacheCards.get(obj.get("id").getAsString(), new Callable<MagicCard>() {
-				
+
 				@Override
 				public MagicCard call() throws Exception {
 					return generateCard(obj, exact, search);
@@ -326,10 +326,10 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			logger.error("error loading cards", e);
 			return null;
 		}
-		
-		
+
+
 	}
-	
+
 
 	private MagicCard generateCard(JsonObject obj, boolean exact, String search) throws IOException {
 		var mc = new MagicCard();
@@ -340,7 +340,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		mc.setCmc(obj.get(CMC).getAsInt());
 		mc.setLayout(MTGLayout.parseByLabel(obj.get(LAYOUT).getAsString()));
 		mc.setOversized(obj.get(OVERSIZED).getAsBoolean());
-		
+
 		try {
 			mc.setReprintedCard(obj.get(REPRINTED).getAsBoolean());
 		} catch (NullPointerException e) {
@@ -358,7 +358,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		} catch (NullPointerException e) {
 			mc.setStorySpotlight(false);
 		}
-		
+
 		try {
 			mc.setText(obj.get("oracle_text").getAsString());
 		} catch (NullPointerException e) {
@@ -378,9 +378,9 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		if (obj.get(TYPE_LINE) != null)
 			generateTypes(mc, String.valueOf(obj.get(TYPE_LINE)));
 
-		
+
 		mc.setJapanese(String.valueOf(obj.get("LANG")).equals("en"));
-		
+
 		var n = new MagicCardNames();
 		n.setLanguage("English");
 		n.setName(mc.getName());
@@ -427,49 +427,49 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		} catch (NullPointerException e) {
 			logger.trace("frame not found");
 		}
-		
+
 		try {
 			mc.setTcgPlayerId(obj.get("tcgplayer_id").getAsInt());
 		} catch (NullPointerException e) {
 			logger.trace("tcgplayerid not found");
 		}
-		
+
 		try {
 			mc.setFlavorName(obj.get("flavor_name").getAsString());
 		} catch (NullPointerException e) {
 			//do nothing
 		}
-		
-		
-		
-		
+
+
+
+
 		try {
 			mc.setImageName(obj.get(ILLUSTRATION_ID).getAsString());
 		} catch (NullPointerException e) {
 			logger.trace("illustration_id not found");
 		}
-		
+
 		if(obj.get("frame_effects")!=null) {
 			Iterator<JsonElement> it = obj.get("frame_effects").getAsJsonArray().iterator();
 				while (it.hasNext())
 					mc.getFrameEffects().add(MTGFrameEffects.parseByLabel(it.next().getAsString()));
 		}
-		
-		
+
+
 		if (obj.get(COLORS) != null) {
 			Iterator<JsonElement> it = obj.get(COLORS).getAsJsonArray().iterator();
 			while (it.hasNext())
 				mc.getColors().add(MTGColor.colorByCode(it.next().getAsString()));
 
 		}
-		
+
 		if (obj.get(FINISHES) != null) {
 			Iterator<JsonElement> it = obj.get(FINISHES).getAsJsonArray().iterator();
 			while (it.hasNext())
 				mc.getFinishes().add(MTGFinishes.parseByLabel(it.next().getAsString()));
 
 		}
-		
+
 
 		if (obj.get(COLOR_IDENTITY) != null) {
 			Iterator<JsonElement> it = obj.get(COLOR_IDENTITY).getAsJsonArray().iterator();
@@ -479,33 +479,31 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 		if (obj.get("legalities") != null) {
 			var legs = obj.get("legalities").getAsJsonObject();
-			Iterator<Entry<String, JsonElement>> it = legs.entrySet().iterator();
-			while (it.hasNext()) {
-				Entry<String, JsonElement> ent = it.next();
+			for (Entry<String, JsonElement> ent : legs.entrySet()) {
 				var format = new MagicFormat(ent.getKey(),AUTHORIZATION.valueOf(ent.getValue().getAsString().toUpperCase()));
 				mc.getLegalities().add(format);
 			}
 		}
-		
+
 		if (obj.get(BORDER) != null)
 			mc.setBorder(MTGBorder.parseByLabel(obj.get(BORDER).getAsString()));
-		
-		
+
+
 		if (obj.get(GAMES) != null) {
 			var g = obj.get(GAMES).getAsJsonArray();
-			
+
 			g.forEach(el->{
-				
+
 				if(el.getAsString().equals("arena"))
 					mc.setArenaCard(true);
-				
+
 				if(el.getAsString().equals("mtgo"))
 					mc.setMtgoCard(true);
 			});
 		}
-		
-		
-	
+
+
+
 		var idface = 0;
 
 		if (mc.getName().contains("//")) {
@@ -519,13 +517,13 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				}
 			}
 		}
-		if (obj.get(CARD_FACES) != null) 
+		if (obj.get(CARD_FACES) != null)
 		{
 			mc.setText(obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get("oracle_text")
 					.getAsString());
 			mc.setCost(obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get("mana_cost")
 					.getAsString());
-			
+
 			if(obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get(ILLUSTRATION_ID)!=null)
 				mc.setImageName(obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get(ILLUSTRATION_ID).getAsString());
 
@@ -559,7 +557,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		}
 
 		MagicEdition ed = null;
-		
+
 			try {
 				ed = (MagicEdition) BeanUtils.cloneBean(getSetById(obj.get("set").getAsString()));
 				ed.setOnlineOnly(obj.get(DIGITAL).getAsBoolean());
@@ -567,9 +565,9 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				mc.getEditions().add(ed);
 			} catch (Exception e2) {
 				throw new IOException(e2);
-			} 
+			}
 
-			
+
 			if (obj.get("multiverse_ids") != null) {
 				try {
 					ed.setMultiverseid(String.valueOf(obj.get("multiverse_ids").getAsJsonArray().get(idface).getAsInt()));
@@ -578,24 +576,24 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				}
 
 			}
-		
-		
+
+
 		ThreadManager.getInstance().executeThread(new MTGRunnable() {
-			
+
 			@Override
 			protected void auditedRun() {
 				try {
 					if (!mc.isBasicLand())
 						initOtherEdition(mc);
-						
+
 					generateRules(mc);
 				} catch (Exception e) {
 					logger.error("error in initOtherEdition :" + e.getMessage());
 				}
-				
+
 			}
 		}, "other editions");
-		
+
 		postTreatmentCard(mc);
 		notify(mc);
 		return mc;
@@ -603,20 +601,20 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	}
 
 	private void generateRules(MagicCard mc) throws IOException {
-		
+
 		if(getBoolean("LOAD_RULING"))
 		{
 			String url = getString("URL")+CARDS + mc.getId() + "/rulings";
-		
+
 			JsonElement el = URLTools.extractAsJson(url);
 			var arr = el.getAsJsonObject().get("data").getAsJsonArray();
-	
+
 			for (var i = 0; i < arr.size(); i++) {
 				var obr = arr.get(i).getAsJsonObject();
 				var rul = new MagicRuling();
 				rul.setDate(obr.get("published_at").getAsString());
 				rul.setText(obr.get("comment").getAsString());
-	
+
 				mc.getRulings().add(rul);
 			}
 		}
@@ -657,7 +655,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 		var hasMore = true;
 		while (hasMore) {
-	
+
 			try {
 				JsonElement el = URLTools.extractAsJson(url);
 
@@ -697,18 +695,18 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		ed.setSet(obj.get(NAME).getAsString());
 		ed.setType(obj.get("set_type").getAsString());
 
-		
-		
+
+
 		if (obj.get(DIGITAL) != null)
 			ed.setOnlineOnly(obj.get(DIGITAL).getAsBoolean());
 
 		if(obj.get("foil_only") !=null)
 			ed.setFoilOnly(obj.get("foil_only").getAsBoolean());
-		
+
 		ed.setCardCount(obj.get("card_count").getAsInt());
 		ed.setCardCountOfficial(ed.getCardCount());
-		
-		
+
+
 		if (obj.get("block") != null)
 			ed.setBlock(obj.get("block").getAsString());
 
@@ -719,7 +717,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		}
 
 		notify(ed);
-		
+
 		return ed;
 	}
 

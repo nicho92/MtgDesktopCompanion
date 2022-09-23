@@ -22,29 +22,29 @@ public class MTGKeyWord implements Serializable{
 	private TYPE type;
 	private String reminder;
 	private boolean evergreen=false;
-	
+
 	public MTGKeyWord() {
 
 	}
-	
+
 	public MTGKeyWord(String keyword, TYPE type) {
 			this.keyword=keyword;
 			this.type=type;
 	}
-	
+
 	public MTGKeyWord(String keyword, TYPE type,boolean evergreen) {
 		this.keyword=keyword;
 		this.type=type;
 		this.evergreen=evergreen;
 	}
-	
+
 	public MTGKeyWord(String keyword, EVENT event, TYPE type) {
 		super();
 		this.keyword = keyword;
 		this.event = event;
 		this.type = type;
 	}
-	
+
 	public MTGKeyWord(String keyword, EVENT event, TYPE type, boolean evergreen) {
 		super();
 		this.keyword = keyword;
@@ -52,30 +52,27 @@ public class MTGKeyWord implements Serializable{
 		this.type = type;
 		this.evergreen=evergreen;
 	}
-	
-	
+
+
 	@Override
 	public int hashCode() {
 		return getKeyword().hashCode();
 	}
-	
-	
+
+
 	@Override
 	public boolean equals(Object obj) {
-		if(obj==null)
+		if((obj==null) || !(obj instanceof MTGKeyWord))
 			return false;
-		
-		if(!(obj instanceof MTGKeyWord))
-			return false;
-		
+
 		return this.getKeyword().equalsIgnoreCase(((MTGKeyWord)obj).getKeyword());
-		
+
 	}
-	
+
 	public void setEvergreen(boolean evergreen) {
 		this.evergreen = evergreen;
 	}
-	
+
 	public boolean isEvergreen() {
 		return evergreen;
 	}
@@ -83,12 +80,12 @@ public class MTGKeyWord implements Serializable{
 	public void setReminder(String reminder) {
 		this.reminder = reminder;
 	}
-	
+
 	public String getReminder() {
 		return reminder;
 	}
-	
-	
+
+
 	public EVENT getEvent() {
 		return event;
 	}
@@ -126,5 +123,5 @@ public class MTGKeyWord implements Serializable{
 		this.type = type;
 	}
 
-	
+
 }

@@ -16,8 +16,8 @@ import org.magic.services.MTGConstants;
 
 public class WebsiteDeckImport extends AbstractCardExport {
 
-	
-	
+
+
 	@Override
 	public MODS getMods() {
 		return MODS.IMPORT;
@@ -32,32 +32,32 @@ public class WebsiteDeckImport extends AbstractCardExport {
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		throw new NotImplementedException("not implemented");
 	}
-	
+
 	@Override
 	public MTGExportCategory getCategory() {
 		return MTGExportCategory.ONLINE;
 	}
-	
+
 	@Override
 	public boolean needFile() {
 		return false;
 	}
-	
+
 	@Override
 	public boolean needDialogForDeck(MODS mod) {
 		return true;
 	}
-	
+
 	 @Override
 	public boolean needDialogForStock(MODS mod) {
 		return true;
 	}
-	
+
 	@Override
 	public MagicDeck importDeck(String f, String name) throws IOException {
 		return importDeckFromFile(null);
 	}
-	
+
 	@Override
 	public List<MagicCardStock> importStockFromFile(File f) throws IOException {
 		var diag = new DeckSnifferDialog();
@@ -66,7 +66,7 @@ public class WebsiteDeckImport extends AbstractCardExport {
 
 		return importFromDeck(d);
 	}
-	
+
 
 	@Override
 	public MagicDeck importDeckFromFile(File f) throws IOException {

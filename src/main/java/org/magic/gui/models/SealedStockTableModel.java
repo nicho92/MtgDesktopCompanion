@@ -12,13 +12,13 @@ import org.magic.tools.UITools;
 
 public class SealedStockTableModel extends GenericTableModel<SealedStock> {
 
-	
+
 	private static final long serialVersionUID = 1L;
 
 	public SealedStockTableModel() {
 		setColumns("ID","Type","Extra","Edition","LANGUAGE","Quality","Qty","Collection","Price");
 	}
-	
+
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex) {
@@ -34,7 +34,7 @@ public class SealedStockTableModel extends GenericTableModel<SealedStock> {
 		default: return super.getColumnClass(columnIndex);
 		}
 	}
-	
+
 	@Override
 	public Object getValueAt(int row, int column) {
 		SealedStock it = items.get(row);
@@ -52,13 +52,13 @@ public class SealedStockTableModel extends GenericTableModel<SealedStock> {
 			default : return super.getValueAt(row, column);
 		}
 	}
-	
-	
+
+
 	@Override
 	public void setValueAt(Object aValue, int row, int column) {
-		
+
 		SealedStock it = items.get(row);
-		
+
 		switch(column)
 		{
 			case 4: it.setLanguage(String.valueOf(aValue));break;
@@ -68,8 +68,8 @@ public class SealedStockTableModel extends GenericTableModel<SealedStock> {
 			case 8: it.setPrice(UITools.parseDouble(aValue.toString()));break;
 			default: break;
 		}
-		
+
 		it.setUpdated(true);
-		
+
 	}
 }

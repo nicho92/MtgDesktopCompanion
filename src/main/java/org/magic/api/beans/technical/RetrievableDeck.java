@@ -15,17 +15,17 @@ public class RetrievableDeck {
 	private String color;
 	private List<String> keycards;
 
-	
+
 	public MagicDeck toBaseDeck()
 	{
 		var deck = new MagicDeck();
 		deck.setName(getName());
 		deck.setDescription("Import from : " + getUrl());
-			
+
 		return deck;
 	}
-	
-	
+
+
 	public RetrievableDeck() {
 		keycards = new ArrayList<>();
 	}

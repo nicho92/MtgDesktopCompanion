@@ -62,7 +62,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	public String getName() {
 		return "TappedOut";
 	}
-	
+
 	private void initConnexion() throws IOException {
 		httpclient = URLTools.newClient();
 		httpclient.doGet(URI_BASE+"/accounts/login/?next=/");
@@ -83,7 +83,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 						  .addHeader("sec-fetch-site", "same-origin")
 						  .addHeader("sec-fetch-user", "?1")
 						  .addHeader("cache-control","no-cache");
-		
+
 		var resp = httpclient.execute(b);
 		EntityUtils.consume(resp.getEntity());
 		logger.debug("Connection with user = {} : {}",getAuthenticator().getLogin(),resp.getStatusLine().getReasonPhrase());
@@ -127,7 +127,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 			List<MagicCard> ret;
 			if (idSet == null) {
 					ret = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( cardName, null,true);
-				
+
 			} else {
 				var ed = new MagicEdition(idSet);
 				ret = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( cardName, ed, true);
@@ -146,6 +146,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 
 	}
 
+	@Override
 	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
 		JsonElement root = URLTools.extractAsJson(URI_BASE+"/api/deck/latest/"+ filter+"/");
 		List<RetrievableDeck> list = new ArrayList<>();
@@ -166,13 +167,13 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		return list;
 	}
 
-	
+
 	@Override
 	public List<String> listAuthenticationAttributes() {
 		return AccountsManager.generateLoginPasswordsKeys();
 	}
-	
-	
+
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of(LOAD_CERTIFICATE,"true");

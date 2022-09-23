@@ -14,7 +14,7 @@ public interface MTGTokensProvider extends MTGPlugin {
 	boolean isEmblemizer(MagicCard mc);
 
 	public List<MagicCard> listTokensFor(MagicEdition ed)  throws IOException;
-	
+
 	public MagicCard generateTokenFor(MagicCard mc) throws IOException;
 
 	public 	MagicCard generateEmblemFor(MagicCard mc) throws IOException;

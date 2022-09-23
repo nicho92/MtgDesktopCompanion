@@ -23,22 +23,22 @@ public class CardTraderPricer extends AbstractPricesProvider {
 
 	private static final String COUNTRY_FILTER = "COUNTRY_FILTER";
 	private CardTraderService service;
-	
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		var m = super.getDefaultAttributes();
-		
+
 		m.put("AUTOMATIC_ADD_CART", "false");
 		m.put(COUNTRY_FILTER, "IT,FR");
-		
+
 		return m;
 	}
-	
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
 	}
-		
+
 	@Override
 	public String getVersion() {
 		return CardTraderConstants.CARDTRADER_JAVA_API_VERSION;
@@ -48,63 +48,63 @@ public class CardTraderPricer extends AbstractPricesProvider {
 	public String getName() {
 		return "CardTrader";
 	}
-	
+
 	@Override
 	public void alertDetected(List<MagicPrice> p) {
 		init();
 		if(getBoolean("AUTOMATIC_ADD_CART")) {
-		
+
 				for(var price : p)
 				{
 					var mk = (MarketProduct) price.getShopItem();
 					var c = MTGControler.getInstance().getWebConfig().getContact();
-					
+
 					var addr = new Address();
 					addr.setName(c.getName() + " "+ c.getLastName());
 					addr.setCity(c.getCity());
 					addr.setCountry(c.getCountry());
 					addr.setStreet(c.getAddress());
 					addr.setZip(c.getZipCode());
-					
+
 					try {
 						service.addProductToCart(mk, true, 1, addr, addr);
 					} catch (Exception e) {
 						logger.error("Error adding product to cart",e);
 					}
-					
+
 				}
 		}
 	}
-	
+
 
 	@Override
 	protected List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
-		
+
 		init();
-		
+
 		var ret = new ArrayList<MagicPrice>();
-		
+
 		var set = service.getExpansionByCode(card.getCurrentSet().getId());
-		
+
 		var bps = service.listBluePrints(service.getCategoryById(1), card.getName(),set);
-		
+
 		if(bps.isEmpty())
 		{
 			logger.info("{} found nothing",getName());
 			return ret;
 		}
-		
-		
+
+
 		var bp = bps.get(0);
-		
+
 		Chrono c = new Chrono();
 		c.start();
 		logger.debug("Begin searching {}",bp);
 		service.listMarketProductByBluePrint(bp).forEach(marketItem->{
-			
+
 			if(ArrayUtils.contains(getArray(COUNTRY_FILTER),marketItem.getSeller().getCountryCode()) || getString(COUNTRY_FILTER).isEmpty())
 			{
-			
+
 					var mp = new MagicPrice();
 					mp.setCountry(marketItem.getSeller().getCountryCode());
 					mp.setCurrency(marketItem.getPrice().getCurrency());
@@ -121,31 +121,31 @@ public class CardTraderPricer extends AbstractPricesProvider {
 					ret.add(mp);
 			}
 		});
-		
-		
+
+
 		logger.info("{} found {} items in {}ms",getName(),ret.size(),c.stop());
 		return ret;
-		
+
 	}
 
 	private void init() {
 		if(service==null)
 			service = new CardTraderService(getAuthenticator().get("TOKEN"));
-		
+
 			service.setListener((URLCallInfo callInfo)-> {
-				
+
 				var ni = new NetworkInfo();
 				ni.setStart(callInfo.getStart());
 				ni.setEnd(callInfo.getEnd());
 				ni.setReponse(callInfo.getResponse());
 				ni.setRequest(callInfo.getRequest());
-				
+
 				TechnicalServiceManager.inst().store(ni);
-					
-				
+
+
 			});
-		
+
 	}
-	
-	
+
+
 }

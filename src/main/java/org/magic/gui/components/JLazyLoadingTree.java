@@ -31,7 +31,7 @@ import org.magic.services.threads.ThreadManager;
 public class JLazyLoadingTree extends JTree {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private DefaultTreeModel model;
@@ -72,7 +72,7 @@ public class JLazyLoadingTree extends JTree {
 		}
 
 		public MyNode(Object c) {
-			
+
 			obj = c;
 			setUserObject(c);
 			add(new DefaultMutableTreeNode(capitalize("LOADING"),false));
@@ -126,7 +126,7 @@ public class JLazyLoadingTree extends JTree {
 					{
 						Thread.currentThread().interrupt();
 					}
-					
+
 					catch (Exception e) {
 						logger.error(e);
 					}
@@ -243,15 +243,15 @@ public class JLazyLoadingTree extends JTree {
 	}
 
 	public void refresh(TreeNode curr) {
-		
+
 		model.reload(curr);
-		
+
 	}
 
 	public void removeNodeFromParent(DefaultMutableTreeNode curr) {
-				
+
 		model.removeNodeFromParent(curr);
-		
+
 	}
 
 }

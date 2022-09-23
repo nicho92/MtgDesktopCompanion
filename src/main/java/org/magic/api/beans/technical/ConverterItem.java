@@ -3,7 +3,7 @@ package org.magic.api.beans.technical;
 import java.io.Serializable;
 
 public class ConverterItem implements Serializable, Comparable<ConverterItem>
-{ 
+{
 	private static final long serialVersionUID = 1L;
 	private Long id=-1L;
 	private boolean updated=false;
@@ -12,14 +12,14 @@ public class ConverterItem implements Serializable, Comparable<ConverterItem>
 	private Long outputId;
 	private String source;
 	private String destination;
-	
-	
+
+
 	@Override
 	public String toString() {
 		return String.valueOf(getId());
 	}
-	
-	
+
+
 	public Long getId() {
 		return id;
 	}
@@ -28,7 +28,7 @@ public class ConverterItem implements Serializable, Comparable<ConverterItem>
 		this.id=id;
 
 	}
-	
+
 	public void setId(Integer id) {
 		this.id = id.longValue();
 	}
@@ -40,19 +40,19 @@ public class ConverterItem implements Serializable, Comparable<ConverterItem>
 	public void setUpdated(boolean updated) {
 		this.updated = updated;
 	}
-	
+
 	public Long getIdFor(String name)
 	{
 		if(destination.equalsIgnoreCase(name))
 			return outputId;
-		
+
 		if(source.equalsIgnoreCase(name))
 			return inputId;
-		
+
 		return -1L;
 	}
-	
-	
+
+
 	public ConverterItem(String source, String dest, String name, Integer inputId, Integer outputId ) {
 		this.source=source;
 		this.destination=dest;
@@ -60,7 +60,7 @@ public class ConverterItem implements Serializable, Comparable<ConverterItem>
 		this.inputId = inputId.longValue();
 		this.outputId = outputId.longValue();
 	}
-	
+
 	public ConverterItem(String source, String dest, String name,Long inputId, Long outputId ) {
 		this.source=source;
 		this.destination=dest;
@@ -68,12 +68,12 @@ public class ConverterItem implements Serializable, Comparable<ConverterItem>
 		this.inputId = inputId;
 		this.outputId = outputId;
 	}
-	
+
 	public ConverterItem()
 	{
-		
+
 	}
-	
+
 
 	public String getSource() {
 		return source;
@@ -97,7 +97,7 @@ public class ConverterItem implements Serializable, Comparable<ConverterItem>
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public Long getInputId() {
 		return inputId;
 	}
@@ -105,7 +105,7 @@ public class ConverterItem implements Serializable, Comparable<ConverterItem>
 	public void setInputId(Integer inputId) {
 		this.inputId = inputId.longValue();
 	}
-	
+
 	public void setInputId(Long inputId) {
 		this.inputId = inputId;
 	}
@@ -117,7 +117,7 @@ public class ConverterItem implements Serializable, Comparable<ConverterItem>
 	public void setOutputId(Integer outputId) {
 		this.outputId = outputId.longValue();
 	}
-	
+
 	public void setOutputId(Long outputId) {
 		this.outputId = outputId;
 	}

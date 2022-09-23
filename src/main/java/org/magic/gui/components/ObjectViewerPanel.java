@@ -31,10 +31,10 @@ public class ObjectViewerPanel extends MTGUIComponent {
 		setPreferredSize(new Dimension(1,400));
 		var panel = new JPanel();
 		add(panel, BorderLayout.NORTH);
-		
+
 		rdoJson = new JRadioButton("Json");
 		rdoJson.setSelected(true);
-		rdoMemory = new JRadioButton("Memory");		
+		rdoMemory = new JRadioButton("Memory");
 		rdoBeanUtils = new JRadioButton("Bean");
 		var group = new ButtonGroup();
 					group.add(rdoJson);
@@ -43,7 +43,7 @@ public class ObjectViewerPanel extends MTGUIComponent {
 		panel.add(rdoJson);
 		panel.add(rdoMemory);
 		panel.add(rdoBeanUtils);
-		
+
 		rdoJson.addItemListener(il->show(currentObject));
 		rdoMemory.addItemListener(il->show(currentObject));
 		rdoBeanUtils.addItemListener(il->show(currentObject));
@@ -51,10 +51,10 @@ public class ObjectViewerPanel extends MTGUIComponent {
 
 	public void show(Object mc) {
 		currentObject = mc;
-		
+
 		if(currentObject==null)
 			return;
-		
+
 		if(rdoJson.isSelected())
 		{
 			textpane.setText(BeanTools.toJson(currentObject));
@@ -68,14 +68,14 @@ public class ObjectViewerPanel extends MTGUIComponent {
 		{
 			textpane.setText(BeanTools.toString(currentObject,"\t"));
 		}
-		
+
 	}
 
 	@Override
 	public String getTitle() {
 		return "ObjectViewer";
 	}
-	
-	
+
+
 
 }

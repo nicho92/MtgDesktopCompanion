@@ -14,8 +14,8 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 public class C3P0Pool extends AbstractPoolProvider {
 
 	private AbstractComboPooledDataSource datasource;
-	
-	
+
+
 	@Override
 	public Connection getConnection() throws SQLException {
 		return datasource.getConnection();
@@ -34,24 +34,24 @@ public class C3P0Pool extends AbstractPoolProvider {
 		datasource.setUser(user);
 		datasource.setPassword(pass);
 		datasource.setJdbcUrl(url);
-		
+
 	}
-	
+
 	@Override
 	public String getName() {
 		return "C3P0";
 	}
-	
+
 	@Override
 	public String getVersion() {
 		return ComboPooledDataSource.class.getPackage().getImplementationVersion();
 	}
-	
-	
+
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		var map = new HashMap<String,String>();
-		
+
 		map.put("maxConnectionAge","0");
 		map.put("idleConnectionTestPeriod","0");
 		map.put("initialPoolSize","3");
@@ -90,7 +90,7 @@ public class C3P0Pool extends AbstractPoolProvider {
 		map.put("maxAdministrativeTaskTime","0");
 		map.put("overrideDefaultPassword","null");
 		map.put("statementCacheNumDeferredCloseThreads","0");
-		
+
 		return map;
 	}
 

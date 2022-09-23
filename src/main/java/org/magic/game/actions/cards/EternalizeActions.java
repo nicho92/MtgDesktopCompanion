@@ -18,7 +18,7 @@ import org.magic.services.logging.MTGLogger;
 public class EternalizeActions extends AbstractAction {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 

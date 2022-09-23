@@ -20,26 +20,27 @@ import org.magic.api.beans.enums.EnumMarketType;
 public interface MTGDashBoard extends MTGPriceSuggester {
 
 	public List<CardShake> getShakerFor(MagicFormat.FORMATS gameFormat) throws IOException;
-	
+
 	public EditionsShakers getShakesForEdition(MagicEdition edition) throws IOException;
 
 	public HistoryPrice<MagicCard> getPriceVariation(MagicCard mc, boolean foil) throws IOException;
-	
+
 	public HistoryPrice<MagicEdition> getPriceVariation(MagicEdition me) throws IOException;
 
 	public HistoryPrice<MTGSealedProduct> getPriceVariation(MTGSealedProduct packaging) throws IOException;
-	
+
 	public List<CardDominance> getBestCards(MagicFormat.FORMATS f, String filter) throws IOException;
 
 	public Date getUpdatedDate();
 
 	public String[] getDominanceFilters();
-	
+
+	@Override
 	public Icon getIcon();
-	
+
 	public Currency getCurrency();
-	
+
 	public EnumMarketType getMarket();
-	
-	
+
+
 }

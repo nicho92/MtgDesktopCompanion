@@ -13,23 +13,23 @@ public class DiscordInfoTableModel extends GenericTableModel<DiscordInfo> {
 		setColumns("start","end","duration","message","user","guild","channel");
 		setWritable(false);
 	}
-	
-	
+
+
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		if(columnIndex==0 || columnIndex==1)
 			return Instant.class;
-		
+
 		if(columnIndex==2)
 			return Long.class;
-		
-		
+
+
 		return super.getColumnClass(columnIndex);
 	}
-	
+
 	@Override
 	public Object getValueAt(int row, int column) {
-		
+
 		if(column>3)
 		{
 			switch(column)
@@ -39,10 +39,10 @@ public class DiscordInfoTableModel extends GenericTableModel<DiscordInfo> {
 			case 6: return (items.get(row).getChannel()!=null)?items.get(row).getChannel().get("name").getAsString():"";
 			}
 		}
-		
-		
+
+
 		return super.getValueAt(row, column);
 	}
-	
-	
+
+
 }

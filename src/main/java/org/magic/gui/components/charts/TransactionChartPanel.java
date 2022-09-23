@@ -11,7 +11,7 @@ import org.jfree.chart3d.data.StandardPieDataset3D;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.gui.abstracts.charts.Abstract3DPieChart;
 import org.magic.tools.UITools;
-	
+
 
 public class TransactionChartPanel extends Abstract3DPieChart<Transaction,String> {
 
@@ -22,23 +22,23 @@ public class TransactionChartPanel extends Abstract3DPieChart<Transaction,String
 	private static final long serialVersionUID = 1L;
 	private String property;
 	private boolean count;
-	
+
 
 	@Override
 	public boolean showLegend() {
 		return false;
 	}
-	
+
 	@Override
 	public PieDataset3D<String> getDataSet() {
 		var dataset = new StandardPieDataset3D<String>();
-		
+
 		for (Entry<Object, Double> data : groupOrdersBy().entrySet()) {
 			dataset.add(String.valueOf(data.getKey()), data.getValue());
 		}
 		return dataset;
 	}
-	
+
 
 	@Override
 	public String getTitle() {
@@ -51,25 +51,25 @@ public class TransactionChartPanel extends Abstract3DPieChart<Transaction,String
 		this.count=count;
 		init(listOrders);
 	}
-	
+
 	private Map<Object, Double> groupOrdersBy() {
-		
+
 		Map<Object, Double> ret = new HashMap<>();
-		
+
 		items.forEach(o->{
-			try 
+			try
 			{
 				Object val = PropertyUtils.getProperty(o, property);
 				if(count)
 					ret.put(val, ret.get(val)==null? 1 : ret.get(val)+1);
 				else
 					ret.put(val, ret.get(val)==null? o.total() : UITools.roundDouble(ret.get(val)+o.total()));
-			
+
 
 			} catch (Exception e) {
 				logger.error(e);
-			} 
-			
+			}
+
 		});
 		return ret;
 	}

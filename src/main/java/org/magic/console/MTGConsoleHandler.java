@@ -25,7 +25,7 @@ public class MTGConsoleHandler extends IoHandlerAdapter {
 	private String wcMessage;
 
 	public static final String EOL="\r\n";
-	
+
 	public MTGConsoleHandler() {
 		history = new ArrayList<>();
 	}
@@ -37,11 +37,11 @@ public class MTGConsoleHandler extends IoHandlerAdapter {
 	@Override
 	public void sessionOpened(IoSession session) throws Exception {
 		logger.debug("Connection from {}",session.getRemoteAddress());
-	
+
 		if(wcMessage.isEmpty())
 			wcMessage="Welcome to MTG Desktop Companion Server";
 
-		
+
 			session.write(wcMessage+EOL);
 	}
 
@@ -55,7 +55,7 @@ public class MTGConsoleHandler extends IoHandlerAdapter {
 	public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
 		if (session.getCurrentWriteMessage() != null) {
 			session.write(cause + EOL);
-			
+
 			logger.error(cause);
 		}
 	}
@@ -68,22 +68,22 @@ public class MTGConsoleHandler extends IoHandlerAdapter {
 		}
 		return null;
 	}
-	
-	
-	public static String[] translateCommandline(String stringCommand) 
+
+
+	public static String[] translateCommandline(String stringCommand)
 	{
-		
+
         if (stringCommand == null || stringCommand.isEmpty()) {
           return new String[0];
         }
         var tok = new StringTokenizer(stringCommand, " ", false);
         List<String> list = new ArrayList<>();
         var current = new StringBuilder();
-        
-        while (tok.hasMoreTokens()) 
+
+        while (tok.hasMoreTokens())
         {
         	String currentTok = tok.nextToken();
-        	
+
         	if(currentTok.startsWith("-"))
         	{
         		if(current.length()>0)
@@ -98,27 +98,27 @@ public class MTGConsoleHandler extends IoHandlerAdapter {
         		current.append(currentTok).append(" ");
         	}
         }
-        
+
         if(!current.toString().isEmpty())
         	list.add(current.toString().trim());
-        
-        
+
+
         final var args = new String[list.size()];
         return list.toArray(args);
     }
-	
-	
+
+
 	@Override
 	public void messageReceived(IoSession session, Object message)throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, ParseException,InvocationTargetException, NoSuchMethodException {
-		
+
 		if (message == null)
 			return;
-		
-		
+
+
 			var line = message.toString();
 			var commandeLine = translateCommandline(line);
 			var c = commandFactory(commandeLine[0]);
-			
+
 			if(c==null)
 			{
 				session.write("Command "+ commandeLine[0] + " not found"+EOL);
@@ -132,13 +132,13 @@ public class MTGConsoleHandler extends IoHandlerAdapter {
 				c.quit();
 				history.add(c);
 			}
-		
+
 
 	}
 
 	public void setWelcomeMessage(String string) {
 		this.wcMessage=string;
-		
+
 	}
 
 }

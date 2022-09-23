@@ -27,12 +27,12 @@ import org.magic.tools.MTG;
 
 public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 
-	
+
 	private static final String REGEX = "REGEX";
 	private String columns="Name,Edition,Foil,Qty\n";
-	
-	
-	
+
+
+
 	@Override
 	public String getFileExtension() {
 		return ".csv";
@@ -43,56 +43,56 @@ public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 		var line = new StringBuilder(columns);
 		for(MagicCardStock mc : stock)
 		{
-			
+
 			String name=mc.getProduct().getName();
 			String set = PluginsAliasesProvider.inst().getSetNameFor(new CardKingdomCardExport() , mc.getProduct().getCurrentSet());
-			
+
 			if(mc.getProduct().isToken())
 			{
 				name = name + " Token";
 				set = set.replace(" Tokens", "");
 				set = PluginsAliasesProvider.inst().getSetNameFor(new CardKingdomCardExport(), set);
 			}
-			
-			
-			
+
+
+
 			if(name.contains("//") && (!mc.getProduct().getLayout().toString().equalsIgnoreCase(MTGLayout.SPLIT.toString())))
 			{
 				name = name.split(" //")[0];
 			}
-			
+
 			if(mc.getProduct().isShowCase())
 			{
 				name = name + " (Showcase)";
 				set = set + " Variants";
 			}
-			
+
 			if(mc.getProduct().getName().contains(getSeparator()))
 				name="\""+mc.getProduct().getName()+"\"";
-			
-			
+
+
 			line.append(name).append(getSeparator());
 			line.append(set).append(getSeparator());
 			line.append(String.valueOf(mc.isFoil())).append(getSeparator());
-			line.append(mc.getQte()).append(getSeparator()).append(System.lineSeparator());		
+			line.append(mc.getQte()).append(getSeparator()).append(System.lineSeparator());
 			notify(mc.getProduct());
 		}
 		FileTools.saveFile(dest, line.toString());
 	}
-	
-	
+
+
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		exportStock(importFromDeck(deck), dest);
 
 	}
-	
+
 
 	@Override
 	public MagicDeck importDeck(String f, String name) throws IOException {
 		var d = new MagicDeck();
 		d.setName(name);
-		
+
 		for(MagicCardStock st : importStock(f))
 		{
 			d.getMain().put(st.getProduct(), st.getQte());
@@ -103,23 +103,23 @@ public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
-		
+
 		List<MagicCardStock> list = new ArrayList<>();
-	
+
 		matches(content,true).forEach(m->{
-			
+
 			MagicEdition ed = null;
-			
-			try {			   
+
+			try {
 				ed = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetByName( PluginsAliasesProvider.inst().getReversedSetNameFor(new CardKingdomCardExport() , m.group(4)));
 			}
 			catch(Exception e)
 			{
 				logger.error("Edition not found for {}",m.group(4));
 			}
-			
+
 			String cname = cleanName(m.group(3));
-			
+
 			String number=null;
 			try {
 				number = m.group(5);
@@ -128,9 +128,9 @@ public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 			{
 				//do nothing
 			}
-			
+
 			MagicCard mc=null;
-			
+
 			if(number!=null && ed !=null)
 			{
 				try {
@@ -139,7 +139,7 @@ public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 					logger.error("no card found with number {}/{}",number,ed);
 				}
 			}
-			
+
 			if(mc==null)
 			{
 				try {
@@ -154,31 +154,31 @@ public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 					   mcs.setQte(Integer.parseInt(m.group(1)));
 					   mcs.setProduct(mc);
 					   mcs.setCondition(PluginsAliasesProvider.inst().getReversedConditionFor(new CardKingdomCardExport(),m.group(6),null));
-					   
+
 					   if(!m.group(7).isEmpty())
 						   mcs.setLanguage(m.group(7));
-					   
-					   mcs.setFoil(m.group(8)!=null);	
+
+					   mcs.setFoil(m.group(8)!=null);
 					   mcs.setSigned(m.group(9)!=null);
 					   mcs.setAltered(m.group(11)!=null);
-					   
+
 					   if(!m.group(15).isEmpty())
 						   mcs.setPrice(Double.parseDouble(m.group(15)));
-		
+
 			   list.add(mcs);
 			}
 			else
 			{
 				logger.error("No cards found for {}" ,cname);
 			}
-			
-			
+
+
 		});
-		
+
 		return list;
 	}
-	
-	
+
+
 	private String getDefault()
 	{
 		return "(\\d+)"+getSeparator()+
@@ -197,8 +197,8 @@ public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 				   "(textless)?"+getSeparator()+
 				   "\\$(\\d+(\\.\\d{1,2})?)";
 	}
-	
-	
+
+
 	@Override
 	public String getName() {
 		return "Card Kingdom CSV";
@@ -214,19 +214,19 @@ public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 		return new String[0];
 	}
 
-	
+
 	@Override
 	public Icon getIcon() {
 		return new ImageIcon(new ImageIcon(AbstractMTGPlugin.class.getResource("/icons/plugins/card kingdom.png")).getImage().getScaledInstance(MTGConstants.MENU_ICON_SIZE, MTGConstants.MENU_ICON_SIZE, Image.SCALE_SMOOTH));
 	}
-	
+
 	@Override
 	protected String getStringPattern() {
 		if(getString(REGEX).isEmpty())
 			setProperty(REGEX,getDefault());
-			
-			
-			
+
+
+
 			return getString(REGEX);
 	}
 
@@ -234,11 +234,11 @@ public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 	public Map<String, String> getDefaultAttributes() {
 		var m = super.getDefaultAttributes();
 		m.put(REGEX, getDefault());
-		
+
 		return m;
 	}
-	
-	
+
+
 	@Override
 	public String getSeparator() {
 		return ",";

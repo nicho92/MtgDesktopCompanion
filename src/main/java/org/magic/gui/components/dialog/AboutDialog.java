@@ -44,7 +44,7 @@ public class AboutDialog extends MTGUIComponent {
 		var check = new VersionChecker();
 		setLayout(new BorderLayout(0, 0));
 		setPreferredSize(new Dimension(600, 400));
-		var developper = new StringBuilder("<html><center>"); 
+		var developper = new StringBuilder("<html><center>");
 			developper.append(capitalize("DEVELOPPERS_ABOUT", "Nicho", "Apache License " + new SimpleDateFormat("yyyy").format(new Date())));
 			developper.append("<br/><a href='").append(MTGConstants.MTG_DESKTOP_WEBSITE).append("'>").append(MTGConstants.MTG_DESKTOP_WEBSITE).append("</a>");
 			try {
@@ -52,10 +52,10 @@ public class AboutDialog extends MTGUIComponent {
 			} catch (IOException e1) {
 				logger.error(e1);
 			}
-			
-			
+
+
 			developper.append("</center></html>");
-		
+
 			var icon = new JLabel(new ImageIcon(MTGConstants.IMAGE_LOGO));
 				icon.setFont(new Font("Tahoma", Font.BOLD, 16));
 				icon.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -66,28 +66,28 @@ public class AboutDialog extends MTGUIComponent {
 				} catch (IOException e3) {
 					logger.error(e3);
 				}
-				
+
 		var panneauHaut = new JPanel();
 			panneauHaut.setLayout(new BorderLayout());
-				
+
 		var copyText=new JTextArea(MTGConstants.COPYRIGHT_STRING);
 				copyText.setWrapStyleWord(true);
 				copyText.setLineWrap(true);
 				copyText.setRows(4);
-	
+
 		var centers = new JPanel();
 			   centers.setLayout(new BorderLayout());
 			   centers.add(new JLabel("Special thanks to my supporters:"),BorderLayout.NORTH);
-			   
-			   
+
+
 		var supporters = new JPanel();
 		((FlowLayout) supporters.getLayout()).setAlignment(FlowLayout.LEFT);
-		
+
 		 supporters.setForeground(SystemColor.activeCaption);
-			   
+
 			   try {
 				   var obj = URLTools.extractAsJson(MTGConstants.MTG_SUPPORTERS_URI).getAsJsonArray();
-				
+
 				for(JsonElement element : obj)
 				{
 					var supp = element.getAsJsonObject();
@@ -108,18 +108,18 @@ public class AboutDialog extends MTGUIComponent {
 							});
 							supporters.add(lab);
 				}
-				
-				
-				
+
+
+
 			} catch (Exception e) {
 				logger.error(e);
 			}
-			   
-		
+
+
 		panneauHaut.add(icon,BorderLayout.NORTH);
 		var button = new JButton("UPDATE");
 		button.addActionListener(e->{
-				
+
 				if(check.hasNewVersion())
 				{
 					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().get(NEW_VERSION), MTGControler.getInstance().getLangService().get(NEW_VERSION) + " " + MTGControler.getInstance().getLangService().get("AVAILABLE"), MESSAGE_TYPE.WARNING));
@@ -129,18 +129,18 @@ public class AboutDialog extends MTGUIComponent {
 					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().get(NEW_VERSION), "You're up to date", MESSAGE_TYPE.INFO));
 				}
 		});
-		
+
 		panneauHaut.add(button,BorderLayout.EAST);
 		var label = new JLabel(developper.toString());
-		
+
 		label.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 					UITools.browse(MTGConstants.MTG_DESKTOP_WEBSITE);
 			}
 		});
-		
-		
+
+
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		panneauHaut.add(label,BorderLayout.SOUTH);
 		centers.add(supporters,BorderLayout.CENTER);

@@ -11,10 +11,10 @@ import org.magic.api.interfaces.MTGPlugin;
 public class PluginIconListRenderer extends JLabel implements ListCellRenderer<MTGPlugin> {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@Override
 	public Component getListCellRendererComponent(JList<? extends MTGPlugin> list, MTGPlugin value, int index,boolean isSelected, boolean cellHasFocus) {
 

@@ -15,7 +15,7 @@ public class SQLLiteDAO extends AbstractMagicSQLDAO {
 
 	@Override
 	public Map<String,Long> getDBSize() {
-		
+
 		var map = new HashMap<String,Long>();
 			map.put("file",FileUtils.sizeOf(getFile(SERVERNAME)));
 			return map;
@@ -25,21 +25,21 @@ public class SQLLiteDAO extends AbstractMagicSQLDAO {
 	public void backup(File dir) throws IOException {
 		FileTools.zip(getFile(SERVERNAME), new File(dir, "backup.zip"));
 	}
-	
-	
-	
+
+
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		
+
 		var m = super.getDefaultAttributes();
-		
+
 		m.put(SERVERNAME, Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(),"sqlite-db").toFile().getAbsolutePath());
 		m.put(LOGIN, "SA");
 		m.put(DB_NAME, "");
-		
+
 		return m;
 	}
-	
+
 	@Override
 	protected String getdbSizeQuery() {
 		return null;
@@ -64,17 +64,17 @@ public class SQLLiteDAO extends AbstractMagicSQLDAO {
 	protected String beanStorage() {
 		return "json";
 	}
-	
-	
+
+
 	@Override
 	protected String longTextStorage() {
 		return "TEXT";
 	}
-	
+
 	@Override
 	protected String createListStockSQL() {
 		return "select * from stocks where collection=? and JSON_EXTRACT(mcard,'$.name')=?";
 
 	}
-	
+
 }

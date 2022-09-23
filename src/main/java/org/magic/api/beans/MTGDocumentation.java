@@ -9,14 +9,14 @@ public class MTGDocumentation {
 
 	private FORMAT_NOTIFICATION contentType;
 	private URL url;
-	
-	
+
+
 	public MTGDocumentation(URL url,FORMAT_NOTIFICATION contentType)
 	{
 		this.url=url;
 		this.contentType=contentType;
 	}
-	
+
 	public MTGDocumentation(String uri, FORMAT_NOTIFICATION fn) {
 		try {
 			this.url=new URL(uri);
@@ -29,11 +29,11 @@ public class MTGDocumentation {
 	public FORMAT_NOTIFICATION getContentType() {
 		return contentType;
 	}
-	
+
 	public void setContentType(FORMAT_NOTIFICATION contentType) {
 		this.contentType = contentType;
 	}
-	
+
 	public URL getUrl() {
 		return url;
 	}
@@ -41,8 +41,8 @@ public class MTGDocumentation {
 		this.url = url;
 	}
 
-	
-		
-	
-	
+
+
+
+
 }

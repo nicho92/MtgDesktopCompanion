@@ -36,12 +36,12 @@ public class PDFExport extends AbstractCardExport {
 
 	private static final String SPACE = "SPACE";
 	private float userPoint=72f;
-	
+
 	@Override
 	public MODS getMods() {
 		return MODS.EXPORT;
 	}
-	
+
 	private Cell createCell(MagicCard card) throws IOException {
 
 		ImageData imageData = null;
@@ -51,9 +51,9 @@ public class PDFExport extends AbstractCardExport {
 		} catch (Exception e) {
 			imageData = ImageDataFactory.create(getEnabledPlugin(MTGPictureProvider.class).getBackPicture(),null);
 		}
-		
+
 		var image = new Image(imageData);
-			
+
 	        image.scaleAbsolute(2.49f*userPoint,3.48f*userPoint);
 	        var cell = new Cell();
             if(getBoolean("PRINT_CUT_LINE"))
@@ -62,12 +62,12 @@ public class PDFExport extends AbstractCardExport {
             }
             else
             	cell.setBorder(Border.NO_BORDER);
-            
+
             if(getInt(SPACE)!=null)
             	cell.setPadding(getInt(SPACE));
-            
+
             cell.add(image);
-	
+
 		return cell;
 	}
 
@@ -79,7 +79,7 @@ public class PDFExport extends AbstractCardExport {
 	@Override
 	public void exportDeck(MagicDeck deck, File f) throws IOException {
 		var table = new Table(3).useAllAvailableWidth();
-		
+
 			try(var pdfDocDest = new PdfDocument(new PdfWriter(f));	Document doc = new Document(pdfDocDest) )
 			{
 				pdfDocDest.setDefaultPageSize(PageSize.A4);
@@ -89,18 +89,18 @@ public class PDFExport extends AbstractCardExport {
 			    info.setCreator(MTGConstants.MTG_APP_NAME);
 			    info.setKeywords(deck.getTags().stream().collect(Collectors.joining(",")));
 			    info.addCreationDate();
-		   
+
 			    var mainList = deck.getMainAsList();
-			    
+
 			    Collections.sort(mainList, new CardsDeckSorter(deck) );
-			    
-			    
-			    
+
+
+
 				for (MagicCard card : mainList) {
 					table.addCell(createCell(card));
 					notify(card);
 				}
-				
+
 				doc.add(table);
 
 			} catch (Exception e) {
@@ -122,30 +122,30 @@ public class PDFExport extends AbstractCardExport {
 	public List<MagicCardStock> importStock(String content) throws IOException {
 		throw new NotImplementedException("Can't import stock from PDF");
 	}
-	
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of("AUTHOR", System.getProperty("user.name"),
 							   "PRINT_CUT_LINE","true",
 							   SPACE,"0");
-	
+
 	}
 
 	@Override
 	public String getVersion() {
 		return POMReader.readVersionFromPom(PdfDocument.class, "/META-INF/maven/com.itextpdf/kernel/pom.properties");
 	}
-	
+
 
 	@Override
 	public boolean equals(Object obj) {
-		
+
 		if(obj ==null)
 			return false;
-		
+
 		return hashCode()==obj.hashCode();
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return getName().hashCode();

@@ -11,7 +11,7 @@ import org.jfree.chart3d.data.StandardPieDataset3D;
 import org.magic.api.beans.OrderEntry;
 import org.magic.gui.abstracts.charts.Abstract3DPieChart;
 import org.magic.tools.UITools;
-	
+
 
 public class OrdersChartPanel extends Abstract3DPieChart<OrderEntry,String> {
 
@@ -23,18 +23,19 @@ public class OrdersChartPanel extends Abstract3DPieChart<OrderEntry,String> {
 	private String property;
 	private boolean count;
 
-	
 
+
+	@Override
 	public PieDataset3D<String> getDataSet() {
 		var dataset = new StandardPieDataset3D<String>();
-		
+
 		for (Entry<Object, Double> data : groupOrdersBy().entrySet()) {
 			dataset.add(String.valueOf(data.getKey()), data.getValue());
 		}
 		return dataset;
 	}
-	
-	
+
+
 	@Override
 	public String getTitle() {
 		return "Orders";
@@ -46,13 +47,13 @@ public class OrdersChartPanel extends Abstract3DPieChart<OrderEntry,String> {
 		this.count=count;
 		init(listOrders);
 	}
-	
+
 	private Map<Object, Double> groupOrdersBy() {
-		
+
 		Map<Object, Double> ret = new HashMap<>();
-		
+
 		items.forEach(o->{
-			try 
+			try
 			{
 				Object val = PropertyUtils.getProperty(o, property);
 				if(count)
@@ -62,8 +63,8 @@ public class OrdersChartPanel extends Abstract3DPieChart<OrderEntry,String> {
 
 			} catch (Exception e) {
 				logger.error(e);
-			} 
-			
+			}
+
 		});
 		return ret;
 	}

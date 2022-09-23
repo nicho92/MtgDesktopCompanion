@@ -27,13 +27,13 @@ public class MTGADecksSniffer extends AbstractDeckSniffer {
 	private static final String TRUE = "true";
 	private static final String FALSE = "false";
 	private static final String URL="https://mtgadecks.net";
-	
-	
+
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEPRECATED;
 	}
-	
+
 	@Override
 	public String[] listFilter() {
 		return new String[] {"Control","Aggro","Combo","Midrange","Aggro-Control"};
@@ -42,18 +42,18 @@ public class MTGADecksSniffer extends AbstractDeckSniffer {
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 		MagicDeck d = info.toBaseDeck();
-				  
-		Document doc = URLTools.extractAsHtml(info.getUrl().toASCIIString());		  
-		
-		
+
+		Document doc = URLTools.extractAsHtml(info.getUrl().toASCIIString());
+
+
 		Elements div = doc.select("p#mtga");
-		
-		
+
+
 		for(String s : div.html().split("<br>"))
 		{
 			if(!s.isEmpty())
 			{
-				
+
 				try {
 				AbstractMap.SimpleEntry<String,Integer> entry = (parseString(s));
 				MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(entry.getKey().substring(0,entry.getKey().indexOf('(')).trim(), null, true).get(0);
@@ -64,7 +64,7 @@ public class MTGADecksSniffer extends AbstractDeckSniffer {
 				{
 					logger.error("error loading {} : {}",s,e);
 				}
-				
+
 			}
 		}
 		return d;
@@ -72,9 +72,9 @@ public class MTGADecksSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
-		
+
 		List<RetrievableDeck> ret = new ArrayList<>();
-		
+
 		RequestBuilder e = RequestBuilder.build()
 				 .setClient(URLTools.newClient())
 				 .method(METHOD.GET)
@@ -111,45 +111,45 @@ public class MTGADecksSniffer extends AbstractDeckSniffer {
 				 .addContent("columns[3][search][regex]",FALSE)
 				 .addContent("&order[0][column]","3")
 				 .addContent("&order[0][dir]","desc");
-				 
+
 				 if(filter!=null && !filter.isEmpty())
 					 e.addContent("data", "archetype="+ArrayUtils.indexOf(listFilter(),filter));
-					 
-					 
+
+
 				 var arr = e.toJson().getAsJsonObject().get("data").getAsJsonArray();
 
 				 arr.forEach(a->{
-					
+
 					 var deck = new RetrievableDeck();
-					
+
 					 var name = URLTools.toHtml(a.getAsJsonArray().get(0).getAsString()).select("a").text();
 			 			name = name.substring(0,name.indexOf(" by "));
 			 			name = RegExUtils.replaceAll(name, "BO1","").trim();
 			 			deck.setName(name);
-				
+
 					 try {
 						deck.setUrl(new URI(URL+URLTools.toHtml(a.getAsJsonArray().get(0).getAsString()).select("a").attr("href")));
 					 } catch (URISyntaxException e1) {
 						logger.error(e1);
 					 }
-					 
+
 					 deck.setAuthor(URLTools.toHtml(a.getAsJsonArray().get(0).getAsString()).select("p").text());
 
-					 
+
 					 var colors = URLTools.toHtml(a.getAsJsonArray().get(1).getAsString()).select("img").attr("alt");
 					 var deckColor = new StringBuilder();
-					
+
 					 for(var i=0;i<colors.length();i++)
 						 	deckColor.append("{").append(String.valueOf(colors.charAt(i)).toUpperCase()).append("}");
-					 
+
 					 deck.setColor(deckColor.toString());
-					 
-					 
+
+
 					 deck.setDescription(URLTools.toHtml(a.getAsJsonArray().get(2).getAsString()).text());
 
-					
+
 					 ret.add(deck);
-					 
+
 				 });
 
 				return ret;
@@ -160,6 +160,6 @@ public class MTGADecksSniffer extends AbstractDeckSniffer {
 		return "MTGADecks";
 	}
 
-	
-	
+
+
 }

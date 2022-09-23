@@ -33,7 +33,7 @@ import org.magic.tools.UITools;
 public class DeckSnifferDialog extends AbstractDelegatedImporterDialog {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private JXTable table;
@@ -68,19 +68,19 @@ public class DeckSnifferDialog extends AbstractDelegatedImporterDialog {
 		selectedSniffer = listEnabledPlugins(MTGDeckSniffer.class).get(0);
 		panel.setLayout(new BorderLayout(0, 0));
 
-		
+
 		panel.add(lblLoad, BorderLayout.CENTER);
-		
+
 		panelChoose = new JPanel();
 		panel.add(panelChoose, BorderLayout.WEST);
 				cboSniffers =UITools.createCombobox(MTGDeckSniffer.class,false);
 				panelChoose.add(cboSniffers);
-				
+
 				btnConnect = new JButton(capitalize("CONNECT"));
 				panelChoose.add(btnConnect);
-				
+
 						cboFormats = new JComboBox<>();
-						panelChoose.add(cboFormats);	
+						panelChoose.add(cboFormats);
 						cboFormats.addActionListener(e -> {
 							try {
 								lblLoad.start();
@@ -93,9 +93,9 @@ public class DeckSnifferDialog extends AbstractDelegatedImporterDialog {
 								MTGControler.getInstance().notify(e1);
 							}
 						});
-			
+
 				btnConnect.addActionListener(e -> ThreadManager.getInstance().executeThread(new MTGRunnable() {
-					
+
 					@Override
 					protected void auditedRun() {
 						try {
@@ -106,25 +106,25 @@ public class DeckSnifferDialog extends AbstractDelegatedImporterDialog {
 							for (String s : selectedSniffer.listFilter())
 								cboFormats.addItem(s);
 
-							
+
 							lblLoad.end();
 
 						} catch (Exception e1) {
 							lblLoad.end();
 							MTGControler.getInstance().notify(e1);
 						}
-						
+
 					}
 				}, "Connection to " + selectedSniffer));
-				
+
 		cboSniffers.addActionListener(e -> selectedSniffer = (MTGDeckSniffer) cboSniffers.getSelectedItem());
-	
+
 		var panelButton = new JPanel();
 		getContentPane().add(panelButton, BorderLayout.SOUTH);
 
 		var btnClose = new JButton(MTGConstants.ICON_CANCEL);
 		btnClose.setToolTipText(capitalize("CANCEL"));
-		
+
 		btnClose.addActionListener(e -> dispose());
 		panelButton.add(btnClose);
 
@@ -134,13 +134,13 @@ public class DeckSnifferDialog extends AbstractDelegatedImporterDialog {
 		table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		btnImport = new JButton(MTGConstants.ICON_CHECK);
 		btnImport.setToolTipText(capitalize("IMPORT"));
-		
+
 		panelButton.add(btnImport);
 
-		
-		
+
+
 		btnImport.addActionListener(e ->{
-		
+
 			AbstractObservableWorker<MagicDeck, MagicCard, MTGDeckSniffer> sw = new AbstractObservableWorker<>(lblLoad,selectedSniffer) {
 
 				@Override
@@ -148,36 +148,37 @@ public class DeckSnifferDialog extends AbstractDelegatedImporterDialog {
 					buzy.progressSmooth(chunks.size());
 					buzy.setText(chunks.toString());
 				}
-				
+
 				@Override
 				protected MagicDeck doInBackground() throws Exception {
-					return plug.getDeck((RetrievableDeck)UITools.getTableSelection(table, 0)); 
+					return plug.getDeck((RetrievableDeck)UITools.getTableSelection(table, 0));
 				}
 
 				@Override
 				protected void done() {
 					super.done();
-					
+
 					importedDeck = getResult();
 					btnImport.setEnabled(true);
 					dispose();
 				}
-				
+
 				@Override
 				protected void error(Exception e) {
 					MTGControler.getInstance().notify(e);
 				}
-				
-				
+
+
 			};
-			
+
 		ThreadManager.getInstance().runInEdt(sw, "Import deck");
-		
+
 		});
 
-		
+
 	}
 
+	@Override
 	public MagicDeck getSelectedDeck() {
 		return importedDeck;
 	}

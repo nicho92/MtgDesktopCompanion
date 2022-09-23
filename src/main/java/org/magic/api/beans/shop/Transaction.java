@@ -31,18 +31,18 @@ public class Transaction implements Serializable {
 	private TransactionPayementProvider paymentProvider;
 	private TransactionStatus statut;
 	private TransactionDirection typeTransaction;
-	
-	
-	
+
+
+
 	public String getSourceShopName() {
 		return sourceShopName;
 	}
-	
+
 	public void setSourceShopName(String sourceShopName) {
 		this.sourceShopName = sourceShopName;
 	}
 
-	
+
 	public Transaction() {
 		dateCreation = new Date();
 		items = new ArrayList<>();
@@ -50,7 +50,7 @@ public class Transaction implements Serializable {
 		statut = TransactionStatus.NEW;
 		typeTransaction=TransactionDirection.SELL;
 	}
-	
+
 	public Date getDateCreation() {
 		return dateCreation;
 	}
@@ -58,11 +58,11 @@ public class Transaction implements Serializable {
 	public void setDateCreation(Date dateCreation) {
 		this.dateCreation = dateCreation;
 	}
-	
+
 	public void setTypeTransaction(TransactionDirection typeTransaction) {
 		this.typeTransaction = typeTransaction;
 	}
-	
+
 	public TransactionDirection getTypeTransaction() {
 		return typeTransaction;
 	}
@@ -72,11 +72,11 @@ public class Transaction implements Serializable {
 		return datePayment;
 	}
 
-	
+
 	public double getFeePercent() {
 		return feePercent;
 	}
-	
+
 	public void setFeePercent(double feePercent) {
 		this.feePercent = feePercent;
 	}
@@ -124,13 +124,13 @@ public class Transaction implements Serializable {
 	public void setConfig(WebShopConfig config) {
 		this.config = config;
 	}
-	
+
 	public WebShopConfig getConfig() {
 		return config;
 	}
-	
-	
-	
+
+
+
 	public String getTransporter() {
 		return transporter;
 	}
@@ -162,30 +162,30 @@ public class Transaction implements Serializable {
 	public TransactionStatus getStatut() {
 		return statut;
 	}
-	
+
 	public double totalItems()
 	{
 		return getItems().stream().mapToDouble(e->e.getQte()*e.getPrice()).sum();
 	}
-	
+
 	public double total()
 	{
 		return totalItems() + getShippingPrice();
 	}
-	
+
 	@Override
 	public String toString() {
 		return String.valueOf(getId());
 	}
-	
+
 	public String getMessage() {
 		return message;
 	}
-	
+
 	public void setMessage(String message) {
 		this.message = message;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -193,13 +193,13 @@ public class Transaction implements Serializable {
 	public void setId(int id) {
 		setId(Long.valueOf(id));
 	}
-	
+
 	public void setId(Long id) {
 		this.id=id;
 
 	}
-	
-	
+
+
 	public List<MTGStockItem> getItems() {
 		return items;
 	}
@@ -216,7 +216,7 @@ public class Transaction implements Serializable {
 	public void setCurrency(String string) {
 		currency = Currency.getInstance(string);
 	}
-	
+
 	public Currency getCurrency() {
 		return currency;
 	}

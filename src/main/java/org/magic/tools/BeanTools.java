@@ -16,9 +16,9 @@ public class BeanTools {
 	protected static Logger logger = MTGLogger.getLogger(BeanTools.class);
 	public static final String TOKEN_START="{";
 	public static final String TOKEN_END="}";
-	
+
 	private BeanTools() {}
-	
+
 	public static String toJson(Object o)
 	{
 		return new JsonExport().toJson(o);
@@ -27,7 +27,7 @@ public class BeanTools {
 	public static String toMemory(Object o) {
 		return MemoryTools.statInstanceToString(o);
 	}
-	
+
 	public static String toString(Object o,String separator)
 	{
 		var build = new StringBuilder();
@@ -40,7 +40,7 @@ public class BeanTools {
 		}
 		return build.toString();
 	}
-	
+
 	public static Map<String,Object> describe(Object o)
 	{
 		try {
@@ -51,7 +51,7 @@ public class BeanTools {
 			return new HashMap<>();
 		}
 	}
-	
+
 	public static Object readProperty(Object o,String k)
 	{
 		try {
@@ -66,7 +66,7 @@ public class BeanTools {
 		var p = Pattern.compile("\\"+TOKEN_START+CardsPatterns.REGEX_ANY_STRING+"\\"+TOKEN_END);
 		var m = p.matcher(text);
 		var temp = new StringBuilder();
-		
+
 		while(m.find())
 		{
 			String k = m.group(1);

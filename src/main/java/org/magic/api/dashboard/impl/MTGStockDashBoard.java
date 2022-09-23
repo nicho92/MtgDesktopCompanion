@@ -45,58 +45,58 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	private InterestsService interestService;
 	private PriceService pricesService;
 	private AnalyticsService analyticService;
-	
+
 	@Override
 	public EnumMarketType getMarket() {
 		return EnumMarketType.US_MARKET;
 	}
-	
+
 	@Override
 	public String getVersion() {
 		return MTGStockConstants.VERSION;
 	}
-	
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
 	}
-	
+
 	public MTGStockDashBoard() {
 		cardService = new CardsService();
 		interestService = new InterestsService();
 		pricesService = new PriceService();
 		analyticService = new AnalyticsService();
-		
+
 		URLCallListener urlNotifier = (URLCallInfo callInfo)->{
-				
+
 				var netinfo = new NetworkInfo();
-				netinfo.setStart(callInfo.getStart());				
+				netinfo.setStart(callInfo.getStart());
 				netinfo.setEnd(callInfo.getEnd());
 				netinfo.setRequest(callInfo.getRequest());
 				netinfo.setReponse(callInfo.getResponse());
 
 				TechnicalServiceManager.inst().store(netinfo);
 		};
-		
-		
+
+
 		cardService.setListener(urlNotifier);
 		interestService.setListener(urlNotifier);
 		pricesService.setListener(urlNotifier);
 		analyticService.setListener(urlNotifier);
-		
+
 	}
-	
+
 
 	@Override
 	public List<CardDominance> getBestCards(FORMATS f, String filter) throws IOException {
 		List<CardDominance> ret = new ArrayList<>();
-		
+
 		var i=1;
 		for(Played p : analyticService.getMostPlayedCard(FORMAT.valueOf(f.name()))) {
 			var cd = new CardDominance();
 			cd.setCardName(p.getName());
 			cd.setPlayers(p.getQuantity());
-			cd.setPosition(i++);			
+			cd.setPosition(i++);
 			ret.add(cd);
 		}
 		return ret;
@@ -118,9 +118,9 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 			case CHALLENGERDECK : ret.addAll(products.stream().filter(SealedProduct::isChallengerDeck).toList()); break;
 			default:break;
 		}
-		
+
 		logger.debug("found " + ret);
-		
+
 		if(packaging.getExtra()!=null)
 		{
 			switch(packaging.getExtra())
@@ -134,63 +134,63 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 				default:		return ret.stream().filter(t->!t.isCollector() && !t.isDraft() && !t.isGift() && !t.isSet() && !t.isTheme() && !t.isVIP()).findFirst().orElse(ret.get(0));
 			}
 		}
-		
+
 		return ret.stream().filter(t->!t.isCollector() && !t.isDraft() && !t.isGift() && !t.isSet() && !t.isTheme() && !t.isVIP()).findFirst().orElse(ret.get(0));
-		
-		
+
+
 	}
-	
-	
+
+
 	@Override
 	protected HistoryPrice<MTGSealedProduct> getOnlinePricesVariation(MTGSealedProduct packaging) throws IOException {
-		
+
 		HistoryPrice<MTGSealedProduct> ret = new HistoryPrice<>(packaging);
 		CardSet cs = cardService.getSetByCode(packaging.getEdition().getId());
 		var product = guess(cardService.getSealedProduct(cs),packaging);
 		PRICES p =  PRICES.valueOf(getString(PRICE_VALUE).toUpperCase());
-		
+
 		if(product!=null)
 		{
 			ret.setFoil(false);
 			ret.setCurrency(getCurrency());
 			new PriceService().getSealedPrices(product).getPrices().get(p).forEach(c->ret.put(c.getKey(), c.getValue()));
 		}
-		
-		
+
+
 		return ret;
 	}
 
 	@Override
 	protected List<CardShake> getOnlineShakerFor(FORMATS f) throws IOException {
 		List<CardShake> ret = new ArrayList<>();
-		
+
 		FORMAT mtgstockformat = null;
-		
+
 		if(f!=null)
 			mtgstockformat = FORMAT.valueOf(f.name());
-		
-		
-		
+
+
+
 		var p=PRICES.valueOf(getString(PRICE_VALUE).toUpperCase());
-		
-		
+
+
 		logger.debug("Parsing shakers for " + f +" "+ p);
-		
+
 		List<Interest> st;
-		
+
 		PRICES c =null;
-		
+
 		if(p.equals(PRICES.MARKET)||p.equals(PRICES.MARKET_FOIL))
 			c= PRICES.MARKET;
 		else
 			c = PRICES.AVERAGE;
-		
-		
+
+
 		if(getBoolean(GET_FOIL))
 			st = interestService.getInterestFor(c,mtgstockformat);
 		else
 			st = interestService.getInterestFor(c,false,mtgstockformat);
-		
+
 		st.stream().filter(inte->inte.getInterestType().equalsIgnoreCase(getString(INTEREST_TYPE))).forEach(i->{
 			CardShake cs = initFromPrint(i.getPrint());
 						cs.setDateUpdate(i.getDate());
@@ -198,72 +198,72 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 						cs.setPercentDayChange(i.getPercentage()/100);
 						cs.setPriceDayChange(i.getPriceDayChange());
 						cs.setFoil(i.isFoil());
-						
-						
+
+
 			ret.add(cs);
 		});
-		
-		
-		
+
+
+
 		return ret;
 	}
-	
-	
+
+
 	@Override
 	protected EditionsShakers getOnlineShakesForEdition(MagicEdition ed) throws IOException {
-	
+
 		var es = new EditionsShakers();
 						es.setProviderName(getName());
 						es.setDate(new Date());
 						es.setEdition(ed);
-		
+
 		var c = PRICES.valueOf(getString(PRICE_VALUE).toUpperCase());
 
 		fillEditionShaker(c,ed,es,false);
-		
+
 		if(getBoolean(GET_FOIL))
 		{
 			if(c.equals(PRICES.AVG))
 				fillEditionShaker(PRICES.FOIL,ed,es,true);
-			
+
 			else if(c.equals(PRICES.MARKET))
 				fillEditionShaker(PRICES.MARKET_FOIL,ed,es,true);
-				
+
 		}
-		
+
 		return es;
 	}
-	
+
 	private void fillEditionShaker(PRICES c,MagicEdition ed, EditionsShakers es, boolean b) {
-		
+
 		logger.debug("Parsing shakers for " + ed + " " + c);
-		
+
 		cardService.getPrintsBySetCode(ed.getId()).forEach(p->{
 					CardShake cs = initFromPrint(p);
 					cs.setEd(ed.getId());
 					try {
 						cs.init(p.getLatestPrices().get(c), p.getLastWeekPreviousPrice(), p.getLastWeekPrice());
-						
-						
+
+
 					}
 					catch(NullPointerException e)
 					{
 						logger.error(p +"  " + e);
 					}
 					cs.setFoil(b);
-					
-					
+
+
 					es.getShakes().add(cs);
 			});
-		
-		
+
+
 	}
 
 	@Override
 	protected HistoryPrice<MagicEdition> getOnlinePricesVariation(MagicEdition ed) throws IOException {
 		return null;
 	}
-	
+
 
 	@Override
 	protected HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, boolean foil)throws IOException {
@@ -273,10 +273,10 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 			logger.error("couldn't calculate edition only");
 			return hp;
 		}
-		
+
 		MagicEdition ed=mc.getCurrentSet();
-		
-		
+
+
 		Integer id = mc.getMtgstocksId();
 
 		if(id==null)
@@ -286,7 +286,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 			FullPrint fp = cardService.getCard(rs);
 			CardSet set = cardService.getSetByCode(ed.getId());
 			var fpSet = fp.getPrintForSetId(set.getId());
-			
+
 			if(fpSet==null)
 			{
 				logger.warn("fpSet is null for {} so return", set.getId());
@@ -295,24 +295,24 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 			logger.debug("mtgstock = {} {} {} ",fpSet,fpSet.getSetName(),fpSet.getId());
 			id = fpSet.getId();
 		}
-		
+
 		PRICES p = PRICES.AVG;
-		
+
 		if(foil || ed.isFoilOnly())
 			p = PRICES.FOIL;
-		
-	
+
+
 		pricesService.getPricesFor(id,p).forEach(e->{
-			
+
 			hp.setCurrency(getCurrency());
 			hp.setFoil(foil);
 			hp.getVariations().put(e.getKey(), e.getValue());
 			hp.setSerieName(hp.toString());
 		});
-		
-		
+
+
 		return hp;
-		
+
 	}
 
 	private CardShake initFromPrint(Print p)
@@ -322,7 +322,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 				cs.setName(p.getCleanName());
 				cs.setFoil(p.isFoil());
 				cs.setLink(p.getWebPage());
-				
+
 				if(p.isExtendedArt())
 					cs.setCardVariation(MTGCardVariation.EXTENDEDART);
 				else if(p.isShowcase())
@@ -331,12 +331,12 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 					cs.setCardVariation(MTGCardVariation.BORDERLESS);
 				else if(p.isJapanese())
 					cs.setCardVariation(MTGCardVariation.JAPANESEALT);
-				
-				
+
+
 				cs.setEd(String.valueOf(cardService.getSetById(p.getSetId()).getAbbrevation()).toUpperCase());
 		return cs;
 	}
-	
+
 
 	@Override
 	public Date getUpdatedDate() {
@@ -348,7 +348,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		return "MTGStocks";
 	}
 
-	
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of(
@@ -356,6 +356,6 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 					GET_FOIL,"false",
 					INTEREST_TYPE,"day");
 	}
-	
+
 
 }

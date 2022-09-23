@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.google.gson.annotations.SerializedName;
 
 public enum MTGLayout{
-	
+
 	@SerializedName(alternate = "normal", value = "NORMAL") 							NORMAL,
 	@SerializedName(alternate = "split", value = "SPLIT") 								SPLIT,
 	@SerializedName(alternate = "flip", value = "FLIP")       							FLIP,
@@ -30,9 +30,9 @@ public enum MTGLayout{
 	@SerializedName(alternate = "adventure", value = "ADVENTURE")						ADVENTURE,
 	@SerializedName(alternate = "companion", value = "COMPANION")						COMPANION,
 	@SerializedName(alternate = "modal_dfc", value = "MODAL_DFC")						MODAL_DFC;
-	
-	
-	
+
+
+
 	public String toPrettyString() {
 		return StringUtils.capitalize(name().toLowerCase());
 	}
@@ -41,7 +41,7 @@ public enum MTGLayout{
 	{
 		return names.stream().map(MTGLayout::parseByLabel).filter(Objects::nonNull).toList();
 	}
-	
+
 	public static MTGLayout parseByLabel(String s)
 	{
 		try {

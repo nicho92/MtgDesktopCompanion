@@ -15,12 +15,12 @@ import org.magic.gui.components.charts.TransactionBalance3DChartPanel;
 import org.magic.services.MTGConstants;
 
 public class BalanceTransactionDashlet extends AbstractJDashlet {
-	
+
 	private static final long serialVersionUID = 1L;
 	private TransactionBalance3DChartPanel chart;
-	
-	
-	
+
+
+
 	@Override
 	public String getCategory() {
 		return "Financial";
@@ -29,22 +29,22 @@ public class BalanceTransactionDashlet extends AbstractJDashlet {
 	@Override
 	public void initGUI() {
 		getContentPane().setLayout(new BorderLayout(0, 0));
-		
+
 		var panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
-		
+
 		chart = new TransactionBalance3DChartPanel(true);
-		
-		
+
+
 		getContentPane().add(chart,BorderLayout.CENTER);
-		
-		
+
+
 		if (getProperties().size() > 0) {
 			var r = new Rectangle((int) Double.parseDouble(getString("x")),
 					(int) Double.parseDouble(getString("y")), (int) Double.parseDouble(getString("w")),
 					(int) Double.parseDouble(getString("h")));
 
-					
+
 			setBounds(r);
 		}
 
@@ -69,5 +69,5 @@ public class BalanceTransactionDashlet extends AbstractJDashlet {
 		return "Balance";
 	}
 
-	
+
 }

@@ -24,33 +24,32 @@ import org.magic.tools.UITools;
 
 public class MagicBazarShopper extends AbstractMagicShopper {
 
-	
+
 	String urlBase= "https://en.play-in.com/";
 
 	String urlListOrders = urlBase + "/user/list_order.php";
 	String urlLogin = urlBase+"/user/signin.php";
-	
+
 	@Override
 	public List<OrderEntry> listOrders() throws IOException {
 		MTGHttpClient client = URLTools.newClient();
 		List<OrderEntry> entries = new ArrayList<>();
-		
+
 		Map<String, String> nvps = client.buildMap().put("_email", getAuthenticator().getLogin())
 															 .put("_pwd", getAuthenticator().getPassword())
 															 .put("_submit_login", "Me connecter").build();
 		client.doPost(urlLogin, nvps, null);
-		
+
 		Document listOrders = URLTools.toHtml(client.toString(client.doGet(urlListOrders)));
 		Elements e = listOrders.select("div.total_list a");
-		
+
 		logger.debug("Found {} orders",e.size());
-		for(var i=0;i<e.size();i++)
-		{
-			String id = e.get(i).select("div.num_commande").text();
-			String link = e.get(i).attr("href");
-			String date = e.get(i).select("div.hide_mobile").first().html();
+		for (Element element : e) {
+			String id = element.select("div.num_commande").text();
+			String link = element.attr("href");
+			String date = element.select("div.hide_mobile").first().html();
 			entries.addAll(parse(URLTools.toHtml(client.toString(client.doGet(urlBase+link))),id,UITools.parseDate(date,"MM/dd/yy")));
-			
+
 		}
 		return entries;
 	}
@@ -59,15 +58,13 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 		List<OrderEntry> entries = new ArrayList<>();
 		Elements table = doc.select("div.table div.tr");
 		table.remove(0);
-		
-		
-		for(var i=0;i<table.size();i++)
-		{
-			Element e = table.get(i);
+
+
+		for (Element e : table) {
 			boolean iscard=e.hasClass("filterElement");
 			String name = e.select("div.td.name").text();
-			
-			
+
+
 			if(!name.isEmpty())
 			{
 
@@ -86,19 +83,19 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 						entrie.setItemPrice(UITools.parseDouble(e.attr("attribute_price")));
 						String set = e.select("div.td.ext img").attr("title");
 						try {
-							
+
 							entrie.setEdition(getEnabledPlugin(MTGCardsProvider.class).getSetByName(set));
 						}
 						catch(Exception ex)
 						{
 							logger.error("{} is not found",set);
 						}
-						
-						
+
+
 					}
 					else
 					{
-						String price =e.select("div.new_price").html().replaceAll("&nbsp;"+Currency.getInstance("EUR").getSymbol(), "").trim(); 
+						String price =e.select("div.new_price").html().replaceAll("&nbsp;"+Currency.getInstance("EUR").getSymbol(), "").trim();
 						entrie.setItemPrice(UITools.parseDouble(price));
 						if(entrie.getDescription().contains("Set")||entrie.getDescription().toLowerCase().contains("collection"))
 							entrie.setType(EnumItems.FULLSET);
@@ -110,15 +107,15 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 							entrie.setType(EnumItems.LOTS);
 					}
 					notify(entrie);
-					entries.add(entrie);	
+					entries.add(entrie);
 			}
-			
-			
-			
+
+
+
 		}
-		
-		
-		
+
+
+
 		return entries;
 	}
 
@@ -127,11 +124,11 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 	public String getName() {
 		return "MagicBazar";
 	}
-	
+
 	@Override
 	public List<String> listAuthenticationAttributes() {
 		return AccountsManager.generateLoginPasswordsKeys();
 	}
-	
+
 
 }

@@ -24,7 +24,7 @@ public class MTGByteChannel implements SeekableByteChannel {
 	private MTGDao dao;
 	private byte[] content;
 	private boolean open;
-	
+
 	public MTGByteChannel(MTGPath path, MTGDao dao, Set<? extends OpenOption> options, FileAttribute<?>[] attrs) {
 		this.path=path;
 		this.dao=dao;
@@ -52,15 +52,15 @@ public class MTGByteChannel implements SeekableByteChannel {
 	public SeekableByteChannel position(long newp) throws IOException {
 		if(!isOpen())
 			throw new IOException("Channel is closed");
-		
+
 		this.position = newp;
 		return this;
 	}
 
-	
+
 	@Override
 	public int read(ByteBuffer dst) throws IOException {
-		
+
 		try {
 			Optional<MagicCard> card = dao.listCardsFromCollection(path.getCollection(), new MagicEdition(path.getIDEdition())).stream().filter(mc->mc.getName().equals(path.getCardName())).findFirst();
 			if(card.isPresent())
@@ -68,17 +68,17 @@ public class MTGByteChannel implements SeekableByteChannel {
 		} catch (Exception e) {
 			logger.error(e);
 		}
-		
+
 		if (position > size()) {
             position = size();
         }
-		
+
 		int wanted = dst.remaining();
         int possible = (int) (size() - position);
         if (possible <= 0) {
             return -1;
         }
-       
+
         if (wanted > possible) {
             wanted = possible;
         }
@@ -104,9 +104,9 @@ public class MTGByteChannel implements SeekableByteChannel {
 	    while (src.hasRemaining()) {
 	      src.get(buf);
 	    }
-	    
+
 	    MagicCard mc = ((MTGFileSystem)path.getFileSystem()).getSerializer().fromJson(new String(buf) , MagicCard.class);
-		
+
 		try {
 			CardsManagerService.saveCard(mc, path.getCollection(), null);
 		} catch (SQLException e) {

@@ -24,7 +24,7 @@ import org.magic.game.model.GameManager;
 public class TurnsPanel extends JPanel {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	JLabel lblTurnNumber;

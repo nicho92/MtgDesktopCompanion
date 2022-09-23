@@ -14,15 +14,16 @@ import com.jayway.jsonpath.Predicate;
 
 
 public class JsonCriteriaBuilder extends AbstractQueryBuilder<Filter> {
-	
-	
+
+
+	@Override
 	public Filter build(MTGCrit<?>... crits) {
-		
+
 		List<Predicate> l = new ArrayList<>();
-		
+
 		for(MTGCrit<?> c : crits)
 		{
-			
+
 			switch(c.getOperator())
 			{
 				case EQ: l.add(where(c.getAtt()).eq(getValueFor(c.getFirst())));break;

@@ -16,26 +16,27 @@ public class RarityRepartitionPanel extends Abstract3DPieChart<MagicCard,String>
 	}
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Override
 	public String getTitle() {
 		return "Rarity";
 	}
-	
-	
+
+
 	@Override
 	protected void initPlot() {
 		var source = new StandardColorSource<String>();
-		
+
 		for(MTGRarity r : MTGRarity.values())
 			source.setColor(r.toPrettyString(),r.toColor());
-		
+
 		plot.setSectionColorSource(source);
-		
+
 	}
-	
+
+	@Override
 	public PieDataset3D<String> getDataSet() {
-		
+
 		var dataset = new StandardPieDataset3D<String>();
 		for (Entry<MTGRarity, Integer> data : manager.analyseRarities(items).entrySet()) {
 			dataset.add(data.getKey().toPrettyString(), data.getValue());

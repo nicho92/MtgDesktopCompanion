@@ -10,7 +10,7 @@ import java.util.Set;
 import org.magic.api.beans.MagicCard;
 
 public class Zone implements Serializable {
-	
+
 	protected static final long serialVersionUID = 1L;
 	protected transient List<MagicCard> cards;
 	protected ZoneEnum location;
@@ -62,12 +62,12 @@ public class Zone implements Serializable {
 	public void putCardAt(MagicCard mc, int position) {
 		cards.set(position, mc);
 	}
-	
+
 	@Override
 	public String toString() {
 		return size() + " (" + getTypesIncludes().size() + " types)";
 	}
-	
+
 	public void shuffle() {
 		Collections.shuffle(cards);
 	}
@@ -75,13 +75,13 @@ public class Zone implements Serializable {
 	public List<MagicCard> subList(int i, int number) {
 		return cards.subList(i, number);
 	}
-	
+
 
 	public void add(int i, MagicCard mc) {
 		cards.add(i, mc);
 
 	}
-	
+
 	public ZoneEnum getLocation() {
 		return location;
 	}

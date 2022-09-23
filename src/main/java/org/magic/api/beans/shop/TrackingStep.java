@@ -3,19 +3,19 @@ package org.magic.api.beans.shop;
 import java.io.Serializable;
 import java.util.Date;
 
-public class TrackingStep implements Serializable, Comparable<TrackingStep> 
+public class TrackingStep implements Serializable, Comparable<TrackingStep>
 {
 	private static final long serialVersionUID = 1L;
 	private Date dateStep;
 	private String descriptionStep;
 	private String code;
-	
+
 	public TrackingStep() {
-	
+
 	}
-	
-	
-	
+
+
+
 	public TrackingStep(Date dateStep, String descriptionStep, String code) {
 		super();
 		this.dateStep = dateStep;
@@ -43,7 +43,7 @@ public class TrackingStep implements Serializable, Comparable<TrackingStep>
 	public void setCode(String code) {
 		this.code = code;
 	}
-	
+
 	@Override
 	public String toString() {
 		return getDateStep() +" " + getDescriptionStep();
@@ -55,9 +55,9 @@ public class TrackingStep implements Serializable, Comparable<TrackingStep>
 	public int compareTo(TrackingStep o) {
 		if(o==null)
 			return -1;
-		
+
 		return getDateStep().compareTo(o.getDateStep());
 	}
-	
-	
+
+
 }

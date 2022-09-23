@@ -8,11 +8,11 @@ public class MTGSealedProduct extends AbstractProduct{
 	private static final long serialVersionUID = 1L;
 
 	public enum EXTRA { SET, DRAFT, COLLECTOR,THEME,GIFT,VIP,WELCOME,JUMP}
-	
+
 	private String lang;
 	private int num;
 	private EXTRA extra;
-	
+
 	public MTGSealedProduct() {
 		setTypeProduct(EnumItems.SEALED);
 	}
@@ -23,7 +23,7 @@ public class MTGSealedProduct extends AbstractProduct{
 	public void setExtra(EXTRA extra) {
 		this.extra = extra;
 	}
-	
+
 	public String getLang() {
 		return lang;
 	}
@@ -36,11 +36,11 @@ public class MTGSealedProduct extends AbstractProduct{
 	public void setNum(int num) {
 		this.num = num;
 	}
-	
+
 	@Override
 	public String toString() {
 		return getTypeProduct() + " " +getLang()+"-" + (getExtra()!=null?getExtra()+"-":"")+ getNum();
 	}
-	
-	
+
+
 }

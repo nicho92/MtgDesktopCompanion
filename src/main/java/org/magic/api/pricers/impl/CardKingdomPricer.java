@@ -30,18 +30,18 @@ import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.Filter;
 
 public class CardKingdomPricer extends AbstractPricesProvider {
-	
+
 	private static final String API_URI="https://api.cardkingdom.com/api/pricelist";
 	private static final String WEB_URI="https://www.cardkingdom.com";
 	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
 	private File jsonFile;
 	private DocumentContext cont;
-	
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
 	}
-		
+
 	private void init() throws IOException
 	{
 		var c = new Chrono();
@@ -49,52 +49,52 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 		cont = parse(jsonFile);
 		logger.debug("Init {} dataFile in {}s",jsonFile,c.stop());
 	}
-	
-	
-	private String getUrlFor(MagicCard mc,boolean foil) throws IOException 
+
+
+	private String getUrlFor(MagicCard mc,boolean foil) throws IOException
 	{
 		if(!jsonFile.exists()|| FileTools.daysBetween(jsonFile)>1) {
 			logger.debug("{} is not present or out of date. Downloading new one",jsonFile);
 			FileTools.saveFile(jsonFile, URLTools.extractAsJson(API_URI).toString());
 		}
-	
+
 		if(cont==null)
 			init();
-		
-		
+
+
         String name = mc.getName();
         String ed = PluginsAliasesProvider.inst().getSetNameFor(new CardKingdomCardExport() , mc.getCurrentSet());
-		
+
 		if(name.contains("//") && (!mc.getLayout().toString().equalsIgnoreCase(MTGLayout.SPLIT.toString())))
 		{
 			name = name.split(" //")[0];
 		}
-		
-		
+
+
 		var filtres =where("name").is(name)
 				.and("sku").contains(mc.getCurrentSet().getId().toUpperCase())
 				.and("is_foil").is(String.valueOf(foil));
-				
+
 		if(mc.isShowCase())
 			filtres=filtres.and("variation").is("Showcase");
 		else if(mc.isBorderLess())
 			filtres=filtres.and("variation").is("Borderless");
 		else if (mc.isExtendedArt())
 			filtres=filtres.and("variation").is("Extended Art");
-			
-		
+
+
 		if(PluginsAliasesProvider.inst().getSetNameFor(new CardKingdomCardExport() , mc.getCurrentSet()).contains("Mystery Booster"))
 		{
 			filtres = where("name").is(name)
 					  .and("edition").is(PluginsAliasesProvider.inst().getSetNameFor(new CardKingdomCardExport() , mc.getCurrentSet()))
 					  .and("is_foil").is(String.valueOf(foil));
 		}
-		
+
 		if(ed.contains("Duel Decks"))
 		{
 			ed = ed.replace("vs.", "Vs.");
 		}
-		
+
 		if(mc.isToken())
 		{
 			name = name + " Token";
@@ -105,22 +105,22 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 					  .and("edition").is(ed)
 					  .and("is_foil").is(String.valueOf(foil));
 		}
-		
-		
+
+
 		Filter cheapFictionFilter = filter(filtres);
-		
+
 		Chrono c = new Chrono();
-		
+
 		c.start();
 		logger.debug("Reading file {} with {} ",jsonFile,cheapFictionFilter );
 		List<Map<String, Object>> arr = cont.read("$.data[?]",cheapFictionFilter);
 		var res = c.stop();
 		logger.debug("Ending reading after {}sec",res);
 		try {
-			
+
 			if(arr.size()>1)
 			{
-				logger.warn(" found multiples values for {} : {}", mc,arr);			
+				logger.warn(" found multiples values for {} : {}", mc,arr);
 			}
 			return arr.get(0).get("url").toString();
 		}
@@ -130,12 +130,12 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 		}
 		return null;
 	}
-	
+
 
 	public CardKingdomPricer() {
-		
+
 		jsonFile=new File(MTGConstants.DATA_DIR,"mtgkingdom.json");
-		
+
 		if(getBoolean(LOAD_CERTIFICATE))
 		{
 			try {
@@ -146,25 +146,26 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 			}
 		}
 	}
-	
+
+	@Override
 	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
-		
+
 		var ret = getPrices(card,false);
 		ret.addAll(getPrices(card, true));
 		return ret;
-		
+
 	}
-	
+
 
 
 	public List<MagicPrice> getPrices(MagicCard card,boolean foil) throws IOException {
 
 		List<MagicPrice> list = new ArrayList<>();
 		var productUri =getUrlFor(card,foil);
-	
+
 		if(productUri==null)
 			return list;
-		
+
 
 		String url = WEB_URI+ "/"+productUri;
 		Elements prices = null;
@@ -208,8 +209,8 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 	public String getName() {
 		return "Card Kingdom";
 	}
-	
-	
+
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of(LOAD_CERTIFICATE, "true");
@@ -220,13 +221,13 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 	public int hashCode() {
 		return getName().hashCode();
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		
+
 		if(obj ==null)
 			return false;
-		
+
 		return hashCode()==obj.hashCode();
 	}
 
@@ -234,5 +235,5 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 	public boolean isPartner() {
 		return true;
 	}
-	
+
 }

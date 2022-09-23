@@ -9,7 +9,7 @@ import org.magic.services.network.URLTools;
 import org.magic.tools.UITools;
 
 public class CGCGrader extends AbstractGradersProvider {
-	
+
 	@Override
 	public Grading loadGrading(String identifier) throws IOException {
 		Document d = URLTools.extractAsHtml(getWebSite()+"/certlookup/"+identifier+"/");
@@ -17,7 +17,7 @@ public class CGCGrader extends AbstractGradersProvider {
 		g.setNumberID(identifier);
 		g.setGraderName(getName());
 		g.setGradeNote(UITools.parseDouble(d.select("div.related-info:contains(Grade) dd").text()));
-		
+
 		return g;
 	}
 

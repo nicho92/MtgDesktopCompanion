@@ -45,7 +45,7 @@ import org.magic.tools.UITools;
 public class JDeckChooserDialog extends JDialog {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private JXTable table;
@@ -64,7 +64,7 @@ public class JDeckChooserDialog extends JDialog {
 	private DefaultMutableTreeNode sideNode = new DefaultMutableTreeNode("Sideboard");
 	private transient MTGDeckManager manager;
 
-	
+
 	public MagicDeck getSelectedDeck() {
 		return selectedDeck;
 	}
@@ -117,13 +117,13 @@ public class JDeckChooserDialog extends JDialog {
 		setTitle(capitalize("OPEN_DECK"));
 		setIconImage(MTGConstants.ICON_DECK.getImage());
 		setSize(950, 600);
-		
+
 		model = new DefaultTreeModel(root);
 		manager = new MTGDeckManager();
 		var decksModel = new DeckSelectionTableModel();
 		manager.addObserver((o,d)->decksModel.addItem((MagicDeck)d));
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
-		
+
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
@@ -135,8 +135,8 @@ public class JDeckChooserDialog extends JDialog {
 				selectedDeck = null;
 			}
 		});
-		
-		
+
+
 		AbstractObservableWorker<List<MagicDeck>, MagicDeck, MTGDao> sw2 = new AbstractObservableWorker<>(buzy,MTG.getEnabledPlugin(MTGDao.class))
 				{
 
@@ -152,26 +152,26 @@ public class JDeckChooserDialog extends JDialog {
 					@Override
 					protected void done() {
 						super.done();
-						
+
 						table.packAll();
 					}
 				};
-		
+
 		ThreadManager.getInstance().runInEdt(sw2,"loading decks");
-		
-		
+
+
 		table = UITools.createNewTable(decksModel);
 				UITools.initTableFilter(table);
 
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		
+
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent event) {
-				
+
 				if(UITools.getTableSelections(table, 0).isEmpty())
 					return;
-				
+
 				selectedDeck = UITools.getTableSelection(table, 0);
 				initTree();
 				tagsPanel.clean();
@@ -215,10 +215,10 @@ public class JDeckChooserDialog extends JDialog {
 		var btnDelete = new JButton(MTGConstants.ICON_DELETE);
 		btnDelete.setToolTipText(capitalize("DELETE"));
 		btnDelete.addActionListener(e -> {
-			
+
 			if(selectedDeck==null)
 				return;
-			
+
 			int res = JOptionPane.showConfirmDialog(null,
 					capitalize("CONFIRM_DELETE", selectedDeck.getName()),
 					capitalize("CONFIRMATION") + " ?",
@@ -269,11 +269,11 @@ public class JDeckChooserDialog extends JDialog {
 		panelTree.add(tagsPanel, BorderLayout.SOUTH);
 
 		table.getColumnModel().getColumn(1).setCellRenderer(new ManaCellRenderer());
-		
+
 		panelBas.add(buzy);
-		
+
 		setLocationRelativeTo(null);
 		setModal(true);
-		
+
 	}
 }

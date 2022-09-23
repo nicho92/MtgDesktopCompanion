@@ -5,12 +5,12 @@ import org.magic.api.interfaces.MTGComparator;
 
 public class ColorSorter implements MTGComparator<MagicCard> {
 
-	
+
 	@Override
 	public String toString() {
 		return "Color Sorter";
 	}
-	
+
 	@Override
 	public int compare(MagicCard mc1, MagicCard mc2) {
 
@@ -23,6 +23,7 @@ public class ColorSorter implements MTGComparator<MagicCard> {
 		return 1;
 	}
 
+	@Override
 	public int getWeight(MagicCard mc) {
 
 		if (mc.getColors().size() > 1)
@@ -35,7 +36,7 @@ public class ColorSorter implements MTGComparator<MagicCard> {
 			return 6;
 
 		return mc.getColors().get(0).getPosition();
-		
+
 	}
 
 }

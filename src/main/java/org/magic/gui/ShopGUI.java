@@ -21,27 +21,27 @@ public class ShopGUI extends MTGUIComponent {
 	private static final long serialVersionUID = 1L;
 	private JTabbedPane pane;
 	private JTabbedPane subPane;
-	
+
 	public ShopGUI() {
 		setLayout(new BorderLayout());
-		
+
 		pane = new JTabbedPane();
 		subPane = new JTabbedPane();
 		add(pane,BorderLayout.CENTER);
-		
+
 		UITools.addTab(pane,new WebShopConfigPanel());
 		UITools.addTab(pane, new TransactionsPanel());
 		UITools.addTab(pane, new ContactsManagementPanel());
-		
+
 		UITools.addTab(subPane, new ProductsCreatorComponent());
 		UITools.addTab(subPane, new TransactionCreatorComponent());
 		UITools.addTab(subPane, new StockShopperComponent());
 		UITools.addTab(subPane, new ConverterPanel());
-		
+
 		UITools.addTab(pane, MTGUIComponent.build(subPane,"External Shop",MTGConstants.ICON_TAB_EXT_SHOP));
-		
+
 	}
-	
+
 
 	@Override
 	public String getTitle() {
@@ -52,7 +52,7 @@ public class ShopGUI extends MTGUIComponent {
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_SHOP;
 	}
-	
-	
-	
+
+
+
 }

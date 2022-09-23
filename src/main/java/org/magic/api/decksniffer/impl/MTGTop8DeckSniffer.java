@@ -59,43 +59,43 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 	public String[] listFilter() {
 		return formats.keySet().toArray(new String[formats.keySet().size()]);
 	}
-	
+
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 		Document root = URLTools.extractAsHtml(info.getUrl().toString());
 		MagicDeck d = info.toBaseDeck();
-	
+
 		Elements blocks = root.select("div[style='margin:3px;flex:1;']");
-		
+
 		var side = false;
-		for (Element b : blocks) 
+		for (Element b : blocks)
 		{
-			
+
 			for (Element line : b.children()) {
-				
-				if (line.hasClass("O14")) 
+
+				if (line.hasClass("O14"))
 				{
 					if(line.text().equalsIgnoreCase("SIDEBOARD"))
 						side = true;
-					
-				} 
+
+				}
 				else if(line.hasClass("deck_line"))
 				{
 					var qte = Integer.parseInt(line.text().substring(0, line.text().indexOf(' ')));
 						String name = line.select("span.L14").text();
-		
-						if (!name.equals("")) 
+
+						if (!name.equals(""))
 						{
 							try {
-								
+
 							MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( name, null, true).get(0);
 							if (!side)
 								d.getMain().put(mc, qte);
 							else
 								d.getSideBoard().put(mc, qte);
-							
+
 							notify(mc);
-		
+
 							}
 							catch(IndexOutOfBoundsException err)
 							{
@@ -103,7 +103,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 							}
 						}
 					}
-				
+
 			}
 
 		}
@@ -116,9 +116,9 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 		MTGHttpClient httpClient = URLTools.newClient();
 		var res = new StringBuilder();
 		for (var i = 0; i < getInt("MAX_PAGE"); i++) {
-			
+
 			Builder<String,String> nvps = httpClient.buildMap();
-			
+
 			nvps.put("current_page", String.valueOf(i + 1));
 			nvps.put("event_titre", getString("EVENT_FILTER"));
 			nvps.put("deck_titre", "");
@@ -143,8 +143,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 		Elements els = d.select("tr.hover_tr");
 
 		List<RetrievableDeck> ret = new ArrayList<>();
-		for (var i = 0; i < els.size(); i++) {
-			Element e = els.get(i);
+		for (Element e : els) {
 			var dk = new RetrievableDeck();
 			dk.setName(e.select("td.s11 a").text());
 			try {
@@ -166,7 +165,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 		return "MTGTop8";
 	}
 
-	
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of("URL", "http://mtgtop8.com/",

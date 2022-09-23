@@ -40,24 +40,24 @@ public class TechnicalServiceManager {
 	private File logsDirectory = new File(MTGConstants.DATA_DIR,"audits");
 	private IPTranslator translator;
 	private boolean enable =true;
-	
+
 	public static final int SCHEDULE_TIMER_MS=1;
-	
+
 	public static TechnicalServiceManager inst()
 	{
 		if(inst==null)
 			inst = new TechnicalServiceManager();
-		
+
 		return inst;
 	}
-	
-	
+
+
 	public void enable(boolean enable)
 	{
 		this.enable =enable;
 	}
-	
-	
+
+
 	public TechnicalServiceManager() {
 		jsonInfo= new ArrayList<>();
 		networkInfos = new ArrayList<>();
@@ -66,7 +66,7 @@ public class TechnicalServiceManager {
 		discordInfos = new ArrayList<>();
 		export = new JsonExport();
 		translator = new IPTranslator();
-		
+
 		if(!logsDirectory.exists())
 		{
 			try {
@@ -75,24 +75,24 @@ public class TechnicalServiceManager {
 				logger.error("error creating " + logsDirectory.getAbsolutePath() +": "+e);
 			}
 		}
-	
-		
+
+
 		logger.info("Starting Log backup timer scheduled at " + TimeUnit.HOURS.toMillis(SCHEDULE_TIMER_MS) +" ms");
 		ThreadManager.getInstance().timer(new MTGRunnable() {
-			
+
 			@Override
 			protected void auditedRun() {
 				storeAll();
-				
+
 			}
 		},"TechnicalService Timer",SCHEDULE_TIMER_MS,TimeUnit.HOURS);
-		
+
 	}
-	
+
 	public void storeAll()
 	{
-		
-		if(enable) 
+
+		if(enable)
 		{
 				try {
 					storeItems(JsonQueryInfo.class,jsonInfo.stream().filter(Objects::nonNull).toList());
@@ -108,11 +108,11 @@ public class TechnicalServiceManager {
 		}
 
 	}
-	
-	
+
+
 	public void restore() throws IOException
 	{
-		
+
 		if(enable)
 		{
 			for(File f : FileTools.listFiles(logsDirectory))
@@ -122,38 +122,38 @@ public class TechnicalServiceManager {
 				else if(f.getName().startsWith(DAOInfo.class.getSimpleName()))
 					daoInfos.addAll(restore(f,DAOInfo.class).stream().distinct().toList());
 				else if(f.getName().startsWith(TaskInfo.class.getSimpleName()))
-					tasksInfos.addAll(restore(f,TaskInfo.class).stream().distinct().toList());		
+					tasksInfos.addAll(restore(f,TaskInfo.class).stream().distinct().toList());
 				else if(f.getName().startsWith(NetworkInfo.class.getSimpleName()))
 					networkInfos.addAll(restore(f,NetworkInfo.class).stream().distinct().toList());
 				else if(f.getName().startsWith(DiscordInfo.class.getSimpleName()))
-					discordInfos.addAll(restore(f,DiscordInfo.class).stream().distinct().toList());	
+					discordInfos.addAll(restore(f,DiscordInfo.class).stream().distinct().toList());
 			}
 		}
 		else
 		{
 			logger.warn("TechnicalService is disabled");
 		}
-		
-		
+
+
 	}
-	
+
 	private <T  extends AbstractAuditableItem> List<T> restore(File f, Class<T> classe) throws IOException {
 		return export.fromJsonList(FileTools.readFile(f), classe);
 	}
 
 	private <T extends AbstractAuditableItem> void storeItems(Class<T> classe, List<T> items) throws IOException
 	{
-		if(enable) 
+		if(enable)
 		{
 			FileTools.saveLargeFile(Paths.get(logsDirectory.getAbsolutePath(),classe.getSimpleName()+".json").toFile(), export.toJson(items),MTGConstants.DEFAULT_ENCODING);
 		}
 	}
-	
+
 
 	public List<DiscordInfo> getDiscordInfos() {
 		return discordInfos;
 	}
-	
+
 	public List<JsonQueryInfo> getJsonInfo() {
 		return jsonInfo;
 	}
@@ -161,15 +161,15 @@ public class TechnicalServiceManager {
 	public List<NetworkInfo> getNetworkInfos() {
 		return networkInfos;
 	}
-	
+
 	public List<DAOInfo> getDaoInfos() {
 		return daoInfos;
 	}
-	
+
 	public List<TaskInfo> getTasksInfos() {
 		return tasksInfos;
 	}
-	
+
 	public void store(JsonQueryInfo info)
 	{
 		info.setLocation(translator.getLocationFor(info.getIp()));
@@ -178,25 +178,25 @@ public class TechnicalServiceManager {
 
 	public void store(DiscordInfo info) {
 		discordInfos.add(info);
-		
+
 	}
-	
-	
+
+
 	public void store(NetworkInfo info)
 	{
 		networkInfos.add(info);
 	}
-	
+
 	public void store(TaskInfo info)
 	{
 		tasksInfos.add(info);
 	}
-	
+
 	public void store(DAOInfo info)
 	{
 		daoInfos.add(info);
 	}
-	
+
 	public Set<Entry<Object, Object>> getSystemInfo() {
 		return System.getProperties().entrySet();
 	}
@@ -205,5 +205,5 @@ public class TechnicalServiceManager {
 		return ManagementFactory.getThreadMXBean().dumpAllThreads(true, true);
 	}
 
-	
+
 }

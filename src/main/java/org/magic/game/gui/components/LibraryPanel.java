@@ -21,7 +21,7 @@ import org.magic.services.MTGControler;
 public class LibraryPanel extends DraggablePanel {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private transient Image i;

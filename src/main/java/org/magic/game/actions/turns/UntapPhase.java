@@ -13,7 +13,7 @@ import org.magic.game.model.Turn;
 public class UntapPhase extends AbstractAction {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 

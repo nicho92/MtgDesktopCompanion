@@ -15,32 +15,32 @@ import com.google.gson.JsonObject;
 
 public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 
-	
+
 	private static final String LIMIT = "LIMIT";
 	private static final String CLIENT_ID="CLIENT_ID";
 	private static final String BASE_URL = "https://www.deviantart.com";
 	private RequestBuilder build;
 	private String bToken;
-	
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
 	}
-		
+
 	@Override
 	public List<Wallpaper> search(String search) {
-		
+
 		List<Wallpaper> list = new ArrayList<>();
 		try {
-			
+
 			if(getString(CLIENT_ID).isEmpty())
 				{
 					logger.error("please fill CLIENT_ID && CLIENT_SECRET attributs in config panel");
 					return list;
 				}
-			
-			
-			
+
+
+
 			build = RequestBuilder.build();
 		    bToken = build.setClient(URLTools.newClient())
 								   .method(METHOD.GET)
@@ -49,10 +49,10 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 								   .addContent("client_id", getString(CLIENT_ID))
 								   .addContent("client_secret", getString("CLIENT_SECRET"))
 								   .toJson().getAsJsonObject().get("access_token").getAsString();
-		    
+
 		    var offset = 0;
 		    var ret= readOffset(offset,search);
-				    while(ret.get("has_more").getAsBoolean()) 
+				    while(ret.get("has_more").getAsBoolean())
 				    {
 					    ret.get("results").getAsJsonArray().forEach(el->{
 					    	try {
@@ -65,17 +65,17 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 								logger.error("Error for {}",el.getAsJsonObject().get("title"),e);
 							}
 					    });
-					    
+
 					    if(list.size()>=getInt(LIMIT))
 			    			break;
-			    		
+
 					    ret = readOffset(ret.get("next_offset").getAsInt(), search);
 				    }
-		    
+
 			} catch (Exception e) {
 				logger.error("error",e);
 			}
-		
+
 		return list;
 	}
 
@@ -95,7 +95,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 	public String getName() {
 		return "DeviantArt";
 	}
-	
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of(CLIENT_ID, "",

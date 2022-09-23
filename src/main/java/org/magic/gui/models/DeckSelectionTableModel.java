@@ -10,12 +10,12 @@ import org.magic.services.MTGDeckManager;
 public class DeckSelectionTableModel extends GenericTableModel<MagicDeck> {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	public DeckSelectionTableModel() {
 		columns=new String[] {"DECK","CARD_COLOR","STANDARD","MODERN","LEGACY","VINTAGE","ARENA","CARDS","DATE"};
 	}
-	
-	
+
+
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex) {
@@ -37,7 +37,7 @@ public class DeckSelectionTableModel extends GenericTableModel<MagicDeck> {
 			return Integer.class;
 		case 8:
 			return Date.class;
-			
+
 		default:
 			return super.getColumnClass(columnIndex);
 		}

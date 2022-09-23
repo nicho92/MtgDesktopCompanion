@@ -324,12 +324,12 @@ public class RadiusAreaStrat extends AbstractRecognitionArea
         return inRadius && farEnough;
     }
 
-    
+
     @Override
     public String getName() {
     	return "Radius";
     }
-    
+
     /**
      * Extrapolate 2 line segments, and get their collision point, or null
      * if the segments are perfectly parallel
@@ -363,19 +363,19 @@ public class RadiusAreaStrat extends AbstractRecognitionArea
         for (int i = 0; i < points.length; i++)
         {
             Point2D_I32 p = points[i];
-            
+
             if (draggingPoint == i)
                 g.setColor(Color.RED);
             else
                 g.setColor(Color.WHITE);
-           
+
             g.fillOval(p.x - 3, p.y - 3, 7, 7);
         }
         if (draggingPoint != -1)
             g.setColor(Color.RED);
         else
             g.setColor(Color.WHITE);
-        
+
         g.drawOval((int) (center.x - radius), (int) (center.y - radius), (int) (radius * 2), (int) (radius * 2));
 
         for (Point2D_F32 p : visPoints)

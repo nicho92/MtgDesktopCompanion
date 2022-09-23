@@ -26,5 +26,5 @@ public class CollectionsWebServer extends AbstractWebServer {
 	public Icon getIcon() {
 		return MTGConstants.ICON_COLLECTION;
 	}
-	
+
 }

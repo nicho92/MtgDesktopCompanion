@@ -42,23 +42,25 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 		timer = new Timer();
 	}
 
+	@Override
 	public void start() {
 		running = true;
 		tache = new TimerTask() {
+			@Override
 			public void run() {
 				if (getEnabledPlugin(MTGDao.class).listAlerts() != null)
 					for (MagicCardAlert alert : getEnabledPlugin(MTGDao.class).listAlerts()) {
 						alert.getOffers().clear();
-						for (MTGPricesProvider prov : listEnabledPlugins(MTGPricesProvider.class)) 
+						for (MTGPricesProvider prov : listEnabledPlugins(MTGPricesProvider.class))
 						{
 							List<MagicPrice> okz = new ArrayList<>();
 							try {
 								Stream<MagicPrice> stream = prov.getPrice(alert.getCard()).stream().filter(p->p.getValue() <= alert.getPrice()&& p.getValue() > Double.parseDouble(MTGControler.getInstance().get("min-price-alert")));
-								
+
 								if(alert.isFoil())
 									stream=stream.filter(MagicPrice::isFoil);
-								
-								
+
+
 								List<MagicPrice> res= stream.toList();
 								alert.getOffers().addAll(res);
 								okz.addAll(res);
@@ -69,14 +71,14 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 							}
 						}
 					}
-				
+
 				var notif = new MTGNotification();
 					notif.setTitle("New offers");
 					notif.setType(MESSAGE_TYPE.INFO);
 					for(String not : getArray("NOTIFIER"))
 					{
 						try {
-										
+
 							MTGNotifier notifier = getPlugin(not, MTGNotifier.class);
 							notif.setMessage(notifFormater.generate(notifier.getFormat(), getEnabledPlugin(MTGDao.class).listAlerts(), MagicCardAlert.class));
 							notifier.send(notif);
@@ -85,7 +87,7 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 						}
 					}
 				}
-			
+
 		};
 
 		timer.scheduleAtFixedRate(tache, 0, getLong(TIMEOUT_MINUTE) * 60000);
@@ -93,6 +95,7 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 
 	}
 
+	@Override
 	public void stop() {
 		tache.cancel();
 		timer.purge();
@@ -115,7 +118,7 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 		return getBoolean("AUTOSTART");
 	}
 
-	
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of("AUTOSTART", "false",

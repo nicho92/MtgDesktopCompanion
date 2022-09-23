@@ -20,7 +20,7 @@ import org.magic.tools.UITools;
 
 public class IndexationDashlet extends AbstractJDashlet {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private MapTableModel<String, Long> indexModel;
@@ -31,15 +31,16 @@ public class IndexationDashlet extends AbstractJDashlet {
 	public ImageIcon getDashletIcon() {
 		return MTGConstants.ICON_TAB_ANALYSE;
 	}
-	
+
 	@Override
 	public String getCategory() {
 		return "Collection";
 	}
-	
-	
+
+
+	@Override
 	public void initGUI() {
-	
+
 		var panneauHaut = new JPanel();
 		getContentPane().add(panneauHaut, BorderLayout.NORTH);
 
@@ -50,15 +51,15 @@ public class IndexationDashlet extends AbstractJDashlet {
 		{
 			cboField.addItem("NO INDEXER FILE FOUND");
 		}
-		
+
 		panneauHaut.add(cboField);
 		indexModel = new MapTableModel<>();
 		indexModel.setColumnNameAt(0, "Term");
 		indexModel.setColumnNameAt(1, "Occurences");
 		var table = UITools.createNewTable(indexModel);
-		
+
 		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
-		
+
 		cboField.addItemListener(ie -> {
 			if (ie.getStateChange() == ItemEvent.SELECTED) {
 				init();
@@ -75,6 +76,7 @@ public class IndexationDashlet extends AbstractJDashlet {
 
 	}
 
+	@Override
 	public void init() {
 		try {
 			indexModel.init(getEnabledPlugin(MTGCardsIndexer.class).terms(cboField.getSelectedItem().toString()));

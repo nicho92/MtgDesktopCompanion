@@ -33,7 +33,7 @@ import org.magic.tools.UITools;
 
 
 public class PricesTablePanel extends MTGUIComponent {
-	
+
 	private static final long serialVersionUID = 1L;
 	private CardsPriceTableModel model;
 	private JXTable tablePrices;
@@ -41,49 +41,49 @@ public class PricesTablePanel extends MTGUIComponent {
 	private transient DefaultRowSorter<TableModel, Integer> sorterPrice;
 	private MagicCard currentCard;
 	private boolean foilOnly;
-	
+
 	public PricesTablePanel() {
 		var panel = new JPanel();
 		lblLoading = AbstractBuzyIndicatorComponent.createProgressComponent();
-		
-	
+
+
 		model = new CardsPriceTableModel();
 		tablePrices = UITools.createNewTable(model);
 		UITools.initTableFilter(tablePrices);
-		
+
 		setLayout(new BorderLayout(0, 0));
-		
+
 		tablePrices.setRowSorter(sorterPrice);
 		tablePrices.setRowHeight(MTGConstants.TREE_ROW_HEIGHT);
-		
-		
-		
-		
+
+
+
+
 		for(var i : model.defaultHiddenColumns())
 			tablePrices.getColumnExt(model.getColumnName(i)).setVisible(false);
-	
-		
-		
-		
+
+
+
+
 		add(panel, BorderLayout.NORTH);
-		
-		
+
+
 		panel.add(lblLoading);
 		add(new JScrollPane(tablePrices), BorderLayout.CENTER);
-		
+
 		tablePrices.addMouseListener(new MouseAdapter() {
-			
-			
-			
-			
+
+
+
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); 
+				setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR)); 
+				setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 			}
 
 			@Override
@@ -96,55 +96,55 @@ public class PricesTablePanel extends MTGUIComponent {
 
 			}
 		});
-		
+
 	}
 
 	@Override
 	public void onVisible() {
 		init(currentCard,foilOnly);
 	}
-	
-	
+
+
 	public void init(MagicCard card)
 	{
 		init(card,false);
 	}
-	
+
 
 	public void init(MagicCard card,boolean foilOnly)
 	{
 		currentCard = card;
 		this.foilOnly=foilOnly;
-		
+
 		if(currentCard==null)
 			return;
-			
+
 		if(isVisible())
 		{
 			model.clear();
 			List<MTGPricesProvider> providers = listEnabledPlugins(MTGPricesProvider.class);
 			lblLoading.start(providers.size());
-			
+
 			var cdl = new CountDownLatch(listEnabledPlugins(MTGPricesProvider.class).size());
-	
-			
+
+
 			for(MTGPricesProvider prov : listEnabledPlugins(MTGPricesProvider.class))
 			{
 				SwingWorker<List<MagicPrice>, MagicPrice> sw = new SwingWorker<>()
 				{
 					@Override
 					protected List<MagicPrice> doInBackground() throws Exception {
-						
+
 						List<MagicPrice> list = new ArrayList<>();
 						lblLoading.setText(capitalize("LOADING_PRICES") + " : " + currentCard + "("+currentCard.getCurrentSet()+")" );
 							try {
-							
+
 								List<MagicPrice> l = prov.getPrice(currentCard);
-								
+
 								if(foilOnly)
 									l = l.stream().filter(MagicPrice::isFoil).toList();
-								
-								
+
+
 								publish(l.toArray(new MagicPrice[l.size()]));
 								list.addAll(l);
 							}
@@ -152,37 +152,37 @@ public class PricesTablePanel extends MTGUIComponent {
 							{
 								logger.error("error with " + prov + ":",e);
 							}
-						
+
 						return list;
 					}
-					
-					
+
+
 					@Override
 					protected void process(List<MagicPrice> chunks) {
-						
+
 						model.addItems(chunks);
-						
+
 					}
-					
+
 					@Override
 					protected void done() {
 						lblLoading.progress();
 						cdl.countDown();
-						
+
 						if(cdl.getCount()==0)
-						{	
+						{
 							lblLoading.end();
 							Collections.sort(model.getItems(), new MagicPricesComparator());
 							model.fireTableDataChanged();
 						}
 					}
-			
+
 				};
 				ThreadManager.getInstance().runInEdt(sw,"loading " + prov.getName() + " prices");
 			}
 		}
 	}
-	
+
 	public List<MagicPrice> getPrices()
 	{
 		return model.getItems();
@@ -192,8 +192,8 @@ public class PricesTablePanel extends MTGUIComponent {
 	public String getTitle() {
 		return "PRICES";
 	}
-	
-	
+
+
 	@Override
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_TAB_PRICES;

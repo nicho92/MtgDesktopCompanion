@@ -13,29 +13,29 @@ import org.magic.gui.renderer.MagicEditionIconListRenderer.SIZE;
 import org.magic.tools.UITools;
 
 public class MagicEditionsComboBoxCellRenderer implements TableCellRenderer {
-	
+
 	private boolean enable;
-	
+
 	public MagicEditionsComboBoxCellRenderer() {
 		enable=true;
 	}
-	
+
 	public MagicEditionsComboBoxCellRenderer(boolean enabled) {
 		enable=enabled;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 
 		if(value==null)
 			return new JLabel();
-		
-		
+
+
 		JComboBox<MagicEdition> cbo = UITools.createComboboxEditions((List<MagicEdition>) value,SIZE.SMALL);
 		cbo.setEnabled(enable);
 		cbo.setOpaque(true);
-		
+
 		return cbo;
 	}
 }

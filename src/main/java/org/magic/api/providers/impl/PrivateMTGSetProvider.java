@@ -28,10 +28,10 @@ import com.google.gson.reflect.TypeToken;
 public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
 	private static final String CARDS = "cards";
-	
+
 	private String ext = ".json";
 	private File setDirectory;
-	
+
 	public void removeEdition(MagicEdition me) {
 		var f = new File(setDirectory, me.getId() + ext);
 		try {
@@ -41,8 +41,8 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 			logger.error(e);
 		}
 	}
-	
-	
+
+
 	public boolean removeCard(MagicEdition me, MagicCard mc) throws IOException {
 		var f = new File(setDirectory, me.getId() + ext);
 		var root = FileTools.readJson(f).getAsJsonObject();
@@ -98,7 +98,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	}
 
 	public void saveEdition(MagicEdition ed, List<MagicCard> cards2) {
-		
+
 		cards2.forEach(mc->{
 			try {
 				removeCard(ed, mc);
@@ -108,12 +108,12 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 				logger.error(e);
 			}
 		});
-		
+
 	}
 
-	
-	
-	
+
+
+
 	public void saveEdition(MagicEdition me) throws IOException {
 		var cardCount = 0;
 		try {
@@ -137,6 +137,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
 	}
 
+	@Override
 	public void init() {
 		setDirectory = getFile("DIRECTORY");
 		logger.debug("Opening directory " + setDirectory);
@@ -147,6 +148,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		}
 	}
 
+	@Override
 	public MagicCard getCardById(String id, MagicEdition ed) {
 		try {
 			return searchCardByCriteria("id", id, ed, true).get(0);
@@ -165,14 +167,14 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 			return null;
 		}
 	}
-	
-	
-	
+
+
+
 	@Override
 	public List<MagicCard> searchCardByEdition(MagicEdition ed) throws IOException {
 		return getCards(ed);
 	}
-	
+
 
 
 	@Override
@@ -181,11 +183,11 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 			for (MagicEdition ed : listEditions())
 				for (MagicCard mc : getCards(ed))
 						res.add(mc);
-			
+
 			return res;
 	}
 
-	
+
 	@Override
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact)throws IOException {
 		List<MagicCard> res = new ArrayList<>();
@@ -226,6 +228,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
 	}
 
+	@Override
 	public List<MagicEdition> loadEditions() throws IOException {
 
 		List<MagicEdition> ret = new ArrayList<>();
@@ -254,7 +257,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	public List<QueryAttribute> loadQueryableAttributs() {
 		try {
 				Set<String> keys = BeanUtils.describe(new MagicCard()).keySet();
-				
+
 				return keys.stream().map(k->new QueryAttribute(k,String.class)).toList();
 			} catch (Exception e) {
 			logger.error(e);
@@ -282,23 +285,23 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	public Icon getIcon() {
 		return new ImageIcon(MTGConstants.IMAGE_LOGO);
 	}
-	
-	
+
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of("DIRECTORY",new File(MTGConstants.DATA_DIR, "privateSets").getAbsolutePath());
 	}
-	
+
 
 	@Override
 	public boolean equals(Object obj) {
-		
+
 		if(obj ==null)
 			return false;
-		
+
 		return hashCode()==obj.hashCode();
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return getName().hashCode();

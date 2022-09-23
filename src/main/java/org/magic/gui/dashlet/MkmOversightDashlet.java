@@ -22,7 +22,7 @@ import org.magic.services.network.URLTools;
 import org.magic.tools.UITools;
 
 public class MkmOversightDashlet extends AbstractJDashlet {
-	
+
 
 	private static final String INSIGHT_SELECTION_KEY = "INSIGHT_SELECTION";
 	private static final String CHANGE_VALUE = "changeValue";
@@ -35,34 +35,34 @@ public class MkmOversightDashlet extends AbstractJDashlet {
 	private transient InsightService service ;
 	private GenericTableModel<InsightElement> model;
 	private JComboBox<INSIGHT_SELECTION> comboBox;
-	
-	
+
+
 	private enum INSIGHT_SELECTION  { STOCK_REDUCTION,BEST_BARGAIN,TOP_CARDS,BIGGEST_START_PRICE,BIGGEST_START_PRICE_FOIL,BIGGEST_AVG_SALES,BIGGEST_AVG_SALES_FOIL }
-	
-	
+
+
 	@Override
 	public String getCategory() {
 		return "Market";
 	}
-	
+
 	@Override
 	public ImageIcon getDashletIcon() {
 		return new ImageIcon(MKMFileWantListExport.class.getResource("/icons/plugins/magiccardmarket.png"));
 	}
-	
-	
+
+
 	@Override
 	public String getName() {
 		return "Mkm Oversight";
 	}
-	
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
 	}
-	
+
 	@Override
-	public void initGUI() 
+	public void initGUI()
 	{
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		model=new GenericTableModel<>();
@@ -74,12 +74,12 @@ public class MkmOversightDashlet extends AbstractJDashlet {
 		var table = UITools.createNewTable(model);
 		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
 		comboBox.addItemListener(pcl->{
-		
+
 			if (pcl.getStateChange() == ItemEvent.SELECTED) {
 				init();
 			}
 		});
-		
+
 		UITools.initCardToolTipTable(table,0,null,null, new Callable<Void>()
 				{
 
@@ -87,45 +87,45 @@ public class MkmOversightDashlet extends AbstractJDashlet {
 					public Void call() throws Exception {
 						String cardName  = UITools.getTableSelection(table, 0);
 						String setName  = UITools.getTableSelection(table, 1);
-						
+
 						cardName=RegExUtils.replaceAll(cardName,"'","");
 						cardName=RegExUtils.replaceAll(cardName," \\(V\\.","-V");
 						cardName=RegExUtils.replaceAll(cardName,"\\)","");
 						cardName=RegExUtils.replaceAll(cardName," ","-");
-						
-						
+
+
 						UITools.browse(MkmConstants.MKM_SITE_URL+"/en/Magic/Products/Singles/"+URLTools.encode(setName)+"/"+URLTools.encode(cardName));
-						
+
 						return null;
 					}
 			});
-		
+
 		if (getProperties().size() > 0) {
 			var r = new Rectangle((int) Double.parseDouble(getString("x")),
 					(int) Double.parseDouble(getString("y")), (int) Double.parseDouble(getString("w")),
 					(int) Double.parseDouble(getString("h")));
 			setBounds(r);
-			
+
 			if(getString(INSIGHT_SELECTION_KEY)!=null)
 					comboBox.setSelectedItem(INSIGHT_SELECTION.valueOf(getString(INSIGHT_SELECTION_KEY)));
 		}
-		
+
 	}
 
 	@Override
 	public void init() {
 		try {
-			
-			
+
+
 			setProperty(INSIGHT_SELECTION_KEY, comboBox.getSelectedItem().toString());
-			
+
 			switch((INSIGHT_SELECTION)comboBox.getSelectedItem())
 			{
 				case BEST_BARGAIN:
 					model.setColumns(CARD_NAME,ED,PRICE);
 					model.init(service.getBestBargain());
 					break;
-				
+
 				case STOCK_REDUCTION:
 					model.setColumns(CARD_NAME,ED,YESTERDAY_STOCK,"stock",CHANGE_VALUE);
 					model.init(service.getHighestPercentStockReduction());

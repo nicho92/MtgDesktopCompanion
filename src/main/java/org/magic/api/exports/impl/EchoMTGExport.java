@@ -24,24 +24,24 @@ public class EchoMTGExport extends AbstractCardExport {
 	private String authToken=null;
 	public static final String BASE_URL="https://www.echomtg.com";
 	private MTGHttpClient client;
-	
-	
+
+
 	@Override
 	public List<String> listAuthenticationAttributes() {
 		return List.of("EMAIL","PASSWORD");
 	}
-	
+
 	private void connect()
 	{
 		client = URLTools.newClient();
-		
+
 		JsonElement con = RequestBuilder.build().method(METHOD.POST)
 				 .url(BASE_URL+"/api/user/auth/")
 				 .addContent("email", getAuthenticator().get("EMAIL"))
 				 .addContent("password", getAuthenticator().get("PASS"))
 				 .setClient(client)
 				 .toJson();
-		
+
 		authToken=con.getAsJsonObject().get("token").getAsString();
 	}
 
@@ -54,10 +54,10 @@ public class EchoMTGExport extends AbstractCardExport {
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		if(client==null)
 			connect();
-		
-		
+
+
 		deck.getMain().entrySet().forEach(entry->{
-				
+
 					JsonElement list = RequestBuilder.build().method(METHOD.POST)
 							 .url(BASE_URL+"/api/inventory/add/")
 							 .addContent("auth", authToken)
@@ -67,28 +67,28 @@ public class EchoMTGExport extends AbstractCardExport {
 							 .addContent("foil", MTGControler.getInstance().getDefaultStock().isFoil()?"1":"0")
 							 .setClient(client)
 							 .toJson();
-					
+
 					if(list.getAsJsonObject().get("status").getAsString().equalsIgnoreCase("error"))
 						logger.error("error loading {}: {}",entry.getKey(),list.getAsJsonObject().get("message").getAsString());
 					else
 						logger.debug("export: {}",list.getAsJsonObject().get("message").getAsString());
-					
+
 					notify(entry.getKey());
-					
-				
+
+
 		});
-		
+
 	}
 
 	@Override
 	public MagicDeck importDeck(String f, String name) throws IOException {
 		if(client==null)
 			connect();
-		
+
 		var d = new MagicDeck();
 				  d.setName(name);
 				  d.setDescription("import from "+getName());
-				  
+
 				  var list = RequestBuilder.build().method(METHOD.GET)
 				 .url(BASE_URL+"/api/inventory/view/")
 				 .addContent("auth", authToken)
@@ -96,10 +96,10 @@ public class EchoMTGExport extends AbstractCardExport {
 				 .addContent("limit", "100")
 				 .setClient(client)
 				 .toJson();
-		
-		
+
+
 		var arr = list.getAsJsonObject().get("items").getAsJsonArray();
-		
+
 		arr.forEach(element -> {
 			var ob = element.getAsJsonObject();
 			MagicEdition ed =null;
@@ -108,8 +108,8 @@ public class EchoMTGExport extends AbstractCardExport {
 			} catch (Exception e) {
 				logger.error("error with {}",ob,e);
 			}
-			
-			
+
+
 			try {
 				List<MagicCard> ret = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(ob.get("name").getAsString(), ed, true);
 				d.add(ret.get(0));
@@ -117,10 +117,10 @@ public class EchoMTGExport extends AbstractCardExport {
 			} catch (IOException e) {
 				logger.error(e);
 			}
-			
 
-			
-			
+
+
+
 		});
 		return d;
 	}
@@ -129,21 +129,21 @@ public class EchoMTGExport extends AbstractCardExport {
 	public String getName() {
 		return "EchoMTG";
 	}
-	
+
 
 	@Override
 	public int hashCode() {
 		return getName().hashCode();
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		
+
 		if(obj ==null)
 			return false;
-		
+
 		return hashCode()==obj.hashCode();
 	}
-	
+
 
 }

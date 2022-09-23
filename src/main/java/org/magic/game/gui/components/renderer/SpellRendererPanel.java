@@ -15,9 +15,9 @@ import org.magic.gui.components.MagicTextPane;
 import org.magic.services.MTGConstants;
 
 public class SpellRendererPanel extends JPanel {
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private MagicTextPane textPane;
@@ -31,37 +31,37 @@ public class SpellRendererPanel extends JPanel {
 		lblCardName.setBackground(back);
 		lblCardName.setForeground(fore);
 	}
-	
+
 	public SpellRendererPanel()
 	{
 		setLayout(new BorderLayout(0, 0));
-		
+
 		lblCardName = new JLabel();
 		textPane = new MagicTextPane();
 		lblIconCard = new JLabel();
-		
+
 		add(lblCardName, BorderLayout.NORTH);
 		add(textPane, BorderLayout.CENTER);
 		add(lblIconCard, BorderLayout.WEST);
-	
+
 		textPane.setEditable(false);
 		textPane.setPreferredSize(new Dimension(5,60));
 		setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		lblIconCard.setOpaque(true);
 		lblCardName.setOpaque(true);
-		
+
 	}
-	
-	
+
+
 	public void setSpell(AbstractSpell value) {
-		
+
 		lblCardName.setText(value.getTitle());
-		
-		
-		if(value instanceof AbstractAbilities abs) 
+
+
+		if(value instanceof AbstractAbilities abs)
 		{
 			textPane.setText(abs.getEffects().toString());
-			
+
 			if(abs.isActivated())
 			{
 				lblIconCard.setIcon(MTGConstants.ICON_GAME_ACTIVATED);
@@ -76,16 +76,16 @@ public class SpellRendererPanel extends JPanel {
 			textPane.setText(value.getCard().getText());
 			lblIconCard.setIcon(MTGConstants.ICON_BACK);
 		}
-		
+
 		textPane.updateTextWithIcons();
 		var c = MTGColor.determine(value.getCard().getColors()).toColor();
 		setColor(Color.BLACK,c);
-	
-		
+
+
 		if(c.equals(Color.BLACK))
 			setColor(Color.WHITE, Color.GRAY);
      }
-	
-	
+
+
 
 }

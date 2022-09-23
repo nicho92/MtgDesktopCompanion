@@ -10,42 +10,40 @@ import org.magic.services.network.URLTools;
 
 public class MTGGradeGrader extends AbstractGradersProvider {
 
-	
+
 	@Override
 	public String getWebSite() {
 		return "https://www.mtggrade.com";
 	}
-	
+
 	@Override
 	public Grading loadGrading(String identifier) throws IOException {
-		
+
 		var url=getWebSite()+"/produit/"+identifier;
-		
-		
+
+
 		var d = RequestBuilder.build().method(METHOD.GET)
 				   .setClient(URLTools.newClient())
 				   .url(url)
 				   .toHtml();
-		
+
 		var trs = d.select("table.table-product tr");
-		
+
 		if(trs.isEmpty())
 			return null;
-		
-		
-		
+
+
+
 		var grad = new Grading();
 				grad.setGraderName(getName());
 				grad.setNumberID(identifier);
 				grad.setUrlInfo(url);
-				
+
 		trs.remove(0);
-		
-		logger.debug("found " + trs.text());
-		
+
 		grad.setGradeNote(Double.parseDouble(trs.select("td").get(3).text()));
-		
-		
+
+
 		return grad;
 	}
 
@@ -53,5 +51,5 @@ public class MTGGradeGrader extends AbstractGradersProvider {
 	public String getName() {
 		return "MTGGrade";
 	}
-	
+
 }

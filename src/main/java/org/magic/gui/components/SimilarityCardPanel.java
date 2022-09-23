@@ -22,52 +22,52 @@ public class SimilarityCardPanel extends MTGUIComponent {
 	private MagicCard currentCard;
 	private JXTable tableSimilarity;
 	private SimilarityCardsTableModel model;
-	
-	
+
+
 	public JXTable getTableSimilarity() {
 		return tableSimilarity;
 	}
-	
+
 	public SimilarityCardPanel() {
 		setLayout(new BorderLayout(0, 0));
-		
+
 		model = new SimilarityCardsTableModel();
 		tableSimilarity = UITools.createNewTable(model);
-		
+
 		add(new JScrollPane(tableSimilarity), BorderLayout.CENTER);
-		
-		
+
+
 	}
 
 	@Override
 	public void onVisible() {
 		init(currentCard);
 	}
-	
-	
+
+
 	public void init(MagicCard mc) {
 		currentCard = mc;
-		
+
 		if(isVisible()) {
 		try {
 			model.init(getEnabledPlugin(MTGCardsIndexer.class).similarity(mc));
 		} catch (IOException e) {
 			logger.error(e);
 		}
-		
+
 		}
 	}
 
-	
+
 	@Override
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_TAB_SIMILARITY;
 	}
-	
+
 	@Override
 	public String getTitle() {
 		return "MORE_LIKE_THIS";
 	}
 
-	
+
 }

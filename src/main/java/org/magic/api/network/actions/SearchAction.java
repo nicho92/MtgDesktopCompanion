@@ -15,21 +15,21 @@ public class SearchAction  extends AbstractNetworkAction{
 	private static final long serialVersionUID = 1L;
 
 	private MagicCard mc;
-	
-	
+
+
 	public SearchAction(Player p,MagicCard mc)
 	{
 		super(p);
 		setAct(ACTIONS.SEARCH);
 		this.mc=mc;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "SearchAction : " + mc;
 	}
-	
-	
+
+
 	public List<MagicCollection> getResponse()
 	{
 		try {
@@ -38,6 +38,6 @@ public class SearchAction  extends AbstractNetworkAction{
 			return new ArrayList<>();
 		}
 	}
-	
-	
+
+
 }

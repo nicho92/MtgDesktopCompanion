@@ -20,12 +20,13 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 		return URLTools.extractAsImage(generateUrl(mc));
 	}
 
+	@Override
 	public String generateUrl(MagicCard mc)
 	{
 		return "http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + mc.getCurrentSet().getMultiverseid() + "&type=card";
 	}
-	
-	
+
+
 
 	@Override
 	public String getName() {

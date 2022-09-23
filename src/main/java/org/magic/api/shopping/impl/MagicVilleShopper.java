@@ -22,18 +22,18 @@ import org.magic.tools.UITools;
 
 public class MagicVilleShopper extends AbstractMagicShopper {
 
-	
+
 	String urlBase= "https://www.magic-ville.com";
 
 	String urlListOrders = urlBase + "/fr/register/my_shopping.php?type=S";
 	String urlLogin = urlBase+"/fr/connexion.php";
 	String urlDetailOrder=urlBase+"/fr/register/";
-	
+
 	@Override
 	public List<OrderEntry> listOrders() throws IOException {
 		MTGHttpClient client = URLTools.newClient();
 		List<OrderEntry> entries = new ArrayList<>();
-	
+
 		RequestBuilder build = RequestBuilder.build().method(METHOD.POST)
 													.url(urlLogin)
 													.addContent("pseudo", getAuthenticator().getLogin())
@@ -42,9 +42,9 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 													.addContent("data", "1")
 													.addContent("x", "14")
 													.addContent("y", "11");
-		
+
 		client.execute(build);
-		
+
 		Document listOrders = URLTools.toHtml(client.toString(client.doGet(urlListOrders)));
 		Elements tableOrders = listOrders.select("table[border=0]").get(6).select("tr");
 		try {
@@ -59,7 +59,7 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 			logger.debug("Found no orders");
 			return entries;
 		}
-		
+
 		for(Element tr : tableOrders)
 		{
 			String date = tr.select("td").get(0).html();
@@ -67,23 +67,20 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 			String id =tr.select("td").get(2).text().replace("# ", "");
 			entries.addAll(parse(URLTools.toHtml(client.toString(client.doGet(urlDetailOrder+link))),id,UITools.parseDate(date,"dd/mm/yy")));
 		}
-			
+
 		return entries;
 	}
 
-	
-	
-	
+
+
+
 	private List<OrderEntry> parse(Document doc, String id, Date date) {
 		List<OrderEntry> entries = new ArrayList<>();
 		Elements table = doc.select("table tr[onmouseover]");
-		
+
 		logger.trace(table);
-		
-		for(var i=0;i<table.size();i++)
-		{
-			Element e = table.get(i);
-		
+
+		for (Element e : table) {
 			var entrie = new OrderEntry();
 						entrie.setIdTransation(id);
 						entrie.setSource(getName());
@@ -94,11 +91,11 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 						entrie.setDescription(e.select("td").get(1).text());
 						entrie.setItemPrice(UITools.parseDouble(e.select("td").get(6).html().replaceAll("\u0080", "").trim()));
 					notify(entrie);
-					entries.add(entrie);	
+					entries.add(entrie);
 		}
-		
-		
-		
+
+
+
 		return entries;
 	}
 
@@ -107,12 +104,12 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 	public String getName() {
 		return "Magic-Ville";
 	}
-	
+
 
 	@Override
 	public List<String> listAuthenticationAttributes() {
 		return AccountsManager.generateLoginPasswordsKeys();
 	}
-	
+
 
 }

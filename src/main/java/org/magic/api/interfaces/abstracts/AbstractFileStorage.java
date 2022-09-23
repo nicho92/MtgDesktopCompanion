@@ -17,15 +17,15 @@ import org.magic.api.interfaces.MTGStorable;
 public abstract class AbstractFileStorage extends AbstractMTGPlugin implements MTGGedStorage {
 
 	protected FileSystem fs;
-	
-	
+
+
 	public abstract void initFileSystem() throws IOException;
 
 	@Override
 	public <T extends MTGStorable> List<GedEntry<T>> listAll() throws IOException {
-		
+
 		var ret = new ArrayList<GedEntry<T>>();
-		
+
 		try(var stream = Files.walk(getRoot()).filter(Files::isRegularFile))
 		{
 			stream.forEach(p->{
@@ -38,62 +38,63 @@ public abstract class AbstractFileStorage extends AbstractMTGPlugin implements M
 		return ret;
 		}
 	}
-	
-	
+
+
+	@Override
 	public Path getRoot() throws IOException {
 		if(fs==null)
 			initFileSystem();
-		
-		
+
+
 		return fs.getPath("/");
 	}
-	
-	
-	
+
+
+
 	@Override
 	public FileSystem getFilesSystem() throws IOException {
-		
+
 		if(fs==null)
 			initFileSystem();
-		
+
 		return fs;
 	}
-	
+
 	@Override
 	public PLUGINS getType() {
 		return PLUGINS.GED;
 	}
-	
-	
+
+
 	@Override
 	public <T extends MTGStorable> GedEntry<T>  read(Path p) throws IOException
 	{
 		GedEntry<T> ged = SerializationUtils.deserialize(java.nio.file.Files.readAllBytes(p));
 		logger.debug("reading {} : {} {}",p,ged.getClasse(),ged.getName());
-		
+
 		notify(ged);
 		return ged;
 	}
-	
+
 	@Override
 	public <T extends MTGStorable> void store(GedEntry<T> entry) throws IOException
 	{
-		
+
 		var p = getPath(entry);
 		logger.info("store : {} ",p.toAbsolutePath());
-		
+
 		if(p.getParent()!=null && !Files.exists(p.getParent()))
 			Files.createDirectories(p.getParent());
-			
+
 		Files.write(p, SerializationUtils.serialize(entry),StandardOpenOption.CREATE);
-		
+
 	}
-	
+
 	@Override
 	public Stream<Path> listDirectory(Path p) throws IOException {
 		return Files.list(p);
 	}
-	
+
 	private <T extends MTGStorable> Path getPath(GedEntry<T> entry) throws IOException
 	{
 		if(entry.getClasse()==null)
@@ -103,11 +104,11 @@ public abstract class AbstractFileStorage extends AbstractMTGPlugin implements M
 		else
 			return getFilesSystem().getPath(entry.getClasse().getSimpleName(),entry.getName());
 	}
-	
+
 	@Override
 	public <T extends MTGStorable>  boolean delete(GedEntry<T> entry) {
 		logger.info("removing {}",entry);
-		
+
 		try {
 			Files.delete(getPath(entry));
 			return true;
@@ -119,17 +120,17 @@ public abstract class AbstractFileStorage extends AbstractMTGPlugin implements M
 
 	@Override
 	public <T extends MTGStorable> Path getPath(Class<T> classe, T instance) throws IOException {
-		
-		
+
+
 		if(classe==null)
 			return getRoot();
-		
+
 		if(instance==null)
 			return getFilesSystem().getPath(classe.getSimpleName());
-		
+
 		return getFilesSystem().getPath(classe.getSimpleName(),instance.toString());
 	}
-	
-	
-	
+
+
+
 }

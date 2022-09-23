@@ -27,7 +27,7 @@ public class LookAndFeelProvider {
 
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private List<LookAndFeelInfo> list;
-	
+
 	public LookAndFeelProvider() {
 		list = new ArrayList<>();
 	}
@@ -35,7 +35,7 @@ public class LookAndFeelProvider {
 	public void setLookAndFeel(Component ui, LookAndFeelInfo lookAndFeel,boolean saving) {
 		setLookAndFeel(ui, lookAndFeel.getClassName(),saving);
 	}
-	
+
 	public void setUIFont() {
 	    Enumeration<?> keys = UIManager.getDefaults().keys();
 	    while (keys.hasMoreElements()) {
@@ -45,27 +45,27 @@ public class LookAndFeelProvider {
 	            saveProperties(key, new FontUIResource(MTGControler.getInstance().getFont()));
 	    }
 	}
-	
+
 	public void setLookAndFeel(Component ui, String lookAndFeel,boolean saving) {
 		try {
-			
+
 			if(saving)
 				MTGControler.getInstance().setProperty("lookAndFeel", lookAndFeel);
-			
-			
+
+
 			if(lookAndFeel==null || lookAndFeel.isEmpty())
 				lookAndFeel=UIManager.getSystemLookAndFeelClassName();
-			
-			
+
+
 			FlatLaf.registerCustomDefaultsSource(MTGConstants.DATA_DIR);
-			
+
 			logger.debug("loading look&feel custom file : {} : {}",new File(MTGConstants.DATA_DIR,"FlatLaf.properties").getAbsolutePath(),new File(MTGConstants.DATA_DIR,"FlatLaf.properties").exists());
-			
+
 			FlatAnimatedLafChange.showSnapshot();
 			UIManager.setLookAndFeel(lookAndFeel);
 			SwingUtilities.updateComponentTreeUI(ui);
 			FlatAnimatedLafChange.hideSnapshotWithAnimation();
-			
+
 		} catch (Exception e) {
 			logger.error("error setLookAndFeel",e);
 		}
@@ -84,7 +84,7 @@ public class LookAndFeelProvider {
 
 		if (!list.isEmpty())
 			return list.toArray(new LookAndFeelInfo[list.size()]);
-		
+
 		var classReflections = new Reflections("org.pushingpixels.substance.api.skin");
 		list = new ArrayList<>();
 		for (Class<? extends SubstanceLookAndFeel> c : classReflections.getSubTypesOf(SubstanceLookAndFeel.class)) {
@@ -95,7 +95,7 @@ public class LookAndFeelProvider {
 				logger.error("error for {}",c, e);
 			}
 		}
-		
+
 		classReflections = new Reflections("com.jtattoo.plaf");
 		for (Class<? extends AbstractLookAndFeel> c : classReflections.getSubTypesOf(AbstractLookAndFeel.class)) {
 			try {
@@ -105,12 +105,12 @@ public class LookAndFeelProvider {
 				logger.error("Loading {}",c, e);
 			}
 		}
-	
+
 		classReflections = new Reflections("com.formdev.flatlaf");
 		for (Class<? extends FlatLaf> c : classReflections.getSubTypesOf(FlatLaf.class)) {
 			try {
 				FlatLaf look = c.getConstructor().newInstance();
-				
+
 				list.add(new LookAndFeelInfo("FlatLaf " + look.getID(), c.getName()));
 			} catch (Exception e) {
 				logger.trace("Loading {}:{}",c,e);
@@ -120,14 +120,14 @@ public class LookAndFeelProvider {
 		return list.toArray(new LookAndFeelInfo[list.size()]);
 	}
 
-	
+
 	public void saveProperties(Object key,Object value)
 	{
-		
+
 		UIManager.put(key, value);
 	}
-	
-	
+
+
 	public void setFont(FontUIResource myFont) {
 	    saveProperties("CheckBoxMenuItem.acceleratorFont", myFont);
 	    saveProperties("Button.font", myFont);

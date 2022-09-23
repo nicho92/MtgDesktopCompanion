@@ -24,7 +24,7 @@ public abstract class AbstractObservableWorker<T, V, P extends MTGPlugin> extend
 	{
 		try {
 			return get();
-		} 
+		}
 		catch(InterruptedException ex)
 		{
 			Thread.currentThread().interrupt();
@@ -34,7 +34,7 @@ public abstract class AbstractObservableWorker<T, V, P extends MTGPlugin> extend
 			return null;
 		}
 	}
-	
+
 
 	@SuppressWarnings("unchecked")
 	protected AbstractObservableWorker(P plug) {
@@ -43,21 +43,21 @@ public abstract class AbstractObservableWorker<T, V, P extends MTGPlugin> extend
 		plug.addObserver(o);
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 	}
-	
-	
+
+
 	@SuppressWarnings("unchecked")
 	protected AbstractObservableWorker(AbstractBuzyIndicatorComponent buzy,P plug,Integer size) {
 		this.buzy=buzy;
 		this.plug=plug;
 		o=(Observable obs, Object c)->publish((V)c);
 		plug.addObserver(o);
-		
+
 		if(size>-1)
 			buzy.start(size);
 		else
 			buzy.start();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	protected AbstractObservableWorker(AbstractBuzyIndicatorComponent buzy,P plug) {
 		this.buzy=buzy;
@@ -66,20 +66,20 @@ public abstract class AbstractObservableWorker<T, V, P extends MTGPlugin> extend
 		plug.addObserver(o);
 		buzy.start();
 	}
-	
-	
+
+
 	@Override
 	protected void process(List<V> chunks) {
 		buzy.progressSmooth(chunks.size());
 	}
-	
+
 	@Override
 	protected void done() {
 		buzy.end();
 		plug.removeObserver(o);
 		try {
 			get();
-			
+
 		}
 		catch(InterruptedException | CancellationException ex)
 		{
@@ -90,13 +90,13 @@ public abstract class AbstractObservableWorker<T, V, P extends MTGPlugin> extend
 			error(e);
 		}
 		notifyEnd();
-		
+
 	}
 
 	protected void notifyEnd() {
 		//do nothing by default
 	}
-	
+
 	protected void error(Exception e)
 	{
 		logger.error("error", e);

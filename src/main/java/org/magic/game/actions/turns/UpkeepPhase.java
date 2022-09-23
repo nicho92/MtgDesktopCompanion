@@ -12,7 +12,7 @@ import org.magic.game.model.Turn;
 public class UpkeepPhase extends AbstractAction {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	String detail = "<html>-At the beginning of the upkeep step, any abilities that trigger either during the untap step or at the beginning of upkeep go on the stack.<br/>"

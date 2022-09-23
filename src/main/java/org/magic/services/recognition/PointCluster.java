@@ -42,6 +42,6 @@ public class PointCluster implements Comparable<PointCluster>
     public int compareTo(PointCluster o)
     {
              return Double.compare(getTotalLen(), o.getTotalLen());
-     
+
     }
 }

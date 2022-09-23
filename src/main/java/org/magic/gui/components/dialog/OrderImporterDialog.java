@@ -29,7 +29,7 @@ import org.magic.tools.UITools;
 public class OrderImporterDialog extends JDialog {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private JXTable table;
@@ -41,9 +41,9 @@ public class OrderImporterDialog extends JDialog {
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JPanel panelChoose;
 	private transient List<OrderEntry> selectedEntries;
-	
+
 	public OrderImporterDialog() {
-		
+
 		setSize(new Dimension(500, 300));
 		setTitle(capitalize("FINANCIAL_MODULE"));
 		setIconImage(MTGConstants.ICON_SHOP.getImage());
@@ -51,9 +51,9 @@ public class OrderImporterDialog extends JDialog {
 		getContentPane().setLayout(new BorderLayout(0, 0));
 
 		model = new ShoppingEntryTableModel();
-		
+
 		table = UITools.createNewTable(model);
-		
+
 		panelChoose = new JPanel();
 		var panel = new JPanel();
 		var panelButton = new JPanel();
@@ -61,13 +61,13 @@ public class OrderImporterDialog extends JDialog {
 		var btnLoad = new JButton(MTGConstants.ICON_OPEN);
 		btnImport = new JButton(MTGConstants.ICON_CHECK);
 		cboSniffers =UITools.createCombobox(MTGShopper.class,false);
-		
+
 		panel.setLayout(new BorderLayout(0, 0));
-		
-		
-		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);		
+
+
+		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
 		getContentPane().add(panel, BorderLayout.NORTH);
-		
+
 		panel.add(panelChoose, BorderLayout.WEST);
 		panelChoose.add(cboSniffers);
 		panelChoose.add(btnLoad);
@@ -75,13 +75,13 @@ public class OrderImporterDialog extends JDialog {
 		getContentPane().add(panelButton, BorderLayout.SOUTH);
 		panelButton.add(btnClose);
 		panelButton.add(btnImport);
-		
+
 		selectedSniffer = listEnabledPlugins(MTGShopper.class).get(0);
-		
-		
-				
+
+
+
 		cboSniffers.addActionListener(e -> selectedSniffer = (MTGShopper) cboSniffers.getSelectedItem());
-	
+
 		btnLoad.addActionListener(ae->{
 			AbstractObservableWorker<List<OrderEntry>, OrderEntry, MTGShopper> sw = new AbstractObservableWorker<>(lblLoad,selectedSniffer) {
 				@Override
@@ -96,17 +96,17 @@ public class OrderImporterDialog extends JDialog {
 			};
 			ThreadManager.getInstance().runInEdt(sw, "loading orders");
 		});
-		
-		
+
+
 		btnClose.setToolTipText(capitalize("CANCEL"));
-		
+
 		btnClose.addActionListener(e -> dispose());
-	
+
 		btnImport.setToolTipText(capitalize("IMPORT"));
-		
-		btnImport.addActionListener(e -> 
+
+		btnImport.addActionListener(e ->
 			ThreadManager.getInstance().invokeLater(new MTGRunnable() {
-				
+
 				@Override
 				protected void auditedRun() {
 					try {
@@ -123,12 +123,12 @@ public class OrderImporterDialog extends JDialog {
 					{
 						selectedSniffer.removeObserver(lblLoad);
 					}
-					
+
 				}
 				}, "Loading Orders Import Dialog")
 		);
 
-		
+
 		setLocationRelativeTo(null);
 	}
 

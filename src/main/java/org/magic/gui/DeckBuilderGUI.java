@@ -14,23 +14,23 @@ import org.magic.services.MTGConstants;
 public class DeckBuilderGUI extends MTGUIComponent {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
-	
+
 	@Override
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_DECK;
 	}
-	
+
 	@Override
 	public String getTitle() {
 		return capitalize("DECK_MODULE");
 	}
-	
-	
-	
+
+
+
 	public DeckBuilderGUI() {
 		setLayout(new BorderLayout());
 		var tab = new JTabbedPane();

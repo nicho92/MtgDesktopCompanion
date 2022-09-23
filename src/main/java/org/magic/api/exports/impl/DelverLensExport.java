@@ -21,11 +21,11 @@ import org.magic.tools.UITools;
 
 public class DelverLensExport extends AbstractFormattedFileCardExport{
 
-	
+
 	private static final String REGEX_VAR = "(.*?); (.*?); (.*?).; (.*?); (.*?); (.*?); (.*?); (.*?); (.*?); (.*?); (.*?); (.*?)$";
 	private static final String REGEX = "REGEX";
 	private String columns= "Name; Edition; Price; Language; Collector's number; Condition; Currency; Edition code; Foil; List name; Quantity; Scryfall ID";
-	
+
 	@Override
 	public String getFileExtension() {
 		return ".csv";
@@ -35,10 +35,10 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		exportStock(importFromDeck(deck), dest);
 	}
-	
+
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
-		
+
 		var temp = new StringBuilder(columns);
 		temp.append(System.lineSeparator());
 		stock.forEach(st->{
@@ -58,21 +58,21 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 		});
 		FileTools.saveFile(f, temp.toString());
 	}
-	
-	
+
+
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
 		List<MagicCardStock> list = new ArrayList<>();
-		
+
 		matches(content,true).forEach(m->{
-			
+
 			MagicCard mc=null;
 				try {
 					mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(m.group(12));
 				} catch (Exception e) {
 					logger.error(e);
 				}
-			
+
 			if(mc!=null)
 			{
 				var st = MTGControler.getInstance().getDefaultStock();
@@ -85,19 +85,19 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 				list.add(st);
 			}
 		});
-		
+
 		return list;
 	}
-	
-	
+
+
 	@Override
 	public MagicDeck importDeck(String content, String name) throws IOException {
 		var d = new MagicDeck();
 		d.setName(name);
-		
+
 		for(MagicCardStock st : importStock(content))
 			d.getMain().put(st.getProduct(), st.getQte());
-	
+
 		return d;
 	}
 
@@ -118,10 +118,10 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 
 	@Override
 	protected String getStringPattern() {
-		
+
 		if(getString(REGEX).isBlank())
 			setProperty(REGEX,defaultRegex());
-		
+
 		return getString(REGEX);
 	}
 
@@ -133,16 +133,16 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 	protected String getSeparator() {
 		return getString("SEPARATOR");
 	}
-	
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		
+
 		var m = super.getDefaultAttributes();
 			 m.put("SEPARATOR", ";");
 			m.put(REGEX,defaultRegex());
-			
+
 			return m;
 	}
-	
+
 
 }

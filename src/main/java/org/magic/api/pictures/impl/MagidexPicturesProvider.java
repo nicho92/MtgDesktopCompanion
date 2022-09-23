@@ -15,7 +15,7 @@ public class MagidexPicturesProvider extends AbstractPicturesProvider {
 		return STATUT.DEPRECATED;
 	}
 
-	
+
 	@Override
 	public String generateUrl(MagicCard mc) {
 		String cardName = mc.getName().toLowerCase();
@@ -43,6 +43,6 @@ public class MagidexPicturesProvider extends AbstractPicturesProvider {
 		return null;
 	}
 
-	
+
 
 }

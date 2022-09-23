@@ -37,7 +37,7 @@ import org.magic.tools.UITools;
 
 public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 
-	
+
 	private static final long serialVersionUID = 1L;
 	private JXTreeTable treeTable;
 	private JLabel lblPrice;
@@ -46,13 +46,13 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 	private transient CollectionEvaluator evaluator;
 	private transient CollectionAnalyzerWorker sw;
 	private JSlider slider ;
-	
-	
+
+
 	@Override
 	public String getCategory() {
 		return "Collection";
 	}
-	
+
 	@Override
 	public void initGUI() {
 		getContentPane().setLayout(new BorderLayout(0, 0));
@@ -61,91 +61,91 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 		JXTable tableCache = UITools.createNewTable(modelCache);
 		tableCache.setModel(modelCache);
 		var lblValue = new JLabel();
-		
+
 		var panelHaut = new JPanel();
 		getContentPane().add(panelHaut, BorderLayout.NORTH);
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
-		
+
 		lblPrice = new JLabel();
 		lblPrice.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 13));
 		panelHaut.add(lblPrice);
 		panelHaut.add(buzy);
-		
+
 		var tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);
-		
+
 		var panneauColl = new JPanel();
 		tabbedPane.addTab("Collection", null, panneauColl, null);
-		
+
 		treeTable = new JXTreeTable();
 		var ren = new CardShakeTreeCellRenderer();
 		treeTable.setDefaultRenderer(Object.class, ren);
 		treeTable.setTreeCellRenderer(ren);
-		
+
 		panneauColl.setLayout(new BorderLayout(0, 0));
 		panneauColl.add(new JScrollPane(treeTable));
-		
+
 		var panneauh = new JPanel();
 		panneauColl.add(panneauh, BorderLayout.NORTH);
-		
+
 		var btnRefresh = new JButton(MTGConstants.ICON_REFRESH);
-		
+
 		panneauh.add(btnRefresh);
-		
+
 		var panelCacheDetail = new JPanel();
 		tabbedPane.addTab("Cache", null, panelCacheDetail, null);
 		panelCacheDetail.setLayout(new BorderLayout(0, 0));
-		
-		
+
+
 		var panelPriceMin = new JPanel();
 		slider = new JSlider(0, 100);
-		
+
 		slider.setMajorTickSpacing(10);
 		slider.setMinorTickSpacing(1);
 		slider.setPaintTicks(true);
 		slider.setPaintLabels(true);
-				
+
 		panelPriceMin.add(slider);
 		panelPriceMin.add(lblValue);
-		
-		slider.addChangeListener(cl->{ 
+
+		slider.addChangeListener(cl->{
 				setProperty("priceMin", String.valueOf(slider.getValue()));
-				
+
 				if(evaluator!=null)
 					evaluator.setMinPrice(slider.getValue());
-				
+
 				lblValue.setText( String.valueOf(slider.getValue()));
-				
+
 		});
-		
-		
+
+
 		tabbedPane.addTab("Prices Threshold", null, panelPriceMin, null);
-		
-		
+
+
 		panelCacheDetail.add(new JScrollPane(tableCache));
-		
+
 		var panel = new JPanel();
 		panelCacheDetail.add(panel, BorderLayout.NORTH);
-		
+
 		var btnUpdateCache = new JButton("Update selected Cache");
-		
+
 		panel.add(btnUpdateCache);
-		
+
 
 		if (getProperties().size() > 0) {
 			var r = new Rectangle((int) Double.parseDouble(getString("x")),
 					(int) Double.parseDouble(getString("y")), (int) Double.parseDouble(getString("w")),
 					(int) Double.parseDouble(getString("h")));
 			setBounds(r);
-			
+
 			try {
 			slider.setValue(Integer.parseInt(getProperty("priceMin","0")));
 			} catch (Exception e) {
 				logger.error("can't get priceMin value", e);
 			}
-			
+
 		}
-		
+
 		btnUpdateCache.addActionListener(ae->
 		{
 			List<MagicEdition> ret = UITools.getTableSelections(tableCache,0);
@@ -170,7 +170,7 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 						try {
 							EditionsShakers css = evaluator.initCache(ed);
 							if(!css.isEmpty())
-							{	
+							{
 								publish(new DefaultMapEntry<>(ed, css.getDate()));
 							}
 						} catch (Exception e) {
@@ -179,13 +179,13 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 					}
 					return null;
 				}
-		
+
 			};
 			ThreadManager.getInstance().runInEdt(swC,"update cache date for "+ret);
 		});
-		
+
 		btnRefresh.addActionListener(ae-> init());
-		
+
 	}
 
 	@Override
@@ -195,8 +195,8 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 			evaluator.setMinPrice(slider.getValue());
 			sw = new CollectionAnalyzerWorker(evaluator,treeTable,modelCache,buzy,lblPrice);
 			ThreadManager.getInstance().runInEdt(sw,"init collection analysis dashlet");
-		} 
-		catch (IOException e) 
+		}
+		catch (IOException e)
 		{
 			logger.error("error init analyzer",e);
 		}
@@ -207,12 +207,12 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 		return MTGConstants.ICON_DASHBOARD;
 	}
 
-	
+
 	@Override
 	public String getName() {
 		return "Collection Analyser";
 	}
-	
+
 	@Override
 	public void onDestroy() {
 		if(sw!=null && !sw.isDone())
@@ -220,7 +220,7 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 			boolean ret = sw.cancel(true);
 			logger.debug("{} is canceled {}",sw,ret );
 		}
-		
-		
+
+
 	}
 }

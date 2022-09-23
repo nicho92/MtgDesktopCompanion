@@ -21,43 +21,43 @@ public abstract class MTGUI3DChartComponent<T, U extends Dataset3D> extends Abst
 	protected Chart3DPanel chartPanel;
 	protected Chart3D chart;
 	protected boolean displayPanel;
-	
+
 	public abstract U getDataSet() ;
 
-	
+
 	protected MTGUI3DChartComponent(boolean displayPanel) {
 		super();
 		this.displayPanel=displayPanel;
 		onlyOneRefresh=false;
 		init();
-		
+
 	}
-	
+
 	public boolean isDisplayPanel() {
 		return displayPanel;
 	}
-	
-	
+
+
 	private void init() {
-		
+
 		createNewChart();
- 		
+
 		chart.setTitleAnchor(Anchor2D.TOP_CENTER);
 		chart.setLegendPosition(LegendAnchor.BOTTOM_CENTER,Orientation.HORIZONTAL);
 		chart.setTitle(getTitle(),MTGControler.getInstance().getFont().deriveFont(20f),Color.BLACK);
-		
+
 		chartPanel = new Chart3DPanel(chart);
-		chartPanel.setMargin(0.05);	
-		
+		chartPanel.setMargin(0.05);
+
 		if(isDisplayPanel())
 			add( new JScrollPane(new DisplayPanel3D(chartPanel)), BorderLayout.CENTER);
 		else
 			add( new JScrollPane(chartPanel), BorderLayout.CENTER);
-		
-		
-		
-		
+
+
+
+
 	}
-	
-	
+
+
 }

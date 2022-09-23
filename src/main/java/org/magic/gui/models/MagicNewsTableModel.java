@@ -6,14 +6,14 @@ import org.magic.gui.abstracts.GenericTableModel;
 public class MagicNewsTableModel extends GenericTableModel<MagicNewsContent> {
 
 	private static final long serialVersionUID = 1L;
-	
-	
+
+
 	public MagicNewsTableModel() {
 		columns=new String[]{ "RSS_TITLE",
 				"RSS_DATE",
 				"RSS_AUTHOR" };
 	}
-	
+
 	@Override
 	public Object getValueAt(int row, int column) {
 		switch (column) {

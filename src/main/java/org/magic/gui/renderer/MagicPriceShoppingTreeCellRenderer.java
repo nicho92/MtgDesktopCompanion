@@ -10,7 +10,7 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.services.MTGConstants;
 
 public class MagicPriceShoppingTreeCellRenderer implements TreeCellRenderer{
-	
+
 	@Override
 	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf,int row, boolean hasFocus) {
 		var lab = new JLabel();
@@ -18,19 +18,19 @@ public class MagicPriceShoppingTreeCellRenderer implements TreeCellRenderer{
 		lab.setForeground(tree.getForeground());
 		lab.setText(value.toString());
 		tree.setRowHeight(MTGConstants.TREE_ROW_HEIGHT);
-		
+
 		if(value instanceof String)
 		{
 			lab.setIcon(MTGConstants.ICON_TAB_USER);
 		}
-		
-		
+
+
 		if(value instanceof MagicPrice)
 		{
-		   
+
 		   lab.setIcon(MTGConstants.ICON_TAB_CARD);
 		}
 		return lab;
 	}
-	
+
 }

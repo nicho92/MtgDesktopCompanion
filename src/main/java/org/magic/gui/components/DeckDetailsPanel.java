@@ -38,7 +38,7 @@ import org.magic.tools.ImageTools;
 import org.magic.tools.UITools;
 public class DeckDetailsPanel extends JComponent {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private transient BindingGroup mBindingGroup;
@@ -199,11 +199,11 @@ public class DeckDetailsPanel extends JComponent {
 	}
 
 	public void updatePicture() {
-		
+
 		if(magicDeck==null || magicDeck.getMain().isEmpty())
 				return;
-		
-		
+
+
 		panel.removeAll();
 		SwingWorker<Void, BufferedImage> sw = new SwingWorker<>()
 		{
@@ -216,24 +216,24 @@ public class DeckDetailsPanel extends JComponent {
 				}
 				return null;
 			}
-			
+
 			@Override
 			protected void process(List<BufferedImage> chunks) {
-				
+
 				panel.add(new JLabel(new ImageIcon(ImageTools.resize(chunks.get(0), 150, 220))));
 			}
-			
-			
+
+
 			@Override
 			protected void done() {
 				panel.revalidate();
 				panel.repaint();
 			}
-	
+
 		};
-		
+
 		ThreadManager.getInstance().runInEdt(sw,"extract deck pictures");
-		
+
 	}
 
 	protected BindingGroup initDataBindings() {

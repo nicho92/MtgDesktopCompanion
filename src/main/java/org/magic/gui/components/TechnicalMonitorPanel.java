@@ -38,7 +38,7 @@ import com.google.gson.JsonObject;
 
 public class TechnicalMonitorPanel extends MTGUIComponent  {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private ThreadsTableModel modelThreads;
@@ -54,8 +54,8 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 	private JsonInfoTableModel modelJsonServerInfo;
 	private DiscordInfoTableModel discordModel;
 	private GedBrowserPanel gedPanel;
-	
-	
+
+
 	public TechnicalMonitorPanel() {
 		setLayout(new BorderLayout(0, 0));
 		modelThreads = new ThreadsTableModel();
@@ -68,80 +68,80 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 		modelJsonServerInfo = new JsonInfoTableModel();
 		discordModel = new DiscordInfoTableModel();
 		gedPanel = new GedBrowserPanel();
-		
-		modelScript = new GenericTableModel<JsonObject>()
+
+		modelScript = new GenericTableModel<>()
 				{
 					private static final long serialVersionUID = 1L;
 					@Override
 					public Object getValueAt(int row, int column) {
 						return items.get(row).get(getColumnName(column));
 					}
-					
+
 					@Override
 					public String getColumnName(int column) {
 						return columns[column];
 					}
 				};
-		
+
 		var tabs = new JTabbedPane();
 		add(tabs, BorderLayout.CENTER);
-		
-		
-		modelTasks.bind(TechnicalServiceManager.inst().getTasksInfos());	
+
+
+		modelTasks.bind(TechnicalServiceManager.inst().getTasksInfos());
 		modelNetwork.bind(TechnicalServiceManager.inst().getNetworkInfos());
 		queryModel.bind(TechnicalServiceManager.inst().getDaoInfos());
 		modelJsonServerInfo.bind(TechnicalServiceManager.inst().getJsonInfo());
 		discordModel.bind(TechnicalServiceManager.inst().getDiscordInfos());
 		modelConfig.init(TechnicalServiceManager.inst().getSystemInfo());
 		modelDao.init(MTG.getEnabledPlugin(MTGDao.class).getDBSize());
-		
-		
+
+
 		var tableTasks = UITools.createNewTable(modelTasks);
 		UITools.initTableFilter(tableTasks);
-		
+
 		var tableNetwork = UITools.createNewTable(modelNetwork);
 		UITools.initTableFilter(tableNetwork);
-		
+
 		var tableScripts = UITools.createNewTable(modelScript);
 		UITools.initTableFilter(tableScripts);
-		
+
 		var tableQueries = UITools.createNewTable(queryModel);
 		UITools.initTableFilter(tableQueries);
-		
+
 		var tableDaos = UITools.createNewTable(modelDao);
 		UITools.initTableFilter(tableDaos);
-		
+
 		var tableCacheJson = UITools.createNewTable(modelCacheJson);
 		UITools.initTableFilter(tableCacheJson);
-		
+
 		var tableJsonInfo= UITools.createNewTable(modelJsonServerInfo);
 		UITools.initTableFilter(tableJsonInfo);
-		
+
 		var tableDiscordInfo= UITools.createNewTable(discordModel);
 		UITools.initTableFilter(tableDiscordInfo);
-		
-		
+
+
 		TableCellRenderer durationRenderer = (JTable table, Object value, boolean isSelected,boolean hasFocus, int row, int column)->{
-						
+
 						var lab= new JLabel(DurationFormatUtils.formatDurationHMS((Long)value));
 						lab.setOpaque(false);
 						return lab;
 				};
-		
+
 		TableCellRenderer sizeRenderer = (JTable table, Object value, boolean isSelected,boolean hasFocus, int row, int column)->{
 					var lab= new JLabel(UITools.humanReadableSize((Long)value));
 					lab.setOpaque(false);
 					return lab;
-			};		
-				
-				
+			};
+
+
 		tableTasks.setDefaultRenderer(Long.class, durationRenderer);
 		tableNetwork.setDefaultRenderer(Long.class, durationRenderer);
 		tableQueries.setDefaultRenderer(Long.class, durationRenderer);
 		tableDaos.setDefaultRenderer(Long.class, sizeRenderer);
 		tableJsonInfo.setDefaultRenderer(Long.class, durationRenderer);
 		tableDiscordInfo.setDefaultRenderer(Long.class, durationRenderer);
-		
+
 		tabs.addTab("Config",MTGConstants.ICON_SMALL_HELP,new JScrollPane(UITools.createNewTable(modelConfig)));
 		tabs.addTab("Threads",MTGConstants.ICON_TAB_ADMIN,new JScrollPane(UITools.createNewTable(modelThreads)));
 		tabs.addTab("Tasks",MTGConstants.ICON_TAB_ADMIN,new JScrollPane(tableTasks));
@@ -154,21 +154,21 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 		tabs.addTab("JsonServer Queries",MTGConstants.ICON_TAB_SERVER,new JScrollPane(tableJsonInfo));
 		UITools.addTab(tabs, new LoggerViewPanel());
 		UITools.addTab(tabs, gedPanel);
-		
-		
-		
-		
-		
+
+
+
+
+
 		var panel = new JPanel();
 		add(panel, BorderLayout.NORTH);
-		
-	
-		
-		
+
+
+
+
 		memoryPanel = new JVMemoryPanel();
 		panel.add(memoryPanel);
-		
-		t = new Timer(5000, e ->{ 
+
+		t = new Timer(5000, e ->{
 			modelThreads.init(TechnicalServiceManager.inst().getThreadsInfos());
 			memoryPanel.refresh();
 			modelTasks.fireTableDataChanged();
@@ -178,44 +178,44 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 			modelDao.fireTableDataChanged();
 			modelJsonServerInfo.fireTableDataChanged();
 			discordModel.fireTableDataChanged();
-			
+
 			if(MTG.getPlugin("Qwartz", MTGServer.class).isAlive()) {
 				try {
 					modelScript.bind( ((QwartzServer)MTG.getPlugin("Qwartz", MTGServer.class)).getJobs()  );
 					modelScript.setColumns(modelScript.getItems().get(0).keySet().stream().toArray(String[]::new));
 					modelScript.fireTableStructureChanged();
 					modelScript.fireTableDataChanged();
-				
+
 				}
 				catch(Exception ex)
 				{
 					logger.error("error loading . Maybe Qwartz server is stopped",ex);
 				}
 			}
-			
+
 			if(MTG.getPlugin("Json Http Server", MTGServer.class).isAlive()) {
 				try {
 					modelCacheJson.init( ((JSONHttpServer)MTG.getPlugin("Json Http Server", MTGServer.class)).getCache().entries() );
 					modelCacheJson.fireTableDataChanged();
-					
-					
+
+
 				}
 				catch(Exception ex)
 				{
 					logger.error("error loading . Maybe Qwartz server is stopped",ex);
 				}
 			}
-			
-			
-			
-			
+
+
+
+
 		});
-		
-		
+
+
 		t.start();
 	}
-	
-	
+
+
 	@Override
 	public void onDestroy() {
 		t.stop();
@@ -225,10 +225,10 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 	public String getTitle() {
 		return capitalize("TECHNICAL");
 	}
-	
+
 	@Override
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_TAB_ADMIN;
 	}
-	
+
 }

@@ -6,7 +6,7 @@ import org.magic.gui.abstracts.GenericTableModel;
 public class BoostersTableModel extends GenericTableModel<Booster> {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex) {
@@ -37,7 +37,7 @@ public class BoostersTableModel extends GenericTableModel<Booster> {
 	public BoostersTableModel() {
 		columns=new String[]{ "CARD_NUMBER","PRICE" };
 	}
-	
-	
+
+
 
 }

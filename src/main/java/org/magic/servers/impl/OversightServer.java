@@ -37,11 +37,13 @@ public class OversightServer extends AbstractMTGServer {
 		super();
 		timer = new Timer();
 	}
-	
-	
+
+
+	@Override
 	public void start() {
 		running = true;
 		tache = new TimerTask() {
+			@Override
 			public void run() {
 					List<CardShake> ret=null;
 					try {
@@ -51,11 +53,11 @@ public class OversightServer extends AbstractMTGServer {
 					} catch (IOException e1) {
 						logger.error(e1);
 					}
-				
+
 					var notif = new MTGNotification();
 									notif.setTitle("Oversight");
 									notif.setType(MESSAGE_TYPE.INFO);
-									
+
 					for(String not : getArray("NOTIFIER"))
 					{
 						MTGNotifier notifier = getPlugin(not, MTGNotifier.class);
@@ -66,7 +68,7 @@ public class OversightServer extends AbstractMTGServer {
 							logger.error(e);
 						}
 					}
-				
+
 			}
 
 		};
@@ -76,7 +78,8 @@ public class OversightServer extends AbstractMTGServer {
 
 	}
 
-	
+
+	@Override
 	public void stop() {
 		tache.cancel();
 		timer.purge();
@@ -94,12 +97,12 @@ public class OversightServer extends AbstractMTGServer {
 		return "Oversight Server";
 
 	}
-	
+
 	@Override
 	public Icon getIcon() {
 		return MTGConstants.ICON_DASHBOARD;
 	}
-	
+
 
 	@Override
 	public boolean isAutostart() {

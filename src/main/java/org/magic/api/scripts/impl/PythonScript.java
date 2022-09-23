@@ -19,7 +19,7 @@ public class PythonScript extends AbstractJSR223MTGScript {
 	public String getEngineName() {
 		return "python";
 	}
-	
+
 	@Override
 	public String getVersion() {
 		return Version.PY_VERSION;

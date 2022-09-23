@@ -19,26 +19,26 @@ public class ShortKeyModel extends GenericTableModel<JButton>
 		columns = new String[] {"Module","Button","key"};
 		items = ShortKeyManager.inst().getMapping();
 	}
-	
+
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
-		
-		
+
+
 		if(columnIndex == 0)
 			return MTGUIComponent.class;
-		
-		
+
+
 		if(columnIndex == 1)
 			return JButton.class;
-		
+
 		return super.getColumnClass(columnIndex);
 	}
-	
+
 	@Override
 	public Object getValueAt(int row, int column) {
-		switch (column) 
+		switch (column)
 		{
-			case 0: return SwingUtilities.getAncestorOfClass(MTGUIComponent.class, items.get(row));	
+			case 0: return SwingUtilities.getAncestorOfClass(MTGUIComponent.class, items.get(row));
 			case 1: return items.get(row);
 			case 2: return KeyEvent.getKeyText(items.get(row).getMnemonic());
 			default: throw new IllegalArgumentException("Unexpected value: " + column);
@@ -51,8 +51,8 @@ public class ShortKeyModel extends GenericTableModel<JButton>
 	public void setMainObjectIndex(int mainObjectIndex) {
 		this.mainObjectIndex = mainObjectIndex;
 	}
-	
-	
-	
-	
+
+
+
+
 }

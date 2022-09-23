@@ -16,14 +16,15 @@ import com.google.gson.JsonElement;
 
 public class EbayPricer extends AbstractPricesProvider {
 
-	
+
 	private static final String URL_BASE ="https://svcs.ebay.com/services/search/FindingService/v1";
+	@Override
 	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 		List<MagicPrice> prices = new ArrayList<>();
 		String keyword = card.getName();
 			   keyword += " " + card.getCurrentSet().getSet();
-		
-		
+
+
 			   var b = RequestBuilder.build().setClient(URLTools.newClient()).method(METHOD.GET)
 				.url(URL_BASE)
 				.addContent("SECURITY-APPNAME", getAuthenticator().get("API_KEY"))
@@ -32,15 +33,15 @@ public class EbayPricer extends AbstractPricesProvider {
 				.addContent("GLOBAL-ID", getAuthenticator().get("COUNTRY","EBAY-FR"))
 				.addContent("paginationInput.entriesPerPage", getString("MAX"))
 				.addContent("keywords", keyword);
-		
+
 		if(getBoolean("FIXEDPRICE_ONLY"))
-		{	
+		{
 			b.addContent("itemFilter(0).name", "ListingType");
 			b.addContent("itemFilter(0).value(1)", "FixedPrice");
 		}
-	
+
 		logger.info("{} looking for {}",getName(),keyword);
-		
+
 		JsonElement root = b.toJson();
 
 		JsonElement articles = root.getAsJsonObject().entrySet().iterator().next().getValue().getAsJsonArray().get(0).getAsJsonObject().get("searchResult");
@@ -56,7 +57,7 @@ public class EbayPricer extends AbstractPricesProvider {
 
 		for (JsonElement el : items) {
 			var mp = new MagicPrice();
-		
+
 			var etat = "";
 			var title = el.getAsJsonObject().get("title").getAsString();
 			var consultURL = el.getAsJsonObject().get("viewItemURL").getAsString();
@@ -71,9 +72,9 @@ public class EbayPricer extends AbstractPricesProvider {
 			} catch (NullPointerException e) {
 				etat = "";
 			}
-			
-			
-			
+
+
+
 			mp.setMagicCard(card);
 			mp.setCountry(country);
 			mp.setSeller(title);
@@ -87,7 +88,7 @@ public class EbayPricer extends AbstractPricesProvider {
 		}
 
 		logger.info("{} found {} offers",getName(),prices.size());
-		
+
 		return prices;
 	}
 
@@ -110,8 +111,8 @@ public class EbayPricer extends AbstractPricesProvider {
 		return List.of("COUNTRY","API_KEY");
 
 	}
-	
-	
+
+
 	@Override
 	public String getVersion() {
 		return "1.13.0";

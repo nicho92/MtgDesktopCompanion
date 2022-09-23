@@ -7,16 +7,16 @@ import org.magic.api.beans.enums.CardsPatterns;
 import org.magic.game.model.factories.EffectsFactory;
 
 public class TriggeredAbilities extends AbstractAbilities {
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private String event;
 	public enum KEYWORDS { WHEN, WHENEVER, AT}
 	private KEYWORDS key;
 	private CardsPatterns trigger;
-	
+
 	public String getEvent() {
 		return event;
 	}
@@ -25,8 +25,8 @@ public class TriggeredAbilities extends AbstractAbilities {
 	{
 		return trigger;
 	}
-	
-	
+
+
 	@Override
 	public boolean isTriggered() {
 		return true;
@@ -45,18 +45,18 @@ public class TriggeredAbilities extends AbstractAbilities {
 			event = s.substring(key.name().length(),s.lastIndexOf(',')).trim();
 			s=s.substring(s.lastIndexOf(',')+1).trim();
 		}
-		
+
 		list.set(0,s);
 		setEffects(EffectsFactory.getInstance().parseEffect(getCard(),list));
-		
+
 		Arrays.asList(CardsPatterns.values()).stream().filter(p->p.name().startsWith("TRIGGER_")).forEach(p->{
 			if(CardsPatterns.hasPattern(event, p))
 				trigger=p;
 		});
-		
+
 	}
 
-	
+
 	@Override
 	public String toString() {
 		var build = new StringBuilder();
@@ -64,13 +64,13 @@ public class TriggeredAbilities extends AbstractAbilities {
 		getEffects().forEach(e->build.append("\n\t").append(e));
 		build.append("\nEND");
 		return build.toString();
-		
+
 	}
-	
+
 	@Override
 	public String getTitle() {
 		return getEvent();
 	}
 
-	
+
 }

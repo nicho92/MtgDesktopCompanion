@@ -27,14 +27,14 @@ public class MTGConstants {
 
 	private MTGConstants() {
 	}
-	
-	
+
+
 	public static String[] getDefaultCollectionsNames() {
 		return DEFAULT_COLLECTIONS_NAMES;
 	}
-	
-	
-	
+
+
+
 	public static final String SSL_PROTO = "TLS";
 	public static final String CONF_FILENAME = "mtgcompanion-conf.xml";
 	public static final File CONF_DIR = new File(SystemUtils.getUserHome() + "/.magicDeskCompanion/");
@@ -44,31 +44,31 @@ public class MTGConstants {
 	public static final URL TOOLTIPS_FILE = MTGConstants.class.getResource("/data/tips.properties");
 	public static final Image SAMPLE_PIC = Toolkit.getDefaultToolkit().getImage(MTGConstants.class.getResource("/data/sample.png"));
 	public static final URL MTG_DESKTOP_ALIASES_FILE =  MTGConstants.class.getResource("/data/pluginsAliases.json");
-	
+
 	public static final float WEIGHT_CARD=1.7009714f;
 	public static final float WEIGHT_BOOSTER=28.7f;
-	public static final float WEIGHT_BOOSTER_BOX_COLLECTOR=12*WEIGHT_BOOSTER;		
+	public static final float WEIGHT_BOOSTER_BOX_COLLECTOR=12*WEIGHT_BOOSTER;
 	public static final float WEIGHT_BOOSTER_BOX_SET=24*WEIGHT_BOOSTER;
 	public static final float WEIGHT_BOOSTER_BOX_DRAFT=32*WEIGHT_BOOSTER;
-	
-	
+
+
 	public static final String MTG_APP_NAME = "MTG Companion";
 	public static final String MESSAGE_BUNDLE = "locales.lang";
 	public static final Font DEFAULT_FONT=new Font("Arial Unicode MS", Font.PLAIN, 12);
 	public static final String DEFAULT_SHIPPING_RULES="""
 			var shippingCost=0;
-			
+
 			if(total >=65){
 			  shippingCost=0;
 			}
 			else if(total >=25)
-			{ 
+			{
 			   shippingCost = 15;
 			}else if(total>=1)
-			{ 
+			{
 			shippingCost = 6.50;
 			}
-			
+
 			shippingCost;""";
 
 	public static final String MTG_DESKTOP_ISSUES_URL = "https://github.com/nicho92/MtgDesktopCompanion/issues";
@@ -85,30 +85,30 @@ public class MTGConstants {
 	public static final String URL_RULES_FILE = "https://media.wizards.com/2021/downloads/MagicCompRules%2020210224.txt";
 
 	public static final String MTG_CHROME_PLUGIN_DIR = "mtg-chrome-companion";
-	
-	public static final File MTG_BOOSTERS_LOCAL_URI = new File(MTGConstants.class.getResource("/data/boosters.xml").getFile());	
-	
+
+	public static final File MTG_BOOSTERS_LOCAL_URI = new File(MTGConstants.class.getResource("/data/boosters.xml").getFile());
+
 	public static final String WIZARD_EVENTS_URL = "https://magic.wizards.com/en/calendar-node-field-event-date-ajax/month/";
 	public static final String SET_ICON_DIR = "/icons/set/";
 	public static final String COMMANDS_PACKAGE = "org.magic.api.commands.impl.";
 	public static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36";
-	
+
 	public static final String COPYRIGHT_STRING="Wizards of the Coast, Magic: The Gathering, and their logos are trademarks of Wizards of the Coast LLC. \u00A9 1995-"+ Calendar.getInstance().get(Calendar.YEAR)+ " Wizards. All rights reserved. This app is not affiliated with Wizards of the Coast LLC.";
-	
+
 	public static final Charset DEFAULT_ENCODING=StandardCharsets.UTF_8;
 
 	public static final int DEFAULT_PIC_WIDTH = 223;
 	public static final int DEFAULT_PIC_HEIGHT = 310;
 	public static final double CARD_PICS_RATIO = 1.39;
 	public static final int MENU_ICON_SIZE=24;
-	
+
 	public static final int DPI=300;
-	
+
 	public static final String DEFAULT_NOTIFIER_NAME="Tray";
 	public static final String EMAIL_NOTIFIER_NAME = "email";
 	public static final String DEFAULT_CLIPBOARD_NAME = "clipboard";
 
-	
+
 	public static final Color THUMBNAIL_BACKGROUND_COLOR = SystemColor.windowBorder;
 
 	public static final Color COLLECTION_100PC = new Color(115, 230, 0);
@@ -137,29 +137,29 @@ public class MTGConstants {
 
 	public static final URL DEFAULT_BACK_CARD = MTGConstants.class.getResource("/icons/back.jpg");
 
-	
+
 	public static final URL URL_MANA_SYMBOLS = MTGConstants.class.getResource(ICON_DIR+"/mana/Mana.png");
 	public static final ImageIcon ICON_MANA_GOLD = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/mana/gold.png"));
 	public static final ImageIcon ICON_MANA_INCOLOR = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/mana/uncolor.png"));
 
 
 	public static final URL SCRIPT_DIRECTORY = MTGConstants.class.getResource("/script/");
-	
+
 	public static final String HTML_TAG_TABLE = "table";
 	public static final String HTML_TAG_TBODY = "tbody";
 	public static final String HTML_TAG_TR = "tr";
 	public static final String HTML_TAG_TD = "td";
-	
-	
+
+
 
 	public static final Image IMAGE_LOGO = Toolkit.getDefaultToolkit().getImage(MTGConstants.class.getResource(ICON_DIR+"/logo.png"));
 	public static final ImageIcon ICON_SPLASHSCREEN = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/magic-logo2.png"));
-	
+
 	private static String iconPack="flat";
-	
+
 	private static final String[] DEFAULT_COLLECTIONS_NAMES = new String[] { "Library", "Needed", "For Sell", "Favorites" };
 
-	
+
 	public static final ImageIcon ICON_GAME_HAND = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/game/hand.png"));
 	public static final ImageIcon ICON_GAME_LIBRARY = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/game/librarysize.png"));
 	public static final ImageIcon ICON_GAME_PLANESWALKER = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/game/planeswalker.png"));
@@ -169,10 +169,10 @@ public class MTGConstants {
 	public static final ImageIcon ICON_GAME_TRIGGER = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/game/trigger.png"));
 	public static final ImageIcon ICON_GAME_ACTIVATED = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/game/activated.png"));
 	public static final ImageIcon ICON_GAME_COLOR = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/colors.gif"));
-	
+
 	public static final ImageIcon ICON_CHROME = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/plugins/chrome.png"));
 	public static final ImageIcon ICON_FORUM = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/plugins/forum.png"));
-	
+
 	public static final ImageIcon ICON_SEARCH = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/search.png"));
 	public static final ImageIcon ICON_SEARCH_24 = new ImageIcon(ICON_SEARCH.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_SEARCH_ADVANCED = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/advanced_search.png"));
@@ -204,7 +204,7 @@ public class MTGConstants {
 	public static final ImageIcon ICON_GED = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/ged.png"));
 	public static final ImageIcon ICON_SHORTCUT = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/shortcut.png"));
 	public static final ImageIcon ICON_USER = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/user.png"));
-	
+
 	public static final ImageIcon ICON_ANNOUNCES = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/announces.png"));
 	public static final ImageIcon ICON_EURO = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/euro.png"));
 	public static final ImageIcon ICON_NEW = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/new.png"));
@@ -236,7 +236,7 @@ public class MTGConstants {
 	public static final ImageIcon ICON_DATABASE = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/database.png"));
 	public static final ImageIcon ICON_NETWORK = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/network.png"));
 	public static final ImageIcon ICON_DEFAULT_PLUGIN = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/plugins/default.png"));
-	
+
 	public static final ImageIcon ICON_TAB_CARD = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/bottom.png"));
 	public static final ImageIcon ICON_TAB_SIMILARITY=new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/similarity.png"));
 	public static final ImageIcon ICON_TAB_NOTIFICATION=new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/notify.png"));
@@ -284,11 +284,11 @@ public class MTGConstants {
 	public static final ImageIcon ICON_TAB_NETWORK = new ImageIcon(ICON_NETWORK.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 
 
-	
+
 	public static final ImageIcon ICON_MASS_IMPORT_SMALL = new ImageIcon(ICON_MASS_IMPORT.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_TAB_POOL = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/pool.png"));
 	public static final ImageIcon ICON_TAB_COMBO = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/combo.png"));
-	
+
 	public static final ImageIcon ICON_SMALL_COPY = new ImageIcon(ICON_COPY.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_SMALL_PASTE = new ImageIcon(ICON_PASTE.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_SMALL_SAVE = new ImageIcon(ICON_SAVE.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
@@ -303,41 +303,41 @@ public class MTGConstants {
 	public static final ImageIcon ICON_PACKAGE_SMALL = new ImageIcon(ICON_PACKAGE.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_BACK = new ImageIcon(ICON_COLLECTION.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 
-	
+
 	public static ImageIcon getIconFor(Class c) {
 		try {
-			
+
 			if(c==MagicCollection.class)
 			{
 				return ICON_BACK;
 			}
-			
+
 			if(c==MagicEdition.class)
 			{
 				return IconSetProvider.getInstance().get16("PMEI");
 			}
-			
+
 			return new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/classtype/"+c.getSimpleName().toLowerCase()+".png"));
 		} catch (Exception e) {
 			return ICON_TAB_CARD;
 		}
 	}
-	
 
-	
+
+
 	public static final int SEALED_SIZE = 40;
 	public static final String MANUAL_IMPORT_SYNTAX = "MTGO";
-	
-	
+
+
 	public static final int CONNECTION_TIMEOUT =0;
 	public static final int ROTATED_TIMEOUT = 15;
 	public static final Paint PICTURE_PAINTER = PaintUtils.NIGHT_GRAY;
 	public static final int DISCORD_MAX_CHARACTER = 2000;
 	public static final int DAY_ANNOUNCES_UPDATE = 10;
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
 }

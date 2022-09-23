@@ -19,7 +19,7 @@ import org.magic.services.logging.MTGLogger;
 public class FlipActions extends AbstractAction {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -39,7 +39,7 @@ public class FlipActions extends AbstractAction {
 		try {
 			MagicCard mc =card.getMagicCard().getRotatedCard();
 			card.setMagicCard(mc);
-			
+
 			var bufferedImage = new BufferedImage(card.getWidth(), card.getHeight(),BufferedImage.TYPE_INT_RGB);
 			var tx = AffineTransform.getScaleInstance(-1, -1);
 							tx.translate(-bufferedImage.getWidth(null), -bufferedImage.getHeight(null));

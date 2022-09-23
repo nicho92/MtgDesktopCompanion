@@ -11,7 +11,7 @@ import javax.swing.JTable;
 public class MagicCardNameEditor extends DefaultCellEditor {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private DefaultComboBoxModel<String> model;

@@ -21,7 +21,7 @@ public class Player extends Observable implements Serializable {
 	private static final String EXIL_TERM = "Exil ";
 	private static final String DISCARD_TERM = "Discard ";
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -44,8 +44,8 @@ public class Player extends Observable implements Serializable {
 	private byte[] avatar;
 	private int poisonCounter;
 	private Date onlineConnectionDate;
-	
-	
+
+
 	public STATUS getState() {
 		return state;
 	}
@@ -82,7 +82,7 @@ public class Player extends Observable implements Serializable {
 		hand = new Zone(ZoneEnum.HAND);
 		manaPool = new ManaPool();
 		local = Locale.getDefault();
-		
+
 		mixHandAndLibrary();
 		shuffleLibrary();
 	}
@@ -112,7 +112,7 @@ public class Player extends Observable implements Serializable {
 		deck = new MagicDeck();
 		init();
 	}
-	
+
 	public Player(String name) {
 		super();
 		this.name = name;
@@ -244,7 +244,7 @@ public class Player extends Observable implements Serializable {
 		logAction("Shuffle his library");
 
 	}
-	
+
 	public void drawHand()
 	{
 		drawCard(7);
@@ -255,7 +255,7 @@ public class Player extends Observable implements Serializable {
 			hand.add(library.getCards().get(i));
 			library.getCards().remove(i);
 		}
-		
+
 		if (number > 1)
 			logAction("Draw " + number + " cards");
 		else
@@ -517,10 +517,7 @@ public class Player extends Observable implements Serializable {
 	@Override
 	public boolean equals(Object obj) {
 
-		if (obj == null)
-			return false;
-
-		if (this.getClass() != obj.getClass())
+		if ((obj == null) || (this.getClass() != obj.getClass()))
 			return false;
 
 		Player p2 = (Player) obj;

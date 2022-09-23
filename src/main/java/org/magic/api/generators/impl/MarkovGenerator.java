@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-
 import org.apache.commons.lang.StringUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.enums.CardsPatterns;
@@ -22,31 +21,32 @@ public class MarkovGenerator extends AbstractMTGTextGenerator {
 
 	private RiMarkov rs;
 	private File cache;
-	
-	
+
+
 	@Override
 	public String generateText()
 	{
 		if(rs==null)
 			init();
-		
+
 		return StringUtils.join(rs.generate(),System.lineSeparator());
 	}
-	
+
 	@Override
 	public String[] suggestWords(String[] start)
 	{
 		if(rs==null)
 			init();
-		
+
 		return rs.completions(start);
 	}
 
+	@Override
 	public void init()
 	{
-		  rs = new RiMarkov(getInt("NGEN"));	
+		  rs = new RiMarkov(getInt("NGEN"));
 		  cache = getFile("CACHE_FILE");
-		  
+
 		  if(!cache.exists() || cache.length()==0)
 		  {
 			  logger.debug("Init MarkovGenerator");
@@ -54,30 +54,30 @@ public class MarkovGenerator extends AbstractMTGTextGenerator {
 			  var count =0;
 			  for(MagicCard mc : getEnabledPlugin(MTGCardsIndexer.class).listCards())
 			  {
-				  
+
 				  if((mc.getText()!=null || !mc.getText().isEmpty() || !mc.getText().equalsIgnoreCase("null"))) {
 						  String r = mc.getText().replace(CardsPatterns.REMINDER.getPattern(), "")
 								  				 .replace("\n", " ")
 								  				 .replace(mc.getName(), getString("TAG_NAME"))
 								  				 .trim();
-						 
+
 						  count++;
 						  rs.addText(r);
-						  
+
 						  build.append(r).append(System.lineSeparator());
 				  }
 			  }
-			  
+
 			try {
 				if(count>0)
 					saveCache(build.toString());
 				else
 					logger.warn("No cards to index {}",count);
-				
+
 			} catch (IOException e) {
 				logger.error("error saving file {}",cache.getAbsolutePath(),e);
 			}
-			
+
 		  }
 		  else
 		  {
@@ -88,31 +88,31 @@ public class MarkovGenerator extends AbstractMTGTextGenerator {
 				logger.error("error loading file {} ",cache.getAbsolutePath(),e);
 			}
 		  }
-		  
-		  
+
+
 	}
-	
+
 	private void saveCache(String s) throws IOException
 	{
 		logger.debug("saving cache to {}",cache);
-		FileTools.saveFile(cache, s);		
+		FileTools.saveFile(cache, s);
 	}
 
 	@Override
 	public String getName() {
 		return "Markov";
 	}
-	
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of("CACHE_FILE", new File(MTGConstants.DATA_DIR,"markov.gen").getAbsolutePath(),
 							"NGEN", "5",
 							"TAG_NAME","CARD_NAME");
 	}
-	
+
 	@Override
 	public String getVersion() {
 		return RiTa.VERSION;
 	}
-	
+
 }

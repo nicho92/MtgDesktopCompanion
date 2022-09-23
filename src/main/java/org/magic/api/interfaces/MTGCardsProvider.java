@@ -19,29 +19,29 @@ public interface MTGCardsProvider extends MTGPlugin {
 	public MagicCard getCardById(String id) throws IOException;
 
 	public MagicCard getCardById(String id,MagicEdition ed) throws IOException;
-	
+
 	public MagicCard getCardByScryfallId(String crit) throws IOException;
-	
+
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact) throws IOException;
-	
+
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact, MTGCardVariation extra ) throws IOException;
-	
+
 	public List<MagicCard> searchCardByEdition(MagicEdition ed) throws IOException;
-	
+
 	public List<MagicCard> searchCardByName(String name, MagicEdition me, boolean exact) throws IOException;
 
 	public List<MagicCard> searchCardByName(String name, MagicEdition me, boolean exact, MTGCardVariation extra ) throws IOException;
-	
+
 	public List<MagicCard> listAllCards() throws IOException;
-	
+
 	public MagicCard getCardByNumber(String id, MagicEdition me) throws IOException;
 
 	public MagicCard getCardByNumber(String id, String idMe) throws IOException;
-	
+
 	public List<MagicEdition> listEditions() throws IOException;
 
 	public MagicEdition getSetById(String id) throws IOException;
-	
+
 	public MagicEdition getSetByName(String name) throws IOException;
 
 	public String[] getLanguages();
@@ -53,7 +53,7 @@ public interface MTGCardsProvider extends MTGPlugin {
 	public List<MagicCard> searchByCriteria(MTGCrit<?>... crits) throws IOException;
 
 	public List<MagicCard> searchByCriteria(List<MTGCrit> crits) throws IOException;
-	
+
 	public MTGQueryBuilder<?> getMTGQueryManager();
 
 	public MagicCard getCardByArenaId(String id) throws IOException;

@@ -14,7 +14,7 @@ public class VersionChecker {
 	private String onlineVersion;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 
-	
+
 	public String getVersion() {
 		var input = getClass().getResourceAsStream(MTGConstants.MTG_DESKTOP_VERSION_FILE);
 		try (var read = new BufferedReader(new InputStreamReader(input)))
@@ -30,11 +30,11 @@ public class VersionChecker {
 		}
 	}
 
-	
-	
+
+
 	public VersionChecker() {
 		actualVersion = getVersion();
-		
+
 		var updatePRL =Boolean.parseBoolean(MTGControler.getInstance().get("notifyPrerelease","false"));
 		try {
 			GithubUtils.inst().setUpdateToPreRelease(updatePRL);
@@ -47,11 +47,11 @@ public class VersionChecker {
 
 
 	public boolean hasNewVersion() {
-		
+
 		try {
 			var res = Double.parseDouble(onlineVersion) > Double.parseDouble(actualVersion);
 			logger.info("check update:" + actualVersion + " found:" + onlineVersion);
-			
+
 			return res;
 		} catch (Exception e) {
 			logger.error(e.getMessage());

@@ -27,17 +27,17 @@ import org.magic.tools.MTG;
 import org.magic.tools.UITools;
 
 public class GedBrowserPanel extends MTGUIComponent {
-	
+
 	private static final long serialVersionUID = 1L;
 	private JTable table;
 	private JComboBox<MTGGedStorage> cboGed;
 	private GedEntryTableModel model;
 	private AbstractBuzyIndicatorComponent buzy;
 	private JButton btnDelete;
-	
-	
+
+
 	private transient AbstractObservableWorker<List<GedEntry<MTGStorable>>, GedEntry<MTGStorable>, MTGGedStorage> sw;
-	
+
 	public GedBrowserPanel() {
 		setLayout(new BorderLayout(0, 0));
 		model = new GedEntryTableModel();
@@ -50,23 +50,23 @@ public class GedBrowserPanel extends MTGUIComponent {
 		btnDelete.setEnabled(false);
 		table = UITools.createNewTable(model);
 		UITools.initTableFilter(table);
-		
-		
-		table.setDefaultRenderer(Long.class, (JTable t, Object value, boolean isSelected, boolean hasFocus,int row, int column)->{ 
+
+
+		table.setDefaultRenderer(Long.class, (JTable t, Object value, boolean isSelected, boolean hasFocus,int row, int column)->{
 				var lab = new DefaultTableCellRenderer();
 				lab.setText(UITools.humanReadableSize((Long)value));
 				return lab;
 		});
-	
+
 		panneauHaut.add(cboGed);
 		panneauHaut.add(btnDelete);
 		panneauHaut.add(buzy);
 		add(panneauHaut, BorderLayout.NORTH);
 		add(new JScrollPane(table),BorderLayout.CENTER);
-		
-		
+
+
 		table.getSelectionModel().addListSelectionListener(lsl->btnDelete.setEnabled(UITools.getTableSelection(table, 0)!=null));
-		
+
 		btnDelete.addActionListener(al->{
 			GedEntry<MTGStorable> select = UITools.getTableSelection(table, 0);
 			var confirm = JOptionPane.showConfirmDialog(this, MTG.capitalize("CONFIRM_DELETE",select));
@@ -80,54 +80,54 @@ public class GedBrowserPanel extends MTGUIComponent {
 					MTGControler.getInstance().notify(e);
 				}
 			}
-			
-			
-			
+
+
+
 		});
-		
-		
-		
+
+
+
 	}
-	
+
 	@Override
 	public void onFirstShowing() {
 		reload();
 	}
-	
+
 	private void reload() {
-		
+
 		if(sw!=null && !sw.isDone())
 			sw.cancel(true);
-		
-		
-		sw = new AbstractObservableWorker<List<GedEntry<MTGStorable>>, GedEntry<MTGStorable>, MTGGedStorage>(buzy,(MTGGedStorage)cboGed.getSelectedItem()) {
+
+
+		sw = new AbstractObservableWorker<>(buzy,(MTGGedStorage)cboGed.getSelectedItem()) {
 					@Override
 					protected List<GedEntry<MTGStorable>> doInBackground() throws Exception {
 						return plug.listAll();
 					}
-					
+
 					@Override
 					protected void notifyEnd() {
 						model.bind(getResult());
 					}
 
 				};
-				
+
 				ThreadManager.getInstance().runInEdt(sw, "Loading Geds files");
-		
+
 	}
 
 	@Override
 	public String getTitle() {
 		return "GED";
 	}
-	
+
 	@Override
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_GED;
 	}
-	
-	
-	
+
+
+
 }
 

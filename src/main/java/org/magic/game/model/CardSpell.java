@@ -7,13 +7,13 @@ import org.magic.game.model.factories.CostsFactory;
 public class CardSpell extends AbstractSpell {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private DisplayableCard c;
-	
-	
-	
+
+
+
 	public CardSpell(DisplayableCard card) {
 		super();
 		this.c = card;
@@ -30,7 +30,7 @@ public class CardSpell extends AbstractSpell {
 	public DisplayableCard getDisplayableCard() {
 		return c;
 	}
-	
+
 	@Override
 	public boolean isStackable() {
 		return !getCard().isLand();
@@ -40,7 +40,7 @@ public class CardSpell extends AbstractSpell {
 	public String toString() {
 		return getCard().toString();
 	}
-	
+
 
 
 

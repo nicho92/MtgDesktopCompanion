@@ -22,28 +22,28 @@ public class Grading   implements Serializable{
 	private boolean certified=false;
 	private Date gradeDate;
 	private String urlInfo;
-	
+
 	@Override
 	public String toString() {
 		return getGraderName() +" " + getGradeNote();
 	}
-	
+
 	public void setCertified(boolean certified) {
 		this.certified = certified;
 	}
-	
+
 	public boolean isCertified() {
 		return certified;
 	}
-	
+
 	public String getGraderName() {
 		return graderName;
 	}
-	
+
 	public void setGraderName(String graderName) {
 		this.graderName = graderName;
 	}
-	
+
 	public String getNumberID() {
 		return numberID;
 	}
@@ -104,7 +104,7 @@ public class Grading   implements Serializable{
 	public void setSurface(double surface) {
 		this.surface = surface;
 	}
-	
+
 	public boolean isGradded()
 	{
 		return getGraderName()!=null;
@@ -125,6 +125,6 @@ public class Grading   implements Serializable{
 	public void setGradeDate(Date gradeDate) {
 		this.gradeDate = gradeDate;
 	}
-	
-	
+
+
 }

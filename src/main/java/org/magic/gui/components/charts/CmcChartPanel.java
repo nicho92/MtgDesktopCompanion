@@ -8,7 +8,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.gui.abstracts.charts.Abstract2DBarChart;
 
 public class CmcChartPanel extends Abstract2DBarChart<MagicCard> {
-	
+
 	private static final long serialVersionUID = 1L;
 
 

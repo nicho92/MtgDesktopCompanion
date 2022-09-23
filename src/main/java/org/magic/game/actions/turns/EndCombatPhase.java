@@ -12,7 +12,7 @@ import org.magic.game.model.Turn;
 public class EndCombatPhase extends AbstractAction {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 

@@ -42,7 +42,7 @@ import org.magic.tools.UITools;
 
 
 public class RssGUI extends MTGUIComponent {
-	
+
 	private static final long serialVersionUID = 1L;
 	private JXTable table;
 	private MagicNewsTableModel model;
@@ -55,20 +55,20 @@ public class RssGUI extends MTGUIComponent {
 	private JButton btnNewButton;
 	private JButton btnSave;
 	private JButton btnDelete;
-	
-	
+
+
 	@Override
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_NEWS;
 	}
-	
+
 	@Override
 	public String getTitle() {
 		return capitalize("RSS_MODULE");
 	}
-	
+
 	public RssGUI() {
-		
+
 
 		model = new MagicNewsTableModel();
 		table = UITools.createNewTable(model);
@@ -84,7 +84,7 @@ public class RssGUI extends MTGUIComponent {
 		btnDelete =UITools.createBindableJButton(null,MTGConstants.ICON_DELETE,KeyEvent.VK_D,"delete news entry");
 		lblLoading = AbstractBuzyIndicatorComponent.createLabelComponent();
 		newsPanel = new NewsEditorPanel();
-		
+
 		setLayout(new BorderLayout(0, 0));
 		tree.setPreferredSize(new Dimension(150, 64));
 		splitNews.setOrientation(JSplitPane.VERTICAL_SPLIT);
@@ -92,26 +92,26 @@ public class RssGUI extends MTGUIComponent {
 		tree.setModel(new DefaultTreeModel(rootNode));
 		tree.setCellRenderer(new NewsTreeCellRenderer());
 
-		
+
 		splitNews.setLeftComponent(new JScrollPane(table));
 		splitNews.setRightComponent(new JScrollPane(editorPane));
 		add(splitTreeTable, BorderLayout.CENTER);
 		splitTreeTable.setRightComponent(splitNews);
 		splitTreeTable.setLeftComponent(leftPanel);
 		leftPanel.add(new JScrollPane(tree), BorderLayout.CENTER);
-		
+
 		leftPanel.add(panelControl, BorderLayout.NORTH);
 		panelControl.add(btnNewButton);
 		panelControl.add(btnSave);
 		panelControl.add(btnDelete);
 		panelControl.add(lblLoading);
 		leftPanel.add(newsPanel, BorderLayout.SOUTH);
-				
-	
+
+
 		initTree();
 
 		initActions();
-	
+
 
 	}
 
@@ -121,7 +121,7 @@ public class RssGUI extends MTGUIComponent {
 			newsPanel.setVisible(true);
 		});
 
-		
+
 
 		btnSave.addActionListener(ae -> {
 			try {
@@ -133,7 +133,7 @@ public class RssGUI extends MTGUIComponent {
 			}
 		});
 
-		
+
 		btnDelete.addActionListener(ae -> {
 			try {
 				getEnabledPlugin(MTGDao.class).deleteNews(newsPanel.getMagicNews());
@@ -149,7 +149,7 @@ public class RssGUI extends MTGUIComponent {
 			curr = (DefaultMutableTreeNode) path.getLastPathComponent();
 
 			if (curr.getUserObject() instanceof MagicNews n)
-			{	
+			{
 				SwingWorker<List<MagicNewsContent>, MagicNews> sw = new SwingWorker<>()
 				{
 
@@ -163,25 +163,25 @@ public class RssGUI extends MTGUIComponent {
 						try {
 							model.init(get());
 							model.fireTableDataChanged();
-							
+
 						}catch(InterruptedException ex)
 						{
 							Thread.currentThread().interrupt();
 						}
 						catch (Exception e) {
 							logger.error(e);
-						} 
+						}
 						lblLoading.end();
 					}
 
-					
-				
+
+
 				};
-				
+
 				lblLoading.start();
 				newsPanel.setMagicNews((MagicNews) curr.getUserObject());
 				ThreadManager.getInstance().runInEdt(sw,"loading rss");
-				
+
 			}
 		});
 
@@ -189,28 +189,28 @@ public class RssGUI extends MTGUIComponent {
 			@Override
 			public void mouseClicked(MouseEvent me) {
 				List<MagicNewsContent> sels = UITools.getTableSelections(table, 0);
-				
+
 				if(sels.isEmpty())
 					return;
-				
+
 				MagicNewsContent sel = sels.get(0);
 				if (me.getClickCount() == 2) {
 					try {
 						UITools.browse(sel.getLink().toURI().toASCIIString());
-						
+
 					} catch (Exception e1) {
 						logger.error(e1);
 					}
 				} else {
-					
+
 					SwingWorker<Void, URL> sw = new SwingWorker<>()
 					{
 						@Override
 						protected void done() {
 							lblLoading.end();
-							
+
 						}
-						
+
 						@Override
 						protected void process(java.util.List<URL> chunks) {
 							try {
@@ -218,9 +218,9 @@ public class RssGUI extends MTGUIComponent {
 							} catch (Exception e) {
 								logger.error("error loading " + chunks.get(0),e);
 							}
-							
+
 						}
-						
+
 						@Override
 						protected Void doInBackground() throws Exception {
 							publish(sel.getLink());
@@ -228,31 +228,31 @@ public class RssGUI extends MTGUIComponent {
 						}
 
 					};
-					
+
 					lblLoading.start();
 					ThreadManager.getInstance().runInEdt(sw,"loading "+sel.getLink());
 				}
 			}
 		});
-		
+
 	}
 
 	private void initTree() {
 		rootNode.removeAllChildren();
-		
-		
+
+
 		SwingWorker<Void, MagicNews> sw = new SwingWorker<>() {
-			
+
 			@Override
 			protected void process(List<MagicNews> chunks) {
 				chunks.forEach(cat->add(cat.getCategorie(), cat));
 			}
-			
+
 			@Override
 			protected Void doInBackground() throws Exception {
 				for (MagicNews cat : getEnabledPlugin(MTGDao.class).listNews())
 					publish(cat);
-			
+
 				return null;
 			}
 
@@ -264,12 +264,12 @@ public class RssGUI extends MTGUIComponent {
 					tree.expandRow(i + 1);
 
 			}
-			
-			
-			
+
+
+
 		};
-		
-		
+
+
 		ThreadManager.getInstance().runInEdt(sw,"Loading News Tree");
 	}
 

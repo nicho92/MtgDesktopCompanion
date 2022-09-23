@@ -16,27 +16,27 @@ import io.milton.http.http11.auth.DigestResponse;
 import io.milton.resource.DigestResource;
 
 public class AbstractMTGDavResource implements DigestResource  {
-	
-	
+
+
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	protected MTGPath mtgpath;
 	protected MTGFileSystem fs;
 	protected String user;
 	protected String pass;
-	
-	
+
+
 	public AbstractMTGDavResource(MTGPath path, MTGFileSystem fs, String log, String pass) {
 		this.mtgpath=path;
 		this.fs=fs;
 		this.user=log;
 		this.pass=pass;
 	}
-	
+
 	@Override
 	public String toString() {
 		return getName();
 	}
-	
+
 	@Override
 	public Object authenticate(DigestResponse digestRequest) {
 		if (digestRequest.getUser().equals(user)) {

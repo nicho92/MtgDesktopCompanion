@@ -24,30 +24,30 @@ import org.magic.api.beans.enums.CardsPatterns;
 public class MagicTextPane extends JComponent {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private transient KeyAdapter translation;
-	
+
 	private ManaPanel manaPanel;
 	private JTextPane textPane;
-	
+
 	public MagicTextPane() {
 		init();
 		enableTranslate(true);
 	}
-	
+
 	public MagicTextPane(boolean enable) {
 		init();
 		enableTranslate(enable);
 	}
-	
-	
+
+
 	private void init() {
 		setLayout(new BorderLayout());
 		textPane = new JTextPane();
 		add(textPane,BorderLayout.CENTER);
-		
+
 		manaPanel = new ManaPanel();
 		setPreferredSize(new Dimension(200, 150));
 		textPane.getDocument().putProperty(DefaultEditorKit.EndOfLineStringProperty, "\n");
@@ -64,13 +64,13 @@ public class MagicTextPane extends JComponent {
 
 	public void enableTranslate(boolean b)
 	{
-		
+
 		if(b)
 			addKeyListener(translation);
 		else
 			removeKeyListener(translation);
 	}
-	
+
 
 	public void updateTextWithIcons() {
 
@@ -112,26 +112,26 @@ public class MagicTextPane extends JComponent {
 
 	public void setEditable(boolean b) {
 		textPane.setEditable(b);
-		
+
 	}
 
 	public void setText(String string) {
 		textPane.setText(string);
-		
+
 	}
 
 	public Document getDocument() {
 		return textPane.getDocument();
 	}
-	
+
 	public String getText()
 	{
 		return textPane.getText();
 	}
-	
+
 	public int getCaretPosition()
 	{
 		return textPane.getCaretPosition();
 	}
-	
+
 }

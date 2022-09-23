@@ -46,8 +46,8 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 		this.dao=mtgDao;
 		this.fs = mtgFileSystem;
 	}
-	
-	
+
+
 	@Override
 	public String getScheme() {
 		return "mtg";
@@ -61,7 +61,7 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 	@Override
 	public FileSystem getFileSystem(URI uri) {
 		return fs;
-			
+
 	}
 
 	@Override
@@ -76,21 +76,21 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 
 	@Override
 	public DirectoryStream<Path> newDirectoryStream(Path dir, Filter<? super Path> filter) throws IOException {
-		
+
 		if(((MTGPath)dir).isCard())
 			throw new IOException(dir + " is not a folder path");
-		
+
 		return new DirectoryStream<>() {
-		
+
 			private final AtomicBoolean closed = new AtomicBoolean();
 			private final AtomicBoolean iteratorReturned = new AtomicBoolean();
-  
+
 			@Override
 			public void close() throws IOException {
 				closed.set(true);
-				
+
 			}
-			
+
 			@Override
 			public Iterator<Path> iterator() {
 				if (closed.get()) {
@@ -100,10 +100,10 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 			        throw new IllegalStateException("Iterator already returned");
 			    }
 				List<Path> paths = new ArrayList<>();
-				
+
 				List<String> parts = ((MTGPath)dir).getParts();
-				
-				
+
+
 				if(parts.size()==1)
 				{
 					try {
@@ -117,7 +117,7 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 					try {
 						var c = new MagicCollection(parts.get(1));
 						dao.listEditionsIDFromCollection(c).forEach(ed->paths.add(new MTGPath(fs, parts.get(0),c.getName(),ed)));
-					} catch (SQLException e) 
+					} catch (SQLException e)
 					{
 						logger.error(e);
 					}
@@ -128,64 +128,64 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 						var c = new MagicCollection(parts.get(1));
 						var idEdition = parts.get(2);
 						dao.listCardsFromCollection(c,new MagicEdition(idEdition)).forEach(card->paths.add(new MTGPath(fs, parts.get(0),c.getName(),idEdition,card.getName())));
-					} catch (SQLException e) 
+					} catch (SQLException e)
 					{
 						logger.error(e);
 					}
 				}
-				
-				
-				
+
+
+
 				return paths.iterator();
 			}
 		};
-		
+
 	}
 
 	@Override
 	public void createDirectory(Path dir, FileAttribute<?>... attrs) throws IOException {
-		
-		logger.debug("createDirectory " + dir + " "  + attrs);
-		
+
+		logger.debug("createDirectory {} {}",dir,attrs);
+
 		MTGPath direct = (MTGPath)dir;
-		
+
 		try {
 			if(dir.startsWith("Collections") && direct.isCollection())
 				dao.saveCollection(direct.getCollection());
-			
+
 		} catch (SQLException e) {
 			throw new IOException(e);
 		}
-		
+
 	}
 
 	@Override
 	public void delete(Path path) throws IOException {
 		MTGPath from = (MTGPath)path;
-		
-		logger.debug("delete " + from);
-		
-		
+
+		logger.debug("delete {}",from);
+
+
 	}
 
 	@Override
 	public void copy(Path source, Path target, CopyOption... options) throws IOException {
-		
+
 		MTGPath from = (MTGPath)source;
 		MTGPath to = (MTGPath)target;
-		
-		logger.debug("copy " + from + " to " + to);
+
+		logger.debug("copy from {} to {}",from,to);
 	}
 
 	@Override
 	public void move(Path source, Path target, CopyOption... options) throws IOException {
 		MTGPath from = (MTGPath)source;
 		MTGPath to = (MTGPath)target;
-		
-		
-		logger.debug("move " + from + " to " + to);
-		
-		
+
+
+		logger.debug("move from {} to {}",from,to);
+
+
 	}
 
 	@Override
@@ -201,53 +201,53 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 	@Override
 	public FileStore getFileStore(Path path) throws IOException {
 		return new FileStore() {
-			
+
 			@Override
 			public String type() {
 				return dao.getType().toString();
 			}
-			
+
 			@Override
 			public boolean supportsFileAttributeView(String arg0) {
 
 				return false;
 			}
-			
+
 			@Override
 			public boolean supportsFileAttributeView(Class<? extends FileAttributeView> arg0) {
 				return false;
 			}
-			
+
 			@Override
 			public String name() {
 				return dao.getName();
 			}
-			
+
 			@Override
 			public boolean isReadOnly() {
 				return false;
 			}
-			
+
 			@Override
 			public long getUsableSpace() throws IOException {
 				return 0;
 			}
-			
+
 			@Override
 			public long getUnallocatedSpace() throws IOException {
 				return 0;
 			}
-			
+
 			@Override
 			public long getTotalSpace() throws IOException {
 				return dao.getDBSize().values().stream().mapToLong(Long::longValue).sum();
 			}
-			
+
 			@Override
 			public <V extends FileStoreAttributeView> V getFileStoreAttributeView(Class<V> arg0) {
 				return null;
 			}
-			
+
 			@Override
 			public Object getAttribute(String arg0) throws IOException {
 				return null;
@@ -257,9 +257,9 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 
 	@Override
 	public void checkAccess(Path path, AccessMode... modes) throws IOException {
-		
+
 		MTGPath p = (MTGPath)path;
-		
+
 		if(p.isCollection())
 		{
 			try {
@@ -268,42 +268,42 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 			} catch (SQLException e) {
 				throw new IOException(e.getMessage());
 			}
-			
+
 		}
-		
+
 		if(p.isEdition())
 		{
 			try {
 				List<String> eds = dao.listEditionsIDFromCollection(p.getCollection());
 				if(!eds.contains(p.getStringFileName()))
 					throw new FileNotFoundException(path + " not exist");
-				
+
 			} catch (SQLException e) {
 				throw new IOException(e.getMessage());
 			}
-			
+
 		}
-		
+
 		if(p.isCard())
 		{
 			try {
-				
+
 				List<MagicCard> cards = dao.listCardsFromCollection(p.getCollection(), new MagicEdition(p.getIDEdition()));
-				
+
 				Optional<MagicCard> mc = cards.stream().filter(c->c.getName().equalsIgnoreCase(p.getStringFileName())).findFirst();
-						
+
 				if(!mc.isPresent())
 					throw new FileNotFoundException(path + " not exist");
-				
+
 			} catch (SQLException e) {
 				throw new IOException(e.getMessage());
 			}
-			
+
 		}
-		
-		
-		
-		
+
+
+
+
 	}
 
 	@Override
@@ -318,13 +318,13 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 
 	@Override
 	public Map<String, Object> readAttributes(Path path, String attributes, LinkOption... options) throws IOException {
-		logger.debug("reading " + attributes);
+		logger.debug("reading {}",attributes);
 		return new HashMap<>();
 	}
 
 	@Override
 	public void setAttribute(Path path, String attribute, Object value, LinkOption... options) throws IOException {
-		logger.debug("reading " + path + "atts :"+attribute + " " + value );
+		logger.debug("reading {} atts:{} {}",path,attribute,value );
 	}
 
 }

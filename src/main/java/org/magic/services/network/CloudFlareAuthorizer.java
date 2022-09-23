@@ -53,11 +53,11 @@ public class CloudFlareAuthorizer {
         }
     }
 
-    
+
     public CloudFlareAuthorizer() {
     	httpClient = URLTools.newClient();
 	}
-    
+
     public String getAuthorizationResult(String url) throws IOException, ScriptException {
 
         URL cloudFlareUrl = new URL(url);
@@ -183,13 +183,13 @@ final class PatternStreamer {
             }
         return list.stream();
     }
-    
+
     public static String convertStreamToString(InputStream is) {
         try(var s = new java.util.Scanner(is).useDelimiter("\\A"))
         {
         	return s.hasNext() ? s.next() : "";
         }
-        		
+
     }
-    
+
 }

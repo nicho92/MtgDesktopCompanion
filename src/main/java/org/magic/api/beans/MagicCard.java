@@ -34,7 +34,7 @@ public class MagicCard extends AbstractProduct {
 	private String flavor="";
 	private String watermarks;
 	private MTGRarity rarity;
-	private MTGLayout layout=MTGLayout.NORMAL;	
+	private MTGLayout layout=MTGLayout.NORMAL;
 	private List<String> supertypes;
 	private List<String> types;
 	private List<String> subtypes;
@@ -81,7 +81,7 @@ public class MagicCard extends AbstractProduct {
 	private String securityStamp;
 	private boolean isRebalanced;
 	private String signature;
-	
+
 	public MTGCardVariation getExtra()
 	{
 		if(isJapanese())
@@ -96,12 +96,12 @@ public class MagicCard extends AbstractProduct {
 			return MTGCardVariation.BORDERLESS;
 		else if(isTimeshifted())
 			return MTGCardVariation.TIMESHIFTED;
-		
-		
+
+
 		return null;
-		
+
 	}
-	
+
 	public String getSignature() {
 		return signature;
 	}
@@ -117,35 +117,35 @@ public class MagicCard extends AbstractProduct {
 	public boolean isRebalanced() {
 		return isRebalanced;
 	}
-	
+
 	public void setRebalanced(boolean isRebalanced) {
 		this.isRebalanced = isRebalanced;
 	}
-	
+
 	public String getSecurityStamp() {
 		return securityStamp;
 	}
-	
+
 	public void setSecurityStamp(String securityStamp) {
 		this.securityStamp = securityStamp;
 	}
-	
-	
+
+
 	public List<MTGFinishes> getFinishes() {
 		return finishes;
 	}
-	
+
 	public void setFinishes(List<MTGFinishes> finishes) {
 		this.finishes = finishes;
 	}
-	
-	
+
+
 	@Override
 	public String getStoreId() {
 		return IDGenerator.generate(this);
 	}
-	
-	
+
+
 	public String getFullName()
 	{
 		if(getRotatedCard()!=null)
@@ -196,13 +196,13 @@ public class MagicCard extends AbstractProduct {
 
 	public boolean isExtraCard()
 	{
-		
+
 		try {
 			var number = Integer.parseInt(getCurrentSet().getNumber());
-		
+
 			if(number==0 || getCurrentSet().getCardCountOfficial()==0)
 				return false;
-			
+
 			return number>getCurrentSet().getCardCountOfficial();
 			}
 		catch(Exception e)
@@ -210,7 +210,7 @@ public class MagicCard extends AbstractProduct {
 			return false;
 		}
 	}
-	
+
 	public boolean isBorderLess()
 	{
 		return border == MTGBorder.BORDERLESS;
@@ -223,7 +223,7 @@ public class MagicCard extends AbstractProduct {
 	public boolean isExtendedArt() {
 		return frameEffects.stream().anyMatch(f->f==MTGFrameEffects.EXTENDEDART);
 	}
-	
+
 	public boolean isFullArt() {
 		return fullArt;
 	}
@@ -232,31 +232,31 @@ public class MagicCard extends AbstractProduct {
 		this.fullArt = fullArt;
 	}
 
-	
+
 	public void setBorder(MTGBorder border) {
 		this.border = border;
 	}
-	
+
 	public MTGBorder getBorder() {
 		return border;
 	}
-	
-	
+
+
 	public boolean isHasAlternativeDeckLimit() {
 		return hasAlternativeDeckLimit;
 	}
-	
-	
+
+
 	public boolean isHasContentWarning() {
 		return hasContentWarning;
 	}
-	
+
 	public void setHasContentWarning(boolean hasContentWarning) {
 		this.hasContentWarning = hasContentWarning;
 	}
-	
 
-	
+
+
 	public String getOriginalReleaseDate() {
 		return originalReleaseDate;
 	}
@@ -268,33 +268,33 @@ public class MagicCard extends AbstractProduct {
 	public void setHasAlternativeDeckLimit(boolean hasAlternativeDeckLimit) {
 		this.hasAlternativeDeckLimit = hasAlternativeDeckLimit;
 	}
-	
+
 	public boolean isStorySpotlight() {
 		return isStorySpotlight;
 	}
-	
+
 	public void setStorySpotlight(boolean isStorySpotlight) {
 		this.isStorySpotlight = isStorySpotlight;
 	}
-	
+
 	public void setSide(String side) {
 		this.side = side;
 	}
-	
-	
+
+
 	public String getSide() {
 		return side;
 	}
-	
-	
+
+
 	public List<MTGKeyWord> getKeywords() {
 		return keywords;
 	}
-	
+
 	public void setKeywords(List<MTGKeyWord> keywords) {
 		this.keywords = keywords;
 	}
-	
+
 	public String getFlavorName() {
 		return flavorName;
 	}
@@ -307,7 +307,7 @@ public class MagicCard extends AbstractProduct {
 	{
 		return isCreature() && getFrameEffects().contains(MTGFrameEffects.COMPANION);
 	}
-	
+
 	public String getScryfallId() {
 		return scryfallId;
 	}
@@ -380,35 +380,35 @@ public class MagicCard extends AbstractProduct {
 	public boolean isOversized() {
 		return oversized;
 	}
-	
+
 	public void setOversized(boolean oversized) {
 		this.oversized = oversized;
 	}
-	
+
 	public void setFrameEffects(List<MTGFrameEffects> frameEffects) {
 		this.frameEffects = frameEffects;
 	}
-	
+
 	public List<MTGFrameEffects> getFrameEffects() {
 		return frameEffects;
 	}
-	
-	
+
+
 	public String getFlavor() {
 		return flavor;
 	}
-	
+
 	public void setFlavor(String flavor) {
 		this.flavor = flavor;
 	}
-	
+
 	public String getArtist() {
 		return artist;
 	}
 	public void setArtist(String artist) {
 		this.artist = artist;
 	}
-	
+
 	public Integer getEdhrecRank() {
 		return edhrecRank;
 	}
@@ -457,63 +457,63 @@ public class MagicCard extends AbstractProduct {
 	public MagicEdition getCurrentSet() {
 		if(!getEditions().isEmpty())
 			return getEditions().get(0);
-		
+
 		return null;
 	}
-	
+
 	public boolean isMultiColor()
 	{
 		return getColors().size()>1;
 	}
-	
+
 	public boolean isColorless() {
 		return getColors().isEmpty();
 	}
 
-	
-	
+
+
 	public boolean isInstant()
 	{
 		return getTypes().toString().toLowerCase().contains("instant");
 	}
-	
+
 	public boolean isRitual()
 	{
 		return getTypes().toString().toLowerCase().contains("sorcery");
 	}
-	
+
 	public boolean isCreature()
 	{
 		return getTypes().toString().toLowerCase().contains("creature");
 	}
-	
+
 	public boolean isEnchantment()
 	{
 		return getTypes().toString().toLowerCase().contains("enchantment");
 	}
-	
+
 	public boolean isPermanent()
 	{
 		return isLand()||isPlaneswalker()||isCreature()|| isEnchantment()||isArtifact() || isToken() || isEmblem();
 	}
-	
+
 	public boolean isToken()
 	{
 		return getLayout()==MTGLayout.TOKEN || getLayout()==MTGLayout.DOUBLE_FACED_TOKEN;
 	}
-	
+
 	public boolean isEmblem()
 	{
 		return getLayout()==MTGLayout.EMBLEM;
 	}
-	
+
 	public boolean isSpecialTokenOrExtra()
 	{
 		return getLayout()==MTGLayout.ADVENTURE || getLayout()==MTGLayout.ART_SERIES || isToken() || isEmblem();
 	}
-	
-	
-	
+
+
+
 	public boolean isArtifact() {
 		return getTypes().toString().toLowerCase().contains("artifact");
 	}
@@ -522,19 +522,19 @@ public class MagicCard extends AbstractProduct {
 	{
 		return getTypes().toString().toLowerCase().contains("planeswalker");
 	}
-	
+
 	public boolean isDoubleFaced()
 	{
 		return getLayout()==MTGLayout.MELD || getLayout()==MTGLayout.TRANSFORM || getLayout()==MTGLayout.MODAL_DFC;
 	}
-	
-	
+
+
 	public static boolean isBasicLand(String cardName)
 	{
-		return (cardName.trim().equalsIgnoreCase("Plains")  || 
-				cardName.trim().equalsIgnoreCase("Island")  || 
-				cardName.trim().equalsIgnoreCase("Swamp")   || 
-				cardName.trim().equalsIgnoreCase("Mountain")|| 
+		return (cardName.trim().equalsIgnoreCase("Plains")  ||
+				cardName.trim().equalsIgnoreCase("Island")  ||
+				cardName.trim().equalsIgnoreCase("Swamp")   ||
+				cardName.trim().equalsIgnoreCase("Mountain")||
 				cardName.trim().equalsIgnoreCase("Forest") ||
 				cardName.trim().equalsIgnoreCase("Wastes") ||
 				cardName.trim().equalsIgnoreCase("Snow-Covered Plains") ||
@@ -544,11 +544,11 @@ public class MagicCard extends AbstractProduct {
 				cardName.trim().equalsIgnoreCase("Snow-Covered Forest")
 				);
 	}
-	
+
 	public boolean isBasicLand(){
 		return isBasicLand(getName());
 	}
-	
+
 	public String getImageName() {
 		return imageName;
 	}
@@ -582,7 +582,7 @@ public class MagicCard extends AbstractProduct {
 	public MagicCard getRotatedCard() {
 		return rotatedCard;
 	}
-	
+
 	public void setRotatedCard(MagicCard rotatedCard) {
 		this.rotatedCard = rotatedCard;
 	}
@@ -594,9 +594,9 @@ public class MagicCard extends AbstractProduct {
 	public void setRarity(MTGRarity rarity) {
 		this.rarity = rarity;
 	}
-	
-	
-	
+
+
+
 	public MagicCard() {
 		editions = new ArrayList<>();
 		types = new ArrayList<>();
@@ -630,7 +630,7 @@ public class MagicCard extends AbstractProduct {
 	public void setWatermarks(String watermarks) {
 		this.watermarks = watermarks;
 	}
-	
+
 	public List<MTGColor> getColorIdentity() {
 		return colorIdentity;
 	}
@@ -774,6 +774,7 @@ public class MagicCard extends AbstractProduct {
 		return getName();
 	}
 
+	@Override
 	public int hashCode() {
 		return getId().hashCode();
 	}
@@ -781,10 +782,7 @@ public class MagicCard extends AbstractProduct {
 	@Override
 	public boolean equals(Object obj) {
 
-		if (obj == null)
-			return false;
-
-		if (this.getClass() != obj.getClass())
+		if ((obj == null) || (this.getClass() != obj.getClass()))
 			return false;
 
 		return IDGenerator.generate(((MagicCard) obj)).equals(IDGenerator.generate(this));
@@ -802,17 +800,17 @@ public class MagicCard extends AbstractProduct {
 	public boolean isLand() {
 		return getTypes().toString().toLowerCase().contains("land");
 	}
-	
+
 	public boolean isLegendary() {
 		return getSupertypes().toString().toLowerCase().contains("legendary");
 	}
 
 	public MagicCard toForeign(MagicCardNames fn)
-	{	
+	{
 		try {
 			var mc2 = new MagicCard();
 			var ed = new MagicEdition();
-			
+
 			BeanUtils.copyProperties(mc2,this);
 			BeanUtils.copyProperties(ed,this.getCurrentSet());
 
@@ -822,10 +820,10 @@ public class MagicCard extends AbstractProduct {
 			ed.setMultiverseid(String.valueOf(fn.getGathererId()));
 			mc2.getCurrentSet().setMultiverseid(String.valueOf(fn.getGathererId()));
 			mc2.setFlavor(fn.getFlavor());
-			
+
 			mc2.setText(fn.getText());
 			return mc2;
-			
+
 		} catch (Exception e) {
 			return null;
 		}
@@ -858,19 +856,19 @@ public class MagicCard extends AbstractProduct {
 				obj.addProperty("borderless", isBorderLess());
 				obj.addProperty("doubleFaced", isDoubleFaced());
 				obj.addProperty("timeshifted", isTimeshifted());
-				
+
 				if(getRotatedCard()!=null)
 					obj.add("otherSide", getRotatedCard().toLightJson());
-				
+
 		return obj;
-		
-		
+
+
 	}
 
 	public boolean isMainFace() {
 		return (getSide()==null || getSide().equals("a"));
 	}
 
-	
+
 
 }

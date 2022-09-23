@@ -21,15 +21,15 @@ import org.magic.tools.UITools;
 public class MagicCorporationPricer extends AbstractPricesProvider {
 
 	private static final String BASE_URL="http://www.magiccorporation.com/";
-	
-	
+
+
 	@Override
 	public String getName() {
 		return "MagicCorporation";
 	}
-	
 
-	
+
+
 	@Override
 	public EnumMarketType getMarket() {
 		return EnumMarketType.EU_MARKET;
@@ -37,21 +37,21 @@ public class MagicCorporationPricer extends AbstractPricesProvider {
 
 	@Override
 	protected List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
-		
+
 	String url =BASE_URL+"mc.php";
 	List<MagicPrice> ret = new ArrayList<>();
-	
+
 	Document content =RequestBuilder.build().url(url).setClient(URLTools.newClient()).method(METHOD.GET)
 						.addContent("rub","cartes")
 						.addContent("op","search")
 						.addContent("search","2")
 						.addContent("word",card.getName()).toHtml();
-		
-		
+
+
 		Elements trs = content.select("tr.hover");
 		String link=BASE_URL+trs.first().select("td").get(3).select("span a").attr("href");
-		
-		
+
+
 			content = RequestBuilder.build().url(link)
 											.setClient(URLTools.newClient())
 											.method(METHOD.GET)
@@ -60,9 +60,9 @@ public class MagicCorporationPricer extends AbstractPricesProvider {
 											.addHeader(URLTools.ACCEPT_ENCODING, "gzip, deflate")
 											.toHtml();
 			trs = content.select("table[width=100%]:has(form) tr");
-			
+
 			if(trs!=null)
-			{	
+			{
 				for(Element tr : trs)
 				{
 					var mp = new MagicPrice();
@@ -74,7 +74,7 @@ public class MagicCorporationPricer extends AbstractPricesProvider {
 						mp.setSeller(tr.select("td").first().text());
 						mp.setSite(getName());
 						mp.setLanguage("EN");
-						
+
 						if(tr.select("td").get(2).childNodeSize()>0)
 						{
 							if(tr.select("td").get(2).getElementsByTag("img").first().attr("src").contains("de.gif"))

@@ -17,21 +17,21 @@ public class PSAGrader extends AbstractGradersProvider {
 	public String getWebSite() {
 		return "https://www.psacard.com";
 	}
-	
+
 	@Override
 	public Grading loadGrading(String identifier) throws IOException {
 		var authorizer = new CloudFlareAuthorizer();
     	try {
 			var ret = authorizer.getAuthorizationResult(getWebSite()+"/cert/"+identifier);
 			var doc = URLTools.toHtml(ret);
-			
-			
+
+
 			for(var it : doc.select("table tr"))
 			{
 				if(it.getElementsByTag("th").first().text().equals("Grade"))
 				{
 					var result = it.getElementsByTag("td").html();
-					
+
 				    var  condition=result.split(" ")[0].trim();
 					var note = UITools.parseDouble (result.split(" ")[1].trim());
 					logger.debug("result : " + result + " Note =" + note);
@@ -39,13 +39,13 @@ public class PSAGrader extends AbstractGradersProvider {
 					g.setNumberID(identifier);
 					g.setUrlInfo(getWebSite()+"/cert/"+identifier);
 					g.setGraderName(getName());
-					g.setGrade(parseCondition(condition)); 
+					g.setGrade(parseCondition(condition));
 					g.setGradeNote(note);
 					return g;
 				}
 			}
-			
-			
+
+
 		} catch (IOException | ScriptException e) {
 			throw new IOException(e);
 		}
@@ -67,7 +67,7 @@ public class PSAGrader extends AbstractGradersProvider {
 		return "PSA";
 	}
 
-	
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;

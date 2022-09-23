@@ -14,10 +14,10 @@ import org.magic.tools.FileTools;
 
 public class MTGStandExport extends AbstractFormattedFileCardExport {
 
-	
+
 	private String columns = " Name,Quantity,Edition,\"Edition Code\",\"Collector Number\",Language,Foil,Condition,Rarity,Note";
-	
-	
+
+
 	@Override
 	public String getFileExtension() {
 		return ".csv";
@@ -28,29 +28,29 @@ public class MTGStandExport extends AbstractFormattedFileCardExport {
 		exportStock(importFromDeck(deck), dest);
 
 	}
-	
+
 
 	@Override
 	public MagicDeck importDeck(String f, String name) throws IOException {
 		var d = new MagicDeck();
 		d.setName(name);
-		
+
 		for(MagicCardStock st : importStock(f))
 		{
 			d.getMain().put(st.getProduct(), st.getQte());
 		}
 		return d;
 	}
-	
+
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
-		
+
 		var build = new StringBuilder();
 					  build.append(columns).append(System.lineSeparator());
-		
+
 		for(MagicCardStock st : stock)
 		{
-			
+
 			build.append("\"").append(st.getProduct().getName()).append("\",");
 			build.append(st.getQte()).append(",");
 			build.append("\"").append(st.getProduct().getCurrentSet().getSet()).append("\",");
@@ -61,16 +61,16 @@ public class MTGStandExport extends AbstractFormattedFileCardExport {
 				build.append("1,");
 			else
 				build.append("0,");
-			
+
 			build.append(convert(st.getCondition())).append(",");
 			build.append(st.getProduct().getRarity()).append(",");
 			build.append(st.getComment()).append(System.lineSeparator());
 		}
-		
+
 		FileTools.saveFile(f, build.toString());
-		
+
 	}
-	
+
 	private String convert(EnumCondition condition) {
 		switch (condition)
 		{
@@ -78,7 +78,7 @@ public class MTGStandExport extends AbstractFormattedFileCardExport {
 		case PLAYED:return "Moderately Played";
 		case POOR: return "Heavily Played";
 		default: return "Near Mint";
-		
+
 		}
 	}
 
@@ -88,27 +88,27 @@ public class MTGStandExport extends AbstractFormattedFileCardExport {
 		for(Matcher m : matches(content, true))
 		{
 			var mc = parseMatcherWithGroup(m, 1, 4, true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NAME);
-			
+
 			if(mc !=null )
 			{
-				
+
 				var st = new MagicCardStock(mc);
 				st.setQte(Integer.parseInt(m.group(2)));
 				st.setLanguage(m.group(6));
 				st.setFoil(m.group(7).equals("1"));
 				st.setComment(m.group(10));
-				
+
 				ret.add(st);
 				notify(mc);
 			}
-			
-			
-			
+
+
+
 		}
-		
+
 		return ret;
 	}
-	
+
 
 	@Override
 	public String getName() {
@@ -128,7 +128,7 @@ public class MTGStandExport extends AbstractFormattedFileCardExport {
 	@Override
 	protected String getStringPattern() {
 		return "\\\"?(.*?)\\\"?,(\\d),\\\"?(.*?)\\\"?,(.*?),(\\d+),(.*?),(\\d),\"(.*?)\",(.*?),(.*?)?$";
-		
+
 	}
 
 	@Override

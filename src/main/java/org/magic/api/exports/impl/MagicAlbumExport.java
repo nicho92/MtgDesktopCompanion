@@ -31,43 +31,43 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 		exportStock(importFromDeck(deck), dest);
 
 	}
-	
-	
+
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
 	}
-	
-	
+
+
 
 	@Override
 	public MagicDeck importDeck(String f, String name) throws IOException {
 		var d = new MagicDeck();
 		d.setName(name);
-		
+
 		for(MagicCardStock st : importStock(f))
 		{
 			d.getMain().put(st.getProduct(), st.getQte());
 		}
 		return d;
 	}
-	
-	
+
+
 	@Override
 	public List<MagicCardStock> importStockFromFile(File f) throws IOException {
 		return importStock(FileTools.readFile(f,StandardCharsets.UTF_16));
 	}
-	
-	
-	
+
+
+
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 		StringBuilder temp = new StringBuilder();
 		var endOfLine="\r\n";
 		temp.append("Set\tName (Oracle)\tName\tVersion\tLanguage\tQty (R)\tQty (F)\tBuy Qty\tProxies\tNotes\tRarity\tNumber\tColor\tCost\tP/T\tArtist\tBorder\tCopyright\tType\tSell Qty\tGrade (R)\tGrade (F)\tPrice (R)\tPrice (F)\tUsed\tType (Oracle)\tLegality\tBuy Price\tSell Price\tRating\tObject\r\n");
 		temp.append(endOfLine);
-		
-		
+
+
 		for(var mcs : stock)
 		{
 			temp.append(PluginsAliasesProvider.inst().getReversedSetIdFor(this, mcs.getProduct().getCurrentSet().getId())).append("\t");
@@ -87,40 +87,40 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 			temp.append(mcs.getProduct().getBorder()!=null?mcs.getProduct().getBorder().toPrettyString():"").append("\t");
 			temp.append("™ & © "+mcs.getProduct().getCurrentSet().getReleaseDate()+" Wizards of the Coast").append("\t");
 			temp.append(mcs.getProduct().getFullType()).append("\t");
-			
-			
-			
-			
-			
+
+
+
+
+
 			temp.append(endOfLine);
 			notify(mcs.getProduct());
 		}
-		
-		
+
+
 		FileTools.saveFile(f, temp.toString(),StandardCharsets.UTF_16);
-		
-		
+
+
 	}
-	
+
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
 		var ret = new ArrayList<MagicCardStock>();
 		matches(content, true ).forEach(m->{
-			
+
 			var foilnumber = ( !m.group(7).isEmpty()) ? Integer.parseInt(m.group(7)):0;
 			var regularNumber = ( !m.group(6).isEmpty()) ? Integer.parseInt(m.group(6)):0;
 			var proxyNumber = ( !m.group(9).isEmpty()) ? Integer.parseInt(m.group(9)):0;
 			var setCode = PluginsAliasesProvider.inst().getSetIdFor(this, new MagicEdition(m.group(1)));
 			var lang=m.group(5);
 			var cardName = m.group(2).replace("’", "'").replace("│", " // ");
-			
-			
-		
+
+
+
 				MagicCard mc=null;
-				
+
 				if(!m.group(12).isEmpty())
 				{
-					try{ 
+					try{
 						var cardNumber=m.group(12).split("/")[0].replaceFirst("^0+(?!$)", "");
 						mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(cardNumber, setCode);
 					}
@@ -128,10 +128,10 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 					{
 						mc=null;
 					}
-					
+
 				}
-				
-				
+
+
 				if(mc==null)
 				{
 					try {
@@ -150,12 +150,12 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 						mc=null;
 						logger.error(e);
 					}
-					
+
 				}
-				
+
 				if(mc!=null)
 				{
-					
+
 				if(regularNumber>0) {
 					var mcs = MTGControler.getInstance().getDefaultStock();
 					mcs.setProduct(mc);
@@ -164,7 +164,7 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 					mcs.setFoil(false);
 					ret.add(mcs);
 				}
-				
+
 				if(foilnumber>0)
 				{
 					var mcsF = MTGControler.getInstance().getDefaultStock();
@@ -174,7 +174,7 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 					mcsF.setFoil(true);
 					ret.add(mcsF);
 				}
-				
+
 				if(proxyNumber>0)
 				{
 					var mcsP = MTGControler.getInstance().getDefaultStock();
@@ -185,20 +185,20 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 					mcsP.setCondition(EnumCondition.PROXY);
 					ret.add(mcsP);
 				}
-				
-				
-				
+
+
+
 				notify(mc);
 				}
-			
-			
-			
+
+
+
 		});
-		
-		
+
+
 		return ret;
 	}
-	
+
 
 	@Override
 	public String getName() {
@@ -229,6 +229,6 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of("SEPARATOR",getSeparator());
 	}
-	
-	
+
+
 }

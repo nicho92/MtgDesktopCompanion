@@ -21,12 +21,12 @@ import org.magic.tools.FileTools;
 
 public class DeckBoxExport extends AbstractFormattedFileCardExport {
 
-	
+
 	private static final String REGEX = "REGEX";
 	private String columns="Count,Tradelist Count,Name,Edition,Card Number,Condition,Language,Foil,Signed,Artist Proof,Altered Art,Misprint,Promo,Textless,My Price\n";
-	
-	
-	
+
+
+
 	@Override
 	public String getFileExtension() {
 		return ".csv";
@@ -40,8 +40,8 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 			String name=mc.getProduct().getName();
 			if(mc.getProduct().getName().contains(getSeparator()))
 				name="\""+mc.getProduct().getName()+"\"";
-			
-			
+
+
 			line.append(mc.getQte()).append(getSeparator());
 			line.append(mc.getQte()).append(getSeparator());
 			line.append(name).append(getSeparator());
@@ -61,20 +61,20 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 		}
 		FileTools.saveFile(dest, line.toString());
 	}
-	
-	
+
+
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		exportStock(importFromDeck(deck), dest);
 
 	}
-	
+
 
 	@Override
 	public MagicDeck importDeck(String f, String name) throws IOException {
 		var d = new MagicDeck();
 		d.setName(name);
-		
+
 		for(MagicCardStock st : importStock(f))
 		{
 			d.getMain().put(st.getProduct(), st.getQte());
@@ -85,23 +85,23 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
-		
+
 		List<MagicCardStock> list = new ArrayList<>();
-	
+
 		matches(content,true).forEach(m->{
-			
+
 			MagicEdition ed = null;
-			
-			try {			   
+
+			try {
 				ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(m.group(4));
 			}
 			catch(Exception e)
 			{
 				logger.error("Edition not found for {}",m.group(4));
 			}
-			
+
 			String cname = cleanName(m.group(3));
-			
+
 			String number=null;
 			try {
 				number = m.group(5);
@@ -110,9 +110,9 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 			{
 				//do nothing
 			}
-			
+
 			MagicCard mc=null;
-			
+
 			if(number!=null && ed !=null)
 			{
 				try {
@@ -121,7 +121,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 					logger.error("no card found with number {}/{}",number,ed);
 				}
 			}
-			
+
 			if(mc==null)
 			{
 				try {
@@ -136,31 +136,31 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 					   mcs.setQte(Integer.parseInt(m.group(1)));
 					   mcs.setProduct(mc);
 					   mcs.setCondition(PluginsAliasesProvider.inst().getReversedConditionFor(this,m.group(6),null));
-					   
+
 					   if(!m.group(7).isEmpty())
 						   mcs.setLanguage(m.group(7));
-					   
-					   mcs.setFoil(m.group(8)!=null);	
+
+					   mcs.setFoil(m.group(8)!=null);
 					   mcs.setSigned(m.group(9)!=null);
 					   mcs.setAltered(m.group(11)!=null);
-					   
+
 					   if(!m.group(15).isEmpty())
 						   mcs.setPrice(Double.parseDouble(m.group(15)));
-		
+
 			   list.add(mcs);
 			}
 			else
 			{
 				logger.error("No cards found for {}",cname);
 			}
-			
-			
+
+
 		});
-		
+
 		return list;
 	}
-	
-	
+
+
 	private String getDefault()
 	{
 		return "(\\d+)"+getSeparator()+
@@ -179,8 +179,8 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 				   "(textless)?"+getSeparator()+
 				   "\\$(\\d+(\\.\\d{1,2})?)";
 	}
-	
-	
+
+
 	@Override
 	public String getName() {
 		return "DeckBox";
@@ -200,9 +200,9 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 	protected String getStringPattern() {
 		if(getString(REGEX).isEmpty())
 			setProperty(REGEX,getDefault());
-			
-			
-			
+
+
+
 			return getString(REGEX);
 	}
 
@@ -210,11 +210,11 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 	public Map<String, String> getDefaultAttributes() {
 		var m = super.getDefaultAttributes();
 		m.put(REGEX, getDefault());
-		
+
 		return m;
 	}
-	
-	
+
+
 	@Override
 	public String getSeparator() {
 		return ",";

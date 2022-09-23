@@ -7,19 +7,19 @@ import org.magic.gui.abstracts.GenericTableModel;
 public class MagicCardNamesTableModel extends GenericTableModel<MagicCardNames> {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private MagicCard mc;
-	
-	
+
+
 	public MagicCardNamesTableModel() {
 		columns= new String[] {
 				"CARD_LANGUAGE",
-				"NAME", 
+				"NAME",
 				"Gatherer ID" };
 	}
-	
+
 
 	public void init(MagicCard mc) {
 		this.mc=mc;

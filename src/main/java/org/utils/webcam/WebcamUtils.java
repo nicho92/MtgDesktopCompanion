@@ -12,46 +12,46 @@ import com.github.sarxos.webcam.ds.ipcam.IpCamDeviceRegistry;
 import com.github.sarxos.webcam.ds.ipcam.IpCamDriver;
 import com.github.sarxos.webcam.ds.ipcam.IpCamMode;
 
-public class WebcamUtils 
+public class WebcamUtils
 {
-	
+
 	private static WebcamUtils inst;
 	public static final Dimension defaultDimension=new Dimension(640,480);
-	
-	
+
+
 	public static WebcamUtils inst()
 	{
 		if(inst==null)
 			inst=new WebcamUtils();
-		
+
 		return inst;
 	}
-	
-	
+
+
 	private WebcamUtils()
 	{
 		Webcam.setDriver(new CompositeDriver());
 	}
-	
+
 	public List<Webcam> listWebcam()
 	{
-		
+
 		List<Webcam> pcams= new ArrayList<>();
 		for(Webcam cam:Webcam.getWebcams())
 			pcams.add(cam);
-	
+
 		pcams.add(new SimulatedWebcam());
-		
+
 		return pcams;
 	}
-	
-	
+
+
 	public void changeResolution(Dimension d , Webcam c)
 	{
 			c.setViewSize(d);
-			
+
 	}
-	
+
 	public boolean registerIPCam(String name, String address, IpCamMode mode)
 	{
 		try {
@@ -61,7 +61,7 @@ public class WebcamUtils
 			return false;
 		}
 	}
-	
+
 
 	class CompositeDriver extends WebcamCompositeDriver {
 		public CompositeDriver() {
@@ -69,5 +69,5 @@ public class WebcamUtils
 			add(new IpCamDriver());
 		}
 	}
-	
+
 }

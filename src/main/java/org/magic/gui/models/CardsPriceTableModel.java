@@ -15,7 +15,7 @@ public class CardsPriceTableModel extends GenericTableModel<MagicPrice> {
 
 
 	public CardsPriceTableModel() {
-		columns=new String[] { 
+		columns=new String[] {
 				"CARD",
 				"QTY",
 				"WEBSITE",
@@ -27,12 +27,12 @@ public class CardsPriceTableModel extends GenericTableModel<MagicPrice> {
 				"CARD_LANGUAGE",
 				"COUNTRY"};
 	}
-	
+
 	@Override
 	public int[] defaultHiddenColumns() {
 		return new int[] {0,1};
 	}
-	
+
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {

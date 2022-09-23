@@ -28,17 +28,17 @@ public class MTGAppender extends AbstractAppender  {
 	public Observable getObservable() {
 		return obs;
 	}
-	
+
 	public void addObserver(Observer viewer) {
 		obs.addObserver(viewer);
 	}
 
-	
+
 	@PluginFactory
     public static MTGAppender createAppender(@PluginAttribute("name") String name,@PluginElement("Filter") Filter filter) {
         return new MTGAppender(name, filter);
     }
-	
+
 	public MTGAppender(String name, Filter filter) {
 		super(name,filter,null,false,null);
 		events = new ArrayList<>();

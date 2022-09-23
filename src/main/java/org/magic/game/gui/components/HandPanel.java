@@ -55,6 +55,7 @@ public class HandPanel extends DraggablePanel {
 		c = new GridBagConstraints();
 	}
 
+	@Override
 	public void addComponent(DisplayableCard i) {
 		if (index >= val) {
 			c.gridy = c.gridy + 1;
@@ -91,11 +92,11 @@ public class HandPanel extends DraggablePanel {
 
 		this.removeAll();
 		index = 0;
-		
-		
+
+
 		if(d==null)
 			d=MTGControler.getInstance().getCardsGameDimension();
-		
+
 		sw = new SwingWorker<>()
 		{
 
@@ -108,35 +109,35 @@ public class HandPanel extends DraggablePanel {
 				}
 				revalidate();
 			}
-			
+
 			@Override
 			protected Void doInBackground() throws Exception {
 				publish(cards.toArray(new MagicCard[cards.size()]));
 				return null;
 			}
-			
+
 			@Override
 			protected void done() {
-				
+
 				try {
 					get();
-				
+
 				}catch(CancellationException e)
 				{
-					
+
 					logger.info("{} is canceled",this);
 				}
 				catch(InterruptedException | ExecutionException ex)
 				{
 					Thread.currentThread().interrupt();
 				}
-				
-				
+
+
 				revalidate();
 				repaint();
 			}
 		};
-		
+
 		ThreadManager.getInstance().runInEdt(sw, "thumbnail " + cards.size() +" items");
 	}
 

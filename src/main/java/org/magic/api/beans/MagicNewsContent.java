@@ -50,7 +50,7 @@ public class MagicNewsContent {
 	public void setLink(URL link) {
 		this.link = link;
 	}
-	
+
 	@Override
 	public String toString() {
 		return getTitle();

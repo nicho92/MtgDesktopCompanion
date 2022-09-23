@@ -33,25 +33,25 @@ public class QwartzServer extends AbstractMTGServer {
 
 	private static final String ORG_QUARTZ_PLUGIN_JOB_INITIALIZER_FILE_NAMES = "org.quartz.plugin.jobInitializer.fileNames";
 	private  Scheduler scheduler;
-	
+
 	public QwartzServer() {
 		try {
-			
+
 			if(!getFile(ORG_QUARTZ_PLUGIN_JOB_INITIALIZER_FILE_NAMES).exists())
 			{
 				logger.debug("creating quartz config file");
 				FileUtils.copyURLToFile(getClass().getResource("/data/default-quartz.xml"),getFile(ORG_QUARTZ_PLUGIN_JOB_INITIALIZER_FILE_NAMES));
 			}
-			
-			
+
+
 			scheduler = new StdSchedulerFactory(getProperties()).getScheduler();
 		} catch (Exception e) {
 			logger.error(e);
-		} 
+		}
 	}
-	
 
-	
+
+
 	@Override
 	public void start() throws IOException {
 		try {
@@ -65,23 +65,23 @@ public class QwartzServer extends AbstractMTGServer {
 	public void stop() throws IOException {
 		try {
 			scheduler.standby();
-			
+
 		} catch (SchedulerException e) {
 			throw new IOException(e);
 		}
-		
+
 	}
 
 	@Override
 	public boolean isAlive() {
 		try {
-			
+
 			return scheduler.isStarted() && !scheduler.isInStandbyMode();
 		} catch (Exception e) {
 			return false;
 		}
 	}
-	
+
 	@Override
 	public void unload() {
 		try {
@@ -93,7 +93,7 @@ public class QwartzServer extends AbstractMTGServer {
 			logger.error(e);
 		}
 	}
-	
+
 	@Override
 	public String getVersion() {
 		return QuartzScheduler.getVersionMajor() +"."+QuartzScheduler.getVersionMinor() +"."+QuartzScheduler.getVersionIteration();
@@ -108,8 +108,8 @@ public class QwartzServer extends AbstractMTGServer {
 	public String description() {
 		return "Scheduling scripts";
 	}
-	
-	
+
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		var m = new HashMap<String,String>();
@@ -121,11 +121,11 @@ public class QwartzServer extends AbstractMTGServer {
 		m.put("org.quartz.plugin.jobInitializer.failOnFileNotFound","true");
 		m.put("org.quartz.plugin.jobInitializer.scanInterval","60");
 		m.put("AUTOSTART", "false");
-		
+
 		return m;
 	}
-	
-	
+
+
 	public void runJob(Job job, String name) throws SchedulerException
 	{
 		var jobKey = JobKey.jobKey(name, "instantJob");
@@ -133,9 +133,9 @@ public class QwartzServer extends AbstractMTGServer {
 	    scheduler.addJob(jobd, true);
 	    scheduler.triggerJob(jobKey);
 	}
-	
 
-	
+
+
 	@Override
 	public MTGDocumentation getDocumentation() {
 		try {
@@ -144,12 +144,12 @@ public class QwartzServer extends AbstractMTGServer {
 			return super.getDocumentation();
 		}
 	}
-	
+
 	@Override
 	public String getName() {
 		return "Qwartz";
 	}
-	
+
 	public JsonObject toJsonDetails() throws SchedulerException {
 		  var schedulerMetaData = scheduler.getMetaData();
 		  var quartzInformation = new JsonObject();
@@ -165,7 +165,7 @@ public class QwartzServer extends AbstractMTGServer {
 		  quartzInformation.addProperty("isStandByMode",schedulerMetaData.isInStandbyMode());
 		  quartzInformation.addProperty("runningSince",UITools.formatDateTime(schedulerMetaData.getRunningSince()));
 		  var simpleJobList = new JsonArray();
-		  
+
 		  for (String groupName : scheduler.getJobGroupNames()) {
 		    for (JobKey jobKey : scheduler.getJobKeys(GroupMatcher.jobGroupEquals(groupName))) {
 		      for(Trigger trigger : scheduler.getTriggersOfJob(jobKey)) {
@@ -173,15 +173,15 @@ public class QwartzServer extends AbstractMTGServer {
 		    	  					 jobObj.addProperty("jobGroup", jobKey.getGroup());
 		    	  					 jobObj.addProperty("jobName", jobKey.getName());
 		    	  					 jobObj.addProperty("nextFireTime", trigger.getNextFireTime().getTime());
-		    	  					
+
 		    	  					 	try {
 		    	  					 		jobObj.addProperty("lastFireTime", trigger.getPreviousFireTime().getTime());
 		    	  					 	}
 		    	  					 	catch(Exception e)
 		    	  					 	{
-		    	  					 		jobObj.addProperty("lastFireTime", 0);	
+		    	  					 		jobObj.addProperty("lastFireTime", 0);
 		    	  					 	}
-		    	  					
+
 		    	  					 simpleJobList.add(jobObj);
 		      }
 		    }
@@ -194,7 +194,7 @@ public class QwartzServer extends AbstractMTGServer {
 
 	public List<JsonObject> getJobs() {
 		var ret = new ArrayList<JsonObject>();
-		
+
 		try {
 			toJsonDetails().get("jobs").getAsJsonArray().forEach(je->ret.add(je.getAsJsonObject()));
 		} catch (Exception e) {
@@ -202,6 +202,6 @@ public class QwartzServer extends AbstractMTGServer {
 		}
 		return ret;
 	}
-	
-	
+
+
 }

@@ -30,11 +30,11 @@ public class Search extends AbstractCommand {
 
 	@Override
 	public AbstractResponse run(String[] args)throws ParseException, ClassNotFoundException, InstantiationException, IllegalAccessException, IOException {
-	
+
 		logger.debug("running {} with {}", this,Arrays.asList(args));
-			
+
 		CommandLine cl = parser.parse(opts, args);
-		
+
 		if (cl.hasOption("c")) {
 			String att = cl.getOptionValue("c").split("=")[0];
 			String val = cl.getOptionValue("c").split("=")[1];

@@ -37,17 +37,17 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 	private static final String FILTER_COUNTRY = "FILTER_COUNTRY";
 	private static final String MIN_CONDITION = "MIN_CONDITION";
 	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
-	
+
 	private List<MagicPrice> lists;
 	private boolean initied=false;
-	
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
 	}
-	
 
-	
+
+
 	@Override
 	public EnumMarketType getMarket() {
 		return EnumMarketType.EU_MARKET;
@@ -55,7 +55,7 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 
 	public MagicCardMarketPricer2() {
 		super();
-		
+
 		if(getBoolean(LOAD_CERTIFICATE))
 		{
 			try {
@@ -66,11 +66,11 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 			}
 		}
 	}
-	
+
 	private void init()
 	{
-		
-		
+
+
 		try {
 			MkmAPIConfig.getInstance().init(getAuthenticator().getTokensAsProperties());
 			initied=true;
@@ -78,33 +78,33 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 			logger.error(e);
 		}
 	}
-	
+
 
 	public static Product getProductFromCard(MagicCard mc, List<Product> list) {
-		
+
 		if(list.size()==1)
 			return list.get(0);
-		
+
 		String edName = mc.getCurrentSet().getSet();
 		Product resultat = null;
-	
+
 		if (mc.getCurrentSet().getMkmName() != null)
 			edName = mc.getCurrentSet().getMkmName();
-	
-		
+
+
 		if(mc.isExtraCard())
 			edName +=": Extras";
-	
-	
-		
+
+
+
 		Integer mkmId=0;
-		
+
 		if(mc.getMkmId()!=null)
 			mkmId=mc.getMkmId();
-		
-		for (Product p : list) 
+
+		for (Product p : list)
 		{
-			
+
 			if (p.getCategoryName().equalsIgnoreCase("Magic Single") && (p.getExpansionName().equalsIgnoreCase(edName) || (p.getIdProduct()==mkmId && !mc.isExtraCard()))) {
 				resultat = p;
 				break;
@@ -112,13 +112,13 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 		}
 		return resultat;
 	}
-	
-	
+
+
 	@Override
 	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 		if(!initied)
 			init();
-		
+
 		try {
 			lists = new ArrayList<>();
 
@@ -138,8 +138,8 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 			var pService = new ProductServices();
 			EnumMap<PRODUCT_ATTS, String> atts = new EnumMap<>(PRODUCT_ATTS.class);
 			atts.put(PRODUCT_ATTS.idGame, "1");
-			
-			
+
+
 			if(!getString(IS_EXACT).isEmpty())
 				atts.put(PRODUCT_ATTS.exact, getString(IS_EXACT));
 
@@ -164,7 +164,7 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 					lists.add(mp);
 				}
 
-			} 
+			}
 			else {
 				List<Product> list = pService.findProduct(card.getName(), atts);
 				var resultat = getProductFromCard(card, list);
@@ -172,7 +172,7 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 					logger.info(getName() + " found no product for " + card);
 					return lists;
 				}
-			
+
 				var aServ = new ArticleService();
 				EnumMap<ARTICLES_ATT, String> aatts = new EnumMap<>(ARTICLES_ATT.class);
 				aatts.put(ARTICLES_ATT.start, "0");
@@ -185,14 +185,14 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 					aatts.put(ARTICLES_ATT.minCondition, getString(MIN_CONDITION));
 
 				List<Article> articles = aServ.find(resultat, aatts);
-			
-				
-				for (Article a : articles) 
+
+
+				for (Article a : articles)
 				{
 					var mp = new MagicPrice();
 							mp.setSeller(String.valueOf(a.getSeller()));
 							mp.setSellerUrl(MkmConstants.MKM_SITE_URL+"/fr/Magic/Users/"+mp.getSeller()+"/Offers/Singles");
-							
+
 							mp.setCountry(String.valueOf(a.getSeller().getAddress().getCountry()));
 							mp.setValue(a.getPrice());
 							mp.setQuality(a.getCondition());
@@ -202,10 +202,10 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 							mp.setCurrency("EUR");
 							mp.setLanguage(a.getLanguage().toString());
 							mp.setShopItem(a);
-					
+
 					if(StringUtils.isEmpty(getString(FILTER_COUNTRY)) || ArrayUtils.contains(getArray(FILTER_COUNTRY),mp.getCountry().toUpperCase()))
 						lists.add(mp);
-						
+
 				}
 			}
 
@@ -218,6 +218,7 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 		return lists;
 	}
 
+	@Override
 	public String getName() {
 		return MkmConstants.MKM_NAME;
 	}
@@ -226,9 +227,9 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 	public void alertDetected(final List<MagicPrice> p) {
 		if(!initied)
 			init();
-	
+
 		ThreadManager.getInstance().executeThread( new MTGRunnable() {
-			
+
 			@Override
 			protected void auditedRun() {
 				if (!p.isEmpty() && getBoolean("AUTOMATIC_ADD_CARD_ALERT")) {
@@ -247,14 +248,14 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 						logger.error("Could not add " + p + " to cart", e);
 					}
 				}
-				
+
 			}
 		}, "addCart");
 	}
 
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		
+
 		var map = new HashMap<String,String>();
 		map.put(LANGUAGE_ID, "1");
 		map.put(IS_EXACT, "");
@@ -265,7 +266,7 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 		map.put("AUTOMATIC_ADD_CARD_ALERT", FALSE);
 		map.put(FILTER_COUNTRY, "EN,"+Locale.getDefault().getCountry());
 		map.put(LOAD_CERTIFICATE,"true");
-		
+
 		return map;
 
 	}

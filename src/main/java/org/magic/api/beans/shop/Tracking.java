@@ -14,15 +14,15 @@ public class Tracking implements Serializable{
 	private String number;
 	private Date deliveryDate;
 	private String trackingUri;
-	
+
 	public TrackingStep last()
 	{
 		if(getSteps().isEmpty())
 			return null;
-		
+
 		return getSteps().get(getSteps().size()-1);
 	}
-	
+
 	 public String getTrackingUri() {
 		return trackingUri;
 	}
@@ -35,43 +35,43 @@ public class Tracking implements Serializable{
 	public String toString() {
 		return getProductName() +"#"+getNumber();
 	}
-	
+
 	public Date getDeliveryDate() {
 		return deliveryDate;
 	}
-	
+
 	public void setDeliveryDate(Date deliveryDate) {
 		this.deliveryDate = deliveryDate;
 	}
-	 
+
 	public String getNumber() {
 		return number;
 	}
-	
+
 	public void setNumber(String number) {
 		this.number = number;
 	}
-	
+
 	public String getProductName() {
 		return productName;
 	}
-	
+
 	public void setProductName(String productName) {
 		this.productName = productName;
 	}
-	
+
 	public boolean isFinished() {
 		return finished;
 	}
-	
+
 	public void setFinished(boolean finished) {
 		this.finished = finished;
 	}
-	
+
 	public Tracking() {
 		steps = new ArrayList<>();
 	}
-	
+
 	public Tracking(String number2) {
 		steps = new ArrayList<>();
 		this.number=number2;
@@ -81,12 +81,12 @@ public class Tracking implements Serializable{
 	{
 		steps.add(ts);
 	}
-	
+
 	public List<TrackingStep> getSteps() {
 		return steps;
 	}
 
-	
+
 }
 
 

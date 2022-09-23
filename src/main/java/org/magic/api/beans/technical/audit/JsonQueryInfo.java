@@ -22,7 +22,7 @@ public class JsonQueryInfo extends AbstractAuditableItem {
 	private String path;
 	private Map<String, String> queryParams;
 	private Location location;
-	
+
 	public JsonQueryInfo() {
 		super();
 		params=new HashMap<>();
@@ -30,24 +30,24 @@ public class JsonQueryInfo extends AbstractAuditableItem {
 		headers = new HashMap<>();
 		queryParams = new HashMap<>();
 	}
-	
+
 	public void setLocation(Location location) {
 		this.location = location;
 	}
-	
+
 	public Location getLocation() {
 		return location;
 	}
-	
-	
+
+
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	
+
 	public String getUrl() {
 		return url;
 	}
-	
+
 	public String getIp() {
 		return ip;
 	}
@@ -75,7 +75,7 @@ public class JsonQueryInfo extends AbstractAuditableItem {
 	public void setStatus(int status) {
 		this.status=status;
 	}
-	
+
 	public int getStatus() {
 		return status;
 	}
@@ -87,11 +87,11 @@ public class JsonQueryInfo extends AbstractAuditableItem {
 	public Map<String, String> getParams() {
 		return params;
 	}
-	
+
 	public void setAttributs(Map<String,Object> attributes) {
 		this.attributes=attributes;
 	}
-	
+
 	public Map<String,Object> getAttributes() {
 		return attributes;
 	}
@@ -99,14 +99,14 @@ public class JsonQueryInfo extends AbstractAuditableItem {
 	public void setHeaders(Map<String,String> headers) {
 		this.headers = headers;
 	}
-	
+
 	public Map<String, String> getHeaders() {
 		return headers;
 	}
 
 	public void setUserAgent(UserAgent ua) {
 		this.userAgent=ua;
-		
+
 	}
 
 	public String getSessionId() {
@@ -124,7 +124,7 @@ public class JsonQueryInfo extends AbstractAuditableItem {
 	public void setPath(String servletPath) {
 		this.path=servletPath;
 	}
-	
+
 	public Map<String, String> getQueryParams() {
 		return queryParams;
 	}
@@ -132,14 +132,14 @@ public class JsonQueryInfo extends AbstractAuditableItem {
 
 	public void setQuery(Map<String, String> map) {
 		this.queryParams=map;
-		
+
 	}
 
-	
+
 	public UserAgent getUserAgent() {
 		return userAgent;
 	}
-	
-	
-	
+
+
+
 }

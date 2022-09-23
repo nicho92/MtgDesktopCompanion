@@ -13,11 +13,11 @@ import org.magic.api.beans.MagicEdition;
 public class MagicEditionsComboBoxCellEditor extends DefaultCellEditor {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private DefaultComboBoxModel<MagicEdition> model;
-	
+
 	public MagicEditionsComboBoxCellEditor() {
 		super(new JComboBox<>());
 		model = (DefaultComboBoxModel<MagicEdition>) ((JComboBox<MagicEdition>) getComponent()).getModel();
@@ -27,7 +27,7 @@ public class MagicEditionsComboBoxCellEditor extends DefaultCellEditor {
 	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
 		model.removeAllElements();
 		List<MagicEdition> selectedItem = (List<MagicEdition>) table.getValueAt(row, column);
-		
+
 		for (MagicEdition e : selectedItem)
 			model.addElement(e);
 

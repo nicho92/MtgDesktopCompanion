@@ -16,8 +16,8 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 	public STATUT getStatut() {
 		return STATUT.DEPRECATED;
 	}
-	
-	
+
+
 	public DeckMasterPicturesProvider() {
 		super();
 
@@ -31,13 +31,13 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 			}
 		}
 	}
-	
+
 	@Override
 	public String generateUrl(MagicCard mc) {
 		return getString("URL") + "/card.php?multiverseid=" + mc.getCurrentSet().getMultiverseid();
 	}
 
-	
+
 	@Override
 	public String getName() {
 		return "Deck Master";
@@ -50,7 +50,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		
+
 		return Map.of("CALL_MCI_FOR", "p,CEI,CED,CPK,CST",
 							   "URL", "https://deckmaster.info/",
 							   "ICON_SET_SIZE", "medium",
@@ -62,6 +62,6 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 		return "0.5";
 	}
 
-	
+
 
 }

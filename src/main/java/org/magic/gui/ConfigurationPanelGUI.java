@@ -59,20 +59,20 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 	private JLabel btnHelp;
 	private JPanel bottomPanel;
 	private HelpCompononent helpComponent;
-	
+
 	@Override
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_CONFIG;
 	}
-	
+
 	@Override
 	public String getTitle() {
 		return capitalize("CONFIGURATION");
 	}
-	
-	
-	
-	
+
+
+
+
 	public ConfigurationPanelGUI() {
 
 		setLayout(new BorderLayout(0, 0));
@@ -86,7 +86,7 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 
 		subTabbedProviders = new JTabbedPane(SwingConstants.TOP);
 		providerConfigPanel.add(subTabbedProviders);
-		
+
 		bottomPanel = new JPanel();
 		lblCopyright = new JLabel("");
 		btnHelp = new JLabel(MTGConstants.ICON_SMALL_HELP);
@@ -98,16 +98,16 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 		bottomPanel.add(btnHelp,BorderLayout.EAST);
 		providerConfigPanel.add(bottomPanel, BorderLayout.SOUTH);
 		providerConfigPanel.add(helpComponent,BorderLayout.EAST);
-		
-		
+
+
 		btnHelp.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				helpComponent.setVisible(!helpComponent.isVisible());
 			}
 		});
-		
-		
+
+
 		createTab(capitalize("CARDS"), MTGConstants.ICON_TAB_CARD, PluginRegistry.inst().getEntry(MTGCardsProvider.class));
 		createTab(capitalize("PICTURES"), MTGConstants.ICON_TAB_PICTURE, PluginRegistry.inst().getEntry(MTGPictureProvider.class));
 		createTab(capitalize("PRICERS"), MTGConstants.ICON_TAB_PRICES, PluginRegistry.inst().getEntry(MTGPricesProvider.class));
@@ -133,46 +133,46 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 		createTab(capitalize("RECOGNITION"), MTGConstants.ICON_TAB_RECOGNITION, PluginRegistry.inst().getEntry(MTGCardRecognition.class));
 		createTab(capitalize("TRACKING"), MTGConstants.ICON_TAB_DELIVERY, PluginRegistry.inst().getEntry(MTGTrackingService.class));
 		createTab(capitalize("EXTERNAL_SHOP"), MTGConstants.ICON_TAB_EXT_SHOP, PluginRegistry.inst().getEntry(MTGExternalShop.class));
-		
-		
-		
+
+
+
 		tabbedPane.addTab(capitalize("CONFIGURATION"), MTGConstants.ICON_TAB_ADMIN,new JScrollPane(new ConfigurationPanel()), null);
 		tabbedPane.addTab(capitalize("ACTIVE_SERVERS"), MTGConstants.ICON_TAB_ACTIVESERVER, new ServersGUI(),null);
 
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	private <T extends MTGPlugin> void createTab(String label, Icon ic, PluginEntry<T> pe)
 	{
-		
+
 		if(pe.getPlugins().isEmpty())
 			PluginRegistry.inst().listPlugins(pe.getParametrizedClass());
-		
+
 		var table = new JXTreeTable(new PluginTreeTableModel<>(pe.isMultiprovider(), pe.getPlugins()));
 		table.setShowGrid(true, false);
 		table.setTreeCellRenderer(new MTGPluginTreeCellRenderer());
 		table.setDefaultRenderer(Boolean.class, new BooleanCellEditorRenderer());
-		
+
 		subTabbedProviders.addTab(label, ic,new JScrollPane(table), null);
 		table.addTreeSelectionListener(e -> {
-			
+
 			if (e.getNewLeadSelectionPath() != null && e.getNewLeadSelectionPath().getPathCount() > 1)
 				((PluginTreeTableModel<?>) table.getTreeTableModel()).setSelectedNode((T) e.getNewLeadSelectionPath().getPathComponent(1));
-			
-			
+
+
 			if(e.getNewLeadSelectionPath()!=null)
 			{
 				lblCopyright.setText(((T) e.getNewLeadSelectionPath().getPathComponent(1)).termsAndCondition());
-				
+
 				if(e.getNewLeadSelectionPath().getLastPathComponent() instanceof MTGPlugin)
 					helpComponent.init(((T) e.getNewLeadSelectionPath().getPathComponent(1)));
 			}
 		});
 		table.packAll();
 	}
-	
 
-	
-	
+
+
+
 
 }

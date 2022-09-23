@@ -16,7 +16,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 	private static final String HTTP_API_SCRYFALL = "https://api.scryfall.com/cards/";
 	private static final String IMAGE_TAG = "?format=image";
 	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
-	
+
 	public ScryFallPicturesProvider() {
 		super();
 		if(getBoolean(LOAD_CERTIFICATE))
@@ -31,7 +31,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
 
 	}
-	
+
 	@Override
 	public String generateUrl(MagicCard mc) {
 		try {
@@ -40,11 +40,11 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 			return "";
 		}
 	}
-	
-	
+
+
 
 	private URL generateLink(MagicCard mc, boolean crop) throws MalformedURLException {
-	
+
 		String url = HTTP_API_SCRYFALL + mc.getCurrentSet().getId().toLowerCase() + "/" + mc.getCurrentSet().getNumber()+ IMAGE_TAG;
 		if (mc.getCurrentSet().getMultiverseid() != null && !mc.getCurrentSet().getMultiverseid().equals("0"))
 		{
@@ -57,12 +57,12 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		if (mc.getScryfallId() != null)
 		{
 			url = HTTP_API_SCRYFALL + mc.getScryfallId() + IMAGE_TAG;
-			
+
 			if(mc.isDoubleFaced() && !mc.getSide().equals("a"))
 				url=url+"&face=back";
 		}
-	
-		
+
+
 		if (crop)
 			url += "&version=art_crop";
 		else
@@ -70,7 +70,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
 		return new URL(url);
 	}
-	
+
 	@Override
 	public BufferedImage getOnlinePicture(MagicCard mc) throws IOException {
 		var url = generateLink(mc, false);
@@ -96,8 +96,8 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 			return getBackPicture();
 		}
 	}
-	
-	
+
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of("CERT_SERV", "scryfall.com",

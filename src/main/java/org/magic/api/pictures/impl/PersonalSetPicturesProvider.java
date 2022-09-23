@@ -42,7 +42,7 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	public void removePicture(MagicEdition ed, MagicCard mc) {
 		var mainDir = getFile(PICS_DIR);
 		var edDir = new File(mainDir, ed.getId());
-		
+
 		try {
 			FileTools.deleteFile(new File(edDir, mc.getId() + "." + getString(FORMAT)));
 		} catch (IOException e) {
@@ -63,24 +63,24 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 		return null;
 	}
 
-	
+
 	@Override
 	public BufferedImage getPicture(MagicCard mc) throws IOException {
 		return getOnlinePicture(mc);
 	}
-	
-	
+
+
 	@Override
 	public String generateUrl(MagicCard mc) {
 		var mainDir = getFile(PICS_DIR);
 		var edDir = new File(mainDir,mc.getCurrentSet().getId());
-		
+
 		return new File(edDir, mc.getId() + "." + getString(FORMAT)).getAbsolutePath();
 	}
-	
+
 	@Override
 	public BufferedImage getOnlinePicture(MagicCard mc) throws IOException {
-	
+
 		try {
 			return ImageTools.read(new File(generateUrl(mc)));
 		}
@@ -98,26 +98,26 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		
+
 		return Map.of(PICS_DIR,Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(),"privateSets","pics").toFile().getAbsolutePath(),
 							   FORMAT,"PNG");
 	}
-	
+
 
 	@Override
 	public boolean equals(Object obj) {
-		
+
 		if(obj ==null)
 			return false;
-		
+
 		return hashCode()==obj.hashCode();
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return getName().hashCode();
 	}
-	
+
 	@Override
 	public Icon getIcon() {
 		return new ImageIcon(MTGConstants.IMAGE_LOGO);

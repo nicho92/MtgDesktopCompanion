@@ -38,7 +38,7 @@ public class CollectionAnalyzerWorker extends SwingWorker<Void, MagicEdition> {
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	protected List<MagicEdition> eds;
 	protected JLabel lblPrice;
-	
+
 	public CollectionAnalyzerWorker(CollectionEvaluator evaluator, JXTreeTable treeTable, MapTableModel<MagicEdition, Date> modelCache, AbstractBuzyIndicatorComponent buzy,JLabel labTotal) {
 		this.treeTable=treeTable;
 		this.cacheModel=modelCache;
@@ -46,18 +46,18 @@ public class CollectionAnalyzerWorker extends SwingWorker<Void, MagicEdition> {
 		this.evaluator=evaluator;
 		this.buzy=buzy;
 		this.lblPrice=labTotal;
-		
+
 		o=(Observable obs, Object ed)->publish((MagicEdition)ed);
 		eds = evaluator.getEditions();
 		buzy.start(eds.size());
 		evaluator.addObserver(o);
 		cacheModel.clear();
 	}
-	
+
 	@Override
 	protected Void doInBackground() throws Exception {
-		
-		
+
+
 		Collections.sort(eds);
 		for(MagicEdition ed : eds)
 		{
@@ -69,17 +69,17 @@ public class CollectionAnalyzerWorker extends SwingWorker<Void, MagicEdition> {
 		}
 		return null;
 	}
-	
+
 	@Override
 	protected void process(List<MagicEdition> chunks) {
 		buzy.progressSmooth(chunks.size());
 		cacheModel.fireTableDataChanged();
 	}
-	
+
 	@Override
 	protected void done() {
-		
-		
+
+
 		try {
 			get();
 		} catch (InterruptedException e) {
@@ -91,14 +91,14 @@ public class CollectionAnalyzerWorker extends SwingWorker<Void, MagicEdition> {
 		catch (CancellationException e) {
 			logger.warn("SwingWorker canceled");
 		}
-		
+
 		treeTable.setTreeTableModel(collectionModel);
 		evaluator.removeObserver(o);
 		Double total = evaluator.total();
 		buzy.end();
 		lblPrice.setText("Value : " + UITools.formatDouble(total) + " " + MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getCurrencyCode());
 	}
-	
+
 }
 
 

@@ -28,11 +28,11 @@ public class MTGFileSystem extends FileSystem {
 		serializer = new JsonExport();
 		this.provider = new MTGFileSystemProvider(this,mtgDao);
 	}
-	
+
 	public JsonExport getSerializer() {
 		return serializer;
 	}
-	
+
 	@Override
 	public FileSystemProvider provider() {
 		return provider;
@@ -41,9 +41,9 @@ public class MTGFileSystem extends FileSystem {
 	@Override
 	public void close() throws IOException {
 		// doNothing
-		
+
 	}
-	
+
 
 	@Override
 	public boolean isOpen() {
@@ -95,5 +95,5 @@ public class MTGFileSystem extends FileSystem {
 		return null;
 	}
 
-		
+
 }

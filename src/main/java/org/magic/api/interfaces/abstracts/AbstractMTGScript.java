@@ -33,9 +33,9 @@ import org.magic.tools.FileTools;
 
 
 public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTGScript{
-	
+
 	protected static final String DIR = "DIR";
-	
+
 	protected AbstractMTGScript() {
 		if(!getFile(DIR).exists())
 			try {
@@ -44,14 +44,14 @@ public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTG
 				logger.error("Error creating {} {}",getFile(DIR),e);
 			}
 	}
-	
-	
+
+
 	@Override
 	public File getScriptDirectory() {
 		return getFile(DIR);
 	}
-	
-	@Override 
+
+	@Override
 	public void init()
 	{
 		addVariable("dao", getEnabledPlugin(MTGDao.class));
@@ -69,22 +69,22 @@ public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTG
 		addVariable("servers",listEnabledPlugins(MTGServer.class));
 		addVariable("externalShop",listEnabledPlugins(MTGExternalShop.class));
 	}
-	
+
 	@Override
 	public boolean isJsr223() {
 		return false;
 	}
-	
+
 	@Override
 	public void setOutput(Writer w) {
-			
+
 	}
-	
+
 	@Override
 	public String getContentType() {
 		return "text/"+getName().toLowerCase();
 	}
-	
+
 
 	@Override
 	public Object run(File f) throws ScriptException {
@@ -95,9 +95,9 @@ public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTG
 			throw new ScriptException(e);
 		}
 	}
-	
-	
-	
+
+
+
 	@Override
 	public Object run(String scriptName) throws ScriptException {
 		return run(Paths.get(getFile(DIR).getAbsolutePath(),scriptName+"."+getExtension()).toFile());
@@ -107,7 +107,7 @@ public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTG
 	public PLUGINS getType() {
 		return PLUGINS.SCRIPT;
 	}
-	
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		var m = new HashMap<String,String>();

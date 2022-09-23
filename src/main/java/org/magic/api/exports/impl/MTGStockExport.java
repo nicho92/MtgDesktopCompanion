@@ -19,27 +19,27 @@ import org.magic.tools.FileTools;
 
 public class MTGStockExport extends AbstractFormattedFileCardExport {
 
-	
+
 	private String columns="\"Card\",\"Set\",\"Quantity\",\"Price\",\"Condition\",\"Language\",\"Foil\",\"Signed\"";
-	
+
 	@Override
 	public String getFileExtension() {
 		return ".mtgstock";
 	}
-	
-	
+
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
 	}
-	
+
 
 
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		exportStock(importFromDeck(deck), dest);
 	}
-	
+
 	private EnumCondition reverse(String condition)
 	{
 		switch (condition)
@@ -55,7 +55,7 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 		}
 		return EnumCondition.valueOf(condition.toUpperCase());
 	}
-	
+
 	private String reverse(EnumCondition condition)
 	{
 		switch (condition)
@@ -67,16 +67,16 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 		 case PLAYED : return "FIN";
 		 default : return "NM";
 		}
-		
+
 	}
-	
-	
+
+
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
-		
+
 		var temp = new StringBuilder();
 					  temp.append(columns).append("\n");
-		
+
 		stock.forEach(st->{
 			temp.append("\"").append(st.getProduct().getName()).append("\"").append(getSeparator());
 			temp.append("\"").append(st.getProduct().getCurrentSet().getSet()).append("\"").append(getSeparator());
@@ -90,17 +90,17 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 		});
 		FileTools.saveFile(f, temp.toString());
 	}
-	
-	
+
+
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
-		
+
 		List<MagicCardStock> ret = new ArrayList<>();
-		
+
 		matches(content,true).forEach(m->{
 			String cname = cleanName(m.group(1));
 			MagicEdition ed = null;
-			try {			   
+			try {
 				ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(m.group(2));
 			}
 			catch(Exception e)
@@ -114,7 +114,7 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 			} catch (IOException e) {
 				logger.error("no card found for" + cname + "/"+ ed);
 			}
-			
+
 
 			if(card!=null)
 			{
@@ -131,22 +131,22 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 				notify(card);
 			}
 		});
-		
+
 		return ret;
 	}
-	
-	
+
+
 	@Override
-	public MagicDeck importDeck(String f,String dname) throws IOException 
+	public MagicDeck importDeck(String f,String dname) throws IOException
 	{
-		
+
 		var deck = new MagicDeck();
 		deck.setName(dname);
-		
+
 		matches(f,true).forEach(m->{
 			String cname = cleanName(m.group(1));
 			MagicEdition ed = null;
-			try {			   
+			try {
 				ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(m.group(2));
 			}
 			catch(Exception e)
@@ -160,18 +160,18 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 			} catch (IOException e) {
 				logger.error("no card found for" + cname + "/"+ ed);
 			}
-			
-			
+
+
 			if(card!=null)
 			{
 				Integer qty = Integer.parseInt(m.group(3));
 				deck.getMain().put(card, qty);
 				notify(card);
 			}
-			
+
 		});
 		return deck;
-		
+
 	}
 
 	@Override
@@ -203,7 +203,7 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 		return ",";
 	}
 
-	
-	
-	
+
+
+
 }

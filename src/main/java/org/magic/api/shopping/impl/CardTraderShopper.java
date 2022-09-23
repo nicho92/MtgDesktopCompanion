@@ -12,13 +12,13 @@ import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 public class CardTraderShopper extends AbstractMagicShopper {
 
 	private static final String TOKEN = "TOKEN";
-	
-	
-	
+
+
+
 	@Override
 	public List<OrderEntry> listOrders() throws IOException {
 		List<OrderEntry> orders = new ArrayList<>();
-		
+
 		new CardTraderService(getAuthenticator().get(TOKEN)).listOrders(1).forEach(o->{
 		   var ord = new OrderEntry();
 		   ord.setIdTransation(""+o.getId());
@@ -34,7 +34,7 @@ public class CardTraderShopper extends AbstractMagicShopper {
 		return "CardTrader";
 	}
 
-	
+
 	@Override
 	public List<String> listAuthenticationAttributes() {
 			return List.of(TOKEN);

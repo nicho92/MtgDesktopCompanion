@@ -32,7 +32,7 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private boolean loaded=false;
 	public abstract ImageIcon getDashletIcon();
-	
+
 	@Override
 	public ObjectName getObjectName() {
 		try {
@@ -41,8 +41,8 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 			return null;
 		}
 	}
-	
-	
+
+
 	@Override
 	public List<String> listAuthenticationAttributes() {
 		return new ArrayList<>();
@@ -52,7 +52,7 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 	public String getCategory() {
 		return "";
 	}
-	
+
 	@Override
 	public Icon getIcon() {
 		try {
@@ -67,49 +67,49 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 	public String termsAndCondition() {
 		return null;
 	}
-	
+
 	@Override
 	public void unload() {
 		// do nothing
-		
+
 	}
-	
+
 	@Override
 	public boolean isPartner() {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isLoaded() {
 		return loaded;
 	}
-	
-	
+
+
 	@Override
 	public MTGDocumentation getDocumentation() {
 		try {
-			return new MTGDocumentation(new URL(MTGConstants.MTG_DESKTOP_WIKI_RAW_URL+"/"+getName().replace(" ", "-")+".md"),FORMAT_NOTIFICATION.MARKDOWN);	
+			return new MTGDocumentation(new URL(MTGConstants.MTG_DESKTOP_WIKI_RAW_URL+"/"+getName().replace(" ", "-")+".md"),FORMAT_NOTIFICATION.MARKDOWN);
 		}
 		catch(Exception e)
 		{
-			return null;	
+			return null;
 		}
-		
+
 	}
-	
-	
+
+
 	protected AbstractJDashlet() {
 		props = new Properties();
-		
+
 		if (!confdir.exists())
 		{
 			boolean ret = confdir.mkdirs();
 			logger.debug("{} doesn't exist, create id={}",confdir,ret);
-			
+
 		}
-	
-		
-		
+
+
+
 		loaded=true;
 		setFrameIcon(getIcon());
 		setTitle(getName());
@@ -120,7 +120,7 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 		setBounds(new Rectangle(5,5, 536,346));
 	}
 
-	
+
 
 	@Override
 	public Map<String, String> getDefaultAttributes() {
@@ -136,12 +136,12 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 	public String getVersion() {
 		return "1.0";
 	}
-	
+
 	@Override
 	public boolean isEnable() {
 		return true;
 	}
-	
+
 	public void setProperties(Properties p) {
 		this.props = p;
 	}
@@ -153,45 +153,46 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 	public void setProperty(Object k, Object v) {
 		props.put(k, v);
 	}
-	
+
 	public void setProperty(String k,String v) {
 		props.put(k, v);
 	}
-	
+
 	@Override
 	public String getString(String k) {
 		return props.getProperty(k);
 	}
 
 
+	@Override
 	public Properties getProperties() {
 		return props;
 	}
 
-	
+
 	@Override
 	public String toString() {
 		return getName();
 	}
-	
+
 	@Override
 	public void setProperty(String k, Object value) {
 		props.put(k, value);
-		
+
 	}
 
-	
+
 
 	@Override
 	public void save() {
 		// do nothing, managed in DashboardGUI
-		
+
 	}
 
 	@Override
 	public void load() {
 		// do nothing, managed in DashboardGUI
-		
+
 	}
 
 	@Override
@@ -217,18 +218,18 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 	@Override
 	public void addObserver(Observer o) {
 		// doNothing
-		
+
 	}
 
 	@Override
 	public void removeObservers() {
 		// doNothing
-		
+
 	}
 
 	@Override
 	public void removeObserver(Observer o) {
 		// doNothing
-		
+
 	}
 }

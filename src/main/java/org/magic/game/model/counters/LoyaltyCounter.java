@@ -9,7 +9,7 @@ import org.magic.game.model.costs.LoyaltyCost;
 public class LoyaltyCounter extends AbstractCounter {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private LoyaltyCost value;
@@ -21,7 +21,7 @@ public class LoyaltyCounter extends AbstractCounter {
 	}
 
 	public LoyaltyCounter(LoyaltyAbilities la) {
-		
+
 		this.label=la.getEffects().get(0).getEffectDescription();
 		this.value=(LoyaltyCost)la.getCost();
 	}
@@ -35,14 +35,14 @@ public class LoyaltyCounter extends AbstractCounter {
 		} catch (Exception e) {
 			logger.error(e);
 		}
-		
+
 		if(value.isX())
 		{
 			String x = JOptionPane.showInputDialog("X ?");
 			value.setX(Integer.parseInt(x));
 		}
 		displayableCard.getMagicCard().setLoyalty(loy + value.getValue());
-		
+
 	}
 
 	@Override
@@ -62,20 +62,20 @@ public class LoyaltyCounter extends AbstractCounter {
 	public String describe() {
 		return value + ": " + label;
 	}
-	
+
 
 	@Override
 	public int hashCode() {
 		return "loyalty".hashCode();
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		
+
 		if(obj ==null)
 			return false;
-		
+
 		return hashCode()==obj.hashCode();
 	}
-	
+
 }

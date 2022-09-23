@@ -39,9 +39,9 @@ public class InstallCert {
 
 	private InstallCert() {
 	}
-	
-	
-	
+
+
+
 	public static Map<String, Certificate> listTrustedCert()
 	{
 		var keystoreFile = getKeyStoreFile();
@@ -57,17 +57,17 @@ public class InstallCert {
 		    }
 		} catch (Exception e) {
 			logger.error("error reading {}",keystoreFile, e);
-		} 
+		}
 		return map;
 	}
 
 	public static File getKeyStoreFile()
 	{
 		return  new File(MTGConstants.CONF_DIR, MTGConstants.KEYSTORE_NAME);
-		
+
 	}
-	
-	
+
+
 	public static void installCert(String website) throws IOException, KeyManagementException, KeyStoreException,NoSuchAlgorithmException, CertificateException {
 		String host;
 		int port;
@@ -80,8 +80,8 @@ public class InstallCert {
 		phrase = MTGConstants.KEYSTORE_PASS.toCharArray();
 
 		var keystoreFile = getKeyStoreFile();
-		
-		
+
+
 		if (!keystoreFile.exists()) {
 			boolean ret = keystoreFile.createNewFile();
 			if (ret)
@@ -134,15 +134,15 @@ public class InstallCert {
 			ks.setCertificateEntry(alias, cert);
 
 			var f = new File(MTGConstants.CONF_DIR, MTGConstants.KEYSTORE_NAME);
-			
+
 			OutputStream out = new FileOutputStream(f);
 			ks.store(out, phrase);
 			out.close();
 
 			logger.debug("Added certificate to keystore '{}' using alias {}",f,alias);
-			
+
 			System.setProperty("javax.net.ssl.trustStore",f.getAbsolutePath());
-			
+
 		}
 	}
 
@@ -155,6 +155,7 @@ public class InstallCert {
 			this.tm = tm;
 		}
 
+		@Override
 		public X509Certificate[] getAcceptedIssuers() {
 
 			/**
@@ -166,10 +167,12 @@ public class InstallCert {
 
 		}
 
+		@Override
 		public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
 			throw new UnsupportedOperationException();
 		}
 
+		@Override
 		public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
 			this.chain = chain;
 			tm.checkServerTrusted(chain, authType);

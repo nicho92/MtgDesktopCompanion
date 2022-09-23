@@ -9,19 +9,19 @@ import org.magic.gui.abstracts.GenericTableModel;
 public class ThreadsTableModel extends GenericTableModel<ThreadInfo> {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
 	public ThreadsTableModel() {
 		columns = new String[] {"ID","PROCESS","CPU (s.)","STATE","PRIORITY","LOCK INFO","BLOCKED COUNT","DEADLOCKED","MEMORY (KB.)"};
 	}
-	
-	
-	
+
+
+
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
-		switch (columnIndex) 
+		switch (columnIndex)
 		{
 			case 0 : return Long.class;
 			case 1 : return String.class;
@@ -35,11 +35,11 @@ public class ThreadsTableModel extends GenericTableModel<ThreadInfo> {
 			default : return Object.class;
 		}
 	}
-	
+
 	@Override
 	public Object getValueAt(int row, int column) {
 		ThreadInfo t = items.get(row);
-		
+
 		try {
 			switch (column) {
 			case 0:
@@ -60,7 +60,7 @@ public class ThreadsTableModel extends GenericTableModel<ThreadInfo> {
 				return Arrays.asList(ManagementFactory.getThreadMXBean().findDeadlockedThreads()).contains(t.getThreadId());
 			case 8 :
 				return ((com.sun.management.ThreadMXBean)ManagementFactory.getThreadMXBean()).getThreadAllocatedBytes(t.getThreadId())/1024;
-			default: 
+			default:
 				return null;
 			}
 		} catch (Exception e) {
@@ -69,6 +69,6 @@ public class ThreadsTableModel extends GenericTableModel<ThreadInfo> {
 		}
 
 	}
-	
-	
+
+
 }

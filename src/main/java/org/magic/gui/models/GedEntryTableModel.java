@@ -11,27 +11,27 @@ public class GedEntryTableModel extends GenericTableModel<GedEntry<MTGStorable>>
 	public GedEntryTableModel() {
 		setColumns("name","id","classe","isImage","size");
 	}
-	
-	
+
+
 	@Override
 	public Object getValueAt(int row, int column) {
 		if(column==0)
 			return items.get(row);
-		
+
 		if(column==3)
-			return  items.get(row).isImage();	
-		
+			return  items.get(row).isImage();
+
 		if(column==4)
 			return  items.get(row).getLength();
-			
+
 		return super.getValueAt(row, column);
 	}
-	
-	
-	
+
+
+
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
-		
+
 		switch (columnIndex)
 		{
 		case 0 : return GedEntry.class;
@@ -40,7 +40,7 @@ public class GedEntryTableModel extends GenericTableModel<GedEntry<MTGStorable>>
 		case 4 : return Long.class;
 		default : return super.getColumnClass(columnIndex);
 		}
-		
+
 	}
-	
+
 }

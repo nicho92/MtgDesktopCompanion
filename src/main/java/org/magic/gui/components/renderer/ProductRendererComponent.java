@@ -25,21 +25,21 @@ public class ProductRendererComponent extends JPanel {
 	private JLabel lblProductType;
 	private JLabel lblImage;
 	private transient Map<Long,Image> temp;
-	
+
 	public ProductRendererComponent() {
-		
+
 		temp= new HashMap<>();
 		initGUI();
 	}
 
 	public ProductRendererComponent(MTGProduct mc) {
 		initGUI();
-		
+
 		if(mc!=null)
 			init(mc);
 	}
-	
-	
+
+
 	private void initGUI() {
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -48,42 +48,42 @@ public class ProductRendererComponent extends JPanel {
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
-		
+
 		lblImage = new JLabel();
 		add(lblImage, UITools.createGridBagConstraints(null,null,0, 0,null,3));
-		
+
 		lblProductName = new JLabel("");
 		add(lblProductName, UITools.createGridBagConstraints(GridBagConstraints.WEST,null,1, 0));
-		
+
 		lblProductSet = new JLabel("");
 		add(lblProductSet, UITools.createGridBagConstraints(GridBagConstraints.WEST,null,1, 1));
-		
+
 		lblProductType = new JLabel();
 		add(lblProductType, UITools.createGridBagConstraints(GridBagConstraints.WEST,null,1, 2));
-	                                            	
+
 	}
 
 	public void init(MTGProduct p) {
-		
+
 		if(p==null)
 			return;
-		
+
 
 		lblProductName.setText(p.getName());
 		if(p.getEdition()!=null)
 			lblProductSet.setText(p.getEdition().getSet());
-	
-		
+
+
 		if(p.getCategory()!=null)
 			lblProductType.setText(p.getCategory().getCategoryName()+" ("+p.getProductId() +")");
-	
+
 		lblImage.setIcon(new ImageIcon(temp.computeIfAbsent(p.getProductId(),i->{
 			try {
 				return URLTools.extractAsImage(p.getUrl()).getScaledInstance(150, 110, Image.SCALE_SMOOTH);
 			} catch (Exception e) {
 				return new BufferedImage(1, 1, Image.SCALE_FAST);
 			}
-			
+
 		})));
 	}
 

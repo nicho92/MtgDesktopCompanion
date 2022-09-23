@@ -13,20 +13,20 @@ import org.magic.tools.TCache;
 public abstract class AbstractComboProvider extends AbstractMTGPlugin implements MTGComboProvider {
 
 	protected TCache<List<MTGCombo>> cache;
-	
-	
+
+
 	@Override
 	public PLUGINS getType() {
 		return PLUGINS.COMBO;
 	}
 
-	
+
 	@Override
 	public List<MTGCombo> getComboWith(MagicCard mc) {
-		
+
 		try {
 			return cache.get(mc.getName(),new Callable<List<MTGCombo>>() {
-				
+
 				@Override
 				public List<MTGCombo> call() throws Exception {
 					return loadComboWith(mc);
@@ -37,12 +37,12 @@ public abstract class AbstractComboProvider extends AbstractMTGPlugin implements
 			return new ArrayList<>();
 		}
 	}
-	
-	
+
+
 	public abstract List<MTGCombo> loadComboWith(MagicCard mc);
-	
-	
-	
+
+
+
 	protected AbstractComboProvider() {
 		cache = new TCache<>("combos");
 	}

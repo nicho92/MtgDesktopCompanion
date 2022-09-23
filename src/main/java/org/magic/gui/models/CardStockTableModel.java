@@ -13,7 +13,7 @@ import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.tools.UITools;
 
 public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	public CardStockTableModel() {
@@ -35,7 +35,7 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 				"COMMENTS",
 				"SYNC"};
 	}
-	
+
 	@Override
 	public void addItem(MagicCardStock t) {
 		if(t.getId()==-1)
@@ -48,13 +48,13 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 			items.add(t);
 		}
 	}
-	
+
 
 	@Override
 	public int[] defaultHiddenColumns() {
 		return new int[] {1,2};
 	}
-	
+
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex) {
@@ -96,10 +96,10 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 			return super.getColumnClass(columnIndex);
 		}
 	}
-	
+
 	@Override
 	public boolean isCellEditable(int row, int column) {
-		
+
 		if(writable)
 			return !(column ==1 || column==13 || column==2|| column==3);
 		else
@@ -150,7 +150,7 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 
 	@Override
 	public void setValueAt(Object aValue, int row, int column) {
-		
+
 		switch (column) {
 		case 4:
 			items.get(row).setMagicCollection(new MagicCollection(aValue.toString()));
@@ -185,13 +185,13 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 		case 14:
 			items.get(row).setComment(String.valueOf(aValue));
 			break;
-			
+
 		default:
 			break;
 		}
 		items.get(row).setUpdated(true);
 
-		
+
 	}
 
 

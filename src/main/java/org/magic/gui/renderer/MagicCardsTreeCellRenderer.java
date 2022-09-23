@@ -64,7 +64,7 @@ public class MagicCardsTreeCellRenderer implements TreeCellRenderer {
 				if (mc.isLand()) {
 					c.setIcon(MTGConstants.ICON_MANA_INCOLOR);
 				}
-			} 
+			}
 			else if (((DefaultMutableTreeNode) value).getUserObject() instanceof MTGSealedProduct) {
 				c.setIcon(MTGConstants.ICON_PACKAGE_SMALL);
 			}

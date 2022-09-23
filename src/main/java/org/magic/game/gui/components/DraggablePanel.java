@@ -17,7 +17,7 @@ public abstract class DraggablePanel extends MTGUIComponent implements Draggable
 {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -48,15 +48,15 @@ public abstract class DraggablePanel extends MTGUIComponent implements Draggable
 	public int getCardHeight() {
 		return (int) d.getHeight();
 	}
-	
+
 	public Dimension getCardsDimension()
 	{
 		if (d == null)
 			d = MTGControler.getInstance().getCardsGameDimension();
-		
+
 		return d;
 	}
-	
+
 
 	protected DraggablePanel() {
 		super();
@@ -79,6 +79,7 @@ public abstract class DraggablePanel extends MTGUIComponent implements Draggable
 		return ret;
 	}
 
+	@Override
 	public void updatePanel() {
 		revalidate();
 		repaint();
@@ -92,7 +93,7 @@ public abstract class DraggablePanel extends MTGUIComponent implements Draggable
 	public Player getPlayer() {
 		return player;
 	}
-	
+
 	@Override
 	public String getTitle() {
 		return "Draggable Panel : " + getOrigine() ;

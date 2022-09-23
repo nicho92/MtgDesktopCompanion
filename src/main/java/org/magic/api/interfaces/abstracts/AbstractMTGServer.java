@@ -18,12 +18,12 @@ public abstract class AbstractMTGServer extends AbstractMTGPlugin implements MTG
 
 	protected ReportNotificationManager notifFormater;
 	private AbstractEmbeddedCacheProvider<String, Object> cache;
-	
+
 
 	public AbstractEmbeddedCacheProvider<String, Object> getCache() {
 		return cache;
 	}
-	
+
 	protected Object getCached(String k, Callable<Object> call)
 	{
 		if(cache.getItem(k)==null)
@@ -33,33 +33,33 @@ public abstract class AbstractMTGServer extends AbstractMTGPlugin implements MTG
 				logger.error(e);
 				return new ArrayList<>();
 			}
-		
+
 		return cache.getItem(k);
 	}
-	
+
 
 
 	public void clearCache() {
 		cache.clear();
 	}
-	
-	
+
+
 	protected AbstractMTGServer() {
 		notifFormater = new ReportNotificationManager();
 	}
-	
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		var m = super.getDefaultAttributes();
 		m.put("TIMEOUT_CACHE_MINUTES", "720");
 		return m;
 	}
-	
-	
+
+
 	protected void initCache()
 	{
 		var cacheTime = getInt("TIMEOUT_CACHE_MINUTES");
-		
+
 		cache = new AbstractEmbeddedCacheProvider<>() {
 			Cache<String, Object> guava = CacheBuilder.newBuilder()
 									  .expireAfterWrite(cacheTime, TimeUnit.MINUTES)
@@ -115,16 +115,16 @@ public abstract class AbstractMTGServer extends AbstractMTGPlugin implements MTG
 	public PLUGINS getType() {
 		return PLUGINS.SERVER;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		
+
 		if(obj ==null)
 			return false;
-		
+
 		return hashCode()==obj.hashCode();
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return getName().hashCode();

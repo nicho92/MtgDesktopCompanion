@@ -12,7 +12,7 @@ import org.magic.api.interfaces.MTGPlugin;
 import org.magic.services.MTGConstants;
 
 public class MTGPluginTreeCellRenderer implements TreeCellRenderer{
-	
+
 	@Override
 	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf,int row, boolean hasFocus) {
 		var lab = new JLabel();
@@ -24,7 +24,7 @@ public class MTGPluginTreeCellRenderer implements TreeCellRenderer{
 		   lab.setFont(lab.getFont().deriveFont(Font.BOLD));
 		   lab.setText(value.toString());
 		   lab.setIcon(p.getIcon());
-			
+
 		}else if (value instanceof Entry<?, ?> e)
 		{
 			lab.setIcon(MTGConstants.ICON_MANA_INCOLOR);
@@ -32,5 +32,5 @@ public class MTGPluginTreeCellRenderer implements TreeCellRenderer{
 		}
 		return lab;
 	}
-	
+
 }

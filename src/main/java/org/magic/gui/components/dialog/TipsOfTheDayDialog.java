@@ -16,24 +16,26 @@ public class TipsOfTheDayDialog extends JXTipOfTheDay {
 
 	public TipsOfTheDayDialog() throws IOException {
 		var tips = new Properties();
-		
+
 		try(InputStream st = MTGConstants.TOOLTIPS_FILE.openStream())
 		{
 			tips.load(st);
 		}
-		
+
 		TipOfTheDayModel model = TipLoader.load(tips);
 		setModel(model);
 
 	}
-	
+
 	public void shows() {
 		var key = "tooltip";
 		showDialog(null, new JXTipOfTheDay.ShowOnStartupChoice() {
+			@Override
 			public boolean isShowingOnStartup() {
 				return MTGControler.getInstance().get(key, "true").equalsIgnoreCase("true");
 			}
 
+			@Override
 			public void setShowingOnStartup(boolean x) {
 				if (x)
 					MTGControler.getInstance().setProperty(key, "true");
@@ -42,6 +44,6 @@ public class TipsOfTheDayDialog extends JXTipOfTheDay {
 			}
 		});
 	}
-	
+
 
 }

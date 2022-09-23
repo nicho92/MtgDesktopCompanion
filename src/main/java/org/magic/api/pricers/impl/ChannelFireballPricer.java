@@ -25,10 +25,10 @@ public class ChannelFireballPricer extends AbstractPricesProvider {
 	@Override
 	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 		var list = new ArrayList<MagicPrice>();
-		
+
 		String idProduct=findIdProduct(card);
-		
-		
+
+
 		if(idProduct!=null)
 		{
 			JsonArray arts = findArticles(idProduct);
@@ -41,7 +41,7 @@ public class ChannelFireballPricer extends AbstractPricesProvider {
 					price.setMagicCard(card);
 					price.setShopItem(obj);
 					price.setUrl("https://channelfireball.com/product/"+idProduct);
-					
+
 					price.setSellerUrl("https://channelfireball.com/store/"+obj.get("account").getAsJsonObject().get("sellerDetails").getAsJsonObject().get("slug").getAsString());
 					price.setSeller(obj.get("account").getAsJsonObject().get("sellerDetails").getAsJsonObject().get("storeName").getAsString());
 					price.setFoil(obj.get("sku").getAsJsonObject().get("printing").getAsString().equalsIgnoreCase("FO"));
@@ -49,13 +49,13 @@ public class ChannelFireballPricer extends AbstractPricesProvider {
 					price.setQuality(obj.get("sku").getAsJsonObject().get("condition").getAsString());
 					price.setValue(obj.get("price").getAsJsonObject().get("price").getAsDouble());
 					price.setCountry(obj.get("shipping").getAsJsonObject().get("countries").getAsJsonArray().toString());
-				notify(price);	
+				notify(price);
 				list.add(price);
-				
+
 			}
-			
+
 		}
-		
+
 		logger.info("{} found {} offers",getName(),list.size());
 		return list;
 	}
@@ -78,8 +78,8 @@ public class ChannelFireballPricer extends AbstractPricesProvider {
 				+ "},"
 				+ "\"query\": \"query getProductById($id: String!, $page: Int!, $size: Int!, $filter: FilterInput!, $sort: [String!]) {  getProductById(id: $id, page: $page, size: $size, filter: $filter, sort: $sort) {    id    title    listings {      totalHits      hits {        id        account {          id          sellerDetails {            storeName: store_name           slug            __typename          }          __typename        }        sku {          id          productId: product_id          condition          language          printing          __typename        }        price {          price          __typename        }        inventory {          quantity          __typename        }        shipping {          countries          __typename        }        __typename      }      __typename    }    __typename  }}\""
 				+ "}";
-		
-		
+
+
 		var ret = c.doPost("https://api.channelfireball.com/api/v1/graphql", new StringEntity(jsonFindId), new HashMap<>());
 		var jresults = URLTools.toJson(ret.getEntity().getContent()).getAsJsonObject().get("data").getAsJsonObject().get("getProductById").getAsJsonObject().get("listings").getAsJsonObject();
 		return jresults.get("hits").getAsJsonArray();
@@ -102,11 +102,11 @@ public class ChannelFireballPricer extends AbstractPricesProvider {
 				+ "},"
 				+ "\"query\": \"query ProductAndListingSearch($filter: FilterInput, $page: Int!, $size: Int!, $sort: [String!]) {  simpleSearch(filter: $filter, page: $page, size: $size, sort: $sort) {    totalHits    hits {      id      title      tags      attributes {        setName   setCode   imageSrc   attribute   cleanName   productId    __typename      }      listings {        aggs        __typename      }      __typename    }    __typename  }}\""
 				+ "}";
-		
+
 		var ret = c.doPost("https://api.channelfireball.com/api/v1/graphql", new StringEntity(jsonSearch), new HashMap<>());
 		var arrResults = URLTools.toJson(ret.getEntity().getContent()).getAsJsonObject().get("data").getAsJsonObject().get("simpleSearch").getAsJsonObject().get("hits").getAsJsonArray();
-		
-		
+
+
 		var list = StreamSupport.stream(arrResults.spliterator(), true).filter(je->{
 			var obj = je.getAsJsonObject();
 			var testSet = true;
@@ -120,16 +120,16 @@ public class ChannelFireballPricer extends AbstractPricesProvider {
 			var testQty = obj.get("listings").getAsJsonObject().get("aggs").getAsJsonObject().get("Inventory").getAsJsonObject().get("totalHits").getAsInt()>0;
 			return testSet && testQty;
 		}).toList();
-		
+
 		if(card.isShowCase() && card.getFlavorName()==null)
 			list = list.stream().filter(je->je.getAsJsonObject().get("title").getAsString().contains("(Showcase")).toList();
 		else if(card.isBorderLess() && card.getFlavorName()==null)
 			list = list.stream().filter(je->je.getAsJsonObject().get("title").getAsString().contains("(Borderless)")).toList();
-		
+
 		if(list.isEmpty())
 			return null;
-	
-		
+
+
 		return list.get(0).getAsJsonObject().get("id").getAsString();
 	}
 
@@ -137,16 +137,16 @@ public class ChannelFireballPricer extends AbstractPricesProvider {
 	public String getName() {
 		return "Channel Fireball";
 	}
-	
+
 	@Override
 	public String getVersion() {
 		return "3.0";
 	}
-	
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of("MAX_RESULTS","10");
 	}
-	
+
 
 }

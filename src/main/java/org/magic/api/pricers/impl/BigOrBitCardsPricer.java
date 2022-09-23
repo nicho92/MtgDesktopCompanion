@@ -22,8 +22,8 @@ public class BigOrBitCardsPricer extends AbstractPricesProvider {
 	public String getName() {
 		return "BigOrBitCards";
 	}
-	
-	
+
+
 	 @Override
 	public EnumMarketType getMarket() {
 		 return EnumMarketType.EU_MARKET;
@@ -31,19 +31,19 @@ public class BigOrBitCardsPricer extends AbstractPricesProvider {
 
 	@Override
 	protected List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
-		
-		
+
+
 		var extra="";
-		
+
 		if(card.isExtendedArt())
 			extra=" (Extended Art)";
 		else if(card.isShowCase())
 			extra=" (Showcase)";
 		else if(card.isBorderLess())
 			extra=" (Borderless Art)";
-		
+
 		logger.info("{} looking for {} with extra={}",getName(),card,extra);
-		
+
 		var doc = RequestBuilder.build().method(METHOD.GET).url("https://www.bigorbitcards.co.uk/").setClient(URLTools.newClient())
 				.addContent("search_performed", "Y")
 				.addContent("product_variants","N")
@@ -58,11 +58,11 @@ public class BigOrBitCardsPricer extends AbstractPricesProvider {
 				.addContent("features_hash","7-Y")
 				.addContent("items_per_page","96")
 				.toHtml().select("div.ty-compact-list__content");
-		
+
 		var ret = new ArrayList<MagicPrice>();
-		
+
 		doc.forEach(e->{
-			
+
 			var mp = new MagicPrice();
 				mp.setSeller(getName());
 				mp.setSite(getName());
@@ -73,17 +73,17 @@ public class BigOrBitCardsPricer extends AbstractPricesProvider {
 				mp.setFoil(e.select("bdi.compact_bdi_title").first().text().contains("(Foil)"));
 				mp.setUrl(e.select("bdi.compact_bdi_title a").first().attr("href"));
 				mp.setSellerUrl(mp.getUrl());
-				
+
 				var spanPrices=e.select("span.ty-qty-in-stock span");
 				mp.setQuality(spanPrices.get(0).text().trim());
 				var ind = spanPrices.get(1).text().indexOf('£')+1;
 				mp.setValue(UITools.parseDouble(spanPrices.get(1).text().substring(ind)));
-				
+
 				notify(mp);
-				
+
 			ret.add(mp);
 		});
-		
+
 		logger.info("{} found {} items ",getName(),ret.size());
 		return ret;
 	}

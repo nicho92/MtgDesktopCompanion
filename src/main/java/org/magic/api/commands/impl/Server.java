@@ -25,15 +25,15 @@ public class Server extends AbstractCommand {
 		opts.addOption("c", "close", false, "stop server");
 	}
 
-	
-	
+
+
 	@Override
 	public AbstractResponse run(String[] args) throws ClassNotFoundException, InstantiationException,IllegalAccessException, ParseException, IOException, InvocationTargetException, NoSuchMethodException {
 		logger.debug("running {} with {}", this,Arrays.asList(args));
-			
+
 		CommandLine cl = parser.parse(opts, args);
 		MTGServer serv = null;
-		
+
 		if (cl.hasOption("n")) {
 			serv = getPlugin(cl.getOptionValue("n"), MTGServer.class);
 		}
@@ -41,22 +41,22 @@ public class Server extends AbstractCommand {
 		{
 			return new TextResponse("You should use -n <servername> option");
 		}
-		
-		
+
+
 		if (cl.hasOption("s") && serv!=null) {
 			serv.start();
 			return new TextResponse(serv + " started");
 		}
-		
-		
+
+
 		if (cl.hasOption("c") && serv!=null) {
 			serv.stop();
 			return new TextResponse(serv + " stopped");
 		}
-		
+
 		return new TextResponse("nothing append :(.. Please use -s or -c option to start or stop server "+serv);
-		
-		
+
+
 	}
 
 }
