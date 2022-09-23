@@ -245,16 +245,10 @@ public class MTGDeckManager extends Observable {
 		else
 			drawedCards = drawedCards + turn;
 		
-		var numberInDeck = 0;
+		var cardCount = deck.getCardCountByName(mc.getName());
+		var deckSize = deck.getNbCards();
 		try {
-			numberInDeck = deck.getCardCountByName(mc.getName());
-		}catch(NullPointerException e)
-		{
-			logger.error("{} is not found in main deck",mc);
-		}
-		var numberCardsInDeck = deck.getNbCards();
-		try {
-			return new HypergeometricDistribution(numberCardsInDeck, numberInDeck, drawedCards).upperCumulativeProbability(1);
+			return new HypergeometricDistribution(deckSize, cardCount, drawedCards).upperCumulativeProbability(1);
 		} catch (Exception e) {
 			return 0;
 		}

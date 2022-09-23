@@ -92,7 +92,7 @@ public class DrawProbabilityPanel extends JPanel {
 			
 			@Override
 			public Class<?> getColumnClass(int columnIndex) {
-				if(columnIndex==1)
+				if(columnIndex>0)
 					return Double.class;
 				
 				return super.getColumnClass(columnIndex);
@@ -139,6 +139,14 @@ public class DrawProbabilityPanel extends JPanel {
 				}
 			}
 
+			@Override
+			public Class<?> getColumnClass(int columnIndex) {
+				if(columnIndex>0)
+					return Double.class;
+				
+				return super.getColumnClass(columnIndex);
+			}
+			
 			@Override
 			public int getRowCount() {
 				return d.getMain().keySet().size();
