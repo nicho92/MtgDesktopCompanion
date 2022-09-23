@@ -88,7 +88,12 @@ public class MagicDeck implements MTGStorable {
 	public List<MagicCard> getUniqueCards() {
 		return getMain().keySet().stream().toList();
 	}
-
+	
+	public int getCardCountByName(String name) {
+			return getMain().entrySet().stream().filter(e->e.getKey().getName().equals(name)).mapToInt(Entry::getValue).sum();
+	}
+	
+	
 	public void remove(MagicCard mc) {
 		if (getMain().get(mc) == 0)
 			getMain().remove(mc);

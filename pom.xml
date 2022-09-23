@@ -7,7 +7,7 @@
 	<url>https://www.mtgcompanion.org</url>
 	<groupId>com.github.nicho92</groupId>
 	<artifactId>magic-api</artifactId>
-	<version>2.36</version>
+	<version>2.37</version>
 	<packaging>jar</packaging>
 	<issueManagement>
 		<system>GitHub</system>
@@ -758,7 +758,7 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin><!--
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
@@ -774,7 +774,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>-->
+			</plugin>
 		</plugins>
 	</build>
 

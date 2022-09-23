@@ -235,7 +235,6 @@ public class MTGDeckManager extends Observable {
 		if(deck==null)
 			return 0;
 		
-		
 		if(mc==null)
 			return  0;
 		
@@ -248,10 +247,10 @@ public class MTGDeckManager extends Observable {
 		
 		var numberInDeck = 0;
 		try {
-			numberInDeck = deck.getMain().get(mc);
+			numberInDeck = deck.getCardCountByName(mc.getName());
 		}catch(NullPointerException e)
 		{
-			logger.error(mc + " is not found in main deck");
+			logger.error("{} is not found in main deck",mc);
 		}
 		var numberCardsInDeck = deck.getNbCards();
 		try {
