@@ -81,7 +81,7 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 			}
 			catch(Exception e)
 			{
-				logger.error("Error export " + mcs,e);
+				logger.error("Error export {}",mcs,e);
 			}
 		}
 		FileTools.saveFile(f, temp.toString());
@@ -127,7 +127,7 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 				st.setProduct(mc);
 				found = true;
 			} catch (Exception e) {
-				logger.error("error for " + m.group(),e);
+				logger.error("error for {}",m.group(),e);
 			}
 
 
@@ -138,13 +138,13 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 					st.setProduct(mc);
 					found = true;
 				} catch (Exception e) {
-					logger.error("error for " + m.group());
+					logger.error("error for {}", m.group());
 				}
 			}
 
 
 			if(!found)
-				logger.error("No card found for " + m.group());
+				logger.error("No card found for {}",m.group());
 			else
 				ret.add(st);
 

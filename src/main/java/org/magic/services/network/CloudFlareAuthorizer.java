@@ -83,7 +83,7 @@ public class CloudFlareAuthorizer {
                         URLEncoder.encode(pass,"UTF-8"),
                         answer);
 
-                logger.debug(String.format("CloudFlare auth URL: %s",authUrl));
+                logger.debug("CloudFlare auth URL: {}",authUrl);
 
                 Thread.sleep(timer);
                 response = getResponse(authUrl, url);

@@ -36,11 +36,11 @@ public class StarCityGamesPricer extends AbstractPricesProvider {
 			}
 			catch(Exception e)
 			{
-				logger.error(getName() +" has error : " + e);
+				logger.error("{} has error : ",getName(),e);
 			}
 
 		}
-		logger.info(getName() + " found " + ret.size() + " items");
+		logger.info("{} found {} items",getName(),ret.size());
 
 		return ret;
 

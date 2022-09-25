@@ -72,12 +72,12 @@ public class TechnicalServiceManager {
 			try {
 				FileUtils.forceMkdir(logsDirectory);
 			} catch (IOException e) {
-				logger.error("error creating " + logsDirectory.getAbsolutePath() +": "+e);
+				logger.error("error creating {} : {}",logsDirectory.getAbsolutePath(),e);
 			}
 		}
 
 
-		logger.info("Starting Log backup timer scheduled at " + TimeUnit.HOURS.toMillis(SCHEDULE_TIMER_MS) +" ms");
+		logger.info("Starting Log backup timer scheduled at {}ms",TimeUnit.HOURS.toMillis(SCHEDULE_TIMER_MS));
 		ThreadManager.getInstance().timer(new MTGRunnable() {
 
 			@Override

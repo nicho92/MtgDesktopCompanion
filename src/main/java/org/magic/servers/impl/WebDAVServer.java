@@ -46,15 +46,12 @@ public class WebDAVServer extends AbstractMTGServer {
 
 
 		ctx.addFilter(fh, "/*", EnumSet.of(DispatcherType.REQUEST));
-
-		logger.trace(ctx.dump());
-
 		ctx.setHandler(handler);
 		server.setHandler(ctx);
 
 		try {
 			server.start();
-			logger.info("Webdav start on port http://"+InetAddress.getLocalHost().getHostName() + ":"+getInt(SERVER_PORT));
+			logger.info("Webdav start on http://{}:{}",InetAddress.getLocalHost().getHostName(),getInt(SERVER_PORT));
 
 		} catch (Exception e) {
 			throw new IOException(e);

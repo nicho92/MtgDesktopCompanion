@@ -79,7 +79,7 @@ public class ServerLauncher {
 		MTGServer serv = getPlugin(servername, MTGServer.class);
 		if(!serv.isEnable())
 		{
-			MTGLogger.getLogger(ServerLauncher.class).error(servername + " is not enabled");
+			MTGLogger.getLogger(ServerLauncher.class).error("{} is not enabled",servername);
 			System.exit(-1);
 		}
 		return serv;

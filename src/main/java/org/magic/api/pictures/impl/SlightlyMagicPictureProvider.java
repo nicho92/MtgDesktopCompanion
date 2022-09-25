@@ -49,7 +49,7 @@ public class SlightlyMagicPictureProvider extends AbstractPicturesProvider {
 			try {
 				FileUtils.forceMkdir(getFile(PICS_DIR));
 			} catch (IOException e) {
-				logger.error("Couldn't create " + getString(PICS_DIR) + " directory");
+				logger.error("Couldn't create {} directory",getString(PICS_DIR));
 			}
 
 		String dirName = mc.getCurrentSet().getId();
@@ -76,7 +76,7 @@ public class SlightlyMagicPictureProvider extends AbstractPicturesProvider {
 
 		}
 		String f = new File(edDir, mc.getName() + calculate +".fullborder.jpg").getAbsolutePath();
-		logger.debug("Loading pics " + f);
+		logger.debug("Loading pics {}", f);
 
 		return f;
 	}
@@ -95,7 +95,7 @@ public class SlightlyMagicPictureProvider extends AbstractPicturesProvider {
 		}
 		catch(Exception e)
 		{
-			logger.debug(generateUrl(mc) + " is not found");
+			logger.debug("{} is not found",generateUrl(mc));
 			return null;
 		}
 	}

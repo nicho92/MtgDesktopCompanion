@@ -288,7 +288,7 @@ public class StockPanelGUI extends MTGUIComponent {
 						}
 						else if(!exp.needFile() && !exp.needDialogForStock(MODS.IMPORT))
 						{
-							logger.debug(exp + " need no file. Skip");
+							logger.debug("{} need no file. Skip",exp);
 							res = JFileChooser.APPROVE_OPTION;
 						}
 						else
@@ -408,7 +408,7 @@ public class StockPanelGUI extends MTGUIComponent {
 								s.setUpdated(true);
 						}
 						catch (NullPointerException e) {
-							logger.error(s.getProduct() + " is not found : "+e);
+							logger.error("{} is not found : ",s.getProduct(),e);
 						}
 
 						publish(s);

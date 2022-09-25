@@ -31,7 +31,7 @@ public class WebDavMTGResourceFactory implements ResourceFactory
 
     @Override
     public Resource getResource(String host, String url) {
-        log.trace("getResource: host: " + host + " - url:" + url);
+        log.trace("getResource: host: {} - url:{}" ,host,url);
 
         var ioPath = Path.path(url);
         var mtgpath = (MTGPath) fs.getPath(ioPath.toPath());

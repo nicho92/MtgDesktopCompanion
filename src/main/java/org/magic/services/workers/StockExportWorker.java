@@ -52,7 +52,7 @@ public class StockExportWorker extends SwingWorker<Void, MagicCard> {
 			exp.exportStock(export, f);
 		} catch (Exception e) {
 			err=e;
-			logger.error("error export with " + exp,e);
+			logger.error("error export with {}",exp,e);
 		}
 		return null;
 	}

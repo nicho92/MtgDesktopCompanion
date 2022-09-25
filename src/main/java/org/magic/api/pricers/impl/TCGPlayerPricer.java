@@ -39,12 +39,12 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 
 		if(idResults==null)
 		{
-			logger.info(getName() + " found nothing");
+			logger.info("{} found nothing",getName());
 			return list;
 		}
 
 		JsonArray arr = parseResultsFor(idResults);
-		logger.info(getName() + " found " + arr.size() + " results");
+		logger.info("{} found {} results",getName(),arr.size());
 
 		for(JsonElement e: arr)
 		{

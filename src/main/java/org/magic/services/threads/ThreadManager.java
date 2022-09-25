@@ -44,7 +44,7 @@ public class ThreadManager {
 
 		if(task==null)
 		{
-			logger.error("task is null for " + name);
+			logger.error("task is null for {}",name);
 			return;
 		}
 
@@ -119,7 +119,7 @@ public class ThreadManager {
 			case SINGLE : executor = (ThreadPoolExecutor) Executors.newSingleThreadExecutor(factory);break;
 			default :  executor = (ThreadPoolExecutor) Executors.newCachedThreadPool(factory);break;
 		}
-		logger.debug("init ThreadManager config="+tpc);
+		logger.debug("init ThreadManager config={}",tpc);
 	}
 
 	public void stop()
@@ -152,8 +152,6 @@ public class ThreadManager {
 	public void timer(MTGRunnable mtgRunnable, String name, int time, TimeUnit timeUnit) {
 
 		mtgRunnable.getInfo().setName(name);
-		//TechnicalServiceManager.inst().store(mtgRunnable.getInfo());
-
 
 		Timer timer = new Timer(true);
 		timer.scheduleAtFixedRate(new TimerTask() {

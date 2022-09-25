@@ -98,11 +98,11 @@ public class WebcamCanvas extends JPanel
 		{
 			try {
 				webcam.open();
-				logger.debug("webcam open = " + webcam.isOpen());
+				logger.debug("webcam open = {}", webcam.isOpen());
 
 			}catch(WebcamLockException e)
 			{
-				logger.error(webcam + " is locked");
+				logger.error("{} is locked",webcam);
 			}
 		}
 
@@ -118,7 +118,7 @@ public class WebcamCanvas extends JPanel
 
 		if(lastDrawn==null)
 		{
-			logger.warn("Lastdrawn is null with " + webcam);
+			logger.warn("Lastdrawn is null with {}",webcam);
 			return;
 		}
 
@@ -141,7 +141,7 @@ public class WebcamCanvas extends JPanel
 	public void close()
 	{
 		boolean ret = webcam.close();
-		logger.debug(webcam + " is closed : " + ret);
+		logger.debug("{} is closed :{} ",webcam,ret);
 
 	}
 

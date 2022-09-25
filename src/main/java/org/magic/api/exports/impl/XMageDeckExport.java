@@ -70,7 +70,7 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 				}
 				catch(Exception e)
 				{
-					logger.error("Edition not found for " + m.group(3));
+					logger.error("Edition not found for {}",m.group(3));
 				}
 
 				String number=null;
@@ -88,7 +88,7 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 					try {
 						mc = getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(number, ed);
 					} catch (Exception e) {
-						logger.error("no card found with number " + number + "/"+ ed);
+						logger.error("no card found with number {}/{}",number,ed);
 					}
 				}
 
@@ -97,7 +97,7 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 					try {
 						mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cname, ed,true).get(0);
 					} catch (Exception e) {
-						logger.error("no card found for" + cname + "/"+ ed);
+						logger.error("no card found for {}/{}",cname,ed);
 					}
 
 				}

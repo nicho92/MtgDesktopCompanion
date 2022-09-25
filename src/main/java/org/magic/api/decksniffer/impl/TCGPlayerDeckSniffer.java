@@ -39,7 +39,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
-		logger.debug("get deck at " + info.getUrl());
+		logger.debug("get deck at {}",info.getUrl());
 		MagicDeck deck = info.toBaseDeck();
 		Document d = IncapsulaParser.readUrl(info.getUrl().toString());
 		for (Element e : d.select("span.singleTag")) {
@@ -63,7 +63,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 				deck.getMain().put(mc, qte);
 				notify(mc);
 			} catch (IndexOutOfBoundsException e1) {
-				logger.error(cardName +" is not found : " + e1);
+				logger.error("{} is not found",cardName,e1);
 			}
 
 
@@ -84,7 +84,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 
 				}
 				 catch (IndexOutOfBoundsException e1) {
-					logger.error(cardName +" is not found : " + e1);
+					 logger.error("{} is not found",cardName,e1);
 				}
 
 			}
@@ -97,7 +97,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 	@Override
 	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
 		String url = getString(URL) + "/magic/deck/search?format=" + filter;
-		logger.debug("get List deck at " + url);
+		logger.debug("get List deck at {}",url);
 		List<RetrievableDeck> list = new ArrayList<>();
 		int maxPage = getInt(MAX_PAGE);
 

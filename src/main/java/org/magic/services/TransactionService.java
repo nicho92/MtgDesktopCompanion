@@ -90,13 +90,13 @@ public class TransactionService
 
 		if(pContact!=null)
 		{
-			logger.debug("Contact " + pContact + " found");
+			logger.debug("Contact {} found",pContact);
 			t.setContact(pContact);
 		}
 
 		if(t.getContact().getId()<=0)
 		{
-			logger.debug(t.getContact() + " doesn't exist. Creating it");
+			logger.debug("{} doesn't exist. Creating it",t.getContact());
 			int id= createContact(t.getContact());
 			t.getContact().setId(id);
 		}

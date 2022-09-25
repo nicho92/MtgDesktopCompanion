@@ -94,7 +94,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		if(httpclient==null)
 			initConnexion();
 
-		logger.debug("sniff deck at " + info.getUrl());
+		logger.debug("sniff deck at {}",info.getUrl());
 		MagicDeck deck = info.toBaseDeck();
 		JsonElement root = RequestBuilder.build().url(info.getUrl().toString()).setClient(httpclient).method(METHOD.GET).toJson();
 

@@ -123,7 +123,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 									 }
 									 catch(Exception e)
 									 {
-										logger.error("Error getting option"+getString(SET_OPTION_NUMBER) + " for " + obj +" :" + e);
+										logger.error("Error getting option{} for {} : {}",getString(SET_OPTION_NUMBER),obj,e);
 									 }
 									  it.setId(el.getAsJsonObject().get("id").getAsLong());
 									  it.setPrice(el.getAsJsonObject().get(PRICE).getAsDouble());
@@ -145,7 +145,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 				   }
 				   catch(Exception ise)
 				   {
-					   logger.error(p + " has no url");
+					   logger.error("{} has no url",p);
 				   }
 				   p.setTypeProduct(EnumItems.CARD);
 				   notify(p);
@@ -183,7 +183,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 			  	}
 			  	catch(Exception e)
 			  	{
-			  		logger.warn("No variant_id found for " + it.getProduct());
+			  		logger.warn("No variant_id found for {}",it.getProduct());
 			  	}
 
 			  	it.setPrice(item.get(PRICE).getAsDouble());
@@ -345,9 +345,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 
 				try {
 					var content = URLTools.toJson(res.getEntity().getContent());
-					logger.info("ret="+content);
 					c.setId(content.getAsJsonObject().get(CUSTOMER).getAsJsonObject().get("id").getAsInt());
-
 					return c.getId();
 				}
 				catch(Exception e)
@@ -366,7 +364,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 
 				try {
 					var content = URLTools.toJson(res.getEntity().getContent());
-					logger.info("ret="+content);
+					logger.info("ret={}",content);
 					return c.getId();
 				}
 				catch(Exception e)

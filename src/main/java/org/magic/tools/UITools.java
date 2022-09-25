@@ -190,7 +190,7 @@ public class UITools {
 	public static void browse(String uri)
 	{
 		try {
-			logger.debug("Opening browser to " + uri);
+			logger.debug("Opening browser to {}", uri);
 			Desktop.getDesktop().browse(new URI(uri));
 		} catch (Exception e) {
 			logger.error(e);
@@ -470,7 +470,7 @@ public class UITools {
 
 			return Double.parseDouble(text);
 		} catch (Exception e) {
-			logger.error("error parsing '" + text +"' :", e);
+			logger.error("error parsing '{}':{}",text,e);
 			return 0.0;
 		}
 	}
@@ -497,7 +497,7 @@ public class UITools {
 			}
 			catch(Exception e)
 			{
-				logger.error("error setting TableFilter of " + table,e);
+				logger.error("error setting TableFilter of {}",table,e);
 			}
 	}
 
@@ -571,9 +571,9 @@ public class UITools {
 								popUp.setVisible(true);
 
 							} catch (IndexOutOfBoundsException ex) {
-								logger.error(cardName + "is not found");
+								logger.error("{} is not found",cardName);
 							} catch (IOException e1) {
-								logger.error("error loading " + cardName,e1);
+								logger.error("error loading {}",cardName,e1);
 							}
 
 				}

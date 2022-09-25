@@ -191,8 +191,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 		var hasMore = true;
 		while (hasMore) {
-
-			logger.debug(URLDecoder.decode(url.toString(), MTGConstants.DEFAULT_ENCODING.displayName()));
+			
+			logger.debug(URLTools.decode(url.toString()));
 			try {
 				JsonElement el = URLTools.extractAsJson(url.toString()) ;
 

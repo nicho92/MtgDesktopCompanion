@@ -130,7 +130,7 @@ public class WebcamSnapShotComponent extends MTGUIComponent {
 			{
 				running=true;
 				try {
-					logger.info("start " + webcamCanvas.getWebcam() +" " + running);
+					logger.info("start {} : {}",webcamCanvas.getWebcam(),running);
 					while(running && isVisible())
 					{
 						webcamCanvas.draw();
@@ -148,7 +148,7 @@ public class WebcamSnapShotComponent extends MTGUIComponent {
 			protected void done() {
 
 				try {
-					logger.info("Stopping webcam " + webcamCanvas.getWebcam());
+					logger.info("Stopping webcam {}", webcamCanvas.getWebcam());
 					running=false;
 					get();
 				}
@@ -163,7 +163,7 @@ public class WebcamSnapShotComponent extends MTGUIComponent {
 				}
 				catch (Exception e) {
 					running=false;
-					logger.error("Error Stopping webcam " + webcamCanvas.getWebcam(),e);
+					logger.error("Error Stopping webcam {}",webcamCanvas.getWebcam(),e);
 				}
 
 			}

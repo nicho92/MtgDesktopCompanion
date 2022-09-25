@@ -37,7 +37,7 @@ public class TelegramNotifier extends AbstractMTGNotifier {
 
 		if(msg.length()>4096)
 		{
-			logger.error("Message is too long : " + msg.length() + ">4096. Will truncate it");
+			logger.error("Message is too long : {}>4096. Will truncate it",msg.length());
 			msg = msg.substring(0, 4096);
 
 		}

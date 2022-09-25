@@ -65,7 +65,7 @@ import com.github.sarxos.webcam.Webcam;
 public class WebcamCardImportDialog extends AbstractDelegatedImporterDialog {
 
 
-	private BufferedImage snapshotImage;
+	private transient BufferedImage snapshotImage;
 
 	private static final long serialVersionUID = 1L;
 	private transient MTGCardRecognition strat;
@@ -316,7 +316,7 @@ public class WebcamCardImportDialog extends AbstractDelegatedImporterDialog {
 			{
 				running=true;
 				try {
-					logger.info("start " + webcamCanvas.getWebcam() +" " + running);
+					logger.info("start {} : {}" ,webcamCanvas.getWebcam() ,running);
 					while(running)
 					{
 						webcamCanvas.draw();
@@ -354,7 +354,7 @@ public class WebcamCardImportDialog extends AbstractDelegatedImporterDialog {
 			protected void done() {
 
 				try {
-					logger.info("Stopping webcam " + webcamCanvas.getWebcam());
+					logger.info("Stopping webcam {}",webcamCanvas.getWebcam());
 					running=false;
 					get();
 				}
@@ -367,7 +367,7 @@ public class WebcamCardImportDialog extends AbstractDelegatedImporterDialog {
 					logger.error("Cancelling");
 				}
 				catch (Exception e) {
-					logger.error("Error Stopping webcam " + webcamCanvas.getWebcam(),e);
+					logger.error("Error Stopping webcam {}",webcamCanvas.getWebcam(),e);
 				}
 
 			}
@@ -383,14 +383,14 @@ public class WebcamCardImportDialog extends AbstractDelegatedImporterDialog {
 
 			if(currentCard==null || !currentCard.getName().equalsIgnoreCase(r.getName()))
 			{
-				logger.info("Looking for " + r.getName() + " " + r.getSetCode());
+				logger.info("Looking for {} {}",r.getName(),r.getSetCode());
 				currentCard = getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(r.getNumber(), new MagicEdition(r.getSetCode()));
 				modelCards.addItem(currentCard);
 				tableResults.scrollRectToVisible(tableResults.getCellRect(tableResults.getRowCount()-1, 0, true));
 			}
 
 		} catch (IOException e) {
-			logger.error("Error loading card for result " + r);
+			logger.error("Error loading card for result {}", r);
 		}
 
 	}

@@ -23,7 +23,7 @@ public class MkmPricer extends AbstractPricesProvider {
 	@Override
 	protected List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 
-		logger.debug("{} looking for prices ",getName(),card);
+		logger.debug("{} looking for prices for {} ",getName(),card);
 
 		MTGJsonPricer.getInstance().expirationDay(getInt("EXPIRE_FILE_DAYS"));
 

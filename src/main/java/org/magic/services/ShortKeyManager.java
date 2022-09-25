@@ -96,7 +96,7 @@ public class ShortKeyManager {
 
 			}catch(Exception ex)
 			{
-				logger.error("error loading " + e.getKey(),ex);
+				logger.error("error loading {}",e.getKey(),ex);
 			}
 		});
 

@@ -170,7 +170,8 @@ public class FileTools {
 		}
 		else
 		{
-			logger.debug("opening file {}", f.getAbsolutePath());
+			var fileName=f.getAbsolutePath().replaceAll("[\n\r\t]", "_");
+			logger.debug("opening file {}", fileName);
 			return FileUtils.readFileToString(f,charset);
 		}
 	}

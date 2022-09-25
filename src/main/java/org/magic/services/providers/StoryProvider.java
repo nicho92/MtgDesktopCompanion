@@ -69,7 +69,7 @@ public class StoryProvider {
 			tmp = URLTools.extractAsImage(url.toString(),200, 110);
 			return tmp;
 		} catch (IOException e) {
-			logger.error("could not load" + url, e);
+			logger.error("could not load {}",url, e);
 		}
 		return null;
 

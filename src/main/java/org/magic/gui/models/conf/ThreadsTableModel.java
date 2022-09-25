@@ -64,7 +64,7 @@ public class ThreadsTableModel extends GenericTableModel<ThreadInfo> {
 				return null;
 			}
 		} catch (Exception e) {
-			logger.error("error get value :" + row+"/"+column,e);
+			logger.error("error get value : {}/{}",row,column,e);
 			return null;
 		}
 

@@ -27,7 +27,7 @@ import org.magic.services.network.URLTools;
 public class WizardsOfTheCoastWallpaperProvider extends AbstractWallpaperProvider {
 
 	private String read(String url) throws IOException {
-		logger.debug("retrieve from " + url);
+		logger.debug("retrieve from {}",url);
 		HttpClient httpClient = HttpClients.custom().setUserAgent(MTGConstants.USER_AGENT)
 				.setRedirectStrategy(new LaxRedirectStrategy()).build();
 		var req = new HttpGet(url);

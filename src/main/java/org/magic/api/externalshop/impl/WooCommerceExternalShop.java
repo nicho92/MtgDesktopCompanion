@@ -259,7 +259,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 			}
 		}
 
-		logger.warn("No category map found for " + c);
+		logger.warn("No category map found for {}",c);
 
 		return EnumItems.SEALED;
 	}
@@ -355,7 +355,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 			if(!ret.isEmpty() && ret.get("id") !=null)
 			{
 				t.setId(Integer.parseInt(ret.get("id").toString()));
-				logger.info(t + " created in " + getName() + " with id = " +t.getId());
+				logger.info("{} created in {} with id={}",t,getName(),t.getId());
 			}
 			else
 			{
@@ -381,7 +381,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 			vars.put("regular_price", String.valueOf(it.getPrice()));
 			vars.put(STOCK_QUANTITY, it.getQte());
 			var ret = client.update(EndpointBaseType.PRODUCTS.getValue(),it.getId().intValue(),vars );
-	        logger.debug("price =" +ret.get(PRICE) + " Qte ="+ ret.get(STOCK_QUANTITY));
+	        logger.debug("price ={} Qte={}",ret.get(PRICE),ret.get(STOCK_QUANTITY));
 			it.setUpdated(false);
 		}
 	}
@@ -534,7 +534,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 			case "lpc_ready_to_ship" : return TransactionStatus.PAID;
 			case "refunded" : return TransactionStatus.CANCELED;
 			default : {
-				logger.debug(status + " is unknow");
+				logger.debug("{} is unknow",status);
 				return TransactionStatus.IN_PROGRESS;
 			}
 		}
