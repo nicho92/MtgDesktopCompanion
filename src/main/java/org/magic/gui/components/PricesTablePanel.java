@@ -150,7 +150,7 @@ public class PricesTablePanel extends MTGUIComponent {
 							}
 							catch(Exception e)
 							{
-								logger.error("error with " + prov + ":",e);
+								logger.error("error with {}",prov,e);
 							}
 
 						return list;

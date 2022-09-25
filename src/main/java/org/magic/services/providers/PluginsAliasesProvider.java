@@ -35,7 +35,7 @@ public class PluginsAliasesProvider {
 				jsonData = URLTools.toJson(MTGConstants.MTG_DESKTOP_ALIASES_FILE.openStream()).getAsJsonObject();
 			}
 			catch(Exception e) {
-				logger.error("No Error getting file "+  MTGConstants.MTG_DESKTOP_ALIASES_URL + " :"+e);
+				logger.error("No Error getting file {} : {}",MTGConstants.MTG_DESKTOP_ALIASES_URL,e.getMessage());
 			}
 		}
 		else {
@@ -44,7 +44,7 @@ public class PluginsAliasesProvider {
 		}
 		catch(Exception e)
 		{
-			logger.error("No Error getting file "+  MTGConstants.MTG_DESKTOP_ALIASES_URL + " :"+e);
+			logger.error("No Error getting file {} : {}",MTGConstants.MTG_DESKTOP_ALIASES_URL,e.getMessage());
 		}
 		}
 	}

@@ -31,7 +31,7 @@ public class RSSNewsProvider extends AbstractMagicNewsProvider {
 
 		List<MagicNewsContent> ret = new ArrayList<>();
 		try {
-			logger.debug("reading " + rssBean.getUrl());
+			logger.debug("reading {}",rssBean.getUrl());
 			var is = URLTools.extractAsInputStream(rssBean.getUrl());
 
 			var source = new InputSource(is);

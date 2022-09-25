@@ -72,7 +72,7 @@ public class ReportNotificationManager {
 		    return writer.toString();
 
 		} catch (Exception e) {
-			logger.error("error to generate notif : " + f,e);
+			logger.error("error to generate notif : {}",f,e);
 		}
 		return list.toString();
 

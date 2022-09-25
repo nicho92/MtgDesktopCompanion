@@ -44,7 +44,7 @@ public class PersonnalExport extends AbstractCardExport {
 
 		var temp = new StringBuilder();
 
-		logger.debug("Parsing with : " + regx);
+		logger.debug("Parsing with : {}",regx);
 
 		for(MagicCard mc : deck.getMainAsList())
 			temp.append(BeanTools.createString(mc, regx)).append(System.lineSeparator());
@@ -72,7 +72,7 @@ public class PersonnalExport extends AbstractCardExport {
 
 		var temp = new StringBuilder();
 
-		logger.debug("Parsing with : " + regx);
+		logger.debug("Parsing with : {}",regx);
 
 		for(MagicCardStock mc : stock)
 			temp.append(BeanTools.createString(mc, regx)).append(System.lineSeparator());

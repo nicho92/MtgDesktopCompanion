@@ -112,10 +112,10 @@ public class PluginRegistry {
 	@SuppressWarnings("unchecked")
 	public <T> T newInstance(String classname) throws ClassNotFoundException {
 		try {
-			logger.trace("\tload plugin :  " + classname);
+			logger.trace("\tload plugin :  {}",classname);
 			return (T) classLoader.loadClass(classname).getDeclaredConstructor().newInstance();
 		}  catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException| NoSuchMethodException | SecurityException e) {
-			logger.error("error loading " + classname, e);
+			logger.error("error loading {}",classname, e);
 			return null;
 		}
 	}
@@ -188,7 +188,7 @@ public class PluginRegistry {
 
 		var listRemoved = new ArrayList<String>();
 
-		logger.debug("loading " + classe.getSimpleName());
+		logger.debug("loading {}",classe.getSimpleName());
 		for (var i = 1; i <= config.getList("/"+entry.getElement()+"/class").size(); i++)
 		{
 			var s = config.getString(entry.getXpath()+"[" + i + "]/class");
@@ -197,7 +197,7 @@ public class PluginRegistry {
 				prov = newInstance(s);
 			}
 			catch (ClassNotFoundException e) {
-				logger.error("\t"+s + " is not found");
+				logger.error("\t{} is not found",s);
 				listRemoved.add(entry.getXpath()+"[class='"+s+"']");
 				needUpdate=true;
 			}
@@ -285,8 +285,10 @@ public class PluginRegistry {
 
 		if(r.isPresent())
 			return r.get();
-
-		logger.error(name.replaceAll("[\n\r\t]", "_") + " doesn't exist or is not enabled");
+		
+		
+		var cname = name.replaceAll("[\n\r\t]", "_");		
+		logger.error("{} doesn't exist or is not enabled",cname);
 		return null;
 	}
 
@@ -298,7 +300,7 @@ public class PluginRegistry {
 			return r.get();
 
 
-		logger.error(name + " doesn't exist");
+		logger.error("{} doesn't exist",name);
 		return null;
 
 	}

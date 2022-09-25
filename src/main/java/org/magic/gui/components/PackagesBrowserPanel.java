@@ -54,7 +54,7 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 		root.removeAllChildren();
 		Arrays.asList(EnumItems.values()).forEach(t->{
 			List<MTGSealedProduct> pks = provider.get(ed, t);
-			logger.trace("loading " + ed + " " + pks);
+			logger.trace("loading {} {}",ed,pks);
 			if(!pks.isEmpty())
 			{
 				var dir = new DefaultMutableTreeNode(t);

@@ -67,7 +67,7 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 								prov.alertDetected(okz);
 								alert.orderDesc();
 							} catch (Exception e) {
-								logger.error("error loading price " + prov, e);
+								logger.error("error loading price {}",prov, e);
 							}
 						}
 					}
@@ -91,7 +91,7 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 		};
 
 		timer.scheduleAtFixedRate(tache, 0, getLong(TIMEOUT_MINUTE) * 60000);
-		logger.info("Server start with " + getString(TIMEOUT_MINUTE) + " min timeout");
+		logger.info("Server start with {}min timeout",getString(TIMEOUT_MINUTE));
 
 	}
 

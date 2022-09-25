@@ -104,7 +104,7 @@ public class PDFExport extends AbstractCardExport {
 				doc.add(table);
 
 			} catch (Exception e) {
-				logger.error("Error in pdf creation " + f, e);
+				logger.error("Error in pdf creation {}", f, e);
 			}
 	}
 

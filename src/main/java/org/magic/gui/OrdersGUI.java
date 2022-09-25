@@ -224,7 +224,7 @@ public class OrdersGUI extends MTGUIComponent {
 											{
 												List<MagicCard> l = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(order.getDescription(), order.getEdition(), false);
 												if(l.size()>1)
-													logger.warn("warning, multiresults for " + order.getDescription() + " :" + l);
+													logger.warn("warning, multiresults for {} : {}",order.getDescription(),l);
 
 												toSave.add(l.get(0));
 											}
@@ -233,7 +233,7 @@ public class OrdersGUI extends MTGUIComponent {
 												toSave.addAll(getEnabledPlugin(MTGCardsProvider.class).searchCardByEdition(order.getEdition()));
 											}
 									} catch (Exception e) {
-										logger.error("can't find " + order.getDescription() +"/"+order.getEdition() + " " + e);
+										logger.error("can't find {}/{} : {}",order.getDescription(),order.getEdition(),e.getMessage());
 									}
 								});
 
@@ -309,7 +309,7 @@ public class OrdersGUI extends MTGUIComponent {
 							getEnabledPlugin(MTGDao.class).deleteOrderEntry(state);
 							model.removeItem(state);
 							} catch (Exception e) {
-								logger.error("error deleting " + state,e);
+								logger.error("error deleting {}", state,e);
 							}
 						});
 						return null;

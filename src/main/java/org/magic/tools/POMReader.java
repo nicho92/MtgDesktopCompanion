@@ -32,7 +32,7 @@ public class POMReader {
 			}
 		} catch (IOException e) {
 			version = null;
-			logger.warn("Could not read version for "+clazz.getName()+" from file "+ pomProperties);
+			logger.warn("Could not read version for {} from file {}",clazz.getName(),pomProperties);
 		}
 
 		// using Java API

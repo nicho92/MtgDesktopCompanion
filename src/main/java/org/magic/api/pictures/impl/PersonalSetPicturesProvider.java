@@ -46,7 +46,7 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 		try {
 			FileTools.deleteFile(new File(edDir, mc.getId() + "." + getString(FORMAT)));
 		} catch (IOException e) {
-			logger.error("error removing " + new File(edDir, mc.getId() + "." + getString(FORMAT)),e);
+			logger.error("error removing {}",new File(edDir, mc.getId() + "." + getString(FORMAT)),e);
 		}
 	}
 
@@ -86,7 +86,7 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 		}
 		catch(Exception e)
 		{
-			logger.debug(generateUrl(mc) + " is not found");
+			logger.debug("{} is not found",generateUrl(mc));
 			return null;
 		}
 	}

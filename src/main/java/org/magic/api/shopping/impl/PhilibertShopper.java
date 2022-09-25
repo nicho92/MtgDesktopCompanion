@@ -74,7 +74,7 @@ public class PhilibertShopper extends AbstractMagicShopper {
 			}
 			catch(Exception e)
 			{
-				logger.error("couldn't get order page for " + id + " " + e);
+				logger.error("couldn't get order page for {} {}",id,e.getMessage());
 			}
 		}
 

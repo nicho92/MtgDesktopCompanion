@@ -34,7 +34,7 @@ public class PSAGrader extends AbstractGradersProvider {
 
 				    var  condition=result.split(" ")[0].trim();
 					var note = UITools.parseDouble (result.split(" ")[1].trim());
-					logger.debug("result : " + result + " Note =" + note);
+					logger.debug("result : {} note={}",result,note);
 					var g = new Grading();
 					g.setNumberID(identifier);
 					g.setUrlInfo(getWebSite()+"/cert/"+identifier);
@@ -58,7 +58,7 @@ public class PSAGrader extends AbstractGradersProvider {
 			case "NM-MT": return EnumCondition.NEAR_MINT;
 			case "PR" : return EnumCondition.POOR;
 			case "MINT": return EnumCondition.MINT;
-			default : logger.warn(condition  + " is unknow"); return EnumCondition.NEAR_MINT;
+			default : logger.warn("{} is unknow",condition); return EnumCondition.NEAR_MINT;
 		}
 	}
 

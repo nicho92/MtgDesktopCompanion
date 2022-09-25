@@ -35,7 +35,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	public void removeEdition(MagicEdition me) {
 		var f = new File(setDirectory, me.getId() + ext);
 		try {
-			logger.debug("delete : " + f);
+			logger.debug("delete : {}",f);
 			FileTools.deleteFile(f);
 		} catch (IOException e) {
 			logger.error(e);
@@ -140,10 +140,10 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	@Override
 	public void init() {
 		setDirectory = getFile("DIRECTORY");
-		logger.debug("Opening directory " + setDirectory);
+		logger.debug("Opening directory {}",setDirectory);
 		if (!setDirectory.exists())
 		{
-			logger.debug("Directory " + setDirectory + " doesn't exist");
+			logger.debug("Directory {} doesn't exist",setDirectory);
 			setDirectory.mkdir();
 		}
 	}
@@ -210,7 +210,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		try {
 			return BeanUtils.getProperty(mc, att).toUpperCase().contains(val.toUpperCase());
 		} catch (Exception e) {
-			logger.error("error loading " + mc +" " + att +" " + val,e);
+			logger.error("error loading {} {} {}" ,mc,att,val,e);
 			return false;
 		}
 	}

@@ -132,7 +132,7 @@ public class ScriptPanel extends MTGUIComponent {
 			if(f!=null)
 			{
 				f.cancel(true);
-				logger.debug("Canceling " + f);
+				logger.debug("Canceling {}",f);
 			}
 		});
 
@@ -222,7 +222,7 @@ public class ScriptPanel extends MTGUIComponent {
 					{
 						var fext = new File(currentFile.getParentFile(),currentFile.getName()+"."+((MTGScript)cboScript.getSelectedItem()).getExtension());
 						boolean bext = currentFile.renameTo(fext);
-						logger.debug("No extenstion, renaname to " + fext +":"+bext);
+						logger.debug("No extenstion, renaname to {}:{}",fext,bext);
 					}
 
 

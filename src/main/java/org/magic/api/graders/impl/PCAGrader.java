@@ -32,7 +32,7 @@ public class PCAGrader extends AbstractGradersProvider {
 
 		if(els.isEmpty())
 		{
-			logger.debug(identifier +" is not found for " + getName());
+			logger.debug("{} is not found for {}",identifier,getName());
 			return null;
 		}
 
