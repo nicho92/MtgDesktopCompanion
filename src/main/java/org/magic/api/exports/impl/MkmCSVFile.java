@@ -63,7 +63,7 @@ public class MkmCSVFile extends AbstractFormattedFileCardExport {
 					mc = parseMatcherWithGroup(m, 1, 2, true, FORMAT_SEARCH.NAME, FORMAT_SEARCH.NAME);
 				}catch(Exception e)
 				{
-					logger.error("Card is not found with this provider : " + m.group());
+					logger.error("Card is not found with this provider : {}",m.group());
 				}
 			}
 
@@ -91,7 +91,7 @@ public class MkmCSVFile extends AbstractFormattedFileCardExport {
 			}
 			else
 			{
-				logger.debug("No card found for " + m.group());
+				logger.debug("No card found for {}",m.group());
 			}
 		});
 

@@ -140,7 +140,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 								  }
 								  catch(Exception e)
 								  {
-									  logger.error("No language for code =" + art.get("Language"));
+									  logger.error("No language for code ={}",art.get("Language"));
 								  }
 								  ret.add(item);
 
@@ -225,14 +225,14 @@ public class MkmExternalShop extends AbstractExternalShop {
 			stocks.addAll(mkmStockService.readStockFile(f, getInt(ID_GAME)));
 		}
 
-		logger.info(getName() + " will only update his stock from this transation");
-		logger.debug(getName() + " loaded " + stocks.size() +" items");
+		logger.info("{} will only update his stock from this transation",getName());
+		logger.debug("{} loaded {} items",getName(),stocks.size());
 
 
 		t.getItems().stream().map(it -> {
 			if(it.getTiersAppIds(getName())==null)
 			{
-				logger.warn(it.getProduct() + " is not synchronized with " + getName());
+				logger.warn("{} is not synchronized with {}",it.getProduct(),getName());
 				return null;
 			}
 			else
@@ -244,11 +244,11 @@ public class MkmExternalShop extends AbstractExternalShop {
 			var articles = stocks.stream().filter(pl->pl.getIdProduct()==art.getIdProduct()).toList();
 			if(articles.size()>1)
 			{
-				logger.warn("Found multiple Articles :"  + articles);
+				logger.warn("Found multiple Articles : {}",articles);
 			}
 			else if(articles.isEmpty())
 			{
-				logger.warn("Article " + art.getIdArticle() + " not found in stock");
+				logger.warn("Article {} not found in stock",art.getIdArticle());
 			}
 			else
 			{
@@ -461,7 +461,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 					  ret.setIdArticle(it.getId().intValue());
 					  ret.setIdProduct(it.getProduct().getProductId().intValue());
 					  ret.setCount(it.getQte());
-					  logger.debug(it + " new = " + it.getQte() + "  old=" + itemsBkcp.get(it).getKey() + " = " +  changeQty);
+					  logger.debug("{} new = {} old={} = {}",it,it.getQte(),itemsBkcp.get(it).getKey(),changeQty);
 					  mkmStockService.changeQte(ret, changeQty);
 			} catch (IOException e) {
 				logger.error(e);

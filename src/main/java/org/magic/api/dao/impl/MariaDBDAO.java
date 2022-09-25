@@ -62,7 +62,7 @@ public class MariaDBDAO extends AbstractMagicSQLDAO {
 
 		var pb = new ProcessBuilder(getString(MARIA_DUMP_PATH) + "/mysqldump",getString(DB_NAME), "-h",getString(SERVERNAME),"-u",getString(LOGIN),"-p",getString(PASS),"--port",getString(SERVERPORT));
 
-		logger.info("begin Backup " + getString(DB_NAME));
+		logger.info("begin Backup {}",getString(DB_NAME));
 		Process child;
 
 		child = pb.start();
@@ -72,7 +72,7 @@ public class MariaDBDAO extends AbstractMagicSQLDAO {
 			while ((ch = in.read()) != -1) {
 				ps.write(ch);
 			}
-			logger.info("Backup " + getString(DB_NAME) + " done");
+			logger.info("Backup {} done",getString(DB_NAME));
 		}
 
 	}

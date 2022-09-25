@@ -34,7 +34,7 @@ public class MemoryCache extends AbstractCacheProvider {
 
 	@Override
 	public void put(BufferedImage im, MagicCard mc) {
-		logger.debug("put " + mc + " in cache");
+		logger.debug("put {} in  cache",mc);
 		cache.put(generateIdIndex(mc), im);
 	}
 
