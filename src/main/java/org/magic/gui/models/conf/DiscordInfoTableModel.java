@@ -37,6 +37,7 @@ public class DiscordInfoTableModel extends GenericTableModel<DiscordInfo> {
 			case 4: return (items.get(row).getUser()!=null)?items.get(row).getUser().get("name").getAsString():"";
 			case 5: return (items.get(row).getGuild()!=null)?items.get(row).getGuild().get("name").getAsString():"";
 			case 6: return (items.get(row).getChannel()!=null)?items.get(row).getChannel().get("name").getAsString():"";
+			default://do nothing
 			}
 		}
 

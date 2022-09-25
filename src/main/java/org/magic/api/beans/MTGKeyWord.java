@@ -62,7 +62,7 @@ public class MTGKeyWord implements Serializable{
 
 	@Override
 	public boolean equals(Object obj) {
-		if((obj==null) || !(obj instanceof MTGKeyWord))
+		if(!(obj instanceof MTGKeyWord))
 			return false;
 
 		return this.getKeyword().equalsIgnoreCase(((MTGKeyWord)obj).getKeyword());

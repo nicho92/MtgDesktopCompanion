@@ -47,7 +47,7 @@ public class MagicCollection implements MTGStorable {
 	@Override
 	public boolean equals(Object obj) {
 
-		if((obj==null) || !(obj instanceof MagicCollection))
+		if(!(obj instanceof MagicCollection))
 			return false;
 
 		return ((MagicCollection)obj).getName().equalsIgnoreCase(getName());

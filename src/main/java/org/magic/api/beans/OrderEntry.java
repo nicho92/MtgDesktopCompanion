@@ -46,7 +46,7 @@ public class OrderEntry implements Serializable {
 	@Override
 	public boolean equals(Object obj) {
 
-		if((obj==null) || !(obj instanceof OrderEntry))
+		if(!(obj instanceof OrderEntry))
 			return false;
 
 

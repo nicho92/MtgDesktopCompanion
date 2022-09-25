@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.time.DateUtils;
-import org.apache.logging.log4j.Logger;
-import org.magic.services.logging.MTGLogger;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -21,7 +19,6 @@ import io.jsonwebtoken.security.Keys;
 
 public class JWTServices {
 
-	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private String issuer;
 	private Key secret;
 	private static SignatureAlgorithm algo = SignatureAlgorithm.HS256;

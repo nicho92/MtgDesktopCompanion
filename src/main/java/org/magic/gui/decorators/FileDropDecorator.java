@@ -178,11 +178,12 @@ public class FileDropDecorator
     public static boolean remove( Component c, boolean recursive )
     {
             c.setDropTarget( null );
-            if( recursive && ( c instanceof Container cont) )
-            {
+            if( recursive && ( c instanceof Container cont) ){
+            	
             	Component[] comps = cont.getComponents();
-                for (Component comp : comps)
-					remove( comp, recursive );
+               		for (Component comp : comps)
+               			remove( comp, recursive );
+               		
                 return true;
             }
             else

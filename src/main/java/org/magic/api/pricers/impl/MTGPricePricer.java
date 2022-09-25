@@ -10,6 +10,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.network.URLTools;
+import org.magic.tools.UITools;
 
 import com.google.gson.stream.JsonReader;
 
@@ -63,7 +64,7 @@ public class MTGPricePricer extends AbstractPricesProvider {
 					price.setMagicCard(card);
 					price.setSeller(getName());
 					price.setUrl(getString("WEBSITE") + "/sets/" + set + "/"+ mtgpriceID.substring(0, mtgpriceID.indexOf(set)));
-					price.setValue(Double.parseDouble(fairPrice.replaceAll("\\$", "")));
+					price.setValue(UITools.parseDouble(fairPrice));
 					price.setQuality("NM");
 					var start=mtgpriceID.indexOf(set) + set.length();
 					price.setFoil(mtgpriceID.indexOf("true", start)>-1);

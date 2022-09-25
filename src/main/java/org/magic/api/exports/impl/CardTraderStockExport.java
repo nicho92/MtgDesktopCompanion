@@ -120,7 +120,7 @@ public class CardTraderStockExport extends AbstractCardExport {
 
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
-
+		//TODO export deck
 	}
 
 
