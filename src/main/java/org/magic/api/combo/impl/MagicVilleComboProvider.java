@@ -30,7 +30,7 @@ public class MagicVilleComboProvider extends AbstractComboProvider {
 			Document req = RequestBuilder.build().setClient(c).url(BASE_URL+"submit_search").method(METHOD.POST).addContent("n", mc.getName()).toHtml();
 			id = req.select("td>a").first().attr("id").replace("c_t_", "");
 		} catch (Exception e) {
-			logger.error("error looking for card " + mc +" : ", e);
+			logger.error("error looking for card {}",mc, e);
 			return ret;
 		}
 

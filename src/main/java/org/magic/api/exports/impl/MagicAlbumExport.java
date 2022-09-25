@@ -139,7 +139,7 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 
 						if(listmc.isEmpty())
 						{
-							logger.error(cardName + " is not found in set "+setCode);
+							logger.error("{} is not found in set {}",cardName,setCode);
 							mc=null;
 						}
 						else

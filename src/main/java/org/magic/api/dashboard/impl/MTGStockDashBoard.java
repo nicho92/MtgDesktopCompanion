@@ -119,7 +119,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 			default:break;
 		}
 
-		logger.debug("found " + ret);
+		logger.debug("found {}",ret);
 
 		if(packaging.getExtra()!=null)
 		{
@@ -174,7 +174,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		var p=PRICES.valueOf(getString(PRICE_VALUE).toUpperCase());
 
 
-		logger.debug("Parsing shakers for " + f +" "+ p);
+		logger.debug("Parsing shakers for {} {} ",f,p);
 
 		List<Interest> st;
 
@@ -236,7 +236,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 
 	private void fillEditionShaker(PRICES c,MagicEdition ed, EditionsShakers es, boolean b) {
 
-		logger.debug("Parsing shakers for " + ed + " " + c);
+		logger.debug("Parsing shakers for {} {}",ed,c);
 
 		cardService.getPrintsBySetCode(ed.getId()).forEach(p->{
 					CardShake cs = initFromPrint(p);
@@ -248,7 +248,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 					}
 					catch(NullPointerException e)
 					{
-						logger.error(p +"  " + e);
+						logger.error("{} : {}",p,e);
 					}
 					cs.setFoil(b);
 

@@ -124,7 +124,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		HistoryPrice<MTGSealedProduct> history =  new HistoryPrice<>(packaging);
 							  history.setCurrency(getCurrency());
 
-		logger.debug("loading prices for " + packaging);
+		logger.debug("loading prices for {}",packaging);
 
 		if(packaging==null || packaging.getEdition()==null)
 			return history;
@@ -207,7 +207,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 			if(arr.isEmpty())
 			{
-				logger.trace("No url found for " + mc);
+				logger.trace("No url found for {}",mc);
 				return null;
 			}
 
@@ -226,11 +226,10 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 					}
 				}
 
-				logger.debug("filtered with set "+set+" and foil : " + foil+ " : " +  filteredArray);
+				logger.debug("filtered with set {} and foil : {} : {} ",set,foil,filteredArray);
 
 
 				if(filteredArray.size()==1) {
-					logger.trace("Found 1 item for " + mc + " " + mc.getCurrentSet());
 					item = filteredArray.get(0).getAsJsonObject();
 				}
 				else if(filteredArray.size()>1)
@@ -271,7 +270,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			}
 		}
 
-		logger.debug("Founded " + item);
+		logger.debug("Founded {}",item);
 
 		if(item==null)
 		{
@@ -357,10 +356,10 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		if(f!=null)
 			gameFormat=f.name();
 
-		String urlW = MOVERS_DETAILS + getString(FORMAT) + "/" + gameFormat.toLowerCase() + "/winners/"+ getString(DAILY_WEEKLY);
-		String urlL = MOVERS_DETAILS + getString(FORMAT) + "/" + gameFormat.toLowerCase() + "/losers/"+ getString(DAILY_WEEKLY);
+		var urlW = MOVERS_DETAILS + getString(FORMAT) + "/" + gameFormat.toLowerCase() + "/winners/"+ getString(DAILY_WEEKLY);
+		var urlL = MOVERS_DETAILS + getString(FORMAT) + "/" + gameFormat.toLowerCase() + "/losers/"+ getString(DAILY_WEEKLY);
 
-		logger.trace("Loading Shake " + urlW + " and " + urlL);
+		logger.trace("Loading Shake {} and {}",urlW,urlL);
 		Document doc = URLTools.extractAsHtml(urlW);
 		Document doc2 = URLTools.extractAsHtml(urlL);
 
@@ -482,7 +481,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 		Document doc = URLTools.extractAsHtml(u);
 
-		logger.debug("get best cards : " + u);
+		logger.debug("get best cards : {}",u);
 		Elements trs = doc.select("table tr");
 		trs.remove(0);
 		//trs.remove(0);
@@ -500,7 +499,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 				ret.add(d);
 			} catch (Exception ex) {
-				logger.error("Error parsing " + tds, ex);
+				logger.error("Error parsing {}",tds, ex);
 			}
 
 		}

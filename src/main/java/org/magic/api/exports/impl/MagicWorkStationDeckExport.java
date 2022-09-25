@@ -67,7 +67,7 @@ public class MagicWorkStationDeckExport extends AbstractFormattedFileCardExport 
 					}
 					else
 					{
-						logger.warn("No card found for " + m.group());
+						logger.warn("No card found for {}",m.group());
 					}
 
 			});

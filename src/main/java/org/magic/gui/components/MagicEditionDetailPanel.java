@@ -114,7 +114,7 @@ public class MagicEditionDetailPanel extends MTGUIComponent {
 					CardSearchPanel.getInstance().thumbnail(
 							getEnabledPlugin(MTGCardsProvider.class).generateBooster(magicEdition).getCards());
 				} catch (Exception e) {
-					logger.error("Error loading booster for " + magicEdition, e);
+					logger.error("Error loading booster for {}",magicEdition, e);
 				}
 			});
 

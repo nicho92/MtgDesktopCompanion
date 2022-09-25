@@ -9,19 +9,15 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.client.LaxRedirectStrategy;
-import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.magic.api.beans.MagicEvent;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
+import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
+import org.magic.services.network.RequestBuilder.METHOD;
 
 public class MTGEventProvider {
 
@@ -37,13 +33,7 @@ public class MTGEventProvider {
 	}
 
 	private String read(String url) throws IOException {
-		logger.debug("retrieve events from " + url);
-		HttpClient httpClient = HttpClients.custom().setUserAgent(MTGConstants.USER_AGENT)
-				.setRedirectStrategy(new LaxRedirectStrategy()).build();
-		var req = new HttpGet(url);
-		req.addHeader("content-type", URLTools.HEADER_JSON);
-		HttpResponse resp = httpClient.execute(req);
-		return EntityUtils.toString(resp.getEntity());
+		return RequestBuilder.build().addHeader(URLTools.CONTENT_TYPE,URLTools.HEADER_JSON).setClient(URLTools.newClient()).url(url).method(METHOD.GET).toContentString();
 	}
 
 	public List<MagicEvent> listEvents(int y, int m) throws IOException {

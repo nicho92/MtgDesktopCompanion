@@ -17,7 +17,7 @@ public class MagicTradersPricer extends AbstractPricesProvider {
 	@Override
 	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 
-		logger.info(getName() + " looking for prices " + getString("URL"));
+		logger.info("{} looking for prices {}",getName(),getString("URL"));
 
 		var is = URLTools.extractAsInputStream(getString("URL"));
 		try (var read = new BufferedReader(new InputStreamReader(is))) {
@@ -35,11 +35,11 @@ public class MagicTradersPricer extends AbstractPricesProvider {
 				try {
 					f = Double.parseDouble(price);
 				} catch (NumberFormatException e) {
-					logger.error("error parsing "+ price);
+					logger.error("error parsing {}",price);
 				}
 					String cname = getCorrectName(card.getName());
 					if (name.startsWith(cname)) {
-						logger.info(getName() + " found " + cname);
+						logger.info("{} found {}",getName(),cname);
 						var mp = new MagicPrice();
 						mp.setMagicCard(card);
 						mp.setSeller(getName());
@@ -55,7 +55,7 @@ public class MagicTradersPricer extends AbstractPricesProvider {
 
 
 			}
-			logger.info(getName() + " found " + list.size() +" offers");
+			logger.info("{} found {} offers",getName(),list.size());
 			return list;
 		}
 

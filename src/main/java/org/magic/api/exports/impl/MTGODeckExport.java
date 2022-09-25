@@ -68,12 +68,12 @@ public class MTGODeckExport extends AbstractFormattedFileCardExport {
 					}
 					catch(Exception e)
 					{
-						logger.error(m.group(4) + " isn't a valid set");
+						logger.error("{} isn't a valid set",m.group(4));
 					}
 
 
 					try{
-						MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cname.trim(), ed, true).get(0);
+						var mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cname.trim(), ed, true).get(0);
 						var qty = Integer.parseInt(m.group(1));
 
 						if(side)
@@ -89,7 +89,7 @@ public class MTGODeckExport extends AbstractFormattedFileCardExport {
 					}
 					catch(Exception e)
 					{
-						logger.error(cname + " is not found : " + e.getMessage());
+						logger.error("{} is not found : {}",cname,e.getMessage());
 					}
 				}
 			}

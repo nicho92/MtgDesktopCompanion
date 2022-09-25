@@ -30,7 +30,7 @@ public class MTGStandPricer extends AbstractPricesProvider {
 		String cur=MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getCurrencyCode();
 
 		String url=BASE_URL+"/api/"+getString("TOKEN")+"/getseller/"+card.getScryfallId()+"/"+cur;
-		logger.debug(getName() +" looking for prices at " + url);
+		logger.debug("{} looking for prices at {}",getName(),url);
 
 		List<MagicPrice> ret = new ArrayList<>();
 
@@ -67,7 +67,7 @@ public class MTGStandPricer extends AbstractPricesProvider {
 			}
 			ret.add(p);
 		}
-		logger.info(getName() + " found " + ret.size() + " items");
+		logger.info("{} found {} items",getName(),ret.size());
 
 		return ret;
 	}

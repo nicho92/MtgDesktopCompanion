@@ -68,7 +68,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 		try (var c = pool.getConnection(); Statement pst = c.createStatement())
 		{
 			var sql = getMTGQueryManager().build(crits).toString();
-			logger.debug("sql="+sql);
+			logger.debug("sql={}",sql);
 			try (ResultSet rs = pst.executeQuery(sql))
 			{
 				while(rs.next())
@@ -184,7 +184,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 	@Override
 	public void init() {
-		logger.info("init " + this);
+		logger.info("init {}",this);
 		download();
 		pool = new HikariPool();
 		pool.init("jdbc:sqlite://"+getDataFile().getAbsolutePath(), "", "", true);
@@ -193,7 +193,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 			@Override
 			protected void auditedRun() {
-				logger.debug("Loading " +getName() + " extra data cards in background");
+				logger.debug("Loading {} extra data cards in background",getName());
 				initForeign();
 				initLegalities();
 				initRules();
@@ -246,9 +246,6 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 					pst.setString(1, "%"+crit+"%");
 
 			}
-
-			logger.debug(temp.toString().replaceFirst("\\?", "'"+crit+"'"));
-
 			try (ResultSet rs = pst.executeQuery())
 			{
 				while(rs.next())
@@ -375,7 +372,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 						try {
 							mc.getFinishes().add(MTGFinishes.parseByLabel(s));
 						} catch (Exception e) {
-							logger.error("couldn't find finishes for " + s);
+							logger.error("couldn't find finishes for {}", s);
 						}
 					}
 				}
@@ -387,7 +384,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 						try {
 							mc.getFrameEffects().add(MTGFrameEffects.parseByLabel(s));
 						} catch (Exception e) {
-							logger.error("couldn't find frameEffects for " + s);
+							logger.error("couldn't find frameEffects for {}",s);
 						}
 					}
 				}
@@ -653,7 +650,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 			}
 
 		} catch (SQLException e) {
-			logger.error("error getting translation for " + ed ,e);
+			logger.error("error getting translation for {}",ed ,e);
 		}
 	}
 

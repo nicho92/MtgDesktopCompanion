@@ -41,7 +41,7 @@ public class MagarenaExport extends AbstractFormattedFileCardExport
 				deck.getMain().put(mc, qty);
 
 			} catch (Exception e) {
-				logger.error("error getting " + m.group(4));
+				logger.error("error getting {}",m.group(4));
 			}
 
 			if(m.group().startsWith(">"))

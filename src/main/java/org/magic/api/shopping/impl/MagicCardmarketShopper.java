@@ -56,7 +56,7 @@ public class MagicCardmarketShopper extends AbstractMagicShopper {
 			try {
 				entrie.setEdition(getEnabledPlugin(MTGCardsProvider.class).getSetByName(a.getProduct().getExpansion()));
 			} catch (IOException e) {
-				logger.error("can't found " + a.getProduct().getExpansion());
+				logger.error("can't found {}",a.getProduct().getExpansion());
 			}
 		}
 		else if(a.getProduct().getEnName().toLowerCase().contains("booster box"))

@@ -40,19 +40,19 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 		Document doc = URLTools.toHtml(client.toString(client.doGet(urlCommandes)));
 		Elements numCommands = doc.select("table tbody tr");
 
-		logger.debug("found "+ numCommands.size()+ " orders. Parsing details");
+		logger.debug("found {} orders. Parsing details",numCommands);
 		for(var i=0;i<numCommands.size();i++)
 		{
 			String id=numCommands.get(i).select("td").get(0).text();
 			String date=numCommands.get(i).select("td").get(1).text();
 			try {
-				logger.trace("parsing " + i + "/"+numCommands.size());
+				logger.trace("parsing {}/{}",i,numCommands.size());
 				entries.addAll(parse(URLTools.toHtml(client.toString(client.doGet(urlDetailCommandes+id))),id,date));
 
 			}
 			catch(Exception e)
 			{
-				logger.error("can't get order "+ id,e);
+				logger.error("can't get order {}",id,e);
 			}
 		}
 

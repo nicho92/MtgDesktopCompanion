@@ -50,8 +50,6 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	public List<CardShake> getOnlineShakerFor(MagicFormat.FORMATS f) throws IOException {
 		List<CardShake> list = new ArrayList<>();
 		String url = getString(WEBSITE) + "/taneLayout/mtg_price_tracker.jsp?period=" + getString("PERIOD");
-		logger.debug("Get Shake for " + url);
-
 		Document doc = URLTools.extractAsHtml(url);
 		try {
 
@@ -100,7 +98,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 				notify(cs);
 			}
 		} catch (Exception e) {
-			logger.error("error retrieve cardshake for " + gameFormat, e);
+			logger.error("error retrieve cardshake for {}",gameFormat, e);
 		}
 		return list;
 	}
@@ -123,7 +121,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		String name = convert(edition.getSet()).replace(" ", "_");
 
 		String url = getString(WEBSITE)+"/spoiler_lists/" + name;
-		logger.debug("get Prices for " + name + " " + url);
+		logger.debug("get Prices for {} at {}",name,url);
 
 		Document doc =URLTools.extractAsHtml(url);
 
@@ -206,7 +204,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		String url = getString(WEBSITE)+"/sets/" + edition + "/" + name;
 		Document d = URLTools.extractAsHtml(url);
 
-		logger.debug("get Prices for " + name + " " + url);
+		logger.debug("get Prices for {} at {}",name,url);
 
 		Element js = d.getElementsByTag("body").get(0).getElementsByTag("script").get(29);
 

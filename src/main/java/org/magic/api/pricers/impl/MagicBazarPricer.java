@@ -39,7 +39,7 @@ public class MagicBazarPricer extends AbstractPricesProvider {
 		List<MagicPrice> list = new ArrayList<>();
 
 		String page = getPage(card.getName());
-		logger.info(getName() + " looking for prices " + page);
+		logger.info("{} looking for prices {}",getName(),page);
 
 		try {
 			Document doc = URLTools.extractAsHtml(page);
@@ -73,12 +73,12 @@ public class MagicBazarPricer extends AbstractPricesProvider {
 				if(mp.getSeller().toLowerCase().startsWith(card.getCurrentSet().getSet().toLowerCase()))
 					list.add(mp);
 			}
-			logger.info(getName() + " found " + list.size() +" offers");
+			logger.info("{} found {} offers",getName(),list.size());
 
 			return list;
 		} catch (Exception e) {
-			logger.trace("Error loading price for " + page, e);
-			logger.info(getName() + " no item : " + e.getMessage());
+			logger.trace("Error loading price for {}",page, e);
+			logger.info("{} found no item : {}",getName(),e.getMessage());
 			return list;
 		}
 	}

@@ -105,14 +105,14 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 			}
 			catch(Exception e)
 			{
-				logger.error("Edition not found for " + m.group(2));
+				logger.error("Edition not found for {}",m.group(2));
 			}
 
 			MagicCard card=null;
 			try {
 				card = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cname, ed, true).get(0);
 			} catch (IOException e) {
-				logger.error("no card found for" + cname + "/"+ ed);
+				logger.error("no card found for {}/{}",cname,ed);
 			}
 
 
@@ -151,14 +151,14 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 			}
 			catch(Exception e)
 			{
-				logger.error("Edition not found for " + m.group(2));
+				logger.error("Edition not found for {}",m.group(2));
 			}
 
 			MagicCard card=null;
 			try {
 				card = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cname, ed, true).get(0);
 			} catch (IOException e) {
-				logger.error("no card found for" + cname + "/"+ ed);
+				logger.error("no card found for {}/{}",cname,ed);
 			}
 
 

@@ -59,7 +59,7 @@ public class ManaPool extends Observable implements Serializable {
 		try {
 			setMana(color, pool.get(color) - number);
 		} catch (Exception e) {
-			logger.error("error using " + number + " " + color + ". Pool="+pool);
+			logger.error("error using {} {}. Pool={}",number,color,pool);
 		}
 	}
 

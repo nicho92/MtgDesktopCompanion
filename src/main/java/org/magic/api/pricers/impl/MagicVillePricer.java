@@ -56,7 +56,7 @@ public class MagicVillePricer extends AbstractPricesProvider {
 		var code = res.substring(res.indexOf(key), res.indexOf("\";"));
 		String url = WEBSITE+"/fr/register/show_card_sale?"+code;
 
-		logger.info(getName() + " looking for prices " + card);
+		logger.info("{} looking for prices {}",getName(),card);
 
 
 		Document doc =URLTools.extractAsHtml(url);
@@ -65,7 +65,7 @@ public class MagicVillePricer extends AbstractPricesProvider {
 		try {
 			table = doc.select("table[width=98%]").get(2); // select the first table.
 		} catch (IndexOutOfBoundsException e) {
-			logger.info(getName() + " no sellers");
+			logger.info("{} no sellers",getName());
 			return list;
 		}
 
@@ -98,7 +98,7 @@ public class MagicVillePricer extends AbstractPricesProvider {
 		if (list.size() > getInt(MAX) && getInt(MAX) > -1)
 			return list.subList(0, getInt(MAX));
 
-		logger.info(getName() + " found " + list.size() + " offers");
+		logger.info("{} found {} offers",getName(),list.size());
 
 		return list;
 	}

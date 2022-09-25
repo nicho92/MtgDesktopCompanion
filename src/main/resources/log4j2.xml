@@ -2,7 +2,8 @@
 <Configuration xmlns:xi="http://www.w3.org/2001/XInclude" packages="org.magic.services.logging" status="error">
  	
   <Properties>
-   	<Property name="defaultLayoutPattern">%d{yyyy-MM-dd HH:mm:ss} %-5p %c %L - %m%n</Property>
+   	<Property name="defaultLayoutPattern">%d{yyyy-MM-dd HH:mm:ss} [%-5p] %c %L - %m%n</Property>
+   	<Property name="devLayoutPattern">%d{yyyy-MM-dd HH:mm:ss} [%-5p] %c %M %L - %m%n</Property>
    	<Property name="logDirectory">${sys:user.home}/.magicDeskCompanion/logs</Property>
   </Properties>
  	

@@ -71,7 +71,7 @@ public class MTGJSonDeckSniffer extends AbstractDeckSniffer {
 
 				notify(mc);
 			} catch (IOException e) {
-				logger.error("error loading " + name+"/"+ed,e);
+				logger.error("error loading {}/{}",name,ed,e);
 			}
 
 		});

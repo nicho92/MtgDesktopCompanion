@@ -167,7 +167,7 @@ public class MTGJsonPricer {
 
 			}
 			writeFile(arr,v);
-			logger.info("Ending buildings datas " + c.stop() +"s");
+			logger.info("Ending buildings datas {}s",c.stop());
 
 	}
 
@@ -195,7 +195,7 @@ public class MTGJsonPricer {
 			if(lastModif>expireday)
 			{
 				downloadDataFile();
-				logger.info(f.getAbsolutePath() + " is older of " + expireday + " days. Will be updated");
+				logger.info("{} is older than {} days. Will be updated",f.getAbsolutePath(),expireday);
 				FileTools.deleteFile(f);
 			}
 
@@ -207,7 +207,7 @@ public class MTGJsonPricer {
 		{
 			if(!f.exists())
 			{
-				logger.error(f.getAbsolutePath() + " doesn't existe. running buildPrices("+v+")");
+				logger.error("{} doesn't existe. running buildPrices({})",f.getAbsolutePath(),v);
 				buildPrices(v);
 			}
 
@@ -260,7 +260,7 @@ public class MTGJsonPricer {
 			}
 		}
 
-		logger.debug("MTGJson found " + ret.size() + " prices");
+		logger.debug("MTGJson found {} prices",ret.size());
 		return ret;
 	}
 

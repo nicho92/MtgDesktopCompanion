@@ -106,7 +106,7 @@ public class ManualImportDialog extends AbstractDelegatedImporterDialog {
 					start=0;
 
 				} catch (BadLocationException e1) {
-					logger.error("error editing at s:" +start +" e:"+(position-start),e1);
+					logger.error("error editing at s:{} e:{}",start,(position-start),e1);
 				} catch (AWTException e1) {
 					logger.error("Error loading key enter",e1);
 				}
@@ -140,7 +140,7 @@ public class ManualImportDialog extends AbstractDelegatedImporterDialog {
 				}
 				catch(Exception e)
 				{
-					logger.error("error"+e);
+					logger.error("error",e);
 				}
 
 			}
@@ -158,7 +158,7 @@ public class ManualImportDialog extends AbstractDelegatedImporterDialog {
 													importedDeck= exp.importDeck(editorPane.getText(),"manual");
 												} catch (Exception e) {
 													err=e;
-													logger.error("error export with " + exp,e);
+													logger.error("error export with {}",exp,e);
 												}
 												return importedDeck;
 											}

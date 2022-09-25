@@ -122,7 +122,7 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 		try {
 			lists = new ArrayList<>();
 
-			logger.info(getName() + " looking for " + card + " " + card.getCurrentSet());
+			logger.info("{} looking for {}/{}",getName(),card,card.getCurrentSet());
 
 			if (card.getRarity() != null && !getBoolean("COMMONCHECK") && card.getRarity()==MTGRarity.COMMON) {
 				var mp = new MagicPrice();
@@ -169,7 +169,7 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 				List<Product> list = pService.findProduct(card.getName(), atts);
 				var resultat = getProductFromCard(card, list);
 				if (resultat == null) {
-					logger.info(getName() + " found no product for " + card);
+					logger.info("{} found no product for {}",getName(),card);
 					return lists;
 				}
 
@@ -210,11 +210,11 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 			}
 
 		} catch (Exception e) {
-			logger.error("Error retrieving prices for " + card, e);
+			logger.error("Error retrieving prices for {}",card, e);
 			logger.error(e);
 
 		}
-		logger.info(getName() + " found " + lists.size() +" offers");
+		logger.info("{} found {} offers",getName(),lists.size());
 		return lists;
 	}
 
@@ -243,9 +243,9 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 							list.add(a);
 						}
 						boolean res = cart.addArticles(list);
-						logger.info("add " + list + " to card :" + res);
+						logger.info("add {} to card : {}",list,res);
 					} catch (Exception e) {
-						logger.error("Could not add " + p + " to cart", e);
+						logger.error("Could not add {} to cart",p, e);
 					}
 				}
 

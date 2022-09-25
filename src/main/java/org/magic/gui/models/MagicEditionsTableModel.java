@@ -67,7 +67,7 @@ public class MagicEditionsTableModel extends GenericTableModel<MagicEdition> {
 		try {
 			mapCount = CollectionEvaluator.analyse(collection);
 		} catch (IOException e) {
-			logger.error("can't evaluate for " + collection + " : " + e);
+			logger.error("can't evaluate for {} : {}",collection,e.getMessage());
 		}
 	}
 

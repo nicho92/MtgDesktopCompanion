@@ -867,6 +867,10 @@
     </storage>
     <storage>
       <class>org.magic.api.fs.impl.ZipFileSystemStorage</class>
+      <enable>false</enable>
+    </storage>
+    <storage>
+      <class>org.magic.api.fs.impl.DAOFileSystemStorage</class>
       <enable>true</enable>
     </storage>
   </storages>

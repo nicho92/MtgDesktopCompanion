@@ -128,7 +128,7 @@ public class MagicWebSiteGenerator extends Observable {
 				try {
 					prices.addAll(prov.getPrice(mc));
 				} catch (Exception e) {
-					logger.error("Generating card template for " + mc, e);
+					logger.error("Generating card template for {}", mc, e);
 				}
 			}
 		}

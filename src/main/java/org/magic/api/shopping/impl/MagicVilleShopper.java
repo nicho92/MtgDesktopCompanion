@@ -52,7 +52,7 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 			tableOrders.remove(0); //remove separator
 			tableOrders.remove(tableOrders.size()-1); //remove separator
 			tableOrders.remove(tableOrders.size()-1); // remove table foot
-			logger.debug("Found " + tableOrders.size() + " orders");
+			logger.debug("Found {} orders",tableOrders.size());
 		}
 		catch(Exception e)
 		{

@@ -52,7 +52,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 		deck.setName(info.getName());
 		deck.setDescription("from " + info.getUrl());
 
-		logger.debug("get deck at " + info.getUrl());
+		logger.debug("get deck at {}",info.getUrl());
 
 		Document d = URLTools.extractAsHtml(info.getUrl().toString());
 
@@ -85,7 +85,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 				}
 				catch(Exception e)
 				{
-					logger.error("No card found for " + name);
+					logger.error("No card found for {}",name);
 				}
 
 			}
@@ -98,7 +98,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 	@Override
 	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
 		var url = getString(URL) + "/" + filter + "/decklists/page:1";
-		logger.debug("get List deck at " + url);
+		logger.debug("get List deck at {}",url);
 		List<RetrievableDeck> list = new ArrayList<>();
 		var nbPage = 1;
 		var maxPage = getInt(MAX_PAGE);

@@ -91,9 +91,9 @@ public class MagicCorporationPricer extends AbstractPricesProvider {
 			}
 			else
 			{
-				logger.debug(getName() +" found nothing");
+				logger.debug("{} found nothing",getName());
 			}
-			logger.info(getName() + " found " + ret.size() +" offers");
+			logger.info("{} found {} offers",getName(),ret.size());
 
 		return ret;
 	}
