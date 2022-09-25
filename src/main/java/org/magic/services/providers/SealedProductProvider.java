@@ -100,11 +100,11 @@ public class SealedProductProvider {
 			{
 				BufferedImage im = URLTools.extractAsImage(p.getUrl());
 				ImageTools.saveImage(im, pkgFile, "PNG");
-				logger.debug("[" + p.getEdition().getId() +"] SAVED for " + p.getTypeProduct()+"-"+p);
+				logger.debug("[{}] SAVED for {}-{}",p.getEdition().getId(),p.getTypeProduct(),p);
 				return im;
 			}
 		} catch (Exception e) {
-			logger.error("[" + p.getEdition().getId() +"] ERROR for " + p.getTypeProduct()+"-"+p +" :" +e);
+			logger.error("[{}] ERROR for {}-{}",p.getEdition().getId(),p.getTypeProduct(),p,e);
 		}
 		return null;
 
@@ -122,13 +122,13 @@ public class SealedProductProvider {
 			url = item.getAttributes().getNamedItem("url").getNodeValue();
 			return URLTools.extractAsImage(url);
 		} catch (IOException e) {
-			logger.error(logo + " could not load : " + url,e);
+			logger.error("{} could not load : {}",logo,url,e);
 			return null;
 		} catch (XPathExpressionException e) {
-			logger.error(logo + " is not found :" + e);
+			logger.error("{} is not found :",logo,e);
 			return null;
 		} catch (Exception e) {
-			logger.error(logo + " error loading " + url,e);
+			logger.error("{} error loading {}",logo,url,e);
 			return null;
 		}
 	}
@@ -155,7 +155,7 @@ public class SealedProductProvider {
 		try {
 			FileUtils.cleanDirectory(f);
 		} catch (IOException e) {
-			logger.error("error removing data in "+f,e);
+			logger.error("error removing data in {}",f,e);
 		}
 	}
 
@@ -179,7 +179,7 @@ public class SealedProductProvider {
 			n = nodeList.item(0).getChildNodes();
 
 		} catch (Exception e) {
-			logger.trace("Error retrieving IDs "+ me.getId() + "->" + me + " : " + e);
+			logger.trace("Error retrieving IDs {}->{} : {}",me.getId(),me,e);
 		}
 
 		if(n==null)
@@ -198,7 +198,7 @@ public class SealedProductProvider {
 						  }
 						  catch(Exception e)
 						  {
-							  logger.error("no lang found for " + p + n.item(i),e);
+							  logger.error("no lang found for {} {}",p,n.item(i),e);
 						  }
 
 

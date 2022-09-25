@@ -405,9 +405,7 @@ public class SealedPanel extends JPanel {
 		if(list==null)
 			return;
 
-		logger.trace("sorting with " + sorter +" : " + list.size() + " items");
 		Collections.sort(list, sorter);
-		logger.trace("sorting with " + sorter + " done");
 		panelOpenedBooster.clear();
 		for (MagicCard mc : list) {
 			DisplayableCard c = createCard(mc);

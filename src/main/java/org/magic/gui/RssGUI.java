@@ -216,7 +216,7 @@ public class RssGUI extends MTGUIComponent {
 							try {
 								editorPane.loadURL(chunks.get(0).toString());
 							} catch (Exception e) {
-								logger.error("error loading " + chunks.get(0),e);
+								logger.error("error loading {}",chunks.get(0),e);
 							}
 
 						}

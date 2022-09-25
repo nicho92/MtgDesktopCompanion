@@ -91,7 +91,7 @@ public class MypCardPricer extends AbstractPricesProvider {
 			Elements tds = tr.select("td");
 			if(tds.isEmpty())
 			{
-				logger.debug(getName() + " found no offer");
+				logger.debug("{} found no offer",getName());
 				return;
 			}
 

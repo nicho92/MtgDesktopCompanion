@@ -534,7 +534,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				mc.setLoyalty(
 						obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get(LOYALTY).getAsInt());
 			} catch (Exception e) {
-				logger.error(mc.getName() + " has no loyalty: " + e);
+				logger.error("{} has no loyalty: {}",mc.getName(),e);
 			}
 
 			try {
@@ -543,7 +543,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				while (it.hasNext())
 					mc.getColors().add(MTGColor.colorByCode(it.next().getAsString()));
 			} catch (Exception e) {
-				logger.error(mc.getName() + " has no colors: " + e);
+				logger.error("{} has no colors: ",mc.getName(),e);
 			}
 			try {
 				mc.setPower(obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get(POWER)
@@ -551,7 +551,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				mc.setToughness(obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get(TOUGHNESS)
 						.getAsString());
 			} catch (Exception e) {
-				logger.error(mc.getName() + " has no power/toughness: " + e);
+				logger.error("{} has no power/toughness: ",mc.getName(),e);
 
 			}
 		}
@@ -572,7 +572,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				try {
 					ed.setMultiverseid(String.valueOf(obj.get("multiverse_ids").getAsJsonArray().get(idface).getAsInt()));
 				} catch (Exception e1) {
-					logger.error("No multiverseID found for " + mc.getName() + " face : " + idface);
+					logger.error("No multiverseID found for {} face:{}" ,mc.getName(),idface);
 				}
 
 			}
@@ -588,7 +588,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 					generateRules(mc);
 				} catch (Exception e) {
-					logger.error("error in initOtherEdition :" + e.getMessage());
+					logger.error("error in initOtherEdition :{}",e.getMessage());
 				}
 
 			}
@@ -650,8 +650,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	private void initOtherEdition(MagicCard mc) throws IOException {
 
 		String url = baseURI + "/cards/search?q=+" + URLTools.encode("++!\"" + mc.getName() + "\"")+ "%20include:extras" + "%20-s:" + mc.getCurrentSet().getId();
-
-		logger.trace("initOtherEdition " + URLDecoder.decode(url, MTGConstants.DEFAULT_ENCODING.displayName()));
 
 		var hasMore = true;
 		while (hasMore) {
