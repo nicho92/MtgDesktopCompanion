@@ -151,6 +151,43 @@ public class JSONHttpServer extends AbstractMTGServer {
 	private JsonExport converter;
 	private UserAgentAnalyzer ua ;
 	private JWTServices jwtService;
+	private static final String robotVars="""
+			\tUser-agent: Googlebot
+			\tDisallow: /
+			\tUser-agent: googlebot-image
+			\tDisallow: /
+			\tUser-agent: googlebot-mobile
+			\tDisallow: /
+			\tUser-agent: MSNBot
+			\tDisallow: /
+			\tUser-agent: Slurp
+			\tDisallow: /
+			\tUser-agent: Teoma
+			\tDisallow: /
+			\tUser-agent: Gigabot
+			\tDisallow: /
+			\tUser-agent: Robozilla
+			\tDisallow: /
+			\tUser-agent: Nutch
+			\tDisallow: /
+			\tUser-agent: ia_archiver
+			\tDisallow: /
+			\tUser-agent: baiduspider
+			\tDisallow: /
+			\tUser-agent: naverbot
+			\tDisallow: /
+			\tUser-agent: yeti
+			\tDisallow: /
+			\tUser-agent: yahoo-mmcrawler
+			\tDisallow: /
+			\tUser-agent: psbot
+			\tDisallow: /
+			\tUser-agent: yahoo-blogs/v3.9
+			\tDisallow: /
+			\tUser-agent: *
+			\tDisallow: /
+			\tDisallow: /cgi-bin/
+			\t""";
 
 
 	private JsonObject error(Request req, Response response, String msg, int code) {
@@ -330,9 +367,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		},transformer);
 
 
-		get("/services/auth",(request, response) -> {
-				return jwtService.validateToken(readToken(request));
-		},transformer);
+		get("/services/auth",(request, response) -> jwtService.validateToken(readToken(request)),transformer);
 
 
 
@@ -1336,44 +1371,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 
 
-		get("/robots.txt",URLTools.HEADER_TEXT,(req,res) ->
-			"""
-			\tUser-agent: Googlebot
-			\tDisallow: /
-			\tUser-agent: googlebot-image
-			\tDisallow: /
-			\tUser-agent: googlebot-mobile
-			\tDisallow: /
-			\tUser-agent: MSNBot
-			\tDisallow: /
-			\tUser-agent: Slurp
-			\tDisallow: /
-			\tUser-agent: Teoma
-			\tDisallow: /
-			\tUser-agent: Gigabot
-			\tDisallow: /
-			\tUser-agent: Robozilla
-			\tDisallow: /
-			\tUser-agent: Nutch
-			\tDisallow: /
-			\tUser-agent: ia_archiver
-			\tDisallow: /
-			\tUser-agent: baiduspider
-			\tDisallow: /
-			\tUser-agent: naverbot
-			\tDisallow: /
-			\tUser-agent: yeti
-			\tDisallow: /
-			\tUser-agent: yahoo-mmcrawler
-			\tDisallow: /
-			\tUser-agent: psbot
-			\tDisallow: /
-			\tUser-agent: yahoo-blogs/v3.9
-			\tDisallow: /
-			\tUser-agent: *
-			\tDisallow: /
-			\tDisallow: /cgi-bin/
-			\t""");
+		get("/robots.txt",URLTools.HEADER_TEXT,(req,res) ->robotVars);
 
 		if(getBoolean("INDEX_ROUTES")) {
 			get("/",URLTools.HEADER_HTML,(request,response) -> {
