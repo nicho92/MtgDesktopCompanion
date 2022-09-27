@@ -12,7 +12,9 @@ public class MagicCardStock extends AbstractStockItem<MagicCard> {
 	public MagicCardStock(MagicCard c) {
 		super();
 		id = -1L;
-		setProduct(c);
+		if (c != null) {
+			setProduct(c);
+		}
 	}
 
 	public MagicCardStock() {
