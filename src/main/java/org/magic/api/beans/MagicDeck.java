@@ -54,6 +54,22 @@ public class MagicDeck implements MTGStorable {
 
 
 
+  public MagicDeck getMergedDeck() {
+    List<MagicCard> mergeCardList = new ArrayList<MagicCard>();
+    List<String> cardNames = new ArrayList<String>();
+
+    getMainAsList().forEach(mc -> {
+      if (! cardNames.contains(mc.getName())) {
+        getMainAsList().stream().filter(k->k.getName().equalsIgnoreCase(mc.getName())).forEach(k->mergeCardList.add(mc));
+        cardNames.add(mc.getName());
+      }
+    });
+
+    MagicDeck mergedDeck = toDeck(mergeCardList);
+    mergedDeck.setName("merged cards deck");
+
+    return mergedDeck;
+  }
 
 	public int getId() {
 		return id;
