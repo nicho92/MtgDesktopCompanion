@@ -115,9 +115,14 @@ public class MagicDeck implements MTGStorable {
 			getMaybeBoard().put(mc, getMaybeBoard().get(mc) - 1);
 	}
 
-
+  // for backward compatible
 	public void delete(MagicCard mc) {
 		mapDeck.remove(mc);
+	}
+
+	public void delete(MagicCard mc, BOARD board) {
+    var deck = ((board==BOARD.SIDE) ? mapSideBoard : mapDeck);
+		deck.remove(mc);
 	}
 
 	public void add(MagicCard mc) {
