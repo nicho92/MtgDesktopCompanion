@@ -761,7 +761,7 @@ public class ConstructPanel extends MTGUIComponent {
 					menu.add(itemDel);
 					itemDel.addActionListener(ae->{
 
-						deck.delete(mc);
+						deck.delete(mc ,f);
 						model.fireTableDataChanged();
 
 					});
