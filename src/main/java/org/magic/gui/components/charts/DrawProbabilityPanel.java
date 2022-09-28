@@ -53,7 +53,7 @@ public class DrawProbabilityPanel extends JPanel {
 	}
 
 	public void init(MagicDeck d) {
-		this.d=d;
+		this.d=d.getMergedDeck();
 		initDeck();
 	}
 
