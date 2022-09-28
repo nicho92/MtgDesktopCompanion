@@ -1,6 +1,7 @@
 package org.magic.gui.models;
 
 import java.util.Map;
+import java.util.Objects;
 
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCard;
@@ -115,9 +116,9 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 		case 1:
 			return items.get(row).getProduct();
 		case 2:
-			return items.get(row).getProduct().getCurrentSet();
+			return (Objects.isNull(items.get(row).getProduct()) ? "" :  items.get(row).getProduct().getCurrentSet());
 		case 3:
-			return items.get(row).getProduct().getRarity();
+			return (Objects.isNull(items.get(row).getProduct()) ? "" :  items.get(row).getProduct().getRarity());
 		case 4:
 			return items.get(row).getMagicCollection();
 		case 5:
