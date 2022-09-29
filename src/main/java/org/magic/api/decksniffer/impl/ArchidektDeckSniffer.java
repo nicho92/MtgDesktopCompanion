@@ -63,7 +63,7 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 					ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(edcode);
 				}
 				var number = e.getAsJsonObject().get("card").getAsJsonObject().get("collectorNumber").getAsString();
-				MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(number, ed);
+				var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(number, ed);
 
 				if(mc!=null)
 				{
@@ -112,8 +112,11 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 							d.setUrl(new URI(build.toString()));
 							var tmp = new StringBuilder("");
 
-							for(String s : el.getAsJsonObject().get("colors").getAsJsonObject().keySet())
-								tmp.append("{").append(s).append("}");
+							for(var s : el.getAsJsonObject().get("colors").getAsJsonObject().entrySet())
+								{
+									if(s.getValue().getAsInt()>0)
+										tmp.append("{").append(s.getKey()).append("}");
+								}
 
 							d.setColor(tmp.toString());
 

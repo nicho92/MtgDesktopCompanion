@@ -19,12 +19,6 @@ public class EuropeanGrader extends AbstractGradersProvider {
 		return "https://www.europeangrading.com";
 	}
 
-	
-	public static void main(String[] args) throws IOException {
-		new EuropeanGrader().loadGrading("B0C185");
-	}
-	
-	
 	@Override
 	public Grading loadGrading(String identifier) throws IOException {
 
