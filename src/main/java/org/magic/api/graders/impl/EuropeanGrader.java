@@ -1,8 +1,6 @@
 package org.magic.api.graders.impl;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -11,6 +9,7 @@ import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
+import org.magic.tools.UITools;
 
 public class EuropeanGrader extends AbstractGradersProvider {
 
@@ -20,10 +19,16 @@ public class EuropeanGrader extends AbstractGradersProvider {
 		return "https://www.europeangrading.com";
 	}
 
+	
+	public static void main(String[] args) throws IOException {
+		new EuropeanGrader().loadGrading("B0C185");
+	}
+	
+	
 	@Override
 	public Grading loadGrading(String identifier) throws IOException {
 
-		String url=getWebSite()+"/en/card-verifier.html";
+		String url=getWebSite()+"/en/card-verifier";
 
 
 		Document d = RequestBuilder.build().method(METHOD.GET)
@@ -31,8 +36,8 @@ public class EuropeanGrader extends AbstractGradersProvider {
 										   .url(url)
 										   .addContent("certificate",identifier).toHtml();
 
-		Elements trs = d.select("table.center tr");
-
+		Elements trs = d.select("table").first().select("thead div.justify-content-center");
+		
 		if(trs.isEmpty())
 			return null;
 
@@ -41,37 +46,17 @@ public class EuropeanGrader extends AbstractGradersProvider {
 				grad.setGraderName(getName());
 				grad.setNumberID(identifier);
 				grad.setUrlInfo(url+"?certificate="+identifier);
-
-		logger.debug("Found {}",trs);
-
-		trs.forEach(tr->{
-
-			if(tr.text().startsWith("Centring"))
-				grad.setCentering(Double.parseDouble(tr.text().replace("Centring grade : ","").replace(',', '.').trim()));
-
-			if(tr.text().startsWith("Corner"))
-				grad.setCorners(Double.parseDouble(tr.text().replace("Corner grade : ","").replace(',', '.').trim()));
-
-			if(tr.text().startsWith("Edges"))
-				grad.setEdges(Double.parseDouble(tr.text().replace("Edges grade : ","").replace(',', '.').trim()));
-
-			if(tr.text().startsWith("Surface"))
-				grad.setSurface(Double.parseDouble(tr.text().replace("Surface grade : ","").replace(',', '.').trim()));
-
-			if(tr.text().startsWith("Final"))
-				grad.setGradeNote(Double.parseDouble(tr.text().replace("Final grade : ","").replace(',', '.').trim()));
-
-			if(tr.text().startsWith("Grading date"))
-			{
-				try {
-					grad.setGradeDate(new SimpleDateFormat("dd/MM/yyyy").parse(tr.text().replace("Grading date : ","").replace(',', '.').trim()));
-				} catch (ParseException e) {
-					logger.error(e);
-				}
-			}
-
-
-		});
+		
+			grad.setCentering(UITools.parseDouble(trs.select("p.header_etiqueta_notas").first().text().replace("CENTERING ", "")));
+			
+			grad.setCorners(UITools.parseDouble(trs.select("p.header_etiqueta_notas").get(1).text().replace("CORNERS ", "")));
+			
+			grad.setEdges(UITools.parseDouble(trs.select("p.header_etiqueta_notas").get(2).text().replace("EDGES ", "")));
+			
+			grad.setSurface(UITools.parseDouble(trs.select("p.header_etiqueta_notas").get(3).text().replace("SURFACE ", "")));
+			
+			grad.setGradeNote(UITools.parseDouble(trs.select("p.header_etiqueta_grade").first().text()));
+		
 		return grad;
 	}
 

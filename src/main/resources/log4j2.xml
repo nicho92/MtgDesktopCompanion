@@ -52,6 +52,7 @@
 	    <Logger name="io.netty" level="ERROR"></Logger>
 	    <Logger name="com.github.sarxos.webcam" level="ERROR"></Logger>
 	    <Logger name="nl.basjes.parse.useragent" level="ERROR"></Logger>
+	    <Logger name="org.jsoup" level="ERROR"></Logger>
 	
         <Root level="DEBUG">
         	<AppenderRef ref="APPS"/>
