@@ -55,8 +55,8 @@ public class MagicDeck implements MTGStorable {
 
 
   public MagicDeck getMergedDeck() {
-    List<MagicCard> mergeCardList = new ArrayList<MagicCard>();
-    List<String> cardNames = new ArrayList<String>();
+    List<MagicCard> mergeCardList = new ArrayList<>();
+    List<String> cardNames = new ArrayList<>();
 
     getMainAsList().forEach(mc -> {
       if (! cardNames.contains(mc.getName())) {
