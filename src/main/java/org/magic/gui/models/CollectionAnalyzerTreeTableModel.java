@@ -26,8 +26,10 @@ public class CollectionAnalyzerTreeTableModel extends AbstractTreeTableModel {
 
 
 
-	public void saveRow(MagicEdition ed, List<CardShake> loadFromCache) {
-		editions.put(ed, loadFromCache);
+	public void saveRow(MagicEdition ed, List<CardShake> list) {
+		
+		if(list.stream().mapToDouble(CardShake::getPrice).sum()>0)
+			editions.put(ed, list);
 	}
 
 

@@ -56,8 +56,6 @@ public class CollectionAnalyzerWorker extends SwingWorker<Void, MagicEdition> {
 
 	@Override
 	protected Void doInBackground() throws Exception {
-
-
 		Collections.sort(eds);
 		for(MagicEdition ed : eds)
 		{
@@ -94,7 +92,7 @@ public class CollectionAnalyzerWorker extends SwingWorker<Void, MagicEdition> {
 
 		treeTable.setTreeTableModel(collectionModel);
 		evaluator.removeObserver(o);
-		Double total = evaluator.total();
+		var total = evaluator.total();
 		buzy.end();
 		lblPrice.setText("Value : " + UITools.formatDouble(total) + " " + MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getCurrencyCode());
 	}

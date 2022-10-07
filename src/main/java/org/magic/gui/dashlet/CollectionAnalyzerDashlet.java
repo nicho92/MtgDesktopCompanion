@@ -3,6 +3,7 @@ package org.magic.gui.dashlet;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -61,7 +62,7 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 		JXTable tableCache = UITools.createNewTable(modelCache);
 		tableCache.setModel(modelCache);
 		var lblValue = new JLabel();
-
+		var btnExpand = UITools.createBindableJButton("Expand",MTGConstants.ICON_SMALL_CHECK,KeyEvent.VK_E,"expands");
 		var panelHaut = new JPanel();
 		getContentPane().add(panelHaut, BorderLayout.NORTH);
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
@@ -70,7 +71,7 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 		lblPrice.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 13));
 		panelHaut.add(lblPrice);
 		panelHaut.add(buzy);
-
+		
 		var tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);
 
@@ -91,7 +92,7 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 		var btnRefresh = new JButton(MTGConstants.ICON_REFRESH);
 
 		panneauh.add(btnRefresh);
-
+		panneauh.add(btnExpand);
 		var panelCacheDetail = new JPanel();
 		tabbedPane.addTab("Cache", null, panelCacheDetail, null);
 		panelCacheDetail.setLayout(new BorderLayout(0, 0));
@@ -107,7 +108,9 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 
 		panelPriceMin.add(slider);
 		panelPriceMin.add(lblValue);
-
+		
+		btnExpand.addActionListener(al->treeTable.expandAll());
+		
 		slider.addChangeListener(cl->{
 				setProperty("priceMin", String.valueOf(slider.getValue()));
 
