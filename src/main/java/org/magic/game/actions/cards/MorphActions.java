@@ -78,7 +78,7 @@ public class MorphActions extends AbstractAction {
 			card.showPT(true);
 			card.initActions();
 			try {
-				card.setImage(new ImageIcon(getEnabledPlugin(MTGPictureProvider.class).getBackPicture()
+				card.setImage(new ImageIcon(getEnabledPlugin(MTGPictureProvider.class).getBackPicture(mc)
 						.getScaledInstance(card.getWidth(), card.getHeight(), Image.SCALE_SMOOTH)));
 			} catch (Exception e1) {
 				logger.error(e1);

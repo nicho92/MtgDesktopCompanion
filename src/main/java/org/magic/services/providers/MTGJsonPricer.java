@@ -34,7 +34,7 @@ import com.google.gson.stream.JsonToken;
 public class MTGJsonPricer {
 	public enum SUPPORT {PAPER,MTGO}
 	public enum STOCK {RETAIL, BUYLIST}
-	public enum VENDOR {CARDKINGDOM,TCGPLAYER,CARDHOARDER,CARDMARKET}
+	public enum VENDOR {CARDKINGDOM,TCGPLAYER,CARDHOARDER,CARDMARKET,CARDSPHERE}
 	private List<Data> caches;
 	private static MTGJsonPricer inst;
 

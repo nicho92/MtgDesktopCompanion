@@ -139,7 +139,7 @@ public class ImagePanel extends JXPanel {
 
 		if (!mc.isDoubleFaced())
 		{
-			imgBack = getEnabledPlugin(MTGPictureProvider.class).getBackPicture();
+			imgBack = getEnabledPlugin(MTGPictureProvider.class).getBackPicture(mc);
 		}
 		else
 		{

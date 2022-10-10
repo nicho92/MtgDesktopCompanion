@@ -121,7 +121,7 @@ public class PicturesProviderTests {
 			System.out.println("getPictures ERROR "+e );
 		}
 		
-		p.getBackPicture();
+		p.getBackPicture(mc);
 
 		
 		

@@ -136,7 +136,8 @@ public class MTGConstants {
 	public static final int TABLE_ROW_WIDTH = 18;
 
 	public static final URL DEFAULT_BACK_CARD = MTGConstants.class.getResource("/icons/back.jpg");
-
+	public static final URL ANNIVERSARY_BACK_CARD = MTGConstants.class.getResource("/icons/back30.jpg");
+	public static final URL COLLECTOR_BACK_CARD = MTGConstants.class.getResource("/icons/backCE.jpg");
 
 	public static final URL URL_MANA_SYMBOLS = MTGConstants.class.getResource(ICON_DIR+"/mana/Mana.png");
 	public static final ImageIcon ICON_MANA_GOLD = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/mana/gold.png"));

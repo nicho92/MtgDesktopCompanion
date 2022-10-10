@@ -72,7 +72,7 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 		}
 		else
 		{
-			return getBackPicture();
+			return getBackPicture(mc);
 		}
 	}
 
@@ -98,9 +98,18 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 	}
 
 	@Override
-	public BufferedImage getBackPicture() {
+	public BufferedImage getBackPicture(MagicCard mc) {
 		try {
+			
+			
+			if(mc!=null&&mc.getCurrentSet()!=null&&mc.getCurrentSet().getId().equals("30A"))
+				return resizeCard(ImageTools.readLocal(MTGConstants.ANNIVERSARY_BACK_CARD), newW, newH);
+			
+			if(mc!=null&&mc.getCurrentSet()!=null&&mc.getCurrentSet().getId().equals("CED"))
+				return resizeCard(ImageTools.readLocal(MTGConstants.COLLECTOR_BACK_CARD), newW, newH);
+			
 			return resizeCard(ImageTools.readLocal(MTGConstants.DEFAULT_BACK_CARD), newW, newH);
+			
 		} catch (IOException e) {
 			logger.error(e);
 			return null;

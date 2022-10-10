@@ -42,7 +42,7 @@ public class ImageExporter extends AbstractCardExport{
 		int suggestedNbLines = cards.size()/((cardGroup)*columnsCount);
 
 
-		BufferedImage tempPic = getEnabledPlugin(MTGPictureProvider.class).getBackPicture();
+		BufferedImage tempPic = getEnabledPlugin(MTGPictureProvider.class).getBackPicture(cards.get(0));
 		tempPic=ImageTools.scaleResize(tempPic,cardWidthSize);
 
 		logger.debug("{} cards, by group of {} and columns={} lines={}.w={} h={}",cards.size(),cardGroup,columnsCount,suggestedNbLines,tempPic.getWidth(),tempPic.getHeight());

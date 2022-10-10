@@ -595,7 +595,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 					else
 						icon = new ImageIcon(getEnabledPlugin(MTGPictureProvider.class).getForeignNamePicture(fn, mc));
 				} catch (Exception e) {
-					icon = new ImageIcon(getEnabledPlugin(MTGPictureProvider.class).getBackPicture());
+					icon = new ImageIcon(getEnabledPlugin(MTGPictureProvider.class).getBackPicture(mc));
 					logger.error("Error loading pics for {}", mc, e);
 				}
 				return icon;

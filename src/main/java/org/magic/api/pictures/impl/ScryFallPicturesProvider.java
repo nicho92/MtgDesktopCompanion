@@ -93,7 +93,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 			return URLTools.extractAsImage(u.toString());
 		} catch (Exception e) {
 			logger.error(e);
-			return getBackPicture();
+			return getBackPicture(mc);
 		}
 	}
 

@@ -280,7 +280,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 			return URLTools.extractAsImage(u.toString());
 		} catch (Exception e) {
 			logger.error("error pics reading for {}",tok, e);
-			return getEnabledPlugin(MTGPictureProvider.class).getBackPicture();
+			return getEnabledPlugin(MTGPictureProvider.class).getBackPicture(tok);
 		}
 	}
 

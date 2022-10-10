@@ -478,7 +478,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 					}
 					publish(temp);
 				} catch (Exception e) {
-					temp = getEnabledPlugin(MTGPictureProvider.class).getBackPicture();
+					temp = getEnabledPlugin(MTGPictureProvider.class).getBackPicture(mc);
 				}
 
 
