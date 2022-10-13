@@ -17,9 +17,9 @@ import org.magic.api.interfaces.abstracts.extra.AbstractMTGJsonProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
-import org.magic.services.providers.MTGJsonPricer.STOCK;
-import org.magic.services.providers.MTGJsonPricer.SUPPORT;
-import org.magic.services.providers.MTGJsonPricer.VENDOR;
+import org.magic.services.providers.MTGJsonPricerProvider.STOCK;
+import org.magic.services.providers.MTGJsonPricerProvider.SUPPORT;
+import org.magic.services.providers.MTGJsonPricerProvider.VENDOR;
 import org.magic.tools.Chrono;
 import org.magic.tools.FileTools;
 
@@ -31,12 +31,12 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 
 
-public class MTGJsonPricer {
+public class MTGJsonPricerProvider {
 	public enum SUPPORT {PAPER,MTGO}
 	public enum STOCK {RETAIL, BUYLIST}
 	public enum VENDOR {CARDKINGDOM,TCGPLAYER,CARDHOARDER,CARDMARKET,CARDSPHERE}
 	private List<Data> caches;
-	private static MTGJsonPricer inst;
+	private static MTGJsonPricerProvider inst;
 
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	private File dataFile = new File(MTGConstants.DATA_DIR,"AllPrices.json");
@@ -44,7 +44,7 @@ public class MTGJsonPricer {
 	private Integer expireday=5;
 
 
-	public MTGJsonPricer() throws IOException {
+	public MTGJsonPricerProvider() throws IOException {
 
 		gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -53,10 +53,10 @@ public class MTGJsonPricer {
 			downloadDataFile();
 	}
 
-	public static MTGJsonPricer getInstance() throws IOException
+	public static MTGJsonPricerProvider getInstance() throws IOException
 	{
 		if(inst==null)
-			inst = new MTGJsonPricer();
+			inst = new MTGJsonPricerProvider();
 
 		return inst;
 	}
@@ -82,6 +82,12 @@ public class MTGJsonPricer {
 		FileTools.unZipIt(tmp,dataFile);
 	}
 
+	public static void main(String[] args) throws IOException {
+		
+		MTGJsonPricerProvider.getInstance().buildPrices(VENDOR.CARDMARKET);
+	}
+	
+	
 	public void buildPrices(VENDOR v) throws IOException {
 		var c = new Chrono();
 		c.start();
@@ -92,7 +98,7 @@ public class MTGJsonPricer {
 				logger.info("Begin caching datas ");
 				reader.beginObject();
 				reader.nextName();
-				Meta m = new Gson().fromJson(reader, Meta.class);
+				Meta m = gson.fromJson(reader, Meta.class);
 				logger.debug(m);
 				reader.nextName();//data
 				reader.beginObject();
@@ -166,17 +172,8 @@ public class MTGJsonPricer {
 				}//fin boucle data
 
 			}
-			writeFile(arr,v);
+			FileTools.saveFile(new File(MTGConstants.DATA_DIR.getAbsolutePath(),v.name()+".json"),arr.toString());
 			logger.info("Ending buildings datas {}s",c.stop());
-
-	}
-
-	private void writeFile(JsonArray arr,VENDOR v) {
-			try {
-				FileTools.saveFile(new File(MTGConstants.DATA_DIR.getAbsolutePath(),v.name()+".json"),arr.toString());
-			} catch (IOException e) {
-				logger.error(e);
-			}
 	}
 
 	public List<Data> loadData(VENDOR v) throws IOException
@@ -209,8 +206,11 @@ public class MTGJsonPricer {
 				buildPrices(v);
 			}
 
-			JsonArray el = JsonParser.parseReader(new FileReader(f)).getAsJsonArray();
-			el.forEach(e->caches.add(gson.fromJson(e,Data.class)));
+			try(var reader = new FileReader(f))
+			{
+				var el = JsonParser.parseReader(reader).getAsJsonArray();
+				el.forEach(e->caches.add(gson.fromJson(e,Data.class)));
+			}
 		}
 		return caches;
 	}
@@ -238,7 +238,8 @@ public class MTGJsonPricer {
 			return ret;
 		}
 
-		for(Boolean b : new Boolean[] {true,false}) {
+		for(Boolean b : new Boolean[] {true,false}) 
+		{
 			try {
 				var mp = new MagicPrice();
 				mp.setCountry("None");
