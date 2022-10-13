@@ -2446,9 +2446,9 @@
 	<edition id="BRO">
 		<set lang="en" url="https://scg-static.starcitygames.com/articles/2022/08/f34e4807-mtgbro_en_setlogo_1line.png"/>
 		<box lang="en" extra="draft" num="1" url="https://cdn.chaoscards.co.uk/uploads/prod_img/2_201346_e.png"/>
-		<box lang="en" extra="collector" num="2" url="https://cdn11.bigcommerce.com/s-ua4dd/images/stencil/1280x1280/products/59182/156971/MTGBRO_EN_BstrDspBx_Clctr_01_01__99510.1663789042.jpg?c=2"/>
-		<box lang="en" extra="set" num="3" url="https://m.media-amazon.com/images/I/71XtL2DmYLL.jpg"/>
-		<box lang="en" extra="jump" num="4" url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/4/43/BRO_Jumpstart_box.jpg/revision/latest/scale-to-width-down/400?cb=20220826083006"/>
+		<box lang="en" extra="collector" num="2" url="https://cdn.chaoscards.co.uk/uploads/prod_img/2_201359_e.png?v=-62169983925"/>
+		<box lang="en" extra="set" num="3" url="https://cdn.chaoscards.co.uk/uploads/prod_img/2_201350_e.png?v=-62169983925"/>
+		<box lang="en" extra="jump" num="4" url="https://cdn.chaoscards.co.uk/uploads/prod_img/2_201371_e.png?v=-62169983925"/>
 		<prereleasepack lang="en" num="1" url="https://media.wizards.com/2022/images/daily/en_2iNAomWgHY.png"/>
 		<prereleasepack lang="en" num="2" url="https://cdn.shopify.com/s/files/1/1198/4500/products/THE-BROTHERS-WAR-5_1_370x480.png?v=1660920307"/>
 		<bundle lang="en" num="1" url="https://m.media-amazon.com/images/I/812k9Udwv5L.jpg"/>
@@ -2456,10 +2456,29 @@
 		<booster lang="en" extra="draft" num="2" url="https://cdn.chaoscards.co.uk/uploads/prod_img/2_201347_e.png?v=-62169983925"/>
 		<booster lang="en" extra="collector" num="3" url="https://cdn.chaoscards.co.uk/uploads/prod_img/2_201365_e.png?v=-62169983925"/>
 		<booster lang="en" extra="jump" num="1" url="https://cdn.chaoscards.co.uk/uploads/prod_img/2_201377_e.png?v=-62169983925"/>
+	</edition>
+	
+	<edition id="BRC">
+		<set lang="en" url="https://www.magic-ville.com/fr/graph/bigsetlogos/brc.png"/>
+		<constructpack num="1" lang="en" url="https://themanashop.ch/55963/the-brothers-war-commander-deck-urza-s-iron-alliance.jpg"></constructpack>
+		<constructpack num="2" lang="en" url="https://themanashop.ch/55964-thickbox_default/the-brothers-war-commander-deck-mishra-s-burnished-banner.jpg"></constructpack>
+	</edition>
+	
+	<edition id="30A">
+		<set num="1" lang="en" url="https://media.wizards.com/2022/images/daily/fr_nShMumDDuS.png"/>
+		<booster num="1" lang="en" url="https://media.wizards.com/2022/images/daily/en_LgrDq2dbZu.png"/>
+		<bundle num="1" lang="en" url="https://media.wizards.com/2022/images/daily/en_5aw2ZTTSdv.png"></bundle>
+	</edition>
+	
+	<edition id="DMR">
+		<set num="1" url="https://www.magic-ville.com/fr/graph/bigsetlogos/dmr.png"/>
+		<box extra="draft" num="1" lang="en" url="https://media.wizards.com/2022/images/daily/en_Cs3FsIuegs.png"/>
+		<box extra="collector" num="2" lang="en" url="https://media.wizards.com/2022/images/daily/en_wzvi1LWL08.png"/>
 		
 		
 		
 	</edition>
+	
 	
 	
 
