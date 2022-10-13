@@ -40,7 +40,7 @@ public class PriceCatalogExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
-			String[] exportedPricesProperties = getArray("PROPERTIES_PRICE");
+			String[] exportedPricesProperties = new String[] {"site","price","foilPrice"};
 			String[] exportedCardsProperties = getArray("PROPERTIES_CARD");
 			var bw = new StringBuilder();
 
@@ -63,33 +63,38 @@ public class PriceCatalogExport extends AbstractFormattedFileCardExport {
 
 					for (MagicCard mc : deck.getMain().keySet())
 					{
-						for (MagicPrice prices : prov.getPrice(mc)) {
-							for (String k : exportedCardsProperties) {
-								String val;
-								try {
-									val = BeanUtils.getProperty(mc, k);
-									if (val == null)
-										val = "";
-									bw.append(val.replaceAll(System.lineSeparator(), "")).append(getSeparator());
-								} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-									throw new IOException(e);
-								}
+						for (String k : exportedCardsProperties) {
+							String val;
+							try {
+								val = BeanUtils.getProperty(mc, k);
+								if (val == null)
+									val = "";
+								bw.append(val.replaceAll(System.lineSeparator(), "")).append(getSeparator());
+							} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+								throw new IOException(e);
 							}
-
-							for (String p : exportedPricesProperties) {
-								String val;
-								try {
-									val = BeanUtils.getProperty(prices, p);
-									if (val == null)
-										val = "";
-									bw.append(val.replaceAll(System.lineSeparator(), "")).append(getSeparator());
-								} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-									throw new IOException(e);
-								}
-
-							}
+						}
+						
+						var pricesList = prov.getPrice(mc);
+						
+						if(pricesList.isEmpty())
+						{
 							bw.append(System.lineSeparator());
 						}
+						else
+						{
+
+							
+							var mpNormal = pricesList.stream().filter(mp->!mp.isFoil()).findFirst();
+							var mpFoil = pricesList.stream().filter(MagicPrice::isFoil).findFirst();
+							
+							
+							bw.append(prov.getName()).append(getSeparator());
+							bw.append(mpNormal.isPresent()?mpNormal.get().getValue():"-").append(getSeparator());
+							bw.append(mpFoil.isPresent()?mpFoil.get().getValue():"-").append(getSeparator());
+							bw.append(System.lineSeparator());
+						}
+						
 						notify(mc);
 					}
 			}
@@ -111,10 +116,9 @@ public class PriceCatalogExport extends AbstractFormattedFileCardExport {
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		var m = super.getDefaultAttributes();
-		m.put(PRICER, "");
-		m.put("PROPERTIES_CARD", "number,name,cost,supertypes,types,subtypes,editions");
-		m.put("PROPERTIES_PRICE", "site,seller,value,currency,language,quality,foil");
-
+		m.put(PRICER, "mkm");
+		m.put("PROPERTIES_CARD", "name,editions,editions[0].number,types,border,frameEffects");
+		
 		return m;
 	}
 

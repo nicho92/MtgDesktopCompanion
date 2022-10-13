@@ -201,8 +201,6 @@ public class MTGJsonPricer {
 
 		}
 
-
-
 		if(caches.isEmpty())
 		{
 			if(!f.exists())
@@ -236,10 +234,9 @@ public class MTGJsonPricer {
 		}
 		if(d==null)
 		{
-			logger.debug("MTGJson found nothing");
+			logger.warn("MTGJson found nothing for {}",card);
 			return ret;
 		}
-
 
 		for(Boolean b : new Boolean[] {true,false}) {
 			try {
@@ -253,10 +250,11 @@ public class MTGJsonPricer {
 				mp.setFoil(b);
 				mp.setValue(d.listPricesByFoil(b).get(0).getStockPrices().lastEntry().getValue());
 				ret.add(mp);
+				logger.info("Found {} Price={} Foil={}",card,mp.getValue(),mp.isFoil());
 			}
 			catch(IndexOutOfBoundsException e)
 			{
-				//do nothing
+				logger.trace("No price found for {} with foil={}",card,b);
 			}
 		}
 
