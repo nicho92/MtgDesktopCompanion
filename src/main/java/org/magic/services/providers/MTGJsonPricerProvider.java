@@ -75,20 +75,15 @@ public class MTGJsonPricerProvider {
 		}
 	}
 
-	public void downloadDataFile() throws IOException
+	private void downloadDataFile() throws IOException
 	{
 		var tmp = new File(MTGConstants.DATA_DIR,"AllPrices.json.zip");
 		URLTools.download(AbstractMTGJsonProvider.MTG_JSON_ALL_PRICES_ZIP, tmp);
 		FileTools.unZipIt(tmp,dataFile);
 	}
 
-	public static void main(String[] args) throws IOException {
-		
-		MTGJsonPricerProvider.getInstance().buildPrices(VENDOR.CARDMARKET);
-	}
 	
-	
-	public void buildPrices(VENDOR v) throws IOException {
+	private void buildPrices(VENDOR v) throws IOException {
 		var c = new Chrono();
 		c.start();
 		JsonArray arr = new JsonArray();
@@ -137,16 +132,14 @@ public class MTGJsonPricerProvider {
 								}
 								else
 								{
-									var p = new PriceEntry();
-											p.setVendor(VENDOR.valueOf(vendor.toUpperCase()));
-											p.setSupport(support);
-											p.setStock(stock);
-											p.setCurrency(getCurrencyFor(p.getVendor()));
-
-
 									reader.beginObject();
 									while(reader.hasNext())
 									{
+										var p = new PriceEntry();
+										p.setVendor(VENDOR.valueOf(vendor.toUpperCase()));
+										p.setSupport(support);
+										p.setStock(stock);
+										p.setCurrency(getCurrencyFor(p.getVendor()));
 										p.setFoil(reader.nextName().equalsIgnoreCase("foil"));
 										reader.beginObject();
 										while(reader.hasNext())
@@ -154,14 +147,17 @@ public class MTGJsonPricerProvider {
 											p.getStockPrices().put(reader.nextName(), reader.nextDouble());
 										} // fin boucle map date/prix
 										reader.endObject();
+											
+										if(p.getVendor()==v && !p.getStockPrices().isEmpty())
+											data.getPrices().add(p);
+										
 									}//fin boucle Foil/Normal
-
-									if(p.getVendor()==v)
-									{
-										data.getPrices().add(p);
-										arr.add(gson.toJsonTree(data));
-									}
 									reader.endObject();
+									
+									//TODO add data to arr;
+									if(vendor.toUpperCase().equals(v.name()))
+										arr.add(gson.toJsonTree(data));
+									
 								}
 							}//buylist/retail/Currency
 							reader.endObject();
@@ -172,6 +168,7 @@ public class MTGJsonPricerProvider {
 				}//fin boucle data
 
 			}
+		
 			FileTools.saveFile(new File(MTGConstants.DATA_DIR.getAbsolutePath(),v.name()+".json"),arr.toString());
 			logger.info("Ending buildings datas {}s",c.stop());
 	}
@@ -237,7 +234,7 @@ public class MTGJsonPricerProvider {
 			logger.warn("MTGJson found nothing for {}",card);
 			return ret;
 		}
-
+		
 		for(Boolean b : new Boolean[] {true,false}) 
 		{
 			try {
