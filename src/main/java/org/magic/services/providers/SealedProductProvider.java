@@ -198,7 +198,7 @@ public class SealedProductProvider {
 						  }
 						  catch(Exception e)
 						  {
-							  logger.error("no lang found for {} {}",p,n.item(i),e);
+							  logger.error("no lang found for {} {}",p,n.item(i));
 						  }
 
 
