@@ -41,7 +41,10 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 	private static final String FALSE = "false";
 	private static final String DESIGNER ="designer";
 	private static final String BASE_URI="https://mtg.design";
-
+	private static final String LOGIN = "LOGIN";
+	private static 	final String PASS = "PASS";
+	
+	
 	private BasicHttpContext httpContext;
 	private BasicCookieStore cookieStore;
 	private HttpClient httpclient;
@@ -62,13 +65,23 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 	private void connect() throws IOException {
 		String u = BASE_URI+"/login";
 		httpclient = HttpClients.custom().setUserAgent(MTGConstants.USER_AGENT).setRedirectStrategy(new LaxRedirectStrategy()).build();
-
+		
+		
+		
+	
+		if(getString(LOGIN).isEmpty() || getString(PASS).isEmpty())
+		{
+			logger.error("Please fill LOGIN/PASSWORD field in config panel");
+			return;
+		}
+		
+		
 		HttpEntity p = httpclient.execute(new HttpGet(u), httpContext).getEntity();
 		String token = URLTools.toHtml(EntityUtils.toString(p)).select("input[name=_token]").first().attr("value");
 		var login = new HttpPost(u);
 		List<NameValuePair> nvps = new ArrayList<>();
-							nvps.add(new BasicNameValuePair("email", getString("LOGIN")));
-							nvps.add(new BasicNameValuePair("password", getString("PASS")));
+							nvps.add(new BasicNameValuePair("email", getString(LOGIN)));
+							nvps.add(new BasicNameValuePair("password", getString(PASS)));
 							nvps.add(new BasicNameValuePair("remember", "on"));
 							nvps.add(new BasicNameValuePair("_token", token));
 
@@ -268,8 +281,8 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		return Map.of("LOGIN", "",
-								"PASS", "",
+		return Map.of(   LOGIN, "",
+								PASS, "",
 								"FOIL", FALSE,
 								CENTER, "yes",
 								"SIZE", "36",

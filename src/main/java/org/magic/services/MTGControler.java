@@ -59,10 +59,14 @@ public class MTGControler {
 
 
 	private MTGControler() {
-		logger.info("***********************"+MTGConstants.MTG_APP_NAME+"****************************");
-		logger.info("Running with Java {}. Vendor : {}",Runtime.version(),SystemUtils.JAVA_VENDOR);
-		logger.info("Running with local directory : {}",MTGConstants.CONF_DIR);
 		
+		var head ="***********************"+MTGConstants.MTG_APP_NAME+"****************************";
+		var bottom =StringUtils.repeat("*", head.length());
+		logger.info(head);
+		logger.info("Java {}. Vendor : {}",Runtime.version(),SystemUtils.JAVA_VENDOR);
+		logger.info("OS {} {}",SystemUtils.OS_NAME,SystemUtils.OS_VERSION);
+		logger.info("Local directory : {}",MTGConstants.CONF_DIR);
+		logger.info(bottom);
 
 		var conf = new File(MTGConstants.CONF_DIR, MTGConstants.CONF_FILENAME);
 
@@ -122,10 +126,6 @@ public class MTGControler {
 			setProperty("/currencylayer-converter-enable", FALSE);
 
 		}
-
-
-
-
 	}
 
 
