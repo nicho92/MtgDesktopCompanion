@@ -312,6 +312,8 @@ public class IconSetProvider {
 		equiv.put("OVOC", "VOW");
 		equiv.put("YNEO", "Y22");
 		equiv.put("YMID", "Y22");
+		equiv.put("YSNC", "Y22");
+		
 
 		}
 

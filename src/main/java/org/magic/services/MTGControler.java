@@ -20,6 +20,7 @@ import org.apache.commons.configuration2.tree.xpath.XPathExpressionEngine;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.LocaleUtils;
+import org.apache.commons.lang3.SystemUtils;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCardStock;
@@ -59,9 +60,9 @@ public class MTGControler {
 
 	private MTGControler() {
 		logger.info("***********************"+MTGConstants.MTG_APP_NAME+"****************************");
-		logger.info("Running with Java {}",Runtime.version());
-
-
+		logger.info("Running with Java {}. Vendor : {}",Runtime.version(),SystemUtils.JAVA_VENDOR);
+		logger.info("Running with local directory : {}",MTGConstants.CONF_DIR);
+		
 
 		var conf = new File(MTGConstants.CONF_DIR, MTGConstants.CONF_FILENAME);
 
