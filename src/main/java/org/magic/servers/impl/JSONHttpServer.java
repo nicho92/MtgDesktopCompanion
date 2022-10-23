@@ -588,6 +588,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/collections/list", URLTools.HEADER_JSON,
 				(request, response) -> getEnabledPlugin(MTGDao.class).listCollections(), transformer);
 
+		get("/collections/default", URLTools.HEADER_JSON,
+				(request, response) -> MTGControler.getInstance().get("default-library"), transformer);
+
+		
+		
 		get("/collections/cards/:scryfallId", URLTools.HEADER_JSON, (request, response) -> {
 			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
 			return getEnabledPlugin(MTGDao.class).listCollectionFromCards(mc);
