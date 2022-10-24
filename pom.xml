@@ -332,22 +332,22 @@
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-core</artifactId>
-			<version>9.4.0</version>
+			<version>9.4.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-queries</artifactId>
-			<version>9.4.0</version>
+			<version>9.4.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-queryparser</artifactId>
-			<version>9.4.0</version>
+			<version>9.4.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-backward-codecs</artifactId>
-			<version>9.4.0</version>
+			<version>9.4.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.jtattoo</groupId>
@@ -357,7 +357,7 @@
 		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
-			<version>5.0.0-alpha.21</version>
+			<version>5.0.0-alpha.22</version>
 			<exclusions>
 				<exclusion>
 					<groupId>club.minnced</groupId>
