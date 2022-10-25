@@ -306,15 +306,43 @@ public class IconSetProvider {
 		equiv.put("AVOW","VOW");
 		equiv.put("MMH2", "MH2");
 		equiv.put("MSTX", "STX");
+		equiv.put("SSTX","STX");
 		equiv.put("MKHM", "KHM");
 		equiv.put("PF21", "PMEI");
+		equiv.put("PEWK", "PMEI");
+		equiv.put("SLX", "PMEI");
 		equiv.put("OMIC", "MID");
 		equiv.put("OVOC", "VOW");
 		equiv.put("YNEO", "Y22");
 		equiv.put("YMID", "Y22");
 		equiv.put("YSNC", "Y22");
+		equiv.put("SUNF", "UNF");
+		equiv.put("TBOT", "BOT");		
+		equiv.put("PLG22","PMEI");
+		equiv.put("PLG20","PMEI");
+		equiv.put("P30H","PMEI");
+		equiv.put("SCH","PMEI");
+		equiv.put("P30A","PMEI");
+		equiv.put("PSVC","PMEI");
+		equiv.put("PR23","PMEI");
+		equiv.put("ANEO","NEO");
+		equiv.put("MNEO","NEO");
+		equiv.put("SNEO","NEO");
+		equiv.put("SKHM","KHM");
+		equiv.put("MSNC", "SNC");
+		equiv.put("PTSNC", "SNC");
+		equiv.put("MVOW", "VOW");
+		equiv.put("SVOW", "VOW");
+		equiv.put("ADMU", "DMU");
+		equiv.put("PDWA", "DMU");
+		equiv.put("AZNR","ZNR");
+		equiv.put("SZNR","ZNR");
+		equiv.put("MZNR","ZNR");
+		equiv.put("P22","J20");
 		
-
+		equiv.put("MCLB","CLB");
+		equiv.put("ACLB","CLB");
+		
 		}
 
 	private String getEquiv(String set)
