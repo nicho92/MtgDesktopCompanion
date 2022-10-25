@@ -223,6 +223,7 @@ public class IconSetProvider {
 		equiv.put("OC18", "C18");
 		equiv.put("OC19", "C19");
 		equiv.put("OCMD", "CMD");
+		equiv.put("PDP14", "M14");
 		equiv.put("SUM", "PSUM");
 		equiv.put("CP1", "PMEI");
 		equiv.put("CP2", "PMEI");
@@ -241,7 +242,11 @@ public class IconSetProvider {
 		equiv.put("PURL", "PMEI");
 		equiv.put("PL22", "PMEI");
 		equiv.put("PRCQ", "PMEI");
-
+		equiv.put("HTR19", "PMEI");
+		equiv.put("GDY", "PMEI");
+		equiv.put("PS19", "WAR");
+		
+		
 		equiv.put("UGIN", "FRF");
 
 		equiv.put("PF19", "PMEI");
