@@ -197,7 +197,13 @@ public class IconSetProvider {
 		equiv.put("PW10", "PMEI");
 		equiv.put("PW11", "PMEI");
 		equiv.put("PW12", "PMEI");
-
+		equiv.put("PF20", "PMEI");
+		equiv.put("HTR18", "PMEI");
+		
+		
+		equiv.put("OANA", "ANA");
+		equiv.put("XANA", "ANA");
+		
 		equiv.put("PWPN","PDCI");
 		equiv.put("PG08", "PDCI");
 		equiv.put("PG07", "PDCI");
