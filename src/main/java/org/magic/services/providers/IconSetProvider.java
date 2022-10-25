@@ -20,7 +20,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
 import org.magic.tools.Chrono;
-import org.magic.tools.FileTools;
 import org.magic.tools.ImageTools;
 
 import com.kitfox.svg.app.beans.SVGIcon;
