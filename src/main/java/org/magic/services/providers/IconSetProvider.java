@@ -20,6 +20,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
 import org.magic.tools.Chrono;
+import org.magic.tools.FileTools;
 import org.magic.tools.ImageTools;
 
 import com.kitfox.svg.app.beans.SVGIcon;
@@ -46,7 +47,11 @@ public class IconSetProvider {
 
 		localDirectory = new File(MTGConstants.DATA_DIR, "sets_icons");
 
-		initEquiv();
+		try {
+			initEquiv();
+		} catch (IOException e1) {
+			logger.error("Error init Equiv SetFile");
+		}
 
 		if (!localDirectory.exists())
 			localDirectory.mkdir();
@@ -120,239 +125,19 @@ public class IconSetProvider {
 		}
 
 	}
+	
+	
 
-	private void initEquiv()
+	private void initEquiv() throws IOException
 	{
 		equiv = new HashMap<>();
 
-		equiv.put("NMS", "NEM");
-		equiv.put("PI13", "PIDW");
-		equiv.put("PI14", "PIDW");
-		equiv.put("PIDW", "PIDW");
-		equiv.put("PSOI", "SOI");
-		equiv.put("PAST", "PAST");
-		equiv.put("FNM", "PFNM");
-		equiv.put("F01", "PFNM");
-		equiv.put("F02", "PFNM");
-		equiv.put("F03", "PFNM");
-		equiv.put("F04", "PFNM");
-		equiv.put("F05", "PFNM");
-		equiv.put("F06", "PFNM");
-		equiv.put("F07", "PFNM");
-		equiv.put("F08", "PFNM");
-		equiv.put("F09", "PFNM");
-		equiv.put("F10", "PFNM");
-		equiv.put("F11", "PFNM");
-		equiv.put("F12", "PFNM");
-		equiv.put("F13", "PFNM");
-		equiv.put("F14", "PFNM");
-		equiv.put("F15", "PFNM");
-		equiv.put("F16", "PFNM");
-		equiv.put("F17", "PFNM");
-		equiv.put("F18", "PFNM");
-		equiv.put("PO2", "P02");
-		equiv.put("CON_", "CON");
-		equiv.put("PARL", "PARL");
-		equiv.put("PAL01", "PARL");
-		equiv.put("PAL02", "PARL");
-		equiv.put("PAL03", "PARL");
-		equiv.put("PAL04", "PARL");
-		equiv.put("PAL05", "PARL");
-		equiv.put("PAL06", "PARL");
-		equiv.put("PAL99", "PARL");
-		equiv.put("PAL00", "PARL");
-		equiv.put("PHPR", "PBOOK");
-		equiv.put("PDTP", "PXBOX");
-		equiv.put("PSAL", "PHUK");
-		equiv.put("PMPS06", "PMPS");
-		equiv.put("PMPS07", "PMPS");
-		equiv.put("PMPS08", "PMPS");
-		equiv.put("PMPS09", "PMPS");
-		equiv.put("PMPS10", "PMPS");
-		equiv.put("PMPS11", "PMPS");
-		equiv.put("G99", "PDCI");
-		equiv.put("G00", "PDCI");
-		equiv.put("G01", "PDCI");
-		equiv.put("JGP", "PDCI");
-		equiv.put("G02", "PDCI");
-		equiv.put("G03", "PDCI");
-		equiv.put("G04", "PDCI");
-		equiv.put("G05", "PDCI");
-		equiv.put("G06", "PDCI");
-		equiv.put("G07", "PDCI");
-		equiv.put("G08", "PDCI");
-		equiv.put("G09", "PDCI");
-		equiv.put("G10", "PDCI");
-		equiv.put("G11", "PDCI");
-		equiv.put("PGTW", "PDCI");
-		equiv.put("PJJT", "PDCI");
-		equiv.put("PSUS", "PDCI");
-		equiv.put("PJAS", "PDCI");
-		equiv.put("PJSE", "PDCI");
-
-		equiv.put("PW09", "PDCI");
-		equiv.put("PW08", "PDCI");
-		equiv.put("PW21", "PMEI");
-		equiv.put("PW22", "PMEI");
-		equiv.put("PW10", "PMEI");
-		equiv.put("PW11", "PMEI");
-		equiv.put("PW12", "PMEI");
-		equiv.put("PF20", "PMEI");
-		equiv.put("HTR18", "PMEI");
-		
-		
-		equiv.put("OANA", "ANA");
-		equiv.put("XANA", "ANA");
-		
-		equiv.put("PWPN","PDCI");
-		equiv.put("PG08", "PDCI");
-		equiv.put("PG07", "PDCI");
-		equiv.put("MPR", "PDCI");
-		equiv.put("PMPS","RAV");
-		equiv.put("PR2", "PDCI");
-		equiv.put("P03", "PDCI");
-		equiv.put("P04", "PDCI");
-		equiv.put("P05", "PDCI");
-		equiv.put("P06", "PDCI");
-		equiv.put("P07", "PDCI");
-		equiv.put("P08", "PDCI");
-		equiv.put("P09", "PDCI");
-		equiv.put("P10", "PDCI");
-		equiv.put("P11", "PDCI");
-		equiv.put("FBB", "3ED");
-		equiv.put("4BB", "4ED");
-		equiv.put("OC13", "C13");
-		equiv.put("OC14", "C14");
-		equiv.put("OC15", "C15");
-		equiv.put("OC16", "C16");
-		equiv.put("OC17", "C17");
-		equiv.put("OC18", "C18");
-		equiv.put("OC19", "C19");
-		equiv.put("OCMD", "CMD");
-		equiv.put("PDP14", "M14");
-		equiv.put("SUM", "PSUM");
-		equiv.put("CP1", "PMEI");
-		equiv.put("CP2", "PMEI");
-		equiv.put("CP3", "PMEI");
-		equiv.put("PWCQ", "PMEI");
-		equiv.put("PLNY", "PMEI");
-		equiv.put("J12", "PMEI");
-		equiv.put("J13", "PMEI");
-		equiv.put("J14", "PMEI");
-		equiv.put("J15", "PMEI");
-		equiv.put("J16", "PMEI");
-		equiv.put("J17", "PMEI");
-		equiv.put("J18", "PMEI");
-		equiv.put("J19", "PMEI");
-		equiv.put("HHO", "PMEI");
-		equiv.put("PURL", "PMEI");
-		equiv.put("PL22", "PMEI");
-		equiv.put("PRCQ", "PMEI");
-		equiv.put("HTR19", "PMEI");
-		equiv.put("GDY", "PMEI");
-		equiv.put("PS19", "WAR");
-		
-		
-		equiv.put("UGIN", "FRF");
-
-		equiv.put("PF19", "PMEI");
-		equiv.put("PSS3", "PMEI");
-		equiv.put("HTR", "PMEI");
-		equiv.put("PNAT", "PMEI");
-		equiv.put("HTR17", "PMEI");
-		equiv.put("PSS2", "PMEI");
-		equiv.put("SLD", "PMEI");
-		equiv.put("PSLD", "PMEI");
-		equiv.put("SLU", "PMEI");
-		equiv.put("PL21", "PMEI");
-		equiv.put("PLG21","PMEI");
-		equiv.put("HTR20","PMEI");
-		equiv.put("DVD", "DDC");
-		equiv.put("EVG", "DD1");
-		equiv.put("GVL", "DDD");
-		equiv.put("JVC", "DD2");
-		equiv.put("PUMA", "UMA");
-		equiv.put("OPC2", "PC2");
-		equiv.put("OE01", "E01");
-		equiv.put("OHOP", "HOP");
-		equiv.put("OPCA", "PCA");
-		equiv.put("MED", "MPS_MED");
-		equiv.put("PSS1", "BFZ");
-		equiv.put("PS11", "PSALVAT11");
-		equiv.put("OCM1", "CM1");
-		equiv.put("PBOK", "PBOOK");
-		equiv.put("PGRU","PGRU");
-		equiv.put("PPP1", "PMEI");
-		equiv.put("CELD", "ELD");
-		equiv.put("OARC", "ARC");
-		equiv.put("OC20", "C20");
-		equiv.put("HA2", "HA1");
-		equiv.put("HA3", "HA1");
-		equiv.put("HA4","HA1");
-		equiv.put("HA5", "HA1");
-		equiv.put("HA6","HA1");
-		equiv.put("CMB1","MB1");
-		equiv.put("PLGS", "PMEI");
-		equiv.put("AJMP","JMP");
-		equiv.put("ANB","ANA");
-		equiv.put("AKR","E01");
-		equiv.put("FJMP", "JMP");
-		equiv.put("PLIST", "MB1");
-		equiv.put("KLR", "KLD");
-		equiv.put("ASTX", "STX");
-		equiv.put("AKHM", "KHM");
-		equiv.put("OC21","C21");
-		equiv.put("H1R", "MH1");
-		equiv.put("AMH2", "MH2");
-		equiv.put("AAFR","AFR");
-		equiv.put("C21","AFC");
-		equiv.put("MAFR","AFR");
-		equiv.put("OAFC", "AFR");
-		equiv.put("ASNC", "SNC");
-		equiv.put("CMB2", "MB1");
-		equiv.put("FMB1", "MB1");
-		equiv.put("SMID","MID");
-		equiv.put("Q06", "PMEI");
-		equiv.put("AMID", "MID");
-		equiv.put("AVOW","VOW");
-		equiv.put("MMH2", "MH2");
-		equiv.put("MSTX", "STX");
-		equiv.put("SSTX","STX");
-		equiv.put("MKHM", "KHM");
-		equiv.put("PF21", "PMEI");
-		equiv.put("PEWK", "PMEI");
-		equiv.put("SLX", "PMEI");
-		equiv.put("OMIC", "MID");
-		equiv.put("OVOC", "VOW");
-		equiv.put("YNEO", "Y22");
-		equiv.put("YMID", "Y22");
-		equiv.put("YSNC", "Y22");
-		equiv.put("SUNF", "UNF");
-		equiv.put("TBOT", "BOT");		
-		equiv.put("PLG22","PMEI");
-		equiv.put("PLG20","PMEI");
-		equiv.put("P30H","PMEI");
-		equiv.put("SCH","PMEI");
-		equiv.put("P30A","PMEI");
-		equiv.put("PSVC","PMEI");
-		equiv.put("PR23","PMEI");
-		equiv.put("ANEO","NEO");
-		equiv.put("MNEO","NEO");
-		equiv.put("SNEO","NEO");
-		equiv.put("SKHM","KHM");
-		equiv.put("MSNC", "SNC");
-		equiv.put("PTSNC", "SNC");
-		equiv.put("MVOW", "VOW");
-		equiv.put("SVOW", "VOW");
-		equiv.put("ADMU", "DMU");
-		equiv.put("PDWA", "DMU");
-		equiv.put("AZNR","ZNR");
-		equiv.put("SZNR","ZNR");
-		equiv.put("MZNR","ZNR");
-		equiv.put("P22","J20");
-		
-		equiv.put("MCLB","CLB");
-		equiv.put("ACLB","CLB");
+		var obj = URLTools.toJson(MTGConstants.MTG_DESKTOP_SETS_FILE.openStream()).getAsJsonObject();
+		obj.entrySet().forEach(e->{
+			e.getValue().getAsJsonArray().forEach(je->{
+					equiv.put(je.getAsString(),e.getKey());
+			});
+		});
 		
 		}
 
