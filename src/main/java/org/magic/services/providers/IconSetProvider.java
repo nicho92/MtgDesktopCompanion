@@ -132,11 +132,9 @@ public class IconSetProvider {
 		equiv = new HashMap<>();
 
 		var obj = URLTools.toJson(MTGConstants.MTG_DESKTOP_SETS_FILE.openStream()).getAsJsonObject();
-		obj.entrySet().forEach(e->{
-			e.getValue().getAsJsonArray().forEach(je->{
-					equiv.put(je.getAsString(),e.getKey());
-			});
-		});
+		obj.entrySet().forEach(e->
+			e.getValue().getAsJsonArray().forEach(je->equiv.put(je.getAsString(),e.getKey()))
+		);
 		
 		}
 
@@ -156,7 +154,7 @@ public class IconSetProvider {
 
 	private void initCache() throws IOException {
 		for (MagicEdition e : getEnabledPlugin(MTGCardsProvider.class).listEditions()) {
-			BufferedImage im = extract(e.getId().toUpperCase());
+			var im = extract(e.getId().toUpperCase());
 			cache24.put(e.getId(), new ImageIcon(im.getScaledInstance(24, 24, Image.SCALE_SMOOTH)));
 			cache16.put(e.getId(), new ImageIcon(im.getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
 		}
