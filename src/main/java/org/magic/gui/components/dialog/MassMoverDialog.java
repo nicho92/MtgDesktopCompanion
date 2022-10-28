@@ -139,7 +139,7 @@ public class MassMoverDialog extends JDialog {
 
 				@Override
 				protected Void doInBackground(){
-					List<MagicCard> list = UITools.getTableSelection(tableCards, 0);
+					List<MagicCard> list = UITools.getTableSelections(tableCards, 0);
 					for(MagicCard mc : list) {
 						try {
 							dao.moveCard(mc, toSaveCol, (MagicCollection) cboCollections.getSelectedItem());
