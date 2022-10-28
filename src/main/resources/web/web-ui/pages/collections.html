@@ -56,7 +56,17 @@
 					window.location.reload();
 				})
 			});
-				
+			
+			$.ajax({
+	  			url: restserver+"/collections/default"
+	   	   		 }).done(function(data) {
+	   	   			 $("#defaultLibraryName").html(data);
+	   	   			 
+	   	   			 
+	   	   		 });
+			
+			
+			
 			$('#tableCollections').DataTable( {
 				"responsive": true,
 				"pageLength": 5,
@@ -125,7 +135,7 @@
 		                "width": "25%",
 						  "render": function(data, type, row, meta){
 		                	 if(type === 'display'){
-									return "<a href='cards.html?set="+row.set+"'/> "+data;		                		 
+									return "<a href='cards.html?set="+row.set+"&col="+ $("#defaultLibraryName").html()+"'/> "+data;		                		 
 		                	 }                		 
 							return data;
 		                }
@@ -301,7 +311,7 @@
           <div class="card">
     		 <div class="card-header p-0 position-relative mt-n4 mx-3">
               <div class="bg-gradient-primary shadow-primary border-radius-lg pt-3 pb-2">
-                <h6 class="text-white text-capitalize ps-3">Default Library</h6>
+                <h6 class="text-white text-capitalize ps-3" id="defaultLibraryName">Default Library</h6>
               </div>
             </div>
             <div class="card-body px-0 pb-2">
