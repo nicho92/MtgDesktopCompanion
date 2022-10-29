@@ -103,6 +103,7 @@ import org.magic.services.recognition.area.ManualAreaStrat;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.Chrono;
 import org.magic.tools.FileTools;
+import org.magic.tools.GithubUtils;
 import org.magic.tools.IDGenerator;
 import org.magic.tools.ImageTools;
 import org.magic.tools.MTG;
@@ -1058,6 +1059,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		get("/metadata/categories", URLTools.HEADER_JSON, (request, response) -> EnumItems.values(), transformer);
 
+		get("/metadata/git", URLTools.HEADER_JSON, (request, response) -> GithubUtils.inst().getReleases(), transformer);
+		
 		get("/metadata/version", "text", (request, response) ->
 			 getCached(request.pathInfo(), new Callable<Object>() {
 				@Override
@@ -1138,7 +1141,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			Chrono c = new Chrono();
 						 c.start();
 				MTG.getEnabledPlugin(MTGCardsIndexer.class).initIndex(true);
-			return "done in " + c.stop() +" s";
+			return ok(request,response,"done in " + c.stop() +" s");
 		}, transformer);
 
 		get("/admin/recognize/caching/:setId", URLTools.HEADER_JSON, (request, response) -> {
