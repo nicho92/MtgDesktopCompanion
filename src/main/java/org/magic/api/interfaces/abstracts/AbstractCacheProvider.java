@@ -13,7 +13,7 @@ public abstract class AbstractCacheProvider extends AbstractMTGPlugin implements
 
 
 	protected String generateIdIndex(MagicCard mc) {
-		return IDGenerator.generate(mc, mc.getCurrentSet());
+		return IDGenerator.generate(mc);
 	}
 
 }
