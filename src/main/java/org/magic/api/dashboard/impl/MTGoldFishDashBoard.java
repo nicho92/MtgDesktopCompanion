@@ -286,7 +286,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	@Override
 	public HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, boolean foil) throws IOException {
 
-		var url ="";//searchUrlFor(mc,foil);
+		var url ="";//searchUrlFor(mc,foil)
 
 		HistoryPrice<MagicCard> historyPrice = new HistoryPrice<>(mc);
 		historyPrice.setCurrency(getCurrency());

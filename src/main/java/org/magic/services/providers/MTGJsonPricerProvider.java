@@ -154,7 +154,6 @@ public class MTGJsonPricerProvider {
 									}//fin boucle Foil/Normal
 									reader.endObject();
 									
-									//TODO add data to arr;
 									if(vendor.toUpperCase().equals(v.name()))
 										arr.add(gson.toJsonTree(data));
 									

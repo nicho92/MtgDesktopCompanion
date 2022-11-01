@@ -14,7 +14,6 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.SwingWorker;
 
 import org.apache.logging.log4j.Logger;
@@ -32,6 +31,8 @@ import org.magic.services.MTGControler;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 import org.magic.tools.UITools;
+
+
 public class MassMoverDialog extends JDialog {
 	/**
 	 *

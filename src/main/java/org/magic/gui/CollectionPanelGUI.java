@@ -469,10 +469,9 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 			}
 
-			if (curr.getUserObject() instanceof MagicEdition seEd) {
+			if (curr.getUserObject() instanceof MagicEdition ed) {
 
-				MagicEdition ed = seEd;
-
+		
 				magicEditionDetailPanel.setMagicEdition(ed);
 				packagePanel.setMagicEdition(ed);
 				stockPanel.enabledAdd(false);

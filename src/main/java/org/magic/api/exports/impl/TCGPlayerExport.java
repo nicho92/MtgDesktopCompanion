@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
 
-import org.apache.logging.log4j.Level;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
@@ -14,7 +13,6 @@ import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
-import org.magic.services.logging.MTGLogger;
 import org.magic.services.providers.PluginsAliasesProvider;
 import org.magic.tools.FileTools;
 import org.magic.tools.MTG;

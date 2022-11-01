@@ -123,6 +123,7 @@ import spark.routematch.RouteMatch;
 
 public class JSONHttpServer extends AbstractMTGServer {
 
+	private static final String DEFAULT_LIBRARY = "default-library";
 	private static final String TYPE = ":type";
 	private static final String SCRYFALL_ID = ":scryfallId";
 	private static final String CLASSENAME = ":classename";
@@ -537,7 +538,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 
 		put("/cards/add/:scryfallId", URLTools.HEADER_JSON, (request, response) -> {
-			var from = new MagicCollection(MTGControler.getInstance().get("default-library"));
+			var from = new MagicCollection(MTGControler.getInstance().get(DEFAULT_LIBRARY));
 			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
 			CardsManagerService.saveCard(mc, from,null);
 			return ok(request,response,mc + " is added to " + from);
@@ -590,7 +591,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 				(request, response) -> getEnabledPlugin(MTGDao.class).listCollections(), transformer);
 
 		get("/collections/default", URLTools.HEADER_JSON,
-				(request, response) -> MTGControler.getInstance().get("default-library"), transformer);
+				(request, response) -> MTGControler.getInstance().get(DEFAULT_LIBRARY), transformer);
 
 		
 		
@@ -892,7 +893,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/stock/searchCard/:collection/:cardName", URLTools.HEADER_JSON,
 				(request, response) -> getEnabledPlugin(MTGDao.class).listStocks(request.params(":cardName"),List.of(new MagicCollection(request.params(COLLECTION)))), transformer);
 
-		get("/dash/collection", URLTools.HEADER_JSON, (request, response) ->CollectionEvaluator.analyseToJson(new MagicCollection(MTGControler.getInstance().get("default-library"))), transformer);
+		get("/dash/collection", URLTools.HEADER_JSON, (request, response) ->CollectionEvaluator.analyseToJson(new MagicCollection(MTGControler.getInstance().get(DEFAULT_LIBRARY))), transformer);
 
 		get("/dash/collection/:collection", URLTools.HEADER_JSON, (request, response) -> CollectionEvaluator.analyseToJson(new MagicCollection(request.params(COLLECTION))), transformer);
 
