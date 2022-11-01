@@ -17,7 +17,7 @@ import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
-import org.magic.tools.FileTools;
+import org.magic.services.tools.FileTools;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;

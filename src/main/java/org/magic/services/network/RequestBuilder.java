@@ -14,7 +14,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 import org.jsoup.nodes.Document;
-import org.magic.tools.XMLTools;
+import org.magic.services.tools.XMLTools;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

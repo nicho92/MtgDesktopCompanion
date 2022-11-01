@@ -1,6 +1,6 @@
 package test.providers;
 
-import static org.magic.tools.MTG.listPlugins;
+import static org.magic.services.tools.MTG.listPlugins;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package org.magic.game.gui.components;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.Dimension;
 import java.awt.Graphics;

@@ -1,6 +1,6 @@
 package org.magic.api.indexer.impl;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -42,7 +42,7 @@ import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardsIndexer;
 import org.magic.services.MTGConstants;
-import org.magic.tools.IDGenerator;
+import org.magic.services.tools.IDGenerator;
 
 
 public class LuceneIndexer extends AbstractCardsIndexer {

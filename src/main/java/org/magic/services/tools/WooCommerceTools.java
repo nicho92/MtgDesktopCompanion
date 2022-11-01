@@ -1,4 +1,4 @@
-package org.magic.tools;
+package org.magic.services.tools;
 
 import java.io.IOException;
 import java.util.ArrayList;

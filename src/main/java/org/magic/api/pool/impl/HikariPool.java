@@ -11,7 +11,7 @@ import org.magic.api.beans.MTGDocumentation;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.abstracts.AbstractPoolProvider;
 import org.magic.services.threads.ThreadManager;
-import org.magic.tools.POMReader;
+import org.magic.services.tools.POMReader;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;

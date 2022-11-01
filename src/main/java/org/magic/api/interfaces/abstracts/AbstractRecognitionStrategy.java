@@ -1,6 +1,6 @@
 package org.magic.api.interfaces.abstracts;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -24,8 +24,8 @@ import org.magic.services.MTGConstants;
 import org.magic.services.recognition.DescContainer;
 import org.magic.services.recognition.ImageDesc;
 import org.magic.services.recognition.MatchResult;
-import org.magic.tools.FileTools;
-import org.magic.tools.ImageTools;
+import org.magic.services.tools.FileTools;
+import org.magic.services.tools.ImageTools;
 
 
 

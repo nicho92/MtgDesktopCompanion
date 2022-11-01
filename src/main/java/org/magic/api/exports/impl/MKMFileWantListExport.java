@@ -10,7 +10,7 @@ import javax.swing.ImageIcon;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
-import org.magic.tools.FileTools;
+import org.magic.services.tools.FileTools;
 
 public class MKMFileWantListExport extends AbstractFormattedFileCardExport {
 

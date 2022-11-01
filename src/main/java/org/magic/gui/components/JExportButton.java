@@ -1,6 +1,6 @@
 package org.magic.gui.components;
 
-import static org.magic.tools.MTG.listEnabledPlugins;
+import static org.magic.services.tools.MTG.listEnabledPlugins;
 
 import java.awt.Point;
 import java.io.File;
@@ -21,9 +21,9 @@ import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
+import org.magic.services.tools.UITools;
 import org.magic.services.workers.CardExportWorker;
 import org.magic.services.workers.StockExportWorker;
-import org.magic.tools.UITools;
 
 public class JExportButton extends JButton {
 	private static final long serialVersionUID = 1L;

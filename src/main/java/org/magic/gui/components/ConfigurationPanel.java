@@ -1,7 +1,7 @@
 package org.magic.gui.components;
 
-import static org.magic.tools.MTG.capitalize;
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.capitalize;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -67,10 +67,10 @@ import org.magic.services.logging.MTGLogger;
 import org.magic.services.providers.IconSetProvider;
 import org.magic.services.providers.SealedProductProvider;
 import org.magic.services.threads.ThreadManager;
-import org.magic.tools.FileTools;
-import org.magic.tools.InstallCert;
-import org.magic.tools.MTG;
-import org.magic.tools.UITools;
+import org.magic.services.tools.FileTools;
+import org.magic.services.tools.InstallCert;
+import org.magic.services.tools.MTG;
+import org.magic.services.tools.UITools;
 
 public class ConfigurationPanel extends JXTaskPaneContainer {
 

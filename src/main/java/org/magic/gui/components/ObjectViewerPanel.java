@@ -10,7 +10,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import org.magic.gui.abstracts.MTGUIComponent;
-import org.magic.tools.BeanTools;
+import org.magic.services.tools.BeanTools;
 
 public class ObjectViewerPanel extends MTGUIComponent {
 

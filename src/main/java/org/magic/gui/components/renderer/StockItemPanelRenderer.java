@@ -12,7 +12,7 @@ import javax.swing.border.LineBorder;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.services.MTGControler;
 import org.magic.services.providers.IconSetProvider;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 public class StockItemPanelRenderer extends JPanel {
 

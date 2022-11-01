@@ -18,7 +18,7 @@ import org.magic.api.criterias.MTGCrit;
 import org.magic.gui.components.CriteriaComponent;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 public class AdvancedSearchQueryDialog extends JDialog {
 

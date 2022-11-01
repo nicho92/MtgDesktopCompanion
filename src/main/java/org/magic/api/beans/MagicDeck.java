@@ -13,7 +13,7 @@ import java.util.Set;
 import org.magic.api.beans.MagicFormat.AUTHORIZATION;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.interfaces.MTGStorable;
-import org.magic.tools.IDGenerator;
+import org.magic.services.tools.IDGenerator;
 
 
 public class MagicDeck implements MTGStorable {

@@ -1,9 +1,9 @@
 package org.magic.gui;
 
-import static org.magic.tools.MTG.capitalize;
-import static org.magic.tools.MTG.getEnabledPlugin;
-import static org.magic.tools.MTG.getPlugin;
-import static org.magic.tools.MTG.listEnabledPlugins;
+import static org.magic.services.tools.MTG.capitalize;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getPlugin;
+import static org.magic.services.tools.MTG.listEnabledPlugins;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -66,9 +66,9 @@ import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
+import org.magic.services.tools.IDGenerator;
+import org.magic.services.tools.UITools;
 import org.magic.services.workers.AbstractObservableWorker;
-import org.magic.tools.IDGenerator;
-import org.magic.tools.UITools;
 public class AlarmGUI extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;

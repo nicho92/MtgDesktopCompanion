@@ -1,6 +1,6 @@
 package org.magic.api.interfaces.abstracts.extra;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,7 +22,7 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
 import org.magic.services.providers.PluginsAliasesProvider;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 public abstract class AbstractFormattedFileCardExport extends AbstractCardExport {
 

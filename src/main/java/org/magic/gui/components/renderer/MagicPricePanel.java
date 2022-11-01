@@ -1,6 +1,6 @@
 package org.magic.gui.components.renderer;
 
-import static org.magic.tools.MTG.capitalize;
+import static org.magic.services.tools.MTG.capitalize;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -17,7 +17,7 @@ import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.gui.components.JLangLabel;
 import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 public class MagicPricePanel extends JPanel {
 
 

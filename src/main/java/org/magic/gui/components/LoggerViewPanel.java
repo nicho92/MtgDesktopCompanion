@@ -1,6 +1,6 @@
 package org.magic.gui.components;
 
-import static org.magic.tools.MTG.capitalize;
+import static org.magic.services.tools.MTG.capitalize;
 
 import java.awt.BorderLayout;
 import java.util.Date;
@@ -23,7 +23,7 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.conf.LogTableModel;
 import org.magic.gui.renderer.standard.DateTableCellEditorRenderer;
 import org.magic.services.MTGConstants;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 public class LoggerViewPanel extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;

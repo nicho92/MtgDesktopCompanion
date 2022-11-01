@@ -1,4 +1,4 @@
-package org.magic.tools;
+package org.magic.services.tools;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.logging.log4j.Logger;

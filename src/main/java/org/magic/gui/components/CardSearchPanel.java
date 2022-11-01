@@ -1,7 +1,7 @@
 package org.magic.gui.components;
 
-import static org.magic.tools.MTG.capitalize;
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.capitalize;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -73,9 +73,9 @@ import org.magic.services.CardsManagerService;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
+import org.magic.services.tools.MTG;
+import org.magic.services.tools.UITools;
 import org.magic.services.workers.AbstractObservableWorker;
-import org.magic.tools.MTG;
-import org.magic.tools.UITools;
 import org.utils.patterns.observer.Observable;
 
 public class CardSearchPanel extends MTGUIComponent {

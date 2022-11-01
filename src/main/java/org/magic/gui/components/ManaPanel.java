@@ -16,7 +16,7 @@ import javax.swing.SwingConstants;
 
 import org.magic.api.beans.enums.CardsPatterns;
 import org.magic.services.MTGConstants;
-import org.magic.tools.ImageTools;
+import org.magic.services.tools.ImageTools;
 
 public class ManaPanel extends JPanel {
 	/**

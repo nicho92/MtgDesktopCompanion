@@ -1,6 +1,6 @@
 package org.magic.gui;
 
-import static org.magic.tools.MTG.capitalize;
+import static org.magic.services.tools.MTG.capitalize;
 
 import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
@@ -28,7 +28,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.network.URLTools;
 import org.magic.services.providers.StoryProvider;
 import org.magic.services.threads.ThreadManager;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 public class StoriesGUI extends MTGUIComponent {
 
 	/**

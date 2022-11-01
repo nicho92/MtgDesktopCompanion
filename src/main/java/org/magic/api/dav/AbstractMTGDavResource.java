@@ -4,7 +4,7 @@ import java.util.Date;
 
 import org.apache.logging.log4j.Logger;
 import org.magic.services.logging.MTGLogger;
-import org.magic.tools.IDGenerator;
+import org.magic.services.tools.IDGenerator;
 
 import io.milton.http.Auth;
 import io.milton.http.Request;

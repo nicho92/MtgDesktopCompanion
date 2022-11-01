@@ -17,7 +17,7 @@ import org.magic.api.beans.technical.audit.NetworkInfo;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.TechnicalServiceManager;
-import org.magic.tools.Chrono;
+import org.magic.services.tools.Chrono;
 
 public class CardTraderPricer extends AbstractPricesProvider {
 

@@ -1,7 +1,7 @@
 package org.magic.api.interfaces.abstracts.extra;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
-import static org.magic.tools.MTG.getPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getPlugin;
 
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -59,9 +59,9 @@ import org.magic.services.PluginRegistry;
 import org.magic.services.TechnicalServiceManager;
 import org.magic.services.TransactionService;
 import org.magic.services.providers.SealedProductProvider;
-import org.magic.tools.CryptoUtils;
-import org.magic.tools.IDGenerator;
-import org.magic.tools.ImageTools;
+import org.magic.services.tools.CryptoUtils;
+import org.magic.services.tools.IDGenerator;
+import org.magic.services.tools.ImageTools;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;

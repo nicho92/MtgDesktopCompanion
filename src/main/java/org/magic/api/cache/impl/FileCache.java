@@ -1,6 +1,6 @@
 package org.magic.api.cache.impl;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -13,7 +13,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractCacheProvider;
 import org.magic.services.MTGConstants;
-import org.magic.tools.ImageTools;
+import org.magic.services.tools.ImageTools;
 
 public class FileCache extends AbstractCacheProvider {
 

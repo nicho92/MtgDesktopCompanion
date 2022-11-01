@@ -1,7 +1,7 @@
 package org.magic.api.interfaces.abstracts;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
-import static org.magic.tools.MTG.listEnabledPlugins;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.listEnabledPlugins;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,7 +29,7 @@ import org.magic.api.interfaces.MTGShopper;
 import org.magic.api.interfaces.MTGTextGenerator;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.tools.FileTools;
+import org.magic.services.tools.FileTools;
 
 
 public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTGScript{

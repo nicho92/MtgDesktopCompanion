@@ -7,7 +7,7 @@ import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.GenericTableModel;
-import org.magic.tools.MTG;
+import org.magic.services.tools.MTG;
 
 public class TransactionsTableModel extends GenericTableModel<Transaction> {
 

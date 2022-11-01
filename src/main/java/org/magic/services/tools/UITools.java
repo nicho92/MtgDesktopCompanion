@@ -1,9 +1,9 @@
-package org.magic.tools;
+package org.magic.services.tools;
 
-import static org.magic.tools.MTG.capitalize;
-import static org.magic.tools.MTG.getEnabledPlugin;
-import static org.magic.tools.MTG.listEnabledPlugins;
-import static org.magic.tools.MTG.listPlugins;
+import static org.magic.services.tools.MTG.capitalize;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.listEnabledPlugins;
+import static org.magic.services.tools.MTG.listPlugins;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

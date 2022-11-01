@@ -1,6 +1,6 @@
 package org.magic.api.commands.impl;
 
-import static org.magic.tools.MTG.getPlugin;
+import static org.magic.services.tools.MTG.getPlugin;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;

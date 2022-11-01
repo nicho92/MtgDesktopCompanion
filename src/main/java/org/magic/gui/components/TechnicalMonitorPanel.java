@@ -1,5 +1,5 @@
 package org.magic.gui.components;
-import static org.magic.tools.MTG.capitalize;
+import static org.magic.services.tools.MTG.capitalize;
 
 import java.awt.BorderLayout;
 
@@ -29,9 +29,9 @@ import org.magic.servers.impl.JSONHttpServer;
 import org.magic.servers.impl.QwartzServer;
 import org.magic.services.MTGConstants;
 import org.magic.services.TechnicalServiceManager;
-import org.magic.tools.ImageTools;
-import org.magic.tools.MTG;
-import org.magic.tools.UITools;
+import org.magic.services.tools.ImageTools;
+import org.magic.services.tools.MTG;
+import org.magic.services.tools.UITools;
 
 import com.google.gson.JsonObject;
 

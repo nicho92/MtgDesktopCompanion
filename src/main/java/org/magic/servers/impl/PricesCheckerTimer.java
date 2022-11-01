@@ -1,8 +1,8 @@
 package org.magic.servers.impl;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
-import static org.magic.tools.MTG.getPlugin;
-import static org.magic.tools.MTG.listEnabledPlugins;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getPlugin;
+import static org.magic.services.tools.MTG.listEnabledPlugins;
 
 import java.io.IOException;
 import java.util.ArrayList;

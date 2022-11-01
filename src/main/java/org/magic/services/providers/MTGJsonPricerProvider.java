@@ -20,8 +20,8 @@ import org.magic.services.network.URLTools;
 import org.magic.services.providers.MTGJsonPricerProvider.STOCK;
 import org.magic.services.providers.MTGJsonPricerProvider.SUPPORT;
 import org.magic.services.providers.MTGJsonPricerProvider.VENDOR;
-import org.magic.tools.Chrono;
-import org.magic.tools.FileTools;
+import org.magic.services.tools.Chrono;
+import org.magic.services.tools.FileTools;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

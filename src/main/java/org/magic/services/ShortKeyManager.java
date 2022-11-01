@@ -13,8 +13,8 @@ import javax.swing.JButton;
 
 import org.apache.logging.log4j.Logger;
 import org.magic.services.logging.MTGLogger;
-import org.magic.tools.FileTools;
-import org.magic.tools.IDGenerator;
+import org.magic.services.tools.FileTools;
+import org.magic.services.tools.IDGenerator;
 
 public class ShortKeyManager {
 	protected static Logger logger = MTGLogger.getLogger(ShortKeyManager.class);

@@ -10,7 +10,7 @@ import javax.swing.table.TableCellRenderer;
 
 import org.magic.api.beans.MagicEdition;
 import org.magic.gui.renderer.MagicEditionIconListRenderer.SIZE;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 public class MagicEditionsComboBoxCellRenderer implements TableCellRenderer {
 

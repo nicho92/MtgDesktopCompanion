@@ -14,7 +14,7 @@ import org.magic.gui.components.shops.extshop.ProductsCreatorComponent;
 import org.magic.gui.components.shops.extshop.StockShopperComponent;
 import org.magic.gui.components.shops.extshop.TransactionCreatorComponent;
 import org.magic.services.MTGConstants;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 public class ShopGUI extends MTGUIComponent {
 

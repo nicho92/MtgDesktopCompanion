@@ -15,8 +15,8 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractCacheProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGPlugin;
 import org.magic.services.MTGConstants;
-import org.magic.tools.ImageTools;
-import org.magic.tools.POMReader;
+import org.magic.services.tools.ImageTools;
+import org.magic.services.tools.POMReader;
 
 public class JCSCache extends AbstractCacheProvider {
 

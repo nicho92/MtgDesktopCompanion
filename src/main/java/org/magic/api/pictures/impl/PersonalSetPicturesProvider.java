@@ -13,8 +13,8 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.MTGConstants;
-import org.magic.tools.FileTools;
-import org.magic.tools.ImageTools;
+import org.magic.services.tools.FileTools;
+import org.magic.services.tools.ImageTools;
 
 public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 

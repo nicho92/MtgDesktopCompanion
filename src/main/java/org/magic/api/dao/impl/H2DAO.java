@@ -11,7 +11,7 @@ import org.magic.api.beans.MTGDocumentation;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.abstracts.extra.AbstractMagicSQLDAO;
 import org.magic.services.MTGConstants;
-import org.magic.tools.FileTools;
+import org.magic.services.tools.FileTools;
 
 public class H2DAO extends AbstractMagicSQLDAO {
 

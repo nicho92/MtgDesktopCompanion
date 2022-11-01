@@ -13,7 +13,7 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGStorable;
 import org.magic.api.interfaces.abstracts.AbstractFileStorage;
 import org.magic.services.MTGConstants;
-import org.magic.tools.MTG;
+import org.magic.services.tools.MTG;
 
 public class DAOFileSystemStorage extends AbstractFileStorage {
 

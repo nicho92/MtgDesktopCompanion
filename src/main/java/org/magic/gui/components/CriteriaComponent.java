@@ -1,6 +1,6 @@
 package org.magic.gui.components;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -34,7 +34,7 @@ import org.magic.api.criterias.MTGCrit.OPERATOR;
 import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 
 public class CriteriaComponent extends JComponent implements ActionListener{

@@ -11,8 +11,8 @@ import org.magic.api.beans.technical.AccountAuthenticator;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.services.logging.MTGLogger;
-import org.magic.tools.CryptoUtils;
-import org.magic.tools.FileTools;
+import org.magic.services.tools.CryptoUtils;
+import org.magic.services.tools.FileTools;
 
 import com.google.gson.JsonObject;
 

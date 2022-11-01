@@ -23,8 +23,8 @@ import org.jsoup.nodes.Document;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.RequestBuilder.METHOD;
-import org.magic.tools.ImageTools;
-import org.magic.tools.XMLTools;
+import org.magic.services.tools.ImageTools;
+import org.magic.services.tools.XMLTools;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;

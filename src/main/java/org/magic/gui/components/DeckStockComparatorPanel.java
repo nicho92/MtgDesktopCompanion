@@ -1,7 +1,7 @@
 package org.magic.gui.components;
 
-import static org.magic.tools.MTG.capitalize;
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.capitalize;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -35,7 +35,7 @@ import org.magic.gui.models.DeckStockComparisonModel;
 import org.magic.gui.renderer.standard.NumberCellEditorRenderer;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 public class DeckStockComparatorPanel extends MTGUIComponent {
 
 	/**

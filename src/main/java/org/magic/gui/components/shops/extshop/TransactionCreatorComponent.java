@@ -20,8 +20,8 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.shops.TransactionsPanel;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
+import org.magic.services.tools.UITools;
 import org.magic.services.workers.AbstractObservableWorker;
-import org.magic.tools.UITools;
 
 
 public class TransactionCreatorComponent extends MTGUIComponent {

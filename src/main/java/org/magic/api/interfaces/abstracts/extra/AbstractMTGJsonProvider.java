@@ -29,8 +29,8 @@ import org.magic.api.criterias.builders.JsonCriteriaBuilder;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;
-import org.magic.tools.Chrono;
-import org.magic.tools.FileTools;
+import org.magic.services.tools.Chrono;
+import org.magic.services.tools.FileTools;
 
 import com.google.common.collect.Lists;
 import com.google.gson.JsonElement;

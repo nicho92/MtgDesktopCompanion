@@ -21,7 +21,7 @@ import org.magic.game.model.GameManager;
 import org.magic.game.model.ZoneEnum;
 import org.magic.game.model.factories.AbilitiesFactory;
 import org.magic.services.MTGControler;
-import org.magic.tools.ImageTools;
+import org.magic.services.tools.ImageTools;
 
 public class BattleFieldPanel extends DraggablePanel {
 

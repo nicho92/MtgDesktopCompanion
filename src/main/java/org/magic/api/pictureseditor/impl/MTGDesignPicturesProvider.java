@@ -29,7 +29,7 @@ import org.magic.game.model.abilities.LoyaltyAbilities;
 import org.magic.game.model.factories.AbilitiesFactory;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;
-import org.magic.tools.ImageTools;
+import org.magic.services.tools.ImageTools;
 public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 
 	private static final String ACCENT = "ACCENT";

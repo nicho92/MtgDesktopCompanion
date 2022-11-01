@@ -11,7 +11,7 @@ import javax.swing.JTextField;
 
 import org.magic.api.beans.MagicNews;
 import org.magic.api.interfaces.MTGNewsProvider;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 public class NewsEditorPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;

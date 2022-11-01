@@ -1,6 +1,6 @@
 package org.magic.gui.components.dialog;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -55,9 +55,9 @@ import org.magic.services.recognition.area.AutoDetectAreaStrat;
 import org.magic.services.recognition.area.ManualAreaStrat;
 import org.magic.services.recognition.area.RadiusAreaStrat;
 import org.magic.services.threads.ThreadManager;
+import org.magic.services.tools.MTG;
+import org.magic.services.tools.UITools;
 import org.magic.services.workers.AbstractObservableWorker;
-import org.magic.tools.MTG;
-import org.magic.tools.UITools;
 import org.utils.webcam.WebcamUtils;
 
 import com.github.sarxos.webcam.Webcam;

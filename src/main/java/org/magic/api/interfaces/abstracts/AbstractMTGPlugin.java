@@ -25,7 +25,7 @@ import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
-import org.magic.tools.FileTools;
+import org.magic.services.tools.FileTools;
 import org.utils.patterns.observer.Observable;
 
 public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin {

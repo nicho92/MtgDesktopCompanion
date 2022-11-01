@@ -23,8 +23,8 @@ import org.magic.game.model.factories.AbilitiesFactory;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
+import org.magic.services.tools.ImageTools;
 import org.magic.services.network.URLTools;
-import org.magic.tools.ImageTools;
 
 import com.google.gson.JsonElement;
 

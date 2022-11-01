@@ -20,8 +20,8 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.tools.MTG;
-import org.magic.tools.UITools;
+import org.magic.services.tools.MTG;
+import org.magic.services.tools.UITools;
 
 public class ContactPanel extends MTGUIComponent {
 

@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.net.URI;
 
 import org.magic.services.network.URLTools;
-import org.magic.tools.ImageTools;
+import org.magic.services.tools.ImageTools;
 
 public class Wallpaper {
 

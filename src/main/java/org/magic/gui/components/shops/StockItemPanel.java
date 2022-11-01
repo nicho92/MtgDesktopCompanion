@@ -17,7 +17,7 @@ import org.magic.gui.models.StockItemTableModel;
 import org.magic.gui.renderer.StockTableRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 
 public class StockItemPanel extends MTGUIComponent {

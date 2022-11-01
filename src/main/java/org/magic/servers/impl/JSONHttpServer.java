@@ -1,9 +1,9 @@
  package org.magic.servers.impl;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
-import static org.magic.tools.MTG.getPlugin;
-import static org.magic.tools.MTG.listEnabledPlugins;
-import static org.magic.tools.MTG.listPlugins;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getPlugin;
+import static org.magic.services.tools.MTG.listEnabledPlugins;
+import static org.magic.services.tools.MTG.listPlugins;
 import static spark.Spark.after;
 import static spark.Spark.before;
 import static spark.Spark.delete;
@@ -101,13 +101,13 @@ import org.magic.services.keywords.AbstractKeyWordsManager;
 import org.magic.services.network.URLTools;
 import org.magic.services.recognition.area.ManualAreaStrat;
 import org.magic.services.threads.ThreadManager;
-import org.magic.tools.Chrono;
-import org.magic.tools.FileTools;
-import org.magic.tools.GithubUtils;
-import org.magic.tools.IDGenerator;
-import org.magic.tools.ImageTools;
-import org.magic.tools.MTG;
-import org.magic.tools.POMReader;
+import org.magic.services.tools.Chrono;
+import org.magic.services.tools.FileTools;
+import org.magic.services.tools.GithubUtils;
+import org.magic.services.tools.IDGenerator;
+import org.magic.services.tools.ImageTools;
+import org.magic.services.tools.MTG;
+import org.magic.services.tools.POMReader;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;

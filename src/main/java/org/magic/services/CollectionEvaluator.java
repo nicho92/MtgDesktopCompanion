@@ -1,7 +1,7 @@
 package org.magic.services;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
-import static org.magic.tools.MTG.getPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getPlugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,7 +26,7 @@ import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
-import org.magic.tools.FileTools;
+import org.magic.services.tools.FileTools;
 import org.utils.patterns.observer.Observable;
 
 import com.google.gson.JsonArray;

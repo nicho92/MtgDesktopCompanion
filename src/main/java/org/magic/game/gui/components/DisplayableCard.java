@@ -1,6 +1,6 @@
 package org.magic.game.gui.components;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -64,7 +64,7 @@ import org.magic.services.PluginRegistry;
 import org.magic.services.keywords.AbstractKeyWordsManager;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.threads.ThreadManager;
-import org.magic.tools.ImageTools;
+import org.magic.services.tools.ImageTools;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 

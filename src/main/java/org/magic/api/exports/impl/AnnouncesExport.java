@@ -17,7 +17,7 @@ import org.magic.api.beans.enums.MTGExportCategory;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGControler;
-import org.magic.tools.MTG;
+import org.magic.services.tools.MTG;
 
 public class AnnouncesExport extends AbstractCardExport {
 

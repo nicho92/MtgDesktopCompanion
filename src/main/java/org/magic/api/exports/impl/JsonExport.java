@@ -23,8 +23,8 @@ import org.magic.services.adapters.NetworkInfoAdapter;
 import org.magic.services.adapters.StackTraceElementAdapter;
 import org.magic.services.adapters.UserAgentAdapter;
 import org.magic.services.network.URLTools;
-import org.magic.tools.FileTools;
-import org.magic.tools.POMReader;
+import org.magic.services.tools.FileTools;
+import org.magic.services.tools.POMReader;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;

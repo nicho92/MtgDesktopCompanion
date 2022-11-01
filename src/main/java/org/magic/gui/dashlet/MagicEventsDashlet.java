@@ -22,7 +22,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.providers.MTGEventProvider;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 public class MagicEventsDashlet extends AbstractJDashlet {
 	/**

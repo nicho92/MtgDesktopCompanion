@@ -1,6 +1,6 @@
 package org.magic.gui.components.charts;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
@@ -33,7 +33,7 @@ import org.magic.gui.abstracts.charts.Abstract2DHistoChart;
 import org.magic.services.MTGConstants;
 import org.magic.services.providers.IconSetProvider;
 import org.magic.services.threads.ThreadManager;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 

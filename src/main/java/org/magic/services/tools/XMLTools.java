@@ -1,4 +1,4 @@
-package org.magic.tools;
+package org.magic.services.tools;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;

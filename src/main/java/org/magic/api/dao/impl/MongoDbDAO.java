@@ -2,7 +2,7 @@ package org.magic.api.dao.impl;
 
 import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
-import static org.magic.tools.MTG.getPlugin;
+import static org.magic.services.tools.MTG.getPlugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,10 +48,10 @@ import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGConstants;
 import org.magic.services.PluginRegistry;
 import org.magic.services.TechnicalServiceManager;
-import org.magic.tools.Chrono;
-import org.magic.tools.CryptoUtils;
-import org.magic.tools.IDGenerator;
-import org.magic.tools.ImageTools;
+import org.magic.services.tools.Chrono;
+import org.magic.services.tools.CryptoUtils;
+import org.magic.services.tools.IDGenerator;
+import org.magic.services.tools.ImageTools;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.ConnectionString;

@@ -13,8 +13,8 @@ import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
-import org.magic.tools.FileTools;
-import org.magic.tools.POMReader;
+import org.magic.services.tools.FileTools;
+import org.magic.services.tools.POMReader;
 
 import com.google.gson.internal.LinkedTreeMap;
 import com.thoughtworks.xstream.XStream;

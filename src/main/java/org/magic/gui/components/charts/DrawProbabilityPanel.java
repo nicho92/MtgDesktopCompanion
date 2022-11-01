@@ -1,6 +1,6 @@
 package org.magic.gui.components.charts;
 
-import static org.magic.tools.MTG.capitalize;
+import static org.magic.services.tools.MTG.capitalize;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -17,7 +17,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 public class DrawProbabilityPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;

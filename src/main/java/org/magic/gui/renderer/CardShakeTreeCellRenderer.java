@@ -14,7 +14,7 @@ import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicEdition;
 import org.magic.gui.renderer.MagicEditionIconListRenderer.SIZE;
 import org.magic.services.MTGConstants;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 public class CardShakeTreeCellRenderer implements TreeCellRenderer, TableCellRenderer{
 

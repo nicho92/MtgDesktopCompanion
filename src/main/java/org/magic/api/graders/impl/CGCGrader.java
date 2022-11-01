@@ -6,7 +6,7 @@ import org.jsoup.nodes.Document;
 import org.magic.api.beans.Grading;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
 import org.magic.services.network.URLTools;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 public class CGCGrader extends AbstractGradersProvider {
 

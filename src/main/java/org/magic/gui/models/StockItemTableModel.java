@@ -9,7 +9,7 @@ import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.gui.abstracts.GenericTableModel;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 

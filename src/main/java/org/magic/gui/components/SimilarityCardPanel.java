@@ -1,6 +1,6 @@
 package org.magic.gui.components;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
 import java.io.IOException;
@@ -14,7 +14,7 @@ import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.SimilarityCardsTableModel;
 import org.magic.services.MTGConstants;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 public class SimilarityCardPanel extends MTGUIComponent {
 

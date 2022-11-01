@@ -20,7 +20,7 @@ import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.services.MTGConstants;
 import org.magic.services.providers.SealedProductProvider;
-import org.magic.tools.MTG;
+import org.magic.services.tools.MTG;
 
 public class MTGCompanionShop extends AbstractExternalShop {
 

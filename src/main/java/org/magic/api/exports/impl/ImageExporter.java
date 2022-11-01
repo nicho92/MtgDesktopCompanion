@@ -1,6 +1,6 @@
 package org.magic.api.exports.impl;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -19,7 +19,7 @@ import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.sorters.CardNameSorter;
 import org.magic.services.MTGControler;
-import org.magic.tools.ImageTools;
+import org.magic.services.tools.ImageTools;
 
 public class ImageExporter extends AbstractCardExport{
 	private static final String FORMAT = "FORMAT";

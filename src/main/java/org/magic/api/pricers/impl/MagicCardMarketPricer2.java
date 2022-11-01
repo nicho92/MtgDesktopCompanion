@@ -27,7 +27,7 @@ import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
-import org.magic.tools.InstallCert;
+import org.magic.services.tools.InstallCert;
 
 public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 

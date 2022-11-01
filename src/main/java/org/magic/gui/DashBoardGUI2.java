@@ -1,7 +1,7 @@
 package org.magic.gui;
 
-import static org.magic.tools.MTG.capitalize;
-import static org.magic.tools.MTG.listPlugins;
+import static org.magic.services.tools.MTG.capitalize;
+import static org.magic.services.tools.MTG.listPlugins;
 
 import java.awt.BorderLayout;
 import java.awt.SystemColor;
@@ -36,7 +36,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
 import org.magic.services.threads.ThreadManager;
-import org.magic.tools.FileTools;
+import org.magic.services.tools.FileTools;
 
 import com.jidesoft.swing.JideTabbedPane;
 import com.jidesoft.swing.TabEditingEvent;

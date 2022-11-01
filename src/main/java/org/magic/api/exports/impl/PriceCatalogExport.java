@@ -1,6 +1,6 @@
 package org.magic.api.exports.impl;
 
-import static org.magic.tools.MTG.getPlugin;
+import static org.magic.services.tools.MTG.getPlugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +17,7 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGConstants;
-import org.magic.tools.FileTools;
+import org.magic.services.tools.FileTools;
 
 public class PriceCatalogExport extends AbstractFormattedFileCardExport {
 

@@ -15,9 +15,9 @@ import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
+import org.magic.services.tools.MTG;
+import org.magic.services.tools.UITools;
 import org.magic.services.network.URLTools;
-import org.magic.tools.MTG;
-import org.magic.tools.UITools;
 
 import com.google.gson.JsonObject;
 

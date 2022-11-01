@@ -9,8 +9,8 @@ import java.util.Map;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
-import org.magic.tools.UITools;
-import org.magic.tools.WooCommerceTools;
+import org.magic.services.tools.UITools;
+import org.magic.services.tools.WooCommerceTools;
 
 import com.google.gson.JsonElement;
 import com.icoderman.woocommerce.EndpointBaseType;

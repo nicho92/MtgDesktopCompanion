@@ -13,7 +13,7 @@ import org.api.mkm.modele.Wantslist;
 import org.api.mkm.services.WantsService;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 public class MkmWantListChooserDialog extends JDialog {
 

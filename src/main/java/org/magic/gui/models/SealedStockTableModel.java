@@ -8,7 +8,7 @@ import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.gui.abstracts.GenericTableModel;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 public class SealedStockTableModel extends GenericTableModel<SealedStock> {
 

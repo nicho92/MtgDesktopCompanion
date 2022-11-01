@@ -1,6 +1,6 @@
 package org.magic.gui.models;
 
-import static org.magic.tools.MTG.capitalize;
+import static org.magic.services.tools.MTG.capitalize;
 
 import java.util.ArrayList;
 import java.util.List;

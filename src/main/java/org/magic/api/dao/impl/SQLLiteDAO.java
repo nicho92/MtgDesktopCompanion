@@ -9,7 +9,7 @@ import java.util.Map;
 import org.apache.commons.io.FileUtils;
 import org.magic.api.interfaces.abstracts.extra.AbstractMagicSQLDAO;
 import org.magic.services.MTGConstants;
-import org.magic.tools.FileTools;
+import org.magic.services.tools.FileTools;
 
 public class SQLLiteDAO extends AbstractMagicSQLDAO {
 

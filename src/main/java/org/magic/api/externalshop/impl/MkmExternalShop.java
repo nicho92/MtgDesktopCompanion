@@ -45,8 +45,8 @@ import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.api.interfaces.abstracts.extra.AbstractProduct;
 import org.magic.api.interfaces.abstracts.extra.AbstractStockItem;
 import org.magic.services.MTGConstants;
-import org.magic.tools.MTG;
-import org.magic.tools.UITools;
+import org.magic.services.tools.MTG;
+import org.magic.services.tools.UITools;
 
 public class MkmExternalShop extends AbstractExternalShop {
 

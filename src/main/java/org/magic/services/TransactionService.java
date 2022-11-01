@@ -1,6 +1,6 @@
 package org.magic.services;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -36,8 +36,8 @@ import org.magic.servers.impl.JSONHttpServer;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
-import org.magic.tools.MTG;
-import org.magic.tools.UITools;
+import org.magic.services.tools.MTG;
+import org.magic.services.tools.UITools;
 
 public class TransactionService
 {

@@ -1,6 +1,6 @@
 package org.magic.game.actions.cards;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.Image;
 import java.awt.event.ActionEvent;

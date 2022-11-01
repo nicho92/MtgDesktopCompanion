@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractCacheProvider;
-import org.magic.tools.MemoryTools;
+import org.magic.services.tools.MemoryTools;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;

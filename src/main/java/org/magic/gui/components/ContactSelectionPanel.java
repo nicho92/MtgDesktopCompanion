@@ -12,7 +12,7 @@ import org.magic.api.beans.shop.Contact;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
-import org.magic.tools.MTG;
+import org.magic.services.tools.MTG;
 
 public class ContactSelectionPanel extends MTGUIComponent {
 

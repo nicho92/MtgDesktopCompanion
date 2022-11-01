@@ -14,7 +14,7 @@ import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.logging.MTGLogger;
-import org.magic.tools.ImageTools;
+import org.magic.services.tools.ImageTools;
 
 public class ChangeBackGroundActions extends AbstractAction {
 

@@ -9,7 +9,7 @@ import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
 import org.magic.services.network.CloudFlareAuthorizer;
 import org.magic.services.network.URLTools;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 public class PSAGrader extends AbstractGradersProvider {
 

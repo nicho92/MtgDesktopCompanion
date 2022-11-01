@@ -1,6 +1,6 @@
 package org.magic.services;
 
-import static org.magic.tools.MTG.getPlugin;
+import static org.magic.services.tools.MTG.getPlugin;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -40,8 +40,8 @@ import org.magic.services.providers.LookAndFeelProvider;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.threads.ThreadPoolConfig;
 import org.magic.services.threads.ThreadPoolConfig.THREADPOOL;
-import org.magic.tools.ImageTools;
-import org.magic.tools.MTG;
+import org.magic.services.tools.ImageTools;
+import org.magic.services.tools.MTG;
 
 
 public class MTGControler {

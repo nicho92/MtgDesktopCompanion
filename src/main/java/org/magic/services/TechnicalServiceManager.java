@@ -25,7 +25,7 @@ import org.magic.services.logging.MTGLogger;
 import org.magic.services.providers.IPTranslator;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
-import org.magic.tools.FileTools;
+import org.magic.services.tools.FileTools;
 
 public class TechnicalServiceManager {
 

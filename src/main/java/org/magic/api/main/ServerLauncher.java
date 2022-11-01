@@ -1,7 +1,7 @@
 package org.magic.api.main;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
-import static org.magic.tools.MTG.getPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getPlugin;
 
 import java.awt.GraphicsEnvironment;
 import java.io.IOException;
@@ -17,7 +17,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
-import org.magic.tools.MTG;
+import org.magic.services.tools.MTG;
 
 public class ServerLauncher {
 	public static void main(String[] args) throws SQLException, IOException

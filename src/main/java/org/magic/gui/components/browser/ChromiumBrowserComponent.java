@@ -7,7 +7,7 @@ import org.cef.browser.CefBrowser;
 import org.cef.handler.CefLoadHandlerAdapter;
 import org.magic.gui.abstracts.MTGUIBrowserComponent;
 import org.magic.services.MTGConstants;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 import org.panda_lang.pandomium.wrapper.PandomiumClient;
 
 public class ChromiumBrowserComponent extends MTGUIBrowserComponent {

@@ -20,7 +20,7 @@ import org.magic.gui.models.ShortKeyModel;
 import org.magic.gui.renderer.ShortKeysCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.ShortKeyManager;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 public class ShortKeyManagerUI extends MTGUIComponent
 {

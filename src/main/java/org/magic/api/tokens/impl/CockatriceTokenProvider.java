@@ -1,6 +1,6 @@
 package org.magic.api.tokens.impl;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -24,7 +24,7 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractTokensProvider;
 import org.magic.services.network.URLTools;
-import org.magic.tools.MTG;
+import org.magic.services.tools.MTG;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;

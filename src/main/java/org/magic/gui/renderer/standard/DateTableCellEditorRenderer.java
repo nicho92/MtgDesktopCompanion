@@ -11,7 +11,7 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import org.jdesktop.swingx.JXDatePicker;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 public class DateTableCellEditorRenderer extends AbstractCellEditor implements TableCellEditor, TableCellRenderer {
 

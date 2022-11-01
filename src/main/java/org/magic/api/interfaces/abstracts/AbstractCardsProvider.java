@@ -23,7 +23,7 @@ import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.criterias.builders.NoneCriteriaBuilder;
 import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.tools.TCache;
+import org.magic.services.tools.TCache;
 
 public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements MTGCardsProvider {
 

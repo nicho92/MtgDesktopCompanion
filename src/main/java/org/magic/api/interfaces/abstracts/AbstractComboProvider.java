@@ -8,7 +8,7 @@ import java.util.concurrent.ExecutionException;
 import org.magic.api.beans.MTGCombo;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.MTGComboProvider;
-import org.magic.tools.TCache;
+import org.magic.services.tools.TCache;
 
 public abstract class AbstractComboProvider extends AbstractMTGPlugin implements MTGComboProvider {
 
