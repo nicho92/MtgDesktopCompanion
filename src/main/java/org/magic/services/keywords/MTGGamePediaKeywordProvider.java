@@ -1,8 +1,10 @@
 package org.magic.services.keywords;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -11,6 +13,7 @@ import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MTGKeyWord.EVENT;
 import org.magic.api.beans.MTGKeyWord.TYPE;
 import org.magic.services.network.URLTools;
+import org.magic.services.tools.FileTools;
 
 
 public class MTGGamePediaKeywordProvider extends AbstractKeyWordsManager {
@@ -25,6 +28,15 @@ public class MTGGamePediaKeywordProvider extends AbstractKeyWordsManager {
 
 	public static final String BASE_URI="https://mtg.gamepedia.com/";
 
+
+	public static void main(String[] args) throws IOException {
+		var keywp = new MTGGamePediaKeywordProvider();
+		
+		FileTools.saveFile(new File("keywords.json"), keywp.toJson().toString());
+		
+	}
+	
+	
 	public List<MTGKeyWord> getEvergreens()
 	{
 		if(evergreens==null || evergreens.isEmpty())
@@ -66,7 +78,7 @@ public class MTGGamePediaKeywordProvider extends AbstractKeyWordsManager {
 	{
 		if(statics==null || statics.isEmpty())
 		{
-			statics=parse("Static",SELEC_ABILITIES,true).stream().map(s->new MTGKeyWord(s, MTGKeyWord.EVENT.STATIC, MTGKeyWord.TYPE.ABILITIES)).toList();
+			statics=parse("Static",SELEC_ABILITIES,true).stream().map(s->new MTGKeyWord(s, MTGKeyWord.EVENT.STATIC, MTGKeyWord.TYPE.ABILITIES)).collect(Collectors.toCollection(ArrayList::new));
 			getEvergreens().stream().filter(mt->mt.getEvent()==EVENT.STATIC).forEach(statics::add);
 
 
@@ -79,7 +91,7 @@ public class MTGGamePediaKeywordProvider extends AbstractKeyWordsManager {
 	{
 		if(activateds==null || activateds.isEmpty())
 		{
-			activateds = parse("Activated",SELEC_ABILITIES,true).stream().map(s->new MTGKeyWord(s, MTGKeyWord.EVENT.ACTIVATED, MTGKeyWord.TYPE.ABILITIES)).toList();
+			activateds = parse("Activated",SELEC_ABILITIES,true).stream().map(s->new MTGKeyWord(s, MTGKeyWord.EVENT.ACTIVATED, MTGKeyWord.TYPE.ABILITIES)).collect(Collectors.toCollection(ArrayList::new));
 			getEvergreens().stream().filter(mt->mt.getEvent()==EVENT.ACTIVATED).forEach(activateds::add);
 		}
 
@@ -91,7 +103,7 @@ public class MTGGamePediaKeywordProvider extends AbstractKeyWordsManager {
 	{
 		if(triggereds==null || triggereds.isEmpty())
 		{
-			triggereds = parse("Triggered",SELEC_ABILITIES,true).stream().map(s->new MTGKeyWord(s, MTGKeyWord.EVENT.TRIGGERED, MTGKeyWord.TYPE.ABILITIES)).toList();
+			triggereds = parse("Triggered",SELEC_ABILITIES,true).stream().map(s->new MTGKeyWord(s, MTGKeyWord.EVENT.TRIGGERED, MTGKeyWord.TYPE.ABILITIES)).collect(Collectors.toCollection(ArrayList::new));
 			getEvergreens().stream().filter(mt->mt.getEvent()==EVENT.TRIGGERED).forEach(triggereds::add);
 		}
 
@@ -103,7 +115,7 @@ public class MTGGamePediaKeywordProvider extends AbstractKeyWordsManager {
 	{
 		if(actions==null || actions.isEmpty())
 		{
-				actions= parse("Keyword_action","div.crDiv li a",false).stream().map(s->new MTGKeyWord(s, MTGKeyWord.TYPE.ACTION)).toList();
+				actions= parse("Keyword_action","div.crDiv li a",false).stream().map(s->new MTGKeyWord(s, MTGKeyWord.TYPE.ACTION)).collect(Collectors.toCollection(ArrayList::new));
 				getEvergreens().stream().filter(mt->mt.getType()==TYPE.ACTION).forEach(actions::add);
 				actions.add(new MTGKeyWord("Flip", TYPE.ACTION));
 		}
@@ -114,7 +126,7 @@ public class MTGGamePediaKeywordProvider extends AbstractKeyWordsManager {
 	public List<MTGKeyWord> getWordsAbilities()
 	{
 		if(words==null || words.isEmpty())
-			words= parse("Ability_word","div.div-col li a",false).stream().map(s->new MTGKeyWord(s, MTGKeyWord.TYPE.WORD)).toList();
+			words= parse("Ability_word","div.div-col li a",false).stream().map(s->new MTGKeyWord(s, MTGKeyWord.TYPE.WORD)).collect(Collectors.toCollection(ArrayList::new));
 
 		return words;
 	}
@@ -128,7 +140,7 @@ public class MTGGamePediaKeywordProvider extends AbstractKeyWordsManager {
 				String url = isKeyword ? BASE_URI+"Category:Keywords/"+page : BASE_URI+page;
 				Document d = URLTools.extractAsHtml(url);
 				Elements els = d.select(select);
-				list = els.stream().map(Element::text).toList();
+				list=els.stream().map(Element::text).collect(Collectors.toCollection(ArrayList::new));
 				list.remove(page+" ability");
 				list.remove("Keyword_action");
 

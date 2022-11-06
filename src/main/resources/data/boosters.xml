@@ -2476,6 +2476,23 @@
 		<box extra="collector" num="2" lang="en" url="https://media.wizards.com/2022/images/daily/en_wzvi1LWL08.png"/>
 	</edition>
 	
+	<edition id="ONE">
+		<set num="1" url="https://media.wizards.com/2022/images/daily/en_mpHPd4K9qq.png"/>
+		<box extra="draft" num="1" lang="en" url="https://media.wizards.com/2022/images/daily/en_2sjDm3uasd.png"/>
+		<box extra="set" num="2" lang="en" url="https://media.wizards.com/2022/images/daily/en_6SAzjyg6SW.png"/>
+		<box extra="collector" num="3" lang="en" url="https://media.wizards.com/2022/images/daily/en_UQlGGg3rBD.png"/>
+		<box extra="jumpstart" num="4" lang="en" url="https://media.wizards.com/2022/images/daily/en_NXkDKUjJbS.png"/>
+		<prereleasepack lang="en" num="1" url="https://media.wizards.com/2022/images/daily/en_8Nwy27DByw.png"/>
+		<bundle lang="en" num="1" url="https://media.wizards.com/2022/images/daily/en_n1kuiDtyNZ.png"/>
+		<booster extra="set" num="1" lang="en" url="https://cdn.webshopapp.com/shops/329817/files/416201847/image.jpg"/>
+		<booster extra="draft" num="2" lang="en" url="https://i.redd.it/atraxa-is-devoid-of-red-mana-because-urabrask-refused-to-v0-u6a1ifyvt2v91.png?width=600&format=png&auto=webp&s=c95ac400e12735065cae6c82521a6e4d3b246b74"/>
+		<booster extra="collector" num="3" lang="en" url="	https://i.redd.it/atraxa-is-devoid-of-red-mana-because-urabrask-refused-to-v0-t07il77wt2v91.png?width=600&format=png&auto=webp&s=25a636aeabcf033eea0af7068af0c7c367285b45"/>
+		
+			
+		<bundle num="1" lang="en" url="https://media.wizards.com/2022/images/daily/en_dJhLB86HLO.png"/>
+		
+		
+	</edition>
 	
 	
 
