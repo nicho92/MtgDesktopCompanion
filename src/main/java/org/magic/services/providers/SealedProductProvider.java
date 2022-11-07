@@ -190,17 +190,19 @@ public class SealedProductProvider {
 		{
 			if(n.item(i).getNodeType()==1)
 			{
-				var p = new MTGSealedProduct();
+						var p = new MTGSealedProduct();
 						  p.setTypeProduct(EnumItems.valueOf(n.item(i).getNodeName().toUpperCase()));
-
+						  p.setUrl(n.item(i).getAttributes().getNamedItem("url").getNodeValue());
+						  p.setEdition(me);
+						  p.setName(p.getTypeProduct() +" " + p.getEdition());
+						  
 						  try {
 							  p.setLang(n.item(i).getAttributes().getNamedItem("lang").getNodeValue());
 						  }
 						  catch(Exception e)
 						  {
-							  logger.error("no lang found for {} {}",p,n.item(i));
+							  logger.error("no lang found for {},{}",p.getEdition(),p.getTypeProduct());
 						  }
-
 
 						  try {
 							  p.setExtra(EXTRA.valueOf(n.item(i).getAttributes().getNamedItem("extra").getNodeValue().toUpperCase()));
@@ -210,8 +212,6 @@ public class SealedProductProvider {
 						  }
 
 
-						  p.setUrl(n.item(i).getAttributes().getNamedItem("url").getNodeValue());
-						  p.setEdition(me);
 						 try {
 						  p.setNum(Integer.parseInt(n.item(i).getAttributes().getNamedItem("num").getNodeValue()));
 						 }
@@ -220,7 +220,7 @@ public class SealedProductProvider {
 							 p.setNum(1);
 						 }
 
-				p.setName(p.getTypeProduct() +" " + p.getEdition());
+			
 				ret.add(p);
 			}
 		}
