@@ -56,8 +56,17 @@ public class StoriesGUI extends MTGUIComponent {
 		provider = new StoryProvider(MTGControler.getInstance().getLocale());
 
 		initGUI();
+		
+	}
+	
+	@Override
+	public void onVisible() {
+
+		
+		
 		initStories();
 	}
+	
 
 	private void initGUI() {
 		setLayout(new BorderLayout(0, 0));
@@ -78,7 +87,7 @@ public class StoriesGUI extends MTGUIComponent {
 
 								@Override
 								protected String doInBackground() throws Exception {
-									return URLTools.extractAsHtml(listResult.getSelectedValue().getUrl().toString()).select("div#content-detail-page-of-an-article").html();
+									return provider.readStory(listResult.getSelectedValue());
 								}
 								@Override
 								protected void done() {
