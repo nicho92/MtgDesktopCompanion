@@ -104,7 +104,7 @@ public class SealedProductProvider {
 				return im;
 			}
 		} catch (Exception e) {
-			logger.error("[{}] ERROR for {}-{}",p.getEdition().getId(),p.getTypeProduct(),p,e);
+			logger.error("[{}] ERROR for {}-{} : {}",p.getEdition().getId(),p.getTypeProduct(),p,e.getMessage());
 		}
 		return null;
 

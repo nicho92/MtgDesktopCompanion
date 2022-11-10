@@ -210,7 +210,7 @@
 		<dependency>
 			<groupId>org.jooq</groupId>
 			<artifactId>jooq</artifactId>
-			<version>3.17.4</version>
+			<version>3.17.5</version>
 		</dependency>
 		<dependency>
 			<groupId>com.icoderman</groupId>
@@ -312,12 +312,12 @@
 		<dependency>
 			<groupId>org.mariadb.jdbc</groupId>
 			<artifactId>mariadb-java-client</artifactId>
-			<version>3.0.8</version>
+			<version>3.0.9</version>
 		</dependency>
 		<dependency>
 			<groupId>org.xerial</groupId>
 			<artifactId>sqlite-jdbc</artifactId>
-			<version>3.39.3.0</version>
+			<version>3.39.4.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
