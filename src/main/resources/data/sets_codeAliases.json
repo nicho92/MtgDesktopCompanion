@@ -1,8 +1,4 @@
 {
-	
-	"UST":[
-	 	"UPLIST"
-	],
 	"AVR":[
 		"PHEL"
 	],
@@ -141,7 +137,8 @@
 		"PSOI"
 	],
 	"UNF": [
-		"SUNF"
+		"SUNF",
+		"UPLIST"
 	],
 	"WAR": [
 		"PS19"
