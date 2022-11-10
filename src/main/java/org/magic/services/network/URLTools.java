@@ -69,12 +69,12 @@ public class URLTools {
 
 	public static Map<String,String> parseLinksHeader(Header header)
 	{
-		Map<String,String> map = new HashMap<>();
+		var map = new HashMap<String,String>();
 
 		if(header==null)
 			return map;
 
-		Pattern p = Pattern.compile("<(.*?)>;\\srel=\"(.*?)\"");
+		var p = Pattern.compile("<(.*?)>;\\srel=\"(.*?)\"");
 
 		var m = p.matcher(header.getValue());
 		while(m.find())
