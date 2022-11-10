@@ -38,7 +38,14 @@ public class MtgDesktopCompanion {
 		chrono = new Chrono();
 
 		launch = new MTGSplashScreen();
-		MTGLogger.getMTGAppender().addObserver(launch);
+		
+		try {
+			MTGLogger.getMTGAppender().addObserver(launch);	
+		}catch(Exception e)
+		{
+			logger.error("Error getting MTGLogger");
+		}
+		
 
 
 		launch.start();
