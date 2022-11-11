@@ -190,7 +190,7 @@
 		<dependency>
 			<groupId>com.github.nicho92</groupId>
 			<artifactId>mtgstock-api-java</artifactId>
-			<version>0.1.23</version>
+			<version>0.1.24</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.nicho92</groupId>
