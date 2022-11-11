@@ -29,6 +29,7 @@ public interface MTGDao extends MTGPlugin{
 	public void saveCard(MagicCard mc, MagicCollection collection) throws SQLException;
 	public void removeCard(MagicCard mc, MagicCollection collection) throws SQLException;
 	public void moveCard(MagicCard mc, MagicCollection from, MagicCollection to) throws SQLException;
+	public void moveEdition(MagicEdition ed, MagicCollection from, MagicCollection to) throws SQLException;
 	public List<MagicCard> listCards() throws SQLException;
 
 	public int getCardsCount(MagicCollection list, MagicEdition me) throws SQLException;

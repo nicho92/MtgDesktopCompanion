@@ -89,7 +89,15 @@ public class CardsManagerService {
 
 	}
 
+	public static void moveCard(MagicEdition ed, MagicCollection from, MagicCollection to,Observer o) throws SQLException
+	{
+		if(o!=null)
+			getEnabledPlugin(MTGDao.class).addObserver(o);
 
+
+		getEnabledPlugin(MTGDao.class).moveEdition(ed, from,to);
+
+	}
 
 	public static void saveCard(MagicCard mc , MagicCollection collection,Observer o) throws SQLException
 	{

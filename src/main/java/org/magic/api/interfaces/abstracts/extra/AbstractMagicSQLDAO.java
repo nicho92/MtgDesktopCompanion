@@ -1466,6 +1466,23 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	}
 
+	@Override
+	public void moveEdition(MagicEdition ed, MagicCollection from, MagicCollection to) throws SQLException {
+		logger.debug("move {} from {} to {}",ed,from,to);
+
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("update cards set collection= ? where edition=? and collection=?"))
+		{
+			pst.setString(1, to.getName());
+			pst.setString(2, ed.getId());
+			pst.setString(3, from.getName());
+			int res = executeUpdate(pst);
+
+			logger.debug("move result:{}={}",ed, res);
+		}
+
+
+	}
+	
 
 	@Override
 	public List<MagicCard> listCards() throws SQLException {

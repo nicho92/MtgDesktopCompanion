@@ -89,6 +89,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		});
 	}
 
+
 	@Override
 	public List<Announce> listAnnounces() throws SQLException {
 		return listAnnounces(-1,null);

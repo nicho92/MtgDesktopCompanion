@@ -446,7 +446,15 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	}
 
+	@Override
+	public void moveEdition(MagicEdition ed, MagicCollection from, MagicCollection to) throws SQLException {
 
+			//TODO move cards from ed
+		
+	}
+	
+	
+	
 	@Override
 	public void saveOrUpdateSealedStock(SealedStock state) throws SQLException {
 		logger.debug("saving stock {}",state);
@@ -463,6 +471,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		notify(state);
 
 	}
+	
 
 	@Override
 	public void saveCard(MagicCard mc, MagicCollection collection) throws SQLException {
