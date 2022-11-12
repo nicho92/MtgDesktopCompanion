@@ -15,10 +15,9 @@ public class TapActions extends AbstractCardAction {
 	private static final long serialVersionUID = 1L;
 
 	public TapActions(DisplayableCard card) {
-		super("Tap");
+		super(card,"Tap");
 		putValue(SHORT_DESCRIPTION, "tap/untap the card");
 		putValue(MNEMONIC_KEY, KeyEvent.VK_T);
-		this.card = card;
 	}
 
 	@Override

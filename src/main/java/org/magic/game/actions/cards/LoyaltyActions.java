@@ -17,8 +17,7 @@ public class LoyaltyActions extends AbstractCardAction {
 	private transient LoyaltyCounter val;
 
 	public LoyaltyActions(DisplayableCard card, LoyaltyCounter loyaltyCounter) {
-		super(card);
-		putValue(NAME, loyaltyCounter.describe());
+		super(card,loyaltyCounter.describe());
 		putValue(SHORT_DESCRIPTION, loyaltyCounter.describe());
 		this.val = loyaltyCounter;
 	}

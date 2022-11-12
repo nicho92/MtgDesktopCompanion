@@ -22,10 +22,9 @@ public class EmbalmActions extends AbstractCardAction {
 	
 
 	public EmbalmActions(DisplayableCard card) {
-		super("Embalm");
+		super(card,"Embalm");
 		putValue(SHORT_DESCRIPTION, "Create a embalmed copy");
 		putValue(MNEMONIC_KEY, KeyEvent.VK_E);
-		this.card = card;
 	}
 
 	@Override

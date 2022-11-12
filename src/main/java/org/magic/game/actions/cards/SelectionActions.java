@@ -15,10 +15,9 @@ public class SelectionActions extends AbstractCardAction {
 	private static final long serialVersionUID = 1L;
 	
 	public SelectionActions(DisplayableCard card) {
-		super("Select");
+		super(card,"Select");
 		putValue(SHORT_DESCRIPTION, "select the card");
 		putValue(MNEMONIC_KEY, KeyEvent.VK_S);
-		this.card = card;
 	}
 
 	@Override

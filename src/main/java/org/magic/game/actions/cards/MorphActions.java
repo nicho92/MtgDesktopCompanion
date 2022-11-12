@@ -27,10 +27,9 @@ public class MorphActions extends AbstractCardAction {
 	private static String k = "Morph";
 
 	public MorphActions(DisplayableCard card) {
-		super(k);
+		super(card,k);
 		putValue(SHORT_DESCRIPTION, k);
 		putValue(MNEMONIC_KEY, KeyEvent.VK_M);
-		this.card = card;
 		parse();
 	}
 

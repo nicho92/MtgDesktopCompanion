@@ -17,9 +17,8 @@ public class BonusCounterActions extends AbstractCardAction {
 	private transient BonusCounter bonusCounter;
 
 	public BonusCounterActions(DisplayableCard displayableCard, BonusCounter bonusCounter) {
-		super(displayableCard);
+		super(displayableCard,"put a " + bonusCounter.describe());
 		this.bonusCounter = bonusCounter;
-		putValue(NAME, "put a " + bonusCounter.describe());
 		putValue(SHORT_DESCRIPTION, "put a " + bonusCounter.describe());
 	}
 

@@ -16,10 +16,9 @@ public class TransformActions extends AbstractCardAction {
 	private static final long serialVersionUID = 1L;
 
 	public TransformActions(DisplayableCard card) {
-		super("Transform");
+		super(card,"Transform");
 		putValue(SHORT_DESCRIPTION, "Transform the card");
 		putValue(MNEMONIC_KEY, KeyEvent.VK_A);
-		this.card = card;
 	}
 
 	@Override

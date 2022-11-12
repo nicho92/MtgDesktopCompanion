@@ -14,12 +14,11 @@ public abstract class AbstractCardAction extends AbstractAction{
 	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
 	
 	
-	protected AbstractCardAction(String string) {
-		super(string);
-	}
 
-	protected AbstractCardAction(DisplayableCard mc) {
+	protected AbstractCardAction(DisplayableCard mc,String text) {
+		super(text);
 		this.card=mc;
+		putValue(NAME,text);
 	}
 	
 	

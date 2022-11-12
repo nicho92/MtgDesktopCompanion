@@ -19,10 +19,9 @@ public class MadnessActions extends AbstractCardAction {
 	private String k = "Madness";
 
 	public MadnessActions(DisplayableCard card) {
-		super("Madness");
+		super(card,"Madness");
 		putValue(SHORT_DESCRIPTION, k);
 		putValue(MNEMONIC_KEY, KeyEvent.VK_M);
-		this.card = card;
 	}
 
 	private String parse() {

@@ -17,9 +17,8 @@ public class ItemCounterActions extends AbstractCardAction {
 	private transient ItemCounter itemCounter;
 
 	public ItemCounterActions(DisplayableCard displayableCard, ItemCounter itemCounter) {
-		super(displayableCard);
+		super(displayableCard,"put a " + itemCounter.describe());
 		this.itemCounter = itemCounter;
-		putValue(NAME, "put a " + itemCounter.describe());
 		putValue(SHORT_DESCRIPTION, "put a " + itemCounter.describe());
 	}
 

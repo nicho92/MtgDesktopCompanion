@@ -373,8 +373,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 			if(!abs.isEmpty())
 			{
 				var mnuAbilities = new JMenu("Activate");
-				abs.stream().filter(c->!c.isLoyalty())
-							.forEach(c->mnuAbilities.add(new AbilitiesActions(c)));
+				abs.stream().filter(c->!c.isLoyalty()).forEach(c->mnuAbilities.add(new AbilitiesActions(c)));
 				menu.add(mnuAbilities);
 			}
 

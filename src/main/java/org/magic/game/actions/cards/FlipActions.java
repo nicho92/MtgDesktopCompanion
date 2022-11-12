@@ -24,10 +24,9 @@ public class FlipActions extends AbstractCardAction {
 
 
 	public FlipActions(DisplayableCard card) {
-		super("Flip");
+		super(card,"Flip");
 		putValue(SHORT_DESCRIPTION, "Flip the card");
 		putValue(MNEMONIC_KEY, KeyEvent.VK_F);
-		this.card = card;
 	}
 	
 	@Override

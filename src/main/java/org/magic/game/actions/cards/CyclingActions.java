@@ -16,7 +16,7 @@ public class CyclingActions extends AbstractCardAction {
 	private static final long serialVersionUID = 1L;
 
 	public CyclingActions(DisplayableCard card) {
-		super(card);
+		super(card,"Cycling");
 		putValue(SHORT_DESCRIPTION, "Cycling");
 		putValue(MNEMONIC_KEY, KeyEvent.VK_C);
 	}

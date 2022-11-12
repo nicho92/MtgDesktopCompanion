@@ -21,7 +21,7 @@ public class CreateActions extends AbstractCardAction {
 	private static final long serialVersionUID = 1L;
 
 	public CreateActions(DisplayableCard card) {
-		super("Create a token");
+		super(card,"Create a token");
 		putValue(SHORT_DESCRIPTION, "Generate a token");
 		putValue(MNEMONIC_KEY, KeyEvent.VK_T);
 	}

@@ -14,7 +14,7 @@ public class AbilitiesActions extends AbstractCardAction {
 
 
 	public AbilitiesActions(AbstractAbilities abs) {
-		super(abs.getCosts() +" " + abs.getEffects());
+		super(null,abs.getCosts() +" " + abs.getEffects());
 		this.abs=abs;
 	}
 

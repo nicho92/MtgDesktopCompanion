@@ -16,10 +16,10 @@ public class FlashbackActions extends AbstractCardAction {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private static String k = "Flashback";
+	private static String k = "";
 
 	public FlashbackActions(DisplayableCard card) {
-		super(card);
+		super(card,k);
 		putValue(SHORT_DESCRIPTION, k);
 		putValue(MNEMONIC_KEY, KeyEvent.VK_F);
 	}

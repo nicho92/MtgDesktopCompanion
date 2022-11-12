@@ -22,9 +22,11 @@ public class ScryActions extends AbstractCardAction {
 	String value;
 
 	public ScryActions(DisplayableCard c) {
-		super(c);
-		putValue(NAME, "Scry " + parse() + " cards");
-		putValue(SHORT_DESCRIPTION, "");
+		
+		super(c,"Scry  cards");
+		
+		
+		putValue(SHORT_DESCRIPTION, "Scry " + parse() + " cards");
 		putValue(MNEMONIC_KEY, KeyEvent.VK_C);
 	}
 

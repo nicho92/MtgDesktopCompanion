@@ -21,10 +21,9 @@ public class EmblemActions extends AbstractCardAction {
 
 
 	public EmblemActions(DisplayableCard card) {
-		super("Generate a emblem");
+		super(card,"Generate a emblem");
 		putValue(SHORT_DESCRIPTION, "Generate a emblem");
 		putValue(MNEMONIC_KEY, KeyEvent.VK_E);
-		this.card = card;
 	}
 
 	@Override

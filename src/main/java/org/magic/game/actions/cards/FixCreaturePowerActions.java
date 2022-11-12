@@ -17,8 +17,7 @@ public class FixCreaturePowerActions extends AbstractCardAction {
 	private static final long serialVersionUID = 1L;
 
 	public FixCreaturePowerActions(DisplayableCard displayableCard) {
-		super(displayableCard);
-		putValue(NAME, "Fix creature's power/toughness ");
+		super(displayableCard,"Fix creature's power/toughness ");
 		putValue(SHORT_DESCRIPTION, "Fix creature's power/toughness ");
 	}
 

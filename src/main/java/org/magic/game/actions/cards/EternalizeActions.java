@@ -21,10 +21,9 @@ public class EternalizeActions extends AbstractCardAction {
 	private static final long serialVersionUID = 1L;
 
 	public EternalizeActions(DisplayableCard card) {
-		super("Eternalize");
+		super(card,"Eternalize");
 		putValue(SHORT_DESCRIPTION, "Eternalize a creature");
 		putValue(MNEMONIC_KEY, KeyEvent.VK_E);
-		this.card = card;
 	}
 
 	@Override

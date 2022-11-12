@@ -15,8 +15,8 @@ public class AttachActions extends AbstractCardAction {
 	private static final long serialVersionUID = 1L;
 
 	public AttachActions(DisplayableCard mc) {
-		super(mc);
-		putValue(NAME, "Attach to");
+		super(mc, "Attach to");
+
 		putValue(SHORT_DESCRIPTION, "Attach " + mc + " to another card on battlefield");
 		putValue(MNEMONIC_KEY, KeyEvent.VK_A);
 	}

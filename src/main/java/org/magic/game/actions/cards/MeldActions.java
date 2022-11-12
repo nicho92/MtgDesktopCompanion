@@ -23,10 +23,9 @@ public class MeldActions extends AbstractCardAction {
 	private static final String PARSEKEY = "(Melds with ";
 
 	public MeldActions(DisplayableCard card) {
-		super("Meld into " + card.getMagicCard().getRotatedCard());
+		super(card,"Meld into " + card.getMagicCard().getRotatedCard());
 		putValue(SHORT_DESCRIPTION, "Meld the cards with bigger one !");
 		putValue(MNEMONIC_KEY, KeyEvent.VK_M);
-		this.card = card;
 		parse(card.getMagicCard().getText());
 	}
 
