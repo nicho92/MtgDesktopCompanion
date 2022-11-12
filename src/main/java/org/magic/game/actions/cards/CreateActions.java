@@ -5,30 +5,25 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-import javax.swing.AbstractAction;
-
-import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.MTGTokensProvider;
+import org.magic.game.actions.abbstract.AbstractCardAction;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
+import org.magic.game.model.ZoneEnum;
 import org.magic.services.MTGControler;
-import org.magic.services.logging.MTGLogger;
 
-public class CreateActions extends AbstractAction {
+public class CreateActions extends AbstractCardAction {
 
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-	private DisplayableCard card;
 
 	public CreateActions(DisplayableCard card) {
 		super("Create a token");
 		putValue(SHORT_DESCRIPTION, "Generate a token");
 		putValue(MNEMONIC_KEY, KeyEvent.VK_T);
-		this.card = card;
 	}
 
 	@Override
@@ -45,5 +40,10 @@ public class CreateActions extends AbstractAction {
 			logger.error("error creating action", ex);
 		}
 
+	}
+
+	@Override
+	public ZoneEnum playableFrom() {
+		return ZoneEnum.BATTLEFIELD;
 	}
 }

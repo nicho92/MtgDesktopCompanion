@@ -3,15 +3,15 @@ package org.magic.game.actions.cards;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
+import org.magic.game.actions.abbstract.AbstractCardAction;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.game.gui.components.dialog.SearchCardFrame;
 import org.magic.game.model.ZoneEnum;
 
-public class ScryActions extends AbstractAction {
+public class ScryActions extends AbstractCardAction {
 
 	/**
 	 *
@@ -22,7 +22,7 @@ public class ScryActions extends AbstractAction {
 	String value;
 
 	public ScryActions(DisplayableCard c) {
-		this.c = c;
+		super(c);
 		putValue(NAME, "Scry " + parse() + " cards");
 		putValue(SHORT_DESCRIPTION, "");
 		putValue(MNEMONIC_KEY, KeyEvent.VK_C);
@@ -52,5 +52,10 @@ public class ScryActions extends AbstractAction {
 							.setVisible(true);
 		}
 
+	}
+
+	@Override
+	public ZoneEnum playableFrom() {
+		return ZoneEnum.BATTLEFIELD;
 	}
 }

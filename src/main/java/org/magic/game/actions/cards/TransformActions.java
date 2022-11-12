@@ -3,22 +3,17 @@ package org.magic.game.actions.cards;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-import javax.swing.AbstractAction;
-
-import org.apache.logging.log4j.Logger;
-import org.magic.api.beans.MagicCard;
+import org.magic.game.actions.abbstract.AbstractCardAction;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
-import org.magic.services.logging.MTGLogger;
+import org.magic.game.model.ZoneEnum;
 
-public class TransformActions extends AbstractAction {
+public class TransformActions extends AbstractCardAction {
 
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private DisplayableCard card;
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public TransformActions(DisplayableCard card) {
 		super("Transform");
@@ -35,9 +30,9 @@ public class TransformActions extends AbstractAction {
 
 			card.removeAllCounters();
 
-			MagicCard mc = card.getMagicCard().getRotatedCard();
-			mc.setRulings(card.getMagicCard().getRulings());
-			card.setMagicCard(mc);
+			var rCard = card.getMagicCard().getRotatedCard();
+			rCard.setRulings(card.getMagicCard().getRulings());
+			card.setMagicCard(rCard);
 			card.revalidate();
 			card.repaint();
 			card.initActions();
@@ -46,6 +41,11 @@ public class TransformActions extends AbstractAction {
 			logger.error("error transformation", ex);
 		}
 
+	}
+
+	@Override
+	public ZoneEnum playableFrom() {
+		return ZoneEnum.BATTLEFIELD;
 	}
 
 }

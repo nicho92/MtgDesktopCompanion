@@ -3,24 +3,22 @@ package org.magic.game.actions.cards;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-import javax.swing.AbstractAction;
-
+import org.magic.game.actions.abbstract.AbstractCardAction;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
+import org.magic.game.model.ZoneEnum;
 
-public class CyclingActions extends AbstractAction {
+public class CyclingActions extends AbstractCardAction {
 
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private DisplayableCard card;
 
 	public CyclingActions(DisplayableCard card) {
-		super("Cycling");
+		super(card);
 		putValue(SHORT_DESCRIPTION, "Cycling");
 		putValue(MNEMONIC_KEY, KeyEvent.VK_C);
-		this.card = card;
 	}
 
 	@Override
@@ -33,6 +31,11 @@ public class CyclingActions extends AbstractAction {
 		GamePanelGUI.getInstance().getPanelGrave().addComponent(card);
 		GamePanelGUI.getInstance().getPanelGrave().postTreatment(card);
 
+	}
+
+	@Override
+	public ZoneEnum playableFrom() {
+		return ZoneEnum.HAND;
 	}
 
 }

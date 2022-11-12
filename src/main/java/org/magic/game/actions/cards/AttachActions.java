@@ -3,20 +3,19 @@ package org.magic.game.actions.cards;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-import javax.swing.AbstractAction;
-
+import org.magic.game.actions.abbstract.AbstractCardAction;
 import org.magic.game.gui.components.DisplayableCard;
+import org.magic.game.model.ZoneEnum;
 
-public class AttachActions extends AbstractAction {
+public class AttachActions extends AbstractCardAction {
 
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	DisplayableCard mc;
 
 	public AttachActions(DisplayableCard mc) {
-		this.mc = mc;
+		super(mc);
 		putValue(NAME, "Attach to");
 		putValue(SHORT_DESCRIPTION, "Attach " + mc + " to another card on battlefield");
 		putValue(MNEMONIC_KEY, KeyEvent.VK_A);
@@ -26,6 +25,11 @@ public class AttachActions extends AbstractAction {
 	public void actionPerformed(ActionEvent ae) {
 		// do nothing
 
+	}
+
+	@Override
+	public ZoneEnum playableFrom() {
+		return ZoneEnum.BATTLEFIELD;
 	}
 
 }
