@@ -1,6 +1,5 @@
 package org.magic.services.keywords;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +12,6 @@ import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MTGKeyWord.EVENT;
 import org.magic.api.beans.MTGKeyWord.TYPE;
 import org.magic.services.network.URLTools;
-import org.magic.services.tools.FileTools;
 
 
 public class MTGGamePediaKeywordProvider extends AbstractKeyWordsManager {
@@ -28,15 +26,6 @@ public class MTGGamePediaKeywordProvider extends AbstractKeyWordsManager {
 
 	public static final String BASE_URI="https://mtg.gamepedia.com/";
 
-
-	public static void main(String[] args) throws IOException {
-		var keywp = new MTGGamePediaKeywordProvider();
-		
-		FileTools.saveFile(new File("keywords.json"), keywp.toJson().toString());
-		
-	}
-	
-	
 	public List<MTGKeyWord> getEvergreens()
 	{
 		if(evergreens==null || evergreens.isEmpty())
