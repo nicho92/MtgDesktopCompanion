@@ -30,6 +30,14 @@ public class CreateActions extends AbstractCardAction {
 	public void actionPerformed(ActionEvent e) {
 		try {
 			MagicCard tok = getEnabledPlugin(MTGTokensProvider.class).generateTokenFor(card.getMagicCard());
+			
+			if(tok==null)
+			{
+				MTGControler.getInstance().notify(new Exception("Can't generate token for " + card.getMagicCard()));
+				return;
+			}
+			
+			logger.info("Generating token for {} = {}",card.getMagicCard(),tok);
 			var dc = new DisplayableCard(tok, MTGControler.getInstance().getCardsGameDimension(), true);
 			dc.setMagicCard(tok);
 			GamePanelGUI.getInstance().getPanelBattleField().addComponent(dc);

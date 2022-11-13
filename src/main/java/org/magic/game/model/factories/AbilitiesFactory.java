@@ -39,6 +39,11 @@ public class AbilitiesFactory implements Serializable{
 
 	private List<String> listSentences(MagicCard mc)
 	{
+		if(mc.getText()==null)
+		{
+			return new ArrayList<>();
+		}
+		
 		return Arrays.asList(mc.getText().split("\n"));
 	}
 

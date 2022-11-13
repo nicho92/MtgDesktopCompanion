@@ -16,7 +16,7 @@ public class FlashbackActions extends AbstractCardAction {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private static String k = "";
+	private static String k = "Flashback";
 
 	public FlashbackActions(DisplayableCard card) {
 		super(card,k);

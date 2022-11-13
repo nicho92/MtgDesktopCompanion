@@ -37,6 +37,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGTokensProvider;
+import org.magic.game.actions.abbstract.AbstractCardAction;
 import org.magic.game.actions.cards.AbilitiesActions;
 import org.magic.game.actions.cards.AttachActions;
 import org.magic.game.actions.cards.BonusCounterActions;
@@ -322,11 +323,11 @@ public class DisplayableCard extends JLabel implements Draggable {
 		((DraggablePanel) getParent()).getTransferHandler().exportAsDrag(this, e, TransferHandler.MOVE);
 	}
 
-	private AbstractAction generateActionFromKey(MTGKeyWord k) throws NoSuchMethodException,InstantiationException, IllegalAccessException, InvocationTargetException, ClassNotFoundException {
+	private AbstractCardAction generateActionFromKey(MTGKeyWord k) throws NoSuchMethodException,InstantiationException, IllegalAccessException, InvocationTargetException, ClassNotFoundException {
 			var a = PluginRegistry.inst().loadClass("org.magic.game.actions.cards." + k.toString() + "Actions");
 			@SuppressWarnings("unchecked")
 			var ctor = a.getDeclaredConstructor(DisplayableCard.class);
-			var aaction = (AbstractAction) ctor.newInstance(this);
+			var aaction = (AbstractCardAction) ctor.newInstance(this);
 			aaction.putValue(Action.LONG_DESCRIPTION, k.getKeyword());
 		return aaction;
 	}
@@ -385,7 +386,9 @@ public class DisplayableCard extends JLabel implements Draggable {
 				for (final MTGKeyWord k : l) {
 					JMenuItem it;
 					try {
-						it = new JMenuItem(generateActionFromKey(k));
+						var act = generateActionFromKey(k);
+						
+						it = new JMenuItem(act);
 					} catch (Exception e) {
 						logger.trace("error {} : {}",k,e);
 						it = new JMenuItem(k.getKeyword());
