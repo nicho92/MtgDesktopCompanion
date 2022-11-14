@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -387,13 +386,19 @@ public class DisplayableCard extends JLabel implements Draggable {
 					JMenuItem it;
 					try {
 						var act = generateActionFromKey(k);
+						if(act.playableFrom()==position)
+						{
+							it = new JMenuItem(act);
+							actions.add(it);
+						}
 						
-						it = new JMenuItem(act);
+						
 					} catch (Exception e) {
 						logger.trace("error {} : {}",k,e);
 						it = new JMenuItem(k.getKeyword());
+						actions.add(it);
 					}
-					actions.add(it);
+				
 				}
 				menu.add(actions);
 			}

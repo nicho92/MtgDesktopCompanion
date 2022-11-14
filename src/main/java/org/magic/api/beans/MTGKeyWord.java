@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class MTGKeyWord implements Serializable{
+public class MTGKeyWord implements Serializable, Comparable<MTGKeyWord>{
 
 	private static final long serialVersionUID = 1L;
 
@@ -123,5 +123,13 @@ public class MTGKeyWord implements Serializable{
 		this.type = type;
 	}
 
+	@Override
+	public int compareTo(MTGKeyWord o) {
+		
+		if(o==null)
+			return -1;
+		
+		return getKeyword().compareTo(o.getKeyword());
+	}
 
 }

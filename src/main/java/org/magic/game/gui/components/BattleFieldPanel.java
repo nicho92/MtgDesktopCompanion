@@ -87,6 +87,7 @@ public class BattleFieldPanel extends DraggablePanel {
 	public void addComponent(DisplayableCard c) {
 		this.add(c);
 		c.setPosition(getOrigine());
+		c.initActions();
 		GameManager.getInstance().getStack().put(new CardSpell(c));
 		AbilitiesFactory.getInstance().getTriggeredAbility(c.getMagicCard()).forEach(ta->GameManager.getInstance().getStack().put(ta));
 	}

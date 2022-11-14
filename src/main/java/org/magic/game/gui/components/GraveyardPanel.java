@@ -42,6 +42,8 @@ public class GraveyardPanel extends DraggablePanel {
 		}
 
 		i.removeAllCounters();
+		
+		i.initActions();
 	}
 
 	@Override

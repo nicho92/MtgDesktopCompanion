@@ -73,6 +73,7 @@ public class HandPanel extends DraggablePanel {
 		add(i, c);
 		index++;
 		i.setPosition(getOrigine());
+		i.initActions();
 	}
 
 	public void initThumbnails(final List<MagicCard> cards, final boolean activateCards, final boolean rightClick) {
