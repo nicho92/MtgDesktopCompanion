@@ -271,7 +271,7 @@
 		<dependency>
 			<groupId>org.commonmark</groupId>
 			<artifactId>commonmark</artifactId>
-			<version>0.20.0</version>
+			<version>0.21.0</version>
 		</dependency>
 		<dependency>
 			<groupId>io.milton</groupId>
@@ -312,12 +312,12 @@
 		<dependency>
 			<groupId>org.mariadb.jdbc</groupId>
 			<artifactId>mariadb-java-client</artifactId>
-			<version>3.0.9</version>
+			<version>3.1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.xerial</groupId>
 			<artifactId>sqlite-jdbc</artifactId>
-			<version>3.39.4.0</version>
+			<version>3.39.4.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
