@@ -14,7 +14,6 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.MTGSealedProduct.EXTRA;
@@ -24,6 +23,7 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
+import org.magic.services.tools.FileTools;
 import org.magic.services.tools.ImageTools;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -95,7 +95,7 @@ public class SealedProductProvider {
 		var pkgFile = new File(f,p.toString()+".png");
 
 		try {
-			FileUtils.forceMkdir(f);
+			FileTools.forceMkdir(f);
 			if(force||!pkgFile.exists())
 			{
 				BufferedImage im = URLTools.extractAsImage(p.getUrl());
@@ -153,7 +153,7 @@ public class SealedProductProvider {
 	public void clear() {
 		var f = Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), PACKAGING_DIR_NAME).toFile();
 		try {
-			FileUtils.cleanDirectory(f);
+			FileTools.cleanDirectory(f);
 		} catch (IOException e) {
 			logger.error("error removing data in {}",f,e);
 		}

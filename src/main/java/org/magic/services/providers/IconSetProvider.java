@@ -20,6 +20,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.Chrono;
+import org.magic.services.tools.FileTools;
 import org.magic.services.tools.ImageTools;
 
 import com.kitfox.svg.app.beans.SVGIcon;
@@ -36,7 +37,7 @@ public class IconSetProvider {
 
 
 	public void clean() throws IOException {
-		FileUtils.cleanDirectory(localDirectory);
+		FileTools.cleanDirectory(localDirectory);
 	}
 
 	private IconSetProvider() {

@@ -12,6 +12,7 @@ import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.MTGConstants;
+import org.magic.services.tools.FileTools;
 import org.magic.services.tools.ImageTools;
 
 
@@ -47,7 +48,7 @@ public class SlightlyMagicPictureProvider extends AbstractPicturesProvider {
 
 		if(!getFile(PICS_DIR).exists())
 			try {
-				FileUtils.forceMkdir(getFile(PICS_DIR));
+				FileTools.forceMkdir(getFile(PICS_DIR));
 			} catch (IOException e) {
 				logger.error("Couldn't create {} directory",getString(PICS_DIR));
 			}

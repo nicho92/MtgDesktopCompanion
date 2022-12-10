@@ -24,6 +24,7 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.services.logging.MTGLogger;
+import org.magic.services.tools.FileTools;
 import org.utils.patterns.observer.Observable;
 
 import freemarker.template.Configuration;
@@ -49,7 +50,7 @@ public class MagicWebSiteGenerator extends Observable {
 		cfg.setObjectWrapper(new DefaultObjectWrapperBuilder(MTGConstants.FREEMARKER_VERSION).build());
 
 		this.dest = dest;
-		FileUtils.copyDirectory(new File(MTGConstants.MTG_TEMPLATES_DIR, template), new File(dest), pathname -> {
+		FileTools.copyDirectory(new File(MTGConstants.MTG_TEMPLATES_DIR, template), new File(dest), pathname -> {
 			if (pathname.isDirectory())
 				return true;
 

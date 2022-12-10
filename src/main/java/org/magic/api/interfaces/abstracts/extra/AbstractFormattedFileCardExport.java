@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MagicCard;
@@ -22,6 +21,7 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
 import org.magic.services.providers.PluginsAliasesProvider;
+import org.magic.services.tools.FileTools;
 import org.magic.services.tools.UITools;
 
 public abstract class AbstractFormattedFileCardExport extends AbstractCardExport {
@@ -92,7 +92,7 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 
 	public List<Matcher> matches(File f,boolean removeBlank, Charset charset) throws IOException
 	{
-		return matches(FileUtils.readFileToString(f, charset),removeBlank);
+		return matches(FileTools.readFile(f, charset),removeBlank);
 	}
 
 	public List<Matcher> matches(File f,boolean removeBlank) throws IOException

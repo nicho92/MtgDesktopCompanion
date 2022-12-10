@@ -10,10 +10,10 @@ import java.util.TreeMap;
 
 import javax.imageio.ImageIO;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 import org.jsoup.nodes.Document;
+import org.magic.services.tools.FileTools;
 import org.magic.services.tools.XMLTools;
 
 import com.google.gson.JsonElement;
@@ -194,7 +194,7 @@ public class RequestBuilder
 	}
 
 	public void download(File dest) throws IOException {
-		FileUtils.copyInputStreamToFile(execute().getEntity().getContent(),dest);
+		FileTools.copyInputStreamToFile(execute().getEntity().getContent(),dest);
 	}
 
 	public RequestBuilder addContent(String s) {

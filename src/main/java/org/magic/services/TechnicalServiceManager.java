@@ -12,7 +12,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.technical.audit.AbstractAuditableItem;
 import org.magic.api.beans.technical.audit.DAOInfo;
@@ -73,7 +72,7 @@ public class TechnicalServiceManager {
 		if(!logsDirectory.exists())
 		{
 			try {
-				FileUtils.forceMkdir(logsDirectory);
+				FileTools.forceMkdir(logsDirectory);
 			} catch (IOException e) {
 				logger.error("error creating {} : {}",logsDirectory.getAbsolutePath(),e);
 			}

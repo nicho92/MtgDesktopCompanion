@@ -22,8 +22,8 @@ import org.magic.services.AccountsManager;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
-import org.magic.services.tools.InstallCert;
 import org.magic.services.network.URLTools;
+import org.magic.services.tools.InstallCert;
 
 import com.google.gson.JsonElement;
 

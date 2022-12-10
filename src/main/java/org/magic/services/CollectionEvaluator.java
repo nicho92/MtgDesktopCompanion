@@ -114,7 +114,7 @@ public class CollectionEvaluator extends Observable
 		cache = new HashMap<>();
 		directory = Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "prices").toFile();
 		if(!directory.exists())
-			FileUtils.forceMkdir(directory);
+			FileTools.forceMkdir(directory);
 
 
 
@@ -280,7 +280,7 @@ public class CollectionEvaluator extends Observable
 	public EditionsShakers loadFromCache(MagicEdition ed) {
 		try {
 			if(new File(directory,ed.getId()+PRICE_JSON).exists()) {
-				return serialiser.fromJson(FileUtils.readFileToString(new File(directory,ed.getId()+PRICE_JSON),MTGConstants.DEFAULT_ENCODING),EditionsShakers.class);
+				return serialiser.fromJson(FileTools.readFile(new File(directory,ed.getId()+PRICE_JSON),MTGConstants.DEFAULT_ENCODING),EditionsShakers.class);
 			}
 		}
 		catch(Exception e)

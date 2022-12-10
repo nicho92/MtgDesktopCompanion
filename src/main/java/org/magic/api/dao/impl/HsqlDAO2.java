@@ -6,7 +6,6 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.io.FileUtils;
 import org.magic.api.interfaces.abstracts.extra.AbstractMagicSQLDAO;
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.FileTools;
@@ -67,7 +66,7 @@ public class HsqlDAO2 extends AbstractMagicSQLDAO {
 			map.put("mem", 0L);
 
 		if(getFile(SERVERNAME).exists())
-			map.put("file",FileUtils.sizeOfDirectory(getFile(SERVERNAME)));
+			map.put("file",FileTools.sizeOfDirectory(getFile(SERVERNAME)));
 
 
 		return map;

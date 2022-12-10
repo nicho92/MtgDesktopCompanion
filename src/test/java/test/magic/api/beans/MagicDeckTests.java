@@ -1,16 +1,16 @@
 package test.magic.api.beans;
 
-import java.util.List;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.List;
 
+import org.apache.logging.log4j.Level;
 import org.junit.Before;
 import org.junit.Test;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
-
-import org.apache.logging.log4j.Level;
 import org.magic.services.logging.MTGLogger;
+
 import test.TestTools;
 
 public class MagicDeckTests {

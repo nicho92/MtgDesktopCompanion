@@ -2,6 +2,7 @@ package org.magic.services.tools;
 
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -526,6 +527,35 @@ public class FileTools {
 
 	public static void forceMkdir(File dataDir) throws IOException {
 		FileUtils.forceMkdir(dataDir);
+		
+	}
+
+	public static void cleanDirectory(File file) throws IOException {
+		FileUtils.cleanDirectory(file);
+		
+	}
+
+	public static long sizeOfDirectory(File file) {
+		return FileUtils.sizeOfDirectory(file);
+	}
+
+	public static void deleteDirectory(File file) throws IOException {
+		FileUtils.deleteDirectory(file);
+		
+	}
+
+	public static void copyInputStreamToFile(InputStream content, File dest) throws IOException {
+		FileUtils.copyInputStreamToFile(content, dest);
+		
+	}
+
+	public static void copyFile(File file, File destFile) throws IOException {
+		FileUtils.copyFile(file, destFile);
+		
+	}
+
+	public static void copyDirectory(File file, File file2, FileFilter filter) throws IOException {
+		FileUtils.copyDirectory(file,file2,filter);
 		
 	}
 

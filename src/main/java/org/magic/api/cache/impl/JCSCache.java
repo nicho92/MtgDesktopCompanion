@@ -15,6 +15,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractCacheProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGPlugin;
 import org.magic.services.MTGConstants;
+import org.magic.services.tools.FileTools;
 import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.POMReader;
 
@@ -103,7 +104,7 @@ public class JCSCache extends AbstractCacheProvider {
 
 	@Override
 	public long size() {
-		return FileUtils.sizeOfDirectory(getFile("jcs.auxiliary.DC.attributes.DiskPath"));
+		return FileTools.sizeOfDirectory(getFile("jcs.auxiliary.DC.attributes.DiskPath"));
 	}
 
 

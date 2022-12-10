@@ -12,7 +12,6 @@ import java.util.Map;
 
 import javax.script.ScriptException;
 
-import org.apache.commons.io.FileUtils;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -39,7 +38,7 @@ public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTG
 	protected AbstractMTGScript() {
 		if(!getFile(DIR).exists())
 			try {
-				FileUtils.forceMkdir(getFile(DIR));
+				FileTools.forceMkdir(getFile(DIR));
 			} catch (IOException e) {
 				logger.error("Error creating {} {}",getFile(DIR),e);
 			}
