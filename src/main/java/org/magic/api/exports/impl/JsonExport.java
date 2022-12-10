@@ -17,6 +17,7 @@ import org.magic.api.beans.technical.audit.NetworkInfo;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.services.adapters.FileAdapter;
 import org.magic.services.adapters.InstantAdapter;
 import org.magic.services.adapters.MTGStockItemAdapter;
 import org.magic.services.adapters.NetworkInfoAdapter;
@@ -55,6 +56,7 @@ public class JsonExport extends AbstractCardExport {
 				.registerTypeAdapter(UserAgent.class, new UserAgentAdapter())
 				.registerTypeAdapter(StackTraceElement.class, new StackTraceElementAdapter())
 				.registerTypeHierarchyAdapter(NetworkInfo.class, new NetworkInfoAdapter())
+				.registerTypeHierarchyAdapter(File.class, new FileAdapter())
 				.setDateFormat("yyyy-MM-dd hh:mm").setPrettyPrinting()
 				.create();
 	}
