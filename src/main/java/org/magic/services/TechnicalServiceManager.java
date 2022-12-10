@@ -17,6 +17,7 @@ import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.technical.audit.AbstractAuditableItem;
 import org.magic.api.beans.technical.audit.DAOInfo;
 import org.magic.api.beans.technical.audit.DiscordInfo;
+import org.magic.api.beans.technical.audit.FileAccessInfo;
 import org.magic.api.beans.technical.audit.JsonQueryInfo;
 import org.magic.api.beans.technical.audit.NetworkInfo;
 import org.magic.api.beans.technical.audit.TaskInfo;
@@ -35,6 +36,8 @@ public class TechnicalServiceManager {
 	private List<NetworkInfo> networkInfos;
 	private List<TaskInfo> tasksInfos;
 	private List<DiscordInfo> discordInfos;
+	private List<FileAccessInfo> fileInfos;
+	
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	private JsonExport export;
 	private File logsDirectory = new File(MTGConstants.DATA_DIR,"audits");
@@ -63,8 +66,8 @@ public class TechnicalServiceManager {
 		networkInfos = new ArrayList<>();
 		daoInfos = new ArrayList<>();
 		tasksInfos = new ArrayList<>();
+		fileInfos = new ArrayList<>();
 		discordInfos = new ArrayList<>();
-		export = new JsonExport();
 		translator = new IPTranslator();
 
 		if(!logsDirectory.exists())
@@ -100,6 +103,7 @@ public class TechnicalServiceManager {
 					storeItems(NetworkInfo.class,networkInfos.stream().filter(Objects::nonNull).toList());
 					storeItems(TaskInfo.class,tasksInfos.stream().filter(Objects::nonNull).toList());
 					storeItems(DiscordInfo.class,discordInfos.stream().filter(Objects::nonNull).toList());
+					storeItems(FileAccessInfo.class,fileInfos.stream().filter(Objects::nonNull).toList());
 				}
 				catch(Exception e)
 				{
@@ -127,6 +131,8 @@ public class TechnicalServiceManager {
 					networkInfos.addAll(restore(f,NetworkInfo.class).stream().distinct().toList());
 				else if(f.getName().startsWith(DiscordInfo.class.getSimpleName()))
 					discordInfos.addAll(restore(f,DiscordInfo.class).stream().distinct().toList());
+				else if(f.getName().startsWith(FileAccessInfo.class.getSimpleName()))
+					fileInfos.addAll(restore(f,FileAccessInfo.class).stream().distinct().toList());
 			}
 		}
 		else
@@ -138,6 +144,10 @@ public class TechnicalServiceManager {
 	}
 
 	private <T  extends AbstractAuditableItem> List<T> restore(File f, Class<T> classe) throws IOException {
+		
+		if(export==null)
+			export = new JsonExport();
+		
 		return export.fromJsonList(FileTools.readFile(f), classe);
 	}
 
@@ -145,11 +155,20 @@ public class TechnicalServiceManager {
 	{
 		if(enable)
 		{
+
+			if(export==null)
+				export = new JsonExport();
+			
+			
 			FileTools.saveLargeFile(Paths.get(logsDirectory.getAbsolutePath(),classe.getSimpleName()+".json").toFile(), export.toJson(items),MTGConstants.DEFAULT_ENCODING);
 		}
 	}
 
-
+	
+	public List<FileAccessInfo> getFileInfos() {
+		return fileInfos;
+	}
+	
 	public List<DiscordInfo> getDiscordInfos() {
 		return discordInfos;
 	}
@@ -180,7 +199,11 @@ public class TechnicalServiceManager {
 		discordInfos.add(info);
 
 	}
-
+	
+	public void store(FileAccessInfo info)
+	{
+		fileInfos.add(info);
+	}
 
 	public void store(NetworkInfo info)
 	{

@@ -1,4 +1,4 @@
- <project xmlns="http://maven.apache.org/POM/4.0.0"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="https://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
@@ -52,6 +52,7 @@
   		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
 	<repositories>
+		
 		<repository>
 			<id>reposilite-repository</id>
 			<url>https://repo.panda-lang.org/releases</url>
@@ -125,7 +126,7 @@
 		<dependency>
 			<groupId>nl.basjes.parse.useragent</groupId>
 			<artifactId>yauaa</artifactId>
-			<version>7.8.0</version>
+			<version>7.9.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.squareup.okhttp3</groupId>
@@ -210,7 +211,7 @@
 		<dependency>
 			<groupId>org.jooq</groupId>
 			<artifactId>jooq</artifactId>
-			<version>3.17.5</version>
+			<version>3.17.6</version>
 		</dependency>
 		<dependency>
 			<groupId>com.icoderman</groupId>
@@ -357,7 +358,7 @@
 		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
-			<version>5.0.0-beta.1</version>
+			<version>5.0.0-beta.2</version>
 			<exclusions>
 				<exclusion>
 					<groupId>club.minnced</groupId>
@@ -511,12 +512,12 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-			<version>4.5.13</version>
+			<version>4.5.14</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpmime</artifactId>
-			<version>4.5.13</version>
+			<version>4.5.14</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>

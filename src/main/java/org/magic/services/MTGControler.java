@@ -10,6 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
+import java.time.Instant;
 import java.util.Locale;
 
 import org.apache.commons.configuration2.XMLConfiguration;
@@ -17,7 +18,6 @@ import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
 import org.apache.commons.configuration2.builder.fluent.Parameters;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.apache.commons.configuration2.tree.xpath.XPathExpressionEngine;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.commons.lang3.SystemUtils;
@@ -29,6 +29,8 @@ import org.magic.api.beans.Wallpaper;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.technical.WebShopConfig;
+import org.magic.api.beans.technical.audit.FileAccessInfo;
+import org.magic.api.beans.technical.audit.FileAccessInfo.ACCESSTYPE;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGNotifier;
@@ -40,6 +42,7 @@ import org.magic.services.providers.LookAndFeelProvider;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.threads.ThreadPoolConfig;
 import org.magic.services.threads.ThreadPoolConfig.THREADPOOL;
+import org.magic.services.tools.FileTools;
 import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.MTG;
 
@@ -54,7 +57,7 @@ public class MTGControler {
 	private ApilayerCurrencyConverter currencyService;
 	private LookAndFeelProvider lafService;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
-
+	private File conf;
 	private MTGNotifier notifier;
 
 
@@ -68,12 +71,12 @@ public class MTGControler {
 		logger.info("Local directory : {}",MTGConstants.CONF_DIR);
 		logger.info(bottom);
 
-		var conf = new File(MTGConstants.CONF_DIR, MTGConstants.CONF_FILENAME);
+		conf = new File(MTGConstants.CONF_DIR, MTGConstants.CONF_FILENAME);
 
 		if (!conf.exists())
 			try {
 				logger.info("{} file doesn't exist. creating one from default file",conf);
-				FileUtils.copyURLToFile(getClass().getResource("/data/default-conf.xml"),conf);
+				FileTools.copyURLToFile(getClass().getResource("/data/default-conf.xml"),conf);
 				logger.info("conf file created");
 			} catch (IOException e1) {
 				logger.error(e1);
@@ -81,7 +84,7 @@ public class MTGControler {
 
 		if(!MTGConstants.DATA_DIR.exists())
 			try {
-				FileUtils.forceMkdir(MTGConstants.DATA_DIR);
+				FileTools.forceMkdir(MTGConstants.DATA_DIR);
 			} catch (IOException e1) {
 				logger.error("error creating {}",MTGConstants.DATA_DIR,e1);
 			}
@@ -411,7 +414,14 @@ public class MTGControler {
 			}
 
 			config.setProperty(path, c);
+			
+			var info = new FileAccessInfo();
 			builder.save();
+			info.setEnd(Instant.now());
+			info.setAccesstype(ACCESSTYPE.WRITE);
+			info.setFile(conf);
+			TechnicalServiceManager.inst().store(info);
+			
 		} catch (Exception e) {
 			logger.error("Error saving {}={}",k,c, e);
 		}
@@ -463,8 +473,7 @@ public class MTGControler {
 		if (!MTGConstants.MTG_WALLPAPER_DIRECTORY.exists())
 			MTGConstants.MTG_WALLPAPER_DIRECTORY.mkdir();
 
-		ImageTools.saveImage(p.getPicture(),
-				new File(MTGConstants.MTG_WALLPAPER_DIRECTORY, p.getName() + "." + p.getFormat()), p.getFormat());
+		ImageTools.saveImage(p.getPicture(),new File(MTGConstants.MTG_WALLPAPER_DIRECTORY, p.getName() + "." + p.getFormat()), p.getFormat());
 
 	}
 

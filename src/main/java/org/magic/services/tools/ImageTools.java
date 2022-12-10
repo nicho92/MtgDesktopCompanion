@@ -19,6 +19,7 @@ import java.math.RoundingMode;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Instant;
 import java.util.Iterator;
 import java.util.List;
 
@@ -34,7 +35,10 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.apache.logging.log4j.Logger;
+import org.magic.api.beans.technical.audit.FileAccessInfo;
+import org.magic.api.beans.technical.audit.FileAccessInfo.ACCESSTYPE;
 import org.magic.services.MTGConstants;
+import org.magic.services.TechnicalServiceManager;
 import org.magic.services.logging.MTGLogger;
 
 public class ImageTools {
@@ -180,7 +184,12 @@ public class ImageTools {
 
 
 	public static void saveImage(BufferedImage img, File f, String format) throws IOException {
+		var info = new FileAccessInfo();
 		ImageIO.write(img, format, f);
+		info.setEnd(Instant.now());
+		info.setAccesstype(ACCESSTYPE.WRITE);
+		info.setFile(f);
+		TechnicalServiceManager.inst().store(info);
 	}
 
 

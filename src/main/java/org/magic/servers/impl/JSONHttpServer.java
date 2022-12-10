@@ -1091,6 +1091,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		}, transformer);
 
+		get("/admin/files", URLTools.HEADER_JSON, (request, response) ->TechnicalServiceManager.inst().getFileInfos(), transformer);
+		
 		get("/admin/caches", URLTools.HEADER_JSON, (request, response) -> {
 			JsonArray arr = new JsonArray();
 
