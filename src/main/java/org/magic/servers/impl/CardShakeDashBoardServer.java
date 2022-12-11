@@ -10,11 +10,11 @@ import java.util.TimerTask;
 
 import javax.swing.Icon;
 
-import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.CollectionEvaluator;
 import org.magic.services.MTGConstants;
+import org.magic.services.tools.FileTools;
 
 public class CardShakeDashBoardServer extends AbstractMTGServer {
 
@@ -63,7 +63,7 @@ public class CardShakeDashBoardServer extends AbstractMTGServer {
 
 					for(File f : evaluator.getDirectory().listFiles(pathname->!pathname.isDirectory())){
 						try {
-							FileUtils.moveFileToDirectory(f, dest, true);
+							FileTools.moveFileToDirectory(f, dest, true);
 						} catch (IOException e) {
 							logger.error(e);
 						}

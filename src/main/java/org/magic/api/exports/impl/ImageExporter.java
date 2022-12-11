@@ -11,8 +11,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import javax.imageio.ImageIO;
-
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGPictureProvider;
@@ -117,7 +115,7 @@ public class ImageExporter extends AbstractCardExport{
 		g.setColor(Color.ORANGE);
 		g.fillRect(0, 0, ret.getWidth(),headerSize);
 		try {
-			g.drawImage(ImageIO.read(ImageExporter.class.getResource( "/icons/logo_src.png" )) , 10, 10,50,50, null);
+			g.drawImage(ImageTools.readLocal(ImageExporter.class.getResource( "/icons/logo_src.png" )) , 10, 10,50,50, null);
 		} catch (IOException e) {
 			logger.error("error loading logo_src.png :{} ",e.getMessage());
 		}

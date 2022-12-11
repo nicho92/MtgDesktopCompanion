@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOCase;
 import org.apache.commons.io.filefilter.TrueFileFilter;
@@ -15,6 +14,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Wallpaper;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
+import org.magic.services.tools.FileTools;
 
 public class FilesWallpaperProvider extends AbstractWallpaperProvider {
 
@@ -23,7 +23,7 @@ public class FilesWallpaperProvider extends AbstractWallpaperProvider {
 		List<Wallpaper> list = new ArrayList<>();
 		try {
 
-			Collection<File> res = FileUtils.listFiles(getFile("DIRECTORY"),new WildcardFileFilter("*"+search+"*", IOCase.INSENSITIVE),TrueFileFilter.INSTANCE);
+			Collection<File> res = FileTools.listFiles(getFile("DIRECTORY"),new WildcardFileFilter("*"+search+"*", IOCase.INSENSITIVE),TrueFileFilter.INSTANCE);
 
 			for (File f : res) {
 				var w = new Wallpaper();

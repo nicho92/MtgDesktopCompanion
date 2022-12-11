@@ -16,6 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
@@ -35,6 +36,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.filefilter.FileFileFilter;
 import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.apache.commons.io.filefilter.IOFileFilter;
+import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.technical.audit.FileAccessInfo;
@@ -557,6 +559,19 @@ public class FileTools {
 	public static void copyDirectory(File file, File file2, FileFilter filter) throws IOException {
 		FileUtils.copyDirectory(file,file2,filter);
 		
+	}
+
+	public static Long sizeOf(File file) {
+		return FileUtils.sizeOf(file);
+	}
+
+	public static void moveFileToDirectory(File f, File dest, boolean b) throws IOException {
+		FileUtils.moveFileToDirectory(f, dest, b);
+		
+	}
+
+	public static Collection<File> listFiles(File edDir, WildcardFileFilter wildcardFileFilter, IOFileFilter instance) {
+		return FileUtils.listFiles(edDir, wildcardFileFilter, instance);
 	}
 
 

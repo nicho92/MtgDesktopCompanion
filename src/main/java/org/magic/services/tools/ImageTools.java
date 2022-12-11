@@ -455,6 +455,4 @@ public class ImageTools {
 
 	}
 
-
-
 }
