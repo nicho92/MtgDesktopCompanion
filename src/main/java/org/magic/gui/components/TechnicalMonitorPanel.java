@@ -49,7 +49,7 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 	private NetworkTableModel modelNetwork;
 	private QueriesTableModel queryModel;
 	private MapTableModel<Object, Object> modelConfig;
-	private FileAccessTableModel modelFile;
+	private FileAccessTableModel modelFileAccess;
 	private GenericTableModel<JsonObject> modelScript;
 	private MapTableModel<String, Long> modelDao;
 	private MapTableModel<String,Object> modelCacheJson;
@@ -69,7 +69,7 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 		modelCacheJson = new MapTableModel<>();
 		modelJsonServerInfo = new JsonInfoTableModel();
 		discordModel = new DiscordInfoTableModel();
-		modelFile= new FileAccessTableModel();
+		modelFileAccess= new FileAccessTableModel();
 		gedPanel = new GedBrowserPanel();
 
 		modelScript = new GenericTableModel<>()
@@ -95,9 +95,12 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 		queryModel.bind(TechnicalServiceManager.inst().getDaoInfos());
 		modelJsonServerInfo.bind(TechnicalServiceManager.inst().getJsonInfo());
 		discordModel.bind(TechnicalServiceManager.inst().getDiscordInfos());
+		modelFileAccess.bind(TechnicalServiceManager.inst().getFileInfos());
+		
 		modelConfig.init(TechnicalServiceManager.inst().getSystemInfo());
 		modelDao.init(MTG.getEnabledPlugin(MTGDao.class).getDBSize());
-		modelFile.init(TechnicalServiceManager.inst().getFileInfos());
+
+		
 		
 		var tableTasks = UITools.createNewTable(modelTasks);
 		UITools.initTableFilter(tableTasks);
@@ -123,7 +126,7 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 		var tableDiscordInfo= UITools.createNewTable(discordModel);
 		UITools.initTableFilter(tableDiscordInfo);
 		
-		var tableFileAccessIInfo= UITools.createNewTable(modelFile);
+		var tableFileAccessIInfo= UITools.createNewTable(modelFileAccess);
 		UITools.initTableFilter(tableFileAccessIInfo);
 		
 
@@ -176,7 +179,7 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 		memoryPanel = new JVMemoryPanel();
 		panel.add(memoryPanel);
 
-		t = new Timer(5000, e ->{
+		t = new Timer(MTGConstants.TECHNICAL_REFRESH, e ->{
 			modelThreads.init(TechnicalServiceManager.inst().getThreadsInfos());
 			memoryPanel.refresh();
 			modelTasks.fireTableDataChanged();
@@ -186,7 +189,7 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 			modelDao.fireTableDataChanged();
 			modelJsonServerInfo.fireTableDataChanged();
 			discordModel.fireTableDataChanged();
-			modelFile.fireTableDataChanged();
+			modelFileAccess.fireTableDataChanged();
 
 			if(MTG.getPlugin("Qwartz", MTGServer.class).isAlive()) {
 				try {

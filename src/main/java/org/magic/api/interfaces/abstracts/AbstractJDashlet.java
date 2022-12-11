@@ -3,6 +3,7 @@ package org.magic.api.interfaces.abstracts;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +23,7 @@ import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.MTGDashlet;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
+import org.magic.services.tools.FileTools;
 import org.utils.patterns.observer.Observer;
 
 public abstract class AbstractJDashlet extends JInternalFrame implements MTGDashlet{
@@ -103,9 +105,11 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 
 		if (!confdir.exists())
 		{
-			boolean ret = confdir.mkdirs();
-			logger.debug("{} doesn't exist, create id={}",confdir,ret);
-
+			 try {
+				FileTools.forceMkdir(confdir);
+			} catch (IOException e) {
+				logger.error("Error creating {}",confdir,e);
+			}
 		}
 
 

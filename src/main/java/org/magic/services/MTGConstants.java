@@ -103,7 +103,7 @@ public class MTGConstants {
 	public static final int DEFAULT_PIC_HEIGHT = 310;
 	public static final double CARD_PICS_RATIO = 1.39;
 	public static final int MENU_ICON_SIZE=24;
-
+	public static final  int TECHNICAL_REFRESH=5000;
 	public static final int DPI=300;
 
 	public static final String DEFAULT_NOTIFIER_NAME="Tray";
@@ -159,6 +159,7 @@ public class MTGConstants {
 	public static final ImageIcon ICON_SPLASHSCREEN = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/magic-logo2.png"));
 
 	private static String iconPack="flat";
+	
 
 	private static final String[] DEFAULT_COLLECTIONS_NAMES = new String[] { "Library", "Needed", "For Sell", "Favorites" };
 
