@@ -4,7 +4,7 @@ import java.io.File;
 
 public class FileAccessInfo extends AbstractAuditableItem{
 	private static final long serialVersionUID = 1L;
-	public enum ACCESSTYPE {READ,WRITE,DELETE}
+	public enum ACCESSTYPE {READ,WRITE,DELETE, CREATE}
 	
 	
 	private File file;

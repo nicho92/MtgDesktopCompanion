@@ -66,7 +66,7 @@ public class FileTools {
 		 }
 		
 		 	info.setEnd(Instant.now());
-			info.setAccesstype(ACCESSTYPE.WRITE);
+			info.setAccesstype(ACCESSTYPE.CREATE);
 			info.setFile(f);
 			
 		 
@@ -528,13 +528,21 @@ public class FileTools {
 	}
 
 	public static void forceMkdir(File dataDir) throws IOException {
+		var info = new FileAccessInfo();
 		FileUtils.forceMkdir(dataDir);
-		
+		info.setEnd(Instant.now());
+		info.setAccesstype(ACCESSTYPE.CREATE);
+		info.setFile(dataDir);
+		TechnicalServiceManager.inst().store(info);
 	}
 
 	public static void cleanDirectory(File file) throws IOException {
+		var info = new FileAccessInfo();
 		FileUtils.cleanDirectory(file);
-		
+		info.setEnd(Instant.now());
+		info.setAccesstype(ACCESSTYPE.DELETE);
+		info.setFile(file);
+		TechnicalServiceManager.inst().store(info);
 	}
 
 	public static long sizeOfDirectory(File file) {
@@ -542,12 +550,22 @@ public class FileTools {
 	}
 
 	public static void deleteDirectory(File file) throws IOException {
+		var info = new FileAccessInfo();
 		FileUtils.deleteDirectory(file);
+		info.setEnd(Instant.now());
+		info.setAccesstype(ACCESSTYPE.DELETE);
+		info.setFile(file);
+		TechnicalServiceManager.inst().store(info);
 		
 	}
 
 	public static void copyInputStreamToFile(InputStream content, File dest) throws IOException {
+		var info = new FileAccessInfo();
 		FileUtils.copyInputStreamToFile(content, dest);
+		info.setEnd(Instant.now());
+		info.setAccesstype(ACCESSTYPE.WRITE);
+		info.setFile(dest);
+		TechnicalServiceManager.inst().store(info);
 		
 	}
 
@@ -562,7 +580,13 @@ public class FileTools {
 	}
 
 	public static Long sizeOf(File file) {
-		return FileUtils.sizeOf(file);
+		var info = new FileAccessInfo();
+		var ret = FileUtils.sizeOf(file);
+		info.setEnd(Instant.now());
+		info.setAccesstype(ACCESSTYPE.READ);
+		info.setFile(file);
+		TechnicalServiceManager.inst().store(info);
+		return ret;
 	}
 
 	public static void moveFileToDirectory(File f, File dest, boolean b) throws IOException {
