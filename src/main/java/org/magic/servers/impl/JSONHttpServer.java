@@ -123,6 +123,8 @@ import spark.routematch.RouteMatch;
 
 public class JSONHttpServer extends AbstractMTGServer {
 
+	private static final String ID_DECK = ":idDeck";
+	private static final String ID_ANNOUNCE = ":idAnnounce";
 	private static final String DEFAULT_LIBRARY = "default-library";
 	private static final String TYPE = ":type";
 	private static final String SCRYFALL_ID = ":scryfallId";
@@ -977,9 +979,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}
 		, transformer);
 
-		get("/deck/export/:provider/:idDeck", (request, response) -> {
+		get("/deck/export/:provider/"+ID_DECK, (request, response) -> {
 			var plug = getPlugin(request.params(PROVIDER),MTGCardsExport.class);
-			var d = manager.getDeck(Integer.parseInt(request.params(":idDeck")));
+			var d = manager.getDeck(Integer.parseInt(request.params(ID_DECK)));
 			var p = Files.createTempFile("deck",plug.getFileExtension());
 			var f = p.toFile();
 			var ct = Files.probeContentType(p)==null?"text/plain":Files.probeContentType(p);
@@ -1001,16 +1003,16 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 
 
-		delete("/deck/:idDeck", URLTools.HEADER_JSON,(request, response) -> {
+		delete("/deck/"+ID_DECK, URLTools.HEADER_JSON,(request, response) -> {
 
-			var d = manager.getDeck(Integer.parseInt(request.params(":idDeck")));
+			var d = manager.getDeck(Integer.parseInt(request.params(ID_DECK)));
 			manager.remove(d);
 			return ok(request,response,d);
 		},transformer);
 
 		get("/deck/:idDeck", URLTools.HEADER_JSON,(request, response) -> {
 
-				var d = manager.getDeck(Integer.parseInt(request.params(":idDeck")));
+				var d = manager.getDeck(Integer.parseInt(request.params(ID_DECK)));
 				var el= converter.toJsonDeck(d);
 				el.getAsJsonObject().addProperty("colors", d.getColors());
 
@@ -1032,7 +1034,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		get("/deck/stats/:idDeck", URLTools.HEADER_JSON, (request, response) -> {
 
-			MagicDeck d = manager.getDeck(Integer.parseInt(request.params(":idDeck")));
+			MagicDeck d = manager.getDeck(Integer.parseInt(request.params(ID_DECK)));
 
 			var obj = new JsonObject();
 
@@ -1232,10 +1234,10 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		}, transformer);
 
-		put("/favorites/:classename/:idContact/:idAnnounce", URLTools.HEADER_JSON, (request, response) -> {
+		put("/favorites/:classename/:idContact/"+ID_ANNOUNCE, URLTools.HEADER_JSON, (request, response) -> {
 			try{
-				MTG.getEnabledPlugin(MTGDao.class).saveFavorites(Integer.parseInt(request.params(ID_CONTACT)), Integer.parseInt(request.params(":idAnnounce")),request.params(CLASSENAME));
-				return ok(request, response,"favorites saved for announces " + request.params(":idAnnounce"));
+				MTG.getEnabledPlugin(MTGDao.class).saveFavorites(Integer.parseInt(request.params(ID_CONTACT)), Integer.parseInt(request.params(ID_ANNOUNCE)),request.params(CLASSENAME));
+				return ok(request, response,"favorites saved for announces " + request.params(ID_ANNOUNCE));
 			}catch(Exception e)
 			{
 				return e;
@@ -1243,10 +1245,10 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 
 
-		delete("/favorites/:classename/:idContact/:idAnnounce", URLTools.HEADER_JSON, (request, response) -> {
+		delete("/favorites/:classename/:idContact/"+ID_ANNOUNCE, URLTools.HEADER_JSON, (request, response) -> {
 			try{
-				MTG.getEnabledPlugin(MTGDao.class).deleteFavorites(Integer.parseInt(request.params(ID_CONTACT)), Integer.parseInt(request.params(":idAnnounce")),request.params(CLASSENAME));
-				return ok(request, response,"favorites deleted for announces " + request.params(":idAnnounce"));
+				MTG.getEnabledPlugin(MTGDao.class).deleteFavorites(Integer.parseInt(request.params(ID_CONTACT)), Integer.parseInt(request.params(ID_ANNOUNCE)),request.params(CLASSENAME));
+				return ok(request, response,"favorites deleted for announces " + request.params(ID_ANNOUNCE));
 				}
 			catch(Exception e)
 				{
