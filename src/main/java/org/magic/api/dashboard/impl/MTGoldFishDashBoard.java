@@ -426,8 +426,9 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 
 		Elements trs = doc.select(MTGConstants.HTML_TAG_TABLE+".card-container-table tbody tr");
-
-		trs.remove(0);
+		
+		if(!trs.isEmpty())
+			trs.remove(0);
 
 		for(Element e : trs)
 		{

@@ -39,12 +39,8 @@ public class MTGCompanionShop extends AbstractExternalShop {
 		var cat = new ArrayList<Category>();
 
 		int i=1;
-		for(EnumItems item : EnumItems.values())
-		{
-			var c = new Category();
-					 c.setIdCategory(i++);
-					 c.setCategoryName(item.name());
-			cat.add(c);
+		for(EnumItems item : EnumItems.values()){
+			cat.add(new Category(i++,item.name()));
 		}
 
 		return cat;
