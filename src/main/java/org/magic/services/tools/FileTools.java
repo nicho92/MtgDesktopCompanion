@@ -175,19 +175,6 @@ public class FileTools {
 		
 	}
 
-	public static void saveFile(File f,Properties props) throws IOException
-	{
-		var info = new FileAccessInfo();
-		try (var fos = new FileOutputStream(f)){
-			props.store(fos, "");
-		}
-		info.setEnd(Instant.now());
-		info.setAccesstype(ACCESSTYPE.WRITE);
-		info.setFile(f);
-		TechnicalServiceManager.inst().store(info);
-
-	}
-
 
 	public static void deleteFile(File f) throws IOException
 	{

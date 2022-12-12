@@ -72,7 +72,7 @@ public class ShortKeyManager {
 		mapping.entrySet().forEach(e->p.put(e.getKey(), String.valueOf(e.getValue().getMnemonic())));
 
 		try {
-			FileTools.saveFile(configFile, p);
+			FileTools.saveProperties(configFile, p);
 		} catch (IOException e1) {
 			MTGControler.getInstance().notify(e1);
 		}
