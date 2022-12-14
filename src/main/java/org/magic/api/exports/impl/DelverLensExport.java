@@ -79,7 +79,7 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 				st.setProduct(mc);
 				st.setLanguage(m.group(4));
 				st.setQte(Integer.parseInt(m.group(11)));
-				st.setFoil(m.group(9)!=null);
+				st.setFoil((m.group(9)!=null && m.group(9).equalsIgnoreCase("foil")));
 				st.setCondition(PluginsAliasesProvider.inst().getReversedConditionFor(this, m.group(6), EnumCondition.NEAR_MINT)  );
 				st.setPrice(UITools.parseDouble(m.group(3).trim()));
 				list.add(st);
