@@ -335,10 +335,18 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		mc.setId(obj.get("id").getAsString());
 		mc.setScryfallId(mc.getId());
 		mc.setName(obj.get(NAME).getAsString());
-		mc.setCmc(obj.get(CMC).getAsInt());
 		mc.setLayout(MTGLayout.parseByLabel(obj.get(LAYOUT).getAsString()));
 		mc.setOversized(obj.get(OVERSIZED).getAsBoolean());
 
+		
+		try {
+			mc.setCmc(obj.get(CMC).getAsInt());
+		}catch(NullPointerException e)
+		{
+			//do nothing
+		}
+		
+		
 		try {
 			mc.setReprintedCard(obj.get(REPRINTED).getAsBoolean());
 		} catch (NullPointerException e) {
@@ -544,13 +552,10 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				logger.error("{} has no colors: ",mc.getName(),e);
 			}
 			try {
-				mc.setPower(obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get(POWER)
-						.getAsString());
-				mc.setToughness(obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get(TOUGHNESS)
-						.getAsString());
-			} catch (Exception e) {
-				logger.error("{} has no power/toughness: ",mc.getName(),e);
-
+				mc.setPower(obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get(POWER).getAsString());
+				mc.setToughness(obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get(TOUGHNESS).getAsString());
+			} catch (NullPointerException e) {
+				logger.error("{} has no power/toughness: ",mc.getName());
 			}
 		}
 
