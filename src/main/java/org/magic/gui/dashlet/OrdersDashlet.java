@@ -1,6 +1,6 @@
 package org.magic.gui.dashlet;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
@@ -15,7 +15,7 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.components.charts.OrdersChartPanel;
 import org.magic.services.MTGConstants;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 import com.google.common.collect.Lists;
 

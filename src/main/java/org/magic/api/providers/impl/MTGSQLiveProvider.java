@@ -90,11 +90,12 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 	@Override
 	public MagicCard getTokenFor(MagicCard mc, MTGLayout layout) throws IOException {
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("select * from tokens where reverseRelated like ? and types like ? and setCode like ?"))
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("select * from tokens where (reverseRelated like ? or name like ? ) and types like ? and setCode like ?"))
 		{
 			pst.setString(1, "%"+mc.getName()+"%");
-			pst.setString(2, "%"+layout.toPrettyString()+"%");
-			pst.setString(3, "%"+mc.getCurrentSet().getId().toUpperCase());
+			pst.setString(2, "%"+mc.getName()+"%");
+			pst.setString(3, "%"+layout.toPrettyString()+"%");
+			pst.setString(4, "%"+mc.getCurrentSet().getId().toUpperCase());
 			var rs = pst.executeQuery();
 
 			if(rs.next())
@@ -104,6 +105,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 		{
 			throw new IOException(e);
 		}
+		logger.error("No token found for {} with layout={}", mc,layout);
 		return null;
 	}
 
@@ -697,6 +699,8 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 					ret.add(new QueryAttribute(rs.getString(NAME), MTGPromoType.class));
 				else if(rs.getString(NAME).equals(FINISHES))
 					ret.add(new QueryAttribute(rs.getString(NAME), MTGFinishes.class));
+				else if(rs.getString(NAME).equals(KEYWORDS))
+					ret.add(new QueryAttribute(rs.getString(NAME), MTGKeyWord.class));
 				else
 					ret.add(new QueryAttribute(rs.getString(NAME), sqlToJavaType(rs.getString("type"))));
 			}

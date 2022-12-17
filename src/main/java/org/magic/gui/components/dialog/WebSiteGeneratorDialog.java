@@ -1,7 +1,7 @@
 package org.magic.gui.components.dialog;
 
-import static org.magic.tools.MTG.capitalize;
-import static org.magic.tools.MTG.listEnabledPlugins;
+import static org.magic.services.tools.MTG.capitalize;
+import static org.magic.services.tools.MTG.listEnabledPlugins;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -27,7 +27,7 @@ import org.magic.gui.renderer.MagicCollectionIconListRenderer;
 import org.magic.gui.renderer.PluginIconListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 public class WebSiteGeneratorDialog extends JDialog {
 	/**

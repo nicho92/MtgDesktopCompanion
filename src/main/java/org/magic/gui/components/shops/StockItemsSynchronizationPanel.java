@@ -14,7 +14,7 @@ import org.magic.api.interfaces.MTGStockItem;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.MapTableModel;
 import org.magic.services.MTGConstants;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 public class StockItemsSynchronizationPanel extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;

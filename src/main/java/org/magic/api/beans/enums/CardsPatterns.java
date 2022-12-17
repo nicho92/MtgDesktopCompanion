@@ -16,7 +16,7 @@ public enum CardsPatterns {
 	RULES_LINE					("^(\\d{1,3})\\.(\\d{1,3})?([a-z])?"),
 	LOYALTY_PATTERN				("\\[(.*?)\\][ ]?: (.*?)$"),
 	ROLL_DICE					("then  roll a d(\\d+)");
-
+	
 
 	public static final String REGEX_ANY_STRING = "(.*?)";
 

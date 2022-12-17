@@ -1,6 +1,6 @@
 package org.magic.services;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -89,7 +89,15 @@ public class CardsManagerService {
 
 	}
 
+	public static void moveCard(MagicEdition ed, MagicCollection from, MagicCollection to,Observer o) throws SQLException
+	{
+		if(o!=null)
+			getEnabledPlugin(MTGDao.class).addObserver(o);
 
+
+		getEnabledPlugin(MTGDao.class).moveEdition(ed, from,to);
+
+	}
 
 	public static void saveCard(MagicCard mc , MagicCollection collection,Observer o) throws SQLException
 	{

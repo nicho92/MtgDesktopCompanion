@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.Announce.STATUS;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.logging.MTGLogger;
-import org.magic.tools.MTG;
+import org.magic.services.tools.MTG;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;

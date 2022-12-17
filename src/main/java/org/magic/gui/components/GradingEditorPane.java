@@ -1,6 +1,6 @@
 package org.magic.gui.components;
 
-import static org.magic.tools.MTG.capitalize;
+import static org.magic.services.tools.MTG.capitalize;
 
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -28,7 +28,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
 import org.magic.services.threads.ThreadManager;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 public class GradingEditorPane extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;

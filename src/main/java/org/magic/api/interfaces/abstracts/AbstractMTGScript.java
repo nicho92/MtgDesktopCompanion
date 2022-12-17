@@ -1,7 +1,7 @@
 package org.magic.api.interfaces.abstracts;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
-import static org.magic.tools.MTG.listEnabledPlugins;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.listEnabledPlugins;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,7 +12,6 @@ import java.util.Map;
 
 import javax.script.ScriptException;
 
-import org.apache.commons.io.FileUtils;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -29,7 +28,7 @@ import org.magic.api.interfaces.MTGShopper;
 import org.magic.api.interfaces.MTGTextGenerator;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.tools.FileTools;
+import org.magic.services.tools.FileTools;
 
 
 public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTGScript{
@@ -39,7 +38,7 @@ public abstract class AbstractMTGScript extends AbstractMTGPlugin implements MTG
 	protected AbstractMTGScript() {
 		if(!getFile(DIR).exists())
 			try {
-				FileUtils.forceMkdir(getFile(DIR));
+				FileTools.forceMkdir(getFile(DIR));
 			} catch (IOException e) {
 				logger.error("Error creating {} {}",getFile(DIR),e);
 			}

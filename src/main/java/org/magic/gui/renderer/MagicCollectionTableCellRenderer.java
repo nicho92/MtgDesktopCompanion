@@ -11,7 +11,7 @@ import javax.swing.JTable;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
 import org.magic.services.MTGConstants;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 

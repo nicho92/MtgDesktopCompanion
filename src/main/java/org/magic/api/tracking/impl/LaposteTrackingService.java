@@ -9,7 +9,7 @@ import org.magic.api.interfaces.abstracts.AbstractTrackingService;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 public class LaposteTrackingService extends AbstractTrackingService{
 
@@ -36,7 +36,11 @@ public class LaposteTrackingService extends AbstractTrackingService{
 		var e = RequestBuilder.build().setClient(URLTools.newClient()).url(baseUri+"/"+number +"?"+getString("LANG")).method(METHOD.GET)
 				.addHeader("X-Okapi-Key", getString(OKAPI_KEY))
 				.addHeader(URLTools.ACCEPT, URLTools.HEADER_JSON).toJson().getAsJsonObject();
-
+		
+		
+		logger.trace("result from {} request {}",getName(),e);
+		
+		
 		var t = new Tracking(number);
 				 t.setFinished(e.getAsJsonObject().get(SHIPMENT).getAsJsonObject().get("isFinal").getAsBoolean());
 				 t.setProductName(e.getAsJsonObject().get(SHIPMENT).getAsJsonObject().get("product").getAsString());

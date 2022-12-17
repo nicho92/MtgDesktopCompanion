@@ -1,6 +1,6 @@
 package org.magic.gui.components;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
 import java.awt.event.ComponentAdapter;
@@ -21,8 +21,8 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.MagicEditionsJLabelRenderer;
 import org.magic.services.threads.ThreadManager;
+import org.magic.services.tools.UITools;
 import org.magic.services.workers.AbstractObservableWorker;
-import org.magic.tools.UITools;
 
 public class TokensTablePanel extends MTGUIComponent {
 

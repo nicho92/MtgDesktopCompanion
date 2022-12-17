@@ -10,7 +10,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
-import org.magic.tools.FileTools;
+import org.magic.services.tools.FileTools;
 
 public class MTGStandExport extends AbstractFormattedFileCardExport {
 

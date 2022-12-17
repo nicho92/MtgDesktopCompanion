@@ -1,4 +1,4 @@
-package org.magic.tools;
+package org.magic.services.tools;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -28,7 +28,6 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.Logger;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
@@ -85,7 +84,7 @@ public class InstallCert {
 		if (!keystoreFile.exists()) {
 			boolean ret = keystoreFile.createNewFile();
 			if (ret)
-				FileUtils.copyFile(new File(defaultF, "cacerts"), keystoreFile);
+				FileTools.copyFile(new File(defaultF, "cacerts"), keystoreFile);
 			else
 				throw new FileNotFoundException("Couldn't not create " + keystoreFile);
 		}

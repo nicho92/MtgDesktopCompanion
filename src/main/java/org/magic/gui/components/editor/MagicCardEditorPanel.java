@@ -1,7 +1,7 @@
 package org.magic.gui.components.editor;
 
-import static org.magic.tools.MTG.capitalize;
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.capitalize;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -52,8 +52,8 @@ import org.magic.gui.components.ManaPanel;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
-import org.magic.tools.ImageTools;
-import org.magic.tools.UITools;
+import org.magic.services.tools.ImageTools;
+import org.magic.services.tools.UITools;
 public class MagicCardEditorPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;

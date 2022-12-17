@@ -23,8 +23,8 @@ import org.magic.gui.renderer.PluginIconListRenderer;
 import org.magic.services.AccountsManager;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.tools.FileTools;
-import org.magic.tools.UITools;
+import org.magic.services.tools.FileTools;
+import org.magic.services.tools.UITools;
 
 public class MTGAuthenticatorEditor extends JPanel {
 

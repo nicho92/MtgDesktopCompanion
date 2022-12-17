@@ -14,7 +14,7 @@ import org.eclipse.jetty.servlet.ServletHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.magic.api.dav.WebDavMTGResourceFactory;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
-import org.magic.tools.POMReader;
+import org.magic.services.tools.POMReader;
 
 import io.milton.servlet.MiltonFilter;
 import io.milton.servlet.MiltonServlet;

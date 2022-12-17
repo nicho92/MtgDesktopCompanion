@@ -1,6 +1,6 @@
 package org.magic.api.decksniffer.impl;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.io.IOException;
 import java.net.URI;
@@ -14,7 +14,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
-import org.magic.tools.MTGArenaTools;
+import org.magic.services.tools.MTGArenaTools;
 
 import com.google.gson.JsonObject;
 

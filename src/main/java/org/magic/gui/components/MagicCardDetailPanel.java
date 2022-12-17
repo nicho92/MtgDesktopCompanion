@@ -1,8 +1,8 @@
 package org.magic.gui.components;
 
-import static org.magic.tools.MTG.capitalize;
-import static org.magic.tools.MTG.getEnabledPlugin;
-import static org.magic.tools.MTG.getPlugin;
+import static org.magic.services.tools.MTG.capitalize;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getPlugin;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -53,8 +53,8 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.threads.ThreadManager;
-import org.magic.tools.ImageTools;
-import org.magic.tools.UITools;
+import org.magic.services.tools.ImageTools;
+import org.magic.services.tools.UITools;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 public class MagicCardDetailPanel extends JPanel implements Observer {
@@ -595,7 +595,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 					else
 						icon = new ImageIcon(getEnabledPlugin(MTGPictureProvider.class).getForeignNamePicture(fn, mc));
 				} catch (Exception e) {
-					icon = new ImageIcon(getEnabledPlugin(MTGPictureProvider.class).getBackPicture());
+					icon = new ImageIcon(getEnabledPlugin(MTGPictureProvider.class).getBackPicture(mc));
 					logger.error("Error loading pics for {}", mc, e);
 				}
 				return icon;

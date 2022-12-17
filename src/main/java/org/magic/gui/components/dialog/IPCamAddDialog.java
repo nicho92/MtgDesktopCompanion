@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.magic.services.MTGConstants;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 import org.utils.webcam.WebcamUtils;
 
 import com.github.sarxos.webcam.ds.ipcam.IpCamMode;

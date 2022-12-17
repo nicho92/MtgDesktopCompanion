@@ -1,7 +1,7 @@
 package org.magic.gui;
 
-import static org.magic.tools.MTG.capitalize;
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.capitalize;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -49,8 +49,8 @@ import org.magic.gui.renderer.OrderEntryRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
+import org.magic.services.tools.UITools;
 import org.magic.services.workers.AbstractObservableWorker;
-import org.magic.tools.UITools;
 public class OrdersGUI extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;

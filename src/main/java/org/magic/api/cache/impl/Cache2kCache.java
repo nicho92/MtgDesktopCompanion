@@ -9,7 +9,7 @@ import org.cache2k.Cache;
 import org.cache2k.Cache2kBuilder;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractCacheProvider;
-import org.magic.tools.MemoryTools;
+import org.magic.services.tools.MemoryTools;
 
 public class Cache2kCache extends AbstractCacheProvider {
 

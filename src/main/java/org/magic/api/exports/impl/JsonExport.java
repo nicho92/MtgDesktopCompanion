@@ -17,14 +17,15 @@ import org.magic.api.beans.technical.audit.NetworkInfo;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.services.adapters.FileAdapter;
 import org.magic.services.adapters.InstantAdapter;
 import org.magic.services.adapters.MTGStockItemAdapter;
 import org.magic.services.adapters.NetworkInfoAdapter;
 import org.magic.services.adapters.StackTraceElementAdapter;
 import org.magic.services.adapters.UserAgentAdapter;
 import org.magic.services.network.URLTools;
-import org.magic.tools.FileTools;
-import org.magic.tools.POMReader;
+import org.magic.services.tools.FileTools;
+import org.magic.services.tools.POMReader;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
@@ -55,6 +56,7 @@ public class JsonExport extends AbstractCardExport {
 				.registerTypeAdapter(UserAgent.class, new UserAgentAdapter())
 				.registerTypeAdapter(StackTraceElement.class, new StackTraceElementAdapter())
 				.registerTypeHierarchyAdapter(NetworkInfo.class, new NetworkInfoAdapter())
+				.registerTypeHierarchyAdapter(File.class, new FileAdapter())
 				.setDateFormat("yyyy-MM-dd hh:mm").setPrettyPrinting()
 				.create();
 	}

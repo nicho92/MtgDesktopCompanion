@@ -1,6 +1,6 @@
 package org.magic.api.shopping.impl;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.services.AccountsManager;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 public class MagicBazarShopper extends AbstractMagicShopper {
 

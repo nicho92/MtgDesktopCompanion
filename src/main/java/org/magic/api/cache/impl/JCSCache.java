@@ -8,15 +8,15 @@ import java.util.Map;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.jcs.JCS;
 import org.apache.commons.jcs.access.CacheAccess;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractCacheProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGPlugin;
 import org.magic.services.MTGConstants;
-import org.magic.tools.ImageTools;
-import org.magic.tools.POMReader;
+import org.magic.services.tools.FileTools;
+import org.magic.services.tools.ImageTools;
+import org.magic.services.tools.POMReader;
 
 public class JCSCache extends AbstractCacheProvider {
 
@@ -103,7 +103,7 @@ public class JCSCache extends AbstractCacheProvider {
 
 	@Override
 	public long size() {
-		return FileUtils.sizeOfDirectory(getFile("jcs.auxiliary.DC.attributes.DiskPath"));
+		return FileTools.sizeOfDirectory(getFile("jcs.auxiliary.DC.attributes.DiskPath"));
 	}
 
 

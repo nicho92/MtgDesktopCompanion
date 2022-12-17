@@ -2,27 +2,21 @@ package org.magic.game.actions.cards;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.AbstractAction;
-
+import org.magic.game.actions.abbstract.AbstractCardAction;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
+import org.magic.game.model.ZoneEnum;
 import org.magic.game.model.counters.AbstractCounter;
 
-public class RemoveCounterActions extends AbstractAction {
+public class RemoveCounterActions extends AbstractCardAction {
 
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 1L;
-	private DisplayableCard card;
 	private AbstractCounter counter;
 
 	public RemoveCounterActions(DisplayableCard displayableCard, AbstractCounter counter) {
-		String label = "remove a " + counter.describe();
-		this.card = displayableCard;
+		super(displayableCard,"remove a " + counter.describe());
 		this.counter = counter;
-		putValue(NAME, label);
-		putValue(SHORT_DESCRIPTION, label);
+		putValue(SHORT_DESCRIPTION, "remove a " + counter.describe());
 	}
 
 	@Override
@@ -36,4 +30,9 @@ public class RemoveCounterActions extends AbstractAction {
 
 	}
 
+	@Override
+	public ZoneEnum playableFrom() {
+		return ZoneEnum.BATTLEFIELD;
+	}
+	
 }

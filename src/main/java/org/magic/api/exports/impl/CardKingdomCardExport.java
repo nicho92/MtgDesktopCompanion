@@ -9,7 +9,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.enums.MTGExportCategory;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.network.URLTools;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 public class CardKingdomCardExport extends AbstractCardExport {
 

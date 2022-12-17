@@ -2,7 +2,9 @@ package org.magic.api.news.impl;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -10,17 +12,17 @@ import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.MagicNewsContent;
 import org.magic.api.interfaces.abstracts.AbstractMagicNewsProvider;
 
-import twitter4j.Query;
-import twitter4j.QueryResult;
-import twitter4j.Status;
+import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
 import twitter4j.Version;
-import twitter4j.conf.ConfigurationBuilder;
+import twitter4j.v1.Query;
+import twitter4j.v1.QueryResult;
+import twitter4j.v1.Status;
+
 
 public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 
-	private TwitterFactory tf;
+	private Twitter twitter;
 
 
 	@Override
@@ -31,32 +33,25 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 	@Override
 	public List<MagicNewsContent> listNews(MagicNews n) throws IOException {
 
-		if(tf==null)
+		if(twitter==null)
 		{
-			ConfigurationBuilder cb = new ConfigurationBuilder();
-			cb.setDebugEnabled(getBoolean("LOG")).setOAuthConsumerKey(getAuthenticator().get("CONSUMER_KEY"))
-					.setOAuthConsumerSecret(getAuthenticator().get("CONSUMER_SECRET")).setOAuthAccessToken(getAuthenticator().get("ACCESS_TOKEN"))
-					.setOAuthAccessTokenSecret(getAuthenticator().get("ACCESS_TOKEN_SECRET"));
-			tf = new TwitterFactory(cb.build());
+			twitter = Twitter.newBuilder().oAuthConsumer(getAuthenticator().get("CONSUMER_KEY"),getAuthenticator().get("CONSUMER_SECRET"))
+					.oAuthAccessToken(getAuthenticator().get("ACCESS_TOKEN"),getAuthenticator().get("ACCESS_TOKEN_SECRET")).prettyDebugEnabled(true).build();
 		}
-
-
-
-		var twitter = tf.getInstance();
-		var query = new Query(n.getName());
-		query.setCount(getInt("MAX_RESULT"));
+		var query = Query.of(n.getName());
+		 	 query.count(getInt("MAX_RESULT"));
 
 		List<MagicNewsContent> ret = new ArrayList<>();
 
 		QueryResult result;
 		try {
-			result = twitter.search(query);
+			result = twitter.v1().search().search(query);
 			for (Status status : result.getTweets()) {
 
 				if (!status.isRetweet()) {
 					var content = new MagicNewsContent();
 					content.setAuthor(status.getUser().getScreenName());
-					content.setDate(status.getCreatedAt());
+					content.setDate(Date.from(status.getCreatedAt().atZone(ZoneId.systemDefault()).toInstant()));
 					content.setContent(status.getText());
 					content.setLink(new URL(
 							"https://mobile.twitter.com/" + status.getUser().getScreenName() + "/status/" + status.getId()));

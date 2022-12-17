@@ -13,7 +13,7 @@ import java.util.Random;
 
 import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;
-import org.magic.tools.ImageTools;
+import org.magic.services.tools.ImageTools;
 
 import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.WebcamDevice;

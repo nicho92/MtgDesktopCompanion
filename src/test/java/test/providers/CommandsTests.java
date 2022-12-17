@@ -1,7 +1,7 @@
 package test.providers;
 
 import static org.junit.Assert.fail;
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import org.junit.Before;
 import org.junit.Test;

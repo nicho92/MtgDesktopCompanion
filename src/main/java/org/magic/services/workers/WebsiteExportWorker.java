@@ -1,6 +1,6 @@
 package org.magic.services.workers;
 
-import static org.magic.tools.MTG.capitalize;
+import static org.magic.services.tools.MTG.capitalize;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -16,7 +16,7 @@ import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.services.MTGControler;
 import org.magic.services.MagicWebSiteGenerator;
 import org.magic.services.logging.MTGLogger;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 public class WebsiteExportWorker extends SwingWorker<Void, Integer> {

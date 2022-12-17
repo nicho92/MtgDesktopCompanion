@@ -1,5 +1,5 @@
 
-package org.magic.tools;
+package org.magic.services.tools;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;

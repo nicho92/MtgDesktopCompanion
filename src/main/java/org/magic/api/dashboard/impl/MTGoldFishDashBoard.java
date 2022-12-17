@@ -29,7 +29,7 @@ import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 import org.magic.services.providers.PluginsAliasesProvider;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 import org.mozilla.javascript.Parser;
 import org.mozilla.javascript.ast.AstNode;
 
@@ -286,7 +286,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	@Override
 	public HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, boolean foil) throws IOException {
 
-		var url ="";//searchUrlFor(mc,foil);
+		var url ="";//searchUrlFor(mc,foil)
 
 		HistoryPrice<MagicCard> historyPrice = new HistoryPrice<>(mc);
 		historyPrice.setCurrency(getCurrency());
@@ -426,8 +426,9 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 
 		Elements trs = doc.select(MTGConstants.HTML_TAG_TABLE+".card-container-table tbody tr");
-
-		trs.remove(0);
+		
+		if(!trs.isEmpty())
+			trs.remove(0);
 
 		for(Element e : trs)
 		{

@@ -1,7 +1,7 @@
 package org.magic.gui;
 
-import static org.magic.tools.MTG.capitalize;
-import static org.magic.tools.MTG.listPlugins;
+import static org.magic.services.tools.MTG.capitalize;
+import static org.magic.services.tools.MTG.listPlugins;
 
 import java.awt.BorderLayout;
 import java.awt.SystemColor;
@@ -29,14 +29,13 @@ import javax.swing.SwingWorker;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 
-import org.apache.commons.io.FileUtils;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
 import org.magic.services.threads.ThreadManager;
-import org.magic.tools.FileTools;
+import org.magic.services.tools.FileTools;
 
 import com.jidesoft.swing.JideTabbedPane;
 import com.jidesoft.swing.TabEditingEvent;
@@ -156,7 +155,7 @@ public class DashBoardGUI2 extends MTGUIComponent {
 			var dir = new File(AbstractJDashlet.confdir,defaultName);
 
 			try {
-				FileUtils.forceMkdir(dir);
+				FileTools.forceMkdir(dir);
 				initNewDashBoardContainer(defaultName);
 			} catch (IOException e) {
 				MTGControler.getInstance().notify(e);
@@ -186,7 +185,7 @@ public class DashBoardGUI2 extends MTGUIComponent {
 				tabbedPane.removeTabAt(tabbedPane.getSelectedIndex());
 
 				try {
-					FileUtils.deleteDirectory(new File(AbstractJDashlet.confdir,name));
+					FileTools.deleteDirectory(new File(AbstractJDashlet.confdir,name));
 				} catch (IOException e1) {
 					logger.error("Error delete directory {}",name,e1);
 				}
@@ -238,7 +237,7 @@ public class DashBoardGUI2 extends MTGUIComponent {
 			var dir = new File(AbstractJDashlet.confdir,name);
 
 			try {
-				FileUtils.cleanDirectory(dir);
+				FileTools.cleanDirectory(dir);
 			} catch (Exception e1) {
 				logger.error(e1);
 			}

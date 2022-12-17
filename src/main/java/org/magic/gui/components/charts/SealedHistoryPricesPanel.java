@@ -1,6 +1,6 @@
 package org.magic.gui.components.charts;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.util.Date;
 import java.util.Map.Entry;

@@ -1,6 +1,6 @@
 package org.magic.services;
 
-import static org.magic.tools.MTG.listEnabledPlugins;
+import static org.magic.services.tools.MTG.listEnabledPlugins;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,7 +28,7 @@ import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDeckSniffer;
 import org.magic.services.logging.MTGLogger;
-import org.magic.tools.MTG;
+import org.magic.services.tools.MTG;
 import org.utils.patterns.observer.Observable;
 
 public class MTGDeckManager extends Observable {

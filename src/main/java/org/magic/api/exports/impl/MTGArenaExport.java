@@ -1,6 +1,6 @@
 package org.magic.api.exports.impl;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;

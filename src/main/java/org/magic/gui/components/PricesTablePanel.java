@@ -1,7 +1,7 @@
 package org.magic.gui.components;
 
-import static org.magic.tools.MTG.capitalize;
-import static org.magic.tools.MTG.listEnabledPlugins;
+import static org.magic.services.tools.MTG.capitalize;
+import static org.magic.services.tools.MTG.listEnabledPlugins;
 
 import java.awt.BorderLayout;
 import java.awt.Cursor;
@@ -29,7 +29,7 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.CardsPriceTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 
 public class PricesTablePanel extends MTGUIComponent {

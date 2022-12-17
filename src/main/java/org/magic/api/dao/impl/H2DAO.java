@@ -6,12 +6,11 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MTGDocumentation;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.abstracts.extra.AbstractMagicSQLDAO;
 import org.magic.services.MTGConstants;
-import org.magic.tools.FileTools;
+import org.magic.services.tools.FileTools;
 
 public class H2DAO extends AbstractMagicSQLDAO {
 
@@ -74,7 +73,7 @@ public class H2DAO extends AbstractMagicSQLDAO {
 			map.put("mem", 0L);
 
 		if(getFile(SERVERNAME).exists())
-			map.put("file",FileUtils.sizeOfDirectory(getFile(SERVERNAME)));
+			map.put("file",FileTools.sizeOfDirectory(getFile(SERVERNAME)));
 
 
 		return map;

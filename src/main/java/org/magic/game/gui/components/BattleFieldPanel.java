@@ -21,7 +21,7 @@ import org.magic.game.model.GameManager;
 import org.magic.game.model.ZoneEnum;
 import org.magic.game.model.factories.AbilitiesFactory;
 import org.magic.services.MTGControler;
-import org.magic.tools.ImageTools;
+import org.magic.services.tools.ImageTools;
 
 public class BattleFieldPanel extends DraggablePanel {
 
@@ -87,6 +87,7 @@ public class BattleFieldPanel extends DraggablePanel {
 	public void addComponent(DisplayableCard c) {
 		this.add(c);
 		c.setPosition(getOrigine());
+		c.initActions();
 		GameManager.getInstance().getStack().put(new CardSpell(c));
 		AbilitiesFactory.getInstance().getTriggeredAbility(c.getMagicCard()).forEach(ta->GameManager.getInstance().getStack().put(ta));
 	}

@@ -1,7 +1,7 @@
 package org.magic.gui;
 
-import static org.magic.tools.MTG.capitalize;
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.capitalize;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -77,9 +77,9 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
+import org.magic.services.tools.UITools;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.services.workers.WebsiteExportWorker;
-import org.magic.tools.UITools;
 
 
 @SuppressWarnings("rawtypes")
@@ -469,10 +469,9 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 			}
 
-			if (curr.getUserObject() instanceof MagicEdition seEd) {
+			if (curr.getUserObject() instanceof MagicEdition ed) {
 
-				MagicEdition ed = seEd;
-
+		
 				magicEditionDetailPanel.setMagicEdition(ed);
 				packagePanel.setMagicEdition(ed);
 				stockPanel.enabledAdd(false);
@@ -848,10 +847,15 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		var menuItemAdd = new JMenu(capitalize("ADD_MISSING_CARDS_IN"));
 		var menuItemRemoveFrom = new JMenu(capitalize("REMOVE_CARDS_IN"));
 		var menuItemMove = new JMenu(capitalize("MOVE_CARD_TO"));
+		var menuItemMoveEditions = new JMenu(capitalize("MOVE_EDITION_TO"));
+		
+		
 		menuItemAdd.setIcon(MTGConstants.ICON_COLLECTION);
 		menuItemMove.setIcon(MTGConstants.ICON_COLLECTION);
 		menuItemRemoveFrom.setIcon(MTGConstants.ICON_COLLECTION);
-
+		menuItemMoveEditions.setIcon(MTGConstants.ICON_COLLECTION);
+		
+		
 		var menuItemAlerts = new JMenuItem(capitalize("ADD_CARDS_ALERTS"),MTGConstants.ICON_ALERT);
 		var menuItemStocks = new JMenuItem(capitalize("ADD_CARDS_STOCKS"),MTGConstants.ICON_STOCK);
 
@@ -859,8 +863,44 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			var adds = new JMenuItem(mc.getName(),MTGConstants.ICON_COLLECTION);
 			var movs = new JMenuItem(mc.getName(),MTGConstants.ICON_COLLECTION);
 			var rmvs = new JMenuItem(mc.getName(),MTGConstants.ICON_COLLECTION);
+			var movEd = new JMenuItem(mc.getName(),MTGConstants.ICON_COLLECTION);
 
+			
+			movEd.addActionListener(e -> {
+				var nodeCol = ((DefaultMutableTreeNode) path.getPathComponent(1));
+				var nodeCd = ((DefaultMutableTreeNode) path.getPathComponent(2));
+				var ed = (MagicEdition) nodeCd.getUserObject();
+				var oldCol = new MagicCollection(nodeCol.getUserObject().toString());
+				
+				final String collec = ((JMenuItem) e.getSource()).getText();
+				var nmagicCol = new MagicCollection(collec);
+				
+				progressBar.start();
 
+				SwingWorker<Void, MagicCard> sw = new SwingWorker<>(){
+
+						@Override
+						protected void done() {
+							progressBar.end();
+							nodeCd.removeFromParent();
+							tree.refresh(((DefaultMutableTreeNode) path.getPathComponent(1)));
+						}
+
+						@Override
+						protected void process(List<MagicCard> chunks) {
+							progressBar.progressSmooth(chunks.size());
+						}
+
+						@Override
+						protected Void doInBackground() throws Exception {
+							CardsManagerService.moveCard(ed, oldCol, nmagicCol,progressBar);
+							return null;
+						}
+					};
+				ThreadManager.getInstance().runInEdt(sw,"move editions");
+			});
+
+			
 			movs.addActionListener(e -> {
 				var nodeCol = ((DefaultMutableTreeNode) path.getPathComponent(1));
 				var nodeCd = ((DefaultMutableTreeNode) path.getPathComponent(3));
@@ -986,7 +1026,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 
 
-
+			menuItemMoveEditions.add(movEd);
 			menuItemAdd.add(adds);
 			menuItemMove.add(movs);
 			menuItemRemoveFrom.add(rmvs);
@@ -1005,7 +1045,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 		});
 		popupMenuEdition.add(menuItemOpen);
-
+	
 		var it = new JMenuItem(capitalize("MASS_MOVEMENTS"),MTGConstants.ICON_COLLECTION);
 		it.addActionListener(e -> {
 			var col = (MagicCollection) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();
@@ -1070,6 +1110,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		popupMenuEdition.add(menuItemStocks);
 		popupMenuEdition.add(menuItemAdd);
 		popupMenuEdition.add(menuItemRemoveFrom);
+		popupMenuEdition.add(menuItemMoveEditions);
 		popupMenuCards.add(menuItemMove);
 	}
 

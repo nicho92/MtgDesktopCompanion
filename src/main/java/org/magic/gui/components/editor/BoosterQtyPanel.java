@@ -8,7 +8,7 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
 import org.magic.api.beans.MagicEdition;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 public class BoosterQtyPanel extends JComponent {
 

@@ -1,6 +1,6 @@
 package org.magic.servers.impl;
 
-import static org.magic.tools.MTG.listPlugins;
+import static org.magic.services.tools.MTG.listPlugins;
 
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
@@ -17,7 +17,7 @@ import javax.swing.ImageIcon;
 
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.PluginRegistry;
-import org.magic.tools.Chrono;
+import org.magic.services.tools.Chrono;
 public class JMXServer extends AbstractMTGServer {
 
 	private MBeanServer mbs ;

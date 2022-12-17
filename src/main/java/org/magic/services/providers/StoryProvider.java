@@ -75,4 +75,10 @@ public class StoryProvider {
 
 	}
 
+
+
+	public String  readStory(MTGStory story) throws IOException {
+		return URLTools.extractAsHtml(story.getUrl().toString()).select("div.article-body").html();
+	}
+
 }

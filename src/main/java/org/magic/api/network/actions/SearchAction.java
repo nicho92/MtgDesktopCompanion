@@ -8,7 +8,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.game.model.Player;
-import org.magic.tools.MTG;
+import org.magic.services.tools.MTG;
 
 public class SearchAction  extends AbstractNetworkAction{
 

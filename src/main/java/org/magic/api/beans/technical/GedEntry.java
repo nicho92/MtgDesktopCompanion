@@ -3,8 +3,8 @@ package org.magic.api.beans.technical;
 import java.io.Serializable;
 
 import org.magic.api.interfaces.MTGStorable;
-import org.magic.tools.CryptoUtils;
-import org.magic.tools.ImageTools;
+import org.magic.services.tools.CryptoUtils;
+import org.magic.services.tools.ImageTools;
 
 import com.google.common.io.Files;
 import com.google.gson.JsonElement;

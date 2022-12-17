@@ -7,8 +7,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractCacheProvider;
-import org.magic.tools.MemoryTools;
-import org.magic.tools.POMReader;
+import org.magic.services.tools.MemoryTools;
+import org.magic.services.tools.POMReader;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;

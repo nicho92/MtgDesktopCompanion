@@ -16,7 +16,7 @@ import org.magic.services.recognition.ContourBoundingBox;
 import org.magic.services.recognition.ImageDesc;
 import org.magic.services.recognition.MatchResult;
 import org.magic.services.recognition.PointCluster;
-import org.magic.tools.ImageTools;
+import org.magic.services.tools.ImageTools;
 
 import boofcv.abst.feature.detect.line.DetectLineSegment;
 import boofcv.abst.feature.detect.line.DetectLineSegmentsGridRansac;

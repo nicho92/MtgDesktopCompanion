@@ -23,7 +23,7 @@ import org.magic.gui.models.MapTableModel;
 import org.magic.services.CollectionEvaluator;
 import org.magic.services.MTGControler;
 import org.magic.services.logging.MTGLogger;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 

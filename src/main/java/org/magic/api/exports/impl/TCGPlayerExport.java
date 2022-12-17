@@ -13,9 +13,10 @@ import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
-import org.magic.tools.FileTools;
-import org.magic.tools.MTG;
-import org.magic.tools.UITools;
+import org.magic.services.providers.PluginsAliasesProvider;
+import org.magic.services.tools.FileTools;
+import org.magic.services.tools.MTG;
+import org.magic.services.tools.UITools;
 
 public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 
@@ -108,6 +109,7 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 		return temp.toString();
 	}
 
+	
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
 
@@ -121,30 +123,30 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 			st.setFoil(m.group(8).equalsIgnoreCase("foil"));
 			st.setCondition(translate(m.group(9)));
 			var found = false;
-
+				
 			try {
-				var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(m.group(5), MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(m.group(6)));
+				var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(m.group(5), MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(PluginsAliasesProvider.inst().getSetIdFor(this, m.group(6))));
 				st.setProduct(mc);
 				found = true;
 			} catch (Exception e) {
-				logger.error("error for {}",m.group(),e);
+				logger.error("not card found by number for {} for set {} : {}",m.group(5),m.group(6),e.getMessage());
 			}
 
 
 			if(!found)
 			{
 				try {
-					var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(m.group(3).replace("\"", ""), MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(m.group(6)),true).get(0);
+					var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(m.group(3).replace("\"", ""), MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(PluginsAliasesProvider.inst().getSetIdFor(this, m.group(6))),true).get(0);
 					st.setProduct(mc);
 					found = true;
 				} catch (Exception e) {
-					logger.error("error for {}", m.group());
+					logger.error("no card found by name for {} for set {} : {}", m.group(3),m.group(6),e.getMessage());
 				}
 			}
 
 
 			if(!found)
-				logger.error("No card found for {}",m.group());
+				logger.error("no card found for {}",m.group());
 			else
 				ret.add(st);
 

@@ -1,6 +1,6 @@
 package org.magic.api.decksniffer.impl;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.io.IOException;
 import java.net.URI;
@@ -23,7 +23,7 @@ import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
-import org.magic.tools.InstallCert;
+import org.magic.services.tools.InstallCert;
 
 import com.google.gson.JsonElement;
 

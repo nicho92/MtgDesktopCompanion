@@ -1,7 +1,7 @@
 package org.magic.gui;
 
-import static org.magic.tools.MTG.capitalize;
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.capitalize;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -59,8 +59,8 @@ import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.tools.ImageTools;
-import org.magic.tools.UITools;
+import org.magic.services.tools.ImageTools;
+import org.magic.services.tools.UITools;
 public class CardBuilder2GUI extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;

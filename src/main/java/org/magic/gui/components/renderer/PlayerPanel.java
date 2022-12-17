@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.magic.game.model.Player;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 
 public class PlayerPanel extends JPanel {

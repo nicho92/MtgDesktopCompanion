@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractCacheProvider;
-import org.magic.tools.MemoryTools;
+import org.magic.services.tools.MemoryTools;
 
 public class MemoryCache extends AbstractCacheProvider {
 

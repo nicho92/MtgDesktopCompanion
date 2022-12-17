@@ -1,6 +1,6 @@
 package org.magic.api.exports.impl;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -11,15 +11,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import javax.imageio.ImageIO;
-
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.sorters.CardNameSorter;
 import org.magic.services.MTGControler;
-import org.magic.tools.ImageTools;
+import org.magic.services.tools.ImageTools;
 
 public class ImageExporter extends AbstractCardExport{
 	private static final String FORMAT = "FORMAT";
@@ -42,7 +40,7 @@ public class ImageExporter extends AbstractCardExport{
 		int suggestedNbLines = cards.size()/((cardGroup)*columnsCount);
 
 
-		BufferedImage tempPic = getEnabledPlugin(MTGPictureProvider.class).getBackPicture();
+		BufferedImage tempPic = getEnabledPlugin(MTGPictureProvider.class).getBackPicture(cards.get(0));
 		tempPic=ImageTools.scaleResize(tempPic,cardWidthSize);
 
 		logger.debug("{} cards, by group of {} and columns={} lines={}.w={} h={}",cards.size(),cardGroup,columnsCount,suggestedNbLines,tempPic.getWidth(),tempPic.getHeight());
@@ -117,7 +115,7 @@ public class ImageExporter extends AbstractCardExport{
 		g.setColor(Color.ORANGE);
 		g.fillRect(0, 0, ret.getWidth(),headerSize);
 		try {
-			g.drawImage(ImageIO.read(ImageExporter.class.getResource( "/icons/logo_src.png" )) , 10, 10,50,50, null);
+			g.drawImage(ImageTools.readLocal(ImageExporter.class.getResource( "/icons/logo_src.png" )) , 10, 10,50,50, null);
 		} catch (IOException e) {
 			logger.error("error loading logo_src.png :{} ",e.getMessage());
 		}

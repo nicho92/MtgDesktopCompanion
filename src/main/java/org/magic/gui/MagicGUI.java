@@ -1,7 +1,7 @@
 package org.magic.gui;
 
-import static org.magic.tools.MTG.capitalize;
-import static org.magic.tools.MTG.getPlugin;
+import static org.magic.services.tools.MTG.capitalize;
+import static org.magic.services.tools.MTG.getPlugin;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -45,8 +45,8 @@ import org.magic.services.VersionChecker;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
-import org.magic.tools.GithubUtils;
-import org.magic.tools.UITools;
+import org.magic.services.tools.GithubUtils;
+import org.magic.services.tools.UITools;
 import org.mkm.gui.MkmPanel;
 
 public class MagicGUI extends JFrame {

@@ -7,7 +7,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.enums.CardsPatterns;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
-import org.magic.tools.FileTools;
+import org.magic.services.tools.FileTools;
 
 public class CardCastleExport extends AbstractFormattedFileCardExport {
 

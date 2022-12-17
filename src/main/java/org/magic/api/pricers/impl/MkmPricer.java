@@ -11,7 +11,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.beans.enums.EnumMarketType;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
-import org.magic.services.providers.MTGJsonPricer;
+import org.magic.services.providers.MTGJsonPricerProvider;
 
 public class MkmPricer extends AbstractPricesProvider {
 
@@ -25,9 +25,9 @@ public class MkmPricer extends AbstractPricesProvider {
 
 		logger.debug("{} looking for prices for {} ",getName(),card);
 
-		MTGJsonPricer.getInstance().expirationDay(getInt("EXPIRE_FILE_DAYS"));
+		MTGJsonPricerProvider.getInstance().expirationDay(getInt("EXPIRE_FILE_DAYS"));
 
-		return MTGJsonPricer.getInstance().getPriceFor(card);
+		return MTGJsonPricerProvider.getInstance().getPriceFor(card);
 	}
 
 

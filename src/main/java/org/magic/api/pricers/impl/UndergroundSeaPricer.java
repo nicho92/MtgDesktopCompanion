@@ -15,7 +15,7 @@ import org.magic.api.beans.enums.EnumMarketType;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.network.URLTools;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 import org.mozilla.javascript.Parser;
 import org.mozilla.javascript.Token;
 import org.mozilla.javascript.ast.AstNode;

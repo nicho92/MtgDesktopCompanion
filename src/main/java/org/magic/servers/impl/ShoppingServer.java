@@ -15,7 +15,7 @@ import org.magic.api.interfaces.abstracts.extra.AbstractWebServer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.network.URLTools;
-import org.magic.tools.FileTools;
+import org.magic.services.tools.FileTools;
 
 public class ShoppingServer extends AbstractWebServer {
 	@Override

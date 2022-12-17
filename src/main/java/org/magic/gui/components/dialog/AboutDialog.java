@@ -1,6 +1,6 @@
 package org.magic.gui.components.dialog;
 
-import static org.magic.tools.MTG.capitalize;
+import static org.magic.services.tools.MTG.capitalize;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -28,9 +28,9 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.VersionChecker;
 import org.magic.services.network.URLTools;
-import org.magic.tools.GithubUtils;
-import org.magic.tools.ImageTools;
-import org.magic.tools.UITools;
+import org.magic.services.tools.GithubUtils;
+import org.magic.services.tools.ImageTools;
+import org.magic.services.tools.UITools;
 
 import com.google.gson.JsonElement;
 

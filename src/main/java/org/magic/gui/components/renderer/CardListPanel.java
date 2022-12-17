@@ -13,7 +13,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.gui.components.ManaPanel;
 import org.magic.services.MTGControler;
 import org.magic.services.providers.IconSetProvider;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 public class CardListPanel extends JPanel {
 

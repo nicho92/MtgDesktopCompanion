@@ -10,7 +10,7 @@ import org.magic.gui.abstracts.AbstractRecognitionArea;
 import org.magic.services.recognition.ContourBoundingBox;
 import org.magic.services.recognition.ImageDesc;
 import org.magic.services.recognition.MatchResult;
-import org.magic.tools.ImageTools;
+import org.magic.services.tools.ImageTools;
 
 public class AutoDetectAreaStrat extends AbstractRecognitionArea {
 

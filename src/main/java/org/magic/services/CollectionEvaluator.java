@@ -1,7 +1,7 @@
 package org.magic.services;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
-import static org.magic.tools.MTG.getPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getPlugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,7 +16,6 @@ import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.TreeMap;
 
-import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.EditionsShakers;
 import org.magic.api.beans.MagicCard;
@@ -26,7 +25,7 @@ import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
-import org.magic.tools.FileTools;
+import org.magic.services.tools.FileTools;
 import org.utils.patterns.observer.Observable;
 
 import com.google.gson.JsonArray;
@@ -114,7 +113,7 @@ public class CollectionEvaluator extends Observable
 		cache = new HashMap<>();
 		directory = Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "prices").toFile();
 		if(!directory.exists())
-			FileUtils.forceMkdir(directory);
+			FileTools.forceMkdir(directory);
 
 
 
@@ -280,7 +279,7 @@ public class CollectionEvaluator extends Observable
 	public EditionsShakers loadFromCache(MagicEdition ed) {
 		try {
 			if(new File(directory,ed.getId()+PRICE_JSON).exists()) {
-				return serialiser.fromJson(FileUtils.readFileToString(new File(directory,ed.getId()+PRICE_JSON),MTGConstants.DEFAULT_ENCODING),EditionsShakers.class);
+				return serialiser.fromJson(FileTools.readFile(new File(directory,ed.getId()+PRICE_JSON),MTGConstants.DEFAULT_ENCODING),EditionsShakers.class);
 			}
 		}
 		catch(Exception e)

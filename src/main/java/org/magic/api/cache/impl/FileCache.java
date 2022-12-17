@@ -1,6 +1,6 @@
 package org.magic.api.cache.impl;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -8,12 +8,12 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Map;
 
-import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractCacheProvider;
 import org.magic.services.MTGConstants;
-import org.magic.tools.ImageTools;
+import org.magic.services.tools.FileTools;
+import org.magic.services.tools.ImageTools;
 
 public class FileCache extends AbstractCacheProvider {
 
@@ -82,7 +82,7 @@ public class FileCache extends AbstractCacheProvider {
 	@Override
 	public void clear() {
 		try {
-			FileUtils.cleanDirectory(getFile(DIRECTORY));
+			FileTools.cleanDirectory(getFile(DIRECTORY));
 		} catch (IOException e) {
 			logger.error("Couldn't clean {}",getFile(DIRECTORY), e);
 		}
@@ -105,7 +105,7 @@ public class FileCache extends AbstractCacheProvider {
 	public long size() {
 
 		if(getFile(DIRECTORY)!=null)
-			return FileUtils.sizeOfDirectory(getFile(DIRECTORY));
+			return FileTools.sizeOfDirectory(getFile(DIRECTORY));
 
 
 		return 0;

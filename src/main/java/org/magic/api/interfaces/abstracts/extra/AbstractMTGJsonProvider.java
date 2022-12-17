@@ -13,6 +13,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.MTGColor;
@@ -29,8 +30,8 @@ import org.magic.api.criterias.builders.JsonCriteriaBuilder;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;
-import org.magic.tools.Chrono;
-import org.magic.tools.FileTools;
+import org.magic.services.tools.Chrono;
+import org.magic.services.tools.FileTools;
 
 import com.google.common.collect.Lists;
 import com.google.gson.JsonElement;
@@ -204,7 +205,8 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 		arr.add(new QueryAttribute(PROMO_TYPE, MTGPromoType.class));
 		arr.add(new QueryAttribute(FRAME_EFFECTS, MTGFrameEffects.class));
 		arr.add(new QueryAttribute(FINISHES, MTGFinishes.class));
-
+		arr.add(new QueryAttribute(KEYWORDS, MTGKeyWord.class));
+		
 		return arr;
 	}
 

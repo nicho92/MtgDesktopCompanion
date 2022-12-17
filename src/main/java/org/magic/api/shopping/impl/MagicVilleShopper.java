@@ -18,7 +18,7 @@ import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 public class MagicVilleShopper extends AbstractMagicShopper {
 

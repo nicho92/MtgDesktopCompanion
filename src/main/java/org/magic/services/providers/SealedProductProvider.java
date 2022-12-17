@@ -1,6 +1,6 @@
 package org.magic.services.providers;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -14,7 +14,6 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.MTGSealedProduct.EXTRA;
@@ -24,7 +23,8 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
-import org.magic.tools.ImageTools;
+import org.magic.services.tools.FileTools;
+import org.magic.services.tools.ImageTools;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
@@ -95,7 +95,7 @@ public class SealedProductProvider {
 		var pkgFile = new File(f,p.toString()+".png");
 
 		try {
-			FileUtils.forceMkdir(f);
+			FileTools.forceMkdir(f);
 			if(force||!pkgFile.exists())
 			{
 				BufferedImage im = URLTools.extractAsImage(p.getUrl());
@@ -104,7 +104,7 @@ public class SealedProductProvider {
 				return im;
 			}
 		} catch (Exception e) {
-			logger.error("[{}] ERROR for {}-{}",p.getEdition().getId(),p.getTypeProduct(),p,e);
+			logger.error("[{}] ERROR for {}-{} : {}",p.getEdition().getId(),p.getTypeProduct(),p,e.getMessage());
 		}
 		return null;
 
@@ -153,7 +153,7 @@ public class SealedProductProvider {
 	public void clear() {
 		var f = Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), PACKAGING_DIR_NAME).toFile();
 		try {
-			FileUtils.cleanDirectory(f);
+			FileTools.cleanDirectory(f);
 		} catch (IOException e) {
 			logger.error("error removing data in {}",f,e);
 		}
@@ -190,17 +190,19 @@ public class SealedProductProvider {
 		{
 			if(n.item(i).getNodeType()==1)
 			{
-				var p = new MTGSealedProduct();
+						var p = new MTGSealedProduct();
 						  p.setTypeProduct(EnumItems.valueOf(n.item(i).getNodeName().toUpperCase()));
-
+						  p.setUrl(n.item(i).getAttributes().getNamedItem("url").getNodeValue());
+						  p.setEdition(me);
+						  p.setName(p.getTypeProduct() +" " + p.getEdition());
+						  
 						  try {
 							  p.setLang(n.item(i).getAttributes().getNamedItem("lang").getNodeValue());
 						  }
 						  catch(Exception e)
 						  {
-							  logger.error("no lang found for {} {}",p,n.item(i),e);
+							  logger.error("no lang found for {},{}",p.getEdition(),p.getTypeProduct());
 						  }
-
 
 						  try {
 							  p.setExtra(EXTRA.valueOf(n.item(i).getAttributes().getNamedItem("extra").getNodeValue().toUpperCase()));
@@ -210,8 +212,6 @@ public class SealedProductProvider {
 						  }
 
 
-						  p.setUrl(n.item(i).getAttributes().getNamedItem("url").getNodeValue());
-						  p.setEdition(me);
 						 try {
 						  p.setNum(Integer.parseInt(n.item(i).getAttributes().getNamedItem("num").getNodeValue()));
 						 }
@@ -220,7 +220,7 @@ public class SealedProductProvider {
 							 p.setNum(1);
 						 }
 
-				p.setName(p.getTypeProduct() +" " + p.getEdition());
+			
 				ret.add(p);
 			}
 		}

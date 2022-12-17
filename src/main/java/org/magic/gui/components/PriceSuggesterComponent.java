@@ -13,7 +13,7 @@ import org.magic.api.interfaces.MTGPriceSuggester;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 public class PriceSuggesterComponent extends MTGUIComponent {
 

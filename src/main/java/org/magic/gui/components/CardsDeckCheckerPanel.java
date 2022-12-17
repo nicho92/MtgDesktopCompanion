@@ -20,7 +20,7 @@ import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
 import org.magic.services.threads.ThreadManager;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 public class CardsDeckCheckerPanel extends JComponent {
 

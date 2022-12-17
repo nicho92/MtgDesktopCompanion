@@ -12,7 +12,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.enums.MTGExportCategory;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.services.MTGControler;
-import org.magic.tools.FileTools;
+import org.magic.services.tools.FileTools;
 
 public abstract class AbstractCardExport extends AbstractMTGPlugin implements MTGCardsExport {
 

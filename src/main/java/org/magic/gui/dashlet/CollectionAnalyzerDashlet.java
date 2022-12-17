@@ -33,8 +33,8 @@ import org.magic.services.CollectionEvaluator;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
+import org.magic.services.tools.UITools;
 import org.magic.services.workers.CollectionAnalyzerWorker;
-import org.magic.tools.UITools;
 
 public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 

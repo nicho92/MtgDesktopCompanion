@@ -43,8 +43,10 @@ public class MTGConstants {
 	public static final File NATIVE_DIR = new File("./natives");
 	public static final URL TOOLTIPS_FILE = MTGConstants.class.getResource("/data/tips.properties");
 	public static final Image SAMPLE_PIC = Toolkit.getDefaultToolkit().getImage(MTGConstants.class.getResource("/data/sample.png"));
+	
 	public static final URL MTG_DESKTOP_ALIASES_FILE =  MTGConstants.class.getResource("/data/pluginsAliases.json");
-
+	public static final URL MTG_DESKTOP_SETS_FILE =  MTGConstants.class.getResource("/data/sets_codeAliases.json");
+	
 	public static final float WEIGHT_CARD=1.7009714f;
 	public static final float WEIGHT_BOOSTER=28.7f;
 	public static final float WEIGHT_BOOSTER_BOX_COLLECTOR=12*WEIGHT_BOOSTER;
@@ -101,7 +103,7 @@ public class MTGConstants {
 	public static final int DEFAULT_PIC_HEIGHT = 310;
 	public static final double CARD_PICS_RATIO = 1.39;
 	public static final int MENU_ICON_SIZE=24;
-
+	public static final  int TECHNICAL_REFRESH=5000;
 	public static final int DPI=300;
 
 	public static final String DEFAULT_NOTIFIER_NAME="Tray";
@@ -136,7 +138,8 @@ public class MTGConstants {
 	public static final int TABLE_ROW_WIDTH = 18;
 
 	public static final URL DEFAULT_BACK_CARD = MTGConstants.class.getResource("/icons/back.jpg");
-
+	public static final URL ANNIVERSARY_BACK_CARD = MTGConstants.class.getResource("/icons/back30.jpg");
+	public static final URL COLLECTOR_BACK_CARD = MTGConstants.class.getResource("/icons/backCE.jpg");
 
 	public static final URL URL_MANA_SYMBOLS = MTGConstants.class.getResource(ICON_DIR+"/mana/Mana.png");
 	public static final ImageIcon ICON_MANA_GOLD = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/mana/gold.png"));
@@ -156,6 +159,7 @@ public class MTGConstants {
 	public static final ImageIcon ICON_SPLASHSCREEN = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/magic-logo2.png"));
 
 	private static String iconPack="flat";
+	
 
 	private static final String[] DEFAULT_COLLECTIONS_NAMES = new String[] { "Library", "Needed", "For Sell", "Favorites" };
 
@@ -316,7 +320,6 @@ public class MTGConstants {
 			{
 				return IconSetProvider.getInstance().get16("PMEI");
 			}
-
 			return new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/classtype/"+c.getSimpleName().toLowerCase()+".png"));
 		} catch (Exception e) {
 			return ICON_TAB_CARD;

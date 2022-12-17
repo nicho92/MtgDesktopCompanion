@@ -1,6 +1,6 @@
 package org.magic.api.exports.impl;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,8 +16,8 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
 import org.magic.services.providers.PluginsAliasesProvider;
-import org.magic.tools.FileTools;
-import org.magic.tools.UITools;
+import org.magic.services.tools.FileTools;
+import org.magic.services.tools.UITools;
 
 public class DelverLensExport extends AbstractFormattedFileCardExport{
 
@@ -79,7 +79,7 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 				st.setProduct(mc);
 				st.setLanguage(m.group(4));
 				st.setQte(Integer.parseInt(m.group(11)));
-				st.setFoil(m.group(9)!=null);
+				st.setFoil(m.group(9).equalsIgnoreCase("foil")	);
 				st.setCondition(PluginsAliasesProvider.inst().getReversedConditionFor(this, m.group(6), EnumCondition.NEAR_MINT)  );
 				st.setPrice(UITools.parseDouble(m.group(3).trim()));
 				list.add(st);

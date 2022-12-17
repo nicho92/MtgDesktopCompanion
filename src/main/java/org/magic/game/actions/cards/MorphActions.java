@@ -1,39 +1,35 @@
 package org.magic.game.actions.cards;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.regex.Pattern;
 
-import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 
-import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.MTGPictureProvider;
+import org.magic.game.actions.abbstract.AbstractCardAction;
 import org.magic.game.gui.components.DisplayableCard;
+import org.magic.game.model.ZoneEnum;
 import org.magic.services.keywords.AbstractKeyWordsManager;
-import org.magic.services.logging.MTGLogger;
 
-public class MorphActions extends AbstractAction {
+public class MorphActions extends AbstractCardAction {
 
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private DisplayableCard card;
 	private String cost;
 	private static String k = "Morph";
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public MorphActions(DisplayableCard card) {
-		super(k);
+		super(card,k);
 		putValue(SHORT_DESCRIPTION, k);
 		putValue(MNEMONIC_KEY, KeyEvent.VK_M);
-		this.card = card;
 		parse();
 	}
 
@@ -78,7 +74,7 @@ public class MorphActions extends AbstractAction {
 			card.showPT(true);
 			card.initActions();
 			try {
-				card.setImage(new ImageIcon(getEnabledPlugin(MTGPictureProvider.class).getBackPicture()
+				card.setImage(new ImageIcon(getEnabledPlugin(MTGPictureProvider.class).getBackPicture(mc)
 						.getScaledInstance(card.getWidth(), card.getHeight(), Image.SCALE_SMOOTH)));
 			} catch (Exception e1) {
 				logger.error(e1);
@@ -99,6 +95,11 @@ public class MorphActions extends AbstractAction {
 		card.revalidate();
 		card.repaint();
 
+	}
+
+	@Override
+	public ZoneEnum playableFrom() {
+		return ZoneEnum.BATTLEFIELD;
 	}
 
 }

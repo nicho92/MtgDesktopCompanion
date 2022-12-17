@@ -1,7 +1,7 @@
 package org.magic.gui.components.shops;
 
-import static org.magic.tools.MTG.capitalize;
-import static org.magic.tools.MTG.getPlugin;
+import static org.magic.services.tools.MTG.capitalize;
+import static org.magic.services.tools.MTG.getPlugin;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -55,7 +55,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.TransactionService;
 import org.magic.services.threads.ThreadManager;
-import org.magic.tools.MTG;
+import org.magic.services.tools.MTG;
 
 public class WebShopConfigPanel extends MTGUIComponent {
 

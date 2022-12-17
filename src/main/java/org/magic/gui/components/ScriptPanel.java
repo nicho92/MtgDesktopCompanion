@@ -1,6 +1,6 @@
 package org.magic.gui.components;
 
-import static org.magic.tools.MTG.capitalize;
+import static org.magic.services.tools.MTG.capitalize;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -47,9 +47,9 @@ import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
-import org.magic.tools.Chrono;
-import org.magic.tools.FileTools;
-import org.magic.tools.UITools;
+import org.magic.services.tools.Chrono;
+import org.magic.services.tools.FileTools;
+import org.magic.services.tools.UITools;
 public class ScriptPanel extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;

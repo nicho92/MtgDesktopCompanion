@@ -10,7 +10,7 @@ import org.jfree.chart3d.data.PieDataset3D;
 import org.jfree.chart3d.data.StandardPieDataset3D;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.gui.abstracts.charts.Abstract3DPieChart;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 
 public class TransactionChartPanel extends Abstract3DPieChart<Transaction,String> {

@@ -2,23 +2,22 @@ package org.magic.game.actions.cards;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
+import org.magic.game.actions.abbstract.AbstractCardAction;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
+import org.magic.game.model.ZoneEnum;
 
-public class FixCreaturePowerActions extends AbstractAction {
+public class FixCreaturePowerActions extends AbstractCardAction {
 
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private DisplayableCard card;
 
 	public FixCreaturePowerActions(DisplayableCard displayableCard) {
-		this.card = displayableCard;
-		putValue(NAME, "Fix creature's power/toughness ");
+		super(displayableCard,"Fix creature's power/toughness ");
 		putValue(SHORT_DESCRIPTION, "Fix creature's power/toughness ");
 	}
 
@@ -36,6 +35,11 @@ public class FixCreaturePowerActions extends AbstractAction {
 		GamePanelGUI.getInstance().getPlayer().logAction("set " + card.getMagicCard().getName() + " P/T to "
 				+ card.getMagicCard().getPower() + "/" + card.getMagicCard().getToughness());
 
+	}
+
+	@Override
+	public ZoneEnum playableFrom() {
+		return ZoneEnum.BATTLEFIELD;
 	}
 
 }

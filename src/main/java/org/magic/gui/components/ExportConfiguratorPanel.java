@@ -1,6 +1,6 @@
 package org.magic.gui.components;
 
-import static org.magic.tools.MTG.capitalize;
+import static org.magic.services.tools.MTG.capitalize;
 
 import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
@@ -22,8 +22,8 @@ import org.apache.commons.lang3.ClassUtils;
 import org.jdesktop.swingx.JXTree;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
-import org.magic.tools.BeanTools;
-import org.magic.tools.UITools;
+import org.magic.services.tools.BeanTools;
+import org.magic.services.tools.UITools;
 
 public class ExportConfiguratorPanel extends MTGUIComponent {
 

@@ -4,27 +4,24 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.regex.Pattern;
 
-import javax.swing.AbstractAction;
-
+import org.magic.game.actions.abbstract.AbstractCardAction;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
+import org.magic.game.model.ZoneEnum;
 
-public class MadnessActions extends AbstractAction {
+public class MadnessActions extends AbstractCardAction {
 
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private DisplayableCard card;
-
 	private String k = "Madness";
 
 	public MadnessActions(DisplayableCard card) {
-		super("Madness");
+		super(card,"Madness");
 		putValue(SHORT_DESCRIPTION, k);
 		putValue(MNEMONIC_KEY, KeyEvent.VK_M);
-		this.card = card;
 	}
 
 	private String parse() {
@@ -56,6 +53,11 @@ public class MadnessActions extends AbstractAction {
 		GamePanelGUI.getInstance().getExilPanel().addComponent(card);
 		GamePanelGUI.getInstance().getExilPanel().postTreatment(card);
 		GamePanelGUI.getInstance().getHandPanel().updatePanel();
+	}
+
+	@Override
+	public ZoneEnum playableFrom() {
+		return ZoneEnum.HAND;
 	}
 
 }

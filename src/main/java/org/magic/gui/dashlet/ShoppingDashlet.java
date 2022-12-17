@@ -1,6 +1,6 @@
 package org.magic.gui.dashlet;
 
-import static org.magic.tools.MTG.getPlugin;
+import static org.magic.services.tools.MTG.getPlugin;
 
 import java.awt.BorderLayout;
 import java.awt.Rectangle;

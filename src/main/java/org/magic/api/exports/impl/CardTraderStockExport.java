@@ -19,7 +19,7 @@ import org.magic.api.beans.technical.audit.NetworkInfo;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.TechnicalServiceManager;
-import org.magic.tools.MTG;
+import org.magic.services.tools.MTG;
 
 public class CardTraderStockExport extends AbstractCardExport {
 

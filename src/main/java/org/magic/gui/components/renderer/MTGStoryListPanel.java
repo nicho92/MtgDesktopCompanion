@@ -14,7 +14,7 @@ import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MTGStory;
 import org.magic.services.MTGControler;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 public class MTGStoryListPanel extends JPanel {
 

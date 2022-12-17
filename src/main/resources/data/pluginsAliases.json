@@ -135,6 +135,13 @@
 			"EVG":"DD1"
 		}
 	},
+	
+	"TCGPlayer":{
+		"idSet": {
+			"TLP":"PLIST"
+		}
+	},
+	
 	"MagicWorkStation":{
 		"idSet": {
 			"A":"LEA",

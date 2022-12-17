@@ -6,13 +6,13 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Map;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.MTGConstants;
-import org.magic.tools.ImageTools;
+import org.magic.services.tools.FileTools;
+import org.magic.services.tools.ImageTools;
 
 
 public class SlightlyMagicPictureProvider extends AbstractPicturesProvider {
@@ -47,7 +47,7 @@ public class SlightlyMagicPictureProvider extends AbstractPicturesProvider {
 
 		if(!getFile(PICS_DIR).exists())
 			try {
-				FileUtils.forceMkdir(getFile(PICS_DIR));
+				FileTools.forceMkdir(getFile(PICS_DIR));
 			} catch (IOException e) {
 				logger.error("Couldn't create {} directory",getString(PICS_DIR));
 			}
@@ -62,7 +62,7 @@ public class SlightlyMagicPictureProvider extends AbstractPicturesProvider {
 			dirName="AL";
 
 		var edDir = new File(getFile(PICS_DIR),dirName);
-		int size = FileUtils.listFiles(edDir, new WildcardFileFilter(mc.getName()+"*"),TrueFileFilter.INSTANCE).size();
+		int size = FileTools.listFiles(edDir, new WildcardFileFilter(mc.getName()+"*"),TrueFileFilter.INSTANCE).size();
 		var calculate = "";
 		if(size>1)
 		{

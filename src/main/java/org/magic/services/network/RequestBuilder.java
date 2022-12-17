@@ -8,13 +8,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-import javax.imageio.ImageIO;
-
-import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 import org.jsoup.nodes.Document;
-import org.magic.tools.XMLTools;
+import org.magic.services.tools.FileTools;
+import org.magic.services.tools.ImageTools;
+import org.magic.services.tools.XMLTools;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -152,7 +151,7 @@ public class RequestBuilder
 	public BufferedImage toImage() throws IOException {
 
 		try(var stream = execute().getEntity().getContent()){
-			return ImageIO.read(stream);
+			return ImageTools.read(stream);
 		}
 
 	}
@@ -194,7 +193,7 @@ public class RequestBuilder
 	}
 
 	public void download(File dest) throws IOException {
-		FileUtils.copyInputStreamToFile(execute().getEntity().getContent(),dest);
+		FileTools.copyInputStreamToFile(execute().getEntity().getContent(),dest);
 	}
 
 	public RequestBuilder addContent(String s) {

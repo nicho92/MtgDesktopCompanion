@@ -1,6 +1,6 @@
 package org.magic.api.interfaces.abstracts;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
@@ -14,9 +14,9 @@ import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.network.URLTools;
-import org.magic.tools.ImageTools;
-import org.magic.tools.MTG;
-import org.magic.tools.TCache;
+import org.magic.services.tools.ImageTools;
+import org.magic.services.tools.MTG;
+import org.magic.services.tools.TCache;
 
 public abstract class AbstractPicturesProvider extends AbstractMTGPlugin implements MTGPictureProvider {
 
@@ -72,7 +72,7 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 		}
 		else
 		{
-			return getBackPicture();
+			return getBackPicture(mc);
 		}
 	}
 
@@ -98,9 +98,18 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 	}
 
 	@Override
-	public BufferedImage getBackPicture() {
+	public BufferedImage getBackPicture(MagicCard mc) {
 		try {
+			
+			
+			if(mc!=null&&mc.getCurrentSet()!=null&&mc.getCurrentSet().getId().equals("30A"))
+				return resizeCard(ImageTools.readLocal(MTGConstants.ANNIVERSARY_BACK_CARD), newW, newH);
+			
+			if(mc!=null&&mc.getCurrentSet()!=null&&mc.getCurrentSet().getId().equals("CED"))
+				return resizeCard(ImageTools.readLocal(MTGConstants.COLLECTOR_BACK_CARD), newW, newH);
+			
 			return resizeCard(ImageTools.readLocal(MTGConstants.DEFAULT_BACK_CARD), newW, newH);
+			
 		} catch (IOException e) {
 			logger.error(e);
 			return null;

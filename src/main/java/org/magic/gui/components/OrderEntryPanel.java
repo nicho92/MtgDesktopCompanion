@@ -18,7 +18,7 @@ import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGControler;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 public class OrderEntryPanel extends MTGUIComponent {
 

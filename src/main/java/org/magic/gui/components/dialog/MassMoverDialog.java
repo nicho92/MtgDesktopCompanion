@@ -1,7 +1,7 @@
 package org.magic.gui.components.dialog;
 
-import static org.magic.tools.MTG.capitalize;
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.capitalize;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -30,7 +30,9 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.threads.ThreadManager;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
+
+
 public class MassMoverDialog extends JDialog {
 	/**
 	 *
@@ -73,6 +75,8 @@ public class MassMoverDialog extends JDialog {
 
 
 		model = new MagicCardTableModel();
+		
+		
 		try {
 			if (ed == null)
 				model.init(dao.listCardsFromCollection(col));
@@ -86,14 +90,23 @@ public class MassMoverDialog extends JDialog {
 		tableCards.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
 		tableCards.getColumnModel().getColumn(6).setCellRenderer(new MagicEditionsComboBoxCellRenderer(false));
 		getContentPane().add(new JScrollPane(tableCards), BorderLayout.CENTER);
-
+		for(int i : model.defaultHiddenColumns())
+			tableCards.getColumnExt(model.getColumnName(i)).setVisible(false);
+		
+		
+		tableCards.packAll();
+		
+		
 		UITools.initTableFilter(tableCards);
-
+		
+		
+		
+		
 		btnMove.addActionListener(e -> {
 			btnMove.setEnabled(false);
 
 
-			SwingWorker<Void, MagicCard> sw = new SwingWorker<>() {
+			var sw = new SwingWorker<Void, MagicCard>() {
 
 				@Override
 				protected void done() {
@@ -127,25 +140,17 @@ public class MassMoverDialog extends JDialog {
 
 				@Override
 				protected Void doInBackground(){
-					for (var i = 0; i < tableCards.getSelectedRowCount(); i++) {
-						int viewRow = tableCards.getSelectedRows()[i];
-						int modelRow = tableCards.convertRowIndexToModel(viewRow);
-						MagicCard mc = (MagicCard) tableCards.getModel().getValueAt(modelRow, 0);
+					List<MagicCard> list = UITools.getTableSelections(tableCards, 0);
+					for(MagicCard mc : list) {
 						try {
 							dao.moveCard(mc, toSaveCol, (MagicCollection) cboCollections.getSelectedItem());
 							publish(mc);
-							logger.info("moving {} to {}",mc,cboCollections.getSelectedItem());
 							change = true;
 						} catch (SQLException e1) {
 							logger.error(e1);
 						}
 					}
-
-
-
-
 					return null;
-
 				}
 			};
 

@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 
 import org.apache.logging.log4j.Logger;
 import org.magic.services.logging.MTGLogger;
-import org.magic.tools.GithubUtils;
+import org.magic.services.tools.GithubUtils;
 
 public class VersionChecker {
 

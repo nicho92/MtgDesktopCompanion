@@ -9,7 +9,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 public class ComboBoxEditor<T> extends DefaultCellEditor {
 

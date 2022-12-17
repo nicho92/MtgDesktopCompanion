@@ -15,7 +15,7 @@ import javax.swing.border.LineBorder;
 
 import org.magic.api.interfaces.MTGProduct;
 import org.magic.services.network.URLTools;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 public class ProductRendererComponent extends JPanel {
 

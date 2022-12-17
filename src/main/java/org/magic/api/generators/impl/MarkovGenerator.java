@@ -1,6 +1,6 @@
 package org.magic.api.generators.impl;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import org.magic.api.beans.enums.CardsPatterns;
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.abstracts.AbstractMTGTextGenerator;
 import org.magic.services.MTGConstants;
-import org.magic.tools.FileTools;
+import org.magic.services.tools.FileTools;
 
 import rita.RiMarkov;
 import rita.RiTa;

@@ -1,6 +1,6 @@
 package org.magic.gui;
 
-import static org.magic.tools.MTG.capitalize;
+import static org.magic.services.tools.MTG.capitalize;
 
 import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
@@ -28,7 +28,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.network.URLTools;
 import org.magic.services.providers.StoryProvider;
 import org.magic.services.threads.ThreadManager;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 public class StoriesGUI extends MTGUIComponent {
 
 	/**
@@ -56,8 +56,17 @@ public class StoriesGUI extends MTGUIComponent {
 		provider = new StoryProvider(MTGControler.getInstance().getLocale());
 
 		initGUI();
+		
+	}
+	
+	@Override
+	public void onVisible() {
+
+		
+		
 		initStories();
 	}
+	
 
 	private void initGUI() {
 		setLayout(new BorderLayout(0, 0));
@@ -78,7 +87,7 @@ public class StoriesGUI extends MTGUIComponent {
 
 								@Override
 								protected String doInBackground() throws Exception {
-									return URLTools.extractAsHtml(listResult.getSelectedValue().getUrl().toString()).select("div#content-detail-page-of-an-article").html();
+									return provider.readStory(listResult.getSelectedValue());
 								}
 								@Override
 								protected void done() {

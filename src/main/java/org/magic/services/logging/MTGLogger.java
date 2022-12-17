@@ -72,6 +72,7 @@ public class MTGLogger {
 	}
 
 	public static MTGAppender getMTGAppender() {
+		
 		return (MTGAppender) getAppender("APPS");
 	}
 

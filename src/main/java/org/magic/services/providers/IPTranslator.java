@@ -6,7 +6,7 @@ import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.technical.audit.Location;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
-import org.magic.tools.TCache;
+import org.magic.services.tools.TCache;
 
 import com.google.common.net.InetAddresses;
 import com.google.gson.JsonObject;

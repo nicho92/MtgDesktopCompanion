@@ -1,6 +1,6 @@
 package org.magic.api.indexer.impl;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -11,7 +11,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -42,7 +41,8 @@ import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardsIndexer;
 import org.magic.services.MTGConstants;
-import org.magic.tools.IDGenerator;
+import org.magic.services.tools.FileTools;
+import org.magic.services.tools.IDGenerator;
 
 
 public class LuceneIndexer extends AbstractCardsIndexer {
@@ -353,7 +353,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 
 	@Override
 	public long size() {
-		return FileUtils.sizeOfDirectory(getFile(DIRECTORY));
+		return FileTools.sizeOfDirectory(getFile(DIRECTORY));
 	}
 
 	@Override

@@ -4,33 +4,28 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-import javax.swing.AbstractAction;
-
-import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCard;
+import org.magic.game.actions.abbstract.AbstractCardAction;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
+import org.magic.game.model.ZoneEnum;
 import org.magic.services.MTGControler;
-import org.magic.services.logging.MTGLogger;
 
-public class MeldActions extends AbstractAction {
+public class MeldActions extends AbstractCardAction {
 
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private DisplayableCard card;
 	private String meldWith = "";
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private static final String PARSEKEY = "(Melds with ";
 
 	public MeldActions(DisplayableCard card) {
-		super("Meld into " + card.getMagicCard().getRotatedCard());
+		super(card,"Meld into " + card.getMagicCard().getRotatedCard());
 		putValue(SHORT_DESCRIPTION, "Meld the cards with bigger one !");
 		putValue(MNEMONIC_KEY, KeyEvent.VK_M);
-		this.card = card;
 		parse(card.getMagicCard().getText());
 	}
 
@@ -82,6 +77,11 @@ public class MeldActions extends AbstractAction {
 		GamePanelGUI.getInstance().getPanelBattleField().revalidate();
 		GamePanelGUI.getInstance().getPanelBattleField().repaint();
 
+	}
+
+	@Override
+	public ZoneEnum playableFrom() {
+			return ZoneEnum.BATTLEFIELD;
 	}
 
 }

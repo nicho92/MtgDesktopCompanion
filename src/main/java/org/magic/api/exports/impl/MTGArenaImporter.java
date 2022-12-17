@@ -1,6 +1,6 @@
 package org.magic.api.exports.impl;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +19,7 @@ import org.magic.api.beans.enums.MTGExportCategory;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGControler;
-import org.magic.tools.MTGArenaTools;
+import org.magic.services.tools.MTGArenaTools;
 
 import com.google.gson.JsonObject;
 

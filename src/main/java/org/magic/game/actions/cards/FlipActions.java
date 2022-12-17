@@ -7,32 +7,33 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
-import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 
-import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MagicCard;
+import org.magic.game.actions.abbstract.AbstractCardAction;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
-import org.magic.services.logging.MTGLogger;
+import org.magic.game.model.ZoneEnum;
 
-public class FlipActions extends AbstractAction {
+public class FlipActions extends AbstractCardAction {
 
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-
-	private DisplayableCard card;
 
 	public FlipActions(DisplayableCard card) {
-		super("Flip");
+		super(card,"Flip");
 		putValue(SHORT_DESCRIPTION, "Flip the card");
 		putValue(MNEMONIC_KEY, KeyEvent.VK_F);
-		this.card = card;
 	}
+	
+	@Override
+	public ZoneEnum playableFrom() {
+		return ZoneEnum.BATTLEFIELD;
+	}
+	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {

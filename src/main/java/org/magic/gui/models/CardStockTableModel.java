@@ -11,7 +11,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.MTGRarity;
 import org.magic.gui.abstracts.GenericTableModel;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 

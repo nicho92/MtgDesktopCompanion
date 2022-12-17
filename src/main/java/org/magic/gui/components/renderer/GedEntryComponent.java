@@ -22,7 +22,7 @@ import org.jdesktop.swingx.JXLabel;
 import org.magic.api.beans.technical.GedEntry;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
-import org.magic.tools.ImageTools;
+import org.magic.services.tools.ImageTools;
 
 @SuppressWarnings("rawtypes")
 public class GedEntryComponent extends JPanel {

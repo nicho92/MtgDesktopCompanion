@@ -2,25 +2,23 @@ package org.magic.game.actions.cards;
 
 import java.awt.event.ActionEvent;
 
-import javax.swing.AbstractAction;
-
+import org.magic.game.actions.abbstract.AbstractCardAction;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
+import org.magic.game.model.ZoneEnum;
 import org.magic.game.model.counters.ItemCounter;
 
-public class ItemCounterActions extends AbstractAction {
+public class ItemCounterActions extends AbstractCardAction {
 
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private DisplayableCard card;
 	private transient ItemCounter itemCounter;
 
 	public ItemCounterActions(DisplayableCard displayableCard, ItemCounter itemCounter) {
-		this.card = displayableCard;
+		super(displayableCard,"put a " + itemCounter.describe());
 		this.itemCounter = itemCounter;
-		putValue(NAME, "put a " + itemCounter.describe());
 		putValue(SHORT_DESCRIPTION, "put a " + itemCounter.describe());
 	}
 
@@ -36,6 +34,11 @@ public class ItemCounterActions extends AbstractAction {
 		GamePanelGUI.getInstance().getPlayer()
 				.logAction("add a " + itemCounter.describe() + " on " + card.getMagicCard().getName());
 
+	}
+
+	@Override
+	public ZoneEnum playableFrom() {
+		return ZoneEnum.BATTLEFIELD;
 	}
 
 }

@@ -1,6 +1,6 @@
 package org.magic.gui.dashlet;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
@@ -34,7 +34,7 @@ import org.magic.gui.models.CardShakerTableModel;
 import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 public class BestTrendingDashlet extends AbstractJDashlet {
 

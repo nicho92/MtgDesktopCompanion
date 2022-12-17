@@ -2,7 +2,7 @@ package org.magic.gui.components;
 
 import javax.swing.JLabel;
 
-import org.magic.tools.MTG;
+import org.magic.services.tools.MTG;
 
 public class JLangLabel extends JLabel {
 

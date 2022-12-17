@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
-import org.magic.tools.InstallCert;
+import org.magic.services.tools.InstallCert;
 
 public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 

@@ -1,0 +1,407 @@
+{
+
+	"ONE":[
+		"ONC"
+	],
+	"J22":[
+		"FJ22"
+	],
+	"YDMU":[
+		"YBRO"
+	],
+	"BRO":[
+		"ABRO"
+	],
+	"AVR":[
+		"PHEL"
+	],
+	"M15":[
+		"PDP13"
+	],
+	"DTK":[
+		"PTKDF"
+	],
+	"THS":[
+		"TFTH",
+		"THP1"
+	],
+	"BNG":[
+		"TBTH",
+		"THP2"
+	],
+	"JOU":[
+		"TDAG",
+		"THP3"	
+	],
+	"M19":[
+		"G18"
+	],
+	"XLN":[
+		"PXTC"
+	],
+	"AFC": [
+		"C21"
+	],
+	"ARC": [
+		"OARC"
+	],
+	"BFZ": [
+		"PSS1"
+	],
+	"BOT": [
+		"TBOT"
+	],
+	"C13": [
+		"OC13"
+	],
+	"C14": [
+		"OC14"
+	],
+	"C15": [
+		"OC15"
+	],
+	"C16": [
+		"OC16"
+	],
+	"C17": [
+		"OC17"
+	],
+	"C18": [
+		"OC18"
+	],
+	"C19": [
+		"OC19"
+	],
+	"C20": [
+		"OC20"
+	],
+	"C21": [
+		"OC21"
+	],
+	"CLB": [
+		"MCLB",
+		"ACLB"
+	],
+	"CM1": [
+		"OCM1"
+	],
+	"CMD": [
+		"OCMD"
+	],
+	"DD1": [
+		"EVG"
+	],
+	"DD2": [
+		"JVC"
+	],
+	"DDC": [
+		"DVD"
+	],
+	"DDD": [
+		"GVL"
+	],
+	"E01": [
+		"OE01",
+		"AKR"
+	],
+	"ELD": [
+		"CELD"
+	],
+	"J20": [
+		"P22",
+		"P23"
+	],
+	"KLD": [
+		"KLR"
+	],
+	"M14": [
+		"PDP14"
+	],
+	"MH1": [
+		"H1R"
+	],
+	"MPS_MED": [
+		"MED"
+	],
+	"PAST": [
+		"PAST",
+		"PMIC"
+	],
+	"PC2": [
+		"OPC2"
+	],
+	"PCA": [
+		"OPCA"
+	],
+	"PHUK": [
+		"PSAL"
+	],
+	"PSALVAT11": [
+		"PS11"
+	],
+	"PSUM": [
+		"SUM"
+	],
+	"PXBOX": [
+		"PDTP"
+	],
+	"RAV": [
+		"PMPS"
+	],
+	"SOI": [
+		"PSOI"
+	],
+	"UNF": [
+		"SUNF",
+		"UPLIST"
+	],
+	"WAR": [
+		"PS19"
+	],
+	"MH2": [
+		"AMH2",
+		"MMH2"
+	],
+	"CON": [
+		"CON_"
+	],
+	"PGRU": [
+		"PGRU"
+	],
+	"FRF": [
+		"UGIN"
+	],
+	"HOP": [
+		"OHOP"
+	],
+	"DMU": [
+		"ADMU",
+		"PDWA"
+	],
+	"P02": [
+		"PO2"
+	],
+	"ZNR": [
+		"AZNR",
+		"SZNR",
+		"MZNR"
+	],
+	"PBOOK": [
+		"PHPR",
+		"PBOK"
+	],
+	"MB1": [
+		"CMB1",
+		"PLIST",
+		"CMB2",
+		"FMB1"
+	],
+	"JMP": [
+		"AJMP",
+		"FJMP"
+	],
+	"MID": [
+		"SMID",
+		"AMID",
+		"OMIC"
+	],
+	"ANA": [
+		"OANA",
+		"XANA",
+		"ANB"
+	],
+	"KHM": [
+		"AKHM",
+		"MKHM",
+		"SKHM"
+	],
+	"AFR": [
+		"AAFR",
+		"MAFR",
+		"OAFC"
+	],
+	"NEO": [
+		"ANEO",
+		"MNEO",
+		"SNEO"
+	],
+	"STX": [
+		"ASTX",
+		"MSTX",
+		"SSTX"
+	],
+	"SNC": [
+		"ASNC",
+		"MSNC",
+		"PTSNC"
+	],
+	"VOW": [
+		"AVOW",
+		"OVOC",
+		"MVOW",
+		"SVOW"
+	],
+	"NEM": [
+		"NMS"
+	],
+	"UMA": [
+		"PUMA"
+	],
+	"3ED": [
+		"FBB"
+	],
+	"4ED": [
+		"4BB"
+	],
+	"PMEI": [
+		"WMC",
+		"G17",
+		"PW21",
+		"PW22",
+		"PW10",
+		"PW11",
+		"PW12",
+		"PF20",
+		"HTR18",
+		"CP1",
+		"CP2",
+		"CP3",
+		"PWCQ",
+		"PLNY",
+		"J12",
+		"J13",
+		"J14",
+		"J15",
+		"J16",
+		"J17",
+		"J18",
+		"J19",
+		"HHO",
+		"PURL",
+		"PL22",
+		"PRCQ",
+		"HTR19",
+		"GDY",
+		"PF19",
+		"PSS3",
+		"HTR",
+		"PNAT",
+		"HTR17",
+		"PSS2",
+		"SLD",
+		"PSLD",
+		"SLU",
+		"PL21",
+		"PLG21",
+		"HTR20",
+		"PPP1",
+		"PLGS",
+		"Q06",
+		"PF21",
+		"PEWK",
+		"SLX",
+		"PLG22",
+		"PLG20",
+		"P30H",
+		"SCH",
+		"P30A",
+		"PSVC",
+		"PR23",
+		"SLC"
+	],
+	"PARL": [
+		"PARL",
+		"PAL01",
+		"PAL02",
+		"PAL03",
+		"PAL04",
+		"PAL05",
+		"PAL06",
+		"PAL99",
+		"PAL00"
+	],
+	"PFNM": [
+		"FNM",
+		"F01",
+		"F02",
+		"F03",
+		"F04",
+		"F05",
+		"F06",
+		"F07",
+		"F08",
+		"F09",
+		"F10",
+		"F11",
+		"F12",
+		"F13",
+		"F14",
+		"F15",
+		"F16",
+		"F17",
+		"F18"
+	],
+	"PDCI": [
+		"P15A",
+		"G99",
+		"G00",
+		"G01",
+		"JGP",
+		"G02",
+		"G03",
+		"G04",
+		"G05",
+		"G06",
+		"G07",
+		"G08",
+		"G09",
+		"G10",
+		"G11",
+		"PGTW",
+		"PJJT",
+		"PSUS",
+		"PJAS",
+		"PJSE",
+		"PW09",
+		"PW08",
+		"PWPN",
+		"PG08",
+		"PG07",
+		"MPR",
+		"PR2",
+		"P03",
+		"P04",
+		"P05",
+		"P06",
+		"P07",
+		"P08",
+		"P09",
+		"P10",
+		"P11"
+	],
+	"PMPS": [
+		"PMPS06",
+		"PMPS07",
+		"PMPS08",
+		"PMPS09",
+		"PMPS10",
+		"PMPS11"
+	],
+	"HA1": [
+		"HA2",
+		"HA3",
+		"HA4",
+		"HA5",
+		"HA6"
+	],
+	"PIDW": [
+		"PIDW",
+		"PI13",
+		"PI14"
+	],
+	"Y22": [
+		"YNEO",
+		"YMID",
+		"YSNC"
+	]
+}

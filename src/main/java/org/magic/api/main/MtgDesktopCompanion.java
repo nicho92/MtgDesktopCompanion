@@ -1,8 +1,8 @@
 package org.magic.api.main;
 
-import static org.magic.tools.MTG.capitalize;
-import static org.magic.tools.MTG.getEnabledPlugin;
-import static org.magic.tools.MTG.listEnabledPlugins;
+import static org.magic.services.tools.MTG.capitalize;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.listEnabledPlugins;
 
 import java.awt.Frame;
 import java.io.IOException;
@@ -23,7 +23,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
-import org.magic.tools.Chrono;
+import org.magic.services.tools.Chrono;
 public class MtgDesktopCompanion {
 
 	private final Logger logger = MTGLogger.getLogger(this.getClass());
@@ -38,7 +38,14 @@ public class MtgDesktopCompanion {
 		chrono = new Chrono();
 
 		launch = new MTGSplashScreen();
-		MTGLogger.getMTGAppender().addObserver(launch);
+		
+		try {
+			MTGLogger.getMTGAppender().addObserver(launch);	
+		}catch(Exception e)
+		{
+			logger.error("Error getting MTGLogger");
+		}
+		
 
 
 		launch.start();

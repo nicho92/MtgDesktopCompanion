@@ -34,9 +34,9 @@ import org.magic.gui.renderer.StockTableRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
+import org.magic.services.tools.MTG;
+import org.magic.services.tools.UITools;
 import org.magic.services.workers.AbstractObservableWorker;
-import org.magic.tools.MTG;
-import org.magic.tools.UITools;
 
 public class StockShopperComponent extends MTGUIComponent {
 

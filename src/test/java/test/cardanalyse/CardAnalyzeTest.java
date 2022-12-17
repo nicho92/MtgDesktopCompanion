@@ -1,6 +1,6 @@
 package test.cardanalyse;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.io.IOException;
 import java.net.URISyntaxException;

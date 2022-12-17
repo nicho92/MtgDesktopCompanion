@@ -23,7 +23,7 @@ import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.criterias.builders.NoneCriteriaBuilder;
 import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.tools.TCache;
+import org.magic.services.tools.TCache;
 
 public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements MTGCardsProvider {
 
@@ -85,15 +85,18 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 
 	protected void postTreatmentCard(MagicCard mc)
 	{
-		if(mc.getCurrentSet().getId().endsWith("MH2") && (mc.getFrameVersion().equals("1995")||mc.getFrameVersion().equals("1997")))
-			mc.setTimeshifted(true);
-
-		if(mc.getCurrentSet().getId().equals("H1R"))
-			mc.setTimeshifted(true);
-
-		if(mc.getCurrentSet().getId().equals("TSR") && Integer.parseInt(mc.getCurrentSet().getNumber())>=290)
-			mc.setTimeshifted(true);
-
+		
+		try {
+			var releaseYear = Integer.parseInt(mc.getCurrentSet().getReleaseDate().substring(0, 4));
+			var frameYear =  Integer.parseInt(mc.getFrameVersion());
+			if( (frameYear>=1993 && frameYear<=1997)  && releaseYear > 2019)
+					mc.setTimeshifted(true);
+				
+			
+		}catch(Exception e)
+		{
+			//do nothing
+		}
 	}
 
 

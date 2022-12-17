@@ -17,11 +17,11 @@ import org.magic.api.interfaces.abstracts.extra.AbstractMTGJsonProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
-import org.magic.services.providers.MTGJsonPricer.STOCK;
-import org.magic.services.providers.MTGJsonPricer.SUPPORT;
-import org.magic.services.providers.MTGJsonPricer.VENDOR;
-import org.magic.tools.Chrono;
-import org.magic.tools.FileTools;
+import org.magic.services.providers.MTGJsonPricerProvider.STOCK;
+import org.magic.services.providers.MTGJsonPricerProvider.SUPPORT;
+import org.magic.services.providers.MTGJsonPricerProvider.VENDOR;
+import org.magic.services.tools.Chrono;
+import org.magic.services.tools.FileTools;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -31,12 +31,12 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 
 
-public class MTGJsonPricer {
+public class MTGJsonPricerProvider {
 	public enum SUPPORT {PAPER,MTGO}
 	public enum STOCK {RETAIL, BUYLIST}
-	public enum VENDOR {CARDKINGDOM,TCGPLAYER,CARDHOARDER,CARDMARKET}
+	public enum VENDOR {CARDKINGDOM,TCGPLAYER,CARDHOARDER,CARDMARKET,CARDSPHERE}
 	private List<Data> caches;
-	private static MTGJsonPricer inst;
+	private static MTGJsonPricerProvider inst;
 
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	private File dataFile = new File(MTGConstants.DATA_DIR,"AllPrices.json");
@@ -44,7 +44,7 @@ public class MTGJsonPricer {
 	private Integer expireday=5;
 
 
-	public MTGJsonPricer() throws IOException {
+	public MTGJsonPricerProvider() throws IOException {
 
 		gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -53,10 +53,10 @@ public class MTGJsonPricer {
 			downloadDataFile();
 	}
 
-	public static MTGJsonPricer getInstance() throws IOException
+	public static MTGJsonPricerProvider getInstance() throws IOException
 	{
 		if(inst==null)
-			inst = new MTGJsonPricer();
+			inst = new MTGJsonPricerProvider();
 
 		return inst;
 	}
@@ -75,14 +75,15 @@ public class MTGJsonPricer {
 		}
 	}
 
-	public void downloadDataFile() throws IOException
+	private void downloadDataFile() throws IOException
 	{
 		var tmp = new File(MTGConstants.DATA_DIR,"AllPrices.json.zip");
 		URLTools.download(AbstractMTGJsonProvider.MTG_JSON_ALL_PRICES_ZIP, tmp);
 		FileTools.unZipIt(tmp,dataFile);
 	}
 
-	public void buildPrices(VENDOR v) throws IOException {
+	
+	private void buildPrices(VENDOR v) throws IOException {
 		var c = new Chrono();
 		c.start();
 		JsonArray arr = new JsonArray();
@@ -92,7 +93,7 @@ public class MTGJsonPricer {
 				logger.info("Begin caching datas ");
 				reader.beginObject();
 				reader.nextName();
-				Meta m = new Gson().fromJson(reader, Meta.class);
+				Meta m = gson.fromJson(reader, Meta.class);
 				logger.debug(m);
 				reader.nextName();//data
 				reader.beginObject();
@@ -131,16 +132,14 @@ public class MTGJsonPricer {
 								}
 								else
 								{
-									var p = new PriceEntry();
-											p.setVendor(VENDOR.valueOf(vendor.toUpperCase()));
-											p.setSupport(support);
-											p.setStock(stock);
-											p.setCurrency(getCurrencyFor(p.getVendor()));
-
-
 									reader.beginObject();
 									while(reader.hasNext())
 									{
+										var p = new PriceEntry();
+										p.setVendor(VENDOR.valueOf(vendor.toUpperCase()));
+										p.setSupport(support);
+										p.setStock(stock);
+										p.setCurrency(getCurrencyFor(p.getVendor()));
 										p.setFoil(reader.nextName().equalsIgnoreCase("foil"));
 										reader.beginObject();
 										while(reader.hasNext())
@@ -148,14 +147,16 @@ public class MTGJsonPricer {
 											p.getStockPrices().put(reader.nextName(), reader.nextDouble());
 										} // fin boucle map date/prix
 										reader.endObject();
+											
+										if(p.getVendor()==v && !p.getStockPrices().isEmpty())
+											data.getPrices().add(p);
+										
 									}//fin boucle Foil/Normal
-
-									if(p.getVendor()==v)
-									{
-										data.getPrices().add(p);
-										arr.add(gson.toJsonTree(data));
-									}
 									reader.endObject();
+									
+									if(vendor.toUpperCase().equals(v.name()))
+										arr.add(gson.toJsonTree(data));
+									
 								}
 							}//buylist/retail/Currency
 							reader.endObject();
@@ -166,17 +167,9 @@ public class MTGJsonPricer {
 				}//fin boucle data
 
 			}
-			writeFile(arr,v);
+		
+			FileTools.saveFile(new File(MTGConstants.DATA_DIR.getAbsolutePath(),v.name()+".json"),arr.toString());
 			logger.info("Ending buildings datas {}s",c.stop());
-
-	}
-
-	private void writeFile(JsonArray arr,VENDOR v) {
-			try {
-				FileTools.saveFile(new File(MTGConstants.DATA_DIR.getAbsolutePath(),v.name()+".json"),arr.toString());
-			} catch (IOException e) {
-				logger.error(e);
-			}
 	}
 
 	public List<Data> loadData(VENDOR v) throws IOException
@@ -201,8 +194,6 @@ public class MTGJsonPricer {
 
 		}
 
-
-
 		if(caches.isEmpty())
 		{
 			if(!f.exists())
@@ -211,8 +202,11 @@ public class MTGJsonPricer {
 				buildPrices(v);
 			}
 
-			JsonArray el = JsonParser.parseReader(new FileReader(f)).getAsJsonArray();
-			el.forEach(e->caches.add(gson.fromJson(e,Data.class)));
+			try(var reader = new FileReader(f))
+			{
+				var el = JsonParser.parseReader(reader).getAsJsonArray();
+				el.forEach(e->caches.add(gson.fromJson(e,Data.class)));
+			}
 		}
 		return caches;
 	}
@@ -236,12 +230,12 @@ public class MTGJsonPricer {
 		}
 		if(d==null)
 		{
-			logger.debug("MTGJson found nothing");
+			logger.warn("MTGJson found nothing for {}",card);
 			return ret;
 		}
-
-
-		for(Boolean b : new Boolean[] {true,false}) {
+		
+		for(Boolean b : new Boolean[] {true,false}) 
+		{
 			try {
 				var mp = new MagicPrice();
 				mp.setCountry("None");
@@ -253,10 +247,11 @@ public class MTGJsonPricer {
 				mp.setFoil(b);
 				mp.setValue(d.listPricesByFoil(b).get(0).getStockPrices().lastEntry().getValue());
 				ret.add(mp);
+				logger.info("Found {} Price={} Foil={}",card,mp.getValue(),mp.isFoil());
 			}
 			catch(IndexOutOfBoundsException e)
 			{
-				//do nothing
+				logger.trace("No price found for {} with foil={}",card,b);
 			}
 		}
 

@@ -1,7 +1,7 @@
 package org.magic.api.interfaces.abstracts.extra;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
-import static org.magic.tools.MTG.getPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getPlugin;
 
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -59,9 +59,9 @@ import org.magic.services.PluginRegistry;
 import org.magic.services.TechnicalServiceManager;
 import org.magic.services.TransactionService;
 import org.magic.services.providers.SealedProductProvider;
-import org.magic.tools.CryptoUtils;
-import org.magic.tools.IDGenerator;
-import org.magic.tools.ImageTools;
+import org.magic.services.tools.CryptoUtils;
+import org.magic.services.tools.IDGenerator;
+import org.magic.services.tools.ImageTools;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -1466,6 +1466,23 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	}
 
+	@Override
+	public void moveEdition(MagicEdition ed, MagicCollection from, MagicCollection to) throws SQLException {
+		logger.debug("move {} from {} to {}",ed,from,to);
+
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("update cards set collection= ? where edition=? and collection=?"))
+		{
+			pst.setString(1, to.getName());
+			pst.setString(2, ed.getId());
+			pst.setString(3, from.getName());
+			int res = executeUpdate(pst);
+
+			logger.debug("move result:{}={}",ed, res);
+		}
+
+
+	}
+	
 
 	@Override
 	public List<MagicCard> listCards() throws SQLException {

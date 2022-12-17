@@ -1,6 +1,6 @@
 package org.magic.gui.components.charts;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
 import java.util.List;
@@ -16,7 +16,7 @@ import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.gui.abstracts.charts.Abstract2DBarChart;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 public class EditionFinancialChartPanel extends Abstract2DBarChart<OrderEntry> {
 

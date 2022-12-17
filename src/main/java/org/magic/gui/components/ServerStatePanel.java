@@ -1,6 +1,6 @@
 package org.magic.gui.components;
 
-import static org.magic.tools.MTG.capitalize;
+import static org.magic.services.tools.MTG.capitalize;
 
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -25,8 +25,8 @@ import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.models.conf.LogTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.tools.ImageTools;
-import org.magic.tools.UITools;
+import org.magic.services.tools.ImageTools;
+import org.magic.services.tools.UITools;
 public class ServerStatePanel extends JPanel {
 
 	/**

@@ -1,6 +1,6 @@
 package org.magic.api.exports.impl;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +17,7 @@ import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.sorters.CardsDeckSorter;
 import org.magic.services.MTGConstants;
-import org.magic.tools.POMReader;
+import org.magic.services.tools.POMReader;
 
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
@@ -49,7 +49,7 @@ public class PDFExport extends AbstractCardExport {
 		try {
 			imageData = ImageDataFactory.create(getEnabledPlugin(MTGPictureProvider.class).getFullSizePicture(card),null);
 		} catch (Exception e) {
-			imageData = ImageDataFactory.create(getEnabledPlugin(MTGPictureProvider.class).getBackPicture(),null);
+			imageData = ImageDataFactory.create(getEnabledPlugin(MTGPictureProvider.class).getBackPicture(card),null);
 		}
 
 		var image = new Image(imageData);

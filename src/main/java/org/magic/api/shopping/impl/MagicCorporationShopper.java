@@ -15,7 +15,7 @@ import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.services.AccountsManager;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 public class MagicCorporationShopper extends AbstractMagicShopper {
 

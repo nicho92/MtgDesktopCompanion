@@ -1,7 +1,7 @@
 package org.magic.gui.components;
 
-import static org.magic.tools.MTG.capitalize;
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.capitalize;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

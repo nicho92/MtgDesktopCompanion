@@ -3,7 +3,7 @@ package org.magic.gui.models;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.enums.MTGCardVariation;
 import org.magic.gui.abstracts.GenericTableModel;
-import org.magic.tools.UITools;
+import org.magic.services.tools.UITools;
 
 public class CardShakerTableModel extends GenericTableModel<CardShake> {
 

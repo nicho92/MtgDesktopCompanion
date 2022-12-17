@@ -22,8 +22,8 @@ import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.api.interfaces.abstracts.extra.AbstractProduct;
 import org.magic.api.interfaces.abstracts.extra.AbstractStockItem;
 import org.magic.services.MTGConstants;
-import org.magic.tools.UITools;
-import org.magic.tools.WooCommerceTools;
+import org.magic.services.tools.UITools;
+import org.magic.services.tools.WooCommerceTools;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

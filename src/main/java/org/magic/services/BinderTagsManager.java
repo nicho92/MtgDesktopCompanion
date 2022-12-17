@@ -14,7 +14,7 @@ import org.magic.api.beans.enums.EnumItems;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.providers.SealedProductProvider;
 import org.magic.services.providers.SealedProductProvider.LOGO;
-import org.magic.tools.ImageTools;
+import org.magic.services.tools.ImageTools;
 
 
 public class BinderTagsManager {

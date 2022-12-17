@@ -1,7 +1,7 @@
 package org.magic.servers.impl;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
-import static org.magic.tools.MTG.listEnabledPlugins;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.listEnabledPlugins;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -46,8 +46,8 @@ import org.magic.api.sorters.PricesCardsShakeSorter.SORT;
 import org.magic.servers.impl.NavigableEmbed.EmbedButton;
 import org.magic.services.MTGConstants;
 import org.magic.services.TechnicalServiceManager;
-import org.magic.tools.MTG;
-import org.magic.tools.UITools;
+import org.magic.services.tools.MTG;
+import org.magic.services.tools.UITools;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -64,9 +64,9 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
-import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.react.GenericMessageReactionEvent;
+import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.GatewayIntent;

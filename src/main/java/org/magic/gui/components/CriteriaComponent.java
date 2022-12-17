@@ -1,6 +1,6 @@
 package org.magic.gui.components;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -21,6 +21,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.MTGColor;
@@ -34,7 +35,8 @@ import org.magic.api.criterias.MTGCrit.OPERATOR;
 import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
-import org.magic.tools.UITools;
+import org.magic.services.keywords.AbstractKeyWordsManager;
+import org.magic.services.tools.UITools;
 
 
 public class CriteriaComponent extends JComponent implements ActionListener{
@@ -68,7 +70,8 @@ public class CriteriaComponent extends JComponent implements ActionListener{
 		setLayout(new FlowLayout(FlowLayout.LEFT));
 
 		JComboBox<QueryAttribute> cboAttributes = UITools.createCombobox(getEnabledPlugin(MTGCardsProvider.class).getQueryableAttributs());
-			cboAttributes.setPreferredSize(new Dimension(200,25));
+		
+		cboAttributes.setPreferredSize(new Dimension(200,25));
 
 		c=getEnabledPlugin(MTGCardsProvider.class).getQueryableAttributs()[0];
 		selector = getComponentFor(c);
@@ -146,6 +149,9 @@ public class CriteriaComponent extends JComponent implements ActionListener{
 		else
 		if(c.getType() == MTGPromoType.class)
 			return init(UITools.createCombobox(MTGPromoType.values()));
+		else
+		if(c.getType() == MTGKeyWord.class)
+				return init(UITools.createCombobox(AbstractKeyWordsManager.getInstance().getList().stream().sorted().toList()));
 		else
 		if(c.getName().equalsIgnoreCase("name")) {
 			JTextField f= UITools.createSearchField();

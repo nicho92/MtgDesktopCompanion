@@ -18,7 +18,7 @@ import javax.swing.text.DefaultFormatterFactory;
 
 import org.jdesktop.swingx.JXDatePicker;
 import org.jdesktop.swingx.calendar.SingleDaySelectionModel;
-import org.magic.tools.MTG;
+import org.magic.services.tools.MTG;
 
 public class JXDateTimePicker extends JXDatePicker {
 

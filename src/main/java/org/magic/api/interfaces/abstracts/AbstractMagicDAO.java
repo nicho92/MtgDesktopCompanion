@@ -23,7 +23,7 @@ import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPool;
 import org.magic.api.interfaces.MTGStockItem;
-import org.magic.tools.TCache;
+import org.magic.services.tools.TCache;
 
 
 public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGDao{
@@ -88,6 +88,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 			}
 		});
 	}
+
 
 	@Override
 	public List<Announce> listAnnounces() throws SQLException {

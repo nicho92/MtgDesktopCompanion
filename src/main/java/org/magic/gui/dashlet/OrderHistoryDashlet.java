@@ -1,6 +1,6 @@
 package org.magic.gui.dashlet;
 
-import static org.magic.tools.MTG.getEnabledPlugin;
+import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
@@ -10,13 +10,13 @@ import javax.swing.JPanel;
 
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
-import org.magic.gui.components.charts.OrderEntryHistory3DChartPanel;
+import org.magic.gui.components.charts.OrderEntryHistoryChartPanel;
 import org.magic.services.MTGConstants;
 
 public class OrderHistoryDashlet extends AbstractJDashlet {
 
 	private static final long serialVersionUID = 1L;
-	private OrderEntryHistory3DChartPanel chart;
+	private OrderEntryHistoryChartPanel chart;
 
 
 	@Override
@@ -31,7 +31,7 @@ public class OrderHistoryDashlet extends AbstractJDashlet {
 		var panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
 
-		chart = new OrderEntryHistory3DChartPanel();
+		chart = new OrderEntryHistoryChartPanel();
 
 
 		getContentPane().add(chart,BorderLayout.CENTER);

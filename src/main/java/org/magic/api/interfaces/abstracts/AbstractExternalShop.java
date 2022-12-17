@@ -13,7 +13,7 @@ import org.magic.api.beans.technical.ConverterItem;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGStockItem;
-import org.magic.tools.MTG;
+import org.magic.services.tools.MTG;
 
 public abstract class AbstractExternalShop extends AbstractMTGPlugin implements MTGExternalShop {
 

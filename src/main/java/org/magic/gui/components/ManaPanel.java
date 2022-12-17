@@ -16,7 +16,7 @@ import javax.swing.SwingConstants;
 
 import org.magic.api.beans.enums.CardsPatterns;
 import org.magic.services.MTGConstants;
-import org.magic.tools.ImageTools;
+import org.magic.services.tools.ImageTools;
 
 public class ManaPanel extends JPanel {
 	/**
@@ -120,6 +120,7 @@ public class ManaPanel extends JPanel {
 		map.put("B/R/P", 78);
 		map.put("B/G/P", 79);
 		map.put("TIX", 80);
+		map.put("TK", 80);
 		map.put("\u221e",52);
 		map.put("\u00BD",53);
 		map.put("CHAOS",67);

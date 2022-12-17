@@ -1,6 +1,6 @@
 package org.magic.game.gui.components;
 
-import static org.magic.tools.MTG.capitalize;
+import static org.magic.services.tools.MTG.capitalize;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -43,8 +43,8 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
-import org.magic.tools.MTG;
-import org.magic.tools.UITools;
+import org.magic.services.tools.MTG;
+import org.magic.services.tools.UITools;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 

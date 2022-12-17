@@ -6,10 +6,9 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.io.FileUtils;
 import org.magic.api.interfaces.abstracts.extra.AbstractMagicSQLDAO;
 import org.magic.services.MTGConstants;
-import org.magic.tools.FileTools;
+import org.magic.services.tools.FileTools;
 
 public class SQLLiteDAO extends AbstractMagicSQLDAO {
 
@@ -17,7 +16,7 @@ public class SQLLiteDAO extends AbstractMagicSQLDAO {
 	public Map<String,Long> getDBSize() {
 
 		var map = new HashMap<String,Long>();
-			map.put("file",FileUtils.sizeOf(getFile(SERVERNAME)));
+			map.put("file",FileTools.sizeOf(getFile(SERVERNAME)));
 			return map;
 	}
 
