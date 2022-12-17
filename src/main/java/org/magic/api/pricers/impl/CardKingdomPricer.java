@@ -70,7 +70,11 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 			name = name.split(" //")[0];
 		}
 
-
+		name = name.replace("ú", "u");
+		name = name.replace("â", "a");
+		name = name.replace("á", "a");
+		name = name.replace("ö", "o");
+		
 		var filtres =where("name").is(name)
 				.and("sku").contains(mc.getCurrentSet().getId().toUpperCase())
 				.and("is_foil").is(String.valueOf(foil));

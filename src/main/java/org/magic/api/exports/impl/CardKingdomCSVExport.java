@@ -61,6 +61,11 @@ public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 				name = name.split(" //")[0];
 			}
 
+			name = name.replace("ú", "u");
+			name = name.replace("â", "a");
+			name = name.replace("á", "a");
+			name = name.replace("ö", "o");
+						
 			if(mc.getProduct().isShowCase())
 			{
 				name = name + " (Showcase)";
