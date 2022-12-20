@@ -104,7 +104,9 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	protected static final String FINISHES = "finishes";
 	protected static final String IS_REBALANCED="isRebalanced";
 	protected static final String SIGNATURE="signature";
-
+	protected static final String ASCII_NAME="asciiName";
+	
+	
 	protected static final String FORCE_RELOAD = "FORCE_RELOAD";
 
 	public static final String MTGJSON_API_URL="https://mtgjson.com/api/v5";

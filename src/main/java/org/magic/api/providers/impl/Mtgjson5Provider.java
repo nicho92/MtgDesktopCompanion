@@ -227,6 +227,11 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 					mc.setRarity(MTGRarity.rarityByName(String.valueOf(map.get(RARITY))));
 				}
 
+				
+				
+				if (map.get(ASCII_NAME) != null)
+					mc.setAsciiName(String.valueOf(map.get(ASCII_NAME)));
+				
 				if (map.get(TEXT) != null)
 					mc.setText(String.valueOf(map.get(TEXT)));
 

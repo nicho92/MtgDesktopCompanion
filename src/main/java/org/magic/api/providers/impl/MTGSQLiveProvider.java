@@ -149,7 +149,6 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 			mc.setBorder(MTGBorder.parseByLabel(rs.getString(BORDER_COLOR)));
 			mc.setArtist(rs.getString(ARTIST));
 			mc.setRarity(MTGRarity.COMMON);
-
 			mc.setLayout(MTGLayout.parseByLabel(rs.getString(LAYOUT)));
 
 
@@ -339,7 +338,9 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				mc.setWatermarks(rs.getString(WATERMARK));
 				mc.setMkmId(rs.getInt(MCM_ID));
 				mc.setMtgArenaId(rs.getInt("mtgArenaId"));
-
+				mc.setAsciiName(rs.getString(ASCII_NAME));
+				
+				
 				if(rs.getString(AVAILABILITY)!=null) {
 					mc.setArenaCard(rs.getString(AVAILABILITY).contains("arena"));
 					mc.setMtgoCard(rs.getString(AVAILABILITY).contains("mtgo"));

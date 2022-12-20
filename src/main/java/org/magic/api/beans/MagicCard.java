@@ -29,6 +29,7 @@ public class MagicCard extends AbstractProduct {
 	private String text="";
 	private String power="";
 	private String toughness="";
+	private String asciiName;
 	private Integer loyalty;
 	private String artist="";
 	private String flavor="";
@@ -102,6 +103,14 @@ public class MagicCard extends AbstractProduct {
 
 	}
 
+	public void setAsciiName(String asciiName) {
+		this.asciiName = asciiName;
+	}
+	
+	public String getAsciiName() {
+		return asciiName;
+	}
+	
 	public String getSignature() {
 		return signature;
 	}
