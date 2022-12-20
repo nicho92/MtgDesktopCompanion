@@ -15,7 +15,6 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.CardsPatterns;
-import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGPlugin;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
@@ -24,6 +23,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.providers.PluginsAliasesProvider;
 import org.magic.services.tools.FileTools;
 import org.magic.services.tools.MTG;
+import org.magic.services.tools.CardKingdomTools;
 
 public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 
@@ -43,35 +43,9 @@ public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 		var line = new StringBuilder(columns);
 		for(MagicCardStock mc : stock)
 		{
-
-			String name=mc.getProduct().getName();
-			String set = PluginsAliasesProvider.inst().getSetNameFor(new CardKingdomCardExport() , mc.getProduct().getCurrentSet());
-
-			if(mc.getProduct().isToken())
-			{
-				name = name + " Token";
-				set = set.replace(" Tokens", "");
-				set = PluginsAliasesProvider.inst().getSetNameFor(new CardKingdomCardExport(), set);
-			}
-
-
-
-			if(name.contains("//") && (!mc.getProduct().getLayout().toString().equalsIgnoreCase(MTGLayout.SPLIT.toString())))
-			{
-				name = name.split(" //")[0];
-			}
-
-			name = name.replace("ú", "u");
-			name = name.replace("â", "a");
-			name = name.replace("á", "a");
-			name = name.replace("ö", "o");
-						
-			if(mc.getProduct().isShowCase())
-			{
-				name = name + " (Showcase)";
-				set = set + " Variants";
-			}
-
+			String name= CardKingdomTools.getCKFormattedName(mc.getProduct());
+			String set = CardKingdomTools.getCKFormattedSet(mc.getProduct());
+			
 			if(mc.getProduct().getName().contains(getSeparator()))
 				name="\""+mc.getProduct().getName()+"\"";
 
