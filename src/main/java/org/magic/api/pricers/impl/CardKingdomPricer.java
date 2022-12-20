@@ -14,7 +14,6 @@ import java.util.Map;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.beans.enums.MTGLayout;
 import org.magic.api.exports.impl.CardKingdomCardExport;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGConstants;
@@ -25,6 +24,7 @@ import org.magic.services.tools.Chrono;
 import org.magic.services.tools.FileTools;
 import org.magic.services.tools.InstallCert;
 import org.magic.services.tools.UITools;
+import org.magic.services.tools.CardKingdomTools;
 
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.Filter;
@@ -62,18 +62,8 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 			init();
 
 
-        String name = mc.getName();
-        String ed = PluginsAliasesProvider.inst().getSetNameFor(new CardKingdomCardExport() , mc.getCurrentSet());
-
-		if(name.contains("//") && (!mc.getLayout().toString().equalsIgnoreCase(MTGLayout.SPLIT.toString())))
-		{
-			name = name.split(" //")[0];
-		}
-
-		name = name.replace("ú", "u");
-		name = name.replace("â", "a");
-		name = name.replace("á", "a");
-		name = name.replace("ö", "o");
+        String name = CardKingdomTools.getCKFormattedName(mc);
+        String ed = CardKingdomTools.getCKFormattedSet(mc);
 		
 		var filtres =where("name").is(name)
 				.and("sku").contains(mc.getCurrentSet().getId().toUpperCase())
