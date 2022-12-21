@@ -11,8 +11,6 @@ import org.magic.services.providers.PluginsAliasesProvider;
 
 public class CardKingdomTools {
 
-	
-	
 	private CardKingdomTools()
 	{
 		
@@ -22,7 +20,7 @@ public class CardKingdomTools {
 		
 		String name = card.getName();
 			
-		if(name.contains("//") && (!card.getLayout().toString().equalsIgnoreCase(MTGLayout.SPLIT.toString())))
+		if(name.contains("//") && card.getLayout() != MTGLayout.SPLIT)
 		{
 			name = name.split(" //")[0];
 		}
@@ -51,9 +49,7 @@ public class CardKingdomTools {
 	
 	public static String getCKFormattedSet(MagicCard card) {
 		
-		String set = PluginsAliasesProvider.inst().getSetNameFor(new CardKingdomCardExport(), card.getEdition());
-		
-		
+		String set = PluginsAliasesProvider.inst().getSetNameFor(new CardKingdomCardExport(), card.getCurrentSet());
 		
 		if(card.isToken())
 		{
