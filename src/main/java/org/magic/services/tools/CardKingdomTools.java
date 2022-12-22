@@ -42,7 +42,7 @@ public class CardKingdomTools {
 			name = name + " (Showcase)";
 		}
 		
-		
+		 
 		return name;
 	}
 	

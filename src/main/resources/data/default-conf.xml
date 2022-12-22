@@ -445,10 +445,6 @@
       <class>org.magic.api.providers.impl.Mtgjson5Provider</class>
       <enable>false</enable>
     </provider>
-    <provider>
-      <class>org.magic.api.providers.impl.MagicTheGatheringIOProvider</class>
-      <enable>false</enable>
-    </provider>
   </providers>
   <daos>
     <dao>
@@ -477,10 +473,6 @@
     </dao>
     <dao>
       <class>org.magic.api.dao.impl.H2DAO</class>
-      <enable>false</enable>
-    </dao>
-    <dao>
-      <class>org.magic.api.dao.impl.OracleDbDAO</class>
       <enable>false</enable>
     </dao>
   </daos>
