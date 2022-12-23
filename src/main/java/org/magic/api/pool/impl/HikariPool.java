@@ -28,7 +28,13 @@ public class HikariPool extends AbstractPoolProvider {
 
 	@Override
 	public void close() throws SQLException {
-		datasource.close();
+		try{
+			datasource.close();
+		}
+		catch(Exception e)
+		{
+			throw new SQLException(e);
+		}
 
 	}
 

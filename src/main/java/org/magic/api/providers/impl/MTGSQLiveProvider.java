@@ -316,7 +316,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 		}
 		catch (Exception e)
 		{
-			logger.error(e);
+			logger.error("Error generating rotatedcard for {} id={} side={} msg={}",mc,id,side,e.getMessage());
 		}
 	}
 

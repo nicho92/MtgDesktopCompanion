@@ -27,7 +27,7 @@ import org.magic.services.tools.UITools;
 public class CSVExport extends AbstractFormattedFileCardExport {
 
 	private static final String EXTRA_PROPERTIES = "extraProperties";
-	private String columns="Card Name;Edition;Language;Qte;Condition;Foil;Altered;Signed;Collection;Price;Comment;Collection;currentSet.number";
+	private String columns="Card Name;Edition;Language;Qte;Condition;Foil;Altered;Signed;Collection;Price;Comment;currentSet.number";
 
 
 	@Override
@@ -50,12 +50,12 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 
 				MagicCard mc = null;
 				try {
-					mc = getEnabledPlugin(MTGCardsProvider.class).getCardByNumber( part.group(13), ed);
+					mc = getEnabledPlugin(MTGCardsProvider.class).getCardByNumber( part.group(12), ed);
 				}
 				catch(Exception e)
 				{
 					logger.debug(part.group());
-					logger.error("card with number {} is not found",part.group(13));
+					logger.error("card with number {} is not found",part.group(12));
 				}
 
 				if(mc==null)
@@ -70,7 +70,6 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 				}
 
 				if(mc!=null) {
-
 					mcs.setProduct(mc);
 					mcs.setLanguage(part.group(3));
 					mcs.setQte(Integer.parseInt(part.group(4)));
@@ -81,7 +80,6 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 					mcs.setMagicCollection(new MagicCollection(part.group(9)));
 					mcs.setPrice(Double.valueOf(part.group(10)));
 					mcs.setComment(part.group(11));
-					mcs.setMagicCollection(new MagicCollection(part.group(12)));
 					mcs.setId(-1);
 					mcs.setUpdated(true);
 					stock.add(mcs);
@@ -115,7 +113,6 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 				bw.append(mcs.getMagicCollection()).append(getSeparator());
 				bw.append(mcs.getPrice()).append(getSeparator());
 				bw.append(mcs.getComment()).append(getSeparator());
-				bw.append(mcs.getMagicCollection()).append(getSeparator());
 				bw.append(mcs.getProduct().getCurrentSet().getNumber()).append(getSeparator());
 
 				writeExtraMap(mcs.getProduct(),bw);
