@@ -2,6 +2,7 @@ package org.magic.services.keywords;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -66,6 +67,9 @@ public abstract class AbstractKeyWordsManager {
 	}
 
 	public Set<MTGKeyWord> getKeywordsFrom(String cardContent) {
+		if(cardContent==null)
+			return new HashSet<>();
+		
 		return getList().stream()
 				   .filter(kw->String.valueOf(cardContent.toLowerCase()).contains(kw.getKeyword().toLowerCase()))
 				   .distinct()

@@ -45,6 +45,9 @@ public enum CardsPatterns {
 
 	public static boolean hasPattern(String s , CardsPatterns pat)
 	{
+		if(s==null)
+			return false;
+		
 		var p = Pattern.compile(pat.getPattern());
 		var m = p.matcher(s);
 		return m.find();

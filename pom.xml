@@ -609,7 +609,7 @@
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
 			<artifactId>xstream</artifactId>
-			<version>1.4.19</version>
+			<version>1.4.20</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mongodb</groupId>
@@ -619,7 +619,7 @@
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
 			<artifactId>groovy-all</artifactId>
-			<version>3.0.13</version>
+			<version>3.0.14</version>
 			<type>pom</type>
 		</dependency>
 		<dependency>

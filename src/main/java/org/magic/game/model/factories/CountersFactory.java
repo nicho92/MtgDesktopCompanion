@@ -36,6 +36,10 @@ public class CountersFactory {
 
 	public List<ItemCounter> createItemCounter(MagicCard mc)
 	{
+		
+		if(mc.getText()==null)
+			return new ArrayList<>();
+		
 		ArrayList<ItemCounter> arr = new ArrayList<>();
 		var p = Pattern.compile(CardsPatterns.COUNTERS.getPattern());
 		var m = p.matcher(mc.getText());
