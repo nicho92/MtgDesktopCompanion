@@ -11,12 +11,16 @@ public class FileAccessInfo extends AbstractAuditableItem{
 	private ACCESSTYPE accesstype;
 	
 	
+	public FileAccessInfo(File f) {
+		this.file=f;
+	}
+	
 	public File getFile() {
 		return file;
 	}
-	public void setFile(File file) {
-		this.file = file;
-	}
+//	public void setFile(File file) {
+//		this.file = file;
+//	}
 	public ACCESSTYPE getAccesstype() {
 		return accesstype;
 	}

@@ -415,11 +415,10 @@ public class MTGControler {
 
 			config.setProperty(path, c);
 			
-			var info = new FileAccessInfo();
+			var info = new FileAccessInfo(conf);
 			builder.save();
 			info.setEnd(Instant.now());
 			info.setAccesstype(ACCESSTYPE.WRITE);
-			info.setFile(conf);
 			TechnicalServiceManager.inst().store(info);
 			
 		} catch (Exception e) {

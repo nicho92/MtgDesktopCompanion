@@ -184,11 +184,10 @@ public class ImageTools {
 
 
 	public static void saveImage(BufferedImage img, File f, String format) throws IOException {
-		var info = new FileAccessInfo();
+		var info = new FileAccessInfo(f);
 		ImageIO.write(img, format, f);
 		info.setEnd(Instant.now());
 		info.setAccesstype(ACCESSTYPE.WRITE);
-		info.setFile(f);
 		TechnicalServiceManager.inst().store(info);
 	}
 

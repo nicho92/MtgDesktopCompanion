@@ -58,7 +58,7 @@ public class FileTools {
 
 	public static void saveFile(File f, byte[] content) throws IOException {
 		
-		var info = new FileAccessInfo();
+		var info = new FileAccessInfo(f);
 		 Files.touch(f);
 		 try (var fileOuputStream = new FileOutputStream(f))
 		 {
@@ -67,32 +67,28 @@ public class FileTools {
 		
 		 	info.setEnd(Instant.now());
 			info.setAccesstype(ACCESSTYPE.CREATE);
-			info.setFile(f);
-			
 		 
 		 TechnicalServiceManager.inst().store(info);
 	}
 
 	public static void appendLine(File f,String line) throws IOException
 	{
-		var info = new FileAccessInfo();
+		var info = new FileAccessInfo(f);
 		String correctFilename= f.getName().replaceAll(CORRECT_REGEX, "_");
 		f=new File(f.getParentFile(),correctFilename);
 		FileUtils.write(f, line,MTGConstants.DEFAULT_ENCODING,true);
 	 	info.setEnd(Instant.now());
 		info.setAccesstype(ACCESSTYPE.WRITE);
-		info.setFile(f);
 		TechnicalServiceManager.inst().store(info);
 	}
 
 	public static int linesCount(File f)
 	{
-		var info = new FileAccessInfo();
+		var info = new FileAccessInfo(f);
 		try {
 			var ret =  Files.readLines(f,MTGConstants.DEFAULT_ENCODING).size();
 		 	info.setEnd(Instant.now());
 			info.setAccesstype(ACCESSTYPE.READ);
-			info.setFile(f);
 			TechnicalServiceManager.inst().store(info);
 			
 			return ret;
@@ -111,21 +107,20 @@ public class FileTools {
 	}
 
 	public static void saveFile(File f, String data, Charset enc) throws IOException {
-		var info = new FileAccessInfo();
+		var info = new FileAccessInfo(f);
 		String correctFilename= f.getName().replaceAll(CORRECT_REGEX, "_");
 		f=new File(f.getParentFile(),correctFilename);
 		logger.debug("saving file {}",f);
 		FileUtils.write(f, data,enc);
 		info.setEnd(Instant.now());
 		info.setAccesstype(ACCESSTYPE.WRITE);
-		info.setFile(f);
 		TechnicalServiceManager.inst().store(info);
 	}
 
 
 	public static void saveLargeFile(File f, String data, Charset enc) throws IOException {
 		logger.debug("saving file {}", f);
-		var info = new FileAccessInfo();
+		var info = new FileAccessInfo(f);
 		try (final OutputStream os = new FileOutputStream(f, false)) {
 	        final InputStream inputStream = IOUtils.toInputStream(data,enc);
 	        if (inputStream != null) {
@@ -139,7 +134,6 @@ public class FileTools {
 		}
 		info.setEnd(Instant.now());
 		info.setAccesstype(ACCESSTYPE.WRITE);
-		info.setFile(f);
 		TechnicalServiceManager.inst().store(info);
 
 	}
@@ -148,13 +142,12 @@ public class FileTools {
 
 	public static void saveProperties(File f,Properties props) throws IOException
 	{
-		var info = new FileAccessInfo();
+		var info = new FileAccessInfo(f);
 		try (var fos = new FileOutputStream(f)){
 			props.store(fos, "");
 		}
 		info.setEnd(Instant.now());
 		info.setAccesstype(ACCESSTYPE.WRITE);
-		info.setFile(f);
 		TechnicalServiceManager.inst().store(info);
 	}
 
@@ -162,14 +155,13 @@ public class FileTools {
 
 	public static void loadProperties(File f,Properties props) throws IOException
 	{
-		var info = new FileAccessInfo();
+		var info = new FileAccessInfo(f);
 		props.clear();
 		try (var fis = new FileInputStream(f)){
 			props.load(fis);
 		}
 		info.setEnd(Instant.now());
 		info.setAccesstype(ACCESSTYPE.READ);
-		info.setFile(f);
 		TechnicalServiceManager.inst().store(info);
 		
 		
@@ -178,14 +170,13 @@ public class FileTools {
 
 	public static void deleteFile(File f) throws IOException
 	{
-			var info = new FileAccessInfo();
+			var info = new FileAccessInfo(f);
 			String correctFilename= f.getName().replaceAll(CORRECT_REGEX, "_");
 			f=new File(f.getParentFile(),correctFilename);
 			logger.debug("deleting file {}",f);
 			FileUtils.forceDelete(f);
 			info.setEnd(Instant.now());
 			info.setAccesstype(ACCESSTYPE.DELETE);
-			info.setFile(f);
 			TechnicalServiceManager.inst().store(info);
 	}
 
@@ -213,7 +204,7 @@ public class FileTools {
 
 	public static String readFile(File f,Charset charset) throws IOException
 	{
-		var info = new FileAccessInfo();
+		var info = new FileAccessInfo(f);
 		if(f==null || !f.exists())
 		{
 			logger.warn("{} doesn't exist",f);
@@ -226,7 +217,6 @@ public class FileTools {
 			var ret=FileUtils.readFileToString(f,charset);
 			info.setEnd(Instant.now());
 			info.setAccesstype(ACCESSTYPE.READ);
-			info.setFile(f);
 			TechnicalServiceManager.inst().store(info);
 			
 			return ret;
@@ -281,7 +271,7 @@ public class FileTools {
 
 	public static synchronized void writeSetRecognition(File f,MagicEdition ed,int sizeOfSet, List<DescContainer> desc) throws IOException
 	{
-		var info = new FileAccessInfo();
+		var info = new FileAccessInfo(f);
 		if(!f.getParentFile().exists())
 		{
 			FileUtils.forceMkdir(f.getParentFile());
@@ -300,13 +290,12 @@ public class FileTools {
 		}
 		info.setEnd(Instant.now());
 		info.setAccesstype(ACCESSTYPE.READ);
-		info.setFile(f);
 		TechnicalServiceManager.inst().store(info);
 	}
 
 	public static ByteBuffer getBuffer(File f) throws IOException
 	{
-		var info = new FileAccessInfo();
+		var info = new FileAccessInfo(f);
 		try(var aFile = new RandomAccessFile(f.getAbsolutePath(),"r"))
 		{
 			var inChannel = aFile.getChannel();
@@ -316,7 +305,6 @@ public class FileTools {
 			buffer.flip();
 			info.setEnd(Instant.now());
 			info.setAccesstype(ACCESSTYPE.READ);
-			info.setFile(f);
 			TechnicalServiceManager.inst().store(info);
 			return buffer;
 		}
@@ -325,14 +313,10 @@ public class FileTools {
 
 	public static void unzip(File fileZip,File dest) throws IOException
 	{
-		var infoW = new FileAccessInfo();
-		var infoR = new FileAccessInfo();
+		var infoR = new FileAccessInfo(fileZip);
 		if(!dest.isDirectory())
 			throw new IOException(dest + " is not a directory");
 
-		
-		infoR.setFile(fileZip);
-		
 		try(var zipFile = new ZipFile(fileZip)){
 			Enumeration<? extends ZipEntry> entries = zipFile.entries();
 			while (entries.hasMoreElements())
@@ -354,9 +338,9 @@ public class FileTools {
 		       	try(var fos = new FileOutputStream(f))
 		       	{
 		       		IOUtils.write(zipFile.getInputStream(zipEntry).readAllBytes(), fos);
+		    		var infoW = new FileAccessInfo(f);
 		       		infoW.setEnd(Instant.now());
 		       		infoW.setAccesstype(ACCESSTYPE.WRITE);
-		       		infoW.setFile(f);
 		       		TechnicalServiceManager.inst().store(infoW);
 		       	}
 		    }
@@ -369,7 +353,7 @@ public class FileTools {
 
 	private static void addFile(File f, ZipOutputStream out) throws IOException
 	{	
-		var info = new FileAccessInfo();
+		var info = new FileAccessInfo(f);
 		if(f.isDirectory())
 			return;
 
@@ -380,13 +364,12 @@ public class FileTools {
 		}
 		info.setEnd(Instant.now());
 		info.setAccesstype(ACCESSTYPE.WRITE);
-		info.setFile(f);
 		TechnicalServiceManager.inst().store(info);
 	}
 
 
 	public static void zip(File dir,File dest) throws IOException {
-		var info = new FileAccessInfo();
+		var info = new FileAccessInfo(dest);
 		try (var out = new ZipOutputStream(new FileOutputStream(dest))) {
 			for (File doc : dir.listFiles()) {
 				if (!doc.getName().endsWith(".tmp")) {
@@ -396,48 +379,41 @@ public class FileTools {
 		}
 		info.setEnd(Instant.now());
 		info.setAccesstype(ACCESSTYPE.WRITE);
-		info.setFile(dest);
 		TechnicalServiceManager.inst().store(info);
 	}
 
 
 	public static void unZipIt(File src,File dst) {
 		
-		var infoR = new FileAccessInfo();
+		var infoR = new FileAccessInfo(src);
 		var buffer = new byte[1024];
  		try (var zis = new ZipInputStream(new FileInputStream(src))) {
  			var ze = zis.getNextEntry();
  			while (ze != null) {
 				logger.info("unzip : {}",src.getAbsoluteFile());
  				try (var fos = new FileOutputStream(dst)) {
- 					var info = new FileAccessInfo();
+ 					var info = new FileAccessInfo(dst);
 					int len;
 					while ((len = zis.read(buffer)) > 0) {
 						fos.write(buffer, 0, len);
 					}
 					ze = zis.getNextEntry();
-					info.setFile(dst);
 					info.setEnd(Instant.now());
 					info.setAccesstype(ACCESSTYPE.WRITE);
-					info.setFile(dst);
 					TechnicalServiceManager.inst().store(info);
 				}
 			}
+ 			TechnicalServiceManager.inst().store(infoR);
 		} catch (IOException ex) {
 			logger.error(ex);
 		}
 		
- 		infoR.setFile(src);
 		infoR.setEnd(Instant.now());
 		infoR.setAccesstype(ACCESSTYPE.READ);
-		infoR.setFile(dst);
 		TechnicalServiceManager.inst().store(infoR);
-		
-		
  		
- 		var dinfo = new FileAccessInfo();
+ 		var dinfo = new FileAccessInfo(src);
  		boolean del = FileUtils.deleteQuietly(src);
- 		dinfo.setFile(src);
  		dinfo.setEnd(Instant.now());
  		dinfo.setAccesstype(ACCESSTYPE.DELETE);
 		TechnicalServiceManager.inst().store(dinfo);
@@ -475,14 +451,12 @@ public class FileTools {
 
 	public static List<String> readAllLines(File f) throws IOException {
 		logger.debug("opening file {}",f);
-		var info = new FileAccessInfo();
+		var info = new FileAccessInfo(f);
 		var ret = Files.readLines(f, MTGConstants.DEFAULT_ENCODING);
 		
 		info.setEnd(Instant.now());
 		info.setAccesstype(ACCESSTYPE.READ);
-		info.setFile(f);
 		TechnicalServiceManager.inst().store(info);
-		
 		return ret;
 	}
 
@@ -506,29 +480,26 @@ public class FileTools {
 	}
 
 	public static void copyURLToFile(URL resource, File conf) throws IOException {
-		var info = new FileAccessInfo();
+		var info = new FileAccessInfo(conf);
 		FileUtils.copyURLToFile(resource,conf);
 		info.setEnd(Instant.now());
 		info.setAccesstype(ACCESSTYPE.WRITE);
-		info.setFile(conf);
 		TechnicalServiceManager.inst().store(info);
 	}
 
 	public static void forceMkdir(File dataDir) throws IOException {
-		var info = new FileAccessInfo();
+		var info = new FileAccessInfo(dataDir);
 		FileUtils.forceMkdir(dataDir);
 		info.setEnd(Instant.now());
 		info.setAccesstype(ACCESSTYPE.CREATE);
-		info.setFile(dataDir);
 		TechnicalServiceManager.inst().store(info);
 	}
 
 	public static void cleanDirectory(File file) throws IOException {
-		var info = new FileAccessInfo();
+		var info = new FileAccessInfo(file);
 		FileUtils.cleanDirectory(file);
 		info.setEnd(Instant.now());
 		info.setAccesstype(ACCESSTYPE.DELETE);
-		info.setFile(file);
 		TechnicalServiceManager.inst().store(info);
 	}
 
@@ -537,21 +508,19 @@ public class FileTools {
 	}
 
 	public static void deleteDirectory(File file) throws IOException {
-		var info = new FileAccessInfo();
+		var info = new FileAccessInfo(file);
 		FileUtils.deleteDirectory(file);
 		info.setEnd(Instant.now());
 		info.setAccesstype(ACCESSTYPE.DELETE);
-		info.setFile(file);
 		TechnicalServiceManager.inst().store(info);
 		
 	}
 
 	public static void copyInputStreamToFile(InputStream content, File dest) throws IOException {
-		var info = new FileAccessInfo();
+		var info = new FileAccessInfo(dest);
 		FileUtils.copyInputStreamToFile(content, dest);
 		info.setEnd(Instant.now());
 		info.setAccesstype(ACCESSTYPE.WRITE);
-		info.setFile(dest);
 		TechnicalServiceManager.inst().store(info);
 		
 	}
@@ -567,11 +536,10 @@ public class FileTools {
 	}
 
 	public static Long sizeOf(File file) {
-		var info = new FileAccessInfo();
+		var info = new FileAccessInfo(file);
 		var ret = FileUtils.sizeOf(file);
 		info.setEnd(Instant.now());
 		info.setAccesstype(ACCESSTYPE.READ);
-		info.setFile(file);
 		TechnicalServiceManager.inst().store(info);
 		return ret;
 	}
