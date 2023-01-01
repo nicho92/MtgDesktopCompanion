@@ -88,6 +88,7 @@ public class MTGDeckManager extends Observable {
 		try {
 			return MTG.getEnabledPlugin(MTGDao.class).getDeckById(id);
 		} catch (Exception e) {
+			logger.error("Error getting deck with id={}",id,e);
 			return null;
 		}
 	}

@@ -454,7 +454,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 							 set.setNumber(rs.getString(NUMBER));
 							 set.setMultiverseid(rs.getString(MULTIVERSE_ID));
 							 mc.getEditions().add(set);
-
+							 mc.setEdition(set);
 
 				if(rs.getString("printings")!=null)
 					for(String ids : rs.getString("printings").split(","))

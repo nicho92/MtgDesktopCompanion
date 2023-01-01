@@ -566,6 +566,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				ed.setOnlineOnly(obj.get(DIGITAL).getAsBoolean());
 				ed.setNumber(obj.get(COLLECTOR_NUMBER).getAsString());
 				mc.getEditions().add(ed);
+				mc.setEdition(ed);
 			} catch (Exception e2) {
 				throw new IOException(e2);
 			}

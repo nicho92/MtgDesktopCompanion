@@ -455,6 +455,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 							 }
 
 				mc.getEditions().add(me);
+				mc.setEdition(me);
 
 				if (!mc.isBasicLand() && map.get(PRINTINGS) != null)
 				{
