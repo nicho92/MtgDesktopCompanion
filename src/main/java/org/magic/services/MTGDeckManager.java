@@ -87,7 +87,7 @@ public class MTGDeckManager extends Observable {
 	public MagicDeck getDeck(Integer id)  {
 		try {
 			return MTG.getEnabledPlugin(MTGDao.class).getDeckById(id);
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			return null;
 		}
 	}
