@@ -340,6 +340,7 @@ public class UITools {
 			listPlugins(classe).stream().forEach(model::addElement);
 		else
 			listEnabledPlugins(classe).stream().forEach(model::addElement);
+		
 		combo.setRenderer(new PluginIconListRenderer());
 		return combo;
 	}
@@ -347,7 +348,7 @@ public class UITools {
 	public static JButton createBindableJButton(String text, Icon ic, int key, String name)
 	{
 		var b = new JButton(text, ic);
-				b.setName(name);
+			 b.setName(name);
 		ShortKeyManager.inst().setShortCutTo(key, b);
 		return b;
 	}

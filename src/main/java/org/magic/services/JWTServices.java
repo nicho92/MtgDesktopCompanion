@@ -68,8 +68,6 @@ public class JWTServices {
 				 .requireIssuer(issuer)
 				 .build()
 				 .parseClaimsJws(token);
-
-
 	}
 
 	public static String generateRandomSecret()

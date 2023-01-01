@@ -553,6 +553,17 @@ public class FileTools {
 		return FileUtils.listFiles(edDir, wildcardFileFilter, instance);
 	}
 
+	public static Path createTempFile(String string, String fileExtension) throws IOException {
+		var p = java.nio.file.Files.createTempFile(string,fileExtension);
+		var info = new FileAccessInfo(p.toFile());
+		info.setEnd(Instant.now());
+		info.setAccesstype(ACCESSTYPE.WRITE);
+		TechnicalServiceManager.inst().store(info);
+		return p;
+		
+		
+	}
+
 
 
 

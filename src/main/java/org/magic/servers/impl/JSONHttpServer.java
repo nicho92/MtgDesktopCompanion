@@ -982,12 +982,12 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/deck/export/:provider/"+ID_DECK, (request, response) -> {
 			var plug = getPlugin(request.params(PROVIDER),MTGCardsExport.class);
 			var d = manager.getDeck(Integer.parseInt(request.params(ID_DECK)));
-			var p = Files.createTempFile("deck",plug.getFileExtension());
+			var p =FileTools.createTempFile("deck",plug.getFileExtension());
 			var f = p.toFile();
 			var ct = Files.probeContentType(p)==null?"text/plain":Files.probeContentType(p);
 			plug.exportDeck(d, f);
 			response.raw().setContentType(ct);
-
+			
 			if(ImageTools.isImage(p))
 			{
 				var b = Files.readAllBytes(p);

@@ -94,7 +94,7 @@ public class ImageTools {
         int h = (int) (width * sin + height * cos + 0.5);
         var result = new BufferedImage(w, h, img.getType());
 
-        Graphics2D g = result.createGraphics();
+        var g = result.createGraphics();
         g.translate((w - img.getWidth()) / 2, (h - img.getHeight()) / 2);
         g.rotate(angleRadians, x, y);
         g.drawRenderedImage(img, null);
