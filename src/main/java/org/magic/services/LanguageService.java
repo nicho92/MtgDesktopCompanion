@@ -49,6 +49,7 @@ public class LanguageService {
 	public Locale getDefault() {
 		return Locale.ENGLISH;
 	}
+	
 	//todo change it for Jdk19
 	public Locale[] getAvailableLocale() {
 		return new Locale[] { Locale.ENGLISH, Locale.FRENCH, Locale.JAPANESE, new Locale("pt", "br"), new Locale("nl", "be")};

@@ -7,7 +7,6 @@ import java.sql.SQLException;
 
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -122,7 +121,7 @@ public class CardsManagerService {
 
 		if(MTGControler.getInstance().get("collections/stockAutoAdd").equals("true"))
 		{
-			MagicCardStock st = MTGControler.getInstance().getDefaultStock();
+			var st = MTGControler.getInstance().getDefaultStock();
 			st.setProduct(mc);
 			st.setMagicCollection(collection);
 			getEnabledPlugin(MTGDao.class).saveOrUpdateCardStock(st);

@@ -2,6 +2,7 @@ package org.magic.services;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Paint;
 import java.awt.SystemColor;
@@ -98,7 +99,9 @@ public class MTGConstants {
 	public static final String COPYRIGHT_STRING="Wizards of the Coast, Magic: The Gathering, and their logos are trademarks of Wizards of the Coast LLC. \u00A9 1995-"+ Calendar.getInstance().get(Calendar.YEAR)+ " Wizards. All rights reserved. This app is not affiliated with Wizards of the Coast LLC.";
 
 	public static final Charset DEFAULT_ENCODING=StandardCharsets.UTF_8;
-
+	public static final boolean IS_GRAPHICAL_UI = !GraphicsEnvironment.isHeadless();
+	
+	
 	public static final int DEFAULT_PIC_WIDTH = 223;
 	public static final int DEFAULT_PIC_HEIGHT = 310;
 	public static final double CARD_PICS_RATIO = 1.39;

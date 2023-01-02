@@ -37,7 +37,6 @@ public class GithubUtils {
 
 	private GithubUtils() throws IOException {
 		releases = URLTools.extractAsJson(MTGConstants.MTG_DESKTOP_GITHUB_RELEASE_API).getAsJsonArray();
-
 		update();
 	}
 

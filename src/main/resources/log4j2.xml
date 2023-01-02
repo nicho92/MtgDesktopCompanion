@@ -54,7 +54,7 @@
 	    <Logger name="nl.basjes.parse.useragent" level="ERROR"></Logger>
 	    <Logger name="org.jsoup" level="ERROR"></Logger>
 	
-        <Root level="DEBUG">
+        <Root level="INFO">
         	<AppenderRef ref="APPS"/>
             <AppenderRef ref="CONSOLE"/>
 	        <AppenderRef ref="ROLEFILE"/>

@@ -30,21 +30,27 @@ public class VersionChecker {
 		}
 	}
 
-
-
-	public VersionChecker() {
-		actualVersion = getVersion();
-
-		var updatePRL =Boolean.parseBoolean(MTGControler.getInstance().get("notifyPrerelease","false"));
+	public void setUpdatePreReleased(boolean updatePr)
+	{
 		try {
-			GithubUtils.inst().setUpdateToPreRelease(updatePRL);
+			GithubUtils.inst().setUpdateToPreRelease(updatePr);
 			onlineVersion = GithubUtils.inst().getVersion();
-		} catch (Exception e) {
+		} catch (IOException e) {
 			onlineVersion = "";
 			logger.error(e.getMessage());
 		}
 	}
 
+	public VersionChecker(boolean preRelease) {
+		actualVersion = getVersion();
+		setUpdatePreReleased(preRelease);
+	}
+	
+
+	public VersionChecker() {
+		actualVersion = getVersion();
+		setUpdatePreReleased(false);
+	}
 
 	public boolean hasNewVersion() {
 

@@ -46,18 +46,14 @@ public class MtgDesktopCompanion {
 			logger.error("Error getting MTGLogger");
 		}
 		
-
-
 		launch.start();
 		chrono.start();
 		try {
-
-			boolean updated = MTGControler.getInstance().updateConfigMods();
-
-
-			MTGControler.getInstance().loadAccountsConfiguration();
 			MTGLogger.changeLevel(MTGControler.getInstance().get("loglevel"));
 
+			boolean updated = MTGControler.getInstance().updateConfigMods();
+			MTGControler.getInstance().loadAccountsConfiguration();
+		
 
 			logger.trace("result config updated : {}",updated);
 

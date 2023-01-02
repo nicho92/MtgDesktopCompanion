@@ -57,7 +57,6 @@ public class MagicGUI extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JTabbedPane tabbedPane;
-	private transient VersionChecker serviceUpdate;
 	private transient OSTrayNotifier osNotifier;
 
 	public MagicGUI() {
@@ -73,7 +72,6 @@ public class MagicGUI extends JFrame {
 		}
 
 		try {
-			serviceUpdate = new VersionChecker();
 			initGUI();
 		} catch (Exception e) {
 			logger.error("Error init GUI", e);
@@ -97,7 +95,7 @@ public class MagicGUI extends JFrame {
 
 		logger.info("init Main GUI");
 		setSize(new Dimension(1420, 900));
-		setTitle(MTGConstants.MTG_APP_NAME + " ( v" + serviceUpdate.getVersion() + ")");
+		setTitle(MTGConstants.MTG_APP_NAME + " ( v" + MTGControler.getInstance().getVersionChecker().getVersion() + ")");
 
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -183,13 +181,11 @@ public class MagicGUI extends JFrame {
 
 		mntmReportBug.addActionListener(ae -> UITools.browse(MTGConstants.MTG_DESKTOP_ISSUES_URL));
 
-		boolean update=serviceUpdate.hasNewVersion();
+		boolean update=MTGControler.getInstance().getVersionChecker().hasNewVersion();
 
 		if (update)
 		{
-			var newversion = new JMenuItem(
-					capitalize("DOWNLOAD_LAST_VERSION") + " : "
-							+ serviceUpdate.getOnlineVersion());
+			var newversion = new JMenuItem(capitalize("DOWNLOAD_LAST_VERSION") + " : "+ MTGControler.getInstance().getVersionChecker().getOnlineVersion());
 			newversion.addActionListener(e -> {
 				try {
 					UITools.browse(GithubUtils.inst().getReleaseURL());
@@ -205,11 +201,11 @@ public class MagicGUI extends JFrame {
 		var position=0;
 		switch(pos)
 		{
-		case "TOP": position = SwingConstants.TOP;break;
-		case "LEFT": position = SwingConstants.LEFT;break;
-		case "RIGHT": position = SwingConstants.RIGHT;break;
-		case "BOTTOM": position = SwingConstants.BOTTOM;break;
-		default : position=SwingConstants.LEFT;break;
+			case "TOP": position = SwingConstants.TOP;break;
+			case "LEFT": position = SwingConstants.LEFT;break;
+			case "RIGHT": position = SwingConstants.RIGHT;break;
+			case "BOTTOM": position = SwingConstants.BOTTOM;break;
+			default : position=SwingConstants.LEFT;break;
 		}
 
 		tabbedPane = new JTabbedPane(position);
@@ -307,7 +303,7 @@ public class MagicGUI extends JFrame {
 				if (update)
 				{
 					String msg=(capitalize("NEW_VERSION") + " "
-									+ serviceUpdate.getOnlineVersion() + " "
+									+ MTGControler.getInstance().getVersionChecker().getOnlineVersion() + " "
 									+ MTGControler.getInstance().getLangService().get("AVAILABLE"));
 					var notif = new MTGNotification(getTitle(),msg,MESSAGE_TYPE.INFO);
 					osNotifier.send(notif);

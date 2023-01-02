@@ -79,7 +79,7 @@ public class TechnicalServiceManager {
 		}
 
 
-		logger.info("Starting Log backup timer scheduled at {}ms",TimeUnit.HOURS.toMillis(SCHEDULE_TIMER_MS));
+		logger.debug("Starting Log backup timer scheduled at {}ms",TimeUnit.HOURS.toMillis(SCHEDULE_TIMER_MS));
 		ThreadManager.getInstance().timer(new MTGRunnable() {
 
 			@Override

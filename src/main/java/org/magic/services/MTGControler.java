@@ -59,18 +59,11 @@ public class MTGControler {
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private File conf;
 	private MTGNotifier notifier;
-
+	private VersionChecker versionChecker;
 
 	private MTGControler() {
 		
-		var head ="***********************"+MTGConstants.MTG_APP_NAME+"****************************";
-		var bottom =StringUtils.repeat("*", head.length());
-		logger.info(head);
-		logger.info("Java {}. Vendor : {}",Runtime.version(),SystemUtils.JAVA_VENDOR);
-		logger.info("OS {} {}",SystemUtils.OS_NAME,SystemUtils.OS_VERSION);
-		logger.info("Local directory : {}",MTGConstants.CONF_DIR);
-		logger.info(bottom);
-
+		
 		conf = new File(MTGConstants.CONF_DIR, MTGConstants.CONF_FILENAME);
 
 		if (!conf.exists())
@@ -100,16 +93,29 @@ public class MTGControler {
 				.setEncoding(MTGConstants.DEFAULT_ENCODING.displayName())
 				.setExpressionEngine(new XPathExpressionEngine()));
 
+		
+	
 		try {
 			config = builder.getConfiguration();
+			
+			versionChecker = new VersionChecker(Boolean.parseBoolean(get("notifyPrerelease","false")));
+			
+			var head ="***********************"+MTGConstants.MTG_APP_NAME+ " ("  +versionChecker.getVersion() +")****************************";
+			var bottom =StringUtils.repeat("*", head.length());
+			logger.info(head);
+			logger.info("Java {}. Vendor : {}",Runtime.version(),SystemUtils.JAVA_VENDOR);
+			logger.info("OS {} {}",SystemUtils.OS_NAME,SystemUtils.OS_VERSION);
+			logger.info("Local directory : {}",MTGConstants.CONF_DIR);
+			logger.info(bottom);
 
+			
 			PluginRegistry.inst().setConfig(config);
-
+			
 			langService = new LanguageService();
 			langService.changeLocal(getLocale());
 
 			ThreadManager.getInstance().initThreadPoolConfig(getThreadPoolConfig());
-
+			
 
 			TechnicalServiceManager.inst().enable(get("technical-log").equals("true"));
 			TechnicalServiceManager.inst().restore();
@@ -131,6 +137,11 @@ public class MTGControler {
 		}
 	}
 
+	
+	public VersionChecker getVersionChecker() {
+		return versionChecker;
+	}
+	
 
 	public void closeApp()
 	{

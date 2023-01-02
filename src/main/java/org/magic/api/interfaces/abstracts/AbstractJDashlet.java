@@ -143,7 +143,7 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 
 	@Override
 	public boolean isEnable() {
-		return true;
+		return MTGConstants.IS_GRAPHICAL_UI;
 	}
 
 	public void setProperties(Properties p) {

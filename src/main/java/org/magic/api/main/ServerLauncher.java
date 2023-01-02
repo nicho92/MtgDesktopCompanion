@@ -3,7 +3,6 @@ package org.magic.api.main;
 import static org.magic.services.tools.MTG.getEnabledPlugin;
 import static org.magic.services.tools.MTG.getPlugin;
 
-import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -13,6 +12,7 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.TechnicalMonitorPanel;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.threads.MTGRunnable;
@@ -56,7 +56,7 @@ public class ServerLauncher {
 		}
 
 
-		if(!GraphicsEnvironment.isHeadless())
+		if(MTGConstants.IS_GRAPHICAL_UI)
 		{
 			ThreadManager.getInstance().invokeLater(new MTGRunnable() {
 				@Override
@@ -65,10 +65,6 @@ public class ServerLauncher {
 				}
 			},"running server console");
 		}
-
-
-
-
 	}
 
 
