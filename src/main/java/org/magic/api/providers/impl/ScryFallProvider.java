@@ -190,7 +190,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		var hasMore = true;
 		while (hasMore) {
 			
-			logger.debug(URLTools.decode(url.toString()));
+			logger.debug("getting url {}",url);
 			try {
 				JsonElement el = URLTools.extractAsJson(url.toString()) ;
 

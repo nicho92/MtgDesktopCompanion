@@ -35,12 +35,13 @@ public class MNTGrader extends AbstractGradersProvider {
 
 		var grad = new Grading();
 		grad.setNumberID(identifier);
-		grad.setCentering(el.getAsJsonObject().get("grade_center").getAsJsonObject().get("value").getAsDouble());
-		grad.setCorners(el.getAsJsonObject().get("grade_corners").getAsJsonObject().get("value").getAsDouble());
-		grad.setEdges(el.getAsJsonObject().get("grade_edges").getAsJsonObject().get("value").getAsDouble());
-		grad.setSurface(el.getAsJsonObject().get("grade_surface").getAsJsonObject().get("value").getAsDouble());
-		grad.setGradeNote(el.getAsJsonObject().get("final_grade").getAsJsonObject().get("value").getAsDouble());
-		grad.setGradeDate(UITools.parseDate(el.getAsJsonObject().get("year").getAsJsonObject().get("value").getAsString(), "YYYY-MM"));
+		final String valueKey = "value";
+		grad.setCentering(el.getAsJsonObject().get("grade_center").getAsJsonObject().get(valueKey).getAsDouble());
+		grad.setCorners(el.getAsJsonObject().get("grade_corners").getAsJsonObject().get(valueKey).getAsDouble());
+		grad.setEdges(el.getAsJsonObject().get("grade_edges").getAsJsonObject().get(valueKey).getAsDouble());
+		grad.setSurface(el.getAsJsonObject().get("grade_surface").getAsJsonObject().get(valueKey).getAsDouble());
+		grad.setGradeNote(el.getAsJsonObject().get("final_grade").getAsJsonObject().get(valueKey).getAsDouble());
+		grad.setGradeDate(UITools.parseDate(el.getAsJsonObject().get("year").getAsJsonObject().get(valueKey).getAsString(), "YYYY-MM"));
 		grad.setGraderName(getName());
 
 

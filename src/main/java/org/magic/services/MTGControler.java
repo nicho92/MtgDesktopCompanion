@@ -57,19 +57,19 @@ public class MTGControler {
 	private ApilayerCurrencyConverter currencyService;
 	private LookAndFeelProvider lafService;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
-	private File conf;
+	private File xmlConfigFile;
 	private MTGNotifier notifier;
 	private VersionChecker versionChecker;
 
 	private MTGControler() {
 		
 		
-		conf = new File(MTGConstants.CONF_DIR, MTGConstants.CONF_FILENAME);
+		xmlConfigFile = new File(MTGConstants.CONF_DIR, MTGConstants.CONF_FILENAME);
 
-		if (!conf.exists())
+		if (!xmlConfigFile.exists())
 			try {
-				logger.info("{} file doesn't exist. creating one from default file",conf);
-				FileTools.copyURLToFile(getClass().getResource("/data/default-conf.xml"),conf);
+				logger.info("{} file doesn't exist. creating one from default file",xmlConfigFile);
+				FileTools.copyURLToFile(getClass().getResource("/data/default-conf.xml"),xmlConfigFile);
 				logger.info("conf file created");
 			} catch (IOException e1) {
 				logger.error(e1);
@@ -87,7 +87,7 @@ public class MTGControler {
 		var params = new Parameters();
 		builder = new FileBasedConfigurationBuilder<>(XMLConfiguration.class)
 				.configure(params.xml()
-				.setFile(conf)
+				.setFile(xmlConfigFile)
 				.setSchemaValidation(false)
 				.setValidating(false)
 				.setEncoding(MTGConstants.DEFAULT_ENCODING.displayName())
@@ -97,14 +97,13 @@ public class MTGControler {
 	
 		try {
 			config = builder.getConfiguration();
-			
 			versionChecker = new VersionChecker(Boolean.parseBoolean(get("notifyPrerelease","false")));
 			
-			var head ="***********************"+MTGConstants.MTG_APP_NAME+ " ("  +versionChecker.getVersion() +")****************************";
+			var head ="***************"+MTGConstants.MTG_APP_NAME+ " ("  +versionChecker.getVersion() +")**********";
 			var bottom =StringUtils.repeat("*", head.length());
 			logger.info(head);
-			logger.info("Java {}. Vendor : {}",Runtime.version(),SystemUtils.JAVA_VENDOR);
-			logger.info("OS {} {}",SystemUtils.OS_NAME,SystemUtils.OS_VERSION);
+			logger.info("Java {}. Vendor: {}",Runtime.version(),SystemUtils.JAVA_VENDOR);
+			logger.info("OS {}, Version: {}",SystemUtils.OS_NAME,SystemUtils.OS_VERSION);
 			logger.info("Local directory : {}",MTGConstants.CONF_DIR);
 			logger.info(bottom);
 
@@ -206,8 +205,6 @@ public class MTGControler {
 			conf.setCurrency(getCurrencyService().getCurrentCurrency());
 			conf.setMaxLastProduct(Integer.parseInt(get("/shopSite/config/maxLastProductSlide","4")));
 			conf.setProductPagination(Integer.parseInt(get("/shopSite/config/productPaginationSlide","12")));
-
-
 			conf.setPercentReduction(Double.parseDouble(get("/shopSite/config/percentReduction","0")));
 			conf.setGoogleAnalyticsId(get("/shopSite/config/ganalyticsId",""));
 			conf.setEnableGed(Boolean.parseBoolean(get("/shopSite/config/enableGed",FALSE)));
@@ -426,7 +423,7 @@ public class MTGControler {
 
 			config.setProperty(path, c);
 			
-			var info = new FileAccessInfo(conf);
+			var info = new FileAccessInfo(xmlConfigFile);
 			builder.save();
 			info.setEnd(Instant.now());
 			info.setAccesstype(ACCESSTYPE.WRITE);
