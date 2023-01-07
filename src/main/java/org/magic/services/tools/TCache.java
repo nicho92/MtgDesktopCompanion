@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
@@ -11,6 +12,7 @@ import javax.management.ObjectName;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.logging.log4j.Logger;
+import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 
 import com.google.common.cache.Cache;
@@ -30,6 +32,7 @@ public class TCache<T>{
 
 	public void init() {
 		loader = CacheBuilder.newBuilder()
+			//	.expireAfterAccess(MTGConstants.DAO_CACHE_TIMEOUT_MINUTES, TimeUnit.MINUTES)
 				.recordStats()
 				.build();
 	}
@@ -51,12 +54,6 @@ public class TCache<T>{
 		getCache().invalidate(k);
 	}
 
-
-	public boolean has(String k)
-	{
-		return getCache().getIfPresent(k)!=null;
-	}
-
 	public T get(String k, Callable<T> call) throws ExecutionException
 	{
 		return getCache().get(k,call);
@@ -66,16 +63,6 @@ public class TCache<T>{
 	public List<T> values()
 	{
 		return new ArrayList<>(getCache().asMap().values());
-	}
-
-	public List<String> keys()
-	{
-		return new ArrayList<>(getCache().asMap().keySet());
-	}
-
-	public int size()
-	{
-		return getCache().asMap().size();
 	}
 
 	public boolean isEmpty()

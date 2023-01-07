@@ -340,6 +340,7 @@ public class MTGConstants {
 	public static final Paint PICTURE_PAINTER = PaintUtils.NIGHT_GRAY;
 	public static final int DISCORD_MAX_CHARACTER = 2000;
 	public static final int DAY_ANNOUNCES_UPDATE = 10;
+	public static final long DAO_CACHE_TIMEOUT_MINUTES = 1;
 
 
 

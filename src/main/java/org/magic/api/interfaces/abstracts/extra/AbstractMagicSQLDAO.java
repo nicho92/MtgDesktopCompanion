@@ -1990,7 +1990,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				state.setUpdated(false);
 				listOrders.put(state.getId(),state);
 			}
-			logger.debug("load {} items from orders",listOrders.size());
 		}
 		catch(Exception e)
 		{

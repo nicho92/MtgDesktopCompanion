@@ -155,7 +155,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 	private JsonExport converter;
 	private UserAgentAnalyzer ua ;
 	private JWTServices jwtService;
-	private static final String robotVars="""
+	private static final String ROBOTS_VARS_DISALOW="""
 			\tUser-agent: Googlebot
 			\tDisallow: /
 			\tUser-agent: googlebot-image
@@ -651,7 +651,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 				@Override
 				public List<MagicPrice> call() throws Exception {
-					MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId( request.params(SCRYFALL_ID));
+					var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId( request.params(SCRYFALL_ID));
 					List<MagicPrice> pricesret = new ArrayList<>();
 					for (MTGPricesProvider prices : listEnabledPlugins(MTGPricesProvider.class))
 					{
@@ -1388,7 +1388,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 
 
-		get("/robots.txt",URLTools.HEADER_TEXT,(req,res) ->robotVars);
+		get("/robots.txt",URLTools.HEADER_TEXT,(req,res) ->ROBOTS_VARS_DISALOW);
 
 		if(getBoolean("INDEX_ROUTES")) {
 			get("/",URLTools.HEADER_HTML,(request,response) -> {

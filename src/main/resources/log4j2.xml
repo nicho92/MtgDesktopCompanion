@@ -43,6 +43,7 @@
 	    <Logger name="org.quartz" level="ERROR"></Logger>
 	    <Logger name="org.reflections" level="OFF"></Logger>
 	    <Logger name="spark.route" level="ERROR"></Logger>
+	    <Logger name="com.google.guava" level="ERROR"></Logger>
 	    <Logger name="net.dv8tion.jda.internal" level="ERROR"></Logger>
 	    <Logger name="org.mongodb.driver" level="ERROR"></Logger>
 	    <Logger name="org.cache2k.core" level="ERROR"></Logger>

@@ -99,7 +99,7 @@ public class MTGControler {
 			config = builder.getConfiguration();
 			versionChecker = new VersionChecker(Boolean.parseBoolean(get("notifyPrerelease","false")));
 			
-			var head ="***************"+MTGConstants.MTG_APP_NAME+ " ("  +versionChecker.getVersion() +")**********";
+			var head ="***************"+MTGConstants.MTG_APP_NAME+ " - "  +versionChecker.getVersion() +"**********";
 			var bottom =StringUtils.repeat("*", head.length());
 			logger.info(head);
 			logger.info("Java {}. Vendor: {}",Runtime.version(),SystemUtils.JAVA_VENDOR);
