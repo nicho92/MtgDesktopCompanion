@@ -39,7 +39,7 @@
 	    <Logger name="org.fit" level="ERROR"></Logger>
 	    <Logger name="org.eclipse.jetty" level="ERROR"></Logger>
 	    <Logger name="io.milton" level="ERROR"></Logger>
-	    <Logger name="com.zaxxer.hikari" level="ERROR"></Logger>
+	    <Logger name="com.zaxxer.hikari" level="OFF"></Logger>
 	    <Logger name="org.quartz" level="ERROR"></Logger>
 	    <Logger name="org.reflections" level="OFF"></Logger>
 	    <Logger name="spark.route" level="ERROR"></Logger>
