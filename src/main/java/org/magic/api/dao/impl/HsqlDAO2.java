@@ -1,7 +1,5 @@
 package org.magic.api.dao.impl;
 
-import java.io.File;
-import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
@@ -77,11 +75,6 @@ public class HsqlDAO2 extends AbstractMagicSQLDAO {
 	@Override
 	public String getName() {
 		return "hSQLdb2";
-	}
-
-	@Override
-	public void backup(File dir) throws IOException {
-		FileTools.zip(getFile(SERVERNAME), new File(dir, "backup.zip"));
 	}
 
 	@Override

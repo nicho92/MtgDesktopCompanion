@@ -144,16 +144,7 @@ public class DAOProviderTests {
 			stocks.add(stock);
 			
 			
-			System.out.println("BACKUP");
-			try{
-				p.backup(new File("d:/backup.sql"));
-			}
-			catch(Exception e)
-			{
-				System.err.println(e);
-			}
-			
-			
+		
 			System.out.println("DELETE");
 			p.deleteStock(stocks);
 			p.removeEdition(ed, col);

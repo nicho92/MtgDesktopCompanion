@@ -4,8 +4,6 @@ import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 import static org.magic.services.tools.MTG.getPlugin;
 
-import java.io.File;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -20,7 +18,6 @@ import java.util.function.Consumer;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.lang3.NotImplementedException;
 import org.bson.Document;
 import org.bson.codecs.pojo.PojoCodecProvider;
 import org.bson.conversions.Bson;
@@ -740,11 +737,6 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			db.getCollection(colStocks).deleteOne(filter);
 			notify(s);
 		}
-	}
-
-	@Override
-	public void backup(File f) throws IOException {
-		throw new NotImplementedException("Not yet implemented");
 	}
 
 	private void createCountersCollection(MongoCollection<Document> countersCollection) {

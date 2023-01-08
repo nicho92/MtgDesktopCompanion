@@ -25,8 +25,8 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.MTGBooster;
 import org.magic.api.beans.CardShake;
+import org.magic.api.beans.MTGBooster;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.MTGRarity;

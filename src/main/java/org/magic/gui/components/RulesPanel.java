@@ -7,8 +7,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MTGRuling;
+import org.magic.api.beans.MagicCard;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
 

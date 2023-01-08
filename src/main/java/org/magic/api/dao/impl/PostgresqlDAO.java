@@ -1,8 +1,5 @@
 package org.magic.api.dao.impl;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -131,34 +128,10 @@ public class PostgresqlDAO extends AbstractMagicSQLDAO {
 	}
 
 	@Override
-	public void backup(File f) throws IOException {
-
-		if (getString(URL_PGDUMP).length() <= 0) {
-			throw new NullPointerException("Please fill URL_PGDUMP var");
-		}
-
-		ProcessBuilder pb = new ProcessBuilder(getString(URL_PGDUMP) + "/pg_dump", "-d", getString(DB_NAME),"-h",getString(SERVERNAME),"-U",getString(LOGIN),"-p",getString(SERVERPORT));
-
-		Process child = pb.start();
-		try (var ps = new PrintStream(f)) {
-			var in = child.getInputStream();
-			int ch;
-			while ((ch = in.read()) != -1) {
-				ps.write(ch);
-			}
-			logger.info("Backup {} done",getString(DB_NAME));
-		}
-
-	}
-
-
-	@Override
 	public Map<String, String> getDefaultAttributes() {
 
 		var m = super.getDefaultAttributes();
 		m.put(SERVERPORT, "5432");
-		m.put(URL_PGDUMP, "C:/Program Files (x86)/PostgreSQL/9.5/bin");
-
 		return m;
 	}
 

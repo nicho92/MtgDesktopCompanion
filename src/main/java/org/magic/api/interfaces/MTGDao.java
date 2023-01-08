@@ -1,7 +1,5 @@
 package org.magic.api.interfaces;
 
-import java.io.File;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
@@ -156,7 +154,6 @@ public interface MTGDao extends MTGPlugin{
 	public String getDBLocation();
 	public Map<String,Long> getDBSize();
 
-	public void backup(File dir) throws SQLException, IOException;
 	public void duplicateTo(MTGDao dao) throws SQLException;
 	public void updateCard(MagicCard c, MagicCard newC, MagicCollection col) throws SQLException;
 	public void executeQuery(String query)throws SQLException;

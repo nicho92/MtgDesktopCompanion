@@ -15,13 +15,13 @@ import java.util.List;
 
 import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
+import org.magic.api.beans.MTGFormat;
+import org.magic.api.beans.MTGFormat.AUTHORIZATION;
 import org.magic.api.beans.MTGKeyWord;
+import org.magic.api.beans.MTGRuling;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.MTGFormat;
-import org.magic.api.beans.MTGFormat.AUTHORIZATION;
-import org.magic.api.beans.MTGRuling;
 import org.magic.api.beans.enums.MTGBorder;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGFinishes;

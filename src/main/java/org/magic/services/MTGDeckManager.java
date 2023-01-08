@@ -17,10 +17,10 @@ import java.util.TreeMap;
 
 import org.apache.commons.math3.distribution.HypergeometricDistribution;
 import org.apache.logging.log4j.Logger;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MTGFormat.FORMATS;
+import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.beans.technical.RetrievableDeck;

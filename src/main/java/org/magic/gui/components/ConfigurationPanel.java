@@ -82,7 +82,6 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private JTextFieldFileChooser txtDAOBackup;
 	private JComboBox<MTGDao> cboTargetDAO;
 	private JComboBox<MagicCollection> cboCollections;
 	private JComboBox<Level> cboLogLevels;
@@ -259,9 +258,6 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 
 
 /////////////DAO BOX
-		var lblBackupDao = new JLangLabel("DAO_BACKUP",true);
-		txtDAOBackup = new JTextFieldFileChooser(10,JFileChooser.FILES_AND_DIRECTORIES,MTGConstants.DATA_DIR.getAbsolutePath());
-		var btnBackup = new JButton(capitalize(EXPORT));
 		var lblDuplicateDb = new JLabel(capitalize("DUPLICATE_TO",getEnabledPlugin(MTGDao.class)));
 		var btnDuplicate = new JButton((capitalize(EXPORT)));
 		var lblLocation = new JLangLabel("LOCATION",true);
@@ -274,11 +270,6 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		cboTargetDAO = UITools.createCombobox(MTGDao.class, true);
 		cboTargetDAO.removeItem(getEnabledPlugin(MTGDao.class));
 
-
-
-		panelDAO.add(lblBackupDao, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 0));
-		panelDAO.add(txtDAOBackup, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 0));
-		panelDAO.add(btnBackup, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 0));
 		panelDAO.add(lblDuplicateDb, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 1));
 		panelDAO.add(cboTargetDAO, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 1));
 		panelDAO.add(btnDuplicate, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 1));
@@ -877,35 +868,6 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 			}
 		});
 
-
-		btnBackup.addActionListener(ae ->{
-			loading(true, "backup db " + getEnabledPlugin(MTGDao.class) + " database");
-
-			var swBackup = new SwingWorker<Void, Void>(){
-
-				@Override
-				protected Void doInBackground() throws Exception {
-					getEnabledPlugin(MTGDao.class).backup(txtDAOBackup.getFile());
-					return null;
-				}
-
-				@Override
-				protected void done()
-				{
-					try {
-						get();
-					}catch (InterruptedException e) {
-						Thread.currentThread().interrupt();
-					} catch (Exception e) {
-						logger.error(e);
-					}
-					finally {
-						loading(false, "");
-					}
-				}
-			};
-			ThreadManager.getInstance().runInEdt(swBackup, "backup " + getEnabledPlugin(MTGDao.class) + " database");
-		});
 
 		lclCodeCurrency.addMouseListener(new MouseAdapter() {
 			@Override

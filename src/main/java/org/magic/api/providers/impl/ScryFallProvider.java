@@ -14,12 +14,12 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardNames;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MTGFormat.AUTHORIZATION;
 import org.magic.api.beans.MTGRuling;
+import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicCardNames;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.MTGBorder;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGFinishes;

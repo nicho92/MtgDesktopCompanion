@@ -84,7 +84,7 @@ public class MTGConstants {
 	public static final String MTG_DESKTOP_WEBSITE = "https://www.mtgcompanion.org/";
 	public static final String MTG_DESKTOP_GITHUB_RELEASE_API = "https://api.github.com/repos/nicho92/MTGDesktopCompanion/releases";
 	public static final String CURRENCY_API = "https://currencylayer.com/";
-	public static final String URL_RULES_FILE = "https://media.wizards.com/2021/downloads/MagicCompRules%2020210224.txt";
+	public static final String URL_RULES_FILE = "https://media.wizards.com/2022/downloads/MagicCompRules%2020220429.txt";
 	public static final String WIZARD_EVENTS_URL = "https://magic.wizards.com/en/calendar-node-field-event-date-ajax/month/";
 
 //PLUGINS CONSTANTS
@@ -303,8 +303,6 @@ public class MTGConstants {
 			return ICON_TAB_CARD;
 		}
 	}
-
-	
 
 //EXTRA CONSTANTS
 	public static final float WEIGHT_CARD=1.7009714f;
