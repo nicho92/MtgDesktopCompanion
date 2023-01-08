@@ -41,7 +41,6 @@ import org.magic.services.AccountsManager;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ShortKeyManager;
-import org.magic.services.VersionChecker;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
