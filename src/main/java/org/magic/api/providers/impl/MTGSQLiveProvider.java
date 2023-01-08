@@ -19,9 +19,9 @@ import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.MagicFormat;
-import org.magic.api.beans.MagicFormat.AUTHORIZATION;
-import org.magic.api.beans.MagicRuling;
+import org.magic.api.beans.MTGFormat;
+import org.magic.api.beans.MTGFormat.AUTHORIZATION;
+import org.magic.api.beans.MTGRuling;
 import org.magic.api.beans.enums.MTGBorder;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGFinishes;
@@ -44,8 +44,8 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 	private MTGPool pool;
 	private MultiValuedMap<String, MagicCardNames> mapForeignData = new ArrayListValuedHashMap<>();
-	private MultiValuedMap<String, MagicRuling> mapRules = new ArrayListValuedHashMap<>();
-	private MultiValuedMap<String, MagicFormat> mapLegalities = new ArrayListValuedHashMap<>();
+	private MultiValuedMap<String, MTGRuling> mapRules = new ArrayListValuedHashMap<>();
+	private MultiValuedMap<String, MTGFormat> mapLegalities = new ArrayListValuedHashMap<>();
 
 	@Override
 	public String getOnlineDataFileZip() {
@@ -561,7 +561,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 			{
 				while(rs.next())
 				{
-					var names = new MagicRuling();
+					var names = new MTGRuling();
 					names.setText(rs.getString("text"));
 					names.setDate(rs.getString("date"));
 					var id = rs.getString(UUID);
@@ -586,7 +586,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				while(rs.next())
 				{
 					var id = rs.getString(UUID);
-					mapLegalities.put(id, new MagicFormat(rs.getString("format"), AUTHORIZATION.valueOf(rs.getString("status").toUpperCase())));
+					mapLegalities.put(id, new MTGFormat(rs.getString("format"), AUTHORIZATION.valueOf(rs.getString("status").toUpperCase())));
 				}
 			}
 
@@ -625,19 +625,19 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 	}
 
-	private List<MagicRuling> getRulings(String uuid) {
+	private List<MTGRuling> getRulings(String uuid) {
 		if(mapRules.isEmpty())
 			initRules();
 
-		return (List<MagicRuling>) mapRules.get(uuid);
+		return (List<MTGRuling>) mapRules.get(uuid);
 	}
 
-	private List<MagicFormat> getLegalities(String uuid){
+	private List<MTGFormat> getLegalities(String uuid){
 		if(mapLegalities.isEmpty())
 			initLegalities();
 
 
-		return (List<MagicFormat>) mapLegalities.get(uuid);
+		return (List<MTGFormat>) mapLegalities.get(uuid);
 	}
 
 	private void initTranslations(MagicEdition ed)

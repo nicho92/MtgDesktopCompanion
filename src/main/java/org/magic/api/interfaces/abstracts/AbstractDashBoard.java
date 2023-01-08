@@ -12,7 +12,7 @@ import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.MagicFormat;
+import org.magic.api.beans.MTGFormat;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.services.CollectionEvaluator;
 import org.magic.services.MTGControler;
@@ -148,7 +148,7 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 
 
 	@Override
-	public List<CardShake> getShakerFor(MagicFormat.FORMATS format)  throws IOException
+	public List<CardShake> getShakerFor(MTGFormat.FORMATS format)  throws IOException
 	{
 		List<CardShake> ret = getOnlineShakerFor(format);
 		convert(ret);
@@ -160,7 +160,7 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 
 
 	protected abstract HistoryPrice<MTGSealedProduct> getOnlinePricesVariation(MTGSealedProduct packaging) throws IOException;
-	protected abstract List<CardShake> getOnlineShakerFor(MagicFormat.FORMATS gameFormat) throws IOException;
+	protected abstract List<CardShake> getOnlineShakerFor(MTGFormat.FORMATS gameFormat) throws IOException;
 	protected abstract EditionsShakers getOnlineShakesForEdition(MagicEdition ed) throws IOException;
 	protected abstract HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc,boolean foil) throws IOException;
 	protected abstract HistoryPrice<MagicEdition> getOnlinePricesVariation(MagicEdition ed) throws IOException;

@@ -8,7 +8,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicRuling;
+import org.magic.api.beans.MTGRuling;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
 
@@ -41,9 +41,9 @@ public class RulesPanel extends MTGUIComponent{
 		return MTGConstants.ICON_TAB_RULES;
 	}
 
-	private void init(List<MagicRuling> rulings) {
+	private void init(List<MTGRuling> rulings) {
 		txtRulesArea.setText("");
-		for (MagicRuling mr : rulings) {
+		for (MTGRuling mr : rulings) {
 			txtRulesArea.append(mr.toString());
 			txtRulesArea.append("\n");
 		}

@@ -14,9 +14,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.MagicFormat;
-import org.magic.api.beans.MagicFormat.AUTHORIZATION;
-import org.magic.api.beans.MagicRuling;
+import org.magic.api.beans.MTGFormat;
+import org.magic.api.beans.MTGFormat.AUTHORIZATION;
+import org.magic.api.beans.MTGRuling;
 import org.magic.api.beans.enums.MTGBorder;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGFinishes;
@@ -361,7 +361,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 				if (map.get(LEGALITIES) != null) {
 
 					for (Map.Entry<String,String> mapFormats : ((Map<String,String>) map.get(LEGALITIES)).entrySet()) {
-						var mf = new MagicFormat(String.valueOf(mapFormats.getKey()),AUTHORIZATION.valueOf(String.valueOf(mapFormats.getValue()).toUpperCase()));
+						var mf = new MTGFormat(String.valueOf(mapFormats.getKey()),AUTHORIZATION.valueOf(String.valueOf(mapFormats.getValue()).toUpperCase()));
 						mc.getLegalities().add(mf);
 					}
 				}
@@ -394,7 +394,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 
 				if (map.get(RULINGS) != null) {
 					for (Map<String, Object> mapRules : (List<Map<String,Object>>) map.get(RULINGS)) {
-						var mr = new MagicRuling();
+						var mr = new MTGRuling();
 						mr.setDate(String.valueOf(mapRules.get("date")));
 						mr.setText(String.valueOf(mapRules.get(TEXT)));
 						mc.getRulings().add(mr);

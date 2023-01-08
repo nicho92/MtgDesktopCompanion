@@ -21,7 +21,7 @@ import javax.swing.table.TableRowSorter;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.CardShake;
-import org.magic.api.beans.MagicFormat;
+import org.magic.api.beans.MTGFormat;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
@@ -36,7 +36,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 	private static final long serialVersionUID = 1L;
 	private JXTable table;
 	private CardShakerTableModel modStandard;
-	private JComboBox<MagicFormat.FORMATS> cboFormats;
+	private JComboBox<MTGFormat.FORMATS> cboFormats;
 	private AbstractBuzyIndicatorComponent lblLoading;
 
 	@Override
@@ -56,7 +56,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 		var panneauHaut = new JPanel();
 		getContentPane().add(panneauHaut, BorderLayout.NORTH);
 
-		cboFormats = UITools.createCombobox(MagicFormat.FORMATS.values());
+		cboFormats = UITools.createCombobox(MTGFormat.FORMATS.values());
 		panneauHaut.add(cboFormats);
 
 		lblLoading = AbstractBuzyIndicatorComponent.createLabelComponent();
@@ -98,7 +98,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 					(int) Double.parseDouble(getString("h")));
 
 			try {
-				cboFormats.setSelectedItem(MagicFormat.FORMATS.valueOf(getString("FORMAT")));
+				cboFormats.setSelectedItem(MTGFormat.FORMATS.valueOf(getString("FORMAT")));
 
 			} catch (Exception e) {
 				logger.error(e);
@@ -136,7 +136,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 
 			@Override
 			protected List<CardShake> doInBackground() throws Exception {
-				return getEnabledPlugin(MTGDashBoard.class).getShakerFor((MagicFormat.FORMATS) cboFormats.getSelectedItem());
+				return getEnabledPlugin(MTGDashBoard.class).getShakerFor((MTGFormat.FORMATS) cboFormats.getSelectedItem());
 			}
 
 			@Override
@@ -153,7 +153,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 					logger.error(e);
 				}
 				lblLoading.end();
-				setProperty("FORMAT", ((MagicFormat.FORMATS) cboFormats.getSelectedItem()).toString());
+				setProperty("FORMAT", ((MTGFormat.FORMATS) cboFormats.getSelectedItem()).toString());
 
 				List<SortKey> keys = new ArrayList<>();
 				var sortKey = new SortKey(3, SortOrder.DESCENDING);// column index 2

@@ -12,7 +12,7 @@ import org.magic.api.beans.CardShake;
 import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.MagicFormat;
+import org.magic.api.beans.MTGFormat;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.abstracts.AbstractCommand;
@@ -42,7 +42,7 @@ public class Dash extends AbstractCommand {
 		CommandLine cl = parser.parse(opts, args);
 
 		if (cl.hasOption("f")) {
-			MagicFormat.FORMATS f = MagicFormat.FORMATS.valueOf(cl.getOptionValue("f").toUpperCase());
+			MTGFormat.FORMATS f = MTGFormat.FORMATS.valueOf(cl.getOptionValue("f").toUpperCase());
 			return new ArrayResponse(CardShake.class, null, json.toJsonArray(getEnabledPlugin(MTGDashBoard.class).getShakerFor(f)));
 		}
 

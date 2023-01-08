@@ -42,10 +42,10 @@ public class MagicCard extends AbstractProduct {
 	private List<MTGColor> colors;
 	private List<MagicCardNames> foreignNames;
 	private List<MagicEdition> editions;
-	private List<MagicRuling> rulings;
+	private List<MTGRuling> rulings;
 	private List<MTGColor> colorIdentity;
 	private List<MTGColor> colorIndicator;
-	private List<MagicFormat> legalities;
+	private List<MTGFormat> legalities;
 	private List<MTGFrameEffects> frameEffects;
 	private String flavorName;
 	private String imageName;
@@ -624,11 +624,11 @@ public class MagicCard extends AbstractProduct {
 		setTypeProduct(EnumItems.CARD);
 	}
 
-	public List<MagicFormat> getLegalities() {
+	public List<MTGFormat> getLegalities() {
 		return legalities;
 	}
 
-	public void setLegalities(List<MagicFormat> legalities) {
+	public void setLegalities(List<MTGFormat> legalities) {
 		this.legalities = legalities;
 	}
 
@@ -648,11 +648,11 @@ public class MagicCard extends AbstractProduct {
 		this.colorIdentity = colorIdentity;
 	}
 
-	public List<MagicRuling> getRulings() {
+	public List<MTGRuling> getRulings() {
 		return rulings;
 	}
 
-	public void setRulings(List<MagicRuling> rulings) {
+	public void setRulings(List<MTGRuling> rulings) {
 		this.rulings = rulings;
 	}
 

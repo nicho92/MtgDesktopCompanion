@@ -20,7 +20,7 @@ import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.MTGSealedProduct.EXTRA;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.MagicFormat;
+import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.enums.EnumMarketType;
 import org.magic.api.beans.enums.MTGCardVariation;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
@@ -349,7 +349,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 
 	@Override
-	public List<CardShake> getOnlineShakerFor(MagicFormat.FORMATS f) throws IOException {
+	public List<CardShake> getOnlineShakerFor(MTGFormat.FORMATS f) throws IOException {
 		List<CardShake> list = new ArrayList<>();
 
 		var gameFormat="all";
@@ -471,13 +471,13 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	}
 
 	@Override
-	public List<CardDominance> getBestCards(MagicFormat.FORMATS f, String filter) throws IOException {
+	public List<CardDominance> getBestCards(MTGFormat.FORMATS f, String filter) throws IOException {
 
 		// spells, creatures, all, lands
 
 		String u = WEBSITE + "/format-staples/" + f.name().toLowerCase() + "/full/" + filter;
 
-		if(f == MagicFormat.FORMATS.COMMANDER)
+		if(f == MTGFormat.FORMATS.COMMANDER)
 			u=WEBSITE + "/format-staples/commander_1v1/full/" + filter;
 
 		Document doc = URLTools.extractAsHtml(u);

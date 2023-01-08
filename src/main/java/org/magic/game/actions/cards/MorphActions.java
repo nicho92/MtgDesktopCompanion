@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicRuling;
+import org.magic.api.beans.MTGRuling;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.game.actions.abbstract.AbstractCardAction;
 import org.magic.game.gui.components.DisplayableCard;
@@ -63,7 +63,7 @@ public class MorphActions extends AbstractCardAction {
 			mc.setCost("{3}");
 			mc.setEditions(card.getMagicCard().getEditions());
 			mc.setRotatedCard(card.getMagicCard());
-			var r = new MagicRuling();
+			var r = new MTGRuling();
 					r.setText(AbstractKeyWordsManager.getInstance().generateFromKeyString(k).toString());
 			mc.getRulings().add(r);
 			mc.setText(k + " " + cost);

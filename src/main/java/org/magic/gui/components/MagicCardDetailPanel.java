@@ -45,7 +45,7 @@ import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicFormat;
+import org.magic.api.beans.MTGFormat;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPictureProvider;
@@ -81,7 +81,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 	private boolean thumbnail = false;
 	private JLabel lblThumbnail;
 	private JLabel lblLogoSet;
-	private JList<MagicFormat> lstFormats;
+	private JList<MTGFormat> lstFormats;
 	private JList<MagicCollection> listCollection;
 	private JTextField txtWatermark;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
@@ -258,7 +258,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 
 
 		lstFormats = new JList<>(new DefaultListModel<>());
-		lstFormats.setCellRenderer((JList<? extends MagicFormat> list, MagicFormat obj, int arg2,boolean arg3, boolean arg4)->{
+		lstFormats.setCellRenderer((JList<? extends MTGFormat> list, MTGFormat obj, int arg2,boolean arg3, boolean arg4)->{
 			var l = new JLabel(obj.getFormat());
 
 					if(obj.getFormatLegality()!=null)
@@ -493,11 +493,11 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 
 
 
-		((DefaultListModel<MagicFormat>) lstFormats.getModel()).removeAllElements();
+		((DefaultListModel<MTGFormat>) lstFormats.getModel()).removeAllElements();
 
 		if (magicCard != null)
-			for (MagicFormat mf : magicCard.getLegalities())
-				((DefaultListModel<MagicFormat>) lstFormats.getModel()).addElement(mf);
+			for (MTGFormat mf : magicCard.getLegalities())
+				((DefaultListModel<MTGFormat>) lstFormats.getModel()).addElement(mf);
 
 
 

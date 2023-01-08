@@ -14,12 +14,12 @@ import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.MagicFormat;
+import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.enums.EnumMarketType;
 
 public interface MTGDashBoard extends MTGPriceSuggester {
 
-	public List<CardShake> getShakerFor(MagicFormat.FORMATS gameFormat) throws IOException;
+	public List<CardShake> getShakerFor(MTGFormat.FORMATS gameFormat) throws IOException;
 
 	public EditionsShakers getShakesForEdition(MagicEdition edition) throws IOException;
 
@@ -29,7 +29,7 @@ public interface MTGDashBoard extends MTGPriceSuggester {
 
 	public HistoryPrice<MTGSealedProduct> getPriceVariation(MTGSealedProduct packaging) throws IOException;
 
-	public List<CardDominance> getBestCards(MagicFormat.FORMATS f, String filter) throws IOException;
+	public List<CardDominance> getBestCards(MTGFormat.FORMATS f, String filter) throws IOException;
 
 	public Date getUpdatedDate();
 

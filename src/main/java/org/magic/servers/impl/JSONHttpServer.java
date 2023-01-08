@@ -52,7 +52,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.MagicFormat;
+import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.SealedStock;
@@ -928,7 +928,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return getEnabledPlugin(MTGDashBoard.class).getShakesForEdition(ed);
 		}, transformer);
 
-		get("/dash/format/:format", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGDashBoard.class).getShakerFor(MagicFormat.FORMATS.valueOf(request.params(":format"))), transformer);
+		get("/dash/format/:format", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGDashBoard.class).getShakerFor(MTGFormat.FORMATS.valueOf(request.params(":format"))), transformer);
 
 		get("/pics/cards/:idEd/:cardNumber", URLTools.HEADER_JSON, (request, response) -> {
 			var baos = new ByteArrayOutputStream();

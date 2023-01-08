@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Booster implements Serializable
+public class MTGBooster implements Serializable
 {
 	/**
 	 *
@@ -15,7 +15,7 @@ public class Booster implements Serializable
 	private Double price;
 	private MagicEdition edition;
 
-	public Booster() {
+	public MTGBooster() {
 		cards = new ArrayList<>();
 	}
 

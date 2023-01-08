@@ -10,7 +10,7 @@ import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
 
-import org.magic.api.beans.MagicFormat.AUTHORIZATION;
+import org.magic.api.beans.MTGFormat.AUTHORIZATION;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.interfaces.MTGStorable;
 import org.magic.services.tools.IDGenerator;
@@ -162,10 +162,10 @@ public class MagicDeck implements MTGStorable {
 		return !getMain().keySet().stream().filter(k->k.getName().equalsIgnoreCase(mc.getName())).findAny().isEmpty();
 	}
 
-	public Set<MagicFormat> getLegality() {
-		Set<MagicFormat> cmap = new LinkedHashSet<>();
+	public Set<MTGFormat> getLegality() {
+		Set<MTGFormat> cmap = new LinkedHashSet<>();
 		for (MagicCard mc : getMain().keySet()) {
-			for (MagicFormat mf : mc.getLegalities()) {
+			for (MTGFormat mf : mc.getLegalities()) {
 				cmap.add(mf);
 			}
 		}
@@ -217,7 +217,7 @@ public class MagicDeck implements MTGStorable {
 
 	}
 
-	public boolean isCompatibleFormat(MagicFormat mf) {
+	public boolean isCompatibleFormat(MTGFormat mf) {
 		for (MagicCard mc : mapDeck.keySet())
 		{
 			long num = mc.getLegalities().stream().filter(mf::equals).toList().stream().filter(f->f.getFormatLegality()==AUTHORIZATION.LEGAL || f.getFormatLegality()==AUTHORIZATION.RESTRICTED).count();

@@ -17,9 +17,9 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.MagicFormat;
-import org.magic.api.beans.MagicFormat.AUTHORIZATION;
-import org.magic.api.beans.MagicRuling;
+import org.magic.api.beans.MTGFormat;
+import org.magic.api.beans.MTGFormat.AUTHORIZATION;
+import org.magic.api.beans.MTGRuling;
 import org.magic.api.beans.enums.MTGBorder;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGFinishes;
@@ -486,7 +486,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		if (obj.get("legalities") != null) {
 			var legs = obj.get("legalities").getAsJsonObject();
 			for (Entry<String, JsonElement> ent : legs.entrySet()) {
-				var format = new MagicFormat(ent.getKey(),AUTHORIZATION.valueOf(ent.getValue().getAsString().toUpperCase()));
+				var format = new MTGFormat(ent.getKey(),AUTHORIZATION.valueOf(ent.getValue().getAsString().toUpperCase()));
 				mc.getLegalities().add(format);
 			}
 		}
@@ -615,7 +615,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 			for (var i = 0; i < arr.size(); i++) {
 				var obr = arr.get(i).getAsJsonObject();
-				var rul = new MagicRuling();
+				var rul = new MTGRuling();
 				rul.setDate(obr.get("published_at").getAsString());
 				rul.setText(obr.get("comment").getAsString());
 

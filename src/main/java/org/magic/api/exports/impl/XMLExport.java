@@ -9,7 +9,7 @@ import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.MagicFormat;
+import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
@@ -43,7 +43,7 @@ public class XMLExport extends AbstractCardExport {
 		xstream.alias("stock",MagicCardStock.class);
 		xstream.alias("set", MagicEdition.class);
 		xstream.alias("foreigneData", MagicCardNames.class);
-		xstream.alias("legality", MagicFormat.class);
+		xstream.alias("legality", MTGFormat.class);
 		xstream.registerConverter(new NamedMapConverter(xstream.getMapper(), "entry", "card", MagicCard.class, "qty", Integer.class));
 		xstream.registerConverter(new Converter() {
 

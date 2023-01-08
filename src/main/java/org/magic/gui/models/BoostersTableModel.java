@@ -1,9 +1,9 @@
 package org.magic.gui.models;
 
-import org.magic.api.beans.Booster;
+import org.magic.api.beans.MTGBooster;
 import org.magic.gui.abstracts.GenericTableModel;
 
-public class BoostersTableModel extends GenericTableModel<Booster> {
+public class BoostersTableModel extends GenericTableModel<MTGBooster> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -11,7 +11,7 @@ public class BoostersTableModel extends GenericTableModel<Booster> {
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex) {
 		case 0:
-			return Booster.class;
+			return MTGBooster.class;
 		case 1:
 			return Double.class;
 		default:

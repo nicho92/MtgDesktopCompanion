@@ -28,7 +28,7 @@ import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicFormat.FORMATS;
+import org.magic.api.beans.MTGFormat.FORMATS;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.gui.components.editor.JTagsPanel;
 import org.magic.services.MTGControler;

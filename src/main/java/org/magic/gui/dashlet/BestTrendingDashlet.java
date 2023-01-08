@@ -25,7 +25,7 @@ import javax.swing.table.TableRowSorter;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.CardShake;
-import org.magic.api.beans.MagicFormat;
+import org.magic.api.beans.MTGFormat;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.api.sorters.PricesCardsShakeSorter;
@@ -86,17 +86,17 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 					List<CardShake> shakes = new ArrayList<>();
 
 					if (boxM.isSelected())
-						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MagicFormat.FORMATS.MODERN));
+						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MTGFormat.FORMATS.MODERN));
 					if (boxS.isSelected())
-						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MagicFormat.FORMATS.STANDARD));
+						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MTGFormat.FORMATS.STANDARD));
 					if (boxL.isSelected())
-						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MagicFormat.FORMATS.LEGACY));
+						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MTGFormat.FORMATS.LEGACY));
 					if (boxV.isSelected())
-						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MagicFormat.FORMATS.VINTAGE));
+						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MTGFormat.FORMATS.VINTAGE));
 					if(boxPioneer.isSelected())
-						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MagicFormat.FORMATS.PIONEER));
+						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MTGFormat.FORMATS.PIONEER));
 					if (boxP.isSelected())
-						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MagicFormat.FORMATS.PAUPER));
+						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(MTGFormat.FORMATS.PAUPER));
 
 					if(!boxM.isSelected() && !boxS.isSelected() && !boxL.isSelected() && !boxV.isSelected() && !boxP.isSelected())
 						shakes.addAll(getEnabledPlugin(MTGDashBoard.class).getShakerFor(null));

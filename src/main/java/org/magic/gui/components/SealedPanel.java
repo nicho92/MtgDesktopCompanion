@@ -32,7 +32,7 @@ import javax.swing.SwingWorker;
 
 import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.Booster;
+import org.magic.api.beans.MTGBooster;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
@@ -345,11 +345,11 @@ public class SealedPanel extends JPanel {
 
 		lblLoading.start();
 		list = new ArrayList<>();
-		SwingWorker<Void, Booster> sw = new SwingWorker<>()
+		SwingWorker<Void, MTGBooster> sw = new SwingWorker<>()
 		{
 
 			@Override
-			protected void process(List<Booster> chunks) {
+			protected void process(List<MTGBooster> chunks) {
 
 				chunks.forEach(e->{
 					column++;

@@ -30,7 +30,7 @@ import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.MagicFormat.FORMATS;
+import org.magic.api.beans.MTGFormat.FORMATS;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.technical.audit.DiscordInfo;

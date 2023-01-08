@@ -54,7 +54,7 @@ import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicDeck.BOARD;
-import org.magic.api.beans.MagicFormat;
+import org.magic.api.beans.MTGFormat;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsExport.MODS;
 import org.magic.api.interfaces.MTGCardsIndexer;
@@ -661,7 +661,7 @@ public class ConstructPanel extends MTGUIComponent {
 				@Override
 				protected void process(List<MagicCard> chunks) {
 					super.process(chunks);
-					var form = new MagicFormat();
+					var form = new MTGFormat();
 					for (MagicCard m : chunks) {
 						if (groupsFilterResult.getSelection() != null) {
 							form.setFormat(groupsFilterResult.getSelection().getActionCommand());

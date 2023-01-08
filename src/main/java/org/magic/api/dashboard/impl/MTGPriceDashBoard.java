@@ -22,7 +22,7 @@ import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.MagicFormat;
+import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.enums.EnumMarketType;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
@@ -47,7 +47,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	}
 
 	@Override
-	public List<CardShake> getOnlineShakerFor(MagicFormat.FORMATS f) throws IOException {
+	public List<CardShake> getOnlineShakerFor(MTGFormat.FORMATS f) throws IOException {
 		List<CardShake> list = new ArrayList<>();
 		String url = getString(WEBSITE) + "/taneLayout/mtg_price_tracker.jsp?period=" + getString("PERIOD");
 		Document doc = URLTools.extractAsHtml(url);
@@ -60,8 +60,8 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		} catch (ParseException e1) {
 			logger.error(e1);
 		}
-		var gameFormat= MagicFormat.toString(f);
-		if (f == MagicFormat.FORMATS.LEGACY || f == MagicFormat.FORMATS.COMMANDER)
+		var gameFormat= MTGFormat.toString(f);
+		if (f == MTGFormat.FORMATS.LEGACY || f == MTGFormat.FORMATS.COMMANDER)
 			gameFormat = "All";
 
 		var table = doc.getElementById("top50" + gameFormat);
@@ -234,7 +234,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	}
 
 	@Override
-	public List<CardDominance> getBestCards(MagicFormat.FORMATS f, String filter) throws IOException {
+	public List<CardDominance> getBestCards(MTGFormat.FORMATS f, String filter) throws IOException {
 		return new ArrayList<>();
 	}
 

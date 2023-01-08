@@ -8,7 +8,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.magic.api.beans.Booster;
+import org.magic.api.beans.MTGBooster;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.MTGCardVariation;
@@ -210,14 +210,14 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	}
 
 	@Override
-	public Booster generateBooster(MagicEdition me) throws IOException {
+	public MTGBooster generateBooster(MagicEdition me) throws IOException {
 
 		logger.debug("opening booster for {}",me);
 		List<MagicCard> common = new ArrayList<>();
 		List<MagicCard> uncommon = new ArrayList<>();
 		List<MagicCard> rare = new ArrayList<>();
 		List<MagicCard> lands = new ArrayList<>();
-		var b = new Booster();
+		var b = new MTGBooster();
 
 		try {
 			for (MagicCard mc : searchCardByEdition(me).stream().filter(MagicCard::isMainFace).toList())

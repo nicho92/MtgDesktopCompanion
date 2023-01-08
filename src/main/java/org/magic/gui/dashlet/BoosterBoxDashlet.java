@@ -25,7 +25,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.Booster;
+import org.magic.api.beans.MTGBooster;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
@@ -175,7 +175,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 				int viewRow = table.getSelectedRow();
 				if (viewRow > -1) {
 					int modelRow = table.convertRowIndexToModel(viewRow);
-					List<MagicCard> list = ((Booster) table.getModel().getValueAt(modelRow, 0)).getCards();
+					List<MagicCard> list = ((MTGBooster) table.getModel().getValueAt(modelRow, 0)).getCards();
 					cardsModel.clear();
 					for (MagicCard mc : list)
 						cardsModel.addElement(mc);

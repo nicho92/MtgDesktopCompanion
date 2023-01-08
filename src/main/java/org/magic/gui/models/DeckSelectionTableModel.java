@@ -3,7 +3,7 @@ package org.magic.gui.models;
 import java.sql.Date;
 
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicFormat;
+import org.magic.api.beans.MTGFormat;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.MTGDeckManager;
 
@@ -51,13 +51,13 @@ public class DeckSelectionTableModel extends GenericTableModel<MagicDeck> {
 		case 1:
 			return items.get(row).getColors();
 		case 2:
-			return MTGDeckManager.isLegal(items.get(row), MagicFormat.FORMATS.valueOf(columns[column]));
+			return MTGDeckManager.isLegal(items.get(row), MTGFormat.FORMATS.valueOf(columns[column]));
 		case 3:
-			return MTGDeckManager.isLegal(items.get(row), MagicFormat.FORMATS.valueOf(columns[column]));
+			return MTGDeckManager.isLegal(items.get(row), MTGFormat.FORMATS.valueOf(columns[column]));
 		case 4:
-			return MTGDeckManager.isLegal(items.get(row), MagicFormat.FORMATS.valueOf(columns[column]));
+			return MTGDeckManager.isLegal(items.get(row), MTGFormat.FORMATS.valueOf(columns[column]));
 		case 5:
-			return MTGDeckManager.isLegal(items.get(row), MagicFormat.FORMATS.valueOf(columns[column]));
+			return MTGDeckManager.isLegal(items.get(row), MTGFormat.FORMATS.valueOf(columns[column]));
 		case 6:
 			return MTGDeckManager.isArenaDeck(items.get(row));
 		case 7:

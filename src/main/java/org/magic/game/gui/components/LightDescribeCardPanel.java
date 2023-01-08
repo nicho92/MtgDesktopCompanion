@@ -20,7 +20,7 @@ import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicRuling;
+import org.magic.api.beans.MTGRuling;
 import org.magic.gui.components.MagicTextPane;
 import org.magic.gui.components.ManaPanel;
 
@@ -236,7 +236,7 @@ public class LightDescribeCardPanel extends JPanel {
 		autoBindingT.bind();
 
 		var rules = new StringBuilder();
-		for (MagicRuling rul : card.getRulings())
+		for (MTGRuling rul : card.getRulings())
 			rules.append("-").append(rul.getText()).append("\n");
 
 		rulesTextPane.setText(rules.toString());

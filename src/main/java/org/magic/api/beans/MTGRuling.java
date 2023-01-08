@@ -2,7 +2,7 @@ package org.magic.api.beans;
 
 import java.io.Serializable;
 
-public class MagicRuling implements Serializable {
+public class MTGRuling implements Serializable {
 
 	/**
 	 *

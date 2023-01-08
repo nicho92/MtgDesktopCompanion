@@ -19,8 +19,8 @@ import org.apache.commons.math3.distribution.HypergeometricDistribution;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicFormat;
-import org.magic.api.beans.MagicFormat.FORMATS;
+import org.magic.api.beans.MTGFormat;
+import org.magic.api.beans.MTGFormat.FORMATS;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.beans.technical.RetrievableDeck;
@@ -54,7 +54,7 @@ public class MTGDeckManager extends Observable {
 		return true;
 	}
 
-	public static boolean isLegal(MagicDeck magicDeck, MagicFormat.FORMATS format) {
+	public static boolean isLegal(MagicDeck magicDeck, MTGFormat.FORMATS format) {
 
 		if(format==FORMATS.COMMANDER)
 			return isCommander(magicDeck);
@@ -62,8 +62,8 @@ public class MTGDeckManager extends Observable {
 		if(magicDeck.getMainAsList().size()<60)
 			return false;
 
-		var mf = new MagicFormat();
-		mf.setFormat(MagicFormat.toString(format));
+		var mf = new MTGFormat();
+		mf.setFormat(MTGFormat.toString(format));
 		return magicDeck.isCompatibleFormat(mf);
 
 	}
@@ -172,7 +172,7 @@ public class MTGDeckManager extends Observable {
 	public Map<String, Boolean> analyseLegalities(MagicDeck d) {
 		TreeMap<String, Boolean> temp = new TreeMap<>();
 
-		for (MagicFormat.FORMATS s : MagicFormat.FORMATS.values()) {
+		for (MTGFormat.FORMATS s : MTGFormat.FORMATS.values()) {
 			temp.put(s.name(), isLegal(d, s));
 		}
 		return temp;

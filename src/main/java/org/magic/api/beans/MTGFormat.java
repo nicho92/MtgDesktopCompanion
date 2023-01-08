@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class MagicFormat implements Serializable {
+public class MTGFormat implements Serializable {
 
 	public enum FORMATS {STANDARD, LEGACY, VINTAGE, MODERN, COMMANDER, PAUPER, PIONEER, BRAWL, FRONTIER}
 	public enum AUTHORIZATION {LEGAL, RESTRICTED, BANNED,  NOT_LEGAL}
@@ -20,11 +20,11 @@ public class MagicFormat implements Serializable {
 
 	private AUTHORIZATION formatLegality;
 
-	public MagicFormat() {
+	public MTGFormat() {
 
 	}
 
-	public MagicFormat(String format, AUTHORIZATION legality)
+	public MTGFormat(String format, AUTHORIZATION legality)
 	{
 		this.format=format;
 		formatLegality=legality;
@@ -64,7 +64,7 @@ public class MagicFormat implements Serializable {
 		if ((obj == null) || (this.getClass() != obj.getClass()))
 			return false;
 
-		return getFormat().equalsIgnoreCase(((MagicFormat) obj).getFormat());
+		return getFormat().equalsIgnoreCase(((MTGFormat) obj).getFormat());
 
 	}
 

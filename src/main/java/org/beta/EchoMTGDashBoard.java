@@ -14,7 +14,7 @@ import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.MagicFormat.FORMATS;
+import org.magic.api.beans.MTGFormat.FORMATS;
 import org.magic.api.beans.enums.EnumMarketType;
 import org.magic.api.exports.impl.EchoMTGExport;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;

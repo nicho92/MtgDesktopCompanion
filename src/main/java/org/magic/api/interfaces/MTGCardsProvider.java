@@ -3,7 +3,7 @@ package org.magic.api.interfaces;
 import java.io.IOException;
 import java.util.List;
 
-import org.magic.api.beans.Booster;
+import org.magic.api.beans.MTGBooster;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.MTGCardVariation;
@@ -48,7 +48,7 @@ public interface MTGCardsProvider extends MTGPlugin {
 
 	public QueryAttribute[] getQueryableAttributs();
 
-	public Booster generateBooster(MagicEdition me) throws IOException;
+	public MTGBooster generateBooster(MagicEdition me) throws IOException;
 
 	public List<MagicCard> searchByCriteria(MTGCrit<?>... crits) throws IOException;
 
