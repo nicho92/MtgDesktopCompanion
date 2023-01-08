@@ -84,7 +84,7 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 		tabbedPane.addTab(capitalize("PROVIDERS"), MTGConstants.ICON_TAB_PLUGIN,providerConfigPanel, null);
 		providerConfigPanel.setLayout(new BorderLayout(0, 0));
 
-		subTabbedProviders = new JTabbedPane(SwingConstants.TOP);
+		subTabbedProviders = new JTabbedPane(MTGConstants.CONFIG_MODULE_TAB_POSITION);
 		providerConfigPanel.add(subTabbedProviders);
 
 		bottomPanel = new JPanel();

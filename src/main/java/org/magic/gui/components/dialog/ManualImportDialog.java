@@ -148,7 +148,7 @@ public class ManualImportDialog extends AbstractDelegatedImporterDialog {
 
 		btnImport.addActionListener(e ->{
 
-			DeckImportWorker sw = new DeckImportWorker(getPlugin(MTGConstants.MANUAL_IMPORT_SYNTAX, MTGCardsExport.class), lblLoading,null)
+			DeckImportWorker sw = new DeckImportWorker(getPlugin(MTGConstants.DEFAULT_MANUAL_IMPORT_SYNTAX, MTGCardsExport.class), lblLoading,null)
 										{
 
 											@Override

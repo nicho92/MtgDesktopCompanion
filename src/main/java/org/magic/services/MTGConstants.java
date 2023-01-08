@@ -14,6 +14,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 
 import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
 
 import org.apache.commons.lang3.SystemUtils;
 import org.jdesktop.swingx.util.PaintUtils;
@@ -26,54 +27,52 @@ import freemarker.template.Version;
 
 public class MTGConstants {
 
-	private MTGConstants() {
-	}
+	private MTGConstants() { }
 
+
+	
+//DEFAULT APPS CONSTANTS
+	public static final String MTG_APP_NAME = "MTG Companion";
+	public static final String COPYRIGHT_STRING="Wizards of the Coast, Magic: The Gathering, and their logos are trademarks of Wizards of the Coast LLC. \u00A9 1995-"+ Calendar.getInstance().get(Calendar.YEAR)+ " Wizards. All rights reserved. This app is not affiliated with Wizards of the Coast LLC.";
+	public static final String COMMANDS_PACKAGE = "org.magic.api.commands.impl.";
+	public static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36";
+	public static final String KEYSTORE_NAME = "jssecacerts";
+	public static final String KEYSTORE_PASS = "changeit";
+	public static final Version FREEMARKER_VERSION=Configuration.VERSION_2_3_31;
+	public static final String SSL_PROTO = "TLS";
+	private static final String[] DEFAULT_COLLECTIONS_NAMES = new String[] { "Library", "Needed", "For Sell", "Favorites" };
 
 	public static String[] getDefaultCollectionsNames() {
 		return DEFAULT_COLLECTIONS_NAMES;
 	}
 
-
-
-	public static final String SSL_PROTO = "TLS";
+	
+//CONFIG FILES CONSTANTS
+	public static final String MTG_DESKTOP_VERSION_FILE = "/version";
+	public static final File MTG_BOOSTERS_LOCAL_URI = new File(MTGConstants.class.getResource("/data/boosters.xml").getFile());
 	public static final String CONF_FILENAME = "mtgcompanion-conf.xml";
 	public static final File CONF_DIR = new File(SystemUtils.getUserHome() + "/.magicDeskCompanion/");
 	public static final File DATA_DIR = new File(CONF_DIR,"data");
 	public static final File MTG_WALLPAPER_DIRECTORY = new File(MTGConstants.DATA_DIR, "downloadWallpaper");
 	public static final File NATIVE_DIR = new File("./natives");
 	public static final URL TOOLTIPS_FILE = MTGConstants.class.getResource("/data/tips.properties");
-	public static final Image SAMPLE_PIC = Toolkit.getDefaultToolkit().getImage(MTGConstants.class.getResource("/data/sample.png"));
-	
 	public static final URL MTG_DESKTOP_ALIASES_FILE =  MTGConstants.class.getResource("/data/pluginsAliases.json");
 	public static final URL MTG_DESKTOP_SETS_FILE =  MTGConstants.class.getResource("/data/sets_codeAliases.json");
-	
-	public static final float WEIGHT_CARD=1.7009714f;
-	public static final float WEIGHT_BOOSTER=28.7f;
-	public static final float WEIGHT_BOOSTER_BOX_COLLECTOR=12*WEIGHT_BOOSTER;
-	public static final float WEIGHT_BOOSTER_BOX_SET=24*WEIGHT_BOOSTER;
-	public static final float WEIGHT_BOOSTER_BOX_DRAFT=32*WEIGHT_BOOSTER;
-
-
-	public static final String MTG_APP_NAME = "MTG Companion";
+	public static final URL SCRIPT_DIRECTORY = MTGConstants.class.getResource("/script/");
+	public static final String ADMINUI_LOCATION = "web/admin-ui";
+	public static final String WEBSHOP_LOCATION = "web/shop-ui";
+	public static final String WEBCOLLECTION_LOCATION = "web/collection-ui";
+	public static final String WEBTRADES_LOCATION = "web/trades-ui";
+	public static final String WEBPRICES_LOCATION = "web/prices-ui";
+	public static final String MTG_TEMPLATES_DIR = "./templates";
+	public static final String SET_ICON_DIR = "/icons/set/";
+	public static final String MTG_CHROME_PLUGIN_DIR = "mtg-chrome-companion";
+	public static final String ICON_DIR="/icons";
+	public static final String MTG_REPORTS_DIR = "/report";
 	public static final String MESSAGE_BUNDLE = "locales.lang";
-	public static final Font DEFAULT_FONT=new Font("Arial Unicode MS", Font.PLAIN, 12);
-	public static final String DEFAULT_SHIPPING_RULES="""
-			var shippingCost=0;
+	
 
-			if(total >=65){
-			  shippingCost=0;
-			}
-			else if(total >=25)
-			{
-			   shippingCost = 15;
-			}else if(total>=1)
-			{
-			shippingCost = 6.50;
-			}
-
-			shippingCost;""";
-
+//EXTERNAL URL CONSTANTS
 	public static final String MTG_DESKTOP_ISSUES_URL = "https://github.com/nicho92/MtgDesktopCompanion/issues";
 	public static final String MTG_DESKTOP_WIKI_URL = "https://github.com/nicho92/MtgDesktopCompanion/wiki";
 	public static final String MTG_DESKTOP_WIKI_RAW_URL = "https://raw.githubusercontent.com/wiki/nicho92/MtgDesktopCompanion";
@@ -86,86 +85,63 @@ public class MTGConstants {
 	public static final String MTG_DESKTOP_GITHUB_RELEASE_API = "https://api.github.com/repos/nicho92/MTGDesktopCompanion/releases";
 	public static final String CURRENCY_API = "https://currencylayer.com/";
 	public static final String URL_RULES_FILE = "https://media.wizards.com/2021/downloads/MagicCompRules%2020210224.txt";
-
-	public static final String MTG_CHROME_PLUGIN_DIR = "mtg-chrome-companion";
-
-	public static final File MTG_BOOSTERS_LOCAL_URI = new File(MTGConstants.class.getResource("/data/boosters.xml").getFile());
-
 	public static final String WIZARD_EVENTS_URL = "https://magic.wizards.com/en/calendar-node-field-event-date-ajax/month/";
-	public static final String SET_ICON_DIR = "/icons/set/";
-	public static final String COMMANDS_PACKAGE = "org.magic.api.commands.impl.";
-	public static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36";
 
-	public static final String COPYRIGHT_STRING="Wizards of the Coast, Magic: The Gathering, and their logos are trademarks of Wizards of the Coast LLC. \u00A9 1995-"+ Calendar.getInstance().get(Calendar.YEAR)+ " Wizards. All rights reserved. This app is not affiliated with Wizards of the Coast LLC.";
-
+//PLUGINS CONSTANTS
+	public static final String DEFAULT_NOTIFIER_NAME="Tray";
+	public static final String EMAIL_NOTIFIER_NAME = "email";
+	public static final String DEFAULT_CLIPBOARD_NAME = "clipboard";
+	public static final String DEFAULT_MANUAL_IMPORT_SYNTAX = "MTGO";
+	
+//HTML CONSTANTS
+	public static final String HTML_TAG_TABLE = "table";
+	public static final String HTML_TAG_TBODY = "tbody";
+	public static final String HTML_TAG_TR = "tr";
+	public static final String HTML_TAG_TD = "td";
+	
+//TIMEOUT CONSTANTS
+	public static final int CONNECTION_TIMEOUT =0;
+	public static final int ROTATED_TIMEOUT = 15;
+	public static final int DISCORD_MAX_CHARACTER = 2000;
+	public static final int DAY_ANNOUNCES_UPDATE = 10;
+	public static final long DAO_CACHE_TIMEOUT_MINUTES = 1;
+	
+// UI CONSTANTS
 	public static final Charset DEFAULT_ENCODING=StandardCharsets.UTF_8;
+	public static final Paint PICTURE_PAINTER = PaintUtils.NIGHT_GRAY;
+	public static final int CONFIG_MODULE_TAB_POSITION = SwingConstants.LEFT;
+	public static final int PROGRESS_BAR_SEALED_SIZE = 40;
+	public static final Color THUMBNAIL_BACKGROUND_COLOR = SystemColor.windowBorder;
 	public static final boolean IS_GRAPHICAL_UI = !GraphicsEnvironment.isHeadless();
-	
-	
 	public static final int DEFAULT_PIC_WIDTH = 223;
 	public static final int DEFAULT_PIC_HEIGHT = 310;
 	public static final double CARD_PICS_RATIO = 1.39;
 	public static final int MENU_ICON_SIZE=24;
 	public static final  int TECHNICAL_REFRESH=5000;
 	public static final int DPI=300;
-
-	public static final String DEFAULT_NOTIFIER_NAME="Tray";
-	public static final String EMAIL_NOTIFIER_NAME = "email";
-	public static final String DEFAULT_CLIPBOARD_NAME = "clipboard";
-
-
-	public static final Color THUMBNAIL_BACKGROUND_COLOR = SystemColor.windowBorder;
-
+	public static final int TREE_ROW_HEIGHT = 32;
+	public static final int TABLE_ROW_HEIGHT = 18;
+	public static final int TABLE_ROW_WIDTH = 18;
+	public static final Font DEFAULT_FONT=new Font("Arial Unicode MS", Font.PLAIN, 12);
 	public static final Color COLLECTION_100PC = new Color(115, 230, 0);
 	public static final Color COLLECTION_90PC = new Color(188, 245, 169);
 	public static final Color COLLECTION_50PC = Color.ORANGE;
 	public static final Color COLLECTION_1PC = Color.YELLOW;
 
-	public static final String KEYSTORE_NAME = "jssecacerts";
-	public static final String KEYSTORE_PASS = "changeit";
-
-	public static final String ADMINUI_LOCATION = "web/admin-ui";
-	public static final String WEBSHOP_LOCATION = "web/shop-ui";
-	public static final String WEBCOLLECTION_LOCATION = "web/collection-ui";
-	public static final String WEBTRADES_LOCATION = "web/trades-ui";
-	public static final String WEBPRICES_LOCATION = "web/prices-ui";
-
-	public static final String MTG_TEMPLATES_DIR = "./templates";
-	public static final String MTG_DESKTOP_VERSION_FILE = "/version";
-	public static final String ICON_DIR="/icons";
-	public static final String MTG_REPORTS_DIR = "/report";
-	public static final Version FREEMARKER_VERSION=Configuration.VERSION_2_3_31;
-
-	public static final int TREE_ROW_HEIGHT = 32;
-	public static final int TABLE_ROW_HEIGHT = 18;
-	public static final int TABLE_ROW_WIDTH = 18;
-
-	public static final URL DEFAULT_BACK_CARD = MTGConstants.class.getResource("/icons/back.jpg");
-	public static final URL ANNIVERSARY_BACK_CARD = MTGConstants.class.getResource("/icons/back30.jpg");
-	public static final URL COLLECTOR_BACK_CARD = MTGConstants.class.getResource("/icons/backCE.jpg");
-
+	
+//IMAGES CONSTANTS
 	public static final URL URL_MANA_SYMBOLS = MTGConstants.class.getResource(ICON_DIR+"/mana/Mana.png");
 	public static final ImageIcon ICON_MANA_GOLD = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/mana/gold.png"));
 	public static final ImageIcon ICON_MANA_INCOLOR = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/mana/uncolor.png"));
-
-
-	public static final URL SCRIPT_DIRECTORY = MTGConstants.class.getResource("/script/");
-
-	public static final String HTML_TAG_TABLE = "table";
-	public static final String HTML_TAG_TBODY = "tbody";
-	public static final String HTML_TAG_TR = "tr";
-	public static final String HTML_TAG_TD = "td";
-
-
-
 	public static final Image IMAGE_LOGO = Toolkit.getDefaultToolkit().getImage(MTGConstants.class.getResource(ICON_DIR+"/logo.png"));
 	public static final ImageIcon ICON_SPLASHSCREEN = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/magic-logo2.png"));
-
-	private static String iconPack="flat";
+	public static final URL DEFAULT_BACK_CARD = MTGConstants.class.getResource("/icons/back.jpg");
+	public static final URL ANNIVERSARY_BACK_CARD = MTGConstants.class.getResource("/icons/back30.jpg");
+	public static final URL COLLECTOR_BACK_CARD = MTGConstants.class.getResource("/icons/backCE.jpg");
+	public static final Image SAMPLE_PIC = Toolkit.getDefaultToolkit().getImage(MTGConstants.class.getResource("/data/sample.png"));
 	
-
-	private static final String[] DEFAULT_COLLECTIONS_NAMES = new String[] { "Library", "Needed", "For Sell", "Favorites" };
-
+//ICONS CONSTANTS 	
+	private static String iconPack="flat";
 
 	public static final ImageIcon ICON_GAME_HAND = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/game/hand.png"));
 	public static final ImageIcon ICON_GAME_LIBRARY = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/game/librarysize.png"));
@@ -310,7 +286,6 @@ public class MTGConstants {
 	public static final ImageIcon ICON_PACKAGE_SMALL = new ImageIcon(ICON_PACKAGE.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_BACK = new ImageIcon(ICON_COLLECTION.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 
-
 	public static ImageIcon getIconFor(Class c) {
 		try {
 
@@ -329,21 +304,30 @@ public class MTGConstants {
 		}
 	}
 
+	
 
+//EXTRA CONSTANTS
+	public static final float WEIGHT_CARD=1.7009714f;
+	public static final float WEIGHT_BOOSTER=28.7f;
+	public static final float WEIGHT_BOOSTER_BOX_COLLECTOR=12*WEIGHT_BOOSTER;
+	public static final float WEIGHT_BOOSTER_BOX_SET=24*WEIGHT_BOOSTER;
+	public static final float WEIGHT_BOOSTER_BOX_DRAFT=32*WEIGHT_BOOSTER;
+	public static final String DEFAULT_SHIPPING_RULES="""
+			var shippingCost=0;
 
-	public static final int SEALED_SIZE = 40;
-	public static final String MANUAL_IMPORT_SYNTAX = "MTGO";
+			if(total >=65){
+			  shippingCost=0;
+			}
+			else if(total >=25)
+			{
+			   shippingCost = 15;
+			}else if(total>=1)
+			{
+			shippingCost = 6.50;
+			}
 
-
-	public static final int CONNECTION_TIMEOUT =0;
-	public static final int ROTATED_TIMEOUT = 15;
-	public static final Paint PICTURE_PAINTER = PaintUtils.NIGHT_GRAY;
-	public static final int DISCORD_MAX_CHARACTER = 2000;
-	public static final int DAY_ANNOUNCES_UPDATE = 10;
-	public static final long DAO_CACHE_TIMEOUT_MINUTES = 1;
-
-
-
+			shippingCost;""";
+		
 
 
 
