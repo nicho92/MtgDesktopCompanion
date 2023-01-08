@@ -18,8 +18,6 @@ import com.google.gson.JsonObject;
 
 public class PostgresqlDAO extends AbstractMagicSQLDAO {
 
-	private static final String URL_PGDUMP = "URL_PGDUMP";
-
 	@Override
 	protected String getAutoIncrementKeyWord() {
 		return "SERIAL";

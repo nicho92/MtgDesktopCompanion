@@ -6,7 +6,6 @@ import org.magic.api.interfaces.abstracts.extra.AbstractMagicSQLDAO;
 
 public class MysqlDAO extends AbstractMagicSQLDAO {
 
-	private static final String MYSQL_DUMP_PATH = "MYSQL_DUMP_PATH";
 
 	@Override
 	protected String getAutoIncrementKeyWord() {

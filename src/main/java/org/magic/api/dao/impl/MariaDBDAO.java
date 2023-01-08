@@ -6,8 +6,6 @@ import org.magic.api.interfaces.abstracts.extra.AbstractMagicSQLDAO;
 
 public class MariaDBDAO extends AbstractMagicSQLDAO {
 
-	private static final String MARIA_DUMP_PATH = "MARIA_DUMP_PATH";
-
 	@Override
 	protected String getAutoIncrementKeyWord() {
 		return "INTEGER AUTO_INCREMENT";
