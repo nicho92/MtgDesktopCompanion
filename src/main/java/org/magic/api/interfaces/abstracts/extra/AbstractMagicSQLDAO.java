@@ -1615,6 +1615,35 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			pst2.executeUpdate();
 		}
 	}
+	
+	
+	
+	@Override
+	public List<MagicCardAlert> listAlerts() {
+		
+		if(!listAlerts.isEmpty())
+			return listAlerts.values();
+		
+		
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM alerts")) {
+			try (ResultSet rs = executeQuery(pst)) {
+				while (rs.next()) {
+					var alert = new MagicCardAlert();
+					alert.setCard(readCard(rs,MCARD));
+					alert.setId(rs.getString("id"));
+					alert.setQty(rs.getInt("qte"));
+					alert.setPrice(rs.getDouble("amount"));
+					alert.setFoil(rs.getBoolean("foil"));
+					listAlerts.put(alert.getId(),alert);
+				}
+			}
+		} catch (Exception e) {
+			logger.error("error get alert",e);
+		}
+		return listAlerts.values();
+		
+		
+	}
 
 	@Override
 	public List<MagicCollection> listCollections() throws SQLException {
@@ -1839,25 +1868,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		notify(state);
 	}
 
-	@Override
-	public void initAlerts() {
-
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM alerts")) {
-			try (ResultSet rs = executeQuery(pst)) {
-				while (rs.next()) {
-					var alert = new MagicCardAlert();
-					alert.setCard(readCard(rs,MCARD));
-					alert.setId(rs.getString("id"));
-					alert.setQty(rs.getInt("qte"));
-					alert.setPrice(rs.getDouble("amount"));
-					alert.setFoil(rs.getBoolean("foil"));
-					listAlerts.put(alert.getId(),alert);
-				}
-			}
-		} catch (Exception e) {
-			logger.error("error get alert",e);
-		}
-	}
 
 
 	@Override
@@ -1966,9 +1976,13 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		}
 
 	}
-
+	
+	
 	@Override
-	public void initOrders() {
+	public List<OrderEntry> listOrders() {
+		if(!listOrders.isEmpty())
+			return listOrders.values();
+		
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM orders"); ResultSet rs = executeQuery(pst);)
 		{
 			while (rs.next()) {
@@ -1995,8 +2009,11 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		{
 			logger.error(e);
 		}
+		
+		return listOrders.values();
+		
 	}
-
+	
 
 	private void setEdition(OrderEntry state, ResultSet rs) {
 		try {

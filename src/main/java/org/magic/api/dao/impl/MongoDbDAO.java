@@ -700,13 +700,16 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		listAlerts.put(alert.getId(),alert);
 	}
 
+	
 	@Override
-	public void initAlerts() {
+	public List<MagicCardAlert> listAlerts() {
 		db.getCollection(colAlerts, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result ->{
 
 				MagicCardAlert al = deserialize(result.get(dbAlertField).toString(), MagicCardAlert.class);
 				listAlerts.put(al.getId(),al);
 				});
+		
+		return listAlerts.values();
 	}
 
 
@@ -837,12 +840,12 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	protected void initOrders() {
+	public List<OrderEntry> listOrders() {
 		db.getCollection(colOrders, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result ->{
 				OrderEntry o = deserialize(result, OrderEntry.class);
 				listOrders.put(o.getId(),o);
 			});
-
+		return listOrders.values();
 	}
 
 	@Override

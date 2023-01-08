@@ -32,6 +32,8 @@ public interface MTGDao extends MTGPlugin{
 	public void moveEdition(MagicEdition ed, MagicCollection from, MagicCollection to) throws SQLException;
 	public List<MagicCard> listCards() throws SQLException;
 
+	
+	
 	public int getCardsCount(MagicCollection list, MagicEdition me) throws SQLException;
 	public Map<String, Integer> getCardsCountGlobal(MagicCollection c) throws SQLException;
 	public List<MagicCard> listCardsFromCollection(String collectionName) throws SQLException;
@@ -104,6 +106,8 @@ public interface MTGDao extends MTGPlugin{
 	public void changePassword(Contact c, String newPassword)  throws SQLException;
 	public int saveOrUpdateContact(Contact c)  throws SQLException;
 	public Contact getContactById(int id)  throws SQLException;
+	
+	
 	public List<Contact> listContacts()  throws SQLException;
 	public Contact getContactByLogin(String email, String password)  throws SQLException;
 	public Contact getContactByEmail(String email)  throws SQLException;
@@ -145,7 +149,7 @@ public interface MTGDao extends MTGPlugin{
 	public <T extends MTGStorable> boolean deleteEntry(GedEntry<T> gedItem) throws SQLException;
 	public <T extends MTGStorable> boolean storeEntry(GedEntry<T> gedItem) throws SQLException;
 	public <T extends MTGStorable> GedEntry<T> readEntry(String classe, String idInstance, String fileName) throws SQLException;
-	public <T extends MTGStorable> List<GedEntry<T>> listAllEntries()throws SQLException;
+	public <T extends MTGStorable> List<GedEntry<T>> listAllEntries() throws SQLException;
 
 	public void init() throws SQLException;
 	public void init(MTGPool pool) throws SQLException;

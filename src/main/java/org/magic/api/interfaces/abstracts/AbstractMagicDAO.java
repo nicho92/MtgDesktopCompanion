@@ -39,14 +39,10 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 
 	protected JsonExport serialiser;
 
-
 	protected TCache<MagicCardAlert> listAlerts;
 	protected TCache<OrderEntry> listOrders;
 	protected TCache<Contact> listContacts;
 	protected TCache<MagicCollection> listCollections;
-
-	protected abstract void initAlerts();
-	protected abstract void initOrders();
 
 	@Override
 	public boolean isSQL() {
@@ -221,24 +217,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		return listAlerts().stream().filter(a->a.getCard().equals(mc)).findFirst().orElse(null);
 	}
 
-	@Override
-	public List<MagicCardAlert> listAlerts() {
-		if (listAlerts.isEmpty())
-			initAlerts();
-
-		return listAlerts.values();
-	}
-
-	@Override
-	public List<OrderEntry> listOrders() {
-		if (listOrders.isEmpty())
-			initOrders();
-
-		return listOrders.values();
-	}
-
-
-
+	
 
 	@Override
 	public MagicCardStock getStockWithTiersID(String key, String id) throws SQLException {
