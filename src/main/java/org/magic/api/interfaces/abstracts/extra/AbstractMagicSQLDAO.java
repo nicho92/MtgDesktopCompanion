@@ -1612,7 +1612,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 		try (var c = pool.getConnection(); PreparedStatement pst2 = c.prepareStatement("DELETE FROM cards where collection = ?")) {
 			pst2.setString(1, col.getName());
-			pst2.executeUpdate();
+			executeUpdate(pst2);
 		}
 	}
 	
@@ -1709,8 +1709,8 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		}
 		st.append(")");
 		String sql = st.toString().replace(",)", ")");
-		try (var c = pool.getConnection();Statement pst = c.createStatement()) {
-			pst.executeUpdate(sql);
+		try (var c = pool.getConnection();var pst = c.prepareStatement(sql)) {
+			executeUpdate(pst);
 		}
 	}
 
