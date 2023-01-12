@@ -12,7 +12,6 @@ import java.util.Map;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -48,13 +47,13 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 
-		MagicDeck deck = info.toBaseDeck();
+		var deck = info.toBaseDeck();
 		deck.setName(info.getName());
 		deck.setDescription("from " + info.getUrl());
 
 		logger.debug("get deck at {}",info.getUrl());
 
-		Document d = URLTools.extractAsHtml(info.getUrl().toString());
+		var d = URLTools.extractAsHtml(info.getUrl().toString());
 
 		for (Element e : d.select("table.subtitle a"))
 			deck.getTags().add(e.text());
@@ -73,7 +72,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 					name = name.substring(0, name.indexOf('/')).trim();
 
 				try {
-				MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, null, true).get(0);
+				var mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, null, true).get(0);
 
 				notify(mc);
 
