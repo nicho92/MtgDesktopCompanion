@@ -1,3 +1,3 @@
 import org.magic.api.interfaces.*;
 
-indexer.initIndex();
+indexer.initIndex(true);

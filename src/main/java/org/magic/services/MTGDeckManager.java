@@ -2,7 +2,6 @@ package org.magic.services;
 
 import static org.magic.services.tools.MTG.listEnabledPlugins;
 
-import java.io.File;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -24,7 +23,6 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.enums.MTGColor;
 import org.magic.api.beans.enums.MTGRarity;
 import org.magic.api.beans.technical.RetrievableDeck;
-import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDeckSniffer;
 import org.magic.services.logging.MTGLogger;
@@ -33,14 +31,7 @@ import org.utils.patterns.observer.Observable;
 
 public class MTGDeckManager extends Observable {
 
-	private MTGCardsExport serialis;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
-
-
-
-	public MTGDeckManager() {
-		serialis = MTG.getPlugin("Json", MTGCardsExport.class);
-	}
 
 
 	public static boolean isArenaDeck(MagicDeck d)
