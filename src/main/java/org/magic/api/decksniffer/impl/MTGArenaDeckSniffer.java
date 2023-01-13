@@ -25,7 +25,8 @@ public class MTGArenaDeckSniffer extends AbstractDeckSniffer {
 
 	private MTGArenaTools arena ;
 
-
+	
+	
 	private void init()
 	{
 		try {

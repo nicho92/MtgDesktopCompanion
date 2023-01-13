@@ -56,7 +56,7 @@ public class VersionChecker {
 
 		try {
 			var res = Double.parseDouble(onlineVersion) > Double.parseDouble(actualVersion);
-			logger.info("check update: {} found:{}",actualVersion,onlineVersion);
+			logger.info("Current version : {} . Online :{}",actualVersion,onlineVersion);
 
 			return res;
 		} catch (Exception e) {

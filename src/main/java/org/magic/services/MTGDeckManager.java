@@ -104,21 +104,6 @@ public class MTGDeckManager extends Observable {
 		}
 	}
 
-	public List<MagicDeck> listLocalDecks()
-	{
-		List<MagicDeck> decks = new ArrayList<>();
-		for (File f : new File(MTGConstants.DATA_DIR, "decks").listFiles((File dir, String name)->name.toLowerCase().endsWith(serialis.getFileExtension().toLowerCase())))
-		{
-			try {
-				var deck = serialis.importDeckFromFile(f);
-				decks.add(deck);
-			} catch (Exception e) {
-				logger.error("error import deck {}",f, e);
-			}
-		}
-		return decks;
-	}
-
 
 	public List<MagicDeck> listDecksWithTag(String tag)
 	{

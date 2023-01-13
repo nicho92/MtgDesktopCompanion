@@ -87,7 +87,10 @@ public class DeckSnifferDialog extends AbstractDelegatedImporterDialog {
 								model.init(selectedSniffer.getDeckList(cboFormats.getSelectedItem().toString()));
 								model.fireTableDataChanged();
 								lblLoad.end();
-							} catch (Exception e1) {
+							}catch (NullPointerException e1) {
+								//	do nothing
+							} 
+							catch (Exception e1) {
 								lblLoad.end();
 								logger.error("error change cboFormat", e1);
 								MTGControler.getInstance().notify(e1);

@@ -133,6 +133,7 @@ public class TechnicalServiceManager {
 				else if(f.getName().startsWith(FileAccessInfo.class.getSimpleName()))
 					fileInfos.addAll(restore(f,FileAccessInfo.class).stream().distinct().toList());
 			}
+			logger.info("TechnicalService is enable");
 		}
 		else
 		{

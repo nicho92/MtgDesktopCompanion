@@ -81,9 +81,6 @@ public class ApilayerCurrencyConverter {
 			logger.error("Error convert {} to {}, return default value",from,to,e);
 			return value;
 		}
-
-
-
 	}
 
 	public void clean() throws IOException
@@ -119,7 +116,7 @@ public class ApilayerCurrencyConverter {
 	}
 
 	public void init() throws IOException {
-			JsonObject obj = new JsonObject();
+			var obj = new JsonObject();
 			map.clear();
 			if(!cache.exists() && !token.isEmpty())
 			{
