@@ -1,4 +1,4 @@
-package org.magic.api.dav;
+package org.utils.dav;
 
 import static org.magic.services.tools.MTG.getEnabledPlugin;
 

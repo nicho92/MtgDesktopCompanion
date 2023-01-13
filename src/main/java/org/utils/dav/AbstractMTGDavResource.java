@@ -1,4 +1,4 @@
-package org.magic.api.dav;
+package org.utils.dav;
 
 import java.util.Date;
 
