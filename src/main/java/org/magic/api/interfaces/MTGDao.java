@@ -156,7 +156,7 @@ public interface MTGDao extends MTGPlugin{
 
 	public void duplicateTo(MTGDao dao) throws SQLException;
 	public void updateCard(MagicCard c, MagicCard newC, MagicCollection col) throws SQLException;
-	public void executeQuery(String query)throws SQLException;
+	public boolean executeQuery(String query)throws SQLException;
 	public boolean isSQL();
 
 

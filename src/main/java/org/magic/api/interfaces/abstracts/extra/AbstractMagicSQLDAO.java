@@ -307,9 +307,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setString(3, classename);
 				executeUpdate(pst);
 		}
-
 	}
-
 
 	@Override
 	public <T extends MTGStorable> boolean storeEntry(GedEntry<T> gedItem) throws SQLException {
@@ -2194,12 +2192,11 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public void executeQuery(String query) throws SQLException {
+	public boolean executeQuery(String query) throws SQLException {
 		try (var c = pool.getConnection(); Statement pst = c.createStatement())
 		{
-			pst.execute(query);
+			return pst.execute(query);
 		}
-
 	}
 
 	@Override
