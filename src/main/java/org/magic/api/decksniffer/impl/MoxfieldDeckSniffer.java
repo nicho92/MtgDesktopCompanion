@@ -103,8 +103,6 @@ public class MoxfieldDeckSniffer extends AbstractDeckSniffer {
 				dekElement.setAuthor(jo.get("authors").getAsJsonArray().get(0).getAsJsonObject().get("userName").getAsString());
 				dekElement.setUrl(URI.create(BASE_URI+"/decks/all/"+jo.get("publicId").getAsString()));
 				dekElement.setDescription(UITools.formatDateTime(UITools.parseGMTDate(jo.get("createdAtUtc").getAsString())));
-
-
 			ret.add(dekElement);
 		}
 
