@@ -147,6 +147,15 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 	@Override
 	public void onFirstShowing() {
+		
+		try {
+			initPopupCollection();
+		} catch (SQLException e1) {
+		logger.error(e1);
+		}
+		
+		initActions();
+		
 		splitListPanel.setDividerLocation(.45);
 		splitPane.setDividerLocation(.5);
 		progressBar.start();
@@ -308,12 +317,9 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 		UITools.sort(tableEditions,3,SortOrder.DESCENDING);
 
-		initPopupCollection();
-		initActions();
-
+			
 	}
-
-
+	
 	@SuppressWarnings("unchecked")
 	public void initCardSelectionGui(MagicCard mc, MagicCollection col)
 	{

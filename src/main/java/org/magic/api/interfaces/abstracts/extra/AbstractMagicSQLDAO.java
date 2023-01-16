@@ -668,9 +668,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		String sql = getdbSizeQuery();
 		var map = new HashMap<String,Long>();
 
-
-
-
 		if(sql==null)
 			return map;
 
@@ -740,7 +737,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				var rs = executeQuery(pst);
 
 				while (rs.next()) {
-					ConverterItem d = readConversionItem(rs);
+					var d = readConversionItem(rs);
 					colls.add(d);
 					notify(d);
 				}
@@ -2176,6 +2173,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	protected ResultSet executeQuery(PreparedStatement pst) throws SQLException {
 		var daoInfo=buildInfo(pst);
+		logger.trace("Executing {}",daoInfo);
 		try {
 			ResultSet rs = pst.executeQuery();
 			daoInfo.setEnd(Instant.now());
@@ -2195,7 +2193,11 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public boolean executeQuery(String query) throws SQLException {
 		try (var c = pool.getConnection(); Statement pst = c.createStatement())
 		{
-			return pst.execute(query);
+			var daoInfo=buildInfo(pst);
+			var ret =  pst.execute(query);
+			daoInfo.setEnd(Instant.now());
+			
+			return ret;
 		}
 	}
 

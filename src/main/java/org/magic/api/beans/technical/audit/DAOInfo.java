@@ -9,6 +9,12 @@ public class DAOInfo extends AbstractAuditableItem{
 	private String connectionName;
 	private String daoName;
 
+	
+	@Override
+	public String toString() {
+		return "DAO Audit : " + query;
+	}
+	
 	public String getConnectionName() {
 		return connectionName;
 	}

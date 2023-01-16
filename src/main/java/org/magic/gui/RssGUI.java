@@ -107,13 +107,15 @@ public class RssGUI extends MTGUIComponent {
 		panelControl.add(lblLoading);
 		leftPanel.add(newsPanel, BorderLayout.SOUTH);
 
-
-		initTree();
-
 		initActions();
 
-
 	}
+	
+	@Override
+	public void onFirstShowing() {
+		initTree();
+	}
+	
 
 	private void initActions() {
 		btnNewButton.addActionListener(ae -> {
