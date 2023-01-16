@@ -11,7 +11,7 @@ import javax.swing.WindowConstants;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
-import org.magic.gui.components.JTextFieldFileChooser;
+import org.magic.gui.components.widgets.JTextFieldFileChooser;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.logging.MTGLogger;

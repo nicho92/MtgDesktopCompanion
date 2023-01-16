@@ -22,7 +22,7 @@ import javax.swing.JScrollPane;
 
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.interfaces.MTGPricesProvider;
-import org.magic.gui.components.JTextFieldFileChooser;
+import org.magic.gui.components.widgets.JTextFieldFileChooser;
 import org.magic.gui.renderer.MagicCollectionIconListRenderer;
 import org.magic.gui.renderer.PluginIconListRenderer;
 import org.magic.services.MTGConstants;

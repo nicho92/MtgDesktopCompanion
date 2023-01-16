@@ -1,4 +1,4 @@
-package org.magic.gui.components;
+package org.magic.gui.components.widgets;
 
 import java.awt.Color;
 import java.awt.FlowLayout;

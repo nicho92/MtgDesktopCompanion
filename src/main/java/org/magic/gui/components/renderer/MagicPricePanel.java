@@ -14,7 +14,7 @@ import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGPricesProvider;
-import org.magic.gui.components.JLangLabel;
+import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
 import org.magic.services.tools.UITools;

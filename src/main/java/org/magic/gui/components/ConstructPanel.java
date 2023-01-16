@@ -69,6 +69,7 @@ import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.RarityRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
 import org.magic.gui.components.dialog.JDeckChooserDialog;
+import org.magic.gui.components.widgets.JExportButton;
 import org.magic.gui.editor.MagicEditionsComboBoxCellEditor;
 import org.magic.gui.models.DeckCardsTableModel;
 import org.magic.gui.renderer.MagicCardListRenderer;

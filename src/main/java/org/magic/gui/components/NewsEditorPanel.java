@@ -11,6 +11,7 @@ import javax.swing.JTextField;
 
 import org.magic.api.beans.MagicNews;
 import org.magic.api.interfaces.MTGNewsProvider;
+import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.services.tools.UITools;
 public class NewsEditorPanel extends JPanel {
 

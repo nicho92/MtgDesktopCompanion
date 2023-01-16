@@ -37,7 +37,7 @@ import org.magic.api.network.actions.SpeakAction;
 import org.magic.api.network.impl.MinaClient;
 import org.magic.game.model.Player.STATUS;
 import org.magic.gui.abstracts.MTGUIComponent;
-import org.magic.gui.components.JLangLabel;
+import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.gui.models.PlayerTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;

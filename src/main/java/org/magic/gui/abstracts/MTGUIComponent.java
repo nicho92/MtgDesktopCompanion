@@ -33,7 +33,6 @@ public abstract class MTGUIComponent extends JComponent {
 
 	public abstract String getTitle();
 
-
 	public void setEnclosingScrollPane(JScrollPane scrollPane) {
 		JScrollPane  enclosingScrollPane = scrollPane;
 		  if (enclosingScrollPane != null) {

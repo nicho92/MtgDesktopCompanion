@@ -4,8 +4,8 @@ import java.awt.BorderLayout;
 
 import javax.swing.JComponent;
 
-import org.magic.gui.components.JBuzyLabel;
-import org.magic.gui.components.JBuzyProgress;
+import org.magic.gui.components.widgets.JBuzyLabel;
+import org.magic.gui.components.widgets.JBuzyProgress;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 

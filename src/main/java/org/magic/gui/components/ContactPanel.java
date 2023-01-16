@@ -18,6 +18,7 @@ import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.tools.MTG;

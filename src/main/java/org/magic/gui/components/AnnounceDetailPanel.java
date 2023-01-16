@@ -20,6 +20,8 @@ import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.dialog.JContactChooserDialog;
+import org.magic.gui.components.widgets.JLangLabel;
+import org.magic.gui.components.widgets.JXDateTimePicker;
 import org.magic.services.tools.UITools;
 
 public class AnnounceDetailPanel extends MTGUIComponent {

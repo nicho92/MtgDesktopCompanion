@@ -40,6 +40,7 @@ import org.magic.game.actions.library.DrawHandActions;
 import org.magic.game.gui.components.dialog.DeckSideBoardSwitcherDialog;
 import org.magic.game.model.GameManager;
 import org.magic.game.model.Player;
+import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.dialog.JDeckChooserDialog;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -48,7 +49,7 @@ import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
 
-public class GamePanelGUI extends JPanel implements Observer {
+public class GamePanelGUI extends MTGUIComponent implements Observer {
 
 	/**
 	 *
@@ -75,8 +76,6 @@ public class GamePanelGUI extends JPanel implements Observer {
 	private TurnsPanel turnsPanel;
 	private ExilPanel exilPanel;
 	private StackPanel stackPanel;
-
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public static GamePanelGUI getInstance() {
 		if (instance == null)
@@ -495,4 +494,10 @@ public class GamePanelGUI extends JPanel implements Observer {
 	public ManaPoolPanel getManaPoolPanel() {
 		return manaPoolPanel;
 	}
+
+	@Override
+	public String getTitle() {
+		return "Game Panel";
+	}
+
 }
