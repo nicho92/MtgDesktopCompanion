@@ -80,16 +80,15 @@ public class MkmExternalShop extends AbstractExternalShop {
 	private List<File> loadFiles() throws IOException
 	{
 
-		var serv = new StockService();
-
+	
 		var temp = new File(MTGConstants.DATA_DIR, "mkm_temp_card.csv");
 		var temp2 = new File(MTGConstants.DATA_DIR, "mkm_temp_sealed.csv");
 
 		var g = new Game();
 		g.setIdGame(getInt(ID_GAME));
 
-		serv.exportStock(temp,getInt(ID_GAME),false);
-		serv.exportStock(temp2,getInt(ID_GAME),true);
+		mkmStockService.exportStock(temp,getInt(ID_GAME),false);
+		mkmStockService.exportStock(temp2,getInt(ID_GAME),true);
 
 		return List.of(temp,temp2);
 
