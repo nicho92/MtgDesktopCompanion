@@ -97,7 +97,7 @@ public class MTGControler {
 	
 		try {
 			config = builder.getConfiguration();
-			versionChecker = new VersionChecker(Boolean.parseBoolean(get("notifyPrerelease","false")));
+			versionChecker = new VersionChecker(Boolean.parseBoolean(get("notifyPrerelease",FALSE)));
 			
 			var head ="***************"+MTGConstants.MTG_APP_NAME+ " - "  +versionChecker.getVersion() +"**********";
 			var bottom =StringUtils.repeat("*", head.length());

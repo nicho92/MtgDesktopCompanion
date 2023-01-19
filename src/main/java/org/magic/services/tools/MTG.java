@@ -17,6 +17,14 @@ public class MTG {
 	private MTG() {
 		// this class tool is for simple controler classes access
 	}
+	
+	
+	public static boolean readPropertyAsBoolean(String property)
+	{
+		return MTGControler.getInstance().get(property).equalsIgnoreCase("true");
+	}
+	
+	
 
 	public static String lang(String key)
 	{

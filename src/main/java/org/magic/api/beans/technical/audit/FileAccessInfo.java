@@ -18,9 +18,7 @@ public class FileAccessInfo extends AbstractAuditableItem{
 	public File getFile() {
 		return file;
 	}
-//	public void setFile(File file) {
-//		this.file = file;
-//	}
+
 	public ACCESSTYPE getAccesstype() {
 		return accesstype;
 	}

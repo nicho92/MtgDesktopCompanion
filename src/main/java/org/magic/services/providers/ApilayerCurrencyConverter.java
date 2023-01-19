@@ -116,8 +116,9 @@ public class ApilayerCurrencyConverter {
 	}
 
 	public void init() throws IOException {
-			var obj = new JsonObject();
-			map.clear();
+		JsonObject obj = null;
+			
+		map.clear();
 			if(!cache.exists() && !token.isEmpty())
 			{
 
@@ -127,7 +128,7 @@ public class ApilayerCurrencyConverter {
 				FileTools.saveFile(cache, obj.toString());
 				logger.debug("{} created",cache.getAbsolutePath());
 			}
-			else //if(!token.isEmpty())
+			else 
 			{
 				obj = FileTools.readJson(cache).getAsJsonObject();
 			}
