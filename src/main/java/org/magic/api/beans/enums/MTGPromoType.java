@@ -42,8 +42,12 @@ public enum MTGPromoType {
 	@SerializedName(alternate = "themepack", value = "THEMEPACK") 			THEMEPACK,
 	@SerializedName(alternate = "tourney", value = "TOURNEY") 				TOURNEY,
 	@SerializedName(alternate = "wizardsplaynetwork", value = "WIZARDSPLAYNETWORK") WIZARDSPLAYNETWORK,
-	@SerializedName(alternate = "draculaseries", value = "DRACULASERIES") DRACULASERIES;
-
+	@SerializedName(alternate = "draculaseries", value = "DRACULASERIES") DRACULASERIES,
+	@SerializedName(alternate = "starterdeck", value = "STARTERDECK") STARTERDECK,
+	@SerializedName(alternate = "planeswalkerdeck", value = "PLANESWALKERDECK") PLANESWALKERDECK;
+	 
+	
+	 
 
 
 	public String toPrettyString() {
