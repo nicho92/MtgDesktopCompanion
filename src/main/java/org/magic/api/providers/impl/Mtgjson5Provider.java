@@ -87,7 +87,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 
 	@Override
 	public void init() {
-		logger.info("init {}",this);
+		logger.info("init {} provider",this);
 
 		Configuration.setDefaults(new Configuration.Defaults() {
 

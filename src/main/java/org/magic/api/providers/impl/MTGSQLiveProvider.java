@@ -185,7 +185,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 	@Override
 	public void init() {
-		logger.info("init {}",this);
+		logger.info("init {} provider",this);
 		download();
 		pool = new HikariPool();
 		pool.init("jdbc:sqlite://"+getDataFile().getAbsolutePath(), "", "", true);

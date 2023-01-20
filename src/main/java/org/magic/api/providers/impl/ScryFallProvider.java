@@ -115,6 +115,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	@Override
 	public void init() {
+		logger.info("init {} provider",this);
 		baseURI=getString("URL");
 	}
 
