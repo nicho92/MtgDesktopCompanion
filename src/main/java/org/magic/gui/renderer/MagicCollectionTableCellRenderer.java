@@ -3,6 +3,7 @@ package org.magic.gui.renderer;
 import java.awt.Color;
 import java.awt.Component;
 import java.text.NumberFormat;
+import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -10,6 +11,7 @@ import javax.swing.JTable;
 
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
+import org.magic.gui.renderer.standard.DateTableCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.UITools;
 
@@ -38,6 +40,10 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 		else if(value instanceof Boolean)
 		{
 			pane=new BooleanCellEditorRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+		}
+		else if(value instanceof Date)
+		{
+			pane=new DateTableCellEditorRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 		}
 		else
 		{

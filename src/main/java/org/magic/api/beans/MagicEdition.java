@@ -1,11 +1,13 @@
 package org.magic.api.beans;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.magic.api.interfaces.MTGStorable;
+import org.magic.services.tools.UITools;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -147,6 +149,12 @@ public class MagicEdition implements MTGStorable, Comparable<MagicEdition> {
 	public String getReleaseDate() {
 		return releaseDate;
 	}
+	
+	public Date getReleaseAsDate() {
+		return UITools.parseDate(releaseDate, "yyyy-MM-dd");
+	}
+	
+	
 
 	public void setReleaseDate(String releaseDate) {
 		this.releaseDate = releaseDate;

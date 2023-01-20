@@ -41,7 +41,7 @@ public class DateTableCellEditorRenderer extends AbstractCellEditor implements T
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 		JLabel l = new JLabel();
 		l.setOpaque(true);
-
+		
 		if(value instanceof Date date)
 		{
 			if(enableTime)

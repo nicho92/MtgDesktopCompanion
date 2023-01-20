@@ -5,12 +5,12 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.EnumBorders;
 import org.magic.api.beans.enums.EnumCardVariation;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumFinishes;
 import org.magic.api.beans.enums.EnumFrameEffects;
+import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.enums.EnumPromoType;
 import org.magic.api.beans.enums.EnumRarity;
