@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.magic.api.beans.MTGFormat.AUTHORIZATION;
-import org.magic.api.beans.enums.MTGColor;
+import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.interfaces.MTGStorable;
 import org.magic.services.tools.IDGenerator;
 
@@ -174,12 +174,12 @@ public class MagicDeck implements MTGStorable {
 
 	public String getColors() {
 
-		Set<MTGColor> cmap = new LinkedHashSet<>();
+		Set<EnumColors> cmap = new LinkedHashSet<>();
 		for (MagicCard mc : getUniqueCards())
 		{
 			if ((mc.getCmc() != null))
 			{
-				for (MTGColor c : mc.getColors())
+				for (EnumColors c : mc.getColors())
 				{
 					if(c!=null)
 						cmap.add(c);
@@ -188,7 +188,7 @@ public class MagicDeck implements MTGStorable {
 		}
 		var tmp = new StringBuilder();
 
-		cmap.stream().sorted().map(MTGColor::toManaCode).forEach(tmp::append);
+		cmap.stream().sorted().map(EnumColors::toManaCode).forEach(tmp::append);
 		return tmp.toString();
 	}
 

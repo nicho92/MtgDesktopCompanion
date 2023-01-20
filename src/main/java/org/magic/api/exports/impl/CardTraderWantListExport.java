@@ -11,7 +11,7 @@ import javax.swing.ImageIcon;
 import org.api.cardtrader.services.CardTraderConstants;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.enums.MTGExportCategory;
+import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 
 public class CardTraderWantListExport extends AbstractCardExport {
@@ -35,8 +35,8 @@ public class CardTraderWantListExport extends AbstractCardExport {
 
 
 	@Override
-	public MTGExportCategory getCategory() {
-		return MTGExportCategory.ONLINE;
+	public EnumExportCategory getCategory() {
+		return EnumExportCategory.ONLINE;
 	}
 
 

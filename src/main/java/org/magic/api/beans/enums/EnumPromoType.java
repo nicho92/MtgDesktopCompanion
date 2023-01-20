@@ -4,7 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.google.gson.annotations.SerializedName;
 
-public enum MTGPromoType {
+public enum EnumPromoType {
 
 
 
@@ -55,10 +55,10 @@ public enum MTGPromoType {
 	}
 
 
-	public static MTGPromoType parseByLabel(String s)
+	public static EnumPromoType parseByLabel(String s)
 	{
 		try {
-			return MTGPromoType.valueOf(s.toUpperCase());
+			return EnumPromoType.valueOf(s.toUpperCase());
 		}
 		catch(Exception e)
 		{

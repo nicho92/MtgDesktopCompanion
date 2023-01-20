@@ -23,7 +23,7 @@ import org.api.mkm.tools.MkmConstants;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.beans.enums.EnumMarketType;
-import org.magic.api.beans.enums.MTGRarity;
+import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
@@ -124,7 +124,7 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 
 			logger.info("{} looking for {}/{}",getName(),card,card.getCurrentSet());
 
-			if (card.getRarity() != null && !getBoolean("COMMONCHECK") && card.getRarity()==MTGRarity.COMMON) {
+			if (card.getRarity() != null && !getBoolean("COMMONCHECK") && card.getRarity()==EnumRarity.COMMON) {
 				var mp = new MagicPrice();
 					mp.setMagicCard(card);
 					mp.setCurrency("EUR");

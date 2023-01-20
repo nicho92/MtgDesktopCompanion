@@ -16,12 +16,12 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.enums.MTGColor;
-import org.magic.api.beans.enums.MTGFinishes;
-import org.magic.api.beans.enums.MTGFrameEffects;
-import org.magic.api.beans.enums.MTGLayout;
-import org.magic.api.beans.enums.MTGPromoType;
-import org.magic.api.beans.enums.MTGRarity;
+import org.magic.api.beans.enums.EnumColors;
+import org.magic.api.beans.enums.EnumFinishes;
+import org.magic.api.beans.enums.EnumFrameEffects;
+import org.magic.api.beans.enums.EnumLayout;
+import org.magic.api.beans.enums.EnumPromoType;
+import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGCrit.OPERATOR;
 import org.magic.api.criterias.MTGQueryBuilder;
@@ -128,7 +128,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	public abstract File getDataFile();
 	public abstract String getOnlineDataFileZip();
 	public abstract List<MagicCard> listToken(MagicEdition ed) throws IOException;
-	public abstract MagicCard getTokenFor(MagicCard mc, MTGLayout layout) throws IOException;
+	public abstract MagicCard getTokenFor(MagicCard mc, EnumLayout layout) throws IOException;
 
 
 	protected MTGQueryBuilder<?> queryBuilder=  new JsonCriteriaBuilder();
@@ -200,13 +200,13 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 
 
 
-		arr.add(new QueryAttribute(LAYOUT, MTGLayout.class));
-		arr.add(new QueryAttribute(RARITY, MTGRarity.class));
-		arr.add(new QueryAttribute(COLOR_IDENTITY, MTGColor.class));
-		arr.add(new QueryAttribute(COLORS, MTGColor.class));
-		arr.add(new QueryAttribute(PROMO_TYPE, MTGPromoType.class));
-		arr.add(new QueryAttribute(FRAME_EFFECTS, MTGFrameEffects.class));
-		arr.add(new QueryAttribute(FINISHES, MTGFinishes.class));
+		arr.add(new QueryAttribute(LAYOUT, EnumLayout.class));
+		arr.add(new QueryAttribute(RARITY, EnumRarity.class));
+		arr.add(new QueryAttribute(COLOR_IDENTITY, EnumColors.class));
+		arr.add(new QueryAttribute(COLORS, EnumColors.class));
+		arr.add(new QueryAttribute(PROMO_TYPE, EnumPromoType.class));
+		arr.add(new QueryAttribute(FRAME_EFFECTS, EnumFrameEffects.class));
+		arr.add(new QueryAttribute(FINISHES, EnumFinishes.class));
 		arr.add(new QueryAttribute(KEYWORDS, MTGKeyWord.class));
 		
 		return arr;

@@ -1,7 +1,7 @@
 package org.magic.services.tools;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.enums.MTGLayout;
+import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.exports.impl.CardKingdomCardExport;
 import org.magic.services.providers.PluginsAliasesProvider;
 
@@ -20,7 +20,7 @@ public class CardKingdomTools {
 		
 		String name = card.getName();
 			
-		if(name.contains("//") && card.getLayout() != MTGLayout.SPLIT)
+		if(name.contains("//") && card.getLayout() != EnumLayout.SPLIT)
 		{
 			name = name.split(" //")[0];
 		}

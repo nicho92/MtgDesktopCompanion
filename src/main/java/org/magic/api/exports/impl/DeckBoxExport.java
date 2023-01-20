@@ -12,7 +12,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.enums.CardsPatterns;
+import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
@@ -166,10 +166,10 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 		return "(\\d+)"+getSeparator()+
 				   "(\\d+)"+getSeparator()+
 				   "((?=\")\".*?\"|.*?)"+getSeparator()+
-				   CardsPatterns.REGEX_ANY_STRING+getSeparator()+
+				   EnumCardsPatterns.REGEX_ANY_STRING+getSeparator()+
 				   "(\\d+)?"+getSeparator()+
-				   CardsPatterns.REGEX_ANY_STRING+getSeparator()+
-				   CardsPatterns.REGEX_ANY_STRING+getSeparator()+
+				   EnumCardsPatterns.REGEX_ANY_STRING+getSeparator()+
+				   EnumCardsPatterns.REGEX_ANY_STRING+getSeparator()+
 				   "(foil)?"+getSeparator()+
 				   "(signed)?"+getSeparator()+
 				   "(proof)?"+getSeparator()+

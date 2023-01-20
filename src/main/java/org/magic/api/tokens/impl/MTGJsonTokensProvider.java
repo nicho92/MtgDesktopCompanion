@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.enums.MTGLayout;
+import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractTokensProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractMTGJsonProvider;
@@ -40,12 +40,12 @@ public class MTGJsonTokensProvider extends AbstractTokensProvider {
 
 	@Override
 	public MagicCard generateTokenFor(MagicCard mc) throws IOException {
-		return prov.getTokenFor(mc,MTGLayout.TOKEN);
+		return prov.getTokenFor(mc,EnumLayout.TOKEN);
 	}
 
 	@Override
 	public MagicCard generateEmblemFor(MagicCard mc) throws IOException {
-		return prov.getTokenFor(mc,MTGLayout.EMBLEM);
+		return prov.getTokenFor(mc,EnumLayout.EMBLEM);
 	}
 
 	@Override

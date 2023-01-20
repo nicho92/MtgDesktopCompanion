@@ -8,7 +8,7 @@ import javax.swing.Icon;
 
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.enums.MTGExportCategory;
+import org.magic.api.beans.enums.EnumExportCategory;
 
 public interface MTGCardsExport extends MTGPlugin{
 
@@ -35,7 +35,7 @@ public interface MTGCardsExport extends MTGPlugin{
 	public boolean needDialogForDeck(MODS mod);
 	public boolean needDialogForStock(MODS mod);
 
-	public MTGExportCategory getCategory();
+	public EnumExportCategory getCategory();
 
 	public MODS getMods();
 

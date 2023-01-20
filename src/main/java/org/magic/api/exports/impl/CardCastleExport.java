@@ -5,7 +5,7 @@ import java.io.IOException;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.enums.CardsPatterns;
+import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.tools.FileTools;
 
@@ -75,12 +75,12 @@ public class CardCastleExport extends AbstractFormattedFileCardExport {
 	@Override
 	protected String getStringPattern() {
 		return "((?=\")\".*?\"|.*?)"+getSeparator()+
-				CardsPatterns.REGEX_ANY_STRING+getSeparator()+
-				CardsPatterns.REGEX_ANY_STRING+getSeparator()+
+				EnumCardsPatterns.REGEX_ANY_STRING+getSeparator()+
+				EnumCardsPatterns.REGEX_ANY_STRING+getSeparator()+
 			   "(true|false)"+getSeparator()+
-			   CardsPatterns.REGEX_ANY_STRING+getSeparator()+
+			   EnumCardsPatterns.REGEX_ANY_STRING+getSeparator()+
 			   "(\\d+)"+getSeparator()+
-			   CardsPatterns.REGEX_ANY_STRING+getSeparator()+
+			   EnumCardsPatterns.REGEX_ANY_STRING+getSeparator()+
 			   "(\\d+.\\d+?)";
 	}
 

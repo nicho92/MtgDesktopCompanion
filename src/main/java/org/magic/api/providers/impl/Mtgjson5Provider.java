@@ -17,12 +17,12 @@ import org.magic.api.beans.MTGRuling;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.enums.MTGBorder;
-import org.magic.api.beans.enums.MTGColor;
-import org.magic.api.beans.enums.MTGFinishes;
-import org.magic.api.beans.enums.MTGFrameEffects;
-import org.magic.api.beans.enums.MTGLayout;
-import org.magic.api.beans.enums.MTGRarity;
+import org.magic.api.beans.enums.EnumBorders;
+import org.magic.api.beans.enums.EnumColors;
+import org.magic.api.beans.enums.EnumFinishes;
+import org.magic.api.beans.enums.EnumFrameEffects;
+import org.magic.api.beans.enums.EnumLayout;
+import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.criterias.builders.JsonCriteriaBuilder;
@@ -224,7 +224,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 
 				if (map.get(RARITY) != null)
 				{
-					mc.setRarity(MTGRarity.rarityByName(String.valueOf(map.get(RARITY))));
+					mc.setRarity(EnumRarity.rarityByName(String.valueOf(map.get(RARITY))));
 				}
 
 				
@@ -257,7 +257,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 					mc.setOversized(Boolean.valueOf(String.valueOf(map.get(IS_OVERSIZED))));
 
 				if (map.get(LAYOUT) != null)
-					mc.setLayout(MTGLayout.parseByLabel(String.valueOf(map.get(LAYOUT))));
+					mc.setLayout(EnumLayout.parseByLabel(String.valueOf(map.get(LAYOUT))));
 
 				if (map.get(FLAVOR_TEXT) != null)
 					mc.setFlavor(String.valueOf(map.get(FLAVOR_TEXT)));
@@ -289,16 +289,16 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 					mc.setToughness(String.valueOf(map.get(TOUGHNESS)));
 
 				if (map.get(COLORS) != null)
-					mc.getColors().addAll(MTGColor.parseByCode(((List<String>) map.get(COLORS))));
+					mc.getColors().addAll(EnumColors.parseByCode(((List<String>) map.get(COLORS))));
 
 				if (map.get(COLOR_INDICATOR) != null)
-					mc.getColorIndicator().addAll(MTGColor.parseByCode(((List<String>) map.get(COLOR_INDICATOR))));
+					mc.getColorIndicator().addAll(EnumColors.parseByCode(((List<String>) map.get(COLOR_INDICATOR))));
 
 				if (map.get(COLOR_IDENTITY) != null)
-					mc.getColorIdentity().addAll(MTGColor.parseByCode(((List<String>) map.get(COLOR_IDENTITY))));
+					mc.getColorIdentity().addAll(EnumColors.parseByCode(((List<String>) map.get(COLOR_IDENTITY))));
 
 				if (map.get(FRAME_EFFECTS) != null)
-					mc.getFrameEffects().addAll(MTGFrameEffects.parseByLabel(((List<String>) map.get(FRAME_EFFECTS))));
+					mc.getFrameEffects().addAll(EnumFrameEffects.parseByLabel(((List<String>) map.get(FRAME_EFFECTS))));
 
 				if (map.get(AVAILABILITY) != null)
 				{
@@ -331,7 +331,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 					mc.setFullArt(Boolean.valueOf(map.get(IS_FULLART).toString()));
 
 				if (map.get(RARITY) != null)
-					mc.setRarity(MTGRarity.rarityByName(map.get(RARITY).toString()));
+					mc.setRarity(EnumRarity.rarityByName(map.get(RARITY).toString()));
 
 				if (map.get(IS_FUNNY) != null)
 					mc.setFunny(Boolean.valueOf(map.get(IS_FUNNY).toString()));
@@ -343,12 +343,12 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 					mc.setSecurityStamp(map.get(SECURITYSTAMP).toString());
 
 				if (map.get(FINISHES) != null)
-					mc.getFinishes().addAll(MTGFinishes.parseByLabel(((List<String>) map.get(FINISHES))));
+					mc.getFinishes().addAll(EnumFinishes.parseByLabel(((List<String>) map.get(FINISHES))));
 
 
 
 				if(map.get(BORDER_COLOR)!=null)
-					mc.setBorder(MTGBorder.parseByLabel(map.get(BORDER_COLOR).toString()));
+					mc.setBorder(EnumBorders.parseByLabel(map.get(BORDER_COLOR).toString()));
 
 				if (map.get(LOYALTY) != null) {
 					try {
@@ -686,7 +686,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 
 
 	@Override
-	public MagicCard getTokenFor(MagicCard mc, MTGLayout layout) throws IOException {
+	public MagicCard getTokenFor(MagicCard mc, EnumLayout layout) throws IOException {
 		// TODO get tokens / emblem for cards
 		return null;
 	}

@@ -5,7 +5,7 @@ import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 
-public enum MTGFrameEffects{
+public enum EnumFrameEffects{
 
 	LEGENDARY,
 	MIRACLE,
@@ -33,15 +33,15 @@ public enum MTGFrameEffects{
 		return StringUtils.capitalize(name().toLowerCase());
 	}
 
-	public static List<MTGFrameEffects> parseByLabel(List<String> names)
+	public static List<EnumFrameEffects> parseByLabel(List<String> names)
 	{
-		return names.stream().map(MTGFrameEffects::parseByLabel).filter(Objects::nonNull).toList();
+		return names.stream().map(EnumFrameEffects::parseByLabel).filter(Objects::nonNull).toList();
 	}
 
-	public static MTGFrameEffects parseByLabel(String s)
+	public static EnumFrameEffects parseByLabel(String s)
 	{
 		try {
-			return MTGFrameEffects.valueOf(s.toUpperCase());
+			return EnumFrameEffects.valueOf(s.toUpperCase());
 		}
 		catch(Exception e)
 		{

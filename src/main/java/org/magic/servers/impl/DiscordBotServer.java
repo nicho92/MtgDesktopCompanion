@@ -32,7 +32,7 @@ import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.beans.enums.MTGColor;
+import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.technical.audit.DiscordInfo;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
@@ -414,7 +414,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 		var eb = new EmbedBuilder();
 		eb.setDescription("");
 		eb.setTitle(mc.getName()+ " " + (mc.getCost()!=null?mc.getCost():""));
-		eb.setColor(MTGColor.determine(mc.getColors()).toColor());
+		eb.setColor(EnumColors.determine(mc.getColors()).toColor());
 
 		var temp = new StringBuilder();
 		temp.append(mc.getTypes()+"\n");

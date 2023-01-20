@@ -14,7 +14,7 @@ import org.api.cardtrader.tools.URLCallInfo;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.enums.MTGExportCategory;
+import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.beans.technical.audit.NetworkInfo;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
@@ -50,8 +50,8 @@ public class CardTraderStockExport extends AbstractCardExport {
 	}
 
 	@Override
-	public MTGExportCategory getCategory() {
-		return MTGExportCategory.ONLINE;
+	public EnumExportCategory getCategory() {
+		return EnumExportCategory.ONLINE;
 	}
 
 

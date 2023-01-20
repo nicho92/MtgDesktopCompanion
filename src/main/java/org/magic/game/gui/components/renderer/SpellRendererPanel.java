@@ -8,7 +8,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import org.magic.api.beans.enums.MTGColor;
+import org.magic.api.beans.enums.EnumColors;
 import org.magic.game.model.AbstractSpell;
 import org.magic.game.model.abilities.AbstractAbilities;
 import org.magic.gui.components.MagicTextPane;
@@ -78,7 +78,7 @@ public class SpellRendererPanel extends JPanel {
 		}
 
 		textPane.updateTextWithIcons();
-		var c = MTGColor.determine(value.getCard().getColors()).toColor();
+		var c = EnumColors.determine(value.getCard().getColors()).toColor();
 		setColor(Color.BLACK,c);
 
 

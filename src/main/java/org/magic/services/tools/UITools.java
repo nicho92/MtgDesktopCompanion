@@ -68,7 +68,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumCondition;
-import org.magic.api.beans.enums.MTGCardVariation;
+import org.magic.api.beans.enums.EnumCardVariation;
 import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.interfaces.MTGCardsExport;
@@ -549,7 +549,7 @@ public class UITools {
 							{
 								var key = getModelValueAt(table,row, extraPos);
 								if(key!=null) {
-									var extraVariations = MTGCardVariation.valueOf(key.toString());
+									var extraVariations = EnumCardVariation.valueOf(key.toString());
 									mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, ed, true,extraVariations).get(0);
 								}
 								else

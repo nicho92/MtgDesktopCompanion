@@ -7,7 +7,7 @@ import java.util.List;
 import org.apache.commons.lang.NotImplementedException;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.enums.MTGExportCategory;
+import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.gui.components.dialog.WebcamCardImportDialog;
 import org.magic.services.MTGControler;
@@ -36,8 +36,8 @@ public class WebCamImport extends AbstractCardExport {
 	}
 
 	@Override
-	public MTGExportCategory getCategory() {
-		return MTGExportCategory.MANUAL;
+	public EnumExportCategory getCategory() {
+		return EnumExportCategory.MANUAL;
 	}
 
 	@Override

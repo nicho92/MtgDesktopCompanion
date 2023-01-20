@@ -16,7 +16,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.enums.MTGExportCategory;
+import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
@@ -32,8 +32,8 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 	}
 
 	@Override
-	public MTGExportCategory getCategory() {
-		return MTGExportCategory.FILE;
+	public EnumExportCategory getCategory() {
+		return EnumExportCategory.FILE;
 	}
 
 	protected abstract boolean skipFirstLine();

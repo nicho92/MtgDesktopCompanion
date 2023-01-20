@@ -6,10 +6,10 @@ import org.jfree.chart3d.data.PieDataset3D;
 import org.jfree.chart3d.data.StandardPieDataset3D;
 import org.jfree.chart3d.plot.StandardColorSource;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.enums.MTGColor;
+import org.magic.api.beans.enums.EnumColors;
 import org.magic.gui.abstracts.charts.Abstract3DPieChart;
 
-public class ManaRepartitionPanel extends Abstract3DPieChart<MagicCard,MTGColor> {
+public class ManaRepartitionPanel extends Abstract3DPieChart<MagicCard,EnumColors> {
 
 	public ManaRepartitionPanel(boolean displayPanel) {
 		super(displayPanel);
@@ -24,9 +24,9 @@ public class ManaRepartitionPanel extends Abstract3DPieChart<MagicCard,MTGColor>
 
 	@Override
 	protected void initPlot() {
-		var source = new StandardColorSource<MTGColor>();
+		var source = new StandardColorSource<EnumColors>();
 
-		for(MTGColor c : MTGColor.values())
+		for(EnumColors c : EnumColors.values())
 			source.setColor(c,c.toColor());
 
 
@@ -35,9 +35,9 @@ public class ManaRepartitionPanel extends Abstract3DPieChart<MagicCard,MTGColor>
 	}
 
 	@Override
-	public PieDataset3D<MTGColor> getDataSet() {
-		var dataset = new StandardPieDataset3D<MTGColor>();
-		for (Entry<MTGColor, Integer> data : manager.analyseColors(items).entrySet()) {
+	public PieDataset3D<EnumColors> getDataSet() {
+		var dataset = new StandardPieDataset3D<EnumColors>();
+		for (Entry<EnumColors, Integer> data : manager.analyseColors(items).entrySet()) {
 			dataset.add(data.getKey(), data.getValue());
 		}
 		return dataset;

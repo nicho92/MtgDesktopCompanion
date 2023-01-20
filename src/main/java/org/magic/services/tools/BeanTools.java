@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.logging.log4j.Logger;
-import org.magic.api.beans.enums.CardsPatterns;
+import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.services.logging.MTGLogger;
 
@@ -63,7 +63,7 @@ public class BeanTools {
 	}
 
 	public static String createString(Object mc, String text) {
-		var p = Pattern.compile("\\"+TOKEN_START+CardsPatterns.REGEX_ANY_STRING+"\\"+TOKEN_END);
+		var p = Pattern.compile("\\"+TOKEN_START+EnumCardsPatterns.REGEX_ANY_STRING+"\\"+TOKEN_END);
 		var m = p.matcher(text);
 		var temp = new StringBuilder();
 

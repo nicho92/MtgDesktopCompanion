@@ -8,7 +8,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.enums.CardsPatterns;
+import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.abstracts.AbstractMTGTextGenerator;
 import org.magic.services.MTGConstants;
@@ -56,7 +56,7 @@ public class MarkovGenerator extends AbstractMTGTextGenerator {
 			  {
 
 				  if((mc.getText()!=null || !mc.getText().isEmpty() || !mc.getText().equalsIgnoreCase("null"))) {
-						  String r = mc.getText().replace(CardsPatterns.REMINDER.getPattern(), "")
+						  String r = mc.getText().replace(EnumCardsPatterns.REMINDER.getPattern(), "")
 								  				 .replace("\n", " ")
 								  				 .replace(mc.getName(), getString("TAG_NAME"))
 								  				 .trim();

@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.enums.MTGExportCategory;
+import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.tools.IDGenerator;
 import org.magic.services.tools.TCache;
@@ -26,8 +26,8 @@ public class ClipBoardExport extends AbstractCardExport {
 	}
 
 	@Override
-	public MTGExportCategory getCategory() {
-		return MTGExportCategory.MANUAL;
+	public EnumExportCategory getCategory() {
+		return EnumExportCategory.MANUAL;
 	}
 
 	@Override

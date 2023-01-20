@@ -31,7 +31,7 @@ import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumMarketType;
-import org.magic.api.beans.enums.MTGCardVariation;
+import org.magic.api.beans.enums.EnumCardVariation;
 import org.magic.api.beans.technical.audit.NetworkInfo;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.TechnicalServiceManager;
@@ -324,13 +324,13 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 				cs.setLink(p.getWebPage());
 
 				if(p.isExtendedArt())
-					cs.setCardVariation(MTGCardVariation.EXTENDEDART);
+					cs.setCardVariation(EnumCardVariation.EXTENDEDART);
 				else if(p.isShowcase())
-					cs.setCardVariation(MTGCardVariation.SHOWCASE);
+					cs.setCardVariation(EnumCardVariation.SHOWCASE);
 				else if(p.isBorderless())
-					cs.setCardVariation(MTGCardVariation.BORDERLESS);
+					cs.setCardVariation(EnumCardVariation.BORDERLESS);
 				else if(p.isJapanese())
-					cs.setCardVariation(MTGCardVariation.JAPANESEALT);
+					cs.setCardVariation(EnumCardVariation.JAPANESEALT);
 
 
 				cs.setEd(String.valueOf(cardService.getSetById(p.getSetId()).getAbbrevation()).toUpperCase());

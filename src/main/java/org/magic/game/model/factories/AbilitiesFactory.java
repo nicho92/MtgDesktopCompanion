@@ -8,7 +8,7 @@ import java.util.regex.Matcher;
 
 import org.magic.api.beans.MTGKeyWord.EVENT;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.enums.CardsPatterns;
+import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.game.model.abilities.AbstractAbilities;
 import org.magic.game.model.abilities.ActivatedAbilities;
 import org.magic.game.model.abilities.LoyaltyAbilities;
@@ -61,7 +61,7 @@ public class AbilitiesFactory implements Serializable{
 
 	private String removeParenthesis(String text)
 	{
-		return text.replaceAll(CardsPatterns.REMINDER.getPattern(),"");
+		return text.replaceAll(EnumCardsPatterns.REMINDER.getPattern(),"");
 	}
 
 
@@ -101,7 +101,7 @@ public class AbilitiesFactory implements Serializable{
 			for(String s : listSentences(mc))
 			{
 
-				Matcher m  = CardsPatterns.extract(s, CardsPatterns.LOYALTY_PATTERN);
+				Matcher m  = EnumCardsPatterns.extract(s, EnumCardsPatterns.LOYALTY_PATTERN);
 				if(m.matches()) {
 
 				var abilities = new LoyaltyAbilities();

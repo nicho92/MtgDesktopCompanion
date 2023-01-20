@@ -14,7 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import org.magic.api.beans.enums.CardsPatterns;
+import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.ImageTools;
 
@@ -60,7 +60,7 @@ public class ManaPanel extends JPanel {
 		if (manaCost == null)
 			return;
 
-		var p = Pattern.compile(CardsPatterns.MANA_PATTERN.getPattern());
+		var p = Pattern.compile(EnumCardsPatterns.MANA_PATTERN.getPattern());
 		var m = p.matcher(manaCost);
 
 		fl.setVgap(0);

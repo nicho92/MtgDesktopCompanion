@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.google.gson.annotations.SerializedName;
 
-public enum MTGLayout{
+public enum EnumLayout{
 
 	@SerializedName(alternate = "normal", value = "NORMAL") 							NORMAL,
 	@SerializedName(alternate = "split", value = "SPLIT") 								SPLIT,
@@ -37,15 +37,15 @@ public enum MTGLayout{
 		return StringUtils.capitalize(name().toLowerCase());
 	}
 
-	public static List<MTGLayout> parseByLabel(List<String> names)
+	public static List<EnumLayout> parseByLabel(List<String> names)
 	{
-		return names.stream().map(MTGLayout::parseByLabel).filter(Objects::nonNull).toList();
+		return names.stream().map(EnumLayout::parseByLabel).filter(Objects::nonNull).toList();
 	}
 
-	public static MTGLayout parseByLabel(String s)
+	public static EnumLayout parseByLabel(String s)
 	{
 		try {
-			return MTGLayout.valueOf(s.toUpperCase());
+			return EnumLayout.valueOf(s.toUpperCase());
 		}
 		catch(Exception e)
 		{

@@ -6,14 +6,14 @@ import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.enums.EnumItems;
-import org.magic.api.beans.enums.MTGBorder;
-import org.magic.api.beans.enums.MTGCardVariation;
-import org.magic.api.beans.enums.MTGColor;
-import org.magic.api.beans.enums.MTGFinishes;
-import org.magic.api.beans.enums.MTGFrameEffects;
-import org.magic.api.beans.enums.MTGLayout;
-import org.magic.api.beans.enums.MTGPromoType;
-import org.magic.api.beans.enums.MTGRarity;
+import org.magic.api.beans.enums.EnumBorders;
+import org.magic.api.beans.enums.EnumCardVariation;
+import org.magic.api.beans.enums.EnumColors;
+import org.magic.api.beans.enums.EnumFinishes;
+import org.magic.api.beans.enums.EnumFrameEffects;
+import org.magic.api.beans.enums.EnumLayout;
+import org.magic.api.beans.enums.EnumPromoType;
+import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.interfaces.abstracts.extra.AbstractProduct;
 import org.magic.services.tools.IDGenerator;
 
@@ -34,19 +34,19 @@ public class MagicCard extends AbstractProduct {
 	private String artist="";
 	private String flavor="";
 	private String watermarks;
-	private MTGRarity rarity;
-	private MTGLayout layout=MTGLayout.NORMAL;
+	private EnumRarity rarity;
+	private EnumLayout layout=EnumLayout.NORMAL;
 	private List<String> supertypes;
 	private List<String> types;
 	private List<String> subtypes;
-	private List<MTGColor> colors;
+	private List<EnumColors> colors;
 	private List<MagicCardNames> foreignNames;
 	private List<MagicEdition> editions;
 	private List<MTGRuling> rulings;
-	private List<MTGColor> colorIdentity;
-	private List<MTGColor> colorIndicator;
+	private List<EnumColors> colorIdentity;
+	private List<EnumColors> colorIndicator;
 	private List<MTGFormat> legalities;
-	private List<MTGFrameEffects> frameEffects;
+	private List<EnumFrameEffects> frameEffects;
 	private String flavorName;
 	private String imageName;
 	private String frameVersion;
@@ -72,31 +72,31 @@ public class MagicCard extends AbstractProduct {
 	private MagicCard rotatedCard;
 	private List<MTGKeyWord> keywords;
 	private boolean hasContentWarning;
-	private MTGBorder border;
+	private EnumBorders border;
 	private String originalReleaseDate;
 	private boolean timeshifted;
-	private List<MTGPromoType> promotypes;
+	private List<EnumPromoType> promotypes;
 	private boolean japanese;
 	private Date dateUpdated;
-	private List<MTGFinishes> finishes;
+	private List<EnumFinishes> finishes;
 	private String securityStamp;
 	private boolean isRebalanced;
 	private String signature;
 
-	public MTGCardVariation getExtra()
+	public EnumCardVariation getExtra()
 	{
 		if(isJapanese())
-			return MTGCardVariation.JAPANESEALT;
+			return EnumCardVariation.JAPANESEALT;
 		else if(isShowCase())
-			return MTGCardVariation.SHOWCASE;
+			return EnumCardVariation.SHOWCASE;
 		else if(isFullArt())
-			return MTGCardVariation.FULLART;
+			return EnumCardVariation.FULLART;
 		else if(isExtendedArt())
-			return MTGCardVariation.EXTENDEDART;
+			return EnumCardVariation.EXTENDEDART;
 		else if(isBorderLess())
-			return MTGCardVariation.BORDERLESS;
+			return EnumCardVariation.BORDERLESS;
 		else if(isTimeshifted())
-			return MTGCardVariation.TIMESHIFTED;
+			return EnumCardVariation.TIMESHIFTED;
 
 
 		return null;
@@ -140,11 +140,11 @@ public class MagicCard extends AbstractProduct {
 	}
 
 
-	public List<MTGFinishes> getFinishes() {
+	public List<EnumFinishes> getFinishes() {
 		return finishes;
 	}
 
-	public void setFinishes(List<MTGFinishes> finishes) {
+	public void setFinishes(List<EnumFinishes> finishes) {
 		this.finishes = finishes;
 	}
 
@@ -179,19 +179,19 @@ public class MagicCard extends AbstractProduct {
 		this.japanese = japanese;
 	}
 
-	public List<MTGColor> getColorIndicator() {
+	public List<EnumColors> getColorIndicator() {
 		return colorIndicator;
 	}
 
-	public void setColorIndicator(List<MTGColor> colorIndicator) {
+	public void setColorIndicator(List<EnumColors> colorIndicator) {
 		this.colorIndicator = colorIndicator;
 	}
 
-	public List<MTGPromoType> getPromotypes() {
+	public List<EnumPromoType> getPromotypes() {
 		return promotypes;
 	}
 
-	public void setPromotypes(List<MTGPromoType> promotypes) {
+	public void setPromotypes(List<EnumPromoType> promotypes) {
 		this.promotypes = promotypes;
 	}
 
@@ -222,15 +222,15 @@ public class MagicCard extends AbstractProduct {
 
 	public boolean isBorderLess()
 	{
-		return border == MTGBorder.BORDERLESS;
+		return border == EnumBorders.BORDERLESS;
 	}
 
 	public boolean isShowCase() {
-		return frameEffects.stream().anyMatch(f->f==MTGFrameEffects.SHOWCASE);
+		return frameEffects.stream().anyMatch(f->f==EnumFrameEffects.SHOWCASE);
 	}
 
 	public boolean isExtendedArt() {
-		return frameEffects.stream().anyMatch(f->f==MTGFrameEffects.EXTENDEDART);
+		return frameEffects.stream().anyMatch(f->f==EnumFrameEffects.EXTENDEDART);
 	}
 
 	public boolean isFullArt() {
@@ -242,11 +242,11 @@ public class MagicCard extends AbstractProduct {
 	}
 
 
-	public void setBorder(MTGBorder border) {
+	public void setBorder(EnumBorders border) {
 		this.border = border;
 	}
 
-	public MTGBorder getBorder() {
+	public EnumBorders getBorder() {
 		return border;
 	}
 
@@ -314,7 +314,7 @@ public class MagicCard extends AbstractProduct {
 
 	public boolean isCompanion()
 	{
-		return isCreature() && getFrameEffects().contains(MTGFrameEffects.COMPANION);
+		return isCreature() && getFrameEffects().contains(EnumFrameEffects.COMPANION);
 	}
 
 	public String getScryfallId() {
@@ -394,11 +394,11 @@ public class MagicCard extends AbstractProduct {
 		this.oversized = oversized;
 	}
 
-	public void setFrameEffects(List<MTGFrameEffects> frameEffects) {
+	public void setFrameEffects(List<EnumFrameEffects> frameEffects) {
 		this.frameEffects = frameEffects;
 	}
 
-	public List<MTGFrameEffects> getFrameEffects() {
+	public List<EnumFrameEffects> getFrameEffects() {
 		return frameEffects;
 	}
 
@@ -508,17 +508,17 @@ public class MagicCard extends AbstractProduct {
 
 	public boolean isToken()
 	{
-		return getLayout()==MTGLayout.TOKEN || getLayout()==MTGLayout.DOUBLE_FACED_TOKEN;
+		return getLayout()==EnumLayout.TOKEN || getLayout()==EnumLayout.DOUBLE_FACED_TOKEN;
 	}
 
 	public boolean isEmblem()
 	{
-		return getLayout()==MTGLayout.EMBLEM;
+		return getLayout()==EnumLayout.EMBLEM;
 	}
 
 	public boolean isSpecialTokenOrExtra()
 	{
-		return getLayout()==MTGLayout.ADVENTURE || getLayout()==MTGLayout.ART_SERIES || isToken() || isEmblem();
+		return getLayout()==EnumLayout.ADVENTURE || getLayout()==EnumLayout.ART_SERIES || isToken() || isEmblem();
 	}
 
 
@@ -534,7 +534,7 @@ public class MagicCard extends AbstractProduct {
 
 	public boolean isDoubleFaced()
 	{
-		return getLayout()==MTGLayout.MELD || getLayout()==MTGLayout.TRANSFORM || getLayout()==MTGLayout.MODAL_DFC;
+		return getLayout()==EnumLayout.MELD || getLayout()==EnumLayout.TRANSFORM || getLayout()==EnumLayout.MODAL_DFC;
 	}
 
 
@@ -575,7 +575,7 @@ public class MagicCard extends AbstractProduct {
 	}
 
 	public boolean isFlippable() {
-		return getLayout()==MTGLayout.FLIP;
+		return getLayout()==EnumLayout.FLIP;
 	}
 
 
@@ -596,11 +596,11 @@ public class MagicCard extends AbstractProduct {
 		this.rotatedCard = rotatedCard;
 	}
 
-	public MTGRarity getRarity() {
+	public EnumRarity getRarity() {
 		return rarity;
 	}
 
-	public void setRarity(MTGRarity rarity) {
+	public void setRarity(EnumRarity rarity) {
 		this.rarity = rarity;
 	}
 
@@ -640,11 +640,11 @@ public class MagicCard extends AbstractProduct {
 		this.watermarks = watermarks;
 	}
 
-	public List<MTGColor> getColorIdentity() {
+	public List<EnumColors> getColorIdentity() {
 		return colorIdentity;
 	}
 
-	public void setColorIdentity(List<MTGColor> colorIdentity) {
+	public void setColorIdentity(List<EnumColors> colorIdentity) {
 		this.colorIdentity = colorIdentity;
 	}
 
@@ -688,11 +688,11 @@ public class MagicCard extends AbstractProduct {
 		this.toughness = toughness;
 	}
 
-	public List<MTGColor> getColors() {
+	public List<EnumColors> getColors() {
 		return colors;
 	}
 
-	public void setColors(List<MTGColor> colors) {
+	public void setColors(List<EnumColors> colors) {
 		this.colors = colors;
 	}
 
@@ -797,12 +797,12 @@ public class MagicCard extends AbstractProduct {
 		return IDGenerator.generate(((MagicCard) obj)).equals(IDGenerator.generate(this));
 	}
 
-	public void setLayout(MTGLayout layout) {
+	public void setLayout(EnumLayout layout) {
 		this.layout = layout;
 
 	}
 
-	public MTGLayout getLayout() {
+	public EnumLayout getLayout() {
 		return layout;
 	}
 

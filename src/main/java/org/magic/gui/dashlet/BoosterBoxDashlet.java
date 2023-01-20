@@ -29,7 +29,7 @@ import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MTGBooster;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.enums.MTGRarity;
+import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
@@ -126,7 +126,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 					var prices = getEnabledPlugin(MTGDashBoard.class).getShakesForEdition((MagicEdition) cboEditions.getSelectedItem());
 					boostersModel.clear();
 					double total = 0;
-					Map<MTGRarity, Double> priceRarity = new EnumMap<>(MTGRarity.class);
+					Map<EnumRarity, Double> priceRarity = new EnumMap<>(EnumRarity.class);
 
 					for (var i = 0; i < (int) boxSizeSpinner.getValue(); i++) {
 						var booster = getEnabledPlugin(MTGCardsProvider.class).generateBooster((MagicEdition) cboEditions.getSelectedItem());
@@ -141,7 +141,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 									booster.setPrice(price);
 									cs.setCard(mc);
 
-									MTGRarity rarity = mc.getRarity();
+									EnumRarity rarity = mc.getRarity();
 
 									if (priceRarity.get(rarity) != null)
 										priceRarity.put(rarity, priceRarity.get(rarity) + cs.getPrice());
@@ -155,7 +155,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 						var temp = new StringBuilder();
 						temp.append("TOTAL: ").append(UITools.formatDouble(total)).append("\n");
 
-						for (Entry<MTGRarity, Double> s : priceRarity.entrySet())
+						for (Entry<EnumRarity, Double> s : priceRarity.entrySet())
 							temp.append(s.getKey()).append(": ").append(UITools.formatDouble(priceRarity.get(s.getKey())))
 									.append("\n");
 

@@ -2,8 +2,8 @@ package org.magic.api.sorters;
 
 import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.enums.MTGColor;
-import org.magic.api.beans.enums.MTGLayout;
+import org.magic.api.beans.enums.EnumColors;
+import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.interfaces.MTGComparator;
 
 public class CardsEditionSorter implements MTGComparator<MagicCard> {
@@ -93,7 +93,7 @@ public class CardsEditionSorter implements MTGComparator<MagicCard> {
 				} else {
 					return 7; // advanced land
 				}
-			} else if (mc.getLayout()!=MTGLayout.NORMAL) {
+			} else if (mc.getLayout()!=EnumLayout.NORMAL) {
 				return 99;
 			} else {
 				return -1;
@@ -101,7 +101,7 @@ public class CardsEditionSorter implements MTGComparator<MagicCard> {
 
 		}
 
-		return MTGColor.determine(mc.getColors()).getPosition();
+		return EnumColors.determine(mc.getColors()).getPosition();
 
 	}
 

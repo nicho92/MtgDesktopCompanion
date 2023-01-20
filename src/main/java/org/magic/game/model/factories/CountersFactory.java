@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.enums.CardsPatterns;
+import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.game.model.abilities.LoyaltyAbilities;
 import org.magic.game.model.counters.AbstractCounter;
 import org.magic.game.model.counters.BonusCounter;
@@ -41,7 +41,7 @@ public class CountersFactory {
 			return new ArrayList<>();
 		
 		ArrayList<ItemCounter> arr = new ArrayList<>();
-		var p = Pattern.compile(CardsPatterns.COUNTERS.getPattern());
+		var p = Pattern.compile(EnumCardsPatterns.COUNTERS.getPattern());
 		var m = p.matcher(mc.getText());
 		while(m.find())
 		{
@@ -66,7 +66,7 @@ public class CountersFactory {
 	{
 		ArrayList<AbstractCounter> arr = new ArrayList<>();
 
-		var p = Pattern.compile(CardsPatterns.COUNTERS.getPattern());
+		var p = Pattern.compile(EnumCardsPatterns.COUNTERS.getPattern());
 		var m = p.matcher(mc.getText());
 			while(m.find())
 			{

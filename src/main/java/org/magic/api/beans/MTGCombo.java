@@ -5,7 +5,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.magic.api.beans.enums.MTGColor;
+import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.interfaces.MTGComboProvider;
 
 public class MTGCombo {
@@ -51,7 +51,7 @@ public class MTGCombo {
 		Set<String> cmap = new LinkedHashSet<>();
 		for (MagicCard mc : getCards()) {
 			if ((mc.getCmc() != null))
-				for (MTGColor c : mc.getColors())
+				for (EnumColors c : mc.getColors())
 					cmap.add(c.toManaCode());
 		}
 		return cmap.toString();

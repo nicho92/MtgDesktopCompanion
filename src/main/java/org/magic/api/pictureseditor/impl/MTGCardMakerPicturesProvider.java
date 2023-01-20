@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.enums.CardsPatterns;
+import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.services.network.URLTools;
 
@@ -41,7 +41,7 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 
 	public int count(String manaCost, String item) {
 		var count = 0;
-		var regex = CardsPatterns.MANA_PATTERN.getPattern();
+		var regex = EnumCardsPatterns.MANA_PATTERN.getPattern();
 		var p = Pattern.compile(regex);
 		var m = p.matcher(manaCost);
 		while (m.find()) {

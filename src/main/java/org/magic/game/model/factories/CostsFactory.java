@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.enums.CardsPatterns;
+import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.game.model.costs.ActionCost;
 import org.magic.game.model.costs.Cost;
 import org.magic.game.model.costs.EnergyCost;
@@ -55,13 +55,13 @@ public class CostsFactory {
 			return new EnergyCost(StringUtils.countMatches(c, "{E}"));
 
 		////////////////
-		var p = Pattern.compile(CardsPatterns.COST_LIFE_PATTERN.getPattern());
+		var p = Pattern.compile(EnumCardsPatterns.COST_LIFE_PATTERN.getPattern());
 		var m=p.matcher(c);
 		if(m.find())
 			return new LifeCost(Integer.parseInt(m.group(1)));
 
 		////////////////
-		p = Pattern.compile(CardsPatterns.MANA_PATTERN.getPattern());
+		p = Pattern.compile(EnumCardsPatterns.MANA_PATTERN.getPattern());
 		m = p.matcher(c);
 		if(m.matches())
 		{

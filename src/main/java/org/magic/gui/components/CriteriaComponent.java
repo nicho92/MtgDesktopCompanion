@@ -24,12 +24,12 @@ import javax.swing.event.DocumentListener;
 import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.enums.MTGColor;
-import org.magic.api.beans.enums.MTGFinishes;
-import org.magic.api.beans.enums.MTGFrameEffects;
-import org.magic.api.beans.enums.MTGLayout;
-import org.magic.api.beans.enums.MTGPromoType;
-import org.magic.api.beans.enums.MTGRarity;
+import org.magic.api.beans.enums.EnumColors;
+import org.magic.api.beans.enums.EnumFinishes;
+import org.magic.api.beans.enums.EnumFrameEffects;
+import org.magic.api.beans.enums.EnumLayout;
+import org.magic.api.beans.enums.EnumPromoType;
+import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGCrit.OPERATOR;
 import org.magic.api.criterias.QueryAttribute;
@@ -132,23 +132,23 @@ public class CriteriaComponent extends JComponent implements ActionListener{
 		if(c.getType() == MagicCollection.class)
 			return init(UITools.createComboboxCollection());
 		else
-		if(c.getType() == MTGColor.class)
-			return init(UITools.createCombobox(MTGColor.values()));
+		if(c.getType() == EnumColors.class)
+			return init(UITools.createCombobox(EnumColors.values()));
 		else
-		if(c.getType() == MTGLayout.class)
-			return init(UITools.createCombobox(MTGLayout.values()));
+		if(c.getType() == EnumLayout.class)
+			return init(UITools.createCombobox(EnumLayout.values()));
 		else
-		if(c.getType() == MTGRarity.class)
-			return init(UITools.createCombobox(MTGRarity.values()));
+		if(c.getType() == EnumRarity.class)
+			return init(UITools.createCombobox(EnumRarity.values()));
 		else
-		if(c.getType() == MTGFrameEffects.class)
-			return init(UITools.createCombobox(MTGFrameEffects.values()));
+		if(c.getType() == EnumFrameEffects.class)
+			return init(UITools.createCombobox(EnumFrameEffects.values()));
 		else
-		if(c.getType() == MTGFinishes.class)
-			return init(UITools.createCombobox(MTGFinishes.values()));
+		if(c.getType() == EnumFinishes.class)
+			return init(UITools.createCombobox(EnumFinishes.values()));
 		else
-		if(c.getType() == MTGPromoType.class)
-			return init(UITools.createCombobox(MTGPromoType.values()));
+		if(c.getType() == EnumPromoType.class)
+			return init(UITools.createCombobox(EnumPromoType.values()));
 		else
 		if(c.getType() == MTGKeyWord.class)
 				return init(UITools.createCombobox(AbstractKeyWordsManager.getInstance().getList().stream().sorted().toList()));

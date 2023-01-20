@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Currency;
 import java.util.Date;
 
-import org.magic.api.beans.enums.MTGCardVariation;
+import org.magic.api.beans.enums.EnumCardVariation;
 
 public class CardShake implements Serializable {
 
@@ -26,7 +26,7 @@ public class CardShake implements Serializable {
 	private String providerName;
 	private boolean foil;
 	private boolean etched;
-	private MTGCardVariation cardVariation;
+	private EnumCardVariation cardVariation;
 
 
 	public CardShake() {
@@ -82,11 +82,11 @@ public class CardShake implements Serializable {
 		this.etched = etched;
 	}
 
-	public MTGCardVariation getCardVariation() {
+	public EnumCardVariation getCardVariation() {
 		return cardVariation;
 	}
 
-	public void setCardVariation(MTGCardVariation cardVariation) {
+	public void setCardVariation(EnumCardVariation cardVariation) {
 		this.cardVariation = cardVariation;
 	}
 

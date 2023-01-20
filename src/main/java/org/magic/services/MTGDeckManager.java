@@ -20,8 +20,8 @@ import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MTGFormat.FORMATS;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.enums.MTGColor;
-import org.magic.api.beans.enums.MTGRarity;
+import org.magic.api.beans.enums.EnumColors;
+import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDeckSniffer;
@@ -170,14 +170,14 @@ public class MTGDeckManager extends Observable {
 		return types;
 	}
 
-	public Map<MTGColor,Integer> analyseColors(List<MagicCard> cards)
+	public Map<EnumColors,Integer> analyseColors(List<MagicCard> cards)
 	{
-		TreeMap<MTGColor, Integer> colors = new TreeMap<>();
+		TreeMap<EnumColors, Integer> colors = new TreeMap<>();
 
 		if(cards==null)
 			return colors;
 
-		cards.forEach(card->colors.compute(MTGColor.determine(card.getColors()), (k,v)->(v==null)?1:v+1));
+		cards.forEach(card->colors.compute(EnumColors.determine(card.getColors()), (k,v)->(v==null)?1:v+1));
 
 		return colors;
 	}
@@ -196,8 +196,8 @@ public class MTGDeckManager extends Observable {
 		return ret;
 	}
 
-	public Map<MTGRarity, Integer> analyseRarities(List<MagicCard> cards) {
-		Map<MTGRarity, Integer> rarity = new TreeMap<>();
+	public Map<EnumRarity, Integer> analyseRarities(List<MagicCard> cards) {
+		Map<EnumRarity, Integer> rarity = new TreeMap<>();
 		cards.forEach(card->{
 
 			if(card.getRarity()!=null)

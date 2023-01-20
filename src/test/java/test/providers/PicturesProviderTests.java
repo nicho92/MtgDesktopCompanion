@@ -9,9 +9,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.enums.MTGBorder;
-import org.magic.api.beans.enums.MTGLayout;
-import org.magic.api.beans.enums.MTGRarity;
+import org.magic.api.beans.enums.EnumBorders;
+import org.magic.api.beans.enums.EnumLayout;
+import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.cache.impl.NoCache;
 import org.magic.api.interfaces.MTGPictureCache;
 import org.magic.api.interfaces.MTGPictureProvider;
@@ -48,16 +48,16 @@ public class PicturesProviderTests {
 	{
 		mc = new MagicCard();
 		mc.setName("Black Lotus");
-		mc.setLayout(MTGLayout.NORMAL);
+		mc.setLayout(EnumLayout.NORMAL);
 		mc.setCost("{0}");
 		mc.setCmc(0);
 		mc.getTypes().add("Artifact");
 		mc.setReserved(true);
 		mc.setText("{T}, Sacrifice Black Lotus: Add three mana of any one color to your mana pool.");
-		mc.setRarity(MTGRarity.RARE);
+		mc.setRarity(EnumRarity.RARE);
 		mc.setArtist("Christopher Rush");
 		mc.setId("c944c7dc960c4832604973844edee2a1fdc82d98");
-		mc.setBorder(MTGBorder.BLACK);
+		mc.setBorder(EnumBorders.BLACK);
 				
 		MagicEdition ed = new MagicEdition();
 					 ed.setId("lea");

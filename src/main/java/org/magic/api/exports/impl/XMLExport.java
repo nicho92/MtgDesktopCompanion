@@ -10,8 +10,8 @@ import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.enums.MTGColor;
-import org.magic.api.beans.enums.MTGRarity;
+import org.magic.api.beans.enums.EnumColors;
+import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.tools.FileTools;
 import org.magic.services.tools.POMReader;
@@ -38,8 +38,8 @@ public class XMLExport extends AbstractCardExport {
 	public XMLExport() {
 		xstream = new XStream(new StaxDriver());
 		xstream.alias("deck", MagicDeck.class);
-		xstream.alias("rarity", MTGRarity.class);
-		xstream.alias("color", MTGColor.class);
+		xstream.alias("rarity", EnumRarity.class);
+		xstream.alias("color", EnumColors.class);
 		xstream.alias("stock",MagicCardStock.class);
 		xstream.alias("set", MagicEdition.class);
 		xstream.alias("foreigneData", MagicCardNames.class);

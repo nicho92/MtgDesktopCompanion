@@ -4,7 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.google.gson.annotations.SerializedName;
 
-public enum MTGBorder{
+public enum EnumBorders{
 
 	@SerializedName(alternate = "black", value = "BLACK") 				BLACK,
 	@SerializedName(alternate = "borderless", value = "BORDERLESS") 	BORDERLESS,
@@ -17,10 +17,10 @@ public enum MTGBorder{
 	}
 
 
-	public static MTGBorder parseByLabel(String s)
+	public static EnumBorders parseByLabel(String s)
 	{
 		try {
-			return MTGBorder.valueOf(s.toUpperCase());
+			return EnumBorders.valueOf(s.toUpperCase());
 		}
 		catch(Exception e)
 		{

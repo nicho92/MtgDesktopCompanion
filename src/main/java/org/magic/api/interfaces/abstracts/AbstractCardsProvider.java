@@ -11,13 +11,13 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.MTGBooster;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.enums.MTGCardVariation;
-import org.magic.api.beans.enums.MTGColor;
-import org.magic.api.beans.enums.MTGFinishes;
-import org.magic.api.beans.enums.MTGFrameEffects;
-import org.magic.api.beans.enums.MTGLayout;
-import org.magic.api.beans.enums.MTGPromoType;
-import org.magic.api.beans.enums.MTGRarity;
+import org.magic.api.beans.enums.EnumCardVariation;
+import org.magic.api.beans.enums.EnumColors;
+import org.magic.api.beans.enums.EnumFinishes;
+import org.magic.api.beans.enums.EnumFrameEffects;
+import org.magic.api.beans.enums.EnumLayout;
+import org.magic.api.beans.enums.EnumPromoType;
+import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.criterias.QueryAttribute;
@@ -60,15 +60,15 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 
 	protected void initBuilder(MTGQueryBuilder<?> b)
 	{
-		b.addConvertor(MTGColor.class, MTGColor::getCode);
+		b.addConvertor(EnumColors.class, EnumColors::getCode);
 		b.addConvertor(MagicEdition.class, MagicEdition::getId);
-		b.addConvertor(MTGLayout.class,(MTGLayout source)->source.name().toLowerCase());
-		b.addConvertor(MTGFrameEffects.class,(MTGFrameEffects source)->source.name().toLowerCase());
-		b.addConvertor(MTGRarity.class,(MTGRarity source)->source.name().toLowerCase());
-		b.addConvertor(MTGPromoType.class,(MTGPromoType source)->source.name().toLowerCase());
-		b.addConvertor(MTGCardVariation.class,(MTGCardVariation source)->source.name().toLowerCase());
-		b.addConvertor(MTGPromoType.class,(MTGPromoType source)->source.name().toLowerCase());
-		b.addConvertor(MTGFinishes.class,(MTGFinishes source)->source.name().toLowerCase());
+		b.addConvertor(EnumLayout.class,(EnumLayout source)->source.name().toLowerCase());
+		b.addConvertor(EnumFrameEffects.class,(EnumFrameEffects source)->source.name().toLowerCase());
+		b.addConvertor(EnumRarity.class,(EnumRarity source)->source.name().toLowerCase());
+		b.addConvertor(EnumPromoType.class,(EnumPromoType source)->source.name().toLowerCase());
+		b.addConvertor(EnumCardVariation.class,(EnumCardVariation source)->source.name().toLowerCase());
+		b.addConvertor(EnumPromoType.class,(EnumPromoType source)->source.name().toLowerCase());
+		b.addConvertor(EnumFinishes.class,(EnumFinishes source)->source.name().toLowerCase());
 	}
 
 
@@ -164,13 +164,13 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 
 
 	@Override
-	public List<MagicCard> searchCardByName(String name, MagicEdition me, boolean exact, MTGCardVariation extra) throws IOException{
+	public List<MagicCard> searchCardByName(String name, MagicEdition me, boolean exact, EnumCardVariation extra) throws IOException{
 		return searchCardByCriteria("name",name, me, exact,extra);
 	}
 
 
 	@Override
-	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact, MTGCardVariation extra) throws IOException {
+	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact, EnumCardVariation extra) throws IOException {
 		return searchCardByCriteria(att, crit, me, exact).stream().filter(mc->mc.getExtra()==extra).toList();
 	}
 
@@ -222,16 +222,16 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		try {
 			for (MagicCard mc : searchCardByEdition(me).stream().filter(MagicCard::isMainFace).toList())
 			{
-				if (mc.getRarity()==MTGRarity.COMMON && !mc.isBasicLand())
+				if (mc.getRarity()==EnumRarity.COMMON && !mc.isBasicLand())
 					common.add(mc);
 
-				if (mc.getRarity()==MTGRarity.UNCOMMON)
+				if (mc.getRarity()==EnumRarity.UNCOMMON)
 					uncommon.add(mc);
 
-				if (mc.getRarity()==MTGRarity.RARE)
+				if (mc.getRarity()==EnumRarity.RARE)
 					rare.add(mc);
 
-				if (mc.getRarity()==MTGRarity.MYTHIC)
+				if (mc.getRarity()==EnumRarity.MYTHIC)
 					rare.add(mc);
 
 

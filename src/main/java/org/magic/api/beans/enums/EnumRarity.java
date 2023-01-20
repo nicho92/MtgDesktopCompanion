@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.google.gson.annotations.SerializedName;
 
-public enum MTGRarity implements Comparator<MTGRarity>{
+public enum EnumRarity implements Comparator<EnumRarity>{
 
 	@SerializedName(alternate = "common", value = "COMMON") 				COMMON (Color.BLACK,1),
 	@SerializedName(alternate = "uncommon", value = "UNCOMMON") 			UNCOMMON (new Color(223, 223, 223),2),
@@ -22,7 +22,7 @@ public enum MTGRarity implements Comparator<MTGRarity>{
 	private int position;
 
 
-	private MTGRarity(Color c,int position) {
+	private EnumRarity(Color c,int position) {
 
 		color=c;
 		this.position=position;
@@ -33,10 +33,10 @@ public enum MTGRarity implements Comparator<MTGRarity>{
 		return color;
 	}
 
-	public static MTGRarity rarityByName(String s)
+	public static EnumRarity rarityByName(String s)
 	{
 		try {
-			return MTGRarity.valueOf(s.toUpperCase());
+			return EnumRarity.valueOf(s.toUpperCase());
 		}
 		catch(Exception e)
 		{
@@ -58,7 +58,7 @@ public enum MTGRarity implements Comparator<MTGRarity>{
 	}
 
 	@Override
-	public int compare(MTGRarity o1, MTGRarity o2) {
+	public int compare(EnumRarity o1, EnumRarity o2) {
 		return o1.getPosition()-o2.getPosition();
 	}
 

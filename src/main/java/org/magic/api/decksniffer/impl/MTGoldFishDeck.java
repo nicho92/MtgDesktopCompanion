@@ -16,7 +16,7 @@ import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.enums.CardsPatterns;
+import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
@@ -71,7 +71,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 				{
 					var qty = Integer.parseInt(tds.get(0).text().trim());
 					var name = tds.get(1).select("a").first().text();
-					var p = Pattern.compile("\\["+CardsPatterns.REGEX_ANY_STRING+"\\]");
+					var p = Pattern.compile("\\["+EnumCardsPatterns.REGEX_ANY_STRING+"\\]");
 					var m  = p.matcher(tds.get(1).select("a").first().attr("data-card-id"));
 					MagicEdition ed  = null;
 

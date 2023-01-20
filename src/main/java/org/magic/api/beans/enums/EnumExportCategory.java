@@ -5,7 +5,7 @@ import javax.swing.ImageIcon;
 import org.apache.commons.lang3.StringUtils;
 import org.magic.services.MTGConstants;
 
-public enum MTGExportCategory {
+public enum EnumExportCategory {
 		FILE (MTGConstants.ICON_NEW),
 		ONLINE (MTGConstants.ICON_WEBSITE),
 		MANUAL (MTGConstants.ICON_MANUAL),
@@ -21,7 +21,7 @@ public enum MTGExportCategory {
 		}
 
 
-		private MTGExportCategory(ImageIcon ic) {
+		private EnumExportCategory(ImageIcon ic) {
 			this.icon=ic;
 		}
 

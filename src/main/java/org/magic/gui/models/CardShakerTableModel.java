@@ -1,7 +1,7 @@
 package org.magic.gui.models;
 
 import org.magic.api.beans.CardShake;
-import org.magic.api.beans.enums.MTGCardVariation;
+import org.magic.api.beans.enums.EnumCardVariation;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.tools.UITools;
 
@@ -32,7 +32,7 @@ public class CardShakerTableModel extends GenericTableModel<CardShake> {
 			case 7:
 				return Boolean.class;
 			case 8:
-				return MTGCardVariation.class;
+				return EnumCardVariation.class;
 
 		default:
 			return Double.class;

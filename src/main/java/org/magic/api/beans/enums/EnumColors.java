@@ -9,7 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.google.gson.annotations.SerializedName;
 
-public enum MTGColor implements Comparator<MTGColor>{
+public enum EnumColors implements Comparator<EnumColors>{
 
 	@SerializedName(alternate = "White", value = "WHITE") 	WHITE ("W",Color.WHITE,1),
 	@SerializedName(alternate = "Blue", value = "BLUE") 	BLUE ("U",new Color(33,129,226),2),
@@ -25,13 +25,13 @@ public enum MTGColor implements Comparator<MTGColor>{
 	private int position;
 
 
-	public static MTGColor[] getColors()
+	public static EnumColors[] getColors()
 	{
-		return new MTGColor[] {WHITE,BLUE,BLACK,RED,GREEN,UNCOLOR};
+		return new EnumColors[] {WHITE,BLUE,BLACK,RED,GREEN,UNCOLOR};
 	}
 
 
-	private MTGColor(String s,Color c,int position) {
+	private EnumColors(String s,Color c,int position) {
 		code=s;
 		color=c;
 		this.position=position;
@@ -64,10 +64,10 @@ public enum MTGColor implements Comparator<MTGColor>{
 		return "{"+getCode()+"}";
 	}
 
-	public static MTGColor colorByName(String s)
+	public static EnumColors colorByName(String s)
 	{
 		try {
-			return MTGColor.valueOf(s.toUpperCase());
+			return EnumColors.valueOf(s.toUpperCase());
 		}
 		catch(IllegalArgumentException e)
 		{
@@ -75,38 +75,38 @@ public enum MTGColor implements Comparator<MTGColor>{
 		}
 	}
 
-	public static MTGColor determine(List<MTGColor> colors)
+	public static EnumColors determine(List<EnumColors> colors)
 	{
 		if(colors==null || colors.isEmpty())
-			return MTGColor.UNCOLOR;
+			return EnumColors.UNCOLOR;
 
 		if(colors.size()>1)
-			return MTGColor.GOLD;
+			return EnumColors.GOLD;
 
 		return colors.get(0);
 	}
 
 
-	public static MTGColor colorByCode(String s)
+	public static EnumColors colorByCode(String s)
 	{
-		return List.of(MTGColor.values()).stream().filter(c->c.getCode().equalsIgnoreCase(s)).findAny().orElse(null);
+		return List.of(EnumColors.values()).stream().filter(c->c.getCode().equalsIgnoreCase(s)).findAny().orElse(null);
 
 	}
 
 
-	public static List<MTGColor> parseByLabel(List<String> names)
+	public static List<EnumColors> parseByLabel(List<String> names)
 	{
-		return names.stream().map(MTGColor::colorByName).filter(Objects::nonNull).toList();
+		return names.stream().map(EnumColors::colorByName).filter(Objects::nonNull).toList();
 	}
 
-	public static List<MTGColor> parseByCode(List<String> codes)
+	public static List<EnumColors> parseByCode(List<String> codes)
 	{
-		return codes.stream().map(MTGColor::colorByCode).filter(Objects::nonNull).toList();
+		return codes.stream().map(EnumColors::colorByCode).filter(Objects::nonNull).toList();
 	}
 
 
 	@Override
-	public int compare(MTGColor o1, MTGColor o2) {
+	public int compare(EnumColors o1, EnumColors o2) {
 		return o1.getPosition()-o2.getPosition();
 	}
 

@@ -3,7 +3,7 @@ package org.magic.game.model.abilities;
 import java.util.Arrays;
 import java.util.List;
 
-import org.magic.api.beans.enums.CardsPatterns;
+import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.game.model.factories.EffectsFactory;
 
 public class TriggeredAbilities extends AbstractAbilities {
@@ -15,13 +15,13 @@ public class TriggeredAbilities extends AbstractAbilities {
 	private String event;
 	public enum KEYWORDS { WHEN, WHENEVER, AT}
 	private KEYWORDS key;
-	private CardsPatterns trigger;
+	private EnumCardsPatterns trigger;
 
 	public String getEvent() {
 		return event;
 	}
 
-	public CardsPatterns getTrigger()
+	public EnumCardsPatterns getTrigger()
 	{
 		return trigger;
 	}
@@ -49,8 +49,8 @@ public class TriggeredAbilities extends AbstractAbilities {
 		list.set(0,s);
 		setEffects(EffectsFactory.getInstance().parseEffect(getCard(),list));
 
-		Arrays.asList(CardsPatterns.values()).stream().filter(p->p.name().startsWith("TRIGGER_")).forEach(p->{
-			if(CardsPatterns.hasPattern(event, p))
+		Arrays.asList(EnumCardsPatterns.values()).stream().filter(p->p.name().startsWith("TRIGGER_")).forEach(p->{
+			if(EnumCardsPatterns.hasPattern(event, p))
 				trigger=p;
 		});
 

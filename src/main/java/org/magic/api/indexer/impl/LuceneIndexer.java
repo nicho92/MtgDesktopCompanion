@@ -36,7 +36,7 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.enums.MTGColor;
+import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardsIndexer;
@@ -331,7 +331,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 						doc.add(new Field("extraLayout", "", fieldType));
 
 
-            	   for(MTGColor color:mc.getColors())
+            	   for(EnumColors color:mc.getColors())
             	   {
             		   doc.add(new Field("color", color.getCode(), fieldType));
             	   }

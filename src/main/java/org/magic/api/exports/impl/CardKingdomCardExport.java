@@ -6,7 +6,7 @@ import java.util.Map.Entry;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.enums.MTGExportCategory;
+import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.UITools;
@@ -41,8 +41,8 @@ public class CardKingdomCardExport extends AbstractCardExport {
 	}
 
 	@Override
-	public MTGExportCategory getCategory() {
-		return MTGExportCategory.ONLINE;
+	public EnumExportCategory getCategory() {
+		return EnumExportCategory.ONLINE;
 	}
 
 

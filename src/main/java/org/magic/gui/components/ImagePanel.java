@@ -22,7 +22,7 @@ import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.graphics.ReflectionRenderer;
 import org.jdesktop.swingx.painter.MattePainter;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.enums.MTGLayout;
+import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
@@ -163,7 +163,7 @@ public class ImagePanel extends JXPanel {
 						imgBack = ImageTools.rotate(imgFront, 180);
 
 
-					if(mc.getLayout()==MTGLayout.SPLIT)
+					if(mc.getLayout()==EnumLayout.SPLIT)
 						imgFront= ImageTools.rotate(imgFront, 90);
 
 			   		if(reflection) {

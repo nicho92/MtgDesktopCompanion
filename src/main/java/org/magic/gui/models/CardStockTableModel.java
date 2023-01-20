@@ -9,7 +9,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumCondition;
-import org.magic.api.beans.enums.MTGRarity;
+import org.magic.api.beans.enums.EnumRarity;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.tools.UITools;
 
@@ -66,7 +66,7 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 		case 2:
 			return MagicEdition.class;
 		case 3:
-			return MTGRarity.class;
+			return EnumRarity.class;
 		case 4:
 			return MagicCollection.class;
 		case 5:

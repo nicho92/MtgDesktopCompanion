@@ -6,7 +6,7 @@ import java.util.List;
 import org.magic.api.beans.MTGBooster;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.enums.MTGCardVariation;
+import org.magic.api.beans.enums.EnumCardVariation;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.criterias.QueryAttribute;
@@ -24,13 +24,13 @@ public interface MTGCardsProvider extends MTGPlugin {
 
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact) throws IOException;
 
-	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact, MTGCardVariation extra ) throws IOException;
+	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact, EnumCardVariation extra ) throws IOException;
 
 	public List<MagicCard> searchCardByEdition(MagicEdition ed) throws IOException;
 
 	public List<MagicCard> searchCardByName(String name, MagicEdition me, boolean exact) throws IOException;
 
-	public List<MagicCard> searchCardByName(String name, MagicEdition me, boolean exact, MTGCardVariation extra ) throws IOException;
+	public List<MagicCard> searchCardByName(String name, MagicEdition me, boolean exact, EnumCardVariation extra ) throws IOException;
 
 	public List<MagicCard> listAllCards() throws IOException;
 

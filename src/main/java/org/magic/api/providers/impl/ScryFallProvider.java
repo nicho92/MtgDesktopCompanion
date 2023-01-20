@@ -20,12 +20,12 @@ import org.magic.api.beans.MTGRuling;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.enums.MTGBorder;
-import org.magic.api.beans.enums.MTGColor;
-import org.magic.api.beans.enums.MTGFinishes;
-import org.magic.api.beans.enums.MTGFrameEffects;
-import org.magic.api.beans.enums.MTGLayout;
-import org.magic.api.beans.enums.MTGRarity;
+import org.magic.api.beans.enums.EnumBorders;
+import org.magic.api.beans.enums.EnumColors;
+import org.magic.api.beans.enums.EnumFinishes;
+import org.magic.api.beans.enums.EnumFrameEffects;
+import org.magic.api.beans.enums.EnumLayout;
+import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.criterias.QueryAttribute;
@@ -268,10 +268,10 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		}
 
 		arr.add(new QueryAttribute("set",MagicEdition.class));
-		arr.add(new QueryAttribute(COLOR, MTGColor.class));
-		arr.add(new QueryAttribute(COLOR_IDENTITY, MTGColor.class));
-		arr.add(new QueryAttribute(LAYOUT,MTGLayout.class));
-		arr.add(new QueryAttribute(FINISHES,MTGFinishes.class));
+		arr.add(new QueryAttribute(COLOR, EnumColors.class));
+		arr.add(new QueryAttribute(COLOR_IDENTITY, EnumColors.class));
+		arr.add(new QueryAttribute(LAYOUT,EnumLayout.class));
+		arr.add(new QueryAttribute(FINISHES,EnumFinishes.class));
 		return arr;
 	}
 
@@ -335,7 +335,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		mc.setId(obj.get("id").getAsString());
 		mc.setScryfallId(mc.getId());
 		mc.setName(obj.get(NAME).getAsString());
-		mc.setLayout(MTGLayout.parseByLabel(obj.get(LAYOUT).getAsString()));
+		mc.setLayout(EnumLayout.parseByLabel(obj.get(LAYOUT).getAsString()));
 		mc.setOversized(obj.get(OVERSIZED).getAsBoolean());
 
 		
@@ -360,7 +360,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		}
 
 		try {
-			mc.setRarity(MTGRarity.valueOf(obj.get(RARITY).getAsString().toUpperCase()));
+			mc.setRarity(EnumRarity.valueOf(obj.get(RARITY).getAsString().toUpperCase()));
 		} catch (NullPointerException e) {
 			mc.setStorySpotlight(false);
 		}
@@ -458,21 +458,21 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		if(obj.get("frame_effects")!=null) {
 			Iterator<JsonElement> it = obj.get("frame_effects").getAsJsonArray().iterator();
 				while (it.hasNext())
-					mc.getFrameEffects().add(MTGFrameEffects.parseByLabel(it.next().getAsString()));
+					mc.getFrameEffects().add(EnumFrameEffects.parseByLabel(it.next().getAsString()));
 		}
 
 
 		if (obj.get(COLORS) != null) {
 			Iterator<JsonElement> it = obj.get(COLORS).getAsJsonArray().iterator();
 			while (it.hasNext())
-				mc.getColors().add(MTGColor.colorByCode(it.next().getAsString()));
+				mc.getColors().add(EnumColors.colorByCode(it.next().getAsString()));
 
 		}
 
 		if (obj.get(FINISHES) != null) {
 			Iterator<JsonElement> it = obj.get(FINISHES).getAsJsonArray().iterator();
 			while (it.hasNext())
-				mc.getFinishes().add(MTGFinishes.parseByLabel(it.next().getAsString()));
+				mc.getFinishes().add(EnumFinishes.parseByLabel(it.next().getAsString()));
 
 		}
 
@@ -480,7 +480,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		if (obj.get(COLOR_IDENTITY) != null) {
 			Iterator<JsonElement> it = obj.get(COLOR_IDENTITY).getAsJsonArray().iterator();
 			while (it.hasNext())
-				mc.getColorIdentity().add(MTGColor.colorByCode(it.next().getAsString()));
+				mc.getColorIdentity().add(EnumColors.colorByCode(it.next().getAsString()));
 		}
 
 		if (obj.get("legalities") != null) {
@@ -492,7 +492,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		}
 
 		if (obj.get(BORDER) != null)
-			mc.setBorder(MTGBorder.parseByLabel(obj.get(BORDER).getAsString()));
+			mc.setBorder(EnumBorders.parseByLabel(obj.get(BORDER).getAsString()));
 
 
 		if (obj.get(GAMES) != null) {
@@ -547,7 +547,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				Iterator<JsonElement> it = obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject()
 						.get(COLORS).getAsJsonArray().iterator();
 				while (it.hasNext())
-					mc.getColors().add(MTGColor.colorByCode(it.next().getAsString()));
+					mc.getColors().add(EnumColors.colorByCode(it.next().getAsString()));
 			} catch (Exception e) {
 				logger.error("{} has no colors: ",mc.getName(),e);
 			}

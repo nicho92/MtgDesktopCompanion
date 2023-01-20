@@ -33,7 +33,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.enums.MTGLayout;
+import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.game.actions.abbstract.AbstractCardAction;
@@ -477,7 +477,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 			@Override
 			protected Image doInBackground() throws Exception {
 				try {
-					if (mc.getLayout() ==MTGLayout.TOKEN|| mc.getLayout()==MTGLayout.EMBLEM) {
+					if (mc.getLayout() ==EnumLayout.TOKEN|| mc.getLayout()==EnumLayout.EMBLEM) {
 						temp = getEnabledPlugin(MTGTokensProvider.class).getPictures(mc);
 					}
 					else {

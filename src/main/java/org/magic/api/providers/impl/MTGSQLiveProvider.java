@@ -22,13 +22,13 @@ import org.magic.api.beans.MTGRuling;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.enums.MTGBorder;
-import org.magic.api.beans.enums.MTGColor;
-import org.magic.api.beans.enums.MTGFinishes;
-import org.magic.api.beans.enums.MTGFrameEffects;
-import org.magic.api.beans.enums.MTGLayout;
-import org.magic.api.beans.enums.MTGPromoType;
-import org.magic.api.beans.enums.MTGRarity;
+import org.magic.api.beans.enums.EnumBorders;
+import org.magic.api.beans.enums.EnumColors;
+import org.magic.api.beans.enums.EnumFinishes;
+import org.magic.api.beans.enums.EnumFrameEffects;
+import org.magic.api.beans.enums.EnumLayout;
+import org.magic.api.beans.enums.EnumPromoType;
+import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.criterias.QueryAttribute;
@@ -89,7 +89,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 
 	@Override
-	public MagicCard getTokenFor(MagicCard mc, MTGLayout layout) throws IOException {
+	public MagicCard getTokenFor(MagicCard mc, EnumLayout layout) throws IOException {
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("select * from tokens where (reverseRelated like ? or name like ? ) and types like ? and setCode like ?"))
 		{
 			pst.setString(1, "%"+mc.getName()+"%");
@@ -146,10 +146,10 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 			mc.setTypes(List.of(rs.getString(TYPES).split(",")));
 			mc.setPower(rs.getString(POWER));
 			mc.setToughness(rs.getString(TOUGHNESS));
-			mc.setBorder(MTGBorder.parseByLabel(rs.getString(BORDER_COLOR)));
+			mc.setBorder(EnumBorders.parseByLabel(rs.getString(BORDER_COLOR)));
 			mc.setArtist(rs.getString(ARTIST));
-			mc.setRarity(MTGRarity.COMMON);
-			mc.setLayout(MTGLayout.parseByLabel(rs.getString(LAYOUT)));
+			mc.setRarity(EnumRarity.COMMON);
+			mc.setLayout(EnumLayout.parseByLabel(rs.getString(LAYOUT)));
 
 
 			if(rs.getString(SUPERTYPES)!=null)
@@ -160,11 +160,11 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 			var ci = rs.getString(COLOR_IDENTITY);
 			if(ci!=null)
-				mc.setColorIdentity(Arrays.asList(ci.split(",")).stream().map(MTGColor::colorByCode).toList());
+				mc.setColorIdentity(Arrays.asList(ci.split(",")).stream().map(EnumColors::colorByCode).toList());
 
 			ci = rs.getString(COLORS);
 			if(ci!=null)
-				mc.setColors(Arrays.asList(ci.split(",")).stream().map(MTGColor::colorByCode).toList());
+				mc.setColors(Arrays.asList(ci.split(",")).stream().map(EnumColors::colorByCode).toList());
 
 			if(rs.getString(KEYWORDS)!=null)
 				for(String s : rs.getString(KEYWORDS).split(","))
@@ -329,7 +329,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				mc.setId(rs.getString(UUID));
 				mc.setEdhrecRank(rs.getInt(EDHREC_RANK));
 				mc.setFrameVersion(rs.getString(FRAME_VERSION));
-				mc.setLayout(MTGLayout.parseByLabel(rs.getString(LAYOUT)));
+				mc.setLayout(EnumLayout.parseByLabel(rs.getString(LAYOUT)));
 				mc.setPower(rs.getString(POWER));
 				mc.setToughness(rs.getString(TOUGHNESS));
 				mc.getRulings().addAll(getRulings(mc.getId()));
@@ -357,10 +357,10 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				mc.setFullArt(rs.getBoolean(IS_FULLART));
 				mc.setHasContentWarning(rs.getBoolean(HAS_CONTENT_WARNING));
 				mc.setScryfallId(rs.getString(SCRYFALL_ID));
-				mc.setBorder(MTGBorder.parseByLabel(rs.getString(BORDER_COLOR)));
+				mc.setBorder(EnumBorders.parseByLabel(rs.getString(BORDER_COLOR)));
 				mc.setOriginalReleaseDate(rs.getString(ORIGINAL_RELEASE_DATE));
 				mc.setTimeshifted(rs.getBoolean(TIMESHIFTED));
-				mc.setRarity(MTGRarity.rarityByName(rs.getString(RARITY)));
+				mc.setRarity(EnumRarity.rarityByName(rs.getString(RARITY)));
 				mc.setFunny(rs.getBoolean(IS_FUNNY));
 				mc.setSecurityStamp(rs.getString(SECURITYSTAMP));
 				mc.setRebalanced(rs.getBoolean(IS_REBALANCED));
@@ -373,7 +373,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 					for(String s : rs.getString(FINISHES).split(","))
 					{
 						try {
-							mc.getFinishes().add(MTGFinishes.parseByLabel(s));
+							mc.getFinishes().add(EnumFinishes.parseByLabel(s));
 						} catch (Exception e) {
 							logger.error("couldn't find finishes for {}", s);
 						}
@@ -385,7 +385,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 					for(String s : rs.getString(FRAME_EFFECTS).split(","))
 					{
 						try {
-							mc.getFrameEffects().add(MTGFrameEffects.parseByLabel(s));
+							mc.getFrameEffects().add(EnumFrameEffects.parseByLabel(s));
 						} catch (Exception e) {
 							logger.error("couldn't find frameEffects for {}",s);
 						}
@@ -396,7 +396,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				{
 					for(String s : rs.getString(PROMO_TYPE).split(","))
 					{
-						mc.getPromotypes().add(MTGPromoType.parseByLabel(s));
+						mc.getPromotypes().add(EnumPromoType.parseByLabel(s));
 					}
 				}
 
@@ -411,15 +411,15 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 				var ci = rs.getString(COLOR_IDENTITY);
 				if(ci!=null)
-					mc.setColorIdentity(Arrays.asList(ci.split(",")).stream().map(MTGColor::colorByCode).toList());
+					mc.setColorIdentity(Arrays.asList(ci.split(",")).stream().map(EnumColors::colorByCode).toList());
 
 				ci = rs.getString(COLORS);
 				if(ci!=null)
-					mc.setColors(Arrays.asList(ci.split(",")).stream().map(MTGColor::colorByCode).toList());
+					mc.setColors(Arrays.asList(ci.split(",")).stream().map(EnumColors::colorByCode).toList());
 
 				ci = rs.getString(COLOR_INDICATOR);
 				if(ci!=null)
-					mc.setColorIndicator(Arrays.asList(ci.split(",")).stream().map(MTGColor::colorByCode).toList());
+					mc.setColorIndicator(Arrays.asList(ci.split(",")).stream().map(EnumColors::colorByCode).toList());
 
 				try {
 					mc.setLoyalty(Integer.parseInt(rs.getString(LOYALTY)));
@@ -689,17 +689,17 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				else if(rs.getString(NAME).equals(SETCODE))
 					ret.add(new QueryAttribute(rs.getString(NAME), String.class));
 				else if(rs.getString(NAME).equals(COLORS) || rs.getString(NAME).equals(COLOR_IDENTITY) || rs.getString(NAME).equals(COLOR_INDICATOR))
-					ret.add(new QueryAttribute(rs.getString(NAME), MTGColor.class));
+					ret.add(new QueryAttribute(rs.getString(NAME), EnumColors.class));
 				else if(rs.getString(NAME).equals(LAYOUT))
-					ret.add(new QueryAttribute(rs.getString(NAME), MTGLayout.class));
+					ret.add(new QueryAttribute(rs.getString(NAME), EnumLayout.class));
 				else if(rs.getString(NAME).equals(RARITY))
-					ret.add(new QueryAttribute(rs.getString(NAME), MTGRarity.class));
+					ret.add(new QueryAttribute(rs.getString(NAME), EnumRarity.class));
 				else if(rs.getString(NAME).equals(FRAME_EFFECTS))
-					ret.add(new QueryAttribute(rs.getString(NAME), MTGFrameEffects.class));
+					ret.add(new QueryAttribute(rs.getString(NAME), EnumFrameEffects.class));
 				else if(rs.getString(NAME).equals(PROMO_TYPE))
-					ret.add(new QueryAttribute(rs.getString(NAME), MTGPromoType.class));
+					ret.add(new QueryAttribute(rs.getString(NAME), EnumPromoType.class));
 				else if(rs.getString(NAME).equals(FINISHES))
-					ret.add(new QueryAttribute(rs.getString(NAME), MTGFinishes.class));
+					ret.add(new QueryAttribute(rs.getString(NAME), EnumFinishes.class));
 				else if(rs.getString(NAME).equals(KEYWORDS))
 					ret.add(new QueryAttribute(rs.getString(NAME), MTGKeyWord.class));
 				else

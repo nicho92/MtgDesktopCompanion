@@ -44,8 +44,8 @@ import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.enums.MTGColor;
-import org.magic.api.beans.enums.MTGRarity;
+import org.magic.api.beans.enums.EnumColors;
+import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.interfaces.MTGTextGenerator;
 import org.magic.gui.components.MagicTextPane;
 import org.magic.gui.components.ManaPanel;
@@ -69,7 +69,7 @@ public class MagicCardEditorPanel extends JPanel {
 	private JTextField nameJTextField;
 	private JTextField numberJTextField;
 	private JTextField powerJTextField;
-	private JComboBox<MTGRarity> rarityJComboBox;
+	private JComboBox<EnumRarity> rarityJComboBox;
 	private MagicTextPane textJEditorPane;
 	private JTextField toughnessJTextField;
 	private JTextField watermarksJTextField;
@@ -158,7 +158,7 @@ public class MagicCardEditorPanel extends JPanel {
 				btn.addActionListener(ev -> {
 					var cost = new StringBuilder();
 					var cmc = 0;
-					Set<MTGColor> colors = new LinkedHashSet<>();
+					Set<EnumColors> colors = new LinkedHashSet<>();
 
 					if (!cboUn.getSelectedItem().equals("X")) {
 						if (cboUn.getSelectedIndex() > 0) {
@@ -175,33 +175,33 @@ public class MagicCardEditorPanel extends JPanel {
 					}
 
 					for (var i = 0; i < cboW.getSelectedIndex(); i++) {
-						cost.append(MTGColor.WHITE.toManaCode());
+						cost.append(EnumColors.WHITE.toManaCode());
 						cmc += 1;
-						colors.add(MTGColor.WHITE);
+						colors.add(EnumColors.WHITE);
 					}
 
 					for (var i = 0; i < cboU.getSelectedIndex(); i++) {
-						cost.append(MTGColor.BLUE.toManaCode());
+						cost.append(EnumColors.BLUE.toManaCode());
 						cmc += 1;
-						colors.add(MTGColor.BLUE);
+						colors.add(EnumColors.BLUE);
 					}
 
 					for (var i = 0; i < cboB.getSelectedIndex(); i++) {
-						cost.append(MTGColor.BLACK.toManaCode());
+						cost.append(EnumColors.BLACK.toManaCode());
 						cmc += 1;
-						colors.add(MTGColor.BLACK);
+						colors.add(EnumColors.BLACK);
 					}
 
 					for (var i = 0; i < cboR.getSelectedIndex(); i++) {
-						cost.append(MTGColor.RED.toManaCode());
+						cost.append(EnumColors.RED.toManaCode());
 						cmc += 1;
-						colors.add(MTGColor.RED);
+						colors.add(EnumColors.RED);
 					}
 
 					for (var i = 0; i < cboG.getSelectedIndex(); i++) {
-						cost.append(MTGColor.GREEN.toManaCode());
+						cost.append(EnumColors.GREEN.toManaCode());
 						cmc += 1;
-						colors.add(MTGColor.GREEN);
+						colors.add(EnumColors.GREEN);
 					}
 
 					magicCard.setCmc(cmc);
@@ -272,7 +272,7 @@ public class MagicCardEditorPanel extends JPanel {
 		labelgbc14.gridy = 1;
 		add(rarityLabel, labelgbc14);
 
-		rarityJComboBox = UITools.createCombobox(MTGRarity.values());
+		rarityJComboBox = UITools.createCombobox(EnumRarity.values());
 
 		var componentgbc14 = new GridBagConstraints();
 		componentgbc14.insets = new Insets(5, 0, 5, 0);
@@ -756,8 +756,8 @@ public class MagicCardEditorPanel extends JPanel {
 		autoBinding13.bind();
 		//
 		BeanProperty<MagicCard, Object> rarityProperty = BeanProperty.create("rarity");
-		BeanProperty<JComboBox<MTGRarity>, Object> selectedIndexProperty1 = BeanProperty.create("selectedItem");
-		AutoBinding<MagicCard, Object, JComboBox<MTGRarity>, Object> autoBinding14 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, rarityProperty, rarityJComboBox, selectedIndexProperty1);
+		BeanProperty<JComboBox<EnumRarity>, Object> selectedIndexProperty1 = BeanProperty.create("selectedItem");
+		AutoBinding<MagicCard, Object, JComboBox<EnumRarity>, Object> autoBinding14 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, rarityProperty, rarityJComboBox, selectedIndexProperty1);
 		autoBinding14.bind();
 		//
 		BeanProperty<MagicCard, String> textProperty8 = BeanProperty.create("text");

@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.google.gson.annotations.SerializedName;
 
-public enum MTGFinishes{
+public enum EnumFinishes{
 
 	@SerializedName(alternate = "etched", value = "ETCHED") 	ETCHED,
 	@SerializedName(alternate = "foil", value = "FOIL") 		FOIL,
@@ -20,15 +20,15 @@ public enum MTGFinishes{
 	}
 
 
-	public static List<MTGFinishes> parseByLabel(List<String> names)
+	public static List<EnumFinishes> parseByLabel(List<String> names)
 	{
-		return names.stream().map(MTGFinishes::parseByLabel).filter(Objects::nonNull).toList();
+		return names.stream().map(EnumFinishes::parseByLabel).filter(Objects::nonNull).toList();
 	}
 
-	public static MTGFinishes parseByLabel(String s)
+	public static EnumFinishes parseByLabel(String s)
 	{
 		try {
-			return MTGFinishes.valueOf(s.toUpperCase());
+			return EnumFinishes.valueOf(s.toUpperCase());
 		}
 		catch(IllegalArgumentException e)
 		{

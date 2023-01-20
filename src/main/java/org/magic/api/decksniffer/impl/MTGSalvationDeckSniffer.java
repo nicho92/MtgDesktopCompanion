@@ -15,7 +15,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.enums.MTGColor;
+import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
@@ -147,7 +147,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 		var build = new StringBuilder(manajson);
 		for (var i = 0; i < arr.size(); i++) {
 			var obj = arr.get(i).getAsJsonObject();
-			var c = MTGColor.colorByName(obj.get("name").getAsString());
+			var c = EnumColors.colorByName(obj.get("name").getAsString());
 			var tab = obj.get("data").getAsJsonArray();
 			hascolor = false;
 			for (var j = 0; j < tab.size(); j++) {

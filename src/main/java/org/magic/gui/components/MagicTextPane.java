@@ -19,7 +19,7 @@ import javax.swing.text.Document;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 
-import org.magic.api.beans.enums.CardsPatterns;
+import org.magic.api.beans.enums.EnumCardsPatterns;
 
 public class MagicTextPane extends JComponent {
 
@@ -75,7 +75,7 @@ public class MagicTextPane extends JComponent {
 	public void updateTextWithIcons() {
 
 		textPane.setText(textPane.getText().replaceAll("(?m)^[ \t]*\r?\n", ""));
-		var p = Pattern.compile(CardsPatterns.MANA_PATTERN.getPattern());
+		var p = Pattern.compile(EnumCardsPatterns.MANA_PATTERN.getPattern());
 		var m = p.matcher(textPane.getText());
 
 		var text = textPane.getText();

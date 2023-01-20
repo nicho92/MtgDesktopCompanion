@@ -18,8 +18,8 @@ import javax.xml.xpath.XPathFactory;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.enums.MTGColor;
-import org.magic.api.beans.enums.MTGLayout;
+import org.magic.api.beans.enums.EnumColors;
+import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractTokensProvider;
@@ -170,7 +170,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		String types = value.getElementsByTagName("type").item(0).getTextContent();
 
 
-		MTGLayout layout = types.startsWith("Emblem")?MTGLayout.EMBLEM:MTGLayout.TOKEN;
+		EnumLayout layout = types.startsWith("Emblem")?EnumLayout.EMBLEM:EnumLayout.TOKEN;
 
 		tok.getSupertypes().add(layout.toPrettyString());
 
@@ -179,13 +179,13 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		tok.setLayout(layout);
 		tok.getEditions().add(getEnabledPlugin(MTGCardsProvider.class).getSetById(ed.getId()));
 
-		if(layout==MTGLayout.EMBLEM)
+		if(layout==EnumLayout.EMBLEM)
 			tok.getCurrentSet().setNumber("E");
 		else
 			tok.getCurrentSet().setNumber("T");
 
 		if (value.getElementsByTagName(COLOR).item(0) != null) {
-			var c = MTGColor.colorByCode(value.getElementsByTagName(COLOR).item(0).getTextContent());
+			var c = EnumColors.colorByCode(value.getElementsByTagName(COLOR).item(0).getTextContent());
 			tok.getColors().add(c);
 			tok.getColorIdentity().add(c);
 		}
@@ -233,7 +233,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 
 		String expression = "//card[name=\"" + tok.getName() + "\"]";
 
-		if (tok.getLayout()==MTGLayout.EMBLEM)
+		if (tok.getLayout()==EnumLayout.EMBLEM)
 			expression = "//card[name=\"" + tok.getName() + " (Emblem)\"]";
 
 		logger.trace("{} for {}",expression, tok);

@@ -3,7 +3,7 @@ package org.magic.api.beans.enums;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public enum CardsPatterns {
+public enum EnumCardsPatterns {
 
 	COST_LIFE_PATTERN 			("\\QPay\\E (.*?) \\Qlife\\E"),
 	MANA_PATTERN 				("\\{(.*?)\\}"),
@@ -22,7 +22,7 @@ public enum CardsPatterns {
 
 	private String pattern = "";
 
-	CardsPatterns(String name){
+	EnumCardsPatterns(String name){
 	    this.pattern = name;
 	}
 
@@ -36,14 +36,14 @@ public enum CardsPatterns {
 		return pattern;
 	}
 
-	public static Matcher extract(String s , CardsPatterns pat)
+	public static Matcher extract(String s , EnumCardsPatterns pat)
 	{
 		var p = Pattern.compile(pat.getPattern());
 		return p.matcher(s);
 	}
 
 
-	public static boolean hasPattern(String s , CardsPatterns pat)
+	public static boolean hasPattern(String s , EnumCardsPatterns pat)
 	{
 		if(s==null)
 			return false;

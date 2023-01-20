@@ -2,7 +2,7 @@ package org.magic.api.beans.enums;
 
 import org.apache.commons.lang3.StringUtils;
 
-public enum MTGCardVariation {
+public enum EnumCardVariation {
 
 	SHOWCASE,
 	EXTENDEDART,

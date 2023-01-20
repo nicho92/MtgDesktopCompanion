@@ -9,7 +9,7 @@ import javax.swing.Icon;
 import org.apache.commons.lang3.NotImplementedException;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.enums.MTGExportCategory;
+import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.gui.components.dialog.ManualImportDialog;
 import org.magic.services.MTGConstants;
@@ -33,8 +33,8 @@ public class ManualImportExport extends AbstractCardExport {
 	}
 
 	@Override
-	public MTGExportCategory getCategory() {
-		return MTGExportCategory.MANUAL;
+	public EnumExportCategory getCategory() {
+		return EnumExportCategory.MANUAL;
 	}
 
 
