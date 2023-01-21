@@ -3,6 +3,7 @@
 # Magic The Gathering Companion
 Personal Magic the Gathering card manager Deck Builder and Collection Editor
 
+[![GitHub stars](https://img.shields.io/badge/download-2.38-green.svg)](https://github.com/nicho92/MtgDesktopCompanion/releases/)
 [![GitHub issues](https://img.shields.io/github/issues/nicho92/MtgDesktopCompanion.svg)](https://github.com/nicho92/MtgDesktopCompanion/issues)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=org.magic%3Amagic-api&metric=alert_status)](https://sonarcloud.io/dashboard?id=org.magic%3Amagic-api)
 [![GitHub forks](https://img.shields.io/github/forks/nicho92/MtgDesktopCompanion.svg)](https://github.com/nicho92/MtgDesktopCompanion/network)
@@ -27,7 +28,7 @@ Personal Magic the Gathering card manager Deck Builder and Collection Editor
 
 [Docker Web UI](https://hub.docker.com/r/mtgcompanion/mtgdesktopcompanion)
 
-[![GitHub stars](https://img.shields.io/badge/download-2.38-green.svg)](https://github.com/nicho92/MtgDesktopCompanion/releases/)
+
 
 # Launch
 ```
