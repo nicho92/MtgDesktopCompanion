@@ -187,7 +187,9 @@ public class MTGConstants {
 	public static final ImageIcon ICON_GED = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/ged.png"));
 	public static final ImageIcon ICON_SHORTCUT = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/shortcut.png"));
 	public static final ImageIcon ICON_USER = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/user.png"));
+	public static final ImageIcon ICON_IA = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/ia.png"));
 
+	
 	public static final ImageIcon ICON_ANNOUNCES = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/announces.png"));
 	public static final ImageIcon ICON_EURO = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/euro.png"));
 	public static final ImageIcon ICON_NEW = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/new.png"));
@@ -246,8 +248,8 @@ public class MTGConstants {
 	public static final ImageIcon ICON_TAB_SYNC = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/sync.png"));
 	public static final ImageIcon ICON_TAB_DELIVERY = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/delivery.png"));
 	public static final ImageIcon ICON_TAB_LOCK = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/lock.png"));
-
-
+	
+	public static final ImageIcon ICON_TAB_IA = new ImageIcon(ICON_IA.getImage().getScaledInstance(16,16, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_TAB_EXT_SHOP =  new ImageIcon(ICON_EXT_SHOP.getImage().getScaledInstance(16,16, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_TAB_EVENTS = new ImageIcon(ICON_EVENTS.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_TAB_RESULTS=new ImageIcon(ICON_SEARCH.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));

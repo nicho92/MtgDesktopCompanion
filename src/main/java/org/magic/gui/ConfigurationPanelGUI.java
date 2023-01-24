@@ -28,6 +28,7 @@ import org.magic.api.interfaces.MTGDeckSniffer;
 import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGGedStorage;
 import org.magic.api.interfaces.MTGGraders;
+import org.magic.api.interfaces.MTGIA;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.MTGPictureCache;
@@ -133,6 +134,7 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 		createTab(capitalize("RECOGNITION"), MTGConstants.ICON_TAB_RECOGNITION, PluginRegistry.inst().getEntry(MTGCardRecognition.class));
 		createTab(capitalize("TRACKING"), MTGConstants.ICON_TAB_DELIVERY, PluginRegistry.inst().getEntry(MTGTrackingService.class));
 		createTab(capitalize("EXTERNAL_SHOP"), MTGConstants.ICON_TAB_EXT_SHOP, PluginRegistry.inst().getEntry(MTGExternalShop.class));
+		createTab(capitalize("IA"), MTGConstants.ICON_TAB_IA, PluginRegistry.inst().getEntry(MTGIA.class));
 
 
 
