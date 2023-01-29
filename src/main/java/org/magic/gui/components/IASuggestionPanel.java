@@ -1,16 +1,13 @@
 package org.magic.gui.components;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
-import javax.swing.JWindow;
 import javax.swing.SwingWorker;
 
 import org.magic.api.beans.MagicCard;

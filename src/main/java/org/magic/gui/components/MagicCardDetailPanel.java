@@ -86,7 +86,6 @@ public class MagicCardDetailPanel extends MTGUIComponent implements Observer {
 	private JList<MTGFormat> lstFormats;
 	private JList<MagicCollection> listCollection;
 	private JTextField txtWatermark;
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JTextField rarityJTextField;
 	private GridBagLayout gridBagLayout;
 	private JButton btnAlert;

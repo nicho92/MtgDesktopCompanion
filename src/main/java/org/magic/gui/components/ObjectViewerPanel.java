@@ -4,12 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.services.MTGConstants;
 import org.magic.services.tools.BeanTools;
 
 public class ObjectViewerPanel extends MTGUIComponent {
@@ -73,9 +75,13 @@ public class ObjectViewerPanel extends MTGUIComponent {
 
 	@Override
 	public String getTitle() {
-		return "ObjectViewer";
+		return "Object";
 	}
 
+	@Override
+	public ImageIcon getIcon() {
+		return MTGConstants.ICON_TAB_JSON;
+	}
 
 
 }

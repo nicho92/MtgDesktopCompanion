@@ -369,7 +369,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		
 
 		if (MTGControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
-			tabbedCardsInfo.addTab("Object", MTGConstants.ICON_TAB_JSON, panelJson, null);
+			UITools.addTab(tabbedCardsInfo, panelJson);
 
 		panneauStat.add(cmcChart);
 		panneauStat.add(manaRepartitionPanel);
