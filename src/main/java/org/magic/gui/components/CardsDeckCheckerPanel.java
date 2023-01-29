@@ -6,6 +6,7 @@ import java.awt.event.ComponentEvent;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -15,14 +16,16 @@ import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
+import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.DeckSelectionTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
 
-public class CardsDeckCheckerPanel extends JComponent {
+public class CardsDeckCheckerPanel extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
 	private AbstractBuzyIndicatorComponent buzyLabel;
@@ -53,6 +56,17 @@ public class CardsDeckCheckerPanel extends JComponent {
 		});
 	}
 
+	
+	@Override
+	public String getTitle() {
+		return "DECK_MODULE";
+	}
+	
+	@Override
+	public ImageIcon getIcon() {
+		return MTGConstants.ICON_TAB_DECK;
+	}
+	
 	public void init(MagicCard mc)
 	{
 		this.selectedCard=mc;

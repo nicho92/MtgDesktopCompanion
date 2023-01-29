@@ -119,7 +119,9 @@ public class CardSearchPanel extends MTGUIComponent {
 	private CardAbilitiesPanel abilitiesPanel;
 	private JButton defaultEnterButton;
 	private GedPanel<MagicCard> gedPanel;
-
+	private IASuggestionPanel iaPanel;
+	
+	
 	public AbstractBuzyIndicatorComponent getLblLoading() {
 		return lblLoading;
 	}
@@ -211,7 +213,7 @@ public class CardSearchPanel extends MTGUIComponent {
 
 		var scrollThumbnails = new JScrollPane();
 		var panneauCentral = new JSplitPane();
-
+		iaPanel = new IASuggestionPanel();
 		panneauStat = new JPanel();
 		panneauHaut = new JPanel();
 		panneauCard = new JPanel();
@@ -274,7 +276,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		panneauCentral.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		panneauCentral.setRightComponent(tabbedCardsInfo);
 		panneauCentral.setLeftComponent(tabbedCardsView);
-
+	
 		tableCards.setRowSorter(sorterCards);
 
 		for(int i : cardsModeltable.defaultHiddenColumns())
@@ -352,16 +354,19 @@ public class CardSearchPanel extends MTGUIComponent {
 		panelFilters.add(btnClear);
 		panelFilters.add(panelmana);
 
-		tabbedCardsInfo.addTab(capitalize("DETAILS"), MTGConstants.ICON_TAB_DETAILS,detailCardPanel, null);
+		UITools.addTab(tabbedCardsInfo,detailCardPanel);
 		tabbedCardsInfo.addTab(capitalize("EDITION"), MTGConstants.ICON_BACK,editionDetailPanel, null);
 		UITools.addTab(tabbedCardsInfo,priceTablePanel);
 		UITools.addTab(tabbedCardsInfo,txtRulesArea);
-		tabbedCardsInfo.addTab(capitalize("PRICE_VARIATIONS"), MTGConstants.ICON_TAB_VARIATIONS,historyChartPanel, null);
+		UITools.addTab(tabbedCardsInfo,historyChartPanel);
 		UITools.addTab(tabbedCardsInfo,similarityPanel);
-		tabbedCardsInfo.addTab(capitalize("DECK_MODULE"), MTGConstants.ICON_TAB_DECK,deckPanel, null);
-		tabbedCardsInfo.addTab(capitalize("STOCK"), MTGConstants.ICON_TAB_STOCK,stockPanel, null);
+		UITools.addTab(tabbedCardsInfo,deckPanel);
+		UITools.addTab(tabbedCardsInfo,stockPanel);
 		UITools.addTab(tabbedCardsInfo,abilitiesPanel);
 		UITools.addTab(tabbedCardsInfo, gedPanel);
+		UITools.addTab(tabbedCardsInfo, iaPanel);
+		
+		
 
 		if (MTGControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
 			tabbedCardsInfo.addTab("Object", MTGConstants.ICON_TAB_JSON, panelJson, null);
@@ -723,7 +728,7 @@ public class CardSearchPanel extends MTGUIComponent {
 			abilitiesPanel.init(selectedCard);
 			historyChartPanel.init(selectedCard, selectedEdition, selectedCard.getName());
 			gedPanel.init(MagicCard.class, selectedCard);
-
+			iaPanel.init(List.of(selectedCard));
 
 
 			((DefaultListModel<MagicEdition>) listEdition.getModel()).removeAllElements();

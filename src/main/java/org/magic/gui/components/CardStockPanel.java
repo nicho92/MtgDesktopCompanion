@@ -188,6 +188,10 @@ public class CardStockPanel extends MTGUIComponent {
 
 	@Override
 	public void onVisible() {
+		
+		if(mc==null)
+			return;
+		
 		var sw = new SwingWorker<List<MagicCardStock> , Void>()
 		{
 			@Override

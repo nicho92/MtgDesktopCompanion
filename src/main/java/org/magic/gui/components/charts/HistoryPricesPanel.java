@@ -42,7 +42,7 @@ public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 	boolean showEdition = false;
 	private JCheckBox chckbxShowEditions;
 	private transient HistoryPrice<?> cpVariations;
-	private String title="";
+	private String title="PRICE_VARIATIONS";
 	private transient HistoryPrice<?> cpVariationsF;
 	private MagicCard mc;
 	private MagicEdition me;

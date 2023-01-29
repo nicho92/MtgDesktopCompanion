@@ -59,7 +59,6 @@ import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsExport.MODS;
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.api.interfaces.MTGIA;
 import org.magic.game.gui.components.HandPanel;
 import org.magic.game.model.Player;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
@@ -81,7 +80,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
 import org.magic.services.threads.ThreadManager;
-import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.services.workers.DeckImportWorker;
@@ -172,7 +170,6 @@ public class ConstructPanel extends MTGUIComponent {
 		btnUpdate = UITools.createBindableJButton("", MTGConstants.ICON_REFRESH, KeyEvent.VK_R, "Refresh");
 		var btnSave = UITools.createBindableJButton("", MTGConstants.ICON_SAVE, KeyEvent.VK_S, "Save");
 		var btnImport = UITools.createBindableJButton("", MTGConstants.ICON_IMPORT, KeyEvent.VK_I, "Import");
-		var btnSuggestIA= UITools.createBindableJButton("", MTGConstants.ICON_IA, KeyEvent.VK_S, "Suggest");
 		
 		btnExports = new JExportButton(MODS.EXPORT);
 		stockPanel = new DeckStockComparatorPanel();
@@ -268,7 +265,6 @@ public class ConstructPanel extends MTGUIComponent {
 		panneauHaut.add(btnImport);
 		panneauHaut.add(btnExports);
 		panneauHaut.add(btnRandom);
-		panneauHaut.add(btnSuggestIA);
 		panneauHaut.add(buzyLabel);
 		add(panneauBas, BorderLayout.SOUTH);
 		add(tabbedPane, BorderLayout.CENTER);
@@ -327,19 +323,6 @@ public class ConstructPanel extends MTGUIComponent {
 			var newDeck = new MagicDeck();
 			setDeck(newDeck);
 		});
-
-		btnSuggestIA.addActionListener(al->{
-			
-			try {
-				MTG.getEnabledPlugin(MTGIA.class).suggestDeckWith(deck);
-			} catch (IOException e1) {
-				MTGControler.getInstance().notify(e1);
-			}
-			
-			
-		});
-		
-		
 
 		btnRandom.addActionListener(al->{
 

@@ -3,19 +3,18 @@ package org.magic.api.ia.impl;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.entity.StringEntity;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractIA;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
-import org.magic.services.tools.UITools;
 
 import com.google.gson.JsonObject;
 
@@ -23,7 +22,7 @@ public class ChatGPT extends AbstractIA {
 
 	
 	private MTGHttpClient client;
-
+	
 	
 	private HttpResponse query( JsonObject obj) throws IOException
 	{
@@ -46,25 +45,23 @@ public class ChatGPT extends AbstractIA {
 	
 
 	@Override
-	public void suggestDeckWith(MagicDeck deck) throws IOException {
-		
-		if(deck.isEmpty())
+	public String suggestDeckWith(List<MagicCard> cards) throws IOException {
+			
+		if(cards.isEmpty())
 			throw new IOException("You should add some cards before calling IA");
 		
-		var result = ask("Build me a deck with " + deck.getMain().keySet().stream().map(MagicCard::getName).collect(Collectors.joining(",")));
-		
-		var pattern = Pattern.compile("(\\d+)x (.*?)$");
-		for(String s : UITools.stringLineSplit(result, true)) {
-				
-			logger.info("{}", s);
-
-			var m = pattern.matcher(s);
-			
-		}
-			
+		return ask("Build a magic the gathering deck with this cards : " + cards.stream().map(MagicCard::getName).collect(Collectors.joining("/")));
 	}
 	
-	
+
+	@Override
+	public String describe(MagicCard card) throws IOException {
+		
+		if(card ==null)
+			throw new IOException("You should select a card before calling IA");
+		
+		return  ask("tell me more about MTG card \"" + card.getName() +"\" in "+MTGControler.getInstance().getLocale().getDisplayLanguage(Locale.US));
+	}
 	
 	@Override
 	public String ask(String prompt) throws IOException
@@ -78,9 +75,10 @@ public class ChatGPT extends AbstractIA {
 
 		var resp = query(obj);
 		var json = URLTools.toJson(resp.getEntity().getContent());
-		logger.info("{} answer : {} ",getName(), json);
+		logger.debug("{} answer : {} ",getName(), json);
+		
 		try {
-		return json.getAsJsonObject().get("choices").getAsJsonArray().get(0).getAsJsonObject().get("text").getAsString();
+			return json.getAsJsonObject().get("choices").getAsJsonArray().get(0).getAsJsonObject().get("text").getAsString();
 		}
 		catch(Exception e)
 		{

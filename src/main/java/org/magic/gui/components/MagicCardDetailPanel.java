@@ -49,6 +49,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPictureProvider;
+import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -58,7 +59,7 @@ import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.UITools;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
-public class MagicCardDetailPanel extends JPanel implements Observer {
+public class MagicCardDetailPanel extends MTGUIComponent implements Observer {
 
 	/**
 	 *
@@ -624,6 +625,17 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		ThreadManager.getInstance().runInEdt(sw,"loading " + mc + " picture");
 	}
 
+
+	@Override
+	public String getTitle() {
+		return "DETAILS";
+	}
+	
+	@Override
+	public ImageIcon getIcon() {
+		return MTGConstants.ICON_TAB_DETAILS;
+	}
+	
 	@Override
 	public void update(Observable o, Object ob) {
 		setMagicCard((MagicCard) ob);
@@ -636,4 +648,5 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 	public void addObserver(Observer o) {
 		obs.addObserver(o);
 	}
+
 }
