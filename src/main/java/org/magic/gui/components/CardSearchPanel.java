@@ -354,8 +354,9 @@ public class CardSearchPanel extends MTGUIComponent {
 		panelFilters.add(btnClear);
 		panelFilters.add(panelmana);
 
+		
 		addContextComponent(detailCardPanel);
-		getContextTabbedPane().addTab(capitalize("EDITION"), MTGConstants.ICON_BACK,editionDetailPanel, null);
+		addContextComponent(editionDetailPanel,"EDITION",MTGConstants.ICON_BACK);
 		addContextComponent(priceTablePanel);
 		addContextComponent(txtRulesArea);
 		addContextComponent(historyChartPanel);
@@ -365,12 +366,11 @@ public class CardSearchPanel extends MTGUIComponent {
 		addContextComponent(abilitiesPanel);
 		addContextComponent(gedPanel);
 		addContextComponent(iaPanel);
-		
-		
-
 		if (MTGControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
 			addContextComponent(panelJson);
 
+		
+		
 		panneauStat.add(cmcChart);
 		panneauStat.add(manaRepartitionPanel);
 		panneauStat.add(typeRepartitionPanel);
