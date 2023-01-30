@@ -527,7 +527,6 @@ public class StockPanelGUI extends MTGUIComponent {
 		JLabel lblComment;
 		gradePanel = new GradingEditorPane();
 		gedPanel = new GedPanel<>();
-		var tabPanel = new JTabbedPane();
 		setLayout(new BorderLayout(0, 0));
 		deckPanel = new CardsDeckCheckerPanel();
 		model = new CardStockTableModel();
@@ -596,20 +595,18 @@ public class StockPanelGUI extends MTGUIComponent {
 		centerPanel.add(splitPane, BorderLayout.CENTER);
 		splitPane.setLeftComponent(new JScrollPane(table));
 
-		splitPane.setRightComponent(tabPanel);
+		splitPane.setRightComponent(getContextTabbedPane());
 
 
-		tabPanel.addTab(MTGControler.getInstance().getLangService().get("DETAILS"),MTGConstants.ICON_TAB_DETAILS, magicCardDetailPanel);
-		tabPanel.addTab(capitalize("GRADING"), MTGConstants.ICON_TAB_GRADING,gradePanel);
-		tabPanel.addTab(MTGControler.getInstance().getLangService().get("PRICES"),MTGConstants.ICON_TAB_PRICES, pricePanel);
-		tabPanel.addTab(MTGControler.getInstance().getLangService().get("PRICE_VARIATIONS"),MTGConstants.ICON_TAB_VARIATIONS,historyPricePanel);
-		tabPanel.addTab(capitalize("DECK_MODULE"), MTGConstants.ICON_TAB_DECK,deckPanel);
-		tabPanel.addTab(capitalize("GED"), MTGConstants.ICON_TAB_GED,gedPanel);
-
-
+		addContextComponent(magicCardDetailPanel);
+		addContextComponent(gradePanel);
+		addContextComponent(pricePanel);
+		addContextComponent(historyPricePanel);
+		addContextComponent(deckPanel);
+		addContextComponent(gedPanel);
 
 		if (MTGControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
-			tabPanel.addTab("Object", MTGConstants.ICON_TAB_JSON, jsonPanel, null);
+			addContextComponent(jsonPanel);
 
 
 		rightPanel = new JPanel();

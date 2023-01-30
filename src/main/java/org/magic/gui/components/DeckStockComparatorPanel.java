@@ -196,7 +196,7 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 									pricList.add(l.getMc());
 							});
 
-							pricesPan.initDeck(MagicDeck.toDeck(pricList));
+							pricesPan.init(MagicDeck.toDeck(pricList));
 							btnExportMissing.setEnabled(!model.isEmpty());
 						}
 

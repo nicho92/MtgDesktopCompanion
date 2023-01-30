@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -19,6 +20,7 @@ import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGPricesProvider;
+import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.CardsPriceTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -27,7 +29,7 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
 import org.magic.services.workers.AbstractObservableWorker;
 
-public class DeckPricePanel extends JComponent {
+public class DeckPricePanel extends MTGUIComponent {
 
 	/**
 	 *
@@ -43,7 +45,7 @@ public class DeckPricePanel extends JComponent {
 	private JButton btnCheckPrice;
 
 
-	public void initDeck(MagicDeck d) {
+	public void init(MagicDeck d) {
 		this.deck = d;
 		try {
 			lblPrice.setText(UITools.formatDouble(d.getAveragePrice()));
@@ -152,5 +154,16 @@ public class DeckPricePanel extends JComponent {
 
 		add(new JScrollPane(tablePrice), BorderLayout.CENTER);
 	}
+
+	@Override
+	public String getTitle() {
+		return "SHOPPING";
+	}
+	
+	@Override
+	public ImageIcon getIcon() {
+		return MTGConstants.ICON_TAB_SHOP;
+	}
+	
 
 }

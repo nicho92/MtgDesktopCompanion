@@ -86,7 +86,6 @@ public class SealedStockGUI extends MTGUIComponent {
 		centerPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		centerPanel.setDividerLocation(0.5);
 		centerPanel.setResizeWeight(0.5);
-		var panneauDetail = new JTabbedPane();
 		var historyPricePanel= new SealedHistoryPricesPanel();
 		var buttonNew = UITools.createBindableJButton(null, MTGConstants.ICON_NEW, KeyEvent.VK_N, "stock new");
 		var buttonDelete = UITools.createBindableJButton(null, MTGConstants.ICON_DELETE, KeyEvent.VK_N, "stock delete");
@@ -105,21 +104,23 @@ public class SealedStockGUI extends MTGUIComponent {
 		toolsPanel.add(buttonSave);
 		toolsPanel.add(buzy);
 
-		panneauDetail.addTab(capitalize("INFO"),MTGConstants.ICON_TAB_PICTURE,packagePanel.getThumbnailPanel());
-		UITools.addTab(panneauDetail, historyPricePanel);
-		UITools.addTab(panneauDetail, gedPanel);
-		UITools.addTab(panneauDetail, MTGUIComponent.build(new JScrollPane(textEditor), "description", MTGConstants.ICON_MANUAL));
-		UITools.addTab(panneauDetail,synchroPanel);
+		
+		
+		addContextComponent(packagePanel.getThumbnailPanel(),capitalize("INFO"),MTGConstants.ICON_TAB_PICTURE);
+		addContextComponent(historyPricePanel);
+		addContextComponent(gedPanel);
+		addContextComponent(new JScrollPane(textEditor), "description", MTGConstants.ICON_MANUAL);
+		addContextComponent(synchroPanel);
 
 
 		if (MTGControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
-			UITools.addTab(panneauDetail, objectpanel);
+			addContextComponent(objectpanel);
 
 
 
 		add(packagePanel,BorderLayout.WEST);
 		centerPanel.setLeftComponent(new JScrollPane(table));
-		centerPanel.setRightComponent(panneauDetail);
+		centerPanel.setRightComponent(getContextTabbedPane());
 		add(centerPanel,BorderLayout.CENTER);
 		add(toolsPanel,BorderLayout.NORTH);
 

@@ -61,7 +61,7 @@ public class DeckDetailsPanel extends JComponent {
 
 	public DeckDetailsPanel(MagicDeck newMagicDeck) {
 		this();
-		setMagicDeck(newMagicDeck);
+		init(newMagicDeck);
 	}
 
 	public DeckDetailsPanel() {
@@ -152,7 +152,7 @@ public class DeckDetailsPanel extends JComponent {
 		return magicDeck;
 	}
 
-	public void setMagicDeck(MagicDeck newMagicDeck) {
+	public void init(MagicDeck newMagicDeck) {
 		setMagicDeck(newMagicDeck, true);
 	}
 

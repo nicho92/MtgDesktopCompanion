@@ -48,7 +48,10 @@ public abstract class MTGUIComponent extends JComponent {
 		UITools.addTab(contextTabbedPane,component);
 	}
 	
-	
+	protected void addContextComponent(JComponent component,String name, ImageIcon ic)
+	{
+		UITools.addTab(contextTabbedPane, MTGUIComponent.build(component, name, ic));
+	}
 	
 	
 	

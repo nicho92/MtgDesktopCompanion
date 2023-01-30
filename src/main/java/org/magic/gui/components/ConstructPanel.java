@@ -127,7 +127,7 @@ public class ConstructPanel extends MTGUIComponent {
 
 	public void setDeck(MagicDeck deck) {
 		this.deck = deck;
-		deckDetailsPanel.setMagicDeck(deck);
+		deckDetailsPanel.init(deck);
 		deckDetailsPanel.updatePicture();
 		deckmodel.init(deck);
 		deckSidemodel.init(deck);
@@ -237,7 +237,7 @@ public class ConstructPanel extends MTGUIComponent {
 		panneauDeck.setResizeWeight(0.5);
 		panneauDeck.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		magicCardDetailPanel.enableThumbnail(true);
-		panelBottom.setLayout(new BorderLayout(0, 0));
+		
 		panelInfoDeck.setLayout(new BorderLayout(0, 0));
 		randomHandPanel.setLayout(new BorderLayout(0, 0));
 		statPanel.setLayout(new GridLayout(3, 2, 0, 0));
@@ -285,6 +285,8 @@ public class ConstructPanel extends MTGUIComponent {
 		tabbedPane.addTab(capitalize("STATS"),MTGConstants.ICON_TAB_ANALYSE, statPanel, null);
 		tabbedPane.addTab(capitalize("SAMPLE_HAND"),MTGConstants.ICON_TAB_THUMBNAIL, randomHandPanel, null);
 		
+		
+		
 		UITools.addTab(tabbedPane, stockPanel);
 
 
@@ -318,7 +320,7 @@ public class ConstructPanel extends MTGUIComponent {
 
 		initTables(tableDeck,BOARD.MAIN,deckmodel);
 		initTables(tableSide,BOARD.SIDE,deckSidemodel);
-		deckDetailsPanel.setMagicDeck(deck);
+		deckDetailsPanel.init(deck);
 
 //////////////////////////////////////////////////////////////////ACTIONS
 		btnNewDeck.addActionListener(newDeckEvent -> {
@@ -342,7 +344,7 @@ public class ConstructPanel extends MTGUIComponent {
 					protected void done() {
 						try {
 							deck = get();
-							deckDetailsPanel.setMagicDeck(deck);
+							deckDetailsPanel.init(deck);
 							deckmodel.init(deck);
 							deckSidemodel.init(deck);
 							setDeck(deck);
@@ -374,7 +376,7 @@ public class ConstructPanel extends MTGUIComponent {
 				choose.setVisible(true);
 				deck = choose.getSelectedDeck();
 				if (deck != null) {
-					deckDetailsPanel.setMagicDeck(deck);
+					deckDetailsPanel.init(deck);
 					deckmodel.init(deck);
 					deckSidemodel.init(deck);
 					setDeck(deck);
@@ -903,12 +905,12 @@ public class ConstructPanel extends MTGUIComponent {
 		if(deck==null)
 			return;
 
-		deckDetailsPanel.setMagicDeck(deck);
+		deckDetailsPanel.init(deck);
 		cmcChartPanel.init(deck.getMainAsList());
 		typeRepartitionPanel.init(deck.getMainAsList());
 		manaRepartitionPanel.init(deck.getMainAsList());
 		rarityRepartitionPanel.init(deck.getMainAsList());
-		deckPricePanel.initDeck(deck);
+		deckPricePanel.init(deck);
 		drawProbabilityPanel.init(deck);
 		btnExports.setEnabled(!deck.getMainAsList().isEmpty());
 

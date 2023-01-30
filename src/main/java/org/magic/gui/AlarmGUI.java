@@ -114,7 +114,6 @@ public class AlarmGUI extends MTGUIComponent {
 
 		model = new CardAlertTableModel();
 		globalSearchPanel = new DeckPricePanel();
-		var tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		magicCardDetailPanel = new MagicCardDetailPanel();
 		variationPanel = new HistoryPricesPanel(true);
 		var panelRight = new JPanel();
@@ -132,7 +131,7 @@ public class AlarmGUI extends MTGUIComponent {
 		var serverPricePanel = new ServerStatePanel(false,getPlugin("Alert Price Checker", MTGServer.class));
 		table = UITools.createNewTable(model);
 		UITools.initTableFilter(table);
-
+		pricesTablePanel = new PricesTablePanel();
 ///////CONFIG
 		setLayout(new BorderLayout());
 		splitPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
@@ -154,20 +153,20 @@ public class AlarmGUI extends MTGUIComponent {
 ///////ADDS
 		splitPanel.setLeftComponent(new JScrollPane(table));
 		add(splitPanel, BorderLayout.CENTER);
-		splitPanel.setRightComponent(tabbedPane);
+		splitPanel.setRightComponent(getContextTabbedPane());
 
 		serversPanel.setLayout(new GridLayout(2, 1, 0, 0));
 		serversPanel.add(oversightPanel);
 		serversPanel.add(serverPricePanel);
 		panelRight.add(serversPanel,BorderLayout.SOUTH);
-		tabbedPane.addTab(capitalize("DETAILS"), MTGConstants.ICON_TAB_DETAILS, magicCardDetailPanel, null);
-		tabbedPane.addTab(capitalize("PRICE_VARIATIONS"), MTGConstants.ICON_TAB_VARIATIONS, variationPanel, null);
-		tabbedPane.addTab(capitalize("SHOPPING"), MTGConstants.ICON_TAB_SHOP, globalSearchPanel, null);
-		tabbedPane.addTab(capitalize(groupShopPanel.getTitle()), MTGConstants.ICON_TAB_SHOP, groupShopPanel, null);
-
-
-		pricesTablePanel = new PricesTablePanel();
-		tabbedPane.addTab(capitalize("PRICES"), MTGConstants.ICON_TAB_PRICES, pricesTablePanel, null);
+		
+		addContextComponent(magicCardDetailPanel);
+		addContextComponent(variationPanel);
+		addContextComponent(globalSearchPanel);
+		addContextComponent(groupShopPanel);
+		addContextComponent(pricesTablePanel);
+		
+		
 		add(panelRight, BorderLayout.EAST);
 		panelRight.add(new JScrollPane(list),BorderLayout.CENTER);
 		add(panel, BorderLayout.NORTH);
@@ -238,7 +237,7 @@ public class AlarmGUI extends MTGUIComponent {
 		globalSearchPanel.getBtnCheckPrice().addActionListener(al->{
 			var tdek = new MagicDeck();
 			model.getItems().forEach(e->tdek.getMain().put(e.getCard(),e.getQty()));
-			globalSearchPanel.initDeck(tdek);
+			globalSearchPanel.init(tdek);
 		});
 
 
