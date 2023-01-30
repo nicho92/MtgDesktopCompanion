@@ -150,7 +150,6 @@ public class ConstructPanel extends MTGUIComponent {
 		JButton btnUpdate;
 		var btnRandom= UITools.createBindableJButton("", MTGConstants.ICON_RANDOM, KeyEvent.VK_R, "Random");
 		HandPanel thumbnail;
-		JTabbedPane panelBottom;
 		var searchComponent = new CriteriaComponent(false);
 		JTabbedPane tabbedPane;
 		ButtonGroup groupsFilterResult;
@@ -158,7 +157,6 @@ public class ConstructPanel extends MTGUIComponent {
 		deckmodel = new DeckCardsTableModel(DeckCardsTableModel.TYPE.DECK);
 		deckSidemodel = new DeckCardsTableModel(DeckCardsTableModel.TYPE.SIDE);
 		deckDetailsPanel = new DeckDetailsPanel();
-		panelBottom = new JTabbedPane();
 		thumbnail = new HandPanel();
 		var flowLayout = (FlowLayout) panneauHaut.getLayout();
 		comboPanel = new ComboFinderPanel();
@@ -266,15 +264,19 @@ public class ConstructPanel extends MTGUIComponent {
 		panneauHaut.add(btnExports);
 		panneauHaut.add(btnRandom);
 		panneauHaut.add(buzyLabel);
+		panneauDeck.setRightComponent(getContextTabbedPane());
 		add(panneauBas, BorderLayout.SOUTH);
 		add(tabbedPane, BorderLayout.CENTER);
-		panelBottom.addTab(capitalize("DETAIL"),MTGConstants.ICON_TAB_CARD,magicCardDetailPanel);
-		panelBottom.addTab("Combos",comboPanel.getIcon(),comboPanel);
-		panneauDeck.setRightComponent(panelBottom);
-		panelBottom.addTab("Drawing",MTGConstants.ICON_TAB_DECK,cardDrawProbaPanel);
-		UITools.addTab(panelBottom, rulesPanel);
-		UITools.addTab(panelBottom, stockDetailPanel);
-
+		
+		
+		addContextComponent(magicCardDetailPanel);		
+		addContextComponent(comboPanel);
+		addContextComponent(cardDrawProbaPanel);
+		addContextComponent(rulesPanel);
+		addContextComponent(stockDetailPanel);
+		addContextComponent(importLogPanel);
+		
+		
 		panneauDeck.setLeftComponent(tabbedDeckSide);
 		tabbedDeckSide.addTab("Main", MTGConstants.ICON_TAB_DECK, new JScrollPane(tableDeck), null);
 		tabbedDeckSide.addTab("SideBoard", MTGConstants.ICON_TAB_DECK, new JScrollPane(tableSide), null);
@@ -314,9 +316,9 @@ public class ConstructPanel extends MTGUIComponent {
 		groupsFilterResult.add(tglbtnCmd);
 		panneauGauche.add(new JScrollPane(listResult));
 		panneauGauche.add(panneauResultFilter, BorderLayout.NORTH);
-		panelBottom.addTab(capitalize("LOG"),importLogPanel.getIcon(), importLogPanel, null);
-
-
+		
+		
+		
 
 		initTables(tableDeck,BOARD.MAIN,deckmodel);
 		initTables(tableSide,BOARD.SIDE,deckSidemodel);

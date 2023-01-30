@@ -30,7 +30,6 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
-import javax.swing.JTabbedPane;
 import javax.swing.JTextPane;
 import javax.swing.SortOrder;
 import javax.swing.SpinnerNumberModel;

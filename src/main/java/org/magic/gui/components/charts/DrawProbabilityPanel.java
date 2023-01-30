@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -14,11 +15,13 @@ import javax.swing.table.AbstractTableModel;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
 import org.magic.services.tools.UITools;
-public class DrawProbabilityPanel extends JPanel {
+public class DrawProbabilityPanel extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
 	private JXTable table;
@@ -163,4 +166,15 @@ public class DrawProbabilityPanel extends JPanel {
 		table.packAll();
 	}
 
+	@Override
+	public String getTitle() {
+		return "DRAWING";
+	}
+	
+	@Override
+	public ImageIcon getIcon() {
+		return MTGConstants.ICON_TAB_DECK;
+	}
+	
+	
 }
