@@ -9,28 +9,12 @@ import java.util.Map;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.network.URLTools;
-import org.magic.services.tools.InstallCert;
 
 public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
 	private static final String HTTP_API_SCRYFALL = "https://api.scryfall.com/cards/";
 	private static final String IMAGE_TAG = "?format=image";
-	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
 
-	public ScryFallPicturesProvider() {
-		super();
-		if(getBoolean(LOAD_CERTIFICATE))
-		{
-			try {
-				InstallCert.installCert("scryfall.com");
-				setProperty(LOAD_CERTIFICATE, "false");
-			} catch (Exception e1) {
-				logger.error(e1);
-			}
-		}
-
-
-	}
 
 	@Override
 	public String generateUrl(MagicCard mc) {
@@ -102,8 +86,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of("CERT_SERV", "scryfall.com",
 							   "PIC_SIZE", "large",
-							   "ICON_SET_SIZE", "medium",
-							   LOAD_CERTIFICATE, TRUE);
+							   "ICON_SET_SIZE", "medium");
 	}
 
 	@Override

@@ -23,7 +23,6 @@ import org.magic.services.providers.PluginsAliasesProvider;
 import org.magic.services.tools.CardKingdomTools;
 import org.magic.services.tools.Chrono;
 import org.magic.services.tools.FileTools;
-import org.magic.services.tools.InstallCert;
 import org.magic.services.tools.UITools;
 
 import com.jayway.jsonpath.DocumentContext;
@@ -33,7 +32,6 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 
 	private static final String API_URI="https://api.cardkingdom.com/api/pricelist";
 	private static final String WEB_URI="https://www.cardkingdom.com";
-	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
 	private File jsonFile;
 	private DocumentContext cont;
 
@@ -127,18 +125,7 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 
 
 	public CardKingdomPricer() {
-
 		jsonFile=new File(MTGConstants.DATA_DIR,"mtgkingdom.json");
-
-		if(getBoolean(LOAD_CERTIFICATE))
-		{
-			try {
-				InstallCert.installCert("cardkingdom.com");
-				setProperty(LOAD_CERTIFICATE, "false");
-			} catch (Exception e1) {
-				logger.error(e1);
-			}
-		}
 	}
 
 	@Override
@@ -203,13 +190,6 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 	public String getName() {
 		return "Card Kingdom";
 	}
-
-
-	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of(LOAD_CERTIFICATE, "true");
-	}
-
 
 	@Override
 	public int hashCode() {

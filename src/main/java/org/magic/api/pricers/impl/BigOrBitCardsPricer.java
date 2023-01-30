@@ -6,6 +6,8 @@ import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
 
+import javax.print.attribute.DocAttribute;
+
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.beans.enums.EnumMarketType;
@@ -34,54 +36,50 @@ public class BigOrBitCardsPricer extends AbstractPricesProvider {
 
 
 		var extra="";
-
+		var ret = new ArrayList<MagicPrice>();
 		if(card.isExtendedArt())
 			extra=" (Extended Art)";
 		else if(card.isShowCase())
 			extra=" (Showcase)";
 		else if(card.isBorderLess())
 			extra=" (Borderless Art)";
-
+		else if(card.isTimeshifted())
+			extra=" (Retro Frame)";
+		
 		logger.info("{} looking for {} with extra={}",getName(),card,extra);
 
-		var doc = RequestBuilder.build().method(METHOD.GET).url("https://www.bigorbitcards.co.uk/").setClient(URLTools.newClient())
-				.addContent("search_performed", "Y")
-				.addContent("product_variants","N")
-				.addContent("match","All")
-				.addContent("q",card.getName() + extra)
-				.addContent("pname","Y")
-				.addContent("category_name","Magic the Gathering")
-				.addContent("subcats","Y")
-				.addContent("tx_features[]","All")
-				.addContent("cid","1000062")
-				.addContent("dispatch[products.search]","")
-				.addContent("features_hash","7-Y")
-				.addContent("items_per_page","96")
-				.toHtml().select("div.ty-compact-list__content");
-
-		var ret = new ArrayList<MagicPrice>();
+		var doc = RequestBuilder.build()
+											 .method(METHOD.GET)
+											 .url("https://www.bigorbitcards.co.uk/magic-the-gathering/search/"+UITools.replaceSpecialCharacters(card.getName()+ extra, "+"))
+											 .addContent("resultsPerPage","96")
+											 .setClient(URLTools.newClient())
+											 .toHtml()
+											 .select("div.products article div.product-desc");
 
 		doc.forEach(e->{
+			
+			var title = e.select("h2.product-title a");
+			var rowDetail  = e.select("span.product-row").first();
 
-			var mp = new MagicPrice();
-				mp.setSeller(getName());
-				mp.setSite(getName());
-				mp.setCurrency(Currency.getInstance(Locale.UK));
-				mp.setCountry(Locale.UK.getDisplayCountry(MTGControler.getInstance().getLocale()));
-				mp.setLanguage("English");
-				mp.setMagicCard(card);
-				mp.setFoil(e.select("bdi.compact_bdi_title").first().text().contains("(Foil)"));
-				mp.setUrl(e.select("bdi.compact_bdi_title a").first().attr("href"));
-				mp.setSellerUrl(mp.getUrl());
-
-				var spanPrices=e.select("span.ty-qty-in-stock span");
-				mp.setQuality(spanPrices.get(0).text().trim());
-				var ind = spanPrices.get(1).text().indexOf('£')+1;
-				mp.setValue(UITools.parseDouble(spanPrices.get(1).text().substring(ind)));
-
-				notify(mp);
-
-			ret.add(mp);
+			if(!(rowDetail.select("span.product-stock").text().equals("0 in Stock")) /*&& e.select("p").text().toLowerCase().indexOf(card.getCurrentSet().getSet().toLowerCase())>-1*/)
+			{
+			
+			  var mp = new MagicPrice();
+					mp.setSeller(getName());
+					mp.setSite(getName());
+					mp.setCurrency(Currency.getInstance(Locale.UK));
+					mp.setCountry(Locale.UK.getDisplayCountry(MTGControler.getInstance().getLocale()));
+					mp.setLanguage(title.text().contains("Japanese")?"Japanese":"English");
+					mp.setMagicCard(card);
+					mp.setFoil(title.text().contains("(Foil)"));
+					mp.setUrl(title.attr("href"));
+					mp.setSellerUrl(mp.getUrl());
+					mp.setQuality(rowDetail.select("span.product-name").text());
+					mp.setValue(UITools.parseDouble(rowDetail.select("span.product-price").text()));
+					notify(mp);
+					ret.add(mp);
+			}
+			
 		});
 
 		logger.info("{} found {} items ",getName(),ret.size());

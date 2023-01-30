@@ -17,27 +17,12 @@ import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.network.URLTools;
-import org.magic.services.tools.InstallCert;
 
 public class MTGDecksSniffer extends AbstractDeckSniffer {
 
 
 	private static final String MAX_PAGE = "MAX_PAGE";
 	private static final String URL = "URL";
-	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
-
-	public MTGDecksSniffer() {
-		super();
-			if(getBoolean(LOAD_CERTIFICATE))
-			{
-				try {
-					InstallCert.installCert("mtgdecks.net");
-					setProperty(LOAD_CERTIFICATE, "false");
-				} catch (Exception e1) {
-					logger.error(e1);
-				}
-			}
-	}
 
 	@Override
 	public String[] listFilter() {
@@ -158,8 +143,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of(URL, "https://mtgdecks.net",
-							   MAX_PAGE, "2",
-							   LOAD_CERTIFICATE, "true");
+							   MAX_PAGE, "2");
 	}
 
 	@Override

@@ -27,7 +27,6 @@ import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
-import org.magic.services.tools.InstallCert;
 
 public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 
@@ -36,7 +35,6 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 	private static final String LANGUAGE_ID = "LANGUAGE_ID";
 	private static final String FILTER_COUNTRY = "FILTER_COUNTRY";
 	private static final String MIN_CONDITION = "MIN_CONDITION";
-	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
 
 	private List<MagicPrice> lists;
 	private boolean initied=false;
@@ -51,20 +49,6 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 	@Override
 	public EnumMarketType getMarket() {
 		return EnumMarketType.EU_MARKET;
-	}
-
-	public MagicCardMarketPricer2() {
-		super();
-
-		if(getBoolean(LOAD_CERTIFICATE))
-		{
-			try {
-				InstallCert.installCert("cardmarket.com");
-				setProperty(LOAD_CERTIFICATE, FALSE);
-			} catch (Exception e1) {
-				logger.error(e1);
-			}
-		}
 	}
 
 	private void init()
@@ -265,7 +249,6 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 		map.put("USER_ARTICLE", FALSE);
 		map.put("AUTOMATIC_ADD_CARD_ALERT", FALSE);
 		map.put(FILTER_COUNTRY, "EN,"+Locale.getDefault().getCountry());
-		map.put(LOAD_CERTIFICATE,"true");
 
 		return map;
 

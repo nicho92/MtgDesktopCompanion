@@ -34,7 +34,6 @@ import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.network.URLTools;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
-import org.magic.services.tools.InstallCert;
 
 import com.google.common.collect.Lists;
 import com.google.gson.JsonElement;
@@ -70,21 +69,10 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	private static final String BORDER = "border_color";
 	private static final String NAME = "name";
 	private static final String FINISHES ="finishes";
-	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
 	private static final String BULK_FILE_URL="https://archive.scryfall.com/json/scryfall-all-cards.json";
 	private String baseURI = "";
 
 	public ScryFallProvider() {
-		super();
-		if(getBoolean(LOAD_CERTIFICATE))
-		{
-			try {
-				InstallCert.installCert("scryfall.com");
-				setProperty(LOAD_CERTIFICATE, FALSE);
-			} catch (Exception e1) {
-				logger.error(e1);
-			}
-		}
 		baseURI=getString("URL");
 	}
 
@@ -107,8 +95,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		return Map.of(LOAD_CERTIFICATE, "true",
-								"URL", "https://api.scryfall.com",
+		return Map.of("URL", "https://api.scryfall.com",
 								"MULTILANG",FALSE,
 								"LOAD_RULING",FALSE);
 	}

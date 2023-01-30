@@ -7,7 +7,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.RegExUtils;
@@ -23,13 +22,11 @@ import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
-import org.magic.services.tools.InstallCert;
 
 import com.google.gson.JsonElement;
 
 public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 
-	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
 	private static final String URI_BASE="https://tappedout.net";
 	private MTGHttpClient httpclient;
 
@@ -37,20 +34,6 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
-	}
-
-	public TappedOutDeckSniffer() {
-		super();
-
-		if(getBoolean(LOAD_CERTIFICATE))
-		{
-			try {
-				InstallCert.installCert("tappedout.net");
-				setProperty(LOAD_CERTIFICATE, "false");
-			} catch (Exception e1) {
-				logger.error(e1);
-			}
-		}
 	}
 
 	@Override
@@ -171,12 +154,6 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	@Override
 	public List<String> listAuthenticationAttributes() {
 		return AccountsManager.generateLoginPasswordsKeys();
-	}
-
-
-	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of(LOAD_CERTIFICATE,"true");
 	}
 
 

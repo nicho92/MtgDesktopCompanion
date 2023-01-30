@@ -464,8 +464,8 @@ public class UITools {
 			if(text.isBlank())
 				return 0.0;
 
-			text=text.replace(",", ".").replaceAll("[$,]","").replaceAll("[%,]", "").replace('\u00A0',' ').trim();
-
+			text=text.replace(",", ".").replaceAll("[$,]","").replaceAll("[£,]","").replaceAll("[%,]", "").replace('\u00A0',' ').trim();
+			
 			if(StringUtils.countMatches(text, '.')>1)
 				text=text.replaceFirst("\\.", "");
 
@@ -700,6 +700,11 @@ public class UITools {
 		sorter.setSortKeys(sortKeys);
 
 
+	}
+
+
+	public static String replaceSpecialCharacters(String str,String with) {
+		return str.replaceAll("[^a-zA-Z0-9]", with);
 	}
 
 

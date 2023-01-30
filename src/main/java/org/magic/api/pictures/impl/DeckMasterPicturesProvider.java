@@ -6,30 +6,12 @@ import java.util.Map;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
-import org.magic.services.tools.InstallCert;
 
 public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
-
-	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
 
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEPRECATED;
-	}
-
-
-	public DeckMasterPicturesProvider() {
-		super();
-
-		if(getBoolean(LOAD_CERTIFICATE))
-		{
-			try {
-				InstallCert.installCert("deckmaster.info");
-				setProperty(LOAD_CERTIFICATE, "false");
-			} catch (Exception e1) {
-				logger.error(e1);
-			}
-		}
 	}
 
 	@Override
@@ -53,8 +35,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 
 		return Map.of("CALL_MCI_FOR", "p,CEI,CED,CPK,CST",
 							   "URL", "https://deckmaster.info/",
-							   "ICON_SET_SIZE", "medium",
-							   LOAD_CERTIFICATE, TRUE);
+							   "ICON_SET_SIZE", "medium");
 	}
 
 	@Override

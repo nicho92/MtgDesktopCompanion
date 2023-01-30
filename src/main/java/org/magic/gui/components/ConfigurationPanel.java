@@ -72,7 +72,6 @@ import org.magic.services.providers.IconSetProvider;
 import org.magic.services.providers.SealedProductProvider;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.FileTools;
-import org.magic.services.tools.InstallCert;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 
@@ -92,7 +91,6 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 	private JTextFieldFileChooser txtdirWebsite;
 	private JTextField txtMinPrice;
 	private JCheckBox cbojsonView;
-	private JTextField txtWebSiteCertificate;
 	private JCheckBox chkToolTip;
 	private AbstractBuzyIndicatorComponent lblLoading;
 	private JTextField txtName;
@@ -383,10 +381,6 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		var txtdirWebsserver = new JTextFieldFileChooser(10,JFileChooser.DIRECTORIES_ONLY);
 		var btnWebsiteSave = new JButton(capitalize("SAVE"));
 		var btnWebServerExport = new JButton(capitalize(EXPORT));
-
-		txtWebSiteCertificate = new JTextField("www.",10);
-
-		var btnAdd = new JButton(capitalize("SAVE"));
 		cboServers = UITools.createCombobox(MTG.listEnabledPlugins(MTGServer.class).stream().filter(AbstractWebServer.class::isInstance).toList());
 
 		panelWebSite.add(new JLangLabel("DIRECTORY",true), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 0));
@@ -709,15 +703,6 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 			}
 
 		});
-
-		btnAdd.addActionListener(ae -> {
-			try {
-				InstallCert.installCert(txtWebSiteCertificate.getText());
-			} catch (Exception e) {
-				MTGControler.getInstance().notify(e);
-			}
-		});
-
 
 		btnSaveProfilGame.addActionListener(ae -> {
 			MTGControler.getInstance().setProperty("/game/player-profil/name", txtName.getText());
