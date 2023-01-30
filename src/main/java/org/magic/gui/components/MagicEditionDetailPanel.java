@@ -145,7 +145,7 @@ public class MagicEditionDetailPanel extends MTGUIComponent {
 		return magicEdition;
 	}
 
-	public void setMagicEdition(MagicEdition newMagicEdition) {
+	public void init(MagicEdition newMagicEdition) {
 		setMagicEdition(newMagicEdition, true);
 	}
 

@@ -12,10 +12,13 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
 
 import org.apache.logging.log4j.Logger;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
+import org.magic.services.tools.UITools;
 
 public abstract class MTGUIComponent extends JComponent {
 
@@ -24,12 +27,8 @@ public abstract class MTGUIComponent extends JComponent {
 	protected boolean onlyOneRefresh=true;
 	private boolean alreadyShow=false;
 	private transient ComponentListener windowsListener;
+	private JTabbedPane contextTabbedPane;
 
-
-	@Override
-	public String toString() {
-		return getName();
-	}
 
 	public abstract String getTitle();
 
@@ -40,14 +39,26 @@ public abstract class MTGUIComponent extends JComponent {
 		  }
 		}
 
-
-
-
-
+	public JTabbedPane getContextTabbedPane() {
+		return contextTabbedPane;
+	}
+	
+	protected void addContextComponent(MTGUIComponent component)
+	{
+		UITools.addTab(contextTabbedPane,component);
+	}
+	
+	
+	
+	
+	
+	
 	protected MTGUIComponent()
 	{
 		logger.debug("init GUI : {}",getTitle());
-
+		
+		contextTabbedPane = new JTabbedPane(SwingConstants.TOP);
+		
 		windowsListener = new ComponentAdapter() {
 			@Override
 			public void componentShown(ComponentEvent evt)
@@ -110,6 +121,11 @@ public abstract class MTGUIComponent extends JComponent {
 	public ImageIcon getIcon()
 	{
 		return MTGConstants.ICON_PACKAGE_SMALL;
+	}
+
+	@Override
+	public String toString() {
+		return getName();
 	}
 
 

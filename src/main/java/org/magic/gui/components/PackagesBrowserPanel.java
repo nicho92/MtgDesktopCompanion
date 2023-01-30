@@ -47,7 +47,7 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 	}
 
 
-	public void setMagicEdition(MagicEdition ed)
+	public void init(MagicEdition ed)
 	{
 		var root = (DefaultMutableTreeNode)model.getRoot();
 		root.setUserObject(ed);

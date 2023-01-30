@@ -45,6 +45,12 @@ public class IASuggestionPanel extends MTGUIComponent {
 	}
 	
 	
+	@Override
+	public void onVisible() {
+		init(cards);
+	}
+	
+	
 	public void init(List<MagicCard> cards )
 	{
 		this.cards=cards;
@@ -62,13 +68,9 @@ public class IASuggestionPanel extends MTGUIComponent {
 					var result = "";
 					
 					if(cards.size()==1)
-					{
 						result =  MTG.getEnabledPlugin(MTGIA.class).describe(cards.get(0));
-					}
 					else
-					{
 						result =  MTG.getEnabledPlugin(MTGIA.class).suggestDeckWith(cards);
-					}
 					
 					return result;
 				}

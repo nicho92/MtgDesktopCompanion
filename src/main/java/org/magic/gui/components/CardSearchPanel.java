@@ -125,6 +125,7 @@ public class CardSearchPanel extends MTGUIComponent {
 	public AbstractBuzyIndicatorComponent getLblLoading() {
 		return lblLoading;
 	}
+	
 
 	@Override
 	public ImageIcon getIcon() {
@@ -217,7 +218,6 @@ public class CardSearchPanel extends MTGUIComponent {
 		panneauStat = new JPanel();
 		panneauHaut = new JPanel();
 		panneauCard = new JPanel();
-		var tabbedCardsInfo = new JTabbedPane(SwingConstants.TOP);
 		editionDetailPanel = new JPanel();
 		panelResultsCards = new JPanel();
 		abilitiesPanel = new CardAbilitiesPanel();
@@ -274,7 +274,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		listEdition.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		thumbnailPanel.enableDragging(false);
 		panneauCentral.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		panneauCentral.setRightComponent(tabbedCardsInfo);
+		panneauCentral.setRightComponent(getContextTabbedPane());
 		panneauCentral.setLeftComponent(tabbedCardsView);
 	
 		tableCards.setRowSorter(sorterCards);
@@ -354,22 +354,22 @@ public class CardSearchPanel extends MTGUIComponent {
 		panelFilters.add(btnClear);
 		panelFilters.add(panelmana);
 
-		UITools.addTab(tabbedCardsInfo,detailCardPanel);
-		tabbedCardsInfo.addTab(capitalize("EDITION"), MTGConstants.ICON_BACK,editionDetailPanel, null);
-		UITools.addTab(tabbedCardsInfo,priceTablePanel);
-		UITools.addTab(tabbedCardsInfo,txtRulesArea);
-		UITools.addTab(tabbedCardsInfo,historyChartPanel);
-		UITools.addTab(tabbedCardsInfo,similarityPanel);
-		UITools.addTab(tabbedCardsInfo,deckPanel);
-		UITools.addTab(tabbedCardsInfo,stockPanel);
-		UITools.addTab(tabbedCardsInfo,abilitiesPanel);
-		UITools.addTab(tabbedCardsInfo, gedPanel);
-		UITools.addTab(tabbedCardsInfo, iaPanel);
+		addContextComponent(detailCardPanel);
+		getContextTabbedPane().addTab(capitalize("EDITION"), MTGConstants.ICON_BACK,editionDetailPanel, null);
+		addContextComponent(priceTablePanel);
+		addContextComponent(txtRulesArea);
+		addContextComponent(historyChartPanel);
+		addContextComponent(similarityPanel);
+		addContextComponent(deckPanel);
+		addContextComponent(stockPanel);
+		addContextComponent(abilitiesPanel);
+		addContextComponent(gedPanel);
+		addContextComponent(iaPanel);
 		
 		
 
 		if (MTGControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
-			UITools.addTab(tabbedCardsInfo, panelJson);
+			addContextComponent(panelJson);
 
 		panneauStat.add(cmcChart);
 		panneauStat.add(manaRepartitionPanel);
@@ -410,7 +410,7 @@ public class CardSearchPanel extends MTGUIComponent {
 					return;
 
 				MagicCard mc = UITools.getTableSelection(similarityPanel.getTableSimilarity(), 0);
-				cardsPicPanel.showCard(mc);
+				cardsPicPanel.init(mc);
 			}
 		});
 
@@ -590,8 +590,8 @@ public class CardSearchPanel extends MTGUIComponent {
 
 							@Override
 							protected void process(List<MagicCard> chunks) {
-								detailCardPanel.setMagicCard(chunks.get(0));
-								magicEditionDetailPanel.setMagicEdition(selectedEdition);
+								detailCardPanel.init(chunks.get(0));
+								magicEditionDetailPanel.init(selectedEdition);
 							}
 
 							@Override
@@ -612,7 +612,7 @@ public class CardSearchPanel extends MTGUIComponent {
 							protected void done() {
 								try {
 									selectedCard = get();
-									cardsPicPanel.showCard(selectedCard); // backcard
+									cardsPicPanel.init(selectedCard); // backcard
 									historyChartPanel.init(selectedCard, selectedEdition, selectedCard.getName());
 									priceTablePanel.init(selectedCard);
 								}catch(InterruptedException ex)
@@ -638,7 +638,7 @@ public class CardSearchPanel extends MTGUIComponent {
 								 ed.setMultiverseid(String.valueOf(selLang.getGathererId()));
 
 					logger.trace("change lang to {} for {}",selLang,ed);
-					cardsPicPanel.showCard(selectedCard);
+					cardsPicPanel.init(selectedCard);
 			} catch (Exception e1) {
 				logger.error(e1);
 			}
@@ -672,7 +672,7 @@ public class CardSearchPanel extends MTGUIComponent {
 				var lab = (DisplayableCard) thumbnailPanel.getComponentAt(new Point(e.getX(), e.getY()));
 				selectedCard = lab.getMagicCard();
 				selectedEdition = lab.getMagicCard().getCurrentSet();
-				cardsPicPanel.showCard(selectedCard);
+				cardsPicPanel.init(selectedCard);
 				updateCards();
 			}
 
@@ -716,15 +716,15 @@ public class CardSearchPanel extends MTGUIComponent {
 
 	public void updateCards() {
 		try {
-			cardsPicPanel.showCard(selectedCard);
-			detailCardPanel.setMagicCard(selectedCard, true);
-			magicEditionDetailPanel.setMagicEdition(selectedCard.getCurrentSet());
+			cardsPicPanel.init(selectedCard);
+			detailCardPanel.init(selectedCard, true);
+			magicEditionDetailPanel.init(selectedCard.getCurrentSet());
 			txtRulesArea.init(selectedCard);
 			priceTablePanel.init(selectedCard);
 			similarityPanel.init(selectedCard);
-			panelJson.show(selectedCard);
+			panelJson.init(selectedCard);
 			deckPanel.init(selectedCard);
-			stockPanel.initMagicCardStock(selectedCard, new MagicCollection(MTGControler.getInstance().get("default-library")));
+			stockPanel.init(selectedCard, new MagicCollection(MTGControler.getInstance().get("default-library")));
 			abilitiesPanel.init(selectedCard);
 			historyChartPanel.init(selectedCard, selectedEdition, selectedCard.getName());
 			gedPanel.init(MagicCard.class, selectedCard);

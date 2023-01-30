@@ -82,7 +82,7 @@ public class ContactsManagementPanel extends MTGUIComponent {
 				return;
 
 			contactPanel.setContact(t);
-			viewerPanel.show(t);
+			viewerPanel.init(t);
 
 		});
 

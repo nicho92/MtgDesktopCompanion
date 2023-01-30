@@ -167,7 +167,7 @@ public class CardStockPanel extends MTGUIComponent {
 
 	}
 
-	public void initMagicCardStock(MagicCard mc, MagicCollection col) {
+	public void init(MagicCard mc, MagicCollection col) {
 
 		if(mc==null)
 			return;

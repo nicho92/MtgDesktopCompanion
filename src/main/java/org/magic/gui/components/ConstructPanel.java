@@ -279,10 +279,12 @@ public class ConstructPanel extends MTGUIComponent {
 		tabbedDeckSide.addTab("Main", MTGConstants.ICON_TAB_DECK, new JScrollPane(tableDeck), null);
 		tabbedDeckSide.addTab("SideBoard", MTGConstants.ICON_TAB_DECK, new JScrollPane(tableSide), null);
 
+		
 		tabbedPane.addTab(capitalize("DECK"), MTGConstants.ICON_TAB_DECK,panneauDeck, null);
 		tabbedPane.addTab(capitalize("INFORMATIONS"),MTGConstants.ICON_TAB_DETAILS, panelInfoDeck, null);
 		tabbedPane.addTab(capitalize("STATS"),MTGConstants.ICON_TAB_ANALYSE, statPanel, null);
 		tabbedPane.addTab(capitalize("SAMPLE_HAND"),MTGConstants.ICON_TAB_THUMBNAIL, randomHandPanel, null);
+		
 		UITools.addTab(tabbedPane, stockPanel);
 
 
@@ -528,8 +530,8 @@ public class ConstructPanel extends MTGUIComponent {
 			if(!lsl.getValueIsAdjusting())
 			{
 				MagicCard mc = listResult.getSelectedValue();
-				magicCardDetailPanel.setMagicCard(mc);
-				stockDetailPanel.initMagicCardStock(mc,null);
+				magicCardDetailPanel.init(mc);
+				stockDetailPanel.init(mc,null);
 			}
 
 		});
@@ -728,9 +730,9 @@ public class ConstructPanel extends MTGUIComponent {
 			if (!event.getValueIsAdjusting()) {
 				try {
 					MagicCard mc = UITools.getTableSelection(table, 0);
-					magicCardDetailPanel.setMagicCard(mc);
+					magicCardDetailPanel.init(mc);
 					comboPanel.init(mc);
-					stockDetailPanel.initMagicCardStock(mc,null);
+					stockDetailPanel.init(mc,null);
 					rulesPanel.init(mc);
 					if(f==BOARD.MAIN)
 						cardDrawProbaPanel.init(deck, mc);

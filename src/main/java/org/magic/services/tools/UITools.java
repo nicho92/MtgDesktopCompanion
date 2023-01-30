@@ -561,7 +561,7 @@ public class UITools {
 							{
 								mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, ed, true).get(0);
 							}
-								pane.setMagicCard(mc);
+								pane.init(mc);
 
 								popUp.setBorder(new LineBorder(Color.black));
 								popUp.setVisible(false);

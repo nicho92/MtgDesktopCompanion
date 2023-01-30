@@ -507,7 +507,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 					}
 					panelPictures.revalidate();
 					panelPictures.repaint();
-					jsonPanel.show(magicCardEditorPanel.getMagicCard());
+					jsonPanel.init(magicCardEditorPanel.getMagicCard());
 
 				} catch (Exception ex) {
 					logger.error("error painting",ex);
@@ -523,7 +523,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 
 	protected void initCard(MagicCard mc) {
 		magicCardEditorPanel.setMagicCard(mc);
-		jsonPanel.show(mc);
+		jsonPanel.init(mc);
 		namesModel.init(mc);
 		try {
 			cardImage = picturesProvider.getPicture(mc);
@@ -534,7 +534,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 	}
 
 	protected void initEdition(MagicEdition ed) {
-		magicEditionDetailPanel.setMagicEdition(ed);
+		magicEditionDetailPanel.init(ed);
 
 		spinCommon.setValue(0);
 		spinUnco.setValue(0);

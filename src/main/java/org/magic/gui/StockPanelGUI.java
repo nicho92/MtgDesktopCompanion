@@ -487,10 +487,10 @@ public class StockPanelGUI extends MTGUIComponent {
 	private void updatePanels(MagicCardStock selectedStock) {
 
 		if(selectedStock!=null) {
-		magicCardDetailPanel.setMagicCard(selectedStock.getProduct());
+		magicCardDetailPanel.init(selectedStock.getProduct());
 		historyPricePanel.init(selectedStock.getProduct(), null, selectedStock.getProduct().getName());
 		pricePanel.init(selectedStock.getProduct(), selectedStock.isFoil());
-		jsonPanel.show(selectedStock);
+		jsonPanel.init(selectedStock);
 		deckPanel.init(selectedStock.getProduct());
 		gradePanel.setGrading(selectedStock.getGrade());
 		gedPanel.init(MagicCardStock.class, selectedStock);

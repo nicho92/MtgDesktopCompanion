@@ -106,7 +106,7 @@ public class TransactionsPanel extends MTGUIComponent {
 			stockDetailPanel.initItems(t.get(0).getItems());
 			contactPanel.setContact(t.get(0).getContact());
 			managementPanel.setTransaction(t.get(0));
-			viewerPanel.show(t.get(0));
+			viewerPanel.init(t.get(0));
 		});
 
 		btnRefresh.addActionListener(al->reload());

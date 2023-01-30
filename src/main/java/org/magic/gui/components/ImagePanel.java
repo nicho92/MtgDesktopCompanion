@@ -132,7 +132,7 @@ public class ImagePanel extends JXPanel {
 	}
 
 
-	public void showCard(MagicCard mc)
+	public void init(MagicCard mc)
 	{
 		if(mc == null)
 			return;

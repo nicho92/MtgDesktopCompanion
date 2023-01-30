@@ -51,7 +51,7 @@ public class GroupedShoppingPanel extends MTGUIComponent {
 		enableControle(true);
 	}
 
-	public void initListCards(List<MagicCard> d) {
+	public void init(List<MagicCard> d) {
 		this.cards = d;
 		lblitems.setText(capitalize("X_ITEMS_IMPORTED",cards.size()));
 

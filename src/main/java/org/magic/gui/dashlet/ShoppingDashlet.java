@@ -66,7 +66,7 @@ public class ShoppingDashlet extends AbstractJDashlet {
 
 				groupedShoppingPanel.enableControle(!model.isEmpty());
 
-				groupedShoppingPanel.initListCards(IntStream.range(0,model.size()).mapToObj(model::get).toList());
+				groupedShoppingPanel.init(IntStream.range(0,model.size()).mapToObj(model::get).toList());
 
 
 			} catch (Exception e) {

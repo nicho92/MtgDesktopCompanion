@@ -30,7 +30,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SortOrder;
-import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -186,9 +185,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 	public void initGUI() throws SQLException, ClassNotFoundException {
 
-		JTabbedPane tabbedPane;
 		JPanel panneauHaut;
-
 		JPanel panneauGauche;
 		JPanel panelTotal;
 		JPanel panneauDroite;
@@ -217,7 +214,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		panneauDroite = new JPanel();
 		render = new MagicCollectionTableCellRenderer();
 		panneauTreeTable = new JTabbedPane();
-		tabbedPane = new JTabbedPane(SwingConstants.TOP);
+		
 		progressBar = AbstractBuzyIndicatorComponent.createProgressComponent();
 		lblTotal = new JLabel();
 		magicEditionDetailPanel = new MagicEditionDetailPanel(false);
@@ -281,29 +278,30 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		UITools.addTab(panneauTreeTable, tokensPanel);
 
 
-		splitPane.setRightComponent(tabbedPane);
+		splitPane.setRightComponent(getContextTabbedPane());
 		splitListPanel.setLeftComponent(panneauGauche);
 		panneauGauche.add(new JScrollPane(tableEditions));
 		panneauGauche.add(panelTotal, BorderLayout.SOUTH);
 		panelTotal.add(lblTotal);
 
 
-
-		tabbedPane.addTab(capitalize("DETAILS"), MTGConstants.ICON_TAB_DETAILS,magicCardDetailPanel, null);
-		tabbedPane.addTab(capitalize("CARD_EDITIONS"),  MTGConstants.ICON_BACK,magicEditionDetailPanel, null);
-		tabbedPane.addTab(capitalize("PACKAGES"),MTGConstants.ICON_PACKAGE_SMALL,packagePanel,null);
-		tabbedPane.addTab(capitalize("PRICES"), MTGConstants.ICON_TAB_PRICES, pricePanel,null);
-		tabbedPane.addTab(capitalize("GROUPED_BUY"), MTGConstants.ICON_TAB_SHOP, groupShopPanel,null);
-		tabbedPane.addTab(capitalize("CARD_TYPES"), MTGConstants.ICON_TAB_TYPE,typeRepartitionPanel, null);
-		tabbedPane.addTab(capitalize("CARD_MANA"), MTGConstants.ICON_TAB_MANA,manaRepartitionPanel, null);
-		tabbedPane.addTab(capitalize("CARD_RARITY"), MTGConstants.ICON_TAB_RARITY,rarityRepartitionPanel, null);
-		tabbedPane.addTab(capitalize("STOCK_MODULE"), stockPanel.getIcon(), stockPanel,null);
-		tabbedPane.addTab(capitalize("PRICE_VARIATIONS"), historyPricesPanel.getIcon(),historyPricesPanel, null);
-		tabbedPane.addTab(capitalize("DECK_MODULE"), MTGConstants.ICON_TAB_DECK,deckPanel, null);
-		tabbedPane.addTab(capitalize("GED"), MTGConstants.ICON_TAB_GED,gedPanel, null);
-
+		
+		
+		addContextComponent(magicCardDetailPanel);
+		addContextComponent(magicEditionDetailPanel);
+		addContextComponent(packagePanel);
+		addContextComponent(pricePanel);
+		addContextComponent(groupShopPanel);
+		addContextComponent(typeRepartitionPanel);
+		addContextComponent(manaRepartitionPanel);
+		addContextComponent(rarityRepartitionPanel);
+		addContextComponent(stockPanel);
+		addContextComponent(historyPricesPanel);
+		addContextComponent(deckPanel);
+		addContextComponent(gedPanel);
+		
 		if (MTGControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
-			tabbedPane.addTab("Object", MTGConstants.ICON_TAB_JSON, jsonPanel, null);
+			addContextComponent(jsonPanel);
 
 		///////// Labels
 		btnAdd.setToolTipText(MTGControler.getInstance().getLangService().get("COLLECTION_ADD"));
@@ -323,18 +321,18 @@ public class CollectionPanelGUI extends MTGUIComponent {
 	@SuppressWarnings("unchecked")
 	public void initCardSelectionGui(MagicCard mc, MagicCollection col)
 	{
-		magicCardDetailPanel.setMagicCard(mc);
-		magicEditionDetailPanel.setMagicEdition(mc.getCurrentSet());
+		magicCardDetailPanel.init(mc);
+		magicEditionDetailPanel.init(mc.getCurrentSet());
 		deckPanel.init(mc);
 		pricePanel.init(mc);
 		btnExport.setEnabled(false);
-		packagePanel.setMagicEdition(mc.getCurrentSet());
-		jsonPanel.show(mc);
+		packagePanel.init(mc.getCurrentSet());
+		jsonPanel.init(mc);
 		gedPanel.init(MagicCard.class,mc);
 
 
 		try {
-			stockPanel.initMagicCardStock(mc,col);
+			stockPanel.init(mc,col);
 			stockPanel.enabledAdd(true);
 		}
 		catch(NullPointerException e)
@@ -461,8 +459,8 @@ public class CollectionPanelGUI extends MTGUIComponent {
 							rarityRepartitionPanel.init(list);
 							typeRepartitionPanel.init(list);
 							manaRepartitionPanel.init(list);
-							groupShopPanel.initListCards(list);
-							jsonPanel.show(curr.getUserObject());
+							groupShopPanel.init(list);
+							jsonPanel.init(curr.getUserObject());
 
 						} catch (Exception e) {
 							logger.error("error",e);
@@ -478,8 +476,8 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			if (curr.getUserObject() instanceof MagicEdition ed) {
 
 		
-				magicEditionDetailPanel.setMagicEdition(ed);
-				packagePanel.setMagicEdition(ed);
+				magicEditionDetailPanel.init(ed);
+				packagePanel.init(ed);
 				stockPanel.enabledAdd(false);
 				gedPanel.init(MagicEdition.class,ed);
 
@@ -494,9 +492,9 @@ public class CollectionPanelGUI extends MTGUIComponent {
 							rarityRepartitionPanel.init(list);
 							typeRepartitionPanel.init(list);
 							manaRepartitionPanel.init(list);
-							groupShopPanel.initListCards(list);
+							groupShopPanel.init(list);
 							historyPricesPanel.init(null, ed,curr.getUserObject().toString());
-							jsonPanel.show(curr.getUserObject());
+							jsonPanel.init(curr.getUserObject());
 
 						} catch (Exception e) {
 							logger.error("error refresh {} : {}",curr.getUserObject(),e.getLocalizedMessage());
@@ -680,10 +678,10 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		    	  try {
 		    		 int row = tableEditions.getSelectedRow();
 					MagicEdition ed = (MagicEdition) tableEditions.getValueAt(row, 1);
-					magicEditionDetailPanel.setMagicEdition(ed);
-					packagePanel.setMagicEdition(ed);
+					magicEditionDetailPanel.init(ed);
+					packagePanel.init(ed);
 					historyPricesPanel.init(null, ed, ed.getSet());
-					jsonPanel.show(ed);
+					jsonPanel.init(ed);
 					btnRemove.setEnabled(false);
 					btnAddAllSet.setEnabled(true);
 					btnExport.setEnabled(false);

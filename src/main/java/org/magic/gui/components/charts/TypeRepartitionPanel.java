@@ -2,10 +2,13 @@ package org.magic.gui.components.charts;
 
 import java.util.Map.Entry;
 
+import javax.swing.ImageIcon;
+
 import org.jfree.chart3d.data.PieDataset3D;
 import org.jfree.chart3d.data.StandardPieDataset3D;
 import org.magic.api.beans.MagicCard;
 import org.magic.gui.abstracts.charts.Abstract3DPieChart;
+import org.magic.services.MTGConstants;
 
 public class TypeRepartitionPanel extends Abstract3DPieChart<MagicCard,String> {
 
@@ -31,4 +34,10 @@ public class TypeRepartitionPanel extends Abstract3DPieChart<MagicCard,String> {
 		return "Type";
 	}
 
+	
+	@Override
+	public ImageIcon getIcon() {
+		 return MTGConstants.ICON_TAB_TYPE;
+	}
+	
 }

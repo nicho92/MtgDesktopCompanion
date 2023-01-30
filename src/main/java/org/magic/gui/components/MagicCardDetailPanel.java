@@ -32,7 +32,6 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 import javax.swing.border.LineBorder;
 
-import org.apache.logging.log4j.Logger;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.BeanProperty;
@@ -53,7 +52,6 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.logging.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.UITools;
@@ -318,11 +316,11 @@ public class MagicCardDetailPanel extends MTGUIComponent implements Observer {
 		return magicCard;
 	}
 
-	public void setMagicCard(MagicCard newMagicCard) {
-		setMagicCard(newMagicCard, true);
+	public void init(MagicCard newMagicCard) {
+		init(newMagicCard, true);
 	}
 
-	public void setMagicCard(MagicCard newMagicCard, boolean update) {
+	public void init(MagicCard newMagicCard, boolean update) {
 		magicCard = newMagicCard;
 
 		btnStock.setEnabled(magicCard!=null);
@@ -637,7 +635,7 @@ public class MagicCardDetailPanel extends MTGUIComponent implements Observer {
 	
 	@Override
 	public void update(Observable o, Object ob) {
-		setMagicCard((MagicCard) ob);
+		init((MagicCard) ob);
 	}
 
 	public void enableCollectionLookup(boolean b) {

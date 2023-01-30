@@ -46,12 +46,12 @@ public class ObjectViewerPanel extends MTGUIComponent {
 		panel.add(rdoMemory);
 		panel.add(rdoBeanUtils);
 
-		rdoJson.addItemListener(il->show(currentObject));
-		rdoMemory.addItemListener(il->show(currentObject));
-		rdoBeanUtils.addItemListener(il->show(currentObject));
+		rdoJson.addItemListener(il->init(currentObject));
+		rdoMemory.addItemListener(il->init(currentObject));
+		rdoBeanUtils.addItemListener(il->init(currentObject));
 	}
 
-	public void show(Object mc) {
+	public void init(Object mc) {
 		currentObject = mc;
 
 		if(currentObject==null)
