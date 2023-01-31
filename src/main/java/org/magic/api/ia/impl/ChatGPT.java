@@ -7,7 +7,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.apache.http.HttpResponse;
 import org.apache.http.entity.StringEntity;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractIA;
@@ -16,6 +15,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 public class ChatGPT extends AbstractIA {
@@ -23,23 +23,26 @@ public class ChatGPT extends AbstractIA {
 	
 	private MTGHttpClient client;
 	
+	private  final  String TOKEN = "TOKEN";
 	
-	private HttpResponse query( JsonObject obj) throws IOException
+	private JsonElement query( JsonObject obj) throws IOException
 	{
 		
 		if(client==null)
 			client = URLTools.newClient();
 		
 		
-		if(getAuthenticator().get("TOKEN")==null)
+		
+		if(getAuthenticator().get(TOKEN)==null)
 			throw new IOException("Please fill TOKEN value in Account configuration");
 		
 		
 		var headers = new HashMap<String, String>();
-		headers.put("Authorization", "Bearer " + getAuthenticator().get("TOKEN"));
+		headers.put("Authorization", "Bearer " + getAuthenticator().get(TOKEN));
 		headers.put(URLTools.CONTENT_TYPE, URLTools.HEADER_JSON);
+		var resp =  client.doPost("https://api.openai.com/v1/completions", new StringEntity(obj.toString(), MTGConstants.DEFAULT_ENCODING), headers);
+		return URLTools.toJson(resp.getEntity().getContent());
 		
-		return client.doPost("https://api.openai.com/v1/completions", new StringEntity(obj.toString(), MTGConstants.DEFAULT_ENCODING), headers);
 	}
 	
 	
@@ -48,7 +51,7 @@ public class ChatGPT extends AbstractIA {
 	public String suggestDeckWith(List<MagicCard> cards) throws IOException {
 			
 		if(cards.isEmpty())
-			throw new IOException("You should add some cards before calling IA");
+			throw new IOException("You should add some cards before asking n IA");
 		
 		return ask("Build a magic the gathering deck with this cards : " + cards.stream().map(MagicCard::getName).collect(Collectors.joining("/")));
 	}
@@ -73,8 +76,8 @@ public class ChatGPT extends AbstractIA {
 					obj.addProperty("temperature", getInt("TEMPERATURE"));
 					obj.addProperty("max_tokens", getInt("MAX_TOKEN"));
 
-		var resp = query(obj);
-		var json = URLTools.toJson(resp.getEntity().getContent());
+		var json = query(obj);
+		
 		logger.debug("{} answer : {} ",getName(), json);
 		
 		try {
@@ -93,7 +96,7 @@ public class ChatGPT extends AbstractIA {
 	
 	@Override
 	public List<String> listAuthenticationAttributes() {
-		return List.of("TOKEN");
+		return List.of(TOKEN);
 	}
 	
 	@Override

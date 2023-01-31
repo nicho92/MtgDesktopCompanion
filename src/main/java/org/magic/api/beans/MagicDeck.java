@@ -32,7 +32,7 @@ public class MagicDeck implements MTGStorable {
 	private List<String> tags;
 	private MagicCard commander;
 
-	public enum BOARD {MAIN, SIDE}
+	public enum BOARD {MAIN, SIDE, MAYBE}
 
 	public MagicDeck()
 	{

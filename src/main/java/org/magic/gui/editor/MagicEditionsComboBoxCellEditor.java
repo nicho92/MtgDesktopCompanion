@@ -1,6 +1,7 @@
 package org.magic.gui.editor;
 
 import java.awt.Component;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.DefaultCellEditor;
@@ -28,6 +29,8 @@ public class MagicEditionsComboBoxCellEditor extends DefaultCellEditor {
 		model.removeAllElements();
 		List<MagicEdition> selectedItem = (List<MagicEdition>) table.getValueAt(row, column);
 
+		Collections.sort(selectedItem);
+		
 		for (MagicEdition e : selectedItem)
 			model.addElement(e);
 

@@ -1,6 +1,7 @@
 package org.magic.gui.components;
 
 import java.awt.BorderLayout;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -15,21 +16,22 @@ import org.magic.api.interfaces.MTGIA;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.MTG;
 
 public class IASuggestionPanel extends MTGUIComponent {
 
+	private static final long serialVersionUID = 1L;
 	private AbstractBuzyIndicatorComponent buzy;
 	private JTextPane textPane;
-	private List<MagicCard> cards;
+	private List<MagicCard> cards = new ArrayList<>();
 	
 	
 	public IASuggestionPanel() {
 		
 		JPanel panneauHaut = new JPanel();
 		 textPane = new JTextPane();
+		 textPane.setEditable(false);
 		JPanel panneauBas = new JPanel();
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 		
@@ -83,15 +85,16 @@ public class IASuggestionPanel extends MTGUIComponent {
 					} catch (InterruptedException e) {
 						Thread.currentThread().interrupt();
 					} catch (ExecutionException e) {
-						MTGControler.getInstance().notify(e);
+						logger.error(e);
 					}
 					buzy.end();
 				}
 				
 				
 			};
-			
-		ThreadManager.getInstance().runInEdt(sw, "asking ia");
+		
+		if(!cards.isEmpty())	
+			ThreadManager.getInstance().runInEdt(sw, "asking ia");
 	}
 	
 

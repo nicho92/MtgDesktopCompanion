@@ -8,6 +8,7 @@ import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MagicDeck.BOARD;
 import org.magic.api.beans.MagicEdition;
 import org.magic.services.CardsManagerService;
 
@@ -27,11 +28,7 @@ public class DeckCardsTableModel extends DefaultTableModel {
 
 	private MagicDeck deck;
 
-	public enum TYPE {
-		DECK, SIDE
-	}
-
-	private TYPE t;
+	private BOARD t;
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
@@ -48,7 +45,7 @@ public class DeckCardsTableModel extends DefaultTableModel {
 		return super.getColumnClass(columnIndex);
 	}
 
-	public DeckCardsTableModel(TYPE t) {
+	public DeckCardsTableModel(BOARD t) {
 		this.t = t;
 		deck = new MagicDeck();
 	}
@@ -75,11 +72,14 @@ public class DeckCardsTableModel extends DefaultTableModel {
 	public Object getValueAt(int row, int column) {
 		MagicCard mc;
 		switch (t) {
-		case DECK:
+		case MAIN:
 			mc = deck.getValueAt(row);
 			break;
 		case SIDE:
 			mc = deck.getSideValueAt(row);
+			break;
+		case MAYBE:
+			mc = deck.getMaybeValueAt(row);
 			break;
 		default:
 			mc = deck.getValueAt(row);
@@ -100,10 +100,13 @@ public class DeckCardsTableModel extends DefaultTableModel {
 
 		if (column == 4) {
 			switch (t) {
-			case DECK:
+			case MAIN:
 				return deck.getMain().get(mc);
 			case SIDE:
 				return deck.getSideBoard().get(mc);
+			case MAYBE:
+				return deck.getMaybeBoard().get(mc);
+
 			default:
 				return null;
 			}
@@ -122,10 +125,13 @@ public class DeckCardsTableModel extends DefaultTableModel {
 			return 0;
 
 		switch (t) {
-		case DECK:
+		case MAIN:
 			return deck.getMain().size();
 		case SIDE:
 			return deck.getSideBoard().size();
+		case MAYBE:
+			return deck.getMaybeBoard().size();
+
 		default:
 			return deck.getMain().size();
 		}
@@ -144,19 +150,31 @@ public class DeckCardsTableModel extends DefaultTableModel {
 
 	@Override
 	public void setValueAt(Object aValue, int row, int column) {
-
-		MagicCard mc = (this.t == TYPE.DECK) ? deck.getValueAt(row) : deck.getSideValueAt(row);
+		
+		MagicCard mc = null;
+		int qty = 0;
+		
+		switch (t)
+		{
+			case MAIN : mc = deck.getValueAt(row); qty = deck.getMain().get(mc); break;
+			case MAYBE: mc = deck.getMaybeValueAt(row);qty = deck.getMaybeBoard().get(mc) ; break;
+			case SIDE: mc = deck.getSideValueAt(row); qty=deck.getSideBoard().get(mc);break;
+			default:  mc=deck.getValueAt(row); qty=0;break;
+		}
 
 		if (column == 3) {
 			MagicEdition ed = (MagicEdition) aValue;
 
 			if(!ed.equals(mc.getCurrentSet()))
 			{
-				int qty = (this.t == TYPE.DECK) ? deck.getMain().get(mc) : deck.getSideBoard().get(mc);
-				MagicCard newC = CardsManagerService.switchEditions(mc, ed);
-				if (t == TYPE.DECK) {
+				var newC = CardsManagerService.switchEditions(mc, ed);
+				if (t == BOARD.MAIN) 
+				{
 					deck.getMain().remove(mc);
 					deck.getMain().put(newC, qty);
+				} else if (t == BOARD.MAYBE) {
+					deck.getMaybeBoard().remove(mc);
+					deck.getMaybeBoard().put(newC, qty);
 				}
 				else
 				{
@@ -169,13 +187,13 @@ public class DeckCardsTableModel extends DefaultTableModel {
 		if (column == 4)
 		{
 			if (Integer.valueOf(aValue.toString()) == 0) {
-				if (t == TYPE.DECK) {
+				if (t == BOARD.MAIN) {
 					deck.getMain().remove(deck.getValueAt(row));
 				} else {
 					deck.getSideBoard().remove(deck.getSideValueAt(row));
 				}
 			} else {
-				if (t == TYPE.DECK) {
+				if (t == BOARD.MAIN) {
 					deck.getMain().put(deck.getValueAt(row), Integer.valueOf(aValue.toString()));
 				} else {
 					deck.getSideBoard().put(deck.getSideValueAt(row), Integer.valueOf(aValue.toString()));
