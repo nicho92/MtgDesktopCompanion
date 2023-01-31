@@ -139,7 +139,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 			 logger.debug("found {} items for {}",top.totalHits,q);
 
 			 for(var i =0;i<top.totalHits.value;i++)
-				 ret.add(serializer.fromJson(searcher.doc(top.scoreDocs[i].doc).get("data"),MagicCard.class));
+				 ret.add(serializer.fromJson(searcher.storedFields().document(top.scoreDocs[i].doc).get("data"),MagicCard.class));
 
 
 		} catch (Exception e) {
@@ -217,7 +217,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 			 var likes = searcher.search(like,getInt(MAX_RESULTS));
 
 			 for(ScoreDoc l : likes.scoreDocs)
-				 ret.put(serializer.fromJson(searcher.doc(l.doc).get("data"),MagicCard.class),l.score);
+				 ret.put(serializer.fromJson(searcher.storedFields().document(l.doc).get("data"),MagicCard.class),l.score);
 
 			 logger.debug("found {} results",likes.scoreDocs.length);
 			 close();
