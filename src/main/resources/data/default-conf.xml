@@ -849,6 +849,16 @@
       <enable>false</enable>
     </extshop>
   </externalsShops>
+  <artificialIntelligences>
+    <ia>
+      <class>org.magic.api.ia.impl.ChatGPT</class>
+      <enable>true</enable>
+    </ia>
+        <ia>
+      <class>org.magic.api.ia.impl.WriteSonic</class>
+      <enable>false</enable>
+    </ia>
+  </artificialIntelligences>
   <combos>
     <combo>
       <class>org.magic.api.combo.impl.MagicVilleComboProvider</class>
@@ -980,10 +990,5 @@ shippingCost;</shippingRules>
       <deliveryDay>2</deliveryDay>
     </delivery>
   </shopSite>
-  <artificialIntelligences>
-    <ia>
-      <class>org.magic.api.ia.impl.ChatGPT</class>
-      <enable>false</enable>
-    </ia>
-  </artificialIntelligences>
+  
 </conf>
