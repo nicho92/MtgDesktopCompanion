@@ -23,7 +23,7 @@ public class ChatGPT extends AbstractIA {
 	
 	private MTGHttpClient client;
 	
-	private  final  String TOKEN = "TOKEN";
+	private static String TOKEN = "TOKEN";
 	
 	private JsonElement query( JsonObject obj) throws IOException
 	{
@@ -40,7 +40,7 @@ public class ChatGPT extends AbstractIA {
 		var headers = new HashMap<String, String>();
 		headers.put("Authorization", "Bearer " + getAuthenticator().get(TOKEN));
 		headers.put(URLTools.CONTENT_TYPE, URLTools.HEADER_JSON);
-		var resp =  client.doPost("https://api.openai.com/v1/completions", new StringEntity(obj.toString(), MTGConstants.DEFAULT_ENCODING), headers);
+		var resp =  client.doPost("https://api.openai.com/"+getVersion()+"/completions", new StringEntity(obj.toString(), MTGConstants.DEFAULT_ENCODING), headers);
 		return URLTools.toJson(resp.getEntity().getContent());
 		
 	}
@@ -93,6 +93,12 @@ public class ChatGPT extends AbstractIA {
 	public String getName() {
 		return "ChatGPT";
 	}
+	
+	@Override
+	public String getVersion() {
+		return "v1";
+	}
+	
 	
 	@Override
 	public List<String> listAuthenticationAttributes() {

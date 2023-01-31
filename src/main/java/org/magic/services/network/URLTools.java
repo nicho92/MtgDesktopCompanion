@@ -213,5 +213,10 @@ public class URLTools {
 
 	}
 
+	public static String toString(InputStream content) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }
