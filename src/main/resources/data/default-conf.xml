@@ -511,10 +511,6 @@
       <enable>true</enable>
     </picture>
     <picture>
-      <class>org.magic.api.pictures.impl.MagidexPicturesProvider</class>
-      <enable>false</enable>
-    </picture>
-    <picture>
       <class>org.magic.api.pictures.impl.MythicSpoilerPicturesProvider</class>
       <enable>false</enable>
     </picture>

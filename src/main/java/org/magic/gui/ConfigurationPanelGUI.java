@@ -137,9 +137,10 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 		createTab(capitalize("IA"), MTGConstants.ICON_TAB_IA, PluginRegistry.inst().getEntry(MTGIA.class));
 
 
-
 		tabbedPane.addTab(capitalize("CONFIGURATION"), MTGConstants.ICON_TAB_ADMIN,new JScrollPane(new ConfigurationPanel()), null);
 		tabbedPane.addTab(capitalize("ACTIVE_SERVERS"), MTGConstants.ICON_TAB_ACTIVESERVER, new ServersGUI(),null);
+		
+		
 
 	}
 
@@ -156,6 +157,7 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 		table.setDefaultRenderer(Boolean.class, new BooleanCellEditorRenderer());
 
 		subTabbedProviders.addTab(label, ic,new JScrollPane(table), null);
+		
 		table.addTreeSelectionListener(e -> {
 
 			if (e.getNewLeadSelectionPath() != null && e.getNewLeadSelectionPath().getPathCount() > 1)

@@ -309,7 +309,7 @@ public class ConstructPanel extends MTGUIComponent {
 		panneauDeck.setLeftComponent(tabbedDeckSide);
 		tabbedDeckSide.addTab("Main", MTGConstants.ICON_TAB_DECK, new JScrollPane(tableDeck), null);
 		tabbedDeckSide.addTab("SideBoard", MTGConstants.ICON_TAB_DECK, new JScrollPane(tableSide), null);
-//TODO udpate DAO		tabbedDeckSide.addTab("MaybeBoard", MTGConstants.ICON_TAB_DECK, new JScrollPane(tableMaybe), null);
+		//TODO udpate DAO		tabbedDeckSide.addTab("MaybeBoard", MTGConstants.ICON_TAB_DECK, new JScrollPane(tableMaybe), null);
 		
 		tabbedPaneHaut.addTab(capitalize("DECK"), MTGConstants.ICON_TAB_DECK,panneauDeck, null);
 		tabbedPaneHaut.addTab(capitalize("INFORMATIONS"),MTGConstants.ICON_TAB_DETAILS, panelInfoDeck, null);
@@ -561,6 +561,10 @@ public class ConstructPanel extends MTGUIComponent {
 
 
 	btnDrawAHand.addActionListener(ae -> {
+		
+			if(deck==null || deck.isEmpty())
+				return;
+		
 			thumbnail.removeAll();
 			p.setDeck(deck);
 			p.mixHandAndLibrary();

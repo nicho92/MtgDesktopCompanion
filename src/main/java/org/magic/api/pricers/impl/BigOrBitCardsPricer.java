@@ -31,6 +31,7 @@ public class BigOrBitCardsPricer extends AbstractPricesProvider {
 		 return EnumMarketType.EU_MARKET;
 	}
 
+
 	@Override
 	protected List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 
@@ -61,9 +62,8 @@ public class BigOrBitCardsPricer extends AbstractPricesProvider {
 			var title = e.select("h2.product-title a");
 			var rowDetail  = e.select("span.product-row").first();
 
-			if(!(rowDetail.select("span.product-stock").text().equals("0 in Stock")) /*&& e.select("p").text().toLowerCase().indexOf(card.getCurrentSet().getSet().toLowerCase())>-1*/)
+			if( title.text().equalsIgnoreCase(card.getName()) &&  !rowDetail.select("span.product-stock").text().equals("0 in Stock") && e.select("p").text().toLowerCase().indexOf(card.getCurrentSet().getSet().toLowerCase())>-1)
 			{
-			
 			  var mp = new MagicPrice();
 					mp.setSeller(getName());
 					mp.setSite(getName());
