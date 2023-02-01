@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import org.apache.http.entity.StringEntity;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractIA;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -45,7 +46,7 @@ public class WriteSonic extends AbstractIA {
 			client = URLTools.newClient();
 		
 		var headers = new HashMap<String, String>();
-		headers.put("accept", URLTools.HEADER_JSON);
+		headers.put(URLTools.ACCEPT, URLTools.HEADER_JSON);
 		headers.put(URLTools.CONTENT_TYPE, URLTools.HEADER_JSON);
 		headers.put("X-API-KEY", getAuthenticator().get("X-API-KEY"));
 
@@ -70,15 +71,24 @@ public class WriteSonic extends AbstractIA {
 		if(cards.isEmpty())
 			throw new IOException("You should add some cards before asking n IA");
 		
-		return ask("Build a magic the gathering deck with this cards : " + cards.stream().map(MagicCard::getName).collect(Collectors.joining("/")));
+		return ask(DECK_QUERY + cards.stream().map(MagicCard::getName).collect(Collectors.joining("/")));
 	}
 
+	
+	@Override
+	public String describe(MagicEdition ed) throws IOException {
+		if(ed ==null)
+			throw new IOException("You should select a card before calling IA");
+		
+		return  ask( SET_QUERY+" \"" + ed.getSet() +"\" in "+MTGControler.getInstance().getLocale().getDisplayLanguage(Locale.US));
+	}
+	
 	@Override
 	public String describe(MagicCard card) throws IOException {
 		if(card ==null)
 			throw new IOException("You should select a card before calling IA");
 		
-		return  ask("tell me more about MTG card \"" + card.getName() +"\" in "+MTGControler.getInstance().getLocale().getDisplayLanguage(Locale.US));
+		return  ask( CARD_QUERY+" \"" + card.getName() +"\" in "+MTGControler.getInstance().getLocale().getDisplayLanguage(Locale.US));
 	}
 
 	@Override
