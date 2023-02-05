@@ -189,7 +189,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	public boolean createDB() {
 		try (var cont =  pool.getConnection();Statement stat = cont.createStatement()) {
-
+			
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" favorites (id_contact INTEGER, id_announce INTEGER, classeName VARCHAR(30) )");
 			logger.debug("Create table favorites");
 

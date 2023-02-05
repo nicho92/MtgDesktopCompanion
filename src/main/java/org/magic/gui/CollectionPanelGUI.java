@@ -719,10 +719,10 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 
 		btnRemove.addActionListener(evt -> {
-
 			MagicCollection col = (MagicCollection) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();
 			var res = 0;
 
+			
 			DefaultMutableTreeNode curr = (DefaultMutableTreeNode) path.getLastPathComponent();
 			if (curr.getUserObject() instanceof MagicCard) {
 				MagicCard card = (MagicCard) ((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject();

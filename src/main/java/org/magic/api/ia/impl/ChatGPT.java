@@ -26,8 +26,6 @@ public class ChatGPT extends AbstractIA {
 		if(client==null)
 			client = URLTools.newClient();
 		
-		
-		
 		if(getAuthenticator().get(TOKEN)==null)
 			throw new IOException("Please fill TOKEN value in Account configuration");
 		
