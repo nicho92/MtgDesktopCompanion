@@ -62,7 +62,7 @@ public class DeckSelectionTableModel extends GenericTableModel<MagicDeck> {
 			return MTGDeckManager.isArenaDeck(items.get(row));
 		case 7:
 			return items.get(row).getMainAsList().size();
-		case 8:
+		case 8: 
 			return items.get(row).getDateCreation();
 
 		default:
