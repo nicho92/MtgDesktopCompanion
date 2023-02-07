@@ -80,13 +80,13 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	public SVGIcon getSvgFileFor(String idSet)
 	{
 		var ic = new SVGIcon();
-		ic.setSvgURI(URI.create("https://c2.scryfall.com/file/scryfall-symbols/sets/"+idSet.toLowerCase()+".svg"));
-		ic.setAntiAlias(true);
-		ic.setAutosize(1);
+			ic.setSvgURI(URI.create("https://c2.scryfall.com/file/scryfall-symbols/sets/"+idSet.toLowerCase()+".svg"));
+			ic.setAntiAlias(true);
+			ic.setAutosize(1);
 		return ic;
 	}
 
-	public void downloadBulkFile(File f) throws IOException
+	public void downloadBulkFileTo(File f) throws IOException
 	{
 		URLTools.download(BULK_FILE_URL, f);
 	}
@@ -272,16 +272,10 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		return b;
 	}
 
-
-
 	@Override
 	public List<MagicCard> searchByCriteria(MTGCrit<?>[] crits) throws IOException {
 		throw new IOException("Not Yet Implemented");
 	}
-
-
-
-
 
 	@Override
 	public String getVersion() {
