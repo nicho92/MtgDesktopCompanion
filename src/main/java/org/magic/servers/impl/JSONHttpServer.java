@@ -374,9 +374,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		get("/services/auth",(request, response) -> jwtService.validateToken(readToken(request)),transformer);
 
-
-
-
 		get("/cards/token/:scryfallId", URLTools.HEADER_JSON,(request, response) -> {
 
 			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));

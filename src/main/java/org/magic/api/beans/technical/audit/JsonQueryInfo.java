@@ -3,6 +3,8 @@ package org.magic.api.beans.technical.audit;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.magic.api.interfaces.abstracts.extra.AbstractAuditableItem;
+
 import nl.basjes.parse.useragent.UserAgent;
 
 public class JsonQueryInfo extends AbstractAuditableItem {

@@ -20,7 +20,7 @@ public class ChatGPT extends AbstractIA {
 	private MTGHttpClient client;
 	private static String TOKEN = "TOKEN";
 	
-	protected JsonElement query( JsonObject obj) throws IOException
+	private JsonElement query( JsonObject obj) throws IOException
 	{
 		
 		if(client==null)

@@ -13,7 +13,6 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.Logger;
-import org.magic.api.beans.technical.audit.AbstractAuditableItem;
 import org.magic.api.beans.technical.audit.DAOInfo;
 import org.magic.api.beans.technical.audit.DiscordInfo;
 import org.magic.api.beans.technical.audit.FileAccessInfo;
@@ -21,6 +20,7 @@ import org.magic.api.beans.technical.audit.JsonQueryInfo;
 import org.magic.api.beans.technical.audit.NetworkInfo;
 import org.magic.api.beans.technical.audit.TaskInfo;
 import org.magic.api.exports.impl.JsonExport;
+import org.magic.api.interfaces.abstracts.extra.AbstractAuditableItem;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.providers.IPTranslator;
 import org.magic.services.threads.MTGRunnable;

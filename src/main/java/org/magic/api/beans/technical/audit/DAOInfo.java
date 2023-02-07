@@ -1,5 +1,7 @@
 package org.magic.api.beans.technical.audit;
 
+import org.magic.api.interfaces.abstracts.extra.AbstractAuditableItem;
+
 public class DAOInfo extends AbstractAuditableItem{
 
 	private static final long serialVersionUID = 1L;

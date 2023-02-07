@@ -47,15 +47,15 @@ public class WriteSonic extends AbstractIA {
 			client = URLTools.newClient();
 		
 		var headers = new HashMap<String, String>();
-		headers.put(URLTools.ACCEPT, URLTools.HEADER_JSON);
-		headers.put(URLTools.CONTENT_TYPE, URLTools.HEADER_JSON);
-		headers.put("X-API-KEY", getAuthenticator().get("X-API-KEY"));
+				headers.put(URLTools.ACCEPT, URLTools.HEADER_JSON);
+				headers.put(URLTools.CONTENT_TYPE, URLTools.HEADER_JSON);
+				headers.put("X-API-KEY", getAuthenticator().get("X-API-KEY"));
 
 		
-		JsonObject obj = new JsonObject();
-						 obj.addProperty("enable_google_results", getBoolean("GOOGLE_RESULTS"));
-						 obj.addProperty("enable_memory", getBoolean("ENABLE_MEMORY"));
-						 obj.addProperty("input_text", prompt);
+		var obj = new JsonObject();
+				 obj.addProperty("enable_google_results", getBoolean("GOOGLE_RESULTS"));
+				 obj.addProperty("enable_memory", getBoolean("ENABLE_MEMORY"));
+				 obj.addProperty("input_text", prompt);
 		
 		var resp = client.doPost("https://api.writesonic.com/v2/business/content/chatsonic?engine=premium", new StringEntity(obj.toString(), MTGConstants.DEFAULT_ENCODING), headers);
 		return URLTools.toJson(resp.getEntity().getContent()).getAsJsonObject();

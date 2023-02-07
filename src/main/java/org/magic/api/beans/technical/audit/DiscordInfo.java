@@ -1,5 +1,7 @@
 package org.magic.api.beans.technical.audit;
 
+import org.magic.api.interfaces.abstracts.extra.AbstractAuditableItem;
+
 import com.google.gson.JsonObject;
 
 import net.dv8tion.jda.api.entities.Guild;

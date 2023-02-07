@@ -2,6 +2,8 @@ package org.magic.api.beans.technical.audit;
 
 import java.time.Instant;
 
+import org.magic.api.interfaces.abstracts.extra.AbstractAuditableItem;
+
 public class TaskInfo extends AbstractAuditableItem {
 
 	public enum STATE {NEW,STARTED,CANCELED,FINISHED}

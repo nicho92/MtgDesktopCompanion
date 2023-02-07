@@ -9,6 +9,7 @@ import org.apache.http.StatusLine;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.BasicHttpEntity;
 import org.apache.http.message.BasicHttpResponse;
+import org.magic.api.interfaces.abstracts.extra.AbstractAuditableItem;
 
 import com.google.gson.JsonObject;
 

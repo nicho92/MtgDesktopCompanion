@@ -2,6 +2,8 @@ package org.magic.api.beans.technical.audit;
 
 import java.io.File;
 
+import org.magic.api.interfaces.abstracts.extra.AbstractAuditableItem;
+
 public class FileAccessInfo extends AbstractAuditableItem{
 	private static final long serialVersionUID = 1L;
 	public enum ACCESSTYPE {READ,WRITE,DELETE, CREATE}
