@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import javax.swing.Icon;
-
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.enums.EnumExportCategory;
@@ -26,9 +24,6 @@ public interface MTGCardsExport extends MTGPlugin{
 
 	public List<MagicCardStock> importStockFromFile(File f) throws IOException;
 	public List<MagicCardStock> importStock(String content) throws IOException;
-
-	@Override
-	public Icon getIcon();
 
 	public boolean needFile();
 

@@ -108,6 +108,7 @@ import org.magic.services.tools.IDGenerator;
 import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.POMReader;
+import org.magic.services.tools.UITools;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -1061,6 +1062,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 
 		get("/metadata/conditions", URLTools.HEADER_JSON,(request, response) -> EnumCondition.values(), transformer);
+		
+		get("/metadata/indexDate", URLTools.HEADER_JSON,(request, response) -> UITools.formatDateTime(getEnabledPlugin(MTGCardsIndexer.class).getIndexDate()) , transformer);
 
 		get("/metadata/keywords", URLTools.HEADER_JSON, (request, response) -> AbstractKeyWordsManager.getInstance().toJson(), transformer);
 

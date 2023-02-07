@@ -5,8 +5,6 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.List;
 
-import javax.swing.Icon;
-
 import org.magic.api.beans.CardDominance;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.EditionsShakers;
@@ -34,9 +32,6 @@ public interface MTGDashBoard extends MTGPriceSuggester {
 	public Date getUpdatedDate();
 
 	public String[] getDominanceFilters();
-
-	@Override
-	public Icon getIcon();
 
 	public Currency getCurrency();
 

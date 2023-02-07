@@ -7,12 +7,14 @@ import java.util.Properties;
 
 import javax.management.ObjectName;
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGDocumentation;
 import org.magic.api.beans.technical.AccountAuthenticator;
 import org.magic.services.AccountsManager;
 import org.magic.services.logging.MTGLogger;
+import org.magic.services.tools.ImageTools;
 import org.utils.patterns.observer.Observer;
 
 import com.google.gson.JsonObject;
@@ -28,7 +30,7 @@ public interface MTGPlugin extends Comparable<MTGPlugin> {
 	}
 
 	public enum STATUT {
-		DEV, BETA, STABLE, DEPRECATED,BUGGED
+		DEV, BETA, STABLE, DEPRECATED, BUGGED
 	}
 
 	public Properties getProperties();
@@ -107,6 +109,8 @@ public interface MTGPlugin extends Comparable<MTGPlugin> {
 		obj.addProperty("enabled", isEnable());
 		obj.addProperty("version", getVersion());
 		obj.addProperty("status", getStatut().name());
+		obj.addProperty("id", getId());
+		obj.addProperty("loaded", isLoaded());
 		return obj;
 
 	}
