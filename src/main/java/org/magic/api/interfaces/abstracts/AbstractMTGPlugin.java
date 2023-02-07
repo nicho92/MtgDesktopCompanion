@@ -26,6 +26,7 @@ import org.magic.api.interfaces.MTGPlugin;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.tools.FileTools;
+import org.magic.services.tools.UITools;
 import org.utils.patterns.observer.Observable;
 
 public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin {
@@ -127,7 +128,6 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 			confFile = new File(confdir, getName() + ".conf");
 			if (confFile.exists())
 			{
-
 				try {
 					FileTools.loadProperties(confFile, props);
 				} catch (IOException e) {
@@ -179,7 +179,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 
 
 	public double getDouble(String k) {
-		return Double.parseDouble(getString(k));
+		return UITools.parseDouble(getString(k));
 	}
 
 	public boolean getBoolean(String k) {

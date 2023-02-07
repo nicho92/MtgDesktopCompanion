@@ -46,7 +46,7 @@ public class ChatGPT extends AbstractIA {
 		var obj = new JsonObject();
 					obj.addProperty("model", getString("MODEL"));
 					obj.addProperty("prompt", prompt);
-					obj.addProperty("temperature", getInt("TEMPERATURE"));
+					obj.addProperty("temperature", getDouble("TEMPERATURE"));
 					obj.addProperty("max_tokens", getInt("MAX_TOKEN"));
 
 		var json = query(obj);

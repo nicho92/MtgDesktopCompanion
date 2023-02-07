@@ -34,6 +34,7 @@
 	    <Logger name="org.apache.commons" level="ERROR"></Logger>
 	    <Logger name="org.apache.commons.jcs" level="ERROR"></Logger>
 	    <Logger name="com.jayway.jsonpath.internal.path" level="ERROR"></Logger>
+	    <Logger name="org.mariadb.jdbc" level="ERROR"></Logger>
 	    <Logger name="twitter4j" level="ERROR"></Logger>
 	    <Logger name="cz.vutbr" level="ERROR"></Logger>
 	    <Logger name="org.fit" level="ERROR"></Logger>
@@ -54,7 +55,7 @@
 	    <Logger name="com.github.sarxos.webcam" level="ERROR"></Logger>
 	    <Logger name="nl.basjes.parse.useragent" level="ERROR"></Logger>
 	    <Logger name="org.jsoup" level="ERROR"></Logger>
-	
+		
         <Root level="INFO">
         	<AppenderRef ref="APPS"/>
             <AppenderRef ref="CONSOLE"/>

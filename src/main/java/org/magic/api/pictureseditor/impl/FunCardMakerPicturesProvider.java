@@ -190,17 +190,17 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 		if(httpclient==null)
 			connect();
 
-		var builder = MultipartEntityBuilder.create();
-								builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-								builder.addPart("fcm-file-media", new FileBody(f, ContentType.DEFAULT_BINARY));
-								builder.addTextBody("fcm-field-illuscrop-x", "0");
-								builder.addTextBody("fcm-field-illuscrop-y", "0");
-								builder.addTextBody("fcm-field-illuscrop-w", "46");
-								builder.addTextBody("fcm-field-illuscrop-h", "7");
-								builder.addTextBody("MAX_FILE_SIZE", "104857600");
-
-		HttpEntity ent = builder.build();
-		Map<String,String> map = httpclient.buildMap()
+				var builder = MultipartEntityBuilder.create();
+										builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+										builder.addPart("fcm-file-media", new FileBody(f, ContentType.DEFAULT_BINARY));
+										builder.addTextBody("fcm-field-illuscrop-x", "0");
+										builder.addTextBody("fcm-field-illuscrop-y", "0");
+										builder.addTextBody("fcm-field-illuscrop-w", "46");
+										builder.addTextBody("fcm-field-illuscrop-h", "7");
+										builder.addTextBody("MAX_FILE_SIZE", "104857600");
+		
+				HttpEntity ent = builder.build();
+				Map<String,String> map = httpclient.buildMap()
 									.put("Host", DOMAIN)
 									.put("Origin", WEBSITE)
 									.put("Referer",WEBSITE)
@@ -213,8 +213,6 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 					 throw new IOException(response.getAsJsonObject().get("error").getAsString());
 
 				 return response.getAsJsonObject().get("filepath").getAsString();
-
-
 	}
 
 
