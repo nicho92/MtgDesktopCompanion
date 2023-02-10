@@ -6,7 +6,7 @@ import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.enums.EnumCondition;
 
-public interface MTGStockItem extends MTGStorable, Comparable<MTGStockItem> {
+public interface MTGStockItem extends MTGSerializable, Comparable<MTGStockItem> {
 
 
 	public 	void setGrade(Grading grade);

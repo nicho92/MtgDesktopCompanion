@@ -40,7 +40,7 @@ import org.magic.api.beans.technical.ConverterItem;
 import org.magic.api.beans.technical.GedEntry;
 import org.magic.api.beans.technical.audit.DAOInfo;
 import org.magic.api.interfaces.MTGNewsProvider;
-import org.magic.api.interfaces.MTGStorable;
+import org.magic.api.interfaces.MTGSerializable;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGConstants;
 import org.magic.services.PluginRegistry;
@@ -245,7 +245,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 
 	@Override
-	public <T extends MTGStorable> boolean storeEntry(GedEntry<T> gedItem) {
+	public <T extends MTGSerializable> boolean storeEntry(GedEntry<T> gedItem) {
 
 		var obj = BasicDBObject.parse(gedItem.toJson().toString());
 			  obj.put("md5", CryptoUtils.getMD5(gedItem.getContent()));
@@ -257,7 +257,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 
 	@Override
-	public <T extends MTGStorable> GedEntry<T> readEntry(String classe, String idInstance, String fileName) throws SQLException {
+	public <T extends MTGSerializable> GedEntry<T> readEntry(String classe, String idInstance, String fileName) throws SQLException {
 		try{
 			return (GedEntry<T>) list(classe,idInstance,fileName).get(0);
 		}
@@ -268,17 +268,17 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public <T extends MTGStorable> List<GedEntry<T>> listAllEntries() throws SQLException {
+	public <T extends MTGSerializable> List<GedEntry<T>> listAllEntries() throws SQLException {
 		return list(null,null,null);
 	}
 
 	@Override
-	public <T extends MTGStorable> List<GedEntry<T>> listEntries(String classename, String id) {
+	public <T extends MTGSerializable> List<GedEntry<T>> listEntries(String classename, String id) {
 		return list(classename,id,null);
 	}
 
 
-	private <T extends MTGStorable> List<GedEntry<T>> list(String classename, String id, String fileName) {
+	private <T extends MTGSerializable> List<GedEntry<T>> list(String classename, String id, String fileName) {
 
 		var arr = new ArrayList<GedEntry<T>>();
 		FindIterable<BasicDBObject> it = null;
@@ -327,7 +327,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 
 	@Override
-	public <T extends MTGStorable> boolean deleteEntry(GedEntry<T> gedItem) {
+	public <T extends MTGSerializable> boolean deleteEntry(GedEntry<T> gedItem) {
 		db.getCollection(colGed).deleteOne(Filters.and(Filters.eq("name", gedItem.getName()),Filters.eq("classe", gedItem.getClasse().getCanonicalName()),Filters.eq("id", gedItem.getId())));
 		notify(gedItem);
 		return true;

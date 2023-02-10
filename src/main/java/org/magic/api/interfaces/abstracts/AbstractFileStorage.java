@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 import org.apache.commons.lang3.SerializationUtils;
 import org.magic.api.beans.technical.GedEntry;
 import org.magic.api.interfaces.MTGGedStorage;
-import org.magic.api.interfaces.MTGStorable;
+import org.magic.api.interfaces.MTGSerializable;
 
 public abstract class AbstractFileStorage extends AbstractMTGPlugin implements MTGGedStorage {
 
@@ -22,7 +22,7 @@ public abstract class AbstractFileStorage extends AbstractMTGPlugin implements M
 	public abstract void initFileSystem() throws IOException;
 
 	@Override
-	public <T extends MTGStorable> List<GedEntry<T>> listAll() throws IOException {
+	public <T extends MTGSerializable> List<GedEntry<T>> listAll() throws IOException {
 
 		var ret = new ArrayList<GedEntry<T>>();
 
@@ -67,7 +67,7 @@ public abstract class AbstractFileStorage extends AbstractMTGPlugin implements M
 
 
 	@Override
-	public <T extends MTGStorable> GedEntry<T>  read(Path p) throws IOException
+	public <T extends MTGSerializable> GedEntry<T>  read(Path p) throws IOException
 	{
 		GedEntry<T> ged = SerializationUtils.deserialize(java.nio.file.Files.readAllBytes(p));
 		logger.debug("reading {} : {} {}",p,ged.getClasse(),ged.getName());
@@ -77,7 +77,7 @@ public abstract class AbstractFileStorage extends AbstractMTGPlugin implements M
 	}
 
 	@Override
-	public <T extends MTGStorable> void store(GedEntry<T> entry) throws IOException
+	public <T extends MTGSerializable> void store(GedEntry<T> entry) throws IOException
 	{
 
 		var p = getPath(entry);
@@ -95,7 +95,7 @@ public abstract class AbstractFileStorage extends AbstractMTGPlugin implements M
 		return Files.list(p);
 	}
 
-	private <T extends MTGStorable> Path getPath(GedEntry<T> entry) throws IOException
+	private <T extends MTGSerializable> Path getPath(GedEntry<T> entry) throws IOException
 	{
 		if(entry.getClasse()==null)
 			return getFilesSystem().getPath(entry.getName());
@@ -106,7 +106,7 @@ public abstract class AbstractFileStorage extends AbstractMTGPlugin implements M
 	}
 
 	@Override
-	public <T extends MTGStorable>  boolean delete(GedEntry<T> entry) {
+	public <T extends MTGSerializable>  boolean delete(GedEntry<T> entry) {
 		logger.info("removing {}",entry);
 
 		try {
@@ -119,7 +119,7 @@ public abstract class AbstractFileStorage extends AbstractMTGPlugin implements M
 	}
 
 	@Override
-	public <T extends MTGStorable> Path getPath(Class<T> classe, T instance) throws IOException {
+	public <T extends MTGSerializable> Path getPath(Class<T> classe, T instance) throws IOException {
 
 
 		if(classe==null)

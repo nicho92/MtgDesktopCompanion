@@ -15,7 +15,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import org.magic.api.beans.technical.GedEntry;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGGedStorage;
-import org.magic.api.interfaces.MTGStorable;
+import org.magic.api.interfaces.MTGSerializable;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.GedEntryTableModel;
@@ -36,7 +36,7 @@ public class GedBrowserPanel extends MTGUIComponent {
 	private JButton btnDelete;
 
 
-	private transient AbstractObservableWorker<List<GedEntry<MTGStorable>>, GedEntry<MTGStorable>, MTGGedStorage> sw;
+	private transient AbstractObservableWorker<List<GedEntry<MTGSerializable>>, GedEntry<MTGSerializable>, MTGGedStorage> sw;
 
 	public GedBrowserPanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -68,7 +68,7 @@ public class GedBrowserPanel extends MTGUIComponent {
 		table.getSelectionModel().addListSelectionListener(lsl->btnDelete.setEnabled(UITools.getTableSelection(table, 0)!=null));
 
 		btnDelete.addActionListener(al->{
-			GedEntry<MTGStorable> select = UITools.getTableSelection(table, 0);
+			GedEntry<MTGSerializable> select = UITools.getTableSelection(table, 0);
 			var confirm = JOptionPane.showConfirmDialog(this, MTG.capitalize("CONFIRM_DELETE",select));
 			if(confirm==JOptionPane.YES_OPTION)
 			{
@@ -102,7 +102,7 @@ public class GedBrowserPanel extends MTGUIComponent {
 
 		sw = new AbstractObservableWorker<>(buzy,(MTGGedStorage)cboGed.getSelectedItem()) {
 					@Override
-					protected List<GedEntry<MTGStorable>> doInBackground() throws Exception {
+					protected List<GedEntry<MTGSerializable>> doInBackground() throws Exception {
 						return plug.listAll();
 					}
 

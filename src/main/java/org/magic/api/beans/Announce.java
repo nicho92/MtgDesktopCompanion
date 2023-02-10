@@ -13,9 +13,9 @@ import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.technical.GedEntry;
 import org.magic.api.interfaces.MTGStockItem;
-import org.magic.api.interfaces.MTGStorable;
+import org.magic.api.interfaces.MTGSerializable;
 
-public class Announce implements MTGStorable, Comparable<Announce> {
+public class Announce implements MTGSerializable, Comparable<Announce> {
 
 	public enum STATUS { ACTIVE, SOON, SOLD, EXPIRED }
 

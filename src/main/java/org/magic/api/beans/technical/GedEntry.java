@@ -2,7 +2,7 @@ package org.magic.api.beans.technical;
 
 import java.io.Serializable;
 
-import org.magic.api.interfaces.MTGStorable;
+import org.magic.api.interfaces.MTGSerializable;
 import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.ImageTools;
 
@@ -10,7 +10,7 @@ import com.google.common.io.Files;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-public class GedEntry <T extends MTGStorable> implements Serializable {
+public class GedEntry <T extends MTGSerializable> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String id;

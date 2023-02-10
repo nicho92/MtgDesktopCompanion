@@ -12,11 +12,11 @@ import java.util.Set;
 
 import org.magic.api.beans.MTGFormat.AUTHORIZATION;
 import org.magic.api.beans.enums.EnumColors;
-import org.magic.api.interfaces.MTGStorable;
+import org.magic.api.interfaces.MTGSerializable;
 import org.magic.services.tools.IDGenerator;
 
 
-public class MagicDeck implements MTGStorable {
+public class MagicDeck implements MTGSerializable {
 
 	private static final long serialVersionUID = 1L;
 	private Map<MagicCard, Integer> mapDeck;

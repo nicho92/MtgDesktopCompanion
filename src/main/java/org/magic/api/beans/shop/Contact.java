@@ -1,8 +1,8 @@
 package org.magic.api.beans.shop;
 
-import org.magic.api.interfaces.MTGStorable;
+import org.magic.api.interfaces.MTGSerializable;
 
-public class Contact implements MTGStorable {
+public class Contact implements MTGSerializable {
 
 
 	private static final long serialVersionUID = 1L;

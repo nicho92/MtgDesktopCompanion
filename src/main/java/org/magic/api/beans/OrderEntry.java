@@ -1,13 +1,13 @@
 package org.magic.api.beans;
 
-import java.io.Serializable;
 import java.util.Currency;
 import java.util.Date;
 
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionDirection;
+import org.magic.api.interfaces.MTGSerializable;
 
-public class OrderEntry implements Serializable {
+public class OrderEntry implements MTGSerializable {
 
 
 	private static final long serialVersionUID = 1L;
@@ -28,6 +28,11 @@ public class OrderEntry implements Serializable {
 	private String source;
 	private boolean updated;
 
+
+	@Override
+	public String getStoreId() {
+		return String.valueOf(getId());
+	}
 
 	public Integer getId() {
 		return id;
@@ -144,5 +149,5 @@ public class OrderEntry implements Serializable {
 		this.edition = edition;
 	}
 
-
+	
 }

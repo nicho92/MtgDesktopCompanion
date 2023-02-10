@@ -6,8 +6,6 @@ import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
 
-import javax.print.attribute.DocAttribute;
-
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.beans.enums.EnumMarketType;

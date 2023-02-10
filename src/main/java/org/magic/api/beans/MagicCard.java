@@ -846,19 +846,22 @@ public class MagicCard extends AbstractProduct {
 		this.dateUpdated = dateUpdated;
 	}
 
-	public JsonObject toLightJson() {
+	public JsonObject toJson() {
 		var obj = new JsonObject();
 				obj.addProperty("id", getId());
 				obj.addProperty("name", getName());
 				obj.addProperty("cost", getCost());
 				obj.addProperty("type", getFullType());
 				obj.addProperty("text", getText());
-				obj.addProperty("set", getCurrentSet().getSet());
-				obj.addProperty("setId", getCurrentSet().getId());
-				obj.addProperty("setSize", getCurrentSet().getCardCountOfficial());
-				obj.addProperty("number", getCurrentSet().getNumber());
-				obj.addProperty("keyrune", getCurrentSet().getKeyRuneCode());
-				obj.addProperty("multiverse", getCurrentSet().getMultiverseid());
+				
+				if(getCurrentSet()!=null) {
+					obj.addProperty("set", getCurrentSet().getSet());
+					obj.addProperty("setId", getCurrentSet().getId());
+					obj.addProperty("setSize", getCurrentSet().getCardCountOfficial());
+					obj.addProperty("number", getCurrentSet().getNumber());
+					obj.addProperty("keyrune", getCurrentSet().getKeyRuneCode());
+					obj.addProperty("multiverse", getCurrentSet().getMultiverseid());
+				}
 				obj.addProperty("scryfallId", getScryfallId());
 				obj.addProperty("showcase", isShowCase());
 				obj.addProperty("extendedArt", isExtendedArt());
@@ -867,7 +870,7 @@ public class MagicCard extends AbstractProduct {
 				obj.addProperty("timeshifted", isTimeshifted());
 
 				if(getRotatedCard()!=null)
-					obj.add("otherSide", getRotatedCard().toLightJson());
+					obj.add("otherSide", getRotatedCard().toJson());
 
 		return obj;
 

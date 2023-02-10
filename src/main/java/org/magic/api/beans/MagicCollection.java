@@ -1,8 +1,8 @@
 package org.magic.api.beans;
 
-import org.magic.api.interfaces.MTGStorable;
+import org.magic.api.interfaces.MTGSerializable;
 
-public class MagicCollection implements MTGStorable {
+public class MagicCollection implements MTGSerializable {
 
 	/**
 	 *

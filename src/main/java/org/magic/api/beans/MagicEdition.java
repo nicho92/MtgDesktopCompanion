@@ -6,12 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.magic.api.interfaces.MTGStorable;
+import org.magic.api.interfaces.MTGSerializable;
 import org.magic.services.tools.UITools;
 
 import com.google.gson.annotations.SerializedName;
 
-public class MagicEdition implements MTGStorable, Comparable<MagicEdition> {
+public class MagicEdition implements MTGSerializable, Comparable<MagicEdition> {
 	public static final long serialVersionUID = 1L;
 
 	private String set;

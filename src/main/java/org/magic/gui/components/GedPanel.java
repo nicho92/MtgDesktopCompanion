@@ -28,7 +28,7 @@ import javax.swing.SwingWorker;
 import org.apache.commons.io.FilenameUtils;
 import org.magic.api.beans.technical.GedEntry;
 import org.magic.api.interfaces.MTGGedStorage;
-import org.magic.api.interfaces.MTGStorable;
+import org.magic.api.interfaces.MTGSerializable;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.renderer.GedEntryComponent;
@@ -42,7 +42,7 @@ import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 
 import com.jogamp.newt.event.KeyEvent;
-public class GedPanel<T extends MTGStorable> extends MTGUIComponent {
+public class GedPanel<T extends MTGSerializable> extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel panneauCenter;

@@ -10,7 +10,7 @@ import javax.swing.Icon;
 
 import org.magic.api.beans.technical.GedEntry;
 import org.magic.api.interfaces.MTGDao;
-import org.magic.api.interfaces.MTGStorable;
+import org.magic.api.interfaces.MTGSerializable;
 import org.magic.api.interfaces.abstracts.AbstractFileStorage;
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.MTG;
@@ -40,7 +40,7 @@ public class DAOFileSystemStorage extends AbstractFileStorage {
 
 
 	@Override
-	public <T extends MTGStorable> List<GedEntry<T>> listAll() throws IOException {
+	public <T extends MTGSerializable> List<GedEntry<T>> listAll() throws IOException {
 		try {
 			return MTG.getEnabledPlugin(MTGDao.class).listAllEntries();
 		} catch (SQLException e) {
@@ -50,7 +50,7 @@ public class DAOFileSystemStorage extends AbstractFileStorage {
 
 
 	@Override
-	public <T extends MTGStorable> GedEntry<T> read(Path p) throws IOException {
+	public <T extends MTGSerializable> GedEntry<T> read(Path p) throws IOException {
 
 
 		var cIdClasse = p.getParent().getParent().getFileName().toString();
@@ -70,7 +70,7 @@ public class DAOFileSystemStorage extends AbstractFileStorage {
 	}
 
 	@Override
-	public <T extends MTGStorable>  void store(GedEntry<T> entry) throws IOException {
+	public <T extends MTGSerializable>  void store(GedEntry<T> entry) throws IOException {
 		try {
 			MTG.getEnabledPlugin(MTGDao.class).storeEntry(entry);
 		} catch (SQLException e) {
@@ -90,7 +90,7 @@ public class DAOFileSystemStorage extends AbstractFileStorage {
 	}
 
 	@Override
-	public <T extends MTGStorable> boolean delete(GedEntry<T> entry) {
+	public <T extends MTGSerializable> boolean delete(GedEntry<T> entry) {
 		logger.debug("delete {}/{}",entry.getClasse(),entry.getId());
 		try {
 			return MTG.getEnabledPlugin(MTGDao.class).deleteEntry(entry);
@@ -101,7 +101,7 @@ public class DAOFileSystemStorage extends AbstractFileStorage {
 	}
 
 	@Override
-	public <T extends MTGStorable> Path getPath(Class<T> classe, T instance) throws IOException {
+	public <T extends MTGSerializable> Path getPath(Class<T> classe, T instance) throws IOException {
 		return Path.of(classe.getCanonicalName(), instance.getStoreId());
 	}
 
