@@ -17,7 +17,7 @@ import org.utils.patterns.observer.Observer;
 
 import com.google.gson.JsonObject;
 
-public interface MTGPlugin extends Comparable<MTGPlugin>, MTGSerializable {
+public interface MTGPlugin extends Comparable<MTGPlugin> {
 
 
 	Logger loggerMain = MTGLogger.getLogger(MTGPlugin.class);
@@ -99,13 +99,6 @@ public interface MTGPlugin extends Comparable<MTGPlugin>, MTGSerializable {
 		return getId().compareTo(o.getName());
 	}
 	
-	
-	@Override
-	default String getStoreId() {
-		return getId();
-	}
-
-	@Override
 	public default JsonObject toJson()
 	{
 		var obj = new JsonObject();
