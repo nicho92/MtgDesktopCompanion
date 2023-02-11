@@ -381,20 +381,12 @@
       <enable>true</enable>
     </pricer>
     <pricer>
-      <class>org.magic.api.pricers.impl.MagicTradersPricer</class>
-      <enable>false</enable>
-    </pricer>
-    <pricer>
       <class>org.magic.api.pricers.impl.MagicVillePricer</class>
       <enable>true</enable>
     </pricer>
     <pricer>
       <class>org.magic.api.pricers.impl.TCGPlayerPricer</class>
       <enable>true</enable>
-    </pricer>
-    <pricer>
-      <class>org.magic.api.pricers.impl.ChannelFireballPricer</class>
-      <enable>false</enable>
     </pricer>
     <pricer>
       <class>org.magic.api.pricers.impl.MTGPricePricer</class>

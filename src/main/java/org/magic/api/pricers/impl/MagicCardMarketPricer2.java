@@ -241,12 +241,12 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 	public Map<String, String> getDefaultAttributes() {
 
 		var map = new HashMap<String,String>();
-		map.put(LANGUAGE_ID, "1");
+		map.put(LANGUAGE_ID, "");
 		map.put(IS_EXACT, "");
 		map.put(MIN_CONDITION, "");
 		map.put("COMMONCHECK", FALSE);
 		map.put("MAX", "10");
-		map.put("USER_ARTICLE", FALSE);
+		map.put("USER_ARTICLE", TRUE);
 		map.put("AUTOMATIC_ADD_CARD_ALERT", FALSE);
 		map.put(FILTER_COUNTRY, "EN,"+Locale.getDefault().getCountry());
 
