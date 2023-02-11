@@ -65,7 +65,7 @@ public class MagicDeck implements MTGSerializable {
       }
     });
 
-    MagicDeck mergedDeck = toDeck(mergeCardList);
+    var mergedDeck = toDeck(mergeCardList);
     mergedDeck.setName("merged cards deck");
 
     return mergedDeck;

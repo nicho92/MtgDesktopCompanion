@@ -47,7 +47,7 @@ public class JsonExport extends AbstractCardExport {
 	private static final String NAME = "name";
 	private static final String TAGS = "tags";
 	private static final String DESCRIPTION = "description";
-	private Gson gson;
+	private transient Gson gson;
 
 	public JsonExport() {
 		gson=new GsonBuilder()
@@ -76,7 +76,6 @@ public class JsonExport extends AbstractCardExport {
 
 	public String toJson(Object o)
 	{
-
 		return gson.toJson(o);
 	}
 

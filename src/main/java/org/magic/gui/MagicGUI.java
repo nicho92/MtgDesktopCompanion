@@ -92,7 +92,7 @@ public class MagicGUI extends JFrame {
 		JMenu mnuAbout;
 		JMenuItem mntmExit;
 
-		setSize(new Dimension(1420, 900));
+		setSize(new Dimension(1420, 940));
 		setTitle(MTGConstants.MTG_APP_NAME + " ( v" + MTGControler.getInstance().getVersionChecker().getVersion() + ")");
 
 		addWindowListener(new WindowAdapter() {
