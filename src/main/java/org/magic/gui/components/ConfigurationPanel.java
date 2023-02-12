@@ -111,7 +111,6 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 	private JResizerPanel resizerPanel;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JCheckBox chckbxWallpaper;
-	private JCheckBox chckbxHistory;
 	private JCheckBox chckbxPackages;
 	private JCheckBox chckbxSealed;
 	private JComboBox<MTGServer> cboServers;
@@ -425,7 +424,6 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		chckbxDashboard = new JCheckBox(capitalize("DASHBOARD_MODULE"));
 		chckbxShopper = new JCheckBox(capitalize("FINANCIAL_MODULE"));
 		chckbxCardBuilder = new JCheckBox(capitalize("BUILDER_MODULE"));
-		chckbxHistory = new JCheckBox(capitalize("HISTORY_MODULE"));
 		chckbxDashboard.setSelected(MTGControler.getInstance().get("modules/dashboard").equals("true"));
 		chckbxSearch.setSelected(MTGControler.getInstance().get("modules/search").equals("true"));
 		chckbxCollection.setSelected(MTGControler.getInstance().get("modules/collection").equals("true"));
@@ -449,7 +447,6 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		chckbxRss.setSelected(MTG.readPropertyAsBoolean("modules/rss"));
 		chckbxWallpaper.setSelected(MTG.readPropertyAsBoolean("modules/wallpaper"));
 		chckbxShopper.setSelected(MTG.readPropertyAsBoolean("modules/shopper"));
-		chckbxHistory.setSelected(MTG.readPropertyAsBoolean("modules/history"));
 		chckbxCardBuilder.setSelected(MTG.readPropertyAsBoolean("modules/cardbuilder"));
 		chckbxSealed.setSelected(MTG.readPropertyAsBoolean("modules/sealed"));
 		chckbxShopping.setSelected(MTG.readPropertyAsBoolean("modules/webshop"));
@@ -464,7 +461,6 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		chckbxRss.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/rss", chckbxRss.isSelected()));
 		chckbxWallpaper.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/wallpaper", chckbxWallpaper.isSelected()));
 		chckbxShopper.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/shopper", chckbxShopper.isSelected()));
-		chckbxHistory.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/history", chckbxHistory.isSelected()));
 		chckbxCardBuilder.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/cardbuilder", chckbxCardBuilder.isSelected()));
 		chckbxCollection.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/collection", chckbxCollection.isSelected()));
 		chckbxSearch.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/search", chckbxSearch.isSelected()));
@@ -480,15 +476,15 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		panelModule.add(chckbxDashboard, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  1, 1));
 		panelModule.add(chckbxGame, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  3, 1));
 		panelModule.add(chckbxRss, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  5, 1));
+		panelModule.add(chckbxNetwork, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  5, 2));
 		panelModule.add(chckbxWallpaper, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  6, 1));
 		panelModule.add(chckbxDeckBuilder, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  1, 2));
 		panelModule.add(chckbxShopper, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  3, 2));
-		panelModule.add(chckbxHistory, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  5, 2));
 		panelModule.add(chckbxCardBuilder, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  6, 2));
 		panelModule.add(chckbxSealed, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  1, 3));
 		panelModule.add(chckbxShopping, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  3, 3));
 		panelModule.add(chckbxAnnounce, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  5, 3));
-		panelModule.add(chckbxNetwork, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  6, 3));
+
 
 
 /////////////CURRENCY BOX

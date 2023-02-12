@@ -3,22 +3,17 @@ package org.magic.api.pictureseditor.impl;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.BasicCookieStore;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.util.EntityUtils;
@@ -27,7 +22,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.game.model.abilities.LoyaltyAbilities;
 import org.magic.game.model.factories.AbilitiesFactory;
-import org.magic.services.MTGConstants;
+import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.ImageTools;
 public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
@@ -47,7 +42,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 	
 	private BasicHttpContext httpContext;
 	private BasicCookieStore cookieStore;
-	private HttpClient httpclient;
+	private MTGHttpClient httpclient;
 
 	public MTGDesignPicturesProvider() throws IOException {
 		super();
@@ -64,7 +59,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 
 	private void connect() throws IOException {
 		String u = BASE_URI+"/login";
-		httpclient = HttpClients.custom().setUserAgent(MTGConstants.USER_AGENT).setRedirectStrategy(new LaxRedirectStrategy()).build();
+		httpclient = URLTools.newClient();
 		
 		
 		
@@ -76,21 +71,22 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		}
 		
 		
-		HttpEntity p = httpclient.execute(new HttpGet(u), httpContext).getEntity();
+		
+		var p =  httpclient.doGet(u).getEntity();
 		String token = URLTools.toHtml(EntityUtils.toString(p)).select("input[name=_token]").first().attr("value");
-		var login = new HttpPost(u);
 		List<NameValuePair> nvps = new ArrayList<>();
 							nvps.add(new BasicNameValuePair("email", getString(LOGIN)));
 							nvps.add(new BasicNameValuePair("password", getString(PASS)));
 							nvps.add(new BasicNameValuePair("remember", "on"));
 							nvps.add(new BasicNameValuePair("_token", token));
 
-		login.setEntity(new UrlEncodedFormEntity(nvps));
-		login.addHeader(URLTools.REFERER, u);
-		login.addHeader(URLTools.UPGR_INSECURE_REQ, "1");
-		login.addHeader(URLTools.ORIGIN, BASE_URI);
+		
+		var headers = new HashMap<String,String>();
+		headers.put(URLTools.REFERER, u);
+		headers.put(URLTools.UPGR_INSECURE_REQ, "1");
+		headers.put(URLTools.ORIGIN, BASE_URI);
 
-		HttpResponse resp = httpclient.execute(login, httpContext);
+		HttpResponse resp = httpclient.doPost(u, new UrlEncodedFormEntity(nvps), headers);
 
 		logger.debug("Connection : {}",resp.getStatusLine().getReasonPhrase());
 
@@ -258,8 +254,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 
 		try {
 			logger.debug("generate {}",build.build());
-			var get = new HttpGet(build.build());
-			HttpResponse resp = httpclient.execute(get, httpContext);
+			var resp = httpclient.doGet(build.build().toASCIIString());
 			logger.debug("generate {}",resp.getStatusLine().getReasonPhrase());
 			BufferedImage im = ImageTools.read(resp.getEntity().getContent());
 			EntityUtils.consume(resp.getEntity());
