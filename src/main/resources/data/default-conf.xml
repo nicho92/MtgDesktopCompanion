@@ -12,7 +12,6 @@
     <shopper>true</shopper>
     <cardbuilder>false</cardbuilder>
     <stock>true</stock>
-    <history>false</history>
     <wallpaper>false</wallpaper>
     <sealed>true</sealed>
     <event>false</event>

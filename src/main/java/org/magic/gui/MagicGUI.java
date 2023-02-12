@@ -245,9 +245,6 @@ public class MagicGUI extends JFrame {
 		if (MTGControler.getInstance().get("modules/rss").equals("true"))
 			addTab(new RssGUI());
 
-		if (MTGControler.getInstance().get("modules/history").equals("true"))
-			addTab(new StoriesGUI());
-
 		if (MTGControler.getInstance().get("modules/wallpaper").equals("true"))
 			addTab(new WallpaperGUI());
 

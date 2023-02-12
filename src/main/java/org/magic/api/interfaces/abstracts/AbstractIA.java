@@ -27,7 +27,7 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 	@Override
 	public String suggestDeckWith(List<MagicCard> cards) throws IOException {
 		if(cards.isEmpty())
-			throw new IOException("You should add some cards before asking n IA");
+			throw new IOException("You should add some cards before asking IA");
 		
 		return ask(DECK_QUERY + cards.stream().map(MagicCard::getName).collect(Collectors.joining("/")));
 	}
@@ -36,7 +36,7 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 	@Override
 	public String describe(MagicEdition ed) throws IOException {
 		if(ed ==null)
-			throw new IOException("You should select a card before calling IA");
+			throw new IOException("You should select a set before calling IA");
 		
 		return  ask( SET_QUERY+" \"" + ed.getSet() +"\" in "+MTGControler.getInstance().getLocale().getDisplayLanguage(Locale.US));
 	}
