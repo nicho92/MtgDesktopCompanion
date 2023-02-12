@@ -6,13 +6,11 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
-import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.Grading;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
 import org.magic.services.AccountsManager;
-import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
@@ -28,13 +26,13 @@ public class BeckettGrader extends AbstractGradersProvider {
 	@Override
 	public Grading loadGrading(String identifier) throws IOException {
 
-		MTGHttpClient c = URLTools.newClient();
+		var c = URLTools.newClient();
 
-		String urlLogin = getWebSite()+"/login?utm_content=bkthp&utm_term=login";
-		String urlCheking = getWebSite()+"/grading/card-lookup";
+		var urlLogin = getWebSite()+"/login?utm_content=bkthp&utm_term=login";
+		var urlCheking = getWebSite()+"/grading/card-lookup";
 
-		Document d = RequestBuilder.build().url(urlLogin).setClient(c).method(METHOD.GET).toHtml();
-		String token = d.select("input[name='login_token']").first().attr("value");
+		var d = RequestBuilder.build().url(urlLogin).setClient(c).method(METHOD.GET).toHtml();
+		var token = d.select("input[name='login_token']").first().attr("value");
 
 
 			d=RequestBuilder.build().url(urlLogin).setClient(c).method(METHOD.POST)
