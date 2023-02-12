@@ -15,7 +15,6 @@ import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.cache.impl.NoCache;
 import org.magic.api.interfaces.MTGPictureCache;
 import org.magic.api.interfaces.MTGPictureProvider;
-import org.magic.api.pictures.impl.DeckMasterPicturesProvider;
 import org.magic.api.pictures.impl.GathererPicturesProvider;
 import org.magic.api.pictures.impl.MythicSpoilerPicturesProvider;
 import org.magic.api.pictures.impl.PersonalSetPicturesProvider;
@@ -76,7 +75,6 @@ public class PicturesProviderTests {
 		testProviders(new GathererPicturesProvider());
 		testProviders(new ScryFallPicturesProvider());
 		testProviders(new MythicSpoilerPicturesProvider());
-		testProviders(new DeckMasterPicturesProvider());
 		testProviders(new PersonalSetPicturesProvider());
 		
 		removeCache();
@@ -85,7 +83,6 @@ public class PicturesProviderTests {
 		testProviders(new GathererPicturesProvider());
 		testProviders(new ScryFallPicturesProvider());
 		testProviders(new MythicSpoilerPicturesProvider());
-		testProviders(new DeckMasterPicturesProvider());
 		testProviders(new PersonalSetPicturesProvider());
 		
 	}

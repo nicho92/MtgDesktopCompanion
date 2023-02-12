@@ -495,10 +495,6 @@
       <enable>false</enable>
     </picture>
     <picture>
-      <class>org.magic.api.pictures.impl.DeckMasterPicturesProvider</class>
-      <enable>false</enable>
-    </picture>
-    <picture>
       <class>org.magic.api.pictures.impl.ScryFallPicturesProvider</class>
       <enable>true</enable>
     </picture>

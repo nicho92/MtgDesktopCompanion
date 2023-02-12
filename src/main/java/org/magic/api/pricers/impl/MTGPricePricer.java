@@ -25,13 +25,18 @@ public class MTGPricePricer extends AbstractPricesProvider {
 
 	@Override
 	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
-		if (getString(API_KEY).equals(""))
-			throw new NullPointerException("API_KEY must be filled");
-
-
+	
+		if(getAuthenticator().get(API_KEY).isEmpty())
+		{
+			logger.error("No authentication information found for {}",getName());
+			return new ArrayList<>();
+		}
+		
+		
+		
 		String set = card.getCurrentSet().getSet().replace(" ", "_");
 
-		String url = getString("WS_URL") + "?apiKey=" + getString(API_KEY) + "&s=" + set;
+		String url = getString("WS_URL") + "?apiKey=" + getAuthenticator().get(API_KEY) + "&s=" + set;
 
 		List<MagicPrice> ret = new ArrayList<>();
 
@@ -93,13 +98,18 @@ public class MTGPricePricer extends AbstractPricesProvider {
 	}
 
 
+	
+	@Override
+	public List<String> listAuthenticationAttributes() {
+		return List.of(API_KEY);
+	}
+	
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 
 		return Map.of("MAX", "5",
-							   "WS_URL", "http://www.mtgprice.com/api",
-								API_KEY, "",
-								"WEBSITE", "http://www.mtgprice.com/");
+							   "WS_URL", "https://www.mtgprice.com/api",
+								"WEBSITE", "https://www.mtgprice.com/");
 
 	}
 

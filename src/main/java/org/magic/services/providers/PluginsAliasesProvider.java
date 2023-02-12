@@ -146,14 +146,10 @@ public class PluginsAliasesProvider {
 	public String getSetNameFor(MTGPlugin plug, String ed)
 	{
 		try{
-			
-			jsonData.get(plug.getName()).getAsJsonObject().get("nameSet").getAsJsonObject().keySet().forEach(System.out::println);
-			
-			return  jsonData.get(plug.getName()).getAsJsonObject().get("nameSet").getAsJsonObject().get(ed).getAsString();
+		return  jsonData.get(plug.getName()).getAsJsonObject().get("nameSet").getAsJsonObject().get(ed).getAsString();
 		}
 		catch(Exception e)
 		{
-			logger.error(e);
 			return ed;
 		}
 	}

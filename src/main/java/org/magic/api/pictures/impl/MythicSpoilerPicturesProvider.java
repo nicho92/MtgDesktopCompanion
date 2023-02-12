@@ -7,6 +7,7 @@ import java.net.URISyntaxException;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
+import org.magic.services.tools.UITools;
 
 public class MythicSpoilerPicturesProvider extends AbstractPicturesProvider {
 
@@ -20,7 +21,7 @@ public class MythicSpoilerPicturesProvider extends AbstractPicturesProvider {
 	public String generateUrl(MagicCard mc)
 	{
 		String cardSet = mc.getCurrentSet().getId();
-		String cardName = mc.getName().toLowerCase().replace(" ", "").replace("-", "").replace("'", "").replace(",", "").replace("/", "");
+		String cardName = UITools.replaceSpecialCharacters(mc.getName(), "").toLowerCase();
 
 		// This will properly escape the url
 		URI uri=null;

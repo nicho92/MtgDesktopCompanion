@@ -3,7 +3,6 @@ package org.magic.api.pricers.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
@@ -26,10 +25,17 @@ public class MTGStandPricer extends AbstractPricesProvider {
 	@Override
 	protected List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 
+		
+		if(getAuthenticator().get("TOKEN").isEmpty())
+		{
+			logger.error("No authentication information found for {}",getName());
+			return new ArrayList<>();
+		}
+		
 
 		String cur=MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getCurrencyCode();
 
-		String url=BASE_URL+"/api/"+getString("TOKEN")+"/getseller/"+card.getScryfallId()+"/"+cur;
+		String url=BASE_URL+"/api/"+getAuthenticator().get("TOKEN")+"/getseller/"+card.getScryfallId()+"/"+cur;
 		logger.debug("{} looking for prices at {}",getName(),url);
 
 		List<MagicPrice> ret = new ArrayList<>();
@@ -72,9 +78,10 @@ public class MTGStandPricer extends AbstractPricesProvider {
 		return ret;
 	}
 
+
 	@Override
-	public Map<String, String> getDefaultAttributes() {
-		return Map.of("TOKEN", "");
+	public List<String> listAuthenticationAttributes() {
+		return List.of("TOKEN");
 	}
 
 
