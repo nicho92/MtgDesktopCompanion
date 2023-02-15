@@ -25,6 +25,7 @@ import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumFinishes;
 import org.magic.api.beans.enums.EnumFrameEffects;
 import org.magic.api.beans.enums.EnumLayout;
+import org.magic.api.beans.enums.EnumPromoType;
 import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGQueryBuilder;
@@ -69,6 +70,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	private static final String BORDER = "border_color";
 	private static final String NAME = "name";
 	private static final String FINISHES ="finishes";
+	private static final String PROMOTYPES = "promo_types";
 	private static final String BULK_FILE_URL="https://archive.scryfall.com/json/scryfall-all-cards.json";
 	private String baseURI = "";
 
@@ -260,6 +262,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		arr.add(new QueryAttribute(COLOR_IDENTITY, EnumColors.class));
 		arr.add(new QueryAttribute(LAYOUT,EnumLayout.class));
 		arr.add(new QueryAttribute(FINISHES,EnumFinishes.class));
+		arr.add(new QueryAttribute(PROMOTYPES,EnumPromoType.class));
 		return arr;
 	}
 
@@ -458,7 +461,13 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 		}
 
-
+		if (obj.get(PROMOTYPES) != null) {
+			Iterator<JsonElement> it = obj.get(PROMOTYPES).getAsJsonArray().iterator();
+		while (it.hasNext())
+			mc.getPromotypes().add(EnumPromoType.parseByLabel(it.next().getAsString()));
+		}
+		
+		
 		if (obj.get(COLOR_IDENTITY) != null) {
 			Iterator<JsonElement> it = obj.get(COLOR_IDENTITY).getAsJsonArray().iterator();
 			while (it.hasNext())
@@ -475,7 +484,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 		if (obj.get(BORDER) != null)
 			mc.setBorder(EnumBorders.parseByLabel(obj.get(BORDER).getAsString()));
-
 
 		if (obj.get(GAMES) != null) {
 			var g = obj.get(GAMES).getAsJsonArray();
