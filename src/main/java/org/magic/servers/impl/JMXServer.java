@@ -51,7 +51,7 @@ public class JMXServer extends AbstractMTGServer {
 				}
 			})
 		);
-		logger.debug("{} started in {}s.",getName(),c.stop());
+		logger.info("{} started in {}s.",getName(),c.stop());
 	}
 
 	@Override
