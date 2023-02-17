@@ -3,6 +3,7 @@ package org.magic.gui.models;
 import java.sql.SQLException;
 import java.util.Date;
 
+import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.MTGDao;
@@ -21,7 +22,7 @@ public class TransactionsTableModel extends GenericTableModel<Transaction> {
 	public TransactionsTableModel() {
 
 		setWritable(true);
-		columns = new String[] { "ID","DATE","CONTACT","ITEMS","TOTAL","SHIPPING","MESSAGE","STATUT","DATE PAYMENT","PAYMENT METHOD","DATE SEND" };
+		columns = new String[] { "ID","DATE","CONTACT","ITEMS","TOTAL","SHIPPING","MESSAGE","STATUT","DATE PAYMENT","PAYMENT METHOD","DATE SEND","DIRECTION","Source" };
 	}
 
 
@@ -54,6 +55,8 @@ public class TransactionsTableModel extends GenericTableModel<Transaction> {
 			case 8 : return it.getDatePayment();
 			case 9 : return it.getPaymentProvider();
 			case 10 : return it.getDateSend();
+			case 11 : return it.getTypeTransaction();
+			case 12 : return it.getSourceShopName();
 			default : return 0;
 		}
 	}
@@ -81,7 +84,12 @@ public class TransactionsTableModel extends GenericTableModel<Transaction> {
 
 		if(columnIndex==7)
 			return TransactionStatus.class;
-
+		
+		if(columnIndex==11)
+			return TransactionDirection.class;
+		
+		
+		
 		return super.getColumnClass(columnIndex);
 	}
 

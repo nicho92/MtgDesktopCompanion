@@ -148,6 +148,7 @@ function createJSONOrder(msg) {
 		var jsonObj = {
 	    	contact:getCurrentUser(),
 	    	items : getCartItems(),
+	    	sourceShopName: "MTGCompanion",
 	    	message:jQuery('<p>' + msg + '</p>').text(),
 	    	shippingPrice:eval(getConfig().shippingRules)
 	    }

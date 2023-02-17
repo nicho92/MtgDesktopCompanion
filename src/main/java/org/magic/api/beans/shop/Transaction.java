@@ -1,6 +1,5 @@
 package org.magic.api.beans.shop;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Date;
@@ -10,9 +9,10 @@ import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.beans.enums.TransactionPayementProvider;
 import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.beans.technical.WebShopConfig;
+import org.magic.api.interfaces.MTGSerializable;
 import org.magic.api.interfaces.MTGStockItem;
 
-public class Transaction implements Serializable {
+public class Transaction implements MTGSerializable {
 	private static final long serialVersionUID = 1L;
 	private Long id=-1L;
 	private Date dateCreation;
@@ -28,11 +28,19 @@ public class Transaction implements Serializable {
 	private double feePercent;
 	private Currency currency;
 	private String sourceShopName;
+	private String sourceShopId;;
+	
+	
 	private TransactionPayementProvider paymentProvider;
 	private TransactionStatus statut;
 	private TransactionDirection typeTransaction;
+	
 
-
+	@Override
+	public String getStoreId() {
+		return String.valueOf(getId());
+	}
+	
 
 	public String getSourceShopName() {
 		return sourceShopName;
@@ -65,6 +73,16 @@ public class Transaction implements Serializable {
 
 	public TransactionDirection getTypeTransaction() {
 		return typeTransaction;
+	}
+
+
+	public String getSourceShopId() {
+		return sourceShopId;
+	}
+
+
+	public void setSourceShopId(String sourceShopId) {
+		this.sourceShopId = sourceShopId;
 	}
 
 

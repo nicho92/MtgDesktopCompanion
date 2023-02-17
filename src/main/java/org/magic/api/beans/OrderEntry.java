@@ -7,6 +7,8 @@ import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.interfaces.MTGSerializable;
 
+
+@Deprecated
 public class OrderEntry implements MTGSerializable {
 
 
@@ -18,9 +20,9 @@ public class OrderEntry implements MTGSerializable {
 	private String description;
 	private Double itemPrice=0.0;
 	private Double shippingPrice=0.0;
-
 	private Currency currency;
 	private Date transactionDate;
+	
 	private String seller;
 	private String idTransation;
 	private TransactionDirection typeTransaction;
