@@ -2066,8 +2066,7 @@
 			url="https://cdn.shopify.com/s/files/1/0286/9143/1468/products/M21PrereleasePack.png" />
 		<prereleasepack lang="en"
 			url="https://images.squarespace-cdn.com/content/5e4af89861c7e93752942b98/1592248660642-JS4SHHQJHQ17SQP3K345/image-asset.png?content-type=image%2Fpng" />
-		<booster lang="en" num="1"
-			url="https://boutique.magiccorporation.com/images/produits/maxi/31831-jeux-de-cartes-a-collectionner-magic-the-gathering-boosters-core-set-2021-collector-booster.jpg" />
+		<booster lang="en" extra="collector"  num="1" url="https://boutique.magiccorporation.com/images/produits/maxi/31831-jeux-de-cartes-a-collectionner-magic-the-gathering-boosters-core-set-2021-collector-booster.jpg" />
 		<box lang="en" num="1"
 			url="https://images-na.ssl-images-amazon.com/images/I/615rRoFdrgL._AC_SL1000_.jpg" />
 		<box lang="en" num="2"
