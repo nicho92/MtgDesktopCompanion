@@ -801,12 +801,8 @@
 			url="http://mtgen.net/lrw/images/logo-word.png" />
 	</edition>
 	<edition id='EVG'>
-
-		<booster lang='en' num='1'
-			url="http://static.starcitygames.com/sales/cardscans/MAGBOX/Elvesvs.GoblinsDuelDecks.jpg" />
-
-		<set lang='en'
-			url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_EVG_SetLogo.png" />
+		<constructpack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/Elvesvs.GoblinsDuelDecks.jpg" />
+		<set lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_EVG_SetLogo.png" />
 	</edition>
 	<edition id='MOR'>
 
@@ -892,7 +888,7 @@
 	
 	<edition id='DDC'>
 
-		<booster lang='en' num='1'
+		<constructpack lang='en' num='1'
 			url="http://static.starcitygames.com/sales/cardscans/MTG_DVD/DVD_BoxSet.jpg" />
 
 		<set lang='en'
@@ -943,7 +939,7 @@
 
 	<edition id='DDD'>
 
-		<booster lang='en' num='1'
+		<constructpack lang='en' num='1'
 			url="https://www.magiclibrarities.net/images/edition_comment/1532.png" />
 
 		<set lang='en'
@@ -959,8 +955,7 @@
 	</edition>
 
 	<edition id='DDE'>
-
-		<booster lang='en' num='1'
+		<constructpack lang='en' num='1'
 			url="http://static.starcitygames.com/sales/cardscans/MAG_PVC/MTG_PVC_BoxSet.jpg" />
 
 		<set lang='en'
@@ -992,8 +987,7 @@
 			url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_V10_SetLogo.png" />
 	</edition>
 	<edition id='DDF'>
-
-		<booster lang='en' num='1'
+		<constructpack lang='en' num='1'
 			url="http://static.starcitygames.com/sales/cardscans/MAG_EVT/MTG_EVT_BoxSet.jpg" />
 
 		<set lang='en'
@@ -1123,7 +1117,7 @@
 	</edition>
 	<edition id='DDI'>
 
-		<booster lang='en' num='1'
+		<constructpack lang='en' num='1'
 			url="http://static.starcitygames.com/sales/cardscans/MAG_VVK/MTG_VVK_BoxSet.jpg" />
 
 		<set lang='en'
@@ -1163,7 +1157,7 @@
 	</edition>
 	<edition id='DDJ'>
 
-		<booster lang='en' num='1'
+		<constructpack lang='en' num='1'
 			url="http://t2.gstatic.com/images?q=tbn:ANd9GcSWoBVCya7hSBLOzrHjSnLo-4uvPUQjcxhQuhoeBqD4RW_bSpPPrWd-njA" />
 
 		<set lang='en'
@@ -1192,12 +1186,20 @@
 		<set lang='en'
 			url="http://mtgen.net/gtc/images/logo-word.png" />
 	</edition>
+	
+	
 	<edition id='DDK'>
-		<constructpack lang='en' num='1'
-			url="http://static.starcitygames.com/sales/cardscans/MAG_SVT/DDSorinVsTibalt.jpg" />
-		<set lang='en'
-			url="https://www.magic-ville.com/fr/graph/bigsetlogos/svt.png" />
+		<constructpack lang='en' num='1'  url="http://static.starcitygames.com/sales/cardscans/MAG_SVT/DDSorinVsTibalt.jpg" />
+		<set lang='en' url="https://www.magic-ville.com/fr/graph/bigsetlogos/svt.png" />
 	</edition>
+	
+		<edition id='DDR'>
+		<constructpack lang='en' num='1'  url="https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/51QGlJXFapL._AC_.jpg" />
+		<set lang='en' url="https://www.magic-ville.com/fr/graph/bigsetlogos/svt.png" />
+	</edition>
+	
+	
+	
 	<edition id='DGM'>
 
 		<booster lang='en' num='1'
@@ -1248,8 +1250,7 @@
 			url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_V13_SetLogo.png" />
 	</edition>
 	<edition id='DDL'>
-
-		<booster lang='en' num='1'
+		<constructpack lang='en' num='1'
 			url="https://www.magic-feel.de/images/produkte/i61/Heroes-vs--Monsters-MtG-Magic-the-Gathering-Duel-Decks-e.jpg" />
 
 		<set lang='en'
@@ -1283,7 +1284,7 @@
 	</edition>
 	<edition id='DDM'>
 
-		<booster lang='en' num='1'
+		<constructpack lang='en' num='1'
 			url="http://static.starcitygames.com/sales//cardscans/MTG/JVV/en/JaceVsVraska_lg.jpg" />
 
 		<set lang='en'
@@ -1338,8 +1339,7 @@
 			url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_V14_SetLogo.png" />
 	</edition>
 	<edition id='DDN'>
-
-		<booster lang='en' num='1'
+		<constructpack lang='en' num='1'
 			url="http://www.cardkingdom.com/images/magic-the-gathering/duel-decks-speed-vs-cunning/duel-decks-speed-vs-cunning-40670-medium.jpg" />
 
 		<set lang='en'
@@ -1371,7 +1371,7 @@
 	</edition>
 	<edition id='DDO'>
 
-		<booster lang='en' num='1'
+		<constructpack lang='en' num='1'
 			url="http://media.wizards.com/2014/c14/aakdfnppleih2/thao3q9rp0_product_ddo_en.jpg" />
 
 		<set lang='en'
@@ -1412,13 +1412,10 @@
 			url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_V15_SetLogo.png" />
 	</edition>
 	<edition id='DDP'>
-
-		<booster lang='en' num='1'
-			url="http://media.wizards.com/2015/images/daily/EN_6rvvchitua.png" />
-
-		<set lang='en'
-			url="http://www.magiccorporation.com/images/magic/editions/maxi/duel_decks_zendikar_vs_eldrazi.png" />
+		<constructpack lang='en' num='1' url="http://media.wizards.com/2015/images/daily/EN_6rvvchitua.png" />
+		<set lang='en' url="http://www.magiccorporation.com/images/magic/editions/maxi/duel_decks_zendikar_vs_eldrazi.png" />
 	</edition>
+	
 	<edition id='BFZ'>
 		<booster lang='en' num='1' url="https://i5.walmartimages.com/asr/c499ad84-7487-408d-8a82-b2e91609230f_1.caf0c1bc312437da9f93399539ae3121.jpeg" />
 		<booster lang='en' num='2' url="https://imaginaire.com/fr/images/BATTLE-FOR-ZENDIKAR-PAQUET-BOOSTER-P15-B36-ANGLAIS-MTG-BOOSTER__0630509304356-Z.JPG" />
@@ -1461,8 +1458,7 @@
 			url="https://dacardworld1.imgix.net/mtgootgbst2.jpg?auto=format%2Ccompress&amp;fm=jpg&amp;h=1800&amp;ixlib=php-1.2.1&amp;w=1800&amp;s=5fa31d459fde90db68dd148886fd8c03" />
 	</edition>
 	<edition id='DDQ'>
-
-		<booster lang='en' num='1'
+		<constructpack lang='en' num='1'
 			url="http://static.starcitygames.com/sales/cardscans/MTG/DDQ/en/sealed/DDQ_Box.jpg" />
 
 		<set lang='en'
@@ -1631,13 +1627,11 @@
 			url="https://themanashop.ch/23334/iconic-masters-booster-box.jpg" />
 	</edition>
 	<edition id='DDT'>
-		<constructpack lang='en' num='1'
-			url="https://www.parkage.com/files/img/publications/2017/datarule/1500x1500_4d9a03bf96c9b9949b2a2c3370f54b0be271ecb7fb7e3174a5dd64ef.jpg?1510261551821" />
-		<set lang='en'
-			url="https://gamepedia.cursecdn.com/mtgsalvation_gamepedia/thumb/0/05/DDT_logo.png/1200px-DDT_logo.png" />
+		<constructpack lang='en' num='1' url="https://www.parkage.com/files/img/publications/2017/datarule/1500x1500_4d9a03bf96c9b9949b2a2c3370f54b0be271ecb7fb7e3174a5dd64ef.jpg?1510261551821" />
+		<set lang='en' url="https://gamepedia.cursecdn.com/mtgsalvation_gamepedia/thumb/0/05/DDT_logo.png/1200px-DDT_logo.png" />
 	</edition>
+	
 	<edition id='E02'>
-
 		<booster lang='en' num='1'
 			url="https://3.bp.blogspot.com/-jm13Z746z_Y/Wd0C6S7SHeI/AAAAAAAAfI8/VduWz6JAYe4fHt8FlDLTvLMWplAc1QeKwCLcBGAs/s1600/MTG%2Bexpolorers%2Bixalan%2Bboard%2Bgame%2B%25281%2529.png" />
 
@@ -1673,13 +1667,11 @@
 
 
 	<edition id='DDU'>
-
-		<booster lang='en' num='1'
-			url="https://ludiworld.com/newshop/25954/duel-decks-elves-vs-inventors-magic-the-gathering.jpg" />
-
-		<set lang='en'
-			url="https://magic.wizards.com/sites/mtg/files/en_P0b5vByBsx.png" />
+		<constructpack lang='en' num='1' url="https://ludiworld.com/newshop/25954/duel-decks-elves-vs-inventors-magic-the-gathering.jpg" />
+		<set lang='en' url="https://magic.wizards.com/sites/mtg/files/en_P0b5vByBsx.png" />
 	</edition>
+	
+	
 	<edition id='DOM'>
 		<booster lang='en' num='1'
 			url="https://media-dominaria.cursecdn.com/attachments/167/2/636549911039934266.png" />
