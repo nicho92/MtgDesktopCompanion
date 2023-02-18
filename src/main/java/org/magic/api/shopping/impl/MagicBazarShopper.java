@@ -98,7 +98,7 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 						String price =e.select("div.new_price").html().replaceAll("&nbsp;"+Currency.getInstance("EUR").getSymbol(), "").trim();
 						entrie.setItemPrice(UITools.parseDouble(price));
 						if(entrie.getDescription().contains("Set")||entrie.getDescription().toLowerCase().contains("collection"))
-							entrie.setType(EnumItems.FULLSET);
+							entrie.setType(EnumItems.SET);
 						else if(entrie.getDescription().toLowerCase().contains("booster"))
 							entrie.setType(EnumItems.BOOSTER);
 						else if(entrie.getDescription().toLowerCase().startsWith("boite de") || entrie.getDescription().contains("Display") )

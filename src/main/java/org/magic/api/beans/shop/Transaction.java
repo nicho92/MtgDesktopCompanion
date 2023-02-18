@@ -58,6 +58,7 @@ public class Transaction implements MTGSerializable {
 		statut = TransactionStatus.NEW;
 		typeTransaction=TransactionDirection.SELL;
 	}
+	
 
 	public Date getDateCreation() {
 		return dateCreation;

@@ -212,7 +212,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 
 					if(List.of(EnumItems.BOOSTER,EnumItems.CONSTRUCTPACK,EnumItems.BOX,EnumItems.FATPACK,EnumItems.PRERELEASEPACK,EnumItems.BUNDLE, EnumItems.SEALED).contains(p.getTypeProduct()))
 							stockItem.setCondition(EnumCondition.SEALED);
-					else if(List.of(EnumItems.FULLSET,EnumItems.LOTS).contains(p.getTypeProduct()))
+					else if(List.of(EnumItems.SET,EnumItems.LOTS).contains(p.getTypeProduct()))
 						stockItem.setCondition(EnumCondition.OPENED);
 					else if(List.of(EnumItems.CARD).contains(p.getTypeProduct()))
 						stockItem.setCondition(EnumCondition.NEAR_MINT);

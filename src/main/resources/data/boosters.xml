@@ -260,8 +260,7 @@
 			url="http://erl00.chez.com/PacksImages/Exodus-EN-b.jpg" />
 		<set lang='en'
 			url="http://mtgen.net/exo/images/logo-word.png" />
-		<box lang="en"
-			url="https://static.tcgplayer.com/D34857E1-CBA3-4DA5-BEDB-1DD26B66EDC7.jpg" />
+		<box lang="en" url="https://static.tcgplayer.com/D34857E1-CBA3-4DA5-BEDB-1DD26B66EDC7.jpg" />
 	</edition>
 	<edition id='STH'>
 		<booster lang='en' num='1'
@@ -879,7 +878,7 @@
 
 	<edition id='DD2'>
 
-		<booster lang='en' num='1'
+		<constructpack lang='en' num='1'
 			url="http://static.starcitygames.com/sales/cardscans/MAGBOX/JVCBoxSet.jpg" />
 
 		<set lang='en'
