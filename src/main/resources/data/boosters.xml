@@ -1034,12 +1034,13 @@
 			url="http://mtgen.net/nph/images/logo-word.png" />
 	</edition>
 	<edition id='CMD'>
-
-		<booster lang='en' num='1'
-			url="http://magic.wizards.com/sites/mtg/files/image_legacy_migration/images/magic/daily/stf/stf146_decks.jpg" />
-
-		<set lang='en'
-			url="http://mtgen.net/cmd/images/logo-word.png" />
+		<constructpack lang='en' num='1' url="https://www.magiclibrarities.net/images/edition_comment/2233.png" />
+		<constructpack lang='en' num='2' url="https://www.magiclibrarities.net/images/edition_comment/2234.png" />
+		<constructpack lang='en' num='3' url="https://www.magiclibrarities.net/images/edition_comment/2235.png" />
+		<constructpack lang='en' num='4' url="https://www.magiclibrarities.net/images/edition_comment/2236.png" />
+		<constructpack lang='en' num='5' url="https://www.magiclibrarities.net/images/edition_comment/2237.png" />
+		
+		<set lang='en' url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/e/e5/MTGCommanderLogo.jpg" />
 	</edition>
 	<edition id='M12'>
 
