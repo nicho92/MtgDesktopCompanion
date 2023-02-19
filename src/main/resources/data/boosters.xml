@@ -1568,6 +1568,9 @@
 		<booster lang='en' num='1' url="https://cdn1.mtggoldfish.com/images/gf/Hour%2Bof%2BDevastation%2BBooster%2B%255BBOOSTER%255D.jpg" />
 		<set lang='en' url="http://mtgen.net/hou/images/logo-word.png" />
 		<prereleasepack lang='en' num='1' url='https://m.media-amazon.com/images/I/410Fgotgi+L._AC_.jpg'/>
+		<constructpack lang="en"  num="1" url="https://m.media-amazon.com/images/I/61CM5bDlhOL._AC_SL1280_.jpg"/>
+		<constructpack lang="en"  num="2" url="https://d1rw89lz12ur5s.cloudfront.net/photo/collectorscache/file/749363/HOU%20Nissa%20deck.png"/>
+		
 	</edition>
 	<edition id='CMA'>
 
@@ -1742,6 +1745,13 @@
 			url="https://www.lataniere.fr/wp-content/uploads/2018/06/bundle-M19-Magic-jeux-Toulon-L-Ataniere.png" />
 		<prereleasepack lang='fr'
 			url="https://pbs.twimg.com/media/DhRUFJTXkAE9R-8.png" />
+			
+		<constructpack lang="en" num="1" url="https://gamewave.fr/static/images/medias/upload/Magic%20The%20Gathering/decks%20retaill%C3%A9s/m19_pwdk_ajani_fr.png"/>	
+		<constructpack lang="en" num="2" url="https://gamewave.fr/static/images/medias/upload/Magic%20The%20Gathering/decks%20retaill%C3%A9s/m19_pwdk_tezzeret_fr.png"/>
+		<constructpack lang="en" num="3" url="https://gamewave.fr/static/images/medias/upload/Magic%20The%20Gathering/decks%20retaill%C3%A9s/m19_pwdk_liliana_fr.png"/>
+		<constructpack lang="en" num="4" url="https://gamewave.fr/static/images/medias/upload/Magic%20The%20Gathering/decks%20retaill%C3%A9s/m19_pwdk_sarkhan_fr.png"/>
+		<constructpack lang="en" num="5" url="https://gamewave.fr/static/images/medias/upload/Magic%20The%20Gathering/decks%20retaill%C3%A9s/m19_pwdk_vivien_fr.png"/>
+			
 	</edition>
 
 	<edition id='GRN'>
