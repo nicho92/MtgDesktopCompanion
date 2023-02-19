@@ -1524,10 +1524,14 @@
 	</edition>
 
 	<edition id='C16'>
-		<booster lang='en' num='1'
-			url="http://www.manaleak.com/mtguk/files/2016/10/Commander-2016-Full-Decklists.jpg" />
-		<set lang='en'
-			url="http://mtgen.net/c16/images/logo-word.png" />
+		<set lang='en' url="http://mtgen.net/c16/images/logo-word.png" />
+		<constructpack lang="en" num="1" url="https://cdn.shopify.com/s/files/1/1570/7271/products/stalwartunity.jpg"/>
+		<constructpack lang="en" num="2" url="https://cdn.shopify.com/s/files/1/1570/7271/products/entropicuprising.jpg"/>
+		<constructpack lang="en" num="3" url="https://cdn.shopify.com/s/files/1/1570/7271/products/openhostility.jpg"/>
+		<constructpack lang="en" num="4" url="https://cdn.shopify.com/s/files/1/1570/7271/products/inventsuperiority.jpg"/>
+		<constructpack lang="en" num="5" url="https://cdn.shopify.com/s/files/1/1570/7271/products/aef409ab-95cb-439e-8813-da8b012c42f7_1.d64296dac570d3d612bfe9b1b8b31ca0.jpg"/>
+		
+		
 	</edition>
 	<edition id='AER'>
 
