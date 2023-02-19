@@ -1762,8 +1762,8 @@
 		<bundle lang='en'
 			url="http://www.magicspoiler.com/wp-content/uploads/2018/09/Guilds-of-Ravnica-Bundle.png" />
 			
-		<prereleasepack num='1' lang='en' url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/f/fa/GRN_Planeswalker_Deck_Ral.png"/>	
-		<prereleasepack num='2' lang='en' url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/0/09/GRN_Planeswalker_Deck_Vraska.png"/>
+		<constructpack num='1' lang='en' url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/f/fa/GRN_Planeswalker_Deck_Ral.png"/>	
+		<constructpack num='2' lang='en' url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/0/09/GRN_Planeswalker_Deck_Vraska.png"/>
 			
 	</edition>
 	<edition id='C18'>
