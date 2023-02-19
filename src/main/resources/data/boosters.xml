@@ -903,7 +903,9 @@
 	</edition>
 	<edition id='M10'>
 		<booster lang='en' num='1' url="https://magic.wizards.com/sites/mtg/files/image_legacy_migration/mtg/images/daily/arcana/207_booster1_yf1k0s67y4.jpg" />
-		<set lang='en' url="http://mtgen.net/m10/images/logo-word.png" />
+		<box lang='en' num='1' url="https://m.media-amazon.com/images/I/51+2MauXNPL._AC_.jpg"/>
+		<set lang='en' url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/8/88/Magic_2010_expansion_logo.png" />
+		<bundle lang='en' url='https://cdn11.bigcommerce.com/s-0kvv9/images/stencil/500x659/products/118787/81736/magic-the-gathering-card-game-2010-edition-deck-builder-s-toolkit-10__29263.1461229406.jpg'/>
 	</edition>
 	<edition id='V09'>
 
@@ -912,11 +914,8 @@
 	</edition>
 	<edition id='HOP'>
 
-		<booster lang='en' num='1'
-			url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/375633.jpg" />
-
-		<set lang='en'
-			url="http://mtgen.net/hop/images/logo-word.jpg" />
+		<constructpack lang='en' num='1'  url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/375633.jpg" />
+		<set lang='en' url="http://mtgen.net/hop/images/logo-word.jpg" />
 	</edition>
 	<edition id='ME3'>
 
@@ -945,7 +944,7 @@
 	</edition>
 
 	<edition id='ARC'>
-		<booster lang='en' num='1' url="http://archive.wizards.com/mtg/images/daily/features/feature91_product.jpg" />
+		<constructpack lang='en' num='1' url="http://archive.wizards.com/mtg/images/daily/features/feature91_product.jpg" />
 		<set lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_ARC_SetLogo.png" />
 	</edition>
 	
@@ -1587,8 +1586,8 @@
 	</edition>
 	<edition id='C17'>
 
-		<booster lang='en' num='1'
-			url="https://images1.mtggoldfish.com/featured_images/1674/c16-decklists-featured.jpg" />
+		<constructpack lang='en' num='1'
+			url="http://www.thediscard.com/wp-content/uploads/2017/08/Commander-2017.png" />
 
 		<set lang='en'
 			url="http://www.smfcorp.net/images/editions/gros_logos/169.png" />
@@ -1664,7 +1663,12 @@
 			url="http://mtgen.net/dom/images/logo-word.png" />
 		<box lang='en'
 			url="https://www.magicmadhouse.co.uk/images/dominaria-booster-box-p278260-272809_medium.jpg" />
-			<prereleasepack lang='en' num='1' url='https://www.lataniere.fr/wp-content/uploads/2018/03/Dominaria-pack-AP-Magic-Toulon-L-Ataniere.png'/>
+		<prereleasepack lang='en' num='1' url='https://www.lataniere.fr/wp-content/uploads/2018/03/Dominaria-pack-AP-Magic-Toulon-L-Ataniere.png'/>
+			
+		<constructpack num='1' lang='en' url="https://cdn.shopify.com/s/files/1/0270/6246/8678/products/DOM_Planeswalker_Deck_Teferi_580x.png"/>
+		<constructpack num='2' lang='en' url="https://cf.geekdo-images.com/NUVsBis9BJF7qt1cC62NNA__opengraph/img/Trbl5ctXL5nmpWrHYX4bzIROUj8=/fit-in/1200x630/filters:strip_icc()/pic7257361.png"/>
+			
+			
 			
 	</edition>
 	<edition id='BBD'>
@@ -1756,6 +1760,10 @@
 			url="https://cdn11.bigcommerce.com/s-ebhaloj/images/stencil/1280x1280/products/5371/9284/MTGGRN_EN_BstrDsp_01__35060.1607621709.png" />
 		<bundle lang='en'
 			url="http://www.magicspoiler.com/wp-content/uploads/2018/09/Guilds-of-Ravnica-Bundle.png" />
+			
+		<prereleasepack num='1' lang='en' url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/f/fa/GRN_Planeswalker_Deck_Ral.png"/>	
+		<prereleasepack num='2' lang='en' url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/0/09/GRN_Planeswalker_Deck_Vraska.png"/>
+			
 	</edition>
 	<edition id='C18'>
 		<booster lang='en' num='1'	url="https://cdn.shopify.com/s/files/1/0921/7330/products/0_d810d1f1-8368-4e3d-adad-a4948ae12727_900x900.jpg?v=1533716185" />
@@ -2024,7 +2032,7 @@
 	
 	<edition id="SS2">
 			<set lang="en"  url="https://www.mtgpics.com/graph/sets/logos_big/ss2.png" />
-			<box lang="en" url="https://www.parkage.com/files/img/products/magic/coffrets/imgprdt_mtg_ss2_01.jpg" />
+			<constructpack lang="en" url="https://www.parkage.com/files/img/products/magic/coffrets/imgprdt_mtg_ss2_01.jpg" />
 	</edition>
 	<edition id="SS3">
 		<set lang="en" url="http://www.magiccorporation.com/images/magic/editions/maxi/signature_spellbook_chandra.png" />

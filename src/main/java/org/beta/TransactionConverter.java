@@ -107,9 +107,9 @@ public class TransactionConverter {
 				if(!error)
 				{
 					try {
-					//	TransactionService.saveTransaction(t, false);
+						//TransactionService.saveTransaction(t, false);
 						System.out.println("Transaction saved for order #"+id + " with " +items.size() + " items : " + UITools.formatDouble(t.total())) ;
-					//	MTG.getEnabledPlugin(MTGDao.class).deleteOrderEntry(items);
+						//MTG.getEnabledPlugin(MTGDao.class).deleteOrderEntry(items);
 						
 					} catch (Exception e) {
 						e.printStackTrace();
