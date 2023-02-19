@@ -14,6 +14,7 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGSealedProvider;
 import org.magic.services.MTGControler;
+import org.magic.services.TransactionService;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 
@@ -27,7 +28,7 @@ public class TransactionConverter {
 		MTGControler.getInstance().init();
 		MTG.getEnabledPlugin(MTGCardsProvider.class).init();
 		
-		var itemType=EnumItems.FATPACK;
+		var itemType=EnumItems.PRERELEASEPACK;
 		
 		transactions=MTG.getEnabledPlugin(MTGDao.class).listTransactions();
 		
