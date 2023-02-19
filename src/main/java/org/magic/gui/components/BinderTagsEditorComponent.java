@@ -36,12 +36,12 @@ import javax.swing.filechooser.FileFilter;
 
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.api.sealedprovider.impl.MTGCompanionSealedProvider.LOGO;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.services.BinderTagsManager;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.providers.SealedProductProvider.LOGO;
 import org.magic.services.tools.ImageTools;
 public class BinderTagsEditorComponent extends MTGUIComponent {
 

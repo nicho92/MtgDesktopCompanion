@@ -5,14 +5,11 @@ import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
 
-import org.apache.logging.log4j.Level;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
-import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;

@@ -69,7 +69,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.providers.IconSetProvider;
-import org.magic.services.providers.SealedProductProvider;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.FileTools;
 import org.magic.services.tools.MTG;
@@ -111,7 +110,6 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 	private JResizerPanel resizerPanel;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JCheckBox chckbxWallpaper;
-	private JCheckBox chckbxPackages;
 	private JCheckBox chckbxSealed;
 	private JComboBox<MTGServer> cboServers;
 	private JCheckBox chckbxShopping;
@@ -316,7 +314,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		var chkboxAutoAdd = new JCheckBox(capitalize("AUTO_STOCK_ADD"));
 		chckbxIconset = new JCheckBox(capitalize("IMG_SET"));
 		chckbxIconcards = new JCheckBox(capitalize("IMG_CARD"));
-		chckbxPackages = new JCheckBox(capitalize("PACKAGES"));
+		
 		var chkboxAutoDelete = new JCheckBox(capitalize("AUTO_STOCK_DELETE"));
 		var btnDefaultStock = new JButton("Default Stock");
 		var chkboxPrerelease = new JCheckBox();
@@ -333,7 +331,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 
 		chckbxIconset.setSelected(true);
 		chckbxIconcards.setSelected(true);
-		chckbxPackages.setSelected(true);
+		
 
 		chkboxPrerelease.getModel().setSelected( MTG.readPropertyAsBoolean("notifyPrerelease"));
 		chkboxAutoAdd.setSelected(MTG.readPropertyAsBoolean("collections/stockAutoAdd"));
@@ -342,7 +340,6 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 
 		panelCheckCache.add(chckbxIconset);
 		panelCheckCache.add(chckbxIconcards);
-		panelCheckCache.add(chckbxPackages);
 
 		panelAutoStock.add(chkboxAutoAdd);
 		panelAutoStock.add(chkboxAutoDelete);
@@ -730,10 +727,6 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 
 				if(chckbxIconcards.isSelected())
 					getEnabledPlugin(MTGPictureCache.class).clear();
-
-				if(chckbxPackages.isSelected())
-					SealedProductProvider.inst().clear();
-
 
 				loading(false, "");
 			} catch (Exception e) {

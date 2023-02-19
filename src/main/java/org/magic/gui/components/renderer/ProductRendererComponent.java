@@ -5,17 +5,21 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingWorker;
 import javax.swing.border.LineBorder;
 
 import org.magic.api.interfaces.MTGProduct;
 import org.magic.services.network.URLTools;
+import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
+
 
 public class ProductRendererComponent extends JPanel {
 
@@ -28,7 +32,7 @@ public class ProductRendererComponent extends JPanel {
 
 	public ProductRendererComponent() {
 
-		temp= new HashMap<>();
+		temp= new ConcurrentHashMap<>();
 		initGUI();
 	}
 
@@ -64,27 +68,42 @@ public class ProductRendererComponent extends JPanel {
 	}
 
 	public void init(MTGProduct p) {
-
+	
 		if(p==null)
 			return;
-
 
 		lblProductName.setText(p.getName());
 		if(p.getEdition()!=null)
 			lblProductSet.setText(p.getEdition().getSet());
 
-
 		if(p.getCategory()!=null)
 			lblProductType.setText(p.getCategory().getCategoryName()+" ("+p.getProductId() +")");
 
-		lblImage.setIcon(new ImageIcon(temp.computeIfAbsent(p.getProductId(),i->{
-			try {
-				return URLTools.extractAsImage(p.getUrl()).getScaledInstance(150, 110, Image.SCALE_SMOOTH);
-			} catch (Exception e) {
-				return new BufferedImage(1, 1, Image.SCALE_FAST);
+		
+		var sw = new SwingWorker<Image, Void>() {
+			@Override
+			protected Image doInBackground() throws Exception {
+				return temp.computeIfAbsent(p.getProductId(),i->{
+					try {
+						return URLTools.extractAsImage(p.getUrl()).getScaledInstance(150, 110, Image.SCALE_SMOOTH);
+					} catch (Exception e) {
+						return new BufferedImage(1, 1, Image.SCALE_FAST);
+					}
+				});
 			}
-
-		})));
+			@Override
+			protected void done() {
+				try {
+					lblImage.setIcon(new ImageIcon(get()));
+				} catch (InterruptedException e) {
+					Thread.currentThread().interrupt();
+				} catch (ExecutionException e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		ThreadManager.getInstance().runInEdt(sw, "Loading product pics");
+		
 	}
 
 }

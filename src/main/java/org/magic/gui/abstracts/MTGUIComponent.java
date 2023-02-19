@@ -128,7 +128,7 @@ public abstract class MTGUIComponent extends JComponent {
 
 	public ImageIcon getIcon()
 	{
-		return MTGConstants.ICON_PACKAGE_SMALL;
+		return MTGConstants.ICON_TAB_PACKAGE;
 	}
 
 	@Override

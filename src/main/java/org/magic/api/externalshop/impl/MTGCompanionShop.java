@@ -16,10 +16,10 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGProduct;
+import org.magic.api.interfaces.MTGSealedProvider;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.services.MTGConstants;
-import org.magic.services.providers.SealedProductProvider;
 import org.magic.services.tools.MTG;
 
 public class MTGCompanionShop extends AbstractExternalShop {
@@ -59,12 +59,11 @@ public class MTGCompanionShop extends AbstractExternalShop {
 	public List<MTGProduct> listProducts(String name) throws IOException {
 
 		var cards = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, null, false);
-		var products = SealedProductProvider.inst().search(name);
-
+		var products =MTG.getEnabledPlugin(MTGSealedProvider.class).search(name);
 
 		logger.debug("Found {} for {}",products,name);
 		var ret = new ArrayList<MTGProduct>();
-
+		
 		cards.forEach(card->{
 					card.setEdition(card.getCurrentSet());
 					card.setCategory(new Category(0, EnumItems.CARD.name()));
@@ -74,6 +73,7 @@ public class MTGCompanionShop extends AbstractExternalShop {
 					ret.add(card);
 		});
 
+		
 		products.forEach(ss->{
 					ss.setName(ss.getTypeProduct() + " " + (ss.getExtra()!=null ? ss.getExtra():"")+ " "  + ss.getEdition() + " " + ss.getLang());
 					ss.setUrl(ss.getUrl());
@@ -82,7 +82,6 @@ public class MTGCompanionShop extends AbstractExternalShop {
 					notify(ss);
 			ret.add(ss);
 		});
-
 		return ret;
 	}
 

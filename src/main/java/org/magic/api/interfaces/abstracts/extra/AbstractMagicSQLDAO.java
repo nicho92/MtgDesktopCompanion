@@ -49,8 +49,9 @@ import org.magic.api.beans.technical.audit.DAOInfo;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.MTGPool;
-import org.magic.api.interfaces.MTGStockItem;
+import org.magic.api.interfaces.MTGSealedProvider;
 import org.magic.api.interfaces.MTGSerializable;
+import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.api.pool.impl.NoPool;
 import org.magic.services.MTGConstants;
@@ -58,10 +59,10 @@ import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
 import org.magic.services.TechnicalServiceManager;
 import org.magic.services.TransactionService;
-import org.magic.services.providers.SealedProductProvider;
 import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.IDGenerator;
 import org.magic.services.tools.ImageTools;
+import org.magic.services.tools.MTG;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -2265,7 +2266,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 		  try
 		  {
-			var list = SealedProductProvider.inst().get(getEnabledPlugin(MTGCardsProvider.class).getSetById(rs.getString(EDITION)),EnumItems.valueOf(rs.getString("typeProduct")),(rs.getString(EXTRA_TYPE)==null) ? null : MTGSealedProduct.EXTRA.valueOf(rs.getString(EXTRA_TYPE)));
+			var list = MTG.getEnabledPlugin(MTGSealedProvider.class).get(getEnabledPlugin(MTGCardsProvider.class).getSetById(rs.getString(EDITION)),EnumItems.valueOf(rs.getString("typeProduct")),(rs.getString(EXTRA_TYPE)==null) ? null : MTGSealedProduct.EXTRA.valueOf(rs.getString(EXTRA_TYPE)));
 			MTGSealedProduct product = list.stream().filter(p->p.getNum()==ref).findFirst().orElse(list.get(0));
 			state.setProduct(product);
 		  }

@@ -66,7 +66,7 @@ public class MagicCardsTreeCellRenderer implements TreeCellRenderer {
 				}
 			}
 			else if (((DefaultMutableTreeNode) value).getUserObject() instanceof MTGSealedProduct) {
-				c.setIcon(MTGConstants.ICON_PACKAGE_SMALL);
+				c.setIcon(MTGConstants.ICON_TAB_PACKAGE);
 			}
 			else {
 				c.setIcon(MTGConstants.ICON_BACK);

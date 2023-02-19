@@ -12,8 +12,8 @@ import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.technical.GedEntry;
-import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.MTGSerializable;
+import org.magic.api.interfaces.MTGStockItem;
 
 public class Announce implements MTGSerializable, Comparable<Announce> {
 

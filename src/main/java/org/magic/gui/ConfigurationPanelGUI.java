@@ -38,6 +38,7 @@ import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGPool;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.MTGScript;
+import org.magic.api.interfaces.MTGSealedProvider;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.MTGShopper;
 import org.magic.api.interfaces.MTGTextGenerator;
@@ -110,6 +111,7 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 
 
 		createTab(capitalize("CARDS"), MTGConstants.ICON_TAB_CARD, PluginRegistry.inst().getEntry(MTGCardsProvider.class));
+		createTab(capitalize("SEALED"), MTGConstants.ICON_TAB_PACKAGE, PluginRegistry.inst().getEntry(MTGSealedProvider.class));
 		createTab(capitalize("PICTURES"), MTGConstants.ICON_TAB_PICTURE, PluginRegistry.inst().getEntry(MTGPictureProvider.class));
 		createTab(capitalize("PRICERS"), MTGConstants.ICON_TAB_PRICES, PluginRegistry.inst().getEntry(MTGPricesProvider.class));
 		createTab(capitalize("DATABASES"), MTGConstants.ICON_TAB_DAO, PluginRegistry.inst().getEntry(MTGDao.class));
@@ -135,7 +137,7 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 		createTab(capitalize("TRACKING"), MTGConstants.ICON_TAB_DELIVERY, PluginRegistry.inst().getEntry(MTGTrackingService.class));
 		createTab(capitalize("EXTERNAL_SHOP"), MTGConstants.ICON_TAB_EXT_SHOP, PluginRegistry.inst().getEntry(MTGExternalShop.class));
 		createTab(capitalize("IA"), MTGConstants.ICON_TAB_IA, PluginRegistry.inst().getEntry(MTGIA.class));
-
+	
 		tabbedPane.addTab(capitalize("CONFIGURATION"), MTGConstants.ICON_TAB_ADMIN,new JScrollPane(new ConfigurationPanel()), null);
 		tabbedPane.addTab(capitalize("ACTIVE_SERVERS"), MTGConstants.ICON_TAB_ACTIVESERVER, new ServersGUI(),null);
 

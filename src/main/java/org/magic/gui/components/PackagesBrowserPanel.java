@@ -14,15 +14,15 @@ import org.jdesktop.swingx.JXTree;
 import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumItems;
+import org.magic.api.interfaces.MTGSealedProvider;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.renderer.MagicCardsTreeCellRenderer;
 import org.magic.services.MTGConstants;
-import org.magic.services.providers.SealedProductProvider;
+import org.magic.services.tools.MTG;
 
 public class PackagesBrowserPanel extends MTGUIComponent{
 
 	private static final long serialVersionUID = 1L;
-	private transient SealedProductProvider provider;
 	private DefaultTreeModel model;
 	private ImagePanel panelDraw;
 	private JXTree tree;
@@ -30,7 +30,6 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 
 
 	public PackagesBrowserPanel(boolean viewThumbnail) {
-		provider = SealedProductProvider.inst();
 		this.view = viewThumbnail;
 		initGUI();
 
@@ -53,7 +52,7 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 		root.setUserObject(ed);
 		root.removeAllChildren();
 		Arrays.asList(EnumItems.values()).forEach(t->{
-			List<MTGSealedProduct> pks = provider.get(ed, t);
+			List<MTGSealedProduct> pks = MTG.getEnabledPlugin(MTGSealedProvider.class).get(ed, t);
 			logger.trace("loading {} {}",ed,pks);
 			if(!pks.isEmpty())
 			{
@@ -110,7 +109,7 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 
 	public void load(MTGSealedProduct p)
 	{
-			panelDraw.setImg(provider.get(p));
+			panelDraw.setImg(MTG.getEnabledPlugin(MTGSealedProvider.class).getPictureFor(p));
 			panelDraw.revalidate();
 			panelDraw.repaint();
 	}
@@ -121,13 +120,13 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 		var root = (DefaultMutableTreeNode)model.getRoot();
 		root.removeAllChildren();
 
-		provider.listEditions().forEach(ed->{
+		MTG.getEnabledPlugin(MTGSealedProvider.class).listAvailableEditions().forEach(ed->{
 
 			var edNode = new DefaultMutableTreeNode(ed);
 			root.add(edNode);
 
 			Arrays.asList(EnumItems.values()).forEach(t->{
-				List<MTGSealedProduct> pks = provider.get(ed, t);
+				List<MTGSealedProduct> pks = MTG.getEnabledPlugin(MTGSealedProvider.class).get(ed, t);
 				if(!pks.isEmpty())
 				{
 					var dir = new DefaultMutableTreeNode(t);

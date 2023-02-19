@@ -38,6 +38,7 @@ import org.magic.api.interfaces.MTGPlugin.PLUGINS;
 import org.magic.api.interfaces.MTGPool;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.MTGScript;
+import org.magic.api.interfaces.MTGSealedProvider;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.MTGShopper;
 import org.magic.api.interfaces.MTGTextGenerator;
@@ -161,6 +162,7 @@ public class PluginRegistry {
 		registry.put(MTGTrackingService.class, new PluginEntry<>(MTGTrackingService.class,true, "/trackings", "/tracker", "org.magic.api.tracking.impl",PLUGINS.TRACKING));
 		registry.put(MTGExternalShop.class, new PluginEntry<>(MTGExternalShop.class,false, "/externalsShops", "/extshop", "org.magic.api.externalshop.impl",PLUGINS.EXTERNAL_SHOP));
 		registry.put(MTGIA.class, new PluginEntry<>(MTGIA.class,false, "/artificialIntelligences", "/ia", "org.magic.api.ia.impl",PLUGINS.IA));
+		registry.put(MTGSealedProvider.class, new PluginEntry<>(MTGSealedProvider.class,false, "/sealeds", "/sealedProvider", "org.magic.api.sealedprovider.impl",PLUGINS.SEALED));
 		
 		registry.put(AbstractJDashlet.class, new PluginEntry<>(AbstractJDashlet.class,true,"/dashlets", "/dashlet", "org.magic.gui.dashlet",PLUGINS.DASHLET));
 		logger.info("MTG Plugins loaded");

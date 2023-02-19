@@ -217,7 +217,7 @@ public class OrdersGUI extends MTGUIComponent {
 
 								List<MagicCard> toSave = new ArrayList<>();
 
-								entries.stream().filter(o->o.getType()==EnumItems.CARD || o.getType()==EnumItems.FULLSET).forEach(order->{
+								entries.stream().filter(o->o.getType()==EnumItems.CARD || o.getType()==EnumItems.SET).forEach(order->{
 
 									try {
 											if(order.getType()==EnumItems.CARD)
@@ -228,7 +228,7 @@ public class OrdersGUI extends MTGUIComponent {
 
 												toSave.add(l.get(0));
 											}
-											else if(order.getType()==EnumItems.FULLSET)
+											else if(order.getType()==EnumItems.SET)
 											{
 												toSave.addAll(getEnabledPlugin(MTGCardsProvider.class).searchCardByEdition(order.getEdition()));
 											}
@@ -347,8 +347,8 @@ public class OrdersGUI extends MTGUIComponent {
 
 				calulate(UITools.getTableSelections(table, 0));
 
-				if(o.getEdition()!=null)
-					editionFinancialChartPanel.init(o.getEdition());
+//				if(o.getEdition()!=null)
+//					editionFinancialChartPanel.init(o.getEdition());
 
 
 

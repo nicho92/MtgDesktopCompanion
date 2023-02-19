@@ -80,6 +80,16 @@
   <currencylayer-converter-enable>false</currencylayer-converter-enable>
   <langage>English</langage>
   <autocompletion>true</autocompletion>
+  
+  
+  <!-- PLUGINS -->
+  
+  <sealeds>
+    <sealedProvider>
+      <class>org.magic.api.sealedprovider.impl.MTGCompanionSealedProvider</class>
+	  <enable>true</enable>
+    </sealedProvider>
+  </sealeds>
   <indexers>
     <index>
       <class>org.magic.api.indexer.impl.LuceneIndexer</class>

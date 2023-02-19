@@ -11,15 +11,16 @@ import java.util.List;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumItems;
+import org.magic.api.interfaces.MTGSealedProvider;
+import org.magic.api.sealedprovider.impl.MTGCompanionSealedProvider.LOGO;
 import org.magic.services.logging.MTGLogger;
-import org.magic.services.providers.SealedProductProvider;
-import org.magic.services.providers.SealedProductProvider.LOGO;
 import org.magic.services.tools.ImageTools;
+import org.magic.services.tools.MTG;
 
 
 public class BinderTagsManager {
 
-	private SealedProductProvider prov;
+	private MTGSealedProvider prov;
 	private Color backColor=null;
 	private Dimension d;
 	private boolean border;
@@ -47,7 +48,7 @@ public class BinderTagsManager {
 	}
 
 	public BinderTagsManager(Dimension d){
-		prov = SealedProductProvider.inst();
+		prov = MTG.getEnabledPlugin(MTGSealedProvider.class);
 		addlogo=null;
 		border=true;
 		space=0;
@@ -69,7 +70,7 @@ public class BinderTagsManager {
 		for(String id :ids)
 		{
 			try {
-				BufferedImage im = prov.get(prov.get(new MagicEdition(id),EnumItems.SET).get(0));
+				BufferedImage im = prov.getPictureFor(prov.get(new MagicEdition(id),EnumItems.SET).get(0));
 				ims.add(im);
 			}catch(IndexOutOfBoundsException ioobe)
 			{

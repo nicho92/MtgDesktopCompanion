@@ -1546,13 +1546,11 @@
 		<set lang='en'
 			url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_PCA_Name.png" />
 	</edition>
+	
 	<edition id='AKH'>
-		<box lang="en" num="1"
-			url="https://cdn.shoplightspeed.com/shops/621388/files/21537025/1600x2048x2/wizards-of-the-coast-mtg-amonkhet-booster-box.jpg" />
-		<booster lang='en' num='1'
-			url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/1102276.jpg" />
-		<set lang='en'
-			url="http://mtgen.net/akh/images/logo-word.png" />
+		<box lang="en" num="1" url="https://cdn.shoplightspeed.com/shops/621388/files/21537025/1600x2048x2/wizards-of-the-coast-mtg-amonkhet-booster-box.jpg" />
+		<booster lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/1102276.jpg" />
+		<set lang='en' url="https://www.magic-ville.com/fr/graph/bigsetlogos/akh.png" />
 		<bundle lang="en" url="https://media.magic.wizards.com/en_FaDjrcSEoP.png" />
 	</edition>
 	<edition id='DDS'>

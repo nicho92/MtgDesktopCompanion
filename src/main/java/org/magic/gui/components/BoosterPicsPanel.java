@@ -15,11 +15,12 @@ import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumItems;
+import org.magic.api.interfaces.MTGSealedProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.logging.MTGLogger;
-import org.magic.services.providers.SealedProductProvider;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.ImageTools;
+import org.magic.services.tools.MTG;
 
 public class BoosterPicsPanel extends JTabbedPane {
 
@@ -62,12 +63,12 @@ public class BoosterPicsPanel extends JTabbedPane {
 				@Override
 				protected ImageIcon doInBackground() {
 
-					List<MTGSealedProduct> l = SealedProductProvider.inst().get(ed,EnumItems.BOOSTER);
+					List<MTGSealedProduct> l = MTG.getEnabledPlugin(MTGSealedProvider.class).get(ed,EnumItems.BOOSTER);
 					logger.trace("loading booster : {}",l);
 					l.forEach(i->
 					{
 						try {
-							BufferedImage img = SealedProductProvider.inst().get(i);
+							BufferedImage img = MTG.getEnabledPlugin(MTGSealedProvider.class).getPictureFor(i);
 							if(img!=null)
 								publish(new SimpleEntry<>(i,new ImageIcon(resizeBooster(img))));
 

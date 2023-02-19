@@ -214,17 +214,11 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 				protected List<MTGProduct> doInBackground() throws Exception {
 						return plug.listProducts(search);
 				}
-
+				
 				@Override
 				protected void done() {
-					try {
 						super.done();
-						modelInput.addAll(get());
-					} catch (InterruptedException e) {
-						Thread.currentThread().interrupt();
-					} catch (ExecutionException e) {
-						logger.error(e);
-					}
+						modelInput.addAll(getResult());
 				}
 
 			};
