@@ -21,6 +21,7 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractSealedProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;
+import org.magic.services.tools.MTG;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
@@ -28,11 +29,7 @@ public class MTGCompanionSealedProvider extends AbstractSealedProvider{
 
 	private Document document;
 	public enum LOGO { ORANGE,BLUE,YELLOW,WHITE,NEW}
-	private List<MagicEdition> list;
 
-	public MTGCompanionSealedProvider() {
-		list = new ArrayList<>();
-	}
 	
 	private void init() 
 	{
@@ -53,7 +50,11 @@ public class MTGCompanionSealedProvider extends AbstractSealedProvider{
 	{
 		init();
 		var ret = new ArrayList<MTGSealedProduct>();
-		listAvailableEditions().stream().filter(me->me.getSet().toLowerCase().contains(name.toLowerCase())).toList().forEach(me->ret.addAll(getItemsFor(me)));
+		try {
+			MTG.getEnabledPlugin(MTGCardsProvider.class).listEditions().stream().filter(me->me.getSet().toLowerCase().contains(name.toLowerCase())).toList().forEach(me->ret.addAll(getItemsFor(me)));
+		} catch (IOException e) {
+			logger.error(e);
+		}
 
 		return ret;
 	}
@@ -147,32 +148,6 @@ public class MTGCompanionSealedProvider extends AbstractSealedProvider{
 
 		return ret;
 	}
-
-
-	public List<MagicEdition> listAvailableEditions() {
-
-		if (!list.isEmpty())
-			return list;
-
-		init();
-		
-		try {
-			var xPath = XPathFactory.newInstance().newXPath();
-			var expression = "//edition/@id";
-			var nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
-			for (var i = 0; i < nodeList.getLength(); i++)
-			{
-				list.add(getEnabledPlugin(MTGCardsProvider.class).getSetById(nodeList.item(i).getNodeValue()));
-			}
-
-			Collections.sort(list);
-		} catch (Exception e) {
-			logger.error("Error retrieving IDs ", e);
-		}
-		return list;
-	}
-
-	
 
 	@Override
 	public String getName() {

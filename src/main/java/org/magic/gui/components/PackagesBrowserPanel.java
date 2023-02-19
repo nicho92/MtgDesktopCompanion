@@ -1,6 +1,7 @@
 package org.magic.gui.components;
 
 import java.awt.BorderLayout;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import org.jdesktop.swingx.JXTree;
 import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumItems;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGSealedProvider;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.renderer.MagicCardsTreeCellRenderer;
@@ -115,12 +117,12 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 	}
 
 
-	public void initTree()
+	public void initTree() throws IOException
 	{
 		var root = (DefaultMutableTreeNode)model.getRoot();
 		root.removeAllChildren();
 
-		MTG.getEnabledPlugin(MTGSealedProvider.class).listAvailableEditions().forEach(ed->{
+		MTG.getEnabledPlugin(MTGCardsProvider.class).listEditions().stream().sorted().forEach(ed->{
 
 			var edNode = new DefaultMutableTreeNode(ed);
 			root.add(edNode);

@@ -16,9 +16,6 @@ public interface MTGSealedProvider extends MTGPlugin {
 	public List<MTGSealedProduct> getItemsFor(MagicEdition me);
 	public List<MTGSealedProduct> search(String name);
 		
-	public List<MagicEdition> listAvailableEditions();
-	
-	
 	public List<MTGSealedProduct> get(MagicEdition me,EnumItems t, String lang, EXTRA extra);
 	public List<MTGSealedProduct> get(MagicEdition me,EnumItems t, String lang);
 	public List<MTGSealedProduct> get(MagicEdition me,EnumItems t, EXTRA extra);

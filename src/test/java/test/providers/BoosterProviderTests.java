@@ -18,13 +18,13 @@ public class BoosterProviderTests {
 
 	
 	@Test
-	public void test()
+	public void test() throws IOException
 	{
 		MTGControler.getInstance();
 		getEnabledPlugin(MTGCardsProvider.class).init();
 		MTGLogger.changeLevel(Level.OFF);
 		
-		for(MagicEdition id : MTG.getEnabledPlugin(MTGSealedProvider.class).listAvailableEditions())
+		for(MagicEdition id : MTG.getEnabledPlugin(MTGCardsProvider.class).listEditions())
 		{
 			MTG.getEnabledPlugin(MTGSealedProvider.class).getItemsFor(id).forEach(e->{
 				try {
