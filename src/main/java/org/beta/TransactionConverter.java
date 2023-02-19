@@ -28,7 +28,7 @@ public class TransactionConverter {
 		MTGControler.getInstance().init();
 		MTG.getEnabledPlugin(MTGCardsProvider.class).init();
 		
-		var itemType=EnumItems.BOX;
+		var itemType=EnumItems.CONSTRUCTPACK;
 		
 		transactions=MTG.getEnabledPlugin(MTGDao.class).listTransactions();
 		
@@ -53,21 +53,22 @@ public class TransactionConverter {
 								 
 								 EXTRA extra = null;
 							
-								 if(order.getDescription().contains("Collector"))
-								 		 extra= EXTRA.COLLECTOR;
-								  else  if(order.getDescription().contains("VIP"))
-							 		 extra= EXTRA.VIP;
-								  else  if(order.getDescription().contains("d'extension") || order.getDescription().contains("Set"))
-								 		 extra= EXTRA.SET;
-								  else  if(order.getDescription().contains("Draft"))
-								 		 extra= EXTRA.DRAFT;
-
+//								 if(order.getDescription().contains("Collector"))
+//								 		 extra= EXTRA.COLLECTOR;
+//								  else  if(order.getDescription().contains("VIP"))
+//							 		 extra= EXTRA.VIP;
+//								  else  if(order.getDescription().contains("d'extension") || order.getDescription().contains("Set"))
+//								 		 extra= EXTRA.SET;
+//								  else  if(order.getDescription().contains("Draft"))
+//								 		 extra= EXTRA.DRAFT;
+//								  else  if(order.getDescription().contains("Gift"))
+//								 		 extra= EXTRA.GIFT;
+								 
 								  var lang = "English";
 								  if(order.getDescription().contains("French") || order.getDescription().contains("Français")  || order.getDescription().contains("FR"))
 									  lang="French";
 								  
 								  
-							  
 							 var item = MTG.getEnabledPlugin(MTGSealedProvider.class).get(order.getEdition(), order.getType(),extra).get(0);  
 							 var stockItem = new SealedStock(item);
 								 	  int qty = 1 ;
@@ -80,18 +81,24 @@ public class TransactionConverter {
 								 		  qty=1;
 								 	  }
 								 	  
-								 	  
+									  if(order.getDescription().contains("Duel"))
+											  stockItem.setComment("Duel Deck");
+									  else if(order.getDescription().contains("Planeswalker"))
+										  stockItem.setComment("Planeswalker Deck");
+									  else if(order.getDescription().contains("Premium"))
+										  stockItem.setComment("Premium Deck");
+									  
 								 	  stockItem.setQte(qty);
 								 	  stockItem.setPrice(order.getItemPrice()/qty);
 								 	  stockItem.getProduct().setExtra(extra==null?EXTRA.DRAFT:extra);
 								 	  stockItem.setLanguage(lang);
-								 	  System.out.println("\t"+stockItem.getQte() + " " + stockItem.getProduct().getTypeProduct() + " " + stockItem.getProduct().getEdition() + " " +stockItem.getProduct().getExtra() + " " +  stockItem.getPrice());
+								 	  System.out.println("\t"+stockItem.getQte() + " " + stockItem.getProduct().getTypeProduct() + " " + stockItem.getProduct().getEdition().getId() + " " +stockItem.getProduct().getExtra() + " " + stockItem.getLanguage()+ " " + stockItem.getPrice());
 								 	  
 								 	  t.getItems().add(stockItem);
 							 }
 							 catch(IndexOutOfBoundsException e)
 							 {
-								System.out.println("No item found for " + order.getDescription() + "|" + order.getEdition() + "|"+id);
+								System.out.println("\tNo item found for " + order.getDescription() + "|" + order.getEdition().getId() + "|"+id);
 								error=true;
 							 }
 					}
@@ -100,9 +107,9 @@ public class TransactionConverter {
 				if(!error)
 				{
 					try {
-						//TransactionService.saveTransaction(t, false);
+					//	TransactionService.saveTransaction(t, false);
 						System.out.println("Transaction saved for order #"+id + " with " +items.size() + " items : " + UITools.formatDouble(t.total())) ;
-						//MTG.getEnabledPlugin(MTGDao.class).deleteOrderEntry(items);
+					//	MTG.getEnabledPlugin(MTGDao.class).deleteOrderEntry(items);
 						
 					} catch (Exception e) {
 						e.printStackTrace();

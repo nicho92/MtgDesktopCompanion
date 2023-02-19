@@ -867,7 +867,7 @@
 	</edition>
 
 	<edition id='THP2'>
-		<booster lang='en' num='1'
+		<constructpack lang='en' num='1'
 			url="https://cdn.shopify.com/s/files/1/2493/1456/products/2017-12-10_1601_600x600.png" />
 	</edition>
 
@@ -1060,7 +1060,7 @@
 	</edition>
 	<edition id='DDH'>
 
-		<booster lang='en' num='1'
+		<constructpack lang='en' num='1'
 			url="https://images-na.ssl-images-amazon.com/images/I/71xKKVo8unL._SY450_.jpg" />
 
 		<set lang='en'
@@ -1869,8 +1869,7 @@
 			url="https://media.wizards.com/2019/images/daily/RcUBA0DiyH.png" />
 		<constructpack num="5" lang="en"
 			url="https://media.wizards.com/2019/images/daily/MhLByWcwVS.png" />
-		<bundle lang="en"
-			url="https://media.wizards.com/2019/images/daily/Uo589miyJQ.png" />
+		<bundle num="1"  lang="en" url="https://media.wizards.com/2019/images/daily/Uo589miyJQ.png" />
 		<set lang="en"
 			url="https://images1.mtggoldfish.com/mtg_sets/m20_alg_logo.png" />
 	</edition>
@@ -2287,6 +2286,11 @@
 			url="https://images.stockx.com/images/2020-Magic-The-Gathering-TCG-Commander-Legends-Draft-Booster-Box.png" />
 		<box lang="en" num="2" extra="collector"
 			url="https://images.stockx.com/images/2020-Magic-The-Gathering-TCG-Commander-Legends-Collector-Booster-Box.png" />
+			
+			<constructpack lang='en' num='1' url="https://media.wizards.com/2020/images/daily/WIa4HeSNQb.png"/>
+			<constructpack lang='en' num='2' url="https://cdn.shopify.com/s/files/1/0266/3209/3801/products/MTGCMR_EN_Cmndr_OtrBx_01_03_CARD-OBFUSCATED_1024x1024.png"/>
+			
+			
 	</edition>
 
 	<edition id="ANB">
