@@ -27,7 +27,7 @@ public class TransactionConverter {
 		MTGControler.getInstance().init();
 		MTG.getEnabledPlugin(MTGCardsProvider.class).init();
 		
-		var itemType=EnumItems.SET;
+		var itemType=EnumItems.FATPACK;
 		
 		transactions=MTG.getEnabledPlugin(MTGDao.class).listTransactions();
 		

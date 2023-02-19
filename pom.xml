@@ -126,7 +126,7 @@
 		<dependency>
 			<groupId>nl.basjes.parse.useragent</groupId>
 			<artifactId>yauaa</artifactId>
-			<version>7.12.1</version>
+			<version>7.13.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.squareup.okhttp3</groupId>
@@ -358,7 +358,7 @@
 		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
-			<version>5.0.0-beta.3</version>
+			<version>5.0.0-beta.4</version>
 			<exclusions>
 				<exclusion>
 					<groupId>club.minnced</groupId>
@@ -558,7 +558,7 @@
 		<dependency>
 			<groupId>org.jsoup</groupId>
 			<artifactId>jsoup</artifactId>
-			<version>1.15.3</version>
+			<version>1.15.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.mina</groupId>
@@ -573,7 +573,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.5.3</version>
+			<version>42.5.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mozilla</groupId>

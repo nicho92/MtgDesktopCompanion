@@ -951,11 +951,14 @@
 	
 	<edition id='M11'>
 
-		<booster lang='en' num='1'
-			url="https://magic.wizards.com/sites/mtg/files/image_legacy_migration/mtg/images/daily/arcana/456_pack1.jpg" />
-
-		<set lang='en'
-			url="http://mtgen.net/m11/images/logo-word.png" />
+		<fatpack lang='en' num='1' url="https://m.media-amazon.com/images/I/6148VEZ3vmL._AC_UF894,1000_QL80_.jpg" />
+		<booster lang='en' num='1' url="https://troll2jeux.com/209160-large_default/mtg-magic-2011-booster-vf.jpg"/>
+		<booster lang='en' num='2' url="https://static.cardmarket.com/img/9e0973dd7aacee600f82344ff3e0cf60/items/2/241074.jpg"/>
+		<box lang='en' num='1' url="https://m.media-amazon.com/images/I/71vPlmxmykL._AC_SL1500_.jpg"/>
+		
+		<constructpack lang='en' num='1' url="https://m.media-amazon.com/images/I/71MO3uAv9rL._AC_SY879_.jpg"/>
+		
+		<set lang='en' url="https://www.smfcorp.net/images/editions/gros_logos/94.png" />
 	</edition>
 	<edition id='V10'>
 
