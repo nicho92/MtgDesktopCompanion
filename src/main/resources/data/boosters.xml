@@ -902,20 +902,13 @@
 			url="http://mtgen.net/arb/images/logo-word.png" />
 	</edition>
 	<edition id='M10'>
-
-		<booster lang='en' num='1'
-			url="https://magic.wizards.com/sites/mtg/files/image_legacy_migration/mtg/images/daily/arcana/207_booster1_yf1k0s67y4.jpg" />
-
-		<set lang='en'
-			url="http://mtgen.net/m10/images/logo-word.png" />
+		<booster lang='en' num='1' url="https://magic.wizards.com/sites/mtg/files/image_legacy_migration/mtg/images/daily/arcana/207_booster1_yf1k0s67y4.jpg" />
+		<set lang='en' url="http://mtgen.net/m10/images/logo-word.png" />
 	</edition>
 	<edition id='V09'>
 
-		<booster lang='en' num='1'
-			url="http://www.magiccorporation.com/images/magic/editions/maxi/from_the_vault_exiled.png" />
-
-		<set lang='en'
-			url="https://cdn.shopify.com/s/files/1/0742/5123/collections/From_the_Vault_Exiled_63256ce5-8603-4114-b8cd-53ef01986ee8_large.png?v=1426682556" />
+		<bundle lang='en' num='1'  url="http://www.magiccorporation.com/images/magic/editions/maxi/from_the_vault_exiled.png" />
+		<set lang='en' url="https://cdn.shopify.com/s/files/1/0742/5123/collections/From_the_Vault_Exiled_63256ce5-8603-4114-b8cd-53ef01986ee8_large.png?v=1426682556" />
 	</edition>
 	<edition id='HOP'>
 
@@ -938,37 +931,24 @@
 
 	<edition id='DDD'>
 
-		<constructpack lang='en' num='1'
-			url="https://www.magiclibrarities.net/images/edition_comment/1532.png" />
-
-		<set lang='en'
-			url="https://www.magiclibrarities.net/images/logos/246.png" />
+		<constructpack lang='en' num='1' url="https://www.magiclibrarities.net/images/edition_comment/1532.png" />
+		<set lang='en' url="https://www.magiclibrarities.net/images/logos/246.png" />
 	</edition>
 	<edition id='H09'>
-
-		<booster lang='en' num='1'
-			url="http://www.cardport.de/images/4112_0.jpg" />
-
-		<set lang='en'
-			url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_H09_SetLogo.png" />
+		<constructpack lang='en' num='1' url="https://static.tcgplayer.com/eyJrZXkiOiI5RkZCNTMwQS1BRTNELTQ3MUEtODk0Ri0wN0M2RjcwRTUzNjguanBnIiwiZWRpdHMiOnsicmVzaXplIjp7ImhlaWdodCI6MjA0OH0sImpwZWciOnsicXVhbGl0eSI6NDB9fX0=" />
+		<set lang='en' url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/3/37/H09_logo.png" />
 	</edition>
 
 	<edition id='DDE'>
-		<constructpack lang='en' num='1'
-			url="http://static.starcitygames.com/sales/cardscans/MAG_PVC/MTG_PVC_BoxSet.jpg" />
-
-		<set lang='en'
-			url="http://www.magic-ville.com/fr/graph/bigsetlogos/pvc.gif" />
+		<constructpack lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAG_PVC/MTG_PVC_BoxSet.jpg" />
+		<set lang='en' url="http://www.magic-ville.com/fr/graph/bigsetlogos/pvc.gif" />
 	</edition>
 
 	<edition id='ARC'>
-
-		<booster lang='en' num='1'
-			url="http://archive.wizards.com/mtg/images/daily/features/feature91_product.jpg" />
-
-		<set lang='en'
-			url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_ARC_SetLogo.png" />
+		<booster lang='en' num='1' url="http://archive.wizards.com/mtg/images/daily/features/feature91_product.jpg" />
+		<set lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_ARC_SetLogo.png" />
 	</edition>
+	
 	<edition id='M11'>
 
 		<booster lang='en' num='1'
@@ -1025,7 +1005,7 @@
 			url="https://cdn11.bigcommerce.com/s-0kvv9/images/stencil/1280x1280/products/219892/307333/magicbeseigedbooster__32979.1519954489.jpg" />
 
 		<set lang='en'
-			url="http://mtgen.net/mbs/images/logo-word.png" />
+			url="http://mtgen.net/mbs/images/logo-word.webp" />
 	</edition>
 	<edition id='DDG'>
 
