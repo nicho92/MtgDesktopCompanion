@@ -999,16 +999,13 @@
 			url="https://gamepedia.cursecdn.com/mtgsalvation_gamepedia/5/57/MTGO_booster.jpg?version=5cb8585d4ab62a4698f5005f586bda48" />
 	</edition>
 	<edition id='MBS'>
-
-		<booster lang='en' num='1'
-			url="https://images-na.ssl-images-amazon.com/images/I/51i-sGe7apL.jpg" />
-		<booster lang='en' num='2'
-			url="https://6d4be195623157e28848-7697ece4918e0a73861de0eb37d08968.ssl.cf1.rackcdn.com/39108_200w.jpg" />
-		<booster lang='en' num='3'
-			url="https://cdn11.bigcommerce.com/s-0kvv9/images/stencil/1280x1280/products/219892/307333/magicbeseigedbooster__32979.1519954489.jpg" />
-
-		<set lang='en'
-			url="http://mtgen.net/mbs/images/logo-word.webp" />
+		<set lang='en' url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/3/35/MBS_logo.png" />
+		<booster lang='en' num='1' url="https://images-na.ssl-images-amazon.com/images/I/51i-sGe7apL.jpg" />
+		<booster lang='en' num='2' url="https://6d4be195623157e28848-7697ece4918e0a73861de0eb37d08968.ssl.cf1.rackcdn.com/39108_200w.jpg" />
+		<booster lang='en' num='3' url="https://cdn11.bigcommerce.com/s-0kvv9/images/stencil/1280x1280/products/219892/307333/magicbeseigedbooster__32979.1519954489.jpg" />
+		<fatpack lang='en'  num='1' url="https://cdn11.bigcommerce.com/s-641uhzxs7j/images/stencil/1280x1280/products/187879/212420/MTGSP663__82813.1586745621.jpg"/>
+		<constructpack lang='en' num='1' url="https://i.ebayimg.com/images/g/VtgAAOSwvJNbd2qQ/s-l600.jpg"/>
+		<constructpack lang='en' num='2' url="https://images-na.ssl-images-amazon.com/images/I/51S-DEFPlVL._AC_UL600_SR600,600_.jpg"/>
 	</edition>
 	<edition id='DDG'>
 
