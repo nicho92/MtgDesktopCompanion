@@ -780,12 +780,12 @@
 			url="http://mtgen.net/fut/images/logo-word.png" />
 	</edition>
 	<edition id='10E'>
-
 		<booster lang='en' num='1'
 			url="http://ahzzz.com/catalog/images/mtg%20tenth%20ed%20pack-1.jpg" />
-
 		<set lang='en'
 			url="http://mtgen.net/10e/images/logo-word.png" />
+			
+		<box lang='en' num='1' url="https://www.magiclibrarities.net/images/edition_comment/1687.png"/>	
 	</edition>
 	<edition id='ME1'>
 		<booster lang='en' num='1'

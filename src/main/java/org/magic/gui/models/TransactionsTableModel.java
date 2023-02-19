@@ -80,6 +80,10 @@ public class TransactionsTableModel extends GenericTableModel<Transaction> {
 		if(columnIndex==1 || columnIndex==8 || columnIndex==10)
 			return Date.class;
 
+		if(columnIndex==3)
+			return Integer.class;
+
+		
 		if(columnIndex==4 || columnIndex==5)
 			return Double.class;
 
