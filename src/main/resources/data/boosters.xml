@@ -2321,6 +2321,13 @@
 		<constructpack lang="en" num="1" url="https://cdn.shoplightspeed.com/shops/636231/files/22746960/magic-the-gathering-magic-the-gathering-core-set-2.jpg" />
 	</edition>
 	
+	
+	<edition id="MIC">
+		<set lang='en' url="https://www.magic-ville.com/fr/graph/bigsetlogos/mic.png"/>
+		<constructpack lang="en" num="1" url="https://cdn.shopify.com/s/files/1/0660/2455/products/MTGMID_EN_CmndrOtrBx_02_03_800x.png"/>
+		<constructpack lang="en" num="2" url="https://cdn.shopify.com/s/files/1/0660/2455/products/MTGMID_EN_CmndrOtrBx_01_03.png"/>
+	</edition>
+	
 	<edition id="MID">
 		<set lang="en" url="https://bfb0038d62312c89.azureedge.net/media/Lycanspiracy/Logos/midnight-hunt-logo.png"/>
 		<box lang="en" extra="set" num="1" url="https://images.ctfassets.net/s5n2t79q9icq/7KrMI47ltlGqsW0SAxhGPg/69d853f71f5c592f45bbfb84d844cfcb/en_L8T7j0mLqX.png"/>
