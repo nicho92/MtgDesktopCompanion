@@ -1114,9 +1114,10 @@
 			url="http://mtgen.net/avr/images/logo-word.webp" />
 	</edition>
 	<edition id='PC2'>
-
-		<booster lang='en' num='1'
-			url="https://images-na.ssl-images-amazon.com/images/I/51Ng%2B59qvWL._SX355_.jpg" />
+		<constructpack lang='en' num='1' url="https://www.magiclibrarities.net/images/edition_comment/6211.png" />
+		<constructpack lang='en' num='2' url="https://www.magiclibrarities.net/images/edition_comment/6212.png" />
+		<constructpack lang='en' num='3' url="https://www.magiclibrarities.net/images/edition_comment/6213.png" />
+		<constructpack lang='en' num='4' url="https://www.magiclibrarities.net/images/edition_comment/6214.png" />
 
 		<set lang='en'
 			url="http://mtgen.net/pc2/images/logo-word.jpg" />
