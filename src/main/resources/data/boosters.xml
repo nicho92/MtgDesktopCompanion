@@ -1421,12 +1421,14 @@
 		<bundle num="2" lang="en" extra="gift" url="https://www.lataniere.fr/wp-content/uploads/2015/11/2015-Holiday-Gift-Box.png"/>	
 	</edition>
 	<edition id='C15'>
-
-		<booster lang='en' num='1'
-			url="https://assets1.mtggoldfish.com/assets/shop/c15-5pack-025dc83d4c030495ac3c7e72fb6da6cc7f21b5621f68eadaeb613d2aaa86fb82.jpg" />
-
-		<set lang='en'
-			url="http://mtgen.net/c15/images/logo-word.webp" />
+		<constructpack lang='en' num='1' url="https://www.bazaargames.nl/images/products/480x427/sd_c15_plunder_the_graves.jpg" />
+		<constructpack lang='en' num='2' url="https://www.bazaargames.nl/images/products/480x427/sd_c15_swell_the_host.jpg" />
+		<constructpack lang='en' num='3' url="https://www.bazaargames.nl/images/products/480x427/sd_c15_seize_control.jpg" />
+		<constructpack lang='en' num='4' url="https://www.bazaargames.nl/images/products/480x427/sd_c15_call_the_spirits.jpg" />
+		<constructpack lang='en' num='5' url="https://www.bazaargames.nl/images/products/480x427/sd_c15_wade_into_battle.jpg" />
+		
+		
+		<set lang='en' url="http://mtgen.net/c15/images/logo-word.webp" />
 	</edition>
 	<edition id='OGW'>
 		<booster lang='en' num='1'
