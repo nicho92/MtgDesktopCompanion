@@ -844,7 +844,7 @@
 			url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_ME2_SetLogo.png" />
 	</edition>
 	<edition id='ALA'>
-		<booster lang='en' num='1'	url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/183783.jpg" />
+		<booster lang='en' num='1'	url="https://cdn.shopify.com/s/files/1/0592/1606/8768/products/Alara-Reborn-Packs_600x.png" />
 		<box lang="en" num="1" url="https://cdn11.bigcommerce.com/s-641uhzxs7j/images/stencil/1280x1280/products/188557/317731/MTGSP7__45645.1587885893.png"/>
 		<set lang='en' url="http://mtgen.net/ala/images/logo-word.webp" />
 		<constructpack extra="intro"  lang="en" num="1" url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/e/e9/LegionAloft.jpg"/>
@@ -852,7 +852,6 @@
 		<constructpack extra="intro"  lang="en" num="3" url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/5/58/DeadAhead.jpg"/>
 		<constructpack extra="intro"  lang="en" num="4" url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/a/a4/Rumbler.jpg"/>
 		<constructpack extra="intro"  lang="en" num="5" url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/4/4d/EternalSiege.jpg"/>
-		
 	</edition>
 	<edition id='TD2'>
 		<constructpack lang='en' num='1'
