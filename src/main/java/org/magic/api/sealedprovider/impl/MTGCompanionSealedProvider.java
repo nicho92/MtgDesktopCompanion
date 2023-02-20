@@ -1,11 +1,8 @@
 package org.magic.api.sealedprovider.impl;
 
-import static org.magic.services.tools.MTG.getEnabledPlugin;
-
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.swing.Icon;
@@ -159,10 +156,5 @@ public class MTGCompanionSealedProvider extends AbstractSealedProvider{
 		return MTGConstants.ICON_PACKAGE;
 	}
 	
-
-	@Override
-	public PLUGINS getType() {
-		return PLUGINS.SEALED;
-	}
 
 }

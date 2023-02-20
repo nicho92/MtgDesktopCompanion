@@ -102,5 +102,11 @@ public abstract class AbstractSealedProvider extends AbstractMTGPlugin  implemen
 
 	}
 
+
+	@Override
+	public PLUGINS getType() {
+		return PLUGINS.SEALED;
+	}
+
 	
 }

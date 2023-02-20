@@ -556,6 +556,11 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 
 		return eds;
 	}
+	
+	public List<MTGSealedProduct> getSealeds() {
+		return sealeds;
+	}
+	
 
 	private MagicEdition generateEdition(String id) {
 
@@ -679,15 +684,36 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 			
 			var arr = ctx.read(base +".sealedProduct",JsonArray.class);
 			
+			int itemId=1;
+			
 			for(var el : arr)
 			{
-			
-			var sp = new MTGSealedProduct();
-				sp.setEdition(ed);
-				sp.setName(el.getAsJsonObject().get("name").getAsString());
-				sp.setTypeProduct(parseType(el.getAsJsonObject().get("category").getAsString()));
-				sp.setExtra(parseExtra(el.getAsJsonObject().get("subtype").getAsString()));
-				System.out.println(sp.getTypeProduct() + " " +sp.getExtra() +  " "+sp.getName());
+				var sp = new MTGSealedProduct();
+					sp.setEdition(ed);
+					sp.setName(el.getAsJsonObject().get("name").getAsString());
+					sp.setTypeProduct(parseType(el.getAsJsonObject().get("category").getAsString()));
+					sp.setNum(itemId++);
+					var extra=el.getAsJsonObject().get("subtype").getAsString();
+					
+					if(extra.equals("starter"))
+					{
+						sp.setTypeProduct(EnumItems.STARTER);
+					}
+					else
+					{
+						sp.setExtra(parseExtra(extra));	
+					}
+					
+					
+					
+					if(sp.getName().contains(" Gift "))
+						sp.setExtra(EXTRA.GIFT);
+				
+					if(ed.getId().equals("ICE"))
+						logger.info(el);
+					
+					
+				sealeds.add(sp);
 			}
 			
 		}catch(PathNotFoundException e)
@@ -711,6 +737,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 			case "vip" : return EXTRA.VIP;
 			case "jump" : return EXTRA.JUMP;
 			case "theme" : return EXTRA.THEME;
+			
 			default : return null;
 		}
 	
@@ -723,13 +750,15 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 		{
 			case "case" : return EnumItems.CASE;
 			case "subset" : return EnumItems.CASE;
+			case "deck_box" : return EnumItems.CASE;
 			case "booster_box" : return EnumItems.BOX;
 			case "booster_pack" : return EnumItems.BOOSTER;
 			case "bundle" : return EnumItems.BUNDLE;
 			case "prerelease_pack" : return EnumItems.PRERELEASEPACK;
-			case "deck" : return EnumItems.DECK;
-			case "commander_deck" : return EnumItems.DECK;
-			default : logger.info(category);return null;
+			case "deck" : return EnumItems.CONSTRUCTPACK;
+			case "commander_deck" : return EnumItems.CONSTRUCTPACK;
+			case "draft_set": return EnumItems.DRAFT_PACK;
+			default : return null;
 		}
 	}
 

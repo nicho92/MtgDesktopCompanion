@@ -12,7 +12,7 @@ import org.magic.api.beans.technical.WebShopConfig;
 import org.magic.api.interfaces.MTGSerializable;
 import org.magic.api.interfaces.MTGStockItem;
 
-public class Transaction implements MTGSerializable {
+public class Transaction implements MTGSerializable, Comparable<Transaction> {
 	private static final long serialVersionUID = 1L;
 	private Long id=-1L;
 	private Date dateCreation;
@@ -238,6 +238,18 @@ public class Transaction implements MTGSerializable {
 
 	public Currency getCurrency() {
 		return currency;
+	}
+
+
+	@Override
+	public int compareTo(Transaction o) {
+		if( o.getId()>getId())
+			return 1;
+
+		if( o.getId()<getId())
+			return -1;
+
+		return 0;
 	}
 
 }
