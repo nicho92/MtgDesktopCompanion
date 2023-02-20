@@ -827,10 +827,19 @@
 		<set lang='en'
 			url="http://mtgen.net/eve/images/logo-word.webp" />
 	</edition>
+	
+	<edition id='PDP10'>
+		<constructpack lang="en" num="1" url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/b/b2/EarsOfTheElves.jpg"/>
+		<constructpack lang="en" num="2" url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/4/4e/EyesOfShadow.jpg"/>
+		<constructpack lang="en" num="3" url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/2/2a/HandsOfFlame.jpg"/>
+		<constructpack lang="en" num="4" url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/c/c3/ThoughtsOfTheWind.jpg"/>
+		<constructpack lang="en" num="5" url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/0/08/TeethOfThePredator.jpg"/>
+		<set lang="en" url="https://www.stainlessgames.com/sites/default/files/2018-07/magic_logo_2.png"/>
+	
+	</edition>
+	
 	<edition id='DRB'>
-
-		<booster lang='en' num='1'
-			url="http://static.starcitygames.com/sales/cardscans/MAGBOX/FTVDragons2.jpg" />
+		<booster lang='en' num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/FTVDragons2.jpg" />
 
 		<set lang='en'
 			url="https://cdn.shopify.com/s/files/1/0742/5123/collections/From_the_Vault_Dragons_large.png?v=1426636511" />
@@ -864,7 +873,7 @@
 	</edition>
 
 	<edition id='THP1'>
-		<booster lang='en' num='1'
+		<constructpack lang='en' num='1'
 			url="https://images-na.ssl-images-amazon.com/images/I/51hdd4TG6gL.jpg" />
 	</edition>
 
@@ -874,7 +883,7 @@
 	</edition>
 
 	<edition id='THP3'>
-		<booster lang='en' num='1'
+		<constructpack lang='en' num='1'
 			url="https://www.magiclibrarities.net/images/edition_comment/1465.png" />
 	</edition>
 
