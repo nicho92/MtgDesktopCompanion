@@ -7,7 +7,7 @@ public class MTGSealedProduct extends AbstractProduct{
 
 	private static final long serialVersionUID = 1L;
 
-	public enum EXTRA { SET, DRAFT, COLLECTOR,THEME,GIFT,VIP,WELCOME,JUMP}
+	public enum EXTRA { SET, DRAFT, COLLECTOR,THEME,GIFT,VIP,WELCOME,JUMP,INTRO}
 
 	private String lang;
 	private int num;
