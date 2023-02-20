@@ -2098,7 +2098,7 @@
 		<box lang="en" url="https://cdn.shopify.com/s/files/1/0316/5585/4215/products/2xm_en_drftbstrdspclsd_01_01_1024x1024.png?v=1590678380" />
 		<booster lang="en" num="1" extra="VIP" url="https://www.parkage.com/files/img/products/magic/dm1/mtg2xm_en_vip_otrbx_01_03.png?timestamp=20200706125632" />
 		<booster lang="en" num="2" url="https://millenniumgames.com/wp-content/uploads/2020/08/wocdbm-pack_1.png" />
-		<booster lang="en" num="3" extra="draft" url="https://static.mtgstocks.com/sealedimage/t175.png"/>
+		<draft_pack lang="en" num="1" extra="draft" url="https://static.mtgstocks.com/sealedimage/t175.png"/>
 	</edition>
 
 	<edition id="ZNR">
