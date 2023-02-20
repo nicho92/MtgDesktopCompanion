@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -14,6 +15,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MTGFormat.AUTHORIZATION;
 import org.magic.api.beans.MTGRuling;
+import org.magic.api.beans.MTGSealedProduct;
+import org.magic.api.beans.MTGSealedProduct.EXTRA;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
@@ -21,6 +24,7 @@ import org.magic.api.beans.enums.EnumBorders;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumFinishes;
 import org.magic.api.beans.enums.EnumFrameEffects;
+import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.criterias.MTGCrit;
@@ -30,6 +34,8 @@ import org.magic.api.interfaces.abstracts.extra.AbstractMTGJsonProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
@@ -50,7 +56,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 	private static final String ROOT_DATA = "$.data";
 	private static final String CARDS_ROOT_SEARCH = ".cards[?(@.";
 	private ReadContext ctx;
-
+	private List<MTGSealedProduct> sealeds;
 
 	@Override
 	public STATUT getStatut() {
@@ -88,7 +94,9 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 	@Override
 	public void init() {
 		logger.info("init {} provider",this);
-
+		sealeds= new ArrayList<>();
+		
+		
 		Configuration.setDefaults(new Configuration.Defaults() {
 
 			private final JsonProvider jsonProvider = new GsonJsonProvider();
@@ -579,9 +587,6 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 		{
 			//do nothing
 		}
-
-
-
 		try{
 		ed.setReleaseDate(ctx.read(base + ".releaseDate", String.class));
 		}
@@ -669,8 +674,65 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 					ed.setCardCount(0);
 				}
 		}
+		
+		try {
+			
+			var arr = ctx.read(base +".sealedProduct",JsonArray.class);
+			
+			for(var el : arr)
+			{
+			
+			var sp = new MTGSealedProduct();
+				sp.setEdition(ed);
+				sp.setName(el.getAsJsonObject().get("name").getAsString());
+				sp.setTypeProduct(parseType(el.getAsJsonObject().get("category").getAsString()));
+				sp.setExtra(parseExtra(el.getAsJsonObject().get("subtype").getAsString()));
+				System.out.println(sp.getTypeProduct() + " " +sp.getExtra() +  " "+sp.getName());
+			}
+			
+		}catch(PathNotFoundException e)
+		{
+			//do nothing
+		}
+		
+		
+		
+		
 		return ed;
 	}
+
+	private EXTRA parseExtra(String extra) {
+		
+		switch(extra)
+		{
+			case "draft" : return EXTRA.DRAFT;
+			case "set" : return EXTRA.SET;
+			case "collector" : return EXTRA.COLLECTOR;
+			case "vip" : return EXTRA.VIP;
+			case "jump" : return EXTRA.JUMP;
+			case "theme" : return EXTRA.THEME;
+			default : return null;
+		}
+	
+		
+	}
+
+
+	private EnumItems parseType(String category) {
+		switch(category)
+		{
+			case "case" : return EnumItems.CASE;
+			case "subset" : return EnumItems.CASE;
+			case "booster_box" : return EnumItems.BOX;
+			case "booster_pack" : return EnumItems.BOOSTER;
+			case "bundle" : return EnumItems.BUNDLE;
+			case "prerelease_pack" : return EnumItems.PRERELEASEPACK;
+			case "deck" : return EnumItems.DECK;
+			case "commander_deck" : return EnumItems.DECK;
+			default : logger.info(category);return null;
+		}
+	}
+
 
 	@Override
 	public String getName() {
@@ -698,4 +760,5 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 		return new ArrayList<>();
 	}
 
+	
 }
