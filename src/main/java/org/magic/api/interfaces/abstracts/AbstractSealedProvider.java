@@ -61,8 +61,8 @@ public abstract class AbstractSealedProvider extends AbstractMTGPlugin  implemen
 				return ImageTools.read(b);
 			else
 				return caching(false, p);
-		} catch (IOException e) {
-			logger.error(e);
+		} catch (Exception e) {
+			logger.error("[{}] ERROR for {}-{} : {}",p.getEdition().getId(),p.getTypeProduct(),p.getUrl(),e.getMessage());
 			return null;
 		}
 	}

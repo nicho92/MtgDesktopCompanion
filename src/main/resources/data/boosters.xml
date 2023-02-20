@@ -1742,7 +1742,7 @@
 		<booster lang='fr' num='5'
 			url="https://www.lataniere.fr/wp-content/uploads/2018/06/Vivien-booster-M19-Magic-jeux-Toulon-L-Ataniere.png" />
 		<set lang='en'
-			url="https://magic.wizards.com/sites/mtg/files/Shadow_EN_x8mSpWT0C9.png" />
+			url="https://static.wikia.nocookie.net/magicarena/images/8/81/M19_logo.png" />
 		<box lang='en'
 			url="https://boutique.magiccorporation.com/images/produits/maxi/28619-jeux-de-cartes-magic-the-gathering-boites-de-boosters-core-set-2019.jpg" />
 		<bundle lang='en'
@@ -1781,7 +1781,7 @@
 			
 	</edition>
 	<edition id='C18'>
-		<booster lang='en' num='1'	url="https://cdn.shopify.com/s/files/1/0921/7330/products/0_d810d1f1-8368-4e3d-adad-a4948ae12727_900x900.jpg?v=1533716185" />
+		<constructpack lang='en' num='1'	url="https://cdn.shopify.com/s/files/1/0921/7330/products/0_d810d1f1-8368-4e3d-adad-a4948ae12727_900x900.jpg?v=1533716185" />
 		<set lang='en' url="http://www.smfcorp.net/images/editions/gros_logos/191.png" />
 	</edition>
 	<edition id="UMA">
