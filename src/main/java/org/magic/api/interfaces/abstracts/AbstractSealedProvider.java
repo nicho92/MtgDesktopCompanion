@@ -96,7 +96,7 @@ public abstract class AbstractSealedProvider extends AbstractMTGPlugin  implemen
 				return im;
 			}
 		} catch (Exception e) {
-			logger.error("[{}] ERROR for {}-{} : {}",p.getEdition().getId(),p.getTypeProduct(),p,e.getMessage());
+			logger.error("[{}] ERROR for {}-{} : {}",p.getEdition().getId(),p.getTypeProduct(),p.getUrl(),e.getMessage());
 		}
 		return null;
 
