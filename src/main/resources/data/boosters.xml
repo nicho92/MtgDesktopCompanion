@@ -2517,6 +2517,16 @@
 		<booster extra="set" num="1" lang="en" url="https://cdn.webshopapp.com/shops/329817/files/416201847/image.jpg"/>
 	</edition>
 	
-	
+	<edition id="CMM">
+		<set  lang="en" num="1" url="https://media.wizards.com/2023/images/daily/en_fSrgNuDuWWxN.png"/>
+		<box extra="draft" num="1" lang="en" url="https://media.wizards.com/2023/images/daily/fr_ktVTnfSSKrIM.png"/>
+		<box extra="set" num="2" lang="en" url="https://media.wizards.com/2023/images/daily/fr_t1UnJeGrSmzp.png"/>
+		<box extra="collector" num="3" lang="en" url="https://media.wizards.com/2023/images/daily/fr_Mv2qPqwTVVBZ.png"/>
+		<constructpack lang="en" num="1" url="https://media.wizards.com/2023/images/daily/fr_4buU6m4ePLDx.png"/>
+		<constructpack lang="en" num="1" url="https://media.wizards.com/2023/images/daily/fr_ufKlOnpjR2Z9.png"/>
+		<constructpack lang="en" num="1" url="https://media.wizards.com/2023/images/daily/fr_rKJctoCmk2J6.png"/>
+		<constructpack lang="en" num="1" url="https://media.wizards.com/2023/images/daily/fr_fm7THfx5eeoZ.png"/>
+		
+	</edition>
 
 </boosterUrls>
