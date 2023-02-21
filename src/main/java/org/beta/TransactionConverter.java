@@ -28,7 +28,7 @@ public class TransactionConverter {
 		MTGControler.getInstance().init();
 		MTG.getEnabledPlugin(MTGCardsProvider.class).init();
 		var c = MTG.getEnabledPlugin(MTGDao.class).getContactByEmail("nicolas.pihen@gmail.com");
-		var orders = MTG.getEnabledPlugin(MTGDao.class).listOrders().stream().filter(o->o.getType()==EnumItems.SET ).toList();
+		var orders = MTG.getEnabledPlugin(MTGDao.class).listOrdersByIdTransaction("492073");
 		transactions = MTG.getEnabledPlugin(MTGDao.class).listTransactions();
 		
 		
@@ -36,17 +36,10 @@ public class TransactionConverter {
 		{
 					Transaction t = getTransactionFor(order);
 					 t.setContact(c);
-					  for(String idset : order.getDescription().split(" "))
+					  //for(String idset : order.getDescription().split(" "))
 					  {
 						  	 try {
-
-							  		if(idset.startsWith("THP"))
-							  			order.setType(EnumItems.CONSTRUCTPACK);
-							  		
-							  		
-						  		var product = MTG.getEnabledPlugin(MTGSealedProvider.class).get(new MagicEdition(idset), order.getType()).get(0);
-
-						  		
+						  		var product = MTG.getEnabledPlugin(MTGSealedProvider.class).get(order.getEdition(), order.getType()).get(0);
 						  		var stockItem = new SealedStock(product);
 									 	 try {
 									 		 stockItem.setQte( Integer.parseInt(order.getDescription().substring(0,order.getDescription().indexOf(' ')))  );
@@ -70,9 +63,9 @@ public class TransactionConverter {
 						
 					 
 							try {
-								TransactionService.saveTransaction(t, false);
+								//TransactionService.saveTransaction(t, false);
 								System.out.println("Transaction saved for order #"+order.getIdTransation() + " with " +t.getItems().size() + " items : " + UITools.formatDouble(t.total())) ;
-								MTG.getEnabledPlugin(MTGDao.class).deleteOrderEntry(order);
+								//MTG.getEnabledPlugin(MTGDao.class).deleteOrderEntry(order);
 								
 							} catch (Exception e) {
 								e.printStackTrace();

@@ -1871,6 +1871,10 @@
 			url="https://media.wizards.com/2019/images/daily/sy1Dzcxnr4.png" />
 		<set lang='en'
 			url="http://www.smfcorp.net/images/editions/gros_logos/197.png" />
+		
+		<constructpack lang="en"  num="1" url="https://cdn.shopify.com/s/files/1/0270/6246/8678/products/jace_580x.png"/>	
+		<constructpack lang="en"  num="2" url="https://cdn.shopify.com/s/files/1/0270/6246/8678/products/1dce84e9-cf87-439f-b174-88d7a8e25718_1.25336385c775dbd4cb1132e7acf06e38_580x.png"/>
+			
 	</edition>
 
 	<edition id="MH1">
