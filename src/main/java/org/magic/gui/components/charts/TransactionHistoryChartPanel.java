@@ -6,11 +6,11 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.jfree.data.time.Day;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
-import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.enums.TransactionDirection;
+import org.magic.api.beans.shop.Transaction;
 import org.magic.gui.abstracts.charts.Abstract2DHistoChart;
 
-public class OrderEntryHistoryChartPanel extends Abstract2DHistoChart<OrderEntry> {
+public class TransactionHistoryChartPanel extends Abstract2DHistoChart<Transaction> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -24,10 +24,10 @@ public class OrderEntryHistoryChartPanel extends Abstract2DHistoChart<OrderEntry
 		
 		
 		
-		for(Date d : items.stream().map(OrderEntry::getTransactionDate).distinct().sorted().toList())
+		for(Date d : items.stream().map(Transaction::getDateCreation).distinct().sorted().toList())
 		{
-			dataBuy.add(new Day(d), items.stream().filter(oe->oe.getTypeTransaction()==TransactionDirection.BUY).filter(oe->DateUtils.isSameDay(d,oe.getTransactionDate())).mapToDouble(OrderEntry::getItemPrice).sum());
-			dataSell.add(new Day(d), items.stream().filter(oe->oe.getTypeTransaction()==TransactionDirection.SELL).filter(oe->DateUtils.isSameDay(d,oe.getTransactionDate())).mapToDouble(OrderEntry::getItemPrice).sum());
+			dataBuy.add(new Day(d), items.stream().filter(oe->oe.getTypeTransaction()==TransactionDirection.BUY).filter(oe->DateUtils.isSameDay(d,oe.getDateCreation())).mapToDouble(Transaction::total).sum());
+			dataSell.add(new Day(d), items.stream().filter(oe->oe.getTypeTransaction()==TransactionDirection.SELL).filter(oe->DateUtils.isSameDay(d,oe.getDateCreation())).mapToDouble(Transaction::total).sum());
 		}
 
 		dataset.addSeries(dataSell);
@@ -38,7 +38,7 @@ public class OrderEntryHistoryChartPanel extends Abstract2DHistoChart<OrderEntry
 
 	@Override
 	public String getTitle() {
-		return "Orders history";
+		return "Transaction history";
 	}
 
 }

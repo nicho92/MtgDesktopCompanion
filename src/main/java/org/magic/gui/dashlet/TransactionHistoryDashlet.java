@@ -4,19 +4,22 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
+import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import org.magic.api.interfaces.MTGDao;
+import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
-import org.magic.gui.components.charts.OrderEntryHistoryChartPanel;
+import org.magic.gui.components.charts.TransactionHistoryChartPanel;
 import org.magic.services.MTGConstants;
 
-public class OrderHistoryDashlet extends AbstractJDashlet {
+public class TransactionHistoryDashlet extends AbstractJDashlet {
 
 	private static final long serialVersionUID = 1L;
-	private OrderEntryHistoryChartPanel chart;
+	private TransactionHistoryChartPanel chart;
 
 
 	@Override
@@ -31,7 +34,7 @@ public class OrderHistoryDashlet extends AbstractJDashlet {
 		var panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
 
-		chart = new OrderEntryHistoryChartPanel();
+		chart = new TransactionHistoryChartPanel();
 
 
 		getContentPane().add(chart,BorderLayout.CENTER);
@@ -50,7 +53,12 @@ public class OrderHistoryDashlet extends AbstractJDashlet {
 
 	@Override
 	public void init() {
-		chart.init(getEnabledPlugin(MTGDao.class).listOrders());
+		try {
+			chart.init(getEnabledPlugin(MTGExternalShop.class).listTransaction());
+		}
+		catch (Exception e) {
+			logger.error(e);
+		}
 
 	}
 
@@ -61,7 +69,7 @@ public class OrderHistoryDashlet extends AbstractJDashlet {
 
 	@Override
 	public String getName() {
-		return "Orders History";
+		return "Transactions History";
 	}
 
 

@@ -168,6 +168,7 @@ public class TransactionsPanel extends MTGUIComponent {
 	{
 		buzy.start();
 		model.clear();
+		logger.info("Loading transactions");
 		var sw = new SwingWorker<List<Transaction>, Void>(){
 
 			@Override
