@@ -6,7 +6,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.table.TableModel;
 
-import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.services.MTGConstants;

@@ -22,6 +22,7 @@ import org.magic.gui.components.ContactPanel;
 import org.magic.gui.components.ObjectViewerPanel;
 import org.magic.gui.models.TransactionsTableModel;
 import org.magic.gui.renderer.standard.DateTableCellEditorRenderer;
+import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.TransactionService;

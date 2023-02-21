@@ -41,8 +41,6 @@ import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.OrderEntryPanel;
-import org.magic.gui.components.charts.EditionFinancialChartPanel;
-import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.dialog.OrderImporterDialog;
 import org.magic.gui.models.ShoppingEntryTableModel;
 import org.magic.gui.renderer.OrderEntryRenderer;
