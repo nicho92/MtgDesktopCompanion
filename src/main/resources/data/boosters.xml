@@ -1917,6 +1917,7 @@
 		<set lang="en"
 			url="https://images1.mtggoldfish.com/mtg_sets/m20_alg_logo.png" />
 	</edition>
+	
 	<edition id="ELD">
 		<booster lang="en" extra="draft" num="1"
 			url="https://2nains.ch/images/com_hikashop/upload/mtgeld_en_bstr_01_01.png" />
@@ -1936,12 +1937,15 @@
 			url="https://cdn.shoplightspeed.com/shops/628174/files/16220140/1652x1652x2/wotc-mtg-mtg-throne-of-eldraine-collector-booster.jpg" />
 		<set lang="en" extra="draft"
 			url="https://gamepedia.cursecdn.com/mtgsalvation_gamepedia/e/ef/ELD_logo.png" />
-		<constructpack lang="en" num="1"
-			url="https://cdn-asset-stl-1.airsquare.com/imaginegames/managed/image/product/16D0BC48-F3D6-45A5-A24C273955AFA36F-zoom.png" />
-		<constructpack lang="en" num="2"
-			url="https://cdn-asset-stl-1.airsquare.com/imaginegames/managed/image/product/FE117849-DC6D-4D46-800ACE494A7ABA20-zoom.png" />
-		<constructpack lang="en" num="3"
-			url="https://themanashop.ch/35809-large_default/le-trone-deldraine-set-brawl-decks-4-decks.jpg" />
+		
+		<constructpack lang="en" num="1"  extra="planeswalker"   url="https://www.magic-ville.com/fr/graph/sets/decks/702777.png" />
+		<constructpack lang="en" num="2"  extra="planeswalker" 	url="https://www.magic-ville.com/fr/graph/sets/decks/702779.png" />
+		<constructpack lang="en" num="3"  extra="brawl" url="https://www.magic-ville.com/fr/graph/sets/decks/699055.png"/>
+		<constructpack lang="en" num="4"  extra="brawl" url="https://www.magic-ville.com/fr/graph/sets/decks/699056.png"/>
+		<constructpack lang="en" num="5"  extra="brawl" url="https://www.magic-ville.com/fr/graph/sets/decks/699057.png"/>
+		<constructpack lang="en" num="6"  extra="brawl" url="https://www.magic-ville.com/fr/graph/sets/decks/699058.png"/>
+		
+		
 		<prereleasepack lang="en" num="1"
 			url="https://cdn.shoplightspeed.com/shops/628174/files/16220140/1652x1652x2/wotc-mtg-mtg-throne-of-eldraine-collector-booster.jpg" />
 	</edition>
