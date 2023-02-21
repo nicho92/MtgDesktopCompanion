@@ -4,13 +4,10 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
-import java.io.IOException;
-import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.components.charts.TransactionHistoryChartPanel;

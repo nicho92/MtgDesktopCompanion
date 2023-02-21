@@ -7,7 +7,6 @@ import org.jfree.chart3d.data.category.StandardCategoryDataset3D;
 import org.jfree.chart3d.plot.CategoryPlot3D;
 import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.beans.shop.Transaction;
-import org.magic.api.interfaces.MTGStockItem;
 import org.magic.gui.abstracts.charts.Abstract3DBarChart;
 
 public class TransactionBalance3DChartPanel extends Abstract3DBarChart<Transaction,String,Double, String> {

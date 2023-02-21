@@ -3,20 +3,15 @@ package org.beta;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import org.magic.api.beans.MTGSealedProduct.EXTRA;
-import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.enums.EnumItems;
-import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGSealedProvider;
 import org.magic.services.MTGControler;
-import org.magic.services.TransactionService;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 
