@@ -12,7 +12,10 @@
 		<logo version="white"
 			url="https://www.bkomstudios.com/wp-content/uploads/2016/11/pjt_magic_logo.png" />
 	</game>
-
+	<edition id='FBB'>
+			<booster lang='fr' num='1' url="https://en.play-in.com/img/product/booster_3eme_edition_bord_noir_3rd_revised_black_border_fr.png" />
+			<set  lang='en' url="http://mtgen.net/3ed/images/logo-word.webp" />
+	</edition>
 	<edition id='LEA'>
 		<booster lang='en' num='1'
 			url="http://erl00.chez.com/PacksImages/Alpha-EN-b.jpg" />
