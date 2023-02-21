@@ -1944,10 +1944,7 @@
 		<constructpack lang="en" num="4"  extra="brawl" url="https://www.magic-ville.com/fr/graph/sets/decks/699056.png"/>
 		<constructpack lang="en" num="5"  extra="brawl" url="https://www.magic-ville.com/fr/graph/sets/decks/699057.png"/>
 		<constructpack lang="en" num="6"  extra="brawl" url="https://www.magic-ville.com/fr/graph/sets/decks/699058.png"/>
-		
-		
-		<prereleasepack lang="en" num="1"
-			url="https://cdn.shoplightspeed.com/shops/628174/files/16220140/1652x1652x2/wotc-mtg-mtg-throne-of-eldraine-collector-booster.jpg" />
+		<prereleasepack lang="en" num="1" url="https://cdn.shoplightspeed.com/shops/628174/files/16220140/1652x1652x2/wotc-mtg-mtg-throne-of-eldraine-collector-booster.jpg" />
 	</edition>
 	<edition id="PELD">
 		<booster lang="en" num="1"
