@@ -63,12 +63,10 @@ public class OrdersGUI extends MTGUIComponent {
 	private JLabel totalSelection;
 	private JXTable table;
 	private OrderEntryPanel orderEntryPanel;
-	private HistoryPricesPanel pricesPanel;
 	private JLabel lblComparator;
 	private JPanel editorPanel;
 	private JPanel panelComparator;
 	private JPanel chartesContainerPanel;
-	private EditionFinancialChartPanel editionFinancialChartPanel;
 	private AbstractBuzyIndicatorComponent buzy;
 
 	private void loadFinancialBook()
@@ -140,7 +138,6 @@ public class OrdersGUI extends MTGUIComponent {
 		panelComparator.setPreferredSize(new Dimension(10, 30));
 		panelComparator.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		lblComparator = new JLabel("Values");
-		editionFinancialChartPanel = new EditionFinancialChartPanel();
 		var btnAddToCollection = UITools.createBindableJButton(null,MTGConstants.ICON_MASS_IMPORT,KeyEvent.VK_C,"transaction add collection");
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 
@@ -190,12 +187,7 @@ public class OrdersGUI extends MTGUIComponent {
 		chartesContainerPanel = new JPanel();
 		panneauRight.add(chartesContainerPanel, BorderLayout.CENTER);
 		chartesContainerPanel.setLayout(new GridLayout(2, 1, 0, 0));
-		pricesPanel = new HistoryPricesPanel(false);
-		chartesContainerPanel.add(pricesPanel);
-		chartesContainerPanel.add(editionFinancialChartPanel);
-
-
-
+	
 
 		add(panneauBas,BorderLayout.SOUTH);
 
@@ -389,9 +381,7 @@ public class OrdersGUI extends MTGUIComponent {
 									else
 										lblComparator.setIcon(null);
 
-									pricesPanel.init(e.getItem(), o.getEdition(), o.getDescription());
-									pricesPanel.revalidate();
-
+		
 
 						} catch (InterruptedException e1) {
 							Thread.currentThread().interrupt();

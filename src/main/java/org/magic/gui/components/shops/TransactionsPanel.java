@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -39,18 +40,23 @@ public class TransactionsPanel extends MTGUIComponent {
 	private ObjectViewerPanel viewerPanel;
 	private JPanel panneauHaut;
 	private AbstractBuzyIndicatorComponent buzy;
+	private TransactionTotalPanel panneauBas;
 
+	
+	
 	public TransactionsPanel() {
 		setLayout(new BorderLayout(0, 0));
 		panneauHaut = new JPanel();
 		var splitPanel = new JSplitPane();
-
 		var stockDetailPanel = new StockItemPanel();
 		var tabbedPane = new JTabbedPane();
+		panneauBas = new TransactionTotalPanel();
 		contactPanel = new ContactPanel(true);
 		managementPanel= new TransactionManagementPanel();
 		model = new TransactionsTableModel();
 		viewerPanel = new ObjectViewerPanel();
+		
+	
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 		var btnRefresh = UITools.createBindableJButton("", MTGConstants.ICON_REFRESH,KeyEvent.VK_R,"reload");
 		var btnMerge = UITools.createBindableJButton("", MTGConstants.ICON_MERGE,KeyEvent.VK_M,"merge");
@@ -86,6 +92,8 @@ public class TransactionsPanel extends MTGUIComponent {
 		splitPanel.setRightComponent(tabbedPane);
 		add(panneauHaut, BorderLayout.NORTH);
 		add(splitPanel,BorderLayout.CENTER);
+		add(panneauBas,BorderLayout.SOUTH);
+		
 		panneauHaut.add(btnRefresh);
 		panneauHaut.add(btnMerge);
 		panneauHaut.add(btnDelete);
@@ -99,7 +107,7 @@ public class TransactionsPanel extends MTGUIComponent {
 			if(t.isEmpty())
 				return;
 
-
+			panneauBas.calulate(t, model);
 
 			btnMerge.setEnabled(t.size()>1);
 			btnDelete.setEnabled(!t.isEmpty());
@@ -179,6 +187,7 @@ public class TransactionsPanel extends MTGUIComponent {
 			protected void done() {
 				try {
 					model.addItems(get());
+					panneauBas.calulate(get(), model);
 				} catch (InterruptedException e) {
 					Thread.currentThread().interrupt();
 				} catch (Exception e) {
