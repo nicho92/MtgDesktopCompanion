@@ -22,7 +22,7 @@ public class TransactionsTableModel extends GenericTableModel<Transaction> {
 	public TransactionsTableModel() {
 
 		setWritable(true);
-		columns = new String[] { "ID","DATE","CONTACT","ITEMS","TOTAL","SHIPPING","MESSAGE","STATUT","DATE PAYMENT","PAYMENT METHOD","DATE SEND","DIRECTION","Source","SourceID" };
+		columns = new String[] { "ID","DATE","CONTACT","ITEMS","TOTAL","SHIPPING","MESSAGE","STATUT","DATE PAYMENT","PAYMENT METHOD","DATE SEND","DIRECTION","Source","SourceID","FEE" };
 	}
 
 
@@ -58,6 +58,7 @@ public class TransactionsTableModel extends GenericTableModel<Transaction> {
 			case 11 : return it.getTypeTransaction();
 			case 12 : return it.getSourceShopName();
 			case 13 : return it.getSourceShopId();
+			case 14 : return it.getReduction();
 			default : return 0;
 		}
 	}
@@ -84,7 +85,7 @@ public class TransactionsTableModel extends GenericTableModel<Transaction> {
 			return Integer.class;
 
 		
-		if(columnIndex==4 || columnIndex==5)
+		if(columnIndex==4 || columnIndex==5 || columnIndex==14)
 			return Double.class;
 
 		if(columnIndex==7)

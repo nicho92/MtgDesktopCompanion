@@ -25,7 +25,7 @@ public class Transaction implements MTGSerializable, Comparable<Transaction> {
 	private double shippingPrice;
 	private WebShopConfig config;
 	private String transporterShippingCode;
-	private double feePercent;
+	private double reduction;
 	private Currency currency;
 	private String sourceShopName;
 	private String sourceShopId;;
@@ -91,20 +91,17 @@ public class Transaction implements MTGSerializable, Comparable<Transaction> {
 		return datePayment;
 	}
 
-
-	public double getFeePercent() {
-		return feePercent;
-	}
-
-	public void setFeePercent(double feePercent) {
-		this.feePercent = feePercent;
-	}
-
-
 	public void setDatePayment(Date datePayment) {
 		this.datePayment = datePayment;
 	}
 
+	public void setReduction(double reduction) {
+		this.reduction = reduction;
+	}
+	
+	public double getReduction() {
+		return reduction;
+	}
 
 
 	public Date getDateSend() {
@@ -189,6 +186,11 @@ public class Transaction implements MTGSerializable, Comparable<Transaction> {
 
 	public double total()
 	{
+		
+		if(reduction>0)
+		{
+			return (totalItems() + getShippingPrice()) -getReduction();
+		}
 		return totalItems() + getShippingPrice();
 	}
 

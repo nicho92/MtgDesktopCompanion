@@ -200,7 +200,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" announces (id "+getAutoIncrementKeyWord()+" PRIMARY KEY,creationDate TIMESTAMP , startDate TIMESTAMP ,endDate TIMESTAMP, title VARCHAR(150), description " + longTextStorage() + ", total DECIMAL(10,2), currency VARCHAR(5), stocksItem "+beanStorage() + ",typeAnnounce VARCHAR(10), fk_idcontact INTEGER, category VARCHAR(50), percentReduction DECIMAL(10,2), conditions VARCHAR(50), statusAnnounce VARCHAR(25))");
 			logger.debug("Create table announces");
 
-			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" transactions (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, dateTransaction TIMESTAMP, message VARCHAR(250), stocksItem "+beanStorage()+", statut VARCHAR(15), transporter VARCHAR(50), shippingPrice DECIMAL(10,3), transporterShippingCode VARCHAR(50),currency VARCHAR(5),datePayment TIMESTAMP NULL ,dateSend TIMESTAMP NULL , paymentProvider VARCHAR(50),fk_idcontact INTEGER, sourceShopId VARCHAR(250),sourceShopName VARCHAR(250),typeTransaction VARCHAR(15))");
+			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" transactions (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, dateTransaction TIMESTAMP, message VARCHAR(250), stocksItem "+beanStorage()+", statut VARCHAR(15), transporter VARCHAR(50), shippingPrice DECIMAL(10,3), transporterShippingCode VARCHAR(50),currency VARCHAR(5),datePayment TIMESTAMP NULL ,dateSend TIMESTAMP NULL , paymentProvider VARCHAR(50),fk_idcontact INTEGER, sourceShopId VARCHAR(250),sourceShopName VARCHAR(250),typeTransaction VARCHAR(15), reduction DECIMAL(10,2))");
 			logger.debug("Create table transactions");
 
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" contacts (id " + getAutoIncrementKeyWord() + " PRIMARY KEY, contact_name VARCHAR(250), contact_lastname VARCHAR(250), contact_password VARCHAR(250),contact_telephone VARCHAR(250), contact_country VARCHAR(250), contact_zipcode VARCHAR(10), contact_city VARCHAR(50), contact_address VARCHAR(250), contact_website VARCHAR(250),contact_email VARCHAR(100) UNIQUE, emailAccept "+getBoolean()+", contact_active "+getBoolean()+", temporaryToken VARCHAR("+TransactionService.TOKENSIZE+"))");
@@ -1084,7 +1084,8 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		state.setTransporterShippingCode(rs.getString("transporterShippingCode"));
 		state.setDatePayment(rs.getTimestamp("datePayment"));
 		state.setDateSend(rs.getTimestamp("dateSend"));
-
+		state.setReduction(rs.getDouble("reduction"));
+		
 		if(rs.getString("typeTransaction")!=null)
 			state.setTypeTransaction(TransactionDirection.valueOf(rs.getString("typeTransaction")));
 		
@@ -1213,7 +1214,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 				logger.debug("save transaction ");
 
-				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO transactions (dateTransaction, message, stocksItem, statut,transporter,shippingPrice,transporterShippingCode, currency,datePayment,dateSend,paymentProvider, fk_idcontact,sourceShopId, sourceShopName,typeTransaction) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",Statement.RETURN_GENERATED_KEYS)) {
+				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO transactions (dateTransaction, message, stocksItem, statut,transporter,shippingPrice,transporterShippingCode, currency,datePayment,dateSend,paymentProvider, fk_idcontact,sourceShopId, sourceShopName,typeTransaction,reduction) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",Statement.RETURN_GENERATED_KEYS)) {
 					pst.setTimestamp(1, new Timestamp(t.getDateCreation().getTime()));
 					pst.setString(2, t.getMessage());
 					storeTransactionItems(pst,3, t.getItems());
@@ -1242,6 +1243,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 					pst.setString(13, t.getSourceShopId());
 					pst.setString(14, t.getSourceShopName());
 					pst.setString(15, t.getTypeTransaction().name());
+					pst.setDouble(16, t.getReduction());
 					
 					executeUpdate(pst);
 					t.setId(getGeneratedKey(pst));
@@ -1259,7 +1261,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 			logger.debug("update transaction {}",t.getId());
 
-			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE transactions SET statut = ?, transporter=?, shippingPrice=?, transporterShippingCode=?,stocksItem=?,datePayment=?,dateSend=?,paymentProvider=?, sourceShopId=?, sourceShopName=? WHERE id = ?",Statement.RETURN_GENERATED_KEYS)) {
+			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE transactions SET statut = ?, transporter=?, shippingPrice=?, transporterShippingCode=?,stocksItem=?,datePayment=?,dateSend=?,paymentProvider=?, sourceShopId=?, sourceShopName=?, reduction=? WHERE id = ?",Statement.RETURN_GENERATED_KEYS)) {
 				pst.setString(1, t.getStatut().name());
 				pst.setString(2, t.getTransporter());
 				pst.setDouble(3, t.getShippingPrice());
@@ -1284,7 +1286,8 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 				pst.setString(9, t.getSourceShopId());
 				pst.setString(10, t.getSourceShopName());
-				pst.setLong(11, t.getId());
+				pst.setDouble(11, t.getReduction());
+				pst.setLong(12, t.getId());
 				
 				
 				

@@ -29,10 +29,11 @@ public class ShopGUI extends MTGUIComponent {
 		subPane = new JTabbedPane();
 		add(pane,BorderLayout.CENTER);
 
-		UITools.addTab(pane,new WebShopConfigPanel());
 		UITools.addTab(pane, new TransactionsPanel());
 		UITools.addTab(pane, new ContactsManagementPanel());
+		UITools.addTab(pane,new WebShopConfigPanel());
 
+		
 		UITools.addTab(subPane, new ProductsCreatorComponent());
 		UITools.addTab(subPane, new TransactionCreatorComponent());
 		UITools.addTab(subPane, new StockShopperComponent());

@@ -32,7 +32,7 @@ import com.jogamp.newt.event.KeyEvent;
 public class TransactionsPanel extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
-	private JXTable table;
+	private JXTable tableTransactionns;
 	private TransactionsTableModel model;
 	private ContactPanel contactPanel;
 	private TransactionManagementPanel managementPanel;
@@ -62,9 +62,10 @@ public class TransactionsPanel extends MTGUIComponent {
 		splitPanel.setDividerLocation(.5);
 		splitPanel.setResizeWeight(0.5);
 
-		table = UITools.createNewTable(model);
-		table.setDefaultRenderer(Date.class, new DateTableCellEditorRenderer(true));
-		UITools.initTableFilter(table);
+		tableTransactionns = UITools.createNewTable(model);
+		tableTransactionns.setDefaultRenderer(Date.class, new DateTableCellEditorRenderer(true));
+		
+		UITools.initTableFilter(tableTransactionns);
 
 		var stockManagementPanel = new JPanel();
 			   stockManagementPanel.setLayout(new BorderLayout());
@@ -77,11 +78,11 @@ public class TransactionsPanel extends MTGUIComponent {
 		if(MTGControler.getInstance().get("debug-json-panel").equals("true"))
 			UITools.addTab(tabbedPane, viewerPanel);
 
-		table.packAll();
+		tableTransactionns.packAll();
 
 
 
-		splitPanel.setLeftComponent(new JScrollPane(table));
+		splitPanel.setLeftComponent(new JScrollPane(tableTransactionns));
 		splitPanel.setRightComponent(tabbedPane);
 		add(panneauHaut, BorderLayout.NORTH);
 		add(splitPanel,BorderLayout.CENTER);
@@ -91,9 +92,9 @@ public class TransactionsPanel extends MTGUIComponent {
 		panneauHaut.add(buzy);
 
 
-		table.getSelectionModel().addListSelectionListener(lsl->{
+		tableTransactionns.getSelectionModel().addListSelectionListener(lsl->{
 
-			List<Transaction> t = UITools.getTableSelections(table, 0);
+			List<Transaction> t = UITools.getTableSelections(tableTransactionns, 0);
 
 			if(t.isEmpty())
 				return;
@@ -120,7 +121,7 @@ public class TransactionsPanel extends MTGUIComponent {
 
 			if(res == JOptionPane.YES_OPTION) {
 
-				List<Transaction> t = UITools.getTableSelections(table, 0);
+				List<Transaction> t = UITools.getTableSelections(tableTransactionns, 0);
 				try {
 					TransactionService.deleteTransaction(t);
 					reload();
@@ -131,7 +132,7 @@ public class TransactionsPanel extends MTGUIComponent {
 		});
 
 		btnMerge.addActionListener(al->{
-			List<Transaction> t = UITools.getTableSelections(table, 0);
+			List<Transaction> t = UITools.getTableSelections(tableTransactionns, 0);
 			try {
 				TransactionService.mergeTransactions(t);
 				reload();
@@ -144,7 +145,7 @@ public class TransactionsPanel extends MTGUIComponent {
 	}
 
 	public JTable getTable() {
-		return table;
+		return tableTransactionns;
 	}
 
 	public TransactionsTableModel getModel() {

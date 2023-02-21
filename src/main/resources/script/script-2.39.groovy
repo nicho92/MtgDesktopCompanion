@@ -3,7 +3,7 @@ if(dao.isSQL()) {
 	dao.executeQuery("ALTER TABLE transactions ADD sourceShopId VARCHAR(250)");
 	dao.executeQuery("ALTER TABLE transactions ADD sourceShopName VARCHAR(250)");
 	dao.executeQuery("ALTER TABLE transactions ADD typeTransaction VARCHAR(15)");
-	dao.executeQuery("ALTER TABLE transactions ADD feePercent DECIMAL(10,2)");
+	dao.executeQuery("ALTER TABLE transactions ADD reduction DECIMAL(10,2)");
 	
 	
 	dao.executeQuery("UPDATE announces set category='SET' where category='FULLSET'");
