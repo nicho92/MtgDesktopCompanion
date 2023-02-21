@@ -1,7 +1,6 @@
 {
 
 	"ONE":[
-		"ONC",
 		"AONE",
 		"FONE",
 		"WONE"
@@ -258,6 +257,7 @@
 		"4BB"
 	],
 	"PMEI": [
+		"PW23",
 		"PH21",
 		"PL23",
 		"SLP",
