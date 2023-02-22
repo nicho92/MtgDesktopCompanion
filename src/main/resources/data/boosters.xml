@@ -2394,10 +2394,14 @@
 		<booster lang="en" extra="collector" num="1" url="https://boardgames-bg.com/images/thumbnails/1662/1662/detailed/23/MTGNEO_EN_ClctrBstr_01_03_900x.png"/>
 		<booster lang="en" extra="draft" num="2" url="https://cdn.shopify.com/s/files/1/0548/7253/9391/products/MTGKamigawaNeonDynastyDraftBooster2_1024x1024.png"/>
 		<booster lang="en" extra="set" num="3" url="https://cdn.shopify.com/s/files/1/0548/7253/9391/products/MTGKamigawaNeonDynastySetBooster2_1024x1024.png"/>
-		<booster lang="en" num="4" extra="theme" url="https://lh3.googleusercontent.com/proxy/kjU0KrzTWcOLJTi2I6L6Luqsui1gy6wHxYXn6JnCM9DId-dPVOXAiOP13YwwtM1O8xfhsHNN_Z9zAx-WHwSurz90v6130ERscHwZ9IjzXovfNlDOxcNnDar-BFr2oHq7Oif2-8owWB5pT_DOknT7hceZCM2hhOPDYjf8wXo" />
-		<booster lang="en" num="5" extra="theme" url="https://lh3.googleusercontent.com/proxy/3jE1OgGUQyVoC_h15bQX6_J-4h1-2cX2xgNewShLo5d5HheNBOMgKw5uj9MG0l5V8kwtvTQjaWOPZqClCwxnvgkI1KttGLVyEPn69KymooXU4NleKFchDhcCq2b8t7lip1ZjqT5Q6v7fxqzdEeDr7sxTR4XDO4c6dM0caig" />
-		<booster lang="en" num="6" extra="theme" url="https://lh3.googleusercontent.com/proxy/SIQB4xh1N4eYPMSkbVyEK3UVSJk5XAOe2wYzao70lkr5ZpLgqku_jPAPC9q7BSdeN0gBc3kD_juvDv7PCaMyY8t1jL488mbx0tZQvMwu0sRjbAbJfzaDzGEPINzLzyPlGFNIUajYR0PdfLxIHPLDC1jZb9henu-07B40oYk" />
-		<booster lang="en" num="7" extra="theme" url="https://lh3.googleusercontent.com/proxy/Bi-RJsF6N2_SSyCV1lXxGngc7Hc6rZYAhLzEAlIq1sDWo_QpUKL2wrdcuMqmUEI-6XvdtY99dgLvaoA11u7qIOPjZnxOuuQskGcSxOjTx8sRSxJ5FyIUsi-mHJvVEuOSkBzDeb1i65M-h2mmofYx5d6QtyyhP3wLEAUvQuY" />
+		
+		<booster lang="en" num="4" extra="theme" url="https://www.totalcards.net/media/catalog/product/cache/7635224f4fa597d4a3e42d3638e7f61a/k/g/kgawa-theme-booster-b2.jpg" desc="Blue"/>
+		<booster lang="en" num="5" extra="theme" url="https://www.totalcards.net/media/catalog/product/cache/7635224f4fa597d4a3e42d3638e7f61a/k/g/kgawa-theme-booster-w2.jpg" desc="Black" />
+		<booster lang="en" num="6" extra="theme" url="https://www.totalcards.net/media/catalog/product/cache/7635224f4fa597d4a3e42d3638e7f61a/k/g/kgawa-theme-booster-g2.jpg" desc="Green"/>
+		<booster lang="en" num="7" extra="theme" url="https://www.totalcards.net/media/catalog/product/cache/7635224f4fa597d4a3e42d3638e7f61a/k/g/kgawa-theme-booster-n2.jpg" desc="Ninja"/>
+		<booster lang="en" num="8" extra="theme" url="https://www.totalcards.net/media/catalog/product/cache/7635224f4fa597d4a3e42d3638e7f61a/k/g/kgawa-theme-booster-r2.jpg" desc="Red" />
+		<booster lang="en" num="8" extra="theme" url="https://www.totalcards.net/media/catalog/product/cache/7635224f4fa597d4a3e42d3638e7f61a/k/g/kgawa-theme-booster-s.jpg"  desc="Black"/>
+		
 	</edition>
 	
 	<edition id="SNC">
