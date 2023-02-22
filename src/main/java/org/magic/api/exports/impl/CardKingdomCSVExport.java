@@ -47,7 +47,7 @@ public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 			String set = CardKingdomTools.getCKFormattedSet(mc.getProduct());
 			
 			if(mc.getProduct().getName().contains(getSeparator()))
-				name="\""+mc.getProduct().getName()+"\"";
+				name= "\""+ name + "\"";
 
 
 			line.append(name).append(getSeparator());
