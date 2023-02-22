@@ -50,7 +50,7 @@ public class MariaDBDAO extends AbstractMagicSQLDAO {
 
 	@Override
 	public String createListStockSQL() {
-		return "select * from stocks where collection=? and JSON_EXTRACT(mcard,'$.name')=?";
+		return "select * from stocks where collection=? and JSON_EnumExtraCT(mcard,'$.name')=?";
 	}
 
 

@@ -11,8 +11,8 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.magic.api.beans.MTGSealedProduct;
-import org.magic.api.beans.MTGSealedProduct.EXTRA;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractSealedProvider;
@@ -128,7 +128,7 @@ public class MTGCompanionSealedProvider extends AbstractSealedProvider{
 						  }
 
 						  try {
-							  p.setExtra(EXTRA.valueOf(n.item(i).getAttributes().getNamedItem("extra").getNodeValue().toUpperCase()));
+							  p.setExtra(EnumExtra.valueOf(n.item(i).getAttributes().getNamedItem("extra").getNodeValue().toUpperCase()));
 						  }
 						  catch (Exception e) {
 							 //do nothing

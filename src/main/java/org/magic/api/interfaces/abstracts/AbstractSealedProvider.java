@@ -7,8 +7,8 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import org.magic.api.beans.MTGSealedProduct;
-import org.magic.api.beans.MTGSealedProduct.EXTRA;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.MTGSealedProvider;
 import org.magic.services.MTGConstants;
@@ -27,7 +27,7 @@ public abstract class AbstractSealedProvider extends AbstractMTGPlugin  implemen
 		return getItemsFor(new MagicEdition(me));
 	}
 
-	public List<MTGSealedProduct> get(MagicEdition me,EnumItems t, String lang, EXTRA extra)
+	public List<MTGSealedProduct> get(MagicEdition me,EnumItems t, String lang, EnumExtra extra)
 	{
 		return get(me,t).stream().filter(e->e.getLang().equalsIgnoreCase(lang) && e.getExtra()==extra).toList();
 	}
@@ -37,7 +37,7 @@ public abstract class AbstractSealedProvider extends AbstractMTGPlugin  implemen
 		return get(me,t).stream().filter(e->e.getLang().equalsIgnoreCase(lang)).toList();
 	}
 
-	public List<MTGSealedProduct> get(MagicEdition me,EnumItems t, EXTRA extra)
+	public List<MTGSealedProduct> get(MagicEdition me,EnumItems t, EnumExtra extra)
 	{
 		if(extra==null)
 			return get(me,t);

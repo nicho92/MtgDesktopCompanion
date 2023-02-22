@@ -15,12 +15,12 @@ import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MTGFormat.AUTHORIZATION;
 import org.magic.api.beans.MTGRuling;
 import org.magic.api.beans.MTGSealedProduct;
-import org.magic.api.beans.MTGSealedProduct.EXTRA;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumBorders;
 import org.magic.api.beans.enums.EnumColors;
+import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.beans.enums.EnumFinishes;
 import org.magic.api.beans.enums.EnumFrameEffects;
 import org.magic.api.beans.enums.EnumItems;
@@ -705,7 +705,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 					
 					
 					if(sp.getName().contains(" Gift "))
-						sp.setExtra(EXTRA.GIFT);
+						sp.setExtra(EnumExtra.GIFT);
 				
 					if(ed.getId().equals("ICE"))
 						logger.info(el);
@@ -725,16 +725,16 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 		return ed;
 	}
 
-	private EXTRA parseExtra(String extra) {
+	private EnumExtra parseExtra(String extra) {
 		
 		switch(extra)
 		{
-			case "draft" : return EXTRA.DRAFT;
-			case "set" : return EXTRA.SET;
-			case "collector" : return EXTRA.COLLECTOR;
-			case "vip" : return EXTRA.VIP;
-			case "jump" : return EXTRA.JUMP;
-			case "theme" : return EXTRA.THEME;
+			case "draft" : return EnumExtra.DRAFT;
+			case "set" : return EnumExtra.SET;
+			case "collector" : return EnumExtra.COLLECTOR;
+			case "vip" : return EnumExtra.VIP;
+			case "jump" : return EnumExtra.JUMP;
+			case "theme" : return EnumExtra.THEME;
 			
 			default : return null;
 		}

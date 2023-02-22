@@ -63,7 +63,7 @@ public class SQLLiteDAO extends AbstractMagicSQLDAO {
 
 	@Override
 	protected String createListStockSQL() {
-		return "select * from stocks where collection=? and JSON_EXTRACT(mcard,'$.name')=?";
+		return "select * from stocks where collection=? and JSON_EnumExtraCT(mcard,'$.name')=?";
 
 	}
 

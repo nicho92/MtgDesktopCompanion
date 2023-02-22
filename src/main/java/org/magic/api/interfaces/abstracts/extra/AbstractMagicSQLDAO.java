@@ -37,6 +37,7 @@ import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.beans.enums.TransactionPayementProvider;
@@ -71,7 +72,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	private static final String UPDATED = "{} updated";
 	private static final String BOOLEAN = "BOOLEAN";
-	private static final String EXTRA_TYPE = "extra";
+	private static final String EnumExtra_TYPE = "extra";
 	private static final String COLLECTION = "collection";
 	protected static final String MCARD = "mcard";
 	private static final String DEFAULT_LIBRARY = "default-library";
@@ -2269,13 +2270,13 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 		  try
 		  {
-			var list = MTG.getEnabledPlugin(MTGSealedProvider.class).get(getEnabledPlugin(MTGCardsProvider.class).getSetById(rs.getString(EDITION)),EnumItems.valueOf(rs.getString("typeProduct")),(rs.getString(EXTRA_TYPE)==null) ? null : MTGSealedProduct.EXTRA.valueOf(rs.getString(EXTRA_TYPE)));
+			var list = MTG.getEnabledPlugin(MTGSealedProvider.class).get(getEnabledPlugin(MTGCardsProvider.class).getSetById(rs.getString(EDITION)),EnumItems.valueOf(rs.getString("typeProduct")),(rs.getString(EnumExtra_TYPE)==null) ? null : EnumExtra.valueOf(rs.getString(EnumExtra_TYPE)));
 			MTGSealedProduct product = list.stream().filter(p->p.getNum()==ref).findFirst().orElse(list.get(0));
 			state.setProduct(product);
 		  }
 		  catch (Exception e)
 		  {
-			logger.error("Error loading Packaging for {} {} {} : {}",rs.getString("typeProduct"),rs.getString(EXTRA_TYPE),rs.getString(EDITION),e);
+			logger.error("Error loading Packaging for {} {} {} : {}",rs.getString("typeProduct"),rs.getString(EnumExtra_TYPE),rs.getString(EDITION),e);
 		  }
 
 		  state.setCondition(EnumCondition.valueOf(rs.getString("conditionProduct")));

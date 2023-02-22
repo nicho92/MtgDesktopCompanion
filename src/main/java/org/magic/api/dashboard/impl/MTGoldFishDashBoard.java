@@ -18,10 +18,10 @@ import org.magic.api.beans.EditionsShakers;
 import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MTGSealedProduct;
-import org.magic.api.beans.MTGSealedProduct.EXTRA;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumCardVariation;
+import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.beans.enums.EnumMarketType;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGConstants;
@@ -42,7 +42,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	private static final String FORMAT = "FORMAT";
 	private static final String DAILY_WEEKLY = "DAILY_WEEKLY";
 	private static final String WEBSITE = "https://www.mtggoldfish.com";
-	private static final String SET_EXTRA = "SET_EXTRA";
+	private static final String SET_EnumExtra = "SET_EnumExtra";
 	private static final String MOVERS_DETAILS = WEBSITE+"/movers-details/";
 
 	boolean isPaperparsing=true;
@@ -144,7 +144,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			}
 		}
 
-		if(packaging.getExtra()!=EXTRA.VIP)
+		if(packaging.getExtra()!=EnumExtra.VIP)
 		{
 
 			switch(packaging.getTypeProduct())
@@ -410,7 +410,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 		var page = "Main+Set";
 
-		if(getBoolean(SET_EXTRA))
+		if(getBoolean(SET_EnumExtra))
 			page ="All+Cards";
 
 
@@ -543,7 +543,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		return Map.of(FORMAT, "paper",
 							   TIMEOUT, "0",
 							   DAILY_WEEKLY, "wow",
-							   SET_EXTRA,"true"
+							   SET_EnumExtra,"true"
 							   );
 	}
 

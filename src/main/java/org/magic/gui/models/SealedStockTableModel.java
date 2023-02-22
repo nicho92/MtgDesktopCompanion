@@ -1,11 +1,11 @@
 package org.magic.gui.models;
 
 import org.magic.api.beans.MTGSealedProduct;
-import org.magic.api.beans.MTGSealedProduct.EXTRA;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.tools.UITools;
@@ -24,7 +24,7 @@ public class SealedStockTableModel extends GenericTableModel<SealedStock> {
 		switch (columnIndex) {
 		case 0:return MTGSealedProduct.class;
 		case 1: return EnumItems.class;
-		case 2: return EXTRA.class;
+		case 2: return EnumExtra.class;
 		case 3: return MagicEdition.class;
 		case 4: return String.class;
 		case 5: return EnumCondition.class;

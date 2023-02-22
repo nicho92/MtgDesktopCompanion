@@ -1,5 +1,6 @@
 package org.magic.api.beans;
 
+import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.abstracts.extra.AbstractProduct;
 
@@ -7,20 +8,18 @@ public class MTGSealedProduct extends AbstractProduct{
 
 	private static final long serialVersionUID = 1L;
 
-	public enum EXTRA { SET, DRAFT, COLLECTOR,THEME,GIFT,VIP,WELCOME,JUMP,INTRO,PLANESWALKER,BRAWL}
-
 	private String lang;
 	private int num;
-	private EXTRA extra;
+	private EnumExtra extra;
 
 	public MTGSealedProduct() {
 		setTypeProduct(EnumItems.SEALED);
 	}
 
-	public EXTRA getExtra() {
+	public EnumExtra getExtra() {
 		return extra;
 	}
-	public void setExtra(EXTRA extra) {
+	public void setExtra(EnumExtra extra) {
 		this.extra = extra;
 	}
 
