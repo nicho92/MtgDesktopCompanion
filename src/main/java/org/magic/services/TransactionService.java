@@ -212,7 +212,6 @@ public class TransactionService
 			for(MTGStockItem stock : accepteds)
 			{
 				mtgshop.saveOrUpdateStock(stock,true);
-				getEnabledPlugin(MTGDao.class).saveOrUpdateOrderEntry(toOrder(t, stock));
 			}
 			sendMail(t,"TransactionValid"," Your order is validate !");
 			((JSONHttpServer)MTG.getPlugin(new JSONHttpServer().getName(), MTGServer.class)).clearCache();

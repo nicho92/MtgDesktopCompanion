@@ -6,6 +6,7 @@ public enum EnumExtra {
 	SET, DRAFT, COLLECTOR,THEME,GIFT,VIP,WELCOME,JUMP,INTRO,PLANESWALKER,BRAWL;
 	
 
+	@Override
 	public String toString() {
 		return StringUtils.capitalize(name().toLowerCase());
 	}

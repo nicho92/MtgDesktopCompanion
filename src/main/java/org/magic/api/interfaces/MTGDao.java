@@ -1,7 +1,6 @@
 package org.magic.api.interfaces;
 
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -85,14 +84,7 @@ public interface MTGDao extends MTGPlugin{
 
 
 	public List<OrderEntry> listOrders();
-	public void saveOrUpdateOrderEntry(OrderEntry state) throws SQLException;
-	public void deleteOrderEntry(List<OrderEntry> state) throws SQLException;
-	public void deleteOrderEntry(OrderEntry state) throws SQLException;
-	public List<OrderEntry> listOrderForEdition(MagicEdition ed);
-	public List<OrderEntry> listOrdersAt(Date d);
-	public List<OrderEntry> listOrdersByIdTransaction(String id);
-	public OrderEntry getOrderById(int id);
-	public List<OrderEntry> listOrdersByDescription(String desc, boolean strict);
+
 
 
 	public List<Transaction> listTransactions() throws SQLException;

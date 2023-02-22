@@ -54,7 +54,6 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
@@ -495,21 +494,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			}),transformer);
 
 
-		get("/orders/id/:id", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGDao.class).getOrderById(Integer.parseInt(request.params(":id"))), transformer);
-
-		get("/orders/list/:idTransaction", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGDao.class).listOrdersByIdTransaction(request.params(":idTransaction")), transformer);
-
-		get("/orders/list", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGDao.class).listOrders(), transformer);
-
-
-		post("/orders/new", URLTools.HEADER_JSON, (request, response) ->{
-			var a=converter.fromJson(new InputStreamReader(request.raw().getInputStream()), OrderEntry.class);
-			MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateOrderEntry(a);
-			return ok(request,response,a.getId());
-		}, transformer);
-
-
-
+	
 		get("/cards/scryfall/:scryfallId", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID)), transformer);
 
 		post("/cards/import/:provider", URLTools.HEADER_JSON,(request, response) -> {

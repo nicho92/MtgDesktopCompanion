@@ -207,9 +207,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" contacts (id " + getAutoIncrementKeyWord() + " PRIMARY KEY, contact_name VARCHAR(250), contact_lastname VARCHAR(250), contact_password VARCHAR(250),contact_telephone VARCHAR(250), contact_country VARCHAR(250), contact_zipcode VARCHAR(10), contact_city VARCHAR(50), contact_address VARCHAR(250), contact_website VARCHAR(250),contact_email VARCHAR(100) UNIQUE, emailAccept "+getBoolean()+", contact_active "+getBoolean()+", temporaryToken VARCHAR("+TransactionService.TOKENSIZE+"))");
 			logger.debug("Create table contacts");
 
-			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" orders (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, idTransaction VARCHAR(50), description VARCHAR(250),edition VARCHAR(5),itemPrice DECIMAL(10,3),shippingPrice  DECIMAL(10,3), currency VARCHAR(4), transactionDate DATE,typeItem VARCHAR(50),typeTransaction VARCHAR(50),sources VARCHAR(50),seller VARCHAR(50))");
-			logger.debug("Create table orders");
-
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" cards (ID varchar("+CARD_ID_SIZE+"),mcard "+beanStorage()+", edition VARCHAR(5), cardprovider VARCHAR(20), collection VARCHAR("+COLLECTION_COLUMN_SIZE+"), dateUpdate TIMESTAMP)");
 			logger.debug("Create table cards");
 
@@ -2043,86 +2040,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		}
 
 	}
-	@Override
-	public void deleteOrderEntry(List<OrderEntry> state) throws SQLException {
-		logger.debug("remove {} items in orders",state.size());
-		var st = new StringBuilder();
-		st.append("DELETE FROM orders where id IN (");
-		for (OrderEntry sto : state) {
-			st.append(sto.getId()).append(",");
-		}
-		st.append(")");
-		String sql = st.toString().replace(",)", ")");
-		try (var c = pool.getConnection();Statement pst = c.createStatement()) {
-			pst.executeUpdate(sql);
-		}
-
-
-		if (listOrders != null)
-		{
-			state.forEach(d->listOrders.remove(String.valueOf(d.getId())));
-		}
-
-	}
-
-	@Override
-	public void saveOrUpdateOrderEntry(OrderEntry state) throws SQLException {
-
-		if (state.getId() < 0) {
-			logger.debug("save order {}",state);
-			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO orders (idTransaction, description, edition, itemPrice, shippingPrice, currency, transactionDate, typeItem, typeTransaction, sources, seller) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",Statement.RETURN_GENERATED_KEYS)) {
-
-				pst.setString(1, state.getIdTransation());
-				pst.setString(2, state.getDescription());
-
-				if(state.getEdition()!=null)
-					pst.setString(3, state.getEdition().getId());
-				else
-					pst.setString(3, null);
-
-				pst.setDouble(4, state.getItemPrice());
-				pst.setDouble(5,state.getShippingPrice());
-				pst.setString(6,state.getCurrency().getCurrencyCode());
-				pst.setDate(7, new Date(state.getTransactionDate().getTime()));
-				pst.setString(8,state.getType().name());
-				pst.setString(9,state.getTypeTransaction().name());
-				pst.setString(10, state.getSource());
-				pst.setString(11, state.getSeller());
-				executeUpdate(pst);
-				state.setId(getGeneratedKey(pst));
-				listOrders.put(state.getId(),state);
-			} catch (Exception e) {
-				logger.error("error insert {} : {}",state.getDescription() , e);
-			}
-		} else {
-			logger.debug("update order {}",state);
-			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(
-					"UPDATE orders SET "
-					+ "idTransaction= ?, description=?, edition=?,itemPrice=?,shippingPrice=?,currency=?,transactionDate=?,typeItem=?,typeTransaction=?,sources=?,seller=? "
-					+ "WHERE id = ?")) {
-
-				pst.setString(1, state.getIdTransation());
-				pst.setString(2, state.getDescription());
-
-				if(state.getEdition()!=null)
-					pst.setString(3, state.getEdition().getId());
-				else
-					pst.setString(3, null);
-
-				pst.setDouble(4, state.getItemPrice());
-				pst.setDouble(5,state.getShippingPrice());
-				pst.setString(6,state.getCurrency().getCurrencyCode());
-				pst.setDate(7, new Date(state.getTransactionDate().getTime()));
-				pst.setString(8,state.getType().name());
-				pst.setString(9,state.getTypeTransaction().name());
-				pst.setString(10, state.getSource());
-				pst.setString(11, state.getSeller());
-				pst.setInt(12, state.getId());
-				executeUpdate(pst);
-			}
-		}
-	}
-
+	
 	@Override
 	public void updateCard(MagicCard card,MagicCard newC, MagicCollection col) throws SQLException {
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE cards SET mcard= ? WHERE id = ? and collection = ?"))

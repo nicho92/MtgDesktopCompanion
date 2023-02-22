@@ -2,7 +2,6 @@ package org.magic.api.interfaces.abstracts;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.magic.api.beans.Announce;
@@ -174,24 +173,6 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 
 
 	@Override
-	public void deleteOrderEntry(OrderEntry state) throws SQLException
-	{
-		ArrayList<OrderEntry> orders = new ArrayList<>();
-		orders.add(state);
-		deleteOrderEntry(orders);
-	}
-
-	@Override
-	public List<OrderEntry> listOrdersByDescription(String desc, boolean strict) {
-
-		if(strict)
-			return listOrders().stream().filter(o->o.getDescription().equalsIgnoreCase(desc)).toList();
-		else
-			return listOrders().stream().filter(o->o.getDescription().contains(desc)).toList();
-
-	}
-
-	@Override
 	public void deleteTransaction(List<Transaction> t) throws SQLException {
 		for(Transaction transaction : t)
 			deleteTransaction(transaction);
@@ -272,13 +253,6 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 			dao.saveOrUpdateNews(news);
 		}
 
-		logger.debug("duplicate orders");
-		for(OrderEntry oe : listOrders())
-		{
-			oe.setId(-1);
-			dao.saveOrUpdateOrderEntry(oe);
-		}
-
 		logger.debug("duplicate sealed");
 		for(SealedStock oe : listSealedStocks())
 		{
@@ -349,35 +323,6 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		return ret;
 
 	}
-
-	@Override
-	public List<OrderEntry> listOrdersByIdTransaction(String id)
-	{
-		return listOrders().stream().filter(o->o.getIdTransation().equalsIgnoreCase(id)).toList();
-	}
-
-
-	@Override
-	public OrderEntry getOrderById(int id)
-	{
-		return listOrders().stream().filter(o->o.getId()==id).findFirst().orElse(null);
-	}
-
-
-
-	@Override
-	public List<OrderEntry> listOrderForEdition(MagicEdition ed)
-	{
-		return listOrders().stream().filter(o->o.getEdition()!=null && o.getEdition().equals(ed)).toList();
-	}
-
-	@Override
-	public List<OrderEntry> listOrdersAt(Date d) {
-		return listOrders().stream().filter(o->o.getTransactionDate().equals(d)).toList();
-
-	}
-
-
 
 	@Override
 	public void updateCard(MagicCard c, MagicCard newC, MagicCollection col) throws SQLException {

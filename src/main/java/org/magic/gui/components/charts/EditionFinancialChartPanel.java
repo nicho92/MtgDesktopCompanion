@@ -48,7 +48,7 @@ public class EditionFinancialChartPanel extends Abstract2DBarChart<OrderEntry> {
 		var dataset = new DefaultCategoryDataset();
 		try {
 			var ed = (MagicEdition)cboEditions.getSelectedItem();
-			items = getEnabledPlugin(MTGDao.class).listOrderForEdition(ed);
+			items = getEnabledPlugin(MTGDao.class).listOrders().stream().filter(oe->ed.getId().equals(oe.getEdition().getId())).toList();
 			var price = getEnabledPlugin(MTGDashBoard.class).getShakesForEdition(ed);
 			double totalEd = price.getShakes().stream().mapToDouble(CardShake::getPrice).sum();
 

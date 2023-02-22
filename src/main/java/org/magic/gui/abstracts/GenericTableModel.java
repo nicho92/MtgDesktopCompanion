@@ -224,5 +224,4 @@ public class GenericTableModel<T> extends AbstractTableModel {
 	}
 
 
-
 }

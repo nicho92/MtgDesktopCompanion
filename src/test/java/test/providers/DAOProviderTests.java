@@ -98,26 +98,7 @@ public class DAOProviderTests {
 			System.out.println(p.hasAlert(mc));
 			
 			
-			System.out.println("ORDERS");
-			OrderEntry oe=new OrderEntry();
-						oe.setCurrency(Currency.getInstance("EUR"));
-						oe.setDescription("TEST FROM JUNIT");
-						oe.setIdTransation("TEST-1");
-						oe.setItemPrice(0.587);
-						oe.setSeller("Junit");
-						oe.setSource("JUNIT TEST DAO");
-						oe.setEdition(new MagicEdition("UMA"));
-						oe.setType(EnumItems.LOTS);
-						oe.setTransactionDate(new Date());
-						oe.setTypeTransaction(TransactionDirection.BUY);
-			p.saveOrUpdateOrderEntry(oe);
-			oe.setItemPrice(15.0);
-			p.saveOrUpdateOrderEntry(oe);
-			
-			System.out.println(p.listOrders());
-			System.out.println(p.listOrderForEdition(new MagicEdition("UMA")));
-			
-			p.deleteOrderEntry(oe);
+		
 			
 			System.out.println("STOCKS");
 			MagicCardStock stock = new MagicCardStock();

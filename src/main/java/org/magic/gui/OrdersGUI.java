@@ -125,13 +125,10 @@ public class OrdersGUI extends MTGUIComponent {
 		selectionBuy=new JLabel(MTGConstants.ICON_DOWN);
 		editorPanel = new JPanel();
 		orderEntryPanel = new OrderEntryPanel();
-		var btnSaveOrder = UITools.createBindableJButton(null,MTGConstants.ICON_SAVE,KeyEvent.VK_A,"transaction add");
-		var btnReload = UITools.createBindableJButton(null, MTGConstants.ICON_REFRESH, KeyEvent.VK_R,"Reload");
-
+	
 
 		var panelButton = new JPanel();
-		var btnDeleteOrder = UITools.createBindableJButton(null,MTGConstants.ICON_DELETE,KeyEvent.VK_S,"transaction delete");
-		var btnNewEntry = UITools.createBindableJButton(null,MTGConstants.ICON_NEW,KeyEvent.VK_N,"transaction new");
+	
 		panelComparator = new JPanel();
 		panelComparator.setPreferredSize(new Dimension(10, 30));
 		panelComparator.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
@@ -147,7 +144,7 @@ public class OrdersGUI extends MTGUIComponent {
 		editorPanel.setAlignmentY(Component.TOP_ALIGNMENT);
 		editorPanel.setLayout(new BorderLayout(0, 0));
 
-		btnDeleteOrder.setEnabled(false);
+	
 		panelComparator.setLayout(new BorderLayout(0, 0));
 		lblComparator.setHorizontalAlignment(SwingConstants.CENTER);
 		lblComparator.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 16));
@@ -161,11 +158,11 @@ public class OrdersGUI extends MTGUIComponent {
 		panneauBas.add(selectionBuy);
 		panneauBas.add(selectionSell);
 		panneauBas.add(totalSelection);
+		
+panneauHaut.add(new JLabel("THIS MODULE WILL BE REMOVED. USING Transaction Module Instead"));
 		panneauHaut.add(btnImportTransaction);
 		panneauHaut.add(btnSave);
-		panneauHaut.add(btnDeleteOrder);
 		panneauHaut.add(btnAddToCollection);
-		panneauHaut.add(btnReload);
 		panneauHaut.add(buzy);
 		add(panneauHaut, BorderLayout.NORTH);
 		add(new JScrollPane(table), BorderLayout.CENTER);
@@ -173,9 +170,6 @@ public class OrdersGUI extends MTGUIComponent {
 		panneauRight.setLayout(new BorderLayout(0, 0));
 		editorPanel.add(orderEntryPanel, BorderLayout.CENTER);
 		editorPanel.add(panelButton, BorderLayout.SOUTH);
-
-		panelButton.add(btnSaveOrder);
-		panelButton.add(btnNewEntry);
 
 		panneauRight.add(editorPanel, BorderLayout.SOUTH);
 		panneauRight.add(panelComparator, BorderLayout.NORTH);
@@ -263,66 +257,6 @@ public class OrdersGUI extends MTGUIComponent {
 
 
 
-
-		btnSaveOrder.addActionListener(ae->{
-			orderEntryPanel.save();
-			model.fireTableDataChanged();
-		});
-
-		btnNewEntry.addActionListener(ae->{
-			model.addItem(orderEntryPanel.newOrderEntry());
-			calulate(model.getItems());
-		});
-
-		btnReload.addActionListener(ae->loadFinancialBook());
-
-		btnDeleteOrder.addActionListener(ae->{
-
-				List<OrderEntry> states = UITools.getTableSelections(table, 0);
-
-				if(states.isEmpty())
-					return;
-
-
-				int res = JOptionPane.showConfirmDialog(null,capitalize("CONFIRM_DELETE",states.size() + " item(s)"),
-						capitalize("DELETE") + " ?",JOptionPane.YES_NO_OPTION);
-
-
-
-				SwingWorker<Void,OrderEntry> sw = new SwingWorker<>()
-				{
-
-					@Override
-					protected Void doInBackground() throws Exception {
-						states.forEach(state->{
-							try {
-							getEnabledPlugin(MTGDao.class).deleteOrderEntry(state);
-							model.removeItem(state);
-							} catch (Exception e) {
-								logger.error("error deleting {}", state,e);
-							}
-						});
-						return null;
-
-
-					}
-
-					@Override
-					protected void done() {
-						calulate(model.getItems());
-					}
-
-				};
-
-
-				if(res==JOptionPane.OK_OPTION)
-					ThreadManager.getInstance().runInEdt(sw,"delete "+states.size()+" orders");
-
-
-
-
-		});
-
 		table.getSelectionModel().addListSelectionListener(event -> {
 			if (!event.getValueIsAdjusting()) {
 
@@ -387,9 +321,6 @@ public class OrdersGUI extends MTGUIComponent {
 							logger.error("exectuion error",e1);
 						}
 						finally {
-
-							btnDeleteOrder.setEnabled(true);
-							btnSaveOrder.setEnabled(true);
 							btnAddToCollection.setEnabled(true);
 						}
 					}//fin du done()
@@ -399,30 +330,6 @@ public class OrdersGUI extends MTGUIComponent {
 
 			}
 		});
-
-		btnSave.addActionListener(ae->{
-
-
-			List<OrderEntry> orders = model.getItems().stream().filter(OrderEntry::isUpdated).toList();
-
-					AbstractObservableWorker<Void,OrderEntry, MTGDao> sw = new AbstractObservableWorker<>(buzy,getEnabledPlugin(MTGDao.class),orders.size()) {
-
-						@Override
-						protected Void doInBackground() throws Exception {
-
-								for(OrderEntry a : orders)
-								{
-									plug.saveOrUpdateOrderEntry(a);
-									a.setUpdated(false);
-									publish(a);
-								}
-								return null;
-						}
-					};
-
-					ThreadManager.getInstance().runInEdt(sw, "savings orders");
-
-			});
 
 
 		btnImportTransaction.addActionListener(ae->{

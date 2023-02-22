@@ -18,6 +18,8 @@ public class TransactionTotalPanel extends JPanel {
 	private JLabel selectionBuy;
 	private JLabel selectionSell;
 	private JLabel totalSelection;
+	private List<Transaction> entries;
+	private TableModel model;
 	
 	
 	
@@ -42,6 +44,9 @@ public class TransactionTotalPanel extends JPanel {
 	
 	public void calulate(List<Transaction> entries,TableModel model)
 	{
+		this.entries = entries;
+		this.model = model;
+		
 		double totalS=0;
 		double totalB=0;
 		
@@ -75,6 +80,11 @@ public class TransactionTotalPanel extends JPanel {
 			else
 				total.setIcon(MTGConstants.ICON_DOWN);
 		}
+	}
+
+	public void refresh() {
+		calulate(entries,model);
+		
 	}
 
 	

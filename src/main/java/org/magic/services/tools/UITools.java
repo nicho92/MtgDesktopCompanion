@@ -69,6 +69,8 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumCardVariation;
 import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.beans.enums.TransactionDirection;
+import org.magic.api.beans.enums.TransactionPayementProvider;
 import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.interfaces.MTGCardsExport;
@@ -229,6 +231,8 @@ public class UITools {
 				table.setDefaultEditor(Date.class, new DateTableCellEditorRenderer());
 				table.setDefaultEditor(EnumCondition.class, new ComboBoxEditor<>(EnumCondition.values()));
 				table.setDefaultEditor(TransactionStatus.class, new ComboBoxEditor<>(TransactionStatus.values()));
+				table.setDefaultEditor(TransactionPayementProvider.class, new ComboBoxEditor<>(TransactionPayementProvider.values()));
+				table.setDefaultEditor(TransactionDirection.class, new ComboBoxEditor<>(TransactionDirection.values()));
 				table.setDefaultEditor(Level.class,  new ComboBoxEditor<>(MTGLogger.getLevels()) );
 
 				try {

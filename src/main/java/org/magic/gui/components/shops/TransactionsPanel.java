@@ -1,6 +1,7 @@
 package org.magic.gui.components.shops;
 
 import java.awt.BorderLayout;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import javax.swing.SwingWorker;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.shop.Transaction;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.ContactPanel;
@@ -25,6 +27,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.TransactionService;
 import org.magic.services.threads.ThreadManager;
+import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 
 import com.jogamp.newt.event.KeyEvent;
@@ -67,10 +70,13 @@ public class TransactionsPanel extends MTGUIComponent {
 		splitPanel.setDividerLocation(.5);
 		splitPanel.setResizeWeight(0.5);
 
+		
+		
 		tableTransactions = UITools.createNewTable(model);
 		tableTransactions.setDefaultRenderer(Date.class, new DateTableCellEditorRenderer(true));
-		
 		UITools.initTableFilter(tableTransactions);
+		
+		
 
 		var stockManagementPanel = new JPanel();
 			   stockManagementPanel.setLayout(new BorderLayout());
@@ -98,7 +104,9 @@ public class TransactionsPanel extends MTGUIComponent {
 		panneauHaut.add(btnDelete);
 		panneauHaut.add(buzy);
 
-
+		
+		
+		
 		tableTransactions.getSelectionModel().addListSelectionListener(lsl->{
 
 			List<Transaction> t = UITools.getTableSelections(tableTransactions, 0);
@@ -117,6 +125,46 @@ public class TransactionsPanel extends MTGUIComponent {
 			viewerPanel.init(t.get(0));
 		});
 
+
+		tableTransactions.getModel().addTableModelListener(tml->{
+			if(tml.getFirstRow() >0 && tml.getType()==0)
+			{ 
+				try{ 
+					
+					buzy.start();
+					var sw = new SwingWorker<Void, Void>()
+					{
+
+						@Override
+						protected Void doInBackground() throws Exception {
+							try {
+								MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateTransaction(model.getItemAt(tml.getFirstRow()));
+							} catch (SQLException e) {
+								logger.error(e);
+							}
+							return null;
+						}
+						
+						@Override
+						protected void done() {
+							buzy.end();
+							panneauBas.refresh();
+						}
+						
+				
+					};
+					
+					ThreadManager.getInstance().runInEdt(sw, "Saving transaction");
+				}
+				catch(Exception e)
+				{
+					
+				}
+				
+			}
+			
+		});
+		
 		btnRefresh.addActionListener(al->reload());
 
 
@@ -195,8 +243,6 @@ public class TransactionsPanel extends MTGUIComponent {
 				buzy.end();
 				model.fireTableDataChanged();
 			}
-
-
 		};
 
 		ThreadManager.getInstance().runInEdt(sw, "Load transactions");

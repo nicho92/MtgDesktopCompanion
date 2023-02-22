@@ -1,14 +1,13 @@
 package org.magic.gui.models;
 
-import java.sql.SQLException;
 import java.util.Date;
 
 import org.magic.api.beans.enums.TransactionDirection;
+import org.magic.api.beans.enums.TransactionPayementProvider;
 import org.magic.api.beans.enums.TransactionStatus;
+import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
-import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.GenericTableModel;
-import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 
 public class TransactionsTableModel extends GenericTableModel<Transaction> {
@@ -23,26 +22,25 @@ public class TransactionsTableModel extends GenericTableModel<Transaction> {
 	public TransactionsTableModel() {
 
 		setWritable(true);
-		columns = new String[] { "ID","DATE","CONTACT","ITEMS","TOTAL","Reduction","SHIPPING","MESSAGE","STATUT","DATE PAYMENT","PAYMENT METHOD","DATE SEND","DIRECTION","Source","SourceID" };
+		columns = new String[] { "ID","DATE","CONTACT","ITEMS","TOTAL","Reduction","SHIPPING","MESSAGE","STATUT","DATE PAYMENT","PAYMENT METHOD","DATE SEND","DIRECTION","Source" };
 	}
 
 
 	@Override
-	public void setValueAt(Object aValue, int row, int column) {
+	public synchronized void setValueAt(Object aValue, int row, int column) {
 		
 		
 		switch (column) {
 			case 5: getItemAt(row).setReduction(UITools.parseDouble(aValue.toString())); break;
 			case 6: getItemAt(row).setShippingPrice(UITools.parseDouble(aValue.toString())); break;
+			case 7: getItemAt(row).setMessage(String.valueOf(aValue)); break;
 			case 8 : getItemAt(row).setStatut(TransactionStatus.valueOf(aValue.toString()));break;
+			
+			case 10 : getItemAt(row).setPaymentProvider(TransactionPayementProvider.valueOf(aValue.toString()));break;
+			case 12 : getItemAt(row).setTypeTransaction(TransactionDirection.valueOf(aValue.toString()));break;
 		default:break;
 		}
-		
-		try {
-			MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateTransaction(getItemAt(row));
-		} catch (SQLException e) {
-		logger.error(e);
-		}
+		fireTableCellUpdated(row, column);
 	}
 
 	@Override
@@ -66,8 +64,6 @@ public class TransactionsTableModel extends GenericTableModel<Transaction> {
 			case 11 : return it.getDateSend();
 			case 12 : return it.getTypeTransaction();
 			case 13 : return it.getSourceShopName();
-			case 14 : return it.getSourceShopId();
-			
 			default : return 0;
 		}
 	}
@@ -76,7 +72,7 @@ public class TransactionsTableModel extends GenericTableModel<Transaction> {
 	public boolean isCellEditable(int row, int column) {
 		if(writable)
 		{
-			return (column==8 || column==5 || column==6);
+			return (column>4);
 		}
 		else
 		{
@@ -93,12 +89,19 @@ public class TransactionsTableModel extends GenericTableModel<Transaction> {
 		if(columnIndex==3)
 			return Integer.class;
 
+		if(columnIndex==2)
+			return Contact.class;
 		
 		if(columnIndex==4 || columnIndex==5 || columnIndex==6)
 			return Double.class;
 
 		if(columnIndex==8)
 			return TransactionStatus.class;
+		
+		if(columnIndex==10)
+			return TransactionPayementProvider.class;
+		
+		
 		
 		if(columnIndex==12)
 			return TransactionDirection.class;

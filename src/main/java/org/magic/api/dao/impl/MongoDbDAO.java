@@ -806,31 +806,6 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 
 
-
-	@Override
-	public void saveOrUpdateOrderEntry(OrderEntry state) throws SQLException {
-		logger.debug("saving {}",state);
-		state.setUpdated(false);
-		if (state.getId() == -1) {
-			state.setId(Integer.parseInt(getNextSequence().toString()));
-			db.getCollection(colOrders, BasicDBObject.class).insertOne(BasicDBObject.parse(serialize(state)));
-
-		} else {
-			UpdateResult res = db.getCollection(colOrders, BasicDBObject.class).replaceOne(Filters.eq("id", state.getId()),BasicDBObject.parse(serialize(state)));
-			logger.debug(res);
-		}
-
-	}
-
-	@Override
-	public void deleteOrderEntry(List<OrderEntry> state) throws SQLException {
-		logger.debug("remove {} item(s) in orders",state.size());
-		for (OrderEntry s : state) {
-			DeleteResult res = db.getCollection(colOrders).deleteOne(Filters.eq("id", s.getId()));
-			logger.debug( "{} item deleted",res.getDeletedCount());
-		}
-	}
-
 	@Override
 	public List<OrderEntry> listOrders() {
 		db.getCollection(colOrders, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result ->{
