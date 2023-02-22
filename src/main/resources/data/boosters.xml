@@ -2203,7 +2203,7 @@
 			url="https://www.mtgshop.nl/image/cache/catalog/TSR/MTGTSR_EN_Bstr_02_01-1000x1000h.png" />
 		<booster lang="en" extra="draft" num="3"
 			url="https://www.mtgshop.nl/image/cache/catalog/TSR/MTGTSR_EN_Bstr_03_01-1000x1000h.png" />
-		<bundle lang="en" num="1"
+		<draft_pack lang="en" num="1"
 			url="https://images.ctfassets.net/s5n2t79q9icq/bOhrwktp1vu4UwamIxJO8/9c9f724a2ed32593f88cbb4ef1c7825f/EN_H1bdPCmV0z.png" />
 	</edition>
 
@@ -2508,6 +2508,9 @@
 		<set lang="en" num="1" url="https://www.magic-ville.com/fr/graph/bigsetlogos/dmr.png"/>
 		<box extra="draft" num="1" lang="en" url="https://media.wizards.com/2022/images/daily/en_Cs3FsIuegs.png"/>
 		<box extra="collector" num="2" lang="en" url="https://media.wizards.com/2022/images/daily/en_wzvi1LWL08.png"/>
+		<booster lang="en" extra="draft" num="1" url="https://cdn.shoplightspeed.com/shops/637526/files/51635081/1652x2313x2/magic-the-gathering-mtg-dominaria-remastered-draft.jpg"/>
+		<booster lang="en" extra="collector" num="1" url="https://jeudecarte.net/wp-content/uploads/2022/08/dominaria-remastered-booster-collectro.jpg"/>"
+		<draft_pack lang="en" extra="draft" num="1" url="https://m.media-amazon.com/images/I/71EHXm5IexL._AC_SL1500_.jpg"/>
 	</edition>
 	
 	<edition id="ONE">
