@@ -4,11 +4,8 @@ import static org.magic.services.tools.MTG.capitalize;
 import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
@@ -26,7 +23,6 @@ import javax.swing.JScrollPane;
 import javax.swing.SortOrder;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
-import javax.swing.border.LineBorder;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.HistoryPrice;
@@ -40,7 +36,6 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
-import org.magic.gui.components.OrderEntryPanel;
 import org.magic.gui.components.dialog.OrderImporterDialog;
 import org.magic.gui.models.ShoppingEntryTableModel;
 import org.magic.gui.renderer.OrderEntryRenderer;
@@ -60,11 +55,6 @@ public class OrdersGUI extends MTGUIComponent {
 	private JLabel selectionSell;
 	private JLabel totalSelection;
 	private JXTable table;
-	private OrderEntryPanel orderEntryPanel;
-	private JLabel lblComparator;
-	private JPanel editorPanel;
-	private JPanel panelComparator;
-	private JPanel chartesContainerPanel;
 	private AbstractBuzyIndicatorComponent buzy;
 
 	private void loadFinancialBook()
@@ -109,7 +99,6 @@ public class OrdersGUI extends MTGUIComponent {
 
 		var panneauBas = new JPanel();
 		var panneauHaut = new JPanel();
-		var panneauRight = new JPanel();
 
 		model = new ShoppingEntryTableModel();
 		table = UITools.createNewTable(model);
@@ -123,34 +112,15 @@ public class OrdersGUI extends MTGUIComponent {
 		totalSelection = new JLabel();
 		selectionSell = new JLabel(MTGConstants.ICON_UP);
 		selectionBuy=new JLabel(MTGConstants.ICON_DOWN);
-		editorPanel = new JPanel();
-		orderEntryPanel = new OrderEntryPanel();
 	
 
-		var panelButton = new JPanel();
 	
-		panelComparator = new JPanel();
-		panelComparator.setPreferredSize(new Dimension(10, 30));
-		panelComparator.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		lblComparator = new JLabel("Values");
-		var btnAddToCollection = UITools.createBindableJButton(null,MTGConstants.ICON_MASS_IMPORT,KeyEvent.VK_C,"transaction add collection");
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 
 		setLayout(new BorderLayout(0, 0));
-		btnAddToCollection.setEnabled(false);
 
 		table.setDefaultRenderer(Double.class,  new OrderEntryRenderer());
-		panneauRight.setPreferredSize(new Dimension(500, 1));
-		editorPanel.setAlignmentY(Component.TOP_ALIGNMENT);
-		editorPanel.setLayout(new BorderLayout(0, 0));
-
 	
-		panelComparator.setLayout(new BorderLayout(0, 0));
-		lblComparator.setHorizontalAlignment(SwingConstants.CENTER);
-		lblComparator.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 16));
-
-
-
 		panneauBas.add(totalBuy);
 		panneauBas.add(totalSell);
 		panneauBas.add(total);
@@ -159,26 +129,12 @@ public class OrdersGUI extends MTGUIComponent {
 		panneauBas.add(selectionSell);
 		panneauBas.add(totalSelection);
 		
-panneauHaut.add(new JLabel("THIS MODULE WILL BE REMOVED. USING Transaction Module Instead"));
+		panneauHaut.add(new JLabel("THIS MODULE WILL BE REMOVED. USING Transaction Module Instead"));
 		panneauHaut.add(btnImportTransaction);
 		panneauHaut.add(btnSave);
-		panneauHaut.add(btnAddToCollection);
 		panneauHaut.add(buzy);
 		add(panneauHaut, BorderLayout.NORTH);
 		add(new JScrollPane(table), BorderLayout.CENTER);
-		add(panneauRight,BorderLayout.EAST);
-		panneauRight.setLayout(new BorderLayout(0, 0));
-		editorPanel.add(orderEntryPanel, BorderLayout.CENTER);
-		editorPanel.add(panelButton, BorderLayout.SOUTH);
-
-		panneauRight.add(editorPanel, BorderLayout.SOUTH);
-		panneauRight.add(panelComparator, BorderLayout.NORTH);
-
-		panelComparator.add(lblComparator);
-
-		chartesContainerPanel = new JPanel();
-		panneauRight.add(chartesContainerPanel, BorderLayout.CENTER);
-		chartesContainerPanel.setLayout(new GridLayout(2, 1, 0, 0));
 	
 
 		add(panneauBas,BorderLayout.SOUTH);
@@ -187,146 +143,14 @@ panneauHaut.add(new JLabel("THIS MODULE WILL BE REMOVED. USING Transaction Modul
 
 
 
-		btnAddToCollection.addActionListener(ae ->{
-			var popupMenu = new JPopupMenu("Title");
-				try {
-						for(MagicCollection c : getEnabledPlugin(MTGDao.class).listCollections())
-						{
-							var cutMenuItem = new JMenuItem(c.getName(),MTGConstants.ICON_COLLECTION);
-							popupMenu.add(cutMenuItem);
-
-
-							cutMenuItem.addActionListener(event->{
-								List<OrderEntry> entries = UITools.getTableSelections(table,0);
-
-								List<MagicCard> toSave = new ArrayList<>();
-
-								entries.stream().filter(o->o.getType()==EnumItems.CARD || o.getType()==EnumItems.SET).forEach(order->{
-
-									try {
-											if(order.getType()==EnumItems.CARD)
-											{
-												List<MagicCard> l = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(order.getDescription(), order.getEdition(), false);
-												if(l.size()>1)
-													logger.warn("warning, multiresults for {} : {}",order.getDescription(),l);
-
-												toSave.add(l.get(0));
-											}
-											else if(order.getType()==EnumItems.SET)
-											{
-												toSave.addAll(getEnabledPlugin(MTGCardsProvider.class).searchCardByEdition(order.getEdition()));
-											}
-									} catch (Exception e) {
-										logger.error("can't find {}/{} : {}",order.getDescription(),order.getEdition(),e.getMessage());
-									}
-								});
-
-
-								int ret = JOptionPane.showConfirmDialog(this, "Add " + toSave.size() +" items to " + c +" ?");
-
-								if(ret == JOptionPane.YES_OPTION) {
-									AbstractObservableWorker<Void, MagicCard, MTGDao> sw = new AbstractObservableWorker<>(buzy, getEnabledPlugin(MTGDao.class), toSave.size()) {
-										@Override
-										protected Void doInBackground() {
-											toSave.forEach(card->{
-												try {
-													plug.saveCard(card, c);
-												} catch (SQLException e) {
-													logger.error(e);
-												}
-											});
-											return null;
-										}
-									};
-
-									ThreadManager.getInstance().runInEdt(sw, "saving orders in " + c);
-								}
-						});
-
-
-						}
-					} catch (Exception e1) {
-						logger.error(e1);
-				}
-				btnAddToCollection.setComponentPopupMenu(popupMenu);
-		    	Component b=(Component)ae.getSource();
-		    	Point p=b.getLocationOnScreen();
-		    	popupMenu.show(this,0,0);
-		    	popupMenu.setLocation(p.x,p.y+b.getHeight());
-		    });
-
-
-
+		
 		table.getSelectionModel().addListSelectionListener(event -> {
 			if (!event.getValueIsAdjusting()) {
 
 					if(table.getSelectedRow()<0)
 						return;
 
-				OrderEntry o = UITools.getTableSelection(table, 0);
-
-
-
-				orderEntryPanel.setOrderEntry(o);
-
 				calulate(UITools.getTableSelections(table, 0));
-
-//				if(o.getEdition()!=null)
-//					editionFinancialChartPanel.init(o.getEdition());
-
-
-
-				SwingWorker<HistoryPrice<MagicCard>,Void> sw2 = new SwingWorker<>()
-				{
-
-					@Override
-					protected HistoryPrice<MagicCard> doInBackground() throws Exception {
-
-						List<MagicCard> result = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(o.getDescription(), o.getEdition(), false);
-
-						if(result.isEmpty())
-							return new HistoryPrice<>(null);
-
-
-						MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(o.getDescription(), o.getEdition(), false).get(0);
-						return getEnabledPlugin(MTGDashBoard.class).getPriceVariation(mc, o.getDescription().toLowerCase().contains("foil"));
-
-					}
-
-					@Override
-					protected void done() {
-						try {
-							HistoryPrice<MagicCard> e = get();
-
-									Double actualValue = MTGControler.getInstance().getCurrencyService().convertTo(o.getCurrency(), e.get(e.getLastDay()));
-									Double paidValue = MTGControler.getInstance().getCurrencyService().convertTo(o.getCurrency(), o.getItemPrice());
-
-									Double pc = UITools.roundDouble(((actualValue-paidValue)/paidValue)*100);
-									String spc = ((pc>0) ? "+":"")+pc;
-
-
-									lblComparator.setText(MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getCurrencyCode() +" " + o.getTypeTransaction() + " =" + UITools.formatDouble(paidValue) + " VALUE="+UITools.formatDouble(actualValue) + " : " + spc +"%");
-									if(actualValue<paidValue)
-										lblComparator.setIcon((o.getTypeTransaction()==TransactionDirection.BUY)?MTGConstants.ICON_DOWN:MTGConstants.ICON_UP);
-									else if(actualValue>paidValue)
-										lblComparator.setIcon((o.getTypeTransaction()==TransactionDirection.BUY)?MTGConstants.ICON_UP:MTGConstants.ICON_DOWN);
-									else
-										lblComparator.setIcon(null);
-
-		
-
-						} catch (InterruptedException e1) {
-							Thread.currentThread().interrupt();
-						} catch (ExecutionException e1) {
-							logger.error("exectuion error",e1);
-						}
-						finally {
-							btnAddToCollection.setEnabled(true);
-						}
-					}//fin du done()
-				};//fin du worker
-				ThreadManager.getInstance().runInEdt(sw2, "loading prices for "+o.getDescription());
-
 
 			}
 		});
