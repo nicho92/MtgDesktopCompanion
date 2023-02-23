@@ -8,12 +8,12 @@ import java.util.Map.Entry;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.jfree.chart3d.data.PieDataset3D;
 import org.jfree.chart3d.data.StandardPieDataset3D;
-import org.magic.api.beans.OrderEntry;
+import org.magic.api.beans.shop.Transaction;
 import org.magic.gui.abstracts.charts.Abstract3DPieChart;
 import org.magic.services.tools.UITools;
 
 
-public class OrdersChartPanel extends Abstract3DPieChart<OrderEntry,String> {
+public class OrdersChartPanel extends Abstract3DPieChart<Transaction,String> {
 
 	public OrdersChartPanel(boolean displayPanel) {
 		super(displayPanel);
@@ -42,7 +42,7 @@ public class OrdersChartPanel extends Abstract3DPieChart<OrderEntry,String> {
 	}
 
 
-	public void init(List<OrderEntry> listOrders, String p, boolean count) {
+	public void init(List<Transaction> listOrders, String p, boolean count) {
 		this.property=p;
 		this.count=count;
 		init(listOrders);
@@ -59,7 +59,7 @@ public class OrdersChartPanel extends Abstract3DPieChart<OrderEntry,String> {
 				if(count)
 					ret.put(val, ret.get(val)==null? 1 : ret.get(val)+1);
 				else
-					ret.put(val, ret.get(val)==null? o.getItemPrice() : UITools.roundDouble(ret.get(val)+o.getItemPrice()));
+					ret.put(val, ret.get(val)==null? o.total() : UITools.roundDouble(ret.get(val)+o.total()));
 
 			} catch (Exception e) {
 				logger.error(e);

@@ -7,14 +7,21 @@ import java.util.List;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.RetrievableTransaction;
 import org.magic.api.interfaces.MTGShopper;
+import org.magic.services.network.MTGHttpClient;
 
 public abstract class AbstractMagicShopper extends AbstractMTGPlugin implements MTGShopper {
 
+	protected MTGHttpClient client;
+	
 	@Override
 	public PLUGINS getType() {
 		return PLUGINS.SHOPPER;
 	}
 	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEV;
+	}
 	
 
 	protected Transaction buildTransaction(RetrievableTransaction rt) {

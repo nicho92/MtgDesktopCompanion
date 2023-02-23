@@ -40,7 +40,7 @@ public class TransactionDashlet extends AbstractJDashlet {
 		var panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
 
-		cboProperty = UITools.createCombobox(Lists.newArrayList("transporter","contact","dateCreation","statut"));
+		cboProperty = UITools.createCombobox(Lists.newArrayList("sourceShopName","statut","typeTransaction","paymentProvider","transporter","contact"));
 		panel.add(cboProperty);
 
 		chkSumOrTotal = new JCheckBox("Count");

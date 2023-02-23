@@ -12,7 +12,6 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
-import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.shop.Contact;
@@ -39,7 +38,6 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	protected JsonExport serialiser;
 
 	protected TCache<MagicCardAlert> listAlerts;
-	protected TCache<OrderEntry> listOrders;
 	protected TCache<Contact> listContacts;
 	protected TCache<MagicCollection> listCollections;
 
@@ -62,7 +60,6 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 
 	protected AbstractMagicDAO() {
 		listAlerts = new TCache<>("alerts");
-		listOrders = new TCache<>("orders");
 		listContacts = new TCache<>("contacts");
 		listCollections = new TCache<>("collections");
 		serialiser=new JsonExport();

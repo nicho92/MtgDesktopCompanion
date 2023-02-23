@@ -17,9 +17,7 @@ import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.enums.EnumItems;
-import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.beans.enums.TransactionPayementProvider;
 import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.beans.shop.Contact;
@@ -37,7 +35,6 @@ import org.magic.services.logging.MTGLogger;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.MTG;
-import org.magic.services.tools.UITools;
 
 public class TransactionService
 {
@@ -102,29 +99,6 @@ public class TransactionService
 		}
 
 		return mtgshop.saveOrUpdateTransaction(t);
-	}
-
-
-	public static OrderEntry toOrder(Transaction t,MTGStockItem transactionItem)
-	{
-
-		   var oe = new OrderEntry();
-			   oe.setCurrency(MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
-			   oe.setDescription(transactionItem.getProduct().getName());
-			   oe.setEdition(transactionItem.getProduct().getEdition());
-			   oe.setIdTransation(String.valueOf(t.getId()));
-			   oe.setItemPrice(UITools.roundDouble(transactionItem.getPrice()));
-			   oe.setTransactionDate(t.getDateCreation());
-			   oe.setShippingPrice(UITools.roundDouble(t.getShippingPrice()));
-			   oe.setSource(MTGControler.getInstance().getWebConfig().getSiteTitle());
-			   oe.setType(transactionItem.getProduct().getTypeProduct());
-			   oe.setUpdated(false);
-			   if(t.total()>0)
-				   oe.setTypeTransaction(TransactionDirection.SELL);
-			   else
-				   oe.setTypeTransaction(TransactionDirection.BUY);
-
-			   return oe;
 	}
 
 	public static void sendMail(Transaction t,String template,String msg)

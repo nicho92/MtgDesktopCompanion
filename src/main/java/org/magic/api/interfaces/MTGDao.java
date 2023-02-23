@@ -13,7 +13,6 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
-import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.shop.Contact;
@@ -80,12 +79,6 @@ public interface MTGDao extends MTGPlugin{
 	public void saveOrUpdateSealedStock(SealedStock state) throws SQLException;
 	public void deleteStock(SealedStock state) throws SQLException;
 	public SealedStock getSealedStockById(Long id) throws SQLException;
-
-
-
-	public List<OrderEntry> listOrders();
-
-
 
 	public List<Transaction> listTransactions() throws SQLException;
 	public List<Transaction> listTransactions(Contact c) throws SQLException;

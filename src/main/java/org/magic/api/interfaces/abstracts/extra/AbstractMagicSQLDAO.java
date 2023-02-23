@@ -34,7 +34,6 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
-import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumExtra;
@@ -1988,58 +1987,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	}
 	
 	
-	@Override
-	public List<OrderEntry> listOrders() {
-		if(!listOrders.isEmpty())
-			return listOrders.values();
-		
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM orders"); ResultSet rs = executeQuery(pst);)
-		{
-			while (rs.next()) {
-				var state = new OrderEntry();
-
-				state.setId(rs.getInt("id"));
-				state.setIdTransation(rs.getString("idTransaction"));
-				state.setDescription(rs.getString("description"));
-
-				setEdition(state,rs);
-				state.setCurrency(Currency.getInstance(rs.getString("currency")));
-				state.setTransactionDate(rs.getDate("transactionDate"));
-				state.setItemPrice(rs.getDouble("itemPrice"));
-				state.setShippingPrice(rs.getDouble("shippingPrice"));
-				state.setType(EnumItems.valueOf(rs.getString("typeItem")));
-				state.setTypeTransaction(TransactionDirection.valueOf(rs.getString("typeTransaction")));
-				state.setSource(rs.getString("sources"));
-				state.setSeller(rs.getString("seller"));
-				state.setUpdated(false);
-				listOrders.put(state.getId(),state);
-			}
-		}
-		catch(Exception e)
-		{
-			logger.error(e);
-		}
-		
-		return listOrders.values();
-		
-	}
-	
-
-	private void setEdition(OrderEntry state, ResultSet rs) {
-		try {
-			if(rs.getString(EDITION)==null)
-			{
-				state.setEdition(new MagicEdition("pMEI",""));
-				return;
-			}
-
-
-			state.setEdition(getEnabledPlugin(MTGCardsProvider.class).getSetById(rs.getString(EDITION)));
-		} catch (Exception e) {
-			state.setEdition(null);
-		}
-
-	}
 	
 	@Override
 	public void updateCard(MagicCard card,MagicCard newC, MagicCollection col) throws SQLException {

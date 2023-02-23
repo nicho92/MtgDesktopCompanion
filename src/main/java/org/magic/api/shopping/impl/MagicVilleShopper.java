@@ -32,9 +32,6 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 	String urlLogin = urlBase+"/fr/connexion.php";
 	String urlDetailOrder=urlBase+"/fr/register/";
 	
-	MTGHttpClient client;
-	
-	
 	private void init()
 	{
 		if(client==null)
@@ -59,15 +56,6 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 		}
 	}
 
-	public static void main(String[] args) throws IOException, SQLException {
-		MTGControler.getInstance().init();
-		
-		var prov = new MagicVilleShopper();
-		var res = prov.listOrders();
-		prov.getTransaction(res.get(0));
-		
-	}
-	
 	@Override
 	public Transaction getTransaction(RetrievableTransaction rt) throws IOException {
 		
@@ -110,7 +98,7 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 
 	private MTGStockItem buildCard(Element e) {
 		try {
-			
+			logger.info(e);
 			var card = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(e.select("td").get(1).text(), null, false).get(0);
 			var st = new MagicCardStock(card);
 				 st.setPrice(UITools.parseDouble(e.select("td").get(6).html()));

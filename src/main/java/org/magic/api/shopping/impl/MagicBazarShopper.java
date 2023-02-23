@@ -22,7 +22,6 @@ import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.services.AccountsManager;
 import org.magic.services.CardsManagerService;
-import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
@@ -36,8 +35,6 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 
 	String urlListOrders = urlBase + "/user/list_order.php";
 	String urlLogin = urlBase+"/user/signin.php";
-	private MTGHttpClient client;
-	
 	
 	private void init()
 	{
@@ -74,7 +71,7 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 			
 			var o = new RetrievableTransaction();
 				 o.setSourceId(element.select("div.num_commande").text());
-				 o.setDateTransaction(UITools.parseDate(element.select("div.hide_mobile").first().html(),"MM/dd/yy"));
+				 o.setDateTransaction(UITools.parseDate(element.select("div.hide_mobile").first().html(),"dd/MM/yy"));
 				 o.setTotalValue(UITools.parseDouble(StringEscapeUtils.unescapeHtml4(element.select("div.price").html())));
 				 o.setComments(element.select("div.num_item").get(1).html());
 				 o.setUrl(element.attr("href"));

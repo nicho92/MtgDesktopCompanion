@@ -32,7 +32,6 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
-import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
@@ -805,15 +804,6 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	}
 
-
-	@Override
-	public List<OrderEntry> listOrders() {
-		db.getCollection(colOrders, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result ->{
-				OrderEntry o = deserialize(result, OrderEntry.class);
-				listOrders.put(o.getId(),o);
-			});
-		return listOrders.values();
-	}
 
 	@Override
 	public boolean executeQuery(String query) throws SQLException {

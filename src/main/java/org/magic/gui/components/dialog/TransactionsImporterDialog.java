@@ -15,7 +15,6 @@ import javax.swing.JScrollPane;
 
 import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.technical.RetrievableTransaction;
 import org.magic.api.interfaces.MTGShopper;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
@@ -133,8 +132,15 @@ public class TransactionsImporterDialog extends JDialog {
 		setLocationRelativeTo(null);
 	}
 
+	
+	
+	
 	public List<RetrievableTransaction> getSelectedEntries() {
 		return selectedEntries;
 	}
 
+	public MTGShopper getSelectedSniffer() {
+		return selectedSniffer;
+	}
+	
 }
