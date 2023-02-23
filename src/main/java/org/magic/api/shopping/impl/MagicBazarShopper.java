@@ -4,16 +4,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.text.StringEscapeUtils;
-import org.apache.commons.text.similarity.FuzzyScore;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionDirection;
@@ -25,7 +22,6 @@ import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.services.AccountsManager;
 import org.magic.services.CardsManagerService;
-import org.magic.services.MTGControler;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
@@ -107,9 +103,9 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 			{
 					if(iscard)
 					{
-						var b = buildSealed(e,elementName);
+						var b = buildCard(e,elementName);
 						if(b!=null)
-							t.getItems().add(buildCard(e,elementName));
+							t.getItems().add(b);
 					}
 					else
 					{	

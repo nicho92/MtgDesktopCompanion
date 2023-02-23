@@ -32,6 +32,7 @@ import org.magic.api.beans.technical.WebShopConfig;
 import org.magic.api.beans.technical.audit.FileAccessInfo;
 import org.magic.api.beans.technical.audit.FileAccessInfo.ACCESSTYPE;
 import org.magic.api.exports.impl.JsonExport;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.MTGPlugin;
@@ -518,7 +519,7 @@ public class MTGControler {
 
 
 	public void init() throws SQLException {
-
+		MTG.getEnabledPlugin(MTGCardsProvider.class).init();
 		MTG.getEnabledPlugin(MTGDao.class).init();
 		loadAccountsConfiguration();
 

@@ -468,7 +468,7 @@ public class UITools {
 			if(text.isBlank())
 				return 0.0;
 
-			text=text.replace(",", ".").replaceAll("[€,]","").replaceAll("[$,]","").replaceAll("[£,]","").replaceAll("[%,]", "").replace('\u00A0',' ').replace('\uFFFD', ' ').trim();
+			text=text.replace(",", ".").replaceAll("[€,]","").replaceAll("[$,]","").replaceAll("[£,]","").replaceAll("[%,]", "").replace('\u00A0',' ').replace('\uFFFD', ' ').replace("\u0080", "").trim();
 			
 			if(StringUtils.countMatches(text, '.')>1)
 				text=text.replaceFirst("\\.", "");
