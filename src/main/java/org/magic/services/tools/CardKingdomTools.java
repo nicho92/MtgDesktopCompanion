@@ -12,6 +12,10 @@ import org.magic.services.providers.PluginsAliasesProvider;
 
 
 
+
+/**
+@author bewarellamas 
+*/
 public class CardKingdomTools {
 
 	private CardKingdomTools()
