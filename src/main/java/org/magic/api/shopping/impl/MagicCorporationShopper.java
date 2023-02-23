@@ -1,4 +1,4 @@
-package org.magic.api.tomigrate;
+package org.magic.api.shopping.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,6 +11,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.enums.TransactionDirection;
+import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.RetrievableTransaction;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.services.AccountsManager;
@@ -104,6 +105,13 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 	@Override
 	public List<String> listAuthenticationAttributes() {
 		return AccountsManager.generateLoginPasswordsKeys();
+	}
+
+
+	@Override
+	public Transaction getTransaction(RetrievableTransaction rt) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

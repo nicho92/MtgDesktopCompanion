@@ -1,4 +1,4 @@
-package org.magic.api.tomigrate;
+package org.magic.api.shopping.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,6 +8,7 @@ import java.util.List;
 import org.jsoup.nodes.Element;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.enums.TransactionDirection;
+import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.RetrievableTransaction;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.services.AccountsManager;
@@ -100,6 +101,12 @@ public class PhilibertShopper extends AbstractMagicShopper {
 	@Override
 	public String getName() {
 		return "Philibert";
+	}
+
+	@Override
+	public Transaction getTransaction(RetrievableTransaction rt) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
