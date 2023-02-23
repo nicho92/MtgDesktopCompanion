@@ -12,6 +12,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.logging.MTGLogger;
+import org.magic.services.tools.MTG;
 import org.utils.patterns.observer.Observer;
 
 public class CardsManagerService {
@@ -24,6 +25,22 @@ public class CardsManagerService {
 
 	}
 
+	public static MagicEdition detectEdition(String desc) {
+		
+		try {
+			for(var ed : MTG.getEnabledPlugin(MTGCardsProvider.class).listEditions()) {
+				var index = desc.indexOf(ed.getSet());
+				if(index>=0)
+					return ed;
+			}
+			return null;
+		} catch (IOException e) {
+			return null;
+		}
+	
+	}
+
+	
 
 	public static MagicCard switchEditions(MagicCard mc, MagicEdition ed)
 	{

@@ -1,4 +1,4 @@
-package org.magic.api.shopping.impl;
+package org.magic.api.tomigrate;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,6 +11,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.enums.TransactionDirection;
+import org.magic.api.beans.technical.RetrievableTransaction;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.services.AccountsManager;
 import org.magic.services.network.MTGHttpClient;
@@ -22,7 +23,15 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 	private String urlLogin ="https://boutique.magiccorporation.com/moncompte.php?op=login_db";
 	private String urlCommandes="https://boutique.magiccorporation.com/moncompte.php?op=suivi_commande";
 	private String urlDetailCommandes="https://boutique.magiccorporation.com/moncompte.php?op=commande&num_commande=";
-
+	
+	@Override
+	public List<RetrievableTransaction> listOrders() throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+/*
 	@Override
 	public List<OrderEntry> listOrders() throws IOException {
 
@@ -85,7 +94,7 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 		}
 		return entries;
 	}
-
+*/
 
 	@Override
 	public String getName() {

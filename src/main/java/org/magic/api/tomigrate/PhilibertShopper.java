@@ -1,4 +1,4 @@
-package org.magic.api.shopping.impl;
+package org.magic.api.tomigrate;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,6 +8,7 @@ import java.util.List;
 import org.jsoup.nodes.Element;
 import org.magic.api.beans.OrderEntry;
 import org.magic.api.beans.enums.TransactionDirection;
+import org.magic.api.beans.technical.RetrievableTransaction;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.services.AccountsManager;
 import org.magic.services.network.MTGHttpClient;
@@ -20,10 +21,19 @@ public class PhilibertShopper extends AbstractMagicShopper {
 
 	private static final String BASE_URL="https://www.philibertnet.com/";
 
+	
 	@Override
-	public List<OrderEntry> listOrders() throws IOException {
+	public List<RetrievableTransaction> listOrders() throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	/*
+	
+	@Override
+	public List<RetrievableTransaction> listOrders() throws IOException {
 		MTGHttpClient c = URLTools.newClient();
-		List<OrderEntry> ret = new ArrayList<>();
+		List<RetrievableTransaction> ret = new ArrayList<>();
 
 
 		var s = RequestBuilder.build()
@@ -80,7 +90,7 @@ public class PhilibertShopper extends AbstractMagicShopper {
 
 		return ret;
 	}
-
+*/
 	@Override
 	public List<String> listAuthenticationAttributes() {
 		return AccountsManager.generateLoginPasswordsKeys();

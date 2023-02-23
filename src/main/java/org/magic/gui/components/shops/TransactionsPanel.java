@@ -21,6 +21,7 @@ import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.ContactPanel;
 import org.magic.gui.components.ObjectViewerPanel;
+import org.magic.gui.components.dialog.TransactionsImporterDialog;
 import org.magic.gui.models.TransactionsTableModel;
 import org.magic.gui.renderer.standard.DateTableCellEditorRenderer;
 import org.magic.services.MTGConstants;
@@ -63,7 +64,9 @@ public class TransactionsPanel extends MTGUIComponent {
 		var btnRefresh = UITools.createBindableJButton("", MTGConstants.ICON_REFRESH,KeyEvent.VK_R,"reload");
 		var btnMerge = UITools.createBindableJButton("", MTGConstants.ICON_MERGE,KeyEvent.VK_M,"merge");
 		var btnDelete = UITools.createBindableJButton("", MTGConstants.ICON_DELETE,KeyEvent.VK_D,"delete");
-
+		var btnImportTransaction = UITools.createBindableJButton(null,MTGConstants.ICON_IMPORT,KeyEvent.VK_I,"transaction import");
+		
+		
 		btnMerge.setEnabled(false);
 		btnDelete.setEnabled(false);
 		splitPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
@@ -99,13 +102,24 @@ public class TransactionsPanel extends MTGUIComponent {
 		add(splitPanel,BorderLayout.CENTER);
 		add(panneauBas,BorderLayout.SOUTH);
 		
+		panneauHaut.add(btnImportTransaction);
 		panneauHaut.add(btnRefresh);
 		panneauHaut.add(btnMerge);
 		panneauHaut.add(btnDelete);
 		panneauHaut.add(buzy);
 
 		
-		
+		btnImportTransaction.addActionListener(ae->{
+			var diag = new TransactionsImporterDialog();
+			diag.setVisible(true);
+
+			if(diag.getSelectedEntries()!=null) {
+				
+				//todo import 
+				
+				
+			}
+		});
 		
 		tableTransactions.getSelectionModel().addListSelectionListener(lsl->{
 

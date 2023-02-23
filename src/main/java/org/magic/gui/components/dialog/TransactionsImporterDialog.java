@@ -16,6 +16,7 @@ import javax.swing.JScrollPane;
 import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.OrderEntry;
+import org.magic.api.beans.technical.RetrievableTransaction;
 import org.magic.api.interfaces.MTGShopper;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.ShoppingEntryTableModel;
@@ -26,7 +27,7 @@ import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
 import org.magic.services.workers.AbstractObservableWorker;
-public class OrderImporterDialog extends JDialog {
+public class TransactionsImporterDialog extends JDialog {
 
 	/**
 	 *
@@ -40,12 +41,12 @@ public class OrderImporterDialog extends JDialog {
 	private transient MTGShopper selectedSniffer;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JPanel panelChoose;
-	private transient List<OrderEntry> selectedEntries;
+	private transient List<RetrievableTransaction> selectedEntries;
 
-	public OrderImporterDialog() {
+	public TransactionsImporterDialog() {
 
 		setSize(new Dimension(500, 300));
-		setTitle(capitalize("FINANCIAL_MODULE"));
+		setTitle(capitalize("SHOP"));
 		setIconImage(MTGConstants.ICON_SHOP.getImage());
 		setModal(true);
 		getContentPane().setLayout(new BorderLayout(0, 0));
@@ -83,9 +84,9 @@ public class OrderImporterDialog extends JDialog {
 		cboSniffers.addActionListener(e -> selectedSniffer = (MTGShopper) cboSniffers.getSelectedItem());
 
 		btnLoad.addActionListener(ae->{
-			AbstractObservableWorker<List<OrderEntry>, OrderEntry, MTGShopper> sw = new AbstractObservableWorker<>(lblLoad,selectedSniffer) {
+			AbstractObservableWorker<List<RetrievableTransaction>, RetrievableTransaction, MTGShopper> sw = new AbstractObservableWorker<>(lblLoad,selectedSniffer) {
 				@Override
-				protected List<OrderEntry> doInBackground() throws Exception {
+				protected List<RetrievableTransaction> doInBackground() throws Exception {
 					return plug.listOrders();
 				}
 				@Override
@@ -132,7 +133,7 @@ public class OrderImporterDialog extends JDialog {
 		setLocationRelativeTo(null);
 	}
 
-	public List<OrderEntry> getSelectedEntries() {
+	public List<RetrievableTransaction> getSelectedEntries() {
 		return selectedEntries;
 	}
 

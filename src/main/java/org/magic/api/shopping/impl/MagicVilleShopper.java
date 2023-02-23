@@ -2,23 +2,22 @@ package org.magic.api.shopping.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Currency;
-import java.util.Date;
 import java.util.List;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.OrderEntry;
-import org.magic.api.beans.enums.EnumItems;
-import org.magic.api.beans.enums.TransactionDirection;
+import org.magic.api.beans.shop.Transaction;
+import org.magic.api.beans.technical.RetrievableTransaction;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.services.AccountsManager;
+import org.magic.services.MTGControler;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
-import org.magic.services.network.URLTools;
 import org.magic.services.tools.UITools;
+import org.magic.services.network.URLTools;
 
 public class MagicVilleShopper extends AbstractMagicShopper {
 
@@ -28,25 +27,56 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 	String urlListOrders = urlBase + "/fr/register/my_shopping.php?type=S";
 	String urlLogin = urlBase+"/fr/connexion.php";
 	String urlDetailOrder=urlBase+"/fr/register/";
+	
+	MTGHttpClient client;
+	
+	
+	private void init()
+	{
+		if(client==null)
+		{
+			client = URLTools.newClient();
+			
+			try {
+				RequestBuilder.build().method(METHOD.POST)
+				.url(urlLogin)
+				.setClient(client)
+				.addContent("pseudo", getAuthenticator().getLogin())
+				.addContent("pass", getAuthenticator().getPassword())
+				.addContent("return_url", urlLogin)
+				.addContent("data", "1")
+				.addContent("x", "14")
+				.addContent("y", "11").execute();
+			} catch (IOException e) {
+				logger.error(e);
+			}
 
+
+		}
+	}
+
+	public static void main(String[] args) throws IOException {
+		MTGControler.getInstance().loadAccountsConfiguration();
+		
+		new MagicVilleShopper().listOrders();
+	}
+	
 	@Override
-	public List<OrderEntry> listOrders() throws IOException {
-		MTGHttpClient client = URLTools.newClient();
-		List<OrderEntry> entries = new ArrayList<>();
+	public Transaction getTransaction(RetrievableTransaction rt) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-		RequestBuilder build = RequestBuilder.build().method(METHOD.POST)
-													.url(urlLogin)
-													.addContent("pseudo", getAuthenticator().getLogin())
-													.addContent("pass", getAuthenticator().getPassword())
-													.addContent("return_url", urlLogin)
-													.addContent("data", "1")
-													.addContent("x", "14")
-													.addContent("y", "11");
 
-		client.execute(build);
+	
+	@Override
+	public List<RetrievableTransaction> listOrders() throws IOException {
+		init();
+		var entries = new ArrayList<RetrievableTransaction>();
 
 		Document listOrders = URLTools.toHtml(client.toString(client.doGet(urlListOrders)));
 		Elements tableOrders = listOrders.select("table[border=0]").get(6).select("tr");
+		
 		try {
 			tableOrders.remove(0); //remove header
 			tableOrders.remove(0); //remove separator
@@ -59,21 +89,25 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 			logger.debug("Found no orders");
 			return entries;
 		}
-
+		
 		for(Element tr : tableOrders)
 		{
-			String date = tr.select("td").get(0).html();
-			String link = tr.select("td").get(2).select("a").attr("href");
-			String id =tr.select("td").get(2).text().replace("# ", "");
-			entries.addAll(parse(URLTools.toHtml(client.toString(client.doGet(urlDetailOrder+link))),id,UITools.parseDate(date,"dd/mm/yy")));
+			var entry = new RetrievableTransaction();
+				entry.setSource(getName());
+				entry.setUrl(tr.select("td").get(2).select("a").attr("href"));
+				entry.setSourceId(tr.select("td").get(2).text().replace("# ", ""));
+				var price =new String(tr.select("td").get(10).html().getBytes("ISO-8859-1"),"UTF-8" );
+				entry.setTotalValue(UITools.parseDouble(price));
+				entry.setDateTransaction(UITools.parseDate(tr.select("td").get(0).html(), "dd/MM/yyyy"));
+			entries.add(entry);
 		}
-
+		
 		return entries;
 	}
 
-
-
-
+	
+/*
+	
 	private List<OrderEntry> parse(Document doc, String id, Date date) {
 		List<OrderEntry> entries = new ArrayList<>();
 		Elements table = doc.select("table tr[onmouseover]");
@@ -99,7 +133,7 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 		return entries;
 	}
 
-
+*/
 	@Override
 	public String getName() {
 		return "Magic-Ville";
@@ -111,5 +145,5 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 		return AccountsManager.generateLoginPasswordsKeys();
 	}
 
-
+	
 }

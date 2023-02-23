@@ -9,8 +9,7 @@
     <game>true</game>
     <rss>false</rss>
     <alarm>true</alarm>
-    <shopper>true</shopper>
-    <cardbuilder>false</cardbuilder>
+	<cardbuilder>false</cardbuilder>
     <stock>true</stock>
     <wallpaper>false</wallpaper>
     <sealed>true</sealed>
