@@ -604,7 +604,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		addContextComponent(deckPanel);
 		addContextComponent(gedPanel);
 
-		if (MTGControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
+		if(MTG.readPropertyAsBoolean("debug-json-panel"))
 			addContextComponent(jsonPanel);
 
 

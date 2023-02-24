@@ -76,6 +76,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
+import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.services.workers.WebsiteExportWorker;
@@ -300,7 +301,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		addContextComponent(deckPanel);
 		addContextComponent(gedPanel);
 		
-		if (MTGControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
+		if(MTG.readPropertyAsBoolean("debug-json-panel"))
 			addContextComponent(jsonPanel);
 
 		///////// Labels

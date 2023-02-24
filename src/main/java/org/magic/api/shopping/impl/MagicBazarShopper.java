@@ -12,6 +12,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.SealedStock;
+import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.beans.shop.Transaction;
@@ -136,12 +137,18 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 			  else
 			  {
 				  	var typeProduct = EnumItems.SET;
-				  
+				  	
 					if (name.toLowerCase().contains("booster"))
 						typeProduct = EnumItems.BOOSTER;
 					else if (name.toLowerCase().startsWith("boite de") || name.contains("Display"))
 						typeProduct = EnumItems.BOX;
 				  
+				
+					if(name.contains("VF") || name.contains("French"))
+						st.setLanguage("French");
+					else
+						st.setLanguage("English");
+					
 				  
 				  var products = MTG.getEnabledPlugin(MTGSealedProvider.class).get(ed, typeProduct);
 				  		st.setProduct(products.get(0));

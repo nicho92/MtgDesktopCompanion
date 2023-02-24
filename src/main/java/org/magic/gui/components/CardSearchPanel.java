@@ -366,7 +366,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		addContextComponent(abilitiesPanel);
 		addContextComponent(gedPanel);
 		addContextComponent(iaPanel);
-		if (MTGControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
+		if(MTG.readPropertyAsBoolean("debug-json-panel"))
 			addContextComponent(panelJson);
 
 		

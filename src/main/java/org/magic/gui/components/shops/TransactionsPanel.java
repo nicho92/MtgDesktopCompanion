@@ -15,8 +15,6 @@ import javax.swing.JTable;
 import javax.swing.SwingWorker;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.MTGNotification;
-import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGShopper;
@@ -49,7 +47,6 @@ public class TransactionsPanel extends MTGUIComponent {
 	private AbstractBuzyIndicatorComponent buzy;
 	private TransactionTotalPanel panneauBas;
 
-	
 	
 	public TransactionsPanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -93,7 +90,7 @@ public class TransactionsPanel extends MTGUIComponent {
 		UITools.addTab(tabbedPane, MTGUIComponent.build(stockManagementPanel, stockDetailPanel.getName(), stockDetailPanel.getIcon()));
 		UITools.addTab(tabbedPane, contactPanel);
 
-		if(MTGControler.getInstance().get("debug-json-panel").equals("true"))
+		if(MTG.readPropertyAsBoolean("debug-json-panel"))
 			UITools.addTab(tabbedPane, viewerPanel);
 
 		tableTransactions.packAll();
@@ -155,7 +152,10 @@ public class TransactionsPanel extends MTGUIComponent {
 			stockDetailPanel.initItems(t.get(0).getItems());
 			contactPanel.setContact(t.get(0).getContact());
 			managementPanel.setTransaction(t.get(0));
-			viewerPanel.init(t.get(0));
+
+			
+			if(MTG.readPropertyAsBoolean(""))
+				viewerPanel.init(t.get(0));
 		});
 
 
@@ -304,6 +304,6 @@ public class TransactionsPanel extends MTGUIComponent {
 		model.setWritable(false);
 	}
 
-
+	
 
 }

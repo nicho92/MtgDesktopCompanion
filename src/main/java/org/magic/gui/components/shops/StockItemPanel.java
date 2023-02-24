@@ -28,14 +28,14 @@ public class StockItemPanel extends MTGUIComponent {
 	private static final long serialVersionUID = 1L;
 	private JXTable table;
 	private StockItemTableModel model;
-	private ImagePanel viewer;
+//	private ImagePanel viewer;
 
 	public StockItemPanel() {
 		setLayout(new BorderLayout(0, 0));
 		model = new StockItemTableModel();
 		table = UITools.createNewTable(model);
-		viewer = new ImagePanel(false,false,true);
-		viewer.setPreferredSize(new Dimension(250,1));
+//		viewer = new ImagePanel(false,false,true);
+//		viewer.setPreferredSize(new Dimension(250,1));
 		UITools.setDefaultRenderer(table, new StockTableRenderer());
 
 
@@ -46,7 +46,7 @@ public class StockItemPanel extends MTGUIComponent {
 		}
 
 		add(new JScrollPane(table),BorderLayout.CENTER);
-		add(viewer,BorderLayout.EAST);
+//		add(viewer,BorderLayout.EAST);
 
 
 		table.getSelectionModel().addListSelectionListener(event -> {
@@ -56,12 +56,12 @@ public class StockItemPanel extends MTGUIComponent {
 				if(selection==null)
 					return;
 
-				try {
-					viewer.setUrlImage(selection.getProduct().getUrl());
-
-				} catch (Exception e) {
-					logger.error(e);
-				}
+//				try {
+//					viewer.setUrlImage(selection.getProduct().getUrl());
+//
+//				} catch (Exception e) {
+//					logger.error(e);
+//				}
 			}
 		});
 

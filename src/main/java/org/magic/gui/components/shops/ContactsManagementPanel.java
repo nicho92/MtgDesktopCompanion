@@ -22,6 +22,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.TransactionService;
 import org.magic.services.threads.ThreadManager;
+import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 
 import com.jogamp.newt.event.KeyEvent;
@@ -58,7 +59,7 @@ public class ContactsManagementPanel extends MTGUIComponent {
 
 		UITools.addTab(tabbedPane, contactPanel);
 
-		if(MTGControler.getInstance().get("debug-json-panel").equals("true"))
+		if(MTG.readPropertyAsBoolean("debug-json-panel"))
 			UITools.addTab(tabbedPane, viewerPanel);
 
 		table.packAll();

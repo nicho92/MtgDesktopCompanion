@@ -5,6 +5,7 @@ import static org.magic.services.tools.MTG.listEnabledPlugins;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.io.IOException;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -12,12 +13,14 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 
 import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.technical.RetrievableTransaction;
 import org.magic.api.interfaces.MTGShopper;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
+import org.magic.gui.components.shops.TransactionsPanel;
 import org.magic.gui.models.ShoppingEntryTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -55,17 +58,21 @@ public class TransactionsImporterDialog extends JDialog {
 		table = UITools.createNewTable(model);
 
 		panelChoose = new JPanel();
+		var splitPane = new JSplitPane();
+		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		var panel = new JPanel();
 		var panelButton = new JPanel();
+		var transactionPanel = new TransactionsPanel();
 		var btnClose = new JButton(MTGConstants.ICON_CANCEL);
 		var btnLoad = new JButton(MTGConstants.ICON_OPEN);
 		btnImport = new JButton(MTGConstants.ICON_CHECK);
 		cboSniffers =UITools.createCombobox(MTGShopper.class,false);
-
 		panel.setLayout(new BorderLayout(0, 0));
 
-
-		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
+		splitPane.setLeftComponent(new JScrollPane(table));
+		splitPane.setRightComponent(transactionPanel);
+		
+		getContentPane().add(splitPane, BorderLayout.CENTER);
 		getContentPane().add(panel, BorderLayout.NORTH);
 
 		panel.add(panelChoose, BorderLayout.WEST);
@@ -77,10 +84,7 @@ public class TransactionsImporterDialog extends JDialog {
 		panelButton.add(btnImport);
 
 		selectedSniffer = listEnabledPlugins(MTGShopper.class).get(0);
-
-
-
-		cboSniffers.addActionListener(e -> selectedSniffer = (MTGShopper) cboSniffers.getSelectedItem());
+	cboSniffers.addActionListener(e -> selectedSniffer = (MTGShopper) cboSniffers.getSelectedItem());
 
 		btnLoad.addActionListener(ae->{
 			AbstractObservableWorker<List<RetrievableTransaction>, RetrievableTransaction, MTGShopper> sw = new AbstractObservableWorker<>(lblLoad,selectedSniffer) {
@@ -96,7 +100,21 @@ public class TransactionsImporterDialog extends JDialog {
 			};
 			ThreadManager.getInstance().runInEdt(sw, "loading orders");
 		});
-
+		
+		
+		table.getSelectionModel().addListSelectionListener(lsl->{
+			
+			List<RetrievableTransaction> rts = UITools.getTableSelections(table, 0);
+			transactionPanel.init(rts.stream().map(rt->{
+				try {
+					return selectedSniffer.getTransaction(rt);
+				} catch (IOException e1) {
+					logger.error("Error loading {}",rt);
+					return null;
+				}
+			}).toList());
+		});
+		
 
 		btnClose.setToolTipText(capitalize("CANCEL"));
 
