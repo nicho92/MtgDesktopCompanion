@@ -245,6 +245,7 @@ public class UITools {
 				table.putClientProperty("terminateEditOnFocusLost", true);
 				table.setRowHeight(MTGConstants.TABLE_ROW_HEIGHT);
 				table.setPreferredScrollableViewportSize(new java.awt.Dimension(800,600));
+				
 				try {
 					table.packAll();
 				}

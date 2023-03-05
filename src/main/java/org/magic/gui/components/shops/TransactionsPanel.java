@@ -12,6 +12,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.SortOrder;
 import javax.swing.SwingWorker;
 
 import org.jdesktop.swingx.JXTable;
@@ -80,6 +81,7 @@ public class TransactionsPanel extends MTGUIComponent {
 		tableTransactions.setDefaultRenderer(Date.class, new DateTableCellEditorRenderer(true));
 		UITools.initTableFilter(tableTransactions);
 		
+		UITools.sort(tableTransactions, 1, SortOrder.DESCENDING);
 		
 
 		var stockManagementPanel = new JPanel();
@@ -94,7 +96,9 @@ public class TransactionsPanel extends MTGUIComponent {
 			UITools.addTab(tabbedPane, viewerPanel);
 
 		tableTransactions.packAll();
-
+		
+		
+		
 
 
 		splitPanel.setLeftComponent(new JScrollPane(tableTransactions));

@@ -154,14 +154,10 @@ public class TrendingDashlet extends AbstractJDashlet {
 				}
 				lblLoading.end();
 				setProperty("FORMAT", ((MTGFormat.FORMATS) cboFormats.getSelectedItem()).toString());
-
-				List<SortKey> keys = new ArrayList<>();
-				var sortKey = new SortKey(3, SortOrder.DESCENDING);// column index 2
-				keys.add(sortKey);
+				
+				
 				try {
-					table.setRowSorter(new TableRowSorter<>(modStandard));
-					table.getRowSorter().setSortKeys(keys);
-					((TableRowSorter) table.getRowSorter()).sort();
+					UITools.sort(table,3,SortOrder.DESCENDING);
 					modStandard.fireTableDataChanged();
 					table.packAll();
 				} catch (Exception e) {
