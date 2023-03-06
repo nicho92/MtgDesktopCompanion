@@ -80,7 +80,7 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 		
 		var prov = new MagicCorporationShopper();
 		var res = prov.listOrders();
-		prov.getTransaction(res.get(0));
+		prov.getTransaction(res.stream().filter(rt->rt.getSourceId().equals("210906")).findFirst().get());
 		
 	}
 	
@@ -93,9 +93,27 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 		
 	    var d= RequestBuilder.build().setClient(client).url(rt.getUrl()).method(METHOD.GET).toHtml();
 	    Elements table = d.select("table tbody tr");
-		for (Element e : table) {
+		for (Element tr : table) {
 			
-			logger.info(e);
+			//articles
+			if(tr.childNodeSize()>2)
+			{
+				var name = tr.select("td").get(0).text();
+				var price = UITools.parseDouble(tr.select("td").get(1).text());
+				var qty = Integer.parseInt(tr.select("td").get(2).text());
+				
+				
+				
+				
+				
+			}
+			
+			if(tr.childNodeSize()==2)
+			{
+				logger.info(tr);	
+			}
+			
+			
 			
 		}
 		
