@@ -45,6 +45,18 @@ public abstract class AbstractMagicShopper extends AbstractMTGPlugin implements 
 		 	  return t;
 	}
 
+	
+	@Override
+	public Transaction getTransactionById(String id) throws IOException {
+		var opt = listOrders().stream().filter(rt->rt.getSourceId().equals("210906")).findFirst();
+		
+		if(opt.isPresent())
+			return getTransaction(opt.get());
+		else
+			throw new IOException("No Transaction found for id="+id);
+	
+	}
+	
 
 	
 	@Override

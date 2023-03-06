@@ -10,5 +10,7 @@ public interface MTGShopper extends MTGPlugin {
 
 	public List<RetrievableTransaction> listOrders() throws IOException;
 	public Transaction getTransaction(RetrievableTransaction rt ) throws IOException; 
+	public Transaction getTransactionById(String id) throws IOException;
+	
 	public List<Transaction> listTransactions(List<RetrievableTransaction> rt ) throws IOException; 
 }

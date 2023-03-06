@@ -80,7 +80,7 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 		
 		var prov = new MagicCorporationShopper();
 		var res = prov.listOrders();
-		prov.getTransaction(res.stream().filter(rt->rt.getSourceId().equals("210906")).findFirst().get());
+		prov.getTransactionById("210906");
 		
 	}
 	
