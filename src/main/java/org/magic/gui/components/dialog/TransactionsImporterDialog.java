@@ -6,7 +6,9 @@ import static org.magic.services.tools.MTG.listEnabledPlugins;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -14,9 +16,11 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.SwingWorker;
 
 import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
+import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.RetrievableTransaction;
 import org.magic.api.interfaces.MTGShopper;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
@@ -105,14 +109,45 @@ public class TransactionsImporterDialog extends JDialog {
 		table.getSelectionModel().addListSelectionListener(lsl->{
 			
 			List<RetrievableTransaction> rts = UITools.getTableSelections(table, 0);
-			transactionPanel.init(rts.stream().map(rt->{
-				try {
-					return selectedSniffer.getTransaction(rt);
-				} catch (IOException e1) {
-					logger.error("Error loading {}",rt);
-					return null;
+			
+			
+			AbstractObservableWorker<List<Transaction>, Transaction, MTGShopper> sw = new AbstractObservableWorker<>(lblLoad,selectedSniffer) {
+
+				@Override
+				protected List<Transaction> doInBackground() throws Exception {
+					var ret = new ArrayList<Transaction>();
+					
+					rts.stream().forEach(rt->{
+						
+						try {
+							ret.add(plug.getTransaction(rt));
+						} catch (IOException e) {
+							logger.error(e);
+						}
+						
+					});
+					return ret;
+					
 				}
-			}).toList());
+				
+				@Override
+				protected void done() {
+					try {
+						transactionPanel.init(get());
+					} catch (InterruptedException e) {
+						Thread.currentThread().interrupt();
+						logger.error(e);
+					} catch (ExecutionException e) {
+						logger.error(e);
+					}
+				}
+				
+				
+			};
+			
+			ThreadManager.getInstance().runInEdt(sw, "retrieve transaction from " + selectedSniffer.getName());
+			
+			
 		});
 		
 
