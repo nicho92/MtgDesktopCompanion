@@ -15,6 +15,16 @@
 			"Commander Anthology Volume II":"Commander Anthology Vol. II"
 		}
 	},
+	"MagicBazar":{
+		"nameSet": {},
+		"idSet": {},
+		"conditions": {
+			  "PLAYED":"Played",
+			  "MINT":"Mint/Nmint",
+			  "GOOD":"Bon",
+			  "NEAR_MINT":"Exc"
+			}
+	},
 	"UrzaGatherer":{
 		"nameSet": {},
 		"idSet": {},

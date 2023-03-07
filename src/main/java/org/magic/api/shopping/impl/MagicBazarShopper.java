@@ -13,6 +13,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.SealedStock;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionDirection;
@@ -28,6 +29,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
+import org.magic.services.providers.PluginsAliasesProvider;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 
@@ -65,7 +67,7 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 		var prov = new MagicBazarShopper();
 		prov.getTransactionById("390277");
 		
-		
+		System.exit(0);
 	}
 	
 	
@@ -184,13 +186,12 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 		try {
 			var edition = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetByName(set);
 			var card = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, edition, false).get(0);
+			var langEtat = e.select("div.update_variation_sell").first().text().split(" - ");
+			
 			var st = new MagicCardStock(card);
 				 st.setPrice(UITools.parseDouble(e.attr("attribute_price")));
-		
-				 
-				 
-				 
-				 //TODO add language , quality shipping cose
+				 st.setLanguage(langEtat[0].equalsIgnoreCase("Fr")?"French":"English");
+				 st.setCondition(PluginsAliasesProvider.inst().getReversedConditionFor(this, langEtat[1], EnumCondition.NEAR_MINT));
 			return st;
 		}
 		catch(Exception ex)
