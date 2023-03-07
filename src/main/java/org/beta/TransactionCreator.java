@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Currency;
 
-import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.beans.enums.TransactionStatus;
@@ -26,17 +25,18 @@ public class TransactionCreator {
 		MTGControler.getInstance().init();
 	
 		var c = MTG.getEnabledPlugin(MTGDao.class).getContactByEmail("");
-		var s = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById("INV");
-	//	var p = MTG.getEnabledPlugin(MTGSealedProvider.class).get(s, EnumItems.SET).get(0);
+		var s = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById("UDS");
+		var p = MTG.getEnabledPlugin(MTGSealedProvider.class).get(s, EnumItems.SET).get(0);
 		
+	//	var t = MTG.getEnabledPlugin(MTGDao.class).getTransaction(246L);
 		var t = new Transaction();
-		t.setContact(c);
-		t.setTransporter("Colissimo");
-		t.setCurrency(Currency.getInstance("EUR"));
-		t.setShippingPrice(7.0);
-		t.setStatut(TransactionStatus.IN_PROGRESS);
-		t.setTypeTransaction(TransactionDirection.SELL);
-		t.setSourceShopName("Facebook");
+			 t.setContact(c);
+			t.setTransporter("Colissimo");
+			t.setCurrency(Currency.getInstance("EUR"));
+			t.setShippingPrice(7.0);
+			t.setStatut(TransactionStatus.IN_PROGRESS);
+			t.setTypeTransaction(TransactionDirection.SELL);
+			t.setSourceShopName("Facebook");
 		
 		
 		

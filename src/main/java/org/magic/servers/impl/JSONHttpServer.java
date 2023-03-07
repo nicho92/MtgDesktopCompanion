@@ -201,7 +201,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			obj.addProperty("method", req.requestMethod());
 			obj.addProperty("uri", req.pathInfo());
 			obj.addProperty("code", code);
-			obj.addProperty(ERROR, msg);
+			obj.addProperty("msg", msg);
 
 		return obj;
 	}

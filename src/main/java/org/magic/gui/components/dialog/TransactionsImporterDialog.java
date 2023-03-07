@@ -132,6 +132,7 @@ public class TransactionsImporterDialog extends JDialog {
 				
 				@Override
 				protected void done() {
+					super.done();
 					try {
 						transactionPanel.init(get());
 					} catch (InterruptedException e) {

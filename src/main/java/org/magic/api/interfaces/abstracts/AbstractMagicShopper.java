@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.RetrievableTransaction;
@@ -36,7 +37,9 @@ public abstract class AbstractMagicShopper extends AbstractMTGPlugin implements 
 		 	  t.setSourceShopName(rt.getSource());
 		 	  t.setSourceShopId(rt.getSourceId());
 		 	  t.setMessage(rt.getComments());
-		 	  
+		 	  t.setTypeTransaction(TransactionDirection.BUY);
+		 	 
+		 	 
 				if (defaultContact == null)
 					defaultContact = MTGControler.getInstance().getWebConfig().getContact();
 		 	  
@@ -48,7 +51,7 @@ public abstract class AbstractMagicShopper extends AbstractMTGPlugin implements 
 	
 	@Override
 	public Transaction getTransactionById(String id) throws IOException {
-		var opt = listOrders().stream().filter(rt->rt.getSourceId().equals("210906")).findFirst();
+		var opt = listOrders().stream().filter(rt->rt.getSourceId().equals(id)).findFirst();
 		
 		if(opt.isPresent())
 			return getTransaction(opt.get());

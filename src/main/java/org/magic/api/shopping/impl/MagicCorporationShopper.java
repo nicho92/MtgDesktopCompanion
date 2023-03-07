@@ -2,12 +2,18 @@ package org.magic.api.shopping.impl;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.magic.api.beans.MTGSealedProduct;
+import org.magic.api.beans.SealedStock;
+import org.magic.api.beans.enums.TransactionDirection;
+import org.magic.api.beans.enums.TransactionPayementProvider;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.RetrievableTransaction;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
@@ -74,25 +80,19 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 		return orders;
 	}
 	
-
-	public static void main(String[] args) throws IOException, SQLException {
-		MTGControler.getInstance().init();
-		
-		var prov = new MagicCorporationShopper();
-		var res = prov.listOrders();
-		prov.getTransactionById("210906");
-		
-	}
-	
-	
-
-
 	@Override
 	public Transaction getTransaction(RetrievableTransaction rt) throws IOException {
 		var t = buildTransaction(rt);
+			 
 		
 	    var d= RequestBuilder.build().setClient(client).url(rt.getUrl()).method(METHOD.GET).toHtml();
 	    Elements table = d.select("table tbody tr");
+	    
+	    var header = d.select("div.main_bloc_article").get(2);
+	    
+	    fillInfo(t,header);
+	    
+	    
 		for (Element tr : table) {
 			
 			//articles
@@ -102,15 +102,19 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 				var price = UITools.parseDouble(tr.select("td").get(1).text());
 				var qty = Integer.parseInt(tr.select("td").get(2).text());
 				
-				
-				
-				
-				
+				var st = new SealedStock();
+					  st.setComment(name);
+					  st.setQte(qty);	
+					  st.setPrice(price);
+					  st.setLanguage(name.contains("Français")?"French":"English");
+					  st.setProduct(new MTGSealedProduct());
+					  t.getItems().add(st);
+					  
 			}
 			
 			if(tr.childNodeSize()==2)
 			{
-				logger.info(tr);	
+				
 			}
 			
 			
@@ -120,35 +124,47 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 		return t;
 	}
 	
-/*
+	private void fillInfo(Transaction t, Element header) {
 
-	private List<OrderEntry> parse(Document d,String id,String date) {
-
-		List<OrderEntry> entries = new ArrayList<>();
-		Elements detail = d.select("table tbody tr");
-
-		for (Element element : detail) {
-			try {
-				var e = new OrderEntry();
-				e.setSource(getName());
-				e.setCurrency(Currency.getInstance("EUR"));
-				e.setIdTransation(id);
-				e.setTypeTransaction(TransactionDirection.BUY);
-				e.setTransactionDate(UITools.parseDate(date,"dd/MM/yy"));
-				e.setDescription(element.select("td").get(0).text());
-				e.setItemPrice(UITools.parseDouble(element.select("td").get(3).text().replace("€", "")));
-				entries.add(e);
-				notify(e);
-			}
-			catch(IndexOutOfBoundsException e)
+		var bs = header.select("b");
+		
+			switch(bs.get(2).text()) 
 			{
-				//do nothing
+				case "Carte Bancaire" : t.setPaymentProvider(TransactionPayementProvider.VISA);break;
+				case "Paypal" : t.setPaymentProvider(TransactionPayementProvider.PAYPAL);break;
+				default : break;
 			}
-		}
-		return entries;
+			try {
+				t.setDateCreation(UITools.parseDate(bs.get(3).text(), "EEEE dd MMMM yyyy 'à' hh:mm",Locale.FRANCE));	
+			}
+			catch(Exception e)
+			{
+				
+			}
+			
+			try {
+				t.setDatePayment(UITools.parseDate(bs.get(4).text(), "EEEE dd MMMM yyyy 'à' hh:mm",Locale.FRANCE));	
+			}catch(Exception e)
+			{
+				t.setDatePayment(null);
+			}
+			
+			try {
+			t.setDateSend(UITools.parseDate(bs.get(7).text(), "dd/MM/yyyy 'à' hh:mm"));  //24/11/2015 à 14:48
+			}
+			catch(Exception e)
+			{
+				t.setDateSend(null);
+			}
+			
+			try {
+			t.setTransporterShippingCode(bs.get(8).text());
+			}
+			catch(Exception e)
+			{
+				t.setTransporterShippingCode(null);
+			}
 	}
-*/
-
 
 	@Override
 	public String getName() {

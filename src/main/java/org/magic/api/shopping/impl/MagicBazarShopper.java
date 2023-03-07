@@ -1,6 +1,7 @@
 package org.magic.api.shopping.impl;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
@@ -23,6 +24,7 @@ import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.services.AccountsManager;
 import org.magic.services.CardsManagerService;
+import org.magic.services.MTGControler;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
@@ -56,6 +58,15 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 		}
 	}
 	
+	
+	public static void main(String[] args) throws SQLException, IOException {
+		MTGControler.getInstance().init();
+		
+		var prov = new MagicBazarShopper();
+		prov.getTransactionById("390277");
+		
+		
+	}
 	
 	
 	@Override
@@ -164,6 +175,8 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 		}
 	}
 
+	
+	
 
 	private MTGStockItem buildCard(Element e, Elements elementName) {
 		String name = elementName.first().text();
@@ -173,7 +186,11 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 			var card = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, edition, false).get(0);
 			var st = new MagicCardStock(card);
 				 st.setPrice(UITools.parseDouble(e.attr("attribute_price")));
-			//TODO add language , quality shipping cose
+		
+				 
+				 
+				 
+				 //TODO add language , quality shipping cose
 			return st;
 		}
 		catch(Exception ex)

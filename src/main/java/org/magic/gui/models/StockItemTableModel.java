@@ -141,6 +141,21 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 	public void setValueAt(Object aValue, int row, int column) {
 
 		switch (column) {
+		case 2:
+			items.get(row).getProduct().setEdition((MagicEdition)aValue);
+			break;
+		case 3:
+			items.get(row).setLanguage(String.valueOf(aValue));
+			break;
+		case 6:
+			items.get(row).setFoil(Boolean.parseBoolean(aValue.toString()));
+			break;
+		case 7:
+			items.get(row).setAltered(Boolean.parseBoolean(aValue.toString()));
+			break;
+		case 8:
+			items.get(row).setSigned(Boolean.parseBoolean(aValue.toString()));
+			break;
 		case 9:
 			items.get(row).setQte((Integer) aValue);
 			break;
@@ -155,8 +170,8 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 		}
 
 		items.get(row).setUpdated(true);
-
-
+		
+		fireTableRowsUpdated(row, row);
 	}
 
 

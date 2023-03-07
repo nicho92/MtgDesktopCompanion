@@ -223,5 +223,7 @@ public class GenericTableModel<T> extends AbstractTableModel {
 		return writable;
 	}
 
+	
+	
 
 }

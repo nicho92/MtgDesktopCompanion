@@ -33,6 +33,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.Callable;
 
 import javax.swing.DefaultComboBoxModel;
@@ -81,6 +82,7 @@ import org.magic.api.interfaces.MTGPlugin;
 import org.magic.game.model.Player;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.MagicCardDetailPanel;
+import org.magic.gui.editor.MagicEditionsComboBoxCellEditor;
 import org.magic.gui.renderer.MTGPluginCellRenderer;
 import org.magic.gui.renderer.MagicCollectionIconListRenderer;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;
@@ -220,7 +222,7 @@ public class UITools {
 				table.setDefaultRenderer(MTGPlugin.class, new MTGPluginCellRenderer());
 				table.setDefaultRenderer(Player.class, new PlayerRenderer());
 
-
+				
 				table.setDefaultEditor(Double.class, new DoubleCellEditorRenderer());
 				table.setDefaultEditor(Integer.class, new NumberCellEditorRenderer());
 				table.setDefaultEditor(Long.class, new NumberCellEditorRenderer());
@@ -640,6 +642,19 @@ public class UITools {
 		}
 	}
 
+	public static Date parseDate(String indexDate,String format, Locale local) {
+		if(indexDate==null)
+			return new Date();
+
+		try {
+			return new SimpleDateFormat(format,local).parse(indexDate);
+		} catch (ParseException e) {
+			logger.error(e);
+			return new Date();
+		}
+	}
+	
+	
 	public static String formatDate(Date indexDate) {
 
 		return formatDate(indexDate,MTGControler.getInstance().getLangService().get(DATE_FORMAT));
