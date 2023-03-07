@@ -12,6 +12,8 @@ import org.magic.services.MTGConstants;
 import org.magic.services.tools.UITools;
 
 public class TransactionTotalPanel extends JPanel {
+	
+	private static final long serialVersionUID = 1L;
 	private JLabel totalBuy;
 	private JLabel totalSell;
 	private JLabel total;

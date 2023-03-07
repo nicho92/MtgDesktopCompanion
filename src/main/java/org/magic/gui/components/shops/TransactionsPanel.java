@@ -89,7 +89,7 @@ public class TransactionsPanel extends MTGUIComponent {
 			   stockManagementPanel.add(managementPanel,BorderLayout.EAST);
 
 		UITools.addTab(tabbedPane, MTGUIComponent.build(stockManagementPanel, stockDetailPanel.getName(), stockDetailPanel.getIcon()));
-		UITools.addTab(tabbedPane, contactPanel);
+	//	UITools.addTab(tabbedPane, contactPanel);
 
 		if(MTG.readPropertyAsBoolean("debug-json-panel"))
 			UITools.addTab(tabbedPane, viewerPanel);

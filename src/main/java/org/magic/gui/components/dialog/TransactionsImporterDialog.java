@@ -16,7 +16,6 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.SwingWorker;
 
 import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
@@ -90,7 +89,7 @@ public class TransactionsImporterDialog extends JDialog {
 		panelButton.add(btnImport);
 
 		selectedSniffer = listEnabledPlugins(MTGShopper.class).get(0);
-	cboSniffers.addActionListener(e -> selectedSniffer = (MTGShopper) cboSniffers.getSelectedItem());
+		cboSniffers.addActionListener(e -> selectedSniffer = (MTGShopper) cboSniffers.getSelectedItem());
 
 		btnLoad.addActionListener(ae->{
 			AbstractObservableWorker<List<RetrievableTransaction>, RetrievableTransaction, MTGShopper> sw = new AbstractObservableWorker<>(lblLoad,selectedSniffer) {

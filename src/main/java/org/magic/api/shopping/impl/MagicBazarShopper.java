@@ -60,17 +60,6 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 		}
 	}
 	
-	
-	public static void main(String[] args) throws SQLException, IOException {
-		MTGControler.getInstance().init();
-		
-		var prov = new MagicBazarShopper();
-		prov.getTransactionById("390277");
-		
-		System.exit(0);
-	}
-	
-	
 	@Override
 	public List<RetrievableTransaction> listOrders() throws IOException {
 		
@@ -98,7 +87,7 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 	@Override
 	public Transaction getTransaction(RetrievableTransaction rt) throws IOException {
 		
-		Transaction t = buildTransaction(rt);
+					var t = buildTransaction(rt);
 						  t.setCurrency(Currency.getInstance("EUR"));
 						  t.setTypeTransaction(TransactionDirection.BUY);
 						  
@@ -131,14 +120,16 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 		return t;
 	}
 	
-	
 	private MTGStockItem buildSealed(Element e, Elements elementName) {
 		String name = elementName.first().text();
-		var value = UITools.parseDouble(StringEscapeUtils.unescapeHtml4(e.select("div.new_price").html().trim()));
+		var value = UITools.parseDouble(StringEscapeUtils.unescapeHtml4(e.select("div.price").html().trim()));
+		var qty = Integer.parseInt(StringEscapeUtils.unescapeHtml4(e.select("div.qty").html().trim()));
 		try {
 		var st = new SealedStock();
 			  st.setComment(name);
 			  st.setPrice(value);
+			  st.setQte(qty);
+			  
 			  
 			  var ed = CardsManagerService.detectEdition(st.getComment());
 			  
@@ -150,22 +141,26 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 			  else
 			  {
 				  	var typeProduct = EnumItems.SET;
-				  	
 					if (name.toLowerCase().contains("booster"))
 						typeProduct = EnumItems.BOOSTER;
 					else if (name.toLowerCase().startsWith("boite de") || name.contains("Display"))
 						typeProduct = EnumItems.BOX;
 				  
-				
+//					
+//					EnumExtra extra = null;
+//					if(name.contains("Collector"))
+//						extra=EnumExtra.COLLECTOR;
+//					
+					
 					if(name.contains("VF") || name.contains("French"))
 						st.setLanguage("French");
 					else
 						st.setLanguage("English");
 					
-				  
+					
 				  var products = MTG.getEnabledPlugin(MTGSealedProvider.class).get(ed, typeProduct);
 				  		st.setProduct(products.get(0));
- 
+			  		
 			  }
 			  
 			  return st;
