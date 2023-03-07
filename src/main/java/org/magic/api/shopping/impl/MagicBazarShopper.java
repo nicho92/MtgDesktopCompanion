@@ -85,7 +85,7 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 			
 			var o = new RetrievableTransaction();
 				 o.setSourceId(element.select("div.num_commande").text());
-				 o.setDateTransaction(UITools.parseDate(element.select("div.hide_mobile").first().html(),"dd/MM/yy"));
+				 o.setDateTransaction(UITools.parseDate(element.select("div.hide_mobile").first().html(),"MM/dd/yy"));
 				 o.setTotalValue(UITools.parseDouble(StringEscapeUtils.unescapeHtml4(element.select("div.price").html())));
 				 o.setComments(element.select("div.num_item").get(1).html());
 				 o.setUrl(element.attr("href"));
@@ -192,6 +192,7 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 				 st.setPrice(UITools.parseDouble(e.attr("attribute_price")));
 				 st.setLanguage(langEtat[0].equalsIgnoreCase("Fr")?"French":"English");
 				 st.setCondition(PluginsAliasesProvider.inst().getReversedConditionFor(this, langEtat[1], EnumCondition.NEAR_MINT));
+				 st.setQte(Integer.parseInt(e.select("div.qty").first().text()));
 			return st;
 		}
 		catch(Exception ex)

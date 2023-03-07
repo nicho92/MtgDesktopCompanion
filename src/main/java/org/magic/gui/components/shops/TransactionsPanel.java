@@ -80,7 +80,6 @@ public class TransactionsPanel extends MTGUIComponent {
 		tableTransactions = UITools.createNewTable(model);
 		tableTransactions.setDefaultRenderer(Date.class, new DateTableCellEditorRenderer(true));
 		UITools.initTableFilter(tableTransactions);
-		
 		UITools.sort(tableTransactions, 1, SortOrder.DESCENDING);
 		
 
