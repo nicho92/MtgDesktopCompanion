@@ -23,6 +23,7 @@ import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.ContactPanel;
 import org.magic.gui.components.ObjectViewerPanel;
+import org.magic.gui.components.dialog.JContactChooserDialog;
 import org.magic.gui.components.dialog.TransactionsImporterDialog;
 import org.magic.gui.models.TransactionsTableModel;
 import org.magic.gui.renderer.standard.DateTableCellEditorRenderer;
@@ -66,11 +67,13 @@ public class TransactionsPanel extends MTGUIComponent {
 		var btnRefresh = UITools.createBindableJButton("", MTGConstants.ICON_REFRESH,KeyEvent.VK_R,"reload");
 		var btnMerge = UITools.createBindableJButton("", MTGConstants.ICON_MERGE,KeyEvent.VK_M,"merge");
 		var btnDelete = UITools.createBindableJButton("", MTGConstants.ICON_DELETE,KeyEvent.VK_D,"delete");
+		var btnContact = UITools.createBindableJButton("", MTGConstants.ICON_CONTACT,KeyEvent.VK_C,"contact");
 		var btnImportTransaction = UITools.createBindableJButton(null,MTGConstants.ICON_IMPORT,KeyEvent.VK_I,"transaction import");
 		
 		
 		btnMerge.setEnabled(false);
 		btnDelete.setEnabled(false);
+		btnContact.setEnabled(false);
 		splitPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		splitPanel.setDividerLocation(.5);
 		splitPanel.setResizeWeight(0.5);
@@ -110,6 +113,8 @@ public class TransactionsPanel extends MTGUIComponent {
 		panneauHaut.add(btnRefresh);
 		panneauHaut.add(btnMerge);
 		panneauHaut.add(btnDelete);
+		panneauHaut.add(btnContact);
+		
 		panneauHaut.add(buzy);
 
 		
@@ -136,7 +141,7 @@ public class TransactionsPanel extends MTGUIComponent {
 							}
 						};
 					
-						ThreadManager.getInstance().runInEdt(sw, "importing transactions");
+				ThreadManager.getInstance().runInEdt(sw, "importing transactions");
 			}
 		});
 		
@@ -151,16 +156,17 @@ public class TransactionsPanel extends MTGUIComponent {
 
 			btnMerge.setEnabled(t.size()>1);
 			btnDelete.setEnabled(!t.isEmpty());
-
+			btnContact.setEnabled(t.size()==1);
+			
 			stockDetailPanel.initItems(t.get(0).getItems());
 			contactPanel.setContact(t.get(0).getContact());
 			managementPanel.setTransaction(t.get(0));
 
 			
-			if(MTG.readPropertyAsBoolean(""))
+			if(MTG.readPropertyAsBoolean("debug-json-panel"))
 				viewerPanel.init(t.get(0));
 		});
-
+		
 
 		tableTransactions.getModel().addTableModelListener(tml->{
 			if(tml.getFirstRow() >0 && tml.getType()==0)
@@ -202,7 +208,26 @@ public class TransactionsPanel extends MTGUIComponent {
 		});
 		
 		btnRefresh.addActionListener(al->reload());
+		
+		
+		btnContact.addActionListener(al->{
+			JContactChooserDialog diag = new JContactChooserDialog();
+											   diag.setVisible(true);
+											   
+				if(diag.getSelectedContacts()!=null)
+				{
+					Transaction t = UITools.getTableSelection(tableTransactions, 0);
+					
+					int res = JOptionPane.showConfirmDialog(this, "Confirm " + diag.getSelectedContacts() + " to transaction #"+t.getId(),"Sure ?",JOptionPane.YES_NO_OPTION);
 
+					if(res==JOptionPane.YES_OPTION)
+					{
+						t.setContact(diag.getSelectedContacts());
+					}
+					
+				}
+		});
+		
 
 		btnDelete.addActionListener(al->{
 

@@ -356,7 +356,7 @@ public class CardSearchPanel extends MTGUIComponent {
 
 		
 		addContextComponent(detailCardPanel);
-		addContextComponent(editionDetailPanel,"EDITION",MTGConstants.ICON_BACK);
+		addContextComponent(editionDetailPanel,"EDITION",MTGConstants.ICON_TAB_BACK);
 		addContextComponent(priceTablePanel);
 		addContextComponent(txtRulesArea);
 		addContextComponent(historyChartPanel);

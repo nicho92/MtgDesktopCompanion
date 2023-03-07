@@ -74,7 +74,7 @@ public class SpellRendererPanel extends JPanel {
 		else
 		{
 			textPane.setText(value.getCard().getText());
-			lblIconCard.setIcon(MTGConstants.ICON_BACK);
+			lblIconCard.setIcon(MTGConstants.ICON_TAB_BACK);
 		}
 
 		textPane.updateTextWithIcons();

@@ -31,15 +31,15 @@ public class ShopGUI extends MTGUIComponent {
 
 		UITools.addTab(pane, new TransactionsPanel());
 		UITools.addTab(pane, new ContactsManagementPanel());
-		UITools.addTab(pane,new WebShopConfigPanel());
 
-		
 		UITools.addTab(subPane, new ProductsCreatorComponent());
 		UITools.addTab(subPane, new TransactionCreatorComponent());
 		UITools.addTab(subPane, new StockShopperComponent());
 		UITools.addTab(subPane, new ConverterPanel());
 
 		UITools.addTab(pane, MTGUIComponent.build(subPane,"External Shop",MTGConstants.ICON_TAB_EXT_SHOP));
+
+		UITools.addTab(pane,new WebShopConfigPanel());
 
 	}
 

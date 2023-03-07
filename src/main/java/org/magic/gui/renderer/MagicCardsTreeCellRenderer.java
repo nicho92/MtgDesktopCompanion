@@ -69,7 +69,7 @@ public class MagicCardsTreeCellRenderer implements TreeCellRenderer {
 				c.setIcon(MTGConstants.ICON_TAB_PACKAGE);
 			}
 			else {
-				c.setIcon(MTGConstants.ICON_BACK);
+				c.setIcon(MTGConstants.ICON_TAB_BACK);
 			}
 			return c;
 		} catch (Exception e) {

@@ -231,7 +231,7 @@ public class Transaction implements MTGSerializable, Comparable<Transaction> {
 		return contact;
 	}
 	public void setContact(Contact contact) {
-		this.contact = contact;
+			this.contact = contact;
 	}
 
 	public void setCurrency(String string) {

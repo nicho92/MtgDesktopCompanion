@@ -201,6 +201,7 @@ public class MTGConstants {
 	public static final ImageIcon ICON_WEBSITE = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/plugins/website.png"));
 	public static final ImageIcon ICON_WEBSITE_24 = new ImageIcon(ICON_WEBSITE.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_MANUAL = new ImageIcon(new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/plugins/manual.png")).getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH));
+	public static final ImageIcon ICON_CONTACT = new ImageIcon(ICON_USER.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_SAVE = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/save.png"));
 	public static final ImageIcon ICON_UP = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/up.png"));
 	public static final ImageIcon ICON_DOWN = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/down.png"));
@@ -223,7 +224,6 @@ public class MTGConstants {
 	public static final ImageIcon ICON_NETWORK = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/network.png"));
 	public static final ImageIcon ICON_DEFAULT_PLUGIN = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/plugins/default.png"));
 	public static final ImageIcon ICON_PACKAGE = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/package.png"));
-	public static final ImageIcon ICON_BACK = new ImageIcon(ICON_COLLECTION.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 
 	public static final ImageIcon ICON_TAB_CARD = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/bottom.png"));
 	public static final ImageIcon ICON_TAB_SIMILARITY=new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/similarity.png"));
@@ -251,7 +251,8 @@ public class MTGConstants {
 	public static final ImageIcon ICON_TAB_SYNC = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/sync.png"));
 	public static final ImageIcon ICON_TAB_DELIVERY = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/delivery.png"));
 	public static final ImageIcon ICON_TAB_LOCK = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/lock.png"));
-	
+
+	public static final ImageIcon ICON_TAB_BACK = new ImageIcon(ICON_COLLECTION.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_TAB_IA = new ImageIcon(ICON_IA.getImage().getScaledInstance(16,16, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_TAB_EXT_SHOP =  new ImageIcon(ICON_EXT_SHOP.getImage().getScaledInstance(16,16, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_TAB_EVENTS = new ImageIcon(ICON_EVENTS.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
@@ -293,7 +294,7 @@ public class MTGConstants {
 
 			if(c==MagicCollection.class)
 			{
-				return ICON_BACK;
+				return ICON_TAB_BACK;
 			}
 
 			if(c==MagicEdition.class)

@@ -239,7 +239,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			panelCardsHaut.add(btnRefresh);
 			panelCards.add(tabbedResult, BorderLayout.EAST);
 			panelCardsHaut.add(btnRemoveCard);
-			tabbedPane.addTab("Set", MTGConstants.ICON_BACK, panelSets, null);
+			tabbedPane.addTab("Set", MTGConstants.ICON_TAB_BACK, panelSets, null);
 			tabbedPane.addTab("Cards", MTGConstants.ICON_TAB_DECK, panelCards, null);
 			tabbedResult.addTab("Pictures", MTGConstants.ICON_TAB_PICTURE, panelPictures, null);
 			tabbedResult.addTab("Object",MTGConstants.ICON_TAB_JSON, jsonPanel,null);
@@ -251,7 +251,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			panelBooster.add(spinRare, gbcSpinRare);
 			panelCards.add(tabbedCards, BorderLayout.CENTER);
 			tabbedCards.addTab("Details", MTGConstants.ICON_TAB_DETAILS, magicCardEditorPanel, null);
-			tabbedCards.addTab("Editions", MTGConstants.ICON_BACK, panelCardEditions, null);
+			tabbedCards.addTab("Editions", MTGConstants.ICON_TAB_BACK, panelCardEditions, null);
 			tabbedCards.addTab("Misc", MTGConstants.ICON_TAB_ADMIN, panelMisc, null);
 			panelMisc.add(legalitiesPanel, BorderLayout.SOUTH);
 			legalitiesPanel.add(tglStd);

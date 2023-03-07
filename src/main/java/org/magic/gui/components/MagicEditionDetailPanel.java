@@ -248,7 +248,7 @@ public class MagicEditionDetailPanel extends MTGUIComponent {
 
 	@Override
 	public ImageIcon getIcon() {
-		return MTGConstants.ICON_BACK;
+		return MTGConstants.ICON_TAB_BACK;
 	}
 
 
