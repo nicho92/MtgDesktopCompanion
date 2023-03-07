@@ -43,7 +43,6 @@ public class TransactionsPanel extends MTGUIComponent {
 	private JXTable tableTransactions;
 	private TransactionsTableModel model;
 	private ContactPanel contactPanel;
-	private TransactionManagementPanel managementPanel;
 	private ObjectViewerPanel viewerPanel;
 	private JPanel panneauHaut;
 	private AbstractBuzyIndicatorComponent buzy;
@@ -58,7 +57,6 @@ public class TransactionsPanel extends MTGUIComponent {
 		var tabbedPane = new JTabbedPane();
 		panneauBas = new TransactionTotalPanel();
 		contactPanel = new ContactPanel(true);
-		managementPanel= new TransactionManagementPanel();
 		model = new TransactionsTableModel();
 		viewerPanel = new ObjectViewerPanel();
 		
@@ -85,23 +83,13 @@ public class TransactionsPanel extends MTGUIComponent {
 		UITools.initTableFilter(tableTransactions);
 		UITools.sort(tableTransactions, 1, SortOrder.DESCENDING);
 		
-
-		var stockManagementPanel = new JPanel();
-			   stockManagementPanel.setLayout(new BorderLayout());
-			   stockManagementPanel.add(stockDetailPanel,BorderLayout.CENTER);
-			   stockManagementPanel.add(managementPanel,BorderLayout.EAST);
-
-		UITools.addTab(tabbedPane, MTGUIComponent.build(stockManagementPanel, stockDetailPanel.getName(), stockDetailPanel.getIcon()));
+		UITools.addTab(tabbedPane, stockDetailPanel);
 	//	UITools.addTab(tabbedPane, contactPanel);
 
 		if(MTG.readPropertyAsBoolean("debug-json-panel"))
 			UITools.addTab(tabbedPane, viewerPanel);
 
 		tableTransactions.packAll();
-		
-		
-		
-
 
 		splitPanel.setLeftComponent(new JScrollPane(tableTransactions));
 		splitPanel.setRightComponent(tabbedPane);
@@ -160,8 +148,6 @@ public class TransactionsPanel extends MTGUIComponent {
 			
 			stockDetailPanel.initItems(t.get(0).getItems());
 			contactPanel.setContact(t.get(0).getContact());
-			managementPanel.setTransaction(t.get(0));
-
 			
 			if(MTG.readPropertyAsBoolean("debug-json-panel"))
 				viewerPanel.init(t.get(0));
@@ -217,14 +203,20 @@ public class TransactionsPanel extends MTGUIComponent {
 				if(diag.getSelectedContacts()!=null)
 				{
 					Transaction t = UITools.getTableSelection(tableTransactions, 0);
-					
-					int res = JOptionPane.showConfirmDialog(this, "Confirm " + diag.getSelectedContacts() + " to transaction #"+t.getId(),"Sure ?",JOptionPane.YES_NO_OPTION);
+					var c =  diag.getSelectedContacts() ;
+					int res = JOptionPane.showConfirmDialog(this, "Confirm " +c+ " to transaction #"+t.getId(),"Sure ?",JOptionPane.YES_NO_OPTION);
 
 					if(res==JOptionPane.YES_OPTION)
-					{
-						t.setContact(diag.getSelectedContacts());
+					{	
+						t.setContact(c);
+						try {
+							MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateTransaction(t);
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
 					}
-					
 				}
 		});
 		
@@ -327,9 +319,10 @@ public class TransactionsPanel extends MTGUIComponent {
 	}
 
 	public void disableCommands() {
-		managementPanel.setVisible(false);
 		panneauHaut.setVisible(false);
 		model.setWritable(false);
+		
+		
 	}
 
 	
