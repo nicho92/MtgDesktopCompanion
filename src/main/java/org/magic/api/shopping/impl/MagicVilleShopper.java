@@ -1,7 +1,6 @@
 package org.magic.api.shopping.impl;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
@@ -17,11 +16,10 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.services.AccountsManager;
-import org.magic.services.MTGControler;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
-import org.magic.services.providers.PluginsAliasesProvider;
 import org.magic.services.network.URLTools;
+import org.magic.services.providers.PluginsAliasesProvider;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 

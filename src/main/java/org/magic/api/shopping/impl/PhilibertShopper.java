@@ -10,6 +10,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.enums.TransactionPayementProvider;
+import org.magic.api.beans.enums.TransactionStatus;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.RetrievableTransaction;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
@@ -25,7 +26,16 @@ public class PhilibertShopper extends AbstractMagicShopper {
 	private static final String BASE_URL="https://www.philibertnet.com/";
 	private Document s;
 	
+	
+	public static void main(String[] args) throws IOException, SQLException {
+		MTGControler.getInstance().init();
 		
+		var prov = new PhilibertShopper();
+			prov.getTransactionById("1185196");
+			
+			System.exit(0);
+	}
+	
 	@Override
 	public List<RetrievableTransaction> listOrders() throws IOException {
 			init();
@@ -63,33 +73,59 @@ public class PhilibertShopper extends AbstractMagicShopper {
 				   .toHtml();
 		
 		
-		var stepsTable = orderPage.select("table.detail_step_by_step");
+		var stepsTable = orderPage.select("table.detail_step_by_step tbody");
 		
-		for(var tr : stepsTable)
+		for(var tr : stepsTable.select("tr"))
 		{
-			if(tr.select("TD").get(2).text().equals("Shipped"))
-				t.setDateSend(UITools.parseDate(tr.select("td").get(1).text(),"dd/MM/yyyy"));
+			if(tr.select("TD").get(1).text().equals("Order cashed"))
+			{
+				t.setDatePayment(UITools.parseDate(tr.select("td").get(0).text(),"MM/dd/yyyy"));
+				t.setStatut(TransactionStatus.PAID);
+			}
 			
-			if(tr.select("TD").get(2).text().equals("Order cashed"))
-				t.setDatePayment(UITools.parseDate(tr.select("td").get(1).text(),"dd/MM/yyyy"));
+			if(tr.select("TD").get(1).text().equals("Shipped"))
+			{
+				t.setDateSend(UITools.parseDate(tr.select("td").get(0).text(),"MM/dd/yyyy"));
+				t.setStatut(TransactionStatus.SENT);
+			}
 			
-			
+			if(tr.select("TD").get(1).text().equals("Livré"))
+			{
+				t.setDateSend(UITools.parseDate(tr.select("td").get(0).text(),"MM/dd/yyyy"));
+				t.setStatut(TransactionStatus.DELIVRED);
+			}
 		}
 		
+		try {
+			var trackingTable = orderPage.select("table[data-sort=false]").get(1);
+			t.setTransporterShippingCode(trackingTable.select("td a").first().text());
+			t.setTransporter(trackingTable.select("td").get(1).text());
+			t.setShippingPrice(UITools.parseDouble(trackingTable.select("td").get(2).attr("data-value")));
+			
+		}catch(Exception e)
+		{
+			//do nothing
+		}
 		
 		
 		
 		for(Element tr : orderPage.select("table").get(1).select("tbody>tr.item"))
 		{
 			int index = tr.selectFirst("td:has(input)")!=null?0:1; //check if first column is checkbox or not
-			
+				
 			var stock = new SealedStock();
 				 stock.setComment(tr.select("td").get(2-index).text());
 				 stock.setPrice(UITools.parseDouble(tr.select("td").get(4-index).text()));
 				 stock.getTiersAppIds().put(getName(), tr.select("td").get(1-index).text());
 				 stock.setQte(Integer.parseInt(tr.select("td").get(3-index).text()));
-			
-			t.getItems().add(stock);
+				 if(stock.getComment().startsWith("Voucher"))
+				 {
+					 stock.setPrice(UITools.parseDouble(tr.select("td").get(5-index).text()));
+					 t.setReduction(t.getReduction()-stock.getPrice());
+				 }
+				 
+			if(stock.getPrice()>0)
+				t.getItems().add(stock);
 		}
 		
 		

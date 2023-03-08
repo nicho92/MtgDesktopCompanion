@@ -25,7 +25,7 @@ public abstract class AbstractMagicShopper extends AbstractMTGPlugin implements 
 	
 	@Override
 	public STATUT getStatut() {
-		return STATUT.DEV;
+		return STATUT.BETA;
 	}
 	
 
