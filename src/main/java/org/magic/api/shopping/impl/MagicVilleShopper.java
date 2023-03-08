@@ -3,12 +3,14 @@ package org.magic.api.shopping.impl;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCardStock;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.RetrievableTransaction;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -16,9 +18,9 @@ import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.services.AccountsManager;
 import org.magic.services.MTGControler;
-import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
+import org.magic.services.providers.PluginsAliasesProvider;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
@@ -56,54 +58,42 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 		}
 	}
 
+		
 	@Override
 	public Transaction getTransaction(RetrievableTransaction rt) throws IOException {
 		
 		var t = buildTransaction(rt);
-		
+			t.setCurrency(Currency.getInstance("EUR"));
+			
 	    var doc= RequestBuilder.build().setClient(client).url(rt.getUrl()).method(METHOD.GET).toHtml();
 	    Elements table = doc.select("table tr[onmouseover]");
+	
+	    try {
+	        var shippingTable =  doc.select("table tr[height] td.b12");
+		    shippingTable.remove(0);
+		    t.setShippingPrice(UITools.parseDouble(shippingTable.text()));
+	    }catch(Exception e)
+	    {
+	    	logger.error(e);
+	    }
+	    
 		for (Element e : table) {
-			var item = buildCard(e);
-			
-			if(item!=null)
-				t.getItems().add(item);
-			
-			
+				t.getItems().add(buildCard(e));
 		}
-		/*
-		
-		private List<OrderEntry> parse(Document doc, String id, Date date) {
-			for (Element e : table) {
-				var entrie = new OrderEntry();
-							entrie.setIdTransation(id);
-							entrie.setSource(getName());
-							entrie.setCurrency(Currency.getInstance("EUR"));
-							entrie.setTypeTransaction(TransactionDirection.BUY);
-							entrie.setTransactionDate(date);
-							entrie.setType(EnumItems.CARD);
-							entrie.setDescription(e.select("td").get(1).text());
-							entrie.setItemPrice(UITools.parseDouble(e.select("td").get(6).html().replaceAll("\u0080", "").trim()));
-						notify(entrie);
-						entries.add(entrie);
-			}
-
-
-
-			return entries;
-		}
-		 */
 		return t;
 	}
 
 	private MTGStockItem buildCard(Element e) {
+		
+		var st = new MagicCardStock();
+			 st.setPrice(UITools.parseDouble(e.select("td").get(4).html()));
+			 st.setQte(Integer.parseInt(e.select("td").get(5).html()));
+			 st.setComment(e.select("td").get(1).text());
+			 st.setLanguage(e.select("td").get(2).text().contains(" VF")?"French":"English");
+			 st.setCondition(PluginsAliasesProvider.inst().getReversedConditionFor(this, e.select("td").get(3).text(), EnumCondition.NEAR_MINT));
 		try {
-			logger.info(e);
 			var card = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(e.select("td").get(1).text(), null, false).get(0);
-			var st = new MagicCardStock(card);
-				 st.setPrice(UITools.parseDouble(e.select("td").get(6).html()));
-				 //TODO add language , quality shipping cose
-				 
+				 st.setProduct(card);
 			return st;
 		}
 		catch(IndexOutOfBoundsException ex)
@@ -112,7 +102,7 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 		} catch (IOException e1) {
 			logger.error(e);
 		}
-		return null;
+		return st;
 	}
 	
 

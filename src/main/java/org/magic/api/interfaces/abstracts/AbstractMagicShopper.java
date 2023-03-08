@@ -8,11 +8,9 @@ import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.RetrievableTransaction;
-import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGShopper;
 import org.magic.services.MTGControler;
 import org.magic.services.network.MTGHttpClient;
-import org.magic.services.tools.MTG;
 
 public abstract class AbstractMagicShopper extends AbstractMTGPlugin implements MTGShopper {
 
