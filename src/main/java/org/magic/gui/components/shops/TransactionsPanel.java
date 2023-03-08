@@ -197,8 +197,8 @@ public class TransactionsPanel extends MTGUIComponent {
 		
 		
 		btnContact.addActionListener(al->{
-			JContactChooserDialog diag = new JContactChooserDialog();
-											   diag.setVisible(true);
+			var diag = new JContactChooserDialog();
+				  diag.setVisible(true);
 											   
 				if(diag.getSelectedContacts()!=null)
 				{
@@ -212,8 +212,7 @@ public class TransactionsPanel extends MTGUIComponent {
 						try {
 							MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateTransaction(t);
 						} catch (SQLException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+							logger.error(e);
 						}
 						
 					}
