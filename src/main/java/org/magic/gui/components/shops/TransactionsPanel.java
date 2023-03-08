@@ -1,6 +1,7 @@
 package org.magic.gui.components.shops;
 
 import java.awt.BorderLayout;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
@@ -17,7 +18,6 @@ import javax.swing.SwingWorker;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.shop.Transaction;
-import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGShopper;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
@@ -166,8 +166,8 @@ public class TransactionsPanel extends MTGUIComponent {
 						@Override
 						protected Void doInBackground() throws Exception {
 							try {
-								MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateTransaction(model.getItemAt(tml.getFirstRow()));
-							} catch (SQLException e) {
+								TransactionService.saveTransaction(model.getItemAt(tml.getFirstRow()), false);
+							} catch (IOException e) {
 								logger.error(e);
 							}
 							return null;
@@ -210,11 +210,10 @@ public class TransactionsPanel extends MTGUIComponent {
 					{	
 						t.setContact(c);
 						try {
-							MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateTransaction(t);
-						} catch (SQLException e) {
-							logger.error(e);
+							TransactionService.saveTransaction(t, false);
+						} catch (IOException e) {
+								logger.error(e);
 						}
-						
 					}
 				}
 		});
