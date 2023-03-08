@@ -26,7 +26,7 @@ public class StockItemPanel extends MTGUIComponent {
 	private static final long serialVersionUID = 1L;
 	private JXTable table;
 	private StockItemTableModel model;
-
+	
 	public StockItemPanel() {
 		setLayout(new BorderLayout(0, 0));
 		model = new StockItemTableModel();
@@ -56,6 +56,13 @@ public class StockItemPanel extends MTGUIComponent {
 	}
 
 
+
+	public JXTable getTable() {
+		return table;
+		
+	}
+	
+	
 	@Override
 	public void onHide() {
 		boolean isUpdatedModel = model.getItems().stream().anyMatch(MTGStockItem::isUpdated);
@@ -96,6 +103,7 @@ public class StockItemPanel extends MTGUIComponent {
 	public List<MTGStockItem> getItems() {
 		return model.getItems();
 	}
+
 
 
 }

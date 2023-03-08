@@ -153,6 +153,13 @@ public class TransactionsPanel extends MTGUIComponent {
 				viewerPanel.init(t.get(0));
 		});
 		
+		stockDetailPanel.getTable().getModel().addTableModelListener(tml->{
+			if(tml.getFirstRow() >0 && tml.getType()==0)
+			{
+				logger.info("tml");
+			}
+		});
+		
 
 		tableTransactions.getModel().addTableModelListener(tml->{
 			if(tml.getFirstRow() >0 && tml.getType()==0)
