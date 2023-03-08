@@ -25,6 +25,17 @@
 			  "NEAR_MINT":"Exc"
 			}
 	},
+	"Magic-Ville":{
+		"nameSet": {},
+		"idSet": {},
+		"conditions": {
+			  "MINT":"Mint",
+			  "NEAR_MINT":"Near Mint",
+			  "GOOD":"Excellent",
+			  "PLAYED":"Played",
+			  "LIGHTLY_PLAYED":"Lightly Played"
+			}
+	},
 	"UrzaGatherer":{
 		"nameSet": {},
 		"idSet": {},
