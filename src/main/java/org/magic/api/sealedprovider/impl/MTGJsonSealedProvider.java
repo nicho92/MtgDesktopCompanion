@@ -1,6 +1,7 @@
 package org.magic.api.sealedprovider.impl;
 
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.magic.api.beans.MTGSealedProduct;
@@ -46,24 +47,17 @@ public class MTGJsonSealedProvider extends AbstractSealedProvider {
 
 	@Override
 	public List<MTGSealedProduct> search(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
 	public BufferedImage getLogo(LOGO logo) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getName() {
 		return "MTGJson";
-	}
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
 	}
 
 }

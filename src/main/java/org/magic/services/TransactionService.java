@@ -97,7 +97,7 @@ public class TransactionService
 			int id= createContact(t.getContact());
 			t.getContact().setId(id);
 		}
-
+		t.getItems().forEach(it->it.setUpdated(false));
 		return mtgshop.saveOrUpdateTransaction(t);
 	}
 

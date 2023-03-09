@@ -2,7 +2,6 @@ package org.magic.gui.components.shops;
 
 import java.awt.BorderLayout;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
