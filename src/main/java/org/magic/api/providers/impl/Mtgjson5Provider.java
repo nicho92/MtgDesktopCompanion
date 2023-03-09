@@ -707,9 +707,6 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 					if(sp.getName().contains(" Gift "))
 						sp.setExtra(EnumExtra.GIFT);
 				
-					if(ed.getId().equals("ICE"))
-						logger.info(el);
-					
 					
 				sealeds.add(sp);
 			}
