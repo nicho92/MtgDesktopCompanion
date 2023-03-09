@@ -26,7 +26,6 @@ public class TransactionTrackingPanel extends MTGUIComponent {
 	private Transaction transaction;
 
 	private JTextField textField ;
-	private JButton btnTrack;
 	private JTextArea textArea;
 	private JComboBox<MTGTrackingService> comboBox;
 	
@@ -42,6 +41,7 @@ public class TransactionTrackingPanel extends MTGUIComponent {
 
 		add(new JLabel("Tracking Service : "), UITools.createGridBagConstraints(null, null, 0,1));
 		add(new JLabel("Tracking Number :"), UITools.createGridBagConstraints(null, null, 0,2));
+
 		
 		comboBox = UITools.createComboboxPlugins(MTGTrackingService.class,false);
 		add(comboBox, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1,1));
@@ -49,7 +49,7 @@ public class TransactionTrackingPanel extends MTGUIComponent {
 		textField = new JTextField();
 		add(textField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1,2));
 		
-		btnTrack = new JButton("Track");
+		var btnTrack = new JButton("Track");
 		add(btnTrack, UITools.createGridBagConstraints(null,null, 0,3));
 
 		textArea = new JTextArea();
@@ -90,11 +90,12 @@ public class TransactionTrackingPanel extends MTGUIComponent {
 	public void init(Transaction transaction) {
 		this.transaction = transaction;
 		textArea.setText("");
-		
 		textField.setText(transaction.getTransporterShippingCode());
 		
 		try {
-		comboBox.setSelectedItem(MTG.getPlugin(transaction.getTransporter(), MTGTrackingService.class));
+			
+			if(transaction.getTransporter()!=null)
+				comboBox.setSelectedItem(MTG.getPlugin(transaction.getTransporter(), MTGTrackingService.class));
 		}
 		catch(Exception e)
 		{
