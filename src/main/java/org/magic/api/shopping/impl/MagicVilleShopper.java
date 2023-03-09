@@ -137,7 +137,7 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 				if(!price.contains("n/a"))
 					entry.setTotalValue(UITools.parseDouble(price));
 				
-				entry.setDateTransaction(UITools.parseDate(tr.select("td").get(0).html(), "dd/MM/yyyy"));
+				entry.setDateTransaction(UITools.parseDate(tr.select("td").get(0).html(), "dd/MM/yy"));
 			entries.add(entry);
 		}
 		
