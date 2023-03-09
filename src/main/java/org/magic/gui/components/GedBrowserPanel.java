@@ -41,7 +41,7 @@ public class GedBrowserPanel extends MTGUIComponent {
 	public GedBrowserPanel() {
 		setLayout(new BorderLayout(0, 0));
 		model = new GedEntryTableModel();
-		cboGed = UITools.createCombobox(MTGGedStorage.class,true);
+		cboGed = UITools.createComboboxPlugins(MTGGedStorage.class,true);
 		var panneauHaut = new JPanel();
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 		cboGed.setSelectedItem(MTG.getEnabledPlugin(MTGGedStorage.class));

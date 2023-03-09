@@ -98,7 +98,7 @@ public class WallpaperGUI extends MTGUIComponent {
 		var panel = new JPanel();
 		add(panel, BorderLayout.NORTH);
 
-		cboWallpapersProv = UITools.createCombobox(MTGWallpaperProvider.class, false);
+		cboWallpapersProv = UITools.createComboboxPlugins(MTGWallpaperProvider.class, false);
 
 		selectedProvider = cboWallpapersProv.getItemAt(0);
 		cboWallpapersProv

@@ -35,9 +35,9 @@ public class PriceSuggesterComponent extends MTGUIComponent {
 		btnValidate = new JButton(MTGConstants.ICON_SAVE);
 
 		rdoDashBoard = new JRadioButton("DashBoard");
-		cboDashBoard = UITools.createCombobox(MTGDashBoard.class,true);
+		cboDashBoard = UITools.createComboboxPlugins(MTGDashBoard.class,true);
 		rdoPricer = new JRadioButton("Pricer");
-		cboPricer = UITools.createCombobox(MTGPricesProvider.class,false);
+		cboPricer = UITools.createComboboxPlugins(MTGPricesProvider.class,false);
 
 
 		var group = new ButtonGroup();

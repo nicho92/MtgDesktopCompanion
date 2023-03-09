@@ -70,8 +70,8 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 		var panelEast = new JPanel();
 		panelEast.setLayout(new BorderLayout());
 
-		cboInput = UITools.createCombobox(MTGExternalShop.class,true);
-		cboOutput= UITools.createCombobox(MTGExternalShop.class,true);
+		cboInput = UITools.createComboboxPlugins(MTGExternalShop.class,true);
+		cboOutput= UITools.createComboboxPlugins(MTGExternalShop.class,true);
 		cboCategory = UITools.createCombobox(new ArrayList<>());
 
 		chkSearchInput = new JCheckBox();

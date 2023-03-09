@@ -56,7 +56,7 @@ public class GradingEditorPane extends MTGUIComponent {
 		setLayout(gridBagLayout);
 
 		chbGradded = new JCheckBox("Gradded");
-		cboGraders = UITools.createCombobox(MTGGraders.class,true);
+		cboGraders = UITools.createComboboxPlugins(MTGGraders.class,true);
 		spinnerGradeNote = new JSpinner(new SpinnerNumberModel(0.0, 0.0, 10.0, 0.5));
 		spinnerGradeNote.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD, 16));
 		cboMainGrade = UITools.createCombobox(EnumCondition.values());

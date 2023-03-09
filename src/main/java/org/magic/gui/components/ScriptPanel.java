@@ -84,7 +84,7 @@ public class ScriptPanel extends MTGUIComponent {
 		var btnClear =  UITools.createBindableJButton(null, MTGConstants.ICON_SMALL_CLEAR, KeyEvent.VK_C,"clear");
 
 		lblInfo = new JLabel("Result");
-		cboScript = UITools.createCombobox(MTGScript.class, true);
+		cboScript = UITools.createComboboxPlugins(MTGScript.class, true);
 		chkShowReturn = new JCheckBox("Show return");
 
 		setPreferredSize(new Dimension(800, 600));

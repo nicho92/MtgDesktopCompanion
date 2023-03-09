@@ -77,7 +77,7 @@ public class DeckPricePanel extends MTGUIComponent {
 
 		add(panel, BorderLayout.NORTH);
 
-		cboPricers = UITools.createCombobox(MTGPricesProvider.class,false);
+		cboPricers = UITools.createComboboxPlugins(MTGPricesProvider.class,false);
 		panel.add(cboPricers);
 
 

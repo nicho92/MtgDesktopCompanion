@@ -73,7 +73,7 @@ public class DeckSnifferDialog extends AbstractDelegatedImporterDialog {
 
 		panelChoose = new JPanel();
 		panel.add(panelChoose, BorderLayout.WEST);
-				cboSniffers =UITools.createCombobox(MTGDeckSniffer.class,false);
+				cboSniffers =UITools.createComboboxPlugins(MTGDeckSniffer.class,false);
 				panelChoose.add(cboSniffers);
 
 				btnConnect = new JButton(capitalize("CONNECT"));

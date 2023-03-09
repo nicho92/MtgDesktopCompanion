@@ -265,7 +265,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		var lblIndexation = new JLabel("Indexation : ");
 		var lblIndexSize = new JLabel(UITools.formatDate(getEnabledPlugin(MTGCardsIndexer.class).getIndexDate()));
 		var btnIndexation = new JButton("Reindexation");
-		cboTargetDAO = UITools.createCombobox(MTGDao.class, true);
+		cboTargetDAO = UITools.createComboboxPlugins(MTGDao.class, true);
 		cboTargetDAO.removeItem(getEnabledPlugin(MTGDao.class));
 
 		panelDAO.add(lblDuplicateDb, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 1));

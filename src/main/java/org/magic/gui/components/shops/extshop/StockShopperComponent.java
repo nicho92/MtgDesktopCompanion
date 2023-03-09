@@ -65,7 +65,7 @@ public class StockShopperComponent extends MTGUIComponent {
 		btnBind.setEnabled(false);
 		panelCenter.setLayout(new BorderLayout());
 
-		cboInput = UITools.createCombobox(MTGExternalShop.class,true);
+		cboInput = UITools.createComboboxPlugins(MTGExternalShop.class,true);
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		modelInput = new StockItemTableModel();
 		tableInput = UITools.createNewTable(modelInput);

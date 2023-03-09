@@ -241,6 +241,16 @@ public class Transaction implements MTGSerializable, Comparable<Transaction> {
 	public Currency getCurrency() {
 		return currency;
 	}
+	
+	
+	@Override
+	public boolean equals(Object obj) {
+		if ((obj == null) || (this.getClass() != obj.getClass()))
+			return false;
+		
+		return ((Transaction)obj).getId()==this.getId();
+		
+	}
 
 
 	@Override

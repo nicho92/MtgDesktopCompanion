@@ -37,7 +37,7 @@ public class StockItemsSynchronizationPanel extends MTGUIComponent {
 
 		var btnDelete = UITools.createBindableJButton(null, MTGConstants.ICON_DELETE, KeyEvent.VK_DELETE, "Delete Sync");
 		var btnAdd = UITools.createBindableJButton(null, MTGConstants.ICON_NEW, KeyEvent.VK_N, "Add Sync");
-		cboPlugins = UITools.createCombobox(MTGCardsExport.class,false);
+		cboPlugins = UITools.createComboboxPlugins(MTGCardsExport.class,false);
 		panel.add(btnDelete);
 
 		panel.add(cboPlugins);

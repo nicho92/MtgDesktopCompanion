@@ -51,8 +51,8 @@ public class TransactionCreatorComponent extends MTGUIComponent {
 		var panelEast = new JPanel();
 		panelEast.setLayout(new BorderLayout());
 
-		cboInput = UITools.createCombobox(MTGExternalShop.class,true);
-		cboOutput= UITools.createCombobox(MTGExternalShop.class,true);
+		cboInput = UITools.createComboboxPlugins(MTGExternalShop.class,true);
+		cboOutput= UITools.createComboboxPlugins(MTGExternalShop.class,true);
 
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		modelOutput= new DefaultListModel<>();

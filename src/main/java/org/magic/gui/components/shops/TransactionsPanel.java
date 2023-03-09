@@ -46,19 +46,18 @@ public class TransactionsPanel extends MTGUIComponent {
 	private JPanel panneauHaut;
 	private AbstractBuzyIndicatorComponent buzy;
 	private TransactionTotalPanel panneauBas;
-
+	private TransactionTrackingPanel trackPanel;
 	
 	public TransactionsPanel() {
 		setLayout(new BorderLayout(0, 0));
 		panneauHaut = new JPanel();
 		var splitPanel = new JSplitPane();
 		var stockDetailPanel = new StockItemPanel();
-		var tabbedPane = new JTabbedPane();
 		panneauBas = new TransactionTotalPanel();
 		contactPanel = new ContactPanel(true);
 		model = new TransactionsTableModel();
 		viewerPanel = new ObjectViewerPanel();
-		
+		trackPanel=  new TransactionTrackingPanel();
 	
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 		var btnRefresh = UITools.createBindableJButton("", MTGConstants.ICON_REFRESH,KeyEvent.VK_R,"reload");
@@ -82,16 +81,20 @@ public class TransactionsPanel extends MTGUIComponent {
 		UITools.initTableFilter(tableTransactions);
 		UITools.sort(tableTransactions, 1, SortOrder.DESCENDING);
 		
-		UITools.addTab(tabbedPane, stockDetailPanel);
-	//	UITools.addTab(tabbedPane, contactPanel);
+		
+		
+		UITools.addTab(getContextTabbedPane(), stockDetailPanel);
+		UITools.addTab(getContextTabbedPane(), trackPanel);
+		
+		
 
 		if(MTG.readPropertyAsBoolean("debug-json-panel"))
-			UITools.addTab(tabbedPane, viewerPanel);
+			UITools.addTab(getContextTabbedPane(), viewerPanel);
 
 		tableTransactions.packAll();
 
 		splitPanel.setLeftComponent(new JScrollPane(tableTransactions));
-		splitPanel.setRightComponent(tabbedPane);
+		splitPanel.setRightComponent(getContextTabbedPane());
 		add(panneauHaut, BorderLayout.NORTH);
 		add(splitPanel,BorderLayout.CENTER);
 		add(panneauBas,BorderLayout.SOUTH);
@@ -146,6 +149,7 @@ public class TransactionsPanel extends MTGUIComponent {
 			btnContact.setEnabled(t.size()==1);
 			
 			stockDetailPanel.initItems(t.get(0).getItems());
+			trackPanel.init(t.get(0));
 			contactPanel.setContact(t.get(0).getContact());
 			
 			if(MTG.readPropertyAsBoolean("debug-json-panel"))

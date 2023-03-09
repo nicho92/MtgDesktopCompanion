@@ -5,11 +5,16 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Currency;
 
+import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.TransactionDirection;
+import org.magic.api.beans.enums.TransactionPayementProvider;
 import org.magic.api.beans.enums.TransactionStatus;
+import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.api.interfaces.MTGSealedProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.tools.FileTools;
 import org.magic.services.tools.MTG;
@@ -22,20 +27,22 @@ public class TransactionCreator {
 		
 		MTGControler.getInstance().init();
 	
-		var c = MTG.getEnabledPlugin(MTGDao.class).getContactById(87);
-		var t = MTG.getEnabledPlugin(MTGDao.class).getTransaction(290L);
+		var c = MTG.getEnabledPlugin(MTGDao.class).getContactById(84);
+		//var t = MTG.getEnabledPlugin(MTGDao.class).getTransaction(290L);
 
+		var t = new Transaction();
 			t.setContact(c);
 			t.setTransporter("Mondial Relay");
 			t.setCurrency(Currency.getInstance("EUR"));
 			t.setShippingPrice(7.0);
-			t.setStatut(TransactionStatus.CLOSED);
+			t.setStatut(TransactionStatus.IN_PROGRESS);
 			t.setTypeTransaction(TransactionDirection.SELL);
 			t.setSourceShopName("Facebook");
-			t.setTransporterShippingCode("670301");
-			t.setDateCreation(UITools.parseDate("18/11/2022", "dd/MM/yyyy"));
-			t.setDatePayment(UITools.parseDate("19/11/2022", "dd/MM/yyyy"));
-			t.setDateSend(UITools.parseDate("20/11/2022", "dd/MM/yyyy"));
+			t.setTransporterShippingCode("");
+			t.setPaymentProvider(TransactionPayementProvider.PAYPAL);
+			t.setDateCreation(UITools.parseDate("09/03/2023", "dd/MM/yyyy"));
+			t.setDatePayment(UITools.parseDate("09/03/2023", "dd/MM/yyyy"));
+			t.setDateSend(UITools.parseDate("13/03/2022", "dd/MM/yyyy"));
 			t.getItems().clear();
 		
 		for(String l : FileTools.readAllLines(new File("D:\\Desktop\\INV.csv")))
@@ -55,7 +62,7 @@ public class TransactionCreator {
 				item.setFoil(foil);
 				item.setProduct(mc);
 				item.setLanguage("French");
-				item.setCondition(EnumCondition.GOOD);
+				item.setCondition(EnumCondition.NEAR_MINT);
 				
 				if(foil)
 					item.setPrice(priceFoil);
@@ -65,8 +72,18 @@ public class TransactionCreator {
 				
 			t.getItems().add(item);
 		}
+		
+		
+		var sealedProduct = MTG.getEnabledPlugin(MTGSealedProvider.class).get(MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById("THS"), EnumItems.SET).get(0);
+		var st = new SealedStock(sealedProduct);
+		st.setQte(1);
+		st.setCondition(EnumCondition.OPENED);
+		st.setPrice(175.0);
+		t.getItems().add(st);
+		
+		
 			
-		//	MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateTransaction(t);
+			MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateTransaction(t);
 			
 			System.exit(0);
 	}	

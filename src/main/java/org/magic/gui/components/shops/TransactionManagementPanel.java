@@ -132,7 +132,7 @@ public class TransactionManagementPanel extends MTGUIComponent {
 		btnSend.addActionListener(e->{
 			var pane = new JPanel();
 
-			JComboBox<MTGTrackingService> cboService = UITools.createCombobox(MTGTrackingService.class, false);
+			JComboBox<MTGTrackingService> cboService = UITools.createComboboxPlugins(MTGTrackingService.class, false);
 			var field = new JTextField(t.getTransporterShippingCode(),25);
 			var btnV = new JButton("OK");
 			var btnC = new JButton("Cancel");

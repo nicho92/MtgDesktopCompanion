@@ -43,7 +43,7 @@ public class NewsEditorPanel extends JPanel {
 		gbclblType.gridy = 0;
 		add(lblType, gbclblType);
 
-		cboType = UITools.createCombobox(MTGNewsProvider.class, false);
+		cboType = UITools.createComboboxPlugins(MTGNewsProvider.class, false);
 
 		var gbccboType = new GridBagConstraints();
 		gbccboType.insets = new Insets(0, 0, 5, 0);

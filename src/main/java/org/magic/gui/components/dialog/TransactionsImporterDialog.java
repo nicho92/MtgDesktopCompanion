@@ -72,7 +72,7 @@ public class TransactionsImporterDialog extends JDialog {
 		var btnClose = new JButton(MTGConstants.ICON_CANCEL);
 		var btnLoad = new JButton(MTGConstants.ICON_OPEN);
 		btnImport = new JButton(MTGConstants.ICON_CHECK);
-		cboSniffers =UITools.createCombobox(MTGShopper.class,false);
+		cboSniffers =UITools.createComboboxPlugins(MTGShopper.class,false);
 		panel.setLayout(new BorderLayout(0, 0));
 		transactionPanel.disableCommands();
 		

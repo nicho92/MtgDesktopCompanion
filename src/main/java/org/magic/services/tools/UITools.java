@@ -339,7 +339,7 @@ public class UITools {
 
 	}
 
-	public static <T extends MTGPlugin> JComboBox<T> createCombobox(Class<T> classe,boolean all)
+	public static <T extends MTGPlugin> JComboBox<T> createComboboxPlugins(Class<T> classe,boolean all)
 	{
 		DefaultComboBoxModel<T> model = new DefaultComboBoxModel<>();
 		JComboBox<T> combo = new JComboBox<>(model);
