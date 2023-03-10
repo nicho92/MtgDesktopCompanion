@@ -1,8 +1,6 @@
 package org.magic.api.shopping.impl;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -12,13 +10,11 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.SealedStock;
-import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.beans.enums.TransactionPayementProvider;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.RetrievableTransaction;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.services.AccountsManager;
-import org.magic.services.MTGControler;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
@@ -36,13 +32,20 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 		{
 			try {
 				client = URLTools.newClient();
-				RequestBuilder.build()
+				var res = RequestBuilder.build()
 					.method(METHOD.POST)
 					.url(urlLogin)
 					.setClient(client)
 					.addContent("email", getAuthenticator().getLogin())
 					.addContent("pass", getAuthenticator().getPassword())
-					.execute();
+					.toContentString();
+				
+				if(res.contains("Identifiant Incorrect !"))
+				{
+					logger.warn("Error Login/password");
+					client=null;
+					return;
+				}
 				
 				
 				
