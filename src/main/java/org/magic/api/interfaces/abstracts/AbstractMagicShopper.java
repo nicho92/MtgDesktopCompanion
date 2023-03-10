@@ -17,7 +17,8 @@ public abstract class AbstractMagicShopper extends AbstractMTGPlugin implements 
 	protected MTGHttpClient client;
 	private Contact defaultContact;
 	
-	
+	protected abstract Currency getCurrency();
+
 	@Override
 	public PLUGINS getType() {
 		return PLUGINS.SHOPPER;
