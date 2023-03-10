@@ -47,6 +47,7 @@ public class MTGJsonSealedProvider extends AbstractSealedProvider {
 						p.setEdition(ed);
 						p.setLang("en");
 						p.setNum(1);
+						p.setName(ed.getSet() + " full set");
 						
 					products.add(p);
 				}
