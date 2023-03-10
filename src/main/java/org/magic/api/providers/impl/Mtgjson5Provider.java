@@ -691,6 +691,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 					sp.setName(el.getAsJsonObject().get("name").getAsString());
 					sp.setTypeProduct(parseType(el.getAsJsonObject().get("category").getAsString()));
 					sp.setNum(itemId++);
+					sp.setLang("en");
 					var extra=el.getAsJsonObject().get("subtype").getAsString();
 					
 					if(extra.equals("starter"))
