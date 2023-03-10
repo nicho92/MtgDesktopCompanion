@@ -115,6 +115,7 @@ public class TransactionsPanel extends MTGUIComponent {
 				{
 					try {
 						TransactionService.saveTransaction(t, false);
+						model.fireTableDataChanged();
 					} catch (IOException e) {
 						logger.error(e);
 					}
