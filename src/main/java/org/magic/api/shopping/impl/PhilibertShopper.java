@@ -26,15 +26,11 @@ public class PhilibertShopper extends AbstractMagicShopper {
 	private static final String BASE_URL="https://www.philibertnet.com/";
 	private Document s;
 	
-	
-	public static void main(String[] args) throws IOException, SQLException {
-		MTGControler.getInstance().init();
-		
-		var prov = new PhilibertShopper();
-			prov.getTransactionById("1185196");
-			
-			System.exit(0);
+	@Override
+	protected Currency getCurrency() {
+		return Currency.getInstance("EUR");
 	}
+	
 	
 	@Override
 	public List<RetrievableTransaction> listOrders() throws IOException {
@@ -61,7 +57,6 @@ public class PhilibertShopper extends AbstractMagicShopper {
 	@Override
 	public Transaction getTransaction(RetrievableTransaction rt) throws IOException {
 		var t = buildTransaction(rt);
-			 t.setCurrency(Currency.getInstance("EUR"));
 			 t.setPaymentProvider(rt.getComments().contains("PayPal")?TransactionPayementProvider.PAYPAL:TransactionPayementProvider.VISA);
 			 t.setMessage("");
 		

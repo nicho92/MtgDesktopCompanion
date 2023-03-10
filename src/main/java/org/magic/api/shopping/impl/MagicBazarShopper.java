@@ -87,10 +87,7 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 	@Override
 	public Transaction getTransaction(RetrievableTransaction rt) throws IOException {
 		
-					var t = buildTransaction(rt);
-						  t.setCurrency(Currency.getInstance("EUR"));
-						  t.setTypeTransaction(TransactionDirection.BUY);
-						  
+		var t = buildTransaction(rt);
 						  
 	    var doc= RequestBuilder.build().setClient(client).url(urlBase+rt.getUrl()).method(METHOD.GET).toHtml();
 	   
@@ -205,6 +202,11 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 	@Override
 	public List<String> listAuthenticationAttributes() {
 		return AccountsManager.generateLoginPasswordsKeys();
+	}
+
+	@Override
+	protected Currency getCurrency() {
+		return Currency.getInstance("EUR");
 	}
 
 

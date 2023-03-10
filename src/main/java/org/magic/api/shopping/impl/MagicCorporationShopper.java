@@ -2,6 +2,7 @@ package org.magic.api.shopping.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
 
@@ -81,6 +82,11 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 		}
 		
 		return orders;
+	}
+	
+	@Override
+	protected Currency getCurrency() {
+		return Currency.getInstance("EUR");
 	}
 	
 	@Override

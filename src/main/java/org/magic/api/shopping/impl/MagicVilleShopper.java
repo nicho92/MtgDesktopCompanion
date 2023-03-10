@@ -32,6 +32,11 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 	String urlLogin = urlBase+"/fr/connexion.php";
 	String urlDetailOrder=urlBase+"/fr/register/";
 	
+	@Override
+	protected Currency getCurrency() {
+		return Currency.getInstance("EUR");
+	}
+	
 	private void init()
 	{
 		if(client==null)
@@ -39,7 +44,7 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 			client = URLTools.newClient();
 			
 			try {
-				RequestBuilder.build().method(METHOD.POST)
+				var res = RequestBuilder.build().method(METHOD.POST)
 				.url(urlLogin)
 				.setClient(client)
 				.addContent("pseudo", getAuthenticator().getLogin())
@@ -48,6 +53,8 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 				.addContent("data", "1")
 				.addContent("x", "14")
 				.addContent("y", "11").execute();
+				
+				logger.info("Connexion : "+res.getStatusLine().getReasonPhrase());
 			} catch (IOException e) {
 				logger.error(e);
 			}
