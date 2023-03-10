@@ -3,7 +3,7 @@ package org.magic.api.interfaces.abstracts;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Currency;
 import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
