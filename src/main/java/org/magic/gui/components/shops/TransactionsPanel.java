@@ -110,7 +110,17 @@ public class TransactionsPanel extends MTGUIComponent {
 			diag.setVisible(true);
 
 			if(diag.getSelectedEntries()!=null) {
-				model.addItems(diag.getSelectedEntries());
+			//TODO put in swingworker
+				for(var t : diag.getSelectedEntries())
+				{
+					try {
+						TransactionService.saveTransaction(t, false);
+					} catch (IOException e) {
+						logger.error(e);
+					}
+					model.fireTableDataChanged();
+				}
+					
 			}
 		});
 		
