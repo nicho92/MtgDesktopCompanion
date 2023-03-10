@@ -64,11 +64,15 @@
     <artifactId>webp-imageio</artifactId>
     <version>0.1.6</version>
 </dependency>
-
 		<dependency>
-    		<groupId>io.jsonwebtoken</groupId>
-    		<artifactId>jjwt-api</artifactId>
-    		<version>0.11.5</version>
+		  <groupId>org.dajlab</groupId>
+		  <artifactId>mondialrelay-api</artifactId>
+		  <version>0.0.1</version>
+		</dependency>
+		<dependency>
+    			<groupId>io.jsonwebtoken</groupId>
+    			<artifactId>jjwt-api</artifactId>
+    			<version>0.11.5</version>
 		</dependency>
 		<dependency>
 		    <groupId>io.jsonwebtoken</groupId>
