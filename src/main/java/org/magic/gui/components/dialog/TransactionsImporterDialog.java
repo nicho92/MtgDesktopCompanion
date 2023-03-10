@@ -47,7 +47,8 @@ public class TransactionsImporterDialog extends JDialog {
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JPanel panelChoose;
 	private transient List<RetrievableTransaction> selectedEntries;
-
+	private TransactionsPanel transactionPanel;
+	
 	public TransactionsImporterDialog() {
 
 		setSize(new Dimension(500, 300));
@@ -67,7 +68,7 @@ public class TransactionsImporterDialog extends JDialog {
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		var panel = new JPanel();
 		var panelButton = new JPanel();
-		var transactionPanel = new TransactionsPanel();
+		transactionPanel = new TransactionsPanel();
 		
 		var btnClose = new JButton(MTGConstants.ICON_CANCEL);
 		var btnLoad = new JButton(MTGConstants.ICON_OPEN);
@@ -193,8 +194,8 @@ public class TransactionsImporterDialog extends JDialog {
 	
 	
 	
-	public List<RetrievableTransaction> getSelectedEntries() {
-		return selectedEntries;
+	public List<Transaction> getSelectedEntries() {
+		return transactionPanel.getModel().getItems();
 	}
 
 	public MTGShopper getSelectedSniffer() {
