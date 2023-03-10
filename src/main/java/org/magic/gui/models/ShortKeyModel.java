@@ -16,7 +16,7 @@ public class ShortKeyModel extends GenericTableModel<JButton>
 	private int mainObjectIndex =0;
 
 	public ShortKeyModel() {
-		columns = new String[] {"Module","Button","key"};
+		columns = new String[] {"Module","Button","Alt + key"};
 		items = ShortKeyManager.inst().getMapping();
 	}
 
