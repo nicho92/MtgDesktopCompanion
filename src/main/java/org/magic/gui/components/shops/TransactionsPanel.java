@@ -10,14 +10,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.SortOrder;
 import javax.swing.SwingWorker;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.shop.Transaction;
-import org.magic.api.interfaces.MTGShopper;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.ContactPanel;
@@ -32,7 +30,6 @@ import org.magic.services.TransactionService;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
-import org.magic.services.workers.AbstractObservableWorker;
 
 import com.jogamp.newt.event.KeyEvent;
 
@@ -113,25 +110,7 @@ public class TransactionsPanel extends MTGUIComponent {
 			diag.setVisible(true);
 
 			if(diag.getSelectedEntries()!=null) {
-				
-				
-				
-				var sw = new AbstractObservableWorker<List<Transaction>, Transaction,MTGShopper>(buzy,diag.getSelectedSniffer(),diag.getSelectedEntries().size())
-						{
-
-							@Override
-							protected List<Transaction> doInBackground() throws Exception {
-								return plug.listTransactions(diag.getSelectedEntries());
-							}
-
-							@Override
-							protected void notifyEnd() {
-								model.addItems(getResult());
-								//todo add Transactionn save
-							}
-						};
-					
-				ThreadManager.getInstance().runInEdt(sw, "importing transactions");
+				model.addItems(diag.getSelectedEntries());
 			}
 		});
 		
