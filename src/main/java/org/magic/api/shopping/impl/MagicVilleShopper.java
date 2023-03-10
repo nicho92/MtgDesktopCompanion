@@ -68,7 +68,6 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 	public Transaction getTransaction(RetrievableTransaction rt) throws IOException {
 		
 		var t = buildTransaction(rt);
-			t.setCurrency(Currency.getInstance("EUR"));
 			
 	    var doc= RequestBuilder.build().setClient(client).url(rt.getUrl()).method(METHOD.GET).toHtml();
 	    Elements table = doc.select("table tr[onmouseover]");
