@@ -28,7 +28,7 @@ public class Transaction implements MTGSerializable, Comparable<Transaction> {
 	private double reduction;
 	private Currency currency;
 	private String sourceShopName;
-	private String sourceShopId;;
+	private String sourceShopId;
 	
 	
 	private TransactionPayementProvider paymentProvider;

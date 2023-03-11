@@ -82,7 +82,6 @@ import org.magic.api.interfaces.MTGPlugin;
 import org.magic.game.model.Player;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.MagicCardDetailPanel;
-import org.magic.gui.editor.MagicEditionsComboBoxCellEditor;
 import org.magic.gui.renderer.MTGPluginCellRenderer;
 import org.magic.gui.renderer.MagicCollectionIconListRenderer;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;

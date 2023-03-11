@@ -1284,7 +1284,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setString(9, t.getSourceShopId());
 				pst.setString(10, t.getSourceShopName());
 				pst.setDouble(11, t.getReduction());
-				pst.setInt(12, t.getContact().getId());;
+				pst.setInt(12, t.getContact().getId());
 				pst.setLong(13, t.getId());
 				
 				

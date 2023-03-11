@@ -45,11 +45,7 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 				{
 					logger.warn("Error Login/password");
 					client=null;
-					return;
 				}
-				
-				
-				
 			} catch (IOException e) {
 				logger.error(e);
 			}

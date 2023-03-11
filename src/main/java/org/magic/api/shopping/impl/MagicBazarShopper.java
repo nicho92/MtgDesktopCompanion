@@ -1,7 +1,6 @@
 package org.magic.api.shopping.impl;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
@@ -14,9 +13,7 @@ import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.enums.EnumCondition;
-import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.beans.enums.EnumItems;
-import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.RetrievableTransaction;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -25,7 +22,6 @@ import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.services.AccountsManager;
 import org.magic.services.CardsManagerService;
-import org.magic.services.MTGControler;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;

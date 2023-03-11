@@ -60,7 +60,7 @@ public class MTGJsonSealedProvider extends AbstractSealedProvider {
 		try {
 			init();
 		} catch (IOException e) {
-			logger.error("Error Loading list {}",e);
+			logger.error("Error Loading list {}",me,e);
 			return new ArrayList<>();
 		}
 		return products.stream().filter(mts->mts.getEdition().getId().equals(me.getId())).toList();

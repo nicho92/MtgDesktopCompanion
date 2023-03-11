@@ -54,7 +54,7 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 				.addContent("x", "14")
 				.addContent("y", "11").execute();
 				
-				logger.info("Connexion : "+res.getStatusLine().getReasonPhrase());
+				logger.info("Connexion : {}",res.getStatusLine().getReasonPhrase());
 			} catch (IOException e) {
 				logger.error(e);
 			}

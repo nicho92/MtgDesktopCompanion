@@ -128,10 +128,12 @@ public class TransactionsPanel extends MTGUIComponent {
 		tableTransactions.getSelectionModel().addListSelectionListener(lsl->{
 
 			List<Transaction> t = UITools.getTableSelections(tableTransactions, 0);
-
+		
 			if(t.isEmpty())
 				return;
 
+			
+			//TODO put in swingworker
 			panneauBas.calulate(t, model);
 
 			btnMerge.setEnabled(t.size()>1);
