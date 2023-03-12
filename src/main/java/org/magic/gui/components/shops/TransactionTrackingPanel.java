@@ -2,8 +2,6 @@ package org.magic.gui.components.shops;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.IOException;
 
 import javax.swing.ImageIcon;
