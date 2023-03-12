@@ -17,7 +17,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
-import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.RetrievableTransaction;
@@ -26,9 +25,6 @@ import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.components.shops.TransactionsPanel;
 import org.magic.gui.models.ShoppingEntryTableModel;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
-import org.magic.services.logging.MTGLogger;
-import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
 import org.magic.services.workers.AbstractObservableWorker;
@@ -44,7 +40,6 @@ public class TransactionsImporterDialog extends JDialog {
 	private AbstractBuzyIndicatorComponent lblLoad = AbstractBuzyIndicatorComponent.createLabelComponent();
 	private JButton btnImport;
 	private transient MTGShopper selectedSniffer;
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JPanel panelChoose;
 	private TransactionsPanel transactionPanel;
 	
@@ -61,8 +56,6 @@ public class TransactionsImporterDialog extends JDialog {
 		table = UITools.createNewTable(model);
 		UITools.initTableFilter(table);
 		
-		transactionPanel.getModel().setWritable(false);
-		
 		
 		panelChoose = new JPanel();
 		var splitPane = new JSplitPane();
@@ -76,8 +69,7 @@ public class TransactionsImporterDialog extends JDialog {
 		btnImport = new JButton(MTGConstants.ICON_CHECK);
 		cboSniffers =UITools.createComboboxPlugins(MTGShopper.class,false);
 		panel.setLayout(new BorderLayout(0, 0));
-		transactionPanel.disableCommands();
-		
+			
 		
 		splitPane.setLeftComponent(new JScrollPane(table));
 		splitPane.setRightComponent(transactionPanel);
@@ -93,6 +85,11 @@ public class TransactionsImporterDialog extends JDialog {
 		panelButton.add(btnClose);
 		panelButton.add(btnImport);
 
+		transactionPanel.getModel().setWritable(false);
+		transactionPanel.disableCommands();
+
+		
+		
 		selectedSniffer = listEnabledPlugins(MTGShopper.class).get(0);
 		cboSniffers.addActionListener(e -> selectedSniffer = (MTGShopper) cboSniffers.getSelectedItem());
 
