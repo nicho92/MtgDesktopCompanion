@@ -86,6 +86,15 @@ public class CardKingdomTools {
 		}
 		
 		
+		//Specific set issues
+		
+		if(card.getEdition().toString().contains("Duel Decks Anthology:"))
+		{
+			name = name + " (" + card.getEdition().toString().split(": ")[1] + ")";
+			name = name.replace("vs.", "vs");
+		}
+		
+		
 		//Specific cards
 		if(card.getName().contains("Our Market Research"))
 			name = "Our Market Research";
@@ -112,15 +121,29 @@ public class CardKingdomTools {
 			set = set + " Variants";
 		}
 		
+		//not using PluginsAliasesProvider because of the multiple sets in this release
+		if(set.contains("Duel Decks Anthology:"))
+		{
+			set = "Duel Decks: Anthology";
+		}
 		
 		//promo sets
 		
 		if(card.getPromotypes().contains(EnumPromoType.FNM)||card.getPromotypes().contains(EnumPromoType.RELEASE)||
-				card.getPromotypes().contains(EnumPromoType.PRERELEASE)||card.getPromotypes().contains(EnumPromoType.BUYABOX) || card.getPromotypes().contains(EnumPromoType.STARTERDECK))
+				card.getPromotypes().contains(EnumPromoType.PRERELEASE)||card.getPromotypes().contains(EnumPromoType.BUYABOX))
 			set = "Promotional";
 
-		
-		
+		if(card.getPromotypes().contains(EnumPromoType.STARTERDECK))
+		{
+			if(!set.contains("Eighth Edition"))
+			{
+				set = "Promotional";
+			}
+			
+			
+		}
+			
+				
 		
 		
 		return set;
