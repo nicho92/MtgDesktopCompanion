@@ -61,6 +61,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Logger;
+import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
+import org.jdesktop.beansbinding.AutoBinding;
+import org.jdesktop.beansbinding.BeanProperty;
+import org.jdesktop.beansbinding.BindingGroup;
+import org.jdesktop.beansbinding.Bindings;
+import org.jdesktop.beansbinding.Property;
 import org.jdesktop.swingx.JXSearchField;
 import org.jdesktop.swingx.JXSearchField.SearchMode;
 import org.jdesktop.swingx.JXTable;
@@ -101,9 +107,14 @@ import org.magic.services.logging.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 import org.panda_lang.pandomium.Pandomium;
 
+import com.rometools.rome.feed.atom.Person;
+
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.FilterSettings;
 import net.coderazzi.filters.gui.TableFilterHeader;
+
+
+
 @SuppressWarnings("unchecked")
 public class UITools {
 
@@ -713,18 +724,26 @@ public class UITools {
 	public static void sort(JTable table, int index, SortOrder order) {
 		TableRowSorter<TableModel> sorter = new TableRowSorter<>(table.getModel());
 		table.setRowSorter(sorter);
-
 		List<RowSorter.SortKey> sortKeys = new ArrayList<>();
 		sortKeys.add(new RowSorter.SortKey(index, order));
 		sorter.setSortKeys(sortKeys);
-
-
 	}
-
 
 	public static String replaceSpecialCharacters(String str,String with) {
 		return str.replaceAll("[^a-zA-Z0-9]", with);
 	}
+
+//	
+//	
+//	public static <T> void bindProperty(JTextField textField, T obj, String property) {
+//		
+//		if(obj!=null) {
+//		var transporterShippingCodeProperty = BeanProperty.create(property);
+//		var textProperty = BeanProperty.create("text");
+//		var binder = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, obj, transporterShippingCodeProperty, textField, textProperty);
+//		binder.bind();
+//		}
+//	}
 
 
 

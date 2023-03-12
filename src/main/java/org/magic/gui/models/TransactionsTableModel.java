@@ -22,7 +22,7 @@ public class TransactionsTableModel extends GenericTableModel<Transaction> {
 	public TransactionsTableModel() {
 
 		setWritable(true);
-		columns = new String[] { "ID","DATE","CONTACT","ITEMS","TOTAL","Reduction","SHIPPING","MESSAGE","STATUT","DATE PAYMENT","PAYMENT METHOD","DATE SEND","DIRECTION","Source" };
+		columns = new String[] { "ID","DATE","CONTACT","ITEMS", "SHIPPING","Reduction","TOTAL", "DATE PAYMENT","PAYMENT METHOD","DATE SEND","TRACKING NUMBER","MESSAGE","STATUT","DIRECTION","Source" };
 	}
 
 
@@ -31,13 +31,14 @@ public class TransactionsTableModel extends GenericTableModel<Transaction> {
 		
 		
 		switch (column) {
+			case 4: getItemAt(row).setShippingPrice(UITools.parseDouble(aValue.toString())); break;
 			case 5: getItemAt(row).setReduction(UITools.parseDouble(aValue.toString())); break;
-			case 6: getItemAt(row).setShippingPrice(UITools.parseDouble(aValue.toString())); break;
-			case 7: getItemAt(row).setMessage(String.valueOf(aValue)); break;
-			case 8 : getItemAt(row).setStatut(TransactionStatus.valueOf(aValue.toString()));break;
-			
-			case 10 : getItemAt(row).setPaymentProvider(TransactionPayementProvider.valueOf(aValue.toString()));break;
-			case 12 : getItemAt(row).setTypeTransaction(TransactionDirection.valueOf(aValue.toString()));break;
+			case 8 : getItemAt(row).setPaymentProvider(TransactionPayementProvider.valueOf(aValue.toString()));break;
+			case 10: getItemAt(row).setTransporterShippingCode(String.valueOf(aValue)); break;
+			case 11: getItemAt(row).setMessage(String.valueOf(aValue).trim()); break;
+			case 12 : getItemAt(row).setStatut(TransactionStatus.valueOf(aValue.toString()));break;
+			case 13 : getItemAt(row).setTypeTransaction(TransactionDirection.valueOf(aValue.toString()));break;
+			case 14 : getItemAt(row).setSourceShopName(String.valueOf(aValue).trim());break;
 		default:break;
 		}
 		fireTableCellUpdated(row, column);
@@ -47,23 +48,23 @@ public class TransactionsTableModel extends GenericTableModel<Transaction> {
 	public Object getValueAt(int row, int column) {
 
 		Transaction it = items.get(row);
-
 		switch (column)
 		{
 			case 0 : return it;
 			case 1 : return it.getDateCreation();
 			case 2 : return it.getContact();
 			case 3 : return it.getItems().size();
-			case 4 : return it.total();
+			case 4 : return it.getShippingPrice();
 			case 5 : return it.getReduction();
-			case 6 : return it.getShippingPrice();
-			case 7 : return it.getMessage();
-			case 8 : return it.getStatut();
-			case 9 : return it.getDatePayment();
-			case 10 : return it.getPaymentProvider();
-			case 11 : return it.getDateSend();
-			case 12 : return it.getTypeTransaction();
-			case 13 : return it.getSourceShopName();
+			case 6 : return it.total();
+			case 7 : return it.getDatePayment();
+			case 8 : return it.getPaymentProvider();
+			case 9 : return it.getDateSend();
+			case 10 : return it.getTransporterShippingCode();
+			case 11 : return it.getMessage();
+			case 12 : return it.getStatut();
+			case 13 : return it.getTypeTransaction();
+			case 14 : return it.getSourceShopName();
 			default : return 0;
 		}
 	}
@@ -72,7 +73,7 @@ public class TransactionsTableModel extends GenericTableModel<Transaction> {
 	public boolean isCellEditable(int row, int column) {
 		if(writable)
 		{
-			return (column>4);
+			return (column>3 && column!=6);
 		}
 		else
 		{
@@ -83,7 +84,8 @@ public class TransactionsTableModel extends GenericTableModel<Transaction> {
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
-		if(columnIndex==1 || columnIndex==9 || columnIndex==11)
+		
+		if(columnIndex==1 || columnIndex==7 || columnIndex==9)
 			return Date.class;
 
 		if(columnIndex==3)
@@ -95,13 +97,11 @@ public class TransactionsTableModel extends GenericTableModel<Transaction> {
 		if(columnIndex==4 || columnIndex==5 || columnIndex==6)
 			return Double.class;
 
-		if(columnIndex==8)
+		if(columnIndex==12)
 			return TransactionStatus.class;
 		
-		if(columnIndex==10)
+		if(columnIndex==8)
 			return TransactionPayementProvider.class;
-		
-		
 		
 		if(columnIndex==12)
 			return TransactionDirection.class;

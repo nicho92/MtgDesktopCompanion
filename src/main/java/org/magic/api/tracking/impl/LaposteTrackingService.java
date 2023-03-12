@@ -3,6 +3,7 @@ package org.magic.api.tracking.impl;
 import java.io.IOException;
 import java.util.Map;
 
+import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Tracking;
 import org.magic.api.beans.shop.TrackingStep;
 import org.magic.api.interfaces.abstracts.AbstractTrackingService;
@@ -24,7 +25,7 @@ public class LaposteTrackingService extends AbstractTrackingService{
 	}
 
 	@Override
-	public Tracking track(String number) throws IOException {
+	public Tracking track(String number, Contact c) throws IOException {
 
 
 		if(getString(OKAPI_KEY).isEmpty())
@@ -51,6 +52,7 @@ public class LaposteTrackingService extends AbstractTrackingService{
 					 if(je.getAsJsonObject().get("code").getAsString().equals("PC1"))
 					 {
 						 t.setDeliveryDate(UITools.parseGMTDate(je.getAsJsonObject().get("date").getAsString()));
+						 t.setFinished(true);
 					 }
 
 

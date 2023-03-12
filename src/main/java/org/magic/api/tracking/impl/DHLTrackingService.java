@@ -3,6 +3,7 @@ package org.magic.api.tracking.impl;
 import java.io.IOException;
 import java.util.Map;
 
+import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Tracking;
 import org.magic.api.beans.shop.TrackingStep;
 import org.magic.api.interfaces.abstracts.AbstractTrackingService;
@@ -16,7 +17,7 @@ public class DHLTrackingService extends AbstractTrackingService {
 	private static final String BASEURL="https://api-eu.dhl.com/track/shipments?trackingNumber=";
 
 	@Override
-	public Tracking track(String number) throws IOException {
+	public Tracking track(String number, Contact c) throws IOException {
 
 		var t = new Tracking(number);
 

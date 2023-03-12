@@ -16,6 +16,7 @@ import javax.swing.SwingWorker;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.shop.Transaction;
+import org.magic.api.interfaces.MTGStockItem;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.ContactPanel;
@@ -42,7 +43,7 @@ public class TransactionsPanel extends MTGUIComponent {
 	private ObjectViewerPanel viewerPanel;
 	private JPanel panneauHaut;
 	private AbstractBuzyIndicatorComponent buzy;
-	private TransactionTotalPanel panneauBas;
+	private TransactionTotalPanel panneauBas;	
 	private TransactionTrackingPanel trackPanel;
 	
 	public TransactionsPanel() {
@@ -133,19 +134,33 @@ public class TransactionsPanel extends MTGUIComponent {
 				return;
 
 			
-			//TODO put in swingworker
-			panneauBas.calulate(t, model);
+			var sw = new SwingWorker<List<MTGStockItem>, Void>()
+					{
 
-			btnMerge.setEnabled(t.size()>1);
-			btnDelete.setEnabled(!t.isEmpty());
-			btnContact.setEnabled(t.size()==1);
-			
-			stockDetailPanel.initItems(t.get(0).getItems());
-			trackPanel.init(t.get(0));
-			contactPanel.setContact(t.get(0).getContact());
-			
-			if(MTG.readPropertyAsBoolean("debug-json-panel"))
-				viewerPanel.init(t.get(0));
+						@Override
+						protected List<MTGStockItem> doInBackground() throws Exception {
+							return t.get(0).getItems();
+						}
+
+						@Override
+						protected void done() {
+							
+							btnMerge.setEnabled(t.size()>1);
+							btnDelete.setEnabled(!t.isEmpty());
+							btnContact.setEnabled(t.size()==1);
+
+							panneauBas.calulate(t, model);
+							stockDetailPanel.initItems(t.get(0).getItems());
+							trackPanel.init(t.get(0));
+							contactPanel.setContact(t.get(0).getContact());
+							
+							if(MTG.readPropertyAsBoolean("debug-json-panel"))
+								viewerPanel.init(t.get(0));
+						}
+					};
+					
+					ThreadManager.getInstance().runInEdt(sw, "Load items for" + t.get(0));
+		
 		});
 		
 		stockDetailPanel.getTable().getModel().addTableModelListener(tml->{

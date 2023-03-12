@@ -2,6 +2,8 @@ package org.magic.gui.components.shops;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 
 import javax.swing.ImageIcon;
@@ -29,19 +31,16 @@ public class TransactionTrackingPanel extends MTGUIComponent {
 	private JTextArea textArea;
 	private JComboBox<MTGTrackingService> comboBox;
 	
-	
 	public TransactionTrackingPanel() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] {0, 168, 2};
-		gridBagLayout.rowHeights = new int[] {0, 0, 0, 0, 2};
-		gridBagLayout.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0};
+		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
-
 		add(new JLabel("Tracking Service : "), UITools.createGridBagConstraints(null, null, 0,1));
 		add(new JLabel("Tracking Number :"), UITools.createGridBagConstraints(null, null, 0,2));
-
 		
 		comboBox = UITools.createComboboxPlugins(MTGTrackingService.class,false);
 		add(comboBox, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1,1));
@@ -49,18 +48,19 @@ public class TransactionTrackingPanel extends MTGUIComponent {
 		textField = new JTextField();
 		add(textField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1,2));
 		
+	
 		var btnTrack = new JButton("Track");
 		add(btnTrack, UITools.createGridBagConstraints(null,null, 0,3));
 
 		textArea = new JTextArea();
 		add(new JScrollPane(textArea), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1,3));
+
 		
-		
-		
+					
 		btnTrack.addActionListener(al->{
 			textArea.setText("");
 			try {
-				var t = ((MTGTrackingService)comboBox.getSelectedItem()).track(transaction.getTransporterShippingCode());
+				var t = ((MTGTrackingService)comboBox.getSelectedItem()).track(transaction.getTransporterShippingCode(),transaction.getContact());
 				
 				t.getSteps().forEach(ts->{
 					textArea.append(UITools.formatDateTime(ts.getDateStep()));
@@ -91,7 +91,7 @@ public class TransactionTrackingPanel extends MTGUIComponent {
 		this.transaction = transaction;
 		textArea.setText("");
 		textField.setText(transaction.getTransporterShippingCode());
-		
+			
 		try {
 			
 			if(transaction.getTransporter()!=null)
