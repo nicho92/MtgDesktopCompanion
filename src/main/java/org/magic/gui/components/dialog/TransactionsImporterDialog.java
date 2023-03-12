@@ -46,7 +46,6 @@ public class TransactionsImporterDialog extends JDialog {
 	private transient MTGShopper selectedSniffer;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JPanel panelChoose;
-	private transient List<RetrievableTransaction> selectedEntries;
 	private TransactionsPanel transactionPanel;
 	
 	public TransactionsImporterDialog() {
@@ -58,9 +57,11 @@ public class TransactionsImporterDialog extends JDialog {
 		getContentPane().setLayout(new BorderLayout(0, 0));
 
 		model = new ShoppingEntryTableModel();
-
+		model.setWritable(false);
 		table = UITools.createNewTable(model);
 		UITools.initTableFilter(table);
+		
+		transactionPanel.getModel().setWritable(false);
 		
 		
 		panelChoose = new JPanel();
@@ -159,33 +160,14 @@ public class TransactionsImporterDialog extends JDialog {
 
 		btnClose.setToolTipText(capitalize("CANCEL"));
 
-		btnClose.addActionListener(e -> dispose());
+		btnClose.addActionListener(e ->{
+			transactionPanel.getModel().clear();
+			dispose();
+		});
 
 		btnImport.setToolTipText(capitalize("IMPORT"));
 
-		btnImport.addActionListener(e ->
-			ThreadManager.getInstance().invokeLater(new MTGRunnable() {
-
-				@Override
-				protected void auditedRun() {
-					try {
-						btnImport.setEnabled(false);
-						selectedEntries = UITools.getTableSelections(table, 0);
-						btnImport.setEnabled(true);
-						dispose();
-					} catch (Exception e1) {
-						logger.error("Error snif",e1);
-						MTGControler.getInstance().notify(e1);
-						btnImport.setEnabled(true);
-					}
-					finally
-					{
-						selectedSniffer.removeObserver(lblLoad);
-					}
-
-				}
-				}, "Loading Orders Import Dialog")
-		);
+		btnImport.addActionListener(e ->dispose() );
 
 
 		setLocationRelativeTo(null);
