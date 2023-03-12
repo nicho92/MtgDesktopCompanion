@@ -73,7 +73,7 @@ public class TransactionsTableModel extends GenericTableModel<Transaction> {
 	public boolean isCellEditable(int row, int column) {
 		if(writable)
 		{
-			return (column>3 && column!=6);
+			return (column!=0 && column!=2 && column!=3 && column!=6);
 		}
 		else
 		{

@@ -11,13 +11,13 @@ import javax.swing.JPanel;
 
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
-import org.magic.gui.components.charts.TransactionBalance3DChartPanel;
+import org.magic.gui.components.charts.TransactionBalanceChartPanel;
 import org.magic.services.MTGConstants;
 
 public class BalanceTransactionDashlet extends AbstractJDashlet {
 
 	private static final long serialVersionUID = 1L;
-	private TransactionBalance3DChartPanel chart;
+	private TransactionBalanceChartPanel chart;
 
 
 
@@ -33,7 +33,7 @@ public class BalanceTransactionDashlet extends AbstractJDashlet {
 		var panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
 
-		chart = new TransactionBalance3DChartPanel(true);
+		chart = new TransactionBalanceChartPanel();
 
 
 		getContentPane().add(chart,BorderLayout.CENTER);
