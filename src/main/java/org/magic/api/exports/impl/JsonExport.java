@@ -133,7 +133,7 @@ public class JsonExport extends AbstractCardExport {
 		}
 		catch(Exception e)
 		{
-			logger.error(e);
+			e.printStackTrace();
 		}
 
 		return list;

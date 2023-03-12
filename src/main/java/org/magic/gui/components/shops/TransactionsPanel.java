@@ -111,7 +111,6 @@ public class TransactionsPanel extends MTGUIComponent {
 			diag.setVisible(true);
 
 			if(diag.getSelectedEntries()!=null) {
-			//TODO put in swingworker
 				for(var t : diag.getSelectedEntries())
 				{
 					try {

@@ -83,7 +83,7 @@ public class TransactionService
 			}
 		}
 
-		Contact pContact = mtgshop.getContactByEmail(t.getContact().getEmail());
+		var pContact = mtgshop.getContactByEmail(t.getContact().getEmail());
 
 		if(pContact!=null)
 		{

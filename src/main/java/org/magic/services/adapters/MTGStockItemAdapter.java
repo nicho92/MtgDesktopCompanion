@@ -18,12 +18,15 @@ public final class MTGStockItemAdapter implements JsonDeserializer<MTGStockItem>
 
     @Override
 	public MTGStockItem deserialize(JsonElement elem, Type interfaceType, JsonDeserializationContext context) throws JsonParseException {
-       	return context.deserialize(elem, typeForName(EnumItems.valueOf(elem.getAsJsonObject().get("product").getAsJsonObject().get("typeProduct").getAsString())));
+      try {
+    	  return context.deserialize(elem, typeForName(EnumItems.valueOf(elem.getAsJsonObject().get("product").getAsJsonObject().get("typeProduct").getAsString())));
+      }catch(Exception e)
+      {
+    	  return context.deserialize(elem, typeForName(EnumItems.SEALED));
+      }
     }
 
     private Type typeForName(final EnumItems t) {
-
-
     	if(t.equals(EnumItems.CARD))
     		return MagicCardStock.class;
 

@@ -114,7 +114,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		Map<MagicCard, Integer> ret = new HashMap<>();
 		serialiser.fromJson(rs.getString(field), JsonArray.class).forEach(je->{
 
-			MagicCard mc = serialiser.fromJson(je.getAsJsonObject().get("card").toString(), MagicCard.class);
+			var mc = serialiser.fromJson(je.getAsJsonObject().get("card").toString(), MagicCard.class);
 			Integer qte = je.getAsJsonObject().get("qty").getAsInt();
 
 			ret.put(mc, qte);
@@ -1209,7 +1209,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		if (t.getId() < 0)
 		{
 
-				logger.debug("save transaction ");
+				logger.debug("saving transaction ");
 
 				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO transactions (dateTransaction, message, stocksItem, statut,transporter,shippingPrice,transporterShippingCode, currency,datePayment,dateSend,paymentProvider, fk_idcontact,sourceShopId, sourceShopName,typeTransaction,reduction) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",Statement.RETURN_GENERATED_KEYS)) {
 					pst.setTimestamp(1, new Timestamp(t.getDateCreation().getTime()));

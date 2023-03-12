@@ -20,9 +20,6 @@ public class TransactionHistoryChartPanel extends Abstract2DHistoChart<Transacti
 		var dataset = new TimeSeriesCollection();
 		var dataSell = new TimeSeries("Sell");
 		var dataBuy = new TimeSeries("Buy");
-
-		
-		
 		
 		for(Date d : items.stream().map(Transaction::getDateCreation).distinct().sorted().toList())
 		{

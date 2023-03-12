@@ -38,7 +38,7 @@ public abstract class AbstractMagicShopper extends AbstractMTGPlugin implements 
 		 	  t.setSourceShopId(rt.getSourceId());
 		 	  t.setMessage(rt.getComments());
 		 	  t.setTypeTransaction(TransactionDirection.BUY);
-		 	 
+		 	 t.setCurrency(getCurrency());
 		 	 
 				if (defaultContact == null)
 					defaultContact = MTGControler.getInstance().getWebConfig().getContact();

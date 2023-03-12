@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.enums.TransactionPayementProvider;
 import org.magic.api.beans.enums.TransactionStatus;
@@ -23,7 +24,10 @@ public class PhilibertShopper extends AbstractMagicShopper {
 
 	private static final String BASE_URL="https://www.philibertnet.com/";
 	private Document s;
-	
+	private final String DATE_FORMAT = "MM/dd/yyyy";
+	 
+	 
+	 
 	@Override
 	protected Currency getCurrency() {
 		return Currency.getInstance("EUR");
@@ -41,7 +45,8 @@ public class PhilibertShopper extends AbstractMagicShopper {
 					 rt.setSourceId(id);
 					 rt.setSource(getName());
 					 rt.setUrl(BASE_URL+"/en/index.php?controller=order-detail&id_order="+id+"&ajax=true");
-					 rt.setDateTransaction(UITools.parseDate(tr.select("td.history_date").text(), "dd/MM/yyyy"));
+
+					rt.setDateTransaction(UITools.parseDate(tr.select("td.history_date").text(), DATE_FORMAT));
 					 rt.setTotalValue(UITools.parseDouble(tr.select("td.history_price").attr("data-value")));
 					 rt.setComments(tr.select("td.history_method").text());
 					 
@@ -72,19 +77,19 @@ public class PhilibertShopper extends AbstractMagicShopper {
 		{
 			if(tr.select("TD").get(1).text().equals("Order cashed"))
 			{
-				t.setDatePayment(UITools.parseDate(tr.select("td").get(0).text(),"MM/dd/yyyy"));
+				t.setDatePayment(UITools.parseDate(tr.select("td").get(0).text(),DATE_FORMAT));
 				t.setStatut(TransactionStatus.PAID);
 			}
 			
 			if(tr.select("TD").get(1).text().equals("Shipped"))
 			{
-				t.setDateSend(UITools.parseDate(tr.select("td").get(0).text(),"MM/dd/yyyy"));
+				t.setDateSend(UITools.parseDate(tr.select("td").get(0).text(),DATE_FORMAT));
 				t.setStatut(TransactionStatus.SENT);
 			}
 			
 			if(tr.select("TD").get(1).text().equals("Livré"))
 			{
-				t.setDateSend(UITools.parseDate(tr.select("td").get(0).text(),"MM/dd/yyyy"));
+				t.setDateSend(UITools.parseDate(tr.select("td").get(0).text(),DATE_FORMAT));
 				t.setStatut(TransactionStatus.DELIVRED);
 			}
 		}
@@ -111,6 +116,7 @@ public class PhilibertShopper extends AbstractMagicShopper {
 				 stock.setPrice(UITools.parseDouble(tr.select("td").get(4-index).text()));
 				 stock.getTiersAppIds().put(getName(), tr.select("td").get(1-index).text());
 				 stock.setQte(Integer.parseInt(tr.select("td").get(3-index).text()));
+				 stock.setProduct(new MTGSealedProduct());
 				 if(stock.getComment().startsWith("Voucher"))
 				 {
 					 stock.setPrice(UITools.parseDouble(tr.select("td").get(5-index).text()));

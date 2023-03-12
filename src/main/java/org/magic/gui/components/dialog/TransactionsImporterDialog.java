@@ -174,7 +174,7 @@ public class TransactionsImporterDialog extends JDialog {
 	
 	
 	public List<Transaction> getSelectedEntries() {
-		return transactionPanel.getModel().getItems();
+		return UITools.getTableSelections(transactionPanel.getTable(),0);
 	}
 
 	public MTGShopper getSelectedSniffer() {

@@ -55,7 +55,7 @@ public abstract class AbstractSealedProvider extends AbstractMTGPlugin  implemen
 	public BufferedImage getPictureFor(MTGSealedProduct p)
 	{
 		try {
-			var b=Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), PACKAGING_DIR_NAME,p.getEdition().getId().replace("CON", "CON_"),p.getTypeProduct().name(),p.toString()+".png").toFile();
+			var b=Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), PACKAGING_DIR_NAME,p.getEdition().getId().replace("CON", "CON_"),p.getTypeProduct().name(),p.getStoreId()+".png").toFile();
 
 			if(b.exists())
 				return ImageTools.read(b);
@@ -84,7 +84,7 @@ public abstract class AbstractSealedProvider extends AbstractMTGPlugin  implemen
 			return null;
 
 		var f = Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), PACKAGING_DIR_NAME,p.getEdition().getId().replace("CON", "CON_"),p.getTypeProduct().name()).toFile();
-		var pkgFile = new File(f,p.toString()+".png");
+		var pkgFile = new File(f,p.getStoreId()+".png");
 
 		try {
 			FileTools.forceMkdir(f);

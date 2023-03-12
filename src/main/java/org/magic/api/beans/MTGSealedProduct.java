@@ -41,5 +41,10 @@ public class MTGSealedProduct extends AbstractProduct{
 		return getTypeProduct() + (getExtra()!=null?" "+getExtra():"") + " (" +getLang()+") ";
 	}
 
+	@Override
+	public String getStoreId() {
+		return getTypeProduct().name() + (getExtra()!=null?"-"+getExtra().name():"")+ "-"+getLang() + "-"+getNum();
+	}
+	
 
 }
