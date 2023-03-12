@@ -50,8 +50,8 @@ public class CardKingdomTools {
 		//Check Promo Types
 		if(card.isShowCase() && !card.getCurrentSet().getSet().contains("Strixhaven Mystical Archive"))
 		{
-			logger.debug("Showcase triggered: " + name);
-			if(card.getFrameVersion().contains("1997"))
+			logger.debug("Showcase triggered: {}",name);
+			if(card.getFrameVersion().contains("1997")) // maybe using isTimeShifted() ? --> AbstractCardsProvider.postTreatmentCard
 			{
 				name = name + " (Retro Frame)";
 			}
