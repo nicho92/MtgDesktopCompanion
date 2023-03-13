@@ -687,12 +687,8 @@
 			url="http://mtgen.net/5dn/images/logo-word.webp" />
 	</edition>
 	<edition id='CHK'>
-
-		<booster lang='en' num='1'
-			url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/118452.jpg" />
-
-		<set lang='en'
-			url="http://www.rebornspoilers.cards/2018/001_expansions/2004_champions_of_kamigawa/en/champions_of_kamigawa_logo_EN.png" />
+		<booster lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/118452.jpg" />
+		<set lang='en' url="https://mtgen.net/chk/images/logo-word.webp" />
 	</edition>
 	<edition id='UNH'>
 		<booster lang='en' num='1'
@@ -707,7 +703,7 @@
 		<booster lang='en' num='1'
 			url="http://static.starcitygames.com/sales/cardscans/MAGBOX/BoosterPack_BetrayersOfKamigawa.jpg" />
 
-		<set lang='en' url="https://ig2.cc/images/setlogo/bok.png" />
+		<set lang='en' url="https://mtgen.net/bok/images/logo-word.webp" />
 	</edition>
 	<edition id='SOK'>
 
@@ -971,7 +967,7 @@
 		
 		<constructpack lang='en' num='1' url="https://m.media-amazon.com/images/I/71MO3uAv9rL._AC_SY879_.jpg"/>
 		
-		<set lang='en' url="https://www.smfcorp.net/images/editions/gros_logos/94.png" />
+		<set lang='en' url="https://mtgen.net/m11/images/logo-word.webp" />
 	</edition>
 	<edition id='V10'>
 
@@ -991,7 +987,7 @@
 	
 	<edition id='CON'>
 		<booster lang='en' num='1'	url="http://static.starcitygames.com/sales/cardscans/MTG/CON/en/sealed/MTG_CON_BP.jpg" />
-		<set lang='en' url="http://mtgen.net/con_/images/logo-word.webp" />
+		<set lang='en' url="http://mtgen.net/con/images/logo-word.webp" />
 		<bundle lang="en" url="https://media.magic.wizards.com/images/featured/EN_CONFatPack_Product.png"/>
 		<box lang="en" url="https://media.magic.wizards.com/images/featured/EN_CONBooster_Product.png"/>
 	</edition>
@@ -1012,7 +1008,7 @@
 			url="https://gamepedia.cursecdn.com/mtgsalvation_gamepedia/5/57/MTGO_booster.jpg?version=5cb8585d4ab62a4698f5005f586bda48" />
 	</edition>
 	<edition id='MBS'>
-		<set lang='en' url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/3/35/MBS_logo.png" />
+		<set lang='en' url="https://mtgen.net/mbs/images/logo-word.webp" />
 		<booster lang='en' num='1' url="https://images-na.ssl-images-amazon.com/images/I/51i-sGe7apL.jpg" />
 		<booster lang='en' num='2' url="https://6d4be195623157e28848-7697ece4918e0a73861de0eb37d08968.ssl.cf1.rackcdn.com/39108_200w.jpg" />
 		<booster lang='en' num='3' url="https://cdn11.bigcommerce.com/s-0kvv9/images/stencil/1280x1280/products/219892/307333/magicbeseigedbooster__32979.1519954489.jpg" />
@@ -1701,8 +1697,7 @@
 		<booster lang='en' num='1'
 			url="https://www.spielraum.co.at/Images/Produkte/Magic/BoosterENG/BattlebondBooster.jpg" />
 
-		<set lang='en'
-			url="http://mtgen.net/bbd/images/logo-word.webp" />
+		<set lang='en'  url="http://mtgen.net/bbd/images/logo-word.webp" />
 		<box lang='fr'
 			url="https://images-na.ssl-images-amazon.com/images/I/51r8DZCMrKL._SX425_.jpg" />
 	</edition>
