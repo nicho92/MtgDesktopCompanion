@@ -58,6 +58,7 @@ public class TransactionsPanel extends MTGUIComponent {
 		trackPanel=  new TransactionTrackingPanel();
 	
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
+		var btnNew = UITools.createBindableJButton("", MTGConstants.ICON_NEW,KeyEvent.VK_N,"new");
 		var btnRefresh = UITools.createBindableJButton("", MTGConstants.ICON_REFRESH,KeyEvent.VK_R,"reload");
 		var btnMerge = UITools.createBindableJButton("", MTGConstants.ICON_MERGE,KeyEvent.VK_M,"merge");
 		var btnDelete = UITools.createBindableJButton("", MTGConstants.ICON_DELETE,KeyEvent.VK_D,"delete");
@@ -97,6 +98,7 @@ public class TransactionsPanel extends MTGUIComponent {
 		add(splitPanel,BorderLayout.CENTER);
 		add(panneauBas,BorderLayout.SOUTH);
 		
+		panneauHaut.add(btnNew);
 		panneauHaut.add(btnImportTransaction);
 		panneauHaut.add(btnRefresh);
 		panneauHaut.add(btnMerge);
@@ -104,7 +106,17 @@ public class TransactionsPanel extends MTGUIComponent {
 		panneauHaut.add(btnContact);
 		
 		panneauHaut.add(buzy);
-
+		
+		
+		btnNew.addActionListener(al->{
+			
+			var t = new Transaction();
+				 t.setContact(MTGControler.getInstance().getWebConfig().getContact());
+			
+			model.addItem(t);
+			model.fireTableDataChanged();
+		});
+		
 		
 		btnImportTransaction.addActionListener(ae->{
 			var diag = new TransactionsImporterDialog();

@@ -31,9 +31,12 @@ public class TransactionsTableModel extends GenericTableModel<Transaction> {
 		
 		
 		switch (column) {
+			case 1:  getItemAt(row).setDateCreation((Date)aValue);break;
 			case 4: getItemAt(row).setShippingPrice(UITools.parseDouble(aValue.toString())); break;
 			case 5: getItemAt(row).setReduction(UITools.parseDouble(aValue.toString())); break;
+			case 7:  getItemAt(row).setDatePayment((Date)aValue);break;
 			case 8 : getItemAt(row).setPaymentProvider(TransactionPayementProvider.valueOf(aValue.toString()));break;
+			case 9:  getItemAt(row).setDateSend((Date)aValue);break;
 			case 10: getItemAt(row).setTransporterShippingCode(String.valueOf(aValue)); break;
 			case 11: getItemAt(row).setMessage(String.valueOf(aValue).trim()); break;
 			case 12 : getItemAt(row).setStatut(TransactionStatus.valueOf(aValue.toString()));break;

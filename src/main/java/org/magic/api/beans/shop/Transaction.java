@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.beans.enums.TransactionPayementProvider;
@@ -57,6 +58,7 @@ public class Transaction implements MTGSerializable, Comparable<Transaction> {
 		contact=new Contact();
 		statut = TransactionStatus.NEW;
 		typeTransaction=TransactionDirection.SELL;
+		currency = Currency.getInstance(Locale.getDefault());
 	}
 	
 
