@@ -110,7 +110,7 @@ public class TransactionsPanel extends MTGUIComponent {
 			var diag = new TransactionsImporterDialog();
 			diag.setVisible(true);
 
-			if(diag.getSelectedEntries()!=null) {
+			if(diag.isSelected()) {
 				for(var t : diag.getSelectedEntries())
 				{
 					try {

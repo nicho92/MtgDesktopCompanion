@@ -8,7 +8,9 @@ import java.util.List;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.RetrievableTransaction;
@@ -54,7 +56,7 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 				.addContent("x", "14")
 				.addContent("y", "11").execute();
 				
-				logger.info("Connexion : {}",res.getStatusLine().getReasonPhrase());
+				logger.debug("Connexion : {}",res.getStatusLine().getReasonPhrase());
 			} catch (IOException e) {
 				logger.error(e);
 			}
@@ -95,18 +97,28 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 			 st.setComment(e.select("td").get(1).text());
 			 st.setLanguage(e.select("td").get(2).text().contains(" VF")?"French":"English");
 			 st.setCondition(PluginsAliasesProvider.inst().getReversedConditionFor(this, e.select("td").get(3).text(), EnumCondition.NEAR_MINT));
-		try {
-			var card = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(e.select("td").get(1).text(), null, false).get(0);
-				 st.setProduct(card);
-			return st;
-		}
-		catch(IndexOutOfBoundsException ex)
-		{
-			logger.error("No card found for {}",e.select("td").get(1).text());
-		} catch (IOException e1) {
-			logger.error(e);
-		}
-		return st;
+			 st.getTiersAppIds().put(getName(), e.select("td a").attr("href").replace("show_card_sale?gamerid=", "").trim());
+			 
+			 	MagicEdition edition = null;
+			 
+				try {
+					var setId =  st.getTiersAppIds().get(getName()).substring(0,3).toUpperCase();
+					edition = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(  PluginsAliasesProvider.inst().getSetIdFor(this, setId)  );
+				}catch(Exception ex)
+				{
+					logger.error("No set found for {}",st.getTiersAppIds().get(getName()));
+				}
+			 
+				MagicCard card = null;	 
+				try {
+					var name=RequestBuilder.build().setClient(client).url(urlDetailOrder+"show_card_sale?gamerid="+st.getTiersAppIds(getName())).method(METHOD.GET).toHtml().select("td.S14 a").first().html().split("<br>")[0].trim();
+					card = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, edition,true).get(0);
+					st.setProduct(card);
+				} catch (Exception e1) {
+					logger.error("No card found for {} {}",st.getTiersAppIds().get(getName()).substring(3),edition);
+					st.setProduct(new MagicCard());
+				}
+				return st;
 	}
 	
 

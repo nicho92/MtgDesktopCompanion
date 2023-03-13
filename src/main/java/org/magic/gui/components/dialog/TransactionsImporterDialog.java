@@ -42,6 +42,8 @@ public class TransactionsImporterDialog extends JDialog {
 	private transient MTGShopper selectedSniffer;
 	private JPanel panelChoose;
 	private TransactionsPanel transactionPanel;
+	private boolean select=false;
+	
 	
 	public TransactionsImporterDialog() {
 
@@ -158,20 +160,26 @@ public class TransactionsImporterDialog extends JDialog {
 		btnClose.setToolTipText(capitalize("CANCEL"));
 
 		btnClose.addActionListener(e ->{
-			transactionPanel.getModel().clear();
+			select=false;
 			dispose();
 		});
 
 		btnImport.setToolTipText(capitalize("IMPORT"));
 
-		btnImport.addActionListener(e ->dispose() );
+		btnImport.addActionListener(e ->{
+			select=true;
+			dispose() ;
+		});
 
 
 		setLocationRelativeTo(null);
 	}
 
 	
-	
+	public boolean isSelected()
+	{
+		return select;
+	}
 	
 	public List<Transaction> getSelectedEntries() {
 		return UITools.getTableSelections(transactionPanel.getTable(),0);
