@@ -17,6 +17,8 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.components.tech.JVMemoryPanel;
+import org.magic.gui.components.tech.LoggerViewPanel;
 import org.magic.gui.models.MapTableModel;
 import org.magic.gui.models.conf.DiscordInfoTableModel;
 import org.magic.gui.models.conf.FileAccessTableModel;

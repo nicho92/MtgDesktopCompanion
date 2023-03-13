@@ -15,7 +15,7 @@ import javax.swing.SwingUtilities;
 
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.criterias.MTGCrit;
-import org.magic.gui.components.CriteriaComponent;
+import org.magic.gui.components.tech.CriteriaComponent;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.tools.UITools;
