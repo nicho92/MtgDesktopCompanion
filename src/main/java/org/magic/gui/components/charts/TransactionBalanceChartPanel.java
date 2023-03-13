@@ -16,7 +16,7 @@ public class TransactionBalanceChartPanel extends Abstract2DBarChart<Transaction
 		var dataset = new DefaultCategoryDataset();
 					for(var type : TransactionDirection.values())
 					{
-						dataset.addValue(items.stream().filter(t->t.getTypeTransaction()==type).mapToDouble(Transaction::total).sum(), BALANCE, type.name());
+						dataset.addValue(items.stream().filter(t->t.getTypeTransaction()==type).mapToDouble(Transaction::total).sum(), type.name(), BALANCE);
 					}
 					
 

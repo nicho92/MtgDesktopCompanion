@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.jfree.chart3d.data.PieDataset3D;
 import org.jfree.chart3d.data.StandardPieDataset3D;
 import org.magic.api.beans.shop.Transaction;
@@ -56,17 +55,23 @@ public class TransactionChartPanel extends Abstract3DPieChart<Transaction,String
 	private Map<Object, Double> groupOrdersBy() {
 
 		Map<Object, Double> ret = new HashMap<>();
-
+		
+		
 		items.forEach(o->{
 			try
 			{
 				Object val = BeanTools.readProperty(o, property);
 				if(count)
+				{
 					ret.put(val, ret.get(val)==null? 1 : ret.get(val)+1);
+				}
 				else
+				{
 					ret.put(val, ret.get(val)==null? o.total() : UITools.roundDouble(ret.get(val)+o.total()));
-
-
+				}
+				
+				
+				
 			} catch (Exception e) {
 				logger.error(e);
 			}

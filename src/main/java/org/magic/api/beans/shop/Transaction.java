@@ -186,12 +186,7 @@ public class Transaction implements MTGSerializable, Comparable<Transaction> {
 
 	public double total()
 	{
-		
-		if(reduction>0)
-		{
-			return (totalItems() + getShippingPrice()) -getReduction();
-		}
-		return totalItems() + getShippingPrice();
+		return (totalItems() + getShippingPrice()) -getReduction();
 	}
 
 	@Override
