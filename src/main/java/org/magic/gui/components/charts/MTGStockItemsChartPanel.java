@@ -5,18 +5,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.jfree.chart3d.data.PieDataset3D;
 import org.jfree.chart3d.data.StandardPieDataset3D;
-import org.magic.api.beans.shop.Transaction;
+import org.magic.api.interfaces.MTGStockItem;
 import org.magic.gui.abstracts.charts.Abstract3DPieChart;
 import org.magic.services.tools.BeanTools;
 import org.magic.services.tools.UITools;
 
 
-public class TransactionChartPanel extends Abstract3DPieChart<Transaction,String> {
+public class MTGStockItemsChartPanel extends Abstract3DPieChart<MTGStockItem,String> {
 
-	public TransactionChartPanel(boolean displayPanel) {
+	public MTGStockItemsChartPanel(boolean displayPanel) {
 		super(displayPanel);
 	}
 
@@ -35,7 +34,10 @@ public class TransactionChartPanel extends Abstract3DPieChart<Transaction,String
 		var dataset = new StandardPieDataset3D<String>();
 
 		for (Entry<Object, Double> data : groupOrdersBy().entrySet()) {
-			dataset.add(String.valueOf(data.getKey()), data.getValue());
+			
+			var k = data.getKey();
+			
+			dataset.add(""+k, data.getValue());
 		}
 		return dataset;
 	}
@@ -46,8 +48,7 @@ public class TransactionChartPanel extends Abstract3DPieChart<Transaction,String
 		return "Transactions";
 	}
 
-
-	public void init(List<Transaction> listOrders, String p, boolean count) {
+	public void init(List<MTGStockItem> listOrders, String p, boolean count) {
 		this.property=p;
 		this.count=count;
 		init(listOrders);
@@ -64,7 +65,7 @@ public class TransactionChartPanel extends Abstract3DPieChart<Transaction,String
 				if(count)
 					ret.put(val, ret.get(val)==null? 1 : ret.get(val)+1);
 				else
-					ret.put(val, ret.get(val)==null? o.total() : UITools.roundDouble(ret.get(val)+o.total()));
+					ret.put(val, ret.get(val)==null? o.getQte()*o.getPrice() : UITools.roundDouble(ret.get(val)+(o.getQte()*o.getPrice())));
 
 
 			} catch (Exception e) {

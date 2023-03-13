@@ -3,7 +3,6 @@ package org.magic.gui.dashlet;
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -13,10 +12,10 @@ import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 
 import org.magic.api.beans.enums.TransactionDirection;
-import org.magic.api.beans.shop.Transaction;
+import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
-import org.magic.gui.components.charts.TransactionChartPanel;
+import org.magic.gui.components.charts.MTGStockItemsChartPanel;
 import org.magic.services.MTGConstants;
 import org.magic.services.TransactionService;
 import org.magic.services.threads.ThreadManager;
@@ -24,7 +23,7 @@ import org.magic.services.tools.UITools;
 
 import com.google.common.collect.Lists;
 
-public class TransactionDashlet extends AbstractJDashlet {
+public class TransactionItemsDashlet extends AbstractJDashlet {
 
 	private static final long serialVersionUID = 1L;
 	private static final String PROPERTY = "PROPERTY";
@@ -33,7 +32,7 @@ public class TransactionDashlet extends AbstractJDashlet {
 	private JCheckBox chkBuy;
 	
 	private JComboBox<String> cboProperty;
-	private TransactionChartPanel chart;
+	private MTGStockItemsChartPanel chart;
 	private AbstractBuzyIndicatorComponent buzy;
 	
 	
@@ -50,7 +49,7 @@ public class TransactionDashlet extends AbstractJDashlet {
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 		getContentPane().add(panel, BorderLayout.NORTH);
 
-		cboProperty = UITools.createCombobox(Lists.newArrayList("sourceShopName","statut","typeTransaction","paymentProvider","transporter","contact"));
+		cboProperty = UITools.createCombobox(Lists.newArrayList("condition","product.edition","product.typeProduct","language"));
 		panel.add(cboProperty);
 
 		chkSumOrTotal = new JCheckBox("Count");
@@ -62,7 +61,7 @@ public class TransactionDashlet extends AbstractJDashlet {
 		panel.add(chkBuy);
 		
 		panel.add(buzy);
-		chart = new TransactionChartPanel(true);
+		chart = new MTGStockItemsChartPanel(true);
 
 		getContentPane().add(chart,BorderLayout.CENTER);
 
@@ -111,21 +110,21 @@ public class TransactionDashlet extends AbstractJDashlet {
 		setProperty("BUY", String.valueOf(chkBuy.isSelected()));
 		
 		buzy.start();
-		var sw = new SwingWorker<List<Transaction>, Void>() {
+		var sw = new SwingWorker<List<MTGStockItem>, Void>() {
 
 			@Override
-			protected List<Transaction> doInBackground() throws Exception {
+			protected List<MTGStockItem> doInBackground() throws Exception {
+				
 				return TransactionService.listTransactions().stream().filter(t->{
-					
 					if(chkBuy.isSelected() && !chkSell.isSelected())
 							return t.getTypeTransaction()==TransactionDirection.BUY;
 					else if (chkSell.isSelected() && !chkBuy.isSelected()) 
 						return t.getTypeTransaction()==TransactionDirection.SELL;
 					else
 						return true;
-				}).toList();
+				}).flatMap(t -> t.getItems().stream()).toList();
 			}
-			
+				
 			@Override
 			protected void done() {
 				try {
@@ -135,7 +134,7 @@ public class TransactionDashlet extends AbstractJDashlet {
 					Thread.currentThread().interrupt();
 				}
 				catch (Exception e) {
-					logger.error(e);
+					e.printStackTrace();
 				}
 				finally {
 					buzy.end();
@@ -156,7 +155,7 @@ public class TransactionDashlet extends AbstractJDashlet {
 
 	@Override
 	public String getName() {
-		return "Transactions Analyse";
+		return "Transactions Products Analyse";
 	}
 
 
