@@ -14,7 +14,8 @@
 		"YONE"
 	],
 	"BRO":[
-		"ABRO"
+		"ABRO",
+		"MBRO"
 	],
 	"AVR":[
 		"PHEL"
@@ -181,7 +182,8 @@
 	"DMU": [
 		"WDMU",
 		"ADMU",
-		"PDWA"
+		"PDWA",
+		"MDMU"
 	],
 	"P02": [
 		"PO2"
@@ -208,7 +210,8 @@
 	"MID": [
 		"SMID",
 		"AMID",
-		"OMIC"
+		"OMIC",
+		"MMID"
 	],
 	"ANA": [
 		"OANA",
