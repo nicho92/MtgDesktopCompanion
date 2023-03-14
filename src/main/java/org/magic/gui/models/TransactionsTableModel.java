@@ -87,6 +87,8 @@ public class TransactionsTableModel extends GenericTableModel<Transaction> {
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
+		if(columnIndex==0)
+			return Transaction.class;
 		
 		if(columnIndex==1 || columnIndex==7 || columnIndex==9)
 			return Date.class;
