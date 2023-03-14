@@ -69,6 +69,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumCardVariation;
+import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.TransactionDirection;
 import org.magic.api.beans.enums.TransactionPayementProvider;
@@ -233,6 +234,7 @@ public class UITools {
 				table.setDefaultEditor(int.class, new NumberCellEditorRenderer());
 				table.setDefaultEditor(double.class, new DoubleCellEditorRenderer());
 				table.setDefaultEditor(Date.class, new DateTableCellEditorRenderer());
+				table.setDefaultEditor(EnumItems.class, new ComboBoxEditor<>(EnumItems.values()));
 				table.setDefaultEditor(EnumCondition.class, new ComboBoxEditor<>(EnumCondition.values()));
 				table.setDefaultEditor(TransactionStatus.class, new ComboBoxEditor<>(TransactionStatus.values()));
 				table.setDefaultEditor(TransactionPayementProvider.class, new ComboBoxEditor<>(TransactionPayementProvider.values()));
