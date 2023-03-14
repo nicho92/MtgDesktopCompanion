@@ -1,4 +1,4 @@
-package org.magic.gui.components;
+package org.magic.gui.components.shops;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
