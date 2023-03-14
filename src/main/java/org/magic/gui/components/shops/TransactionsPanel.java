@@ -11,8 +11,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
+import javax.swing.RowFilter;
+import javax.swing.RowSorter;
 import javax.swing.SortOrder;
 import javax.swing.SwingWorker;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.shop.Transaction;
@@ -124,8 +129,25 @@ public class TransactionsPanel extends MTGUIComponent {
 			
 			var text = JOptionPane.showInputDialog("product");
 			
-			
-			
+			TableRowSorter<TransactionsTableModel> sorter = new  TableRowSorter<>(model);
+			RowFilter<TransactionsTableModel, Integer> filter = new RowFilter<>()
+					{
+									@Override
+									public boolean include(Entry<? extends TransactionsTableModel, ? extends Integer> entry) {
+										for(var t : entry.getModel().getItemAt(entry.getIdentifier()).getItems())
+										{
+											if(t.getProduct().getName().toUpperCase().contains(text.toUpperCase()))
+											{
+												logger.info("Found Transaction #{}", entry.getModel().getItemAt(entry.getIdentifier()));
+												return true;
+											}
+										}
+										return false;
+									}
+					};
+		    sorter.setRowFilter(filter);
+		    tableTransactions.setRowSorter(sorter);
+		    
 		});
 		
 		
