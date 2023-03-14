@@ -106,7 +106,7 @@ public class TransactionsTableModel extends GenericTableModel<Transaction> {
 		if(columnIndex==8)
 			return TransactionPayementProvider.class;
 		
-		if(columnIndex==12)
+		if(columnIndex==13)
 			return TransactionDirection.class;
 		
 		
