@@ -105,7 +105,7 @@ public class Contact implements MTGSerializable {
 
 	@Override
 	public String toString() {
-		return getName() +" " + getLastName();
+		return ""+getId();
 	}
 
 
