@@ -41,7 +41,7 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.AbstractDelegatedImporterDialog;
 import org.magic.gui.abstracts.AbstractRecognitionArea;
-import org.magic.gui.components.WebcamCanvas;
+import org.magic.gui.components.webcam.WebcamCanvas;
 import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.gui.decorators.JListFilterDecorator;
 import org.magic.gui.models.MagicCardTableModel;

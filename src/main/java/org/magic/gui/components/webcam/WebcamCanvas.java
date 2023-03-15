@@ -1,4 +1,4 @@
-package org.magic.gui.components;
+package org.magic.gui.components.webcam;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
