@@ -60,6 +60,8 @@ public class MTGConstants {
 	public static final URL MTG_DESKTOP_SETS_FILE =  MTGConstants.class.getResource("/data/sets_codeAliases.json");
 	public static final URL SCRIPT_DIRECTORY = MTGConstants.class.getResource("/script/");
 	
+	
+	
 	public static final String ADMINUI_LOCATION = "web/admin-ui";
 	public static final String WEBSHOP_LOCATION = "web/shop-ui";
 	public static final String WEBCOLLECTION_LOCATION = "web/collection-ui";
@@ -75,6 +77,7 @@ public class MTGConstants {
 
 //EXTERNAL URL CONSTANTS
 	public static final String MTG_DESKTOP_ISSUES_URL = "https://github.com/nicho92/MtgDesktopCompanion/issues";
+	public static final String MTG_DESKTOP_DONATE_URL= "https://www.paypal.com/paypalme/nicolaspihen";
 	public static final String MTG_DESKTOP_WIKI_URL = "https://github.com/nicho92/MtgDesktopCompanion/wiki";
 	public static final String MTG_DESKTOP_WIKI_RAW_URL = "https://raw.githubusercontent.com/wiki/nicho92/MtgDesktopCompanion";
 	public static final String MTG_DESKTOP_POM_URL = "https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/pom.xml";

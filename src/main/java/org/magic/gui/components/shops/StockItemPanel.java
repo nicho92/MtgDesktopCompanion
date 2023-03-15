@@ -20,9 +20,7 @@ import org.magic.services.tools.UITools;
 
 public class StockItemPanel extends MTGUIComponent {
 
-	/**
-	 *
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	private JXTable table;
 	private StockItemTableModel model;
@@ -55,6 +53,11 @@ public class StockItemPanel extends MTGUIComponent {
 
 	}
 
+	
+	public void setWritable(boolean b)
+	{
+		model.setWritable(b);
+	}
 
 
 	public JXTable getTable() {

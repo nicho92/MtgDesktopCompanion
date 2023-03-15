@@ -4,10 +4,14 @@ import static org.magic.services.tools.MTG.capitalize;
 import static org.magic.services.tools.MTG.getPlugin;
 
 import java.awt.BorderLayout;
+import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
@@ -15,6 +19,7 @@ import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -23,6 +28,7 @@ import javax.swing.SwingConstants;
 
 import org.apache.logging.log4j.Logger;
 import org.api.mkm.tools.MkmAPIConfig;
+import org.jdesktop.swingx.JXStatusBar;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGNotifier;
@@ -57,7 +63,9 @@ public class MagicGUI extends JFrame {
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JTabbedPane tabbedPane;
 	private transient OSTrayNotifier osNotifier;
-
+	private JXStatusBar barStatus;
+	
+	
 	public MagicGUI() {
 
 
@@ -92,6 +100,8 @@ public class MagicGUI extends JFrame {
 		JMenu mnuAbout;
 		JMenuItem mntmExit;
 
+		barStatus = new JXStatusBar();
+		
 		setSize(new Dimension(1420, 940));
 		setTitle(MTGConstants.MTG_APP_NAME + " ( v" + MTGControler.getInstance().getVersionChecker().getVersion() + ")");
 
@@ -272,7 +282,31 @@ public class MagicGUI extends JFrame {
 
 
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);
+		getContentPane().add(barStatus,BorderLayout.SOUTH);
+		
+		
+		
+		
+		var lblSupport = new JLabel("Help me with a tip :) ");
+		lblSupport.setFont(MTGControler.getInstance().getFont().deriveFont(Font.BOLD));
+		lblSupport.addMouseListener(new MouseAdapter() {
+		    @Override
+            public void mouseClicked(MouseEvent e) {
+		    	UITools.browse(MTGConstants.MTG_DESKTOP_DONATE_URL);
+            }
+		    
+		    public void mouseEntered(MouseEvent e) {
+		    	lblSupport.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		    }
+		    
+		    public void mouseExited(MouseEvent e) {
+		    	lblSupport.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));	
+		    };
 
+        });
+		
+		barStatus.add(lblSupport);
+		
 
 			if(osNotifier!=null)
 			{
