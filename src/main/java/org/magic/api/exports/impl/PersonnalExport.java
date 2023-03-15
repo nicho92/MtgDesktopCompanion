@@ -10,7 +10,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.gui.abstracts.MTGUIComponent;
-import org.magic.gui.components.ExportConfiguratorPanel;
+import org.magic.gui.components.tech.ExportConfiguratorPanel;
 import org.magic.services.tools.BeanTools;
 import org.magic.services.tools.FileTools;
 

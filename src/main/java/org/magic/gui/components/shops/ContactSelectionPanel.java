@@ -1,4 +1,4 @@
-package org.magic.gui.components;
+package org.magic.gui.components.shops;
 
 import java.awt.BorderLayout;
 import java.sql.SQLException;

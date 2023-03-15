@@ -37,6 +37,7 @@ import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 
 import com.jogamp.newt.event.KeyEvent;
+import com.mchange.v2.sql.filter.SynchronizedFilterDataSource;
 
 public class TransactionsPanel extends MTGUIComponent {
 
@@ -126,8 +127,7 @@ public class TransactionsPanel extends MTGUIComponent {
 		
 		
 		btnSearch.addActionListener(al->{
-			
-			var text = JOptionPane.showInputDialog("product");
+		var text = JOptionPane.showInputDialog("List Transaction with product : ");
 			
 			@SuppressWarnings("unchecked")
 			TableRowSorter<TransactionsTableModel> sorter = (TableRowSorter<TransactionsTableModel>) tableTransactions.getRowSorter();

@@ -1,4 +1,4 @@
-package org.magic.gui.components;
+package org.magic.gui.components.deck;
 
 import static org.magic.services.tools.MTG.capitalize;
 import static org.magic.services.tools.MTG.getEnabledPlugin;
@@ -30,6 +30,7 @@ import org.magic.api.beans.MTGFormat.FORMATS;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGPictureProvider;
+import org.magic.gui.components.ManaPanel;
 import org.magic.gui.components.editor.JTagsPanel;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;

@@ -43,7 +43,6 @@ import org.magic.api.beans.technical.WebShopConfig;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.abstracts.MTGUIComponent;
-import org.magic.gui.components.ContactSelectionPanel;
 import org.magic.gui.components.ServerStatePanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
 import org.magic.gui.components.editor.JCheckableListBox;
