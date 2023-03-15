@@ -129,18 +129,17 @@ public class TransactionsPanel extends MTGUIComponent {
 			
 			var text = JOptionPane.showInputDialog("product");
 			
-			TableRowSorter<TransactionsTableModel> sorter = new  TableRowSorter<>(model);
+			@SuppressWarnings("unchecked")
+			TableRowSorter<TransactionsTableModel> sorter = (TableRowSorter<TransactionsTableModel>) tableTransactions.getRowSorter();
 			RowFilter<TransactionsTableModel, Integer> filter = new RowFilter<>()
 					{
 									@Override
 									public boolean include(Entry<? extends TransactionsTableModel, ? extends Integer> entry) {
 										for(var t : entry.getModel().getItemAt(entry.getIdentifier()).getItems())
 										{
-											if(t.getProduct().getName().toUpperCase().contains(text.toUpperCase()))
-											{
-												logger.info("Found Transaction #{}", entry.getModel().getItemAt(entry.getIdentifier()));
+											
+											if(t.getProduct()!=null && (t.getProduct()+"").toUpperCase().contains(text.toUpperCase()))
 												return true;
-											}
 										}
 										return false;
 									}
