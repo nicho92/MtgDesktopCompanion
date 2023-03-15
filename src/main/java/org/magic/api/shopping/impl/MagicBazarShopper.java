@@ -69,6 +69,7 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 		for (Element element : e) {
 			
 			var o = new RetrievableTransaction();
+			 	 o.setSource(getName());
 				 o.setSourceId(element.select("div.num_commande").text());
 				 o.setDateTransaction(UITools.parseDate(element.select("div.hide_mobile").first().html(),"MM/dd/yy"));
 				 o.setTotalValue(UITools.parseDouble(StringEscapeUtils.unescapeHtml4(element.select("div.price").html())));
