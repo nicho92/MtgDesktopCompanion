@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.http.entity.StringEntity;
+import org.magic.api.beans.MTGDocumentation;
+import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.abstracts.AbstractIA;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.MTGHttpClient;
@@ -86,6 +88,14 @@ public class ChatGPT extends AbstractIA {
 			map.put("MAX_TOKEN", "2000");
 			return map;
 	}
+	
+		
+	@Override
+	public MTGDocumentation getDocumentation() {
+		return new MTGDocumentation("https://platform.openai.com/docs/models",FORMAT_NOTIFICATION.HTML);
+	}
+	
+
 
 
 }
