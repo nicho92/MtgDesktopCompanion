@@ -209,7 +209,8 @@ public class TransactionsPanel extends MTGUIComponent {
 		stockDetailPanel.getTable().getModel().addTableModelListener(tml->{
 			if(tml.getFirstRow() >0 && tml.getType()==0)
 			{
-				logger.info("tml");
+				Transaction t = UITools.getTableSelection(tableTransactions,0);
+				logger.info("Update transaction {}",t);
 			}
 		});
 		
