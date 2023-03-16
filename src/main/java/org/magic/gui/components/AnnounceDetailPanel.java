@@ -17,7 +17,7 @@ import org.magic.api.beans.Announce;
 import org.magic.api.beans.Announce.STATUS;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
-import org.magic.api.beans.enums.TransactionDirection;
+import org.magic.api.beans.enums.EnumTransactionDirection;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.dialog.JContactChooserDialog;
 import org.magic.gui.components.widgets.JLangLabel;
@@ -34,7 +34,7 @@ public class AnnounceDetailPanel extends MTGUIComponent {
 	private JXDateTimePicker startDateFld;
 	private JTextField titleJTextField;
 	private JTextField totalPriceJTextField;
-	private JComboBox<TransactionDirection> cboType;
+	private JComboBox<EnumTransactionDirection> cboType;
 	private JComboBox<EnumItems> cboCategories;
 	private JComboBox<STATUS> cboStatus;
 	private JButton btnContact;
@@ -52,7 +52,7 @@ public class AnnounceDetailPanel extends MTGUIComponent {
 		setLayout(gridBagLayout);
 
 		add(new JLangLabel("TYPE",true), UITools.createGridBagConstraints(null, null, 0, 0));
-		cboType = UITools.createCombobox(TransactionDirection.values());
+		cboType = UITools.createCombobox(EnumTransactionDirection.values());
 		add(cboType, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 0));
 
 		add(new JLangLabel("TITLE",true), UITools.createGridBagConstraints(null, null, 0, 1));
@@ -127,7 +127,7 @@ public class AnnounceDetailPanel extends MTGUIComponent {
 		announce.setStartDate(startDateFld.getDate());
 		announce.setEndDate(endDateFld.getDate());
 		announce.setCurrency((Currency)cboCurrency.getSelectedItem());
-		announce.setType( (TransactionDirection) cboType.getSelectedItem());
+		announce.setType( (EnumTransactionDirection) cboType.getSelectedItem());
 		announce.setTotalPrice(UITools.parseDouble(totalPriceJTextField.getText()));
 		announce.setCategorie((EnumItems)cboCategories.getSelectedItem());
 		announce.setPercentReduction(((Number)sldReduction.getValue()).doubleValue());

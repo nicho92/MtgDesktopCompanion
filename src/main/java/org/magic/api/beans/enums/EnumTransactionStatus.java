@@ -1,6 +1,6 @@
 package org.magic.api.beans.enums;
 
-public enum TransactionStatus {
+public enum EnumTransactionStatus {
 			NEW,
 			IN_PROGRESS,
 			PAYMENT_WAITING,

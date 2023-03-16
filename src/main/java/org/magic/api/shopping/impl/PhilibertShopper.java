@@ -9,8 +9,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.SealedStock;
-import org.magic.api.beans.enums.TransactionPayementProvider;
-import org.magic.api.beans.enums.TransactionStatus;
+import org.magic.api.beans.enums.EnumPaymentProvider;
+import org.magic.api.beans.enums.EnumTransactionStatus;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.RetrievableTransaction;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
@@ -60,7 +60,7 @@ public class PhilibertShopper extends AbstractMagicShopper {
 	@Override
 	public Transaction getTransaction(RetrievableTransaction rt) throws IOException {
 		var t = buildTransaction(rt);
-			 t.setPaymentProvider(rt.getComments().contains("PayPal")?TransactionPayementProvider.PAYPAL:TransactionPayementProvider.VISA);
+			 t.setPaymentProvider(rt.getComments().contains("PayPal")?EnumPaymentProvider.PAYPAL:EnumPaymentProvider.VISA);
 			 t.setMessage("");
 		
 			 
@@ -78,19 +78,19 @@ public class PhilibertShopper extends AbstractMagicShopper {
 			if(tr.select("TD").get(1).text().equals("Order cashed"))
 			{
 				t.setDatePayment(UITools.parseDate(tr.select("td").get(0).text(),DATE_FORMAT));
-				t.setStatut(TransactionStatus.PAID);
+				t.setStatut(EnumTransactionStatus.PAID);
 			}
 			
 			if(tr.select("TD").get(1).text().equals("Shipped"))
 			{
 				t.setDateSend(UITools.parseDate(tr.select("td").get(0).text(),DATE_FORMAT));
-				t.setStatut(TransactionStatus.SENT);
+				t.setStatut(EnumTransactionStatus.SENT);
 			}
 			
 			if(tr.select("TD").get(1).text().equals("Livré"))
 			{
 				t.setDateSend(UITools.parseDate(tr.select("td").get(0).text(),DATE_FORMAT));
-				t.setStatut(TransactionStatus.DELIVRED);
+				t.setStatut(EnumTransactionStatus.DELIVRED);
 			}
 		}
 		

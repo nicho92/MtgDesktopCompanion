@@ -6,7 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.table.TableModel;
 
-import org.magic.api.beans.enums.TransactionDirection;
+import org.magic.api.beans.enums.EnumTransactionDirection;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.UITools;
@@ -61,7 +61,7 @@ public class TransactionTotalPanel extends JPanel {
 		
 		for(Transaction e : entries)
 		{
-			if(e.getTypeTransaction() ==TransactionDirection.BUY)
+			if(e.getTypeTransaction() ==EnumTransactionDirection.BUY)
 				totalB+=e.total();
 			else
 				totalS+=e.total();

@@ -11,7 +11,7 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 
-import org.magic.api.beans.enums.TransactionDirection;
+import org.magic.api.beans.enums.EnumTransactionDirection;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
@@ -117,9 +117,9 @@ public class TransactionItemsDashlet extends AbstractJDashlet {
 				
 				return TransactionService.listTransactions().stream().filter(t->{
 					if(chkBuy.isSelected() && !chkSell.isSelected())
-							return t.getTypeTransaction()==TransactionDirection.BUY;
+							return t.getTypeTransaction()==EnumTransactionDirection.BUY;
 					else if (chkSell.isSelected() && !chkBuy.isSelected()) 
-						return t.getTypeTransaction()==TransactionDirection.SELL;
+						return t.getTypeTransaction()==EnumTransactionDirection.SELL;
 					else
 						return true;
 				}).flatMap(t -> t.getItems().stream()).toList();

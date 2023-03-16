@@ -33,7 +33,7 @@ import org.api.mkm.tools.Tools;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
-import org.magic.api.beans.enums.TransactionStatus;
+import org.magic.api.beans.enums.EnumTransactionStatus;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
@@ -325,13 +325,13 @@ public class MkmExternalShop extends AbstractExternalShop {
 
 
 		if(t.getDateCreation()!=null)
-			t.setStatut(TransactionStatus.NEW);
+			t.setStatut(EnumTransactionStatus.NEW);
 
 		if(t.getDatePayment()!=null)
-			t.setStatut(TransactionStatus.PAID);
+			t.setStatut(EnumTransactionStatus.PAID);
 
 		if(t.getDateSend()!=null)
-			t.setStatut(TransactionStatus.SENT);
+			t.setStatut(EnumTransactionStatus.SENT);
 
 
 		o.getArticle().forEach(article->{

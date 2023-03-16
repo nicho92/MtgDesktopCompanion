@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
 
-import org.magic.api.beans.enums.TransactionDirection;
+import org.magic.api.beans.enums.EnumTransactionDirection;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.RetrievableTransaction;
@@ -37,7 +37,7 @@ public abstract class AbstractMagicShopper extends AbstractMTGPlugin implements 
 		 	  t.setSourceShopName(rt.getSource());
 		 	  t.setSourceShopId(rt.getSourceId());
 		 	  t.setMessage(rt.getComments());
-		 	  t.setTypeTransaction(TransactionDirection.BUY);
+		 	  t.setTypeTransaction(EnumTransactionDirection.BUY);
 		 	 t.setCurrency(getCurrency());
 		 	 
 				if (defaultContact == null)

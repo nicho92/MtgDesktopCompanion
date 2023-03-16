@@ -1,5 +1,5 @@
 package org.magic.api.beans.enums;
 
-public enum TransactionDirection {
+public enum EnumTransactionDirection {
 	BUY,SELL
 }

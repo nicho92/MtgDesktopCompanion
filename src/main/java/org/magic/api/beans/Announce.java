@@ -9,7 +9,7 @@ import java.util.Locale;
 
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
-import org.magic.api.beans.enums.TransactionDirection;
+import org.magic.api.beans.enums.EnumTransactionDirection;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.technical.GedEntry;
 import org.magic.api.interfaces.MTGSerializable;
@@ -31,7 +31,7 @@ public class Announce implements MTGSerializable, Comparable<Announce> {
 	private String title;
 	private String description;
 	private List<MTGStockItem> items;
-	private TransactionDirection type;
+	private EnumTransactionDirection type;
 	private EnumCondition condition;
 	private boolean updated=false;
 	private Double percentReduction;
@@ -43,7 +43,7 @@ public class Announce implements MTGSerializable, Comparable<Announce> {
 	public Announce() {
 
 		items = new ArrayList<>();
-		type = TransactionDirection.BUY;
+		type = EnumTransactionDirection.BUY;
 		creationDate = new Date();
 		startDate = new Date();
 		var c = Calendar.getInstance();
@@ -116,7 +116,7 @@ public class Announce implements MTGSerializable, Comparable<Announce> {
 		this.percentReduction = percentReduction;
 	}
 
-	public TransactionDirection getType() {
+	public EnumTransactionDirection getType() {
 		return type;
 	}
 
@@ -138,7 +138,7 @@ public class Announce implements MTGSerializable, Comparable<Announce> {
 
 	}
 
-	public void setType(TransactionDirection type) {
+	public void setType(EnumTransactionDirection type) {
 		this.type = type;
 	}
 

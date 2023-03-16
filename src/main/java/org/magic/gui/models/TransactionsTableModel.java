@@ -2,9 +2,9 @@ package org.magic.gui.models;
 
 import java.util.Date;
 
-import org.magic.api.beans.enums.TransactionDirection;
-import org.magic.api.beans.enums.TransactionPayementProvider;
-import org.magic.api.beans.enums.TransactionStatus;
+import org.magic.api.beans.enums.EnumTransactionDirection;
+import org.magic.api.beans.enums.EnumPaymentProvider;
+import org.magic.api.beans.enums.EnumTransactionStatus;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.gui.abstracts.GenericTableModel;
@@ -35,12 +35,12 @@ public class TransactionsTableModel extends GenericTableModel<Transaction> {
 			case 4: getItemAt(row).setShippingPrice(UITools.parseDouble(aValue.toString())); break;
 			case 5: getItemAt(row).setReduction(UITools.parseDouble(aValue.toString())); break;
 			case 7:  getItemAt(row).setDatePayment((Date)aValue);break;
-			case 8 : getItemAt(row).setPaymentProvider(TransactionPayementProvider.valueOf(aValue.toString()));break;
+			case 8 : getItemAt(row).setPaymentProvider(EnumPaymentProvider.valueOf(aValue.toString()));break;
 			case 9:  getItemAt(row).setDateSend((Date)aValue);break;
 			case 10: getItemAt(row).setTransporterShippingCode(String.valueOf(aValue)); break;
 			case 11: getItemAt(row).setMessage(String.valueOf(aValue).trim()); break;
-			case 12 : getItemAt(row).setStatut(TransactionStatus.valueOf(aValue.toString()));break;
-			case 13 : getItemAt(row).setTypeTransaction(TransactionDirection.valueOf(aValue.toString()));break;
+			case 12 : getItemAt(row).setStatut(EnumTransactionStatus.valueOf(aValue.toString()));break;
+			case 13 : getItemAt(row).setTypeTransaction(EnumTransactionDirection.valueOf(aValue.toString()));break;
 			case 14 : getItemAt(row).setSourceShopName(String.valueOf(aValue).trim());break;
 		default:break;
 		}
@@ -103,13 +103,13 @@ public class TransactionsTableModel extends GenericTableModel<Transaction> {
 			return Double.class;
 
 		if(columnIndex==12)
-			return TransactionStatus.class;
+			return EnumTransactionStatus.class;
 		
 		if(columnIndex==8)
-			return TransactionPayementProvider.class;
+			return EnumPaymentProvider.class;
 		
 		if(columnIndex==13)
-			return TransactionDirection.class;
+			return EnumTransactionDirection.class;
 		
 		
 		

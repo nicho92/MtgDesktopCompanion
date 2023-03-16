@@ -71,9 +71,9 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumCardVariation;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
-import org.magic.api.beans.enums.TransactionDirection;
-import org.magic.api.beans.enums.TransactionPayementProvider;
-import org.magic.api.beans.enums.TransactionStatus;
+import org.magic.api.beans.enums.EnumTransactionDirection;
+import org.magic.api.beans.enums.EnumPaymentProvider;
+import org.magic.api.beans.enums.EnumTransactionStatus;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.interfaces.MTGCardsExport;
@@ -239,9 +239,9 @@ public class UITools {
 				table.setDefaultEditor(Date.class, new DateTableCellEditorRenderer());
 				table.setDefaultEditor(EnumItems.class, new ComboBoxEditor<>(EnumItems.values()));
 				table.setDefaultEditor(EnumCondition.class, new ComboBoxEditor<>(EnumCondition.values()));
-				table.setDefaultEditor(TransactionStatus.class, new ComboBoxEditor<>(TransactionStatus.values()));
-				table.setDefaultEditor(TransactionPayementProvider.class, new ComboBoxEditor<>(TransactionPayementProvider.values()));
-				table.setDefaultEditor(TransactionDirection.class, new ComboBoxEditor<>(TransactionDirection.values()));
+				table.setDefaultEditor(EnumTransactionStatus.class, new ComboBoxEditor<>(EnumTransactionStatus.values()));
+				table.setDefaultEditor(EnumPaymentProvider.class, new ComboBoxEditor<>(EnumPaymentProvider.values()));
+				table.setDefaultEditor(EnumTransactionDirection.class, new ComboBoxEditor<>(EnumTransactionDirection.values()));
 				table.setDefaultEditor(Level.class,  new ComboBoxEditor<>(MTGLogger.getLevels()) );
 				try {
 					table.setDefaultEditor(MagicEdition.class, new ComboBoxEditor<>(getEnabledPlugin(MTGCardsProvider.class).listEditions().stream().sorted().toList() ));

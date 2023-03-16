@@ -6,9 +6,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import org.magic.api.beans.enums.TransactionDirection;
-import org.magic.api.beans.enums.TransactionPayementProvider;
-import org.magic.api.beans.enums.TransactionStatus;
+import org.magic.api.beans.enums.EnumTransactionDirection;
+import org.magic.api.beans.enums.EnumPaymentProvider;
+import org.magic.api.beans.enums.EnumTransactionStatus;
 import org.magic.api.beans.technical.WebShopConfig;
 import org.magic.api.interfaces.MTGSerializable;
 import org.magic.api.interfaces.MTGStockItem;
@@ -32,9 +32,9 @@ public class Transaction implements MTGSerializable, Comparable<Transaction> {
 	private String sourceShopId;
 	
 	
-	private TransactionPayementProvider paymentProvider;
-	private TransactionStatus statut;
-	private TransactionDirection typeTransaction;
+	private EnumPaymentProvider paymentProvider;
+	private EnumTransactionStatus statut;
+	private EnumTransactionDirection typeTransaction;
 	
 
 	@Override
@@ -56,8 +56,8 @@ public class Transaction implements MTGSerializable, Comparable<Transaction> {
 		dateCreation = new Date();
 		items = new ArrayList<>();
 		contact=new Contact();
-		statut = TransactionStatus.NEW;
-		typeTransaction=TransactionDirection.SELL;
+		statut = EnumTransactionStatus.NEW;
+		typeTransaction=EnumTransactionDirection.SELL;
 		currency = Currency.getInstance(Locale.getDefault());
 	}
 	
@@ -70,11 +70,11 @@ public class Transaction implements MTGSerializable, Comparable<Transaction> {
 		this.dateCreation = dateCreation;
 	}
 
-	public void setTypeTransaction(TransactionDirection typeTransaction) {
+	public void setTypeTransaction(EnumTransactionDirection typeTransaction) {
 		this.typeTransaction = typeTransaction;
 	}
 
-	public TransactionDirection getTypeTransaction() {
+	public EnumTransactionDirection getTypeTransaction() {
 		return typeTransaction;
 	}
 
@@ -114,11 +114,11 @@ public class Transaction implements MTGSerializable, Comparable<Transaction> {
 		this.dateSend = dateSend;
 	}
 
-	public TransactionPayementProvider getPaymentProvider() {
+	public EnumPaymentProvider getPaymentProvider() {
 		return paymentProvider;
 	}
 
-	public void setPaymentProvider(TransactionPayementProvider paymentProvider) {
+	public void setPaymentProvider(EnumPaymentProvider paymentProvider) {
 		this.paymentProvider = paymentProvider;
 	}
 
@@ -174,10 +174,10 @@ public class Transaction implements MTGSerializable, Comparable<Transaction> {
 		this.shippingPrice = shippingPrice;
 	}
 
-	public void setStatut(TransactionStatus statut) {
+	public void setStatut(EnumTransactionStatus statut) {
 		this.statut = statut;
 	}
-	public TransactionStatus getStatut() {
+	public EnumTransactionStatus getStatut() {
 		return statut;
 	}
 

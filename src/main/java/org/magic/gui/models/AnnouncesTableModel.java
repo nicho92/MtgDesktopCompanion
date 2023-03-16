@@ -4,7 +4,7 @@ import java.util.Date;
 
 import org.magic.api.beans.Announce;
 import org.magic.api.beans.enums.EnumItems;
-import org.magic.api.beans.enums.TransactionDirection;
+import org.magic.api.beans.enums.EnumTransactionDirection;
 import org.magic.api.beans.shop.Contact;
 import org.magic.gui.abstracts.GenericTableModel;
 
@@ -23,7 +23,7 @@ public class AnnouncesTableModel extends GenericTableModel<Announce> {
 		switch (columnIndex)
 		{
 		case 0 : return Announce.class;
-		case 1 : return TransactionDirection.class;
+		case 1 : return EnumTransactionDirection.class;
 		case 2 : return EnumItems.class;
 		case 4 : return Double.class;
 		case 5 : return Contact.class;

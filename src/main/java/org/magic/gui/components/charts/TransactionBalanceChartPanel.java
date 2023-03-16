@@ -2,7 +2,7 @@ package org.magic.gui.components.charts;
 
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.magic.api.beans.enums.TransactionDirection;
+import org.magic.api.beans.enums.EnumTransactionDirection;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.gui.abstracts.charts.Abstract2DBarChart;
 
@@ -14,7 +14,7 @@ public class TransactionBalanceChartPanel extends Abstract2DBarChart<Transaction
 	@Override
 	public CategoryDataset  getDataSet() {
 		var dataset = new DefaultCategoryDataset();
-					for(var type : TransactionDirection.values())
+					for(var type : EnumTransactionDirection.values())
 					{
 						dataset.addValue(items.stream().filter(t->t.getTypeTransaction()==type).mapToDouble(Transaction::total).sum(), type.name(), BALANCE);
 					}

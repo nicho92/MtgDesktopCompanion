@@ -18,8 +18,8 @@ import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.enums.EnumItems;
-import org.magic.api.beans.enums.TransactionPayementProvider;
-import org.magic.api.beans.enums.TransactionStatus;
+import org.magic.api.beans.enums.EnumPaymentProvider;
+import org.magic.api.beans.enums.EnumTransactionStatus;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.MTGDao;
@@ -121,7 +121,7 @@ public class TransactionService
 
 	public static Long newTransaction(Transaction t) throws IOException {
 		t.setConfig(MTGControler.getInstance().getWebConfig());
-		t.setStatut(TransactionStatus.NEW);
+		t.setStatut(EnumTransactionStatus.NEW);
 		t.setCurrency(t.getConfig().getCurrency());
 		var ret = saveTransaction(t,false);
 		sendMail(t,"TransactionNew","Transaction received");
@@ -167,7 +167,7 @@ public class TransactionService
 				MTGStockItem stock = mtgshop.getStockById(transactionItem.getProduct().getTypeProduct(),transactionItem.getId());
 				if(transactionItem.getQte()>stock.getQte())
 				{
-					   t.setStatut(TransactionStatus.IN_PROGRESS);
+					   t.setStatut(EnumTransactionStatus.IN_PROGRESS);
 					   rejectsT.add(transactionItem);
 					   transactionItem.setComment("Not enought Stock ( "+stock.getQte()+"/"+transactionItem.getQte()+")");
 				}
@@ -182,7 +182,7 @@ public class TransactionService
 
 		if(rejectsT.isEmpty() && !accepteds.isEmpty())
 		{
-			t.setStatut(TransactionStatus.PAYMENT_WAITING);
+			t.setStatut(EnumTransactionStatus.PAYMENT_WAITING);
 			for(MTGStockItem stock : accepteds)
 			{
 				mtgshop.saveOrUpdateStock(stock,true);
@@ -192,7 +192,7 @@ public class TransactionService
 		}
 		else
 		{
-			t.setStatut(TransactionStatus.IN_PROGRESS);
+			t.setStatut(EnumTransactionStatus.IN_PROGRESS);
 		}
 
 		saveTransaction(t,false);
@@ -211,7 +211,7 @@ public class TransactionService
 
 					   stock.setQte(stock.getQte()+transactionItem.getQte());
 					   stock.setUpdated(true);
-					   t.setStatut(TransactionStatus.CANCELED);
+					   t.setStatut(EnumTransactionStatus.CANCELED);
 					   getEnabledPlugin(MTGDao.class).saveOrUpdateStock(stock);
 		}
 		saveTransaction(t,false);
@@ -221,13 +221,13 @@ public class TransactionService
 	public static void payingTransaction(Transaction t, String providerName) throws IOException {
 		t.setConfig(MTGControler.getInstance().getWebConfig());
 
-		if(TransactionPayementProvider.BANK_TRANSFERT.equals(t.getPaymentProvider()) || TransactionPayementProvider.PAYPALME.equals(t.getPaymentProvider()))
-			t.setStatut(TransactionStatus.PAYMENT_SENT);
+		if(EnumPaymentProvider.BANK_TRANSFERT.equals(t.getPaymentProvider()) || EnumPaymentProvider.PAYPALME.equals(t.getPaymentProvider()))
+			t.setStatut(EnumTransactionStatus.PAYMENT_SENT);
 		else
-			t.setStatut(TransactionStatus.PAID);
+			t.setStatut(EnumTransactionStatus.PAID);
 
 
-		t.setPaymentProvider(TransactionPayementProvider.valueOf(providerName.toUpperCase()));
+		t.setPaymentProvider(EnumPaymentProvider.valueOf(providerName.toUpperCase()));
 		t.setDatePayment(new Date());
 		saveTransaction(t,false);
 		sendMail(t,"TransactionPaid","Payment Accepted !");
@@ -237,7 +237,7 @@ public class TransactionService
 
 	public static void sendTransaction(Transaction t) throws  IOException {
 		t.setConfig(MTGControler.getInstance().getWebConfig());
-		t.setStatut(TransactionStatus.SENT);
+		t.setStatut(EnumTransactionStatus.SENT);
 		t.setDateSend(new Date());
 		saveTransaction(t,false);
 		sendMail(t,"TransactionSent", "Shipped !");

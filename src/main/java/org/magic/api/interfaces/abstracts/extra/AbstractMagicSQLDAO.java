@@ -38,9 +38,9 @@ import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.beans.enums.EnumItems;
-import org.magic.api.beans.enums.TransactionDirection;
-import org.magic.api.beans.enums.TransactionPayementProvider;
-import org.magic.api.beans.enums.TransactionStatus;
+import org.magic.api.beans.enums.EnumTransactionDirection;
+import org.magic.api.beans.enums.EnumPaymentProvider;
+import org.magic.api.beans.enums.EnumTransactionStatus;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.ConverterItem;
@@ -1072,7 +1072,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		state.setMessage(rs.getString("message"));
 		state.setSourceShopName(rs.getString("sourceShopName"));
 		state.setSourceShopId(rs.getString("sourceShopId"));
-		state.setStatut(TransactionStatus.valueOf(rs.getString("statut")));
+		state.setStatut(EnumTransactionStatus.valueOf(rs.getString("statut")));
 		state.setItems(readStockItemFrom(rs,"stocksItem"));
 		state.setTransporter(rs.getString("transporter"));
 		state.setShippingPrice(rs.getDouble("shippingPrice"));
@@ -1084,11 +1084,11 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		state.setReduction(rs.getDouble("reduction"));
 		
 		if(rs.getString("typeTransaction")!=null)
-			state.setTypeTransaction(TransactionDirection.valueOf(rs.getString("typeTransaction")));
+			state.setTypeTransaction(EnumTransactionDirection.valueOf(rs.getString("typeTransaction")));
 		
 		var pp = rs.getString("paymentProvider");
 		if(pp!=null)
-			state.setPaymentProvider(TransactionPayementProvider.valueOf(pp));
+			state.setPaymentProvider(EnumPaymentProvider.valueOf(pp));
 
 
 
@@ -2115,7 +2115,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			  a.setCurrency(Currency.getInstance(rs.getString("currency")));
 			  a.setContact(getContactById(rs.getInt("fk_idcontact")));
 			  a.setCreationDate(rs.getTimestamp("creationDate"));
-			  a.setType(TransactionDirection.valueOf(rs.getString("typeAnnounce")));
+			  a.setType(EnumTransactionDirection.valueOf(rs.getString("typeAnnounce")));
 			  a.setCategorie(EnumItems.valueOf(rs.getString("category")));
 			  a.setPercentReduction(rs.getDouble("percentReduction"));
 			  a.setCondition(EnumCondition.valueOf(rs.getString("conditions")));

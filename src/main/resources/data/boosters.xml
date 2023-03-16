@@ -2084,8 +2084,7 @@
 		<box lang="en" num="2"
 			url="https://media.wizards.com/2020/images/daily/en_bHpI86yfnu.png" />
 
-		<constructpack lang="en" num="1"
-			url="https://castleofgames.com/wp-content/uploads/2020/06/MTGM21_EN_OtrBx_01_02.png" />
+		<constructpack lang="en" num="1"  url="https://castleofgames.com/wp-content/uploads/2020/06/MTGM21_EN_OtrBx_01_02.png" extra="basri"/>
 		<constructpack lang="en" num="2"
 			url="https://castleofgames.com/wp-content/uploads/2020/06/MTGM21_EN_OtrBx_02_02.png" />
 		<constructpack lang="en" num="3"

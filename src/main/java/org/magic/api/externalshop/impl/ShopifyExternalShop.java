@@ -11,7 +11,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.entity.StringEntity;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumItems;
-import org.magic.api.beans.enums.TransactionStatus;
+import org.magic.api.beans.enums.EnumTransactionStatus;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
@@ -169,7 +169,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 
 
 		if(obj.get("financial_status")!=null)
-			t.setStatut(TransactionStatus.PAID);
+			t.setStatut(EnumTransactionStatus.PAID);
 
 
 		obj.get("line_items").getAsJsonArray().forEach(je->{

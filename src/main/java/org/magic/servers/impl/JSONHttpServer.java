@@ -57,7 +57,7 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
-import org.magic.api.beans.enums.TransactionStatus;
+import org.magic.api.beans.enums.EnumTransactionStatus;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.ConverterItem;
@@ -1295,7 +1295,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 			if(t.getContact().getId()==c.getId())
 			{
-				t.setStatut(TransactionStatus.CANCELATION_ASK);
+				t.setStatut(EnumTransactionStatus.CANCELATION_ASK);
 				MTG.getEnabledPlugin(MTGExternalShop.class).saveOrUpdateTransaction(t);
 				return ok(request, response,t);
 			}

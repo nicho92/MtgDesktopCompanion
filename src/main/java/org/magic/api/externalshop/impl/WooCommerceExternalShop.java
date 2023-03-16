@@ -10,8 +10,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
-import org.magic.api.beans.enums.TransactionPayementProvider;
-import org.magic.api.beans.enums.TransactionStatus;
+import org.magic.api.beans.enums.EnumPaymentProvider;
+import org.magic.api.beans.enums.EnumTransactionStatus;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
@@ -124,9 +124,9 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	    				if(obj.get("payment_method")!=null)
 		    				switch(obj.get("payment_method").toString())
 		    				{
-		    					case "bacs":t.setPaymentProvider(TransactionPayementProvider.BANK_TRANSFERT);break;
-		    					case "PayPal":t.setPaymentProvider(TransactionPayementProvider.PAYPAL);break;
-		    					default :t.setPaymentProvider(TransactionPayementProvider.VISA);break;
+		    					case "bacs":t.setPaymentProvider(EnumPaymentProvider.BANK_TRANSFERT);break;
+		    					case "PayPal":t.setPaymentProvider(EnumPaymentProvider.PAYPAL);break;
+		    					default :t.setPaymentProvider(EnumPaymentProvider.VISA);break;
 		    				}
 
 	    	t.setStatut(tostatus(obj.get(STATUS).toString()));
@@ -433,9 +433,9 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 
 			switch(ret.get("payment_method").toString())
 			{
-				case "bacs":t.setPaymentProvider(TransactionPayementProvider.BANK_TRANSFERT);break;
-				case "PayPal":t.setPaymentProvider(TransactionPayementProvider.PAYPAL);break;
-				default :t.setPaymentProvider(TransactionPayementProvider.VISA);break;
+				case "bacs":t.setPaymentProvider(EnumPaymentProvider.BANK_TRANSFERT);break;
+				case "PayPal":t.setPaymentProvider(EnumPaymentProvider.PAYPAL);break;
+				default :t.setPaymentProvider(EnumPaymentProvider.VISA);break;
 			}
 
 		return t;
@@ -460,7 +460,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		obj.put(BILLING, contact);
 		obj.put("shipping", contact);
 		obj.put(LINE_ITEMS, items);
-		obj.put("set_paid", t.getStatut().equals(TransactionStatus.PAID));
+		obj.put("set_paid", t.getStatut().equals(EnumTransactionStatus.PAID));
 		obj.put("created_via", MTGConstants.MTG_APP_NAME);
 
 		if(t.getPaymentProvider()!=null)
@@ -516,26 +516,26 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		return productInfo;
 	}
 
-	private TransactionStatus tostatus(String status) {
+	private EnumTransactionStatus tostatus(String status) {
 
 		status = status.replace("\"", "");
 
 		switch(status)
 		{
-			case "pending" : return TransactionStatus.NEW;
-			case "processing" : return TransactionStatus.IN_PROGRESS;
-			case "on-hold" : return TransactionStatus.PAYMENT_WAITING;
-			case "completed": return TransactionStatus.CLOSED;
-			case "cancelled": return TransactionStatus.CANCELED;
-			case "failed": return TransactionStatus.CANCELED;
-			case "pre-ordered":return TransactionStatus.PRE_ORDERED;
-			case "lpc_transit": return TransactionStatus.SENT;
-			case "lpc_delivered": return TransactionStatus.DELIVRED;
-			case "lpc_ready_to_ship" : return TransactionStatus.PAID;
-			case "refunded" : return TransactionStatus.CANCELED;
+			case "pending" : return EnumTransactionStatus.NEW;
+			case "processing" : return EnumTransactionStatus.IN_PROGRESS;
+			case "on-hold" : return EnumTransactionStatus.PAYMENT_WAITING;
+			case "completed": return EnumTransactionStatus.CLOSED;
+			case "cancelled": return EnumTransactionStatus.CANCELED;
+			case "failed": return EnumTransactionStatus.CANCELED;
+			case "pre-ordered":return EnumTransactionStatus.PRE_ORDERED;
+			case "lpc_transit": return EnumTransactionStatus.SENT;
+			case "lpc_delivered": return EnumTransactionStatus.DELIVRED;
+			case "lpc_ready_to_ship" : return EnumTransactionStatus.PAID;
+			case "refunded" : return EnumTransactionStatus.CANCELED;
 			default : {
 				logger.debug("{} is unknow",status);
-				return TransactionStatus.IN_PROGRESS;
+				return EnumTransactionStatus.IN_PROGRESS;
 			}
 		}
 	}

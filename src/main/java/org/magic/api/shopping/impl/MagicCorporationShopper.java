@@ -11,7 +11,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.SealedStock;
-import org.magic.api.beans.enums.TransactionPayementProvider;
+import org.magic.api.beans.enums.EnumPaymentProvider;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.RetrievableTransaction;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
@@ -135,8 +135,8 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 		
 			switch(bs.get(2).text()) 
 			{
-				case "Carte Bancaire" : t.setPaymentProvider(TransactionPayementProvider.VISA);break;
-				case "Paypal" : t.setPaymentProvider(TransactionPayementProvider.PAYPAL);break;
+				case "Carte Bancaire" : t.setPaymentProvider(EnumPaymentProvider.VISA);break;
+				case "Paypal" : t.setPaymentProvider(EnumPaymentProvider.PAYPAL);break;
 				default : break;
 			}
 			try {
