@@ -49,6 +49,10 @@ public class StockItemPanel extends MTGUIComponent {
 					return;
 			}
 		});
+		
+		
+		
+		
 
 
 	}
@@ -105,6 +109,12 @@ public class StockItemPanel extends MTGUIComponent {
 
 	public List<MTGStockItem> getItems() {
 		return model.getItems();
+	}
+
+
+	public void refresh() {
+		model.fireTableDataChanged();
+		
 	}
 
 

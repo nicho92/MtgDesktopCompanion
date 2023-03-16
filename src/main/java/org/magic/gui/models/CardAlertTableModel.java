@@ -26,7 +26,7 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 		case 0:
 			return MagicCardAlert.class;
 		case 1:
-			return List.class;
+			return MagicEdition.class;
 		case 2:
 			return Integer.class;
 		case 3:
@@ -51,7 +51,7 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 
 	@Override
 	public boolean isCellEditable(int row, int column) {
-		return (column == 1 || column==2 || column==3 || column==4);
+		return (column==2 || column==3 || column==4);
 	}
 
 	@Override
@@ -65,7 +65,7 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 		case 0:
 			return getItems().get(row);
 		case 1:
-			return getItems().get(row).getCard().getEditions();
+			return getItems().get(row).getCard().getCurrentSet();
 		case 2:
 			return getItems().get(row).getQty();
 		case 3:

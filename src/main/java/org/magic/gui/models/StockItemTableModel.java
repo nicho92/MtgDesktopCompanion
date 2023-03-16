@@ -94,7 +94,7 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 	public boolean isCellEditable(int row, int column) {
 
 		if(writable)
-			return column>2;
+			return column>1;
 		else
 			return false;
 	}
@@ -146,6 +146,12 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 			break;
 		case 3:
 			items.get(row).setLanguage(String.valueOf(aValue));
+			break;
+		case 4:
+			items.get(row).setMagicCollection((MagicCollection)aValue);
+			break;
+		case 5:
+			items.get(row).getProduct().setTypeProduct((EnumItems)aValue);
 			break;
 		case 6:
 			items.get(row).setFoil(Boolean.parseBoolean(aValue.toString()));

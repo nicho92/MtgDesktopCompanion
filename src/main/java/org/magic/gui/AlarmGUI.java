@@ -56,10 +56,8 @@ import org.magic.gui.components.deck.DeckPricePanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
 import org.magic.gui.components.renderer.MagicPricePanel;
 import org.magic.gui.components.widgets.JExportButton;
-import org.magic.gui.editor.MagicEditionsComboBoxCellEditor;
 import org.magic.gui.models.CardAlertTableModel;
 import org.magic.gui.renderer.AlertedCardsRenderer;
-import org.magic.gui.renderer.MagicEditionsComboBoxCellRenderer;
 import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -130,6 +128,7 @@ public class AlarmGUI extends MTGUIComponent {
 		table = UITools.createNewTable(model);
 		UITools.initTableFilter(table);
 		pricesTablePanel = new PricesTablePanel();
+		
 ///////CONFIG
 		setLayout(new BorderLayout());
 		splitPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
@@ -139,8 +138,6 @@ public class AlarmGUI extends MTGUIComponent {
 		table.getColumnModel().getColumn(6).setCellRenderer(new DoubleCellEditorRenderer(true));
 		table.getColumnModel().getColumn(7).setCellRenderer(new DoubleCellEditorRenderer(true));
 		table.getColumnModel().getColumn(8).setCellRenderer(new DoubleCellEditorRenderer(true));
-		table.getColumnModel().getColumn(1).setCellRenderer(new MagicEditionsComboBoxCellRenderer(false));
-		table.getColumnModel().getColumn(1).setCellEditor(new MagicEditionsComboBoxCellEditor());
 
 		btnSuggestPrice.setToolTipText(capitalize("SUGGEST_PRICE"));
 

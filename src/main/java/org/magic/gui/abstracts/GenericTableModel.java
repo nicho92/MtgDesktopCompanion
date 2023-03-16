@@ -108,7 +108,7 @@ public class GenericTableModel<T> extends AbstractTableModel {
 	{
 		items.add(t);
 		changed=true;
-		fireTableDataChanged();
+		fireTableRowsInserted(getRowCount()-1,getRowCount()-1);
 	}
 
 	public void init(List<T> t)

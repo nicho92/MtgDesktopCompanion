@@ -46,11 +46,18 @@ public class TransactionTotalPanel extends JPanel {
 	
 	public void calulate(List<Transaction> entries,TableModel model)
 	{
+		
+		if(entries==null)
+			return;
+		
+		
 		this.entries = entries;
 		this.model = model;
 		
 		double totalS=0;
 		double totalB=0;
+		
+		
 		
 		for(Transaction e : entries)
 		{

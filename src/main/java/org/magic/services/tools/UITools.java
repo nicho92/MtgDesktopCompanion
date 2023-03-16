@@ -84,6 +84,7 @@ import org.magic.api.interfaces.MTGPlugin;
 import org.magic.game.model.Player;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.MagicCardDetailPanel;
+import org.magic.gui.editor.MagicEditionsComboBoxCellEditor;
 import org.magic.gui.renderer.ContactRenderer;
 import org.magic.gui.renderer.MTGPluginCellRenderer;
 import org.magic.gui.renderer.MagicCollectionIconListRenderer;
@@ -243,7 +244,12 @@ public class UITools {
 				table.setDefaultEditor(TransactionPayementProvider.class, new ComboBoxEditor<>(TransactionPayementProvider.values()));
 				table.setDefaultEditor(TransactionDirection.class, new ComboBoxEditor<>(TransactionDirection.values()));
 				table.setDefaultEditor(Level.class,  new ComboBoxEditor<>(MTGLogger.getLevels()) );
-
+				try {
+					table.setDefaultEditor(MagicEdition.class, new ComboBoxEditor<>(getEnabledPlugin(MTGCardsProvider.class).listEditions().stream().sorted().toList() ));
+				} catch (IOException e2) {
+					logger.error(e2);
+				}
+				
 				try {
 					table.setDefaultEditor(MagicCollection.class, new ComboBoxEditor<>(getEnabledPlugin(MTGDao.class).listCollections()));
 				} catch (Exception e1) {
