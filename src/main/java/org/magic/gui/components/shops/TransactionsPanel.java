@@ -338,14 +338,9 @@ public class TransactionsPanel extends MTGUIComponent {
 		
 
 		btnDelete.addActionListener(al->{
-			
-			
 			List<Transaction> t = UITools.getTableSelections(tableTransactions, 0);
 			int res = JOptionPane.showConfirmDialog(this, "Delete "+t.size()+ " transaction(s) will NOT update stock","Sure ?",JOptionPane.YES_NO_OPTION);
-
 			if(res == JOptionPane.YES_OPTION) {
-
-				
 				try {
 					TransactionService.deleteTransaction(t);
 					reload();
@@ -391,7 +386,7 @@ public class TransactionsPanel extends MTGUIComponent {
 	private void reload()
 	{
 		buzy.start();
-		transactionModel.clear();
+		
 		var sw = new SwingWorker<List<Transaction>, Void>(){
 
 			@Override
@@ -402,6 +397,7 @@ public class TransactionsPanel extends MTGUIComponent {
 			@Override
 			protected void done() {
 				try {
+					transactionModel.clear();
 					transactionModel.addItems(get());
 					panneauBas.calulate(get(), transactionModel);
 				} catch (InterruptedException e) {
@@ -409,8 +405,11 @@ public class TransactionsPanel extends MTGUIComponent {
 				} catch (Exception e) {
 					logger.error(e);
 				}
-				buzy.end();
-				transactionModel.fireTableDataChanged();
+				finally{
+					buzy.end();
+					transactionModel.fireTableDataChanged();	
+				}
+				
 			}
 		};
 
