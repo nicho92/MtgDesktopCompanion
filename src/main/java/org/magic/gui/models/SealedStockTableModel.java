@@ -53,6 +53,12 @@ public class SealedStockTableModel extends GenericTableModel<SealedStock> {
 		}
 	}
 
+	
+	@Override
+	public boolean isCellEditable(int row, int column) {
+		return column>3;
+	}
+	
 
 	@Override
 	public void setValueAt(Object aValue, int row, int column) {

@@ -21,7 +21,6 @@ import javax.swing.JTable;
 import javax.swing.RowFilter;
 import javax.swing.SortOrder;
 import javax.swing.SwingWorker;
-import javax.swing.event.TableModelEvent;
 import javax.swing.table.TableRowSorter;
 
 import org.jdesktop.swingx.JXTable;
@@ -34,7 +33,6 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.ObjectViewerPanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
 import org.magic.gui.components.dialog.JContactChooserDialog;
-import org.magic.gui.components.dialog.ManualImportDialog;
 import org.magic.gui.components.dialog.TransactionsImporterDialog;
 import org.magic.gui.models.TransactionsTableModel;
 import org.magic.gui.renderer.standard.DateTableCellEditorRenderer;

@@ -1402,7 +1402,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		} else {
 			logger.debug("update Sealed {}",state);
 			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(
-					"update sealed set edition=?, qte=?, comment=?, lang=?, typeProduct=?, conditionProduct=?, collection=?, price=?, tiersAppIds=?where id=?")) {
+					"update sealed set edition=?, qte=?, comment=?, lang=?, typeProduct=?, conditionProduct=?, collection=?, price=?, tiersAppIds=? where id=?")) {
 				pst.setString(1, String.valueOf(state.getProduct().getEdition().getId()));
 				pst.setInt(2, state.getQte());
 				pst.setString(3, state.getComment());

@@ -2,8 +2,6 @@ package org.magic.gui.models;
 
 import static org.magic.services.tools.MTG.getEnabledPlugin;
 
-import java.util.List;
-
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicEdition;
