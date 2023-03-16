@@ -79,51 +79,49 @@ public class TransactionsPanel extends MTGUIComponent {
 		var btnDelete = UITools.createBindableJButton("", MTGConstants.ICON_DELETE,KeyEvent.VK_D,"delete");
 		var btnContact = UITools.createBindableJButton("", MTGConstants.ICON_CONTACT,KeyEvent.VK_C,"contact");
 		var btnImportTransaction = UITools.createBindableJButton(null,MTGConstants.ICON_IMPORT,KeyEvent.VK_I,"transaction import");
-		var btnAddProduct = UITools.createBindableJButton("", MTGConstants.ICON_PACKAGE,KeyEvent.VK_P,"product");
 		
-		final JPopupMenu popup = new JPopupMenu();
-        popup.add(new JMenuItem(new AbstractAction("Sealead") {
-           private static final long serialVersionUID = 1L;
-			public void actionPerformed(ActionEvent e) {
-				Transaction t = UITools.getTableSelection(tableTransactions, 0);
-				var mtgstock = new SealedStock();
-				mtgstock.setProduct(new MTGSealedProduct());
-				t.getItems().add(mtgstock);
-				stockDetailPanel.initItems(t.getItems());
-            }
-        }));
-        popup.add(new JMenuItem(new AbstractAction("Card") {
-            private static final long serialVersionUID = 1L;
-            public void actionPerformed(ActionEvent e) {
-            	Transaction t = UITools.getTableSelection(tableTransactions, 0);
-        		var cdSearch = new CardSearchImportDialog();
-				cdSearch.setVisible(true);
-				if (cdSearch.getSelection() != null) {
-					for (var mc : cdSearch.getSelection())
-					{
-						var mtgstock = MTGControler.getInstance().getDefaultStock();
-	        			mtgstock.setProduct(mc);
-	        			mtgstock.setQte(1);
-	        			
-	        			t.getItems().add(mtgstock);
-					}
-					stockDetailPanel.initItems(t.getItems());
-				}
-            }
-        }));
-        
-        btnAddProduct.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                popup.show(e.getComponent(), e.getX(), e.getY());
-            }
-        });
+//		final JPopupMenu popup = new JPopupMenu();
+//        popup.add(new JMenuItem(new AbstractAction("Sealead") {
+//           private static final long serialVersionUID = 1L;
+//			public void actionPerformed(ActionEvent e) {
+//				Transaction t = UITools.getTableSelection(tableTransactions, 0);
+//				var mtgstock = new SealedStock();
+//				mtgstock.setProduct(new MTGSealedProduct());
+//				t.getItems().add(mtgstock);
+//				stockDetailPanel.initItems(t.getItems());
+//            }
+//        }));
+//        popup.add(new JMenuItem(new AbstractAction("Card") {
+//            private static final long serialVersionUID = 1L;
+//            public void actionPerformed(ActionEvent e) {
+//            	Transaction t = UITools.getTableSelection(tableTransactions, 0);
+//        		var cdSearch = new CardSearchImportDialog();
+//				cdSearch.setVisible(true);
+//				if (cdSearch.getSelection() != null) {
+//					for (var mc : cdSearch.getSelection())
+//					{
+//						var mtgstock = MTGControler.getInstance().getDefaultStock();
+//	        			mtgstock.setProduct(mc);
+//	        			mtgstock.setQte(1);
+//	        			
+//	        			t.getItems().add(mtgstock);
+//					}
+//					stockDetailPanel.initItems(t.getItems());
+//				}
+//            }
+//        }));
+//        
+//        btnAddProduct.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mousePressed(MouseEvent e) {
+//                popup.show(e.getComponent(), e.getX(), e.getY());
+//            }
+//        });
 		
 		
 		btnMerge.setEnabled(false);
 		btnDelete.setEnabled(false);
 		btnContact.setEnabled(false);
-		btnAddProduct.setEnabled(false);
 		splitPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		splitPanel.setDividerLocation(.5);
 		splitPanel.setResizeWeight(0.5);
@@ -156,7 +154,6 @@ public class TransactionsPanel extends MTGUIComponent {
 		
 		panneauHaut.add(btnSearch);
 		panneauHaut.add(btnNew);
-		panneauHaut.add(btnAddProduct);
 		panneauHaut.add(btnImportTransaction);
 		panneauHaut.add(btnRefresh);
 		panneauHaut.add(btnMerge);
@@ -247,11 +244,11 @@ public class TransactionsPanel extends MTGUIComponent {
 							btnMerge.setEnabled(t.size()>1);
 							btnDelete.setEnabled(!t.isEmpty());
 							btnContact.setEnabled(t.size()==1);
-							btnAddProduct.setEnabled(t.size()==1);
 							
 							panneauBas.calulate(t, transactionModel);
-							stockDetailPanel.initItems(t.get(0).getItems());
+							stockDetailPanel.bind(t.get(0).getItems());
 							trackPanel.init(t.get(0));
+							stockDetailPanel.bind(t.get(0).getItems());
 							contactPanel.setContact(t.get(0).getContact());
 							
 							if(MTG.readPropertyAsBoolean("debug-json-panel"))
@@ -261,14 +258,6 @@ public class TransactionsPanel extends MTGUIComponent {
 					
 					ThreadManager.getInstance().runInEdt(sw, "Load items for" + t.get(0));
 		
-		});
-		
-		stockDetailPanel.getTable().getModel().addTableModelListener(tml->{
-			if(tml.getFirstRow() >0 && tml.getType()==0)
-			{
-				Transaction t = UITools.getTableSelection(tableTransactions,0);
-				logger.info("Update transaction {}",t);
-			}
 		});
 		
 

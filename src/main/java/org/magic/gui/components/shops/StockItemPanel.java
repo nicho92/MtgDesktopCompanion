@@ -4,18 +4,24 @@ import java.awt.BorderLayout;
 import java.util.List;
 
 import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
+import org.magic.api.beans.MTGSealedProduct;
+import org.magic.api.beans.SealedStock;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.components.dialog.CardSearchImportDialog;
 import org.magic.gui.models.StockItemTableModel;
 import org.magic.gui.renderer.StockTableRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.tools.UITools;
+
+import com.jogamp.newt.event.KeyEvent;
 
 
 public class StockItemPanel extends MTGUIComponent {
@@ -24,14 +30,23 @@ public class StockItemPanel extends MTGUIComponent {
 	private static final long serialVersionUID = 1L;
 	private JXTable table;
 	private StockItemTableModel model;
+	private JPanel panneauHaut;
+	
 	
 	public StockItemPanel() {
 		setLayout(new BorderLayout(0, 0));
 		model = new StockItemTableModel();
 		table = UITools.createNewTable(model);
+		panneauHaut = new JPanel();
+		
 		UITools.setDefaultRenderer(table, new StockTableRenderer());
 
 
+		var btnAddSealed = UITools.createBindableJButton("", MTGConstants.ICON_PACKAGE,KeyEvent.VK_S,"sealed");
+		var btnAddCard = UITools.createBindableJButton("", MTGConstants.ICON_NEW,KeyEvent.VK_C,"card");
+		
+		panneauHaut.add(btnAddCard);
+		panneauHaut.add(btnAddSealed);
 
 		for(int i : model.defaultHiddenColumns())
 		{
@@ -39,7 +54,7 @@ public class StockItemPanel extends MTGUIComponent {
 		}
 
 		add(new JScrollPane(table),BorderLayout.CENTER);
-
+		add(panneauHaut,BorderLayout.NORTH);
 
 		table.getSelectionModel().addListSelectionListener(event -> {
 			if (!event.getValueIsAdjusting()) {
@@ -50,25 +65,40 @@ public class StockItemPanel extends MTGUIComponent {
 			}
 		});
 		
+		btnAddSealed.addActionListener(al->{
+			var mtgstock = new SealedStock();
+			mtgstock.setProduct(new MTGSealedProduct());
+			model.addItem(mtgstock);
+			model.fireTableDataChanged();
+		});
 		
 		
 		
-
-
+		btnAddCard.addActionListener(al->{
+			var cdSearch = new CardSearchImportDialog();
+			cdSearch.setVisible(true);
+			if (cdSearch.getSelection() != null) {
+				for (var mc : cdSearch.getSelection())
+				{
+					var mtgstock = MTGControler.getInstance().getDefaultStock();
+        			mtgstock.setProduct(mc);
+        			mtgstock.setQte(1);
+        			model.addItem(mtgstock);
+        			model.fireTableDataChanged();
+				}
+			}
+		});
+		
+		
+		
 	}
-
 	
 	public void setWritable(boolean b)
 	{
+		panneauHaut.setVisible(b);
 		model.setWritable(b);
 	}
 
-
-	public JXTable getTable() {
-		return table;
-		
-	}
-	
 	
 	@Override
 	public void onHide() {
@@ -94,6 +124,19 @@ public class StockItemPanel extends MTGUIComponent {
 	}
 
 
+	public void bind(List<MTGStockItem> items) {
+
+		try {
+			model.bind(items);
+			table.packAll();
+		} catch (Exception e) {
+			logger.error(e);
+		}
+		
+	}
+
+
+	
 
 
 	@Override
@@ -116,7 +159,6 @@ public class StockItemPanel extends MTGUIComponent {
 		model.fireTableDataChanged();
 		
 	}
-
 
 
 }
