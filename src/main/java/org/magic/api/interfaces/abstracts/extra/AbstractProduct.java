@@ -5,7 +5,7 @@ import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.interfaces.MTGProduct;
 
-public abstract class AbstractProduct implements MTGProduct {
+public abstract class AbstractProduct implements MTGProduct{
 
 	private static final long serialVersionUID = 1L;
 
@@ -81,23 +81,20 @@ public abstract class AbstractProduct implements MTGProduct {
 		this.name = name;
 	}
 
+	
 	public static MTGProduct createDefaultProduct()
 	{
-		return new GenericProduct();
+		
+		return new AbstractProduct() {
+			
+			private static final long serialVersionUID = 1L;
+			
+			@Override
+			public String toString() {
+				return getName();
+			}
+		};
 	}
 
 
 }
-
-class GenericProduct extends AbstractProduct
-{
-
-	@Override
-	public String toString() {
-		return getName();
-	}
-
-	private static final long serialVersionUID = 1L;
-
-}
-

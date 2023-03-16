@@ -4,7 +4,7 @@ import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.abstracts.extra.AbstractProduct;
 
-public class MTGSealedProduct extends AbstractProduct{
+public class MTGSealedProduct extends AbstractProduct {
 
 	private static final long serialVersionUID = 1L;
 
@@ -35,7 +35,7 @@ public class MTGSealedProduct extends AbstractProduct{
 	public void setNum(int num) {
 		this.num = num;
 	}
-
+	
 	@Override
 	public String toString() {
 		return getTypeProduct() + (getExtra()!=null?" "+getExtra():"") + " (" +getLang()+") ";
@@ -45,6 +45,7 @@ public class MTGSealedProduct extends AbstractProduct{
 	public String getStoreId() {
 		return getTypeProduct().name() + (getExtra()!=null?"-"+getExtra().name():"")+ "-"+getLang() + "-"+getNum();
 	}
+	
 	
 
 }
