@@ -149,7 +149,17 @@ public class MTGCompanionSealedProvider extends AbstractSealedProvider{
 							 p.setNum(1);
 						 }
 						 
-						 p.setName(p.getTypeProduct() +" " + p.getEdition());
+						 try {
+							  p.setName(n.item(i).getAttributes().getNamedItem("desc").getNodeValue());
+						 }
+						 catch(Exception e)
+						 {
+							 p.setName(p.getEdition() + " " + p.getTypeProduct());
+						 }
+							  
+						 
+						 
+					
 								
 			
 				ret.add(p);

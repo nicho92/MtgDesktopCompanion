@@ -38,6 +38,7 @@ public class SealedStockTableModel extends GenericTableModel<SealedStock> {
 	@Override
 	public Object getValueAt(int row, int column) {
 		SealedStock it = items.get(row);
+		
 		switch(column)
 		{
 			case 0: return it;

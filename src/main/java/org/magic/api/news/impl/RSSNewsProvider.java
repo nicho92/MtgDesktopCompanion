@@ -37,8 +37,7 @@ public class RSSNewsProvider extends AbstractMagicNewsProvider {
 			var source = new InputSource(is);
 
 			feed = input.build(source);
-			var baseURI = feed.getLink();
-
+	
 			for (SyndEntry s : feed.getEntries()) {
 				var content = new MagicNewsContent();
 				content.setTitle(s.getTitle());
@@ -47,13 +46,8 @@ public class RSSNewsProvider extends AbstractMagicNewsProvider {
 					content.setDate(s.getUpdatedDate());
 				else
 					content.setDate(s.getPublishedDate());
-				URL link;
-				if (!s.getLink().startsWith(baseURI))
-					link = new URL(baseURI + s.getLink());
-				else
-					link = new URL(s.getLink());
 
-				content.setLink(link);
+				content.setLink(new URL(s.getLink()));
 
 				ret.add(content);
 			}

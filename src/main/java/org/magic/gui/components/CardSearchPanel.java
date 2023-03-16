@@ -307,9 +307,6 @@ public class CardSearchPanel extends MTGUIComponent {
 		scrollThumbnails.getVerticalScrollBar().setUnitIncrement(10);
 		txtFilter.setColumns(25);
 
-
-		cardsPicPanel.setDebug(false);
-
 		/////// VISIBILITY
 		tableCards.setColumnControlVisible(true);
 		panelFilters.setVisible(false);

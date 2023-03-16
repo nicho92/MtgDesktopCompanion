@@ -190,12 +190,8 @@ public class RssGUI extends MTGUIComponent {
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent me) {
-				List<MagicNewsContent> sels = UITools.getTableSelections(table, 0);
-
-				if(sels.isEmpty())
-					return;
-
-				MagicNewsContent sel = sels.get(0);
+				MagicNewsContent sel = UITools.getTableSelection(table, 0);
+				
 				if (me.getClickCount() == 2) {
 					try {
 						UITools.browse(sel.getLink().toURI().toASCIIString());

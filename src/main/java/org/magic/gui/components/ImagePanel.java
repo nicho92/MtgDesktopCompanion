@@ -56,7 +56,6 @@ public class ImagePanel extends JXPanel {
 	private boolean rotable;
 	private boolean moveable;
 	private boolean zoomable;
-	private boolean debug = false;
 	private boolean reflection = true;
 
 	private void setActions(boolean moveable,boolean rotable,boolean zoomable)
@@ -79,10 +78,6 @@ public class ImagePanel extends JXPanel {
 	public ImagePanel(boolean moveable,boolean rotable,boolean zoomable) {
 		initGUI();
 		setActions(moveable,rotable,zoomable);
-	}
-
-	public void setDebug(boolean debug) {
-		this.debug = debug;
 	}
 
 	public void setReflection(boolean reflection) {
@@ -209,7 +204,7 @@ public class ImagePanel extends JXPanel {
 					    at.translate(pX+xDiff, pY+yDiff);
 					    at.scale(xScale, 1);
 
-		if(debug)
+		if(logger.isDebugEnabled())
 		{
 			g2.setColor(Color.red);
 			g2.drawString("FRAME : W="+getWidth() +" h="+getHeight(), 5, 20);

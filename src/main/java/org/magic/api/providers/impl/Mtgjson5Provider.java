@@ -539,7 +539,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 		}catch(Exception ex)
 		{
 
-			logger.error("Error loading set List from " + MTG_JSON_SETS_LIST +". Loading manually");
+			logger.error("Error loading set List from {} Loading manually", MTG_JSON_SETS_LIST,ex);
 			final List<String> codeEd = new ArrayList<>();
 			ctx.withListeners(fr -> {
 				if (fr.path().startsWith("$"))
@@ -661,7 +661,10 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 			ed.setPreview(o);
 		}catch(Exception pnfe)
 		{
-			 ed.setPreview(LocalDate.parse(ed.getReleaseDate(),DateTimeFormatter.ofPattern("yyyy-MM-dd")).isAfter(LocalDate.now()));
+			if(ed.getReleaseDate()==null)
+				ed.setPreview(false);
+			else
+				ed.setPreview(LocalDate.parse(ed.getReleaseDate(),DateTimeFormatter.ofPattern("yyyy-MM-dd")).isAfter(LocalDate.now()));
 
 		}
 

@@ -31,8 +31,8 @@ public class MTGJsonSealedProvider extends AbstractSealedProvider {
 			}
 			else
 			{
-				logger.debug("Loading mtgjson5 provider");
-				prov = new Mtgjson5Provider();
+				logger.debug("Loading MTGJson5 provider");
+				prov = (Mtgjson5Provider)MTG.getPlugin("MTGJson5", MTGCardsProvider.class);
 				prov.init();
 				prov.listEditions();
 			}
@@ -76,6 +76,12 @@ public class MTGJsonSealedProvider extends AbstractSealedProvider {
 		return null;
 	}
 
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEV;
+	}
+	
+	
 	@Override
 	public String getName() {
 		return "MTGJson";

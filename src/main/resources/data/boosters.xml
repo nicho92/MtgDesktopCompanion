@@ -2084,7 +2084,7 @@
 		<box lang="en" num="2"
 			url="https://media.wizards.com/2020/images/daily/en_bHpI86yfnu.png" />
 
-		<constructpack lang="en" num="1"  url="https://castleofgames.com/wp-content/uploads/2020/06/MTGM21_EN_OtrBx_01_02.png" extra="basri"/>
+		<constructpack lang="en" num="1"  url="https://castleofgames.com/wp-content/uploads/2020/06/MTGM21_EN_OtrBx_01_02.png" />
 		<constructpack lang="en" num="2"
 			url="https://castleofgames.com/wp-content/uploads/2020/06/MTGM21_EN_OtrBx_02_02.png" />
 		<constructpack lang="en" num="3"
@@ -2389,7 +2389,7 @@
 		<booster lang="en" extra="set" num="3" url="https://cdn.shopify.com/s/files/1/0548/7253/9391/products/MTGKamigawaNeonDynastySetBooster2_1024x1024.png"/>
 		
 		<booster lang="en" num="4" extra="theme" url="https://www.totalcards.net/media/catalog/product/cache/7635224f4fa597d4a3e42d3638e7f61a/k/g/kgawa-theme-booster-b2.jpg" desc="Blue"/>
-		<booster lang="en" num="5" extra="theme" url="https://www.totalcards.net/media/catalog/product/cache/7635224f4fa597d4a3e42d3638e7f61a/k/g/kgawa-theme-booster-w2.jpg" desc="Black" />
+		<booster lang="en" num="5" extra="theme" url="https://www.totalcards.net/media/catalog/product/cache/7635224f4fa597d4a3e42d3638e7f61a/k/g/kgawa-theme-booster-w2.jpg" desc="White" />
 		<booster lang="en" num="6" extra="theme" url="https://www.totalcards.net/media/catalog/product/cache/7635224f4fa597d4a3e42d3638e7f61a/k/g/kgawa-theme-booster-g2.jpg" desc="Green"/>
 		<booster lang="en" num="7" extra="theme" url="https://www.totalcards.net/media/catalog/product/cache/7635224f4fa597d4a3e42d3638e7f61a/k/g/kgawa-theme-booster-n2.jpg" desc="Ninja"/>
 		<booster lang="en" num="8" extra="theme" url="https://www.totalcards.net/media/catalog/product/cache/7635224f4fa597d4a3e42d3638e7f61a/k/g/kgawa-theme-booster-r2.jpg" desc="Red" />
@@ -2411,11 +2411,11 @@
 	
 	<edition id="NCC">
 		<set lang="en" url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/f/f1/New_Capenna_logo.png"/>
-		<constructpack lang="en" num="1" url="https://cdn.shoplightspeed.com/shops/636471/files/44453626/image.jpg"></constructpack>
-		<constructpack lang="en" num="2" url="https://cdn.shoplightspeed.com/shops/636471/files/44456755/image.jpg"></constructpack>
-		<constructpack lang="en" num="3" url="https://cdn.shoplightspeed.com/shops/636471/files/44453380/image.jpg"></constructpack>
-		<constructpack lang="en" num="4" url="https://cdn.shoplightspeed.com/shops/636471/files/42127569/image.jpg"></constructpack>
-		<constructpack lang="en" num="5" url="https://cdn.shoplightspeed.com/shops/636471/files/44457167/image.jpg"></constructpack>
+		<constructpack lang="en" num="1" url="https://cdn.shoplightspeed.com/shops/636471/files/44453626/image.jpg"/>
+		<constructpack lang="en" num="2" url="https://cdn.shoplightspeed.com/shops/636471/files/44456755/image.jpg"/>
+		<constructpack lang="en" num="3" url="https://cdn.shoplightspeed.com/shops/636471/files/44453380/image.jpg"/>
+		<constructpack lang="en" num="4" url="https://cdn.shoplightspeed.com/shops/636471/files/42127569/image.jpg"/>
+		<constructpack lang="en" num="5" url="https://cdn.shoplightspeed.com/shops/636471/files/44457167/image.jpg"/>
 	</edition>
 	
 	
