@@ -2378,7 +2378,7 @@
 	</edition>
 	
 	<edition id="NEO">
-		<set lang="en" url="https://www.smfcorp.net/images/editions/gros_logos/240.png"/>
+		<set lang="en" url="https://mtgen.net/neo/images/logo-word.webp"/>
 		<prereleasepack lang="en" url="https://cdn.shoplightspeed.com/shops/637189/files/40201467/1652x1652x2/wizards-of-the-coast-kamigawa-neon-dynasty-prerele.jpg"/>
 		<box lang="en" extra="collector" num="1" url="https://cdn.shopify.com/s/files/1/1515/2596/products/MTGNEO_EN_BstrDspBx_Clctr_01_03.png?v=1639715786"/>
 		<box lang="en" extra="set" num="2" url="https://cdn.shoplightspeed.com/shops/637189/files/39918886/1652x1652x2/wizards-of-the-coast-kamigawa-neon-dynasty-set-boo.jpg"/>
@@ -2398,7 +2398,7 @@
 	</edition>
 	
 	<edition id="SNC">
-		<set lang="en" url="https://media.wizards.com/2021/images/daily/OcqyP7ahOU.png"/>
+		<set lang="en" url="https://mtgen.net/snc/images/logo-word.webp"/>
 		<prereleasepack lang="en" url="https://cdn11.bigcommerce.com/s-vwb3hwm6im/images/stencil/1280x1280/products/5514/5491/original__28838.1646359098.png"/>
 		<box lang="en" extra="collector" num="1" url="https://imaginaire.com/fr/images/MAGIC-THE-GATHERING-PAQUET-BOOSTER-COLLECTOR-ANGLAIS-STREETS-OF-NEW-CAPENNA__0195166122069-2.JPG"/>
 		<box lang="en" extra="set" num="2" url="https://cdn.shoplightspeed.com/shops/637189/files/39918886/1652x1652x2/wizards-of-the-coast-kamigawa-neon-dynasty-set-boo.jpg"/>
@@ -2423,7 +2423,7 @@
 	<edition id="CLB">
 		<bundle lang="en" num="1" url="https://media.wizards.com/2022/wpn/w12/9w6081zyun.png"/>
 		<prereleasepack lang="en" url="https://games-island.eu/media/image/product/703621/md/commander-legends-battle-for-baldurs-gate-prerelease-pack-englisch.png"/>
-		<set lang="en" url="https://media.wizards.com/2022/images/daily/en_KCZ0HSIi42_v3.png"/>
+		<set lang="en" url="https://mtgen.net/clb/images/logo-word.webp"/>
 		<box lang="en" extra="draft" num="3" url="https://www.redcapscorner.com/wp-content/uploads/Commander-Legends-Battle-For-Baldurs-Gate-Draft-Booster-Box.png"/>
 		<box lang="en" extra="set" num="2" url="https://boardgamestore.eu/wp-content/uploads/2022/04/CMD-Leg-Baldurs-Set-Box.png"/>
 		<box lang="en" extra="collector" num="1" url="https://www.redcapscorner.com/wp-content/uploads/Commander-Legends-Battle-For-Baldurs-Gate-Collector-Booster-Box.png"/>
@@ -2441,7 +2441,7 @@
 	</edition>
 	
 	<edition id="2X2">
-		<set lang="en" url="https://media.wizards.com/2022/images/daily/fr_1ZVOMvSnWA.png"/>
+		<set lang="en" url="https://mtgen.net/2x2/images/logo-word.webp"/>
 		<booster lang="en" extra="draft" num="1" url="https://media.wizards.com/2022/images/daily/fr_AUTkNkBSkT.png"/>
 		<booster lang="en" extra="collector" num="2" url="https://media.wizards.com/2022/images/daily/fr_nTlXuPqw8N.png"/>
 		<box lang="en" extra="draft" num="1" url="https://media.wizards.com/2022/images/daily/fr_EYVqZzUuhu.png"/>
@@ -2449,7 +2449,7 @@
 	</edition>
 	
 	<edition id="DMU">
-		<set lang="en" url="https://media.wizards.com/2022/images/daily/fr_pzcHKlH4uh.png"/>
+		<set lang="en" url="https://mtgen.net/dmu/images/logo-word.webp"/>
 		<box lang="en" extra="draft" num="1" url="https://media.wizards.com/2022/images/daily/fr_vJ5TMWneKk.png"/>
 		<box lang="en" extra="collector" num="2" url="https://media.wizards.com/2022/images/daily/fr_9eBcyFZbQ5.png"/>
 		<box lang="en" extra="set" num="3" url="https://media.wizards.com/2022/images/daily/fr_yYfBt6paRl.png"/>
@@ -2462,20 +2462,20 @@
 	
 	<edition id="40K">
 		<set lang="en" url="https://media.wizards.com/2022/images/daily/en_G3clXBBtb2.png"/>
-		<constructpack lang="en" num="1" url="https://media.wizards.com/2022/images/daily/en_RqziN7tTlB.png"/>
-		<constructpack lang="en" num="2" url="https://media.wizards.com/2022/images/daily/en_28aEEzFwrh.png"/>
-		<constructpack lang="en" num="3" url="https://media.wizards.com/2022/images/daily/en_5rETqK40Gg.png"/>
-		<constructpack lang="en" num="4" url="https://media.wizards.com/2022/images/daily/en_58XpqyZBGF.png"/>
+		<constructpack lang="en" num="1" url="https://media.wizards.com/2022/images/daily/en_RqziN7tTlB.png" desc="Tyranid Swarm"/>
+		<constructpack lang="en" num="2" url="https://media.wizards.com/2022/images/daily/en_28aEEzFwrh.png" desc="Forces of the Imperium"/>
+		<constructpack lang="en" num="3" url="https://media.wizards.com/2022/images/daily/en_5rETqK40Gg.png" desc="Necron Dynasties"/>
+		<constructpack lang="en" num="4" url="https://media.wizards.com/2022/images/daily/en_58XpqyZBGF.png" desc="The Ruinous Powers"/>
 		
-		<constructpack lang="en" num="5" extra="collector" url="https://media.wizards.com/2022/images/daily/en_QPDzXDKMyY.png"/>
-		<constructpack lang="en" num="6" extra="collector" url="https://media.wizards.com/2022/images/daily/en_pLP0wmRzr8.png"/>
-		<constructpack lang="en" num="7" extra="collector" url="https://media.wizards.com/2022/images/daily/en_RWzFIFkEBV.png"/>
-		<constructpack lang="en" num="8" extra="collector" url="https://media.wizards.com/2022/images/daily/en_HVZ1xYuXcl.png"/>
+		<constructpack lang="en" num="5" extra="collector" url="https://media.wizards.com/2022/images/daily/en_QPDzXDKMyY.png" desc="Tyranid Swarm"/>
+		<constructpack lang="en" num="6" extra="collector" url="https://media.wizards.com/2022/images/daily/en_pLP0wmRzr8.png" desc="Forces of the Imperium"/>
+		<constructpack lang="en" num="7" extra="collector" url="https://media.wizards.com/2022/images/daily/en_RWzFIFkEBV.png" desc="Necron Dynasties"/>
+		<constructpack lang="en" num="8" extra="collector" url="https://media.wizards.com/2022/images/daily/en_HVZ1xYuXcl.png" desc="The Ruinous Powers"/>
 	</edition>
 	
 	
 	<edition id="BRO">
-		<set lang="en" url="https://scg-static.starcitygames.com/articles/2022/08/f34e4807-mtgbro_en_setlogo_1line.png"/>
+		<set lang="en" url="https://mtgen.net/bro/images/logo-word.webp"/>
 		<box lang="en" extra="draft" num="1" url="https://cdn.chaoscards.co.uk/uploads/prod_img/2_201346_e.png"/>
 		<box lang="en" extra="collector" num="2" url="https://cdn.chaoscards.co.uk/uploads/prod_img/2_201359_e.png?v=-62169983925"/>
 		<box lang="en" extra="set" num="3" url="https://cdn.chaoscards.co.uk/uploads/prod_img/2_201350_e.png?v=-62169983925"/>
@@ -2496,13 +2496,13 @@
 	</edition>
 	
 	<edition id="30A">
-		<set num="1" lang="en" url="https://media.wizards.com/2022/images/daily/fr_nShMumDDuS.png"/>
+		<set num="1" lang="en" url="https://mtgen.net/30a/images/logo-word.webp"/>
 		<booster num="1" lang="en" url="https://media.wizards.com/2022/images/daily/en_LgrDq2dbZu.png"/>
 		<bundle num="1" lang="en" url="https://media.wizards.com/2022/images/daily/en_5aw2ZTTSdv.png"/>
 	</edition>
 	
 	<edition id="DMR">
-		<set lang="en" num="1" url="https://www.magic-ville.com/fr/graph/bigsetlogos/dmr.png"/>
+		<set lang="en" num="1" url="https://mtgen.net/dmr/images/logo-word.webp"/>
 		<box extra="draft" num="1" lang="en" url="https://media.wizards.com/2022/images/daily/en_Cs3FsIuegs.png"/>
 		<box extra="collector" num="2" lang="en" url="https://media.wizards.com/2022/images/daily/en_wzvi1LWL08.png"/>
 		<booster lang="en" extra="draft" num="1" url="https://cdn.shoplightspeed.com/shops/637526/files/51635081/1652x2313x2/magic-the-gathering-mtg-dominaria-remastered-draft.jpg"/>
@@ -2511,7 +2511,7 @@
 	</edition>
 	
 	<edition id="ONE">
-		<set  lang="en" num="1" url="https://media.wizards.com/2022/images/daily/en_mpHPd4K9qq.png"/>
+		<set  lang="en" num="1" url="https://mtgen.net/one/images/logo-word.webp"/>
 		<box extra="draft" num="1" lang="en" url="https://media.wizards.com/2022/images/daily/en_2sjDm3uasd.png"/>
 		<box extra="set" num="2" lang="en" url="https://media.wizards.com/2022/images/daily/en_6SAzjyg6SW.png"/>
 		<box extra="collector" num="3" lang="en" url="https://media.wizards.com/2022/images/daily/en_UQlGGg3rBD.png"/>
@@ -2530,6 +2530,10 @@
 		<set  lang="en" num="1" url="https://media.wizards.com/2022/images/daily/en_mpHPd4K9qq.png"/>
 		<constructpack lang="en" num="1" url="https://media.wizards.com/2023/images/daily/en_ovWbbW0JREl7.png"/>
 		<constructpack lang="en" num="2" url="https://media.wizards.com/2023/images/daily/en_L4b3x5WZu9ve.png"/>
+	</edition>
+	
+	<edition id="J22">
+		<set  lang="en" num="1" url="https://mtgen.net/j22/images/logo-word.webp"/>
 	</edition>
 	
 	
