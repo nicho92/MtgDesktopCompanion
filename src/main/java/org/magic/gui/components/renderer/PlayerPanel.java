@@ -13,6 +13,7 @@ import org.magic.services.tools.UITools;
 
 
 public class PlayerPanel extends JPanel {
+	private static final long serialVersionUID = 1L;
 	private JLabel lblIcon;
 	private JLabel lblName;
 	private JLabel lblCountry;

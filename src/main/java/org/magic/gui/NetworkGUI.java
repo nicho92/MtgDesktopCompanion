@@ -12,6 +12,9 @@ import org.magic.services.MTGConstants;
 
 public class NetworkGUI extends MTGUIComponent {
 
+	private static final long serialVersionUID = 1L;
+
+
 	@Override
 	public String getTitle() {
 		return capitalize("NETWORK");
