@@ -1,11 +1,13 @@
 package org.magic.gui.components.shops;
 
 import java.awt.BorderLayout;
+import java.io.IOException;
 import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingWorker;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGNotification;
@@ -14,11 +16,14 @@ import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.components.PackagesBrowserPanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
+import org.magic.gui.components.dialog.SealedImportDialog;
 import org.magic.gui.models.StockItemTableModel;
 import org.magic.gui.renderer.StockTableRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
 
 import com.jogamp.newt.event.KeyEvent;
@@ -66,8 +71,15 @@ public class StockItemPanel extends MTGUIComponent {
 		});
 		
 		btnAddSealed.addActionListener(al->{
+			
+			var diag = new SealedImportDialog();
+			diag.setVisible(true);
+			
+			if(diag.getSelected()==null)
+				return;
+			
 			var mtgstock = new SealedStock();
-			mtgstock.setProduct(new MTGSealedProduct());
+			mtgstock.setProduct(diag.getSelected());
 			model.addItem(mtgstock);
 			model.fireTableDataChanged();
 		});

@@ -29,6 +29,7 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 	private ImagePanel panelDraw;
 	private JXTree tree;
 	private boolean view;
+	private MTGSealedProduct selected;
 
 
 	public PackagesBrowserPanel(boolean viewThumbnail) {
@@ -111,12 +112,17 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 
 	public void load(MTGSealedProduct p)
 	{
+			this.selected = p;
 			panelDraw.setImg(MTG.getEnabledPlugin(MTGSealedProvider.class).getPictureFor(p));
 			panelDraw.revalidate();
 			panelDraw.repaint();
 	}
 
-
+	public MTGSealedProduct getSelected() {
+		return selected;
+	}
+	
+	
 	public void initTree() throws IOException
 	{
 		var root = (DefaultMutableTreeNode)model.getRoot();
