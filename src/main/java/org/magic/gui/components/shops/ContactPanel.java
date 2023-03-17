@@ -54,7 +54,7 @@ public class ContactPanel extends MTGUIComponent {
 		setLayout(gridBagLayout);
 
 		add(new JLangLabel("LASTNAME"), UITools.createGridBagConstraints(null, null, 0, 0));
-		add(new JLangLabel("NAME"), UITools.createGridBagConstraints(null, null, 0, 1));
+		add(new JLangLabel("FORENAME"), UITools.createGridBagConstraints(null, null, 0, 1));
 		add(new JLangLabel("ADDRESS"), UITools.createGridBagConstraints(null, null, 0, 2));
 		add(new JLangLabel("ZIPCODE"), UITools.createGridBagConstraints(null, null, 0, 3));
 		add(new JLangLabel("CITY"), UITools.createGridBagConstraints(null, null, 0, 4));
