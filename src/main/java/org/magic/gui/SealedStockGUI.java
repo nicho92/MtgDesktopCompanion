@@ -42,8 +42,6 @@ import org.magic.services.workers.AbstractObservableWorker;
 public class SealedStockGUI extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
-	private PackagesBrowserPanel packagePanel;
-
 	private SealedStockTableModel model;
 	private MTGSealedProduct selectedItem;
 	private SealedStock selectedStock;
@@ -62,7 +60,7 @@ public class SealedStockGUI extends MTGUIComponent {
 		table = UITools.createNewTable(model);
 		UITools.setDefaultRenderer(table, new StockTableRenderer());
 		UITools.initTableFilter(table);
-		packagePanel = new PackagesBrowserPanel(false);
+		var packagePanel = new PackagesBrowserPanel(false);
 		GedPanel<SealedStock> gedPanel = new GedPanel<>();
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		textEditor = new RSyntaxTextArea();
