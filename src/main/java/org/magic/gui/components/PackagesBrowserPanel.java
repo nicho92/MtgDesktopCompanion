@@ -9,6 +9,7 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingWorker;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
@@ -21,6 +22,7 @@ import org.magic.api.interfaces.MTGSealedProvider;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.renderer.MagicCardsTreeCellRenderer;
 import org.magic.services.MTGConstants;
+import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.MTG;
 
 public class PackagesBrowserPanel extends MTGUIComponent{
@@ -30,6 +32,7 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 	private ImagePanel panelDraw;
 	private JXTree tree;
 	private boolean view;
+	private DefaultMutableTreeNode firstItem;
 
 
 	public PackagesBrowserPanel(boolean viewThumbnail) {
@@ -54,6 +57,10 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 		var root = (DefaultMutableTreeNode)model.getRoot();
 		root.setUserObject(ed);
 		root.removeAllChildren();
+		
+		
+		
+		
 		Arrays.asList(EnumItems.values()).forEach(t->{
 			List<MTGSealedProduct> pks = MTG.getEnabledPlugin(MTGSealedProvider.class).get(ed, t);
 			logger.trace("loading {} {}",ed,pks);
@@ -76,8 +83,8 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 
 	private void initGUI() {
 		setLayout(new BorderLayout(0, 0));
-
-		model = new DefaultTreeModel(new DefaultMutableTreeNode("Packaging"));
+		firstItem =new DefaultMutableTreeNode("Loading...");
+		model = new DefaultTreeModel(firstItem);
 		panelDraw = new ImagePanel(true, false, true);
 		panelDraw.setReflection(false);
 		if(view) {
@@ -108,6 +115,25 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 				if(selectedNode!=null && (selectedNode.getUserObject() instanceof MTGSealedProduct msp))
 					load(msp);
 			});
+		
+
+
+		SwingWorker<Void, Void> sw  = new SwingWorker<>(){
+			@Override
+			protected Void doInBackground() throws Exception {
+				initTree();
+				return null;
+			}
+			@Override
+			protected void done() {
+				reload();
+			}
+		};
+		ThreadManager.getInstance().runInEdt(sw, "Loading sealed tree");
+
+		
+		
+		
 	}
 
 	public void load(MTGSealedProduct p)
@@ -163,14 +189,16 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 
 		if(view)
 			panelDraw.setImg(null);
-
+		
+		
+		firstItem.setUserObject("Package");
+		
 	}
 
 	public void reload()
 	{
 		model.reload();
 		tree.expandRow(0);
-
 	}
 
 

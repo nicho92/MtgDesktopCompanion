@@ -15,7 +15,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.SwingWorker;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
@@ -291,25 +290,7 @@ public class SealedStockGUI extends MTGUIComponent {
 			}
 		};
 
-
-
-		SwingWorker<Void, Void> sw  = new SwingWorker<>(){
-			@Override
-			protected Void doInBackground() throws Exception {
-				packagePanel.initTree();
-				return null;
-			}
-			@Override
-			protected void done() {
-				packagePanel.reload();
-				ThreadManager.getInstance().runInEdt(sw2, "Loading sealedstock");
-			}
-		};
-
-
-
-
-		ThreadManager.getInstance().runInEdt(sw, "Loading sealed tree");
+		ThreadManager.getInstance().runInEdt(sw2, "Loading sealed stock");
 
 
 	}

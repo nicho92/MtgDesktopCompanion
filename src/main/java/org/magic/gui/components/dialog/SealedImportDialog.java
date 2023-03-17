@@ -6,13 +6,11 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.SwingWorker;
 import javax.swing.WindowConstants;
 
 import org.magic.api.beans.MTGSealedProduct;
 import org.magic.gui.components.PackagesBrowserPanel;
 import org.magic.services.MTGConstants;
-import org.magic.services.threads.ThreadManager;
 
 public class SealedImportDialog extends JDialog {
 
@@ -35,20 +33,6 @@ public class SealedImportDialog extends JDialog {
 		getContentPane().add(btnSelectionn, BorderLayout.SOUTH);
 
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		
-		
-		SwingWorker<Void, Void> sw  = new SwingWorker<>(){
-			@Override
-			protected Void doInBackground() throws Exception {
-				packagePanel.initTree();
-				return null;
-			}
-			@Override
-			protected void done() {
-				packagePanel.reload();
-			}
-		};
-		ThreadManager.getInstance().runInEdt(sw, "Loading sealed tree");
 		
 		setPreferredSize(new Dimension(800,600));
 		pack();
