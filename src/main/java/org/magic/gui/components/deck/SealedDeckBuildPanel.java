@@ -1,4 +1,4 @@
-package org.magic.gui.components;
+package org.magic.gui.components.deck;
 
 import static org.magic.services.tools.MTG.capitalize;
 import static org.magic.services.tools.MTG.getEnabledPlugin;
@@ -46,6 +46,7 @@ import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GraveyardPanel;
 import org.magic.game.model.ZoneEnum;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
+import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
@@ -57,7 +58,7 @@ import org.magic.services.logging.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
 
-public class SealedPanel extends JPanel {
+public class SealedDeckBuildPanel extends JPanel {
 	private static final String SORT_BY = "SORT_BY";
 	/**
 	 *
@@ -84,7 +85,7 @@ public class SealedPanel extends JPanel {
 	private transient MTGDeckManager deckManager;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	int column=0;
-	public SealedPanel() {
+	public SealedDeckBuildPanel() {
 		deckManager = new MTGDeckManager();
 		initGUI();
 	}

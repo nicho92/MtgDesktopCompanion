@@ -66,6 +66,7 @@ import org.magic.gui.components.charts.RarityRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
 import org.magic.gui.components.dialog.AdvancedSearchQueryDialog;
 import org.magic.gui.components.tech.CriteriaComponent;
+import org.magic.gui.components.tech.ObjectViewerPanel;
 import org.magic.gui.components.widgets.JExportButton;
 import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;

@@ -9,7 +9,7 @@ import javax.swing.JTabbedPane;
 
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.ConstructPanel;
-import org.magic.gui.components.SealedPanel;
+import org.magic.gui.components.deck.SealedDeckBuildPanel;
 import org.magic.services.MTGConstants;
 public class DeckBuilderGUI extends MTGUIComponent {
 
@@ -37,7 +37,7 @@ public class DeckBuilderGUI extends MTGUIComponent {
 		add(tab, BorderLayout.CENTER);
 
 		tab.addTab(capitalize("CONSTRUCT"),MTGConstants.ICON_TAB_CONSTRUCT, new ConstructPanel());
-		tab.addTab(capitalize("SEALED"), MTGConstants.ICON_TAB_SEALED, new SealedPanel());
+		tab.addTab(capitalize("SEALED"), MTGConstants.ICON_TAB_SEALED, new SealedDeckBuildPanel());
 
 	}
 

@@ -15,7 +15,7 @@ import org.magic.api.beans.shop.Contact;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.CardStockPanel;
-import org.magic.gui.components.ObjectViewerPanel;
+import org.magic.gui.components.tech.ObjectViewerPanel;
 import org.magic.gui.models.ContactTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;

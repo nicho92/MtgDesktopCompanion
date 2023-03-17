@@ -1,4 +1,4 @@
-package org.magic.gui.components;
+package org.magic.gui.components.tech;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
