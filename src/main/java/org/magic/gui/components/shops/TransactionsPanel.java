@@ -64,7 +64,7 @@ public class TransactionsPanel extends MTGUIComponent {
 		
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 		var btnNew = UITools.createBindableJButton("", MTGConstants.ICON_NEW,KeyEvent.VK_N,"new");
-		var btnSearch = UITools.createBindableJButton("", MTGConstants.ICON_SEARCH_24,KeyEvent.VK_S,"search");
+		var btnSearch = UITools.createBindableJButton("", MTGConstants.ICON_FILTER,KeyEvent.VK_S,"search");
 		var btnRefresh = UITools.createBindableJButton("", MTGConstants.ICON_REFRESH,KeyEvent.VK_R,"reload");
 		var btnMerge = UITools.createBindableJButton("", MTGConstants.ICON_MERGE,KeyEvent.VK_M,"merge");
 		var btnDelete = UITools.createBindableJButton("", MTGConstants.ICON_DELETE,KeyEvent.VK_D,"delete");
