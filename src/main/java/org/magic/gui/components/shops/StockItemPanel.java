@@ -1,29 +1,24 @@
 package org.magic.gui.components.shops;
 
 import java.awt.BorderLayout;
-import java.io.IOException;
 import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.SwingWorker;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
-import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.gui.abstracts.MTGUIComponent;
-import org.magic.gui.components.PackagesBrowserPanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
 import org.magic.gui.components.dialog.SealedImportDialog;
 import org.magic.gui.models.StockItemTableModel;
 import org.magic.gui.renderer.StockTableRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
 
 import com.jogamp.newt.event.KeyEvent;
@@ -56,11 +51,9 @@ public class StockItemPanel extends MTGUIComponent {
 		panneauHaut.add(btnRemoveProduct);
 		
 
-		for(int i : model.defaultHiddenColumns())
-		{
-			table.getColumnExt(model.getColumnName(i)).setVisible(false);
-		}
+		UITools.initTableVisibility(table,model);
 
+		
 		add(new JScrollPane(table),BorderLayout.CENTER);
 		add(panneauHaut,BorderLayout.NORTH);
 
@@ -84,8 +77,7 @@ public class StockItemPanel extends MTGUIComponent {
 			
 			for(var it : diag.getSelecteds())
 			{
-			
-				var mtgstock = new SealedStock();
+	   		var mtgstock = new SealedStock();
 					mtgstock.setProduct(it);
 					model.addItem(mtgstock);
 			}

@@ -294,11 +294,11 @@ public class MagicGUI extends JFrame {
             public void mouseClicked(MouseEvent e) {
 		    	UITools.browse(MTGConstants.MTG_DESKTOP_DONATE_URL);
             }
-		    
+		    @Override
 		    public void mouseEntered(MouseEvent e) {
 		    	lblSupport.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		    }
-		    
+		    @Override
 		    public void mouseExited(MouseEvent e) {
 		    	lblSupport.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));	
 		    };

@@ -846,6 +846,7 @@ public class MagicCard extends AbstractProduct {
 		this.dateUpdated = dateUpdated;
 	}
 
+	@Override
 	public JsonObject toJson() {
 		var obj = new JsonObject();
 				obj.addProperty("id", getId());

@@ -82,8 +82,10 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.game.model.Player;
+import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.MagicCardDetailPanel;
+import org.magic.gui.models.StockItemTableModel;
 import org.magic.gui.renderer.ContactRenderer;
 import org.magic.gui.renderer.MTGPluginCellRenderer;
 import org.magic.gui.renderer.MagicCollectionIconListRenderer;
@@ -522,6 +524,14 @@ public class UITools {
 	}
 
 
+	public static <T> void initTableVisibility(JXTable table, GenericTableModel<T> model) {
+		for(int i : model.defaultHiddenColumns())
+			table.getColumnExt(model.getColumnName(i)).setVisible(false);
+		
+	}
+
+	
+
 	public static <V> void initCardToolTipTable(final JTable table, final Integer cardPos, final Integer edPos, final Integer extraPos, Callable<V> dblClick) {
 		final var popUp = new JPopupMenu();
 		table.addMouseListener(new MouseAdapter() {
@@ -734,6 +744,7 @@ public class UITools {
 	public static String replaceSpecialCharacters(String str,String with) {
 		return str.replaceAll("[^a-zA-Z0-9]", with);
 	}
+
 
 //	
 //	

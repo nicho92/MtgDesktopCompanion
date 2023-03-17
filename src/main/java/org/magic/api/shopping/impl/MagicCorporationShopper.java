@@ -119,7 +119,7 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 			
 			if(tr.childNodeSize()==2)
 			{
-				
+				//TODO fill the code
 			}
 			
 			
@@ -144,7 +144,7 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 			}
 			catch(Exception e)
 			{
-				
+				//do nothing
 			}
 			
 			try {

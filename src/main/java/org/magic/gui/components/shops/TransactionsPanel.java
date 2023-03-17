@@ -246,7 +246,7 @@ public class TransactionsPanel extends MTGUIComponent {
 				}
 				catch(Exception e)
 				{
-					
+					MTGControler.getInstance().notify(e);
 				}
 				
 			}
