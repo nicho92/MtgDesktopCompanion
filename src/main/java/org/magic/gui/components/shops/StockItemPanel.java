@@ -49,9 +49,12 @@ public class StockItemPanel extends MTGUIComponent {
 
 		var btnAddSealed = UITools.createBindableJButton("", MTGConstants.ICON_PACKAGE,KeyEvent.VK_S,"sealed");
 		var btnAddCard = UITools.createBindableJButton("", MTGConstants.ICON_NEW,KeyEvent.VK_C,"card");
+		var btnRemoveProduct = UITools.createBindableJButton("", MTGConstants.ICON_DELETE,KeyEvent.VK_D,"remove");
 		
 		panneauHaut.add(btnAddCard);
 		panneauHaut.add(btnAddSealed);
+		panneauHaut.add(btnRemoveProduct);
+		
 
 		for(int i : model.defaultHiddenColumns())
 		{
@@ -75,12 +78,17 @@ public class StockItemPanel extends MTGUIComponent {
 			var diag = new SealedImportDialog();
 			diag.setVisible(true);
 			
-			if(diag.getSelected()==null)
+			if(diag.getSelecteds().isEmpty())
 				return;
 			
-			var mtgstock = new SealedStock();
-			mtgstock.setProduct(diag.getSelected());
-			model.addItem(mtgstock);
+			
+			for(var it : diag.getSelecteds())
+			{
+			
+				var mtgstock = new SealedStock();
+					mtgstock.setProduct(it);
+					model.addItem(mtgstock);
+			}
 			model.fireTableDataChanged();
 		});
 		
@@ -88,7 +96,7 @@ public class StockItemPanel extends MTGUIComponent {
 		
 		btnAddCard.addActionListener(al->{
 			var cdSearch = new CardSearchImportDialog();
-			cdSearch.setVisible(true);
+				 cdSearch.setVisible(true);
 			if (cdSearch.getSelection() != null) {
 				for (var mc : cdSearch.getSelection())
 				{
@@ -99,6 +107,13 @@ public class StockItemPanel extends MTGUIComponent {
         			model.fireTableDataChanged();
 				}
 			}
+		});
+		
+		btnRemoveProduct.addActionListener(al->{
+			MTGStockItem selection = UITools.getTableSelection(table, 0);
+			model.removeItem(selection);
+			model.fireTableDataChanged();
+			
 		});
 		
 		

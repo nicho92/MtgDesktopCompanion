@@ -2,6 +2,7 @@ package org.magic.gui.components;
 
 import java.awt.BorderLayout;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,7 +30,6 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 	private ImagePanel panelDraw;
 	private JXTree tree;
 	private boolean view;
-	private MTGSealedProduct selected;
 
 
 	public PackagesBrowserPanel(boolean viewThumbnail) {
@@ -112,14 +112,29 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 
 	public void load(MTGSealedProduct p)
 	{
-			this.selected = p;
 			panelDraw.setImg(MTG.getEnabledPlugin(MTGSealedProvider.class).getPictureFor(p));
 			panelDraw.revalidate();
 			panelDraw.repaint();
 	}
 
-	public MTGSealedProduct getSelected() {
-		return selected;
+
+
+	public List<MTGSealedProduct> getSelecteds() {
+		
+		var ret = new ArrayList<MTGSealedProduct>();
+		
+		
+		for(var p : tree.getSelectionPaths()) {
+			DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode)p.getLastPathComponent();
+			
+			if(selectedNode!=null && (selectedNode.getUserObject() instanceof MTGSealedProduct msp))
+			{
+				ret.add(msp);
+			}
+			
+		}
+		
+		return ret;
 	}
 	
 	
@@ -169,4 +184,5 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 	public String getTitle() {
 		return "Package Browser";
 	}
+
 }

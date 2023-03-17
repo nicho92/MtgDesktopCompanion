@@ -2,6 +2,7 @@ package org.magic.gui.components.dialog;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -36,8 +37,6 @@ public class SealedImportDialog extends JDialog {
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		
 		
-		
-		
 		SwingWorker<Void, Void> sw  = new SwingWorker<>(){
 			@Override
 			protected Void doInBackground() throws Exception {
@@ -57,8 +56,10 @@ public class SealedImportDialog extends JDialog {
 		
 	}
 
-	public MTGSealedProduct getSelected() {
-		return packagePanel.getSelected();
+
+	public List<MTGSealedProduct> getSelecteds() {
+		return packagePanel.getSelecteds();
 	}
+	
 
 }
