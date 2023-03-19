@@ -144,7 +144,6 @@ public class CardBuilder2GUI extends MTGUIComponent {
 
 			var tabbedCards = new JTabbedPane(SwingConstants.TOP);
 			var panelMisc = new JPanel();
-			var panelCardEditions = new JPanel();
 			var legalitiesPanel = new JPanel();
 			legalitiesPanel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true), "",TitledBorder.LEADING, TitledBorder.TOP, null, null));
 
@@ -264,7 +263,6 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			panelBooster.add(spinRare, gbcSpinRare);
 			panelCards.add(tabbedCards, BorderLayout.CENTER);
 			tabbedCards.addTab("Details", MTGConstants.ICON_TAB_DETAILS, magicCardEditorPanel, null);
-			tabbedCards.addTab("Editions", MTGConstants.ICON_TAB_BACK, panelCardEditions, null);
 			tabbedCards.addTab("Misc", MTGConstants.ICON_TAB_ADMIN, panelMisc, null);
 			panelMisc.add(legalitiesPanel, BorderLayout.SOUTH);
 			legalitiesPanel.add(tglStd);
@@ -303,8 +301,10 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			btnRemoveCard.setToolTipText("Delete the card");
 
 			magicEditionDetailPanel.setEditable(true);
-
-
+			
+			cardsModel.setDefaultHiddenComlumns(1,6,8,9,10,11,12,13,14,15);
+				
+			UITools.initTableVisibility(cardsTable, cardsModel);
 
 			btnRefresh.setIcon(MTGConstants.ICON_REFRESH);
 			btnRemoveCard.setIcon(MTGConstants.ICON_DELETE);

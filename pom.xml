@@ -60,11 +60,10 @@
 	</repositories>
 	<dependencies>
 		<dependency>
-    		<groupId>org.sejda.imageio</groupId>
+			<groupId>org.sejda.imageio</groupId>
     		<artifactId>webp-imageio</artifactId>
     		<version>0.1.6</version>
 		</dependency>
-	
 		<dependency>
     			<groupId>io.jsonwebtoken</groupId>
     			<artifactId>jjwt-api</artifactId>
@@ -364,7 +363,7 @@
 		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
-			<version>5.0.0-beta.5</version>
+			<version>5.0.0-beta.6</version>
 			<exclusions>
 				<exclusion>
 					<groupId>club.minnced</groupId>
@@ -579,7 +578,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.5.4</version>
+			<version>42.6.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mozilla</groupId>
