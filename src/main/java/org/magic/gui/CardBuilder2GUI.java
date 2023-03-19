@@ -302,10 +302,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 
 			magicEditionDetailPanel.setEditable(true);
 			
-			cardsModel.setDefaultHiddenComlumns(1,6,8,9,10,11,12,13,14,15);
-				
-			UITools.initTableVisibility(cardsTable, cardsModel);
-
+		
 			btnRefresh.setIcon(MTGConstants.ICON_REFRESH);
 			btnRemoveCard.setIcon(MTGConstants.ICON_DELETE);
 			btnNewCard.setIcon(MTGConstants.ICON_NEW);
@@ -314,6 +311,9 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			panelPictures.setPreferredSize(new Dimension(400, 10));
 			listNames.getColumnModel().getColumn(0).setCellEditor(new MagicCardNameEditor());
 			buttonsForeignNamesPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+			cardsModel.setDefaultHiddenComlumns(1,6,8,9,10,11,12,13,14,15);
+			
+			UITools.initTableVisibility(cardsTable, cardsModel);
 
 			//////////////////////////////////////////////////// ACTION LISTENER
 
