@@ -131,3 +131,4 @@ cd target/executable/bin and launch mtg-desktop-companion.bat or mtg-desktop-com
 ![https://www.mtgcompanion.org/img/portfolio/fullsize/1.png](https://www.mtgcompanion.org/img/portfolio/fullsize/29.png)
 
 
+[![Star History Chart](https://api.star-history.com/svg?repos=nicho92/MtgDesktopCompanion&type=Date)](https://star-history.com/#nicho92/MtgDesktopCompanion&Date)
