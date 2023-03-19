@@ -1,9 +1,11 @@
 package org.magic.api.beans.enums;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -18,8 +20,10 @@ public enum EnumColors implements Comparator<EnumColors>{
 	@SerializedName(alternate = "Green", value = "GREEN") 	GREEN ("G",new Color(52,211,16),5),
 
 	UNCOLOR ("C",Color.GRAY,0),
-	GOLD ("",new Color(232,232,0),6);
-
+	GOLD ("",new Color(232,232,0),6),
+	SNOW ("S",new Color(232,232,0),6);
+	
+	
 	private String code;
 	private Color color;
 	private int position;
@@ -90,9 +94,23 @@ public enum EnumColors implements Comparator<EnumColors>{
 	public static EnumColors colorByCode(String s)
 	{
 		return List.of(EnumColors.values()).stream().filter(c->c.getCode().equalsIgnoreCase(s)).findAny().orElse(null);
-
+	}
+	
+	public static List<EnumColors> parseByManaCost(String c)
+	{
+		if(c==null || c.isEmpty())
+			return new ArrayList<>();
+		
+		return Pattern.compile(EnumCardsPatterns.MANA_PATTERN.getPattern())
+			        .matcher(c)
+			        .results()
+			        .map(mr->mr.group(1)).distinct()
+			        .map(EnumColors::colorByCode)
+			        .filter(Objects::nonNull)
+			        .toList();
 	}
 
+	
 
 	public static List<EnumColors> parseByLabel(List<String> names)
 	{

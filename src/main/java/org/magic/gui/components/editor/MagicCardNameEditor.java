@@ -1,4 +1,4 @@
-package org.magic.gui.editor;
+package org.magic.gui.components.editor;
 
 import java.awt.Component;
 import java.util.Locale;

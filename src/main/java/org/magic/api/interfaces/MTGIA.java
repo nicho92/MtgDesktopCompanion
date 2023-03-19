@@ -13,6 +13,6 @@ public interface MTGIA extends MTGPlugin {
 	public String suggestDeckWith(List<MagicCard> cards) throws IOException;
 	public String describe(MagicCard card) throws IOException;
 	public String describe(MagicEdition ed) throws IOException;
-	
+	public MagicCard generateRandomCard(String description) throws IOException;
 	
 }

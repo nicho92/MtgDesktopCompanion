@@ -16,7 +16,7 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 	protected static final String SET_QUERY = "Tell me more about MTG set : ";
 	protected static final String CARD_QUERY = "Tell me more about MTG card ";
 	protected static final String DECK_QUERY = "Build a magic the gathering deck with this cards : ";
-
+	protected static final String NEW_CARD_QUERY = "generate a new magic card in json format";
 	
 	@Override
 	public PLUGINS getType() {

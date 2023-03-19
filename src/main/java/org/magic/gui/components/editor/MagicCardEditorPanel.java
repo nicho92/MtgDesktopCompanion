@@ -36,7 +36,6 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.border.LineBorder;
 import javax.swing.text.BadLocationException;
 
-import org.apache.logging.log4j.Logger;
 import org.japura.gui.model.DefaultListCheckModel;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
@@ -46,15 +45,18 @@ import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumRarity;
+import org.magic.api.interfaces.MTGPictureEditor;
+import org.magic.api.interfaces.MTGPictureEditor.MOD;
 import org.magic.api.interfaces.MTGTextGenerator;
+import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.MagicTextPane;
 import org.magic.gui.components.ManaPanel;
 import org.magic.services.MTGConstants;
-import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.ImageTools;
+import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
-public class MagicCardEditorPanel extends JPanel {
+public class MagicCardEditorPanel extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
 	private transient BindingGroup mbindingGroup;
@@ -93,7 +95,6 @@ public class MagicCardEditorPanel extends JPanel {
 	private JButton btnImage;
 	private JButton btnUrl;
 	private CropImagePanel imagePanel;
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 
 	public MagicCardEditorPanel(MagicCard newMagicCard) {
@@ -101,7 +102,18 @@ public class MagicCardEditorPanel extends JPanel {
 	}
 
 
-
+	@Override
+	public String getTitle() {
+		return "CARD_EDITOR";
+	}
+	
+	
+	@Override
+	public void onVisible() {
+		btnUrl.setEnabled(MTG.getEnabledPlugin(MTGPictureEditor.class).getMode()==MOD.URI);
+		btnImage.setEnabled(MTG.getEnabledPlugin(MTGPictureEditor.class).getMode()!=MOD.URI);
+	}
+	
 
 	public MagicCardEditorPanel() {
 		var gridBagLayout = new GridBagLayout();
@@ -589,7 +601,8 @@ public class MagicCardEditorPanel extends JPanel {
 					magicCard.setImageName(urlImage);
 					showCrop();
 		});
-
+		
+		
 		imagePanel = new CropImagePanel();
 		imagePanel.setBorder(new LineBorder(Color.BLACK));
 		var gbcimagePanel = new GridBagConstraints();

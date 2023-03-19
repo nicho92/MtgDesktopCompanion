@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.http.entity.StringEntity;
+import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractIA;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.MTGHttpClient;
@@ -67,5 +68,13 @@ public class WriteSonic extends AbstractIA {
 	public String getName() {
 		return "ChatSonic";
 	}
+
+
+	@Override
+	public MagicCard generateRandomCard(String desc) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

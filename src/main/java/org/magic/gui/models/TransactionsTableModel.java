@@ -2,8 +2,8 @@ package org.magic.gui.models;
 
 import java.util.Date;
 
-import org.magic.api.beans.enums.EnumTransactionDirection;
 import org.magic.api.beans.enums.EnumPaymentProvider;
+import org.magic.api.beans.enums.EnumTransactionDirection;
 import org.magic.api.beans.enums.EnumTransactionStatus;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
