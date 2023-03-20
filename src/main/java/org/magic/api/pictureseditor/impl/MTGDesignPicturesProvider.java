@@ -37,9 +37,6 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 	private static final String FALSE = "false";
 	private static final String DESIGNER ="designer";
 	private static final String BASE_URI="https://mtg.design";
-	private static final String LOGIN = "LOGIN";
-	private static 	final String PASS = "PASS";
-	
 	
 	private BasicHttpContext httpContext;
 	private BasicCookieStore cookieStore;
