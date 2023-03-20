@@ -708,7 +708,8 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		cboSuperType.unselectAll();
 		cboTypes.unselectAll();
 		cboSubtypes.unselectAll();
-
+		imagePanel.setImage(null);
+		
 		if (mbindingGroup != null) {
 				mbindingGroup.unbind();
 				mbindingGroup = null;
