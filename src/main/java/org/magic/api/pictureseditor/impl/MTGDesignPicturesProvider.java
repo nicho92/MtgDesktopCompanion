@@ -22,6 +22,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.game.model.abilities.LoyaltyAbilities;
 import org.magic.game.model.factories.AbilitiesFactory;
+import org.magic.services.AccountsManager;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.ImageTools;
@@ -55,7 +56,13 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 	public MOD getMode() {
 		return MOD.URI;
 	}
-
+	
+	
+	@Override
+	public List<String> listAuthenticationAttributes() {
+		return AccountsManager.generateLoginPasswordsKeys();
+	}
+	
 
 	private void connect() throws IOException {
 		String u = BASE_URI+"/login";
@@ -64,10 +71,9 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		
 		
 	
-		if(getString(LOGIN).isEmpty() || getString(PASS).isEmpty())
+		if(getAuthenticator().getLogin().isEmpty() || getAuthenticator().getPassword().isEmpty())
 		{
-			logger.error("Please fill LOGIN/PASSWORD field in config panel");
-			return;
+			throw new IOException("Please fill LOGIN/PASSWORD field in account panel");
 		}
 		
 		
@@ -75,8 +81,8 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		var p =  httpclient.doGet(u).getEntity();
 		String token = URLTools.toHtml(EntityUtils.toString(p)).select("input[name=_token]").first().attr("value");
 		List<NameValuePair> nvps = new ArrayList<>();
-							nvps.add(new BasicNameValuePair("email", getString(LOGIN)));
-							nvps.add(new BasicNameValuePair("password", getString(PASS)));
+							nvps.add(new BasicNameValuePair("email", getAuthenticator().getLogin()));
+							nvps.add(new BasicNameValuePair("password", getAuthenticator().getPassword()));
 							nvps.add(new BasicNameValuePair("remember", "on"));
 							nvps.add(new BasicNameValuePair("_token", token));
 
@@ -276,9 +282,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		return Map.of(   LOGIN, "",
-								PASS, "",
-								"FOIL", FALSE,
+		return Map.of(   		"FOIL", FALSE,
 								CENTER, "yes",
 								"SIZE", "36",
 								INDICATOR,"yes",
