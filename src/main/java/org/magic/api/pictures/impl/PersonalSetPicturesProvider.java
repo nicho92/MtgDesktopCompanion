@@ -35,8 +35,8 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 		if (!edDir.exists())
 			edDir.mkdir();
 
-		ImageTools.write(bi, getString(FORMAT),
-				Paths.get(edDir.getAbsolutePath(), mc.getId() + "." + getString(FORMAT).toLowerCase()).toFile());
+		
+		ImageTools.saveImage(bi, Paths.get(edDir.getAbsolutePath(), mc.getId() + "." + getString(FORMAT).toLowerCase()).toFile(), getString(FORMAT));
 	}
 
 	public void removePicture(MagicEdition ed, MagicCard mc) {

@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.swing.JOptionPane;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.entity.StringEntity;
 import org.magic.api.beans.MTGDocumentation;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
@@ -58,6 +59,15 @@ public class ChatGPT extends AbstractIA {
 					obj.addProperty("max_tokens", getInt("MAX_TOKEN"));
 					
 					var arr = new JsonArray();
+					
+					if(!getString("SYSTEM_MSG").isEmpty())
+					{
+						var sysObj = new JsonObject();
+						sysObj.addProperty("role","system");
+						sysObj.addProperty("content", getString("SYSTEM_MSG"));
+						arr.add(sysObj);
+					}
+					
 					var obj2 = new JsonObject();
 						  obj2.addProperty("content", prompt);
 						  obj2.addProperty("role", "user");
@@ -102,6 +112,7 @@ public class ChatGPT extends AbstractIA {
 			map.put("MODEL", "gpt-3.5-turbo-0301");
 			map.put("TEMPERATURE", "0");
 			map.put("MAX_TOKEN", "2000");
+			map.put("SYSTEM_MSG", "You are a helpful assistant that generate Magic the gathering card in json format.");
 			return map;
 	}
 	
@@ -133,6 +144,8 @@ public class ChatGPT extends AbstractIA {
 			
 		if(ret==null)
 			return null;
+		
+		ret = StringUtils.substringBetween(ret,"```");
 		
 		var obj = URLTools.toJson(ret).getAsJsonObject();
 		

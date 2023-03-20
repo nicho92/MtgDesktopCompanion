@@ -37,18 +37,14 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 	private static final String FALSE = "false";
 	private static final String DESIGNER ="designer";
 	private static final String BASE_URI="https://mtg.design";
-	
-	private BasicHttpContext httpContext;
-	private BasicCookieStore cookieStore;
 	private MTGHttpClient httpclient;
 
-	public MTGDesignPicturesProvider() throws IOException {
-		super();
-		cookieStore = new BasicCookieStore();
-		httpContext = new BasicHttpContext();
-		httpContext.setAttribute(HttpClientContext.COOKIE_STORE, cookieStore);
-	}
 
+	public MTGDesignPicturesProvider() {
+		super();
+		httpclient = URLTools.newClient();
+	}
+	
 	@Override
 	public MOD getMode() {
 		return MOD.URI;
@@ -63,7 +59,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 
 	private void connect() throws IOException {
 		String u = BASE_URI+"/login";
-		httpclient = URLTools.newClient();
+	
 		
 		
 		
@@ -92,7 +88,8 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		HttpResponse resp = httpclient.doPost(u, new UrlEncodedFormEntity(nvps), headers);
 
 		logger.debug("Connection : {}",resp.getStatusLine().getReasonPhrase());
-
+		
+		
 	}
 
 
@@ -103,10 +100,10 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 
 	@Override
 	public BufferedImage getPicture(MagicCard mc, MagicEdition me) throws IOException {
-		if(cookieStore.getCookies().isEmpty())
+		if(httpclient.getCookies().isEmpty())
 			connect();
-
-
+		
+		
 		if(mc.getCurrentSet()==null)
 		{
 			if(me!=null)

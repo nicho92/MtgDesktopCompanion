@@ -44,6 +44,7 @@ import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.enums.EnumColors;
+import org.magic.api.beans.enums.EnumFrameEffects;
 import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.interfaces.MTGPictureEditor;
 import org.magic.api.interfaces.MTGPictureEditor.MOD;
@@ -95,6 +96,8 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 	private JButton btnImage;
 	private JButton btnUrl;
 	private CropImagePanel imagePanel;
+	private JLabel lblFrame;
+	private JComboBox<EnumFrameEffects> cboFrame;
 
 
 	public MagicCardEditorPanel(MagicCard newMagicCard) {
@@ -118,9 +121,9 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 	public MagicCardEditorPanel() {
 		var gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 279, 122, 103, 0 };
-		gridBagLayout.rowHeights = new int[] { 0, 0, 31, 28, 0, 56, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gridBagLayout.rowHeights = new int[] { 0, 0, 31, 28, 0, 56, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 1.0, 0.0, 0.0, 1.0, 1.0E-4 };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,1.0E-4 };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,1.0E-4 };
 		setLayout(gridBagLayout);
 
 		var nameLabel = new JLabel(capitalize("NAME") + ":");
@@ -557,7 +560,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 
 		panelImageButtons = new JPanel();
 		var gbcpanelImageButtons = new GridBagConstraints();
-		gbcpanelImageButtons.gridheight = 3;
+		gbcpanelImageButtons.gridheight = 4;
 		gbcpanelImageButtons.insets = new Insets(0, 0, 0, 5);
 		gbcpanelImageButtons.fill = GridBagConstraints.BOTH;
 		gbcpanelImageButtons.gridx = 0;
@@ -606,7 +609,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		imagePanel = new CropImagePanel();
 		imagePanel.setBorder(new LineBorder(Color.BLACK));
 		var gbcimagePanel = new GridBagConstraints();
-		gbcimagePanel.gridheight = 3;
+		gbcimagePanel.gridheight = 4;
 		gbcimagePanel.insets = new Insets(0, 0, 0, 5);
 		gbcimagePanel.fill = GridBagConstraints.BOTH;
 		gbcimagePanel.gridx = 1;
@@ -644,6 +647,21 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		gbccomboBox.gridx = 3;
 		gbccomboBox.gridy = 13;
 		add(cboColorAccent, gbccomboBox);
+		
+		lblFrame = new JLabel("Frame :");
+		GridBagConstraints gbclblFrame = new GridBagConstraints();
+		gbclblFrame.insets = new Insets(0, 0, 5, 5);
+		gbclblFrame.gridx = 2;
+		gbclblFrame.gridy = 14;
+		add(lblFrame, gbclblFrame);
+		
+		cboFrame = UITools.createCombobox(EnumFrameEffects.values());
+		GridBagConstraints gbccboFrame = new GridBagConstraints();
+		gbccboFrame.insets = new Insets(0, 0, 5, 0);
+		gbccboFrame.fill = GridBagConstraints.HORIZONTAL;
+		gbccboFrame.gridx = 3;
+		gbccboFrame.gridy = 14;
+		add(cboFrame, gbccboFrame);
 
 		if (magicCard != null) {
 			mbindingGroup = initDataBindings();
@@ -748,11 +766,6 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		AutoBinding<MagicCard, String, JTextField, String> autoBinding5 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, gathererCodeProperty, gathererCodeJTextField, textProperty3);
 		autoBinding5.bind();
 		//
-		BeanProperty<MagicCard, Object> layoutProperty = BeanProperty.create("layout");
-		BeanProperty<JComboBox, Object> selectedIndexProperty = BeanProperty.create("selectedItem");
-		AutoBinding<MagicCard, Object, JComboBox, Object> autoBinding6 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, layoutProperty, layoutJComboBox, selectedIndexProperty);
-		autoBinding6.bind();
-		//
 		BeanProperty<MagicCard, String> nameProperty = BeanProperty.create("name");
 		BeanProperty<JTextField, String> textProperty5 = BeanProperty.create("text");
 		AutoBinding<MagicCard, String, JTextField, String> autoBinding10 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, nameProperty, nameJTextField, textProperty5);
@@ -793,7 +806,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		AutoBinding<MagicCard, String, JTextField, String> autoBinding20 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, loyaltyProperty, loyaltyJTextField, textProperty11);
 		autoBinding20.bind();
 
-
+		
 		//
 		var bindingGroup = new BindingGroup();
 		//
@@ -802,7 +815,6 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		bindingGroup.addBinding(autoBinding3);
 		bindingGroup.addBinding(autoBinding4);
 		bindingGroup.addBinding(autoBinding5);
-		bindingGroup.addBinding(autoBinding6);
 		bindingGroup.addBinding(autoBinding10);
 		bindingGroup.addBinding(autoBinding11);
 		bindingGroup.addBinding(autoBinding13);
@@ -811,6 +823,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		bindingGroup.addBinding(autoBinding17);
 		bindingGroup.addBinding(autoBinding19);
 		bindingGroup.addBinding(autoBinding20);
+	//	bindingGroup.addBinding(autoBinding21);
 		return bindingGroup;
 	}
 
