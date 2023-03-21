@@ -13,6 +13,8 @@ import org.magic.api.beans.MTGDocumentation;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.enums.EnumColors;
+import org.magic.api.beans.enums.EnumLayout;
+import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.interfaces.abstracts.AbstractIA;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -152,7 +154,25 @@ public class ChatGPT extends AbstractIA {
 		var mc = new MagicCard();
 			 mc.setName(read(obj,"name").getAsString());
 			 mc.setText(read(obj,"text").getAsString());
-		
+			 mc.setLayout(EnumLayout.NORMAL);
+			
+			 try {
+				 var rarity = read(obj,"rarity").getAsString();
+				 if(rarity.toLowerCase().contains("mythic"))
+					 mc.setRarity(EnumRarity.MYTHIC);
+				 else if(rarity.toLowerCase().contains("rare"))
+					 mc.setRarity(EnumRarity.RARE);
+				 else if(rarity.toLowerCase().contains("unco"))
+					 mc.setRarity(EnumRarity.UNCOMMON);
+				 else
+					 mc.setRarity(EnumRarity.COMMON);
+				 
+			 }
+			 catch(Exception e)
+			 {
+				 //do nothing
+			 }
+			 
 			 try {
 				 mc.setFlavor(read(obj,"flavor").getAsString());
 			 }
@@ -160,6 +180,8 @@ public class ChatGPT extends AbstractIA {
 			 {
 				 //do nothing
 			 }
+			 
+			 
 			 
 			 
 			 if(read(obj,"type").isJsonPrimitive())
