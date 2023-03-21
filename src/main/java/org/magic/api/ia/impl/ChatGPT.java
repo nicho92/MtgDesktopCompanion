@@ -140,8 +140,6 @@ public class ChatGPT extends AbstractIA {
 	@Override
 	public MagicCard generateRandomCard(String description) throws IOException {
 		
-		
-		
 		var ret = ask(NEW_CARD_QUERY  +( (description==null || description.isEmpty())?"": " with this description  : "+description));
 			
 		if(ret==null)
@@ -188,15 +186,14 @@ public class ChatGPT extends AbstractIA {
 			 {
 				 mc.getTypes().add(read(obj,"type").getAsString());
 			 }
-			 else 
-			 {
+			 
+			
 				 try {
 					 read(obj,"types").getAsJsonArray().forEach(je->mc.getTypes().add(je.getAsString()));
 				 }catch(Exception e)
 				 {
 					 //do nothing
 				 }
-			 }
 			 
 			 try {
 				 read(obj,"supertypes").getAsJsonArray().forEach(je->mc.getSupertypes().add(je.getAsString()));
@@ -206,7 +203,7 @@ public class ChatGPT extends AbstractIA {
 				 //do nothing
 			 }
 			 try {
-			 read(obj,"subtypes").getAsJsonArray().forEach(je->mc.getSubtypes().add(je.getAsString()));
+				 read(obj,"subtypes").getAsJsonArray().forEach(je->mc.getSubtypes().add(je.getAsString()));
 			 }
 			 catch(Exception e)
 			 {
@@ -228,12 +225,4 @@ public class ChatGPT extends AbstractIA {
 			 
 		return mc;
 	}
-	
-	public static void main(String[] args) throws IOException {
-		MTGControler.getInstance().loadAccountsConfiguration();
-		new ChatGPT().generateRandomCard(JOptionPane.showInputDialog("Description"));
-		System.exit(0);
-	}
-
-
 }

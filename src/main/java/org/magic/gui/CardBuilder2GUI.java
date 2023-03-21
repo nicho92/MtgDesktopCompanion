@@ -52,6 +52,7 @@ import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
+import org.magic.services.tools.IDGenerator;
 import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
@@ -98,7 +99,8 @@ public class CardBuilder2GUI extends MTGUIComponent {
 	}
 
 	public CardBuilder2GUI() {
-		try {
+
+		
 			//////////////////////////////////////////////////// INIT LOCAL COMPONENTS
 			var panelEditionHaut = new JPanel();
 			var panelSets = new JPanel();
@@ -128,8 +130,8 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			cardsModel = new MagicCardTableModel();
 			jsonPanel = new ObjectViewerPanel();
 			jsonPanel.setMaximumSize(new Dimension(400, 10));
-			editionsTable = UITools.createNewTable(null);
-			cardsTable = UITools.createNewTable(null);
+			editionsTable = UITools.createNewTable(editionModel);
+			cardsTable = UITools.createNewTable(cardsModel);
 			tabbedPane = new JTabbedPane(SwingConstants.TOP);
 			cboSets = new JComboBox<>();
 
@@ -141,10 +143,8 @@ public class CardBuilder2GUI extends MTGUIComponent {
 					super.paintComponent(g);
 					g.drawImage(cardImage, 0, 0, null);
 
-
 					if (magicCardEditorPanel.getImagePanel().getCroppedImage() != null && getEnabledPlugin(MTGPictureEditor.class).getMode()==MOD.LOCAL)
 						g.drawImage(magicCardEditorPanel.getImagePanel().getCroppedImage(), 35, 68, 329, 242, null);
-
 
 					revalidate();
 				}
@@ -154,12 +154,14 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			magicEditionDetailPanel = new MagicEditionDetailPanel(false);
 
 			//////////////////////////////////////////////////// MODELS INIT
-			editionsTable.setModel(editionModel);
-			cardsTable.setModel(cardsModel);
 		
-			List<MagicEdition> eds = provider.listEditions();
-			cboSets.setModel(new DefaultComboBoxModel<>(eds.toArray(new MagicEdition[eds.size()])));
-
+			try {
+				List<MagicEdition> eds = provider.listEditions();
+				cboSets.setModel(new DefaultComboBoxModel<>(eds.toArray(new MagicEdition[eds.size()])));
+			} catch (IOException e) {
+				logger.error(e);
+			}
+			
 
 			//////////////////////////////////////////////////// LAYOUT CONFIGURATION
 			setLayout(new BorderLayout(0, 0));
@@ -306,6 +308,19 @@ public class CardBuilder2GUI extends MTGUIComponent {
 					initCard(l.getSelected());
 
 			});
+			
+			btnNewCard.addActionListener(e -> {
+				var mc = new MagicCard();
+				mc.getEditions().add((MagicEdition)cboSets.getSelectedItem());
+				try {
+					mc.getCurrentSet().setNumber(
+							String.valueOf(provider.getCards((MagicEdition) cboSets.getSelectedItem()).size() + 1));
+				} catch (IOException e1) {
+					logger.error(e1);
+				}
+				initCard(mc);
+			});
+
 
 			btnNewSet.addActionListener(e -> magicEditionDetailPanel.setMagicEdition(new MagicEdition(), true));
 
@@ -337,14 +352,16 @@ public class CardBuilder2GUI extends MTGUIComponent {
 					if(UITools.getTableSelections(cardsTable, 1).isEmpty())
 						return;
 
-					MagicCard ed = UITools.getTableSelection(cardsTable, 0);
+					MagicCard mc = UITools.getTableSelection(cardsTable, 0);
 					if (me.getClickCount() == 2) {
-						initCard(ed);
+						initCard(mc);
 						tabbedPane.setSelectedIndex(1);
 					}
 
 				}
 			});
+			
+			
 			editionsTable.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent me) {
@@ -363,18 +380,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				}
 			});
 			
-			btnNewCard.addActionListener(e -> {
-				var mc = new MagicCard();
-				mc.getEditions().add((MagicEdition)cboSets.getSelectedItem());
-				try {
-					mc.getCurrentSet().setNumber(
-							String.valueOf(provider.getCards((MagicEdition) cboSets.getSelectedItem()).size() + 1));
-				} catch (IOException e1) {
-					logger.error(e1);
-				}
-				initCard(mc);
-			});
-
+		
 			
 			btnGenerateCard.addActionListener(al->{
 			
@@ -394,6 +400,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 					protected void done() {
 						try {
 							initCard(get());
+							
 						} catch (InterruptedException e) {
 							Thread.currentThread().interrupt();
 						} catch (ExecutionException e) {
@@ -401,35 +408,29 @@ public class CardBuilder2GUI extends MTGUIComponent {
 						}
 						finally {
 							buzy.end();
-							btnRefresh.doClick();
+							renderingCard();
 						}
 						
 					}
 					
 				};
-				
-				
-				
-				
-				ThreadManager.getInstance().runInEdt(sw, "generating card");
+			ThreadManager.getInstance().runInEdt(sw, "generating card from IA");
 			});
 			
 			
 
 			btnSaveCard.addActionListener(e -> {
-
-
-				btnRefresh.doClick();
-
-				MagicEdition me = (MagicEdition) cboSets.getSelectedItem();
+				var me = (MagicEdition) cboSets.getSelectedItem();
 				var mc = magicCardEditorPanel.getMagicCard();
-				me.setNumber(mc.getCurrentSet().getNumber());
+					 
+					me.setNumber(mc.getCurrentSet().getNumber());
 
 				if (mc.getId() == null)
 					mc.setId(DigestUtils.sha256Hex(me.getSet() + mc.getId() + mc.getName()));
-
+					
 				if ((mc.getCurrentSet()!=me))
 					mc.getEditions().add(0, me);
+				
 				try {
 					provider.addCard(me, mc);
 					var bi = new BufferedImage(panelPictures.getSize().width, 560,BufferedImage.TYPE_INT_ARGB);
@@ -443,47 +444,50 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			});
 
 			btnRefresh.addActionListener(e -> {
-				buzy.start();
-				buzy.setText("Rendering");
-				var sw = new SwingWorker<BufferedImage, Void>()
-					{
-
-						@Override
-						protected BufferedImage doInBackground() throws Exception {
-							return getEnabledPlugin(MTGPictureEditor.class).getPicture(magicCardEditorPanel.getMagicCard(),(MagicEdition) cboSets.getSelectedItem());
-						}
-
-						@Override
-						protected void done() {
-							
-							BufferedImage img;
-							try {
-								img = get();
-								if(img!=null)
-								{
-									cardImage = ImageTools.scaleResize(img,panelPictures.getWidth());
-								}
-								panelPictures.revalidate();
-								panelPictures.repaint();
-								jsonPanel.init(magicCardEditorPanel.getMagicCard());
-								
-							} catch (InterruptedException e) {
-								Thread.currentThread().interrupt();
-							} catch (ExecutionException e) {
-								MTGControler.getInstance().notify(e);
-							}
-							finally {
-								buzy.end();
-							}
-						}
-					};
-					
-					ThreadManager.getInstance().runInEdt(sw, "refresh generated card");
+				renderingCard();
 			});
 
-		} catch (Exception e) {
-			MTGControler.getInstance().notify(e);
-		}
+	
+	}
+
+	private void renderingCard() {
+		buzy.start();
+		buzy.setText("Rendering");
+		var sw = new SwingWorker<BufferedImage, Void>()
+			{
+
+				@Override
+				protected BufferedImage doInBackground() throws Exception {
+					return getEnabledPlugin(MTGPictureEditor.class).getPicture(magicCardEditorPanel.getMagicCard(),(MagicEdition) cboSets.getSelectedItem());
+				}
+
+				@Override
+				protected void done() {
+					
+					BufferedImage img;
+					try {
+						img = get();
+						if(img!=null)
+						{
+							cardImage = ImageTools.scaleResize(img,panelPictures.getWidth());
+						}
+						panelPictures.revalidate();
+						panelPictures.repaint();
+						jsonPanel.init(magicCardEditorPanel.getMagicCard());
+						
+					} catch (InterruptedException e) {
+						Thread.currentThread().interrupt();
+					} catch (ExecutionException e) {
+						MTGControler.getInstance().notify(e);
+					}
+					finally {
+						buzy.end();
+					}
+				}
+			};
+			
+		ThreadManager.getInstance().runInEdt(sw, "refresh generated card");
+		
 	}
 
 	protected void initCard(MagicCard mc) {
@@ -515,7 +519,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			
 		};
 		
-		ThreadManager.getInstance().runInEdt(sw, "generating picture");
+		ThreadManager.getInstance().runInEdt(sw, "loading picture");
 		
 	}
 
