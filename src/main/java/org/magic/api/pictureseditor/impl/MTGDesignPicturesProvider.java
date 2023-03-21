@@ -185,8 +185,10 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 
 		build.addParameter("lighten", FALSE);
 
-
-		build.addParameter("card-layout", "regular");
+		if(mc.isPromoCard())
+			build.addParameter("card-layout", "mgdpromo");
+		else
+			build.addParameter("card-layout", "regular");
 
 
 		if(!mc.getText().isEmpty())
