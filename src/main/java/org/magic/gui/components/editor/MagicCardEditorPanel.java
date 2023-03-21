@@ -44,7 +44,6 @@ import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.enums.EnumColors;
-import org.magic.api.beans.enums.EnumFrameEffects;
 import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.interfaces.MTGPictureEditor;
 import org.magic.api.interfaces.MTGPictureEditor.MOD;
@@ -96,8 +95,8 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 	private JButton btnImage;
 	private JButton btnUrl;
 	private CropImagePanel imagePanel;
-	private JLabel lblFrame;
-	private JComboBox<EnumFrameEffects> cboFrame;
+	private JLabel lblPromo;
+	private JCheckBox chkPromo;
 
 
 	public MagicCardEditorPanel(MagicCard newMagicCard) {
@@ -648,20 +647,20 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		gbccomboBox.gridy = 13;
 		add(cboColorAccent, gbccomboBox);
 		
-		lblFrame = new JLabel("Frame :");
+		lblPromo = new JLabel("Promo :");
 		GridBagConstraints gbclblFrame = new GridBagConstraints();
 		gbclblFrame.insets = new Insets(0, 0, 5, 5);
 		gbclblFrame.gridx = 2;
 		gbclblFrame.gridy = 14;
-		add(lblFrame, gbclblFrame);
+		add(lblPromo, gbclblFrame);
 		
-		cboFrame = UITools.createCombobox(EnumFrameEffects.values());
-		GridBagConstraints gbccboFrame = new GridBagConstraints();
-		gbccboFrame.insets = new Insets(0, 0, 5, 0);
-		gbccboFrame.fill = GridBagConstraints.HORIZONTAL;
-		gbccboFrame.gridx = 3;
-		gbccboFrame.gridy = 14;
-		add(cboFrame, gbccboFrame);
+		chkPromo = new JCheckBox();
+		GridBagConstraints gbcchkPromo = new GridBagConstraints();
+		gbcchkPromo.insets = new Insets(0, 0, 5, 0);
+		gbcchkPromo.fill = GridBagConstraints.HORIZONTAL;
+		gbcchkPromo.gridx = 3;
+		gbcchkPromo.gridy = 14;
+		add(chkPromo, gbcchkPromo);
 
 		if (magicCard != null) {
 			mbindingGroup = initDataBindings();
@@ -806,7 +805,11 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		BeanProperty<JTextField, String> textProperty11 = BeanProperty.create("text");
 		AutoBinding<MagicCard, String, JTextField, String> autoBinding20 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, loyaltyProperty, loyaltyJTextField, textProperty11);
 		autoBinding20.bind();
-
+		
+		BeanProperty<MagicCard, Boolean> promoProperty = BeanProperty.create("promoCard");
+		BeanProperty<JCheckBox, Boolean> promoChkProperty = BeanProperty.create("selected");
+		AutoBinding<MagicCard, Boolean, JCheckBox, Boolean> autoBinding21 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, promoProperty, chkPromo, promoChkProperty);
+		autoBinding21.bind();
 		
 		//
 		var bindingGroup = new BindingGroup();
@@ -824,7 +827,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		bindingGroup.addBinding(autoBinding17);
 		bindingGroup.addBinding(autoBinding19);
 		bindingGroup.addBinding(autoBinding20);
-	//	bindingGroup.addBinding(autoBinding21);
+		bindingGroup.addBinding(autoBinding21);
 		return bindingGroup;
 	}
 
