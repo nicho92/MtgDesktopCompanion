@@ -145,7 +145,7 @@ public class ChatGPT extends AbstractIA {
 		if(ret==null)
 			return null;
 		
-		ret = StringUtils.substringBetween(ret,"```");
+		ret = StringUtils.substringBetween(ret,"\u0060\u0060\u0060");
 		
 		var obj = URLTools.toJson(ret).getAsJsonObject();
 		
