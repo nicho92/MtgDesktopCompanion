@@ -151,7 +151,7 @@ public class ChatGPT extends AbstractIA {
 		
 		var mc = new MagicCard();
 			 mc.setName(read(obj,"name").getAsString());
-			 mc.setText(read(obj,"text").getAsString());
+			 mc.setText(read(obj,"text","oracleText").getAsString());
 			 mc.setLayout(EnumLayout.NORMAL);
 			
 			 try {
