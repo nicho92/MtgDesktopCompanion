@@ -52,7 +52,6 @@ import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
-import org.magic.services.tools.IDGenerator;
 import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
@@ -188,6 +187,8 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			panelEditionHaut.add(btnSaveEdition);
 			panelEditionHaut.add(btnRemoveEdition);
 			panelSets.add(splitcardEdPanel, BorderLayout.CENTER);
+			
+			
 			panelCardsHaut.add(cboSets);
 			panelCardsHaut.add(btnNewCard);
 			panelCardsHaut.add(btnImport);
@@ -258,9 +259,14 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				try {
 					List<MagicCard> cards = provider.getCards(ed);
 					ed.setCardCount(cards.size());
+					ed.setCardCountOfficial(cards.size());
+					
 					cards.forEach(mc->mc.getCurrentSet().setNumber(null));
 					Collections.sort(cards,new CardsEditionSorter());
+					
 					for(var i=0;i<cards.size();i++){
+							cards.get(i).getCurrentSet().setCardCountOfficial(cards.size());
+							cards.get(i).getCurrentSet().setCardCount(cards.size());
 							cards.get(i).getCurrentSet().setNumber(String.valueOf((i+1)));
 					}
 					provider.saveEdition(ed,cards);
@@ -311,10 +317,10 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			
 			btnNewCard.addActionListener(e -> {
 				var mc = new MagicCard();
-				mc.getEditions().add((MagicEdition)cboSets.getSelectedItem());
+				var ed = (MagicEdition)cboSets.getSelectedItem();
+				mc.getEditions().add(ed);
 				try {
-					mc.getCurrentSet().setNumber(
-							String.valueOf(provider.getCards((MagicEdition) cboSets.getSelectedItem()).size() + 1));
+					mc.getCurrentSet().setNumber(String.valueOf(provider.getCards((MagicEdition) cboSets.getSelectedItem()).size() + 1));
 				} catch (IOException e1) {
 					logger.error(e1);
 				}
@@ -326,9 +332,8 @@ public class CardBuilder2GUI extends MTGUIComponent {
 
 			btnRemoveEdition.addActionListener(e -> {
 
-				int viewRow = editionsTable.getSelectedRow();
-				int modelRow = editionsTable.convertRowIndexToModel(viewRow);
-				MagicEdition ed = (MagicEdition) editionsTable.getModel().getValueAt(modelRow, 1);
+				MagicEdition ed = UITools.getTableSelection(editionsTable, 1);
+				
 
 				int res = JOptionPane.showConfirmDialog(null,
 						MTGControler.getInstance().getLangService().get("CONFIRM_DELETE", ed),
@@ -492,6 +497,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 
 	protected void initCard(MagicCard mc) {
 		magicCardEditorPanel.setMagicCard(mc);
+		cboSets.setSelectedItem(mc.getCurrentSet());
 		jsonPanel.init(mc);
 		buzy.start();
 		
