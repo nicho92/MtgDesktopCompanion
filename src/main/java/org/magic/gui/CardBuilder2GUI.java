@@ -99,7 +99,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 
 	public CardBuilder2GUI() {
 
-		
+			
 			//////////////////////////////////////////////////// INIT LOCAL COMPONENTS
 			var panelEditionHaut = new JPanel();
 			var panelSets = new JPanel();
@@ -133,6 +133,8 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			cardsTable = UITools.createNewTable(cardsModel);
 			tabbedPane = new JTabbedPane(SwingConstants.TOP);
 			cboSets = new JComboBox<>();
+			magicCardEditorPanel = new MagicCardEditorPanel();
+			magicEditionDetailPanel = new MagicEditionDetailPanel(false);
 
 			
 			panelPictures = new JPanel() {
@@ -149,9 +151,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				}
 			};
 
-			magicCardEditorPanel = new MagicCardEditorPanel();
-			magicEditionDetailPanel = new MagicEditionDetailPanel(false);
-
+	
 			//////////////////////////////////////////////////// MODELS INIT
 		
 			try {
@@ -377,7 +377,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 					MagicEdition ed =UITools.getTableSelection(editionsTable, 1);
 					try {
 						initEdition(ed);
-						cardsModel.init(provider.getCards(ed));
+						cardsModel.bind(provider.getCards(ed));
 						cardsModel.fireTableDataChanged();
 					} catch (IOException e) {
 						MTGControler.getInstance().notify(e);
@@ -415,9 +415,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 							buzy.end();
 							renderingCard();
 						}
-						
 					}
-					
 				};
 			ThreadManager.getInstance().runInEdt(sw, "generating card from IA");
 			});
