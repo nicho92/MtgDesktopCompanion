@@ -101,6 +101,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				protected void notifyEnd() {
 					editionModel.init(getResult());
 					editionModel.fireTableDataChanged();
+					cboSets.setModel(new DefaultComboBoxModel<>(getResult().toArray(new MagicEdition[getResult().size()])));
 				}
 			};
 			ThreadManager.getInstance().runInEdt(sw, "loading personal sets");
@@ -159,17 +160,6 @@ public class CardBuilder2GUI extends MTGUIComponent {
 					revalidate();
 				}
 			};
-
-	
-			//////////////////////////////////////////////////// MODELS INIT
-		
-			try {
-				List<MagicEdition> eds = provider.listEditions();
-				cboSets.setModel(new DefaultComboBoxModel<>(eds.toArray(new MagicEdition[eds.size()])));
-			} catch (IOException e) {
-				logger.error(e);
-			}
-			
 
 			//////////////////////////////////////////////////// LAYOUT CONFIGURATION
 			setLayout(new BorderLayout(0, 0));

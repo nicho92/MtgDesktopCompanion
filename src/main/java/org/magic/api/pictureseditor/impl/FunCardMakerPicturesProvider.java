@@ -161,9 +161,9 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 						    if(mc.getRarity()!=null)
 						    	build.addContent("fields[se-rarity]",mc.getRarity().name().substring(0,1).toLowerCase());
 
-						    if(mc.getImageName()!=null && !mc.getImageName().startsWith("http"))
+						    if(mc.getUrl()!=null && !mc.getUrl().startsWith("http"))
 						    {
-						    	var f = new File(mc.getImageName());
+						    	var f = new File(mc.getUrl());
 						    	if(f.exists())
 						    	{
 						    		String filename=upload(f);

@@ -5,12 +5,14 @@ import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.interfaces.MTGProduct;
 
+import com.google.gson.annotations.SerializedName;
+
 public abstract class AbstractProduct implements MTGProduct{
 
 	private static final long serialVersionUID = 1L;
 
 	protected Long productId;
-	protected String url;
+	@SerializedName(alternate = "imageName", value = "url") protected String url;
 	protected String name;
 	protected MagicEdition edition;
 	protected EnumItems typeProduct;

@@ -48,7 +48,6 @@ public class MagicCard extends AbstractProduct {
 	private List<MTGFormat> legalities;
 	private List<EnumFrameEffects> frameEffects;
 	private String flavorName;
-	private String imageName;
 	private String frameVersion;
 	private Integer tcgPlayerId;
 	private Integer mtgstocksId;
@@ -558,13 +557,6 @@ public class MagicCard extends AbstractProduct {
 		return isBasicLand(getName());
 	}
 
-	public String getImageName() {
-		return imageName;
-	}
-
-	public void setImageName(String imageName) {
-		this.imageName = imageName;
-	}
 
 	public boolean isReserved() {
 		return reserved;

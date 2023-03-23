@@ -435,7 +435,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 
 		try {
-			mc.setImageName(obj.get(ILLUSTRATION_ID).getAsString());
+			mc.setUrl(obj.get(ILLUSTRATION_ID).getAsString());
 		} catch (NullPointerException e) {
 			logger.trace("illustration_id not found");
 		}
@@ -521,7 +521,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 					.getAsString());
 
 			if(obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get(ILLUSTRATION_ID)!=null)
-				mc.setImageName(obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get(ILLUSTRATION_ID).getAsString());
+				mc.setUrl(obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get(ILLUSTRATION_ID).getAsString());
 
 			generateTypes(mc, obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get(TYPE_LINE)
 					.getAsString());

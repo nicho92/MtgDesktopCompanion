@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.JOptionPane;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.entity.StringEntity;
 import org.magic.api.beans.MTGDocumentation;
@@ -17,7 +15,6 @@ import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.interfaces.abstracts.AbstractIA;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
 

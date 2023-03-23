@@ -579,7 +579,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 			choose.showOpenDialog(null);
 			var pics = choose.getSelectedFile();
 			if(pics!=null) {
-			magicCard.setImageName(pics.getAbsolutePath());
+			magicCard.setUrl(pics.getAbsolutePath());
 			showCrop();
 			}
 		});
@@ -600,7 +600,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		panelImageButtons.add(btnUrl, gbcbtnUrl);
 		btnUrl.addActionListener(ae->{
 					String urlImage = JOptionPane.showInputDialog("URL");
-					magicCard.setImageName(urlImage);
+					magicCard.setUrl(urlImage);
 					showCrop();
 		});
 		
@@ -672,10 +672,10 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 
 		BufferedImage buff;
 		try {
-			if(magicCard.getImageName().startsWith("http"))
-				buff = URLTools.extractAsImage(magicCard.getImageName());
+			if(magicCard.getUrl().startsWith("http"))
+				buff = URLTools.extractAsImage(magicCard.getUrl());
 			else
-				buff = ImageTools.read(new File(magicCard.getImageName()));
+				buff = ImageTools.read(new File(magicCard.getUrl()));
 
 			if(buff!=null) {
 				var i = new ImageIcon(buff).getImage();
@@ -720,7 +720,10 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		if (magicCard != null) {
 			cboSuperType.setSelectedElements(magicCard.getSupertypes());
 			cboTypes.setSelectedElements(magicCard.getTypes());
-			cboSubtypes.setSelectedElements(magicCard.getSubtypes());
+			
+			
+			magicCard.getSubtypes().forEach(s->cboSubtypes.addElement(s, true));;
+
 		}
 
 	}
