@@ -58,9 +58,9 @@ public class TransactionTrackingPanel extends MTGUIComponent {
 
 		
 		comboBox.addItemListener((ItemEvent event)->{
-				if (event.getStateChange() == ItemEvent.SELECTED) {
-			         transaction.setTransporter(comboBox.getSelectedItem().toString());
-			         try {
+			    transaction.setTransporter(comboBox.getSelectedItem().toString());
+				if (event.getStateChange() == ItemEvent.SELECTED && isVisible()) {
+				     try {
 						TransactionService.saveTransaction(transaction, false);
 					} catch (IOException e) {
 						logger.error(e);

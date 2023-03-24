@@ -34,7 +34,6 @@ public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 			return ret;
 		}
 
-
 		try {
 
 			String query=search.trim().replace(" ", " AND ");

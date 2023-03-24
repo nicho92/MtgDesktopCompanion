@@ -177,12 +177,16 @@ public class TransactionsPanel extends MTGUIComponent {
 		
 		tableTransactions.getSelectionModel().addListSelectionListener(lsl->{
 
+			
+			if(lsl.getValueIsAdjusting())
+				return;
+			
 			List<Transaction> t = UITools.getTableSelections(tableTransactions, 0);
 		
 			if(t.isEmpty())
 				return;
 
-			
+			buzy.start();
 			var sw = new SwingWorker<List<MTGStockItem>, Void>()
 					{
 
@@ -201,11 +205,12 @@ public class TransactionsPanel extends MTGUIComponent {
 							panneauBas.calulate(t, transactionModel);
 							stockDetailPanel.bind(t.get(0).getItems());
 							trackPanel.init(t.get(0));
-							stockDetailPanel.bind(t.get(0).getItems());
 							contactPanel.setContact(t.get(0).getContact());
 							
 							if(MTG.readPropertyAsBoolean("debug-json-panel"))
 								viewerPanel.init(t.get(0));
+							
+							buzy.end();
 						}
 					};
 					
