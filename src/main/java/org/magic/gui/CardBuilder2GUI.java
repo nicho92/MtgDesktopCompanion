@@ -53,6 +53,7 @@ import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
+import org.magic.services.tools.BeanTools;
 import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
@@ -75,7 +76,8 @@ public class CardBuilder2GUI extends MTGUIComponent {
 	private transient PersonalSetPicturesProvider picturesProvider;
 	private transient PrivateMTGSetProvider provider;
 	private JButton btnRefresh;
-	private AbstractBuzyIndicatorComponent buzy;
+	private AbstractBuzyIndicatorComponent buzyCard;
+	private AbstractBuzyIndicatorComponent buzySet;
 
 	@Override
 	public ImageIcon getIcon() {
@@ -90,8 +92,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 
 	@Override
 	public void onFirstShowing() {
-			buzy.start();
-			var sw = new AbstractObservableWorker<List<MagicEdition>, Void,MTGCardsProvider>(buzy,provider){
+			var sw = new AbstractObservableWorker<List<MagicEdition>, Void,MTGCardsProvider>(buzySet,provider){
 				@Override
 				protected List<MagicEdition> doInBackground() throws Exception {
 					return plug.listEditions();
@@ -130,7 +131,8 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			
 			
 			//////////////////////////////////////////////////// INIT GLOBAL COMPONENTS
-			buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
+			buzyCard = AbstractBuzyIndicatorComponent.createLabelComponent();
+			buzySet = AbstractBuzyIndicatorComponent.createLabelComponent();
 			editionModel = new MagicEditionsTableModel();
 			provider = new PrivateMTGSetProvider();
 			provider.init();
@@ -183,6 +185,9 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			panelEditionHaut.add(btnNewSet);
 			panelEditionHaut.add(btnSaveEdition);
 			panelEditionHaut.add(btnRemoveEdition);
+			panelEditionHaut.add(btnRefreshSet);
+			panelEditionHaut.add(buzySet);
+			
 			panelSets.add(splitcardEdPanel, BorderLayout.CENTER);
 			
 			
@@ -193,7 +198,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			panelCardsHaut.add(btnSaveCard);
 			panelCardsHaut.add(btnRefresh);
 			panelCardsHaut.add(btnRemoveCard);
-			panelCardsHaut.add(buzy);
+			panelCardsHaut.add(buzyCard);
 			
 			panelCards.add(tabbedResult, BorderLayout.EAST);
 			tabbedPane.addTab("Set", MTGConstants.ICON_TAB_BACK, panelSets, null);
@@ -216,8 +221,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			btnSaveEdition.setToolTipText("Save the set");
 			btnNewSet.setToolTipText("New set");
 			btnRemoveEdition.setToolTipText("Delete Set");
-
-			panelEditionHaut.add(btnRefreshSet);
+			
 			btnImport.setToolTipText("Import existing card");
 			btnSaveCard.setToolTipText("Save the card");
 			btnRefresh.setToolTipText("Refresh");
@@ -245,23 +249,37 @@ public class CardBuilder2GUI extends MTGUIComponent {
 
 			btnRefreshSet.addActionListener(e->{
 				MagicEdition ed = UITools.getTableSelection(editionsTable, 1);
-				try {
-					List<MagicCard> cards = provider.getCards(ed);
-					ed.setCardCount(cards.size());
-					ed.setCardCountOfficial(cards.size());
-					
-					cards.forEach(mc->mc.getCurrentSet().setNumber(null));
-					Collections.sort(cards,new CardsEditionSorter());
-					
-					for(var i=0;i<cards.size();i++){
-							cards.get(i).getCurrentSet().setCardCountOfficial(cards.size());
-							cards.get(i).getCurrentSet().setCardCount(cards.size());
-							cards.get(i).getCurrentSet().setNumber(String.valueOf((i+1)));
-					}
-					provider.saveEdition(ed,cards);
-				} catch (IOException e1) {
-					logger.error(e1);
-				}
+				
+				if(ed!=null)
+					ThreadManager.getInstance().runInEdt(new AbstractObservableWorker<Void, Void, MTGCardsProvider>(buzySet,provider) {
+	
+						@Override
+						protected Void doInBackground() throws Exception {
+							
+								List<MagicCard> cards = provider.getCards(ed);
+								ed.setCardCount(cards.size());
+								ed.setCardCountOfficial(cards.size());
+
+								cards.forEach(mc->{
+									mc.getEditions().clear();
+									try {
+										mc.getEditions().add(BeanTools.cloneBean(ed));
+										mc.getCurrentSet().setNumber(null);
+									} catch (Exception e) {
+										logger.error(e);
+									} 
+								});
+								Collections.sort(cards,new CardsEditionSorter());
+
+								for(var i=0;i<cards.size();i++){
+									cards.get(i).getCurrentSet().setNumber(String.valueOf((i+1)));
+								}
+										
+										
+								provider.saveEdition(ed,cards);
+								return null;
+						}
+					}, "calculate Set " +ed);
 			});
 
 			btnRemoveCard.addActionListener(e -> {
@@ -383,8 +401,8 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			});
 			
 			btnGenerateCard.addActionListener(al->{
-				buzy.start();
-				buzy.setText("generating card from IA");
+				buzyCard.start();
+				buzyCard.setText("generating card from IA");
 				var text = JOptionPane.showInputDialog("Little description ?");
 				
 				ThreadManager.getInstance().runInEdt(new SwingWorker<MagicCard, Void>() {
@@ -407,7 +425,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 								logger.error(e);
 							}
 							finally {
-								buzy.end();
+								buzyCard.end();
 								renderingCard();
 							}
 						}
@@ -443,8 +461,8 @@ public class CardBuilder2GUI extends MTGUIComponent {
 	}
 
 	private void renderingCard() {
-		buzy.start();
-		buzy.setText("Rendering");
+		buzyCard.start();
+		buzyCard.setText("Rendering");
 		ThreadManager.getInstance().runInEdt(new SwingWorker<BufferedImage, Void>()
 		{
 
@@ -472,7 +490,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 					MTGControler.getInstance().notify(e);
 				}
 				finally {
-					buzy.end();
+					buzyCard.end();
 				}
 			}
 		}, "refresh generated card");
@@ -483,7 +501,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 		magicCardEditorPanel.setMagicCard(mc);
 		cboSets.setSelectedItem(mc.getCurrentSet());
 		jsonPanel.init(mc);
-		buzy.start();
+		buzyCard.start();
 		ThreadManager.getInstance().runInEdt(new SwingWorker<BufferedImage, Void>() {
 			@Override
 			protected BufferedImage doInBackground() throws Exception {
@@ -501,7 +519,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 					logger.error(e);
 				}
 				finally {
-					buzy.end();
+					buzyCard.end();
 				}
 				
 			}

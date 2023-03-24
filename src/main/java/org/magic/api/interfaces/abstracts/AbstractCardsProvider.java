@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.MTGBooster;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
@@ -23,6 +22,7 @@ import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.criterias.builders.NoneCriteriaBuilder;
 import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.services.tools.BeanTools;
 import org.magic.services.tools.TCache;
 
 public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements MTGCardsProvider {
@@ -191,7 +191,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 				}
 			});
 
-			return (MagicEdition) BeanUtils.cloneBean(ed);
+			return BeanTools.cloneBean(ed);
 		} catch (Exception e) {
 			return new MagicEdition(id,id);
 		}

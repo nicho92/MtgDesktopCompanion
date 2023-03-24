@@ -3,7 +3,6 @@ package org.magic.gui.components.shops;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.io.IOException;
 
 import javax.swing.ImageIcon;

@@ -1,10 +1,12 @@
 package org.magic.services.tools;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.enums.EnumCardsPatterns;
@@ -74,6 +76,11 @@ public class BeanTools {
 		}
 		m.appendTail(temp);
 		return temp.toString();
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T> T cloneBean(T ed) throws IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
+		return (T) BeanUtils.cloneBean(ed);
 	}
 
 }

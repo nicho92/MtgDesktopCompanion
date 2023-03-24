@@ -97,9 +97,11 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		return new Gson().fromJson(root.get("main"), MagicEdition.class);
 	}
 
-	public void saveEdition(MagicEdition ed, List<MagicCard> cards2) {
+	public void saveEdition(MagicEdition ed, List<MagicCard> cards) {
+		
 
-		cards2.forEach(mc->{
+
+		cards.forEach(mc->{
 			try {
 				removeCard(ed, mc);
 				addCard(ed, mc);

@@ -216,7 +216,7 @@
 		<dependency>
 			<groupId>org.jooq</groupId>
 			<artifactId>jooq</artifactId>
-			<version>3.18.0</version>
+			<version>3.18.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.icoderman</groupId>
@@ -293,7 +293,7 @@
 		<dependency>
 			<groupId>com.fifesoft</groupId>
 			<artifactId>rsyntaxtextarea</artifactId>
-			<version>3.3.2</version>
+			<version>3.3.3</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fifesoft</groupId>
