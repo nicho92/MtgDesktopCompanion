@@ -2,6 +2,8 @@ package org.magic.gui.components.shops;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.IOException;
 
 import javax.swing.ImageIcon;
@@ -12,10 +14,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import org.magic.api.beans.enums.EnumTransactionStatus;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.MTGTrackingService;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
+import org.magic.services.TransactionService;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 
@@ -54,6 +58,17 @@ public class TransactionTrackingPanel extends MTGUIComponent {
 		add(new JScrollPane(textArea), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1,3));
 
 		
+		comboBox.addItemListener((ItemEvent event)->{
+				if (event.getStateChange() == ItemEvent.SELECTED) {
+			         transaction.setTransporter(comboBox.getSelectedItem().toString());
+			         try {
+						TransactionService.saveTransaction(transaction, false);
+					} catch (IOException e) {
+						logger.error(e);
+					}
+			       }
+		});
+		
 					
 		btnTrack.addActionListener(al->{
 			textArea.setText("");
@@ -66,6 +81,9 @@ public class TransactionTrackingPanel extends MTGUIComponent {
 					textArea.append(ts.getDescriptionStep());
 					textArea.append("\n");
 				});
+				
+				if(t.isFinished() && transaction.getStatut()!=EnumTransactionStatus.CLOSED)
+					transaction.setStatut(EnumTransactionStatus.DELIVRED);
 				
 			} catch (IOException e) {
 				logger.error(e);

@@ -423,9 +423,6 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				if (mc.getId() == null)
 					mc.setId(DigestUtils.sha256Hex(me.getSet() + mc.getId() + mc.getName()));
 					
-				mc.getEditions().clear();
-				mc.getEditions().add(me);
-				
 				try {
 					provider.addCard(me, mc);
 					var bi = new BufferedImage(panelPictures.getSize().width, 560,BufferedImage.TYPE_INT_ARGB);
