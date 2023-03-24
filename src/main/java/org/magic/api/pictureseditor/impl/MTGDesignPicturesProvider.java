@@ -11,11 +11,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.util.EntityUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
@@ -206,10 +203,19 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 					logger.error("{} can't generate 4 abitilities planeswalker. removing last ability",getName());
 					abs.remove(abs.size()-1);
 				}
-
 				build.addParameter("pw-size", String.valueOf(abs.size()));
 				for(var i=0;i<abs.size();i++)
+				{
+					if(i==0)
+					{
+						build.addParameter("rules-text", String.valueOf(abs.get(i).getCost()).replace("+", "")+": "+ abs.get(i).getEffect() +'\u00a0');
+					}
+					else
+					{
+						build.addParameter("pw-text"+(i+1), abs.get(i).getCost()+": "+ abs.get(i).getEffect() +'\u00a0');
+					}
 					build.addParameter( (i==0)?"rules-text":"pw-text"+(i+1), abs.get(i).getCost()+": "+ abs.get(i).getEffect() +'\u00a0');
+				}
 			}
 		}
 

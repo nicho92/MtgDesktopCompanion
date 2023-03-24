@@ -207,17 +207,29 @@ public class ChatGPT extends AbstractIA {
 				 //do nothing
 			 }
 			 
-			 if(mc.isCreature())
-			 {
-				 mc.setPower(read(obj,"power").getAsString());
+			 try {
+			 	 mc.setPower(read(obj,"power").getAsString());
 				 mc.setToughness(read(obj,"toughness").getAsString());
-		
+			 }	
+			 catch(Exception e)
+			 {
+				 //do nothing
 			 }
+			 
+			 try {
+			 	 mc.setLoyalty(read(obj,"loyalty").getAsInt());
+			}	
+			 catch(Exception e)
+			 {
+				 //do nothing
+			 }
+			 
 			 
 			 if(!mc.isLand()) {
 				 mc.setCost(read(obj,"manaCost","mana_cost","cost").getAsString());
-				 
 			 }
+			 
+			 
 			 mc.setColors(EnumColors.parseByManaCost(mc.getCost()));
 			 
 		return mc;
