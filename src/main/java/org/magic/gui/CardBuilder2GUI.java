@@ -313,25 +313,38 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			});
 
 
-			btnNewSet.addActionListener(e -> magicEditionDetailPanel.setMagicEdition(new MagicEdition(), true));
+			btnNewSet.addActionListener(e -> {
+				var id = JOptionPane.showInputDialog("ID");
+				
+				try {
+				if(provider.listEditions().stream().anyMatch(ed->ed.getId().equals(id)))
+				{
+					MTGControler.getInstance().notify(new Exception("Set already present"));
+					return;
+				}
+				var ed = new MagicEdition(id,id);
+				provider.saveEdition(ed);
+				editionModel.addItem(ed);
+				magicEditionDetailPanel.setMagicEdition(ed, true);
+				cboSets.addItem(ed);
+				} catch (IOException e1) {
+					MTGControler.getInstance().notify(e1);
+				}
+				
+			});
 
 			btnRemoveEdition.addActionListener(e -> {
 
 				MagicEdition ed = UITools.getTableSelection(editionsTable, 1);
-				
 				int res = JOptionPane.showConfirmDialog(null,
 						MTGControler.getInstance().getLangService().get("CONFIRM_DELETE", ed),
 						MTGControler.getInstance().getLangService().get("DELETE"), JOptionPane.YES_NO_OPTION);
+				
 				if (res == JOptionPane.YES_OPTION) {
 					provider.removeEdition(ed);
-					try {
-						editionModel.init(provider.listEditions());
-						editionModel.fireTableDataChanged();
-					} catch (Exception ex) {
-						MTGControler.getInstance().notify(ex);
-					}
+					cboSets.removeItem(ed);
+					editionModel.removeItem(ed);
 				}
-
 			});
 
 			cardsTable.addMouseListener(new MouseAdapter() {
