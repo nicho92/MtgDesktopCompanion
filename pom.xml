@@ -680,26 +680,26 @@
 				<configuration>
 					<programs>
 						<program>
-							<mainClass>org.magic.api.main.MtgDesktopCompanion</mainClass>
+							<mainClass>org.magic.main.MtgDesktopCompanion</mainClass>
 							<name>${program.id}</name>
 						</program>
 						<program>
-							<mainClass>org.magic.api.main.ServerLauncher</mainClass>
+							<mainClass>org.magic.main.ServerLauncher</mainClass>
 							<name>web-ui</name>
 							<commandLineArguments>
 								<commandLineArgument>"Web UI Server"</commandLineArgument>
 							</commandLineArguments>
 						</program>
 						<program>
-							<mainClass>org.magic.api.main.NetworkClient</mainClass>
+							<mainClass>org.magic.main.NetworkClient</mainClass>
 							<name>net-client</name>
 						</program>
 						<program>
-							<mainClass>org.magic.api.main.ServerLauncher</mainClass>
+							<mainClass>org.magic.main.ServerLauncher</mainClass>
 							<name>server-launch</name>
 						</program>
 						<program>
-							<mainClass>org.magic.api.main.ScriptsUIClient</mainClass>
+							<mainClass>org.magic.main.ScriptsUIClient</mainClass>
 							<name>script-launch</name>
 						</program>
 					</programs>

@@ -1,4 +1,4 @@
-package org.magic.api.main;
+package org.magic.main;
 
 import static org.magic.services.tools.MTG.capitalize;
 import static org.magic.services.tools.MTG.getEnabledPlugin;
