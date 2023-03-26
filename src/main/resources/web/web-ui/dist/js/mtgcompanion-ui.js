@@ -73,6 +73,31 @@ function generateLinkCard(card)
 	 return '<a  href="card.html?scryfallid='+card.scryfallId+'" class="mtg-tooltip" data-set="'+card.editions[0].id+'" scryfallid="'+card.scryfallId+'" side="'+card.side+'" + multiverseId="'+card.editions[0].multiverseId+'" data-name="'+card.name+'">'+card.name+'</a>';
 }
 
+function generateCustomLinkCard(card)
+{
+	 return '<a  href="card.html?id='+card.id+'" class="mtg-tooltip" data-set="'+card.editions[0].id+'" id="'+card.id+'" side="'+card.side+'" data-name="'+card.name+'">'+card.name+'</a>';
+}
+
+
+function mtgtooltipCustom(element)
+{
+	element.popover({
+        placement : 'top',
+		trigger : 'hover',
+        html : true,
+        content: function () {
+	
+	     	var id=$(this).attr("id");
+			var uri=restserver+"/custom/picture/"+id;
+			
+           return "<img class='img-fluid' src='"+uri+"'/>";
+        }
+    });
+	
+}
+
+
+
 function mtgtooltipProduct(product)
 {
 	product.popover({
