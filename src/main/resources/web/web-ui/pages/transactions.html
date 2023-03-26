@@ -194,14 +194,7 @@
 						        		"data": "items",
 										"render": function(d, type, row, meta){
 							                    if(type === 'display'){
-												
-												 var content="<ul>";
-							                	  $.each(d,function(index, value){
-													  content+= "<li class='mtgtooltip' url='"+value.product.url+"'><strong>" + value.qte+"x</strong> " + value.product.name + " <br/>" + JSON.stringify(value.tiersAppIds)+"</li>";
-							                	  });
-							                	  content+="</ul>";											
-												
-												return content;
+													return d.length +" items";
 												}
 												return JSON.stringify(d);
 							            	}
