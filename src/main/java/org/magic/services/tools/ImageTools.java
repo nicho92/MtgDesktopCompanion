@@ -445,6 +445,10 @@ public class ImageTools {
 	}
 
 	public static void write(BufferedImage bi, String formatName, ByteArrayOutputStream baos) throws IOException {
+		
+		if(bi==null)
+			return;
+		
 		ImageIO.write(bi, formatName, baos);
 
 	}
