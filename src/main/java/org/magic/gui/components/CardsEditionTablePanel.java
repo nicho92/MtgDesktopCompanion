@@ -120,7 +120,7 @@ public class CardsEditionTablePanel extends JPanel {
 
 					@Override
 					protected void error(Exception e) {
-					logger.error(e);
+						logger.error(e);
 					}
 
 					@Override
@@ -240,13 +240,15 @@ public class CardsEditionTablePanel extends JPanel {
 
 
 		sw = new AbstractObservableWorker<>(buzy,getEnabledPlugin(MTGCardsProvider.class),currentEdition.getCardCount()) {
-
+			
 			@Override
 			protected List<MagicCard> doInBackground() {
+				logger.debug("Running Worker");
 				List<MagicCard> cards = new ArrayList<>();
 				try {
 					cards = getEnabledPlugin(MTGCardsProvider.class).searchCardByEdition(currentEdition);
 					Collections.sort(cards, new CardsEditionSorter() );
+					logger.debug("results Worker {}",cards);
 					return cards;
 				} catch (Exception e) {
 					logger.error(e);

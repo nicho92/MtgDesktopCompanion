@@ -512,6 +512,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 		
 			@Override
 			protected void notifyEnd () {
+					cardImage = getResult();
 					panelPictures.repaint();
 			}
 			

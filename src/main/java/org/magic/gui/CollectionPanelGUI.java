@@ -675,18 +675,20 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 
 		tableEditions.getSelectionModel().addListSelectionListener(me-> {
-			if(!me.getValueIsAdjusting()) {
-		    	  try {
-		    		 int row = tableEditions.getSelectedRow();
-					MagicEdition ed = (MagicEdition) tableEditions.getValueAt(row, 1);
+			if(!me.getValueIsAdjusting()) 
+			{
+		    	  try 
+		    	  {
+					MagicEdition ed = UITools.getTableSelection(tableEditions, 1);
 					magicEditionDetailPanel.init(ed);
+					cardsSetPanel.init(ed);
 					packagePanel.init(ed);
 					historyPricesPanel.init(null, ed, ed.getSet());
 					jsonPanel.init(ed);
 					btnRemove.setEnabled(false);
 					btnAddAllSet.setEnabled(true);
 					btnExport.setEnabled(false);
-					cardsSetPanel.init(ed);
+					
 					panneauTreeTable.setTitleAt(1, ed.getSet());
 					panneauTreeTable.setSelectedIndex(1);
 					tokensPanel.init(ed);
@@ -695,6 +697,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		    	  }
 		    	  catch(Exception e)
 		    	  {
+		    		  logger.error(e);
 		    		  progressBar.end();
 		    	  }
 			}
