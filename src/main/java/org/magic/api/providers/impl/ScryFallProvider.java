@@ -652,6 +652,11 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				JsonElement el = URLTools.extractAsJson(url);
 
 				var jsonList = el.getAsJsonObject().getAsJsonArray("data");
+				
+				if(jsonList==null)
+					return;
+				
+				
 				for (var i = 0; i < jsonList.size(); i++) {
 					var obj = jsonList.get(i).getAsJsonObject();
 					MagicEdition ed = getSetById(obj.get("set").getAsString());

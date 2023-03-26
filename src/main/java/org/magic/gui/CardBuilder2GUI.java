@@ -34,10 +34,12 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGIA;
 import org.magic.api.interfaces.MTGPictureEditor;
 import org.magic.api.interfaces.MTGPictureEditor.MOD;
+import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.pictures.impl.PersonalSetPicturesProvider;
 import org.magic.api.providers.impl.PrivateMTGSetProvider;
 import org.magic.api.sorters.CardsEditionSorter;
@@ -256,7 +258,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 						@Override
 						protected Void doInBackground() throws Exception {
 							
-								List<MagicCard> cards = provider.getCards(ed);
+								List<MagicCard> cards = provider.searchCardByEdition(ed);
 								ed.setCardCount(cards.size());
 								ed.setCardCountOfficial(cards.size());
 
@@ -323,7 +325,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				var ed = (MagicEdition)cboSets.getSelectedItem();
 				mc.getEditions().add(ed);
 				try {
-					mc.getCurrentSet().setNumber(String.valueOf(provider.getCards((MagicEdition) cboSets.getSelectedItem()).size() + 1));
+					mc.getCurrentSet().setNumber(String.valueOf(provider.searchCardByEdition((MagicEdition) cboSets.getSelectedItem()).size() + 1));
 				} catch (IOException e1) {
 					logger.error(e1);
 				}
@@ -392,7 +394,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 					MagicEdition ed =UITools.getTableSelection(editionsTable, 1);
 					try {
 						initEdition(ed);
-						cardsModel.bind(provider.getCards(ed));
+						cardsModel.bind(provider.searchCardByEdition(ed));
 						cardsModel.fireTableDataChanged();
 					} catch (IOException e) {
 						MTGControler.getInstance().notify(e);
@@ -410,7 +412,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 						protected MagicCard doInBackground() throws Exception {
 							var mc= MTG.getEnabledPlugin(MTGIA.class).generateRandomCard(text);
 							mc.getEditions().add((MagicEdition)cboSets.getSelectedItem());
-							mc.getCurrentSet().setNumber(String.valueOf(provider.getCards((MagicEdition) cboSets.getSelectedItem()).size() + 1));
+							mc.getCurrentSet().setNumber(String.valueOf(provider.searchCardByEdition((MagicEdition) cboSets.getSelectedItem()).size() + 1));
 							return mc;
 						}
 						
@@ -501,27 +503,16 @@ public class CardBuilder2GUI extends MTGUIComponent {
 		magicCardEditorPanel.setMagicCard(mc);
 		cboSets.setSelectedItem(mc.getCurrentSet());
 		jsonPanel.init(mc);
-		buzyCard.start();
-		ThreadManager.getInstance().runInEdt(new SwingWorker<BufferedImage, Void>() {
+		
+		ThreadManager.getInstance().runInEdt(new AbstractObservableWorker<BufferedImage, Void,MTGPictureProvider>(buzyCard,picturesProvider) {
 			@Override
 			protected BufferedImage doInBackground() throws Exception {
-				return picturesProvider.getPicture(mc);
+				return plug.getPicture(mc);
 			}
-			
+		
 			@Override
-			protected void done() {
-				try {
-					cardImage = get();
+			protected void notifyEnd () {
 					panelPictures.repaint();
-				} catch (InterruptedException e) {
-					Thread.currentThread().interrupt();
-				} catch (ExecutionException e) {
-					logger.error(e);
-				}
-				finally {
-					buzyCard.end();
-				}
-				
 			}
 			
 		}, "loading picture");

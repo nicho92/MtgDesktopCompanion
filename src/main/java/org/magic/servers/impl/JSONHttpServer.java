@@ -83,6 +83,7 @@ import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.api.interfaces.MTGTrackingService;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
+import org.magic.api.providers.impl.PrivateMTGSetProvider;
 import org.magic.api.sorters.CardsEditionSorter;
 import org.magic.services.CardsManagerService;
 import org.magic.services.CollectionEvaluator;
@@ -372,6 +373,24 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		get("/services/auth",(request, response) -> jwtService.validateToken(readToken(request)),transformer);
 
+		
+		get("/custom/sets", URLTools.HEADER_JSON,(request, response) -> {
+			return MTG.getPlugin("Personnal Data Set Provider", MTGCardsProvider.class).listEditions();
+		},transformer);
+		
+		get("/custom/cards/:idSet", URLTools.HEADER_JSON,(request, response) -> {
+			return MTG.getPlugin("Personnal Data Set Provider", MTGCardsProvider.class).searchCardByEdition(new MagicEdition(request.params(ID_SET)));
+		},transformer);
+		
+		get("/custom/picture/:idCard", URLTools.HEADER_JSON,(request, response) -> {
+			
+			var mc = MTG.getPlugin("Personnal Data Set Provider", MTGCardsProvider.class).getCardById(request.params(":idCard"));
+			
+			return mc;
+		},transformer);
+		
+		
+		
 		get("/cards/token/:scryfallId", URLTools.HEADER_JSON,(request, response) -> {
 
 			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
@@ -567,7 +586,10 @@ public class JSONHttpServer extends AbstractMTGServer {
 				}
 			})
 		, transformer);
-
+		
+		
+		
+		
 
 		get("/collections/:name/count", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGDao.class).getCardsCountGlobal(new MagicCollection(request.params(NAME))), transformer);
 

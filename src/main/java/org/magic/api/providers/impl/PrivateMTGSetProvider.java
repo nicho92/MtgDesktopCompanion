@@ -15,15 +15,14 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.QueryAttribute;
+import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.FileTools;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 
 public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
@@ -31,7 +30,8 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
 	private String ext = ".json";
 	private File setDirectory;
-
+	private JsonExport serializer;
+	
 	public void removeEdition(MagicEdition me) {
 		var f = new File(setDirectory, me.getId() + ext);
 		try {
@@ -59,11 +59,14 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		return false;
 	}
 
-	public List<MagicCard> getCards(MagicEdition me) throws IOException {
-		var root =  FileTools.readJson(new File(setDirectory, me.getId() + ext)).getAsJsonObject();
-		JsonArray arr = (JsonArray) root.get(CARDS);
-		var listType = new TypeToken<ArrayList<MagicCard>>() {}.getType();
-		return new Gson().fromJson(arr, listType);
+	
+	
+	
+	private List<MagicCard> loadCardsFromSet(MagicEdition me) throws IOException {
+		
+		var root = FileTools.readJson(new File(setDirectory, me.getId() + ext)).getAsJsonObject().get(CARDS);
+		return serializer.fromJsonList(root.toString(), MagicCard.class);
+
 	}
 
 	public void addCard(MagicEdition me, MagicCard mc) throws IOException {
@@ -74,9 +77,9 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		int index = indexOf(mc, cards);
 
 		if (index > -1) {
-			cards.set(index, new Gson().toJsonTree(mc));
+			cards.set(index, serializer.toJsonElement(mc));
 		} else {
-			cards.add(new Gson().toJsonTree(mc));
+			cards.add(serializer.toJsonElement(mc));
 			me.setCardCount(me.getCardCount() + 1);
 			root.addProperty("cardCount", me.getCardCount());
 		}
@@ -85,22 +88,19 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
 	private int indexOf(MagicCard mc, JsonArray arr) {
 		for (var i = 0; i < arr.size(); i++)
-			if (arr.get(i).getAsJsonObject().get("id") != null
-					&& (arr.get(i).getAsJsonObject().get("id").getAsString().equals(mc.getId())))
+			if (arr.get(i).getAsJsonObject().get("id") != null && (arr.get(i).getAsJsonObject().get("id").getAsString().equals(mc.getId())))
 				return i;
 
 		return -1;
 	}
 
-	private MagicEdition getEdition(File f) throws IOException {
+	private MagicEdition loadEditionnFromFile(File f) throws IOException {
 		var root = FileTools.readJson(f).getAsJsonObject();
-		return new Gson().fromJson(root.get("main"), MagicEdition.class);
+		return serializer.fromJson(root.get("main").toString(), MagicEdition.class);
 	}
 
 	public void saveEdition(MagicEdition ed, List<MagicCard> cards) {
 		
-
-
 		cards.forEach(mc->{
 			try {
 				removeCard(ed, mc);
@@ -119,7 +119,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	public void saveEdition(MagicEdition me) throws IOException {
 		var cardCount = 0;
 		try {
-			cardCount = getCards(me).size();
+			cardCount = loadCardsFromSet(me).size();
 
 		} catch (Exception e) {
 			logger.error(e);
@@ -128,20 +128,27 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		me.setCardCount(cardCount);
 
 		var jsonparams = new JsonObject();
-		jsonparams.add("main", new Gson().toJsonTree(me));
+		jsonparams.add("main", serializer.toJsonElement(me));
 
 		if (cardCount == 0)
 			jsonparams.add(CARDS, new JsonArray());
 		else
-			jsonparams.add(CARDS, new Gson().toJsonTree(getCards(me)));
+			jsonparams.add(CARDS, serializer.toJsonElement(loadCardsFromSet(me)));
 
 		FileTools.saveFile(new File(setDirectory, me.getId() + ext), jsonparams.toString());
 
 	}
+	public PrivateMTGSetProvider() {
+		super();
+		setDirectory = getFile("DIRECTORY");
+		serializer = new JsonExport();
+		
+	}
+	
 
 	@Override
 	public void init() {
-		setDirectory = getFile("DIRECTORY");
+	
 		logger.debug("Opening directory {}",setDirectory);
 		if (!setDirectory.exists())
 		{
@@ -174,7 +181,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
 	@Override
 	public List<MagicCard> searchCardByEdition(MagicEdition ed) throws IOException {
-		return getCards(ed);
+		return loadCardsFromSet(ed);
 	}
 
 
@@ -183,7 +190,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	public List<MagicCard> listAllCards() throws IOException {
 		List<MagicCard> res = new ArrayList<>();
 			for (MagicEdition ed : listEditions())
-				for (MagicCard mc : getCards(ed))
+				for (MagicCard mc : loadCardsFromSet(ed))
 						res.add(mc);
 
 			return res;
@@ -195,11 +202,11 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		List<MagicCard> res = new ArrayList<>();
 		if (me == null) {
 			for (MagicEdition ed : listEditions())
-				for (MagicCard mc : getCards(ed))
+				for (MagicCard mc : loadCardsFromSet(ed))
 					if (hasValue(mc, att, crit))
 						res.add(mc);
 		} else {
-			for (MagicCard mc : getCards(me)) {
+			for (MagicCard mc : loadCardsFromSet(me)) {
 				if (hasValue(mc, att, crit))
 					res.add(mc);
 			}
@@ -222,7 +229,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
 		MagicEdition ed = getSetById(me.getId());
 
-		for (MagicCard mc : getCards(ed))
+		for (MagicCard mc : loadCardsFromSet(ed))
 			if (mc.getCurrentSet().getNumber().equals(id))
 				return mc;
 
@@ -232,10 +239,9 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
 	@Override
 	public List<MagicEdition> loadEditions() throws IOException {
-
 		List<MagicEdition> ret = new ArrayList<>();
 		for (File f : setDirectory.listFiles(pathname -> pathname.getName().endsWith(ext))) {
-			ret.add(getEdition(f));
+			ret.add(loadEditionnFromFile(f));
 		}
 
 		return ret;
@@ -244,7 +250,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	@Override
 	public MagicEdition getSetById(String id){
 		try {
-			return getEdition(new File(setDirectory, id + ext));
+			return loadEditionnFromFile(new File(setDirectory, id + ext));
 		} catch (IOException e) {
 			return new MagicEdition(id,id);
 		}

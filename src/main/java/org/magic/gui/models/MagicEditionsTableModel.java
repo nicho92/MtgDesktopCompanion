@@ -120,7 +120,7 @@ public class MagicEditionsTableModel extends GenericTableModel<MagicEdition> {
 		if (column == 4) {
 
 			if(mapCount.get(e)==null)
-				return -1;
+				return 0.0;
 
 			if (e.getCardCount() > 0)
 				return (double) mapCount.get(e) / e.getCardCount();
@@ -129,7 +129,7 @@ public class MagicEditionsTableModel extends GenericTableModel<MagicEdition> {
 		}
 
 		if (column == 5)
-			return mapCount.get(e);
+			return mapCount.get(e)==null?0:mapCount.get(e);
 
 		if (column == 6)
 			return e.getType();
