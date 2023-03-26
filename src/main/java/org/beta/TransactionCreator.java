@@ -64,20 +64,6 @@ public class TransactionCreator {
 //		}
 		
 		
-		for(String setId : new String[] {"WAR", "UMA", "M19", "GRN","RNA", "MH1","C19"})
-		{
-			var sealedProduct = MTG.getEnabledPlugin(MTGSealedProvider.class).get(MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(setId), EnumItems.SET).get(0);
-			var st = new SealedStock(sealedProduct);
-			st.setQte(329);
-			st.getProduct().setTypeProduct(EnumItems.LOTS);
-			st.setCondition(EnumCondition.OPENED);
-			st.setPrice(0.03);
-			t.getItems().add(st);
-			
-		}
-		
-		
-		
 			
 			MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateTransaction(t);
 			

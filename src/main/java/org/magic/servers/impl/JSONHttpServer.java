@@ -35,6 +35,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
+
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
@@ -83,7 +84,6 @@ import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.api.interfaces.MTGTrackingService;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
-import org.magic.api.providers.impl.PrivateMTGSetProvider;
 import org.magic.api.sorters.CardsEditionSorter;
 import org.magic.services.CardsManagerService;
 import org.magic.services.CollectionEvaluator;
@@ -383,11 +383,19 @@ public class JSONHttpServer extends AbstractMTGServer {
 		},transformer);
 		
 		get("/custom/picture/:idCard", URLTools.HEADER_JSON,(request, response) -> {
-			
+			var baos = new ByteArrayOutputStream();
 			var mc = MTG.getPlugin("Personnal Data Set Provider", MTGCardsProvider.class).getCardById(request.params(":idCard"));
-			
-			return mc;
-		},transformer);
+			var im = MTG.getPlugin("Personal Set Pictures",MTGPictureProvider.class).getPicture(mc);
+			ImageTools.write(im, "png", baos);
+
+			baos.flush();
+			byte[] imageInByte = baos.toByteArray();
+			baos.close();
+			response.type("image/png");
+
+			return imageInByte;
+		
+		});
 		
 		
 		
