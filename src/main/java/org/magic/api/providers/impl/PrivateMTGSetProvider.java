@@ -102,17 +102,17 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		return serializer.fromJson(root.get("main").toString(), MagicEdition.class);
 	}
 
-	public void saveEdition(MagicEdition ed, List<MagicCard> cards) throws IOException {
+	public void saveEdition(MagicEdition ed, List<MagicCard> cards) {
 		
 		cards.forEach(mc->{
 			try {
 				removeCard(ed, mc);
 				addCard(ed, mc);
+				saveEdition(ed);
 			} catch (IOException e) {
 				logger.error(e);
 			}
 		});
-	//	saveEdition(ed);
 	}
 
 
