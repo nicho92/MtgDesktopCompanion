@@ -121,18 +121,7 @@ public class ChatGPT extends AbstractIA {
 		return new MTGDocumentation("https://platform.openai.com/docs/models",FORMAT_NOTIFICATION.HTML);
 	}
 	
-	private JsonElement read(JsonObject obj, String... atts)
-	{
-		
-		for(String att: atts)
-		{
-			if(obj.get(att)!=null && !obj.get(att).isJsonNull())
-				return obj.get(att);
-			
-		}
-		
-		return JsonNull.INSTANCE;
-	}
+	
 	
 	@Override
 	public MagicCard generateRandomCard(String description) throws IOException {
@@ -145,93 +134,6 @@ public class ChatGPT extends AbstractIA {
 		ret = StringUtils.substringBetween(ret,"\u0060\u0060\u0060");
 		
 		var obj = URLTools.toJson(ret).getAsJsonObject();
-		
-		var mc = new MagicCard();
-			 mc.setName(read(obj,"name").getAsString());
-			 mc.setText(read(obj,"text","oracleText").getAsString());
-			 mc.setLayout(EnumLayout.NORMAL);
-			
-			 try {
-				 var rarity = read(obj,"rarity").getAsString();
-				 if(rarity.toLowerCase().contains("mythic"))
-					 mc.setRarity(EnumRarity.MYTHIC);
-				 else if(rarity.toLowerCase().contains("rare"))
-					 mc.setRarity(EnumRarity.RARE);
-				 else if(rarity.toLowerCase().contains("unco"))
-					 mc.setRarity(EnumRarity.UNCOMMON);
-				 else
-					 mc.setRarity(EnumRarity.COMMON);
-				 
-			 }
-			 catch(Exception e)
-			 {
-				 //do nothing
-			 }
-			 
-			 try {
-				 mc.setFlavor(read(obj,"flavor").getAsString());
-			 }
-			 catch(Exception e)
-			 {
-				 //do nothing
-			 }
-			 
-			 
-			 
-			 
-			 if(read(obj,"type").isJsonPrimitive())
-			 {
-				 mc.getTypes().add(read(obj,"type").getAsString());
-			 }
-			 
-			
-				 try {
-					 read(obj,"types").getAsJsonArray().forEach(je->mc.getTypes().add(je.getAsString()));
-				 }catch(Exception e)
-				 {
-					 //do nothing
-				 }
-			 
-			 try {
-				 read(obj,"supertypes").getAsJsonArray().forEach(je->mc.getSupertypes().add(je.getAsString()));
-			 }
-			 catch(Exception e)
-			 {
-				 //do nothing
-			 }
-			 try {
-				 read(obj,"subtypes").getAsJsonArray().forEach(je->mc.getSubtypes().add(je.getAsString()));
-			 }
-			 catch(Exception e)
-			 {
-				 //do nothing
-			 }
-			 
-			 try {
-			 	 mc.setPower(read(obj,"power").getAsString());
-				 mc.setToughness(read(obj,"toughness").getAsString());
-			 }	
-			 catch(Exception e)
-			 {
-				 //do nothing
-			 }
-			 
-			 try {
-			 	 mc.setLoyalty(read(obj,"loyalty").getAsInt());
-			}	
-			 catch(Exception e)
-			 {
-				 //do nothing
-			 }
-			 
-			 
-			 if(!mc.isLand()) {
-				 mc.setCost(read(obj,"manaCost","mana_cost","cost").getAsString());
-			 }
-			 
-			 
-			 mc.setColors(EnumColors.parseByManaCost(mc.getCost()));
-			 
-		return mc;
+		return parseIaCardSuggestion(obj);
 	}
 }

@@ -32,6 +32,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 
 import nl.basjes.parse.useragent.UserAgent;
@@ -72,7 +73,19 @@ public class JsonExport extends AbstractCardExport {
 				.create();
 	}
 
-
+	private static JsonElement read(JsonObject obj, String... atts)
+	{
+		
+		for(String att: atts)
+		{
+			if(obj.get(att)!=null && !obj.get(att).isJsonNull())
+				return obj.get(att);
+			
+		}
+		
+		return JsonNull.INSTANCE;
+	}
+	
 
 	public String toJson(Object o)
 	{

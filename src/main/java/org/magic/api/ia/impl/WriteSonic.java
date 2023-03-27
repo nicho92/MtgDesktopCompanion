@@ -5,10 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.entity.StringEntity;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractIA;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
 
@@ -71,10 +73,14 @@ public class WriteSonic extends AbstractIA {
 
 
 	@Override
-	public MagicCard generateRandomCard(String desc) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+	public MagicCard generateRandomCard(String description) throws IOException {
+		var ret = ask(NEW_CARD_QUERY  +( (description==null || description.isEmpty())?"": " with this description  : "+description));
+		if(ret==null)
+			return null;
+		
+		ret = StringUtils.substringBetween(ret,"\u0060\u0060\u0060").replace("JSON", "").replace("json", "").trim();
+		var obj = URLTools.toJson(ret).getAsJsonObject();
+		return parseIaCardSuggestion(obj);
 	}
-
-
+	
 }

@@ -7,8 +7,15 @@ import java.util.stream.Collectors;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.enums.EnumColors;
+import org.magic.api.beans.enums.EnumLayout;
+import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.interfaces.MTGIA;
 import org.magic.services.MTGControler;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
+import com.google.gson.JsonObject;
 
 public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 
@@ -22,7 +29,110 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 	public PLUGINS getType() {
 		return PLUGINS.IA;
 	}
+	
+	protected MagicCard parseIaCardSuggestion(JsonObject obj) {
 
+		var mc = new MagicCard();
+			 mc.setName(read(obj,"name").getAsString());
+			 mc.setText(read(obj,"text","oracleText").getAsString());
+			 mc.setLayout(EnumLayout.NORMAL);
+			
+			 try {
+				 var rarity = read(obj,"rarity").getAsString();
+				 if(rarity.toLowerCase().contains("mythic"))
+					 mc.setRarity(EnumRarity.MYTHIC);
+				 else if(rarity.toLowerCase().contains("rare"))
+					 mc.setRarity(EnumRarity.RARE);
+				 else if(rarity.toLowerCase().contains("unco"))
+					 mc.setRarity(EnumRarity.UNCOMMON);
+				 else
+					 mc.setRarity(EnumRarity.COMMON);
+				 
+			 }
+			 catch(Exception e)
+			 {
+				 //do nothing
+			 }
+			 
+			 try {
+				 mc.setFlavor(read(obj,"flavor").getAsString());
+			 }
+			 catch(Exception e)
+			 {
+				 //do nothing
+			 }
+			 
+			 
+			 
+			 
+			 if(read(obj,"type").isJsonPrimitive())
+			 {
+				 mc.getTypes().add(read(obj,"type").getAsString());
+			 }
+			 
+			
+				 try {
+					 read(obj,"types").getAsJsonArray().forEach(je->mc.getTypes().add(je.getAsString()));
+				 }catch(Exception e)
+				 {
+					 //do nothing
+				 }
+			 
+			 try {
+				 read(obj,"supertypes").getAsJsonArray().forEach(je->mc.getSupertypes().add(je.getAsString()));
+			 }
+			 catch(Exception e)
+			 {
+				 //do nothing
+			 }
+			 try {
+				 read(obj,"subtypes").getAsJsonArray().forEach(je->mc.getSubtypes().add(je.getAsString()));
+			 }
+			 catch(Exception e)
+			 {
+				 //do nothing
+			 }
+			 
+			 try {
+			 	 mc.setPower(read(obj,"power").getAsString());
+				 mc.setToughness(read(obj,"toughness").getAsString());
+			 }	
+			 catch(Exception e)
+			 {
+				 //do nothing
+			 }
+			 
+			 try {
+			 	 mc.setLoyalty(read(obj,"loyalty").getAsInt());
+			}	
+			 catch(Exception e)
+			 {
+				 //do nothing
+			 }
+			 
+			 
+			 if(!mc.isLand()) {
+				 mc.setCost(read(obj,"manaCost","mana_cost","cost").getAsString());
+			 }
+			 
+			 
+			 mc.setColors(EnumColors.parseByManaCost(mc.getCost()));
+			 
+		return mc;
+	}
+	
+	private JsonElement read(JsonObject obj, String... atts)
+	{
+		
+		for(String att: atts)
+		{
+			if(obj.get(att)!=null && !obj.get(att).isJsonNull())
+				return obj.get(att);
+			
+		}
+		
+		return JsonNull.INSTANCE;
+	}
 	
 	@Override
 	public String suggestDeckWith(List<MagicCard> cards) throws IOException {
