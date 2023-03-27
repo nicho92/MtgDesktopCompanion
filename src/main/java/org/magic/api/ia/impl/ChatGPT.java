@@ -51,7 +51,7 @@ public class ChatGPT extends AbstractIA {
 	@Override
 	public String ask(String prompt) throws IOException
 	{
-		logger.info("chat : {} ",prompt);
+		logger.debug("chat : {} ",prompt);
 		var obj = new JsonObject();
 					obj.addProperty("model", getString("MODEL"));
 					obj.addProperty("temperature", getDouble("TEMPERATURE"));
@@ -78,7 +78,7 @@ public class ChatGPT extends AbstractIA {
 		
 		try {
 			var ret = jsonReponse.getAsJsonObject().get("choices").getAsJsonArray().get(0).getAsJsonObject().get("message").getAsJsonObject().get("content").getAsString();
-			logger.info("{} answer : {} ",getName(), ret);
+			logger.debug("{} answer : {} ",getName(), ret);
 			return ret;
 		}
 		catch(Exception e)
