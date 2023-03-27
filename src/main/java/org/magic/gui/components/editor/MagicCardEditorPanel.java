@@ -1,7 +1,6 @@
 package org.magic.gui.components.editor;
 
 import static org.magic.services.tools.MTG.capitalize;
-import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -15,7 +14,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -401,7 +399,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		componentgbc16.gridy = 4;
 
 		panelEditor.add(new JScrollPane(textJEditorPane),BorderLayout.CENTER);
-		var scrollPane = new JScrollPane(new JSuggestedPanel(textJEditorPane,getEnabledPlugin(MTGTextGenerator.class)));
+		var scrollPane = new JScrollPane(new JSuggestedPanel(textJEditorPane,MTG.getEnabledPlugin(MTGTextGenerator.class)));
 		scrollPane.setPreferredSize(new Dimension(panelEditor.getWidth(), 60));
 		panelEditor.add(scrollPane,BorderLayout.SOUTH);
 		panelEditor.setPreferredSize(new Dimension(textJEditorPane.getWidth(), 150));

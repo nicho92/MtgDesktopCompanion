@@ -243,12 +243,10 @@ public class CardsEditionTablePanel extends JPanel {
 			
 			@Override
 			protected List<MagicCard> doInBackground() {
-				logger.debug("Running Worker");
 				List<MagicCard> cards = new ArrayList<>();
 				try {
 					cards = getEnabledPlugin(MTGCardsProvider.class).searchCardByEdition(currentEdition);
 					Collections.sort(cards, new CardsEditionSorter() );
-					logger.debug("results Worker {}",cards);
 					return cards;
 				} catch (Exception e) {
 					logger.error(e);

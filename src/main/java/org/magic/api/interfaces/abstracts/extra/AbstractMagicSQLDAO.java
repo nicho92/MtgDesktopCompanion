@@ -553,15 +553,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		stat.executeUpdate("CREATE INDEX idx_stk_con ON stocks (conditions);");
 		stat.executeUpdate("CREATE INDEX idx_stk_lang ON stocks (langage);");
 
-		stat.executeUpdate("CREATE INDEX idx_ord_idt ON orders (idTransaction);");
-		stat.executeUpdate("CREATE INDEX idx_ord_des ON orders (description);");
-		stat.executeUpdate("CREATE INDEX idx_ord_ed ON orders (edition);");
-		stat.executeUpdate("CREATE INDEX idx_ord_cur ON orders (currency);");
-		stat.executeUpdate("CREATE INDEX idx_ord_ite ON orders (typeItem);");
-		stat.executeUpdate("CREATE INDEX idx_ord_tra ON orders (typeTransaction);");
-		stat.executeUpdate("CREATE INDEX idx_ord_src ON orders (sources);");
-		stat.executeUpdate("CREATE INDEX idx_ord_sel ON orders (seller);");
-
 		stat.executeUpdate("CREATE INDEX idx_news_nam ON news (name);");
 		stat.executeUpdate("CREATE INDEX idx_news_url ON news (url);");
 		stat.executeUpdate("CREATE INDEX idx_news_ctg ON news (categorie);");
