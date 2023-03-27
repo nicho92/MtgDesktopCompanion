@@ -98,8 +98,7 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 						+ URLTools.encode(String.valueOf(mc.getText()))
 						+ "&power=" + mc.getPower() + "&toughness=" + mc.getToughness() + "&artist="
 						+ URLTools.encode(String.valueOf(mc.getArtist())) + "&bottom="
-						+ URLTools.encode("\u2122 & \u00A9 1993-" + Calendar.getInstance().get(Calendar.YEAR)
-								+ " Wizards of the Coast LLC")
+						+ URLTools.encode("\u2122 & \u00A9 1993-" + Calendar.getInstance().get(Calendar.YEAR)+ " Wizards of the Coast LLC")
 						+ "&set1=" + "&set2=" + "&setname=");
 
 	}

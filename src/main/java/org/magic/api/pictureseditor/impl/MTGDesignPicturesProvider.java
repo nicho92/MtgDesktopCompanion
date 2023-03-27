@@ -55,10 +55,6 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 	private void connect() throws IOException {
 		String u = BASE_URI+"/login";
 	
-		
-		
-		
-	
 		if(getAuthenticator().getLogin().isEmpty() || getAuthenticator().getPassword().isEmpty())
 		{
 			throw new IOException("Please fill LOGIN/PASSWORD field in account panel");
@@ -109,8 +105,10 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 
 		var build = new URIBuilder();
 		build.setScheme("https").setHost("mtg.design").setPath("render");
-
-
+		
+		
+		mc.setFrameVersion("2015");
+		
 		if(me!=null)
 		{
 			build.addParameter("card-number", !mc.getCurrentSet().getNumber().isEmpty()?mc.getCurrentSet().getNumber():"1");

@@ -14,6 +14,8 @@ import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -755,11 +757,6 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		AutoBinding<MagicCard, String, JTextField, String> autoBinding10 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, nameProperty, nameJTextField, textProperty5);
 		autoBinding10.bind();
 		//
-		BeanProperty<MagicCard, String> numberProperty = BeanProperty.create("number");
-		BeanProperty<JTextField, Object> valueProperty3 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, Object> autoBinding11 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, numberProperty, numberJTextField, valueProperty3);
-		autoBinding11.bind();
-		//
 		BeanProperty<MagicCard, String> powerProperty = BeanProperty.create("power");
 		BeanProperty<JTextField, Object> valueProperty4 = BeanProperty.create("text");
 		AutoBinding<MagicCard, String, JTextField, Object> autoBinding13 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, powerProperty, powerJTextField, valueProperty4);
@@ -801,11 +798,19 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		cboColorAccent.setSelectedItem(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.ACCENT)!=null?magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.ACCENT):"");
 		chkColorIndicator.setSelected(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.INDICATOR)!=null? Boolean.parseBoolean(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.INDICATOR)) : false);
 		
+		
+		if(magicCard.getCurrentSet()!=null)
+			numberJTextField.setText(magicCard.getCurrentSet().getNumber());
+		
+		
 		spinner.addChangeListener(ce->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.SIZE, spinner.getValue().toString() ));
 		chkFoil.addItemListener(ae->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.FOIL, String.valueOf(chkFoil.isSelected()) ));
 		cboColorAccent.addItemListener(ie-> magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.ACCENT, (cboColorAccent.getSelectedItem().toString()) ));
 		chkColorIndicator.addItemListener(ae->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.INDICATOR, String.valueOf(chkColorIndicator.isSelected()) ));
-
+		numberJTextField.addPropertyChangeListener("text", (PropertyChangeEvent evt)->magicCard.getCurrentSet().setNumber(numberJTextField.getText()));
+		
+		
+		
 		
 		
 		//
@@ -816,7 +821,6 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		bindingGroup.addBinding(autoBinding3);
 		bindingGroup.addBinding(autoBinding5);
 		bindingGroup.addBinding(autoBinding10);
-		bindingGroup.addBinding(autoBinding11);
 		bindingGroup.addBinding(autoBinding13);
 		bindingGroup.addBinding(autoBinding14);
 		bindingGroup.addBinding(autoBinding16);

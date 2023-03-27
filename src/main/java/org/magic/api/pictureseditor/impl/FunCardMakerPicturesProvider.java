@@ -89,6 +89,13 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 						  .addContent("fields[copyright]",getString("COPYRIGHT"))
 						  .addContent("fields[cm]",mc.getCost());
 
+					 
+					 
+					 		if(getString("LAYOUT_OLD_MODERN").equals("old"))
+					 			mc.setFrameVersion("1993");
+					 		else
+					 			mc.setFrameVersion("2003");
+					 
 
 						    if(mc.isPlaneswalker())
 						    {

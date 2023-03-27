@@ -73,7 +73,9 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		var f = new File(setDirectory, me.getId() + ext);
 		var root = FileTools.readJson(f).getAsJsonObject();
 		var cards = root.get(CARDS).getAsJsonArray();
-
+		
+		postTreatmentCard(mc);
+		
 		int index = indexOf(mc, cards);
 
 		if (index > -1) {
@@ -83,6 +85,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 			me.setCardCount(me.getCardCount() + 1);
 			root.addProperty("cardCount", me.getCardCount());
 		}
+		
 		FileTools.saveFile(f, root.toString());
 	}
 
@@ -204,11 +207,15 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 			for (MagicEdition ed : listEditions())
 				for (MagicCard mc : loadCardsFromSet(ed))
 					if (hasValue(mc, att, crit))
+					{
 						res.add(mc);
+					}
 		} else {
 			for (MagicCard mc : loadCardsFromSet(me)) {
 				if (hasValue(mc, att, crit))
+				{
 					res.add(mc);
+				}
 			}
 		}
 
