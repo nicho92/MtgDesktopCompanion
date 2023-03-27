@@ -30,6 +30,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 	private static final String CARD_TEMPLATE = "card-template";
 	private static final String FALSE = "false";
 	private static final String DESIGNER ="designer";
+	
 	private static final String BASE_URI="https://mtg.design";
 	private MTGHttpClient httpclient;
 
@@ -138,9 +139,6 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		if(!mc.getSubtypes().isEmpty())
 			build.addParameter("sub-type", String.join(" ", mc.getSubtypes()));
 
-
-
-
 		build.addParameter("text-size", mc.getCustomMetadata().get(SIZE)!=null?mc.getCustomMetadata().get(SIZE):"30");
 
 		if(mc.getRarity()!=null)
@@ -179,8 +177,6 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		if(mc.getCustomMetadata().get(FOIL)!=null &&  mc.getCustomMetadata().get(FOIL).equalsIgnoreCase(TRUE) )
 			build.addParameter("foil",TRUE);
 		
-	//	build.addParameter("lighten", FALSE);
-
 		if(mc.isPromoCard())
 			build.addParameter("card-layout", "mgdpromo");
 		else

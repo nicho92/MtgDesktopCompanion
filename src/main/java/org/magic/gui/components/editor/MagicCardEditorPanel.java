@@ -177,7 +177,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 
 					if (!cboUn.getSelectedItem().equals("X")) {
 						if (cboUn.getSelectedIndex() > 0) {
-							cost.append("{").append(cboUn.getSelectedIndex()).append("}");
+							cost.append("{").append(cboUn.getSelectedItem()).append("}");
 							cmc += cboUn.getSelectedIndex();
 						}
 					} else {
@@ -718,9 +718,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		if (magicCard != null) {
 			cboSuperType.setSelectedElements(magicCard.getSupertypes());
 			cboTypes.setSelectedElements(magicCard.getTypes());
-			
-			
-			magicCard.getSubtypes().forEach(s->cboSubtypes.addElement(s, true));;
+			magicCard.getSubtypes().forEach(s->cboSubtypes.addElement(s, true));
 
 		}
 
@@ -746,12 +744,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		BeanProperty<JTextField, String> textProperty2 = BeanProperty.create("text");
 		AutoBinding<MagicCard, String, JTextField, String> autoBinding3 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, flavorProperty, flavorJTextField, textProperty2);
 		autoBinding3.bind();
-		//
-//		BeanProperty<MagicCard, Boolean> flippableProperty = BeanProperty.create("flippable");
-//		BeanProperty<JCheckBox, Boolean> selectedProperty = BeanProperty.create("selected");
-//		AutoBinding<MagicCard, Boolean, JCheckBox, Boolean> autoBinding4 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, flippableProperty, chkFoil, selectedProperty);
-//		autoBinding4.bind();
-		//
+	
 		BeanProperty<MagicCard, String> gathererCodeProperty = BeanProperty.create("gathererCode");
 		BeanProperty<JTextField, String> textProperty3 = BeanProperty.create("text");
 		AutoBinding<MagicCard, String, JTextField, String> autoBinding5 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, gathererCodeProperty, gathererCodeJTextField, textProperty3);
@@ -805,7 +798,8 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		
 		spinner.setValue(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.SIZE)!=null? Integer.parseInt(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.SIZE)):30);
 		chkFoil.setSelected(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.FOIL)!=null? Boolean.parseBoolean(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.FOIL)) : false);
-		
+		cboColorAccent.setSelectedItem(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.ACCENT)!=null?magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.ACCENT):"");
+		chkColorIndicator.setSelected(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.INDICATOR)!=null? Boolean.parseBoolean(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.INDICATOR)) : false);
 		
 		spinner.addChangeListener(ce->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.SIZE, spinner.getValue().toString() ));
 		chkFoil.addItemListener(ae->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.FOIL, String.valueOf(chkFoil.isSelected()) ));
@@ -820,7 +814,6 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		bindingGroup.addBinding(autoBinding);
 		bindingGroup.addBinding(autoBinding2);
 		bindingGroup.addBinding(autoBinding3);
-//		bindingGroup.addBinding(autoBinding4);
 		bindingGroup.addBinding(autoBinding5);
 		bindingGroup.addBinding(autoBinding10);
 		bindingGroup.addBinding(autoBinding11);
