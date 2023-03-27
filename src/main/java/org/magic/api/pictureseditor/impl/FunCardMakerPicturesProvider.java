@@ -56,41 +56,17 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 
 	}
 
-	@Override
-	public void setFoil(Boolean b) {
-		// do nothing
-
-	}
-
-	@Override
-	public void setTextSize(int size) {
-		//do nothing
-
-	}
-
-	@Override
-	public void setCenter(boolean center) {
-		//do nothing
-
-	}
-
-	@Override
-	public void setColorIndicator(boolean selected) {
-		// do nothing
-
-	}
-
-	@Override
-	public void setColorAccentuation(String c) {
-
-		if(c.length()>1)
-		{
-			c=c.charAt(0)+"/"+c.charAt(1);
-		}
-
-		setProperty(HYBRIDE,c);
-
-	}
+//	@Override
+//	public void setColorAccentuation(String c) {
+//
+//		if(c.length()>1)
+//		{
+//			c=c.charAt(0)+"/"+c.charAt(1);
+//		}
+//
+//		setProperty(HYBRIDE,c);
+//
+//	}
 
 	@Override
 	public BufferedImage getPicture(MagicCard mc, MagicEdition me) throws IOException {

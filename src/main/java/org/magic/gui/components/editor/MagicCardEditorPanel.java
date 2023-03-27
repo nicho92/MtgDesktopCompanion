@@ -48,6 +48,7 @@ import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.interfaces.MTGPictureEditor;
 import org.magic.api.interfaces.MTGPictureEditor.MOD;
 import org.magic.api.interfaces.MTGTextGenerator;
+import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.MagicTextPane;
 import org.magic.gui.components.ManaPanel;
@@ -64,7 +65,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 	private JTextField artistJTextField;
 	private JTextField costJTextField;
 	private JTextField flavorJTextField;
-	private JCheckBox chboxFoil;
+	private JCheckBox chkFoil;
 	private JTextField gathererCodeJTextField;
 	private JComboBox<String> layoutJComboBox;
 	private JTextField loyaltyJTextField;
@@ -520,12 +521,12 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 				gbclblFoil.gridy = 10;
 				add(lblFoil, gbclblFoil);
 
-				chboxFoil = new JCheckBox();
+				chkFoil = new JCheckBox();
 				var gbcchboxFoil = new GridBagConstraints();
 				gbcchboxFoil.insets = new Insets(5, 0, 5, 0);
 				gbcchboxFoil.gridx = 3;
 				gbcchboxFoil.gridy = 10;
-				add(chboxFoil, gbcchboxFoil);
+				add(chkFoil, gbcchboxFoil);
 
 				var gathererCodeLabel = new JLabel("Gatherer ID:");
 				var labelgbc5 = new GridBagConstraints();
@@ -661,10 +662,11 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		gbcchkPromo.gridx = 3;
 		gbcchkPromo.gridy = 14;
 		add(chkPromo, gbcchkPromo);
-
-		if (magicCard != null) {
-			mbindingGroup = initDataBindings();
-		}
+		
+				
+		
+		mbindingGroup = initDataBindings();
+		
 	}
 
 
@@ -688,10 +690,6 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 			logger.error("error cropping",e);
 		}
 
-	}
-
-	public JCheckBox getChboxFoil() {
-		return chboxFoil;
 	}
 
 	public MagicCard getMagicCard() {
@@ -728,16 +726,6 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 
 	}
 
-	public JCheckBox getColorIndicatorJCheckBox() {
-		return chkColorIndicator;
-	}
-
-	public JSpinner getSizeSpinner() {
-		return spinner;
-	}
-	public JComboBox<String> getCboColorAccent() {
-		return cboColorAccent;
-	}
 	public CropImagePanel getImagePanel() {
 		return imagePanel;
 	}
@@ -759,10 +747,10 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		AutoBinding<MagicCard, String, JTextField, String> autoBinding3 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, flavorProperty, flavorJTextField, textProperty2);
 		autoBinding3.bind();
 		//
-		BeanProperty<MagicCard, Boolean> flippableProperty = BeanProperty.create("flippable");
-		BeanProperty<JCheckBox, Boolean> selectedProperty = BeanProperty.create("selected");
-		AutoBinding<MagicCard, Boolean, JCheckBox, Boolean> autoBinding4 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, flippableProperty, chboxFoil, selectedProperty);
-		autoBinding4.bind();
+//		BeanProperty<MagicCard, Boolean> flippableProperty = BeanProperty.create("flippable");
+//		BeanProperty<JCheckBox, Boolean> selectedProperty = BeanProperty.create("selected");
+//		AutoBinding<MagicCard, Boolean, JCheckBox, Boolean> autoBinding4 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, flippableProperty, chkFoil, selectedProperty);
+//		autoBinding4.bind();
 		//
 		BeanProperty<MagicCard, String> gathererCodeProperty = BeanProperty.create("gathererCode");
 		BeanProperty<JTextField, String> textProperty3 = BeanProperty.create("text");
@@ -814,13 +802,25 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		AutoBinding<MagicCard, Boolean, JCheckBox, Boolean> autoBinding21 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, promoProperty, chkPromo, promoChkProperty);
 		autoBinding21.bind();
 		
+		
+		spinner.setValue(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.SIZE)!=null? Integer.parseInt(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.SIZE)):30);
+		chkFoil.setSelected(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.FOIL)!=null? Boolean.parseBoolean(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.FOIL)) : false);
+		
+		
+		spinner.addChangeListener(ce->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.SIZE, spinner.getValue().toString() ));
+		chkFoil.addItemListener(ae->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.FOIL, String.valueOf(chkFoil.isSelected()) ));
+		cboColorAccent.addItemListener(ie-> magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.ACCENT, (cboColorAccent.getSelectedItem().toString()) ));
+		chkColorIndicator.addItemListener(ae->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.INDICATOR, String.valueOf(chkColorIndicator.isSelected()) ));
+
+		
+		
 		//
 		var bindingGroup = new BindingGroup();
 		//
 		bindingGroup.addBinding(autoBinding);
 		bindingGroup.addBinding(autoBinding2);
 		bindingGroup.addBinding(autoBinding3);
-		bindingGroup.addBinding(autoBinding4);
+//		bindingGroup.addBinding(autoBinding4);
 		bindingGroup.addBinding(autoBinding5);
 		bindingGroup.addBinding(autoBinding10);
 		bindingGroup.addBinding(autoBinding11);

@@ -688,7 +688,6 @@ public class CollectionPanelGUI extends MTGUIComponent {
 					btnRemove.setEnabled(false);
 					btnAddAllSet.setEnabled(true);
 					btnExport.setEnabled(false);
-					
 					panneauTreeTable.setTitleAt(1, ed.getSet());
 					panneauTreeTable.setSelectedIndex(1);
 					tokensPanel.init(ed);

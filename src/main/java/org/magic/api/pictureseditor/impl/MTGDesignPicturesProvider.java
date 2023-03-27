@@ -25,12 +25,9 @@ import org.magic.services.network.URLTools;
 import org.magic.services.tools.ImageTools;
 public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 
-	private static final String ACCENT = "ACCENT";
-	private static final String CENTER = "CENTER";
-	private static final String INDICATOR = "INDICATOR";
+
 	private static final String CARD_ACCENT = "card-accent";
 	private static final String CARD_TEMPLATE = "card-template";
-	private static final String TRUE = "true";
 	private static final String FALSE = "false";
 	private static final String DESIGNER ="designer";
 	private static final String BASE_URI="https://mtg.design";
@@ -144,7 +141,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 
 
 
-		build.addParameter("text-size", getString("SIZE"));
+		build.addParameter("text-size", mc.getCustomMetadata().get(SIZE)!=null?mc.getCustomMetadata().get(SIZE):"30");
 
 		if(mc.getRarity()!=null)
 			build.addParameter("rarity", mc.getRarity().name().substring(0,1).toUpperCase());
@@ -168,19 +165,21 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 
 		build.addParameter(DESIGNER, getString(DESIGNER));
 
-		if(mc.isLand() && !getString(ACCENT).isEmpty())
-			build.addParameter("land-overlay", getString(ACCENT));
+		if(mc.isLand() && mc.getCustomMetadata().get(ACCENT)!=null)
+			build.addParameter("land-overlay", mc.getCustomMetadata().get(ACCENT));
 		else
 			build.addParameter("land-overlay", "C");
 
 		build.addParameter("watermark", "0");
 		build.addParameter("set-symbol", "0");
-		build.addParameter("centered", getString(CENTER));
-
-		if(getBoolean("FOIL"))
-			build.addParameter("foil", TRUE);
-
-		build.addParameter("lighten", FALSE);
+		
+		if(mc.getCustomMetadata().get(CENTER)!=null &&  mc.getCustomMetadata().get(CENTER).equalsIgnoreCase(TRUE) )
+			build.addParameter("centered", TRUE);
+		
+		if(mc.getCustomMetadata().get(FOIL)!=null &&  mc.getCustomMetadata().get(FOIL).equalsIgnoreCase(TRUE) )
+			build.addParameter("foil",TRUE);
+		
+	//	build.addParameter("lighten", FALSE);
 
 		if(mc.isPromoCard())
 			build.addParameter("card-layout", "mgdpromo");
@@ -243,7 +242,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 			build.addParameter(CARD_ACCENT, "C");
 		}
 
-		if(getBoolean(INDICATOR))
+		if(mc.getCustomMetadata().get(INDICATOR)!=null && mc.getCustomMetadata().get(INDICATOR).equalsIgnoreCase(TRUE))
 		{
 			try {
 			if(mc.getColors().size()==1)
@@ -261,9 +260,9 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		build.addParameter("edit", FALSE);
 
 		try {
-			logger.debug("generate {}",build.build());
+			logger.trace("generate {}",build.build());
 			var resp = httpclient.doGet(build.build().toASCIIString());
-			logger.debug("generate {}",resp.getStatusLine().getReasonPhrase());
+			logger.trace("generate {}",resp.getStatusLine().getReasonPhrase());
 			BufferedImage im = ImageTools.read(resp.getEntity().getContent());
 			EntityUtils.consume(resp.getEntity());
 			return im;
@@ -284,47 +283,8 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		return Map.of(   		"FOIL", FALSE,
-								CENTER, "yes",
-								"SIZE", "36",
-								INDICATOR,"yes",
-								DESIGNER,System.getProperty("user.name"));
+		return Map.of(DESIGNER,System.getProperty("user.name"));
 	}
-
-
-	@Override
-	public void setFoil(Boolean b) {
-		setProperty("FOIL", String.valueOf(b));
-
-	}
-
-
-	@Override
-	public void setTextSize(int size) {
-		setProperty("SIZE", String.valueOf(size));
-
-	}
-
-
-	@Override
-	public void setCenter(boolean center) {
-		setProperty(CENTER, String.valueOf(center));
-
-	}
-
-	@Override
-	public void setColorIndicator(boolean selected) {
-		setProperty(INDICATOR, String.valueOf(selected));
-
-	}
-
-
-	@Override
-	public void setColorAccentuation(String c) {
-		setProperty(ACCENT, c);
-
-	}
-
 
 	@Override
 	public int hashCode() {

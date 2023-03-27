@@ -111,30 +111,4 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 		return "MTGCard Maker";
 	}
 
-	@Override
-	public void setFoil(Boolean b) {
-		//do nothing
-
-	}
-
-	@Override
-	public void setTextSize(int size) {
-		//do nothing
-	}
-
-	@Override
-	public void setCenter(boolean center) {
-		//do nothing
-	}
-	@Override
-	public void setColorIndicator(boolean selected) {
-		//do nothing
-	}
-
-	@Override
-	public void setColorAccentuation(String c) {
-		//do nothing
-	}
-
-
 }

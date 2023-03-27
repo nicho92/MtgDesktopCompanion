@@ -2,7 +2,9 @@ package org.magic.api.beans;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.enums.EnumBorders;
@@ -82,6 +84,9 @@ public class MagicCard extends AbstractProduct {
 	private boolean isRebalanced;
 	private String signature;
 
+	private Map<String,String> customMetadata;
+	
+	
 	public EnumCardVariation getExtra()
 	{
 		if(isJapanese())
@@ -102,6 +107,15 @@ public class MagicCard extends AbstractProduct {
 
 	}
 
+	public Map<String, String> getCustomMetadata() {
+		return customMetadata;
+	}
+	
+	public void setCustomMetadata(Map<String, String> customMetadata) {
+		this.customMetadata = customMetadata;
+	}
+	
+	
 	public void setAsciiName(String asciiName) {
 		this.asciiName = asciiName;
 	}
@@ -613,6 +627,7 @@ public class MagicCard extends AbstractProduct {
 		promotypes = new ArrayList<>();
 		colorIndicator = new ArrayList<>();
 		finishes = new ArrayList<>();
+		customMetadata = new HashMap<>();
 		setTypeProduct(EnumItems.CARD);
 	}
 
