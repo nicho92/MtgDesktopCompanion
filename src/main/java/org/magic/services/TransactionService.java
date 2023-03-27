@@ -87,7 +87,6 @@ public class TransactionService
 
 		if(pContact!=null)
 		{
-			logger.debug("Contact {} found",pContact);
 			t.setContact(pContact);
 		}
 

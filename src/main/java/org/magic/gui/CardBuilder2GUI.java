@@ -450,9 +450,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				}
 			});
 
-			btnRefresh.addActionListener(e -> {
-				renderingCard();
-			});
+			btnRefresh.addActionListener(e -> renderingCard());
 
 	
 	}

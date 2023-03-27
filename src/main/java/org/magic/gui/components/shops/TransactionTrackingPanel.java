@@ -57,16 +57,6 @@ public class TransactionTrackingPanel extends MTGUIComponent {
 		add(new JScrollPane(textArea), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1,3));
 
 		
-		comboBox.addItemListener((ItemEvent event)->{
-			    transaction.setTransporter(comboBox.getSelectedItem().toString());
-				if (event.getStateChange() == ItemEvent.SELECTED && isVisible()) {
-				     try {
-						TransactionService.saveTransaction(transaction, false);
-					} catch (IOException e) {
-						logger.error(e);
-					}
-			       }
-		});
 		
 					
 		btnTrack.addActionListener(al->{
@@ -96,6 +86,15 @@ public class TransactionTrackingPanel extends MTGUIComponent {
 	public String getTitle() {
 		return "TRACKING";
 	}
+	
+	public JComboBox<MTGTrackingService> getComboBox() {
+		return comboBox;
+	}
+	
+	public Transaction getTransaction() {
+		return transaction;
+	}
+	
 	
 	@Override
 	public ImageIcon getIcon() {

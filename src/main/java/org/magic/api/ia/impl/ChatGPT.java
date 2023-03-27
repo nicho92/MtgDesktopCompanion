@@ -10,9 +10,6 @@ import org.apache.http.entity.StringEntity;
 import org.magic.api.beans.MTGDocumentation;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.enums.EnumColors;
-import org.magic.api.beans.enums.EnumLayout;
-import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.interfaces.abstracts.AbstractIA;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.MTGHttpClient;
@@ -20,7 +17,6 @@ import org.magic.services.network.URLTools;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 
 public class ChatGPT extends AbstractIA {

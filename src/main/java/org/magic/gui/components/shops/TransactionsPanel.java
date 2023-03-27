@@ -1,6 +1,7 @@
 package org.magic.gui.components.shops;
 
 import java.awt.BorderLayout;
+import java.awt.event.ItemEvent;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -176,8 +177,6 @@ public class TransactionsPanel extends MTGUIComponent {
 		});
 		
 		tableTransactions.getSelectionModel().addListSelectionListener(lsl->{
-
-			
 			if(lsl.getValueIsAdjusting())
 				return;
 			
@@ -218,9 +217,42 @@ public class TransactionsPanel extends MTGUIComponent {
 		
 		});
 		
+		
+		trackPanel.getComboBox().addItemListener((ItemEvent event)->{
+			
+			Transaction transaction = trackPanel.getTransaction();
+			transaction.setTransporter(trackPanel.getComboBox().getSelectedItem().toString());
+			
+			var sw = new SwingWorker<Void, Void>()
+			{
+
+				@Override
+				protected Void doInBackground() throws Exception {
+					TransactionService.saveTransaction(transaction, false);
+					return null;
+				}
+
+				@Override
+				protected void done() {
+					buzy.end();
+				}
+				
+				
+				 
+			};
+			
+			
+			if (event.getStateChange() == ItemEvent.SELECTED && isVisible()) {
+				buzy.start();
+			   ThreadManager.getInstance().runInEdt(sw, "Update tracking for transaction " + transaction);
+		      }
+	});
+	
+		
+		
 
 		tableTransactions.getModel().addTableModelListener(tml->{
-			if(tml.getFirstRow() >-1 && tml.getType()==0)
+			if(tml.getFirstRow() >-1 && tml.getType()==0 && tml.getLastRow()<=transactionModel.getRowCount())
 			{ 
 				try{ 
 					
@@ -247,7 +279,7 @@ public class TransactionsPanel extends MTGUIComponent {
 				
 					};
 					
-					ThreadManager.getInstance().runInEdt(sw, "Saving transaction");
+					ThreadManager.getInstance().runInEdt(sw, "Saving transaction ");
 				}
 				catch(Exception e)
 				{
@@ -354,7 +386,7 @@ public class TransactionsPanel extends MTGUIComponent {
 				}
 				finally{
 					buzy.end();
-					transactionModel.fireTableDataChanged();	
+				//	transactionModel.fireTableDataChanged();	
 				}
 				
 			}
