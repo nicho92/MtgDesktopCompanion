@@ -1,41 +1,32 @@
 package org.magic.gui.dashlet;
 
+import static org.magic.services.tools.MTG.getEnabledPlugin;
+
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
-import java.awt.event.ItemEvent;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.ImageIcon;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 
-import org.magic.api.beans.enums.EnumTransactionDirection;
 import org.magic.api.beans.shop.Transaction;
+import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
-import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
-import org.magic.gui.components.charts.TransactionChartPanel;
+import org.magic.gui.components.charts.TransactionHistoryChartPanel;
 import org.magic.services.MTGConstants;
-import org.magic.services.TransactionService;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
 
-import com.google.common.collect.Lists;
+import com.jogamp.newt.event.KeyEvent;
 
-public class TransactionDashlet extends AbstractJDashlet {
+public class TransactionHistoryDashlet extends AbstractJDashlet {
 
 	private static final long serialVersionUID = 1L;
-	private static final String PROPERTY = "PROPERTY";
-	private JCheckBox chkSumOrTotal;
-	private JCheckBox chkSell;
-	private JCheckBox chkBuy;
-	
-	private JComboBox<String> cboProperty;
-	private TransactionChartPanel chart;
-	private AbstractBuzyIndicatorComponent buzy;
-	
-	
+	private TransactionHistoryChartPanel chart;
+
+
 	@Override
 	public String getCategory() {
 		return "Financial";
@@ -44,102 +35,52 @@ public class TransactionDashlet extends AbstractJDashlet {
 	@Override
 	public void initGUI() {
 		getContentPane().setLayout(new BorderLayout(0, 0));
-
+		chart = new TransactionHistoryChartPanel();
 		var panel = new JPanel();
-		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
+		var btnRefresh = UITools.createBindableJButton("", MTGConstants.ICON_REFRESH, KeyEvent.VK_R, "refresh");
+
+		
 		getContentPane().add(panel, BorderLayout.NORTH);
-
-		cboProperty = UITools.createCombobox(Lists.newArrayList("sourceShopName","statut","typeTransaction","paymentProvider","transporter","contact"));
-		panel.add(cboProperty);
-
-		chkSumOrTotal = new JCheckBox("Count");
-		chkSell = new JCheckBox("SELL");
-		chkBuy = new JCheckBox("BUY");
-		
-		panel.add(chkSumOrTotal);
-		panel.add(chkSell);
-		panel.add(chkBuy);
-		
-		panel.add(buzy);
-		chart = new TransactionChartPanel(true);
-
+		panel.add(btnRefresh);
 		getContentPane().add(chart,BorderLayout.CENTER);
 
 
-		chkBuy.addItemListener(e->init());
-		
-		chkSumOrTotal.addItemListener(e->init());
-
-		chkSell.addItemListener(e->init());
-
-
-		
-		cboProperty.addItemListener(ie -> {
-			if(ie.getStateChange()==ItemEvent.SELECTED)
-				init();
-		});
-		
 		if (getProperties().size() > 0) {
 			var r = new Rectangle((int) Double.parseDouble(getString("x")),
 					(int) Double.parseDouble(getString("y")), (int) Double.parseDouble(getString("w")),
 					(int) Double.parseDouble(getString("h")));
 
-			if(!getString(PROPERTY).isEmpty())
-				cboProperty.setSelectedItem(getString(PROPERTY));
 
-
-			chkSumOrTotal.setSelected(getString("COUNT").equals("true"));
-			chkSell.setSelected(getString("SELL").equals("true"));
-			chkBuy.setSelected(getString("BUY").equals("true"));
 			setBounds(r);
 		}
+		
+		btnRefresh.addActionListener(al->init());
 
 	}
 
 	@Override
 	public void init() {
-		setProperty(PROPERTY, String.valueOf(cboProperty.getSelectedItem()));
-		setProperty("COUNT", String.valueOf(chkSumOrTotal.isSelected()));
-		setProperty("SELL", String.valueOf(chkSell.isSelected()));
-		setProperty("BUY", String.valueOf(chkBuy.isSelected()));
 		
-		buzy.start();
 		var sw = new SwingWorker<List<Transaction>, Void>() {
-
 			@Override
 			protected List<Transaction> doInBackground() throws Exception {
-				return TransactionService.listTransactions().stream().filter(t->{
-					
-					if(chkBuy.isSelected() && !chkSell.isSelected())
-							return t.getTypeTransaction()==EnumTransactionDirection.BUY;
-					else if (chkSell.isSelected() && !chkBuy.isSelected()) 
-						return t.getTypeTransaction()==EnumTransactionDirection.SELL;
-					else
-						return true;
-				}).toList();
+				return getEnabledPlugin(MTGExternalShop.class).listTransaction();
 			}
-			
 			@Override
 			protected void done() {
 				try {
-					chart.init(get(),cboProperty.getSelectedItem().toString(), chkSumOrTotal.isSelected());
-				}catch(InterruptedException inter)
-				{
+					chart.init(get());
+				} catch (InterruptedException e) {
 					Thread.currentThread().interrupt();
-				}
-				catch (Exception e) {
+				} catch (ExecutionException e) {
 					logger.error(e);
-				}
-				finally {
-					buzy.end();
 				}
 			}
 			
+			
 		};
 		
-		ThreadManager.getInstance().runInEdt(sw, "Refresh " + getName());
-		
-		
+		ThreadManager.getInstance().runInEdt(sw, "Loading "+getName());
 	}
 
 	@Override
@@ -149,7 +90,7 @@ public class TransactionDashlet extends AbstractJDashlet {
 
 	@Override
 	public String getName() {
-		return "Transactions Analyse";
+		return "Transactions History";
 	}
 
 
