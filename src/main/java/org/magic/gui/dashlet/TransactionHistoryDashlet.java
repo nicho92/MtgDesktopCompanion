@@ -17,8 +17,12 @@ import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.components.charts.TransactionHistoryChartPanel;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
+import org.magic.services.tools.UITools;
+
+import com.jogamp.newt.event.KeyEvent;
 
 public class TransactionHistoryDashlet extends AbstractJDashlet {
+
 
 	private static final long serialVersionUID = 1L;
 	private TransactionHistoryChartPanel chart;
@@ -32,13 +36,13 @@ public class TransactionHistoryDashlet extends AbstractJDashlet {
 	@Override
 	public void initGUI() {
 		getContentPane().setLayout(new BorderLayout(0, 0));
-
-		var panel = new JPanel();
-		getContentPane().add(panel, BorderLayout.NORTH);
-
 		chart = new TransactionHistoryChartPanel();
+		var panel = new JPanel();
+		var btnRefresh = UITools.createBindableJButton("", MTGConstants.ICON_REFRESH, KeyEvent.VK_R, "refresh");
 
-
+		
+		getContentPane().add(panel, BorderLayout.NORTH);
+		panel.add(btnRefresh);
 		getContentPane().add(chart,BorderLayout.CENTER);
 
 
@@ -50,6 +54,8 @@ public class TransactionHistoryDashlet extends AbstractJDashlet {
 
 			setBounds(r);
 		}
+		
+		btnRefresh.addActionListener(al->init());
 
 	}
 

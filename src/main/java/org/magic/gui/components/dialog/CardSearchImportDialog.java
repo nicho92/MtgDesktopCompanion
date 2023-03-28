@@ -1,6 +1,7 @@
 package org.magic.gui.components.dialog;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.util.List;
 
 import javax.swing.JButton;

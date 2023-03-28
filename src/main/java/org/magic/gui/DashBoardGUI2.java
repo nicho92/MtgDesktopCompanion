@@ -104,8 +104,14 @@ public class DashBoardGUI2 extends MTGUIComponent {
 					}
 				}
 			}
+			
+			@Override
+			protected void done() {
+				logger.debug("Init initNewDashBoardContainer done");
+			}
+			
 		};
-
+		
 		ThreadManager.getInstance().runInEdt(sw, "Loading dashlets");
 	}
 
