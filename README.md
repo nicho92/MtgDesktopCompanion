@@ -13,7 +13,7 @@ Personal Magic the Gathering card manager Deck Builder and Collection Editor
 
 
 # Help
-MTGCompanion is developped with many contributors. Online service ( like Discord bot, Websites) are hosted on my own server, and DNS are paid on my a personnal funds.
+MTGCompanion is developped with many contributors, and is and will remain open source. Online service ( like Discord bot, Websites) are hosted on my own server, and DNS are paid on my a personnal funds.
 Any help are welcome :) [![PayPal](https://img.shields.io/static/v1.svg?label=PayPal&message=Support%20MTGCompanion&color=Blue&logo=paypal)](https://www.paypal.com/donate/?business=ZXJKNZZQ2S7US&no_recurring=0&item_name=Help+me+to+continue+MTGCompanion+developpement%2C+and+online+service+like+Discord+bot+&currency_code=EUR)
 
 
