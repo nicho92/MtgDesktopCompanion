@@ -21,6 +21,7 @@ import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGDocumentation;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.MTGDashlet;
+import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.tools.FileTools;
@@ -34,7 +35,9 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private boolean loaded=false;
 	public abstract ImageIcon getDashletIcon();
-
+	protected AbstractBuzyIndicatorComponent buzy;
+	
+	
 	@Override
 	public ObjectName getObjectName() {
 		try {
@@ -102,7 +105,7 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 
 	protected AbstractJDashlet() {
 		props = new Properties();
-
+		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 		if (!confdir.exists())
 		{
 			 try {

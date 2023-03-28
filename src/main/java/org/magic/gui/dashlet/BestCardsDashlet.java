@@ -19,7 +19,6 @@ import org.magic.api.beans.CardDominance;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
-import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.CardDominanceTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
@@ -35,7 +34,6 @@ public class BestCardsDashlet extends AbstractJDashlet {
 	private CardDominanceTableModel models;
 	private JComboBox<MTGFormat.FORMATS> cboFormat;
 	private JComboBox<String> cboFilter;
-	private AbstractBuzyIndicatorComponent lblLoading;
 
 
 	@Override
@@ -68,8 +66,7 @@ public class BestCardsDashlet extends AbstractJDashlet {
 		cboFilter = UITools.createCombobox(getEnabledPlugin(MTGDashBoard.class).getDominanceFilters());
 		panneauHaut.add(cboFilter);
 
-		lblLoading = AbstractBuzyIndicatorComponent.createLabelComponent();
-		panneauHaut.add(lblLoading);
+		panneauHaut.add(buzy);
 
 		models = new CardDominanceTableModel();
 		table = UITools.createNewTable(models);
@@ -104,7 +101,7 @@ public class BestCardsDashlet extends AbstractJDashlet {
 
 	@Override
 	public void init() {
-		lblLoading.start();
+		buzy.start();
 		var sw = new SwingWorker<List<CardDominance>, Void>() {
 
 			@Override
@@ -132,7 +129,7 @@ public class BestCardsDashlet extends AbstractJDashlet {
 				{
 					logger.error(e);
 				}
-				lblLoading.end();
+				buzy.end();
 			}
 
 		};

@@ -42,9 +42,12 @@ public class TransactionHistoryDashlet extends AbstractJDashlet {
 
 		
 		getContentPane().add(panel, BorderLayout.NORTH);
-		panel.add(btnRefresh);
 		getContentPane().add(chart,BorderLayout.CENTER);
 
+		panel.add(btnRefresh);
+		panel.add(buzy);
+		
+		
 
 		if (getProperties().size() > 0) {
 			var r = new Rectangle((int) Double.parseDouble(getString("x")),
@@ -61,7 +64,7 @@ public class TransactionHistoryDashlet extends AbstractJDashlet {
 
 	@Override
 	public void init() {
-		
+		buzy.start();
 		var sw = new SwingWorker<List<Transaction>, Void>() {
 			@Override
 			protected List<Transaction> doInBackground() throws Exception {
@@ -76,6 +79,7 @@ public class TransactionHistoryDashlet extends AbstractJDashlet {
 				} catch (ExecutionException e) {
 					logger.error(e);
 				}
+				buzy.end();
 			}
 			
 			

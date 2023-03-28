@@ -22,7 +22,6 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
-import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.CardShakerTableModel;
 import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;
 import org.magic.services.MTGConstants;
@@ -33,7 +32,6 @@ public class EditionsDashlet extends AbstractJDashlet {
 
 	private static final long serialVersionUID = 1L;
 	private JXTable table;
-	private AbstractBuzyIndicatorComponent lblLoading;
 	private JComboBox<MagicEdition> cboEditions;
 	private CardShakerTableModel modEdition;
 
@@ -55,8 +53,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 		modEdition = new CardShakerTableModel();
 		cboEditions = UITools.createComboboxEditions();
 		panel.add(cboEditions);
-		lblLoading = AbstractBuzyIndicatorComponent.createLabelComponent();
-		panel.add(lblLoading);
+		panel.add(buzy);
 		table = UITools.createNewTable(modEdition);
 		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
 
@@ -122,7 +119,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 
 		if (cboEditions.getSelectedItem() != null)
 		{
-			lblLoading.start();
+			buzy.start();
 			SwingWorker<EditionsShakers, Void> sw = new SwingWorker<>()
 			{
 				@Override
@@ -151,7 +148,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 					catch (Exception e) {
 						logger.error("error parsing",e);
 					}
-					lblLoading.end();
+					buzy.end();
 				}
 			};
 

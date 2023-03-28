@@ -16,7 +16,6 @@ import javax.swing.JScrollPane;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
-import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.MapTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.providers.MTGEventProvider;
@@ -32,7 +31,6 @@ public class MagicEventsDashlet extends AbstractJDashlet {
 	private JXTable table;
 	private MapTableModel<String, Date> eventsModel;
 	private JComboBox<Integer> cboYear;
-	private AbstractBuzyIndicatorComponent lblLoading;
 	private JComboBox<Integer> cboMonth;
 	private transient MTGEventProvider provider;
 	private Calendar c;
@@ -60,11 +58,10 @@ public class MagicEventsDashlet extends AbstractJDashlet {
 		cboYear.addItemListener(ie -> init());
 		panneauHaut.add(cboYear);
 
-		lblLoading = AbstractBuzyIndicatorComponent.createLabelComponent();
 
 		cboMonth = new JComboBox<>();
 		panneauHaut.add(cboMonth);
-		panneauHaut.add(lblLoading);
+		panneauHaut.add(buzy);
 
 
 		eventsModel = new MapTableModel<>();
@@ -113,7 +110,7 @@ public class MagicEventsDashlet extends AbstractJDashlet {
 
 			@Override
 			protected void auditedRun() {
-				lblLoading.start();
+				buzy.start();
 				int y = c.get(Calendar.YEAR);
 				int m = c.get(Calendar.MONTH) + 1;
 				try {
@@ -135,7 +132,7 @@ public class MagicEventsDashlet extends AbstractJDashlet {
 				} catch (Exception e) {
 					logger.error(e);
 				}
-				lblLoading.end();
+				buzy.end();
 				eventsModel.fireTableDataChanged();
 				table.packAll();
 

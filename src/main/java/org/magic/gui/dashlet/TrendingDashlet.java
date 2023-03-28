@@ -21,7 +21,6 @@ import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
-import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.CardShakerTableModel;
 import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;
 import org.magic.services.MTGConstants;
@@ -34,7 +33,6 @@ public class TrendingDashlet extends AbstractJDashlet {
 	private JXTable table;
 	private CardShakerTableModel modStandard;
 	private JComboBox<MTGFormat.FORMATS> cboFormats;
-	private AbstractBuzyIndicatorComponent lblLoading;
 
 	@Override
 	public ImageIcon getDashletIcon() {
@@ -56,7 +54,6 @@ public class TrendingDashlet extends AbstractJDashlet {
 		cboFormats = UITools.createCombobox(MTGFormat.FORMATS.values());
 		panneauHaut.add(cboFormats);
 
-		lblLoading = AbstractBuzyIndicatorComponent.createLabelComponent();
 
 		btnRefresh = new JButton("");
 		btnRefresh.addActionListener(ae -> init());
@@ -69,7 +66,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 
 		btnRefresh.setIcon(MTGConstants.ICON_REFRESH);
 		panneauHaut.add(btnRefresh);
-		panneauHaut.add(lblLoading);
+		panneauHaut.add(buzy);
 
 
 
@@ -149,7 +146,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 				catch (Exception e) {
 					logger.error(e);
 				}
-				lblLoading.end();
+				buzy.end();
 				setProperty("FORMAT", ((MTGFormat.FORMATS) cboFormats.getSelectedItem()).toString());
 				
 				
@@ -164,7 +161,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 
 		};
 
-		lblLoading.start();
+		buzy.start();
 		ThreadManager.getInstance().runInEdt(sw,"Init Formats Dashlet");
 
 	}

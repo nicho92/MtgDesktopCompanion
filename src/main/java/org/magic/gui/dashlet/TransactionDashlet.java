@@ -14,7 +14,6 @@ import javax.swing.SwingWorker;
 import org.magic.api.beans.enums.EnumTransactionDirection;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
-import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.components.charts.TransactionChartPanel;
 import org.magic.services.MTGConstants;
 import org.magic.services.TransactionService;
@@ -33,7 +32,6 @@ public class TransactionDashlet extends AbstractJDashlet {
 	
 	private JComboBox<String> cboProperty;
 	private TransactionChartPanel chart;
-	private AbstractBuzyIndicatorComponent buzy;
 	
 	
 	@Override
@@ -46,7 +44,6 @@ public class TransactionDashlet extends AbstractJDashlet {
 		getContentPane().setLayout(new BorderLayout(0, 0));
 
 		var panel = new JPanel();
-		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 		getContentPane().add(panel, BorderLayout.NORTH);
 
 		cboProperty = UITools.createCombobox(Lists.newArrayList("sourceShopName","statut","typeTransaction","paymentProvider","transporter","contact"));

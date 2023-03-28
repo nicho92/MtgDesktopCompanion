@@ -42,7 +42,6 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 	private static final long serialVersionUID = 1L;
 	private JXTreeTable treeTable;
 	private JLabel lblPrice;
-	private AbstractBuzyIndicatorComponent buzy;
 	private MapTableModel<MagicEdition, Date> modelCache;
 	private transient CollectionEvaluator evaluator;
 	private transient CollectionAnalyzerWorker sw;

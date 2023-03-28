@@ -1,10 +1,7 @@
 package org.magic.gui.dashlet;
 
-import static org.magic.services.tools.MTG.getEnabledPlugin;
-
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -13,8 +10,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 
 import org.magic.api.beans.shop.Transaction;
-import org.magic.api.interfaces.MTGDao;
-import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.components.charts.TransactionBalanceChartPanel;
 import org.magic.services.MTGConstants;

@@ -18,6 +18,7 @@ import java.util.Properties;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
@@ -72,7 +73,7 @@ public class DashBoardGUI2 extends MTGUIComponent {
 		var mnWindow = new JMenu(capitalize("WINDOW"));
 		mntmSaveDisplay = new JMenuItem(capitalize("SAVE_DISPLAY"));
 		desktop.setBackground(SystemColor.activeCaption);
-		menuBar.setBounds(0, 0, 120, 21);
+		menuBar.setBounds(0, 0, 140, 21);
 		menuBar.add(mnNewMenu);
 		menuBar.add(mnWindow);
 		mnWindow.add(mntmSaveDisplay);
