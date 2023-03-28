@@ -2,7 +2,6 @@ package org.magic.gui.components.shops;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ItemEvent;
 import java.io.IOException;
 
 import javax.swing.ImageIcon;
@@ -18,7 +17,6 @@ import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.MTGTrackingService;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
-import org.magic.services.TransactionService;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 

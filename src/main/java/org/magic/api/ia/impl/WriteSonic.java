@@ -10,7 +10,6 @@ import org.apache.http.entity.StringEntity;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractIA;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
 
