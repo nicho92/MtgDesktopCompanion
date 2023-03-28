@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -49,6 +50,11 @@ public class TransactionsPanel extends MTGUIComponent {
 	private TransactionTotalPanel panneauBas;	
 	private TransactionTrackingPanel trackPanel;
 	private StockItemPanel stockDetailPanel;
+	private JButton btnMerge;
+	private JButton btnDelete;
+	private JButton btnNew;
+	private JButton btnContact;
+	private JButton btnImportTransaction;
 	
 	public TransactionsPanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -64,18 +70,16 @@ public class TransactionsPanel extends MTGUIComponent {
 		
 		
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
-		var btnNew = UITools.createBindableJButton("", MTGConstants.ICON_NEW,KeyEvent.VK_N,"new");
+		btnNew = UITools.createBindableJButton("", MTGConstants.ICON_NEW,KeyEvent.VK_N,"new");
 		var btnSearch = UITools.createBindableJButton("", MTGConstants.ICON_FILTER,KeyEvent.VK_S,"search");
 		var btnRefresh = UITools.createBindableJButton("", MTGConstants.ICON_REFRESH,KeyEvent.VK_R,"reload");
-		var btnMerge = UITools.createBindableJButton("", MTGConstants.ICON_MERGE,KeyEvent.VK_M,"merge");
-		var btnDelete = UITools.createBindableJButton("", MTGConstants.ICON_DELETE,KeyEvent.VK_D,"delete");
-		var btnContact = UITools.createBindableJButton("", MTGConstants.ICON_CONTACT,KeyEvent.VK_C,"contact");
-		var btnImportTransaction = UITools.createBindableJButton(null,MTGConstants.ICON_IMPORT,KeyEvent.VK_I,"transaction import");
+		btnMerge = UITools.createBindableJButton("", MTGConstants.ICON_MERGE,KeyEvent.VK_M,"merge");
+		btnDelete = UITools.createBindableJButton("", MTGConstants.ICON_DELETE,KeyEvent.VK_D,"delete");
+		btnContact = UITools.createBindableJButton("", MTGConstants.ICON_CONTACT,KeyEvent.VK_C,"contact");
+		btnImportTransaction = UITools.createBindableJButton(null,MTGConstants.ICON_IMPORT,KeyEvent.VK_I,"transaction import");
 
 		
-		btnMerge.setEnabled(false);
-		btnDelete.setEnabled(false);
-		btnContact.setEnabled(false);
+	
 		splitPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		splitPanel.setDividerLocation(.5);
 		splitPanel.setResizeWeight(0.5);
@@ -83,12 +87,10 @@ public class TransactionsPanel extends MTGUIComponent {
 		
 		
 		tableTransactions = UITools.createNewTable(transactionModel);
+		
 		tableTransactions.setDefaultRenderer(Date.class, new DateTableCellEditorRenderer(false));
 		UITools.initTableFilter(tableTransactions);
 		UITools.sort(tableTransactions, 1, SortOrder.DESCENDING);
-		
-		
-		
 		UITools.addTab(getContextTabbedPane(), stockDetailPanel);
 		UITools.addTab(getContextTabbedPane(), trackPanel);
 		
@@ -119,6 +121,10 @@ public class TransactionsPanel extends MTGUIComponent {
 		
 		transactionModel.setWritable(chkEditingMode.isSelected());
 		stockDetailPanel.setWritable(chkEditingMode.isSelected());
+		btnMerge.setEnabled(false);
+		btnDelete.setEnabled(false);
+		btnContact.setEnabled(false);
+		btnNew.setEnabled(false);
 		
 		chkEditingMode.addActionListener(al->enableEditing(chkEditingMode.isSelected()));
 		
@@ -421,6 +427,7 @@ public class TransactionsPanel extends MTGUIComponent {
 	private void enableEditing(boolean selected) {
 		transactionModel.setWritable(selected);
 		stockDetailPanel.setWritable(selected);
+		btnNew.setEnabled(selected);
 	}
 
 
