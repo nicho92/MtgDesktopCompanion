@@ -2,12 +2,15 @@ package org.magic.servers.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.activemq.artemis.api.core.QueueConfiguration;
 import org.apache.activemq.artemis.core.config.impl.ConfigurationImpl;
 import org.apache.activemq.artemis.core.server.impl.ActiveMQServerImpl;
+import org.jolokia.jvmagent.JolokiaServer;
+import org.jolokia.jvmagent.JolokiaServerConfig;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGConstants;
 
@@ -45,6 +48,19 @@ public class ActiveMQServer extends AbstractMTGServer {
 			server.getConfiguration().setLargeMessagesDirectory(getString("LOG_DIR"));
 			server.getConfiguration().setBindingsDirectory(getString("LOG_DIR"));
 			server.getConfiguration().setJournalRetentionPeriod(TimeUnit.DAYS, getInt("RETENTION_DAYS"));
+			
+			
+			var map = new HashMap<String,String>();
+				map.put("host", "127.0.0.1");
+				map.put("port", "80");
+				map.put("agentContext", "/");
+				map.put("user","jolokia");
+				map.put("password","jolokia");
+			
+			var jconf = new JolokiaServerConfig(map);
+			
+			JolokiaServer serv = new JolokiaServer(jconf, false);
+			serv.start();
 			
 			
 			String s = "welcome";
