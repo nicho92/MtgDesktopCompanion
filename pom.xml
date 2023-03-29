@@ -52,13 +52,22 @@
   		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
 	<repositories>
-		
 		<repository>
 			<id>reposilite-repository</id>
 			<url>https://repo.panda-lang.org/releases</url>
 		</repository>
 	</repositories>
 	<dependencies>
+		<dependency>
+    		<groupId>org.apache.activemq</groupId>
+    		<artifactId>artemis-core-client</artifactId>
+    		<version>2.28.0</version>
+		</dependency>
+			<dependency>
+		    <groupId>org.apache.activemq</groupId>
+		    <artifactId>artemis-server</artifactId>
+		    <version>2.28.0</version>
+		</dependency>
 		<dependency>
 			<groupId>org.sejda.imageio</groupId>
     		<artifactId>webp-imageio</artifactId>
