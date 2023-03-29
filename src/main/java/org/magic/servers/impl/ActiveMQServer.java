@@ -3,6 +3,7 @@ package org.magic.servers.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.activemq.artemis.api.core.QueueConfiguration;
 import org.apache.activemq.artemis.core.config.impl.ConfigurationImpl;
@@ -27,7 +28,8 @@ public class ActiveMQServer extends AbstractMTGServer {
 			 m.put("LISTENERS_TCP", "tcp://localhost:8081");
 			 m.put("SECURITY_ENABLED", "false");
 			 m.put("LOG_DIR", new File(MTGConstants.DATA_DIR,"activemq").getAbsolutePath());
-			 
+			 m.put("QUEUES", "welcome,trade");
+			 m.put("RETENTION_DAYS", "7");
 			 return m;
 	};
 	
@@ -39,14 +41,22 @@ public class ActiveMQServer extends AbstractMTGServer {
 			server.getConfiguration().setSecurityEnabled(getBoolean("SECURITY_ENABLED"));
 			server.getConfiguration().setJMXManagementEnabled(getBoolean("ENABLE_JMX_MNG"));
 			server.getConfiguration().setJournalDirectory(getString("LOG_DIR"));
+			server.getConfiguration().setPagingDirectory(getString("LOG_DIR"));
+			server.getConfiguration().setLargeMessagesDirectory(getString("LOG_DIR"));
+			server.getConfiguration().setBindingsDirectory(getString("LOG_DIR"));
+			server.getConfiguration().setJournalRetentionPeriod(TimeUnit.DAYS, getInt("RETENTION_DAYS"));
 			
 			
-			QueueConfiguration config = new QueueConfiguration();
-			config.setAddress("example");
-			config.setName("exemple");
-			config.setDurable(true);
+			String s = "welcome";
+			//for(String s : getArray("QUEUES"))
+			{
+				QueueConfiguration config = new QueueConfiguration();
+				config.setAddress(s);
+				config.setName(s);
+				config.setDurable(true);
+				server.createQueue(config);	
+			}
 			
-			server.createQueue(config);
 	}
 	
 	

@@ -31,6 +31,7 @@
 	    <Logger name="org.apache.poi" level="ERROR"></Logger>
 	    <Logger name="org.apache.http" level="ERROR"></Logger>
 	    <Logger name="org.apache.http.wire" level="ERROR"></Logger>
+	    <Logger name="org.apache.activemq" level="INFO"></Logger>
 	    <Logger name="org.apache.commons" level="ERROR"></Logger>
 	    <Logger name="org.apache.commons.jcs" level="ERROR"></Logger>
 	    <Logger name="com.jayway.jsonpath.internal.path" level="ERROR"></Logger>
