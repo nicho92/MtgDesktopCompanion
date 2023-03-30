@@ -9,8 +9,6 @@ import java.util.concurrent.TimeUnit;
 import org.apache.activemq.artemis.api.core.QueueConfiguration;
 import org.apache.activemq.artemis.core.config.impl.ConfigurationImpl;
 import org.apache.activemq.artemis.core.server.impl.ActiveMQServerImpl;
-import org.jolokia.jvmagent.JolokiaServer;
-import org.jolokia.jvmagent.JolokiaServerConfig;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGConstants;
 
@@ -26,13 +24,14 @@ public class ActiveMQServer extends AbstractMTGServer {
 	
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		var m = super.getDefaultAttributes();
+		var m = new HashMap<String,String>();
 			 m.put("ENABLE_JMX_MNG", "true");
 			 m.put("LISTENERS_TCP", "tcp://localhost:8081");
 			 m.put("SECURITY_ENABLED", "false");
 			 m.put("LOG_DIR", new File(MTGConstants.DATA_DIR,"activemq").getAbsolutePath());
 			 m.put("QUEUES", "welcome,trade");
 			 m.put("RETENTION_DAYS", "7");
+			 m.put("AUTOSTART", "false");
 			 return m;
 	};
 	
@@ -49,29 +48,16 @@ public class ActiveMQServer extends AbstractMTGServer {
 			server.getConfiguration().setBindingsDirectory(getString("LOG_DIR"));
 			server.getConfiguration().setJournalRetentionPeriod(TimeUnit.DAYS, getInt("RETENTION_DAYS"));
 			
-			
-			var map = new HashMap<String,String>();
-				map.put("host", "127.0.0.1");
-				map.put("port", "80");
-				map.put("agentContext", "/");
-				map.put("user","jolokia");
-				map.put("password","jolokia");
-			
-			var jconf = new JolokiaServerConfig(map);
-			
-			JolokiaServer serv = new JolokiaServer(jconf, false);
-			serv.start();
-			
-			
-			String s = "welcome";
-			//for(String s : getArray("QUEUES"))
-			{
-				QueueConfiguration config = new QueueConfiguration();
-				config.setAddress(s);
-				config.setName(s);
-				config.setDurable(true);
-				server.createQueue(config);	
+			for(String s : getArray("QUEUES")) {		
+				var cqc = new QueueConfiguration();
+				cqc.setAddress(s);
+				cqc.setName(s);
+				cqc.setDurable(true);
+				cqc.setAutoCreated(true);
+				server.getConfiguration().addQueueConfiguration(cqc);
 			}
+			//
+			
 			
 	}
 	
@@ -104,8 +90,7 @@ public class ActiveMQServer extends AbstractMTGServer {
 
 	@Override
 	public boolean isAutostart() {
-		// TODO Auto-generated method stub
-		return false;
+		return getBoolean("AUTOSTART");
 	}
 
 	@Override
