@@ -1,28 +1,24 @@
 package org.magic.api.interfaces;
 
 import java.awt.Color;
+import java.io.IOException;
 
-import org.magic.api.beans.MagicCard;
 import org.magic.game.model.Player.STATUS;
-import org.utils.patterns.observer.Observer;
 
 public interface MTGNetworkClient {
 
-	public void join();
+	public void join() throws IOException;
 
-	public void sendMessage(String text);
+	public void sendMessage(String text) throws IOException;
 
-	public void sendMessage(String text, Color c);
+	public void sendMessage(String text, Color c) throws IOException;
 
-	public void logout();
+	public void logout() throws IOException;
 
 	public void changeStatus(STATUS selectedItem);
 
 	public boolean isActive();
 
-	public void addObserver(Observer obs);
-
-	public void search(MagicCard mc);
 
 
 }

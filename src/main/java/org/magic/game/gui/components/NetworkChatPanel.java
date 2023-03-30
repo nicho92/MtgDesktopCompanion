@@ -28,13 +28,11 @@ import javax.swing.JTextField;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGNotification;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.api.network.actions.AbstractNetworkAction;
 import org.magic.api.network.actions.ListPlayersAction;
 import org.magic.api.network.actions.SpeakAction;
-import org.magic.api.network.impl.MinaClient;
+import org.magic.api.network.impl.MTGActiveMQNetworkClient;
 import org.magic.game.model.Player.STATUS;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.widgets.JLangLabel;
@@ -43,7 +41,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
-import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
@@ -104,9 +101,9 @@ public class NetworkChatPanel extends MTGUIComponent {
 		cboStates = new JComboBox<>(new DefaultComboBoxModel<>(STATUS.values()));
 		var panelChatBox = new JPanel();
 
-		txtServer.setText("mtgcompanion.me");
+		txtServer.setText("tcp://localhost");
 		txtServer.setColumns(10);
-		txtPort.setText("18567");
+		txtPort.setText("8081");
 		txtPort.setColumns(10);
 		btnLogout.setEnabled(false);
 		panel.setLayout(new BorderLayout());
@@ -164,23 +161,10 @@ public class NetworkChatPanel extends MTGUIComponent {
 
 	private void initActions() {
 
-		btnSearch.addActionListener(ae->{
-
-			MagicCard mc;
-			try {
-				mc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName("Black Lotus", null, false).get(0);
-				client.search(mc);
-			} catch (IOException e1) {
-				logger.error("error search",e1);
-			}
-
-		});
-
-
+		
 		btnConnect.addActionListener(ae -> {
 			try {
-				client = new MinaClient(txtServer.getText(), Integer.parseInt(txtPort.getText()));
-				client.addObserver(obs);
+				client = new MTGActiveMQNetworkClient(txtServer.getText(), Integer.parseInt(txtPort.getText()));
 				client.join();
 
 				ThreadManager.getInstance().executeThread(new MTGRunnable() {
@@ -210,8 +194,16 @@ public class NetworkChatPanel extends MTGUIComponent {
 
 
 		btnLogout.addActionListener(ae -> {
-			client.sendMessage("logged out");
-			client.logout();
+			try {
+				client.sendMessage("logged out");
+			} catch (IOException e) {
+				logger.error(e);
+			}
+			try {
+				client.logout();
+			} catch (IOException e) {
+				logger.error(e);
+			}
 		});
 
 		btnColorChoose.addActionListener(ae -> {
@@ -236,7 +228,11 @@ public class NetworkChatPanel extends MTGUIComponent {
 			@Override
 			public void keyReleased(java.awt.event.KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					client.sendMessage(editorPane.getText(), editorPane.getForeground());
+					try {
+						client.sendMessage(editorPane.getText(), editorPane.getForeground());
+					} catch (IOException e1) {
+						logger.error(e1);
+					}
 					editorPane.setText("");
 				}
 

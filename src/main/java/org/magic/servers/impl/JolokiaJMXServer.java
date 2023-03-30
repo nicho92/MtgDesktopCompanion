@@ -45,12 +45,14 @@ public class JolokiaJMXServer extends AbstractMTGServer {
 		init();
 		serv.start();
 		started=true;
+		logger.info("{} started at {}", getName(), serv.getUrl());
 	}
 
 	@Override
 	public void stop() throws IOException {
 		serv.stop();
 		started=false;
+		
 	}
 
 	@Override
