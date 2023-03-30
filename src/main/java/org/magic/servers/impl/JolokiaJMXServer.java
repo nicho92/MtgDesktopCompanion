@@ -35,7 +35,7 @@ public class JolokiaJMXServer extends AbstractMTGServer {
 		m.put("CONTEXT", "/");
 		m.put("USER", "jolokia");
 		m.put("PASS", "jolokia");
-		
+		m.put("AUTOSTART", "false");
 		return m;
 	}
 	
@@ -60,8 +60,7 @@ public class JolokiaJMXServer extends AbstractMTGServer {
 
 	@Override
 	public boolean isAutostart() {
-		// TODO Auto-generated method stub
-		return false;
+		return getBoolean("AUTOSTART");
 	}
 
 	@Override
