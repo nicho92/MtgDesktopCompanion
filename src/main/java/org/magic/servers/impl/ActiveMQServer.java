@@ -20,6 +20,7 @@ public class ActiveMQServer extends AbstractMTGServer {
 		super();
 		var config = new ConfigurationImpl();
 		server = new ActiveMQServerImpl(config);
+		
 	}
 	
 	@Override
@@ -38,7 +39,6 @@ public class ActiveMQServer extends AbstractMTGServer {
 	
 	private void init() throws Exception
 	{
-		
 			server.getConfiguration().addAcceptorConfiguration("tcp", getString("LISTENERS_TCP"));
 			server.getConfiguration().setSecurityEnabled(getBoolean("SECURITY_ENABLED"));
 			server.getConfiguration().setJMXManagementEnabled(getBoolean("ENABLE_JMX_MNG"));
@@ -47,6 +47,24 @@ public class ActiveMQServer extends AbstractMTGServer {
 			server.getConfiguration().setLargeMessagesDirectory(getString("LOG_DIR"));
 			server.getConfiguration().setBindingsDirectory(getString("LOG_DIR"));
 			server.getConfiguration().setJournalRetentionPeriod(TimeUnit.DAYS, getInt("RETENTION_DAYS"));
+			
+//			server.setSecurityManager(new ActiveMQSecurityManager() {
+//				
+//				@Override
+//				public boolean validateUserAndRole(String user, String password, Set<Role> roles, CheckType checkType) {
+//					logger.info("validateUserAndRole {} {} {}", user, password, roles);
+//					return true;
+//				}
+//				
+//				@Override
+//				public boolean validateUser(String user, String password) {
+//					logger.info("validateUser {} {}", user, password);
+//					return true;
+//				}
+//			});
+//			
+			
+			
 			
 			for(String s : getArray("QUEUES")) {		
 				var cqc = new QueueConfiguration();
@@ -67,6 +85,7 @@ public class ActiveMQServer extends AbstractMTGServer {
 		try {
 			init();
 			server.start();
+//			((ActiveMQServerControl)server.getManagementService().getResource(ResourceNames.BROKER)).startEmbeddedWebServer();
 		} catch (Exception e) {
 			throw new IOException(e);
 		}
