@@ -44,6 +44,7 @@ public class JolokiaJMXServer extends AbstractMTGServer {
 	public void start() throws IOException {
 		init();
 		serv.start();
+		started=true;
 	}
 
 	@Override
