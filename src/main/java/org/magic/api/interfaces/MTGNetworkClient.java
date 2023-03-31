@@ -2,22 +2,30 @@ package org.magic.api.interfaces;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.util.List;
 
+import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATUS;
 
 public interface MTGNetworkClient {
 
-	public void join() throws IOException;
+	String consume() throws IOException;
 
-	public void sendMessage(String text) throws IOException;
+	List<String> listTopics();
 
-	public void sendMessage(String text, Color c) throws IOException;
+	void switchTopic(String topicName) throws IOException;
 
-	public void logout() throws IOException;
+	void join(Player p, String url) throws IOException;
 
-	public void changeStatus(STATUS selectedItem);
+	void sendMessage(String text, Color c) throws IOException;
 
-	public boolean isActive();
+	void logout() throws IOException;
+
+	void changeStatus(STATUS selectedItem) throws IOException;
+
+	void disconnect() throws IOException;
+	
+	boolean isActive();
 
 
 

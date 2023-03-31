@@ -325,10 +325,6 @@
       <enable>true</enable>
     </server>
     <server>
-      <class>org.magic.servers.impl.OnlineServer</class>
-      <enable>false</enable>
-    </server>
-    <server>
       <class>org.magic.servers.impl.PricesWebServer</class>
       <enable>false</enable>
     </server>

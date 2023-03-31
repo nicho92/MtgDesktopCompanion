@@ -11,6 +11,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
@@ -25,14 +26,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingWorker;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.interfaces.MTGNetworkClient;
-import org.magic.api.network.actions.AbstractNetworkAction;
-import org.magic.api.network.actions.ListPlayersAction;
 import org.magic.api.network.actions.SpeakAction;
-import org.magic.api.network.impl.MTGActiveMQNetworkClient;
+import org.magic.api.network.impl.ActiveMQNetworkClient;
 import org.magic.game.model.Player.STATUS;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.widgets.JLangLabel;
@@ -42,19 +42,16 @@ import org.magic.services.MTGControler;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
-import org.utils.patterns.observer.Observable;
-import org.utils.patterns.observer.Observer;
 
 
 public class NetworkChatPanel extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField txtServer;
-	private JTextField txtPort;
 	private JXTable table;
 	private transient MTGNetworkClient client;
 	private PlayerTableModel mod;
-	private JList<AbstractNetworkAction> list = new JList<>(new DefaultListModel<>());
+	private JList<String> list = new JList<>(new DefaultListModel<>());
 	private JButton btnConnect;
 	private JButton btnLogout;
 	private JTextArea editorPane;
@@ -64,23 +61,6 @@ public class NetworkChatPanel extends MTGUIComponent {
 
 
 
-	private transient Observer obs = new Observer() {
-
-		private void printMessage(AbstractNetworkAction sa) {
-			((DefaultListModel<AbstractNetworkAction>) list.getModel()).addElement(sa);
-		}
-
-		@Override
-		public void update(Observable o, Object arg) {
-			if (arg instanceof ListPlayersAction lpa) {
-				mod.bind(lpa.getList());
-			}
-			if (arg instanceof SpeakAction lpa) {
-				printMessage(lpa);
-			}
-		}
-	};
-
 	public NetworkChatPanel() {
 		setLayout(new BorderLayout(0, 0));
 
@@ -89,8 +69,6 @@ public class NetworkChatPanel extends MTGUIComponent {
 		btnConnect = new JButton(capitalize("CONNECT"));
 		var panneauHaut = new JPanel();
 		txtServer = new JTextField();
-		var lblPort = new JLangLabel("Port",true);
-		txtPort = new JTextField();
 		mod = new PlayerTableModel();
 		table = UITools.createNewTable(mod);
 		var panneauBas = new JPanel();
@@ -101,10 +79,8 @@ public class NetworkChatPanel extends MTGUIComponent {
 		cboStates = new JComboBox<>(new DefaultComboBoxModel<>(STATUS.values()));
 		var panelChatBox = new JPanel();
 
-		txtServer.setText("tcp://localhost");
+		txtServer.setText("tcp://localhost:8081");
 		txtServer.setColumns(10);
-		txtPort.setText("8081");
-		txtPort.setColumns(10);
 		btnLogout.setEnabled(false);
 		panel.setLayout(new BorderLayout());
 		panelChatBox.setLayout(new BorderLayout());
@@ -120,26 +96,24 @@ public class NetworkChatPanel extends MTGUIComponent {
 		} catch (Exception e) {
 			editorPane.setForeground(Color.BLACK);
 		}
-
-		list.setCellRenderer(new DefaultListCellRenderer() {
-			private static final long serialVersionUID = 1L;
-			@Override
-			public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,boolean cellHasFocus) {
-				var label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected,cellHasFocus);
-				try {
-					label.setForeground(((SpeakAction) value).getColor());
-				} catch (Exception e) {
-					// do nothing
-				}
-				return label;
-			}
-		});
+//
+//		list.setCellRenderer(new DefaultListCellRenderer() {
+//			private static final long serialVersionUID = 1L;
+//			@Override
+//			public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,boolean cellHasFocus) {
+//				var label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected,cellHasFocus);
+//				try {
+//					label.setForeground(((SpeakAction) value).getColor());
+//				} catch (Exception e) {
+//					// do nothing
+//				}
+//				return label;
+//			}
+//		});
 
 		add(panneauHaut, BorderLayout.NORTH);
 		panneauHaut.add(lblIp);
 		panneauHaut.add(txtServer);
-		panneauHaut.add(lblPort);
-		panneauHaut.add(txtPort);
 		panneauHaut.add(btnConnect);
 		panneauHaut.add(btnLogout);
 
@@ -164,21 +138,19 @@ public class NetworkChatPanel extends MTGUIComponent {
 		
 		btnConnect.addActionListener(ae -> {
 			try {
-				client = new MTGActiveMQNetworkClient(txtServer.getText(), Integer.parseInt(txtPort.getText()));
-				client.join();
-
+				client = new ActiveMQNetworkClient();
+				client.join(MTGControler.getInstance().getProfilPlayer(),  txtServer.getText());
+				client.switchTopic("welcome");
 				ThreadManager.getInstance().executeThread(new MTGRunnable() {
 
 					@Override
 					protected void auditedRun() {
 						while (client.isActive()) {
 							txtServer.setEnabled(!client.isActive());
-							txtPort.setEnabled(!client.isActive());
 							btnConnect.setEnabled(false);
 							btnLogout.setEnabled(true);
 						}
 						txtServer.setEnabled(true);
-						txtPort.setEnabled(true);
 						btnConnect.setEnabled(true);
 						btnLogout.setEnabled(false);
 
@@ -189,16 +161,34 @@ public class NetworkChatPanel extends MTGUIComponent {
 			} catch (Exception e) {
 				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 			}
+			
+			var sw = new SwingWorker<Void, String>(){
+
+				@Override
+				protected Void doInBackground() throws Exception {
+					while(client.isActive())
+					{
+						publish(client.consume());	
+					}
+					return null;
+				}
+
+				@Override
+				protected void process(List<String> chunks) {
+					 
+					for(var s : chunks)
+						((DefaultListModel<String>)list.getModel()).addElement(s);
+				}
+			};
+			
+			ThreadManager.getInstance().runInEdt(sw, "NetworkClient listening");
+			
+			
 		});
 
 
 
 		btnLogout.addActionListener(ae -> {
-			try {
-				client.sendMessage("logged out");
-			} catch (IOException e) {
-				logger.error(e);
-			}
 			try {
 				client.logout();
 			} catch (IOException e) {
@@ -243,7 +233,11 @@ public class NetworkChatPanel extends MTGUIComponent {
 
 		cboStates.addItemListener(ie -> {
 			if(ie.getStateChange()==ItemEvent.SELECTED)
-				client.changeStatus((STATUS) cboStates.getSelectedItem());
+				try {
+					client.changeStatus((STATUS) cboStates.getSelectedItem());
+				} catch (IOException e1) {
+					logger.error(e1);
+				}
 		});
 
 	}
