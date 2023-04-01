@@ -8,14 +8,10 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.activemq.artemis.api.core.QueueConfiguration;
-import org.apache.activemq.artemis.component.WebServerComponent;
 import org.apache.activemq.artemis.core.config.impl.ConfigurationImpl;
 import org.apache.activemq.artemis.core.security.CheckType;
 import org.apache.activemq.artemis.core.security.Role;
 import org.apache.activemq.artemis.core.server.impl.ActiveMQServerImpl;
-import org.apache.activemq.artemis.dto.AppDTO;
-import org.apache.activemq.artemis.dto.BindingDTO;
-import org.apache.activemq.artemis.dto.WebServerDTO;
 import org.apache.activemq.artemis.spi.core.security.ActiveMQSecurityManager;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGConstants;
@@ -29,8 +25,7 @@ public class ActiveMQServer extends AbstractMTGServer {
 		super();
 		var config = new ConfigurationImpl();
 		server = new ActiveMQServerImpl(config);
-	
-		
+
 	
 	}
 	
@@ -54,11 +49,12 @@ public class ActiveMQServer extends AbstractMTGServer {
 				server.getConfiguration().addAcceptorConfiguration("tcp", getString("LISTENERS_TCP"));
 				server.getConfiguration().setSecurityEnabled(getBoolean("SECURITY_ENABLED"));
 				server.getConfiguration().setJMXManagementEnabled(getBoolean("ENABLE_JMX_MNG"));
+				server.getConfiguration().setJournalRetentionPeriod(TimeUnit.DAYS, getInt("RETENTION_DAYS"));
 				server.getConfiguration().setJournalDirectory(getString(LOG_DIR));
 				server.getConfiguration().setPagingDirectory(getString(LOG_DIR));
 				server.getConfiguration().setLargeMessagesDirectory(getString(LOG_DIR));
 				server.getConfiguration().setBindingsDirectory(getString(LOG_DIR));
-				server.getConfiguration().setJournalRetentionPeriod(TimeUnit.DAYS, getInt("RETENTION_DAYS"));
+			
 			
 			server.setSecurityManager(new ActiveMQSecurityManager() {
 				
@@ -77,10 +73,10 @@ public class ActiveMQServer extends AbstractMTGServer {
 			
 			for(String s : getArray("QUEUES")) {		
 				var cqc = new QueueConfiguration();
-				cqc.setAddress(s);
-				cqc.setName(s);
-				cqc.setDurable(true);
-				cqc.setAutoCreated(true);
+						cqc.setAddress(s);
+						cqc.setName(s);
+						cqc.setDurable(true);
+						cqc.setAutoCreated(true);
 				server.getConfiguration().addQueueConfiguration(cqc);
 			}
 			

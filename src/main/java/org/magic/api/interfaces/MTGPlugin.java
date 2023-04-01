@@ -96,7 +96,7 @@ public interface MTGPlugin extends Comparable<MTGPlugin> {
 		if(o==null)
 			return -1;
 
-		return getId().compareTo(o.getName());
+		return getId().compareTo(o.getId());
 	}
 	
 	public default JsonObject toJson()
