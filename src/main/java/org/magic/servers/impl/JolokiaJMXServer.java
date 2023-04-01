@@ -83,8 +83,7 @@ public class JolokiaJMXServer extends AbstractMTGServer {
 
 	@Override
 	public String description() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Jolokia is a JMX-HTTP bridge giving an alternative to JSR-160 connectors. It is an agent based approach with support for many platforms.";
 	}
 
 	@Override
