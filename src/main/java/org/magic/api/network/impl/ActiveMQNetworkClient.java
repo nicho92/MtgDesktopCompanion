@@ -2,6 +2,7 @@ package org.magic.api.network.impl;
 import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.activemq.artemis.api.core.ActiveMQException;
@@ -58,6 +59,9 @@ public class ActiveMQNetworkClient implements MTGNetworkClient {
 	@Override
 	public void join(Player p, String url,String topic) throws IOException {
 		this.player = p;
+		player.setOnlineConnectionDate(new Date());
+		player.setState(STATUS.CONNECTED);
+		
 		try {
 			locator = ActiveMQClient.createServerLocator(url);
 		} catch (Exception e) {
@@ -77,13 +81,14 @@ public class ActiveMQNetworkClient implements MTGNetworkClient {
 		
 		switchTopic(topic);
 		
-		sendMessage(new JsonMessage(p,"connected",Color.black,MSG_TYPE.CONNECT));
+		sendMessage(new JsonMessage(player,"connected",Color.black,MSG_TYPE.CONNECT));
 		
 	}
 	
 
 	@Override
 	public void changeStatus(STATUS selectedItem) throws IOException {
+		player.setState(selectedItem);
 		sendMessage(new JsonMessage(player,selectedItem.name(),Color.black,MSG_TYPE.CHANGESTATUS));
 		
 	}
@@ -108,8 +113,10 @@ public class ActiveMQNetworkClient implements MTGNetworkClient {
 	public void sendMessage(JsonMessage obj) throws IOException {
 		logger.info("send {}",obj);
 		var message = session.createMessage(true);
-		 message.getBodyBuffer().writeString(serializer.toJson(obj));
-		 try {
+		var jsonMsg = serializer.toJson(obj);
+		message.getBodyBuffer().writeString(jsonMsg);
+		
+		try {
 			producer.send(message);
 		} catch (ActiveMQException e) {
 			throw new IOException(e);

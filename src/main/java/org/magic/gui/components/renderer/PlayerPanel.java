@@ -27,7 +27,7 @@ public class PlayerPanel extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 
 		lblIcon = new JLabel(" ");
-		lblIcon.setPreferredSize(new Dimension(100, 100));
+		lblIcon.setPreferredSize(new Dimension(50, 100));
 		add(lblIcon, BorderLayout.WEST);
 
 		JPanel panel = new JPanel();
@@ -55,7 +55,13 @@ public class PlayerPanel extends JPanel {
 		}
 		lblName.setText(p.getName());
 		lblCountry.setText(p.getLocal().getDisplayCountry());
-		lblStatus.setText(p.getState().name() + " (" + UITools.formatDateTime(p.getOnlineConnectionDate())+")");
+		
+		try{
+			lblStatus.setText(p.getState().name() + " (" + UITools.formatDateTime(p.getOnlineConnectionDate())+")");
+		}catch(Exception e)
+		{
+			lblStatus.setText(e.getMessage());
+		}
 
 
 	}

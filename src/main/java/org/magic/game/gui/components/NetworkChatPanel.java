@@ -30,8 +30,8 @@ import javax.swing.SwingWorker;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.JsonMessage;
-import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.JsonMessage.MSG_TYPE;
+import org.magic.api.beans.MTGNotification;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.api.network.impl.ActiveMQNetworkClient;
@@ -41,7 +41,6 @@ import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.gui.models.PlayerTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.network.URLTools;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
@@ -62,6 +61,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 	private JButton btnColorChoose;
 	private JButton btnSearch;
 	private JsonExport serializer;
+	private JScrollPane scroll;
 
 
 	public NetworkChatPanel() {
@@ -81,7 +81,11 @@ public class NetworkChatPanel extends MTGUIComponent {
 		btnColorChoose = new JButton(MTGConstants.ICON_GAME_COLOR);
 		cboStates = new JComboBox<>(new DefaultComboBoxModel<>(STATUS.values()));
 		var panelChatBox = new JPanel();
-
+		
+		scroll = new JScrollPane(list);
+		
+		
+		
 		txtServer.setText("tcp://localhost:8081");
 		txtServer.setColumns(10);
 		btnLogout.setEnabled(false);
@@ -99,7 +103,6 @@ public class NetworkChatPanel extends MTGUIComponent {
 		} catch (Exception e) {
 			editorPane.setForeground(Color.BLACK);
 		}
-		
 		
 		list.setCellRenderer(new DefaultListCellRenderer() {
 			private static final long serialVersionUID = 1L;
@@ -119,10 +122,10 @@ public class NetworkChatPanel extends MTGUIComponent {
 		panneauHaut.add(btnConnect);
 		panneauHaut.add(btnLogout);
 
-		add(new JScrollPane(table), BorderLayout.CENTER);
+		add(new JScrollPane(table), BorderLayout.EAST);
 		add(panneauBas, BorderLayout.SOUTH);
-		add(panel, BorderLayout.EAST);
-		panel.add(new JScrollPane(list), BorderLayout.CENTER);
+		add(panel, BorderLayout.CENTER);
+		panel.add(scroll, BorderLayout.CENTER);
 		panel.add(panelChatBox, BorderLayout.SOUTH);
 
 		panelChatBox.add(editorPane, BorderLayout.CENTER);
@@ -141,6 +144,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		btnConnect.addActionListener(ae -> {
 			try {
 				client = new ActiveMQNetworkClient();
+				
 				client.join(MTGControler.getInstance().getProfilPlayer(),  txtServer.getText(),"welcome");
 				ThreadManager.getInstance().executeThread(new MTGRunnable() {
 
@@ -178,8 +182,26 @@ public class NetworkChatPanel extends MTGUIComponent {
 				@Override
 				protected void process(List<JsonMessage> chunks) {
 					for(var s : chunks)
-						((DefaultListModel<JsonMessage>)list.getModel()).addElement(s);
+					{
+						if(s.getTypeMessage()==MSG_TYPE.TALK)
+							((DefaultListModel<JsonMessage>)list.getModel()).addElement(s);
+						else if(s.getTypeMessage()==MSG_TYPE.CONNECT)
+						{
+							mod.addItem(s.getAuthor());
+						}
+						else if(s.getTypeMessage()==MSG_TYPE.DISCONNECT)
+						{
+							mod.removeItem(s.getAuthor());
+						}
+							
+					}
+					
+					var vscp = scroll.getVerticalScrollBar();
+					vscp.setValue(vscp.getMaximum());
+					
 				}
+				
+				
 			};
 			
 			ThreadManager.getInstance().runInEdt(sw, "NetworkClient listening");

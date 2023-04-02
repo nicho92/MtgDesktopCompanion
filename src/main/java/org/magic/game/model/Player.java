@@ -83,6 +83,8 @@ public class Player extends Observable implements Serializable {
 		manaPool = new ManaPool();
 		local = Locale.getDefault();
 
+		onlineConnectionDate= new Date();
+		
 		mixHandAndLibrary();
 		shuffleLibrary();
 	}
