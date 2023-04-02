@@ -46,7 +46,11 @@ public class ActiveMQServer extends AbstractMTGServer {
 	private void init() throws IOException 
 	{
 			try {
-				server.getConfiguration().addAcceptorConfiguration("tcp", getString("LISTENERS_TCP"));
+				
+				for(int i=0;i<getArray("LISTENERS_TCP").length;i++)
+					server.getConfiguration().addAcceptorConfiguration("tcp-"+i, getArray("LISTENERS_TCP")[i]);
+				
+				
 				server.getConfiguration().setSecurityEnabled(getBoolean("SECURITY_ENABLED"));
 				server.getConfiguration().setJMXManagementEnabled(getBoolean("ENABLE_JMX_MNG"));
 				server.getConfiguration().setJournalRetentionPeriod(TimeUnit.DAYS, getInt("RETENTION_DAYS"));

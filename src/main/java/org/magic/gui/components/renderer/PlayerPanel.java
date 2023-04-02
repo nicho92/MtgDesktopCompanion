@@ -23,11 +23,11 @@ public class PlayerPanel extends JPanel {
 	 * Create the panel.
 	 */
 	public PlayerPanel() {
-		setPreferredSize(new Dimension(381, 100));
+		setPreferredSize(new Dimension(200, 100));
 		setLayout(new BorderLayout(0, 0));
 
 		lblIcon = new JLabel(" ");
-		lblIcon.setPreferredSize(new Dimension(50, 100));
+		lblIcon.setPreferredSize(new Dimension(100, 100));
 		add(lblIcon, BorderLayout.WEST);
 
 		JPanel panel = new JPanel();
@@ -60,7 +60,7 @@ public class PlayerPanel extends JPanel {
 			lblStatus.setText(p.getState().name() + " (" + UITools.formatDateTime(p.getOnlineConnectionDate())+")");
 		}catch(Exception e)
 		{
-			lblStatus.setText(e.getMessage());
+			lblStatus.setText("");
 		}
 
 

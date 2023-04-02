@@ -111,7 +111,7 @@ public class ActiveMQNetworkClient implements MTGNetworkClient {
 
 	@Override
 	public void sendMessage(JsonMessage obj) throws IOException {
-		logger.info("send {}",obj);
+		logger.debug("send {}",obj);
 		var message = session.createMessage(true);
 		var jsonMsg = serializer.toJson(obj);
 		message.getBodyBuffer().writeString(jsonMsg);
