@@ -1,5 +1,6 @@
 package org.magic.api.exports.impl;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -17,6 +18,7 @@ import org.magic.api.beans.technical.audit.NetworkInfo;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.services.adapters.ColorAdapter;
 import org.magic.services.adapters.FileAdapter;
 import org.magic.services.adapters.InstantAdapter;
 import org.magic.services.adapters.MTGStockItemAdapter;
@@ -58,6 +60,9 @@ public class JsonExport extends AbstractCardExport {
 				.registerTypeAdapter(StackTraceElement.class, new StackTraceElementAdapter())
 				.registerTypeHierarchyAdapter(NetworkInfo.class, new NetworkInfoAdapter())
 				.registerTypeHierarchyAdapter(File.class, new FileAdapter())
+				.registerTypeHierarchyAdapter(Color.class, new ColorAdapter())
+				
+				
 				.setDateFormat("yyyy-MM-dd hh:mm").setPrettyPrinting()
 				.create();
 	}

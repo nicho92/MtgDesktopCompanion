@@ -60,13 +60,11 @@ public class ActiveMQServer extends AbstractMTGServer {
 				
 				@Override
 				public boolean validateUserAndRole(String user, String password, Set<Role> roles, CheckType checkType) {
-					logger.info("validateUserAndRole {} {} {}", user, password, roles);
 					return true;
 				}
 				
 				@Override
 				public boolean validateUser(String user, String password) {
-					logger.info("validateUser {} {}", user, password);
 					return true;
 				}
 			});
@@ -93,6 +91,7 @@ public class ActiveMQServer extends AbstractMTGServer {
 		try {
 			init();
 			server.start();
+			logger.info("{} is started", getName());
 		} catch (Exception e) {
 			throw new IOException(e);
 		}
@@ -134,9 +133,4 @@ public class ActiveMQServer extends AbstractMTGServer {
 		return "ActiveMQ";
 	}
 	
-	public static void main(String[] args) throws IOException {
-		new ActiveMQServer().start();
-	}
-	
-
 }

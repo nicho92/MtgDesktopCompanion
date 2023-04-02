@@ -29,9 +29,11 @@ import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 
 import org.jdesktop.swingx.JXTable;
+import org.magic.api.beans.JsonMessage;
 import org.magic.api.beans.MTGNotification;
+import org.magic.api.beans.JsonMessage.MSG_TYPE;
+import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGNetworkClient;
-import org.magic.api.network.actions.SpeakAction;
 import org.magic.api.network.impl.ActiveMQNetworkClient;
 import org.magic.game.model.Player.STATUS;
 import org.magic.gui.abstracts.MTGUIComponent;
@@ -39,6 +41,7 @@ import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.gui.models.PlayerTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.network.URLTools;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
@@ -51,14 +54,14 @@ public class NetworkChatPanel extends MTGUIComponent {
 	private JXTable table;
 	private transient MTGNetworkClient client;
 	private PlayerTableModel mod;
-	private JList<String> list = new JList<>(new DefaultListModel<>());
+	private JList<JsonMessage> list = new JList<>(new DefaultListModel<>());
 	private JButton btnConnect;
 	private JButton btnLogout;
 	private JTextArea editorPane;
 	private JComboBox<STATUS> cboStates;
 	private JButton btnColorChoose;
 	private JButton btnSearch;
-
+	private JsonExport serializer;
 
 
 	public NetworkChatPanel() {
@@ -90,26 +93,25 @@ public class NetworkChatPanel extends MTGUIComponent {
 		editorPane.setRows(2);
 		table.setRowHeight(100);
 		btnSearch = new JButton("Search");
-
+		serializer = new JsonExport();
 		try {
 			editorPane.setForeground(new Color(Integer.parseInt(MTGControler.getInstance().get("/game/player-profil/foreground"))));
 		} catch (Exception e) {
 			editorPane.setForeground(Color.BLACK);
 		}
-//
-//		list.setCellRenderer(new DefaultListCellRenderer() {
-//			private static final long serialVersionUID = 1L;
-//			@Override
-//			public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,boolean cellHasFocus) {
-//				var label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected,cellHasFocus);
-//				try {
-//					label.setForeground(((SpeakAction) value).getColor());
-//				} catch (Exception e) {
-//					// do nothing
-//				}
-//				return label;
-//			}
-//		});
+		
+		
+		list.setCellRenderer(new DefaultListCellRenderer() {
+			private static final long serialVersionUID = 1L;
+			@Override
+			public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,boolean cellHasFocus) {
+					var label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected,cellHasFocus);
+					var json = (JsonMessage)value;
+					label.setText(json.toChatString());
+					label.setForeground(json.getColor());
+				return label;
+			}
+		});
 
 		add(panneauHaut, BorderLayout.NORTH);
 		panneauHaut.add(lblIp);
@@ -139,8 +141,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		btnConnect.addActionListener(ae -> {
 			try {
 				client = new ActiveMQNetworkClient();
-				client.join(MTGControler.getInstance().getProfilPlayer(),  txtServer.getText());
-				client.switchTopic("welcome");
+				client.join(MTGControler.getInstance().getProfilPlayer(),  txtServer.getText(),"welcome");
 				ThreadManager.getInstance().executeThread(new MTGRunnable() {
 
 					@Override
@@ -162,22 +163,22 @@ public class NetworkChatPanel extends MTGUIComponent {
 				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 			}
 			
-			var sw = new SwingWorker<Void, String>(){
+			var sw = new SwingWorker<Void, JsonMessage>(){
 
 				@Override
 				protected Void doInBackground() throws Exception {
 					while(client.isActive())
 					{
-						publish(client.consume());	
+						var s = client.consume();
+						publish(serializer.fromJson(s, JsonMessage.class));	
 					}
 					return null;
 				}
 
 				@Override
-				protected void process(List<String> chunks) {
-					 
+				protected void process(List<JsonMessage> chunks) {
 					for(var s : chunks)
-						((DefaultListModel<String>)list.getModel()).addElement(s);
+						((DefaultListModel<JsonMessage>)list.getModel()).addElement(s);
 				}
 			};
 			

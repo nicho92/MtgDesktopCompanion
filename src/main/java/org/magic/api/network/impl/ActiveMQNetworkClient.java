@@ -12,9 +12,14 @@ import org.apache.activemq.artemis.api.core.client.ClientProducer;
 import org.apache.activemq.artemis.api.core.client.ClientSession;
 import org.apache.activemq.artemis.api.core.client.ClientSessionFactory;
 import org.apache.activemq.artemis.api.core.client.ServerLocator;
+import org.apache.logging.log4j.Logger;
+import org.magic.api.beans.JsonMessage;
+import org.magic.api.beans.JsonMessage.MSG_TYPE;
+import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATUS;
+import org.magic.services.logging.MTGLogger;
 
 public class ActiveMQNetworkClient implements MTGNetworkClient {
 
@@ -23,7 +28,10 @@ public class ActiveMQNetworkClient implements MTGNetworkClient {
 	private ClientConsumer consumer;
 	private ClientSessionFactory factory;
 	private ServerLocator locator;
-
+	private Player player;
+	private Logger logger = MTGLogger.getLogger(ActiveMQNetworkClient.class);
+	private JsonExport serializer = new JsonExport();
+	
 	
 	@Override
 	public String consume() throws IOException {
@@ -48,7 +56,8 @@ public class ActiveMQNetworkClient implements MTGNetworkClient {
 	}
 
 	@Override
-	public void join(Player p, String url) throws IOException {
+	public void join(Player p, String url,String topic) throws IOException {
+		this.player = p;
 		try {
 			locator = ActiveMQClient.createServerLocator(url);
 		} catch (Exception e) {
@@ -61,16 +70,29 @@ public class ActiveMQNetworkClient implements MTGNetworkClient {
 			throw new IOException(e); 
 		}
 		try {
-			session = factory.createSession(p.getName(),"", true,true,true,true,5000);;
+			session = factory.createSession();
 		} catch (ActiveMQException e) {
 			throw new IOException(e); 
 		}
-	 
+		
+		switchTopic(topic);
+		
+		sendMessage(new JsonMessage(p,"connected",Color.black,MSG_TYPE.CONNECT));
+		
 	}
+	
+
+	@Override
+	public void changeStatus(STATUS selectedItem) throws IOException {
+		sendMessage(new JsonMessage(player,selectedItem.name(),Color.black,MSG_TYPE.CHANGESTATUS));
+		
+	}
+
+	
 
 	@Override
 	public void switchTopic(String topicName) throws IOException {
-		  try {
+		try {
 			producer = session.createProducer(topicName);
 		} catch (ActiveMQException e) {
 			throw new IOException(e);
@@ -83,14 +105,23 @@ public class ActiveMQNetworkClient implements MTGNetworkClient {
 	}
 
 	@Override
-	public void sendMessage(String text, Color c) throws IOException {
-		 var message = session.createMessage(true);
-		 message.getBodyBuffer().writeString(text);
+	public void sendMessage(JsonMessage obj) throws IOException {
+		logger.info("send {}",obj);
+		var message = session.createMessage(true);
+		 message.getBodyBuffer().writeString(serializer.toJson(obj));
 		 try {
 			producer.send(message);
 		} catch (ActiveMQException e) {
 			throw new IOException(e);
 		}		
+	}
+	 
+	
+	
+	@Override
+	public void sendMessage(String text, Color c) throws IOException {
+	
+		sendMessage(new JsonMessage(player,text,c,MSG_TYPE.TALK));
 		
 	}
 
@@ -101,11 +132,9 @@ public class ActiveMQNetworkClient implements MTGNetworkClient {
 		} catch (ActiveMQException e) {
 			throw new IOException(e);
 		}
-		
 		locator.close();
-		
 		factory.close();
-		
+	
 		try {
 			producer.close();
 		} catch (ActiveMQException e) {
@@ -120,20 +149,8 @@ public class ActiveMQNetworkClient implements MTGNetworkClient {
 	}
 
 	@Override
-	public void changeStatus(STATUS selectedItem) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public boolean isActive() {
 		return !session.isClosed();
-	}
-
-	@Override
-	public void disconnect() throws IOException {
-		// TODO Auto-generated method stub
-		
 	}
 
 
