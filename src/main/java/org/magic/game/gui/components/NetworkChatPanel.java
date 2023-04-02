@@ -184,7 +184,9 @@ public class NetworkChatPanel extends MTGUIComponent {
 					for(var s : chunks)
 					{
 						if(s.getTypeMessage()==MSG_TYPE.TALK)
+						{
 							((DefaultListModel<JsonMessage>)list.getModel()).addElement(s);
+						}
 						else if(s.getTypeMessage()==MSG_TYPE.CONNECT)
 						{
 							mod.addItem(s.getAuthor());
