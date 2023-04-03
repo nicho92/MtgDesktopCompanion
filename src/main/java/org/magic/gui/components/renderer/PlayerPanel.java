@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.magic.game.model.Player;
+import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.UITools;
 
 
@@ -18,16 +19,14 @@ public class PlayerPanel extends JPanel {
 	private JLabel lblName;
 	private JLabel lblCountry;
 	private JLabel lblStatus;
-
+	private final int iconSize=50;
 	/**
 	 * Create the panel.
 	 */
 	public PlayerPanel() {
-		setPreferredSize(new Dimension(200, 100));
 		setLayout(new BorderLayout(0, 0));
-
 		lblIcon = new JLabel(" ");
-		lblIcon.setPreferredSize(new Dimension(100, 100));
+		lblIcon.setPreferredSize(new Dimension(iconSize,iconSize));
 		add(lblIcon, BorderLayout.WEST);
 
 		JPanel panel = new JPanel();
@@ -48,7 +47,7 @@ public class PlayerPanel extends JPanel {
 	public void setPlayer(Player p)
 	{
 		try {
-			lblIcon.setIcon(new ImageIcon(p.getAvatar()));
+			lblIcon.setIcon(new ImageIcon(ImageTools.resize(p.getAvatar(), iconSize, iconSize)));
 		}catch(Exception e)
 		{
 			//no avatar. do nothing
