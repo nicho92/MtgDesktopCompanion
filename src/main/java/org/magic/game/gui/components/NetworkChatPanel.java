@@ -79,7 +79,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		editorPane = new JTextArea();
 		var panel1 = new JPanel();
 		btnColorChoose = new JButton(MTGConstants.ICON_GAME_COLOR);
-		cboStates = new JComboBox<>(new DefaultComboBoxModel<>(STATUS.values()));
+		cboStates = UITools.createCombobox(STATUS.values());
 		var panelChatBox = new JPanel();
 		
 		scroll = new JScrollPane(list);
