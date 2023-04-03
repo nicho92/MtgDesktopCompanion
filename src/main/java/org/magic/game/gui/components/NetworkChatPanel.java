@@ -195,7 +195,10 @@ public class NetworkChatPanel extends MTGUIComponent {
 						{
 							mod.removeItem(s.getAuthor());
 						}
-							
+						else if(s.getTypeMessage()==MSG_TYPE.CHANGESTATUS)
+						{
+							mod.getItems().stream().filter(p->p.getId().equals(s.getAuthor().getId())).forEach(p->p.setState(STATUS.valueOf(s.getMessage())));
+						}	
 					}
 					
 					var vscp = scroll.getVerticalScrollBar();

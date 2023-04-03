@@ -13,6 +13,7 @@ import org.apache.activemq.artemis.api.core.client.ClientProducer;
 import org.apache.activemq.artemis.api.core.client.ClientSession;
 import org.apache.activemq.artemis.api.core.client.ClientSessionFactory;
 import org.apache.activemq.artemis.api.core.client.ServerLocator;
+import org.apache.commons.lang3.RandomUtils;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.JsonMessage;
 import org.magic.api.beans.JsonMessage.MSG_TYPE;
@@ -61,7 +62,7 @@ public class ActiveMQNetworkClient implements MTGNetworkClient {
 		this.player = p;
 		player.setOnlineConnectionDate(new Date());
 		player.setState(STATUS.CONNECTED);
-		
+		player.setId(RandomUtils.nextLong());
 		try {
 			locator = ActiveMQClient.createServerLocator(url);
 		} catch (Exception e) {
@@ -74,7 +75,7 @@ public class ActiveMQNetworkClient implements MTGNetworkClient {
 			throw new IOException(e); 
 		}
 		try {
-			session = factory.createSession();
+			session = factory.createSession(p.getName(),"password",false,true,true,false, 0, "ID-"+player.getId());
 		} catch (ActiveMQException e) {
 			throw new IOException(e); 
 		}
@@ -112,7 +113,7 @@ public class ActiveMQNetworkClient implements MTGNetworkClient {
 	@Override
 	public void sendMessage(JsonMessage obj) throws IOException {
 		logger.debug("send {}",obj);
-		var message = session.createMessage(true);
+		var message = session.createMessage(obj.getTypeMessage()==MSG_TYPE.TALK);
 		var jsonMsg = serializer.toJson(obj);
 		message.getBodyBuffer().writeString(jsonMsg);
 		

@@ -29,6 +29,11 @@ public class ActiveMQServer extends AbstractMTGServer {
 	
 	}
 	
+	public static void main(String[] args) throws IOException {
+		new ActiveMQServer().start();
+	}
+	
+	
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		var m = new HashMap<String,String>();
@@ -58,21 +63,19 @@ public class ActiveMQServer extends AbstractMTGServer {
 				server.getConfiguration().setPagingDirectory(getString(LOG_DIR));
 				server.getConfiguration().setLargeMessagesDirectory(getString(LOG_DIR));
 				server.getConfiguration().setBindingsDirectory(getString(LOG_DIR));
-			
-			
-			server.setSecurityManager(new ActiveMQSecurityManager() {
+				server.setSecurityManager(new ActiveMQSecurityManager() {
+					
+					@Override
+					public boolean validateUserAndRole(String user, String password, Set<Role> roles, CheckType checkType) {
+						return true;
+					}
+					
+					@Override
+					public boolean validateUser(String user, String password) {
+						return true;
+					}
+				});
 				
-				@Override
-				public boolean validateUserAndRole(String user, String password, Set<Role> roles, CheckType checkType) {
-					return true;
-				}
-				
-				@Override
-				public boolean validateUser(String user, String password) {
-					return true;
-				}
-			});
-			
 			for(String s : getArray("QUEUES")) {		
 				var cqc = new QueueConfiguration();
 						cqc.setAddress(s);
@@ -81,7 +84,7 @@ public class ActiveMQServer extends AbstractMTGServer {
 						cqc.setAutoCreated(true);
 				server.getConfiguration().addQueueConfiguration(cqc);
 			}
-			
+		
 			} catch (Exception e) {
 				throw new IOException(e);
 			}
