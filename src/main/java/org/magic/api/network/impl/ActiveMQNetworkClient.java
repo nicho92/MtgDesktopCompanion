@@ -75,7 +75,7 @@ public class ActiveMQNetworkClient implements MTGNetworkClient {
 			throw new IOException(e); 
 		}
 		try {
-			session = factory.createSession(p.getName(),"password",false,true,true,false, 0, "ID-"+player.getId());
+			session = factory.createSession(p.getName(),"password",false,true,true,true, 0, "ID-"+player.getId());
 		} catch (ActiveMQException e) {
 			throw new IOException(e); 
 		}
