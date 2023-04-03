@@ -13,7 +13,6 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.List;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -30,7 +29,6 @@ import javax.swing.SwingWorker;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.JsonMessage;
-import org.magic.api.beans.JsonMessage.MSG_TYPE;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGNetworkClient;
@@ -81,11 +79,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		btnColorChoose = new JButton(MTGConstants.ICON_GAME_COLOR);
 		cboStates = UITools.createCombobox(STATUS.values());
 		var panelChatBox = new JPanel();
-		
 		scroll = new JScrollPane(list);
-		
-		
-		
 		txtServer.setText("tcp://localhost:8081");
 		txtServer.setColumns(10);
 		btnLogout.setEnabled(false);
@@ -95,7 +89,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		editorPane.setLineWrap(true);
 		editorPane.setWrapStyleWord(true);
 		editorPane.setRows(2);
-		table.setRowHeight(100);
+		table.setRowHeight(50);
 		btnSearch = new JButton("Search");
 		serializer = new JsonExport();
 		try {
@@ -125,6 +119,8 @@ public class NetworkChatPanel extends MTGUIComponent {
 		add(new JScrollPane(table), BorderLayout.EAST);
 		add(panneauBas, BorderLayout.SOUTH);
 		add(panel, BorderLayout.CENTER);
+		
+		
 		panel.add(scroll, BorderLayout.CENTER);
 		panel.add(panelChatBox, BorderLayout.SOUTH);
 
@@ -183,24 +179,20 @@ public class NetworkChatPanel extends MTGUIComponent {
 				protected void process(List<JsonMessage> chunks) {
 					for(var s : chunks)
 					{
-						if(s.getTypeMessage()==MSG_TYPE.TALK)
+						
+						logger.info("Processing {}",s);
+						
+						switch(s.getTypeMessage())
 						{
-							((DefaultListModel<JsonMessage>)list.getModel()).addElement(s);
+						case CHANGESTATUS:mod.getItems().stream().filter(p->p.getId().equals(s.getAuthor().getId())).forEach(p->p.setState(STATUS.valueOf(s.getMessage())));break;
+						case CONNECT:mod.addItem(s.getAuthor());break;
+						case DISCONNECT:mod.removeItem(s.getAuthor());break;
+						case TALK:((DefaultListModel<JsonMessage>)list.getModel()).addElement(s);break;
+						default:break;
+						
 						}
-						else if(s.getTypeMessage()==MSG_TYPE.CONNECT)
-						{
-							mod.addItem(s.getAuthor());
-						}
-						else if(s.getTypeMessage()==MSG_TYPE.DISCONNECT)
-						{
-							mod.removeItem(s.getAuthor());
-						}
-						else if(s.getTypeMessage()==MSG_TYPE.CHANGESTATUS)
-						{
-							mod.getItems().stream().filter(p->p.getId().equals(s.getAuthor().getId())).forEach(p->p.setState(STATUS.valueOf(s.getMessage())));
-						}	
-					}
-					
+										}
+	
 					var vscp = scroll.getVerticalScrollBar();
 					vscp.setValue(vscp.getMaximum());
 					
@@ -225,7 +217,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		});
 
 		btnColorChoose.addActionListener(ae -> {
-			var c = JColorChooser.showDialog(null, "Choose Text Color", Color.BLACK);
+			var c = JColorChooser.showDialog(null, "Choose Text Color", editorPane.getForeground());
 
 			if(c!=null) {
 				editorPane.setForeground(c);
