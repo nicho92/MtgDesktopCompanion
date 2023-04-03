@@ -29,7 +29,6 @@ import javax.swing.SwingWorker;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.JsonMessage;
-import org.magic.api.beans.MTGNotification;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.api.network.impl.ActiveMQNetworkClient;
@@ -39,9 +38,10 @@ import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.gui.models.PlayerTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
+
+import com.google.gson.JsonSyntaxException;
 
 
 public class NetworkChatPanel extends MTGUIComponent {
@@ -51,7 +51,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 	private JXTable table;
 	private transient MTGNetworkClient client;
 	private PlayerTableModel mod;
-	private JList<JsonMessage> list = new JList<>(new DefaultListModel<>());
+	private JList<JsonMessage> list;
 	private JButton btnConnect;
 	private JButton btnLogout;
 	private JTextArea editorPane;
@@ -60,11 +60,15 @@ public class NetworkChatPanel extends MTGUIComponent {
 	private JButton btnSearch;
 	private JsonExport serializer;
 	private JScrollPane scroll;
-
+	private DefaultListModel<JsonMessage> listModel;
 
 	public NetworkChatPanel() {
 		setLayout(new BorderLayout(0, 0));
 
+		
+		listModel = new DefaultListModel<>();
+		list = new JList<>(listModel);
+		
 		btnLogout = new JButton(capitalize("LOGOUT"));
 		var lblIp = new JLangLabel("HOST",true);
 		btnConnect = new JButton(capitalize("CONNECT"));
@@ -80,7 +84,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		cboStates = UITools.createCombobox(STATUS.values());
 		var panelChatBox = new JPanel();
 		scroll = new JScrollPane(list);
-		txtServer.setText("tcp://localhost:8081");
+		txtServer.setText("tcp://localhost:61616");
 		txtServer.setColumns(10);
 		btnLogout.setEnabled(false);
 		panel.setLayout(new BorderLayout());
@@ -142,25 +146,10 @@ public class NetworkChatPanel extends MTGUIComponent {
 				client = new ActiveMQNetworkClient();
 				
 				client.join(MTGControler.getInstance().getProfilPlayer(),  txtServer.getText(),"welcome");
-				ThreadManager.getInstance().executeThread(new MTGRunnable() {
-
-					@Override
-					protected void auditedRun() {
-						while (client.isActive()) {
-							txtServer.setEnabled(!client.isActive());
-							btnConnect.setEnabled(false);
-							btnLogout.setEnabled(true);
-						}
-						txtServer.setEnabled(true);
-						btnConnect.setEnabled(true);
-						btnLogout.setEnabled(false);
-
-					}
-
-				},"alived connection listener");
+				
 
 			} catch (Exception e) {
-				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
+				MTGControler.getInstance().notify(e);
 			}
 			
 			var sw = new SwingWorker<Void, JsonMessage>(){
@@ -170,24 +159,37 @@ public class NetworkChatPanel extends MTGUIComponent {
 					while(client.isActive())
 					{
 						var s = client.consume();
-						publish(serializer.fromJson(s, JsonMessage.class));	
+						var json = serializer.fromJson(s, JsonMessage.class);
+						publish(json);
 					}
 					return null;
 				}
+				
+				@Override
+				protected void done() {
+					txtServer.setEnabled(true);
+					btnConnect.setEnabled(true);
+					btnLogout.setEnabled(false);
+			//		mod.clear();
+				}
+
+
 
 				@Override
 				protected void process(List<JsonMessage> chunks) {
+					
+					txtServer.setEnabled(!client.isActive());
+					btnConnect.setEnabled(false);
+					btnLogout.setEnabled(true);
+					
 					for(var s : chunks)
 					{
-						
-						logger.info("Processing {}",s);
-						
 						switch(s.getTypeMessage())
 						{
 						case CHANGESTATUS:mod.getItems().stream().filter(p->p.getId().equals(s.getAuthor().getId())).forEach(p->p.setState(STATUS.valueOf(s.getMessage())));break;
 						case CONNECT:mod.addItem(s.getAuthor());break;
 						case DISCONNECT:mod.removeItem(s.getAuthor());break;
-						case TALK:((DefaultListModel<JsonMessage>)list.getModel()).addElement(s);break;
+						case TALK:listModel.addElement(s);break;
 						default:break;
 						
 						}

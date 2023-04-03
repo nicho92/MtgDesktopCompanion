@@ -112,13 +112,13 @@ public class ActiveMQNetworkClient implements MTGNetworkClient {
 
 	@Override
 	public void sendMessage(JsonMessage obj) throws IOException {
-		logger.debug("send {}",obj);
 		var message = session.createMessage(obj.getTypeMessage()==MSG_TYPE.TALK);
 		var jsonMsg = serializer.toJson(obj);
 		message.getBodyBuffer().writeString(jsonMsg);
 		
 		try {
 			producer.send(message);
+			logger.info("send {}",obj);
 		} catch (ActiveMQException e) {
 			throw new IOException(e);
 		}		
