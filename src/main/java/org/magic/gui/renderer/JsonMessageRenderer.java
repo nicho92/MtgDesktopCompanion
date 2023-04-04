@@ -5,7 +5,6 @@ import java.awt.Component;
 import java.util.Date;
 
 import javax.swing.ImageIcon;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -15,27 +14,22 @@ import javax.swing.ListCellRenderer;
 import javax.swing.SwingConstants;
 
 import org.magic.api.beans.JsonMessage;
+import org.magic.services.MTGControler;
 import org.magic.services.tools.ImageTools;
-import org.magic.services.tools.UITools;
+import org.ocpsoft.prettytime.PrettyTime;
 
 public class JsonMessageRenderer implements ListCellRenderer<JsonMessage> {
 
-	private final int iconSize=25;
 	
 	@Override
 	public Component getListCellRendererComponent(JList<? extends JsonMessage> list, JsonMessage value, int index,boolean isSelected, boolean cellHasFocus) {
-		var comp= component(value);
-		//comp.setBorder(new LineBorder(Color.BLACK));
-		return comp;
-	}
-	
-
-	private JComponent component(JsonMessage value) {
-		
+		int iconSize=25;
 		var panel = new JPanel();
 		panel.setLayout(new BorderLayout(0, 0));
 		
-		var lbl = new JLabel("<html><b>"+value.getAuthor().getName()+"</b><i> ("+UITools.formatDateTime(new Date(value.getTimeStamp()))+")</i></html>",
+		
+		
+		var lbl = new JLabel("<html><b>"+value.getAuthor().getName()+"</b><i> ("+new PrettyTime(MTGControler.getInstance().getLocale()).format(new Date(value.getTimeStamp()))+")</i></html>",
 							 new ImageIcon(ImageTools.resize(value.getAuthor().getAvatar(), iconSize, iconSize)),
 							 SwingConstants.LEFT  );
 		
@@ -50,9 +44,8 @@ public class JsonMessageRenderer implements ListCellRenderer<JsonMessage> {
 		panel.add(textArea, BorderLayout.CENTER);
 		
 		return panel;
-		
 	}
-
+	
 	
 
 }

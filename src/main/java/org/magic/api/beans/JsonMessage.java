@@ -16,7 +16,6 @@ public class JsonMessage {
 	
 	public enum MSG_TYPE { CONNECT, CHANGESTATUS,DISCONNECT,TALK }
 	
-	
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);

@@ -1,10 +1,9 @@
-package org.magic.game.gui.components;
+package org.magic.gui.components;
 
 import static org.magic.services.tools.MTG.capitalize;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.ItemEvent;
@@ -14,19 +13,18 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
+import javax.swing.border.TitledBorder;
 
 import org.magic.api.beans.JsonMessage;
 import org.magic.api.exports.impl.JsonExport;
@@ -36,12 +34,12 @@ import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATUS;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.widgets.JLangLabel;
+import org.magic.gui.renderer.JsonMessageRenderer;
 import org.magic.gui.renderer.PlayerRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
-import javax.swing.border.TitledBorder;
 
 
 public class NetworkChatPanel extends MTGUIComponent {
@@ -104,19 +102,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		
 		
 		listPlayers.setCellRenderer(new PlayerRenderer());
-		
-		
-		listMsg.setCellRenderer(new DefaultListCellRenderer() {
-			private static final long serialVersionUID = 1L;
-			@Override
-			public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,boolean cellHasFocus) {
-					var label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected,cellHasFocus);
-					var json = (JsonMessage)value;
-					label.setText(json.toChatString());
-					label.setForeground(json.getColor());
-				return label;
-			}
-		});
+		listMsg.setCellRenderer(new JsonMessageRenderer());
 
 		add(panneauHaut, BorderLayout.NORTH);
 		panneauHaut.add(lblIp);
@@ -192,8 +178,8 @@ public class NetworkChatPanel extends MTGUIComponent {
 						switch(s.getTypeMessage())
 						{
 						case CHANGESTATUS:Collections.list(listPlayerModel.elements()).stream().filter(p->p.getId().equals(s.getAuthor().getId())).forEach(p->p.setState(STATUS.valueOf(s.getMessage())));listPlayers.updateUI();break;
-						case CONNECT:listPlayerModel.addElement(s.getAuthor());listPlayers.updateUI();;break;
-						case DISCONNECT:listPlayerModel.removeElement(s.getAuthor());listPlayers.updateUI();;break;
+						case CONNECT:listPlayerModel.addElement(s.getAuthor());listPlayers.updateUI();break;
+						case DISCONNECT:listPlayerModel.removeElement(s.getAuthor());listPlayers.updateUI();break;
 						case TALK:listMsgModel.addElement(s);break;
 						default:break;
 						

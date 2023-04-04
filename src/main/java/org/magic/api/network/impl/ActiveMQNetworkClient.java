@@ -1,7 +1,6 @@
 package org.magic.api.network.impl;
 import java.awt.Color;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,6 +13,7 @@ import org.apache.activemq.artemis.api.core.client.ClientSession;
 import org.apache.activemq.artemis.api.core.client.ClientSessionFactory;
 import org.apache.activemq.artemis.api.core.client.ServerLocator;
 import org.apache.commons.lang3.RandomUtils;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.JsonMessage;
 import org.magic.api.beans.JsonMessage.MSG_TYPE;
@@ -48,13 +48,14 @@ public class ActiveMQNetworkClient implements MTGNetworkClient {
 		} catch (ActiveMQException e) {
 			throw new IOException(e);
 		}
+		logger.info("consume {}",ToStringBuilder.reflectionToString(msg));
 		return msg.getBodyBuffer().readString();
 	}
 
 	@Override
 	public List<String> listTopics() {
 		
-		return new ArrayList<>();
+		return List.of("welcome");
 	}
 
 	@Override

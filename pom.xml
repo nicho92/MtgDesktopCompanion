@@ -70,6 +70,11 @@
 			<type>pom</type>
 		</dependency>
 		<dependency>
+    <groupId>org.ocpsoft.prettytime</groupId>
+    <artifactId>prettytime</artifactId>
+    <version>5.0.6.Final</version>
+</dependency>
+		<dependency>
 			<groupId>org.sejda.imageio</groupId>
     		<artifactId>webp-imageio</artifactId>
     		<version>0.1.6</version>

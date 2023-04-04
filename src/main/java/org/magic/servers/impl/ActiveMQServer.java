@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.activemq.artemis.api.core.QueueConfiguration;
+import org.apache.activemq.artemis.api.core.RoutingType;
 import org.apache.activemq.artemis.core.config.impl.ConfigurationImpl;
 import org.apache.activemq.artemis.core.security.CheckType;
 import org.apache.activemq.artemis.core.security.Role;
@@ -78,11 +79,13 @@ public class ActiveMQServer extends AbstractMTGServer {
 				
 			for(String s : getArray("QUEUES")) {		
 				var cqc = new QueueConfiguration();
-						cqc.setAddress(s);
+						cqc.setAddress(MTGConstants.MTG_APP_NAME);
 						cqc.setName(s);
 						cqc.setDurable(true);
 						cqc.setAutoCreated(true);
-				server.getConfiguration().addQueueConfiguration(cqc);
+						cqc.setConfigurationManaged(true);
+						cqc.setRoutingType(RoutingType.MULTICAST);
+						server.getConfiguration().addQueueConfiguration(cqc);
 			}
 		
 			} catch (Exception e) {
