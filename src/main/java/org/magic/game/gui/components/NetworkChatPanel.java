@@ -240,6 +240,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 			@Override
 			public void keyReleased(java.awt.event.KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					e.consume();
 					try {
 						client.sendMessage(editorPane.getText().trim(), editorPane.getForeground());
 					} catch (IOException e1) {
