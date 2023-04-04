@@ -45,10 +45,8 @@ public class PlayerRenderer implements TableCellRenderer, ListCellRenderer<Playe
 
 
 	private Component component(Player value) {
-		Player p = (Player) value;
-
 		var pComponent = new PlayerPanel();
-		pComponent.setPlayer(p);
+		pComponent.setPlayer(value);
 		return pComponent;
 	}
 
