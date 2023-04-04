@@ -41,6 +41,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
+import javax.swing.border.TitledBorder;
 
 
 public class NetworkChatPanel extends MTGUIComponent {
@@ -68,7 +69,9 @@ public class NetworkChatPanel extends MTGUIComponent {
 		listMsgModel = new DefaultListModel<>();
 		listPlayerModel= new DefaultListModel<>();
 		listMsg = new JList<>(listMsgModel);
+		listMsg.setBorder(new TitledBorder(null, "Chat", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		listPlayers = new JList<>(listPlayerModel);
+		listPlayers.setBorder(new TitledBorder(null, "Online", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		btnLogout = new JButton(capitalize("LOGOUT"));
 		var lblIp = new JLangLabel("HOST",true);
 		btnConnect = new JButton(capitalize("CONNECT"));
