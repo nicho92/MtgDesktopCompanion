@@ -97,6 +97,7 @@ public class ActiveMQServer extends AbstractMTGServer {
 	public void start() throws IOException {
 		try {
 			init();
+			server.start();
 			logger.info("{} is started", getName());
 		} catch (Exception e) {
 			throw new IOException(e);
