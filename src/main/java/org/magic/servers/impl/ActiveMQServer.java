@@ -13,6 +13,8 @@ import org.apache.activemq.artemis.core.config.impl.ConfigurationImpl;
 import org.apache.activemq.artemis.core.security.CheckType;
 import org.apache.activemq.artemis.core.security.Role;
 import org.apache.activemq.artemis.core.server.impl.ActiveMQServerImpl;
+import org.apache.activemq.artemis.jms.server.config.TopicConfiguration;
+import org.apache.activemq.artemis.jms.server.config.impl.TopicConfigurationImpl;
 import org.apache.activemq.artemis.spi.core.security.ActiveMQSecurityManager;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGConstants;
@@ -76,6 +78,8 @@ public class ActiveMQServer extends AbstractMTGServer {
 						return true;
 					}
 				});
+
+				
 				
 			for(String s : getArray("QUEUES")) {		
 				var cqc = new QueueConfiguration();
@@ -85,6 +89,7 @@ public class ActiveMQServer extends AbstractMTGServer {
 						cqc.setAutoCreated(true);
 						cqc.setConfigurationManaged(true);
 						cqc.setRoutingType(RoutingType.MULTICAST);
+						cqc.setAutoCreateAddress(true);
 						server.getConfiguration().addQueueConfiguration(cqc);
 			}
 		
