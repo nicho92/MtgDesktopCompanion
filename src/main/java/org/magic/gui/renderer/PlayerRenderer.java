@@ -1,10 +1,13 @@
 package org.magic.gui.renderer;
 
+import java.awt.Color;
 import java.awt.Component;
 
+import javax.swing.JComponent;
 import javax.swing.JList;
 import javax.swing.JTable;
 import javax.swing.ListCellRenderer;
+import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
@@ -15,7 +18,10 @@ public class PlayerRenderer implements TableCellRenderer, ListCellRenderer<Playe
 
 	@Override
 	public Component getListCellRendererComponent(JList<? extends Player> list, Player value, int index,boolean isSelected, boolean cellHasFocus) {
-		return component(value);
+		var comp= component(value);
+		
+		comp.setBorder(new LineBorder(Color.BLACK));
+		return comp;
 	}
 	
 	
@@ -28,6 +34,9 @@ public class PlayerRenderer implements TableCellRenderer, ListCellRenderer<Playe
 
 
 		var pComponent= component((Player)value);
+		
+		
+		
 		if(isSelected)
 		{
 			pComponent.setForeground(table.getSelectionForeground());
@@ -44,7 +53,7 @@ public class PlayerRenderer implements TableCellRenderer, ListCellRenderer<Playe
 	}
 
 
-	private Component component(Player value) {
+	private JComponent component(Player value) {
 		var pComponent = new PlayerPanel();
 		pComponent.setPlayer(value);
 		return pComponent;
