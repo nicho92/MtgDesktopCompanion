@@ -39,7 +39,7 @@ public class ActiveMQServer extends AbstractMTGServer {
 	public Map<String, String> getDefaultAttributes() {
 		var m = new HashMap<String,String>();
 			 m.put("ENABLE_JMX_MNG", "true");
-			 m.put("LISTENERS_TCP", "tcp://localhost:8081");
+			 m.put("LISTENERS_TCP", "tcp://localhost:61616");
 			 m.put("SECURITY_ENABLED", "false");
 			 m.put(LOG_DIR, new File(MTGConstants.DATA_DIR,"activemq").getAbsolutePath());
 			 m.put("QUEUES", "welcome,trade");
@@ -79,7 +79,7 @@ public class ActiveMQServer extends AbstractMTGServer {
 				
 			for(String s : getArray("QUEUES")) {		
 				var cqc = new QueueConfiguration();
-						cqc.setAddress(MTGConstants.MTG_APP_NAME);
+						cqc.setAddress(s);
 						cqc.setName(s);
 						cqc.setDurable(true);
 						cqc.setAutoCreated(true);

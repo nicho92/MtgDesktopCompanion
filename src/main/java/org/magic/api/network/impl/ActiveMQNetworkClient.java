@@ -2,7 +2,9 @@ package org.magic.api.network.impl;
 import java.awt.Color;
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.activemq.artemis.api.core.ActiveMQException;
 import org.apache.activemq.artemis.api.core.client.ActiveMQClient;
@@ -12,6 +14,7 @@ import org.apache.activemq.artemis.api.core.client.ClientProducer;
 import org.apache.activemq.artemis.api.core.client.ClientSession;
 import org.apache.activemq.artemis.api.core.client.ClientSessionFactory;
 import org.apache.activemq.artemis.api.core.client.ServerLocator;
+import org.apache.activemq.artemis.core.remoting.impl.netty.TransportConstants;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.logging.log4j.Logger;
@@ -71,6 +74,7 @@ public class ActiveMQNetworkClient implements MTGNetworkClient {
 		}
 		
 		try {
+			
 			factory=  locator.createSessionFactory();
 		} catch (Exception e) {
 			throw new IOException(e); 

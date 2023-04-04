@@ -142,6 +142,10 @@ public class NetworkChatPanel extends MTGUIComponent {
 				MTGControler.getInstance().notify(e);
 			}
 			
+			txtServer.setEnabled(false);
+			btnConnect.setEnabled(false);
+			btnLogout.setEnabled(true);
+			
 			var sw = new SwingWorker<Void, JsonMessage>(){
 
 				@Override
@@ -169,7 +173,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 				@Override
 				protected void process(List<JsonMessage> chunks) {
 					
-					txtServer.setEnabled(!client.isActive());
+					txtServer.setEnabled(false);
 					btnConnect.setEnabled(false);
 					btnLogout.setEnabled(true);
 					
