@@ -11,6 +11,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.DefaultListCellRenderer;
@@ -27,15 +28,15 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 
-import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.JsonMessage;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.api.network.impl.ActiveMQNetworkClient;
+import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATUS;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.widgets.JLangLabel;
-import org.magic.gui.models.PlayerTableModel;
+import org.magic.gui.renderer.PlayerRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
@@ -46,10 +47,9 @@ public class NetworkChatPanel extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField txtServer;
-	private JXTable table;
+	private JList<Player> listPlayers;
 	private transient MTGNetworkClient client;
-	private PlayerTableModel mod;
-	private JList<JsonMessage> list;
+	private JList<JsonMessage> listMsg;
 	private JButton btnConnect;
 	private JButton btnLogout;
 	private JTextArea editorPane;
@@ -58,22 +58,22 @@ public class NetworkChatPanel extends MTGUIComponent {
 	private JButton btnSearch;
 	private JsonExport serializer;
 	private JScrollPane scroll;
-	private DefaultListModel<JsonMessage> listModel;
+	private DefaultListModel<JsonMessage> listMsgModel;
+	private DefaultListModel<Player> listPlayerModel;
 
 	public NetworkChatPanel() {
 		setLayout(new BorderLayout(0, 0));
 
 		
-		listModel = new DefaultListModel<>();
-		list = new JList<>(listModel);
-		
+		listMsgModel = new DefaultListModel<>();
+		listPlayerModel= new DefaultListModel<>();
+		listMsg = new JList<>(listMsgModel);
+		listPlayers = new JList<>(listPlayerModel);
 		btnLogout = new JButton(capitalize("LOGOUT"));
 		var lblIp = new JLangLabel("HOST",true);
 		btnConnect = new JButton(capitalize("CONNECT"));
 		var panneauHaut = new JPanel();
 		txtServer = new JTextField();
-		mod = new PlayerTableModel();
-		table = UITools.createNewTable(mod);
 		var panneauBas = new JPanel();
 		var panel = new JPanel();
 		editorPane = new JTextArea();
@@ -81,7 +81,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		btnColorChoose = new JButton(MTGConstants.ICON_GAME_COLOR);
 		cboStates = UITools.createCombobox(STATUS.values());
 		var panelChatBox = new JPanel();
-		scroll = new JScrollPane(list);
+		scroll = new JScrollPane(listMsg);
 		txtServer.setText("tcp://localhost:61616");
 		txtServer.setColumns(10);
 		btnLogout.setEnabled(false);
@@ -91,7 +91,6 @@ public class NetworkChatPanel extends MTGUIComponent {
 		editorPane.setLineWrap(true);
 		editorPane.setWrapStyleWord(true);
 		editorPane.setRows(2);
-		table.setRowHeight(50);
 		btnSearch = new JButton("Search");
 		serializer = new JsonExport();
 		try {
@@ -100,7 +99,11 @@ public class NetworkChatPanel extends MTGUIComponent {
 			editorPane.setForeground(Color.BLACK);
 		}
 		
-		list.setCellRenderer(new DefaultListCellRenderer() {
+		
+		listPlayers.setCellRenderer(new PlayerRenderer());
+		
+		
+		listMsg.setCellRenderer(new DefaultListCellRenderer() {
 			private static final long serialVersionUID = 1L;
 			@Override
 			public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,boolean cellHasFocus) {
@@ -118,7 +121,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		panneauHaut.add(btnConnect);
 		panneauHaut.add(btnLogout);
 
-		add(new JScrollPane(table), BorderLayout.EAST);
+		add(new JScrollPane(listPlayers), BorderLayout.EAST);
 		add(panneauBas, BorderLayout.SOUTH);
 		add(panel, BorderLayout.CENTER);
 		
@@ -132,7 +135,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		panel1.add(btnColorChoose);
 		panel1.add(cboStates);
 		panel1.add(btnSearch);
-
+		
 		initActions();
 	}
 
@@ -168,7 +171,8 @@ public class NetworkChatPanel extends MTGUIComponent {
 					txtServer.setEnabled(true);
 					btnConnect.setEnabled(true);
 					btnLogout.setEnabled(false);
-			//		mod.clear();
+					listPlayerModel.removeAllElements();
+					listMsgModel.removeAllElements();
 				}
 
 
@@ -184,10 +188,10 @@ public class NetworkChatPanel extends MTGUIComponent {
 					{
 						switch(s.getTypeMessage())
 						{
-						case CHANGESTATUS:mod.getItems().stream().filter(p->p.getId().equals(s.getAuthor().getId())).forEach(p->p.setState(STATUS.valueOf(s.getMessage())));mod.fireTableDataChanged();break;
-						case CONNECT:mod.addItem(s.getAuthor());mod.fireTableDataChanged();break;
-						case DISCONNECT:mod.removeItem(s.getAuthor());mod.fireTableDataChanged();break;
-						case TALK:listModel.addElement(s);break;
+						case CHANGESTATUS:Collections.list(listPlayerModel.elements()).stream().filter(p->p.getId().equals(s.getAuthor().getId())).forEach(p->p.setState(STATUS.valueOf(s.getMessage())));listPlayers.updateUI();break;
+						case CONNECT:listPlayerModel.addElement(s.getAuthor());listPlayers.updateUI();;break;
+						case DISCONNECT:listPlayerModel.removeElement(s.getAuthor());listPlayers.updateUI();;break;
+						case TALK:listMsgModel.addElement(s);break;
 						default:break;
 						
 						}
@@ -199,7 +203,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 					vscp.setValue(vscp.getMaximum());
 					
 				}
-				
+
 				
 			};
 			
