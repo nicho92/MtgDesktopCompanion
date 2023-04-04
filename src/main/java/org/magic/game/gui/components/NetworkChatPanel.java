@@ -41,8 +41,6 @@ import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
 
-import com.google.gson.JsonSyntaxException;
-
 
 public class NetworkChatPanel extends MTGUIComponent {
 
@@ -186,15 +184,17 @@ public class NetworkChatPanel extends MTGUIComponent {
 					{
 						switch(s.getTypeMessage())
 						{
-						case CHANGESTATUS:mod.getItems().stream().filter(p->p.getId().equals(s.getAuthor().getId())).forEach(p->p.setState(STATUS.valueOf(s.getMessage())));break;
-						case CONNECT:mod.addItem(s.getAuthor());break;
-						case DISCONNECT:mod.removeItem(s.getAuthor());break;
+						case CHANGESTATUS:mod.getItems().stream().filter(p->p.getId().equals(s.getAuthor().getId())).forEach(p->p.setState(STATUS.valueOf(s.getMessage())));mod.fireTableDataChanged();break;
+						case CONNECT:mod.addItem(s.getAuthor());mod.fireTableDataChanged();break;
+						case DISCONNECT:mod.removeItem(s.getAuthor());mod.fireTableDataChanged();break;
 						case TALK:listModel.addElement(s);break;
 						default:break;
 						
 						}
-										}
-	
+					}
+					
+					
+					
 					var vscp = scroll.getVerticalScrollBar();
 					vscp.setValue(vscp.getMaximum());
 					
