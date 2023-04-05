@@ -89,7 +89,9 @@ public class NetworkChatPanel extends MTGUIComponent {
 		editorPane.setText(capitalize("CHAT_INTRO_TEXT"));
 		editorPane.setLineWrap(true);
 		editorPane.setWrapStyleWord(true);
-		editorPane.setRows(2);
+		editorPane.setRows(3);
+		
+			
 		btnSearch = new JButton("Search");
 		serializer = new JsonExport();
 		try {
@@ -128,6 +130,8 @@ public class NetworkChatPanel extends MTGUIComponent {
 
 	private void initActions() {
 
+		editorPane.setEditable(false);
+		
 		
 		btnConnect.addActionListener(ae -> {
 			try {
@@ -135,15 +139,17 @@ public class NetworkChatPanel extends MTGUIComponent {
 				
 				client.join(MTGControler.getInstance().getProfilPlayer(),  txtServer.getText(),"welcome");
 				
+				txtServer.setEnabled(false);
+				btnConnect.setEnabled(false);
+				btnLogout.setEnabled(true);
+				editorPane.setEditable(true);
 
 			} catch (Exception e) {
 				MTGControler.getInstance().notify(e);
 			}
 			
-			txtServer.setEnabled(false);
-			btnConnect.setEnabled(false);
-			btnLogout.setEnabled(true);
 			
+
 			var sw = new SwingWorker<Void, JsonMessage>(){
 
 				@Override
@@ -163,7 +169,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 					btnConnect.setEnabled(true);
 					btnLogout.setEnabled(false);
 					listPlayerModel.removeAllElements();
-					
+					editorPane.setEditable(false);
 					listMsgModel.removeAllElements();
 				}
 
@@ -175,6 +181,8 @@ public class NetworkChatPanel extends MTGUIComponent {
 					txtServer.setEnabled(false);
 					btnConnect.setEnabled(false);
 					btnLogout.setEnabled(true);
+					editorPane.setEditable(true);
+					
 					
 					for(var s : chunks)
 					{

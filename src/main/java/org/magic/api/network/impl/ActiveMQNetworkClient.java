@@ -1,6 +1,7 @@
 package org.magic.api.network.impl;
 import java.awt.Color;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 
@@ -59,7 +60,7 @@ public class ActiveMQNetworkClient implements MTGNetworkClient {
 	@Override
 	public void join(Player p, String url,String adress) throws IOException {
 		this.player = p;
-		player.setOnlineConnectionDate(new Date());
+		player.setOnlineConnectionTimeStamp(Instant.now().toEpochMilli());
 		player.setState(STATUS.CONNECTED);
 		player.setId(RandomUtils.nextLong());
 		try {

@@ -16,6 +16,7 @@ import javax.swing.border.LineBorder;
 import org.magic.api.beans.JsonMessage;
 import org.magic.services.MTGControler;
 import org.magic.services.tools.ImageTools;
+import org.magic.services.tools.UITools;
 import org.ocpsoft.prettytime.PrettyTime;
 
 public class JsonMessagePanel extends JPanel {
@@ -35,25 +36,22 @@ public class JsonMessagePanel extends JPanel {
 		int iconSize=25;
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{10, 0, 436, 0};
+		gridBagLayout.columnWidths = new int[]{10, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
-	
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.insets = new Insets(0, 0, 5, 5);
-		gbc.gridx = 1;
-		gbc.gridy = 0;
-		JLabel label_1 = new JLabel(new ImageIcon(ImageTools.resize(value.getAuthor().getAvatar(), iconSize, iconSize)));
-		add(label_1, gbc);
-		
 		
 	
+		var gbc = UITools.createGridBagConstraints(null, null, 1, 0);
+			 gbc.insets = new Insets(0, 0, 5, 5);
+		add(new JLabel(new ImageIcon(ImageTools.resize(value.getAuthor().getAvatar(), iconSize, iconSize))), gbc);
 		
+
 		var separator = new JPanel();
 		separator.setBackground(value.getColor());
+		
 		GridBagConstraints gbcseparator = new GridBagConstraints();
 		gbcseparator.gridheight = 3;
 		gbcseparator.anchor = GridBagConstraints.WEST;
@@ -62,13 +60,12 @@ public class JsonMessagePanel extends JPanel {
 		gbcseparator.gridx = 0;
 		gbcseparator.gridy = 0;
 		add(separator, gbcseparator);
-		GridBagConstraints gbc1 = new GridBagConstraints();
-		gbc1.anchor = GridBagConstraints.WEST;
+		
+		
+		GridBagConstraints gbc1 = UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 2, 0);
 		gbc1.insets = new Insets(0, 0, 5, 0);
-		gbc1.gridx = 2;
-		gbc1.gridy = 0;
-		JLabel label = new JLabel(value.getAuthor().getName());
-		add(label, gbc1);
+
+		add(new JLabel(value.getAuthor().getName()), gbc1);
 		
 		
 		

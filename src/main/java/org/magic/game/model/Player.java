@@ -2,6 +2,7 @@ package org.magic.game.model;
 
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -43,7 +44,7 @@ public class Player extends Observable implements Serializable {
 	private Locale local;
 	private byte[] avatar;
 	private int poisonCounter;
-	private Date onlineConnectionDate;
+	private long onlineConnectionTimeStamp;
 
 
 	public STATUS getState() {
@@ -83,7 +84,7 @@ public class Player extends Observable implements Serializable {
 		manaPool = new ManaPool();
 		local = Locale.getDefault();
 
-		onlineConnectionDate= new Date();
+		onlineConnectionTimeStamp= Instant.now().toEpochMilli();
 		
 		mixHandAndLibrary();
 		shuffleLibrary();
@@ -532,12 +533,20 @@ public class Player extends Observable implements Serializable {
 
 	}
 
-	public Date getOnlineConnectionDate() {
-		return onlineConnectionDate;
+	public void setOnlineConnectionTimeStamp(long onlineConnectionTimeStamp) {
+		this.onlineConnectionTimeStamp = onlineConnectionTimeStamp;
 	}
-
-	public void setOnlineConnectionDate(Date onlineConnectionDate) {
-		this.onlineConnectionDate = onlineConnectionDate;
+	
+	public long getOnlineConnectionTimeStamp() {
+		return onlineConnectionTimeStamp;
 	}
-
+	
+	public Date getOnlineConnectionDate()
+	{
+		return new Date(onlineConnectionTimeStamp);
+	}
+	
+	
+	
+	
 }
