@@ -56,7 +56,6 @@ public class NetworkChatPanel extends MTGUIComponent {
 	private JButton btnColorChoose;
 	private JButton btnSearch;
 	private JsonExport serializer;
-	private JScrollPane scroll;
 	private DefaultListModel<JsonMessage> listMsgModel;
 	private DefaultListModel<Player> listPlayerModel;
 
@@ -82,7 +81,6 @@ public class NetworkChatPanel extends MTGUIComponent {
 		btnColorChoose = new JButton(MTGConstants.ICON_GAME_COLOR);
 		cboStates = UITools.createCombobox(STATUS.values());
 		var panelChatBox = new JPanel();
-		scroll = new JScrollPane(listMsg);
 		txtServer.setText("tcp://localhost:61616");
 		txtServer.setColumns(10);
 		btnLogout.setEnabled(false);
@@ -115,7 +113,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		add(panel, BorderLayout.CENTER);
 		
 		
-		panel.add(scroll, BorderLayout.CENTER);
+		panel.add(new JScrollPane(listMsg), BorderLayout.CENTER);
 		panel.add(panelChatBox, BorderLayout.SOUTH);
 
 		panelChatBox.add(editorPane, BorderLayout.CENTER);
@@ -165,6 +163,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 					btnConnect.setEnabled(true);
 					btnLogout.setEnabled(false);
 					listPlayerModel.removeAllElements();
+					
 					listMsgModel.removeAllElements();
 				}
 
@@ -190,10 +189,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 						}
 					}
 					
-					
-					
-					var vscp = scroll.getVerticalScrollBar();
-					vscp.setValue(vscp.getMaximum());
+					listMsg.ensureIndexIsVisible( listMsg.getModel().getSize() - 1 );
 					
 				}
 
