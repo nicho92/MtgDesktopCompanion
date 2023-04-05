@@ -7,14 +7,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.activemq.artemis.api.core.QueueConfiguration;
-import org.apache.activemq.artemis.api.core.RoutingType;
 import org.apache.activemq.artemis.core.config.impl.ConfigurationImpl;
 import org.apache.activemq.artemis.core.security.CheckType;
 import org.apache.activemq.artemis.core.security.Role;
 import org.apache.activemq.artemis.core.server.impl.ActiveMQServerImpl;
-import org.apache.activemq.artemis.jms.server.config.TopicConfiguration;
-import org.apache.activemq.artemis.jms.server.config.impl.TopicConfigurationImpl;
 import org.apache.activemq.artemis.spi.core.security.ActiveMQSecurityManager;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGConstants;
@@ -44,7 +40,7 @@ public class ActiveMQServer extends AbstractMTGServer {
 			 m.put("LISTENERS_TCP", "tcp://localhost:61616");
 			 m.put("SECURITY_ENABLED", "false");
 			 m.put(LOG_DIR, new File(MTGConstants.DATA_DIR,"activemq").getAbsolutePath());
-			 m.put("QUEUES", "welcome,trade");
+			 m.put("ADRESSES", "welcome,trade");
 			 m.put("RETENTION_DAYS", "7");
 			 m.put("AUTOSTART", "false");
 			 return m;
@@ -80,18 +76,6 @@ public class ActiveMQServer extends AbstractMTGServer {
 				});
 
 				
-				
-			for(String s : getArray("QUEUES")) {		
-				var cqc = new QueueConfiguration();
-						cqc.setAddress(s);
-						cqc.setName(s);
-						cqc.setDurable(true);
-						cqc.setAutoCreated(true);
-						cqc.setConfigurationManaged(true);
-						cqc.setRoutingType(RoutingType.MULTICAST);
-						cqc.setAutoCreateAddress(true);
-						server.getConfiguration().addQueueConfiguration(cqc);
-			}
 		
 			} catch (Exception e) {
 				throw new IOException(e);
