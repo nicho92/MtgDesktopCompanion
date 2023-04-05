@@ -57,7 +57,7 @@ public class ActiveMQNetworkClient implements MTGNetworkClient {
 	}
 
 	@Override
-	public void join(Player p, String url,String topic) throws IOException {
+	public void join(Player p, String url,String adress) throws IOException {
 		this.player = p;
 		player.setOnlineConnectionDate(new Date());
 		player.setState(STATUS.CONNECTED);
@@ -87,7 +87,7 @@ public class ActiveMQNetworkClient implements MTGNetworkClient {
 			throw new IOException(e);
 		}
 		
-		switchTopic(topic);
+		switchTopic(adress);
 		
 		sendMessage(new JsonMessage(player,"connected",Color.black,MSG_TYPE.CONNECT));
 		
