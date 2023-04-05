@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.activemq.artemis.api.core.ActiveMQException;
+import org.apache.activemq.artemis.api.core.QueueConfiguration;
+import org.apache.activemq.artemis.api.core.RoutingType;
 import org.apache.activemq.artemis.api.core.client.ActiveMQClient;
 import org.apache.activemq.artemis.api.core.client.ClientConsumer;
 import org.apache.activemq.artemis.api.core.client.ClientMessage;
@@ -37,11 +39,7 @@ public class ActiveMQNetworkClient implements MTGNetworkClient {
 	
 	@Override
 	public String consume() throws IOException {
-		try {
-			session.start();
-		} catch (ActiveMQException e) {
-			throw new IOException(e);
-		}
+		
 		ClientMessage msg;
 		try {
 			msg = consumer.receive();
@@ -78,8 +76,15 @@ public class ActiveMQNetworkClient implements MTGNetworkClient {
 		}
 		try {
 			session = factory.createSession(p.getName(),"password",false,true,true,true, 0, "ID-"+player.getId());
+			
 		} catch (ActiveMQException e) {
 			throw new IOException(e); 
+		}
+		
+		try {
+			session.start();
+		} catch (ActiveMQException e) {
+			throw new IOException(e);
 		}
 		
 		switchTopic(topic);
@@ -99,14 +104,26 @@ public class ActiveMQNetworkClient implements MTGNetworkClient {
 	
 
 	@Override
-	public void switchTopic(String topicName) throws IOException {
+	public void switchTopic(String adress) throws IOException {
 		try {
-			producer = session.createProducer(topicName);
+			producer = session.createProducer(adress);
 		} catch (ActiveMQException e) {
 			throw new IOException(e);
 		}
+		
+		
 		  try {
-			consumer = session.createConsumer(topicName);
+		var cqc = new QueueConfiguration();
+			cqc.setAddress(adress);
+			cqc.setName("queue-"+player.getId());
+			cqc.setDurable(true);
+			cqc.setAutoCreated(true);
+			cqc.setConfigurationManaged(true);
+			cqc.setRoutingType(RoutingType.MULTICAST);
+			cqc.setAutoCreateAddress(true);
+			session.createQueue(cqc);
+			
+			consumer = session.createConsumer(cqc.getName());
 		} catch (ActiveMQException e) {
 			throw new IOException(e);
 		}
@@ -161,6 +178,10 @@ public class ActiveMQNetworkClient implements MTGNetworkClient {
 	@Override
 	public boolean isActive() {
 		return !session.isClosed();
+	}
+
+	public Player getPlayer() {
+		return player;
 	}
 
 
