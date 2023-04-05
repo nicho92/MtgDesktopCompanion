@@ -60,7 +60,7 @@ public class ActiveMQServer extends AbstractMTGServer {
 				server.getConfiguration().setJournalRetentionPeriod(TimeUnit.DAYS, getInt("RETENTION_DAYS"));
 				server.getConfiguration().setJournalDirectory(getString(LOG_DIR));
 				server.getConfiguration().setPagingDirectory(getString(LOG_DIR));
-				server.getConfiguration().setJournalRetentionDirectory(getString(LOG_DIR));
+				//server.getConfiguration().setJournalRetentionDirectory(getString(LOG_DIR));
 				server.getConfiguration().setNodeManagerLockDirectory(getString(LOG_DIR));
 				server.getConfiguration().setLargeMessagesDirectory(getString(LOG_DIR));
 				server.getConfiguration().setBindingsDirectory(getString(LOG_DIR));
