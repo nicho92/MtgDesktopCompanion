@@ -2563,6 +2563,18 @@
 		
 		<bundle lang="en" num="1" url="https://images.ctfassets.net/s5n2t79q9icq/2cSiBSrOyisHb28fx3YD1O/a8ee9ed42f7544e51f5ebe78059ded72/Kahhicbe7292kk-EN_548x432.png"/>
 		<bundle lang="en" num="2" extra="gift" url="https://images.ctfassets.net/s5n2t79q9icq/68miQxqjCuY6WPrQRPWsKN/8e9a8046a273f15f3ec736dd5b410467/Habv4324jbs8_548x432_EN.png"/>
+	</edition>
+	
+	<edition id="MOM">
+			<set  lang="en" num="1" url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/8/8a/March_of_the_Machine.png"/>
+			
+			<booster lang="en" num="1" extra="set" url="https://media.forbiddenplanet.com/products/42/9d/a4d36aee32a6d4d9c95699bf3c70b664c447.png"/>
+			<booster lang="en" num="2" extra="collector" url="https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/71Fei85u6rL._AC_UF894,1000_QL80_.jpg"/>
+			<booster lang="en" num="3" extra="draft" url="https://cdn.webshopapp.com/shops/329817/files/422063642/image.jpg"/>
+			<booster lang="en" num="4" extra="jump" url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/b/bc/MOM_Jumpstart_booster.png"/>
+			
+			
+		
 		
 	
 	</edition>

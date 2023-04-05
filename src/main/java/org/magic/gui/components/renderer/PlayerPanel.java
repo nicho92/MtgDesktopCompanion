@@ -3,7 +3,6 @@ package org.magic.gui.components.renderer;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -12,7 +11,6 @@ import javax.swing.JPanel;
 import org.magic.game.model.Player;
 import org.magic.services.MTGControler;
 import org.magic.services.tools.ImageTools;
-import org.magic.services.tools.UITools;
 import org.ocpsoft.prettytime.PrettyTime;
 
 
