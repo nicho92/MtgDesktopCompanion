@@ -2,7 +2,6 @@ package org.magic.api.network.impl;
 import java.awt.Color;
 import java.io.IOException;
 import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.activemq.artemis.api.core.ActiveMQException;
