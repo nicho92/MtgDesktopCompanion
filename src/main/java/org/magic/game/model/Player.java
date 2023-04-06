@@ -27,7 +27,7 @@ public class Player extends Observable implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public enum STATUS {
-		CONNECTED, BUSY, AWAY, GAMING
+		CONNECTED, BUSY, AWAY, GAMING,TYPING
 	}
 
 	private Long id;
