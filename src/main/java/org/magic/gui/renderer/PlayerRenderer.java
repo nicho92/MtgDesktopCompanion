@@ -1,10 +1,12 @@
 package org.magic.gui.renderer;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.JComponent;
 import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.ListCellRenderer;
 import javax.swing.border.LineBorder;
@@ -18,16 +20,39 @@ public class PlayerRenderer implements TableCellRenderer, ListCellRenderer<Playe
 
 	@Override
 	public Component getListCellRendererComponent(JList<? extends Player> list, Player value, int index,boolean isSelected, boolean cellHasFocus) {
+		var panel = new JPanel();
+		var separator = new JPanel();
+		
+		panel.setLayout(new BorderLayout());
+		
+		
+		
 		var comp= component(value);
 		
-		comp.setBorder(new LineBorder(Color.BLACK));
-		return comp;
+		var color = Color.black;
+		
+		switch(value.getState())
+		{
+			case AWAY: color= Color.ORANGE;	break;
+			case BUSY: color = Color.RED;break;
+			case CONNECTED: color=Color.GREEN;break;
+			default: color=Color.BLACK;	break;
+			
+		}
+		
+		comp.setBorder(new LineBorder(color));
+		separator.setBackground(color);
+		
+		panel.add(separator,BorderLayout.WEST);
+		panel.add(comp,BorderLayout.CENTER);
+		
+		
+		return panel;
 	}
 	
 	
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
-
 
 		if(value==null)
 			return new DefaultTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
