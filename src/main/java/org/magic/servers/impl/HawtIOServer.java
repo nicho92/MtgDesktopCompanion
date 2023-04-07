@@ -2,6 +2,7 @@ package org.magic.servers.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Map;
 
 import org.eclipse.jetty.server.Server;
@@ -12,34 +13,34 @@ import org.magic.services.MTGConstants;
 
 public class HawtIOServer extends AbstractMTGServer{	
 
-	
-		Server server;
+		private Server server;
 		
-		public void init()
+		public void init() throws URISyntaxException
 		{
-			String file = HawtIOServer.class.getResource("/data/hawtio-war-"+getVersion()+".war").getPath().substring(1);
 			System.setProperty("hawtio.authenticationEnabled", getString("AUTHENTICATION"));
-		
+			
+			
 			server = new Server(getInt("PORT"));
 			 var handlers = new HandlerCollection();
 		     handlers.setServer(server);
 		     server.setHandler(handlers);
-		     var webapp = createHawtioWebapp(server, "http","/",file);
-		     handlers.addHandler(webapp);
+		     handlers.addHandler(createHawtioWebapp(server, "http","/"));
 		}
 		
 		
-		private WebAppContext createHawtioWebapp(Server server, String scheme,String context,String warLocation) {
+		private WebAppContext createHawtioWebapp(Server server, String scheme,String context) throws  URISyntaxException {
 			 WebAppContext webapp = new WebAppContext();
 		        webapp.setServer(server);
 		        webapp.setContextPath(context);
-		        webapp.setWar(warLocation);
 		        webapp.setParentLoaderPriority(true);
 		        webapp.setLogUrlOnStart(true);
 		        webapp.setInitParameter("scheme", scheme);
 		        webapp.setTempDirectory(new File(MTGConstants.DATA_DIR,"hawtio"));
 		        
-		        logger.info("Init hawtIO on {}://localhost:{}{}. deploying war {} at {} ", scheme,getInt("PORT"),context,webapp.getWar(),webapp.getTempDirectory());
+		        webapp.setWar(HawtIOServer.class.getResource("/data/hawtio-war-"+getVersion()+".war").toURI().toString());
+		        
+		        
+		        logger.info("Init hawtIO on {}://localhost:{}{}. deploying war {}", scheme,getInt("PORT"),context,webapp.getWar());
 		        return webapp;
 		}
 
@@ -58,9 +59,8 @@ public class HawtIOServer extends AbstractMTGServer{
 
 		@Override
 		public void start() throws IOException {
-			init();
-			
 			try {
+				init();
 				server.start();
 			} catch (Exception e) {
 				throw new IOException(e);
