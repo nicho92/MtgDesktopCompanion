@@ -27,10 +27,7 @@ public class TestConsumers {
 	}
 
 	private static void runThreadFor(ActiveMQNetworkClient client) {
-		new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
+		new Thread(()->{
 				try {
 				//	client.sendMessage("Coucou de "+client.getPlayer(),Color.red);
 					
@@ -40,8 +37,6 @@ public class TestConsumers {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
-			}
 		}).start();
 		
 		

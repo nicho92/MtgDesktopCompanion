@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.InetAddress;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -213,9 +214,15 @@ public class URLTools {
 
 	}
 
-	public static String toString(InputStream content) {
-		// TODO Auto-generated method stub
-		return null;
+
+	public static String getInternalIP() {
+		try {
+			return InetAddress.getLocalHost().getHostAddress();
+		}
+		catch(Exception e)
+		{
+			return "127.0.0.1";
+		}
 	}
 
 

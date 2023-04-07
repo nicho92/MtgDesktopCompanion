@@ -3,7 +3,6 @@ package org.magic.servers.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -16,8 +15,8 @@ import org.apache.activemq.artemis.core.security.Role;
 import org.apache.activemq.artemis.core.server.impl.ActiveMQServerImpl;
 import org.apache.activemq.artemis.spi.core.security.ActiveMQSecurityManager;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
-import org.magic.game.model.Player;
 import org.magic.services.MTGConstants;
+import org.magic.services.network.URLTools;
 
 public class ActiveMQServer extends AbstractMTGServer {
 
@@ -39,7 +38,7 @@ public class ActiveMQServer extends AbstractMTGServer {
 	public Map<String, String> getDefaultAttributes() {
 		var m = new HashMap<String,String>();
 			 m.put("ENABLE_JMX_MNG", "true");
-			 m.put("LISTENERS_TCP", "tcp://localhost:61616");
+			 m.put("LISTENERS_TCP", "tcp://"+URLTools.getInternalIP()+":61616");
 			 m.put("SECURITY_ENABLED", "false");
 			 m.put(LOG_DIR, new File(MTGConstants.DATA_DIR,"activemq").getAbsolutePath());
 			 m.put("ADRESSES", "welcome,trade");
