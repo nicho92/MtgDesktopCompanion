@@ -276,7 +276,7 @@ public class MagicGUI extends JFrame {
 			{
 				logger.error(e);
 			}
-			addTab(MTGUIComponent.build(new MkmPanel(), "MKM", new ImageIcon(new ImageIcon(AbstractMTGPlugin.class.getResource("/icons/plugins/magicCardMarket.png")).getImage().getScaledInstance(MTGConstants.MENU_ICON_SIZE, MTGConstants.MENU_ICON_SIZE, Image.SCALE_SMOOTH))));
+			addTab(MTGUIComponent.build(new MkmPanel(), "MKM", new ImageIcon(new ImageIcon(AbstractMTGPlugin.class.getResource("/icons/plugins/magiccardmarket.png")).getImage().getScaledInstance(MTGConstants.MENU_ICON_SIZE, MTGConstants.MENU_ICON_SIZE, Image.SCALE_SMOOTH))));
 		}
 
 
