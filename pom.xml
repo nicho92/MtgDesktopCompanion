@@ -73,8 +73,6 @@
 	    	<artifactId>artemis-server</artifactId>
 	    	<version>2.28.0</version>
 		</dependency>
-
-
 		<dependency>
 		    <groupId>org.ocpsoft.prettytime</groupId>
 		    <artifactId>prettytime</artifactId>
