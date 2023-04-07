@@ -81,7 +81,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		btnColorChoose = new JButton(MTGConstants.ICON_GAME_COLOR);
 		cboStates = UITools.createCombobox(STATUS.values());
 		var panelChatBox = new JPanel();
-		txtServer.setText("tcp://localhost:61616");
+		txtServer.setText("tcp://mtgcompanion.me:61616");
 		txtServer.setColumns(10);
 		btnLogout.setEnabled(false);
 		panel.setLayout(new BorderLayout());
@@ -240,6 +240,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		editorPane.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(java.awt.event.KeyEvent e) {
+				
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					e.consume();
 					try {
@@ -253,7 +254,6 @@ public class NetworkChatPanel extends MTGUIComponent {
 			}
 
 		});
-
 
 		cboStates.addItemListener(ie -> {
 			if(ie.getStateChange()==ItemEvent.SELECTED)
