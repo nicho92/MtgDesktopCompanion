@@ -8,18 +8,18 @@ import org.magic.services.network.URLTools;
 
 public class TestConsumers {
 
-	private static final String TCP_LOCALHOST_61616 = "tcp://localhost:61616";
+	private static final String TCP_ADDRESS = "tcp://mtgcompanion.me:61616";
 	private static final String WELCOME = "welcome";
 
 	public static void main(String[] args) throws IOException {
 		var client1 = new ActiveMQNetworkClient();
-			client1.join(new Player("Totof"), TCP_LOCALHOST_61616, WELCOME);
+			client1.join(new Player("Totof"), TCP_ADDRESS, WELCOME);
 			
 		var client2 = new ActiveMQNetworkClient();
-			client2.join(new Player("Tataf"), TCP_LOCALHOST_61616, WELCOME);
+			client2.join(new Player("Tataf"), TCP_ADDRESS, WELCOME);
 			
 		var client3 = new ActiveMQNetworkClient();
-			client3.join(new Player("Tutuf"), TCP_LOCALHOST_61616, WELCOME);
+			client3.join(new Player("Tutuf"), TCP_ADDRESS, WELCOME);
 		
 			runThreadFor(client1);
 			runThreadFor(client2);

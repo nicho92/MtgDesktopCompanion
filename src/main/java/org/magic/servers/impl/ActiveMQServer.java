@@ -23,16 +23,11 @@ public class ActiveMQServer extends AbstractMTGServer {
 
 	private static final String LOG_DIR = "LOG_DIR";
 	private ActiveMQServerImpl server;
-	private Set<Player> users;
-	
-	
+		
 	public ActiveMQServer() {
 		super();
 		var config = new ConfigurationImpl();
 		server = new ActiveMQServerImpl(config);
-		users = new HashSet<>();
-
-	
 	}
 	
 	public static void main(String[] args) throws IOException {
