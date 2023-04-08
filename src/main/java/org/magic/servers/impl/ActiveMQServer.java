@@ -17,6 +17,11 @@ import org.apache.activemq.artemis.spi.core.security.ActiveMQSecurityManager;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;
+import org.magic.services.threads.MTGRunnable;
+import org.magic.services.threads.ThreadManager;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 public class ActiveMQServer extends AbstractMTGServer {
 
@@ -25,14 +30,8 @@ public class ActiveMQServer extends AbstractMTGServer {
 		
 	public ActiveMQServer() {
 		super();
-		var config = new ConfigurationImpl();
-		server = new ActiveMQServerImpl(config);
+		server = new ActiveMQServerImpl(new ConfigurationImpl());
 	}
-	
-	public static void main(String[] args) throws IOException {
-		new ActiveMQServer().start();
-	}
-	
 	
 	@Override
 	public Map<String, String> getDefaultAttributes() {
@@ -46,6 +45,32 @@ public class ActiveMQServer extends AbstractMTGServer {
 			 m.put("AUTOSTART", "false");
 			 return m;
 	}
+	
+	public JsonObject detailsToJson() 
+	{
+		var obj = new JsonObject();
+		
+		try {
+			obj.add("acceptors", URLTools.toJson(server.getActiveMQServerControl().getAcceptorsAsJSON()).getAsJsonArray());
+			obj.add("connections", URLTools.toJson(server.getActiveMQServerControl().listConnectionsAsJSON()).getAsJsonArray());
+			obj.add("sessions",URLTools.toJson(server.getActiveMQServerControl().listAllSessionsAsJSON()).getAsJsonArray()); 
+			obj.add("consumers",URLTools.toJson(server.getActiveMQServerControl().listAllConsumersAsJSON()).getAsJsonArray());
+			obj.add("producers",URLTools.toJson(server.getActiveMQServerControl().listProducersInfoAsJSON()).getAsJsonArray());
+
+
+			var arr = new JsonArray();
+			
+			
+			obj.add("queues",arr);
+			
+		} catch (Exception e) {
+			logger.error(e);
+		}
+		
+		
+		return obj;
+	}
+	
 	
 	
 	private void init() throws IOException 
@@ -68,15 +93,15 @@ public class ActiveMQServer extends AbstractMTGServer {
 				
 				
 				
-				for(String add : getArray("ADRESSES"))
-					{
-						var addr = new CoreAddressConfiguration();
-						addr.setName(add);
-						addr.addRoutingType(RoutingType.MULTICAST);
-						server.getConfiguration().addAddressConfiguration(addr);
-					}
 				
-			
+				for(String add : getArray("ADRESSES"))
+				{
+					var addr = new CoreAddressConfiguration();
+					addr.setName(add);
+					addr.addRoutingType(RoutingType.MULTICAST);
+					server.getConfiguration().addAddressConfiguration(addr);
+				}
+				
 				server.setSecurityManager(new ActiveMQSecurityManager() {
 					@Override
 					public boolean validateUserAndRole(String user, String password, Set<Role> roles, CheckType checkType) {
@@ -91,8 +116,6 @@ public class ActiveMQServer extends AbstractMTGServer {
 			} catch (Exception e) {
 				throw new IOException(e);
 			}
-			
-	
 	}
 	
 	

@@ -15,7 +15,6 @@ import org.apache.activemq.artemis.api.core.client.ClientSession;
 import org.apache.activemq.artemis.api.core.client.ClientSessionFactory;
 import org.apache.activemq.artemis.api.core.client.ServerLocator;
 import org.apache.commons.lang3.RandomUtils;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.JsonMessage;
 import org.magic.api.beans.JsonMessage.MSG_TYPE;
@@ -37,19 +36,6 @@ public class ActiveMQNetworkClient implements MTGNetworkClient {
 	private JsonExport serializer = new JsonExport();
 	
 	
-	@Override
-	public String consume() throws IOException {
-		
-		ClientMessage msg;
-		try {
-			msg = consumer.receive();
-		} catch (ActiveMQException e) {
-			throw new IOException(e);
-		}
-		logger.info("consume {}",ToStringBuilder.reflectionToString(msg));
-		return msg.getBodyBuffer().readString();
-	}
-
 	@Override
 	public List<String> listTopics() {
 		
@@ -87,47 +73,64 @@ public class ActiveMQNetworkClient implements MTGNetworkClient {
 			throw new IOException(e);
 		}
 		
-		switchTopic(adress);
+		switchAddress(adress);
 		
 		sendMessage(new JsonMessage(player,"connected",Color.black,MSG_TYPE.CONNECT));
 		
 	}
 	
-
 	@Override
 	public void changeStatus(STATUS selectedItem) throws IOException {
 		player.setState(selectedItem);
 		sendMessage(new JsonMessage(player,selectedItem.name(),Color.black,MSG_TYPE.CHANGESTATUS));
-		
 	}
 
-	
-
 	@Override
-	public void switchTopic(String adress) throws IOException {
+	public void switchAddress(String adress) throws IOException {
 		try {
 			producer = session.createProducer(adress);
 		} catch (ActiveMQException e) {
 			throw new IOException(e);
 		}
-		
-		
-		  try {
-		var cqc = new QueueConfiguration();
-			cqc.setAddress(adress);
-			cqc.setName("queue-"+player.getId());
-			cqc.setDurable(true);
-			cqc.setAutoCreated(true);
-			cqc.setConfigurationManaged(true);
-			cqc.setRoutingType(RoutingType.MULTICAST);
-			cqc.setAutoCreateAddress(true);
+
+		try {
+			var cqc = createQueueConf(adress);
 			session.createQueue(cqc);
-			
 			consumer = session.createConsumer(cqc.getName());
 		} catch (ActiveMQException e) {
 			throw new IOException(e);
 		}
 	}
+	
+
+	private QueueConfiguration createQueueConf(String adress) {
+		var cqc = new QueueConfiguration();
+		cqc.setAddress(adress);
+		cqc.setName("queue-"+player.getId());
+		cqc.setDurable(true);
+		cqc.setAutoCreated(true);
+		cqc.setConfigurationManaged(true);
+		cqc.setRoutingType(RoutingType.MULTICAST);
+		cqc.setAutoCreateAddress(true);
+		
+		return cqc;
+	}
+
+	@Override
+	public String consume() throws IOException {
+		
+		ClientMessage msg;
+		try {
+			msg = consumer.receive();
+			logger.info("consume {}",msg);
+		} catch (ActiveMQException e) {
+			throw new IOException(e);
+		}
+		
+		return msg.getBodyBuffer().readString();
+	}
+
+	
 
 	@Override
 	public void sendMessage(JsonMessage obj) throws IOException {
@@ -155,6 +158,7 @@ public class ActiveMQNetworkClient implements MTGNetworkClient {
 	@Override
 	public void logout() throws IOException {
 		try {
+			sendMessage(new JsonMessage(player,"disconnect",Color.black,MSG_TYPE.DISCONNECT));
 			session.close();
 		} catch (ActiveMQException e) {
 			throw new IOException(e);

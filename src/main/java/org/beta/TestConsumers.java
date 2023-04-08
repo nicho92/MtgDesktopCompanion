@@ -8,7 +8,7 @@ import org.magic.services.network.URLTools;
 
 public class TestConsumers {
 
-	private static final String TCP_ADDRESS = "tcp://mtgcompanion.me:61616";
+	private static final String TCP_ADDRESS = "tcp://localhost:61616";
 	private static final String WELCOME = "welcome";
 
 	public static void main(String[] args) throws IOException {

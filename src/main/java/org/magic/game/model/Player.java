@@ -12,7 +12,6 @@ import javax.swing.AbstractAction;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.network.actions.SpeakAction;
 import org.magic.services.tools.ImageTools;
 import org.utils.patterns.observer.Observable;
 
@@ -480,7 +479,7 @@ public class Player extends Observable implements Serializable {
 
 	public void logAction(String string) {
 		setChanged();
-		notifyObservers(new SpeakAction(this, string));
+		notifyObservers(string);
 		GameManager.getInstance().getActualTurn().getActions().add(string);
 	}
 

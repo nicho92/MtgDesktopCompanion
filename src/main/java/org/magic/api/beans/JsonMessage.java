@@ -14,7 +14,7 @@ public class JsonMessage {
 	private Color color;
 	private MSG_TYPE typeMessage;
 	
-	public enum MSG_TYPE { CONNECT, CHANGESTATUS,DISCONNECT,TALK,SYSTEM }
+	public enum MSG_TYPE { CONNECT, CHANGESTATUS,DISCONNECT,TALK,SYSTEM}
 	
 	@Override
 	public String toString() {

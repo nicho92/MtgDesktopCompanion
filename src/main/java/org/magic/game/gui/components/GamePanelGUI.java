@@ -106,7 +106,7 @@ public class GamePanelGUI extends MTGUIComponent implements Observer {
 	public void setPlayer(Player p1) {
 		player = p1;
 		lblPlayer.setText(p1.getName());
-		player.addObserver(this);
+	//	player.addObserver(this);
 		spinLife.setValue(p1.getLife());
 		spinPoison.setValue(p1.getPoisonCounter());
 		handPanel.setPlayer(p1);

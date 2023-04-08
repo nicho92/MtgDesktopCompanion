@@ -14,7 +14,7 @@ public interface MTGNetworkClient {
 
 	List<String> listTopics();
 
-	void switchTopic(String topicName) throws IOException;
+	void switchAddress(String topicName) throws IOException;
 
 	void join(Player p, String url, String topic) throws IOException;
 
