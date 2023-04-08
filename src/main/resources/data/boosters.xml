@@ -2567,22 +2567,26 @@
 	
 	<edition id="MOM">
 			<set  lang="en" num="1" url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/8/8a/March_of_the_Machine.png"/>
-			
 			<booster lang="en" num="1" extra="set" url="https://media.forbiddenplanet.com/products/42/9d/a4d36aee32a6d4d9c95699bf3c70b664c447.png"/>
 			<booster lang="en" num="2" extra="collector" url="https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/71Fei85u6rL._AC_UF894,1000_QL80_.jpg"/>
 			<booster lang="en" num="3" extra="draft" url="https://cdn.webshopapp.com/shops/329817/files/422063642/image.jpg"/>
 			<booster lang="en" num="4" extra="jump" url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/b/bc/MOM_Jumpstart_booster.png"/>
-			
 			<box lang="en" extra="set" num="1" url="https://cdn.shopify.com/s/files/1/1704/1809/products/MTGMOM_EN_BstrDspBx_Set_01_03_1517x.png"/>
 			<box lang="en" extra="draft" num="2" url="https://cdn.shopify.com/s/files/1/1704/1809/products/MTGMOM_EN_BstrDspBx_Drft_01_03_1517x.png"/>
 			<box lang="en" extra="collector" num="3" url="https://cdn.shopify.com/s/files/1/1704/1809/products/MTGMOM_EN_BstrDspBx_Clctr_01_03_1517x.png"/>
 			<box lang="en" extra="jump" num="4" url="https://cdn.shopify.com/s/files/1/1704/1809/products/MTGMOM_EN_DspBx_JmpStrt_01_03_1517x.png"/>
 			<prereleasepack lang="en" num="1" url="https://cdn11.bigcommerce.com/s-br9l7xcxz9/images/stencil/1280x1280/products/400/725/WCMGMOMPR__53817.1677183487.jpg"/>
-			
 			<bundle lang="en" num="1" url="https://cdn.shopify.com/s/files/1/1704/1809/products/MTGMOM_EN_BndlOtrBx_01_01_1517x.png"/>
-		
-	
 	</edition>
+	<edition id="MOC">
+		<set  lang="en" num="1" url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/8/8a/March_of_the_Machine.png"/>
+			<constructpack lang="en" num="1" url="https://media.wizards.com/2023/images/daily/en_2usdn2ywbdSY.png" extra="Growing  Threat"/>
+			<constructpack lang="en" num="2" url="https://media.wizards.com/2023/images/daily/en_9sdn2ys9547z.png" extra="Cavalry Charge"/>
+			<constructpack lang="en" num="3" url="https://media.wizards.com/2023/images/daily/en_276dfsbweybw.png" extra="Diviine Convocation"/>
+			<constructpack lang="en" num="4" url="https://media.wizards.com/2023/images/daily/en_6Dm2974rh7jD.png" extra="Call for backup"/>
+			<constructpack lang="en" num="5" url="https://media.wizards.com/2023/images/daily/en_ek38f7hnre7K.png" extra="Thinker Time"/>
+	</edition>
+	
 	
 
 </boosterUrls>
