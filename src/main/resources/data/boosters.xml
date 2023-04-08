@@ -2582,11 +2582,20 @@
 		<set  lang="en" num="1" url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/8/8a/March_of_the_Machine.png"/>
 			<constructpack lang="en" num="1" url="https://media.wizards.com/2023/images/daily/en_2usdn2ywbdSY.png" extra="Growing  Threat"/>
 			<constructpack lang="en" num="2" url="https://media.wizards.com/2023/images/daily/en_9sdn2ys9547z.png" extra="Cavalry Charge"/>
-			<constructpack lang="en" num="3" url="https://media.wizards.com/2023/images/daily/en_276dfsbweybw.png" extra="Diviine Convocation"/>
+			<constructpack lang="en" num="3" url="https://media.wizards.com/2023/images/daily/en_276dfsbweybw.png" extra="Divine Convocation"/>
 			<constructpack lang="en" num="4" url="https://media.wizards.com/2023/images/daily/en_6Dm2974rh7jD.png" extra="Call for backup"/>
 			<constructpack lang="en" num="5" url="https://media.wizards.com/2023/images/daily/en_ek38f7hnre7K.png" extra="Thinker Time"/>
 	</edition>
-	
+	<edition id="MAT">
+		<set  lang="en" num="1" url="https://media.wizards.com/2022/images/daily/en_uLtvmrglOj.png"/>
+			<booster lang="en" num="1" extra="draft" url="https://images.ctfassets.net/0piqveu8x9oj/3l5sujDQYtKaupcmJneMd0/c25ea9a4f68c1feb17db0ec2ad3bda11/MTGMAT_EN_Bstr_Eplg_01_03.png"/>
+			<booster lang="en" num="2" extra="collector" url="https://images.ctfassets.net/0piqveu8x9oj/3WEeIePjfr2oWzDaC6tzYG/d5fcf2a7b9f66edabcaca96c93690347/MTGMAT_EN_ClctrBstr_01_03.png"/>
+			
+			<box lang="en" extra="draft" num="1" url="https://images.ctfassets.net/0piqveu8x9oj/1uTT3njVmJmfFXQMQEhvzv/51e3076cfd5f925cfda88ebf2ff5812c/MTGMAT_EN_BstrDspBx_Drft_01_03.png"/>
+			<box lang="en" extra="collector" num="2" url="https://images.ctfassets.net/0piqveu8x9oj/5ZYkuCIIROBcKA4PnxEmX0/00df2aaf447bf14140d53d290eca0da4/MTGMAT_EN_BstrDspBx_Clctr_01_03.png"/>
+			 <bundle lang="en" num="1" url="https://images.ctfassets.net/0piqveu8x9oj/3HpDBgrv4PNKukM0VKrVsb/303ebd4183aafffa0fec835213f03b89/MTGMAT_EN_BndlOtrBx_01_01.png"/>
+		
+	</edition>
 	
 
 </boosterUrls>
