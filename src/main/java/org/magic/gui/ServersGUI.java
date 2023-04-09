@@ -14,7 +14,6 @@ import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.ServerStatePanel;
 import org.magic.services.MTGConstants;
-import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 public class ServersGUI extends MTGUIComponent {
 

@@ -145,7 +145,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 					   mcs.setAltered(m.group(11)!=null);
 
 					   if(!m.group(15).isEmpty())
-						   mcs.setPrice(Double.parseDouble(m.group(15)));
+						   mcs.setPrice(Double.parseDouble(m.group(17)));
 
 			   list.add(mcs);
 			}
@@ -159,7 +159,6 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 
 		return list;
 	}
-
 
 	private String getDefault()
 	{
@@ -177,6 +176,8 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 				   "(misprint)?"+getSeparator()+
 				   "(promo)?"+getSeparator()+
 				   "(textless)?"+getSeparator()+
+				   EnumCardsPatterns.REGEX_ANY_STRING+getSeparator()+
+				   EnumCardsPatterns.REGEX_ANY_STRING+getSeparator()+
 				   "\\$(\\d+(\\.\\d{1,2})?)";
 	}
 
