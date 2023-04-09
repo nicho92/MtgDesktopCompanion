@@ -89,7 +89,6 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 	private JComboBox<MTGDao> cboTargetDAO;
 	private JComboBox<MagicCollection> cboCollections;
 	private JComboBox<Level> cboLogLevels;
-	private JTextFieldFileChooser txtdirWebsite;
 	private JTextField txtMinPrice;
 	private JCheckBox cbojsonView;
 	private JCheckBox chkToolTip;
@@ -118,7 +117,8 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 	private JCheckBox chckbxNetwork;
 
 	public void loading(boolean show, String text) {
-		if (show) {
+		if (show) 
+		{
 			lblLoading.start();
 			lblLoading.setText(text);
 		} else {

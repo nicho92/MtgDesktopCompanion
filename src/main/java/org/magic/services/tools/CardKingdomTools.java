@@ -86,11 +86,14 @@ public class CardKingdomTools {
 		}
 		
 		
+		
+		
+		
 		//Specific set issues
 		
-		if(card.getEdition().toString().contains("Duel Decks Anthology:"))
+		if(card.getCurrentSet().toString().contains("Duel Decks Anthology:"))
 		{
-			name = name + " (" + card.getEdition().toString().split(": ")[1] + ")";
+			name = name + " (" + card.getCurrentSet().toString().split(": ")[1] + ")";
 			name = name.replace("vs.", "vs");
 		}
 		

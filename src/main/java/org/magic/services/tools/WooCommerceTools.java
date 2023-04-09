@@ -112,7 +112,7 @@ public class WooCommerceTools {
 									   header.put(URLTools.CONTENT_TYPE, contentType);
 
 					HttpResponse resp = null;
-
+					
 					if(object.get("post")==null)
 					{
 						resp = c.doPost(url+"?"+OAuthSignature.getAsQueryString(config, url, HttpMethod.POST), new ByteArrayEntity(new JsonExport().toJson(object).getBytes(MTGConstants.DEFAULT_ENCODING)), header);
@@ -121,7 +121,6 @@ public class WooCommerceTools {
 					{
 						resp = c.doPost(url+"?"+OAuthSignature.getAsQueryString(config, url, HttpMethod.POST), new ByteArrayEntity(object.get("post").toString().getBytes(MTGConstants.DEFAULT_ENCODING)), header);
 					}
-
 					var obj = URLTools.toJson(c.toString(resp)).getAsJsonObject();
 					obj.entrySet().forEach(e->map.put(e.getKey(), e.getValue()));
 				} catch (Exception e) {
