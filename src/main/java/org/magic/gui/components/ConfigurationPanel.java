@@ -374,15 +374,13 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 
 /////////////WEBSITE BOX
 
-		txtdirWebsite = new JTextFieldFileChooser(10,JFileChooser.DIRECTORIES_ONLY,MTGControler.getInstance().get("default-website-dir"));
+		
 		var txtdirWebsserver = new JTextFieldFileChooser(10,JFileChooser.DIRECTORIES_ONLY);
-		var btnWebsiteSave = new JButton(capitalize("SAVE"));
+		
 		var btnWebServerExport = new JButton(capitalize(EXPORT));
 		cboServers = UITools.createCombobox(MTG.listEnabledPlugins(MTGServer.class).stream().filter(AbstractWebServer.class::isInstance).toList());
 
-		panelWebSite.add(new JLangLabel("DIRECTORY",true), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 0));
-		panelWebSite.add(txtdirWebsite, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 0));
-		panelWebSite.add(btnWebsiteSave, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  3, 0));
+		
 
 //		panelWebSite.add(new JLabel(capitalize("ADD_CERTIFICATE") + " :"), UITools.createGridBagConstraints(null, null,  0, 1))
 //		panelWebSite.add(txtWebSiteCertificate, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 1))
@@ -662,7 +660,6 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 				MTGControler.getInstance().setProperty(DEFAULT_LIBRARY,cboCollections.getSelectedItem());
 		});
 
-		btnWebsiteSave.addActionListener(ae -> MTGControler.getInstance().setProperty("default-website-dir", txtdirWebsite.getFile().getAbsolutePath()));
 
 		btnSavePrice.addActionListener(ae -> MTGControler.getInstance().setProperty("min-price-alert", txtMinPrice.getText()));
 
