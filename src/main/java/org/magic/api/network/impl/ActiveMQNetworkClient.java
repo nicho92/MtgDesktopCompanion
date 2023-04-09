@@ -117,7 +117,7 @@ public class ActiveMQNetworkClient implements MTGNetworkClient {
 	}
 
 	@Override
-	public String consume() throws IOException {
+	public JsonMessage consume() throws IOException {
 		
 		ClientMessage msg;
 		try {
@@ -127,7 +127,7 @@ public class ActiveMQNetworkClient implements MTGNetworkClient {
 			throw new IOException(e);
 		}
 		
-		return msg.getBodyBuffer().readString();
+		return   serializer.fromJson(msg.getBodyBuffer().readString(),JsonMessage.class);
 	}
 
 	

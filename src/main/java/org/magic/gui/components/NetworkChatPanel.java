@@ -27,7 +27,6 @@ import javax.swing.SwingWorker;
 import javax.swing.border.TitledBorder;
 
 import org.magic.api.beans.JsonMessage;
-import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.api.network.impl.ActiveMQNetworkClient;
 import org.magic.game.model.Player;
@@ -36,6 +35,7 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.gui.renderer.JsonMessageRenderer;
 import org.magic.gui.renderer.PlayerRenderer;
+import org.magic.servers.impl.ActiveMQServer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
@@ -55,7 +55,6 @@ public class NetworkChatPanel extends MTGUIComponent {
 	private JComboBox<STATUS> cboStates;
 	private JButton btnColorChoose;
 	private JButton btnSearch;
-	private JsonExport serializer;
 	private DefaultListModel<JsonMessage> listMsgModel;
 	private DefaultListModel<Player> listPlayerModel;
 
@@ -93,7 +92,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		
 			
 		btnSearch = new JButton("Search");
-		serializer = new JsonExport();
+
 		try {
 			editorPane.setForeground(new Color(Integer.parseInt(MTGControler.getInstance().get("/game/player-profil/foreground"))));
 		} catch (Exception e) {
@@ -137,7 +136,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 			try {
 				client = new ActiveMQNetworkClient();
 				
-				client.join(MTGControler.getInstance().getProfilPlayer(),  txtServer.getText(),"welcome");
+				client.join(MTGControler.getInstance().getProfilPlayer(),  txtServer.getText(),ActiveMQServer.DEFAULT_ADDRESS);
 				
 				txtServer.setEnabled(false);
 				btnConnect.setEnabled(false);
@@ -157,8 +156,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 					while(client.isActive())
 					{
 						var s = client.consume();
-						var json = serializer.fromJson(s, JsonMessage.class);
-						publish(json);
+						publish(s);
 					}
 					return null;
 				}

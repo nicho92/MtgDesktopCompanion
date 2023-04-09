@@ -10,7 +10,9 @@ import org.magic.game.model.Player.STATUS;
 
 public interface MTGNetworkClient {
 
-	String consume() throws IOException;
+
+	
+	JsonMessage consume() throws IOException;
 
 	List<String> listTopics();
 

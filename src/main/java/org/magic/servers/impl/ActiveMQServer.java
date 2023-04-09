@@ -14,8 +14,13 @@ import org.apache.activemq.artemis.core.security.CheckType;
 import org.apache.activemq.artemis.core.security.Role;
 import org.apache.activemq.artemis.core.server.impl.ActiveMQServerImpl;
 import org.apache.activemq.artemis.spi.core.security.ActiveMQSecurityManager;
+import org.apache.commons.lang3.ArrayUtils;
+import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
+import org.magic.api.network.impl.ActiveMQNetworkClient;
+import org.magic.game.model.Player;
 import org.magic.services.MTGConstants;
+import org.magic.services.TechnicalServiceManager;
 import org.magic.services.network.URLTools;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
@@ -26,11 +31,15 @@ import com.google.gson.JsonObject;
 public class ActiveMQServer extends AbstractMTGServer {
 
 	private static final String LOG_DIR = "LOG_DIR";
+	public static final String DEFAULT_ADDRESS = "welcome";
 	private ActiveMQServerImpl server;
-		
+	private MTGNetworkClient client; 
+	
+	
 	public ActiveMQServer() {
 		super();
 		server = new ActiveMQServerImpl(new ConfigurationImpl());
+		client = new ActiveMQNetworkClient();
 	}
 	
 	@Override
@@ -40,7 +49,7 @@ public class ActiveMQServer extends AbstractMTGServer {
 			 m.put("LISTENERS_TCP", "tcp://"+URLTools.getInternalIP()+":61616");
 			 m.put("SECURITY_ENABLED", "false");
 			 m.put(LOG_DIR, new File(MTGConstants.DATA_DIR,"activemq").getAbsolutePath());
-			 m.put("ADRESSES", "welcome,trade");
+			 m.put("ADRESSES", "trade,news");
 			 m.put("RETENTION_DAYS", "7");
 			 m.put("AUTOSTART", "false");
 			 return m;
@@ -94,7 +103,7 @@ public class ActiveMQServer extends AbstractMTGServer {
 				
 				
 				
-				for(String add : getArray("ADRESSES"))
+				for(String add : ArrayUtils.add(getArray("ADRESSES"),DEFAULT_ADDRESS))
 				{
 					var addr = new CoreAddressConfiguration();
 					addr.setName(add);
@@ -125,6 +134,28 @@ public class ActiveMQServer extends AbstractMTGServer {
 			init();
 			server.start();
 			logger.info("{} is started", getName());
+			
+			client.join(new Player("System"),getArray("LISTENERS_TCP")[0],DEFAULT_ADDRESS);
+			
+			ThreadManager.getInstance().executeThread(new MTGRunnable() {
+				
+				@Override
+				protected void auditedRun() {
+					while(isAlive())
+					{
+						try {
+							var msg = client.consume();
+							TechnicalServiceManager.inst().store(msg);
+							
+						} catch (IOException e) {
+							logger.error(e);
+						}
+					}
+				}
+			}, "ActiveMQ Client Audit");
+			
+			
+			
 		} catch (Exception e) {
 			throw new IOException(e);
 		}

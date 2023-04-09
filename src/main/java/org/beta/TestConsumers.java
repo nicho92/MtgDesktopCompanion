@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import org.magic.api.network.impl.ActiveMQNetworkClient;
 import org.magic.game.model.Player;
-import org.magic.services.network.URLTools;
 
 public class TestConsumers {
 
@@ -32,7 +31,7 @@ public class TestConsumers {
 				//	client.sendMessage("Coucou de "+client.getPlayer(),Color.red);
 					
 					while(client.isActive())
-						System.out.println(client.getPlayer() +" receive"+  URLTools.toJson(client.consume()).getAsJsonObject().get("message").getAsString());
+						System.out.println(client.getPlayer() +" receive"+  client.consume().getMessage());
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

@@ -4,12 +4,13 @@ import java.awt.Color;
 import java.time.Instant;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.magic.api.interfaces.abstracts.extra.AbstractAuditableItem;
 import org.magic.game.model.Player;
 
-public class JsonMessage {
+public class JsonMessage extends AbstractAuditableItem{
 
+	private static final long serialVersionUID = 1L;
 	private Player author;
-	private long timeStamp;
 	private String message;
 	private Color color;
 	private MSG_TYPE typeMessage;
@@ -31,7 +32,9 @@ public class JsonMessage {
 		this.message = message;
 		this.color = color;
 		this.typeMessage = typeMessage;
-		this.timeStamp=Instant.now().toEpochMilli();
+		setStart(Instant.now());
+		setEnd(Instant.now());
+		
 	}
 	
 	public Player getAuthor() {
@@ -40,12 +43,7 @@ public class JsonMessage {
 	public void setAuthor(Player author) {
 		this.author = author;
 	}
-	public long getTimeStamp() {
-		return timeStamp;
-	}
-	public void setTimeStamp(long timeStamp) {
-		this.timeStamp = timeStamp;
-	}
+
 	public String getMessage() {
 		return message;
 	}

@@ -5,8 +5,10 @@ import static org.magic.services.tools.MTG.listPlugins;
 
 import java.awt.GridLayout;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.ImageIcon;
+import javax.swing.SwingWorker;
 
 import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.abstracts.MTGUIComponent;
@@ -30,22 +32,34 @@ public class ServersGUI extends MTGUIComponent {
 
 
 	public ServersGUI() {
-
-		List<MTGServer> list = listPlugins(MTGServer.class);
-
-
-		setLayout(new GridLayout(list.size(), 1, 0, 0));
-
-		ThreadManager.getInstance().invokeLater(new MTGRunnable() {
-
+		var sw = new SwingWorker<List<MTGServer>, Void>() {
 			@Override
-			protected void auditedRun() {
-				for (MTGServer s : list) {
-					add(new ServerStatePanel(s));
+			protected List<MTGServer> doInBackground() throws Exception {
+				return listPlugins(MTGServer.class);
+			}
+			
+			@Override
+			protected void done() {
+				try {
+					setLayout(new GridLayout(get().size(), 1, 0, 0));
+					
+					for(var s : get())
+					{
+						add(new ServerStatePanel(s));
+					}
+					
+					
+				} catch (InterruptedException e) {
+					Thread.currentThread().interrupt();
+				} catch (ExecutionException e) {
+					logger.error(e);
 				}
 
 			}
-		}, "adding Servers Panels");
+			
+		};
+		
+		ThreadManager.getInstance().runInEdt(sw, "Adding server panels");
 
 
 	}

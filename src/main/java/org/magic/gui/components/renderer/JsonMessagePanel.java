@@ -83,7 +83,7 @@ public class JsonMessagePanel extends JPanel {
 		textArea.setFont(MTGControler.getInstance().getFont());
 		textArea.setOpaque(false);
 		
-		lblTime = new JLabel("("+new PrettyTime(MTGControler.getInstance().getLocale()).format(new Date(value.getTimeStamp()))+")",SwingConstants.RIGHT);
+		lblTime = new JLabel("("+new PrettyTime(MTGControler.getInstance().getLocale()).format(new Date(value.getStart().toEpochMilli()))+")",SwingConstants.RIGHT);
 		lblTime.setFont(MTGControler.getInstance().getFont().deriveFont(Font.ITALIC));
 		GridBagConstraints gbclblTime = new GridBagConstraints();
 		gbclblTime.fill = GridBagConstraints.HORIZONTAL;

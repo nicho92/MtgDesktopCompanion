@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.Logger;
+import org.magic.api.beans.JsonMessage;
 import org.magic.api.beans.technical.audit.DAOInfo;
 import org.magic.api.beans.technical.audit.DiscordInfo;
 import org.magic.api.beans.technical.audit.FileAccessInfo;
@@ -42,6 +43,7 @@ public class TechnicalServiceManager {
 	private File logsDirectory = new File(MTGConstants.DATA_DIR,"audits");
 	private IPTranslator translator;
 	private boolean enable =true;
+	private List<JsonMessage> jsonMessages;
 
 	public static final int SCHEDULE_TIMER_MS=1;
 
@@ -58,7 +60,7 @@ public class TechnicalServiceManager {
 	{
 		this.enable =enable;
 	}
-
+	
 
 	public TechnicalServiceManager() {
 		jsonInfo= new ArrayList<>();
@@ -67,8 +69,9 @@ public class TechnicalServiceManager {
 		tasksInfos = new ArrayList<>();
 		fileInfos = new ArrayList<>();
 		discordInfos = new ArrayList<>();
+		jsonMessages=new ArrayList<>();
 		translator = new IPTranslator();
-
+		
 		if(!logsDirectory.exists())
 		{
 			try {
@@ -103,6 +106,7 @@ public class TechnicalServiceManager {
 					storeItems(TaskInfo.class,tasksInfos.stream().filter(Objects::nonNull).toList());
 					storeItems(DiscordInfo.class,discordInfos.stream().filter(Objects::nonNull).toList());
 					storeItems(FileAccessInfo.class,fileInfos.stream().filter(Objects::nonNull).toList());
+					storeItems(JsonMessage.class,jsonMessages.stream().filter(Objects::nonNull).toList());
 				}
 				catch(Exception e)
 				{
@@ -132,6 +136,8 @@ public class TechnicalServiceManager {
 					discordInfos.addAll(restore(f,DiscordInfo.class).stream().distinct().toList());
 				else if(f.getName().startsWith(FileAccessInfo.class.getSimpleName()))
 					fileInfos.addAll(restore(f,FileAccessInfo.class).stream().distinct().toList());
+				else if(f.getName().startsWith(JsonMessage.class.getSimpleName()))
+					jsonMessages.addAll(restore(f,JsonMessage.class).stream().distinct().toList());
 			}
 			logger.info("TechnicalService is enable");
 		}
@@ -197,7 +203,6 @@ public class TechnicalServiceManager {
 
 	public void store(DiscordInfo info) {
 		discordInfos.add(info);
-
 	}
 	
 	public void store(FileAccessInfo info)
@@ -219,6 +224,16 @@ public class TechnicalServiceManager {
 	{
 		daoInfos.add(info);
 	}
+	
+
+
+	public void store(JsonMessage msg) {
+		jsonMessages.add(msg);
+		
+	}
+
+
+
 
 	public Set<Entry<Object, Object>> getSystemInfo() {
 		return System.getProperties().entrySet();

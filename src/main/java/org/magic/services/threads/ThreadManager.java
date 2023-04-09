@@ -153,6 +153,7 @@ public class ThreadManager {
 
 		mtgRunnable.getInfo().setName(name);
 
+
 		Timer timer = new Timer(true);
 		timer.scheduleAtFixedRate(new TimerTask() {
 			@Override
