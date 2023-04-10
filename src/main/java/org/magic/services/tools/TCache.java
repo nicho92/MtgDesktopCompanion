@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
@@ -23,19 +24,22 @@ public class TCache<T>{
 
 	private String name;
 
-	public TCache(String name) {
+	public TCache(String name,int timeoutMinute) {
 		this.name=name;
-		init();
+		var builder = CacheBuilder.newBuilder();
+		
+		if(timeoutMinute>-1)
+			builder = builder.expireAfterAccess(timeoutMinute, TimeUnit.MINUTES);
+		
+		
+		loader = builder.build();
 	}
 
-	public void init() {
-		loader = CacheBuilder.newBuilder()
-			//	.expireAfterAccess(MTGConstants.DAO_CACHE_TIMEOUT_MINUTES, TimeUnit.MINUTES)
-				.recordStats()
-				.build();
+	public TCache(String name) {
+		this(name,-1);
 	}
-
-
+	
+	
 	private Cache<String, T> getCache()
 	{
 		logger.trace("{}-{}",name,loader.stats());

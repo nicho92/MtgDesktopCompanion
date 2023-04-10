@@ -382,7 +382,7 @@
 		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
-			<version>5.0.0-beta.6</version>
+			<version>5.0.0-beta.8</version>
 			<exclusions>
 				<exclusion>
 					<groupId>club.minnced</groupId>
@@ -633,7 +633,7 @@
 		<dependency>
 			<groupId>org.mongodb</groupId>
 			<artifactId>mongodb-driver</artifactId>
-			<version>3.12.12</version>
+			<version>3.12.13</version>
 		</dependency>
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>

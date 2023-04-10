@@ -107,7 +107,6 @@ public class MTGConstants {
 	public static final int ROTATED_TIMEOUT = 15;
 	public static final int DISCORD_MAX_CHARACTER = 2000;
 	public static final int DAY_ANNOUNCES_UPDATE = 10;
-	public static final long DAO_CACHE_TIMEOUT_MINUTES = 1;
 	
 // UI CONSTANTS
 	public static final Charset DEFAULT_ENCODING=StandardCharsets.UTF_8;
