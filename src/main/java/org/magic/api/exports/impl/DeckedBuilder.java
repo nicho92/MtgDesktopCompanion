@@ -8,7 +8,6 @@ import java.util.List;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
-import org.magic.services.providers.PluginsAliasesProvider;
 import org.magic.services.tools.FileTools;
 
 public class DeckedBuilder extends AbstractFormattedFileCardExport {
