@@ -20,14 +20,14 @@ public class PlayerPanel extends JPanel {
 	private JLabel lblName;
 	private JLabel lblCountry;
 	private JLabel lblStatus;
-	private final int iconSize=50;
+	private static final int ICONSIZE=50;
 	/**
 	 * Create the panel.
 	 */
 	public PlayerPanel() {
 		setLayout(new BorderLayout(0, 0));
 		lblIcon = new JLabel(" ");
-		lblIcon.setPreferredSize(new Dimension(iconSize,iconSize));
+		lblIcon.setPreferredSize(new Dimension(ICONSIZE,ICONSIZE));
 		add(lblIcon, BorderLayout.WEST);
 
 		JPanel panel = new JPanel();
@@ -48,7 +48,7 @@ public class PlayerPanel extends JPanel {
 	public void setPlayer(Player p)
 	{
 		try {
-			lblIcon.setIcon(new ImageIcon(ImageTools.resize(p.getAvatar(), iconSize, iconSize)));
+			lblIcon.setIcon(new ImageIcon(ImageTools.resize(p.getAvatar(), ICONSIZE, ICONSIZE)));
 		}catch(Exception e)
 		{
 			//no avatar. do nothing

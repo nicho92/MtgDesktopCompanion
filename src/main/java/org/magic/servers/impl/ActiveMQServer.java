@@ -56,35 +56,6 @@ public class ActiveMQServer extends AbstractMTGServer {
 			 return m;
 	}
 	
-	public JsonObject detailsToJson() 
-	{
-		var obj = new JsonObject();
-		
-		try {
-			obj.add("acceptors", URLTools.toJson(server.getActiveMQServerControl().getAcceptorsAsJSON()).getAsJsonArray());
-			obj.add("connections", URLTools.toJson(server.getActiveMQServerControl().listConnectionsAsJSON()).getAsJsonArray());
-			obj.add("sessions",URLTools.toJson(server.getActiveMQServerControl().listAllSessionsAsJSON()).getAsJsonArray()); 
-			obj.add("consumers",URLTools.toJson(server.getActiveMQServerControl().listAllConsumersAsJSON()).getAsJsonArray());
-			obj.add("producers",URLTools.toJson(server.getActiveMQServerControl().listProducersInfoAsJSON()).getAsJsonArray());
-			var arr = new JsonArray();
-			
-			
-			for(String s : server.getActiveMQServerControl().getQueueNames())
-			{
-					arr.add(s);
-			}
-			
-			obj.add("queues",arr);
-			
-		} catch (Exception e) {
-			logger.error(e);
-		}
-		
-		
-		return obj;
-	}
-	
-	
 	
 	private void init() throws IOException 
 	{

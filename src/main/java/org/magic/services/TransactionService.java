@@ -157,7 +157,7 @@ public class TransactionService
 		return items.entrySet().stream().filter(entry -> entry.getValue() == max).map(Entry::getKey).findAny().orElse(null);
 	}
 
-	public static List<MTGStockItem> validateTransaction(Transaction t) throws  IOException, SQLException {
+	public static List<MTGStockItem> validateTransaction(Transaction t) throws  IOException {
 		t.setConfig(MTGControler.getInstance().getWebConfig());
 		List<MTGStockItem> rejectsT = new ArrayList<>();
 		List<MTGStockItem> accepteds = new ArrayList<>();

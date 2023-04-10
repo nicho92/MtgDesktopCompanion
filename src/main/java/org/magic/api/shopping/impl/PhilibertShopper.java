@@ -24,7 +24,7 @@ public class PhilibertShopper extends AbstractMagicShopper {
 
 	private static final String BASE_URL="https://www.philibertnet.com/";
 	private Document s;
-	private final String DATE_FORMAT = "MM/dd/yyyy";
+	private static final String DATE_FORMAT = "MM/dd/yyyy";
 	 
 	 
 	 

@@ -301,7 +301,7 @@ public class MagicGUI extends JFrame {
 		    @Override
 		    public void mouseExited(MouseEvent e) {
 		    	lblSupport.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));	
-		    };
+		    }
 
         });
 		

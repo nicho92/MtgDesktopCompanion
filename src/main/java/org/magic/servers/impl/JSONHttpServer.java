@@ -374,13 +374,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/services/auth",(request, response) -> jwtService.validateToken(readToken(request)),transformer);
 
 		
-		get("/custom/sets", URLTools.HEADER_JSON,(request, response) -> {
-			return MTG.getPlugin("Personnal Data Set Provider", MTGCardsProvider.class).listEditions();
-		},transformer);
+		get("/custom/sets", URLTools.HEADER_JSON,(request, response) -> MTG.getPlugin("Personnal Data Set Provider", MTGCardsProvider.class).listEditions(),transformer);
 		
-		get("/custom/cards/:idSet", URLTools.HEADER_JSON,(request, response) -> {
-			return MTG.getPlugin("Personnal Data Set Provider", MTGCardsProvider.class).searchCardByEdition(new MagicEdition(request.params(ID_SET)));
-		},transformer);
+		get("/custom/cards/:idSet", URLTools.HEADER_JSON,(request, response) -> MTG.getPlugin("Personnal Data Set Provider", MTGCardsProvider.class).searchCardByEdition(new MagicEdition(request.params(ID_SET))),transformer);
 		
 		get("/custom/picture/:idCard", URLTools.HEADER_JSON,(request, response) -> {
 			var baos = new ByteArrayOutputStream();

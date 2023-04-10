@@ -63,17 +63,9 @@ public class TransactionItemsDashlet extends AbstractJDashlet {
 		getContentPane().add(chart,BorderLayout.CENTER);
 
 
-		chkBuy.addItemListener(e->{
-		    		init();
-		});
-		
-		chkSumOrTotal.addItemListener(e->{
-	    		init();
-		});
-
-		chkSell.addItemListener(e->{
-	    		init();
-		});
+		chkBuy.addItemListener(e->init());
+		chkSumOrTotal.addItemListener(e->init());
+		chkSell.addItemListener(e->init());
 
 
 		

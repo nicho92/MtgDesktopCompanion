@@ -792,9 +792,9 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		
 		
 		spinner.setValue(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.SIZE)!=null? Integer.parseInt(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.SIZE)):30);
-		chkFoil.setSelected(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.FOIL)!=null? Boolean.parseBoolean(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.FOIL)) : false);
+		chkFoil.setSelected(Boolean.parseBoolean(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.FOIL)));
 		cboColorAccent.setSelectedItem(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.ACCENT)!=null?magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.ACCENT):"");
-		chkColorIndicator.setSelected(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.INDICATOR)!=null? Boolean.parseBoolean(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.INDICATOR)) : false);
+		chkColorIndicator.setSelected(Boolean.parseBoolean(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.INDICATOR)));
 		
 		
 		if(magicCard.getCurrentSet()!=null)
