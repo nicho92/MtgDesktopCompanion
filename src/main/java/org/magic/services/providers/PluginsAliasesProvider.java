@@ -25,6 +25,10 @@ public class PluginsAliasesProvider {
 		return inst;
 	}
 
+	public void setUseLocalAliases(boolean useLocalAliases) {
+		this.useLocalAliases = useLocalAliases;
+	}
+	
 
 
 	private PluginsAliasesProvider() {

@@ -127,6 +127,9 @@ public class ActiveMQNetworkClient implements MTGNetworkClient {
 			throw new IOException(e);
 		}
 		
+		if(msg==null)
+			return null;
+		
 		return   serializer.fromJson(msg.getBodyBuffer().readString(),JsonMessage.class);
 	}
 
