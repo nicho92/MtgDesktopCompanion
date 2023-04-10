@@ -107,12 +107,7 @@ public class MTGODeckExport extends AbstractFormattedFileCardExport {
 	protected String[] skipLinesStartWith() {
 		return new String[] {"//"};
 	}
-
-	@Override
-	protected String getStringPattern() {
-		return "^\\s*$|(\\d+) (.*?)(\\[(.*?)\\])?$";
-	}
-
+	
 	@Override
 	protected String getSeparator() {
 		return " ";

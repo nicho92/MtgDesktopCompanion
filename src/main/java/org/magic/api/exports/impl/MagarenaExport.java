@@ -69,13 +69,8 @@ public class MagarenaExport extends AbstractFormattedFileCardExport
 	}
 
 	@Override
-	protected String getStringPattern() {
-		return "^([\\>].*)?((\\d+) (.*))?";
-	}
-
-	@Override
 	protected String getSeparator() {
 		return "";
 	}
-
+	
 }

@@ -191,13 +191,6 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 		return new String[0];
 	}
 
-
-	@Override
-	protected String getStringPattern() {
-		return "\"(.*?)\",\\\"(.*?)\\\",(\\d+),(\\d+.\\d+?),(M|NM|EXC|GD|FIN|PR),(.*?),(Yes|No),(Yes|No)";
-	}
-
-
 	@Override
 	protected String getSeparator() {
 		return ",";

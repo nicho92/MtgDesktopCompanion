@@ -104,11 +104,6 @@ public class ArchidektExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	protected String getStringPattern() {
-		return PluginsAliasesProvider.inst().getRegexFor(this, "default");
-	}
-
-	@Override
 	protected String getSeparator() {
 		return ",";
 	}

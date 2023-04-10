@@ -22,7 +22,7 @@ import org.magic.services.tools.UITools;
 public class DelverLensExport extends AbstractFormattedFileCardExport{
 
 
-	private static final String REGEX = "REGEX";
+	
 	private String columns= "Name; Edition; Price; Language; Collector's number; Condition; Currency; Edition code; Foil; List name; Quantity; Scryfall ID";
 
 	@Override
@@ -117,11 +117,7 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 
 	@Override
 	protected String getStringPattern() {
-
-		if(getString(REGEX).isBlank())
-			setProperty(REGEX,"default");
-
-		return PluginsAliasesProvider.inst().getRegexFor(this, getString(REGEX));
+		return PluginsAliasesProvider.inst().getRegexFor(this, "mtgcompanion");
 	}
 
 	@Override
@@ -134,8 +130,6 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 
 		var m = super.getDefaultAttributes();
 			 m.put("SEPARATOR", ";");
-			m.put(REGEX,"default");
-
 			return m;
 	}
 

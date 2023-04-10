@@ -216,11 +216,6 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	protected String getStringPattern() {
-		return "(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)\t(.*?)";
-	}
-
-	@Override
 	protected String getSeparator() {
 		return "\t";
 	}

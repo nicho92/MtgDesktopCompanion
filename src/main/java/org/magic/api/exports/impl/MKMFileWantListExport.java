@@ -105,12 +105,7 @@ public class MKMFileWantListExport extends AbstractFormattedFileCardExport {
 	protected String[] skipLinesStartWith() {
 		return new String[0];
 	}
-
-	@Override
-	protected String getStringPattern() {
-		return "(\\d+)"+getSeparator()+"(.*?)"+getSeparator()+"\\((.*?)\\)";
-	}
-
+	
 	@Override
 	protected String getSeparator() {
 		return " ";

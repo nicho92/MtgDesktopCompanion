@@ -40,7 +40,10 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 
 	protected abstract String[] skipLinesStartWith();
 
-	protected abstract String getStringPattern();
+	protected String getStringPattern()
+	{
+		return PluginsAliasesProvider.inst().getRegexFor(this, "default");
+	}
 
 	protected abstract String getSeparator();
 

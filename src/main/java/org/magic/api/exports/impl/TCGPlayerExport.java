@@ -198,11 +198,6 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	protected String getStringPattern() {
-		return "(\\d+),((?=\\\")\\\".*?\\\"|.*?),((?=\\\")\\\".*?\\\"|.*?),(.*?),(.*?),(.*?),(\\d+),(.*?),(.*?),(.*?),(.*?),(\\d+),(\\d+),\\$?(\\d+\\.(\\d{2}))?,\\$?(\\d+\\.(\\d{2}))";
-	}
-
-	@Override
 	protected String getSeparator() {
 		return ",";
 	}

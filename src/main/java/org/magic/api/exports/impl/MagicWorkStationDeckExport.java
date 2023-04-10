@@ -100,14 +100,8 @@ public class MagicWorkStationDeckExport extends AbstractFormattedFileCardExport 
 	}
 
 	@Override
-	protected String getStringPattern() {
-		return "(SB:\\s+|\\s)?(\\d+)(?: )?\\[(.*?)\\](.*)";
-	}
-
-	@Override
 	protected String getSeparator() {
 		return null;
 	}
-
-
+	
 }

@@ -138,13 +138,9 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	protected String getStringPattern() {
-		return "(SB: )?(\\d+) \\[(.*?):(\\d+)\\] (.*?)$";
-	}
-
-	@Override
 	protected String getSeparator() {
 		return null;
 	}
+
 
 }

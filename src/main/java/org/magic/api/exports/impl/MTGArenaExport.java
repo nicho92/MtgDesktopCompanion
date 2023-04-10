@@ -203,11 +203,6 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	protected String getStringPattern() {
-		return "^\\s*$|(\\d+) (.*?) \\((.*?)\\) (\\d+)$";
-	}
-
-	@Override
 	protected String getSeparator() {
 		return " ";
 	}

@@ -237,10 +237,6 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 		return new String[] {"\"sep=,","Name"};
 	}
 
-	@Override
-	protected String getStringPattern() {
-		return "\\\"(.*?)\\\",\\\"(.*?)\\\",(.*?),(.*?),\\\"(.*?)\\\",(\\d+),(\\d+),(.*?),(\\d+),(\\d+),(\\d+),(\\d+),(.*?),(.*?),(\\d+),\\\"(.*?)\\\",(\\d+),(\\d+),(.*?),(\\d+),\\\"(.*?)\\\",\\\"(.*?)\\\",\\\"(.*?)\\\",(\\d+),(\\d+)";
-	}
 
 	@Override
 	protected String getSeparator() {

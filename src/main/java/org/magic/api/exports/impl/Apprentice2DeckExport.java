@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
+import org.magic.services.providers.PluginsAliasesProvider;
 import org.magic.services.tools.FileTools;
 
 public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
@@ -75,12 +76,7 @@ public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 	public String[] skipLinesStartWith() {
 		return new String[] {"//"};
 	}
-
-	@Override
-	public String getStringPattern() {
-		return "(MD|SB)"+getSeparator()+"(\\d+)"+getSeparator()+"(\"[^\"]*\")"+getSeparator()+"{0,1}([^\"]*){0,1}$";
-	}
-
+	
 	@Override
 	public String getSeparator() {
 		return getString("SEPARATOR");

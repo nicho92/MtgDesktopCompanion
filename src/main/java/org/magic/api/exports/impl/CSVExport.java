@@ -21,6 +21,7 @@ import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
+import org.magic.services.providers.PluginsAliasesProvider;
 import org.magic.services.tools.FileTools;
 import org.magic.services.tools.UITools;
 
@@ -236,11 +237,6 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 	@Override
 	public String getName() {
 		return "CSV";
-	}
-
-	@Override
-	protected String getStringPattern() {
-		return "\"(.*?)\";(.*?);(.*?);(\\d+);("+StringUtils.join(EnumCondition.values(), "|")+")?;(true|false);(true|false);(true|false);(.*?);(\\d+.\\d+);(.*?)?;(.*?)?;(.*?)?;";
 	}
 
 

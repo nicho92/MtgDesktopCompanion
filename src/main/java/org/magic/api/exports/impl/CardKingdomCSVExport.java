@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -14,7 +13,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGPlugin;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
@@ -28,7 +26,7 @@ import org.magic.services.tools.MTG;
 public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 
 
-	private static final String REGEX = "REGEX";
+	
 	private String columns="Name,Edition,Foil,Qty\n";
 
 
@@ -178,21 +176,7 @@ public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 		return new ImageIcon(new ImageIcon(AbstractMTGPlugin.class.getResource("/icons/plugins/card kingdom.png")).getImage().getScaledInstance(MTGConstants.MENU_ICON_SIZE, MTGConstants.MENU_ICON_SIZE, Image.SCALE_SMOOTH));
 	}
 
-	@Override
-	protected String getStringPattern() {
-		if(getString(REGEX).isEmpty())
-			setProperty(REGEX,"default");
 
-			return PluginsAliasesProvider.inst().getRegexFor(this, getString(REGEX));
-	}
-
-	@Override
-	public Map<String, String> getDefaultAttributes() {
-		var m = super.getDefaultAttributes();
-		m.put(REGEX, "default");
-
-		return m;
-	}
 
 
 	@Override

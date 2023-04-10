@@ -132,10 +132,6 @@ public class PriceCatalogExport extends AbstractFormattedFileCardExport {
 		return new String[0];
 	}
 
-	@Override
-	protected String getStringPattern() {
-		return null;
-	}
 
 	@Override
 	protected String getSeparator() {

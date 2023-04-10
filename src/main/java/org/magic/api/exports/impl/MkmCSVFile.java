@@ -98,7 +98,6 @@ public class MkmCSVFile extends AbstractFormattedFileCardExport {
 		return ret;
 	}
 
-
 	@Override
 	public String getName() {
 		return "MKM CSV File";
@@ -112,11 +111,6 @@ public class MkmCSVFile extends AbstractFormattedFileCardExport {
 	@Override
 	protected String[] skipLinesStartWith() {
 		return  new String[0];
-	}
-
-	@Override
-	protected String getStringPattern() {
-		return "\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(\\d+)\",\"(.*?)\",\"(true|false)\",\"(.*?)\",\"(true|false)\",\"(true|false)\",\"(true|false)\",\"(true|false)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\"";
 	}
 
 	@Override

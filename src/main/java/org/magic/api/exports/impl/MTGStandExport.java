@@ -126,12 +126,6 @@ public class MTGStandExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	protected String getStringPattern() {
-		return "\\\"?(.*?)\\\"?,(\\d),\\\"?(.*?)\\\"?,(.*?),(\\d+),(.*?),(\\d),\"(.*?)\",(.*?),(.*?)?$";
-
-	}
-
-	@Override
 	protected String getSeparator() {
 		return ",";
 	}

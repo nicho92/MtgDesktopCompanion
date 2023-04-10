@@ -1,242 +1,308 @@
 {
-
-	"Card Kingdom CSV" : {
+	"MKM File": {
 		"regex": {
-			"default":"(\\d+),(\\d+),((?=\")\".*?\"|.*?),(.*?),(\\d+)?,(.*?),(.*?),(foil)?,(signed)?,(proof)?,(altered)?,(misprint)?,(promo)?,(textless)?,\\$(\\d+(\\.\\d{1,2})?)"
+			"default": "(\\d+) (.*?) \\((.*?)\\)"
+		}
+	},
+	"MKM CSV File": {
+		"regex": {
+			"default": "\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(\\d+)\",\"(.*?)\",\"(true|false)\",\"(.*?)\",\"(true|false)\",\"(true|false)\",\"(true|false)\",\"(true|false)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\""
+		}
+	},
+	"MTGStand": {
+		"regex": {
+			"default": "\\\"?(.*?)\\\"?,(\\d),\\\"?(.*?)\\\"?,(.*?),(\\d+),(.*?),(\\d),\"(.*?)\",(.*?),(.*?)?$"
+		}
+	},
+	"MTGArena": {
+		"regex": {
+			"default": "^\\s*$|(\\d+) (.*?) \\((.*?)\\) (\\d+)$"
+		}
+	},
+	"MTGO": {
+		"regex": {
+			"default": "^\\s*$|(\\d+) (.*?)(\\[(.*?)\\])?$"
+		}
+	},
+	"MTGStocks": {
+		"regex": {
+			"default": "(\\d+),((?=\\\")\\\".*?\\\"|.*?),((?=\\\")\\\".*?\\\"|.*?),(.*?),(.*?),(.*?),(\\d+),(.*?),(.*?),(.*?),(.*?),(\\d+),(\\d+),\\$?(\\d+\\.(\\d{2}))?,\\$?(\\d+\\.(\\d{2}))"
+		}
+	},
+	"XMage": {
+		"regex": {
+			"default": "(SB: )?(\\d+) \\[(.*?):(\\d+)\\] (.*?)$"
+		}
+	},
+	"Magarena": {
+		"regex": {
+			"default": "^([\\>].*)?((\\d+) (.*))?"
+		}
+	},
+	"Forge": {
+		"regex": {
+			"default": "\\[(\\w+)\\]?|(\\d+) (.*?)\\|(\\w+)\\|?(\\d+)?"
+		}
+	},
+	"DeckedBuilder": {
+		"regex": {
+			"default": "(\\d+),(\\d+),(\\d+),((?=\\\")\\\".*?\\\"|.*?),(.*?),(.*?),(.*?),(.*?),(.*?),(\\d+),(\\d+.\\d+?),(\\d+.\\d+?),(\\d+.\\d+?)?,(.*?),"
+		}
+	},
+	"CSV": {
+		"regex": {
+			"default": "\"(.*?)\";(.*?);(.*?);(\\d+);(MINT|NEAR_MINT|GOOD|LIGHTLY_PLAYED|PLAYED|POOR|PROXY|OVERSIZED|ONLINE|SEALED|OPENED|DAMAGED)?;(true|false);(true|false);(true|false);(.*?);(\\d+.\\d+);(.*?)?;(.*?)?;(.*?)?;"
+		}
+	},
+	"CardCastle": {
+		"regex": {
+			"default": "((?=\")\".*?\"|.*?),(.*?),(.*?),(true|false),(.*?),(\\d+),(.*?),(\\d+.\\d+?)"
+		}
+	},
+	"Apprentice": {
+		"regex": {
+			"default": "(MD|SB),(\\d+),(\"[^\"]*\"),{0,1}([^\"]*){0,1}$"
+		}
+	},
+	"Card Kingdom CSV": {
+		"regex": {
+			"default": "(\\d+),(\\d+),((?=\")\".*?\"|.*?),(.*?),(\\d+)?,(.*?),(.*?),(foil)?,(signed)?,(proof)?,(altered)?,(misprint)?,(promo)?,(textless)?,\\$(\\d+(\\.\\d{1,2})?)"
 		}
 	},
 	"Card Kingdom": {
 		"nameSet": {
 			"Ravnica: City of Guilds": "Ravnica",
 			"Zendikar Rising Commander": "Zendikar Rising Commander Decks",
-			"Mystery Booster":"Mystery Booster/The List",
-			"The List":"Mystery Booster/The List",
-			"GRN Guild Kit":"Guilds Of Ravnica: Guild Kits",
-			"RNA Guild Kit":"Ravnica Allegiance: Guild Kits",
-			"Forgotten Realms Commander":"Adventures In The Forgotten Realms Commander Decks",
-			"Archenemy: Nicol Bolas":"Archenemy - Nicol Bolas",
-			"Deckmasters":"Deckmaster",
-			"Magic 2015":"2015 Core Set",
-			"Commander 2011":"Commander",
-			"Commander Anthology Volume II":"Commander Anthology Vol. II"
+			"Mystery Booster": "Mystery Booster/The List",
+			"The List": "Mystery Booster/The List",
+			"GRN Guild Kit": "Guilds Of Ravnica: Guild Kits",
+			"RNA Guild Kit": "Ravnica Allegiance: Guild Kits",
+			"Forgotten Realms Commander": "Adventures In The Forgotten Realms Commander Decks",
+			"Archenemy: Nicol Bolas": "Archenemy - Nicol Bolas",
+			"Deckmasters": "Deckmaster",
+			"Magic 2015": "2015 Core Set",
+			"Commander 2011": "Commander",
+			"Commander Anthology Volume II": "Commander Anthology Vol. II"
 		}
 	},
-	"MagicBazar":{
+	"MagicBazar": {
 		"nameSet": {},
 		"idSet": {},
 		"conditions": {
-			  "PLAYED":"Played",
-			  "MINT":"Mint/Nmint",
-			  "GOOD":"Bon",
-			  "NEAR_MINT":"Exc"
-			}
+			"PLAYED": "Played",
+			"MINT": "Mint/Nmint",
+			"GOOD": "Bon",
+			"NEAR_MINT": "Exc"
+		}
 	},
-	"Magic-Ville":{
+	"Magic-Ville": {
 		"nameSet": {},
 		"idSet": {},
 		"conditions": {
-			  "MINT":"Mint",
-			  "NEAR_MINT":"Near Mint",
-			  "GOOD":"Excellent",
-			  "PLAYED":"Played",
-			  "LIGHTLY_PLAYED":"Lightly Played"
-			}
+			"MINT": "Mint",
+			"NEAR_MINT": "Near Mint",
+			"GOOD": "Excellent",
+			"PLAYED": "Played",
+			"LIGHTLY_PLAYED": "Lightly Played"
+		}
 	},
-	"UrzaGatherer":{
-		"nameSet": {},
-		"idSet": {},
-		"conditions": {
-			  "MINT":"Mint",
-			  "NEAR_MINT":"Presque mint",
-			  "GOOD":"Bon",
-			  "LIGHTLY_PLAYED":"Légèrement jouée",
-			  "PLAYED":"Jouée",
-			  "POOR":"Mauvaise",
-			  "DAMAGED":"Endommagé"
-			}
-	},
-	
-	
-	
-	
-	"DeckBox":{
+	"UrzaGatherer": {
 		"regex": {
-			"default":"(\\d+),(\\d+),((?=\")\".*?\"|.*?),(.*?),(\\d+)?,(.*?),(.*?),(foil)?,(signed)?,(proof)?,(altered)?,(misprint)?,(promo)?,(textless)?,(.*?),(.*?),\\$(\\d+(\\.\\d{1,2})?)"
+			"default": "\\\"(.*?)\\\",\\\"(.*?)\\\",(.*?),(.*?),\\\"(.*?)\\\",(\\d+),(\\d+),(.*?),(\\d+),(\\d+),(\\d+),(\\d+),(.*?),(.*?),(\\d+),\\\"(.*?)\\\",(\\d+),(\\d+),(.*?),(\\d+),\\\"(.*?)\\\",\\\"(.*?)\\\",\\\"(.*?)\\\",(\\d+),(\\d+)"
 		},
 		"nameSet": {},
 		"idSet": {},
 		"conditions": {
-			  "MINT":"Mint",
-			  "NEAR_MINT":"Near Mint",
-			  "GOOD":"Good (Lightly Played)",
-			  "LIGHTLY_PLAYED":"Good (Lightly Played)",
-			  "PLAYED":"Played",
-			  "POOR":"Poor",
-			  "DAMAGED":"Heavily Played"
-			}
+			"MINT": "Mint",
+			"NEAR_MINT": "Presque mint",
+			"GOOD": "Bon",
+			"LIGHTLY_PLAYED": "Légèrement jouée",
+			"PLAYED": "Jouée",
+			"POOR": "Mauvaise",
+			"DAMAGED": "Endommagé"
+		}
+	},
+	"DeckBox": {
+		"regex": {
+			"default": "(\\d+),(\\d+),((?=\")\".*?\"|.*?),(.*?),(\\d+)?,(.*?),(.*?),(foil)?,(signed)?,(proof)?,(altered)?,(misprint)?,(promo)?,(textless)?,(.*?),(.*?),\\$(\\d+(\\.\\d{1,2})?)"
+		},
+		"nameSet": {},
+		"idSet": {},
+		"conditions": {
+			"MINT": "Mint",
+			"NEAR_MINT": "Near Mint",
+			"GOOD": "Good (Lightly Played)",
+			"LIGHTLY_PLAYED": "Good (Lightly Played)",
+			"PLAYED": "Played",
+			"POOR": "Poor",
+			"DAMAGED": "Heavily Played"
+		}
 	},
 	"LigaMagic": {
 		"nameSet": {},
 		"idSet": {},
 		"conditions": {
-		  "MINT":"M",
-		  "NEAR_MINT":"NM",
-		  "GOOD":"NM",
-		  "LIGHTLY_PLAYED":"SP",
-		  "PLAYED":"MP",
-		  "POOR":"HP",
-		  "DAMAGED":"D"
+			"MINT": "M",
+			"NEAR_MINT": "NM",
+			"GOOD": "NM",
+			"LIGHTLY_PLAYED": "SP",
+			"PLAYED": "MP",
+			"POOR": "HP",
+			"DAMAGED": "D"
 		}
-	},	
+	},
 	"Archidekt": {
-		"regex":{
-			"default":"(\\d+),((?=\\\")\\\".*?\\\"|.*?),(True|False),(NM|LP|MP|HP|D),(.*?),((?=\\\")\\\".*?\\\"|.*?),(.*?),(.*?),(\\d+),(.*?),(\\d+)"
+		"regex": {
+			"default": "(\\d+),((?=\\\")\\\".*?\\\"|.*?),(True|False),(NM|LP|MP|HP|D),(.*?),((?=\\\")\\\".*?\\\"|.*?),(.*?),(.*?),(\\d+),(.*?),(\\d+)"
 		},
 		"nameSet": {},
 		"idSet": {},
 		"conditions": {
-		  "MINT":"NM",
-		  "NEAR_MINT":"NM",
-		  "GOOD":"NM",
-		  "LIGHTLY_PLAYED":"LP",
-		  "PLAYED":"MP",
-		  "POOR":"HP",
-		  "DAMAGED":"D"
+			"MINT": "NM",
+			"NEAR_MINT": "NM",
+			"GOOD": "NM",
+			"LIGHTLY_PLAYED": "LP",
+			"PLAYED": "MP",
+			"POOR": "HP",
+			"DAMAGED": "D"
 		}
 	},
-
-
 	"DelverLens": {
 		"regex": {
-			"default":"(.*?); (.*?); (.*?).; (.*?); (.*?); (.*?); (.*?); (.*?); (.*?); (.*?); (.*?); (.*?)$"	
+			"mtgcompanion": "(.*?); (.*?); (.*?).; (.*?); (.*?); (.*?); (.*?); (.*?); (.*?); (.*?); (.*?); (.*?)$"
 		},
 		"conditions": {
-		  "MINT":"Near Mint",
-		  "NEAR_MINT":"Near Mint",
-		  "GOOD":"Slightly Played",
-		  "LIGHTLY_PLAYED":"Slightly Played",
-		  "PLAYED":"Moderatly Played",
-		  "POOR":"Heavily Played",
-		  "DAMAGED":"Heavily Played"
+			"MINT": "Near Mint",
+			"NEAR_MINT": "Near Mint",
+			"GOOD": "Slightly Played",
+			"LIGHTLY_PLAYED": "Slightly Played",
+			"PLAYED": "Moderatly Played",
+			"POOR": "Heavily Played",
+			"DAMAGED": "Heavily Played"
 		}
 	},
-	
-	"Magic Album":{
+	"Magic Album": {
+		"regex": {
+			"default": "(.*?)\\t(.*?)\\t(.*?)\\t(.*?)\\t(.*?)\\t(.*?)\\t(.*?)\\t(.*?)\\t(.*?)\\t(.*?)\\t(.*?)\\t(.*?)\\t(.*?)"
+		},
 		"idSet": {
-			"A":"LEA",
-			"B":"LEB",
-			"AQ":"ATQ",
+			"A": "LEA",
+			"B": "LEB",
+			"AQ": "ATQ",
 			"OD": "ODY",
-			"MI":"MIR",
-			"HL":"HML",
-			"IA":"ICE",
-			"NE":"NEM",
-			"PY":"PCY",
-			"LE":"LGN",
-			"CH":"CHR",
-			"UL":"ULG",
-			"LG":"LEG",
-			"VI":"VIS",
-			"EX":"EXO",
-			"TE":"TMP",
-			"UD":"UDS",
-			"AL":"ALL",
-			"DK":"DRK",
-			"DS":"DST",
-			"PS":"PLS",
-			"CS":"CSP",
-			"AP":"APC",
-			"FE":"FEM",
-			"4E":"4ED",
-			"4EF":"4BB",
-			"5E":"5ED",
-			"6E":"6ED",
-			"R":"3ED",
-			"TO":"TOR",
-			"MM":"MMQ",
-			"SH":"STH",
-			"GP":"GPT",
-			"US":"USG",
-			"WL":"WTH",
-			"RF":"3ED",
-			"IN":"INV",
-			"JU":"JUD",
-			"MR":"MRD",
-			"BIN":"PHPR",
-			"CFX":"CON",
-			"ON":"ONS",
-			"SC":"SCG",
-			"FD":"5DN",
-			"9E":"9ED",
-			"7E":"7ED",
-			"8E":"8ED",
-			"PT":"POR",
-			"P2":"P02",
-			"EVG":"DD1"
+			"MI": "MIR",
+			"HL": "HML",
+			"IA": "ICE",
+			"NE": "NEM",
+			"PY": "PCY",
+			"LE": "LGN",
+			"CH": "CHR",
+			"UL": "ULG",
+			"LG": "LEG",
+			"VI": "VIS",
+			"EX": "EXO",
+			"TE": "TMP",
+			"UD": "UDS",
+			"AL": "ALL",
+			"DK": "DRK",
+			"DS": "DST",
+			"PS": "PLS",
+			"CS": "CSP",
+			"AP": "APC",
+			"FE": "FEM",
+			"4E": "4ED",
+			"4EF": "4BB",
+			"5E": "5ED",
+			"6E": "6ED",
+			"R": "3ED",
+			"TO": "TOR",
+			"MM": "MMQ",
+			"SH": "STH",
+			"GP": "GPT",
+			"US": "USG",
+			"WL": "WTH",
+			"RF": "3ED",
+			"IN": "INV",
+			"JU": "JUD",
+			"MR": "MRD",
+			"BIN": "PHPR",
+			"CFX": "CON",
+			"ON": "ONS",
+			"SC": "SCG",
+			"FD": "5DN",
+			"9E": "9ED",
+			"7E": "7ED",
+			"8E": "8ED",
+			"PT": "POR",
+			"P2": "P02",
+			"EVG": "DD1"
 		}
 	},
-	
-	"TCGPlayer":{
+	"TCGPlayer": {
+		"regex": {
+			"default": "(\\d+),((?=\\\")\\\".*?\\\"|.*?),((?=\\\")\\\".*?\\\"|.*?),(.*?),(.*?),(.*?),(\\d+),(.*?),(.*?),(.*?),(.*?),(\\d+),(\\d+),\\$?(\\d+\\.(\\d{2}))?,\\$?(\\d+\\.(\\d{2}))"
+		},
 		"idSet": {
-			"TLP":"PLIST"
+			"TLP": "PLIST"
 		}
 	},
-	
-	"MagicWorkStation":{
+	"MagicWorkStation": {
+		"regex": {
+			"default": "(SB:\\s+|\\s)?(\\d+)(?: )?\\[(.*?)\\](.*)"
+		},
 		"idSet": {
-			"A":"LEA",
-			"B":"LEB",
-			"AQ":"ATQ",
+			"A": "LEA",
+			"B": "LEB",
+			"AQ": "ATQ",
 			"OD": "ODY",
-			"MI":"MIR",
-			"HL":"HML",
-			"IA":"ICE",
-			"NE":"NEM",
-			"PY":"PCY",
-			"LE":"LGN",
-			"CH":"CHR",
-			"UL":"ULG",
-			"LG":"LEG",
-			"VI":"VIS",
-			"EX":"EXO",
-			"TE":"TMP",
-			"UD":"UDS",
-			"AL":"ALL",
-			"DK":"DRK",
-			"DS":"DST",
-			"PS":"PLS",
-			"CS":"CSP",
-			"AP":"APC",
-			"FE":"FEM",
-			"4E":"4ED",
-			"4EF":"4BB",
-			"5E":"5ED",
-			"6E":"6ED",
-			"R":"3ED",
-			"TO":"TOR",
-			"MM":"MMQ",
-			"SH":"STH",
-			"GP":"GPT",
-			"US":"USG",
-			"WL":"WTH",
-			"RF":"3ED",
-			"IN":"INV",
-			"JU":"JUD",
-			"MR":"MRD",
-			"BIN":"PHPR",
-			"CFX":"CON",
-			"ON":"ONS",
-			"SC":"SCG",
-			"FD":"5DN",
-			"9E":"9ED",
-			"7E":"7ED",
-			"8E":"8ED",
-			"PT":"POR",
-			"P2":"P02",
-			"EVG":"DD1"
+			"MI": "MIR",
+			"HL": "HML",
+			"IA": "ICE",
+			"NE": "NEM",
+			"PY": "PCY",
+			"LE": "LGN",
+			"CH": "CHR",
+			"UL": "ULG",
+			"LG": "LEG",
+			"VI": "VIS",
+			"EX": "EXO",
+			"TE": "TMP",
+			"UD": "UDS",
+			"AL": "ALL",
+			"DK": "DRK",
+			"DS": "DST",
+			"PS": "PLS",
+			"CS": "CSP",
+			"AP": "APC",
+			"FE": "FEM",
+			"4E": "4ED",
+			"4EF": "4BB",
+			"5E": "5ED",
+			"6E": "6ED",
+			"R": "3ED",
+			"TO": "TOR",
+			"MM": "MMQ",
+			"SH": "STH",
+			"GP": "GPT",
+			"US": "USG",
+			"WL": "WTH",
+			"RF": "3ED",
+			"IN": "INV",
+			"JU": "JUD",
+			"MR": "MRD",
+			"BIN": "PHPR",
+			"CFX": "CON",
+			"ON": "ONS",
+			"SC": "SCG",
+			"FD": "5DN",
+			"9E": "9ED",
+			"7E": "7ED",
+			"8E": "8ED",
+			"PT": "POR",
+			"P2": "P02",
+			"EVG": "DD1"
 		}
 	},
-	
 	"MTGoldFish": {
 		"idSet": {
 			"7ED": "7E",
@@ -245,7 +311,7 @@
 			"HOP": "PC1",
 			"INV": "IN",
 			"MIR": "MI",
-			"H1R":"MH2",
+			"H1R": "MH2",
 			"MMQ": "MM",
 			"MP2": "MS3",
 			"MPS": "MS2",
@@ -274,8 +340,8 @@
 			"WTH": "WL"
 		},
 		"nameSet": {
-			"Neon Dynasty Commander":"Kamigawa Neon Dynasty Commander",
-			"Secret Lair Drop":"Secret Lair",
+			"Neon Dynasty Commander": "Kamigawa Neon Dynasty Commander",
+			"Secret Lair Drop": "Secret Lair",
 			"Planechase 2012": "Planechase 2012 Edition",
 			"Magic 2015": "Magic 2015 Core Set",
 			"Magic 2014": "Magic 2014 Core Set",
@@ -287,10 +353,9 @@
 			"Guru": "Guru Lands",
 			"Modern Masters 2017": "Modern Masters 2017 Edition",
 			"Modern Horizons 1 Timeshifts": "Modern Horizons 2",
-			"Crimson Vow Commander":"Innistrad Crimson Vow Commander",
-			"Midnight Hunt Commander":"Innistrad Midnight Hunt Commander",
-			"Phyrexia: All Will Be One" : "PhyrexiaAll Will Be One"
+			"Crimson Vow Commander": "Innistrad Crimson Vow Commander",
+			"Midnight Hunt Commander": "Innistrad Midnight Hunt Commander",
+			"Phyrexia: All Will Be One": "PhyrexiaAll Will Be One"
 		}
-		
 	}
 }

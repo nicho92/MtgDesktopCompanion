@@ -126,11 +126,6 @@ public class ForgeDeckExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	protected String getStringPattern() {
-		return "\\[(\\w+)\\]?|(\\d+) (.*?)\\|(\\w+)\\|?(\\d+)?";
-	}
-
-	@Override
 	protected String getSeparator() {
 		return null;
 	}
