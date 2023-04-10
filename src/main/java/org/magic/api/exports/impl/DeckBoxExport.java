@@ -46,7 +46,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 			line.append(name).append(getSeparator());
 			line.append(mc.getProduct().getCurrentSet().getSet()).append(getSeparator());
 			line.append(mc.getProduct().getCurrentSet().getNumber()).append(getSeparator());
-			line.append(PluginsAliasesProvider.inst().getConditionFor(this,mc.getCondition())).append(getSeparator());
+			line.append(aliases.getConditionFor(this,mc.getCondition())).append(getSeparator());
 			line.append(mc.getLanguage()).append(getSeparator());
 			line.append(mc.isFoil()?"foil":"").append(getSeparator());
 			line.append(mc.isSigned()?"signed":"").append(getSeparator());
@@ -134,7 +134,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 				MagicCardStock mcs = MTGControler.getInstance().getDefaultStock();
 					   mcs.setQte(Integer.parseInt(m.group(1)));
 					   mcs.setProduct(mc);
-					   mcs.setCondition(PluginsAliasesProvider.inst().getReversedConditionFor(this,m.group(6),null));
+					   mcs.setCondition(aliases.getReversedConditionFor(this,m.group(6),null));
 
 					   if(!m.group(7).isEmpty())
 						   mcs.setLanguage(m.group(7));
@@ -180,7 +180,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 		if(getString(REGEX).isEmpty())
 			setProperty(REGEX,"default");
 
-			return PluginsAliasesProvider.inst().getRegexFor(this, getString(REGEX));
+			return aliases.getRegexFor(this, getString(REGEX));
 	}
 	
 	@Override

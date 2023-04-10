@@ -42,7 +42,7 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 
 	protected String getStringPattern()
 	{
-		return PluginsAliasesProvider.inst().getRegexFor(this, "default");
+		return aliases.getRegexFor(this, "default");
 	}
 
 	protected abstract String getSeparator();
@@ -66,9 +66,9 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 		MagicEdition ed = null;
 		try {
 			if(setSearch==FORMAT_SEARCH.ID)
-				ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(PluginsAliasesProvider.inst().getSetIdFor(this,m.group(gEdition)));
+				ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(aliases.getSetIdFor(this,m.group(gEdition)));
 			else
-				ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(PluginsAliasesProvider.inst().getSetNameFor(this,m.group(gEdition)));
+				ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(aliases.getSetNameFor(this,m.group(gEdition)));
 
 		} catch (Exception e) {
 			ed = null;

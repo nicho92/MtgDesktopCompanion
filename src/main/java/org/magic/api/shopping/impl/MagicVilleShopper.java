@@ -96,14 +96,14 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 			 st.setQte(Integer.parseInt(e.select("td").get(5).html()));
 			 st.setComment(e.select("td").get(1).text());
 			 st.setLanguage(e.select("td").get(2).text().contains(" VF")?"French":"English");
-			 st.setCondition(PluginsAliasesProvider.inst().getReversedConditionFor(this, e.select("td").get(3).text(), EnumCondition.NEAR_MINT));
+			 st.setCondition(aliases.getReversedConditionFor(this, e.select("td").get(3).text(), EnumCondition.NEAR_MINT));
 			 st.getTiersAppIds().put(getName(), e.select("td a").attr("href").replace("show_card_sale?gamerid=", "").trim());
 			 
 			 	MagicEdition edition = null;
 			 
 				try {
 					var setId =  st.getTiersAppIds().get(getName()).substring(0,3).toUpperCase();
-					edition = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(  PluginsAliasesProvider.inst().getSetIdFor(this, setId)  );
+					edition = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(  aliases.getSetIdFor(this, setId)  );
 				}catch(Exception ex)
 				{
 					logger.error("No set found for {}",st.getTiersAppIds().get(getName()));

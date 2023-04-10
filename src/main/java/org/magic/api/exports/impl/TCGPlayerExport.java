@@ -125,7 +125,7 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 			var found = false;
 				
 			try {
-				var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(m.group(5), MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(PluginsAliasesProvider.inst().getSetIdFor(this, m.group(6))));
+				var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(m.group(5), MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(aliases.getSetIdFor(this, m.group(6))));
 				st.setProduct(mc);
 				found = true;
 			} catch (Exception e) {
@@ -136,7 +136,7 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 			if(!found)
 			{
 				try {
-					var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(m.group(3).replace("\"", ""), MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(PluginsAliasesProvider.inst().getSetIdFor(this, m.group(6))),true).get(0);
+					var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(m.group(3).replace("\"", ""), MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(aliases.getSetIdFor(this, m.group(6))),true).get(0);
 					st.setProduct(mc);
 					found = true;
 				} catch (Exception e) {

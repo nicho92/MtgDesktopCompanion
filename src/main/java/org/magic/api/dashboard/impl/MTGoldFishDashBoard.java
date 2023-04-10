@@ -42,7 +42,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	private static final String FORMAT = "FORMAT";
 	private static final String DAILY_WEEKLY = "DAILY_WEEKLY";
 	private static final String WEBSITE = "https://www.mtggoldfish.com";
-	private static final String SET_EnumExtra = "SET_EnumExtra";
+	private static final String SET_EXTRA = "SET_EnumExtra";
 	private static final String MOVERS_DETAILS = WEBSITE+"/movers-details/";
 
 	boolean isPaperparsing=true;
@@ -175,7 +175,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 	@Override
 	protected HistoryPrice<MagicEdition> getOnlinePricesVariation(MagicEdition me) throws IOException {
-		String url = WEBSITE+"/sets/" + PluginsAliasesProvider.inst().getSetIdFor(this,me) + "#" + getString(FORMAT);
+		String url = WEBSITE+"/sets/" + aliases.getSetIdFor(this,me) + "#" + getString(FORMAT);
 		HistoryPrice<MagicEdition> historyPrice = new HistoryPrice<>(me);
 		historyPrice.setCurrency(getCurrency());
 
@@ -218,7 +218,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			else
 			{
 				var filteredArray = new JsonArray();
-				var set = PluginsAliasesProvider.inst().getSetIdFor(this,mc.getCurrentSet());
+				var set = aliases.getSetIdFor(this,mc.getCurrentSet());
 				for(JsonElement el : arr)
 				{
 					if(el.getAsJsonObject().get("id").getAsString().contains("["+set+"]") && el.getAsJsonObject().get("foil").getAsBoolean()==foil){
@@ -381,7 +381,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				cs.setPercentDayChange(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text())/100);
 				cs.setFoil(false);
 				String set = e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).getElementsByTag("a").get(0).attr("data-card-id");
-				cs.setEd(PluginsAliasesProvider.inst().getReversedSetIdFor(this,StringUtils.substringBetween(set, "[", "]").toUpperCase()));
+				cs.setEd(aliases.getReversedSetIdFor(this,StringUtils.substringBetween(set, "[", "]").toUpperCase()));
 
 				list.add(cs);
 
@@ -403,14 +403,14 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		if(edition==null)
 			return list;
 
-		var urlEditionChecker = WEBSITE+"/sets/" + PluginsAliasesProvider.inst().getSetIdFor(this,edition)+"/All+Cards";
+		var urlEditionChecker = WEBSITE+"/sets/" + aliases.getSetIdFor(this,edition)+"/All+Cards";
 
 		urlEditionChecker = URLTools.getLocation(urlEditionChecker);
 
 
 		var page = "Main+Set";
 
-		if(getBoolean(SET_EnumExtra))
+		if(getBoolean(SET_EXTRA))
 			page ="All+Cards";
 
 
@@ -508,7 +508,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	}
 
 	private String convert(MagicEdition ed) {
-		String editionName = RegExUtils.replaceAll(PluginsAliasesProvider.inst().getSetNameFor(this, ed), " ", "+");
+		String editionName = RegExUtils.replaceAll(aliases.getSetNameFor(this, ed), " ", "+");
 			editionName = RegExUtils.replaceAll(editionName, "'", "");
 			editionName = RegExUtils.replaceAll(editionName, ",", "");
 			editionName = RegExUtils.replaceAll(editionName, ":", "");
@@ -543,7 +543,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		return Map.of(FORMAT, "paper",
 							   TIMEOUT, "0",
 							   DAILY_WEEKLY, "wow",
-							   SET_EnumExtra,"true"
+							   SET_EXTRA,"true"
 							   );
 	}
 

@@ -88,7 +88,7 @@ public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 			MagicEdition ed = null;
 
 			try {
-				ed = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetByName( PluginsAliasesProvider.inst().getReversedSetNameFor(new CardKingdomCardExport() , m.group(4)));
+				ed = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetByName( aliases.getReversedSetNameFor(new CardKingdomCardExport() , m.group(4)));
 			}
 			catch(Exception e)
 			{
@@ -130,7 +130,7 @@ public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 				MagicCardStock mcs = MTGControler.getInstance().getDefaultStock();
 					   mcs.setQte(Integer.parseInt(m.group(1)));
 					   mcs.setProduct(mc);
-					   mcs.setCondition(PluginsAliasesProvider.inst().getReversedConditionFor(new CardKingdomCardExport(),m.group(6),null));
+					   mcs.setCondition(aliases.getReversedConditionFor(new CardKingdomCardExport(),m.group(6),null));
 
 					   if(!m.group(7).isEmpty())
 						   mcs.setLanguage(m.group(7));

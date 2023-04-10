@@ -69,7 +69,7 @@ public class LigaMagicExport extends AbstractCardExport {
 				row.createCell(colNum++,CellType.STRING).setCellValue(st.getProduct().getName());
 				row.createCell(colNum++,CellType.STRING).setCellValue(st.getProduct().getEdition().getSet());
 				row.createCell(colNum++,CellType.NUMERIC).setCellValue(st.getPrice());
-				row.createCell(colNum++,CellType.STRING).setCellValue(PluginsAliasesProvider.inst().getConditionFor(this, st.getCondition()));
+				row.createCell(colNum++,CellType.STRING).setCellValue(aliases.getConditionFor(this, st.getCondition()));
 				row.createCell(colNum++,CellType.NUMERIC).setCellValue(st.isFoil()?1:0);
 				row.createCell(colNum++,CellType.NUMERIC).setCellValue(st.isEtched()?1:0);
 				row.createCell(colNum++,CellType.NUMERIC).setCellValue(st.isAltered()?1:0);
@@ -129,7 +129,7 @@ public class LigaMagicExport extends AbstractCardExport {
 							stockItem.setLanguage(language);
 							stockItem.setEtched(etched);
 							stockItem.setQte(qte);
-							stockItem.setCondition( PluginsAliasesProvider.inst().getReversedConditionFor(this, quality, null));
+							stockItem.setCondition( aliases.getReversedConditionFor(this, quality, null));
 							stockItem.setPrice(priceItem);
 							stockItem.setProduct(mc);
 							ret.add(stockItem);

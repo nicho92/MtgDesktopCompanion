@@ -107,7 +107,7 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 		if(strCondition.indexOf("x")>-1)
 			strCondition = strCondition.substring(strCondition.indexOf("x")+1);
 
-		st.setCondition(PluginsAliasesProvider.inst().getReversedConditionFor(this, strCondition, EnumCondition.NEAR_MINT)  );
+		st.setCondition(aliases.getReversedConditionFor(this, strCondition, EnumCondition.NEAR_MINT)  );
 
 
 		return st;
@@ -188,7 +188,7 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 		temp.append(mcs.getProduct().getCurrentSet().getMultiverseid()).append(getSeparator());
 		temp.append("\"").append(mcs.getComment()).append("\"").append(getSeparator());
 		temp.append("0").append(getSeparator());
-		temp.append("\"").append(mcs.getQte()).append("x").append(PluginsAliasesProvider.inst().getConditionFor(this, mcs.getCondition())).append("\"").append(getSeparator());
+		temp.append("\"").append(mcs.getQte()).append("x").append(aliases.getConditionFor(this, mcs.getCondition())).append("\"").append(getSeparator());
 		temp.append("\"").append(mcs.getGrade()).append("\"").append(getSeparator());
 		temp.append("\"").append(mcs.getLanguage()).append("\"").append(getSeparator());
 		temp.append(mcs.getProduct().getTcgPlayerId()).append(getSeparator());

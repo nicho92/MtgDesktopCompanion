@@ -180,7 +180,7 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 			var st = new MagicCardStock(card);
 				 st.setPrice(UITools.parseDouble(e.attr("attribute_price")));
 				 st.setLanguage(langEtat[0].equalsIgnoreCase("Fr")?"French":"English");
-				 st.setCondition(PluginsAliasesProvider.inst().getReversedConditionFor(this, langEtat[1], EnumCondition.NEAR_MINT));
+				 st.setCondition(aliases.getReversedConditionFor(this, langEtat[1], EnumCondition.NEAR_MINT));
 				 st.setQte(Integer.parseInt(e.select("div.qty").first().text()));
 			return st;
 		}

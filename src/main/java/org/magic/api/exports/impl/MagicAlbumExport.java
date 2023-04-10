@@ -70,7 +70,7 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 
 		for(var mcs : stock)
 		{
-			temp.append(PluginsAliasesProvider.inst().getReversedSetIdFor(this, mcs.getProduct().getCurrentSet().getId())).append("\t");
+			temp.append(aliases.getReversedSetIdFor(this, mcs.getProduct().getCurrentSet().getId())).append("\t");
 			temp.append(mcs.getProduct().getName()).append("\t");
 			temp.append(mcs.getProduct().getForeignNames().get(0).getName()).append("\t");
 			temp.append("").append("\t");
@@ -110,7 +110,7 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 			var foilnumber = ( !m.group(7).isEmpty()) ? Integer.parseInt(m.group(7)):0;
 			var regularNumber = ( !m.group(6).isEmpty()) ? Integer.parseInt(m.group(6)):0;
 			var proxyNumber = ( !m.group(9).isEmpty()) ? Integer.parseInt(m.group(9)):0;
-			var setCode = PluginsAliasesProvider.inst().getSetIdFor(this, new MagicEdition(m.group(1)));
+			var setCode = aliases.getSetIdFor(this, new MagicEdition(m.group(1)));
 			var lang=m.group(5);
 			var cardName = m.group(2).replace("’", "'").replace("│", " // ");
 

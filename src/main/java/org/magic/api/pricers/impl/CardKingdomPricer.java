@@ -75,10 +75,10 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 			filtres=filtres.and("variation").is("Extended Art");
 
 
-		if(PluginsAliasesProvider.inst().getSetNameFor(new CardKingdomCardExport() , mc.getCurrentSet()).contains("Mystery Booster"))
+		if(aliases.getSetNameFor(new CardKingdomCardExport() , mc.getCurrentSet()).contains("Mystery Booster"))
 		{
 			filtres = where("name").is(name)
-					  .and("edition").is(PluginsAliasesProvider.inst().getSetNameFor(new CardKingdomCardExport() , mc.getCurrentSet()))
+					  .and("edition").is(aliases.getSetNameFor(new CardKingdomCardExport() , mc.getCurrentSet()))
 					  .and("is_foil").is(String.valueOf(foil));
 		}
 
@@ -90,9 +90,9 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 		if(mc.isToken())
 		{
 			name = name + " Token";
-			//ed = PluginsAliasesProvider.inst().getSetNameFor(new CardKingdomCardExport() , mc.getCurrentSet());
+			//ed = EnumExtra.getSetNameFor(new CardKingdomCardExport() , mc.getCurrentSet());
 			ed = ed.replace(" Tokens", "");
-			ed = PluginsAliasesProvider.inst().getSetNameFor(new CardKingdomCardExport() , ed);
+			ed = aliases.getSetNameFor(new CardKingdomCardExport() , ed);
 			filtres = where("name").is(name)
 					  .and("edition").is(ed)
 					  .and("is_foil").is(String.valueOf(foil));

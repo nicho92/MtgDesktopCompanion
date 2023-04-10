@@ -41,7 +41,7 @@ public class ArchidektExport extends AbstractFormattedFileCardExport {
 
 				 st.setProduct(mc);
 				 st.setFoil(m.group(3).equalsIgnoreCase("true"));
-				 st.setCondition(PluginsAliasesProvider.inst().getReversedConditionFor(this, m.group(4),EnumCondition.GOOD));
+				 st.setCondition(aliases.getReversedConditionFor(this, m.group(4),EnumCondition.GOOD));
 				 st.setLanguage(m.group(5));
 				 ret.add(st);
 				 notify(mc);
@@ -72,7 +72,7 @@ public class ArchidektExport extends AbstractFormattedFileCardExport {
 			temp.append(mcs.getQte()).append(getSeparator());
 			temp.append("\"").append(mcs.getProduct().getName()).append("\"").append(getSeparator());
 			temp.append(StringUtils.capitalize(String.valueOf(mcs.isFoil()))).append(getSeparator());
-			temp.append(PluginsAliasesProvider.inst().getConditionFor(this,mcs.getCondition())).append(getSeparator());
+			temp.append(aliases.getConditionFor(this,mcs.getCondition())).append(getSeparator());
 			temp.append(mcs.getLanguage()).append(getSeparator());
 			temp.append(getSeparator());
 			temp.append(mcs.getProduct().getCurrentSet()).append(getSeparator());

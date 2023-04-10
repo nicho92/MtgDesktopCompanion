@@ -42,13 +42,13 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 		temp.append(System.lineSeparator());
 		stock.forEach(st->{
 			temp.append(st.getProduct().getName()).append(getSeparator());
-			temp.append(PluginsAliasesProvider.inst().getSetNameFor(this,st.getProduct().getCurrentSet())).append(getSeparator());
+			temp.append(aliases.getSetNameFor(this,st.getProduct().getCurrentSet())).append(getSeparator());
 			temp.append(UITools.formatDouble(st.getPrice())).append(getSeparator());
 			temp.append(st.getLanguage()).append(getSeparator());
 			temp.append(st.getProduct().getCurrentSet().getNumber()).append(getSeparator());
-			temp.append(PluginsAliasesProvider.inst().getConditionFor(this,st.getCondition())).append(getSeparator());
+			temp.append(aliases.getConditionFor(this,st.getCondition())).append(getSeparator());
 			temp.append(MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getCurrencyCode()).append(getSeparator());
-			temp.append(PluginsAliasesProvider.inst().getSetIdFor(this,st.getProduct().getCurrentSet())).append(getSeparator());
+			temp.append(aliases.getSetIdFor(this,st.getProduct().getCurrentSet())).append(getSeparator());
 			temp.append(st.isFoil()?"Foil":"").append(getSeparator());
 			temp.append(st.getMagicCollection()).append(getSeparator());
 			temp.append(st.getQte()).append(getSeparator());
@@ -79,7 +79,7 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 				st.setLanguage(m.group(4));
 				st.setQte(Integer.parseInt(m.group(11)));
 				st.setFoil(m.group(9).equalsIgnoreCase("foil")	);
-				st.setCondition(PluginsAliasesProvider.inst().getReversedConditionFor(this, m.group(6), EnumCondition.NEAR_MINT)  );
+				st.setCondition(aliases.getReversedConditionFor(this, m.group(6), EnumCondition.NEAR_MINT)  );
 				st.setPrice(UITools.parseDouble(m.group(3).trim()));
 				list.add(st);
 			}
@@ -117,7 +117,7 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 
 	@Override
 	protected String getStringPattern() {
-		return PluginsAliasesProvider.inst().getRegexFor(this, "mtgcompanion");
+		return aliases.getRegexFor(this, "mtgcompanion");
 	}
 
 	@Override
