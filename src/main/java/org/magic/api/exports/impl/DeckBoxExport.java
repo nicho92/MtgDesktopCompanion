@@ -12,7 +12,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
@@ -160,27 +159,6 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 		return list;
 	}
 
-	private String getDefault()
-	{
-		return "(\\d+)"+getSeparator()+
-				   "(\\d+)"+getSeparator()+
-				   "((?=\")\".*?\"|.*?)"+getSeparator()+
-				   EnumCardsPatterns.REGEX_ANY_STRING+getSeparator()+
-				   "(\\d+)?"+getSeparator()+
-				   EnumCardsPatterns.REGEX_ANY_STRING+getSeparator()+
-				   EnumCardsPatterns.REGEX_ANY_STRING+getSeparator()+
-				   "(foil)?"+getSeparator()+
-				   "(signed)?"+getSeparator()+
-				   "(proof)?"+getSeparator()+
-				   "(altered)?"+getSeparator()+
-				   "(misprint)?"+getSeparator()+
-				   "(promo)?"+getSeparator()+
-				   "(textless)?"+getSeparator()+
-				   EnumCardsPatterns.REGEX_ANY_STRING+getSeparator()+
-				   EnumCardsPatterns.REGEX_ANY_STRING+getSeparator()+
-				   "\\$(\\d+(\\.\\d{1,2})?)";
-	}
-
 
 	@Override
 	public String getName() {
@@ -200,17 +178,15 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 	@Override
 	protected String getStringPattern() {
 		if(getString(REGEX).isEmpty())
-			setProperty(REGEX,getDefault());
+			setProperty(REGEX,"default");
 
-
-
-			return getString(REGEX);
+			return PluginsAliasesProvider.inst().getRegexFor(this, getString(REGEX));
 	}
-
+	
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		var m = super.getDefaultAttributes();
-		m.put(REGEX, getDefault());
+		m.put(REGEX, "default");
 
 		return m;
 	}

@@ -50,6 +50,9 @@
 			}
 	},
 	"DeckBox":{
+		"regex": {
+			"default":"(\\d+),(\\d+),((?=\")\".*?\"|.*?),(.*?),(\\d+)?,(.*?),(.*?),(foil)?,(signed)?,(proof)?,(altered)?,(misprint)?,(promo)?,(textless)?,(.*?),(.*?),\\$(\\d+(\\.\\d{1,2})?)"
+		},
 		"nameSet": {},
 		"idSet": {},
 		"conditions": {

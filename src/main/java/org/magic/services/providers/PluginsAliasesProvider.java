@@ -101,6 +101,18 @@ public class PluginsAliasesProvider {
 			return defaultCondition;
 		}
 	}
+	
+	public String getRegexFor(MTGPlugin plug,String k)
+	{
+		try {
+		return  jsonData.get(plug.getName()).getAsJsonObject().get("regex").getAsJsonObject().get(k).getAsString();
+		}
+		catch(Exception e)
+		{
+			logger.error("error getting regex for {} with key={}.. return default", plug.getName(),k);
+			return jsonData.get(plug.getName()).getAsJsonObject().get("regex").getAsJsonObject().get("default").getAsString();
+		}
+	}
 
 
 	public String getConditionFor(MTGPlugin plug, EnumCondition condition)

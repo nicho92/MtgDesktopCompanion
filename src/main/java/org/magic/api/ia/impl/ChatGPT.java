@@ -7,14 +7,11 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.entity.StringEntity;
-import org.apache.logging.log4j.Level;
 import org.magic.api.beans.MTGDocumentation;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractIA;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
-import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
 
@@ -75,7 +72,14 @@ public class ChatGPT extends AbstractIA {
 					
 		var jsonReponse = query(obj,"/chat/completions");
 		
+		
+		if(jsonReponse.getAsJsonObject().get("error")!=null)
+		{
+			throw new IOException(jsonReponse.getAsJsonObject().get("error").getAsJsonObject().get("message").getAsString());
+		}
+		
 		try {
+			
 			var ret = jsonReponse.getAsJsonObject().get("choices").getAsJsonArray().get(0).getAsJsonObject().get("message").getAsJsonObject().get("content").getAsString();
 			logger.debug("{} answer : {} ",getName(), ret);
 			return ret;
