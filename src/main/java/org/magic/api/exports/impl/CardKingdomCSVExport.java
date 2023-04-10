@@ -18,7 +18,6 @@ import org.magic.api.interfaces.abstracts.AbstractMTGPlugin;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.providers.PluginsAliasesProvider;
 import org.magic.services.tools.CardKingdomTools;
 import org.magic.services.tools.FileTools;
 import org.magic.services.tools.MTG;

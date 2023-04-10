@@ -25,7 +25,6 @@ import org.magic.services.CardsManagerService;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
-import org.magic.services.providers.PluginsAliasesProvider;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 

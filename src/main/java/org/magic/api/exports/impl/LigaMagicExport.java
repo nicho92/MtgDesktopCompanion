@@ -22,7 +22,6 @@ import org.magic.api.beans.enums.EnumPromoType;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
-import org.magic.services.providers.PluginsAliasesProvider;
 import org.magic.services.tools.MTG;
 
 public class LigaMagicExport extends AbstractCardExport {
