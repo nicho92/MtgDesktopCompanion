@@ -64,8 +64,7 @@ public class ManualImportExport extends AbstractCardExport {
 	public List<MagicCardStock> importStockFromFile(File f) throws IOException {
 		var diag = new ManualImportDialog();
 		diag.setVisible(true);
-		var d =  diag.getSelectedDeck();
-		return importFromDeck(d);
+		return importFromDeck(diag.getSelectedDeck());
 	}
 
 
@@ -74,7 +73,6 @@ public class ManualImportExport extends AbstractCardExport {
 		var diag = new ManualImportDialog();
 		diag.setVisible(true);
 		return diag.getSelectedDeck();
-
 	}
 
 	@Override

@@ -115,7 +115,10 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 				var m = getPattern().matcher(line);
 
 				if(m.find())
+				{
+					logger.debug("Found {}", line);
 					ret.add(m);
+				}
 				else
 					logger.error("no match for {}",line);
 			}

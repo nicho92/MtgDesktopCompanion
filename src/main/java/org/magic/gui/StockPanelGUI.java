@@ -497,8 +497,10 @@ public class StockPanelGUI extends MTGUIComponent {
 	}
 
 	public void addStock(MagicCardStock mcs) {
+		
 		mcs.setUpdated(true);
 		model.addItem(mcs);
+		model.fireTableDataChanged();
 	}
 
 	public void addCard(MagicCard mc) {

@@ -172,12 +172,9 @@ public class ManualImportDialog extends AbstractDelegatedImporterDialog {
 
 										};
 									lblLoading.start();
+			
 									ThreadManager.getInstance().runInEdt(sw,"import decks");
-
-
-
-
-		});
+	});
 
 
 
