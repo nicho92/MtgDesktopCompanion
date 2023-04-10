@@ -105,7 +105,7 @@ public class ArchidektExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	protected String getStringPattern() {
-		return "(\\d+),((?=\\\")\\\".*?\\\"|.*?),(True|False),(NM|LP|MP|HP|D),(.*?),((?=\\\")\\\".*?\\\"|.*?),(.*?),(.*?),(\\d+),(.*?),(\\d+)";
+		return PluginsAliasesProvider.inst().getRegexFor(this, "default");
 	}
 
 	@Override

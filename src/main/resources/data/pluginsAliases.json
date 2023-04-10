@@ -1,4 +1,10 @@
 {
+
+	"Card Kingdom CSV" : {
+		"regex": {
+			"default":"(\\d+),(\\d+),((?=\")\".*?\"|.*?),(.*?),(\\d+)?,(.*?),(.*?),(foil)?,(signed)?,(proof)?,(altered)?,(misprint)?,(promo)?,(textless)?,\\$(\\d+(\\.\\d{1,2})?)"
+		}
+	},
 	"Card Kingdom": {
 		"nameSet": {
 			"Ravnica: City of Guilds": "Ravnica",
@@ -49,6 +55,10 @@
 			  "DAMAGED":"Endommagé"
 			}
 	},
+	
+	
+	
+	
 	"DeckBox":{
 		"regex": {
 			"default":"(\\d+),(\\d+),((?=\")\".*?\"|.*?),(.*?),(\\d+)?,(.*?),(.*?),(foil)?,(signed)?,(proof)?,(altered)?,(misprint)?,(promo)?,(textless)?,(.*?),(.*?),\\$(\\d+(\\.\\d{1,2})?)"
@@ -79,6 +89,9 @@
 		}
 	},	
 	"Archidekt": {
+		"regex":{
+			"default":"(\\d+),((?=\\\")\\\".*?\\\"|.*?),(True|False),(NM|LP|MP|HP|D),(.*?),((?=\\\")\\\".*?\\\"|.*?),(.*?),(.*?),(\\d+),(.*?),(\\d+)"
+		},
 		"nameSet": {},
 		"idSet": {},
 		"conditions": {
@@ -94,6 +107,9 @@
 
 
 	"DelverLens": {
+		"regex": {
+			"default":"(.*?); (.*?); (.*?).; (.*?); (.*?); (.*?); (.*?); (.*?); (.*?); (.*?); (.*?); (.*?)$"	
+		},
 		"conditions": {
 		  "MINT":"Near Mint",
 		  "NEAR_MINT":"Near Mint",
