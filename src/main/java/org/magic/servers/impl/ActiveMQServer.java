@@ -30,6 +30,7 @@ import com.google.gson.JsonObject;
 
 public class ActiveMQServer extends AbstractMTGServer {
 
+	private static final String LISTENERS_TCP = "LISTENERS_TCP";
 	private static final String LOG_DIR = "LOG_DIR";
 	public static final String DEFAULT_ADDRESS = "welcome";
 	private ActiveMQServerImpl server;
@@ -46,7 +47,7 @@ public class ActiveMQServer extends AbstractMTGServer {
 	public Map<String, String> getDefaultAttributes() {
 		var m = new HashMap<String,String>();
 			 m.put("ENABLE_JMX_MNG", "true");
-			 m.put("LISTENERS_TCP", "tcp://"+URLTools.getInternalIP()+":61616");
+			 m.put(LISTENERS_TCP, "tcp://"+URLTools.getInternalIP()+":61616");
 			 m.put("SECURITY_ENABLED", "false");
 			 m.put(LOG_DIR, new File(MTGConstants.DATA_DIR,"activemq").getAbsolutePath());
 			 m.put("ADRESSES", "trade,news");
@@ -89,8 +90,8 @@ public class ActiveMQServer extends AbstractMTGServer {
 	{
 			try {
 				
-				for(int i=0;i<getArray("LISTENERS_TCP").length;i++)
-					server.getConfiguration().addAcceptorConfiguration("tcp-"+i, getArray("LISTENERS_TCP")[i]);
+				for(int i=0;i<getArray(LISTENERS_TCP).length;i++)
+					server.getConfiguration().addAcceptorConfiguration("tcp-"+i, getArray(LISTENERS_TCP)[i]);
 				
 				
 				server.getConfiguration().setSecurityEnabled(getBoolean("SECURITY_ENABLED"));
@@ -98,7 +99,6 @@ public class ActiveMQServer extends AbstractMTGServer {
 				server.getConfiguration().setJournalRetentionPeriod(TimeUnit.DAYS, getInt("RETENTION_DAYS"));
 				server.getConfiguration().setJournalDirectory(getString(LOG_DIR));
 				server.getConfiguration().setPagingDirectory(getString(LOG_DIR));
-				//server.getConfiguration().setJournalRetentionDirectory(getString(LOG_DIR));
 				server.getConfiguration().setNodeManagerLockDirectory(getString(LOG_DIR));
 				server.getConfiguration().setLargeMessagesDirectory(getString(LOG_DIR));
 				server.getConfiguration().setBindingsDirectory(getString(LOG_DIR));
@@ -138,7 +138,7 @@ public class ActiveMQServer extends AbstractMTGServer {
 			server.start();
 			logger.info("{} is started", getName());
 			
-			client.join(new Player("System"),getArray("LISTENERS_TCP")[0],DEFAULT_ADDRESS);
+			client.join(new Player("System"),getArray(LISTENERS_TCP)[0],DEFAULT_ADDRESS);
 			
 			ThreadManager.getInstance().executeThread(new MTGRunnable() {
 				
@@ -148,11 +148,7 @@ public class ActiveMQServer extends AbstractMTGServer {
 					{
 						try {
 							var msg = client.consume();
-							
-							System.out.println(detailsToJson());
-							
 							TechnicalServiceManager.inst().store(msg);
-							
 						} catch (IOException e) {
 							logger.error(e);
 						}
