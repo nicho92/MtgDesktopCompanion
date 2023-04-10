@@ -83,7 +83,8 @@ public class MagicCard extends AbstractProduct {
 	private String securityStamp;
 	private boolean isRebalanced;
 	private String signature;
-
+	private Integer defense;
+	
 	private Map<String,String> customMetadata;
 	
 	
@@ -106,6 +107,15 @@ public class MagicCard extends AbstractProduct {
 		return null;
 
 	}
+	
+	public Integer getDefense() {
+		return defense;
+	}
+	
+	public void setDefense(Integer defense) {
+		this.defense = defense;
+	}
+	
 
 	public Map<String, String> getCustomMetadata() {
 		return customMetadata;

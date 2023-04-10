@@ -366,7 +366,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				mc.setRebalanced(rs.getBoolean(IS_REBALANCED));
 				mc.setTcgPlayerId(rs.getInt(TCGPLAYER_PRODUCT_ID));
 				mc.setSignature(rs.getString(SIGNATURE));
-
+				mc.setDefense(rs.getInt(DEFENSE));
 
 				if(rs.getString(FINISHES)!=null)
 				{
@@ -409,6 +409,9 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 					}
 				}
 
+				
+				
+				
 				var ci = rs.getString(COLOR_IDENTITY);
 				if(ci!=null)
 					mc.setColorIdentity(Arrays.asList(ci.split(",")).stream().map(EnumColors::colorByCode).toList());
