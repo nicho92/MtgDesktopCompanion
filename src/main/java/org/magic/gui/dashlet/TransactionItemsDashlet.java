@@ -131,7 +131,7 @@ public class TransactionItemsDashlet extends AbstractJDashlet {
 					Thread.currentThread().interrupt();
 				}
 				catch (Exception e) {
-					e.printStackTrace();
+					logger.error(e);
 				}
 				finally {
 					buzy.end();
