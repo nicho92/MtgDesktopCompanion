@@ -70,6 +70,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	private static final String BORDER = "border_color";
 	private static final String NAME = "name";
 	private static final String FINISHES ="finishes";
+	private static final String DEFENSE ="defense";
 	private static final String PROMOTYPES = "promo_types";
 	private static final String BULK_FILE_URL="https://archive.scryfall.com/json/scryfall-all-cards.json";
 	private String baseURI = "";
@@ -330,6 +331,14 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		{
 			//do nothing
 		}
+		
+		try {
+			mc.setDefense(obj.get(DEFENSE).getAsInt());
+		}catch(NullPointerException e)
+		{
+			//do nothing
+		}
+		
 		
 		
 		try {

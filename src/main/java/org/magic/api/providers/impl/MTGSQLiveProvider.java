@@ -90,7 +90,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 	@Override
 	public MagicCard getTokenFor(MagicCard mc, EnumLayout layout) throws IOException {
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("select * from tokens where (reverseRelated like ? or name like ? ) and types like ? and setCode like ?"))
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("select * from tokens where (relatedCards like ? or name like ? ) and types like ? and setCode like ?"))
 		{
 			pst.setString(1, "%"+mc.getName()+"%");
 			pst.setString(2, "%"+mc.getName()+"%");
