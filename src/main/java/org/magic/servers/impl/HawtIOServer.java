@@ -29,7 +29,7 @@ public class HawtIOServer extends AbstractMTGServer{
 		
 		
 		private WebAppContext createHawtioWebapp(Server server, String scheme,String context) throws  URISyntaxException {
-			 WebAppContext webapp = new WebAppContext();
+		  var webapp = new WebAppContext();
 		        webapp.setServer(server);
 		        webapp.setContextPath(context);
 		        webapp.setParentLoaderPriority(true);

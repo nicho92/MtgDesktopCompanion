@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.activemq.artemis.api.core.RoutingType;
 import org.apache.activemq.artemis.core.config.CoreAddressConfiguration;
 import org.apache.activemq.artemis.core.config.impl.ConfigurationImpl;
+import org.apache.activemq.artemis.core.management.impl.view.QueueView;
 import org.apache.activemq.artemis.core.security.CheckType;
 import org.apache.activemq.artemis.core.security.Role;
 import org.apache.activemq.artemis.core.server.impl.ActiveMQServerImpl;
@@ -65,10 +66,13 @@ public class ActiveMQServer extends AbstractMTGServer {
 			obj.add("sessions",URLTools.toJson(server.getActiveMQServerControl().listAllSessionsAsJSON()).getAsJsonArray()); 
 			obj.add("consumers",URLTools.toJson(server.getActiveMQServerControl().listAllConsumersAsJSON()).getAsJsonArray());
 			obj.add("producers",URLTools.toJson(server.getActiveMQServerControl().listProducersInfoAsJSON()).getAsJsonArray());
-
-
 			var arr = new JsonArray();
 			
+			
+			for(String s : server.getActiveMQServerControl().getQueueNames())
+			{
+					arr.add(s);
+			}
 			
 			obj.add("queues",arr);
 			
@@ -145,6 +149,9 @@ public class ActiveMQServer extends AbstractMTGServer {
 					{
 						try {
 							var msg = client.consume();
+							
+							System.out.println(detailsToJson());
+							
 							TechnicalServiceManager.inst().store(msg);
 							
 						} catch (IOException e) {

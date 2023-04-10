@@ -26,7 +26,7 @@ import org.magic.services.tools.UITools;
 
 public class CSVExport extends AbstractFormattedFileCardExport {
 
-	private static final String EnumExtra_PROPERTIES = "extraProperties";
+	private static final String EXTRA_PROPERTIES = "extraProperties";
 	private String columns="Card Name;Edition;Language;Qte;Condition;Foil;Altered;Signed;Collection;Price;Comment;currentSet.number";
 
 
@@ -96,7 +96,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 		var bw = new StringBuilder();
 
 			bw.append(columns).append(getSeparator());
-			bw.append(StringUtils.join(getArray(EnumExtra_PROPERTIES),getSeparator())).append(System.lineSeparator());
+			bw.append(StringUtils.join(getArray(EXTRA_PROPERTIES),getSeparator())).append(System.lineSeparator());
 
 			for (MagicCardStock mcs : stock)
 			{
@@ -128,7 +128,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 
 
 		var bw = new StringBuilder();
-		String[] extraProperties = getArray(EnumExtra_PROPERTIES);
+		String[] extraProperties = getArray(EXTRA_PROPERTIES);
 
 		bw.append("Name").append(getSeparator()).append("Edition").append(getSeparator()).append("Qty");
 
@@ -168,7 +168,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 
 	private void writeExtraMap(MagicCard mc, StringBuilder bw)
 	{
-			for (String k : getArray(EnumExtra_PROPERTIES))
+			for (String k : getArray(EXTRA_PROPERTIES))
 			{
 				String val = null;
 				try {
@@ -242,7 +242,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		var m = super.getDefaultAttributes();
-		m.put(EnumExtra_PROPERTIES, "id,cost,supertypes,types,subtypes,layout,showCase,fullArt,extendedArt");
+		m.put(EXTRA_PROPERTIES, "id,cost,supertypes,types,subtypes,layout,showCase,fullArt,extendedArt");
 		m.put("SEPARATOR", ";");
 
 		return m;

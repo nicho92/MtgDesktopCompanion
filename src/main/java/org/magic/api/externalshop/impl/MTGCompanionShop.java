@@ -35,9 +35,7 @@ public class MTGCompanionShop extends AbstractExternalShop {
 
 	@Override
 	public List<Category> listCategories() throws IOException {
-
 		var cat = new ArrayList<Category>();
-
 		int i=1;
 		for(EnumItems item : EnumItems.values()){
 			cat.add(new Category(i++,item.name()));
@@ -73,7 +71,6 @@ public class MTGCompanionShop extends AbstractExternalShop {
 					ret.add(card);
 		});
 
-		
 		products.forEach(ss->{
 					ss.setName(ss.getTypeProduct() + " " + (ss.getExtra()!=null ? ss.getExtra():"")+ " "  + ss.getEdition() + " " + ss.getLang());
 					ss.setUrl(ss.getUrl());
