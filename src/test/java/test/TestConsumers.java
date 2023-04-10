@@ -1,4 +1,4 @@
-package org.beta;
+package test;
 
 import java.io.IOException;
 
@@ -28,12 +28,9 @@ public class TestConsumers {
 	private static void runThreadFor(ActiveMQNetworkClient client) {
 		new Thread(()->{
 				try {
-				//	client.sendMessage("Coucou de "+client.getPlayer(),Color.red);
-					
 					while(client.isActive())
 						System.out.println(client.getPlayer() +" receive"+  client.consume().getMessage());
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 		}).start();
