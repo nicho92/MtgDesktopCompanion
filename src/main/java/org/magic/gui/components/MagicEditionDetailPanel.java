@@ -40,7 +40,6 @@ public class MagicEditionDetailPanel extends MTGUIComponent {
 	private JTextField blockJTextField;
 	private JTextField idJtextField;
 	private JCheckBox chkOnline;
-	private BoosterPicsPanel boosterPicPanel;
 	private boolean openBooster;
 
 
@@ -120,9 +119,6 @@ public class MagicEditionDetailPanel extends MTGUIComponent {
 			});
 
 		}
-
-		boosterPicPanel = new BoosterPicsPanel();
-		panneauBooster.add(boosterPicPanel);
 
 		if (magicEdition != null) {
 			mBindingGroup = initDataBindings();
@@ -222,11 +218,6 @@ public class MagicEditionDetailPanel extends MTGUIComponent {
 		AutoBinding<MagicEdition, Boolean, JCheckBox, Boolean> autoBinding14 = Bindings
 				.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, onlineProperty, chkOnline, chkProperty13);
 		autoBinding14.bind();
-
-
-		if(!magicEdition.equals(boosterPicPanel.getEdition()))
-			boosterPicPanel.setEdition(magicEdition);
-
 
 		//
 		var bindingGroup = new BindingGroup();

@@ -404,7 +404,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 
 
-
 	@Override
 	public <T extends MTGSerializable> boolean deleteEntry(GedEntry<T> gedItem) throws SQLException {
 		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("DELETE FROM ged where className = ? and IdInstance = ? and fileName= ?"))
@@ -938,9 +937,9 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				ResultSet rs = executeQuery(pst);
 
 				while(rs.next())
+				{
 					cts.add(readContact(rs));
-
-
+				}
 		}
 
 		return cts;
