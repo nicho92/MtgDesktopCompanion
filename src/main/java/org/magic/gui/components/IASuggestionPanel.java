@@ -16,6 +16,7 @@ import org.magic.api.interfaces.MTGIA;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.MTG;
 
@@ -58,7 +59,7 @@ public class IASuggestionPanel extends MTGUIComponent {
 		this.cards=cards;
 		
 		
-		if(!isVisible())
+		if(!isVisible() || cards.isEmpty())
 			return;
 		
 		
@@ -86,6 +87,7 @@ public class IASuggestionPanel extends MTGUIComponent {
 						Thread.currentThread().interrupt();
 					} catch (ExecutionException e) {
 						logger.error(e);
+						MTGControler.getInstance().notify(e);
 					}
 					buzy.end();
 				}
