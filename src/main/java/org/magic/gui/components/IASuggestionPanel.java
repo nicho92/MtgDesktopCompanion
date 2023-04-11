@@ -87,7 +87,7 @@ public class IASuggestionPanel extends MTGUIComponent {
 						Thread.currentThread().interrupt();
 					} catch (ExecutionException e) {
 						logger.error(e);
-						MTGControler.getInstance().notify(e);
+						textPane.setText(e.getMessage());
 					}
 					buzy.end();
 				}
