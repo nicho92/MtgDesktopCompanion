@@ -31,7 +31,7 @@ public class BoosterPicsPanel extends JTabbedPane {
 
 	public BoosterPicsPanel() {
 		setLayout(new BorderLayout(0, 0));
-
+		setTabPlacement(JTabbedPane.RIGHT);
 	}
 
 
