@@ -1373,7 +1373,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			else
 			{
 				try{
-					getEnabledPlugin(MTGExternalShop.class).saveOrUpdateContact(t);
+					TransactionService.saveOrUpdateContact(t);
 					return t;
 				}
 				catch(Exception e)

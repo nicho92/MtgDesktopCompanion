@@ -37,13 +37,13 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 	}
 
 	
-	
-
 	protected List<ConverterItem> getRefs(Long id)
 	{
 		try {
-			return new ArrayList<>();
-			//TODO FIX return MTG.getEnabledPlugin(MTGDao.class).listConversionItems().stream().filter(p->(p.getInputId().equals(id) || p.getOutputId().equals(id))).toList();
+			if(id==-1)
+				return new ArrayList<>();
+			
+			return MTG.getEnabledPlugin(MTGDao.class).listConversionItems().stream().filter(p->(p.getInputId().equals(id) || p.getOutputId().equals(id))).toList();
 		} catch (Exception e) {
 			logger.error(e);
 			return new ArrayList<>();
