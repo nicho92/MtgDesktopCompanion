@@ -54,7 +54,6 @@ public class MagicEditionDetailPanel extends MTGUIComponent {
 	}
 
 	public void initGUI() {
-		JPanel panneauBooster;
 		JButton btnOpenBooster;
 		JPanel panneauHaut;
 
@@ -64,8 +63,8 @@ public class MagicEditionDetailPanel extends MTGUIComponent {
 		var gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 104, 333, 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 1.0E-4 };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0E-4 };
+		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0 };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0 };
 		panneauHaut.setLayout(gridBagLayout);
 
 		panneauHaut.add(new JLangLabel("EDITION",true), UITools.createGridBagConstraints(null, null, 0, 0));
@@ -98,17 +97,13 @@ public class MagicEditionDetailPanel extends MTGUIComponent {
 
 
 		add(panneauHaut,BorderLayout.CENTER);
-
-
-
-		panneauBooster = new JPanel();
-		add(panneauBooster, BorderLayout.EAST);
-		panneauBooster.setLayout(new BorderLayout(0, 0));
-
+		
 		if (openBooster) {
-			btnOpenBooster = new JButton(
-					capitalize("OPEN_BOOSTER") + " :");
-			panneauBooster.add(btnOpenBooster, BorderLayout.NORTH);
+			btnOpenBooster = new JButton(capitalize("OPEN_BOOSTER"));
+			
+			panneauHaut.add(btnOpenBooster, UITools.createGridBagConstraints(GridBagConstraints.WEST,null, 1, 8));
+
+			
 			btnOpenBooster.addActionListener(ae -> {
 				try {
 					CardSearchPanel.getInstance().thumbnail(
