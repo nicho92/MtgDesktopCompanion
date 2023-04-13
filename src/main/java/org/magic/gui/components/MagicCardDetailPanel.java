@@ -51,6 +51,7 @@ import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.logging.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.UITools;
@@ -78,7 +79,6 @@ public class MagicCardDetailPanel extends MTGUIComponent implements Observer {
 	private JLabel lblThumbnail;
 	private JList<MTGFormat> lstFormats;
 	private JList<MagicCollection> listCollection;
-	private JTextField txtWatermark;
 	private JTextField rarityJTextField;
 	private GridBagLayout gridBagLayout;
 	private JButton btnAlert;
@@ -90,15 +90,26 @@ public class MagicCardDetailPanel extends MTGUIComponent implements Observer {
 	private JPanel panelSwitchLangage;
 	private transient Observable obs;
 
+	//private org.apache.logging.log4j.Logger logger = MTGLogger.getLogger(this.getClass());
 
+
+	@Override
+	public String getTitle() {
+		return "DETAILS";
+	}
+	
+	@Override
+	public ImageIcon getIcon() {
+		return MTGConstants.ICON_TAB_DETAILS;
+	}
+	
+	
 	public void setEditable(boolean b) {
-		txtWatermark.setEditable(b);
 		txtArtist.setEditable(b);
 		txtFlavorArea.setEditable(b);
 		txtTextPane.setEditable(b);
 		rarityJTextField.setEditable(b);
 		txtLayoutField.setEditable(b);
-		powerJTextField.setEditable(b);
 		fullTypeJTextField.setEditable(b);
 		nameJTextField.setEditable(b);
 		cmcJTextField.setEditable(b);
@@ -135,28 +146,25 @@ public class MagicCardDetailPanel extends MTGUIComponent implements Observer {
 		add(fullTypeJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 1));
 
 		manaPanel = new ManaPanel();
-		add(manaPanel, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 4, 1));
-
-		lblnumberInSet = new JLabel("/");
-		add(lblnumberInSet, UITools.createGridBagConstraints(null, null, 5, 2,2,null));
+		add(manaPanel, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 2));
 
 		txtLayoutField = new JTextField(10);
 		add(txtLayoutField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 3));
 
 		chckbxReserved = new JCheckBox("(R)");
 		add(chckbxReserved, UITools.createGridBagConstraints(null, null, 2, 3));
-
+		
 		rarityJTextField = new JTextField(12);
 		add(rarityJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 3,3,null));
 
 		txtArtist = new JTextField(10);
 		add(txtArtist, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 7));
 
-		txtWatermark = new JTextField(10);
-		add(txtWatermark, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 4, 7,3,null));
+		lblnumberInSet = new JLabel("/");
+		add(lblnumberInSet, UITools.createGridBagConstraints(GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, 4, 7,3,null));
 
-		powerJTextField = new JTextField(5);
-		add(powerJTextField,UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 2,3,null));
+		powerJTextField = new JTextField(10);
+		add(powerJTextField,UITools.createGridBagConstraints(GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL, 1, 2));
 
 		
 		
@@ -289,6 +297,7 @@ public class MagicCardDetailPanel extends MTGUIComponent implements Observer {
 	}
 
 	public void init(MagicCard newMagicCard, boolean update) {
+		
 		magicCard = newMagicCard;
 
 		btnStock.setEnabled(magicCard!=null);
@@ -341,11 +350,6 @@ public class MagicCardDetailPanel extends MTGUIComponent implements Observer {
 		AutoBinding<MagicCard, String, JTextField, String> autoBinding11 = Bindings.createAutoBinding(UpdateStrategy.READ, magicCard, artistProperty, txtArtist, textProperty12);
 		autoBinding11.bind();
 
-		BeanProperty<MagicCard, String> waterProperty = BeanProperty.create("watermarks");
-		BeanProperty<JTextField, String> textProperty14 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBinding13 = Bindings.createAutoBinding(UpdateStrategy.READ, magicCard, waterProperty, txtWatermark, textProperty14);
-		autoBinding13.bind();
-
 		BeanProperty<MagicCard, Boolean> reservedProperty = BeanProperty.create("reserved");
 		BeanProperty<JCheckBox, Boolean> chkProperty15 = BeanProperty.create("selected");
 		AutoBinding<MagicCard, Boolean, JCheckBox, Boolean> autoBinding15 = Bindings.createAutoBinding(UpdateStrategy.READ, magicCard, reservedProperty, chckbxReserved, chkProperty15);
@@ -367,7 +371,6 @@ public class MagicCardDetailPanel extends MTGUIComponent implements Observer {
 
 		if (magicCard != null)
 		{
-			
 			if(magicCard.isPlaneswalker())
 				powerJTextField.setText(""+magicCard.getLoyalty());
 			else if (magicCard.isCreature())
@@ -539,7 +542,6 @@ public class MagicCardDetailPanel extends MTGUIComponent implements Observer {
 		bindingGroup.addBinding(autoBinding8);
 		bindingGroup.addBinding(autoBinding10);
 		bindingGroup.addBinding(autoBinding11);
-		bindingGroup.addBinding(autoBinding13);
 		bindingGroup.addBinding(autoBinding15);
 		return bindingGroup;
 	}
@@ -586,16 +588,6 @@ public class MagicCardDetailPanel extends MTGUIComponent implements Observer {
 	}
 
 
-	@Override
-	public String getTitle() {
-		return "DETAILS";
-	}
-	
-	@Override
-	public ImageIcon getIcon() {
-		return MTGConstants.ICON_TAB_DETAILS;
-	}
-	
 	@Override
 	public void update(Observable o, Object ob) {
 		init((MagicCard) ob);
