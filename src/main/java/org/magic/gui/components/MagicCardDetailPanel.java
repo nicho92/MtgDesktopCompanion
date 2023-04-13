@@ -49,7 +49,6 @@ import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.gui.abstracts.MTGUIComponent;
-import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
@@ -68,19 +67,15 @@ public class MagicCardDetailPanel extends MTGUIComponent implements Observer {
 	private JTextField cmcJTextField;
 	private ManaPanel manaPanel;
 	private JTextField fullTypeJTextField;
-	private JTextField loyaltyJTextField;
-	private JTextField nameJTextField;
 	private JTextField powerJTextField;
+	private JTextField nameJTextField;
 	private MagicTextPane txtTextPane;
-	private JTextField toughnessJTextField;
 	private JTextPane txtFlavorArea;
 	private JTextField txtArtist;
 	private JLabel lblnumberInSet;
-	private JPanel panelDetailCreature;
 	private JTextField txtLayoutField;
 	private boolean thumbnail = false;
 	private JLabel lblThumbnail;
-	private JLabel lblLogoSet;
 	private JList<MTGFormat> lstFormats;
 	private JList<MagicCollection> listCollection;
 	private JTextField txtWatermark;
@@ -103,9 +98,7 @@ public class MagicCardDetailPanel extends MTGUIComponent implements Observer {
 		txtTextPane.setEditable(b);
 		rarityJTextField.setEditable(b);
 		txtLayoutField.setEditable(b);
-		toughnessJTextField.setEditable(b);
 		powerJTextField.setEditable(b);
-		loyaltyJTextField.setEditable(b);
 		fullTypeJTextField.setEditable(b);
 		nameJTextField.setEditable(b);
 		cmcJTextField.setEditable(b);
@@ -123,34 +116,17 @@ public class MagicCardDetailPanel extends MTGUIComponent implements Observer {
 
 		obs = new Observable();
 		gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 52, 382, 76, 0, 57, 32, 51, 0, 77, 0 };
-		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 44, 0, 65, 25, 21, 0, 0, 34, 0 };
+		gridBagLayout.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 65, 25, 21, 0, 0, 34, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4 };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0E-4 };
 		setLayout(gridBagLayout);
-
-		add(new JLangLabel("NAME",true), UITools.createGridBagConstraints(null, null, 0, 0));
-		add(new JLangLabel("CARD_COST",true), UITools.createGridBagConstraints(null, null, 2, 0));
-		add(new JLangLabel("CARD_TYPES",true), UITools.createGridBagConstraints(null, null, 0, 1));
-		add(new JLangLabel("CARD_MANA",true),  UITools.createGridBagConstraints(null, null, 2, 1));
-		add(new JLangLabel("CARD_LOYALTY",true), UITools.createGridBagConstraints(null, null, 0, 2));
-		add(new JLangLabel("CARD_LAYOUT",true), UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 0, 3));
-		add(new JLangLabel("CARD_TEXT",true),UITools.createGridBagConstraints(null, null, 0, 4,null,2));
-		add(new JLangLabel("CARD_FLAVOR",true), UITools.createGridBagConstraints(null, null, 0, 6));
-		add(new JLangLabel("CARD_ARTIST",true), UITools.createGridBagConstraints(null, null, 0, 7));
-		add(new JLangLabel("CARD_LEGALITIES",true), UITools.createGridBagConstraints(null, null, 0, 8));
-		add(new JLangLabel("CARD_WATERMARK",true), UITools.createGridBagConstraints(null, null, 2, 7));
-
-
 
 		nameJTextField = new JTextField();
 		add(nameJTextField, UITools.createGridBagConstraints(null,GridBagConstraints.HORIZONTAL,1,0));
 
 		cmcJTextField = new JTextField();
 		add(cmcJTextField, UITools.createGridBagConstraints(null,GridBagConstraints.HORIZONTAL,4,0));
-
-		lblLogoSet = new JLabel("");
-		add(lblLogoSet, UITools.createGridBagConstraints(null, null, 5, 0,2,2));
 
 		lblThumbnail = new JLabel("");
 		add(lblThumbnail, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 7, 1,2,9));
@@ -170,7 +146,7 @@ public class MagicCardDetailPanel extends MTGUIComponent implements Observer {
 		chckbxReserved = new JCheckBox("(R)");
 		add(chckbxReserved, UITools.createGridBagConstraints(null, null, 2, 3));
 
-		rarityJTextField = new JTextField(10);
+		rarityJTextField = new JTextField(12);
 		add(rarityJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 3, 3,3,null));
 
 		txtArtist = new JTextField(10);
@@ -179,6 +155,11 @@ public class MagicCardDetailPanel extends MTGUIComponent implements Observer {
 		txtWatermark = new JTextField(10);
 		add(txtWatermark, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 4, 7,3,null));
 
+		powerJTextField = new JTextField(5);
+		add(powerJTextField,UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 2,3,null));
+
+		
+		
 		var p = new JPanel();
 
 		btnCopy = new JButton(MTGConstants.ICON_COPY);
@@ -240,21 +221,8 @@ public class MagicCardDetailPanel extends MTGUIComponent implements Observer {
 
 
 
-
-		panelDetailCreature = new JPanel();
-		loyaltyJTextField = new JTextField(5);
-
-		powerJTextField = new JTextField(2);
-		toughnessJTextField = new JTextField(2);
-		var flowLayout = (FlowLayout) panelDetailCreature.getLayout();
-		flowLayout.setAlignment(FlowLayout.LEFT);
-		panelDetailCreature.add(loyaltyJTextField);
-		panelDetailCreature.add(new JLangLabel("CARD_POWER",true));
-		panelDetailCreature.add(powerJTextField);
-		panelDetailCreature.add(new JLabel("/"));
-		panelDetailCreature.add(toughnessJTextField);
-		add(panelDetailCreature,UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 2,3,null));
-
+	
+	
 
 		lstFormats = new JList<>(new DefaultListModel<>());
 		lstFormats.setCellRenderer((JList<? extends MTGFormat> list, MTGFormat obj, int arg2,boolean arg3, boolean arg4)->{
@@ -353,31 +321,16 @@ public class MagicCardDetailPanel extends MTGUIComponent implements Observer {
 		AutoBinding<MagicCard, String, JTextField, String> autoBinding2 = Bindings.createAutoBinding(UpdateStrategy.READ, magicCard, fullTypeProperty, fullTypeJTextField, textProperty2);
 		autoBinding2.bind();
 		//
-		BeanProperty<MagicCard, Integer> loyaltyProperty = BeanProperty.create("loyalty");
-		BeanProperty<JTextField, String> textProperty4 = BeanProperty.create("text");
-		AutoBinding<MagicCard, Integer, JTextField, String> autoBinding4 = Bindings.createAutoBinding(UpdateStrategy.READ, magicCard, loyaltyProperty, loyaltyJTextField, textProperty4);
-		autoBinding4.bind();
-		//
 		BeanProperty<MagicCard, String> nameProperty = BeanProperty.create("name");
 		BeanProperty<JTextField, String> textProperty5 = BeanProperty.create("text");
 		AutoBinding<MagicCard, String, JTextField, String> autoBinding5 = Bindings.createAutoBinding(UpdateStrategy.READ, magicCard, nameProperty, nameJTextField, textProperty5);
 		autoBinding5.bind();
-		//
-		BeanProperty<MagicCard, String> powerProperty = BeanProperty.create("power");
-		BeanProperty<JTextField, String> textProperty6 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBinding6 = Bindings.createAutoBinding(UpdateStrategy.READ, magicCard, powerProperty, powerJTextField, textProperty6);
-		autoBinding6.bind();
-		//
+	
 		BeanProperty<MagicCard, String> textProperty8 = BeanProperty.create("text");
 		BeanProperty<MagicTextPane, String> textProperty9 = BeanProperty.create("text");
 		AutoBinding<MagicCard, String, MagicTextPane, String> autoBinding8 = Bindings.createAutoBinding(UpdateStrategy.READ, magicCard, textProperty8, txtTextPane, textProperty9);
 		autoBinding8.bind();
-		//
-		BeanProperty<MagicCard, String> toughnessProperty = BeanProperty.create("toughness");
-		BeanProperty<JTextField, String> textProperty10 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBinding9 = Bindings.createAutoBinding(UpdateStrategy.READ, magicCard, toughnessProperty, toughnessJTextField, textProperty10);
-		autoBinding9.bind();
-
+	
 		BeanProperty<MagicCard, String> flavorProperty = BeanProperty.create("flavor");
 		BeanProperty<JTextPane, String> textProperty11 = BeanProperty.create("text");
 		AutoBinding<MagicCard, String, JTextPane, String> autoBinding10 = Bindings.createAutoBinding(UpdateStrategy.READ, magicCard, flavorProperty, txtFlavorArea, textProperty11);
@@ -412,6 +365,19 @@ public class MagicCardDetailPanel extends MTGUIComponent implements Observer {
 			txtLayoutField.setText("");
 		}
 
+		if (magicCard != null)
+		{
+			
+			if(magicCard.isPlaneswalker())
+				powerJTextField.setText(""+magicCard.getLoyalty());
+			else if (magicCard.isCreature())
+				powerJTextField.setText(magicCard.getPower()+"/"+magicCard.getToughness());
+			else if (magicCard.isSiege())
+				powerJTextField.setText(""+magicCard.getDefense());
+			else
+				powerJTextField.setText("");
+		}
+		
 
 		txtTextPane.updateTextWithIcons();
 
@@ -569,11 +535,8 @@ public class MagicCardDetailPanel extends MTGUIComponent implements Observer {
 		bindingGroup.addBinding(autoBinding);
 		bindingGroup.addBinding(autoBinding1);
 		bindingGroup.addBinding(autoBinding2);
-		bindingGroup.addBinding(autoBinding4);
 		bindingGroup.addBinding(autoBinding5);
-		bindingGroup.addBinding(autoBinding6);
 		bindingGroup.addBinding(autoBinding8);
-		bindingGroup.addBinding(autoBinding9);
 		bindingGroup.addBinding(autoBinding10);
 		bindingGroup.addBinding(autoBinding11);
 		bindingGroup.addBinding(autoBinding13);

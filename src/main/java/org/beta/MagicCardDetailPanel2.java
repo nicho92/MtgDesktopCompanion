@@ -37,6 +37,10 @@ import org.magic.services.tools.ImageTools;
 public class MagicCardDetailPanel2 extends JPanel{
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Logger logger = MTGLogger.getLogger(MagicCardDetailPanel2.class);
 	private JTextField txtName;
 	private JTextField txtTypes;
@@ -70,7 +74,7 @@ public class MagicCardDetailPanel2 extends JPanel{
 		txtText.setEditable(b);
 	}
 	
-	public void setMagicCard(MagicCard mc)
+	public void init(MagicCard mc)
 	{
 		
 		if(mc==null)
@@ -281,23 +285,19 @@ public class MagicCardDetailPanel2 extends JPanel{
 		lstFormats = new JList<>(new DefaultListModel<>());
 		lstFormats.setVisibleRowCount(4);
 		lstFormats.setCellRenderer((JList<? extends MTGFormat> list, MTGFormat obj, int arg2,boolean arg3, boolean arg4)->{
-			var l = new JLabel(obj.getFormat());
-
+		var l = new JLabel(obj.getFormat());
 					if(obj.getFormatLegality()!=null)
 					{
-
-						switch (obj.getFormatLegality()) {
+						switch (obj.getFormatLegality()) 
+						{
 							case BANNED: l.setIcon(MTGConstants.ICON_SMALL_DELETE);break;
 							case LEGAL:l.setIcon(MTGConstants.ICON_SMALL_CHECK);break;
 							case NOT_LEGAL:l.setIcon(MTGConstants.ICON_SMALL_DELETE);break;
 							case RESTRICTED:l.setIcon(MTGConstants.ICON_SMALL_EQUALS);break;
 							default: break;
 						}
-
 						l.setToolTipText(obj.getFormat() + ":" + obj.getFormatLegality().name());
 					}
-
-
 				return l;
 		});
 		
