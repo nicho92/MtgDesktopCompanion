@@ -716,7 +716,7 @@ public class CardSearchPanel extends MTGUIComponent {
 	public void updateCards() {
 		try {
 			cardsPicPanel.init(selectedCard);
-			detailCardPanel.init(selectedCard, true);
+			detailCardPanel.init(selectedCard);
 			magicEditionDetailPanel.init(selectedCard.getCurrentSet());
 			txtRulesArea.init(selectedCard);
 			priceTablePanel.init(selectedCard);
