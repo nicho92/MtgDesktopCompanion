@@ -400,6 +400,7 @@ public class MagicCardDetailPanel extends MTGUIComponent  implements Observer {
 		add(new JScrollPane(lstCollections), gbclstCollections);
 		
 		
+		txtText.setBorder(txtName.getBorder());
 		
 		
 		setEditable(false);
