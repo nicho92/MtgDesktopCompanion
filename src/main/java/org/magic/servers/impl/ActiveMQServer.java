@@ -25,9 +25,6 @@ import org.magic.services.network.URLTools;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-
 public class ActiveMQServer extends AbstractMTGServer {
 
 	private static final String LISTENERS_TCP = "LISTENERS_TCP";

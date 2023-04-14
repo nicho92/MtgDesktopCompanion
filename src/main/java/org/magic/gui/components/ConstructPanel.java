@@ -63,6 +63,7 @@ import org.magic.game.gui.components.HandPanel;
 import org.magic.game.model.Player;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.components.card.MagicCardDetailPanel;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.charts.DrawProbabilityPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
@@ -206,7 +207,7 @@ public class ConstructPanel extends MTGUIComponent {
 		var panneauBas = new JPanel();
 		tabbedPaneHaut = new JTabbedPane(SwingConstants.TOP);
 		var panneauDeck = new JSplitPane();
-		magicCardDetailPanel = new MagicCardDetailPanel();
+		magicCardDetailPanel = new MagicCardDetailPanel(false);
 		cardDrawProbaPanel = new DrawProbabilityPanel();
 		tableDeck = UITools.createNewTable(null);
 		tableSide = UITools.createNewTable(null);

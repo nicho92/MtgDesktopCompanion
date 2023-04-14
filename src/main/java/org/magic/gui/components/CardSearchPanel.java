@@ -59,6 +59,7 @@ import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.HandPanel;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.components.card.MagicCardDetailPanel;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
@@ -232,7 +233,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		cardsPicPanel = new ImagePanel();
 		priceTablePanel = new PricesTablePanel();
 		rarityRepartitionPanel = new RarityRepartitionPanel(false);
-		detailCardPanel = new MagicCardDetailPanel();
+		detailCardPanel = new MagicCardDetailPanel(true);
 		panelmana = new JPanel();
 		panelFilters = new JPanel();
 		var pan = new ManaPanel();

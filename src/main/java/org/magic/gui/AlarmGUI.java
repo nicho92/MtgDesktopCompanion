@@ -48,9 +48,9 @@ import org.magic.api.sorters.MagicPricesComparator;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.GroupedShoppingPanel;
-import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.PricesTablePanel;
 import org.magic.gui.components.ServerStatePanel;
+import org.magic.gui.components.card.MagicCardDetailPanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.deck.DeckPricePanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
@@ -110,7 +110,7 @@ public class AlarmGUI extends MTGUIComponent {
 
 		model = new CardAlertTableModel();
 		globalSearchPanel = new DeckPricePanel();
-		magicCardDetailPanel = new MagicCardDetailPanel();
+		magicCardDetailPanel = new MagicCardDetailPanel(false);
 		variationPanel = new HistoryPricesPanel(true);
 		var panelRight = new JPanel();
 		resultListModel = new DefaultListModel<>();

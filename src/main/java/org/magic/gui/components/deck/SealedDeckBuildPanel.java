@@ -46,7 +46,7 @@ import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GraveyardPanel;
 import org.magic.game.model.ZoneEnum;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
-import org.magic.gui.components.MagicCardDetailPanel;
+import org.magic.gui.components.card.MagicCardDetailPanel;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
@@ -115,7 +115,7 @@ public class SealedDeckBuildPanel extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 		panelOpenedBooster = new BoosterPanel();
 		model = new SealedBoosterTableModel();
-		panelDetail = new MagicCardDetailPanel();
+		panelDetail = new MagicCardDetailPanel(false);
 		panelDetail.enableThumbnail(true);
 		panelDetail.enableCollectionLookup(false);
 

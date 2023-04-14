@@ -84,7 +84,7 @@ import org.magic.api.interfaces.MTGPlugin;
 import org.magic.game.model.Player;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.gui.abstracts.MTGUIComponent;
-import org.magic.gui.components.MagicCardDetailPanel;
+import org.magic.gui.components.card.MagicCardMainDetailPanel;
 import org.magic.gui.renderer.ContactRenderer;
 import org.magic.gui.renderer.MTGPluginCellRenderer;
 import org.magic.gui.renderer.MagicCollectionIconListRenderer;
@@ -548,7 +548,7 @@ public class UITools {
 					{
 
 						var row = table.rowAtPoint(e.getPoint());
-						var pane = new MagicCardDetailPanel();
+						var pane = new MagicCardMainDetailPanel();
 						pane.enableThumbnail(true);
 						table.setRowSelectionInterval(row, row);
 

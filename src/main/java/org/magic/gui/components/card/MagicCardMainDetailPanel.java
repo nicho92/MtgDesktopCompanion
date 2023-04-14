@@ -1,4 +1,4 @@
-package org.magic.gui.components;
+package org.magic.gui.components.card;
 
 import static org.magic.services.tools.MTG.capitalize;
 import static org.magic.services.tools.MTG.getEnabledPlugin;
@@ -29,6 +29,8 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.components.MagicTextPane;
+import org.magic.gui.components.ManaPanel;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.ImageTools;
@@ -37,7 +39,7 @@ import org.utils.patterns.observer.Observer;
 
 
 
-public class MagicCardDetailPanel extends MTGUIComponent  implements Observer {
+public class MagicCardMainDetailPanel extends MTGUIComponent  implements Observer {
 	
 	
 	
@@ -240,7 +242,7 @@ public class MagicCardDetailPanel extends MTGUIComponent  implements Observer {
 
 	
 	
-	public MagicCardDetailPanel() {
+	public MagicCardMainDetailPanel() {
 		
 		obs = new Observable();
 		

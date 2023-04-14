@@ -16,7 +16,6 @@ import org.magic.api.interfaces.MTGIA;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.MTG;
 

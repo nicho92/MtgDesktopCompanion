@@ -53,9 +53,9 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.CardsDeckCheckerPanel;
 import org.magic.gui.components.GedPanel;
 import org.magic.gui.components.GradingEditorPane;
-import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.PriceSuggesterComponent;
 import org.magic.gui.components.PricesTablePanel;
+import org.magic.gui.components.card.MagicCardDetailPanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
 import org.magic.gui.components.tech.ObjectViewerPanel;
@@ -531,7 +531,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		setLayout(new BorderLayout(0, 0));
 		deckPanel = new CardsDeckCheckerPanel();
 		model = new CardStockTableModel();
-		magicCardDetailPanel = new MagicCardDetailPanel();
+		magicCardDetailPanel = new MagicCardDetailPanel(true);
 		historyPricePanel = new HistoryPricesPanel(true);
 		pricePanel = new PricesTablePanel();
 
