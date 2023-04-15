@@ -34,8 +34,11 @@ public class MagicCardDetailPanel extends MTGUIComponent implements Observer{
 		{
 			getContextTabbedPane().setTabPlacement(SwingConstants.LEFT);
 			paneSub = new MagicCardSubDetailPanel();
-			UITools.addTab(getContextTabbedPane(), paneMain);
-			UITools.addTab(getContextTabbedPane(), paneSub);
+			//UITools.addTab(getContextTabbedPane(), paneMain);
+			
+			getContextTabbedPane().addTab("D", paneMain);
+			//UITools.addTab(getContextTabbedPane(), paneSub);
+			getContextTabbedPane().addTab("T", paneSub);
 			add(getContextTabbedPane(),BorderLayout.CENTER);
 		}
 		else

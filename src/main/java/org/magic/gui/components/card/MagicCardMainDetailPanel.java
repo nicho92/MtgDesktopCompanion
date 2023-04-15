@@ -28,10 +28,10 @@ import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPictureProvider;
-import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.MagicTextPane;
 import org.magic.gui.components.ManaPanel;
 import org.magic.services.MTGConstants;
+import org.magic.services.logging.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.ImageTools;
 import org.utils.patterns.observer.Observable;
@@ -39,7 +39,7 @@ import org.utils.patterns.observer.Observer;
 
 
 
-public class MagicCardMainDetailPanel extends MTGUIComponent  implements Observer {
+public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 	
 	
 	
@@ -63,7 +63,7 @@ public class MagicCardMainDetailPanel extends MTGUIComponent  implements Observe
 	private transient Observable obs;
 	private boolean enableCollectionLookup=true;
 	private JList<MagicCollection> lstCollections;
-	
+	private transient org.apache.logging.log4j.Logger logger = MTGLogger.getLogger(MagicCardMainDetailPanel.class);
 	
 	public String getTitle() {
 		return "DETAILS";
