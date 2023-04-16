@@ -7,8 +7,6 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -257,9 +255,9 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		obs = new Observable();
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 444, 18, 197, 0, 0};
+		gridBagLayout.columnWidths = new int[]{0, 0, 17, 121, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 156, 0, 0, 90, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
@@ -283,7 +281,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		
 		panelActions = new JPanel();
 		GridBagConstraints gbcpanelActions = new GridBagConstraints();
-		gbcpanelActions.insets = new Insets(0, 0, 5, 0);
+		gbcpanelActions.insets = new Insets(0, 0, 5, 5);
 		gbcpanelActions.fill = GridBagConstraints.BOTH;
 		gbcpanelActions.gridx = 4;
 		gbcpanelActions.gridy = 0;
@@ -320,6 +318,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		
 		lblThumbnail = new JLabel("");
 		GridBagConstraints gbclblThumbnail = new GridBagConstraints();
+		gbclblThumbnail.insets = new Insets(0, 0, 0, 5);
 		gbclblThumbnail.gridheight = 5;
 		gbclblThumbnail.gridx = 4;
 		gbclblThumbnail.gridy = 1;
@@ -371,9 +370,6 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 			 panelDetails.add(chkBorderless);
 			 panelDetails.add(chkShowcase);
 			 panelDetails.add(chkExtended);
-		
-		
-			 
 			 
 		GridBagConstraints gbcchkReserved = new GridBagConstraints();
 		gbcchkReserved.anchor = GridBagConstraints.WEST;
@@ -384,7 +380,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		
 		lblNumber = new JLabel("");
 		GridBagConstraints gbclblNumber = new GridBagConstraints();
-		gbclblNumber.insets = new Insets(0, 0, 5, 0);
+		gbclblNumber.insets = new Insets(0, 0, 5, 5);
 		gbclblNumber.gridx = 4;
 		gbclblNumber.gridy = 4;
 		add(lblNumber, gbclblNumber);

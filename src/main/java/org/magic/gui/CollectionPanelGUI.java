@@ -101,7 +101,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 	private JPopupMenu popupMenuEdition;
 	private JPopupMenu popupMenuCards;
 	private MagicEditionsTableModel model;
-	private AbstractBuzyIndicatorComponent progressBar;
+	private AbstractBuzyIndicatorComponent buzy;
 	private TypeRepartitionPanel typeRepartitionPanel;
 	private ManaRepartitionPanel manaRepartitionPanel;
 	private RarityRepartitionPanel rarityRepartitionPanel;
@@ -158,8 +158,8 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		
 		splitListPanel.setDividerLocation(.45);
 		splitPane.setDividerLocation(.5);
-		progressBar.start();
-		progressBar.setText("Loading");
+		buzy.start();
+		buzy.setText("Loading");
 		SwingWorker<List<MagicEdition>, Void> init = new SwingWorker<>() {
 				@Override
 				protected List<MagicEdition> doInBackground() throws Exception {
@@ -174,7 +174,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 					} catch (Exception e) {
 						logger.error(e);
 					}
-					progressBar.end();
+					buzy.end();
 					tableEditions.packAll();
 					initTotal();
 
@@ -216,7 +216,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		render = new MagicCollectionTableCellRenderer();
 		panneauTreeTable = new JTabbedPane();
 		
-		progressBar = AbstractBuzyIndicatorComponent.createProgressComponent();
+		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		lblTotal = new JLabel();
 		magicEditionDetailPanel = new MagicEditionDetailPanel(false);
 		magicCardDetailPanel = new MagicCardDetailPanel(true);
@@ -269,7 +269,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		panneauHaut.add(btnMassCollection);
 		panneauHaut.add(btnExport);
 		panneauHaut.add(btnGenerateWebSite);
-		panneauHaut.add(progressBar);
+		panneauHaut.add(buzy);
 		add(splitListPanel, BorderLayout.CENTER);
 		splitListPanel.setRightComponent(panneauDroite);
 		panneauDroite.add(splitPane, BorderLayout.CENTER);
@@ -359,13 +359,13 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 		btnRefresh.addActionListener(e -> {
 
-		progressBar.start();
+		buzy.start();
 
 		SwingWorker<Void, Void> sw = new SwingWorker<>()
 		{
 			@Override
 			protected void process(List<Void> chunks) {
-				progressBar.progress();
+				buzy.progress();
 			}
 
 			 protected Void doInBackground() {
@@ -382,7 +382,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 				initTotal();
 				model.fireTableDataChanged();
 				tree.refresh();
-				progressBar.end();
+				buzy.end();
 			}
 
 
@@ -420,7 +420,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 				}
 				return MagicDeck.toDeck(listExport);
 			}
-		}, progressBar);
+		}, buzy);
 
 
 
@@ -573,12 +573,12 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 						itSync.addActionListener(ae->{
 
-								progressBar.start();
+								buzy.start();
 								SwingWorker<List<MagicCard>, MagicCard> sw = new SwingWorker<>(){
 
 										@Override
 										protected void done() {
-											progressBar.end();
+											buzy.end();
 											try {
 												JOptionPane.showMessageDialog(null, "OK : " + get().size() + " items added in collection","Synchronized", JOptionPane.INFORMATION_MESSAGE);
 											}catch(InterruptedException ex)
@@ -592,7 +592,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 										@Override
 										protected void process(List<MagicCard> chunks) {
-											progressBar.progressSmooth(chunks.size());
+											buzy.progressSmooth(chunks.size());
 										}
 
 										@Override
@@ -640,14 +640,14 @@ public class CollectionPanelGUI extends MTGUIComponent {
 						for (MagicCollection col : diag.getSelectedCollections())
 							max += dao.getCardsCount(col, null);
 
-						progressBar.start(max);
-						var sw = new WebsiteExportWorker(diag.getTemplate(), diag.getDest(), diag.getSelectedCollections(), diag.getPriceProviders(), progressBar);
+						buzy.start(max);
+						var sw = new WebsiteExportWorker(diag.getTemplate(), diag.getDest(), diag.getSelectedCollections(), diag.getPriceProviders(), buzy);
 						ThreadManager.getInstance().runInEdt(sw,"website generation");
 					}
 
 				} catch (Exception e) {
 					logger.error("error generating website", e);
-					progressBar.end();
+					buzy.end();
 					MTGControler.getInstance().notify(e);
 				}
 			}
@@ -680,6 +680,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		    	  try 
 		    	  {
 					MagicEdition ed = UITools.getTableSelection(tableEditions, 1);
+					
 					magicEditionDetailPanel.init(ed);
 					cardsSetPanel.init(ed);
 					packagePanel.init(ed);
@@ -691,17 +692,39 @@ public class CollectionPanelGUI extends MTGUIComponent {
 					panneauTreeTable.setTitleAt(1, ed.getSet());
 					panneauTreeTable.setSelectedIndex(1);
 					tokensPanel.init(ed);
+					
+					
+					
+					
+					var sw = new AbstractObservableWorker<List<MagicCard>, Void, MTGCardsProvider>(buzy,getEnabledPlugin(MTGCardsProvider.class)) {
 
+						@Override
+						protected List<MagicCard> doInBackground() throws Exception {
+							return plug.searchCardByEdition(ed);
+						}
+						
+						@Override
+						protected void notifyEnd() {
+							manaRepartitionPanel.init(getResult());
+							rarityRepartitionPanel.init(getResult());
+							typeRepartitionPanel.init(getResult());
+						}
+					};
+					ThreadManager.getInstance().runInEdt(sw, "loading cards from " +ed);
 
 		    	  }
 		    	  catch(Exception e)
 		    	  {
 		    		  logger.error(e);
-		    		  progressBar.end();
+		    		  buzy.end();
 		    	  }
 			}
+			
+			
 		});
-
+		
+		
+		
 		btnAdd.addActionListener(e -> {
 			String name = JOptionPane.showInputDialog(capitalize("NAME") + " ?");
 
@@ -794,7 +817,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 						for(MagicCard mc : provider.searchCardByEdition(e))
 							list.add(mc);
 
-						progressBar.start(list.size());
+						buzy.start(list.size());
 						logger.debug("save {} cards from {}",list.size(),eds);
 
 
@@ -820,12 +843,12 @@ public class CollectionPanelGUI extends MTGUIComponent {
 							protected void done() {
 								model.calculate();
 								model.fireTableDataChanged();
-								progressBar.end();
+								buzy.end();
 							}
 
 							@Override
 							protected void process(List<MagicCard> chunks) {
-								progressBar.progressSmooth(chunks.size());
+								buzy.progressSmooth(chunks.size());
 							}
 
 
@@ -882,25 +905,25 @@ public class CollectionPanelGUI extends MTGUIComponent {
 				final String collec = ((JMenuItem) e.getSource()).getText();
 				var nmagicCol = new MagicCollection(collec);
 				
-				progressBar.start();
+				buzy.start();
 
 				SwingWorker<Void, MagicCard> sw = new SwingWorker<>(){
 
 						@Override
 						protected void done() {
-							progressBar.end();
+							buzy.end();
 							nodeCd.removeFromParent();
 							tree.refresh(((DefaultMutableTreeNode) path.getPathComponent(1)));
 						}
 
 						@Override
 						protected void process(List<MagicCard> chunks) {
-							progressBar.progressSmooth(chunks.size());
+							buzy.progressSmooth(chunks.size());
 						}
 
 						@Override
 						protected Void doInBackground() throws Exception {
-							CardsManagerService.moveCard(ed, oldCol, nmagicCol,progressBar);
+							CardsManagerService.moveCard(ed, oldCol, nmagicCol,buzy);
 							return null;
 						}
 					};
@@ -945,20 +968,20 @@ public class CollectionPanelGUI extends MTGUIComponent {
 						sets.removeAll(list);
 						logger.debug("{} items to insert in {}/{}",sets.size(),col,me);
 
-				progressBar.start(sets.size());
+				buzy.start(sets.size());
 
 
 				SwingWorker<Void, MagicCard> sw = new SwingWorker<>(){
 
 						@Override
 						protected void done() {
-							progressBar.end();
+							buzy.end();
 							tree.refresh(node);
 						}
 
 						@Override
 						protected void process(List<MagicCard> chunks) {
-							progressBar.progressSmooth(chunks.size());
+							buzy.progressSmooth(chunks.size());
 						}
 
 						@Override
@@ -997,19 +1020,19 @@ public class CollectionPanelGUI extends MTGUIComponent {
 						List<MagicCard> listtoDelete = dao.listCardsFromCollection(colcurrent, me);
 						logger.trace("{} items to remove from {}/{}",listtoDelete.size(),coldest,me);
 
-				progressBar.start(listtoDelete.size());
+				buzy.start(listtoDelete.size());
 
 				SwingWorker<Void, MagicCard> sw = new SwingWorker<>(){
 
 						@Override
 						protected void done() {
-							progressBar.end();
+							buzy.end();
 							tree.refresh(node);
 						}
 
 						@Override
 						protected void process(List<MagicCard> chunks) {
-							progressBar.progressSmooth(chunks.size());
+							buzy.progressSmooth(chunks.size());
 						}
 
 						@Override
@@ -1090,7 +1113,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 			try {
 				var cards = getEnabledPlugin(MTGDao.class).listCardsFromCollection(col, edition);
-				AbstractObservableWorker<Void, MagicCardStock, MTGDao> sw = new AbstractObservableWorker<>(progressBar,getEnabledPlugin(MTGDao.class),cards.size()) {
+				AbstractObservableWorker<Void, MagicCardStock, MTGDao> sw = new AbstractObservableWorker<>(buzy,getEnabledPlugin(MTGDao.class),cards.size()) {
 
 					@Override
 					protected Void doInBackground() throws Exception {
