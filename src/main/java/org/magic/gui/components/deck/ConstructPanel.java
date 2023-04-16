@@ -1,4 +1,4 @@
-package org.magic.gui.components;
+package org.magic.gui.components.deck;
 
 import static org.magic.services.tools.MTG.capitalize;
 import static org.magic.services.tools.MTG.getEnabledPlugin;
@@ -63,15 +63,16 @@ import org.magic.game.gui.components.HandPanel;
 import org.magic.game.model.Player;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.components.CardStockPanel;
+import org.magic.gui.components.ComboFinderPanel;
+import org.magic.gui.components.IASuggestionPanel;
+import org.magic.gui.components.RulesPanel;
 import org.magic.gui.components.card.MagicCardDetailPanel;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.charts.DrawProbabilityPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.RarityRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
-import org.magic.gui.components.deck.DeckDetailsPanel;
-import org.magic.gui.components.deck.DeckPricePanel;
-import org.magic.gui.components.deck.DeckStockComparatorPanel;
 import org.magic.gui.components.dialog.JDeckChooserDialog;
 import org.magic.gui.components.editor.MagicEditionsComboBoxCellEditor;
 import org.magic.gui.components.tech.CriteriaComponent;

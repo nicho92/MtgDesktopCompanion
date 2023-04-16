@@ -8,7 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JTabbedPane;
 
 import org.magic.gui.abstracts.MTGUIComponent;
-import org.magic.gui.components.ConstructPanel;
+import org.magic.gui.components.deck.ConstructPanel;
 import org.magic.gui.components.deck.SealedDeckBuildPanel;
 import org.magic.services.MTGConstants;
 public class DeckBuilderGUI extends MTGUIComponent {
