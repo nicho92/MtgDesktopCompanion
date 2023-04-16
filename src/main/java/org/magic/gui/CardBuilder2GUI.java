@@ -44,7 +44,7 @@ import org.magic.api.providers.impl.PrivateMTGSetProvider;
 import org.magic.api.sorters.CardsEditionSorter;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
-import org.magic.gui.components.MagicEditionDetailPanel;
+import org.magic.gui.components.card.MagicEditionDetailPanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
 import org.magic.gui.components.editor.MagicCardEditorPanel;
 import org.magic.gui.components.tech.ObjectViewerPanel;

@@ -1,4 +1,4 @@
-package org.magic.gui.components;
+package org.magic.gui.components.card;
 
 import static org.magic.services.tools.MTG.capitalize;
 import static org.magic.services.tools.MTG.getEnabledPlugin;
@@ -21,6 +21,7 @@ import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.components.CardSearchPanel;
 import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.UITools;

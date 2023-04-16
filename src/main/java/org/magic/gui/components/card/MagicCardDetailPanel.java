@@ -6,7 +6,6 @@ import javax.swing.SwingConstants;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.gui.abstracts.MTGUIComponent;
-import org.magic.services.tools.UITools;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 

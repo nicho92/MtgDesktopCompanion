@@ -60,6 +60,7 @@ import org.magic.game.gui.components.HandPanel;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.card.MagicCardDetailPanel;
+import org.magic.gui.components.card.MagicEditionDetailPanel;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
