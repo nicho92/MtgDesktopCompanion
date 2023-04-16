@@ -7,6 +7,8 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -17,6 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
@@ -50,6 +53,9 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 	private JTextPane txtFlavor;
 	private JTextField txtRarity;
 	private JCheckBox chkReserved;
+	private JCheckBox chkBorderless;
+	private JCheckBox chkShowcase;
+	private JCheckBox chkExtended;
 	private MagicTextPane txtText;
 	private ManaPanel manaCostPanel;
 	private JPanel panelActions;
@@ -80,14 +86,15 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		thumbnail = val;
 	}
 	
-	public void setEditable(boolean b) {
+	private void setEditable(boolean b) {
 		
 		txtName.setEditable(b);
 		txtTypes.setEditable(b);
 		txtPower.setEditable(b);
 		txtFlavor.setEditable(b);
 		txtRarity.setEditable(b);
-		chkReserved.setEnabled(b);
+		
+		
 		txtText.setEditable(b);
 	}
 	
@@ -102,8 +109,11 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		txtFlavor.setText(mc.getFlavor());
 		txtRarity.setText(mc.getRarity().toPrettyString());
 		txtText.setText(mc.getText());
+	
 		chkReserved.setSelected(mc.isReserved());
-		
+		chkBorderless.setSelected(mc.isBorderLess());
+		chkExtended.setSelected(mc.isExtendedArt());
+		chkShowcase.setSelected(mc.isShowCase());
 		
 		if(mc.isCreature())
 			txtPower.setText(mc.getPower()+"/"+mc.getToughness());
@@ -247,7 +257,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		obs = new Observable();
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 444, 0, 100, 0, 0};
+		gridBagLayout.columnWidths = new int[]{0, 444, 0, 210, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 156, 0, 0, 90, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
@@ -335,13 +345,32 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		gbctxtFlavour.gridy = 3;
 		add(txtFlavor, gbctxtFlavour);
 		
+		
 		chkReserved = new JCheckBox("(R)");
+		chkReserved.setToolTipText("Reserved");
+		chkBorderless = new JCheckBox("(B)");
+		chkBorderless.setToolTipText("Borderless");
+		chkShowcase = new JCheckBox("(S)");
+		chkShowcase.setToolTipText("Showcase");
+		chkExtended= new JCheckBox("(E)");
+		chkExtended.setToolTipText("Extended");
+		
+		var panelDetails = new JPanel();
+			 panelDetails.add(chkReserved);
+			 panelDetails.add(new JSeparator());
+			 panelDetails.add(chkBorderless);
+			 panelDetails.add(chkShowcase);
+			 panelDetails.add(chkExtended);
+		
+		
+			 
+			 
 		GridBagConstraints gbcchkReserved = new GridBagConstraints();
 		gbcchkReserved.anchor = GridBagConstraints.WEST;
 		gbcchkReserved.insets = new Insets(0, 0, 5, 5);
 		gbcchkReserved.gridx = 1;
 		gbcchkReserved.gridy = 4;
-		add(chkReserved, gbcchkReserved);
+		add(panelDetails, gbcchkReserved);
 		
 		txtPower = new JTextField();
 		txtPower.setHorizontalAlignment(SwingConstants.CENTER);
@@ -423,3 +452,4 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 	}
 
 }
+

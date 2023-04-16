@@ -553,7 +553,7 @@ public class MagicCard extends AbstractProduct {
 	
 	public boolean isSiege()
 	{
-		return getDefense()!=null;
+		return getSubtypes().toString().toLowerCase().contains("siege");
 	}
 	
 	public boolean isPlaneswalker()

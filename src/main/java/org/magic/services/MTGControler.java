@@ -13,6 +13,8 @@ import java.sql.SQLException;
 import java.time.Instant;
 import java.util.Locale;
 
+import javax.swing.UIManager;
+
 import org.apache.commons.configuration2.XMLConfiguration;
 import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
 import org.apache.commons.configuration2.builder.fluent.Parameters;
@@ -116,7 +118,7 @@ public class MTGControler {
 
 			ThreadManager.getInstance().initThreadPoolConfig(getThreadPoolConfig());
 			
-
+		
 			TechnicalServiceManager.inst().enable(get("technical-log").equals("true"));
 			TechnicalServiceManager.inst().restore();
 

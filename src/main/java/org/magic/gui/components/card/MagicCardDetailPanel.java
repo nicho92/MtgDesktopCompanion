@@ -2,10 +2,12 @@ package org.magic.gui.components.card;
 
 import java.awt.BorderLayout;
 
+import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.services.MTGConstants;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
@@ -23,6 +25,12 @@ public class MagicCardDetailPanel extends MTGUIComponent implements Observer{
 	public String getTitle() {
 		return "DETAILS";
 	}
+	
+
+	public ImageIcon getIcon() {
+		return MTGConstants.ICON_TAB_DETAILS;
+	}
+	
 
 	public MagicCardDetailPanel(boolean full) {
 		this.full = full;
@@ -33,8 +41,9 @@ public class MagicCardDetailPanel extends MTGUIComponent implements Observer{
 		{
 			getContextTabbedPane().setTabPlacement(SwingConstants.LEFT);
 			paneSub = new MagicCardSubDetailPanel();
-			getContextTabbedPane().addTab("D", paneMain);
-			getContextTabbedPane().addTab("T", paneSub);
+			
+			addContextComponent(paneMain, "", MTGConstants.ICON_TAB_CARD);
+			addContextComponent(paneSub, "", MTGConstants.ICON_TAB_CARD);
 			add(getContextTabbedPane(),BorderLayout.CENTER);
 		}
 		else
