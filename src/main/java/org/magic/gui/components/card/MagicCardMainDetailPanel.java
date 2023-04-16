@@ -257,7 +257,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		obs = new Observable();
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 444, 0, 210, 0, 0};
+		gridBagLayout.columnWidths = new int[]{0, 444, 18, 197, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 156, 0, 0, 90, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
@@ -321,7 +321,6 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		lblThumbnail = new JLabel("");
 		GridBagConstraints gbclblThumbnail = new GridBagConstraints();
 		gbclblThumbnail.gridheight = 5;
-		gbclblThumbnail.insets = new Insets(0, 0, 5, 0);
 		gbclblThumbnail.gridx = 4;
 		gbclblThumbnail.gridy = 1;
 		add(lblThumbnail, gbclblThumbnail);
@@ -338,12 +337,23 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		txtFlavor = new JTextPane();
 		txtFlavor.setFont(txtFlavor.getFont().deriveFont(Font.ITALIC));
 		GridBagConstraints gbctxtFlavour = new GridBagConstraints();
-		gbctxtFlavour.gridwidth = 3;
+		gbctxtFlavour.gridwidth = 2;
 		gbctxtFlavour.insets = new Insets(0, 0, 5, 5);
 		gbctxtFlavour.fill = GridBagConstraints.HORIZONTAL;
 		gbctxtFlavour.gridx = 1;
 		gbctxtFlavour.gridy = 3;
 		add(txtFlavor, gbctxtFlavour);
+		
+		txtPower = new JTextField();
+		txtPower.setHorizontalAlignment(SwingConstants.CENTER);
+		txtPower.setToolTipText("Power");
+		GridBagConstraints gbctxtPower = new GridBagConstraints();
+		gbctxtPower.fill = GridBagConstraints.HORIZONTAL;
+		gbctxtPower.insets = new Insets(0, 0, 5, 5);
+		gbctxtPower.gridx = 3;
+		gbctxtPower.gridy = 3;
+		add(txtPower, gbctxtPower);
+		txtPower.setColumns(10);
 		
 		
 		chkReserved = new JCheckBox("(R)");
@@ -371,17 +381,6 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		gbcchkReserved.gridx = 1;
 		gbcchkReserved.gridy = 4;
 		add(panelDetails, gbcchkReserved);
-		
-		txtPower = new JTextField();
-		txtPower.setHorizontalAlignment(SwingConstants.CENTER);
-		txtPower.setToolTipText("Power");
-		GridBagConstraints gbctxtPower = new GridBagConstraints();
-		gbctxtPower.insets = new Insets(0, 0, 5, 5);
-		gbctxtPower.fill = GridBagConstraints.HORIZONTAL;
-		gbctxtPower.gridx = 3;
-		gbctxtPower.gridy = 4;
-		add(txtPower, gbctxtPower);
-		txtPower.setColumns(10);
 		
 		lblNumber = new JLabel("");
 		GridBagConstraints gbclblNumber = new GridBagConstraints();
