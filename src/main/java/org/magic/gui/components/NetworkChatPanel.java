@@ -156,7 +156,8 @@ public class NetworkChatPanel extends MTGUIComponent {
 					while(client.isActive())
 					{
 						var s = client.consume();
-						publish(s);
+						if(s!=null)
+						    publish(s);
 					}
 					return null;
 				}
