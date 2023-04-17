@@ -91,6 +91,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	protected static final String HAS_ALTERNATIVE_DECK_LIMIT = "hasAlternativeDeckLimit";
 	protected static final String TCGPLAYER_PRODUCT_ID = "tcgplayerProductId";
 	protected static final String TCGPLAYER_GROUP_ID ="tcgplayerGroupId";
+	protected static final String CARDKINGDOM_PRODUCT_ID = "cardKingdomId";
 	protected static final String BORDER_COLOR = "borderColor";
 	protected static final String KEYRUNE_CODE = "keyruneCode";
 	protected static final String SCRYFALL_ILLUSTRATION_ID = "scryfallIllustrationId";
