@@ -2,7 +2,6 @@ package org.magic.api.interfaces;
 
 import java.awt.Color;
 import java.io.IOException;
-import java.util.List;
 
 import org.magic.api.beans.JsonMessage;
 import org.magic.game.model.Player;
@@ -13,8 +12,6 @@ public interface MTGNetworkClient {
 
 	
 	JsonMessage consume() throws IOException;
-
-	List<String> listTopics();
 
 	void switchAddress(String topicName) throws IOException;
 

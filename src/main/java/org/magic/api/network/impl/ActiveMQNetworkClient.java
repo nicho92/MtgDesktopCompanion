@@ -2,7 +2,6 @@ package org.magic.api.network.impl;
 import java.awt.Color;
 import java.io.IOException;
 import java.time.Instant;
-import java.util.List;
 
 import org.apache.activemq.artemis.api.core.ActiveMQException;
 import org.apache.activemq.artemis.api.core.QueueConfiguration;
@@ -35,13 +34,6 @@ public class ActiveMQNetworkClient implements MTGNetworkClient {
 	private Logger logger = MTGLogger.getLogger(ActiveMQNetworkClient.class);
 	private JsonExport serializer = new JsonExport();
 	
-	
-	@Override
-	public List<String> listTopics() {
-		
-		return List.of("welcome");
-	}
-
 	@Override
 	public void join(Player p, String url,String adress) throws IOException {
 		this.player = p;
@@ -143,7 +135,7 @@ public class ActiveMQNetworkClient implements MTGNetworkClient {
 		
 		try {
 			producer.send(message);
-			logger.info("send {}",obj);
+			logger.debug("send {}",obj);
 		} catch (ActiveMQException e) {
 			throw new IOException(e);
 		}		

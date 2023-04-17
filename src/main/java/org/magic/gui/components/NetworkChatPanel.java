@@ -39,6 +39,7 @@ import org.magic.servers.impl.ActiveMQServer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
+import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 
 
@@ -47,7 +48,6 @@ public class NetworkChatPanel extends MTGUIComponent {
 	private static final long serialVersionUID = 1L;
 	private JTextField txtServer;
 	private JList<Player> listPlayers;
-	private transient MTGNetworkClient client;
 	private JList<JsonMessage> listMsg;
 	private JButton btnConnect;
 	private JButton btnLogout;
@@ -57,6 +57,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 	private JButton btnSearch;
 	private DefaultListModel<JsonMessage> listMsgModel;
 	private DefaultListModel<Player> listPlayerModel;
+	private MTGNetworkClient client;
 
 	public NetworkChatPanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -124,6 +125,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		panel1.add(cboStates);
 		panel1.add(btnSearch);
 		
+		
 		initActions();
 	}
 
@@ -136,10 +138,10 @@ public class NetworkChatPanel extends MTGUIComponent {
 			try {
 				client = new ActiveMQNetworkClient();
 				client.join(MTGControler.getInstance().getProfilPlayer(),  txtServer.getText(),ActiveMQServer.DEFAULT_ADDRESS);
-				txtServer.setEnabled(false);
-				btnConnect.setEnabled(false);
-				btnLogout.setEnabled(true);
-				editorPane.setEditable(true);
+				txtServer.setEnabled(!client.isActive());
+				btnConnect.setEnabled(!client.isActive());
+				btnLogout.setEnabled(client.isActive());
+				editorPane.setEditable(client.isActive());
 				MTGControler.getInstance().setProperty("network-last-server",txtServer.getText());
 			} catch (Exception e) {
 				MTGControler.getInstance().notify(e);

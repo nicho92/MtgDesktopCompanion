@@ -15,7 +15,7 @@ public class JsonMessage extends AbstractAuditableItem{
 	private Color color;
 	private MSG_TYPE typeMessage;
 	
-	public enum MSG_TYPE { CONNECT, CHANGESTATUS,DISCONNECT,TALK,SYSTEM}
+	public enum MSG_TYPE { CONNECT, CHANGESTATUS, DISCONNECT, TALK, SYSTEM, SEARCH, ANSWER}
 	
 	@Override
 	public String toString() {

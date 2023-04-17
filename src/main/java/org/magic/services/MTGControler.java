@@ -13,8 +13,6 @@ import java.sql.SQLException;
 import java.time.Instant;
 import java.util.Locale;
 
-import javax.swing.UIManager;
-
 import org.apache.commons.configuration2.XMLConfiguration;
 import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
 import org.apache.commons.configuration2.builder.fluent.Parameters;
@@ -36,12 +34,16 @@ import org.magic.api.beans.technical.audit.FileAccessInfo.ACCESSTYPE;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.MTGPlugin;
+import org.magic.api.network.impl.ActiveMQNetworkClient;
 import org.magic.game.model.Player;
+import org.magic.servers.impl.ActiveMQServer;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.providers.ApilayerCurrencyConverter;
 import org.magic.services.providers.LookAndFeelProvider;
+import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.threads.ThreadPoolConfig;
 import org.magic.services.threads.ThreadPoolConfig.THREADPOOL;
@@ -64,9 +66,10 @@ public class MTGControler {
 	private MTGNotifier notifier;
 	private VersionChecker versionChecker;
 
+	
 	private MTGControler() {
 		
-		
+	
 		xmlConfigFile = new File(MTGConstants.CONF_DIR, MTGConstants.CONF_FILENAME);
 
 		if (!xmlConfigFile.exists())
@@ -121,7 +124,8 @@ public class MTGControler {
 		
 			TechnicalServiceManager.inst().enable(get("technical-log").equals("true"));
 			TechnicalServiceManager.inst().restore();
-
+			
+		
 		} catch (Exception e) {
 			logger.error("error init", e);
 		}
@@ -143,7 +147,7 @@ public class MTGControler {
 	public VersionChecker getVersionChecker() {
 		return versionChecker;
 	}
-	
+
 
 	public void closeApp()
 	{
