@@ -17,8 +17,6 @@ public class MagicEdition implements MTGSerializable, Comparable<MagicEdition> {
 	private String set;
 
 	@SerializedName(alternate = "multiverse_id", value = "multiverseId") private String multiverseId;
-
-	private String layout;
 	private String url;
 	private String id;
 	private String releaseDate;
@@ -219,14 +217,6 @@ public class MagicEdition implements MTGSerializable, Comparable<MagicEdition> {
 
 	public void setNumber(String number) {
 		this.number = number;
-	}
-
-	public String getLayout() {
-		return layout;
-	}
-
-	public void setLayout(String layout) {
-		this.layout = layout;
 	}
 
 	public String getUrl() {
