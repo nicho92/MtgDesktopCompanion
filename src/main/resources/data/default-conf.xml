@@ -28,6 +28,7 @@
   <keystore-pass>changeit</keystore-pass>
   <min-price-alert>1</min-price-alert>
   <debug-json-panel>true</debug-json-panel>
+  <network-last-server>tcp://mtgcompanion.me:61616</network-last-server>
   <lookAndFeel>com.formdev.flatlaf.FlatLightLaf</lookAndFeel>
   <locale>en</locale>
   <card-pictures-dimension>
