@@ -114,7 +114,7 @@ public class ActiveMQNetworkClient implements MTGNetworkClient {
 		ClientMessage msg;
 		try {
 			msg = consumer.receive();
-			logger.info("consume {}",msg);
+			logger.debug("consume {}",msg);
 		} catch (ActiveMQException e) {
 			throw new IOException(e);
 		}
@@ -176,7 +176,7 @@ public class ActiveMQNetworkClient implements MTGNetworkClient {
 
 	@Override
 	public boolean isActive() {
-		return !session.isClosed();
+		return session!=null && !session.isClosed();
 	}
 
 	public Player getPlayer() {
