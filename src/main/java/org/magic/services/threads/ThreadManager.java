@@ -55,7 +55,7 @@ public class ThreadManager {
 		executor.execute(task);
 	}
 
-	public Future<?> submitThread(MTGRunnable task, String name) {
+	public  Future<Object> submitThread(MTGRunnable task, String name) {
 
 		task.getInfo().setName(name);
 		TechnicalServiceManager.inst().store(task.getInfo());
@@ -110,15 +110,16 @@ public class ThreadManager {
 						.setNameFormat(tpc.getNameFormat())
 						.setDaemon(tpc.isDaemon())
 						.build();
-
-		switch (tpc.getThreadPool())
-		{
-			case CACHED:executor = (ThreadPoolExecutor) Executors.newCachedThreadPool(factory);break;
-			case FIXED: executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(tpc.getCorePool(),factory);break;
-			case SCHEDULE:executor = (ThreadPoolExecutor) Executors.newScheduledThreadPool(tpc.getCorePool(),factory);break;
-			case SINGLE : executor = (ThreadPoolExecutor) Executors.newSingleThreadExecutor(factory);break;
-			default :  executor = (ThreadPoolExecutor) Executors.newCachedThreadPool(factory);break;
-		}
+		
+		
+			switch (tpc.getThreadPool())
+			{
+				case CACHED:executor = (ThreadPoolExecutor) Executors.newCachedThreadPool(factory);break;
+				case FIXED: executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(tpc.getCorePool(),factory);break;
+				case SCHEDULE:executor = (ThreadPoolExecutor) Executors.newScheduledThreadPool(tpc.getCorePool(),factory);break;
+				case SINGLE : executor = (ThreadPoolExecutor) Executors.newSingleThreadExecutor(factory);break;
+				default :  executor = (ThreadPoolExecutor) Executors.newCachedThreadPool(factory);break;
+			}
 		logger.debug("init ThreadManager config={}",tpc);
 	}
 

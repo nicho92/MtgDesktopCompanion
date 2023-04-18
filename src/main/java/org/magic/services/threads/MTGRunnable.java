@@ -26,7 +26,6 @@ public abstract class MTGRunnable implements Runnable{
 	public void end() {
 		info.setEnd(Instant.now());
 		info.setStatus(STATE.FINISHED);
-
 	}
 
 
