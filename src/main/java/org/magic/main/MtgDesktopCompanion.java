@@ -67,6 +67,7 @@ public class MtgDesktopCompanion {
 		} catch (Exception e) {
 			logger.error("Error initialisation", e);
 			JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
+			System.exit(-1);
 		}
 
 		ThreadManager.getInstance().invokeLater(new MTGRunnable() {

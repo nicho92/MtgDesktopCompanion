@@ -188,7 +188,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		return true;
 	}
 
-	public boolean createDB() {
+	public boolean createDB() throws SQLException {
 		try (var cont =  pool.getConnection();Statement stat = cont.createStatement()) {
 			
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" favorites (id_contact INTEGER, id_announce INTEGER, classeName VARCHAR(30) )");
@@ -248,11 +248,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			return true;
 		} catch (SQLIntegrityConstraintViolationException e) {
 			logger.debug("database already created");
-			return false;
-		}
-		catch (SQLException e) {
-			logger.error("SQLException : {}",e.getMessage());
-			logger.trace("error",e);
 			return false;
 		}
 	}
