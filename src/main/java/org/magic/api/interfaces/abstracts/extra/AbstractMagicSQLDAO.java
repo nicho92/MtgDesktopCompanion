@@ -250,6 +250,10 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			logger.debug("database already created");
 			return false;
 		}
+		catch (Exception e) {
+			logger.error("Error in createDB", e);
+			return false;
+		}
 	}
 
 
