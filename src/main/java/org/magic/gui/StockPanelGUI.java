@@ -58,6 +58,7 @@ import org.magic.gui.components.PricesTablePanel;
 import org.magic.gui.components.card.MagicCardDetailPanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
+import org.magic.gui.components.shops.StockItemsSynchronizationPanel;
 import org.magic.gui.components.tech.ObjectViewerPanel;
 import org.magic.gui.components.widgets.JExportButton;
 import org.magic.gui.models.CardStockTableModel;
@@ -99,6 +100,7 @@ public class StockPanelGUI extends MTGUIComponent {
 	private CardsDeckCheckerPanel deckPanel;
 	private GradingEditorPane gradePanel;
 	private GedPanel<MagicCardStock> gedPanel;
+	private StockItemsSynchronizationPanel syncPanel;
 
 	private static Boolean[] values = { null, true, false };
 	private JComboBox<EnumCondition> cboQuality;
@@ -486,13 +488,14 @@ public class StockPanelGUI extends MTGUIComponent {
 	private void updatePanels(MagicCardStock selectedStock) {
 
 		if(selectedStock!=null) {
-		magicCardDetailPanel.init(selectedStock.getProduct());
-		historyPricePanel.init(selectedStock.getProduct(), null, selectedStock.getProduct().getName());
-		pricePanel.init(selectedStock.getProduct(), selectedStock.isFoil());
-		jsonPanel.init(selectedStock);
-		deckPanel.init(selectedStock.getProduct());
-		gradePanel.setGrading(selectedStock.getGrade());
-		gedPanel.init(MagicCardStock.class, selectedStock);
+			magicCardDetailPanel.init(selectedStock.getProduct());
+			historyPricePanel.init(selectedStock.getProduct(), null, selectedStock.getProduct().getName());
+			pricePanel.init(selectedStock.getProduct(), selectedStock.isFoil());
+			jsonPanel.init(selectedStock);
+			deckPanel.init(selectedStock.getProduct());
+			gradePanel.setGrading(selectedStock.getGrade());
+			gedPanel.init(MagicCardStock.class, selectedStock);
+			syncPanel.init(selectedStock);
 		}
 	}
 
@@ -534,7 +537,8 @@ public class StockPanelGUI extends MTGUIComponent {
 		magicCardDetailPanel = new MagicCardDetailPanel(true);
 		historyPricePanel = new HistoryPricesPanel(true);
 		pricePanel = new PricesTablePanel();
-
+		syncPanel = new StockItemsSynchronizationPanel();
+		
 		var centerPanel = new JPanel();
 		add(centerPanel, BorderLayout.CENTER);
 		centerPanel.setLayout(new BorderLayout(0, 0));
@@ -603,6 +607,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		addContextComponent(gradePanel);
 		addContextComponent(pricePanel);
 		addContextComponent(historyPricePanel);
+		addContextComponent(syncPanel);
 		addContextComponent(deckPanel);
 		addContextComponent(gedPanel);
 

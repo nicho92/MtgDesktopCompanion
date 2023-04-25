@@ -244,7 +244,7 @@ public class WooCommerceExport extends AbstractCardExport {
 					  arr.add(createAttributes("altered", String.valueOf(st.isAltered()),true));
 					  arr.add(createAttributes("signed", String.valueOf(st.isSigned()),true));
 					  arr.add(createAttributes("Language", st.getLanguage(),true));
-					  arr.add(createAttributes("comment", st.getComment(),true));
+					  arr.add(createAttributes("comment", ""+st.getComment(),true));
 			productInfo.put("attributes", arr);
 
       	}
