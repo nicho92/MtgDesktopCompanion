@@ -46,7 +46,7 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 
 	protected abstract String getSeparator();
 
-	protected enum FORMAT_SEARCH { ID, NAME}
+	protected enum FORMAT_SEARCH { ID, NAME,NUMBER}
 
 
 	protected String[] splitLines(String content,boolean removeBlank)
@@ -82,6 +82,8 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 
 			if(cardSearch==FORMAT_SEARCH.ID)
 				return getEnabledPlugin(MTGCardsProvider.class).getCardById(cname);
+			else if(cardSearch==FORMAT_SEARCH.NUMBER)
+				return getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(cname, ed);
 			else
 				return getEnabledPlugin(MTGCardsProvider.class).searchCardByName( cname, ed, true).get(0);
 
@@ -104,7 +106,14 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 
 	public List<Matcher> matches(String content,boolean removeBlank)
 	{
-		logger.debug("Parsing content with pattern : {}",getStringPattern());
+		return matches(content, removeBlank, getStringPattern());
+	}
+
+	
+	
+	public List<Matcher> matches(String content,boolean removeBlank, String pattern)
+	{
+		logger.debug("Parsing content with pattern : {}",pattern);
 		List<Matcher> ret = new ArrayList<>();
 		for(String line : splitLines(content,removeBlank))
 		{
