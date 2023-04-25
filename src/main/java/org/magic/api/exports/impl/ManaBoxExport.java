@@ -28,7 +28,7 @@ public class ManaBoxExport extends AbstractFormattedFileCardExport {
 	
 	@Override
 	public STATUT getStatut() {
-		return STATUT.DEV;
+		return STATUT.BETA;
 	}
 	
 	@Override

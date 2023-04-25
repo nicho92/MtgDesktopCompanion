@@ -200,10 +200,14 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 			p.setTypeProduct(parseType(c));
 
 
-
-			JsonObject img = obj.get(IMAGES).getAsJsonArray().get(0).getAsJsonObject();
+			try {
+				JsonObject img = obj.get(IMAGES).getAsJsonArray().get(0).getAsJsonObject();
 							p.setUrl(img.get("src").getAsString());
-
+			}
+			catch(Exception e)
+			{
+				//do nothing.. no image found
+			}
 
 					var stockItem = AbstractStockItem.generateDefault();
 					stockItem.setProduct(p);
