@@ -2,19 +2,25 @@ package org.magic.api.exports.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.regex.Pattern;
 
+import org.apache.logging.log4j.Level;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
+import org.magic.services.logging.MTGLogger;
 import org.magic.services.tools.FileTools;
+import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 
 public class ManaBoxExport extends AbstractFormattedFileCardExport {
@@ -35,8 +41,9 @@ public class ManaBoxExport extends AbstractFormattedFileCardExport {
 		return "Manabox";
 	}
 
-	public static void main(String[] args) throws IOException {
-		
+	public static void main(String[] args) throws IOException, SQLException {
+		MTGControler.getInstance().init();
+		MTGLogger.changeLevel(Level.DEBUG);
 		new ManaBoxExport().importDeckFromFile(new File("D:\\Desktop\\Deck 1.txt"));
 		
 	}
@@ -50,16 +57,35 @@ public class ManaBoxExport extends AbstractFormattedFileCardExport {
 			 d.setDescription("Imported from " + getName());
 		
 			 
-			 
-			 
-		for(String s : UITools.stringLineSplit(f, true))
-		{
-				var l = matches(s, true,aliases.getRegexFor(this, "deck"));
-				
-				System.out.println(l);
-				
-		}
+		var p = Pattern.compile(aliases.getRegexFor(this, "deck"));
+		var map = d.getMain();
 		
+		
+		for(String s : UITools.stringLineSplit(f, false))
+		{
+				var m = p.matcher(s);
+				
+				if(s.contains("SIDEBOARD"))
+					map=d.getSideBoard();
+				else if(s.contains("MAYBEBOARD"))
+					map=d.getMaybeBoard();
+				
+				
+				if(m.find())
+				{
+					var card = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(m.group(4),m.group(3));
+					
+					if(card!=null)
+					{	
+						var qty = Integer.parseInt(m.group(1));
+						map.put(card, qty);
+					}
+					else
+					{
+						logger.error("No card found for {}", s);
+					}
+				}
+		}
 		
 		return d;
 	}
