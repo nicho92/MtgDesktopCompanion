@@ -100,14 +100,22 @@ public class ManaBoxExport extends AbstractFormattedFileCardExport {
 			var stock = MTGControler.getInstance().getDefaultStock();
 			var mc = parseMatcherWithGroup(m, 4, 2,true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NUMBER);
 			
-			stock.setProduct(mc);
-			stock.setFoil(m.group(5).equalsIgnoreCase("foil"));
-			stock.setQte(Integer.parseInt(m.group(7)));
-			stock.setAltered(m.group(12).equals("true"));
-			stock.setCondition(aliases.getReversedConditionFor(this, m.group(13), EnumCondition.NEAR_MINT));
-			stock.setLanguage(m.group(14));
-			stock.setPrice(UITools.parseDouble(m.group(10)));
-			list.add(stock);
+			if(mc!=null){
+				stock.setProduct(mc);
+				stock.setFoil(m.group(5).equalsIgnoreCase("foil"));
+				stock.setEtched(m.group(5).equalsIgnoreCase("etched"));
+				stock.setQte(Integer.parseInt(m.group(7)));
+				stock.setAltered(m.group(12).equals("true"));
+				stock.setCondition(aliases.getReversedConditionFor(this, m.group(13), EnumCondition.NEAR_MINT));
+				stock.setLanguage(m.group(14));
+				stock.setPrice(UITools.parseDouble(m.group(10)));
+				list.add(stock);
+				notify(mc);
+			}
+			else
+			{
+				logger.error("No card found for {}",m );
+			}
 		});
 		
 		return list;
@@ -134,7 +142,7 @@ public class ManaBoxExport extends AbstractFormattedFileCardExport {
 						    	tmp.append(mcs.getProduct().getCurrentSet().getId()).append(getSeparator());
 						    	tmp.append(mcs.getProduct().getCurrentSet().getSet()).append(getSeparator());
 						    	tmp.append(mcs.getProduct().getCurrentSet().getNumber()).append(getSeparator());
-						    	tmp.append(mcs.isFoil()?"foil":"normal").append(getSeparator());
+						    	tmp.append(mcs.isFoil()?"foil":mcs.isEtched()?"etched":"normal").append(getSeparator());
 						    	tmp.append(mcs.getProduct().getRarity().toPrettyString()).append(getSeparator());
 						    	tmp.append(mcs.getQte()).append(getSeparator());
 						    	tmp.append("").append(getSeparator());

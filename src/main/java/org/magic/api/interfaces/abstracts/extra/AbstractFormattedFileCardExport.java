@@ -113,14 +113,15 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 	
 	public List<Matcher> matches(String content,boolean removeBlank, String pattern)
 	{
-		logger.debug("Parsing content with pattern : {}",pattern);
 		List<Matcher> ret = new ArrayList<>();
 		for(String line : splitLines(content,removeBlank))
 		{
 			line = line.trim();
 			if (!StringUtils.startsWithAny(line, skipLinesStartWith())) {
-
-				var m = getPattern().matcher(line);
+				
+				var p = Pattern.compile(pattern);
+				
+				var m = p.matcher(line);
 
 				if(m.find())
 				{
@@ -133,12 +134,6 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 
 		}
 		return ret;
-	}
-
-
-	private Pattern getPattern()
-	{
-		return Pattern.compile(getStringPattern());
 	}
 
 	@Override
