@@ -146,7 +146,7 @@ public class ManaBoxExport extends AbstractFormattedFileCardExport {
 						    	tmp.append(mcs.getLanguage()).append(getSeparator());
 						    	tmp.append(getString("CURRENCY")).append(getSeparator());
 						    	tmp.append(System.lineSeparator());
-						    	notify(mcs);
+						    	notify(mcs.getProduct());
 						    }
 					
 						    FileTools.saveFile(f, tmp.toString());
