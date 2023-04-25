@@ -15,7 +15,6 @@ import org.apache.commons.collections4.ListUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
@@ -239,18 +238,13 @@ public class WooCommerceExport extends AbstractCardExport {
         	}
 
 
-      	if(!getString(ATTRIBUTES_KEYS).isEmpty()) {
+      	if(getBoolean(ATTRIBUTES_KEYS)) {
       		var arr = new JsonArray();
 					  arr.add(createAttributes("foil", String.valueOf(st.isFoil()),true));
 					  arr.add(createAttributes("altered", String.valueOf(st.isAltered()),true));
-					  arr.add(createAttributes("Mkm-Condition", String.valueOf(st.getCondition().name()),true));
-					  arr.add(createAttributes("Mkm-Rarete", st.getProduct().getRarity().toPrettyString(),true));
-
-					  if(st.getComment()!=null)
-						  arr.add(createAttributes("Mkm-Commentaires", st.getComment(),true));
-
+					  arr.add(createAttributes("signed", String.valueOf(st.isSigned()),true));
 					  arr.add(createAttributes("Language", st.getLanguage(),true));
-					  arr.add(createAttributes("Mkm-Extension", st.getProduct().getEditions().stream().map(MagicEdition::getSet).toArray(String[]::new),true));
+					  arr.add(createAttributes("comment", st.getComment(),true));
 			productInfo.put("attributes", arr);
 
       	}
@@ -403,7 +397,7 @@ public class WooCommerceExport extends AbstractCardExport {
 				m.put(CATEGORY_ID, "");
 				m.put(DEFAULT_STATUT, "private");
 				m.put(STOCK_MANAGEMENT,"true");
-				m.put(ATTRIBUTES_KEYS,"");
+				m.put(ATTRIBUTES_KEYS,"true");
 				m.put(CARD_LANG_DESCRIPTION,"English");
 				m.put(ARTICLE_NAME,"");
 				m.put(BATCH_THRESHOLD,"50");
