@@ -40,6 +40,7 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 		exportStock(importFromDeck(deck), dest);
 	}
 
+	@Deprecated
 	private EnumCondition reverse(String condition)
 	{
 		switch (condition)
@@ -55,7 +56,7 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 		}
 		return EnumCondition.valueOf(condition.toUpperCase());
 	}
-
+	@Deprecated
 	private String reverse(EnumCondition condition)
 	{
 		switch (condition)

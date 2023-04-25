@@ -1,9 +1,22 @@
 {
 	"Manabox": {
 		"regex": {
-			"default": "((?=\\\")\\\".*?\\\"|.*?),(.*?),(.*?),(true|false),(.*?),(\\\\d+),(.*?),(\\\\d+.\\\\d+?)"
+			"stock": "((?=\")\".*?\"|.*?),(.*?),(.*?),(\\d+),(normal|foil),(.*?),(\\d+),(\\d+),(.*?),(.*?),(true|false),(true|false),(.*?),(.*?),(.*?)$"
+		},
+		"conditions": {
+			"POOR": "poor",
+			"LIGHTLY_PLAYED": "light_played",
+			"NEAR_MINT": "near_mint",
+			"PLAYED": "played",
+			"EXCELLENT": "excellent",
+			"GOOD": "good",
+			"MINT": "mint"
 		}
+		
+		
+		
 	},
+	
 	"MKM File": {
 		"regex": {
 			"default": "(\\d+) (.*?) \\((.*?)\\)"
@@ -106,7 +119,7 @@
 		"conditions": {
 			"MINT": "Mint",
 			"NEAR_MINT": "Near Mint",
-			"GOOD": "Excellent",
+			"EXCELLENT": "Excellent",
 			"PLAYED": "Played",
 			"LIGHTLY_PLAYED": "Lightly Played"
 		}
