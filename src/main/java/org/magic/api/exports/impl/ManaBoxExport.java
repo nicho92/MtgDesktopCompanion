@@ -109,6 +109,7 @@ public class ManaBoxExport extends AbstractFormattedFileCardExport {
 				stock.setCondition(aliases.getReversedConditionFor(this, m.group(13), EnumCondition.NEAR_MINT));
 				stock.setLanguage(m.group(14));
 				stock.setPrice(UITools.parseDouble(m.group(10)));
+				stock.getTiersAppIds().put(getName(), m.group(8));
 				list.add(stock);
 				notify(mc);
 			}
