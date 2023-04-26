@@ -244,7 +244,10 @@ public class WooCommerceExport extends AbstractCardExport {
 					  arr.add(createAttributes("altered", String.valueOf(st.isAltered()),true));
 					  arr.add(createAttributes("signed", String.valueOf(st.isSigned()),true));
 					  arr.add(createAttributes("Language", st.getLanguage(),true));
-					  arr.add(createAttributes("comment", ""+st.getComment(),true));
+					  arr.add(createAttributes("comment", st.getComment(),true));
+					  arr.add(createAttributes("setCode", st.getProduct().getCurrentSet().getId(),true));
+					  arr.add(createAttributes("setName", st.getProduct().getCurrentSet().getSet(),true));
+					  arr.add(createAttributes("number", st.getProduct().getCurrentSet().getNumber(),true));
 			productInfo.put("attributes", arr);
 
       	}
@@ -322,6 +325,9 @@ public class WooCommerceExport extends AbstractCardExport {
 
 	private JsonObject createAttributes (String key ,String val,boolean visible)
 	{
+		if(val==null)
+			createAttributes(key ,new String[] {""},visible);
+		
 		return createAttributes(key ,new String[] {val},visible);
 	}
 

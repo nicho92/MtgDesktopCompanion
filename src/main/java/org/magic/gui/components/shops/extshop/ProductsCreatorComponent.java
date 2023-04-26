@@ -58,7 +58,7 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 		setLayout(new BorderLayout(0, 0));
 
 		panel = new JPanel();
-		btnSend = UITools.createBindableJButton("Export", MTGConstants.ICON_EXPORT, KeyEvent.VK_S,"searchProduct");
+		btnSend = UITools.createBindableJButton("Export", MTGConstants.ICON_EXPORT, KeyEvent.VK_S,"sendProduct");
 		var btnSearch = UITools.createBindableJButton("", MTGConstants.ICON_SEARCH_24, KeyEvent.VK_F,"searchProduct");
 
 		var panelNorth = new JPanel();

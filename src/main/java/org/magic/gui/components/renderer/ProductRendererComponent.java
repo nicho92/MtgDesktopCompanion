@@ -87,7 +87,7 @@ public class ProductRendererComponent extends JPanel {
 					try {
 						return URLTools.extractAsImage(p.getUrl()).getScaledInstance(150, 110, Image.SCALE_SMOOTH);
 					} catch (Exception e) {
-						return new BufferedImage(1, 1, Image.SCALE_FAST);
+						return new BufferedImage(150, 110, Image.SCALE_FAST);
 					}
 				});
 			}
@@ -102,7 +102,7 @@ public class ProductRendererComponent extends JPanel {
 				}
 			}
 		};
-		ThreadManager.getInstance().runInEdt(sw, "Loading product pics");
+		ThreadManager.getInstance().runInEdt(sw, "Loading product pics "+p.getName());
 		
 	}
 
