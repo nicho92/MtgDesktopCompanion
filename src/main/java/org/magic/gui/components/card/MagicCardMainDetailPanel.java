@@ -381,7 +381,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		lblNumber = new JLabel("");
 		GridBagConstraints gbclblNumber = new GridBagConstraints();
 		gbclblNumber.insets = new Insets(0, 0, 5, 5);
-		gbclblNumber.gridx = 4;
+		gbclblNumber.gridx = 3;
 		gbclblNumber.gridy = 4;
 		add(lblNumber, gbclblNumber);
 		
