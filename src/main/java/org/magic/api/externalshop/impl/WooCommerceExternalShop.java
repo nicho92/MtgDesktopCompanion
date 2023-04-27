@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.EnumPaymentProvider;
@@ -71,29 +72,59 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	public List<Category> listCategories() throws IOException {
 		init();
 
-		var params = new HashMap<String, String>();
-
-		params.put("per_page", getString(PER_PAGE));
-
-
-		List<JsonElement> res = client.getAll(EndpointBaseType.PRODUCTS_CATEGORIES.getValue(),params);
-
-		var ret = new ArrayList<Category>();
-
-		 res.forEach(je->{
+		var list = new ArrayList<Category>();
+        var max = 100;
+		var page=1;
+		var vars = new HashMap<String,String>();
+		 	  vars.put("per_page", String.valueOf(max));
+		 	  
+		 	   
+		 List<JsonObject> ret = client.getAll(EndpointBaseType.PRODUCTS_CATEGORIES.getValue(),vars);
+		 ret.forEach(je->{
 
 			 var objCateg = je.getAsJsonObject();
 			 var c = new Category();
 			 	 c.setIdCategory(objCateg.get("id").getAsInt());
 			 	 c.setCategoryName(objCateg.get("name").getAsString());
 
-			 	ret.add(c);
+			 	list.add(c);
 		 });
+		 
+		 
+		 while(ret.size()>=max)
+		 {
+			 page=page+1;
+			  vars.put("page", String.valueOf(page));
+			  ret = client.getAll(EndpointBaseType.PRODUCTS_CATEGORIES.getValue(),vars);
+			  ret.forEach(je->{
 
-		 return ret;
+					 var objCateg = je.getAsJsonObject();
+					 var c = new Category();
+					 	 c.setIdCategory(objCateg.get("id").getAsInt());
+					 	 c.setCategoryName(objCateg.get("name").getAsString());
+
+					 	list.add(c);
+				 });
+		 }
+		
+		 return list;
 
 	}
 
+
+	public int createCategory(MagicEdition ed)
+	{
+		init();
+		Map<String, Object> categoryMap = new HashMap<>();
+										categoryMap.put("name", ed.getSet());
+										categoryMap.put("slug", ed.getId());
+										
+		Map<String,JsonElement> ret = client.create(EndpointBaseType.PRODUCTS_CATEGORIES.getValue(), categoryMap);
+		
+		return ret.get("id").getAsInt();
+	}
+
+	
 
 
 	@SuppressWarnings("unchecked")

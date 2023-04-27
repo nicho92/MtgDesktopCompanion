@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.annotation.Nonnull;
 
@@ -16,6 +17,8 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.enums.EnumExportCategory;
+import org.magic.api.beans.shop.Category;
+import org.magic.api.externalshop.impl.WooCommerceExternalShop;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
@@ -42,10 +45,11 @@ public class WooCommerceExport extends AbstractCardExport {
 	private static final String CATEGORY_ID = "CATEGORY_ID";
 	public static final String DEFAULT_STATUT = "DEFAULT_STATUT";
 	private  static final String BATCH_THRESHOLD = "BATCH_THRESHOLD";
-
-
+	private static final String CATEGORY_EDITION_MAPPING ="CATEGORY_EDITION_MAPPING";
+	
 	private WooCommerce wooCommerce;
-
+	private List<Category> categs = new ArrayList<Category>();
+	
 	@Override
 	public EnumExportCategory getCategory() {
 		return EnumExportCategory.ONLINE;
@@ -73,8 +77,22 @@ public class WooCommerceExport extends AbstractCardExport {
 
 	private void init()
 	{
-		 wooCommerce = WooCommerceTools.newClient(getAuthenticator());
+	    wooCommerce = WooCommerceTools.newClient(getAuthenticator());
+	    
+	   
+		
+		 
 	}
+	
+	
+	public static void main(String[] args) {
+		MTGControler.getInstance().loadAccountsConfiguration();
+		var exp = new WooCommerceExport();
+		
+		exp.init();
+		
+	}
+	
 
 
 	public WooCommerce getWooCommerce() {
@@ -83,8 +101,6 @@ public class WooCommerceExport extends AbstractCardExport {
 
 		return wooCommerce;
 	}
-
-
 
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
@@ -151,7 +167,18 @@ public class WooCommerceExport extends AbstractCardExport {
 	public void exportStock(List<MagicCardStock> stocks, File f) throws IOException {
 
 		init();
-
+		
+		 if(getBoolean(CATEGORY_EDITION_MAPPING))
+		    {
+				try {
+					categs = new WooCommerceExternalShop().listCategories();
+					logger.info("Loading {} categories", categs.size());
+				} catch (IOException e) {
+					logger.error("error getting categories",e);
+				}
+		    }
+		
+		
 		if(stocks.size()>getInt(BATCH_THRESHOLD))
 		{
 			batchExport(ListUtils.partition(stocks, 100));
@@ -217,7 +244,27 @@ public class WooCommerceExport extends AbstractCardExport {
 
         productInfo.put("type", "simple");
         productInfo.put("regular_price", String.valueOf(st.getPrice()));
-        productInfo.put("categories", WooCommerceTools.entryToJsonArray("id",getString(CATEGORY_ID)));
+        
+        if(getBoolean(CATEGORY_EDITION_MAPPING))
+        {
+        	
+        	Optional<Category> opt =categs.stream().filter(c->c.getCategoryName().equalsIgnoreCase(st.getProduct().getCurrentSet().getSet())).findFirst();
+        	
+        	if(opt.isPresent())
+        	{
+        		productInfo.put("categories", WooCommerceTools.entryToJsonArray("id",String.valueOf(opt.get().getIdCategory())));	
+        	}
+        	else
+        	{
+        		logger.warn("Can't find category named {}. Use default one {}",st.getProduct().getCurrentSet().getSet(),getString(CATEGORY_ID));
+        		productInfo.put("categories", WooCommerceTools.entryToJsonArray("id",getString(CATEGORY_ID)));	
+        	}
+        }
+        else
+        {
+        	productInfo.put("categories", WooCommerceTools.entryToJsonArray("id",getString(CATEGORY_ID)));	
+        }
+        
         productInfo.put("description",desc(st.getProduct()));
         productInfo.put("short_description", toForeign(st.getProduct()).getName()+"-"+st.getCondition());
         productInfo.put("enable_html_description", "true");
@@ -404,6 +451,7 @@ public class WooCommerceExport extends AbstractCardExport {
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		var m = new HashMap<String, String>();
+				m.put(CATEGORY_EDITION_MAPPING, "true");
 				m.put(CATEGORY_ID, "");
 				m.put(DEFAULT_STATUT, "private");
 				m.put(STOCK_MANAGEMENT,"true");
@@ -411,8 +459,7 @@ public class WooCommerceExport extends AbstractCardExport {
 				m.put(CARD_LANG_DESCRIPTION,"English");
 				m.put(ARTICLE_NAME,"");
 				m.put(BATCH_THRESHOLD,"50");
-
-
+				
 		return m;
 	}
 

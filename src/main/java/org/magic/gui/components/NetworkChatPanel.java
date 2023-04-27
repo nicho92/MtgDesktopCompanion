@@ -39,7 +39,6 @@ import org.magic.servers.impl.ActiveMQServer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
-import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 
 
