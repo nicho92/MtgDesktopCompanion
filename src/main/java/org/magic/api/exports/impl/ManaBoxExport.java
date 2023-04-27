@@ -41,14 +41,6 @@ public class ManaBoxExport extends AbstractFormattedFileCardExport {
 		return "Manabox";
 	}
 
-	public static void main(String[] args) throws IOException, SQLException {
-		MTGControler.getInstance().init();
-		MTGLogger.changeLevel(Level.DEBUG);
-		new ManaBoxExport().importDeckFromFile(new File("D:\\Desktop\\Deck 1.txt"));
-		
-	}
-	
-	
 	@Override
 	public MagicDeck importDeck(String f, String name) throws IOException {
 		

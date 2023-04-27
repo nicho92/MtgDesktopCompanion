@@ -240,6 +240,7 @@ public class WooCommerceExport extends AbstractCardExport {
 
       	if(getBoolean(ATTRIBUTES_KEYS)) {
       		var arr = new JsonArray();
+      				  arr.add(createAttributes("collection", String.valueOf(st.getMagicCollection()),true));
 					  arr.add(createAttributes("foil", String.valueOf(st.isFoil()),true));
 					  arr.add(createAttributes("altered", String.valueOf(st.isAltered()),true));
 					  arr.add(createAttributes("signed", String.valueOf(st.isSigned()),true));
@@ -325,7 +326,7 @@ public class WooCommerceExport extends AbstractCardExport {
 
 	private JsonObject createAttributes (String key ,String val,boolean visible)
 	{
-		if(val==null)
+		if(val==null || val.equals("null"))
 			createAttributes(key ,new String[] {""},visible);
 		
 		return createAttributes(key ,new String[] {val},visible);
