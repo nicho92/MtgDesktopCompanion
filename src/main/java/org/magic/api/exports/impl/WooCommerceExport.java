@@ -242,6 +242,7 @@ public class WooCommerceExport extends AbstractCardExport {
       		var arr = new JsonArray();
       				  arr.add(createAttributes("collection", String.valueOf(st.getMagicCollection()),true));
 					  arr.add(createAttributes("foil", String.valueOf(st.isFoil()),true));
+					  arr.add(createAttributes("condition", st.getCondition().name(),true));
 					  arr.add(createAttributes("altered", String.valueOf(st.isAltered()),true));
 					  arr.add(createAttributes("signed", String.valueOf(st.isSigned()),true));
 					  arr.add(createAttributes("Language", st.getLanguage(),true));
@@ -249,6 +250,8 @@ public class WooCommerceExport extends AbstractCardExport {
 					  arr.add(createAttributes("setCode", st.getProduct().getCurrentSet().getId(),true));
 					  arr.add(createAttributes("setName", st.getProduct().getCurrentSet().getSet(),true));
 					  arr.add(createAttributes("number", st.getProduct().getCurrentSet().getNumber(),true));
+					  arr.add(createAttributes("mtg_comp_stock_id",String.valueOf(st.getId()),true));
+					  
 			productInfo.put("attributes", arr);
 
       	}
