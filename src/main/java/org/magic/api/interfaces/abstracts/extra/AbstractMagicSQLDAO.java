@@ -251,7 +251,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			return false;
 		}
 		catch (Exception e) {
-			logger.error("Error in createDB", e);
+			logger.error("Error in createDB : {}", e.getMessage());
 			return false;
 		}
 	}

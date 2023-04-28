@@ -78,23 +78,8 @@ public class WooCommerceExport extends AbstractCardExport {
 	private void init()
 	{
 	    wooCommerce = WooCommerceTools.newClient(getAuthenticator());
-	    
-	   
-		
-		 
 	}
 	
-	
-	public static void main(String[] args) {
-		MTGControler.getInstance().loadAccountsConfiguration();
-		var exp = new WooCommerceExport();
-		
-		exp.init();
-		
-	}
-	
-
-
 	public WooCommerce getWooCommerce() {
 		if(wooCommerce==null)
 			init();
@@ -281,7 +266,7 @@ public class WooCommerceExport extends AbstractCardExport {
         	//productInfo.put("images", toJson("src",PluginRegistry.inst().getPlugin(getString(PIC_PROVIDER_NAME), MTGPictureProvider.class).generateUrl(st.getMagicCard(), null)))
         	}catch(Exception e)
         	{
-        		logger.error("error getting image for {}",st.getProduct(),e);
+        		logger.error("error getting image for {} : {}",st.getProduct(),e.getMessage());
         	}
 
 
