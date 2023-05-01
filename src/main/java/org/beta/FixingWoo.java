@@ -28,7 +28,7 @@ public class FixingWoo {
 		
 		var categs = new WooCommerceExternalShop().listCategories();
 		
-		for(var mcs : MTG.getEnabledPlugin(MTGDao.class).listStocks().stream().filter(mcs->mcs.getId()<2295 && mcs.getTiersAppIds(WooCommerceTools.WOO_COMMERCE_NAME)==null).toList())
+		for(var mcs : MTG.getEnabledPlugin(MTGDao.class).listStocks().stream().filter(mcs->mcs.getId()<2801&& mcs.getTiersAppIds(WooCommerceTools.WOO_COMMERCE_NAME)==null).toList())
 		{
 			var map = new HashMap<String,String>();
 					map.put("search",mcs.getProduct().getName().replace(" ", "%20").replace("'", "%27").replace(",","%2C"));

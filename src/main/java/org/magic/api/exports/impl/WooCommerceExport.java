@@ -346,6 +346,7 @@ public class WooCommerceExport extends AbstractCardExport {
 							{
 								creates.get(i).getTiersAppIds().put(getName(), String.valueOf(obj.get("id").getAsInt()));
 								creates.get(i).setUpdated(true);
+								logger.debug("Update {}", creates.get(i).getId());
 							}
 					}
 					catch(Exception e)
@@ -355,6 +356,9 @@ public class WooCommerceExport extends AbstractCardExport {
 
 
 				}
+			}else
+			{
+				logger.warn("no return ....");
 			}
 
 			if(ret.get(UPDATE)!=null)
