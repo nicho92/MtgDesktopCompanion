@@ -10,7 +10,6 @@ import java.util.Properties;
 import org.apache.http.HttpResponse;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.logging.log4j.Logger;
-import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.technical.AccountAuthenticator;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.services.MTGConstants;
@@ -22,7 +21,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.icoderman.woocommerce.ApiVersionType;
-import com.icoderman.woocommerce.EndpointBaseType;
 import com.icoderman.woocommerce.HttpMethod;
 import com.icoderman.woocommerce.WooCommerce;
 import com.icoderman.woocommerce.oauth.OAuthConfig;
@@ -170,7 +168,8 @@ public class WooCommerceTools {
 		        try
 		        {
 
-		        	for(JsonElement e : URLTools.extractAsJson(securedUrl).getAsJsonArray())
+		        	var arr = URLTools.extractAsJson(securedUrl);
+		        	for(JsonElement e : arr.getAsJsonArray())
 		        		ret.add(e);
 
 				} catch (Exception e) {

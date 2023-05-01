@@ -85,22 +85,6 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 
 	}
 
-
-	public int createCategory(MagicEdition ed)
-	{
-		init();
-		Map<String, Object> categoryMap = new HashMap<>();
-										categoryMap.put("name", ed.getSet());
-										categoryMap.put("slug", ed.getId());
-										
-		Map<String,JsonElement> ret = client.create(EndpointBaseType.PRODUCTS_CATEGORIES.getValue(), categoryMap);
-		
-		return ret.get("id").getAsInt();
-	}
-
-	
-
-
 	@SuppressWarnings("unchecked")
 	@Override
 	protected List<Transaction> loadTransaction() throws IOException{
@@ -184,7 +168,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		init();
 		var ret = new ArrayList<MTGStockItem>();
 		Map<String, String> parameters = new HashMap<>();
-										 parameters.put("search", search.replace(" ", "%20"));
+										 parameters.put("search", search.replace(" ", "%20").replace("'", "%27").replace(",","%2C"));
 
 		List<JsonObject> res = client.getAll(EndpointBaseType.PRODUCTS.getValue(),parameters);
 
