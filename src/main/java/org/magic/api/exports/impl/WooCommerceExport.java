@@ -294,7 +294,8 @@ public class WooCommerceExport extends AbstractCardExport {
 					  arr.add(createAttributes("setName", st.getProduct().getCurrentSet().getSet(),true));
 					  arr.add(createAttributes("number", st.getProduct().getCurrentSet().getNumber(),true));
 					  arr.add(createAttributes("mtg_comp_stock_id",String.valueOf(st.getId()),true));
-					  
+					  arr.add(createAttributes("type",st.getProduct().getTypeProduct().name(),true));
+		
 			productInfo.put("attributes", arr);
 
       	}
