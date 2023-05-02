@@ -836,7 +836,7 @@ public class StockPanelGUI extends MTGUIComponent {
 
 
 	public void updateCount() {
-		lblCount.setText(capitalize("ITEMS_IN_STOCK") + ": "+ table.getRowCount());
+		lblCount.setText(capitalize("ITEMS_IN_STOCK") + ": "+ model.getItems().stream().mapToLong(mcs->mcs.getQte()).sum() + " / " + model.getItems().stream().mapToDouble(mcs->mcs.getPrice()*mcs.getQte()).sum());
 	}
 
 }
