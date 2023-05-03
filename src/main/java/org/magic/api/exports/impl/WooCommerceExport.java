@@ -45,6 +45,7 @@ public class WooCommerceExport extends AbstractCardExport {
 	private static final String CATEGORY_ID = "CATEGORY_ID";
 	public static final String DEFAULT_STATUT = "DEFAULT_STATUT";
 	private  static final String BATCH_THRESHOLD = "BATCH_THRESHOLD";
+	private  static final String BATCH_SIZE = "BATCH_SIZE";
 	private static final String CATEGORY_EDITION_MAPPING ="CATEGORY_EDITION_MAPPING";
 	
 	private WooCommerce wooCommerce;
@@ -166,7 +167,7 @@ public class WooCommerceExport extends AbstractCardExport {
 		
 		if(stocks.size()>getInt(BATCH_THRESHOLD))
 		{
-			batchExport(ListUtils.partition(stocks, 100));
+			batchExport(ListUtils.partition(stocks, getInt(BATCH_SIZE)));
 			return;
 		}
 
@@ -460,7 +461,7 @@ public class WooCommerceExport extends AbstractCardExport {
 				m.put(CARD_LANG_DESCRIPTION,"English");
 				m.put(ARTICLE_NAME,"");
 				m.put(BATCH_THRESHOLD,"50");
-				
+				m.put(BATCH_SIZE, "75");
 		return m;
 	}
 

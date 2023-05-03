@@ -49,7 +49,7 @@ public class StockDashlet extends AbstractJDashlet {
 
 		panel.add(buzy);
 		chart = new MTGStockItemsChartPanel(true);
-	//	chart.setTitle("Stock");
+		
 		getContentPane().add(chart,BorderLayout.CENTER);
 
 		

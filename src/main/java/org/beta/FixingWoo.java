@@ -21,14 +21,11 @@ public class FixingWoo {
 	public static void main(String[] args) throws SQLException, IOException {
 		MTGControler.getInstance().init();
 		
-		
 		var client = WooCommerceTools.newClient(new WooCommerceExport().getAuthenticator());
-		
-		//351 -> 450
 		
 		var categs = new WooCommerceExternalShop().listCategories();
 		
-		for(var mcs : MTG.getEnabledPlugin(MTGDao.class).listStocks().stream().filter(mcs->mcs.getId()<2801&& mcs.getTiersAppIds(WooCommerceTools.WOO_COMMERCE_NAME)==null).toList())
+		for(var mcs : MTG.getEnabledPlugin(MTGDao.class).listStocks().stream().filter(mcs->mcs.getTiersAppIds(WooCommerceTools.WOO_COMMERCE_NAME)==null).toList())
 		{
 			var map = new HashMap<String,String>();
 					map.put("search",mcs.getProduct().getName().replace(" ", "%20").replace("'", "%27").replace(",","%2C"));
