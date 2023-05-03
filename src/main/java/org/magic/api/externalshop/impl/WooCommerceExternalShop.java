@@ -99,15 +99,23 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	    for(JsonElement el : res)
 	    {
 	    	var obj = el.getAsJsonObject();
+	    	
+	    	logger.debug("reading {}",obj);
+	    	
 	    	var t = new Transaction();
 	    				t.setCurrency(obj.get("currency").getAsString());
-	    				t.setDateCreation(UITools.parseGMTDate(obj.get("date_created").getAsString()));
-	    				t.setId(obj.get("id").getAsInt());
-	    				t.setShippingPrice(obj.get("shipping_total").getAsDouble());
-	    				t.setSourceShopName(getName());
+	    				if(!obj.get("date_created").isJsonNull())
+	    					t.setDateCreation(UITools.parseGMTDate(obj.get("date_created").getAsString()));
+	    				
 	    				if(!obj.get(DATE_PAID).isJsonNull())
 	    					t.setDatePayment(UITools.parseGMTDate(obj.get(DATE_PAID).getAsString()));
 
+	    				
+	    				t.setId(obj.get("id").getAsInt());
+	    				t.setShippingPrice(obj.get("shipping_total").getAsDouble());
+	    				t.setSourceShopName(getName());
+	    				
+	    				
 
 	    				if(obj.get("payment_method")!=null)
 		    				switch(obj.get("payment_method").toString())
