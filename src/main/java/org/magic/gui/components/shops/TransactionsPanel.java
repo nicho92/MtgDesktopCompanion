@@ -24,6 +24,7 @@ import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.components.GedPanel;
 import org.magic.gui.components.dialog.JContactChooserDialog;
 import org.magic.gui.components.dialog.TransactionsImporterDialog;
 import org.magic.gui.components.tech.ObjectViewerPanel;
@@ -50,6 +51,7 @@ public class TransactionsPanel extends MTGUIComponent {
 	private TransactionTotalPanel panneauBas;	
 	private TransactionTrackingPanel trackPanel;
 	private StockItemPanel stockDetailPanel;
+	private GedPanel<Transaction> gedPanel;
 	private JButton btnMerge;
 	private JButton btnDelete;
 	private JButton btnNew;
@@ -66,6 +68,7 @@ public class TransactionsPanel extends MTGUIComponent {
 		transactionModel = new TransactionsTableModel();
 		viewerPanel = new ObjectViewerPanel();
 		trackPanel=  new TransactionTrackingPanel();
+		gedPanel = new GedPanel<>();
 		var chkEditingMode = new JCheckBox("Editing mode");
 		
 		
@@ -93,7 +96,7 @@ public class TransactionsPanel extends MTGUIComponent {
 		UITools.sort(tableTransactions, 1, SortOrder.DESCENDING);
 		UITools.addTab(getContextTabbedPane(), stockDetailPanel);
 		UITools.addTab(getContextTabbedPane(), trackPanel);
-		
+		UITools.addTab(getContextTabbedPane(), gedPanel);
 		
 
 		if(MTG.readPropertyAsBoolean("debug-json-panel"))
@@ -211,6 +214,8 @@ public class TransactionsPanel extends MTGUIComponent {
 							stockDetailPanel.bind(t.get(0).getItems());
 							trackPanel.init(t.get(0));
 							contactPanel.setContact(t.get(0).getContact());
+							gedPanel.init(Transaction.class, t.get(0));
+							
 							
 							if(MTG.readPropertyAsBoolean("debug-json-panel"))
 								viewerPanel.init(t.get(0));

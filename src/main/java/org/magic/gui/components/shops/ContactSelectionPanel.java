@@ -1,17 +1,20 @@
 package org.magic.gui.components.shops;
 
 import java.awt.BorderLayout;
-import java.sql.SQLException;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.SwingConstants;
+import javax.swing.SwingWorker;
 
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
+import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.MTG;
 
 public class ContactSelectionPanel extends MTGUIComponent {
@@ -48,18 +51,30 @@ public class ContactSelectionPanel extends MTGUIComponent {
 		setLayout(new BorderLayout());
 
 		this.add(cbo,BorderLayout.CENTER);
-
-		try {
-			for(Contact c : MTG.getEnabledPlugin(MTGDao.class).listContacts())
-				cbo.addItem(c);
-
-		} catch (SQLException e) {
-			logger.error(e);
-		}
-
-
+		
+		var sw = new SwingWorker<List<Contact>, Void>() {
+			@Override
+			protected List<Contact> doInBackground() throws Exception {
+				return MTG.getEnabledPlugin(MTGDao.class).listContacts();
+			}
+			
+			@Override
+			protected void done() {
+				
+				try {
+					get().stream().forEach(cbo::addItem);
+				} catch (InterruptedException e) {
+					Thread.currentThread().interrupt();
+				} catch (ExecutionException e) {
+					logger.error(e);
+				}
+			}
+			
+		};
+		
+		ThreadManager.getInstance().runInEdt(sw, "Loading contacts choose");
 	}
-
+	
 	public Contact getContact()
 	{
 		return (Contact) cbo.getSelectedItem();
