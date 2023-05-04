@@ -6,9 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Icon;
-import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
 
 import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.MagicEdition;
@@ -19,6 +17,7 @@ import org.magic.api.interfaces.abstracts.AbstractSealedProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.MTG;
+import org.magic.services.tools.XMLTools;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
@@ -61,9 +60,8 @@ public class MTGCompanionSealedProvider extends AbstractSealedProvider{
 		init();
 		var url = "";
 		try {
-			var xPath = XPathFactory.newInstance().newXPath();
 			var expression = "//logo[contains(@version,'" + logo.name().toLowerCase() + "')]";
-			var nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
+			var nodeList =  XMLTools.parseNodes(document,expression);
 			var item = nodeList.item(0);
 			url = item.getAttributes().getNamedItem("url").getNodeValue();
 			return URLTools.extractAsImage(url);
@@ -91,8 +89,7 @@ public class MTGCompanionSealedProvider extends AbstractSealedProvider{
 		NodeList n = null ;
 		NodeList nodeList = null;
 		try {
-			var xPath = XPathFactory.newInstance().newXPath();
-			nodeList = (NodeList) xPath.compile("//edition[@id='" + me.getId().toUpperCase() + "']").evaluate(document, XPathConstants.NODESET);
+			nodeList = XMLTools.parseNodes(document, "//edition[@id='" + me.getId().toUpperCase() + "']");
 			n = nodeList.item(0).getChildNodes();
 
 		} catch (Exception e) {
