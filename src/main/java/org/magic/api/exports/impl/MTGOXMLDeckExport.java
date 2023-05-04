@@ -91,7 +91,7 @@ public class MTGOXMLDeckExport extends AbstractCardExport {
 			var qty = Integer.parseInt(obj.getAttributes().getNamedItem("Quantity").getTextContent());
 			
 			
-			if(obj.getAttributes().getNamedItem("Sideboard").getTextContent().equals("true"))
+			if(obj.getAttributes().getNamedItem("Sideboard").getTextContent().equalsIgnoreCase("false"))
 			{
 				deck.getMain().put(mc, qty);
 			}
