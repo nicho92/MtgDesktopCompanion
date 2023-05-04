@@ -1,6 +1,7 @@
 package org.magic.api.tracking.impl;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import org.magic.api.beans.shop.Contact;
@@ -23,19 +24,25 @@ public class LaposteTrackingService extends AbstractTrackingService{
 	public String getVersion() {
 		return "v2";
 	}
-
+	
+	@Override
+	public List<String> listAuthenticationAttributes() {
+		return List.of(OKAPI_KEY);
+	}
+	
+	
 	@Override
 	public Tracking track(String number, Contact c) throws IOException {
 
 
-		if(getString(OKAPI_KEY).isEmpty())
+		if(getAuthenticator().get(OKAPI_KEY).isEmpty())
 		{
-			throw new IOException("please fill "+OKAPI_KEY+" for " + getName() + " plugin in config panel");
+			throw new IOException("please fill "+OKAPI_KEY+" for " + getName() + " account in config panel");
 		}
 
 
 		var e = RequestBuilder.build().setClient(URLTools.newClient()).url(baseUri+"/"+number +"?"+getString("LANG")).method(METHOD.GET)
-				.addHeader("X-Okapi-Key", getString(OKAPI_KEY))
+				.addHeader("X-Okapi-Key", getAuthenticator().get(OKAPI_KEY))
 				.addHeader(URLTools.ACCEPT, URLTools.HEADER_JSON).toJson().getAsJsonObject();
 		
 		
@@ -73,8 +80,7 @@ public class LaposteTrackingService extends AbstractTrackingService{
 
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		return Map.of(OKAPI_KEY, "",
-							   "LANG", "en_EN");
+		return Map.of("LANG", "en_EN");
 	}
 
 
