@@ -58,7 +58,15 @@ public class TransactionItemsDashlet extends AbstractJDashlet {
 		panel.add(chkBuy);
 		
 		panel.add(buzy);
-		chart = new MTGStockItemsChartPanel(true);
+		chart = new MTGStockItemsChartPanel(true) {
+			private static final long serialVersionUID = 1L;
+			@Override
+			public String getTitle() {
+				return "Items in transactions";
+			}
+			
+		};
+		
 
 		getContentPane().add(chart,BorderLayout.CENTER);
 

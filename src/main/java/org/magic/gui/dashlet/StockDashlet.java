@@ -43,13 +43,19 @@ public class StockDashlet extends AbstractJDashlet {
 		var panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
 
-		cboProperty = UITools.createCombobox(Lists.newArrayList("magicCollection","edition"));
+		cboProperty = UITools.createCombobox(Lists.newArrayList("magicCollection","product.edition","product.typeProduct"));
 		panel.add(cboProperty);
 		panel.add(chkSumOrTotal);
 
 		panel.add(buzy);
-		chart = new MTGStockItemsChartPanel(true);
-		
+		chart = new MTGStockItemsChartPanel(true) {
+			private static final long serialVersionUID = 1L;
+			@Override
+			public String getTitle() {
+				return "Stock";
+			}
+		};
+
 		getContentPane().add(chart,BorderLayout.CENTER);
 
 		
