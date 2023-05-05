@@ -39,7 +39,7 @@
   <threadsExecutor>
     <threadPool>CACHED</threadPool>
     <value>AUTO</value>
-    <daemon>true</daemon>
+    <daemon>false</daemon>
     <nameFormat>mtg-threadpool-%d</nameFormat>
   </threadsExecutor>
   <game>
@@ -953,7 +953,7 @@
       <collections>Library</collections>
       <products>
         <top/>
-        <autoSelection>true</autoSelection>
+        <autoSelection>false</autoSelection>
       </products>
       <maxLastProductSlide>15</maxLastProductSlide>
       <needCollections/>

@@ -93,7 +93,7 @@ public class MTGCompanionSealedProvider extends AbstractSealedProvider{
 			n = nodeList.item(0).getChildNodes();
 
 		} catch (Exception e) {
-			logger.trace("Error retrieving IDs {}->{} : {}",me.getId(),me,e);
+			//do nothing
 		}
 
 		if(n==null)
