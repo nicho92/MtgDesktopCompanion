@@ -40,7 +40,6 @@ public class WooCommerceExport extends AbstractCardExport {
 	private static final String UPDATE = "update";
 	private static final String CREATE = "create";
 	private static final String CARD_LANG_DESCRIPTION = "CARD_LANG_DESCRIPTION";
-	private static final String ATTRIBUTES_KEYS = "ATTRIBUTES_KEYS";
 	private static final String STOCK_MANAGEMENT = "STOCK_MANAGEMENT";
 	private static final String CATEGORY_ID = "CATEGORY_ID";
 	public static final String DEFAULT_STATUT = "DEFAULT_STATUT";
@@ -282,7 +281,6 @@ public class WooCommerceExport extends AbstractCardExport {
         	}
 
 
-      	if(getBoolean(ATTRIBUTES_KEYS)) {
       		var arr = new JsonArray();
       				  arr.add(createAttributes("collection", String.valueOf(st.getMagicCollection()),true));
 					  arr.add(createAttributes("foil", String.valueOf(st.isFoil()),true));
@@ -296,10 +294,7 @@ public class WooCommerceExport extends AbstractCardExport {
 					  arr.add(createAttributes("number", st.getProduct().getCurrentSet().getNumber(),true));
 					  arr.add(createAttributes("mtg_comp_stock_id",String.valueOf(st.getId()),true));
 					  arr.add(createAttributes("type",st.getProduct().getTypeProduct().name(),true));
-		
-			productInfo.put("attributes", arr);
-
-      	}
+					  productInfo.put("attributes", arr);
 
       	return productInfo;
 	}
@@ -457,7 +452,6 @@ public class WooCommerceExport extends AbstractCardExport {
 				m.put(CATEGORY_ID, "");
 				m.put(DEFAULT_STATUT, "private");
 				m.put(STOCK_MANAGEMENT,"true");
-				m.put(ATTRIBUTES_KEYS,"true");
 				m.put(CARD_LANG_DESCRIPTION,"English");
 				m.put(ARTICLE_NAME,"");
 				m.put(BATCH_THRESHOLD,"50");
