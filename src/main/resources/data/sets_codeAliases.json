@@ -1,7 +1,9 @@
 {
 	"MOM":[
 		"WMOM",
-		"PMOM"
+		"PMOM",
+		"AMOM",
+		"FMOM"
 	],
 	"ONE":[
 		"AONE",
