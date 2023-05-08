@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Tracking;
 import org.magic.api.beans.shop.TrackingStep;
@@ -56,7 +57,7 @@ public class LaposteTrackingService extends AbstractTrackingService{
 				 e.getAsJsonObject().get(SHIPMENT).getAsJsonObject().get("event").getAsJsonArray().forEach(je->{
 					 t.addStep(new TrackingStep(UITools.parseGMTDate(je.getAsJsonObject().get("date").getAsString()), je.getAsJsonObject().get("label").getAsString(), je.getAsJsonObject().get("code").getAsString()));
 
-					 if(je.getAsJsonObject().get("code").getAsString().equals("PC1"))
+					 if(ArrayUtils.contains(new String[] {"DI1","DI2","DI0"}, je.getAsJsonObject().get("code").getAsString()))
 					 {
 						 t.setDeliveryDate(UITools.parseGMTDate(je.getAsJsonObject().get("date").getAsString()));
 						 t.setFinished(true);
