@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.Map;
 
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.network.URLTools;
 
@@ -42,7 +43,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		{
 			url = HTTP_API_SCRYFALL + mc.getScryfallId() + IMAGE_TAG;
 
-			if(mc.isDoubleFaced() && !mc.getSide().equals("a"))
+			if(mc.isDoubleFaced() && !mc.getSide().equals("a") && mc.getLayout()!=EnumLayout.MELD)
 				url=url+"&face=back";
 		}
 

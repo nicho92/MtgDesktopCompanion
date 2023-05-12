@@ -52,11 +52,15 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 
 	@Override
 	public BufferedImage getFullSizePicture(MagicCard mc) throws IOException {
+		
 		if (getEnabledPlugin(MTGPictureCache.class).getItem(mc) != null) {
 			logger.trace("cached {} ({}) found",mc,mc.getCurrentSet());
 			return getEnabledPlugin(MTGPictureCache.class).getItem(mc);
 		}
 
+		if(mc==null)
+			return getBackPicture(mc);
+		
 
 		BufferedImage bufferedImage  = null;
 		if(mc.isSpecialTokenOrExtra())

@@ -50,6 +50,12 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<sonar.organization>nicho92-github</sonar.organization>
   		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+  		
+  		
+  		<lucene.version>9.6.0</lucene.version>
+  		<flatlaf.version>3.1.1</flatlaf.version>
+  		
+  		
 	</properties>
 	<repositories>
 		<repository>
@@ -84,9 +90,9 @@
     		<version>0.1.6</version>
 		</dependency>
 		<dependency>
-    			<groupId>io.jsonwebtoken</groupId>
-    			<artifactId>jjwt-api</artifactId>
-    			<version>0.11.5</version>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-api</artifactId>
+			<version>0.11.5</version>
 		</dependency>
 		<dependency>
 		    <groupId>io.jsonwebtoken</groupId>
@@ -190,22 +196,22 @@
 		<dependency>
 			<groupId>com.formdev</groupId>
 			<artifactId>flatlaf</artifactId>
-			<version>3.1.1</version>
+			<version>${flatlaf.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.formdev</groupId>
 			<artifactId>flatlaf-intellij-themes</artifactId>
-			<version>3.1.1</version>
+			<version>${flatlaf.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.formdev</groupId>
 			<artifactId>flatlaf-extras</artifactId>
-			<version>3.1.1</version>
+			<version>${flatlaf.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.formdev</groupId>
 			<artifactId>flatlaf-swingx</artifactId>
-			<version>3.1.1</version>
+			<version>${flatlaf.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.h2database</groupId>
@@ -358,22 +364,22 @@
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-core</artifactId>
-			<version>9.5.0</version>
+			<version>${lucene.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-queries</artifactId>
-			<version>9.5.0</version>
+			<version>${lucene.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-queryparser</artifactId>
-			<version>9.5.0</version>
+			<version>${lucene.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-backward-codecs</artifactId>
-			<version>9.5.0</version>
+			<version>${lucene.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.jtattoo</groupId>
@@ -552,7 +558,7 @@
 		<dependency>
 			<groupId>com.itextpdf</groupId>
 			<artifactId>itext7-core</artifactId>
-			<version>7.2.5</version>
+			<version>8.0.0</version>
 			<type>pom</type>
 		</dependency>
 		<dependency>
