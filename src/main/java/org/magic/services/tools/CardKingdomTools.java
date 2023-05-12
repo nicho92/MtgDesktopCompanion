@@ -134,17 +134,15 @@ public class CardKingdomTools {
 		
 		//promo sets
 		
-		if(card.getPromotypes().contains(EnumPromoType.FNM)||card.getPromotypes().contains(EnumPromoType.RELEASE)||
-				card.getPromotypes().contains(EnumPromoType.PRERELEASE)||card.getPromotypes().contains(EnumPromoType.BUYABOX))
-			set = "Promotional";
-
-		if(card.getPromotypes().contains(EnumPromoType.STARTERDECK))
+		if(card.getPromotypes().contains(EnumPromoType.FNM)||card.getPromotypes().contains(EnumPromoType.RELEASE)||card.getPromotypes().contains(EnumPromoType.PRERELEASE)||card.getPromotypes().contains(EnumPromoType.BUYABOX))
 		{
-			if(!set.contains("Eighth Edition") && !set.contains("Ninth Edition")&& !set.contains("Magic Origins") && !set.contains("Eighth Edition") && !set.contains("2015 Core Set") )
-			{
-				set = "Promotional";
-			}		
+			set = "Promotional";
 		}
+
+		if(card.getPromotypes().contains(EnumPromoType.STARTERDECK) && !set.contains("Eighth Edition") && !set.contains("Ninth Edition")&& !set.contains("Magic Origins") && !set.contains("2015 Core Set") )
+		{
+			set = "Promotional";
+		}		
 			
 		if(set.contains("Friday Night Magic"))
 			set = "Promotional";
