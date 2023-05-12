@@ -85,6 +85,8 @@ public class CardKingdomTools {
 			
 		}
 		
+		if(card.getCurrentSet().toString().contains("Friday Night Magic"))
+			name = name + " (FNM Foil)";
 		
 		
 		
@@ -138,15 +140,14 @@ public class CardKingdomTools {
 
 		if(card.getPromotypes().contains(EnumPromoType.STARTERDECK))
 		{
-			if(!set.contains("Eighth Edition"))
+			if(!set.contains("Eighth Edition") && !set.contains("Ninth Edition")&& !set.contains("Magic Origins") && !set.contains("Eighth Edition") && !set.contains("2015 Core Set") )
 			{
 				set = "Promotional";
-			}
-			
-			
+			}		
 		}
 			
-				
+		if(set.contains("Friday Night Magic"))
+			set = "Promotional";
 		
 		
 		return set;
