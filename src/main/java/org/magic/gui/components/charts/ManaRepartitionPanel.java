@@ -8,7 +8,6 @@ import org.jfree.chart3d.data.PieDataset3D;
 import org.jfree.chart3d.data.StandardPieDataset3D;
 import org.jfree.chart3d.plot.StandardColorSource;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.gui.abstracts.charts.Abstract3DPieChart;
 import org.magic.services.MTGConstants;

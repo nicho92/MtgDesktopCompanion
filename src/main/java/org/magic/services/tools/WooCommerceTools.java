@@ -130,10 +130,36 @@ public class WooCommerceTools {
 
 				return map;
 			}
-
-
+			
 			@Override
-			public List<JsonElement> getAll(String endpointBase, Map<String, String> params) {
+			public List<JsonElement> getAll(String endpoint) {
+				return getAll(endpoint, new HashMap<>());
+			}
+			
+			
+			@Override
+			public List<JsonElement> getAll(String endpoint,Map<String, String> vars) {
+			    var max = 100;
+				var page=1;
+				 	  vars.put("per_page", String.valueOf(max));
+				 	  
+				 List<JsonElement> returnList = new ArrayList<>();
+				 List<JsonElement> list = readPaginate(endpoint,vars);
+				
+				 returnList.addAll(list);
+				 while(list.size()>=max)
+				 {
+					 page=page+1;
+					  vars.put("page", String.valueOf(page));
+					  list=readPaginate(endpoint,vars);
+					  returnList.addAll(list);
+				 }
+				
+				 return returnList;
+
+			}
+
+			private List<JsonElement> readPaginate(String endpointBase, Map<String, String> params) {
 
 				var url = String.format(API_URL_FORMAT, config.getUrl(), apiVersion, endpointBase);
 				var signature = OAuthSignature.getAsQueryString(config, url, HttpMethod.GET, params);
@@ -142,7 +168,8 @@ public class WooCommerceTools {
 		        try
 		        {
 
-		        	for(JsonElement e : URLTools.extractAsJson(securedUrl).getAsJsonArray())
+		        	var arr = URLTools.extractAsJson(securedUrl);
+		        	for(JsonElement e : arr.getAsJsonArray())
 		        		ret.add(e);
 
 				} catch (Exception e) {
@@ -172,7 +199,7 @@ public class WooCommerceTools {
 			public Map delete(String endpointBase, int id) {
 				return new HashMap<>();
 			}
-
+			
 
 			@Override
 			public Map<String,JsonElement> batch(String endpointBase, Map<String, Object> object) {
@@ -197,6 +224,9 @@ public class WooCommerceTools {
 		};
 	}
 
+
+	
+	
 	public static JsonArray entryToJsonArray(String string, String value) {
 
 		var obj = new JsonObject();

@@ -4,12 +4,14 @@ import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.logging.log4j.Logger;
 import org.magic.services.logging.MTGLogger;
 import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 
 public class XMLTools {
 
@@ -39,10 +41,8 @@ public class XMLTools {
 	}
 
 
-
-	public static String parseXML(Document document,String xpath)	throws XPathExpressionException {
-		return XPathFactory.newInstance().newXPath().evaluate(xpath, document.getDocumentElement());
+	public static NodeList parseNodes(Document doc, String expression) throws XPathExpressionException {
+		return (NodeList) XPathFactory.newInstance().newXPath().compile(expression).evaluate(doc, XPathConstants.NODESET);
 	}
-
 
 }

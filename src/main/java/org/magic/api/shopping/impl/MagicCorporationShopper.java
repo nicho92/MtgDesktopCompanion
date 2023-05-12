@@ -113,6 +113,8 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 					  st.setPrice(price);
 					  st.setLanguage(name.contains("Français")?"French":"English");
 					  st.setProduct(new MTGSealedProduct());
+					  st.getTiersAppIds().put(getName(), name.substring(name.indexOf("#")+1,name.indexOf('-')).trim());
+					  
 					  t.getItems().add(st);
 					  
 			}

@@ -31,7 +31,7 @@ import org.magic.services.tools.UITools;
 public class MagicBazarShopper extends AbstractMagicShopper {
 
 
-	String urlBase= "https://en.play-in.com/";
+	String urlBase= "https://en.play-in.com";
 
 	String urlListOrders = urlBase + "/user/list_order.php";
 	String urlLogin = urlBase+"/user/signin.php";
@@ -48,7 +48,10 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 																 .put("_pwd", getAuthenticator().getPassword())
 																 .put("_submit_login", "Me connecter").build();
 			try {
-				client.doPost(urlLogin, nvps, null);
+				var res = client.doPost(urlLogin, nvps, null);
+				
+				logger.debug("{} connection response : {}",getName(),res.getStatusLine());
+				
 			} catch (IOException e) {
 				logger.error(e);
 			}
@@ -117,18 +120,20 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 		String name = elementName.first().text();
 		var value = UITools.parseDouble(StringEscapeUtils.unescapeHtml4(e.select("div.price").html().trim()));
 		var qty = Integer.parseInt(StringEscapeUtils.unescapeHtml4(e.select("div.qty").html().trim()));
+		var productUrl = elementName.first().getElementsByTag("a").first().attr("href").replace("/produit/","");
+		
 		try {
 		var st = new SealedStock();
 			  st.setComment(name);
 			  st.setPrice(value);
 			  st.setQte(qty);
 			  
-			  
+			  st.getTiersAppIds().put(getName(), productUrl.substring(0,productUrl.indexOf('-')));
 			  var ed = CardsManagerService.detectEdition(st.getComment());
 			  
 			  if(ed==null)
 			  {
-				  logger.warn("can't found product for {}",name);
+				  logger.warn("can't found ed product for {}",name);
 				  return null;
 			  }
 			  else
@@ -136,8 +141,12 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 				  	var typeProduct = EnumItems.SET;
 					if (name.toLowerCase().contains("booster"))
 						typeProduct = EnumItems.BOOSTER;
-					else if (name.toLowerCase().startsWith("boite de") || name.contains("Display"))
+					
+					if (name.toLowerCase().startsWith("boite de") || name.contains("Display"))
 						typeProduct = EnumItems.BOX;
+					
+					if (name.toLowerCase().contains("Bundle"))
+						typeProduct = EnumItems.BUNDLE;
 				  
 //					
 //					EnumExtra extra = null;
@@ -145,7 +154,7 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 //						extra=EnumExtra.COLLECTOR;
 //					
 					
-					if(name.contains("VF") || name.contains("French"))
+					if(name.contains("VF") || name.contains("French") || name.contains("FR"))
 						st.setLanguage("French");
 					else
 						st.setLanguage("English");
@@ -171,6 +180,8 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 	private MTGStockItem buildCard(Element e, Elements elementName) {
 		String name = elementName.first().text();
 		String set = e.select("div.td.ext img").attr("title");
+		var productUrl = elementName.get(1).getElementsByTag("a").first().attr("href").replace("/magic/carte/","");
+	
 		try {
 			var edition = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetByName(set);
 			var card = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, edition, false).get(0);
@@ -181,6 +192,7 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 				 st.setLanguage(langEtat[0].equalsIgnoreCase("Fr")?"French":"English");
 				 st.setCondition(aliases.getReversedConditionFor(this, langEtat[1], EnumCondition.NEAR_MINT));
 				 st.setQte(Integer.parseInt(e.select("div.qty").first().text()));
+				 st.getTiersAppIds().put(getName(), productUrl);
 			return st;
 		}
 		catch(Exception ex)

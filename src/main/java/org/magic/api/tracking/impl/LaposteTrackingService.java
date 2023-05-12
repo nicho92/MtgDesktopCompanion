@@ -1,8 +1,10 @@
 package org.magic.api.tracking.impl;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Tracking;
 import org.magic.api.beans.shop.TrackingStep;
@@ -23,19 +25,25 @@ public class LaposteTrackingService extends AbstractTrackingService{
 	public String getVersion() {
 		return "v2";
 	}
-
+	
+	@Override
+	public List<String> listAuthenticationAttributes() {
+		return List.of(OKAPI_KEY);
+	}
+	
+	
 	@Override
 	public Tracking track(String number, Contact c) throws IOException {
 
 
-		if(getString(OKAPI_KEY).isEmpty())
+		if(getAuthenticator().get(OKAPI_KEY).isEmpty())
 		{
-			throw new IOException("please fill "+OKAPI_KEY+" for " + getName() + " plugin in config panel");
+			throw new IOException("please fill "+OKAPI_KEY+" for " + getName() + " account in config panel");
 		}
 
 
 		var e = RequestBuilder.build().setClient(URLTools.newClient()).url(baseUri+"/"+number +"?"+getString("LANG")).method(METHOD.GET)
-				.addHeader("X-Okapi-Key", getString(OKAPI_KEY))
+				.addHeader("X-Okapi-Key", getAuthenticator().get(OKAPI_KEY))
 				.addHeader(URLTools.ACCEPT, URLTools.HEADER_JSON).toJson().getAsJsonObject();
 		
 		
@@ -49,7 +57,7 @@ public class LaposteTrackingService extends AbstractTrackingService{
 				 e.getAsJsonObject().get(SHIPMENT).getAsJsonObject().get("event").getAsJsonArray().forEach(je->{
 					 t.addStep(new TrackingStep(UITools.parseGMTDate(je.getAsJsonObject().get("date").getAsString()), je.getAsJsonObject().get("label").getAsString(), je.getAsJsonObject().get("code").getAsString()));
 
-					 if(je.getAsJsonObject().get("code").getAsString().equals("PC1"))
+					 if(ArrayUtils.contains(new String[] {"DI1","DI2","DI0"}, je.getAsJsonObject().get("code").getAsString()))
 					 {
 						 t.setDeliveryDate(UITools.parseGMTDate(je.getAsJsonObject().get("date").getAsString()));
 						 t.setFinished(true);
@@ -73,8 +81,7 @@ public class LaposteTrackingService extends AbstractTrackingService{
 
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		return Map.of(OKAPI_KEY, "",
-							   "LANG", "en_EN");
+		return Map.of("LANG", "en_EN");
 	}
 
 

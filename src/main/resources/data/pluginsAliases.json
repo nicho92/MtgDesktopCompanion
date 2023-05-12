@@ -1,7 +1,7 @@
 {
 	"Manabox": {
 		"regex": {
-			"stock": "((?=\")\".*?\"|.*?),(.*?),(.*?),(\\d+),(normal|foil|etched),(.*?),(\\d+),(\\d+),(.*?),(.*?),(true|false),(true|false),(.*?),(.*?),(.*?)$",
+			"stock": "((?=\")\".*?\"|.*?),(.*?),(.*?),(.*?),(normal|foil|etched),(.*?),(\\d+),(\\d+),(.*?),(.*?),(true|false),(true|false),(.*?),(.*?),(.*?)$",
 			"deck": "(\\d+) (.*?) \\((.*?)\\) (\\d+)"
 		},
 		"conditions": {
@@ -376,7 +376,8 @@
 			"Modern Horizons 1 Timeshifts": "Modern Horizons 2",
 			"Crimson Vow Commander": "Innistrad Crimson Vow Commander",
 			"Midnight Hunt Commander": "Innistrad Midnight Hunt Commander",
-			"Phyrexia: All Will Be One": "PhyrexiaAll Will Be One"
+			"Phyrexia: All Will Be One": "PhyrexiaAll Will Be One",
+			"March of the Machine: The Aftermath": "March of the Machine Aftermath"
 		}
 	}
 }

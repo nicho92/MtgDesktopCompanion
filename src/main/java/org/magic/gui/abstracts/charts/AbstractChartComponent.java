@@ -18,7 +18,6 @@ public abstract class AbstractChartComponent<T> extends MTGUIComponent {
 
 	public abstract void refresh();
 
-
 	protected AbstractChartComponent() {
 		items = new ArrayList<>();
 		manager = new MTGDeckManager();

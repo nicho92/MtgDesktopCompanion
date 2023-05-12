@@ -203,7 +203,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" transactions (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, dateTransaction TIMESTAMP, message VARCHAR(250), stocksItem "+beanStorage()+", statut VARCHAR(15), transporter VARCHAR(50), shippingPrice DECIMAL(10,3), transporterShippingCode VARCHAR(50),currency VARCHAR(5),datePayment TIMESTAMP NULL ,dateSend TIMESTAMP NULL , paymentProvider VARCHAR(50),fk_idcontact INTEGER, sourceShopId VARCHAR(250),sourceShopName VARCHAR(250),typeTransaction VARCHAR(15), reduction DECIMAL(10,2))");
 			logger.debug("Create table transactions");
 
-			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" contacts (id " + getAutoIncrementKeyWord() + " PRIMARY KEY, contact_name VARCHAR(250), contact_lastname VARCHAR(250), contact_password VARCHAR(250),contact_telephone VARCHAR(250), contact_country VARCHAR(250), contact_zipcode VARCHAR(10), contact_city VARCHAR(50), contact_address VARCHAR(250), contact_website VARCHAR(250),contact_email VARCHAR(100) UNIQUE, emailAccept "+getBoolean()+", contact_active "+getBoolean()+", temporaryToken VARCHAR("+TransactionService.TOKENSIZE+"))");
+			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" contacts (contact_id " + getAutoIncrementKeyWord() + " PRIMARY KEY, contact_name VARCHAR(250), contact_lastname VARCHAR(250), contact_password VARCHAR(250),contact_telephone VARCHAR(250), contact_country VARCHAR(250), contact_zipcode VARCHAR(10), contact_city VARCHAR(50), contact_address VARCHAR(250), contact_website VARCHAR(250),contact_email VARCHAR(100) UNIQUE, emailAccept "+getBoolean()+", contact_active "+getBoolean()+", temporaryToken VARCHAR("+TransactionService.TOKENSIZE+"))");
 			logger.debug("Create table contacts");
 
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" cards (ID varchar("+CARD_ID_SIZE+"),mcard "+beanStorage()+", edition VARCHAR(5), cardprovider VARCHAR(20), collection VARCHAR("+COLLECTION_COLUMN_SIZE+"), dateUpdate TIMESTAMP)");
@@ -238,7 +238,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				stat.executeUpdate("insert into collections values ('"+s+"')");
 
 
-			stat.executeUpdate("INSERT INTO contacts (id, contact_name, contact_lastname, contact_password, contact_telephone, contact_country, contact_zipcode, contact_city, contact_address, contact_website, contact_email, emailAccept, temporaryToken, contact_active) VALUES (1, 'MTG', 'Companion', NULL, '123456789', 'FR', '123456', 'Somewhere', 'In the middle of nowhere', 'https://www.mtgcompanion.org', 'mtgdesktopcompanion@gmail.com', '1', NULL, '1');");
+			stat.executeUpdate("INSERT INTO contacts (contact_id, contact_name, contact_lastname, contact_password, contact_telephone, contact_country, contact_zipcode, contact_city, contact_address, contact_website, contact_email, emailAccept, temporaryToken, contact_active) VALUES (1, 'MTG', 'Companion', NULL, '123456789', 'FR', '123456', 'Somewhere', 'In the middle of nowhere', 'https://www.mtgcompanion.org', 'mtgdesktopcompanion@gmail.com', '1', NULL, '1');");
 
 
 
@@ -251,7 +251,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			return false;
 		}
 		catch (Exception e) {
-			logger.error("Error in createDB", e);
+			logger.error("Error in createDB : {}", e.getMessage());
 			return false;
 		}
 	}
@@ -914,7 +914,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 				@Override
 				public Contact call() throws Exception {
-					try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from contacts where id=?"))
+					try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from contacts where contact_id=?"))
 					{
 							pst.setInt(1, id);
 							ResultSet rsC = executeQuery(pst);
@@ -966,10 +966,9 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public List<Transaction> listTransactions(Contact idct)  throws SQLException {
 		List<Transaction> ctx = new ArrayList<>();
 
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from transactions, contacts where fk_idcontact=? and contacts.id=transactions.fk_idcontact and contacts.contact_name=?"))
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from transactions where fk_idcontact=?"))
 		{
 			pst.setInt(1, idct.getId());
-			pst.setString(2, idct.getName());
 			ResultSet rs = executeQuery(pst);
 
 				while (rs.next()) {
@@ -984,7 +983,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public List<Transaction> listTransactions()  throws SQLException {
 		List<Transaction> ctx  = new ArrayList<>();
 
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from transactions");ResultSet rs = executeQuery(pst))
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from transactions, contacts where fk_idcontact=contacts.contact_id");ResultSet rs = executeQuery(pst))
 		{
 				while (rs.next()) {
 					ctx.add(readTransaction(rs));
@@ -998,7 +997,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	{
 
 		var contact = new Contact();
-		contact.setId(rs.getInt("id"));
+		contact.setId(rs.getInt("contact_id"));
 		contact.setName(rs.getString("contact_name"));
 		contact.setLastName(rs.getString("contact_lastname"));
 		contact.setTelephone(rs.getString("contact_telephone"));
@@ -1066,7 +1065,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		state.setTransporter(rs.getString("transporter"));
 		state.setShippingPrice(rs.getDouble("shippingPrice"));
 		state.setCurrency(rs.getString("currency"));
-		state.setContact(getContactById(rs.getInt("fk_idcontact")));
+		state.setContact(readContact(rs));
 		state.setTransporterShippingCode(rs.getString("transporterShippingCode"));
 		state.setDatePayment(rs.getTimestamp("datePayment"));
 		state.setDateSend(rs.getTimestamp("dateSend"));

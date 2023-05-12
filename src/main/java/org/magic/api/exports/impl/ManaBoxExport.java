@@ -2,7 +2,6 @@ package org.magic.api.exports.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
@@ -10,7 +9,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import org.apache.logging.log4j.Level;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
@@ -18,7 +16,6 @@ import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
-import org.magic.services.logging.MTGLogger;
 import org.magic.services.tools.FileTools;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
@@ -41,14 +38,6 @@ public class ManaBoxExport extends AbstractFormattedFileCardExport {
 		return "Manabox";
 	}
 
-	public static void main(String[] args) throws IOException, SQLException {
-		MTGControler.getInstance().init();
-		MTGLogger.changeLevel(Level.DEBUG);
-		new ManaBoxExport().importDeckFromFile(new File("D:\\Desktop\\Deck 1.txt"));
-		
-	}
-	
-	
 	@Override
 	public MagicDeck importDeck(String f, String name) throws IOException {
 		

@@ -1,5 +1,10 @@
 {
-
+	"MOM":[
+		"WMOM",
+		"PMOM",
+		"AMOM",
+		"FMOM"
+	],
 	"ONE":[
 		"AONE",
 		"FONE",

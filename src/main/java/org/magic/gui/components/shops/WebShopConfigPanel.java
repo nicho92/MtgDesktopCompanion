@@ -287,7 +287,6 @@ public class WebShopConfigPanel extends MTGUIComponent {
 
 			@Override
 			protected void done() {
-
 				try {
 					topProduct = get();
 					cardPanel.setProduct(topProduct);
@@ -299,13 +298,8 @@ public class WebShopConfigPanel extends MTGUIComponent {
 				catch (Exception e1) {
 					logger.error(e1);
 				}
-
-
 			}
-
 		};
-
-
 
 		chkAutoProduct.addItemListener(il->{
 				if(chkAutoProduct.isSelected())

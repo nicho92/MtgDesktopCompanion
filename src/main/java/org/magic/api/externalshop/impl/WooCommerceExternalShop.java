@@ -49,7 +49,6 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	private static final String CATEGORIES = "categories";
 	private static final String BILLING = "billing";
 	private static final String STOCK_QUANTITY = "stock_quantity";
-	private static final String PER_PAGE = "PER_PAGE";
 	private static final String STATUS = "status";
 	private static final String DATE_PAID = "date_paid";
 	private WooCommerce client;
@@ -66,35 +65,24 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	}
 
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Category> listCategories() throws IOException {
 		init();
 
-		var params = new HashMap<String, String>();
-
-		params.put("per_page", getString(PER_PAGE));
-
-
-		List<JsonElement> res = client.getAll(EndpointBaseType.PRODUCTS_CATEGORIES.getValue(),params);
-
-		var ret = new ArrayList<Category>();
-
-		 res.forEach(je->{
-
+		var list = new ArrayList<Category>();
+        List<JsonElement> ret = client.getAll(EndpointBaseType.PRODUCTS_CATEGORIES.getValue());
+		 ret.forEach(je->{
 			 var objCateg = je.getAsJsonObject();
 			 var c = new Category();
 			 	 c.setIdCategory(objCateg.get("id").getAsInt());
 			 	 c.setCategoryName(objCateg.get("name").getAsString());
 
-			 	ret.add(c);
+			 	list.add(c);
 		 });
-
-		 return ret;
+		
+		 return list;
 
 	}
-
-
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -103,7 +91,6 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 
 		Map<String, String> parameters = new HashMap<>();
 	    					parameters.put(STATUS, "any");
-	    					parameters.put("per_page", getString(PER_PAGE));
 	    List<JsonElement> res = client.getAll(EndpointBaseType.ORDERS.getValue(),parameters);
 
 	    var ret = new ArrayList<Transaction>();
@@ -111,15 +98,23 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	    for(JsonElement el : res)
 	    {
 	    	var obj = el.getAsJsonObject();
+	    	
+	    	logger.debug("reading {}",obj);
+	    	
 	    	var t = new Transaction();
 	    				t.setCurrency(obj.get("currency").getAsString());
-	    				t.setDateCreation(UITools.parseGMTDate(obj.get("date_created").getAsString()));
-	    				t.setId(obj.get("id").getAsInt());
-	    				t.setShippingPrice(obj.get("shipping_total").getAsDouble());
-	    				t.setSourceShopName(getName());
+	    				if(!obj.get("date_created").isJsonNull())
+	    					t.setDateCreation(UITools.parseGMTDate(obj.get("date_created").getAsString()));
+	    				
 	    				if(!obj.get(DATE_PAID).isJsonNull())
 	    					t.setDatePayment(UITools.parseGMTDate(obj.get(DATE_PAID).getAsString()));
 
+	    				
+	    				t.setId(obj.get("id").getAsInt());
+	    				t.setShippingPrice(obj.get("shipping_total").getAsDouble());
+	    				t.setSourceShopName(getName());
+	    				
+	    				
 
 	    				if(obj.get("payment_method")!=null)
 		    				switch(obj.get("payment_method").toString())
@@ -180,8 +175,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		init();
 		var ret = new ArrayList<MTGStockItem>();
 		Map<String, String> parameters = new HashMap<>();
-										 parameters.put("per_page", getString(PER_PAGE));
-										 parameters.put("search", search.replace(" ", "%20"));
+										 parameters.put("search", search.replace(" ", "%20").replace("'", "%27").replace(",","%2C"));
 
 		List<JsonObject> res = client.getAll(EndpointBaseType.PRODUCTS.getValue(),parameters);
 
@@ -263,7 +257,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 			}
 		}
 
-		logger.warn("No category map found for {}",c);
+		logger.warn("No EnumItems map found for {}",c);
 
 		return EnumItems.SEALED;
 	}
@@ -299,7 +293,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 			temp.append(it.name()).append("=").append("").append(",");
 		}
 
-		return Map.of(PER_PAGE,"50","MAP_CATEG_TYPE",temp.toString().substring(0, temp.toString().length()-1));
+		return Map.of("MAP_CATEG_TYPE",temp.toString().substring(0, temp.toString().length()-1));
 	}
 
 	@Override
@@ -394,9 +388,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	public List<Contact> listContacts() throws IOException {
 		init();
 
-		var params = new HashMap<String,String>();
-		params.put("per_page", getString(PER_PAGE));
-		List<JsonObject> res = client.getAll(EndpointBaseType.CUSTOMERS.getValue(),params);
+		List<JsonObject> res = client.getAll(EndpointBaseType.CUSTOMERS.getValue());
 		var ret = new ArrayList<Contact>();
 
 		res.forEach(obj->{

@@ -26,7 +26,7 @@ public class MagicCardDetailPanel extends MTGUIComponent implements Observer{
 		return "DETAILS";
 	}
 	
-
+	@Override
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_TAB_DETAILS;
 	}

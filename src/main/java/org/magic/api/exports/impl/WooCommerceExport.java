@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.annotation.Nonnull;
 
@@ -16,6 +17,8 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.enums.EnumExportCategory;
+import org.magic.api.beans.shop.Category;
+import org.magic.api.externalshop.impl.WooCommerceExternalShop;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
@@ -37,15 +40,16 @@ public class WooCommerceExport extends AbstractCardExport {
 	private static final String UPDATE = "update";
 	private static final String CREATE = "create";
 	private static final String CARD_LANG_DESCRIPTION = "CARD_LANG_DESCRIPTION";
-	private static final String ATTRIBUTES_KEYS = "ATTRIBUTES_KEYS";
 	private static final String STOCK_MANAGEMENT = "STOCK_MANAGEMENT";
 	private static final String CATEGORY_ID = "CATEGORY_ID";
 	public static final String DEFAULT_STATUT = "DEFAULT_STATUT";
 	private  static final String BATCH_THRESHOLD = "BATCH_THRESHOLD";
-
-
+	private  static final String BATCH_SIZE = "BATCH_SIZE";
+	private static final String CATEGORY_EDITION_MAPPING ="CATEGORY_EDITION_MAPPING";
+	
 	private WooCommerce wooCommerce;
-
+	private List<Category> categs = new ArrayList<>();
+	
 	@Override
 	public EnumExportCategory getCategory() {
 		return EnumExportCategory.ONLINE;
@@ -73,18 +77,15 @@ public class WooCommerceExport extends AbstractCardExport {
 
 	private void init()
 	{
-		 wooCommerce = WooCommerceTools.newClient(getAuthenticator());
+	    wooCommerce = WooCommerceTools.newClient(getAuthenticator());
 	}
-
-
+	
 	public WooCommerce getWooCommerce() {
 		if(wooCommerce==null)
 			init();
 
 		return wooCommerce;
 	}
-
-
 
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
@@ -93,7 +94,7 @@ public class WooCommerceExport extends AbstractCardExport {
 		List<MagicCardStock> stocks= new ArrayList<>();
 		Map<String, String> productInfo = new HashMap<>();
 		        productInfo.put("category", getString(CATEGORY_ID));
-
+		        
 		List<JsonElement> ret = wooCommerce.getAll(EndpointBaseType.PRODUCTS.getValue(), productInfo);
 
 		for(JsonElement e : ret)
@@ -109,7 +110,7 @@ public class WooCommerceExport extends AbstractCardExport {
 					st = MTGControler.getInstance().getDefaultStock();
 					st.getTiersAppIds().put(getName(), id);
 
-					MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(e.getAsJsonObject().get("name").getAsString(), null, true).stream().findFirst().orElse(null);
+					var mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(e.getAsJsonObject().get("name").getAsString(), null, true).stream().findFirst().orElse(null);
 					if(mc!=null)
 					{
 						st.setProduct(mc);
@@ -151,10 +152,21 @@ public class WooCommerceExport extends AbstractCardExport {
 	public void exportStock(List<MagicCardStock> stocks, File f) throws IOException {
 
 		init();
-
+		
+		 if(getBoolean(CATEGORY_EDITION_MAPPING))
+		    {
+				try {
+					categs = new WooCommerceExternalShop().listCategories();
+					logger.info("Loading {} categories", categs.size());
+				} catch (IOException e) {
+					logger.error("error getting categories",e);
+				}
+		    }
+		
+		
 		if(stocks.size()>getInt(BATCH_THRESHOLD))
 		{
-			batchExport(ListUtils.partition(stocks, 100));
+			batchExport(ListUtils.partition(stocks, getInt(BATCH_SIZE)));
 			return;
 		}
 
@@ -217,7 +229,39 @@ public class WooCommerceExport extends AbstractCardExport {
 
         productInfo.put("type", "simple");
         productInfo.put("regular_price", String.valueOf(st.getPrice()));
-        productInfo.put("categories", WooCommerceTools.entryToJsonArray("id",getString(CATEGORY_ID)));
+        
+        if(getBoolean(CATEGORY_EDITION_MAPPING))
+        {
+        	Optional<Category> opt =categs.stream().filter(c->c.getCategoryName().equalsIgnoreCase(st.getProduct().getCurrentSet().getSet())).findFirst();
+        	if(opt.isPresent())
+        	{
+        		productInfo.put("categories", WooCommerceTools.entryToJsonArray("id",String.valueOf(opt.get().getIdCategory())));	
+        	}
+        	else
+        	{
+        		Map<String, Object> categoryMap = new HashMap<>();
+        		try { 
+        		var categ = new Category();
+        		categ.setCategoryName(st.getProduct().getCurrentSet().getSet());
+        		categoryMap.put("name", categ.getCategoryName());
+				categoryMap.put("slug", st.getProduct().getCurrentSet().getId());
+				Map<String,JsonElement> ret = wooCommerce.create(EndpointBaseType.PRODUCTS_CATEGORIES.getValue(), categoryMap);
+				categ.setIdCategory(ret.get("id").getAsInt());
+				categs.add(categ);
+        		logger.warn("Can't find category named {}. create new one",st.getProduct().getCurrentSet().getSet());
+        		productInfo.put("categories", WooCommerceTools.entryToJsonArray("id",""+categ.getIdCategory()));
+        		}
+        		catch(Exception e)
+        		{
+        			logger.error("can't create Category with {} : {}", categoryMap, e.getMessage());
+        		}
+        	}
+        }
+        else
+        {
+        	productInfo.put("categories", WooCommerceTools.entryToJsonArray("id",getString(CATEGORY_ID)));	
+        }
+        
         productInfo.put("description",desc(st.getProduct()));
         productInfo.put("short_description", toForeign(st.getProduct()).getName()+"-"+st.getCondition());
         productInfo.put("enable_html_description", "true");
@@ -231,16 +275,16 @@ public class WooCommerceExport extends AbstractCardExport {
 
         	try {
         	productInfo.put("images", WooCommerceTools.entryToJsonArray("src",new ScryFallProvider().getJsonFor(st.getProduct()).get("image_uris").getAsJsonObject().get("normal").getAsString()));
-        	//productInfo.put("images", toJson("src",PluginRegistry.inst().getPlugin(getString(PIC_PROVIDER_NAME), MTGPictureProvider.class).generateUrl(st.getMagicCard(), null)))
-        	}catch(Exception e)
+       	}catch(Exception e)
         	{
-        		logger.error("error getting image for {}",st.getProduct(),e);
+        		logger.error("error getting image for {} : {}",st.getProduct(),e.getMessage());
         	}
 
 
-      	if(getBoolean(ATTRIBUTES_KEYS)) {
       		var arr = new JsonArray();
+      				  arr.add(createAttributes("collection", String.valueOf(st.getMagicCollection()),true));
 					  arr.add(createAttributes("foil", String.valueOf(st.isFoil()),true));
+					  arr.add(createAttributes("condition", st.getCondition().name(),true));
 					  arr.add(createAttributes("altered", String.valueOf(st.isAltered()),true));
 					  arr.add(createAttributes("signed", String.valueOf(st.isSigned()),true));
 					  arr.add(createAttributes("Language", st.getLanguage(),true));
@@ -248,9 +292,9 @@ public class WooCommerceExport extends AbstractCardExport {
 					  arr.add(createAttributes("setCode", st.getProduct().getCurrentSet().getId(),true));
 					  arr.add(createAttributes("setName", st.getProduct().getCurrentSet().getSet(),true));
 					  arr.add(createAttributes("number", st.getProduct().getCurrentSet().getNumber(),true));
-			productInfo.put("attributes", arr);
-
-      	}
+					  arr.add(createAttributes("mtg_comp_stock_id",String.valueOf(st.getId()),true));
+					  arr.add(createAttributes("type",st.getProduct().getTypeProduct().name(),true));
+					  productInfo.put("attributes", arr);
 
       	return productInfo;
 	}
@@ -299,6 +343,7 @@ public class WooCommerceExport extends AbstractCardExport {
 							{
 								creates.get(i).getTiersAppIds().put(getName(), String.valueOf(obj.get("id").getAsInt()));
 								creates.get(i).setUpdated(true);
+								logger.debug("Update {}", creates.get(i).getId());
 							}
 					}
 					catch(Exception e)
@@ -308,6 +353,9 @@ public class WooCommerceExport extends AbstractCardExport {
 
 
 				}
+			}else
+			{
+				logger.warn("no return ....");
 			}
 
 			if(ret.get(UPDATE)!=null)
@@ -325,7 +373,7 @@ public class WooCommerceExport extends AbstractCardExport {
 
 	private JsonObject createAttributes (String key ,String val,boolean visible)
 	{
-		if(val==null)
+		if(val==null || val.equals("null"))
 			createAttributes(key ,new String[] {""},visible);
 		
 		return createAttributes(key ,new String[] {val},visible);
@@ -400,15 +448,14 @@ public class WooCommerceExport extends AbstractCardExport {
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		var m = new HashMap<String, String>();
+				m.put(CATEGORY_EDITION_MAPPING, "true");
 				m.put(CATEGORY_ID, "");
 				m.put(DEFAULT_STATUT, "private");
 				m.put(STOCK_MANAGEMENT,"true");
-				m.put(ATTRIBUTES_KEYS,"true");
 				m.put(CARD_LANG_DESCRIPTION,"English");
 				m.put(ARTICLE_NAME,"");
 				m.put(BATCH_THRESHOLD,"50");
-
-
+				m.put(BATCH_SIZE, "75");
 		return m;
 	}
 
