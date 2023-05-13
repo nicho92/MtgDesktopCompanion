@@ -36,6 +36,7 @@ import com.icoderman.woocommerce.WooCommerce;
 
 public class WooCommerceExport extends AbstractCardExport {
 
+	private static final String MTG_COMP_STOCK_ID = "mtg_comp_stock_id";
 	private static final String ARTICLE_NAME = "ARTICLE_NAME";
 	private static final String UPDATE = "update";
 	private static final String CREATE = "create";
@@ -292,7 +293,7 @@ public class WooCommerceExport extends AbstractCardExport {
 					  arr.add(createAttributes("setCode", st.getProduct().getCurrentSet().getId(),true));
 					  arr.add(createAttributes("setName", st.getProduct().getCurrentSet().getSet(),true));
 					  arr.add(createAttributes("number", st.getProduct().getCurrentSet().getNumber(),true));
-					  arr.add(createAttributes("mtg_comp_stock_id",String.valueOf(st.getId()),true));
+					  arr.add(createAttributes(MTG_COMP_STOCK_ID,String.valueOf(st.getId()),true));
 					  arr.add(createAttributes("type",st.getProduct().getTypeProduct().name(),true));
 					  productInfo.put("attributes", arr);
 

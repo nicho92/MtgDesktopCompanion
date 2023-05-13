@@ -2583,11 +2583,11 @@
 	</edition>
 	<edition id="MOC">
 		<set  lang="en" num="1" url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/8/8a/March_of_the_Machine.png"/>
-			<constructpack lang="en" num="1" url="https://media.wizards.com/2023/images/daily/en_2usdn2ywbdSY.png" extra="Growing  Threat"/>
-			<constructpack lang="en" num="2" url="https://media.wizards.com/2023/images/daily/en_9sdn2ys9547z.png" extra="Cavalry Charge"/>
-			<constructpack lang="en" num="3" url="https://media.wizards.com/2023/images/daily/en_276dfsbweybw.png" extra="Divine Convocation"/>
-			<constructpack lang="en" num="4" url="https://media.wizards.com/2023/images/daily/en_6Dm2974rh7jD.png" extra="Call for backup"/>
-			<constructpack lang="en" num="5" url="https://media.wizards.com/2023/images/daily/en_ek38f7hnre7K.png" extra="Thinker Time"/>
+			<constructpack lang="en" num="1" url="https://media.wizards.com/2023/images/daily/en_2usdn2ywbdSY.png" desc="Growing  Threat"/>
+			<constructpack lang="en" num="2" url="https://media.wizards.com/2023/images/daily/en_9sdn2ys9547z.png" desc="Cavalry Charge"/>
+			<constructpack lang="en" num="3" url="https://media.wizards.com/2023/images/daily/en_276dfsbweybw.png" desc="Divine Convocation"/>
+			<constructpack lang="en" num="4" url="https://media.wizards.com/2023/images/daily/en_6Dm2974rh7jD.png" desc="Call for backup"/>
+			<constructpack lang="en" num="5" url="https://media.wizards.com/2023/images/daily/en_ek38f7hnre7K.png" desc="Thinker Time"/>
 	</edition>
 	<edition id="MAT">
 		<set  lang="en" num="1" url="https://media.wizards.com/2022/images/daily/en_uLtvmrglOj.png"/>
@@ -2597,8 +2597,24 @@
 			<box lang="en" extra="draft" num="1" url="https://images.ctfassets.net/0piqveu8x9oj/1uTT3njVmJmfFXQMQEhvzv/51e3076cfd5f925cfda88ebf2ff5812c/MTGMAT_EN_BstrDspBx_Drft_01_03.png"/>
 			<box lang="en" extra="collector" num="2" url="https://images.ctfassets.net/0piqveu8x9oj/5ZYkuCIIROBcKA4PnxEmX0/00df2aaf447bf14140d53d290eca0da4/MTGMAT_EN_BstrDspBx_Clctr_01_03.png"/>
 			 <bundle lang="en" num="1" url="https://images.ctfassets.net/0piqveu8x9oj/3HpDBgrv4PNKukM0VKrVsb/303ebd4183aafffa0fec835213f03b89/MTGMAT_EN_BndlOtrBx_01_01.png"/>
-		
 	</edition>
+	<edition id="WOE">
+		<set lang="en" num="1" url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/1/16/Wilds_of_Eldraine.png/revision/latest?cb=20230505225225"/>
+		<box lang="en" num="1" extra="set" url="https://media.wizards.com/2023/images/daily/en_pJB7oTWrJrOU.png"/>
+		<box lang="en" num="2" extra="draft" url="https://media.wizards.com/2023/images/daily/en_dQVFR4srSbx0.png"/>
+		<box lang="en" num="3" extra="collector" url="https://media.wizards.com/2023/images/daily/en_kk0f7AcxFWlU.png"/>
+		
+		<booster lang="en" num="1" extra="set" url="https://media.wizards.com/2023/images/daily/en_8M4TU6X3TjOh.png"/>
+		<booster lang="en" num="1" extra="draft" url="https://media.wizards.com/2023/images/daily/en_ZORef2Ydbuvi.png"/>
+		<booster lang="en" num="1" extra="collector" url="https://media.wizards.com/2023/images/daily/en_8DrmHdkhhyUD.png"/>
+		
+		<bundle lang="en" num="1" url="https://media.wizards.com/2023/images/daily/en_MoLnkn5KfExv.png"/>
+		<prereleasepack lang="en" num="1" url="https://media.wizards.com/2023/images/daily/en_mCibaR1ESEYA.png"/>
+		
+		<constructpack lang="en" num="1" url="https://media.wizards.com/2023/images/daily/en_EJ8LfYhQgcg4.png" desc="Fae Dominion"/>
+		<constructpack lang="en" num="2" url="https://media.wizards.com/2023/images/daily/en_qExkyBhoYerA.png" desc="Virtue and Valor"/>
+	</edition> 
+	
 	
 
 </boosterUrls>
