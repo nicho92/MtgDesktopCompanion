@@ -324,16 +324,12 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				extend="-timeshifted";
 			else if(mc.isJapanese())
 				extend="-japanese";
-			
-			if(mc.getCurrentSet().getId().equals("MUL"))
-				extend="";
-			
-
+	
 			if(mc.getFlavorName()!=null)
 				extend="-"+mc.getFlavorName().replace(" ", "+");
 
 
-			if(mc.getCurrentSet().getId().equals("PUMA")||mc.getCurrentSet().getId().equals("STA")||mc.getCurrentSet().getId().equals("SLD"))
+			if(mc.getCurrentSet().getId().equals("PUMA")||mc.getCurrentSet().getId().equals("STA")||mc.getCurrentSet().getId().equals("SLD")||mc.getCurrentSet().getId().equals("MUL"))
 				extend="";
 
 			url = WEBSITE + "/price/" + convert(mc.getCurrentSet()) + extra+pfoil+"/" + cardName +extend+ "#" + getString(FORMAT);

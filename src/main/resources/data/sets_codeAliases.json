@@ -21,7 +21,8 @@
 	],
 	"BRO":[
 		"ABRO",
-		"MBRO"
+		"MBRO",
+		"FBRO"
 	],
 	"AVR":[
 		"PHEL"
@@ -189,7 +190,8 @@
 		"WDMU",
 		"ADMU",
 		"PDWA",
-		"MDMU"
+		"MDMU",
+		"FDMU"
 	],
 	"P02": [
 		"PO2"
@@ -268,6 +270,8 @@
 		"4BB"
 	],
 	"PMEI": [
+		"PH20",
+		"PH19",
 		"PW23",
 		"PH21",
 		"PL23",
