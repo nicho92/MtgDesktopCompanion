@@ -29,6 +29,7 @@ import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGGedStorage;
 import org.magic.api.interfaces.MTGGraders;
 import org.magic.api.interfaces.MTGIA;
+import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.MTGPictureCache;
@@ -137,6 +138,7 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 		createTab(capitalize("TRACKING"), MTGConstants.ICON_TAB_DELIVERY, PluginRegistry.inst().getEntry(MTGTrackingService.class));
 		createTab(capitalize("EXTERNAL_SHOP"), MTGConstants.ICON_TAB_EXT_SHOP, PluginRegistry.inst().getEntry(MTGExternalShop.class));
 		createTab(capitalize("IA"), MTGConstants.ICON_TAB_IA, PluginRegistry.inst().getEntry(MTGIA.class));
+		createTab(capitalize("NETWORK"), MTGConstants.ICON_TAB_NETWORK, PluginRegistry.inst().getEntry(MTGNetworkClient.class));
 	
 		tabbedPane.addTab(capitalize("CONFIGURATION"), MTGConstants.ICON_TAB_ADMIN,new JScrollPane(new ConfigurationPanel()), null);
 		tabbedPane.addTab(capitalize("ACTIVE_SERVERS"), MTGConstants.ICON_TAB_ACTIVESERVER, new ServersGUI(),null);

@@ -933,6 +933,12 @@
       <enable>false</enable>
     </strategy>
   </strategies>
+   <networks>
+    <network>
+      <class>org.magic.api.network.impl.ActiveMQNetworkClient</class>
+      <enable>true</enable>
+    </network>
+  </networks>
   <notifyPrerelease>true</notifyPrerelease>
   <shopSite>
     <payments>

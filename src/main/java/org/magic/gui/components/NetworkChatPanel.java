@@ -39,6 +39,7 @@ import org.magic.servers.impl.ActiveMQServer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
+import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 
 
@@ -135,7 +136,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		
 		btnConnect.addActionListener(ae -> {
 			try {
-				client = new ActiveMQNetworkClient();
+				client = MTG.getEnabledPlugin(MTGNetworkClient.class);
 				client.join(MTGControler.getInstance().getProfilPlayer(),  txtServer.getText(),ActiveMQServer.DEFAULT_ADDRESS);
 				txtServer.setEnabled(!client.isActive());
 				btnConnect.setEnabled(!client.isActive());

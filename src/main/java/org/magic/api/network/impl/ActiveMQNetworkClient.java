@@ -18,12 +18,12 @@ import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.JsonMessage;
 import org.magic.api.beans.JsonMessage.MSG_TYPE;
 import org.magic.api.exports.impl.JsonExport;
-import org.magic.api.interfaces.MTGNetworkClient;
+import org.magic.api.interfaces.abstracts.AbstractNetworkProvider;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATUS;
 import org.magic.services.logging.MTGLogger;
 
-public class ActiveMQNetworkClient implements MTGNetworkClient {
+public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 
 	private ClientSession session;
 	private ClientProducer producer;
@@ -183,6 +183,16 @@ public class ActiveMQNetworkClient implements MTGNetworkClient {
 		return player;
 	}
 
+	@Override
+	public String getName() {
+		return "ArtemisMQ";
+	}
+
+	@Override
+	public boolean isEnable() {
+		return true;
+	}
+	
 
 
 

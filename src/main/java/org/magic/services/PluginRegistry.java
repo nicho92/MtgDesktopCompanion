@@ -28,6 +28,7 @@ import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGGedStorage;
 import org.magic.api.interfaces.MTGGraders;
 import org.magic.api.interfaces.MTGIA;
+import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.MTGPictureCache;
@@ -163,6 +164,8 @@ public class PluginRegistry {
 		registry.put(MTGExternalShop.class, new PluginEntry<>(MTGExternalShop.class,false, "/externalsShops", "/extshop", "org.magic.api.externalshop.impl",PLUGINS.EXTERNAL_SHOP));
 		registry.put(MTGIA.class, new PluginEntry<>(MTGIA.class,false, "/artificialIntelligences", "/ia", "org.magic.api.ia.impl",PLUGINS.IA));
 		registry.put(MTGSealedProvider.class, new PluginEntry<>(MTGSealedProvider.class,false, "/sealeds", "/sealedProvider", "org.magic.api.sealedprovider.impl",PLUGINS.SEALED));
+		registry.put(MTGNetworkClient.class, new PluginEntry<>(MTGNetworkClient.class,false, "/networks", "/network", "org.magic.api.network.impl",PLUGINS.NETWORK));
+		
 		
 		registry.put(AbstractJDashlet.class, new PluginEntry<>(AbstractJDashlet.class,true,"/dashlets", "/dashlet", "org.magic.gui.dashlet",PLUGINS.DASHLET));
 		logger.info("MTG Plugins loaded");

@@ -7,7 +7,7 @@ import org.magic.api.beans.JsonMessage;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATUS;
 
-public interface MTGNetworkClient {
+public interface MTGNetworkClient extends MTGPlugin{
 
 
 	
