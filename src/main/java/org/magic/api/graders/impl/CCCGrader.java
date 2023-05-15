@@ -2,12 +2,12 @@ package org.magic.api.graders.impl;
 
 import java.io.IOException;
 
-import org.jsoup.nodes.Document;
 import org.magic.api.beans.Grading;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.URLTools;
 import org.magic.services.network.RequestBuilder.METHOD;
+import org.magic.services.network.URLTools;
 import org.magic.services.tools.UITools;
 
 public class CCCGrader extends AbstractGradersProvider {
@@ -20,10 +20,11 @@ public class CCCGrader extends AbstractGradersProvider {
 	@Override
 	public Grading loadGrading(String identifier) throws IOException {
 		
+		var onlinepage="https://cccgrading.com/en/ccc-card-verification";
 		var d = RequestBuilder.build().url(getWebSite()+"/api/v2/certs/"+identifier)
 											.method(METHOD.GET)
 											.setClient(URLTools.newClient())
-											.addHeader("Referer", "https://cccgrading.com/en/ccc-card-verification")
+											.addHeader("Referer", onlinepage)
 											.addHeader("Sd-Locale", "en")
 											.addHeader("Host", "cccgrading.com")
 											.addHeader("Accept", "application/json, text/plain, */*")

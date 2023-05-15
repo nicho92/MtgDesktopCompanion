@@ -60,7 +60,10 @@ public class WriteSonic extends AbstractIA {
 				 obj.addProperty("input_text", prompt);
 		
 		var resp = client.doPost("https://api.writesonic.com/v2/business/content/chatsonic?engine=premium", new StringEntity(obj.toString(), MTGConstants.DEFAULT_ENCODING), headers);
-		return URLTools.toJson(resp.getEntity().getContent()).getAsJsonObject();
+		var res = URLTools.toJson(resp.getEntity().getContent());
+		
+		logger.debug("{} response : {}", getName(),res);
+		return res.getAsJsonObject();
 	}
 	
 	
