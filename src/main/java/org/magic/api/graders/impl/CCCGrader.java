@@ -38,6 +38,24 @@ public class CCCGrader extends AbstractGradersProvider {
 		g.setCentering(d.get("centerNote").getAsDouble());
 		g.setSurface(d.get("surfaceNote").getAsDouble());
 		g.setGradeDate(UITools.parseGMTDate(d.get("date").getAsString()));
+		g.setUrlInfo(onlinepage+"?card-input="+identifier);
+		
+		
+		if(g.getGradeNote()>=9)
+			g.setGrade(EnumCondition.MINT);
+		else if(g.getGradeNote()>=8.5)
+			g.setGrade(EnumCondition.NEAR_MINT);
+		else if(g.getGradeNote()>=7)
+			g.setGrade(EnumCondition.EXCELLENT);
+		else if(g.getGradeNote()>=5)
+			g.setGrade(EnumCondition.GOOD);
+		else if(g.getGradeNote()>=3)
+			g.setGrade(EnumCondition.LIGHTLY_PLAYED);
+		else if(g.getGradeNote()>=2)
+			g.setGrade(EnumCondition.PLAYED);
+		else if(g.getGradeNote()>=0)
+			g.setGrade(EnumCondition.POOR);
+		
 		return g;
 	}
 
