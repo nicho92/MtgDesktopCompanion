@@ -14,14 +14,12 @@ import org.apache.activemq.artemis.api.core.client.ClientSession;
 import org.apache.activemq.artemis.api.core.client.ClientSessionFactory;
 import org.apache.activemq.artemis.api.core.client.ServerLocator;
 import org.apache.commons.lang3.RandomUtils;
-import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.JsonMessage;
 import org.magic.api.beans.JsonMessage.MSG_TYPE;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.abstracts.AbstractNetworkProvider;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATUS;
-import org.magic.services.logging.MTGLogger;
 
 public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 
@@ -30,16 +28,13 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 	private ClientConsumer consumer;
 	private ClientSessionFactory factory;
 	private ServerLocator locator;
-	private Player player;
-	private Logger logger = MTGLogger.getLogger(ActiveMQNetworkClient.class);
+	
 	private JsonExport serializer = new JsonExport();
 	
+	
 	@Override
-	public void join(Player p, String url,String adress) throws IOException {
-		this.player = p;
-		player.setOnlineConnectionTimeStamp(Instant.now().toEpochMilli());
-		player.setState(STATUS.CONNECTED);
-		player.setId(RandomUtils.nextLong());
+	protected void joiningConnection(String url,String adress) throws IOException {
+		
 		try {
 			locator = ActiveMQClient.createServerLocator(url);
 		} catch (Exception e) {
@@ -53,7 +48,7 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 			throw new IOException(e); 
 		}
 		try {
-			session = factory.createSession(p.getName(),"password",false,true,true,true, 0, "ID-"+player.getId());
+			session = factory.createSession(player.getName(),"password",false,true,true,true, 0, "ID-"+player.getId());
 			
 		} catch (ActiveMQException e) {
 			throw new IOException(e); 
@@ -64,19 +59,9 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 		} catch (ActiveMQException e) {
 			throw new IOException(e);
 		}
-		
-		switchAddress(adress);
-		
-		sendMessage(new JsonMessage(player,"connected",Color.black,MSG_TYPE.CONNECT));
-		
 	}
 	
-	@Override
-	public void changeStatus(STATUS selectedItem) throws IOException {
-		player.setState(selectedItem);
-		sendMessage(new JsonMessage(player,selectedItem.name(),Color.black,MSG_TYPE.CHANGESTATUS));
-	}
-
+	
 	@Override
 	public void switchAddress(String adress) throws IOException {
 		try {
@@ -142,13 +127,6 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 	}
 	 
 	
-	
-	@Override
-	public void sendMessage(String text, Color c) throws IOException {
-	
-		sendMessage(new JsonMessage(player,text,c,MSG_TYPE.TALK));
-		
-	}
 
 	@Override
 	public void logout() throws IOException {
@@ -179,10 +157,7 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 		return session!=null && !session.isClosed();
 	}
 
-	public Player getPlayer() {
-		return player;
-	}
-
+	
 	@Override
 	public String getName() {
 		return "ArtemisMQ";
