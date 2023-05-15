@@ -28,7 +28,6 @@ import javax.swing.border.TitledBorder;
 
 import org.magic.api.beans.JsonMessage;
 import org.magic.api.interfaces.MTGNetworkClient;
-import org.magic.api.network.impl.ActiveMQNetworkClient;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATUS;
 import org.magic.gui.abstracts.MTGUIComponent;
@@ -62,6 +61,8 @@ public class NetworkChatPanel extends MTGUIComponent {
 	public NetworkChatPanel() {
 		setLayout(new BorderLayout(0, 0));
 
+		
+		client = MTG.getEnabledPlugin(MTGNetworkClient.class);
 		
 		listMsgModel = new DefaultListModel<>();
 		listPlayerModel= new DefaultListModel<>();
@@ -127,6 +128,11 @@ public class NetworkChatPanel extends MTGUIComponent {
 		
 		
 		initActions();
+		
+		
+		if(MTG.readPropertyAsBoolean("online-query"))
+			btnConnect.doClick();
+		
 	}
 
 	private void initActions() {
@@ -136,7 +142,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		
 		btnConnect.addActionListener(ae -> {
 			try {
-				client = MTG.getEnabledPlugin(MTGNetworkClient.class);
+				
 				client.join(MTGControler.getInstance().getProfilPlayer(),  txtServer.getText(),ActiveMQServer.DEFAULT_ADDRESS);
 				txtServer.setEnabled(!client.isActive());
 				btnConnect.setEnabled(!client.isActive());
