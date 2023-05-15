@@ -37,6 +37,8 @@ public class CCCGrader extends AbstractGradersProvider {
 		g.setGradeNote(d.get("cardNote").getAsDouble());
 		g.setCentering(d.get("centerNote").getAsDouble());
 		g.setSurface(d.get("surfaceNote").getAsDouble());
+		g.setCorners(d.get("cornerNote").getAsDouble());
+		
 		g.setGradeDate(UITools.parseGMTDate(d.get("date").getAsString()));
 		g.setUrlInfo(onlinepage+"?card-input="+identifier);
 		
