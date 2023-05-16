@@ -7,6 +7,7 @@ import java.time.Instant;
 import org.apache.commons.lang3.RandomUtils;
 import org.magic.api.beans.JsonMessage;
 import org.magic.api.beans.JsonMessage.MSG_TYPE;
+import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATUS;
@@ -14,7 +15,9 @@ import org.magic.game.model.Player.STATUS;
 public abstract class AbstractNetworkProvider extends AbstractMTGPlugin implements MTGNetworkClient {
 
 	protected Player player;
+	private JsonExport serializer = new JsonExport();
 
+	
 	public Player getPlayer() {
 		return player;
 	}
@@ -27,7 +30,23 @@ public abstract class AbstractNetworkProvider extends AbstractMTGPlugin implemen
 	
 	
 	protected abstract void joiningConnection(String url,String adress) throws IOException;
+	protected abstract String read() throws IOException;
 
+	
+
+	@Override
+	public JsonMessage consume() throws IOException {
+		return serializer.fromJson(read(),JsonMessage.class);
+	}
+
+
+	protected String parse(JsonMessage obj) {
+		
+		System.out.println(obj);
+		System.out.println(serializer.toJson(obj));
+		return serializer.toJson(obj);
+	}
+	
 
 	@Override
 	public void join(Player p, String url,String adress) throws IOException {

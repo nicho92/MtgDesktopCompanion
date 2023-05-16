@@ -1,7 +1,6 @@
 package org.magic.api.network.impl;
 import java.awt.Color;
 import java.io.IOException;
-import java.time.Instant;
 
 import org.apache.activemq.artemis.api.core.ActiveMQException;
 import org.apache.activemq.artemis.api.core.QueueConfiguration;
@@ -13,13 +12,9 @@ import org.apache.activemq.artemis.api.core.client.ClientProducer;
 import org.apache.activemq.artemis.api.core.client.ClientSession;
 import org.apache.activemq.artemis.api.core.client.ClientSessionFactory;
 import org.apache.activemq.artemis.api.core.client.ServerLocator;
-import org.apache.commons.lang3.RandomUtils;
 import org.magic.api.beans.JsonMessage;
 import org.magic.api.beans.JsonMessage.MSG_TYPE;
-import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.abstracts.AbstractNetworkProvider;
-import org.magic.game.model.Player;
-import org.magic.game.model.Player.STATUS;
 
 public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 
@@ -28,8 +23,6 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 	private ClientConsumer consumer;
 	private ClientSessionFactory factory;
 	private ServerLocator locator;
-	
-	private JsonExport serializer = new JsonExport();
 	
 	
 	@Override
@@ -93,9 +86,26 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 		return cqc;
 	}
 
+	
+
+
 	@Override
-	public JsonMessage consume() throws IOException {
+	public void sendMessage(JsonMessage obj) throws IOException {
+		var message = session.createMessage(obj.getTypeMessage()==MSG_TYPE.TALK);
+		     message.getBodyBuffer().writeString(parse(obj));
 		
+		try {
+			producer.send(message);
+			logger.debug("send {}",obj);
+		} catch (ActiveMQException e) {
+			throw new IOException(e);
+		}		
+	}
+	
+
+
+	@Override
+	protected String read() throws IOException {
 		ClientMessage msg;
 		try {
 			msg = consumer.receive();
@@ -107,25 +117,8 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 		if(msg==null)
 			return null;
 		
-		return   serializer.fromJson(msg.getBodyBuffer().readString(),JsonMessage.class);
+		return msg.getBodyBuffer().readString();
 	}
-
-	
-
-	@Override
-	public void sendMessage(JsonMessage obj) throws IOException {
-		var message = session.createMessage(obj.getTypeMessage()==MSG_TYPE.TALK);
-		var jsonMsg = serializer.toJson(obj);
-		message.getBodyBuffer().writeString(jsonMsg);
-		
-		try {
-			producer.send(message);
-			logger.debug("send {}",obj);
-		} catch (ActiveMQException e) {
-			throw new IOException(e);
-		}		
-	}
-	 
 	
 
 	@Override
