@@ -155,8 +155,20 @@ public class IconSetProvider {
 	private void initCache() throws IOException {
 		for (MagicEdition e : getEnabledPlugin(MTGCardsProvider.class).listEditions()) {
 			var im = extract(e.getId().toUpperCase());
-			cache24.put(e.getId(), new ImageIcon(im.getScaledInstance(24, 24, Image.SCALE_SMOOTH)));
-			cache16.put(e.getId(), new ImageIcon(im.getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
+			cache24.put(e.getId(), new ImageIcon(im.getScaledInstance(24, 24, Image.SCALE_SMOOTH)) {
+				private static final long serialVersionUID = 1L;
+				@Override
+				public String toString() {
+					return e.getId();
+				}
+			});
+			cache16.put(e.getId(), new ImageIcon(im.getScaledInstance(16, 16, Image.SCALE_SMOOTH)) {
+					private static final long serialVersionUID = 1L;
+					@Override
+					public String toString() {
+						return e.getId();
+					}
+			});
 		}
 	}
 
