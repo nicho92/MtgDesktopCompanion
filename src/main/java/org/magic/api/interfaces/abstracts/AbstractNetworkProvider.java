@@ -29,7 +29,7 @@ public abstract class AbstractNetworkProvider extends AbstractMTGPlugin implemen
 	}
 	
 	
-	protected abstract void joiningConnection(String url,String adress) throws IOException;
+	protected abstract void createConnection(String url,String adress) throws IOException;
 	protected abstract String read() throws IOException;
 
 	
@@ -40,10 +40,7 @@ public abstract class AbstractNetworkProvider extends AbstractMTGPlugin implemen
 	}
 
 
-	protected String parse(JsonMessage obj) {
-		
-		System.out.println(obj);
-		System.out.println(serializer.toJson(obj));
+	protected String toJson(JsonMessage obj) {
 		return serializer.toJson(obj);
 	}
 	
@@ -56,7 +53,7 @@ public abstract class AbstractNetworkProvider extends AbstractMTGPlugin implemen
 		player.setId(RandomUtils.nextLong());
 		
 		
-		joiningConnection(url,adress);
+		createConnection(url,adress);
 		
 		switchAddress(adress);
 		

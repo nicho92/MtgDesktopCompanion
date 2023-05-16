@@ -26,7 +26,7 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 	
 	
 	@Override
-	protected void joiningConnection(String url,String adress) throws IOException {
+	protected void createConnection(String url,String adress) throws IOException {
 		
 		try {
 			locator = ActiveMQClient.createServerLocator(url);
@@ -92,7 +92,7 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 	@Override
 	public void sendMessage(JsonMessage obj) throws IOException {
 		var message = session.createMessage(obj.getTypeMessage()==MSG_TYPE.TALK);
-		     message.getBodyBuffer().writeString(parse(obj));
+		     message.getBodyBuffer().writeString(toJson(obj));
 		
 		try {
 			producer.send(message);
