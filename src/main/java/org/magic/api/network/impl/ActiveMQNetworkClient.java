@@ -15,6 +15,7 @@ import org.apache.activemq.artemis.api.core.client.ServerLocator;
 import org.magic.api.beans.JsonMessage;
 import org.magic.api.beans.JsonMessage.MSG_TYPE;
 import org.magic.api.interfaces.abstracts.AbstractNetworkProvider;
+import org.magic.services.tools.POMReader;
 
 public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 
@@ -40,6 +41,7 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 		} catch (Exception e) {
 			throw new IOException(e); 
 		}
+		
 		try {
 			session = factory.createSession(player.getName(),"password",false,true,true,true, 0, "ID-"+player.getId());
 			
@@ -161,6 +163,11 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 		return true;
 	}
 	
+	
+	@Override
+	public String getVersion() {
+		return POMReader.readVersionFromPom(ActiveMQClient.class, "/META-INF/maven/org.apache.activemq/artemis-core-client/pom.properties");
+	}
 
 
 
