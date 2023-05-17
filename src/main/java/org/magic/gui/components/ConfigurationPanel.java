@@ -82,9 +82,6 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 	private static final String LANGAGE = "langage";
 	private static final String DEFAULT_LIBRARY = "default-library";
 	private static final String CURRENCY = "currency";
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 1L;
 	private JComboBox<MTGDao> cboTargetDAO;
 	private JComboBox<MagicCollection> cboCollections;
@@ -187,6 +184,12 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 					guiPanelLayout.rowHeights = new int[] { 23, 0, 0, 0, 0, 0, 0, 0 };
 					guiPanelLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0 };
 					guiPanelLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+					
+					var networkPanelLayout = new GridBagLayout();
+					networkPanelLayout.columnWidths = new int[] { 188, 38, 0, 0 };
+					networkPanelLayout.rowHeights = new int[] { 23, 0, 0, 0, 0, 0, 0, 0 };
+					networkPanelLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0 };
+					networkPanelLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 
 		JPanel panelDAO = createBoxPanel("DATABASES",MTGConstants.ICON_TAB_DAO,daoPanelLayout,true);
 		JPanel panelConfig = createBoxPanel("CONFIGURATION",MTGConstants.ICON_TAB_ADMIN,configPanelLayout,false);
@@ -197,6 +200,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		JPanel panelCurrency = createBoxPanel("CURRENCY",MTGConstants.ICON_TAB_PRICES,currencyPanelLayout,true);
 		JPanel panelGUI = createBoxPanel("GUI",MTGConstants.ICON_TAB_PICTURE,guiPanelLayout,true);
 		JPanel panelAccounts = createBoxPanel("ACCOUNTS",MTGConstants.ICON_TAB_LOCK,new BorderLayout(),true);
+		JPanel panelNetworks = createBoxPanel("NETWORKS",MTGConstants.ICON_TAB_NETWORK,networkPanelLayout,true);
 
 
 		add(panelConfig);
@@ -204,6 +208,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		add(panelModule);
 		add(panelAccounts);
 		add(panelDAO);
+		add(panelNetworks);
 		add(panelWebSite);
 		add(panelGameProfil);
 		add(panelCurrency);
@@ -320,7 +325,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		var btnDefaultStock = new JButton("Default Stock");
 		var chkboxPrerelease = new JCheckBox();
 		var chkTechnicalLog = new JCheckBox();
-		var chkOnlineValidation = new JCheckBox();
+		
 		var panelAutoStock = new JPanel();
 		var panelBtnConfigBackup = new JPanel();
 		var btnExportConfig = new JButton(capitalize(EXPORT));
@@ -338,7 +343,6 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		chkboxAutoAdd.setSelected(MTG.readPropertyAsBoolean("collections/stockAutoAdd"));
 		chkboxAutoDelete.setSelected(MTG.readPropertyAsBoolean("collections/stockAutoDelete"));
 		chkTechnicalLog.setSelected(MTG.readPropertyAsBoolean("technical-log"));
-		chkOnlineValidation.setSelected(MTG.readPropertyAsBoolean("online-query"));
 		
 		
 		panelCheckCache.add(chckbxIconset);
@@ -370,9 +374,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		panelConfig.add(new JLangLabel("TECHNICAL_SERVICE_LOG",true), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 8));
 		panelConfig.add(chkTechnicalLog, UITools.createGridBagConstraints(null, GridBagConstraints.WEST, 1, 8));
 
-		panelConfig.add(new JLangLabel("NETWORK_VALIDATION",true), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 9));
-		panelConfig.add(chkOnlineValidation, UITools.createGridBagConstraints(null, GridBagConstraints.WEST, 1, 9));
-
+	
 
 
 
@@ -396,7 +398,16 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		panelWebSite.add(btnWebServerExport, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  3, 2));
 
 
-
+/////////////NETWORK BOX
+		var chkOnlineValidation = new JCheckBox();
+		chkOnlineValidation.setSelected(MTG.readPropertyAsBoolean("online-query"));
+		panelNetworks.add(new JLangLabel("NETWORK_VALIDATION",true), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 1));
+		panelNetworks.add(chkOnlineValidation, UITools.createGridBagConstraints(null, GridBagConstraints.WEST, 1, 1));
+		
+		var chkOnlineAutoConnect = new JCheckBox();
+		chkOnlineAutoConnect.setSelected(MTG.readPropertyAsBoolean("online-autoconnect"));
+		panelNetworks.add(new JLangLabel("NETWORK_AUTOCONNECT",true), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 2));
+		panelNetworks.add(chkOnlineAutoConnect, UITools.createGridBagConstraints(null, GridBagConstraints.WEST, 1, 2));
 
 /////////////PROFIL BOX
 

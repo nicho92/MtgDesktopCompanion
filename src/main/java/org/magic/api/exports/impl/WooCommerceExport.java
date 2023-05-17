@@ -102,8 +102,7 @@ public class WooCommerceExport extends AbstractCardExport {
 		{
 			try {
 				var id = String.valueOf(e.getAsJsonObject().get("id").getAsInt());
-				MagicCardStock st =null;
-				st = MTG.getEnabledPlugin(MTGDao.class).getStockWithTiersID(getName(), id);
+				MagicCardStock st = MTG.getEnabledPlugin(MTGDao.class).getStockWithTiersID(getName(), id);
 
 				if(st==null)
 				{
