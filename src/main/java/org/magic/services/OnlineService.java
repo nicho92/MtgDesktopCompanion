@@ -20,7 +20,7 @@ public class OnlineService {
 		 client = new ActiveMQNetworkClient();
 		 
 			
-			if(MTG.readPropertyAsBoolean("online-query"))
+			if(MTG.readPropertyAsBoolean("network-config/online-query"))
 			{
 				var serv =MTGControler.getInstance().get("network-last-server", "tcp://mtgcompanion.me:61616");
 				try {

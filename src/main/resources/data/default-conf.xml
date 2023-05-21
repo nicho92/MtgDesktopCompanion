@@ -28,8 +28,13 @@
   <keystore-pass>changeit</keystore-pass>
   <min-price-alert>1</min-price-alert>
   <debug-json-panel>true</debug-json-panel>
-  <network-last-server>tcp://mtgcompanion.me:61616</network-last-server>
-  <online-query>true</online-query>
+
+	<network-config>
+	  <network-last-server>tcp://mtgcompanion.me:61616</network-last-server>
+	  <online-query>true</online-query>
+	  <online-autoconnect>true</online-autoconnect>
+  </network-config>
+
   <lookAndFeel>com.formdev.flatlaf.FlatLightLaf</lookAndFeel>
   <locale>en</locale>
   <card-pictures-dimension>

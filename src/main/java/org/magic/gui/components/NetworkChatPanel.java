@@ -82,7 +82,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		btnColorChoose = new JButton(MTGConstants.ICON_GAME_COLOR);
 		cboStates = UITools.createCombobox(STATUS.values());
 		var panelChatBox = new JPanel();
-		txtServer.setText(MTGControler.getInstance().get("network-last-server", "tcp://mtgcompanion.me:61616"));
+		txtServer.setText(MTGControler.getInstance().get("network-config/network-last-server", "tcp://mtgcompanion.me:61616"));
 		txtServer.setColumns(10);
 		btnLogout.setEnabled(false);
 		panel.setLayout(new BorderLayout());
@@ -130,7 +130,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		initActions();
 		
 		
-		if(MTG.readPropertyAsBoolean("online-query"))
+		if(MTG.readPropertyAsBoolean("network-config/online-query"))
 			btnConnect.doClick();
 		
 	}
@@ -148,7 +148,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 				btnConnect.setEnabled(!client.isActive());
 				btnLogout.setEnabled(client.isActive());
 				editorPane.setEditable(client.isActive());
-				MTGControler.getInstance().setProperty("network-last-server",txtServer.getText());
+				MTGControler.getInstance().setProperty("network-config/network-last-server",txtServer.getText());
 			} catch (Exception e) {
 				MTGControler.getInstance().notify(e);
 			}

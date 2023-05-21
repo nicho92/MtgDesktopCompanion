@@ -400,7 +400,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 
 /////////////NETWORK BOX
 		var chkOnlineValidation = new JCheckBox();
-		chkOnlineValidation.setSelected(MTG.readPropertyAsBoolean("online-query"));
+		chkOnlineValidation.setSelected(MTG.readPropertyAsBoolean("network-config/online-query"));
 		panelNetworks.add(new JLangLabel("NETWORK_VALIDATION",true), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 1));
 		panelNetworks.add(chkOnlineValidation, UITools.createGridBagConstraints(null, GridBagConstraints.WEST, 1, 1));
 		
@@ -693,7 +693,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		chkEnabledChrome.addItemListener(ie -> MTGControler.getInstance().setProperty("ui/chromedisabled", chkEnabledChrome.isSelected()));
 		chkboxPrerelease.addItemListener(ie -> MTGControler.getInstance().setProperty("notifyPrerelease", chkboxPrerelease.isSelected()));
 		chkTechnicalLog.addItemListener(ie -> MTGControler.getInstance().setProperty("technical-log", chkTechnicalLog.isSelected()));
-		chkOnlineValidation.addItemListener(ie -> MTGControler.getInstance().setProperty("online-query", chkOnlineValidation.isSelected()));
+		chkOnlineValidation.addItemListener(ie -> MTGControler.getInstance().setProperty("network-config/online-query", chkOnlineValidation.isSelected()));
 
 		btnSaveCode.addActionListener(e -> MTGControler.getInstance().setProperty("currencylayer-access-api",txtCurrencyFieldApiCode.getText()));
 		btnUpdateCurrency.addActionListener(ae -> {

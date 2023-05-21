@@ -32,7 +32,7 @@ public class OnlineService  {
 	private OnlineService() {
 		client = new ActiveMQNetworkClient();
 		
-		if(MTG.readPropertyAsBoolean("online-query"))
+		if(MTG.readPropertyAsBoolean("network-config/online-query"))
 			try {
 				connect();
 			} catch (IOException e) {
@@ -45,13 +45,10 @@ public class OnlineService  {
 		return client;
 	}
 	
-	
-	
-	
 	public void connect() throws IOException
 	{
 		client.join(MTGControler.getInstance().getProfilPlayer(), 
-				  MTGControler.getInstance().get("network-last-server", "tcp://mtgcompanion.me:61616"), 
+				  MTGControler.getInstance().get("network-config/network-last-server", "tcp://mtgcompanion.me:61616"), 
 				  ActiveMQServer.DEFAULT_ADDRESS);
 
 				Executors.newFixedThreadPool(1).execute(new MTGRunnable() {
