@@ -69,9 +69,9 @@ public abstract class AbstractNetworkProvider extends AbstractMTGPlugin implemen
 
 	
 	@Override
-	public void sendMessage(String text, Color c) throws IOException {
+	public void sendMessage(String text, Color c,MSG_TYPE type) throws IOException {
 	
-		sendMessage(new JsonMessage(player,text,c,MSG_TYPE.TALK));
+		sendMessage(new JsonMessage(player,text,c,type));
 		
 	}
 

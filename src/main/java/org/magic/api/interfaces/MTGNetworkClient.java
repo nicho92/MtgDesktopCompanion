@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.io.IOException;
 
 import org.magic.api.beans.JsonMessage;
+import org.magic.api.beans.JsonMessage.MSG_TYPE;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATUS;
 
@@ -17,7 +18,7 @@ public interface MTGNetworkClient extends MTGPlugin{
 
 	void join(Player p, String url, String topic) throws IOException;
 
-	void sendMessage(String text, Color c) throws IOException;
+	void sendMessage(String text, Color c,MSG_TYPE type) throws IOException;
 
 	void sendMessage(JsonMessage obj) throws IOException;
 	
@@ -26,6 +27,8 @@ public interface MTGNetworkClient extends MTGPlugin{
 	void changeStatus(STATUS selectedItem) throws IOException;
 	
 	boolean isActive();
+
+	void searchStock(JsonMessage s) throws IOException;
 
 
 

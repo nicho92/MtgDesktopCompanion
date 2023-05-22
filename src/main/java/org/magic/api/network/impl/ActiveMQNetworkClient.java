@@ -1,6 +1,10 @@
 package org.magic.api.network.impl;
 import java.awt.Color;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.activemq.artemis.api.core.ActiveMQException;
 import org.apache.activemq.artemis.api.core.QueueConfiguration;
@@ -14,7 +18,10 @@ import org.apache.activemq.artemis.api.core.client.ClientSessionFactory;
 import org.apache.activemq.artemis.api.core.client.ServerLocator;
 import org.magic.api.beans.JsonMessage;
 import org.magic.api.beans.JsonMessage.MSG_TYPE;
+import org.magic.api.interfaces.MTGDao;
+import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractNetworkProvider;
+import org.magic.services.tools.MTG;
 import org.magic.services.tools.POMReader;
 
 public class ActiveMQNetworkClient extends AbstractNetworkProvider {
@@ -167,6 +174,25 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 	@Override
 	public String getVersion() {
 		return POMReader.readVersionFromPom(ActiveMQClient.class, "/META-INF/maven/org.apache.activemq/artemis-core-client/pom.properties");
+	}
+
+
+	@Override
+	public void searchStock(JsonMessage s) throws IOException {
+		try {
+			logger.info("Getting a search stock query {}",s);
+			var ret = MTG.getEnabledPlugin(MTGDao.class).listStocks(s.getMessage(), MTG.getEnabledPlugin(MTGDao.class).listCollections());
+			
+			if(!ret.isEmpty()) {
+				var msg = new JsonMessage(getPlayer(), FALSE, Color.GREEN, MSG_TYPE.ANSWER);
+				msg.setMessage("I got "+ s.getMessage()  + " in stock :"+ ret.stream().map(st->st.getMagicCollection().getName()).distinct().collect(Collectors.joining(";")));
+				sendMessage(msg);
+			}
+		} catch (SQLException e) {
+			logger.error(e);
+		}
+		
+		
 	}
 
 

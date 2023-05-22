@@ -386,12 +386,6 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		var btnWebServerExport = new JButton(capitalize(EXPORT));
 		cboServers = UITools.createCombobox(MTG.listEnabledPlugins(MTGServer.class).stream().filter(AbstractWebServer.class::isInstance).toList());
 
-		
-
-//		panelWebSite.add(new JLabel(capitalize("ADD_CERTIFICATE") + " :"), UITools.createGridBagConstraints(null, null,  0, 1))
-//		panelWebSite.add(txtWebSiteCertificate, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 1))
-//		panelWebSite.add(btnAdd, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  3, 1))
-
 		panelWebSite.add(new JLangLabel("WEB_SERVER_UI",true), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 2));
 		panelWebSite.add(cboServers, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  2, 2));
 		panelWebSite.add(txtdirWebsserver, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 2));
@@ -405,7 +399,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		panelNetworks.add(chkOnlineValidation, UITools.createGridBagConstraints(null, GridBagConstraints.WEST, 1, 1));
 		
 		var chkOnlineAutoConnect = new JCheckBox();
-		chkOnlineAutoConnect.setSelected(MTG.readPropertyAsBoolean("online-autoconnect"));
+		chkOnlineAutoConnect.setSelected(MTG.readPropertyAsBoolean("network-config/online-autoconnect"));
 		panelNetworks.add(new JLangLabel("NETWORK_AUTOCONNECT",true), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 2));
 		panelNetworks.add(chkOnlineAutoConnect, UITools.createGridBagConstraints(null, GridBagConstraints.WEST, 1, 2));
 
@@ -694,6 +688,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		chkboxPrerelease.addItemListener(ie -> MTGControler.getInstance().setProperty("notifyPrerelease", chkboxPrerelease.isSelected()));
 		chkTechnicalLog.addItemListener(ie -> MTGControler.getInstance().setProperty("technical-log", chkTechnicalLog.isSelected()));
 		chkOnlineValidation.addItemListener(ie -> MTGControler.getInstance().setProperty("network-config/online-query", chkOnlineValidation.isSelected()));
+		chkOnlineAutoConnect.addItemListener(ie -> MTGControler.getInstance().setProperty("network-config/online-autoconnect", chkOnlineAutoConnect.isSelected()));
 
 		btnSaveCode.addActionListener(e -> MTGControler.getInstance().setProperty("currencylayer-access-api",txtCurrencyFieldApiCode.getText()));
 		btnUpdateCurrency.addActionListener(ae -> {

@@ -27,6 +27,7 @@ import javax.swing.SwingWorker;
 import javax.swing.border.TitledBorder;
 
 import org.magic.api.beans.JsonMessage;
+import org.magic.api.beans.JsonMessage.MSG_TYPE;
 import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATUS;
@@ -130,7 +131,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		initActions();
 		
 		
-		if(MTG.readPropertyAsBoolean("network-config/online-query"))
+		if(MTG.readPropertyAsBoolean("network-config/online-autoconnect"))
 			btnConnect.doClick();
 		
 	}
@@ -139,7 +140,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 
 		editorPane.setEditable(false);
 		
-		
+	
 		btnConnect.addActionListener(ae -> {
 			try {
 				
@@ -196,8 +197,12 @@ public class NetworkChatPanel extends MTGUIComponent {
 						case CHANGESTATUS:Collections.list(listPlayerModel.elements()).stream().filter(p->p.getId().equals(s.getAuthor().getId())).forEach(p->p.setState(STATUS.valueOf(s.getMessage())));listPlayers.updateUI();break;
 						case CONNECT:listPlayerModel.addElement(s.getAuthor());listPlayers.updateUI();break;
 						case DISCONNECT:listPlayerModel.removeElement(s.getAuthor());listPlayers.updateUI();break;
-						case TALK:listMsgModel.addElement(s);break;
-						default:break;
+						case SEARCH: try {
+								MTG.getEnabledPlugin(MTGNetworkClient.class).searchStock(s);
+							} catch (IOException e) {
+								e.printStackTrace();
+							}break;
+						default:listMsgModel.addElement(s);break;
 						
 						}
 					}
@@ -249,7 +254,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					e.consume();
 					try {
-						client.sendMessage(editorPane.getText().trim(), editorPane.getForeground());
+						client.sendMessage(editorPane.getText().trim(), editorPane.getForeground(),MSG_TYPE.TALK);
 					} catch (IOException e1) {
 						logger.error(e1);
 					}
@@ -257,8 +262,18 @@ public class NetworkChatPanel extends MTGUIComponent {
 				}
 
 			}
-
 		});
+		
+		
+		btnSearch.addActionListener(al->{
+			try {
+				client.sendMessage(editorPane.getText().trim(), editorPane.getForeground(),MSG_TYPE.SEARCH);
+			} catch (IOException e1) {
+				logger.error(e1);
+			}
+		});
+		
+		
 
 		cboStates.addItemListener(ie -> {
 			if(ie.getStateChange()==ItemEvent.SELECTED)
