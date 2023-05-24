@@ -30,17 +30,6 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 	}
 
 	
-	public static void main(String[] args) throws IOException {
-		var sniff = new MTGDecksSniffer();
-		var list= sniff.getDeckList(sniff.listFilter()[0]);
-		
-		for(var r : list)
-		{
-			System.out.println(r.getUrl());
-		}
-	}
-	
-	
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 
@@ -99,7 +88,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 
 		for (var i = 1; i <= maxPage; i++) {
 			var url = getString(URL) + "/" + filter + "/decklists/page:" + nbPage;
-			logger.info("read deck list at {}", url);
+			logger.debug("read deck list at {}", url);
 			Document d = URLTools.extractAsHtml(url);
 
 			Elements trs = d.select("table.hidden-xs tr ");
@@ -144,11 +133,6 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 	@Override
 	public String getName() {
 		return "MTGDecks";
-	}
-
-	@Override
-	public STATUT getStatut() {
-		return STATUT.DEV;
 	}
 
 	@Override
