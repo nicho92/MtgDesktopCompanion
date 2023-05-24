@@ -29,6 +29,18 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 		return new String[] { "Standard", "Modern", "Legacy", "Vintage", "Commander", "Historic", "Pauper", "Pioneer",	"Highlander" };
 	}
 
+	
+	public static void main(String[] args) throws IOException {
+		var sniff = new MTGDecksSniffer();
+		var list= sniff.getDeckList(sniff.listFilter()[0]);
+		
+		for(var r : list)
+		{
+			System.out.println(r.getUrl());
+		}
+	}
+	
+	
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 
@@ -81,14 +93,13 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
-		var url = getString(URL) + "/" + filter + "/decklists/page:1";
-		logger.debug("get List deck at {}",url);
 		List<RetrievableDeck> list = new ArrayList<>();
 		var nbPage = 1;
 		var maxPage = getInt(MAX_PAGE);
 
 		for (var i = 1; i <= maxPage; i++) {
-			url = getString(URL) + "/" + filter + "/decklists/page:" + nbPage;
+			var url = getString(URL) + "/" + filter + "/decklists/page:" + nbPage;
+			logger.info("read deck list at {}", url);
 			Document d = URLTools.extractAsHtml(url);
 
 			Elements trs = d.select("table.hidden-xs tr ");
@@ -123,7 +134,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 				deck.setColor(build.toString());
 				list.add(deck);
 			}
-
+			nbPage++;
 		}
 
 		return list;
