@@ -28,6 +28,8 @@ import javax.swing.border.TitledBorder;
 
 import org.magic.api.beans.JsonMessage;
 import org.magic.api.beans.JsonMessage.MSG_TYPE;
+import org.magic.api.beans.MTGNotification;
+import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATUS;
@@ -57,7 +59,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 	private JButton btnSearch;
 	private DefaultListModel<JsonMessage> listMsgModel;
 	private DefaultListModel<Player> listPlayerModel;
-	private MTGNetworkClient client;
+	private transient MTGNetworkClient client;
 
 	public NetworkChatPanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -195,7 +197,12 @@ public class NetworkChatPanel extends MTGUIComponent {
 						switch(s.getTypeMessage())
 						{
 						case CHANGESTATUS:Collections.list(listPlayerModel.elements()).stream().filter(p->p.getId().equals(s.getAuthor().getId())).forEach(p->p.setState(STATUS.valueOf(s.getMessage())));listPlayers.updateUI();break;
-						case CONNECT:listPlayerModel.addElement(s.getAuthor());listPlayers.updateUI();break;
+						
+						case CONNECT:listPlayerModel.addElement(s.getAuthor());
+											   listPlayers.updateUI();
+											   if(!client.getPlayer().getId().equals(s.getAuthor().getId()) && client.getPlayer().getState()!=STATUS.BUSY)
+												   MTGControler.getInstance().notify(new MTGNotification("New connection", s.getAuthor() + " is online", MESSAGE_TYPE.INFO)); 
+											   break;
 						case DISCONNECT:listPlayerModel.removeElement(s.getAuthor());listPlayers.updateUI();break;
 						case SEARCH: try {
 								MTG.getEnabledPlugin(MTGNetworkClient.class).searchStock(s);

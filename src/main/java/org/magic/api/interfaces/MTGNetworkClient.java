@@ -30,6 +30,6 @@ public interface MTGNetworkClient extends MTGPlugin{
 
 	void searchStock(JsonMessage s) throws IOException;
 
-
+	public Player getPlayer();
 
 }
