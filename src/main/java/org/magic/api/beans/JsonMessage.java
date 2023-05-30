@@ -7,8 +7,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.magic.api.interfaces.abstracts.extra.AbstractAuditableItem;
 import org.magic.game.model.Player;
 
-import com.google.gson.JsonArray;
-
 public class JsonMessage extends AbstractAuditableItem{
 
 	private static final long serialVersionUID = 1L;
