@@ -2,10 +2,12 @@ package org.magic.api.beans;
 
 import java.awt.Color;
 import java.time.Instant;
+import java.util.Date;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.magic.api.interfaces.abstracts.extra.AbstractAuditableItem;
 import org.magic.game.model.Player;
+import org.magic.services.tools.IDGenerator;
 
 public class JsonMessage extends AbstractAuditableItem{
 
@@ -14,6 +16,7 @@ public class JsonMessage extends AbstractAuditableItem{
 	private String message;
 	private Color color;
 	private MSG_TYPE typeMessage;
+	private String id;
 	
 	public enum MSG_TYPE { CONNECT, CHANGESTATUS, DISCONNECT, TALK, SYSTEM, SEARCH, ANSWER}
 	
@@ -28,6 +31,8 @@ public class JsonMessage extends AbstractAuditableItem{
 	}
 	
 	public JsonMessage(Player author, String message, Color color, MSG_TYPE typeMessage) {
+		
+		this.id = IDGenerator.generateMD5(author.getName()+new Date()+message+typeMessage);
 		this.author = author;
 		this.message = message;
 		this.color = color;
@@ -65,6 +70,11 @@ public class JsonMessage extends AbstractAuditableItem{
 	
 	public void setTypeMessage(MSG_TYPE  typeMessage) {
 		this.typeMessage = typeMessage;
+	}
+
+
+	public String getId() {
+		return id;
 	}
 
 	

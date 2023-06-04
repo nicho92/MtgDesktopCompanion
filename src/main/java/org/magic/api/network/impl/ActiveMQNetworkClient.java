@@ -2,8 +2,6 @@ package org.magic.api.network.impl;
 import java.awt.Color;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.activemq.artemis.api.core.ActiveMQException;
@@ -19,7 +17,6 @@ import org.apache.activemq.artemis.api.core.client.ServerLocator;
 import org.magic.api.beans.JsonMessage;
 import org.magic.api.beans.JsonMessage.MSG_TYPE;
 import org.magic.api.interfaces.MTGDao;
-import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractNetworkProvider;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.POMReader;

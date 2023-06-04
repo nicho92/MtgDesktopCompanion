@@ -207,7 +207,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 						case SEARCH: try {
 								MTG.getEnabledPlugin(MTGNetworkClient.class).searchStock(s);
 							} catch (IOException e) {
-								e.printStackTrace();
+								logger.error(e);
 							}break;
 						default:listMsgModel.addElement(s);break;
 						

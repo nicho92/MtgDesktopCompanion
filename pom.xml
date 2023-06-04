@@ -158,7 +158,7 @@
 		<dependency>
 			<groupId>nl.basjes.parse.useragent</groupId>
 			<artifactId>yauaa</artifactId>
-			<version>7.19.2</version>
+			<version>7.20.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.squareup.okhttp3</groupId>
@@ -169,11 +169,6 @@
 			<groupId>org.jasypt</groupId>
 			<artifactId>jasypt</artifactId>
 			<version>1.9.3</version>
-		</dependency>
-		<dependency>
-			<groupId>net.jakubec</groupId>
-			<artifactId>JSnapableDesktopPane</artifactId>
-			<version>0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.formdev</groupId>
@@ -234,11 +229,6 @@
 			<groupId>com.github.nicho92</groupId>
 			<artifactId>mkm-api-java</artifactId>
 			<version>0.20.3</version>
-		</dependency>
-		<dependency>
-			<groupId>org.javatuples</groupId>
-			<artifactId>javatuples</artifactId>
-			<version>1.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jooq</groupId>
@@ -527,11 +517,11 @@
 			<artifactId>freemarker</artifactId>
 			<version>2.3.32</version>
 		</dependency>
-		<dependency>
-			<groupId>net.java.dev.glazedlists</groupId>
-			<artifactId>glazedlists_java15</artifactId>
-			<version>1.9.1</version>
-		</dependency>
+<!--		<dependency>
+		    <groupId>com.glazedlists</groupId>
+		    <artifactId>glazedlists</artifactId>
+		    <version>1.11.0</version>
+		</dependency>-->
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
@@ -676,6 +666,10 @@
 			</resource>
 		</resources>
 		<plugins>
+	        <plugin>
+	            <artifactId>maven-dependency-plugin</artifactId>
+	            <version>3.6.0</version>
+	        </plugin>
 			<plugin>
 			  <groupId>org.apache.maven.plugins</groupId>
 			  <artifactId>maven-compiler-plugin</artifactId>

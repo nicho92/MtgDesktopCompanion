@@ -106,10 +106,14 @@ public class ActiveMQServer extends AbstractMTGServer {
 			server.start();
 			logger.info("{} is started", getName());
 			
+			
+			
+			
 			client.join(new Player("System"),getArray(LISTENERS_TCP)[0],DEFAULT_ADDRESS);
 			
+			
+			
 			ThreadManager.getInstance().executeThread(new MTGRunnable() {
-				
 				@Override
 				protected void auditedRun() {
 					while(isAlive())
