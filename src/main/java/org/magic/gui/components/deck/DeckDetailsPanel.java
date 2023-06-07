@@ -32,6 +32,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.gui.components.ManaPanel;
 import org.magic.gui.components.editor.JTagsPanel;
+import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
 import org.magic.services.threads.ThreadManager;
@@ -73,28 +74,28 @@ public class DeckDetailsPanel extends JComponent {
 		gridBagLayout.rowWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0E-4 };
 		setLayout(gridBagLayout);
 
-		add(new JLabel(capitalize("DECK_NAME") + " :"), UITools.createGridBagConstraints(null, null, 1, 0));
+		add(new JLangLabel("DECK_NAME",true), UITools.createGridBagConstraints(null, null, 1, 0));
 		nameJTextField = new JTextField();
 		add(nameJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 0));
 
-		add(new JLabel(capitalize("CARD_LEGALITIES") + " :"), UITools.createGridBagConstraints(null, null, 1, 1));
+		add(new JLangLabel("CARD_LEGALITIES",true), UITools.createGridBagConstraints(null, null, 1, 1));
 		panelLegalities = new JPanel();
 		var flowLayout = (FlowLayout) panelLegalities.getLayout();
 		flowLayout.setHgap(10);
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		add(panelLegalities, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 2, 1));
 
-		add(new JLabel(capitalize("CARD_COLOR") + " :"), UITools.createGridBagConstraints(null, null, 1, 2));
+		add(new JLangLabel("CARD_COLOR",true), UITools.createGridBagConstraints(null, null, 1, 2));
 		manaPanel = new ManaPanel();
 		add(manaPanel, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 2, 2));
 
-		lblDate = new JLabel(capitalize("DATE") + " :");
+		lblDate = new JLangLabel("DATE",true);
 		add(lblDate, UITools.createGridBagConstraints(null, null, 1, 3));
 
 		lblDateInformation = new JLabel("");
 		add(lblDateInformation, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 2, 3));
 
-		add(new JLabel(capitalize("DESCRIPTION") + " :"), UITools.createGridBagConstraints(null, null, 1, 4));
+		add(new JLangLabel("DESCRIPTION",true), UITools.createGridBagConstraints(null, null, 1, 4));
 
 		textArea = new JTextArea();
 		textArea.setLineWrap(true);
