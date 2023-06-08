@@ -215,7 +215,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 			exact=true;
 		}
 
-		StringBuilder temp = new StringBuilder("SELECT * FROM cards WHERE ").append(att);
+		StringBuilder temp = new StringBuilder("SELECT * FROM cards, cardIdentifiers WHERE cardIdentifiers.uuid=cards.uuid AND ").append(att);
 
 
 		if(exact)
@@ -228,25 +228,17 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 		if(ed!=null && !ed.getId().isEmpty())
 			temp.append(" AND "+SETCODE+" ='").append(ed.getId()).append("'");
 
-		if(att.equals("sql"))
-		{
-			temp = new StringBuilder();
-			temp.append("SELECT * FROM cards WHERE ").append(crit);
-		}
-
 		List<MagicCard> cards = new ArrayList<>();
-
+		
+		logger.debug("executing {}",temp);
+		
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(temp.toString()))
 		{
-
-			if(!att.equalsIgnoreCase("sql"))
-			{
 				if(exact)
 					pst.setString(1, crit);
 				else
 					pst.setString(1, "%"+crit+"%");
 
-			}
 			try (ResultSet rs = pst.executeQuery())
 			{
 				while(rs.next())
@@ -506,7 +498,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 								 ed.setTcgplayerGroupId(rs.getInt((TCGPLAYER_GROUP_ID)));
 								 ed.setForeignOnly(rs.getBoolean(IS_FOREIGN_ONLY));
 								 ed.setPreview(LocalDate.parse(ed.getReleaseDate(),DateTimeFormatter.ofPattern("yyyy-MM-dd")).isAfter(LocalDate.now()));
-								 initTranslations(ed);
+								// initTranslations(ed);
 								 eds.add(ed);
 				}
 			}
@@ -558,7 +550,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 	private void initRules()
 	{
 		logger.debug("rulings empty. Loading it");
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM rulings"))
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM cardRulings"))
 		{
 			try (ResultSet rs = pst.executeQuery())
 			{
@@ -582,7 +574,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 	private void initLegalities()
 	{
 		logger.debug("legalities empty. Loading it");
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM legalities"))
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM cardLegalities"))
 		{
 			try (ResultSet rs = pst.executeQuery())
 			{
@@ -602,7 +594,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 
 			logger.debug("foreignData empty. Loading it");
-				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM foreign_data"))
+				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM cardForeignData"))
 				{
 					try (ResultSet rs = pst.executeQuery())
 					{
@@ -643,27 +635,27 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 		return (List<MTGFormat>) mapLegalities.get(uuid);
 	}
 
-	private void initTranslations(MagicEdition ed)
-	{
-
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM set_translations WHERE "+SETCODE+"=?"))
-		{
-			pst.setString(1, ed.getId());
-			try (ResultSet rs = pst.executeQuery())
-			{
-				while(rs.next())
-					ed.getTranslations().put(rs.getString(LANGUAGE), rs.getString("translation"));
-			}
-
-		} catch (SQLException e) {
-			logger.error("error getting translation for {}",ed ,e);
-		}
-	}
+//	private void initTranslations(MagicEdition ed)
+//	{
+//
+//		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM setTranslations WHERE "+SETCODE+"=?"))
+//		{
+//			pst.setString(1, ed.getId());
+//			try (ResultSet rs = pst.executeQuery())
+//			{
+//				while(rs.next())
+//					ed.getTranslations().put(rs.getString(LANGUAGE), rs.getString("translation"));
+//			}
+//
+//		} catch (SQLException e) {
+//			logger.error("error getting translation for {}",ed ,e);
+//		}
+//	}
 
 	@Override
 	public String[] getLanguages() {
 		List<String> ret = new ArrayList<>();
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("Select DISTINCT "+LANGUAGE+" from foreign_data");ResultSet rs = pst.executeQuery())
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("Select DISTINCT "+LANGUAGE+" from cardForeignData");ResultSet rs = pst.executeQuery())
 		{
 			ret.add("English");
 			while(rs.next())
@@ -708,7 +700,6 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				else
 					ret.add(new QueryAttribute(rs.getString(NAME), sqlToJavaType(rs.getString("type"))));
 			}
-			ret.add(new QueryAttribute("sql",String.class));
 			Collections.sort(ret);
 			ret.remove(new QueryAttribute(NAME,String.class));
 			ret.add(0, new QueryAttribute(NAME,String.class));
