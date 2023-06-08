@@ -616,7 +616,6 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 	private void initForeign() {
 
-
 			logger.debug("foreignData empty. Loading it");
 				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM cardForeignData"))
 				{
