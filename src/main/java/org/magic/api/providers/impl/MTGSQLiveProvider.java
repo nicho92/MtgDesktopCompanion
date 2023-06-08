@@ -279,7 +279,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 	private void initRotatedCard(MagicCard mc, String id, String side)
 	{
-		var sql ="SELECT * FROM cards WHERE uuid = ?" ;
+		var sql ="SELECT * FROM cards, cardIdentifiers WHERE cardIdentifiers.uuid=cards.uuid AND uuid = ?" ;
 		
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(sql))
 		{
@@ -574,6 +574,25 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 	private void initLegalities()
 	{
 		logger.debug("legalities empty. Loading it");
+		
+		List<String> formats = new ArrayList<>();
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("PRAGMA table_info(cardLegalities)");ResultSet rs = pst.executeQuery())
+		{
+			while(rs.next())
+			{
+				var format = rs.getString("name");
+				if(!format.equals("uuid"))
+				{
+					formats.add(format);
+				}
+
+			}
+				
+		}
+		catch (SQLException e) {
+		logger.error("error loading legalities",e);
+		}
+		
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM cardLegalities"))
 		{
 			try (ResultSet rs = pst.executeQuery())
@@ -581,7 +600,12 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				while(rs.next())
 				{
 					var id = rs.getString(UUID);
-					mapLegalities.put(id, new MTGFormat(rs.getString("format"), AUTHORIZATION.valueOf(rs.getString("status").toUpperCase())));
+					
+					for(String f : formats)
+					{
+						if(rs.getString(f)!=null)
+							mapLegalities.put(id, new MTGFormat(f, AUTHORIZATION.valueOf(rs.getString(f).toUpperCase())));
+					}
 				}
 			}
 
