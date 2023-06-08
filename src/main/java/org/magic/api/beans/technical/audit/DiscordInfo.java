@@ -50,7 +50,6 @@ public class DiscordInfo extends AbstractAuditableItem {
 		var user = new JsonObject();
 		user.addProperty("id", author.getId());
 		user.addProperty("name", author.getName());
-		user.addProperty("descriminator", author.getDiscriminator());
 		user.addProperty("mention", author.getAsMention());
 		user.addProperty("avatar", author.getAvatarUrl());
 		user.addProperty("id", author.getId());
