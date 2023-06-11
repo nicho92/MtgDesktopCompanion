@@ -949,7 +949,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	@Override
 	public Transaction getTransaction(Long id) throws SQLException {
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from transactions where id=?"))
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from transactions,contacts where id=? and transactions.fk_idcontact = contacts.contact_id"))
 		{
 				pst.setLong(1, id);
 				ResultSet rs = executeQuery(pst);
