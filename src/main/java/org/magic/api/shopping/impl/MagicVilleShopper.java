@@ -1,6 +1,7 @@
 package org.magic.api.shopping.impl;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
@@ -149,7 +150,7 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 				entry.setSource(getName());
 				entry.setUrl(urlDetailOrder+"/"+ tr.select("td").get(2).select("a").attr("href"));
 				entry.setSourceId(tr.select("td").get(2).text().replace("# ", ""));
-				var price =new String(tr.select("td").get(10).html().getBytes("ISO-8859-1"),"UTF-8" );
+				var price =new String(tr.select("td").get(10).html().getBytes(StandardCharsets.ISO_8859_1),StandardCharsets.UTF_8);
 				
 				if(!price.contains("n/a"))
 					entry.setTotalValue(UITools.parseDouble(price));

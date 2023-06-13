@@ -10,6 +10,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOCase;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
+import org.apache.commons.lang3.builder.Builder;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Wallpaper;
@@ -22,7 +23,7 @@ public class FilesWallpaperProvider extends AbstractWallpaperProvider {
 	public List<Wallpaper> search(String search) {
 		List<Wallpaper> list = new ArrayList<>();
 		try {
-
+			
 			Collection<File> res = FileTools.listFiles(getFile("DIRECTORY"),new WildcardFileFilter("*"+search+"*", IOCase.INSENSITIVE),TrueFileFilter.INSTANCE);
 
 			for (File f : res) {

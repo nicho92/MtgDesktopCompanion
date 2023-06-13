@@ -41,13 +41,9 @@ public class MTGOXMLDeckExport extends AbstractCardExport {
 		        .append("<NetDeckID>0</NetDeckID>").append(System.lineSeparator())
 				.append("<PreconstructedDeckID>0</PreconstructedDeckID>").append(System.lineSeparator());
 		
-		deck.getMain().entrySet().forEach(e->{
-			temp.append("<Cards CatID=\"1\" Quantity=\"").append(e.getValue()).append("\" Sideboard=\"false\" Name=\"").append(e.getKey().getName()).append("\" Annotation=\"0\"/>").append(System.lineSeparator());
-		});
+		deck.getMain().entrySet().forEach(e->temp.append("<Cards CatID=\"1\" Quantity=\"").append(e.getValue()).append("\" Sideboard=\"false\" Name=\"").append(e.getKey().getName()).append("\" Annotation=\"0\"/>").append(System.lineSeparator()));
 		
-		deck.getSideBoard().entrySet().forEach(e->{
-			temp.append("<Cards CatID=\"1\" Quantity=\"").append(e.getValue()).append(" Sideboard=\"true\" Name=\"").append(e.getKey().getName()).append("\" Annotation=\"0\"/>").append(System.lineSeparator());
-		});
+		deck.getSideBoard().entrySet().forEach(e->temp.append("<Cards CatID=\"1\" Quantity=\"").append(e.getValue()).append(" Sideboard=\"true\" Name=\"").append(e.getKey().getName()).append("\" Annotation=\"0\"/>").append(System.lineSeparator()));
 		temp.append("</Deck>");
 		
 		

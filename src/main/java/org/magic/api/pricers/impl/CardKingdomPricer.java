@@ -89,7 +89,6 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 		if(mc.isToken())
 		{
 			name = name + " Token";
-			//ed = EnumExtra.getSetNameFor(new CardKingdomCardExport() , mc.getCurrentSet());
 			ed = ed.replace(" Tokens", "");
 			ed = aliases.getSetNameFor(new CardKingdomCardExport() , ed);
 			filtres = where("name").is(name)

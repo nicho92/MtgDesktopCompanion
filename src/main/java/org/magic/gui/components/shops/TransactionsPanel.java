@@ -397,7 +397,6 @@ public class TransactionsPanel extends MTGUIComponent {
 				}
 				finally{
 					buzy.end();
-				//	transactionModel.fireTableDataChanged();	
 				}
 				
 			}

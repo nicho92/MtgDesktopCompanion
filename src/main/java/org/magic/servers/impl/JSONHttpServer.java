@@ -124,12 +124,9 @@ import spark.routematch.RouteMatch;
 public class JSONHttpServer extends AbstractMTGServer {
 
 	private static final String ID_DECK = ":idDeck";
-	private static final String ID_ANNOUNCE = ":idAnnounce";
 	private static final String DEFAULT_LIBRARY = "default-library";
 	private static final String TYPE = ":type";
 	private static final String SCRYFALL_ID = ":scryfallId";
-	private static final String CLASSENAME = ":classename";
-	private static final String ID_CONTACT = ":idContact";
 	private static final String PAGE = "page";
 	private static final String PAGINATE = "paginate";
 	private static final String ERROR = "error";

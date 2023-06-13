@@ -40,38 +40,6 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 		exportStock(importFromDeck(deck), dest);
 	}
 
-	@Deprecated
-	private EnumCondition reverse(String condition)
-	{
-		switch (condition)
-		{
-		 case "M": return EnumCondition.MINT;
-		 case "NM": return EnumCondition.NEAR_MINT;
-		 case "EXC": return EnumCondition.NEAR_MINT;
-		 case "GD": return EnumCondition.LIGHTLY_PLAYED;
-		 case "FIN": return EnumCondition.PLAYED;
-		 case "PR": return EnumCondition.POOR;
-		 case "": return null;
-		 default : EnumCondition.valueOf(condition.toUpperCase());
-		}
-		return EnumCondition.valueOf(condition.toUpperCase());
-	}
-	@Deprecated
-	private String reverse(EnumCondition condition)
-	{
-		switch (condition)
-		{
-		 case LIGHTLY_PLAYED: return "GD";
-		 case MINT : return "M";
-		 case NEAR_MINT : return "NM";
-		 case POOR : return "PR";
-		 case PLAYED : return "FIN";
-		 default : return "NM";
-		}
-
-	}
-
-
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 
@@ -83,7 +51,7 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 			temp.append("\"").append(st.getProduct().getCurrentSet().getSet()).append("\"").append(getSeparator());
 			temp.append(st.getQte()).append(getSeparator());
 			temp.append(st.getPrice()).append(getSeparator());
-			temp.append(reverse(st.getCondition())).append(getSeparator());
+			temp.append( aliases.getConditionFor(this,st.getCondition())).append(getSeparator());
 			temp.append(st.getLanguage()).append(getSeparator());
 			temp.append(st.isFoil()?"Yes":"No").append(getSeparator());
 			temp.append(st.isSigned()?"Yes":"No").append("\n");
@@ -127,7 +95,7 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 				st.setLanguage(m.group(6));
 				st.setFoil(m.group(7).equalsIgnoreCase("yes"));
 				st.setSigned(m.group(8).equalsIgnoreCase("yes"));
-				st.setCondition(reverse(m.group(5)));
+				st.setCondition(aliases.getReversedConditionFor(this,m.group(5),EnumCondition.NEAR_MINT));
 				ret.add(st);
 				notify(card);
 			}
