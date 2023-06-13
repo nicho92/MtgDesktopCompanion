@@ -41,7 +41,6 @@ function buildAnnounce(data, geds,xs,sm,md,lg)
 				
 				if(data.percentReduction>0.0)
 					append+="<span class='price-save'> "+data.percentReduction+"% Off </span>";
-					append+="<div class='icon'><span class='bg-green'><i name='fav-btn' data='"+data.id+"' class='lni-heart'></i></span></div>";
 					append+="<a href='announce.html?id="+data.id+"' >"+img+"</a>";
 				append+="</figure>";
 				

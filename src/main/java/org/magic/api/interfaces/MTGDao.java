@@ -103,11 +103,6 @@ public interface MTGDao extends MTGPlugin{
 	public void deleteAlert(MagicCardAlert alert) throws SQLException;
 	public MagicCardAlert hasAlert(MagicCard mc);
 
-
-	public void saveFavorites(int idContact, int idAnnounce, String classename) throws SQLException;
-	public void deleteFavorites(int idContact, int idAnnounce,String classename) throws SQLException;
-	public List<Announce> listFavorites(Contact c,String classename) throws SQLException;
-
 	public List<Announce> listAnnounces() throws SQLException;
 	public List<Announce> listAnnounces(Contact c) throws SQLException;
 	public List<Announce> listAnnounces(int max,STATUS stat) throws SQLException;

@@ -33,29 +33,7 @@
 	});
 	
 	
-	$('[data-toggle="tooltip"]').tooltip()
-	
-	
-	$(document).on('click', '[name="fav-btn"]', function(){
-		
-		var idAnnounce= ($(this).attr("data"));
-    	var idUser = getCurrentUser();
-    	
-    	if(idUser)
-    	{
-			$.ajax({
-			   type: "PUT", url: restserver+"/favorites/Announce/"+idUser.id+"/"+idAnnounce
-			}).then(function(data){
-				
-				$(this).removeClass("lni-heart");
-				$(this).addClass("lni-heart-filled");
-				
-				console.log(data);
-			});
-		}
-    	
-    	
-	});
+	$('[data-toggle="tooltip"]').tooltip();
 	
 	
 	

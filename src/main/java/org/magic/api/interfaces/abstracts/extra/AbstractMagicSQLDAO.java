@@ -191,9 +191,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public boolean createDB() throws SQLException {
 		try (var cont =  pool.getConnection();Statement stat = cont.createStatement()) {
 			
-			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" favorites (id_contact INTEGER, id_announce INTEGER, classeName VARCHAR(30) )");
-			logger.debug("Create table favorites");
-
 			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" ged (id "+getAutoIncrementKeyWord()+" PRIMARY KEY,creationDate TIMESTAMP, className VARCHAR(250), idInstance VARCHAR(250), fileName VARCHAR(250), fileContent " + longTextStorage() + ", md5 VARCHAR(35) )");
 			logger.debug("Create table ged");
 
@@ -253,56 +250,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		catch (Exception e) {
 			logger.error("Error in createDB : {}", e.getMessage());
 			return false;
-		}
-	}
-
-
-	@Override
-	public List<Announce> listFavorites(Contact contact, String classename) throws SQLException {
-
-		var ret = new ArrayList<Announce>();
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT id_announce from favorites where id_contact= ? and classename=?"))
-		{
-			pst.setInt(1, contact.getId());
-			pst.setString(2, classename);
-			var rs = executeQuery(pst);
-			while(rs.next())
-			{
-				try {
-					ret.add(getAnnounceById(rs.getInt("id_announce")));
-				}
-				catch(Exception e)
-				{
-					logger.error(e);
-				}
-
-			}
-		}
-
-		return ret;
-	}
-
-
-	@Override
-	public void deleteFavorites(int idContact, int idAnnounce, String classename) throws SQLException {
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("DELETE FROM favorites WHERE id_contact= ? and id_announce=? and classename=?"))
-		{
-				pst.setInt(1, idContact);
-				pst.setInt(2, idAnnounce);
-				pst.setString(3, classename);
-				executeUpdate(pst);
-		}
-
-	}
-
-	@Override
-	public void saveFavorites(int idContact, int idAnnounce,String classename) throws SQLException {
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("INSERT INTO favorites (id_contact,id_announce,classeName) VALUES (?,?,?)"))
-		{
-				pst.setInt(1, idContact);
-				pst.setInt(2, idAnnounce);
-				pst.setString(3, classename);
-				executeUpdate(pst);
 		}
 	}
 

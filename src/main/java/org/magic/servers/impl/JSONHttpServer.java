@@ -1248,43 +1248,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		}, transformer);
 
-		put("/favorites/:classename/:idContact/"+ID_ANNOUNCE, URLTools.HEADER_JSON, (request, response) -> {
-			try{
-				MTG.getEnabledPlugin(MTGDao.class).saveFavorites(Integer.parseInt(request.params(ID_CONTACT)), Integer.parseInt(request.params(ID_ANNOUNCE)),request.params(CLASSENAME));
-				return ok(request, response,"favorites saved for announces " + request.params(ID_ANNOUNCE));
-			}catch(Exception e)
-			{
-				return e;
-			}
-		}, transformer);
-
-
-		delete("/favorites/:classename/:idContact/"+ID_ANNOUNCE, URLTools.HEADER_JSON, (request, response) -> {
-			try{
-				MTG.getEnabledPlugin(MTGDao.class).deleteFavorites(Integer.parseInt(request.params(ID_CONTACT)), Integer.parseInt(request.params(ID_ANNOUNCE)),request.params(CLASSENAME));
-				return ok(request, response,"favorites deleted for announces " + request.params(ID_ANNOUNCE));
-				}
-			catch(Exception e)
-				{
-					return e;
-				}
-		}, transformer);
-
-
-		get("/favorites/:classename/:idContact", URLTools.HEADER_JSON, (request, response) -> {
-			try{
-				var cont = MTG.getEnabledPlugin(MTGDao.class).getContactById(Integer.parseInt(request.params(ID_CONTACT)));
-				return MTG.getEnabledPlugin(MTGDao.class).listFavorites(cont,request.params(CLASSENAME));
-			}catch(Exception e)
-			{
-				logger.error(e);
-				return new ArrayList<>();
-			}
-		}, transformer);
-
-
-
-
 		post("/announces/new", URLTools.HEADER_JSON, (request, response) -> {
 			Announce a=converter.fromJson(new InputStreamReader(request.raw().getInputStream()), Announce.class);
 			return MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateAnnounce(a);

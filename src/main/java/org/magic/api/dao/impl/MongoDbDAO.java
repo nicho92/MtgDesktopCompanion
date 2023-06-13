@@ -1047,40 +1047,4 @@ public class MongoDbDAO extends AbstractMagicDAO {
 							 ,Contact.class);
 	}
 
-	@Override
-	public void saveFavorites(int idContact, int idAnnounce, String classeName) throws SQLException {
-
-		var obj = new BasicDBObject();
-			obj.put("idContact", idContact);
-			obj.put("idAnnounce", idAnnounce);
-			obj.put("classeName", classeName);
-
-		db.getCollection(colFavorites, BasicDBObject.class).insertOne(obj);
-
-	}
-
-	@Override
-	public void deleteFavorites(int idContact, int idAnnounce, String classeName) throws SQLException {
-		DeleteResult rs = db.getCollection(colFavorites).deleteOne(Filters.and(Filters.eq("idContact", idContact),Filters.eq("idAnnounce",idAnnounce),Filters.eq("classeName",classeName)));
-		logger.debug(rs);
-
-	}
-
-	@Override
-	public List<Announce> listFavorites(Contact c, String classeName) throws SQLException {
-		List<Announce> trans = new ArrayList<>();
-		db.getCollection(colFavorites, BasicDBObject.class).find(Filters.and(Filters.eq("idContact", c.getId()),Filters.eq("classeName",classeName))).forEach((Consumer<BasicDBObject>) result ->{
-
-			try {
-				var announce = getAnnounceById(Integer.parseInt(result.get("idAnnounce").toString()));
-				trans.add(announce);
-			}catch (Exception e) {
-				logger.error(e);
-			}
-
-		});
-		return trans;
-	}
-
-
 }
