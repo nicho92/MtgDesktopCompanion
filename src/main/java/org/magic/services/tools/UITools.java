@@ -745,18 +745,4 @@ public class UITools {
 	}
 
 
-//	
-//	
-//	public static <T> void bindProperty(JTextField textField, T obj, String property) {
-//		
-//		if(obj!=null) {
-//		var transporterShippingCodeProperty = BeanProperty.create(property);
-//		var textProperty = BeanProperty.create("text");
-//		var binder = Bindings.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, obj, transporterShippingCodeProperty, textField, textProperty);
-//		binder.bind();
-//		}
-//	}
-
-
-
 }

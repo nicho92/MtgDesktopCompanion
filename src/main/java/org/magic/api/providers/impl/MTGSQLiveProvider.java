@@ -498,7 +498,6 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 								 ed.setTcgplayerGroupId(rs.getInt((TCGPLAYER_GROUP_ID)));
 								 ed.setForeignOnly(rs.getBoolean(IS_FOREIGN_ONLY));
 								 ed.setPreview(LocalDate.parse(ed.getReleaseDate(),DateTimeFormatter.ofPattern("yyyy-MM-dd")).isAfter(LocalDate.now()));
-								// initTranslations(ed);
 								 eds.add(ed);
 				}
 			}
@@ -657,23 +656,6 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 		return (List<MTGFormat>) mapLegalities.get(uuid);
 	}
-
-//	private void initTranslations(MagicEdition ed)
-//	{
-//
-//		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM setTranslations WHERE "+SETCODE+"=?"))
-//		{
-//			pst.setString(1, ed.getId());
-//			try (ResultSet rs = pst.executeQuery())
-//			{
-//				while(rs.next())
-//					ed.getTranslations().put(rs.getString(LANGUAGE), rs.getString("translation"));
-//			}
-//
-//		} catch (SQLException e) {
-//			logger.error("error getting translation for {}",ed ,e);
-//		}
-//	}
 
 	@Override
 	public String[] getLanguages() {

@@ -56,18 +56,6 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 
 	}
 
-//	@Override
-//	public void setColorAccentuation(String c) {
-//
-//		if(c.length()>1)
-//		{
-//			c=c.charAt(0)+"/"+c.charAt(1);
-//		}
-//
-//		setProperty(HYBRIDE,c);
-//
-//	}
-
 	@Override
 	public BufferedImage getPicture(MagicCard mc, MagicEdition me) throws IOException {
 		if(httpclient==null)

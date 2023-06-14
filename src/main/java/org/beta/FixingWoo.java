@@ -10,14 +10,18 @@ import org.magic.api.exports.impl.WooCommerceExport;
 import org.magic.api.externalshop.impl.WooCommerceExternalShop;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGControler;
+import org.magic.services.logging.MTGLogger;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.WooCommerceTools;
 
 import com.google.gson.JsonObject;
 import com.icoderman.woocommerce.EndpointBaseType;
+import org.apache.logging.log4j.Logger;
+
 
 public class FixingWoo {
 
+	private static Logger logger = MTGLogger.getLogger(FixingWoo.class);
 	public static void main(String[] args) throws SQLException, IOException {
 		MTGControler.getInstance().init();
 		
@@ -52,7 +56,7 @@ public class FixingWoo {
 				mcs.getTiersAppIds().put(WooCommerceTools.WOO_COMMERCE_NAME,obj.get("id").getAsString());
 				mcs.setUpdated(true);
 				MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateCardStock(mcs);
-				System.out.println("saving "+ mcs.getId() + " with wooID ="+mcs.getTiersAppIds(WooCommerceTools.WOO_COMMERCE_NAME));
+				logger.info("saving {} with wooId={}", mcs.getId() ,mcs.getTiersAppIds(WooCommerceTools.WOO_COMMERCE_NAME));
 				break;
 			}
 		}

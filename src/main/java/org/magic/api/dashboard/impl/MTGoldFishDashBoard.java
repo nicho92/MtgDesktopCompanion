@@ -483,7 +483,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		logger.debug("get best cards : {}",u);
 		Elements trs = doc.select("table tr");
 		trs.remove(0);
-		//trs.remove(0);
 		List<CardDominance> ret = new ArrayList<>();
 		for (Element e : trs) {
 			Elements tds = e.select(MTGConstants.HTML_TAG_TD);
