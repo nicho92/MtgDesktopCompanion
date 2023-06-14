@@ -8,12 +8,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.apache.commons.io.input.CountingInputStream;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 import org.jsoup.nodes.Document;
+import org.magic.services.logging.MTGLogger;
+import org.magic.services.tools.Chrono;
 import org.magic.services.tools.FileTools;
 import org.magic.services.tools.ImageTools;
+import org.magic.services.tools.UITools;
 import org.magic.services.tools.XMLTools;
+import org.ocpsoft.prettytime.PrettyTime;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -193,7 +198,45 @@ public class RequestBuilder
 	}
 
 	public void download(File dest) throws IOException {
-		FileTools.copyInputStreamToFile(execute().getEntity().getContent(),dest);
+		
+		
+		var cis = new CountingInputStream(execute().getEntity().getContent()) {
+			long total = 0L;
+			Chrono chrono = new Chrono();
+			long time = 0L;
+			
+			
+			@Override
+			protected synchronized void afterRead(int n) {
+				
+				if(total==0)
+					chrono.start();
+				
+				
+				if(n>-1)
+				{
+					total +=n;
+				}
+				else
+				{
+					time = chrono.stop();
+				}
+			}
+			
+			public long getTotal() {
+				return total;
+			}
+			
+			public long getTime() {
+				return time;
+			};
+			
+		};
+		
+		FileTools.copyInputStreamToFile(cis,dest);
+		
+		MTGLogger.getLogger(this.getClass()).info( "{} in {} sec",UITools.humanReadableSize(cis.getTotal()),cis.getTime()/1000);
+		
 	}
 
 	public RequestBuilder addContent(String s) {

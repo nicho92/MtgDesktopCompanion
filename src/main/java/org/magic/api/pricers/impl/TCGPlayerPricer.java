@@ -39,7 +39,7 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 
 		if(idResults==null)
 		{
-			logger.info("{} found nothing",getName());
+			logger.warn("{} found nothing",getName());
 			return list;
 		}
 
