@@ -50,12 +50,6 @@ public class MTGOXMLDeckExport extends AbstractCardExport {
 		FileTools.saveFile(dest, temp.toString());
 	}
 	
-	
-	public static void main(String[] args) throws IOException {
-		new MTGOXMLDeckExport().importDeckFromFile(new File("D:\\Desktop\\Deck_-_Goblins.dek"));
-	}
-	
-
 	@Override
 	public MagicDeck importDeck(String f, String deckName) throws IOException {
 		var deck = new MagicDeck();

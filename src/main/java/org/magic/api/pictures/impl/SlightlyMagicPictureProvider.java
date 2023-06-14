@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Map;
 
+import org.apache.commons.io.IOCase;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.magic.api.beans.MagicCard;
@@ -62,7 +63,8 @@ public class SlightlyMagicPictureProvider extends AbstractPicturesProvider {
 			dirName="AL";
 
 		var edDir = new File(getFile(PICS_DIR),dirName);
-		int size = FileTools.listFiles(edDir, new WildcardFileFilter(mc.getName()+"*"),TrueFileFilter.INSTANCE).size();
+		
+		int size = FileTools.listFiles(edDir, WildcardFileFilter.builder().setWildcards(mc.getName()+"*").get(),TrueFileFilter.INSTANCE).size();
 		var calculate = "";
 		if(size>1)
 		{

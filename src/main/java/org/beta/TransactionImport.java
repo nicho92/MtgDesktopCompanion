@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import javax.swing.JFileChooser;
+
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -23,7 +25,9 @@ public class TransactionImport {
 		MTGControler.getInstance().init();
 		
 		
-		File importFile = new File("D:\\Desktop\\6TH.csv");
+		var choose = new JFileChooser();
+		
+		File importFile = choose.getSelectedFile();
 		
 		var transaction = MTG.getEnabledPlugin(MTGDao.class).getTransaction(339L);
 		var set = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById("6ED");

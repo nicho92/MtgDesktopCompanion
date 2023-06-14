@@ -199,9 +199,7 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 
 	@Override
 	public List<CardDominance> getBestCards(FORMATS f, String filter) throws IOException {
-		ArrayList<CardDominance> list = new ArrayList<>();
-
-		return list;
+		return new ArrayList<>();
 	}
 
 	@Override
