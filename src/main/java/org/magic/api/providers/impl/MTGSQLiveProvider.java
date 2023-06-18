@@ -261,7 +261,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 	public List<MagicCard> listAllCards()throws IOException {
 		List<MagicCard> cards = new ArrayList<>();
 
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * from cards"))
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM cards, cardIdentifiers WHERE cardIdentifiers.uuid=cards.uuid"))
 		{
 			try (ResultSet rs = pst.executeQuery())
 			{

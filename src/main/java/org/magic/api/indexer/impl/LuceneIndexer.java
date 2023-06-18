@@ -331,7 +331,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 						doc.add(new Field("extraLayout", "", fieldType));
 
 
-            	   for(EnumColors color:mc.getColors())
+            	   for(EnumColors color:mc.getColors().stream().filter(c->c != null).toList())
             	   {
             		   doc.add(new Field("color", color.getCode(), fieldType));
             	   }
