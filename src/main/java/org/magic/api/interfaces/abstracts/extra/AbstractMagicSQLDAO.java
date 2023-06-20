@@ -70,13 +70,10 @@ import com.google.gson.JsonObject;
 public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	private static final String UPDATED = "{} updated";
-	private static final String BOOLEAN = "BOOLEAN";
 	private static final String EXTRATYPE = "extra";
 	private static final String COLLECTION = "collection";
 	protected static final String MCARD = "mcard";
 	private static final String DEFAULT_LIBRARY = "default-library";
-	private static final String IF_NOT_EXISTSS = "IF NOT EXISTSS ";
-	private static final String CREATE_TABLE = "CREATE TABLE ";
 	private static final String EDITION = "edition";
 	protected MTGPool pool;
 
@@ -201,7 +198,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			stat.executeUpdate("CREATE TABLE IF NOT EXISTS transactions (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, dateTransaction TIMESTAMP, message VARCHAR(250), stocksItem "+beanStorage()+", statut VARCHAR(15), transporter VARCHAR(50), shippingPrice DECIMAL(10,3), transporterShippingCode VARCHAR(50),currency VARCHAR(5),datePayment TIMESTAMP NULL ,dateSend TIMESTAMP NULL , paymentProvider VARCHAR(50),fk_idcontact INTEGER, sourceShopId VARCHAR(250),sourceShopName VARCHAR(250),typeTransaction VARCHAR(15), reduction DECIMAL(10,2))");
 			logger.debug("Create table transactions");
 
-			stat.executeUpdate("CREATE TABLE IF NOT EXISTS contacts (contact_id " + getAutoIncrementKeyWord() + " PRIMARY KEY, contact_name VARCHAR(250), contact_lastname VARCHAR(250), contact_password VARCHAR(250),contact_telephone VARCHAR(250), contact_country VARCHAR(250), contact_zipcode VARCHAR(10), contact_city VARCHAR(50), contact_address VARCHAR(250), contact_website VARCHAR(250),contact_email VARCHAR(100) UNIQUE, emailAccept "+getBoolean()+", contact_active "+getBoolean()+", temporaryToken VARCHAR("+TransactionService.TOKENSIZE+"))");
+			stat.executeUpdate("CREATE TABLE IF NOT EXISTS contacts (contact_id " + getAutoIncrementKeyWord() + " PRIMARY KEY, contact_name VARCHAR(250), contact_lastname VARCHAR(250), contact_password VARCHAR(250),contact_telephone VARCHAR(250), contact_country VARCHAR(250), contact_zipcode VARCHAR(10), contact_city VARCHAR(50), contact_address VARCHAR(250), contact_website VARCHAR(250),contact_email VARCHAR(100) UNIQUE, emailAccept BOOLEAN, contact_active BOOLEAN, temporaryToken VARCHAR("+TransactionService.TOKENSIZE+"))");
 			logger.debug("Create table contacts");
 
 			stat.executeUpdate("CREATE TABLE IF NOT EXISTS cards (ID varchar("+CARD_ID_SIZE+"),mcard "+beanStorage()+", edition VARCHAR(5), cardprovider VARCHAR(20), collection VARCHAR("+COLLECTION_COLUMN_SIZE+"), dateUpdate TIMESTAMP)");
@@ -210,10 +207,10 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			stat.executeUpdate("CREATE TABLE IF NOT EXISTS collections ( name VARCHAR("+COLLECTION_COLUMN_SIZE+") PRIMARY KEY)");
 			logger.debug("Create table collections");
 
-			stat.executeUpdate("CREATE TABLE IF NOT EXISTS stocks (idstock "+getAutoIncrementKeyWord()+" PRIMARY KEY , idmc varchar("+CARD_ID_SIZE+"), mcard "+beanStorage()+", collection VARCHAR("+COLLECTION_COLUMN_SIZE+"),comments "+longTextStorage()+", conditions VARCHAR(30),foil "+getBoolean()+", signedcard "+getBoolean()+", langage VARCHAR(20), qte integer,altered "+getBoolean()+",price DECIMAL, grading "+beanStorage()+", tiersAppIds "+beanStorage()+",etched "+getBoolean()+")");
+			stat.executeUpdate("CREATE TABLE IF NOT EXISTS stocks (idstock "+getAutoIncrementKeyWord()+" PRIMARY KEY , idmc varchar("+CARD_ID_SIZE+"), mcard "+beanStorage()+", collection VARCHAR("+COLLECTION_COLUMN_SIZE+"),comments "+longTextStorage()+", conditions VARCHAR(30),foil BOOLEAN, signedcard BOOLEAN, langage VARCHAR(20), qte integer,altered BOOLEAN,price DECIMAL, grading "+beanStorage()+", tiersAppIds "+beanStorage()+",etched BOOLEAN)");
 			logger.debug("Create table stocks");
 
-			stat.executeUpdate("CREATE TABLE IF NOT EXISTS alerts (id varchar("+CARD_ID_SIZE+") PRIMARY KEY, mcard "+beanStorage()+", amount DECIMAL, foil "+getBoolean()+",qte integer)");
+			stat.executeUpdate("CREATE TABLE IF NOT EXISTS alerts (id varchar("+CARD_ID_SIZE+") PRIMARY KEY, mcard "+beanStorage()+", amount DECIMAL, foil BOOLEAN,qte integer)");
 			logger.debug("Create table alerts");
 
 			stat.executeUpdate("CREATE TABLE IF NOT EXISTS news (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, name VARCHAR(100), url VARCHAR(255), categorie VARCHAR(50),typeNews VARCHAR(50))");
@@ -585,11 +582,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		} catch (SQLException e) {
 			return "1.0";
 		}
-	}
-
-	protected String getBoolean()
-	{
-		return BOOLEAN;
 	}
 
 	@Override
