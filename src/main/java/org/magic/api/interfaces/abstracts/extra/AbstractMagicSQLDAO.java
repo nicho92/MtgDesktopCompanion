@@ -247,7 +247,8 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			return false;
 		}
 		catch (Exception e) {
-			logger.error("Error in createDB : {}", e.getMessage(),e);
+			logger.error("Error in createDB : {}", e.getMessage());
+			logger.trace(e);
 			return false;
 		}
 	}
@@ -477,7 +478,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	}
 
 
-	public void createIndex(Statement stat) throws SQLException {
+	private void createIndex(Statement stat) throws SQLException {
 		stat.executeUpdate("CREATE INDEX idx_id ON cards (ID);");
 		stat.executeUpdate("CREATE INDEX idx_ed ON cards (edition);");
 		stat.executeUpdate("CREATE INDEX idx_col ON cards (collection);");
@@ -536,9 +537,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		stat.executeUpdate("CREATE INDEX idx_category ON announces (category);");
 		stat.executeUpdate("CREATE INDEX idx_conditions ON announces (conditions);");
 		stat.executeUpdate("CREATE INDEX idx_statusAnnounce ON announces (statusAnnounce);");
-
-
-
 
 		stat.executeUpdate("ALTER TABLE cards ADD PRIMARY KEY (ID,edition,collection);");
 
