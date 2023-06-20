@@ -75,7 +75,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	private static final String COLLECTION = "collection";
 	protected static final String MCARD = "mcard";
 	private static final String DEFAULT_LIBRARY = "default-library";
-	private static final String IF_NOT_EXISTS = "IF NOT EXISTS ";
+	private static final String IF_NOT_EXISTSS = "IF NOT EXISTSS ";
 	private static final String CREATE_TABLE = "CREATE TABLE ";
 	private static final String EDITION = "edition";
 	protected MTGPool pool;
@@ -87,8 +87,8 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	protected abstract String createListStockSQL();
 	protected abstract String getdbSizeQuery();
 
-	protected static final int COLLECTION_COLUMN_SIZE=30;
-	protected static final int CARD_ID_SIZE=50;
+	private static final int COLLECTION_COLUMN_SIZE=30;
+	private static final int CARD_ID_SIZE=50;
 
 
 	protected List<MTGStockItem> readStockItemFrom(ResultSet rs,String field) throws SQLException {
@@ -188,43 +188,44 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		return true;
 	}
 
-	public boolean createDB() throws SQLException {
+	
+	private boolean createDB() throws SQLException {
 		try (var cont =  pool.getConnection();Statement stat = cont.createStatement()) {
 			
-			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" ged (id "+getAutoIncrementKeyWord()+" PRIMARY KEY,creationDate TIMESTAMP, className VARCHAR(250), idInstance VARCHAR(250), fileName VARCHAR(250), fileContent " + longTextStorage() + ", md5 VARCHAR(35) )");
+			stat.executeUpdate("CREATE TABLE IF NOT EXISTS ged (id "+getAutoIncrementKeyWord()+" PRIMARY KEY,creationDate TIMESTAMP, className VARCHAR(250), idInstance VARCHAR(250), fileName VARCHAR(250), fileContent " + longTextStorage() + ", md5 VARCHAR(35) )");
 			logger.debug("Create table ged");
 
-			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" announces (id "+getAutoIncrementKeyWord()+" PRIMARY KEY,creationDate TIMESTAMP , startDate TIMESTAMP ,endDate TIMESTAMP, title VARCHAR(150), description " + longTextStorage() + ", total DECIMAL(10,2), currency VARCHAR(5), stocksItem "+beanStorage() + ",typeAnnounce VARCHAR(10), fk_idcontact INTEGER, category VARCHAR(50), percentReduction DECIMAL(10,2), conditions VARCHAR(50), statusAnnounce VARCHAR(25))");
+			stat.executeUpdate("CREATE TABLE IF NOT EXISTS announces (id "+getAutoIncrementKeyWord()+" PRIMARY KEY,creationDate TIMESTAMP , startDate TIMESTAMP ,endDate TIMESTAMP, title VARCHAR(150), description " + longTextStorage() + ", total DECIMAL(10,2), currency VARCHAR(5), stocksItem "+beanStorage() + ",typeAnnounce VARCHAR(10), fk_idcontact INTEGER, category VARCHAR(50), percentReduction DECIMAL(10,2), conditions VARCHAR(50), statusAnnounce VARCHAR(25))");
 			logger.debug("Create table announces");
 
-			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" transactions (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, dateTransaction TIMESTAMP, message VARCHAR(250), stocksItem "+beanStorage()+", statut VARCHAR(15), transporter VARCHAR(50), shippingPrice DECIMAL(10,3), transporterShippingCode VARCHAR(50),currency VARCHAR(5),datePayment TIMESTAMP NULL ,dateSend TIMESTAMP NULL , paymentProvider VARCHAR(50),fk_idcontact INTEGER, sourceShopId VARCHAR(250),sourceShopName VARCHAR(250),typeTransaction VARCHAR(15), reduction DECIMAL(10,2))");
+			stat.executeUpdate("CREATE TABLE IF NOT EXISTS transactions (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, dateTransaction TIMESTAMP, message VARCHAR(250), stocksItem "+beanStorage()+", statut VARCHAR(15), transporter VARCHAR(50), shippingPrice DECIMAL(10,3), transporterShippingCode VARCHAR(50),currency VARCHAR(5),datePayment TIMESTAMP NULL ,dateSend TIMESTAMP NULL , paymentProvider VARCHAR(50),fk_idcontact INTEGER, sourceShopId VARCHAR(250),sourceShopName VARCHAR(250),typeTransaction VARCHAR(15), reduction DECIMAL(10,2))");
 			logger.debug("Create table transactions");
 
-			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" contacts (contact_id " + getAutoIncrementKeyWord() + " PRIMARY KEY, contact_name VARCHAR(250), contact_lastname VARCHAR(250), contact_password VARCHAR(250),contact_telephone VARCHAR(250), contact_country VARCHAR(250), contact_zipcode VARCHAR(10), contact_city VARCHAR(50), contact_address VARCHAR(250), contact_website VARCHAR(250),contact_email VARCHAR(100) UNIQUE, emailAccept "+getBoolean()+", contact_active "+getBoolean()+", temporaryToken VARCHAR("+TransactionService.TOKENSIZE+"))");
+			stat.executeUpdate("CREATE TABLE IF NOT EXISTS contacts (contact_id " + getAutoIncrementKeyWord() + " PRIMARY KEY, contact_name VARCHAR(250), contact_lastname VARCHAR(250), contact_password VARCHAR(250),contact_telephone VARCHAR(250), contact_country VARCHAR(250), contact_zipcode VARCHAR(10), contact_city VARCHAR(50), contact_address VARCHAR(250), contact_website VARCHAR(250),contact_email VARCHAR(100) UNIQUE, emailAccept "+getBoolean()+", contact_active "+getBoolean()+", temporaryToken VARCHAR("+TransactionService.TOKENSIZE+"))");
 			logger.debug("Create table contacts");
 
-			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" cards (ID varchar("+CARD_ID_SIZE+"),mcard "+beanStorage()+", edition VARCHAR(5), cardprovider VARCHAR(20), collection VARCHAR("+COLLECTION_COLUMN_SIZE+"), dateUpdate TIMESTAMP)");
+			stat.executeUpdate("CREATE TABLE IF NOT EXISTS cards (ID varchar("+CARD_ID_SIZE+"),mcard "+beanStorage()+", edition VARCHAR(5), cardprovider VARCHAR(20), collection VARCHAR("+COLLECTION_COLUMN_SIZE+"), dateUpdate TIMESTAMP)");
 			logger.debug("Create table cards");
 
-			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" collections ( name VARCHAR("+COLLECTION_COLUMN_SIZE+") PRIMARY KEY)");
+			stat.executeUpdate("CREATE TABLE IF NOT EXISTS collections ( name VARCHAR("+COLLECTION_COLUMN_SIZE+") PRIMARY KEY)");
 			logger.debug("Create table collections");
 
-			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" stocks (idstock "+getAutoIncrementKeyWord()+" PRIMARY KEY , idmc varchar("+CARD_ID_SIZE+"), mcard "+beanStorage()+", collection VARCHAR("+COLLECTION_COLUMN_SIZE+"),comments "+longTextStorage()+", conditions VARCHAR(30),foil "+getBoolean()+", signedcard "+getBoolean()+", langage VARCHAR(20), qte integer,altered "+getBoolean()+",price DECIMAL, grading "+beanStorage()+", tiersAppIds "+beanStorage()+",etched "+getBoolean()+")");
+			stat.executeUpdate("CREATE TABLE IF NOT EXISTS stocks (idstock "+getAutoIncrementKeyWord()+" PRIMARY KEY , idmc varchar("+CARD_ID_SIZE+"), mcard "+beanStorage()+", collection VARCHAR("+COLLECTION_COLUMN_SIZE+"),comments "+longTextStorage()+", conditions VARCHAR(30),foil "+getBoolean()+", signedcard "+getBoolean()+", langage VARCHAR(20), qte integer,altered "+getBoolean()+",price DECIMAL, grading "+beanStorage()+", tiersAppIds "+beanStorage()+",etched "+getBoolean()+")");
 			logger.debug("Create table stocks");
 
-			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" alerts (id varchar("+CARD_ID_SIZE+") PRIMARY KEY, mcard "+beanStorage()+", amount DECIMAL, foil "+getBoolean()+",qte integer)");
+			stat.executeUpdate("CREATE TABLE IF NOT EXISTS alerts (id varchar("+CARD_ID_SIZE+") PRIMARY KEY, mcard "+beanStorage()+", amount DECIMAL, foil "+getBoolean()+",qte integer)");
 			logger.debug("Create table alerts");
 
-			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" news (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, name VARCHAR(100), url VARCHAR(255), categorie VARCHAR(50),typeNews VARCHAR(50))");
+			stat.executeUpdate("CREATE TABLE IF NOT EXISTS news (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, name VARCHAR(100), url VARCHAR(255), categorie VARCHAR(50),typeNews VARCHAR(50))");
 			logger.debug("Create table news");
 
-			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" sealed (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, edition VARCHAR(5), qte integer, comment "+longTextStorage()+",lang VARCHAR(50),typeProduct VARCHAR(25),conditionProduct VARCHAR(25),statut VARCHAR(10), extra VARCHAR(10),collection VARCHAR("+COLLECTION_COLUMN_SIZE+"),price DECIMAL, tiersAppIds "+beanStorage()+", numversion integer)");
+			stat.executeUpdate("CREATE TABLE IF NOT EXISTS sealed (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, edition VARCHAR(5), qte integer, comment "+longTextStorage()+",lang VARCHAR(50),typeProduct VARCHAR(25),conditionProduct VARCHAR(25),statut VARCHAR(10), extra VARCHAR(10),collection VARCHAR("+COLLECTION_COLUMN_SIZE+"),price DECIMAL, tiersAppIds "+beanStorage()+", numversion integer)");
 			logger.debug("Create table selead");
 
-			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" decks (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, description "+longTextStorage()+", name VARCHAR(250), dateCreation DATE, dateUpdate DATE, tags VARCHAR(250), commander " +beanStorage()+", main " +beanStorage()+", sideboard " +beanStorage()+", averagePrice DECIMAL)");
+			stat.executeUpdate("CREATE TABLE IF NOT EXISTS decks (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, description "+longTextStorage()+", name VARCHAR(250), dateCreation DATE, dateUpdate DATE, tags VARCHAR(250), commander " +beanStorage()+", main " +beanStorage()+", sideboard " +beanStorage()+", averagePrice DECIMAL)");
 			logger.debug("Create table decks");
 
-			stat.executeUpdate(CREATE_TABLE+notExistSyntaxt()+" conversionsItems (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, name VARCHAR(255),lang VARCHAR(25), source VARCHAR(25),inputId BIGINT,destination VARCHAR(25),outputId BIGINT)");
+			stat.executeUpdate("CREATE TABLE IF NOT EXISTS conversionsItems (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, name VARCHAR(255),lang VARCHAR(25), source VARCHAR(25),inputId BIGINT,destination VARCHAR(25),outputId BIGINT)");
 			logger.debug("Create table conversionsItems");
 
 			postCreation(stat);
@@ -235,7 +236,8 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				stat.executeUpdate("insert into collections values ('"+s+"')");
 
 
-			stat.executeUpdate("INSERT INTO contacts (contact_id, contact_name, contact_lastname, contact_password, contact_telephone, contact_country, contact_zipcode, contact_city, contact_address, contact_website, contact_email, emailAccept, temporaryToken, contact_active) VALUES (1, 'MTG', 'Companion', NULL, '123456789', 'FR', '123456', 'Somewhere', 'In the middle of nowhere', 'https://www.mtgcompanion.org', 'mtgdesktopcompanion@gmail.com', '1', NULL, '1');");
+			stat.executeUpdate("INSERT INTO contacts (contact_id, contact_name, contact_lastname, contact_telephone, contact_country, contact_zipcode, contact_city, contact_address, contact_website, contact_email, emailAccept, contact_active) "
+									  + "VALUES (1, 'MTG', 'Companion', '123456789', 'FR', '123456', 'Somewhere', 'In the middle of nowhere', 'https://www.mtgcompanion.org', 'mtgdesktopcompanion@gmail.com', 1,  1);");
 
 
 
@@ -248,7 +250,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			return false;
 		}
 		catch (Exception e) {
-			logger.error("Error in createDB : {}", e.getMessage());
+			logger.error("Error in createDB : {}", e.getMessage(),e);
 			return false;
 		}
 	}
@@ -476,13 +478,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	{
 		//do nothing
 	}
-
-
-	protected String notExistSyntaxt()
-	{
-		return IF_NOT_EXISTS;
-	}
-
 
 
 	public void createIndex(Statement stat) throws SQLException {
@@ -1116,7 +1111,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		{
 			logger.debug("update Contact {}",ct.getId());
 
-			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE contacts SET contact_name = ?, contact_lastname = ?, contact_telephone = ?, contact_country = ?, contact_address = ?, contact_zipcode=?, contact_city=?, contact_website = ?,contact_email=?,emailAccept=?, contact_active=?, temporaryToken=? WHERE contacts.id = ?;",Statement.RETURN_GENERATED_KEYS)) {
+			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE contacts SET contact_name = ?, contact_lastname = ?, contact_telephone = ?, contact_country = ?, contact_address = ?, contact_zipcode=?, contact_city=?, contact_website = ?,contact_email=?,emailAccept=?, contact_active=?, temporaryToken=? WHERE contacts.contact_id = ?;",Statement.RETURN_GENERATED_KEYS)) {
 				pst.setString(1, ct.getName());
 				pst.setString(2, ct.getLastName());
 				pst.setString(3, ct.getTelephone());

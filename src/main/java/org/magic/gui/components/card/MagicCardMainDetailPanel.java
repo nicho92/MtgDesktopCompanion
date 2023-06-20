@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -15,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
@@ -24,17 +26,24 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 
 import org.magic.api.beans.MTGFormat;
+import org.magic.api.beans.MTGNotification;
+import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MagicDeck;
+import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.gui.components.MagicTextPane;
 import org.magic.gui.components.ManaPanel;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.ImageTools;
+import org.magic.services.tools.MTG;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
@@ -68,6 +77,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 	private boolean enableCollectionLookup=true;
 	private JList<MagicCollection> lstCollections;
 	private transient org.apache.logging.log4j.Logger logger = MTGLogger.getLogger(MagicCardMainDetailPanel.class);
+	private MagicCard magicCard;
 	
 	public String getTitle() {
 		return "DETAILS";
@@ -101,6 +111,9 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		
 		if(mc==null)
 			return;
+		
+		
+		this.magicCard=mc;
 		
 		txtName.setText(mc.getName());
 		txtTypes.setText(mc.getFullType());
@@ -427,6 +440,46 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		
 		
 		txtText.setBorder(txtName.getBorder());
+		
+		
+		btnAlert.addActionListener(ae -> {
+			var alert = new MagicCardAlert();
+			alert.setCard(magicCard);
+			String price = JOptionPane.showInputDialog(null,
+					capitalize("SELECT_MAXIMUM_PRICE"),
+					capitalize("ADD_ALERT_FOR", magicCard),
+					JOptionPane.QUESTION_MESSAGE);
+			alert.setPrice(Double.parseDouble(price));
+
+			try {
+				getEnabledPlugin(MTGDao.class).saveAlert(alert);
+			} catch (Exception e) {
+				logger.error(e);
+				MTGControler.getInstance().notify(e);
+			}
+		});
+		
+		btnCopy.addActionListener(ae -> {
+			try {
+				MTG.getPlugin(MTGConstants.DEFAULT_CLIPBOARD_NAME,MTGCardsExport.class).exportDeck(MagicDeck.toDeck(Arrays.asList(magicCard)),null);
+				
+			} catch (Exception e) {
+				logger.error(e);
+				MTGControler.getInstance().notify(e);
+			}
+		});
+		
+		btnStock.addActionListener(ae -> {
+			var st = MTGControler.getInstance().getDefaultStock();
+			st.setProduct(magicCard);
+			try {
+				getEnabledPlugin(MTGDao.class).saveOrUpdateCardStock(st);
+				MTGControler.getInstance().notify(new MTGNotification("Stock", "Added", MESSAGE_TYPE.INFO));
+			} catch (Exception e) {
+				logger.error(e);
+				MTGControler.getInstance().notify(e);
+			}
+		});
 		
 		
 		setEditable(false);
