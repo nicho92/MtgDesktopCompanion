@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.jooq.SQLDialect;
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.MTGStockItem;
@@ -40,6 +41,13 @@ public class PostgresqlDAO extends AbstractMagicSQLDAO {
 		return "TEXT";
 	}
 
+
+	@Override
+	protected SQLDialect getDialect() {
+		return SQLDialect.POSTGRES;
+	}
+
+	
 	@Override
 	protected String createListStockSQL() {
 		return "SELECT * FROM  stocks WHERE mcard->>'name' = ? and collection = ?";

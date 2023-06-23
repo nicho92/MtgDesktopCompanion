@@ -23,6 +23,8 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
+import org.beta.SQLHelper;
+import org.jooq.SQLDialect;
 import org.magic.api.beans.Announce;
 import org.magic.api.beans.Announce.STATUS;
 import org.magic.api.beans.Grading;
@@ -58,7 +60,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
 import org.magic.services.TechnicalServiceManager;
-import org.magic.services.TransactionService;
 import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.IDGenerator;
 import org.magic.services.tools.ImageTools;
@@ -84,9 +85,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	protected abstract String createListStockSQL();
 	protected abstract String getdbSizeQuery();
 
-	private static final int COLLECTION_COLUMN_SIZE=30;
-	private static final int CARD_ID_SIZE=50;
-
+	protected abstract SQLDialect getDialect();
 
 	protected List<MTGStockItem> readStockItemFrom(ResultSet rs,String field) throws SQLException {
 		return serialiser.fromJsonList(rs.getObject(field).toString(), MTGStockItem.class);
@@ -187,42 +186,45 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	
 	private boolean createDB() throws SQLException {
+		
+		var hlper = new SQLHelper(getDialect());
+		
 		try (var cont =  pool.getConnection();Statement stat = cont.createStatement()) {
 			
-			stat.executeUpdate("CREATE TABLE IF NOT EXISTS ged (id "+getAutoIncrementKeyWord()+" PRIMARY KEY,creationDate TIMESTAMP, className VARCHAR(250), idInstance VARCHAR(250), fileName VARCHAR(250), fileContent " + longTextStorage() + ", md5 VARCHAR(35) )");
+			stat.executeUpdate(hlper.createTableGed());
 			logger.debug("Create table ged");
 
-			stat.executeUpdate("CREATE TABLE IF NOT EXISTS announces (id "+getAutoIncrementKeyWord()+" PRIMARY KEY,creationDate TIMESTAMP , startDate TIMESTAMP ,endDate TIMESTAMP, title VARCHAR(150), description " + longTextStorage() + ", total DECIMAL(10,2), currency VARCHAR(5), stocksItem "+beanStorage() + ",typeAnnounce VARCHAR(10), fk_idcontact INTEGER, category VARCHAR(50), percentReduction DECIMAL(10,2), conditions VARCHAR(50), statusAnnounce VARCHAR(25))");
+			stat.executeUpdate(hlper.createTableAnnounces());
 			logger.debug("Create table announces");
 
-			stat.executeUpdate("CREATE TABLE IF NOT EXISTS transactions (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, dateTransaction TIMESTAMP, message VARCHAR(250), stocksItem "+beanStorage()+", statut VARCHAR(15), transporter VARCHAR(50), shippingPrice DECIMAL(10,3), transporterShippingCode VARCHAR(50),currency VARCHAR(5),datePayment TIMESTAMP NULL ,dateSend TIMESTAMP NULL , paymentProvider VARCHAR(50),fk_idcontact INTEGER, sourceShopId VARCHAR(250),sourceShopName VARCHAR(250),typeTransaction VARCHAR(15), reduction DECIMAL(10,2))");
+			stat.executeUpdate(hlper.createTableTransactions());
 			logger.debug("Create table transactions");
 
-			stat.executeUpdate("CREATE TABLE IF NOT EXISTS contacts (contact_id " + getAutoIncrementKeyWord() + " PRIMARY KEY, contact_name VARCHAR(250), contact_lastname VARCHAR(250), contact_password VARCHAR(250),contact_telephone VARCHAR(250), contact_country VARCHAR(250), contact_zipcode VARCHAR(10), contact_city VARCHAR(50), contact_address VARCHAR(250), contact_website VARCHAR(250),contact_email VARCHAR(100) UNIQUE, emailAccept BOOLEAN, contact_active BOOLEAN, temporaryToken VARCHAR("+TransactionService.TOKENSIZE+"))");
+			stat.executeUpdate(hlper.createTablbeContacts());
 			logger.debug("Create table contacts");
 
-			stat.executeUpdate("CREATE TABLE IF NOT EXISTS cards (ID varchar("+CARD_ID_SIZE+"),mcard "+beanStorage()+", edition VARCHAR(5), cardprovider VARCHAR(20), collection VARCHAR("+COLLECTION_COLUMN_SIZE+"), dateUpdate TIMESTAMP)");
+			stat.executeUpdate(hlper.createTableCards());
 			logger.debug("Create table cards");
 
-			stat.executeUpdate("CREATE TABLE IF NOT EXISTS collections ( name VARCHAR("+COLLECTION_COLUMN_SIZE+") PRIMARY KEY)");
+			stat.executeUpdate(hlper.createTableCollections());
 			logger.debug("Create table collections");
 
-			stat.executeUpdate("CREATE TABLE IF NOT EXISTS stocks (idstock "+getAutoIncrementKeyWord()+" PRIMARY KEY , idmc varchar("+CARD_ID_SIZE+"), mcard "+beanStorage()+", collection VARCHAR("+COLLECTION_COLUMN_SIZE+"),comments "+longTextStorage()+", conditions VARCHAR(30),foil BOOLEAN, signedcard BOOLEAN, langage VARCHAR(20), qte integer,altered BOOLEAN,price DECIMAL, grading "+beanStorage()+", tiersAppIds "+beanStorage()+",etched BOOLEAN)");
+			stat.executeUpdate(hlper.createTableStocks());
 			logger.debug("Create table stocks");
 
-			stat.executeUpdate("CREATE TABLE IF NOT EXISTS alerts (id varchar("+CARD_ID_SIZE+") PRIMARY KEY, mcard "+beanStorage()+", amount DECIMAL, foil BOOLEAN,qte integer)");
+			stat.executeUpdate(hlper.createTableAlerts());
 			logger.debug("Create table alerts");
 
-			stat.executeUpdate("CREATE TABLE IF NOT EXISTS news (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, name VARCHAR(100), url VARCHAR(255), categorie VARCHAR(50),typeNews VARCHAR(50))");
+			stat.executeUpdate(hlper.createTableNews());
 			logger.debug("Create table news");
 
-			stat.executeUpdate("CREATE TABLE IF NOT EXISTS sealed (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, edition VARCHAR(5), qte integer, comment "+longTextStorage()+",lang VARCHAR(50),typeProduct VARCHAR(25),conditionProduct VARCHAR(25),statut VARCHAR(10), extra VARCHAR(10),collection VARCHAR("+COLLECTION_COLUMN_SIZE+"),price DECIMAL, tiersAppIds "+beanStorage()+", numversion integer)");
+			stat.executeUpdate(hlper.createTableSealed());
 			logger.debug("Create table selead");
 
-			stat.executeUpdate("CREATE TABLE IF NOT EXISTS decks (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, description "+longTextStorage()+", name VARCHAR(250), dateCreation DATE, dateUpdate DATE, tags VARCHAR(250), commander " +beanStorage()+", main " +beanStorage()+", sideboard " +beanStorage()+", averagePrice DECIMAL)");
+			stat.executeUpdate(hlper.createTableDecks());
 			logger.debug("Create table decks");
 
-			stat.executeUpdate("CREATE TABLE IF NOT EXISTS conversionsItems (id "+getAutoIncrementKeyWord()+" PRIMARY KEY, name VARCHAR(255),lang VARCHAR(25), source VARCHAR(25),inputId BIGINT,destination VARCHAR(25),outputId BIGINT)");
+			stat.executeUpdate(hlper.createTableConversion());
 			logger.debug("Create table conversionsItems");
 
 			postCreation(stat);
@@ -316,8 +318,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	@Override
 	public <T extends MTGSerializable> GedEntry<T> readEntry(String classename, String idInstance, String fileName) throws SQLException {
 		var ged = new GedEntry<T>();
-
-
 		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT fileContent, md5 from ged where className = ? and IdInstance = ? and fileName= ?"))
 		{
 				pst.setString(1, classename);
@@ -538,7 +538,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		stat.executeUpdate("CREATE INDEX idx_conditions ON announces (conditions);");
 		stat.executeUpdate("CREATE INDEX idx_statusAnnounce ON announces (statusAnnounce);");
 
-		stat.executeUpdate("ALTER TABLE cards ADD PRIMARY KEY (ID,edition,collection);");
+	//	stat.executeUpdate("ALTER TABLE cards ADD PRIMARY KEY (ID,edition,collection);");
 
 	}
 

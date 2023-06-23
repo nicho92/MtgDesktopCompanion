@@ -34,8 +34,8 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	private boolean enable;
 	protected Properties props;
-	protected File confdir;
-	protected File confFile;
+	private File confdir;
+	private File confFile;
 
 	protected static final String TRUE = "true";
 	protected static final String FALSE = "false";

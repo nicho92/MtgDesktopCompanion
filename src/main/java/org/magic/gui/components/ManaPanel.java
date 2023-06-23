@@ -53,13 +53,16 @@ public class ManaPanel extends JPanel {
 	}
 
 	public void setManaCost(String manaCost) {
-
+		
 		this.removeAll();
 		this.revalidate();
 		this.repaint();
 		if (manaCost == null)
 			return;
-
+		
+		manaCost=manaCost.replace("{}", "");
+		
+		
 		var p = Pattern.compile(EnumCardsPatterns.MANA_PATTERN.getPattern());
 		var m = p.matcher(manaCost);
 

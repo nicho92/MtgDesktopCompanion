@@ -2,6 +2,7 @@ package org.magic.api.dao.impl;
 
 import java.util.Map;
 
+import org.jooq.SQLDialect;
 import org.magic.api.interfaces.abstracts.extra.AbstractMagicSQLDAO;
 
 public class MariaDBDAO extends AbstractMagicSQLDAO {
@@ -19,6 +20,12 @@ public class MariaDBDAO extends AbstractMagicSQLDAO {
 	@Override
 	protected String beanStorage() {
 		return "LONGTEXT";
+	}
+
+
+	@Override
+	protected SQLDialect getDialect() {
+		return SQLDialect.MARIADB;
 	}
 
 

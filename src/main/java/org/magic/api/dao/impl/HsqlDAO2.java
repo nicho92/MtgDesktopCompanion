@@ -4,6 +4,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jooq.SQLDialect;
 import org.magic.api.interfaces.abstracts.extra.AbstractMagicSQLDAO;
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.FileTools;
@@ -32,6 +33,13 @@ public class HsqlDAO2 extends AbstractMagicSQLDAO {
 	protected String longTextStorage() {
 		return "LONGVARCHAR";
 	}
+	
+
+	@Override
+	protected SQLDialect getDialect() {
+		return SQLDialect.HSQLDB;
+	}
+
 
 	@Override
 	protected String getjdbcnamedb() {

@@ -4,6 +4,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jooq.SQLDialect;
 import org.magic.api.beans.MTGDocumentation;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.abstracts.extra.AbstractMagicSQLDAO;
@@ -17,6 +18,12 @@ public class H2DAO extends AbstractMagicSQLDAO {
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
+	}
+	
+	
+	@Override
+	protected SQLDialect getDialect() {
+		return SQLDialect.H2;
 	}
 
 	@Override

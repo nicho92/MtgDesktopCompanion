@@ -2,6 +2,7 @@ package org.magic.api.dao.impl;
 
 import java.util.Map;
 
+import org.jooq.SQLDialect;
 import org.magic.api.interfaces.abstracts.extra.AbstractMagicSQLDAO;
 
 public class MysqlDAO extends AbstractMagicSQLDAO {
@@ -26,6 +27,12 @@ public class MysqlDAO extends AbstractMagicSQLDAO {
 	@Override
 	protected String longTextStorage() {
 		return "LONGTEXT";
+	}
+
+
+	@Override
+	protected SQLDialect getDialect() {
+		return SQLDialect.MYSQL;
 	}
 
 

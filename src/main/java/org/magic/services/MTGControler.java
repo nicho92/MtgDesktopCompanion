@@ -65,7 +65,10 @@ public class MTGControler {
 	
 	private MTGControler() {
 		
-	
+		System.setProperty("org.jooq.no-tips", "true");
+		System.setProperty("org.jooq.no-logo", "true");
+		
+		
 		xmlConfigFile = new File(MTGConstants.CONF_DIR, MTGConstants.CONF_FILENAME);
 
 		if (!xmlConfigFile.exists())

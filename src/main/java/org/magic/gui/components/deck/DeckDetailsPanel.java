@@ -221,7 +221,6 @@ public class DeckDetailsPanel extends JComponent {
 
 			@Override
 			protected void process(List<BufferedImage> chunks) {
-
 				panel.add(new JLabel(new ImageIcon(ImageTools.resize(chunks.get(0), 150, 220))));
 			}
 
@@ -241,15 +240,13 @@ public class DeckDetailsPanel extends JComponent {
 	protected BindingGroup initDataBindings() {
 		BeanProperty<MagicDeck, String> nameProperty = BeanProperty.create("name");
 		BeanProperty<JTextField, String> textProperty1 = BeanProperty.create("text");
-		AutoBinding<MagicDeck, String, JTextField, String> autoBinding1 = Bindings
-				.createAutoBinding(UpdateStrategy.READ_WRITE, magicDeck, nameProperty, nameJTextField, textProperty1);
+		AutoBinding<MagicDeck, String, JTextField, String> autoBinding1 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicDeck, nameProperty, nameJTextField, textProperty1);
 		autoBinding1.bind();
 		//
 
 		BeanProperty<MagicDeck, Integer> nbCardsProperty = BeanProperty.create("nbCards");
 		BeanProperty<JProgressBar, Integer> textProperty4 = BeanProperty.create("value");
-		AutoBinding<MagicDeck, Integer, JProgressBar, Integer> autoBinding2 = Bindings
-				.createAutoBinding(UpdateStrategy.READ, magicDeck, nbCardsProperty, nbCardsProgress, textProperty4);
+		AutoBinding<MagicDeck, Integer, JProgressBar, Integer> autoBinding2 = Bindings.createAutoBinding(UpdateStrategy.READ, magicDeck, nbCardsProperty, nbCardsProgress, textProperty4);
 		autoBinding2.bind();
 		nbCardsProgress.setString("" + magicDeck.getNbCards());
 		nbSideProgress.setValue(magicDeck.getSideAsList().size());
@@ -264,16 +261,15 @@ public class DeckDetailsPanel extends JComponent {
 		//
 		BeanProperty<MagicDeck, String> colorIdentityProperty = BeanProperty.create("colors");
 		BeanProperty<ManaPanel, String> manaCostProperty3 = BeanProperty.create("manaCost");
-		AutoBinding<MagicDeck, String, ManaPanel, String> autoBinding4 = Bindings.createAutoBinding(UpdateStrategy.READ,
-				magicDeck, colorIdentityProperty, manaPanel, manaCostProperty3);
+		AutoBinding<MagicDeck, String, ManaPanel, String> autoBinding4 = Bindings.createAutoBinding(UpdateStrategy.READ, magicDeck, colorIdentityProperty, manaPanel, manaCostProperty3);
 		autoBinding4.bind();
 		//
 
 		var bindingGroup = new BindingGroup();
-		bindingGroup.addBinding(autoBinding1);
-		bindingGroup.addBinding(autoBinding2);
-		bindingGroup.addBinding(autoBinding3);
-		bindingGroup.addBinding(autoBinding4);
+			bindingGroup.addBinding(autoBinding1);
+			bindingGroup.addBinding(autoBinding2);
+			bindingGroup.addBinding(autoBinding3);
+			bindingGroup.addBinding(autoBinding4);
 
 		if (magicDeck != null && magicDeck.getDateCreation() != null) {
 			var df = DateFormat.getDateInstance(DateFormat.SHORT, MTGControler.getInstance().getLocale());

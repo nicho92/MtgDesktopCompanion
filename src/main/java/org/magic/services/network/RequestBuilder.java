@@ -235,7 +235,7 @@ public class RequestBuilder
 		
 		FileTools.copyInputStreamToFile(cis,dest);
 		
-		MTGLogger.getLogger(this.getClass()).info( "{} in {} sec",UITools.humanReadableSize(cis.getTotal()),cis.getTime()/1000);
+		MTGLogger.getLogger(this.getClass()).info( "{} in {} ms",UITools.humanReadableSize(cis.getTotal()),cis.getTime());
 		
 	}
 

@@ -782,7 +782,7 @@ public class MagicCard extends AbstractProduct {
 				temp.append(s).append(" ");
 		}
 
-		return temp.toString();
+		return temp.toString().trim();
 	}
 
 	public List<String> getSubtypes() {

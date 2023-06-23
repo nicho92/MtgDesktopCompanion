@@ -4,6 +4,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jooq.SQLDialect;
 import org.magic.api.interfaces.abstracts.extra.AbstractMagicSQLDAO;
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.FileTools;
@@ -35,6 +36,13 @@ public class SQLLiteDAO extends AbstractMagicSQLDAO {
 		return null;
 	}
 
+
+	@Override
+	protected SQLDialect getDialect() {
+		return SQLDialect.SQLITE;
+	}
+
+	
 	@Override
 	public String getName() {
 		return "SQLite";
