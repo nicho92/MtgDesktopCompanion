@@ -78,16 +78,22 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	private static final String EDITION = "edition";
 	protected MTGPool pool;
 
-	protected abstract String getAutoIncrementKeyWord();
 	protected abstract String getjdbcnamedb();
-	protected abstract String beanStorage();
-	protected abstract String longTextStorage();
 	protected abstract String createListStockSQL();
 	protected abstract String getdbSizeQuery();
 
 	protected abstract SQLDialect getDialect();
+	
+	private SQLHelper hlper;
+	
+	
+	protected AbstractMagicSQLDAO() {
+		super();
+		 hlper = new SQLHelper(getDialect());
+	}
+	
 
-	protected List<MTGStockItem> readStockItemFrom(ResultSet rs,String field) throws SQLException {
+	private List<MTGStockItem> readStockItemFrom(ResultSet rs,String field) throws SQLException {
 		return serialiser.fromJsonList(rs.getObject(field).toString(), MTGStockItem.class);
 	}
 
@@ -96,7 +102,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	}
 
-	protected Grading readGrading(ResultSet rs) throws SQLException {
+	private Grading readGrading(ResultSet rs) throws SQLException {
 		return serialiser.fromJson(rs.getString("grading"), Grading.class);
 	}
 
@@ -105,7 +111,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		pst.setString(position, serialiser.toJsonElement(grd).toString());
 	}
 
-	protected Map<MagicCard, Integer> readDeckBoard(ResultSet rs, String field) throws SQLException {
+	private Map<MagicCard, Integer> readDeckBoard(ResultSet rs, String field) throws SQLException {
 
 		Map<MagicCard, Integer> ret = new HashMap<>();
 		serialiser.fromJson(rs.getString(field), JsonArray.class).forEach(je->{
@@ -138,7 +144,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	}
 
 	@SuppressWarnings("unchecked")
-	protected Map<String, String> readTiersApps(ResultSet rs) throws SQLException {
+	private Map<String, String> readTiersApps(ResultSet rs) throws SQLException {
 		return serialiser.fromJson(rs.getString("tiersAppIds"), Map.class);
 	}
 
@@ -150,7 +156,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		pst.setString(position, serialiser.toJsonElement(mc).toString());
 	}
 
-	protected MagicCard readCard(ResultSet rs,String field) throws SQLException {
+	private MagicCard readCard(ResultSet rs,String field) throws SQLException {
 		MagicCard mc=null;
 		try{
 			mc = serialiser.fromJson( rs.getObject(field).toString(), MagicCard.class);
@@ -187,8 +193,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	
 	private boolean createDB() throws SQLException {
 		
-		var hlper = new SQLHelper(getDialect());
-		
 		try (var cont =  pool.getConnection();Statement stat = cont.createStatement()) {
 			
 			stat.executeUpdate(hlper.createTableGed());
@@ -200,7 +204,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			stat.executeUpdate(hlper.createTableTransactions());
 			logger.debug("Create table transactions");
 
-			stat.executeUpdate(hlper.createTablbeContacts());
+			stat.executeUpdate(hlper.createTableContacts());
 			logger.debug("Create table contacts");
 
 			stat.executeUpdate(hlper.createTableCards());
@@ -232,11 +236,10 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			logger.debug("populate collections");
 
 			for(String s : MTGConstants.getDefaultCollectionsNames())
-				stat.executeUpdate("insert into collections values ('"+s+"')");
+				stat.executeUpdate("INSERT into collections values ('"+s+"');");
+			
 
-
-			stat.executeUpdate("INSERT INTO contacts (contact_id, contact_name, contact_lastname, contact_telephone, contact_country, contact_zipcode, contact_city, contact_address, contact_website, contact_email, emailAccept, contact_active) "
-									  + "VALUES (1, 'MTG', 'Companion', '123456789', 'FR', '123456', 'Somewhere', 'In the middle of nowhere', 'https://www.mtgcompanion.org', 'mtgdesktopcompanion@gmail.com', 1,  1);");
+			stat.executeUpdate("INSERT INTO contacts (contact_id, contact_name, contact_lastname, contact_telephone, contact_country, contact_zipcode, contact_city, contact_address, contact_website, contact_email, emailAccept, contact_active) VALUES (1, 'MTG', 'Companion', '123456789', 'FR', '123456', 'Somewhere', 'In the middle of nowhere', 'https://www.mtgcompanion.org', 'mtgdesktopcompanion@gmail.com', 1,  1);");
 
 
 
@@ -249,8 +252,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			return false;
 		}
 		catch (Exception e) {
-			logger.error("Error in createDB : {}", e.getMessage());
-			logger.trace(e);
+			logger.error("Error in createDB : {}", e.getMessage(),e);
 			return false;
 		}
 	}
@@ -479,6 +481,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 
 	private void createIndex(Statement stat) throws SQLException {
+
 		stat.executeUpdate("CREATE INDEX idx_id ON cards (ID);");
 		stat.executeUpdate("CREATE INDEX idx_ed ON cards (edition);");
 		stat.executeUpdate("CREATE INDEX idx_col ON cards (collection);");
@@ -537,8 +540,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		stat.executeUpdate("CREATE INDEX idx_category ON announces (category);");
 		stat.executeUpdate("CREATE INDEX idx_conditions ON announces (conditions);");
 		stat.executeUpdate("CREATE INDEX idx_statusAnnounce ON announces (statusAnnounce);");
-
-	//	stat.executeUpdate("ALTER TABLE cards ADD PRIMARY KEY (ID,edition,collection);");
 
 	}
 
@@ -1586,7 +1587,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			return listCollections.values();
 
 
-		try (var c =  pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * FROM collections"))
+		try (var c =  pool.getConnection();PreparedStatement pst = c.prepareStatement(hlper.selectAll("collections")))
 		{
 			try (ResultSet rs = executeQuery(pst)) {
 				while (rs.next()) {

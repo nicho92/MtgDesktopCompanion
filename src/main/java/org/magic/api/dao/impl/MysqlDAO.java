@@ -9,26 +9,9 @@ public class MysqlDAO extends AbstractMagicSQLDAO {
 
 
 	@Override
-	protected String getAutoIncrementKeyWord() {
-		return "INTEGER AUTO_INCREMENT";
-	}
-
-
-	@Override
 	protected String getjdbcnamedb() {
 		return getName().toLowerCase();
 	}
-
-	@Override
-	protected String beanStorage() {
-		return "LONGTEXT";
-	}
-
-	@Override
-	protected String longTextStorage() {
-		return "LONGTEXT";
-	}
-
 
 	@Override
 	protected SQLDialect getDialect() {

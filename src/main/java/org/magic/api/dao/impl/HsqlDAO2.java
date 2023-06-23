@@ -18,22 +18,6 @@ public class HsqlDAO2 extends AbstractMagicSQLDAO {
 		return !getString(MODE).equals("file");
 	}
 
-	@Override
-	protected String getAutoIncrementKeyWord() {
-		return "IDENTITY";
-	}
-
-	@Override
-	protected String beanStorage() {
-		return "LONGVARCHAR";
-	}
-
-
-	@Override
-	protected String longTextStorage() {
-		return "LONGVARCHAR";
-	}
-	
 
 	@Override
 	protected SQLDialect getDialect() {
@@ -97,6 +81,7 @@ public class HsqlDAO2 extends AbstractMagicSQLDAO {
 		m.put(SERVERNAME, Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(),"hsqldao").toFile().getAbsolutePath());
 		m.put(LOGIN, "SA");
 		m.put(MODE,"file");
+		m.put(PARAMS, ";sql.lowercase_ident=true");
 		return m;
 
 

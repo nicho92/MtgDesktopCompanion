@@ -48,25 +48,10 @@ public class SQLLiteDAO extends AbstractMagicSQLDAO {
 		return "SQLite";
 	}
 
-	@Override
-	protected String getAutoIncrementKeyWord() {
-		return "INTEGER";// primary key column is autoincrement
-	}
 
 	@Override
 	protected String getjdbcnamedb() {
 		return getName().toLowerCase();
-	}
-
-	@Override
-	protected String beanStorage() {
-		return "json";
-	}
-
-
-	@Override
-	protected String longTextStorage() {
-		return "TEXT";
 	}
 
 	@Override

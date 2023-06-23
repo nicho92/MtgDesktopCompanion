@@ -19,28 +19,11 @@ import com.google.gson.JsonObject;
 
 public class PostgresqlDAO extends AbstractMagicSQLDAO {
 
-	@Override
-	protected String getAutoIncrementKeyWord() {
-		return "SERIAL";
-	}
-
 
 	@Override
 	protected String getjdbcnamedb() {
 		return "postgresql";
 	}
-
-	@Override
-	protected String beanStorage() {
-		return "json";
-	}
-
-
-	@Override
-	protected String longTextStorage() {
-		return "TEXT";
-	}
-
 
 	@Override
 	protected SQLDialect getDialect() {

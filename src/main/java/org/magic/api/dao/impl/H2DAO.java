@@ -32,23 +32,8 @@ public class H2DAO extends AbstractMagicSQLDAO {
 	}
 
 	@Override
-	protected String getAutoIncrementKeyWord() {
-		return "IDENTITY";
-	}
-
-	@Override
-	protected String beanStorage() {
-		return "LONGVARCHAR";
-	}
-
-	@Override
-	protected String longTextStorage() {
-		return "LONGVARCHAR";
-	}
-
-	@Override
 	protected String getjdbcUrl() {
-		return "jdbc:"+getjdbcnamedb()+(getString(MODE).equals("file")?"/":":")+getString(DB_NAME);
+		return "jdbc:"+getjdbcnamedb()+(getString(MODE).equals("file")?"/":":")+getString(DB_NAME)+";CASE_INSENSITIVE_IDENTIFIERS=TRUE;";
 	}
 	
 	@Override

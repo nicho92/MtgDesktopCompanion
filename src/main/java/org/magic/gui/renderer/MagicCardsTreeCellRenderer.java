@@ -54,15 +54,12 @@ public class MagicCardsTreeCellRenderer implements TreeCellRenderer {
 
 				if (mc.isArtifact()) {
 					c.setIcon(map.get(EnumColors.UNCOLOR));
-				}
-				if (mc.getColors().size() == 1) {
-					c.setIcon(map.get(mc.getColors().get(0)));
-				}
-				if (mc.isMultiColor()) {
-					c.setIcon(MTGConstants.ICON_MANA_GOLD);
-				}
-				if (mc.isLand()) {
+				}else if (mc.isLand()) {
 					c.setIcon(MTGConstants.ICON_MANA_INCOLOR);
+				}else if (mc.getColors().size() == 1) {
+					c.setIcon(map.get(mc.getColors().get(0)));
+				}else if (mc.isMultiColor()) {
+					c.setIcon(MTGConstants.ICON_MANA_GOLD);
 				}
 			}
 			else if (((DefaultMutableTreeNode) value).getUserObject() instanceof MTGSealedProduct) {

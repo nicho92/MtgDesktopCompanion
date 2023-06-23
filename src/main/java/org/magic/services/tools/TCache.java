@@ -42,7 +42,6 @@ public class TCache<T>{
 	
 	private Cache<String, T> getCache()
 	{
-		logger.trace("{}-{}",name,loader.stats());
 		return loader;
 	}
 

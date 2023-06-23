@@ -3,6 +3,9 @@ package org.beta;
 import org.apache.logging.log4j.Logger;
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
+import org.jooq.conf.RenderNameCase;
+import org.jooq.conf.RenderQuotedNames;
+import org.jooq.conf.Settings;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.magic.services.TransactionService;
@@ -14,10 +17,24 @@ public class SQLHelper {
 	
 	private DSLContext ctx;
 	
+	
 	public SQLHelper(SQLDialect dialect) {
 		System.setProperty("org.jooq.no-tips", "true");
 		System.setProperty("org.jooq.no-logo", "true");
-		ctx = DSL.using(dialect);
+		
+		var settings = new Settings()
+			    .withRenderQuotedNames(RenderQuotedNames.EXPLICIT_DEFAULT_UNQUOTED) // Defaults to EXPLICIT_DEFAULT_QUOTED
+			    .withRenderNameCase(RenderNameCase.LOWER_IF_UNQUOTED); 
+		
+		ctx = DSL.using(dialect,settings);
+		
+	}
+		
+	public String selectAll(String tableName)
+	{
+		return ctx.select(DSL.asterisk())
+					  .from(DSL.table(tableName))
+					  .getSQL();
 	}
 	
 	
@@ -134,7 +151,7 @@ public class SQLHelper {
 				.getSQL();
 	}
 	
-	public String createTablbeContacts() { 
+	public String createTableContacts() { 
 			return ctx.createTableIfNotExists("contacts")
 				.column("contact_id", SQLDataType.INTEGER.identity(true))
 				.column("contact_name", SQLDataType.VARCHAR(250))

@@ -8,30 +8,14 @@ import org.magic.api.interfaces.abstracts.extra.AbstractMagicSQLDAO;
 public class MariaDBDAO extends AbstractMagicSQLDAO {
 
 	@Override
-	protected String getAutoIncrementKeyWord() {
-		return "INTEGER AUTO_INCREMENT";
-	}
-
-	@Override
 	protected String getjdbcnamedb() {
 		return getName().toLowerCase();
-	}
-
-	@Override
-	protected String beanStorage() {
-		return "LONGTEXT";
 	}
 
 
 	@Override
 	protected SQLDialect getDialect() {
 		return SQLDialect.MARIADB;
-	}
-
-
-	@Override
-	protected String longTextStorage() {
-		return "LONGTEXT";
 	}
 
 
