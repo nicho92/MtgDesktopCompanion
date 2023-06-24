@@ -252,7 +252,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			return false;
 		}
 		catch (Exception e) {
-			logger.error("Error in createDB : {}", e.getMessage(),e);
+			logger.trace("Error in createDB : {}", e.getMessage(),e);
 			return false;
 		}
 	}
@@ -474,6 +474,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		logger.debug("{} is deleted",a);
 
 	}
+	
 	protected void postCreation(Statement stat) throws SQLException
 	{
 		//do nothing

@@ -1,8 +1,5 @@
 package org.magic.api.beans.enums;
 
-import java.util.List;
-import java.util.Objects;
-
 import org.apache.commons.lang3.StringUtils;
 
 import com.google.gson.annotations.SerializedName;
@@ -37,10 +34,7 @@ public enum EnumLayout{
 		return StringUtils.capitalize(name().toLowerCase());
 	}
 
-	public static List<EnumLayout> parseByLabel(List<String> names)
-	{
-		return names.stream().map(EnumLayout::parseByLabel).filter(Objects::nonNull).toList();
-	}
+	
 
 	public static EnumLayout parseByLabel(String s)
 	{

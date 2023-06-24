@@ -25,6 +25,7 @@ import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 
+import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
@@ -76,7 +77,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 	private transient Observable obs;
 	private boolean enableCollectionLookup=true;
 	private JList<MagicCollection> lstCollections;
-	private transient org.apache.logging.log4j.Logger logger = MTGLogger.getLogger(MagicCardMainDetailPanel.class);
+	private transient Logger logger = MTGLogger.getLogger(MagicCardMainDetailPanel.class);
 	private MagicCard magicCard;
 	
 	public String getTitle() {

@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
+import org.apache.commons.text.StringEscapeUtils;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MTGFormat.AUTHORIZATION;
 import org.magic.api.beans.MTGKeyWord;
@@ -137,7 +138,12 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 		var mc = new MagicCard();
 			mc.setId(rs.getString(UUID));
 			mc.setName(rs.getString(NAME));
-			mc.setText(rs.getString(TEXT));
+			
+			if(rs.getString(TEXT)!=null)
+				mc.setText(rs.getString(TEXT));
+			else
+				mc.setText("");
+			
 			mc.setScryfallId(rs.getString(SCRYFALL_ID));
 			mc.setScryfallIllustrationId(rs.getString(SCRYFALL_ILLUSTRATION_ID));
 
@@ -317,7 +323,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				mc.setName(rs.getString(NAME));
 				mc.setCmc(rs.getInt(CONVERTED_MANA_COST));
 				mc.setCost(rs.getString(MANA_COST));
-				mc.setText(rs.getString(TEXT));
+				
 				mc.setId(rs.getString(UUID));
 				mc.setEdhrecRank(rs.getInt(EDHREC_RANK));
 				mc.setFrameVersion(rs.getString(FRAME_VERSION));
@@ -326,12 +332,18 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				mc.setToughness(rs.getString(TOUGHNESS));
 				mc.getRulings().addAll(getRulings(mc.getId()));
 				mc.setArtist(rs.getString(ARTIST));
-				mc.setFlavor(rs.getString(FLAVOR_TEXT));
+				if(rs.getString(FLAVOR_TEXT)!=null)
+					mc.setFlavor(StringEscapeUtils.unescapeJava(rs.getString(FLAVOR_TEXT)));
+				
 				mc.setWatermarks(rs.getString(WATERMARK));
 				mc.setMkmId(rs.getInt(MCM_ID));
 				mc.setMtgArenaId(rs.getInt("mtgArenaId"));
 				mc.setAsciiName(rs.getString(ASCII_NAME));
 				
+				if(rs.getString(TEXT)!=null)
+					mc.setText(StringEscapeUtils.unescapeJava(rs.getString(TEXT)));
+				else
+					mc.setText("");
 				
 				if(rs.getString(AVAILABILITY)!=null) {
 					mc.setArenaCard(rs.getString(AVAILABILITY).contains("arena"));
@@ -589,7 +601,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				
 		}
 		catch (SQLException e) {
-		logger.error("error loading legalities",e);
+			logger.error("error loading legalities",e);
 		}
 		
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM cardLegalities"))
