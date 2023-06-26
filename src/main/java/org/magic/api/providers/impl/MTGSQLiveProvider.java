@@ -47,6 +47,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 	private MultiValuedMap<String, MagicCardNames> mapForeignData = new ArrayListValuedHashMap<>();
 	private MultiValuedMap<String, MTGRuling> mapRules = new ArrayListValuedHashMap<>();
 	private MultiValuedMap<String, MTGFormat> mapLegalities = new ArrayListValuedHashMap<>();
+	private String SQL_CARDS_BASE = "SELECT cards.*, cardIdentifiers.cardKingdomEtchedId,cardIdentifiers.cardKingdomFoilId,cardIdentifiers.cardKingdomId,cardIdentifiers.cardsphereId,cardIdentifiers.mcmId,cardIdentifiers.mcmMetaId,cardIdentifiers.mtgArenaId,cardIdentifiers.mtgjsonFoilVersionId,cardIdentifiers.mtgjsonNonFoilVersionId,cardIdentifiers.mtgjsonV4Id,cardIdentifiers.mtgoFoilId,cardIdentifiers.mtgoId,cardIdentifiers.multiverseId,cardIdentifiers.scryfallId,cardIdentifiers.scryfallIllustrationId,cardIdentifiers.scryfallOracleId,cardIdentifiers.tcgplayerEtchedProductId,cardIdentifiers.tcgplayerProductId FROM cards, cardIdentifiers WHERE cardIdentifiers.uuid=cards.uuid";
 
 	@Override
 	public String getOnlineDataFileZip() {
@@ -159,14 +160,14 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 
 			if(rs.getString(SUPERTYPES)!=null)
-				mc.setSupertypes(List.of(rs.getString(SUPERTYPES).split(",")));
+				mc.setSupertypes(List.of(rs.getString(SUPERTYPES).split(", ")));
 
 			if(rs.getString(SUBTYPES)!=null)
-				mc.setSubtypes(List.of(rs.getString(SUBTYPES).split(",")));
+				mc.setSubtypes(List.of(rs.getString(SUBTYPES).split(", ")));
 
 			var ci = rs.getString(COLOR_IDENTITY);
 			if(ci!=null)
-				mc.setColorIdentity(Arrays.asList(ci.split(",")).stream().map(EnumColors::colorByCode).toList());
+				mc.setColorIdentity(Arrays.asList(ci.split(", ")).stream().map(EnumColors::colorByCode).toList());
 
 			ci = rs.getString(COLORS);
 			if(ci!=null)
@@ -221,7 +222,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 			exact=true;
 		}
 
-		StringBuilder temp = new StringBuilder("SELECT * FROM cards, cardIdentifiers WHERE cardIdentifiers.uuid=cards.uuid AND ").append(att);
+		StringBuilder temp = new StringBuilder(SQL_CARDS_BASE).append(" AND ").append("cards."+att);
 
 
 		if(exact)
@@ -267,7 +268,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 	public List<MagicCard> listAllCards()throws IOException {
 		List<MagicCard> cards = new ArrayList<>();
 
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM cards, cardIdentifiers WHERE cardIdentifiers.uuid=cards.uuid"))
+	try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(SQL_CARDS_BASE ))
 		{
 			try (ResultSet rs = pst.executeQuery())
 			{
@@ -285,7 +286,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 	private void initRotatedCard(MagicCard mc, String id, String side)
 	{
-		var sql ="SELECT * FROM cards, cardIdentifiers WHERE cardIdentifiers.uuid=cards.uuid AND uuid = ?" ;
+		var sql =SQL_CARDS_BASE+" AND uuid = ?" ;
 		
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(sql))
 		{
@@ -388,9 +389,12 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				{
 					for(String s : rs.getString(FRAME_EFFECTS).split(","))
 					{
-						try {
+						var eff = EnumFrameEffects.parseByLabel(s);
+						if(eff!=null) 
+						{
 							mc.getFrameEffects().add(EnumFrameEffects.parseByLabel(s));
-						} catch (Exception e) {
+						} 
+						else {
 							logger.error("couldn't find frameEffects for {}",s);
 						}
 					}
@@ -437,21 +441,21 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 				if(types!=null)
 				{
-					mc.getSupertypes().addAll(Arrays.asList(rs.getString(SUPERTYPES).split(",")));
+					mc.getSupertypes().addAll(Arrays.asList(rs.getString(SUPERTYPES).split(", ")));
 				}
 
 				types = rs.getString(TYPES);
 
 				if(types!=null)
 				{
-					mc.getTypes().addAll(Arrays.asList(rs.getString(TYPES).split(",")));
+					mc.getTypes().addAll(Arrays.asList(rs.getString(TYPES).split(", ")));
 				}
 
 				types = rs.getString(SUBTYPES);
 
 				if(types!=null)
 				{
-					mc.getSubtypes().addAll(Arrays.asList(rs.getString(SUBTYPES).split(",")));
+					mc.getSubtypes().addAll(Arrays.asList(rs.getString(SUBTYPES).split(", ")));
 				}
 
 				mc.getForeignNames().addAll(getTranslations(mc));
