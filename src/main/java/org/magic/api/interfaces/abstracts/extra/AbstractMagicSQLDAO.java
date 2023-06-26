@@ -94,7 +94,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	
 
 	private List<MTGStockItem> readStockItemFrom(ResultSet rs,String field) throws SQLException {
-		return serialiser.fromJsonList(rs.getObject(field).toString(), MTGStockItem.class);
+		return serialiser.fromJsonList(rs.getString(field), MTGStockItem.class);
 	}
 
 	protected void storeTransactionItems(PreparedStatement pst, int position, List<MTGStockItem> grd) throws SQLException {
@@ -159,7 +159,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	private MagicCard readCard(ResultSet rs,String field) throws SQLException {
 		MagicCard mc=null;
 		try{
-			mc = serialiser.fromJson( rs.getObject(field).toString(), MagicCard.class);
+			mc = serialiser.fromJson( rs.getString(field), MagicCard.class);
 		}
 		catch(NullPointerException e)
 		{
