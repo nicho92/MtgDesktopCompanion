@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 public enum EnumLayout{
 
+	
 	@SerializedName(alternate = "normal", value = "NORMAL") 							NORMAL,
 	@SerializedName(alternate = "split", value = "SPLIT") 								SPLIT,
 	@SerializedName(alternate = "flip", value = "FLIP")       							FLIP,
@@ -18,6 +19,7 @@ public enum EnumLayout{
 	@SerializedName(alternate = "vanguard", value = "VANGUARD")							VANGUARD,
 	@SerializedName(alternate = "token", value = "TOKEN")								TOKEN,
 	@SerializedName(alternate = "double_faced_token", value = "DOUBLE_FACED_TOKEN")		DOUBLE_FACED_TOKEN,
+	@SerializedName(alternate = "reversible_card", value = "REVERSIBLE_CARD")			REVERSIBLE_CARD,
 	@SerializedName(alternate = "emblem", value = "EMBLEM")								EMBLEM,
 	@SerializedName(alternate = "augment", value = "AUGMENT")							AUGMENT,
 	@SerializedName(alternate = "aftermath", value = "AFTERMATH")						AFTERMATH,
@@ -27,6 +29,7 @@ public enum EnumLayout{
 	@SerializedName(alternate = "adventure", value = "ADVENTURE")						ADVENTURE,
 	@SerializedName(alternate = "companion", value = "COMPANION")						COMPANION,
 	@SerializedName(alternate = "modal_dfc", value = "MODAL_DFC")						MODAL_DFC,
+	@SerializedName(alternate = "class", value = "CLASS")								CLASS,
 	@SerializedName(alternate = "prototype", value = "PROTOTYPE")						PROTOTYPE;
 
 
