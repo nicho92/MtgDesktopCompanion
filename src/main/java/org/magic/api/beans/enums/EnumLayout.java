@@ -26,7 +26,8 @@ public enum EnumLayout{
 	@SerializedName(alternate = "double_sided", value = "DOUBLE_SIDED")					DOUBLE_SIDED,
 	@SerializedName(alternate = "adventure", value = "ADVENTURE")						ADVENTURE,
 	@SerializedName(alternate = "companion", value = "COMPANION")						COMPANION,
-	@SerializedName(alternate = "modal_dfc", value = "MODAL_DFC")						MODAL_DFC;
+	@SerializedName(alternate = "modal_dfc", value = "MODAL_DFC")						MODAL_DFC,
+	@SerializedName(alternate = "prototype", value = "PROTOTYPE")						PROTOTYPE;
 
 
 
