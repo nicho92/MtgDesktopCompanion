@@ -28,7 +28,7 @@ public enum EnumFinishes{
 	public static EnumFinishes parseByLabel(String s)
 	{
 		try {
-			return EnumFinishes.valueOf(s.toUpperCase());
+			return EnumFinishes.valueOf(s.trim().toUpperCase());
 		}
 		catch(IllegalArgumentException e)
 		{
