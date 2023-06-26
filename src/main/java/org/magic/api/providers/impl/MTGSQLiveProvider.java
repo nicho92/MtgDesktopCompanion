@@ -286,7 +286,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 	private void initRotatedCard(MagicCard mc, String id, String side)
 	{
-		var sql =SQL_CARDS_BASE+" AND uuid = ?" ;
+		var sql =SQL_CARDS_BASE+" AND cards.uuid = ?" ;
 		
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(sql))
 		{
