@@ -680,7 +680,10 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		    	  try 
 		    	  {
 					MagicEdition ed = UITools.getTableSelection(tableEditions, 1);
-					
+						
+					if(ed==null)
+					    return;
+				  
 					magicEditionDetailPanel.init(ed);
 					cardsSetPanel.init(ed);
 					packagePanel.init(ed);
