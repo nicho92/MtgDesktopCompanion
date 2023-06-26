@@ -44,8 +44,17 @@ public enum EnumPromoType {
 	@SerializedName(alternate = "wizardsplaynetwork", value = "WIZARDSPLAYNETWORK") WIZARDSPLAYNETWORK,
 	@SerializedName(alternate = "draculaseries", value = "DRACULASERIES") DRACULASERIES,
 	@SerializedName(alternate = "starterdeck", value = "STARTERDECK") STARTERDECK,
-	@SerializedName(alternate = "planeswalkerdeck", value = "PLANESWALKERDECK") PLANESWALKERDECK;
-	 
+	@SerializedName(alternate = "planeswalkerdeck", value = "PLANESWALKERDECK") PLANESWALKERDECK,
+	@SerializedName(alternate = "serialized", value = "SERIALIZED") SERIALIZED,
+	@SerializedName(alternate = "halofoil", value = "HALOFOIL") HALOFOIL,
+	@SerializedName(alternate = "thick", value = "THICK") THICK,
+	@SerializedName(alternate = "textured", value = "TEXTURED") TEXTURED,
+	@SerializedName(alternate = "stamped", value = "STAMPED") STAMPED,
+	@SerializedName(alternate = "rebalanced", value = "REBALANCED") REBALANCED,
+	@SerializedName(alternate = "alchemy", value = "ALCHEMY") ALCHEMY,
+	@SerializedName(alternate = "stepandcompleat", value = "STEPANDCOMPLEAT") STEPANDCOMPLEAT,
+	@SerializedName(alternate = "doublerainbow", value = "DOUBLERAINBOW") DOUBLERAINBOW,
+	@SerializedName(alternate = "galaxyfoil", value = "GALAXYFOIL") GALAXYFOIL;
 	
 	 
 
@@ -58,7 +67,7 @@ public enum EnumPromoType {
 	public static EnumPromoType parseByLabel(String s)
 	{
 		try {
-			return EnumPromoType.valueOf(s.toUpperCase());
+			return EnumPromoType.valueOf(s.trim().toUpperCase());
 		}
 		catch(Exception e)
 		{
