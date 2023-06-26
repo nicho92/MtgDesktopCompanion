@@ -27,7 +27,9 @@ public enum EnumFrameEffects{
 	TEXTLESS,
 	SNOW,
 	COMPANION,
-	WAXINGANDWANINGMOONDFC;
+	WAXINGANDWANINGMOONDFC,
+	BORDERLESS,
+	ETCHED;
 
 	public String toPrettyString() {
 		return StringUtils.capitalize(name().toLowerCase());
