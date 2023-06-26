@@ -43,7 +43,7 @@ public enum EnumFrameEffects{
 	public static EnumFrameEffects parseByLabel(String s)
 	{
 		try {
-			return EnumFrameEffects.valueOf(s.toUpperCase());
+			return EnumFrameEffects.valueOf(s.trim().toUpperCase());
 		}
 		catch(Exception e)
 		{
