@@ -93,7 +93,7 @@ public enum EnumColors implements Comparator<EnumColors>{
 
 	public static EnumColors colorByCode(String s)
 	{
-		return List.of(EnumColors.values()).stream().filter(c->c.getCode().equalsIgnoreCase(s)).findAny().orElse(null);
+		return List.of(EnumColors.values()).stream().filter(c->c.getCode().equalsIgnoreCase(s.trim())).findAny().orElse(null);
 	}
 	
 	public static List<EnumColors> parseByManaCost(String c)
