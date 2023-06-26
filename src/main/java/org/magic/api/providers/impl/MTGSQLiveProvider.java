@@ -92,7 +92,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 	@Override
 	public MagicCard getTokenFor(MagicCard mc, EnumLayout layout) throws IOException {
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("select * from tokens where (relatedCards like ? or name like ? ) and types like ? and setCode like ?"))
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("select tokens.*, scryfallId,scryfallIllustrationId from tokens,tokenIdentifiers  where (relatedCards like ? or name like ? ) and types like ? and setCode like ? and tokenIdentifiers.uuid=tokens.uuid"))
 		{
 			pst.setString(1, "%"+mc.getName()+"%");
 			pst.setString(2, "%"+mc.getName()+"%");
@@ -116,7 +116,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 		var ret= new ArrayList<MagicCard>();
 
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("select * from tokens where setCode like ?"))
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("select tokens.*, scryfallId,scryfallIllustrationId from tokens,tokenIdentifiers where setCode like ? and tokenIdentifiers.uuid=tokens.uuid"))
 		{
 			pst.setString(1, "%"+ed.getId().toUpperCase());
 			var rs = pst.executeQuery();
