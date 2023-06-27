@@ -33,20 +33,13 @@ public class H2DAO extends AbstractMagicSQLDAO {
 
 	@Override
 	protected String getjdbcUrl() {
-		return "jdbc:"+getjdbcnamedb()+(getString(MODE).equals("file")?"/":":")+getString(DB_NAME)+";CASE_INSENSITIVE_IDENTIFIERS=TRUE;";
+		return "jdbc:"+getjdbcnamedb()+(getString(MODE).equals("file")?"/":":")+getString(DB_NAME)+";CASE_INSENSITIVE_IDENTIFIERS=TRUE"+(getString(MODE).equals("mem")?";DB_CLOSE_DELAY=-1":"");
 	}
 	
 	@Override
 	protected String getjdbcnamedb() {
 		return "h2:"+getString(MODE)+ (getString(MODE).equals("file")?":"+getString(SERVERNAME):"");
 	}
-
-	@Override
-	protected boolean isJsonCompatible()
-	{
-		return false;
-	}
-
 
 	@Override
 	protected String getdbSizeQuery() {
