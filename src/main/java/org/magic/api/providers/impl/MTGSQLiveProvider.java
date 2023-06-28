@@ -170,13 +170,11 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 			if(rs.getString(SUBTYPES)!=null)
 				mc.setSubtypes(splitArrayValue(rs.getString(SUBTYPES)));
 
-			var ci = rs.getString(COLOR_IDENTITY);
-			if(ci!=null)
-				mc.setColorIdentity(splitArrayValue(ci).stream().map(EnumColors::colorByCode).toList());
+			if(rs.getString(COLOR_IDENTITY)!=null)
+				mc.setColorIdentity(splitArrayValue(rs.getString(COLOR_IDENTITY)).stream().map(EnumColors::colorByCode).toList());
 
-			ci = rs.getString(COLORS);
-			if(ci!=null)
-				mc.setColors(splitArrayValue(ci).stream().map(EnumColors::colorByCode).toList());
+			if( rs.getString(COLORS)!=null)
+				mc.setColors(splitArrayValue( rs.getString(COLORS)).stream().map(EnumColors::colorByCode).toList());
 
 			if(rs.getString(KEYWORDS)!=null)
 				for(String s : splitArrayValue(rs.getString(KEYWORDS)))
@@ -391,7 +389,6 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 			
 				if(rs.getString(KEYWORDS)!=null)
 					mc.getKeywords().addAll(splitArrayValue(KEYWORDS).stream().map(s->new MTGKeyWord(s, MTGKeyWord.TYPE.ABILITIES)).toList());
-					
 			
 				if(rs.getString(COLOR_IDENTITY)!=null)
 					mc.setColorIdentity(splitArrayValue(rs.getString(COLOR_IDENTITY)).stream().map(EnumColors::colorByCode).toList());
