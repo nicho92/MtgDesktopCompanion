@@ -177,10 +177,8 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				mc.setColors(splitArrayValue( rs.getString(COLORS)).stream().map(EnumColors::colorByCode).toList());
 
 			if(rs.getString(KEYWORDS)!=null)
-				for(String s : splitArrayValue(rs.getString(KEYWORDS)))
-				{
-					mc.getKeywords().add(new MTGKeyWord(s, MTGKeyWord.TYPE.ABILITIES));
-				}
+				mc.getKeywords().addAll(splitArrayValue(KEYWORDS).stream().map(s->new MTGKeyWord(s, MTGKeyWord.TYPE.ABILITIES)).toList());
+	
 
 			var ted = getSetById(ed.getId());
 				ted.setNumber(rs.getString(NUMBER));
