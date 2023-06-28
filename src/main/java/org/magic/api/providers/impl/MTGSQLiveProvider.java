@@ -9,7 +9,6 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -61,7 +60,13 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 		initBuilder(b);
 		return b;
 	}
-
+	
+	private List<String> splitArrayValue(String val)
+	{
+		return List.of(val.split(",")).stream().map(String::trim).filter(s->!s.isEmpty()).toList();
+	}
+	
+	
 
 	@Override
 	public List<MagicCard> searchByCriteria(MTGCrit<?>... crits) throws IOException {
@@ -150,7 +155,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 			mc.setFrameVersion(rs.getString(FRAME_VERSION));
 			mc.setWatermarks(rs.getString(WATERMARK));
-			mc.setTypes(List.of(rs.getString(TYPES).split(",")));
+			mc.setTypes(splitArrayValue(rs.getString(TYPES)));
 			mc.setPower(rs.getString(POWER));
 			mc.setToughness(rs.getString(TOUGHNESS));
 			mc.setBorder(EnumBorders.parseByLabel(rs.getString(BORDER_COLOR)));
@@ -160,21 +165,21 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 
 			if(rs.getString(SUPERTYPES)!=null)
-				mc.setSupertypes(List.of(rs.getString(SUPERTYPES).split(", ")));
+				mc.setSupertypes(splitArrayValue(rs.getString(SUPERTYPES)));
 
 			if(rs.getString(SUBTYPES)!=null)
-				mc.setSubtypes(List.of(rs.getString(SUBTYPES).split(", ")));
+				mc.setSubtypes(splitArrayValue(rs.getString(SUBTYPES)));
 
 			var ci = rs.getString(COLOR_IDENTITY);
 			if(ci!=null)
-				mc.setColorIdentity(Arrays.asList(ci.split(", ")).stream().map(EnumColors::colorByCode).toList());
+				mc.setColorIdentity(splitArrayValue(ci).stream().map(EnumColors::colorByCode).toList());
 
 			ci = rs.getString(COLORS);
 			if(ci!=null)
-				mc.setColors(Arrays.asList(ci.split(",")).stream().map(EnumColors::colorByCode).toList());
+				mc.setColors(splitArrayValue(ci).stream().map(EnumColors::colorByCode).toList());
 
 			if(rs.getString(KEYWORDS)!=null)
-				for(String s : rs.getString(KEYWORDS).split(","))
+				for(String s : splitArrayValue(rs.getString(KEYWORDS)))
 				{
 					mc.getKeywords().add(new MTGKeyWord(s, MTGKeyWord.TYPE.ABILITIES));
 				}
@@ -374,90 +379,45 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				mc.setDefense(rs.getInt(DEFENSE));
 
 				if(rs.getString(FINISHES)!=null)
-				{
-					for(String s : rs.getString(FINISHES).split(","))
-					{
-						try {
-							mc.getFinishes().add(EnumFinishes.parseByLabel(s));
-						} catch (Exception e) {
-							logger.error("couldn't find finishes for {}", s);
-						}
-					}
-				}
-
+					mc.getFinishes().addAll(splitArrayValue(rs.getString(FINISHES)).stream().map(EnumFinishes::parseByLabel).toList());
+	
 				if(rs.getString(FRAME_EFFECTS)!=null)
-				{
-					for(String s : rs.getString(FRAME_EFFECTS).split(","))
-					{
-						var eff = EnumFrameEffects.parseByLabel(s);
-						if(eff!=null) 
-						{
-							mc.getFrameEffects().add(EnumFrameEffects.parseByLabel(s));
-						} 
-						else {
-							logger.error("couldn't find frameEffects for {}",s);
-						}
-					}
-				}
-
+					mc.getFrameEffects().addAll(splitArrayValue(rs.getString(FRAME_EFFECTS)).stream().map(EnumFrameEffects::parseByLabel).toList());
+					
+			
 				if(rs.getString(PROMO_TYPE)!=null)
-				{
-					for(String s : rs.getString(PROMO_TYPE).split(","))
-					{
-						mc.getPromotypes().add(EnumPromoType.parseByLabel(s));
-					}
-				}
-
-
+					mc.getPromotypes().addAll(splitArrayValue(PROMO_TYPE).stream().map(EnumPromoType::parseByLabel).toList());
+				
+			
 				if(rs.getString(KEYWORDS)!=null)
-				{
-					for(String s : rs.getString(KEYWORDS).split(","))
-					{
-						mc.getKeywords().add(new MTGKeyWord(s, MTGKeyWord.TYPE.ABILITIES));
-					}
-				}
+					mc.getKeywords().addAll(splitArrayValue(KEYWORDS).stream().map(s->new MTGKeyWord(s, MTGKeyWord.TYPE.ABILITIES)).toList());
+					
+			
+				if(rs.getString(COLOR_IDENTITY)!=null)
+					mc.setColorIdentity(splitArrayValue(rs.getString(COLOR_IDENTITY)).stream().map(EnumColors::colorByCode).toList());
 
+				if(rs.getString(COLORS)!=null)
+					mc.setColors(splitArrayValue(rs.getString(COLORS)).stream().map(EnumColors::colorByCode).toList());
+
+				if(rs.getString(COLOR_INDICATOR)!=null)
+					mc.setColorIndicator(splitArrayValue(rs.getString(COLOR_INDICATOR)).stream().map(EnumColors::colorByCode).toList());
 				
+				if(rs.getString(SUPERTYPES)!=null)
+					mc.getSupertypes().addAll(splitArrayValue(rs.getString(SUPERTYPES)));
+
+				if(rs.getString(TYPES)!=null)
+					mc.getTypes().addAll(splitArrayValue(rs.getString(TYPES)));
+			
+				if(rs.getString(SUBTYPES)!=null)
+					mc.getSubtypes().addAll(splitArrayValue(rs.getString(SUBTYPES)));
 				
-				
-				var ci = rs.getString(COLOR_IDENTITY);
-				if(ci!=null)
-					mc.setColorIdentity(Arrays.asList(ci.split(",")).stream().map(EnumColors::colorByCode).toList());
-
-				ci = rs.getString(COLORS);
-				if(ci!=null)
-					mc.setColors(Arrays.asList(ci.split(",")).stream().map(EnumColors::colorByCode).toList());
-
-				ci = rs.getString(COLOR_INDICATOR);
-				if(ci!=null)
-					mc.setColorIndicator(Arrays.asList(ci.split(",")).stream().map(EnumColors::colorByCode).toList());
-
 				try {
 					mc.setLoyalty(Integer.parseInt(rs.getString(LOYALTY)));
 				} catch (NumberFormatException e) {
 					mc.setLoyalty(0);
 				}
-				var types = rs.getString(SUPERTYPES);
-
-				if(types!=null)
-				{
-					mc.getSupertypes().addAll(Arrays.asList(rs.getString(SUPERTYPES).split(", ")));
-				}
-
-				types = rs.getString(TYPES);
-
-				if(types!=null)
-				{
-					mc.getTypes().addAll(Arrays.asList(rs.getString(TYPES).split(", ")));
-				}
-
-				types = rs.getString(SUBTYPES);
-
-				if(types!=null)
-				{
-					mc.getSubtypes().addAll(Arrays.asList(rs.getString(SUBTYPES).split(", ")));
-				}
-
+				
+		
 				mc.getForeignNames().addAll(getTranslations(mc));
 				mc.getLegalities().addAll(getLegalities(mc.getId()));
 
@@ -468,7 +428,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 							 mc.setEdition(set);
 
 				if(rs.getString("printings")!=null)
-					for(String ids : rs.getString("printings").split(","))
+					for(String ids : splitArrayValue(rs.getString("printings")))
 					{
 						if(!ids.equals(set.getId()))
 						{
