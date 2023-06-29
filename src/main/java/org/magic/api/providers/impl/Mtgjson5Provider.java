@@ -26,6 +26,7 @@ import org.magic.api.beans.enums.EnumFrameEffects;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.enums.EnumRarity;
+import org.magic.api.beans.enums.EnumSecurityStamp;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.criterias.builders.JsonCriteriaBuilder;
@@ -347,7 +348,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 					mc.setRebalanced(Boolean.valueOf(map.get(IS_REBALANCED).toString()));
 
 				if (map.get(SECURITYSTAMP) != null)
-					mc.setSecurityStamp(map.get(SECURITYSTAMP).toString());
+					mc.setSecurityStamp(EnumSecurityStamp.parseByLabel(map.get(SECURITYSTAMP).toString()));
 
 				if (map.get(FINISHES) != null)
 					mc.getFinishes().addAll(EnumFinishes.parseByLabel(((List<String>) map.get(FINISHES))));
