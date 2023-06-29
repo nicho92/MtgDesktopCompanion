@@ -29,6 +29,7 @@ import org.magic.api.beans.enums.EnumFinishes;
 import org.magic.api.beans.enums.EnumFrameEffects;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.enums.EnumPromoType;
+import org.magic.api.beans.enums.EnumSecurityStamp;
 import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGCrit.OPERATOR;
@@ -152,6 +153,9 @@ public class CriteriaComponent extends JComponent implements ActionListener{
 		else
 		if(c.getType() == MTGKeyWord.class)
 				return init(UITools.createCombobox(AbstractKeyWordsManager.getInstance().getList().stream().sorted().toList()));
+		else
+		if(c.getType() == EnumSecurityStamp.class)
+				return init(UITools.createCombobox(EnumSecurityStamp.values()));
 		else
 		if(c.getName().equalsIgnoreCase("name")) {
 			JTextField f= UITools.createSearchField();
