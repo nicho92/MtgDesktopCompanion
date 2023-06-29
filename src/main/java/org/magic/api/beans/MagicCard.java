@@ -16,6 +16,7 @@ import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.enums.EnumPromoType;
 import org.magic.api.beans.enums.EnumRarity;
+import org.magic.api.beans.enums.EnumSecurityStamp;
 import org.magic.api.interfaces.abstracts.extra.AbstractProduct;
 import org.magic.services.tools.IDGenerator;
 
@@ -80,7 +81,7 @@ public class MagicCard extends AbstractProduct {
 	private boolean japanese;
 	private Date dateUpdated;
 	private List<EnumFinishes> finishes;
-	private String securityStamp;
+	private EnumSecurityStamp securityStamp;
 	private boolean isRebalanced;
 	private String signature;
 	private Integer defense;
@@ -154,11 +155,11 @@ public class MagicCard extends AbstractProduct {
 		this.isRebalanced = isRebalanced;
 	}
 
-	public String getSecurityStamp() {
+	public EnumSecurityStamp getSecurityStamp() {
 		return securityStamp;
 	}
 
-	public void setSecurityStamp(String securityStamp) {
+	public void setSecurityStamp(EnumSecurityStamp securityStamp) {
 		this.securityStamp = securityStamp;
 	}
 
