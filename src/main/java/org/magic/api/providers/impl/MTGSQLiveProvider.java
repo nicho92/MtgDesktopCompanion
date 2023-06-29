@@ -29,6 +29,7 @@ import org.magic.api.beans.enums.EnumFrameEffects;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.enums.EnumPromoType;
 import org.magic.api.beans.enums.EnumRarity;
+import org.magic.api.beans.enums.EnumSecurityStamp;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.criterias.QueryAttribute;
@@ -163,7 +164,6 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 			mc.setRarity(EnumRarity.COMMON);
 			mc.setLayout(EnumLayout.parseByLabel(rs.getString(LAYOUT)));
 
-
 			if(rs.getString(SUPERTYPES)!=null)
 				mc.setSupertypes(splitArrayValue(rs.getString(SUPERTYPES)));
 
@@ -178,7 +178,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 			if(rs.getString(KEYWORDS)!=null)
 				mc.getKeywords().addAll(splitArrayValue(KEYWORDS).stream().map(s->new MTGKeyWord(s, MTGKeyWord.TYPE.ABILITIES)).toList());
-	
+		
 
 			var ted = getSetById(ed.getId());
 				ted.setNumber(rs.getString(NUMBER));
@@ -206,7 +206,6 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				initForeign();
 				initLegalities();
 				initRules();
-
 			}
 		}, getName() + "extradata loading");
 
@@ -368,7 +367,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				mc.setTimeshifted(rs.getBoolean(TIMESHIFTED));
 				mc.setRarity(EnumRarity.rarityByName(rs.getString(RARITY)));
 				mc.setFunny(rs.getBoolean(IS_FUNNY));
-				mc.setSecurityStamp(rs.getString(SECURITYSTAMP));
+				mc.setSecurityStamp(EnumSecurityStamp.parseByLabel(rs.getString(SECURITYSTAMP)));
 				mc.setRebalanced(rs.getBoolean(IS_REBALANCED));
 				mc.setTcgPlayerId(rs.getInt(TCGPLAYER_PRODUCT_ID));
 				mc.setSignature(rs.getString(SIGNATURE));
