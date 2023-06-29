@@ -22,6 +22,7 @@ import org.magic.api.beans.enums.EnumFrameEffects;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.enums.EnumPromoType;
 import org.magic.api.beans.enums.EnumRarity;
+import org.magic.api.beans.enums.EnumSecurityStamp;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGCrit.OPERATOR;
 import org.magic.api.criterias.MTGQueryBuilder;
@@ -210,7 +211,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 		arr.add(new QueryAttribute(FRAME_EFFECTS, EnumFrameEffects.class));
 		arr.add(new QueryAttribute(FINISHES, EnumFinishes.class));
 		arr.add(new QueryAttribute(KEYWORDS, MTGKeyWord.class));
-		
+		arr.add(new QueryAttribute(SECURITYSTAMP, EnumSecurityStamp.class));
 		return arr;
 	}
 
