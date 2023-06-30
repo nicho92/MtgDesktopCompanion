@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Map;
 
-import org.apache.commons.io.IOCase;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.magic.api.beans.MagicCard;

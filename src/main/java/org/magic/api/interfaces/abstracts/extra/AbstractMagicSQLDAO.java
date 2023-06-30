@@ -23,7 +23,6 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
-import org.beta.SQLHelper;
 import org.jooq.SQLDialect;
 import org.magic.api.beans.Announce;
 import org.magic.api.beans.Announce.STATUS;
@@ -59,6 +58,7 @@ import org.magic.api.pool.impl.NoPool;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
+import org.magic.services.SQLTools;
 import org.magic.services.TechnicalServiceManager;
 import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.IDGenerator;
@@ -84,12 +84,12 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	protected abstract SQLDialect getDialect();
 	
-	private SQLHelper hlper;
+	private SQLTools hlper;
 	
 	
 	protected AbstractMagicSQLDAO() {
 		super();
-		 hlper = new SQLHelper(getDialect());
+		 hlper = new SQLTools(getDialect());
 	}
 	
 
@@ -239,7 +239,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				stat.executeUpdate("INSERT into collections values ('"+s+"');");
 			
 
-			stat.executeUpdate("INSERT INTO contacts (contact_id, contact_name, contact_lastname, contact_telephone, contact_country, contact_zipcode, contact_city, contact_address, contact_website, contact_email, emailAccept, contact_active) VALUES (1, 'MTG', 'Companion', '123456789', 'FR', '123456', 'Somewhere', 'In the middle of nowhere', 'https://www.mtgcompanion.org', 'mtgdesktopcompanion@gmail.com', 1,  1);");
+			stat.executeUpdate(hlper.insertMainContact());
 
 
 

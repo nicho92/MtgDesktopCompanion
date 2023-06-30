@@ -47,7 +47,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 	private MultiValuedMap<String, MagicCardNames> mapForeignData = new ArrayListValuedHashMap<>();
 	private MultiValuedMap<String, MTGRuling> mapRules = new ArrayListValuedHashMap<>();
 	private MultiValuedMap<String, MTGFormat> mapLegalities = new ArrayListValuedHashMap<>();
-	private String SQL_CARDS_BASE = "SELECT cards.*, cardIdentifiers.cardKingdomEtchedId,cardIdentifiers.cardKingdomFoilId,cardIdentifiers.cardKingdomId,cardIdentifiers.cardsphereId,cardIdentifiers.mcmId,cardIdentifiers.mcmMetaId,cardIdentifiers.mtgArenaId,cardIdentifiers.mtgjsonFoilVersionId,cardIdentifiers.mtgjsonNonFoilVersionId,cardIdentifiers.mtgjsonV4Id,cardIdentifiers.mtgoFoilId,cardIdentifiers.mtgoId,cardIdentifiers.multiverseId,cardIdentifiers.scryfallId,cardIdentifiers.scryfallIllustrationId,cardIdentifiers.scryfallOracleId,cardIdentifiers.tcgplayerEtchedProductId,cardIdentifiers.tcgplayerProductId FROM cards, cardIdentifiers WHERE cardIdentifiers.uuid=cards.uuid";
+	private String sqlCardBaseQuery = "SELECT cards.*, cardIdentifiers.cardKingdomEtchedId,cardIdentifiers.cardKingdomFoilId,cardIdentifiers.cardKingdomId,cardIdentifiers.cardsphereId,cardIdentifiers.mcmId,cardIdentifiers.mtgArenaId,cardIdentifiers.mtgjsonFoilVersionId,cardIdentifiers.mtgjsonNonFoilVersionId,cardIdentifiers.mtgjsonV4Id,cardIdentifiers.mtgoFoilId,cardIdentifiers.mtgoId,cardIdentifiers.multiverseId,cardIdentifiers.scryfallId,cardIdentifiers.scryfallIllustrationId,cardIdentifiers.scryfallOracleId,cardIdentifiers.tcgplayerEtchedProductId,cardIdentifiers.tcgplayerProductId FROM cards, cardIdentifiers WHERE cardIdentifiers.uuid=cards.uuid";
 
 	@Override
 	public String getOnlineDataFileZip() {
@@ -222,7 +222,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 			exact=true;
 		}
 
-		StringBuilder temp = new StringBuilder(SQL_CARDS_BASE).append(" AND ").append("cards."+att);
+		StringBuilder temp = new StringBuilder(sqlCardBaseQuery).append(" AND ").append("cards."+att);
 
 
 		if(exact)
@@ -268,7 +268,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 	public List<MagicCard> listAllCards()throws IOException {
 		List<MagicCard> cards = new ArrayList<>();
 
-	try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(SQL_CARDS_BASE ))
+	try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(sqlCardBaseQuery ))
 		{
 			try (ResultSet rs = pst.executeQuery())
 			{
@@ -286,7 +286,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 	private void initRotatedCard(MagicCard mc, String id, String side)
 	{
-		var sql =SQL_CARDS_BASE+" AND cards.uuid = ?" ;
+		var sql =sqlCardBaseQuery+" AND cards.uuid = ?" ;
 		
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(sql))
 		{

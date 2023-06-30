@@ -1,4 +1,4 @@
-package org.beta;
+package org.magic.services;
 
 import org.apache.logging.log4j.Logger;
 import org.jooq.DSLContext;
@@ -6,23 +6,24 @@ import org.jooq.SQLDialect;
 import org.jooq.conf.RenderNameCase;
 import org.jooq.conf.RenderQuotedNames;
 import org.jooq.conf.Settings;
+import org.jooq.conf.StatementType;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
-import org.magic.services.TransactionService;
 import org.magic.services.logging.MTGLogger;
 
 
-public class SQLHelper {
+public class SQLTools {
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	
 	private DSLContext ctx;
 	
 	
-	public SQLHelper(SQLDialect dialect) {
+	public SQLTools(SQLDialect dialect) {
 		System.setProperty("org.jooq.no-tips", "true");
 		System.setProperty("org.jooq.no-logo", "true");
 		
 		var settings = new Settings()
+				.withStatementType(StatementType.STATIC_STATEMENT)
 			    .withRenderQuotedNames(RenderQuotedNames.EXPLICIT_DEFAULT_UNQUOTED) // Defaults to EXPLICIT_DEFAULT_QUOTED
 			    .withRenderNameCase(RenderNameCase.LOWER_IF_UNQUOTED); 
 		
@@ -36,6 +37,17 @@ public class SQLHelper {
 					  .from(DSL.table(tableName))
 					  .getSQL();
 	}
+	
+	public static void main(String[] args) {
+		System.out.println(new SQLTools(SQLDialect.POSTGRES).insertMainContact());
+	}
+	
+	
+	public String insertMainContact() {
+		return ctx.insertInto(DSL.table("contacts"),DSL.field("contact_id"),DSL.field("contact_name"),DSL.field("contact_lastname"),DSL.field("contact_telephone"),DSL.field("contact_country"),DSL.field("contact_zipcode"),DSL.field("contact_city"),DSL.field("contact_address"),DSL.field("contact_website"),DSL.field("contact_email"),DSL.field("emailAccept"),DSL.field("contact_active"))
+					.values(1,"MTG","Companion",123456789,"FR",123456,"Somewhere","In the middle of nowhere","https://www.mtgcompanion.org","mtgdesktopcompanion@gmail.com",true,true).getSQL();
+	}
+	
 	
 	
 	public String createTableConversion() { 

@@ -18,7 +18,6 @@ import org.magic.services.tools.FileTools;
 import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.UITools;
 import org.magic.services.tools.XMLTools;
-import org.ocpsoft.prettytime.PrettyTime;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -229,7 +228,7 @@ public class RequestBuilder
 			
 			public long getTime() {
 				return time;
-			};
+			}
 			
 		};
 		

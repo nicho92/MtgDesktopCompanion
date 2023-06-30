@@ -100,15 +100,15 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-	return Map.of(
-			SERVERNAME, "localhost",
-			SERVERPORT, "27017",
-			DB_NAME, "mtgdesktopcompanion",
-			LOGIN, "login",
-			PASS, "",
-			DRIVER, "mongodb://",
-			PARAMETERS, ""
-			);
+			return Map.of(
+					SERVERNAME, "localhost",
+					SERVERPORT, "27017",
+					DB_NAME, "mtgdesktopcompanion",
+					LOGIN, "login",
+					PASS, "",
+					DRIVER, "mongodb://",
+					PARAMETERS, ""
+					);
 	}
 
 	private <T> T deserialize(Object o, Class<T> classe) {
@@ -171,7 +171,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 						  temp.append("?").append(getString(PARAMETERS));
 
 
-			logger.debug("{} connected to {}",getName(),temp);
+			logger.info("Loading {} to : {}",getName(),temp);
 
 			MongoClientSettings settings = MongoClientSettings.builder()
 			                .applyConnectionString(new ConnectionString(temp.toString()))

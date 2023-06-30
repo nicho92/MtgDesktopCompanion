@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.exports.impl.WooCommerceExport;
 import org.magic.api.externalshop.impl.WooCommerceExternalShop;
@@ -16,7 +17,6 @@ import org.magic.services.tools.WooCommerceTools;
 
 import com.google.gson.JsonObject;
 import com.icoderman.woocommerce.EndpointBaseType;
-import org.apache.logging.log4j.Logger;
 
 
 public class FixingWoo {
