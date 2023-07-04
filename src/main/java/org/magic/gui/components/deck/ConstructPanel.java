@@ -425,10 +425,15 @@ public class ConstructPanel extends MTGUIComponent {
 		});
 
 		btnUpdate.addActionListener(updateEvent ->  {
+			if(deck==null)
+				return;
+			
 			Map<MagicCard, Integer> updateM = new HashMap<>();
 			Map<MagicCard, Integer> updateS = new HashMap<>();
 			Map<MagicCard, Integer> updateY = new HashMap<>();
 			btnUpdate.setEnabled(false);
+			
+			
 			buzyLabel.start(deck.getMain().size() + deck.getSideBoard().size() + deck.getMaybeBoard().size());
 			SwingWorker<Void, MagicCard> sw = new SwingWorker<>()
 					{
