@@ -20,7 +20,7 @@ public class DorkBox extends AbstractMTGNotifier {
 
 
 	    if(getBoolean("DARK"))
-	    	n.darkStyle();
+	    	n=n.darkStyle();
 
 		switch (notification.getType())
 		{
