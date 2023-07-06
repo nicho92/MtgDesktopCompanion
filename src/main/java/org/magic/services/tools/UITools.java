@@ -503,10 +503,15 @@ public class UITools {
 
 	public static String formatDouble(Object f)
 	{
+		return formatDouble(f, "#0.0#");
+	}
+
+	public static String formatDouble(Object f,String format)
+	{
 		if(f==null)
 			return "";
 
-		return new DecimalFormat("#0.0#").format(f);
+		return new DecimalFormat(format).format(f);
 	}
 
 	public static void initTableFilter(JTable table)
