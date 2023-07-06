@@ -498,12 +498,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			var g = obj.get(GAMES).getAsJsonArray();
 
 			g.forEach(el->{
-
-				if(el.getAsString().equals("arena"))
-					mc.setArenaCard(true);
-
-				if(el.getAsString().equals("mtgo"))
-					mc.setMtgoCard(true);
+					mc.setArenaCard(el.getAsString().equals("arena"));
+					mc.setMtgoCard(el.getAsString().equals("mtgo"));
 			});
 		}
 
