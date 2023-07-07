@@ -40,6 +40,7 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGComparator;
 import org.magic.api.sorters.CmcSorter;
 import org.magic.api.sorters.ColorSorter;
+import org.magic.api.sorters.RaritySorter;
 import org.magic.api.sorters.TypesSorter;
 import org.magic.game.gui.components.BoosterPanel;
 import org.magic.game.gui.components.DisplayableCard;
@@ -104,6 +105,7 @@ public class SealedDeckBuildPanel extends JPanel {
 		JRadioButton rdioCmcSortButton;
 		JRadioButton rdiocolorSort;
 		JRadioButton rdiotypeSort;
+		JRadioButton rdioraritySort;
 		JPanel panel;
 		JPanel panelEast;
 
@@ -200,13 +202,18 @@ public class SealedDeckBuildPanel extends JPanel {
 
 		rdiotypeSort = new JRadioButton(capitalize(SORT_BY, "type"));
 		rdiotypeSort.addActionListener(ae -> sort(new TypesSorter()));
-
 		panelSorters.add(rdiotypeSort);
 
+		rdioraritySort = new JRadioButton(capitalize(SORT_BY, "rarity"));
+		rdioraritySort.addActionListener(ae -> sort(new RaritySorter()));
+		panelSorters.add(rdioraritySort);
+		
+	
 		var groupSorter = new ButtonGroup();
 		groupSorter.add(rdioCmcSortButton);
 		groupSorter.add(rdiocolorSort);
 		groupSorter.add(rdiotypeSort);
+		groupSorter.add(rdioraritySort);
 
 		panelAnalyseChooser = new JPanel();
 		panelSorters.add(panelAnalyseChooser);
@@ -226,7 +233,8 @@ public class SealedDeckBuildPanel extends JPanel {
 		var groupAnalyser = new ButtonGroup();
 		groupAnalyser.add(rdioBoosterAnalyse);
 		groupAnalyser.add(rdioDeckAnalyse);
-
+		
+		
 		progressBar = new JProgressBar();
 		progressBar.setMaximum(MTGConstants.PROGRESS_BAR_SEALED_SIZE);
 		progressBar.setStringPainted(true);

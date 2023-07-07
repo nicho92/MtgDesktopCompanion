@@ -81,8 +81,10 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 		var panneauHaut = new JPanel();
 		getContentPane().add(panneauHaut, BorderLayout.NORTH);
 		JComboBox<MagicEdition> cboEditions = UITools.createComboboxEditions();
+		JComboBox<EnumExtra> cboExtras = UITools.createCombobox(EnumExtra.values());
 		cboEditions.insertItemAt(null, 0);
 		panneauHaut.add(cboEditions);
+		panneauHaut.add(cboExtras);
 
 		var lblBoxSize = new JLabel("Box size: ");
 		panneauHaut.add(lblBoxSize);
@@ -129,7 +131,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 					double total = 0;
 					Map<EnumRarity, Double> priceRarity = new EnumMap<>(EnumRarity.class);
 
-					for(var booster : getEnabledPlugin(MTGCardsProvider.class).generateBooster((MagicEdition) cboEditions.getSelectedItem(),EnumExtra.DRAFT, (Integer)boxSizeSpinner.getValue())) {
+					for(var booster : getEnabledPlugin(MTGCardsProvider.class).generateBooster((MagicEdition) cboEditions.getSelectedItem(),(EnumExtra)cboExtras.getSelectedItem(), (Integer)boxSizeSpinner.getValue())) {
 						Collections.reverse(booster.getCards());
 						
 

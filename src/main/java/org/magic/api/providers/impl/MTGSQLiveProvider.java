@@ -80,7 +80,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 		
 		var list = new ArrayList<MTGBooster>();
 		
-		
+		//get boosters structures for set
 		List<Pair<Integer, Double>> itemWeights = new ArrayList<>();
 		try (var c = pool.getConnection(); var pst = c.prepareStatement("select boosterIndex,boosterWeight from setBoosterContentWeights where setCode=? and boosterName=?"))
 		{
@@ -92,19 +92,19 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				while(rs.next())
 					itemWeights.add(new Pair<>(rs.getInt("boosterIndex"), rs.getDouble("boosterWeight")));
 			}
-			
-			if(itemWeights.isEmpty())
-				throw new IOException("No booster found for " + me.getId() + " / " + typeBooster.getMtgjsonname());
 		}
 		catch (SQLException e) {
 			logger.error(e);
 		}
+		if(itemWeights.isEmpty())
+			throw new IOException("No booster found for " + me.getId() + " / " + typeBooster.getMtgjsonname());
 		
 		var boosters = new EnumeratedDistribution<>(itemWeights);
 		var boosterIndex = boosters.sample(qty,new Integer[qty]);
-		logger.info("pick booster {} with index ={}",typeBooster.getMtgjsonname(), Arrays.asList(boosterIndex));
+		logger.debug("pick booster {} with index ={}",typeBooster.getMtgjsonname(), Arrays.asList(boosterIndex));
+
 		
-		
+		//get cards pickup chance
 		var cardsSheets = new HashMap<String,List<Pair<MagicCard, Double>>>();
 		try (var c = pool.getConnection(); var pst = c.prepareStatement("select cards.*, cardIdentifiers.cardKingdomEtchedId,cardIdentifiers.cardKingdomFoilId,cardIdentifiers.cardKingdomId,cardIdentifiers.cardsphereId,cardIdentifiers.mcmId,cardIdentifiers.mtgArenaId,cardIdentifiers.mtgjsonFoilVersionId,cardIdentifiers.mtgjsonNonFoilVersionId,cardIdentifiers.mtgjsonV4Id,cardIdentifiers.mtgoFoilId,cardIdentifiers.mtgoId,cardIdentifiers.multiverseId,cardIdentifiers.scryfallId,cardIdentifiers.scryfallIllustrationId,cardIdentifiers.scryfallOracleId,cardIdentifiers.tcgplayerEtchedProductId,cardIdentifiers.tcgplayerProductId, setBoosterSheetCards.* from setBoosterSheetCards, cards,cardIdentifiers where  cards.uuid=setBoosterSheetCards.cardUuid and cardIdentifiers.uuid=cards.uuid AND setBoosterSheetCards.setCode=?"))
 		{
@@ -127,9 +127,9 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 		if(cardsSheets.isEmpty())
 			throw new IOException("No cardsdatasheet found for " + me.getId() + " / " + typeBooster.name() + " for index=" + boosterIndex);
 		
-		logger.info("cards loaded for {}/{}",me.getId(),typeBooster.getMtgjsonname());
+		logger.debug("cards loaded for {}/{}",me.getId(),typeBooster.getMtgjsonname());
 		
-		
+		//build boosters
 		for(int i: boosterIndex) 
 		{
 				Map<String, Integer> boosterStructure = new HashMap<>();
@@ -152,7 +152,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 					logger.error(e);
 				}
 				
-				logger.info("generating boosters for {}/{} with structure = {}",me.getId(),typeBooster.getMtgjsonname(),boosterStructure);
+				logger.debug("generating boosters for {}/{} with structure = {}",me.getId(),typeBooster.getMtgjsonname(),boosterStructure);
 				
 				var booster = new MTGBooster();
 				booster.setEdition(me);
@@ -163,7 +163,6 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 					var picker = new EnumeratedDistribution<>(cardsSheets.get(e.getKey())).sample(e.getValue(), new MagicCard[e.getValue()]);
 					booster.getCards().addAll(Arrays.asList(picker));
 				}
-				Collections.sort(booster.getCards(), new CardsEditionSorter());
 				list.add(booster);
 				
 		}
@@ -439,6 +438,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				mc.setToughness(rs.getString(TOUGHNESS));
 				mc.getRulings().addAll(getRulings(mc.getId()));
 				mc.setArtist(rs.getString(ARTIST));
+				
 				if(rs.getString(FLAVOR_TEXT)!=null)
 					mc.setFlavor(StringEscapeUtils.unescapeJava(rs.getString(FLAVOR_TEXT)));
 				
@@ -523,7 +523,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				mc.getForeignNames().addAll(getTranslations(mc));
 				mc.getLegalities().addAll(getLegalities(mc.getId()));
 
-				MagicEdition set = getSetById(rs.getString(SETCODE));
+						var set = getSetById(rs.getString(SETCODE));
 							 set.setNumber(rs.getString(NUMBER));
 							 set.setMultiverseid(rs.getString(MULTIVERSE_ID));
 							 mc.getEditions().add(set);

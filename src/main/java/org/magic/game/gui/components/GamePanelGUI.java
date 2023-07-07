@@ -472,7 +472,8 @@ public class GamePanelGUI extends MTGUIComponent implements Observer {
 	public void describeCard(DisplayableCard mc) {
 
 		panneauHaut.setCard(mc.getMagicCard());
-		lblThumbnailPics.setIcon(new ImageIcon(mc.getFullResPics().getScaledInstance(223, 310, Image.SCALE_SMOOTH)));
+		if(mc.getFullResPics()!=null)
+			lblThumbnailPics.setIcon(new ImageIcon(mc.getFullResPics().getScaledInstance(223, 310, Image.SCALE_SMOOTH)));
 	}
 
 	public void addPlayer(Player p) {
