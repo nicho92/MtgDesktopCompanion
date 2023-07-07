@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.magic.api.beans.enums.EnumExtra;
+
 public class MTGBooster implements Serializable
 {
 	/**
@@ -14,9 +16,34 @@ public class MTGBooster implements Serializable
 	private List<MagicCard> cards;
 	private Double price;
 	private MagicEdition edition;
+	private EnumExtra typeBooster;
 
 	public MTGBooster() {
 		cards = new ArrayList<>();
+	}
+
+	public MTGBooster(MagicEdition me, EnumExtra typeBooster) {
+		this();
+		this.edition=me;
+		this.typeBooster=typeBooster;
+	}
+	
+	public int boosterSize()
+	{
+		return cards.size();
+	}
+	
+	public void add(MagicCard mc)
+	{
+		cards.add(mc);
+	}
+	
+	public EnumExtra getTypeBooster() {
+		return typeBooster;
+	}
+	
+	public void setTypeBooster(EnumExtra typeBooster) {
+		this.typeBooster = typeBooster;
 	}
 
 	public MagicEdition getEdition() {
@@ -44,6 +71,9 @@ public class MTGBooster implements Serializable
 	}
 
 	public Double getPrice() {
+		if(price==null)
+			return 0.0;
+		
 		return price;
 	}
 

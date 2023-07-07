@@ -5,16 +5,21 @@ import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
+import org.apache.commons.math3.distribution.EnumeratedDistribution;
+import org.apache.commons.math3.util.Pair;
 import org.apache.commons.text.StringEscapeUtils;
+import org.magic.api.beans.MTGBooster;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MTGFormat.AUTHORIZATION;
 import org.magic.api.beans.MTGKeyWord;
@@ -24,6 +29,7 @@ import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumBorders;
 import org.magic.api.beans.enums.EnumColors;
+import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.beans.enums.EnumFinishes;
 import org.magic.api.beans.enums.EnumFrameEffects;
 import org.magic.api.beans.enums.EnumLayout;
@@ -37,6 +43,7 @@ import org.magic.api.criterias.builders.SQLCriteriaBuilder;
 import org.magic.api.interfaces.MTGPool;
 import org.magic.api.interfaces.abstracts.extra.AbstractMTGJsonProvider;
 import org.magic.api.pool.impl.HikariPool;
+import org.magic.api.sorters.CardsEditionSorter;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
@@ -68,12 +75,111 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 	}
 	
 	
+	@Override
+	public List<MTGBooster> generateBooster(MagicEdition me, EnumExtra typeBooster, int qty) throws IOException {
+		
+		var list = new ArrayList<MTGBooster>();
+		
+		
+		List<Pair<Integer, Double>> itemWeights = new ArrayList<>();
+		try (var c = pool.getConnection(); var pst = c.prepareStatement("select boosterIndex,boosterWeight from setBoosterContentWeights where setCode=? and boosterName=?"))
+		{
+			pst.setString(1, me.getId());
+			pst.setString(2, typeBooster.getMtgjsonname());
+			
+			try (ResultSet rs = pst.executeQuery())
+			{
+				while(rs.next())
+					itemWeights.add(new Pair<>(rs.getInt("boosterIndex"), rs.getDouble("boosterWeight")));
+			}
+			
+			if(itemWeights.isEmpty())
+				throw new IOException("No booster found for " + me.getId() + " / " + typeBooster.getMtgjsonname());
+		}
+		catch (SQLException e) {
+			logger.error(e);
+		}
+		
+		var boosters = new EnumeratedDistribution<>(itemWeights);
+		var boosterIndex = boosters.sample(qty,new Integer[qty]);
+		logger.info("pick booster {} with index ={}",typeBooster.getMtgjsonname(), Arrays.asList(boosterIndex));
+		
+		
+		var cardsSheets = new HashMap<String,List<Pair<MagicCard, Double>>>();
+		try (var c = pool.getConnection(); var pst = c.prepareStatement("select cards.*, cardIdentifiers.cardKingdomEtchedId,cardIdentifiers.cardKingdomFoilId,cardIdentifiers.cardKingdomId,cardIdentifiers.cardsphereId,cardIdentifiers.mcmId,cardIdentifiers.mtgArenaId,cardIdentifiers.mtgjsonFoilVersionId,cardIdentifiers.mtgjsonNonFoilVersionId,cardIdentifiers.mtgjsonV4Id,cardIdentifiers.mtgoFoilId,cardIdentifiers.mtgoId,cardIdentifiers.multiverseId,cardIdentifiers.scryfallId,cardIdentifiers.scryfallIllustrationId,cardIdentifiers.scryfallOracleId,cardIdentifiers.tcgplayerEtchedProductId,cardIdentifiers.tcgplayerProductId, setBoosterSheetCards.* from setBoosterSheetCards, cards,cardIdentifiers where  cards.uuid=setBoosterSheetCards.cardUuid and cardIdentifiers.uuid=cards.uuid AND setBoosterSheetCards.setCode=?"))
+		{
+			pst.setString(1, me.getId());
+			
+			try (ResultSet rs = pst.executeQuery())
+			{
+				while(rs.next())
+				{
+						var sheetName=rs.getString("sheetName");
+						var p = new Pair<>(generateCardsFromRs(rs,true), rs.getDouble("cardWeight"));
+						cardsSheets.compute(sheetName, (k, v) ->v != null ? v : new ArrayList<>()).add(p);
+				}
+			}
+		}
+		catch (SQLException e) {
+			logger.error(e);
+		}
+		
+		if(cardsSheets.isEmpty())
+			throw new IOException("No cardsdatasheet found for " + me.getId() + " / " + typeBooster.name() + " for index=" + boosterIndex);
+		
+		logger.info("cards loaded for {}/{}",me.getId(),typeBooster.getMtgjsonname());
+		
+		
+		for(int i: boosterIndex) 
+		{
+				Map<String, Integer> boosterStructure = new HashMap<>();
+				try (var c = pool.getConnection(); var pst = c.prepareStatement("select sheetName,sheetPicks from setBoosterContents where setCode=? and boosterName=? and boosterIndex=?"))
+				{
+					pst.setString(1, me.getId());
+					pst.setString(2, typeBooster.getMtgjsonname());
+					pst.setInt(3, i);
+					
+					try (ResultSet rs = pst.executeQuery())
+					{
+						while(rs.next())
+							boosterStructure.put(rs.getString("sheetName"),rs.getInt("sheetPicks"));
+					}
+					if(boosterStructure.isEmpty())
+						throw new IOException("No boosterStructure found for " + me.getId() + " / " + typeBooster + " for index=" + boosterIndex);
+					
+				}
+				catch (SQLException e) {
+					logger.error(e);
+				}
+				
+				logger.info("generating boosters for {}/{} with structure = {}",me.getId(),typeBooster.getMtgjsonname(),boosterStructure);
+				
+				var booster = new MTGBooster();
+				booster.setEdition(me);
+				booster.setTypeBooster(typeBooster);
+				booster.setBoosterNumber(""+i);
+				
+				for(var e : boosterStructure.entrySet()){
+					var picker = new EnumeratedDistribution<>(cardsSheets.get(e.getKey())).sample(e.getValue(), new MagicCard[e.getValue()]);
+					booster.getCards().addAll(Arrays.asList(picker));
+				}
+				Collections.sort(booster.getCards(), new CardsEditionSorter());
+				list.add(booster);
+				
+		}
+		
+		
+		
+		
+		return list;
+	}
+	
 
 	@Override
 	public List<MagicCard> searchByCriteria(MTGCrit<?>... crits) throws IOException {
 
 		List<MagicCard> cards = new ArrayList<>();
-		try (var c = pool.getConnection(); Statement pst = c.createStatement())
+		try (var c = pool.getConnection(); var pst = c.createStatement())
 		{
 			var sql = getMTGQueryManager().build(crits).toString();
 			logger.debug("sql={}",sql);
@@ -98,7 +204,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 	@Override
 	public MagicCard getTokenFor(MagicCard mc, EnumLayout layout) throws IOException {
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("select tokens.*, scryfallId,scryfallIllustrationId from tokens,tokenIdentifiers  where (relatedCards like ? or name like ? ) and types like ? and setCode like ? and tokenIdentifiers.uuid=tokens.uuid"))
+		try (var c = pool.getConnection(); var pst = c.prepareStatement("select tokens.*, scryfallId,scryfallIllustrationId from tokens,tokenIdentifiers  where (relatedCards like ? or name like ? ) and types like ? and setCode like ? and tokenIdentifiers.uuid=tokens.uuid"))
 		{
 			pst.setString(1, "%"+mc.getName()+"%");
 			pst.setString(2, "%"+mc.getName()+"%");
@@ -122,7 +228,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 		var ret= new ArrayList<MagicCard>();
 
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("select tokens.*, scryfallId,scryfallIllustrationId from tokens,tokenIdentifiers where setCode like ? and tokenIdentifiers.uuid=tokens.uuid"))
+		try (var c = pool.getConnection(); var pst = c.prepareStatement("select tokens.*, scryfallId,scryfallIllustrationId from tokens,tokenIdentifiers where setCode like ? and tokenIdentifiers.uuid=tokens.uuid"))
 		{
 			pst.setString(1, "%"+ed.getId().toUpperCase());
 			var rs = pst.executeQuery();
@@ -337,8 +443,6 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 					mc.setFlavor(StringEscapeUtils.unescapeJava(rs.getString(FLAVOR_TEXT)));
 				
 				mc.setWatermarks(rs.getString(WATERMARK));
-				mc.setMkmId(rs.getInt(MCM_ID));
-				mc.setMtgArenaId(rs.getInt("mtgArenaId"));
 				mc.setAsciiName(rs.getString(ASCII_NAME));
 				
 				if(rs.getString(TEXT)!=null)
@@ -350,6 +454,10 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 					mc.setArenaCard(rs.getString(AVAILABILITY).contains("arena"));
 					mc.setMtgoCard(rs.getString(AVAILABILITY).contains("mtgo"));
 				}
+				mc.setMkmId(rs.getInt(MCM_ID));
+				mc.setMtgArenaId(rs.getInt("mtgArenaId"));
+				
+				
 				mc.setOnlineOnly(rs.getBoolean(IS_ONLINE_ONLY));
 				mc.setPromoCard(rs.getBoolean(IS_PROMO));
 				mc.setOversized(rs.getBoolean(IS_OVERSIZED));

@@ -70,6 +70,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumCardVariation;
 import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.EnumPaymentProvider;
 import org.magic.api.beans.enums.EnumTransactionDirection;
@@ -243,6 +244,7 @@ public class UITools {
 				table.setDefaultEditor(EnumTransactionStatus.class, new ComboBoxEditor<>(EnumTransactionStatus.values()));
 				table.setDefaultEditor(EnumPaymentProvider.class, new ComboBoxEditor<>(EnumPaymentProvider.values()));
 				table.setDefaultEditor(EnumTransactionDirection.class, new ComboBoxEditor<>(EnumTransactionDirection.values()));
+				table.setDefaultEditor(EnumExtra.class, new ComboBoxEditor<>(EnumExtra.values()));
 				table.setDefaultEditor(Level.class,  new ComboBoxEditor<>(MTGLogger.getLevels()) );
 				try {
 					table.setDefaultEditor(MagicEdition.class, new ComboBoxEditor<>(getEnabledPlugin(MTGCardsProvider.class).listEditions().stream().sorted().toList() ));

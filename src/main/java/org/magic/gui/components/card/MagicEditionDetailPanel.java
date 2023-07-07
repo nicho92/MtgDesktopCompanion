@@ -19,6 +19,7 @@ import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.CardSearchPanel;
@@ -108,7 +109,7 @@ public class MagicEditionDetailPanel extends MTGUIComponent {
 			btnOpenBooster.addActionListener(ae -> {
 				try {
 					CardSearchPanel.getInstance().thumbnail(
-							getEnabledPlugin(MTGCardsProvider.class).generateBooster(magicEdition).getCards());
+							getEnabledPlugin(MTGCardsProvider.class).generateBooster(magicEdition,EnumExtra.DRAFT,1).get(0).getCards());
 				} catch (Exception e) {
 					logger.error("Error loading booster for {}",magicEdition, e);
 				}

@@ -12,6 +12,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumCardVariation;
 import org.magic.api.beans.enums.EnumColors;
+import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.beans.enums.EnumFinishes;
 import org.magic.api.beans.enums.EnumFrameEffects;
 import org.magic.api.beans.enums.EnumLayout;
@@ -210,8 +211,14 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	}
 
 	@Override
-	public MTGBooster generateBooster(MagicEdition me) throws IOException {
+	public List<MTGBooster> generateBooster(MagicEdition me, EnumExtra typeBooster,int qty) throws IOException {
 
+		
+		var list = new ArrayList<MTGBooster>();
+		
+		for(int i=0;i<qty;i++)
+		{
+		
 		logger.debug("opening booster for {}",me);
 		List<MagicCard> common = new ArrayList<>();
 		List<MagicCard> uncommon = new ArrayList<>();
@@ -258,9 +265,10 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		b.setCards(resList);
 		b.setEdition(me);
 
-		logger.trace("generating cards for edition {} : {}",b.getEdition(),b.getCards());
-
-		return b;
+		list.add(b);
+		}
+		
+		return list;
 	}
 
 

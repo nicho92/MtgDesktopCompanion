@@ -6,6 +6,7 @@ import java.net.URISyntaxException;
 import org.junit.Before;
 import org.junit.Test;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
@@ -90,7 +91,7 @@ public class CardsProviderTests {
 
 		
 			try {
-				p.generateBooster(new MagicEdition("LEA"));
+				p.generateBooster(new MagicEdition("LEA"),EnumExtra.DRAFT,1).get(0);
 				System.out.println("BOOSTER GEN :OK");
 			} catch (Exception e) {
 				System.out.println("BOOSTER GEN :ERROR " + e);

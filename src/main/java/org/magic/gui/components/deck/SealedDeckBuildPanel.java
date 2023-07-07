@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map.Entry;
 
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
@@ -36,6 +35,7 @@ import org.magic.api.beans.MTGBooster;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGComparator;
 import org.magic.api.sorters.CmcSorter;
@@ -329,15 +329,15 @@ public class SealedDeckBuildPanel extends JPanel {
 	}
 
 	private void addBooster() {
-		model.add((MagicEdition) cboEditions.getSelectedItem(), 6);
-		btnOpen.setEnabled(model.getSealedPack().size() > 0);
+		model.add((MagicEdition) cboEditions.getSelectedItem(), EnumExtra.DRAFT, 6);
+		btnOpen.setEnabled(!model.getSealedPack().isEmpty());
 	}
 
 	protected void open() {
 		deck = new MagicDeck();
 
 		deck.setDescription("Sealed from " + model.getSealedPack());
-		deck.setName("sealed from " + model.getSealedPack().toList().size() + " boosters");
+		deck.setName("sealed from " + model.getSealedPack().size() + " boosters");
 
 		panelOpenedBooster.clear();
 		panelDeck.removeAll();
@@ -351,7 +351,7 @@ public class SealedDeckBuildPanel extends JPanel {
 
 			@Override
 			protected void process(List<MTGBooster> chunks) {
-
+				
 				chunks.forEach(e->{
 					column++;
 					for(MagicCard mc : e.getCards()) {
@@ -374,12 +374,12 @@ public class SealedDeckBuildPanel extends JPanel {
 			@Override
 			protected Void doInBackground() throws Exception {
 				column=0;
-				for (Entry<MagicEdition, Integer> ed : model.getSealedPack().getEntries()) {
+				for (var entry : model.getSealedPack()) {
 					try {
-						for (var i = 0; i < ed.getValue(); i++) {
-							var b = getEnabledPlugin(MTGCardsProvider.class).generateBooster(ed.getKey());
-							publish(b);
-						}
+							var b = getEnabledPlugin(MTGCardsProvider.class).generateBooster(entry.getLeft(),entry.getMiddle(), entry.getRight());
+							for(var booster : b)
+								publish(booster);
+						
 					} catch (IOException e) {
 						logger.error(e);
 						lblLoading.end();

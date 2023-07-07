@@ -7,6 +7,7 @@ import org.magic.api.beans.MTGBooster;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumCardVariation;
+import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.criterias.QueryAttribute;
@@ -48,8 +49,8 @@ public interface MTGCardsProvider extends MTGPlugin {
 
 	public QueryAttribute[] getQueryableAttributs();
 
-	public MTGBooster generateBooster(MagicEdition me) throws IOException;
-
+	public List<MTGBooster> generateBooster(MagicEdition me, EnumExtra typeBooster,int qty) throws IOException;
+	
 	public List<MagicCard> searchByCriteria(MTGCrit<?>... crits) throws IOException;
 
 	public List<MagicCard>  searchByCriteria(List<MTGCrit> crits) throws IOException;
