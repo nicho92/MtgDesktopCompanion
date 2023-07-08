@@ -27,14 +27,14 @@ public class RaritySorter implements MTGComparator<MagicCard> {
 		switch(mc.getRarity())
 		{
 
-		case COMMON: return 0;
-		case UNCOMMON:return 1;
-		case RARE: return 2;
-		case MYTHIC: return 3;
-		case SPECIAL: return 4;
-		case TIMESHIFTED: return 5;
-		case BONUS: return 6;
-		default : return 0;
+		case COMMON: return 1;
+		case UNCOMMON:return 2;
+		case RARE: return 3;
+		case MYTHIC: return 4;
+		case SPECIAL: return 5;
+		case TIMESHIFTED: return 6;
+		case BONUS: return 7;
+		default : return 1;
 		}
 		
 	}

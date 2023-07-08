@@ -264,7 +264,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 
 		b.setCards(resList);
 		b.setEdition(me);
-
+		notify(b);
 		list.add(b);
 		}
 		

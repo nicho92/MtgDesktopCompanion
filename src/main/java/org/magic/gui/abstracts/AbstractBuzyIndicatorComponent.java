@@ -23,12 +23,16 @@ public abstract class AbstractBuzyIndicatorComponent extends JComponent implemen
 
 	public static AbstractBuzyIndicatorComponent createLabelComponent()
 	{
-		return new JBuzyLabel();
+		var buzy= new JBuzyLabel();
+		buzy.setVisible(false);
+		return buzy;
 	}
 
 	public static AbstractBuzyIndicatorComponent createProgressComponent()
 	{
-		return new JBuzyProgress();
+		var buzy= new JBuzyProgress();
+		buzy.setVisible(false);
+		return buzy;
 	}
 
 

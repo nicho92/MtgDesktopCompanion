@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.interfaces.MTGSerializable;
 import org.magic.services.tools.UITools;
 
@@ -24,7 +25,6 @@ public class MagicEdition implements MTGSerializable, Comparable<MagicEdition> {
 	private int cardCount;
 	private int cardCountOfficial;
 	private String block;
-	private transient List<Object> booster;
 	private Map<String, String> translations;
 	private boolean onlineOnly;
 	private Integer mkmid;
@@ -38,6 +38,8 @@ public class MagicEdition implements MTGSerializable, Comparable<MagicEdition> {
 
 
 	private String number;
+
+	private List<EnumExtra> booster;
 
 
 	@Override
@@ -136,11 +138,11 @@ public class MagicEdition implements MTGSerializable, Comparable<MagicEdition> {
 		translations = new HashMap<>();
 	}
 
-	public List<Object> getBooster() {
+	public List<EnumExtra> getBooster() {
 		return booster;
 	}
 
-	public void setBooster(List<Object> booster) {
+	public void setBooster(List<EnumExtra> booster) {
 		this.booster = booster;
 	}
 

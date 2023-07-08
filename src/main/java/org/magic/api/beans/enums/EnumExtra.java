@@ -13,6 +13,7 @@ public enum EnumExtra {
 	JUMP ("jumpstart"),
 	INTRO("default"),
 	PLANESWALKER("default"),
+	STARTER("starter"),
 	BRAWL("default");
 	
 	private String mtgjsonname;

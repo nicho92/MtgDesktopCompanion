@@ -169,7 +169,7 @@ public class SealedDeckBuildPanel extends JPanel {
 		gbcbtnSaveDeck.gridy = 1;
 		panel.add(btnSaveDeck, gbcbtnSaveDeck);
 
-		lblLoading = AbstractBuzyIndicatorComponent.createProgressComponent();
+		lblLoading = AbstractBuzyIndicatorComponent.createLabelComponent();
 		var gbclblLoading = new GridBagConstraints();
 		gbclblLoading.gridx = 3;
 		gbclblLoading.gridy = 1;

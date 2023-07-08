@@ -43,7 +43,6 @@ import org.magic.api.criterias.builders.SQLCriteriaBuilder;
 import org.magic.api.interfaces.MTGPool;
 import org.magic.api.interfaces.abstracts.extra.AbstractMTGJsonProvider;
 import org.magic.api.pool.impl.HikariPool;
-import org.magic.api.sorters.CardsEditionSorter;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
@@ -96,6 +95,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 		catch (SQLException e) {
 			logger.error(e);
 		}
+		
 		if(itemWeights.isEmpty())
 			throw new IOException("No booster found for " + me.getId() + " / " + typeBooster.getMtgjsonname());
 		
@@ -155,21 +155,16 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				logger.debug("generating boosters for {}/{} with structure = {}",me.getId(),typeBooster.getMtgjsonname(),boosterStructure);
 				
 				var booster = new MTGBooster();
-				booster.setEdition(me);
-				booster.setTypeBooster(typeBooster);
-				booster.setBoosterNumber(""+i);
-				
+					  booster.setEdition(me);
+					  booster.setTypeBooster(typeBooster);
+					  booster.setBoosterNumber(""+i);
+					  notify(booster);
 				for(var e : boosterStructure.entrySet()){
 					var picker = new EnumeratedDistribution<>(cardsSheets.get(e.getKey())).sample(e.getValue(), new MagicCard[e.getValue()]);
 					booster.getCards().addAll(Arrays.asList(picker));
 				}
 				list.add(booster);
-				
 		}
-		
-		
-		
-		
 		return list;
 	}
 	
@@ -594,8 +589,6 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 		} catch (SQLException e) {
 			//do nothing
 		}
-
-
 	}
 
 	private List<MagicCardNames> getTranslations(MagicCard mc) {
