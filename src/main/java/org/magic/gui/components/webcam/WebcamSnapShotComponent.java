@@ -26,7 +26,7 @@ import com.github.sarxos.webcam.Webcam;
 
 public class WebcamSnapShotComponent extends MTGUIComponent {
 
-	private List<BufferedImage> snapshotImages;
+	private transient List<BufferedImage> snapshotImages;
 
 	private static final long serialVersionUID = 1L;
 	private WebcamCanvas webcamCanvas;

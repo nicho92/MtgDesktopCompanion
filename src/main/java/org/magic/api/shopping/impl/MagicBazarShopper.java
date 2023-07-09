@@ -147,12 +147,6 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 					
 					if (name.toLowerCase().contains("Bundle"))
 						typeProduct = EnumItems.BUNDLE;
-				  
-//					
-//					EnumExtra extra = null;
-//					if(name.contains("Collector"))
-//						extra=EnumExtra.COLLECTOR;
-//					
 					
 					if(name.contains("VF") || name.contains("French") || name.contains("FR"))
 						st.setLanguage("French");
