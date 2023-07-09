@@ -322,7 +322,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 			exact=true;
 		}
 
-		StringBuilder temp = new StringBuilder(sqlCardBaseQuery).append(" AND ").append("cards."+att);
+		StringBuilder temp = new StringBuilder(sqlCardBaseQuery).append(" AND ").append(att.equals("uuid")?"cards.":"").append(att);
 
 
 		if(exact)
@@ -776,7 +776,6 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				else
 					ret.add(new QueryAttribute(rs.getString(NAME), sqlToJavaType(rs.getString("type"))));
 			}
-			Collections.sort(ret);
 			ret.remove(new QueryAttribute(NAME,String.class));
 			ret.add(0, new QueryAttribute(NAME,String.class));
 
@@ -787,6 +786,22 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 		}
 
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("PRAGMA table_info(cardIdentifiers)");ResultSet rs = pst.executeQuery())
+		{
+			while(rs.next())
+			{
+					ret.add(new QueryAttribute(rs.getString(NAME), String.class));
+			}
+			Collections.sort(ret);
+		}
+		catch (SQLException e) {
+			logger.error(e);
+
+		}
+
+		
+		
+		
 		return ret;
 	}
 
