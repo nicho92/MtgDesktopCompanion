@@ -41,7 +41,6 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 
 
 	protected AbstractCardsProvider() {
-
 		cacheCards = new TCache<>("cards");
 		cacheCardsByEdition = new TCache<>("cardsByEdition");
 		cacheEditions = new TCache<>("editions");
