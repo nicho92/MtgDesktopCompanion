@@ -38,6 +38,11 @@ import com.google.common.collect.Lists;
 import com.google.gson.JsonElement;
 
 public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
+	protected static final String BOOSTER_INDEX = "boosterIndex";
+	protected static final String BOOSTER_SHEET_NAME = "sheetName";
+	protected static final String BOOSTER_CARD_WEIGHT = "cardWeight";
+	protected static final String BOOSTER_WEIGHT = "boosterWeight";
+	protected static final String BOOSTER_SHEET_PICKS = "sheetPicks";
 	protected static final String HAS_NON_FOIL = "hasNonFoil";
 	protected static final String HAS_FOIL = "hasFoil";
 	protected static final String MTG_ARENA_ID = "mtgArenaId";

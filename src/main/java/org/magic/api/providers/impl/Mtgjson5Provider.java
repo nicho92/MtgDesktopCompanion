@@ -353,8 +353,6 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 				if (map.get(FINISHES) != null)
 					mc.getFinishes().addAll(EnumFinishes.parseByLabel(((List<String>) map.get(FINISHES))));
 
-
-
 				if(map.get(BORDER_COLOR)!=null)
 					mc.setBorder(EnumBorders.parseByLabel(map.get(BORDER_COLOR).toString()));
 

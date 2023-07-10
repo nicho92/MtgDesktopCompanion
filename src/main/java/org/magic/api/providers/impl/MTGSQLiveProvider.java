@@ -49,7 +49,8 @@ import org.magic.services.threads.ThreadManager;
 
 public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
-	private MTGPool pool;
+
+private MTGPool pool;
 	private MultiValuedMap<String, MagicCardNames> mapForeignData = new ArrayListValuedHashMap<>();
 	private MultiValuedMap<String, MTGRuling> mapRules = new ArrayListValuedHashMap<>();
 	private MultiValuedMap<String, MTGFormat> mapLegalities = new ArrayListValuedHashMap<>();
@@ -89,7 +90,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 			try (ResultSet rs = pst.executeQuery())
 			{
 				while(rs.next())
-					itemWeights.add(new Pair<>(rs.getInt("boosterIndex"), rs.getDouble("boosterWeight")));
+					itemWeights.add(new Pair<>(rs.getInt(BOOSTER_INDEX), rs.getDouble(BOOSTER_WEIGHT)));
 			}
 		}
 		catch (SQLException e) {
@@ -113,11 +114,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 			try (ResultSet rs = pst.executeQuery())
 			{
 				while(rs.next())
-				{
-						var sheetName=rs.getString("sheetName");
-						var p = new Pair<>(generateCardsFromRs(rs,true), rs.getDouble("cardWeight"));
-						cardsSheets.compute(sheetName, (k, v) ->v != null ? v : new ArrayList<>()).add(p);
-				}
+					cardsSheets.compute(rs.getString(BOOSTER_SHEET_NAME), (k, v) ->v != null ? v : new ArrayList<>()).add(new Pair<>(generateCardsFromRs(rs,true), rs.getDouble(BOOSTER_CARD_WEIGHT)));
 			}
 		}
 		catch (SQLException e) {
@@ -139,10 +136,10 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 					pst.setString(2, typeBooster.getMtgjsonname());
 					pst.setInt(3, i);
 					
-					try (ResultSet rs = pst.executeQuery())
+					try (var rs = pst.executeQuery())
 					{
 						while(rs.next())
-							boosterStructure.put(rs.getString("sheetName"),rs.getInt("sheetPicks"));
+							boosterStructure.put(rs.getString(BOOSTER_SHEET_NAME),rs.getInt(BOOSTER_SHEET_PICKS));
 					}
 					if(boosterStructure.isEmpty())
 						throw new IOException("No boosterStructure found for " + me.getId() + " / " + typeBooster + " for index=" + boosterIndex);
