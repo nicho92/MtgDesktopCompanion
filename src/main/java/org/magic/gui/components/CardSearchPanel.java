@@ -428,7 +428,7 @@ public class CardSearchPanel extends MTGUIComponent {
 			lblLoading.setText(capitalize("SEARCHING"));
 			cardsModeltable.clear();
 
-			AbstractObservableWorker<List<MagicCard>, MagicCard, MTGCardsProvider> wk = new AbstractObservableWorker<>(lblLoading,getEnabledPlugin(MTGCardsProvider.class)) {
+			var wk = new AbstractObservableWorker<List<MagicCard>, MagicCard, MTGCardsProvider>(lblLoading,getEnabledPlugin(MTGCardsProvider.class)) {
 
 						@Override
 						protected List<MagicCard> doInBackground() throws Exception {

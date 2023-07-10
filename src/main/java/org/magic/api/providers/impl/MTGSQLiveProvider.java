@@ -776,10 +776,6 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 				else
 					ret.add(new QueryAttribute(rs.getString(NAME), sqlToJavaType(rs.getString("type"))));
 			}
-			ret.remove(new QueryAttribute(NAME,String.class));
-			ret.add(0, new QueryAttribute(NAME,String.class));
-
-
 		}
 		catch (SQLException e) {
 			logger.error(e);
@@ -792,13 +788,15 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 			{
 					ret.add(new QueryAttribute(rs.getString(NAME), String.class));
 			}
-			Collections.sort(ret);
 		}
 		catch (SQLException e) {
 			logger.error(e);
 
 		}
 
+		Collections.sort(ret);
+		ret.remove(new QueryAttribute(NAME,String.class));
+		ret.add(0, new QueryAttribute(NAME,String.class));
 		
 		
 		

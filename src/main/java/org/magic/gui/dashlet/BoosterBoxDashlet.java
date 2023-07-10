@@ -96,13 +96,13 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 
 		var buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 		buzy.setVisible(false);
-		panneauHaut.add(buzy);
-
 		
 		boxSizeSpinner = new JSpinner();
 		boxSizeSpinner.setModel(new SpinnerNumberModel(36, 0, null, 1));
 		panneauHaut.add(boxSizeSpinner);
+		panneauHaut.add(buzy);
 
+		
 
 		boostersModel = new BoostersTableModel();
 		cardsModel = new DefaultListModel<>();
