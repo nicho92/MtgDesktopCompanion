@@ -31,7 +31,7 @@ public class DerbyDAO extends AbstractMagicSQLDAO {
 
 	@Override
 	protected String getdbSizeQuery() {
-		return "SELECT T2.CONGLOMERATENAME, (T2.PAGESIZE * T2.NUMALLOCATEDPAGES) FROM SYS.SYSTABLES systabs, TABLE (SYSCS_DIAG.SPACE_TABLE(systabs.tablename)) AS T2 WHERE systabs.tabletype = 'T'";
+		return "SELECT T2.CONGLOMERATENAME, (T2.PAGESIZE * T2.NUMALLOCATEDPAGES) FROM SYS.SYSTABLES systabs, TABLE (SYSCS_DIAG.SPACE_TABLE(systabs.tablename)) AS T2 WHERE systabs.tabletype = 'T'   AND T2.CONGLOMERATENAME NOT LIKE 'IDX%' AND T2.CONGLOMERATENAME NOT LIKE 'SQL%'";
 	}
 
 	@Override
