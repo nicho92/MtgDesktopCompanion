@@ -42,8 +42,8 @@ public class DerbyDAO extends AbstractMagicSQLDAO {
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		var m = super.getDefaultAttributes();
-		m.put(SERVERNAME, new File(MTGConstants.DATA_DIR,"derbydb").getAbsolutePath());
 		m.put(DB_NAME, "derbyDB");
+		m.put(SERVERNAME, new File(MTGConstants.DATA_DIR,m.get(DB_NAME)).getAbsolutePath());
 		return m;
 	}
 	
