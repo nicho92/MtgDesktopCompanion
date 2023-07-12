@@ -67,6 +67,11 @@
 	</repositories>
 	<dependencies>
 		<dependency>
+		    <groupId>org.apache.derby</groupId>
+		    <artifactId>derby</artifactId>
+		    <version>10.16.1.1</version>
+		</dependency>
+		<dependency>
 		    <groupId>org.jolokia</groupId>
 		    <artifactId>jolokia-jvm</artifactId>
 		    <version>1.7.2</version>
