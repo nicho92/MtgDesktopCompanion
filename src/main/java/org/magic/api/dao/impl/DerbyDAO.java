@@ -26,7 +26,7 @@ public class DerbyDAO extends AbstractMagicSQLDAO {
 	
 	@Override
 	protected String createListStockSQL() {
-		return null;
+		return "select * from stocks where collection=? and mcard like ?";
 	}
 
 	@Override
