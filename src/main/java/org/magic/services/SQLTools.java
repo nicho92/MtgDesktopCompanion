@@ -38,6 +38,18 @@ public class SQLTools {
 					  .getSQL();
 	}
 	
+	public String insertDefaultCollections() {
+		var d = ctx.insertInto(DSL.table("collections"),DSL.field("name"));
+		
+		for(String s : MTGConstants.getDefaultCollectionsNames())
+			d.values(s);
+		
+		return d.getSQL();
+		
+		
+	}
+	
+	
 	
 	public String insertMainContact() {
 		return ctx.insertInto(DSL.table("contacts"),DSL.field("contact_id"),DSL.field("contact_name"),DSL.field("contact_lastname"),DSL.field("contact_telephone"),DSL.field("contact_country"),DSL.field("contact_zipcode"),DSL.field("contact_city"),DSL.field("contact_address"),DSL.field("contact_website"),DSL.field("contact_email"),DSL.field("emailAccept"),DSL.field("contact_active"))
@@ -234,5 +246,5 @@ public class SQLTools {
 				.column("fk_idcontact", SQLDataType.INTEGER)
 				.primaryKey("id").getSQL();
 	}
-	
+
 }
