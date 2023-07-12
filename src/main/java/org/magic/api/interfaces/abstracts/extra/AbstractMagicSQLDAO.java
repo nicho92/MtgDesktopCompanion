@@ -234,11 +234,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			postCreation(stat);
 
 			logger.debug("populate collections");
-
-			for(String s : MTGConstants.getDefaultCollectionsNames())
-				stat.executeUpdate("INSERT into collections values ('"+s+"');");
-			
-
+			stat.executeUpdate(hlper.insertDefaultCollections());	
 			stat.executeUpdate(hlper.insertMainContact());
 
 
@@ -1958,7 +1954,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 		if(pst.toString().toUpperCase().indexOf("DELETE")>-1)
 			index=pst.toString().toUpperCase().indexOf("DELETE");
-
 
 		daoInfo.setQuery(pst.toString().substring(index));
 		daoInfo.setClasseName(pst.getClass().getCanonicalName());
