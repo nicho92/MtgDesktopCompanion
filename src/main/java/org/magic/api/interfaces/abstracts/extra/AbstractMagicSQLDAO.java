@@ -411,7 +411,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public int saveOrUpdateAnnounce(Announce n) throws SQLException {
 		if (n.getId() < 0)
 		{
-				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO announces (creationDate, startDate, endDate, title, description, total, currency, stocksItem, typeAnnounce, fk_idcontact,category,percentReduction,conditions,statusAnnounce) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",Statement.RETURN_GENERATED_KEYS))
+				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO announces (creationDate, startDate, endDate, title, description, total, currency, stocksItem, typeAnnounce, fk_idcontact,category,percentReduction,conditions,statusAnnounce) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",Statement.RETURN_GENERATED_KEYS))
 				{
 					pst.setTimestamp(1,new Timestamp(Instant.now().toEpochMilli()));
 					pst.setTimestamp(2,new Timestamp(n.getStartDate().getTime()));
@@ -479,64 +479,64 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	private void createIndex(Statement stat) throws SQLException {
 
-		stat.executeUpdate("CREATE INDEX idx_id ON cards (ID);");
-		stat.executeUpdate("CREATE INDEX idx_ed ON cards (edition);");
-		stat.executeUpdate("CREATE INDEX idx_col ON cards (collection);");
-		stat.executeUpdate("CREATE INDEX idx_cprov ON cards (cardprovider);");
-		stat.executeUpdate("CREATE INDEX idx_dateUpdt ON cards (dateUpdate);");
+		stat.executeUpdate("CREATE INDEX idx_id ON cards (ID)");
+		stat.executeUpdate("CREATE INDEX idx_ed ON cards (edition)");
+		stat.executeUpdate("CREATE INDEX idx_col ON cards (collection)");
+		stat.executeUpdate("CREATE INDEX idx_cprov ON cards (cardprovider)");
+		stat.executeUpdate("CREATE INDEX idx_dateUpdt ON cards (dateUpdate)");
 
-		stat.executeUpdate("CREATE INDEX idx_stk_idmc ON stocks (idmc);");
-		stat.executeUpdate("CREATE INDEX idx_stk_col ON stocks (collection);");
-		stat.executeUpdate("CREATE INDEX idx_stk_com ON stocks (comments);");
-		stat.executeUpdate("CREATE INDEX idx_stk_con ON stocks (conditions);");
-		stat.executeUpdate("CREATE INDEX idx_stk_lang ON stocks (langage);");
+		stat.executeUpdate("CREATE INDEX idx_stk_idmc ON stocks (idmc)");
+		stat.executeUpdate("CREATE INDEX idx_stk_col ON stocks (collection)");
+		stat.executeUpdate("CREATE INDEX idx_stk_com ON stocks (comments)");
+		stat.executeUpdate("CREATE INDEX idx_stk_con ON stocks (conditions)");
+		stat.executeUpdate("CREATE INDEX idx_stk_lang ON stocks (langage)");
 
-		stat.executeUpdate("CREATE INDEX idx_news_nam ON news (name);");
-		stat.executeUpdate("CREATE INDEX idx_news_url ON news (url);");
-		stat.executeUpdate("CREATE INDEX idx_news_ctg ON news (categorie);");
-		stat.executeUpdate("CREATE INDEX idx_news_typ ON news (typeNews);");
+		stat.executeUpdate("CREATE INDEX idx_news_nam ON news (name)");
+		stat.executeUpdate("CREATE INDEX idx_news_url ON news (url)");
+		stat.executeUpdate("CREATE INDEX idx_news_ctg ON news (categorie)");
+		stat.executeUpdate("CREATE INDEX idx_news_typ ON news (typeNews)");
 
-		stat.executeUpdate("CREATE INDEX idx_sld_edition ON sealed (edition);");
-		stat.executeUpdate("CREATE INDEX idx_sld_comment ON sealed (comment);");
-		stat.executeUpdate("CREATE INDEX idx_sld_lang ON sealed (lang);");
-		stat.executeUpdate("CREATE INDEX idx_sld_type ON sealed (typeProduct);");
-		stat.executeUpdate("CREATE INDEX idx_sld_cdt ON sealed (conditionProduct);");
-		stat.executeUpdate("CREATE INDEX idx_sld_ext ON sealed (extra);");
+		stat.executeUpdate("CREATE INDEX idx_sld_edition ON sealed (edition)");
+		stat.executeUpdate("CREATE INDEX idx_sld_comment ON sealed (comment)");
+		stat.executeUpdate("CREATE INDEX idx_sld_lang ON sealed (lang)");
+		stat.executeUpdate("CREATE INDEX idx_sld_type ON sealed (typeProduct)");
+		stat.executeUpdate("CREATE INDEX idx_sld_cdt ON sealed (conditionProduct)");
+		stat.executeUpdate("CREATE INDEX idx_sld_ext ON sealed (extra)");
 
-		stat.executeUpdate("CREATE INDEX idx_trx_statut ON transactions (statut);");
-		stat.executeUpdate("CREATE INDEX idx_trx_msg ON transactions (message);");
-		stat.executeUpdate("CREATE INDEX idx_trx_transpter ON transactions (transporter);");
+		stat.executeUpdate("CREATE INDEX idx_trx_statut ON transactions (statut)");
+		stat.executeUpdate("CREATE INDEX idx_trx_msg ON transactions (message)");
+		stat.executeUpdate("CREATE INDEX idx_trx_transpter ON transactions (transporter)");
 
-		stat.executeUpdate("CREATE INDEX idx_ctc_name ON contacts (contact_name);");
-		stat.executeUpdate("CREATE INDEX idx_ctc_lname ON contacts (contact_lastname);");
-		stat.executeUpdate("CREATE INDEX idx_ctc_country ON contacts (contact_country);");
-		stat.executeUpdate("CREATE INDEX idx_ctc_address ON contacts (contact_address);");
-		stat.executeUpdate("CREATE INDEX idx_ctc_zip ON contacts (contact_zipcode);");
-		stat.executeUpdate("CREATE INDEX idx_ctc_city ON contacts (contact_city);");
-		stat.executeUpdate("CREATE INDEX idx_ctc_site ON contacts (contact_website);");
-		stat.executeUpdate("CREATE INDEX idx_ctc_mail ON contacts (contact_email);");
+		stat.executeUpdate("CREATE INDEX idx_ctc_name ON contacts (contact_name)");
+		stat.executeUpdate("CREATE INDEX idx_ctc_lname ON contacts (contact_lastname)");
+		stat.executeUpdate("CREATE INDEX idx_ctc_country ON contacts (contact_country)");
+		stat.executeUpdate("CREATE INDEX idx_ctc_address ON contacts (contact_address)");
+		stat.executeUpdate("CREATE INDEX idx_ctc_zip ON contacts (contact_zipcode)");
+		stat.executeUpdate("CREATE INDEX idx_ctc_city ON contacts (contact_city)");
+		stat.executeUpdate("CREATE INDEX idx_ctc_site ON contacts (contact_website)");
+		stat.executeUpdate("CREATE INDEX idx_ctc_mail ON contacts (contact_email)");
 
-		stat.executeUpdate("CREATE INDEX idx_dck_name ON decks (name);");
-		stat.executeUpdate("CREATE INDEX idx_dck_tags ON decks (tags);");
+		stat.executeUpdate("CREATE INDEX idx_dck_name ON decks (name)");
+		stat.executeUpdate("CREATE INDEX idx_dck_tags ON decks (tags)");
 
-		stat.executeUpdate("CREATE INDEX idx_alrt_ida ON alerts (id);");
+		stat.executeUpdate("CREATE INDEX idx_alrt_ida ON alerts (id)");
 
 
-		stat.executeUpdate("CREATE INDEX idx_conv_id ON conversionsItems (id);");
-		stat.executeUpdate("CREATE INDEX idx_conv_name ON conversionsItems (name);");
-		stat.executeUpdate("CREATE INDEX idx_conv_lang ON conversionsItems (lang);");
-		stat.executeUpdate("CREATE INDEX idx_conv_source ON conversionsItems (source);");
-		stat.executeUpdate("CREATE INDEX idx_conv_dest ON conversionsItems (destination);");
+		stat.executeUpdate("CREATE INDEX idx_conv_id ON conversionsItems (id)");
+		stat.executeUpdate("CREATE INDEX idx_conv_name ON conversionsItems (name)");
+		stat.executeUpdate("CREATE INDEX idx_conv_lang ON conversionsItems (lang)");
+		stat.executeUpdate("CREATE INDEX idx_conv_source ON conversionsItems (source)");
+		stat.executeUpdate("CREATE INDEX idx_conv_dest ON conversionsItems (destination)");
 
-		stat.executeUpdate("CREATE INDEX idx_creationDate ON announces (creationDate);");
-		stat.executeUpdate("CREATE INDEX idx_startDate ON announces (startDate);");
-		stat.executeUpdate("CREATE INDEX idx_endDate ON announces (endDate);");
-		stat.executeUpdate("CREATE INDEX idx_title ON announces (title);");
-		stat.executeUpdate("CREATE INDEX idx_currency ON announces (currency);");
-		stat.executeUpdate("CREATE INDEX idx_typeAnnounce ON announces (typeAnnounce);");
-		stat.executeUpdate("CREATE INDEX idx_category ON announces (category);");
-		stat.executeUpdate("CREATE INDEX idx_conditions ON announces (conditions);");
-		stat.executeUpdate("CREATE INDEX idx_statusAnnounce ON announces (statusAnnounce);");
+		stat.executeUpdate("CREATE INDEX idx_creationDate ON announces (creationDate)");
+		stat.executeUpdate("CREATE INDEX idx_startDate ON announces (startDate)");
+		stat.executeUpdate("CREATE INDEX idx_endDate ON announces (endDate)");
+		stat.executeUpdate("CREATE INDEX idx_title ON announces (title)");
+		stat.executeUpdate("CREATE INDEX idx_currency ON announces (currency)");
+		stat.executeUpdate("CREATE INDEX idx_typeAnnounce ON announces (typeAnnounce)");
+		stat.executeUpdate("CREATE INDEX idx_category ON announces (category)");
+		stat.executeUpdate("CREATE INDEX idx_conditions ON announces (conditions)");
+		stat.executeUpdate("CREATE INDEX idx_statusAnnounce ON announces (statusAnnounce)");
 
 	}
 
