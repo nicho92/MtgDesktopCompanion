@@ -59,7 +59,7 @@ public String insertMainContact() {
 	
 	
 	public String createTableConversion() { 
-		return	ctx.createTableIfNotExists("conversionsItems")
+		return	ctx.createTableIfNotExists("conversionsitems")
 				.column("id",SQLDataType.INTEGER.identity(true))
 				.column("name",SQLDataType.VARCHAR(250))				
 				.column("lang",SQLDataType.VARCHAR(25))				

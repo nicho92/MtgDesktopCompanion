@@ -649,7 +649,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public List<ConverterItem> listConversionItems() throws SQLException {
 		List<ConverterItem> colls = new ArrayList<>();
 
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from conversionsItems"))
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from conversionsitems"))
 		{
 				var rs = executeQuery(pst);
 
@@ -666,7 +666,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public void saveOrUpdateConversionItem(ConverterItem n) throws SQLException {
 		if (n.getId() < 0)
 		{
-				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO conversionsItems (name, source, inputId, destination, outputId) VALUES (?, ?, ?, ?, ?)"))
+				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO conversionsitems (name, source, inputId, destination, outputId) VALUES (?, ?, ?, ?, ?)"))
 				{
 					pst.setString(1,n.getName());
 					pst.setString(2, n.getSource());
@@ -681,7 +681,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		}
 		else if(n.isUpdated())
 		{
-			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE conversionsItems SET name = ?, source = ?, inputId = ?, destination = ?, outputId = ? WHERE id = ?"))
+			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE conversionsitems SET name = ?, source = ?, inputId = ?, destination = ?, outputId = ? WHERE id = ?"))
 			{
 				pst.setString(1,n.getName());
 				pst.setString(2, n.getSource());
@@ -701,7 +701,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	@Override
 	public void deleteConversionItem(ConverterItem n) throws SQLException {
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("DELETE FROM conversionsItems where id=?")) {
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("DELETE FROM conversionsitems where id=?")) {
 			pst.setLong(1, n.getId());
 			executeUpdate(pst);
 		}
