@@ -20,6 +20,7 @@ public class Announce implements MTGSerializable, Comparable<Announce> {
 	public enum STATUS { ACTIVE, SOON, SOLD, EXPIRED }
 
 	private static final long serialVersionUID = 1L;
+	
 	private int id=-1;
 	private Contact contact;
 	private Date creationDate;

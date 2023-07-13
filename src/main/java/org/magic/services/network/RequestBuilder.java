@@ -218,7 +218,7 @@ public class RequestBuilder
 				}
 				else
 				{
-					time = chrono.stop();
+					time = chrono.stopInMillisecond();
 				}
 			}
 			
