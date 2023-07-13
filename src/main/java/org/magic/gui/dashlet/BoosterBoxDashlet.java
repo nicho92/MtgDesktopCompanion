@@ -140,7 +140,6 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 			boostersModel.clear();
 			cardsModel.clear();
 			txtDetailBox.setText("");
-			
 			var sw = new AbstractObservableWorker<List<MTGBooster>, MTGBooster, MTGCardsProvider>(buzy,getEnabledPlugin(MTGCardsProvider.class)) {
 
 				private EditionsShakers prices;
@@ -215,6 +214,11 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 					(int) Double.parseDouble(getString("y")), (int) Double.parseDouble(getString("w")),
 					(int) Double.parseDouble(getString("h")));
 			setBounds(r);
+			
+			if(getString("EDITION")!=null)
+				cboEditions.setSelectedItem(new MagicEdition(getString("EDITION")));
+			
+			
 		}
 	}
 

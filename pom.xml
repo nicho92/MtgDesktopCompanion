@@ -58,6 +58,7 @@
   		<qwartz.version>2.5.0-rc1</qwartz.version>
   		<rome.version>2.1.0</rome.version>
   		<log4j.version>2.20.0</log4j.version>
+  		
 	</properties>
 	<repositories>
 		<repository>
