@@ -18,19 +18,19 @@ import org.magic.services.logging.MTGLogger;
 
 public class BoosterGenerator {
 
-	
-	private List<Pair<Integer, Double>> itemWeights;
-	private Map<String,List<Pair<MagicCard, Double>>> cardsSheets;
-	private Map<String, Integer> boosterStructure;
-	
-	
 	private MagicEdition set;
 	private EnumExtra typeBooster;
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 
 	
+	private List<Pair<Integer, Double>> boosterWeight;
+	private Map<String,List<Pair<MagicCard, Double>>> cardsSheets;
+	private Map<String, Integer> boosterStructure;
+	
+	
+	
 	public BoosterGenerator(MagicEdition ed, EnumExtra typeBooster) {
-		 itemWeights = new ArrayList<>();
+		 boosterWeight = new ArrayList<>();
 		 cardsSheets = new HashMap<>();
 		 boosterStructure = new HashMap<>();
 		 this.set=ed;
@@ -41,8 +41,8 @@ public class BoosterGenerator {
 		return boosterStructure;
 	}
 	
-	public List<Pair<Integer, Double>> getItemWeights() {
-		return itemWeights;
+	public List<Pair<Integer, Double>> getBoosterWeight() {
+		return boosterWeight;
 	}
 	
 	public Map<String, List<Pair<MagicCard, Double>>> getCardsSheets() {
@@ -56,7 +56,7 @@ public class BoosterGenerator {
 	
 	public void addItemWeight(Pair<Integer, Double> p)
 	{
-		itemWeights.add(p);
+		boosterWeight.add(p);
 	}
 	
 	public void addCardToSheet(String sheetName,Pair<MagicCard, Double> p)
@@ -66,13 +66,13 @@ public class BoosterGenerator {
 	
 	public List<Integer> randomBoosterStructure(int qty) throws NullPointerException
 	{
-		if(itemWeights.isEmpty())
+		if(boosterWeight.isEmpty())
 			throw new NullPointerException("No booster found for " + set.getId() + " / " + typeBooster.getMtgjsonname());
 		
-		logger.info("generate {} random booster with ponderation= {}",qty,  itemWeights);
+		logger.info("generate {} random booster with ponderation= {}",qty,  boosterWeight);
 		
 		
-		return Arrays.asList(new EnumeratedDistribution<>(itemWeights).sample(qty,new Integer[qty]));
+		return Arrays.asList(new EnumeratedDistribution<>(boosterWeight).sample(qty,new Integer[qty]));
 	}
 
 	public MTGBooster generateBooster(int id) {
@@ -86,9 +86,5 @@ public class BoosterGenerator {
 		 }
 		 return booster;
 	}
-	
-	
-	
-	
 	
 }

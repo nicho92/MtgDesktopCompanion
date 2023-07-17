@@ -54,7 +54,7 @@ private MTGPool pool;
 	private MultiValuedMap<String, MagicCardNames> mapForeignData = new ArrayListValuedHashMap<>();
 	private MultiValuedMap<String, MTGRuling> mapRules = new ArrayListValuedHashMap<>();
 	private MultiValuedMap<String, MTGFormat> mapLegalities = new ArrayListValuedHashMap<>();
-	private String sqlCardBaseQuery = "SELECT cards.*, cardIdentifiers.cardKingdomEtchedId,cardIdentifiers.cardKingdomFoilId,cardIdentifiers.cardKingdomId,cardIdentifiers.cardsphereId,cardIdentifiers.mcmId,cardIdentifiers.mtgArenaId,cardIdentifiers.mtgjsonFoilVersionId,cardIdentifiers.mtgjsonNonFoilVersionId,cardIdentifiers.mtgjsonV4Id,cardIdentifiers.mtgoFoilId,cardIdentifiers.mtgoId,cardIdentifiers.multiverseId,cardIdentifiers.scryfallId,cardIdentifiers.scryfallIllustrationId,cardIdentifiers.scryfallOracleId,cardIdentifiers.tcgplayerEtchedProductId,cardIdentifiers.tcgplayerProductId FROM cards, cardIdentifiers WHERE cardIdentifiers.uuid=cards.uuid";
+	private String sqlCardBaseQuery = "SELECT cards.*, cardIdentifiers.* FROM cards, cardIdentifiers WHERE cardIdentifiers.uuid=cards.uuid";
 
 	@Override
 	public String getOnlineDataFileZip() {
@@ -81,7 +81,7 @@ private MTGPool pool;
 		var list = new ArrayList<MTGBooster>();
 		
 		//get boosters structures for set
-		List<Pair<Integer, Double>> itemWeights = new ArrayList<>();
+		var itemWeights = new ArrayList<Pair<Integer, Double>>();
 		try (var c = pool.getConnection(); var pst = c.prepareStatement("select boosterIndex,boosterWeight from setBoosterContentWeights where setCode=? and boosterName=?"))
 		{
 			pst.setString(1, me.getId());
@@ -107,7 +107,7 @@ private MTGPool pool;
 		
 		//get cards pickup chance
 		var cardsSheets = new HashMap<String,List<Pair<MagicCard, Double>>>();
-		try (var c = pool.getConnection(); var pst = c.prepareStatement("select cards.*, cardIdentifiers.cardKingdomEtchedId,cardIdentifiers.cardKingdomFoilId,cardIdentifiers.cardKingdomId,cardIdentifiers.cardsphereId,cardIdentifiers.mcmId,cardIdentifiers.mtgArenaId,cardIdentifiers.mtgjsonFoilVersionId,cardIdentifiers.mtgjsonNonFoilVersionId,cardIdentifiers.mtgjsonV4Id,cardIdentifiers.mtgoFoilId,cardIdentifiers.mtgoId,cardIdentifiers.multiverseId,cardIdentifiers.scryfallId,cardIdentifiers.scryfallIllustrationId,cardIdentifiers.scryfallOracleId,cardIdentifiers.tcgplayerEtchedProductId,cardIdentifiers.tcgplayerProductId, setBoosterSheetCards.* from setBoosterSheetCards, cards,cardIdentifiers where  cards.uuid=setBoosterSheetCards.cardUuid and cardIdentifiers.uuid=cards.uuid AND setBoosterSheetCards.setCode=?"))
+		try (var c = pool.getConnection(); var pst = c.prepareStatement("SELECT cards.*, cardIdentifiers.*,setBoosterSheetCards.* FROM cards, cardIdentifiers,setBoosterSheetCards WHERE cards.uuid=setBoosterSheetCards.cardUuid AND cardIdentifiers.uuid=cards.uuid AND setBoosterSheetCards.setCode=?"))
 		{
 			pst.setString(1, me.getId());
 			
@@ -122,7 +122,7 @@ private MTGPool pool;
 		}
 		
 		if(cardsSheets.isEmpty())
-			throw new IOException("No cardsdatasheet found for " + me.getId() + " / " + typeBooster.name() + " for index=" + boosterIndex);
+			throw new IOException("No cardsdatasheet found for " + me.getId() + " / " + typeBooster.getMtgjsonname() + " for index=" + Arrays.asList(boosterIndex));
 		
 		logger.debug("cards loaded for {}/{}",me.getId(),typeBooster.getMtgjsonname());
 		

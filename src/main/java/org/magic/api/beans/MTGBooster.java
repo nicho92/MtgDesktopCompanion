@@ -17,7 +17,8 @@ public class MTGBooster implements Serializable
 	private Double price;
 	private MagicEdition edition;
 	private EnumExtra typeBooster;
-
+	
+	
 	public MTGBooster() {
 		cards = new ArrayList<>();
 	}
