@@ -37,6 +37,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 public class MTGoldFishDashBoard extends AbstractDashBoard {
+	private static final String VARIATION = "variation";
 	private static final String TIMEOUT = "TIMEOUT";
 	private static final String FORMAT = "FORMAT";
 	private static final String DAILY_WEEKLY = "DAILY_WEEKLY";
@@ -91,10 +92,10 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 					{
 
 						if(getString(FORMAT).equals("paper") && isPaperparsing)
-							historyPrice.put(date, Double.parseDouble(res[1]));
+							historyPrice.put(date, UITools.parseDouble(res[1]));
 
 						if(getString(FORMAT).equals("online") && !isPaperparsing)
-							historyPrice.put(date, Double.parseDouble(res[1]));
+							historyPrice.put(date, UITools.parseDouble(res[1]));
 					}
 
 					} catch (Exception e) {
@@ -238,30 +239,30 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 							if(el.getAsJsonObject().get("id").getAsString().contains(mc.getCurrentSet().getNumber())){
 								item=el.getAsJsonObject();
 							}
-							else if(!el.getAsJsonObject().get("variation").isJsonNull() && mc.getExtra()!=null)
+							else if(!el.getAsJsonObject().get(VARIATION).isJsonNull() && mc.getExtra()!=null)
 							{
 
-								if(mc.getFlavorName()!=null && mc.getFlavorName().equalsIgnoreCase(el.getAsJsonObject().get("variation").getAsString())){
+								if(mc.getFlavorName()!=null && mc.getFlavorName().equalsIgnoreCase(el.getAsJsonObject().get(VARIATION).getAsString())){
 									item=el.getAsJsonObject();
 								}
 
-								if(mc.getExtra()==EnumCardVariation.SHOWCASE && el.getAsJsonObject().get("variation").getAsString().equals("Showcase")) {
+								if(mc.getExtra()==EnumCardVariation.SHOWCASE && el.getAsJsonObject().get(VARIATION).getAsString().equals("Showcase")) {
 									item=el.getAsJsonObject();
 								}
-								if(mc.getExtra()==EnumCardVariation.BORDERLESS && el.getAsJsonObject().get("variation").getAsString().equals("Borderless")) {
+								if(mc.getExtra()==EnumCardVariation.BORDERLESS && el.getAsJsonObject().get(VARIATION).getAsString().equals("Borderless")) {
 									item=el.getAsJsonObject();
 								}
-								if(mc.getExtra()==EnumCardVariation.EXTENDEDART && el.getAsJsonObject().get("variation").getAsString().equals("Extended")) {
+								if(mc.getExtra()==EnumCardVariation.EXTENDEDART && el.getAsJsonObject().get(VARIATION).getAsString().equals("Extended")) {
 									item=el.getAsJsonObject();
 								}
-								if(mc.getExtra()==EnumCardVariation.JAPANESEALT && el.getAsJsonObject().get("variation").getAsString().equals("Japanese")) {
+								if(mc.getExtra()==EnumCardVariation.JAPANESEALT && el.getAsJsonObject().get(VARIATION).getAsString().equals("Japanese")) {
 									item=el.getAsJsonObject();
 								}
-								if(mc.getExtra()==EnumCardVariation.TIMESHIFTED && (el.getAsJsonObject().get("variation").getAsString().equals("Retro")||el.getAsJsonObject().get("variation").getAsString().equals("Timeshifted"))) {
+								if(mc.getExtra()==EnumCardVariation.TIMESHIFTED && (el.getAsJsonObject().get(VARIATION).getAsString().equals("Retro")||el.getAsJsonObject().get(VARIATION).getAsString().equals("Timeshifted"))) {
 									item=el.getAsJsonObject();
 								}
 							}
-							else if(el.getAsJsonObject().get("variation").isJsonNull())
+							else if(el.getAsJsonObject().get(VARIATION).isJsonNull())
 							{
 								item=el.getAsJsonObject();
 							}
@@ -299,7 +300,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			cardName = RegExUtils.replaceAll(cardName, ":", "+");
 			cardName = RegExUtils.replaceAll(cardName, "'", "");
 			cardName = RegExUtils.replaceAll(cardName, ",", "");
-
+			cardName = RegExUtils.replaceAll(cardName, "!", "");
 
 			if (cardName.indexOf('/') > -1)
 				cardName = cardName.substring(0, cardName.indexOf('/')).trim();
