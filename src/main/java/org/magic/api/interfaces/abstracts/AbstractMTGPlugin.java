@@ -3,10 +3,8 @@ package org.magic.api.interfaces.abstracts;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -196,20 +194,6 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 
 	public String[] getArray(String k) {
 		return getString(k).split(",");
-	}
-
-	public List<String> getList(String k){
-		return List.of(getArray(k)).stream().map(String::trim).filter(s->!s.isEmpty()).toList();
-	}
-	
-	public URL getURL(String k)
-	{
-		try {
-			return new URL(props.getProperty(k));
-		} catch (MalformedURLException e) {
-			logger.error(e);
-		}
-		return null;
 	}
 
 	public File getFile(String k) {

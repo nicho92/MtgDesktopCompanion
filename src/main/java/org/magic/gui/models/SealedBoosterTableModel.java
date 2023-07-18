@@ -8,7 +8,6 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 import org.apache.commons.lang3.tuple.MutableTriple;
-import org.apache.commons.lang3.tuple.Triple;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumExtra;
 public class SealedBoosterTableModel extends DefaultTableModel {
