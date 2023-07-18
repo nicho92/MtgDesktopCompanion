@@ -51,7 +51,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 
 private MTGPool pool;
-	private MultiValuedMap<String, MagicCardNames> mapForeignData = new ArrayListValuedHashMap<>();
+	private MultiValuedMap<String, MagicCardNames> mapForeignData = new ArrayListValuedHashMap<String, MagicCardNames>();
 	private MultiValuedMap<String, MTGRuling> mapRules = new ArrayListValuedHashMap<>();
 	private MultiValuedMap<String, MTGFormat> mapLegalities = new ArrayListValuedHashMap<>();
 	private String sqlCardBaseQuery = "SELECT cards.*, cardIdentifiers.* FROM cards, cardIdentifiers WHERE cardIdentifiers.uuid=cards.uuid";
@@ -156,6 +156,7 @@ private MTGPool pool;
 					  booster.setTypeBooster(typeBooster);
 					  booster.setBoosterNumber(""+i);
 					  notify(booster);
+					  
 				for(var e : boosterStructure.entrySet()){
 					var picker = new EnumeratedDistribution<>(cardsSheets.get(e.getKey())).sample(e.getValue(), new MagicCard[e.getValue()]);
 					booster.getCards().addAll(Arrays.asList(picker));
@@ -250,7 +251,6 @@ private MTGPool pool;
 			
 			mc.setScryfallId(rs.getString(SCRYFALL_ID));
 			mc.setScryfallIllustrationId(rs.getString(SCRYFALL_ILLUSTRATION_ID));
-
 			mc.setFrameVersion(rs.getString(FRAME_VERSION));
 			mc.setWatermarks(rs.getString(WATERMARK));
 			mc.setTypes(splitArrayValue(rs.getString(TYPES)));

@@ -198,11 +198,10 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 		return getString(k).split(",");
 	}
 
-	public List<String> getList(String k) {
-		return Arrays.asList(getArray(k));
+	public List<String> getList(String k){
+		return List.of(getArray(k)).stream().map(String::trim).filter(s->!s.isEmpty()).toList();
 	}
-
-
+	
 	public URL getURL(String k)
 	{
 		try {

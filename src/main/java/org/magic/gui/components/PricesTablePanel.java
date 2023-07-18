@@ -113,11 +113,16 @@ public class PricesTablePanel extends MTGUIComponent {
 
 	public void init(MagicCard card,boolean foilOnly)
 	{
+		
+		if(card==null)
+			return;
+		
+		if(currentCard!=null && currentCard.getId().equals(card.getId()))
+			return;
+		
+		
 		currentCard = card;
 		this.foilOnly=foilOnly;
-
-		if(currentCard==null)
-			return;
 
 		if(isVisible())
 		{
