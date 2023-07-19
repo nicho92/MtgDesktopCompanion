@@ -14,7 +14,7 @@
 			"MINT": "mint"
 		}
 	},
-	"Deckstats": {
+	"DeckStats": {
 		"regex":{
 			"default":"(\\d+) (\\[(.*?)\\])?(.*?)$"	
 		}	

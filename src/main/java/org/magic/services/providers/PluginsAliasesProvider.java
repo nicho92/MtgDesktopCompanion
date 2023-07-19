@@ -114,7 +114,7 @@ public class PluginsAliasesProvider {
 		}
 		catch(Exception e)
 		{
-			logger.error("error getting regex for {} with key={}.. return default", plug.getName(),k);
+			logger.error("error getting regex for {} with key={}. Return default", plug.getName(),k);
 			return jsonData.get(plug.getName()).getAsJsonObject().get("regex").getAsJsonObject().get("default").getAsString();
 		}
 	}
