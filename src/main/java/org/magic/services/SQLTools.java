@@ -158,7 +158,7 @@ public String insertMainContact() {
 				.primaryKey("name")
 				.getSQL();
 	}
-	
+		
 	public String createTableCards() { 
 			return ctx.createTableIfNotExists("cards")
 				.column("ID", SQLDataType.VARCHAR(50))
@@ -246,5 +246,6 @@ public String insertMainContact() {
 				.column("fk_idcontact", SQLDataType.INTEGER)
 				.primaryKey("id").getSQL();
 	}
+
 
 }

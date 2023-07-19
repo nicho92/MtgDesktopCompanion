@@ -152,7 +152,7 @@ public class AboutDialog extends MTGUIComponent {
 
 	@Override
 	public ImageIcon getIcon() {
-		return new ImageIcon(MTGConstants.IMAGE_LOGO);
+		return MTGConstants.ICON_LOGO;
 	}
 
 	@Override

@@ -84,7 +84,7 @@ public class MTGCompanionShop extends AbstractExternalShop {
 
 	@Override
 	public Icon getIcon() {
-		return new ImageIcon(MTGConstants.IMAGE_LOGO);
+		return MTGConstants.ICON_LOGO;
 	}
 
 	@Override
