@@ -3,6 +3,7 @@ package org.magic.game.gui.components;
 import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -279,7 +280,14 @@ public class DisplayableCard extends JLabel implements Draggable {
 			addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseEntered(MouseEvent e) {
+					setCursor(new Cursor(Cursor.HAND_CURSOR));
 					describe();
+					
+				}
+				
+				@Override
+				public void mouseExited(MouseEvent e) {
+					setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 				}
 
 				@Override

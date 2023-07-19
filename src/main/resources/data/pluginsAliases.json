@@ -13,11 +13,12 @@
 			"GOOD": "good",
 			"MINT": "mint"
 		}
-		
-		
-		
 	},
-	
+	"Deckstats": {
+		"regex":{
+			"default":"\\d+) (\\[(.*?)\\])?(.*?)$"	
+		}	
+	},
 	"MKM File": {
 		"regex": {
 			"default": "(\\d+) (.*?) \\((.*?)\\)"
