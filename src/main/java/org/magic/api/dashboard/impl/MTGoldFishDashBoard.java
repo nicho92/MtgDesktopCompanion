@@ -444,17 +444,17 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 						cs.setFoil(nameExtra.contains("Foil"));
 						cs.setEtched(nameExtra.contains("Etched"));
 
-						if(nameExtra.contains("Extended"))
+						if(nameExtra.toLowerCase().contains("extended"))
 							cs.setCardVariation(EnumCardVariation.EXTENDEDART);
-						else if(nameExtra.contains("Showcase"))
+						else if(nameExtra.toLowerCase().contains("showcase"))
 							cs.setCardVariation(EnumCardVariation.SHOWCASE);
-						else if(nameExtra.contains("Borderless"))
+						else if(nameExtra.toLowerCase().contains("borderless"))
 							cs.setCardVariation(EnumCardVariation.BORDERLESS);
-						else if (nameExtra.contains("Timeshifted")||nameExtra.contains("Retro"))
+						else if (nameExtra.toLowerCase().contains("timeshifted")||nameExtra.toLowerCase().contains("retro"))
 							cs.setCardVariation(EnumCardVariation.TIMESHIFTED);
-						else if (nameExtra.contains("Japanese"))
+						else if (nameExtra.toLowerCase().contains("japanese"))
 							cs.setCardVariation(EnumCardVariation.JAPANESEALT);
-
+			
 						cs.setEd(edition.getId());
 						cs.setProviderName(getName());
 						cs.setPrice(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text()));
