@@ -1,6 +1,7 @@
 {
 	"LTR":[
-		"ALTR"
+		"ALTR",
+		"FLTR"
 	],
 	"PSAL":[
 		"PHUK"
@@ -278,6 +279,9 @@
 		"4BB"
 	],
 	"PMEI": [
+		"PHTR",
+		"PH18",
+		"P30T",
 		"PF23",
 		"PH20",
 		"PH19",

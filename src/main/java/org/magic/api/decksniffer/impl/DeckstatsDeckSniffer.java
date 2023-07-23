@@ -5,10 +5,13 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.jsoup.nodes.Document;
@@ -19,6 +22,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
+import org.magic.services.MTGControler;
 import org.magic.services.network.URLTools;
 
 public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
@@ -71,8 +75,19 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public String[] listFilter() {
-		return new String[] { "casual", "standard", "modern", "legacy", "edh-commander", "highlander", "frontier",
-				"pauper", "vintage", "extended", "cube", "tiny-leaders", "peasant", "other" };
+		return new String[] { "casual", "standard", "modern", "legacy", "edh-commander", "highlander", "frontier","pauper", "vintage", "extended", "cube", "tiny-leaders", "peasant", "other" };
+	}
+	
+	
+	public static void main(String[] args) throws Exception {
+		MTGControler.getInstance().init();
+		var sniff = new DeckstatsDeckSniffer();
+		
+		var filter = sniff.listFilter()[0];
+		var d = sniff.getDeckList(filter);
+		var deck = sniff.getDeck(d.get(0));
+		
+		
 	}
 
 	@Override
@@ -99,30 +114,42 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
 		arr = ArrayUtils.remove(arr, 0); //remove deck name
 		arr = ArrayUtils.remove(arr, 0); //remove //main
-
+		
+		var p =Pattern.compile(aliases.getRegexFor(this, "default"));
+		
 		for(String s : arr)
 		{
+			if(s.isEmpty())
+				continue;
+			
 			try {
 					if(s.startsWith("SB: "))
 					{
 						s=s.replaceFirst("SB: ", "").trim();
-						MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(parseString(s).getKey(), null, true).get(0);
+						MagicCard mc = read(s,p);
 						deck.getSideBoard().put(mc,parseString(s).getValue());
 						notify(mc);
 					}
 					else
 					{
-						MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(parseString(s).getKey(), null, true).get(0);
+						MagicCard mc = read(s,p);
 						deck.getMain().put(mc,parseString(s).getValue());
 						notify(mc);
 					}
 			}
 			catch(Exception ex)
 			{
-				logger.error("error parsing -> {}",s);
+				logger.error("error parsing -> {} : {}",s,ex.getMessage());
 			}
 		}
 		return deck;
+	}
+
+	private MagicCard read(String s, Pattern regex) {
+			
+		var m = regex.matcher(s);
+		
+		return null;
 	}
 
 	@Override
