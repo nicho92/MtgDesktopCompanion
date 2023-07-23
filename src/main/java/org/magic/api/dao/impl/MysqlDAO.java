@@ -35,7 +35,7 @@ public class MysqlDAO extends AbstractMagicSQLDAO {
 	public Map<String, String> getDefaultAttributes() {
 		var m = super.getDefaultAttributes();
 			  m.put(SERVERPORT, "3306");
-			  m.put(PARAMS, "?autoDeserialize=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&autoReconnect=true");
+			  m.put(PARAMS, "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&autoReconnect=true&useServerPrepStmts=TRUE");
 		return m;
 	}
 
