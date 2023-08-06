@@ -6,15 +6,18 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
+import org.magic.services.tools.FileTools;
 import org.magic.services.tools.UITools;
 
 public class MoxFieldCSVExport extends AbstractFormattedFileCardExport {
@@ -111,6 +114,7 @@ public class MoxFieldCSVExport extends AbstractFormattedFileCardExport {
 					   if(!m.group(13).isEmpty())
 						   mcs.setPrice(UITools.parseDouble(m.group(13)));
 
+					   notify(mcs.getProduct());
 			   list.add(mcs);
 			}
 			else
@@ -128,8 +132,31 @@ public class MoxFieldCSVExport extends AbstractFormattedFileCardExport {
 	
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
-		// TODO Auto-generated method stub
-		super.exportStock(stock, f);
+		var sb = new StringBuilder(columns);
+			 sb.append(System.lineSeparator());
+			 
+			 
+			 for(var mcs : stock)
+			 {
+				 sb.append("\"").append(mcs.getQte()).append("\"").append(getSeparator());
+				 sb.append("\"1\"").append(getSeparator());
+				 sb.append("\"").append(mcs.getProduct().getName()).append("\"").append(getSeparator());
+				 sb.append("\"").append(mcs.getProduct().getCurrentSet().getId()).append("\"").append(getSeparator());
+				 sb.append("\"").append(aliases.getConditionFor(this, mcs.getCondition())).append("\"").append(getSeparator());
+				 sb.append("\"").append(mcs.getLanguage()).append("\"").append(getSeparator());
+				 sb.append("\"").append(mcs.isFoil()?"foil":"").append("\"").append(getSeparator());
+				 sb.append("\"").append("").append("\"").append(getSeparator());
+				 sb.append("\"").append(new Date()).append("\"").append(getSeparator());
+				 sb.append("\"").append(mcs.getProduct().getCurrentSet().getNumber()).append("\"").append(getSeparator());
+				 
+				 sb.append("\"").append(mcs.isAltered()?"True":"False").append("\"").append(getSeparator());
+				 sb.append("\"").append(mcs.getCondition().equals(EnumCondition.PROXY)?"True":"False").append("\"").append(getSeparator());
+				 sb.append("\"").append(mcs.getPrice()).append("\"");
+				 sb.append(System.lineSeparator());
+				 
+				 notify(mcs.getProduct());
+			 }
+			 FileTools.saveFile(f, sb.toString());
 	}
 	
 	
