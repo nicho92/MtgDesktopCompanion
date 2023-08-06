@@ -4,7 +4,6 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,7 +27,7 @@ public class MoxFieldCSVExport extends AbstractFormattedFileCardExport {
 			
 	@Override
 	public String getFileExtension() {
-		return ".csv";
+		return ".csv"; 
 	}
 
 	@Override
@@ -92,14 +91,14 @@ public class MoxFieldCSVExport extends AbstractFormattedFileCardExport {
 			if(mc==null)
 			{
 				try {
-					mc = parseMatcherWithGroup(m, 3, 4, true, FORMAT_SEARCH.NAME,FORMAT_SEARCH.NAME);
+					mc = parseMatcherWithGroup(m, 3, 4, true, FORMAT_SEARCH.ID,FORMAT_SEARCH.NAME);
 				} catch (Exception e) {
 					logger.error("no card found for {}/{}",cname,ed);
 				}
 			}
 
 			if(mc!=null) {
-				MagicCardStock mcs = MTGControler.getInstance().getDefaultStock();
+				  var mcs = MTGControler.getInstance().getDefaultStock();
 					   mcs.setQte(Integer.parseInt(m.group(1)));
 					   mcs.setProduct(mc);
 					   mcs.setCondition(aliases.getReversedConditionFor(this,m.group(5),null));
@@ -159,21 +158,6 @@ public class MoxFieldCSVExport extends AbstractFormattedFileCardExport {
 			 FileTools.saveFile(f, sb.toString());
 	}
 	
-	
-	
-	
-	public static void main(String[] args) throws IOException, SQLException {
-		var f = new File("D:\\Téléchargements\\moxfield_haves_2023-08-06-0909Z.csv");
-		
-		MTGControler.getInstance().init();
-		
-		var exp = new MoxFieldCSVExport();
-		exp.importStockFromFile(f).forEach(e->{
-			System.out.println(e.getQte() + " " + e.getProduct());
-		});
-		System.exit(0);
-
-	}
 
 	@Override
 	protected boolean skipFirstLine() {
