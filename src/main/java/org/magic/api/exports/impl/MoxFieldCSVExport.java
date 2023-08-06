@@ -145,7 +145,7 @@ public class MoxFieldCSVExport extends AbstractFormattedFileCardExport {
 				 sb.append("\"").append(mcs.getLanguage()).append("\"").append(getSeparator());
 				 sb.append("\"").append(mcs.isFoil()?"foil":"").append("\"").append(getSeparator());
 				 sb.append("\"").append("").append("\"").append(getSeparator());
-				 sb.append("\"").append(new Date()).append("\"").append(getSeparator());
+				 sb.append("\"").append(UITools.formatDate(new Date(), "yyyy-MM-dd HH:mm:ss.SSS")).append("\"").append(getSeparator());
 				 sb.append("\"").append(mcs.getProduct().getCurrentSet().getNumber()).append("\"").append(getSeparator());
 				 
 				 sb.append("\"").append(mcs.isAltered()?"True":"False").append("\"").append(getSeparator());
