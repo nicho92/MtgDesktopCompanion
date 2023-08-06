@@ -317,7 +317,7 @@
 		<dependency>
 			<groupId>com.fifesoft</groupId>
 			<artifactId>rsyntaxtextarea</artifactId>
-			<version>3.3.3</version>
+			<version>3.3.4</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fifesoft</groupId>
@@ -408,7 +408,7 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>32.1.1-jre</version>
+			<version>32.1.2-jre</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -514,9 +514,9 @@
 			<version>1.10.0</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-math3</artifactId>
-			<version>3.6.1</version>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-rng-core</artifactId>
+		    <version>1.5</version>
 		</dependency>
 		<dependency>
 			<groupId>org.freemarker</groupId>
@@ -556,7 +556,7 @@
 		<dependency>
 			<groupId>com.itextpdf</groupId>
 			<artifactId>itext7-core</artifactId>
-			<version>8.0.0</version>
+			<version>8.0.1</version>
 			<type>pom</type>
 		</dependency>
 		<dependency>

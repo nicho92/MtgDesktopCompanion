@@ -7,7 +7,6 @@ import java.nio.file.Paths;
 import java.util.Map;
 
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;

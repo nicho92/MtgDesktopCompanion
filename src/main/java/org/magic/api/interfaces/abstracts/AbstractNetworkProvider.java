@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.io.IOException;
 import java.time.Instant;
 
-import org.apache.commons.lang3.RandomUtils;
+import org.apache.commons.lang.math.RandomUtils;
 import org.magic.api.beans.JsonMessage;
 import org.magic.api.beans.JsonMessage.MSG_TYPE;
 import org.magic.api.exports.impl.JsonExport;

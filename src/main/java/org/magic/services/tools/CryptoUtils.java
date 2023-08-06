@@ -10,6 +10,7 @@ public class CryptoUtils {
 	private CryptoUtils() {
 
 	}
+		
 
 	public static String encrypt(String strToEncrypt, String secret) {
 		var textEncryptor = new AES256TextEncryptor();

@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
@@ -103,6 +105,12 @@ public class MoxfieldDeckSniffer extends AbstractDeckSniffer {
 				dekElement.setAuthor(jo.get("authors").getAsJsonArray().get(0).getAsJsonObject().get("userName").getAsString());
 				dekElement.setUrl(URI.create(BASE_URI+"/decks/all/"+jo.get("publicId").getAsString()));
 				dekElement.setDescription(UITools.formatDateTime(UITools.parseGMTDate(jo.get("createdAtUtc").getAsString())));
+			
+				var c = new StringBuilder();
+				jo.get("colors").getAsJsonArray().asList().stream().map(j->j.getAsString()).forEach(s->c.append("{").append(s).append("}"));
+						
+				dekElement.setColor(c.toString());
+				
 			ret.add(dekElement);
 		}
 

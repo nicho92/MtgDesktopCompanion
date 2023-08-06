@@ -114,7 +114,7 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 
 	private Integer parseIdFor(MagicCard card) throws IOException {
 
-		var setName = card.getCurrentSet().getSet().replace(":", "").replaceAll(" ", "-");
+		var setName = card.getCurrentSet().getSet().replace(":", "").replace(" ", "-");
 
 		var extra ="";
 		if(card.isShowCase())

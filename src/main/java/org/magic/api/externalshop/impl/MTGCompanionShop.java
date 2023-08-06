@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.shop.Category;

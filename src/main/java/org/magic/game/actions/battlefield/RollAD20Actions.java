@@ -5,7 +5,7 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 
-import org.apache.commons.lang3.RandomUtils;
+import org.apache.commons.lang.math.RandomUtils;
 import org.magic.game.gui.components.GamePanelGUI;
 
 
@@ -25,7 +25,7 @@ public class RollAD20Actions extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent ae) {
-		var b = RandomUtils.nextInt(1,21);
+		var b = RandomUtils.nextInt(20)+1;
 
 		GamePanelGUI.getInstance().getPlayer().logAction("Run a D20 : "+b);
 
