@@ -19,12 +19,12 @@
 			"default": "\"(\\d+)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\""
 		},
 		"conditions": {
-			"MINT": "M",
-			"NEAR_MINT": "NM",						
-			"DAMAGED":"DMG",						
-			"LIGHTLY_PLAYED":"SP",
-			"PLAYED":"MP",
-			"POOR":"HP"
+			"MINT": "Mint",
+			"NEAR_MINT": "Near Mint",						
+			"DAMAGED":"Damaged",						
+			"LIGHTLY_PLAYED":"Good (Lightly Played)",
+			"PLAYED":"Played",
+			"POOR":"Heavily Played"
 		}
 	},
 	"DeckStats": {
