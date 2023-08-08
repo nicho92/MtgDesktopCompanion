@@ -1,19 +1,17 @@
 package org.magic.api.decksniffer.impl;
 
-import static org.magic.services.tools.MTG.getEnabledPlugin;
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.sql.SQLException;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.logging.log4j.Level;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -23,7 +21,11 @@ import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGControler;
+import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
+import org.magic.services.tools.MTG;
+
+import com.mchange.v2.sql.filter.SynchronizedFilterDataSource;
 
 public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
@@ -78,18 +80,6 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 		return new String[] { "casual", "standard", "modern", "legacy", "edh-commander", "highlander", "frontier","pauper", "vintage", "extended", "cube", "tiny-leaders", "peasant", "other" };
 	}
 	
-	
-	public static void main(String[] args) throws Exception {
-		MTGControler.getInstance().init();
-		var sniff = new DeckstatsDeckSniffer();
-		
-		var filter = sniff.listFilter()[0];
-		var d = sniff.getDeckList(filter);
-		var deck = sniff.getDeck(d.get(0));
-		
-		
-	}
-
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 		//
@@ -126,15 +116,11 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 					if(s.startsWith("SB: "))
 					{
 						s=s.replaceFirst("SB: ", "").trim();
-						MagicCard mc = read(s,p);
-						deck.getSideBoard().put(mc,parseString(s).getValue());
-						notify(mc);
+						read(s,p,deck.getSideBoard());
 					}
 					else
 					{
-						MagicCard mc = read(s,p);
-						deck.getMain().put(mc,parseString(s).getValue());
-						notify(mc);
+						read(s,p,deck.getMain());
 					}
 			}
 			catch(Exception ex)
@@ -145,11 +131,40 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 		return deck;
 	}
 
-	private MagicCard read(String s, Pattern regex) {
+	private void read(String s, Pattern regex, Map<MagicCard, Integer> map) {
 			
 		var m = regex.matcher(s);
+		if(m.find())
+		{
+			var qty = Integer.parseInt(m.group(1));
+			
+			MagicCard mc = null;
+			
+			if(m.group(3)!=null)
+			{
+				var idSet = m.group(3).split("#")[0];
+				var number = m.group(3).split("#")[1];
+				try {
+					mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(number, idSet);
+				} catch (IOException e) {
+					logger.error("Error getting card by number {} {} : {}",idSet,number,e.getMessage() );
+					return;
+				}
+			}
+			else
+			{
+				try {
+					mc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(m.group(4), null, true).get(0);
+				} catch (IOException e) {
+					logger.error("Error getting card by name {} : {}",m.group(4),e.getMessage() );
+					return;
+				}
+			}
+			map.put(mc, qty);
+			notify(mc);
+		}
 		
-		return null;
+		
 	}
 
 	@Override
