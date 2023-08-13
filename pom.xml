@@ -54,7 +54,7 @@
   		<jwt.version>0.11.5</jwt.version>
   		<lucene.version>9.7.0</lucene.version>
   		<artemis.version>2.30.0</artemis.version>
-  		<flatlaf.version>3.1.1</flatlaf.version>
+  		<flatlaf.version>3.2</flatlaf.version>
   		<qwartz.version>2.5.0-rc1</qwartz.version>
   		<rome.version>2.1.0</rome.version>
   		<log4j.version>2.20.0</log4j.version>
@@ -239,7 +239,7 @@
 		<dependency>
 			<groupId>org.jooq</groupId>
 			<artifactId>jooq</artifactId>
-			<version>3.18.5</version>
+			<version>3.18.6</version>
 		</dependency>
 		<dependency>
 			<groupId>com.icoderman</groupId>

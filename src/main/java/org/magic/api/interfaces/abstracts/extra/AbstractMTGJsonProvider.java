@@ -281,10 +281,10 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 			try {
 				logger.debug("check new version of {} ({})",this,temp);
 
-				JsonElement d = URLTools.extractAsJson(MTG_JSON_VERSION);
+				var d = URLTools.extractAsJson(MTG_JSON_VERSION);
 				version = d.getAsJsonObject().get("data").getAsJsonObject().get("version").getAsString();
 				if (!version.equals(temp)) {
-					logger.info("new version datafile exist ({}). Downloading it",version);
+					logger.info("new version datafile exist ({}).",version);
 					return true;
 				}
 
