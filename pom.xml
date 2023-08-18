@@ -68,6 +68,17 @@
 	</repositories>
 	<dependencies>
 		<dependency>
+		    <groupId>io.lettuce</groupId>
+		    <artifactId>lettuce-core</artifactId>
+		    <version>6.1.10.RELEASE</version>
+		</dependency>
+<dependency>
+    <groupId>io.netty</groupId>
+    <artifactId>netty-common</artifactId>
+    <version>4.1.96.Final</version>
+</dependency>
+
+		<dependency>
 		    <groupId>org.apache.derby</groupId>
 		    <artifactId>derby</artifactId>
 		    <version>10.16.1.1</version>
