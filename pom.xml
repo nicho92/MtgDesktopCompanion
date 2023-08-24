@@ -265,7 +265,7 @@
 		<dependency>
 			<groupId>com.dorkbox</groupId>
 			<artifactId>Notify</artifactId>
-			<version>3.7</version>
+			<version>4.2</version>
 		</dependency>
 		<dependency>
 			<groupId>io.github.forohforerror</groupId>
@@ -643,7 +643,7 @@
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
 			<artifactId>groovy-all</artifactId>
-			<version>3.0.18</version>
+			<version>3.0.19</version>
 			<type>pom</type>
 		</dependency>
 		<dependency>
