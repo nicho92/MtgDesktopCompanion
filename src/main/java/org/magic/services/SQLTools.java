@@ -237,7 +237,7 @@ public String insertMainContact() {
 				.column("description",SQLDataType.LONGVARCHAR)
 				.column("total",SQLDataType.DECIMAL(10,2))
 				.column("currency", SQLDataType.VARCHAR(5))
-				.column("stocksItem", SQLDataType.VARCHAR(5))
+				.column("stocksItem", SQLDataType.JSON)
 				.column("typeAnnounce", SQLDataType.VARCHAR(10))
 				.column("category", SQLDataType.VARCHAR(50))
 				.column("percentReduction", SQLDataType.DECIMAL(10,2))
