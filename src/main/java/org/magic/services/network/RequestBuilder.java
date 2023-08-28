@@ -86,6 +86,19 @@ public class RequestBuilder
 		return new RequestBuilder();
 	}
 
+	public RequestBuilder get()
+	{
+		method(METHOD.GET);
+		return this;
+	}
+	
+	public RequestBuilder post()
+	{
+		method(METHOD.POST);
+		return this;
+	}
+
+	@Deprecated
 	public RequestBuilder method(METHOD m)
 	{
 		method=m;
