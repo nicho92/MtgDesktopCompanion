@@ -15,7 +15,7 @@ public class JsonMessage extends AbstractAuditableItem{
 	private Player author;
 	private String message;
 	private Color color;
-	private MSG_TYPE typeMessage;
+	private MSG_TYPE  typeMessage;
 	private String id;
 	
 	public enum MSG_TYPE { CONNECT, CHANGESTATUS, DISCONNECT, TALK, SYSTEM, SEARCH, ANSWER}
@@ -29,6 +29,10 @@ public class JsonMessage extends AbstractAuditableItem{
 	public String toChatString() {
 		return author.getName() + " : " + message;
 	}
+	
+	public JsonMessage() {
+	}
+	
 	
 	public JsonMessage(Player author, String message, Color color, MSG_TYPE typeMessage) {
 		

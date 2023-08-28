@@ -15,7 +15,7 @@ import org.magic.game.model.Player.STATUS;
 public abstract class AbstractNetworkProvider extends AbstractMTGPlugin implements MTGNetworkClient {
 
 	protected Player player;
-	private JsonExport serializer = new JsonExport();
+	private JsonExport serializer;
 
 	
 	public Player getPlayer() {
@@ -32,6 +32,11 @@ public abstract class AbstractNetworkProvider extends AbstractMTGPlugin implemen
 	protected abstract void createConnection(String url,String adress) throws IOException;
 	protected abstract String read() throws IOException;
 
+	
+	protected AbstractNetworkProvider() {
+		serializer = new JsonExport();
+		serializer.removePrettyString();
+	}
 	
 
 	@Override
@@ -59,7 +64,7 @@ public abstract class AbstractNetworkProvider extends AbstractMTGPlugin implemen
 		
 		sendMessage(new JsonMessage(player,"connected",Color.black,MSG_TYPE.CONNECT));
 		
-		logger.info("Connected to server {} with id={}",url,player.getId());
+		logger.debug("Connected to server {} with id={}",url,player.getId());
 	}
 	
 	@Override

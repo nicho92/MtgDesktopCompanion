@@ -10,7 +10,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractComboProvider;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 
 public class MagicVilleComboProvider extends AbstractComboProvider {
@@ -27,7 +26,7 @@ public class MagicVilleComboProvider extends AbstractComboProvider {
 
 		String id;
 		try {
-			Document req = RequestBuilder.build().setClient(c).url(BASE_URL+"submit_search").method(METHOD.POST).addContent("n", mc.getName()).toHtml();
+			Document req = RequestBuilder.build().setClient(c).url(BASE_URL+"submit_search").post().addContent("n", mc.getName()).toHtml();
 			id = req.select("td>a").first().attr("id").replace("c_t_", "");
 		} catch (Exception e) {
 			logger.error("error looking for card {}",mc, e);
@@ -37,7 +36,7 @@ public class MagicVilleComboProvider extends AbstractComboProvider {
 
 			Document req;
 			try {
-				req = RequestBuilder.build().setClient(c).url(BASE_URL+"resultats").addHeader(URLTools.ACCEPT_LANGUAGE, "en-US,en;q=0.5").method(METHOD.POST).addContent("card_to_search["+id+"]", mc.getName()).toHtml();
+				req = RequestBuilder.build().setClient(c).url(BASE_URL+"resultats").addHeader(URLTools.ACCEPT_LANGUAGE, "en-US,en;q=0.5").post().addContent("card_to_search["+id+"]", mc.getName()).toHtml();
 			} catch (IOException e) {
 				logger.error(e);
 				return ret;
@@ -51,7 +50,7 @@ public class MagicVilleComboProvider extends AbstractComboProvider {
 
 					Document cboDetail;
 					try {
-						cboDetail = RequestBuilder.build().setClient(c).url(BASE_URL+tr.child(0).select("a").attr("href")).method(METHOD.GET).toHtml();
+						cboDetail = RequestBuilder.build().setClient(c).url(BASE_URL+tr.child(0).select("a").attr("href")).get().toHtml();
 						cbo.setComment(cboDetail.select("div[align=justify]").text());
 					} catch (IOException e) {
 						logger.error(e);

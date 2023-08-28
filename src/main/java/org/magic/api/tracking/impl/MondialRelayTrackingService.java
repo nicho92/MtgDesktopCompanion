@@ -7,7 +7,6 @@ import org.magic.api.beans.shop.Tracking;
 import org.magic.api.beans.shop.TrackingStep;
 import org.magic.api.interfaces.abstracts.AbstractTrackingService;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.UITools;
 
@@ -24,7 +23,7 @@ public class MondialRelayTrackingService extends AbstractTrackingService {
 		track.setTrackingUri("https://www.mondialrelay.fr/suivi-de-colis/?numeroExpedition="+number+"&codePostal="+c.getZipCode());
 		track.setNumber(number);
 
-		var ret=	  RequestBuilder.build().url("https://www.mondialrelay.fr/_mvc/fr-FR/SuiviExpedition/RechercherJsonResponsive").setClient(URLTools.newClient()).method(METHOD.POST)
+		var ret=	  RequestBuilder.build().url("https://www.mondialrelay.fr/_mvc/fr-FR/SuiviExpedition/RechercherJsonResponsive").setClient(URLTools.newClient()).post()
 					.addContent("CodeMarque","")
 					.addContent("NumeroExpedition",number)
 					.addContent("CodePostal",c.getZipCode())

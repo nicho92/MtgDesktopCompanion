@@ -19,7 +19,6 @@ import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 
 public class MTGADecksSniffer extends AbstractDeckSniffer {
@@ -77,7 +76,7 @@ public class MTGADecksSniffer extends AbstractDeckSniffer {
 
 		RequestBuilder e = RequestBuilder.build()
 				 .setClient(URLTools.newClient())
-				 .method(METHOD.GET)
+				 .get()
 				 .url(URL+"/serverSide")
 				 .addHeader("x-requested-with", "XMLHttpRequest")
 				 .addContent("draw", "2")

@@ -22,7 +22,6 @@ import org.magic.game.model.abilities.LoyaltyAbilities;
 import org.magic.game.model.factories.AbilitiesFactory;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.ImageTools;
 
@@ -66,7 +65,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 
 		RequestBuilder build= httpclient.build();
 
-					 build.method(METHOD.POST).url(GENERATE_URL)
+					 build.post().url(GENERATE_URL)
 					 	  .addContent("width", "791")
 						  .addContent("height", "1107")
 						  .addContent("fields[title]", mc.getName())

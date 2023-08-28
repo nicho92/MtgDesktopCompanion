@@ -6,17 +6,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
@@ -45,8 +42,8 @@ public class MoxfieldDeckSniffer extends AbstractDeckSniffer {
 
 		var json = RequestBuilder.build()
 			  .setClient(client)
-			  .method(METHOD.GET)
 			  .url(info.getUrl())
+			  .get()
 			  .toJson().getAsJsonObject();
 
 
@@ -90,7 +87,7 @@ public class MoxfieldDeckSniffer extends AbstractDeckSniffer {
 	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
 		var json = RequestBuilder.build()
 					  .setClient(client)
-					  .method(METHOD.GET)
+					  .get()
 					  .url(BASE_URI+"/decks/search?pageNumber=1&pageSize=128&sortType=updated&sortDirection=Descending&fmt="+filter+"&filter=")
 					  .toJson();
 

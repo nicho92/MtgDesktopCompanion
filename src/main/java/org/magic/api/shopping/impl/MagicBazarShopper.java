@@ -23,7 +23,6 @@ import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.services.AccountsManager;
 import org.magic.services.CardsManagerService;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
@@ -88,7 +87,7 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 		
 		var t = buildTransaction(rt);
 						  
-	    var doc= RequestBuilder.build().setClient(client).url(urlBase+rt.getUrl()).method(METHOD.GET).toHtml();
+	    var doc= RequestBuilder.build().setClient(client).url(urlBase+rt.getUrl()).get().toHtml();
 	   
 	    Elements table = doc.select("div.table div.tr");
 	    table.remove(0);

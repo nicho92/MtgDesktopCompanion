@@ -13,7 +13,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 
 public class StarCityGamesPricer extends AbstractPricesProvider {
@@ -25,7 +24,7 @@ public class StarCityGamesPricer extends AbstractPricesProvider {
 		List<MagicPrice> ret = new ArrayList<>();
 
 		String cardName = card.getName();
-		RequestBuilder build = RequestBuilder.build().setClient(URLTools.newClient()).method(METHOD.GET).url("https://starcitygames.com/search/?card_name="+cardName);
+		RequestBuilder build = RequestBuilder.build().setClient(URLTools.newClient()).get().url("https://starcitygames.com/search/?card_name="+cardName);
 		Document page = build.toHtml();
 		Elements divs = page.select("div.hawk-results-item");
 		for(Element div : divs)

@@ -66,7 +66,7 @@ public class PhilibertShopper extends AbstractMagicShopper {
 			 
 		var orderPage = RequestBuilder.build().url(rt.getUrl())
 				   .setClient(client)
-				   .method(METHOD.GET)
+				   .get()
 				   .addHeader("x-requested-with","XMLHttpRequest")
 				   .toHtml();
 		
@@ -141,7 +141,7 @@ public class PhilibertShopper extends AbstractMagicShopper {
 			client = URLTools.newClient();
 			try {
 				s = RequestBuilder.build()
-						  .method(METHOD.POST)
+						  .post()
 						  .url(BASE_URL+"/en/authentication")
 						  .setClient(client)
 						  .addContent("email", getAuthenticator().getLogin())

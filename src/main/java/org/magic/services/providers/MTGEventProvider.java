@@ -16,7 +16,6 @@ import org.magic.api.beans.MagicEvent;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 
 public class MTGEventProvider {
@@ -33,7 +32,7 @@ public class MTGEventProvider {
 	}
 
 	private String read(String url) throws IOException {
-		return RequestBuilder.build().addHeader(URLTools.CONTENT_TYPE,URLTools.HEADER_JSON).setClient(URLTools.newClient()).url(url).method(METHOD.GET).toContentString();
+		return RequestBuilder.build().addHeader(URLTools.CONTENT_TYPE,URLTools.HEADER_JSON).setClient(URLTools.newClient()).url(url).get().toContentString();
 	}
 
 	public List<MagicEvent> listEvents(int y, int m) throws IOException {

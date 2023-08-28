@@ -6,7 +6,6 @@ import org.magic.api.beans.Grading;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.UITools;
 
@@ -22,7 +21,7 @@ public class CCCGrader extends AbstractGradersProvider {
 		
 		var onlinepage="https://cccgrading.com/en/ccc-card-verification";
 		var d = RequestBuilder.build().url(getWebSite()+"/api/v2/certs/"+identifier)
-											.method(METHOD.GET)
+											.get()
 											.setClient(URLTools.newClient())
 											.addHeader("Referer", onlinepage)
 											.addHeader("Sd-Locale", "en")

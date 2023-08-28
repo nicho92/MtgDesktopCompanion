@@ -3,7 +3,6 @@ package org.magic.api.decksniffer.impl;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +10,6 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.logging.log4j.Level;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -20,12 +18,8 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
-import org.magic.services.MTGControler;
-import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.MTG;
-
-import com.mchange.v2.sql.filter.SynchronizedFilterDataSource;
 
 public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 

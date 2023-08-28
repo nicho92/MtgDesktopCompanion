@@ -35,7 +35,6 @@ import org.magic.services.tools.Chrono;
 import org.magic.services.tools.FileTools;
 
 import com.google.common.collect.Lists;
-import com.google.gson.JsonElement;
 
 public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	protected static final String BOOSTER_INDEX = "boosterIndex";

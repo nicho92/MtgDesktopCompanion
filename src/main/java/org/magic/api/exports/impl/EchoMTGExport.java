@@ -14,7 +14,6 @@ import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGControler;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 
 import com.google.gson.JsonElement;
@@ -35,7 +34,7 @@ public class EchoMTGExport extends AbstractCardExport {
 	{
 		client = URLTools.newClient();
 
-		JsonElement con = RequestBuilder.build().method(METHOD.POST)
+		JsonElement con = RequestBuilder.build().post()
 				 .url(BASE_URL+"/api/user/auth/")
 				 .addContent("email", getAuthenticator().get("EMAIL"))
 				 .addContent("password", getAuthenticator().get("PASS"))
@@ -58,7 +57,7 @@ public class EchoMTGExport extends AbstractCardExport {
 
 		deck.getMain().entrySet().forEach(entry->{
 
-					JsonElement list = RequestBuilder.build().method(METHOD.POST)
+					JsonElement list = RequestBuilder.build().post()
 							 .url(BASE_URL+"/api/inventory/add/")
 							 .addContent("auth", authToken)
 							 .addContent("mid",entry.getKey().getCurrentSet().getMultiverseid())
@@ -89,7 +88,7 @@ public class EchoMTGExport extends AbstractCardExport {
 				  d.setName(name);
 				  d.setDescription("import from "+getName());
 
-				  var list = RequestBuilder.build().method(METHOD.GET)
+				  var list = RequestBuilder.build().get()
 				 .url(BASE_URL+"/api/inventory/view/")
 				 .addContent("auth", authToken)
 				 .addContent("start", "0")

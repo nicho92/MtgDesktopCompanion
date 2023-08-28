@@ -11,7 +11,6 @@ import org.jsoup.safety.Safelist;
 import org.magic.gui.abstracts.MTGUIBrowserComponent;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 import org.magic.services.threads.ThreadManager;
 
@@ -55,7 +54,7 @@ public class JEditorPaneBrowser extends MTGUIBrowserComponent {
 						w.addTags("img");
 						w.addAttributes("img", "src");
 
-						return Jsoup.clean(RequestBuilder.build().clean().url(url).method(METHOD.GET).setClient(client).toHtml().html(),w);
+						return Jsoup.clean(RequestBuilder.build().clean().url(url).get().setClient(client).toHtml().html(),w);
 					}
 
 					@Override

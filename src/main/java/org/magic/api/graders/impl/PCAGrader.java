@@ -8,7 +8,6 @@ import org.jsoup.select.Elements;
 import org.magic.api.beans.Grading;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 
 public class PCAGrader extends AbstractGradersProvider {
@@ -22,7 +21,7 @@ public class PCAGrader extends AbstractGradersProvider {
 	public Grading loadGrading(String identifier) throws IOException {
 
 		var url=getWebSite()+"/resumeBdd/"+identifier+"/1";
-		var d = RequestBuilder.build().method(METHOD.GET)
+		var d = RequestBuilder.build().get()
 				   .setClient(URLTools.newClient())
 				   .url(url)
 				   .toHtml();

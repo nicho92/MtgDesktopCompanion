@@ -18,7 +18,6 @@ import org.magic.api.beans.enums.EnumMarketType;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 
 public class EchoMTGDashBoard extends AbstractDashBoard {
@@ -45,7 +44,7 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 			extra=" (Showcase)";
 		
 		var arr = RequestBuilder.build().url("https://"+WEBSITE+"/user/")
-				.method(METHOD.GET)
+				.get()
 				.setClient(client)
 				.url("https://"+WEBSITE+"/api/search/mass/")
 				.addContent("search",mc.getName() + extra)
@@ -74,7 +73,7 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 			
 			
 			var res = RequestBuilder.build().url("https://"+WEBSITE+"/user/")
-											.method(METHOD.POST)
+											.post()
 											.setClient(client)
 											.addContent("email",getAuthenticator().get("EMAIL"))
 											.addContent("password",getAuthenticator().get("PASSWORD")).toHtml();
@@ -103,7 +102,7 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 		
 		
 		var arr = RequestBuilder.build().url("https://"+WEBSITE+"/cache/"+id+"."+(foil?"f":"r"+".json"))
-													  .method(METHOD.GET)
+													  .get()
 													  .setClient(client)
 													  .toJson()
 													  .getAsJsonArray();
@@ -135,7 +134,7 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 
 		var data = RequestBuilder.build().url("https://"+WEBSITE+"/api/data/set/")
 				  .addContent("set_code",ed.getId())
-				  .method(METHOD.GET)
+				  .get()
 				  .setClient(client)
 				  .toJson()
 				  .getAsJsonObject();

@@ -7,23 +7,31 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.activemq.artemis.api.core.ActiveMQException;
+import org.apache.activemq.artemis.api.core.Message;
 import org.apache.activemq.artemis.api.core.RoutingType;
+import org.apache.activemq.artemis.api.core.SimpleString;
 import org.apache.activemq.artemis.core.config.CoreAddressConfiguration;
 import org.apache.activemq.artemis.core.config.impl.ConfigurationImpl;
+import org.apache.activemq.artemis.core.message.impl.CoreMessage;
+import org.apache.activemq.artemis.core.postoffice.RoutingStatus;
 import org.apache.activemq.artemis.core.security.CheckType;
 import org.apache.activemq.artemis.core.security.Role;
+import org.apache.activemq.artemis.core.security.SecurityAuth;
+import org.apache.activemq.artemis.core.server.Queue;
+import org.apache.activemq.artemis.core.server.ServerConsumer;
+import org.apache.activemq.artemis.core.server.ServerSession;
 import org.apache.activemq.artemis.core.server.impl.ActiveMQServerImpl;
+import org.apache.activemq.artemis.core.server.plugin.ActiveMQServerPlugin;
+import org.apache.activemq.artemis.core.transaction.Transaction;
 import org.apache.activemq.artemis.spi.core.security.ActiveMQSecurityManager;
 import org.apache.commons.lang3.ArrayUtils;
-import org.magic.api.interfaces.MTGNetworkClient;
+import org.magic.api.beans.JsonMessage;
+import org.magic.api.beans.JsonMessage.MSG_TYPE;
+import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
-import org.magic.api.network.impl.ActiveMQNetworkClient;
-import org.magic.game.model.Player;
 import org.magic.services.MTGConstants;
-import org.magic.services.TechnicalServiceManager;
 import org.magic.services.network.URLTools;
-import org.magic.services.threads.MTGRunnable;
-import org.magic.services.threads.ThreadManager;
 
 public class ActiveMQServer extends AbstractMTGServer {
 
@@ -31,13 +39,10 @@ public class ActiveMQServer extends AbstractMTGServer {
 	private static final String LOG_DIR = "LOG_DIR";
 	public static final String DEFAULT_ADDRESS = "welcome";
 	private ActiveMQServerImpl server;
-	private MTGNetworkClient client; 
-	
 	
 	public ActiveMQServer() {
 		super();
 		server = new ActiveMQServerImpl(new ConfigurationImpl());
-		client = new ActiveMQNetworkClient();
 	}
 	
 	@Override
@@ -72,8 +77,6 @@ public class ActiveMQServer extends AbstractMTGServer {
 				server.getConfiguration().setBindingsDirectory(getString(LOG_DIR));
 				
 				
-				
-				
 				for(String add : ArrayUtils.add(getArray("ADRESSES"),DEFAULT_ADDRESS))
 				{
 					var addr = new CoreAddressConfiguration();
@@ -92,6 +95,76 @@ public class ActiveMQServer extends AbstractMTGServer {
 						return true;
 					}
 				});
+				
+				
+				var plug = new ActiveMQServerPlugin() {
+					
+					JsonExport serializer = new JsonExport();
+					
+					@Override
+					public void afterCreateSession(ServerSession session) throws ActiveMQException {
+						logger.info("new connection from user : {}", session.getUsername());
+					}
+					
+					@Override
+					public void afterCloseSession(ServerSession session, boolean failed) throws ActiveMQException {
+						logger.info("disconnection from user : {}", session.getUsername());
+					}
+					
+					
+					private byte[] removeNullByte(byte[] input) {
+				        int outputLength = (input.length + 1) / 2;  // Calculate the size of the output array
+				        byte[] output = new byte[outputLength];
+
+				        for (int i = 0; i < outputLength; i++) {
+				            output[i] = input[i * 2];  // Read every other byte from the input array
+				        }
+
+				        return output;
+				    }
+					
+					@Override
+					public void afterSend(ServerSession session, Transaction tx, Message message, boolean direct,boolean noAutoCreateQueue, RoutingStatus result) throws ActiveMQException {
+					
+						var cmsg = ((CoreMessage)message);
+						var databuff = cmsg.getDataBuffer();
+						var size = databuff.readableBytes();
+						var bytes = new byte[size];
+						databuff.discardReadBytes();
+						databuff.readBytes(bytes);
+						var s = new String(removeNullByte(bytes));
+						s = s.substring(s.indexOf("{"));
+						var jmsg = serializer.fromJson(s, JsonMessage.class);
+						
+						
+						if(jmsg.getTypeMessage()==MSG_TYPE.CONNECT)
+						{
+							
+						}
+						
+						logger.info("message send from  user {} : {}", session.getUsername(),jmsg.getMessage());
+					}
+					
+					@Override
+					public void afterCreateQueue(Queue queue) throws ActiveMQException {
+						logger.info("Queue created {}",queue);
+					}
+					
+					@Override
+					public void afterDestroyQueue(Queue queue, SimpleString address, SecurityAuth session,boolean checkConsumerCount, boolean removeConsumers, boolean autoDeleteAddress) throws ActiveMQException {
+						logger.info("Queue deleted {}",queue);
+					}
+					
+					
+					@Override
+					public void afterCreateConsumer(ServerConsumer consumer) throws ActiveMQException {
+						logger.info("Consumer created {} ",consumer);
+					}
+					
+				};
+				
+				server.registerBrokerPlugin(plug);
+				
 		
 			} catch (Exception e) {
 				throw new IOException(e);
@@ -105,15 +178,8 @@ public class ActiveMQServer extends AbstractMTGServer {
 			init();
 			server.start();
 			logger.info("{} is started", getName());
-			
-			
-			
-			
-			client.join(new Player("System"),getArray(LISTENERS_TCP)[0],DEFAULT_ADDRESS);
-			
-			
-			
-			ThreadManager.getInstance().executeThread(new MTGRunnable() {
+		
+	/*		ThreadManager.getInstance().executeThread(new MTGRunnable() {
 				@Override
 				protected void auditedRun() {
 					while(isAlive())
@@ -126,7 +192,7 @@ public class ActiveMQServer extends AbstractMTGServer {
 						}
 					}
 				}
-			}, "ActiveMQ Client Audit");
+			}, "ActiveMQ Client Audit");*/
 			
 			
 			

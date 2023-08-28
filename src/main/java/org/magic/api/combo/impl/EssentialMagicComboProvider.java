@@ -16,7 +16,6 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractComboProvider;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 
 public class EssentialMagicComboProvider extends AbstractComboProvider {
@@ -30,7 +29,7 @@ public class EssentialMagicComboProvider extends AbstractComboProvider {
 		Document d;
 		try {
 			MTGHttpClient c = URLTools.newClient();
-			d=RequestBuilder.build().url(BASE+"Combos/Search.asp").setClient(c).method(METHOD.POST)
+			d=RequestBuilder.build().url(BASE+"Combos/Search.asp").setClient(c).get()
 					.addContent("selInvalid", getString("GURU_APPROVED_CODE"))
 					.addContent("txtName","")
 					.addContent("txtCreator","")

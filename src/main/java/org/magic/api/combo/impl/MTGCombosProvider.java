@@ -10,7 +10,6 @@ import org.magic.api.beans.MTGCombo;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractComboProvider;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 
 public class MTGCombosProvider extends AbstractComboProvider {
@@ -27,7 +26,7 @@ public class MTGCombosProvider extends AbstractComboProvider {
 			Document d;
 
 				try {
-					d = RequestBuilder.build().url(BASE+"index.php").setClient(URLTools.newClient()).method(METHOD.POST).addContent("search", mc.getName()).addContent("submit", "Search >").toHtml();
+					d = RequestBuilder.build().url(BASE+"index.php").setClient(URLTools.newClient()).post().addContent("search", mc.getName()).addContent("submit", "Search >").toHtml();
 				} catch (IOException e) {
 					logger.error(e);
 					return ret;

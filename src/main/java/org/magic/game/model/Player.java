@@ -33,16 +33,16 @@ public class Player extends Observable implements Serializable {
 	private STATUS state;
 	private int life;
 	private String name;
-	private MagicDeck deck;
-	private Zone graveyard;
-	private Zone exil;
-	private Zone library;
-	private Zone hand;
-	private Zone battlefield;
-	private ManaPool manaPool;
+	private transient MagicDeck deck;
+	private transient Zone graveyard;
+	private transient Zone exil;
+	private transient Zone library;
+	private transient Zone hand;
+	private transient Zone battlefield;
+	private transient ManaPool manaPool;
 	private Locale local;
 	private byte[] avatar;
-	private int poisonCounter;
+	private transient int poisonCounter;
 	private long onlineConnectionTimeStamp;
 
 

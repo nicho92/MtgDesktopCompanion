@@ -14,7 +14,6 @@ import org.magic.api.beans.enums.EnumMarketType;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.UITools;
 
@@ -41,7 +40,7 @@ public class MagicCorporationPricer extends AbstractPricesProvider {
 	String url =BASE_URL+"mc.php";
 	List<MagicPrice> ret = new ArrayList<>();
 
-	Document content =RequestBuilder.build().url(url).setClient(URLTools.newClient()).method(METHOD.GET)
+	Document content =RequestBuilder.build().url(url).setClient(URLTools.newClient()).get()
 						.addContent("rub","cartes")
 						.addContent("op","search")
 						.addContent("search","2")
@@ -54,7 +53,7 @@ public class MagicCorporationPricer extends AbstractPricesProvider {
 
 			content = RequestBuilder.build().url(link)
 											.setClient(URLTools.newClient())
-											.method(METHOD.GET)
+											.get()
 											.addHeader(URLTools.ACCEPT_LANGUAGE, "fr-FR,fr;q=0.9,en;q=0.8")
 											.addHeader("Upgrade-Insecure-Requests", "1")
 											.addHeader(URLTools.ACCEPT_ENCODING, "gzip, deflate")

@@ -23,7 +23,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
-import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.XMLTools;
 
@@ -132,27 +131,27 @@ public class URLTools {
 	}
 
 	public static org.w3c.dom.Document extractAsXml(String url) throws IOException {
-		return RequestBuilder.build().setClient(newClient()).url(url).method(METHOD.GET).toXml();
+		return RequestBuilder.build().setClient(newClient()).url(url).get().toXml();
 	}
 
 	public static JsonElement extractAsJson(String url) throws IOException	{
-		return RequestBuilder.build().setClient(newClient()).url(url).method(METHOD.GET).toJson();
+		return RequestBuilder.build().setClient(newClient()).url(url).get().toJson();
 	}
 
 	public static Document extractAsHtml(String url) throws IOException 	{
-		return RequestBuilder.build().setClient(newClient()).url(url).method(METHOD.GET).toHtml();
+		return RequestBuilder.build().setClient(newClient()).url(url).get().toHtml();
 	}
 
 	public static InputStream extractAsInputStream(String url) throws IOException 	{
-		return RequestBuilder.build().setClient(newClient()).url(url).method(METHOD.GET).execute().getEntity().getContent();
+		return RequestBuilder.build().setClient(newClient()).url(url).get().execute().getEntity().getContent();
 	}
 
 	public static String extractAsString(String url) throws IOException	{
-		return RequestBuilder.build().setClient(newClient()).url(url).method(METHOD.GET).toContentString();
+		return RequestBuilder.build().setClient(newClient()).url(url).get().toContentString();
 	}
 
 	public static void download(String url,File to) throws IOException {
-		RequestBuilder.build().setClient(newClient()).url(url).method(METHOD.GET).download(to);
+		RequestBuilder.build().setClient(newClient()).url(url).get().download(to);
 	}
 
 
@@ -172,7 +171,7 @@ public class URLTools {
 		if(url.startsWith("//"))
 			url="https:"+url;
 
-		return RequestBuilder.build().setClient(URLTools.newClient()).url(url).method(METHOD.GET).toImage();
+		return RequestBuilder.build().setClient(URLTools.newClient()).url(url).get().toImage();
 	}
 
 
@@ -180,7 +179,7 @@ public class URLTools {
 	{
 		int resp;
 		try {
-			resp = RequestBuilder.build().setClient(URLTools.newClient()).url(url).method(METHOD.GET).execute().getStatusLine().getStatusCode();
+			resp = RequestBuilder.build().setClient(URLTools.newClient()).url(url).get().execute().getStatusLine().getStatusCode();
 			return resp >= 200 && resp < 300;
 		} catch (IOException e) {
 			logger.error(e);
@@ -199,7 +198,7 @@ public class URLTools {
 	public static String getLocation(String url) {
 		try {
 			var c = URLTools.newClient();
-			RequestBuilder.build().setClient(c).url(url).method(METHOD.GET).execute();
+			RequestBuilder.build().setClient(c).url(url).get().execute();
 			return c.getHttpContext().getRedirectLocations().get(0).toASCIIString();
 
 		} catch (Exception e) {
@@ -208,7 +207,7 @@ public class URLTools {
 	}
 
 	public static byte[] readAsBinary(String url) throws IOException {
-			var is = RequestBuilder.build().setClient(URLTools.newClient()).url(url).method(METHOD.GET).execute().getEntity().getContent();
+			var is = RequestBuilder.build().setClient(URLTools.newClient()).url(url).get().execute().getEntity().getContent();
 			return IOUtils.toByteArray(is);
 
 

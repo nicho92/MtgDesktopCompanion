@@ -8,7 +8,6 @@ import java.util.Map;
 import org.magic.api.beans.Wallpaper;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 
 import com.google.gson.JsonObject;
@@ -43,7 +42,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 
 			build = RequestBuilder.build();
 		    bToken = build.setClient(URLTools.newClient())
-								   .method(METHOD.GET)
+								   .get()
 								   .url(BASE_URL+"/oauth2/token")
 								   .addContent("grant_type", "client_credentials")
 								   .addContent("client_id", getString(CLIENT_ID))
@@ -81,7 +80,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 
 	private JsonObject readOffset(int offset,String search) {
 		return  build.clean()
-				  .method(METHOD.GET)
+				  .get()
 				  .url(BASE_URL+"/api/v1/oauth2/browse/newest")
 				  .addContent("q", search)
 				  .addContent("limit", getString(LIMIT))

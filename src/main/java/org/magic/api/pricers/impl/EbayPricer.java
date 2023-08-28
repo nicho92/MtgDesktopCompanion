@@ -9,7 +9,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 
 import com.google.gson.JsonElement;
@@ -25,7 +24,7 @@ public class EbayPricer extends AbstractPricesProvider {
 			   keyword += " " + card.getCurrentSet().getSet();
 
 
-			   var b = RequestBuilder.build().setClient(URLTools.newClient()).method(METHOD.GET)
+			   var b = RequestBuilder.build().setClient(URLTools.newClient()).get()
 				.url(URL_BASE)
 				.addContent("SECURITY-APPNAME", getAuthenticator().get("API_KEY"))
 				.addContent("OPERATION-NAME", "findItemsByKeywords")

@@ -10,7 +10,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.abstracts.AbstractComboProvider;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 
 public class SMFComboProvider extends AbstractComboProvider {
@@ -24,7 +23,7 @@ public class SMFComboProvider extends AbstractComboProvider {
 		MTGHttpClient c = URLTools.newClient();
 		String cardUri;
 		try {
-			Document d = RequestBuilder.build().url(BASE_URL+"/include/php/views/moteurCartes.php").method(METHOD.GET).setClient(c)
+			Document d = RequestBuilder.build().url(BASE_URL+"/include/php/views/moteurCartes.php").get().setClient(c)
 						  .addContent("ihm", "M1")
 						  .addContent("order", "car_nomfr")
 						  .addContent("page", "1")
@@ -49,11 +48,11 @@ public class SMFComboProvider extends AbstractComboProvider {
 
 			Document d;
 			try {
-				d = RequestBuilder.build().url(cardUri).method(METHOD.GET).setClient(c).toHtml();
+				d = RequestBuilder.build().url(cardUri).get().setClient(c).toHtml();
 
 			String idAttribute= d.getElementById("dataAttribute").attr("value");
 
-			d = RequestBuilder.build().url(BASE_URL+"/index.php").method(METHOD.GET).setClient(c)
+			d = RequestBuilder.build().url(BASE_URL+"/index.php").get().setClient(c)
 						.addContent("objet", "combos")
 						.addContent("action", "refreshPage")
 						.addContent("nb", "0")
@@ -72,7 +71,7 @@ public class SMFComboProvider extends AbstractComboProvider {
 
 						 Document details;
 						try {
-							details = RequestBuilder.build().url(BASE_URL+"/"+el.getElementsByTag("a").attr("href")).method(METHOD.GET).setClient(c).toHtml();
+							details = RequestBuilder.build().url(BASE_URL+"/"+el.getElementsByTag("a").attr("href")).get().setClient(c).toHtml();
 							var article = details.getElementsByTag("article");
 							article.select("div.panel").remove();
 							cbo.setComment(article.text());

@@ -26,7 +26,6 @@ import org.magic.api.beans.enums.EnumMarketType;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.UITools;
 import org.mozilla.javascript.Parser;
@@ -195,7 +194,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	private String searchUrlFor(MagicCard mc,boolean foil)
 	{
 		var arr = RequestBuilder.build().setClient(URLTools.newClient())
-				  .method(METHOD.GET)
+				  .get()
 				  .url(WEBSITE+"/autocomplete?term="+URLTools.encode(mc.getName()))
 				  .addHeader("x-requested-with", "XMLHttpRequest")
 				  .addHeader("accept", "application/json, text/javascript, */*; q=0.01")

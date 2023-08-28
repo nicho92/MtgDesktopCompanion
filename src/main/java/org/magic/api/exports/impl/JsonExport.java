@@ -51,8 +51,10 @@ public class JsonExport extends AbstractCardExport {
 	private static final String DESCRIPTION = "description";
 	private Gson gson;
 
-	public JsonExport() {
-		gson=new GsonBuilder()
+	
+	private GsonBuilder init()
+	{
+		return new GsonBuilder()
 				.registerTypeAdapter(MTGStockItem.class, new MTGStockItemAdapter())
 				.registerTypeAdapter(Instant.class, new InstantAdapter())
 				.registerTypeAdapter(UserAgent.class, new UserAgentAdapter())
@@ -60,21 +62,18 @@ public class JsonExport extends AbstractCardExport {
 				.registerTypeHierarchyAdapter(NetworkInfo.class, new NetworkInfoAdapter())
 				.registerTypeHierarchyAdapter(File.class, new FileAdapter())
 				.registerTypeHierarchyAdapter(Color.class, new ColorAdapter())
-				
-				
-				.setDateFormat("yyyy-MM-dd hh:mm").setPrettyPrinting()
+				.setDateFormat("yyyy-MM-dd hh:mm");
+	}
+	
+	
+	public JsonExport() {
+		gson=init()
+				.setPrettyPrinting()
 				.create();
 	}
 
 	public void removePrettyString() {
-		gson=new GsonBuilder()
-				.registerTypeAdapter(MTGStockItem.class, new MTGStockItemAdapter())
-				.registerTypeAdapter(Instant.class, new InstantAdapter())
-				.registerTypeAdapter(UserAgent.class, new UserAgentAdapter())
-				.registerTypeAdapter(StackTraceElement.class, new StackTraceElementAdapter())
-				.registerTypeHierarchyAdapter(NetworkInfo.class, new NetworkInfoAdapter())
-				.setDateFormat("yyyy-MM-dd HH:mm")
-				.create();
+		gson=init().create();
 	}
 
 	public String toJson(Object o)

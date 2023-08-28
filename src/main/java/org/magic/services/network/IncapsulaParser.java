@@ -8,7 +8,6 @@ import java.util.Map.Entry;
 
 import org.jsoup.nodes.Document;
 import org.magic.services.MTGConstants;
-import org.magic.services.network.RequestBuilder.METHOD;
 
 public class IncapsulaParser {
 
@@ -49,7 +48,7 @@ public class IncapsulaParser {
 	}
 
 	public static Document readUrl(String url) throws IOException {
-		return	RequestBuilder.build().setClient(URLTools.newClient()).url(url).method(METHOD.GET).addHeader(URLTools.ACCEPT, "text/html; charset="+MTGConstants.DEFAULT_ENCODING).addHeader("Cookie", getIncapsulaCookie(url)).toHtml();
+		return	RequestBuilder.build().setClient(URLTools.newClient()).url(url).get().addHeader(URLTools.ACCEPT, "text/html; charset="+MTGConstants.DEFAULT_ENCODING).addHeader("Cookie", getIncapsulaCookie(url)).toHtml();
 	}
 
 }

@@ -10,7 +10,6 @@ import org.magic.api.beans.shop.Tracking;
 import org.magic.api.beans.shop.TrackingStep;
 import org.magic.api.interfaces.abstracts.AbstractTrackingService;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.UITools;
 
@@ -42,7 +41,7 @@ public class LaposteTrackingService extends AbstractTrackingService{
 		}
 
 
-		var e = RequestBuilder.build().setClient(URLTools.newClient()).url(baseUri+"/"+number +"?"+getString("LANG")).method(METHOD.GET)
+		var e = RequestBuilder.build().setClient(URLTools.newClient()).url(baseUri+"/"+number +"?"+getString("LANG")).get()
 				.addHeader("X-Okapi-Key", getAuthenticator().get(OKAPI_KEY))
 				.addHeader(URLTools.ACCEPT, URLTools.HEADER_JSON).toJson().getAsJsonObject();
 		

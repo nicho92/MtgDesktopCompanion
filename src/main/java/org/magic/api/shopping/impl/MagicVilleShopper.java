@@ -20,7 +20,6 @@ import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.services.AccountsManager;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
@@ -46,7 +45,7 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 			client = URLTools.newClient();
 			
 			try {
-				var res = RequestBuilder.build().method(METHOD.POST)
+				var res = RequestBuilder.build().post()
 				.url(urlLogin)
 				.setClient(client)
 				.addContent("pseudo", getAuthenticator().getLogin())
@@ -71,7 +70,7 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 		
 		var t = buildTransaction(rt);
 			
-	    var doc= RequestBuilder.build().setClient(client).url(rt.getUrl()).method(METHOD.GET).toHtml();
+	    var doc= RequestBuilder.build().setClient(client).url(rt.getUrl()).get().toHtml();
 	    Elements table = doc.select("table tr[onmouseover]");
 	
 	    try {
@@ -111,7 +110,7 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 			 
 				MagicCard card = null;	 
 				try {
-					var name=RequestBuilder.build().setClient(client).url(urlDetailOrder+"show_card_sale?gamerid="+st.getTiersAppIds(getName())).method(METHOD.GET).toHtml().select("td.S14 a").first().html().split("<br>")[0].trim();
+					var name=RequestBuilder.build().setClient(client).url(urlDetailOrder+"show_card_sale?gamerid="+st.getTiersAppIds(getName())).get().toHtml().select("td.S14 a").first().html().split("<br>")[0].trim();
 					card = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, edition,true).get(0);
 					st.setProduct(card);
 				} catch (Exception e1) {

@@ -8,7 +8,6 @@ import org.magic.api.beans.shop.Tracking;
 import org.magic.api.beans.shop.TrackingStep;
 import org.magic.api.interfaces.abstracts.AbstractTrackingService;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.UITools;
 
@@ -21,7 +20,7 @@ public class DHLTrackingService extends AbstractTrackingService {
 
 		var t = new Tracking(number);
 
-		var res = RequestBuilder.build().setClient(URLTools.newClient()).url(BASEURL+number).method(METHOD.GET)
+		var res = RequestBuilder.build().setClient(URLTools.newClient()).url(BASEURL+number).get()
 				.addHeader("DHL-API-Key", getString("API_KEY"))
 				.addHeader(URLTools.ACCEPT, URLTools.HEADER_JSON).toJson().getAsJsonObject().get("shipments").getAsJsonArray();
 

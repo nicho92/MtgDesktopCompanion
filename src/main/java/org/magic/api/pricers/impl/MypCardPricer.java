@@ -12,7 +12,6 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.UITools;
 
@@ -46,7 +45,7 @@ public class MypCardPricer extends AbstractPricesProvider {
 		if(client==null)
 		{
 			client=URLTools.newClient();
-			RequestBuilder.build().url("https://mypcards.com/magic").setClient(client).method(METHOD.GET).execute(); // init cookies
+			RequestBuilder.build().url("https://mypcards.com/magic").setClient(client).get().execute(); // init cookies
 		}
 
 
@@ -55,7 +54,7 @@ public class MypCardPricer extends AbstractPricesProvider {
 		
 		
 		
-		JsonElement e = RequestBuilder.build().url(url).setClient(client).method(METHOD.GET).addContent("term",card.getName()).toJson();
+		JsonElement e = RequestBuilder.build().url(url).setClient(client).get().addContent("term",card.getName()).toJson();
 		
 		JsonObject o = null;
 		
@@ -75,7 +74,7 @@ public class MypCardPricer extends AbstractPricesProvider {
 		}
 		else
 		{
-			Elements divs = RequestBuilder.build().method(METHOD.GET).url(BASE_URL + "/magic").setClient(client).addContent("ProdutoSearch[query]", card.getName()).toHtml().select("div.card");
+			Elements divs = RequestBuilder.build().get().url(BASE_URL + "/magic").setClient(client).addContent("ProdutoSearch[query]", card.getName()).toHtml().select("div.card");
 
 			for(Element div : divs)
 			{

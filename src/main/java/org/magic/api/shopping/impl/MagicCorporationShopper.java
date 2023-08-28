@@ -17,7 +17,6 @@ import org.magic.api.beans.technical.RetrievableTransaction;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.services.AccountsManager;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.UITools;
 
@@ -34,7 +33,7 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 			try {
 				client = URLTools.newClient();
 				var res = RequestBuilder.build()
-					.method(METHOD.POST)
+					.post()
 					.url(urlLogin)
 					.setClient(client)
 					.addContent("email", getAuthenticator().getLogin())
@@ -90,7 +89,7 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 		var t = buildTransaction(rt);
 			 
 		
-	    var d= RequestBuilder.build().setClient(client).url(rt.getUrl()).method(METHOD.GET).toHtml();
+	    var d= RequestBuilder.build().setClient(client).url(rt.getUrl()).get().toHtml();
 	    Elements table = d.select("table tbody tr");
 	    
 	    var header = d.select("div.main_bloc_article").get(2);

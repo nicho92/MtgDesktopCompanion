@@ -15,7 +15,6 @@ import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 
 import com.google.gson.JsonElement;
@@ -45,7 +44,7 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 		var obj = RequestBuilder.build()
 				   .setClient(URLTools.newClient())
 				   .url(info.getUrl().toString())
-				   .method(METHOD.GET)
+				   .get()
 				   .toJson().getAsJsonObject();
 
 
@@ -88,7 +87,7 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 
 		var arr = RequestBuilder.build()
 						.setClient(URLTools.newClient())
-						.url(BASE_URI+"/decks/cards/").method(METHOD.GET)
+						.url(BASE_URI+"/decks/cards/").get()
 						.addContent("orderBy", "-createdAt")
 						.addContent("formats", String.valueOf(ArrayUtils.indexOf(listFilter(), filter)+1))
 						.addContent("pageSize", getString("PAGE_SIZE"))

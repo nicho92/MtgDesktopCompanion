@@ -12,7 +12,6 @@ import org.magic.api.beans.Grading;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
 import org.magic.services.AccountsManager;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 
 public class BeckettGrader extends AbstractGradersProvider {
@@ -31,11 +30,11 @@ public class BeckettGrader extends AbstractGradersProvider {
 		var urlLogin = getWebSite()+"/login?utm_content=bkthp&utm_term=login";
 		var urlCheking = getWebSite()+"/grading/card-lookup";
 
-		var d = RequestBuilder.build().url(urlLogin).setClient(c).method(METHOD.GET).toHtml();
+		var d = RequestBuilder.build().url(urlLogin).setClient(c).get().toHtml();
 		var token = d.select("input[name='login_token']").first().attr("value");
 
 
-			d=RequestBuilder.build().url(urlLogin).setClient(c).method(METHOD.POST)
+			d=RequestBuilder.build().url(urlLogin).setClient(c).post()
 						  .addContent("redirect_url", getWebSite()+"/account")
 						  .addContent("login_token", token)
 						  .addContent("email",getAuthenticator().getLogin())
@@ -49,7 +48,7 @@ public class BeckettGrader extends AbstractGradersProvider {
 			throw new IOException("Error when login to website");
 
 
-			d=RequestBuilder.build().url(urlCheking).setClient(c).method(METHOD.GET)
+			d=RequestBuilder.build().url(urlCheking).setClient(c).get()
 					.addContent("item_type", "BGS")
 					.addContent("item_id", identifier)
 					 .toHtml();

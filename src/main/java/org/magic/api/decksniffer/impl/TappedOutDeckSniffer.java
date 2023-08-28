@@ -20,7 +20,6 @@ import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.AccountsManager;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 
 import com.google.gson.JsonElement;
@@ -49,7 +48,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	private void initConnexion() throws IOException {
 		httpclient = URLTools.newClient();
 		httpclient.doGet(URI_BASE+"/accounts/login/?next=/");
-		RequestBuilder b = httpclient.build().method(METHOD.POST)
+		RequestBuilder b = httpclient.build().post()
 						  .url(URI_BASE+"/accounts/login/")
 						  .addContent("username", getAuthenticator().getLogin())
 						  .addContent("password", getAuthenticator().getPassword())
@@ -79,7 +78,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 
 		logger.debug("sniff deck at {}",info.getUrl());
 		MagicDeck deck = info.toBaseDeck();
-		JsonElement root = RequestBuilder.build().url(info.getUrl().toString()).setClient(httpclient).method(METHOD.GET).toJson();
+		JsonElement root = RequestBuilder.build().url(info.getUrl().toString()).setClient(httpclient).get().toJson();
 
 		deck.setName(root.getAsJsonObject().get("name").getAsString());
 		deck.setDescription(root.getAsJsonObject().get("url").getAsString());

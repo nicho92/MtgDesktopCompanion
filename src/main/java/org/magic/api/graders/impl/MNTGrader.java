@@ -6,7 +6,6 @@ import org.magic.api.beans.Grading;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.UITools;
 
@@ -20,7 +19,7 @@ public class MNTGrader extends AbstractGradersProvider {
 		var el = RequestBuilder.build()
 						.setClient(c)
 						.url(getWebSite()+"/wp-admin/admin-ajax.php")
-						.method(METHOD.POST)
+						.post()
 						.addContent("verification_number", identifier)
 						.addContent("action", "mnt_verification_lookup")
 						.addHeader(URLTools.REFERER, getWebSite()+"/verification-lookup/")
