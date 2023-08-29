@@ -98,7 +98,6 @@ public class RequestBuilder
 		return this;
 	}
 
-	@Deprecated
 	public RequestBuilder method(METHOD m)
 	{
 		method=m;

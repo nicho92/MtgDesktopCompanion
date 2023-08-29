@@ -555,7 +555,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.itextpdf</groupId>
-			<artifactId>itext7-core</artifactId>
+			<artifactId>itext-core</artifactId>
 			<version>8.0.1</version>
 			<type>pom</type>
 		</dependency>
@@ -799,9 +799,12 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
+				<version>3.6.0</version>
 				<configuration>
-					<descriptor>src/assembly/zip.xml</descriptor>
-					<finalName>mtg-desktop-companion-${project.version}</finalName>
+				 	<descriptors>
+						<descriptor>src/assembly/zip.xml</descriptor>
+					 </descriptors>
+					<finalName>mtg-desktop-companion-</finalName>
 				</configuration>
 				<executions>
 					<execution>
