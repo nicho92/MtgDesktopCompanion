@@ -86,8 +86,8 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 					}
 				};
 
-		var tabs = new JTabbedPane();
-		add(tabs, BorderLayout.CENTER);
+		
+		add(getContextTabbedPane(), BorderLayout.CENTER);
 
 
 		modelTasks.bind(TechnicalServiceManager.inst().getTasksInfos());
@@ -152,19 +152,22 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 		tableDiscordInfo.setDefaultRenderer(Long.class, durationRenderer);
 		tableFileAccessIInfo.setDefaultRenderer(Long.class, durationRenderer);
 		
-		tabs.addTab("Config",MTGConstants.ICON_SMALL_HELP,new JScrollPane(UITools.createNewTable(modelConfig)));
-		tabs.addTab("Threads",MTGConstants.ICON_TAB_ADMIN,new JScrollPane(UITools.createNewTable(modelThreads)));
-		tabs.addTab("Tasks",MTGConstants.ICON_TAB_ADMIN,new JScrollPane(tableTasks));
-		tabs.addTab("Network",MTGConstants.ICON_TAB_NETWORK,new JScrollPane(tableNetwork));
-		tabs.addTab("Qwartz Script",MTGConstants.ICON_SMALL_SCRIPT,new JScrollPane(tableScripts));
-		tabs.addTab("Queries",MTGConstants.ICON_TAB_DAO,new JScrollPane(tableQueries));
-		tabs.addTab("DB Size",MTGConstants.ICON_TAB_DAO,new JScrollPane(tableDaos));
-		tabs.addTab("Discord",ImageTools.resize(new DiscordBotServer().getIcon(),15,15)  ,new JScrollPane(tableDiscordInfo));
-		tabs.addTab("JsonServer Cache",MTGConstants.ICON_TAB_CACHE,new JScrollPane(tableCacheJson));
-		tabs.addTab("JsonServer Queries",MTGConstants.ICON_TAB_SERVER,new JScrollPane(tableJsonInfo));
-		tabs.addTab("Files Acess",MTGConstants.ICON_TAB_IMPORT,new JScrollPane(tableFileAccessIInfo));
-		UITools.addTab(tabs, new LoggerViewPanel());
-		UITools.addTab(tabs, gedPanel);
+		
+		
+		
+		getContextTabbedPane().addTab("Config",MTGConstants.ICON_SMALL_HELP,new JScrollPane(UITools.createNewTable(modelConfig)));
+		getContextTabbedPane().addTab("Threads",MTGConstants.ICON_TAB_ADMIN,new JScrollPane(UITools.createNewTable(modelThreads)));
+		getContextTabbedPane().addTab("Tasks",MTGConstants.ICON_TAB_ADMIN,new JScrollPane(tableTasks));
+		getContextTabbedPane().addTab("Network",MTGConstants.ICON_TAB_NETWORK,new JScrollPane(tableNetwork));
+		getContextTabbedPane().addTab("Qwartz Script",MTGConstants.ICON_SMALL_SCRIPT,new JScrollPane(tableScripts));
+		getContextTabbedPane().addTab("Queries",MTGConstants.ICON_TAB_DAO,new JScrollPane(tableQueries));
+		getContextTabbedPane().addTab("DB Size",MTGConstants.ICON_TAB_DAO,new JScrollPane(tableDaos));
+		getContextTabbedPane().addTab("Discord",ImageTools.resize(new DiscordBotServer().getIcon(),15,15)  ,new JScrollPane(tableDiscordInfo));
+		getContextTabbedPane().addTab("JsonServer Cache",MTGConstants.ICON_TAB_CACHE,new JScrollPane(tableCacheJson));
+		getContextTabbedPane().addTab("JsonServer Queries",MTGConstants.ICON_TAB_SERVER,new JScrollPane(tableJsonInfo));
+		getContextTabbedPane().addTab("Files Access",MTGConstants.ICON_TAB_IMPORT,new JScrollPane(tableFileAccessIInfo));
+		UITools.addTab(getContextTabbedPane(), new LoggerViewPanel());
+		UITools.addTab(getContextTabbedPane(), gedPanel);
 
 
 
