@@ -64,7 +64,7 @@ public abstract class AbstractNetworkProvider extends AbstractMTGPlugin implemen
 		
 		sendMessage(new JsonMessage(player,"connected",Color.black,MSG_TYPE.CONNECT));
 		
-		logger.debug("Connected to server {} with id={}",url,player.getId());
+		logger.info("Connected to server {} with id={}",url,player.getId());
 	}
 	
 	@Override

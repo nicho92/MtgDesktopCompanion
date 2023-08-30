@@ -47,7 +47,7 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 		}
 		
 		try {
-			session = factory.createSession(player.getName(),"password",false,true,true,true, 0, "ID-"+player.getId());
+			session = factory.createSession(player.getName(),"password",false,true,true,true, 0, "MTG-"+player.getId());
 			
 		} catch (ActiveMQException e) {
 			throw new IOException(e); 
