@@ -67,7 +67,6 @@ public class MTGControler {
 		
 		System.setProperty("org.jooq.no-tips", "true");
 		System.setProperty("org.jooq.no-logo", "true");
-		System.setProperty("derby.system.home", new File(MTGConstants.CONF_DIR,"logs").getAbsolutePath());
 		
 		xmlConfigFile = new File(MTGConstants.CONF_DIR, MTGConstants.CONF_FILENAME);
 

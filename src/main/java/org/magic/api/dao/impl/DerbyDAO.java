@@ -13,6 +13,13 @@ public class DerbyDAO extends AbstractMagicSQLDAO {
 	public String getName() {
 		return "Derby";
 	}
+	
+	
+	public DerbyDAO() {
+		super();
+		System.setProperty("derby.system.home", new File(MTGConstants.CONF_DIR,"logs").getAbsolutePath());
+		
+	}
 
 	@Override
 	protected String getjdbcnamedb() {

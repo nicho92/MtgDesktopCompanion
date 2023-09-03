@@ -28,7 +28,10 @@ import org.apache.activemq.artemis.spi.core.security.ActiveMQSecurityManager;
 import org.apache.commons.lang3.ArrayUtils;
 import org.magic.api.beans.JsonMessage;
 import org.magic.api.exports.impl.JsonExport;
+import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
+import org.magic.api.network.impl.ActiveMQNetworkClient;
+import org.magic.game.model.Player;
 import org.magic.services.MTGConstants;
 import org.magic.services.TechnicalServiceManager;
 import org.magic.services.network.URLTools;
@@ -43,11 +46,13 @@ public class ActiveMQServer extends AbstractMTGServer {
 	public static final String DEFAULT_ADDRESS = "welcome";
 	private ActiveMQServerImpl server;
 	private ActiveMQServerPlugin plug;
-	
+	private MTGNetworkClient client;
 	
 	public ActiveMQServer() {
 		super();
 		server = new ActiveMQServerImpl(new ConfigurationImpl());
+		client = new ActiveMQNetworkClient();
+		
 	}
 	
 	@Override
@@ -100,6 +105,8 @@ public class ActiveMQServer extends AbstractMTGServer {
 						return true;
 					}
 				});
+				
+				
 				
 				plug = new ActiveMQServerPlugin() {
 					
@@ -172,7 +179,8 @@ public class ActiveMQServer extends AbstractMTGServer {
 				};
 				
 				server.registerBrokerPlugin(plug);
-			
+				
+				
 			} catch (Exception e) {
 				throw new IOException(e);
 			}
@@ -189,6 +197,7 @@ public class ActiveMQServer extends AbstractMTGServer {
 		try {
 			init();
 			server.start();
+			client.join(new Player("Admin"), getArray(LISTENERS_TCP)[0], DEFAULT_ADDRESS);
 			logger.info("{} is started", getName());
 		} catch (Exception e) {
 			throw new IOException(e);

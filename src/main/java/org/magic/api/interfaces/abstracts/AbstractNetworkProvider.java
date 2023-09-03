@@ -55,8 +55,6 @@ public abstract class AbstractNetworkProvider extends AbstractMTGPlugin implemen
 		this.player = p;
 		player.setOnlineConnectionTimeStamp(Instant.now().toEpochMilli());
 		player.setState(STATUS.CONNECTED);
-		player.setId(RandomUtils.nextLong());
-		
 		
 		createConnection(url,adress);
 		

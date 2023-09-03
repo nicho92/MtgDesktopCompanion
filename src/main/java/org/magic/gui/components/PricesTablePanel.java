@@ -117,10 +117,7 @@ public class PricesTablePanel extends MTGUIComponent {
 		if(card==null)
 			return;
 		
-		if(currentCard!=null && currentCard.getId().equals(card.getId()))
-			return;
-		
-		
+	
 		currentCard = card;
 		this.foilOnly=foilOnly;
 

@@ -10,6 +10,7 @@ import java.util.Locale;
 
 import javax.swing.AbstractAction;
 
+import org.apache.commons.lang.math.RandomUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.services.tools.ImageTools;
@@ -84,6 +85,8 @@ public class Player extends Observable implements Serializable {
 		local = Locale.getDefault();
 
 		onlineConnectionTimeStamp= Instant.now().toEpochMilli();
+		
+		setId(RandomUtils.nextLong());
 		
 		mixHandAndLibrary();
 		shuffleLibrary();
