@@ -72,9 +72,21 @@ public class RedisDAO extends AbstractMagicDAO {
 		System.exit(0);
 	}
 	
+
+	@Override
+	public void saveCollection(MagicCollection c) throws SQLException {
+		syncCommands.sadd("collections",c.getName());
+	}
+	
+	@Override
+	public List<MagicCollection> listCollections() throws SQLException {
+		return syncCommands.hgetall("collections").values().stream().map(MagicCollection::new).toList();
+	}
+	
+	
 	@Override
 	public void saveCard(MagicCard card, MagicCollection collection) throws SQLException {
-		syncCommands.sadd("card:"+collection.getName(), card.toJson().toString());
+		syncCommands.sadd("cards:"+collection.getName(), card.toJson().toString());
 
 	}
 
@@ -150,11 +162,6 @@ public class RedisDAO extends AbstractMagicDAO {
 		return null;
 	}
 
-	@Override
-	public void saveCollection(MagicCollection c) throws SQLException {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public void removeCollection(MagicCollection c) throws SQLException {
@@ -162,10 +169,7 @@ public class RedisDAO extends AbstractMagicDAO {
 
 	}
 
-	@Override
-	public List<MagicCollection> listCollections() throws SQLException {
-		return new ArrayList<>();
-	}
+	
 
 	@Override
 	public List<MagicCollection> listCollectionFromCards(MagicCard mc) throws SQLException {
