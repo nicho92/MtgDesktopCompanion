@@ -28,29 +28,49 @@ import io.lettuce.core.api.sync.RedisCommands;
 
 public class RedisDAO extends AbstractMagicDAO {
 
+	RedisCommands<String, String> syncCommands;
+	StatefulRedisConnection<String, String> connection;
+	RedisClient redisClient;
+	
+	@Override
+	public void init() throws SQLException {
+		redisClient = RedisClient.create("redis://default:redispw@localhost:6379");
+		connection = redisClient.connect();
+		syncCommands = connection.sync();
+	}
+	
+	@Override
+	public Map<String, String> getDefaultAttributes() {
+		return Map.of("LOGIN","default","PASS","redispw","SERVER","localhost","PORT","6379");
+	}
+	
+
+	
+	@Override
+	public void unload() {
+		try {
+			connection.close();
+			redisClient.shutdown();
+		}
+		catch(Exception e)
+		{
+			//do nothing
+		}
+	}
+	
+	
+	
 	
 	public static void main(String[] args) throws SQLException, IOException {
-		var redisClient = RedisClient.create("redis://default:redispw@localhost:6379");
-		StatefulRedisConnection<String, String> connection = redisClient.connect();
-		RedisCommands<String, String> syncCommands = connection.sync();
+		
 
 		
-/*		MTGControler.getInstance().init();
-		
-		var card = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName("Black Lotus", null, false).get(0);
-		
-		syncCommands.set("key", card.toJson().toString());
-*/
-		System.out.println(syncCommands.get("key"));
-		
-		connection.close();
-		redisClient.shutdown();
 		System.exit(0);
 	}
 	
 	@Override
-	public void saveCard(MagicCard mc, MagicCollection collection) throws SQLException {
-		// TODO Auto-generated method stub
+	public void saveCard(MagicCard card, MagicCollection collection) throws SQLException {
+		syncCommands.set("key", card.toJson().toString());
 
 	}
 
@@ -404,12 +424,9 @@ public class RedisDAO extends AbstractMagicDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public void init() throws SQLException {
-		// TODO Auto-generated method stub
-
-	}
+	
+	
+	
 
 	@Override
 	public String getDBLocation() {
@@ -431,8 +448,7 @@ public class RedisDAO extends AbstractMagicDAO {
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Redis";
 	}
 
 }
