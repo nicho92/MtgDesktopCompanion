@@ -2,7 +2,6 @@ package org.beta;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -67,7 +66,12 @@ public class RedisDAO extends AbstractMagicDAO {
 		var dao = new RedisDAO();
 		dao.init();
 		
-		dao.listCards();
+		//dao.saveCollection("Library");
+		//dao.saveCollection("Needed");
+		
+		System.out.println(dao.listCollections());
+		
+		dao.unload();
 		
 		System.exit(0);
 	}
@@ -80,7 +84,7 @@ public class RedisDAO extends AbstractMagicDAO {
 	
 	@Override
 	public List<MagicCollection> listCollections() throws SQLException {
-		return syncCommands.hgetall("collections").values().stream().map(MagicCollection::new).toList();
+		return syncCommands.smembers("collections").stream().map(MagicCollection::new).toList();
 	}
 	
 	
