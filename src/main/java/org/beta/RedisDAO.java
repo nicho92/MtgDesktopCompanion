@@ -2,6 +2,7 @@ package org.beta;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -41,10 +42,11 @@ public class RedisDAO extends AbstractMagicDAO {
 	
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		return Map.of("LOGIN","default","PASS","redispw","SERVER","localhost","PORT","6379");
+		return Map.of("LOGIN","default",
+					  "PASS","redispw",
+					  "SERVER","localhost",
+					  "PORT","6379");
 	}
-	
-
 	
 	@Override
 	public void unload() {
@@ -62,15 +64,17 @@ public class RedisDAO extends AbstractMagicDAO {
 	
 	
 	public static void main(String[] args) throws SQLException, IOException {
+		var dao = new RedisDAO();
+		dao.init();
 		
-
+		dao.listCards();
 		
 		System.exit(0);
 	}
 	
 	@Override
 	public void saveCard(MagicCard card, MagicCollection collection) throws SQLException {
-		syncCommands.set("key", card.toJson().toString());
+		syncCommands.sadd("card:"+collection.getName(), card.toJson().toString());
 
 	}
 
@@ -160,8 +164,7 @@ public class RedisDAO extends AbstractMagicDAO {
 
 	@Override
 	public List<MagicCollection> listCollections() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
