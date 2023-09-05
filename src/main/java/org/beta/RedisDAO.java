@@ -19,6 +19,7 @@ import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.ConverterItem;
 import org.magic.api.beans.technical.GedEntry;
+import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGSerializable;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 
@@ -31,9 +32,11 @@ public class RedisDAO extends AbstractMagicDAO {
 	RedisCommands<String, String> syncCommands;
 	StatefulRedisConnection<String, String> connection;
 	RedisClient redisClient;
+	JsonExport serializer;
 	
 	@Override
 	public void init() throws SQLException {
+		serializer= new JsonExport();
 		redisClient = RedisClient.create("redis://default:redispw@localhost:6379");
 		connection = redisClient.connect();
 		syncCommands = connection.sync();
@@ -90,19 +93,23 @@ public class RedisDAO extends AbstractMagicDAO {
 	
 	@Override
 	public void saveCard(MagicCard card, MagicCollection collection) throws SQLException {
-		syncCommands.sadd("cards:"+collection.getName(), card.toJson().toString());
-
+		syncCommands.sadd("cards:"+collection.getName()+":"+card.getCurrentSet().getId()+":"+ card.getId(), serializer.toJson(card));
 	}
 
 	@Override
 	public void removeCard(MagicCard mc, MagicCollection collection) throws SQLException {
-		// TODO Auto-generated method stub
+		syncCommands.del("cards:"+collection.getName()+":"+mc.getCurrentSet().getId()+":"+mc.getId());
 
 	}
 
 	@Override
 	public void moveEdition(MagicEdition ed, MagicCollection from, MagicCollection to) throws SQLException {
-		// TODO Auto-generated method stub
+		
+		syncCommands.keys("cards:"+from.getName()+":"+ed.getId()+":*").forEach(s->{
+			//syncCommands.rename(s, "cards:"+to.getName()+":"+ed.getId());
+		});
+		
+		
 
 	}
 
