@@ -104,9 +104,9 @@ public class RedisDAO extends AbstractMagicDAO {
 
 	@Override
 	public void moveEdition(MagicEdition ed, MagicCollection from, MagicCollection to) throws SQLException {
-		
+			
 		syncCommands.keys("cards:"+from.getName()+":"+ed.getId()+":*").forEach(s->{
-			//syncCommands.rename(s, "cards:"+to.getName()+":"+ed.getId());
+			syncCommands.rename(s, s.replace(":"+from.getName()+":", ":"+to.getName()+":"));
 		});
 		
 		
