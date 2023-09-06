@@ -32,11 +32,9 @@ public class RedisDAO extends AbstractMagicDAO {
 	RedisCommands<String, String> syncCommands;
 	StatefulRedisConnection<String, String> connection;
 	RedisClient redisClient;
-	JsonExport serializer;
 	
 	@Override
 	public void init() throws SQLException {
-		serializer= new JsonExport();
 		redisClient = RedisClient.create("redis://default:redispw@localhost:6379");
 		connection = redisClient.connect();
 		syncCommands = connection.sync();
@@ -93,7 +91,7 @@ public class RedisDAO extends AbstractMagicDAO {
 	
 	@Override
 	public void saveCard(MagicCard card, MagicCollection collection) throws SQLException {
-		syncCommands.sadd("cards:"+collection.getName()+":"+card.getCurrentSet().getId()+":"+ card.getId(), serializer.toJson(card));
+		syncCommands.sadd("cards:"+collection.getName()+":"+card.getCurrentSet().getId()+":"+ card.getId(), serialiser.toJson(card));
 	}
 
 	@Override
