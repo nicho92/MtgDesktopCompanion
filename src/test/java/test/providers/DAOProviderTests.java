@@ -69,7 +69,6 @@ public class DAOProviderTests {
 			p.saveCard(mc, col);
 			
 			System.out.println("LISTING COLLECTION");
-			System.out.println("list  " + p.listCards());
 			System.out.println("count " + p.getCardsCount(col, ed));
 			System.out.println(p.listCardsFromCollection(col));
 			System.out.println(p.listCardsFromCollection(col, ed));

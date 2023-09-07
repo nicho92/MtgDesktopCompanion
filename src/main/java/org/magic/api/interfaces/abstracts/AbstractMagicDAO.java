@@ -63,6 +63,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		listContacts = new TCache<>("contacts");
 		listCollections = new TCache<>("collections");
 		serialiser=new JsonExport();
+		serialiser.removePrettyString();
 	}
 
 	@Override

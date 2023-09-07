@@ -1414,18 +1414,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	}
 	
-
-	@Override
-	public List<MagicCard> listCards() throws SQLException {
-		List<MagicCard> listCards = new ArrayList<>();
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT mcard,dateUpdate FROM cards"); ResultSet rs = executeQuery(pst);) {
-			while (rs.next()) {
-				listCards.add(readCard(rs,MCARD));
-			}
-		}
-		return listCards;
-	}
-
 	@Override
 	public Map<String, Integer> getCardsCountGlobal(MagicCollection col) throws SQLException {
 		Map<String, Integer> map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);

@@ -494,15 +494,6 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public List<MagicCard> listCards() throws SQLException {
-		logger.debug("list all cards");
-		List<MagicCard> list = new ArrayList<>();
-		db.getCollection(colCards, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result -> list
-				.add(deserialize(result.get("card").toString(), MagicCard.class)));
-		return list;
-	}
-
-	@Override
 	public Map<String, Integer> getCardsCountGlobal(MagicCollection c) throws SQLException {
 		Map<String, Integer> map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 		List<Bson> aggr =  	Arrays.asList(
