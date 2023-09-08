@@ -45,6 +45,8 @@ public final class DeckAdapter implements JsonDeserializer<MagicDeck>, JsonSeria
 
 		if (!root.get(NAME).isJsonNull())
 			deck.setName(root.get(NAME).getAsString());
+		else
+			deck.setName("No Name");
 
 		if (!root.get(DESCRIPTION).isJsonNull())
 			deck.setDescription(root.get(DESCRIPTION).getAsString());

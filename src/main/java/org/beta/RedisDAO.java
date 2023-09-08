@@ -1,6 +1,5 @@
 package org.beta;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +23,7 @@ import org.magic.api.beans.technical.ConverterItem;
 import org.magic.api.beans.technical.GedEntry;
 import org.magic.api.interfaces.MTGSerializable;
 import org.magic.api.interfaces.abstracts.extra.AbstractKeyValueDao;
-
+import org.magic.services.tools.POMReader;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.sync.RedisCommands;
@@ -41,10 +40,15 @@ public class RedisDAO extends AbstractKeyValueDao {
 	}
 	
 	
+	@Override
+	public String getVersion() {
+		return POMReader.readVersionFromPom(RedisClient.class, "/META-INF/maven/io.lettuce/lettuce-core/pom.properties");
+	}
+	
 	
 	@Override
 	public void init() throws SQLException {
-		redisClient = RedisClient.create("redis://default:redispw@localhost:49153");
+		redisClient = RedisClient.create(getDBLocation());
 		connection = redisClient.connect();
 		syncCommands = connection.sync();
 	}
@@ -59,8 +63,7 @@ public class RedisDAO extends AbstractKeyValueDao {
 	
 	@Override
 	public String getDBLocation() {
-		return "";
-		//return new StringBuilder().append("redis://").append(getString("LOGIN")).append(":").append(getString("PASSWORD")).append("@").append(getString("SERVER")).append(":").append(getString("PORT")).toString();
+		return new StringBuilder().append("redis://").append(getString("LOGIN")).append(":").append(getString("PASS")).append("@").append(getString("SERVER")).append(":").append(getString("PORT")).toString();
 	}
 
 	@Override
@@ -81,20 +84,6 @@ public class RedisDAO extends AbstractKeyValueDao {
 		}
 	}
 	
-	
-	
-	
-	public static void main(String[] args) throws SQLException, IOException {
-		var dao = new RedisDAO();
-		dao.init();
-		
-		System.out.println(dao.listDecks().get(0).getMain());
-		
-		dao.unload();
-		
-		System.exit(0);
-	}
-
 	@Override
 	public List<String> listEditionsIDFromCollection(MagicCollection collection) throws SQLException {
 		return syncCommands.keys(key(collection)+SEPARATOR+"*").stream().map(s->s.substring(s.lastIndexOf(SEPARATOR)+1)).toList();
@@ -204,8 +193,6 @@ public class RedisDAO extends AbstractKeyValueDao {
 			throw new SQLException("Collection " + name + " doesn't exist");
 		
 	}
-
-	
 	
 	@Override
 	public void moveEdition(MagicEdition ed, MagicCollection from, MagicCollection to) throws SQLException {
@@ -215,76 +202,115 @@ public class RedisDAO extends AbstractKeyValueDao {
 	
 	@Override
 	public void removeCard(MagicCard mc, MagicCollection collection) throws SQLException {
-		syncCommands.keys(key(collection,mc.getCurrentSet())+SEPARATOR+"*").forEach(s->{
-			var opt = syncCommands.smembers(s).stream().map(str->serialiser.fromJson(str, MagicCard.class)).filter(c->c.equals(mc)).findFirst();
+			//TODO doesn't work. find index set
+			var k = key(collection,mc.getCurrentSet());
+			var opt = syncCommands.smembers(k).stream().map(str->serialiser.fromJson(str, MagicCard.class)).filter(c->c.equals(mc)).findFirst();
 			
 			if(opt.isPresent())
 			{
-				var ret=	syncCommands.srem(s, serialiser.toJson(opt.get()));
-				
+				var ret=	syncCommands.srem(k, serialiser.toJson(opt.get()));
 				logger.info("remove element index at {}",ret);
 			}
-	});
-	
-	}
+		}
 
 	@Override
-	public List<MagicCollection> listCollectionFromCards(MagicCard mc) throws SQLException {
-		return new ArrayList<>();
-	}
-
-	@Override
-	public List<MagicCardStock> listStocks(MagicCard mc, MagicCollection col, boolean editionStrict) throws SQLException {
-		// TODO Auto-generated method stub
-		return  new ArrayList<>();
-	}
-
-	@Override
-	public List<MagicCardStock> listStocks() throws SQLException {
-		// TODO Auto-generated method stub
-		return  new ArrayList<>();
-	}
-
-	@Override
-	public void saveOrUpdateCardStock(MagicCardStock state) throws SQLException {
-		// TODO Auto-generated method stub
-
+	public void saveOrUpdateCardStock(MagicCardStock mcs) throws SQLException {
+		if(mcs.getId()<0)
+			mcs.setId(incr(MagicCardStock.class).intValue());
+		
+		mcs.setUpdated(false);
+		syncCommands.set(key(mcs), serialiser.toJson(mcs));
 	}
 
 	@Override
 	public void deleteStock(List<MagicCardStock> state) throws SQLException {
-		// TODO Auto-generated method stub
+			for(var d : state)
+				syncCommands.del(key(d));
 
 	}
+
+	@Override
+	public List<MagicCardStock> listStocks() throws SQLException {
+		
+		var ret = new ArrayList<MagicCardStock>();
+		
+		syncCommands.keys(KEY_STOCKS+SEPARATOR+"*").forEach(s->{
+			var d=  serialiser.fromJson(syncCommands.get(s), MagicCardStock.class);
+			ret.add(d);
+			notify(d);
+		});
+		
+		return ret;
+	}
+
 
 	@Override
 	public List<SealedStock> listSealedStocks() throws SQLException {
-		// TODO Auto-generated method stub
-		return  new ArrayList<>();
+		var ret = new ArrayList<SealedStock>();
+		
+		syncCommands.keys(KEY_SEALED+SEPARATOR+"*").forEach(s->{
+			var d=  serialiser.fromJson(syncCommands.get(s), SealedStock.class);
+			ret.add(d);
+			notify(d);
+		});
+		
+		return ret;
 	}
 
 	@Override
-	public void saveOrUpdateSealedStock(SealedStock state) throws SQLException {
-		// TODO Auto-generated method stub
+	public void saveOrUpdateSealedStock(SealedStock mcs) throws SQLException {
+		if(mcs.getId()<0)
+			mcs.setId(incr(SealedStock.class).intValue());
+		
+		mcs.setUpdated(false);
+		syncCommands.set(key(mcs), serialiser.toJson(mcs));
 
 	}
 
 	@Override
 	public void deleteStock(SealedStock state) throws SQLException {
-		// TODO Auto-generated method stub
-
+		syncCommands.del(key(state));
 	}
 
 	@Override
 	public SealedStock getSealedStockById(Long id) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+			return serialiser.fromJson(syncCommands.get(KEY_SEALED+SEPARATOR+id), SealedStock.class);
 	}
+
 
 	@Override
 	public List<Transaction> listTransactions() throws SQLException {
-		// TODO Auto-generated method stub
-		return  new ArrayList<>();
+		var ret = new ArrayList<Transaction>();
+		
+		syncCommands.keys(KEY_TRANSACTIONS+SEPARATOR+"*").forEach(s->{
+			var d=  serialiser.fromJson(syncCommands.get(s), Transaction.class);
+			ret.add(d);
+			notify(d);
+		});
+		
+		return ret;
+	}
+
+	@Override
+	public Long saveOrUpdateTransaction(Transaction t) throws SQLException {
+		if(t.getId()<0)
+			t.setId(incr(Transaction.class).intValue());
+		
+		syncCommands.set(key(t), serialiser.toJson(t));
+		
+		return t.getId();
+	}
+
+	@Override
+	public void deleteTransaction(Transaction t) throws SQLException {
+		syncCommands.del(key(t));
+	}
+	
+
+
+	@Override
+	public Transaction getTransaction(Long id) throws SQLException {
+		return serialiser.fromJson(syncCommands.get(KEY_TRANSACTIONS+SEPARATOR+id), Transaction.class);
 	}
 
 	@Override
@@ -293,22 +319,18 @@ public class RedisDAO extends AbstractKeyValueDao {
 		return  new ArrayList<>();
 	}
 
+
+	
 	@Override
-	public Long saveOrUpdateTransaction(Transaction t) throws SQLException {
+	public List<MagicCollection> listCollectionFromCards(MagicCard mc) throws SQLException {
 		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
-	public void deleteTransaction(Transaction t) throws SQLException {
+	public List<MagicCardStock> listStocks(MagicCard mc, MagicCollection col, boolean editionStrict) throws SQLException {
 		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public Transaction getTransaction(Long id) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		return  new ArrayList<>();
 	}
 
 	@Override

@@ -37,8 +37,6 @@ import org.magic.services.TechnicalServiceManager;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.BeanTools;
 
-import com.google.gson.JsonObject;
-
 public class ActiveMQServer extends AbstractMTGServer {
 
 	private static final String LISTENERS_TCP = "LISTENERS_TCP";
