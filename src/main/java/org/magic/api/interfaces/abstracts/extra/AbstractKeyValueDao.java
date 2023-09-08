@@ -8,6 +8,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
@@ -30,11 +31,17 @@ public abstract class AbstractKeyValueDao extends AbstractMagicDAO {
 	protected static final String KEY_CONTACTS ="contacts";
 	protected static final String KEY_ALERTS ="alerts";
 	protected static final String KEY_ANNOUNCES ="announces";
+	protected static final String KEY_NEWS ="news";
 	
 	
 	public String key(Announce c)
 	{
 		return KEY_ALERTS+SEPARATOR+c.getId();
+	}
+	
+	public String key(MagicNews c)
+	{
+		return KEY_NEWS+SEPARATOR+c.getId();
 	}
 	
 	public String key(MagicCardAlert c)

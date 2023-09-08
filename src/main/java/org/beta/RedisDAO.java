@@ -23,6 +23,7 @@ import org.magic.api.beans.technical.ConverterItem;
 import org.magic.api.beans.technical.GedEntry;
 import org.magic.api.interfaces.MTGSerializable;
 import org.magic.api.interfaces.abstracts.extra.AbstractKeyValueDao;
+import org.magic.services.tools.IDGenerator;
 import org.magic.services.tools.POMReader;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.api.StatefulRedisConnection;
@@ -38,8 +39,6 @@ public class RedisDAO extends AbstractKeyValueDao {
 	public Long incr(Class<?> c) {
 		return syncCommands.incr("incr:"+c.getSimpleName());
 	}
-	
-	
 	
 	@Override
 	public String getVersion() {
@@ -69,7 +68,9 @@ public class RedisDAO extends AbstractKeyValueDao {
 
 	@Override
 	public Map<String, Long> getDBSize() {
-		// TODO Auto-generated method stub
+		
+		
+		
 		return new HashMap<>();
 	}
 	
@@ -311,6 +312,14 @@ public class RedisDAO extends AbstractKeyValueDao {
 		
 		return c.getId();
 	}
+	
+
+	@Override
+	public void deleteContact(Contact contact) throws SQLException {
+		syncCommands.del(key(contact));
+
+	}
+
 
 	@Override
 	public Contact getContactById(int id) throws SQLException {
@@ -360,6 +369,33 @@ public class RedisDAO extends AbstractKeyValueDao {
 		syncCommands.del(key(alert));
 	}
 	
+
+	@Override
+	public List<MagicNews> listNews() {
+		var ret = new ArrayList<MagicNews>();
+		syncCommands.keys(KEY_NEWS+SEPARATOR+"*").forEach(s->{
+			var d=  serialiser.fromJson(syncCommands.get(s), MagicNews.class);
+			ret.add(d);
+			notify(d);
+		});
+		
+		return ret;
+	}
+
+	@Override
+	public void deleteNews(MagicNews n) throws SQLException {
+		syncCommands.del(key(n));
+
+	}
+
+	@Override
+	public void saveOrUpdateNews(MagicNews a) throws SQLException {
+		if(a.getId()<0)
+			a.setId(incr(Announce.class).intValue());
+		
+		syncCommands.set(key(a), serialiser.toJson(a));
+	}
+
 	
 
 	@Override
@@ -382,7 +418,13 @@ public class RedisDAO extends AbstractKeyValueDao {
 		syncCommands.del(key(a));
 
 	}
-	
+
+	@Override
+	public void changePassword(Contact c, String newPassword) throws SQLException {
+		c.setPassword(IDGenerator.generateSha256(newPassword));
+		saveOrUpdateContact(c);
+	}
+
 	
 
 	@Override
@@ -422,12 +464,6 @@ public class RedisDAO extends AbstractKeyValueDao {
 	}
 
 	@Override
-	public void changePassword(Contact c, String newPassword) throws SQLException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public Contact getContactByLogin(String email, String password) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
@@ -445,38 +481,13 @@ public class RedisDAO extends AbstractKeyValueDao {
 		return false;
 	}
 
-	@Override
-	public void deleteContact(Contact contact) throws SQLException {
-		// TODO Auto-generated method stub
-
-	}
-
 
 
 	@Override
 	public List<Announce> listAnnounces(int max, STATUS stat) throws SQLException {
-		
 		return  new ArrayList<>();
 	}
 
-
-	@Override
-	public List<MagicNews> listNews() {
-		// TODO Auto-generated method stub
-		return  new ArrayList<>();
-	}
-
-	@Override
-	public void deleteNews(MagicNews n) throws SQLException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void saveOrUpdateNews(MagicNews n) throws SQLException {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public List<ConverterItem> listConversionItems() throws SQLException {
@@ -497,8 +508,7 @@ public class RedisDAO extends AbstractKeyValueDao {
 	}
 
 	@Override
-	public <T extends MTGSerializable> List<GedEntry<T>> listEntries(String classename, String fileName)
-			throws SQLException {
+	public <T extends MTGSerializable> List<GedEntry<T>> listEntries(String classename, String fileName) throws SQLException {
 		// TODO Auto-generated method stub
 		return  new ArrayList<>();
 	}
@@ -528,14 +538,8 @@ public class RedisDAO extends AbstractKeyValueDao {
 		return  new ArrayList<>();
 	}
 	
-	
-	
-
-	
-
 	@Override
 	public boolean executeQuery(String query) throws SQLException {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
