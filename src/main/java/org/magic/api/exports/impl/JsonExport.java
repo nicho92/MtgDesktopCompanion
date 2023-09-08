@@ -7,11 +7,8 @@ import java.io.IOException;
 import java.io.Reader;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
-import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.technical.audit.NetworkInfo;
@@ -30,26 +27,16 @@ import org.magic.services.network.URLTools;
 import org.magic.services.tools.FileTools;
 import org.magic.services.tools.POMReader;
 
-import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 import nl.basjes.parse.useragent.UserAgent;
 
 public class JsonExport extends AbstractCardExport {
 
-	private static final String ID = "id";
-	private static final String AVERAGE_PRICE = "averagePrice";
-	private static final String COMMANDER = "commander";
-	private static final String UPDATE_DATE = "updateDate";
-	private static final String CREATION_DATE = "creationDate";
-	private static final String COLORS = "colors";
-	private static final String NAME = "name";
-	private static final String TAGS = "tags";
-	private static final String DESCRIPTION = "description";
+
 	private Gson gson;
 
 	
