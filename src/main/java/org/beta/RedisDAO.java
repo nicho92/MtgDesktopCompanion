@@ -40,6 +40,7 @@ public class RedisDAO extends AbstractKeyValueDao {
 	}
 	
 	
+	
 	@Override
 	public String getVersion() {
 		return POMReader.readVersionFromPom(RedisClient.class, "/META-INF/maven/io.lettuce/lettuce-core/pom.properties");
@@ -201,19 +202,6 @@ public class RedisDAO extends AbstractKeyValueDao {
 
 	
 	@Override
-	public void removeCard(MagicCard mc, MagicCollection collection) throws SQLException {
-			//TODO doesn't work. find index set
-			var k = key(collection,mc.getCurrentSet());
-			var opt = syncCommands.smembers(k).stream().map(str->serialiser.fromJson(str, MagicCard.class)).filter(c->c.equals(mc)).findFirst();
-			
-			if(opt.isPresent())
-			{
-				var ret=	syncCommands.srem(k, serialiser.toJson(opt.get()));
-				logger.info("remove element index at {}",ret);
-			}
-		}
-
-	@Override
 	public void saveOrUpdateCardStock(MagicCardStock mcs) throws SQLException {
 		if(mcs.getId()<0)
 			mcs.setId(incr(MagicCardStock.class).intValue());
@@ -313,6 +301,106 @@ public class RedisDAO extends AbstractKeyValueDao {
 		return serialiser.fromJson(syncCommands.get(KEY_TRANSACTIONS+SEPARATOR+id), Transaction.class);
 	}
 
+
+	@Override
+	public int saveOrUpdateContact(Contact c) throws SQLException {
+		if(c.getId()<0)
+			c.setId(incr(Contact.class).intValue());
+		
+		syncCommands.set(key(c), serialiser.toJson(c));
+		
+		return c.getId();
+	}
+
+	@Override
+	public Contact getContactById(int id) throws SQLException {
+		return serialiser.fromJson(syncCommands.get(KEY_CONTACTS+SEPARATOR+id), Contact.class);
+	}
+
+	@Override
+	public List<Contact> listContacts() throws SQLException {
+		var ret = new ArrayList<Contact>();
+		
+		syncCommands.keys(KEY_CONTACTS+SEPARATOR+"*").forEach(s->{
+			var d=  serialiser.fromJson(syncCommands.get(s), Contact.class);
+			ret.add(d);
+			notify(d);
+		});
+		
+		return ret;
+	}
+
+	
+	@Override
+	public List<MagicCardAlert> listAlerts() {
+		var ret = new ArrayList<MagicCardAlert>();
+		syncCommands.keys(KEY_ALERTS+SEPARATOR+"*").forEach(s->{
+			var d=  serialiser.fromJson(syncCommands.get(s), MagicCardAlert.class);
+			ret.add(d);
+			notify(d);
+		});
+		
+		return ret;
+	}
+
+	@Override
+	public void saveAlert(MagicCardAlert alert) throws SQLException {
+		syncCommands.set(key(alert), serialiser.toJson(alert));
+
+	}
+
+	@Override
+	public void updateAlert(MagicCardAlert alert) throws SQLException {
+		saveAlert(alert);
+
+	}
+
+	@Override
+	public void deleteAlert(MagicCardAlert alert) throws SQLException {
+		syncCommands.del(key(alert));
+	}
+	
+	
+
+	@Override
+	public Announce getAnnounceById(int id) throws SQLException {
+		return serialiser.fromJson(syncCommands.get(KEY_ANNOUNCES+SEPARATOR+id), Announce.class);
+	}
+
+	@Override
+	public int saveOrUpdateAnnounce(Announce a) throws SQLException {
+		if(a.getId()<0)
+			a.setId(incr(Announce.class).intValue());
+		
+		syncCommands.set(key(a), serialiser.toJson(a));
+		
+		return a.getId();
+	}
+
+	@Override
+	public void deleteAnnounce(Announce a) throws SQLException {
+		syncCommands.del(key(a));
+
+	}
+	
+	
+
+	@Override
+	public void removeCard(MagicCard mc, MagicCollection collection) throws SQLException {
+			//TODO doesn't work. find index set
+			var k = key(collection,mc.getCurrentSet());
+			var opt = syncCommands.smembers(k).stream().map(str->serialiser.fromJson(str, MagicCard.class)).filter(c->c.equals(mc)).findFirst();
+			
+			if(opt.isPresent())
+			{
+				var ret=	syncCommands.srem(k, serialiser.toJson(opt.get()));
+				logger.info("remove element index at {}",ret);
+			}
+	}
+
+
+	
+	
 	@Override
 	public List<Transaction> listTransactions(Contact c) throws SQLException {
 		// TODO Auto-generated method stub
@@ -340,24 +428,6 @@ public class RedisDAO extends AbstractKeyValueDao {
 	}
 
 	@Override
-	public int saveOrUpdateContact(Contact c) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public Contact getContactById(int id) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Contact> listContacts() throws SQLException {
-		// TODO Auto-generated method stub
-		return  new ArrayList<>();
-	}
-
-	@Override
 	public Contact getContactByLogin(String email, String password) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
@@ -381,53 +451,14 @@ public class RedisDAO extends AbstractKeyValueDao {
 
 	}
 
-	@Override
-	public List<MagicCardAlert> listAlerts() {
-		// TODO Auto-generated method stub
-		return  new ArrayList<>();
-	}
 
-	@Override
-	public void saveAlert(MagicCardAlert alert) throws SQLException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void updateAlert(MagicCardAlert alert) throws SQLException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void deleteAlert(MagicCardAlert alert) throws SQLException {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public List<Announce> listAnnounces(int max, STATUS stat) throws SQLException {
-		// TODO Auto-generated method stub
+		
 		return  new ArrayList<>();
 	}
 
-	@Override
-	public Announce getAnnounceById(int id) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int saveOrUpdateAnnounce(Announce a) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void deleteAnnounce(Announce alert) throws SQLException {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public List<MagicNews> listNews() {

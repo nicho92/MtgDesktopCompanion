@@ -1,12 +1,15 @@
 package org.magic.api.interfaces.abstracts.extra;
 
 
+import org.magic.api.beans.Announce;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.SealedStock;
+import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 
@@ -24,11 +27,30 @@ public abstract class AbstractKeyValueDao extends AbstractMagicDAO {
 	protected static final String KEY_STOCKS = "stocks";
 	protected static final String KEY_SEALED = "sealeds";
 	protected static final String KEY_TRANSACTIONS ="transactions";
+	protected static final String KEY_CONTACTS ="contacts";
+	protected static final String KEY_ALERTS ="alerts";
+	protected static final String KEY_ANNOUNCES ="announces";
+	
+	
+	public String key(Announce c)
+	{
+		return KEY_ALERTS+SEPARATOR+c.getId();
+	}
+	
+	public String key(MagicCardAlert c)
+	{
+		return KEY_ALERTS+SEPARATOR+c.getId();
+	}
 	
 	
 	public String key(MagicCollection c)
 	{
 		return KEY_CARDS+SEPARATOR+c.getName();
+	}
+	
+	public String key(Contact c)
+	{
+		return KEY_CONTACTS+SEPARATOR+c.getId();
 	}
 	
 	public String key(Transaction c)
