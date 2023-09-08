@@ -396,11 +396,11 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		logger.debug("saving deck {}",state);
 		if (state.getId() == -1) {
 			state.setId(Integer.parseInt(getNextSequence().toString()));
-			db.getCollection(colDecks, BasicDBObject.class).insertOne(BasicDBObject.parse(serialiser.toJsonDeck(state).toString()));
+			db.getCollection(colDecks, BasicDBObject.class).insertOne(BasicDBObject.parse(serialiser.toJson(state)));
 
 		} else {
 			state.setDateUpdate(new Date());
-			UpdateResult res = db.getCollection(colDecks, BasicDBObject.class).replaceOne(Filters.eq("id", state.getId()),BasicDBObject.parse(serialiser.toJsonDeck(state).toString()));
+			UpdateResult res = db.getCollection(colDecks, BasicDBObject.class).replaceOne(Filters.eq("id", state.getId()),BasicDBObject.parse(serialiser.toJson(state)));
 			logger.trace(res);
 		}
 

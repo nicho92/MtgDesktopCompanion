@@ -518,7 +518,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		post("/cards/import/:provider", URLTools.HEADER_JSON,(request, response) -> {
 			var content = request.body();
-			return converter.toJsonDeck(MTG.getPlugin(request.params(PROVIDER).trim(),MTGCardsExport.class).importDeck(content, "webimport"));
+			return converter.toJson(MTG.getPlugin(request.params(PROVIDER).trim(),MTGCardsExport.class).importDeck(content, "webimport"));
 		}, transformer);
 
 		post("/cards/recognize/:threeshold", URLTools.HEADER_JSON, (request, response) -> {
@@ -956,7 +956,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 					var arr = new JsonArray();
 
 					for (MagicDeck d : manager.listDecks()) {
-						var el = converter.toJsonDeck(d);
+						var el = converter.toJsonElement(d).getAsJsonObject();
 							  el.remove("main");
 							  el.remove("sideboard");
 						arr.add(el);
@@ -1022,7 +1022,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/deck/:idDeck", URLTools.HEADER_JSON,(request, response) -> {
 
 				var d = manager.getDeck(Integer.parseInt(request.params(ID_DECK)));
-				var el= converter.toJsonDeck(d);
+				var el= converter.toJsonElement(d);
 				el.getAsJsonObject().addProperty("colors", d.getColors());
 
 				return el;

@@ -36,8 +36,8 @@ public class RedisDAO extends AbstractKeyValueDao {
 	RedisClient redisClient;
 	
 	@Override
-	public Long incr(Object o) {
-		return syncCommands.incr("incr:"+o.getClass().getName());
+	public Long incr(Class<?> c) {
+		return syncCommands.incr("incr:"+c.getSimpleName());
 	}
 	
 	
@@ -87,14 +87,8 @@ public class RedisDAO extends AbstractKeyValueDao {
 	public static void main(String[] args) throws SQLException, IOException {
 		var dao = new RedisDAO();
 		dao.init();
-	
-//		MTGControler.getInstance().init();
-//		
-//		
-//		var mcs = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName("Griffin", null, false);
-//		
-				
-		System.out.println(dao.listEditionsIDFromCollection(new MagicCollection("Library")));
+		
+		System.out.println(dao.listDecks().get(0).getMain());
 		
 		dao.unload();
 		
@@ -152,13 +146,15 @@ public class RedisDAO extends AbstractKeyValueDao {
 	@Override
 	public List<MagicDeck> listDecks() throws SQLException {
 		
-		var l = new ArrayList<MagicDeck>();
+		var ret = new ArrayList<MagicDeck>();
 		
 		syncCommands.keys(KEY_DECK+SEPARATOR+"*").forEach(s->{
-				l.add(serialiser.fromJson(syncCommands.get(s), MagicDeck.class));
+			var d=  serialiser.fromJson(syncCommands.get(s), MagicDeck.class);
+			ret.add(d);
+			notify(d);
 		});
 		
-		return l;
+		return ret;
 	}
 
 	@Override
@@ -168,12 +164,10 @@ public class RedisDAO extends AbstractKeyValueDao {
 
 	@Override
 	public Integer saveOrUpdateDeck(MagicDeck d) throws SQLException {
-		//TODO maps are not serializzed
 		if(d.getId()<0)
-			d.setId(incr(d.getClass()).intValue());
+			d.setId(incr(MagicDeck.class).intValue());
 		
-		syncCommands.set(key(d), serialiser.toJsonElement(d).toString() );
-		
+		syncCommands.set(key(d), serialiser.toJson(d));
 		return d.getId();
 	}
 

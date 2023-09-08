@@ -25,7 +25,7 @@ public abstract class AbstractKeyValueDao extends AbstractMagicDAO {
 	}
 	
 	
-	public abstract Long incr(Object o);
+	public abstract Long incr(Class<?> c);
 	
 	public String key(MagicCollection c , MagicCard m)
 	{

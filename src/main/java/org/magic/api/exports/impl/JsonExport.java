@@ -19,6 +19,7 @@ import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.adapters.ColorAdapter;
+import org.magic.services.adapters.DeckAdapter;
 import org.magic.services.adapters.FileAdapter;
 import org.magic.services.adapters.InstantAdapter;
 import org.magic.services.adapters.MTGStockItemAdapter;
@@ -62,6 +63,7 @@ public class JsonExport extends AbstractCardExport {
 				.registerTypeHierarchyAdapter(NetworkInfo.class, new NetworkInfoAdapter())
 				.registerTypeHierarchyAdapter(File.class, new FileAdapter())
 				.registerTypeHierarchyAdapter(Color.class, new ColorAdapter())
+				.registerTypeHierarchyAdapter(MagicDeck.class, new DeckAdapter())
 				.setDateFormat("yyyy-MM-dd hh:mm");
 	}
 	
@@ -95,16 +97,6 @@ public class JsonExport extends AbstractCardExport {
 	{
 		return toJsonElement(o).getAsJsonArray();
 	}
-
-
-	public <U,V> Map<U,V> fromJsonCollection(String json) {
-		return gson.fromJson(json, new TypeToken<Map<U, V>>()
-		{
-			private static final long serialVersionUID = 1L;
-		}.getType());
-
-	}
-
 
 	public <T> T fromJson(String s,Class<T> classe)
 	{
@@ -143,76 +135,7 @@ public class JsonExport extends AbstractCardExport {
 
 	@Override
 	public MagicDeck importDeck(String f,String name)  {
-		var root = URLTools.toJson(f).getAsJsonObject();
-
-		var deck = new MagicDeck();
-			deck.setName(name);
-
-		if (root.get(ID)!=null)
-			deck.setId(root.get(ID).getAsInt());
-
-		if (!root.get(NAME).isJsonNull())
-			deck.setName(root.get(NAME).getAsString());
-
-		if (!root.get(DESCRIPTION).isJsonNull())
-			deck.setDescription(root.get(DESCRIPTION).getAsString());
-
-		if (!root.get(CREATION_DATE).isJsonNull())
-		{
-			try {
-				deck.setCreationDate(new Date(root.get(CREATION_DATE).getAsLong()));
-			}catch(Exception e)
-			{
-				logger.error(e);
-			}
-		}
-
-		if (!root.get(UPDATE_DATE).isJsonNull())
-		{
-			try {
-				deck.setDateUpdate(new Date(root.get(UPDATE_DATE).getAsLong()));
-			}catch(Exception e)
-			{
-				logger.error(e);
-			}
-
-		}
-
-		if (root.get(COMMANDER)!=null)
-			deck.setCommander(gson.fromJson(root.get(COMMANDER), MagicCard.class));
-
-		if (root.get(AVERAGE_PRICE)!=null)
-			deck.setAveragePrice(root.get(AVERAGE_PRICE).getAsDouble());
-
-
-		if (!root.get(TAGS).isJsonNull()) {
-			var arr = root.get(TAGS).getAsJsonArray();
-			for (var i = 0; i < arr.size(); i++)
-				deck.getTags().add(arr.get(i).getAsString());
-		}
-
-		var main = root.get("main").getAsJsonArray();
-
-		for (var i = 0; i < main.size(); i++) {
-			var line = main.get(i).getAsJsonObject();
-			var qte = line.get("qty").getAsInt();
-			MagicCard mc = gson.fromJson(line.get("card"), MagicCard.class);
-			notify(mc);
-			deck.getMain().put(mc, qte);
-		}
-
-		var side = root.get("side").getAsJsonArray();
-
-		for (var i = 0; i < side.size(); i++) {
-			var line = side.get(i).getAsJsonObject();
-			var qte = line.get("qty").getAsInt();
-			var mc = gson.fromJson(line.get("card"), MagicCard.class);
-			notify(mc);
-			deck.getSideBoard().put(mc, qte);
-
-		}
-
-		return deck;
+		return gson.fromJson(f, MagicDeck.class);
 	}
 
 	@Override
@@ -222,54 +145,9 @@ public class JsonExport extends AbstractCardExport {
 
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
-		FileTools.saveFile(dest, toJsonDeck(deck).toString());
+		FileTools.saveFile(dest, gson.toJson(deck));
 	}
 
-
-	public JsonObject toJsonDeck(MagicDeck deck) {
-		var json = new JsonObject();
-		json.addProperty(ID, deck.getId());
-		json.addProperty(NAME, deck.getName());
-		json.addProperty(DESCRIPTION, deck.getDescription());
-		json.addProperty(COLORS, deck.getColors());
-		json.addProperty(AVERAGE_PRICE, deck.getAveragePrice());
-		json.add(COMMANDER,toJsonElement(deck.getCommander()));
-		json.addProperty(CREATION_DATE, deck.getDateCreation().getTime());
-		json.addProperty(UPDATE_DATE, deck.getDateUpdate().getTime());
-		var tags = new JsonArray();
-		for (String s : deck.getTags())
-			tags.add(s);
-
-		json.add(TAGS, tags);
-
-		var main = new JsonArray();
-
-		for (MagicCard mc : deck.getMain().keySet()) {
-			var card = new JsonObject();
-			card.addProperty("qty", deck.getMain().get(mc));
-			card.add("card", toJsonElement(mc));
-			main.add(card);
-			notify(mc);
-		}
-
-		var side = new JsonArray();
-
-		for (MagicCard mc : deck.getSideBoard().keySet()) {
-			var card = new JsonObject();
-			card.addProperty("qty", deck.getSideBoard().get(mc));
-			card.add("card", toJsonElement(mc));
-			side.add(card);
-			notify(mc);
-		}
-		json.add("main", main);
-		json.add("side", side);
-		return json;
-	}
-
-	@Override
-	public String getName() {
-		return "Json";
-	}
 
 
 	@Override
@@ -315,6 +193,12 @@ public class JsonExport extends AbstractCardExport {
 			arr.add(plug.toJson());
 		}
 		return arr;
+	}
+
+
+	@Override
+	public String getName() {
+		return "Json";
 	}
 
 

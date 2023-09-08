@@ -150,11 +150,11 @@ public class JDeckChooserDialog extends JDialog {
 						decksModel.addItems(chunks);
 					}
 					@Override
-					protected void done() {
-						super.done();
-
+					protected void notifyEnd() {
+						decksModel.init(getResult());
 						table.packAll();
 					}
+					
 				};
 
 		ThreadManager.getInstance().runInEdt(sw2,"loading decks");
