@@ -404,14 +404,14 @@ public class JSONHttpServer extends AbstractMTGServer {
 		},transformer);
 
 		get("/cards/suggestcard/:val", URLTools.HEADER_JSON,
-				(request, response) -> getEnabledPlugin(MTGCardsIndexer.class).search("name:"+request.params(":val").replace(" ", " AND ")+"*").stream().map(MagicCard::toJson).toList(),
+				(request, response) -> getEnabledPlugin(MTGCardsIndexer.class).search("name:"+request.params(":val").replace(" ", " AND ")+"*").stream().map(MagicCard::toLightJson).toList(),
 				transformer);
 
 
 		get("/cards/moreLike/:scryfallId", URLTools.HEADER_JSON,(request, response) -> {
 			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
 			return getEnabledPlugin(MTGCardsIndexer.class).similarity(mc).keySet().stream() .filter(c->!c.getName().equals(mc.getName()))
-																							.map(MagicCard::toJson)
+																							.map(MagicCard::toLightJson)
 																							.toList();
 		},transformer);
 
@@ -424,7 +424,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			for(MagicCard mc : list)
 			{
 				var cols = getEnabledPlugin(MTGDao.class).listCollectionFromCards(mc);
-				var obj = mc.toJson();
+				var obj = mc.toLightJson();
 				obj.add("collections", converter.toJsonElement(cols));
 				arr.add(obj);
 			}

@@ -84,6 +84,9 @@ public abstract class AbstractKeyValueDao extends AbstractMagicDAO {
 	
 	public String key(MagicCollection c , MagicEdition ed)
 	{
+		if(ed==null)
+			return key(c);
+		
 		return  key(c)+SEPARATOR+ed.getId();
 	}
 	
@@ -91,5 +94,8 @@ public abstract class AbstractKeyValueDao extends AbstractMagicDAO {
 	{
 		return  KEY_DECK+SEPARATOR+c.getId();
 	}
+	
+	
+	
 	
 }

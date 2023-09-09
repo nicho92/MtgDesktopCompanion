@@ -35,6 +35,12 @@ public class RedisDAO extends AbstractKeyValueDao {
 	StatefulRedisConnection<String, String> connection;
 	RedisClient redisClient;
 	
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEV;
+	}
+	
 	@Override
 	public Long incr(Class<?> c) {
 		return syncCommands.incr("incr:"+c.getSimpleName());
@@ -51,6 +57,10 @@ public class RedisDAO extends AbstractKeyValueDao {
 		redisClient = RedisClient.create(getDBLocation());
 		connection = redisClient.connect();
 		syncCommands = connection.sync();
+		
+		
+		saveCollection(new MagicCollection("Library"));
+		
 	}
 	
 	@Override
@@ -68,9 +78,6 @@ public class RedisDAO extends AbstractKeyValueDao {
 
 	@Override
 	public Map<String, Long> getDBSize() {
-		
-		
-		
 		return new HashMap<>();
 	}
 	
@@ -153,6 +160,7 @@ public class RedisDAO extends AbstractKeyValueDao {
 		syncCommands.del(key(d));
 	}
 
+	
 	@Override
 	public Integer saveOrUpdateDeck(MagicDeck d) throws SQLException {
 		if(d.getId()<0)

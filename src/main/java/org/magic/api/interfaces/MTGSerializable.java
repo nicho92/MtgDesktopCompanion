@@ -7,15 +7,8 @@ import com.google.gson.JsonElement;
 
 
 public interface MTGSerializable extends Serializable{
-	Gson gson = new Gson();
-
 	
 	public String getStoreId();
-
-	default JsonElement toJson()
-	{
-		return gson.toJsonTree(this);
-	}
 
 
 	default String getClasseName() {

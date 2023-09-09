@@ -870,8 +870,8 @@ public class MagicCard extends AbstractProduct {
 		this.dateUpdated = dateUpdated;
 	}
 
-	@Override
-	public JsonObject toJson() {
+	
+	public JsonObject toLightJson() {
 		var obj = new JsonObject();
 				obj.addProperty("id", getId());
 				obj.addProperty("name", getName());
@@ -895,7 +895,7 @@ public class MagicCard extends AbstractProduct {
 				obj.addProperty("timeshifted", isTimeshifted());
 
 				if(getRotatedCard()!=null)
-					obj.add("otherSide", getRotatedCard().toJson());
+					obj.add("otherSide", getRotatedCard().toLightJson());
 
 		return obj;
 
