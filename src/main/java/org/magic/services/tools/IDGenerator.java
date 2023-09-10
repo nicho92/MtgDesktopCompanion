@@ -12,17 +12,6 @@ public class IDGenerator {
 	private IDGenerator() {
 	}
 
-	public static String generateMD5(String s)
-	{
-		return DigestUtils.md5Hex(s).toUpperCase();
-	}
-
-	public static String generateSha256(String s)
-	{
-		return DigestUtils.sha256Hex(s).toUpperCase();
-	}
-
-
 	public static String generate(MagicCard mc) {
 		
 		try {

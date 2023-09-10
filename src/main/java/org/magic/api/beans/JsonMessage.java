@@ -7,7 +7,7 @@ import java.util.Date;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.magic.api.interfaces.abstracts.extra.AbstractAuditableItem;
 import org.magic.game.model.Player;
-import org.magic.services.tools.IDGenerator;
+import org.magic.services.tools.CryptoUtils;
 
 public class JsonMessage extends AbstractAuditableItem{
 
@@ -36,7 +36,7 @@ public class JsonMessage extends AbstractAuditableItem{
 	
 	public JsonMessage(Player author, String message, Color color, MSG_TYPE typeMessage) {
 		
-		this.id = IDGenerator.generateMD5(author.getName()+new Date()+message+typeMessage);
+		this.id = CryptoUtils.generateMD5(author.getName()+new Date()+message+typeMessage);
 		this.author = author;
 		this.message = message;
 		this.color = color;

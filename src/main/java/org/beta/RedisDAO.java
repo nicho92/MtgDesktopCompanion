@@ -29,10 +29,10 @@ import org.magic.services.TechnicalServiceManager;
 import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.IDGenerator;
 import org.magic.services.tools.POMReader;
+
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.sync.RedisCommands;
-import io.lettuce.core.event.command.CommandBaseEvent;
 import io.lettuce.core.event.command.CommandFailedEvent;
 import io.lettuce.core.event.command.CommandListener;
 import io.lettuce.core.event.command.CommandStartedEvent;
@@ -469,7 +469,7 @@ public class RedisDAO extends AbstractKeyValueDao {
 
 	@Override
 	public void changePassword(Contact c, String newPassword) throws SQLException {
-		c.setPassword(IDGenerator.generateSha256(newPassword));
+		c.setPassword(CryptoUtils.generateSha256(newPassword));
 		saveOrUpdateContact(c);
 	}
 
@@ -516,7 +516,7 @@ public class RedisDAO extends AbstractKeyValueDao {
 
 	@Override
 	public Contact getContactByLogin(String email, String password) throws SQLException {
-		var opt = listContacts().stream().filter(c->c.getEmail().equals(email) && c.getPassword().equals(IDGenerator.generateSha256(password))).findFirst();
+		var opt = listContacts().stream().filter(c->c.getEmail().equals(email) && c.getPassword().equals(CryptoUtils.generateSha256(password))).findFirst();
 		
 		if(opt.isPresent())
 			return opt.get();

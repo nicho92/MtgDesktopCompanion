@@ -802,7 +802,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from contacts where contact_email=? and contact_password=? and contact_active=?"))
 		{
 				pst.setString(1, email);
-				pst.setString(2, IDGenerator.generateSha256(password));
+				pst.setString(2, CryptoUtils.generateSha256(password));
 				pst.setBoolean(3, true);
 				ResultSet rs = executeQuery(pst);
 				var res = rs.next();
@@ -1043,7 +1043,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public void changePassword(Contact ct, String newPassword) throws SQLException {
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE contacts SET contact_password = ? WHERE contacts.contact_id = ?;")) {
 			logger.debug("Changing password for {}",ct);
-			pst.setString(1, IDGenerator.generateSha256(newPassword));
+			pst.setString(1, CryptoUtils.generateSha256(newPassword));
 			pst.setInt(2, ct.getId());
 			executeUpdate(pst);
 		}
@@ -1077,7 +1077,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				{
 					pst.setString(1, ct.getName());
 					pst.setString(2, ct.getLastName());
-					pst.setString(3, IDGenerator.generateSha256(ct.getPassword()));
+					pst.setString(3, CryptoUtils.generateSha256(ct.getPassword()));
 					pst.setString(4, ct.getTelephone());
 					pst.setString(5, ct.getCountry());
 					pst.setString(6, ct.getAddress());

@@ -952,7 +952,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	@Override
 	public void changePassword(Contact c, String newPassword) throws SQLException {
 		var passBson = new BasicDBObject();
-		passBson.put(PASSWORD, IDGenerator.generateSha256(newPassword));
+		passBson.put(PASSWORD, CryptoUtils.generateSha256(newPassword));
 
 		var updateBson = new BasicDBObject();
 		updateBson.put("$set", passBson);
@@ -967,7 +967,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	public int saveOrUpdateContact(Contact c) throws SQLException {
 		if (c.getId() == -1)
 		{
-			c.setPassword(IDGenerator.generateSha256(c.getPassword()));
+			c.setPassword(CryptoUtils.generateSha256(c.getPassword()));
 			if(db.getCollection(colContacts, BasicDBObject.class).find(Filters.eq(EMAIL,c.getEmail())).first()!=null)
 				throw new SQLException("Please choose another email");
 
@@ -1025,7 +1025,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	@Override
 	public Contact getContactByLogin(String email, String password) throws SQLException {
 		return deserialize(db.getCollection(colContacts,BasicDBObject.class)
-							 .find(Filters.and(Filters.and(Filters.eq(EMAIL, email),Filters.eq(PASSWORD, IDGenerator.generateSha256(password))),Filters.eq("active",true)))
+							 .find(Filters.and(Filters.and(Filters.eq(EMAIL, email),Filters.eq(PASSWORD, CryptoUtils.generateSha256(password))),Filters.eq("active",true)))
 							 .first()
 							 ,Contact.class);
 	}

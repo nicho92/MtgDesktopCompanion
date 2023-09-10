@@ -4,7 +4,7 @@ import java.util.Date;
 
 import org.apache.logging.log4j.Logger;
 import org.magic.services.logging.MTGLogger;
-import org.magic.services.tools.IDGenerator;
+import org.magic.services.tools.CryptoUtils;
 
 import io.milton.http.Auth;
 import io.milton.http.Request;
@@ -60,7 +60,7 @@ public class AbstractMTGDavResource implements DigestResource  {
 
 	@Override
 	public String getUniqueId() {
-		return IDGenerator.generateMD5(mtgpath.toString());
+		return CryptoUtils.generateMD5(mtgpath.toString());
 	}
 
 	@Override
