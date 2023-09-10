@@ -26,6 +26,7 @@ import org.magic.api.beans.technical.audit.DAOInfo;
 import org.magic.api.interfaces.MTGSerializable;
 import org.magic.api.interfaces.abstracts.extra.AbstractKeyValueDao;
 import org.magic.services.TechnicalServiceManager;
+import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.IDGenerator;
 import org.magic.services.tools.POMReader;
 import io.lettuce.core.RedisClient;
@@ -193,7 +194,7 @@ public class RedisDAO extends AbstractKeyValueDao {
 		
 		return ret;
 	}
-
+	
 	@Override
 	public void deleteDeck(MagicDeck d) throws SQLException {
 		syncCommands.del(key(d));
@@ -497,7 +498,7 @@ public class RedisDAO extends AbstractKeyValueDao {
 		
 			for(var collection : listCollections())
 			{
-				if(listCardsFromCollection(collection).stream().anyMatch(card->card.getId().equals(mc.getId())))
+				if(listCardsFromCollection(collection).stream().anyMatch(card->IDGenerator.generate(card).equals(IDGenerator.generate(mc))))
 					c.add(collection);
 			}
 			return c;
@@ -506,14 +507,22 @@ public class RedisDAO extends AbstractKeyValueDao {
 
 	@Override
 	public List<MagicCardStock> listStocks(MagicCard mc, MagicCollection col, boolean editionStrict) throws SQLException {
-		// TODO Auto-generated method stub
-		return  new ArrayList<>();
+
+		if(editionStrict)
+			return listStocks().stream().filter(mcs->mcs.getMagicCollection().getName().equals(col.getName())).filter(mcs->mcs.getProduct().getId().equals(mc.getId())).toList();
+		else
+			return listStocks().stream().filter(mcs->mcs.getMagicCollection().getName().equals(col.getName())).filter(mcs->mcs.getProduct().getName().equals(mc.getName())).toList();
 	}
 
 	@Override
 	public Contact getContactByLogin(String email, String password) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		var opt = listContacts().stream().filter(c->c.getEmail().equals(email) && c.getPassword().equals(IDGenerator.generateSha256(password))).findFirst();
+		
+		if(opt.isPresent())
+			return opt.get();
+		
+		throw new SQLException("No result Found");
+		
 	}
 
 	@Override
@@ -532,7 +541,7 @@ public class RedisDAO extends AbstractKeyValueDao {
 
 	@Override
 	public List<Announce> listAnnounces(int max, STATUS stat) throws SQLException {
-		return  new ArrayList<>();
+		return new ArrayList<>();
 	}
 
 
