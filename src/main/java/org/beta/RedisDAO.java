@@ -1,6 +1,7 @@
 package org.beta;
 
 import java.sql.SQLException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,13 +22,20 @@ import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.ConverterItem;
 import org.magic.api.beans.technical.GedEntry;
+import org.magic.api.beans.technical.audit.DAOInfo;
 import org.magic.api.interfaces.MTGSerializable;
 import org.magic.api.interfaces.abstracts.extra.AbstractKeyValueDao;
+import org.magic.services.TechnicalServiceManager;
 import org.magic.services.tools.IDGenerator;
 import org.magic.services.tools.POMReader;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.sync.RedisCommands;
+import io.lettuce.core.event.command.CommandBaseEvent;
+import io.lettuce.core.event.command.CommandFailedEvent;
+import io.lettuce.core.event.command.CommandListener;
+import io.lettuce.core.event.command.CommandStartedEvent;
+import io.lettuce.core.event.command.CommandSucceededEvent;
 
 public class RedisDAO extends AbstractKeyValueDao {
 
@@ -55,8 +63,42 @@ public class RedisDAO extends AbstractKeyValueDao {
 	@Override
 	public void init() throws SQLException {
 		redisClient = RedisClient.create(getDBLocation());
+		
+		var listener = new CommandListener() {
+			
+			DAOInfo obj;
+			
+			
+			@Override
+			public void commandStarted(CommandStartedEvent event) {
+				obj = new DAOInfo();
+				obj.setQuery(event.getCommand().toString());
+			}
+			
+			@Override
+			public void commandFailed(CommandFailedEvent event) {
+				obj.setMessage(event.getCause().getMessage());
+				save(event);
+			}
+			
+			@Override
+			public void commandSucceeded(CommandSucceededEvent event) {
+				save(event);
+			}
+
+			private void save(CommandBaseEvent event) {
+				obj.setEnd(Instant.now());
+				
+				TechnicalServiceManager.inst().store(obj);
+				
+			}
+		};
+		
+		redisClient.addListener(listener);
 		connection = redisClient.connect();
 		syncCommands = connection.sync();
+		
+		
 		
 		
 		saveCollection(new MagicCollection("Library"));
@@ -435,17 +477,11 @@ public class RedisDAO extends AbstractKeyValueDao {
 
 	
 
+	//TODO found how to remove element from sets
 	@Override
 	public void removeCard(MagicCard mc, MagicCollection collection) throws SQLException {
-			//TODO doesn't work. find index set
 			var k = key(collection,mc.getCurrentSet());
-			var opt = syncCommands.smembers(k).stream().map(str->serialiser.fromJson(str, MagicCard.class)).filter(c->c.equals(mc)).findFirst();
-			
-			if(opt.isPresent())
-			{
-				var ret=	syncCommands.srem(k, serialiser.toJson(opt.get()));
-				logger.info("remove element index at {}",ret);
-			}
+			syncCommands.srem(k, serialiser.toJson(mc));
 	}
 
 
@@ -453,16 +489,22 @@ public class RedisDAO extends AbstractKeyValueDao {
 	
 	@Override
 	public List<Transaction> listTransactions(Contact c) throws SQLException {
-		// TODO Auto-generated method stub
-		return  new ArrayList<>();
+		 return listTransactions().stream().filter(t->t.getContact().getId()==c.getId()).collect(Collectors.toList());
 	}
 
 
 	
 	@Override
 	public List<MagicCollection> listCollectionFromCards(MagicCard mc) throws SQLException {
-		// TODO Auto-generated method stub
-		return new ArrayList<>();
+		var c = new ArrayList<MagicCollection>();
+		
+			for(var collection : listCollections())
+			{
+				if(listCardsFromCollection(collection).stream().anyMatch(card->card.getId().equals(mc.getId())))
+					c.add(collection);
+			}
+			return c;
+			
 	}
 
 	@Override
