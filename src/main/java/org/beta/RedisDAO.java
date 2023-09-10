@@ -72,25 +72,22 @@ public class RedisDAO extends AbstractKeyValueDao {
 			@Override
 			public void commandStarted(CommandStartedEvent event) {
 				obj = new DAOInfo();
-				obj.setQuery(event.getCommand().toString());
+				obj.setDaoName(getName());
+				obj.setConnectionName(getDBLocation());
+				obj.setQuery(event.getCommand().getType() + " " + event.getCommand().getArgs().toCommandString());
 			}
 			
 			@Override
 			public void commandFailed(CommandFailedEvent event) {
+				obj.setEnd(Instant.now());
 				obj.setMessage(event.getCause().getMessage());
-				save(event);
+				TechnicalServiceManager.inst().store(obj);
 			}
 			
 			@Override
 			public void commandSucceeded(CommandSucceededEvent event) {
-				save(event);
-			}
-
-			private void save(CommandBaseEvent event) {
 				obj.setEnd(Instant.now());
-				
 				TechnicalServiceManager.inst().store(obj);
-				
 			}
 		};
 		
