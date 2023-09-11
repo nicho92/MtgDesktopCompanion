@@ -97,10 +97,7 @@ public class RedisDAO extends AbstractKeyValueDao {
 		connection = redisClient.connect();
 		syncCommands = connection.sync();
 		
-		
-		
-		
-		saveCollection(new MagicCollection("Library"));
+		initDefaultData();
 		
 	}
 	
@@ -356,6 +353,7 @@ public class RedisDAO extends AbstractKeyValueDao {
 	public int saveOrUpdateContact(Contact c) throws SQLException {
 		if(c.getId()<0)
 			c.setId(incr(Contact.class).intValue());
+		
 		
 		syncCommands.set(key(c), serialiser.toJson(c));
 		

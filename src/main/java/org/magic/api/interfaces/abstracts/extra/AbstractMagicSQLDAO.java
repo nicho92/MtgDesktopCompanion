@@ -57,12 +57,12 @@ import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.api.pool.impl.NoPool;
 import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
-import org.magic.services.SQLTools;
 import org.magic.services.TechnicalServiceManager;
 import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.IDGenerator;
 import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.MTG;
+import org.magic.services.tools.SQLTools;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -232,11 +232,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 			postCreation(stat);
 
-			logger.debug("populate default datas");
-			stat.executeUpdate(hlper.insertDefaultCollections());	
-			stat.executeUpdate(hlper.insertMainContact());
-
-
+		
 
 			createIndex(stat);
 
@@ -472,7 +468,9 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	
 	protected void postCreation(Statement stat) throws SQLException
 	{
-		//do nothing
+		logger.debug("populate default datas");
+		stat.executeUpdate(hlper.insertDefaultCollections());	
+		stat.executeUpdate(hlper.insertMainContact());
 	}
 
 

@@ -20,6 +20,7 @@ import org.apache.commons.lang3.SystemUtils;
 import org.jdesktop.swingx.util.PaintUtils;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.shop.Contact;
 import org.magic.services.providers.IconSetProvider;
 
 import freemarker.template.Configuration;
@@ -46,6 +47,22 @@ public class MTGConstants {
 		return DEFAULT_COLLECTIONS_NAMES;
 	}
 
+	public static final Contact DEFAULT_CONTACT;
+
+	static {
+		DEFAULT_CONTACT = new Contact();
+		DEFAULT_CONTACT.setId(1);
+		DEFAULT_CONTACT.setName("MTG");
+		DEFAULT_CONTACT.setLastName("Companion");
+		DEFAULT_CONTACT.setTelephone("123456789");
+		DEFAULT_CONTACT.setAddress("Somewhere");
+		DEFAULT_CONTACT.setCity("In the middle of nowhere");
+		DEFAULT_CONTACT.setWebsite("https://www.mtgcompanion.org");
+		DEFAULT_CONTACT.setEmail("mtgdesktopcompanion@gmail.com");
+		DEFAULT_CONTACT.setActive(true);
+		DEFAULT_CONTACT.setEmailAccept(true);
+	}
+	
 	
 //CONFIG FILES CONSTANTS
 	public static final String MTG_DESKTOP_VERSION_FILE = "/version";

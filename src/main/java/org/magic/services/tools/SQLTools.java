@@ -1,4 +1,4 @@
-package org.magic.services;
+package org.magic.services.tools;
 
 import org.apache.logging.log4j.Logger;
 import org.jooq.DSLContext;
@@ -9,6 +9,8 @@ import org.jooq.conf.Settings;
 import org.jooq.conf.StatementType;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
+import org.magic.services.MTGConstants;
+import org.magic.services.TransactionService;
 import org.magic.services.logging.MTGLogger;
 
 

@@ -1,6 +1,8 @@
 package org.magic.api.interfaces.abstracts.extra;
 
 
+import java.sql.SQLException;
+
 import org.magic.api.beans.Announce;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
@@ -15,6 +17,7 @@ import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.GedEntry;
 import org.magic.api.interfaces.MTGSerializable;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
+import org.magic.services.MTGConstants;
 
 public abstract class AbstractKeyValueDao extends AbstractMagicDAO {
 
@@ -36,7 +39,28 @@ public abstract class AbstractKeyValueDao extends AbstractMagicDAO {
 	protected static final String KEY_NEWS ="news";
 	protected static final String KEY_GED ="ged";
 	
+	
+	@Override
+	public void init() throws SQLException {
+		initDefaultData();
+		
+	}
+	
 
+	protected void initDefaultData() throws SQLException
+	{
+		
+		if(listCollections().isEmpty()) {
+			for(String s : MTGConstants.getDefaultCollectionsNames())	
+				saveCollection(s);
+		}
+		
+		if(getContactById(1)==null)
+			saveOrUpdateContact(MTGConstants.DEFAULT_CONTACT);
+			
+	}
+	
+	
 	protected <T extends MTGSerializable> String key(GedEntry<T> gedItem) {
 		return KEY_GED+SEPARATOR+gedItem.getClasse().getSimpleName()+SEPARATOR+gedItem.getId();
 	}
