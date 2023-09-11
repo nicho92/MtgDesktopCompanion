@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.derby.impl.store.raw.data.SyncOnCommit;
 import org.magic.api.beans.Announce;
 import org.magic.api.beans.Announce.STATUS;
 import org.magic.api.beans.MagicCard;
@@ -527,14 +528,27 @@ public class RedisDAO extends AbstractKeyValueDao {
 
 	@Override
 	public Contact getContactByEmail(String email) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		 var opt = listContacts().stream().filter(c->c.getEmail().equals(email)).findFirst();
+		 
+		 if(opt.isPresent())
+			 return opt.get();
+		 
+		 return null;
 	}
 
 	@Override
 	public boolean enableContact(String token) throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
+		var opt = listContacts().stream().filter(c->c.getTemporaryToken().equals(token)).findFirst();
+		 
+		 if(opt.isPresent())
+		 {
+			 var c = opt.get();
+			 c.setTemporaryToken(null);
+			 c.setActive(true);
+			 saveOrUpdateContact(c);
+			 return true;
+		 }
+		 return false;
 	}
 
 
@@ -577,9 +591,11 @@ public class RedisDAO extends AbstractKeyValueDao {
 
 	@Override
 	public <T extends MTGSerializable> boolean storeEntry(GedEntry<T> gedItem) throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
+		var ret = syncCommands.set(key(gedItem), gedItem.toJson().toString());
+		return ret.equalsIgnoreCase("ok");
+		
 	}
+
 
 	@Override
 	public <T extends MTGSerializable> GedEntry<T> readEntry(String classe, String idInstance, String fileName)

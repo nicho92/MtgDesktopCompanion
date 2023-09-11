@@ -12,6 +12,8 @@ import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
+import org.magic.api.beans.technical.GedEntry;
+import org.magic.api.interfaces.MTGSerializable;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 
 public abstract class AbstractKeyValueDao extends AbstractMagicDAO {
@@ -32,57 +34,62 @@ public abstract class AbstractKeyValueDao extends AbstractMagicDAO {
 	protected static final String KEY_ALERTS ="alerts";
 	protected static final String KEY_ANNOUNCES ="announces";
 	protected static final String KEY_NEWS ="news";
+	protected static final String KEY_GED ="ged";
 	
+
+	protected <T extends MTGSerializable> String key(GedEntry<T> gedItem) {
+		return KEY_GED+SEPARATOR+gedItem.getClasse().getSimpleName()+SEPARATOR+gedItem.getId();
+	}
 	
-	public String key(Announce c)
+	protected String key(Announce c)
 	{
 		return KEY_ALERTS+SEPARATOR+c.getId();
 	}
 	
-	public String key(MagicNews c)
+	protected String key(MagicNews c)
 	{
 		return KEY_NEWS+SEPARATOR+c.getId();
 	}
 	
-	public String key(MagicCardAlert c)
+	protected String key(MagicCardAlert c)
 	{
 		return KEY_ALERTS+SEPARATOR+c.getId();
 	}
 	
 	
-	public String key(MagicCollection c)
+	protected String key(MagicCollection c)
 	{
 		return KEY_CARDS+SEPARATOR+c.getName();
 	}
 	
-	public String key(Contact c)
+	protected String key(Contact c)
 	{
 		return KEY_CONTACTS+SEPARATOR+c.getId();
 	}
 	
-	public String key(Transaction c)
+	protected String key(Transaction c)
 	{
 		return KEY_TRANSACTIONS+SEPARATOR+c.getId();
 	}
 	
-	public String key(MagicCardStock c)
+	protected String key(MagicCardStock c)
 	{
 		return KEY_STOCKS+SEPARATOR+c.getId();
 	}
 	
-	public String key(SealedStock c)
+	protected String key(SealedStock c)
 	{
 		return KEY_SEALED+SEPARATOR+c.getId();
 	}
 	
 	public abstract Long incr(Class<?> c);
 	
-	public String key(MagicCollection c , MagicCard m)
+	protected String key(MagicCollection c , MagicCard m)
 	{
 		return key(c,m.getCurrentSet());
 	}
 	
-	public String key(MagicCollection c , MagicEdition ed)
+	protected String key(MagicCollection c , MagicEdition ed)
 	{
 		if(ed==null)
 			return key(c);
@@ -90,7 +97,7 @@ public abstract class AbstractKeyValueDao extends AbstractMagicDAO {
 		return  key(c)+SEPARATOR+ed.getId();
 	}
 	
-	public String key(MagicDeck c)
+	protected String key(MagicDeck c)
 	{
 		return  KEY_DECK+SEPARATOR+c.getId();
 	}

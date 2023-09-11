@@ -105,7 +105,7 @@ public class GedEntry <T extends MTGSerializable> implements Serializable {
     	obj.addProperty("classe", classe.getCanonicalName());
 	    obj.addProperty("ext",getExt());
 	    obj.addProperty("data",CryptoUtils.toBase64(getContent()));
-
+	    obj.addProperty("md5", CryptoUtils.getMD5(getContent()));
 	    return obj;
 	}
 
