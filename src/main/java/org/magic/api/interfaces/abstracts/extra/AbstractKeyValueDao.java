@@ -62,7 +62,7 @@ public abstract class AbstractKeyValueDao extends AbstractMagicDAO {
 	
 	
 	protected <T extends MTGSerializable> String key(GedEntry<T> gedItem) {
-		return KEY_GED+SEPARATOR+gedItem.getClasse().getSimpleName()+SEPARATOR+gedItem.getId();
+		return KEY_GED+SEPARATOR+gedItem.getClasse().getName()+SEPARATOR+gedItem.getId();
 	}
 	
 	protected String key(Announce c)
