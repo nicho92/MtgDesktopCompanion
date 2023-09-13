@@ -109,11 +109,11 @@ public class ActiveMQServer extends AbstractMTGServer {
 				plug = new ActiveMQServerPlugin() {
 					
 					JsonExport serializer = new JsonExport();
-					Set<String> onlines = new HashSet<>();
+					Set<Player> onlines = new HashSet<>();
 					Set<Queue> queues = new HashSet<>();
 					
 					
-					public Set<String> getOnlines() {
+					public Set<Player> getOnlines() {
 						return onlines;
 					}
 					
@@ -125,13 +125,12 @@ public class ActiveMQServer extends AbstractMTGServer {
 					@Override
 					public void afterCreateSession(ServerSession session) throws ActiveMQException {
 						logger.info("new connection from user : {} with id {}", session.getUsername(), session.getRemotingConnection().getClientID());
-						onlines.add(session.getRemotingConnection().getClientID());
 					}
 					
 					@Override
 					public void afterCloseSession(ServerSession session, boolean failed) throws ActiveMQException {
 						logger.info("disconnection from user : {}", BeanTools.describe(session));
-						onlines.remove(session.getRemotingConnection().getClientID());
+						onlines.removeIf(p->session.getRemotingConnection().getClientID().equals(p.getId().toString()));
 					}
 					
 					
@@ -157,8 +156,12 @@ public class ActiveMQServer extends AbstractMTGServer {
 						var s = new String(removeNullByte(bytes));
 						s = s.substring(s.indexOf("{"));
 						var jmsg = serializer.fromJson(s, JsonMessage.class);
+						
+						
+						onlines.add(jmsg.getAuthor());
+						
 						TechnicalServiceManager.inst().store(jmsg);
-						logger.info("message send from user {} : {}", session.getUsername(),jmsg.getMessage());		
+						logger.info("user {} : {}", session.getUsername(),jmsg.getMessage());		
 						
 					}
 					
