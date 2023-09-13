@@ -7,13 +7,13 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 
-import org.magic.api.beans.JsonMessage;
+import org.magic.api.beans.messages.TalkMessage;
 import org.magic.gui.components.renderer.JsonMessagePanel;
 
-public class JsonMessageRenderer implements ListCellRenderer<JsonMessage> {
+public class JsonMessageRenderer implements ListCellRenderer<TalkMessage> {
 
 	@Override
-	public Component getListCellRendererComponent(JList<? extends JsonMessage> list, JsonMessage value, int index,boolean isSelected, boolean cellHasFocus) {
+	public Component getListCellRendererComponent(JList<? extends TalkMessage> list, TalkMessage value, int index,boolean isSelected, boolean cellHasFocus) {
 		var panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		panel.add(new JPanel(),BorderLayout.NORTH);

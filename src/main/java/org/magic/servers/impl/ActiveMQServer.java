@@ -26,7 +26,7 @@ import org.apache.activemq.artemis.core.server.plugin.ActiveMQServerPlugin;
 import org.apache.activemq.artemis.core.transaction.Transaction;
 import org.apache.activemq.artemis.spi.core.security.ActiveMQSecurityManager;
 import org.apache.commons.lang3.ArrayUtils;
-import org.magic.api.beans.JsonMessage;
+import org.magic.api.beans.messages.TalkMessage;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
@@ -155,7 +155,7 @@ public class ActiveMQServer extends AbstractMTGServer {
 						databuff.readBytes(bytes);
 						var s = new String(removeNullByte(bytes));
 						s = s.substring(s.indexOf("{"));
-						var jmsg = serializer.fromJson(s, JsonMessage.class);
+						var jmsg = serializer.fromJson(s, TalkMessage.class);
 						
 						
 						onlines.add(jmsg.getAuthor());

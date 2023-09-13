@@ -4,8 +4,11 @@ import java.awt.Color;
 import java.io.IOException;
 import java.time.Instant;
 
-import org.magic.api.beans.JsonMessage;
+import org.magic.api.beans.abstracts.AbstractMessage;
 import org.magic.api.beans.abstracts.AbstractMessage.MSG_TYPE;
+import org.magic.api.beans.messages.ConnectionMessage;
+import org.magic.api.beans.messages.StatutMessage;
+import org.magic.api.beans.messages.TalkMessage;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.game.model.Player;
@@ -39,12 +42,12 @@ public abstract class AbstractNetworkProvider extends AbstractMTGPlugin implemen
 	
 
 	@Override
-	public JsonMessage consume() throws IOException {
-		return serializer.fromJson(read(),JsonMessage.class);
+	public TalkMessage consume() throws IOException {
+		return serializer.fromJson(read(),TalkMessage.class);
 	}
 
 
-	protected String toJson(JsonMessage obj) {
+	protected String toJson(AbstractMessage obj) {
 		return serializer.toJson(obj);
 	}
 	
@@ -59,7 +62,7 @@ public abstract class AbstractNetworkProvider extends AbstractMTGPlugin implemen
 		
 		switchAddress(adress);
 		
-		sendMessage(new JsonMessage(player,"connected",Color.black,MSG_TYPE.CONNECT));
+		sendMessage(new ConnectionMessage(player,true));
 		
 		logger.info("Connected to server {} with id={}",url,player.getId());
 	}
@@ -67,14 +70,14 @@ public abstract class AbstractNetworkProvider extends AbstractMTGPlugin implemen
 	@Override
 	public void changeStatus(STATUS selectedItem) throws IOException {
 		player.setState(selectedItem);
-		sendMessage(new JsonMessage(player,selectedItem.name(),Color.black,MSG_TYPE.CHANGESTATUS));
+		sendMessage(new StatutMessage(player,selectedItem));
 	}
 
 	
 	@Override
 	public void sendMessage(String text, Color c,MSG_TYPE type) throws IOException {
 	
-		sendMessage(new JsonMessage(player,text,c,type));
+		sendMessage(new TalkMessage(player,text,c));
 		
 	}
 

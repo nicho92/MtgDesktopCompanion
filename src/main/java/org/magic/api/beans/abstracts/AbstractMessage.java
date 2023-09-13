@@ -1,23 +1,35 @@
 package org.magic.api.beans.abstracts;
 
 import java.time.Instant;
+import java.util.Date;
+import java.util.UUID;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.magic.game.model.Player;
+import org.magic.services.tools.CryptoUtils;
 
 public abstract class AbstractMessage extends AbstractAuditableItem {
 
 	public enum MSG_TYPE { CONNECT, CHANGESTATUS, DISCONNECT, TALK, SYSTEM, SEARCH, ANSWER}
 
-	
+	private Player author;
 	private static final long serialVersionUID = 1L;
 	private String id;
 	private MSG_TYPE typeMessage;
 	
 	protected AbstractMessage() {
+		setTypeMessage(MSG_TYPE.TALK);
+		setId(CryptoUtils.generateMD5(UUID.randomUUID().toString()+new Date()+typeMessage));
 		setStart(Instant.now());
 		setEnd(Instant.now());
 	}
 	
+	public Player getAuthor() {
+		return author;
+	}
+	public void setAuthor(Player author) {
+		this.author = author;
+	}
 	
 	public void setId(String id) {
 		this.id = id;

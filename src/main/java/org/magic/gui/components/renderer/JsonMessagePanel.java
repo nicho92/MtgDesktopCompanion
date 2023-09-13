@@ -13,7 +13,7 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
-import org.magic.api.beans.JsonMessage;
+import org.magic.api.beans.messages.TalkMessage;
 import org.magic.services.MTGControler;
 import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.UITools;
@@ -30,7 +30,7 @@ public class JsonMessagePanel extends JPanel {
 
 	
 	
-	public JsonMessagePanel(JsonMessage value) {
+	public JsonMessagePanel(TalkMessage value) {
 		setBorder(new LineBorder(value.getColor(),2,true));
 		
 		int iconSize=25;

@@ -3,8 +3,9 @@ package org.magic.api.interfaces;
 import java.awt.Color;
 import java.io.IOException;
 
-import org.magic.api.beans.JsonMessage;
+import org.magic.api.beans.abstracts.AbstractMessage;
 import org.magic.api.beans.abstracts.AbstractMessage.MSG_TYPE;
+import org.magic.api.beans.messages.TalkMessage;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATUS;
 
@@ -12,7 +13,7 @@ public interface MTGNetworkClient extends MTGPlugin{
 
 
 	
-	JsonMessage consume() throws IOException;
+	TalkMessage consume() throws IOException;
 
 	void switchAddress(String topicName) throws IOException;
 
@@ -20,7 +21,7 @@ public interface MTGNetworkClient extends MTGPlugin{
 
 	void sendMessage(String text, Color c,MSG_TYPE type) throws IOException;
 
-	void sendMessage(JsonMessage obj) throws IOException;
+	void sendMessage(AbstractMessage obj) throws IOException;
 	
 	void logout() throws IOException;
 
@@ -28,7 +29,7 @@ public interface MTGNetworkClient extends MTGPlugin{
 	
 	boolean isActive();
 
-	void searchStock(JsonMessage s) throws IOException;
+	void searchStock(TalkMessage s) throws IOException;
 
 	public Player getPlayer();
 

@@ -26,8 +26,10 @@ import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import javax.swing.border.TitledBorder;
 
-import org.magic.api.beans.JsonMessage;
+import org.magic.api.beans.abstracts.AbstractMessage;
 import org.magic.api.beans.abstracts.AbstractMessage.MSG_TYPE;
+import org.magic.api.beans.messages.StatutMessage;
+import org.magic.api.beans.messages.TalkMessage;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGNetworkClient;
@@ -50,14 +52,14 @@ public class NetworkChatPanel extends MTGUIComponent {
 	private static final long serialVersionUID = 1L;
 	private JTextField txtServer;
 	private JList<Player> listPlayers;
-	private JList<JsonMessage> listMsg;
+	private JList<TalkMessage> listMsg;
 	private JButton btnConnect;
 	private JButton btnLogout;
 	private JTextArea editorPane;
 	private JComboBox<STATUS> cboStates;
 	private JButton btnColorChoose;
 	private JButton btnSearch;
-	private DefaultListModel<JsonMessage> listMsgModel;
+	private DefaultListModel<TalkMessage> listMsgModel;
 	private DefaultListModel<Player> listPlayerModel;
 	private transient MTGNetworkClient client;
 
@@ -158,7 +160,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 			
 			
 
-			var sw = new SwingWorker<Void, JsonMessage>(){
+			var sw = new SwingWorker<Void, AbstractMessage>(){
 
 				@Override
 				protected Void doInBackground() throws Exception {
@@ -184,7 +186,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 
 
 				@Override
-				protected void process(List<JsonMessage> chunks) {
+				protected void process(List<AbstractMessage> chunks) {
 					
 					txtServer.setEnabled(false);
 					btnConnect.setEnabled(false);
@@ -196,7 +198,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 					{
 						switch(s.getTypeMessage())
 						{
-						case CHANGESTATUS:Collections.list(listPlayerModel.elements()).stream().filter(p->p.getId().equals(s.getAuthor().getId())).forEach(p->p.setState(STATUS.valueOf(s.getMessage())));listPlayers.updateUI();break;
+						case CHANGESTATUS:Collections.list(listPlayerModel.elements()).stream().filter(p->p.getId().equals(s.getAuthor().getId())).forEach(p->p.setState(((StatutMessage)s).getStatut()));listPlayers.updateUI();break;
 						
 						case CONNECT:listPlayerModel.addElement(s.getAuthor());
 											   listPlayers.updateUI();
@@ -204,13 +206,10 @@ public class NetworkChatPanel extends MTGUIComponent {
 												   MTGControler.getInstance().notify(new MTGNotification("New connection", s.getAuthor() + " is online", MESSAGE_TYPE.INFO)); 
 											   break;
 						case DISCONNECT:listPlayerModel.removeElement(s.getAuthor());listPlayers.updateUI();break;
-						case SEARCH: try {
-								MTG.getEnabledPlugin(MTGNetworkClient.class).searchStock(s);
-							} catch (IOException e) {
-								logger.error(e);
-							}break;
-						default:listMsgModel.addElement(s);break;
+
+						case TALK:listMsgModel.addElement((TalkMessage)s);break;
 						
+						default:break;
 						}
 					}
 					

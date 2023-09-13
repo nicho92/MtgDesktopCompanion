@@ -14,8 +14,10 @@ import org.apache.activemq.artemis.api.core.client.ClientProducer;
 import org.apache.activemq.artemis.api.core.client.ClientSession;
 import org.apache.activemq.artemis.api.core.client.ClientSessionFactory;
 import org.apache.activemq.artemis.api.core.client.ServerLocator;
-import org.magic.api.beans.JsonMessage;
+import org.magic.api.beans.abstracts.AbstractMessage;
 import org.magic.api.beans.abstracts.AbstractMessage.MSG_TYPE;
+import org.magic.api.beans.messages.ConnectionMessage;
+import org.magic.api.beans.messages.TalkMessage;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.AbstractNetworkProvider;
 import org.magic.services.tools.MTG;
@@ -96,7 +98,7 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 
 
 	@Override
-	public void sendMessage(JsonMessage obj) throws IOException {
+	public void sendMessage(AbstractMessage obj) throws IOException {
 		var message = session.createMessage(obj.getTypeMessage()==MSG_TYPE.TALK);
 		     message.getBodyBuffer().writeString(toJson(obj));
 		
@@ -130,7 +132,7 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 	@Override
 	public void logout() throws IOException {
 		try {
-			sendMessage(new JsonMessage(player,"disconnect",Color.black,MSG_TYPE.DISCONNECT));
+			sendMessage(new ConnectionMessage(player,false));
 			session.close();
 		} catch (ActiveMQException e) {
 			throw new IOException(e);
@@ -175,15 +177,13 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 
 
 	@Override
-	public void searchStock(JsonMessage s) throws IOException {
+	public void searchStock(TalkMessage s) throws IOException {
 		try {
 			logger.info("Getting a search stock query {}",s);
 			var ret = MTG.getEnabledPlugin(MTGDao.class).listStocks(s.getMessage(), MTG.getEnabledPlugin(MTGDao.class).listCollections());
 			
 			if(!ret.isEmpty()) {
-				var msg = new JsonMessage(getPlayer(), FALSE, Color.GREEN, MSG_TYPE.ANSWER);
-				msg.setMessage("I got "+ s.getMessage()  + " in stock :"+ ret.stream().map(st->st.getMagicCollection().getName()).distinct().collect(Collectors.joining(";")));
-				sendMessage(msg);
+				logger.info(ret);
 			}
 		} catch (SQLException e) {
 			logger.error(e);
