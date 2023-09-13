@@ -1,0 +1,6 @@
+package org.magic.api.beans.abstracts;
+
+import org.magic.api.interfaces.abstracts.extra.AbstractAuditableItem;
+
+public class AbstractMessage extends AbstractAuditableItem{
+}
