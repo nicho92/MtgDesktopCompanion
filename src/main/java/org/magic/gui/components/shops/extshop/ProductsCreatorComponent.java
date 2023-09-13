@@ -20,10 +20,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 
+import org.magic.api.beans.abstracts.AbstractStockItem;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGProduct;
-import org.magic.api.interfaces.abstracts.extra.AbstractStockItem;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.renderer.ProductListRenderer;

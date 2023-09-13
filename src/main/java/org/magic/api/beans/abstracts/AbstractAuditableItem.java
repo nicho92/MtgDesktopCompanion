@@ -1,4 +1,4 @@
-package org.magic.api.interfaces.abstracts.extra;
+package org.magic.api.beans.abstracts;
 
 import java.io.Serializable;
 import java.time.Instant;

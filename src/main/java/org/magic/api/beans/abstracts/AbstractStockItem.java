@@ -1,4 +1,4 @@
-package org.magic.api.interfaces.abstracts.extra;
+package org.magic.api.beans.abstracts;
 
 import java.util.HashMap;
 import java.util.Map;

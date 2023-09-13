@@ -27,7 +27,7 @@ import javax.swing.SwingWorker;
 import javax.swing.border.TitledBorder;
 
 import org.magic.api.beans.JsonMessage;
-import org.magic.api.beans.JsonMessage.MSG_TYPE;
+import org.magic.api.beans.abstracts.AbstractMessage.MSG_TYPE;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGNetworkClient;

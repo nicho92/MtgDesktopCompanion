@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.magic.api.beans.abstracts.AbstractProduct;
 import org.magic.api.beans.enums.EnumBorders;
 import org.magic.api.beans.enums.EnumCardVariation;
 import org.magic.api.beans.enums.EnumColors;
@@ -17,7 +18,6 @@ import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.enums.EnumPromoType;
 import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.beans.enums.EnumSecurityStamp;
-import org.magic.api.interfaces.abstracts.extra.AbstractProduct;
 import org.magic.services.tools.IDGenerator;
 
 import com.google.gson.JsonObject;

@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.time.Instant;
 
 import org.magic.api.beans.JsonMessage;
-import org.magic.api.beans.JsonMessage.MSG_TYPE;
+import org.magic.api.beans.abstracts.AbstractMessage.MSG_TYPE;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.game.model.Player;

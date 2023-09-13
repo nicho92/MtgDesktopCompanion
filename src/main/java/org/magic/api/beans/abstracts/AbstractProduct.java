@@ -1,4 +1,4 @@
-package org.magic.api.interfaces.abstracts.extra;
+package org.magic.api.beans.abstracts;
 
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumItems;

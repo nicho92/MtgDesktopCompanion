@@ -15,7 +15,7 @@ import org.apache.activemq.artemis.api.core.client.ClientSession;
 import org.apache.activemq.artemis.api.core.client.ClientSessionFactory;
 import org.apache.activemq.artemis.api.core.client.ServerLocator;
 import org.magic.api.beans.JsonMessage;
-import org.magic.api.beans.JsonMessage.MSG_TYPE;
+import org.magic.api.beans.abstracts.AbstractMessage.MSG_TYPE;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.AbstractNetworkProvider;
 import org.magic.services.tools.MTG;

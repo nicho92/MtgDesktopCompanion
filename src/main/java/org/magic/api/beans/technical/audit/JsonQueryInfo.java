@@ -3,7 +3,7 @@ package org.magic.api.beans.technical.audit;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.magic.api.interfaces.abstracts.extra.AbstractAuditableItem;
+import org.magic.api.beans.abstracts.AbstractAuditableItem;
 
 import nl.basjes.parse.useragent.UserAgent;
 

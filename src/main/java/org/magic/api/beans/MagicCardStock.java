@@ -2,8 +2,8 @@ package org.magic.api.beans;
 
 import java.util.HashMap;
 
+import org.magic.api.beans.abstracts.AbstractStockItem;
 import org.magic.api.beans.enums.EnumItems;
-import org.magic.api.interfaces.abstracts.extra.AbstractStockItem;
 
 public class MagicCardStock extends AbstractStockItem<MagicCard> {
 

@@ -11,6 +11,8 @@ import org.api.cardtrader.services.CardTraderConstants;
 import org.api.cardtrader.services.CardTraderService;
 import org.api.cardtrader.tools.URLCallInfo;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.abstracts.AbstractProduct;
+import org.magic.api.beans.abstracts.AbstractStockItem;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.EnumTransactionStatus;
@@ -22,8 +24,6 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
-import org.magic.api.interfaces.abstracts.extra.AbstractProduct;
-import org.magic.api.interfaces.abstracts.extra.AbstractStockItem;
 import org.magic.services.TechnicalServiceManager;
 import org.magic.services.tools.MTG;
 

@@ -1,8 +1,8 @@
 package org.magic.api.beans;
 
+import org.magic.api.beans.abstracts.AbstractProduct;
 import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.beans.enums.EnumItems;
-import org.magic.api.interfaces.abstracts.extra.AbstractProduct;
 
 public class MTGSealedProduct extends AbstractProduct {
 

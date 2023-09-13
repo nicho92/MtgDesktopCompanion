@@ -34,6 +34,7 @@ import org.magic.services.tools.POMReader;
 
 import com.google.gson.JsonObject;
 
+import io.lettuce.core.AbstractRedisAsyncCommands;
 import io.lettuce.core.ClientOptions;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.api.StatefulRedisConnection;
@@ -583,45 +584,61 @@ public class RedisDAO extends AbstractKeyValueDao {
 	}
 
 	@Override
-	public <T extends MTGSerializable> List<GedEntry<T>> listEntries(String classename, String fileName) throws SQLException {
-		List<GedEntry<T>> ret = new ArrayList<>();
+	public <T extends MTGSerializable> List<GedEntry<T>> listEntries(String classename, String id) throws SQLException {
+		var arr = new ArrayList<GedEntry<T>>();
 		
-		return  ret;
+		redisCommand.smembers(KEY_GED+SEPARATOR+classename+SEPARATOR+id).forEach(s->{
+			try {
+				arr.add(readEntry(classename,id,null));
+			} catch (SQLException e) {
+				logger.error(e);
+			}
+		});
+		return arr;
 	}
 
 	@Override
 	public <T extends MTGSerializable> boolean deleteEntry(GedEntry<T> gedItem) throws SQLException {
-		return redisCommand.del(key(gedItem))>0;
+		return false;
 	}
 
 	@Override
 	public <T extends MTGSerializable> boolean storeEntry(GedEntry<T> gedItem) throws SQLException {
-		var ret = redisCommand.set(key(gedItem), gedItem.toJson().toString());
-		return ret.equalsIgnoreCase("ok");
+		var ret = redisCommand.sadd(key(gedItem), gedItem.toJson().toString());
+		
+		return ret>0;
 		
 	}
 
 
 	@Override
 	public <T extends MTGSerializable> GedEntry<T> readEntry(String classe, String idInstance, String fileName) throws SQLException {
+		
 		var ged = new GedEntry<T>();
-		var jo = serialiser.fromJson(redisCommand.get(KEY_GED+SEPARATOR+classe+SEPARATOR+idInstance),JsonObject.class);
-		ged.setId(idInstance);
-		ged.setName(fileName);
-		ged.setContent(CryptoUtils.fromBase64(jo.get("data").getAsString()));
 		
-		if(jo.get("md5")!=null && !CryptoUtils.getMD5(ged.getContent()).equals(jo.get("md5").getAsString()))
-			throw new SQLException("MD5 Error for " + fileName +" : " + CryptoUtils.getMD5(ged.getContent()) + " " + jo.get("md5").getAsString());
+		var sets = redisCommand.smembers(KEY_GED+SEPARATOR+classe+SEPARATOR+idInstance);
+		
+		for(var s : sets ) {
+			var jo = serialiser.fromJson(s,JsonObject.class);
+			ged.setId(idInstance);
+			ged.setName(jo.get("name").getAsString());
+			ged.setContent(CryptoUtils.fromBase64(jo.get("data").getAsString()));
+			
+			if(jo.get("md5")!=null && !CryptoUtils.getMD5(ged.getContent()).equals(jo.get("md5").getAsString()))
+				throw new SQLException("MD5 Error for " + fileName +" : " + CryptoUtils.getMD5(ged.getContent()) + " " + jo.get("md5").getAsString());
 
-		
-		ged.setIsImage(ImageTools.isImage(ged.getContent()));
-		
-		try {
-			ged.setClasse(PluginRegistry.inst().loadClass(classe));
-		} catch (ClassNotFoundException e) {
-			logger.error(e);
+			
+			ged.setIsImage(ImageTools.isImage(ged.getContent()));
+			
+			try {
+				ged.setClasse(PluginRegistry.inst().loadClass(classe));
+			} catch (ClassNotFoundException e) {
+				logger.error(e);
+			}
+	
 		}
-
+		
+		
 		
 		return ged;
 	}

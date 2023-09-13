@@ -1,7 +1,7 @@
 package org.magic.api.beans;
 
+import org.magic.api.beans.abstracts.AbstractStockItem;
 import org.magic.api.beans.enums.EnumCondition;
-import org.magic.api.interfaces.abstracts.extra.AbstractStockItem;
 
 public class SealedStock extends AbstractStockItem<MTGSealedProduct>  {
 

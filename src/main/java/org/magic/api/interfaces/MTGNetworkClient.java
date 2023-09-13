@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.io.IOException;
 
 import org.magic.api.beans.JsonMessage;
-import org.magic.api.beans.JsonMessage.MSG_TYPE;
+import org.magic.api.beans.abstracts.AbstractMessage.MSG_TYPE;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATUS;
 

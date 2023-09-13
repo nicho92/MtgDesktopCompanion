@@ -2,7 +2,7 @@ package org.magic.api.beans.technical.audit;
 
 import java.io.File;
 
-import org.magic.api.interfaces.abstracts.extra.AbstractAuditableItem;
+import org.magic.api.beans.abstracts.AbstractAuditableItem;
 
 public class FileAccessInfo extends AbstractAuditableItem{
 	private static final long serialVersionUID = 1L;

@@ -8,6 +8,8 @@ import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.magic.api.beans.abstracts.AbstractProduct;
+import org.magic.api.beans.abstracts.AbstractStockItem;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.EnumPaymentProvider;
@@ -19,8 +21,6 @@ import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
-import org.magic.api.interfaces.abstracts.extra.AbstractProduct;
-import org.magic.api.interfaces.abstracts.extra.AbstractStockItem;
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.UITools;
 import org.magic.services.tools.WooCommerceTools;

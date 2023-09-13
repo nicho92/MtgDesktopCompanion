@@ -3,7 +3,6 @@ package org.magic.api.beans.abstracts;
 import java.time.Instant;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.magic.api.interfaces.abstracts.extra.AbstractAuditableItem;
 
 public abstract class AbstractMessage extends AbstractAuditableItem {
 
@@ -14,7 +13,7 @@ public abstract class AbstractMessage extends AbstractAuditableItem {
 	private String id;
 	private MSG_TYPE typeMessage;
 	
-	public AbstractMessage() {
+	protected AbstractMessage() {
 		setStart(Instant.now());
 		setEnd(Instant.now());
 	}
