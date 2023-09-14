@@ -6,7 +6,6 @@ import java.time.Instant;
 
 import org.magic.api.beans.abstracts.AbstractMessage;
 import org.magic.api.beans.abstracts.AbstractMessage.MSG_TYPE;
-import org.magic.api.beans.messages.ConnectionMessage;
 import org.magic.api.beans.messages.StatutMessage;
 import org.magic.api.beans.messages.TalkMessage;
 import org.magic.api.exports.impl.JsonExport;
@@ -62,7 +61,7 @@ public abstract class AbstractNetworkProvider extends AbstractMTGPlugin implemen
 		
 		switchAddress(adress);
 		
-		sendMessage(new ConnectionMessage(player,true));
+		sendMessage(new StatutMessage(player,Player.STATUS.CONNECTED));
 		
 		logger.info("Connected to server {} with id={}",url,player.getId());
 	}
