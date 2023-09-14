@@ -1,8 +1,6 @@
 package org.magic.api.network.impl;
-import java.awt.Color;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.stream.Collectors;
 
 import org.apache.activemq.artemis.api.core.ActiveMQException;
 import org.apache.activemq.artemis.api.core.QueueConfiguration;
@@ -16,10 +14,11 @@ import org.apache.activemq.artemis.api.core.client.ClientSessionFactory;
 import org.apache.activemq.artemis.api.core.client.ServerLocator;
 import org.magic.api.beans.abstracts.AbstractMessage;
 import org.magic.api.beans.abstracts.AbstractMessage.MSG_TYPE;
-import org.magic.api.beans.messages.ConnectionMessage;
+import org.magic.api.beans.messages.StatutMessage;
 import org.magic.api.beans.messages.TalkMessage;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.AbstractNetworkProvider;
+import org.magic.game.model.Player;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.POMReader;
 
@@ -132,7 +131,7 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 	@Override
 	public void logout() throws IOException {
 		try {
-			sendMessage(new ConnectionMessage(player,false));
+			sendMessage(new StatutMessage(player,Player.STATUS.CONNECTED));
 			session.close();
 		} catch (ActiveMQException e) {
 			throw new IOException(e);
