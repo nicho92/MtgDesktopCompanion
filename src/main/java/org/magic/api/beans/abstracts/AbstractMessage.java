@@ -17,7 +17,8 @@ public abstract class AbstractMessage extends AbstractAuditableItem {
 	private String id;
 	private MSG_TYPE typeMessage;
 	
-	protected AbstractMessage() {
+	protected AbstractMessage(Player p) {
+		setAuthor(p);
 		setTypeMessage(MSG_TYPE.TALK);
 		setId(CryptoUtils.generateMD5(UUID.randomUUID().toString()+new Date()+typeMessage));
 		setStart(Instant.now());
