@@ -1,15 +1,23 @@
 package org.magic.api.beans.messages;
 
 import org.magic.api.beans.abstracts.AbstractMessage;
+import org.magic.api.interfaces.MTGProduct;
 import org.magic.game.model.Player;
 
 public class SearchMessage extends AbstractMessage {
 
 	private static final long serialVersionUID = 1L;
 
-	protected SearchMessage(Player p) {
+	private MTGProduct item;
+	
+	protected SearchMessage(Player p, MTGProduct item) {
 		super(p);
-		// TODO Auto-generated constructor stub
+		this.item=item;
 	}
 
+	public MTGProduct getItem() {
+		return item;
+	}
+	
+	
 }
