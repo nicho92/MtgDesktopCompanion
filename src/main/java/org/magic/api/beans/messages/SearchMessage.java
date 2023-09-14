@@ -18,6 +18,5 @@ public class SearchMessage extends AbstractMessage {
 	public MTGProduct getItem() {
 		return item;
 	}
-	
-	
+
 }

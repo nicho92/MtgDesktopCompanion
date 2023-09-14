@@ -55,6 +55,4 @@ public abstract class AbstractMessage extends AbstractAuditableItem {
 		return ToStringBuilder.reflectionToString(this);
 	}
 
-
-
 }

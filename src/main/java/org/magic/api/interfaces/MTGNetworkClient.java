@@ -6,7 +6,6 @@ import java.io.IOException;
 import org.magic.api.beans.abstracts.AbstractMessage;
 import org.magic.api.beans.abstracts.AbstractMessage.MSG_TYPE;
 import org.magic.api.beans.messages.SearchMessage;
-import org.magic.api.beans.messages.TalkMessage;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATUS;
 
@@ -14,7 +13,7 @@ public interface MTGNetworkClient extends MTGPlugin{
 
 
 	
-	TalkMessage consume() throws IOException;
+	AbstractMessage consume() throws IOException;
 
 	void switchAddress(String topicName) throws IOException;
 

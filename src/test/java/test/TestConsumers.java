@@ -29,7 +29,7 @@ public class TestConsumers {
 		new Thread(()->{
 				try {
 					while(client.isActive())
-						System.out.println(client.getPlayer() +" receive"+  client.consume().getMessage());
+						System.out.println(client.getPlayer() +" receive"+  client.consume());
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

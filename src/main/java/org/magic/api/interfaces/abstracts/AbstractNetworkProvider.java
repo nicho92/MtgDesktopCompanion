@@ -6,12 +6,14 @@ import java.time.Instant;
 
 import org.magic.api.beans.abstracts.AbstractMessage;
 import org.magic.api.beans.abstracts.AbstractMessage.MSG_TYPE;
+import org.magic.api.beans.messages.SearchMessage;
 import org.magic.api.beans.messages.StatutMessage;
 import org.magic.api.beans.messages.TalkMessage;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATUS;
+import org.magic.services.network.URLTools;
 
 public abstract class AbstractNetworkProvider extends AbstractMTGPlugin implements MTGNetworkClient {
 
@@ -41,8 +43,30 @@ public abstract class AbstractNetworkProvider extends AbstractMTGPlugin implemen
 	
 
 	@Override
-	public TalkMessage consume() throws IOException {
-		return serializer.fromJson(read(),TalkMessage.class);
+	public AbstractMessage consume() throws IOException {
+		
+		var txt = read();
+		
+		if(txt==null)
+			return null;
+		
+		var json = URLTools.toJson(txt);
+		var type = AbstractMessage.MSG_TYPE.valueOf(json.getAsJsonObject().get("typeMessage").getAsString());
+		
+		switch(type)
+		{
+			case TALK : return serializer.fromJson(txt, TalkMessage.class);
+			case CONNECT: return serializer.fromJson(txt, StatutMessage.class);
+			case DISCONNECT: return serializer.fromJson(txt, StatutMessage.class);
+			case CHANGESTATUS :return serializer.fromJson(txt, StatutMessage.class);
+			case SEARCH :return serializer.fromJson(txt, SearchMessage.class);
+			default : return serializer.fromJson(txt, TalkMessage.class);
+		}
+		
+		
+		
+		
+		
 	}
 
 

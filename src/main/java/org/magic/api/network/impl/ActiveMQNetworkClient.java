@@ -12,8 +12,11 @@ import org.apache.activemq.artemis.api.core.client.ClientProducer;
 import org.apache.activemq.artemis.api.core.client.ClientSession;
 import org.apache.activemq.artemis.api.core.client.ClientSessionFactory;
 import org.apache.activemq.artemis.api.core.client.ServerLocator;
+import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.abstracts.AbstractMessage;
 import org.magic.api.beans.abstracts.AbstractMessage.MSG_TYPE;
+import org.magic.api.beans.enums.EnumItems;
+import org.magic.api.beans.messages.SearchMessage;
 import org.magic.api.beans.messages.StatutMessage;
 import org.magic.api.beans.messages.TalkMessage;
 import org.magic.api.interfaces.MTGDao;
@@ -131,7 +134,7 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 	@Override
 	public void logout() throws IOException {
 		try {
-			sendMessage(new StatutMessage(player,Player.STATUS.CONNECTED));
+			sendMessage(new StatutMessage(player,Player.STATUS.DISCONNECTED));
 			session.close();
 		} catch (ActiveMQException e) {
 			throw new IOException(e);
@@ -176,13 +179,13 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 
 
 	@Override
-	public void searchStock(TalkMessage s) throws IOException {
+	public void searchStock(SearchMessage s) throws IOException {
 		try {
 			logger.info("Getting a search stock query {}",s);
-			var ret = MTG.getEnabledPlugin(MTGDao.class).listStocks(s.getMessage(), MTG.getEnabledPlugin(MTGDao.class).listCollections());
 			
-			if(!ret.isEmpty()) {
-				logger.info(ret);
+			if(s.getItem().getTypeProduct()==EnumItems.CARD)
+			{
+				var ret = MTG.getEnabledPlugin(MTGDao.class).listStocks((MagicCard)s.getItem());
 			}
 		} catch (SQLException e) {
 			logger.error(e);

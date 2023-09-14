@@ -12,6 +12,7 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -194,24 +195,28 @@ public class NetworkChatPanel extends MTGUIComponent {
 					editorPane.setEditable(true);
 					
 					
+					
 					for(var s : chunks)
 					{
 						switch(s.getTypeMessage())
 						{
-						case CHANGESTATUS:Collections.list(listPlayerModel.elements()).stream().filter(p->p.getId().equals(s.getAuthor().getId())).forEach(p->p.setState(((StatutMessage)s).getStatut()));listPlayers.updateUI();break;
+							case CHANGESTATUS: 
+									var msg = (StatutMessage)s;
+									switch(msg.getStatut())
+									{
+										case CONNECTED : listPlayerModel.addElement(s.getAuthor());break;
+										case DISCONNECTED:listPlayerModel.removeElement(s.getAuthor());break;
+										default: Collections.list(listPlayerModel.elements()).stream().filter(p->p.getId().equals(s.getAuthor().getId())).forEach(p->p.setState(msg.getStatut()));break;
+									}
+									break;
+							
+							case TALK:listMsgModel.addElement((TalkMessage)s);break;
 						
-						case CONNECT:listPlayerModel.addElement(s.getAuthor());
-											   listPlayers.updateUI();
-											   if(!client.getPlayer().getId().equals(s.getAuthor().getId()) && client.getPlayer().getState()!=STATUS.BUSY)
-												   MTGControler.getInstance().notify(new MTGNotification("New connection", s.getAuthor() + " is online", MESSAGE_TYPE.INFO)); 
-											   break;
-						case DISCONNECT:listPlayerModel.removeElement(s.getAuthor());listPlayers.updateUI();break;
-
-						case TALK:listMsgModel.addElement((TalkMessage)s);break;
-						
-						default:break;
+							default:break;
 						}
 					}
+					listPlayers.updateUI();
+
 					
 					listMsg.ensureIndexIsVisible( listMsg.getModel().getSize() - 1 );
 					
