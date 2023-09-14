@@ -17,7 +17,7 @@ public class TalkMessage extends AbstractMessage{
 	}
 	
 	public TalkMessage(Player author, String message, Color color) {
-		super();
+		super(author);
 		setAuthor(author);
 		this.message = message;
 		this.color = color;
