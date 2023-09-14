@@ -10,6 +10,7 @@ public class StatutMessage extends AbstractMessage {
 	private STATUS statut;
 
 	public StatutMessage(Player p, STATUS statut) {
+		super(p);
 		setTypeMessage(MSG_TYPE.CHANGESTATUS);
 		setAuthor(p);
 		this.statut=statut;
