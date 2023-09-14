@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import org.magic.api.beans.abstracts.AbstractMessage;
 import org.magic.api.beans.abstracts.AbstractMessage.MSG_TYPE;
+import org.magic.api.beans.messages.SearchMessage;
 import org.magic.api.beans.messages.TalkMessage;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATUS;
@@ -29,7 +30,7 @@ public interface MTGNetworkClient extends MTGPlugin{
 	
 	boolean isActive();
 
-	void searchStock(TalkMessage s) throws IOException;
+	void searchStock(SearchMessage s) throws IOException;
 
 	public Player getPlayer();
 
