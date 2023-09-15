@@ -35,7 +35,7 @@ public class PlayerRenderer implements TableCellRenderer, ListCellRenderer<Playe
 		{
 			case AWAY: color= Color.ORANGE;	break;
 			case BUSY: color = Color.RED;break;
-			case CONNECTED: color=new Color(76,181,108);break;
+			case ONLINE: color=new Color(76,181,108);break;
 			default: color=Color.BLACK;	break;
 			
 		}
