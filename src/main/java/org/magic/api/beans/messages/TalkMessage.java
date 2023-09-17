@@ -16,12 +16,12 @@ public class TalkMessage extends AbstractMessage{
 		return getAuthor().getName() + " : " + message;
 	}
 	
-	public TalkMessage(Player author, String message, Color color) {
-		super(author);
+	public TalkMessage(String message, Color color) {
 		this.message = message;
 		this.color = color;
 		
 	}
+	
 	
 	
 

@@ -1,7 +1,6 @@
 package org.magic.api.beans.messages;
 
 import org.magic.api.beans.abstracts.AbstractMessage;
-import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATUS;
 
 public class StatutMessage extends AbstractMessage {
@@ -9,8 +8,7 @@ public class StatutMessage extends AbstractMessage {
 	private static final long serialVersionUID = 1L;
 	private STATUS statut;
 
-	public StatutMessage(Player p, STATUS statut) {
-		super(p);
+	public StatutMessage(STATUS statut) {
 		setTypeMessage(MSG_TYPE.CHANGESTATUS);
 		this.statut=statut;
 	}

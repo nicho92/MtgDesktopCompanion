@@ -18,7 +18,6 @@ import org.magic.api.beans.abstracts.AbstractMessage.MSG_TYPE;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.messages.SearchMessage;
 import org.magic.api.beans.messages.StatutMessage;
-import org.magic.api.beans.messages.TalkMessage;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.AbstractNetworkProvider;
 import org.magic.game.model.Player;
@@ -51,7 +50,7 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 		}
 		
 		try {
-			session = factory.createSession(player.getName(),"password",false,true,true,true, 0, "MTG-"+player.getId());
+			session = factory.createSession(player.getName(),"password",false,true,true,true, 0, String.valueOf(player.getId()));
 			
 		} catch (ActiveMQException e) {
 			throw new IOException(e); 
@@ -101,6 +100,7 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 
 	@Override
 	public void sendMessage(AbstractMessage obj) throws IOException {
+		obj.setAuthor(player);
 		var message = session.createMessage(obj.getTypeMessage()==MSG_TYPE.TALK);
 		     message.getBodyBuffer().writeString(toJson(obj));
 		
@@ -113,6 +113,15 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 	}
 	
 
+	@Override
+	public void disableConsummer() {
+		try {
+			consumer.close();
+		} catch (ActiveMQException e) {
+			logger.error(e);
+		}
+	}
+	
 
 	@Override
 	protected String read() throws IOException {
@@ -134,7 +143,7 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 	@Override
 	public void logout() throws IOException {
 		try {
-			sendMessage(new StatutMessage(player,Player.STATUS.DISCONNECTED));
+			sendMessage(new StatutMessage(Player.STATUS.DISCONNECTED));
 			session.close();
 		} catch (ActiveMQException e) {
 			throw new IOException(e);

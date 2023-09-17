@@ -12,7 +12,6 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -29,10 +28,11 @@ import javax.swing.border.TitledBorder;
 
 import org.magic.api.beans.abstracts.AbstractMessage;
 import org.magic.api.beans.abstracts.AbstractMessage.MSG_TYPE;
+import org.magic.api.beans.messages.SearchMessage;
 import org.magic.api.beans.messages.StatutMessage;
 import org.magic.api.beans.messages.TalkMessage;
-import org.magic.api.beans.MTGNotification;
-import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
+import org.magic.api.beans.messages.TechMessageUsers;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATUS;
@@ -176,6 +176,21 @@ public class NetworkChatPanel extends MTGUIComponent {
 				
 				@Override
 				protected void done() {
+					
+					try {
+						get();
+					}
+					catch(InterruptedException e)
+					{
+						Thread.currentThread().interrupt();
+						logger.error(e);
+					}
+					catch(Exception e)
+					{
+						logger.error(e);
+					}
+					
+					
 					txtServer.setEnabled(true);
 					btnConnect.setEnabled(true);
 					btnLogout.setEnabled(false);
@@ -212,6 +227,9 @@ public class NetworkChatPanel extends MTGUIComponent {
 							
 							case TALK:listMsgModel.addElement((TalkMessage)s);break;
 						
+							case SYSTEM : logger.info( ((TechMessageUsers)s).getPlayers());break;
+							
+							
 							default:break;
 						}
 					}
@@ -265,7 +283,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					e.consume();
 					try {
-						client.sendMessage(editorPane.getText().trim(), editorPane.getForeground(),MSG_TYPE.TALK);
+						client.sendMessage(editorPane.getText().trim(), editorPane.getForeground());
 					} catch (IOException e1) {
 						logger.error(e1);
 					}
@@ -278,7 +296,9 @@ public class NetworkChatPanel extends MTGUIComponent {
 		
 		btnSearch.addActionListener(al->{
 			try {
-				client.sendMessage(editorPane.getText().trim(), editorPane.getForeground(),MSG_TYPE.SEARCH);
+				var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(editorPane.getText().trim(), null, false).get(0);
+				var msg = new SearchMessage(mc);
+				client.sendMessage(msg);
 			} catch (IOException e1) {
 				logger.error(e1);
 			}

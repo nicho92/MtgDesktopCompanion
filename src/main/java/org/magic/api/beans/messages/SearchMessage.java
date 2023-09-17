@@ -10,8 +10,7 @@ public class SearchMessage extends AbstractMessage {
 
 	private MTGProduct item;
 	
-	protected SearchMessage(Player p, MTGProduct item) {
-		super(p);
+	public SearchMessage(MTGProduct item) {
 		this.item=item;
 	}
 

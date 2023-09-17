@@ -7,7 +7,7 @@ import org.magic.game.model.Player;
 
 public class TestConsumers {
 
-	private static final String TCP_ADDRESS = "tcp://localhost:61616";
+	private static final String TCP_ADDRESS = "tcp://localhost:6161";
 	private static final String WELCOME = "welcome";
 
 	public static void main(String[] args) throws IOException {

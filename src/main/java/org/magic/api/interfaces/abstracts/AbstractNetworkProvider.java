@@ -9,6 +9,7 @@ import org.magic.api.beans.abstracts.AbstractMessage.MSG_TYPE;
 import org.magic.api.beans.messages.SearchMessage;
 import org.magic.api.beans.messages.StatutMessage;
 import org.magic.api.beans.messages.TalkMessage;
+import org.magic.api.beans.messages.TechMessageUsers;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.game.model.Player;
@@ -60,6 +61,7 @@ public abstract class AbstractNetworkProvider extends AbstractMTGPlugin implemen
 			case DISCONNECT: return serializer.fromJson(txt, StatutMessage.class);
 			case CHANGESTATUS :return serializer.fromJson(txt, StatutMessage.class);
 			case SEARCH :return serializer.fromJson(txt, SearchMessage.class);
+			case SYSTEM:return serializer.fromJson(txt, TechMessageUsers.class);
 			default : return serializer.fromJson(txt, TalkMessage.class);
 		}
 		
@@ -79,13 +81,13 @@ public abstract class AbstractNetworkProvider extends AbstractMTGPlugin implemen
 	public void join(Player p, String url,String adress) throws IOException {
 		this.player = p;
 		player.setOnlineConnectionTimeStamp(Instant.now().toEpochMilli());
-		player.setState(STATUS.CONNECTED);
+		player.setState(STATUS.ONLINE);
 		
 		createConnection(url,adress);
 		
 		switchAddress(adress);
 		
-		sendMessage(new StatutMessage(player,Player.STATUS.CONNECTED));
+		sendMessage(new StatutMessage(Player.STATUS.CONNECTED));
 		
 		logger.info("Connected to server {} with id={}",url,player.getId());
 	}
@@ -93,14 +95,13 @@ public abstract class AbstractNetworkProvider extends AbstractMTGPlugin implemen
 	@Override
 	public void changeStatus(STATUS selectedItem) throws IOException {
 		player.setState(selectedItem);
-		sendMessage(new StatutMessage(player,selectedItem));
+		sendMessage(new StatutMessage(selectedItem));
 	}
 
 	
 	@Override
-	public void sendMessage(String text, Color c,MSG_TYPE type) throws IOException {
-	
-		sendMessage(new TalkMessage(player,text,c));
+	public void sendMessage(String text, Color c) throws IOException {
+		sendMessage(new TalkMessage(text,c));
 		
 	}
 

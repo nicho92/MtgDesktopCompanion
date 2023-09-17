@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.io.IOException;
 
 import org.magic.api.beans.abstracts.AbstractMessage;
-import org.magic.api.beans.abstracts.AbstractMessage.MSG_TYPE;
 import org.magic.api.beans.messages.SearchMessage;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATUS;
@@ -19,7 +18,7 @@ public interface MTGNetworkClient extends MTGPlugin{
 
 	void join(Player p, String url, String topic) throws IOException;
 
-	void sendMessage(String text, Color c,MSG_TYPE type) throws IOException;
+	void sendMessage(String text, Color c) throws IOException;
 
 	void sendMessage(AbstractMessage obj) throws IOException;
 	
@@ -29,6 +28,8 @@ public interface MTGNetworkClient extends MTGPlugin{
 	
 	boolean isActive();
 
+	void disableConsummer();
+	
 	void searchStock(SearchMessage s) throws IOException;
 
 	public Player getPlayer();
