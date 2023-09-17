@@ -230,7 +230,8 @@ class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
 		onlines.add(jmsg.getAuthor());
 		
 		TechnicalServiceManager.inst().store(jmsg);
-		logger.info("user {} : {}", session.getUsername(),jmsg);		
+		logger.info("user {} : {} for {} ", session.getUsername(),jmsg,onlines);		
+		
 		
 		if(!jmsg.getAuthor().getName().equals("Admin"))
 			try {
