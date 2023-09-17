@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -13,15 +12,12 @@ import java.util.concurrent.TimeUnit;
 import org.apache.activemq.artemis.api.core.ActiveMQException;
 import org.apache.activemq.artemis.api.core.Message;
 import org.apache.activemq.artemis.api.core.RoutingType;
-import org.apache.activemq.artemis.api.core.SimpleString;
 import org.apache.activemq.artemis.core.config.CoreAddressConfiguration;
 import org.apache.activemq.artemis.core.config.impl.ConfigurationImpl;
 import org.apache.activemq.artemis.core.message.impl.CoreMessage;
 import org.apache.activemq.artemis.core.postoffice.RoutingStatus;
 import org.apache.activemq.artemis.core.security.CheckType;
 import org.apache.activemq.artemis.core.security.Role;
-import org.apache.activemq.artemis.core.security.SecurityAuth;
-import org.apache.activemq.artemis.core.server.Queue;
 import org.apache.activemq.artemis.core.server.ServerSession;
 import org.apache.activemq.artemis.core.server.impl.ActiveMQServerImpl;
 import org.apache.activemq.artemis.core.server.plugin.ActiveMQServerPlugin;
@@ -213,12 +209,7 @@ public class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
 	@Override
 	public void afterSend(ServerSession session, Transaction tx, Message message, boolean direct,boolean noAutoCreateQueue, RoutingStatus result) throws ActiveMQException {
 		var cmsg = ((CoreMessage)message);
-		var databuff = cmsg.getDataBuffer();
-		var size = databuff.readableBytes();
-		var bytes = new byte[size];
-		databuff.readBytes(bytes);
-		var s = new String(removeNullByte(bytes));
-		s = s.substring(s.indexOf("{"));
+		var s = parse(cmsg);
 		var jmsg = serializer.fromJson(s, TalkMessage.class);
 		jmsg.setEnd(Instant.now());
 		
@@ -234,6 +225,17 @@ public class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+	}
+
+
+	private String parse(CoreMessage cmsg) {
+		var databuff = cmsg.getDataBuffer();
+		var size = databuff.readableBytes();
+		var bytes = new byte[size];
+		databuff.readBytes(bytes);
+		var s = new String(removeNullByte(bytes));
+		s = s.substring(s.indexOf("{"));
+		return s;
 	}
 
 }

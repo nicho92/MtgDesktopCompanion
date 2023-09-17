@@ -227,7 +227,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 							
 							case TALK:listMsgModel.addElement((TalkMessage)s);break;
 						
-							case SYSTEM : logger.info( ((TechMessageUsers)s).getPlayers());break;
+							case SYSTEM : listPlayerModel.removeAllElements();listPlayerModel.addAll(((TechMessageUsers)s).getPlayers());break;
 							
 							
 							default:break;

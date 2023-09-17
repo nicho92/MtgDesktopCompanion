@@ -11,6 +11,10 @@ public class TalkMessage extends AbstractMessage{
 	
 	private Color color;
 	
+	public TalkMessage() {
+		setTypeMessage(MSG_TYPE.TALK);
+	}
+	
 	public String toChatString() {
 		return getAuthor().getName() + " : " + getMessage();
 	}

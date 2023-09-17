@@ -21,7 +21,6 @@ public abstract class AbstractMessage extends AbstractAuditableItem {
 	
 	
 	protected AbstractMessage() {
-		setTypeMessage(MSG_TYPE.TALK);
 		setId(CryptoUtils.generateMD5(UUID.randomUUID().toString()+new Date()+typeMessage));
 		setStart(Instant.now());
 	}
