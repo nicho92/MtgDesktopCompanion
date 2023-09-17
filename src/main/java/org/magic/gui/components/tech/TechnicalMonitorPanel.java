@@ -24,6 +24,7 @@ import org.magic.gui.models.conf.NetworkTableModel;
 import org.magic.gui.models.conf.QueriesTableModel;
 import org.magic.gui.models.conf.TaskTableModel;
 import org.magic.gui.models.conf.ThreadsTableModel;
+import org.magic.servers.impl.ActiveMQServer;
 import org.magic.servers.impl.DiscordBotServer;
 import org.magic.servers.impl.JSONHttpServer;
 import org.magic.servers.impl.QwartzServer;
@@ -55,7 +56,7 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 	private JsonInfoTableModel modelJsonServerInfo;
 	private DiscordInfoTableModel discordModel;
 	private GedBrowserPanel gedPanel;
-
+	private ActiveMQServerPanel activemqPanel;
 
 	public TechnicalMonitorPanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -70,7 +71,9 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 		discordModel = new DiscordInfoTableModel();
 		modelFileAccess= new FileAccessTableModel();
 		gedPanel = new GedBrowserPanel();
-
+		activemqPanel = new ActiveMQServerPanel();
+		
+		
 		modelScript = new GenericTableModel<>()
 				{
 					private static final long serialVersionUID = 1L;
@@ -150,7 +153,7 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 		tableJsonInfo.setDefaultRenderer(Long.class, durationRenderer);
 		tableDiscordInfo.setDefaultRenderer(Long.class, durationRenderer);
 		tableFileAccessIInfo.setDefaultRenderer(Long.class, durationRenderer);
-		
+		activemqPanel.getTable().setDefaultRenderer(Long.class, durationRenderer);
 		
 		
 		
@@ -167,7 +170,8 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 		getContextTabbedPane().addTab("Files Access",MTGConstants.ICON_TAB_IMPORT,new JScrollPane(tableFileAccessIInfo));
 		UITools.addTab(getContextTabbedPane(), new LoggerViewPanel());
 		UITools.addTab(getContextTabbedPane(), gedPanel);
-
+		UITools.addTab(getContextTabbedPane(), activemqPanel);
+		
 
 
 
@@ -211,15 +215,23 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 				try {
 					modelCacheJson.init( ((JSONHttpServer)MTG.getPlugin("Json Http Server", MTGServer.class)).getCache().entries() );
 					modelCacheJson.fireTableDataChanged();
-
-
 				}
 				catch(Exception ex)
 				{
 					logger.error("error loading . Maybe Qwartz server is stopped",ex);
 				}
 			}
-
+			
+			if(MTG.getPlugin("ActiveMQ", MTGServer.class).isAlive()) {
+				try {
+					activemqPanel.init( ((ActiveMQServer)MTG.getPlugin("ActiveMQ", MTGServer.class)));
+					
+				}
+				catch(Exception ex)
+				{
+					logger.error("error loading . Maybe Qwartz server is stopped",ex);
+				}
+			}
 
 
 

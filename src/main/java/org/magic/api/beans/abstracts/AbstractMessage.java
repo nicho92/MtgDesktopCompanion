@@ -16,11 +16,23 @@ public abstract class AbstractMessage extends AbstractAuditableItem {
 	private static final long serialVersionUID = 1L;
 	private String id;
 	private MSG_TYPE typeMessage;
+	private String message;
+	
+	
 	
 	protected AbstractMessage() {
 		setTypeMessage(MSG_TYPE.TALK);
 		setId(CryptoUtils.generateMD5(UUID.randomUUID().toString()+new Date()+typeMessage));
 		setStart(Instant.now());
+	}
+	
+
+
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
 	}
 	
 	public Player getAuthor() {

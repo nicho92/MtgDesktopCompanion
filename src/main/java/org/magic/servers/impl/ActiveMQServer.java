@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -165,12 +166,11 @@ public class ActiveMQServer extends AbstractMTGServer {
 	public String getName() {
 		return "ActiveMQ";
 	}
-}
 
-class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
+
+public class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
 	JsonExport serializer = new JsonExport();
-	Set<Player> onlines = new LinkedHashSet<>();
-	Set<Queue> queues = new LinkedHashSet<>();
+	Set<Player> onlines = new HashSet<>();
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	private MTGNetworkClient client;
 	
@@ -186,11 +186,6 @@ class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
 	public Set<Player> getOnlines() {
 		return onlines;
 	}
-	
-	public Set<Queue> getQueues() {
-		return queues;
-	}
-	
 	
 	@Override
 	public void afterCreateSession(ServerSession session) throws ActiveMQException {
@@ -240,18 +235,7 @@ class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
 				e.printStackTrace();
 			}
 	}
-	
-	@Override
-	public void afterCreateQueue(Queue queue) throws ActiveMQException {
-		logger.debug("Queue created {}",queue);
-		queues.add(queue);
-	}
-	
-	@Override
-	public void afterDestroyQueue(Queue queue, SimpleString address, SecurityAuth session,boolean checkConsumerCount, boolean removeConsumers, boolean autoDeleteAddress) throws ActiveMQException {
-		logger.debug("Queue deleted {}",queue);
-		queues.remove(queue);
-	}
-	
+
 }
 
+}

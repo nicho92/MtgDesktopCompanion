@@ -195,6 +195,10 @@ public class TechnicalServiceManager {
 		return tasksInfos;
 	}
 
+	public List<TalkMessage> getJsonMessages() {
+		return jsonMessages;
+	}
+	
 	public void store(JsonQueryInfo info)
 	{
 		info.setLocation(translator.getLocationFor(info.getIp()));

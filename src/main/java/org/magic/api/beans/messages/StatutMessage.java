@@ -11,6 +11,7 @@ public class StatutMessage extends AbstractMessage {
 	public StatutMessage(STATUS statut) {
 		setTypeMessage(MSG_TYPE.CHANGESTATUS);
 		this.statut=statut;
+		setMessage("change status to "+ statut);
 	}
 	
 	public void setStatut(STATUS statut) {

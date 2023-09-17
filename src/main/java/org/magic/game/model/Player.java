@@ -11,6 +11,7 @@ import java.util.Locale;
 import javax.swing.AbstractAction;
 
 import org.apache.commons.lang.math.RandomUtils;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.services.tools.ImageTools;
@@ -516,7 +517,7 @@ public class Player extends Observable implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return (getId()+getName()).hashCode();
+		return new HashCodeBuilder().append(getId()).append(getName()).hashCode();
 	}
 
 	@Override
@@ -526,7 +527,7 @@ public class Player extends Observable implements Serializable {
 			return false;
 
 		Player p2 = (Player) obj;
-		return getId() == p2.getId();
+		return getId().equals(p2.getId());
 	}
 
 	public void playToken(MagicCard tok) {
