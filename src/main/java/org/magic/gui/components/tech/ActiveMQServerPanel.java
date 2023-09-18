@@ -64,7 +64,7 @@ public class ActiveMQServerPanel extends MTGUIComponent {
 
 	public void init(ActiveMQServer serv) {
 		listModel.removeAllElements();
-		listModel.addAll(serv.getPlug().getOnlines());
+		listModel.addAll(serv.getPlug().getOnlines().values());
 		
 		model.fireTableDataChanged();
 	}

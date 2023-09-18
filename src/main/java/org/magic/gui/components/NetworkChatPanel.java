@@ -27,7 +27,6 @@ import javax.swing.SwingWorker;
 import javax.swing.border.TitledBorder;
 
 import org.magic.api.beans.abstracts.AbstractMessage;
-import org.magic.api.beans.abstracts.AbstractMessage.MSG_TYPE;
 import org.magic.api.beans.messages.SearchMessage;
 import org.magic.api.beans.messages.StatutMessage;
 import org.magic.api.beans.messages.TalkMessage;
@@ -213,6 +212,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 					
 					for(var s : chunks)
 					{
+						
 						switch(s.getTypeMessage())
 						{
 							case CHANGESTATUS: 
@@ -227,7 +227,9 @@ public class NetworkChatPanel extends MTGUIComponent {
 							
 							case TALK:listMsgModel.addElement((TalkMessage)s);break;
 						
-							case SYSTEM : listPlayerModel.removeAllElements();listPlayerModel.addAll(((TechMessageUsers)s).getPlayers());break;
+							case SYSTEM : listPlayerModel.removeAllElements();
+												  listPlayerModel.addAll(((TechMessageUsers)s).getPlayers());
+												  break;
 							
 							
 							default:break;

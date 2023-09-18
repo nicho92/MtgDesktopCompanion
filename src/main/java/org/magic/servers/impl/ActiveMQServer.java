@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -166,7 +167,7 @@ public class ActiveMQServer extends AbstractMTGServer {
 
 public class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
 	JsonExport serializer = new JsonExport();
-	Set<Player> onlines = new HashSet<>();
+	Map<String,Player> onlines = new LinkedHashMap<>();
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	private MTGNetworkClient client;
 	
@@ -179,7 +180,7 @@ public class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
 		return client;
 	}
 	
-	public Set<Player> getOnlines() {
+	public Map<String,Player> getOnlines() {
 		return onlines;
 	}
 	
@@ -191,7 +192,7 @@ public class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
 	@Override
 	public void afterCloseSession(ServerSession session, boolean failed) throws ActiveMQException {
 		logger.info("disconnection from user : {}", BeanTools.describe(session));
-		onlines.removeIf(p->session.getRemotingConnection().getClientID().equals(p.getId().toString()));
+		onlines.remove(session.getRemotingConnection().getClientID());
 	}
 	
 	
@@ -214,7 +215,7 @@ public class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
 		jmsg.setEnd(Instant.now());
 		
 		if(!jmsg.getAuthor().isAdmin())
-			onlines.add(jmsg.getAuthor());
+			onlines.put(String.valueOf(jmsg.getAuthor().getId()), jmsg.getAuthor());
 		
 		TechnicalServiceManager.inst().store(jmsg);
 		logger.info("user {} : {} for {} ", session.getUsername(),jmsg,onlines);		
@@ -222,7 +223,7 @@ public class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
 		
 		if(!jmsg.getAuthor().isAdmin())
 			try {
-				client.sendMessage(new TechMessageUsers(getOnlines()));
+				client.sendMessage(new TechMessageUsers(getOnlines().values().stream().toList()));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
