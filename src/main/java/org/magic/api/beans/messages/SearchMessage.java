@@ -11,7 +11,8 @@ public class SearchMessage extends AbstractMessage {
 	
 	public SearchMessage(MTGProduct item) {
 		this.item=item;
-		setMessage("search "+ item);
+		setTypeMessage(MSG_TYPE.SEARCH);
+		setMessage("I'm searching  "+ item);
 	}
 
 	public MTGProduct getItem() {

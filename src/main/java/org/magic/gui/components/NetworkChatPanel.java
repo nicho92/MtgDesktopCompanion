@@ -31,11 +31,11 @@ import org.magic.api.beans.messages.SearchMessage;
 import org.magic.api.beans.messages.StatutMessage;
 import org.magic.api.beans.messages.TalkMessage;
 import org.magic.api.beans.messages.TechMessageUsers;
-import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATUS;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.components.dialog.CardSearchImportDialog;
 import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.gui.renderer.JsonMessageRenderer;
 import org.magic.gui.renderer.PlayerRenderer;
@@ -298,8 +298,9 @@ public class NetworkChatPanel extends MTGUIComponent {
 		
 		btnSearch.addActionListener(al->{
 			try {
-				var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(editorPane.getText().trim(), null, false).get(0);
-				var msg = new SearchMessage(mc);
+				var diag = new CardSearchImportDialog();
+				diag.setVisible(true);
+				var msg = new SearchMessage(diag.getSelected());
 				client.sendMessage(msg);
 			} catch (IOException e1) {
 				logger.error(e1);
