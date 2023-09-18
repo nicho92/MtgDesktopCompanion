@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -55,14 +56,14 @@ public class NetworkChatPanel extends MTGUIComponent {
 	private static final long serialVersionUID = 1L;
 	private JTextField txtServer;
 	private JList<Player> listPlayers;
-	private JList<TalkMessage> listMsg;
+	private JList<AbstractMessage> listMsg;
 	private JButton btnConnect;
 	private JButton btnLogout;
 	private JTextArea editorPane;
 	private JComboBox<STATUS> cboStates;
 	private JButton btnColorChoose;
 	private JButton btnSearch;
-	private DefaultListModel<TalkMessage> listMsgModel;
+	private DefaultListModel<AbstractMessage> listMsgModel;
 	private DefaultListModel<Player> listPlayerModel;
 	private transient MTGNetworkClient client;
 
@@ -99,7 +100,8 @@ public class NetworkChatPanel extends MTGUIComponent {
 		editorPane.setLineWrap(true);
 		editorPane.setWrapStyleWord(true);
 		editorPane.setRows(3);
-		
+		listPlayers.setCellRenderer(new PlayerRenderer());
+		listMsg.setCellRenderer(new JsonMessageRenderer());
 			
 		btnSearch = new JButton("Search");
 
@@ -110,8 +112,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		}
 		
 		
-		listPlayers.setCellRenderer(new PlayerRenderer());
-		listMsg.setCellRenderer(new JsonMessageRenderer());
+
 
 		add(panneauHaut, BorderLayout.NORTH);
 		panneauHaut.add(lblIp);
@@ -337,12 +338,16 @@ public class NetworkChatPanel extends MTGUIComponent {
 											  break;
 						
 						case SEARCH: 
+								var msgs = (SearchMessage)s;
 										try {
-											var ret = MTG.getEnabledPlugin(MTGDao.class).listStocks((MagicCard)((SearchMessage)s).getItem());
 											
+											var ret = MTG.getEnabledPlugin(MTGDao.class).listStocks((MagicCard)msgs.getItem());
 											logger.info(ret);
 											
-										} catch (SQLException e) {
+											if(!ret.isEmpty())
+												client.sendMessage("I have ! "+ ret.stream().map(mcs->mcs.getProduct().getName() + " " + mcs.getQte() + " " + mcs.getLanguage() + " " + mcs.getCondition()).collect(Collectors.joining(System.lineSeparator())) ,editorPane.getForeground());
+											
+										} catch (Exception e) {
 											logger.error(e);
 										}
 										break;

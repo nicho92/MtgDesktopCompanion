@@ -1,5 +1,6 @@
 package org.magic.api.beans.abstracts;
 
+import java.awt.Color;
 import java.time.Instant;
 import java.util.Date;
 import java.util.UUID;
@@ -17,7 +18,7 @@ public abstract class AbstractMessage extends AbstractAuditableItem {
 	private String id;
 	private MSG_TYPE  typeMessage;
 	private String message;
-	
+	private Color color;
 	
 	
 	protected AbstractMessage() {
@@ -26,6 +27,14 @@ public abstract class AbstractMessage extends AbstractAuditableItem {
 	}
 	
 
+	public Color getColor() {
+		return color;
+	}
+	
+	public void setColor(Color color) {
+		this.color = color;
+	}
+		
 
 	public String getMessage() {
 		return message;
