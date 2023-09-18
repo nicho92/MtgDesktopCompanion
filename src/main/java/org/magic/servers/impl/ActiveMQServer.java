@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
@@ -44,6 +43,7 @@ public class ActiveMQServer extends AbstractMTGServer {
 	private static final String LISTENERS_TCP = "LISTENERS_TCP";
 	private static final String LOG_DIR = "LOG_DIR";
 	public static final String DEFAULT_ADDRESS = "welcome";
+	public static final String DEFAULT_SERVER="tcp://mtgcompanion.me:61616";
 	private ActiveMQServerImpl server;
 	private MTGActiveMQServerPlugin plug;
 	

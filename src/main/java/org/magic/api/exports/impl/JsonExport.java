@@ -13,12 +13,14 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.technical.audit.NetworkInfo;
 import org.magic.api.interfaces.MTGPlugin;
+import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.adapters.ColorAdapter;
 import org.magic.services.adapters.DeckAdapter;
 import org.magic.services.adapters.FileAdapter;
 import org.magic.services.adapters.InstantAdapter;
+import org.magic.services.adapters.MTGProductAdapter;
 import org.magic.services.adapters.MTGStockItemAdapter;
 import org.magic.services.adapters.NetworkInfoAdapter;
 import org.magic.services.adapters.StackTraceElementAdapter;
@@ -51,6 +53,7 @@ public class JsonExport extends AbstractCardExport {
 				.registerTypeHierarchyAdapter(File.class, new FileAdapter())
 				.registerTypeHierarchyAdapter(Color.class, new ColorAdapter())
 				.registerTypeHierarchyAdapter(MagicDeck.class, new DeckAdapter())
+				.registerTypeAdapter(MTGProduct.class, new MTGProductAdapter())
 				.setDateFormat("yyyy-MM-dd hh:mm");
 	}
 	

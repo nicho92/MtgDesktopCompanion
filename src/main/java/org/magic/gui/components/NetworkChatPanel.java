@@ -10,6 +10,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 
@@ -26,11 +27,13 @@ import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import javax.swing.border.TitledBorder;
 
+import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.abstracts.AbstractMessage;
 import org.magic.api.beans.messages.SearchMessage;
 import org.magic.api.beans.messages.StatutMessage;
 import org.magic.api.beans.messages.TalkMessage;
 import org.magic.api.beans.messages.TechMessageUsers;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATUS;
@@ -87,7 +90,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		btnColorChoose = new JButton(MTGConstants.ICON_GAME_COLOR);
 		cboStates = UITools.createCombobox(STATUS.values());
 		var panelChatBox = new JPanel();
-		txtServer.setText(MTGControler.getInstance().get("network-config/network-last-server", "tcp://mtgcompanion.me:61616"));
+		txtServer.setText(MTGControler.getInstance().get("network-config/network-last-server", ActiveMQServer.DEFAULT_SERVER));
 		txtServer.setColumns(10);
 		btnLogout.setEnabled(false);
 		panel.setLayout(new BorderLayout());
@@ -146,30 +149,12 @@ public class NetworkChatPanel extends MTGUIComponent {
 		
 	
 		btnConnect.addActionListener(ae -> {
-			try {
+			
+			var swConnect = new SwingWorker<Void, Void>(){
 				
-				client.join(MTGControler.getInstance().getProfilPlayer(),  txtServer.getText(),ActiveMQServer.DEFAULT_ADDRESS);
-				txtServer.setEnabled(!client.isActive());
-				btnConnect.setEnabled(!client.isActive());
-				btnLogout.setEnabled(client.isActive());
-				editorPane.setEditable(client.isActive());
-				MTGControler.getInstance().setProperty("network-config/network-last-server",txtServer.getText());
-			} catch (Exception e) {
-				MTGControler.getInstance().notify(e);
-			}
-			
-			
-
-			var sw = new SwingWorker<Void, AbstractMessage>(){
-
 				@Override
 				protected Void doInBackground() throws Exception {
-					while(client.isActive())
-					{
-						var s = client.consume();
-						if(s!=null)
-							publish(s);
-					}
+					client.join(MTGControler.getInstance().getProfilPlayer(),  txtServer.getText(),ActiveMQServer.DEFAULT_ADDRESS);
 					return null;
 				}
 				
@@ -178,74 +163,33 @@ public class NetworkChatPanel extends MTGUIComponent {
 					
 					try {
 						get();
-					}
-					catch(InterruptedException e)
+						
+						txtServer.setEnabled(!client.isActive());
+						btnConnect.setEnabled(!client.isActive());
+						btnLogout.setEnabled(client.isActive());
+						editorPane.setEditable(client.isActive());
+						MTGControler.getInstance().setProperty("network-config/network-last-server",txtServer.getText());
+					} 
+					catch(InterruptedException ie)
 					{
 						Thread.currentThread().interrupt();
-						logger.error(e);
+						MTGControler.getInstance().notify(ie);
 					}
-					catch(Exception e)
-					{
-						logger.error(e);
+					catch (Exception e) {
+						MTGControler.getInstance().notify(e);
 					}
+				
 					
-					
-					txtServer.setEnabled(true);
-					btnConnect.setEnabled(true);
-					btnLogout.setEnabled(false);
-					listPlayerModel.removeAllElements();
-					editorPane.setEditable(false);
-					listMsgModel.removeAllElements();
-				}
-
-
-
-				@Override
-				protected void process(List<AbstractMessage> chunks) {
-					
-					txtServer.setEnabled(false);
-					btnConnect.setEnabled(false);
-					btnLogout.setEnabled(true);
-					editorPane.setEditable(true);
-					
-					
-					
-					for(var s : chunks)
-					{
-						
-						switch(s.getTypeMessage())
-						{
-							case CHANGESTATUS: 
-									var msg = (StatutMessage)s;
-									switch(msg.getStatut())
-									{
-										case CONNECTED : listPlayerModel.addElement(s.getAuthor());break;
-										case DISCONNECTED:listPlayerModel.removeElement(s.getAuthor());break;
-										default: Collections.list(listPlayerModel.elements()).stream().filter(p->p.getId().equals(s.getAuthor().getId())).forEach(p->p.setState(msg.getStatut()));break;
-									}
-									break;
-							
-							case TALK:listMsgModel.addElement((TalkMessage)s);break;
-						
-							case SYSTEM : listPlayerModel.removeAllElements();
-												  listPlayerModel.addAll(((TechMessageUsers)s).getPlayers());
-												  break;
-							
-							
-							default:break;
-						}
-					}
-					listPlayers.updateUI();
-
-					
-					listMsg.ensureIndexIsVisible( listMsg.getModel().getSize() - 1 );
+					if(client.isActive())
+						runningDaemon();
 					
 				}
-
 				
 			};
 			
-			ThreadManager.getInstance().runInEdt(sw, "NetworkClient listening");
+			ThreadManager.getInstance().runInEdt(swConnect, "Connection to Server");
+			
+
 			
 			
 		});
@@ -318,6 +262,107 @@ public class NetworkChatPanel extends MTGUIComponent {
 				}
 		});
 
+	}
+
+	private void runningDaemon() {
+		var sw = new SwingWorker<Void, AbstractMessage>(){
+
+			@Override
+			protected Void doInBackground() throws Exception {
+				while(client.isActive())
+				{
+					var s = client.consume();
+					if(s!=null)
+						publish(s);
+				}
+				return null;
+			}
+			
+			@Override
+			protected void done() {
+				
+				try {
+					get();
+				}
+				catch(InterruptedException e)
+				{
+					Thread.currentThread().interrupt();
+					logger.error(e);
+				}
+				catch(Exception e)
+				{
+					logger.error(e);
+				}
+				
+				
+				txtServer.setEnabled(true);
+				btnConnect.setEnabled(true);
+				btnLogout.setEnabled(false);
+				listPlayerModel.removeAllElements();
+				editorPane.setEditable(false);
+				listMsgModel.removeAllElements();
+			}
+
+
+
+			@Override
+			protected void process(List<AbstractMessage> chunks) {
+				
+				txtServer.setEnabled(false);
+				btnConnect.setEnabled(false);
+				btnLogout.setEnabled(true);
+				editorPane.setEditable(true);
+				
+				
+				
+				for(var s : chunks)
+				{
+					
+					switch(s.getTypeMessage())
+					{
+						case CHANGESTATUS: 
+								var msg = (StatutMessage)s;
+								switch(msg.getStatut())
+								{
+									case CONNECTED : listPlayerModel.addElement(s.getAuthor());break;
+									case DISCONNECTED:listPlayerModel.removeElement(s.getAuthor());break;
+									default: Collections.list(listPlayerModel.elements()).stream().filter(p->p.getId().equals(s.getAuthor().getId())).forEach(p->p.setState(msg.getStatut()));break;
+								}
+								break;
+						
+						case TALK:listMsgModel.addElement((TalkMessage)s);break;
+					
+						case SYSTEM : listPlayerModel.removeAllElements();
+											  listPlayerModel.addAll(((TechMessageUsers)s).getPlayers());
+											  break;
+						
+						case SEARCH: 
+										try {
+											var ret = MTG.getEnabledPlugin(MTGDao.class).listStocks((MagicCard)((SearchMessage)s).getItem());
+											
+											logger.info(ret);
+											
+										} catch (SQLException e) {
+											logger.error(e);
+										}
+										break;
+							
+						default:break;
+					}
+				}
+				listPlayers.updateUI();
+
+				
+				listMsg.ensureIndexIsVisible( listMsg.getModel().getSize() - 1 );
+				
+			}
+
+			
+		};
+		
+		ThreadManager.getInstance().runInEdt(sw, "NetworkClient listening");
+		
+		
 	}
 
 	@Override
