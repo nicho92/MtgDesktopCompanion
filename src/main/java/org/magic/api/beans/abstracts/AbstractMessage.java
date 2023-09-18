@@ -15,7 +15,7 @@ public abstract class AbstractMessage extends AbstractAuditableItem {
 	private Player author;
 	private static final long serialVersionUID = 1L;
 	private String id;
-	private MSG_TYPE typeMessage;
+	private MSG_TYPE  typeMessage;
 	private String message;
 	
 	
@@ -30,6 +30,7 @@ public abstract class AbstractMessage extends AbstractAuditableItem {
 	public String getMessage() {
 		return message;
 	}
+	
 	public void setMessage(String message) {
 		this.message = message;
 	}

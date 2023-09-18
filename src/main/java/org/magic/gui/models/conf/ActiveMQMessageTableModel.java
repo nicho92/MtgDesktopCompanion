@@ -23,6 +23,9 @@ public class ActiveMQMessageTableModel extends GenericTableModel<TalkMessage> {
 		if(columnIndex==3)
 			return Long.class;
 
+		if(columnIndex==4)
+			return String.class;
+
 
 		return super.getColumnClass(columnIndex);
 	}

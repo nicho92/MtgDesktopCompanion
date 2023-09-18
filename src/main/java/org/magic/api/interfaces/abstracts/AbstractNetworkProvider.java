@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.time.Instant;
 
 import org.magic.api.beans.abstracts.AbstractMessage;
-import org.magic.api.beans.abstracts.AbstractMessage.MSG_TYPE;
 import org.magic.api.beans.messages.SearchMessage;
 import org.magic.api.beans.messages.StatutMessage;
 import org.magic.api.beans.messages.TalkMessage;
@@ -64,11 +63,6 @@ public abstract class AbstractNetworkProvider extends AbstractMTGPlugin implemen
 			case SYSTEM:return serializer.fromJson(txt, TechMessageUsers.class);
 			default : return serializer.fromJson(txt, TalkMessage.class);
 		}
-		
-		
-		
-		
-		
 	}
 
 

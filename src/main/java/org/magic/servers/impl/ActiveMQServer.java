@@ -119,7 +119,7 @@ public class ActiveMQServer extends AbstractMTGServer {
 		try {
 			init();
 			server.start();
-			plug.getClient().join(new Player("Admin"), getArray(LISTENERS_TCP)[0], DEFAULT_ADDRESS);
+			plug.getClient().join(new Player("Admin",true), getArray(LISTENERS_TCP)[0], DEFAULT_ADDRESS);
 			plug.getClient().disableConsummer();
 			logger.info("{} is started", getName());
 		} catch (Exception e) {
@@ -213,13 +213,14 @@ public class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
 		var jmsg = serializer.fromJson(s, TalkMessage.class);
 		jmsg.setEnd(Instant.now());
 		
-		onlines.add(jmsg.getAuthor());
+		if(!jmsg.getAuthor().isAdmin())
+			onlines.add(jmsg.getAuthor());
 		
 		TechnicalServiceManager.inst().store(jmsg);
 		logger.info("user {} : {} for {} ", session.getUsername(),jmsg,onlines);		
 		
 		
-		if(!jmsg.getAuthor().getName().equals("Admin"))
+		if(!jmsg.getAuthor().isAdmin())
 			try {
 				client.sendMessage(new TechMessageUsers(getOnlines()));
 			} catch (IOException e) {

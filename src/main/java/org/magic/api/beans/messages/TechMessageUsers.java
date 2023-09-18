@@ -16,6 +16,7 @@ public class TechMessageUsers extends AbstractMessage {
 	public TechMessageUsers(Set<Player> players) {
 		this.players=players;
 		setTypeMessage(MSG_TYPE.SYSTEM);
+		setMessage("Send online users");
 	}
 	
 	public Set<Player> getPlayers() {

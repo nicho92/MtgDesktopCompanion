@@ -22,6 +22,7 @@ public class Player extends Observable implements Serializable {
 	private static final String PLAY_TERM = "Play ";
 	private static final String EXIL_TERM = "Exil ";
 	private static final String DISCARD_TERM = "Discard ";
+	
 	/**
 	 *
 	 */
@@ -46,8 +47,17 @@ public class Player extends Observable implements Serializable {
 	private byte[] avatar;
 	private transient int poisonCounter;
 	private long onlineConnectionTimeStamp;
+	private boolean admin=false;
 
-
+	
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
+	}
+	
+	public boolean isAdmin() {
+		return admin;
+	}
+	
 	public STATUS getState() {
 		return state;
 	}
@@ -131,6 +141,14 @@ public class Player extends Observable implements Serializable {
 		super();
 		name = "Player";
 		life = 20;
+		deck = new MagicDeck();
+		init();
+	}
+
+	public Player(String name, boolean admin) {
+		super();
+		this.name = name;
+		this.admin=admin;
 		deck = new MagicDeck();
 		init();
 	}
