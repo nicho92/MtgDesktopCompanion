@@ -29,6 +29,7 @@ import javax.swing.border.TitledBorder;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.abstracts.AbstractMessage;
+import org.magic.api.beans.messages.SearchAnswerMessage;
 import org.magic.api.beans.messages.SearchMessage;
 import org.magic.api.beans.messages.StatutMessage;
 import org.magic.api.beans.messages.TechMessageUsers;
@@ -338,21 +339,25 @@ public class NetworkChatPanel extends MTGUIComponent {
 											  listPlayerModel.addAll(((TechMessageUsers)s).getPlayers());
 											  break;
 						
+						case ANSWER:	listMsgModel.addElement(s); 	break;				  
+											  
 						case SEARCH: 
 								var msgs = (SearchMessage)s;
 										try {
 											listMsgModel.addElement(msgs);
 											
-											if(!msgs.getAuthor().getId().equals(client.getPlayer().getId())) {
+											if(!msgs.getAuthor().getId().equals(client.getPlayer().getId())) 
+											{
 												
-											var ret = MTG.getEnabledPlugin(MTGDao.class).listStocks((MagicCard)msgs.getItem());
+											var ret = MTG.getEnabledPlugin(MTGDao.class).listStocks((MagicCard)msgs.getItem()).stream().filter(mcs->mcs.getQte()>0).collect(Collectors.toList());
 											logger.info(ret);
 											
 											if(!ret.isEmpty())
-												client.sendMessage("I have ! "+ ret.stream().map(mcs->mcs.getProduct().getName() + " " + mcs.getQte() + " " + mcs.getLanguage() + " " + mcs.getCondition()).collect(Collectors.joining(System.lineSeparator())) ,editorPane.getForeground());
-											}
+												client.sendMessage(new SearchAnswerMessage(msgs, ret));
 											
-										} catch (Exception e) {
+											} 
+										}
+										catch (Exception e) {
 											logger.error(e);
 										}
 										break;
