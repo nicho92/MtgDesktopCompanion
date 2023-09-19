@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
@@ -328,8 +329,10 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			if(mc.getFlavorName()!=null)
 				extend="-"+mc.getFlavorName().replace(" ", "+");
 
+			
+			
 
-			if(mc.getCurrentSet().getId().equals("PUMA")||mc.getCurrentSet().getId().equals("STA")||mc.getCurrentSet().getId().equals("SLD")||mc.getCurrentSet().getId().equals("MUL"))
+			if(ArrayUtils.contains(new String[] {"PUMA","STA","SLD","MUL","WOT"}, mc.getCurrentSet().getId()))
 				extend="";
 
 			url = WEBSITE + "/price/" + convert(mc.getCurrentSet()) + extra+pfoil+"/" + cardName +extend+ "#" + getString(FORMAT);
