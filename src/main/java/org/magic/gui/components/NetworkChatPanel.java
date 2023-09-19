@@ -10,7 +10,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,7 +31,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.abstracts.AbstractMessage;
 import org.magic.api.beans.messages.SearchMessage;
 import org.magic.api.beans.messages.StatutMessage;
-import org.magic.api.beans.messages.TalkMessage;
 import org.magic.api.beans.messages.TechMessageUsers;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGNetworkClient;
@@ -41,7 +39,7 @@ import org.magic.game.model.Player.STATUS;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
 import org.magic.gui.components.widgets.JLangLabel;
-import org.magic.gui.renderer.JsonMessageRenderer;
+import org.magic.gui.renderer.MessageRenderer;
 import org.magic.gui.renderer.PlayerRenderer;
 import org.magic.servers.impl.ActiveMQServer;
 import org.magic.services.MTGConstants;
@@ -101,7 +99,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		editorPane.setWrapStyleWord(true);
 		editorPane.setRows(3);
 		listPlayers.setCellRenderer(new PlayerRenderer());
-		listMsg.setCellRenderer(new JsonMessageRenderer());
+		listMsg.setCellRenderer(new MessageRenderer());
 			
 		btnSearch = new JButton("Search");
 
@@ -110,9 +108,6 @@ public class NetworkChatPanel extends MTGUIComponent {
 		} catch (Exception e) {
 			editorPane.setForeground(Color.BLACK);
 		}
-		
-		
-
 
 		add(panneauHaut, BorderLayout.NORTH);
 		panneauHaut.add(lblIp);
@@ -242,11 +237,17 @@ public class NetworkChatPanel extends MTGUIComponent {
 		
 		
 		btnSearch.addActionListener(al->{
-			try {
+			try 
+			{
 				var diag = new CardSearchImportDialog();
 				diag.setVisible(true);
-				var msg = new SearchMessage(diag.getSelected());
-				client.sendMessage(msg);
+				
+				if(diag.getSelected()!=null)
+				{
+					var msg = new SearchMessage(diag.getSelected());
+					client.sendMessage(msg);
+				}
+				
 			} catch (IOException e1) {
 				logger.error(e1);
 			}
@@ -331,7 +332,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 								}
 								break;
 						
-						case TALK:listMsgModel.addElement((TalkMessage)s);break;
+						case TALK:listMsgModel.addElement(s);break;
 					
 						case SYSTEM : listPlayerModel.removeAllElements();
 											  listPlayerModel.addAll(((TechMessageUsers)s).getPlayers());
@@ -340,12 +341,16 @@ public class NetworkChatPanel extends MTGUIComponent {
 						case SEARCH: 
 								var msgs = (SearchMessage)s;
 										try {
+											listMsgModel.addElement(msgs);
 											
+											if(!msgs.getAuthor().getId().equals(client.getPlayer().getId())) {
+												
 											var ret = MTG.getEnabledPlugin(MTGDao.class).listStocks((MagicCard)msgs.getItem());
 											logger.info(ret);
 											
 											if(!ret.isEmpty())
 												client.sendMessage("I have ! "+ ret.stream().map(mcs->mcs.getProduct().getName() + " " + mcs.getQte() + " " + mcs.getLanguage() + " " + mcs.getCondition()).collect(Collectors.joining(System.lineSeparator())) ,editorPane.getForeground());
+											}
 											
 										} catch (Exception e) {
 											logger.error(e);

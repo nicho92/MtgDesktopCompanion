@@ -34,7 +34,6 @@ import org.magic.services.tools.POMReader;
 
 import com.google.gson.JsonObject;
 
-import io.lettuce.core.AbstractRedisAsyncCommands;
 import io.lettuce.core.ClientOptions;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.api.StatefulRedisConnection;

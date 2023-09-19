@@ -57,8 +57,6 @@ public interface MTGDao extends MTGPlugin{
 	public MTGStockItem getStockById(EnumItems typeStock, Long id)throws SQLException;
 	public void saveOrUpdateStock(MTGStockItem stock) throws SQLException;
 
-
-
 	public List<MagicCardStock> listStocks(MagicCard mc) throws SQLException;
 	public List<MagicCardStock> listStocks(MagicCard mc, MagicCollection col,boolean editionStrict) throws SQLException;
 	public List<MagicCardStock> listStocks(String cardName, List<MagicCollection> cols) throws SQLException;
@@ -137,6 +135,7 @@ public interface MTGDao extends MTGPlugin{
 	public void updateCard(MagicCard c, MagicCard newC, MagicCollection col) throws SQLException;
 	public boolean executeQuery(String query)throws SQLException;
 	public boolean isSQL();
+
 
 
 

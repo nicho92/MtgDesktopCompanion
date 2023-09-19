@@ -40,7 +40,6 @@ public class JEditorPaneBrowser extends MTGUIBrowserComponent {
 		return currentUrl;
 	}
 
-
 	@Override
 	public void loadURL(String url) {
 		logger.debug("loading {}",url);

@@ -4,6 +4,8 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Date;
 
 import javax.swing.ImageIcon;
@@ -14,7 +16,10 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.abstracts.AbstractMessage;
+import org.magic.api.beans.abstracts.AbstractMessage.MSG_TYPE;
+import org.magic.api.beans.messages.SearchMessage;
 import org.magic.services.MTGControler;
+import org.magic.services.network.URLTools;
 import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.UITools;
 import org.ocpsoft.prettytime.PrettyTime;
@@ -50,6 +55,28 @@ public class JsonMessagePanel extends JPanel {
 		
 
 		var separator = new JPanel();
+		
+		if(value.getTypeMessage()==MSG_TYPE.SEARCH)
+		{
+			var item = ((SearchMessage)value).getItem();
+			BufferedImage bi;
+			try {
+				bi = URLTools.extractAsImage(item.getUrl());
+				bi=ImageTools.scaleResize(bi, iconSize*2);
+				var lab = new JLabel(new ImageIcon(bi));
+				
+				separator.add(lab);
+				
+			} catch (IOException e) {
+				//do nothing
+			}
+						
+			
+			
+			
+		}
+		
+		
 		separator.setBackground(value.getColor());
 		
 		GridBagConstraints gbcseparator = new GridBagConstraints();
