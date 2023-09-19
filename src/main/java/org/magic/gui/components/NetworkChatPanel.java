@@ -342,12 +342,15 @@ public class NetworkChatPanel extends MTGUIComponent {
 						case ANSWER:	listMsgModel.addElement(s); 	break;				  
 											  
 						case SEARCH: 
-								var msgs = (SearchMessage)s;
-										try {
-											listMsgModel.addElement(msgs);
-											
-											if(!msgs.getAuthor().getId().equals(client.getPlayer().getId())) 
-											{
+							var msgs = (SearchMessage)s;
+							listMsgModel.addElement(msgs);
+							
+							if(!MTG.readPropertyAsBoolean("network-config/online-query"))
+								break;
+							
+							try {
+									if(!msgs.getAuthor().getId().equals(client.getPlayer().getId())) 
+									{
 												
 											var ret = MTG.getEnabledPlugin(MTGDao.class).listStocks((MagicCard)msgs.getItem()).stream().filter(mcs->mcs.getQte()>0).collect(Collectors.toList());
 											logger.info(ret);
@@ -355,12 +358,12 @@ public class NetworkChatPanel extends MTGUIComponent {
 											if(!ret.isEmpty())
 												client.sendMessage(new SearchAnswerMessage(msgs, ret));
 											
-											} 
-										}
-										catch (Exception e) {
-											logger.error(e);
-										}
-										break;
+									} 
+								}
+								catch (Exception e) {
+									logger.error(e);
+								}
+								break;
 							
 						default:break;
 					}
