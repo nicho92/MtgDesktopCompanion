@@ -1,4 +1,4 @@
-package org.magic.gui.components;
+package org.magic.gui.components.tech;
 
 import static org.magic.services.tools.MTG.capitalize;
 import static org.magic.services.tools.MTG.getEnabledPlugin;
@@ -60,8 +60,6 @@ import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.dialog.DefaultStockEditorDialog;
-import org.magic.gui.components.tech.MTGAuthenticatorEditor;
-import org.magic.gui.components.tech.ShortKeyManagerUI;
 import org.magic.gui.components.widgets.JFontChooser;
 import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.gui.components.widgets.JResizerPanel;

@@ -12,7 +12,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 
 import org.magic.api.interfaces.MTGTextGenerator;
-import org.magic.gui.components.MagicTextPane;
+import org.magic.gui.components.card.MagicTextPane;
 import org.magic.services.MTGConstants;
 
 public class JSuggestedPanel extends JComponent {

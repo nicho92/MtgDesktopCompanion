@@ -47,7 +47,7 @@ import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.api.interfaces.MTGTrackingService;
 import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.gui.abstracts.MTGUIComponent;
-import org.magic.gui.components.ConfigurationPanel;
+import org.magic.gui.components.tech.ConfigurationPanel;
 import org.magic.gui.components.tech.HelpCompononent;
 import org.magic.gui.models.conf.PluginTreeTableModel;
 import org.magic.gui.renderer.MTGPluginTreeCellRenderer;

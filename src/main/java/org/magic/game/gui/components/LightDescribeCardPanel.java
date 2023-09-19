@@ -21,8 +21,8 @@ import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MTGRuling;
 import org.magic.api.beans.MagicCard;
-import org.magic.gui.components.MagicTextPane;
-import org.magic.gui.components.ManaPanel;
+import org.magic.gui.components.card.MagicTextPane;
+import org.magic.gui.components.card.ManaPanel;
 
 public class LightDescribeCardPanel extends JPanel {
 	/**

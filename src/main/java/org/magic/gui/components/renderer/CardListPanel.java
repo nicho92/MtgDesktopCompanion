@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.gui.components.ManaPanel;
+import org.magic.gui.components.card.ManaPanel;
 import org.magic.services.MTGControler;
 import org.magic.services.providers.IconSetProvider;
 import org.magic.services.tools.UITools;

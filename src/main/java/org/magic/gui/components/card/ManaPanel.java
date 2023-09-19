@@ -1,4 +1,4 @@
-package org.magic.gui.components;
+package org.magic.gui.components.card;
 
 import java.awt.FlowLayout;
 import java.awt.Image;

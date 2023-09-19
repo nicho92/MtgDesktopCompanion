@@ -9,7 +9,7 @@ import javax.swing.JDialog;
 import javax.swing.WindowConstants;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.gui.components.CardSearchPanel;
+import org.magic.gui.components.card.CardSearchPanel;
 import org.magic.services.MTGConstants;
 
 public class CardSearchImportDialog extends JDialog {

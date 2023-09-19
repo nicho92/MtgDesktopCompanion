@@ -30,7 +30,7 @@ import org.magic.api.beans.MTGFormat.FORMATS;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGPictureProvider;
-import org.magic.gui.components.ManaPanel;
+import org.magic.gui.components.card.ManaPanel;
 import org.magic.gui.components.editor.JTagsPanel;
 import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.services.MTGControler;

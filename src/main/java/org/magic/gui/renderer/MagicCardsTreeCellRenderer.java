@@ -16,7 +16,7 @@ import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumColors;
-import org.magic.gui.components.ManaPanel;
+import org.magic.gui.components.card.ManaPanel;
 import org.magic.services.MTGConstants;
 import org.magic.services.providers.IconSetProvider;
 

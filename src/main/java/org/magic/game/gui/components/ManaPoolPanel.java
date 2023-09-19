@@ -9,7 +9,7 @@ import javax.swing.SpinnerNumberModel;
 
 import org.magic.game.model.ManaPool;
 import org.magic.game.model.Player;
-import org.magic.gui.components.ManaPanel;
+import org.magic.gui.components.card.ManaPanel;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
