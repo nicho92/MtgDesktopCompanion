@@ -54,7 +54,7 @@
 	    endDate: nowDate,
 		maxDate:nowDate,
 	}, function(start, end, label) {
-		server.initDashboardPageCharts(alldatas, start, end);	
+		server.initCachesPageCharts(alldatas, start, end);	
 	}); 
 
 	$.get(restserver+"/admin/caches",function(data){
