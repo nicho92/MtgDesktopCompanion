@@ -246,19 +246,19 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 									item=el.getAsJsonObject();
 								}
 
-								if(mc.getExtra()==EnumCardVariation.SHOWCASE && el.getAsJsonObject().get(VARIATION).getAsString().equals("Showcase")) {
+								if(mc.getExtra().contains(EnumCardVariation.SHOWCASE) && el.getAsJsonObject().get(VARIATION).getAsString().equals("Showcase")) {
 									item=el.getAsJsonObject();
 								}
-								if(mc.getExtra()==EnumCardVariation.BORDERLESS && el.getAsJsonObject().get(VARIATION).getAsString().equals("Borderless")) {
+								if(mc.getExtra().contains(EnumCardVariation.BORDERLESS) && el.getAsJsonObject().get(VARIATION).getAsString().equals("Borderless")) {
 									item=el.getAsJsonObject();
 								}
-								if(mc.getExtra()==EnumCardVariation.EXTENDEDART && el.getAsJsonObject().get(VARIATION).getAsString().equals("Extended")) {
+								if(mc.getExtra().contains(EnumCardVariation.EXTENDEDART) && el.getAsJsonObject().get(VARIATION).getAsString().equals("Extended")) {
 									item=el.getAsJsonObject();
 								}
-								if(mc.getExtra()==EnumCardVariation.JAPANESEALT && el.getAsJsonObject().get(VARIATION).getAsString().equals("Japanese")) {
+								if(mc.getExtra().contains(EnumCardVariation.JAPANESEALT) && el.getAsJsonObject().get(VARIATION).getAsString().equals("Japanese")) {
 									item=el.getAsJsonObject();
 								}
-								if(mc.getExtra()==EnumCardVariation.TIMESHIFTED && (el.getAsJsonObject().get(VARIATION).getAsString().equals("Retro")||el.getAsJsonObject().get(VARIATION).getAsString().equals("Timeshifted"))) {
+								if(mc.getExtra().contains(EnumCardVariation.TIMESHIFTED) && (el.getAsJsonObject().get(VARIATION).getAsString().equals("Retro")||el.getAsJsonObject().get(VARIATION).getAsString().equals("Timeshifted"))) {
 									item=el.getAsJsonObject();
 								}
 							}
