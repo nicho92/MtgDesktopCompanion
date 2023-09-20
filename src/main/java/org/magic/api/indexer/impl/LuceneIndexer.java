@@ -325,10 +325,18 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 	     		  doc.add(new Field("timeshifted",String.valueOf(mc.isTimeshifted()),fieldType));
 
 
-					if(mc.getExtra() != null)
-						doc.add(new Field("extraLayout", mc.getExtra().toPrettyString(), fieldType));
-					else
-						doc.add(new Field("extraLayout", "", fieldType));
+			 	if(!mc.getExtra().isEmpty()) 
+				{	
+					for(var l:mc.getExtra())
+	            	   		{
+	            		   		doc.add(new Field("extraLayout", l.toString(), fieldType));
+	            	   		}
+				}
+				else
+				{
+					 doc.add(new Field("extraLayout", "", fieldType));
+				}
+					
 
 
             	   for(EnumColors color:mc.getColors().stream().filter(c->c != null).toList())
