@@ -424,8 +424,8 @@ public class DiscordBotServer extends AbstractMTGServer {
 		if(!getString(EXTERNAL_LINK).isEmpty())
 			temp.append("**Url:** ").append(getString(EXTERNAL_LINK)+mc.getScryfallId()).append("\n");
 
-		if(mc.getExtra()!=null)
-			temp.append("**").append(mc.getExtra().toPrettyString()).append("** ").append("\n");
+		if(!mc.getExtra().isEmpty())
+			temp.append("**").append(mc.getExtra()).append("** ").append("\n");
 
 		temp.append("**Reserved:** ");
 		if(mc.isReserved())
