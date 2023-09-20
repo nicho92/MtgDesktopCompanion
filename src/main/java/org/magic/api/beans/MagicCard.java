@@ -89,24 +89,24 @@ public class MagicCard extends AbstractProduct {
 	private Map<String,String> customMetadata;
 	
 	
-	public EnumCardVariation getExtra()
+	public List<EnumCardVariation> getExtra()
 	{
+		var ret = new ArrayList<EnumCardVariation>();
 		if(isJapanese())
-			return EnumCardVariation.JAPANESEALT;
+			ret.add(EnumCardVariation.JAPANESEALT);
 		else if(isShowCase())
-			return EnumCardVariation.SHOWCASE;
+			ret.add(EnumCardVariation.SHOWCASE);
 		else if(isFullArt())
-			return EnumCardVariation.FULLART;
+			ret.add(EnumCardVariation.FULLART);
 		else if(isExtendedArt())
-			return EnumCardVariation.EXTENDEDART;
+			ret.add(EnumCardVariation.EXTENDEDART);
 		else if(isBorderLess())
-			return EnumCardVariation.BORDERLESS;
+			ret.add(EnumCardVariation.BORDERLESS);
 		else if(isTimeshifted())
-			return EnumCardVariation.TIMESHIFTED;
+			ret.add(EnumCardVariation.TIMESHIFTED);
 
 
-		return null;
-
+		return ret;
 	}
 	
 	public Integer getDefense() {
