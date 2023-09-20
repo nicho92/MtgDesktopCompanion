@@ -94,15 +94,15 @@ public class MagicCard extends AbstractProduct {
 		var ret = new ArrayList<EnumCardVariation>();
 		if(isJapanese())
 			ret.add(EnumCardVariation.JAPANESEALT);
-		else if(isShowCase())
+		if(isShowCase())
 			ret.add(EnumCardVariation.SHOWCASE);
-		else if(isFullArt())
+		if(isFullArt())
 			ret.add(EnumCardVariation.FULLART);
-		else if(isExtendedArt())
+		if(isExtendedArt())
 			ret.add(EnumCardVariation.EXTENDEDART);
-		else if(isBorderLess())
+		if(isBorderLess())
 			ret.add(EnumCardVariation.BORDERLESS);
-		else if(isTimeshifted())
+		if(isTimeshifted())
 			ret.add(EnumCardVariation.TIMESHIFTED);
 
 
