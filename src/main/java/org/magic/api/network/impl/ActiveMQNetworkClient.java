@@ -16,11 +16,11 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.abstracts.AbstractMessage;
 import org.magic.api.beans.abstracts.AbstractMessage.MSG_TYPE;
 import org.magic.api.beans.enums.EnumItems;
+import org.magic.api.beans.enums.EnumPlayerStatus;
 import org.magic.api.beans.messages.SearchMessage;
 import org.magic.api.beans.messages.StatutMessage;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.AbstractNetworkProvider;
-import org.magic.game.model.Player;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.POMReader;
 
@@ -143,7 +143,7 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 	@Override
 	public void logout() throws IOException {
 		try {
-			sendMessage(new StatutMessage(Player.STATUS.DISCONNECTED));
+			sendMessage(new StatutMessage(EnumPlayerStatus.DISCONNECTED));
 			session.close();
 		} catch (ActiveMQException e) {
 			throw new IOException(e);

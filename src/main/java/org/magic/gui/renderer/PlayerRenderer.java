@@ -29,17 +29,8 @@ public class PlayerRenderer implements TableCellRenderer, ListCellRenderer<Playe
 		
 		var comp= component(value);
 		
-		var color = Color.black;
-		
-		switch(value.getState())
-		{
-			case AWAY: color= Color.ORANGE;	break;
-			case BUSY: color = Color.RED;break;
-			case ONLINE: color=new Color(76,181,108);break;
-			default: color=Color.BLACK;	break;
-			
-		}
-		
+		var color = value.getState().getColor();
+	
 		comp.setBorder(new LineBorder(color));
 		separator.setBackground(color);
 		

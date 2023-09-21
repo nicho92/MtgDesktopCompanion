@@ -225,7 +225,7 @@ public class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
 			try {
 				client.sendMessage(new TechMessageUsers(getOnlines().values().stream().toList()));
 			} catch (IOException e) {
-				e.printStackTrace();
+			//	do nothing
 			}
 	}
 

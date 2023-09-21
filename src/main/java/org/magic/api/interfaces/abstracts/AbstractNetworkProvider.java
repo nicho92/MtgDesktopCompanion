@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.time.Instant;
 
 import org.magic.api.beans.abstracts.AbstractMessage;
+import org.magic.api.beans.enums.EnumPlayerStatus;
 import org.magic.api.beans.messages.SearchMessage;
 import org.magic.api.beans.messages.StatutMessage;
 import org.magic.api.beans.messages.TalkMessage;
@@ -12,7 +13,6 @@ import org.magic.api.beans.messages.TechMessageUsers;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.game.model.Player;
-import org.magic.game.model.Player.STATUS;
 import org.magic.services.network.URLTools;
 
 public abstract class AbstractNetworkProvider extends AbstractMTGPlugin implements MTGNetworkClient {
@@ -75,19 +75,19 @@ public abstract class AbstractNetworkProvider extends AbstractMTGPlugin implemen
 	public void join(Player p, String url,String adress) throws IOException {
 		this.player = p;
 		player.setOnlineConnectionTimeStamp(Instant.now().toEpochMilli());
-		player.setState(STATUS.ONLINE);
+		player.setState(EnumPlayerStatus.ONLINE);
 		
 		createConnection(url,adress);
 		
 		switchAddress(adress);
 		
-		sendMessage(new StatutMessage(Player.STATUS.CONNECTED));
+		sendMessage(new StatutMessage(EnumPlayerStatus.CONNECTED));
 		
 		logger.info("Connected to server {} with id={}",url,player.getId());
 	}
 	
 	@Override
-	public void changeStatus(STATUS selectedItem) throws IOException {
+	public void changeStatus(EnumPlayerStatus	 selectedItem) throws IOException {
 		player.setState(selectedItem);
 		sendMessage(new StatutMessage(selectedItem));
 	}

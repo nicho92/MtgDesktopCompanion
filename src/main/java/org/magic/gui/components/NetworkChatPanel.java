@@ -29,6 +29,7 @@ import javax.swing.border.TitledBorder;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.abstracts.AbstractMessage;
+import org.magic.api.beans.enums.EnumPlayerStatus;
 import org.magic.api.beans.messages.SearchAnswerMessage;
 import org.magic.api.beans.messages.SearchMessage;
 import org.magic.api.beans.messages.StatutMessage;
@@ -36,7 +37,6 @@ import org.magic.api.beans.messages.TechMessageUsers;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.game.model.Player;
-import org.magic.game.model.Player.STATUS;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
 import org.magic.gui.components.widgets.JLangLabel;
@@ -59,7 +59,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 	private JButton btnConnect;
 	private JButton btnLogout;
 	private JTextArea editorPane;
-	private JComboBox<STATUS> cboStates;
+	private JComboBox<EnumPlayerStatus> cboStates;
 	private JButton btnColorChoose;
 	private JButton btnSearch;
 	private DefaultListModel<AbstractMessage> listMsgModel;
@@ -88,7 +88,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		editorPane = new JTextArea();
 		var panel1 = new JPanel();
 		btnColorChoose = new JButton(MTGConstants.ICON_GAME_COLOR);
-		cboStates = UITools.createCombobox(STATUS.values());
+		cboStates = UITools.createCombobox(EnumPlayerStatus.values());
 		var panelChatBox = new JPanel();
 		txtServer.setText(MTGControler.getInstance().get("network-config/network-last-server", ActiveMQServer.DEFAULT_SERVER));
 		txtServer.setColumns(10);
@@ -259,7 +259,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		cboStates.addItemListener(ie -> {
 			if(ie.getStateChange()==ItemEvent.SELECTED)
 				try {
-					client.changeStatus((STATUS) cboStates.getSelectedItem());
+					client.changeStatus((EnumPlayerStatus) cboStates.getSelectedItem());
 				} catch (IOException e1) {
 					logger.error(e1);
 				}

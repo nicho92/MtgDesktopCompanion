@@ -4,9 +4,9 @@ import java.awt.Color;
 import java.io.IOException;
 
 import org.magic.api.beans.abstracts.AbstractMessage;
+import org.magic.api.beans.enums.EnumPlayerStatus;
 import org.magic.api.beans.messages.SearchMessage;
 import org.magic.game.model.Player;
-import org.magic.game.model.Player.STATUS;
 
 public interface MTGNetworkClient extends MTGPlugin{
 
@@ -24,7 +24,7 @@ public interface MTGNetworkClient extends MTGPlugin{
 	
 	void logout() throws IOException;
 
-	void changeStatus(STATUS selectedItem) throws IOException;
+	void changeStatus(EnumPlayerStatus selectedItem) throws IOException;
 	
 	boolean isActive();
 

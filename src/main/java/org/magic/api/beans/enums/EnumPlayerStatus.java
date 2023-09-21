@@ -4,7 +4,7 @@ import java.awt.Color;
 
 public enum EnumPlayerStatus {
 
-	ONLINE("Online",Color.GREEN), 
+	ONLINE("Online",new Color(76,181,108)), 
 	BUSY("Buzy",Color.RED), 
 	AWAY("Away",Color.ORANGE), 
 	GAMING("Gaming",Color.CYAN),
@@ -27,5 +27,10 @@ public enum EnumPlayerStatus {
 	{
 		this.libelle=l;
 		this.color = c;
+	}
+	
+	@Override
+	public String toString() {
+		return getLibelle();
 	}
 }

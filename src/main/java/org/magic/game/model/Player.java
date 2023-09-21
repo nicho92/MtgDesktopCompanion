@@ -14,6 +14,7 @@ import org.apache.commons.lang.math.RandomUtils;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.enums.EnumPlayerStatus;
 import org.magic.services.tools.ImageTools;
 import org.utils.patterns.observer.Observable;
 
@@ -27,13 +28,8 @@ public class Player extends Observable implements Serializable {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-
-	public enum STATUS {
-		ONLINE, BUSY, AWAY, GAMING,TYPING,DISCONNECTED,CONNECTED
-	}
-
 	private Long id;
-	private STATUS state;
+	private EnumPlayerStatus state;
 	private int life;
 	private String name;
 	private transient MagicDeck deck;
@@ -58,11 +54,11 @@ public class Player extends Observable implements Serializable {
 		return admin;
 	}
 	
-	public STATUS getState() {
+	public EnumPlayerStatus getState() {
 		return state;
 	}
 
-	public void setState(STATUS state) {
+	public void setState(EnumPlayerStatus state) {
 		this.state = state;
 	}
 
