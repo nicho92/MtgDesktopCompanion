@@ -16,6 +16,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.enums.EnumCardVariation;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumFinishes;
 import org.magic.api.beans.enums.EnumFrameEffects;
@@ -76,6 +77,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	protected static final String MULTIVERSE_ID = "multiverseId";
 	protected static final String MANA_COST = "manaCost";
 	protected static final String NAME = "name";
+	protected static final String FACENAME = "faceName";
 	protected static final String LANGUAGE = "language";
 	protected static final String SETCODE="setCode";
 	protected static final String KEYWORDS = "keywords";
@@ -189,6 +191,22 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 			return null;
 		}
 	}
+	
+	@Override
+	public List<MagicCard> searchCardByName(String name, MagicEdition me, boolean exact) throws IOException {
+		var ret = searchCardByCriteria(NAME,name, me, exact);
+
+		if(ret.isEmpty())
+			ret = searchCardByCriteria(FACENAME,name, me, false);
+
+		return ret;
+	}
+
+	@Override
+	public List<MagicCard> searchCardByName(String name, MagicEdition me, boolean exact, EnumCardVariation extra) throws IOException{
+		return searchCardByCriteria(NAME,name, me, exact,extra);
+	}
+
 
 
 	@Override

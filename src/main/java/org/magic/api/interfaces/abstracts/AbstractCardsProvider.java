@@ -153,13 +153,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 
 	@Override
 	public List<MagicCard> searchCardByName(String name, MagicEdition me, boolean exact) throws IOException {
-		var ret = searchCardByCriteria("name",name, me, exact);
-
-		if(ret.isEmpty())
-			ret = searchCardByCriteria("faceName",name, me, false);
-
-		return ret;
-
+		return searchCardByCriteria("name",name, me, exact);
 	}
 
 
