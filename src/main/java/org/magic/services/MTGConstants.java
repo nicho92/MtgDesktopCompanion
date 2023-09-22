@@ -41,29 +41,8 @@ public class MTGConstants {
 	public static final String KEYSTORE_PASS = "changeit";
 	public static final Version FREEMARKER_VERSION=Configuration.VERSION_2_3_31;
 	public static final String SSL_PROTO = "TLS";
-	private static final String[] DEFAULT_COLLECTIONS_NAMES = new String[] { "Library", "Needed", "For Sell", "Favorites" };
 
-	public static String[] getDefaultCollectionsNames() {
-		return DEFAULT_COLLECTIONS_NAMES;
-	}
 
-	public static final Contact DEFAULT_CONTACT;
-
-	static {
-		DEFAULT_CONTACT = new Contact();
-		DEFAULT_CONTACT.setId(1);
-		DEFAULT_CONTACT.setName("MTG");
-		DEFAULT_CONTACT.setLastName("Companion");
-		DEFAULT_CONTACT.setTelephone("123456789");
-		DEFAULT_CONTACT.setAddress("Somewhere");
-		DEFAULT_CONTACT.setCity("In the middle of nowhere");
-		DEFAULT_CONTACT.setWebsite("https://www.mtgcompanion.org");
-		DEFAULT_CONTACT.setEmail("mtgdesktopcompanion@gmail.com");
-		DEFAULT_CONTACT.setActive(true);
-		DEFAULT_CONTACT.setEmailAccept(true);
-	}
-	
-	
 //CONFIG FILES CONSTANTS
 	public static final String MTG_DESKTOP_VERSION_FILE = "/version";
 	public static final File MTG_BOOSTERS_LOCAL_URI = new File(MTGConstants.class.getResource("/data/boosters.xml").getFile());
@@ -107,6 +86,34 @@ public class MTGConstants {
 	public static final String URL_RULES_FILE = "https://media.wizards.com/2022/downloads/MagicCompRules%2020220429.txt";
 	public static final String WIZARD_EVENTS_URL = "https://magic.wizards.com/en/calendar-node-field-event-date-ajax/month/";
 
+	
+	
+//DEFAULT CONSTANTS
+	public static final Contact DEFAULT_CONTACT;
+	private static final String[] DEFAULT_COLLECTIONS_NAMES = new String[] { "Library", "Needed", "For Sell", "Favorites" };
+
+	static {
+		DEFAULT_CONTACT = new Contact();
+		DEFAULT_CONTACT.setId(1);
+		DEFAULT_CONTACT.setName("MTG");
+		DEFAULT_CONTACT.setLastName("Companion");
+		DEFAULT_CONTACT.setTelephone("123456789");
+		DEFAULT_CONTACT.setAddress("Somewhere");
+		DEFAULT_CONTACT.setCity("In the middle of nowhere");
+		DEFAULT_CONTACT.setWebsite(MTG_DESKTOP_WEBSITE);
+		DEFAULT_CONTACT.setEmail("mtgdesktopcompanion@gmail.com");
+		DEFAULT_CONTACT.setActive(true);
+		DEFAULT_CONTACT.setEmailAccept(true);
+	}
+
+	public static String[] getDefaultCollectionsNames() {
+		return DEFAULT_COLLECTIONS_NAMES;
+	}
+	
+	
+	
+	
+	
 //PLUGINS CONSTANTS
 	public static final String DEFAULT_NOTIFIER_NAME="Tray";
 	public static final String EMAIL_NOTIFIER_NAME = "email";

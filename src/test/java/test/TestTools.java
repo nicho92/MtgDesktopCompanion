@@ -12,6 +12,9 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.services.logging.MTGLogger;
+import org.magic.services.network.URLTools;
+
+import com.google.gson.JsonObject;
 
 public class TestTools {
 
@@ -20,6 +23,14 @@ public class TestTools {
 		return new JsonExport().importDeckFromFile(new File(TestTools.class.getResource("/sample.json").toURI())).getMainAsList();
 		
 	}
+	
+	public static JsonObject loadGraderData() throws IOException
+	{
+		return URLTools.toJson(TestTools.class.getResource("/default_value.json").openStream()).getAsJsonObject();
+		
+	}
+	
+	
 	
 	public static void initTest()
 	{
