@@ -14,11 +14,6 @@ public class CardMarketGrading extends AbstractGradersProvider {
 	
 	private static final String BASE_SITE ="https://guardandgradingsolution.de/wizardsproject_get_grading.php";
 	
-	
-	public static void main(String[] args) throws IOException {
-		new CardMarketGrading().loadGrading("5198");
-	}
-	
 	@Override
 	public Grading loadGrading(String identifier) throws IOException {
 		var g = new Grading();
