@@ -11,11 +11,6 @@ import org.magic.services.tools.UITools;
 
 public class CCCGrader extends AbstractGradersProvider {
 
-	
-	public static void main(String[] args) throws IOException {
-		new CCCGrader().loadGrading("747359539");
-	}
-	
 	@Override
 	public Grading loadGrading(String identifier) throws IOException {
 		
