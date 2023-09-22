@@ -25,7 +25,6 @@ import org.magic.services.tools.FileTools;
 import org.magic.services.tools.UITools;
 
 import com.jayway.jsonpath.DocumentContext;
-import com.jayway.jsonpath.Filter;
 
 public class CardKingdomPricer extends AbstractPricesProvider {
 
@@ -59,8 +58,8 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 			init();
 
 
-        String name = CardKingdomTools.getCKFormattedName(mc);
-        String ed = CardKingdomTools.getCKFormattedSet(mc);
+        var name = CardKingdomTools.getCKFormattedName(mc);
+        var ed = CardKingdomTools.getCKFormattedSet(mc);
 		
 		var filtres =where("name").is(name)
 				.and("sku").contains(mc.getCurrentSet().getId().toUpperCase())
@@ -97,9 +96,9 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 		}
 
 
-		Filter cheapFictionFilter = filter(filtres);
+		var cheapFictionFilter = filter(filtres);
 
-		Chrono c = new Chrono();
+		var c = new Chrono();
 
 		c.start();
 		logger.debug("Reading file {} with {} ",jsonFile,cheapFictionFilter );

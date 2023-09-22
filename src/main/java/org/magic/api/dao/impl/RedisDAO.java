@@ -1,4 +1,4 @@
-package org.beta;
+package org.magic.api.dao.impl;
 
 import java.sql.SQLException;
 import java.time.Instant;
