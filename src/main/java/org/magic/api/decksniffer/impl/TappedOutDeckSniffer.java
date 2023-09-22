@@ -32,7 +32,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public STATUT getStatut() {
-		return STATUT.BETA;
+		return STATUT.DEPRECATED;
 	}
 
 	@Override

@@ -25,6 +25,7 @@ import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDeckSniffer;
+import org.magic.api.interfaces.MTGPlugin.STATUT;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.tools.MTG;
 import org.utils.patterns.observer.Observable;
@@ -235,7 +236,7 @@ public class MTGDeckManager extends Observable {
 		try {
 			Random random= SecureRandom.getInstanceStrong();
 
-			List<MTGDeckSniffer> deckServices = listEnabledPlugins(MTGDeckSniffer.class);
+			List<MTGDeckSniffer> deckServices = listEnabledPlugins(MTGDeckSniffer.class).stream().filter(p->p.getStatut()==STATUT.STABLE).toList();
 			MTGDeckSniffer sniffer = deckServices.get(random.nextInt(deckServices.size()));
 			String[] formats = sniffer.listFilter();
 			List<RetrievableDeck> availableDecks = sniffer.getDeckList(formats[random.nextInt(formats.length)]);
