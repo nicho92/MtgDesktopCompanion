@@ -36,7 +36,7 @@ public class TestTools {
 	{
 //		MTGConstants.CONF_DIR = new File(System.getProperty("user.home") + "/.magicDeskCompanion-test/");
 //		MTGConstants.DATA_DIR = new File(MTGConstants.CONF_DIR.getAbsolutePath(),"data");
-		MTGLogger.changeLevel(Level.OFF);
+		MTGLogger.changeLevel(Level.DEBUG);
 		
 		getEnabledPlugin(MTGCardsProvider.class).init();
 	}

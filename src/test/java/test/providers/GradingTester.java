@@ -6,6 +6,7 @@ import java.net.URISyntaxException;
 import org.junit.Before;
 import org.junit.Test;
 import org.magic.api.interfaces.MTGGraders;
+import org.magic.services.MTGControler;
 import org.magic.services.tools.MTG;
 
 import test.TestTools;
@@ -15,7 +16,7 @@ public class GradingTester {
 	@Before
 	public void initTest() throws IOException, URISyntaxException
 	{
-		TestTools.initTest();
+		MTGControler.getInstance().loadAccountsConfiguration();
 	}
 	
 	
@@ -27,11 +28,11 @@ public class GradingTester {
 		var grads = TestTools.loadGraderData().get("GRADING").getAsJsonObject();
 		grads.entrySet().forEach(e->{
 			var p = MTG.getPlugin(e.getKey(),MTGGraders.class);
-			testPlugin(p);
+			testPlugin(p,e.getValue().getAsString());
 		});
 	}
 	
-	public void testPlugin(MTGGraders p)
+	public void testPlugin(MTGGraders p, String string)
 	{
 		
 		System.out.println("*****************************"+p.getName());
@@ -45,6 +46,13 @@ public class GradingTester {
 		System.out.println("CONF FILE " + p.getConfFile());
 		
 
+		try {
+			System.out.println(p.loadGrading(string));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
 	}
 	
 	
