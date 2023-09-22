@@ -59,10 +59,10 @@ public class ThreadManager {
 
 		task.getInfo().setName(name);
 		TechnicalServiceManager.inst().store(task.getInfo());
-		return submitCallable(Executors.callable(task), name);
+		return submitCallable(Executors.callable(task));
 	}
 
-	public <V> Future<V> submitCallable(Callable<V> task,String name) {
+	public <V> Future<V> submitCallable(Callable<V> task) {
 		return executor.submit(task);
 	}
 

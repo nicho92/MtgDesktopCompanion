@@ -67,7 +67,7 @@ public abstract class AbstractKeyValueDao extends AbstractMagicDAO {
 	
 	protected String key(Announce c)
 	{
-		return KEY_ALERTS+SEPARATOR+c.getId();
+		return KEY_ANNOUNCES+SEPARATOR+c.getId();
 	}
 	
 	protected String key(MagicNews c)

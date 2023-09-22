@@ -17,6 +17,7 @@ import org.magic.api.beans.abstracts.AbstractMessage;
 import org.magic.api.beans.abstracts.AbstractMessage.MSG_TYPE;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.EnumPlayerStatus;
+import org.magic.api.beans.messages.SearchAnswerMessage;
 import org.magic.api.beans.messages.SearchMessage;
 import org.magic.api.beans.messages.StatutMessage;
 import org.magic.api.interfaces.MTGDao;
@@ -195,6 +196,7 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 			if(s.getItem().getTypeProduct()==EnumItems.CARD)
 			{
 				var ret = MTG.getEnabledPlugin(MTGDao.class).listStocks((MagicCard)s.getItem());
+				sendMessage(new SearchAnswerMessage(s, ret));
 			}
 		} catch (SQLException e) {
 			logger.error(e);

@@ -11,6 +11,7 @@ import javax.swing.ImageIcon;
 import org.magic.api.beans.Announce;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.abstracts.AbstractStockItem;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.beans.enums.EnumItems;
@@ -59,17 +60,18 @@ public class AnnouncesExport extends AbstractCardExport {
 			a.setContact(MTGControler.getInstance().getWebConfig().getContact());
 			var sb = new StringBuilder("//MAIN<br/>");
 
-			deck.getMain().entrySet().forEach(e->sb.append(e.getValue()).append(" ").append(e.getKey()).append("<br/>"));
+			deck.getMain().entrySet().forEach(e->{
+				var p = AbstractStockItem.generateDefault();
+				p.setProduct(e.getKey());
+				a.getItems().add(p);
+				sb.append(e.getValue()).append(" ").append(e.getKey()).append("<br/>");
+			});
 
 			sb.append("//SIDEBOARD<br/>");
 			deck.getSideBoard().entrySet().forEach(e->sb.append(e.getValue()).append(" ").append(e.getKey()).append("<br/>"));
 			a.setDescription(sb.toString());
-
-
-
 			MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateAnnounce(a);
-
-			notify(deck);
+			
 		} catch (Exception e) {
 			logger.error(e);
 		}

@@ -18,6 +18,7 @@ public class CardMarketGrading extends AbstractGradersProvider {
 	public Grading loadGrading(String identifier) throws IOException {
 		var g = new Grading();
 			 g.setNumberID(identifier);
+			 g.setGraderName(getName());
 		
 		var d = RequestBuilder.build()
 				.setClient(URLTools.newClient())
@@ -47,7 +48,7 @@ public class CardMarketGrading extends AbstractGradersProvider {
 				g.setCorners(UITools.parseDouble(s.substring(s.indexOf(" "))));
 			
 			if(s.contains("Total Grade:"))
-				g.setGradeNote(UITools.parseDouble(s.substring(s.indexOf(" "))));
+				g.setGradeNote(UITools.parseDouble(s.substring(s.lastIndexOf("</b>")+4)));
 			
 		}
 		return g;

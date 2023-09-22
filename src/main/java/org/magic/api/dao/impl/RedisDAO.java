@@ -410,6 +410,7 @@ public class RedisDAO extends AbstractKeyValueDao {
 
 	@Override
 	public void saveAlert(MagicCardAlert alert) throws SQLException {
+		alert.setId(IDGenerator.generate(alert.getCard()));
 		redisCommand.set(key(alert), serialiser.toJson(alert));
 
 	}
@@ -426,6 +427,7 @@ public class RedisDAO extends AbstractKeyValueDao {
 	}
 	
 
+	
 	@Override
 	public List<MagicNews> listNews() {
 		var ret = new ArrayList<MagicNews>();
@@ -464,7 +466,9 @@ public class RedisDAO extends AbstractKeyValueDao {
 		if(a.getId()<0)
 			a.setId(incr(Announce.class).intValue());
 		
-		redisCommand.set(key(a), serialiser.toJson(a));
+		var ret = redisCommand.set(key(a), serialiser.toJson(a));
+		
+		logger.info("saving {} : {}",a,ret);
 		
 		return a.getId();
 	}
@@ -481,11 +485,20 @@ public class RedisDAO extends AbstractKeyValueDao {
 		saveOrUpdateContact(c);
 	}
 
-	//TODO found how to remove element from sets
 	@Override
 	public void removeCard(MagicCard mc, MagicCollection collection) throws SQLException {
 			var k = key(collection,mc.getCurrentSet());
-			redisCommand.srem(k, serialiser.toJson(mc));
+			for(var s : redisCommand.smembers(k))
+			{
+				var jo = serialiser.fromJson(s,MagicCard.class);
+				
+				if(jo.getId().equals(mc.getId()))
+				{	
+					var l = redisCommand.srem(k, s);
+					logger.debug("Remove {} from {} : {}",mc,collection,l);
+					break;
+				}
+			}
 	}
 
 
@@ -559,8 +572,22 @@ public class RedisDAO extends AbstractKeyValueDao {
 
 
 	@Override
+	public List<Announce> listAnnounces() throws SQLException {
+		var ret = new ArrayList<Announce>();
+		redisCommand.keys(KEY_ANNOUNCES+SEPARATOR+"*").forEach(s->{
+			var d=  serialiser.fromJson(redisCommand.get(s), Announce.class);
+			ret.add(d);
+			notify(d);
+		});
+		
+		return ret;
+	}
+
+	
+
+	@Override
 	public List<Announce> listAnnounces(int max, STATUS stat) throws SQLException {
-		return new ArrayList<>();
+		return listAnnounces().stream().filter(a->a.getStatus()==stat).skip((long)max-1).toList();
 	}
 
 

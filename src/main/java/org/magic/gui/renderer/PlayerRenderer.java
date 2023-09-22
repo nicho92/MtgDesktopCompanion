@@ -1,7 +1,6 @@
 package org.magic.gui.renderer;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.JComponent;

@@ -82,7 +82,7 @@ public class CardShakeDashBoardServer extends AbstractMTGServer {
 		};
 
 		timer.scheduleAtFixedRate(tache, 0, Long.parseLong(getString(TIMEOUT_MINUTE)) * 60000);
-		logger.info("Server start with {} min timeout",getString(TIMEOUT_MINUTE));
+		logger.info(()->"Server start with {} min timeout "+getString(TIMEOUT_MINUTE));
 
 	}
 

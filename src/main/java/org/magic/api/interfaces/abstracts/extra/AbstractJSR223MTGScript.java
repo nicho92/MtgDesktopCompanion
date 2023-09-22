@@ -12,8 +12,8 @@ import org.magic.api.interfaces.abstracts.AbstractMTGScript;
 public abstract class AbstractJSR223MTGScript extends AbstractMTGScript  {
 
 	public abstract String getEngineName();
-	protected Bindings binds;
-	protected ScriptEngine engine;
+	private Bindings binds;
+	private ScriptEngine engine;
 
 	public static AbstractJSR223MTGScript build(String name, String engineName,String extension ) {
 		return new AbstractJSR223MTGScript() {
