@@ -681,14 +681,21 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 				}
 		}
 		
-		try {
+		JsonArray arr =null;
+			try {
+				arr = ctx.read(base +".sealedProduct",JsonArray.class);
+			}
+			catch(PathNotFoundException pnfe)
+			{
+				return ed;
+			}
 			
-			var arr = ctx.read(base +".sealedProduct",JsonArray.class);
 			
 			int itemId=1;
 			
 			for(var el : arr)
 			{
+				try {
 				var sp = new MTGSealedProduct();
 					sp.setEdition(ed);
 					sp.setName(el.getAsJsonObject().get("name").getAsString());
@@ -713,12 +720,13 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 				
 					
 				sealeds.add(sp);
+				
+				}catch(Exception e)
+				{
+					//do nothing
+				}
+
 			}
-			
-		}catch(PathNotFoundException e)
-		{
-			//do nothing
-		}
 		
 		
 		
@@ -754,8 +762,8 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 			case "booster_pack" : return EnumItems.BOOSTER;
 			case "bundle" : return EnumItems.BUNDLE;
 			case "prerelease_pack" : return EnumItems.PRERELEASEPACK;
-			case "deck" : return EnumItems.CONSTRUCTPACK;
-			case "commander_deck" : return EnumItems.CONSTRUCTPACK;
+			case "deck" : return EnumItems.DECK;
+			case "commander_deck" : return EnumItems.DECK;
 			case "draft_set": return EnumItems.DRAFT_PACK;
 			default : return null;
 		}
