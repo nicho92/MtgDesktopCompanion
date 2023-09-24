@@ -1735,8 +1735,11 @@
 			url="https://poromagia.com/media/images/products/2017/09/Ixalan-Booster-1-148585.jpg" />
 		<booster lang='en' num='3'
 			url="https://www.magicsur.cl/7745-thickbox_default/ixalan-sobre-magic-the-gathering.jpg" />
-		<booster lang='de' num='4'
+		<booster lang='en' num='4'
 			url="https://www.magicsur.cl/7744-thickbox_default/ixalan-sobre-magic-the-gathering.jpg" />
+			
+		<box lang="en"	 num="1" extra="draft" url="https://themanashop.ch/18995-thickbox_default/ixalan-booster-box.jpg"/>
+			
 		<set lang='en'
 			url="https://media-dominaria.cursecdn.com/avatars/thumbnails/133/153/320/160/636390134824986390.png" />
 		
