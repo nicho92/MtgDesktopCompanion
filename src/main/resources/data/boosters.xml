@@ -2624,6 +2624,17 @@
 		<box lang="en" num="1" extra="collector" url="https://mtgrocks.com/wp-content/uploads/2023/05/Doctor-Who-Collector-Boosters.png"/>
 		<booster lang="en" num="1" extra="collector" url="https://m.media-amazon.com/images/I/71CQ+yDKySL._AC_UF894,1000_QL80_.jpg"/>
 	</edition>
-	
+	<edition id="LCI">
+		<set lang="en" num="1" url="https://images.ctfassets.net/s5n2t79q9icq/32FuryzqbX0daXuUOfQh6W/6c2e3a87e71192558faed356139a1856/vn94nw9nhuioiuylj_EN.png?fm=webp"/>
+		<box lang="en" num="1" extra="set" url="https://media.wizards.com/2023/images/daily/en_5jX19Z8sVhp.png"/>
+		<box lang="en" num="2" extra="draft" url="https://media.wizards.com/2023/images/daily/en_BPwC9oRSH3n.png"/>
+		<box lang="en" num="3" extra="collector" url="https://media.wizards.com/2023/images/daily/en_FxA6F3AuJBP.png"/>
+		<bundle lang="en" num="1" url="https://media.wizards.com/2023/images/daily/en_m2uK38ekqxQ.png"/>
+		<bundle lang="en" num="2"  extra="gift" url="https://media.wizards.com/2023/images/daily/hGiVJyT3jCo.png"/>
+		<prereleasepack lang="en" num="1" url="https://media.wizards.com/2023/images/daily/en_dP44SmzWbMC.png"/>
+		<booster lang="en" num="1" extra="set" url="https://amusengames.ca/wp-content/uploads/2023/09/MTGLCI_EN_Bstr_Set_01_02.png"/>
+		<booster lang="en" num="1" extra="draft" url="https://amusengames.ca/wp-content/uploads/2023/09/MTGLCI_EN_Bstr_Drft_01_02.png"/>
+		<booster lang="en" num="1" extra="collector" url="https://amusengames.ca/wp-content/uploads/2023/09/MTGLCI_EN_ClctrBstr_01_02.png"/>
+	</edition>
 
 </boosterUrls>
