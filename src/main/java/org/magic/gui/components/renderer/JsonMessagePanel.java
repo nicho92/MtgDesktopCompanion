@@ -18,6 +18,8 @@ import javax.swing.border.LineBorder;
 import org.magic.api.beans.abstracts.AbstractMessage;
 import org.magic.api.beans.abstracts.AbstractMessage.MSG_TYPE;
 import org.magic.api.beans.messages.SearchMessage;
+import org.magic.api.beans.messages.TalkMessage;
+import org.magic.api.interfaces.MTGProduct;
 import org.magic.services.MTGControler;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.ImageTools;
@@ -32,13 +34,13 @@ public class JsonMessagePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JLabel lblTime;
 	private JTextArea textArea;
-
+	int iconSize=25;
 	
 	
 	public JsonMessagePanel(AbstractMessage value) {
 		setBorder(new LineBorder(value.getColor(),2,true));
 		
-		int iconSize=25;
+		
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{10, 0, 0, 0};
@@ -59,21 +61,22 @@ public class JsonMessagePanel extends JPanel {
 		if(value.getTypeMessage()==MSG_TYPE.SEARCH)
 		{
 			var item = ((SearchMessage)value).getItem();
-			BufferedImage bi;
 			try {
-				bi = URLTools.extractAsImage(item.getUrl());
-				bi=ImageTools.scaleResize(bi, iconSize*2);
-				var lab = new JLabel(new ImageIcon(bi));
-				
-				separator.add(lab);
-				
+				separator.add(read(item));
 			} catch (IOException e) {
 				//do nothing
 			}
-						
-			
-			
-			
+		}
+
+		if(value.getTypeMessage()==MSG_TYPE.TALK)
+		{
+			var item = ((TalkMessage)value).getMagicCard();
+			if(item!=null)
+				try {
+					separator.add(read(item));
+				} catch (IOException e) {
+					//do nothing
+				}
 		}
 		
 		
@@ -119,6 +122,15 @@ public class JsonMessagePanel extends JPanel {
 		gbclblTime.gridx = 1;
 		gbclblTime.gridy = 2;
 		add(lblTime, gbclblTime);
+	}
+
+
+
+	private JLabel read(MTGProduct item) throws IOException {
+		var bi = URLTools.extractAsImage(item.getUrl());
+		bi=ImageTools.scaleResize(bi, iconSize*2);
+		return new JLabel(new ImageIcon(bi));
+	
 	}
 	
 }
