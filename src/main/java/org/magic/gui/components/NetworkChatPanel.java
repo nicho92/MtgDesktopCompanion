@@ -10,6 +10,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -88,7 +89,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		editorPane = new JTextArea();
 		var panel1 = new JPanel();
 		btnColorChoose = new JButton(MTGConstants.ICON_GAME_COLOR);
-		cboStates = UITools.createCombobox(EnumPlayerStatus.values());
+		cboStates = UITools.createCombobox(Arrays.asList(EnumPlayerStatus.values()).stream().filter(s->s!=EnumPlayerStatus.CONNECTED).filter(s->s!=EnumPlayerStatus.DISCONNECTED).toList());
 		var panelChatBox = new JPanel();
 		txtServer.setText(MTGControler.getInstance().get("network-config/network-last-server", ActiveMQServer.DEFAULT_SERVER));
 		txtServer.setColumns(10);
@@ -102,8 +103,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		listPlayers.setCellRenderer(new PlayerRenderer());
 		listMsg.setCellRenderer(new MessageRenderer());
 			
-		btnSearch = new JButton("Search");
-
+		btnSearch = UITools.createBindableJButton("", MTGConstants.ICON_SEARCH_24,KeyEvent.VK_S,"searchquery");
 		try {
 			editorPane.setForeground(new Color(Integer.parseInt(MTGControler.getInstance().get("/game/player-profil/foreground"))));
 		} catch (Exception e) {
@@ -127,8 +127,8 @@ public class NetworkChatPanel extends MTGUIComponent {
 		panelChatBox.add(editorPane, BorderLayout.CENTER);
 		panelChatBox.add(panel1, BorderLayout.NORTH);
 
-		panel1.add(btnColorChoose);
 		panel1.add(cboStates);
+		panel1.add(btnColorChoose);
 		panel1.add(btnSearch);
 		
 		
@@ -294,6 +294,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 				}
 				catch(Exception e)
 				{
+					e.printStackTrace();
 					logger.error(e);
 				}
 				
@@ -320,7 +321,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 				
 				for(var s : chunks)
 				{
-					
+				
 					switch(s.getTypeMessage())
 					{
 						case CHANGESTATUS: 
@@ -367,9 +368,10 @@ public class NetworkChatPanel extends MTGUIComponent {
 							
 						default:break;
 					}
+				
 				}
+				
 				listPlayers.updateUI();
-
 				
 				listMsg.ensureIndexIsVisible( listMsg.getModel().getSize() - 1 );
 				

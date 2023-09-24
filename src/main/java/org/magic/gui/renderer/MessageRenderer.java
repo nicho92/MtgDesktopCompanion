@@ -15,8 +15,23 @@ public class MessageRenderer implements ListCellRenderer<AbstractMessage> {
 	@Override
 	public Component getListCellRendererComponent(JList<? extends AbstractMessage> list, AbstractMessage value, int index,boolean isSelected, boolean cellHasFocus) {
 		var panel = new JPanel();
+		var pane = new JsonMessagePanel(value);
 		panel.setLayout(new BorderLayout());
 		panel.add(new JPanel(),BorderLayout.NORTH);
-		panel.add(new JsonMessagePanel(value),BorderLayout.CENTER);
+		panel.add(pane,BorderLayout.CENTER);
+		pane.setOpaque(true);
+		
+		if(isSelected)
+		{
+			pane.setBackground(list.getSelectionBackground());
+			pane.setForeground(list.getSelectionForeground());
+		}
+		else
+		{
+			pane.setBackground(list.getBackground());
+			pane.setForeground(list.getForeground());
+		}
+		
+		
 		return panel;
 	}}

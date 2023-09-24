@@ -15,6 +15,7 @@ public enum EnumItems
 	CHALLENGERDECK ("Challenger deck"),
 	FATPACK ("Fat Pack"),
 	DECK ("Deck"),  
+	COMMANDER_DECK ("Commander Deck"),
 	CASE ("Case of Sealed product"), 
 	DRAFT_PACK ("3 boosters pack"),
 	WELCOME ("Welcome pack");

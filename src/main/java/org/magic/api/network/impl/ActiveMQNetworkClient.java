@@ -126,10 +126,13 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 
 	@Override
 	protected String read() throws IOException {
-		ClientMessage msg;
+		ClientMessage msg=null;
 		try {
-			msg = consumer.receive();
-			logger.debug("consume {}",msg);
+			
+			if(!consumer.isClosed()) {
+				msg = consumer.receive();
+				logger.debug("consume {}",msg);
+			}
 		} catch (ActiveMQException e) {
 			throw new IOException(e);
 		}

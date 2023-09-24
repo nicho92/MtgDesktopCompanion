@@ -11,7 +11,7 @@ public enum EnumExtra {
 	VIP ("vip"),
 	WELCOME("default"),	
 	JUMP ("jumpstart"),
-	INTRO("default"),
+	INTRO("intro"),
 	PLANESWALKER("default"),
 	STARTER("starter"),
 	BRAWL("default");

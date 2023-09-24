@@ -702,6 +702,8 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 					sp.setTypeProduct(parseType(el.getAsJsonObject().get("category").getAsString()));
 					sp.setNum(itemId++);
 					sp.setLang("en");
+					
+					if(el.getAsJsonObject().get("subtype")!=null) {
 					var extra=el.getAsJsonObject().get("subtype").getAsString();
 					
 					if(extra.equals("starter"))
@@ -713,8 +715,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 						sp.setExtra(parseExtra(extra));	
 					}
 					
-					
-					
+					}
 					if(sp.getName().contains(" Gift "))
 						sp.setExtra(EnumExtra.GIFT);
 				
@@ -763,7 +764,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 			case "bundle" : return EnumItems.BUNDLE;
 			case "prerelease_pack" : return EnumItems.PRERELEASEPACK;
 			case "deck" : return EnumItems.DECK;
-			case "commander_deck" : return EnumItems.DECK;
+			case "commander_deck" : return EnumItems.COMMANDER_DECK;
 			case "draft_set": return EnumItems.DRAFT_PACK;
 			default : return null;
 		}
