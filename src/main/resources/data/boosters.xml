@@ -2636,5 +2636,13 @@
 		<booster lang="en" num="1" extra="draft" url="https://amusengames.ca/wp-content/uploads/2023/09/MTGLCI_EN_Bstr_Drft_01_02.png"/>
 		<booster lang="en" num="1" extra="collector" url="https://amusengames.ca/wp-content/uploads/2023/09/MTGLCI_EN_ClctrBstr_01_02.png"/>
 	</edition>
+	<edition id="LCC">
+		<set lang="en" num="1" url="https://images.ctfassets.net/s5n2t79q9icq/32FuryzqbX0daXuUOfQh6W/6c2e3a87e71192558faed356139a1856/vn94nw9nhuioiuylj_EN.png?fm=webp"/>
+		<constructpack lang="en" num="1" url="https://media.wizards.com/2023/images/daily/en_NTJoZlNtjyP.png" desc="Ahoy Mateys"/>
+		<constructpack lang="en" num="2" url="https://media.wizards.com/2023/images/daily/en_JBRYmYZLfZU.png" desc="Blood Rites"/>
+		<constructpack lang="en" num="3" url="https://media.wizards.com/2023/images/daily/en_maBBlhD3ioG.png" desc="Explorers of the deep"/>
+		<constructpack lang="en" num="4" url="https://media.wizards.com/2023/images/daily/en_M5ARuzqNxBn.png" desc="Veloci-ramp-tor"/>
+	
+	</edition>
 
 </boosterUrls>
