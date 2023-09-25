@@ -174,7 +174,6 @@ private MTGPool pool;
 		try (var c = pool.getConnection(); var pst = c.createStatement())
 		{
 			var sql = getMTGQueryManager().build(crits).toString();
-			logger.debug("sql={}",sql);
 			try (ResultSet rs = pst.executeQuery(sql))
 			{
 				while(rs.next())

@@ -19,8 +19,11 @@ public class SQLCriteriaBuilder extends AbstractQueryBuilder<Query>
 	@SuppressWarnings("unchecked")
 	public Query build(MTGCrit<?>... crits)
 	{
-		Query query = select(field("*")).from(table("cards"));
-
+		
+		Query query = select(table("cards").asterisk(),table("cardIdentifiers").asterisk() )
+							  .from(table("cards"),table("cardIdentifiers"))
+							  .where("cardIdentifiers.uuid=cards.uuid");
+							 
 			for(MTGCrit<?> c:crits)
 			{
 				if(c.isList())
@@ -44,7 +47,7 @@ public class SQLCriteriaBuilder extends AbstractQueryBuilder<Query>
 					}
 				}
 			}
-
+						
 		return query;
 	}
 
