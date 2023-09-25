@@ -34,6 +34,7 @@ public class JsonCriteriaBuilder extends AbstractQueryBuilder<Filter> {
 				case LOWER_EQ:l.add(where(c.getAtt()).lte(getValueFor(c.getFirst())));break;
 				case START_WITH:break;
 				case IN:l.add(where(c.getAtt()).in(getValueFor(c.getVal())));break;
+				case NOT:l.add(where(c.getAtt()).noneof(getValueFor(c.getVal())));break;
 				case END_WITH :break;
 			}
 		}

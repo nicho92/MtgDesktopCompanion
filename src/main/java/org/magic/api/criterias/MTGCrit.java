@@ -1,7 +1,7 @@
 package org.magic.api.criterias;
 
 import java.util.Arrays;
-import java.util.List;
+
 
 public class MTGCrit<T> {
 
@@ -9,7 +9,7 @@ public class MTGCrit<T> {
 	private OPERATOR operator;
 	private T[] val;
 
-	public enum OPERATOR { EQ,START_WITH,END_WITH, LIKE,GREATER,LOWER,GREATER_EQ,LOWER_EQ, IN }
+	public enum OPERATOR { EQ,START_WITH,END_WITH, LIKE,GREATER,LOWER,GREATER_EQ,LOWER_EQ, IN, NOT }
 
 	@SafeVarargs
 	public MTGCrit(String att, OPERATOR operator, T... val) {
@@ -63,13 +63,6 @@ public class MTGCrit<T> {
 	{
 		return val.length>1;
 	}
-
-	public List<T> toList()
-	{
-		return Arrays.asList(val);
-	}
-
-
 
 	@Override
 	public String toString() {
