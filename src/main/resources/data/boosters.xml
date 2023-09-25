@@ -442,16 +442,19 @@
 			url="https://images-na.ssl-images-amazon.com/images/I/917kkKA9VtL._SX425_.jpg" />
 	</edition>
 	<edition id='ZEN'>
+	
 		<booster lang='en' num='1'
-			url="https://magic.wizards.com/sites/mtg/files/image_legacy_migration/mtg/images/daily/arcana/256_ZENBooster1.jpg" />
+			url="https://static.cardkingdom.com/images/magic-the-gathering/zendikar/zendikar-booster-pack-47433.jpg" />
 		<booster lang='en' num='2'
-			url="https://magic.wizards.com/sites/mtg/files/image_legacy_migration/mtg/images/daily/arcana/256_ZENBooster2.jpg" />
+			url="https://crystal-cdn1.crystalcommerce.com/photos/199030/zendikar_booster_pack.jpg" />
 		<booster lang='en' num='3'
-			url="https://magic.wizards.com/sites/mtg/files/image_legacy_migration/mtg/images/daily/arcana/256_ZENBooster3.jpg" />
+			url="https://www.play-in.com/img/product/l/booster_zendikar.png" />
 		<booster lang='en' num='4'
-			url="https://magic.wizards.com/sites/mtg/files/image_legacy_migration/mtg/images/daily/arcana/256_ZENBooster4.jpg" />
-		<booster lang='en' num='5'
-			url="https://magic.wizards.com/sites/mtg/files/image_legacy_migration/mtg/images/daily/arcana/256_ZENBooster5.jpg" />
+			url="https://i.ebayimg.com/images/g/IDkAAMXQLQVR7EN6/s-l500.jpg" />
+		<booster lang='it' num='5'
+			url="https://i.ebayimg.com/images/g/srwAAOSw955lBxQQ/s-l1600.jpg" />
+			
+			
 		<set lang='en'
 			url="http://mtgen.net/zen/images/logo-word.webp" />
 		<bundle lang='en'
@@ -459,15 +462,15 @@
 		<box lang='en'
 			url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/248563.jpg" />
 		<constructpack lang='en' num='1'
-			url="http://www.manaleak.com/magic-the-gathering/images/zendikar_intro_pack___kor_armory.jpg" />
+			url="https://static.cardkingdom.com/images/magic-the-gathering/zendikar/zendikar-intro-pack-kor-armory-85489.jpg" />
 		<constructpack lang='en' num='2'
-			url="http://www.manaleak.com/magic-the-gathering/images/zendikar_intro_pack___pumped_up.jpg" />
+			url="https://static.cardkingdom.com/images/magic-the-gathering/zendikar/zendikar-intro-pack-pumped-up-96885.jpg" />
 		<constructpack lang='en' num='3'
-			url="http://www.manaleak.com/magic-the-gathering/images/zendikar_intro_pack___rise_of_the_vampires.jpg" />
+			url="https://static.cardkingdom.com/images/magic-the-gathering/zendikar/zendikar-intro-pack-rise-of-the-vampires-89476.jpg" />
 		<constructpack lang='en' num='4'
-			url="http://www.manaleak.com/magic-the-gathering/images/zendikar_intro_pack___the_adventurers.jpg" />
+			url="https://static.cardkingdom.com/images/magic-the-gathering/zendikar/zendikar-intro-pack-the-adventurers-27071.jpg" />
 		<constructpack lang='en' num='5'
-			url="http://www.manaleak.com/magic-the-gathering/images/zendikar_intro_pack___unstable_terrain.jpg" />
+			url="https://static.cardkingdom.com/images/magic-the-gathering/zendikar/zendikar-intro-pack-unstable-terrain-10356.jpg" />
 	</edition>
 	<edition id='WWK'>
 		<booster lang='en' num='1'
