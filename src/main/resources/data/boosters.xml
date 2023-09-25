@@ -211,8 +211,6 @@
 			url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/83857.jpg" />
 		<starter lang='en'
 			url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/143266.jpg" />
-		<starter lang='fr'
-			url="https://images1.mtggoldfish.com/uploads/ckeditor/pictures/797/content_sealedexk.jpg" />
 	</edition>
 	<edition id='ALL'>
 		<booster lang='en' num='1'
@@ -2237,7 +2235,7 @@
 		<box lang="en" num="3" extra="set"
 			url="https://underworldgames.co.uk/wp-content/uploads/2021/02/MTGSTX_EN_BstrDspBx_Set_01_01.png" />
 		<bundle lang="en" num="1"
-			url="https://www.snapcaster.fr/wp-content/uploads/2021/02/strixhaven-fat-pack-magic-the-gathering.png" />
+			url="https://cavernedugobelin.com/wp-content/uploads/2021/04/Bundle-Strixhaven.png" />
 		<prereleasepack lang="en" num="1"
 			url="https://cdn.shoplightspeed.com/shops/623437/files/31193791/preorder-mtg-prerelease-kit-strixhaven-witherbloom.jpg" />
 		<prereleasepack lang="en" num="2"
@@ -2253,7 +2251,7 @@
 		<booster lang="en" num="3" url="https://themanashop.ch/51900-thickbox_default/strixhaven-l-academie-des-mages-booster-de-draft.jpg" />
 		<booster lang="en" num="4" url="https://themanashop.ch/51901-thickbox_default/strixhaven-l-academie-des-mages-booster-de-draft.jpg" />
 		<booster lang="en" num="5" url="https://themanashop.ch/51902-thickbox_default/strixhaven-l-academie-des-mages-booster-de-draft.jpg" />
-		<booster lang="en" num="6" extra="collector" url="https://cdn11.bigcommerce.com/s-6k3asdl2tq/images/stencil/1280x1280/products/11650/6605/2__49272.1614622781.png" />
+		<booster lang="en" num="6" extra="collector" url="https://www.cataclysmgames.co.uk/wp-content/uploads/2021/04/MTGSTX_EN_Bstr_Clctr_01_02.png" />
 		<booster lang="en" num="7" extra="theme" url="https://3des.bzh/wp-content/uploads/2021/02/wistrtbofr_1.png" />
 		<booster lang="en" num="8" extra="theme" url="https://3des.bzh/wp-content/uploads/2021/02/wistrtbofr_2.png" />
 		<booster lang="en" num="9" extra="theme" url="https://3des.bzh/wp-content/uploads/2021/02/wistrtbofr_3.png" />
