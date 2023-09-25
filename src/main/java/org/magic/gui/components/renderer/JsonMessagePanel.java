@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Date;
 
@@ -14,14 +15,18 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
+import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.abstracts.AbstractMessage;
 import org.magic.api.beans.abstracts.AbstractMessage.MSG_TYPE;
+import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.messages.SearchMessage;
 import org.magic.api.beans.messages.TalkMessage;
+import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGProduct;
 import org.magic.services.MTGControler;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.ImageTools;
+import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 import org.ocpsoft.prettytime.PrettyTime;
 
@@ -126,7 +131,15 @@ public class JsonMessagePanel extends JPanel {
 
 
 	private JLabel read(MTGProduct item) throws IOException {
-		var bi = URLTools.extractAsImage(item.getUrl());
+		
+		BufferedImage bi = null;
+		
+		if(item.getTypeProduct()==EnumItems.CARD)
+			bi=MTG.getEnabledPlugin(MTGPictureProvider.class).getPicture((MagicCard)item);
+		else
+			bi = URLTools.extractAsImage(item.getUrl());
+
+		
 		bi=ImageTools.scaleResize(bi, iconSize*2);
 		return new JLabel(new ImageIcon(bi));
 	
