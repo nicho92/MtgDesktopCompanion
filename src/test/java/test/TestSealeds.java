@@ -25,7 +25,7 @@ public class TestSealeds {
 		var prov = MTG.getEnabledPlugin(MTGCardsProvider.class);
 		var plug = MTG.getEnabledPlugin(MTGSealedProvider.class);
 		
-		for(var ed : prov.listEditions().stream().filter(ed->ed.getId().equals("ROE")).toList())
+		for(var ed : prov.listEditions().stream().filter(ed->ed.getId().equals("ZEN")).toList())
 		{
 			var items = plug.getItemsFor(ed);
 			
