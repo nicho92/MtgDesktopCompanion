@@ -3,7 +3,7 @@ package org.magic.servers.impl;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -139,7 +139,7 @@ public class QwartzServer extends AbstractMTGServer {
 	@Override
 	public MTGDocumentation getDocumentation() {
 		try {
-			return new MTGDocumentation(new URL("http://www.quartz-scheduler.org/documentation/quartz-2.3.0/configuration/ConfigMain.html"),FORMAT_NOTIFICATION.HTML);
+			return new MTGDocumentation(URI.create("http://www.quartz-scheduler.org/documentation/quartz-2.3.0/configuration/ConfigMain.html").toURL(),FORMAT_NOTIFICATION.HTML);
 		} catch (MalformedURLException e) {
 			return super.getDocumentation();
 		}

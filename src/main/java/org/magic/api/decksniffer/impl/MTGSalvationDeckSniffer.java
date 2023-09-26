@@ -3,8 +3,7 @@ package org.magic.api.decksniffer.impl;
 import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -116,11 +115,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 				var deck = new RetrievableDeck();
 				deck.setName(cont.select("a.deck-name").html());
 				deck.setAuthor(cont.select("small.deck-credit a").text());
-				try {
-					deck.setUrl(new URL(getString("URL") + "/" + cont.select("a.deck-name").attr("href")).toURI());
-				} catch (URISyntaxException e1) {
-					deck.setUrl(null);
-				}
+				deck.setUrl(URI.create(getString("URL") + "/" + cont.select("a.deck-name").attr("href")));
 				deck.setDescription(cont.select("span.deck-type").html());
 				deck.setColor(parseColor(cont.select("script").html()));
 				list.add(deck);

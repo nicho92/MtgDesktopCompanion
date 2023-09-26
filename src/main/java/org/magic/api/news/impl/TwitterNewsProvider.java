@@ -1,7 +1,7 @@
 package org.magic.api.news.impl;
 
 import java.io.IOException;
-import java.net.URL;
+import java.net.URI;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
@@ -53,8 +53,7 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 					content.setAuthor(status.getUser().getScreenName());
 					content.setDate(Date.from(status.getCreatedAt().atZone(ZoneId.systemDefault()).toInstant()));
 					content.setContent(status.getText());
-					content.setLink(new URL(
-							"https://mobile.twitter.com/" + status.getUser().getScreenName() + "/status/" + status.getId()));
+					content.setLink(URI.create("https://mobile.twitter.com/" + status.getUser().getScreenName() + "/status/" + status.getId()).toURL());
 
 					content.setTitle(status.getText());
 					ret.add(content);

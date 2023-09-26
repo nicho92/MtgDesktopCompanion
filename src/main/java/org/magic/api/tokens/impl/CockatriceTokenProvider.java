@@ -4,6 +4,7 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -259,7 +260,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 				if (pic.startsWith("http://"))
 					pic = pic.replace("http://", "https://");
 
-				map.put(set, new URL(pic));
+				map.put(set, URI.create(pic).toURL());
 			}
 		}
 

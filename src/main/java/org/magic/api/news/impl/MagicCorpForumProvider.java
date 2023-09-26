@@ -1,7 +1,7 @@
 package org.magic.api.news.impl;
 
 import java.io.IOException;
-import java.net.URL;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +47,7 @@ public class MagicCorpForumProvider extends AbstractMagicNewsProvider {
 			else
 				id = i + "-";
 
-			cont.setLink(new URL(getString(SITE) + prefixForum + idForum + "-" + idTopic + "-" + id + endUri));
+			cont.setLink( URI.create(getString(SITE) + prefixForum + idForum + "-" + idTopic + "-" + id + endUri).toURL());
 			cont.setTitle("Page " + id);
 			ret.add(cont);
 		}

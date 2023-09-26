@@ -1,6 +1,7 @@
 package org.magic.api.beans;
 
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
@@ -19,7 +20,7 @@ public class MTGDocumentation {
 
 	public MTGDocumentation(String uri, FORMAT_NOTIFICATION fn) {
 		try {
-			this.url=new URL(uri);
+			this.url=URI.create(uri).toURL();
 		} catch (MalformedURLException e) {
 			//do nothing
 		}

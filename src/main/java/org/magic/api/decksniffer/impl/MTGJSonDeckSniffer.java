@@ -3,7 +3,7 @@ package org.magic.api.decksniffer.impl;
 import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.io.IOException;
-import java.net.URL;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -93,7 +93,7 @@ public class MTGJSonDeckSniffer extends AbstractDeckSniffer {
 							rd.setAuthor("MtgJson");
 							try {
 								rd.setDescription(getEnabledPlugin(MTGCardsProvider.class).getSetById(ob.get("type").getAsString()).getSet());
-								rd.setUrl(new URL(AbstractMTGJsonProvider.MTG_JSON_DECKS+ob.get("fileName").getAsString()+".json").toURI());
+								rd.setUrl(URI.create(AbstractMTGJsonProvider.MTG_JSON_DECKS+ob.get("fileName").getAsString()+".json"));
 							} catch (Exception e) {
 								logger.error(e);
 							}

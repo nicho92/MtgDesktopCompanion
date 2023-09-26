@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -60,7 +61,7 @@ public class CloudFlareAuthorizer {
 
     public String getAuthorizationResult(String url) throws IOException, ScriptException {
 
-        URL cloudFlareUrl = new URL(url);
+        URL cloudFlareUrl = URI.create(url).toURL();
         Response response =null;
         try {
 

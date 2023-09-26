@@ -3,6 +3,7 @@ package org.magic.api.pictureseditor.impl;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.util.Calendar;
 import java.util.regex.Pattern;
@@ -83,7 +84,7 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 		if (mc.getCost() == null)
 			mc.setCost("");
 
-		return new URL(
+		return URI.create(
 				"http://www.mtgcardmaker.com/mcmaker/createcard.php?" + "name="
 						+ URLTools.encode(String.valueOf(mc.getName())) + "&color=" + color + "&mana_r="
 						+ (mc.getCost().contains("{R}") ? String.valueOf(count(mc.getCost(), "{R}")) : "0") + "&mana_u="
@@ -99,7 +100,7 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 						+ "&power=" + mc.getPower() + "&toughness=" + mc.getToughness() + "&artist="
 						+ URLTools.encode(String.valueOf(mc.getArtist())) + "&bottom="
 						+ URLTools.encode("\u2122 & \u00A9 1993-" + Calendar.getInstance().get(Calendar.YEAR)+ " Wizards of the Coast LLC")
-						+ "&set1=" + "&set2=" + "&setname=");
+						+ "&set1=" + "&set2=" + "&setname=").toURL();
 
 	}
 

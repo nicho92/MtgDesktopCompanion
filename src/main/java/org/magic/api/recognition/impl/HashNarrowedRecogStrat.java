@@ -1,6 +1,6 @@
 package org.magic.api.recognition.impl;
 import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +21,7 @@ public class HashNarrowedRecogStrat extends AbstractRecognitionStrategy{
 	@Override
 	public MTGDocumentation getDocumentation() {
 		try {
-			return new MTGDocumentation(new URL("https://jenssegers.com/perceptual-image-hashes"),FORMAT_NOTIFICATION.HTML);
+			return new MTGDocumentation(URI.create("https://jenssegers.com/perceptual-image-hashes").toURL(),FORMAT_NOTIFICATION.HTML);
 		} catch (MalformedURLException e) {
 			return super.getDocumentation();
 		}

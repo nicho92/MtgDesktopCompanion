@@ -3,6 +3,7 @@ package org.magic.api.pictures.impl;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.util.Map;
 
@@ -53,7 +54,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		else
 			url += "&version=" + getProperty("PIC_SIZE", "large");
 
-		return new URL(url);
+		return URI.create(url).toURL();
 	}
 
 	@Override

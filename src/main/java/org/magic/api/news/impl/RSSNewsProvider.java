@@ -1,7 +1,7 @@
 package org.magic.api.news.impl;
 
 import java.io.IOException;
-import java.net.URL;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +47,7 @@ public class RSSNewsProvider extends AbstractMagicNewsProvider {
 				else
 					content.setDate(s.getPublishedDate());
 
-				content.setLink(new URL(s.getLink()));
+				content.setLink(URI.create(s.getLink()).toURL());
 
 				ret.add(content);
 			}

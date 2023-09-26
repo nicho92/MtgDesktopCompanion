@@ -2,7 +2,7 @@ package org.magic.services.network;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.URI;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -18,7 +18,7 @@ public class IncapsulaParser {
 
 	private static String getIncapsulaCookie(String url) throws IOException {
 
-		HttpURLConnection cookieConnection = (HttpURLConnection) new URL(url).openConnection();
+		HttpURLConnection cookieConnection = (HttpURLConnection) URI.create(url).toURL().openConnection();
 		cookieConnection.setRequestMethod("GET");
 		cookieConnection.setRequestProperty("Accept", URLTools.HEADER_HTML+"; charset="+MTGConstants.DEFAULT_ENCODING);
 		cookieConnection.setRequestProperty(URLTools.USER_AGENT, MTGConstants.USER_AGENT);

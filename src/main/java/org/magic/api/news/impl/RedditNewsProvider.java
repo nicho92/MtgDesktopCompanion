@@ -2,7 +2,7 @@ package org.magic.api.news.impl;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +45,7 @@ public class RedditNewsProvider extends AbstractMagicNewsProvider {
 			content.setTitle(s.getTitle());
 			content.setDate(s.getCreated());
 			try {
-				content.setLink(new URL(s.getUrl()));
+				content.setLink(URI.create(s.getUrl()).toURL());
 			} catch (MalformedURLException e) {
 				logger.error(e);
 			}

@@ -2,7 +2,7 @@ package org.magic.services.providers;
 
 import java.awt.Color;
 import java.io.IOException;
-import java.net.URL;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -67,9 +67,9 @@ public class MTGEventProvider {
 				event.setDuration(nbDay);
 
 				if (a.attr("href").startsWith("/"))
-					event.setUrl(new URL("https://magic.wizards.com" + a.attr("href")));
+					event.setUrl(URI.create("https://magic.wizards.com" + a.attr("href")).toURL());
 				else
-					event.setUrl(new URL(a.attr("href")));
+					event.setUrl(URI.create(a.attr("href")).toURL());
 
 				try {
 					event.setColor(Color.decode("#" + a.attr("data-color")));
