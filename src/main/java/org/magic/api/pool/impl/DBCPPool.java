@@ -37,13 +37,13 @@ public class DBCPPool extends AbstractPoolProvider {
 		map.put("maxIdle",String.valueOf(GenericObjectPoolConfig.DEFAULT_MAX_IDLE));
 		map.put("minIdle",String.valueOf(GenericObjectPoolConfig.DEFAULT_MIN_IDLE));
 		map.put("initialSize","3");
-		map.put("maxWaitMILLIS",String.valueOf(BaseObjectPoolConfig.DEFAULT_MAX_WAIT_MILLIS));
+		map.put("maxWaitMILLIS",String.valueOf(BaseObjectPoolConfig.DEFAULT_MAX_WAIT));
 		map.put("poolPreparedStatements",FALSE);
 		map.put("maxOpenPreparedStatements",String.valueOf(GenericKeyedObjectPoolConfig.DEFAULT_MAX_TOTAL));
-		map.put("timeBetweenEvictionRunsMILLIS",String.valueOf(BaseObjectPoolConfig.DEFAULT_TIME_BETWEEN_EVICTION_RUNS));
+		map.put("timeBetweenEvictionRunsMILLIS",String.valueOf(BaseObjectPoolConfig.DEFAULT_TIME_BETWEEN_EVICTION_RUNS.toMillis()));
 		map.put("numTestsPerEvictionRun",String.valueOf(BaseObjectPoolConfig.DEFAULT_NUM_TESTS_PER_EVICTION_RUN));
-		map.put("minEvictableIdleTimeMILLIS",String.valueOf(BaseObjectPoolConfig.DEFAULT_MIN_EVICTABLE_IDLE_TIME));
-		map.put("softMinEvictableIdleTimeMILLIS",String.valueOf(BaseObjectPoolConfig.DEFAULT_SOFT_MIN_EVICTABLE_IDLE_TIME));
+		map.put("minEvictableIdleTimeMILLIS",String.valueOf(BaseObjectPoolConfig.DEFAULT_MIN_EVICTABLE_IDLE_DURATION.toMillis()));
+		map.put("softMinEvictableIdleTimeMILLIS",String.valueOf(BaseObjectPoolConfig.DEFAULT_SOFT_MIN_EVICTABLE_IDLE_DURATION.toMillis()));
 		map.put("evictionPolicyClassName",String.valueOf(BaseObjectPoolConfig.DEFAULT_EVICTION_POLICY_CLASS_NAME));
 		map.put("testWhileIdle",FALSE);
 		map.put("validationQuery","");

@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -93,7 +94,7 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 	@Override
 	public MTGDocumentation getDocumentation() {
 		try {
-			return new MTGDocumentation(new URL(MTGConstants.MTG_DESKTOP_WIKI_RAW_URL+"/"+getName().replace(" ", "-")+".md"),FORMAT_NOTIFICATION.MARKDOWN);
+			return new MTGDocumentation(URI.create(MTGConstants.MTG_DESKTOP_WIKI_RAW_URL+"/"+getName().replace(" ", "-")+".md").toURL(),FORMAT_NOTIFICATION.MARKDOWN);
 		}
 		catch(Exception e)
 		{
