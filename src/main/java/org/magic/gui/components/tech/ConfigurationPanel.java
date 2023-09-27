@@ -802,6 +802,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 								finally {
 									loading(false, "");
 									btnDuplicate.setEnabled(true);
+									dao.unload();
 								}
 							}
 						};
