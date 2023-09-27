@@ -1090,8 +1090,12 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return serv.toJsonDetails();
 		}, transformer);
 		
-		get("/admin/activemq", URLTools.HEADER_JSON, (request, response) -> {
-			return TechnicalServiceManager.inst().getJsonMessages();
+		get("/admin/activemq/:all", URLTools.HEADER_JSON, (request, response) -> {
+			
+			if(request.params(":all").equalsIgnoreCase("true"))
+				return TechnicalServiceManager.inst().getJsonMessages();
+			else
+				return TechnicalServiceManager.inst().getJsonMessages().stream().filter(p->!p.getAuthor().isAdmin()).toList();
 		}, transformer);
 
 		get("/admin/discord", URLTools.HEADER_JSON, (request, response) -> {
