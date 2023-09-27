@@ -1,6 +1,6 @@
 package org.magic.game.model.effects;
 
-import org.magic.game.model.AbstractSpell;
+import org.magic.api.beans.game.AbstractSpell;
 
 public abstract class AbstractEffect extends AbstractSpell {
 

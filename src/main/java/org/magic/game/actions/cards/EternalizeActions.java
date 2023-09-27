@@ -6,11 +6,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.game.ZoneEnum;
 import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.game.actions.abbstract.AbstractCardAction;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
-import org.magic.game.model.ZoneEnum;
 import org.magic.services.MTGControler;
 
 public class EternalizeActions extends AbstractCardAction {

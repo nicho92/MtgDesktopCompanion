@@ -3,8 +3,8 @@ package org.magic.game.actions.abbstract;
 import javax.swing.AbstractAction;
 
 import org.apache.logging.log4j.Logger;
+import org.magic.api.beans.game.ZoneEnum;
 import org.magic.game.gui.components.DisplayableCard;
-import org.magic.game.model.ZoneEnum;
 import org.magic.services.logging.MTGLogger;
 
 public abstract class AbstractCardAction extends AbstractAction{

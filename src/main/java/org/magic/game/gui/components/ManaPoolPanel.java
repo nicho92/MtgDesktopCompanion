@@ -7,8 +7,8 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
-import org.magic.game.model.ManaPool;
-import org.magic.game.model.Player;
+import org.magic.api.beans.game.ManaPool;
+import org.magic.api.beans.game.Player;
 import org.magic.gui.components.card.ManaPanel;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;

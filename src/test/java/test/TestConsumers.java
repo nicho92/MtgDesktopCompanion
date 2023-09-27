@@ -2,8 +2,8 @@ package test;
 
 import java.io.IOException;
 
+import org.magic.api.beans.game.Player;
 import org.magic.api.network.impl.ActiveMQNetworkClient;
-import org.magic.game.model.Player;
 
 public class TestConsumers {
 

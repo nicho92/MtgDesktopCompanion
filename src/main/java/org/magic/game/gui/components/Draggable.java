@@ -1,6 +1,6 @@
 package org.magic.game.gui.components;
 
-import org.magic.game.model.ZoneEnum;
+import org.magic.api.beans.game.ZoneEnum;
 
 public interface Draggable {
 

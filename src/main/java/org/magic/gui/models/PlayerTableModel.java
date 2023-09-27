@@ -1,6 +1,6 @@
 package org.magic.gui.models;
 
-import org.magic.game.model.Player;
+import org.magic.api.beans.game.Player;
 import org.magic.gui.abstracts.GenericTableModel;
 
 public class PlayerTableModel extends GenericTableModel<Player> {

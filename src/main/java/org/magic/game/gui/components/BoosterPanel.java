@@ -7,8 +7,8 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.game.model.GameManager;
-import org.magic.game.model.ZoneEnum;
+import org.magic.api.beans.game.GameManager;
+import org.magic.api.beans.game.ZoneEnum;
 import org.magic.services.MTGControler;
 
 public class BoosterPanel extends JPanel {

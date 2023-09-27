@@ -34,11 +34,11 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.game.GameManager;
+import org.magic.api.beans.game.Player;
 import org.magic.game.actions.library.DrawActions;
 import org.magic.game.actions.library.DrawHandActions;
 import org.magic.game.gui.components.dialog.DeckSideBoardSwitcherDialog;
-import org.magic.game.model.GameManager;
-import org.magic.game.model.Player;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.dialog.JDeckChooserDialog;
 import org.magic.services.MTGConstants;

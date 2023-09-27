@@ -4,10 +4,10 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.JOptionPane;
 
+import org.magic.api.beans.game.ZoneEnum;
 import org.magic.game.actions.abbstract.AbstractCardAction;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
-import org.magic.game.model.ZoneEnum;
 
 public class FixCreaturePowerActions extends AbstractCardAction {
 

@@ -11,14 +11,14 @@ import java.util.List;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
+import org.magic.api.beans.game.CardSpell;
+import org.magic.api.beans.game.GameManager;
+import org.magic.api.beans.game.ZoneEnum;
 import org.magic.game.actions.battlefield.ChangeBackGroundActions;
 import org.magic.game.actions.battlefield.FlipaCoinActions;
 import org.magic.game.actions.battlefield.RollAD20Actions;
 import org.magic.game.actions.battlefield.SelectedTapActions;
 import org.magic.game.actions.battlefield.UnselectAllAction;
-import org.magic.game.model.CardSpell;
-import org.magic.game.model.GameManager;
-import org.magic.game.model.ZoneEnum;
 import org.magic.game.model.factories.AbilitiesFactory;
 import org.magic.services.MTGControler;
 import org.magic.services.tools.ImageTools;

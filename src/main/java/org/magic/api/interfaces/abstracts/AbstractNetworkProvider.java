@@ -6,13 +6,13 @@ import java.time.Instant;
 
 import org.magic.api.beans.abstracts.AbstractMessage;
 import org.magic.api.beans.enums.EnumPlayerStatus;
+import org.magic.api.beans.game.Player;
 import org.magic.api.beans.messages.SearchMessage;
 import org.magic.api.beans.messages.StatutMessage;
 import org.magic.api.beans.messages.TalkMessage;
 import org.magic.api.beans.messages.TechMessageUsers;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGNetworkClient;
-import org.magic.game.model.Player;
 import org.magic.services.network.URLTools;
 
 public abstract class AbstractNetworkProvider extends AbstractMTGPlugin implements MTGNetworkClient {

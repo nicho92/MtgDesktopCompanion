@@ -5,10 +5,10 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 
+import org.magic.api.beans.game.GameManager;
+import org.magic.api.beans.game.Turn;
 import org.magic.game.actions.library.DrawActions;
 import org.magic.game.gui.components.GamePanelGUI;
-import org.magic.game.model.GameManager;
-import org.magic.game.model.Turn;
 
 public class DrawPhase extends AbstractAction {
 

@@ -1,4 +1,4 @@
-package org.magic.game.model;
+package org.magic.api.beans.game;
 
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.model.effects.OneShotEffect;

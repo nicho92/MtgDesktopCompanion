@@ -5,8 +5,8 @@ import java.io.IOException;
 
 import org.magic.api.beans.abstracts.AbstractMessage;
 import org.magic.api.beans.enums.EnumPlayerStatus;
+import org.magic.api.beans.game.Player;
 import org.magic.api.beans.messages.SearchMessage;
-import org.magic.game.model.Player;
 
 public interface MTGNetworkClient extends MTGPlugin{
 

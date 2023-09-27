@@ -6,9 +6,10 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Optional;
 
-import org.magic.game.model.Player;
+import org.magic.api.beans.game.Player;
+
+import java.util.Optional;
 
 public class Round implements Serializable {
 

@@ -8,7 +8,7 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import org.magic.game.model.Player;
+import org.magic.api.beans.game.Player;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.conf.ActiveMQMessageTableModel;
 import org.magic.gui.renderer.PlayerRenderer;

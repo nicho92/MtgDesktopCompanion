@@ -6,7 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
-import org.magic.game.model.AbstractSpell;
+import org.magic.api.beans.game.AbstractSpell;
 
 public class StackItemRenderer extends JLabel implements ListCellRenderer<AbstractSpell>
 {

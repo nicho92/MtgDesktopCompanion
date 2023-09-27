@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.magic.api.beans.enums.EnumColors;
-import org.magic.game.model.AbstractSpell;
+import org.magic.api.beans.game.AbstractSpell;
 import org.magic.game.model.abilities.AbstractAbilities;
 import org.magic.gui.components.card.MagicTextPane;
 import org.magic.services.MTGConstants;

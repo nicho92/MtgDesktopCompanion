@@ -1,6 +1,6 @@
 package org.magic.game.model.abilities;
 
-import org.magic.game.model.AbstractSpell;
+import org.magic.api.beans.game.AbstractSpell;
 
 public abstract class AbstractAbilities extends AbstractSpell {
 

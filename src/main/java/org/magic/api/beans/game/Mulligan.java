@@ -1,4 +1,4 @@
-package org.magic.game.model;
+package org.magic.api.beans.game;
 
 import org.magic.api.beans.MagicCard;
 

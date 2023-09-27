@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.magic.game.model.Player;
+import org.magic.api.beans.game.Player;
 
 public class MagicEvent implements Serializable{
 

@@ -3,7 +3,7 @@ package org.magic.api.beans.messages;
 import java.util.List;
 
 import org.magic.api.beans.abstracts.AbstractMessage;
-import org.magic.game.model.Player;
+import org.magic.api.beans.game.Player;
 
 public class TechMessageUsers extends AbstractMessage {
 

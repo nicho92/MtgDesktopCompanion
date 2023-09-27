@@ -11,7 +11,7 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.game.model.ZoneEnum;
+import org.magic.api.beans.game.ZoneEnum;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 

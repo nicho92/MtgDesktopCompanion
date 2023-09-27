@@ -1,4 +1,4 @@
-package org.magic.game.model;
+package org.magic.api.beans.game;
 
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
@@ -30,7 +30,7 @@ public class Player extends Observable implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Long id;
 	private EnumPlayerStatus state;
-	private int life;
+	private transient int life;
 	private String name;
 	private transient MagicDeck deck;
 	private transient Zone graveyard;

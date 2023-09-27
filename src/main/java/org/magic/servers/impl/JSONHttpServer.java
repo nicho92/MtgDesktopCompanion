@@ -1089,6 +1089,10 @@ public class JSONHttpServer extends AbstractMTGServer {
 			var serv = (QwartzServer) MTG.getPlugin("Qwartz", MTGServer.class);
 			return serv.toJsonDetails();
 		}, transformer);
+		
+		get("/admin/activemq", URLTools.HEADER_JSON, (request, response) -> {
+			return TechnicalServiceManager.inst().getJsonMessages();
+		}, transformer);
 
 		get("/admin/discord", URLTools.HEADER_JSON, (request, response) -> {
 			var ret = new JsonObject();

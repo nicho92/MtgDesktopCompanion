@@ -5,9 +5,9 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 
+import org.magic.api.beans.game.ZoneEnum;
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.game.gui.components.dialog.SearchCardFrame;
-import org.magic.game.model.ZoneEnum;
 
 public class SearchActions extends AbstractAction {
 
