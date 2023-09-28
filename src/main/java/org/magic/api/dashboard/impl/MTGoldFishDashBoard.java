@@ -23,7 +23,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumCardVariation;
 import org.magic.api.beans.enums.EnumExtra;
-import org.magic.api.beans.enums.EnumMarketType;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.RequestBuilder;
@@ -108,12 +107,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			}
 			return true;
 		});
-	}
-
-
-	@Override
-	public EnumMarketType getMarket() {
-		return EnumMarketType.US_MARKET;
 	}
 
 

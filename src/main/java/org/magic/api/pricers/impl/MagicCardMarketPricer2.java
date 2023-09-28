@@ -22,7 +22,6 @@ import org.api.mkm.tools.MkmAPIConfig;
 import org.api.mkm.tools.MkmConstants;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.beans.enums.EnumMarketType;
 import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.threads.MTGRunnable;
@@ -42,13 +41,6 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
-	}
-
-
-
-	@Override
-	public EnumMarketType getMarket() {
-		return EnumMarketType.EU_MARKET;
 	}
 
 	private void init()

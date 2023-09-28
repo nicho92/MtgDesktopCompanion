@@ -10,7 +10,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.beans.enums.EnumMarketType;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.network.RequestBuilder;
@@ -25,13 +24,6 @@ public class MagicCorporationPricer extends AbstractPricesProvider {
 	@Override
 	public String getName() {
 		return "MagicCorporation";
-	}
-
-
-
-	@Override
-	public EnumMarketType getMarket() {
-		return EnumMarketType.EU_MARKET;
 	}
 
 	@Override

@@ -9,7 +9,6 @@ import java.util.Map;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.beans.enums.EnumMarketType;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.sorters.MagicPricesComparator;
 import org.magic.services.MTGControler;
@@ -38,13 +37,6 @@ public abstract class AbstractPricesProvider extends AbstractMTGPlugin implement
 		}
 		return map;
 	}
-
-
-	@Override
-	public EnumMarketType getMarket() {
-		return EnumMarketType.US_MARKET;
-	}
-
 
 	@Override
 	public MagicPrice getBestPrice(MagicCard card) {

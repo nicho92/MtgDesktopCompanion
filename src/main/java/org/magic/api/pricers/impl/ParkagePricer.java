@@ -7,7 +7,6 @@ import java.util.Locale;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.beans.enums.EnumMarketType;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.network.URLTools;
@@ -20,13 +19,6 @@ public class ParkagePricer extends AbstractPricesProvider {
 	@Override
 	public String getName() {
 		return "Parkage";
-	}
-
-
-
-	@Override
-	public EnumMarketType getMarket() {
-		return EnumMarketType.EU_MARKET;
 	}
 
 	@Override
