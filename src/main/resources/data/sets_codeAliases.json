@@ -186,9 +186,6 @@
 	"PXBOX": [
 		"PDTP"
 	],
-	"RAV": [
-		"PMPS"
-	],
 	"SOI": [
 		"PSOI"
 	],
@@ -436,6 +433,7 @@
 		"P11"
 	],
 	"PMPS": [
+		"PMPS",
 		"PMPS06",
 		"PMPS07",
 		"PMPS08",
