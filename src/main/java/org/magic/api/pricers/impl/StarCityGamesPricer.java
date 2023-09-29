@@ -78,7 +78,7 @@ public class StarCityGamesPricer extends AbstractPricesProvider {
 			var mp = new MagicPrice();
 			mp.setMagicCard(card);
 			mp.setCountry("US");
-			mp.setSite(BASE_URL);
+			mp.setSite(getName());
 			mp.setCurrency("USD");
 			
 			mp.setQty(1);
