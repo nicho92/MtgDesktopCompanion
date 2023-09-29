@@ -106,9 +106,12 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 					""".replace("$MAX", getString("MAX"));
 
 
-		var res = c.doPost("https://mpapi.tcgplayer.com/v2/product/"+idResults+"/listings", new StringEntity(json), Maps.of("content-type", URLTools.HEADER_JSON));
-
-		return URLTools.toJson(res.getEntity().getContent()).getAsJsonObject().get(RESULTS).getAsJsonArray().get(0).getAsJsonObject().get(RESULTS).getAsJsonArray();
+		var res = c.doPost("https://mp-search-api.tcgplayer.com/v1/product/"+idResults+"/listings", new StringEntity(json), Maps.of("content-type", URLTools.HEADER_JSON));
+		var jsonResult  =URLTools.toJson(res.getEntity().getContent());
+		if(jsonResult==null)
+			return new JsonArray();
+		
+		return jsonResult.getAsJsonObject().get(RESULTS).getAsJsonArray().get(0).getAsJsonObject().get(RESULTS).getAsJsonArray();
 	}
 
 

@@ -75,6 +75,7 @@ public class StarCityGamesPricer extends AbstractPricesProvider {
 					mp.setUrl(BASE_URL+jinfo.get("url").getAsString());
 					mp.setValue(jinfo.get("price").getAsDouble());
 					mp.setFoil(jinfo.get("p_cat_url").getAsString().endsWith("finish=Foil"));
+					mp.setQuality(jinfo.get("condition").getAsString());
 					
 					ret.add(mp);
 				}
