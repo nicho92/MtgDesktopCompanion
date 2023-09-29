@@ -55,7 +55,6 @@ public class MypCardPricer extends AbstractPricesProvider {
 		
 		
 		JsonElement e = RequestBuilder.build().url(url).setClient(client).get().addContent("term",card.getName()).toJson();
-		
 		JsonObject o = null;
 		
 		try{
