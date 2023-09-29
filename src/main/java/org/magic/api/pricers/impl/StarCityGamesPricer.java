@@ -3,20 +3,17 @@ package org.magic.api.pricers.impl;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.http.entity.StringEntity;
-import org.apache.http.util.EntityUtils;
-import org.apache.logging.log4j.Level;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGConstants;
-import org.magic.services.logging.MTGLogger;
+import org.magic.services.MTGControler;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
 
@@ -24,17 +21,7 @@ public class StarCityGamesPricer extends AbstractPricesProvider {
 
 	NumberFormat format = NumberFormat.getCurrencyInstance();
 	
-	private final String BASE_URL="https://starcitygames.com";
-	
-	public static void main(String[] args) throws IOException {
-		
-		MTGLogger.changeLevel(Level.DEBUG);
-		
-		var mc = new MagicCard();
-		mc.setName("Revive the Shire");
-		
-		new StarCityGamesPricer().getLocalePrice(mc);
-	}
+	private static final String BASE_URL="https://starcitygames.com";
 	
 	@Override
 	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
@@ -71,23 +58,27 @@ public class StarCityGamesPricer extends AbstractPricesProvider {
 		
 		json.forEach(je->{
 			
-			var jo = je.getAsJsonObject().get("Document").getAsJsonObject().get("child_information").getAsJsonArray();
+			var arr = je.getAsJsonObject().get("Document").getAsJsonObject().get("child_information").getAsJsonArray();
 			
-			logger.info(jo);
-			
-			var mp = new MagicPrice();
-			mp.setMagicCard(card);
-			mp.setCountry("US");
-			mp.setSite(getName());
-			mp.setCurrency("USD");
-			
-			mp.setQty(1);
-			mp.setLanguage("");
-			mp.setValue(1.0);
-			mp.setSeller(getName());
-			
-			ret.add(mp);
-			
+			arr.forEach(str->{
+				var jinfo = URLTools.toJson(str.getAsString()).getAsJsonObject();
+				
+				if(jinfo.get("qty").getAsInt()>0 && jinfo.get("sku").getAsString().toUpperCase().contains(card.getCurrentSet().getId().toUpperCase())) {
+					var mp = new MagicPrice();
+					mp.setMagicCard(card);
+					mp.setCurrency(Currency.getInstance("USD"));
+					mp.setCountry(Locale.US.getDisplayCountry(MTGControler.getInstance().getLocale()));
+					mp.setSite(getName());
+					mp.setSeller(getName());
+					mp.setQty(jinfo.get("qty").getAsInt());
+					mp.setLanguage(jinfo.get("language").getAsString());
+					mp.setUrl(BASE_URL+jinfo.get("url").getAsString());
+					mp.setValue(jinfo.get("price").getAsDouble());
+					mp.setFoil(jinfo.get("p_cat_url").getAsString().endsWith("finish=Foil"));
+					
+					ret.add(mp);
+				}
+			});
 		});
 		
 		logger.info("{} found {} items",getName(),ret.size());
