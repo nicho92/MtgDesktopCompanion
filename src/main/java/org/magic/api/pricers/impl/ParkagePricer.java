@@ -45,7 +45,7 @@ public class ParkagePricer extends AbstractPricesProvider {
 		
 		URLTools.extractAsJson(url).getAsJsonObject().get("list").getAsJsonArray().forEach(je->{
 				var jo = je.getAsJsonObject();
-			System.out.println(jo);
+			
 			var mp = new MagicPrice();
 					mp.setCountry(Locale.FRANCE.getDisplayCountry(MTGControler.getInstance().getLocale()));
 					mp.setMagicCard(card);
