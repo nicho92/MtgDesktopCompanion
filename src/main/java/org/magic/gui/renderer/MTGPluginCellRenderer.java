@@ -8,6 +8,7 @@ import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
 import org.magic.api.interfaces.MTGPlugin;
+import org.magic.services.tools.ImageTools;
 
 public class MTGPluginCellRenderer implements TableCellRenderer{
 
@@ -17,7 +18,7 @@ public class MTGPluginCellRenderer implements TableCellRenderer{
 
 		var plug = ((MTGPlugin)value);
 
-		lab.setIcon( plug.getIcon());
+		lab.setIcon( ImageTools.resize(plug.getIcon(),24,24));
 		lab.setText(plug.getName());
 		lab.setOpaque(true);
 

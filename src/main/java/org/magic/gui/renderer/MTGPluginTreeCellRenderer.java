@@ -10,6 +10,7 @@ import javax.swing.tree.TreeCellRenderer;
 
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.services.MTGConstants;
+import org.magic.services.tools.ImageTools;
 
 public class MTGPluginTreeCellRenderer implements TreeCellRenderer{
 
@@ -23,7 +24,7 @@ public class MTGPluginTreeCellRenderer implements TreeCellRenderer{
 		{
 		   lab.setFont(lab.getFont().deriveFont(Font.BOLD));
 		   lab.setText(value.toString());
-		   lab.setIcon(p.getIcon());
+		   lab.setIcon( ImageTools.resize(p.getIcon(),24,24));
 
 		}else if (value instanceof Entry<?, ?> e)
 		{
