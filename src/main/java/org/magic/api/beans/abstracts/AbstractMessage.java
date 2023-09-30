@@ -13,7 +13,7 @@ import org.magic.services.tools.CryptoUtils;
 
 public abstract class AbstractMessage extends AbstractAuditableItem {
 
-	public enum MSG_TYPE { CONNECT, CHANGESTATUS, DISCONNECT, TALK, SYSTEM, SEARCH, ANSWER}
+	public enum MSG_TYPE { CONNECT, CHANGESTATUS, DISCONNECT, TALK, SYSTEM, SEARCH, ANSWER, DECK}
 
 	private Player author;
 	private static final long serialVersionUID = 1L;

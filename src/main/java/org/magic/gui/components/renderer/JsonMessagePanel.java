@@ -19,10 +19,12 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.abstracts.AbstractMessage;
 import org.magic.api.beans.abstracts.AbstractMessage.MSG_TYPE;
 import org.magic.api.beans.enums.EnumItems;
+import org.magic.api.beans.messages.DeckMessage;
 import org.magic.api.beans.messages.SearchMessage;
 import org.magic.api.beans.messages.TalkMessage;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGProduct;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.ImageTools;
@@ -52,9 +54,8 @@ public class JsonMessagePanel extends JPanel {
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
+		textArea = new JTextArea(value.getMessage());
 		
-		
-	
 		var gbc = UITools.createGridBagConstraints(null, null, 1, 0);
 			 gbc.insets = new Insets(0, 0, 5, 5);
 		add(new JLabel(new ImageIcon(ImageTools.resize(value.getAuthor().getAvatar(), iconSize, iconSize))), gbc);
@@ -83,6 +84,16 @@ public class JsonMessagePanel extends JPanel {
 				}
 		}
 		
+		if(value.getTypeMessage()==MSG_TYPE.DECK)
+		{
+			var item = ((DeckMessage)value).getMagicDeck();
+			if(item!=null)
+				{
+				separator.add(new JLabel(MTGConstants.ICON_DECK));
+				textArea.setText(item.getName() + " " + item.getColors() + " ("+item.getMainAsList().size()+")");
+				}
+		}
+		
 		
 		separator.setBackground(value.getColor());
 		
@@ -103,7 +114,7 @@ public class JsonMessagePanel extends JPanel {
 		
 		
 		
-		textArea = new JTextArea(value.getMessage());
+		
 		GridBagConstraints gbctextArea = new GridBagConstraints();
 		gbctextArea.gridwidth = 2;
 		gbctextArea.fill = GridBagConstraints.BOTH;

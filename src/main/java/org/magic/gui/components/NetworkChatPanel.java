@@ -32,6 +32,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.abstracts.AbstractMessage;
 import org.magic.api.beans.enums.EnumPlayerStatus;
 import org.magic.api.beans.game.Player;
+import org.magic.api.beans.messages.DeckMessage;
 import org.magic.api.beans.messages.SearchAnswerMessage;
 import org.magic.api.beans.messages.SearchMessage;
 import org.magic.api.beans.messages.StatutMessage;
@@ -40,6 +41,7 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
+import org.magic.gui.components.dialog.JDeckChooserDialog;
 import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.gui.renderer.MessageRenderer;
 import org.magic.gui.renderer.PlayerRenderer;
@@ -63,6 +65,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 	private JComboBox<EnumPlayerStatus> cboStates;
 	private JButton btnColorChoose;
 	private JButton btnSearch;
+	private JButton btnDeck;
 	private DefaultListModel<AbstractMessage> listMsgModel;
 	private DefaultListModel<Player> listPlayerModel;
 	private transient MTGNetworkClient client;
@@ -104,6 +107,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		listMsg.setCellRenderer(new MessageRenderer());
 			
 		btnSearch = UITools.createBindableJButton("", MTGConstants.ICON_SEARCH_24,KeyEvent.VK_S,"searchquery");
+		btnDeck = UITools.createBindableJButton("", MTGConstants.ICON_DECK,KeyEvent.VK_F,"deckquery");
 		try {
 			editorPane.setForeground(new Color(Integer.parseInt(MTGControler.getInstance().get("/game/player-profil/foreground"))));
 		} catch (Exception e) {
@@ -130,7 +134,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		panel1.add(cboStates);
 		panel1.add(btnColorChoose);
 		panel1.add(btnSearch);
-		
+		panel1.add(btnDeck);
 		
 		initActions();
 		
@@ -254,7 +258,21 @@ public class NetworkChatPanel extends MTGUIComponent {
 			}
 		});
 		
-		
+		btnDeck.addActionListener(al->{
+			try 
+			{
+				var diag = new JDeckChooserDialog();
+				diag.setVisible(true);
+				
+				if(diag.getSelectedDeck()!=null)
+				{
+					client.sendMessage(new DeckMessage(diag.getSelectedDeck()));
+				}
+				
+			} catch (IOException e1) {
+				logger.error(e1);
+			}
+		});
 
 		cboStates.addItemListener(ie -> {
 			if(ie.getStateChange()==ItemEvent.SELECTED)
@@ -334,14 +352,11 @@ public class NetworkChatPanel extends MTGUIComponent {
 								}
 								break;
 						
-						case TALK:listMsgModel.addElement(s);break;
-					
+						
 						case SYSTEM : listPlayerModel.removeAllElements();
 											  listPlayerModel.addAll(((TechMessageUsers)s).getPlayers());
 											  break;
-						
-						case ANSWER:	listMsgModel.addElement(s); 	break;				  
-											  
+							  
 						case SEARCH: 
 							var msgs = (SearchMessage)s;
 							listMsgModel.addElement(msgs);
@@ -361,12 +376,13 @@ public class NetworkChatPanel extends MTGUIComponent {
 											
 									} 
 								}
-								catch (Exception e) {
+								catch (Exception e) { 
 									logger.error(e);
 								}
 								break;
 							
-						default:break;
+						default:listMsgModel.addElement(s);break;
+						
 					}
 				
 				}

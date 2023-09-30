@@ -58,7 +58,7 @@
   		<qwartz.version>2.5.0-rc1</qwartz.version>
   		<rome.version>2.1.0</rome.version>
   		<log4j.version>2.20.0</log4j.version>
-  		
+  		<poi.version>5.2.4</poi.version>
 	</properties>
 	<repositories>
 		<repository>
@@ -124,11 +124,7 @@
 		    <version>${jwt.version}</version>
 		    <scope>runtime</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi</artifactId>
-			<version>5.2.3</version>
-		</dependency>
+	
 		<dependency>
 			<groupId>commons-jxpath</groupId>
 			<artifactId>commons-jxpath</artifactId>
@@ -156,8 +152,13 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>${poi.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
-			<version>5.2.3</version>
+			<version>${poi.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>xml-apis</groupId>
@@ -397,7 +398,7 @@
 		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
-			<version>5.0.0-beta.13</version>
+			<version>5.0.0-beta.15</version>
 			<exclusions>
 				<exclusion>
 					<groupId>club.minnced</groupId>
@@ -505,7 +506,7 @@
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.13.0</version>
+			<version>2.14.0</version>
 		</dependency>
 		
 		<dependency>
