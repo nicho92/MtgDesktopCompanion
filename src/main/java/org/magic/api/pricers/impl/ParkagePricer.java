@@ -15,7 +15,7 @@ public class ParkagePricer extends AbstractPricesProvider {
 
 
 	private static final String URL_BASE="https://www.parkage.com";
-
+	
 	@Override
 	public String getName() {
 		return "Parkage";
@@ -26,14 +26,6 @@ public class ParkagePricer extends AbstractPricesProvider {
 		return "2.0";
 	}
 	
-	public static void main(String[] args) throws IOException {
-		
-		var mc = new MagicCard();
-		mc.setName("Liliana of the veil");
-		
-		new ParkagePricer().getLocalePrice(mc);
-	}
-
 	@Override
 	protected List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
 
@@ -45,14 +37,17 @@ public class ParkagePricer extends AbstractPricesProvider {
 		
 		URLTools.extractAsJson(url).getAsJsonObject().get("list").getAsJsonArray().forEach(je->{
 				var jo = je.getAsJsonObject();
-			
-			var mp = new MagicPrice();
+				
+				if(jo.get("image_url_1").getAsString().contains(card.getCurrentSet().getNumber()))
+				{
+				
+					var mp = new MagicPrice();
 					mp.setCountry(Locale.FRANCE.getDisplayCountry(MTGControler.getInstance().getLocale()));
 					mp.setMagicCard(card);
 					mp.setCurrency("EUR");
 					mp.setSite(getName());
 					mp.setLanguage(jo.get("lang").getAsString());
-					mp.setFoil(jo.get("is_foil").getAsBoolean());
+					mp.setFoil(jo.get("is_foil").getAsInt()==1);
 					mp.setQty(jo.get("stock").getAsInt());
 					mp.setValue(jo.get("price").getAsDouble());
 					mp.setQuality(jo.get("state").getAsString());
@@ -61,7 +56,7 @@ public class ParkagePricer extends AbstractPricesProvider {
 
 					if(mp.getQty()>0)
 						ret.add(mp);
-	
+				}
 		});
 		
 		logger.info("{} found {} offers",getName(),ret.size());
