@@ -9,6 +9,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
@@ -21,10 +23,13 @@ import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JList;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.border.TitledBorder;
 
@@ -105,7 +110,32 @@ public class NetworkChatPanel extends MTGUIComponent {
 		editorPane.setRows(3);
 		listPlayers.setCellRenderer(new PlayerRenderer());
 		listMsg.setCellRenderer(new MessageRenderer());
-			
+		 JPopupMenu menu = new JPopupMenu();
+		
+		listMsg.addMouseListener( new MouseAdapter()
+		{
+			@Override
+		    public void mousePressed(MouseEvent e)
+		    {
+				menu.removeAll();
+				 
+				 
+				if ( SwingUtilities.isRightMouseButton(e) )
+		        {
+		    		 menu.setLocation(e.getLocationOnScreen());
+		    		
+		        	var msg = listMsg.getSelectedValue();
+		            menu.add(new JMenuItem(msg.getTypeMessage().name()));
+		            menu.setVisible(true);
+		            
+		            return;
+		        }
+		    	 
+		    	 menu.setVisible(false);
+		    }
+
+		});
+		
 		btnSearch = UITools.createBindableJButton("", MTGConstants.ICON_SEARCH_24,KeyEvent.VK_S,"searchquery");
 		btnDeck = UITools.createBindableJButton("", MTGConstants.ICON_DECK,KeyEvent.VK_F,"deckquery");
 		try {
