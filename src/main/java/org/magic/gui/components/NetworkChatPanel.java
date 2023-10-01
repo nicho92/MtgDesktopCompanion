@@ -35,6 +35,7 @@ import javax.swing.border.TitledBorder;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.abstracts.AbstractMessage;
+import org.magic.api.beans.abstracts.AbstractMessage.MSG_TYPE;
 import org.magic.api.beans.enums.EnumPlayerStatus;
 import org.magic.api.beans.game.Player;
 import org.magic.api.beans.messages.DeckMessage;
@@ -53,6 +54,7 @@ import org.magic.gui.renderer.PlayerRenderer;
 import org.magic.servers.impl.ActiveMQServer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGDeckManager;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
@@ -125,7 +127,25 @@ public class NetworkChatPanel extends MTGUIComponent {
 		    		 menu.setLocation(e.getLocationOnScreen());
 		    		
 		        	var msg = listMsg.getSelectedValue();
-		            menu.add(new JMenuItem(msg.getTypeMessage().name()));
+		        	var it = new JMenuItem("Import " + msg.getTypeMessage());
+		        	it.addActionListener(l->{
+		        		
+		        		if(msg.getTypeMessage() == MSG_TYPE.DECK)
+		        			{
+		        				var d = ((DeckMessage)msg).getMagicDeck();
+		        				d.setId(-1);
+		        				try {
+									new MTGDeckManager().saveDeck(d);
+								} catch (IOException e1) {
+									logger.error(e);
+								}
+		        				
+		        				
+		        			}
+		        		
+		        	});
+		        	
+		            menu.add(it);
 		            menu.setVisible(true);
 		            
 		            return;
