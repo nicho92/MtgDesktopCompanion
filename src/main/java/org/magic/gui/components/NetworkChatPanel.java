@@ -46,6 +46,7 @@ import org.magic.api.beans.messages.StatutMessage;
 import org.magic.api.beans.messages.TechMessageUsers;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGNetworkClient;
+import org.magic.gui.StockPanelGUI;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.deck.ConstructPanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
@@ -146,11 +147,27 @@ public class NetworkChatPanel extends MTGUIComponent {
 									
 				            });
 				            menu.add(itemOpen);
-				            
-				            
-				            
-				            
 			            }
+			            
+			            if(selected.getTypeMessage()==MSG_TYPE.ANSWER) {
+			            	var items = ((SearchAnswerMessage)selected).getResultItems();
+			        		
+				            var itemOpen = new JMenuItem("Open " + selected.getTypeMessage());
+				            itemOpen.addActionListener((ActionEvent ae)->{
+				            		
+				            	var panel = new StockPanelGUI();
+				            	
+				            	for(var mc : items)
+				            		panel.addStock(mc);
+				            	
+				            	MTGUIComponent.createJDialog(panel, true, true).setVisible(true);
+									
+				            });
+				            menu.add(itemOpen);
+			            }
+			            
+			            
+			            
 			            
 			            menu.show(listMsg, e.getPoint().x, e.getPoint().y);            
 			        }
