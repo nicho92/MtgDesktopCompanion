@@ -63,6 +63,7 @@ public abstract class AbstractNetworkProvider extends AbstractMTGPlugin implemen
 			case SEARCH :return serializer.fromJson(txt, SearchMessage.class);
 			case SYSTEM:return serializer.fromJson(txt, TechMessageUsers.class);
 			case DECK:return serializer.fromJson(txt, DeckMessage.class);
+			case ANSWER:return serializer.fromJson(txt, SearchAnswerMessage.class);
 			default : return serializer.fromJson(txt, TalkMessage.class);
 		}
 	}
