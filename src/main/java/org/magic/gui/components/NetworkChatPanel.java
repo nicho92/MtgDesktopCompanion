@@ -5,7 +5,6 @@ import static org.magic.services.tools.MTG.capitalize;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.ItemEvent;
@@ -48,6 +47,7 @@ import org.magic.api.beans.messages.TechMessageUsers;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.components.deck.ConstructPanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
 import org.magic.gui.components.dialog.JDeckChooserDialog;
 import org.magic.gui.components.widgets.JLangLabel;
@@ -60,8 +60,6 @@ import org.magic.services.MTGDeckManager;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
-
-import com.mchange.v2.sql.filter.SynchronizedFilterDataSource;
 
 
 public class NetworkChatPanel extends MTGUIComponent {
@@ -125,25 +123,35 @@ public class NetworkChatPanel extends MTGUIComponent {
 					    var menu = new JPopupMenu();
 			            var selected = listMsg.getSelectedValue();
 			            
-			            var itemImport = new JMenuItem("Import " + selected.getTypeMessage());
-			            itemImport.addActionListener((ActionEvent ae)->{
-			                	
-			            	if(selected.getTypeMessage()==MSG_TYPE.DECK)
-			            	{
-			            		var deck = ((DeckMessage)selected).getMagicDeck();
-			            		deck.setId(-1);
-			            		
-			            		try {
-									new MTGDeckManager().saveDeck(deck);
-								} catch (IOException e1) {
-									logger.error(e);
-								}
-			            	}
-			            	
-			            	
-			            });
+			            if(selected.getTypeMessage()==MSG_TYPE.DECK) {
+			            	var deck = ((DeckMessage)selected).getMagicDeck();
+			        		deck.setId(-1);
+			        		
+				            var itemImport = new JMenuItem("Import " + selected.getTypeMessage());
+				            itemImport.addActionListener((ActionEvent ae)->{
+				            		try {
+										new MTGDeckManager().saveDeck(deck);
+									} catch (IOException e1) {
+										logger.error(e);
+									}
+				            });
+				            menu.add(itemImport);
+				            
+				            var itemOpen = new JMenuItem("Open " + selected.getTypeMessage());
+				            itemOpen.addActionListener((ActionEvent ae)->{
+				            		ConstructPanel deckV = new ConstructPanel();
+				            			deckV.setDeck(deck);
+				            			
+										MTGUIComponent.createJDialog(deckV, true, true).setVisible(true);
+									
+				            });
+				            menu.add(itemOpen);
+				            
+				            
+				            
+				            
+			            }
 			            
-			            menu.add(itemImport);
 			            menu.show(listMsg, e.getPoint().x, e.getPoint().y);            
 			        }
 	        }
@@ -398,7 +406,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 						
 						
 						case SYSTEM : listPlayerModel.removeAllElements();
-											  listPlayerModel.addAll(((TechMessageUsers)s).getPlayers());
+									  listPlayerModel.addAll(((TechMessageUsers)s).getPlayers());
 											  break;
 							  
 						case SEARCH: 
@@ -413,8 +421,6 @@ public class NetworkChatPanel extends MTGUIComponent {
 									{
 												
 											var ret = MTG.getEnabledPlugin(MTGDao.class).listStocks((MagicCard)msgs.getItem()).stream().filter(mcs->mcs.getQte()>0).collect(Collectors.toList());
-											logger.info(ret);
-											
 											if(!ret.isEmpty())
 												client.sendMessage(new SearchAnswerMessage(msgs, ret));
 											
