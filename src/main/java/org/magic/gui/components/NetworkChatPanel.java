@@ -4,6 +4,8 @@ import static org.magic.services.tools.MTG.capitalize;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.ItemEvent;
@@ -59,6 +61,8 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 
+import com.mchange.v2.sql.filter.SynchronizedFilterDataSource;
+
 
 public class NetworkChatPanel extends MTGUIComponent {
 
@@ -112,47 +116,37 @@ public class NetworkChatPanel extends MTGUIComponent {
 		editorPane.setRows(3);
 		listPlayers.setCellRenderer(new PlayerRenderer());
 		listMsg.setCellRenderer(new MessageRenderer());
-		 JPopupMenu menu = new JPopupMenu();
-		
-		listMsg.addMouseListener( new MouseAdapter()
+	 	listMsg.addMouseListener( new MouseAdapter()
 		{
 			@Override
-		    public void mousePressed(MouseEvent e)
-		    {
-				menu.removeAll();
-				 
-				 
-				if ( SwingUtilities.isRightMouseButton(e) )
-		        {
-		    		 menu.setLocation(e.getLocationOnScreen());
-		    		
-		        	var msg = listMsg.getSelectedValue();
-		        	var it = new JMenuItem("Import " + msg.getTypeMessage());
-		        	it.addActionListener(l->{
-		        		
-		        		if(msg.getTypeMessage() == MSG_TYPE.DECK)
-		        			{
-		        				var d = ((DeckMessage)msg).getMagicDeck();
-		        				d.setId(-1);
-		        				try {
-									new MTGDeckManager().saveDeck(d);
+			public void mousePressed(MouseEvent e) {
+				 if ( SwingUtilities.isRightMouseButton(e) ) {
+					 listMsg.setSelectedIndex(listMsg.locationToIndex(e.getPoint()));
+					    var menu = new JPopupMenu();
+			            var selected = listMsg.getSelectedValue();
+			            
+			            var itemImport = new JMenuItem("Import " + selected.getTypeMessage());
+			            itemImport.addActionListener((ActionEvent ae)->{
+			                	
+			            	if(selected.getTypeMessage()==MSG_TYPE.DECK)
+			            	{
+			            		var deck = ((DeckMessage)selected).getMagicDeck();
+			            		deck.setId(-1);
+			            		
+			            		try {
+									new MTGDeckManager().saveDeck(deck);
 								} catch (IOException e1) {
 									logger.error(e);
 								}
-		        				
-		        				
-		        			}
-		        		
-		        	});
-		        	
-		            menu.add(it);
-		            menu.setVisible(true);
-		            
-		            return;
-		        }
-		    	 
-		    	 menu.setVisible(false);
-		    }
+			            	}
+			            	
+			            	
+			            });
+			            
+			            menu.add(itemImport);
+			            menu.show(listMsg, e.getPoint().x, e.getPoint().y);            
+			        }
+	        }
 
 		});
 		
