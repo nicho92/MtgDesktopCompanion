@@ -9,6 +9,7 @@ import org.magic.api.beans.enums.EnumPlayerStatus;
 import org.magic.api.beans.game.Player;
 import org.magic.api.beans.messages.DeckMessage;
 import org.magic.api.beans.messages.SearchMessage;
+import org.magic.api.beans.messages.SearchAnswerMessage;
 import org.magic.api.beans.messages.StatutMessage;
 import org.magic.api.beans.messages.TalkMessage;
 import org.magic.api.beans.messages.TechMessageUsers;
