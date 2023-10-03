@@ -480,7 +480,9 @@ private MTGPool pool;
 					
 			
 				if(rs.getString(PROMO_TYPE)!=null)
-					mc.getPromotypes().addAll(splitArrayValue(PROMO_TYPE).stream().map(EnumPromoType::parseByLabel).toList());
+				{
+					mc.getPromotypes().addAll(splitArrayValue(rs.getString(PROMO_TYPE)).stream().map(EnumPromoType::parseByLabel).toList());
+				}
 				
 			
 				if(rs.getString(KEYWORDS)!=null)
