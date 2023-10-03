@@ -102,7 +102,7 @@ public class MagicGUI extends JFrame {
 
 		barStatus = new JXStatusBar();
 		
-		setSize(new Dimension(1420, 960));
+		setSize(new Dimension(1420, 1024));
 		setTitle(MTGConstants.MTG_APP_NAME + " ( v" + MTGControler.getInstance().getVersionChecker().getVersion() + ")");
 
 		addWindowListener(new WindowAdapter() {
@@ -183,7 +183,7 @@ public class MagicGUI extends JFrame {
 
 		mntmHelp.addActionListener(e -> UITools.browse(MTGConstants.MTG_DESKTOP_WIKI_URL));
 
-		mntmDonate.addActionListener(e -> UITools.browse(MTGConstants.MTG_DESKTOP_DONATE_URL));
+		mntmDonate.addActionListener(e -> UITools.browse(MTGConstants.MTG_DESKTOP_DONATE_URL_PAYPAL));
 
 		mntmAboutMagicDesktop.addActionListener(ae -> MTGUIComponent.createJDialog(new AboutDialog(), false,true).setVisible(true));
 
@@ -292,7 +292,7 @@ public class MagicGUI extends JFrame {
 		lblSupport.addMouseListener(new MouseAdapter() {
 		    @Override
             public void mouseClicked(MouseEvent e) {
-		    	UITools.browse(MTGConstants.MTG_DESKTOP_DONATE_URL);
+		    	UITools.browse(MTGConstants.MTG_DESKTOP_DONATE_URL_PAYPAL);
             }
 		    @Override
 		    public void mouseEntered(MouseEvent e) {
