@@ -87,7 +87,7 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 		var cqc = new QueueConfiguration();
 		cqc.setAddress(adress);
 		cqc.setName("queue-"+player.getId());
-		cqc.setDurable(true);
+		cqc.setDurable(false);
 		cqc.setAutoCreated(true);
 		cqc.setConfigurationManaged(true);
 		cqc.setRoutingType(RoutingType.MULTICAST);
