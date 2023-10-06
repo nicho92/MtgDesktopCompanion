@@ -35,7 +35,6 @@ import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
-import org.magic.api.beans.technical.ConverterItem;
 import org.magic.api.beans.technical.GedEntry;
 import org.magic.api.beans.technical.audit.DAOInfo;
 import org.magic.api.interfaces.MTGNewsProvider;
@@ -82,7 +81,6 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	private String colSealed = "sealed";
 	private String colContacts = "contacts";
 	private String colTransactions = "transactions";
-	private String colConversionItem = "conversionsItems";
 	private String colDecks = "decks";
 	private String colAnnounces="announces";
 	private String colGed="ged";
@@ -96,7 +94,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	private String dbTypeNewsField = "typeNews";
 	private MongoClient client;
 	private JsonWriterSettings setts;
-	private String[] collectionsNames = new String[] {colCards,colCollects,colStocks,colAlerts,colNews,colOrders,colSealed,colTransactions,colContacts,colDecks,colConversionItem,colAnnounces,colGed,colFavorites};
+	private String[] collectionsNames = new String[] {colCards,colCollects,colStocks,colAlerts,colNews,colOrders,colSealed,colTransactions,colContacts,colDecks,colAnnounces,colGed,colFavorites};
 
 	@Override
 	public Map<String, String> getDefaultAttributes() {
@@ -342,14 +340,6 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public void deleteConversionItem(ConverterItem n) throws SQLException {
-		db.getCollection(colConversionItem).deleteOne(Filters.eq("id", n.getId()));
-		notify(n);
-
-	}
-
-
-	@Override
 	public void deleteContact(Contact contact)throws SQLException {
 
 		if(!listTransactions(contact).isEmpty())
@@ -372,14 +362,6 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		);
 		return stocks;
 	}
-
-	@Override
-	public List<ConverterItem> listConversionItems() throws SQLException {
-		List<ConverterItem> stocks = new ArrayList<>();
-		db.getCollection(colConversionItem, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result -> stocks.add(deserialize(result, ConverterItem.class)));
-		return stocks;
-	}
-
 
 	@Override
 	public MagicDeck getDeckById(Integer id) throws SQLException {
@@ -422,24 +404,6 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		List<SealedStock> stocks = new ArrayList<>();
 		db.getCollection(colSealed, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result -> stocks.add(deserialize(result, SealedStock.class)));
 		return stocks;
-	}
-
-	@Override
-	public void saveOrUpdateConversionItem(ConverterItem state) throws SQLException {
-		logger.debug("saving conversion {}",state);
-		if (state.getId() == -1) {
-			state.setId(Integer.parseInt(getNextSequence().toString()));
-			db.getCollection(colConversionItem, BasicDBObject.class).insertOne(BasicDBObject.parse(serialize(state)));
-			state.setUpdated(false);
-		} else {
-
-			UpdateResult res = db.getCollection(colConversionItem, BasicDBObject.class).replaceOne(Filters.eq("id", state.getId()),BasicDBObject.parse(serialize(state)));
-			logger.trace(res);
-			state.setUpdated(false);
-		}
-
-		notify(state);
-
 	}
 
 	@Override

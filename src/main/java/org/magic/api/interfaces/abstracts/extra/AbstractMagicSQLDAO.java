@@ -44,7 +44,6 @@ import org.magic.api.beans.enums.EnumTransactionDirection;
 import org.magic.api.beans.enums.EnumTransactionStatus;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
-import org.magic.api.beans.technical.ConverterItem;
 import org.magic.api.beans.technical.GedEntry;
 import org.magic.api.beans.technical.audit.DAOInfo;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -643,72 +642,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 
 	@Override
-	public List<ConverterItem> listConversionItems() throws SQLException {
-		List<ConverterItem> colls = new ArrayList<>();
-
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from conversionsitems"))
-		{
-				var rs = executeQuery(pst);
-
-				while (rs.next()) {
-					var d = readConversionItem(rs);
-					colls.add(d);
-					notify(d);
-				}
-		}
-		return colls;
-	}
-
-	@Override
-	public void saveOrUpdateConversionItem(ConverterItem n) throws SQLException {
-		if (n.getId() < 0)
-		{
-				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO conversionsitems (name, source, inputId, destination, outputId) VALUES (?, ?, ?, ?, ?)"))
-				{
-					pst.setString(1,n.getName());
-					pst.setString(2, n.getSource());
-					pst.setLong(3, n.getInputId());
-					pst.setString(4, n.getDestination());
-					pst.setLong(5, n.getOutputId());
-					executeUpdate(pst);
-					logger.debug("{} created",n.getName());
-					n.setUpdated(false);
-				}
-
-		}
-		else if(n.isUpdated())
-		{
-			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE conversionsitems SET name = ?, source = ?, inputId = ?, destination = ?, outputId = ? WHERE id = ?"))
-			{
-				pst.setString(1,n.getName());
-				pst.setString(2, n.getSource());
-				pst.setLong(3, n.getInputId());
-				pst.setString(4, n.getDestination());
-				pst.setLong(5, n.getOutputId());
-				pst.setLong(6, n.getId());
-				executeUpdate(pst);
-				logger.debug(UPDATED,n.getName());
-				n.setUpdated(false);
-			}
-
-		}
-
-
-	}
-
-	@Override
-	public void deleteConversionItem(ConverterItem n) throws SQLException {
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("DELETE FROM conversionsitems where id=?")) {
-			pst.setLong(1, n.getId());
-			executeUpdate(pst);
-		}
-		logger.debug("{} deleted",n);
-
-	}
-
-
-
-	@Override
 	public List<MagicDeck> listDecks() throws SQLException {
 		List<MagicDeck> colls = new ArrayList<>();
 
@@ -941,20 +874,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		return contact;
 
 	}
-
-
-	private ConverterItem readConversionItem(ResultSet rs) throws SQLException {
-		ConverterItem it = new ConverterItem();
-
-			it.setId(rs.getInt("id"));
-			it.setName(rs.getString("name"));
-			it.setSource(rs.getString("source"));
-			it.setInputId(rs.getLong("inputId"));
-			it.setDestination(rs.getString("destination"));
-			it.setOutputId(rs.getLong("outputId"));
-		return it;
-	}
-
 
 
 	private MagicDeck readDeck(ResultSet rs) throws SQLException{

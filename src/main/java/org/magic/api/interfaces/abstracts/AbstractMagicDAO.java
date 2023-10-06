@@ -16,7 +16,6 @@ import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
-import org.magic.api.beans.technical.ConverterItem;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPool;
@@ -272,13 +271,6 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 			oe.setId(-1);
 			dao.saveOrUpdateTransaction(oe);
 		}
-
-		logger.debug("duplicate conversions items");
-		for(ConverterItem oe : listConversionItems())
-		{
-			dao.saveOrUpdateConversionItem(oe);
-		}
-
 
 		logger.debug("duplicate decks");
 		for(MagicDeck oe : listDecks())

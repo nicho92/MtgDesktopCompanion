@@ -154,40 +154,6 @@ public class MkmExternalShop extends AbstractExternalShop {
 		return ret;
 	}
 
-	@Override
-	/*
-	 * Overrried to take as MkmIdProduct
-	*/
-	public List<MTGStockItem> listStock(String search) throws IOException {
-		var list= loadStock(search);
-		itemsBkcp.clear();
-		list.forEach(item->{
-			getRefs(item.getProduct().getProductId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getDestination(),String.valueOf(converterItem.getOutputId())));
-			getRefs(item.getProduct().getProductId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getSource(),String.valueOf(converterItem.getInputId())));
-			itemsBkcp.put(item, new SimpleEntry<>(item.getQte(), item.getPrice()) );
-		});
-
-		return list;
-	}
-
-
-
-	@Override
-	/*
-	 * Overrried to take as MkmIdProduct
-	*/
-	public List<Transaction> listTransaction() throws IOException {
-		var list= loadTransaction();
-		list.forEach(t->
-			t.getItems().forEach(item->{
-				getRefs(item.getProduct().getProductId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getDestination(),String.valueOf(converterItem.getOutputId())));
-				getRefs(item.getProduct().getProductId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getSource(),String.valueOf(converterItem.getInputId())));
-			})
-			);
-
-		return list;
-	}
-
 
 	@Override
 	protected List<Transaction> loadTransaction()  {
@@ -267,7 +233,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 	private LightArticle parse(MTGStockItem it) {
 		var ret = new LightArticle();
 
-		ret.setIdArticle(getRefs(it.getId()).get(0).getIdFor(getName()).intValue());
+		ret.setIdArticle(it.getId().intValue());
 
 
 		ret.setIdProduct(it.getProduct().getProductId().intValue());

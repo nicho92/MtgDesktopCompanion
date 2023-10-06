@@ -1,16 +1,12 @@
 package org.magic.api.interfaces.abstracts;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.AbstractMap.SimpleEntry;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.magic.api.beans.shop.Transaction;
-import org.magic.api.beans.technical.ConverterItem;
-import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.services.tools.MTG;
@@ -36,33 +32,10 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 		itemsBkcp = new HashMap<>();
 	}
 
-	
-	protected List<ConverterItem> getRefs(Long id)
-	{
-		try {
-			if(id==-1)
-				return new ArrayList<>();
-			
-			return MTG.getEnabledPlugin(MTGDao.class).listConversionItems().stream().filter(p->(p.getInputId().equals(id) || p.getOutputId().equals(id))).toList();
-		} catch (Exception e) {
-			logger.error(e);
-			return new ArrayList<>();
-		}
-	}
-
-
 	@Override
 	public List<Transaction> listTransaction() throws IOException {
 
-		var list= loadTransaction();
-		list.forEach(t->
-			t.getItems().forEach(item->{
-				getRefs(item.getId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getDestination(),String.valueOf(converterItem.getOutputId())));
-				getRefs(item.getId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getSource(),String.valueOf(converterItem.getInputId())));
-			})
-			);
-
-		return list;
+		return loadTransaction();
 	}
 
 	@Override
@@ -70,13 +43,8 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 		var list= loadStock(search);
 		itemsBkcp.clear();
 		list.forEach(item->{
-			getRefs(item.getId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getDestination(),String.valueOf(converterItem.getOutputId())));
-			getRefs(item.getId()).forEach(converterItem->item.getTiersAppIds().put(converterItem.getSource(),String.valueOf(converterItem.getInputId())));
 			itemsBkcp.put(item, new SimpleEntry<>(item.getQte(), item.getPrice()) );
 		});
-
-
-
 		return list;
 	}
 
@@ -122,17 +90,6 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 
 
 
-	}
-
-
-	@Override
-	public  void updateConversion(String sourcename, String productName, Long idProduct, Long idDestProduct ) throws IOException
-	{
-		try {
-			MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateConversionItem(new ConverterItem(sourcename,getName(), productName,idProduct, idDestProduct));
-		} catch (SQLException e) {
-			throw new IOException(e);
-		}
 	}
 
 	@Override

@@ -60,7 +60,6 @@ import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.EnumTransactionStatus;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
-import org.magic.api.beans.technical.ConverterItem;
 import org.magic.api.beans.technical.GedEntry;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.beans.technical.WebShopConfig;
@@ -794,24 +793,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 			var stock = getEnabledPlugin(MTGDao.class).getStockById(Long.parseLong(request.params(":idStock")));
 			getEnabledPlugin(MTGDao.class).deleteStock(stock);
 			return ok(request,response,stock);
-		});
-
-
-		post("/stock/sync/:from/:to", (request, response) -> {
-
-
-			List<MTGStockItem> postItems= converter.fromJsonList(new InputStreamReader(request.raw().getInputStream()), MTGStockItem.class);
-
-			if(postItems.size()<2)
-				throw new IOException("please choose source and destination product");
-
-			var src = postItems.get(0);
-			var dest = postItems.get(1);
-
-			var item = new ConverterItem(request.params(":from"),request.params(":to"),src.getProduct().getName(),src.getId(),dest.getId());
-
-			getEnabledPlugin(MTGDao.class).saveOrUpdateConversionItem(item);
-			return ok(request,response,item);
 		});
 
 		get("/sealed/list", URLTools.HEADER_JSON,(request, response) ->{

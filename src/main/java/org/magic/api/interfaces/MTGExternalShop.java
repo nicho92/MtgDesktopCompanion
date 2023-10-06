@@ -38,7 +38,6 @@ public interface MTGExternalShop extends MTGPlugin {
 	public void deleteTransaction(List<Transaction> t) throws IOException;
 	public Transaction getTransactionById(Long id) throws IOException;
 
-	public void updateConversion(String name, String destName, Long idProduct, Long idDestProduct) throws IOException;
 	public List<Transaction> listTransactions(Contact c) throws IOException;
 	public boolean enableContact(String token)throws IOException;
 

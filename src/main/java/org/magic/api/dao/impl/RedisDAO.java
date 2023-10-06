@@ -20,7 +20,6 @@ import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
-import org.magic.api.beans.technical.ConverterItem;
 import org.magic.api.beans.technical.GedEntry;
 import org.magic.api.beans.technical.audit.DAOInfo;
 import org.magic.api.interfaces.MTGSerializable;
@@ -590,24 +589,6 @@ public class RedisDAO extends AbstractKeyValueDao {
 		return listAnnounces().stream().filter(a->a.getStatus()==stat).skip((long)max-1).toList();
 	}
 
-
-	@Override
-	public List<ConverterItem> listConversionItems() throws SQLException {
-		// TODO Auto-generated method stub
-		return  new ArrayList<>();
-	}
-
-	@Override
-	public void deleteConversionItem(ConverterItem n) throws SQLException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void saveOrUpdateConversionItem(ConverterItem n) throws SQLException {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public <T extends MTGSerializable> List<GedEntry<T>> listEntries(String classename, String id) throws SQLException {

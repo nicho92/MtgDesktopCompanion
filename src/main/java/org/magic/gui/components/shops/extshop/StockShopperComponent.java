@@ -23,7 +23,6 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.technical.ConverterItem;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGStockItem;
@@ -119,18 +118,7 @@ public class StockShopperComponent extends MTGUIComponent {
 					MTGStockItem destItem = comp.getSelectedItem();
 
 					if(destItem!=null)
-					{
 						sourceItem.getTiersAppIds().put(exp.getName(), String.valueOf(destItem.getId()));
-
-						var converter = new ConverterItem(cboInput.getSelectedItem().toString(),exp.getName(),sourceItem.getProduct().getName(),sourceItem.getId(),destItem.getId());
-
-						try {
-							MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateConversionItem(converter);
-						} catch (SQLException e) {
-							MTGControler.getInstance().notify(e);
-						}
-					}
-
 
 				});
 

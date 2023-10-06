@@ -17,7 +17,6 @@ import org.magic.api.beans.SealedStock;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
-import org.magic.api.beans.technical.ConverterItem;
 import org.magic.api.beans.technical.GedEntry;
 
 public interface MTGDao extends MTGPlugin{
@@ -114,11 +113,6 @@ public interface MTGDao extends MTGPlugin{
 	public List<MagicNews> listNews();
 	public void deleteNews(MagicNews n) throws SQLException;
 	public void saveOrUpdateNews(MagicNews n) throws SQLException;
-
-
-	public List<ConverterItem> listConversionItems() throws SQLException;
-	public void deleteConversionItem(ConverterItem n) throws SQLException;
-	public void saveOrUpdateConversionItem(ConverterItem n) throws SQLException;
 
 	public <T extends MTGSerializable> List<GedEntry<T>> listEntries(String classename, String fileName)  throws SQLException;
 	public <T extends MTGSerializable> boolean deleteEntry(GedEntry<T> gedItem) throws SQLException;
