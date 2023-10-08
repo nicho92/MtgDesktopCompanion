@@ -241,6 +241,9 @@ public class MTGDeckManager extends Observable {
 			String[] formats = sniffer.listFilter();
 			List<RetrievableDeck> availableDecks = sniffer.getDeckList(formats[random.nextInt(formats.length)]);
 			RetrievableDeck d = availableDecks.get(random.nextInt(availableDecks.size()));
+			
+			logger.info("Generating random deck from {} : {} ", sniffer,d.getName());
+			
 			return sniffer.getDeck(d);
 
 		} catch (NoSuchAlgorithmException e) {
