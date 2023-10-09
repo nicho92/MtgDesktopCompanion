@@ -6,7 +6,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -23,7 +22,6 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
@@ -31,7 +29,6 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.StockItemTableModel;
 import org.magic.gui.renderer.StockTableRenderer;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;

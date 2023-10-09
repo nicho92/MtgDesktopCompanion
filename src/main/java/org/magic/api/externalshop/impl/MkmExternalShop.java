@@ -3,7 +3,6 @@ package org.magic.api.externalshop.impl;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;

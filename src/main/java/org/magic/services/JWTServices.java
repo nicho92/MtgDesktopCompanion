@@ -1,12 +1,13 @@
 package org.magic.services;
 
 import java.nio.charset.StandardCharsets;
-import java.security.Key;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import javax.crypto.SecretKey;
 
 import org.apache.commons.lang3.time.DateUtils;
 
@@ -14,15 +15,13 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+
 import io.jsonwebtoken.security.Keys;
 
 public class JWTServices {
 
 	private String issuer;
-	private Key secret;
-	private static SignatureAlgorithm algo = SignatureAlgorithm.HS256;
-	private String aud;
+	private SecretKey key;
 	private List<String> refreshedTokenRepository = new ArrayList<>();
 
 	public JWTServices(String secret, String issuer) {
@@ -30,26 +29,19 @@ public class JWTServices {
 		setSecret(secret);
 	}
 
-
-	public void setAudience(String aud)
-	{
-		this.aud=aud;
-	}
-
 	public void setSecret(String secret) {
-		this.secret=Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+		this.key=Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
 	}
 
-	public String generateToken(Map<String,Object> claims, int timeoutInMinutes,boolean store)
+	public String generateToken(Map<String,String> claims, int timeoutInMinutes,boolean store)
 	{
 		var tok=Jwts.builder()
-				.setAudience(aud)
-				.setClaims(claims)
-				.setSubject(null)
-				.setIssuer(issuer)
-				.setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(DateUtils.addMinutes(new Date(System.currentTimeMillis()), timeoutInMinutes))
-				.signWith(secret,algo)
+				.claims(claims)
+				.subject("")
+				.issuer(issuer)
+				.issuedAt(new Date(System.currentTimeMillis()))
+				.expiration(DateUtils.addMinutes(new Date(System.currentTimeMillis()), timeoutInMinutes))
+				.signWith(key)
 				.compact();
 
 
@@ -63,17 +55,18 @@ public class JWTServices {
 
 	public Jws<Claims> validateToken(String token) throws ExpiredJwtException
 	{
-			return Jwts.parserBuilder()
-				 .setSigningKey(secret)
+			return Jwts.parser()
+				 .verifyWith(key)
 				 .requireIssuer(issuer)
 				 .build()
-				 .parseClaimsJws(token);
+				 .parseSignedClaims(token);
 	}
 
 	public static String generateRandomSecret()
 	{
-		var sk = Keys.secretKeyFor(algo);
-		return Base64.getEncoder().encodeToString(sk.getEncoded());
+		var k=  Jwts.SIG.HS256.key().build();
+		return Base64.getEncoder().encodeToString(k.getEncoded());
+	
 	}
 
 }
