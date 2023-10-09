@@ -137,9 +137,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 	private static final String ENABLE_SSL = "ENABLE_SSL";
 	private static final String NAME = ":name";
 	private static final String ID_ED = ":idEd";
-	private static final String ACCESS_CONTROL_ALLOW_HEADERS = "Access-Control-Allow-Headers";
-	private static final String ACCESS_CONTROL_REQUEST_METHOD = "Access-Control-Request-Method";
-	private static final String ACCESS_CONTROL_ALLOW_ORIGIN = "Access-Control-Allow-Origin";
+
 	private static final String ENABLE_GZIP = "ENABLE_GZIP";
 	private static final String AUTOSTART = "AUTOSTART";
 	private static final String SERVER_PORT = "SERVER-PORT";
@@ -316,9 +314,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		before("/*", (request, response) -> {
 			response.type(URLTools.HEADER_JSON);
-			response.header(ACCESS_CONTROL_ALLOW_ORIGIN, getString(ACCESS_CONTROL_ALLOW_ORIGIN));
-			response.header(ACCESS_CONTROL_REQUEST_METHOD, getString(ACCESS_CONTROL_REQUEST_METHOD));
-			response.header(ACCESS_CONTROL_ALLOW_HEADERS, getString(ACCESS_CONTROL_ALLOW_HEADERS));
+			response.header(URLTools.ACCESS_CONTROL_ALLOW_ORIGIN, getString(URLTools.ACCESS_CONTROL_ALLOW_ORIGIN));
+			response.header(URLTools.ACCESS_CONTROL_REQUEST_METHOD, getString(URLTools.ACCESS_CONTROL_REQUEST_METHOD));
+			response.header(URLTools.ACCESS_CONTROL_ALLOW_HEADERS, getString(URLTools.ACCESS_CONTROL_ALLOW_HEADERS));
 			response.header("Content-Security-Policy","");
 			response.header("startAt", String.valueOf(Instant.now().toEpochMilli()));
 
@@ -334,9 +332,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 		options("/*", (request, response) -> {
 			var accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
 			if (accessControlRequestHeaders != null) {
-				response.header(ACCESS_CONTROL_ALLOW_HEADERS, accessControlRequestHeaders);
+				response.header(URLTools.ACCESS_CONTROL_ALLOW_HEADERS, accessControlRequestHeaders);
 			}
-			var accessControlRequestMethod = request.headers(ACCESS_CONTROL_REQUEST_METHOD);
+			var accessControlRequestMethod = request.headers(URLTools.ACCESS_CONTROL_REQUEST_METHOD);
 			if (accessControlRequestMethod != null) {
 				response.header("Access-Control-Allow-Methods", accessControlRequestMethod);
 			}
@@ -1434,9 +1432,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 		map.put(SERVER_PORT, "8080");
 		map.put(AUTOSTART, FALSE);
 		map.put(ENABLE_GZIP, TRUE);
-		map.put(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
-		map.put(ACCESS_CONTROL_REQUEST_METHOD, "GET,PUT,POST,DELETE,OPTIONS");
-		map.put(ACCESS_CONTROL_ALLOW_HEADERS,"Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin");
+		map.put(URLTools.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
+		map.put(URLTools.ACCESS_CONTROL_REQUEST_METHOD, "GET,PUT,POST,DELETE,OPTIONS");
+		map.put(URLTools.ACCESS_CONTROL_ALLOW_HEADERS,"Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin");
 		map.put("THREADS",String.valueOf(Runtime.getRuntime().availableProcessors()));
 		map.put(ENABLE_SSL,FALSE);
 		map.put(KEYSTORE_URI, new File(MTGConstants.DATA_DIR,"jetty.jks").getAbsolutePath());
