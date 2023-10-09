@@ -144,9 +144,8 @@ public class IconSetProvider {
 			return equiv.get(set);
 
 
-		if(set.length()==4 && set.toLowerCase().startsWith("p"))
+		if(set.length()==4 && set.toLowerCase().startsWith("p")) //TODO remove this code
 			set=set.substring(1);
-
 
 
 		return set;
