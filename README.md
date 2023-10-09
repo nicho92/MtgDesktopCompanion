@@ -32,7 +32,7 @@ Any help are welcome :) [![PayPal](https://img.shields.io/static/v1.svg?label=Pa
 
 [Docker Web UI](https://hub.docker.com/r/mtgcompanion/mtgcompanion/tags)
 
-
+[AUR Package](https://aur.archlinux.org/packages/mtg-desktop-companion) thanks to @LuckyTurtleDev
 
 # Launch
 ```
