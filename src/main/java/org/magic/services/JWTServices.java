@@ -12,10 +12,9 @@ import javax.crypto.SecretKey;
 import org.apache.commons.lang3.time.DateUtils;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-
 import io.jsonwebtoken.security.Keys;
 
 public class JWTServices {
@@ -29,16 +28,12 @@ public class JWTServices {
 		setSecret(secret);
 	}
 
-	public void setSecret(String secret) {
-		this.key=Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
-	}
-
-	public String generateToken(Map<String,String> claims, int timeoutInMinutes,boolean store)
+	public String generateToken(String sub, Map<String,String> claims, int timeoutInMinutes,boolean store)
 	{
 		var tok=Jwts.builder()
 				.claims(claims)
-				.subject("")
 				.issuer(issuer)
+				.subject(sub)
 				.issuedAt(new Date(System.currentTimeMillis()))
 				.expiration(DateUtils.addMinutes(new Date(System.currentTimeMillis()), timeoutInMinutes))
 				.signWith(key)
@@ -52,8 +47,7 @@ public class JWTServices {
 		return tok;
 	}
 
-
-	public Jws<Claims> validateToken(String token) throws ExpiredJwtException
+	public Jws<Claims> validateToken(String token) throws JwtException, IllegalArgumentException
 	{
 			return Jwts.parser()
 				 .verifyWith(key)
@@ -62,10 +56,13 @@ public class JWTServices {
 				 .parseSignedClaims(token);
 	}
 
+	public void setSecret(String secret) {
+		this.key=Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+	}
+
 	public static String generateRandomSecret()
 	{
-		var k=  Jwts.SIG.HS256.key().build();
-		return Base64.getEncoder().encodeToString(k.getEncoded());
+		return Base64.getEncoder().encodeToString(Jwts.SIG.HS256.key().build().getEncoded());
 	
 	}
 

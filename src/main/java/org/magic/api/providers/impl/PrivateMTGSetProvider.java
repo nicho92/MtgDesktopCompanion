@@ -26,6 +26,8 @@ import com.google.gson.JsonObject;
 
 public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
+	public static final String PERSONNAL_DATA_SET_PROVIDER = "Personnal Data Set Provider";
+
 	private static final String CARDS = "cards";
 
 	private String ext = ".json";
@@ -292,7 +294,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
 	@Override
 	public String getName() {
-		return "Personnal Data Set Provider";
+		return PERSONNAL_DATA_SET_PROVIDER;
 	}
 
 	@Override

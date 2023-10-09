@@ -83,6 +83,7 @@ import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.api.interfaces.MTGTrackingService;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
+import org.magic.api.providers.impl.PrivateMTGSetProvider;
 import org.magic.api.sorters.CardsEditionSorter;
 import org.magic.services.CardsManagerService;
 import org.magic.services.CollectionEvaluator;
@@ -354,12 +355,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 			var c = MTG.getEnabledPlugin(MTGExternalShop.class).getContactByLogin(request.queryParams("email"),request.queryParams("password"));
 			var obj = new JsonObject();
 			var m = new HashMap<String,String>();
-				m.put("name", c.getName());
+				m.put("name", c.getName() + " " + c.getLastName());
 				m.put("mail", c.getEmail());
-				m.put("sub", String.valueOf(c.getId()));
 
-			obj.addProperty("accessToken",jwtService.generateToken(m,getInt("JWT_EXPIRATION_MINUTES"),false));
-			obj.addProperty("refreshToken",jwtService.generateToken(m,getInt("JWT_REFRESH_EXPIRATION_MINUTES"),true));
+			obj.addProperty("accessToken",jwtService.generateToken(String.valueOf(c.getId()),m,getInt("JWT_EXPIRATION_MINUTES"),false));
+			obj.addProperty("refreshToken",jwtService.generateToken(String.valueOf(c.getId()),m,getInt("JWT_REFRESH_EXPIRATION_MINUTES"),true));
 
 			storeToken(response,obj.get("accessToken").getAsString());
 
@@ -367,17 +367,26 @@ public class JSONHttpServer extends AbstractMTGServer {
 		},transformer);
 
 
-		get("/services/auth",(request, response) -> jwtService.validateToken(readToken(request)),transformer);
-
+		get("/services/auth",(request, response) -> {
 		
-		get("/custom/sets", URLTools.HEADER_JSON,(request, response) -> MTG.getPlugin("Personnal Data Set Provider", MTGCardsProvider.class).listEditions(),transformer);
+				try {
+					return jwtService.validateToken(readToken(request));
+				}
+				catch(Exception e)
+				{
+					return error(request, response, e.getMessage(), 401);
+				}
+			
+		},transformer);
 		
-		get("/custom/cards/:idSet", URLTools.HEADER_JSON,(request, response) -> MTG.getPlugin("Personnal Data Set Provider", MTGCardsProvider.class).searchCardByEdition(new MagicEdition(request.params(ID_SET))),transformer);
+		get("/custom/sets", URLTools.HEADER_JSON,(request, response) -> MTG.getPlugin(PrivateMTGSetProvider.PERSONNAL_DATA_SET_PROVIDER, MTGCardsProvider.class).listEditions(),transformer);
+		
+		get("/custom/cards/:idSet", URLTools.HEADER_JSON,(request, response) -> MTG.getPlugin(PrivateMTGSetProvider.PERSONNAL_DATA_SET_PROVIDER, MTGCardsProvider.class).searchCardByEdition(new MagicEdition(request.params(ID_SET))),transformer);
 		
 		get("/custom/picture/:idCard", URLTools.HEADER_JSON,(request, response) -> {
 			var baos = new ByteArrayOutputStream();
-			var mc = MTG.getPlugin("Personnal Data Set Provider", MTGCardsProvider.class).getCardById(request.params(":idCard"));
-			var im = MTG.getPlugin("Personal Set Pictures",MTGPictureProvider.class).getPicture(mc);
+			var mc = MTG.getPlugin(PrivateMTGSetProvider.PERSONNAL_DATA_SET_PROVIDER, MTGCardsProvider.class).getCardById(request.params(":idCard"));
+			var im = MTG.getPlugin(PrivateMTGSetProvider.PERSONNAL_DATA_SET_PROVIDER,MTGPictureProvider.class).getPicture(mc);
 			ImageTools.write(im, "png", baos);
 
 			baos.flush();
