@@ -1,8 +1,8 @@
 package org.magic.api.beans.enums;
 
-import org.apache.commons.lang3.StringUtils;
+import org.magic.api.interfaces.MTGEnumeration;
 
-public enum EnumCardVariation {
+public enum EnumCardVariation implements MTGEnumeration{
 
 	SHOWCASE,
 	EXTENDEDART,
@@ -11,8 +11,4 @@ public enum EnumCardVariation {
 	TIMESHIFTED,
 	JAPANESEALT;
 
-
-	public String toPrettyString() {
-		return StringUtils.capitalize(name().toLowerCase());
-	}
 }

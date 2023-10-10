@@ -1,6 +1,5 @@
 package org.magic.api.beans.enums;
 
-import org.apache.commons.lang3.StringUtils;
 import org.magic.api.interfaces.MTGEnumeration;
 
 import com.google.gson.annotations.SerializedName;
@@ -33,13 +32,6 @@ public enum EnumLayout implements MTGEnumeration{
 	@SerializedName(alternate = "class", value = "CLASS")								CLASS,
 	@SerializedName(alternate = "prototype", value = "PROTOTYPE")						PROTOTYPE,
 	@SerializedName(alternate = "mutate", value = "MUTATE")						MUTATE;
-	
-
-	@Override
-	public String toPrettyString() {
-		return StringUtils.capitalize(name().toLowerCase());
-	}
-
 	
 
 	public static EnumLayout parseByLabel(String s)
