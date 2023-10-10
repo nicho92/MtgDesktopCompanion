@@ -1,10 +1,10 @@
 package org.magic.api.beans.enums;
 
-import org.apache.commons.lang3.StringUtils;
+import org.magic.api.interfaces.MTGEnumeration;
 
 import com.google.gson.annotations.SerializedName;
 
-public enum EnumSecurityStamp{
+public enum EnumSecurityStamp implements MTGEnumeration{
 
 	@SerializedName(alternate = "oval", value = "OVAL") 				OVAL,
 	@SerializedName(alternate = "triangle", value = "TRIANGLE") 	TRIANGLE,
@@ -13,11 +13,6 @@ public enum EnumSecurityStamp{
 	@SerializedName(alternate = "circle", value = "CIRCLE") 				CIRCLE,
 	@SerializedName(alternate = "heart", value = "HEART") 				HEART;
 
-	public String toPrettyString() {
-		return StringUtils.capitalize(name().toLowerCase());
-	}
-
-
 	public static EnumSecurityStamp parseByLabel(String s)
 	{
 		try {
@@ -25,6 +20,7 @@ public enum EnumSecurityStamp{
 		}
 		catch(Exception e)
 		{
+			logger.warn("SecurityStamp {} is not found", s);
 			return null;
 		}
 	}

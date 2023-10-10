@@ -1,21 +1,16 @@
 package org.magic.api.beans.enums;
 
-import org.apache.commons.lang3.StringUtils;
+import org.magic.api.interfaces.MTGEnumeration;
 
 import com.google.gson.annotations.SerializedName;
 
-public enum EnumBorders{
+public enum EnumBorders implements MTGEnumeration{
 
 	@SerializedName(alternate = "black", value = "BLACK") 				BLACK,
 	@SerializedName(alternate = "borderless", value = "BORDERLESS") 	BORDERLESS,
 	@SerializedName(alternate = "gold", value = "GOLD")       			GOLD,
 	@SerializedName(alternate = "silver", value = "SILVER") 			SILVER,
 	@SerializedName(alternate = "white", value = "WHITE") 				WHITE;
-
-	public String toPrettyString() {
-		return StringUtils.capitalize(name().toLowerCase());
-	}
-
 
 	public static EnumBorders parseByLabel(String s)
 	{
@@ -24,6 +19,7 @@ public enum EnumBorders{
 		}
 		catch(Exception e)
 		{
+			logger.warn("Border {} is not found",s);
 			return null;
 		}
 	}

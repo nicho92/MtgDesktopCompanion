@@ -3,7 +3,6 @@ package org.magic.api.beans.enums;
 import java.awt.Color;
 import java.util.Comparator;
 
-import org.apache.commons.lang3.StringUtils;
 import org.magic.api.interfaces.MTGEnumeration;
 
 import com.google.gson.annotations.SerializedName;
@@ -55,10 +54,7 @@ public enum EnumRarity implements Comparator<EnumRarity>, MTGEnumeration{
 		return position;
 	}
 
-	public String toPrettyString() {
-		return StringUtils.capitalize(name().toLowerCase());
-	}
-
+	
 	@Override
 	public int compare(EnumRarity o1, EnumRarity o2) {
 		return o1.getPosition()-o2.getPosition();

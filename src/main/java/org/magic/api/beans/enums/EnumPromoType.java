@@ -1,6 +1,5 @@
 package org.magic.api.beans.enums;
 
-import org.apache.commons.lang3.StringUtils;
 import org.magic.api.interfaces.MTGEnumeration;
 
 import com.google.gson.annotations.SerializedName;
@@ -65,13 +64,6 @@ public enum EnumPromoType implements MTGEnumeration{
 	
 	@SerializedName(alternate = "neonink", value = "NEONINK") NEONINK;
 	
-	 
-
-
-	public String toPrettyString() {
-		return StringUtils.capitalize(name().toLowerCase());
-	}
-
 
 	public static EnumPromoType parseByLabel(String s)
 	{

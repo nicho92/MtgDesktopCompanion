@@ -35,7 +35,7 @@ public enum EnumLayout implements MTGEnumeration{
 	@SerializedName(alternate = "mutate", value = "MUTATE")						MUTATE;
 	
 
-
+	@Override
 	public String toPrettyString() {
 		return StringUtils.capitalize(name().toLowerCase());
 	}

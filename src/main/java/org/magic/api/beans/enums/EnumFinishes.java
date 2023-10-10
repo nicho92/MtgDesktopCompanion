@@ -4,21 +4,17 @@ import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
+import org.magic.api.interfaces.MTGEnumeration;
 
 import com.google.gson.annotations.SerializedName;
 
-public enum EnumFinishes{
+public enum EnumFinishes implements MTGEnumeration{
 
 	@SerializedName(alternate = "etched", value = "ETCHED") 	ETCHED,
 	@SerializedName(alternate = "foil", value = "FOIL") 		FOIL,
 	@SerializedName(alternate = "glossy", value = "GLOSSY")     GLOSSY,
 	@SerializedName(alternate = "nonfoil", value = "NONFOIL") 	NONFOIL,
 	@SerializedName(alternate = "signed", value = "SIGNED") 	SIGNED;
-
-	public String toPrettyString() {
-		return StringUtils.capitalize(name().toLowerCase());
-	}
-
 
 	public static List<EnumFinishes> parseByLabel(List<String> names)
 	{
@@ -32,6 +28,7 @@ public enum EnumFinishes{
 		}
 		catch(IllegalArgumentException e)
 		{
+			logger.warn("Finishe {} is not found",s);
 			return null;
 		}
 	}

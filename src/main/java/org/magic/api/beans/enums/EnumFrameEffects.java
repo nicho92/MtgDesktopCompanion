@@ -3,7 +3,6 @@ package org.magic.api.beans.enums;
 import java.util.List;
 import java.util.Objects;
 
-import org.apache.commons.lang3.StringUtils;
 import org.magic.api.interfaces.MTGEnumeration;
 
 public enum EnumFrameEffects implements MTGEnumeration{
@@ -35,10 +34,6 @@ public enum EnumFrameEffects implements MTGEnumeration{
 	CONVERTDFC,
 	SHATTEREDGLASS,
 	FULLART;
-
-	public String toPrettyString() {
-		return StringUtils.capitalize(name().toLowerCase());
-	}
 
 	public static List<EnumFrameEffects> parseByLabel(List<String> names)
 	{
