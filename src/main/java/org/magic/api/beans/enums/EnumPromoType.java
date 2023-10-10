@@ -1,10 +1,11 @@
 package org.magic.api.beans.enums;
 
 import org.apache.commons.lang3.StringUtils;
+import org.magic.api.interfaces.MTGEnumeration;
 
 import com.google.gson.annotations.SerializedName;
 
-public enum EnumPromoType {
+public enum EnumPromoType implements MTGEnumeration{
 
 
 
@@ -54,7 +55,15 @@ public enum EnumPromoType {
 	@SerializedName(alternate = "alchemy", value = "ALCHEMY") ALCHEMY,
 	@SerializedName(alternate = "stepandcompleat", value = "STEPANDCOMPLEAT") STEPANDCOMPLEAT,
 	@SerializedName(alternate = "doublerainbow", value = "DOUBLERAINBOW") DOUBLERAINBOW,
-	@SerializedName(alternate = "galaxyfoil", value = "GALAXYFOIL") GALAXYFOIL;
+	@SerializedName(alternate = "galaxyfoil", value = "GALAXYFOIL") GALAXYFOIL,
+	@SerializedName(alternate = "confettifoil", value = "CONFETTIFOIL") CONFETTIFOIL,
+	@SerializedName(alternate = "surgefoil", value = "SURGEFOIL") SURGEFOIL,
+	@SerializedName(alternate = "concept", value = "CONCEPT") CONCEPT,
+	@SerializedName(alternate = "setextension", value = "SETEXTENSION") SETEXTENSION,
+	@SerializedName(alternate = "gilded", value = "GILDED") GILDED,
+	@SerializedName(alternate = "commanderparty", value = "COMMANDERPARTY") COMMANDERPARTY,
+	
+	@SerializedName(alternate = "neonink", value = "NEONINK") NEONINK;
 	
 	 
 
@@ -71,6 +80,7 @@ public enum EnumPromoType {
 		}
 		catch(Exception e)
 		{
+			logger.warn("EnumPromoType {} is not found", s);
 			return null;
 		}
 	}

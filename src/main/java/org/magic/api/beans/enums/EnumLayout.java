@@ -1,10 +1,11 @@
 package org.magic.api.beans.enums;
 
 import org.apache.commons.lang3.StringUtils;
+import org.magic.api.interfaces.MTGEnumeration;
 
 import com.google.gson.annotations.SerializedName;
 
-public enum EnumLayout{
+public enum EnumLayout implements MTGEnumeration{
 
 	
 	@SerializedName(alternate = "normal", value = "NORMAL") 							NORMAL,
@@ -30,8 +31,9 @@ public enum EnumLayout{
 	@SerializedName(alternate = "companion", value = "COMPANION")						COMPANION,
 	@SerializedName(alternate = "modal_dfc", value = "MODAL_DFC")						MODAL_DFC,
 	@SerializedName(alternate = "class", value = "CLASS")								CLASS,
-	@SerializedName(alternate = "prototype", value = "PROTOTYPE")						PROTOTYPE;
-
+	@SerializedName(alternate = "prototype", value = "PROTOTYPE")						PROTOTYPE,
+	@SerializedName(alternate = "mutate", value = "MUTATE")						MUTATE;
+	
 
 
 	public String toPrettyString() {
@@ -47,6 +49,7 @@ public enum EnumLayout{
 		}
 		catch(Exception e)
 		{
+			logger.warn("Layout {} is not found",s);
 			return null;
 		}
 	}

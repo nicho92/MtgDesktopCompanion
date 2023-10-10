@@ -4,8 +4,9 @@ import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
+import org.magic.api.interfaces.MTGEnumeration;
 
-public enum EnumFrameEffects{
+public enum EnumFrameEffects implements MTGEnumeration{
 
 	LEGENDARY,
 	MIRACLE,
@@ -30,7 +31,10 @@ public enum EnumFrameEffects{
 	COMPANION,
 	WAXINGANDWANINGMOONDFC,
 	BORDERLESS,
-	ETCHED;
+	ETCHED,
+	CONVERTDFC,
+	SHATTEREDGLASS,
+	FULLART;
 
 	public String toPrettyString() {
 		return StringUtils.capitalize(name().toLowerCase());
@@ -48,6 +52,7 @@ public enum EnumFrameEffects{
 		}
 		catch(Exception e)
 		{
+			logger.warn("FrameEffect {} is not found",s);
 			return null;
 		}
 	}

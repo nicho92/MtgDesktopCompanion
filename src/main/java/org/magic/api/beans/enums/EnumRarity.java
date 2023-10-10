@@ -4,10 +4,11 @@ import java.awt.Color;
 import java.util.Comparator;
 
 import org.apache.commons.lang3.StringUtils;
+import org.magic.api.interfaces.MTGEnumeration;
 
 import com.google.gson.annotations.SerializedName;
 
-public enum EnumRarity implements Comparator<EnumRarity>{
+public enum EnumRarity implements Comparator<EnumRarity>, MTGEnumeration{
 
 	@SerializedName(alternate = "common", value = "COMMON") 				COMMON (Color.BLACK,1),
 	@SerializedName(alternate = "uncommon", value = "UNCOMMON") 			UNCOMMON (new Color(223, 223, 223),2),
@@ -40,6 +41,7 @@ public enum EnumRarity implements Comparator<EnumRarity>{
 		}
 		catch(Exception e)
 		{
+			logger.warn("Rarity {} is not found",s);
 			return null;
 		}
 	}
