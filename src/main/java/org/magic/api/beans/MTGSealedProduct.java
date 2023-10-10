@@ -38,7 +38,7 @@ public class MTGSealedProduct extends AbstractProduct {
 	
 	@Override
 	public String toString() {
-		return getTypeProduct() + (getExtra()!=null?" "+getExtra():"") + " (" +getLang()+") ";
+		return getName();
 	}
 
 	@Override

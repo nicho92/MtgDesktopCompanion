@@ -147,18 +147,13 @@ public class MTGCompanionSealedProvider extends AbstractSealedProvider{
 						 }
 						 
 						 try {
-							  p.setName(n.item(i).getAttributes().getNamedItem("desc").getNodeValue());
+							  p.setName(me.getSet()+" "+ p.getTypeProduct() + (p.getExtra()!=null?" " + p.getExtra():"") +  " " + n.item(i).getAttributes().getNamedItem("desc").getNodeValue() + " (" +p.getLang()+") ");
 						 }
 						 catch(Exception e)
 						 {
-							 p.setName(p.getEdition() + " " + p.getTypeProduct());
+							 p.setName(me.getSet()+" "+ p.getTypeProduct() + (p.getExtra()!=null?" " + p.getExtra():"") +  " (" +p.getLang()+") ");
 						 }
-							  
-						 
-						 
-					
-								
-			
+		
 				ret.add(p);
 			}
 		}
