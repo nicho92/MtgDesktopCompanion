@@ -165,6 +165,10 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 
 	@Override
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact, EnumCardVariation extra) throws IOException {
+		
+		if(extra==null)
+			return searchCardByCriteria(att, crit, me, exact).stream().filter(mc->mc.getExtra().isEmpty()).toList();
+		
 		return searchCardByCriteria(att, crit, me, exact).stream().filter(mc->mc.getExtra().contains(extra)).toList();
 	}
 

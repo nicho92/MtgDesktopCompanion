@@ -190,10 +190,6 @@
       <enable>true</enable>
     </dashlet>
     <dashlet>
-      <class>org.magic.gui.dashlet.MagicEventsDashlet</class>
-      <enable>true</enable>
-    </dashlet>
-    <dashlet>
       <class>org.magic.gui.dashlet.MkmOversightDashlet</class>
       <enable>true</enable>
     </dashlet>
