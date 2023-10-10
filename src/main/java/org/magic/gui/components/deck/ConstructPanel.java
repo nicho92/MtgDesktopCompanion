@@ -126,6 +126,11 @@ public class ConstructPanel extends MTGUIComponent {
 	private JButton defaultEnterButton;
 	private RulesPanel rulesPanel;
 	private  IASuggestionPanel iaPanel;
+	private CriteriaComponent searchComponent;
+	private JPanel panneauGauche;
+	private JButton btnNewDeck;
+	private JButton btnOpen;
+	private JButton btnImport;
 
 	public ConstructPanel() {
 		deck = new MagicDeck();
@@ -134,7 +139,17 @@ public class ConstructPanel extends MTGUIComponent {
 		setDeck(deck);
 	}
 	
-
+	
+	public void hideSearchComponent(boolean hidecomponent)
+	{
+		searchComponent.setVisible(!hidecomponent);
+		panneauGauche.setVisible(!hidecomponent);
+		btnNewDeck.setVisible(!hidecomponent);
+		btnOpen.setVisible(!hidecomponent);
+		btnImport.setVisible(!hidecomponent);
+	}
+	
+	
 	protected void updatePanels() {
 
 		if(deck==null)
@@ -181,7 +196,7 @@ public class ConstructPanel extends MTGUIComponent {
 		JButton btnUpdate;
 		var btnRandom= UITools.createBindableJButton("", MTGConstants.ICON_RANDOM, KeyEvent.VK_R, "Random");
 		HandPanel thumbnail;
-		var searchComponent = new CriteriaComponent(false);
+		searchComponent = new CriteriaComponent(false);
 		JTabbedPane tabbedPaneHaut;
 		ButtonGroup groupsFilterResult;
 		var buzyLabel = AbstractBuzyIndicatorComponent.createProgressComponent();
@@ -196,11 +211,11 @@ public class ConstructPanel extends MTGUIComponent {
 		var importLogPanel = new LoggerViewPanel();
 
 		lblCards = new JLabel();
-		var btnNewDeck = UITools.createBindableJButton("", MTGConstants.ICON_NEW, KeyEvent.VK_N, "New");
-		var btnOpen = UITools.createBindableJButton("", MTGConstants.ICON_OPEN, KeyEvent.VK_O, "Open");
+		btnNewDeck = UITools.createBindableJButton("", MTGConstants.ICON_NEW, KeyEvent.VK_N, "New");
+		btnOpen = UITools.createBindableJButton("", MTGConstants.ICON_OPEN, KeyEvent.VK_O, "Open");
 		btnUpdate = UITools.createBindableJButton("", MTGConstants.ICON_REFRESH, KeyEvent.VK_R, "Refresh");
 		var btnSave = UITools.createBindableJButton("", MTGConstants.ICON_SAVE, KeyEvent.VK_S, "Save");
-		var btnImport = UITools.createBindableJButton("", MTGConstants.ICON_IMPORT, KeyEvent.VK_I, "Import");
+		btnImport = UITools.createBindableJButton("", MTGConstants.ICON_IMPORT, KeyEvent.VK_I, "Import");
 		
 		btnExports = new JExportButton(MODS.EXPORT);
 		stockPanel = new DeckStockComparatorPanel();
@@ -233,7 +248,7 @@ public class ConstructPanel extends MTGUIComponent {
 		var tglbtnVin = new JToggleButton("VIN");
 		var tglbtnCmd = new JToggleButton("CMD");
 		defaultEnterButton = UITools.createBindableJButton(null, MTGConstants.ICON_SEARCH, KeyEvent.VK_S, "search");
-		var panneauGauche = new JPanel();
+		panneauGauche = new JPanel();
 		listResult = new JList<>(new DefaultListModel<>());
 		stockDetailPanel = new CardStockPanel();
 		iaPanel = new IASuggestionPanel();

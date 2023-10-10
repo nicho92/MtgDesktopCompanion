@@ -141,6 +141,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 				            var itemOpen = new JMenuItem("Open " + selected.getTypeMessage());
 				            itemOpen.addActionListener((ActionEvent ae)->{
 				            		ConstructPanel deckV = new ConstructPanel();
+				            			deckV.hideSearchComponent(true);
 				            			deckV.setDeck(deck);
 				            			
 										MTGUIComponent.createJDialog(deckV, true, true).setVisible(true);
