@@ -67,7 +67,7 @@ public final class DeckAdapter implements JsonDeserializer<MagicDeck>, JsonSeria
 				deck.setDateUpdate(new Date(root.get(UPDATE_DATE).getAsLong()));
 			}catch(Exception e)
 			{
-			
+				//do nothing
 			}
 
 		}

@@ -71,7 +71,7 @@ public abstract class AbstractNetworkProvider extends AbstractMTGPlugin implemen
 
 
 	protected String toJson(AbstractMessage obj) {
-		return serializer.toJson(obj);
+			return serializer.toJson(obj);
 	}
 	
 

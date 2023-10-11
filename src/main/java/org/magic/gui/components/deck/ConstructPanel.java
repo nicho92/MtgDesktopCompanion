@@ -77,6 +77,7 @@ import org.magic.gui.components.dialog.JDeckChooserDialog;
 import org.magic.gui.components.editor.MagicEditionsComboBoxCellEditor;
 import org.magic.gui.components.tech.CriteriaComponent;
 import org.magic.gui.components.tech.LoggerViewPanel;
+import org.magic.gui.components.tech.ObjectViewerPanel;
 import org.magic.gui.components.widgets.JExportButton;
 import org.magic.gui.models.DeckCardsTableModel;
 import org.magic.gui.renderer.MagicCardListRenderer;
@@ -87,6 +88,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
 import org.magic.services.threads.ThreadManager;
+import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 import org.magic.services.workers.AbstractObservableWorker;
 import org.magic.services.workers.DeckImportWorker;
@@ -116,6 +118,7 @@ public class ConstructPanel extends MTGUIComponent {
 	private DefaultListModel<MagicCard> resultListModel = new DefaultListModel<>();
 	private JList<MagicCard> listResult;
 	private DrawProbabilityPanel cardDrawProbaPanel;
+	private ObjectViewerPanel objectviewerPanel;
 	protected int selectedIndex = 0;
 	private File f;
 	private JLabel lblCards;
@@ -163,7 +166,7 @@ public class ConstructPanel extends MTGUIComponent {
 		deckPricePanel.init(deck);
 		drawProbabilityPanel.init(deck);
 		btnExports.setEnabled(!deck.getMainAsList().isEmpty());
-
+		objectviewerPanel.init(deck);
 
 	}
 
@@ -176,6 +179,7 @@ public class ConstructPanel extends MTGUIComponent {
 		deckSidemodel.init(deck);
 		deckMaybemodel.init(deck);
 		stockPanel.setCurrentDeck(deck);
+		objectviewerPanel.init(deck);
 		iaPanel.init(deck.getMainAsList());
 		tableDeck.packAll();
 		tableSide.packAll();
@@ -219,6 +223,7 @@ public class ConstructPanel extends MTGUIComponent {
 		
 		btnExports = new JExportButton(MODS.EXPORT);
 		stockPanel = new DeckStockComparatorPanel();
+		objectviewerPanel= new ObjectViewerPanel();
 		var buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 		var panneauBas = new JPanel();
 		tabbedPaneHaut = new JTabbedPane(SwingConstants.TOP);
@@ -327,6 +332,8 @@ public class ConstructPanel extends MTGUIComponent {
 		addContextComponent(iaPanel);
 		addContextComponent(importLogPanel);
 		
+		if(MTG.readPropertyAsBoolean("debug-json-panel"))
+			addContextComponent(objectviewerPanel);
 		
 		panneauDeck.setLeftComponent(tabbedDeckSide);
 		tabbedDeckSide.addTab("Main", MTGConstants.ICON_TAB_DECK, new JScrollPane(tableDeck), null);
