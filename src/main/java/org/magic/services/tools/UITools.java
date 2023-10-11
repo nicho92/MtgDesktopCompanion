@@ -589,7 +589,7 @@ public class UITools {
 								}
 								else
 								{
-									mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, ed, true).get(0);
+									mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, ed, true,null).get(0);
 								}
 							}
 							else
