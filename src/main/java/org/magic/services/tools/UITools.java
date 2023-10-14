@@ -553,8 +553,12 @@ public class UITools {
 					}
 					else
 					{
-
+						
 						var row = table.rowAtPoint(e.getPoint());
+						
+						if(row<0)
+							return;
+						
 						var pane = new MagicCardMainDetailPanel();
 						pane.enableThumbnail(true);
 						table.setRowSelectionInterval(row, row);

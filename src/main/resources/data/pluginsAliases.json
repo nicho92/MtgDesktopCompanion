@@ -1,4 +1,18 @@
 {
+	"CardSphere": {
+		"regex": {
+			"default": "\"(\\d+)\",\"(\\d+)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\",\"(.*?)\""
+		},
+		"conditions": {
+			"POOR": "Heavily Played",
+			"LIGHTLY_PLAYED": "Good (Lightly Played)",
+			"NEAR_MINT": "Near Mint",
+			"PLAYED": "Played",
+			"EXCELLENT": "Near Mint",
+			"GOOD": "Good (Lightly Played)",
+			"MINT": "Near Mint"
+		}
+	},
 	"Manabox": {
 		"regex": {
 			"stock": "((?=\")\".*?\"|.*?),(.*?),(.*?),(.*?),(normal|foil|etched),(.*?),(\\d+),(\\d+),(.*?),(.*?),(true|false),(true|false),(.*?),(.*?),(.*?)$",
