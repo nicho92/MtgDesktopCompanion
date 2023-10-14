@@ -1,15 +1,20 @@
 package org.magic.api.exports.impl;
 
+import static org.magic.services.tools.MTG.getEnabledPlugin;
+
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
+import org.magic.services.MTGControler;
 import org.magic.services.tools.FileTools;
-import org.magic.services.tools.UITools;
 
 public class CardSphereExport extends AbstractFormattedFileCardExport {
 
@@ -17,8 +22,31 @@ public class CardSphereExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
-		// TODO Auto-generated method stub
-		return super.importStock(content);
+		List<MagicCardStock> list = new ArrayList<>();
+
+		matches(content,true).forEach(m->{
+
+			MagicCard mc=null;
+				try {
+					mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(m.group(3),null,true).get(0);
+				} catch (Exception e) {
+					logger.error(e);
+				}
+
+			if(mc!=null)
+			{
+				var st = MTGControler.getInstance().getDefaultStock();
+				st.setProduct(mc);
+				st.setLanguage(m.group(6));
+				st.setQte(Integer.parseInt(m.group(1)));
+				st.setFoil(m.group(7).equalsIgnoreCase("foil")	);
+				st.setCondition(aliases.getReversedConditionFor(this, m.group(5), EnumCondition.NEAR_MINT)  );
+				st.setPrice(0.0);
+				list.add(st);
+			}
+		});
+
+		return list;
 	}
 	
 	@Override

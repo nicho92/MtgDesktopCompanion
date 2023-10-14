@@ -36,6 +36,7 @@
 	    <Logger name="org.apache.commons.jcs" level="ERROR"></Logger>
 	    <Logger name="com.jayway.jsonpath.internal.path" level="ERROR"></Logger>
 	    <Logger name="org.mariadb.jdbc" level="ERROR"></Logger>
+	    <Logger name="com.mchange.v2.c3p0" level="ERROR"></Logger>
 	    <Logger name="twitter4j" level="ERROR"></Logger>
 	    <Logger name="cz.vutbr" level="ERROR"></Logger>
 	    <Logger name="org.fit" level="ERROR"></Logger>
