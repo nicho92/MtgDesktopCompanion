@@ -1,6 +1,8 @@
 package org.magic.api.dao.impl;
 
 import java.nio.file.Paths;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,6 +33,20 @@ public class SQLLiteDAO extends AbstractMagicSQLDAO {
 		return m;
 	}
 
+	@Override
+	protected int getGeneratedKey(PreparedStatement pst) {
+		try (var c = pool.getConnection(); var ps = c.prepareStatement("select last_insert_rowid();"))
+		{
+			var rs = ps.executeQuery();
+			return rs.getInt(1);
+			
+			
+		} catch (SQLException e) {
+			logger.error("error getting last id {}",e);
+			return -1;
+		}
+	}
+	
 	@Override
 	protected String getdbSizeQuery() {
 		return null;

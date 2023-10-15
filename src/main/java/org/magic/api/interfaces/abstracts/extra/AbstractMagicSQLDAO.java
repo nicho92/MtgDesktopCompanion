@@ -1637,7 +1637,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		return colls;
 	}
 
-	private int getGeneratedKey(PreparedStatement pst) {
+	protected int getGeneratedKey(PreparedStatement pst) {
 
 		try (ResultSet rs = pst.getGeneratedKeys()) {
 			rs.next();
