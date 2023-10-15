@@ -18,7 +18,7 @@ import org.magic.services.tools.FileTools;
 
 public class CardSphereExport extends AbstractFormattedFileCardExport {
 
-	private final String firstColumn="Count,Tradelist Count,Name,Edition,Condition,Language,Foil,Tags";
+	private static final String COLUMNS="Count,Tradelist Count,Name,Edition,Condition,Language,Foil,Tags";
 
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
@@ -53,7 +53,7 @@ public class CardSphereExport extends AbstractFormattedFileCardExport {
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 
-		var buff = new StringBuilder(firstColumn).append(System.lineSeparator());
+		var buff = new StringBuilder(COLUMNS).append(System.lineSeparator());
 		
 		stock.forEach(mcs->{
 			buff
