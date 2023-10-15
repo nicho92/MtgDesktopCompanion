@@ -42,6 +42,7 @@ public class CardSphereExport extends AbstractFormattedFileCardExport {
 				st.setFoil(m.group(7).equalsIgnoreCase("foil")	);
 				st.setCondition(aliases.getReversedConditionFor(this, m.group(5), EnumCondition.NEAR_MINT)  );
 				st.setPrice(0.0);
+				notify(mc);
 				list.add(st);
 			}
 		});
@@ -54,8 +55,7 @@ public class CardSphereExport extends AbstractFormattedFileCardExport {
 
 		var buff = new StringBuilder(firstColumn).append(System.lineSeparator());
 		
-		stock.forEach(mcs->
-			
+		stock.forEach(mcs->{
 			buff
 			.append("\"").append(mcs.getQte()).append("\"").append(getSeparator())
 			.append("\"").append(mcs.getQte()).append("\"").append(getSeparator())
@@ -64,8 +64,9 @@ public class CardSphereExport extends AbstractFormattedFileCardExport {
 			.append("\"").append(aliases.getConditionFor(this, mcs.getCondition())).append("\"").append(getSeparator())
 			.append("\"").append(mcs.getLanguage()).append("\"").append(getSeparator())
 			.append("\"").append(mcs.isFoil()?"Foil":"").append("\"").append(getSeparator())
-			.append("\"").append("").append("\"").append(System.lineSeparator())
-		);
+			.append("\"").append("").append("\"").append(System.lineSeparator());
+			notify(mcs.getProduct());
+		});
 		
 		FileTools.saveFile(f, buff.toString());
 		
