@@ -826,7 +826,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public List<Transaction> listTransactions(Contact idct)  throws SQLException {
 		List<Transaction> ctx = new ArrayList<>();
 
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from transactions where fk_idcontact=?"))
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from transactions,contacts where fk_idcontact=?  and transactions.fk_idcontact = contacts.contact_id"))
 		{
 			pst.setInt(1, idct.getId());
 			ResultSet rs = executeQuery(pst);
