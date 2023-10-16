@@ -51,7 +51,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 
 private MTGPool pool;
-	private MultiValuedMap<String, MagicCardNames> mapForeignData = new ArrayListValuedHashMap<String, MagicCardNames>();
+	private MultiValuedMap<String, MagicCardNames> mapForeignData = new ArrayListValuedHashMap<>();
 	private MultiValuedMap<String, MTGRuling> mapRules = new ArrayListValuedHashMap<>();
 	private MultiValuedMap<String, MTGFormat> mapLegalities = new ArrayListValuedHashMap<>();
 	private String sqlCardBaseQuery = "SELECT cards.*, cardIdentifiers.* FROM cards, cardIdentifiers WHERE cardIdentifiers.uuid=cards.uuid";

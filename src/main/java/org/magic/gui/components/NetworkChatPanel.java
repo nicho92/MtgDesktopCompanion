@@ -382,7 +382,6 @@ public class NetworkChatPanel extends MTGUIComponent {
 				}
 				catch(Exception e)
 				{
-					e.printStackTrace();
 					logger.error(e);
 				}
 				

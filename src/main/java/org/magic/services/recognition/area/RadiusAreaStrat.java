@@ -105,7 +105,7 @@ public class RadiusAreaStrat extends AbstractRecognitionArea
                 configChanged = false;
             }
             frameSegments.addAll(detector.detect(blurred));
-            processSegments(strat);
+            processSegments();
 
             for (ContourBoundingBox bound : candidates)
             {
@@ -122,7 +122,7 @@ public class RadiusAreaStrat extends AbstractRecognitionArea
         return result;
     }
 
-    private void processSegments(MTGCardRecognition strat)
+    private void processSegments()
     {
         found.clear();
         for (List<LineSegment2D_F32> frameSegments : segments)

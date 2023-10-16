@@ -42,7 +42,7 @@ public class SQLLiteDAO extends AbstractMagicSQLDAO {
 			
 			
 		} catch (SQLException e) {
-			logger.error("error getting last id {}",e);
+			logger.error("error getting last id {}",e.getMessage());
 			return -1;
 		}
 	}

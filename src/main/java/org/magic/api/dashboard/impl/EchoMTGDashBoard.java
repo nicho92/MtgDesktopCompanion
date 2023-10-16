@@ -31,7 +31,7 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 	}
 
 
-	private String getCardId(MagicCard mc, boolean foil) {
+	private String getCardId(MagicCard mc) {
 		
 		var extra="";
 		
@@ -91,7 +91,7 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 		history.setFoil(foil);
 
 		
-		var id = getCardId(mc,foil);
+		var id = getCardId(mc);
 		
 		if(id==null)
 		{
