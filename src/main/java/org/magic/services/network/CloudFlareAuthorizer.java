@@ -30,7 +30,7 @@ import org.apache.http.cookie.Cookie;
 import org.apache.logging.log4j.Logger;
 import org.magic.services.logging.MTGLogger;
 
-
+@Deprecated
 public class CloudFlareAuthorizer {
 
     private Logger logger = MTGLogger.getLogger(CloudFlareAuthorizer.class);

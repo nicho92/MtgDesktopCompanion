@@ -2,11 +2,11 @@ package org.magic.api.beans;
 
 import java.util.Currency;
 
+import org.magic.api.beans.technical.MoneyValue;
+
 public class MagicPrice implements Comparable<MagicPrice> {
-	private Double value = 0.0;
 	private String seller;
 	private String url;
-	private Currency currency;
 	private String site;
 	private boolean foil;
 	private String language;
@@ -16,7 +16,12 @@ public class MagicPrice implements Comparable<MagicPrice> {
 	private MagicCard magicCard;
 	private int qty = 1;
 	private String sellerUrl;
-
+	private MoneyValue priceValue;
+	
+	public MagicPrice() {
+		priceValue = new MoneyValue();
+	}
+	
 
 	public String getSellerUrl() {
 		return sellerUrl;
@@ -88,19 +93,19 @@ public class MagicPrice implements Comparable<MagicPrice> {
 	}
 
 	public Currency getCurrency() {
-		return currency;
+		return priceValue.getCurrency();
 	}
 
 
 	public void setCurrency(String currencyCode)
 	{
 		if(!currencyCode.isEmpty())
-			this.currency=Currency.getInstance(currencyCode.toUpperCase());
+			priceValue.setCurrency(Currency.getInstance(currencyCode.toUpperCase()));
 	}
 
 
 	public void setCurrency(Currency currency) {
-		this.currency = currency;
+		priceValue.setCurrency(currency);
 	}
 
 	public String getSeller() {
@@ -120,11 +125,11 @@ public class MagicPrice implements Comparable<MagicPrice> {
 	}
 
 	public Double getValue() {
-		return value;
+		return priceValue.doubleValue();
 	}
 
 	public void setValue(Double value) {
-		this.value = value;
+		priceValue.setValue(value);
 	}
 
 	@Override

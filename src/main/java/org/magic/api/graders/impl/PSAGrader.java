@@ -5,7 +5,6 @@ import java.io.IOException;
 import org.magic.api.beans.Grading;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
-import org.magic.services.network.CloudFlareAuthorizer;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.UITools;
 
@@ -18,10 +17,6 @@ public class PSAGrader extends AbstractGradersProvider {
 
 	@Override
 	public Grading loadGrading(String identifier) throws IOException {
-		var authorizer = new CloudFlareAuthorizer();
- //   	try {
-    		
-    		//var ret = authorizer.getAuthorizationResult(getWebSite()+"/cert/"+identifier);
 			var doc = URLTools.extractAsHtml(getWebSite()+"/cert/"+identifier);//URLTools.toHtml(ret);
 
 
@@ -44,10 +39,6 @@ public class PSAGrader extends AbstractGradersProvider {
 				}
 			}
 
-
-//		} catch (IOException | ScriptException e) {
-//			throw new IOException(e);
-//		}
 		return null;
 	}
 
