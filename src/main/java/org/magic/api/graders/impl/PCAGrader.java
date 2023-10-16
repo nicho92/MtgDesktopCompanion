@@ -9,6 +9,7 @@ import org.magic.api.beans.Grading;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
+import org.magic.services.tools.UITools;
 
 public class PCAGrader extends AbstractGradersProvider {
 
@@ -41,7 +42,7 @@ public class PCAGrader extends AbstractGradersProvider {
 		var g = new Grading();
 		g.setGraderName(getName());
 		g.setNumberID(identifier);
-		g.setGradeNote(Double.parseDouble(els.get(3).text()));
+		g.setGradeNote(UITools.parseDouble(els.get(3).text()));
 		try {
 			g.setGradeDate(new SimpleDateFormat("yyyy").parse(els.get(5).text()));
 		} catch (ParseException e) {

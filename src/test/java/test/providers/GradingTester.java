@@ -27,6 +27,9 @@ public class GradingTester {
 	{
 		var grads = TestTools.loadGraderData().get("GRADING").getAsJsonObject();
 		grads.entrySet().forEach(e->{
+			
+			System.out.println(e.getKey());
+			
 			var p = MTG.getPlugin(e.getKey(),MTGGraders.class);
 			testPlugin(p,e.getValue().getAsString());
 		});

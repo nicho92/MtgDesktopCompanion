@@ -22,7 +22,8 @@ public class SCGGrader extends AbstractGradersProvider {
 
 
 		if(entry==null)
-			throw new IOException("No result found");
+			return new Grading();
+			
 
 		var grad = new Grading();
 		grad.setNumberID(identifier);
