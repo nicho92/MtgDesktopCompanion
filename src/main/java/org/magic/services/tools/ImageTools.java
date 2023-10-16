@@ -171,13 +171,17 @@ public class ImageTools {
         return new byte[0];
 	}
 
-	public static BufferedImage fromByteArray(byte[] imagebytes) {
+	public static BufferedImage fromByteArray(byte[] imagebytes){
+		
+		if(imagebytes==null)
+			return null;
+			
         try  (var stream = new ByteArrayInputStream(imagebytes)){
-            if (imagebytes != null && (imagebytes.length > 0)) {
+            if (imagebytes.length > 0) {
                 return ImageIO.read(stream);
             }
             return null;
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new IllegalArgumentException(e.toString());
         }
     }
@@ -261,6 +265,10 @@ public class ImageTools {
 	}
 
 	public static BufferedImage resize( Image img, int newH, int newW) {
+		
+		if(img==null)
+			return null;
+		
 		var tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
 		var dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
 

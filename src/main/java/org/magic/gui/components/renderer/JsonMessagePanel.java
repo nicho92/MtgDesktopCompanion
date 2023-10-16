@@ -58,8 +58,11 @@ public class JsonMessagePanel extends JPanel {
 		
 		var gbc = UITools.createGridBagConstraints(null, null, 1, 0);
 			 gbc.insets = new Insets(0, 0, 5, 5);
-		add(new JLabel(new ImageIcon(ImageTools.resize(value.getAuthor().getAvatar(), iconSize, iconSize))), gbc);
-		
+			 
+		if(value.getAuthor().getAvatar()!=null)	 
+			add(new JLabel(new ImageIcon(ImageTools.resize(value.getAuthor().getAvatar(), iconSize, iconSize))), gbc);
+		else
+			add(new JLabel(), gbc);
 
 		var separator = new JPanel();
 		

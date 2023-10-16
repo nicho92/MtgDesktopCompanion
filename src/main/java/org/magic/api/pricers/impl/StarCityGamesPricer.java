@@ -95,11 +95,6 @@ public class StarCityGamesPricer extends AbstractPricesProvider {
 	}
 
 	@Override
-	public STATUT getStatut() {
-		return STATUT.BUGGED;
-	}
-
-	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of("NB_PAGE", "1");
 
