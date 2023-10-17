@@ -38,7 +38,7 @@
 	});
 	
 	$('#btnLogin').click(function (e) {
-		$.post(restserver+"/webshop/user/connect",{	 
+		$.post(restserver+"/services/connect",{	 
 		    email : $( "#emailTxt" ).val(), 
 		    password : $( "#passwordTxt" ).val()
 			},

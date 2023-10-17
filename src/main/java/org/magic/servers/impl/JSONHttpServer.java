@@ -1266,7 +1266,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		get("/webshop/:dest/categories", URLTools.HEADER_JSON, (request, response) ->MTG.getPlugin(request.params(":dest"), MTGExternalShop.class).listCategories(), transformer);
 
-		post("/webshop/user/connect", URLTools.HEADER_JSON, (request, response) ->MTG.getEnabledPlugin(MTGExternalShop.class).getContactByLogin(request.queryParams("email"),request.queryParams("password")), transformer);
+		post("/services/connect", URLTools.HEADER_JSON, (request, response) ->MTG.getEnabledPlugin(MTGExternalShop.class).getContactByLogin(request.queryParams("email"),request.queryParams("password")), transformer);
 
 		post("/webshop/transaction/cancel/:id", URLTools.HEADER_JSON, (request, response) -> {
 
