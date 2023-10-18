@@ -104,13 +104,16 @@ public abstract class AbstractKeyWordsManager {
 
 		getStaticsAbilities().forEach(mk->{
 			try {
-				Elements trs = URLTools.extractAsHtml(MTGGamePediaKeywordProvider.BASE_URI+mk.getKeyword().replace(" ", "_")).select("table.infobox tr");
-				Element tr = trs.stream().filter(e->e.text().startsWith("Reminder Text ")).findAny().orElse(null);
-				mk.setReminder(tr.text().replace("Reminder Text ", ""));
+				var tr = URLTools.extractAsHtml(MTGGamePediaKeywordProvider.BASE_URI+mk.getKeyword().replace(" ", "_")).select("div.mw-parser-output p").first();
+				if(tr!=null)
+					mk.setReminder(tr.text());
+				else
+					logger.warn("tr is null for {}",mk);
 			} catch (IOException e) {
 				logger.error(e);
 			}
 		});
+
 
 
 
