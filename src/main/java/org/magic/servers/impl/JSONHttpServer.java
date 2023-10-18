@@ -215,7 +215,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 	private void storeToken(Response response, String string)
 	{
-		response.cookie("x-auth-token", string);
+		response.cookie("x-auth-token", string,-1,true,true);
 	}
 
 	private String readToken(Request request)
@@ -238,8 +238,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 			}
 		};
 	}
-
-
 
 	@Override
 	public void start() throws IOException {
@@ -349,8 +347,25 @@ public class JSONHttpServer extends AbstractMTGServer {
 	@SuppressWarnings("unchecked")
 	private void initRoutes() {
 
-		post("/services/auth",(request, response) -> {
-			var c = MTG.getEnabledPlugin(MTGExternalShop.class).getContactByLogin(request.queryParams("email"),request.queryParams("password"));
+		
+		//this one is deprecated
+		post("/services/connect", URLTools.HEADER_JSON, (request, response) -> MTG.getEnabledPlugin(MTGExternalShop.class).getContactByLogin(request.queryParams("email"),request.queryParams("password")), transformer);
+
+		
+		post("/services/auth",URLTools.HEADER_JSON,(request, response) -> {
+			Contact c = null;
+			
+			try {
+				c = MTG.getEnabledPlugin(MTGExternalShop.class).getContactByLogin(request.queryParams("email"),request.queryParams("password"));
+				
+				if(c==null)
+					return error(request, response, "Contact not found", 401);
+			}
+			catch(Exception e)
+			{
+				return error(request, response, e.getMessage(), 401);
+			}
+			
 			var obj = new JsonObject();
 			var m = new HashMap<String,String>();
 				m.put("name", c.getName() + " " + c.getLastName());
@@ -364,8 +379,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return obj;
 		},transformer);
 
-
-		get("/services/auth",(request, response) -> {
+		get("/services/auth",URLTools.HEADER_JSON,(request, response) -> {
 		
 				try {
 					return jwtService.validateToken(readToken(request));
@@ -1266,8 +1280,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		get("/webshop/:dest/categories", URLTools.HEADER_JSON, (request, response) ->MTG.getPlugin(request.params(":dest"), MTGExternalShop.class).listCategories(), transformer);
 
-		post("/services/connect", URLTools.HEADER_JSON, (request, response) ->MTG.getEnabledPlugin(MTGExternalShop.class).getContactByLogin(request.queryParams("email"),request.queryParams("password")), transformer);
-
+	
 		post("/webshop/transaction/cancel/:id", URLTools.HEADER_JSON, (request, response) -> {
 
 			Contact c=converter.fromJson(request.queryParams("user"), Contact.class);
