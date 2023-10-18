@@ -316,6 +316,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			response.header(URLTools.ACCESS_CONTROL_REQUEST_METHOD, getString(URLTools.ACCESS_CONTROL_REQUEST_METHOD));
 			response.header(URLTools.ACCESS_CONTROL_ALLOW_HEADERS, getString(URLTools.ACCESS_CONTROL_ALLOW_HEADERS));
 			response.header("Content-Security-Policy","");
+			response.header("Server",MTGConstants.MTG_APP_NAME);
 			response.header("startAt", String.valueOf(Instant.now().toEpochMilli()));
 
 			if (getBoolean(ENABLE_GZIP)) {
