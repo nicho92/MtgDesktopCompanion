@@ -8,8 +8,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.Logger;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MTGKeyWord.EVENT;
 import org.magic.api.beans.MTGKeyWord.TYPE;
