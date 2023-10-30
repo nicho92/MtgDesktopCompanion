@@ -51,8 +51,7 @@ public class TelegramNotifier extends AbstractMTGNotifier {
 		while ((inputLine = br.readLine()) != null) {
 			sb.append(inputLine);
 		}
-		var response = sb.toString();
-		logger.debug(response);
+		
 		br.close();
 
 	}
