@@ -17,7 +17,7 @@ public class PSAGrader extends AbstractGradersProvider {
 
 	@Override
 	public Grading loadGrading(String identifier) throws IOException {
-			var doc = URLTools.extractAsHtml(getWebSite()+"/cert/"+identifier);//URLTools.toHtml(ret);
+			var doc = URLTools.extractAsHtml(getWebSite()+"/cert/"+identifier);
 
 
 			for(var it : doc.select("table tr"))

@@ -17,7 +17,7 @@ import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGConstants;
-import org.magic.services.network.IncapsulaParser;
+import org.magic.services.network.URLTools;
 
 public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 	private static final String PAUPER = "pauper";
@@ -41,7 +41,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 		logger.debug("get deck at {}",info.getUrl());
 		MagicDeck deck = info.toBaseDeck();
-		Document d = IncapsulaParser.readUrl(info.getUrl().toString());
+		Document d = URLTools.extractAsHtml(info.getUrl().toString());
 		for (Element e : d.select("span.singleTag")) {
 			deck.getTags().add(e.text());
 		}
@@ -103,7 +103,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 
 		for (var i = 1; i <= maxPage; i++) {
 			url = getString(URL) + "/magic/deck/search?format=" + filter + "&page=" + i;
-			Document d = IncapsulaParser.readUrl(url);
+			Document d = URLTools.extractAsHtml(url);
 
 			for (Element tr : d.getElementsByClass("gradeA")) {
 				var deck = new RetrievableDeck();
