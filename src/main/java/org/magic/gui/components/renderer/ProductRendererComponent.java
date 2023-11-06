@@ -98,7 +98,7 @@ public class ProductRendererComponent extends JPanel {
 				} catch (InterruptedException e) {
 					Thread.currentThread().interrupt();
 				} catch (ExecutionException e) {
-					e.printStackTrace();
+					//do nothing
 				}
 			}
 		};
