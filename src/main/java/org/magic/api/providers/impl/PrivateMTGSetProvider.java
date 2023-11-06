@@ -100,8 +100,14 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	}
 
 	private MagicEdition loadEditionnFromFile(File f) throws IOException {
-		var root = FileTools.readJson(f).getAsJsonObject();
-		return serializer.fromJson(root.get("main").toString(), MagicEdition.class);
+		if(setDirectory.getCanonicalPath().startsWith(f.getCanonicalPath()))
+		{
+			var root = FileTools.readJson(f).getAsJsonObject();
+			return serializer.fromJson(root.get("main").toString(), MagicEdition.class);
+		}
+		
+		throw new IOException("Path is incorrect");
+		
 	}
 
 	public void saveEdition(MagicEdition ed, List<MagicCard> cards) {
