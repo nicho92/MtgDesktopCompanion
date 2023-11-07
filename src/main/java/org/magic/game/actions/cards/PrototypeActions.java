@@ -16,10 +16,10 @@ public class PrototypeActions extends AbstractCardAction {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private final String k = "Prototype";
+	private static final  String K = "Prototype";
 	
 	public PrototypeActions(DisplayableCard card) {
-		super(card,"Prototype");
+		super(card,K);
 		putValue(SHORT_DESCRIPTION, "Cast creature as Prototype");
 		putValue(MNEMONIC_KEY, KeyEvent.VK_P);
 		parse(card.getMagicCard().getText());
@@ -28,14 +28,14 @@ public class PrototypeActions extends AbstractCardAction {
 	private void parse(String text) {
 		var cost="";
 		try {
-			String regex = "/*" + k + " \\{(.*?)\\ ";
+			String regex = "/*" + K + " \\{(.*?)\\ ";
 			var p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE);
 			var m = p.matcher(text);
 			
 			if (m.find())
-				cost = m.group().replaceAll(k, "").trim();
+				cost = m.group().replace(K, "").trim();
 			else
-				cost = text.substring(text.indexOf(k + "\u2014") + k.length(), text.indexOf('('));
+				cost = text.substring(text.indexOf(K + "\u2014") + K.length(), text.indexOf('('));
 			
 		} catch (Exception e) {
 			logger.error(e);
