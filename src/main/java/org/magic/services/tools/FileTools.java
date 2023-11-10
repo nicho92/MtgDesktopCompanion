@@ -319,6 +319,7 @@ public class FileTools {
 
 		try(var zipFile = new ZipFile(fileZip)){
 			Enumeration<? extends ZipEntry> entries = zipFile.entries();
+		
 			while (entries.hasMoreElements())
 			{
 				var zipEntry = entries.nextElement();

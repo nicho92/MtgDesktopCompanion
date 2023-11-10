@@ -25,12 +25,12 @@ public class TestSealeds {
 		var prov = MTG.getEnabledPlugin(MTGCardsProvider.class);
 		var plug = MTG.getEnabledPlugin(MTGSealedProvider.class);
 		
-		for(var ed : prov.listEditions().stream().filter(ed->ed.getId().equals("STX")).toList())
+		for(var ed : prov.listEditions().stream()/*.filter(ed->ed.getId().equals("STX"))*/.toList())
 		{
 			var items = plug.getItemsFor(ed);
 			
 			for(var s : items)
-				System.out.println(ed.getId() + "\t" + s.getTypeProduct() + "\t"+s.getNum()+"\t : " +(plug.getPictureFor(s)!=null));
+				System.out.println(ed.getId() + ";" + s.getTypeProduct() + ";"+s.getNum()+";" +(plug.getPictureFor(s)!=null));
 			
 		}
 		

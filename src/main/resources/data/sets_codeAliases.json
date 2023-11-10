@@ -1,4 +1,8 @@
 {
+	
+	"LCI":[
+		"SLCI"
+	],
 	"WOE":[
 		"AWOE",
 		"FWOE",
@@ -297,6 +301,7 @@
 		"4BB"
 	],
 	"PMEI": [
+		"P30T",
 		"PMDA",
 		"PHTR",
 		"PH18",
