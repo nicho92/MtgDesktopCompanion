@@ -136,7 +136,7 @@ public class GedPanel<T extends MTGSerializable> extends MTGUIComponent {
 					protected Void doInBackground() throws Exception {
 						for(var snap : img)
 						{
-							var f = Files.createTempFile("picture",".png").toFile();
+							var f = FileTools.createTempFile("picture",".png");
 							ImageTools.saveImageInPng(snap,f);
 							publish(f);
 						}
@@ -267,7 +267,7 @@ public class GedPanel<T extends MTGSerializable> extends MTGUIComponent {
 				else
 				{
 					try {
-						var tmp = File.createTempFile(e.getEntry().getName(), "."+e.getEntry().getExt());
+						var tmp = FileTools.createTempFile(e.getEntry().getName(), "."+e.getEntry().getExt());
 						FileTools.saveFile(tmp, e.getEntry().getContent());
 						Desktop.getDesktop().open(tmp);
 					}catch(Exception e)

@@ -14,6 +14,8 @@ import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
+import java.nio.file.attribute.FileAttribute;
+import java.nio.file.attribute.PosixFilePermissions;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,6 +39,7 @@ import org.apache.commons.io.filefilter.FileFileFilter;
 import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.apache.commons.io.filefilter.IOFileFilter;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
+import org.apache.commons.lang3.SystemUtils;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.technical.audit.FileAccessInfo;
@@ -554,9 +557,9 @@ public class FileTools {
 		return FileUtils.listFiles(edDir, wildcardFileFilter, instance);
 	}
 
-	public static Path createTempFile(String string, String fileExtension) throws IOException {
-		var p = java.nio.file.Files.createTempFile(string,fileExtension);
-		var info = new FileAccessInfo(p.toFile());
+	public static File createTempFile(String string, String fileExtension) throws IOException {
+		var p = File.createTempFile(string,fileExtension,new File(MTGConstants.DATA_DIR, "tmp"));
+		var info = new FileAccessInfo(p);
 		info.setEnd(Instant.now());
 		info.setAccesstype(ACCESSTYPE.WRITE);
 		TechnicalServiceManager.inst().store(info);

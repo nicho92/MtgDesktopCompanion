@@ -119,6 +119,7 @@ public class WebcamCanvas extends JPanel
 		if(lastDrawn==null)
 		{
 			logger.warn("Lastdrawn is null with {}",webcam);
+			webcam.close();
 			return;
 		}
 

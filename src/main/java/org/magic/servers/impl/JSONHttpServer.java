@@ -994,15 +994,15 @@ public class JSONHttpServer extends AbstractMTGServer {
 			if(d==null)
 				return error(request, response, "Error getting deck with id="+request.params(ID_DECK), 500);
 			
-			var p =FileTools.createTempFile("deck",plug.getFileExtension());
-			var f = p.toFile();
-			var ct = Files.probeContentType(p)==null?"text/plain":Files.probeContentType(p);
+			var f =FileTools.createTempFile("deck",plug.getFileExtension());
+			
+			var ct = Files.probeContentType(f.toPath())==null?"text/plain":Files.probeContentType(f.toPath());
 			plug.exportDeck(d, f);
 			response.raw().setContentType(ct);
 			
-			if(ImageTools.isImage(p))
+			if(ImageTools.isImage(f))
 			{
-				var b = Files.readAllBytes(p);
+				var b = Files.readAllBytes(f.toPath());
 				response.raw().getOutputStream().write(b);
 				return response;
 			}
