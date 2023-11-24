@@ -71,7 +71,7 @@
 		<dependency>
 		    <groupId>io.lettuce</groupId>
 		    <artifactId>lettuce-core</artifactId>
-		    <version>6.2.6.RELEASE</version>
+		    <version>6.3.0.RELEASE</version>
 		</dependency>
 		<!--<dependency>
 		    <groupId>com.redislabs</groupId>
@@ -81,7 +81,7 @@
 		<dependency>
 		    <groupId>org.apache.derby</groupId>
 		    <artifactId>derby</artifactId>
-		    <version>10.16.1.1</version>
+		    <version>10.17.1.0</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.jolokia</groupId>
@@ -287,7 +287,7 @@
 		<dependency>
 			<groupId>com.dorkbox</groupId>
 			<artifactId>Notify</artifactId>
-			<version>4.2</version>
+			<version>4.4</version>
 		</dependency>
 		<dependency>
 			<groupId>io.github.forohforerror</groupId>
@@ -312,7 +312,7 @@
 		<dependency>
 			<groupId>com.github.marschall</groupId>
 			<artifactId>memoryfilesystem</artifactId>
-			<version>2.6.1</version>
+			<version>2.7.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.panda-lang</groupId>
@@ -369,7 +369,7 @@
 		<dependency>
 			<groupId>org.xerial</groupId>
 			<artifactId>sqlite-jdbc</artifactId>
-			<version>3.43.2.2</version>
+			<version>3.44.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -409,7 +409,7 @@
 		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
-			<version>5.0.0-beta.17</version>
+			<version>5.0.0-beta.18</version>
 			<exclusions>
 				<exclusion>
 					<groupId>club.minnced</groupId>
@@ -523,7 +523,7 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.13.0</version>
+			<version>3.14.0</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-logging</groupId>
@@ -619,7 +619,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.6.0</version>
+			<version>42.7.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mozilla</groupId>
