@@ -58,7 +58,7 @@
   		<qwartz.version>2.5.0-rc1</qwartz.version>
   		<rome.version>2.1.0</rome.version>
   		<log4j.version>2.20.0</log4j.version>
-  		<poi.version>5.2.4</poi.version>
+  		<poi.version>5.2.5</poi.version>
   		<slf4j.version>2.0.9</slf4j.version>
 	</properties>
 	<repositories>
@@ -369,7 +369,7 @@
 		<dependency>
 			<groupId>org.xerial</groupId>
 			<artifactId>sqlite-jdbc</artifactId>
-			<version>3.44.0.0</version>
+			<version>3.44.1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -609,7 +609,7 @@
 		<dependency>
 			<groupId>org.jsoup</groupId>
 			<artifactId>jsoup</artifactId>
-			<version>1.16.2</version>
+			<version>1.17.1</version>
 		</dependency>
 		<dependency>
     		<groupId>com.mysql</groupId>
