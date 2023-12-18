@@ -99,15 +99,14 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		return -1;
 	}
 
-	private MagicEdition loadEditionnFromFile(File f) throws IOException {
-		
-		if(getFile(CARDS).getCanonicalPath().startsWith(f.getCanonicalPath()))
+	private MagicEdition loadEditionFromFile(File f) throws IOException {
+		if(f.getCanonicalPath().startsWith(getFile("DIRECTORY").getCanonicalPath()))
 		{
 			var root = FileTools.readJson(f).getAsJsonObject();
 			return serializer.fromJson(root.get("main").toString(), MagicEdition.class);
 		}
 		
-		throw new IOException("Path is incorrect");
+		throw new IOException("Path is incorrect : "+f.getAbsolutePath());
 		
 		
 	}
@@ -257,16 +256,15 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	public List<MagicEdition> loadEditions() throws IOException {
 		List<MagicEdition> ret = new ArrayList<>();
 		for (File f : setDirectory.listFiles(pathname -> pathname.getName().endsWith(ext))) {
-			ret.add(loadEditionnFromFile(f));
+			ret.add(loadEditionFromFile(f));
 		}
-
 		return ret;
 	}
 
 	@Override
 	public MagicEdition getSetById(String id){
 		try {
-			return loadEditionnFromFile(new File(setDirectory, id + ext));
+			return loadEditionFromFile(new File(setDirectory, id + ext));
 		} catch (IOException e) {
 			return new MagicEdition(id,id);
 		}
