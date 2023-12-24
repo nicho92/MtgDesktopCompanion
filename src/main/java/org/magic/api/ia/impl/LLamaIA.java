@@ -100,7 +100,7 @@ public class LLamaIA  extends AbstractIA{
 		
 		var arr = query(prompt).getAsJsonArray();
 		
-		System.out.println(arr);
+		logger.info(arr);
 		
 		
 		
