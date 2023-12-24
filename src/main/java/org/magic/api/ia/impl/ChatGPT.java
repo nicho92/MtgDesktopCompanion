@@ -10,10 +10,13 @@ import org.apache.http.entity.StringEntity;
 import org.magic.api.beans.MTGDocumentation;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.interfaces.MTGIA;
 import org.magic.api.interfaces.abstracts.AbstractIA;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
+import org.magic.services.tools.MTG;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -43,6 +46,17 @@ public class ChatGPT extends AbstractIA {
 		return URLTools.toJson(resp.getEntity().getContent());
 		
 	}
+	
+	public static void main(String[] args) throws IOException {
+		MTGControler.getInstance().loadAccountsConfiguration();
+		
+		var ia = MTG.getEnabledPlugin(MTGIA.class);
+		
+		
+		ia.ask("Cthulhu theme card");
+		
+	}
+	
 	
 	@Override
 	public String ask(String prompt) throws IOException

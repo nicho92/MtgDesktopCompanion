@@ -40,7 +40,7 @@ public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 
 			e.put("q", query);
 			e.put("mature", "true");
-			h.put("Authorization","Client-ID "+getAuthenticator().get(CLIENTID));
+			h.put(URLTools.AUTHORIZATION,"Client-ID "+getAuthenticator().get(CLIENTID));
 
 
 			String s= c.toString(c.doGet("https://api.imgur.com/3/gallery/search/"+getString("SORT").toLowerCase()+"/"+getString("WINDOW"), h,e));
