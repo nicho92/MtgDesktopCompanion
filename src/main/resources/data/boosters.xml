@@ -2556,6 +2556,15 @@
 		<constructpack lang="en" num="4" url="https://media.wizards.com/2023/images/daily/en_fm7THfx5eeoZ.png" desc="Sliver Swarm"/>
 	</edition>
 	
+	
+	<edition id="LTC">
+		<set lang="en" num="1" url="https://i0.wp.com/mtgazone.com/wp-content/uploads/2022/08/image-86.png"/>
+		<constructpack lang="en" num="1" url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/5/55/LTC_UB_Riders_of_Rohan.png" desc="Riders of Rohan"/>
+		<constructpack lang="en" num="2" url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/f/f5/LTC_UB_Food_and_Fellowship.png" desc="Food and Fellowship"/>
+		<constructpack lang="en" num="3" url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/e/e3/LTC_UB_Elven_Council.png" desc="Elven Council"/>
+		<constructpack lang="en" num="4" url="https://static.wikia.nocookie.net/mtgsalvation_gamepedia/images/7/78/LTC_UB_The_Hosts_of_Mordor.png" desc="The Hosts of Mordor"/>
+	</edition>
+	
 	<edition id="LTR">
 		
 		<set lang="en" num="1" url="https://i0.wp.com/mtgazone.com/wp-content/uploads/2022/08/image-86.png"/>
