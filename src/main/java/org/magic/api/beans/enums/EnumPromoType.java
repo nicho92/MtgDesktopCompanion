@@ -71,6 +71,7 @@ public enum EnumPromoType implements MTGEnumeration{
 	@SerializedName(alternate = "ampersand", value = "AMPERSAND") AMPERSAND,
 	@SerializedName(alternate = "poster", value = "POSTER") POSTER,
 	@SerializedName(alternate = "playpromo", value = "PLAYPROMO") PLAYPROMO,
+	@SerializedName(alternate = "embossed", value = "EMBOSSED") EMBOSSED,
 	
 	@SerializedName(alternate = "neonink", value = "NEONINK") NEONINK;
 	
