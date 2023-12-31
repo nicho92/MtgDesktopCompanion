@@ -3,32 +3,32 @@ package org.magic.api.beans.enums;
 import org.apache.commons.lang3.StringUtils;
 
 public enum EnumExtra {
-	SET ("set"), 
-	DRAFT("default"), 
-	COLLECTOR ("collector"),
-	THEME("default"),
+	BRAWL("default"), 
+	COLLECTOR ("collector"), 
+	DRAFT("default"),
 	GIFT ("default"),
-	VIP ("vip"),
-	WELCOME("default"),	
-	JUMP ("jumpstart"),
 	INTRO("intro"),
-	PLANESWALKER("default"),
+	JUMP ("jumpstart"),
+	PLANESWALKER("default"),	
+	PLAY("play"),
+	SET ("set"),
 	STARTER("starter"),
-	BRAWL("default"),
-	PLAY("play");
+	THEME("default"),
+	VIP ("vip"),
+	WELCOME("default");
 	
 	private String mtgjsonname;
 
-	@Override
-	public String toString() {
-		return StringUtils.capitalize(name().toLowerCase());
-	}
-	
 	private EnumExtra(String mtgjsonName) {
 		this.mtgjsonname=mtgjsonName;
 	}
 	
 	public String getMtgjsonname() {
 		return mtgjsonname;
+	}
+	
+	@Override
+	public String toString() {
+		return StringUtils.capitalize(name().toLowerCase());
 	}
 }

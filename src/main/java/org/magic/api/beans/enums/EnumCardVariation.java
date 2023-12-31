@@ -4,11 +4,11 @@ import org.magic.api.interfaces.MTGEnumeration;
 
 public enum EnumCardVariation implements MTGEnumeration{
 
-	SHOWCASE,
+	BORDERLESS,
 	EXTENDEDART,
 	FULLART,
-	BORDERLESS,
-	TIMESHIFTED,
-	JAPANESEALT;
+	JAPANESEALT,
+	SHOWCASE,
+	TIMESHIFTED;
 
 }
