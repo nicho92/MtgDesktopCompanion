@@ -114,7 +114,6 @@ public class GedPanel<T extends MTGSerializable> extends MTGUIComponent {
 						for(var snap : img)
 						{
 							var f = FileTools.createTempFile("picture",".png");
-							logger.info("creating temp file {}",f.getAbsolutePath());
 							ImageTools.saveImageInPng(snap,f);
 							publish(f);
 						}
@@ -131,7 +130,6 @@ public class GedPanel<T extends MTGSerializable> extends MTGUIComponent {
 							Thread.currentThread().interrupt();
 							logger.error(e);
 						} catch (ExecutionException e) {
-							e.printStackTrace();
 							logger.error(e);
 						}
 						
