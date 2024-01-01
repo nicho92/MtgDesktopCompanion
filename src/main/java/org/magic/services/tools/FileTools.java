@@ -556,7 +556,13 @@ public class FileTools {
 	}
 
 	public static File createTempFile(String string, String fileExtension) throws IOException {
-		var p = File.createTempFile(string,fileExtension,new File(MTGConstants.DATA_DIR, "tmp"));
+		
+		var tmp = new File(MTGConstants.DATA_DIR, "tmp");
+		
+		if(!tmp.exists())
+			forceMkdir(tmp);
+		
+		var p = File.createTempFile(string,fileExtension,tmp);
 		var info = new FileAccessInfo(p);
 		info.setEnd(Instant.now());
 		info.setAccesstype(ACCESSTYPE.WRITE);

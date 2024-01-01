@@ -16,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Stream;
 
 import javax.swing.ImageIcon;
@@ -46,41 +47,13 @@ import com.jogamp.newt.event.KeyEvent;
 public class GedPanel<T extends MTGSerializable> extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel panneauCenter;
-	private Class<T> classe;
-	private transient T instance;
-	private ImagePanel viewPanel;
-	private AbstractBuzyIndicatorComponent buzy;
 	private JButton btnLoadFromUrl;
 	private JButton btnLoadFromWebcam;
-
-	public void init(Class<T> t, T instance)
-	{
-		this.classe=t;
-		this.instance=instance;
-
-		btnLoadFromUrl.setEnabled(instance!=null);
-		btnLoadFromWebcam.setEnabled(instance!=null);
-
-
-		if(isVisible())
-			onVisible();
-	}
-
-	@Override
-	public void onVisible() {
-
-		if(classe==null)
-			return;
-
-		logger.debug("Show ged for {}",classe.getSimpleName());
-		try {
-			listDirectory(MTG.getEnabledPlugin(MTGGedStorage.class).getPath(classe,instance));
-		} catch (IOException e) {
-			logger.error(e);
-		}
-
-	}
+	private AbstractBuzyIndicatorComponent buzy;
+	private Class<T> classe;
+	private transient T instance;
+	private JPanel panneauCenter;
+	private ImagePanel viewPanel;
 
 	public GedPanel() {
 		setLayout(new BorderLayout());
@@ -128,7 +101,11 @@ public class GedPanel<T extends MTGSerializable> extends MTGUIComponent {
 
 
 			var img = g.getSnappedImages();
+			
+			logger.debug("Importing {} snaps",img.size());
+			
 			if(!img.isEmpty()) {
+				
 				buzy.start(img.size());
 				SwingWorker<Void,File> sw = new SwingWorker<>() {
 
@@ -137,10 +114,28 @@ public class GedPanel<T extends MTGSerializable> extends MTGUIComponent {
 						for(var snap : img)
 						{
 							var f = FileTools.createTempFile("picture",".png");
+							logger.info("creating temp file {}",f.getAbsolutePath());
 							ImageTools.saveImageInPng(snap,f);
 							publish(f);
 						}
 						return null;
+					}
+
+					@Override
+					protected void done() {
+						try {
+							get();
+						}
+						catch(InterruptedException e)
+						{
+							Thread.currentThread().interrupt();
+							logger.error(e);
+						} catch (ExecutionException e) {
+							e.printStackTrace();
+							logger.error(e);
+						}
+						
+						buzy.end();
 					}
 
 					@Override
@@ -156,11 +151,6 @@ public class GedPanel<T extends MTGSerializable> extends MTGUIComponent {
 								logger.error(e);
 							}
 						}
-					}
-
-					@Override
-					protected void done() {
-						buzy.end();
 					}
 				};
 
@@ -245,12 +235,11 @@ public class GedPanel<T extends MTGSerializable> extends MTGUIComponent {
 		});
 	}
 
-
-
 	private void addEntry(GedEntry<T> c)  {
 
-		if(c==null)
+		if(c==null) {
 			return;
+		}
 
 		var e = new GedEntryComponent(c,150,100);
 		panneauCenter.add(e);
@@ -296,13 +285,29 @@ public class GedPanel<T extends MTGSerializable> extends MTGUIComponent {
 	}
 
 	@Override
+	public ImageIcon getIcon() {
+		return MTGConstants.ICON_TAB_GED;
+	}
+
+
+
+	@Override
 	public String getTitle() {
 		return "GED";
 	}
 
-	@Override
-	public ImageIcon getIcon() {
-		return MTGConstants.ICON_TAB_GED;
+	public void init(Class<T> t, T instance)
+	{
+		this.classe=t;
+		this.instance=instance;
+
+		btnLoadFromUrl.setEnabled(instance!=null);
+		btnLoadFromWebcam.setEnabled(instance!=null);
+
+
+		if(isVisible()) {
+			onVisible();
+		}
 	}
 
 	private void listDirectory(Path p)
@@ -336,12 +341,6 @@ public class GedPanel<T extends MTGSerializable> extends MTGUIComponent {
 			}
 
 			@Override
-			protected void process(List<GedEntry<T>> chunks) {
-				for(GedEntry<T> g : chunks)
-					addEntry(g);
-			}
-
-			@Override
 			protected void done()
 			{
 				panneauCenter.revalidate();
@@ -349,8 +348,31 @@ public class GedPanel<T extends MTGSerializable> extends MTGUIComponent {
 				buzy.end();
 			}
 
+			@Override
+			protected void process(List<GedEntry<T>> chunks) {
+				for(GedEntry<T> g : chunks) {
+					addEntry(g);
+				}
+			}
+
 		};
 		ThreadManager.getInstance().runInEdt(sw, "loading ged elements for " + p);
+	}
+
+	@Override
+	public void onVisible() {
+
+		if(classe==null) {
+			return;
+		}
+
+		logger.debug("Show ged for {}",classe.getSimpleName());
+		try {
+			listDirectory(MTG.getEnabledPlugin(MTGGedStorage.class).getPath(classe,instance));
+		} catch (IOException e) {
+			logger.error(e);
+		}
+
 	}
 
 
