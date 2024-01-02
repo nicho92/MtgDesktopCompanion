@@ -13,6 +13,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.technical.RetrievableDeck;
+import org.magic.api.exports.impl.Apprentice2DeckExport;
 import org.magic.api.exports.impl.MagicWorkStationDeckExport;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.network.RequestBuilder;
@@ -48,9 +49,14 @@ public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 		var doc = RequestBuilder.build().setClient(URLTools.newClient()).get().url(info.getUrl()).toHtml();
-		var urlimport = baseUrl+doc.select("div.lil_menu > a[href^=dl_mws]").first().attr("href");
+		var urlimport = baseUrl+doc.select("div.lil_menu > a[href^=dl_appr]").first().attr("href");
 		var content = RequestBuilder.build().setClient(URLTools.newClient()).get().url(urlimport).toContentString();
-		var imp = new MagicWorkStationDeckExport();
+		var imp = new Apprentice2DeckExport() {
+			@Override
+			protected String getStringPattern() {
+				return "nocomma";
+			}
+		};
 
 		try {
 			imp.addObserver(listObservers().get(0));

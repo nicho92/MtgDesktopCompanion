@@ -113,6 +113,9 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 	
 	public List<Matcher> matches(String content,boolean removeBlank, String pattern)
 	{
+		
+		logger.info("Reading deck with regex {}", pattern);
+		
 		List<Matcher> ret = new ArrayList<>();
 		for(String line : splitLines(content,removeBlank))
 		{
