@@ -52,7 +52,6 @@ public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 		var urlimport = baseUrl+doc.select("div.lil_menu > a[href^=dl_appr]").first().attr("href");
 		var content = RequestBuilder.build().setClient(URLTools.newClient()).get().url(urlimport).toContentString();
 		var imp = new Apprentice2DeckExport();
-
 		try {
 			imp.addObserver(listObservers().get(0));
 		}

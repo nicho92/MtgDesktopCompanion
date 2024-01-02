@@ -117,8 +117,7 @@
 	},
 	"Apprentice": {
 		"regex": {
-			"default": "(MD|SB),(\\d+),(\"[^\"]*\"),{0,1}([^\"]*){0,1}$",
-			"nocomma": "(SB: )?(\\d+) (.*?)$"
+			"default": "(SB: )?(\\d+) (.*?)$"
 		}
 	},
 	"Card Kingdom CSV": {
