@@ -325,7 +325,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			
 			
 
-			if(ArrayUtils.contains(new String[] {"PUMA","STA","SLD","MUL","WOT"}, mc.getCurrentSet().getId()))
+			if(ArrayUtils.contains(new String[] {"PUMA","STA","SLD","MUL","WOT","REX"}, mc.getCurrentSet().getId()))
 				extend="";
 
 			url = WEBSITE + "/price/" + convert(mc.getCurrentSet()) + extra+pfoil+"/" + cardName +extend+ "#" + getString(FORMAT);
