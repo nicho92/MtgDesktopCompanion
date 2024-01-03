@@ -29,18 +29,17 @@ public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
 		var temp = new StringBuilder();
 		for (var mc : deck.getMain().keySet()) {
-			temp.append("MD,");
-			temp.append(deck.getMain().get(mc) + getSeparator());
-			temp.append("\"" + mc.getName() + "\",");
-			temp.append(mc.getCurrentSet().getId());
-			temp.append("\n");
+			temp.append(deck.getMain().get(mc)).append(getSeparator());
+			temp.append(mc.getName());
+	//		temp.append(mc.getCurrentSet().getId())
+			temp.append(System.lineSeparator());
 			notify(mc);
 		}
 		for (var mc : deck.getSideBoard().keySet()) {
-			temp.append("SB,");
-			temp.append(deck.getSideBoard().get(mc) + getSeparator());
-			temp.append("\"" + mc.getName() + "\",");
-			temp.append(mc.getCurrentSet().getId());
+			temp.append("SB: ");
+			temp.append(deck.getSideBoard().get(mc)).append(getSeparator());
+			temp.append(mc.getName()).append(getSeparator());
+//			temp.append(mc.getCurrentSet().getId())
 			temp.append(System.lineSeparator());
 			notify(mc);
 		}
@@ -57,15 +56,14 @@ public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 
 			for(var m : matches(f,true))
 			{
-				var mc = parseMatcherWithGroup(m, 3, 4, true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NAME);
+				var mc = parseMatcherWithGroup(m, 3, -1, true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NAME);
 				var qte = Integer.parseInt(m.group(2));
-
-				if(mc!=null) {
-					if (m.group(1).startsWith("SB"))
-						deck.getSideBoard().put(mc, qte);
-					else
-						deck.getMain().put(mc, qte);
-				}
+				var side = m.group(1);
+				if(mc!=null && side!=null)
+					deck.getSideBoard().put(mc, qte);
+				else
+					deck.getMain().put(mc, qte);
+				
 			}
 			return deck;
 	}
@@ -78,7 +76,7 @@ public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 	
 	@Override
 	public String getSeparator() {
-		return getString("SEPARATOR");
+		return " ";
 	}
 
 }
