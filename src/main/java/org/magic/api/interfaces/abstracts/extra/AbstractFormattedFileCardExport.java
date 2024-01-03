@@ -63,16 +63,19 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 	protected MagicCard parseMatcherWithGroup(Matcher m,int gCard,int gEdition,boolean cleaning,FORMAT_SEARCH setSearch, FORMAT_SEARCH cardSearch)
 	{
 		MagicEdition ed = null;
-		try {
-			if(setSearch==FORMAT_SEARCH.ID)
-				ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(aliases.getSetIdFor(this,m.group(gEdition)));
-			else
-				ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(aliases.getSetNameFor(this,m.group(gEdition)));
-
-		} catch (Exception e) {
-			ed = null;
+		if(gEdition > -1)
+		{
+		
+			try {
+				if(setSearch==FORMAT_SEARCH.ID)
+					ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(aliases.getSetIdFor(this,m.group(gEdition)));
+				else
+					ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(aliases.getSetNameFor(this,m.group(gEdition)));
+	
+			} catch (Exception e) {
+				ed = null;
+			}
 		}
-
 		String cname = m.group(gCard);
 
 		if(cleaning)
