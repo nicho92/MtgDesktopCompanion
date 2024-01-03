@@ -2686,7 +2686,7 @@
 		<box lang="en" num="2" extra="collector" url="https://media.wizards.com/2024/images/daily/en_C6zTqHqoMVj5.png"/>
 		<bundle lang="en" num="1" url="https://media.wizards.com/2024/images/daily/en_gfkhBjx8544V.png"/>
 		<prereleasepack lang="en" num="1" url="https://media.wizards.com/2024/images/daily/en_YKETHpJzgCiu.png"/>
-		<booster lang="en" num="1" url="https://tcg.goodgames.com.au/cdn/shop/products/MTGMKM_EN_ClctrBstr_01_02_800x.png"/>
+		<booster lang="en" num="1"  extra="collector" url="https://tcg.goodgames.com.au/cdn/shop/products/MTGMKM_EN_ClctrBstr_01_02_800x.png"/>
 		
 	</edition>
 	
