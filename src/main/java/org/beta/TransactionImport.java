@@ -26,11 +26,11 @@ public class TransactionImport {
 		
 		
 		var choose = new JFileChooser();
-		
+		choose.showOpenDialog(null);
 		File importFile = choose.getSelectedFile();
 		
-		var transaction = MTG.getEnabledPlugin(MTGDao.class).getTransaction(339L);
-		var set = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById("6ED");
+		var transaction = MTG.getEnabledPlugin(MTGDao.class).getTransaction(291L);
+		var set = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById("3ED");
 		var list = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByEdition(set);
 		
 		FileTools.readAllLines(importFile).forEach(s->{

@@ -21,7 +21,7 @@ public class TransactionTotalPanel extends JPanel {
 	private JLabel selectionSell;
 	private JLabel totalSelection;
 	private List<Transaction> entries;
-	private TableModel model;
+	private transient TableModel model;
 	
 	
 	

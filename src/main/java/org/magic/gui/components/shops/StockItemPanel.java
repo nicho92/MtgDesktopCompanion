@@ -102,8 +102,8 @@ public class StockItemPanel extends MTGUIComponent {
 		});
 		
 		btnRemoveProduct.addActionListener(al->{
-			MTGStockItem selection = UITools.getTableSelection(table, 0);
-			model.removeItem(selection);
+			var selection = UITools.getSelectedRows(table);
+			model.removeRows(selection);
 			model.fireTableDataChanged();
 			
 		});
