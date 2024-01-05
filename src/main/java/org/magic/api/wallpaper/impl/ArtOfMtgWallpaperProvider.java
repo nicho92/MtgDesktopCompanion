@@ -22,7 +22,7 @@ public class ArtOfMtgWallpaperProvider extends AbstractWallpaperProvider {
 		List<Wallpaper> list = new ArrayList<>();
 		try {
 
-			Document d = URLTools.extractAsHtml(getString("URL") + "/?s=" + search);
+			Document d = URLTools.extractAsHtml(getString("URL") + "/?s=" + URLTools.encode(search));
 
 			for (Element e : d.select("article.result")) {
 				var w = new Wallpaper();
