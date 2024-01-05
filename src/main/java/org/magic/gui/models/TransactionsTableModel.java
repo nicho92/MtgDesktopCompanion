@@ -22,7 +22,7 @@ public class TransactionsTableModel extends GenericTableModel<Transaction> {
 	public TransactionsTableModel() {
 
 		setWritable(true);
-		columns = new String[] { "ID","DATE","CONTACT","ITEMS", "SHIPPING","Reduction","TOTAL", "DATE PAYMENT","PAYMENT METHOD","DATE SEND","TRACKING NUMBER","MESSAGE","STATUT","DIRECTION","Source" };
+		columns = new String[] { "ID","DATE","CONTACT","ITEMS", "SHIPPING","Reduction","TOTAL", "DATE PAYMENT","PAYMENT METHOD","DATE SEND","TRACKING NUMBER","MESSAGE","STATUT","DIRECTION","Source","EXT TRANSACTION ID" };
 	}
 
 
@@ -42,6 +42,7 @@ public class TransactionsTableModel extends GenericTableModel<Transaction> {
 			case 12 : getItemAt(row).setStatut(EnumTransactionStatus.valueOf(aValue.toString()));break;
 			case 13 : getItemAt(row).setTypeTransaction(EnumTransactionDirection.valueOf(aValue.toString()));break;
 			case 14 : getItemAt(row).setSourceShopName(String.valueOf(aValue).trim());break;
+			case 15 : getItemAt(row).setSourceShopId(String.valueOf(aValue).trim());break;
 		default:break;
 		}
 		fireTableCellUpdated(row, column);
@@ -68,6 +69,7 @@ public class TransactionsTableModel extends GenericTableModel<Transaction> {
 			case 12 : return it.getStatut();
 			case 13 : return it.getTypeTransaction();
 			case 14 : return it.getSourceShopName();
+			case 15 : return it.getSourceShopId();
 			default : return 0;
 		}
 	}

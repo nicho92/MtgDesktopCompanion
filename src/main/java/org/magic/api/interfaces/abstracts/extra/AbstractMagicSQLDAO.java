@@ -1045,7 +1045,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 				logger.debug("saving transaction ");
 
-				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO transactions (dateTransaction, message, stocksItem, statut,transporter,shippingPrice,transporterShippingCode, currency,datePayment,dateSend,paymentProvider, fk_idcontact,sourceShopId, sourceShopName,typeTransaction,reduction) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",Statement.RETURN_GENERATED_KEYS)) {
+				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO transactions (dateTransaction, message, stocksItem, statut,transporter,shippingPrice,transporterShippingCode, currency,datePayment,dateSend,paymentProvider, fk_idcontact,sourceShopId, sourceShopName,typeTransaction,reduction,sourceShopId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",Statement.RETURN_GENERATED_KEYS)) {
 					pst.setTimestamp(1, new Timestamp(t.getDateCreation().getTime()));
 					pst.setString(2, t.getMessage());
 					storeTransactionItems(pst,3, t.getItems());
@@ -1075,7 +1075,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 					pst.setString(14, t.getSourceShopName());
 					pst.setString(15, t.getTypeTransaction().name());
 					pst.setDouble(16, t.getReduction());
-					
+					pst.setString(17, t.getSourceShopId());
 					executeUpdate(pst);
 					t.setId(getGeneratedKey(pst));
 
@@ -1092,7 +1092,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 			logger.debug("update transaction {}",t.getId());
 
-			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE transactions SET statut = ?, transporter=?, shippingPrice=?, transporterShippingCode=?,stocksItem=?,datePayment=?,dateSend=?,paymentProvider=?, sourceShopId=?, sourceShopName=?, reduction=?, typeTransaction=? ,fk_idcontact=? WHERE id = ?",Statement.RETURN_GENERATED_KEYS)) {
+			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE transactions SET statut = ?, transporter=?, shippingPrice=?, transporterShippingCode=?,stocksItem=?,datePayment=?,dateSend=?,paymentProvider=?, sourceShopId=?, sourceShopName=?, reduction=?, typeTransaction=? ,fk_idcontact=?,dateTransaction=? WHERE id = ?",Statement.RETURN_GENERATED_KEYS)) {
 				pst.setString(1, t.getStatut().name());
 				pst.setString(2, t.getTransporter());
 				pst.setDouble(3, t.getShippingPrice());
@@ -1123,7 +1123,13 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				
 				pst.setInt(13, t.getContact().getId());
 				
-				pst.setLong(14, t.getId());
+				
+				if(t.getDateCreation()!=null)
+					pst.setTimestamp(14, new Timestamp(t.getDateCreation().getTime()));
+				else
+					pst.setTimestamp(14, null);
+			
+				pst.setLong(15, t.getId());
 				
 				
 				
