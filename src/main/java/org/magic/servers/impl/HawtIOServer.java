@@ -54,7 +54,7 @@ public class HawtIOServer extends AbstractMTGServer{
 		
 		@Override
 		public String getVersion() {
-			return "3.0-M8";
+			return "3.0.0";
 		}
 
 		@Override
