@@ -63,7 +63,6 @@ public class MagicGUI extends JFrame {
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JTabbedPane tabbedPane;
 	private transient OSTrayNotifier osNotifier;
-	private JXStatusBar barStatus;
 	
 	
 	public MagicGUI() {
@@ -100,7 +99,7 @@ public class MagicGUI extends JFrame {
 		JMenu mnuAbout;
 		JMenuItem mntmExit;
 
-		barStatus = new JXStatusBar();
+		var barStatus = new JXStatusBar();
 		
 		setSize(new Dimension(1420, 1024));
 		setTitle(MTGConstants.MTG_APP_NAME + " ( v" + MTGControler.getInstance().getVersionChecker().getVersion() + ")");
