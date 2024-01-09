@@ -20,8 +20,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 
@@ -56,7 +56,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 	private JTextField txtName;
 	private JTextField txtTypes;
 	private JTextField txtPower;
-	private JTextPane txtFlavor;
+	private JTextArea txtFlavor;
 	private JTextField txtRarity;
 	private JCheckBox chkReserved;
 	private JCheckBox chkBorderless;
@@ -345,8 +345,9 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		gbctxtCardText.gridy = 2;
 		add(txtText, gbctxtCardText);
 		
-		txtFlavor = new JTextPane();
+		txtFlavor = new JTextArea();
 		txtFlavor.setFont(txtFlavor.getFont().deriveFont(Font.ITALIC));
+		txtFlavor.setLineWrap(true);
 		GridBagConstraints gbctxtFlavour = new GridBagConstraints();
 		gbctxtFlavour.gridwidth = 2;
 		gbctxtFlavour.insets = new Insets(0, 0, 5, 5);
