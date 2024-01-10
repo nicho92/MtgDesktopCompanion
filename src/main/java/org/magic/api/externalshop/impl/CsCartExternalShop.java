@@ -2,11 +2,13 @@ package org.magic.api.externalshop.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.abstracts.AbstractProduct;
 import org.magic.api.beans.enums.EnumItems;
+import org.magic.api.beans.enums.EnumTransactionStatus;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
@@ -16,8 +18,8 @@ import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.services.MTGControler;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
-import org.magic.services.network.URLTools;
 import org.magic.services.network.RequestBuilder.METHOD;
+import org.magic.services.network.URLTools;
 import org.magic.services.tools.CryptoUtils;
 
 import com.google.gson.JsonObject;
@@ -26,6 +28,7 @@ public class CsCartExternalShop extends AbstractExternalShop {
 
 	private static final String API_USERS = "api/users";
 	private static final String API_PRODUCTS = "api/products";
+	private static final String API_ORDERS = "api/orders";
 	private static final String CONTACT_TYPE="C";
 	
 	private MTGHttpClient client;
@@ -38,7 +41,9 @@ public class CsCartExternalShop extends AbstractExternalShop {
 
 		
 		
-		cscart.listProducts("Ariel").forEach(System.out::println);;
+		var ret = cscart.getTransactionById(1L);
+		
+		System.out.println(ret.getDateCreation());
 		
 		System.exit(0);
 	}
@@ -109,17 +114,49 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		var list = new ArrayList<MTGProduct>();
 		var build = getBuilder(API_PRODUCTS,METHOD.GET);
 		
-		if(StringUtils.isEmpty(name))
-			build.addContent("pname","name");
+		if(!StringUtils.isEmpty(name))
+			build.addContent("pname",name);
 		
 		var ret = build.toJson();
-		
+
 		ret.getAsJsonObject().get("products").getAsJsonArray().forEach(je->{
 			list.add(buildProduct(je.getAsJsonObject()));
 		});
 		
 		return list;
 	}
+	
+	@Override
+	public Transaction getTransactionById(Long id) throws IOException {
+		var ret = getBuilder(API_ORDERS+"/"+id,METHOD.GET).toJson();
+		return buildTransaction(ret.getAsJsonObject());
+	}
+	
+	@Override
+	protected List<Transaction> loadTransaction() throws IOException {
+		var list = new ArrayList<Transaction>();
+		var ret = getBuilder(API_ORDERS,METHOD.GET).toJson();
+	
+		ret.getAsJsonObject().get("orders").getAsJsonArray().forEach(je->{
+			list.add(buildTransaction(je.getAsJsonObject()));
+		});
+		
+		return list;
+	}
+
+
+	@Override
+	public List<Transaction> listTransactions(Contact c) throws IOException {
+		var list = new ArrayList<Transaction>();
+		var ret = getBuilder(API_ORDERS,METHOD.GET).addContent("user_id", String.valueOf(c.getId())).toJson();
+	
+		ret.getAsJsonObject().get("orders").getAsJsonArray().forEach(je->{
+			list.add(buildTransaction(je.getAsJsonObject()));
+		});
+		
+		return list;
+	}
+
 
 	private MTGProduct buildProduct(JsonObject jo) {
 		var product = AbstractProduct.createDefaultProduct();
@@ -146,13 +183,50 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		 return c;
 	}
 	
+	
+	private Transaction buildTransaction(JsonObject jo)
+	{
+		var t = new Transaction();
+		t.setId(jo.get("order_id").getAsLong());
+		t.setDateCreation(new Date(jo.get("timestamp").getAsLong()));
+		
+		switch(jo.get("status").getAsString())
+		{
+			case "P" : t.setStatut(EnumTransactionStatus.IN_PROGRESS);break;
+			case "C" : t.setStatut(EnumTransactionStatus.CLOSED);break;
+			case "O" : t.setStatut(EnumTransactionStatus.NEW);break;
+			case "F" : t.setStatut(EnumTransactionStatus.REFUSED);break;
+			case "D" : t.setStatut(EnumTransactionStatus.REFUSED);break;
+			case "B" : t.setStatut(EnumTransactionStatus.CANCELATION_ASK);break;
+			case "I" : t.setStatut(EnumTransactionStatus.CANCELED);break;
+			case "Y" : t.setStatut(EnumTransactionStatus.IN_PROGRESS);break;
+			default : t.setStatut(EnumTransactionStatus.IN_PROGRESS);break;
+		}
+		
+		
+		return t;
+	}
+	
+	
 	@Override
 	public MTGStockItem getStockById(EnumItems typeStock, Long id) throws IOException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	
+
+	@Override
+	protected List<MTGStockItem> loadStock(String search) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected void saveOrUpdateStock(List<MTGStockItem> it) throws IOException {
+		// TODO Auto-generated method stub
+
+	}
+
 
 	@Override
 	public Integer saveOrUpdateContact(Contact c) throws IOException {
@@ -180,18 +254,7 @@ public class CsCartExternalShop extends AbstractExternalShop {
 
 	}
 
-	@Override
-	public Transaction getTransactionById(Long id) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Transaction> listTransactions(Contact c) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 	@Override
 	public boolean enableContact(String token) throws IOException {
 		// TODO Auto-generated method stub
@@ -203,23 +266,6 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		return "CS Cart";
 	}
 
-	@Override
-	protected List<Transaction> loadTransaction() throws IOException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected List<MTGStockItem> loadStock(String search) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected void saveOrUpdateStock(List<MTGStockItem> it) throws IOException {
-		// TODO Auto-generated method stub
-
-	}
-
+	
 
 }
