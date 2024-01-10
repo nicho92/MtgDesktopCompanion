@@ -38,12 +38,8 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		MTGControler.getInstance().loadAccountsConfiguration();
 		
 		var cscart = new CsCartExternalShop();
-
 		
-		
-		var ret = cscart.getTransactionById(1L);
-		
-		System.out.println(ret.getDateCreation());
+		cscart.getTransactionById(1L);
 		
 		System.exit(0);
 	}
@@ -90,9 +86,7 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		var list = new ArrayList<Contact>();
 		var ret = getBuilder(API_USERS,METHOD.GET).addContent("user_type", CONTACT_TYPE).toJson();
 		
-		ret.getAsJsonObject().get("users").getAsJsonArray().forEach(je->{
-			list.add(buildContact(je.getAsJsonObject()));
-		});
+		ret.getAsJsonObject().get("users").getAsJsonArray().forEach(je->list.add(buildContact(je.getAsJsonObject())));
 		return list;
 	}
 	
@@ -119,9 +113,7 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		
 		var ret = build.toJson();
 
-		ret.getAsJsonObject().get("products").getAsJsonArray().forEach(je->{
-			list.add(buildProduct(je.getAsJsonObject()));
-		});
+		ret.getAsJsonObject().get("products").getAsJsonArray().forEach(je->list.add(buildProduct(je.getAsJsonObject())));
 		
 		return list;
 	}
@@ -136,11 +128,7 @@ public class CsCartExternalShop extends AbstractExternalShop {
 	protected List<Transaction> loadTransaction() throws IOException {
 		var list = new ArrayList<Transaction>();
 		var ret = getBuilder(API_ORDERS,METHOD.GET).toJson();
-	
-		ret.getAsJsonObject().get("orders").getAsJsonArray().forEach(je->{
-			list.add(buildTransaction(je.getAsJsonObject()));
-		});
-		
+		ret.getAsJsonObject().get("orders").getAsJsonArray().forEach(je->list.add(buildTransaction(je.getAsJsonObject())));
 		return list;
 	}
 
@@ -149,11 +137,7 @@ public class CsCartExternalShop extends AbstractExternalShop {
 	public List<Transaction> listTransactions(Contact c) throws IOException {
 		var list = new ArrayList<Transaction>();
 		var ret = getBuilder(API_ORDERS,METHOD.GET).addContent("user_id", String.valueOf(c.getId())).toJson();
-	
-		ret.getAsJsonObject().get("orders").getAsJsonArray().forEach(je->{
-			list.add(buildTransaction(je.getAsJsonObject()));
-		});
-		
+		ret.getAsJsonObject().get("orders").getAsJsonArray().forEach(je->list.add(buildTransaction(je.getAsJsonObject())));
 		return list;
 	}
 
