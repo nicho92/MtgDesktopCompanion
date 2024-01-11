@@ -2690,6 +2690,19 @@
 		<booster lang="en" num="2" extra="play" url="https://images.ctfassets.net/0piqveu8x9oj/Z7lWeW7z0BYVImeodWlec/377f3cc3bc066742d77d898a65149798/MTGMKM_EN_Bstr_Play_01_03.png"/>
 	</edition>
 	
+	<edition id="PIP">
+		<set lang="en" num="1" url="https://boutique.magiccorporation.com/images/magic/editions/maxi/universes_beyond_fallout.png"/>
+		<booster lang="en" extra="collector"  num="1" url="https://images.ctfassets.net/0piqveu8x9oj/oxTPkiNK9rO2DOkyOa0Pq/10e97bc001733f6700f1e4a6020f367a/MTGPIP_EN_Bstr_Clctr_01_01.png"/>
+		<box lang="en" extra="collector" num="1" url="https://images.ctfassets.net/0piqveu8x9oj/3f78spwD6664lALXYKzquh/7a2fafb02df851c8f260666ca0775744/MTGPIP_EN_BstrDspBx_Clctr_01_01.png"/>
+		
+		<constructpack lang="en" num="1" url="https://images.ctfassets.net/0piqveu8x9oj/6A6ASgpcjCnqPNbzUguLWr/c91b981404526446955fe392b93aa579/MTGPIP_EN_Cmndr_OtrBx_01_01.png" desc="Hail, Caesar"/>
+		<constructpack lang="en" num="2" url="https://images.ctfassets.net/0piqveu8x9oj/7hGcEzQctjQ2oZeEYcS2ji/cb3c115241f117301f2049cbce012292/MTGPIP_EN_Cmndr_OtrBx_02_01.png" desc="Scrappy Survivors"/>
+		<constructpack lang="en" num="3" url="https://images.ctfassets.net/0piqveu8x9oj/5hZ7ZdsTrbKaA9pedgGrAk/4dc80c8c15f586842153d1919d37561e/MTGPIP_EN_Cmndr_OtrBx_03_01.png" desc="Science!"/>
+		<constructpack lang="en" num="4" url="https://images.ctfassets.net/0piqveu8x9oj/22d6REj3Vefw0QK8eVdiWJ/296444c010d108545477b3f8f5061864/MTGPIP_EN_Cmndr_OtrBx_04_01.png" desc="Mutant Menace"/>
+		
+		
+	</edition>
+	
 	
 
 </boosterUrls>

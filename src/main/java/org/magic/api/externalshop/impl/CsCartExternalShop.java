@@ -39,7 +39,7 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		
 		var cscart = new CsCartExternalShop();
 		
-		cscart.getTransactionById(1L);
+		cscart.listProducts("").forEach(System.out::println);
 		
 		System.exit(0);
 	}
@@ -112,7 +112,7 @@ public class CsCartExternalShop extends AbstractExternalShop {
 			build.addContent("pname",name);
 		
 		var ret = build.toJson();
-
+		
 		ret.getAsJsonObject().get("products").getAsJsonArray().forEach(je->list.add(buildProduct(je.getAsJsonObject())));
 		
 		return list;
