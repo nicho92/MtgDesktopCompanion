@@ -263,7 +263,7 @@ public class ImageTools {
 		   g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
 
 	}
-
+	
 	public static BufferedImage resize( Image img, int newH, int newW) {
 		
 		if(img==null)
@@ -348,6 +348,11 @@ public class ImageTools {
 		return new ImageIcon(ic);
 	}
 
+	public static ImageIcon resize(Icon icon, Dimension d) {
+		var ic = ((ImageIcon)icon).getImage().getScaledInstance((int)d.getHeight(), (int)d.getWidth(), Image.SCALE_SMOOTH);
+		return new ImageIcon(ic);
+	}
+	
 
 	public static BufferedImage readBase64(String base) throws IOException
 	{

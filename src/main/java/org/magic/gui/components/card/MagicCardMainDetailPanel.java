@@ -242,10 +242,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 			@Override
 			protected void done() {
 				try {
-					if(get().getIconHeight()>369)
-						lblThumbnail.setIcon(ImageTools.resize(get(),266,369));
-					else
-						lblThumbnail.setIcon(get());
+						lblThumbnail.setIcon(ImageTools.resize(get(),MTGControler.getInstance().getPictureProviderDimension()));
 				}
 				catch(InterruptedException ex)
 				{
