@@ -57,6 +57,10 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		
 		var auth= "Basic " + CryptoUtils.toBase64((getAuthenticator().get("EMAIL")+":"+getAuthenticator().get("API_KEY")).getBytes());
 		
+		if(!StringUtils.isEmpty(getAuthenticator().get("COMPANY_ID")))
+			endpoint = "/vendors/"+getAuthenticator().get("COMPANY_ID")+"/"+endpoint;
+		
+		
 		return RequestBuilder.build().setClient(client).method(m)
 		 .url(getAuthenticator().get("WEBSITE")+"/"+endpoint)
 		 .addHeader(URLTools.AUTHORIZATION, auth)
