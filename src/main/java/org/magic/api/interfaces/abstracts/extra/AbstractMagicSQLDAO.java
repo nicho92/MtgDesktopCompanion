@@ -1045,7 +1045,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 				logger.debug("saving transaction ");
 
-				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO transactions (dateTransaction, message, stocksItem, statut,transporter,shippingPrice,transporterShippingCode, currency,datePayment,dateSend,paymentProvider, fk_idcontact,sourceShopId, sourceShopName,typeTransaction,reduction,sourceShopId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",Statement.RETURN_GENERATED_KEYS)) {
+				try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("INSERT INTO transactions (dateTransaction, message, stocksItem, statut,transporter,shippingPrice,transporterShippingCode, currency,datePayment,dateSend,paymentProvider, fk_idcontact,sourceShopId, sourceShopName,typeTransaction,reduction) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",Statement.RETURN_GENERATED_KEYS)) {
 					pst.setTimestamp(1, new Timestamp(t.getDateCreation().getTime()));
 					pst.setString(2, t.getMessage());
 					storeTransactionItems(pst,3, t.getItems());
@@ -1075,7 +1075,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 					pst.setString(14, t.getSourceShopName());
 					pst.setString(15, t.getTypeTransaction().name());
 					pst.setDouble(16, t.getReduction());
-					pst.setString(17, t.getSourceShopId());
 					executeUpdate(pst);
 					t.setId(getGeneratedKey(pst));
 
