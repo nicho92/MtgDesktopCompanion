@@ -2,11 +2,13 @@ package org.magic.api.exports.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
 import org.magic.services.tools.FileTools;
@@ -45,8 +47,28 @@ public class MagicManagerExport extends AbstractFormattedFileCardExport {
 	
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
-		// TODO Auto-generated method stub
-		return super.importStock(content);
+		var list = new ArrayList<MagicCardStock>();
+		
+		
+		matches(content, true, aliases.getRegexFor(this,"default")).forEach(m->{
+			var stock = MTGControler.getInstance().getDefaultStock();
+			var mc = parseMatcherWithGroup(m, 5, 4,false, FORMAT_SEARCH.ID, FORMAT_SEARCH.NUMBER);
+			
+			if(mc!=null){
+				stock.setProduct(mc);
+				stock.setFoil(m.group(7).equalsIgnoreCase("Foil"));
+				stock.setQte(Integer.parseInt(m.group(8)));
+				stock.setLanguage(m.group(6));
+				list.add(stock);
+				notify(mc);
+			}
+			else
+			{
+				logger.error("No card found for {}",m );
+			}
+		});
+		
+		return list;
 	}
 	
 	Integer number=0;

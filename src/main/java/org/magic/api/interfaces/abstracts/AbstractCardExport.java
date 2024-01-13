@@ -41,6 +41,10 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 
 
 	protected String cleanName(String cname) {
+		
+		if(cname==null)
+			return "";
+		
 		cname = cname.replace("\"","").trim();
 		if(cname.indexOf('/') > 1)
 			cname=cname.substring(0,cname.indexOf('/')).trim();
