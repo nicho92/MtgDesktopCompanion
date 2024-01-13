@@ -36,10 +36,13 @@ public class CsCartExternalShop extends AbstractExternalShop {
 	
 	public static void main(String[] args) throws IOException {
 		MTGControler.getInstance().loadAccountsConfiguration();
-		
 		var cscart = new CsCartExternalShop();
 		
-		cscart.listProducts("").forEach(System.out::println);
+		cscart.listProducts("").stream().map(e->{
+			return e.getName() + " " + e.getUrl();
+			
+		}).forEach(System.out::println);
+		
 		
 		System.exit(0);
 	}
@@ -56,9 +59,10 @@ public class CsCartExternalShop extends AbstractExternalShop {
 	private RequestBuilder getBuilder(String endpoint,METHOD m) {
 		
 		var auth= "Basic " + CryptoUtils.toBase64((getAuthenticator().get("EMAIL")+":"+getAuthenticator().get("API_KEY")).getBytes());
+		var idComp = getAuthenticator().get("COMPANY_ID");
 		
-		if(!StringUtils.isEmpty(getAuthenticator().get("COMPANY_ID")))
-			endpoint = "/vendors/"+getAuthenticator().get("COMPANY_ID")+"/"+endpoint;
+		if(!StringUtils.isEmpty(idComp))
+			endpoint = "/vendors/"+idComp+"/"+endpoint;
 		
 		
 		return RequestBuilder.build().setClient(client).method(m)
@@ -72,6 +76,14 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		return List.of("WEBSITE","EMAIL","API_KEY","COMPANY_ID");
 	}
 	
+	
+	@Override
+	public Category getCategoryById(Integer id) throws IOException {
+			var ret = getBuilder("api/categories/"+id,METHOD.GET).toJson();
+			var jo = ret.getAsJsonObject();
+			return new Category(jo.get("category_id").getAsInt(),jo.get("category").getAsString());
+		
+	}
 	
 	@Override
 	public List<Category> listCategories() throws IOException {
@@ -113,7 +125,10 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		var build = getBuilder(API_PRODUCTS,METHOD.GET);
 		
 		if(!StringUtils.isEmpty(name))
-			build.addContent("pname",name);
+		{
+			build.addContent("pname","Y");
+			build.addContent("q",name);
+		}
 		
 		var ret = build.toJson();
 		
@@ -157,6 +172,15 @@ public class CsCartExternalShop extends AbstractExternalShop {
 			  {
 				  logger.error("error getting image url for {}",product.getName());
 			  }
+			  
+			  try {
+				product.setCategory(getCategoryById(jo.get("category_ids").getAsJsonArray().get(0).getAsInt()));
+			} catch (IOException e) {
+				  logger.error("error getting category for {}",product.getName());
+			}
+			  
+				
+			  
 		return product;
 	}
 
@@ -176,7 +200,7 @@ public class CsCartExternalShop extends AbstractExternalShop {
 	{
 		var t = new Transaction();
 		t.setId(jo.get("order_id").getAsLong());
-		t.setDateCreation(new Date(jo.get("timestamp").getAsLong()));
+		t.setDateCreation(new Date(jo.get("timestamp").getAsLong()*1000));
 		
 		switch(jo.get("status").getAsString())
 		{

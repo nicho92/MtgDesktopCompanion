@@ -24,7 +24,8 @@ public interface MTGExternalShop extends MTGPlugin {
 
 
 	public List<Category> listCategories() throws IOException;
-
+	public Category getCategoryById(Integer id) throws IOException;
+	
 	public Integer saveOrUpdateContact(Contact c) throws IOException;
 	public Contact getContactByEmail(String email) throws IOException;
 	public List<Contact> listContacts() throws IOException;

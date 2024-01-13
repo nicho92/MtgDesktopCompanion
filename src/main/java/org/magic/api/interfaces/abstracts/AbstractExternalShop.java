@@ -6,14 +6,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.services.tools.MTG;
+import org.magic.services.tools.TCache;
 
 public abstract class AbstractExternalShop extends AbstractMTGPlugin implements MTGExternalShop {
 
-
+	private TCache<Category> cacheCategory;
+	
+	
 	protected abstract List<Transaction> loadTransaction() throws IOException;
 	protected abstract List<MTGStockItem> loadStock(String search) throws IOException;
 	protected abstract void saveOrUpdateStock(List<MTGStockItem> it) throws IOException ;
@@ -30,12 +34,18 @@ public abstract class AbstractExternalShop extends AbstractMTGPlugin implements 
 
 	protected AbstractExternalShop() {
 		itemsBkcp = new HashMap<>();
+		cacheCategory = new TCache<>("categ");
 	}
 
 	@Override
 	public List<Transaction> listTransaction() throws IOException {
 
 		return loadTransaction();
+	}
+	
+	@Override
+	public Category getCategoryById(Integer id) throws IOException {
+		return listCategories().stream().filter(c->c.getIdCategory()==id).findFirst().orElse(null);
 	}
 
 	@Override
