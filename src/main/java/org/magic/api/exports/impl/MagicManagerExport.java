@@ -8,24 +8,16 @@ import java.util.Map;
 
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
 import org.magic.services.tools.FileTools;
-import org.magic.services.tools.UITools;
 
 import com.google.common.collect.Lists;
 
 public class MagicManagerExport extends AbstractFormattedFileCardExport {
 
 	
-	private static final String columns = "Card Name,Set Code,Collector Number,Language,Foil,Count";
-
-	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
+	private static final String COLUMNS = "Card Name,Set Code,Collector Number,Language,Foil,Count";
 
 	@Override
 	public void exportDeck(MagicDeck deck, File dest) throws IOException {
@@ -53,7 +45,6 @@ public class MagicManagerExport extends AbstractFormattedFileCardExport {
 		matches(content, true, aliases.getRegexFor(this,"default")).forEach(m->{
 			var stock = MTGControler.getInstance().getDefaultStock();
 			var mc = parseMatcherWithGroup(m, 5, 4,false, FORMAT_SEARCH.ID, FORMAT_SEARCH.NUMBER);
-			
 			if(mc!=null){
 				stock.setProduct(mc);
 				stock.setFoil(m.group(7).equalsIgnoreCase("Foil"));
@@ -61,10 +52,6 @@ public class MagicManagerExport extends AbstractFormattedFileCardExport {
 				stock.setLanguage(m.group(6));
 				list.add(stock);
 				notify(mc);
-			}
-			else
-			{
-				logger.error("No card found for {}",m );
 			}
 		});
 		
@@ -74,11 +61,8 @@ public class MagicManagerExport extends AbstractFormattedFileCardExport {
 	Integer number=0;
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
-		
-		
-		
 		Lists.partition(stock, getInt("MAX_ITEMS")).forEach(list->{
-			var temp = new StringBuilder(columns);
+			var temp = new StringBuilder(COLUMNS);
 			temp.append(System.lineSeparator());
 			
 			list.forEach(st->{
@@ -94,8 +78,10 @@ public class MagicManagerExport extends AbstractFormattedFileCardExport {
 			
 			
 			try {
-					f.renameTo(new File(f.getAbsolutePath()+"-"+(number++)));
-					FileTools.saveFile(f, temp.toString());
+					var ret = f.renameTo(new File(f.getAbsolutePath()+"-"+(number++)));
+					if(ret)
+						FileTools.saveFile(f, temp.toString());
+					
 			} catch (IOException e) {
 					logger.error(e);
 			}

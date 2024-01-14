@@ -71,7 +71,7 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 					ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(aliases.getSetIdFor(this,m.group(gEdition)));
 				else
 					ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(aliases.getSetNameFor(this,m.group(gEdition)));
-	
+			
 			} catch (Exception e) {
 				ed = null;
 			}
@@ -80,7 +80,7 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 
 		if(cleaning)
 			cname = cleanName(cname);
-
+		
 		try {
 
 			if(cardSearch==FORMAT_SEARCH.ID)
