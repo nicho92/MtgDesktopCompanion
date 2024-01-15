@@ -85,8 +85,11 @@ public class MagicManagerExport extends AbstractFormattedFileCardExport {
 			} catch (IOException e) {
 					logger.error(e);
 			}
+			finally {
+				number=0;		
+			}
 		});
-		number=0;
+		
 	}
 	
 	@Override
