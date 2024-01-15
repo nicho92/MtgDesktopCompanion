@@ -509,11 +509,11 @@ server = {
 						'data' : 'ip',
 						 'defaultContent': ""
 					},
-                    { 
+                       { 
 		                "data": "location",
 		                "defaultContent": "",
 		                "render": function(d, type, row, meta){
-		                	 if(type === 'display'){
+		                	 if(type === 'display' && d!=null){
 								return d.country_name;		                		 
 		                	 }
 		                   return data;
@@ -523,7 +523,7 @@ server = {
 		                "data": "location",
 		                "defaultContent": "",
 		                "render": function(d, type, row, meta){
-		                	 if(type === 'display'){
+		                	 if(type === 'display'  && d!=null){
 								return d.city;		                		 
 		                	 }
 		                   return data;

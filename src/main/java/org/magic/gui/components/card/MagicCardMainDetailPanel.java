@@ -45,7 +45,6 @@ import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.MTG;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
-import java.awt.Dimension;
 
 
 
