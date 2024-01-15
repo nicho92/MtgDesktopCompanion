@@ -70,6 +70,7 @@ import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import nl.basjes.parse.useragent.yauaa.shaded.org.apache.commons.lang3.ArrayUtils;
 
 public class DiscordBotServer extends AbstractMTGServer {
 
@@ -100,8 +101,11 @@ public class DiscordBotServer extends AbstractMTGServer {
 			@Override
 			public void onMessageReceived(MessageReceivedEvent event)
 			{
-				if (event.getAuthor().isBot())
+				if (event.getAuthor().isBot() || ArrayUtils.contains(getArray("BLOCKED_USERS"),event.getAuthor().getName()))
+				{
+					logger.warn("{} is blocked", event.getAuthor().getName());
 					return;
+				}
 
 				analyseMessage(event);
 			}
@@ -559,6 +563,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 				map.put(RESULTS_SHAKES,"10");
 				map.put(ACTIVITY_TYPE,ActivityType.WATCHING.name());
 				map.put(ACTIVITY,"bees flying");
+				map.put("BLOCKED_USERS","");
 				map.put(EXTERNAL_LINK,"https://mtgcompanion.me/prices-ui/pages/index.html?id=");
 
 		return map;
