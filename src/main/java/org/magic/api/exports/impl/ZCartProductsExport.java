@@ -6,12 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
-import org.magic.api.pictures.impl.ScryFallPicturesProvider;
-import org.magic.api.providers.impl.ScryFallProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.tools.FileTools;
 
@@ -59,10 +58,10 @@ public class ZCartProductsExport extends AbstractFormattedFileCardExport {
 				temp.append("\"").append(st.getProduct().getMkmId()).append("\"").append(getSeparator());
 				temp.append("\"").append("").append("\"").append(getSeparator());
 				temp.append("\"").append("").append("\"").append(getSeparator());
-				temp.append("\"").append("").append("\"").append(getSeparator());
+				temp.append("\"").append(describe(st)).append("\"").append(getSeparator());
 				temp.append("\"").append("Cardmarket").append("\"").append(getSeparator());
 				temp.append("\"").append("").append("\"").append(getSeparator());
-				temp.append("\"").append("TRUE").append("\"").append(getSeparator());
+				temp.append("\"").append(st.getProduct().isOnlineOnly()?"FALSE":"TRUE").append("\"").append(getSeparator());
 				temp.append("\"").append(st.getPrice()).append("\"").append(getSeparator());
 				temp.append("\"").append("").append("\"").append(getSeparator());
 				temp.append("\"").append(st.getProduct().getUrl()).append("\"").append(getSeparator());
@@ -73,6 +72,12 @@ public class ZCartProductsExport extends AbstractFormattedFileCardExport {
 	}
 	
 	
+	private String describe(MagicCardStock st) {
+		
+		return st.getComment();
+	}
+
+
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		var m  = super.getDefaultAttributes();

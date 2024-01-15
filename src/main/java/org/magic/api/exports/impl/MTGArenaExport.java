@@ -34,10 +34,8 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 	public MTGArenaExport() {
 		correpondance = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 		correpondance.put("DOM", "DAR");
-
-
 	}
-
+	
 	@Override
 	public String getFileExtension() {
 		return "";
