@@ -45,6 +45,7 @@ import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.MTG;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
+import java.awt.Dimension;
 
 
 
@@ -264,9 +265,9 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		obs = new Observable();
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 0, 17, 121, 0, 0, 0};
+		gridBagLayout.columnWidths = new int[]{0, 121, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 156, 0, 0, 90, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
@@ -275,7 +276,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		GridBagConstraints gbctxtName = new GridBagConstraints();
 		gbctxtName.insets = new Insets(0, 0, 5, 5);
 		gbctxtName.fill = GridBagConstraints.HORIZONTAL;
-		gbctxtName.gridx = 1;
+		gbctxtName.gridx = 0;
 		gbctxtName.gridy = 0;
 		add(txtName, gbctxtName);
 		txtName.setColumns(10);
@@ -284,15 +285,15 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		manaCostPanel.setToolTipText("Mana");
 		GridBagConstraints gbcmanaCostPanel = new GridBagConstraints();
 		gbcmanaCostPanel.insets = new Insets(0, 0, 5, 5);
-		gbcmanaCostPanel.gridx = 3;
+		gbcmanaCostPanel.gridx = 1;
 		gbcmanaCostPanel.gridy = 0;
 		add(manaCostPanel, gbcmanaCostPanel);
 		
 		panelActions = new JPanel();
 		GridBagConstraints gbcpanelActions = new GridBagConstraints();
-		gbcpanelActions.insets = new Insets(0, 0, 5, 5);
+		gbcpanelActions.insets = new Insets(0, 0, 5, 0);
 		gbcpanelActions.fill = GridBagConstraints.BOTH;
-		gbcpanelActions.gridx = 4;
+		gbcpanelActions.gridx = 2;
 		gbcpanelActions.gridy = 0;
 		add(panelActions, gbcpanelActions);
 		
@@ -310,7 +311,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		GridBagConstraints gbctxtTypes = new GridBagConstraints();
 		gbctxtTypes.insets = new Insets(0, 0, 5, 5);
 		gbctxtTypes.fill = GridBagConstraints.HORIZONTAL;
-		gbctxtTypes.gridx = 1;
+		gbctxtTypes.gridx = 0;
 		gbctxtTypes.gridy = 1;
 		add(txtTypes, gbctxtTypes);
 		txtTypes.setColumns(10);
@@ -321,24 +322,23 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		GridBagConstraints gbctxtRarity = new GridBagConstraints();
 		gbctxtRarity.insets = new Insets(0, 0, 5, 5);
 		gbctxtRarity.fill = GridBagConstraints.HORIZONTAL;
-		gbctxtRarity.gridx = 3;
+		gbctxtRarity.gridx = 1;
 		gbctxtRarity.gridy = 1;
 		add(txtRarity, gbctxtRarity);
 		
 		lblThumbnail = new JLabel("");
 		GridBagConstraints gbclblThumbnail = new GridBagConstraints();
-		gbclblThumbnail.insets = new Insets(0, 0, 0, 5);
 		gbclblThumbnail.gridheight = 5;
-		gbclblThumbnail.gridx = 4;
+		gbclblThumbnail.gridx = 2;
 		gbclblThumbnail.gridy = 1;
 		add(lblThumbnail, gbclblThumbnail);
 		
 		txtText = new MagicTextPane();
 		GridBagConstraints gbctxtCardText = new GridBagConstraints();
-		gbctxtCardText.gridwidth = 3;
+		gbctxtCardText.gridwidth = 2;
 		gbctxtCardText.insets = new Insets(0, 0, 5, 5);
 		gbctxtCardText.fill = GridBagConstraints.BOTH;
-		gbctxtCardText.gridx = 1;
+		gbctxtCardText.gridx = 0;
 		gbctxtCardText.gridy = 2;
 		add(txtText, gbctxtCardText);
 		
@@ -346,10 +346,9 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		txtFlavor.setFont(txtFlavor.getFont().deriveFont(Font.ITALIC));
 		txtFlavor.setLineWrap(true);
 		GridBagConstraints gbctxtFlavour = new GridBagConstraints();
-		gbctxtFlavour.gridwidth = 2;
 		gbctxtFlavour.insets = new Insets(0, 0, 5, 5);
 		gbctxtFlavour.fill = GridBagConstraints.HORIZONTAL;
-		gbctxtFlavour.gridx = 1;
+		gbctxtFlavour.gridx = 0;
 		gbctxtFlavour.gridy = 3;
 		add(txtFlavor, gbctxtFlavour);
 		
@@ -359,7 +358,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		GridBagConstraints gbctxtPower = new GridBagConstraints();
 		gbctxtPower.fill = GridBagConstraints.HORIZONTAL;
 		gbctxtPower.insets = new Insets(0, 0, 5, 5);
-		gbctxtPower.gridx = 3;
+		gbctxtPower.gridx = 1;
 		gbctxtPower.gridy = 3;
 		add(txtPower, gbctxtPower);
 		txtPower.setColumns(10);
@@ -384,14 +383,14 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		GridBagConstraints gbcchkReserved = new GridBagConstraints();
 		gbcchkReserved.anchor = GridBagConstraints.WEST;
 		gbcchkReserved.insets = new Insets(0, 0, 5, 5);
-		gbcchkReserved.gridx = 1;
+		gbcchkReserved.gridx = 0;
 		gbcchkReserved.gridy = 4;
 		add(panelDetails, gbcchkReserved);
 		
 		lblNumber = new JLabel("");
 		GridBagConstraints gbclblNumber = new GridBagConstraints();
 		gbclblNumber.insets = new Insets(0, 0, 5, 5);
-		gbclblNumber.gridx = 3;
+		gbclblNumber.gridx = 1;
 		gbclblNumber.gridy = 4;
 		add(lblNumber, gbclblNumber);
 		
@@ -421,7 +420,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		GridBagConstraints gbclstFormats = new GridBagConstraints();
 		gbclstFormats.insets = new Insets(0, 0, 0, 5);
 		gbclstFormats.fill = GridBagConstraints.BOTH;
-		gbclstFormats.gridx = 1;
+		gbclstFormats.gridx = 0;
 		gbclstFormats.gridy = 5;
 		add(new JScrollPane(lstFormats), gbclstFormats);
 		
@@ -431,7 +430,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		GridBagConstraints gbclstCollections = new GridBagConstraints();
 		gbclstCollections.insets = new Insets(0, 0, 0, 5);
 		gbclstCollections.fill = GridBagConstraints.BOTH;
-		gbclstCollections.gridx = 3;
+		gbclstCollections.gridx = 1;
 		gbclstCollections.gridy = 5;
 		add(new JScrollPane(lstCollections), gbclstCollections);
 		

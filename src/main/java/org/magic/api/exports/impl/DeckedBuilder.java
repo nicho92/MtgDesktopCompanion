@@ -44,10 +44,7 @@ public class DeckedBuilder extends AbstractFormattedFileCardExport {
 			else
 				temp.append(st.getQte()).append(getSeparator()).append(0).append(getSeparator());
 
-			if(st.getProduct().getName().contains(","))
-				temp.append("\"").append(st.getProduct().getName()).append("\"").append(getSeparator());
-			else
-				temp.append(st.getProduct().getName()).append(getSeparator());
+			temp.append(commated(st.getProduct().getName())).append(getSeparator());
 
 			temp.append(st.getProduct().getCurrentSet().getSet()).append(getSeparator());
 			temp.append(st.getProduct().getCost()).append(getSeparator());

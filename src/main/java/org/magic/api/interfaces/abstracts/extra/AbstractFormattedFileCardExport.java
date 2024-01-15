@@ -48,6 +48,17 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 
 	protected enum FORMAT_SEARCH { ID, NAME,NUMBER}
 
+	
+
+	
+	protected String commated(String name)
+	{
+		if(name.indexOf(',')>-1)
+			return "\""+name+"\"";
+		
+		return name;
+	}
+
 
 	protected String[] splitLines(String content,boolean removeBlank)
 	{

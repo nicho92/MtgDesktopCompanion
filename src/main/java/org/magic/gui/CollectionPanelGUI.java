@@ -242,8 +242,6 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		btnRemove.setEnabled(false);
 		btnAddAllSet.setEnabled(false);
 		btnExport.setEnabled(false);
-
-		splitPane.setResizeWeight(0.5);
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 
 		tree.setCellRenderer(new MagicCardsTreeCellRenderer());
