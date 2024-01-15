@@ -44,12 +44,12 @@ public class MagicManagerExport extends AbstractFormattedFileCardExport {
 		
 		matches(content, true, aliases.getRegexFor(this,"default")).forEach(m->{
 			var stock = MTGControler.getInstance().getDefaultStock();
-			var mc = parseMatcherWithGroup(m, 5, 4,false, FORMAT_SEARCH.ID, FORMAT_SEARCH.NUMBER);
+			var mc = parseMatcherWithGroup(m, 3, 2,false, FORMAT_SEARCH.ID, FORMAT_SEARCH.NUMBER);
 			if(mc!=null){
 				stock.setProduct(mc);
-				stock.setFoil(m.group(7).equalsIgnoreCase("Foil"));
-				stock.setQte(Integer.parseInt(m.group(8)));
-				stock.setLanguage(m.group(6));
+				stock.setFoil(m.group(5).equalsIgnoreCase("True"));
+				stock.setQte(Integer.parseInt(m.group(6)));
+				stock.setLanguage(m.group(4));
 				list.add(stock);
 				notify(mc);
 			}
