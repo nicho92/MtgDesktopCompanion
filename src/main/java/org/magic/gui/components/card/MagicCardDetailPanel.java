@@ -3,7 +3,6 @@ package org.magic.gui.components.card;
 import java.awt.BorderLayout;
 
 import javax.swing.ImageIcon;
-import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
 import org.magic.api.beans.MagicCard;
@@ -43,7 +42,7 @@ public class MagicCardDetailPanel extends MTGUIComponent implements Observer{
 			getContextTabbedPane().setTabPlacement(SwingConstants.LEFT);
 			paneSub = new MagicCardSubDetailPanel();
 			
-			addContextComponent(new JScrollPane(paneMain), "", MTGConstants.ICON_TAB_CARD);
+			addContextComponent(paneMain, "", MTGConstants.ICON_TAB_CARD);
 			addContextComponent(paneSub, "", MTGConstants.ICON_TAB_CARD);
 			add(getContextTabbedPane(),BorderLayout.CENTER);
 		}

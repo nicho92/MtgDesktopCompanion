@@ -47,7 +47,6 @@ import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
 import org.magic.services.recognition.DescContainer;
 
-
 import com.google.common.io.Files;
 import com.google.gson.JsonElement;
 

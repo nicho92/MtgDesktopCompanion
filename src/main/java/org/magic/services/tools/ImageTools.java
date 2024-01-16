@@ -344,13 +344,12 @@ public class ImageTools {
 
 
 	public static ImageIcon resize(Icon icon, int newH, int newW) {
-		var ic = ((ImageIcon)icon).getImage().getScaledInstance(newH, newW, Image.SCALE_SMOOTH);
+		var ic = ((ImageIcon)icon).getImage().getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
 		return new ImageIcon(ic);
 	}
 
 	public static ImageIcon resize(Icon icon, Dimension d) {
-		var ic = ((ImageIcon)icon).getImage().getScaledInstance((int)d.getHeight(), (int)d.getWidth(), Image.SCALE_SMOOTH);
-		return new ImageIcon(ic);
+		return resize(icon,(int)d.getHeight(),(int)d.getWidth());
 	}
 	
 
