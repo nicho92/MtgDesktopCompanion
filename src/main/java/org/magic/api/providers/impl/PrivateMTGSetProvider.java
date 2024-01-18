@@ -26,6 +26,8 @@ import com.google.gson.JsonObject;
 
 public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
+	private static final String DIRECTORY = "DIRECTORY";
+
 	public static final String PERSONNAL_DATA_SET_PROVIDER = "Personnal Data Set Provider";
 
 	private static final String CARDS = "cards";
@@ -100,7 +102,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	}
 
 	private MagicEdition loadEditionFromFile(File f) throws IOException {
-		if(f.getCanonicalPath().startsWith(getFile("DIRECTORY").getCanonicalPath()))
+		if(f.getCanonicalPath().startsWith(getFile(DIRECTORY).getCanonicalPath()))
 		{
 			var root = FileTools.readJson(f).getAsJsonObject();
 			return serializer.fromJson(root.get("main").toString(), MagicEdition.class);
@@ -151,7 +153,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	}
 	public PrivateMTGSetProvider() {
 		super();
-		setDirectory = getFile("DIRECTORY");
+		setDirectory = getFile(DIRECTORY);
 		serializer = new JsonExport();
 		
 	}
@@ -311,7 +313,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		return Map.of("DIRECTORY",new File(MTGConstants.DATA_DIR, "privateSets").getAbsolutePath());
+		return Map.of(DIRECTORY,new File(MTGConstants.DATA_DIR, "privateSets").getAbsolutePath());
 	}
 
 

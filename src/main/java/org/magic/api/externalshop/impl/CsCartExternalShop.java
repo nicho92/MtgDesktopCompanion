@@ -38,7 +38,7 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		MTGControler.getInstance().loadAccountsConfiguration();
 		var cscart = new CsCartExternalShop();
 		
-		cscart.listProducts("").stream().map(e->{
+		cscart.listProducts("Ariel").stream().map(e->{
 			return e.getName() + " " + e.getUrl();
 			
 		}).forEach(System.out::println);
@@ -229,8 +229,7 @@ public class CsCartExternalShop extends AbstractExternalShop {
 
 	@Override
 	protected List<MTGStockItem> loadStock(String search) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override

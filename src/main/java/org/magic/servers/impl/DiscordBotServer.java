@@ -103,7 +103,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 			{
 				if (event.getAuthor().isBot() || ArrayUtils.contains(getArray("BLOCKED_USERS"),event.getAuthor().getName()))
 				{
-					logger.warn("{} is blocked", event.getAuthor().getName());
+					logger.warn("{} is blocked because {}", event.getAuthor().getName(), event.getAuthor().isBot()?"is Bot":"is blocked user");
 					return;
 				}
 

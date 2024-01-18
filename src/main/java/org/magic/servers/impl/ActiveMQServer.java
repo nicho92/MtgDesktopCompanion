@@ -191,7 +191,7 @@ public class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
 	
 	@Override
 	public void afterCloseSession(ServerSession session, boolean failed) throws ActiveMQException {
-		logger.info("disconnection from user : {}", BeanTools.describe(session));
+		logger.info("disconnection from user : {}", session.getUsername());
 		onlines.remove(session.getRemotingConnection().getClientID());
 			try {
 				client.sendMessage(new TechMessageUsers(getOnlines().values().stream().toList()));

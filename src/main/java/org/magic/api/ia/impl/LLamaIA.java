@@ -111,7 +111,7 @@ public class LLamaIA  extends AbstractIA{
 	@Override
 	public MagicCard generateRandomCard(String prompt) throws IOException {
 		
-		var arr = query(prompt).getAsJsonArray();
+		query(prompt).getAsJsonArray();
 		
 		
 		
