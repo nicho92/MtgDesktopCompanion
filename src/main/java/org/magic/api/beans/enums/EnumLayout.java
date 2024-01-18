@@ -31,8 +31,8 @@ public enum EnumLayout implements MTGEnumeration{
 	@SerializedName(alternate = "modal_dfc", value = "MODAL_DFC")						MODAL_DFC,
 	@SerializedName(alternate = "class", value = "CLASS")								CLASS,
 	@SerializedName(alternate = "prototype", value = "PROTOTYPE")						PROTOTYPE,
-	@SerializedName(alternate = "mutate", value = "MUTATE")						MUTATE;
-	
+	@SerializedName(alternate = "mutate", value = "MUTATE")						MUTATE,
+	@SerializedName(alternate = "case", value = "CASE")						CASE;
 
 	public static EnumLayout parseByLabel(String s)
 	{
