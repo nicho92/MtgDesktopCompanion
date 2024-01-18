@@ -4,9 +4,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.Level;
 import org.magic.api.beans.abstracts.AbstractProduct;
+import org.magic.api.beans.abstracts.AbstractStockItem;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.EnumTransactionStatus;
 import org.magic.api.beans.shop.Category;
@@ -16,34 +21,39 @@ import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.services.MTGControler;
+import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.CryptoUtils;
+import org.magic.services.tools.TCache;
 
 import com.google.gson.JsonObject;
 
 public class CsCartExternalShop extends AbstractExternalShop {
 
+	private static final String API_VENDORS = "api/vendors/";
+	private static final String COMPANY_ID = "COMPANY_ID";
+	private static final String ID_CATEG = "ID_CATEG_";
 	private static final String API_USERS = "api/users";
 	private static final String API_PRODUCTS = "api/products";
 	private static final String API_ORDERS = "api/orders";
 	private static final String CONTACT_TYPE="C";
-	
+	private TCache<Category> cacheCateg = new TCache<>("categ");
+
 	private MTGHttpClient client;
 	
 	
 	public static void main(String[] args) throws IOException {
 		MTGControler.getInstance().loadAccountsConfiguration();
+		MTGLogger.changeLevel(Level.DEBUG);
 		var cscart = new CsCartExternalShop();
 		
-		cscart.listProducts("Ariel").stream().map(e->{
-			return e.getName() + " " + e.getUrl();
-			
-		}).forEach(System.out::println);
-		
-		
+		 cscart.loadTransaction().forEach(t->{
+			System.out.println(t);
+		});
+				
 		System.exit(0);
 	}
 	
@@ -56,13 +66,23 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		client = URLTools.newClient();
 	}
 	
+
+	private EnumItems parseCategory(Category category) {
+		for(var e : getProperties().entrySet())
+		{
+			if(e.getValue().toString().equalsIgnoreCase(""+category.getIdCategory()))
+			{
+				return EnumItems.valueOf(e.getKey().toString().replace(ID_CATEG, ""));
+			}
+		}
+		
+		return EnumItems.SEALED;
+	}
+	
+	
 	private RequestBuilder getBuilder(String endpoint,METHOD m) {
 		
 		var auth= "Basic " + CryptoUtils.toBase64((getAuthenticator().get("EMAIL")+":"+getAuthenticator().get("API_KEY")).getBytes());
-		var idComp = getAuthenticator().get("COMPANY_ID");
-		
-		if(!StringUtils.isEmpty(idComp))
-			endpoint = "/vendors/"+idComp+"/"+endpoint;
 		
 		
 		return RequestBuilder.build().setClient(client).method(m)
@@ -70,20 +90,22 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		 .addHeader(URLTools.AUTHORIZATION, auth)
 		 .addHeader(URLTools.CONTENT_TYPE, URLTools.HEADER_JSON);
 	}
+	
+	@Override
+	public Map<String, String> getDefaultAttributes() {
+		var m = super.getDefaultAttributes();
+		for(var k : EnumItems.values())
+			m.put(ID_CATEG+k.name(), "");
+		
+		return m;
+	}
+	
 
 	@Override
 	public List<String> listAuthenticationAttributes() {
-		return List.of("WEBSITE","EMAIL","API_KEY","COMPANY_ID");
+		return List.of("WEBSITE","EMAIL","API_KEY",COMPANY_ID);
 	}
 	
-	
-	@Override
-	public Category getCategoryById(Integer id) throws IOException {
-			var ret = getBuilder("api/categories/"+id,METHOD.GET).toJson();
-			var jo = ret.getAsJsonObject();
-			return new Category(jo.get("category_id").getAsInt(),jo.get("category").getAsString());
-		
-	}
 	
 	@Override
 	public List<Category> listCategories() throws IOException {
@@ -105,19 +127,7 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		ret.getAsJsonObject().get("users").getAsJsonArray().forEach(je->list.add(buildContact(je.getAsJsonObject())));
 		return list;
 	}
-	
-	@Override
-	public Contact getContactByEmail(String email) throws IOException {
-		var ret = getBuilder(API_USERS,METHOD.GET).addContent("user_type", CONTACT_TYPE).addContent("email",email).toJson();
-		return buildContact(ret.getAsJsonObject().get("users").getAsJsonArray().get(0).getAsJsonObject());
-	}
 
-
-	@Override
-	public Contact getContactByLogin(String login, String passw) throws IOException {
-		var ret = getBuilder(API_USERS,METHOD.GET).addContent("user_type", CONTACT_TYPE).addContent("user_login",login).toJson();
-		return buildContact(ret.getAsJsonObject().get("users").getAsJsonArray().get(0).getAsJsonObject());
-	}
 
 	@Override
 	public List<MTGProduct> listProducts(String name) throws IOException {
@@ -132,22 +142,24 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		
 		var ret = build.toJson();
 		
-		ret.getAsJsonObject().get("products").getAsJsonArray().forEach(je->list.add(buildProduct(je.getAsJsonObject())));
+		ret.getAsJsonObject().get("products").getAsJsonObject().entrySet().forEach(je->list.add(buildProduct(je.getValue().getAsJsonObject())));
 		
 		return list;
 	}
 	
-	@Override
-	public Transaction getTransactionById(Long id) throws IOException {
-		var ret = getBuilder(API_ORDERS+"/"+id,METHOD.GET).toJson();
-		return buildTransaction(ret.getAsJsonObject());
-	}
+
 	
 	@Override
 	protected List<Transaction> loadTransaction() throws IOException {
 		var list = new ArrayList<Transaction>();
-		var ret = getBuilder(API_ORDERS,METHOD.GET).toJson();
-		ret.getAsJsonObject().get("orders").getAsJsonArray().forEach(je->list.add(buildTransaction(je.getAsJsonObject())));
+		var ret = getBuilder(API_VENDORS+getAuthenticator().get(COMPANY_ID)+"/orders",METHOD.GET).toJson();
+		ret.getAsJsonObject().get("orders").getAsJsonArray().forEach(je->{
+			try {
+				list.add(getTransactionById(je.getAsJsonObject().get("order_id").getAsLong()));
+			} catch (IOException e) {
+				logger.error("Error getting transaction {}",je.getAsJsonObject().get("order_id"));
+			}
+		});
 		return list;
 	}
 
@@ -156,17 +168,44 @@ public class CsCartExternalShop extends AbstractExternalShop {
 	public List<Transaction> listTransactions(Contact c) throws IOException {
 		var list = new ArrayList<Transaction>();
 		var ret = getBuilder(API_ORDERS,METHOD.GET).addContent("user_id", String.valueOf(c.getId())).toJson();
-		ret.getAsJsonObject().get("orders").getAsJsonArray().forEach(je->list.add(buildTransaction(je.getAsJsonObject())));
+		ret.getAsJsonObject().get("orders").getAsJsonArray().forEach(je->{
+			try {
+				list.add(getTransactionById(je.getAsJsonObject().get("order_id").getAsLong()));
+			} catch (IOException e) {
+				logger.error("Error getting transaction {}",je.getAsJsonObject().get("order_id"));
+			}
+		});
 		return list;
 	}
 
+
+	
+	@Override
+	protected List<MTGStockItem> loadStock(String search) throws IOException {
+		var endpoint = API_VENDORS+getAuthenticator().get(COMPANY_ID)+"/products/";
+		
+		var build = getBuilder(endpoint, METHOD.GET);
+		
+		if(StringUtils.isEmpty(search))
+		{
+				build.addContent("pname","Y");
+				build.addContent("q",search);
+		}
+		
+		var list = new ArrayList<MTGStockItem>();
+		
+		build.toJson().getAsJsonObject().get("products").getAsJsonArray().forEach(je->{
+			list.add(buildStockItem(je.getAsJsonObject()));
+		});
+		return list;
+	}
 
 	private MTGProduct buildProduct(JsonObject jo) {
 		var product = AbstractProduct.createDefaultProduct();
 			  product.setProductId(jo.get("product_id").getAsLong());
 			  product.setName(jo.get("product").getAsString());
 			  try {
-			  product.setUrl(jo.get("main_pair").getAsJsonObject().get("detailed").getAsJsonObject().get("image_path").getAsString());
+				  product.setUrl(jo.get("main_pair").getAsJsonObject().get("detailed").getAsJsonObject().get("image_path").getAsString());
 			  }
 			  catch(Exception e)
 			  {
@@ -174,15 +213,39 @@ public class CsCartExternalShop extends AbstractExternalShop {
 			  }
 			  
 			  try {
-				product.setCategory(getCategoryById(jo.get("category_ids").getAsJsonArray().get(0).getAsInt()));
+				product.setCategory(getCategoryById(jo.get("main_category").getAsInt()));
 			} catch (IOException e) {
 				  logger.error("error getting category for {}",product.getName());
 			}
-			  
+			 
+			  product.setTypeProduct(parseCategory(product.getCategory()));
 				
 			  
 		return product;
 	}
+
+
+
+	private MTGStockItem buildStockItem(JsonObject req) {
+		var product = buildProduct(req.getAsJsonObject());
+		var item  = AbstractStockItem.generateDefault();
+			 item.setProduct(product);
+			 
+			  try {
+				  item.setLanguage(req.get("lang_code").getAsString());
+			  }
+			  catch(Exception e)
+			  {
+				 //do nothing
+			  }
+
+			 item.setPrice(req.get("price").getAsDouble());
+			 item.setQte(req.get("amount").getAsInt());
+			 
+			 item.getTiersAppIds().put(getName(), String.valueOf(item.getProduct().getProductId()));
+			 return item;
+	}
+
 
 	private Contact buildContact(JsonObject jo) {
 		var c = new Contact();
@@ -215,22 +278,66 @@ public class CsCartExternalShop extends AbstractExternalShop {
 			default : t.setStatut(EnumTransactionStatus.IN_PROGRESS);break;
 		}
 		
+	
 		
 		return t;
+	}
+	
+	@Override
+	public Transaction getTransactionById(Long id) throws IOException {
+		var ret = getBuilder(API_ORDERS+"/"+id,METHOD.GET).toJson();
+		return buildTransaction(ret.getAsJsonObject());
+	}
+	
+	
+	@Override
+	public Contact getContactByEmail(String email) throws IOException {
+		var ret = getBuilder(API_USERS,METHOD.GET).addContent("user_type", CONTACT_TYPE).addContent("email",email).toJson();
+		return buildContact(ret.getAsJsonObject().get("users").getAsJsonArray().get(0).getAsJsonObject());
+	}
+
+
+	@Override
+	public Contact getContactByLogin(String login, String passw) throws IOException {
+		var ret = getBuilder(API_USERS,METHOD.GET).addContent("user_type", CONTACT_TYPE).addContent("user_login",login).toJson();
+		return buildContact(ret.getAsJsonObject().get("users").getAsJsonArray().get(0).getAsJsonObject());
+	}
+	
+	
+	
+	
+	@Override
+	public Category getCategoryById(Integer id) throws IOException {
+			
+
+			try {
+				return cacheCateg.get(String.valueOf(id),new Callable<Category>() {
+					
+					@Override
+					public Category call() throws Exception {
+						var ret = getBuilder("api/categories/"+id,METHOD.GET).toJson();
+						var jo = ret.getAsJsonObject();
+						return new Category(jo.get("category_id").getAsInt(),jo.get("category").getAsString());
+
+					}
+				});
+			} catch (ExecutionException e) {
+				throw new IOException(e);
+			}
+		
+			
+		
 	}
 	
 	
 	@Override
 	public MTGStockItem getStockById(EnumItems typeStock, Long id) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+			var endpoint = API_VENDORS+getAuthenticator().get(COMPANY_ID)+"/products/"+id;
+			var req = getBuilder(endpoint, METHOD.GET).toJson().getAsJsonObject();
+		return buildStockItem(req);
 	}
 
 
-	@Override
-	protected List<MTGStockItem> loadStock(String search) throws IOException {
-		return new ArrayList<>();
-	}
 
 	@Override
 	protected void saveOrUpdateStock(List<MTGStockItem> it) throws IOException {
