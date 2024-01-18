@@ -14,6 +14,7 @@ import static spark.Spark.notFound;
 import static spark.Spark.options;
 import static spark.Spark.port;
 import static spark.Spark.post;
+import static spark.Spark.halt;
 import static spark.Spark.put;
 
 import java.awt.image.BufferedImage;
@@ -42,6 +43,8 @@ import javax.swing.ImageIcon;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.Announce;
 import org.magic.api.beans.Announce.STATUS;
 import org.magic.api.beans.HistoryPrice;
@@ -143,6 +146,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 	private static final String SERVER_PORT = "SERVER-PORT";
 	private static final String KEYSTORE_URI = "KEYSTORE_URI";
 	private static final String KEYSTORE_PASS = "KEYSTORE_PASS";
+	private static final String BLOCKED_IPS = "BLOCKED_IPS";
 
 	private ResponseTransformer transformer;
 	private MTGDeckManager manager;
@@ -309,7 +313,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			addInfo(req,res);
 			return error(req, res,"Not Found",404);
 		});
-
+		
 		before("/*", (request, response) -> {
 			response.type(URLTools.HEADER_JSON);
 			response.header(URLTools.ACCESS_CONTROL_ALLOW_ORIGIN, getString(URLTools.ACCESS_CONTROL_ALLOW_ORIGIN));
@@ -322,7 +326,12 @@ public class JSONHttpServer extends AbstractMTGServer {
 			if (getBoolean(ENABLE_GZIP)) {
 				response.header("Content-Encoding", "gzip");
 			}
+			
 
+			if(ArrayUtils.contains(getArray(BLOCKED_IPS), request.ip()))
+			{
+				halt(401,"Not Authorized");			
+			}
 		});
 
 
@@ -1449,6 +1458,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		map.put(URLTools.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
 		map.put(URLTools.ACCESS_CONTROL_REQUEST_METHOD, "GET,PUT,POST,DELETE,OPTIONS");
 		map.put(URLTools.ACCESS_CONTROL_ALLOW_HEADERS,"Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin");
+		map.put(BLOCKED_IPS,"");
 		map.put("THREADS",String.valueOf(Runtime.getRuntime().availableProcessors()));
 		map.put(ENABLE_SSL,FALSE);
 		map.put(KEYSTORE_URI, new File(MTGConstants.DATA_DIR,"jetty.jks").getAbsolutePath());
