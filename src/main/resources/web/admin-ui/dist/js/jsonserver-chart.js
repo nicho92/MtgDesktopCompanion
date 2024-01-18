@@ -516,7 +516,7 @@ server = {
 		                	 if(type === 'display' && d!=null){
 								return d.country_name;		                		 
 		                	 }
-		                   return data;
+		                   return "";
 		                }
 		            },
 		             { 
@@ -526,7 +526,7 @@ server = {
 		                	 if(type === 'display'  && d!=null){
 								return d.city;		                		 
 		                	 }
-		                   return data;
+		                   return "";
 		                }
 		            },
 		            { 
