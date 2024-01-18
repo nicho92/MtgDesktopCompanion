@@ -109,14 +109,14 @@ public class CsCartExternalShop extends AbstractExternalShop {
 	
 	@Override
 	public List<Category> listCategories() throws IOException {
-		var list = new ArrayList<Category>();
 		var ret = getBuilder("api/categories",METHOD.GET).toJson();
 		
 		ret.getAsJsonObject().get("categories").getAsJsonArray().forEach(je->{
 			var jo = je.getAsJsonObject();
-			list.add(new Category(jo.get("category_id").getAsInt(),jo.get("category").getAsString()));
+			var c = new Category(jo.get("category_id").getAsInt(),jo.get("category").getAsString());
+			cacheCateg.put(c.getIdCategory(), c);
 		});
-		return list;
+		return cacheCateg.values();
 	}
 	
 	@Override
@@ -278,7 +278,29 @@ public class CsCartExternalShop extends AbstractExternalShop {
 			default : t.setStatut(EnumTransactionStatus.IN_PROGRESS);break;
 		}
 		
-	
+		t.setContact(buildContact(getBuilder(API_USERS+"/"+jo.get("issuer_id").getAsInt(),METHOD.GET).toJson().getAsJsonObject()));
+		
+		
+		if(!jo.get("shipping").isJsonNull())
+		{
+			t.setShippingPrice(jo.get("shipping").getAsJsonArray().get(0).getAsJsonObject().get("rate_info").getAsJsonObject().get("base_rate").getAsDouble());
+		
+			try {
+			var ship =  getBuilder("api/shipments", METHOD.GET).addContent("order_id",t.getId().toString()).toJson().getAsJsonObject().get("shipments").getAsJsonArray().get(0).getAsJsonObject();
+				t.setDateSend(new Date(jo.get("shipment_timestamp").getAsLong()*1000));
+				t.setTransporterShippingCode(ship.get("tracking_number").getAsString());
+				t.setTransporter(ship.get("carrier_info").getAsJsonObject().get("name").getAsString());
+				t.setStatut(EnumTransactionStatus.SENT);
+			}
+			catch(Exception e)
+			{
+				//do nothing
+			}
+		}
+		
+		
+		
+		
 		
 		return t;
 	}
@@ -325,6 +347,7 @@ public class CsCartExternalShop extends AbstractExternalShop {
 				throw new IOException(e);
 			}
 		
+			
 			
 		
 	}
