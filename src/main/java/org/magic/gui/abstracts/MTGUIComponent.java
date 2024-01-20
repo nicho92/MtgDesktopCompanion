@@ -63,7 +63,7 @@ public abstract class MTGUIComponent extends JComponent {
 	
 	protected MTGUIComponent()
 	{
-		logger.debug("init GUI : {}",getTitle());
+		logger.trace("init GUI : {}",getTitle());
 		
 		contextTabbedPane = new JTabbedPane(SwingConstants.TOP);
 		

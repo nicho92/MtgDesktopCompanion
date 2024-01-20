@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Level;
 import org.magic.api.beans.abstracts.AbstractProduct;
 import org.magic.api.beans.abstracts.AbstractStockItem;
 import org.magic.api.beans.enums.EnumItems;
+import org.magic.api.beans.enums.EnumPaymentProvider;
 import org.magic.api.beans.enums.EnumTransactionStatus;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;
@@ -35,11 +36,16 @@ public class CsCartExternalShop extends AbstractExternalShop {
 
 	private static final String API_VENDORS = "api/vendors/";
 	private static final String COMPANY_ID = "COMPANY_ID";
-	private static final String ID_CATEG = "ID_CATEG_";
+
 	private static final String API_USERS = "api/users";
 	private static final String API_PRODUCTS = "api/products";
 	private static final String API_ORDERS = "api/orders";
+	
 	private static final String CONTACT_TYPE="C";
+	
+	private static final String ID_CATEG = "ID_CATEG_";
+	private static final String ID_PAY = "ID_PAYMENT_";
+	
 	private TCache<Category> cacheCateg = new TCache<>("categ");
 
 	private MTGHttpClient client;
@@ -97,6 +103,9 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		for(var k : EnumItems.values())
 			m.put(ID_CATEG+k.name(), "");
 		
+		for(var k : EnumPaymentProvider.values())
+			m.put(ID_PAY+k.name(), "");
+		
 		return m;
 	}
 	
@@ -142,7 +151,7 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		
 		var ret = build.toJson();
 		
-		ret.getAsJsonObject().get("products").getAsJsonObject().entrySet().forEach(je->list.add(buildProduct(je.getValue().getAsJsonObject())));
+		ret.getAsJsonObject().get("products").getAsJsonArray().forEach(je->list.add(buildProduct(je.getAsJsonObject())));
 		
 		return list;
 	}
@@ -266,7 +275,8 @@ public class CsCartExternalShop extends AbstractExternalShop {
 	private Transaction buildTransaction(JsonObject jo)
 	{
 		var t = new Transaction();
-		t.setId(jo.get("order_id").getAsLong());
+		t.setSourceShopId(jo.get("order_id").getAsString());
+		t.setSourceShopName(getName());
 		t.setDateCreation(new Date(jo.get("timestamp").getAsLong()*1000));
 		
 		switch(jo.get("status").getAsString())
@@ -285,24 +295,33 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		t.setContact(buildContact(getBuilder(API_USERS+"/"+jo.get("issuer_id").getAsInt(),METHOD.GET).toJson().getAsJsonObject()));
 		
 		
+		if(!jo.get("payment_method").isJsonNull())
+		{
+			
+		}
+		
+		
 		if(!jo.get("shipping").isJsonNull())
 		{
 			t.setShippingPrice(jo.get("shipping").getAsJsonArray().get(0).getAsJsonObject().get("rate_info").getAsJsonObject().get("base_rate").getAsDouble());
 		
 			try {
-			var ship =  getBuilder("api/shipments", METHOD.GET).addContent("order_id",t.getId().toString()).toJson().getAsJsonObject().get("shipments").getAsJsonArray().get(0).getAsJsonObject();
-				t.setDateSend(new Date(jo.get("shipment_timestamp").getAsLong()*1000));
+				
+			var ship =  getBuilder("api/shipments", METHOD.GET).addContent("order_id",jo.get("order_id").getAsString()).toJson().getAsJsonObject().get("shipments").getAsJsonArray().get(0).getAsJsonObject();
+				t.setDateSend(new Date(ship.get("shipment_timestamp").getAsLong()*1000));
 				t.setTransporterShippingCode(ship.get("tracking_number").getAsString());
 				t.setTransporter(ship.get("carrier_info").getAsJsonObject().get("name").getAsString());
 				t.setStatut(EnumTransactionStatus.SENT);
 			}
 			catch(Exception e)
 			{
-				//do nothing
+				logger.error("Error getting shipping informations", e);
 			}
 		}
 		
-		
+		jo.get("products").getAsJsonObject().entrySet().forEach(e->{
+			t.getItems().add(buildStockItem(e.getValue().getAsJsonObject()));
+		});
 		
 		
 		
@@ -328,9 +347,6 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		var ret = getBuilder(API_USERS,METHOD.GET).addContent("user_type", CONTACT_TYPE).addContent("user_login",login).toJson();
 		return buildContact(ret.getAsJsonObject().get("users").getAsJsonArray().get(0).getAsJsonObject());
 	}
-	
-	
-	
 	
 	@Override
 	public Category getCategoryById(Integer id) throws IOException {

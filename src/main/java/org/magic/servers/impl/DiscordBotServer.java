@@ -101,8 +101,10 @@ public class DiscordBotServer extends AbstractMTGServer {
 			@Override
 			public void onMessageReceived(MessageReceivedEvent event)
 			{
-				if (event.getAuthor().isBot() || ArrayUtils.contains(getArray("BLOCKED_USERS"),event.getAuthor().getName()))
-				{
+				if (event.getAuthor().isBot())
+					return;
+				
+				if(ArrayUtils.contains(getArray("BLOCKED_USERS"),event.getAuthor().getName())){
 					logger.warn("{} is blocked because {}", event.getAuthor().getName(), event.getAuthor().isBot()?"is Bot":"is blocked user");
 					return;
 				}
@@ -309,7 +311,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 				+ "and {format|"+StringUtils.join(FORMATS.values(),",")+"} for format shakes.\nPolicy: https://www.mtgcompanion.org/policy.html").queue();
 
 		if(!getString(PRICE_KEYWORDS).isEmpty())
-			channel.sendMessage("Also you can type one of this keyword if you want to get prices : " + getString(PRICE_KEYWORDS)).queue();
+			channel.sendMessage("Also you can type one of this keyword if you want to get prices : " + getString(PRICE_KEYWORDS)+ " like in exemple : \" give me price of {Black Lotus|LEA} \"").queue() ;
 
 	}
 
