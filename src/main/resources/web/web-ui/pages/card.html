@@ -120,12 +120,12 @@
 								"defaultContent": "", 
 							},
 				            { 
-				        		 "data" : "value",
+				        		 "data" : "priceValue",
 								 "defaultContent": "",
 				        		 "render": function(d, type, row, meta){
-				        			 if(type === 'display'){
-				        			 	return d.toFixed(2) + " " + row.currency;
-				        			 }
+				        			 if(type === 'display' && d!=null){
+					        			 	return d.value.toFixed(2) + " " + d.currency;
+					        			 }
 				        			 else
 			        				 {
 			        				  return d;

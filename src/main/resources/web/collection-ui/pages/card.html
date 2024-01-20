@@ -293,10 +293,16 @@
 			        "columns": [
 			        	{ "data": "site" },
 			            { 
-			        		"data" : "value",
-			        		 "render": function(data, type, row, meta){
-	  			                  return data.toFixed(2);
-	  			                }
+			        		"data" : "priceValue",
+			        		"render": function(d, type, row, meta){
+			        			 if(type === 'display' && d!=null){
+				        			 	return d.value.toFixed(2) + " " + d.currency;
+				        			 }
+			        			 else
+		        				 {
+		        				  return d;
+		        				 }
+ 			                }
 			        	},
 			            { "data": "currency",
 			            	"defaultContent": ""
