@@ -195,7 +195,7 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		
 		var build = getBuilder(endpoint, METHOD.GET);
 		
-		if(StringUtils.isEmpty(search))
+		if(!StringUtils.isEmpty(search))
 		{
 				build.addContent("pname","Y");
 				build.addContent("q",search);
