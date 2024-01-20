@@ -261,7 +261,7 @@
 		<dependency>
 			<groupId>org.jooq</groupId>
 			<artifactId>jooq</artifactId>
-			<version>3.19.2</version>
+			<version>3.19.3</version>
 		</dependency>
 		<dependency>
 			<groupId>com.icoderman</groupId>
@@ -369,7 +369,7 @@
 		<dependency>
 			<groupId>org.xerial</groupId>
 			<artifactId>sqlite-jdbc</artifactId>
-			<version>3.44.1.0</version>
+			<version>3.45.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -604,7 +604,7 @@
 		<dependency>
 			<groupId>com.jayway.jsonpath</groupId>
 			<artifactId>json-path</artifactId>
-			<version>2.8.0</version>
+			<version>2.9.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jsoup</groupId>

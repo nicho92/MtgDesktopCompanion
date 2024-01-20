@@ -50,19 +50,6 @@ public class CsCartExternalShop extends AbstractExternalShop {
 
 	private MTGHttpClient client;
 	
-	
-	public static void main(String[] args) throws IOException {
-		MTGControler.getInstance().loadAccountsConfiguration();
-		MTGLogger.changeLevel(Level.DEBUG);
-		var cscart = new CsCartExternalShop();
-		
-		 cscart.loadTransaction().forEach(t->{
-			System.out.println(t);
-		});
-				
-		System.exit(0);
-	}
-	
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
@@ -279,19 +266,7 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		t.setSourceShopName(getName());
 		t.setDateCreation(new Date(jo.get("timestamp").getAsLong()*1000));
 		
-		switch(jo.get("status").getAsString())
-		{
-			case "P" : t.setStatut(EnumTransactionStatus.IN_PROGRESS);break;
-			case "C" : t.setStatut(EnumTransactionStatus.CLOSED);break;
-			case "O" : t.setStatut(EnumTransactionStatus.NEW);break;
-			case "F" : t.setStatut(EnumTransactionStatus.REFUSED);break;
-			case "D" : t.setStatut(EnumTransactionStatus.REFUSED);break;
-			case "B" : t.setStatut(EnumTransactionStatus.CANCELATION_ASK);break;
-			case "I" : t.setStatut(EnumTransactionStatus.CANCELED);break;
-			case "Y" : t.setStatut(EnumTransactionStatus.IN_PROGRESS);break;
-			default : t.setStatut(EnumTransactionStatus.IN_PROGRESS);break;
-		}
-		
+	
 		t.setContact(buildContact(getBuilder(API_USERS+"/"+jo.get("issuer_id").getAsInt(),METHOD.GET).toJson().getAsJsonObject()));
 		
 		
@@ -303,7 +278,7 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		{
 			var objP = jo.get("payment_method").getAsJsonObject();
 			
-			if(objP.get("description").getAsString().contains("Visa"))
+			if(objP.get("description").getAsString().toLowerCase().contains("visa"))
 				t.setPaymentProvider(EnumPaymentProvider.VISA);
 			
 		}
@@ -326,6 +301,21 @@ public class CsCartExternalShop extends AbstractExternalShop {
 				logger.error("Error getting shipping informations", e);
 			}
 		}
+		
+		switch(jo.get("status").getAsString())
+		{
+			case "P" : t.setStatut(EnumTransactionStatus.IN_PROGRESS);break;
+			case "C" : t.setStatut(EnumTransactionStatus.CLOSED);break;
+			case "O" : t.setStatut(EnumTransactionStatus.NEW);break;
+			case "F" : t.setStatut(EnumTransactionStatus.REFUSED);break;
+			case "D" : t.setStatut(EnumTransactionStatus.REFUSED);break;
+			case "B" : t.setStatut(EnumTransactionStatus.CANCELATION_ASK);break;
+			case "I" : t.setStatut(EnumTransactionStatus.CANCELED);break;
+			case "Y" : t.setStatut(EnumTransactionStatus.IN_PROGRESS);break;
+			default : break;
+		}
+		
+		
 		
 		jo.get("products").getAsJsonObject().entrySet().forEach(e->{
 			t.getItems().add(buildStockItem(e.getValue().getAsJsonObject()));
