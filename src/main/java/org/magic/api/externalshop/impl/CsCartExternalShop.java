@@ -295,8 +295,16 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		t.setContact(buildContact(getBuilder(API_USERS+"/"+jo.get("issuer_id").getAsInt(),METHOD.GET).toJson().getAsJsonObject()));
 		
 		
+		if(jo.get("notes").isJsonNull())
+			t.setMessage(jo.get("notes").getAsString());
+		
+		
 		if(!jo.get("payment_method").isJsonNull())
 		{
+			var objP = jo.get("payment_method").getAsJsonObject();
+			
+			if(objP.get("description").getAsString().contains("Visa"))
+				t.setPaymentProvider(EnumPaymentProvider.VISA);
 			
 		}
 		
