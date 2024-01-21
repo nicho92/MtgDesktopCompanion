@@ -2,7 +2,7 @@
 
 	"DragonShield":{
 		"regex":{
-			"default":"((?=\")\".*?\"|.*?),(.*?),(.*?),(.*?),(False|True),(\\d+)",
+			"default":"(.*?),(\\d+),(\\d+),((?=\\\")\\\".*?\\\"|.*?),(.*?),(.*?),(.*?),(.*?),(.*?),(.*?),(.*?),(.*?)",
 			"conditions": {
 			"POOR": "Poor",
 			"LIGHTLY_PLAYED": "LightPlayed",

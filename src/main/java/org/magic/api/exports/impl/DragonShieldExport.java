@@ -22,19 +22,19 @@ public class DragonShieldExport extends AbstractFormattedFileCardExport {
 						   temp.append(COLUMNS).append(System.lineSeparator());
 						   
 				stock.forEach(mcs->{
-					   temp.append(mcs.getMagicCollection()).append(getSeparator()).append(System.lineSeparator());
-					   temp.append(mcs.getQte()).append(getSeparator()).append(System.lineSeparator());
-					   temp.append(0).append(getSeparator()).append(System.lineSeparator());
-					   temp.append(mcs.getQte()).append(getSeparator()).append(System.lineSeparator());
-					   temp.append(commated(mcs.getProduct().getName())).append(getSeparator()).append(System.lineSeparator());
-					   temp.append(mcs.getProduct().getCurrentSet().getId()).append(getSeparator()).append(System.lineSeparator());
-					   temp.append(mcs.getProduct().getCurrentSet().getSet()).append(getSeparator()).append(System.lineSeparator());
-					   temp.append(mcs.getProduct().getCurrentSet().getNumber()).append(getSeparator()).append(System.lineSeparator());
-					   temp.append(aliases.getConditionFor(this, mcs.getCondition())).append(getSeparator()).append(System.lineSeparator());
-					   temp.append("Normal").append(getSeparator()).append(System.lineSeparator());
-					   temp.append(mcs.getLanguage()).append(getSeparator()).append(System.lineSeparator());
-					   temp.append(mcs.getPrice()).append(getSeparator()).append(System.lineSeparator());
-					   temp.append(UITools.formatDate(new Date(), "MM/dd/yyyy"));
+					   temp.append(mcs.getMagicCollection()).append(getSeparator());
+					   temp.append(mcs.getQte()).append(getSeparator());
+					   temp.append(0).append(getSeparator());
+					   temp.append(mcs.getQte()).append(getSeparator());
+					   temp.append(commated(mcs.getProduct().getName())).append(getSeparator());
+					   temp.append(mcs.getProduct().getCurrentSet().getId()).append(getSeparator());
+					   temp.append(mcs.getProduct().getCurrentSet().getSet()).append(getSeparator());
+					   temp.append(mcs.getProduct().getCurrentSet().getNumber()).append(getSeparator());
+					   temp.append(aliases.getConditionFor(this, mcs.getCondition())).append(getSeparator());
+					   temp.append("Normal").append(getSeparator());
+					   temp.append(mcs.getLanguage()).append(getSeparator());
+					   temp.append(UITools.formatDouble(mcs.getPrice())).append(getSeparator());
+					   temp.append(UITools.formatDate(new Date(), "MM/dd/yyyy")).append(System.lineSeparator());
 					   notify(mcs.getProduct());
 				});	   
 					
