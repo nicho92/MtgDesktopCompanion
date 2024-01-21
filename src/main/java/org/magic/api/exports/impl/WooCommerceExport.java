@@ -440,12 +440,6 @@ public class WooCommerceExport extends AbstractCardExport {
 	}
 
 	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
-		exportStock(importFromDeck(deck), dest);
-	}
-
-
-	@Override
 	public Map<String, String> getDefaultAttributes() {
 		var m = new HashMap<String, String>();
 				m.put(CATEGORY_EDITION_MAPPING, "true");

@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 
 import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.tools.FileTools;
@@ -21,12 +20,6 @@ public class MTGStandExport extends AbstractFormattedFileCardExport {
 	@Override
 	public String getFileExtension() {
 		return ".csv";
-	}
-
-	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
-		exportStock(importFromDeck(deck), dest);
-
 	}
 
 	@Override

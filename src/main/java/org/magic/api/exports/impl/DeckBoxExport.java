@@ -10,7 +10,6 @@ import java.util.Map;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
@@ -60,12 +59,6 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 		FileTools.saveFile(dest, line.toString());
 	}
 
-
-	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
-		exportStock(importFromDeck(deck), dest);
-
-	}
 
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {

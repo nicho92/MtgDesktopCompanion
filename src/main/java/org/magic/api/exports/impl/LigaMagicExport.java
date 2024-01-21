@@ -161,13 +161,6 @@ public class LigaMagicExport extends AbstractCardExport {
 		return MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(enName, set, true).get(0);
 	}
 
-
-
-	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
-		exportStock(importFromDeck(deck), dest);
-	}
-
 	@Override
 	public MagicDeck importDeckFromFile(File f) throws IOException {
 		var d = new MagicDeck();

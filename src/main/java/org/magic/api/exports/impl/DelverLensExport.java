@@ -10,7 +10,6 @@ import java.util.Map;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
@@ -27,11 +26,6 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 	@Override
 	public String getFileExtension() {
 		return ".csv";
-	}
-
-	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
-		exportStock(importFromDeck(deck), dest);
 	}
 
 	@Override

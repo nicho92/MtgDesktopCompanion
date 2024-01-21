@@ -8,7 +8,6 @@ import java.util.Map;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
 import org.magic.services.tools.FileTools;
@@ -93,12 +92,6 @@ public class ZCartProductsExport extends AbstractFormattedFileCardExport {
 		
 	}
 
-
-	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
-		exportStock(importFromDeck(deck), dest);
-		
-	}
 
 	@Override
 	public String getName() {

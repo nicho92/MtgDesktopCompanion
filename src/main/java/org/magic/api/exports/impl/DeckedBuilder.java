@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.tools.FileTools;
 
@@ -24,12 +23,6 @@ public class DeckedBuilder extends AbstractFormattedFileCardExport {
 	public String getName() {
 		return "DeckedBuilder";
 	}
-
-	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
-		exportStock(importFromDeck(deck), dest);
-	}
-
 
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {

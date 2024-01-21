@@ -11,7 +11,6 @@ import javax.swing.ImageIcon;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGPlugin;
@@ -53,11 +52,6 @@ public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 	}
 
 
-	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
-		exportStock(importFromDeck(deck), dest);
-
-	}
 
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {

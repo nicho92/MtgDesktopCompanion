@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
 import org.magic.services.tools.FileTools;
@@ -19,12 +18,6 @@ public class MagicManagerExport extends AbstractFormattedFileCardExport {
 	
 	private static final String COLUMNS = "Card Name,Set Code,Collector Number,Language,Foil,Count";
 
-	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
-		exportStock(importFromDeck(deck), dest);
-		
-	}
-	
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
 		var list = new ArrayList<MagicCardStock>();

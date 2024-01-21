@@ -8,7 +8,6 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
@@ -16,12 +15,6 @@ import org.magic.services.tools.FileTools;
 
 public class ArchidektExport extends AbstractFormattedFileCardExport {
 
-
-	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
-
-		exportStock(importFromDeck(deck), dest);
-	}
 
 
 	@Override

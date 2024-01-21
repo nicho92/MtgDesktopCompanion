@@ -33,13 +33,6 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 		return STATUT.DEV;
 	}
 
-
-
-	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
-		exportStock(importFromDeck(deck), dest);
-	}
-
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 

@@ -36,7 +36,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.TechnicalServiceManager;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
-import org.magic.services.tools.BeanTools;
 
 public class ActiveMQServer extends AbstractMTGServer {
 

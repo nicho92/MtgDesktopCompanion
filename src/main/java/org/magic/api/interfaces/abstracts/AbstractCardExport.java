@@ -81,6 +81,13 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 
 
 
+		@Override
+		public void exportDeck(MagicDeck deck, File dest) throws IOException {
+			exportStock(importFromDeck(deck), dest);
+			
+		}
+
+
 
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
