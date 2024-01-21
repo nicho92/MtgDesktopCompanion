@@ -110,10 +110,10 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	    					t.setDatePayment(UITools.parseGMTDate(obj.get(DATE_PAID).getAsString()));
 
 	    				
-	    				t.setId(obj.get("id").getAsInt());
+	    				
 	    				t.setShippingPrice(obj.get("shipping_total").getAsDouble());
 	    				t.setSourceShopName(getName());
-	    				
+	    				t.setSourceShopId(obj.get("id").getAsString());
 	    				
 
 	    				if(obj.get("payment_method")!=null)

@@ -153,7 +153,9 @@ public class CardTraderWebShop extends AbstractExternalShop {
 		init();
 		return service.listOrders(1).stream().map(o->{
 			var trans = new Transaction();
-			trans.setId(o.getId());
+			trans.setSourceShopName(getName());
+			trans.setSourceShopId(String.valueOf(o.getId()));
+
 			trans.setDateSend(o.getDateSend());
 			trans.setDatePayment(o.getDatePaid());
 			trans.setDateCreation(o.getDateCreation());
@@ -207,8 +209,6 @@ public class CardTraderWebShop extends AbstractExternalShop {
 				trans.getItems().add(item);
 
 			});
-
-			trans.setSourceShopName(getName());
 
 			User u = o.getBuyer();
 
