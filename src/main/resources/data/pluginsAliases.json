@@ -2,18 +2,17 @@
 
 	"DragonShield":{
 		"regex":{
-			"default":"(.*?),(\\d+),(\\d+),((?=\\\")\\\".*?\\\"|.*?),(.*?),(.*?),(.*?),(.*?),(.*?),(.*?),(.*?),(.*?)",
-			"conditions": {
-			"POOR": "Poor",
-			"LIGHTLY_PLAYED": "LightPlayed",
-			"NEAR_MINT": "NearMint",
-			"PLAYED": "Played",
-			"EXCELLENT": "Excellent",
-			"GOOD": "Good",
-			"MINT": "Mint"
+			"default":"(.*?),(\\d+),(\\d+),((?=\\\")\\\".*?\\\"|.*?),(.*?),(.*?),(.*?),(.*?),(.*?),(.*?),(.*?),(.*?)"
+		},
+		"conditions": {
+				"POOR": "Poor",
+				"LIGHTLY_PLAYED": "LightPlayed",
+				"NEAR_MINT": "NearMint",
+				"PLAYED": "Played",
+				"EXCELLENT": "Excellent",
+				"GOOD": "Good",
+				"MINT": "Mint"
 		}
-		}	
-	
 	
 	},
 	"MagicManager": {

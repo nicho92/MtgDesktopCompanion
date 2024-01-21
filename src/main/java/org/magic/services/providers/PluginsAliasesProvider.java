@@ -122,14 +122,16 @@ public class PluginsAliasesProvider {
 
 	public String getConditionFor(MTGPlugin plug, EnumCondition condition)
 	{
+		
 		if(condition==null)
 			return "";
-
+		
 		try{
 			return jsonData.get(plug.getName()).getAsJsonObject().get("conditions").getAsJsonObject().get(condition.name()).getAsString();
 		}
 		catch(Exception e)
 		{
+			logger.error(e);
 			return condition.name();
 		}
 	}
