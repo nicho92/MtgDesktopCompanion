@@ -111,17 +111,6 @@ public class DeckedBuilder extends AbstractFormattedFileCardExport {
 		return stocks;
 	}
 
-	@Override
-	public MagicDeck importDeck(String f, String dname) throws IOException {
-		var d = new MagicDeck();
-		d.setName(dname);
-
-		for(MagicCardStock st : importStock(f))
-		{
-			d.getMain().put(st.getProduct(), st.getQte());
-		}
-		return d;
-	}
 
 	@Override
 	protected boolean skipFirstLine() {

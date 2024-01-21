@@ -48,13 +48,6 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	public MagicDeck importDeck(String content, String name) throws IOException {
-		var d = new MagicDeck();
-		d.setName(name);
-		return d;
-	}
-
-	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
 		List<MagicCardStock> list = new ArrayList<>();
 

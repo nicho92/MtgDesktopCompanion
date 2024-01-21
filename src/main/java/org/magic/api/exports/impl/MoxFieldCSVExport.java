@@ -36,17 +36,6 @@ public class MoxFieldCSVExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	public MagicDeck importDeck(String content, String name) throws IOException {
-		var d = new MagicDeck();
-		d.setName(name);
-
-		for(MagicCardStock st : importStock(content))
-			d.getMain().put(st.getProduct(), st.getQte());
-
-		return d;
-	}
-
-	@Override
 	public String getName() {
 		return "MoxField";
 	}

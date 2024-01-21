@@ -15,6 +15,8 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicCardStock;
+import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -48,7 +50,6 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 
 	protected enum FORMAT_SEARCH { ID, NAME,NUMBER}
 
-	
 
 	
 	protected String commated(String name)

@@ -42,12 +42,8 @@ public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 		{
 			String name= CardKingdomTools.getCKFormattedName(mc.getProduct());
 			String set = CardKingdomTools.getCKFormattedSet(mc.getProduct());
-			
-			if(mc.getProduct().getName().contains(getSeparator()))
-				name= "\""+ name + "\"";
 
-
-			line.append(name).append(getSeparator());
+			line.append(commated(name)).append(getSeparator());
 			line.append(set).append(getSeparator());
 			line.append(String.valueOf(mc.isFoil())).append(getSeparator());
 			line.append(mc.getQte()).append(getSeparator()).append(System.lineSeparator());
@@ -62,20 +58,6 @@ public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 		exportStock(importFromDeck(deck), dest);
 
 	}
-
-
-	@Override
-	public MagicDeck importDeck(String f, String name) throws IOException {
-		var d = new MagicDeck();
-		d.setName(name);
-
-		for(MagicCardStock st : importStock(f))
-		{
-			d.getMain().put(st.getProduct(), st.getQte());
-		}
-		return d;
-	}
-
 
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {

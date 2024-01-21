@@ -38,20 +38,6 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 	}
 
 
-
-	@Override
-	public MagicDeck importDeck(String f, String name) throws IOException {
-		var d = new MagicDeck();
-		d.setName(name);
-
-		for(MagicCardStock st : importStock(f))
-		{
-			d.getMain().put(st.getProduct(), st.getQte());
-		}
-		return d;
-	}
-
-
 	@Override
 	public List<MagicCardStock> importStockFromFile(File f) throws IOException {
 		return importStock(FileTools.readFile(f,StandardCharsets.UTF_16));

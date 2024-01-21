@@ -67,20 +67,6 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 
 	}
 
-
-	@Override
-	public MagicDeck importDeck(String f, String name) throws IOException {
-		var d = new MagicDeck();
-		d.setName(name);
-
-		for(MagicCardStock st : importStock(f))
-		{
-			d.getMain().put(st.getProduct(), st.getQte());
-		}
-		return d;
-	}
-
-
 	@Override
 	public List<MagicCardStock> importStock(String content) throws IOException {
 

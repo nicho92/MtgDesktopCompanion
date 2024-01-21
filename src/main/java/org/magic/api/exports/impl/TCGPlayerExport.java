@@ -34,18 +34,6 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	public MagicDeck importDeck(String f, String name) throws IOException {
-		var d = new MagicDeck();
-		d.setName(name);
-		d.setDescription("import from " + getName());
-
-		importStock(f).forEach(mcs->d.add(mcs.getProduct()));
-
-		return d;
-	}
-
-
-	@Override
 	public void exportStock(List<MagicCardStock> stocks, File f) throws IOException {
 
 		var temp = new StringBuilder();
