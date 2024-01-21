@@ -1,4 +1,21 @@
 {
+
+	"DragonShield":{
+		"regex":{
+			"default":"((?=\")\".*?\"|.*?),(.*?),(.*?),(.*?),(False|True),(\\d+)",
+			"conditions": {
+			"POOR": "Poor",
+			"LIGHTLY_PLAYED": "LightPlayed",
+			"NEAR_MINT": "NearMint",
+			"PLAYED": "Played",
+			"EXCELLENT": "Excellent",
+			"GOOD": "Good",
+			"MINT": "Mint"
+		}
+		}	
+	
+	
+	},
 	"MagicManager": {
 		"regex":{
 			"default":"((?=\")\".*?\"|.*?),(.*?),(.*?),(.*?),(False|True),(\\d+)"	

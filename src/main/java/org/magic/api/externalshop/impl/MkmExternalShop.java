@@ -253,7 +253,6 @@ public class MkmExternalShop extends AbstractExternalShop {
 
 	private Transaction toTransaction(Order o) {
 		var t = new Transaction();
-							t.setId(o.getIdOrder());
 							t.setTransporterShippingCode(null);
 							t.setDateCreation(o.getState().getDateBought());
 							t.setDatePayment(o.getState().getDatePaid());
@@ -261,7 +260,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 							t.setCurrency(o.getCurrencyCode());
 							t.setMessage(o.getNote());
 							t.setSourceShopName(getName());
-
+							t.setSourceShopId(String.valueOf(o.getIdOrder()));
 		var c = new Contact();
 
 				var name = o.getBuyer().getAddress().getName();
