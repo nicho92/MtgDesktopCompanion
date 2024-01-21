@@ -25,7 +25,6 @@ public class DragonShieldExport extends AbstractFormattedFileCardExport {
 					   temp.append(mcs.getMagicCollection()).append(getSeparator());
 					   temp.append(mcs.getQte()).append(getSeparator());
 					   temp.append(0).append(getSeparator());
-					   temp.append(mcs.getQte()).append(getSeparator());
 					   temp.append(commated(mcs.getProduct().getName())).append(getSeparator());
 					   temp.append(mcs.getProduct().getCurrentSet().getId()).append(getSeparator());
 					   temp.append(mcs.getProduct().getCurrentSet().getSet()).append(getSeparator());
