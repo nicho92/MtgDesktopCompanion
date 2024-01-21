@@ -23,6 +23,7 @@ import java.math.RoundingMode;
 import java.net.URI;
 import java.text.CharacterIterator;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.text.StringCharacterIterator;
@@ -505,15 +506,20 @@ public class UITools {
 
 	public static String formatDouble(Object f)
 	{
-		return formatDouble(f, "#0.0#");
+		return formatDouble(f, "#0.0#",null);
 	}
 
-	public static String formatDouble(Object f,String format)
+	public static String formatDouble(Object f,String format,Character separator)
 	{
 		if(f==null)
 			return "";
 
-		return new DecimalFormat(format).format(f);
+		var otherSymbols = new DecimalFormatSymbols(MTGControler.getInstance().getLocale());
+		
+		if(separator!=null)
+			otherSymbols.setDecimalSeparator(separator);
+		
+		return new DecimalFormat(format,otherSymbols).format(f);
 	}
 
 	public static void initTableFilter(JTable table)
