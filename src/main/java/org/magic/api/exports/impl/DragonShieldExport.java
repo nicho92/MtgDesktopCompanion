@@ -44,7 +44,11 @@ public class DragonShieldExport extends AbstractFormattedFileCardExport {
 		   FileTools.saveFile(f, temp.toString());
 	}
 	
-	
+	@Override
+	public MagicDeck importDeck(String f, String name) throws IOException {
+		// TODO Auto-generated method stub
+		return super.importDeck(f, name);
+	}
 	
 	
 	@Override
@@ -77,7 +81,7 @@ public class DragonShieldExport extends AbstractFormattedFileCardExport {
 	var list = new ArrayList<MagicCardStock>();
 		
 		
-		matches(content, true, aliases.getRegexFor(this,"default")).forEach(m->{
+		matches(content, true, aliases.getRegexFor(this,"stock")).forEach(m->{
 			var stock = MTGControler.getInstance().getDefaultStock();
 			var mc = parseMatcherWithGroup(m, 7, 5,false, FORMAT_SEARCH.ID, FORMAT_SEARCH.NUMBER);
 			if(mc!=null){
