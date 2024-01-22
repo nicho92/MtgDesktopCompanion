@@ -45,9 +45,29 @@ public class DragonShieldExport extends AbstractFormattedFileCardExport {
 	}
 	
 	@Override
-	public MagicDeck importDeck(String f, String name) throws IOException {
-		// TODO Auto-generated method stub
-		return super.importDeck(f, name);
+	public MagicDeck importDeck(String content, String name) throws IOException {
+		
+		var d = new MagicDeck();
+		
+		
+		matches(content, true, aliases.getRegexFor(this,"deck")).forEach(m->{
+			var mc = parseMatcherWithGroup(m, 4, -1,true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NAME);
+			
+			if(mc!=null) {
+				if(m.group(1).equalsIgnoreCase("sideboard"))
+					d.getSideBoard().put(mc, Integer.parseInt(m.group(2)));
+				else
+					d.getMain().put(mc, Integer.parseInt(m.group(2)));
+				
+				notify(mc);
+			}
+			else
+			{
+				logger.error("cant't get card {}",m.group(4));
+			}
+		});
+			
+		return d;
 	}
 	
 	
