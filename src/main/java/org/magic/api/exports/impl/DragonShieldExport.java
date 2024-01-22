@@ -2,13 +2,13 @@ package org.magic.api.exports.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
@@ -17,12 +17,40 @@ import org.magic.services.tools.UITools;
 
 public class DragonShieldExport extends AbstractFormattedFileCardExport {
 
-	private static final String COLUMNS ="Folder Name,Quantity,Trade Quantity,Card Name,Set Code,Set Name,Card Number,Condition,Printing,Language,Price Bought,Date Bought";
+	private static final String COLUMNS_STOCK ="Folder Name,Quantity,Trade Quantity,Card Name,Set Code,Set Name,Card Number,Condition,Printing,Language,Price Bought,Date Bought";
+	private static final String COLUMNS_DECK ="Card Type,Quantity,Card Name,Mana Cost,Min Price (AVG)";
+	
+	@Override
+	public void exportDeck(MagicDeck deck, File f) throws IOException {
+		var temp = new StringBuilder();
+		   				   temp.append(COLUMNS_DECK).append(System.lineSeparator());
+		 
+		   				   deck.getMain().entrySet().forEach(e->{
+		   					   	temp.append(e.getKey().getTypes().get(0)).append(getSeparator());
+		   					   	temp.append(e.getValue()).append(getSeparator());
+		   					   	temp.append(commated(e.getKey().getName())).append(getSeparator());
+		   					   	temp.append(e.getKey().getCost()).append(getSeparator());
+		   					   	temp.append("0.0").append(System.lineSeparator());
+		   				   });			   
+		   				   
+		   				   deck.getSideBoard().entrySet().forEach(e->{
+			   					temp.append("Sideboard").append(getSeparator());
+		   					   	temp.append(e.getValue()).append(getSeparator());
+		   					   	temp.append(commated(e.getKey().getName())).append(getSeparator());
+		   					   	temp.append(e.getKey().getCost()).append(getSeparator());
+		   					   	temp.append("0.0").append(System.lineSeparator());
+		   				   });
+		   				   
+		   FileTools.saveFile(f, temp.toString());
+	}
+	
+	
+	
 	
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 		StringBuilder temp = new StringBuilder();
-						   temp.append(COLUMNS).append(System.lineSeparator());
+						   temp.append(COLUMNS_STOCK).append(System.lineSeparator());
 						   
 				stock.forEach(mcs->{
 					   temp.append(mcs.getMagicCollection()).append(getSeparator());
