@@ -15,6 +15,7 @@ import org.magic.api.beans.abstracts.AbstractProduct;
 import org.magic.api.beans.abstracts.AbstractStockItem;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
+import org.magic.api.beans.enums.EnumPaymentProvider;
 import org.magic.api.beans.enums.EnumTransactionStatus;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;
@@ -163,14 +164,13 @@ public class CardTraderWebShop extends AbstractExternalShop {
 			if(o.getDatePaid()!=null)
 				trans.setStatut(EnumTransactionStatus.PAID);
 
-
 			if(o.getDateSend()!=null)
 				trans.setStatut(EnumTransactionStatus.SENT);
 
 			if(o.getDateCancel()!=null)
 				trans.setStatut(EnumTransactionStatus.CANCELED);
 
-
+			trans.setPaymentProvider(EnumPaymentProvider.SHOP_PLATEFORM);
 
 			o.getOrderItems().forEach(oi->{
 
