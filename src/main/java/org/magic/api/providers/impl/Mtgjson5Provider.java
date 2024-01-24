@@ -442,22 +442,21 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 					}
 				}
 
+				mc.setNumber(String.valueOf(map.get(NUMBER)));
+				
 				String codeEd;
 				if (currentSet.size() <= 1)
 					codeEd = currentSet.get(0);
 				else
 					codeEd = currentSet.get(indexSet++);
-
+				
+				
+				
 				MagicEdition me = getSetById(codeEd);
-							 if (map.get(NUMBER) != null)
-							 {
-								 me.setNumber(String.valueOf(map.get(NUMBER)));
-							 }
-
 							 if(identifiers!=null && identifiers.get(MULTIVERSE_ID)!=null)
 							 {
 								 defnames.setGathererId((int)Double.parseDouble(identifiers.get(MULTIVERSE_ID)));
-								 me.setMultiverseid(String.valueOf((int)Double.parseDouble(identifiers.get(MULTIVERSE_ID))));
+								 mc.setMultiverseid(String.valueOf((int)Double.parseDouble(identifiers.get(MULTIVERSE_ID))));
 							 }
 
 				mc.getEditions().add(me);
@@ -502,19 +501,10 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 
 		if (cardsElement != null)
 			for (Map<String, Object> map : cardsElement) {
-
-				try {
-
-					me.setNumber(String.valueOf(map.get(NUMBER)));
-				} catch (Exception e) {
-					logger.trace("initOtherEditionCardsVar number not found");
-				}
-
-
 				Map<String,String> identifiers = (Map<String, String>) map.get("identifiers");
 
 				try {
-					me.setMultiverseid(String.valueOf((int)Double.parseDouble(identifiers.get(MULTIVERSE_ID))));
+					mc.setMultiverseid(identifiers.get(MULTIVERSE_ID).toString());
 				} catch (Exception e) {
 					//do nothing
 				}

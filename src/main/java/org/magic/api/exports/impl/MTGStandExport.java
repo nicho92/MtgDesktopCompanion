@@ -35,7 +35,7 @@ public class MTGStandExport extends AbstractFormattedFileCardExport {
 			build.append(st.getQte()).append(",");
 			build.append("\"").append(st.getProduct().getCurrentSet().getSet()).append("\",");
 			build.append(st.getProduct().getCurrentSet().getId()).append(",");
-			build.append(st.getProduct().getCurrentSet().getNumber()).append(",");
+			build.append(st.getProduct().getNumber()).append(",");
 			build.append(st.getLanguage()).append(",");
 			if(st.isFoil())
 				build.append("1,");

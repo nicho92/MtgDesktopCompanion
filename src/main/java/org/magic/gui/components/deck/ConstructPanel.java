@@ -493,7 +493,7 @@ public class ConstructPanel extends MTGUIComponent {
 							for (MagicCard mc : deck.getMain().keySet()) {
 								try {
 
-									var newMc= getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(mc.getCurrentSet().getNumber(), mc.getCurrentSet());
+									var newMc= getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(mc.getNumber(), mc.getCurrentSet());
 									if(newMc==null)
 										newMc=mc;
 									updateM.put(newMc,deck.getMain().get(mc));
@@ -504,7 +504,7 @@ public class ConstructPanel extends MTGUIComponent {
 							}
 							for (MagicCard mc : deck.getSideBoard().keySet()) {
 								try {
-									var newMc= getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(mc.getCurrentSet().getNumber(), mc.getCurrentSet());
+									var newMc= getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(mc.getNumber(), mc.getCurrentSet());
 									if(newMc==null)
 										newMc=mc;
 									updateS.put(newMc,deck.getSideBoard().get(mc));
@@ -516,7 +516,7 @@ public class ConstructPanel extends MTGUIComponent {
 							}
 							for (MagicCard mc : deck.getMaybeBoard().keySet()) {
 								try {
-									var newMc= getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(mc.getCurrentSet().getNumber(), mc.getCurrentSet());
+									var newMc= getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(mc.getNumber(), mc.getCurrentSet());
 									if(newMc==null)
 										newMc=mc;
 									updateY.put(newMc,deck.getMaybeBoard().get(mc));

@@ -72,7 +72,7 @@ public class SlightlyMagicPictureProvider extends AbstractPicturesProvider {
 			if(mc.isBorderLess() || mc.isExtendedArt() || mc.isShowCase())
 				calculate="2";
 
-			if(mc.getCurrentSet().getNumber().contains("b"))
+			if(mc.getNumber().contains("b"))
 				calculate="2";
 
 		}

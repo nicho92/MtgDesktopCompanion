@@ -77,7 +77,7 @@
           <#list cards as card>
             <tr id="${card.editions[0]}">
               <td><img height="45" src="http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=${card.editions[0].multiverseid?if_exists}&type=card"/></td>
-              <td>${card.editions[0].number?if_exists}</td>
+              <td>${card.number?if_exists}</td>
               <td><a href="page-card-${card.id?if_exists}.htm">${card.name?if_exists}</a></td>
               <td>${card.rarity?if_exists}</td>
             </tr>

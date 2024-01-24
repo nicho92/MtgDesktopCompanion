@@ -60,7 +60,7 @@ public class EchoMTGExport extends AbstractCardExport {
 					JsonElement list = RequestBuilder.build().post()
 							 .url(BASE_URL+"/api/inventory/add/")
 							 .addContent("auth", authToken)
-							 .addContent("mid",entry.getKey().getCurrentSet().getMultiverseid())
+							 .addContent("mid",entry.getKey().getMultiverseid())
 							 .addContent("quantity", String.valueOf(entry.getValue()))
 							 .addContent("condition", "NM")
 							 .addContent("foil", MTGControler.getInstance().getDefaultStock().isFoil()?"1":"0")

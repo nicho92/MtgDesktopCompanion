@@ -17,7 +17,7 @@ public class MagicEdition implements MTGSerializable, Comparable<MagicEdition> {
 
 	private String set;
 
-	@SerializedName(alternate = "multiverse_id", value = "multiverseId") private String multiverseId;
+
 	private String url;
 	private String id;
 	private String releaseDate;
@@ -35,9 +35,6 @@ public class MagicEdition implements MTGSerializable, Comparable<MagicEdition> {
 	private int tcgplayerGroupId;
 	private boolean preview;
 	private boolean foreignOnly;
-
-
-	private String number;
 
 	private List<EnumExtra> booster;
 
@@ -78,14 +75,6 @@ public class MagicEdition implements MTGSerializable, Comparable<MagicEdition> {
 
 	public void setFoilOnly(boolean foilOnly) {
 		this.foilOnly = foilOnly;
-	}
-
-	public String getMultiverseid() {
-		return multiverseId;
-	}
-
-	public void setMultiverseid(String multiverseid) {
-		this.multiverseId = multiverseid;
 	}
 
 	public Integer getMkmid() {
@@ -211,14 +200,6 @@ public class MagicEdition implements MTGSerializable, Comparable<MagicEdition> {
 
 	public void setSet(String set) {
 		this.set = set;
-	}
-
-	public String getNumber() {
-		return number;
-	}
-
-	public void setNumber(String number) {
-		this.number = number;
 	}
 
 	public String getUrl() {

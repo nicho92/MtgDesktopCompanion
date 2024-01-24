@@ -71,7 +71,7 @@ public class MagicCardTableModel extends GenericTableModel<MagicCard> {
 			case 6:
 				return mc.getEditions();
 			case 7:
-				return (mc.getCurrentSet() != null) ? mc.getCurrentSet().getNumber() : "";
+				return mc.getNumber();
 			case 8:
 				return mc.getColors();
 			case 9:

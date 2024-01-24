@@ -229,7 +229,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				{
 					for(JsonElement el : filteredArray)
 					{
-							if(el.getAsJsonObject().get("id").getAsString().contains(mc.getCurrentSet().getNumber())){
+							if(el.getAsJsonObject().get("id").getAsString().contains(mc.getNumber())){
 								item=el.getAsJsonObject();
 							}
 							else if(!el.getAsJsonObject().get(VARIATION).isJsonNull() && mc.getExtra()!=null)

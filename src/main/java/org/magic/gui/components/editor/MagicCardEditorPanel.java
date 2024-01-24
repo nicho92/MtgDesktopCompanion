@@ -798,14 +798,14 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		
 		
 		if(magicCard.getCurrentSet()!=null)
-			numberJTextField.setText(magicCard.getCurrentSet().getNumber());
+			numberJTextField.setText(magicCard.getNumber());
 		
 		
 		spinner.addChangeListener(ce->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.SIZE, spinner.getValue().toString() ));
 		chkFoil.addItemListener(ae->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.FOIL, String.valueOf(chkFoil.isSelected()) ));
 		cboColorAccent.addItemListener(ie-> magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.ACCENT, (cboColorAccent.getSelectedItem().toString()) ));
 		chkColorIndicator.addItemListener(ae->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.INDICATOR, String.valueOf(chkColorIndicator.isSelected()) ));
-		numberJTextField.addPropertyChangeListener("text", (PropertyChangeEvent evt)->magicCard.getCurrentSet().setNumber(numberJTextField.getText()));
+		numberJTextField.addPropertyChangeListener("text", (PropertyChangeEvent evt)->magicCard.setNumber(numberJTextField.getText()));
 		
 		
 		

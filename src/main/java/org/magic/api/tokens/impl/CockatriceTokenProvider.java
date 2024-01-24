@@ -181,9 +181,9 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		tok.getEditions().add(getEnabledPlugin(MTGCardsProvider.class).getSetById(ed.getId()));
 
 		if(layout==EnumLayout.EMBLEM)
-			tok.getCurrentSet().setNumber("E");
+			tok.setNumber("E");
 		else
-			tok.getCurrentSet().setNumber("T");
+			tok.setNumber("T");
 
 		if (value.getElementsByTagName(COLOR).item(0) != null) {
 			var c = EnumColors.colorByCode(value.getElementsByTagName(COLOR).item(0).getTextContent());

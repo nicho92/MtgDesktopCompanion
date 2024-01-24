@@ -637,19 +637,7 @@ public class CardSearchPanel extends MTGUIComponent {
 			}
 		});
 
-		detailCardPanel.addObserver((Observable o, Object obj)->{
-			MagicCardNames selLang = (MagicCardNames)obj;
-			try {
-					MagicEdition ed = (MagicEdition) BeanUtils.cloneBean(selectedEdition);
-								 ed.setMultiverseid(String.valueOf(selLang.getGathererId()));
-
-					logger.trace("change lang to {} for {}",selLang,ed);
-					cardsPicPanel.init(selectedCard);
-			} catch (Exception e1) {
-				logger.error(e1);
-			}
-
-		});
+	
 
 		btnExport.initCardsExport(new Callable<MagicDeck>() {
 			@Override

@@ -39,9 +39,9 @@ public class IndexerTests {
 					 ed = new MagicEdition();
 					 ed.setId("lea");
 					 ed.setSet("Limited Edition Alpha");
-					 ed.setMultiverseid("3");
+					 mc.setMultiverseid("3");
 		mc.getEditions().add(ed);
-		mc.getCurrentSet().setNumber("232");
+		mc.setNumber("232");
 	}
 	
 	@Test

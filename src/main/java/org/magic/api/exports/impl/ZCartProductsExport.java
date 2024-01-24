@@ -88,7 +88,7 @@ public class ZCartProductsExport extends AbstractFormattedFileCardExport {
 
 	private String slug(MagicCard product) {
 		
-		return product.getName().replace(" ", "-").replace("'", "-")+"-"+product.getCurrentSet().getNumber();
+		return product.getName().replace(" ", "-").replace("'", "-")+"-"+product.getNumber();
 		
 	}
 

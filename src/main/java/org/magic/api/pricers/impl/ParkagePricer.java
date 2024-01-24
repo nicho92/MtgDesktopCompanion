@@ -38,7 +38,7 @@ public class ParkagePricer extends AbstractPricesProvider {
 		URLTools.extractAsJson(url).getAsJsonObject().get("list").getAsJsonArray().forEach(je->{
 				var jo = je.getAsJsonObject();
 				
-				if(jo.get("image_url_1").getAsString().contains(card.getCurrentSet().getNumber()))
+				if(jo.get("image_url_1").getAsString().contains(card.getNumber()))
 				{
 				
 					var mp = new MagicPrice();

@@ -131,7 +131,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	public JsonObject getJsonFor(MagicCard mc)
 	{
-		String url = baseURI + CARDS + mc.getCurrentSet().getId().toLowerCase() + "/" + mc.getCurrentSet().getNumber();
+		String url = baseURI + CARDS + mc.getCurrentSet().getId().toLowerCase() + "/" + mc.getNumber();
 		try {
 			return URLTools.extractAsJson(url).getAsJsonObject();
 		} catch (IOException e) {
@@ -553,13 +553,15 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				logger.error("{} has no power/toughness: ",mc.getName());
 			}
 		}
-
+		
+		mc.setNumber(obj.get(COLLECTOR_NUMBER).getAsString());
+		
+		
 		MagicEdition ed = null;
 
 			try {
 				ed = (MagicEdition) BeanUtils.cloneBean(getSetById(obj.get("set").getAsString()));
 				ed.setOnlineOnly(obj.get(DIGITAL).getAsBoolean());
-				ed.setNumber(obj.get(COLLECTOR_NUMBER).getAsString());
 				mc.getEditions().add(ed);
 				mc.setEdition(ed);
 			} catch (Exception e2) {
@@ -569,7 +571,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 			if (obj.get("multiverse_ids") != null) {
 				try {
-					ed.setMultiverseid(String.valueOf(obj.get("multiverse_ids").getAsJsonArray().get(idface).getAsInt()));
+					mc.setMultiverseid(obj.get("multiverse_ids").getAsJsonArray().get(idface).getAsString());
 				} catch (Exception e1) {
 					logger.error("No multiverseID found for {} face:{}" ,mc.getName(),idface);
 				}
@@ -667,10 +669,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 					MagicEdition ed = getSetById(obj.get("set").getAsString());
 
 					if (obj.get(MULTIVERSE_ID) != null)
-						ed.setMultiverseid(obj.get(MULTIVERSE_ID).getAsString());
-
-					if (obj.get(COLLECTOR_NUMBER) != null)
-						ed.setNumber(obj.get(COLLECTOR_NUMBER).getAsString());
+						mc.setMultiverseid(obj.get(MULTIVERSE_ID).getAsString());
 
 					mc.getEditions().add(ed);
 				}

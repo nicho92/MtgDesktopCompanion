@@ -57,12 +57,14 @@ public class PicturesProviderTests {
 		mc.setArtist("Christopher Rush");
 		mc.setId("c944c7dc960c4832604973844edee2a1fdc82d98");
 		mc.setBorder(EnumBorders.BLACK);
-				
+		mc.setNumber("232");
+		mc.setMultiverseid("3");
+		
 		MagicEdition ed = new MagicEdition();
 					 ed.setId("lea");
 					 ed.setSet("Limited Edition Alpha");
-					 ed.setMultiverseid("3");
-					 ed.setNumber("232");
+					
+					 
 		
 		mc.getEditions().add(ed);
 	}

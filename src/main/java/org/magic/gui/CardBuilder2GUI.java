@@ -261,7 +261,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 									mc.getEditions().clear();
 									try {
 										mc.getEditions().add(BeanTools.cloneBean(ed));
-										mc.getCurrentSet().setNumber(null);
+										mc.setNumber(null);
 									} catch (Exception e) {
 										logger.error(e);
 									} 
@@ -269,7 +269,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 								Collections.sort(cards,new CardsEditionSorter());
 
 								for(var i=0;i<cards.size();i++){
-									cards.get(i).getCurrentSet().setNumber(String.valueOf((i+1)));
+									cards.get(i).setNumber(String.valueOf((i+1)));
 								}
 										
 										
@@ -320,7 +320,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				var ed = (MagicEdition)cboSets.getSelectedItem();
 				mc.getEditions().add(ed);
 				try {
-					mc.getCurrentSet().setNumber(String.valueOf(provider.searchCardByEdition((MagicEdition) cboSets.getSelectedItem()).size() + 1));
+					mc.setNumber(String.valueOf(provider.searchCardByEdition((MagicEdition) cboSets.getSelectedItem()).size() + 1));
 				} catch (IOException e1) {
 					logger.error(e1);
 				}
@@ -407,7 +407,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 						protected MagicCard doInBackground() throws Exception {
 							var mc= MTG.getEnabledPlugin(MTGIA.class).generateRandomCard(text);
 							mc.getEditions().add((MagicEdition)cboSets.getSelectedItem());
-							mc.getCurrentSet().setNumber(String.valueOf(provider.searchCardByEdition((MagicEdition) cboSets.getSelectedItem()).size() + 1));
+							mc.setNumber(String.valueOf(provider.searchCardByEdition((MagicEdition) cboSets.getSelectedItem()).size() + 1));
 							return mc;
 						}
 						
@@ -433,7 +433,6 @@ public class CardBuilder2GUI extends MTGUIComponent {
 				var me = (MagicEdition) cboSets.getSelectedItem();
 				var mc = magicCardEditorPanel.getMagicCard();
 					 
-					me.setNumber(mc.getCurrentSet().getNumber());
 
 				if (mc.getId() == null)
 					mc.setId(DigestUtils.sha256Hex(me.getSet() + mc.getId() + mc.getName()));

@@ -247,7 +247,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		MagicEdition ed = getSetById(me.getId());
 
 		for (MagicCard mc : loadCardsFromSet(ed))
-			if (mc.getCurrentSet().getNumber().equals(id))
+			if (mc.getNumber().equals(id))
 				return mc;
 
 		return null;

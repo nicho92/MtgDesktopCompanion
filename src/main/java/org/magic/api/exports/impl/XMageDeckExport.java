@@ -34,13 +34,13 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 
 		for (MagicCard mc : deck.getMain().keySet().stream().filter(mc->mc!=deck.getCommander()).sorted((mc,mc2)->mc.getName().compareTo(mc2.getName())).toList()) {
 			temp.append(deck.getMain().get(mc)).append(" ").append("[").append(mc.getCurrentSet().getId())
-					.append(":").append(mc.getCurrentSet().getNumber()).append("]").append(" ")
+					.append(":").append(mc.getNumber()).append("]").append(" ")
 					.append(mc.getName()).append("\n");
 			notify(mc);
 		}
 		for (MagicCard mc : deck.getSideBoard().keySet().stream().sorted((mc,mc2)->mc.getName().compareTo(mc2.getName())).toList()) {
 			temp.append("SB: ").append(deck.getSideBoard().get(mc)).append(" ").append("[")
-					.append(mc.getCurrentSet().getId()).append(":").append(mc.getCurrentSet().getNumber())
+					.append(mc.getCurrentSet().getId()).append(":").append(mc.getNumber())
 					.append("]").append(" ").append(mc.getName()).append("\n");
 			notify(mc);
 		}
@@ -48,7 +48,7 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 		if(deck.getCommander()!=null)
 		{
 			temp.append("SB: ").append("1").append(" ").append("[")
-			.append(deck.getCommander().getCurrentSet().getId()).append(":").append(deck.getCommander().getCurrentSet().getNumber())
+			.append(deck.getCommander().getCurrentSet().getId()).append(":").append(deck.getCommander().getNumber())
 			.append("]").append(" ").append(deck.getCommander().getName()).append("\n");
 			notify(deck.getCommander());
 		}

@@ -113,7 +113,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 				bw.append(mcs.getMagicCollection()).append(getSeparator());
 				bw.append(mcs.getPrice()).append(getSeparator());
 				bw.append(mcs.getComment()).append(getSeparator());
-				bw.append(mcs.getProduct().getCurrentSet().getNumber()).append(getSeparator());
+				bw.append(mcs.getProduct().getNumber()).append(getSeparator());
 
 				writeExtraMap(mcs.getProduct(),bw);
 				bw.append(System.lineSeparator());

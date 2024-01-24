@@ -21,6 +21,7 @@ import org.magic.api.beans.enums.EnumSecurityStamp;
 import org.magic.services.tools.IDGenerator;
 
 import com.google.gson.JsonObject;
+import com.google.gson.annotations.SerializedName;
 
 public class MagicCard extends AbstractProduct {
 	private static final long serialVersionUID = 1L;
@@ -100,8 +101,8 @@ public class MagicCard extends AbstractProduct {
 	private boolean timeshifted;
 	private String toughness="";
 	private List<String> types;
-	
-	
+	private String number="";
+	@SerializedName(alternate = "multiverse_id", value = "multiverseId") private String multiverseid;
 	private String watermarks;
 	
 	public MagicCard() {
@@ -131,6 +132,22 @@ public class MagicCard extends AbstractProduct {
 		}
 
 		return IDGenerator.generate(((MagicCard) obj)).equals(IDGenerator.generate(this));
+	}
+	
+	public String getMultiverseid() {
+		return multiverseid;
+	}
+	
+	public void setMultiverseid(String multiverseid) {
+		this.multiverseid = multiverseid;
+	}
+	
+	public String getNumber() {
+		return number;
+	}
+	
+	public void setNumber(String number) {
+		this.number = number;
 	}
 	
 
@@ -458,13 +475,13 @@ public class MagicCard extends AbstractProduct {
 	{
 
 		try {
-			var number = Integer.parseInt(getCurrentSet().getNumber());
+			var n = Integer.parseInt(getNumber());
 
-			if(number==0 || getCurrentSet().getCardCountOfficial()==0) {
+			if(n==0 || getCurrentSet().getCardCountOfficial()==0) {
 				return false;
 			}
 
-			return number>getCurrentSet().getCardCountOfficial();
+			return n>getCurrentSet().getCardCountOfficial();
 			}
 		catch(Exception e)
 		{
@@ -870,8 +887,7 @@ public class MagicCard extends AbstractProduct {
 			mc2.setName(fn.getName());
 			mc2.setEditions(new ArrayList<>(getEditions()));
 			mc2.getEditions().set(0, ed);
-			ed.setMultiverseid(String.valueOf(fn.getGathererId()));
-			mc2.getCurrentSet().setMultiverseid(String.valueOf(fn.getGathererId()));
+			mc2.setMultiverseid(String.valueOf(fn.getGathererId()));
 			mc2.setFlavor(fn.getFlavor());
 
 			mc2.setText(fn.getText());
@@ -895,9 +911,9 @@ public class MagicCard extends AbstractProduct {
 					obj.addProperty("set", getCurrentSet().getSet());
 					obj.addProperty("setId", getCurrentSet().getId());
 					obj.addProperty("setSize", getCurrentSet().getCardCountOfficial());
-					obj.addProperty("number", getCurrentSet().getNumber());
+					obj.addProperty("number", getNumber());
 					obj.addProperty("keyrune", getCurrentSet().getKeyRuneCode());
-					obj.addProperty("multiverse", getCurrentSet().getMultiverseid());
+					obj.addProperty("multiverse", getMultiverseid());
 				}
 				obj.addProperty("scryfallId", getScryfallId());
 				obj.addProperty("showcase", isShowCase());

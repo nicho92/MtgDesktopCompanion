@@ -109,7 +109,7 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 	private MagicCard readCard(Matcher m) {
 		try {
 			return getEnabledPlugin(MTGCardsProvider.class).searchCardByName(m.group(1),null,true).stream().filter(c->
-				(!m.group(18).isEmpty()&&m.group(18).equals(c.getCurrentSet().getMultiverseid()))||(m.group(15).equals(c.getCurrentSet().getNumber()))
+				(!m.group(18).isEmpty()&&m.group(18).equals(c.getMultiverseid()))||(m.group(15).equals(c.getNumber()))
 			).findFirst().orElse(null);
 		} catch (Exception e) {
 			logger.error(e);
@@ -174,10 +174,10 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 		temp.append("$").append(!mcs.isFoil()?UITools.formatDouble(mcs.getPrice()).replace(",", "."):0).append(getSeparator());
 		temp.append("$").append(mcs.isFoil()?UITools.formatDouble(mcs.getPrice()).replace(",", "."):0).append(getSeparator());
 
-		temp.append(mcs.getProduct().getCurrentSet().getNumber()).append(getSeparator());
+		temp.append(mcs.getProduct().getNumber()).append(getSeparator());
 		temp.append("\"").append(mcs.getProduct().getCurrentSet().getSet()).append("\"").append(getSeparator());
 		temp.append("-1").append(getSeparator());
-		temp.append(mcs.getProduct().getCurrentSet().getMultiverseid()).append(getSeparator());
+		temp.append(mcs.getProduct().getMultiverseid()).append(getSeparator());
 		temp.append("\"").append(mcs.getComment()).append("\"").append(getSeparator());
 		temp.append("0").append(getSeparator());
 		temp.append("\"").append(mcs.getQte()).append("x").append(aliases.getConditionFor(this, mcs.getCondition())).append("\"").append(getSeparator());

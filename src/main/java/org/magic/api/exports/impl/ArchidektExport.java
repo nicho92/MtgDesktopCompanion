@@ -58,7 +58,7 @@ public class ArchidektExport extends AbstractFormattedFileCardExport {
 			temp.append(getSeparator());
 			temp.append(mcs.getProduct().getCurrentSet()).append(getSeparator());
 			temp.append(mcs.getProduct().getCurrentSet().getId()).append(getSeparator());
-			temp.append(mcs.getProduct().getCurrentSet().getMultiverseid());
+			temp.append(mcs.getProduct().getMultiverseid());
 			temp.append(System.lineSeparator());
 		}
 

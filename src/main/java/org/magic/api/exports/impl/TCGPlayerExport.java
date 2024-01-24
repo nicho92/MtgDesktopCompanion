@@ -48,7 +48,7 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 			temp.append(getSeparator());
 
 			temp.append(mcs.getProduct().getCurrentSet().getSet()).append(getSeparator());
-			temp.append(mcs.getProduct().getCurrentSet().getNumber()).append(getSeparator());
+			temp.append(mcs.getProduct().getNumber()).append(getSeparator());
 			temp.append(mcs.getProduct().getCurrentSet().getId()).append(getSeparator());
 			temp.append(0).append(getSeparator());
 			temp.append(mcs.isFoil()?"Foil":"Normal").append(getSeparator());

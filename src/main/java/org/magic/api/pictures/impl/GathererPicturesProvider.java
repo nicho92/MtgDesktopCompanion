@@ -23,7 +23,7 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 	@Override
 	public String generateUrl(MagicCard mc)
 	{
-		return "http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + mc.getCurrentSet().getMultiverseid() + "&type=card";
+		return "http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + mc.getMultiverseid() + "&type=card";
 	}
 
 

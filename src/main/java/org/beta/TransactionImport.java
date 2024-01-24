@@ -36,7 +36,7 @@ public class TransactionImport {
 		FileTools.readAllLines(importFile).forEach(s->{
 			
 			var line = s.split(";");
-			var card = list.stream().filter(mc->mc.getCurrentSet().getNumber().equals(line[1])).findFirst().get();
+			var card = list.stream().filter(mc->mc.getNumber().equals(line[1])).findFirst().get();
 			var stock = MTGControler.getInstance().getDefaultStock();
 				
 				stock.setProduct(card);

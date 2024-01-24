@@ -275,11 +275,8 @@ private MTGPool pool;
 			if(rs.getString(KEYWORDS)!=null)
 				mc.getKeywords().addAll(splitArrayValue(KEYWORDS).stream().map(s->new MTGKeyWord(s, MTGKeyWord.TYPE.ABILITIES)).toList());
 		
-
-			var ted = getSetById(ed.getId());
-				ted.setNumber(rs.getString(NUMBER));
-
-				mc.getEditions().add(ted);
+				mc.setNumber(rs.getString(NUMBER));
+				mc.getEditions().add(getSetById(ed.getId()));
 
 
 
@@ -515,10 +512,12 @@ private MTGPool pool;
 		
 				mc.getForeignNames().addAll(getTranslations(mc));
 				mc.getLegalities().addAll(getLegalities(mc.getId()));
-
+				mc.setNumber(rs.getString(NUMBER));
+				mc.setMultiverseid(rs.getString(MULTIVERSE_ID));
+				
+				
 						var set = getSetById(rs.getString(SETCODE));
-							 set.setNumber(rs.getString(NUMBER));
-							 set.setMultiverseid(rs.getString(MULTIVERSE_ID));
+							 
 							 mc.getEditions().add(set);
 							 mc.setEdition(set);
 
@@ -594,7 +593,7 @@ private MTGPool pool;
 		var defaultName = new MagicCardNames();
 		defaultName.setFlavor(mc.getFlavor());
 		try{
-			defaultName.setGathererId(Integer.parseInt(mc.getCurrentSet().getMultiverseid()));
+			defaultName.setGathererId(Integer.parseInt(mc.getMultiverseid()));
 		}
 		catch(Exception e)
 		{

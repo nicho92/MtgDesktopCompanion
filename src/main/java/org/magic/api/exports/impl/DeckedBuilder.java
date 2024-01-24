@@ -50,7 +50,7 @@ public class DeckedBuilder extends AbstractFormattedFileCardExport {
 				temp.append(st.getProduct().getColors()).append(getSeparator());
 
 			temp.append(st.getProduct().getRarity()).append(getSeparator());
-			temp.append(st.getProduct().getCurrentSet().getMultiverseid()).append(getSeparator());
+			temp.append(st.getProduct().getMultiverseid()).append(getSeparator());
 
 			if(st.isFoil())
 				temp.append(0.0).append(getSeparator()).append(st.getPrice()).append(getSeparator());

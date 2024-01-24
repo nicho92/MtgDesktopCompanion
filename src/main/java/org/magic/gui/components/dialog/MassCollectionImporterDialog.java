@@ -65,7 +65,7 @@ public class MassCollectionImporterDialog extends JDialog {
 			ret = new ArrayList<>(getEnabledPlugin(MTGCardsProvider.class).searchCardByEdition((MagicEdition)cboEditions.getSelectedItem()));
 
 			if(cboByType.getSelectedItem().equals(NUMBER))
-				ret.removeIf(ca->without.contains(ca.getCurrentSet().getNumber()));
+				ret.removeIf(ca->without.contains(ca.getNumber()));
 			else
 				ret.removeIf(ca->without.contains(ca.getName()));
 
@@ -138,7 +138,7 @@ public class MassCollectionImporterDialog extends JDialog {
 			List<String> elements = Arrays.asList(txtNumbersInput.getText().replace("\n", " ").replace("  ", " ").trim().split(" "));
 			var temp = new StringBuilder();
 			for (MagicCard s : ids(elements))
-				temp.append(s.getCurrentSet().getNumber()).append(" ");
+				temp.append(s.getNumber()).append(" ");
 
 			txtNumbersInput.setText(temp.toString());
 		});

@@ -17,16 +17,16 @@ public class IDGenerator {
 		try {
 		var ed = mc.getCurrentSet();
 		
-		String number=ed.getNumber();
+		String number=mc.getNumber();
 
 
 		if(number!=null&&number.isEmpty() )
 			number=null;
 
-		var id = String.valueOf((mc.getName() + ed + number + ed.getMultiverseid()));
+		var id = String.valueOf((mc.getName() + ed + number + mc.getMultiverseid()));
 		id = DigestUtils.sha1Hex(id);
 
-		logger.trace("Generate ID for {}|{}|{}|{}->:{}",mc.getName(),ed,number,ed.getMultiverseid(),id);
+		logger.trace("Generate ID for {}|{}|{}|{}->:{}",mc.getName(),ed,number,mc.getMultiverseid(),id);
 
 		return id;
 		
