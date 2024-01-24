@@ -171,13 +171,20 @@ public class CardTraderWebShop extends AbstractExternalShop {
 				trans.setStatut(EnumTransactionStatus.CANCELED);
 
 			trans.setPaymentProvider(EnumPaymentProvider.SHOP_PLATEFORM);
-
+			
+			
+			trans.setShippingPrice(o.getShippingMethod().getSellerPrice().getValue());
+			trans.setTransporter(o.getShippingMethod().getName());
+			trans.setTransporterShippingCode(o.getShippingMethod().getTrackedCode());
+			
+			
 			o.getOrderItems().forEach(oi->{
 
 				var item  = AbstractStockItem.generateDefault();
 
 				item.setPrice(oi.getPrice().getValue());
 				item.setId(oi.getId());
+				item.getTiersAppIds().put(getName(), ""+oi.getId());
 				item.setQte(oi.getQuantity());
 
 				if(oi.getScryfallId()!=null && !oi.getScryfallId().isEmpty()) {
