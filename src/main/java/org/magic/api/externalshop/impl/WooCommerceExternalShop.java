@@ -114,7 +114,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	    				t.setShippingPrice(obj.get("shipping_total").getAsDouble());
 	    				t.setSourceShopName(getName());
 	    				t.setSourceShopId(obj.get("id").getAsString());
-	    				
+	    				t.setId(obj.get("id").getAsInt());
 
 	    				if(obj.get("payment_method")!=null)
 		    				switch(obj.get("payment_method").toString())

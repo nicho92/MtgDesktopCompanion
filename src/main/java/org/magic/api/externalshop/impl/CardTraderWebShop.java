@@ -156,7 +156,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 			var trans = new Transaction();
 			trans.setSourceShopName(getName());
 			trans.setSourceShopId(String.valueOf(o.getId()));
-
+			trans.setId(o.getId());
 			trans.setDateSend(o.getDateSend());
 			trans.setDatePayment(o.getDatePaid());
 			trans.setDateCreation(o.getDateCreation());

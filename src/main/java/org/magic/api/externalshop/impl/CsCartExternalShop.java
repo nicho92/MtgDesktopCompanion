@@ -262,10 +262,8 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		t.setSourceShopId(jo.get("order_id").getAsString());
 		t.setSourceShopName(getName());
 		t.setDateCreation(new Date(jo.get("timestamp").getAsLong()*1000));
-		
-	
 		t.setContact(buildContact(getBuilder(API_USERS+"/"+jo.get("issuer_id").getAsInt(),METHOD.GET).toJson().getAsJsonObject()));
-		
+		t.setId(jo.get("order_id").getAsInt());
 		
 		if(jo.get("notes").isJsonNull())
 			t.setMessage(jo.get("notes").getAsString());

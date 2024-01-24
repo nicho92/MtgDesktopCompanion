@@ -164,7 +164,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 		t.setDatePayment(UITools.parseGMTDate(obj.get("processed_at").getAsString()));
 		t.setSourceShopName(getName());
 		t.setSourceShopId(obj.get("id").getAsString());
-		
+		t.setId(obj.get("id").getAsInt());
 		
 		if(obj.get("note")!=null && !obj.get("note").isJsonNull())
 			t.setMessage(obj.get("note").getAsString());
