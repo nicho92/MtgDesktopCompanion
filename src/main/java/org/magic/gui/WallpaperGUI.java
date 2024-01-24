@@ -28,9 +28,9 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 
 import org.apache.logging.log4j.Logger;
-import org.magic.api.beans.MTGNotification;
-import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.Wallpaper;
+import org.magic.api.beans.technical.MTGNotification;
+import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;

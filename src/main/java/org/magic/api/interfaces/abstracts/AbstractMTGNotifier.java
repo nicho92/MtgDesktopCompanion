@@ -2,8 +2,8 @@ package org.magic.api.interfaces.abstracts;
 
 import java.io.IOException;
 
-import org.magic.api.beans.MTGNotification;
-import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
+import org.magic.api.beans.technical.MTGNotification;
+import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGNotifier;
 
 public abstract class AbstractMTGNotifier extends AbstractMTGPlugin implements MTGNotifier {

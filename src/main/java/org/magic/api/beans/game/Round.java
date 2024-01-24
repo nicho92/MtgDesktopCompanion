@@ -1,4 +1,4 @@
-package org.magic.api.beans;
+package org.magic.api.beans.game;
 
 import java.io.Serializable;
 import java.time.Duration;
@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
-
-import org.magic.api.beans.game.Player;
 
 public class Round implements Serializable {
 

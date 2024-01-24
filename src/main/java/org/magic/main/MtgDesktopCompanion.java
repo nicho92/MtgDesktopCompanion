@@ -11,8 +11,8 @@ import javax.swing.JOptionPane;
 import javax.swing.plaf.FontUIResource;
 
 import org.apache.logging.log4j.Logger;
-import org.magic.api.beans.MTGNotification;
-import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
+import org.magic.api.beans.technical.MTGNotification;
+import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGServer;

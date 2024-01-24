@@ -3,8 +3,8 @@ package org.magic.api.notifiers.impl;
 import java.io.IOException;
 import java.util.Map;
 
-import org.magic.api.beans.MTGNotification;
-import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
+import org.magic.api.beans.technical.MTGNotification;
+import org.magic.api.beans.technical.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
 
 import dorkbox.notify.Notify;

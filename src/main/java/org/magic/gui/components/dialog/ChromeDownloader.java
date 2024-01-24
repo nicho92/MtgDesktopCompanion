@@ -9,8 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import org.apache.logging.log4j.Logger;
-import org.magic.api.beans.MTGNotification;
-import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
+import org.magic.api.beans.technical.MTGNotification;
+import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.gui.components.widgets.JTextFieldFileChooser;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;

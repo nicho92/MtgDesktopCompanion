@@ -18,10 +18,10 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingWorker;
 
 import org.magic.api.beans.Grading;
-import org.magic.api.beans.MTGNotification;
-import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.beans.technical.MTGNotification;
+import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGGraders;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;

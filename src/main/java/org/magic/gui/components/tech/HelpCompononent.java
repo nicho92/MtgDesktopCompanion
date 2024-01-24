@@ -8,7 +8,7 @@ import javax.swing.SwingWorker;
 
 import org.apache.commons.lang3.SystemUtils;
 import org.jsoup.nodes.Document;
-import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
+import org.magic.api.beans.technical.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.network.URLTools;

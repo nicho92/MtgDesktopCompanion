@@ -6,9 +6,9 @@ import java.awt.TrayIcon;
 import java.awt.TrayIcon.MessageType;
 import java.io.IOException;
 
-import org.magic.api.beans.MTGNotification;
-import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
-import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
+import org.magic.api.beans.technical.MTGNotification;
+import org.magic.api.beans.technical.MTGNotification.FORMAT_NOTIFICATION;
+import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
 import org.magic.services.MTGConstants;
 
