@@ -19,6 +19,7 @@ import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.shops.TransactionsPanel;
 import org.magic.services.MTGConstants;
+import org.magic.services.TransactionService;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
 import org.magic.services.workers.AbstractObservableWorker;
@@ -99,10 +100,21 @@ public class TransactionCreatorComponent extends MTGUIComponent {
 		{
 			@Override
 			protected Void doInBackground() throws Exception {
-					for(Transaction p : list)
+					for(Transaction t : list)
 						{
-							plug.saveOrUpdateTransaction(p);
-							publish(p);
+							
+						if(!t.getSourceShopName().equals(plug.getName()))
+							t.setId(-1);
+						
+						if(t.getContact().getId()<0)
+						{
+							var cId = plug.saveOrUpdateContact(t.getContact());
+							t.getContact().setId(cId);
+						}
+						
+						
+						plug.saveOrUpdateTransaction(t);
+						publish(t);
 						}
 					return null;
 			}
