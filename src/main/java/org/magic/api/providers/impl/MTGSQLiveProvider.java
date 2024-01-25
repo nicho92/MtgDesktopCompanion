@@ -477,10 +477,7 @@ private MTGPool pool;
 					
 			
 				if(rs.getString(PROMO_TYPE)!=null)
-				{
 					mc.getPromotypes().addAll(splitArrayValue(rs.getString(PROMO_TYPE)).stream().map(EnumPromoType::parseByLabel).toList());
-				}
-				
 			
 				if(rs.getString(KEYWORDS)!=null)
 					mc.getKeywords().addAll(splitArrayValue(KEYWORDS).stream().map(s->new MTGKeyWord(s, MTGKeyWord.TYPE.ABILITIES)).toList());
@@ -525,8 +522,7 @@ private MTGPool pool;
 					{
 						if(!ids.equals(set.getId()))
 						{
-							MTGEdition ed = getSetById(ids);
-							mc.getEditions().add(ed);
+							mc.getEditions().add(getSetById(ids));
 						}
 					}
 
