@@ -3,7 +3,7 @@ import org.magic.api.beans.*;
 
 	 dao.listAlerts().each{ c->
 		try {
-			MagicCard newC = provider.getCardByNumber(c.getCard().getCurrentSet().getNumber(), c.getCard().getCurrentSet());
+			var newC = provider.getCardByScryfallId(c.getCard().getScryfallId());
 			if(newC!=null)
 			{
 				System.out.println(newC);

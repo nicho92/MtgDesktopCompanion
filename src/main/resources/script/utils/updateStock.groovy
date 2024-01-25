@@ -3,7 +3,7 @@ import org.magic.api.beans.*;
 	 dao.listStocks().each{ c->
 		try {
 			System.out.println(c);
-			MagicCard newC = provider.getCardByNumber(c.getProduct().getCurrentSet().getNumber(), c.getProduct().getEdition());
+			var newC = provider.getCardByScryfallId(c.getProduct().getScryfallId());
 			if(newC!=null)
 			{
 				System.out.println(newC);
