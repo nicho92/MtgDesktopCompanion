@@ -10,7 +10,6 @@ import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.interfaces.MTGSerializable;
 import org.magic.services.tools.UITools;
 
-import com.google.gson.annotations.SerializedName;
 
 public class MTGEdition implements MTGSerializable, Comparable<MTGEdition> {
 	public static final long serialVersionUID = 1L;

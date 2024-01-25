@@ -515,11 +515,10 @@ private MTGPool pool;
 				mc.setNumber(rs.getString(NUMBER));
 				mc.setMultiverseid(rs.getString(MULTIVERSE_ID));
 				
-				
-						var set = getSetById(rs.getString(SETCODE));
+				var set = getSetById(rs.getString(SETCODE));
 							 
-							 mc.getEditions().add(set);
-							 mc.setEdition(set);
+				mc.getEditions().add(set);
+				mc.setEdition(set);
 
 				if(rs.getString("printings")!=null)
 					for(String ids : splitArrayValue(rs.getString("printings")))

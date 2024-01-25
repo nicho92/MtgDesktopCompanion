@@ -15,18 +15,14 @@ public class IDGenerator {
 	public static String generate(MTGCard mc) {
 		
 		try {
-		var ed = mc.getCurrentSet();
-		
 		String number=mc.getNumber();
-
-
 		if(number!=null&&number.isEmpty() )
 			number=null;
 
-		var id = String.valueOf((mc.getName() + ed + number + mc.getMultiverseid()));
+		var id = String.valueOf((mc.getName() + mc.getCurrentSet() + number + mc.getMultiverseid()));
 		id = DigestUtils.sha1Hex(id);
 
-		logger.trace("Generate ID for {}|{}|{}|{}->:{}",mc.getName(),ed,number,mc.getMultiverseid(),id);
+		logger.trace("Generate ID for {}|{}|{}|{}->:{}",mc.getName(),mc.getCurrentSet(),number,mc.getMultiverseid(),id);
 
 		return id;
 		
