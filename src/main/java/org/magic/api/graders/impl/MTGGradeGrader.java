@@ -2,7 +2,7 @@ package org.magic.api.graders.impl;
 
 import java.io.IOException;
 
-import org.magic.api.beans.Grading;
+import org.magic.api.beans.MTGGrading;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
@@ -16,7 +16,7 @@ public class MTGGradeGrader extends AbstractGradersProvider {
 	}
 
 	@Override
-	public Grading loadGrading(String identifier) throws IOException {
+	public MTGGrading loadGrading(String identifier) throws IOException {
 
 		var url=getWebSite()+"/produit/"+identifier;
 
@@ -33,7 +33,7 @@ public class MTGGradeGrader extends AbstractGradersProvider {
 
 
 
-		var grad = new Grading();
+		var grad = new MTGGrading();
 				grad.setGraderName(getName());
 				grad.setNumberID(identifier);
 				grad.setUrlInfo(url);

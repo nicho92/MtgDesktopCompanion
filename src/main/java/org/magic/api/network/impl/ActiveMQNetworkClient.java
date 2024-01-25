@@ -12,7 +12,7 @@ import org.apache.activemq.artemis.api.core.client.ClientProducer;
 import org.apache.activemq.artemis.api.core.client.ClientSession;
 import org.apache.activemq.artemis.api.core.client.ClientSessionFactory;
 import org.apache.activemq.artemis.api.core.client.ServerLocator;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.abstracts.AbstractMessage;
 import org.magic.api.beans.abstracts.AbstractMessage.MSG_TYPE;
 import org.magic.api.beans.enums.EnumItems;
@@ -198,7 +198,7 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 			
 			if(s.getItem().getTypeProduct()==EnumItems.CARD)
 			{
-				var ret = MTG.getEnabledPlugin(MTGDao.class).listStocks((MagicCard)s.getItem());
+				var ret = MTG.getEnabledPlugin(MTGDao.class).listStocks((MTGCard)s.getItem());
 				sendMessage(new SearchAnswerMessage(s, ret));
 			}
 		} catch (SQLException e) {

@@ -27,8 +27,8 @@ import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.EditionsShakers;
 import org.magic.api.beans.MTGBooster;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -77,11 +77,11 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 
 		JXTable table;
 		BoostersTableModel boostersModel;
-		DefaultListModel<MagicCard> cardsModel;
+		DefaultListModel<MTGCard> cardsModel;
 		JTextPane txtDetailBox;
 		var panneauHaut = new JPanel();
 		getContentPane().add(panneauHaut, BorderLayout.NORTH);
-		JComboBox<MagicEdition> cboEditions = UITools.createComboboxEditions();
+		JComboBox<MTGEdition> cboEditions = UITools.createComboboxEditions();
 		JComboBox<EnumExtra> cboExtras = UITools.createCombobox(EnumExtra.values());
 		
 		cboEditions.insertItemAt(null, 0);
@@ -123,7 +123,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 		var scrollPane1 = new JScrollPane();
 		tabbedPane.addTab("Booster", null, scrollPane1, null);
 
-		JList<MagicCard> list1 = new JList<>();
+		JList<MTGCard> list1 = new JList<>();
 		list1.setModel(cardsModel);
 		list1.setCellRenderer(new MagicCardListRenderer());
 		scrollPane1.setViewportView(list1);
@@ -147,8 +147,8 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 				protected List<MTGBooster> doInBackground() throws Exception {
 						total = 0;
 						priceRarity.clear();
-						prices = getEnabledPlugin(MTGDashBoard.class).getShakesForEdition((MagicEdition) cboEditions.getSelectedItem());
-						return plug.generateBooster((MagicEdition) cboEditions.getSelectedItem(),(EnumExtra)cboExtras.getSelectedItem(), (Integer)boxSizeSpinner.getValue());
+						prices = getEnabledPlugin(MTGDashBoard.class).getShakesForEdition((MTGEdition) cboEditions.getSelectedItem());
+						return plug.generateBooster((MTGEdition) cboEditions.getSelectedItem(),(EnumExtra)cboExtras.getSelectedItem(), (Integer)boxSizeSpinner.getValue());
 				}
 			
 				@Override
@@ -157,7 +157,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 					for(var booster : getResult())
 					{
 						double price = 0;
-						for (MagicCard mc : booster.getCards()) {
+						for (MTGCard mc : booster.getCards()) {
 							for (CardShake cs : prices)
 								if (cs.getName().equalsIgnoreCase(mc.getName())) {
 									price += cs.getPrice();
@@ -198,9 +198,9 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 				int viewRow = table.getSelectedRow();
 				if (viewRow > -1) {
 					int modelRow = table.convertRowIndexToModel(viewRow);
-					List<MagicCard> list = ((MTGBooster) table.getModel().getValueAt(modelRow, 0)).getCards();
+					List<MTGCard> list = ((MTGBooster) table.getModel().getValueAt(modelRow, 0)).getCards();
 					cardsModel.clear();
-					for (MagicCard mc : list)
+					for (MTGCard mc : list)
 						cardsModel.addElement(mc);
 				}
 			}
@@ -213,7 +213,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 			setBounds(r);
 			
 			if(getString("EDITION")!=null)
-				cboEditions.setSelectedItem(new MagicEdition(getString("EDITION")));
+				cboEditions.setSelectedItem(new MTGEdition(getString("EDITION")));
 			
 			
 		}

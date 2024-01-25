@@ -11,8 +11,8 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.exports.impl.JsonExport;
@@ -36,7 +36,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	private File setDirectory;
 	private JsonExport serializer;
 	
-	public void removeEdition(MagicEdition me) {
+	public void removeEdition(MTGEdition me) {
 		var f = new File(setDirectory, me.getId() + ext);
 		try {
 			logger.debug("delete : {}",f);
@@ -47,7 +47,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	}
 
 
-	public boolean removeCard(MagicEdition me, MagicCard mc) throws IOException {
+	public boolean removeCard(MTGEdition me, MTGCard mc) throws IOException {
 		var f = new File(setDirectory, me.getId() + ext);
 		var root = FileTools.readJson(f).getAsJsonObject();
 		var cards = root.get(CARDS).getAsJsonArray();
@@ -66,14 +66,14 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	
 	
 	
-	private List<MagicCard> loadCardsFromSet(MagicEdition me) throws IOException {
+	private List<MTGCard> loadCardsFromSet(MTGEdition me) throws IOException {
 		
 		var root = FileTools.readJson(new File(setDirectory, me.getId() + ext)).getAsJsonObject().get(CARDS);
-		return serializer.fromJsonList(root.toString(), MagicCard.class);
+		return serializer.fromJsonList(root.toString(), MTGCard.class);
 
 	}
 
-	public void addCard(MagicEdition me, MagicCard mc) throws IOException {
+	public void addCard(MTGEdition me, MTGCard mc) throws IOException {
 		var f = new File(setDirectory, me.getId() + ext);
 		var root = FileTools.readJson(f).getAsJsonObject();
 		var cards = root.get(CARDS).getAsJsonArray();
@@ -93,7 +93,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		FileTools.saveFile(f, root.toString());
 	}
 
-	private int indexOf(MagicCard mc, JsonArray arr) {
+	private int indexOf(MTGCard mc, JsonArray arr) {
 		for (var i = 0; i < arr.size(); i++)
 			if (arr.get(i).getAsJsonObject().get("id") != null && (arr.get(i).getAsJsonObject().get("id").getAsString().equals(mc.getId())))
 				return i;
@@ -101,11 +101,11 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		return -1;
 	}
 
-	private MagicEdition loadEditionFromFile(File f) throws IOException {
+	private MTGEdition loadEditionFromFile(File f) throws IOException {
 		if(f.getCanonicalPath().startsWith(getFile(DIRECTORY).getCanonicalPath()))
 		{
 			var root = FileTools.readJson(f).getAsJsonObject();
-			return serializer.fromJson(root.get("main").toString(), MagicEdition.class);
+			return serializer.fromJson(root.get("main").toString(), MTGEdition.class);
 		}
 		
 		throw new IOException("Path is incorrect : "+f.getAbsolutePath());
@@ -113,7 +113,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		
 	}
 
-	public void saveEdition(MagicEdition ed, List<MagicCard> cards) {
+	public void saveEdition(MTGEdition ed, List<MTGCard> cards) {
 		
 		cards.forEach(mc->{
 			try {
@@ -129,7 +129,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
 
 
-	public void saveEdition(MagicEdition me) throws IOException {
+	public void saveEdition(MTGEdition me) throws IOException {
 		var cardCount = 0;
 		try {
 			cardCount = loadCardsFromSet(me).size();
@@ -171,7 +171,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	}
 
 	@Override
-	public MagicCard getCardById(String id, MagicEdition ed) {
+	public MTGCard getCardById(String id, MTGEdition ed) {
 		try {
 			return searchCardByCriteria("id", id, ed, true).get(0);
 		} catch (Exception e) {
@@ -180,7 +180,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	}
 
 	@Override
-	public MagicCard getCardById(String id) throws IOException {
+	public MTGCard getCardById(String id) throws IOException {
 		try {
 			return searchCardByCriteria("id", id, null, true).get(0);
 		}
@@ -193,17 +193,17 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
 
 	@Override
-	public List<MagicCard> searchCardByEdition(MagicEdition ed) throws IOException {
+	public List<MTGCard> searchCardByEdition(MTGEdition ed) throws IOException {
 		return loadCardsFromSet(ed);
 	}
 
 
 
 	@Override
-	public List<MagicCard> listAllCards() throws IOException {
-		List<MagicCard> res = new ArrayList<>();
-			for (MagicEdition ed : listEditions())
-				for (MagicCard mc : loadCardsFromSet(ed))
+	public List<MTGCard> listAllCards() throws IOException {
+		List<MTGCard> res = new ArrayList<>();
+			for (MTGEdition ed : listEditions())
+				for (MTGCard mc : loadCardsFromSet(ed))
 						res.add(mc);
 
 			return res;
@@ -211,17 +211,17 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
 
 	@Override
-	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact)throws IOException {
-		List<MagicCard> res = new ArrayList<>();
+	public List<MTGCard> searchCardByCriteria(String att, String crit, MTGEdition me, boolean exact)throws IOException {
+		List<MTGCard> res = new ArrayList<>();
 		if (me == null) {
-			for (MagicEdition ed : listEditions())
-				for (MagicCard mc : loadCardsFromSet(ed))
+			for (MTGEdition ed : listEditions())
+				for (MTGCard mc : loadCardsFromSet(ed))
 					if (hasValue(mc, att, crit))
 					{
 						res.add(mc);
 					}
 		} else {
-			for (MagicCard mc : loadCardsFromSet(me)) {
+			for (MTGCard mc : loadCardsFromSet(me)) {
 				if (hasValue(mc, att, crit))
 				{
 					res.add(mc);
@@ -232,7 +232,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		return res;
 	}
 
-	private boolean hasValue(MagicCard mc, String att, String val) {
+	private boolean hasValue(MTGCard mc, String att, String val) {
 		try {
 			return BeanUtils.getProperty(mc, att).toUpperCase().contains(val.toUpperCase());
 		} catch (Exception e) {
@@ -242,11 +242,11 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	}
 
 	@Override
-	public MagicCard getCardByNumber(String id, MagicEdition me) throws IOException {
+	public MTGCard getCardByNumber(String id, MTGEdition me) throws IOException {
 
-		MagicEdition ed = getSetById(me.getId());
+		MTGEdition ed = getSetById(me.getId());
 
-		for (MagicCard mc : loadCardsFromSet(ed))
+		for (MTGCard mc : loadCardsFromSet(ed))
 			if (mc.getNumber().equals(id))
 				return mc;
 
@@ -255,8 +255,8 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	}
 
 	@Override
-	public List<MagicEdition> loadEditions() throws IOException {
-		List<MagicEdition> ret = new ArrayList<>();
+	public List<MTGEdition> loadEditions() throws IOException {
+		List<MTGEdition> ret = new ArrayList<>();
 		for (File f : setDirectory.listFiles(pathname -> pathname.getName().endsWith(ext))) {
 			ret.add(loadEditionFromFile(f));
 		}
@@ -264,11 +264,11 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	}
 
 	@Override
-	public MagicEdition getSetById(String id){
+	public MTGEdition getSetById(String id){
 		try {
 			return loadEditionFromFile(new File(setDirectory, id + ext));
 		} catch (IOException e) {
-			return new MagicEdition(id,id);
+			return new MTGEdition(id,id);
 		}
 	}
 
@@ -280,7 +280,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	@Override
 	public List<QueryAttribute> loadQueryableAttributs() {
 		try {
-				Set<String> keys = BeanUtils.describe(new MagicCard()).keySet();
+				Set<String> keys = BeanUtils.describe(new MTGCard()).keySet();
 
 				return keys.stream().map(k->new QueryAttribute(k,String.class)).toList();
 			} catch (Exception e) {
@@ -332,20 +332,20 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	}
 
 	@Override
-	public List<MagicCard> searchByCriteria(MTGCrit<?>... crits) throws IOException {
+	public List<MTGCard> searchByCriteria(MTGCrit<?>... crits) throws IOException {
 		throw new IOException("Not implemented");
 	}
 
 
 	@Override
-	public MagicCard getCardByArenaId(String id) throws IOException {
+	public MTGCard getCardByArenaId(String id) throws IOException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 
 	@Override
-	public MagicCard getCardByScryfallId(String crit) throws IOException {
+	public MTGCard getCardByScryfallId(String crit) throws IOException {
 		// TODO Auto-generated method stub
 		return null;
 	}

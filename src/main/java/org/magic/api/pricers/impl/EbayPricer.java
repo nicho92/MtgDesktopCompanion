@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
@@ -18,8 +18,8 @@ public class EbayPricer extends AbstractPricesProvider {
 
 	private static final String URL_BASE ="https://svcs.ebay.com/services/search/FindingService/v1";
 	@Override
-	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
-		List<MagicPrice> prices = new ArrayList<>();
+	public List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
+		List<MTGPrice> prices = new ArrayList<>();
 		String keyword = card.getName();
 			   keyword += " " + card.getCurrentSet().getSet();
 
@@ -55,7 +55,7 @@ public class EbayPricer extends AbstractPricesProvider {
 		logger.trace(items);
 
 		for (JsonElement el : items) {
-			var mp = new MagicPrice();
+			var mp = new MTGPrice();
 
 			var etat = "";
 			var title = el.getAsJsonObject().get("title").getAsString();

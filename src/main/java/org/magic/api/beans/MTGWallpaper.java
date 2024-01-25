@@ -8,7 +8,7 @@ import java.net.URI;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.ImageTools;
 
-public class Wallpaper {
+public class MTGWallpaper {
 
 	private BufferedImage picture;
 	private URI url;
@@ -20,7 +20,7 @@ public class Wallpaper {
 	}
 
 
-	public Wallpaper load() throws IOException
+	public MTGWallpaper load() throws IOException
 	{
 		if (getPicture() == null) {
 			if(getUrl().getScheme().startsWith("http"))

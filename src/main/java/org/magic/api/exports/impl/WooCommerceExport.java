@@ -13,9 +13,9 @@ import java.util.Optional;
 import javax.annotation.Nonnull;
 
 import org.apache.commons.collections4.ListUtils;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.externalshop.impl.WooCommerceExternalShop;
@@ -89,10 +89,10 @@ public class WooCommerceExport extends AbstractCardExport {
 	}
 
 	@Override
-	public List<MagicCardStock> importStock(String content) throws IOException {
+	public List<MTGCardStock> importStock(String content) throws IOException {
 		init();
 
-		List<MagicCardStock> stocks= new ArrayList<>();
+		List<MTGCardStock> stocks= new ArrayList<>();
 		Map<String, String> productInfo = new HashMap<>();
 		        productInfo.put("category", getString(CATEGORY_ID));
 		        
@@ -102,7 +102,7 @@ public class WooCommerceExport extends AbstractCardExport {
 		{
 			try {
 				var id = String.valueOf(e.getAsJsonObject().get("id").getAsInt());
-				MagicCardStock st = MTG.getEnabledPlugin(MTGDao.class).getStockWithTiersID(getName(), id);
+				MTGCardStock st = MTG.getEnabledPlugin(MTGDao.class).getStockWithTiersID(getName(), id);
 
 				if(st==null)
 				{
@@ -149,7 +149,7 @@ public class WooCommerceExport extends AbstractCardExport {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void exportStock(List<MagicCardStock> stocks, File f) throws IOException {
+	public void exportStock(List<MTGCardStock> stocks, File f) throws IOException {
 
 		init();
 		
@@ -171,7 +171,7 @@ public class WooCommerceExport extends AbstractCardExport {
 		}
 
 
-		for(MagicCardStock st : stocks)
+		for(MTGCardStock st : stocks)
 		{
 
 			Map<String, Object> productInfo=build(st);
@@ -211,7 +211,7 @@ public class WooCommerceExport extends AbstractCardExport {
 
 
 
-	private Map<String, Object> build(MagicCardStock st) {
+	private Map<String, Object> build(MTGCardStock st) {
 		Map<String, Object> productInfo = new HashMap<>();
 
 
@@ -299,7 +299,7 @@ public class WooCommerceExport extends AbstractCardExport {
       	return productInfo;
 	}
 
-	private String toName(MagicCard card) {
+	private String toName(MTGCard card) {
 		var s = BeanTools.createString(card, getString(ARTICLE_NAME));
 
 		logger.debug("generate name {}", s);
@@ -307,16 +307,16 @@ public class WooCommerceExport extends AbstractCardExport {
 		return s;
 	}
 
-	private void batchExport(List<List<MagicCardStock>> partition) {
+	private void batchExport(List<List<MTGCardStock>> partition) {
 
 
 
-		for(List<MagicCardStock> stocks : partition) {
+		for(List<MTGCardStock> stocks : partition) {
 			Map<String,Object> params = new HashMap<>();
 
 
 
-			List<MagicCardStock> creates = stocks.stream().filter(st->st.getTiersAppIds().get(getName())==null).toList();
+			List<MTGCardStock> creates = stocks.stream().filter(st->st.getTiersAppIds().get(getName())==null).toList();
 
 
 			params.put(CREATE, creates.stream().map(this::build).toList());
@@ -364,7 +364,7 @@ public class WooCommerceExport extends AbstractCardExport {
 			}
 
 
-			for(MagicCardStock st : stocks)
+			for(MTGCardStock st : stocks)
 				notify(st.getProduct());
 
 		}
@@ -393,8 +393,8 @@ public class WooCommerceExport extends AbstractCardExport {
 		   return obj;
 	}
 
-	private String desc(MagicCard mc) {
-		MagicCard mc2 = toForeign(mc);
+	private String desc(MTGCard mc) {
+		MTGCard mc2 = toForeign(mc);
 		var build =new StringBuilder();
 		build.append("<html>").append(mc2).append("<br/>").append(mc2.getFullType()).append("<br/>").append(mc2.getText())
 		.append("</html>");
@@ -402,8 +402,8 @@ public class WooCommerceExport extends AbstractCardExport {
 		return build.toString();
 	}
 
-	private MagicCard toForeign(@Nonnull MagicCard mc) {
-		MagicCard mc2 ;
+	private MTGCard toForeign(@Nonnull MTGCard mc) {
+		MTGCard mc2 ;
 
 		if(!getString(CARD_LANG_DESCRIPTION).isEmpty())
 		{
@@ -422,11 +422,11 @@ public class WooCommerceExport extends AbstractCardExport {
 
 
 	@Override
-	public MagicDeck importDeck(String f, String name) throws IOException {
-		var d = new MagicDeck();
+	public MTGDeck importDeck(String f, String name) throws IOException {
+		var d = new MTGDeck();
 		d.setName(name);
 
-		for(MagicCardStock st : importStock(f))
+		for(MTGCardStock st : importStock(f))
 		{
 			d.getMain().put(st.getProduct(), st.getQte());
 		}

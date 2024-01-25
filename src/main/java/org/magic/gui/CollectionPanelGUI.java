@@ -36,12 +36,12 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MagicCardAlert;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGCollection;
+import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.MTGCardsExport.MODS;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
@@ -94,7 +94,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 	private transient MTGDao dao;
 	private JLazyLoadingTree tree;
 	private TreePath path;
-	private MagicCollection selectedcol;
+	private MTGCollection selectedcol;
 	private transient MagicEditionDetailPanel magicEditionDetailPanel;
 	private HistoryPricesPanel historyPricesPanel;
 	private ObjectViewerPanel jsonPanel;
@@ -121,7 +121,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 	private JButton btnGenerateWebSite;
 	private JSplitPane splitListPanel;
 	private JSplitPane splitPane;
-	private List<MagicCard> listExport;
+	private List<MTGCard> listExport;
 	private PackagesBrowserPanel packagePanel;
 	private PricesTablePanel pricePanel;
 	private GroupedShoppingPanel groupShopPanel;
@@ -160,9 +160,9 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		splitPane.setDividerLocation(.5);
 		buzy.start();
 		buzy.setText("Loading");
-		SwingWorker<List<MagicEdition>, Void> init = new SwingWorker<>() {
+		SwingWorker<List<MTGEdition>, Void> init = new SwingWorker<>() {
 				@Override
-				protected List<MagicEdition> doInBackground() throws Exception {
+				protected List<MTGEdition> doInBackground() throws Exception {
 					return provider.listEditions();
 				}
 				@Override
@@ -318,7 +318,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void initCardSelectionGui(MagicCard mc, MagicCollection col)
+	public void initCardSelectionGui(MTGCard mc, MTGCollection col)
 	{
 		magicCardDetailPanel.init(mc);
 		magicEditionDetailPanel.init(mc.getCurrentSet());
@@ -327,7 +327,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		btnExport.setEnabled(false);
 		packagePanel.init(mc.getCurrentSet());
 		jsonPanel.init(mc);
-		gedPanel.init(MagicCard.class,mc);
+		gedPanel.init(MTGCard.class,mc);
 
 
 		try {
@@ -391,18 +391,18 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 
 
-		btnExport.initCardsExport(new Callable<MagicDeck>() {
+		btnExport.initCardsExport(new Callable<MTGDeck>() {
 			@Override
-			public MagicDeck call() throws Exception {
+			public MTGDeck call() throws Exception {
 				DefaultMutableTreeNode curr = (DefaultMutableTreeNode) path.getLastPathComponent();
-				MagicCollection mc = null;
-				MagicEdition ed = null;
+				MTGCollection mc = null;
+				MTGEdition ed = null;
 
-				if (curr.getUserObject() instanceof MagicEdition edition) {
+				if (curr.getUserObject() instanceof MTGEdition edition) {
 					ed =edition;
-					mc = (MagicCollection) ((DefaultMutableTreeNode) curr.getParent()).getUserObject();
+					mc = (MTGCollection) ((DefaultMutableTreeNode) curr.getParent()).getUserObject();
 				} else {
-					mc = (MagicCollection) curr.getUserObject();
+					mc = (MTGCollection) curr.getUserObject();
 				}
 
 				try {
@@ -416,7 +416,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 					MTGControler.getInstance().notify(e);
 
 				}
-				return MagicDeck.toDeck(listExport);
+				return MTGDeck.toDeck(listExport);
 			}
 		}, buzy);
 
@@ -444,17 +444,17 @@ public class CollectionPanelGUI extends MTGUIComponent {
 				stockPanel.enabledAdd(false);
 			}
 
-			if (curr.getUserObject() instanceof MagicCollection col) {
+			if (curr.getUserObject() instanceof MTGCollection col) {
 				selectedcol = col;
 				stockPanel.enabledAdd(false);
-				gedPanel.init(MagicCollection.class,selectedcol);
+				gedPanel.init(MTGCollection.class,selectedcol);
 				ThreadManager.getInstance().executeThread(new MTGRunnable() {
 
 					@Override
 					protected void auditedRun() {
 						try {
 
-							List<MagicCard> list = dao.listCardsFromCollection(selectedcol);
+							List<MTGCard> list = dao.listCardsFromCollection(selectedcol);
 							rarityRepartitionPanel.init(list);
 							typeRepartitionPanel.init(list);
 							manaRepartitionPanel.init(list);
@@ -472,13 +472,13 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 			}
 
-			if (curr.getUserObject() instanceof MagicEdition ed) {
+			if (curr.getUserObject() instanceof MTGEdition ed) {
 
 		
 				magicEditionDetailPanel.init(ed);
 				packagePanel.init(ed);
 				stockPanel.enabledAdd(false);
-				gedPanel.init(MagicEdition.class,ed);
+				gedPanel.init(MTGEdition.class,ed);
 
 				ThreadManager.getInstance().executeThread(new MTGRunnable() {
 
@@ -486,8 +486,8 @@ public class CollectionPanelGUI extends MTGUIComponent {
 					protected void auditedRun() {
 						try {
 
-							MagicCollection collec = (MagicCollection) ((DefaultMutableTreeNode) curr.getParent()).getUserObject();
-							List<MagicCard> list = dao.listCardsFromCollection(collec,ed);
+							MTGCollection collec = (MTGCollection) ((DefaultMutableTreeNode) curr.getParent()).getUserObject();
+							List<MTGCard> list = dao.listCardsFromCollection(collec,ed);
 							rarityRepartitionPanel.init(list);
 							typeRepartitionPanel.init(list);
 							manaRepartitionPanel.init(list);
@@ -505,11 +505,11 @@ public class CollectionPanelGUI extends MTGUIComponent {
 				}, "Calculate Editions cards");
 			}
 
-			if (curr.getUserObject() instanceof MagicCard) {
+			if (curr.getUserObject() instanceof MTGCard) {
 
-				var card = (MagicCard) ((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject();
+				var card = (MTGCard) ((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject();
 				try {
-					initCardSelectionGui(card,(MagicCollection) ((DefaultMutableTreeNode) curr.getParent().getParent()).getUserObject());
+					initCardSelectionGui(card,(MTGCollection) ((DefaultMutableTreeNode) curr.getParent().getParent()).getUserObject());
 				}catch(Exception e)
 				{
 					logger.error("error updating {} in {}" ,card,curr.getParent());
@@ -544,14 +544,14 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 					final DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
 
-					if (node.getUserObject() instanceof MagicEdition) {
+					if (node.getUserObject() instanceof MTGEdition) {
 						popupMenuEdition.show(e.getComponent(), e.getX(), e.getY());
 
 					}
-					if (node.getUserObject() instanceof MagicCard) {
+					if (node.getUserObject() instanceof MTGCard) {
 						popupMenuCards.show(e.getComponent(), e.getX(), e.getY());
 					}
-					if (node.getUserObject() instanceof MagicCollection col) {
+					if (node.getUserObject() instanceof MTGCollection col) {
 						var p = new JPopupMenu();
 						var it = new JMenuItem(capitalize("MASS_MOVEMENTS"),MTGConstants.ICON_COLLECTION);
 						var itSync = new JMenuItem(capitalize("IMPORT_FROM",MTGControler.getInstance().getLangService().get("STOCK_MODULE")),MTGConstants.ICON_COLLECTION);
@@ -572,7 +572,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 						itSync.addActionListener(ae->{
 
 								buzy.start();
-								SwingWorker<List<MagicCard>, MagicCard> sw = new SwingWorker<>(){
+								SwingWorker<List<MTGCard>, MTGCard> sw = new SwingWorker<>(){
 
 										@Override
 										protected void done() {
@@ -589,13 +589,13 @@ public class CollectionPanelGUI extends MTGUIComponent {
 										}
 
 										@Override
-										protected void process(List<MagicCard> chunks) {
+										protected void process(List<MTGCard> chunks) {
 											buzy.progressSmooth(chunks.size());
 										}
 
 										@Override
-										protected List<MagicCard> doInBackground() throws Exception {
-											return getEnabledPlugin(MTGDao.class).synchronizeCollection((MagicCollection) node.getUserObject());
+										protected List<MTGCard> doInBackground() throws Exception {
+											return getEnabledPlugin(MTGDao.class).synchronizeCollection((MTGCollection) node.getUserObject());
 										}
 									};
 									ThreadManager.getInstance().runInEdt(sw,"synchronize stocks and collection");
@@ -635,7 +635,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 					diag.setVisible(true);
 					if (diag.value()) {
 						var max = 0;
-						for (MagicCollection col : diag.getSelectedCollections())
+						for (MTGCollection col : diag.getSelectedCollections())
 							max += dao.getCardsCount(col, null);
 
 						buzy.start(max);
@@ -654,7 +654,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 	    btnAddAllSet.addActionListener(ae ->{
 	    	var popupMenu = new JPopupMenu("Title");
 			try {
-					for(MagicCollection c : getEnabledPlugin(MTGDao.class).listCollections())
+					for(MTGCollection c : getEnabledPlugin(MTGDao.class).listCollections())
 					{
 						var cutMenuItem = new JMenuItem(c.getName(),MTGConstants.ICON_COLLECTION);
 						initAddAllSet(cutMenuItem);
@@ -677,7 +677,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			{
 		    	  try 
 		    	  {
-					MagicEdition ed = UITools.getTableSelection(tableEditions, 1);
+					MTGEdition ed = UITools.getTableSelection(tableEditions, 1);
 						
 					if(ed==null)
 					    return;
@@ -697,10 +697,10 @@ public class CollectionPanelGUI extends MTGUIComponent {
 					
 					
 					
-					var sw = new AbstractObservableWorker<List<MagicCard>, Void, MTGCardsProvider>(buzy,getEnabledPlugin(MTGCardsProvider.class)) {
+					var sw = new AbstractObservableWorker<List<MTGCard>, Void, MTGCardsProvider>(buzy,getEnabledPlugin(MTGCardsProvider.class)) {
 
 						@Override
-						protected List<MagicCard> doInBackground() throws Exception {
+						protected List<MTGCard> doInBackground() throws Exception {
 							return plug.searchCardByEdition(ed);
 						}
 						
@@ -732,7 +732,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			if(name==null||name.isEmpty())
 				return;
 
-			var collectionAdd = new MagicCollection(name);
+			var collectionAdd = new MTGCollection(name);
 			try {
 				dao.saveCollection(collectionAdd);
 				((JLazyLoadingTree.MyNode) getJTree().getModel().getRoot()).add(new DefaultMutableTreeNode(collectionAdd));
@@ -746,13 +746,13 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 
 		btnRemove.addActionListener(evt -> {
-			MagicCollection col = (MagicCollection) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();
+			MTGCollection col = (MTGCollection) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();
 			var res = 0;
 
 			
 			DefaultMutableTreeNode curr = (DefaultMutableTreeNode) path.getLastPathComponent();
-			if (curr.getUserObject() instanceof MagicCard) {
-				MagicCard card = (MagicCard) ((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject();
+			if (curr.getUserObject() instanceof MTGCard) {
+				MTGCard card = (MTGCard) ((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject();
 
 				try {
 					res = JOptionPane.showConfirmDialog(null, capitalize("CONFIRM_COLLECTION_ITEM_DELETE", card, col));
@@ -763,8 +763,8 @@ public class CollectionPanelGUI extends MTGUIComponent {
 					MTGControler.getInstance().notify(e);
 				}
 			}
-			if (curr.getUserObject() instanceof MagicEdition) {
-				MagicEdition me = (MagicEdition) ((DefaultMutableTreeNode) path.getPathComponent(2)).getUserObject();
+			if (curr.getUserObject() instanceof MTGEdition) {
+				MTGEdition me = (MTGEdition) ((DefaultMutableTreeNode) path.getPathComponent(2)).getUserObject();
 
 				try {
 					res = JOptionPane.showConfirmDialog(null, MTGControler.getInstance().getLangService()
@@ -776,7 +776,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 					MTGControler.getInstance().notify(e);
 				}
 			}
-			if (curr.getUserObject() instanceof MagicCollection) {
+			if (curr.getUserObject() instanceof MTGCollection) {
 				try {
 					res = JOptionPane.showConfirmDialog(null, capitalize("CONFIRM_COLLECTION_DELETE", col, dao.getCardsCount(col, null)));
 					if (res == JOptionPane.YES_OPTION) {
@@ -804,7 +804,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 	{
 
 		it.addActionListener(evt -> {
-			List<MagicEdition> eds = UITools.getTableSelections(tableEditions, 1);
+			List<MTGEdition> eds = UITools.getTableSelections(tableEditions, 1);
 
 			int res = JOptionPane.showConfirmDialog(null, capitalize(
 					"CONFIRM_COLLECTION_ITEM_ADDITION", eds, it.getText()));
@@ -812,23 +812,23 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			if (res == JOptionPane.YES_OPTION)
 			{
 				try {
-					List<MagicCard> list = new ArrayList<>();
+					List<MTGCard> list = new ArrayList<>();
 
-					for(MagicEdition e : eds)
-						for(MagicCard mc : provider.searchCardByEdition(e))
+					for(MTGEdition e : eds)
+						for(MTGCard mc : provider.searchCardByEdition(e))
 							list.add(mc);
 
 						buzy.start(list.size());
 						logger.debug("save {} cards from {}",list.size(),eds);
 
 
-						SwingWorker<Void, MagicCard> sw = new SwingWorker<>()
+						SwingWorker<Void, MTGCard> sw = new SwingWorker<>()
 						{
 
 							@Override
 							protected Void doInBackground() {
-								for (MagicCard mc : list) {
-									var col = new MagicCollection(it.getText());
+								for (MTGCard mc : list) {
+									var col = new MTGCollection(it.getText());
 									try {
 										CardsManagerService.saveCard(mc, col,null);
 										publish(mc);
@@ -848,7 +848,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 							}
 
 							@Override
-							protected void process(List<MagicCard> chunks) {
+							protected void process(List<MTGCard> chunks) {
 								buzy.progressSmooth(chunks.size());
 							}
 
@@ -890,7 +890,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		var menuItemAlerts = new JMenuItem(capitalize("ADD_CARDS_ALERTS"),MTGConstants.ICON_ALERT);
 		var menuItemStocks = new JMenuItem(capitalize("ADD_CARDS_STOCKS"),MTGConstants.ICON_STOCK);
 
-		for (MagicCollection mc : dao.listCollections()) {
+		for (MTGCollection mc : dao.listCollections()) {
 			var adds = new JMenuItem(mc.getName(),MTGConstants.ICON_COLLECTION);
 			var movs = new JMenuItem(mc.getName(),MTGConstants.ICON_COLLECTION);
 			var rmvs = new JMenuItem(mc.getName(),MTGConstants.ICON_COLLECTION);
@@ -900,15 +900,15 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			movEd.addActionListener(e -> {
 				var nodeCol = ((DefaultMutableTreeNode) path.getPathComponent(1));
 				var nodeCd = ((DefaultMutableTreeNode) path.getPathComponent(2));
-				var ed = (MagicEdition) nodeCd.getUserObject();
-				var oldCol = new MagicCollection(nodeCol.getUserObject().toString());
+				var ed = (MTGEdition) nodeCd.getUserObject();
+				var oldCol = new MTGCollection(nodeCol.getUserObject().toString());
 				
 				final String collec = ((JMenuItem) e.getSource()).getText();
-				var nmagicCol = new MagicCollection(collec);
+				var nmagicCol = new MTGCollection(collec);
 				
 				buzy.start();
 
-				SwingWorker<Void, MagicCard> sw = new SwingWorker<>(){
+				SwingWorker<Void, MTGCard> sw = new SwingWorker<>(){
 
 						@Override
 						protected void done() {
@@ -918,7 +918,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 						}
 
 						@Override
-						protected void process(List<MagicCard> chunks) {
+						protected void process(List<MTGCard> chunks) {
 							buzy.progressSmooth(chunks.size());
 						}
 
@@ -935,11 +935,11 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			movs.addActionListener(e -> {
 				var nodeCol = ((DefaultMutableTreeNode) path.getPathComponent(1));
 				var nodeCd = ((DefaultMutableTreeNode) path.getPathComponent(3));
-				var card = (MagicCard) nodeCd.getUserObject();
-				var oldCol = (MagicCollection) nodeCol.getUserObject();
+				var card = (MTGCard) nodeCd.getUserObject();
+				var oldCol = (MTGCollection) nodeCol.getUserObject();
 
 				final String collec = ((JMenuItem) e.getSource()).getText();
-				var nmagicCol = new MagicCollection(collec);
+				var nmagicCol = new MTGCollection(collec);
 				try {
 					CardsManagerService.moveCard(card, oldCol, nmagicCol,null);
 					nodeCd.removeFromParent();
@@ -957,13 +957,13 @@ public class CollectionPanelGUI extends MTGUIComponent {
 						final String destinationCollection = ((JMenuItem) e.getSource()).getText();
 
 						DefaultMutableTreeNode node = ((DefaultMutableTreeNode) path.getPathComponent(2));
-						MagicEdition me = (MagicEdition) node.getUserObject();
+						MTGEdition me = (MTGEdition) node.getUserObject();
 
-						var col = new MagicCollection(destinationCollection);
-						List<MagicCard> sets = provider.searchCardByEdition(me);
+						var col = new MTGCollection(destinationCollection);
+						List<MTGCard> sets = provider.searchCardByEdition(me);
 
-						var sourceCol = new MagicCollection(node.getPath()[1].toString());
-						List<MagicCard> list = dao.listCardsFromCollection(sourceCol, me);
+						var sourceCol = new MTGCollection(node.getPath()[1].toString());
+						List<MTGCard> list = dao.listCardsFromCollection(sourceCol, me);
 
 						logger.debug("{} items in {}/{}", list.size(), sourceCol,me);
 						sets.removeAll(list);
@@ -972,7 +972,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 				buzy.start(sets.size());
 
 
-				SwingWorker<Void, MagicCard> sw = new SwingWorker<>(){
+				SwingWorker<Void, MTGCard> sw = new SwingWorker<>(){
 
 						@Override
 						protected void done() {
@@ -981,13 +981,13 @@ public class CollectionPanelGUI extends MTGUIComponent {
 						}
 
 						@Override
-						protected void process(List<MagicCard> chunks) {
+						protected void process(List<MTGCard> chunks) {
 							buzy.progressSmooth(chunks.size());
 						}
 
 						@Override
 						protected Void doInBackground() throws Exception {
-							for (MagicCard m : sets)
+							for (MTGCard m : sets)
 							{
 								try{
 									CardsManagerService.saveCard(m, col,null);
@@ -1015,15 +1015,15 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 						final String selectedCols = ((JMenuItem) e.getSource()).getText();
 						var node = ((DefaultMutableTreeNode) path.getPathComponent(2));
-						var me = (MagicEdition) node.getUserObject();
-						var coldest = new MagicCollection(selectedCols);
-						var colcurrent = new MagicCollection(node.getPath()[1].toString());
-						List<MagicCard> listtoDelete = dao.listCardsFromCollection(colcurrent, me);
+						var me = (MTGEdition) node.getUserObject();
+						var coldest = new MTGCollection(selectedCols);
+						var colcurrent = new MTGCollection(node.getPath()[1].toString());
+						List<MTGCard> listtoDelete = dao.listCardsFromCollection(colcurrent, me);
 						logger.trace("{} items to remove from {}/{}",listtoDelete.size(),coldest,me);
 
 				buzy.start(listtoDelete.size());
 
-				SwingWorker<Void, MagicCard> sw = new SwingWorker<>(){
+				SwingWorker<Void, MTGCard> sw = new SwingWorker<>(){
 
 						@Override
 						protected void done() {
@@ -1032,13 +1032,13 @@ public class CollectionPanelGUI extends MTGUIComponent {
 						}
 
 						@Override
-						protected void process(List<MagicCard> chunks) {
+						protected void process(List<MTGCard> chunks) {
 							buzy.progressSmooth(chunks.size());
 						}
 
 						@Override
 						protected Void doInBackground() throws Exception {
-							for (MagicCard m : listtoDelete)
+							for (MTGCard m : listtoDelete)
 							{
 								CardsManagerService.removeCard(m, coldest);
 								publish(m);
@@ -1065,8 +1065,8 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 		var menuItemOpen = new JMenuItem(capitalize("OPEN"),MTGConstants.ICON_OPEN);
 		menuItemOpen.addActionListener(e -> {
-			var col = (MagicCollection) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();
-			var edition = (MagicEdition) ((DefaultMutableTreeNode) path.getPathComponent(2)).getUserObject();
+			var col = (MTGCollection) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();
+			var edition = (MTGEdition) ((DefaultMutableTreeNode) path.getPathComponent(2)).getUserObject();
 			try {
 				((MagicGUI)SwingUtilities.getRoot(this)).setSelectedTab(0);
 				CardSearchPanel.getInstance().open(getEnabledPlugin(MTGDao.class).listCardsFromCollection(col, edition));
@@ -1079,8 +1079,8 @@ public class CollectionPanelGUI extends MTGUIComponent {
 	
 		var it = new JMenuItem(capitalize("MASS_MOVEMENTS"),MTGConstants.ICON_COLLECTION);
 		it.addActionListener(e -> {
-			var col = (MagicCollection) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();
-			var edition = (MagicEdition) ((DefaultMutableTreeNode) path.getPathComponent(2)).getUserObject();
+			var col = (MTGCollection) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();
+			var edition = (MTGEdition) ((DefaultMutableTreeNode) path.getPathComponent(2)).getUserObject();
 			var d = new MassMoverDialog(col, edition);
 			d.setVisible(true);
 			logger.debug("closing mass import with change ={}",d.hasChange());
@@ -1092,11 +1092,11 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		});
 
 		menuItemAlerts.addActionListener(e ->{
-			var col = (MagicCollection) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();
-			var edition = (MagicEdition) ((DefaultMutableTreeNode) path.getPathComponent(2)).getUserObject();
+			var col = (MTGCollection) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();
+			var edition = (MTGEdition) ((DefaultMutableTreeNode) path.getPathComponent(2)).getUserObject();
 
 			try {
-				for(MagicCard mc : getEnabledPlugin(MTGDao.class).listCardsFromCollection(col, edition))
+				for(MTGCard mc : getEnabledPlugin(MTGDao.class).listCardsFromCollection(col, edition))
 				{
 					var alert = new MagicCardAlert();
 					alert.setCard(mc);
@@ -1109,18 +1109,18 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		});
 
 		menuItemStocks.addActionListener(e ->{
-			var col = (MagicCollection) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();
-			var edition = (MagicEdition) ((DefaultMutableTreeNode) path.getPathComponent(2)).getUserObject();
+			var col = (MTGCollection) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();
+			var edition = (MTGEdition) ((DefaultMutableTreeNode) path.getPathComponent(2)).getUserObject();
 
 			try {
 				var cards = getEnabledPlugin(MTGDao.class).listCardsFromCollection(col, edition);
-				AbstractObservableWorker<Void, MagicCardStock, MTGDao> sw = new AbstractObservableWorker<>(buzy,getEnabledPlugin(MTGDao.class),cards.size()) {
+				AbstractObservableWorker<Void, MTGCardStock, MTGDao> sw = new AbstractObservableWorker<>(buzy,getEnabledPlugin(MTGDao.class),cards.size()) {
 
 					@Override
 					protected Void doInBackground() throws Exception {
-							for(MagicCard mc : cards)
+							for(MTGCard mc : cards)
 							{
-								MagicCardStock st = MTGControler.getInstance().getDefaultStock();
+								MTGCardStock st = MTGControler.getInstance().getDefaultStock();
 								st.setProduct(mc);
 								st.setMagicCollection(col);
 								plug.saveOrUpdateCardStock(st);

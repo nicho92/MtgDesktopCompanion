@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import org.apache.logging.log4j.Logger;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCollection;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.logging.MTGLogger;
@@ -25,7 +25,7 @@ public class CardsManagerService {
 
 	}
 
-	public static MagicEdition detectEdition(String desc) {
+	public static MTGEdition detectEdition(String desc) {
 		
 		try {
 			for(var ed : MTG.getEnabledPlugin(MTGCardsProvider.class).listEditions()) {
@@ -42,7 +42,7 @@ public class CardsManagerService {
 
 	
 
-	public static MagicCard switchEditions(MagicCard mc, MagicEdition ed)
+	public static MTGCard switchEditions(MTGCard mc, MTGEdition ed)
 	{
 		try {
 
@@ -56,7 +56,7 @@ public class CardsManagerService {
 		}
 	}
 
-	public static void removeCard(MagicCard mc , MagicCollection collection) throws SQLException
+	public static void removeCard(MTGCard mc , MTGCollection collection) throws SQLException
 	{
 
 		getEnabledPlugin(MTGDao.class).removeCard(mc, collection);
@@ -86,7 +86,7 @@ public class CardsManagerService {
 
 	}
 
-	public static void moveCard(MagicCard mc, MagicCollection from, MagicCollection to,Observer o) throws SQLException
+	public static void moveCard(MTGCard mc, MTGCollection from, MTGCollection to,Observer o) throws SQLException
 	{
 		if(o!=null)
 			getEnabledPlugin(MTGDao.class).addObserver(o);
@@ -105,7 +105,7 @@ public class CardsManagerService {
 
 	}
 
-	public static void moveCard(MagicEdition ed, MagicCollection from, MagicCollection to,Observer o) throws SQLException
+	public static void moveCard(MTGEdition ed, MTGCollection from, MTGCollection to,Observer o) throws SQLException
 	{
 		if(o!=null)
 			getEnabledPlugin(MTGDao.class).addObserver(o);
@@ -115,7 +115,7 @@ public class CardsManagerService {
 
 	}
 
-	public static void saveCard(MagicCard mc , MagicCollection collection,Observer o) throws SQLException
+	public static void saveCard(MTGCard mc , MTGCollection collection,Observer o) throws SQLException
 	{
 
 		if(o!=null)

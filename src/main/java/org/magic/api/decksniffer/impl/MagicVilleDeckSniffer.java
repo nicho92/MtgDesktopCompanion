@@ -11,7 +11,7 @@ import java.util.Map;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.exports.impl.Apprentice2DeckExport;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
@@ -46,7 +46,7 @@ public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
+	public MTGDeck getDeck(RetrievableDeck info) throws IOException {
 		var doc = RequestBuilder.build().setClient(URLTools.newClient()).get().url(info.getUrl()).toHtml();
 		var urlimport = baseUrl+doc.select("div.lil_menu > a[href^=dl_appr]").first().attr("href");
 		var content = RequestBuilder.build().setClient(URLTools.newClient()).get().url(urlimport).toContentString();

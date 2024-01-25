@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.regex.Matcher;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.tools.FileTools;
 
@@ -17,7 +17,7 @@ public class ForgeDeckExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 		var temp = new StringBuilder();
 
 		temp.append("[metadata]\n");
@@ -42,8 +42,8 @@ public class ForgeDeckExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	public MagicDeck importDeck(String content, String name) throws IOException {
-		var d = new MagicDeck();
+	public MTGDeck importDeck(String content, String name) throws IOException {
+		var d = new MTGDeck();
 				  d.setName(name);
 
 				  var deckNameTag ="Name=";
@@ -75,7 +75,7 @@ public class ForgeDeckExport extends AbstractFormattedFileCardExport {
 			if(m.groupCount()>1)
 			{
 				try {
-				MagicCard mc = parseMatcherWithGroup(m, 3, 4, true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NAME);
+				MTGCard mc = parseMatcherWithGroup(m, 3, 4, true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NAME);
 				var qty = Integer.parseInt(m.group(2));
 
 					if(mc!=null)

@@ -19,7 +19,7 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 
 import org.magic.api.beans.MTGCombo;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.interfaces.MTGComboProvider;
 import org.magic.game.gui.components.HandPanel;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
@@ -31,7 +31,7 @@ public class ComboFinderPanel extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
 	private AbstractBuzyIndicatorComponent buzy;
-	private MagicCard mc;
+	private MTGCard mc;
 	private DefaultListModel<MTGCombo> model;
 	private transient SwingWorker<List<MTGCombo>, MTGCombo> sw;
 
@@ -114,7 +114,7 @@ public class ComboFinderPanel extends MTGUIComponent {
 
 	}
 
-	public void init(MagicCard mc)
+	public void init(MTGCard mc)
 	{
 		this.mc=mc;
 

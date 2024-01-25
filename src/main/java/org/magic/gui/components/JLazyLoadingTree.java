@@ -20,9 +20,9 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 import org.apache.logging.log4j.Logger;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCollection;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.sorters.CardsEditionSorter;
@@ -76,7 +76,7 @@ public class JLazyLoadingTree extends JTree {
 			obj = c;
 			setUserObject(c);
 			add(new DefaultMutableTreeNode(capitalize("LOADING"),false));
-			if (c instanceof MagicCard) {
+			if (c instanceof MTGCard) {
 				setAllowsChildren(false);
 				leaf = true;
 			}
@@ -95,11 +95,11 @@ public class JLazyLoadingTree extends JTree {
 			if (obj instanceof String)
 				loadCollection();
 
-			if (obj instanceof MagicCollection col)
+			if (obj instanceof MTGCollection col)
 				loadEditionFromCollection(col);
 
-			if (obj instanceof MagicEdition ed) {
-				loadCardsFromEdition(new MagicCollection(getPath()[1].toString()),ed);
+			if (obj instanceof MTGEdition ed) {
+				loadCardsFromEdition(new MTGCollection(getPath()[1].toString()),ed);
 			}
 
 		}
@@ -110,7 +110,7 @@ public class JLazyLoadingTree extends JTree {
 				protected List<MyNode> doInBackground() throws Exception {
 
 					List<MyNode> children = new ArrayList<>();
-					for (MagicCollection c : getEnabledPlugin(MTGDao.class).listCollections()) {
+					for (MTGCollection c : getEnabledPlugin(MTGDao.class).listCollections()) {
 						var n = new MyNode(c);
 						children.add(n);
 					}
@@ -137,7 +137,7 @@ public class JLazyLoadingTree extends JTree {
 
 		}
 
-		private void loadCardsFromEdition(final MagicCollection col, final MagicEdition ed) {
+		private void loadCardsFromEdition(final MTGCollection col, final MTGEdition ed) {
 
 			SwingWorker<List<MyNode>, Void> worker = new SwingWorker<>() {
 				@Override
@@ -146,10 +146,10 @@ public class JLazyLoadingTree extends JTree {
 
 					List<MyNode> children = new ArrayList<>();
 					try {
-						List<MagicCard> res = getEnabledPlugin(MTGDao.class).listCardsFromCollection(col,ed);
+						List<MTGCard> res = getEnabledPlugin(MTGDao.class).listCardsFromCollection(col,ed);
 						Collections.sort(res, new CardsEditionSorter());
 
-						for (MagicCard card : res) {
+						for (MTGCard card : res) {
 							var n = new MyNode(card);
 							children.add(n);
 						}
@@ -181,7 +181,7 @@ public class JLazyLoadingTree extends JTree {
 
 		}
 
-		private void loadEditionFromCollection(final MagicCollection c) {
+		private void loadEditionFromCollection(final MTGCollection c) {
 
 			SwingWorker<List<MyNode>, Void> worker = new SwingWorker<>() {
 				@Override

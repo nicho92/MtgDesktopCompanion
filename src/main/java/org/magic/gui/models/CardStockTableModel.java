@@ -3,17 +3,17 @@ package org.magic.gui.models;
 import java.util.Map;
 import java.util.Objects;
 
-import org.magic.api.beans.Grading;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGGrading;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGCollection;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumRarity;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.tools.UITools;
 
-public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
+public class CardStockTableModel extends GenericTableModel<MTGCardStock> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -38,7 +38,7 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 	}
 
 	@Override
-	public void addItem(MagicCardStock t) {
+	public void addItem(MTGCardStock t) {
 		if(t.getId()==-1)
 		{
 			items.add(t);
@@ -60,15 +60,15 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex) {
 		case 0:
-			return MagicCardStock.class;
+			return MTGCardStock.class;
 		case 1:
-			return MagicCard.class;
+			return MTGCard.class;
 		case 2:
-			return MagicEdition.class;
+			return MTGEdition.class;
 		case 3:
 			return EnumRarity.class;
 		case 4:
-			return MagicCollection.class;
+			return MTGCollection.class;
 		case 5:
 			return EnumCondition.class;
 		case 6:
@@ -86,7 +86,7 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 		case 12:
 			return Double.class;
 		case 13:
-			return Grading.class;
+			return MTGGrading.class;
 		case 14:
 			return String.class;
 		case 15:
@@ -154,7 +154,7 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 
 		switch (column) {
 		case 4:
-			items.get(row).setMagicCollection(new MagicCollection(aValue.toString()));
+			items.get(row).setMagicCollection(new MTGCollection(aValue.toString()));
 			break;
 		case 5:
 			items.get(row).setCondition((EnumCondition) aValue);
@@ -181,7 +181,7 @@ public class CardStockTableModel extends GenericTableModel<MagicCardStock> {
 			items.get(row).setPrice(Double.valueOf(String.valueOf(aValue)));
 			break;
 		case 13:
-			items.get(row).setGrade((Grading)aValue);
+			items.get(row).setGrade((MTGGrading)aValue);
 			break;
 		case 14:
 			items.get(row).setComment(String.valueOf(aValue));

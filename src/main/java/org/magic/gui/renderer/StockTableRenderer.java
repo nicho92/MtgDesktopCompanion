@@ -11,8 +11,8 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
-import org.magic.api.beans.Grading;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGGrading;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.MTGGraders;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
@@ -54,7 +54,7 @@ public class StockTableRenderer implements TableCellRenderer{
 			}
 			 );
 		}
-		else if(value instanceof Grading g)
+		else if(value instanceof MTGGrading g)
 		{
 
 			try {
@@ -68,7 +68,7 @@ public class StockTableRenderer implements TableCellRenderer{
 				((JLabel)pane).setOpaque(true);
 			}
 		}
-		else if(value instanceof MagicEdition)
+		else if(value instanceof MTGEdition)
 		{
 			pane = new MagicEditionJLabelRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 		}

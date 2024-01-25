@@ -24,8 +24,8 @@ import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.time.TimeSeriesDataItem;
 import org.magic.api.beans.HistoryPrice;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
@@ -44,8 +44,8 @@ public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 	private transient HistoryPrice<?> cpVariations;
 	private String title="PRICE_VARIATIONS";
 	private transient HistoryPrice<?> cpVariationsF;
-	private MagicCard mc;
-	private MagicEdition me;
+	private MTGCard mc;
+	private MTGEdition me;
 	private AbstractBuzyIndicatorComponent buzy;
 	private TimeSeries series1;
 
@@ -91,7 +91,7 @@ public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 		init(mc,me,title);
 	}
 
-	public void init(MagicCard card, MagicEdition me, String title) {
+	public void init(MTGCard card, MTGEdition me, String title) {
 		this.mc = card;
 		this.me = me;
 		this.title=title;
@@ -183,14 +183,14 @@ public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 	protected void initPlot() {
 		if (showEdition)
 		{
-			List<MagicEdition> list = new ArrayList<>();
+			List<MTGEdition> list = new ArrayList<>();
 			try {
 				list = getEnabledPlugin(MTGCardsProvider.class).listEditions();
 			} catch (IOException e1) {
 				logger.error(e1);
 			}
 
-			for (MagicEdition edition : list)
+			for (MTGEdition edition : list)
 			{
 				if(edition.getReleaseDate()!=null && !edition.getReleaseDate().isEmpty())
 				{

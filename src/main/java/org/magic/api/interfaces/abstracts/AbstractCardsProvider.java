@@ -8,8 +8,8 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 
 import org.magic.api.beans.MTGBooster;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCardVariation;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumExtra;
@@ -32,12 +32,12 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	public static final String ALL = "all";
 
 
-	protected TCache<MagicCard> cacheCards;
-	private TCache<MagicEdition> cacheEditions;
-	private TCache<List<MagicCard>> cacheCardsByEdition;
+	protected TCache<MTGCard> cacheCards;
+	private TCache<MTGEdition> cacheEditions;
+	private TCache<List<MTGCard>> cacheCardsByEdition;
 
 	protected abstract List<QueryAttribute> loadQueryableAttributs();
-	public abstract List<MagicEdition> loadEditions() throws IOException;
+	public abstract List<MTGEdition> loadEditions() throws IOException;
 
 
 	protected AbstractCardsProvider() {
@@ -61,7 +61,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	protected void initBuilder(MTGQueryBuilder<?> b)
 	{
 		b.addConvertor(EnumColors.class, EnumColors::getCode);
-		b.addConvertor(MagicEdition.class, MagicEdition::getId);
+		b.addConvertor(MTGEdition.class, MTGEdition::getId);
 		b.addConvertor(EnumLayout.class,(EnumLayout source)->source.name().toLowerCase());
 		b.addConvertor(EnumFrameEffects.class,(EnumFrameEffects source)->source.name().toLowerCase());
 		b.addConvertor(EnumRarity.class,(EnumRarity source)->source.name().toLowerCase());
@@ -76,14 +76,14 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	public QueryAttribute[] getQueryableAttributs() {
 
 		List<QueryAttribute> atts = loadQueryableAttributs();
-				atts.add(new QueryAttribute(SET_FIELD, MagicEdition.class));
+				atts.add(new QueryAttribute(SET_FIELD, MTGEdition.class));
 				atts.add(new QueryAttribute(ALL, String.class));
 		return atts.stream().toArray(QueryAttribute[]::new);
 	}
 
 
 
-	protected void postTreatmentCard(MagicCard mc)
+	protected void postTreatmentCard(MTGCard mc)
 	{
 		
 		try {
@@ -109,39 +109,39 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		return hashCode()==obj.hashCode();
 	}
 
-	public TCache<MagicCard> getCacheCards()
+	public TCache<MTGCard> getCacheCards()
 	{
 		return cacheCards;
 	}
 
-	public TCache<MagicEdition> getCacheEditions()
+	public TCache<MTGEdition> getCacheEditions()
 	{
 		return cacheEditions;
 	}
 
-	public TCache<List<MagicCard>> getCacheCardsEdition()
+	public TCache<List<MTGCard>> getCacheCardsEdition()
 	{
 		return cacheCardsByEdition;
 	}
 
 
 	@Override
-	public MagicCard getCardByNumber(String id, String idMe) throws IOException {
+	public MTGCard getCardByNumber(String id, String idMe) throws IOException {
 		return getCardByNumber(id, getSetById(idMe));
 	}
 
 	@Override
-	public MagicCard getCardById(String id) throws IOException {
+	public MTGCard getCardById(String id) throws IOException {
 		return getCardById(id,null);
 	}
 
 	@Override
-	public List<MagicCard> searchCardByEdition(MagicEdition ed) throws IOException {
+	public List<MTGCard> searchCardByEdition(MTGEdition ed) throws IOException {
 		try {
-			return cacheCardsByEdition.get(ed.getId(), new Callable<List<MagicCard>>() {
+			return cacheCardsByEdition.get(ed.getId(), new Callable<List<MTGCard>>() {
 
 				@Override
-				public List<MagicCard> call() throws Exception {
+				public List<MTGCard> call() throws Exception {
 					return searchCardByCriteria(SET_FIELD, ed.getId(), null, false);
 				}
 			});
@@ -152,19 +152,19 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	}
 
 	@Override
-	public List<MagicCard> searchCardByName(String name, MagicEdition me, boolean exact) throws IOException {
+	public List<MTGCard> searchCardByName(String name, MTGEdition me, boolean exact) throws IOException {
 		return searchCardByCriteria("name",name, me, exact);
 	}
 
 
 	@Override
-	public List<MagicCard> searchCardByName(String name, MagicEdition me, boolean exact, EnumCardVariation extra) throws IOException{
+	public List<MTGCard> searchCardByName(String name, MTGEdition me, boolean exact, EnumCardVariation extra) throws IOException{
 		return searchCardByCriteria("name",name, me, exact,extra);
 	}
 
 
 	@Override
-	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact, EnumCardVariation extra) throws IOException {
+	public List<MTGCard> searchCardByCriteria(String att, String crit, MTGEdition me, boolean exact, EnumCardVariation extra) throws IOException {
 		
 		if(extra==null)
 			return searchCardByCriteria(att, crit, me, exact).stream().filter(mc->mc.getExtra().isEmpty()).toList();
@@ -173,31 +173,31 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	}
 
 	@Override
-	public MagicEdition getSetByName(String name) throws IOException {
+	public MTGEdition getSetByName(String name) throws IOException {
 		return listEditions().stream().filter(ed->ed.getSet().equalsIgnoreCase(name)).findFirst().orElse(null);
 	}
 
 	@Override
-	public MagicEdition getSetById(String id) {
+	public MTGEdition getSetById(String id) {
 
 		try {
-			MagicEdition ed = cacheEditions.get(id, new Callable<MagicEdition>() {
+			MTGEdition ed = cacheEditions.get(id, new Callable<MTGEdition>() {
 
 				@Override
-				public MagicEdition call() throws Exception {
-					return listEditions().stream().filter(ed->ed.getId().equalsIgnoreCase(id)).findAny().orElse(new MagicEdition(id,id));
+				public MTGEdition call() throws Exception {
+					return listEditions().stream().filter(ed->ed.getId().equalsIgnoreCase(id)).findAny().orElse(new MTGEdition(id,id));
 				}
 			});
 
 			return BeanTools.cloneBean(ed);
 		} catch (Exception e) {
-			return new MagicEdition(id,id);
+			return new MTGEdition(id,id);
 		}
 
 	}
 
 	@Override
-	public List<MagicCard> searchByCriteria(List<MTGCrit> crits) throws IOException {
+	public List<MTGCard> searchByCriteria(List<MTGCrit> crits) throws IOException {
 		return searchByCriteria(crits.stream().toArray(MTGCrit[]::new));
 	}
 
@@ -208,7 +208,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	}
 
 	@Override
-	public List<MTGBooster> generateBooster(MagicEdition me, EnumExtra typeBooster,int qty) throws IOException {
+	public List<MTGBooster> generateBooster(MTGEdition me, EnumExtra typeBooster,int qty) throws IOException {
 
 		
 		var list = new ArrayList<MTGBooster>();
@@ -217,14 +217,14 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		{
 		
 		logger.debug("opening booster for {}",me);
-		List<MagicCard> common = new ArrayList<>();
-		List<MagicCard> uncommon = new ArrayList<>();
-		List<MagicCard> rare = new ArrayList<>();
-		List<MagicCard> lands = new ArrayList<>();
+		List<MTGCard> common = new ArrayList<>();
+		List<MTGCard> uncommon = new ArrayList<>();
+		List<MTGCard> rare = new ArrayList<>();
+		List<MTGCard> lands = new ArrayList<>();
 		var b = new MTGBooster();
 
 		try {
-			for (MagicCard mc : searchCardByEdition(me).stream().filter(MagicCard::isMainFace).toList())
+			for (MTGCard mc : searchCardByEdition(me).stream().filter(MTGCard::isMainFace).toList())
 			{
 				if (mc.getRarity()==EnumRarity.COMMON && !mc.isBasicLand())
 					common.add(mc);
@@ -251,7 +251,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 			logger.error("Error opening booster", e);
 		}
 
-		List<MagicCard> resList = new ArrayList<>();
+		List<MTGCard> resList = new ArrayList<>();
 		resList.addAll(common.subList(0, 11));
 		resList.addAll(uncommon.subList(0, 3));
 		resList.add(rare.get(0));
@@ -271,7 +271,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 
 
 	@Override
-	public List<MagicEdition> listEditions() throws IOException {
+	public List<MTGEdition> listEditions() throws IOException {
 		if(cacheEditions.isEmpty())
 		{
 			logger.trace("cacheEditions not loaded. Filling it");

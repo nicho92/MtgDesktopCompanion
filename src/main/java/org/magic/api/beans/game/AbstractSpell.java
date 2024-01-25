@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.Logger;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.game.model.abilities.AbstractAbilities;
 import org.magic.game.model.costs.Cost;
 import org.magic.game.model.effects.AbstractEffect;
@@ -17,7 +17,7 @@ public abstract class AbstractSpell implements Spell  {
 	 */
 	private static final long serialVersionUID = 1L;
 	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
-	protected MagicCard card;
+	protected MTGCard card;
 	protected transient List<Cost> costs;
 	protected transient List<AbstractEffect> effects;
 	protected boolean resolved;
@@ -107,11 +107,11 @@ public abstract class AbstractSpell implements Spell  {
 	}
 
 
-	public MagicCard getCard() {
+	public MTGCard getCard() {
 		return card;
 	}
 
-	public void setCard(MagicCard card) {
+	public void setCard(MTGCard card) {
 		this.card = card;
 	}
 

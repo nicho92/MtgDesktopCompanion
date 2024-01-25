@@ -6,8 +6,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 
 public class MagicWorkStationDeckExport extends AbstractFormattedFileCardExport {
@@ -19,10 +19,10 @@ public class MagicWorkStationDeckExport extends AbstractFormattedFileCardExport 
 	}
 
 	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 		var temp = new StringBuilder();
 		temp.append("// MAIN\n");
-		for (MagicCard mc : deck.getMain().keySet()) {
+		for (MTGCard mc : deck.getMain().keySet()) {
 			temp.append("    ");
 			temp.append(deck.getMain().get(mc));
 			temp.append(" ");
@@ -32,7 +32,7 @@ public class MagicWorkStationDeckExport extends AbstractFormattedFileCardExport 
 			notify(mc);
 		}
 		temp.append("// Sideboard\n");
-		for (MagicCard mc : deck.getSideBoard().keySet()) {
+		for (MTGCard mc : deck.getSideBoard().keySet()) {
 			temp.append("SB: ");
 			temp.append(deck.getMain().get(mc));
 			temp.append(" ");
@@ -49,9 +49,9 @@ public class MagicWorkStationDeckExport extends AbstractFormattedFileCardExport 
 	}
 
 	@Override
-	public MagicDeck importDeck(String f,String name) throws IOException {
+	public MTGDeck importDeck(String f,String name) throws IOException {
 		try (var read = new BufferedReader(new StringReader(f))) {
-			var deck = new MagicDeck();
+			var deck = new MTGDeck();
 			deck.setName(name);
 			matches(f,true).forEach(m->{
 				var mc = parseMatcherWithGroup(m, 4, 3, true, FORMAT_SEARCH.ID,FORMAT_SEARCH.NAME);

@@ -43,8 +43,6 @@ public class MTGFormat implements Serializable {
 		return format;
 	}
 
-
-
 	public void setFormat(String format) {
 		this.format = format;
 	}

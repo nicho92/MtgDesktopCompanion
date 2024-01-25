@@ -2,7 +2,7 @@ package org.magic.api.beans;
 
 import org.magic.api.interfaces.MTGSerializable;
 
-public class MagicCollection implements MTGSerializable {
+public class MTGCollection implements MTGSerializable {
 
 	/**
 	 *
@@ -10,11 +10,11 @@ public class MagicCollection implements MTGSerializable {
 	private static final long serialVersionUID = 1L;
 	private String name;
 
-	public MagicCollection() {
+	public MTGCollection() {
 
 	}
 
-	public MagicCollection(String name) {
+	public MTGCollection(String name) {
 		this.name = name;
 	}
 
@@ -47,10 +47,10 @@ public class MagicCollection implements MTGSerializable {
 	@Override
 	public boolean equals(Object obj) {
 
-		if(!(obj instanceof MagicCollection))
+		if(!(obj instanceof MTGCollection))
 			return false;
 
-		return ((MagicCollection)obj).getName().equalsIgnoreCase(getName());
+		return ((MTGCollection)obj).getName().equalsIgnoreCase(getName());
 
 
 

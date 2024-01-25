@@ -15,7 +15,7 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.abstracts.AbstractMessage;
 import org.magic.api.beans.abstracts.AbstractMessage.MSG_TYPE;
 import org.magic.api.beans.enums.EnumItems;
@@ -149,7 +149,7 @@ public class JsonMessagePanel extends JPanel {
 		BufferedImage bi = null;
 		
 		if(item.getTypeProduct()==EnumItems.CARD)
-			bi=MTG.getEnabledPlugin(MTGPictureProvider.class).getPicture((MagicCard)item);
+			bi=MTG.getEnabledPlugin(MTGPictureProvider.class).getPicture((MTGCard)item);
 		else
 			bi = URLTools.extractAsImage(item.getUrl());
 

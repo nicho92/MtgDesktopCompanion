@@ -6,8 +6,8 @@ import java.util.List;
 import javax.swing.SwingWorker;
 
 import org.apache.logging.log4j.Logger;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGCardsExport;
@@ -17,12 +17,12 @@ import org.magic.services.logging.MTGLogger;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
-public class DeckImportWorker extends SwingWorker<MagicDeck, MagicCard> {
+public class DeckImportWorker extends SwingWorker<MTGDeck, MTGCard> {
 
 	protected MTGCardsExport exp;
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	protected Observer o;
-	protected List<MagicCard> cards = null;
+	protected List<MTGCard> cards = null;
 	protected AbstractBuzyIndicatorComponent buzy;
 	private File f;
 	protected Exception err;
@@ -32,14 +32,14 @@ public class DeckImportWorker extends SwingWorker<MagicDeck, MagicCard> {
 		this.buzy=buzy;
 		this.f=f;
 		err=null;
-		o=(Observable obs, Object c)->publish((MagicCard)c);
+		o=(Observable obs, Object c)->publish((MTGCard)c);
 		exp.addObserver(o);
 	}
 
 
 
 	@Override
-	protected MagicDeck doInBackground(){
+	protected MTGDeck doInBackground(){
 		try {
 			return exp.importDeckFromFile(f);
 		} catch (Exception e) {
@@ -50,7 +50,7 @@ public class DeckImportWorker extends SwingWorker<MagicDeck, MagicCard> {
 	}
 
 	@Override
-	protected void process(List<MagicCard> chunks) {
+	protected void process(List<MTGCard> chunks) {
 		chunks.forEach(cs->{
 			buzy.setText(cs.toString());
 			buzy.progress();

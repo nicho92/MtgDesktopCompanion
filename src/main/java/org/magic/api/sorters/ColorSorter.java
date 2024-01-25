@@ -1,9 +1,9 @@
 package org.magic.api.sorters;
 
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.interfaces.MTGComparator;
 
-public class ColorSorter implements MTGComparator<MagicCard> {
+public class ColorSorter implements MTGComparator<MTGCard> {
 
 
 	@Override
@@ -12,7 +12,7 @@ public class ColorSorter implements MTGComparator<MagicCard> {
 	}
 
 	@Override
-	public int compare(MagicCard mc1, MagicCard mc2) {
+	public int compare(MTGCard mc1, MTGCard mc2) {
 
 		if (getWeight(mc1) < getWeight(mc2))
 			return -1;
@@ -24,7 +24,7 @@ public class ColorSorter implements MTGComparator<MagicCard> {
 	}
 
 	@Override
-	public int getWeight(MagicCard mc) {
+	public int getWeight(MTGCard mc) {
 
 		if (mc.getColors().size() > 1)
 			return 7;

@@ -8,8 +8,8 @@ import java.util.Arrays;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.ParseException;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCommand;
 import org.magic.console.AbstractResponse;
@@ -33,7 +33,7 @@ public class Get extends AbstractCommand {
 
 		CommandLine cl = parser.parse(opts, args);
 		String name=null;
-		MagicEdition edition=null;
+		MTGEdition edition=null;
 		boolean strict=cl.hasOption("e");
 
 
@@ -52,13 +52,13 @@ public class Get extends AbstractCommand {
 		}
 
 		if (cl.hasOption("s")) {
-			edition = new MagicEdition(cl.getOptionValue("s"));
+			edition = new MTGEdition(cl.getOptionValue("s"));
 		}
 
 		if(name!=null)
 		{
 			try {
-				return new ArrayResponse(MagicCard.class, null,json.toJsonArray(getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name,edition, strict).get(0)));
+				return new ArrayResponse(MTGCard.class, null,json.toJsonArray(getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name,edition, strict).get(0)));
 			}catch(Exception e)
 			{
 				logger.error(e);

@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.ImageIcon;
 
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.game.ZoneEnum;
 import org.magic.game.actions.abbstract.AbstractCardAction;
 import org.magic.game.gui.components.DisplayableCard;
@@ -38,7 +38,7 @@ public class FlipActions extends AbstractCardAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-			MagicCard mc =card.getMagicCard().getRotatedCard();
+			MTGCard mc =card.getMagicCard().getRotatedCard();
 			card.setMagicCard(mc);
 
 			var bufferedImage = new BufferedImage(card.getWidth(), card.getHeight(),BufferedImage.TYPE_INT_RGB);

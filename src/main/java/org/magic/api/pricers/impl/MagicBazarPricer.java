@@ -9,8 +9,8 @@ import org.apache.commons.text.StringEscapeUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.network.URLTools;
@@ -34,9 +34,9 @@ public class MagicBazarPricer extends AbstractPricesProvider {
 
 
 	@Override
-	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
+	public List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
 
-		List<MagicPrice> list = new ArrayList<>();
+		List<MTGPrice> list = new ArrayList<>();
 
 		String page = getPage(card.getName());
 		logger.info("{} looking for prices {}",getName(),page);
@@ -47,7 +47,7 @@ public class MagicBazarPricer extends AbstractPricesProvider {
 			var lang = "";
 			var set = "";
 			for (Element e : els) {
-				var mp = new MagicPrice();
+				var mp = new MTGPrice();
 
 				if(!e.select("img.langue_big").first().attr("alt").isEmpty())
 					lang=e.select("img.langue_big").first().attr("alt");

@@ -8,8 +8,8 @@ import java.util.Map;
 
 import javax.swing.Icon;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.FileTools;
@@ -27,7 +27,7 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 
 	BufferedImage back;
 
-	public void savePicture(BufferedImage bi, MagicCard mc, MagicEdition ed) throws IOException {
+	public void savePicture(BufferedImage bi, MTGCard mc, MTGEdition ed) throws IOException {
 		var mainDir = getFile(PICS_DIR);
 		var edDir = new File(mainDir, ed.getId());
 
@@ -38,7 +38,7 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 		ImageTools.saveImage(bi, Paths.get(edDir.getAbsolutePath(), mc.getId() + "." + getString(FORMAT).toLowerCase()).toFile(), getString(FORMAT));
 	}
 
-	public void removePicture(MagicEdition ed, MagicCard mc) {
+	public void removePicture(MTGEdition ed, MTGCard mc) {
 		var mainDir = getFile(PICS_DIR);
 		var edDir = new File(mainDir, ed.getId());
 
@@ -58,19 +58,19 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	}
 
 	@Override
-	public BufferedImage extractPicture(MagicCard mc) throws IOException {
+	public BufferedImage extractPicture(MTGCard mc) throws IOException {
 		return null;
 	}
 
 
 	@Override
-	public BufferedImage getPicture(MagicCard mc) throws IOException {
+	public BufferedImage getPicture(MTGCard mc) throws IOException {
 		return getOnlinePicture(mc);
 	}
 
 
 	@Override
-	public String generateUrl(MagicCard mc) {
+	public String generateUrl(MTGCard mc) {
 		var mainDir = getFile(PICS_DIR);
 		var edDir = new File(mainDir,mc.getCurrentSet().getId());
 
@@ -78,7 +78,7 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	}
 
 	@Override
-	public BufferedImage getOnlinePicture(MagicCard mc) throws IOException {
+	public BufferedImage getOnlinePicture(MTGCard mc) throws IOException {
 
 		try {
 			return ImageTools.read(new File(generateUrl(mc)));

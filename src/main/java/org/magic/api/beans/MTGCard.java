@@ -23,7 +23,7 @@ import org.magic.services.tools.IDGenerator;
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 
-public class MagicCard extends AbstractProduct {
+public class MTGCard extends AbstractProduct {
 	private static final long serialVersionUID = 1L;
 
 	public static boolean isBasicLand(String cardName)
@@ -54,11 +54,11 @@ public class MagicCard extends AbstractProduct {
 	private Date dateUpdated;
 	private Integer defense;
 	private Integer edhrecRank;
-	private List<MagicEdition> editions;
+	private List<MTGEdition> editions;
 	private List<EnumFinishes> finishes;
 	private String flavor="";
 	private String flavorName;
-	private List<MagicCardNames> foreignNames;
+	private List<MTGCardNames> foreignNames;
 	private List<EnumFrameEffects> frameEffects;
 	private String frameVersion;
 	private boolean fullArt;
@@ -87,7 +87,7 @@ public class MagicCard extends AbstractProduct {
 	private EnumRarity rarity;
 	private boolean reprintedCard;
 	private boolean reserved;
-	private MagicCard rotatedCard;
+	private MTGCard rotatedCard;
 	private List<MTGRuling> rulings;
 	private String scryfallId;
 	private String scryfallIllustrationId;
@@ -105,7 +105,9 @@ public class MagicCard extends AbstractProduct {
 	@SerializedName(alternate = "multiverse_id", value = "multiverseId") private String multiverseid;
 	private String watermarks;
 	
-	public MagicCard() {
+	
+	
+	public MTGCard() {
 		editions = new ArrayList<>();
 		types = new ArrayList<>();
 		supertypes = new ArrayList<>();
@@ -131,7 +133,7 @@ public class MagicCard extends AbstractProduct {
 			return false;
 		}
 
-		return IDGenerator.generate(((MagicCard) obj)).equals(IDGenerator.generate(this));
+		return IDGenerator.generate(((MTGCard) obj)).equals(IDGenerator.generate(this));
 	}
 	
 	public String getMultiverseid() {
@@ -184,7 +186,7 @@ public class MagicCard extends AbstractProduct {
 		return cost;
 	}
 
-	public MagicEdition getCurrentSet() {
+	public MTGEdition getCurrentSet() {
 		if(!getEditions().isEmpty()) {
 			return getEditions().get(0);
 		}
@@ -210,7 +212,7 @@ public class MagicCard extends AbstractProduct {
 	}
 
 
-	public List<MagicEdition> getEditions() {
+	public List<MTGEdition> getEditions() {
 		return editions;
 	}
 
@@ -253,7 +255,7 @@ public class MagicCard extends AbstractProduct {
 		return flavorName;
 	}
 
-	public List<MagicCardNames> getForeignNames() {
+	public List<MTGCardNames> getForeignNames() {
 		return foreignNames;
 	}
 
@@ -353,7 +355,7 @@ public class MagicCard extends AbstractProduct {
 
 
 
-	public MagicCard getRotatedCard() {
+	public MTGCard getRotatedCard() {
 		return rotatedCard;
 	}
 
@@ -666,7 +668,7 @@ public class MagicCard extends AbstractProduct {
 	}
 
 
-	public void setEditions(List<MagicEdition> editions) {
+	public void setEditions(List<MTGEdition> editions) {
 		this.editions = editions;
 	}
 
@@ -683,7 +685,7 @@ public class MagicCard extends AbstractProduct {
 		this.flavorName = flavorName;
 	}
 
-	public void setForeignNames(List<MagicCardNames> foreignNames) {
+	public void setForeignNames(List<MTGCardNames> foreignNames) {
 		this.foreignNames = foreignNames;
 	}
 
@@ -806,7 +808,7 @@ public class MagicCard extends AbstractProduct {
 		this.reserved = reserved;
 	}
 
-	public void setRotatedCard(MagicCard rotatedCard) {
+	public void setRotatedCard(MTGCard rotatedCard) {
 		this.rotatedCard = rotatedCard;
 	}
 
@@ -875,11 +877,11 @@ public class MagicCard extends AbstractProduct {
 		this.watermarks = watermarks;
 	}
 
-	public MagicCard toForeign(MagicCardNames fn)
+	public MTGCard toForeign(MTGCardNames fn)
 	{
 		try {
-			var mc2 = new MagicCard();
-			var ed = new MagicEdition();
+			var mc2 = new MTGCard();
+			var ed = new MTGEdition();
 
 			BeanUtils.copyProperties(mc2,this);
 			BeanUtils.copyProperties(ed,this.getCurrentSet());

@@ -7,11 +7,11 @@ import java.util.List;
 public class MagicCardAlert {
 
 	private String id = "";
-	private MagicCard card;
+	private MTGCard card;
 	private Double price;
 	private CardShake shake;
 	private int qty=1;
-	private List<MagicPrice> offers;
+	private List<MTGPrice> offers;
 	private boolean foil;
 
 	public int getQty() {
@@ -40,19 +40,19 @@ public class MagicCardAlert {
 		shake=new CardShake();
 	}
 
-	public List<MagicPrice> getOffers() {
+	public List<MTGPrice> getOffers() {
 		return offers;
 	}
 
-	public void setOffers(List<MagicPrice> offers) {
+	public void setOffers(List<MTGPrice> offers) {
 		this.offers = offers;
 	}
 
-	public MagicCard getCard() {
+	public MTGCard getCard() {
 		return card;
 	}
 
-	public void setCard(MagicCard card) {
+	public void setCard(MTGCard card) {
 		this.card = card;
 	}
 
@@ -82,7 +82,7 @@ public class MagicCardAlert {
 	}
 
 	public void orderDesc() {
-		Collections.sort(this.offers, (MagicPrice b1, MagicPrice b2) -> (b1.getValue() < b2.getValue() ? -1 : 1));
+		Collections.sort(this.offers, (MTGPrice b1, MTGPrice b2) -> (b1.getValue() < b2.getValue() ? -1 : 1));
 	}
 
 

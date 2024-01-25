@@ -23,8 +23,8 @@ import org.apache.commons.collections4.keyvalue.DefaultMapEntry;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.JXTreeTable;
 import org.magic.api.beans.EditionsShakers;
-import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCollection;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.MapTableModel;
@@ -42,7 +42,7 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 	private static final long serialVersionUID = 1L;
 	private JXTreeTable treeTable;
 	private JLabel lblPrice;
-	private MapTableModel<MagicEdition, Date> modelCache;
+	private MapTableModel<MTGEdition, Date> modelCache;
 	private transient CollectionEvaluator evaluator;
 	private transient CollectionAnalyzerWorker sw;
 	private JSlider slider ;
@@ -150,9 +150,9 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 
 		btnUpdateCache.addActionListener(ae->
 		{
-			List<MagicEdition> ret = UITools.getTableSelections(tableCache,0);
+			List<MTGEdition> ret = UITools.getTableSelections(tableCache,0);
 			buzy.start(ret.size());
-			SwingWorker<Void, Map.Entry<MagicEdition,Date>> swC = new SwingWorker<>()
+			SwingWorker<Void, Map.Entry<MTGEdition,Date>> swC = new SwingWorker<>()
 			{
 
 				@Override
@@ -161,14 +161,14 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 				}
 
 				@Override
-				protected void process(List<Map.Entry<MagicEdition,Date>> chunks) {
+				protected void process(List<Map.Entry<MTGEdition,Date>> chunks) {
 					buzy.progressSmooth(chunks.size());
 					chunks.forEach(e->modelCache.updateRow(e.getKey(),e.getValue()));
 				}
 
 				@Override
 				protected Void doInBackground() throws Exception {
-					for(MagicEdition ed : ret) {
+					for(MTGEdition ed : ret) {
 						try {
 							EditionsShakers css = evaluator.initCache(ed);
 							if(!css.isEmpty())
@@ -193,7 +193,7 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 	@Override
 	public void init() {
 		try {
-			evaluator = new CollectionEvaluator(new MagicCollection(MTGControler.getInstance().get("default-library")));
+			evaluator = new CollectionEvaluator(new MTGCollection(MTGControler.getInstance().get("default-library")));
 			evaluator.setMinPrice(slider.getValue());
 			sw = new CollectionAnalyzerWorker(evaluator,treeTable,modelCache,buzy,lblPrice);
 			ThreadManager.getInstance().runInEdt(sw,"init collection analysis dashlet");

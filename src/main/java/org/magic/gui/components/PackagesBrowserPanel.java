@@ -15,7 +15,7 @@ import javax.swing.tree.DefaultTreeModel;
 
 import org.jdesktop.swingx.JXTree;
 import org.magic.api.beans.MTGSealedProduct;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGSealedProvider;
@@ -52,7 +52,7 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 	}
 
 
-	public void init(MagicEdition ed)
+	public void init(MTGEdition ed)
 	{
 		var root = (DefaultMutableTreeNode)model.getRoot();
 		root.setUserObject(ed);

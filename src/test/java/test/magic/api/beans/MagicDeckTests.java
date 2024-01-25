@@ -7,15 +7,15 @@ import java.util.List;
 import org.apache.logging.log4j.Level;
 import org.junit.Before;
 import org.junit.Test;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
 import org.magic.services.logging.MTGLogger;
 
 import test.TestTools;
 
 public class MagicDeckTests {
 
-	private List<MagicCard> lMC;
+	private List<MTGCard> lMC;
 
 	@Before
 	public void initTest() throws IOException, URISyntaxException
@@ -31,9 +31,9 @@ public class MagicDeckTests {
   @Test
   public void mergeDeckTest()
   {
-    MagicDeck d = MagicDeck.toDeck(lMC);
+    MTGDeck d = MTGDeck.toDeck(lMC);
 		System.out.println(d );
-    MagicDeck md = d.getMergedDeck();
+    MTGDeck md = d.getMergedDeck();
 		System.out.println(md );
     
   }

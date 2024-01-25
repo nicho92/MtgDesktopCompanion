@@ -6,9 +6,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGControler;
@@ -50,7 +50,7 @@ public class EchoMTGExport extends AbstractCardExport {
 	}
 
 	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 		if(client==null)
 			connect();
 
@@ -80,11 +80,11 @@ public class EchoMTGExport extends AbstractCardExport {
 	}
 
 	@Override
-	public MagicDeck importDeck(String f, String name) throws IOException {
+	public MTGDeck importDeck(String f, String name) throws IOException {
 		if(client==null)
 			connect();
 
-		var d = new MagicDeck();
+		var d = new MTGDeck();
 				  d.setName(name);
 				  d.setDescription("import from "+getName());
 
@@ -101,7 +101,7 @@ public class EchoMTGExport extends AbstractCardExport {
 
 		arr.forEach(element -> {
 			var ob = element.getAsJsonObject();
-			MagicEdition ed =null;
+			MTGEdition ed =null;
 			try {
 				ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(ob.get("set_code").getAsString());
 			} catch (Exception e) {
@@ -110,7 +110,7 @@ public class EchoMTGExport extends AbstractCardExport {
 
 
 			try {
-				List<MagicCard> ret = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(ob.get("name").getAsString(), ed, true);
+				List<MTGCard> ret = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(ob.get("name").getAsString(), ed, true);
 				d.add(ret.get(0));
 				notify(ret.get(0));
 			} catch (IOException e) {

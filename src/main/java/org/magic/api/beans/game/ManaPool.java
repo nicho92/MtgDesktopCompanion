@@ -7,7 +7,7 @@ import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
 import org.apache.logging.log4j.Logger;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.services.logging.MTGLogger;
 import org.utils.patterns.observer.Observable;
@@ -63,7 +63,7 @@ public class ManaPool extends Observable implements Serializable {
 		}
 	}
 
-	public void useMana(MagicCard mc) {
+	public void useMana(MTGCard mc) {
 		if (mc.getCmc() == null)
 			return;
 

@@ -7,8 +7,8 @@ import java.util.Map;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.providers.MTGJsonPricerProvider;
 
@@ -20,7 +20,7 @@ public class MkmPricer extends AbstractPricesProvider {
 	}
 
 	@Override
-	protected List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
+	protected List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
 
 		logger.debug("{} looking for prices for {} ",getName(),card);
 

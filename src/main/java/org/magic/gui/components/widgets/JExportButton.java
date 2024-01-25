@@ -13,8 +13,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
 import org.magic.api.beans.MagicCardAlert;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsExport.MODS;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
@@ -90,7 +90,7 @@ public class JExportButton extends JButton {
 		});
 	}
 
-	public void initCardsExport(Callable<MagicDeck> callable, AbstractBuzyIndicatorComponent lblLoading ) {
+	public void initCardsExport(Callable<MTGDeck> callable, AbstractBuzyIndicatorComponent lblLoading ) {
 
 		addActionListener(ae -> {
 			var menu = new JPopupMenu();
@@ -101,7 +101,7 @@ public class JExportButton extends JButton {
 					it.addActionListener(exportEvent -> {
 						int result = JFileChooser.CANCEL_OPTION;
 						File f = null;
-						MagicDeck export  = null;
+						MTGDeck export  = null;
 
 						try {
 							export = callable.call();
@@ -141,7 +141,7 @@ public class JExportButton extends JButton {
 		});
 	}
 
-	public void initStockExport(Callable<List<MagicCardStock>> callable,AbstractBuzyIndicatorComponent lblLoading) {
+	public void initStockExport(Callable<List<MTGCardStock>> callable,AbstractBuzyIndicatorComponent lblLoading) {
 
 		addActionListener(ae -> {
 			var menu = new JPopupMenu();
@@ -152,7 +152,7 @@ public class JExportButton extends JButton {
 					it.addActionListener(exportEvent -> {
 						int result = JFileChooser.CANCEL_OPTION;
 						File f = null;
-						List<MagicCardStock> export  = null;
+						List<MTGCardStock> export  = null;
 
 						try {
 							export = callable.call();

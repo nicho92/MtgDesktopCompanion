@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.magic.api.beans.Wallpaper;
+import org.magic.api.beans.MTGWallpaper;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
@@ -27,9 +27,9 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 	}
 
 	@Override
-	public List<Wallpaper> search(String search) {
+	public List<MTGWallpaper> search(String search) {
 
-		List<Wallpaper> list = new ArrayList<>();
+		List<MTGWallpaper> list = new ArrayList<>();
 		try {
 
 			if(getString(CLIENT_ID).isEmpty())
@@ -55,7 +55,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 				    {
 					    ret.get("results").getAsJsonArray().forEach(el->{
 					    	try {
-					    		var p = new Wallpaper();
+					    		var p = new MTGWallpaper();
 					    		p.setFormat("png");
 					    		p.setName(el.getAsJsonObject().get("title").getAsString());
 					    		p.setUrl(new URI(el.getAsJsonObject().get("content").getAsJsonObject().get("src").getAsString()));

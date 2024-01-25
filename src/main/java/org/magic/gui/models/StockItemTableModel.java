@@ -2,8 +2,8 @@ package org.magic.gui.models;
 
 import java.util.Map;
 
-import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCollection;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.MTGProduct;
@@ -61,11 +61,11 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 		case 1:
 			return MTGProduct.class;
 		case 2:
-			return MagicEdition.class;
+			return MTGEdition.class;
 		case 3:
 			return String.class;
 		case 4:
-			return MagicCollection.class;
+			return MTGCollection.class;
 		case 5:
 			return EnumItems.class;
 		case 6:
@@ -142,13 +142,13 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 
 		switch (column) {
 		case 2:
-			items.get(row).getProduct().setEdition((MagicEdition)aValue);
+			items.get(row).getProduct().setEdition((MTGEdition)aValue);
 			break;
 		case 3:
 			items.get(row).setLanguage(String.valueOf(aValue));
 			break;
 		case 4:
-			items.get(row).setMagicCollection((MagicCollection)aValue);
+			items.get(row).setMagicCollection((MTGCollection)aValue);
 			break;
 		case 5:
 			items.get(row).getProduct().setTypeProduct((EnumItems)aValue);

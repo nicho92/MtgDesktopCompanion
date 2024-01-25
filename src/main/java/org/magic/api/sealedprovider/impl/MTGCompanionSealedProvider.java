@@ -9,7 +9,7 @@ import javax.swing.Icon;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.magic.api.beans.MTGSealedProduct;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -78,7 +78,7 @@ public class MTGCompanionSealedProvider extends AbstractSealedProvider{
 	}
 
 
-	public synchronized List<MTGSealedProduct> getItemsFor(MagicEdition me)
+	public synchronized List<MTGSealedProduct> getItemsFor(MTGEdition me)
 	{
 		List<MTGSealedProduct> ret = new ArrayList<>();
 		if(me==null)

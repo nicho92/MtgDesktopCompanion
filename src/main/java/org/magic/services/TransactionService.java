@@ -14,7 +14,7 @@ import java.util.Map.Entry;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.logging.log4j.Logger;
-import org.magic.api.beans.MagicCardStock;
+import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.EnumPaymentProvider;
 import org.magic.api.beans.enums.EnumTransactionStatus;
@@ -146,12 +146,12 @@ public class TransactionService
 
 	}
 
-	public static MagicCardStock getBestProduct() throws SQLException {
+	public static MTGCardStock getBestProduct() throws SQLException {
 
-		Map<MagicCardStock, Integer> items = new HashMap<>() ;
+		Map<MTGCardStock, Integer> items = new HashMap<>() ;
 		for(var t : getEnabledPlugin(MTGDao.class).listTransactions())
 			for(var m : t.getItems().stream().filter(msi->msi.getProduct().getTypeProduct()==EnumItems.CARD).toList())
-				items.put((MagicCardStock)m, items.getOrDefault(m, 0)+m.getQte());
+				items.put((MTGCardStock)m, items.getOrDefault(m, 0)+m.getQte());
 
 		int max = Collections.max(items.values());
 		return items.entrySet().stream().filter(entry -> entry.getValue() == max).map(Entry::getKey).findAny().orElse(null);

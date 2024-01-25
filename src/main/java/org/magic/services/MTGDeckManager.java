@@ -18,8 +18,8 @@ import org.apache.commons.math3.distribution.HypergeometricDistribution;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MTGFormat.FORMATS;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.beans.technical.RetrievableDeck;
@@ -35,9 +35,9 @@ public class MTGDeckManager extends Observable {
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 
 
-	public static boolean isArenaDeck(MagicDeck d)
+	public static boolean isArenaDeck(MTGDeck d)
 	{
-		for(MagicCard mc : d.getUniqueCards())
+		for(MTGCard mc : d.getUniqueCards())
 		{
 			if(!mc.isArenaCard())
 				return false;
@@ -46,7 +46,7 @@ public class MTGDeckManager extends Observable {
 		return true;
 	}
 
-	public static boolean isLegal(MagicDeck magicDeck, MTGFormat.FORMATS format) {
+	public static boolean isLegal(MTGDeck magicDeck, MTGFormat.FORMATS format) {
 
 		if(format==FORMATS.COMMANDER)
 			return isCommander(magicDeck);
@@ -60,12 +60,12 @@ public class MTGDeckManager extends Observable {
 
 	}
 
-	public static boolean isCommander(MagicDeck magicDeck) {
+	public static boolean isCommander(MTGDeck magicDeck) {
 
 		if(magicDeck.getMainAsList().size()!=100)
 			return false;
 
-		for(Entry<MagicCard, Integer> entry : magicDeck.getMain().entrySet())
+		for(Entry<MTGCard, Integer> entry : magicDeck.getMain().entrySet())
 		{
 			if(!entry.getKey().isBasicLand() && entry.getValue()>1)
 				return false;
@@ -76,7 +76,7 @@ public class MTGDeckManager extends Observable {
 	}
 
 
-	public MagicDeck getDeck(Integer id)  {
+	public MTGDeck getDeck(Integer id)  {
 		try {
 			return MTG.getEnabledPlugin(MTGDao.class).getDeckById(id);
 		} catch (Exception e) {
@@ -87,7 +87,7 @@ public class MTGDeckManager extends Observable {
 
 
 
-	public List<MagicDeck> listDecks() {
+	public List<MTGDeck> listDecks() {
 		try {
 			return MTG.getEnabledPlugin(MTGDao.class).listDecks();
 		} catch (SQLException e) {
@@ -97,10 +97,10 @@ public class MTGDeckManager extends Observable {
 	}
 
 
-	public List<MagicDeck> listDecksWithTag(String tag)
+	public List<MTGDeck> listDecksWithTag(String tag)
 	{
-		List<MagicDeck> decks = new ArrayList<>();
-		for (MagicDeck deck : listDecks())
+		List<MTGDeck> decks = new ArrayList<>();
+		for (MTGDeck deck : listDecks())
 		{
 				if(deck.getTags().contains(tag))
 				{
@@ -112,10 +112,10 @@ public class MTGDeckManager extends Observable {
 		return decks;
 	}
 
-	public List<MagicDeck> listDecksWith(MagicCard mc,boolean strict)
+	public List<MTGDeck> listDecksWith(MTGCard mc,boolean strict)
 	{
-		List<MagicDeck> decks = new ArrayList<>();
-		for (MagicDeck deck : listDecks())
+		List<MTGDeck> decks = new ArrayList<>();
+		for (MTGDeck deck : listDecks())
 		{
 				if(deck.hasCard(mc,strict))
 				{
@@ -127,7 +127,7 @@ public class MTGDeckManager extends Observable {
 		return decks;
 	}
 
-	public void saveDeck(MagicDeck deck) throws IOException {
+	public void saveDeck(MTGDeck deck) throws IOException {
 		try {
 			MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateDeck(deck);
 		} catch (SQLException e) {
@@ -137,7 +137,7 @@ public class MTGDeckManager extends Observable {
 
 	}
 
-	public void remove(MagicDeck selectedDeck) throws IOException {
+	public void remove(MTGDeck selectedDeck) throws IOException {
 		try {
 			MTG.getEnabledPlugin(MTGDao.class).deleteDeck(selectedDeck);
 		} catch (SQLException e) {
@@ -146,7 +146,7 @@ public class MTGDeckManager extends Observable {
 		}
 	}
 
-	public Map<String, Boolean> analyseLegalities(MagicDeck d) {
+	public Map<String, Boolean> analyseLegalities(MTGDeck d) {
 		TreeMap<String, Boolean> temp = new TreeMap<>();
 
 		for (MTGFormat.FORMATS s : MTGFormat.FORMATS.values()) {
@@ -155,7 +155,7 @@ public class MTGDeckManager extends Observable {
 		return temp;
 	}
 
-	public Map<Integer, Integer> analyseCMC(List<MagicCard> cards) {
+	public Map<Integer, Integer> analyseCMC(List<MTGCard> cards) {
 		TreeMap<Integer, Integer> cmcs = new TreeMap<>();
 		cards.forEach(card->{
 			if ((card.getCmc() != null) && !card.isLand())
@@ -165,13 +165,13 @@ public class MTGDeckManager extends Observable {
 		return cmcs;
 	}
 
-	public Map<String, Integer> analyseTypes(List<MagicCard> cards) {
+	public Map<String, Integer> analyseTypes(List<MTGCard> cards) {
 		TreeMap<String, Integer> types = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 		cards.forEach(card->types.put(card.getTypes().get(0), types.get(card.getTypes().get(0))==null ? 1 : types.get(card.getTypes().get(0))+1));
 		return types;
 	}
 
-	public Map<EnumColors,Integer> analyseColors(List<MagicCard> cards)
+	public Map<EnumColors,Integer> analyseColors(List<MTGCard> cards)
 	{
 		TreeMap<EnumColors, Integer> colors = new TreeMap<>();
 
@@ -183,10 +183,10 @@ public class MTGDeckManager extends Observable {
 		return colors;
 	}
 
-	public Map<MagicCard, List<Double>> analyseDrawing(MagicDeck d) {
-		Map<MagicCard, List<Double>> ret = new HashMap<>();
+	public Map<MTGCard, List<Double>> analyseDrawing(MTGDeck d) {
+		Map<MTGCard, List<Double>> ret = new HashMap<>();
 
-		for (MagicCard mc : d.getUniqueCards()) {
+		for (MTGCard mc : d.getUniqueCards()) {
 			List<Double> list = new ArrayList<>();
 			for (var i = 0; i < 10; i++) {
 				list.add(getProbability(d,i, mc));
@@ -197,7 +197,7 @@ public class MTGDeckManager extends Observable {
 		return ret;
 	}
 
-	public Map<EnumRarity, Integer> analyseRarities(List<MagicCard> cards) {
+	public Map<EnumRarity, Integer> analyseRarities(List<MTGCard> cards) {
 		Map<EnumRarity, Integer> rarity = new TreeMap<>();
 		cards.forEach(card->{
 
@@ -209,7 +209,7 @@ public class MTGDeckManager extends Observable {
 
 	}
 
-	public double getProbability(MagicDeck deck, int turn, MagicCard mc) {
+	public double getProbability(MTGDeck deck, int turn, MTGCard mc) {
 		if((deck==null) || (mc==null))
 			return  0;
 
@@ -231,7 +231,7 @@ public class MTGDeckManager extends Observable {
 	}
 
 
-	public MagicDeck generateRandomDeck() throws IOException
+	public MTGDeck generateRandomDeck() throws IOException
 	{
 		try {
 			Random random= SecureRandom.getInstanceStrong();
@@ -248,7 +248,7 @@ public class MTGDeckManager extends Observable {
 
 		} catch (NoSuchAlgorithmException e) {
 			logger.error(e);
-			return new MagicDeck();
+			return new MTGDeck();
 		}
 	}
 

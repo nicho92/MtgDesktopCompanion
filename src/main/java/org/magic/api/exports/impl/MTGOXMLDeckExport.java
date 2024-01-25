@@ -9,7 +9,7 @@ import javax.swing.ImageIcon;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.tools.FileTools;
@@ -34,7 +34,7 @@ public class MTGOXMLDeckExport extends AbstractCardExport {
 	}
 
 	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 		var temp = new StringBuilder();
 		temp.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>").append(System.lineSeparator())
 		        .append("<Deck xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">").append(System.lineSeparator())
@@ -51,8 +51,8 @@ public class MTGOXMLDeckExport extends AbstractCardExport {
 	}
 	
 	@Override
-	public MagicDeck importDeck(String f, String deckName) throws IOException {
-		var deck = new MagicDeck();
+	public MTGDeck importDeck(String f, String deckName) throws IOException {
+		var deck = new MTGDeck();
 			deck.setName(deckName);
 			
 			try {
@@ -74,7 +74,7 @@ public class MTGOXMLDeckExport extends AbstractCardExport {
 			return deck;
 	}
 	
-	private void read(Node obj, MagicDeck deck) throws DOMException, IOException {
+	private void read(Node obj, MTGDeck deck) throws DOMException, IOException {
 		try {
 			
 			var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(obj.getAttributes().getNamedItem("Name").getTextContent(), null, true).get(0);

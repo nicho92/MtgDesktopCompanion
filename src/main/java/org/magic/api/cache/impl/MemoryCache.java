@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.interfaces.abstracts.AbstractCacheProvider;
 import org.magic.services.tools.MemoryTools;
 
@@ -28,12 +28,12 @@ public class MemoryCache extends AbstractCacheProvider {
 	}
 
 	@Override
-	public BufferedImage getItem(MagicCard mc) {
+	public BufferedImage getItem(MTGCard mc) {
 		return cache.get(generateIdIndex(mc));
 	}
 
 	@Override
-	public void put(BufferedImage im, MagicCard mc) {
+	public void put(BufferedImage im, MTGCard mc) {
 		logger.debug("put {} in  cache",mc);
 		cache.put(generateIdIndex(mc), im);
 	}

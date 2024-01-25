@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.UITools;
@@ -24,7 +24,7 @@ public class MTGPricePricer extends AbstractPricesProvider {
 	}
 
 	@Override
-	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
+	public List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
 	
 		if(getAuthenticator().get(API_KEY).isEmpty())
 		{
@@ -38,7 +38,7 @@ public class MTGPricePricer extends AbstractPricesProvider {
 
 		String url = getString("WS_URL") + "?apiKey=" + getAuthenticator().get(API_KEY) + "&s=" + set;
 
-		List<MagicPrice> ret = new ArrayList<>();
+		List<MTGPrice> ret = new ArrayList<>();
 
 		logger.info("{} looking for price at {}",getName(),url);
 
@@ -64,7 +64,7 @@ public class MTGPricePricer extends AbstractPricesProvider {
 				reader.endObject();
 
 				if (name.equalsIgnoreCase(card.getName())) {
-					var price = new MagicPrice();
+					var price = new MTGPrice();
 					price.setCurrency("USD");
 					price.setMagicCard(card);
 					price.setSeller(getName());

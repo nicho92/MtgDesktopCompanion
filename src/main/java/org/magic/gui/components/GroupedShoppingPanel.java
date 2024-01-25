@@ -15,9 +15,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import org.jdesktop.swingx.JXTreeTable;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MagicCardAlert;
-import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.MTGPrice;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
@@ -37,7 +37,7 @@ public class GroupedShoppingPanel extends MTGUIComponent {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JComboBox<MTGPricesProvider> cboPricers;
-	private transient List<MagicCard> cards;
+	private transient List<MTGCard> cards;
 	private JButton btnCheckPrice;
 	private AbstractBuzyIndicatorComponent buzy;
 	private JLabel lblitems;
@@ -51,7 +51,7 @@ public class GroupedShoppingPanel extends MTGUIComponent {
 		enableControle(true);
 	}
 
-	public void init(List<MagicCard> d) {
+	public void init(List<MTGCard> d) {
 		this.cards = d;
 		lblitems.setText(capitalize("X_ITEMS_IMPORTED",cards.size()));
 
@@ -110,7 +110,7 @@ public class GroupedShoppingPanel extends MTGUIComponent {
 
 					Object o = UITools.getTableSelection(tree, 0);
 
-					if(o instanceof MagicPrice mp)
+					if(o instanceof MTGPrice mp)
 					{
 						UITools.browse(mp.getSellerUrl());
 					}
@@ -123,10 +123,10 @@ public class GroupedShoppingPanel extends MTGUIComponent {
 
 		btnCheckPrice.addActionListener(ae -> {
 
-			AbstractObservableWorker<Map<String, List<MagicPrice>>, MagicPrice, MTGPricesProvider> sw = new AbstractObservableWorker<>(buzy,(MTGPricesProvider)cboPricers.getSelectedItem(),cards.size()) {
+			AbstractObservableWorker<Map<String, List<MTGPrice>>, MTGPrice, MTGPricesProvider> sw = new AbstractObservableWorker<>(buzy,(MTGPricesProvider)cboPricers.getSelectedItem(),cards.size()) {
 
 				@Override
-				protected Map<String, List<MagicPrice>> doInBackground() throws Exception {
+				protected Map<String, List<MTGPrice>> doInBackground() throws Exception {
 					return plug.getPricesBySeller(cards);
 				}
 

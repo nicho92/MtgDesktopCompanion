@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
@@ -42,7 +42,7 @@ public class MTGArenaDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
+	public MTGDeck getDeck(RetrievableDeck info) throws IOException {
 
 		if(arena==null)
 			init();
@@ -62,7 +62,7 @@ public class MTGArenaDeckSniffer extends AbstractDeckSniffer {
 		return d;
 	}
 
-	private void load(JsonObject obj, Map<MagicCard, Integer> map, String string) {
+	private void load(JsonObject obj, Map<MTGCard, Integer> map, String string) {
 		var arr = obj.get(string).getAsJsonArray();
 
 		List<String> ids= new ArrayList<>();

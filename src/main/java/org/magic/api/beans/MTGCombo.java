@@ -10,7 +10,7 @@ import org.magic.api.interfaces.MTGComboProvider;
 
 public class MTGCombo {
 
-	private List<MagicCard> cards;
+	private List<MTGCard> cards;
 	private String name;
 	private String comment;
 	private MTGComboProvider plugin;
@@ -24,10 +24,10 @@ public class MTGCombo {
 		return plugin;
 	}
 
-	public List<MagicCard> getCards() {
+	public List<MTGCard> getCards() {
 		return cards;
 	}
-	public void setCards(List<MagicCard> cards) {
+	public void setCards(List<MTGCard> cards) {
 		this.cards = cards;
 	}
 	public String getName() {
@@ -49,7 +49,7 @@ public class MTGCombo {
 
 	public String getColors() {
 		Set<String> cmap = new LinkedHashSet<>();
-		for (MagicCard mc : getCards()) {
+		for (MTGCard mc : getCards()) {
 			if ((mc.getCmc() != null))
 				for (EnumColors c : mc.getColors())
 					cmap.add(c.toManaCode());
@@ -62,7 +62,7 @@ public class MTGCombo {
 	public String toString() {
 		return getName();
 	}
-	public void addCard(MagicCard card) {
+	public void addCard(MTGCard card) {
 		cards.add(card);
 
 	}

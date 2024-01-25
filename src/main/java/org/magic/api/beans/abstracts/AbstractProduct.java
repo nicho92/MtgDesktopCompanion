@@ -1,6 +1,6 @@
 package org.magic.api.beans.abstracts;
 
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.interfaces.MTGProduct;
@@ -14,7 +14,7 @@ public abstract class AbstractProduct implements MTGProduct{
 	protected Long productId;
 	@SerializedName(alternate = "imageName", value = "url") protected String url;
 	protected String name;
-	protected MagicEdition edition;
+	protected MTGEdition edition;
 	protected EnumItems typeProduct;
 	protected Category category;
 
@@ -67,11 +67,11 @@ public abstract class AbstractProduct implements MTGProduct{
 		this.url = url;
 	}
 	@Override
-	public MagicEdition getEdition() {
+	public MTGEdition getEdition() {
 		return edition;
 	}
 	@Override
-	public void setEdition(MagicEdition edition) {
+	public void setEdition(MTGEdition edition) {
 		this.edition = edition;
 	}
 	@Override

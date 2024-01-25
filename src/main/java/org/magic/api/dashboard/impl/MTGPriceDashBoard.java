@@ -15,14 +15,14 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang.StringUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.magic.api.beans.CardDominance;
+import org.magic.api.beans.MTGDominance;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.EditionsShakers;
 import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MTGSealedProduct;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGConstants;
@@ -99,7 +99,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 
 	private String getCodeForExt(String name) {
 		try {
-			for (MagicEdition ed : getEnabledPlugin(MTGCardsProvider.class).listEditions())
+			for (MTGEdition ed : getEnabledPlugin(MTGCardsProvider.class).listEditions())
 				if (ed.getSet().toUpperCase().contains(name.toUpperCase()))
 					return ed.getId();
 		} catch (Exception e) {
@@ -110,7 +110,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	}
 
 	@Override
-	protected EditionsShakers getOnlineShakesForEdition(MagicEdition edition) throws IOException {
+	protected EditionsShakers getOnlineShakesForEdition(MTGEdition edition) throws IOException {
 
 		String name = convert(edition.getSet()).replace(" ", "_");
 
@@ -169,15 +169,15 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	}
 
 	@Override
-	protected HistoryPrice<MagicEdition> getOnlinePricesVariation(MagicEdition ed) throws IOException {
+	protected HistoryPrice<MTGEdition> getOnlinePricesVariation(MTGEdition ed) throws IOException {
 		return new HistoryPrice<>(ed);
 	}
 
 
 	@Override
-	public HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, boolean foil) throws IOException {
+	public HistoryPrice<MTGCard> getOnlinePricesVariation(MTGCard mc, boolean foil) throws IOException {
 
-		HistoryPrice<MagicCard> historyPrice = new HistoryPrice<>(mc);
+		HistoryPrice<MTGCard> historyPrice = new HistoryPrice<>(mc);
 		historyPrice.setFoil(foil);
 		var name = "";
 
@@ -228,7 +228,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	}
 
 	@Override
-	public List<CardDominance> getBestCards(MTGFormat.FORMATS f, String filter) throws IOException {
+	public List<MTGDominance> getBestCards(MTGFormat.FORMATS f, String filter) throws IOException {
 		return new ArrayList<>();
 	}
 

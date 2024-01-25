@@ -1,12 +1,12 @@
 package org.magic.api.sorters;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.interfaces.MTGComparator;
 
-public class CardsDeckSorter implements MTGComparator<MagicCard> {
+public class CardsDeckSorter implements MTGComparator<MTGCard> {
 
-	MagicDeck deck;
+	MTGDeck deck;
 
 
 	@Override
@@ -15,7 +15,7 @@ public class CardsDeckSorter implements MTGComparator<MagicCard> {
 	}
 
 	@Override
-	public int compare(MagicCard o1, MagicCard o2) {
+	public int compare(MTGCard o1, MTGCard o2) {
 		var ret =0;
 		try
 		{
@@ -31,13 +31,13 @@ public class CardsDeckSorter implements MTGComparator<MagicCard> {
 		return ret;
 	}
 
-	public CardsDeckSorter(MagicDeck d)
+	public CardsDeckSorter(MTGDeck d)
 	{
 		this.deck=d;
 	}
 
 
-	private int test(MagicCard o1, MagicCard o2) {
+	private int test(MTGCard o1, MTGCard o2) {
 
 		if (getWeight(o1) < getWeight(o2))
 			return -1;
@@ -49,7 +49,7 @@ public class CardsDeckSorter implements MTGComparator<MagicCard> {
 
 	}
 
-	private int land(MagicCard mc) {
+	private int land(MTGCard mc) {
 		if (mc.getName().equalsIgnoreCase("Plains"))
 			return 6;
 
@@ -65,12 +65,12 @@ public class CardsDeckSorter implements MTGComparator<MagicCard> {
 		return 10;
 	}
 
-	private int name(MagicCard o1, MagicCard o2) {
+	private int name(MTGCard o1, MTGCard o2) {
 		return o1.getName().compareTo(o2.getName());
 	}
 
 	@Override
-	public int getWeight(MagicCard mc) {
+	public int getWeight(MTGCard mc) {
 
 
 

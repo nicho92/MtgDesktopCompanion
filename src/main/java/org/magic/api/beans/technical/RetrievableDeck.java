@@ -4,7 +4,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGDeck;
 
 public class RetrievableDeck {
 
@@ -16,9 +16,9 @@ public class RetrievableDeck {
 	private List<String> keycards;
 
 
-	public MagicDeck toBaseDeck()
+	public MTGDeck toBaseDeck()
 	{
-		var deck = new MagicDeck();
+		var deck = new MTGDeck();
 		deck.setName(getName());
 		deck.setDescription("Import from : " + getUrl());
 

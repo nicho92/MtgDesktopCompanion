@@ -8,8 +8,8 @@ import java.net.URL;
 import java.util.Calendar;
 import java.util.regex.Pattern;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.services.network.URLTools;
@@ -21,7 +21,7 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 		return MOD.LOCAL;
 	}
 
-	public BufferedImage generatePictureForCard(MagicCard mc, BufferedImage pic) {
+	public BufferedImage generatePictureForCard(MTGCard mc, BufferedImage pic) {
 		BufferedImage cadre = getPicture(mc, null);
 		Graphics g = cadre.createGraphics();
 		g.drawImage(pic, 35, 68, 329, 242, null);
@@ -30,7 +30,7 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 	}
 
 	@Override
-	public BufferedImage getPicture(MagicCard mc, MagicEdition ed) {
+	public BufferedImage getPicture(MTGCard mc, MTGEdition ed) {
 		try {
 			return URLTools.extractAsImage(getPictureURL(mc).toString());
 		} catch (Exception e) {
@@ -61,7 +61,7 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 
 	}
 
-	private String powerorloyalty(MagicCard mc) {
+	private String powerorloyalty(MTGCard mc) {
 
 		if(extractColorless(mc.getCost()) > 0)
 			return String.valueOf(extractColorless(mc.getCost()));
@@ -72,7 +72,7 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 	}
 
 
-	private URL getPictureURL(MagicCard mc) throws MalformedURLException {
+	private URL getPictureURL(MTGCard mc) throws MalformedURLException {
 
 		var color = "colorless";
 		if (!mc.getColors().isEmpty())

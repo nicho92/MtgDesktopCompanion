@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.Date;
 
 import org.apache.logging.log4j.Logger;
-import org.magic.api.beans.Announce.STATUS;
+import org.magic.api.beans.MTGAnnounce.STATUS;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.tools.MTG;

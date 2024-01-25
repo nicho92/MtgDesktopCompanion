@@ -20,7 +20,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MTGCollection;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.gui.components.widgets.JTextFieldFileChooser;
 import org.magic.gui.renderer.MagicCollectionIconListRenderer;
@@ -39,7 +39,7 @@ public class WebSiteGeneratorDialog extends JDialog {
 
 	private boolean value = false;
 	private JComboBox<String> cboTemplates;
-	private JList<MagicCollection> list;
+	private JList<MTGCollection> list;
 	private JList<MTGPricesProvider> lstProviders;
 
 	public File getDest() {
@@ -50,7 +50,7 @@ public class WebSiteGeneratorDialog extends JDialog {
 		return cboTemplates.getSelectedItem().toString();
 	}
 
-	public WebSiteGeneratorDialog(List<MagicCollection> cols) {
+	public WebSiteGeneratorDialog(List<MTGCollection> cols) {
 		setSize(new Dimension(571, 329));
 		setModal(true);
 		setTitle(capitalize("GENERATE_WEBSITE"));
@@ -101,7 +101,7 @@ public class WebSiteGeneratorDialog extends JDialog {
 		panneaucentral.add(lblChooseYourPrices, gbclblChooseYourPrices);
 
 
-		list = new JList<>(cols.toArray(new MagicCollection[cols.size()]));
+		list = new JList<>(cols.toArray(new MTGCollection[cols.size()]));
 		list.setCellRenderer(new MagicCollectionIconListRenderer());
 		lstProviders = new JList<>(listEnabledPlugins(MTGPricesProvider.class)
 				.toArray(new MTGPricesProvider[listEnabledPlugins(MTGPricesProvider.class).size()]));
@@ -120,7 +120,7 @@ public class WebSiteGeneratorDialog extends JDialog {
 		setLocationRelativeTo(null);
 	}
 
-	public List<MagicCollection> getSelectedCollections() {
+	public List<MTGCollection> getSelectedCollections() {
 		return list.getSelectedValuesList();
 	}
 

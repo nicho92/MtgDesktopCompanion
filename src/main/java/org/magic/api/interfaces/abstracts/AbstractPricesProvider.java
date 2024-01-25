@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.MTGPrice;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.sorters.MagicPricesComparator;
 import org.magic.services.MTGControler;
@@ -20,26 +20,26 @@ public abstract class AbstractPricesProvider extends AbstractMTGPlugin implement
 		return PLUGINS.PRICER;
 	}
 
-	protected abstract List<MagicPrice> getLocalePrice(MagicCard card) throws IOException;
+	protected abstract List<MTGPrice> getLocalePrice(MTGCard card) throws IOException;
 
 
 	@Override
-	public Map<String, List<MagicPrice>> getPricesBySeller(List<MagicCard> cards) throws IOException {
-		Map<String, List<MagicPrice>> map = new HashMap<>();
+	public Map<String, List<MTGPrice>> getPricesBySeller(List<MTGCard> cards) throws IOException {
+		Map<String, List<MTGPrice>> map = new HashMap<>();
 
-		for(MagicCard mc : cards)
+		for(MTGCard mc : cards)
 		{
 			notify(mc);
-			List<MagicPrice> prices = getPrice(mc);
+			List<MTGPrice> prices = getPrice(mc);
 
-			for(MagicPrice mp : prices)
+			for(MTGPrice mp : prices)
 				map.computeIfAbsent(mp.getSeller(),v->new ArrayList<>()).add(mp);
 		}
 		return map;
 	}
 
 	@Override
-	public MagicPrice getBestPrice(MagicCard card) {
+	public MTGPrice getBestPrice(MTGCard card) {
 		try {
 			return getPrice(card).stream().min(new MagicPricesComparator()).orElse(null);
 		} catch (IOException e) {
@@ -49,13 +49,13 @@ public abstract class AbstractPricesProvider extends AbstractMTGPlugin implement
 	}
 
 
-	private List<MagicPrice> retrieveMap(Map<MagicCard,Integer> map)
+	private List<MTGPrice> retrieveMap(Map<MTGCard,Integer> map)
 	{
-			List<MagicPrice> ret = new ArrayList<>();
+			List<MTGPrice> ret = new ArrayList<>();
 
 			map.entrySet().forEach(e->{
 				try {
-					MagicPrice p = getPrice(e.getKey()).stream().min(new MagicPricesComparator()).orElse(null);
+					MTGPrice p = getPrice(e.getKey()).stream().min(new MagicPricesComparator()).orElse(null);
 					if(p!=null)
 					{
 						p.setMagicCard(e.getKey());
@@ -73,9 +73,9 @@ public abstract class AbstractPricesProvider extends AbstractMTGPlugin implement
 	}
 
 	@Override
-	public List<MagicPrice> getPrice(MagicDeck d,boolean side) throws IOException {
+	public List<MTGPrice> getPrice(MTGDeck d,boolean side) throws IOException {
 
-		List<MagicPrice> ret = new ArrayList<>();
+		List<MTGPrice> ret = new ArrayList<>();
 		ret.addAll(retrieveMap(d.getMain()));
 
 			if(side)
@@ -87,9 +87,9 @@ public abstract class AbstractPricesProvider extends AbstractMTGPlugin implement
 
 
 	@Override
-	public Double getSuggestedPrice(MagicCard mc, boolean foil) {
+	public Double getSuggestedPrice(MTGCard mc, boolean foil) {
 		try {
-			return getPrice(mc).stream().filter(mp->mp.isFoil()==foil && mp.getMagicCard()==mc).min(new MagicPricesComparator()).orElse(new MagicPrice()).getValue();
+			return getPrice(mc).stream().filter(mp->mp.isFoil()==foil && mp.getMagicCard()==mc).min(new MagicPricesComparator()).orElse(new MTGPrice()).getValue();
 		} catch (Exception e) {
 			logger.error(e);
 			return 0.0;
@@ -98,7 +98,7 @@ public abstract class AbstractPricesProvider extends AbstractMTGPlugin implement
 
 
 	@Override
-	public List<MagicPrice> getPrice(MagicCard card) throws IOException
+	public List<MTGPrice> getPrice(MTGCard card) throws IOException
 	{
 		return new ArrayList<>(getLocalePrice(card)
 								.stream()
@@ -115,7 +115,7 @@ public abstract class AbstractPricesProvider extends AbstractMTGPlugin implement
 
 
 	@Override
-	public void alertDetected(List<MagicPrice> p) {
+	public void alertDetected(List<MTGPrice> p) {
 		// do nothing
 
 	}

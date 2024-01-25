@@ -10,7 +10,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGEdition;
 import org.magic.services.providers.IconSetProvider;
 
 public class MagicEditionsJLabelRenderer implements TableCellRenderer {
@@ -30,7 +30,7 @@ public class MagicEditionsJLabelRenderer implements TableCellRenderer {
 		pane.removeAll();
 		pane.setBackground(new DefaultTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column).getBackground());
 
-		for (MagicEdition ed : (List<MagicEdition>) value) {
+		for (MTGEdition ed : (List<MTGEdition>) value) {
 			var l = new JLabel(IconSetProvider.getInstance().get16(ed.getId()));
 			l.setToolTipText(ed.getSet());
 			l.setOpaque(false);

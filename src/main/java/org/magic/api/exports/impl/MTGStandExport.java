@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 
-import org.magic.api.beans.MagicCardStock;
+import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.tools.FileTools;
@@ -23,12 +23,12 @@ public class MTGStandExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
+	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
 
 		var build = new StringBuilder();
 					  build.append(columns).append(System.lineSeparator());
 
-		for(MagicCardStock st : stock)
+		for(MTGCardStock st : stock)
 		{
 
 			build.append("\"").append(st.getProduct().getName()).append("\",");
@@ -63,8 +63,8 @@ public class MTGStandExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	public List<MagicCardStock> importStock(String content) throws IOException {
-		List<MagicCardStock> ret = new ArrayList<>();
+	public List<MTGCardStock> importStock(String content) throws IOException {
+		List<MTGCardStock> ret = new ArrayList<>();
 		for(Matcher m : matches(content, true))
 		{
 			var mc = parseMatcherWithGroup(m, 1, 4, true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NAME);
@@ -72,7 +72,7 @@ public class MTGStandExport extends AbstractFormattedFileCardExport {
 			if(mc !=null )
 			{
 
-				var st = new MagicCardStock(mc);
+				var st = new MTGCardStock(mc);
 				st.setQte(Integer.parseInt(m.group(2)));
 				st.setLanguage(m.group(6));
 				st.setFoil(m.group(7).equals("1"));

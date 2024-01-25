@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGCollection;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
@@ -21,7 +21,7 @@ public class DragonShieldExport extends AbstractFormattedFileCardExport {
 	private static final String COLUMNS_DECK ="Card Type,Quantity,Card Name,Mana Cost,Min Price (AVG)";
 	
 	@Override
-	public void exportDeck(MagicDeck deck, File f) throws IOException {
+	public void exportDeck(MTGDeck deck, File f) throws IOException {
 		var temp = new StringBuilder();
 		   				   temp.append(COLUMNS_DECK).append(System.lineSeparator());
 		 
@@ -45,9 +45,9 @@ public class DragonShieldExport extends AbstractFormattedFileCardExport {
 	}
 	
 	@Override
-	public MagicDeck importDeck(String content, String name) throws IOException {
+	public MTGDeck importDeck(String content, String name) throws IOException {
 		
-		var d = new MagicDeck();
+		var d = new MTGDeck();
 		
 		
 		matches(content, true, aliases.getRegexFor(this,"deck")).forEach(m->{
@@ -72,7 +72,7 @@ public class DragonShieldExport extends AbstractFormattedFileCardExport {
 	
 	
 	@Override
-	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
+	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
 		StringBuilder temp = new StringBuilder();
 						   temp.append(COLUMNS_STOCK).append(System.lineSeparator());
 						   
@@ -96,9 +96,9 @@ public class DragonShieldExport extends AbstractFormattedFileCardExport {
 	
 	
 	@Override
-	public List<MagicCardStock> importStock(String content) throws IOException {
+	public List<MTGCardStock> importStock(String content) throws IOException {
 
-	var list = new ArrayList<MagicCardStock>();
+	var list = new ArrayList<MTGCardStock>();
 		
 		
 		matches(content, true, aliases.getRegexFor(this,"stock")).forEach(m->{
@@ -108,7 +108,7 @@ public class DragonShieldExport extends AbstractFormattedFileCardExport {
 				stock.setProduct(mc);
 				stock.setQte(Integer.parseInt(m.group(2)));
 				stock.setLanguage(m.group(10));
-				stock.setMagicCollection(new MagicCollection(m.group(1)));
+				stock.setMagicCollection(new MTGCollection(m.group(1)));
 				stock.setPrice(UITools.parseDouble(m.group(11)));
 				stock.setFoil(m.group(9).equalsIgnoreCase("true"));
 				stock.setCondition(aliases.getReversedConditionFor(this, m.group(8), EnumCondition.NEAR_MINT));

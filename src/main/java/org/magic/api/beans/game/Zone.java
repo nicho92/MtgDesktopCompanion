@@ -7,12 +7,12 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 
 public class Zone implements Serializable {
 
 	protected static final long serialVersionUID = 1L;
-	protected transient List<MagicCard> cards;
+	protected transient List<MTGCard> cards;
 	protected ZoneEnum location;
 
 	public Zone(ZoneEnum zone) {
@@ -20,24 +20,24 @@ public class Zone implements Serializable {
 		this.location=zone;
 	}
 
-	public Zone(List<MagicCard> asList,ZoneEnum zone) {
+	public Zone(List<MTGCard> asList,ZoneEnum zone) {
 		this.cards = asList;
 		this.location=zone;
 	}
 
-	public List<MagicCard> getCards() {
+	public List<MTGCard> getCards() {
 		return cards;
 	}
 
-	public void setCards(List<MagicCard> cards) {
+	public void setCards(List<MTGCard> cards) {
 		this.cards = cards;
 	}
 
-	public void remove(MagicCard mc) {
+	public void remove(MTGCard mc) {
 		cards.remove(mc);
 	}
 
-	public void add(MagicCard mc) {
+	public void add(MTGCard mc) {
 		cards.add(mc);
 	}
 
@@ -52,14 +52,14 @@ public class Zone implements Serializable {
 	public Set<String> getTypesIncludes() {
 		Set<String> set = new LinkedHashSet<>();
 
-		for (MagicCard mc : cards) {
+		for (MTGCard mc : cards) {
 			set.addAll(mc.getTypes());
 		}
 		return set;
 	}
 
 
-	public void putCardAt(MagicCard mc, int position) {
+	public void putCardAt(MTGCard mc, int position) {
 		cards.set(position, mc);
 	}
 
@@ -72,12 +72,12 @@ public class Zone implements Serializable {
 		Collections.shuffle(cards);
 	}
 
-	public List<MagicCard> subList(int i, int number) {
+	public List<MTGCard> subList(int i, int number) {
 		return cards.subList(i, number);
 	}
 
 
-	public void add(int i, MagicCard mc) {
+	public void add(int i, MTGCard mc) {
 		cards.add(i, mc);
 
 	}

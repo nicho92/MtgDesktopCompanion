@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.abstracts.AbstractMTGTextGenerator;
@@ -52,7 +52,7 @@ public class MarkovGenerator extends AbstractMTGTextGenerator {
 			  logger.debug("Init MarkovGenerator");
 			  var build = new StringBuilder();
 			  var count =0;
-			  for(MagicCard mc : getEnabledPlugin(MTGCardsIndexer.class).listCards())
+			  for(MTGCard mc : getEnabledPlugin(MTGCardsIndexer.class).listCards())
 			  {
 
 				  if((mc.getText()!=null || !mc.getText().isEmpty() || !mc.getText().equalsIgnoreCase("null"))) {

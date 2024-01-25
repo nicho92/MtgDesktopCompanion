@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.utils.patterns.observer.Observable;
 
 public class TriggerManager extends Observable {
@@ -46,7 +46,7 @@ public class TriggerManager extends Observable {
 		a.forEach(as->register(t, a));
 	}
 
-	public void trigger(TRIGGERS t,MagicCard mc)
+	public void trigger(TRIGGERS t,MTGCard mc)
 	{
 		//TODO implements triggering
 	}

@@ -5,7 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import org.jsoup.select.Elements;
-import org.magic.api.beans.Grading;
+import org.magic.api.beans.MTGGrading;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
@@ -19,7 +19,7 @@ public class PCAGrader extends AbstractGradersProvider {
 	}
 
 	@Override
-	public Grading loadGrading(String identifier) throws IOException {
+	public MTGGrading loadGrading(String identifier) throws IOException {
 
 		var url=getWebSite()+"/resumeBdd/"+identifier+"/1";
 		var d = RequestBuilder.build().get()
@@ -39,7 +39,7 @@ public class PCAGrader extends AbstractGradersProvider {
 		els.get(3).select("strong").remove();
 		els.get(5).select("strong").remove();
 
-		var g = new Grading();
+		var g = new MTGGrading();
 		g.setGraderName(getName());
 		g.setNumberID(identifier);
 		g.setGradeNote(UITools.parseDouble(els.get(3).text()));

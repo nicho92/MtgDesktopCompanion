@@ -2,13 +2,13 @@ package org.magic.gui.models;
 
 import java.util.Date;
 
-import org.magic.api.beans.Announce;
+import org.magic.api.beans.MTGAnnounce;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.EnumTransactionDirection;
 import org.magic.api.beans.shop.Contact;
 import org.magic.gui.abstracts.GenericTableModel;
 
-public class AnnouncesTableModel extends GenericTableModel<Announce> {
+public class AnnouncesTableModel extends GenericTableModel<MTGAnnounce> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -22,13 +22,13 @@ public class AnnouncesTableModel extends GenericTableModel<Announce> {
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex)
 		{
-		case 0 : return Announce.class;
+		case 0 : return MTGAnnounce.class;
 		case 1 : return EnumTransactionDirection.class;
 		case 2 : return EnumItems.class;
 		case 4 : return Double.class;
 		case 5 : return Contact.class;
 		case 6|7 : return Date.class;
-		case 8 : return Announce.STATUS.class;
+		case 8 : return MTGAnnounce.STATUS.class;
 		default : return super.getColumnClass(columnIndex);
 
 		}

@@ -13,8 +13,8 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.components.GroupedShoppingPanel;
@@ -41,8 +41,8 @@ public class ShoppingDashlet extends AbstractJDashlet {
 		var panel = new JPanel();
 		var groupedShoppingPanel = new GroupedShoppingPanel();
 		var btnPast = new JButton(MTGConstants.ICON_PASTE);
-		DefaultListModel<MagicCard> model = new DefaultListModel<>();
-		JList<MagicCard> list = new JList<>(model);
+		DefaultListModel<MTGCard> model = new DefaultListModel<>();
+		JList<MTGCard> list = new JList<>(model);
 		var panneauHaut = new JPanel();
 		var btnClear = new JButton(MTGConstants.ICON_DELETE);
 
@@ -60,7 +60,7 @@ public class ShoppingDashlet extends AbstractJDashlet {
 		btnPast.addActionListener(al->{
 
 			try {
-				MagicDeck d = getPlugin(MTGConstants.DEFAULT_CLIPBOARD_NAME,MTGCardsExport.class).importDeck(null,null);
+				MTGDeck d = getPlugin(MTGConstants.DEFAULT_CLIPBOARD_NAME,MTGCardsExport.class).importDeck(null,null);
 				d.getMain().keySet().forEach(model::addElement);
 
 

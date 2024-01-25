@@ -19,8 +19,8 @@ import javax.swing.SwingConstants;
 
 import org.apache.commons.lang3.time.DateUtils;
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.Announce;
-import org.magic.api.beans.Announce.STATUS;
+import org.magic.api.beans.MTGAnnounce;
+import org.magic.api.beans.MTGAnnounce.STATUS;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
@@ -41,7 +41,7 @@ import org.magic.services.workers.AbstractObservableWorker;
 public class AnnouncesGUI extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
-	private GedPanel<Announce> gedPanel;
+	private GedPanel<MTGAnnounce> gedPanel;
 	private StockItemPanel itemsPanel;
 	private AnnouncesTableModel modelAnnounces;
 	private AbstractBuzyIndicatorComponent buzy;
@@ -98,13 +98,13 @@ public class AnnouncesGUI extends MTGUIComponent {
 
 			if(!lsl.getValueIsAdjusting())
 			{
-					Announce a = UITools.getTableSelection(tableAnnounces,0);
+					MTGAnnounce a = UITools.getTableSelection(tableAnnounces,0);
 
 					if(a!=null)
 					{
 						contactPanel.setContact(a.getContact());
 						itemsPanel.initItems(a.getItems());
-						gedPanel.init(Announce.class, a);
+						gedPanel.init(MTGAnnounce.class, a);
 						detailsPanel.setAnnounce(a);
 					}
 					btnDelete.setEnabled(a!=null);
@@ -118,7 +118,7 @@ public class AnnouncesGUI extends MTGUIComponent {
 		btnUpdate.addActionListener(al->load());
 
 		btnNew.addActionListener(al->{
-			var a = new Announce();
+			var a = new MTGAnnounce();
 				a.setContact(MTGControler.getInstance().getWebConfig().getContact());
 				detailsPanel.setAnnounce(a);
 				itemsPanel.initItems(a.getItems());
@@ -128,9 +128,9 @@ public class AnnouncesGUI extends MTGUIComponent {
 
 		btnOverDate.addActionListener(al->{
 
-			List<Announce> list = UITools.getTableSelections(tableAnnounces, 0);
+			List<MTGAnnounce> list = UITools.getTableSelections(tableAnnounces, 0);
 
-			for(Announce a : list)
+			for(MTGAnnounce a : list)
 			{
 				a.setEndDate(DateUtils.addDays(a.getEndDate(), MTGConstants.DAY_ANNOUNCES_UPDATE));
 				a.setUpdated(true);
@@ -144,20 +144,20 @@ public class AnnouncesGUI extends MTGUIComponent {
 
 
 			if(!UITools.getSelectedRows(tableAnnounces).isEmpty()) {
-				Announce b = detailsPanel.getAnnounce();
+				MTGAnnounce b = detailsPanel.getAnnounce();
 						b.setUpdated(true);
 						b.setItems(itemsPanel.getItems());
 
 			}
 
 
-			var updates = modelAnnounces.getItems().stream().filter(Announce::isUpdated).toList();
+			var updates = modelAnnounces.getItems().stream().filter(MTGAnnounce::isUpdated).toList();
 
-			var sw = new AbstractObservableWorker<Void,Announce,MTGDao>(buzy,MTG.getEnabledPlugin(MTGDao.class),updates.size()){
+			var sw = new AbstractObservableWorker<Void,MTGAnnounce,MTGDao>(buzy,MTG.getEnabledPlugin(MTGDao.class),updates.size()){
 				@Override
 				protected Void doInBackground() throws SQLException {
 
-					for(Announce a: updates)
+					for(MTGAnnounce a: updates)
 						plug.saveOrUpdateAnnounce(a);
 
 					return null;
@@ -175,7 +175,7 @@ public class AnnouncesGUI extends MTGUIComponent {
 
 		btnDelete.addActionListener(al->{
 
-			Announce a = UITools.getTableSelection(tableAnnounces,0);
+			MTGAnnounce a = UITools.getTableSelection(tableAnnounces,0);
 
 			int res = JOptionPane.showConfirmDialog(this, "Delete "  +  a + " ?");
 
@@ -202,10 +202,10 @@ public class AnnouncesGUI extends MTGUIComponent {
 
 
 	private void load() {
-		var sw = new AbstractObservableWorker<List<Announce>, Announce, MTGDao>(buzy,MTG.getEnabledPlugin(MTGDao.class)) {
+		var sw = new AbstractObservableWorker<List<MTGAnnounce>, MTGAnnounce, MTGDao>(buzy,MTG.getEnabledPlugin(MTGDao.class)) {
 
 			@Override
-			protected List<Announce> doInBackground() throws Exception {
+			protected List<MTGAnnounce> doInBackground() throws Exception {
 					return plug.listAnnounces();
 			}
 

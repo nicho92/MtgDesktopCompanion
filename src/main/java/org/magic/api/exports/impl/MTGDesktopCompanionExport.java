@@ -11,7 +11,7 @@ import java.util.Date;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 
 public class MTGDesktopCompanionExport extends AbstractCardExport {
@@ -30,7 +30,7 @@ public class MTGDesktopCompanionExport extends AbstractCardExport {
 	}
 
 	@Override
-	public void exportDeck(MagicDeck deck, File name) throws IOException {
+	public void exportDeck(MTGDeck deck, File name) throws IOException {
 		deck.setDateUpdate(new Date());
 
 		var fos = new FileOutputStream(name);
@@ -53,13 +53,13 @@ public class MTGDesktopCompanionExport extends AbstractCardExport {
 	}
 
 	@Override
-	public MagicDeck importDeck(String f, String name) throws IOException {
+	public MTGDeck importDeck(String f, String name) throws IOException {
 		throw new IOException("Not Supported");
 	}
 
 
 	@Override
-	public MagicDeck importDeckFromFile(File f) throws IOException {
+	public MTGDeck importDeckFromFile(File f) throws IOException {
 		try {
 			return read(f);
 		} catch (ClassNotFoundException e) {

@@ -20,7 +20,7 @@ import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MTGRuling;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.gui.components.card.MagicTextPane;
 import org.magic.gui.components.card.ManaPanel;
 
@@ -38,7 +38,7 @@ public class LightDescribeCardPanel extends JPanel {
 
 	private transient BindingGroup mBindingGroup;
 
-	private MagicCard card;
+	private MTGCard card;
 	private JPanel panel;
 	private JLabel label;
 	private JTextField txtT;
@@ -179,7 +179,7 @@ public class LightDescribeCardPanel extends JPanel {
 		}
 	}
 
-	public void setCard(MagicCard newMagicCard) {
+	public void setCard(MTGCard newMagicCard) {
 		card = newMagicCard;
 
 		if (mBindingGroup != null) {
@@ -193,45 +193,45 @@ public class LightDescribeCardPanel extends JPanel {
 
 	protected BindingGroup initDataBindings() {
 
-		BeanProperty<MagicCard, String> nameProperty = BeanProperty.create("name");
+		BeanProperty<MTGCard, String> nameProperty = BeanProperty.create("name");
 		BeanProperty<JTextField, String> textProperty = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBinding = Bindings.createAutoBinding(UpdateStrategy.READ,
+		AutoBinding<MTGCard, String, JTextField, String> autoBinding = Bindings.createAutoBinding(UpdateStrategy.READ,
 				card, nameProperty, txtName, textProperty);
 		autoBinding.bind();
 
-		BeanProperty<MagicCard, String> costProperty = BeanProperty.create("cost");
+		BeanProperty<MTGCard, String> costProperty = BeanProperty.create("cost");
 		BeanProperty<ManaPanel, String> textProperty1 = BeanProperty.create("manaCost");
-		AutoBinding<MagicCard, String, ManaPanel, String> autoBinding1 = Bindings
+		AutoBinding<MTGCard, String, ManaPanel, String> autoBinding1 = Bindings
 				.createAutoBinding(UpdateStrategy.READ_WRITE, card, costProperty, manaPanel, textProperty1);
 		autoBinding1.bind();
 
-		BeanProperty<MagicCard, String> fullTypeProperty = BeanProperty.create("fullType");
+		BeanProperty<MTGCard, String> fullTypeProperty = BeanProperty.create("fullType");
 		BeanProperty<JTextField, String> textProperty2 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBinding2 = Bindings
+		AutoBinding<MTGCard, String, JTextField, String> autoBinding2 = Bindings
 				.createAutoBinding(UpdateStrategy.READ, card, fullTypeProperty, txtType, textProperty2);
 		autoBinding2.bind();
 
-		BeanProperty<MagicCard, Integer> loyaltyProperty = BeanProperty.create("loyalty");
+		BeanProperty<MTGCard, Integer> loyaltyProperty = BeanProperty.create("loyalty");
 		BeanProperty<JTextField, String> textProperty4 = BeanProperty.create("text");
-		AutoBinding<MagicCard, Integer, JTextField, String> autoBinding4 = Bindings
+		AutoBinding<MTGCard, Integer, JTextField, String> autoBinding4 = Bindings
 				.createAutoBinding(UpdateStrategy.READ, card, loyaltyProperty, txtLoyalty, textProperty4);
 		autoBinding4.bind();
 
-		BeanProperty<MagicCard, String> textProperty8 = BeanProperty.create("text");
+		BeanProperty<MTGCard, String> textProperty8 = BeanProperty.create("text");
 		BeanProperty<MagicTextPane, String> textProperty9 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, MagicTextPane, String> autoBinding8 = Bindings
+		AutoBinding<MTGCard, String, MagicTextPane, String> autoBinding8 = Bindings
 				.createAutoBinding(UpdateStrategy.READ, card, textProperty8, magicTextPane, textProperty9);
 		autoBinding8.bind();
 
-		BeanProperty<MagicCard, String> pProperty = BeanProperty.create("power");
+		BeanProperty<MTGCard, String> pProperty = BeanProperty.create("power");
 		BeanProperty<JTextField, String> textPropertyP = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBindingP = Bindings
+		AutoBinding<MTGCard, String, JTextField, String> autoBindingP = Bindings
 				.createAutoBinding(UpdateStrategy.READ, card, pProperty, txtPower, textPropertyP);
 		autoBindingP.bind();
 
-		BeanProperty<MagicCard, String> tProperty = BeanProperty.create("toughness");
+		BeanProperty<MTGCard, String> tProperty = BeanProperty.create("toughness");
 		BeanProperty<JTextField, String> textPropertyT = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBindingT = Bindings
+		AutoBinding<MTGCard, String, JTextField, String> autoBindingT = Bindings
 				.createAutoBinding(UpdateStrategy.READ, card, tProperty, txtT, textPropertyT);
 		autoBindingT.bind();
 

@@ -15,7 +15,7 @@ import org.magic.api.beans.technical.GedEntry;
 import org.magic.api.interfaces.MTGSerializable;
 import org.magic.api.interfaces.MTGStockItem;
 
-public class Announce implements MTGSerializable, Comparable<Announce> {
+public class MTGAnnounce implements MTGSerializable, Comparable<MTGAnnounce> {
 
 	public enum STATUS { ACTIVE, SOON, SOLD, EXPIRED }
 
@@ -36,12 +36,12 @@ public class Announce implements MTGSerializable, Comparable<Announce> {
 	private EnumCondition condition;
 	private boolean updated=false;
 	private Double percentReduction;
-	private GedEntry<Announce> mainImage ;
+	private GedEntry<MTGAnnounce> mainImage ;
 	private EnumItems categorie;
 	private STATUS status;
 
 
-	public Announce() {
+	public MTGAnnounce() {
 
 		items = new ArrayList<>();
 		type = EnumTransactionDirection.BUY;
@@ -89,11 +89,11 @@ public class Announce implements MTGSerializable, Comparable<Announce> {
 	}
 
 
-	public GedEntry<Announce> getMainImage() {
+	public GedEntry<MTGAnnounce> getMainImage() {
 		return mainImage;
 	}
 
-	public void setMainImage(GedEntry<Announce> mainImage) {
+	public void setMainImage(GedEntry<MTGAnnounce> mainImage) {
 		this.mainImage = mainImage;
 	}
 
@@ -130,7 +130,7 @@ public class Announce implements MTGSerializable, Comparable<Announce> {
 	@Override
 	public boolean equals(Object obj) {
 
-		if(obj instanceof Announce b)
+		if(obj instanceof MTGAnnounce b)
 		{
 			return b.getId()==this.getId();
 		}
@@ -222,7 +222,7 @@ public class Announce implements MTGSerializable, Comparable<Announce> {
 
 
 	@Override
-	public int compareTo(Announce o) {
+	public int compareTo(MTGAnnounce o) {
 		if( o.getId()>getId())
 			return 1;
 

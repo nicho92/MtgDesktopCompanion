@@ -6,10 +6,10 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.gui.components.renderer.CardListPanel;
 
-public class MagicCardListRenderer implements ListCellRenderer<MagicCard> {
+public class MagicCardListRenderer implements ListCellRenderer<MTGCard> {
 
 	DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
 	CardListPanel render;
@@ -19,7 +19,7 @@ public class MagicCardListRenderer implements ListCellRenderer<MagicCard> {
 	}
 
 	@Override
-	public Component getListCellRendererComponent(JList<? extends MagicCard> list, MagicCard value, int index,boolean isSelected, boolean cellHasFocus) {
+	public Component getListCellRendererComponent(JList<? extends MTGCard> list, MTGCard value, int index,boolean isSelected, boolean cellHasFocus) {
 		render.setMagicCard(value);
 
 		if (isSelected) {

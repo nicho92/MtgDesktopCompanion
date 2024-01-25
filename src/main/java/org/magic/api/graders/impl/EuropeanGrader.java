@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import org.magic.api.beans.Grading;
+import org.magic.api.beans.MTGGrading;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
@@ -19,7 +19,7 @@ public class EuropeanGrader extends AbstractGradersProvider {
 	}
 
 	@Override
-	public Grading loadGrading(String identifier) throws IOException {
+	public MTGGrading loadGrading(String identifier) throws IOException {
 
 		String url=getWebSite()+"/en/card-verifier";
 
@@ -35,7 +35,7 @@ public class EuropeanGrader extends AbstractGradersProvider {
 			return null;
 
 
-			var grad = new Grading();
+			var grad = new MTGGrading();
 				grad.setGraderName(getName());
 				grad.setNumberID(identifier);
 				grad.setUrlInfo(url+"?certificate="+identifier);

@@ -1,7 +1,7 @@
 package org.magic.services.tools;
 
 import org.apache.logging.log4j.Logger;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.enums.EnumPromoType;
 import org.magic.api.exports.impl.CardKingdomCardExport;
@@ -23,7 +23,7 @@ public class CardKingdomTools {
 		
 	}
 	
-	public static String getCKFormattedName(MagicCard card) {
+	public static String getCKFormattedName(MTGCard card) {
 		final Logger logger = MTGLogger.getLogger(CardKingdomTools.class);
 		String name = card.getName();
 			
@@ -111,7 +111,7 @@ public class CardKingdomTools {
 	}
 	
 	
-	public static String getCKFormattedSet(MagicCard card) {
+	public static String getCKFormattedSet(MTGCard card) {
 		
 		String set = PluginsAliasesProvider.inst().getSetNameFor(new CardKingdomCardExport(), card.getCurrentSet());
 		

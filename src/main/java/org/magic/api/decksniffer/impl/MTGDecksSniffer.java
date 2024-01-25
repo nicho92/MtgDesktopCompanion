@@ -12,7 +12,7 @@ import java.util.Map;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
@@ -31,7 +31,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 
 	
 	@Override
-	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
+	public MTGDeck getDeck(RetrievableDeck info) throws IOException {
 
 		var deck = info.toBaseDeck();
 		deck.setName(info.getName());

@@ -13,7 +13,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MTGCollection;
 import org.magic.api.criterias.MTGCrit;
 import org.magic.gui.components.tech.CriteriaComponent;
 import org.magic.services.MTGConstants;
@@ -26,7 +26,7 @@ public class AdvancedSearchQueryDialog extends JDialog {
 	private GridLayout layout;
 	private JPanel pContent;
 	private transient List<MTGCrit> crits;
-	private JComboBox<MagicCollection> cboCollection;
+	private JComboBox<MTGCollection> cboCollection;
 	private JCheckBox chkSearchInCollection;
 
 
@@ -112,12 +112,12 @@ public class AdvancedSearchQueryDialog extends JDialog {
 		return crits;
 	}
 
-	public MagicCollection getCollection() {
+	public MTGCollection getCollection() {
 
 		if(!chkSearchInCollection.isSelected())
 			return null;
 
-		return (MagicCollection)cboCollection.getSelectedItem();
+		return (MTGCollection)cboCollection.getSelectedItem();
 	}
 
 

@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 import javax.swing.JFileChooser;
 
-import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
@@ -43,7 +43,7 @@ public class TransactionImport {
 				stock.setQte(1);
 				stock.setLanguage("French");
 				stock.setPrice(UITools.parseDouble(line[2]));
-				stock.setMagicCollection(new MagicCollection("Library"));
+				stock.setMagicCollection(new MTGCollection("Library"));
 				stock.setCondition(EnumCondition.NEAR_MINT);
 				
 				transaction.getItems().add(stock);

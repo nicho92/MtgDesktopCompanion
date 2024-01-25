@@ -46,7 +46,7 @@ import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
 import org.jdesktop.swingx.painter.MattePainter;
-import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGCardsIndexer;
@@ -82,7 +82,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 	private static final String CURRENCY = "currency";
 	private static final long serialVersionUID = 1L;
 	private JComboBox<MTGDao> cboTargetDAO;
-	private JComboBox<MagicCollection> cboCollections;
+	private JComboBox<MTGCollection> cboCollections;
 	private JComboBox<Level> cboLogLevels;
 	private JTextField txtMinPrice;
 	private JCheckBox cbojsonView;
@@ -871,7 +871,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 			cboLanguages.setSelectedItem(MTGControler.getInstance().get(LANGAGE));
 		}
 		if (MTGControler.getInstance().get(DEFAULT_LIBRARY) != null) {
-			cboCollections.setSelectedItem(new MagicCollection(MTGControler.getInstance().get(DEFAULT_LIBRARY)));
+			cboCollections.setSelectedItem(new MTGCollection(MTGControler.getInstance().get(DEFAULT_LIBRARY)));
 		}
 
 

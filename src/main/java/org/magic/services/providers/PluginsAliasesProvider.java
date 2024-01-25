@@ -1,7 +1,7 @@
 package org.magic.services.providers;
 
 import org.apache.logging.log4j.Logger;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.services.MTGConstants;
@@ -53,7 +53,7 @@ public class PluginsAliasesProvider {
 		}
 	}
 
-	public String getReversedSetIdFor(MTGPlugin plug, MagicEdition set)
+	public String getReversedSetIdFor(MTGPlugin plug, MTGEdition set)
 	{
 		return getReversedSetIdFor(plug, set.getId());
 	}
@@ -72,7 +72,7 @@ public class PluginsAliasesProvider {
 	}
 
 
-	public String getReversedSetNameFor(MTGPlugin plug, MagicEdition set)
+	public String getReversedSetNameFor(MTGPlugin plug, MTGEdition set)
 	{
 		return getReversedSetNameFor(plug, set.getId());
 	}
@@ -139,13 +139,13 @@ public class PluginsAliasesProvider {
 
 
 
-	public String getSetNameFor(MTGPlugin plug, MagicEdition ed)
+	public String getSetNameFor(MTGPlugin plug, MTGEdition ed)
 	{
 		return getSetNameFor(plug,ed.getSet());
 	}
 
 
-	public String getSetIdFor(MTGPlugin plug, MagicEdition ed)
+	public String getSetIdFor(MTGPlugin plug, MTGEdition ed)
 	{
 		return getSetIdFor(plug,ed.getId());
 	}

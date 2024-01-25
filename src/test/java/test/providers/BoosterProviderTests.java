@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import org.apache.logging.log4j.Level;
 import org.junit.Test;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGSealedProvider;
 import org.magic.services.MTGControler;
@@ -24,7 +24,7 @@ public class BoosterProviderTests {
 		getEnabledPlugin(MTGCardsProvider.class).init();
 		MTGLogger.changeLevel(Level.OFF);
 		
-		for(MagicEdition id : MTG.getEnabledPlugin(MTGCardsProvider.class).listEditions())
+		for(MTGEdition id : MTG.getEnabledPlugin(MTGCardsProvider.class).listEditions())
 		{
 			MTG.getEnabledPlugin(MTGSealedProvider.class).getItemsFor(id).forEach(e->{
 				try {

@@ -34,7 +34,7 @@ import javax.swing.JSpinner;
 import javax.swing.ListSelectionModel;
 import javax.swing.filechooser.FileFilter;
 
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.sealedprovider.impl.MTGCompanionSealedProvider.LOGO;
 import org.magic.gui.abstracts.MTGUIComponent;
@@ -61,10 +61,10 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 	private JLabel lblInterSpace;
 	private JSpinner spinSpace;
 
-	private JList<MagicEdition> listEditions;
-	private JList<MagicEdition> listSelected;
-	private DefaultListModel<MagicEdition> model;
-	private DefaultListModel<MagicEdition> modelSelect;
+	private JList<MTGEdition> listEditions;
+	private JList<MTGEdition> listSelected;
+	private DefaultListModel<MTGEdition> model;
+	private DefaultListModel<MTGEdition> modelSelect;
 	private JButton btnRefresh;
 	private JPanel panneauBas;
 	private JPanel panel;
@@ -117,9 +117,9 @@ public class BinderTagsEditorComponent extends MTGUIComponent {
 
 		try {
 
-			List<MagicEdition> lst = getEnabledPlugin(MTGCardsProvider.class).listEditions();
+			List<MTGEdition> lst = getEnabledPlugin(MTGCardsProvider.class).listEditions();
 			Collections.sort(lst);
-			for(MagicEdition ed : lst)
+			for(MTGEdition ed : lst)
 				model.addElement(ed);
 
 		} catch (IOException e2) {

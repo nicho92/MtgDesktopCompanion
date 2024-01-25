@@ -10,13 +10,13 @@ import java.util.TreeMap;
 import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.magic.api.beans.CardShake;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGEdition;
 import org.magic.services.logging.MTGLogger;
 public class CollectionAnalyzerTreeTableModel extends AbstractTreeTableModel {
 
 	private static final String[] columnsNames = { "EDITION","PRICE" };
 	private Logger logger = MTGLogger.getLogger(this.getClass());
-	private Map<MagicEdition,List<CardShake>> editions;
+	private Map<MTGEdition,List<CardShake>> editions;
 
 
 	public CollectionAnalyzerTreeTableModel() {
@@ -26,7 +26,7 @@ public class CollectionAnalyzerTreeTableModel extends AbstractTreeTableModel {
 
 
 
-	public void saveRow(MagicEdition ed, List<CardShake> list) {
+	public void saveRow(MTGEdition ed, List<CardShake> list) {
 		
 		if(list.stream().mapToDouble(CardShake::getPrice).sum()>0)
 			editions.put(ed, list);
@@ -45,7 +45,7 @@ public class CollectionAnalyzerTreeTableModel extends AbstractTreeTableModel {
 
 	@Override
 	public Object getValueAt(Object node, int column) {
-		if (node instanceof MagicEdition ed)
+		if (node instanceof MTGEdition ed)
 		{
 			switch (column)
 			{
@@ -68,7 +68,7 @@ public class CollectionAnalyzerTreeTableModel extends AbstractTreeTableModel {
 	}
 
 	Double total;
-	private Double total(MagicEdition node) {
+	private Double total(MTGEdition node) {
 
 		total=0.0;
 		editions.get(node).forEach(cs->total=total+cs.getPrice());
@@ -78,14 +78,14 @@ public class CollectionAnalyzerTreeTableModel extends AbstractTreeTableModel {
 
 	@Override
 	public Object getChild(Object parent, int i) {
-		if (parent instanceof MagicEdition) {
+		if (parent instanceof MTGEdition) {
 			return editions.get(parent).get(i);
 		}
 		return new ArrayList<>(editions.keySet()).get(i);
 	}
 	@Override
 	public int getChildCount(Object parent) {
-		if (parent instanceof MagicEdition) {
+		if (parent instanceof MTGEdition) {
 			return editions.get(parent).size();
 		}
 		return editions.size();
@@ -104,7 +104,7 @@ public class CollectionAnalyzerTreeTableModel extends AbstractTreeTableModel {
 		if(node instanceof String)
 			return false;
 
-		return !(node instanceof MagicEdition);
+		return !(node instanceof MTGEdition);
 	}
 
 	@Override

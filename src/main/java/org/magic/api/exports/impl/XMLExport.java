@@ -5,11 +5,11 @@ import java.io.IOException;
 import java.util.List;
 
 import org.magic.api.beans.MTGFormat;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardNames;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardNames;
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
@@ -37,14 +37,14 @@ public class XMLExport extends AbstractCardExport {
 
 	public XMLExport() {
 		xstream = new XStream(new StaxDriver());
-		xstream.alias("deck", MagicDeck.class);
+		xstream.alias("deck", MTGDeck.class);
 		xstream.alias("rarity", EnumRarity.class);
 		xstream.alias("color", EnumColors.class);
-		xstream.alias("stock",MagicCardStock.class);
-		xstream.alias("set", MagicEdition.class);
-		xstream.alias("foreigneData", MagicCardNames.class);
+		xstream.alias("stock",MTGCardStock.class);
+		xstream.alias("set", MTGEdition.class);
+		xstream.alias("foreigneData", MTGCardNames.class);
 		xstream.alias("legality", MTGFormat.class);
-		xstream.registerConverter(new NamedMapConverter(xstream.getMapper(), "entry", "card", MagicCard.class, "qty", Integer.class));
+		xstream.registerConverter(new NamedMapConverter(xstream.getMapper(), "entry", "card", MTGCard.class, "qty", Integer.class));
 		xstream.registerConverter(new Converter() {
 
 			@Override
@@ -73,7 +73,7 @@ public class XMLExport extends AbstractCardExport {
 	}
 
 	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 
 		String xml = xstream.toXML(deck);
 		FileTools.saveFile(dest, xml);
@@ -81,20 +81,20 @@ public class XMLExport extends AbstractCardExport {
 	}
 
 	@Override
-	public MagicDeck importDeck(String f, String name) throws IOException {
-		return (MagicDeck)xstream.fromXML(f);
+	public MTGDeck importDeck(String f, String name) throws IOException {
+		return (MTGDeck)xstream.fromXML(f);
 	}
 
 	@Override
-	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
+	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
 		String xml = xstream.toXML(stock);
 		FileTools.saveFile(f, xml);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<MagicCardStock> importStock(String content) throws IOException {
-		return (List<MagicCardStock>)xstream.fromXML(content);
+	public List<MTGCardStock> importStock(String content) throws IOException {
+		return (List<MTGCardStock>)xstream.fromXML(content);
 	}
 
 

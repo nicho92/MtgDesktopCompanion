@@ -7,28 +7,28 @@ import java.util.TreeMap;
 
 import javax.swing.ImageIcon;
 
-import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCollection;
+import org.magic.api.beans.MTGEdition;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.CollectionEvaluator;
 import org.magic.services.MTGControler;
 import org.magic.services.providers.IconSetProvider;
 
-public class MagicEditionsTableModel extends GenericTableModel<MagicEdition> {
+public class MagicEditionsTableModel extends GenericTableModel<MTGEdition> {
 
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Map<MagicEdition, Integer> mapCount;
+	private Map<MTGEdition, Integer> mapCount;
 
 	int countTotal = 0;
 	int countDefaultLibrary = 0;
-	private MagicCollection collection;
+	private MTGCollection collection;
 
 	public MagicEditionsTableModel() {
-		collection = new MagicCollection(MTGControler.getInstance().get("default-library"));
+		collection = new MTGCollection(MTGControler.getInstance().get("default-library"));
 		initColumns();
 	}
 
@@ -48,7 +48,7 @@ public class MagicEditionsTableModel extends GenericTableModel<MagicEdition> {
 	}
 
 	@Override
-	public void init(List<MagicEdition> editions) {
+	public void init(List<MTGEdition> editions) {
 
 		this.items = editions;
 		mapCount = new TreeMap<>();
@@ -71,13 +71,13 @@ public class MagicEditionsTableModel extends GenericTableModel<MagicEdition> {
 		}
 	}
 
-	public Map<MagicEdition, Integer> getMapCount() {
+	public Map<MTGEdition, Integer> getMapCount() {
 		return mapCount;
 	}
 
 
 	public Integer  getCountTotal() {
-		return items.stream().mapToInt(MagicEdition::getCardCount).sum();
+		return items.stream().mapToInt(MTGEdition::getCardCount).sum();
 	}
 
 
@@ -92,7 +92,7 @@ public class MagicEditionsTableModel extends GenericTableModel<MagicEdition> {
 		switch(columnIndex)
 		{
 			case 0 : return ImageIcon.class;
-			case 1 : return MagicEdition.class;
+			case 1 : return MTGEdition.class;
 			case 2 : return Integer.class;
 			case 4 : return Double.class;
 			case 5 : return Integer.class;
@@ -104,7 +104,7 @@ public class MagicEditionsTableModel extends GenericTableModel<MagicEdition> {
 
 	@Override
 	public Object getValueAt(int row, int column) {
-		MagicEdition e = items.get(row);
+		MTGEdition e = items.get(row);
 		if (column == 0)
 			return IconSetProvider.getInstance().get24(e.getId());
 

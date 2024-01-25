@@ -2,7 +2,7 @@ package org.magic.api.graders.impl;
 
 import java.io.IOException;
 
-import org.magic.api.beans.Grading;
+import org.magic.api.beans.MTGGrading;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
 import org.magic.services.network.URLTools;
@@ -16,7 +16,7 @@ public class PSAGrader extends AbstractGradersProvider {
 	}
 
 	@Override
-	public Grading loadGrading(String identifier) throws IOException {
+	public MTGGrading loadGrading(String identifier) throws IOException {
 			var doc = URLTools.extractAsHtml(getWebSite()+"/cert/"+identifier);
 
 
@@ -29,7 +29,7 @@ public class PSAGrader extends AbstractGradersProvider {
 				    var  condition=result.split(" ")[0].trim();
 					var note = UITools.parseDouble (result.split(" ")[1].trim());
 					logger.debug("result : {} note={}",result,note);
-					var g = new Grading();
+					var g = new MTGGrading();
 					g.setNumberID(identifier);
 					g.setUrlInfo(getWebSite()+"/cert/"+identifier);
 					g.setGraderName(getName());

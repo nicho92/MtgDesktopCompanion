@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Locale;
 
 import org.jsoup.nodes.Document;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGPrice;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGControler;
@@ -27,7 +27,7 @@ public class UndergroundSeaPricer extends AbstractPricesProvider {
 	private String priceToken="price = ";
 	private String editionToken="cardVersion =";
 
-	private MagicPrice mp = null;
+	private MTGPrice mp = null;
 
 	@Override
 	public String getName() {
@@ -62,18 +62,18 @@ public class UndergroundSeaPricer extends AbstractPricesProvider {
 
 
 	@Override
-	protected List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
+	protected List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
 
 		Document d = URLTools.extractAsHtml(getUrl());
 		AstNode root = new Parser().parse(d.select("script").get(1).html(), "", 1);
-		List<MagicPrice> ret = new ArrayList<>();
+		List<MTGPrice> ret = new ArrayList<>();
 
 		String url = getUrl();
 
 		root.visit(visitedNode -> {
 			if(visitedNode.getType()==Token.NEW)
 			{
-				mp = new MagicPrice();
+				mp = new MTGPrice();
 				mp.setMagicCard(card);
 				mp.setSite(getName());
 				mp.setUrl(url);

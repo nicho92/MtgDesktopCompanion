@@ -9,7 +9,7 @@ import java.util.Map;
 
 import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
-import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.MTGPrice;
 import org.magic.services.logging.MTGLogger;
 
 public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
@@ -17,7 +17,7 @@ public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 	private String[] columnsNames = { capitalize("NAME"),capitalize("QTY"),capitalize("VALUE"),capitalize("LANG"),capitalize("QUALITY"),capitalize("FOIL") };
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 
-	private Map<String, List<MagicPrice>> listElements;
+	private Map<String, List<MTGPrice>> listElements;
 
 
 	public GroupedPriceTreeTableModel() {
@@ -25,7 +25,7 @@ public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 		listElements = new HashMap<>();
 	}
 
-	public void init(Map<String, List<MagicPrice>> map)
+	public void init(Map<String, List<MTGPrice>> map)
 	{
 		listElements= map;
 		modelSupport.fireNewRoot();
@@ -34,7 +34,7 @@ public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 
 
 
-	public void addItem(String key, List<MagicPrice> list)
+	public void addItem(String key, List<MTGPrice> list)
 	{
 		listElements.computeIfAbsent(key, v->new ArrayList<>()).addAll(list);
 		modelSupport.fireNewRoot();
@@ -52,7 +52,7 @@ public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 		return super.getColumnClass(column);
 	}
 
-	protected int getPosition(MagicPrice k, List<MagicPrice> p) {
+	protected int getPosition(MTGPrice k, List<MTGPrice> p) {
 		for (var i = 0; i < p.size(); i++) {
 			if (p.get(i).equals(k))
 				return i;
@@ -87,12 +87,12 @@ public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 			case 1:
 				return listElements.get(node).size();
 			case 2:
-				return listElements.get(node).stream().mapToDouble(MagicPrice::getValue).sum();
+				return listElements.get(node).stream().mapToDouble(MTGPrice::getValue).sum();
 			default:
 				return "";
 			}
 		}
-		else if (node instanceof MagicPrice emp) {
+		else if (node instanceof MTGPrice emp) {
 			switch (column) {
 			case 0:
 				return emp;
@@ -116,7 +116,7 @@ public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 	@Override
 	public int getIndexOfChild(Object parent, Object child) {
 			try {
-				MagicPrice k = (MagicPrice) child;
+				MTGPrice k = (MTGPrice) child;
 				return getPosition(k, listElements.get(parent));
 			}
 			catch(ClassCastException e)
@@ -137,7 +137,7 @@ public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 
 	@Override
 	public boolean isLeaf(Object node) {
-		return node instanceof MagicPrice;
+		return node instanceof MTGPrice;
 	}
 
 

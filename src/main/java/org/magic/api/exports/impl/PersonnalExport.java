@@ -5,9 +5,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.tech.ExportConfiguratorPanel;
@@ -25,7 +25,7 @@ public class PersonnalExport extends AbstractCardExport {
 	}
 
 	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 
 		var panel = new ExportConfiguratorPanel();
 		panel.setRegex(getString(REGEX));
@@ -46,7 +46,7 @@ public class PersonnalExport extends AbstractCardExport {
 
 		logger.debug("Parsing with : {}",regx);
 
-		for(MagicCard mc : deck.getMainAsList())
+		for(MTGCard mc : deck.getMainAsList())
 			temp.append(BeanTools.createString(mc, regx)).append(System.lineSeparator());
 
 
@@ -55,7 +55,7 @@ public class PersonnalExport extends AbstractCardExport {
 
 
 	@Override
-	public void exportStock(List<MagicCardStock> stock, File dest) throws IOException {
+	public void exportStock(List<MTGCardStock> stock, File dest) throws IOException {
 		var panel = new ExportConfiguratorPanel();
 		panel.initTree(stock.get(0));
 		panel.setRegex(getString(REGEX));
@@ -74,7 +74,7 @@ public class PersonnalExport extends AbstractCardExport {
 
 		logger.debug("Parsing with : {}",regx);
 
-		for(MagicCardStock mc : stock)
+		for(MTGCardStock mc : stock)
 			temp.append(BeanTools.createString(mc, regx)).append(System.lineSeparator());
 
 
@@ -88,7 +88,7 @@ public class PersonnalExport extends AbstractCardExport {
 
 
 	@Override
-	public MagicDeck importDeck(String f, String name) throws IOException {
+	public MTGDeck importDeck(String f, String name) throws IOException {
 		return null;
 	}
 

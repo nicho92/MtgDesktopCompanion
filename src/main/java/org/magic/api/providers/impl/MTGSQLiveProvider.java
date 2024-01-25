@@ -24,9 +24,9 @@ import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MTGFormat.AUTHORIZATION;
 import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MTGRuling;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardNames;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardNames;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumBorders;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumExtra;
@@ -51,7 +51,7 @@ public class MTGSQLiveProvider extends AbstractMTGJsonProvider {
 
 
 private MTGPool pool;
-	private MultiValuedMap<String, MagicCardNames> mapForeignData = new ArrayListValuedHashMap<>();
+	private MultiValuedMap<String, MTGCardNames> mapForeignData = new ArrayListValuedHashMap<>();
 	private MultiValuedMap<String, MTGRuling> mapRules = new ArrayListValuedHashMap<>();
 	private MultiValuedMap<String, MTGFormat> mapLegalities = new ArrayListValuedHashMap<>();
 	private String sqlCardBaseQuery = "SELECT cards.*, cardIdentifiers.* FROM cards, cardIdentifiers WHERE cardIdentifiers.uuid=cards.uuid";
@@ -76,7 +76,7 @@ private MTGPool pool;
 	
 	
 	@Override
-	public List<MTGBooster> generateBooster(MagicEdition me, EnumExtra typeBooster, int qty) throws IOException {
+	public List<MTGBooster> generateBooster(MTGEdition me, EnumExtra typeBooster, int qty) throws IOException {
 		
 		var list = new ArrayList<MTGBooster>();
 		
@@ -106,7 +106,7 @@ private MTGPool pool;
 
 		
 		//get cards pickup chance
-		var cardsSheets = new HashMap<String,List<Pair<MagicCard, Double>>>();
+		var cardsSheets = new HashMap<String,List<Pair<MTGCard, Double>>>();
 		try (var c = pool.getConnection(); var pst = c.prepareStatement("SELECT cards.*, cardIdentifiers.*,setBoosterSheetCards.* FROM cards, cardIdentifiers,setBoosterSheetCards WHERE cards.uuid=setBoosterSheetCards.cardUuid AND cardIdentifiers.uuid=cards.uuid AND setBoosterSheetCards.setCode=?"))
 		{
 			pst.setString(1, me.getId());
@@ -158,7 +158,7 @@ private MTGPool pool;
 					  notify(booster);
 					  
 				for(var e : boosterStructure.entrySet()){
-					var picker = new EnumeratedDistribution<>(cardsSheets.get(e.getKey())).sample(e.getValue(), new MagicCard[e.getValue()]);
+					var picker = new EnumeratedDistribution<>(cardsSheets.get(e.getKey())).sample(e.getValue(), new MTGCard[e.getValue()]);
 					booster.getCards().addAll(Arrays.asList(picker));
 				}
 				list.add(booster);
@@ -168,9 +168,9 @@ private MTGPool pool;
 	
 
 	@Override
-	public List<MagicCard> searchByCriteria(MTGCrit<?>... crits) throws IOException {
+	public List<MTGCard> searchByCriteria(MTGCrit<?>... crits) throws IOException {
 
-		List<MagicCard> cards = new ArrayList<>();
+		List<MTGCard> cards = new ArrayList<>();
 		try (var c = pool.getConnection(); var pst = c.createStatement())
 		{
 			var sql = getMTGQueryManager().build(crits).toString();
@@ -194,7 +194,7 @@ private MTGPool pool;
 
 
 	@Override
-	public MagicCard getTokenFor(MagicCard mc, EnumLayout layout) throws IOException {
+	public MTGCard getTokenFor(MTGCard mc, EnumLayout layout) throws IOException {
 		try (var c = pool.getConnection(); var pst = c.prepareStatement("select tokens.*, scryfallId,scryfallIllustrationId from tokens,tokenIdentifiers where (relatedCards like ? or name like ? ) and types like ? and setCode like ? and tokenIdentifiers.uuid=tokens.uuid"))
 		{
 			pst.setString(1, "%"+mc.getName()+"%");
@@ -215,9 +215,9 @@ private MTGPool pool;
 	}
 
 	@Override
-	public List<MagicCard> listToken(MagicEdition ed) throws IOException {
+	public List<MTGCard> listToken(MTGEdition ed) throws IOException {
 
-		var ret= new ArrayList<MagicCard>();
+		var ret= new ArrayList<MTGCard>();
 
 		try (var c = pool.getConnection(); var pst = c.prepareStatement("select tokens.*, scryfallId,scryfallIllustrationId from tokens,tokenIdentifiers where setCode like ? and tokenIdentifiers.uuid=tokens.uuid"))
 		{
@@ -238,8 +238,8 @@ private MTGPool pool;
 	}
 
 
-	private MagicCard generateTokenFromRs(ResultSet rs,MagicEdition ed) throws SQLException {
-		var mc = new MagicCard();
+	private MTGCard generateTokenFromRs(ResultSet rs,MTGEdition ed) throws SQLException {
+		var mc = new MTGCard();
 			mc.setId(rs.getString(UUID));
 			mc.setName(rs.getString(NAME));
 			
@@ -306,7 +306,7 @@ private MTGPool pool;
 	}
 
 	@Override
-	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition ed, boolean exact)throws IOException {
+	public List<MTGCard> searchCardByCriteria(String att, String crit, MTGEdition ed, boolean exact)throws IOException {
 
 
 		if(att.equalsIgnoreCase(SET_FIELD))
@@ -328,7 +328,7 @@ private MTGPool pool;
 		if(ed!=null && !ed.getId().isEmpty())
 			temp.append(" AND "+SETCODE+" ='").append(ed.getId()).append("'");
 
-		List<MagicCard> cards = new ArrayList<>();
+		List<MTGCard> cards = new ArrayList<>();
 		
 		logger.debug("executing {}",temp);
 		
@@ -358,8 +358,8 @@ private MTGPool pool;
 
 
 	@Override
-	public List<MagicCard> listAllCards()throws IOException {
-		List<MagicCard> cards = new ArrayList<>();
+	public List<MTGCard> listAllCards()throws IOException {
+		List<MTGCard> cards = new ArrayList<>();
 
 	try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(sqlCardBaseQuery ))
 		{
@@ -377,7 +377,7 @@ private MTGPool pool;
 	}
 
 
-	private void initRotatedCard(MagicCard mc, String id, String side)
+	private void initRotatedCard(MTGCard mc, String id, String side)
 	{
 		var sql =sqlCardBaseQuery+" AND cards.uuid = ?" ;
 		
@@ -412,8 +412,8 @@ private MTGPool pool;
 		}
 	}
 
-	private MagicCard generateCardsFromRs(ResultSet rs,boolean load) throws SQLException {
-		var mc = new MagicCard();
+	private MTGCard generateCardsFromRs(ResultSet rs,boolean load) throws SQLException {
+		var mc = new MTGCard();
 				mc.setName(rs.getString(NAME));
 				mc.setCmc(rs.getInt(CONVERTED_MANA_COST));
 				mc.setCost(rs.getString(MANA_COST));
@@ -526,7 +526,7 @@ private MTGPool pool;
 					{
 						if(!ids.equals(set.getId()))
 						{
-							MagicEdition ed = getSetById(ids);
+							MTGEdition ed = getSetById(ids);
 							mc.getEditions().add(ed);
 						}
 					}
@@ -544,16 +544,16 @@ private MTGPool pool;
 	}
 
 	@Override
-	public List<MagicEdition> loadEditions() throws IOException {
+	public List<MTGEdition> loadEditions() throws IOException {
 
-		List<MagicEdition> eds=new ArrayList<>();
+		List<MTGEdition> eds=new ArrayList<>();
 			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("select * from sets");ResultSet rs = pst.executeQuery())
 			{
 
 				while(rs.next())
 				{
 
-					var ed = new MagicEdition();
+					var ed = new MTGEdition();
 								 ed.setSet(rs.getString(NAME));
 								 ed.setId(rs.getString("code"));
 								 ed.setBlock(rs.getString("block"));
@@ -577,7 +577,7 @@ private MTGPool pool;
 		return eds;
 	}
 
-	private void testMkm(MagicEdition ed, ResultSet rs) {
+	private void testMkm(MTGEdition ed, ResultSet rs) {
 
 
 		 try {
@@ -588,9 +588,9 @@ private MTGPool pool;
 		}
 	}
 
-	private List<MagicCardNames> getTranslations(MagicCard mc) {
+	private List<MTGCardNames> getTranslations(MTGCard mc) {
 
-		var defaultName = new MagicCardNames();
+		var defaultName = new MTGCardNames();
 		defaultName.setFlavor(mc.getFlavor());
 		try{
 			defaultName.setGathererId(Integer.parseInt(mc.getMultiverseid()));
@@ -610,7 +610,7 @@ private MTGPool pool;
 		if(mapForeignData.isEmpty())
 			initForeign();
 
-		return (List<MagicCardNames>) mapForeignData.get(mc.getId());
+		return (List<MTGCardNames>) mapForeignData.get(mc.getId());
 
 	}
 
@@ -690,7 +690,7 @@ private MTGPool pool;
 					{
 						while(rs.next())
 						{
-							var names = new MagicCardNames();
+							var names = new MTGCardNames();
 							names.setFlavor(rs.getString(FLAVOR_TEXT));
 							names.setGathererId(rs.getInt(MULTIVERSE_ID));
 							names.setLanguage(rs.getString(LANGUAGE));

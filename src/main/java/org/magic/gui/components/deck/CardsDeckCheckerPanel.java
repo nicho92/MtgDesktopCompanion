@@ -12,8 +12,8 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingWorker;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.DeckSelectionTableModel;
@@ -30,7 +30,7 @@ public class CardsDeckCheckerPanel extends MTGUIComponent {
 	private AbstractBuzyIndicatorComponent buzyLabel;
 	private JXTable table;
 	private DeckSelectionTableModel model;
-	private MagicCard selectedCard;
+	private MTGCard selectedCard;
 	private transient MTGDeckManager manager;
 
 	public CardsDeckCheckerPanel() {
@@ -66,7 +66,7 @@ public class CardsDeckCheckerPanel extends MTGUIComponent {
 		return MTGConstants.ICON_TAB_DECK;
 	}
 	
-	public void init(MagicCard mc)
+	public void init(MTGCard mc)
 	{
 		this.selectedCard=mc;
 		init();
@@ -77,11 +77,11 @@ public class CardsDeckCheckerPanel extends MTGUIComponent {
 		{
 			buzyLabel.start();
 			buzyLabel.setText("looking for decks with " + selectedCard);
-			var sw = new SwingWorker<List<MagicDeck>,Void>()
+			var sw = new SwingWorker<List<MTGDeck>,Void>()
 					{
 
 						@Override
-						protected List<MagicDeck> doInBackground() throws Exception {
+						protected List<MTGDeck> doInBackground() throws Exception {
 							return manager.listDecksWith(selectedCard,false);
 						}
 						@Override

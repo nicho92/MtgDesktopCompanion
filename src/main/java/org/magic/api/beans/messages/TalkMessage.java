@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.abstracts.AbstractMessage;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.services.tools.MTG;
@@ -13,7 +13,7 @@ public class TalkMessage extends AbstractMessage{
 
 	private static final long serialVersionUID = 1L;
 	private static final String REGEX = "\\{(.*?)\\}";
-	private MagicCard mc;
+	private MTGCard mc;
 	
 	public String toChatString() {
 		return getAuthor().getName() + " : " + getMessage();
@@ -40,7 +40,7 @@ public class TalkMessage extends AbstractMessage{
 		
 	}
 	
-	public MagicCard getMagicCard() {
+	public MTGCard getMagicCard() {
 		return mc;
 	}
 	

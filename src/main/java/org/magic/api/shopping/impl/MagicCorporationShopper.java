@@ -10,7 +10,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGSealedProduct;
-import org.magic.api.beans.SealedStock;
+import org.magic.api.beans.MTGSealedStock;
 import org.magic.api.beans.enums.EnumPaymentProvider;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.RetrievableTransaction;
@@ -106,7 +106,7 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 				var price = UITools.parseDouble(tr.select("td").get(1).text());
 				var qty = Integer.parseInt(tr.select("td").get(2).text());
 				
-				var st = new SealedStock();
+				var st = new MTGSealedStock();
 					  st.setComment(name);
 					  st.setQte(qty);	
 					  st.setPrice(price);

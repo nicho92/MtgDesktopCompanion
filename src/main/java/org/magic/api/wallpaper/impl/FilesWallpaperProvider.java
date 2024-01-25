@@ -10,23 +10,23 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOCase;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.Wallpaper;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGEdition;
+import org.magic.api.beans.MTGWallpaper;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
 import org.magic.services.tools.FileTools;
 
 public class FilesWallpaperProvider extends AbstractWallpaperProvider {
 
 	@Override
-	public List<Wallpaper> search(String search) {
-		List<Wallpaper> list = new ArrayList<>();
+	public List<MTGWallpaper> search(String search) {
+		List<MTGWallpaper> list = new ArrayList<>();
 		try {
 			
 			Collection<File> res = FileTools.listFiles(getFile("DIRECTORY"),WildcardFileFilter.builder().setWildcards("*"+search+"*").setIoCase(IOCase.INSENSITIVE).get(),TrueFileFilter.INSTANCE);
 
 			for (File f : res) {
-				var w = new Wallpaper();
+				var w = new MTGWallpaper();
 				w.setName(f.getName());
 				w.setUrl(f.toURI());
 				w.setFormat(FilenameUtils.getExtension(w.getUrl().toString()));
@@ -42,12 +42,12 @@ public class FilesWallpaperProvider extends AbstractWallpaperProvider {
 	}
 
 	@Override
-	public List<Wallpaper> search(MagicEdition ed) {
+	public List<MTGWallpaper> search(MTGEdition ed) {
 		return search(ed.getSet());
 	}
 
 	@Override
-	public List<Wallpaper> search(MagicCard card) {
+	public List<MTGWallpaper> search(MTGCard card) {
 		return search(card.getName());
 	}
 

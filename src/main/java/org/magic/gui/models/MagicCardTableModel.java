@@ -2,12 +2,12 @@ package org.magic.gui.models;
 
 import java.util.List;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardNames;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardNames;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.MTGControler;
 
-public class MagicCardTableModel extends GenericTableModel<MagicCard> {
+public class MagicCardTableModel extends GenericTableModel<MTGCard> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -39,7 +39,7 @@ public class MagicCardTableModel extends GenericTableModel<MagicCard> {
 	{
 		switch(columnIndex)
 		{
-			case 0: return MagicCard.class;
+			case 0: return MTGCard.class;
 			case 6: return List.class;
 			case 8: return List.class;
 			case 9: return Boolean.class;
@@ -54,7 +54,7 @@ public class MagicCardTableModel extends GenericTableModel<MagicCard> {
 	@Override
 	public Object getValueAt(int row, int column) {
 		try {
-			MagicCard mc = items.get(row);
+			MTGCard mc = items.get(row);
 			switch (column) {
 			case 0:
 				return mc;
@@ -97,7 +97,7 @@ public class MagicCardTableModel extends GenericTableModel<MagicCard> {
 
 	}
 
-	private String powerorloyalty(MagicCard mc) {
+	private String powerorloyalty(MTGCard mc) {
 
 		if(mc.isCreature())
 			return mc.getPower() + "/" + mc.getToughness();
@@ -107,8 +107,8 @@ public class MagicCardTableModel extends GenericTableModel<MagicCard> {
 		return "";
 	}
 
-	private String getName(List<MagicCardNames> foreignNames) {
-		for (MagicCardNames name : foreignNames) {
+	private String getName(List<MTGCardNames> foreignNames) {
+		for (MTGCardNames name : foreignNames) {
 			if (name.getLanguage().equals(MTGControler.getInstance().get("langage")))
 				return name.getName();
 		}

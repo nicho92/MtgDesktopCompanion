@@ -12,8 +12,8 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.entity.StringEntity;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
@@ -79,12 +79,12 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 
 	boolean sideboard=false;
 	@Override
-	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
+	public MTGDeck getDeck(RetrievableDeck info) throws IOException {
 
 		String uri="https://aetherhub.com/Deck/FetchDeckExport?deckId="+info.getUrl().getQuery().replace("id=","");
 		var data = URLTools.extractAsJson(uri).getAsString();
 
-		MagicDeck deck = info.toBaseDeck();
+		MTGDeck deck = info.toBaseDeck();
 		sideboard=false;
 
 
@@ -101,7 +101,7 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 					var entry = parseString(line);
 					try
 					{
-						MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(entry.getKey(), null, true).get(0);
+						MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(entry.getKey(), null, true).get(0);
 						notify(mc);
 						if(sideboard)
 							deck.getSideBoard().put(mc, entry.getValue());

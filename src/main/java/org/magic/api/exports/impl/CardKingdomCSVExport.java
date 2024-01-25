@@ -9,9 +9,9 @@ import java.util.List;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGPlugin;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
@@ -35,9 +35,9 @@ public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	public void exportStock(List<MagicCardStock> stock, File dest) throws IOException {
+	public void exportStock(List<MTGCardStock> stock, File dest) throws IOException {
 		var line = new StringBuilder(columns);
-		for(MagicCardStock mc : stock)
+		for(MTGCardStock mc : stock)
 		{
 			String name= CardKingdomTools.getCKFormattedName(mc.getProduct());
 			String set = CardKingdomTools.getCKFormattedSet(mc.getProduct());
@@ -54,13 +54,13 @@ public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 
 
 	@Override
-	public List<MagicCardStock> importStock(String content) throws IOException {
+	public List<MTGCardStock> importStock(String content) throws IOException {
 
-		List<MagicCardStock> list = new ArrayList<>();
+		List<MTGCardStock> list = new ArrayList<>();
 
 		matches(content,true).forEach(m->{
 
-			MagicEdition ed = null;
+			MTGEdition ed = null;
 
 			try {
 				ed = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetByName( aliases.getReversedSetNameFor(new CardKingdomCardExport() , m.group(4)));
@@ -81,7 +81,7 @@ public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 				//do nothing
 			}
 
-			MagicCard mc=null;
+			MTGCard mc=null;
 
 			if(number!=null && ed !=null)
 			{
@@ -102,7 +102,7 @@ public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 			}
 
 			if(mc!=null) {
-				MagicCardStock mcs = MTGControler.getInstance().getDefaultStock();
+				MTGCardStock mcs = MTGControler.getInstance().getDefaultStock();
 					   mcs.setQte(Integer.parseInt(m.group(1)));
 					   mcs.setProduct(mc);
 					   mcs.setCondition(aliases.getReversedConditionFor(new CardKingdomCardExport(),m.group(6),null));

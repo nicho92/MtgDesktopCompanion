@@ -18,9 +18,9 @@ import javax.swing.SwingWorker;
 
 import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCollection;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.MagicCardTableModel;
@@ -41,15 +41,15 @@ public class MassMoverDialog extends JDialog {
 	private JXTable tableCards;
 	private MagicCardTableModel model;
 	private transient MTGDao dao;
-	private MagicCollection toSaveCol;
-	private MagicEdition toSaveEd;
+	private MTGCollection toSaveCol;
+	private MTGEdition toSaveEd;
 	private boolean change = false;
-	private JComboBox<MagicCollection> cboCollections;
+	private JComboBox<MTGCollection> cboCollections;
 	private AbstractBuzyIndicatorComponent lblWaiting = AbstractBuzyIndicatorComponent.createProgressComponent();
 	private JButton btnMove;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
-	public MassMoverDialog(MagicCollection col, MagicEdition ed) {
+	public MassMoverDialog(MTGCollection col, MTGEdition ed) {
 		setSize(new Dimension(640, 370));
 		setTitle(capitalize("MASS_MOVEMENTS") + " : " + col);
 		setIconImage(MTGConstants.ICON_TAB_IMPORT_EXPORT.getImage());
@@ -106,7 +106,7 @@ public class MassMoverDialog extends JDialog {
 			btnMove.setEnabled(false);
 
 
-			var sw = new SwingWorker<Void, MagicCard>() {
+			var sw = new SwingWorker<Void, MTGCard>() {
 
 				@Override
 				protected void done() {
@@ -133,17 +133,17 @@ public class MassMoverDialog extends JDialog {
 				}
 
 				@Override
-				protected void process(List<MagicCard> chunks) {
+				protected void process(List<MTGCard> chunks) {
 					lblWaiting.setText("moving " + chunks);
 					lblWaiting.progressSmooth(chunks.size());
 				}
 
 				@Override
 				protected Void doInBackground(){
-					List<MagicCard> list = UITools.getTableSelections(tableCards, 0);
-					for(MagicCard mc : list) {
+					List<MTGCard> list = UITools.getTableSelections(tableCards, 0);
+					for(MTGCard mc : list) {
 						try {
-							dao.moveCard(mc, toSaveCol, (MagicCollection) cboCollections.getSelectedItem());
+							dao.moveCard(mc, toSaveCol, (MTGCollection) cboCollections.getSelectedItem());
 							publish(mc);
 							change = true;
 						} catch (SQLException e1) {

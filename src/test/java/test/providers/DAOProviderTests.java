@@ -7,11 +7,11 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MagicCardAlert;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGCollection;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGControler;
@@ -21,9 +21,9 @@ import test.TestTools;
 
 public class DAOProviderTests {
 
-	MagicCollection col = new MagicCollection("TEST");
-	MagicCard mc;
-	MagicEdition ed;
+	MTGCollection col = new MTGCollection("TEST");
+	MTGCard mc;
+	MTGEdition ed;
 	
 	@Before
 	public void initTest() throws IOException, URISyntaxException
@@ -95,7 +95,7 @@ public class DAOProviderTests {
 		
 			
 			System.out.println("STOCKS");
-			MagicCardStock stock = new MagicCardStock();
+			MTGCardStock stock = new MTGCardStock();
 							stock.setProduct(mc);
 							stock.setComment("TEST");
 							stock.setQte(1);
@@ -114,7 +114,7 @@ public class DAOProviderTests {
 			System.out.println("Get stocks nstrict " + p.listStocks(mc, col,false));
 			
 			
-			List<MagicCardStock> stocks = new ArrayList<>();
+			List<MTGCardStock> stocks = new ArrayList<>();
 			stocks.add(stock);
 			
 			

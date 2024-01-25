@@ -17,8 +17,8 @@ import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.util.EntityUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
-import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.Wallpaper;
+import org.magic.api.beans.MTGEdition;
+import org.magic.api.beans.MTGWallpaper;
 import org.magic.api.interfaces.abstracts.AbstractMTGPlugin;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
 import org.magic.services.MTGConstants;
@@ -37,20 +37,20 @@ public class WizardsOfTheCoastWallpaperProvider extends AbstractWallpaperProvide
 	}
 
 	@Override
-	public List<Wallpaper> search(String search) {
+	public List<MTGWallpaper> search(String search) {
 		return construct(
 				getString("URL") + "?page=1&filter_by=DESC&artist=-1&expansion=&title=" + search + "&is_search=1");
 	}
 
-	private List<Wallpaper> construct(String url) {
-		ArrayList<Wallpaper> list = new ArrayList<>();
+	private List<MTGWallpaper> construct(String url) {
+		ArrayList<MTGWallpaper> list = new ArrayList<>();
 		try {
 			var json = read(url);
 
 			var doc = URLTools.toJson(json).getAsJsonObject().get("data").getAsString();
 
 			for (Element e : Jsoup.parse(doc).select("div.wrap")) {
-				var w = new Wallpaper();
+				var w = new MTGWallpaper();
 				w.setName(e.getElementsByTag("h3").text());
 				w.setUrl(new URI(e.select("a").first().attr("download")));
 				w.setFormat(FilenameUtils.getExtension(String.valueOf(w.getUrl())));
@@ -65,7 +65,7 @@ public class WizardsOfTheCoastWallpaperProvider extends AbstractWallpaperProvide
 	}
 
 	@Override
-	public List<Wallpaper> search(MagicEdition ed) {
+	public List<MTGWallpaper> search(MTGEdition ed) {
 		return construct(
 				getString("URL") + "?page=1&filter_by=DESC&artist=-1&expansion=" + ed.getSet() + "&title=&is_search=1");
 	}

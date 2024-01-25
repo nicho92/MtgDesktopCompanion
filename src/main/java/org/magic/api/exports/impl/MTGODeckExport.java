@@ -6,9 +6,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.regex.Matcher;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.tools.FileTools;
@@ -27,17 +27,17 @@ public class MTGODeckExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 		var temp = new StringBuilder();
 
 		temp.append("//NAME: " + deck.getName() + " from MTGDeskTopCompanion\n");
 		temp.append("//MAIN\n");
-		for (MagicCard mc : deck.getMain().keySet()) {
+		for (MTGCard mc : deck.getMain().keySet()) {
 			temp.append(deck.getMain().get(mc)).append(" ").append(mc.getName()).append("\n");
 			notify(mc);
 		}
 		temp.append("\n//Sideboard\n");
-		for (MagicCard mc : deck.getSideBoard().keySet()) {
+		for (MTGCard mc : deck.getSideBoard().keySet()) {
 			temp.append(deck.getSideBoard().get(mc)).append(" ").append(mc.getName()).append("\n");
 			notify(mc);
 		}
@@ -46,8 +46,8 @@ public class MTGODeckExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	public MagicDeck importDeck(String f, String deckName) throws IOException {
-		var deck = new MagicDeck();
+	public MTGDeck importDeck(String f, String deckName) throws IOException {
+		var deck = new MTGDeck();
 			deck.setName(deckName);
 			var side=false;
 
@@ -61,7 +61,7 @@ public class MTGODeckExport extends AbstractFormattedFileCardExport {
 				{
 					String cname = m.group(2);
 
-					MagicEdition ed = null;
+					MTGEdition ed = null;
 					try {
 					if(m.group(4)!=null)
 							ed=getEnabledPlugin(MTGCardsProvider.class).getSetById(m.group(4));

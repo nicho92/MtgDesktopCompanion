@@ -10,8 +10,8 @@ import java.util.Map;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
@@ -30,13 +30,13 @@ public class OCTGNDeckExport extends AbstractCardExport {
 	}
 
 	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 		var temp = new StringBuilder();
 
 		temp.append("<?xml version='1.0' encoding='").append(MTGConstants.DEFAULT_ENCODING).append("' standalone='yes'?>");
 		temp.append("<deck game='" + getString("MAGIC_GAME_ID") + "' sleeveid='" + getString("SLEEVE_ID") + "' >");
 		temp.append("<section name='Main' shared='" + getString(SHARED) + "'>");
-		for (MagicCard mc : deck.getMain().keySet()) {
+		for (MTGCard mc : deck.getMain().keySet()) {
 			temp.append("<card qty='").append(deck.getMain().get(mc)).append("' id='" + mc.getId() + "'>")
 					.append(mc.getName()).append("</card>");
 
@@ -44,7 +44,7 @@ public class OCTGNDeckExport extends AbstractCardExport {
 		}
 		temp.append("</section>");
 		temp.append("<section name='Sideboard' shared='" + getString(SHARED) + "'>");
-		for (MagicCard mc : deck.getSideBoard().keySet()) {
+		for (MTGCard mc : deck.getSideBoard().keySet()) {
 			temp.append("<card qty='").append(deck.getSideBoard().get(mc)).append("' id='" + mc.getId() + "'>")
 					.append(mc.getName()).append("</card>");
 			notify(mc);
@@ -60,8 +60,8 @@ public class OCTGNDeckExport extends AbstractCardExport {
 	}
 
 	@Override
-	public MagicDeck importDeck(String f,String dname) throws IOException {
-		var deck = new MagicDeck();
+	public MTGDeck importDeck(String f,String dname) throws IOException {
+		var deck = new MTGDeck();
 		deck.setName(dname);
 
 		try (var sr = new StringReader(f)){

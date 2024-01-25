@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardStock;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
@@ -18,15 +18,15 @@ public class ArchidektExport extends AbstractFormattedFileCardExport {
 
 
 	@Override
-	public List<MagicCardStock> importStock(String content) throws IOException {
+	public List<MTGCardStock> importStock(String content) throws IOException {
 
-		List<MagicCardStock> ret = new ArrayList<>();
+		List<MTGCardStock> ret = new ArrayList<>();
 		matches(content, true).forEach(m->{
 
-			MagicCardStock st = MTGControler.getInstance().getDefaultStock();
+			MTGCardStock st = MTGControler.getInstance().getDefaultStock();
 						   st.setQte(Integer.parseInt(m.group(1)));
 
-			 MagicCard mc = parseMatcherWithGroup(m, 2, 8, true, FORMAT_SEARCH.ID,FORMAT_SEARCH.NAME);
+			 MTGCard mc = parseMatcherWithGroup(m, 2, 8, true, FORMAT_SEARCH.ID,FORMAT_SEARCH.NAME);
 
 			 if(mc!=null)
 			 {
@@ -44,11 +44,11 @@ public class ArchidektExport extends AbstractFormattedFileCardExport {
 
 
 	@Override
-	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
+	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
 
 		var temp = new StringBuilder();
 
-		for(MagicCardStock mcs : stock)
+		for(MTGCardStock mcs : stock)
 		{
 			temp.append(mcs.getQte()).append(getSeparator());
 			temp.append("\"").append(mcs.getProduct().getName()).append("\"").append(getSeparator());

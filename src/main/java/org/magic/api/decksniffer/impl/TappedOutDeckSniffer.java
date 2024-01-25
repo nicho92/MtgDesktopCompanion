@@ -11,9 +11,9 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.http.util.EntityUtils;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
@@ -72,12 +72,12 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
+	public MTGDeck getDeck(RetrievableDeck info) throws IOException {
 		if(httpclient==null)
 			initConnexion();
 
 		logger.debug("sniff deck at {}",info.getUrl());
-		MagicDeck deck = info.toBaseDeck();
+		MTGDeck deck = info.toBaseDeck();
 		JsonElement root = RequestBuilder.build().url(info.getUrl().toString()).setClient(httpclient).get().toJson();
 
 		deck.setName(root.getAsJsonObject().get("name").getAsString());
@@ -106,12 +106,12 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 			if (cardName.contains("//"))
 				cardName = cardName.substring(0, cardName.indexOf("//")).trim();
 
-			List<MagicCard> ret;
+			List<MTGCard> ret;
 			if (idSet == null) {
 					ret = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( cardName, null,true);
 
 			} else {
-				var ed = new MagicEdition(idSet);
+				var ed = new MTGEdition(idSet);
 				ret = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( cardName, ed, true);
 			}
 

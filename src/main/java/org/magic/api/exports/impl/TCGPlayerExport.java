@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardStock;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
@@ -28,13 +28,13 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	public void exportStock(List<MagicCardStock> stocks, File f) throws IOException {
+	public void exportStock(List<MTGCardStock> stocks, File f) throws IOException {
 
 		var temp = new StringBuilder();
 
 		temp.append(COLUMNS).append(System.lineSeparator());
 
-		for(MagicCardStock mcs : stocks)
+		for(MTGCardStock mcs : stocks)
 		{
 			try {
 			temp.append(mcs.getQte()).append(getSeparator());
@@ -72,7 +72,7 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 
 
 
-	private String toFullName(MagicCard magicCard) {
+	private String toFullName(MTGCard magicCard) {
 		var temp = new StringBuilder();
 
 			if(magicCard.getName().contains(","))
@@ -92,11 +92,11 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 
 	
 	@Override
-	public List<MagicCardStock> importStock(String content) throws IOException {
+	public List<MTGCardStock> importStock(String content) throws IOException {
 
-		List<MagicCardStock> ret = new ArrayList<>();
+		List<MTGCardStock> ret = new ArrayList<>();
 		matches(content, true).forEach(m->{
-			var st = new MagicCardStock();
+			var st = new MTGCardStock();
 			st.setQte(Integer.parseInt(m.group(1)));
 			st.setLanguage(m.group(10));
 			st.getTiersAppIds().put(getName(), m.group(12));

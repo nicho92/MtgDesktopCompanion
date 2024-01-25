@@ -8,9 +8,9 @@ import java.util.Map;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import org.magic.api.beans.Announce;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGAnnounce;
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.abstracts.AbstractStockItem;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumExportCategory;
@@ -49,9 +49,9 @@ public class AnnouncesExport extends AbstractCardExport {
 	}
 
 	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 		try {
-			var a = new Announce();
+			var a = new MTGAnnounce();
 			a.setCategorie(EnumItems.DECK);
 			a.setTitle(deck.getName());
 			a.setCondition(EnumCondition.OPENED);
@@ -79,11 +79,11 @@ public class AnnouncesExport extends AbstractCardExport {
 	}
 
 	@Override
-	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
+	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
 		for(var mcs : stock)
 		{
 			try {
-				var a = new Announce();
+				var a = new MTGAnnounce();
 				a.setCategorie(mcs.getProduct().getTypeProduct());
 				a.setTitle(mcs.getProduct().getName());
 				a.setCondition(mcs.getCondition());
@@ -108,7 +108,7 @@ public class AnnouncesExport extends AbstractCardExport {
 	}
 
 	@Override
-	public MagicDeck importDeck(String f, String name) throws IOException {
+	public MTGDeck importDeck(String f, String name) throws IOException {
 		throw new IOException("Not Implemented");
 	}
 

@@ -11,8 +11,8 @@ import java.util.TreeMap;
 
 import org.apache.logging.log4j.Logger;
 import org.api.mkm.tools.MkmConstants;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGPrice;
 import org.magic.api.interfaces.abstracts.extra.AbstractMTGJsonProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
@@ -219,8 +219,8 @@ public class MTGJsonPricerProvider {
 		return Currency.getInstance("USD");
 	}
 
-	public List<MagicPrice> getPriceFor(MagicCard card) {
-		List<MagicPrice> ret = new ArrayList<>();
+	public List<MTGPrice> getPriceFor(MTGCard card) {
+		List<MTGPrice> ret = new ArrayList<>();
 		Data d;
 		try {
 			d = loadData(VENDOR.CARDMARKET).stream().filter(i->i.getMtgjsonId().equals(card.getId())).findFirst().orElse(null);
@@ -237,7 +237,7 @@ public class MTGJsonPricerProvider {
 		for(Boolean b : new Boolean[] {true,false}) 
 		{
 			try {
-				var mp = new MagicPrice();
+				var mp = new MTGPrice();
 				mp.setCountry("None");
 				mp.setCurrency("EUR");
 				mp.setMagicCard(card);

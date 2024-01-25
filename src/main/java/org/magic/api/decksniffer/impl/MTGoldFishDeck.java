@@ -13,9 +13,9 @@ import java.util.regex.Pattern;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -49,11 +49,11 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 
 
 	@Override
-	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
+	public MTGDeck getDeck(RetrievableDeck info) throws IOException {
 
 		logger.debug("sniff url : {} ",info.getUrl());
 
-		MagicDeck deck = info.toBaseDeck();
+		MTGDeck deck = info.toBaseDeck();
 		Document d = URLTools.extractAsHtml(info.getUrl().toString());
 
 		Elements trs = d.select("table.deck-view-deck-table").get(0).select(MTGConstants.HTML_TAG_TR);
@@ -73,13 +73,13 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 					var name = tds.get(1).select("a").first().text();
 					var p = Pattern.compile("\\["+EnumCardsPatterns.REGEX_ANY_STRING+"\\]");
 					var m  = p.matcher(tds.get(1).select("a").first().attr("data-card-id"));
-					MagicEdition ed  = null;
+					MTGEdition ed  = null;
 
 					if(m.find())
-						ed = new MagicEdition(m.group(1));
+						ed = new MTGEdition(m.group(1));
 
 					try {
-						MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, ed, false).get(0);
+						MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, ed, false).get(0);
 
 						if(sideboard)
 							deck.getSideBoard().put(mc, qty);

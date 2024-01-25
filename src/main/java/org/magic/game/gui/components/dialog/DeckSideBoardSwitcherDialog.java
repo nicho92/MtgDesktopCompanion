@@ -13,8 +13,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.WindowConstants;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
 import org.magic.game.gui.components.LightDescribeCardPanel;
 import org.magic.gui.renderer.MagicCardListRenderer;
 import org.magic.services.MTGConstants;
@@ -25,17 +25,17 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private MagicDeck savedDeck;
-	private MagicDeck bckDeck;
+	private MTGDeck savedDeck;
+	private MTGDeck bckDeck;
 	private JLabel lblDecksize;
 	private LightDescribeCardPanel lightDescribeCardPanel;
-	JList<MagicCard> listMain;
-	JList<MagicCard> listSide;
+	JList<MTGCard> listMain;
+	JList<MTGCard> listSide;
 
-	DefaultListModel<MagicCard> modMain;
-	DefaultListModel<MagicCard> modSide;
+	DefaultListModel<MTGCard> modMain;
+	DefaultListModel<MTGCard> modSide;
 
-	public DeckSideBoardSwitcherDialog(MagicDeck deck) {
+	public DeckSideBoardSwitcherDialog(MTGDeck deck) {
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setIconImage(MTGConstants.ICON_DECK.getImage());
 		this.savedDeck = deck;
@@ -65,7 +65,7 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 
 		var btnAdd = new JButton(">>>");
 		btnAdd.addActionListener(ae -> {
-			for (MagicCard mc : listMain.getSelectedValuesList()) {
+			for (MTGCard mc : listMain.getSelectedValuesList()) {
 				modSide.addElement(mc);
 				modMain.removeElement(mc);
 
@@ -84,7 +84,7 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 
 		var btnRemove = new JButton("<<<");
 		btnRemove.addActionListener(e -> {
-			for (MagicCard mc : listSide.getSelectedValuesList()) {
+			for (MTGCard mc : listSide.getSelectedValuesList()) {
 				modMain.addElement(mc);
 				modSide.removeElement(mc);
 
@@ -136,7 +136,7 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 	}
 
 
-	private void initDescribe(JList<MagicCard> list)
+	private void initDescribe(JList<MTGCard> list)
 	{
 		list.addListSelectionListener(ls->lightDescribeCardPanel.setCard(list.getSelectedValue()));
 	}
@@ -152,16 +152,16 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 		modMain.removeAllElements();
 		modSide.removeAllElements();
 
-		for (MagicCard mc : bckDeck.getMainAsList())
+		for (MTGCard mc : bckDeck.getMainAsList())
 			modMain.addElement(mc);
 
-		for (MagicCard mc : bckDeck.getSideAsList())
+		for (MTGCard mc : bckDeck.getSideAsList())
 			modSide.addElement(mc);
 
 		refresh();
 	}
 
-	public MagicDeck getDeck() {
+	public MTGDeck getDeck() {
 		return savedDeck;
 	}
 

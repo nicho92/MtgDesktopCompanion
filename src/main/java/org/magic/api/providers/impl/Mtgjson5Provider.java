@@ -15,9 +15,9 @@ import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MTGFormat.AUTHORIZATION;
 import org.magic.api.beans.MTGRuling;
 import org.magic.api.beans.MTGSealedProduct;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardNames;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardNames;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumBorders;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumExtra;
@@ -135,18 +135,18 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 	}
 
 	@Override
-	public List<MagicCard> searchByCriteria(MTGCrit<?>... crits) throws IOException
+	public List<MTGCard> searchByCriteria(MTGCrit<?>... crits) throws IOException
 	{
 		return search("$.data..cards"+ getMTGQueryManager().build(crits).toString());
 	}
 
 	@Override
-	public List<MagicCard> listAllCards() throws IOException {
+	public List<MTGCard> listAllCards() throws IOException {
 		return searchCardByName("", null, false);
 	}
 
 	@Override
-	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition ed, boolean exact) throws IOException {
+	public List<MTGCard> searchCardByCriteria(String att, String crit, MTGEdition ed, boolean exact) throws IOException {
 
 		var filterEdition = ".";
 
@@ -176,10 +176,10 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 	}
 
 	@SuppressWarnings("unchecked")
-	private List<MagicCard> search(String jsquery) {
+	private List<MTGCard> search(String jsquery) {
 
 		List<String> currentSet = new ArrayList<>();
-		ArrayList<MagicCard> ret = new ArrayList<>();
+		ArrayList<MTGCard> ret = new ArrayList<>();
 
 		logger.debug("parsing {}",jsquery);
 
@@ -196,7 +196,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 		var indexSet = 0;
 		for (Map<String, Object> map : cardsElement)
 		{
-				var mc = new MagicCard();
+				var mc = new MTGCard();
 				  mc.setId(String.valueOf(String.valueOf(map.get(UUID))));
 				  mc.setText(String.valueOf(map.get(TEXT)));
 
@@ -407,7 +407,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 					}
 				}
 
-				var defnames = new MagicCardNames();
+				var defnames = new MTGCardNames();
 
 						if(identifiers!=null && identifiers.get(MULTIVERSE_ID)!=null)
 							   defnames.setGathererId((int)Double.parseDouble(identifiers.get(MULTIVERSE_ID)));
@@ -421,7 +421,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 
 				if (map.get(FOREIGN_DATA) != null) {
 					for (Map<String, Object> mapNames : (List<Map<String, Object>>) map.get(FOREIGN_DATA)) {
-						var fnames = new MagicCardNames();
+						var fnames = new MTGCardNames();
 									   fnames.setLanguage(String.valueOf(mapNames.get(LANGUAGE)));
 									   fnames.setName(String.valueOf(mapNames.get(NAME)));
 
@@ -452,7 +452,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 				
 				
 				
-				MagicEdition me = getSetById(codeEd);
+				MTGEdition me = getSetById(codeEd);
 							 if(identifiers!=null && identifiers.get(MULTIVERSE_ID)!=null)
 							 {
 								 defnames.setGathererId((int)Double.parseDouble(identifiers.get(MULTIVERSE_ID)));
@@ -466,7 +466,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 				{
 					for (String print : (List<String>) map.get(PRINTINGS)) {
 						if (!print.equalsIgnoreCase(codeEd)) {
-							MagicEdition meO = getSetById(print);
+							MTGEdition meO = getSetById(print);
 							initOtherEditionCardsVar(mc, meO);
 							mc.getEditions().add(meO);
 						}
@@ -483,7 +483,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 		return ret;
 	}
 
-	private void initOtherEditionCardsVar(MagicCard mc, MagicEdition me) {
+	private void initOtherEditionCardsVar(MTGCard mc, MTGEdition me) {
 		String edCode = me.getId();
 
 		if (!edCode.startsWith("p"))
@@ -514,11 +514,11 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 	}
 
 	@Override
-	public List<MagicEdition> loadEditions() throws IOException {
+	public List<MTGEdition> loadEditions() throws IOException {
 		var jsquery = "$.*";
 		chrono.start();
 
-		List<MagicEdition> eds = new ArrayList<>();
+		List<MTGEdition> eds = new ArrayList<>();
 		try {
 
 		URLTools.extractAsJson(MTG_JSON_SETS_LIST).getAsJsonObject().get("data").getAsJsonArray().forEach(e->{
@@ -550,12 +550,12 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 	}
 	
 
-	private MagicEdition generateEdition(String id) {
+	private MTGEdition generateEdition(String id) {
 
 		if(id.startsWith("p"))
 			id=id.toUpperCase();
 
-		var ed = new MagicEdition(id);
+		var ed = new MTGEdition(id);
 		var base = "$.data." + id.toUpperCase();
 		try{
 		ed.setSet(ctx.read(base + "."+NAME, String.class));
@@ -775,13 +775,13 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 
 
 	@Override
-	public MagicCard getTokenFor(MagicCard mc, EnumLayout layout) throws IOException {
+	public MTGCard getTokenFor(MTGCard mc, EnumLayout layout) throws IOException {
 		// TODO get tokens / emblem for cards
 		return null;
 	}
 
 	@Override
-	public List<MagicCard> listToken(MagicEdition ed) throws IOException {
+	public List<MTGCard> listToken(MTGEdition ed) throws IOException {
 		//TODO load tokens
 
 		return new ArrayList<>();

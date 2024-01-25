@@ -17,8 +17,8 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -55,7 +55,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 
 
 	@Override
-	public boolean isTokenizer(MagicCard mc) {
+	public boolean isTokenizer(MTGCard mc) {
 
 		if(xPath==null)
 			init();
@@ -71,7 +71,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 	}
 
 	@Override
-	public boolean isEmblemizer(MagicCard mc) {
+	public boolean isEmblemizer(MTGCard mc) {
 
 		if(mc.isEmblem())
 			return false;
@@ -93,7 +93,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 
 
 	@Override
-	public List<MagicCard> listTokensFor(MagicEdition ed) throws IOException {
+	public List<MTGCard> listTokensFor(MTGEdition ed) throws IOException {
 
 		if(xPath==null)
 			init();
@@ -104,7 +104,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		try {
 			var nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 
-			var ret = new ArrayList<MagicCard>();
+			var ret = new ArrayList<MTGCard>();
 
 			for(var i = 0; i<nodeList.getLength();i++)
 				ret.add(build((Element)nodeList.item(i), ed));
@@ -121,7 +121,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 
 
 	@Override
-	public MagicCard generateEmblemFor(MagicCard mc) throws IOException {
+	public MTGCard generateEmblemFor(MTGCard mc) throws IOException {
 
 		if(xPath==null)
 			init();
@@ -140,7 +140,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 
 
 	@Override
-	public MagicCard generateTokenFor(MagicCard mc) {
+	public MTGCard generateTokenFor(MTGCard mc) {
 
 		if(xPath==null)
 			init();
@@ -161,10 +161,10 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 	}
 
 
-	private MagicCard build(Element value, MagicEdition ed) throws IOException {
+	private MTGCard build(Element value, MTGEdition ed) throws IOException {
 
 
-		var tok = new MagicCard();
+		var tok = new MTGCard();
 
 		tok.setCmc(0);
 		tok.setName(value.getElementsByTagName("name").item(0).getTextContent().replaceAll("\\(Emblem\\)", "").replaceAll("\\(Token\\)", "").trim());
@@ -215,7 +215,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		for (var s = 0; s < sets.getLength(); s++) {
 			String idSet = sets.item(s).getTextContent();
 			if (!idSet.equals(ed.getId())) {
-				MagicEdition ed2 = getEnabledPlugin(MTGCardsProvider.class).getSetById(idSet);
+				MTGEdition ed2 = getEnabledPlugin(MTGCardsProvider.class).getSetById(idSet);
 				tok.getEditions().add(ed2);
 			}
 
@@ -226,7 +226,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 	}
 
 	@Override
-	public BufferedImage getPictures(MagicCard tok) throws IOException {
+	public BufferedImage getPictures(MTGCard tok) throws IOException {
 
 		if(xPath==null)
 			init();

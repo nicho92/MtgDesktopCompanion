@@ -14,8 +14,8 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.game.model.abilities.LoyaltyAbilities;
 import org.magic.game.model.factories.AbilitiesFactory;
@@ -90,7 +90,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 	}
 
 	@Override
-	public BufferedImage getPicture(MagicCard mc, MagicEdition me) throws IOException {
+	public BufferedImage getPicture(MTGCard mc, MTGEdition me) throws IOException {
 		if(httpclient.getCookies().isEmpty())
 			connect();
 		
@@ -100,7 +100,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 			if(me!=null)
 				mc.getEditions().set(0, me);
 			else
-				mc.getEditions().set(0, new MagicEdition("Fake"));
+				mc.getEditions().set(0, new MTGEdition("Fake"));
 		}
 
 		var build = new URIBuilder();

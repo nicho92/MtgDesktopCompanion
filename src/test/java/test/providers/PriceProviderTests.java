@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGPrice;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.services.PluginRegistry;
 
@@ -15,7 +15,7 @@ import test.TestTools;
 
 public class PriceProviderTests {
 
-	MagicCard mc;
+	MTGCard mc;
 	
 	@Before
 	public void initTest() throws IOException, URISyntaxException
@@ -45,7 +45,7 @@ public class PriceProviderTests {
 		System.out.println("CONF FILE " + p.getConfFile());
 						
 			try {
-				List<MagicPrice> prices = p.getPrice(mc);
+				List<MTGPrice> prices = p.getPrice(mc);
 				System.out.println(prices);
 			} catch (Exception e) {
 				e.printStackTrace();

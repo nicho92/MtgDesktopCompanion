@@ -11,7 +11,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.services.tools.MTG;
 
@@ -21,20 +21,20 @@ public class MagicEditionsComboBoxCellEditor extends DefaultCellEditor {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private DefaultComboBoxModel<MagicEdition> model;
+	private DefaultComboBoxModel<MTGEdition> model;
 
 	public MagicEditionsComboBoxCellEditor() {
 		super(new JComboBox<>());
-		model = (DefaultComboBoxModel<MagicEdition>) ((JComboBox<MagicEdition>) getComponent()).getModel();
+		model = (DefaultComboBoxModel<MTGEdition>) ((JComboBox<MTGEdition>) getComponent()).getModel();
 	}
 
 	@Override
 	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
 		model.removeAllElements();
-		List<MagicEdition> selectedItem =new ArrayList<>();
+		List<MTGEdition> selectedItem =new ArrayList<>();
 		
 		try {
-			selectedItem = (List<MagicEdition>) table.getValueAt(row, column);	
+			selectedItem = (List<MTGEdition>) table.getValueAt(row, column);	
 		}
 		catch(Exception e)
 		{	
@@ -46,7 +46,7 @@ public class MagicEditionsComboBoxCellEditor extends DefaultCellEditor {
 		}
 		Collections.sort(selectedItem);
 		
-		for (MagicEdition e : selectedItem)
+		for (MTGEdition e : selectedItem)
 			model.addElement(e);
 
 		return super.getTableCellEditorComponent(table, model.getSelectedItem(), isSelected, row, column);

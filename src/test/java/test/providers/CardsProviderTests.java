@@ -5,7 +5,7 @@ import java.net.URISyntaxException;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.services.MTGControler;
@@ -56,7 +56,7 @@ public class CardsProviderTests {
 				e.printStackTrace();
 			}
 			try {
-				p.searchCardByName( "Black Lotus", new MagicEdition("LEA"), true);
+				p.searchCardByName( "Black Lotus", new MTGEdition("LEA"), true);
 				System.out.println("SEARCH CARD :OK");
 			} catch (Exception e) {
 				System.out.println("SEARCH CARD :ERROR " + e);
@@ -75,7 +75,7 @@ public class CardsProviderTests {
 			}
 			
 			try {
-				p.getCardByNumber("124", new MagicEdition("LEA"));
+				p.getCardByNumber("124", new MTGEdition("LEA"));
 				System.out.println("CARD BY NUMBER :OK");
 			} catch (Exception e) {
 				System.out.println("CARD BY NUMBER :ERROR " + e);
@@ -91,7 +91,7 @@ public class CardsProviderTests {
 
 		
 			try {
-				p.generateBooster(new MagicEdition("LEA"),EnumExtra.DRAFT,1).get(0);
+				p.generateBooster(new MTGEdition("LEA"),EnumExtra.DRAFT,1).get(0);
 				System.out.println("BOOSTER GEN :OK");
 			} catch (Exception e) {
 				System.out.println("BOOSTER GEN :ERROR " + e);

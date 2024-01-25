@@ -6,7 +6,7 @@ import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JScrollPane;
 
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.game.Player;
 import org.magic.api.beans.game.ZoneEnum;
 import org.magic.game.gui.components.DisplayableCard;
@@ -81,7 +81,7 @@ public class SearchCardFrame extends JDialog {
 	}
 
 	// used by ScryActions.
-	public SearchCardFrame(Player p, List<MagicCard> list, ZoneEnum source) {
+	public SearchCardFrame(Player p, List<MTGCard> list, ZoneEnum source) {
 		init(p, source);
 		pane.setThumbnailSize(MTGControler.getInstance().getCardsGameDimension());
 		pane.initThumbnails(list, true, true);

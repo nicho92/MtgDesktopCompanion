@@ -11,9 +11,9 @@ import javax.swing.ImageIcon;
 import org.api.cardtrader.services.CardTraderConstants;
 import org.api.cardtrader.services.CardTraderService;
 import org.api.cardtrader.tools.URLCallInfo;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.beans.technical.audit.NetworkInfo;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -62,28 +62,28 @@ public class CardTraderStockExport extends AbstractCardExport {
 
 
 	@Override
-	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
+	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
 		if(serv==null)
 			init();
 
 	}
 
 	@Override
-	public List<MagicCardStock> importStock(String content) throws IOException {
+	public List<MTGCardStock> importStock(String content) throws IOException {
 		if(serv==null)
 			init();
 
 
-		var ret = new ArrayList<MagicCardStock>();
+		var ret = new ArrayList<MTGCardStock>();
 		serv.listStock().forEach(mp->{
-			var mcs = new MagicCardStock();
+			var mcs = new MTGCardStock();
 
 				var categ = mp.getCategorie();
 				var exp = mp.getExpansion();
 				var bluePrint = serv.listBluePrints(categ,null,exp).stream().filter(bp->bp.getId().equals(mp.getIdBlueprint())).findFirst().orElse(null);
 				if(bluePrint!=null)
 				{
-					MagicCard mc=null;
+					MTGCard mc=null;
 					try {
 						mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(bluePrint.getScryfallId());
 						mcs.setProduct(mc);
@@ -119,7 +119,7 @@ public class CardTraderStockExport extends AbstractCardExport {
 
 
 	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 		//TODO export deck
 	}
 
@@ -136,7 +136,7 @@ public class CardTraderStockExport extends AbstractCardExport {
 
 
 	@Override
-	public MagicDeck importDeck(String f, String name) throws IOException {
+	public MTGDeck importDeck(String f, String name) throws IOException {
 		throw new IOException("Not implemented");
 	}
 

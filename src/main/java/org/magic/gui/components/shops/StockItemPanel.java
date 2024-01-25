@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.SealedStock;
+import org.magic.api.beans.MTGSealedStock;
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGStockItem;
@@ -77,7 +77,7 @@ public class StockItemPanel extends MTGUIComponent {
 			
 			for(var it : diag.getSelecteds())
 			{
-	   		var mtgstock = new SealedStock();
+	   		var mtgstock = new MTGSealedStock();
 					mtgstock.setProduct(it);
 					model.addItem(mtgstock);
 			}

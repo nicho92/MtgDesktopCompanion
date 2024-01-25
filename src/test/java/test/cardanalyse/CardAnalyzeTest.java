@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 import org.junit.Test;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.game.model.factories.AbilitiesFactory;
 
@@ -20,7 +20,7 @@ public class CardAnalyzeTest {
 	{
 		getEnabledPlugin(MTGCardsProvider.class).init();
 		
-		for(MagicCard mc : TestTools.loadData()) {
+		for(MTGCard mc : TestTools.loadData()) {
 			System.out.println("----------------------------------------------------"+mc);
 			System.out.println(mc.getText());
 			System.out.println("----------------------------------------------------");

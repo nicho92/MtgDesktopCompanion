@@ -30,9 +30,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.logging.log4j.Logger;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCollection;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.logging.MTGLogger;
 
@@ -115,7 +115,7 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 				else if(parts.size()==2)
 				{
 					try {
-						var c = new MagicCollection(parts.get(1));
+						var c = new MTGCollection(parts.get(1));
 						dao.listEditionsIDFromCollection(c).forEach(ed->paths.add(new MTGPath(fs, parts.get(0),c.getName(),ed)));
 					} catch (SQLException e)
 					{
@@ -125,9 +125,9 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 				else if(parts.size()==3)
 				{
 					try {
-						var c = new MagicCollection(parts.get(1));
+						var c = new MTGCollection(parts.get(1));
 						var idEdition = parts.get(2);
-						dao.listCardsFromCollection(c,new MagicEdition(idEdition)).forEach(card->paths.add(new MTGPath(fs, parts.get(0),c.getName(),idEdition,card.getName())));
+						dao.listCardsFromCollection(c,new MTGEdition(idEdition)).forEach(card->paths.add(new MTGPath(fs, parts.get(0),c.getName(),idEdition,card.getName())));
 					} catch (SQLException e)
 					{
 						logger.error(e);
@@ -288,9 +288,9 @@ public class MTGFileSystemProvider extends FileSystemProvider {
 		{
 			try {
 
-				List<MagicCard> cards = dao.listCardsFromCollection(p.getCollection(), new MagicEdition(p.getIDEdition()));
+				List<MTGCard> cards = dao.listCardsFromCollection(p.getCollection(), new MTGEdition(p.getIDEdition()));
 
-				Optional<MagicCard> mc = cards.stream().filter(c->c.getName().equalsIgnoreCase(p.getStringFileName())).findFirst();
+				Optional<MTGCard> mc = cards.stream().filter(c->c.getName().equalsIgnoreCase(p.getStringFileName())).findFirst();
 
 				if(!mc.isPresent())
 					throw new FileNotFoundException(path + " not exist");

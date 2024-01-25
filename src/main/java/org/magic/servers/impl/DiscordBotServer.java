@@ -28,9 +28,9 @@ import org.api.mkm.modele.InsightElement;
 import org.api.mkm.services.InsightService;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MTGFormat.FORMATS;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGEdition;
+import org.magic.api.beans.MTGPrice;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.technical.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.beans.technical.audit.DiscordInfo;
@@ -289,7 +289,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 				logger.debug("search {} with nofoil={} and foilOnly={}",name,noFoil,foilOnly);
 
 				String ed=name.substring(name.indexOf('|')+1,name.length()).toUpperCase().trim();
-				var  eds = MTG.getEnabledPlugin(MTGDashBoard.class).getShakesForEdition(new MagicEdition(ed));
+				var  eds = MTG.getEnabledPlugin(MTGDashBoard.class).getShakesForEdition(new MTGEdition(ed));
 				var chks = eds.getShakes().stream().filter(cs->cs.getPriceDayChange()!=0).sorted(new PricesCardsShakeSorter(SORT.DAY_PERCENT_CHANGE,false)).toList();
 
 				if(noFoil)
@@ -319,11 +319,11 @@ public class DiscordBotServer extends AbstractMTGServer {
 	private void responseSearch(MessageReceivedEvent event,String name, DiscordInfo info)
 	{
 		boolean priceask = !StringUtils.isEmpty(getString(PRICE_KEYWORDS)) && StringUtils.containsAny(event.getMessage().getContentRaw().toLowerCase(), getArray(PRICE_KEYWORDS));
-		final List<MagicCard> liste = new ArrayList<>();
-		MagicEdition ed = null;
+		final List<MTGCard> liste = new ArrayList<>();
+		MTGEdition ed = null;
 		if(name.contains("|"))
 		{
-			ed = new MagicEdition();
+			ed = new MTGEdition();
 			ed.setId(name.substring(name.indexOf('|')+1,name.length()).toUpperCase().trim());
 			name=name.substring(0, name.indexOf('|')).trim();
 		}
@@ -347,8 +347,8 @@ public class DiscordBotServer extends AbstractMTGServer {
 
 			var builder = new NavigableEmbed.Builder(event.getChannel());
 			for (var x = 0; x < liste.size(); x++) {
-				MagicCard result = liste.get(x);
-				BiFunction<MagicCard, Integer, MessageEmbed> getEmbed = (c, resultIndex) -> {
+				MTGCard result = liste.get(x);
+				BiFunction<MTGCard, Integer, MessageEmbed> getEmbed = (c, resultIndex) -> {
 					var embed=parseCard(result,priceask,info);
 					var eb = new EmbedBuilder(embed);
 					if (liste.size() > 1)
@@ -415,7 +415,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 	}
 
 
-	private MessageEmbed parseCard(MagicCard mc,boolean price,DiscordInfo info) {
+	private MessageEmbed parseCard(MTGCard mc,boolean price,DiscordInfo info) {
 
 		var eb = new EmbedBuilder();
 		eb.setDescription("");
@@ -459,7 +459,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 			StringBuilder errMsg = new StringBuilder();
 
 			listEnabledPlugins(MTGPricesProvider.class).forEach(prov->{
-				List<MagicPrice> prices = null;
+				List<MTGPrice> prices = null;
 
 					try {
 						prices = prov.getPrice(mc);
@@ -473,7 +473,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 
 					try {
 						if(prices!=null && !prices.isEmpty()) {
-							prices = prices.stream().filter(MagicPrice::isFoil).sorted(new MagicPricesComparator()).toList();
+							prices = prices.stream().filter(MTGPrice::isFoil).sorted(new MagicPricesComparator()).toList();
 							if(prices!=null && !prices.isEmpty())
 								eb.addField(prov.getName() +" foil",UITools.formatDouble(prices.get(0).getValue())+" "+prices.get(0).getCurrency().getCurrencyCode(),true);
 						}

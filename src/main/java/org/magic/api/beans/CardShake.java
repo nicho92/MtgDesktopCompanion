@@ -19,7 +19,7 @@ public class CardShake implements Serializable {
 	private double percentDayChange;
 	private double priceWeekChange;
 	private double percentWeekChange;
-	private MagicCard card;
+	private MTGCard card;
 	private String ed;
 	private Date dateUpdate;
 	private Currency currency;
@@ -187,11 +187,11 @@ public class CardShake implements Serializable {
 		this.percentWeekChange = percentWeekChange;
 	}
 
-	public MagicCard getCard() {
+	public MTGCard getCard() {
 		return card;
 	}
 
-	public void setCard(MagicCard card) {
+	public void setCard(MTGCard card) {
 		this.card = card;
 	}
 

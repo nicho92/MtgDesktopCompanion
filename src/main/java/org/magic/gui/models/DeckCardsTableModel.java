@@ -6,10 +6,10 @@ import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicDeck.BOARD;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.MTGDeck.BOARD;
+import org.magic.api.beans.MTGEdition;
 import org.magic.services.CardsManagerService;
 
 public class DeckCardsTableModel extends DefaultTableModel {
@@ -26,7 +26,7 @@ public class DeckCardsTableModel extends DefaultTableModel {
 			"QTY",
 			"ARENA"};
 
-	private MagicDeck deck;
+	private MTGDeck deck;
 
 	private BOARD t;
 
@@ -47,14 +47,14 @@ public class DeckCardsTableModel extends DefaultTableModel {
 
 	public DeckCardsTableModel(BOARD t) {
 		this.t = t;
-		deck = new MagicDeck();
+		deck = new MTGDeck();
 	}
 
-	public void initSide(MagicDeck deck) {
+	public void initSide(MTGDeck deck) {
 		this.deck = deck;
 	}
 
-	public MagicDeck getDeck() {
+	public MTGDeck getDeck() {
 		return deck;
 	}
 
@@ -70,7 +70,7 @@ public class DeckCardsTableModel extends DefaultTableModel {
 
 	@Override
 	public Object getValueAt(int row, int column) {
-		MagicCard mc;
+		MTGCard mc;
 		switch (t) {
 		case MAIN:
 			mc = deck.getValueAt(row);
@@ -138,7 +138,7 @@ public class DeckCardsTableModel extends DefaultTableModel {
 
 	}
 
-	public void init(MagicDeck deck) {
+	public void init(MTGDeck deck) {
 		this.deck = deck;
 		fireTableDataChanged();
 	}
@@ -151,7 +151,7 @@ public class DeckCardsTableModel extends DefaultTableModel {
 	@Override
 	public void setValueAt(Object aValue, int row, int column) {
 		
-		MagicCard mc = null;
+		MTGCard mc = null;
 		int qty = 0;
 		
 		switch (t)
@@ -163,7 +163,7 @@ public class DeckCardsTableModel extends DefaultTableModel {
 		}
 
 		if (column == 3) {
-			MagicEdition ed = (MagicEdition) aValue;
+			MTGEdition ed = (MTGEdition) aValue;
 
 			if(!ed.equals(mc.getCurrentSet()))
 			{

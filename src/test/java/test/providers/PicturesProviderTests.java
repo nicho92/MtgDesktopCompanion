@@ -7,8 +7,8 @@ import java.util.List;
 import org.apache.logging.log4j.Level;
 import org.junit.Before;
 import org.junit.Test;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumBorders;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.enums.EnumRarity;
@@ -24,8 +24,8 @@ import org.magic.services.logging.MTGLogger;
 
 public class PicturesProviderTests {
 
-	MagicCard mc;
-	MagicEdition ed;
+	MTGCard mc;
+	MTGEdition ed;
 	
 	
 	public void removeCache()
@@ -45,7 +45,7 @@ public class PicturesProviderTests {
 	@Before
 	public void createCards()
 	{
-		mc = new MagicCard();
+		mc = new MTGCard();
 		mc.setName("Black Lotus");
 		mc.setLayout(EnumLayout.NORMAL);
 		mc.setCost("{0}");
@@ -60,7 +60,7 @@ public class PicturesProviderTests {
 		mc.setNumber("232");
 		mc.setMultiverseid("3");
 		
-		MagicEdition ed = new MagicEdition();
+		MTGEdition ed = new MTGEdition();
 					 ed.setId("lea");
 					 ed.setSet("Limited Edition Alpha");
 					

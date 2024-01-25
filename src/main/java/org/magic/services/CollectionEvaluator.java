@@ -18,9 +18,9 @@ import java.util.TreeMap;
 
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.EditionsShakers;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCollection;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
@@ -35,23 +35,23 @@ import com.google.gson.JsonPrimitive;
 public class CollectionEvaluator extends Observable
 {
 	private static final String PRICE_JSON = "_price.json";
-	private MagicCollection collection ;
+	private MTGCollection collection ;
 	private File directory;
 	private JsonExport serialiser;
-	private Map<MagicEdition,Map<MagicCard,CardShake>> cache;
+	private Map<MTGEdition,Map<MTGCard,CardShake>> cache;
 	private int minPrice=0;
 
 	public File getDirectory() {
 		return directory;
 	}
 
-	public static Map<MagicEdition, Integer> analyse(MagicCollection collection) throws IOException
+	public static Map<MTGEdition, Integer> analyse(MTGCollection collection) throws IOException
 	{
-		var ret = new TreeMap<MagicEdition, Integer>();
+		var ret = new TreeMap<MTGEdition, Integer>();
 
 		try {
 			var temp = getEnabledPlugin(MTGDao.class).getCardsCountGlobal(collection);
-			for (MagicEdition me : getEnabledPlugin(MTGCardsProvider.class).listEditions()) {
+			for (MTGEdition me : getEnabledPlugin(MTGCardsProvider.class).listEditions()) {
 				ret.put(me, (temp.get(me.getId()) == null) ? 0 : temp.get(me.getId()));
 			}
 		} catch (SQLException e) {
@@ -62,7 +62,7 @@ public class CollectionEvaluator extends Observable
 
 	}
 
-	public static JsonArray analyseToJson(MagicCollection collection) throws IOException
+	public static JsonArray analyseToJson(MTGCollection collection) throws IOException
 	{
 		var transformer = new JsonExport();
 		var arr = new JsonArray();
@@ -96,13 +96,13 @@ public class CollectionEvaluator extends Observable
 		init();
 	}
 
-	public CollectionEvaluator(MagicCollection c) throws IOException {
+	public CollectionEvaluator(MTGCollection c) throws IOException {
 		collection=c;
 		init();
 	}
 
 
-	public void setCollection(MagicCollection collection) {
+	public void setCollection(MTGCollection collection) {
 		this.collection = collection;
 		cache.clear();
 
@@ -137,7 +137,7 @@ public class CollectionEvaluator extends Observable
 		cache.clear();
 	}
 
-	public void initCache(MagicEdition edition,EditionsShakers ret) throws IOException
+	public void initCache(MTGEdition edition,EditionsShakers ret) throws IOException
 	{
 		try {
 			if(!ret.isEmpty())
@@ -149,7 +149,7 @@ public class CollectionEvaluator extends Observable
 	}
 
 
-	public EditionsShakers initCache(MagicEdition edition,String provider) throws IOException
+	public EditionsShakers initCache(MTGEdition edition,String provider) throws IOException
 	{
 		var ret = new EditionsShakers();
 			try {
@@ -161,18 +161,18 @@ public class CollectionEvaluator extends Observable
 	}
 
 
-	public EditionsShakers initCache(MagicEdition edition) throws IOException
+	public EditionsShakers initCache(MTGEdition edition) throws IOException
 	{
 		return initCache(edition,getEnabledPlugin(MTGDashBoard.class).getName());
 	}
 
-	public List<MagicEdition> getEditions()
+	public List<MTGEdition> getEditions()
 	{
-		List<MagicEdition> eds = new ArrayList<>();
+		List<MTGEdition> eds = new ArrayList<>();
 		try {
 			getEnabledPlugin(MTGDao.class).listEditionsIDFromCollection(collection).forEach(key->{
 				try {
-					MagicEdition ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(key);
+					MTGEdition ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(key);
 					eds.add(ed);
 				}catch(Exception e)
 				{
@@ -185,9 +185,9 @@ public class CollectionEvaluator extends Observable
 		}
 
 
-	public Map<MagicCard,CardShake> prices()
+	public Map<MTGCard,CardShake> prices()
 	{
-		Map<MagicCard,CardShake> ret = new HashMap<>();
+		Map<MTGCard,CardShake> ret = new HashMap<>();
 		getEditions().forEach(ed->
 			prices(ed).entrySet().forEach(entry->
 					ret.put(entry.getKey(), entry.getValue())
@@ -196,13 +196,13 @@ public class CollectionEvaluator extends Observable
 		return ret;
 	}
 
-	public boolean hasCache(MagicEdition ed)
+	public boolean hasCache(MTGEdition ed)
 	{
 		return new File(directory,ed.getId()+PRICE_JSON).exists();
 	}
 
 
-	public Date getCacheDate(MagicEdition ed)
+	public Date getCacheDate(MTGEdition ed)
 	{
 		var fich = new File(directory,ed.getId()+PRICE_JSON);
 		if(fich.exists())
@@ -215,7 +215,7 @@ public class CollectionEvaluator extends Observable
 	}
 
 
-	public synchronized Map<MagicCard,CardShake> prices(MagicEdition ed)
+	public synchronized Map<MTGCard,CardShake> prices(MTGEdition ed)
 	{
 
 		if(cache.get(ed)!=null)
@@ -224,7 +224,7 @@ public class CollectionEvaluator extends Observable
 		logger.trace("caculate prices for {}",ed);
 
 
-		Map<MagicCard,CardShake> ret = new HashMap<>();
+		Map<MTGCard,CardShake> ret = new HashMap<>();
 		try {
 			var fich = new File(directory,ed.getId()+PRICE_JSON);
 			EditionsShakers list;
@@ -237,8 +237,8 @@ public class CollectionEvaluator extends Observable
 				logger.trace("{} is not found for {}: {}",fich,ed.getId(),ed.getSet());
 				list= new EditionsShakers();
 			}
-			List<MagicCard> cards = getEnabledPlugin(MTGDao.class).listCardsFromCollection(collection, ed);
-			for(MagicCard mc : cards)
+			List<MTGCard> cards = getEnabledPlugin(MTGDao.class).listCardsFromCollection(collection, ed);
+			for(MTGCard mc : cards)
 			{
 					Optional<CardShake> cs = list.getShakes().stream().filter(sk->sk.getName().equals(mc.getName())).findFirst();
 					if(cs.isPresent())
@@ -276,7 +276,7 @@ public class CollectionEvaluator extends Observable
 		return ret;
 	}
 
-	public EditionsShakers loadFromCache(MagicEdition ed) {
+	public EditionsShakers loadFromCache(MTGEdition ed) {
 		try {
 			if(new File(directory,ed.getId()+PRICE_JSON).exists()) {
 				return serialiser.fromJson(FileTools.readFile(new File(directory,ed.getId()+PRICE_JSON),MTGConstants.DEFAULT_ENCODING),EditionsShakers.class);
@@ -298,7 +298,7 @@ public class CollectionEvaluator extends Observable
 
 		var temp = new StringBuilder("EDITION;CARDNAME;PRICE");
 		temp.append(System.lineSeparator());
-		for(Entry<MagicCard, CardShake> e : prices().entrySet())
+		for(Entry<MTGCard, CardShake> e : prices().entrySet())
 		{
 			if(e.getValue()!=null)
 			{
@@ -314,13 +314,13 @@ public class CollectionEvaluator extends Observable
 	}
 
 
-	public Double total(MagicEdition ed) {
+	public Double total(MTGEdition ed) {
 		return prices(ed).values().stream().mapToDouble(CardShake::getPrice).sum();
 	}
 
 	public Double total() {
 		double total=0.0;
-		for(MagicEdition ed : getEditions())
+		for(MTGEdition ed : getEditions())
 			total=total+total(ed);
 
 		return total;

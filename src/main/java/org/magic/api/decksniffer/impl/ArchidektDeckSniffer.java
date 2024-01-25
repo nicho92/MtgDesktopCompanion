@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
@@ -35,11 +35,11 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
+	public MTGDeck getDeck(RetrievableDeck info) throws IOException {
 
 		logger.debug("sniff deck at {}",info.getUrl());
 
-		MagicDeck deck = info.toBaseDeck();
+		MTGDeck deck = info.toBaseDeck();
 
 		var obj = RequestBuilder.build()
 				   .setClient(URLTools.newClient())
@@ -55,7 +55,7 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 			try {
 				var qty = e.getAsJsonObject().get("quantity").getAsInt();
 
-				MagicEdition ed = null;
+				MTGEdition ed = null;
 				if( e.getAsJsonObject().get("card").getAsJsonObject().get("edition")!=null) {
 					var edcode = e.getAsJsonObject().get("card").getAsJsonObject().get("edition").getAsJsonObject().get("editioncode").getAsString();
 					ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(edcode);

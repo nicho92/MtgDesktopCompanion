@@ -5,8 +5,8 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 import java.io.File;
 import java.io.IOException;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.tools.FileTools;
@@ -20,7 +20,7 @@ public class MagarenaExport extends AbstractFormattedFileCardExport
 	}
 
 	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 		var build = new StringBuilder();
 		deck.getMain().entrySet().forEach(e->build.append(e.getValue()).append(" ").append(e.getKey()).append("\n"));
 
@@ -30,13 +30,13 @@ public class MagarenaExport extends AbstractFormattedFileCardExport
 	}
 
 	@Override
-	public MagicDeck importDeck(String f, String name) throws IOException {
-		var deck = new MagicDeck();
+	public MTGDeck importDeck(String f, String name) throws IOException {
+		var deck = new MTGDeck();
 		deck.setName(name);
 		matches(f, true).forEach(m->{
 
 			try {
-				MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(m.group(4),null,true).get(0);
+				MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(m.group(4),null,true).get(0);
 				var qty = Integer.parseInt(m.group(3));
 				deck.getMain().put(mc, qty);
 

@@ -15,8 +15,8 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.FilenameUtils;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.MTGCardRecognition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGPictureProvider;
@@ -56,12 +56,12 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 	}
 
 	@Override
-	public boolean isSetCached(MagicEdition ed) {
+	public boolean isSetCached(MTGEdition ed) {
 		return getSetDirectory(ed.getId()).exists();
 	}
 
 	@Override
-	public boolean isSetLoaded(MagicEdition ed) {
+	public boolean isSetLoaded(MTGEdition ed) {
 		return dataList.containsKey(ed.getId());
 	}
 
@@ -70,7 +70,7 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 		return dataList.values().stream().flatMap(List::stream).collect(Collectors.toList());
 	}
 
-	public final boolean isCached(MagicEdition ed) {
+	public final boolean isCached(MTGEdition ed) {
 		return getSetDirectory(ed.getId()).exists();
 	}
 
@@ -105,7 +105,7 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 
 
 	@Override
-	public void clear(MagicEdition ed) {
+	public void clear(MTGEdition ed) {
 		dataList.remove(ed.getId());
 	}
 
@@ -152,7 +152,7 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 					String s = FileTools.readUTF8(buf);
 					var id = ImageDesc.readIn(buf);
 					var dc = new DescContainer(id,s);
-					if(!MagicCard.isBasicLand(dc.getName()))
+					if(!MTGCard.isBasicLand(dc.getName()))
 					{
 						add(dc);
 					}
@@ -163,13 +163,13 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 	}
 
 	@Override
-	public File downloadCardsData(MagicEdition set) throws IOException
+	public File downloadCardsData(MTGEdition set) throws IOException
 	{
 		logger.info("downloading {}",set);
-		List<MagicCard> cards = getEnabledPlugin(MTGCardsProvider.class).searchCardByEdition(set);
+		List<MTGCard> cards = getEnabledPlugin(MTGCardsProvider.class).searchCardByEdition(set);
 		logger.info("Loading cards from {} {} found",set,cards.size());
 
-		for(MagicCard card:cards)
+		for(MTGCard card:cards)
 		{
 			if(!card.isBasicLand() )
 			{
@@ -187,7 +187,7 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 
 
 	@Override
-	public final void loadDatasForSet(MagicEdition set)
+	public final void loadDatasForSet(MTGEdition set)
 	{
 		File f = getSetDirectory(set.getId());
 		if(f.exists())
@@ -211,7 +211,7 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 	}
 
 
-	private void addFromCard(MagicCard card)
+	private void addFromCard(MTGCard card)
 	{
 		BufferedImage topimg;
 		try {

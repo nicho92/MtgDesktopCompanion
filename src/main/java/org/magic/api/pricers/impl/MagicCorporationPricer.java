@@ -8,8 +8,8 @@ import java.util.Locale;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.network.RequestBuilder;
@@ -27,10 +27,10 @@ public class MagicCorporationPricer extends AbstractPricesProvider {
 	}
 
 	@Override
-	protected List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
+	protected List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
 
 	String url =BASE_URL+"mc.php";
-	List<MagicPrice> ret = new ArrayList<>();
+	List<MTGPrice> ret = new ArrayList<>();
 
 	Document content =RequestBuilder.build().url(url).setClient(URLTools.newClient()).get()
 						.addContent("rub","cartes")
@@ -56,7 +56,7 @@ public class MagicCorporationPricer extends AbstractPricesProvider {
 			{
 				for(Element tr : trs)
 				{
-					var mp = new MagicPrice();
+					var mp = new MTGPrice();
 						mp.setMagicCard(card);
 						mp.setCountry(Locale.FRANCE.getDisplayCountry(MTGControler.getInstance().getLocale()));
 						mp.setCurrency("EUR");

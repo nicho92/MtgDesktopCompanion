@@ -10,8 +10,8 @@ import java.util.List;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.ParseException;
-import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCollection;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.AbstractCommand;
@@ -41,19 +41,19 @@ public class Collection extends AbstractCommand {
 		CommandLine cl = parser.parse(opts, args);
 		if (cl.hasOption("l")) {
 			try {
-				return new ArrayResponse(MagicCollection.class, null, json.toJsonArray(getEnabledPlugin(MTGDao.class).listCollections()));
+				return new ArrayResponse(MTGCollection.class, null, json.toJsonArray(getEnabledPlugin(MTGDao.class).listCollections()));
 			} catch (SQLException e) {
 				return null;
 			}
 		}
 
 		if (cl.hasOption("s")) {
-			List<MagicEdition> eds = getEnabledPlugin(MTGCardsProvider.class).listEditions();
+			List<MTGEdition> eds = getEnabledPlugin(MTGCardsProvider.class).listEditions();
 			var model = new MagicEditionsTableModel();
 			model.init(eds);
 			double pc=0;
 			var arr =new JsonArray();
-			for (MagicEdition ed : eds) {
+			for (MTGEdition ed : eds) {
 				var obj = new JsonObject();
 				obj.addProperty("edition", ed.getSet());
 				obj.addProperty("release", ed.getReleaseDate());
@@ -74,7 +74,7 @@ public class Collection extends AbstractCommand {
 
 		if (cl.hasOption("l")) {
 			try {
-				return new ArrayResponse(MagicCollection.class, null, json.toJsonArray(getEnabledPlugin(MTGDao.class).listCollections()));
+				return new ArrayResponse(MTGCollection.class, null, json.toJsonArray(getEnabledPlugin(MTGDao.class).listCollections()));
 			} catch (SQLException e) {
 				return null;
 			}

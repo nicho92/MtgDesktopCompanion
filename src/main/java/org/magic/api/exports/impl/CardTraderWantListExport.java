@@ -9,8 +9,8 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.api.cardtrader.services.CardTraderConstants;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 
@@ -47,7 +47,7 @@ public class CardTraderWantListExport extends AbstractCardExport {
 
 
 	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 
 		var temp = new StringBuilder();
 
@@ -68,7 +68,7 @@ public class CardTraderWantListExport extends AbstractCardExport {
 
 
 
-	private String getSetId(MagicCard card) {
+	private String getSetId(MTGCard card) {
 
 		if(card.isExtraCard())
 			return "C"+card.getCurrentSet().getId();
@@ -83,7 +83,7 @@ public class CardTraderWantListExport extends AbstractCardExport {
 
 
 	@Override
-	public MagicDeck importDeck(String f, String name) throws IOException {
+	public MTGDeck importDeck(String f, String name) throws IOException {
 		throw new IOException("Not implemented");
 	}
 

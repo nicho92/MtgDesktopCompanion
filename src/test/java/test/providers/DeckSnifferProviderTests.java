@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGDeckSniffer;
 import org.magic.services.PluginRegistry;
@@ -47,7 +47,7 @@ public class DeckSnifferProviderTests {
 				List<RetrievableDeck> decks = p.getDeckList(p.listFilter()[0]);
 				System.out.println("Retrieve decklist OK");
 				RetrievableDeck d = decks.get(0);
-				MagicDeck deck = p.getDeck(d);
+				MTGDeck deck = p.getDeck(d);
 				System.out.println("Retrieve " + deck.getName() +" ok");
 			} catch (Exception e) {
 				e.printStackTrace();

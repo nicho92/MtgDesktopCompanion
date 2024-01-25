@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map.Entry;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.network.URLTools;
@@ -47,12 +47,12 @@ public class CardKingdomCardExport extends AbstractCardExport {
 
 
 	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 		var temp = new StringBuilder();
 
 		var s = BASE_URL+"?partner=Mtgdesktopcompanion&utm_source=Mtgdesktopcompanion&utm_medium=affiliate&utm_campaign=Mtgdesktopcompanion&c=";
 
-		for(Entry<MagicCard, Integer> e : deck.getMain().entrySet())
+		for(Entry<MTGCard, Integer> e : deck.getMain().entrySet())
 			temp.append(e.getValue()).append(" ").append(e.getKey()).append("||");
 
 
@@ -63,7 +63,7 @@ public class CardKingdomCardExport extends AbstractCardExport {
 	}
 
 	@Override
-	public MagicDeck importDeck(String f, String name) throws IOException {
+	public MTGDeck importDeck(String f, String name) throws IOException {
 		throw new IOException("Not Implemented");
 	}
 

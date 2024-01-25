@@ -9,9 +9,9 @@ import java.util.List;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.ParseException;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCollection;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.AbstractCommand;
@@ -38,21 +38,21 @@ public class Search extends AbstractCommand {
 		if (cl.hasOption("c")) {
 			String att = cl.getOptionValue("c").split("=")[0];
 			String val = cl.getOptionValue("c").split("=")[1];
-			return new ArrayResponse(MagicCard.class, null,json.toJsonArray(getEnabledPlugin(MTGCardsProvider.class).searchCardByCriteria(att, val, null,false)));
+			return new ArrayResponse(MTGCard.class, null,json.toJsonArray(getEnabledPlugin(MTGCardsProvider.class).searchCardByCriteria(att, val, null,false)));
 		}
 
 		if (cl.hasOption("s")) {
-			return new ArrayResponse(MagicEdition.class, null,json.toJsonArray(getEnabledPlugin(MTGCardsProvider.class).listEditions()));
+			return new ArrayResponse(MTGEdition.class, null,json.toJsonArray(getEnabledPlugin(MTGCardsProvider.class).listEditions()));
 		}
 
 		if (cl.hasOption("col")) {
-			List<MagicCollection> list;
+			List<MTGCollection> list;
 			try {
 				list = getEnabledPlugin(MTGDao.class).listCollections();
 			} catch (SQLException e) {
 				throw new IOException(e);
 			}
-			return new ArrayResponse(MagicCollection.class, null,json.toJsonArray(list));
+			return new ArrayResponse(MTGCollection.class, null,json.toJsonArray(list));
 		}
 
 		if (cl.hasOption("?")) {

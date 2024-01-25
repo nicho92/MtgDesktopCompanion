@@ -9,9 +9,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
@@ -39,9 +39,9 @@ public class ManaBoxExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	public MagicDeck importDeck(String f, String name) throws IOException {
+	public MTGDeck importDeck(String f, String name) throws IOException {
 		
-		var d = new MagicDeck();
+		var d = new MTGDeck();
 			 d.setName(name);
 			 d.setDescription("Imported from " + getName());
 		
@@ -80,9 +80,9 @@ public class ManaBoxExport extends AbstractFormattedFileCardExport {
 	}
 	
 	@Override
-	public List<MagicCardStock> importStock(String content) throws IOException {
+	public List<MTGCardStock> importStock(String content) throws IOException {
 		
-		var list = new ArrayList<MagicCardStock>();
+		var list = new ArrayList<MTGCardStock>();
 		
 		
 		matches(content, true, aliases.getRegexFor(this, "stock")).forEach(m->{
@@ -115,7 +115,7 @@ public class ManaBoxExport extends AbstractFormattedFileCardExport {
 	
 	
 	@Override
-	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
+	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
 		StringBuilder tmp = new StringBuilder();
 						    tmp.append("Name,Set code,Set name,Collector number,Foil,Rarity,Quantity,ManaBox ID,Scryfall ID,Purchase price,Misprint,Altered,Condition,Language,Purchase price currency").append(System.lineSeparator());
 						    
@@ -152,7 +152,7 @@ public class ManaBoxExport extends AbstractFormattedFileCardExport {
 	
 	
 	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 		
 		StringBuilder  temp = new StringBuilder();
 		
@@ -174,7 +174,7 @@ public class ManaBoxExport extends AbstractFormattedFileCardExport {
 		
 	}
 
-	private void build(Map<MagicCard, Integer> map, StringBuilder temp) {
+	private void build(Map<MTGCard, Integer> map, StringBuilder temp) {
 		for(var e : map.entrySet())
 		{
 			temp.append(e.getValue()).append(" ")

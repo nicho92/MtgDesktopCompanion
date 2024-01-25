@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.magic.api.beans.CardDominance;
+import org.magic.api.beans.MTGDominance;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.EditionsShakers;
 import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MTGFormat.FORMATS;
 import org.magic.api.beans.MTGSealedProduct;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCardVariation;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.network.MTGHttpClient;
@@ -31,7 +31,7 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 	}
 
 
-	private String getCardId(MagicCard mc) {
+	private String getCardId(MTGCard mc) {
 		
 		var extra="";
 		
@@ -83,7 +83,7 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 	}
 
 	@Override
-	protected HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, boolean foil) throws IOException {
+	protected HistoryPrice<MTGCard> getOnlinePricesVariation(MTGCard mc, boolean foil) throws IOException {
 		init();
 		var history = new HistoryPrice<>(mc);
 		
@@ -115,13 +115,13 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 
 	
 	@Override
-	protected HistoryPrice<MagicEdition> getOnlinePricesVariation(MagicEdition ed) throws IOException {
+	protected HistoryPrice<MTGEdition> getOnlinePricesVariation(MTGEdition ed) throws IOException {
 		return null;
 	}
 
 
 	@Override
-	protected EditionsShakers getOnlineShakesForEdition(MagicEdition ed) throws IOException {
+	protected EditionsShakers getOnlineShakesForEdition(MTGEdition ed) throws IOException {
 
 		var variations = new EditionsShakers();
 			variations.setDate(new Date());
@@ -196,7 +196,7 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 
 
 	@Override
-	public List<CardDominance> getBestCards(FORMATS f, String filter) throws IOException {
+	public List<MTGDominance> getBestCards(FORMATS f, String filter) throws IOException {
 		return new ArrayList<>();
 	}
 

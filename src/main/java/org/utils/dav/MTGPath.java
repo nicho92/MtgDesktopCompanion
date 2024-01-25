@@ -19,7 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MTGCollection;
 
 public class MTGPath implements Path {
 
@@ -224,9 +224,9 @@ public class MTGPath implements Path {
 		return parts.size()==4;
 	}
 
-	public MagicCollection getCollection()
+	public MTGCollection getCollection()
 	{
-		return new MagicCollection(getParts().get(1));
+		return new MTGCollection(getParts().get(1));
 	}
 
 	public String getIDEdition()

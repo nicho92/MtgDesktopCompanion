@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 
@@ -53,7 +53,7 @@ public class SystemClipBoardExport extends AbstractCardExport {
 	}
 
 	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 		clipboard=Toolkit.getDefaultToolkit().getSystemClipboard();
 		
 		var strse1 = new StringSelection(deck.getMain().entrySet().stream().map(e->e.getValue() + " " + e.getKey()).collect(Collectors.joining(System.lineSeparator())));
@@ -62,8 +62,8 @@ public class SystemClipBoardExport extends AbstractCardExport {
 	}
 
 	@Override
-	public MagicDeck importDeck(String f, String name) throws IOException {
-		var d = new MagicDeck();
+	public MTGDeck importDeck(String f, String name) throws IOException {
+		var d = new MTGDeck();
 		d.setName("ClipBoard");
 		clipboard=Toolkit.getDefaultToolkit().getSystemClipboard();
 		try {

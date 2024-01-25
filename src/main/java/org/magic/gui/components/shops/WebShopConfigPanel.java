@@ -37,8 +37,8 @@ import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
 import org.jdesktop.swingx.painter.MattePainter;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.technical.WebShopConfig;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGServer;
@@ -67,11 +67,11 @@ public class WebShopConfigPanel extends MTGUIComponent {
 	private DefaultListModel<String> listModel;
 	private JList<String> listSlides;
 	private JTextField txtAnalyticsGoogle;
-	private JCheckableListBox<MagicCollection> cboCollections;
-	private MagicCardStock topProduct;
+	private JCheckableListBox<MTGCollection> cboCollections;
+	private MTGCardStock topProduct;
 	private JSlider maxLastProductSlide;
 	private JSlider productPagination;
-	private JCheckableListBox<MagicCollection> needCollection;
+	private JCheckableListBox<MTGCollection> needCollection;
 	private JSpinner spinnerReduction ;
 	private JSpinner averageDeliverayDay ;
 	private RSyntaxTextArea txtdeliveryRules ;
@@ -203,7 +203,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 
 
 		try {
-			for(MagicCollection mc : MTG.getEnabledPlugin(MTGDao.class).listCollections())
+			for(MTGCollection mc : MTG.getEnabledPlugin(MTGDao.class).listCollections())
 			{
 				cboCollections.addElement(mc, conf.getCollections().contains(mc));
 				needCollection.addElement(mc, conf.getNeedcollections().contains(mc));
@@ -278,10 +278,10 @@ public class WebShopConfigPanel extends MTGUIComponent {
 
 
 
-		var sw = new SwingWorker<MagicCardStock , MagicCardStock >() {
+		var sw = new SwingWorker<MTGCardStock , MTGCardStock >() {
 
 			@Override
-			protected MagicCardStock doInBackground() throws Exception {
+			protected MTGCardStock doInBackground() throws Exception {
 				return TransactionService.getBestProduct();
 			}
 

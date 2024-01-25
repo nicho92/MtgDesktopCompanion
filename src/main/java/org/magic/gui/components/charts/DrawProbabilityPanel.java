@@ -13,8 +13,8 @@ import javax.swing.JScrollPane;
 import javax.swing.table.AbstractTableModel;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;
 import org.magic.services.MTGConstants;
@@ -28,7 +28,7 @@ public class DrawProbabilityPanel extends MTGUIComponent {
 	private transient MTGDeckManager calc;
 	private AbstractTableModel model;
 	int maxTurn = 10;
-	private MagicDeck d;
+	private MTGDeck d;
 
 	public DrawProbabilityPanel() {
 		initGUI();
@@ -55,19 +55,19 @@ public class DrawProbabilityPanel extends MTGUIComponent {
 		panel.add(lblDrawProbability);
 	}
 
-	public void init(MagicDeck d) {
+	public void init(MTGDeck d) {
 		this.d=d.getMergedDeck();
 		initDeck();
 	}
 
-	public void init(MagicDeck d, MagicCard c) {
+	public void init(MTGDeck d, MTGCard c) {
 		this.d=d;
 
 		if (c != null)
 			initCard(c);
 	}
 
-	private void initCard(MagicCard card) {
+	private void initCard(MTGCard card) {
 		model = new AbstractTableModel() {
 
 			/**

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.game.model.abilities.LoyaltyAbilities;
 import org.magic.game.model.counters.AbstractCounter;
@@ -29,12 +29,12 @@ public class CountersFactory {
 
 	public List<AbstractCounter> createCounter(String text)
 	{
-		var mc = new MagicCard();
+		var mc = new MTGCard();
 		mc.setText(text);
 		return createCounter(mc);
 	}
 
-	public List<ItemCounter> createItemCounter(MagicCard mc)
+	public List<ItemCounter> createItemCounter(MTGCard mc)
 	{
 		
 		if(mc.getText()==null)
@@ -62,7 +62,7 @@ public class CountersFactory {
 		return new LoyaltyCounter(la);
 	}
 
-	public List<AbstractCounter> createCounter(MagicCard mc)
+	public List<AbstractCounter> createCounter(MTGCard mc)
 	{
 		ArrayList<AbstractCounter> arr = new ArrayList<>();
 

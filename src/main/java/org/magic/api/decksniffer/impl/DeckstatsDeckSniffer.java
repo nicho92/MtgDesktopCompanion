@@ -13,8 +13,8 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
@@ -75,10 +75,10 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 	}
 	
 	@Override
-	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
+	public MTGDeck getDeck(RetrievableDeck info) throws IOException {
 		//
 
-		MagicDeck deck = info.toBaseDeck();
+		MTGDeck deck = info.toBaseDeck();
 
 		logger.debug("get deck {}",info.getUrl());
 		Document d = URLTools.extractAsHtml(info.getUrl().toString());
@@ -125,14 +125,14 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 		return deck;
 	}
 
-	private void read(String s, Pattern regex, Map<MagicCard, Integer> map) {
+	private void read(String s, Pattern regex, Map<MTGCard, Integer> map) {
 			
 		var m = regex.matcher(s);
 		if(m.find())
 		{
 			var qty = Integer.parseInt(m.group(1));
 			
-			MagicCard mc = null;
+			MTGCard mc = null;
 			
 			if(m.group(3)!=null)
 			{

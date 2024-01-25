@@ -3,11 +3,11 @@ package org.magic.gui.models;
 import java.sql.Date;
 
 import org.magic.api.beans.MTGFormat;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGDeck;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.MTGDeckManager;
 
-public class DeckSelectionTableModel extends GenericTableModel<MagicDeck> {
+public class DeckSelectionTableModel extends GenericTableModel<MTGDeck> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -20,7 +20,7 @@ public class DeckSelectionTableModel extends GenericTableModel<MagicDeck> {
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex) {
 		case 0:
-			return MagicDeck.class;
+			return MTGDeck.class;
 		case 1:
 			return String.class;
 		case 2:

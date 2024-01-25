@@ -7,10 +7,10 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGEdition;
 import org.magic.services.providers.IconSetProvider;
 
-public class MagicEditionIconListRenderer implements ListCellRenderer<MagicEdition> {
+public class MagicEditionIconListRenderer implements ListCellRenderer<MTGEdition> {
 
 	public enum SIZE {SMALL,MEDIUM}
 	private SIZE size;
@@ -28,7 +28,7 @@ public class MagicEditionIconListRenderer implements ListCellRenderer<MagicEditi
 	}
 
 	@Override
-	public Component getListCellRendererComponent(JList<? extends MagicEdition> list, MagicEdition value, int index,boolean isSelected, boolean cellHasFocus) {
+	public Component getListCellRendererComponent(JList<? extends MTGEdition> list, MTGEdition value, int index,boolean isSelected, boolean cellHasFocus) {
 
 		if (value != null)
 		{

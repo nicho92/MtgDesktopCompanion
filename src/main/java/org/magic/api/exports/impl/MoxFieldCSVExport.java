@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
@@ -35,11 +35,11 @@ public class MoxFieldCSVExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	public List<MagicCardStock> importStock(String content) throws IOException {
-		List<MagicCardStock> list = new ArrayList<>();
+	public List<MTGCardStock> importStock(String content) throws IOException {
+		List<MTGCardStock> list = new ArrayList<>();
 		matches(content,true).forEach(m->{
 
-			MagicEdition ed = null;
+			MTGEdition ed = null;
 
 			try {
 				ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(m.group(4));
@@ -60,7 +60,7 @@ public class MoxFieldCSVExport extends AbstractFormattedFileCardExport {
 				//do nothing
 			}
 
-			MagicCard mc=null;
+			MTGCard mc=null;
 
 			if(number!=null && ed !=null)
 			{
@@ -113,7 +113,7 @@ public class MoxFieldCSVExport extends AbstractFormattedFileCardExport {
 	
 	
 	@Override
-	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
+	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
 		var sb = new StringBuilder(columns);
 			 sb.append(System.lineSeparator());
 			 

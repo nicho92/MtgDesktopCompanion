@@ -12,11 +12,11 @@ import java.util.regex.Matcher;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGCollection;
+import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
@@ -31,13 +31,13 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 
 
 	@Override
-	public List<MagicCardStock> importStock(String content) throws IOException {
-			List<MagicCardStock> stock = new ArrayList<>();
+	public List<MTGCardStock> importStock(String content) throws IOException {
+			List<MTGCardStock> stock = new ArrayList<>();
 			for(Matcher part : matches(content, true))
 			{
 				var mcs = MTGControler.getInstance().getDefaultStock();
 
-				MagicEdition ed = null;
+				MTGEdition ed = null;
 
 				try {
 					ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(part.group(2));
@@ -48,7 +48,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 				}
 
 
-				MagicCard mc = null;
+				MTGCard mc = null;
 				try {
 					mc = getEnabledPlugin(MTGCardsProvider.class).getCardByNumber( part.group(12), ed);
 				}
@@ -77,7 +77,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 					mcs.setFoil(Boolean.valueOf(part.group(6)));
 					mcs.setAltered(Boolean.valueOf(part.group(7)));
 					mcs.setSigned(Boolean.valueOf(part.group(8)));
-					mcs.setMagicCollection(new MagicCollection(part.group(9)));
+					mcs.setMagicCollection(new MTGCollection(part.group(9)));
 					mcs.setPrice(Double.valueOf(part.group(10)));
 					mcs.setComment(part.group(11));
 					mcs.setId(-1);
@@ -91,14 +91,14 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
+	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
 
 		var bw = new StringBuilder();
 
 			bw.append(columns).append(getSeparator());
 			bw.append(StringUtils.join(getArray(EXTRA_PROPERTIES),getSeparator())).append(System.lineSeparator());
 
-			for (MagicCardStock mcs : stock)
+			for (MTGCardStock mcs : stock)
 			{
 				bw.append("\""+mcs.getProduct().getName()+"\"").append(getSeparator());
 				bw.append(mcs.getProduct().getCurrentSet()).append(getSeparator());
@@ -124,7 +124,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	public void exportDeck(MagicDeck deck, File f) throws IOException {
+	public void exportDeck(MTGDeck deck, File f) throws IOException {
 
 
 		var bw = new StringBuilder();
@@ -141,7 +141,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 		bw.append(System.lineSeparator());
 
 
-		for (Entry<MagicCard, Integer> entry : deck.getMain().entrySet())
+		for (Entry<MTGCard, Integer> entry : deck.getMain().entrySet())
 		{
 			bw.append("\""+entry.getKey()+"\"").append(getSeparator());
 			bw.append(entry.getKey().getCurrentSet()).append(getSeparator());
@@ -152,7 +152,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 
 		bw.append(System.lineSeparator());
 
-		for (Entry<MagicCard, Integer> entry : deck.getSideBoard().entrySet())
+		for (Entry<MTGCard, Integer> entry : deck.getSideBoard().entrySet())
 		{
 			bw.append("\""+entry.getKey()+"\"").append(getSeparator());
 			bw.append(entry.getKey().getCurrentSet()).append(getSeparator());
@@ -166,7 +166,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 	}
 
 
-	private void writeExtraMap(MagicCard mc, StringBuilder bw)
+	private void writeExtraMap(MTGCard mc, StringBuilder bw)
 	{
 			for (String k : getArray(EXTRA_PROPERTIES))
 			{
@@ -188,8 +188,8 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 
 
 	@Override
-	public MagicDeck importDeck(String content,String n) throws IOException {
-		var deck = new MagicDeck();
+	public MTGDeck importDeck(String content,String n) throws IOException {
+		var deck = new MTGDeck();
 		deck.setName(n);
 		var isSide=false;
 
@@ -205,8 +205,8 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 					String name = cleanName(part[0]);
 					String qte = part[2];
 					String set = part[1];
-					MagicEdition ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(set);
-					MagicCard mc = null;
+					MTGEdition ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(set);
+					MTGCard mc = null;
 					try {
 						mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, ed, true).get(0);
 					}

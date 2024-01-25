@@ -4,7 +4,7 @@ import java.awt.BorderLayout;
 
 import javax.swing.JScrollPane;
 
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.MapTableModel;
 import org.magic.services.tools.BeanTools;
@@ -39,7 +39,7 @@ public class MagicCardSubDetailPanel extends MTGUIComponent {
 		add(new JScrollPane(table),BorderLayout.CENTER);
 	}
 	
-	public void init(MagicCard mc)
+	public void init(MTGCard mc)
 	{
 		mod.init(BeanTools.describe(mc));
 	}

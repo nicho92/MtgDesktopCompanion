@@ -8,7 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGEdition;
 import org.magic.gui.renderer.MagicEditionIconListRenderer.SIZE;
 import org.magic.services.tools.UITools;
 
@@ -32,7 +32,7 @@ public class MagicEditionsComboBoxCellRenderer implements TableCellRenderer {
 			return new JLabel();
 
 
-		JComboBox<MagicEdition> cbo = UITools.createComboboxEditions((List<MagicEdition>) value,SIZE.SMALL);
+		JComboBox<MTGEdition> cbo = UITools.createComboboxEditions((List<MTGEdition>) value,SIZE.SMALL);
 		cbo.setEnabled(enable);
 		cbo.setOpaque(true);
 

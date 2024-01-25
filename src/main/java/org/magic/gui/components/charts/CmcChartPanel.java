@@ -4,10 +4,10 @@ import java.util.Map.Entry;
 
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.gui.abstracts.charts.Abstract2DBarChart;
 
-public class CmcChartPanel extends Abstract2DBarChart<MagicCard> {
+public class CmcChartPanel extends Abstract2DBarChart<MTGCard> {
 
 	private static final long serialVersionUID = 1L;
 

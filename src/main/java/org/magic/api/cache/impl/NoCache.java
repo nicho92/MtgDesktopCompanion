@@ -2,7 +2,7 @@ package org.magic.api.cache.impl;
 
 import java.awt.image.BufferedImage;
 
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.interfaces.abstracts.AbstractCacheProvider;
 
 public class NoCache extends AbstractCacheProvider {
@@ -18,12 +18,12 @@ public class NoCache extends AbstractCacheProvider {
 	}
 
 	@Override
-	public BufferedImage getItem(MagicCard mc) {
+	public BufferedImage getItem(MTGCard mc) {
 		return null;
 	}
 
 	@Override
-	public void put(BufferedImage im, MagicCard mc) {
+	public void put(BufferedImage im, MTGCard mc) {
 		// Nothing to do
 
 	}

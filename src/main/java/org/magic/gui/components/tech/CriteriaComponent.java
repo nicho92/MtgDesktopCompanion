@@ -22,8 +22,8 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import org.magic.api.beans.MTGKeyWord;
-import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCollection;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumFinishes;
 import org.magic.api.beans.enums.EnumFrameEffects;
@@ -127,10 +127,10 @@ public class CriteriaComponent extends JComponent implements ActionListener{
 			return ch;
 		}
 		else
-		if(c.getType() == MagicEdition.class)
+		if(c.getType() == MTGEdition.class)
 			return init(UITools.createComboboxEditions());
 		else
-		if(c.getType() == MagicCollection.class)
+		if(c.getType() == MTGCollection.class)
 			return init(UITools.createComboboxCollection());
 		else
 		if(c.getType() == EnumColors.class)
@@ -232,12 +232,12 @@ public class CriteriaComponent extends JComponent implements ActionListener{
 
 	public boolean isCollectionSearch()
 	{
-		return c.getType() == MagicCollection.class;
+		return c.getType() == MTGCollection.class;
 	}
 
 	public boolean isSetSearch()
 	{
-		return c.getType() == MagicEdition.class;
+		return c.getType() == MTGEdition.class;
 	}
 
 	public boolean isAllCardsSearch()

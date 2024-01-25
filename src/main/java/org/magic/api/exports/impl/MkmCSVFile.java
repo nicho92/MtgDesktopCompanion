@@ -8,9 +8,9 @@ import java.util.List;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.tools.FileTools;
 
@@ -26,16 +26,16 @@ public class MkmCSVFile extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 		var build = new StringBuilder();
 		build.append(header);
 		FileTools.saveFile(dest, build.toString());
 	}
 
 	@Override
-	public List<MagicCardStock> importStock(String content) throws IOException {
+	public List<MTGCardStock> importStock(String content) throws IOException {
 
-		List<MagicCardStock> ret = new ArrayList<>();
+		List<MTGCardStock> ret = new ArrayList<>();
 
 
 		content =content.replace("\"MYS\"", "\"MB1\"")
@@ -43,7 +43,7 @@ public class MkmCSVFile extends AbstractFormattedFileCardExport {
 
 		matches(content, true).forEach(m->{
 
-			MagicCard mc = parseMatcherWithGroup(m, 1, 16, true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NAME);
+			MTGCard mc = parseMatcherWithGroup(m, 1, 16, true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NAME);
 
 			if(mc==null)
 			{
@@ -56,7 +56,7 @@ public class MkmCSVFile extends AbstractFormattedFileCardExport {
 			}
 
 			if(mc!=null) {
-				var stock = new MagicCardStock(mc);
+				var stock = new MTGCardStock(mc);
 				stock.setLanguage(m.group(3));
 				stock.setFoil(Boolean.parseBoolean(m.group(9)));
 				stock.setSigned(Boolean.parseBoolean(m.group(10)));

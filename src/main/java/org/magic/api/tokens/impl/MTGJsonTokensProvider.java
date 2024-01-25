@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractTokensProvider;
@@ -34,17 +34,17 @@ public class MTGJsonTokensProvider extends AbstractTokensProvider {
 	}
 
 	@Override
-	public List<MagicCard> listTokensFor(MagicEdition ed) throws IOException {
+	public List<MTGCard> listTokensFor(MTGEdition ed) throws IOException {
 		return prov.listToken(ed);
 	}
 
 	@Override
-	public MagicCard generateTokenFor(MagicCard mc) throws IOException {
+	public MTGCard generateTokenFor(MTGCard mc) throws IOException {
 		return prov.getTokenFor(mc,EnumLayout.TOKEN);
 	}
 
 	@Override
-	public MagicCard generateEmblemFor(MagicCard mc) throws IOException {
+	public MTGCard generateEmblemFor(MTGCard mc) throws IOException {
 		return prov.getTokenFor(mc,EnumLayout.EMBLEM);
 	}
 
@@ -54,7 +54,7 @@ public class MTGJsonTokensProvider extends AbstractTokensProvider {
 	}
 
 	@Override
-	public BufferedImage getPictures(MagicCard tok) throws IOException {
+	public BufferedImage getPictures(MTGCard tok) throws IOException {
 		String url = new ScryFallPicturesProvider().generateUrl(tok);
 		return URLTools.extractAsImage(url);
 	}

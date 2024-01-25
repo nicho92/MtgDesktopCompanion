@@ -17,9 +17,9 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.lang3.StringUtils;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -47,11 +47,11 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 
 		var temp = new StringBuilder();
 
-		for(Map.Entry<MagicCard, Integer> entry : deck.getMain().entrySet())
+		for(Map.Entry<MTGCard, Integer> entry : deck.getMain().entrySet())
 		{
 			temp.append(entry.getValue())
 				.append(" ")
@@ -67,7 +67,7 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 		}
 
 		if(!deck.getSideBoard().isEmpty())
-			for(Map.Entry<MagicCard, Integer> entry : deck.getSideBoard().entrySet())
+			for(Map.Entry<MTGCard, Integer> entry : deck.getSideBoard().entrySet())
 			{
 				temp.append("\r\n")
 					.append(entry.getValue())
@@ -109,8 +109,8 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	public MagicDeck importDeck(String f,String dname) throws IOException {
-		var deck = new MagicDeck();
+	public MTGDeck importDeck(String f,String dname) throws IOException {
+		var deck = new MTGDeck();
 		deck.setName(dname);
 		side=false;
 		Transferable trf = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(this);
@@ -142,8 +142,8 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 					var qte = Integer.parseInt(m.group(1));
 					String name = m.group(2).trim();
 					String ed =  reverse( m.group(3).trim());
-					MagicEdition me = getEnabledPlugin(MTGCardsProvider.class).getSetById(ed);
-					MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( name.trim(), me, true).get(0);
+					MTGEdition me = getEnabledPlugin(MTGCardsProvider.class).getSetById(ed);
+					MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( name.trim(), me, true).get(0);
 					notify(mc);
 					if(!side)
 						deck.getMain().put(mc, qte);

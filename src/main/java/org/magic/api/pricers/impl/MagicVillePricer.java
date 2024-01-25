@@ -8,8 +8,8 @@ import java.util.Map;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.MTGHttpClient;
@@ -34,8 +34,8 @@ public class MagicVillePricer extends AbstractPricesProvider {
 	}
 
 	@Override
-	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
-		List<MagicPrice> list = new ArrayList<>();
+	public List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
+		List<MTGPrice> list = new ArrayList<>();
 
 		String res = httpclient.toString(httpclient.doPost(WEBSITE+"/fr/resultats.php?zbob=1", httpclient.buildMap().put("recherche_titre", card.getName()).build(), null));
 		if(res.length()>100)
@@ -66,7 +66,7 @@ public class MagicVillePricer extends AbstractPricesProvider {
 		for (var i = 3; i < rows.size(); i = i + 2) {
 			var ligne = rows.get(i);
 			var cols = ligne.getElementsByTag(MTGConstants.HTML_TAG_TD);
-			var mp = new MagicPrice();
+			var mp = new MTGPrice();
 
 			String price = cols.get(4).text();
 			price = price.substring(0, price.length() - 1);

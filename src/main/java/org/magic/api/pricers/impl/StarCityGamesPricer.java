@@ -9,8 +9,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.http.entity.StringEntity;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -24,8 +24,8 @@ public class StarCityGamesPricer extends AbstractPricesProvider {
 	private static final String BASE_URL="https://starcitygames.com";
 	
 	@Override
-	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
-		List<MagicPrice> ret = new ArrayList<>();
+	public List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
+		List<MTGPrice> ret = new ArrayList<>();
 		var c = URLTools.newClient();
 		
 		RequestBuilder.build().setClient(c).get().url(BASE_URL).execute();
@@ -64,7 +64,7 @@ public class StarCityGamesPricer extends AbstractPricesProvider {
 				var jinfo = URLTools.toJson(str.getAsString()).getAsJsonObject();
 				
 				if(jinfo.get("qty").getAsInt()>0 && jinfo.get("sku").getAsString().toUpperCase().contains(card.getCurrentSet().getId().toUpperCase())) {
-					var mp = new MagicPrice();
+					var mp = new MTGPrice();
 					mp.setMagicCard(card);
 					mp.setCurrency(Currency.getInstance("USD"));
 					mp.setCountry(Locale.US.getDisplayCountry(MTGControler.getInstance().getLocale()));

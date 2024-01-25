@@ -14,9 +14,9 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumPromoType;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -33,13 +33,13 @@ public class LigaMagicExport extends AbstractCardExport {
 	}
 
 	@Override
-	public List<MagicCardStock> importStock(String content) throws IOException {
+	public List<MTGCardStock> importStock(String content) throws IOException {
 		throw new IOException(" Not implemented, please run by a file");
 	}
 
 
 	@Override
-	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
+	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
 
 		try(Workbook workbook = new XSSFWorkbook();	var out = new FileOutputStream(f))
 		{
@@ -60,7 +60,7 @@ public class LigaMagicExport extends AbstractCardExport {
 										}
 
 
-			for(MagicCardStock st : stock)
+			for(MTGCardStock st : stock)
 			{
 				colNum=0;
 				row = sheet.createRow(rowNum++);
@@ -92,9 +92,9 @@ public class LigaMagicExport extends AbstractCardExport {
 
 
 	@Override
-	public List<MagicCardStock> importStockFromFile(File f) throws IOException {
+	public List<MTGCardStock> importStockFromFile(File f) throws IOException {
 
-		var ret = new ArrayList<MagicCardStock>();
+		var ret = new ArrayList<MTGCardStock>();
 
 		try(Workbook workbook =  WorkbookFactory.create(f))
 		{
@@ -122,7 +122,7 @@ public class LigaMagicExport extends AbstractCardExport {
 
 					if(mc!=null)
 					{
-						var stockItem = new MagicCardStock();
+						var stockItem = new MTGCardStock();
 							stockItem.setAltered(altered);
 							stockItem.setFoil(foil);
 							stockItem.setLanguage(language);
@@ -151,7 +151,7 @@ public class LigaMagicExport extends AbstractCardExport {
 	}
 
 
-	private MagicCard findCard(String enName, String edName) throws IOException {
+	private MTGCard findCard(String enName, String edName) throws IOException {
 		var set = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetByName(edName);
 
 		if(set==null)
@@ -162,8 +162,8 @@ public class LigaMagicExport extends AbstractCardExport {
 	}
 
 	@Override
-	public MagicDeck importDeckFromFile(File f) throws IOException {
-		var d = new MagicDeck();
+	public MTGDeck importDeckFromFile(File f) throws IOException {
+		var d = new MTGDeck();
 			 d.setName(FilenameUtils.getBaseName(f.getName()));
 
 			 importStockFromFile(f).forEach(mcs->d.getMain().put(mcs.getProduct(), mcs.getQte()));
@@ -180,7 +180,7 @@ public class LigaMagicExport extends AbstractCardExport {
 
 
 	@Override
-	public MagicDeck importDeck(String f, String name) throws IOException {
+	public MTGDeck importDeck(String f, String name) throws IOException {
 			return null;
 	}
 

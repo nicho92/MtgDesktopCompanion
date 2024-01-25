@@ -12,8 +12,8 @@ import java.util.Map;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -47,7 +47,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
+	public MTGDeck getDeck(RetrievableDeck info) throws IOException {
 
 		String url = info.getUrl() + "#Details:deck-export";
 		var deck = info.toBaseDeck();
@@ -74,7 +74,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 					var qte = Integer.parseInt(s.substring(0, s.indexOf(' ')));
 					cardName = s.substring(s.indexOf(' '), s.length()).trim();
 
-					MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( cardName, null, true).get(0);
+					MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( cardName, null, true).get(0);
 					if (!sideboard) {
 						deck.getMain().put(mc, qte);
 					} else {

@@ -7,9 +7,9 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
@@ -26,7 +26,7 @@ public class MTGJSonDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
+	public MTGDeck getDeck(RetrievableDeck info) throws IOException {
 		var el = URLTools.extractAsJson(info.getUrl().toString()).getAsJsonObject();
 		var mainBoard = el.get("data").getAsJsonObject().get("mainBoard").getAsJsonArray();
 		JsonArray sideBoard=null;
@@ -35,7 +35,7 @@ public class MTGJSonDeckSniffer extends AbstractDeckSniffer {
 			sideBoard = el.getAsJsonObject().get("sideBoard").getAsJsonArray();
 
 
-		MagicDeck deck = info.toBaseDeck();
+		MTGDeck deck = info.toBaseDeck();
 
 		try {
 			deck.getTags().add(el.getAsJsonObject().get("type").getAsString());
@@ -55,7 +55,7 @@ public class MTGJSonDeckSniffer extends AbstractDeckSniffer {
 	}
 
 
-	private void init(MagicDeck d, JsonArray arr, boolean side)
+	private void init(MTGDeck d, JsonArray arr, boolean side)
 	{
 			arr.forEach(element->{
 
@@ -63,7 +63,7 @@ public class MTGJSonDeckSniffer extends AbstractDeckSniffer {
 			var qty = element.getAsJsonObject().get("count").getAsInt();
 			var name = element.getAsJsonObject().get("name").getAsString();
 			try {
-				MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, new MagicEdition(ed), true).get(0);
+				MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, new MTGEdition(ed), true).get(0);
 				if(!side)
 					d.getMain().put(mc, qty);
 				else

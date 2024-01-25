@@ -28,7 +28,7 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 
 import org.apache.logging.log4j.Logger;
-import org.magic.api.beans.Wallpaper;
+import org.magic.api.beans.MTGWallpaper;
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGWallpaperProvider;
@@ -123,13 +123,13 @@ public class WallpaperGUI extends MTGUIComponent {
 			c.gridy = 0;
 			lblLoad.start();
 
-			SwingWorker<List<Wallpaper>, Wallpaper> sw = new SwingWorker<>() {
+			SwingWorker<List<MTGWallpaper>, MTGWallpaper> sw = new SwingWorker<>() {
 
 				@Override
-				protected List<Wallpaper> doInBackground() throws Exception {
+				protected List<MTGWallpaper> doInBackground() throws Exception {
 					return selectedProvider.search(txtSearch.getText()).stream().map(w -> {
 						try {
-							Wallpaper p= w.load();
+							MTGWallpaper p= w.load();
 							publish(p);
 							return p;
 						} catch (IOException e) {
@@ -140,8 +140,8 @@ public class WallpaperGUI extends MTGUIComponent {
 				}
 
 				@Override
-				protected void process(List<Wallpaper> chunks) {
-					for (Wallpaper w : chunks) {
+				protected void process(List<MTGWallpaper> chunks) {
+					for (MTGWallpaper w : chunks) {
 						var thumb = new JWallThumb(w);
 						addComponent(thumb);
 
@@ -210,7 +210,7 @@ class JWallThumb extends JLabel {
 	private static final long serialVersionUID = 1L;
 	private boolean selected = false;
 	private Color c = getBackground();
-	private transient Wallpaper wall;
+	private transient MTGWallpaper wall;
 	private int size;
 	private int fontHeight = 20;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
@@ -219,7 +219,7 @@ class JWallThumb extends JLabel {
 		return selected;
 	}
 
-	public Wallpaper getWallpaper() {
+	public MTGWallpaper getWallpaper() {
 		return wall;
 	}
 
@@ -253,7 +253,7 @@ class JWallThumb extends JLabel {
 			setBackground(c);
 	}
 
-	public JWallThumb(Wallpaper w) {
+	public JWallThumb(MTGWallpaper w) {
 		wall = w;
 		setHorizontalTextPosition(SwingConstants.CENTER);
 		setHorizontalAlignment(SwingConstants.CENTER);

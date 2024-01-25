@@ -2,11 +2,11 @@ package org.magic.api.interfaces;
 
 import java.io.IOException;
 
-import org.magic.api.beans.Grading;
+import org.magic.api.beans.MTGGrading;
 
 public interface MTGGraders extends MTGPlugin {
 
-	public Grading loadGrading(String identifier) throws IOException;
+	public MTGGrading loadGrading(String identifier) throws IOException;
 	public String getWebSite();
 
 

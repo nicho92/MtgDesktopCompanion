@@ -9,9 +9,9 @@ import java.util.List;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.RetrievableTransaction;
@@ -90,7 +90,7 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 
 	private MTGStockItem buildCard(Element e) {
 		
-		var st = new MagicCardStock();
+		var st = new MTGCardStock();
 			 st.setPrice(UITools.parseDouble(e.select("td").get(4).html()));
 			 st.setQte(Integer.parseInt(e.select("td").get(5).html()));
 			 st.setComment(e.select("td").get(1).text());
@@ -98,7 +98,7 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 			 st.setCondition(aliases.getReversedConditionFor(this, e.select("td").get(3).text(), EnumCondition.NEAR_MINT));
 			 st.getTiersAppIds().put(getName(), e.select("td a").attr("href").replace("show_card_sale?gamerid=", "").trim());
 			 
-			 	MagicEdition edition = null;
+			 	MTGEdition edition = null;
 			 
 				try {
 					var setId =  st.getTiersAppIds().get(getName()).substring(0,3).toUpperCase();
@@ -108,14 +108,14 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 					logger.error("No set found for {}",st.getTiersAppIds().get(getName()));
 				}
 			 
-				MagicCard card = null;	 
+				MTGCard card = null;	 
 				try {
 					var name=RequestBuilder.build().setClient(client).url(urlDetailOrder+"show_card_sale?gamerid="+st.getTiersAppIds(getName())).get().toHtml().select("td.S14 a").first().html().split("<br>")[0].trim();
 					card = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, edition,true).get(0);
 					st.setProduct(card);
 				} catch (Exception e1) {
 					logger.error("No card found for {} {}",st.getTiersAppIds().get(getName()).substring(3),edition);
-					st.setProduct(new MagicCard());
+					st.setProduct(new MTGCard());
 				}
 				return st;
 	}

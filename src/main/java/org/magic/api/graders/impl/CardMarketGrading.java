@@ -3,7 +3,7 @@ package org.magic.api.graders.impl;
 import java.io.IOException;
 
 import org.api.mkm.tools.MkmConstants;
-import org.magic.api.beans.Grading;
+import org.magic.api.beans.MTGGrading;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
@@ -15,8 +15,8 @@ public class CardMarketGrading extends AbstractGradersProvider {
 	private static final String BASE_SITE ="https://guardandgradingsolution.de/wizardsproject_get_grading.php";
 	
 	@Override
-	public Grading loadGrading(String identifier) throws IOException {
-		var g = new Grading();
+	public MTGGrading loadGrading(String identifier) throws IOException {
+		var g = new MTGGrading();
 			 g.setNumberID(identifier);
 			 g.setGraderName(getName());
 		

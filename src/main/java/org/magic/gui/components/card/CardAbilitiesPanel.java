@@ -6,7 +6,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.game.model.factories.AbilitiesFactory;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
@@ -16,7 +16,7 @@ public class CardAbilitiesPanel extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
 	private JTextPane textPane ;
-	private MagicCard mc;
+	private MTGCard mc;
 
 
 	public CardAbilitiesPanel() {
@@ -42,7 +42,7 @@ public class CardAbilitiesPanel extends MTGUIComponent {
 	}
 
 
-	public void init(MagicCard mc)
+	public void init(MTGCard mc)
 	{
 		this.mc=mc;
 

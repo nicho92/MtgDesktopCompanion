@@ -2,16 +2,16 @@ package org.magic.api.interfaces;
 
 import java.util.List;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.Wallpaper;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGEdition;
+import org.magic.api.beans.MTGWallpaper;
 
 public interface MTGWallpaperProvider extends MTGPlugin {
 
-	public List<Wallpaper> search(String search);
+	public List<MTGWallpaper> search(String search);
 
-	public List<Wallpaper> search(MagicEdition ed);
+	public List<MTGWallpaper> search(MTGEdition ed);
 
-	public List<Wallpaper> search(MagicCard card);
+	public List<MTGWallpaper> search(MTGCard card);
 
 }

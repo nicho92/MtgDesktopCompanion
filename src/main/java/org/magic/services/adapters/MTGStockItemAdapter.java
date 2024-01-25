@@ -2,8 +2,8 @@ package org.magic.services.adapters;
 
 import java.lang.reflect.Type;
 
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.SealedStock;
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGSealedStock;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.MTGStockItem;
 
@@ -28,9 +28,9 @@ public final class MTGStockItemAdapter implements JsonDeserializer<MTGStockItem>
 
     private Type typeForName(final EnumItems t) {
     	if(t.equals(EnumItems.CARD))
-    		return MagicCardStock.class;
+    		return MTGCardStock.class;
 
-    	return SealedStock.class;
+    	return MTGSealedStock.class;
 
     }
 

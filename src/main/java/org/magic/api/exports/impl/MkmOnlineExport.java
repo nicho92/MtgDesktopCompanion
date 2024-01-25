@@ -24,9 +24,9 @@ import org.api.mkm.services.StockService;
 import org.api.mkm.services.WantsService;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.api.mkm.tools.MkmConstants;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -95,18 +95,18 @@ public class MkmOnlineExport extends AbstractCardExport {
 
 
 	@Override
-	public MagicDeck importDeck(String f, String name) throws IOException {
+	public MTGDeck importDeck(String f, String name) throws IOException {
 		return importDeckFromFile(null);
 	}
 
 	@Override
-	public MagicDeck importDeckFromFile(File f) throws IOException {
+	public MTGDeck importDeckFromFile(File f) throws IOException {
 
 		if(!init)
 			init();
 
 		var service = new WantsService();
-		var d = new MagicDeck();
+		var d = new MTGDeck();
 		d.setName("import mkm");
 
 		var diag = new MkmWantListChooserDialog();
@@ -123,8 +123,8 @@ public class MkmOnlineExport extends AbstractCardExport {
 				if (p.getEnName().contains("(Version "))
 					p.setEnName(p.getEnName().substring(0, p.getEnName().indexOf("(Version")));
 
-				List<MagicCard> cards = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( p.getEnName().trim(), null, true);
-				MagicCard mc = cards.stream().filter(c->c.getCurrentSet().getSet().equalsIgnoreCase(p.getExpansionName())).findAny().orElse(cards.get(0));
+				List<MTGCard> cards = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( p.getEnName().trim(), null, true);
+				MTGCard mc = cards.stream().filter(c->c.getCurrentSet().getSet().equalsIgnoreCase(p.getExpansionName())).findAny().orElse(cards.get(0));
 				notify(mc);
 				d.getMain().put(mc, w.getCount());
 
@@ -143,7 +143,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 	}
 
 	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 		if(!init)
 			init();
 
@@ -151,7 +151,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 		var wlService = new WantsService();
 		List<WantItem> wants = new ArrayList<>();
 
-		for (MagicCard mc : deck.getMain().keySet())
+		for (MTGCard mc : deck.getMain().keySet())
 		{
 			Integer p = null;
 			try
@@ -223,14 +223,14 @@ public class MkmOnlineExport extends AbstractCardExport {
 	}
 
 	@Override
-	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
+	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
 		if(!init)
 			init();
 
 		if (!getBoolean(STOCK_USE)) {
-			var d = new MagicDeck();
+			var d = new MTGDeck();
 			d.setName("export");
-			for (MagicCardStock mcs : stock) {
+			for (MTGCardStock mcs : stock) {
 				d.getMain().put(mcs.getProduct(), mcs.getQte());
 			}
 			exportDeck(d, f);
@@ -245,7 +245,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 			enumAtts.put(PRODUCT_ATTS.exact, "true");
 
 			List<Article> list = new ArrayList<>();
-			for (MagicCardStock mcs : stock)
+			for (MTGCardStock mcs : stock)
 			{
 
 				Product p = null;
@@ -329,7 +329,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 	}
 
 	@Override
-	public List<MagicCardStock> importStockFromFile(File f) throws IOException {
+	public List<MTGCardStock> importStockFromFile(File f) throws IOException {
 		if(!init)
 			init();
 
@@ -338,7 +338,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 
 		var serv = new StockService();
 		List<LightArticle> list = serv.getStock();
-		List<MagicCardStock> stock = new ArrayList<>();
+		List<MTGCardStock> stock = new ArrayList<>();
 
 		if(list==null)
 			return new ArrayList<>();
@@ -363,9 +363,9 @@ public class MkmOnlineExport extends AbstractCardExport {
 			mcs.setSigned(a.isSigned());
 			mcs.setAltered(a.isAltered());
 			mcs.setPrice(a.getPrice());
-			List<MagicCard> cards = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( a.getProduct().getEnName(), null, true);
+			List<MTGCard> cards = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( a.getProduct().getEnName(), null, true);
 
-			MagicCard mc = cards.stream().filter(c->c.getCurrentSet().getSet().equalsIgnoreCase(a.getProduct().getExpansion())).findAny().orElse(cards.get(0));
+			MTGCard mc = cards.stream().filter(c->c.getCurrentSet().getSet().equalsIgnoreCase(a.getProduct().getExpansion())).findAny().orElse(cards.get(0));
 
 
 

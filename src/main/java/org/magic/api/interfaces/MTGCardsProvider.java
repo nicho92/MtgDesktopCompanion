@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.util.List;
 
 import org.magic.api.beans.MTGBooster;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCardVariation;
 import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.criterias.MTGCrit;
@@ -17,45 +17,45 @@ public interface MTGCardsProvider extends MTGPlugin {
 
 	public void init();
 
-	public MagicCard getCardById(String id) throws IOException;
+	public MTGCard getCardById(String id) throws IOException;
 
-	public MagicCard getCardById(String id,MagicEdition ed) throws IOException;
+	public MTGCard getCardById(String id,MTGEdition ed) throws IOException;
 
-	public MagicCard getCardByScryfallId(String crit) throws IOException;
+	public MTGCard getCardByScryfallId(String crit) throws IOException;
 
-	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact) throws IOException;
+	public List<MTGCard> searchCardByCriteria(String att, String crit, MTGEdition me, boolean exact) throws IOException;
 
-	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact, EnumCardVariation extra ) throws IOException;
+	public List<MTGCard> searchCardByCriteria(String att, String crit, MTGEdition me, boolean exact, EnumCardVariation extra ) throws IOException;
 
-	public List<MagicCard> searchCardByEdition(MagicEdition ed) throws IOException;
+	public List<MTGCard> searchCardByEdition(MTGEdition ed) throws IOException;
 
-	public List<MagicCard> searchCardByName(String name, MagicEdition me, boolean exact) throws IOException;
+	public List<MTGCard> searchCardByName(String name, MTGEdition me, boolean exact) throws IOException;
 
-	public List<MagicCard> searchCardByName(String name, MagicEdition me, boolean exact, EnumCardVariation extra ) throws IOException;
+	public List<MTGCard> searchCardByName(String name, MTGEdition me, boolean exact, EnumCardVariation extra ) throws IOException;
 
-	public List<MagicCard> listAllCards() throws IOException;
+	public List<MTGCard> listAllCards() throws IOException;
 
-	public MagicCard getCardByNumber(String id, MagicEdition me) throws IOException;
+	public MTGCard getCardByNumber(String id, MTGEdition me) throws IOException;
 
-	public MagicCard getCardByNumber(String id, String idMe) throws IOException;
+	public MTGCard getCardByNumber(String id, String idMe) throws IOException;
 
-	public List<MagicEdition> listEditions() throws IOException;
+	public List<MTGEdition> listEditions() throws IOException;
 
-	public MagicEdition getSetById(String id) throws IOException;
+	public MTGEdition getSetById(String id) throws IOException;
 
-	public MagicEdition getSetByName(String name) throws IOException;
+	public MTGEdition getSetByName(String name) throws IOException;
 
 	public String[] getLanguages();
 
 	public QueryAttribute[] getQueryableAttributs();
 
-	public List<MTGBooster> generateBooster(MagicEdition me, EnumExtra typeBooster,int qty) throws IOException;
+	public List<MTGBooster> generateBooster(MTGEdition me, EnumExtra typeBooster,int qty) throws IOException;
 	
-	public List<MagicCard> searchByCriteria(MTGCrit<?>... crits) throws IOException;
+	public List<MTGCard> searchByCriteria(MTGCrit<?>... crits) throws IOException;
 
-	public List<MagicCard>  searchByCriteria(List<MTGCrit> crits) throws IOException;
+	public List<MTGCard>  searchByCriteria(List<MTGCrit> crits) throws IOException;
 
 	public MTGQueryBuilder<?> getMTGQueryManager();
 
-	public MagicCard getCardByArenaId(String id) throws IOException;
+	public MTGCard getCardByArenaId(String id) throws IOException;
 }

@@ -18,7 +18,7 @@ import javax.swing.table.TableRowSorter;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.EditionsShakers;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
@@ -32,7 +32,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 
 	private static final long serialVersionUID = 1L;
 	private JXTable table;
-	private JComboBox<MagicEdition> cboEditions;
+	private JComboBox<MTGEdition> cboEditions;
 	private CardShakerTableModel modEdition;
 
 	@Override
@@ -75,7 +75,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 					(int) Double.parseDouble(getString("y")), (int) Double.parseDouble(getString("w")),
 					(int) Double.parseDouble(getString("h")));
 
-			MagicEdition ed;
+			MTGEdition ed;
 			try {
 				ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(getString("EDITION"));
 				cboEditions.setSelectedItem(ed);
@@ -124,7 +124,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 			{
 				@Override
 				protected EditionsShakers doInBackground(){
-					MagicEdition ed = (MagicEdition) cboEditions.getSelectedItem();
+					MTGEdition ed = (MTGEdition) cboEditions.getSelectedItem();
 					setProperty("EDITION", ed.getId());
 					try {
 						return getEnabledPlugin(MTGDashBoard.class).getShakesForEdition(ed);

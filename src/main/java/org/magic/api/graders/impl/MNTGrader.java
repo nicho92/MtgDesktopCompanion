@@ -2,7 +2,7 @@ package org.magic.api.graders.impl;
 
 import java.io.IOException;
 
-import org.magic.api.beans.Grading;
+import org.magic.api.beans.MTGGrading;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
@@ -12,7 +12,7 @@ import org.magic.services.tools.UITools;
 public class MNTGrader extends AbstractGradersProvider {
 
 	@Override
-	public Grading loadGrading(String identifier) throws IOException {
+	public MTGGrading loadGrading(String identifier) throws IOException {
 
 		MTGHttpClient c = URLTools.newClient();
 
@@ -32,7 +32,7 @@ public class MNTGrader extends AbstractGradersProvider {
 						.addHeader("sec-fetch-mode","cors")
 						.toJson();
 
-		var grad = new Grading();
+		var grad = new MTGGrading();
 		grad.setNumberID(identifier);
 		final String valueKey = "value";
 		grad.setCentering(el.getAsJsonObject().get("grade_center").getAsJsonObject().get(valueKey).getAsDouble());

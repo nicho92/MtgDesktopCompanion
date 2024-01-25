@@ -13,8 +13,8 @@ import java.util.Map;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
@@ -61,9 +61,9 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
+	public MTGDeck getDeck(RetrievableDeck info) throws IOException {
 		Document root = URLTools.extractAsHtml(info.getUrl().toString());
-		MagicDeck d = info.toBaseDeck();
+		MTGDeck d = info.toBaseDeck();
 
 		Elements blocks = root.select("div[style='margin:3px;flex:1;']");
 
@@ -88,7 +88,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 						{
 							try {
 
-							MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( name, null, true).get(0);
+							MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( name, null, true).get(0);
 							if (!side)
 								d.getMain().put(mc, qte);
 							else

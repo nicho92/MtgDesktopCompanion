@@ -11,7 +11,7 @@ import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MTGKeyWord.EVENT;
 import org.magic.api.beans.MTGKeyWord.TYPE;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
 
@@ -60,7 +60,7 @@ public abstract class AbstractKeyWordsManager {
 		return null;
 	}
 
-	public Set<MTGKeyWord> getKeywordsFrom(MagicCard mc) {
+	public Set<MTGKeyWord> getKeywordsFrom(MTGCard mc) {
 		return getKeywordsFrom(mc.getText());
 	}
 
@@ -74,19 +74,19 @@ public abstract class AbstractKeyWordsManager {
 				   .collect(Collectors.toSet());
 	}
 
-	public Set<MTGKeyWord> getKeywordsFrom(MagicCard mc,EVENT t) {
+	public Set<MTGKeyWord> getKeywordsFrom(MTGCard mc,EVENT t) {
 		return getKeywordsFrom(mc).stream()
 				   .filter(l->l.getEvent()==t)
 				   .distinct()
 				   .collect(Collectors.toSet());
 	}
 
-	public boolean asKeyword(MagicCard mc,String key) {
+	public boolean asKeyword(MTGCard mc,String key) {
 		return getKeywordsFrom(mc).stream().anyMatch(l->l.getKeyword().equalsIgnoreCase(key));
 
 	}
 
-	public Set<MTGKeyWord> getKeywordsFrom(MagicCard mc,TYPE t) {
+	public Set<MTGKeyWord> getKeywordsFrom(MTGCard mc,TYPE t) {
 		return getKeywordsFrom(mc).stream()
 				   .filter(l->l.getType()==t)
 				   .distinct()

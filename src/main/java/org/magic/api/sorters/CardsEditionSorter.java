@@ -1,12 +1,12 @@
 package org.magic.api.sorters;
 
 import org.apache.commons.lang3.StringUtils;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.interfaces.MTGComparator;
 
-public class CardsEditionSorter implements MTGComparator<MagicCard> {
+public class CardsEditionSorter implements MTGComparator<MTGCard> {
 
 
 	@Override
@@ -15,7 +15,7 @@ public class CardsEditionSorter implements MTGComparator<MagicCard> {
 	}
 
 	@Override
-	public int compare(MagicCard o1, MagicCard o2) {
+	public int compare(MTGCard o1, MTGCard o2) {
 
 		try {
 
@@ -43,7 +43,7 @@ public class CardsEditionSorter implements MTGComparator<MagicCard> {
 
 	}
 
-	private int test(MagicCard o1, MagicCard o2) {
+	private int test(MTGCard o1, MTGCard o2) {
 
 		if (getWeight(o1) < getWeight(o2))
 			return -1;
@@ -60,7 +60,7 @@ public class CardsEditionSorter implements MTGComparator<MagicCard> {
 		return num.isEmpty() ? 0 : Integer.parseInt(num);
 	}
 
-	private int land(MagicCard mc) {
+	private int land(MTGCard mc) {
 		if (mc.getName().equalsIgnoreCase("Plains"))
 			return 8;
 
@@ -76,12 +76,12 @@ public class CardsEditionSorter implements MTGComparator<MagicCard> {
 		return 12; // return 12 for forest
 	}
 
-	private int name(MagicCard o1, MagicCard o2) {
+	private int name(MTGCard o1, MTGCard o2) {
 		return o1.getName().compareTo(o2.getName());
 	}
 
 	@Override
-	public int getWeight(MagicCard mc) {
+	public int getWeight(MTGCard mc) {
 
 		if (mc.getColors().isEmpty()) {
 

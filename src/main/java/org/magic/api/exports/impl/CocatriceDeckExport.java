@@ -11,8 +11,8 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
@@ -36,7 +36,7 @@ public class CocatriceDeckExport extends AbstractCardExport {
 	}
 
 	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 		var temp = new StringBuilder();
 		var endZoneTag = "</zone>";
 
@@ -45,14 +45,14 @@ public class CocatriceDeckExport extends AbstractCardExport {
 		temp.append("<deckname>").append(deck.getName()).append("</deckname>");
 		temp.append("<comments>").append(deck.getDescription()).append("</comments>");
 		temp.append("<zone name='main'>");
-		for (MagicCard mc : deck.getMain().keySet()) {
+		for (MTGCard mc : deck.getMain().keySet()) {
 			temp.append("<card number='").append(deck.getMain().get(mc))
 					.append("' price='" + getString(DEFAULT_PRICE) + "' name=\"").append(mc.getName()).append("\"/>");
 			notify(mc);
 		}
 		temp.append(endZoneTag);
 		temp.append("<zone name='side'>");
-		for (MagicCard mc : deck.getSideBoard().keySet()) {
+		for (MTGCard mc : deck.getSideBoard().keySet()) {
 			temp.append("<card number='").append(deck.getSideBoard().get(mc))
 					.append("' price='" + getString(DEFAULT_PRICE) + "' name=\"").append(mc.getName()).append("\"/>");
 			notify(mc);
@@ -69,8 +69,8 @@ public class CocatriceDeckExport extends AbstractCardExport {
 
 
 	@Override
-	public MagicDeck importDeck(String f,String n) throws IOException {
-		var deck = new MagicDeck();
+	public MTGDeck importDeck(String f,String n) throws IOException {
+		var deck = new MTGDeck();
 		deck.setName(n);
 		try {
 			Document d =  XMLTools.createSecureXMLDocumentBuilder().parse(new InputSource(new StringReader(f)));
@@ -90,7 +90,7 @@ public class CocatriceDeckExport extends AbstractCardExport {
 			for (var i = 0; i < result.getLength(); i++) {
 				String name = result.item(i).getAttributes().getNamedItem("name").getTextContent();
 				Integer qte = Integer.parseInt(result.item(i).getAttributes().getNamedItem("number").getTextContent());
-				MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( name, null, true).get(0);
+				MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( name, null, true).get(0);
 				deck.getMain().put(mc, qte);
 				notify(mc);
 			}
@@ -99,7 +99,7 @@ public class CocatriceDeckExport extends AbstractCardExport {
 			for (var i = 0; i < result.getLength(); i++) {
 				String name = result.item(i).getAttributes().getNamedItem("name").getTextContent();
 				Integer qte = Integer.parseInt(result.item(i).getAttributes().getNamedItem("number").getTextContent());
-				MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( name, null, true).get(0);
+				MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( name, null, true).get(0);
 				deck.getSideBoard().put(mc, qte);
 				notify(mc);
 			}

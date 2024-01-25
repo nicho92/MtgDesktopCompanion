@@ -10,7 +10,7 @@ import org.api.cardtrader.modele.User;
 import org.api.cardtrader.services.CardTraderConstants;
 import org.api.cardtrader.services.CardTraderService;
 import org.api.cardtrader.tools.URLCallInfo;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.abstracts.AbstractProduct;
 import org.magic.api.beans.abstracts.AbstractStockItem;
 import org.magic.api.beans.enums.EnumCondition;
@@ -112,10 +112,10 @@ public class CardTraderWebShop extends AbstractExternalShop {
 		}).toList();
 	}
 
-	private MagicEdition toExpansion(org.api.cardtrader.modele.Expansion expansion) {
+	private MTGEdition toExpansion(org.api.cardtrader.modele.Expansion expansion) {
 		if(expansion==null)
 			return null;
-		var exp = new MagicEdition();
+		var exp = new MTGEdition();
 		exp.setId(expansion.getCode());
 		exp.setSet(expansion.getName());
 		return exp;

@@ -7,8 +7,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardStock;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
@@ -20,12 +20,12 @@ public class CardSphereExport extends AbstractFormattedFileCardExport {
 	private static final String COLUMNS="Count,Tradelist Count,Name,Edition,Condition,Language,Foil,Tags";
 
 	@Override
-	public List<MagicCardStock> importStock(String content) throws IOException {
-		List<MagicCardStock> list = new ArrayList<>();
+	public List<MTGCardStock> importStock(String content) throws IOException {
+		List<MTGCardStock> list = new ArrayList<>();
 
 		matches(content,true).forEach(m->{
 
-			MagicCard mc=null;
+			MTGCard mc=null;
 				try {
 					mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(m.group(3),null,true).get(0);
 				} catch (Exception e) {
@@ -50,7 +50,7 @@ public class CardSphereExport extends AbstractFormattedFileCardExport {
 	}
 	
 	@Override
-	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
+	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
 
 		var buff = new StringBuilder(COLUMNS).append(System.lineSeparator());
 		

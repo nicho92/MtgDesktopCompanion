@@ -10,7 +10,7 @@ import javax.swing.ImageIcon;
 
 import org.apache.commons.jcs.JCS;
 import org.apache.commons.jcs.access.CacheAccess;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.interfaces.abstracts.AbstractCacheProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGPlugin;
 import org.magic.services.MTGConstants;
@@ -64,12 +64,12 @@ public class JCSCache extends AbstractCacheProvider {
 	}
 
 	@Override
-	public BufferedImage getItem(MagicCard mc) {
+	public BufferedImage getItem(MTGCard mc) {
 		return ImageTools.fromByteArray(picturesCache.get(generateIdIndex(mc)));
 	}
 
 	@Override
-	public void put(BufferedImage im, MagicCard mc) throws IOException {
+	public void put(BufferedImage im, MTGCard mc) throws IOException {
 		logger.debug("put {} in cache",mc);
 
 		picturesCache.put(generateIdIndex(mc), ImageTools.toByteArray(im));

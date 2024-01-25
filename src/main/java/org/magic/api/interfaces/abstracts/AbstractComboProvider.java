@@ -6,7 +6,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 
 import org.magic.api.beans.MTGCombo;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.interfaces.MTGComboProvider;
 import org.magic.services.tools.TCache;
 
@@ -22,7 +22,7 @@ public abstract class AbstractComboProvider extends AbstractMTGPlugin implements
 
 
 	@Override
-	public List<MTGCombo> getComboWith(MagicCard mc) {
+	public List<MTGCombo> getComboWith(MTGCard mc) {
 
 		try {
 			return cache.get(mc.getName(),new Callable<List<MTGCombo>>() {
@@ -39,7 +39,7 @@ public abstract class AbstractComboProvider extends AbstractMTGPlugin implements
 	}
 
 
-	public abstract List<MTGCombo> loadComboWith(MagicCard mc);
+	public abstract List<MTGCombo> loadComboWith(MTGCard mc);
 
 
 

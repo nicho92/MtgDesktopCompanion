@@ -10,7 +10,7 @@ import java.util.TimerTask;
 
 import javax.swing.Icon;
 
-import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MTGCollection;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.CollectionEvaluator;
 import org.magic.services.MTGConstants;
@@ -52,7 +52,7 @@ public class CardShakeDashBoardServer extends AbstractMTGServer {
 					File dest;
 					CollectionEvaluator evaluator;
 					try {
-						evaluator = new CollectionEvaluator(new MagicCollection(getString(COLLECTION)));
+						evaluator = new CollectionEvaluator(new MTGCollection(getString(COLLECTION)));
 						logger.debug("backuping files");
 						dest = new File(evaluator.getDirectory(),new SimpleDateFormat("yyyyMMdd").format(new Date()));
 					} catch (IOException e1) {

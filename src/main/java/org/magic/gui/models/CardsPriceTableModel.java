@@ -2,14 +2,14 @@ package org.magic.gui.models;
 
 import java.util.Currency;
 
-import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.MTGPrice;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 
-public class CardsPriceTableModel extends GenericTableModel<MagicPrice> {
+public class CardsPriceTableModel extends GenericTableModel<MTGPrice> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -38,7 +38,7 @@ public class CardsPriceTableModel extends GenericTableModel<MagicPrice> {
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex) {
 		case 0:
-			return MagicPrice.class;
+			return MTGPrice.class;
 		case 1:
 			return Integer.class;
 		case 2:
@@ -66,7 +66,7 @@ public class CardsPriceTableModel extends GenericTableModel<MagicPrice> {
 	public Object getValueAt(int row, int column) {
 		try {
 
-			MagicPrice mp = items.get(row);
+			MTGPrice mp = items.get(row);
 
 			switch (column) {
 			case 0:

@@ -23,16 +23,16 @@ import org.bson.codecs.pojo.PojoCodecProvider;
 import org.bson.conversions.Bson;
 import org.bson.json.JsonMode;
 import org.bson.json.JsonWriterSettings;
-import org.magic.api.beans.Announce;
-import org.magic.api.beans.Announce.STATUS;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGAnnounce;
+import org.magic.api.beans.MTGAnnounce.STATUS;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MagicCardAlert;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGCollection;
+import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MagicNews;
-import org.magic.api.beans.SealedStock;
+import org.magic.api.beans.MTGSealedStock;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.GedEntry;
@@ -118,7 +118,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	}
 
-	private MagicDeck deserializeDeck(BasicDBObject o) {
+	private MTGDeck deserializeDeck(BasicDBObject o) {
 		if(o==null)
 			return null;
 
@@ -230,7 +230,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			if(populateCollections)
 				for(String s:  MTGConstants.getDefaultCollectionsNames())
 					try {
-						saveCollection(new MagicCollection(s));
+						saveCollection(new MTGCollection(s));
 					} catch (SQLException e) {
 						logger.error(e);
 					}
@@ -333,7 +333,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 
 	@Override
-	public void deleteStock(SealedStock state) throws SQLException {
+	public void deleteStock(MTGSealedStock state) throws SQLException {
 		db.getCollection(colSealed).deleteOne(Filters.eq("id", state.getId()));
 		notify(state);
 
@@ -352,10 +352,10 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 
 	@Override
-	public List<MagicDeck> listDecks() throws SQLException {
-		List<MagicDeck> stocks = new ArrayList<>();
+	public List<MTGDeck> listDecks() throws SQLException {
+		List<MTGDeck> stocks = new ArrayList<>();
 		db.getCollection(colDecks, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result -> {
-				MagicDeck d = deserializeDeck(result);
+				MTGDeck d = deserializeDeck(result);
 				stocks.add(d);
 				notify(d);
 			}
@@ -364,7 +364,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public MagicDeck getDeckById(Integer id) throws SQLException {
+	public MTGDeck getDeckById(Integer id) throws SQLException {
 		return deserializeDeck(db.getCollection(colDecks,BasicDBObject.class)
 								 .find(Filters.eq("id", id))
 								 .first());
@@ -374,7 +374,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 
 	@Override
-	public Integer saveOrUpdateDeck(MagicDeck state) throws SQLException {
+	public Integer saveOrUpdateDeck(MTGDeck state) throws SQLException {
 		logger.debug("saving deck {}",state);
 		if (state.getId() == -1) {
 			state.setId(Integer.parseInt(getNextSequence().toString()));
@@ -391,7 +391,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public void deleteDeck(MagicDeck d) throws SQLException {
+	public void deleteDeck(MTGDeck d) throws SQLException {
 		logger.debug("Deleting {} : {}" ,d, d.getId());
 		DeleteResult dr = db.getCollection(colDecks, BasicDBObject.class).deleteOne(Filters.eq("id",d.getId()));
 		logger.debug("result={}",dr);
@@ -400,14 +400,14 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 
 	@Override
-	public List<SealedStock> listSealedStocks() throws SQLException {
-		List<SealedStock> stocks = new ArrayList<>();
-		db.getCollection(colSealed, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result -> stocks.add(deserialize(result, SealedStock.class)));
+	public List<MTGSealedStock> listSealedStocks() throws SQLException {
+		List<MTGSealedStock> stocks = new ArrayList<>();
+		db.getCollection(colSealed, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result -> stocks.add(deserialize(result, MTGSealedStock.class)));
 		return stocks;
 	}
 
 	@Override
-	public void moveEdition(MagicEdition ed, MagicCollection from, MagicCollection to) throws SQLException {
+	public void moveEdition(MTGEdition ed, MTGCollection from, MTGCollection to) throws SQLException {
 
 			//TODO move cards from ed
 		
@@ -416,7 +416,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	
 	
 	@Override
-	public void saveOrUpdateSealedStock(SealedStock state) throws SQLException {
+	public void saveOrUpdateSealedStock(MTGSealedStock state) throws SQLException {
 		logger.debug("saving stock {}",state);
 		if (state.getId() == -1) {
 			state.setId(Integer.parseInt(getNextSequence().toString()));
@@ -434,7 +434,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	
 
 	@Override
-	public void saveCard(MagicCard mc, MagicCollection collection) throws SQLException {
+	public void saveCard(MTGCard mc, MTGCollection collection) throws SQLException {
 		logger.debug("saveCard {} in {}",mc,collection);
 
 		var obj = new BasicDBObject();
@@ -449,7 +449,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public void removeCard(MagicCard mc, MagicCollection collection) throws SQLException {
+	public void removeCard(MTGCard mc, MTGCollection collection) throws SQLException {
 		logger.debug("removeCard {} from {}",mc,collection);
 
 		var dr = db.getCollection(colCards, BasicDBObject.class).deleteMany(Filters.and(Filters.eq(dbIDField,IDGenerator.generate(mc)),Filters.eq(dbColIDField,collection.getName())));
@@ -458,7 +458,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public Map<String, Integer> getCardsCountGlobal(MagicCollection c) throws SQLException {
+	public Map<String, Integer> getCardsCountGlobal(MTGCollection c) throws SQLException {
 		Map<String, Integer> map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 		List<Bson> aggr =  	Arrays.asList(
 										Aggregates.match(Filters.eq(dbColIDField, c.getName())),
@@ -471,12 +471,12 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 
 	@Override
-	public List<MagicCard> listCardsFromCollection(MagicCollection collection) throws SQLException {
+	public List<MTGCard> listCardsFromCollection(MTGCollection collection) throws SQLException {
 		return listCardsFromCollection(collection, null);
 	}
 
 	@Override
-	public int getCardsCount(MagicCollection cols, MagicEdition me) throws SQLException {
+	public int getCardsCount(MTGCollection cols, MTGEdition me) throws SQLException {
 		logger.debug("getCardsCount {} set: {}",cols,me);
 		if (me != null) {
 			return (int) db.getCollection(colCards, BasicDBObject.class).countDocuments(Filters.and(Filters.eq(dbColIDField,cols.getName()),Filters.eq("card.editions.0.id",me.getId().toUpperCase())));
@@ -487,9 +487,9 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 
 	@Override
-	public List<MagicCard> listCardsFromCollection(MagicCollection collection, MagicEdition me) throws SQLException {
+	public List<MTGCard> listCardsFromCollection(MTGCollection collection, MTGEdition me) throws SQLException {
 
-		List<MagicCard> ret = new ArrayList<>();
+		List<MTGCard> ret = new ArrayList<>();
 
 		var b = Filters.eq(dbColIDField,collection.getName());
 
@@ -498,49 +498,49 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		}
 		var c = new Chrono();
 		c.start();
-		db.getCollection(colCards, BasicDBObject.class).find(b).forEach((Consumer<BasicDBObject>) result -> ret.add(deserialize(result.get("card"), MagicCard.class)));
+		db.getCollection(colCards, BasicDBObject.class).find(b).forEach((Consumer<BasicDBObject>) result -> ret.add(deserialize(result.get("card"), MTGCard.class)));
 
 
 		return ret;
 	}
 
 	@Override
-	public List<String> listEditionsIDFromCollection(MagicCollection collection) throws SQLException {
+	public List<String> listEditionsIDFromCollection(MTGCollection collection) throws SQLException {
 		List<String> ret = new ArrayList<>();
 		db.getCollection(colCards, BasicDBObject.class).distinct("card.editions.0.id", Filters.eq(dbColIDField, collection.getName()), String.class).into(ret);
 		return ret;
 	}
 
 	@Override
-	public MagicCollection getCollection(String name) throws SQLException {
-		return db.getCollection(colCollects, MagicCollection.class).find(Filters.eq("name", name)).first();
+	public MTGCollection getCollection(String name) throws SQLException {
+		return db.getCollection(colCollects, MTGCollection.class).find(Filters.eq("name", name)).first();
 	}
 
 	@Override
-	public void saveCollection(MagicCollection c) throws SQLException {
+	public void saveCollection(MTGCollection c) throws SQLException {
 		if(getCollection(c.getName())==null)
-			db.getCollection(colCollects, MagicCollection.class).insertOne(c);
+			db.getCollection(colCollects, MTGCollection.class).insertOne(c);
 		else
 			throw new SQLException(c.getName() + " already exists");
 	}
 
 	@Override
-	public void removeCollection(MagicCollection c) throws SQLException {
+	public void removeCollection(MTGCollection c) throws SQLException {
 		var query = new BasicDBObject();
 		query.put(dbColIDField, c.getName());
-		db.getCollection(colCollects, MagicCollection.class).deleteOne(Filters.eq("name", c.getName()));
+		db.getCollection(colCollects, MTGCollection.class).deleteOne(Filters.eq("name", c.getName()));
 	}
 
 	@Override
-	public List<MagicCollection> listCollections() throws SQLException {
-		MongoCollection<MagicCollection> collection = db.getCollection(colCollects, MagicCollection.class);
-		var cols = new ArrayList<MagicCollection>();
+	public List<MTGCollection> listCollections() throws SQLException {
+		MongoCollection<MTGCollection> collection = db.getCollection(colCollects, MTGCollection.class);
+		var cols = new ArrayList<MTGCollection>();
 		collection.find().into(cols);
 		return cols;
 	}
 
 	@Override
-	public void removeEdition(MagicEdition me, MagicCollection col) throws SQLException {
+	public void removeEdition(MTGEdition me, MTGCollection col) throws SQLException {
 		DeleteResult dr = db.getCollection(colCards).deleteMany(Filters.and(Filters.eq(dbColIDField, col.getName()),Filters.eq("card.editions.0.id", me.getId().toUpperCase())));
 		logger.debug(dr);
 	}
@@ -581,9 +581,9 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public List<MagicCollection> listCollectionFromCards(MagicCard mc) throws SQLException {
+	public List<MTGCollection> listCollectionFromCards(MTGCard mc) throws SQLException {
 
-		List<MagicCollection> ret = new ArrayList<>();
+		List<MTGCollection> ret = new ArrayList<>();
 		db.getCollection(colCards, BasicDBObject.class).distinct(dbColIDField, Filters.eq(dbIDField, IDGenerator.generate(mc)), String.class)
 				.forEach((Consumer<String>) result -> {
 					try {
@@ -599,26 +599,26 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public List<MagicCardStock> listStocks(MagicCard mc, MagicCollection col,boolean editionStrict) throws SQLException {
-		ArrayList<MagicCardStock> ret = new ArrayList<>();
+	public List<MTGCardStock> listStocks(MTGCard mc, MTGCollection col,boolean editionStrict) throws SQLException {
+		ArrayList<MTGCardStock> ret = new ArrayList<>();
 		db.getCollection(colStocks, BasicDBObject.class)
 				.find(Filters.and(Filters.eq(dbIDField,IDGenerator.generate(mc)),Filters.eq(dbStockField+".magicCollection.name",col.getName())))
 				.forEach((Consumer<BasicDBObject>) result -> ret
-				.add(deserialize(result.get(dbStockField).toString(), MagicCardStock.class)));
+				.add(deserialize(result.get(dbStockField).toString(), MTGCardStock.class)));
 
 		return ret;
 	}
 
 	@Override
-	public List<MagicCardStock> listStocks() throws SQLException {
-		List<MagicCardStock> stocks = new ArrayList<>();
+	public List<MTGCardStock> listStocks() throws SQLException {
+		List<MTGCardStock> stocks = new ArrayList<>();
 		db.getCollection(colStocks, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result -> stocks
-				.add(deserialize(result.get(dbStockField).toString(), MagicCardStock.class)));
+				.add(deserialize(result.get(dbStockField).toString(), MTGCardStock.class)));
 		return stocks;
 	}
 
 	@Override
-	public void saveOrUpdateCardStock(MagicCardStock state) throws SQLException {
+	public void saveOrUpdateCardStock(MTGCardStock state) throws SQLException {
 		logger.debug("saving stock {}",state);
 		state.setUpdated(false);
 		if (state.getId() == -1) {
@@ -684,9 +684,9 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public void deleteStock(List<MagicCardStock> state) throws SQLException {
+	public void deleteStock(List<MTGCardStock> state) throws SQLException {
 		logger.debug("remove stocks : {} items ",state.size());
-		for (MagicCardStock s : state) {
+		for (MTGCardStock s : state) {
 			Bson filter = new Document("stockItem.idstock", s.getId());
 			db.getCollection(colStocks).deleteOne(filter);
 			notify(s);
@@ -795,18 +795,18 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 
 	@Override
-	public Announce getAnnounceById(int id) throws SQLException {
+	public MTGAnnounce getAnnounceById(int id) throws SQLException {
 		return deserialize(db.getCollection(colAnnounces,BasicDBObject.class)
 								 .find(Filters.eq("id", id))
-								 .first(),Announce.class);
+								 .first(),MTGAnnounce.class);
 
 	}
 
 
 
 	@Override
-	public List<Announce> listAnnounces(int max,STATUS stat) {
-		List<Announce> trans = new ArrayList<>();
+	public List<MTGAnnounce> listAnnounces(int max,STATUS stat) {
+		List<MTGAnnounce> trans = new ArrayList<>();
 
 		var it = db.getCollection(colAnnounces, BasicDBObject.class).find().sort(Sorts.descending("id"));
 
@@ -816,7 +816,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		//TODO add filter for status
 
 		it.forEach((Consumer<BasicDBObject>) result ->{
-			Announce o = deserialize(result.toString(), Announce.class);
+			MTGAnnounce o = deserialize(result.toString(), MTGAnnounce.class);
 			trans.add(o);
 		});
 
@@ -825,7 +825,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public int saveOrUpdateAnnounce(Announce t) throws SQLException {
+	public int saveOrUpdateAnnounce(MTGAnnounce t) throws SQLException {
 		if (t.getId() == -1) {
 			t.setId(Integer.parseInt(getNextSequence().toString()));
 			db.getCollection(colAnnounces, BasicDBObject.class).insertOne(BasicDBObject.parse(serialize(t)));
@@ -839,7 +839,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public void deleteAnnounce(Announce a) throws SQLException {
+	public void deleteAnnounce(MTGAnnounce a) throws SQLException {
 		DeleteResult rs = db.getCollection(colAnnounces).deleteOne(Filters.eq("id",a.getId()));
 		logger.debug(rs);
 
@@ -981,8 +981,8 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public SealedStock getSealedStockById(Long id) throws SQLException {
-		return deserialize(db.getCollection(colSealed).find(Filters.eq("id", id),BasicDBObject.class).first(),SealedStock.class);
+	public MTGSealedStock getSealedStockById(Long id) throws SQLException {
+		return deserialize(db.getCollection(colSealed).find(Filters.eq("id", id),BasicDBObject.class).first(),MTGSealedStock.class);
 	}
 
 

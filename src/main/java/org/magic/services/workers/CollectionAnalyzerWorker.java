@@ -13,7 +13,7 @@ import javax.swing.SwingWorker;
 import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.JXTreeTable;
 import org.magic.api.beans.CardShake;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.api.sorters.PricesCardsShakeSorter;
 import org.magic.api.sorters.PricesCardsShakeSorter.SORT;
@@ -27,19 +27,19 @@ import org.magic.services.tools.UITools;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
-public class CollectionAnalyzerWorker extends SwingWorker<Void, MagicEdition> {
+public class CollectionAnalyzerWorker extends SwingWorker<Void, MTGEdition> {
 
 	protected CollectionEvaluator evaluator;
-	protected MapTableModel<MagicEdition, Date> cacheModel;
+	protected MapTableModel<MTGEdition, Date> cacheModel;
 	protected CollectionAnalyzerTreeTableModel collectionModel;
 	protected JXTreeTable treeTable;
 	protected Observer o;
 	protected AbstractBuzyIndicatorComponent buzy;
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
-	protected List<MagicEdition> eds;
+	protected List<MTGEdition> eds;
 	protected JLabel lblPrice;
 
-	public CollectionAnalyzerWorker(CollectionEvaluator evaluator, JXTreeTable treeTable, MapTableModel<MagicEdition, Date> modelCache, AbstractBuzyIndicatorComponent buzy,JLabel labTotal) {
+	public CollectionAnalyzerWorker(CollectionEvaluator evaluator, JXTreeTable treeTable, MapTableModel<MTGEdition, Date> modelCache, AbstractBuzyIndicatorComponent buzy,JLabel labTotal) {
 		this.treeTable=treeTable;
 		this.cacheModel=modelCache;
 		collectionModel = new CollectionAnalyzerTreeTableModel();
@@ -47,7 +47,7 @@ public class CollectionAnalyzerWorker extends SwingWorker<Void, MagicEdition> {
 		this.buzy=buzy;
 		this.lblPrice=labTotal;
 
-		o=(Observable obs, Object ed)->publish((MagicEdition)ed);
+		o=(Observable obs, Object ed)->publish((MTGEdition)ed);
 		eds = evaluator.getEditions();
 		buzy.start(eds.size());
 		evaluator.addObserver(o);
@@ -57,7 +57,7 @@ public class CollectionAnalyzerWorker extends SwingWorker<Void, MagicEdition> {
 	@Override
 	protected Void doInBackground() throws Exception {
 		Collections.sort(eds);
-		for(MagicEdition ed : eds)
+		for(MTGEdition ed : eds)
 		{
 			cacheModel.addRow(ed, evaluator.getCacheDate(ed));
 			List<CardShake> list = new ArrayList<>(evaluator.prices(ed).values());
@@ -69,7 +69,7 @@ public class CollectionAnalyzerWorker extends SwingWorker<Void, MagicEdition> {
 	}
 
 	@Override
-	protected void process(List<MagicEdition> chunks) {
+	protected void process(List<MTGEdition> chunks) {
 		buzy.progressSmooth(chunks.size());
 		cacheModel.fireTableDataChanged();
 	}

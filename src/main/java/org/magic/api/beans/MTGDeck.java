@@ -16,12 +16,12 @@ import org.magic.api.interfaces.MTGSerializable;
 import org.magic.services.tools.IDGenerator;
 
 
-public class MagicDeck implements MTGSerializable {
+public class MTGDeck implements MTGSerializable {
 
 	private static final long serialVersionUID = 1L;
-	private Map<MagicCard, Integer> mapDeck;
-	private Map<MagicCard, Integer> mapSideBoard;
-	private Map<MagicCard, Integer> mapMaybeBoard;
+	private Map<MTGCard, Integer> mapDeck;
+	private Map<MTGCard, Integer> mapSideBoard;
+	private Map<MTGCard, Integer> mapMaybeBoard;
 	private int id;
 
 	private String description;
@@ -30,11 +30,11 @@ public class MagicDeck implements MTGSerializable {
 	private Date dateUpdate;
 	private double averagePrice;
 	private List<String> tags;
-	private MagicCard commander;
+	private MTGCard commander;
 
 	public enum BOARD {MAIN, SIDE, MAYBE}
 
-	public MagicDeck()
+	public MTGDeck()
 	{
 		id=-1;
 		mapDeck = new LinkedHashMap<>();
@@ -54,8 +54,8 @@ public class MagicDeck implements MTGSerializable {
 
 
 
-  public MagicDeck getMergedDeck() {
-    List<MagicCard> mergeCardList = new ArrayList<>();
+  public MTGDeck getMergedDeck() {
+    List<MTGCard> mergeCardList = new ArrayList<>();
     List<String> cardNames = new ArrayList<>();
 
     getMainAsList().forEach(mc -> {
@@ -80,15 +80,15 @@ public class MagicDeck implements MTGSerializable {
 	}
 
 
-	public MagicCard getValueAt(int pos) {
+	public MTGCard getValueAt(int pos) {
 		return new ArrayList<>(getMain().keySet()).get(pos);
 	}
 
-	public MagicCard getSideValueAt(int pos) {
+	public MTGCard getSideValueAt(int pos) {
 		return new ArrayList<>(getSideBoard().keySet()).get(pos);
 	}
 
-	public MagicCard getMaybeValueAt(int pos) {
+	public MTGCard getMaybeValueAt(int pos) {
 		return new ArrayList<>(getMaybeBoard().keySet()).get(pos);
 	}
 
@@ -101,7 +101,7 @@ public class MagicDeck implements MTGSerializable {
 		return getMain().isEmpty() && getSideBoard().isEmpty();
 	}
 
-	public List<MagicCard> getUniqueCards() {
+	public List<MTGCard> getUniqueCards() {
 		return getMain().keySet().stream().toList();
 	}
 
@@ -110,21 +110,21 @@ public class MagicDeck implements MTGSerializable {
 	}
 
 
-	public void remove(MagicCard mc) {
+	public void remove(MTGCard mc) {
 		if (getMain().get(mc) == 0)
 			getMain().remove(mc);
 		else
 			getMain().put(mc, getMain().get(mc) - 1);
 	}
 
-	public void removeSide(MagicCard mc) {
+	public void removeSide(MTGCard mc) {
 		if (getSideBoard().get(mc) == 0)
 			getSideBoard().remove(mc);
 		else
 			getSideBoard().put(mc, getSideBoard().get(mc) - 1);
 	}
 
-	public void removeMaybe(MagicCard mc) {
+	public void removeMaybe(MTGCard mc) {
 		if (getMaybeBoard().get(mc) == 0)
 			getMaybeBoard().remove(mc);
 		else
@@ -132,25 +132,25 @@ public class MagicDeck implements MTGSerializable {
 	}
 
 
-	public void delete(MagicCard mc, BOARD board) {
+	public void delete(MTGCard mc, BOARD board) {
     var deck = ((board==BOARD.SIDE) ? mapSideBoard : mapDeck);
 		deck.remove(mc);
 	}
 
-	public void add(MagicCard mc) {
+	public void add(MTGCard mc) {
 		getMain().compute(mc, (k,v)->(v==null)?1:v+1);
 	}
 
-	public void addSide(MagicCard mc) {
+	public void addSide(MTGCard mc) {
 		getSideBoard().compute(mc, (k,v)->(v==null)?1:v+1);
 	}
 
-	public void addMaybe(MagicCard mc) {
+	public void addMaybe(MTGCard mc) {
 		getMaybeBoard().compute(mc, (k,v)->(v==null)?1:v+1);
 	}
 
 
-	public boolean hasCard(MagicCard mc,boolean strict) {
+	public boolean hasCard(MTGCard mc,boolean strict) {
 
 		if(strict)
 			return !getMain().keySet().stream().filter(k->IDGenerator.generate(k).equals(IDGenerator.generate(mc))).findAny().isEmpty();
@@ -160,7 +160,7 @@ public class MagicDeck implements MTGSerializable {
 
 	public Set<MTGFormat> getLegality() {
 		Set<MTGFormat> cmap = new LinkedHashSet<>();
-		for (MagicCard mc : getMain().keySet()) {
+		for (MTGCard mc : getMain().keySet()) {
 			for (MTGFormat mf : mc.getLegalities()) {
 				cmap.add(mf);
 			}
@@ -171,7 +171,7 @@ public class MagicDeck implements MTGSerializable {
 	public String getColors() {
 
 		Set<EnumColors> cmap = new LinkedHashSet<>();
-		for (MagicCard mc : getUniqueCards())
+		for (MTGCard mc : getUniqueCards())
 		{
 			if ((mc.getCmc() != null))
 			{
@@ -188,24 +188,24 @@ public class MagicDeck implements MTGSerializable {
 		return tmp.toString();
 	}
 
-	public List<MagicCard> getMainAsList() {
+	public List<MTGCard> getMainAsList() {
 		return toList(getMain().entrySet());
 	}
 
-	public List<MagicCard> getSideAsList() {
+	public List<MTGCard> getSideAsList() {
 		return toList(getSideBoard().entrySet());
 	}
 
-	public List<MagicCard> getMaybeAsList() {
+	public List<MTGCard> getMaybeAsList() {
 		return toList(getMaybeBoard().entrySet());
 	}
 
 
 
-	private List<MagicCard> toList(Set<Entry<MagicCard, Integer>> entrySet) {
-		ArrayList<MagicCard> deck = new ArrayList<>();
+	private List<MTGCard> toList(Set<Entry<MTGCard, Integer>> entrySet) {
+		ArrayList<MTGCard> deck = new ArrayList<>();
 
-		for (Entry<MagicCard, Integer> c : entrySet)
+		for (Entry<MTGCard, Integer> c : entrySet)
 			for (var i = 0; i < c.getValue(); i++)
 				deck.add(c.getKey());
 
@@ -214,7 +214,7 @@ public class MagicDeck implements MTGSerializable {
 	}
 
 	public boolean isCompatibleFormat(MTGFormat mf) {
-		for (MagicCard mc : mapDeck.keySet())
+		for (MTGCard mc : mapDeck.keySet())
 		{
 			long num = mc.getLegalities().stream().filter(mf::equals).toList().stream().filter(f->f.getFormatLegality()==AUTHORIZATION.LEGAL || f.getFormatLegality()==AUTHORIZATION.RESTRICTED).count();
 
@@ -226,8 +226,8 @@ public class MagicDeck implements MTGSerializable {
 	}
 
 
-	public static MagicDeck toDeck(List<MagicCard> cards) {
-		var d = new MagicDeck();
+	public static MTGDeck toDeck(List<MTGCard> cards) {
+		var d = new MTGDeck();
 		d.setName("export");
 		d.setDescription("");
 
@@ -273,23 +273,23 @@ public class MagicDeck implements MTGSerializable {
 		return getName();
 	}
 
-	public void setMain(Map<MagicCard, Integer> mapDeck) {
+	public void setMain(Map<MTGCard, Integer> mapDeck) {
 		this.mapDeck = mapDeck;
 	}
 
-	public Map<MagicCard, Integer> getSideBoard() {
+	public Map<MTGCard, Integer> getSideBoard() {
 		return mapSideBoard;
 	}
 
-	public void setSideBoard(Map<MagicCard, Integer> mapSideBoard) {
+	public void setSideBoard(Map<MTGCard, Integer> mapSideBoard) {
 		this.mapSideBoard = mapSideBoard;
 	}
 
-	public Map<MagicCard, Integer> getMaybeBoard() {
+	public Map<MTGCard, Integer> getMaybeBoard() {
 		return mapMaybeBoard;
 	}
 
-	public void setMaybeBoard(Map<MagicCard, Integer> mapMaybeBoard) {
+	public void setMaybeBoard(Map<MTGCard, Integer> mapMaybeBoard) {
 		this.mapMaybeBoard = mapMaybeBoard;
 	}
 
@@ -298,7 +298,7 @@ public class MagicDeck implements MTGSerializable {
 		return name;
 	}
 
-	public Map<MagicCard, Integer> getMain() {
+	public Map<MTGCard, Integer> getMain() {
 		return mapDeck;
 	}
 
@@ -318,17 +318,17 @@ public class MagicDeck implements MTGSerializable {
 		this.dateCreation=date;
 	}
 
-	public void setCommander(MagicCard mc) {
+	public void setCommander(MTGCard mc) {
 		this.commander=mc;
 	}
 
-	public MagicCard getCommander() {
+	public MTGCard getCommander() {
 		return commander;
 	}
 
-	public MagicCard getCompanion() {
+	public MTGCard getCompanion() {
 
-		Optional<MagicCard> opt= getUniqueCards().stream().filter(MagicCard::isCompanion).findFirst();
+		Optional<MTGCard> opt= getUniqueCards().stream().filter(MTGCard::isCompanion).findFirst();
 
 		if(opt.isPresent())
 			return opt.get();

@@ -1,4 +1,4 @@
-package org.magic.api.beans;
+package org.magic.api.beans.technical;
 
 import java.net.MalformedURLException;
 import java.net.URI;

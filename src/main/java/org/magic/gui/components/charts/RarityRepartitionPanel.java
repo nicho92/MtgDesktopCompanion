@@ -7,12 +7,12 @@ import javax.swing.ImageIcon;
 import org.jfree.chart3d.data.PieDataset3D;
 import org.jfree.chart3d.data.StandardPieDataset3D;
 import org.jfree.chart3d.plot.StandardColorSource;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.enums.EnumRarity;
 import org.magic.gui.abstracts.charts.Abstract3DPieChart;
 import org.magic.services.MTGConstants;
 
-public class RarityRepartitionPanel extends Abstract3DPieChart<MagicCard,String> {
+public class RarityRepartitionPanel extends Abstract3DPieChart<MTGCard,String> {
 
 	public RarityRepartitionPanel(boolean displayPanel) {
 		super(displayPanel);

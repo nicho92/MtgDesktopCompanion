@@ -7,7 +7,7 @@ import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.services.MTGControler;
@@ -30,9 +30,9 @@ public class MoveGraveyardActions extends AbstractAction {
 		String res = JOptionPane.showInputDialog("How many card to discard ?");
 		if (res != null) {
 			var c = Integer.parseInt(res);
-			List<MagicCard> disc = GamePanelGUI.getInstance().getPlayer().discardCardFromLibrary(c);
+			List<MTGCard> disc = GamePanelGUI.getInstance().getPlayer().discardCardFromLibrary(c);
 
-			for (MagicCard mc : disc) {
+			for (MTGCard mc : disc) {
 				GamePanelGUI.getInstance().getPanelGrave()
 						.addComponent(new DisplayableCard(mc, MTGControler.getInstance().getCardsGameDimension(), true));
 			}

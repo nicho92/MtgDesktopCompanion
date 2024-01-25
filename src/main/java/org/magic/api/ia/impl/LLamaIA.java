@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.http.entity.StringEntity;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.interfaces.abstracts.AbstractIA;
 import org.magic.services.MTGConstants;
 import org.magic.services.network.MTGHttpClient;
@@ -109,7 +109,7 @@ public class LLamaIA  extends AbstractIA{
 	}
 
 	@Override
-	public MagicCard generateRandomCard(String prompt) throws IOException {
+	public MTGCard generateRandomCard(String prompt) throws IOException {
 		
 		query(prompt).getAsJsonArray();
 		

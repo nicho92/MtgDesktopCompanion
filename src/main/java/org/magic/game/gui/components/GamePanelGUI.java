@@ -33,7 +33,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.game.GameManager;
 import org.magic.api.beans.game.Player;
 import org.magic.game.actions.library.DrawActions;
@@ -177,7 +177,7 @@ public class GamePanelGUI extends MTGUIComponent implements Observer {
 											var choose = new JDeckChooserDialog();
 											choose.setVisible(true);
 											try {
-												MagicDeck deck = choose.getSelectedDeck();
+												MTGDeck deck = choose.getSelectedDeck();
 												if (deck != null) {
 
 													var p1 = MTGControler.getInstance().getProfilPlayer();

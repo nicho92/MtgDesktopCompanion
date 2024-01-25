@@ -8,16 +8,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.magic.api.beans.Announce;
-import org.magic.api.beans.Announce.STATUS;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGAnnounce;
+import org.magic.api.beans.MTGAnnounce.STATUS;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MagicCardAlert;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGCollection;
+import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MagicNews;
-import org.magic.api.beans.SealedStock;
+import org.magic.api.beans.MTGSealedStock;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.GedEntry;
@@ -141,38 +141,38 @@ public class RedisDAO extends AbstractKeyValueDao {
 	}
 	
 	@Override
-	public List<String> listEditionsIDFromCollection(MagicCollection collection) throws SQLException {
+	public List<String> listEditionsIDFromCollection(MTGCollection collection) throws SQLException {
 		return redisCommand.keys(key(collection)+SEPARATOR+"*").stream().map(s->s.substring(s.lastIndexOf(SEPARATOR)+1)).toList();
 	}
 	
 	@Override
-	public void saveCollection(MagicCollection c) throws SQLException {
+	public void saveCollection(MTGCollection c) throws SQLException {
 		redisCommand.sadd(KEY_COLLECTIONS,c.getName());
 	}
 	
 	@Override
-	public List<MagicCollection> listCollections() throws SQLException {
-		return redisCommand.smembers(KEY_COLLECTIONS).stream().map(MagicCollection::new).toList();
+	public List<MTGCollection> listCollections() throws SQLException {
+		return redisCommand.smembers(KEY_COLLECTIONS).stream().map(MTGCollection::new).toList();
 	}
 	
 	@Override
-	public void removeCollection(MagicCollection c) throws SQLException {
+	public void removeCollection(MTGCollection c) throws SQLException {
 		redisCommand.srem(KEY_COLLECTIONS, c.getName());
 	}
 	
 	@Override
-	public void saveCard(MagicCard card, MagicCollection collection) throws SQLException {
+	public void saveCard(MTGCard card, MTGCollection collection) throws SQLException {
 		redisCommand.sadd(key(collection,card), serialiser.toJson(card));
 	}
 	
 
 	@Override
-	public int getCardsCount(MagicCollection c, MagicEdition me) throws SQLException {
+	public int getCardsCount(MTGCollection c, MTGEdition me) throws SQLException {
 		return redisCommand.scard(key(c,me)).intValue();
 	}
 
 	@Override
-	public Map<String, Integer> getCardsCountGlobal(MagicCollection c) throws SQLException {
+	public Map<String, Integer> getCardsCountGlobal(MTGCollection c) throws SQLException {
 		
 		var map = new HashMap<String,Integer>();
 		
@@ -189,12 +189,12 @@ public class RedisDAO extends AbstractKeyValueDao {
 
 
 	@Override
-	public List<MagicDeck> listDecks() throws SQLException {
+	public List<MTGDeck> listDecks() throws SQLException {
 		
-		var ret = new ArrayList<MagicDeck>();
+		var ret = new ArrayList<MTGDeck>();
 		
 		redisCommand.keys(KEY_DECK+SEPARATOR+"*").forEach(s->{
-			var d=  serialiser.fromJson(redisCommand.get(s), MagicDeck.class);
+			var d=  serialiser.fromJson(redisCommand.get(s), MTGDeck.class);
 			ret.add(d);
 			notify(d);
 		});
@@ -203,45 +203,45 @@ public class RedisDAO extends AbstractKeyValueDao {
 	}
 	
 	@Override
-	public void deleteDeck(MagicDeck d) throws SQLException {
+	public void deleteDeck(MTGDeck d) throws SQLException {
 		redisCommand.del(key(d));
 	}
 
 	
 	@Override
-	public Integer saveOrUpdateDeck(MagicDeck d) throws SQLException {
+	public Integer saveOrUpdateDeck(MTGDeck d) throws SQLException {
 		if(d.getId()<0)
-			d.setId(incr(MagicDeck.class).intValue());
+			d.setId(incr(MTGDeck.class).intValue());
 		
 		redisCommand.set(key(d), serialiser.toJson(d));
 		return d.getId();
 	}
 
 	@Override
-	public MagicDeck getDeckById(Integer id) throws SQLException {
-		return serialiser.fromJson(redisCommand.get(KEY_DECK+SEPARATOR+id),MagicDeck.class);
+	public MTGDeck getDeckById(Integer id) throws SQLException {
+		return serialiser.fromJson(redisCommand.get(KEY_DECK+SEPARATOR+id),MTGDeck.class);
 	}
 
 	@Override
-	public List<MagicCard> listCardsFromCollection(MagicCollection collection, MagicEdition me) throws SQLException {
-		return redisCommand.smembers(key(collection,me)).stream().map(s->serialiser.fromJson(s, MagicCard.class)).collect(Collectors.toList());
+	public List<MTGCard> listCardsFromCollection(MTGCollection collection, MTGEdition me) throws SQLException {
+		return redisCommand.smembers(key(collection,me)).stream().map(s->serialiser.fromJson(s, MTGCard.class)).collect(Collectors.toList());
 	}
 	
 	
 	@Override
-	public List<MagicCard> listCardsFromCollection(MagicCollection collection) throws SQLException {
-		return redisCommand.smembers(key(collection)).stream().map(s->serialiser.fromJson(s, MagicCard.class)).toList();
+	public List<MTGCard> listCardsFromCollection(MTGCollection collection) throws SQLException {
+		return redisCommand.smembers(key(collection)).stream().map(s->serialiser.fromJson(s, MTGCard.class)).toList();
 	}
 
 	@Override
-	public void removeEdition(MagicEdition ed, MagicCollection col) throws SQLException {
+	public void removeEdition(MTGEdition ed, MTGCollection col) throws SQLException {
 		redisCommand.del(key(col,ed));
 	}
 
 	
 
 	@Override
-	public MagicCollection getCollection(String name) throws SQLException {
+	public MTGCollection getCollection(String name) throws SQLException {
 		var opt = listCollections().stream().filter(c->c.getName().equals(name)).findFirst();
 		
 		if(opt.isPresent())
@@ -252,34 +252,34 @@ public class RedisDAO extends AbstractKeyValueDao {
 	}
 	
 	@Override
-	public void moveEdition(MagicEdition ed, MagicCollection from, MagicCollection to) throws SQLException {
+	public void moveEdition(MTGEdition ed, MTGCollection from, MTGCollection to) throws SQLException {
 		redisCommand.rename(key(from,ed), key(to,ed));
 	}
 
 	
 	@Override
-	public void saveOrUpdateCardStock(MagicCardStock mcs) throws SQLException {
+	public void saveOrUpdateCardStock(MTGCardStock mcs) throws SQLException {
 		if(mcs.getId()<0)
-			mcs.setId(incr(MagicCardStock.class).intValue());
+			mcs.setId(incr(MTGCardStock.class).intValue());
 		
 		mcs.setUpdated(false);
 		redisCommand.set(key(mcs), serialiser.toJson(mcs));
 	}
 
 	@Override
-	public void deleteStock(List<MagicCardStock> state) throws SQLException {
+	public void deleteStock(List<MTGCardStock> state) throws SQLException {
 			for(var d : state)
 				redisCommand.del(key(d));
 
 	}
 
 	@Override
-	public List<MagicCardStock> listStocks() throws SQLException {
+	public List<MTGCardStock> listStocks() throws SQLException {
 		
-		var ret = new ArrayList<MagicCardStock>();
+		var ret = new ArrayList<MTGCardStock>();
 		
 		redisCommand.keys(KEY_STOCKS+SEPARATOR+"*").forEach(s->{
-			var d=  serialiser.fromJson(redisCommand.get(s), MagicCardStock.class);
+			var d=  serialiser.fromJson(redisCommand.get(s), MTGCardStock.class);
 			ret.add(d);
 			notify(d);
 		});
@@ -289,11 +289,11 @@ public class RedisDAO extends AbstractKeyValueDao {
 
 
 	@Override
-	public List<SealedStock> listSealedStocks() throws SQLException {
-		var ret = new ArrayList<SealedStock>();
+	public List<MTGSealedStock> listSealedStocks() throws SQLException {
+		var ret = new ArrayList<MTGSealedStock>();
 		
 		redisCommand.keys(KEY_SEALED+SEPARATOR+"*").forEach(s->{
-			var d=  serialiser.fromJson(redisCommand.get(s), SealedStock.class);
+			var d=  serialiser.fromJson(redisCommand.get(s), MTGSealedStock.class);
 			ret.add(d);
 			notify(d);
 		});
@@ -302,9 +302,9 @@ public class RedisDAO extends AbstractKeyValueDao {
 	}
 
 	@Override
-	public void saveOrUpdateSealedStock(SealedStock mcs) throws SQLException {
+	public void saveOrUpdateSealedStock(MTGSealedStock mcs) throws SQLException {
 		if(mcs.getId()<0)
-			mcs.setId(incr(SealedStock.class).intValue());
+			mcs.setId(incr(MTGSealedStock.class).intValue());
 		
 		mcs.setUpdated(false);
 		redisCommand.set(key(mcs), serialiser.toJson(mcs));
@@ -312,13 +312,13 @@ public class RedisDAO extends AbstractKeyValueDao {
 	}
 
 	@Override
-	public void deleteStock(SealedStock state) throws SQLException {
+	public void deleteStock(MTGSealedStock state) throws SQLException {
 		redisCommand.del(key(state));
 	}
 
 	@Override
-	public SealedStock getSealedStockById(Long id) throws SQLException {
-			return serialiser.fromJson(redisCommand.get(KEY_SEALED+SEPARATOR+id), SealedStock.class);
+	public MTGSealedStock getSealedStockById(Long id) throws SQLException {
+			return serialiser.fromJson(redisCommand.get(KEY_SEALED+SEPARATOR+id), MTGSealedStock.class);
 	}
 
 
@@ -448,7 +448,7 @@ public class RedisDAO extends AbstractKeyValueDao {
 	@Override
 	public void saveOrUpdateNews(MagicNews a) throws SQLException {
 		if(a.getId()<0)
-			a.setId(incr(Announce.class).intValue());
+			a.setId(incr(MTGAnnounce.class).intValue());
 		
 		redisCommand.set(key(a), serialiser.toJson(a));
 	}
@@ -456,14 +456,14 @@ public class RedisDAO extends AbstractKeyValueDao {
 	
 
 	@Override
-	public Announce getAnnounceById(int id) throws SQLException {
-		return serialiser.fromJson(redisCommand.get(KEY_ANNOUNCES+SEPARATOR+id), Announce.class);
+	public MTGAnnounce getAnnounceById(int id) throws SQLException {
+		return serialiser.fromJson(redisCommand.get(KEY_ANNOUNCES+SEPARATOR+id), MTGAnnounce.class);
 	}
 
 	@Override
-	public int saveOrUpdateAnnounce(Announce a) throws SQLException {
+	public int saveOrUpdateAnnounce(MTGAnnounce a) throws SQLException {
 		if(a.getId()<0)
-			a.setId(incr(Announce.class).intValue());
+			a.setId(incr(MTGAnnounce.class).intValue());
 		
 		var ret = redisCommand.set(key(a), serialiser.toJson(a));
 		
@@ -473,7 +473,7 @@ public class RedisDAO extends AbstractKeyValueDao {
 	}
 
 	@Override
-	public void deleteAnnounce(Announce a) throws SQLException {
+	public void deleteAnnounce(MTGAnnounce a) throws SQLException {
 		redisCommand.del(key(a));
 
 	}
@@ -485,11 +485,11 @@ public class RedisDAO extends AbstractKeyValueDao {
 	}
 
 	@Override
-	public void removeCard(MagicCard mc, MagicCollection collection) throws SQLException {
+	public void removeCard(MTGCard mc, MTGCollection collection) throws SQLException {
 			var k = key(collection,mc.getCurrentSet());
 			for(var s : redisCommand.smembers(k))
 			{
-				var jo = serialiser.fromJson(s,MagicCard.class);
+				var jo = serialiser.fromJson(s,MTGCard.class);
 				
 				if(jo.getId().equals(mc.getId()))
 				{	
@@ -511,8 +511,8 @@ public class RedisDAO extends AbstractKeyValueDao {
 
 	
 	@Override
-	public List<MagicCollection> listCollectionFromCards(MagicCard mc) throws SQLException {
-		var c = new ArrayList<MagicCollection>();
+	public List<MTGCollection> listCollectionFromCards(MTGCard mc) throws SQLException {
+		var c = new ArrayList<MTGCollection>();
 		
 			for(var collection : listCollections())
 			{
@@ -524,7 +524,7 @@ public class RedisDAO extends AbstractKeyValueDao {
 	}
 
 	@Override
-	public List<MagicCardStock> listStocks(MagicCard mc, MagicCollection col, boolean editionStrict) throws SQLException {
+	public List<MTGCardStock> listStocks(MTGCard mc, MTGCollection col, boolean editionStrict) throws SQLException {
 
 		if(editionStrict)
 			return listStocks().stream().filter(mcs->mcs.getMagicCollection().getName().equals(col.getName())).filter(mcs->mcs.getProduct().getId().equals(mc.getId())).toList();
@@ -571,10 +571,10 @@ public class RedisDAO extends AbstractKeyValueDao {
 
 
 	@Override
-	public List<Announce> listAnnounces() throws SQLException {
-		var ret = new ArrayList<Announce>();
+	public List<MTGAnnounce> listAnnounces() throws SQLException {
+		var ret = new ArrayList<MTGAnnounce>();
 		redisCommand.keys(KEY_ANNOUNCES+SEPARATOR+"*").forEach(s->{
-			var d=  serialiser.fromJson(redisCommand.get(s), Announce.class);
+			var d=  serialiser.fromJson(redisCommand.get(s), MTGAnnounce.class);
 			ret.add(d);
 			notify(d);
 		});
@@ -585,7 +585,7 @@ public class RedisDAO extends AbstractKeyValueDao {
 	
 
 	@Override
-	public List<Announce> listAnnounces(int max, STATUS stat) throws SQLException {
+	public List<MTGAnnounce> listAnnounces(int max, STATUS stat) throws SQLException {
 		return listAnnounces().stream().filter(a->a.getStatus()==stat).skip((long)max-1).toList();
 	}
 

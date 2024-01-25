@@ -10,9 +10,9 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.regex.Matcher;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
@@ -36,7 +36,7 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 		StringBuilder temp = new StringBuilder("\"sep=").append(getSeparator()).append("\"").append(System.lineSeparator());
 		  			  temp.append(COLUMNS).append(",Deck count,Sideboard count,Maybeboard count").append(System.lineSeparator());
 
@@ -48,12 +48,12 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	public List<MagicCardStock> importStock(String content) throws IOException {
-		List<MagicCardStock> list = new ArrayList<>();
+	public List<MTGCardStock> importStock(String content) throws IOException {
+		List<MTGCardStock> list = new ArrayList<>();
 
 		matches(content, true).forEach(m->{
 
-		MagicCard mc=readCard(m);
+		MTGCard mc=readCard(m);
 		if(mc!=null)
 		{
 
@@ -82,7 +82,7 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 		return list;
 	}
 
-	private MagicCardStock buildStockItem(MagicCard mc , Matcher m,Integer qty,boolean foil)
+	private MTGCardStock buildStockItem(MTGCard mc , Matcher m,Integer qty,boolean foil)
 	{
 
 		var st = MTGControler.getInstance().getDefaultStock();
@@ -106,7 +106,7 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 	}
 
 
-	private MagicCard readCard(Matcher m) {
+	private MTGCard readCard(Matcher m) {
 		try {
 			return getEnabledPlugin(MTGCardsProvider.class).searchCardByName(m.group(1),null,true).stream().filter(c->
 				(!m.group(18).isEmpty()&&m.group(18).equals(c.getMultiverseid()))||(m.group(15).equals(c.getNumber()))
@@ -119,7 +119,7 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 
 
 	@Override
-	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
+	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
 		StringBuilder temp = new StringBuilder("\"sep=").append(getSeparator()).append("\"").append(System.lineSeparator());
 					  temp.append(COLUMNS).append(System.lineSeparator());
 
@@ -136,7 +136,7 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 	}
 
 
-	private void writeDeckLine(StringBuilder temp, Set<Entry<MagicCard, Integer>> set, int i )
+	private void writeDeckLine(StringBuilder temp, Set<Entry<MTGCard, Integer>> set, int i )
 	{
 
 		set.forEach(entry->{
@@ -156,7 +156,7 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 	}
 
 
-	private void writeLine(StringBuilder temp,MagicCardStock mcs) {
+	private void writeLine(StringBuilder temp,MTGCardStock mcs) {
 		temp.append("\"").append(mcs.getProduct().getName()).append("\"").append(getSeparator());
 		temp.append("\"").append(mcs.getProduct().getFullType()).append("\"").append(getSeparator());
 		temp.append(parseColors(mcs.getProduct())).append(getSeparator());
@@ -189,7 +189,7 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 	}
 
 
-	private String parseColors(MagicCard mc) {
+	private String parseColors(MTGCard mc) {
 
 
 		if(mc.isMultiColor())

@@ -10,7 +10,7 @@ import java.util.concurrent.ExecutionException;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.game.ZoneEnum;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
@@ -21,7 +21,7 @@ public class HandPanel extends DraggablePanel {
 	private GridBagConstraints c;
 	private int index = 0;
 	private int val = 7;
-	private transient SwingWorker<Void, MagicCard> sw;
+	private transient SwingWorker<Void, MTGCard> sw;
 	private ZoneEnum origine = ZoneEnum.HAND;
 
 	@Override
@@ -76,7 +76,7 @@ public class HandPanel extends DraggablePanel {
 		i.initActions();
 	}
 
-	public void initThumbnails(final List<MagicCard> cards, final boolean activateCards, final boolean rightClick) {
+	public void initThumbnails(final List<MTGCard> cards, final boolean activateCards, final boolean rightClick) {
 
 		if (sw != null && !sw.isDone())
 		{
@@ -102,8 +102,8 @@ public class HandPanel extends DraggablePanel {
 		{
 
 			@Override
-			protected void process(List<MagicCard> cards) {
-				for(MagicCard mc : cards) {
+			protected void process(List<MTGCard> cards) {
+				for(MTGCard mc : cards) {
 					var lab = new DisplayableCard(mc, d, activateCards, rightClick);
 						lab.setTappable(activateCards);
 						addComponent(lab);
@@ -113,7 +113,7 @@ public class HandPanel extends DraggablePanel {
 
 			@Override
 			protected Void doInBackground() throws Exception {
-				publish(cards.toArray(new MagicCard[cards.size()]));
+				publish(cards.toArray(new MTGCard[cards.size()]));
 				return null;
 			}
 

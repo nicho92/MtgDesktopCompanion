@@ -8,7 +8,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 import org.apache.logging.log4j.Level;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.services.logging.MTGLogger;
@@ -18,7 +18,7 @@ import com.google.gson.JsonObject;
 
 public class TestTools {
 
-	public static List<MagicCard> loadData() throws IOException, URISyntaxException
+	public static List<MTGCard> loadData() throws IOException, URISyntaxException
 	{
 		return new JsonExport().importDeckFromFile(new File(TestTools.class.getResource("/sample.json").toURI())).getMainAsList();
 		

@@ -13,8 +13,8 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeCellRenderer;
 
 import org.magic.api.beans.MTGSealedProduct;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.gui.components.card.ManaPanel;
 import org.magic.services.MTGConstants;
@@ -45,9 +45,9 @@ public class MagicCardsTreeCellRenderer implements TreeCellRenderer {
 	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean isLeaf, int row, boolean focused) {
 		JLabel c = (JLabel)new DefaultTreeCellRenderer().getTreeCellRendererComponent(tree, value, selected, expanded, isLeaf, row, focused);
 		try {
-			if (((DefaultMutableTreeNode) value).getUserObject() instanceof MagicEdition ed) {
+			if (((DefaultMutableTreeNode) value).getUserObject() instanceof MTGEdition ed) {
 				c.setIcon(IconSetProvider.getInstance().get16(ed.getId()));
-			} else if (((DefaultMutableTreeNode) value).getUserObject() instanceof MagicCard mc) {
+			} else if (((DefaultMutableTreeNode) value).getUserObject() instanceof MTGCard mc) {
 
 				c.setOpaque(false);
 				c.setIcon(MTGConstants.ICON_MANA_INCOLOR);

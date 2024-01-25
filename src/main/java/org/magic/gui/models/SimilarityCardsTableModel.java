@@ -4,20 +4,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.gui.abstracts.GenericTableModel;
 
-public class SimilarityCardsTableModel extends GenericTableModel<MagicCard> {
+public class SimilarityCardsTableModel extends GenericTableModel<MTGCard> {
 
 
 	private static final long serialVersionUID = 1L;
-	private transient Map<MagicCard,Float> map;
+	private transient Map<MTGCard,Float> map;
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex) {
 		case 0:
-			return MagicCard.class;
+			return MTGCard.class;
 		case 2:
 			return Float.class;
 		default:
@@ -29,7 +29,7 @@ public class SimilarityCardsTableModel extends GenericTableModel<MagicCard> {
 	public Object getValueAt(int row, int column) {
 
 
-		MagicCard r = new ArrayList<>(map.keySet()).get(row);
+		MTGCard r = new ArrayList<>(map.keySet()).get(row);
 		switch (column) {
 		case 0:return r;
 		case 1:return r.getCurrentSet();
@@ -44,7 +44,7 @@ public class SimilarityCardsTableModel extends GenericTableModel<MagicCard> {
 		columns = new String[]{ "CARD","CARD_EDITIONS","%" };
 	}
 
-	public void init(Map<MagicCard,Float> lines) {
+	public void init(Map<MTGCard,Float> lines) {
 		this.map = lines;
 		fireTableDataChanged();
 	}

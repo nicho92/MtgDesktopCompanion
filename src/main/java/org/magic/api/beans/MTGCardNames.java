@@ -2,7 +2,7 @@ package org.magic.api.beans;
 
 import java.io.Serializable;
 
-public class MagicCardNames implements Serializable {
+public class MTGCardNames implements Serializable {
 
 	/**
 	 *

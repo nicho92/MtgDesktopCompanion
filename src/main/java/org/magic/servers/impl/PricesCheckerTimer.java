@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 import javax.swing.Icon;
 
 import org.magic.api.beans.MagicCardAlert;
-import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.MTGPrice;
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGDao;
@@ -53,15 +53,15 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 						alert.getOffers().clear();
 						for (MTGPricesProvider prov : listEnabledPlugins(MTGPricesProvider.class))
 						{
-							List<MagicPrice> okz = new ArrayList<>();
+							List<MTGPrice> okz = new ArrayList<>();
 							try {
-								Stream<MagicPrice> stream = prov.getPrice(alert.getCard()).stream().filter(p->p.getValue() <= alert.getPrice()&& p.getValue() > Double.parseDouble(MTGControler.getInstance().get("min-price-alert")));
+								Stream<MTGPrice> stream = prov.getPrice(alert.getCard()).stream().filter(p->p.getValue() <= alert.getPrice()&& p.getValue() > Double.parseDouble(MTGControler.getInstance().get("min-price-alert")));
 
 								if(alert.isFoil())
-									stream=stream.filter(MagicPrice::isFoil);
+									stream=stream.filter(MTGPrice::isFoil);
 
 
-								List<MagicPrice> res= stream.toList();
+								List<MTGPrice> res= stream.toList();
 								alert.getOffers().addAll(res);
 								okz.addAll(res);
 								prov.alertDetected(okz);

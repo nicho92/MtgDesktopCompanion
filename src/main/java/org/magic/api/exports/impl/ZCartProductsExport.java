@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardStock;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardStock;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
 import org.magic.services.tools.FileTools;
@@ -20,8 +20,8 @@ public class ZCartProductsExport extends AbstractFormattedFileCardExport {
 	
 	
 	@Override
-	public List<MagicCardStock> importStock(String content) throws IOException {
-		var list = new ArrayList<MagicCardStock>();
+	public List<MTGCardStock> importStock(String content) throws IOException {
+		var list = new ArrayList<MTGCardStock>();
 		
 		
 		matches(content, true, aliases.getRegexFor(this,"default")).forEach(m->{
@@ -42,7 +42,7 @@ public class ZCartProductsExport extends AbstractFormattedFileCardExport {
 	
 	
 	@Override
-	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
+	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
 			var temp = new StringBuilder(COLUMNS);
 			temp.append(System.lineSeparator());
 			
@@ -70,7 +70,7 @@ public class ZCartProductsExport extends AbstractFormattedFileCardExport {
 	}
 	
 	
-	private String describe(MagicCardStock st) {
+	private String describe(MTGCardStock st) {
 		
 		return st.getComment();
 	}
@@ -86,7 +86,7 @@ public class ZCartProductsExport extends AbstractFormattedFileCardExport {
 	
 	
 
-	private String slug(MagicCard product) {
+	private String slug(MTGCard product) {
 		
 		return product.getName().replace(" ", "-").replace("'", "-")+"-"+product.getNumber();
 		

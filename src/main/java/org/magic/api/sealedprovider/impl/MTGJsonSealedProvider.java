@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.magic.api.beans.MTGSealedProduct;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractSealedProvider;
@@ -40,7 +40,7 @@ public class MTGJsonSealedProvider extends AbstractSealedProvider {
 			products = new ArrayList<>(prov.getSealeds());
 			
 			
-				for(MagicEdition ed : products.stream().map(s->s.getEdition()).distinct().toList())
+				for(MTGEdition ed : products.stream().map(s->s.getEdition()).distinct().toList())
 				{
 					var p = new MTGSealedProduct();
 						p.setTypeProduct(EnumItems.SET);
@@ -56,7 +56,7 @@ public class MTGJsonSealedProvider extends AbstractSealedProvider {
 	
 	
 	@Override
-	public List<MTGSealedProduct> getItemsFor(MagicEdition me) {
+	public List<MTGSealedProduct> getItemsFor(MTGEdition me) {
 		try {
 			init();
 		} catch (IOException e) {

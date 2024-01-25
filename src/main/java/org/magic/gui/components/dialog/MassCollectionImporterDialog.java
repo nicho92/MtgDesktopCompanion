@@ -20,10 +20,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
 import org.apache.logging.log4j.Logger;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCollection;
+import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -42,9 +42,9 @@ public class MassCollectionImporterDialog extends JDialog {
 	private static final String NUMBER = "number";
 	private static final long serialVersionUID = 1L;
 	private String[] ids;
-	private MagicDeck deck;
+	private MTGDeck deck;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-	private JComboBox<MagicEdition> cboEditions;
+	private JComboBox<MTGEdition> cboEditions;
 	private JComboBox<String> cboByType;
 
 
@@ -58,11 +58,11 @@ public class MassCollectionImporterDialog extends JDialog {
 		}
 	}
 
-	private List<MagicCard> ids(List<String> without)
+	private List<MTGCard> ids(List<String> without)
 	{
-		List<MagicCard> ret = new ArrayList<>();
+		List<MTGCard> ret = new ArrayList<>();
 		try {
-			ret = new ArrayList<>(getEnabledPlugin(MTGCardsProvider.class).searchCardByEdition((MagicEdition)cboEditions.getSelectedItem()));
+			ret = new ArrayList<>(getEnabledPlugin(MTGCardsProvider.class).searchCardByEdition((MTGEdition)cboEditions.getSelectedItem()));
 
 			if(cboByType.getSelectedItem().equals(NUMBER))
 				ret.removeIf(ca->without.contains(ca.getNumber()));
@@ -79,7 +79,7 @@ public class MassCollectionImporterDialog extends JDialog {
 
 	private void initGUI() {
 		getContentPane().setLayout(new BorderLayout(0, 0));
-		deck = new MagicDeck();
+		deck = new MTGDeck();
 		var panelCollectionInput = new JPanel();
 		getContentPane().add(panelCollectionInput, BorderLayout.NORTH);
 
@@ -99,7 +99,7 @@ public class MassCollectionImporterDialog extends JDialog {
 		var lblIn = new JLabel("in");
 		panelCollectionInput.add(lblIn);
 
-		JComboBox<MagicCollection> cboCollections = UITools.createComboboxCollection();
+		JComboBox<MTGCollection> cboCollections = UITools.createComboboxCollection();
 		panelCollectionInput.add(cboCollections);
 
 		var panneauBas = new JPanel();
@@ -137,7 +137,7 @@ public class MassCollectionImporterDialog extends JDialog {
 		btnInverse.addActionListener(e -> {
 			List<String> elements = Arrays.asList(txtNumbersInput.getText().replace("\n", " ").replace("  ", " ").trim().split(" "));
 			var temp = new StringBuilder();
-			for (MagicCard s : ids(elements))
+			for (MTGCard s : ids(elements))
 				temp.append(s.getNumber()).append(" ");
 
 			txtNumbersInput.setText(temp.toString());
@@ -147,15 +147,15 @@ public class MassCollectionImporterDialog extends JDialog {
 
 
 		btnImport.addActionListener(e -> {
-			final MagicEdition ed = (MagicEdition) cboEditions.getSelectedItem();
-			final MagicCollection col = (MagicCollection) cboCollections.getSelectedItem();
+			final MTGEdition ed = (MTGEdition) cboEditions.getSelectedItem();
+			final MTGCollection col = (MTGCollection) cboCollections.getSelectedItem();
 
 			if (cboByType.getSelectedItem().equals(NUMBER))
 				ids = txtNumbersInput.getText().replace("\n", " ").replace("  ", " ").trim().split(" ");
 			else
 				ids = txtNumbersInput.getText().split("\n");
 
-			AbstractObservableWorker<Void, MagicCard, MTGCardsProvider> sw = new AbstractObservableWorker<>(progressBar,getEnabledPlugin(MTGCardsProvider.class),ids.length) {
+			AbstractObservableWorker<Void, MTGCard, MTGCardsProvider> sw = new AbstractObservableWorker<>(progressBar,getEnabledPlugin(MTGCardsProvider.class),ids.length) {
 
 				@Override
 				protected void notifyEnd() {
@@ -182,13 +182,13 @@ public class MassCollectionImporterDialog extends JDialog {
 				protected Void doInBackground() throws Exception {
 					for (String id : ids) {
 						try {
-							MagicCard mc = null;
+							MTGCard mc = null;
 
 							if (cboByType.getSelectedItem().toString().equalsIgnoreCase(NUMBER))
 								mc = plug.getCardByNumber(id.trim(), ed);
 							else
 								mc = plug.searchCardByName( id.replace("\n", " ").replace("  ", " ").trim(),
-												(MagicEdition) cboEditions.getSelectedItem(), true)
+												(MTGEdition) cboEditions.getSelectedItem(), true)
 										.get(0);
 
 							deck.add(mc);
@@ -208,11 +208,11 @@ public class MassCollectionImporterDialog extends JDialog {
 
 	}
 
-	public MagicDeck getAsDeck() {
+	public MTGDeck getAsDeck() {
 		return deck;
 	}
 
-	public void setDefaultEdition(MagicEdition magicEdition) {
+	public void setDefaultEdition(MTGEdition magicEdition) {
 		cboEditions.setSelectedItem(magicEdition);
 
 	}

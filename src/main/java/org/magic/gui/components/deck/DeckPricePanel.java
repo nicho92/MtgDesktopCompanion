@@ -15,8 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.MTGPrice;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.CardsPriceTableModel;
@@ -35,13 +35,13 @@ public class DeckPricePanel extends MTGUIComponent {
 	private JComboBox<MTGPricesProvider> cboPricers;
 	private JXTable tablePrice;
 	private CardsPriceTableModel model;
-	private MagicDeck deck;
+	private MTGDeck deck;
 	private JLabel lblPrice;
 	private double total = 0;
 	private JButton btnCheckPrice;
 
 
-	public void init(MagicDeck d) {
+	public void init(MTGDeck d) {
 		this.deck = d;
 		try {
 			lblPrice.setText(UITools.formatDouble(d.getAveragePrice()));
@@ -87,10 +87,10 @@ public class DeckPricePanel extends MTGUIComponent {
 		btnCheckPrice.addActionListener(ae -> {
 			model.clear();
 
-			AbstractObservableWorker<List<MagicPrice>, MagicPrice, MTGPricesProvider> sw = new AbstractObservableWorker<>((MTGPricesProvider)cboPricers.getSelectedItem()) {
+			AbstractObservableWorker<List<MTGPrice>, MTGPrice, MTGPricesProvider> sw = new AbstractObservableWorker<>((MTGPricesProvider)cboPricers.getSelectedItem()) {
 
 				@Override
-				protected List<MagicPrice> doInBackground() throws Exception {
+				protected List<MTGPrice> doInBackground() throws Exception {
 					return plug.getPrice(deck, false);
 				}
 
@@ -98,7 +98,7 @@ public class DeckPricePanel extends MTGUIComponent {
 				protected void done() {
 
 						try {
-							total = get().stream().mapToDouble(MagicPrice::getValue).sum();
+							total = get().stream().mapToDouble(MTGPrice::getValue).sum();
 						} catch (InterruptedException e) {
 							Thread.currentThread().interrupt();
 							logger.error("Interruption");
@@ -112,7 +112,7 @@ public class DeckPricePanel extends MTGUIComponent {
 				}
 
 				@Override
-				protected void process(List<MagicPrice> p) {
+				protected void process(List<MTGPrice> p) {
 					model.addItems(p);
 				}
 
@@ -137,7 +137,7 @@ public class DeckPricePanel extends MTGUIComponent {
 					ev.consume();
 					try {
 
-						MagicPrice url = UITools.getTableSelection(tablePrice, 0);
+						MTGPrice url = UITools.getTableSelection(tablePrice, 0);
 						UITools.browse(url.getUrl());
 					} catch (Exception e) {
 						logger.error(e);

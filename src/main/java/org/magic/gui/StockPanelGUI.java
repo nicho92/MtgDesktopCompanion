@@ -37,9 +37,9 @@ import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileFilter;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
@@ -99,13 +99,13 @@ public class StockPanelGUI extends MTGUIComponent {
 	private JButton btnApplyModification;
 	private CardsDeckCheckerPanel deckPanel;
 	private GradingEditorPane gradePanel;
-	private GedPanel<MagicCardStock> gedPanel;
+	private GedPanel<MTGCardStock> gedPanel;
 	private StockItemsSynchronizationPanel syncPanel;
 
 	private static Boolean[] values = { null, true, false };
 	private JComboBox<EnumCondition> cboQuality;
 	private JButton btnImport;
-	private JComboBox<MagicCollection> cboCollection;
+	private JComboBox<MTGCollection> cboCollection;
 	private JExportButton btnExport;
 	private JButton btnGeneratePrice;
 	private JLabel lblCount;
@@ -131,8 +131,8 @@ public class StockPanelGUI extends MTGUIComponent {
 		initGUI();
 
 		btnSave.addActionListener(e ->{
-			List<MagicCardStock> updates = model.getItems().stream().filter(MagicCardStock::isUpdated).toList();
-			AbstractObservableWorker<Void, MagicCardStock,MTGDao> sw = new AbstractObservableWorker<>(lblLoading, getEnabledPlugin(MTGDao.class),updates.size())
+			List<MTGCardStock> updates = model.getItems().stream().filter(MTGCardStock::isUpdated).toList();
+			AbstractObservableWorker<Void, MTGCardStock,MTGDao> sw = new AbstractObservableWorker<>(lblLoading, getEnabledPlugin(MTGDao.class),updates.size())
 			{
 				@Override
 				protected void done() {
@@ -142,7 +142,7 @@ public class StockPanelGUI extends MTGUIComponent {
 
 				@Override
 				protected Void doInBackground(){
-					for (MagicCardStock ms : updates)
+					for (MTGCardStock ms : updates)
 					{
 						try {
 							plug.saveOrUpdateCardStock(ms);
@@ -163,7 +163,7 @@ public class StockPanelGUI extends MTGUIComponent {
 			if (!multiselection && !event.getValueIsAdjusting()) {
 				int viewRow = table.getSelectedRow();
 				if (viewRow > -1) {
-					MagicCardStock selectedStock = UITools.getTableSelection(table, 0);
+					MTGCardStock selectedStock = UITools.getTableSelection(table, 0);
 					btnDelete.setEnabled(true);
 					updatePanels(selectedStock);
 				}
@@ -177,9 +177,9 @@ public class StockPanelGUI extends MTGUIComponent {
 
 			if (res == JOptionPane.YES_OPTION) {
 
-				List<MagicCardStock> stocks = UITools.getTableSelections(table, 0);
+				List<MTGCardStock> stocks = UITools.getTableSelections(table, 0);
 				model.removeItem(stocks);
-				AbstractObservableWorker<Void, MagicCardStock, MTGDao> sw = new AbstractObservableWorker<>(lblLoading,getEnabledPlugin(MTGDao.class),stocks.size()) {
+				AbstractObservableWorker<Void, MTGCardStock, MTGDao> sw = new AbstractObservableWorker<>(lblLoading,getEnabledPlugin(MTGDao.class),stocks.size()) {
 					@Override
 					protected Void doInBackground(){
 						stocks.removeIf(st->st.getId()==-1);
@@ -197,7 +197,7 @@ public class StockPanelGUI extends MTGUIComponent {
 					}
 
 					@Override
-					protected void process(List<MagicCardStock> chunks) {
+					protected void process(List<MTGCardStock> chunks) {
 						super.process(chunks);
 						model.removeItem(chunks);
 					}
@@ -219,7 +219,7 @@ public class StockPanelGUI extends MTGUIComponent {
 			if (res == JOptionPane.YES_OPTION)
 			{
 				logger.debug("reload collection");
-				AbstractObservableWorker<Void, MagicCardStock, MTGDao> sw = new AbstractObservableWorker<>(lblLoading, getEnabledPlugin(MTGDao.class), -1) {
+				AbstractObservableWorker<Void, MTGCardStock, MTGDao> sw = new AbstractObservableWorker<>(lblLoading, getEnabledPlugin(MTGDao.class), -1) {
 					@Override
 					protected Void doInBackground() throws Exception {
 						model.init(plug.listStocks());
@@ -251,7 +251,7 @@ public class StockPanelGUI extends MTGUIComponent {
 				var cdSearch = new CardSearchImportDialog();
 				cdSearch.setVisible(true);
 				if (cdSearch.getSelection() != null) {
-					for (MagicCard mc : cdSearch.getSelection())
+					for (MTGCard mc : cdSearch.getSelection())
 						addCard(mc);
 				}
 			});
@@ -309,10 +309,10 @@ public class StockPanelGUI extends MTGUIComponent {
 							if(fileImport!=null)
 								total = FileTools.linesCount(fileImport);
 
-							AbstractObservableWorker<List<MagicCardStock>, MagicCard, MTGCardsExport> sw = new AbstractObservableWorker<>(lblLoading,exp,total)
+							AbstractObservableWorker<List<MTGCardStock>, MTGCard, MTGCardsExport> sw = new AbstractObservableWorker<>(lblLoading,exp,total)
 							{
 								@Override
-								protected List<MagicCardStock> doInBackground() throws Exception {
+								protected List<MTGCardStock> doInBackground() throws Exception {
 									return plug.importStockFromFile(fileImport);
 								}
 
@@ -330,7 +330,7 @@ public class StockPanelGUI extends MTGUIComponent {
 									super.done();
 									if(getResult()!=null)
 									{
-										for (MagicCardStock mc : getResult()) {
+										for (MTGCardStock mc : getResult()) {
 											addStock(mc);
 										}
 										model.fireTableDataChanged();
@@ -353,12 +353,12 @@ public class StockPanelGUI extends MTGUIComponent {
 		});
 
 
-		btnExport.initStockExport(new Callable<List<MagicCardStock>>() {
+		btnExport.initStockExport(new Callable<List<MTGCardStock>>() {
 
 			@Override
-			public List<MagicCardStock> call() throws Exception {
+			public List<MTGCardStock> call() throws Exception {
 
-				List<MagicCardStock> export = UITools.getTableSelections(table,0);
+				List<MTGCardStock> export = UITools.getTableSelections(table,0);
 
 				if(export.isEmpty())
 					return model.getItems();
@@ -381,7 +381,7 @@ public class StockPanelGUI extends MTGUIComponent {
 
 			MTGPriceSuggester suggester = comp.getSelectedPlugin();
 
-			SwingWorker<Void,MagicCardStock> sw = new SwingWorker<>() {
+			SwingWorker<Void,MTGCardStock> sw = new SwingWorker<>() {
 
 				@Override
 				public void done() {
@@ -389,7 +389,7 @@ public class StockPanelGUI extends MTGUIComponent {
 				}
 
 				@Override
-				protected void process(List<MagicCardStock> chunks) {
+				protected void process(List<MTGCardStock> chunks) {
 					lblLoading.progressSmooth(chunks.size());
 					model.fireTableDataChanged();
 				}
@@ -397,8 +397,8 @@ public class StockPanelGUI extends MTGUIComponent {
 
 				@Override
 				protected Void doInBackground(){
-					List<MagicCardStock> sts = UITools.getTableSelections(table,0);
-					for (MagicCardStock s : sts)
+					List<MTGCardStock> sts = UITools.getTableSelections(table,0);
+					for (MTGCardStock s : sts)
 					{
 						try {
 
@@ -438,7 +438,7 @@ public class StockPanelGUI extends MTGUIComponent {
 				table.clearSelection();
 
 				for (var i = 0; i < table.getRowCount(); i++) {
-					if (((MagicCardStock) table.getValueAt(i, 0)).isUpdated())
+					if (((MTGCardStock) table.getValueAt(i, 0)).isUpdated())
 						table.addRowSelectionInterval(i, i);
 				}
 			}
@@ -457,9 +457,9 @@ public class StockPanelGUI extends MTGUIComponent {
 					JOptionPane.YES_NO_CANCEL_OPTION);
 			if (res == JOptionPane.YES_OPTION) {
 
-				List<MagicCardStock> list = UITools.getTableSelections(table,0);
+				List<MTGCardStock> list = UITools.getTableSelections(table,0);
 
-				for (MagicCardStock  s : list) {
+				for (MTGCardStock  s : list) {
 					s.setUpdated(true);
 					if (((Integer) spinner.getValue()).intValue() > -1)
 						s.setQte((Integer) spinner.getValue());
@@ -476,7 +476,7 @@ public class StockPanelGUI extends MTGUIComponent {
 					if (cboQuality.getSelectedItem() != null)
 						s.setCondition((EnumCondition) cboQuality.getSelectedItem());
 					if (cboCollection.getSelectedItem() != null)
-						s.setMagicCollection((MagicCollection) cboCollection.getSelectedItem());
+						s.setMagicCollection((MTGCollection) cboCollection.getSelectedItem());
 
 				}
 				model.fireTableDataChanged();
@@ -485,7 +485,7 @@ public class StockPanelGUI extends MTGUIComponent {
 
 	}
 
-	private void updatePanels(MagicCardStock selectedStock) {
+	private void updatePanels(MTGCardStock selectedStock) {
 
 		if(selectedStock!=null) {
 			magicCardDetailPanel.init(selectedStock.getProduct());
@@ -494,20 +494,20 @@ public class StockPanelGUI extends MTGUIComponent {
 			jsonPanel.init(selectedStock);
 			deckPanel.init(selectedStock.getProduct());
 			gradePanel.setGrading(selectedStock.getGrade());
-			gedPanel.init(MagicCardStock.class, selectedStock);
+			gedPanel.init(MTGCardStock.class, selectedStock);
 			syncPanel.init(selectedStock);
 		}
 	}
 
-	public void addStock(MagicCardStock mcs) {
+	public void addStock(MTGCardStock mcs) {
 		
 		mcs.setUpdated(true);
 		model.addItem(mcs);
 		model.fireTableDataChanged();
 	}
 
-	public void addCard(MagicCard mc) {
-		MagicCardStock ms = MTGControler.getInstance().getDefaultStock();
+	public void addCard(MTGCard mc) {
+		MTGCardStock ms = MTGControler.getInstance().getDefaultStock();
 		ms.setId(-1);
 		ms.setUpdated(true);
 		ms.setProduct(mc);
@@ -799,7 +799,7 @@ public class StockPanelGUI extends MTGUIComponent {
 
 		gradePanel.getBtnSave().addActionListener(al->{
 			try{
-				MagicCardStock st = UITools.getTableSelection(table, 0);
+				MTGCardStock st = UITools.getTableSelection(table, 0);
 				gradePanel.saveTo(st);
 				model.fireTableDataChanged();
 			}
@@ -816,10 +816,10 @@ public class StockPanelGUI extends MTGUIComponent {
 		lblLoading.start();
 
 
-		var sw = new AbstractObservableWorker<List<MagicCardStock>, MagicCardStock, MTGDao>(lblLoading,getEnabledPlugin(MTGDao.class)) {
+		var sw = new AbstractObservableWorker<List<MTGCardStock>, MTGCardStock, MTGDao>(lblLoading,getEnabledPlugin(MTGDao.class)) {
 
 			@Override
-			protected List<MagicCardStock> doInBackground() throws Exception {
+			protected List<MTGCardStock> doInBackground() throws Exception {
 				return plug.listStocks();
 			}
 

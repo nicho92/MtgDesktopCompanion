@@ -13,8 +13,8 @@ import javax.swing.SpinnerNumberModel;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
-import org.magic.api.beans.Announce;
-import org.magic.api.beans.Announce.STATUS;
+import org.magic.api.beans.MTGAnnounce;
+import org.magic.api.beans.MTGAnnounce.STATUS;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.EnumTransactionDirection;
@@ -27,7 +27,7 @@ import org.magic.services.tools.UITools;
 public class AnnounceDetailPanel extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
-	private Announce announce;
+	private MTGAnnounce announce;
 	private JComboBox<Currency> cboCurrency;
 	private RSyntaxTextArea descriptionJTextArea;
 	private JXDateTimePicker endDateFld;
@@ -120,7 +120,7 @@ public class AnnounceDetailPanel extends MTGUIComponent {
 
 	}
 
-	public Announce getAnnounce() {
+	public MTGAnnounce getAnnounce() {
 
 		announce.setTitle(titleJTextField.getText());
 		announce.setDescription(descriptionJTextArea.getText());
@@ -136,7 +136,7 @@ public class AnnounceDetailPanel extends MTGUIComponent {
 		return announce;
 	}
 
-	public void setAnnounce(Announce announce) {
+	public void setAnnounce(MTGAnnounce announce) {
 			this.announce=announce;
 			titleJTextField.setText(announce.getTitle());
 			descriptionJTextArea.setText(announce.getDescription());

@@ -10,9 +10,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.NotImplementedException;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.sorters.CardsDeckSorter;
@@ -42,7 +42,7 @@ public class PDFExport extends AbstractCardExport {
 		return MODS.EXPORT;
 	}
 
-	private Cell createCell(MagicCard card) throws IOException {
+	private Cell createCell(MTGCard card) throws IOException {
 
 		ImageData imageData = null;
 
@@ -77,7 +77,7 @@ public class PDFExport extends AbstractCardExport {
 	}
 
 	@Override
-	public void exportDeck(MagicDeck deck, File f) throws IOException {
+	public void exportDeck(MTGDeck deck, File f) throws IOException {
 		var table = new Table(3).useAllAvailableWidth();
 
 			try(var pdfDocDest = new PdfDocument(new PdfWriter(f));	Document doc = new Document(pdfDocDest) )
@@ -96,7 +96,7 @@ public class PDFExport extends AbstractCardExport {
 
 
 
-				for (MagicCard card : mainList) {
+				for (MTGCard card : mainList) {
 					table.addCell(createCell(card));
 					notify(card);
 				}
@@ -109,7 +109,7 @@ public class PDFExport extends AbstractCardExport {
 	}
 
 	@Override
-	public MagicDeck importDeck(String f,String name) throws IOException {
+	public MTGDeck importDeck(String f,String name) throws IOException {
 		throw new NotImplementedException("Can't generate deck from PDF");
 	}
 
@@ -119,7 +119,7 @@ public class PDFExport extends AbstractCardExport {
 	}
 
 	@Override
-	public List<MagicCardStock> importStock(String content) throws IOException {
+	public List<MTGCardStock> importStock(String content) throws IOException {
 		throw new NotImplementedException("Can't import stock from PDF");
 	}
 

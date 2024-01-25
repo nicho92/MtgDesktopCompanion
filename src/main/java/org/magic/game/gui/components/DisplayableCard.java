@@ -33,7 +33,7 @@ import javax.swing.border.LineBorder;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGKeyWord;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.game.GameManager;
 import org.magic.api.beans.game.Player;
@@ -77,7 +77,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 
 	private static final long serialVersionUID = 1L;
 	private JPopupMenu menu;
-	private MagicCard magicCard;
+	private MTGCard magicCard;
 	private boolean tapped = false;
 	private ImageIcon image;
 	private boolean draggable = true;
@@ -251,15 +251,15 @@ public class DisplayableCard extends JLabel implements Draggable {
 		showPT = t;
 	}
 
-	public DisplayableCard(MagicCard mc, Dimension d, boolean activateCards, boolean rightClick) {
+	public DisplayableCard(MTGCard mc, Dimension d, boolean activateCards, boolean rightClick) {
 		construct(mc, d, activateCards, rightClick);
 	}
 
-	public DisplayableCard(MagicCard mc, Dimension d, boolean activateCards) {
+	public DisplayableCard(MTGCard mc, Dimension d, boolean activateCards) {
 		construct(mc, d, activateCards, true);
 	}
 
-	public void construct(MagicCard mc, Dimension d, boolean activateCards, boolean rightClick) {
+	public void construct(MTGCard mc, Dimension d, boolean activateCards, boolean rightClick) {
 
 		owner = GameManager.getInstance().getCurrentPlayer();
 		rightActions = rightClick;
@@ -467,13 +467,13 @@ public class DisplayableCard extends JLabel implements Draggable {
 		this.tapped = t;
 	}
 
-	public MagicCard getMagicCard() {
+	public MTGCard getMagicCard() {
 		return magicCard;
 	}
 
-	public void setMagicCard(MagicCard mc) {
+	public void setMagicCard(MTGCard mc) {
 		try {
-			this.magicCard = (MagicCard) BeanUtils.cloneBean(mc);
+			this.magicCard = (MTGCard) BeanUtils.cloneBean(mc);
 		} catch (Exception e1) {
 			logger.error("error setting {}",mc, e1);
 		}

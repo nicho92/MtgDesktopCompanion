@@ -27,8 +27,8 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.components.charts.CmcChartPanel;
@@ -50,7 +50,7 @@ public class JDeckChooserDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private JXTable table;
 	private CmcChartPanel cmcChartPanel;
-	private MagicDeck selectedDeck;
+	private MTGDeck selectedDeck;
 	private JTagsPanel tagsPanel;
 	private AbstractBuzyIndicatorComponent buzy;
 	private JTree tree;
@@ -65,7 +65,7 @@ public class JDeckChooserDialog extends JDialog {
 	private transient MTGDeckManager manager;
 
 
-	public MagicDeck getSelectedDeck() {
+	public MTGDeck getSelectedDeck() {
 		return selectedDeck;
 	}
 
@@ -79,7 +79,7 @@ public class JDeckChooserDialog extends JDialog {
 		sideNode.removeAllChildren();
 
 		if (selectedDeck != null) {
-			for (MagicCard mc : selectedDeck.getMain().keySet()) {
+			for (MTGCard mc : selectedDeck.getMain().keySet()) {
 				if (mc.isCreature() && !mc.isArtifact())
 					creatureNode.add(new DefaultMutableTreeNode(selectedDeck.getMain().get(mc) + " " + mc));
 				else if (mc.isArtifact())
@@ -92,7 +92,7 @@ public class JDeckChooserDialog extends JDialog {
 					spellsNode.add(new DefaultMutableTreeNode(selectedDeck.getMain().get(mc) + " " + mc));
 			}
 
-			for (MagicCard mc : selectedDeck.getSideBoard().keySet())
+			for (MTGCard mc : selectedDeck.getSideBoard().keySet())
 				sideNode.add(new DefaultMutableTreeNode(selectedDeck.getSideBoard().get(mc) + " " + mc));
 
 			model.reload();
@@ -121,7 +121,7 @@ public class JDeckChooserDialog extends JDialog {
 		model = new DefaultTreeModel(root);
 		manager = new MTGDeckManager();
 		var decksModel = new DeckSelectionTableModel();
-		manager.addObserver((o,d)->decksModel.addItem((MagicDeck)d));
+		manager.addObserver((o,d)->decksModel.addItem((MTGDeck)d));
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 
 		addWindowListener(new WindowAdapter() {
@@ -137,15 +137,15 @@ public class JDeckChooserDialog extends JDialog {
 		});
 
 
-		AbstractObservableWorker<List<MagicDeck>, MagicDeck, MTGDao> sw2 = new AbstractObservableWorker<>(buzy,MTG.getEnabledPlugin(MTGDao.class))
+		AbstractObservableWorker<List<MTGDeck>, MTGDeck, MTGDao> sw2 = new AbstractObservableWorker<>(buzy,MTG.getEnabledPlugin(MTGDao.class))
 				{
 
 					@Override
-					protected List<MagicDeck> doInBackground() throws Exception {
+					protected List<MTGDeck> doInBackground() throws Exception {
 						return plug.listDecks();
 					}
 					@Override
-					protected void process(List<MagicDeck> chunks) {
+					protected void process(List<MTGDeck> chunks) {
 						super.process(chunks);
 						decksModel.addItems(chunks);
 					}

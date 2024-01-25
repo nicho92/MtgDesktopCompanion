@@ -1,9 +1,9 @@
 package org.magic.gui.models;
 
-import org.magic.api.beans.CardDominance;
+import org.magic.api.beans.MTGDominance;
 import org.magic.gui.abstracts.GenericTableModel;
 
-public class CardDominanceTableModel extends GenericTableModel<CardDominance> {
+public class CardDominanceTableModel extends GenericTableModel<MTGDominance> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -18,7 +18,7 @@ public class CardDominanceTableModel extends GenericTableModel<CardDominance> {
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex) {
 		case 0:
-			return CardDominance.class;
+			return MTGDominance.class;
 		case 1:
 			return Integer.class;
 		case 2:

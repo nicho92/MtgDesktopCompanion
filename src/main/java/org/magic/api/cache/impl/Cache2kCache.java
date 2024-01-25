@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.cache2k.Cache;
 import org.cache2k.Cache2kBuilder;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.interfaces.abstracts.AbstractCacheProvider;
 import org.magic.services.tools.MemoryTools;
 
@@ -24,7 +24,7 @@ public class Cache2kCache extends AbstractCacheProvider {
 
 
 	@Override
-	public BufferedImage getItem(MagicCard mc) {
+	public BufferedImage getItem(MTGCard mc) {
 		return cache.get(generateIdIndex(mc));
 	}
 
@@ -32,7 +32,7 @@ public class Cache2kCache extends AbstractCacheProvider {
 
 
 	@Override
-	public void put(BufferedImage im, MagicCard mc) throws IOException {
+	public void put(BufferedImage im, MTGCard mc) throws IOException {
 		cache.put(generateIdIndex(mc), im);
 
 	}

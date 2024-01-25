@@ -11,8 +11,8 @@ import org.apache.commons.cli.ParseException;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MTGFormat;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.abstracts.AbstractCommand;
@@ -47,22 +47,22 @@ public class Dash extends AbstractCommand {
 		}
 
 		if (cl.hasOption("s") && !cl.hasOption("c")) {
-			MagicEdition ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(cl.getOptionValue("s"));
+			MTGEdition ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(cl.getOptionValue("s"));
 			return new ArrayResponse(CardShake.class, null,json.toJsonArray(getEnabledPlugin(MTGDashBoard.class).getShakesForEdition(ed),"shakes"));
 		}
 
 		if (cl.hasOption("c")) {
-			MagicEdition ed = null;
+			MTGEdition ed = null;
 			if(cl.hasOption("s"))
 				ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(cl.getOptionValue("s"));
 
-			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cl.getOptionValue("c"), ed, false).get(0);
+			MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cl.getOptionValue("c"), ed, false).get(0);
 			return new ArrayResponse(HistoryPrice.class, null,json.toJsonElement(getEnabledPlugin(MTGDashBoard.class).getPriceVariation(mc, cl.hasOption("foil"))).getAsJsonObject().get("variations").getAsJsonObject());
 		}
 
 
 		if (cl.hasOption("t")) {
-			MagicEdition ed = null;
+			MTGEdition ed = null;
 			ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(cl.getOptionValue("t"));
 			return new ArrayResponse(CardShake.class, null,json.toJsonArray(getEnabledPlugin(MTGDashBoard.class).getShakesForEdition(ed),"shakes"));
 		}

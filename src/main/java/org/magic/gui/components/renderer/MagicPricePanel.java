@@ -12,7 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.MTGPrice;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.services.MTGControler;
@@ -26,7 +26,7 @@ public class MagicPricePanel extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public MagicPricePanel(MagicPrice price) {
+	public MagicPricePanel(MTGPrice price) {
 
 		setBackground(SystemColor.inactiveCaptionBorder);
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));

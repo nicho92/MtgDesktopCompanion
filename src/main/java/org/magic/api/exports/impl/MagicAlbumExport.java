@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
@@ -31,14 +31,14 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 
 
 	@Override
-	public List<MagicCardStock> importStockFromFile(File f) throws IOException {
+	public List<MTGCardStock> importStockFromFile(File f) throws IOException {
 		return importStock(FileTools.readFile(f,StandardCharsets.UTF_16));
 	}
 
 
 
 	@Override
-	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
+	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
 		StringBuilder temp = new StringBuilder();
 		var endOfLine="\r\n";
 		temp.append("Set\tName (Oracle)\tName\tVersion\tLanguage\tQty (R)\tQty (F)\tBuy Qty\tProxies\tNotes\tRarity\tNumber\tColor\tCost\tP/T\tArtist\tBorder\tCopyright\tType\tSell Qty\tGrade (R)\tGrade (F)\tPrice (R)\tPrice (F)\tUsed\tType (Oracle)\tLegality\tBuy Price\tSell Price\tRating\tObject\r\n");
@@ -80,20 +80,20 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	public List<MagicCardStock> importStock(String content) throws IOException {
-		var ret = new ArrayList<MagicCardStock>();
+	public List<MTGCardStock> importStock(String content) throws IOException {
+		var ret = new ArrayList<MTGCardStock>();
 		matches(content, true ).forEach(m->{
 
 			var foilnumber = ( !m.group(7).isEmpty()) ? Integer.parseInt(m.group(7)):0;
 			var regularNumber = ( !m.group(6).isEmpty()) ? Integer.parseInt(m.group(6)):0;
 			var proxyNumber = ( !m.group(9).isEmpty()) ? Integer.parseInt(m.group(9)):0;
-			var setCode = aliases.getSetIdFor(this, new MagicEdition(m.group(1)));
+			var setCode = aliases.getSetIdFor(this, new MTGEdition(m.group(1)));
 			var lang=m.group(5);
 			var cardName = m.group(2).replace("’", "'").replace("│", " // ");
 
 
 
-				MagicCard mc=null;
+				MTGCard mc=null;
 
 				if(!m.group(12).isEmpty())
 				{

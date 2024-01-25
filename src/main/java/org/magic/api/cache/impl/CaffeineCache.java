@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.Map;
 
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.interfaces.abstracts.AbstractCacheProvider;
 import org.magic.services.tools.MemoryTools;
 
@@ -25,7 +25,7 @@ public class CaffeineCache extends AbstractCacheProvider {
 
 
 	@Override
-	public BufferedImage getItem(MagicCard mc) {
+	public BufferedImage getItem(MTGCard mc) {
 		return cache.getIfPresent(generateIdIndex(mc));
 	}
 
@@ -33,7 +33,7 @@ public class CaffeineCache extends AbstractCacheProvider {
 
 
 	@Override
-	public void put(BufferedImage im, MagicCard mc) throws IOException {
+	public void put(BufferedImage im, MTGCard mc) throws IOException {
 		cache.put(generateIdIndex(mc), im);
 
 	}

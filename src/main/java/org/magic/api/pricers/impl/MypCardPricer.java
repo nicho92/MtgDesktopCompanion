@@ -7,8 +7,8 @@ import java.util.List;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
@@ -36,9 +36,9 @@ public class MypCardPricer extends AbstractPricesProvider {
 	}
 
 	@Override
-	protected List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
+	protected List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
 
-		List<MagicPrice> list = new ArrayList<>();
+		List<MTGPrice> list = new ArrayList<>();
 
 		String set = card.getCurrentSet().getId();
 
@@ -90,7 +90,7 @@ public class MypCardPricer extends AbstractPricesProvider {
 		return list;
 	}
 
-	private void parsingOffers(String urlC, List<MagicPrice> list,MagicCard card) throws IOException {
+	private void parsingOffers(String urlC, List<MTGPrice> list,MTGCard card) throws IOException {
 		Elements trs = URLTools.extractAsHtml(urlC).select("table.table tr[data-key]");
 		for(Element tr : trs)
 		{
@@ -101,7 +101,7 @@ public class MypCardPricer extends AbstractPricesProvider {
 				return;
 			}
 
-			var mp = new MagicPrice();
+			var mp = new MTGPrice();
 				mp.setMagicCard(card);
 				mp.setCountry("Brazil");
 				mp.setCurrency(Currency.getInstance("BRL"));

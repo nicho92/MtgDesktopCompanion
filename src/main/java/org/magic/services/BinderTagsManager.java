@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.Logger;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.MTGSealedProvider;
 import org.magic.api.sealedprovider.impl.MTGCompanionSealedProvider.LOGO;
@@ -56,10 +56,10 @@ public class BinderTagsManager {
 		lst = new ArrayList<>();
 	}
 
-	public void setEditions(List<MagicEdition> eds)
+	public void setEditions(List<MTGEdition> eds)
 	{
 		clear();
-		addIds(eds.stream().map(MagicEdition::getId).toList());
+		addIds(eds.stream().map(MTGEdition::getId).toList());
 	}
 
 
@@ -70,7 +70,7 @@ public class BinderTagsManager {
 		for(String id :ids)
 		{
 			try {
-				BufferedImage im = prov.getPictureFor(prov.get(new MagicEdition(id),EnumItems.SET).get(0));
+				BufferedImage im = prov.getPictureFor(prov.get(new MTGEdition(id),EnumItems.SET).get(0));
 				ims.add(im);
 			}catch(IndexOutOfBoundsException ioobe)
 			{

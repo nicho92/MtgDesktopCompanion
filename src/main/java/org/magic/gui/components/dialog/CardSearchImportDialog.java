@@ -8,7 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.WindowConstants;
 
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.gui.components.card.CardSearchPanel;
 import org.magic.services.MTGConstants;
 
@@ -38,11 +38,11 @@ public class CardSearchImportDialog extends JDialog {
 		pack();
 	}
 
-	public MagicCard getSelected() {
+	public MTGCard getSelected() {
 		return panel.getSelected();
 	}
 
-	public List<MagicCard> getSelection() {
+	public List<MTGCard> getSelection() {
 		return panel.getMultiSelection();
 	}
 

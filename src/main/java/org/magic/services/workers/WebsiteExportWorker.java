@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 
 import org.apache.logging.log4j.Logger;
-import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MTGCollection;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.services.MTGControler;
@@ -27,10 +27,10 @@ public class WebsiteExportWorker extends SwingWorker<Void, Integer> {
 	protected AbstractBuzyIndicatorComponent buzy;
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	protected Observer o;
-	private List<MagicCollection> cols;
+	private List<MTGCollection> cols;
 	private List<MTGPricesProvider> pricers;
 
-	public WebsiteExportWorker(String templateName,File dest,List<MagicCollection> cols,List<MTGPricesProvider> pricers,AbstractBuzyIndicatorComponent buzy) {
+	public WebsiteExportWorker(String templateName,File dest,List<MTGCollection> cols,List<MTGPricesProvider> pricers,AbstractBuzyIndicatorComponent buzy) {
 		this.dest = dest;
 		this.templateName=templateName;
 		this.cols=cols;

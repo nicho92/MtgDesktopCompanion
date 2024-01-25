@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.tools.UITools;
 
@@ -18,7 +18,7 @@ public class MythicSpoilerPicturesProvider extends AbstractPicturesProvider {
 
 
 	@Override
-	public String generateUrl(MagicCard mc)
+	public String generateUrl(MTGCard mc)
 	{
 		String cardSet = mc.getCurrentSet().getId();
 		String cardName = UITools.replaceSpecialCharacters(mc.getName(), "").toLowerCase();
@@ -45,7 +45,7 @@ public class MythicSpoilerPicturesProvider extends AbstractPicturesProvider {
 	}
 
 	@Override
-	public BufferedImage extractPicture(MagicCard mc) throws IOException {
+	public BufferedImage extractPicture(MTGCard mc) throws IOException {
 		return null;
 	}
 

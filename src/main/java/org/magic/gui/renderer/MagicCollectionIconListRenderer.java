@@ -6,10 +6,10 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
-import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MTGCollection;
 import org.magic.services.MTGConstants;
 
-public class MagicCollectionIconListRenderer extends JLabel implements ListCellRenderer<MagicCollection> {
+public class MagicCollectionIconListRenderer extends JLabel implements ListCellRenderer<MTGCollection> {
 
 	/**
 	 *
@@ -17,7 +17,7 @@ public class MagicCollectionIconListRenderer extends JLabel implements ListCellR
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public Component getListCellRendererComponent(JList<? extends MagicCollection> list, MagicCollection value, int index,boolean isSelected, boolean cellHasFocus) {
+	public Component getListCellRendererComponent(JList<? extends MTGCollection> list, MTGCollection value, int index,boolean isSelected, boolean cellHasFocus) {
 
 		if (value != null) {
 			var l = new JLabel(value.getName());

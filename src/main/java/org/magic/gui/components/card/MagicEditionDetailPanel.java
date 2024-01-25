@@ -18,7 +18,7 @@ import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.gui.abstracts.MTGUIComponent;
@@ -32,7 +32,7 @@ public class MagicEditionDetailPanel extends MTGUIComponent {
 	 */
 	private static final long serialVersionUID = 1L;
 	private transient BindingGroup mBindingGroup;
-	private MagicEdition magicEdition;
+	private MTGEdition magicEdition;
 	private JTextField cardCountTextField;
 	private JTextField releaseDateJTextField;
 	private JTextField setJTextField;
@@ -133,15 +133,15 @@ public class MagicEditionDetailPanel extends MTGUIComponent {
 		chkOnline.setEnabled(b);
 	}
 
-	public MagicEdition getMagicEdition() {
+	public MTGEdition getMagicEdition() {
 		return magicEdition;
 	}
 
-	public void init(MagicEdition newMagicEdition) {
+	public void init(MTGEdition newMagicEdition) {
 		setMagicEdition(newMagicEdition, true);
 	}
 
-	public void setMagicEdition(MagicEdition newMagicEdition, boolean update) {
+	public void setMagicEdition(MTGEdition newMagicEdition, boolean update) {
 		magicEdition = newMagicEdition;
 
 
@@ -173,45 +173,45 @@ public class MagicEditionDetailPanel extends MTGUIComponent {
 
 
 	protected BindingGroup initDataBindings() {
-		BeanProperty<MagicEdition, Integer> cardCountProperty = BeanProperty.create("cardCount");
+		BeanProperty<MTGEdition, Integer> cardCountProperty = BeanProperty.create("cardCount");
 		BeanProperty<JTextField, String> valueProperty = BeanProperty.create("text");
-		AutoBinding<MagicEdition, Integer, JTextField, String> autoBinding3 = Bindings.createAutoBinding(
+		AutoBinding<MTGEdition, Integer, JTextField, String> autoBinding3 = Bindings.createAutoBinding(
 				UpdateStrategy.READ_WRITE, magicEdition, cardCountProperty, cardCountTextField, valueProperty);
 		autoBinding3.bind();
 		//
-		BeanProperty<MagicEdition, String> releaseDateProperty = BeanProperty.create("releaseDate");
+		BeanProperty<MTGEdition, String> releaseDateProperty = BeanProperty.create("releaseDate");
 		BeanProperty<JTextField, String> textProperty6 = BeanProperty.create("text");
-		AutoBinding<MagicEdition, String, JTextField, String> autoBinding7 = Bindings.createAutoBinding(
+		AutoBinding<MTGEdition, String, JTextField, String> autoBinding7 = Bindings.createAutoBinding(
 				UpdateStrategy.READ_WRITE, magicEdition, releaseDateProperty, releaseDateJTextField, textProperty6);
 		autoBinding7.bind();
 		//
-		BeanProperty<MagicEdition, String> setProperty = BeanProperty.create("set");
+		BeanProperty<MTGEdition, String> setProperty = BeanProperty.create("set");
 		BeanProperty<JTextField, String> textProperty7 = BeanProperty.create("text");
-		AutoBinding<MagicEdition, String, JTextField, String> autoBinding8 = Bindings
+		AutoBinding<MTGEdition, String, JTextField, String> autoBinding8 = Bindings
 				.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, setProperty, setJTextField, textProperty7);
 		autoBinding8.bind();
 		//
-		BeanProperty<MagicEdition, String> typeProperty = BeanProperty.create("type");
+		BeanProperty<MTGEdition, String> typeProperty = BeanProperty.create("type");
 		BeanProperty<JTextField, String> textProperty10 = BeanProperty.create("text");
-		AutoBinding<MagicEdition, String, JTextField, String> autoBinding11 = Bindings.createAutoBinding(
+		AutoBinding<MTGEdition, String, JTextField, String> autoBinding11 = Bindings.createAutoBinding(
 				UpdateStrategy.READ_WRITE, magicEdition, typeProperty, typeJTextField, textProperty10);
 		autoBinding11.bind();
 
-		BeanProperty<MagicEdition, String> blockProperty = BeanProperty.create("block");
+		BeanProperty<MTGEdition, String> blockProperty = BeanProperty.create("block");
 		BeanProperty<JTextField, String> textProperty11 = BeanProperty.create("text");
-		AutoBinding<MagicEdition, String, JTextField, String> autoBinding12 = Bindings.createAutoBinding(
+		AutoBinding<MTGEdition, String, JTextField, String> autoBinding12 = Bindings.createAutoBinding(
 				UpdateStrategy.READ_WRITE, magicEdition, blockProperty, blockJTextField, textProperty11);
 		autoBinding12.bind();
 
-		BeanProperty<MagicEdition, String> idProperty = BeanProperty.create("id");
+		BeanProperty<MTGEdition, String> idProperty = BeanProperty.create("id");
 		BeanProperty<JTextField, String> textProperty12 = BeanProperty.create("text");
-		AutoBinding<MagicEdition, String, JTextField, String> autoBinding13 = Bindings
+		AutoBinding<MTGEdition, String, JTextField, String> autoBinding13 = Bindings
 				.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, idProperty, idJtextField, textProperty12);
 		autoBinding13.bind();
 
-		BeanProperty<MagicEdition, Boolean> onlineProperty = BeanProperty.create("onlineOnly");
+		BeanProperty<MTGEdition, Boolean> onlineProperty = BeanProperty.create("onlineOnly");
 		BeanProperty<JCheckBox, Boolean> chkProperty13 = BeanProperty.create("selected");
-		AutoBinding<MagicEdition, Boolean, JCheckBox, Boolean> autoBinding14 = Bindings
+		AutoBinding<MTGEdition, Boolean, JCheckBox, Boolean> autoBinding14 = Bindings
 				.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, onlineProperty, chkOnline, chkProperty13);
 		autoBinding14.bind();
 

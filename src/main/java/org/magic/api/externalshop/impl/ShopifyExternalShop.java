@@ -9,7 +9,7 @@ import java.util.stream.StreamSupport;
 import org.apache.groovy.util.Maps;
 import org.apache.http.HttpResponse;
 import org.apache.http.entity.StringEntity;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.abstracts.AbstractProduct;
 import org.magic.api.beans.abstracts.AbstractStockItem;
 import org.magic.api.beans.enums.EnumItems;
@@ -119,7 +119,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 				AbstractStockItem<MTGProduct> it = AbstractStockItem.generateDefault();
 									  it.setProduct(parseProduct(obj));
 									 try {
-										 it.getProduct().setEdition(new MagicEdition(el.getAsJsonObject().get(OPTION+getString(SET_OPTION_NUMBER)).getAsString(), el.getAsJsonObject().get(OPTION+getString(SET_OPTION_NUMBER)).getAsString()));
+										 it.getProduct().setEdition(new MTGEdition(el.getAsJsonObject().get(OPTION+getString(SET_OPTION_NUMBER)).getAsString(), el.getAsJsonObject().get(OPTION+getString(SET_OPTION_NUMBER)).getAsString()));
 									 }
 									 catch(Exception e)
 									 {

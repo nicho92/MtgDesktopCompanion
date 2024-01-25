@@ -9,8 +9,8 @@ import java.util.Map;
 
 import org.apache.groovy.util.Maps;
 import org.apache.http.entity.StringEntity;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.network.MTGHttpClient;
@@ -30,8 +30,8 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 	}
 
 	@Override
-	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
-		var list = new ArrayList<MagicPrice>();
+	public List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
+		var list = new ArrayList<MTGPrice>();
 
 		var idResults = card.getTcgPlayerId();
 		if(idResults==null)
@@ -48,7 +48,7 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 
 		for(JsonElement e: arr)
 		{
-			var mp = new MagicPrice();
+			var mp = new MTGPrice();
 				mp.setUrl("https://www.tcgplayer.com/product/"+idResults+"?partner=MTGCompanion&utm_campaign=affiliate&utm_medium=MTGCompanion&utm_source=MTGCompanion");
 				mp.setCurrency(Currency.getInstance("USD"));
 				mp.setCountry(Locale.US.getDisplayCountry(MTGControler.getInstance().getLocale()));
@@ -115,7 +115,7 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 	}
 
 
-	private Integer parseIdFor(MagicCard card) throws IOException {
+	private Integer parseIdFor(MTGCard card) throws IOException {
 
 		var setName = card.getCurrentSet().getSet().replace(":", "").replace(" ", "-");
 

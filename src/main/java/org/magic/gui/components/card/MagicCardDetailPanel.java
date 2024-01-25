@@ -5,7 +5,7 @@ import java.awt.BorderLayout;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
 import org.utils.patterns.observer.Observable;
@@ -73,7 +73,7 @@ public class MagicCardDetailPanel extends MTGUIComponent implements Observer{
 		paneMain.enableThumbnail(b);
 	}
 	
-	public void init(MagicCard  mc)
+	public void init(MTGCard  mc)
 	{
 		paneMain.init(mc);
 		

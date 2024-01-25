@@ -1,12 +1,12 @@
 package org.magic.api.sorters;
 
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.interfaces.MTGComparator;
 
-public class CmcSorter implements MTGComparator<MagicCard> {
+public class CmcSorter implements MTGComparator<MTGCard> {
 
 	@Override
-	public int compare(MagicCard o1, MagicCard o2) {
+	public int compare(MTGCard o1, MTGCard o2) {
 		if (o1.getCmc() < o2.getCmc())
 			return -1;
 
@@ -17,7 +17,7 @@ public class CmcSorter implements MTGComparator<MagicCard> {
 	}
 
 	@Override
-	public int getWeight(MagicCard mc) {
+	public int getWeight(MTGCard mc) {
 		return mc.getCmc() + 1;
 	}
 

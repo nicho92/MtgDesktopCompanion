@@ -14,8 +14,8 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.exports.impl.PDFExport;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.game.model.abilities.LoyaltyAbilities;
@@ -56,7 +56,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 	}
 
 	@Override
-	public BufferedImage getPicture(MagicCard mc, MagicEdition me) throws IOException {
+	public BufferedImage getPicture(MTGCard mc, MTGEdition me) throws IOException {
 		if(httpclient==null)
 			connect();
 

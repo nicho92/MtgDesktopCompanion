@@ -20,8 +20,8 @@ import org.api.mkm.services.CartServices;
 import org.api.mkm.services.ProductServices;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.api.mkm.tools.MkmConstants;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGPrice;
 import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.threads.MTGRunnable;
@@ -35,7 +35,7 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 	private static final String FILTER_COUNTRY = "FILTER_COUNTRY";
 	private static final String MIN_CONDITION = "MIN_CONDITION";
 
-	private List<MagicPrice> lists;
+	private List<MTGPrice> lists;
 	private boolean initied=false;
 
 	@Override
@@ -56,7 +56,7 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 	}
 
 
-	public static Product getProductFromCard(MagicCard mc, List<Product> list) {
+	public static Product getProductFromCard(MTGCard mc, List<Product> list) {
 
 		if(list.size()==1)
 			return list.get(0);
@@ -91,7 +91,7 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 
 
 	@Override
-	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
+	public List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
 		if(!initied)
 			init();
 
@@ -101,7 +101,7 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 			logger.info("{} looking for {}/{}",getName(),card,card.getCurrentSet());
 
 			if (card.getRarity() != null && !getBoolean("COMMONCHECK") && card.getRarity()==EnumRarity.COMMON) {
-				var mp = new MagicPrice();
+				var mp = new MTGPrice();
 					mp.setMagicCard(card);
 					mp.setCurrency("EUR");
 					mp.setValue(0.01);
@@ -127,7 +127,7 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 
 				if (p != null) {
 					p = pService.getProductById(p.getIdProduct());
-					var mp = new MagicPrice();
+					var mp = new MTGPrice();
 					mp.setSeller(String.valueOf(p.getExpansionName()));
 					mp.setValue(p.getPriceGuide().getLOW());
 					mp.setQuality("");
@@ -165,7 +165,7 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 
 				for (Article a : articles)
 				{
-					var mp = new MagicPrice();
+					var mp = new MTGPrice();
 							mp.setSeller(String.valueOf(a.getSeller()));
 							mp.setSellerUrl(MkmConstants.MKM_SITE_URL+"/fr/Magic/Users/"+mp.getSeller()+"/Offers/Singles");
 
@@ -200,7 +200,7 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 	}
 
 	@Override
-	public void alertDetected(final List<MagicPrice> p) {
+	public void alertDetected(final List<MTGPrice> p) {
 		if(!initied)
 			init();
 
@@ -213,7 +213,7 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 					try {
 						List<Article> list = new ArrayList<>();
 
-						for (MagicPrice mp : p) {
+						for (MTGPrice mp : p) {
 							Article a = (Article) mp.getShopItem();
 							a.setCount(1);
 							list.add(a);

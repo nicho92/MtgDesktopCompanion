@@ -13,8 +13,8 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RegExUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
@@ -39,8 +39,8 @@ public class MTGADecksSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
-		MagicDeck d = info.toBaseDeck();
+	public MTGDeck getDeck(RetrievableDeck info) throws IOException {
+		MTGDeck d = info.toBaseDeck();
 
 		Document doc = URLTools.extractAsHtml(info.getUrl().toASCIIString());
 
@@ -55,7 +55,7 @@ public class MTGADecksSniffer extends AbstractDeckSniffer {
 
 				try {
 				AbstractMap.SimpleEntry<String,Integer> entry = (parseString(s));
-				MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(entry.getKey().substring(0,entry.getKey().indexOf('(')).trim(), null, true).get(0);
+				MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(entry.getKey().substring(0,entry.getKey().indexOf('(')).trim(), null, true).get(0);
 				d.getMain().put(mc, entry.getValue());
 				notify(mc);
 				}

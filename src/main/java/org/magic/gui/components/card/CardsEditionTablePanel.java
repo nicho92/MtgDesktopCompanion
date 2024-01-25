@@ -24,9 +24,9 @@ import javax.swing.table.TableRowSorter;
 
 import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCollection;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.sorters.CardsEditionSorter;
@@ -50,12 +50,12 @@ public class CardsEditionTablePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JXTable table;
 	private MagicCardTableModel model;
-	private MagicEdition currentEdition;
+	private MTGEdition currentEdition;
 	private AbstractBuzyIndicatorComponent buzy;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JButton btnImport;
-	private JComboBox<MagicCollection> cboCollection;
-	private transient AbstractObservableWorker<List<MagicCard>, MagicCard,MTGCardsProvider> sw;
+	private JComboBox<MTGCollection> cboCollection;
+	private transient AbstractObservableWorker<List<MTGCard>, MTGCard,MTGCardsProvider> sw;
 	private JCheckBox chkNeededCards;
 
 
@@ -111,10 +111,10 @@ public class CardsEditionTablePanel extends JPanel {
 
 
 			if(chkNeededCards.isSelected()) {
-				AbstractObservableWorker<List<MagicCard>,MagicCard, MTGDao> work = new AbstractObservableWorker<>(buzy,getEnabledPlugin(MTGDao.class),model.getRowCount()) {
+				AbstractObservableWorker<List<MTGCard>,MTGCard, MTGDao> work = new AbstractObservableWorker<>(buzy,getEnabledPlugin(MTGDao.class),model.getRowCount()) {
 
 					@Override
-					protected List<MagicCard> doInBackground() throws Exception {
+					protected List<MTGCard> doInBackground() throws Exception {
 						return plug.listCardsFromCollection(MTGControler.getInstance().get("default-library"),currentEdition);
 					}
 
@@ -151,14 +151,14 @@ public class CardsEditionTablePanel extends JPanel {
 
 
 		btnImport.addActionListener(ae->{
-			List<MagicCard> list = getSelectedCards();
+			List<MTGCard> list = getSelectedCards();
 
 			int res = JOptionPane.showConfirmDialog(null,capitalize("COLLECTION_IMPORT") + " :" + list.size() + " cards in " + cboCollection.getSelectedItem());
 			if(res==JOptionPane.YES_OPTION)
 			{
 				buzy.start(list.size());
 
-				SwingWorker<Void, MagicCard> swImp = new SwingWorker<>()
+				SwingWorker<Void, MTGCard> swImp = new SwingWorker<>()
 				{
 				@Override
 					protected void done() {
@@ -166,15 +166,15 @@ public class CardsEditionTablePanel extends JPanel {
 					}
 
 					@Override
-					protected void process(List<MagicCard> chunks) {
+					protected void process(List<MTGCard> chunks) {
 						buzy.progressSmooth(chunks.size());
 					}
 
 					@Override
 					protected Void doInBackground() throws Exception {
-						for(MagicCard mc : list)
+						for(MTGCard mc : list)
 							try {
-								CardsManagerService.saveCard(mc, (MagicCollection)cboCollection.getSelectedItem(),null);
+								CardsManagerService.saveCard(mc, (MTGCollection)cboCollection.getSelectedItem(),null);
 								publish(mc);
 							} catch (SQLException e) {
 								logger.error("couln't save {}", mc,e);
@@ -191,7 +191,7 @@ public class CardsEditionTablePanel extends JPanel {
 		});
 	}
 
-	public MagicCard getSelectedCard()
+	public MTGCard getSelectedCard()
 	{
 		if(table.getSelectedRow()>-1)
 		{
@@ -201,7 +201,7 @@ public class CardsEditionTablePanel extends JPanel {
 		return null;
 	}
 
-	public List<MagicCard> getSelectedCards()
+	public List<MTGCard> getSelectedCards()
 	{
 		return UITools.getTableSelections(table,0);
 	}
@@ -211,7 +211,7 @@ public class CardsEditionTablePanel extends JPanel {
 		return table;
 	}
 
-	public void init(MagicEdition ed)
+	public void init(MTGEdition ed)
 	{
 		this.currentEdition=ed;
 		chkNeededCards.setSelected(false);
@@ -242,8 +242,8 @@ public class CardsEditionTablePanel extends JPanel {
 		sw = new AbstractObservableWorker<>(buzy,getEnabledPlugin(MTGCardsProvider.class),currentEdition.getCardCount()) {
 			
 			@Override
-			protected List<MagicCard> doInBackground() {
-				List<MagicCard> cards = new ArrayList<>();
+			protected List<MTGCard> doInBackground() {
+				List<MTGCard> cards = new ArrayList<>();
 				try {
 					cards = getEnabledPlugin(MTGCardsProvider.class).searchCardByEdition(currentEdition);
 					Collections.sort(cards, new CardsEditionSorter() );
@@ -256,7 +256,7 @@ public class CardsEditionTablePanel extends JPanel {
 			}
 
 			@Override
-			protected void process(List<MagicCard> chunks) {
+			protected void process(List<MTGCard> chunks) {
 				super.process(chunks);
 				model.addItems(chunks);
 			}

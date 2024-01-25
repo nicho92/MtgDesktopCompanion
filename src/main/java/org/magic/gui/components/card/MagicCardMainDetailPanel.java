@@ -27,11 +27,11 @@ import javax.swing.SwingWorker;
 
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGFormat;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MagicCardAlert;
-import org.magic.api.beans.MagicCardNames;
-import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCardNames;
+import org.magic.api.beans.MTGCollection;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGCardsExport;
@@ -74,9 +74,9 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 	private JList<MTGFormat> lstFormats;
 	private transient Observable obs;
 	private boolean enableCollectionLookup=true;
-	private JList<MagicCollection> lstCollections;
+	private JList<MTGCollection> lstCollections;
 	private transient Logger logger = MTGLogger.getLogger(MagicCardMainDetailPanel.class);
-	private MagicCard magicCard;
+	private MTGCard magicCard;
 	
 	public String getTitle() {
 		return "DETAILS";
@@ -105,7 +105,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		txtText.setEditable(b);
 	}
 	
-	public void init(MagicCard mc)
+	public void init(MTGCard mc)
 	{
 		
 		if(mc==null)
@@ -157,18 +157,18 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		
 		if (enableCollectionLookup && !mc.getEditions().isEmpty())
 		{
-			var sw = new SwingWorker<List<MagicCollection>, Void>()
+			var sw = new SwingWorker<List<MTGCollection>, Void>()
 					{
 							@Override
-							protected List<MagicCollection> doInBackground() throws Exception {
+							protected List<MTGCollection> doInBackground() throws Exception {
 								return getEnabledPlugin(MTGDao.class).listCollectionFromCards(mc);
 							}
 
 							@Override
 							protected void done() {
-								((DefaultListModel<MagicCollection>)lstCollections.getModel()).removeAllElements();
+								((DefaultListModel<MTGCollection>)lstCollections.getModel()).removeAllElements();
 								try {
-									get().forEach(((DefaultListModel<MagicCollection>)lstCollections.getModel())::addElement);
+									get().forEach(((DefaultListModel<MTGCollection>)lstCollections.getModel())::addElement);
 								} catch (InterruptedException e) {
 									Thread.currentThread().interrupt();
 								} catch (Exception e) {
@@ -219,7 +219,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 	}
 	
 	
-	protected void loadPics(MagicCard mc,MagicCardNames fn) {
+	protected void loadPics(MTGCard mc,MTGCardNames fn) {
 
 		SwingWorker<ImageIcon, Void> sw = new SwingWorker<>()
 		{
@@ -424,7 +424,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		add(new JScrollPane(lstFormats), gbclstFormats);
 		
 		lstCollections = new JList<>(new DefaultListModel<>());
-		lstCollections.setCellRenderer((JList<? extends MagicCollection> list, MagicCollection obj, int arg2,boolean arg3, boolean arg4)->new JLabel(obj.getName(),MTGConstants.ICON_COLLECTION,SwingConstants.LEFT));
+		lstCollections.setCellRenderer((JList<? extends MTGCollection> list, MTGCollection obj, int arg2,boolean arg3, boolean arg4)->new JLabel(obj.getName(),MTGConstants.ICON_COLLECTION,SwingConstants.LEFT));
 
 		GridBagConstraints gbclstCollections = new GridBagConstraints();
 		gbclstCollections.insets = new Insets(0, 0, 0, 5);
@@ -456,7 +456,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		
 		btnCopy.addActionListener(ae -> {
 			try {
-				MTG.getPlugin(MTGConstants.DEFAULT_CLIPBOARD_NAME,MTGCardsExport.class).exportDeck(MagicDeck.toDeck(Arrays.asList(magicCard)),null);
+				MTG.getPlugin(MTGConstants.DEFAULT_CLIPBOARD_NAME,MTGCardsExport.class).exportDeck(MTGDeck.toDeck(Arrays.asList(magicCard)),null);
 				
 			} catch (Exception e) {
 				logger.error(e);
@@ -483,7 +483,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 
 	@Override
 	public void update(Observable o, Object ob) {
-		init((MagicCard) ob);
+		init((MTGCard) ob);
 	}
 
 	public void enableCollectionLookup(boolean b) {

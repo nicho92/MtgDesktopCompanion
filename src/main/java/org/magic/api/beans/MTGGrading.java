@@ -5,7 +5,7 @@ import java.util.Date;
 
 import org.magic.api.beans.enums.EnumCondition;
 
-public class Grading   implements Serializable{
+public class MTGGrading   implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private String graderName;

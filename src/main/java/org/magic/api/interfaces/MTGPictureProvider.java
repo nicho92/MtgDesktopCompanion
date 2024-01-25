@@ -4,22 +4,22 @@ import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardNames;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardNames;
 
 public interface MTGPictureProvider extends MTGPlugin {
 
-	public BufferedImage getPicture(MagicCard mc) throws IOException;
+	public BufferedImage getPicture(MTGCard mc) throws IOException;
 
-	public BufferedImage getFullSizePicture(MagicCard mc) throws IOException;
+	public BufferedImage getFullSizePicture(MTGCard mc) throws IOException;
 
-	public BufferedImage getForeignNamePicture(MagicCardNames fn,MagicCard mc) throws IOException;
+	public BufferedImage getForeignNamePicture(MTGCardNames fn,MTGCard mc) throws IOException;
 
-	public BufferedImage getBackPicture(MagicCard mc);
+	public BufferedImage getBackPicture(MTGCard mc);
 
-	public BufferedImage extractPicture(MagicCard mc) throws IOException;
+	public BufferedImage extractPicture(MTGCard mc) throws IOException;
 
 	public void setSize(Dimension d);
 
-	public String generateUrl(MagicCard mc);
+	public String generateUrl(MTGCard mc);
 }

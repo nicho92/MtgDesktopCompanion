@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
 
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.shop.Contact;
 
 public class WebShopConfig implements Serializable {
@@ -21,9 +21,9 @@ public class WebShopConfig implements Serializable {
 	private List<String> links;
 	private List<String> slidesLinksImage;
 	private Contact contact;
-	private List<MagicCollection> collections;
-	private List<MagicCollection> needcollections;
-	private MagicCardStock topProduct;
+	private List<MTGCollection> collections;
+	private List<MTGCollection> needcollections;
+	private MTGCardStock topProduct;
 	private int maxLastProduct = 4;
 	private String currencySymbol;
 	private String currencyCode;
@@ -141,11 +141,11 @@ public class WebShopConfig implements Serializable {
 		this.googleAnalyticsId = googleAnalyticsId;
 	}
 
-	public List<MagicCollection> getNeedcollections() {
+	public List<MTGCollection> getNeedcollections() {
 		return needcollections;
 	}
 
-	public void setNeedcollections(List<MagicCollection> needcollections) {
+	public void setNeedcollections(List<MTGCollection> needcollections) {
 		this.needcollections = needcollections;
 	}
 
@@ -172,12 +172,12 @@ public class WebShopConfig implements Serializable {
 	}
 
 
-	public void setTopProduct(MagicCardStock topProduct) {
+	public void setTopProduct(MTGCardStock topProduct) {
 		this.topProduct = topProduct;
 	}
 
 
-	public MagicCardStock getTopProduct() {
+	public MTGCardStock getTopProduct() {
 		return topProduct;
 	}
 
@@ -228,10 +228,10 @@ public class WebShopConfig implements Serializable {
 	public void setContact(Contact contact) {
 		this.contact = contact;
 	}
-	public List<MagicCollection> getCollections() {
+	public List<MTGCollection> getCollections() {
 		return collections;
 	}
-	public void setCollections(List<MagicCollection> collections) {
+	public void setCollections(List<MTGCollection> collections) {
 		this.collections = collections;
 	}
 

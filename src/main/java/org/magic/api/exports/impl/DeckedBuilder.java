@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.magic.api.beans.MagicCardStock;
+import org.magic.api.beans.MTGCardStock;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.tools.FileTools;
 
@@ -25,7 +25,7 @@ public class DeckedBuilder extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
+	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
 
 		var temp = new StringBuilder(COLUMNS);
 		temp.append(System.lineSeparator());
@@ -71,9 +71,9 @@ public class DeckedBuilder extends AbstractFormattedFileCardExport {
 
 
 	@Override
-	public List<MagicCardStock> importStock(String content) throws IOException {
+	public List<MTGCardStock> importStock(String content) throws IOException {
 
-		List<MagicCardStock> stocks = new ArrayList<>();
+		List<MTGCardStock> stocks = new ArrayList<>();
 
 		matches(content,true).forEach(m->{
 			var qtyRegular = Integer.parseInt(m.group(2));
@@ -83,7 +83,7 @@ public class DeckedBuilder extends AbstractFormattedFileCardExport {
 			{
 				if(qtyFoil>0)
 				{
-					var stock = new MagicCardStock(mc);
+					var stock = new MTGCardStock(mc);
 								   stock.setPrice(Double.parseDouble(m.group(12)));
 								   stock.setFoil(true);
 								   stock.setQte(qtyFoil);
@@ -92,7 +92,7 @@ public class DeckedBuilder extends AbstractFormattedFileCardExport {
 
 				if(qtyRegular>0)
 				{
-					var stock = new MagicCardStock(mc);
+					var stock = new MTGCardStock(mc);
 					   stock.setPrice(Double.parseDouble(m.group(11)));
 					   stock.setFoil(false);
 					   stock.setQte(qtyRegular);

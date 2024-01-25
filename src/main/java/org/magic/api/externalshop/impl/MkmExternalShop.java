@@ -29,7 +29,7 @@ import org.api.mkm.services.StockService;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.api.mkm.tools.MkmConstants;
 import org.api.mkm.tools.Tools;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.abstracts.AbstractProduct;
 import org.magic.api.beans.abstracts.AbstractStockItem;
 import org.magic.api.beans.enums.EnumCondition;
@@ -349,7 +349,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 		}
 		catch(Exception e)
 		{
-			p.setEdition(new MagicEdition("set",product.getExpansion()));
+			p.setEdition(new MTGEdition("set",product.getExpansion()));
 		}
 
 		if(product.getImage()!=null && product.getImage().startsWith("//"))

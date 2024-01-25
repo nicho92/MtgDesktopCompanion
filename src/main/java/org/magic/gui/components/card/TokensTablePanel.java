@@ -13,8 +13,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
@@ -29,9 +29,9 @@ public class TokensTablePanel extends MTGUIComponent {
 	private static final long serialVersionUID = 1L;
 	private JXTable table;
 	private MagicCardTableModel model;
-	private MagicEdition currentEdition;
+	private MTGEdition currentEdition;
 	private AbstractBuzyIndicatorComponent buzy;
-	private transient AbstractObservableWorker<List<MagicCard>, MagicCard,MTGTokensProvider> sw;
+	private transient AbstractObservableWorker<List<MTGCard>, MTGCard,MTGTokensProvider> sw;
 
 
 	public TokensTablePanel() {
@@ -72,7 +72,7 @@ public class TokensTablePanel extends MTGUIComponent {
 		refresh();
 	}
 
-	public MagicCard getSelectedCard()
+	public MTGCard getSelectedCard()
 	{
 		if(table.getSelectedRow()>-1)
 		{
@@ -82,7 +82,7 @@ public class TokensTablePanel extends MTGUIComponent {
 		return null;
 	}
 
-	public List<MagicCard> getSelectedCards()
+	public List<MTGCard> getSelectedCards()
 	{
 		return UITools.getTableSelections(table,0);
 	}
@@ -92,7 +92,7 @@ public class TokensTablePanel extends MTGUIComponent {
 		return table;
 	}
 
-	public void init(MagicEdition ed)
+	public void init(MTGEdition ed)
 	{
 		this.currentEdition=ed;
 		if(isVisible())
@@ -111,12 +111,12 @@ public class TokensTablePanel extends MTGUIComponent {
 
 		sw = new AbstractObservableWorker<>(buzy,getEnabledPlugin(MTGTokensProvider.class),10) {
 			@Override
-			protected List<MagicCard> doInBackground() throws IOException {
+			protected List<MTGCard> doInBackground() throws IOException {
 				return plug.listTokensFor(currentEdition);
 			}
 
 			@Override
-			protected void process(List<MagicCard> chunks) {
+			protected void process(List<MTGCard> chunks) {
 				super.process(chunks);
 				model.addItems(chunks);
 			}

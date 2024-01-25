@@ -2,7 +2,7 @@ package org.magic.api.graders.impl;
 
 import java.io.IOException;
 
-import org.magic.api.beans.Grading;
+import org.magic.api.beans.MTGGrading;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
 import org.magic.services.network.RequestBuilder;
@@ -12,7 +12,7 @@ import org.magic.services.tools.UITools;
 public class CCCGrader extends AbstractGradersProvider {
 
 	@Override
-	public Grading loadGrading(String identifier) throws IOException {
+	public MTGGrading loadGrading(String identifier) throws IOException {
 		
 		var onlinepage="https://cccgrading.com/en/ccc-card-verification";
 		var d = RequestBuilder.build().url(getWebSite()+"/api/v2/certs/"+identifier)
@@ -24,7 +24,7 @@ public class CCCGrader extends AbstractGradersProvider {
 											.addHeader("Accept", "application/json, text/plain, */*")
 											.toJson().getAsJsonObject();
 		
-		var g = new Grading();
+		var g = new MTGGrading();
 		g.setNumberID(identifier);
 		g.setGraderName(getName());
 		

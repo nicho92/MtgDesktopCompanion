@@ -8,7 +8,7 @@ import java.util.Map;
 
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.FileTools;
@@ -32,18 +32,18 @@ public class SlightlyMagicPictureProvider extends AbstractPicturesProvider {
 
 
 	@Override
-	public BufferedImage extractPicture(MagicCard mc) throws IOException {
+	public BufferedImage extractPicture(MTGCard mc) throws IOException {
 		return null;
 	}
 
 
 	@Override
-	public BufferedImage getPicture(MagicCard mc) throws IOException {
+	public BufferedImage getPicture(MTGCard mc) throws IOException {
 		return resizeCard(getFullSizePicture(mc), newW, newH);
 	}
 
 	@Override
-	public String generateUrl(MagicCard mc) {
+	public String generateUrl(MTGCard mc) {
 
 		if(!getFile(PICS_DIR).exists())
 			try {
@@ -83,13 +83,13 @@ public class SlightlyMagicPictureProvider extends AbstractPicturesProvider {
 	}
 
 	@Override
-	public BufferedImage getFullSizePicture(MagicCard mc) throws IOException {
+	public BufferedImage getFullSizePicture(MTGCard mc) throws IOException {
 		return getOnlinePicture(mc);
 	}
 
 
 	@Override
-	public BufferedImage getOnlinePicture(MagicCard mc) throws IOException {
+	public BufferedImage getOnlinePicture(MTGCard mc) throws IOException {
 
 		try {
 			return ImageTools.read(new File(generateUrl(mc)));

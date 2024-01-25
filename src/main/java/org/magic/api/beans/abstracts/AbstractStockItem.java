@@ -3,9 +3,9 @@ package org.magic.api.beans.abstracts;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.magic.api.beans.Grading;
-import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGGrading;
+import org.magic.api.beans.MTGCollection;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
@@ -14,14 +14,14 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 
 	protected static final long serialVersionUID = 1L;
 	protected Long id=-1L;
-	protected MagicCollection magicCollection;
+	protected MTGCollection magicCollection;
 	protected Integer qte=1;
 	protected String comment="";
 	protected String language="English";
 	protected boolean updated=false;
 	protected Double price=0.0;
-	protected Grading grade;
-	protected MagicEdition edition;
+	protected MTGGrading grade;
+	protected MTGEdition edition;
 	protected T product;
 	protected Map<String,String> tiersAppIds;
 	protected boolean foil=false;
@@ -127,13 +127,13 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 	}
 
 	@Override
-	public void setGrade(Grading grade) {
+	public void setGrade(MTGGrading grade) {
 		this.grade = grade;
 	}
 
 
 	@Override
-	public Grading getGrade() {
+	public MTGGrading getGrade() {
 		return grade;
 	}
 
@@ -165,11 +165,11 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 		this.id = id.longValue();
 	}
 	@Override
-	public MagicCollection getMagicCollection() {
+	public MTGCollection getMagicCollection() {
 		return magicCollection;
 	}
 	@Override
-	public void setMagicCollection(MagicCollection magicCollection) {
+	public void setMagicCollection(MTGCollection magicCollection) {
 		this.magicCollection = magicCollection;
 	}
 	@Override

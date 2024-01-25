@@ -6,7 +6,7 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.game.GameManager;
 import org.magic.api.beans.game.ZoneEnum;
 import org.magic.services.MTGControler;
@@ -18,7 +18,7 @@ public class BoosterPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	int lastColumn = -1;
-	private List<MagicCard> list;
+	private List<MTGCard> list;
 
 	public void clear() {
 		lastColumn = -1;
@@ -76,7 +76,7 @@ public class BoosterPanel extends JPanel {
 		return (GraveyardPanel) getComponent(i - 1);
 	}
 
-	public void setList(List<MagicCard> list) {
+	public void setList(List<MTGCard> list) {
 		this.list = list;
 	}
 

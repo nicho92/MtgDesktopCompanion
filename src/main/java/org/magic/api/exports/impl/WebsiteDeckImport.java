@@ -7,8 +7,8 @@ import java.util.List;
 import javax.swing.Icon;
 
 import org.apache.commons.lang3.NotImplementedException;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.gui.components.dialog.DeckSnifferDialog;
@@ -29,7 +29,7 @@ public class WebsiteDeckImport extends AbstractCardExport {
 	}
 
 	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 		throw new NotImplementedException("not implemented");
 	}
 
@@ -54,12 +54,12 @@ public class WebsiteDeckImport extends AbstractCardExport {
 	}
 
 	@Override
-	public MagicDeck importDeck(String f, String name) throws IOException {
+	public MTGDeck importDeck(String f, String name) throws IOException {
 		return importDeckFromFile(null);
 	}
 
 	@Override
-	public List<MagicCardStock> importStockFromFile(File f) throws IOException {
+	public List<MTGCardStock> importStockFromFile(File f) throws IOException {
 		var diag = new DeckSnifferDialog();
 		diag.setVisible(true);
 		var d = diag.getSelectedDeck();
@@ -69,7 +69,7 @@ public class WebsiteDeckImport extends AbstractCardExport {
 
 
 	@Override
-	public MagicDeck importDeckFromFile(File f) throws IOException {
+	public MTGDeck importDeckFromFile(File f) throws IOException {
 		var diag = new DeckSnifferDialog();
 		diag.setVisible(true);
 		return diag.getSelectedDeck();
@@ -77,7 +77,7 @@ public class WebsiteDeckImport extends AbstractCardExport {
 	}
 
 	@Override
-	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
+	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
 		throw new NotImplementedException("not implemented");
 
 	}

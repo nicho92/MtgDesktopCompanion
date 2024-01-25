@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FilenameUtils;
-import org.magic.api.beans.Wallpaper;
+import org.magic.api.beans.MTGWallpaper;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.URLTools;
@@ -20,10 +20,10 @@ public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 	private static final String CLIENTID="CLIENTID";
 
 	@Override
-	public List<Wallpaper> search(String search) {
+	public List<MTGWallpaper> search(String search) {
 
 
-		List<Wallpaper> ret = new ArrayList<>();
+		List<MTGWallpaper> ret = new ArrayList<>();
 		MTGHttpClient c = URLTools.newClient();
 		Map<String,String> h = new HashMap<>();
 		Map<String,String> e = new HashMap<>();
@@ -52,7 +52,7 @@ public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 				if(je.getAsJsonObject().get(IMAGES_TAG)!=null)
 				{
 					je.getAsJsonObject().get(IMAGES_TAG).getAsJsonArray().forEach(im->{
-						var w = new Wallpaper();
+						var w = new MTGWallpaper();
 
 						if(!im.getAsJsonObject().get(TITLE_TAG).isJsonNull())
 							w.setName(im.getAsJsonObject().get(TITLE_TAG).getAsString());
@@ -67,7 +67,7 @@ public class ImgUrWallPaperProvider extends AbstractWallpaperProvider {
 				}
 				else
 				{
-					var w = new Wallpaper();
+					var w = new MTGWallpaper();
 							w.setName(defaultTitle);
 							w.setUrl(URI.create(je.getAsJsonObject().get("link").getAsString()));
 							w.setFormat(FilenameUtils.getExtension(String.valueOf(w.getUrl())));

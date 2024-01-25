@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.jsoup.nodes.Document;
 import org.magic.api.beans.MTGCombo;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.interfaces.abstracts.AbstractComboProvider;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
@@ -17,7 +17,7 @@ public class SMFComboProvider extends AbstractComboProvider {
 	private static final String BASE_URL="https://www.smfcorp.net";
 
 	@Override
-	public List<MTGCombo> loadComboWith(MagicCard mc) {
+	public List<MTGCombo> loadComboWith(MTGCard mc) {
 
 		List<MTGCombo> cbos = new ArrayList<>();
 		MTGHttpClient c = URLTools.newClient();

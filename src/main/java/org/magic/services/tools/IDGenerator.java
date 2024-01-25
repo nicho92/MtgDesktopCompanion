@@ -2,7 +2,7 @@ package org.magic.services.tools;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.logging.log4j.Logger;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.services.logging.MTGLogger;
 
 public class IDGenerator {
@@ -12,7 +12,7 @@ public class IDGenerator {
 	private IDGenerator() {
 	}
 
-	public static String generate(MagicCard mc) {
+	public static String generate(MTGCard mc) {
 		
 		try {
 		var ed = mc.getCurrentSet();

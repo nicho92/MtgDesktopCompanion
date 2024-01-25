@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.network.URLTools;
@@ -23,7 +23,7 @@ public class MTGStandPricer extends AbstractPricesProvider {
 	}
 
 	@Override
-	protected List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
+	protected List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
 
 		
 		if(getAuthenticator().get("TOKEN").isEmpty())
@@ -38,7 +38,7 @@ public class MTGStandPricer extends AbstractPricesProvider {
 		String url=BASE_URL+"/api/"+getAuthenticator().get("TOKEN")+"/getseller/"+card.getScryfallId()+"/"+cur;
 		logger.debug("{} looking for prices at {}",getName(),url);
 
-		List<MagicPrice> ret = new ArrayList<>();
+		List<MTGPrice> ret = new ArrayList<>();
 
 		var arr = URLTools.extractAsJson(url).getAsJsonArray();
 
@@ -49,7 +49,7 @@ public class MTGStandPricer extends AbstractPricesProvider {
 
 		for(JsonElement el : arr)
 		{
-			var p = new MagicPrice();
+			var p = new MTGPrice();
 			p.setCurrency(cur);
 			p.setMagicCard(card);
 			p.setSeller(el.getAsJsonObject().get("username").getAsString());

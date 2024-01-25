@@ -22,14 +22,14 @@ import org.api.mtgstock.services.URLCallListener;
 import org.api.mtgstock.tools.MTGStockConstants;
 import org.api.mtgstock.tools.MTGStockConstants.FORMAT;
 import org.api.mtgstock.tools.MTGStockConstants.PRICES;
-import org.magic.api.beans.CardDominance;
+import org.magic.api.beans.MTGDominance;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.EditionsShakers;
 import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MTGFormat.FORMATS;
 import org.magic.api.beans.MTGSealedProduct;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCardVariation;
 import org.magic.api.beans.technical.audit.NetworkInfo;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
@@ -82,12 +82,12 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 
 
 	@Override
-	public List<CardDominance> getBestCards(FORMATS f, String filter) throws IOException {
-		List<CardDominance> ret = new ArrayList<>();
+	public List<MTGDominance> getBestCards(FORMATS f, String filter) throws IOException {
+		List<MTGDominance> ret = new ArrayList<>();
 
 		var i=1;
 		for(Played p : analyticService.getMostPlayedCard(FORMAT.valueOf(f.name()))) {
-			var cd = new CardDominance();
+			var cd = new MTGDominance();
 			cd.setCardName(p.getName());
 			cd.setPlayers(p.getQuantity());
 			cd.setPosition(i++);
@@ -204,7 +204,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 
 
 	@Override
-	protected EditionsShakers getOnlineShakesForEdition(MagicEdition ed) throws IOException {
+	protected EditionsShakers getOnlineShakesForEdition(MTGEdition ed) throws IOException {
 
 		var es = new EditionsShakers();
 						es.setProviderName(getName());
@@ -228,7 +228,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		return es;
 	}
 
-	private void fillEditionShaker(PRICES c,MagicEdition ed, EditionsShakers es, boolean b) {
+	private void fillEditionShaker(PRICES c,MTGEdition ed, EditionsShakers es, boolean b) {
 
 		logger.debug("Parsing shakers for {} {}",ed,c);
 
@@ -254,21 +254,21 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	}
 
 	@Override
-	protected HistoryPrice<MagicEdition> getOnlinePricesVariation(MagicEdition ed) throws IOException {
+	protected HistoryPrice<MTGEdition> getOnlinePricesVariation(MTGEdition ed) throws IOException {
 		return null;
 	}
 
 
 	@Override
-	protected HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, boolean foil)throws IOException {
-		HistoryPrice<MagicCard> hp = new HistoryPrice<>(mc);
+	protected HistoryPrice<MTGCard> getOnlinePricesVariation(MTGCard mc, boolean foil)throws IOException {
+		HistoryPrice<MTGCard> hp = new HistoryPrice<>(mc);
 		if(mc==null)
 		{
 			logger.error("couldn't calculate edition only");
 			return hp;
 		}
 
-		MagicEdition ed=mc.getCurrentSet();
+		MTGEdition ed=mc.getCurrentSet();
 
 
 		Integer id = mc.getMtgstocksId();

@@ -35,10 +35,10 @@ import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileFilter;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MagicCardAlert;
-import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.MTGPrice;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsExport.MODS;
 import org.magic.api.interfaces.MTGDao;
@@ -71,8 +71,8 @@ public class AlarmGUI extends MTGUIComponent {
 	private JXTable table;
 	private CardAlertTableModel model;
 	private MagicCardDetailPanel magicCardDetailPanel;
-	private DefaultListModel<MagicPrice> resultListModel;
-	private JList<MagicPrice> list;
+	private DefaultListModel<MTGPrice> resultListModel;
+	private JList<MTGPrice> list;
 	private JButton btnRefresh;
 	private JButton btnDelete;
 	private HistoryPricesPanel variationPanel;
@@ -133,7 +133,7 @@ public class AlarmGUI extends MTGUIComponent {
 		setLayout(new BorderLayout());
 		splitPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		magicCardDetailPanel.enableThumbnail(true);
-		list.setCellRenderer((JList<? extends MagicPrice> obj, MagicPrice value, int index, boolean isSelected,boolean cellHasFocus) -> new MagicPricePanel(value));
+		list.setCellRenderer((JList<? extends MTGPrice> obj, MTGPrice value, int index, boolean isSelected,boolean cellHasFocus) -> new MagicPricePanel(value));
 		table.getColumnModel().getColumn(5).setCellRenderer(new AlertedCardsRenderer());
 		table.getColumnModel().getColumn(6).setCellRenderer(new DoubleCellEditorRenderer(true));
 		table.getColumnModel().getColumn(7).setCellRenderer(new DoubleCellEditorRenderer(true));
@@ -230,7 +230,7 @@ public class AlarmGUI extends MTGUIComponent {
 
 
 		globalSearchPanel.getBtnCheckPrice().addActionListener(al->{
-			var tdek = new MagicDeck();
+			var tdek = new MTGDeck();
 			model.getItems().forEach(e->tdek.getMain().put(e.getCard(),e.getQty()));
 			globalSearchPanel.init(tdek);
 		});
@@ -254,7 +254,7 @@ public class AlarmGUI extends MTGUIComponent {
 					MagicCardAlert selected = UITools.getTableSelection(table, 0);
 					updateInfo(selected);
 					table.setRowSelectionInterval(viewRow, viewRow);
-					for (MagicPrice mp : selected.getOffers())
+					for (MTGPrice mp : selected.getOffers())
 						resultListModel.addElement(mp);
 				}
 			}
@@ -308,14 +308,14 @@ public class AlarmGUI extends MTGUIComponent {
 							List<MagicCardAlert> alerts = UITools.getTableSelections(table,0);
 							for (MagicCardAlert alert : alerts)
 							{
-								List<MagicPrice> prices=new ArrayList<>();
+								List<MTGPrice> prices=new ArrayList<>();
 								listEnabledPlugins(MTGPricesProvider.class).forEach(p->{
 									try {
 
 
 										if(alert.isFoil())
 										{
-											prices.addAll(p.getPrice(alert.getCard()).stream().filter(MagicPrice::isFoil).toList());
+											prices.addAll(p.getPrice(alert.getCard()).stream().filter(MTGPrice::isFoil).toList());
 										}
 										else
 										{
@@ -416,7 +416,7 @@ public class AlarmGUI extends MTGUIComponent {
 				var cdSearch = new CardSearchImportDialog();
 				cdSearch.setVisible(true);
 				if (cdSearch.getSelection() != null) {
-					for (MagicCard mc : cdSearch.getSelection())
+					for (MTGCard mc : cdSearch.getSelection())
 						addCard(mc);
 				}
 			});
@@ -460,10 +460,10 @@ public class AlarmGUI extends MTGUIComponent {
 						if (res == JFileChooser.APPROVE_OPTION)
 						{
 
-							AbstractObservableWorker<MagicDeck, MagicCard, MTGCardsExport> sw = new AbstractObservableWorker<>(lblLoading,exp) {
+							AbstractObservableWorker<MTGDeck, MTGCard, MTGCardsExport> sw = new AbstractObservableWorker<>(lblLoading,exp) {
 
 								@Override
-								protected MagicDeck doInBackground() throws Exception {
+								protected MTGDeck doInBackground() throws Exception {
 									return plug.importDeckFromFile(f);
 								}
 
@@ -472,7 +472,7 @@ public class AlarmGUI extends MTGUIComponent {
 									super.done();
 
 									if(getResult()!=null)
-										for (MagicCard mc : getResult().getMain().keySet())
+										for (MTGCard mc : getResult().getMain().keySet())
 											addCard(mc);
 								}
 							};
@@ -501,7 +501,7 @@ public class AlarmGUI extends MTGUIComponent {
 		pricesTablePanel.init(selected.getCard(), selected.isFoil());
 	}
 
-	private void addCard(MagicCard mc) {
+	private void addCard(MTGCard mc) {
 		var alert = new MagicCardAlert();
 		alert.setCard(mc);
 		alert.setPrice(1.0);

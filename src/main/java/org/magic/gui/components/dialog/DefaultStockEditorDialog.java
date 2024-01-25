@@ -21,7 +21,7 @@ import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
-import org.magic.api.beans.MagicCardStock;
+import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -35,7 +35,7 @@ public class DefaultStockEditorDialog extends JDialog {
 	private static final String CHECKBOX_PROPERTIES = "selected";
 	private transient BindingGroup mbindingGroup;
 	private JPanel mcontentPane;
-	private MagicCardStock magicCardStock = new MagicCardStock();
+	private MTGCardStock magicCardStock = new MTGCardStock();
 	private JCheckBox alteredJCheckBox;
 	private JCheckBox foilJCheckBox;
 	private JTextField languageJTextField;
@@ -225,48 +225,48 @@ public class DefaultStockEditorDialog extends JDialog {
 	}
 
 	protected BindingGroup initDataBindings() {
-		BeanProperty<MagicCardStock, Boolean> alteredProperty = BeanProperty
+		BeanProperty<MTGCardStock, Boolean> alteredProperty = BeanProperty
 				.create("altered");
 		BeanProperty<JCheckBox, Boolean> selectedProperty = BeanProperty.create(CHECKBOX_PROPERTIES);
-		AutoBinding<MagicCardStock, Boolean, JCheckBox, Boolean> autoBinding = Bindings
+		AutoBinding<MTGCardStock, Boolean, JCheckBox, Boolean> autoBinding = Bindings
 				.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, magicCardStock, alteredProperty, alteredJCheckBox,
 						selectedProperty);
 		autoBinding.bind();
 		//
-		BeanProperty<MagicCardStock, Boolean> foilProperty = BeanProperty.create("foil");
+		BeanProperty<MTGCardStock, Boolean> foilProperty = BeanProperty.create("foil");
 		BeanProperty<JCheckBox, Boolean> selectedProperty1 = BeanProperty.create(CHECKBOX_PROPERTIES);
-		AutoBinding<MagicCardStock, Boolean, JCheckBox, Boolean> autoBinding1 = Bindings
+		AutoBinding<MTGCardStock, Boolean, JCheckBox, Boolean> autoBinding1 = Bindings
 				.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, magicCardStock, foilProperty, foilJCheckBox,
 						selectedProperty1);
 		autoBinding1.bind();
 		//
-		BeanProperty<MagicCardStock, String> languageProperty = BeanProperty
+		BeanProperty<MTGCardStock, String> languageProperty = BeanProperty
 				.create("language");
 		BeanProperty<JTextField, String> textProperty = BeanProperty.create("text");
-		AutoBinding<MagicCardStock, String, JTextField, String> autoBinding2 = Bindings
+		AutoBinding<MTGCardStock, String, JTextField, String> autoBinding2 = Bindings
 				.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, magicCardStock, languageProperty,
 						languageJTextField, textProperty);
 		autoBinding2.bind();
 		//
-		BeanProperty<MagicCardStock, Boolean> oversizeProperty = BeanProperty
+		BeanProperty<MTGCardStock, Boolean> oversizeProperty = BeanProperty
 				.create("oversize");
 		BeanProperty<JCheckBox, Boolean> selectedProperty2 = BeanProperty.create(CHECKBOX_PROPERTIES);
-		AutoBinding<MagicCardStock, Boolean, JCheckBox, Boolean> autoBinding3 = Bindings
+		AutoBinding<MTGCardStock, Boolean, JCheckBox, Boolean> autoBinding3 = Bindings
 				.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, magicCardStock, oversizeProperty,
 						oversizeJCheckBox, selectedProperty2);
 		autoBinding3.bind();
 		//
-		BeanProperty<MagicCardStock, Integer> qteProperty = BeanProperty.create("qte");
+		BeanProperty<MTGCardStock, Integer> qteProperty = BeanProperty.create("qte");
 		BeanProperty<JSlider, Integer> valueProperty = BeanProperty.create("value");
-		AutoBinding<MagicCardStock, Integer, JSlider, Integer> autoBinding4 = Bindings
+		AutoBinding<MTGCardStock, Integer, JSlider, Integer> autoBinding4 = Bindings
 				.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, magicCardStock, qteProperty, qteJSlider,
 						valueProperty);
 		autoBinding4.bind();
 		//
-		BeanProperty<MagicCardStock, Boolean> signedProperty = BeanProperty
+		BeanProperty<MTGCardStock, Boolean> signedProperty = BeanProperty
 				.create("signed");
 		BeanProperty<JCheckBox, Boolean> selectedProperty3 = BeanProperty.create(CHECKBOX_PROPERTIES);
-		AutoBinding<MagicCardStock, Boolean, JCheckBox, Boolean> autoBinding5 = Bindings
+		AutoBinding<MTGCardStock, Boolean, JCheckBox, Boolean> autoBinding5 = Bindings
 				.createAutoBinding(AutoBinding.UpdateStrategy.READ_WRITE, magicCardStock, signedProperty,
 						signedJCheckBox, selectedProperty3);
 		autoBinding5.bind();
@@ -282,15 +282,15 @@ public class DefaultStockEditorDialog extends JDialog {
 		return bindingGroup;
 	}
 
-	public MagicCardStock getMagicCardStock() {
+	public MTGCardStock getMagicCardStock() {
 		return magicCardStock;
 	}
 
-	public void setMagicCardStock(MagicCardStock newMagicCardStock) {
+	public void setMagicCardStock(MTGCardStock newMagicCardStock) {
 		setMagicCardStock(newMagicCardStock, true);
 	}
 
-	public void setMagicCardStock(MagicCardStock newMagicCardStock, boolean update) {
+	public void setMagicCardStock(MTGCardStock newMagicCardStock, boolean update) {
 		magicCardStock = newMagicCardStock;
 		if (update) {
 			if (mbindingGroup != null) {

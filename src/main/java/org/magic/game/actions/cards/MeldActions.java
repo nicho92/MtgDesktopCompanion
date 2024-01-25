@@ -4,7 +4,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.game.ZoneEnum;
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
@@ -61,7 +61,7 @@ public class MeldActions extends AbstractCardAction {
 		GamePanelGUI.getInstance().getPlayer().exileCardFromBattleField(card2.getMagicCard());
 		GamePanelGUI.getInstance().getPanelBattleField().remove(card2);
 
-		MagicCard mc;
+		MTGCard mc;
 		try {
 			mc = card.getMagicCard().getRotatedCard();
 

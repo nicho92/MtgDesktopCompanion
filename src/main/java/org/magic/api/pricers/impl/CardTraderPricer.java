@@ -11,8 +11,8 @@ import org.api.cardtrader.modele.MarketProduct;
 import org.api.cardtrader.services.CardTraderConstants;
 import org.api.cardtrader.services.CardTraderService;
 import org.api.cardtrader.tools.URLCallInfo;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGPrice;
 import org.magic.api.beans.technical.audit.NetworkInfo;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGControler;
@@ -50,7 +50,7 @@ public class CardTraderPricer extends AbstractPricesProvider {
 	}
 
 	@Override
-	public void alertDetected(List<MagicPrice> p) {
+	public void alertDetected(List<MTGPrice> p) {
 		init();
 		if(getBoolean("AUTOMATIC_ADD_CART")) {
 
@@ -78,11 +78,11 @@ public class CardTraderPricer extends AbstractPricesProvider {
 
 
 	@Override
-	protected List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
+	protected List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
 
 		init();
 
-		var ret = new ArrayList<MagicPrice>();
+		var ret = new ArrayList<MTGPrice>();
 
 		var set = service.getExpansionByCode(card.getCurrentSet().getId());
 
@@ -105,7 +105,7 @@ public class CardTraderPricer extends AbstractPricesProvider {
 			if(ArrayUtils.contains(getArray(COUNTRY_FILTER),marketItem.getSeller().getCountryCode()) || getString(COUNTRY_FILTER).isEmpty())
 			{
 
-					var mp = new MagicPrice();
+					var mp = new MTGPrice();
 					mp.setCountry(marketItem.getSeller().getCountryCode());
 					mp.setCurrency(marketItem.getPrice().getCurrency());
 					mp.setLanguage(marketItem.getLanguage());

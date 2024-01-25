@@ -11,14 +11,14 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.tree.TreeCellRenderer;
 
 import org.magic.api.beans.CardShake;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGEdition;
 import org.magic.gui.renderer.MagicEditionIconListRenderer.SIZE;
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.UITools;
 
 public class CardShakeTreeCellRenderer implements TreeCellRenderer, TableCellRenderer{
 
-	private JList<MagicEdition> defaultJlist;
+	private JList<MTGEdition> defaultJlist;
 
 	public CardShakeTreeCellRenderer() {
 		defaultJlist=new JList<>();
@@ -36,7 +36,7 @@ public class CardShakeTreeCellRenderer implements TreeCellRenderer, TableCellRen
 	@Override
 	public Component getTreeCellRendererComponent(JTree tree,Object value,boolean selected,boolean expanded,boolean leaf,int row,boolean hasFocus) {
 
-		if(value instanceof MagicEdition ed)
+		if(value instanceof MTGEdition ed)
 			return new MagicEditionIconListRenderer(SIZE.SMALL).getListCellRendererComponent(defaultJlist,ed, 0, selected, hasFocus);
 
 		if(value instanceof CardShake)

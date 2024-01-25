@@ -33,9 +33,9 @@ import javax.swing.SwingWorker;
 
 import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.MTGCardRecognition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
@@ -73,8 +73,8 @@ public class WebcamCardImportDialog extends AbstractDelegatedImporterDialog {
 	private transient SwingWorker<Void, MatchResult> swWebcamReader;
 	private boolean running=false;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-	private DefaultListModel<MagicEdition> listModel;
-	private MagicCard currentCard;
+	private DefaultListModel<MTGEdition> listModel;
+	private MTGCard currentCard;
 	private AbstractBuzyIndicatorComponent buzy;
 	private MagicCardTableModel modelCards;
 	private JXTable tableResults;
@@ -145,7 +145,7 @@ public class WebcamCardImportDialog extends AbstractDelegatedImporterDialog {
 		}
 		tableResults = UITools.createNewTable(modelCards);
 		var listEds = new JList<>(listModel);
-		var deco = JListFilterDecorator.decorate(listEds,(MagicEdition t, String u)->t.getSet().toLowerCase().contains(u.toLowerCase()));
+		var deco = JListFilterDecorator.decorate(listEds,(MTGEdition t, String u)->t.getSet().toLowerCase().contains(u.toLowerCase()));
 
 
 		webcamCanvas = new WebcamCanvas((Webcam)cboWebcams.getSelectedItem(),(AbstractRecognitionArea)cboAreaDetector.getSelectedItem());
@@ -196,7 +196,7 @@ public class WebcamCardImportDialog extends AbstractDelegatedImporterDialog {
 		listEds.setCellRenderer(new ListCellRenderer<>() {
 			JLabel l = new JLabel();
 			@Override
-			public Component getListCellRendererComponent(JList<? extends MagicEdition> list,MagicEdition value, int index, boolean isSelected, boolean cellHasFocus) {
+			public Component getListCellRendererComponent(JList<? extends MTGEdition> list,MTGEdition value, int index, boolean isSelected, boolean cellHasFocus) {
 				if (value != null)
 				{
 					ImageIcon ic= IconSetProvider.getInstance().get16(value.getId());
@@ -255,7 +255,7 @@ public class WebcamCardImportDialog extends AbstractDelegatedImporterDialog {
 		chkpause.addChangeListener(l->pause=chkpause.isSelected());
 
 		btnRemove.addActionListener(l->{
-			List<MagicCard> cards = UITools.getTableSelections(tableResults,0);
+			List<MTGCard> cards = UITools.getTableSelections(tableResults,0);
 
 			if(!cards.isEmpty())
 				modelCards.removeItem(cards);
@@ -267,7 +267,7 @@ public class WebcamCardImportDialog extends AbstractDelegatedImporterDialog {
 			public void mouseClicked(MouseEvent me) {
 				if(me.getClickCount()==2)
 				{
-						MagicEdition ed = listEds.getSelectedValue();
+						MTGEdition ed = listEds.getSelectedValue();
 						buzy.start(ed.getCardCount());
 						pause=true;
 						AbstractObservableWorker<Void, Void, MTGCardRecognition> work = new AbstractObservableWorker<>(buzy,strat,ed.getCardCount()) {
@@ -384,7 +384,7 @@ public class WebcamCardImportDialog extends AbstractDelegatedImporterDialog {
 			if(currentCard==null || !currentCard.getName().equalsIgnoreCase(r.getName()))
 			{
 				logger.info("Looking for {} {}",r.getName(),r.getSetCode());
-				currentCard = getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(r.getNumber(), new MagicEdition(r.getSetCode()));
+				currentCard = getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(r.getNumber(), new MTGEdition(r.getSetCode()));
 				modelCards.addItem(currentCard);
 				tableResults.scrollRectToVisible(tableResults.getCellRect(tableResults.getRowCount()-1, 0, true));
 			}
@@ -401,14 +401,14 @@ public class WebcamCardImportDialog extends AbstractDelegatedImporterDialog {
 		return snapshotImage;
 	}
 
-	public List<MagicCard> getFindedCards()
+	public List<MTGCard> getFindedCards()
 	{
 		return modelCards.getItems();
 	}
 
 	@Override
-	public MagicDeck getSelectedDeck() {
-		var d = new MagicDeck();
+	public MTGDeck getSelectedDeck() {
+		var d = new MTGDeck();
 		d.setDescription("Imported from " + getTitle());
 		d.setName(getName());
 		getFindedCards().forEach(d::add);

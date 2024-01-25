@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.enums.EnumRarity;
@@ -30,9 +30,9 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 		return PLUGINS.IA;
 	}
 	
-	protected MagicCard parseIaCardSuggestion(JsonObject obj) {
+	protected MTGCard parseIaCardSuggestion(JsonObject obj) {
 
-		var mc = new MagicCard();
+		var mc = new MTGCard();
 			 mc.setName(read(obj,"name").getAsString());
 			 mc.setText(read(obj,"text","oracleText").getAsString());
 			 mc.setLayout(EnumLayout.NORMAL);
@@ -135,16 +135,16 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 	}
 	
 	@Override
-	public String suggestDeckWith(List<MagicCard> cards) throws IOException {
+	public String suggestDeckWith(List<MTGCard> cards) throws IOException {
 		if(cards.isEmpty())
 			throw new IOException("You should add some cards before asking IA");
 		
-		return ask(DECK_QUERY + cards.stream().map(MagicCard::getName).collect(Collectors.joining("/")));
+		return ask(DECK_QUERY + cards.stream().map(MTGCard::getName).collect(Collectors.joining("/")));
 	}
 
 	
 	@Override
-	public String describe(MagicEdition ed) throws IOException {
+	public String describe(MTGEdition ed) throws IOException {
 		if(ed ==null)
 			throw new IOException("You should select a set before calling IA");
 		
@@ -152,7 +152,7 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 	}
 	
 	@Override
-	public String describe(MagicCard card) throws IOException {
+	public String describe(MTGCard card) throws IOException {
 		if(card ==null)
 			throw new IOException("You should select a card before calling IA");
 		

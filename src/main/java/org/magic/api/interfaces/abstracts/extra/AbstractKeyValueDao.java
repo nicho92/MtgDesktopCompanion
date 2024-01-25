@@ -3,15 +3,15 @@ package org.magic.api.interfaces.abstracts.extra;
 
 import java.sql.SQLException;
 
-import org.magic.api.beans.Announce;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGAnnounce;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MagicCardAlert;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGCollection;
+import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MagicNews;
-import org.magic.api.beans.SealedStock;
+import org.magic.api.beans.MTGSealedStock;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.GedEntry;
@@ -65,7 +65,7 @@ public abstract class AbstractKeyValueDao extends AbstractMagicDAO {
 		return KEY_GED+SEPARATOR+gedItem.getClasse().getName()+SEPARATOR+gedItem.getId();
 	}
 	
-	protected String key(Announce c)
+	protected String key(MTGAnnounce c)
 	{
 		return KEY_ANNOUNCES+SEPARATOR+c.getId();
 	}
@@ -81,7 +81,7 @@ public abstract class AbstractKeyValueDao extends AbstractMagicDAO {
 	}
 	
 	
-	protected String key(MagicCollection c)
+	protected String key(MTGCollection c)
 	{
 		return KEY_CARDS+SEPARATOR+c.getName();
 	}
@@ -96,24 +96,24 @@ public abstract class AbstractKeyValueDao extends AbstractMagicDAO {
 		return KEY_TRANSACTIONS+SEPARATOR+c.getId();
 	}
 	
-	protected String key(MagicCardStock c)
+	protected String key(MTGCardStock c)
 	{
 		return KEY_STOCKS+SEPARATOR+c.getId();
 	}
 	
-	protected String key(SealedStock c)
+	protected String key(MTGSealedStock c)
 	{
 		return KEY_SEALED+SEPARATOR+c.getId();
 	}
 	
 	public abstract Long incr(Class<?> c);
 	
-	protected String key(MagicCollection c , MagicCard m)
+	protected String key(MTGCollection c , MTGCard m)
 	{
 		return key(c,m.getCurrentSet());
 	}
 	
-	protected String key(MagicCollection c , MagicEdition ed)
+	protected String key(MTGCollection c , MTGEdition ed)
 	{
 		if(ed==null)
 			return key(c);
@@ -121,7 +121,7 @@ public abstract class AbstractKeyValueDao extends AbstractMagicDAO {
 		return  key(c)+SEPARATOR+ed.getId();
 	}
 	
-	protected String key(MagicDeck c)
+	protected String key(MTGDeck c)
 	{
 		return  KEY_DECK+SEPARATOR+c.getId();
 	}

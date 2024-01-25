@@ -5,9 +5,9 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 import java.io.File;
 import java.io.IOException;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.tools.FileTools;
@@ -27,18 +27,18 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 
 
 	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 		var temp = new StringBuilder();
 		temp.append("NAME: " + deck.getName() + "\n");
 
 
-		for (MagicCard mc : deck.getMain().keySet().stream().filter(mc->mc!=deck.getCommander()).sorted((mc,mc2)->mc.getName().compareTo(mc2.getName())).toList()) {
+		for (MTGCard mc : deck.getMain().keySet().stream().filter(mc->mc!=deck.getCommander()).sorted((mc,mc2)->mc.getName().compareTo(mc2.getName())).toList()) {
 			temp.append(deck.getMain().get(mc)).append(" ").append("[").append(mc.getCurrentSet().getId())
 					.append(":").append(mc.getNumber()).append("]").append(" ")
 					.append(mc.getName()).append("\n");
 			notify(mc);
 		}
-		for (MagicCard mc : deck.getSideBoard().keySet().stream().sorted((mc,mc2)->mc.getName().compareTo(mc2.getName())).toList()) {
+		for (MTGCard mc : deck.getSideBoard().keySet().stream().sorted((mc,mc2)->mc.getName().compareTo(mc2.getName())).toList()) {
 			temp.append("SB: ").append(deck.getSideBoard().get(mc)).append(" ").append("[")
 					.append(mc.getCurrentSet().getId()).append(":").append(mc.getNumber())
 					.append("]").append(" ").append(mc.getName()).append("\n");
@@ -57,14 +57,14 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	public MagicDeck importDeck(String f,String dname) throws IOException {
-			var deck = new MagicDeck();
+	public MTGDeck importDeck(String f,String dname) throws IOException {
+			var deck = new MTGDeck();
 			deck.setName(dname);
 
 			matches(f,true).forEach(m->{
 
 				var cname = cleanName(m.group(5));
-				MagicEdition ed = null;
+				MTGEdition ed = null;
 				try {
 					ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(m.group(3));
 				}
@@ -82,7 +82,7 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 					//do nothing
 				}
 
-				MagicCard mc = null;
+				MTGCard mc = null;
 				if(number!=null && ed !=null)
 				{
 					try {

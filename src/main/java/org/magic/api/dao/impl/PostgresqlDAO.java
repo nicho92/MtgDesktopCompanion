@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.jooq.SQLDialect;
-import org.magic.api.beans.Grading;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGGrading;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.extra.AbstractMagicSQLDAO;
 import org.postgresql.util.PGobject;
@@ -37,7 +37,7 @@ public class PostgresqlDAO extends AbstractMagicSQLDAO {
 	}
 
 	@Override
-	protected void storeCard(PreparedStatement pst, int position, MagicCard mc) throws SQLException {
+	protected void storeCard(PreparedStatement pst, int position, MTGCard mc) throws SQLException {
 		var jsonObject = new PGobject();
 		jsonObject.setType("json");
 		jsonObject.setValue(serialiser.toJsonElement(mc).toString());
@@ -55,7 +55,7 @@ public class PostgresqlDAO extends AbstractMagicSQLDAO {
 	}
 
 	@Override
-	protected void storeGrade(PreparedStatement pst, int position, Grading grd) throws SQLException {
+	protected void storeGrade(PreparedStatement pst, int position, MTGGrading grd) throws SQLException {
 		var jsonObject = new PGobject();
 		jsonObject.setType("json");
 		jsonObject.setValue(serialiser.toJsonElement(grd).toString());
@@ -73,7 +73,7 @@ public class PostgresqlDAO extends AbstractMagicSQLDAO {
 	}
 
 	@Override
-	protected void storeDeckBoard(PreparedStatement pst, int i, Map<MagicCard, Integer> board) throws SQLException {
+	protected void storeDeckBoard(PreparedStatement pst, int i, Map<MTGCard, Integer> board) throws SQLException {
 		var jsonObject = new PGobject();
 		jsonObject.setType("json");
 		var arr = new JsonArray();

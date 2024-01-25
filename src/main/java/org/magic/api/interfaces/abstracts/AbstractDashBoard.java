@@ -11,8 +11,8 @@ import org.magic.api.beans.EditionsShakers;
 import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MTGSealedProduct;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.services.CollectionEvaluator;
 import org.magic.services.MTGControler;
@@ -60,7 +60,7 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 	}
 
 	@Override
-	public Double getSuggestedPrice(MagicCard mc, boolean foil) {
+	public Double getSuggestedPrice(MTGCard mc, boolean foil) {
 		try {
 
 			if(!foil) {
@@ -84,8 +84,8 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 
 
 	@Override
-	public HistoryPrice<MagicCard> getPriceVariation(MagicCard mc, boolean foil) throws IOException {
-		HistoryPrice<MagicCard> varh = getOnlinePricesVariation(mc, foil);
+	public HistoryPrice<MTGCard> getPriceVariation(MTGCard mc, boolean foil) throws IOException {
+		HistoryPrice<MTGCard> varh = getOnlinePricesVariation(mc, foil);
 
 		if(MTGControler.getInstance().getCurrencyService().isEnable() && varh.getCurrency()!=MTGControler.getInstance().getCurrencyService().getCurrentCurrency())
 		{
@@ -98,8 +98,8 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 
 
 	@Override
-	public HistoryPrice<MagicEdition> getPriceVariation(MagicEdition ed) throws IOException {
-		HistoryPrice<MagicEdition> varh = getOnlinePricesVariation(ed);
+	public HistoryPrice<MTGEdition> getPriceVariation(MTGEdition ed) throws IOException {
+		HistoryPrice<MTGEdition> varh = getOnlinePricesVariation(ed);
 
 		if(MTGControler.getInstance().getCurrencyService().isEnable() && varh.getCurrency()!=MTGControler.getInstance().getCurrencyService().getCurrentCurrency())
 		{
@@ -125,7 +125,7 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 	}
 
 	@Override
-	public synchronized EditionsShakers getShakesForEdition(MagicEdition edition) throws IOException {
+	public synchronized EditionsShakers getShakesForEdition(MTGEdition edition) throws IOException {
 
 		var c = evaluator.getCacheDate(edition);
 		var d = new Date();
@@ -161,9 +161,9 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 
 	protected abstract HistoryPrice<MTGSealedProduct> getOnlinePricesVariation(MTGSealedProduct packaging) throws IOException;
 	protected abstract List<CardShake> getOnlineShakerFor(MTGFormat.FORMATS gameFormat) throws IOException;
-	protected abstract EditionsShakers getOnlineShakesForEdition(MagicEdition ed) throws IOException;
-	protected abstract HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc,boolean foil) throws IOException;
-	protected abstract HistoryPrice<MagicEdition> getOnlinePricesVariation(MagicEdition ed) throws IOException;
+	protected abstract EditionsShakers getOnlineShakesForEdition(MTGEdition ed) throws IOException;
+	protected abstract HistoryPrice<MTGCard> getOnlinePricesVariation(MTGCard mc,boolean foil) throws IOException;
+	protected abstract HistoryPrice<MTGEdition> getOnlinePricesVariation(MTGEdition ed) throws IOException;
 
 
 	public static void convert(List<CardShake> ret)

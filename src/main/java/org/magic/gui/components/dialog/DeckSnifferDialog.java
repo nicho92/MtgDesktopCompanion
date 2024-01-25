@@ -15,8 +15,8 @@ import javax.swing.ListSelectionModel;
 
 import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGDeckSniffer;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
@@ -40,7 +40,7 @@ public class DeckSnifferDialog extends AbstractDelegatedImporterDialog {
 	private JComboBox<MTGDeckSniffer> cboSniffers;
 	private JComboBox<String> cboFormats;
 	private DeckSnifferTableModel model;
-	private MagicDeck importedDeck;
+	private MTGDeck importedDeck;
 	private AbstractBuzyIndicatorComponent lblLoad = AbstractBuzyIndicatorComponent.createLabelComponent();
 	private JButton btnImport;
 	private transient MTGDeckSniffer selectedSniffer;
@@ -50,7 +50,7 @@ public class DeckSnifferDialog extends AbstractDelegatedImporterDialog {
 
 	public DeckSnifferDialog() {
 
-		importedDeck = new MagicDeck();
+		importedDeck = new MTGDeck();
 		setSize(new Dimension(500, 300));
 		setTitle(capitalize("DECKS_IMPORTER"));
 		setIconImage(MTGConstants.ICON_DECK.getImage());
@@ -144,16 +144,16 @@ public class DeckSnifferDialog extends AbstractDelegatedImporterDialog {
 
 		btnImport.addActionListener(e ->{
 
-			AbstractObservableWorker<MagicDeck, MagicCard, MTGDeckSniffer> sw = new AbstractObservableWorker<>(lblLoad,selectedSniffer) {
+			AbstractObservableWorker<MTGDeck, MTGCard, MTGDeckSniffer> sw = new AbstractObservableWorker<>(lblLoad,selectedSniffer) {
 
 				@Override
-				protected void process(List<MagicCard> chunks) {
+				protected void process(List<MTGCard> chunks) {
 					buzy.progressSmooth(chunks.size());
 					buzy.setText(chunks.toString());
 				}
 
 				@Override
-				protected MagicDeck doInBackground() throws Exception {
+				protected MTGDeck doInBackground() throws Exception {
 					return plug.getDeck((RetrievableDeck)UITools.getTableSelection(table, 0));
 				}
 
@@ -182,7 +182,7 @@ public class DeckSnifferDialog extends AbstractDelegatedImporterDialog {
 	}
 
 	@Override
-	public MagicDeck getSelectedDeck() {
+	public MTGDeck getSelectedDeck() {
 		return importedDeck;
 	}
 

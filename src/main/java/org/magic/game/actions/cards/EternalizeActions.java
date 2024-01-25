@@ -5,7 +5,7 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.game.ZoneEnum;
 import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.game.actions.abbstract.AbstractCardAction;
@@ -29,7 +29,7 @@ public class EternalizeActions extends AbstractCardAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-			MagicCard tok = getEnabledPlugin(MTGTokensProvider.class).generateTokenFor(card.getMagicCard());
+			MTGCard tok = getEnabledPlugin(MTGTokensProvider.class).generateTokenFor(card.getMagicCard());
 			var dc = new DisplayableCard(tok, MTGControler.getInstance().getCardsGameDimension(), true);
 
 			dc.setMagicCard(tok);

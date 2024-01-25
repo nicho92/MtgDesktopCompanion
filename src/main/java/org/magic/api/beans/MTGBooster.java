@@ -13,9 +13,9 @@ public class MTGBooster implements Serializable
 	 */
 	private static final long serialVersionUID = 1L;
 	private String boosterNumber;
-	private List<MagicCard> cards;
+	private List<MTGCard> cards;
 	private Double price;
-	private MagicEdition edition;
+	private MTGEdition edition;
 	private EnumExtra typeBooster;
 	
 	
@@ -23,7 +23,7 @@ public class MTGBooster implements Serializable
 		cards = new ArrayList<>();
 	}
 
-	public MTGBooster(MagicEdition me, EnumExtra typeBooster) {
+	public MTGBooster(MTGEdition me, EnumExtra typeBooster) {
 		this();
 		this.edition=me;
 		this.typeBooster=typeBooster;
@@ -34,7 +34,7 @@ public class MTGBooster implements Serializable
 		return cards.size();
 	}
 	
-	public void add(MagicCard mc)
+	public void add(MTGCard mc)
 	{
 		cards.add(mc);
 	}
@@ -47,11 +47,11 @@ public class MTGBooster implements Serializable
 		this.typeBooster = typeBooster;
 	}
 
-	public MagicEdition getEdition() {
+	public MTGEdition getEdition() {
 		return edition;
 	}
 
-	public void setEdition(MagicEdition edition) {
+	public void setEdition(MTGEdition edition) {
 		this.edition = edition;
 	}
 
@@ -63,11 +63,11 @@ public class MTGBooster implements Serializable
 		this.boosterNumber = boosterNumber;
 	}
 
-	public List<MagicCard> getCards() {
+	public List<MTGCard> getCards() {
 		return cards;
 	}
 
-	public void setCards(List<MagicCard> cards) {
+	public void setCards(List<MTGCard> cards) {
 		this.cards = cards;
 	}
 

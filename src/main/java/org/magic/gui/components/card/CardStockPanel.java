@@ -15,9 +15,9 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingWorker;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGDao;
@@ -41,8 +41,8 @@ public class CardStockPanel extends MTGUIComponent {
 	private JButton btnAdd;
 	private JButton btnDelete;
 	private JButton btnSave;
-	private MagicCard mc;
-	private MagicCollection col;
+	private MTGCard mc;
+	private MTGCollection col;
 	private JPanel panneauHaut;
 
 	public void enabledAdd(boolean b) {
@@ -96,7 +96,7 @@ public class CardStockPanel extends MTGUIComponent {
 		{
 			@Override
 			protected Void doInBackground() throws Exception {
-				for (MagicCardStock ms : model.getItems())
+				for (MTGCardStock ms : model.getItems())
 					if (ms.isUpdated())
 						try {
 							getEnabledPlugin(MTGDao.class).saveOrUpdateCardStock(ms);
@@ -121,7 +121,7 @@ public class CardStockPanel extends MTGUIComponent {
 	}
 
 	private void delete() {
-		List<MagicCardStock> st = UITools.getTableSelections(table, 0);
+		List<MTGCardStock> st = UITools.getTableSelections(table, 0);
 
 		model.removeItem(st);
 		st.removeIf(s->s.getId()==-1);
@@ -138,7 +138,7 @@ public class CardStockPanel extends MTGUIComponent {
 
 	@Override
 	public void onHide() {
-		boolean isUpdatedModel = model.getItems().stream().anyMatch(MagicCardStock::isUpdated);
+		boolean isUpdatedModel = model.getItems().stream().anyMatch(MTGCardStock::isUpdated);
 
 		if(isUpdatedModel)
 		{
@@ -150,13 +150,13 @@ public class CardStockPanel extends MTGUIComponent {
 	public void addLine()
 	{
 		try {
-			MagicCardStock st = MTGControler.getInstance().getDefaultStock();
+			MTGCardStock st = MTGControler.getInstance().getDefaultStock();
 			st.setProduct(mc);
 
 			if(col!=null)
 				st.setMagicCollection(col);
 			else
-				st.setMagicCollection(new MagicCollection(MTGControler.getInstance().get("default-library")));
+				st.setMagicCollection(new MTGCollection(MTGControler.getInstance().get("default-library")));
 
 			st.setUpdated(true);
 			model.addItem(st);
@@ -167,7 +167,7 @@ public class CardStockPanel extends MTGUIComponent {
 
 	}
 
-	public void init(MagicCard mc, MagicCollection col) {
+	public void init(MTGCard mc, MTGCollection col) {
 
 		if(mc==null)
 			return;
@@ -192,10 +192,10 @@ public class CardStockPanel extends MTGUIComponent {
 		if(mc==null)
 			return;
 		
-		var sw = new SwingWorker<List<MagicCardStock> , Void>()
+		var sw = new SwingWorker<List<MTGCardStock> , Void>()
 		{
 			@Override
-			protected List<MagicCardStock> doInBackground() throws Exception {
+			protected List<MTGCardStock> doInBackground() throws Exception {
 				if(col==null)
 					return getEnabledPlugin(MTGDao.class).listStocks(mc);
 				else
@@ -235,7 +235,7 @@ public class CardStockPanel extends MTGUIComponent {
 
 
 
-	public void initMagicCardStock(List<MagicCardStock> st) {
+	public void initMagicCardStock(List<MTGCardStock> st) {
 
 		btnAdd.setEnabled(true);
 		btnSave.setEnabled(true);

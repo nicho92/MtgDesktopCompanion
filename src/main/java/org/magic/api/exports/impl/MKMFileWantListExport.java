@@ -7,17 +7,17 @@ import java.util.Map;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.tools.FileTools;
 
 public class MKMFileWantListExport extends AbstractFormattedFileCardExport {
 
 	@Override
-	public MagicDeck importDeck(String f,String dname) throws IOException {
+	public MTGDeck importDeck(String f,String dname) throws IOException {
 
-		var deck = new MagicDeck();
+		var deck = new MTGDeck();
 		deck.setName(dname);
 
 		matches(f,true).forEach(m->{
@@ -35,11 +35,11 @@ public class MKMFileWantListExport extends AbstractFormattedFileCardExport {
 
 
 	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 
 		var temp = new StringBuilder();
 
-			for (MagicCard mc : deck.getMain().keySet()) {
+			for (MTGCard mc : deck.getMain().keySet()) {
 				if (mc.getCurrentSet().getMkmName() != null)
 					temp.append(deck.getMain().get(mc)).append(getSeparator()).append(mc.getName()).append(getSeparator()).append("(").append(mc.getCurrentSet().getMkmName());
 				else
@@ -66,7 +66,7 @@ public class MKMFileWantListExport extends AbstractFormattedFileCardExport {
 				notify(mc);
 			}
 
-			for (MagicCard mc : deck.getSideBoard().keySet())
+			for (MTGCard mc : deck.getSideBoard().keySet())
 			{
 				if (mc.getCurrentSet().getMkmName() != null)
 					temp.append(deck.getSideBoard().get(mc)).append(getSeparator()).append(mc.getName()).append(getSeparator()).append("(").append(mc.getCurrentSet().getMkmName()).append(")\n");

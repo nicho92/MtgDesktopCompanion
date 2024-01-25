@@ -7,10 +7,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
@@ -34,7 +34,7 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
+	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
 
 		var temp = new StringBuilder();
 					  temp.append(columns).append("\n");
@@ -55,13 +55,13 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 
 
 	@Override
-	public List<MagicCardStock> importStock(String content) throws IOException {
+	public List<MTGCardStock> importStock(String content) throws IOException {
 
-		List<MagicCardStock> ret = new ArrayList<>();
+		List<MTGCardStock> ret = new ArrayList<>();
 
 		matches(content,true).forEach(m->{
 			String cname = cleanName(m.group(1));
-			MagicEdition ed = null;
+			MTGEdition ed = null;
 			try {
 				ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(m.group(2));
 			}
@@ -70,7 +70,7 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 				logger.error("Edition not found for {}",m.group(2));
 			}
 
-			MagicCard card=null;
+			MTGCard card=null;
 			try {
 				card = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cname, ed, true).get(0);
 			} catch (IOException e) {
@@ -81,7 +81,7 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 			if(card!=null)
 			{
 				Integer qty = Integer.parseInt(m.group(3));
-				MagicCardStock st = MTGControler.getInstance().getDefaultStock();
+				MTGCardStock st = MTGControler.getInstance().getDefaultStock();
 				st.setProduct(card);
 				st.setQte(qty);
 				st.setPrice(Double.parseDouble(m.group(4)));
@@ -99,15 +99,15 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 
 
 	@Override
-	public MagicDeck importDeck(String f,String dname) throws IOException
+	public MTGDeck importDeck(String f,String dname) throws IOException
 	{
 
-		var deck = new MagicDeck();
+		var deck = new MTGDeck();
 		deck.setName(dname);
 
 		matches(f,true).forEach(m->{
 			String cname = cleanName(m.group(1));
-			MagicEdition ed = null;
+			MTGEdition ed = null;
 			try {
 				ed = getEnabledPlugin(MTGCardsProvider.class).getSetByName(m.group(2));
 			}
@@ -116,7 +116,7 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 				logger.error("Edition not found for {}",m.group(2));
 			}
 
-			MagicCard card=null;
+			MTGCard card=null;
 			try {
 				card = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cname, ed, true).get(0);
 			} catch (IOException e) {

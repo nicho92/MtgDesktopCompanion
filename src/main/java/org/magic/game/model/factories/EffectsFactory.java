@@ -3,7 +3,7 @@ package org.magic.game.model.factories;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.game.model.effects.AbstractEffect;
 import org.magic.game.model.effects.OneShotEffect;
 
@@ -22,7 +22,7 @@ public class EffectsFactory {
 	private EffectsFactory() {	}
 
 
-	public List<AbstractEffect> parseEffect(MagicCard mc, List<String> sentences)
+	public List<AbstractEffect> parseEffect(MTGCard mc, List<String> sentences)
 	{
 		ArrayList<AbstractEffect> arr = new ArrayList<>();
 
@@ -48,7 +48,7 @@ public class EffectsFactory {
 
 	}
 
-	public AbstractEffect parseEffect(MagicCard mc,String s)
+	public AbstractEffect parseEffect(MTGCard mc,String s)
 	{
 		var e = new OneShotEffect();
 			e.setEffectDescription(s);

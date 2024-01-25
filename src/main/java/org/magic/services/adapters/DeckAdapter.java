@@ -3,8 +3,8 @@ package org.magic.services.adapters;
 import java.lang.reflect.Type;
 import java.util.Date;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -16,7 +16,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-public final class DeckAdapter implements JsonDeserializer<MagicDeck>, JsonSerializer<MagicDeck> {
+public final class DeckAdapter implements JsonDeserializer<MTGDeck>, JsonSerializer<MTGDeck> {
 
 	private static final String ID = "id";
 	private static final String AVERAGE_PRICE = "averagePrice";
@@ -35,10 +35,10 @@ public final class DeckAdapter implements JsonDeserializer<MagicDeck>, JsonSeria
 	}
 	
     @Override
-	public MagicDeck deserialize(JsonElement elem, Type interfaceType, JsonDeserializationContext context) throws JsonParseException {
+	public MTGDeck deserialize(JsonElement elem, Type interfaceType, JsonDeserializationContext context) throws JsonParseException {
     	var root = elem.getAsJsonObject();
 
-		var deck = new MagicDeck();
+		var deck = new MTGDeck();
 		
 		if (root.get(ID)!=null)
 			deck.setId(root.get(ID).getAsInt());
@@ -73,7 +73,7 @@ public final class DeckAdapter implements JsonDeserializer<MagicDeck>, JsonSeria
 		}
 
 		if (root.get(COMMANDER)!=null)
-			deck.setCommander(serializer.fromJson(root.get(COMMANDER), MagicCard.class));
+			deck.setCommander(serializer.fromJson(root.get(COMMANDER), MTGCard.class));
 
 		if (root.get(AVERAGE_PRICE)!=null)
 			deck.setAveragePrice(root.get(AVERAGE_PRICE).getAsDouble());
@@ -90,7 +90,7 @@ public final class DeckAdapter implements JsonDeserializer<MagicDeck>, JsonSeria
 		for (var i = 0; i < main.size(); i++) {
 			var line = main.get(i).getAsJsonObject();
 			var qte = line.get("qty").getAsInt();
-			MagicCard mc = serializer.fromJson(line.get("card"), MagicCard.class);
+			MTGCard mc = serializer.fromJson(line.get("card"), MTGCard.class);
 			deck.getMain().put(mc, qte);
 		}
 
@@ -99,7 +99,7 @@ public final class DeckAdapter implements JsonDeserializer<MagicDeck>, JsonSeria
 		for (var i = 0; i < side.size(); i++) {
 			var line = side.get(i).getAsJsonObject();
 			var qte = line.get("qty").getAsInt();
-			var mc = serializer.fromJson(line.get("card"), MagicCard.class);
+			var mc = serializer.fromJson(line.get("card"), MTGCard.class);
 			deck.getSideBoard().put(mc, qte);
 
 		}
@@ -110,7 +110,7 @@ public final class DeckAdapter implements JsonDeserializer<MagicDeck>, JsonSeria
     }
 
 	@Override
-	public JsonElement serialize(MagicDeck deck, Type typeOfSrc, JsonSerializationContext context) {
+	public JsonElement serialize(MTGDeck deck, Type typeOfSrc, JsonSerializationContext context) {
 		var json = new JsonObject();
 		json.addProperty(ID, deck.getId());
 		json.addProperty(NAME, deck.getName());
@@ -128,7 +128,7 @@ public final class DeckAdapter implements JsonDeserializer<MagicDeck>, JsonSeria
 
 		var main = new JsonArray();
 
-		for (MagicCard mc : deck.getMain().keySet()) {
+		for (MTGCard mc : deck.getMain().keySet()) {
 			var card = new JsonObject();
 			card.addProperty("qty", deck.getMain().get(mc));
 			card.add("card", serializer.toJsonTree(mc));
@@ -137,7 +137,7 @@ public final class DeckAdapter implements JsonDeserializer<MagicDeck>, JsonSeria
 
 		var side = new JsonArray();
 
-		for (MagicCard mc : deck.getSideBoard().keySet()) {
+		for (MTGCard mc : deck.getSideBoard().keySet()) {
 			var card = new JsonObject();
 			card.addProperty("qty", deck.getSideBoard().get(mc));
 			card.add("card", serializer.toJsonTree(mc));

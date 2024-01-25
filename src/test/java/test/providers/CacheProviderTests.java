@@ -5,7 +5,7 @@ import java.net.URISyntaxException;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.interfaces.MTGPictureCache;
 import org.magic.api.pictures.impl.ScryFallPicturesProvider;
 import org.magic.services.PluginRegistry;
@@ -14,7 +14,7 @@ import test.TestTools;
 
 public class CacheProviderTests {
 
-	private MagicCard mc;
+	private MTGCard mc;
 
 	@Before
 	public void initTest() throws IOException, URISyntaxException

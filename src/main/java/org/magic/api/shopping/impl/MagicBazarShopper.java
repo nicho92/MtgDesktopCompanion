@@ -10,8 +10,8 @@ import org.apache.commons.text.StringEscapeUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.SealedStock;
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGSealedStock;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.shop.Transaction;
@@ -122,7 +122,7 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 		var productUrl = elementName.first().getElementsByTag("a").first().attr("href").replace("/produit/","");
 		
 		try {
-		var st = new SealedStock();
+		var st = new MTGSealedStock();
 			  st.setComment(name);
 			  st.setPrice(value);
 			  st.setQte(qty);
@@ -180,7 +180,7 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 			var card = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName(name, edition, false).get(0);
 			var langEtat = e.select("div.update_variation_sell").first().text().split(" - ");
 			
-			var st = new MagicCardStock(card);
+			var st = new MTGCardStock(card);
 				 st.setPrice(UITools.parseDouble(e.attr("attribute_price")));
 				 st.setLanguage(langEtat[0].equalsIgnoreCase("Fr")?"French":"English");
 				 st.setCondition(aliases.getReversedConditionFor(this, langEtat[1], EnumCondition.NEAR_MINT));

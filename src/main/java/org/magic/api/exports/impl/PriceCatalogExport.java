@@ -11,9 +11,9 @@ import javax.swing.Icon;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.NotImplementedException;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.MTGPrice;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGConstants;
@@ -39,7 +39,7 @@ public class PriceCatalogExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 			String[] exportedPricesProperties = new String[] {"site","price","foilPrice"};
 			String[] exportedCardsProperties = getArray("PROPERTIES_CARD");
 			var bw = new StringBuilder();
@@ -61,7 +61,7 @@ public class PriceCatalogExport extends AbstractFormattedFileCardExport {
 			{
 					MTGPricesProvider prov = getPlugin(pricer,MTGPricesProvider.class);
 
-					for (MagicCard mc : deck.getMain().keySet())
+					for (MTGCard mc : deck.getMain().keySet())
 					{
 						for (String k : exportedCardsProperties) {
 							String val;
@@ -86,7 +86,7 @@ public class PriceCatalogExport extends AbstractFormattedFileCardExport {
 
 							
 							var mpNormal = pricesList.stream().filter(mp->!mp.isFoil()).findFirst();
-							var mpFoil = pricesList.stream().filter(MagicPrice::isFoil).findFirst();
+							var mpFoil = pricesList.stream().filter(MTGPrice::isFoil).findFirst();
 							
 							
 							bw.append(prov.getName()).append(getSeparator());
@@ -104,7 +104,7 @@ public class PriceCatalogExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	public MagicDeck importDeck(String f,String name) throws IOException {
+	public MTGDeck importDeck(String f,String name) throws IOException {
 		throw new NotImplementedException("not implemented");
 	}
 

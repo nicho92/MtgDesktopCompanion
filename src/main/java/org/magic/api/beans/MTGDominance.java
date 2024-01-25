@@ -1,6 +1,6 @@
 package org.magic.api.beans;
 
-public class CardDominance {
+public class MTGDominance {
 
 	private int position;
 	private String cardName;

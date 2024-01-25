@@ -13,14 +13,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.magic.api.beans.CardDominance;
+import org.magic.api.beans.MTGDominance;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.EditionsShakers;
 import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MTGSealedProduct;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCardVariation;
 import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
@@ -167,9 +167,9 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 
 	@Override
-	protected HistoryPrice<MagicEdition> getOnlinePricesVariation(MagicEdition me) throws IOException {
+	protected HistoryPrice<MTGEdition> getOnlinePricesVariation(MTGEdition me) throws IOException {
 		String url = WEBSITE+"/sets/" + aliases.getSetIdFor(this,me) + "#" + getString(FORMAT);
-		HistoryPrice<MagicEdition> historyPrice = new HistoryPrice<>(me);
+		HistoryPrice<MTGEdition> historyPrice = new HistoryPrice<>(me);
 		historyPrice.setCurrency(getCurrency());
 
 		try {
@@ -185,7 +185,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 
 
-	private String searchUrlFor(MagicCard mc,boolean foil)
+	private String searchUrlFor(MTGCard mc,boolean foil)
 	{
 		var arr = RequestBuilder.build().setClient(URLTools.newClient())
 				  .get()
@@ -277,11 +277,11 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 
 	@Override
-	public HistoryPrice<MagicCard> getOnlinePricesVariation(MagicCard mc, boolean foil) throws IOException {
+	public HistoryPrice<MTGCard> getOnlinePricesVariation(MTGCard mc, boolean foil) throws IOException {
 
 		var url ="";//searchUrlFor(mc,foil)
 
-		HistoryPrice<MagicCard> historyPrice = new HistoryPrice<>(mc);
+		HistoryPrice<MTGCard> historyPrice = new HistoryPrice<>(mc);
 		historyPrice.setCurrency(getCurrency());
 		historyPrice.setFoil(foil);
 
@@ -388,7 +388,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	}
 
 	@Override
-	protected EditionsShakers getOnlineShakesForEdition(MagicEdition edition) throws IOException {
+	protected EditionsShakers getOnlineShakesForEdition(MTGEdition edition) throws IOException {
 		var list = new EditionsShakers();
 		list.setEdition(edition);
 		list.setProviderName(getName());
@@ -465,7 +465,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	}
 
 	@Override
-	public List<CardDominance> getBestCards(MTGFormat.FORMATS f, String filter) throws IOException {
+	public List<MTGDominance> getBestCards(MTGFormat.FORMATS f, String filter) throws IOException {
 
 		// spells, creatures, all, lands
 
@@ -479,13 +479,13 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		logger.debug("get best cards : {}",u);
 		Elements trs = doc.select("table tr");
 		trs.remove(0);
-		List<CardDominance> ret = new ArrayList<>();
+		List<MTGDominance> ret = new ArrayList<>();
 		for (Element e : trs) {
 			Elements tds = e.select(MTGConstants.HTML_TAG_TD);
 			try {
 				int correct = filter.equalsIgnoreCase("lands") ? 1 : 0;
 
-				var d = new CardDominance();
+				var d = new MTGDominance();
 				d.setPosition(Integer.parseInt(tds.get(0).text()));
 				d.setCardName(tds.get(1).text());
 				d.setDecksPercent(UITools.parseDouble(tds.get(3 - correct).text()));
@@ -500,7 +500,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		return ret;
 	}
 
-	private String convert(MagicEdition ed) {
+	private String convert(MTGEdition ed) {
 		String editionName = RegExUtils.replaceAll(aliases.getSetNameFor(this, ed), " ", "+");
 			editionName = RegExUtils.replaceAll(editionName, "'", "");
 			editionName = RegExUtils.replaceAll(editionName, ",", "");

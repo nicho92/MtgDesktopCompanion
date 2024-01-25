@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.jsoup.nodes.Element;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
@@ -30,8 +30,8 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
-		MagicDeck deck = info.toBaseDeck();
+	public MTGDeck getDeck(RetrievableDeck info) throws IOException {
+		MTGDeck deck = info.toBaseDeck();
 
 		logger.debug("get deck at {}",info.getUrl());
 
@@ -53,7 +53,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 					cardName = cardName.substring(0, cardName.indexOf("//")).trim();
 
 				try {
-					MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, null, true).get(0);
+					MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, null, true).get(0);
 
 					notify(mc);
 

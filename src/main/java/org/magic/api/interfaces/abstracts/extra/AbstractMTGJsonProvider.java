@@ -14,8 +14,8 @@ import javax.swing.ImageIcon;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.magic.api.beans.MTGKeyWord;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCardVariation;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumFinishes;
@@ -136,8 +136,8 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 
 	public abstract File getDataFile();
 	public abstract String getOnlineDataFileZip();
-	public abstract List<MagicCard> listToken(MagicEdition ed) throws IOException;
-	public abstract MagicCard getTokenFor(MagicCard mc, EnumLayout layout) throws IOException;
+	public abstract List<MTGCard> listToken(MTGEdition ed) throws IOException;
+	public abstract MTGCard getTokenFor(MTGCard mc, EnumLayout layout) throws IOException;
 
 
 	protected MTGQueryBuilder<?> queryBuilder=  new JsonCriteriaBuilder();
@@ -158,7 +158,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	}
 
 	@Override
-	public MagicCard getCardByScryfallId(String crit) throws IOException {
+	public MTGCard getCardByScryfallId(String crit) throws IOException {
 
 		try {
 		return searchCardByCriteria(SCRYFALL_ID, crit, null, true).get(0);
@@ -171,7 +171,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 
 
 	@Override
-	public MagicCard getCardById(String id, MagicEdition ed) throws IOException {
+	public MTGCard getCardById(String id, MTGEdition ed) throws IOException {
 		try {
 			return searchCardByCriteria(UUID, id, ed, true).get(0);
 		}catch(IndexOutOfBoundsException e)
@@ -181,7 +181,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	}
 
 	@Override
-	public MagicCard getCardByArenaId(String id) {
+	public MTGCard getCardByArenaId(String id) {
 		try{
 			return searchByCriteria(new MTGCrit<>(MTG_ARENA_ID, OPERATOR.EQ, id)).get(0);
 		}
@@ -193,7 +193,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	}
 	
 	@Override
-	public List<MagicCard> searchCardByName(String name, MagicEdition me, boolean exact) throws IOException {
+	public List<MTGCard> searchCardByName(String name, MTGEdition me, boolean exact) throws IOException {
 		var ret = searchCardByCriteria(NAME,name, me, exact);
 
 		if(ret.isEmpty())
@@ -203,7 +203,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	}
 
 	@Override
-	public List<MagicCard> searchCardByName(String name, MagicEdition me, boolean exact, EnumCardVariation extra) throws IOException{
+	public List<MTGCard> searchCardByName(String name, MTGEdition me, boolean exact, EnumCardVariation extra) throws IOException{
 		return searchCardByCriteria(NAME,name, me, exact,extra);
 	}
 
@@ -255,7 +255,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 
 
 	@Override
-	public MagicCard getCardByNumber(String num, MagicEdition me) throws IOException {
+	public MTGCard getCardByNumber(String num, MTGEdition me) throws IOException {
 
 		if(me==null)
 			throw new IOException("Edition must not be null");

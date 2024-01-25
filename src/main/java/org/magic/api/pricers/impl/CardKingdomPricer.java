@@ -12,8 +12,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.jsoup.select.Elements;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGPrice;
 import org.magic.api.exports.impl.CardKingdomCardExport;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGConstants;
@@ -47,7 +47,7 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 	}
 
 
-	private String getUrlFor(MagicCard mc,boolean foil) throws IOException
+	private String getUrlFor(MTGCard mc,boolean foil) throws IOException
 	{
 		if(!jsonFile.exists()|| FileTools.daysBetween(jsonFile)>1) {
 			logger.debug("{} is not present or out of date. Downloading new one",jsonFile);
@@ -126,7 +126,7 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 	}
 
 	@Override
-	public List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
+	public List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
 
 		var ret = getPrices(card,false);
 		ret.addAll(getPrices(card, true));
@@ -136,9 +136,9 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 
 
 
-	public List<MagicPrice> getPrices(MagicCard card,boolean foil) throws IOException {
+	public List<MTGPrice> getPrices(MTGCard card,boolean foil) throws IOException {
 
-		List<MagicPrice> list = new ArrayList<>();
+		List<MTGPrice> list = new ArrayList<>();
 		var productUri =getUrlFor(card,foil);
 
 		if(productUri==null)
@@ -160,9 +160,9 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 			return list;
 		}
 
-		List<MagicPrice> lstPrices = new ArrayList<>();
+		List<MTGPrice> lstPrices = new ArrayList<>();
 		for (var i = 0; i < qualities.size(); i++) {
-			var mp = new MagicPrice();
+			var mp = new MTGPrice();
 
 			String price = prices.get(i).html();
 			mp.setMagicCard(card);

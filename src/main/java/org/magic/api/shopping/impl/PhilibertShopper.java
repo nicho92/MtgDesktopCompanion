@@ -8,7 +8,7 @@ import java.util.List;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.magic.api.beans.MTGSealedProduct;
-import org.magic.api.beans.SealedStock;
+import org.magic.api.beans.MTGSealedStock;
 import org.magic.api.beans.enums.EnumPaymentProvider;
 import org.magic.api.beans.enums.EnumTransactionStatus;
 import org.magic.api.beans.shop.Transaction;
@@ -111,7 +111,7 @@ public class PhilibertShopper extends AbstractMagicShopper {
 		{
 			int index = tr.selectFirst("td:has(input)")!=null?0:1; //check if first column is checkbox or not
 				
-			var stock = new SealedStock();
+			var stock = new MTGSealedStock();
 				 stock.setComment(tr.select("td").get(2-index).text());
 				 stock.setPrice(UITools.parseDouble(tr.select("td").get(4-index).text()));
 				 stock.getTiersAppIds().put(getName(), tr.select("td").get(1-index).text());

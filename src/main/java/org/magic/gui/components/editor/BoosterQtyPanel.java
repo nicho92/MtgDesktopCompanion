@@ -7,25 +7,25 @@ import javax.swing.JComponent;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGEdition;
 import org.magic.services.tools.UITools;
 
 public class BoosterQtyPanel extends JComponent {
 
 	private static final long serialVersionUID = 1L;
-	private JComboBox<MagicEdition> cboEditions;
+	private JComboBox<MTGEdition> cboEditions;
 	private JSpinner spinner;
 
 	public BoosterQtyPanel() {
 		initGUI();
 	}
 
-	public void setValue(MagicEdition ed, Integer qty) {
+	public void setValue(MTGEdition ed, Integer qty) {
 		spinner.setValue(qty);
 		cboEditions.setSelectedItem(ed);
 	}
 
-	public BoosterQtyPanel(MagicEdition ed, Integer qty) {
+	public BoosterQtyPanel(MTGEdition ed, Integer qty) {
 		initGUI();
 		spinner.setValue(qty);
 		cboEditions.setSelectedItem(ed);
@@ -42,8 +42,8 @@ public class BoosterQtyPanel extends JComponent {
 
 	}
 
-	public MagicEdition getEdition() {
-		return (MagicEdition) cboEditions.getSelectedItem();
+	public MTGEdition getEdition() {
+		return (MTGEdition) cboEditions.getSelectedItem();
 	}
 
 	public int getQty() {

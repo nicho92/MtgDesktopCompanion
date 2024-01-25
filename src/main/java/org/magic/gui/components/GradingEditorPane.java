@@ -17,8 +17,8 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingWorker;
 
-import org.magic.api.beans.Grading;
-import org.magic.api.beans.MagicCardStock;
+import org.magic.api.beans.MTGGrading;
+import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
@@ -47,7 +47,7 @@ public class GradingEditorPane extends MTGUIComponent {
 	private JCheckBox chbGradded;
 	private JLabel lblCertified= new JLabel(MTGConstants.ICON_CHECK);
 
-	public void initGUI(Grading grade) {
+	public void initGUI(MTGGrading grade) {
 		var gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{166, 136, 69, 149, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -126,16 +126,16 @@ public class GradingEditorPane extends MTGUIComponent {
 
 			btnLoad.setEnabled(false);
 
-			SwingWorker<Grading, Grading> sw = new SwingWorker<>(){
+			SwingWorker<MTGGrading, MTGGrading> sw = new SwingWorker<>(){
 
 				@Override
-				protected Grading doInBackground() throws Exception {
+				protected MTGGrading doInBackground() throws Exception {
 					return grader.loadGrading(txtSerialNumber.getText());
 				}
 
 				@Override
 				protected void done() {
-					Grading grad;
+					MTGGrading grad;
 					btnLoad.setEnabled(true);
 
 					try {
@@ -164,9 +164,9 @@ public class GradingEditorPane extends MTGUIComponent {
 
 	}
 
-	public Grading getGrading()
+	public MTGGrading getGrading()
 	{
-		var g = new Grading();
+		var g = new MTGGrading();
 				g.setCentering((Double)spinnerCentering.getValue());
 				g.setCorners((Double)spinnerCorner.getValue());
 				g.setEdges((Double)spinnerEdges.getValue());
@@ -183,10 +183,10 @@ public class GradingEditorPane extends MTGUIComponent {
 		return g;
 	}
 
-	public void setGrading(Grading grade)
+	public void setGrading(MTGGrading grade)
 	{
 			if(grade==null)
-				grade=new Grading();
+				grade=new MTGGrading();
 
 			chbGradded.setSelected(grade.isGradded());
 			spinnerCentering.setValue(grade.getCentering());
@@ -215,7 +215,7 @@ public class GradingEditorPane extends MTGUIComponent {
 	}
 
 
-	public void saveTo(MagicCardStock stock)
+	public void saveTo(MTGCardStock stock)
 	{
 		if(!chbGradded.isSelected())
 			stock.setGrade(null);
@@ -228,7 +228,7 @@ public class GradingEditorPane extends MTGUIComponent {
 
 	public GradingEditorPane()
 	{
-		initGUI(new Grading());
+		initGUI(new MTGGrading());
 	}
 
 

@@ -15,7 +15,7 @@ import javax.swing.SwingWorker;
 import javax.swing.table.TableRowSorter;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.CardDominance;
+import org.magic.api.beans.MTGDominance;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
@@ -102,10 +102,10 @@ public class BestCardsDashlet extends AbstractJDashlet {
 	@Override
 	public void init() {
 		buzy.start();
-		var sw = new SwingWorker<List<CardDominance>, Void>() {
+		var sw = new SwingWorker<List<MTGDominance>, Void>() {
 
 			@Override
-			protected List<CardDominance> doInBackground() throws Exception {
+			protected List<MTGDominance> doInBackground() throws Exception {
 				return getEnabledPlugin(MTGDashBoard.class).getBestCards((MTGFormat.FORMATS) cboFormat.getSelectedItem(), cboFilter.getSelectedItem().toString());
 			}
 

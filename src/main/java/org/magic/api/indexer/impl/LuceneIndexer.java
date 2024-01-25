@@ -35,7 +35,7 @@ import org.apache.lucene.search.TotalHitCountCollector;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -90,7 +90,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 	}
 
 	@Override
-	public List<MagicCard> listCards()
+	public List<MTGCard> listCards()
 	{
 		return search("*:*");
 	}
@@ -111,16 +111,16 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 				query.append("*");
 		}
 
-		return search(query.toString().trim()).stream().map(MagicCard::getFullName).distinct().toList();
+		return search(query.toString().trim()).stream().map(MTGCard::getFullName).distinct().toList();
 	}
 
 	@Override
-	public List<MagicCard> search(String q)
+	public List<MTGCard> search(String q)
 	{
 		if(dir==null)
 			open();
 
-		List<MagicCard> ret = new ArrayList<>();
+		List<MTGCard> ret = new ArrayList<>();
 
 
 
@@ -139,7 +139,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 			 logger.debug("found {} items for {}",top.totalHits,q);
 
 			 for(var i =0;i<top.totalHits.value;i++)
-				 ret.add(serializer.fromJson(searcher.storedFields().document(top.scoreDocs[i].doc).get("data"),MagicCard.class));
+				 ret.add(serializer.fromJson(searcher.storedFields().document(top.scoreDocs[i].doc).get("data"),MTGCard.class));
 
 
 		} catch (Exception e) {
@@ -181,9 +181,9 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 	}
 
 	@Override
-	public Map<MagicCard,Float> similarity(MagicCard mc) throws IOException
+	public Map<MTGCard,Float> similarity(MTGCard mc) throws IOException
 	{
-		Map<MagicCard,Float> ret = new LinkedHashMap<>();
+		Map<MTGCard,Float> ret = new LinkedHashMap<>();
 
 		if(mc==null)
 			return ret;
@@ -217,7 +217,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 			 var likes = searcher.search(like,getInt(MAX_RESULTS));
 
 			 for(ScoreDoc l : likes.scoreDocs)
-				 ret.put(serializer.fromJson(searcher.storedFields().document(l.doc).get("data"),MagicCard.class),l.score);
+				 ret.put(serializer.fromJson(searcher.storedFields().document(l.doc).get("data"),MTGCard.class),l.score);
 
 			 logger.debug("found {} results",likes.scoreDocs.length);
 			 close();
@@ -255,7 +255,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		  	iwc.setOpenMode(OpenMode.CREATE);
 		var indexWriter = new IndexWriter(dir, iwc);
 
-		for(MagicCard mc : getEnabledPlugin(MTGCardsProvider.class).listAllCards())
+		for(MTGCard mc : getEnabledPlugin(MTGCardsProvider.class).listAllCards())
 		{
 			try {
 				indexWriter.addDocument(toDocuments(mc));
@@ -287,7 +287,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		dir=null;
 	}
 
-	private Document toDocuments(MagicCard mc) {
+	private Document toDocuments(MTGCard mc) {
 			var doc = new Document();
           	var fieldType = new FieldType();
 		          		fieldType.setStored(true);

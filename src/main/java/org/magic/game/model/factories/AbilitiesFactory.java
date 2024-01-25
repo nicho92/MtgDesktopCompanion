@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 
 import org.magic.api.beans.MTGKeyWord.EVENT;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.game.model.abilities.AbstractAbilities;
 import org.magic.game.model.abilities.ActivatedAbilities;
@@ -37,7 +37,7 @@ public class AbilitiesFactory implements Serializable{
 
 	}
 
-	private List<String> listSentences(MagicCard mc)
+	private List<String> listSentences(MTGCard mc)
 	{
 		if(mc.getText()==null)
 		{
@@ -47,7 +47,7 @@ public class AbilitiesFactory implements Serializable{
 		return Arrays.asList(mc.getText().split("\n"));
 	}
 
-	public List<AbstractAbilities> getAbilities(MagicCard mc)
+	public List<AbstractAbilities> getAbilities(MTGCard mc)
 	{
 
 		mc.setText(removeParenthesis(mc.getText()));
@@ -65,7 +65,7 @@ public class AbilitiesFactory implements Serializable{
 	}
 
 
-	public List<AbstractAbilities> getActivatedAbilities(MagicCard mc) {
+	public List<AbstractAbilities> getActivatedAbilities(MTGCard mc) {
 		List<AbstractAbilities> ret = new ArrayList<>();
 		if(!mc.isPlaneswalker())
 		{
@@ -93,7 +93,7 @@ public class AbilitiesFactory implements Serializable{
 		return ret;
 	}
 
-	public List<LoyaltyAbilities> getLoyaltyAbilities(MagicCard mc) {
+	public List<LoyaltyAbilities> getLoyaltyAbilities(MTGCard mc) {
 		List<LoyaltyAbilities> list = new ArrayList<>();
 		if(mc.isPlaneswalker())
 		{
@@ -140,11 +140,11 @@ public class AbilitiesFactory implements Serializable{
 
 	}
 
-	public List<StaticAbilities> getStaticAbilities(MagicCard mc) {
+	public List<StaticAbilities> getStaticAbilities(MTGCard mc) {
 		return AbstractKeyWordsManager.getInstance().getKeywordsFrom(mc, EVENT.STATIC).stream().map(StaticAbilities::new).toList();
 	}
 
-	public List<TriggeredAbilities> getTriggeredAbility(MagicCard mc)
+	public List<TriggeredAbilities> getTriggeredAbility(MTGCard mc)
 	{
 		List<TriggeredAbilities> arr =new ArrayList<>();
 		var i=0;

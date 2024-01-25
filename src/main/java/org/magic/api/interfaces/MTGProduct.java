@@ -1,6 +1,6 @@
 package org.magic.api.interfaces;
 
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.shop.Category;
 
@@ -14,9 +14,9 @@ public interface MTGProduct extends MTGSerializable {
 
 	public void setUrl(String url);
 
-	public MagicEdition getEdition();
+	public MTGEdition getEdition();
 
-	public void setEdition(MagicEdition edition);
+	public void setEdition(MTGEdition edition);
 
 	public String getName();
 

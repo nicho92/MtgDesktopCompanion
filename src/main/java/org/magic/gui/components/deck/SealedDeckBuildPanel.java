@@ -32,9 +32,9 @@ import javax.swing.SwingWorker;
 import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGBooster;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.beans.game.ZoneEnum;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -68,13 +68,13 @@ public class SealedDeckBuildPanel extends JPanel {
 	private AbstractBuzyIndicatorComponent lblLoading;
 	private SealedBoosterTableModel model;
 	private BoosterPanel panelOpenedBooster;
-	private JComboBox<MagicEdition> cboEditions;
+	private JComboBox<MTGEdition> cboEditions;
 	private JButton btnOpen;
 	private CmcChartPanel cmcChartPanel;
 	private ManaRepartitionPanel manaRepartitionPanel;
 	private TypeRepartitionPanel typeRepartitionPanel;
-	private MagicDeck deck;
-	private List<MagicCard> list;
+	private MTGDeck deck;
+	private List<MTGCard> list;
 	private boolean analyseDeck = false;
 	private JTextField txtNumberLand;
 	private JComboBox<String> cboLands;
@@ -315,7 +315,7 @@ public class SealedDeckBuildPanel extends JPanel {
 		var qte = Integer.parseInt(txtNumberLand.getText());
 		var land = cboLands.getSelectedItem().toString();
 		try {
-			MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( land, null, true)
+			MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( land, null, true)
 					.get(0);
 
 			for (var i = 0; i < qte; i++) {
@@ -337,12 +337,12 @@ public class SealedDeckBuildPanel extends JPanel {
 	}
 
 	private void addBooster() {
-		model.add((MagicEdition) cboEditions.getSelectedItem(), EnumExtra.DRAFT, 6);
+		model.add((MTGEdition) cboEditions.getSelectedItem(), EnumExtra.DRAFT, 6);
 		btnOpen.setEnabled(!model.getSealedPack().isEmpty());
 	}
 
 	protected void open() {
-		deck = new MagicDeck();
+		deck = new MTGDeck();
 
 		deck.setDescription("Sealed from " + model.getSealedPack());
 		deck.setName("sealed from " + model.getSealedPack().size() + " boosters");
@@ -362,7 +362,7 @@ public class SealedDeckBuildPanel extends JPanel {
 				
 				chunks.forEach(e->{
 					column++;
-					for(MagicCard mc : e.getCards()) {
+					for(MTGCard mc : e.getCards()) {
 						list.add(mc);
 						DisplayableCard c = createCard(mc);
 						panelOpenedBooster.addComponent(c, column);
@@ -402,21 +402,21 @@ public class SealedDeckBuildPanel extends JPanel {
 		ThreadManager.getInstance().runInEdt(sw,"opening boosters");
 	}
 
-	private DisplayableCard createCard(MagicCard mc) {
+	private DisplayableCard createCard(MTGCard mc) {
 		var c = new DisplayableCard(mc, MTGControler.getInstance().getCardsGameDimension(), true, false);
 		c.addObserver(panelDetail);
 		return c;
 
 	}
 
-	public void sort(MTGComparator<MagicCard> sorter) {
+	public void sort(MTGComparator<MTGCard> sorter) {
 
 		if(list==null)
 			return;
 
 		Collections.sort(list, sorter);
 		panelOpenedBooster.clear();
-		for (MagicCard mc : list) {
+		for (MTGCard mc : list) {
 			DisplayableCard c = createCard(mc);
 			panelOpenedBooster.addComponent(c, sorter.getWeight(mc));
 		}

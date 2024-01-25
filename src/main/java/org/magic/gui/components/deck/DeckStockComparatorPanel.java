@@ -23,10 +23,10 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGCollection;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.interfaces.MTGCardsExport.MODS;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
@@ -43,8 +43,8 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private JComboBox<MagicCollection> cboCollections;
-	private MagicDeck currentDeck;
+	private JComboBox<MTGCollection> cboCollections;
+	private MTGDeck currentDeck;
 	private DeckStockComparisonModel model;
 	private JButton btnCompare;
 	private AbstractBuzyIndicatorComponent buzyLabel;
@@ -53,7 +53,7 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 	private JExportButton btnExportMissing;
 	private JCheckBox chkCollectionCheck;
 
-	public void setCurrentDeck(MagicDeck c) {
+	public void setCurrentDeck(MTGDeck c) {
 		this.currentDeck = c;
 	}
 
@@ -98,12 +98,12 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 		panneauHaut.add(buzyLabel);
 
 		btnExportMissing.setEnabled(false);
-		btnExportMissing.initCardsExport(new Callable<MagicDeck>() {
+		btnExportMissing.initCardsExport(new Callable<MTGDeck>() {
 
 			@Override
-			public MagicDeck call() throws Exception {
+			public MTGDeck call() throws Exception {
 
-				var d = new MagicDeck();
+				var d = new MTGDeck();
 				d.setName(currentDeck.getName());
 				d.setDescription("Missing cards for deck " + d.getName());
 				model.getItems().forEach(l->d.getMain().put(l.getMc(), l.getResult()));
@@ -145,7 +145,7 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 
 
 		try {
-			cboCollections.setSelectedItem(new MagicCollection(MTGControler.getInstance().get("default-library")));
+			cboCollections.setSelectedItem(new MTGCollection(MTGControler.getInstance().get("default-library")));
 		} catch (Exception e) {
 			logger.error("Error retrieving collections",e);
 		}
@@ -160,9 +160,9 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 			model.clear();
 			if(currentDeck!=null)
 			{
-				MagicCollection col = (MagicCollection)cboCollections.getSelectedItem();
+				MTGCollection col = (MTGCollection)cboCollections.getSelectedItem();
 				buzyLabel.start(currentDeck.getMain().entrySet().size());
-				SwingWorker<Void, MagicCard> sw = new SwingWorker<>()
+				SwingWorker<Void, MTGCard> sw = new SwingWorker<>()
 						{
 						@Override
 						protected Void doInBackground() throws Exception {
@@ -174,7 +174,7 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 									if(chkCollectionCheck.isSelected())
 										has = getEnabledPlugin(MTGDao.class).listCollectionFromCards(entry.getKey()).contains(col);
 
-									List<MagicCardStock> stocks = getEnabledPlugin(MTGDao.class).listStocks(entry.getKey(), col,chkEditionStrict.isSelected());
+									List<MTGCardStock> stocks = getEnabledPlugin(MTGDao.class).listStocks(entry.getKey(), col,chkEditionStrict.isSelected());
 									var qty = currentDeck.getMain().get(entry.getKey());
 									model.addItem(entry.getKey(),qty,has, stocks);
 									publish(entry.getKey());
@@ -190,18 +190,18 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 						protected void done() {
 							buzyLabel.end();
 
-							List<MagicCard> pricList = new ArrayList<>();
+							List<MTGCard> pricList = new ArrayList<>();
 							model.getItems().stream().filter(l->l.getResult()>0).forEach(l->{
 								for(var i=0;i<l.getResult();i++)
 									pricList.add(l.getMc());
 							});
 
-							pricesPan.init(MagicDeck.toDeck(pricList));
+							pricesPan.init(MTGDeck.toDeck(pricList));
 							btnExportMissing.setEnabled(!model.isEmpty());
 						}
 
 						@Override
-						protected void process(List<MagicCard> chunks) {
+						protected void process(List<MTGCard> chunks) {
 							buzyLabel.progressSmooth(chunks.size());
 						}
 				};

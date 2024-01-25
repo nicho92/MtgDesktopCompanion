@@ -22,9 +22,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.logging.log4j.Logger;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.Wallpaper;
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGCollection;
+import org.magic.api.beans.MTGWallpaper;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.game.Player;
 import org.magic.api.beans.shop.Contact;
@@ -190,7 +190,7 @@ public class MTGControler {
 		AccountsManager.inst().loadConfig(get("accounts"));
 	}
 
-	public void setDefaultStock(MagicCardStock st) {
+	public void setDefaultStock(MTGCardStock st) {
 		setProperty("collections/defaultStock/signed",st.isSigned());
 		setProperty("collections/defaultStock/altered",st.isAltered());
 		setProperty("collections/defaultStock/foil",st.isFoil());
@@ -236,7 +236,7 @@ public class MTGControler {
 				if(conf.isAutomaticProduct())
 					conf.setTopProduct(TransactionService.getBestProduct());
 				else
-					conf.setTopProduct(new JsonExport().fromJson(get("/shopSite/config/products/top",""), MagicCardStock.class));
+					conf.setTopProduct(new JsonExport().fromJson(get("/shopSite/config/products/top",""), MTGCardStock.class));
 			}
 			catch(Exception e)
 			{
@@ -246,13 +246,13 @@ public class MTGControler {
 			for(String s : get("/shopSite/config/collections","").split(";"))
 			{
 				if(!s.isEmpty())
-					conf.getCollections().add(new MagicCollection(s));
+					conf.getCollections().add(new MTGCollection(s));
 			}
 
 			for(String s : get("/shopSite/config/needCollections","").split(";"))
 			{
 				if(!s.isEmpty())
-					conf.getNeedcollections().add(new MagicCollection(s));
+					conf.getNeedcollections().add(new MTGCollection(s));
 			}
 
 
@@ -311,9 +311,9 @@ public class MTGControler {
 		setProperty("/shopSite/payments/paypalSendMoneyUri",wsc.getSetPaypalSendMoneyUri().toString());
 	}
 
-	public MagicCardStock getDefaultStock() {
+	public MTGCardStock getDefaultStock() {
 		var defaultBool = FALSE;
-		var st = new MagicCardStock();
+		var st = new MTGCardStock();
 					   st.setSigned(Boolean.parseBoolean(get("collections/defaultStock/signed",defaultBool)));
 					   st.setAltered(Boolean.parseBoolean(get("collections/defaultStock/altered",defaultBool)));
 					   st.setFoil(Boolean.parseBoolean(get("collections/defaultStock/foil",defaultBool)));
@@ -481,7 +481,7 @@ public class MTGControler {
 
 
 
-	public void saveWallpaper(Wallpaper p) throws IOException {
+	public void saveWallpaper(MTGWallpaper p) throws IOException {
 		if (!MTGConstants.MTG_WALLPAPER_DIRECTORY.exists())
 			MTGConstants.MTG_WALLPAPER_DIRECTORY.mkdir();
 

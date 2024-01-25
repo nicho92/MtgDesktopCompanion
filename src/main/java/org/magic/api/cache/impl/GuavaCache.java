@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.interfaces.abstracts.AbstractCacheProvider;
 import org.magic.services.tools.MemoryTools;
 import org.magic.services.tools.POMReader;
@@ -33,12 +33,12 @@ public class GuavaCache extends AbstractCacheProvider {
 
 
 	@Override
-	public BufferedImage getItem(MagicCard mc) {
+	public BufferedImage getItem(MTGCard mc) {
 		return cache.getIfPresent(generateIdIndex(mc));
 	}
 
 	@Override
-	public void put(BufferedImage im, MagicCard mc) throws IOException {
+	public void put(BufferedImage im, MTGCard mc) throws IOException {
 		logger.debug("put {} in cache ",mc);
 		cache.put(generateIdIndex(mc), im);
 

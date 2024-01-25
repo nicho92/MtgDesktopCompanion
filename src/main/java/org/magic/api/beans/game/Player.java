@@ -12,8 +12,8 @@ import javax.swing.AbstractAction;
 
 import org.apache.commons.lang.math.RandomUtils;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumPlayerStatus;
 import org.magic.services.tools.ImageTools;
 import org.utils.patterns.observer.Observable;
@@ -32,7 +32,7 @@ public class Player extends Observable implements Serializable {
 	private EnumPlayerStatus state;
 	private transient int life;
 	private String name;
-	private transient MagicDeck deck;
+	private transient MTGDeck deck;
 	private transient Zone graveyard;
 	private transient Zone exil;
 	private transient Zone library;
@@ -99,7 +99,7 @@ public class Player extends Observable implements Serializable {
 		shuffleLibrary();
 	}
 
-	public Player(String name, MagicDeck deck) {
+	public Player(String name, MTGDeck deck) {
 		super();
 		this.name = name;
 		life = 20;
@@ -108,7 +108,7 @@ public class Player extends Observable implements Serializable {
 
 	}
 
-	public Player(MagicDeck deck) {
+	public Player(MTGDeck deck) {
 		super();
 		name = "Player";
 		life = 20;
@@ -121,7 +121,7 @@ public class Player extends Observable implements Serializable {
 		super();
 		this.name = name;
 		this.life = life;
-		deck = new MagicDeck();
+		deck = new MTGDeck();
 		init();
 	}
 
@@ -129,7 +129,7 @@ public class Player extends Observable implements Serializable {
 		super();
 		this.name = name;
 		this.life = 20;
-		deck = new MagicDeck();
+		deck = new MTGDeck();
 		init();
 	}
 
@@ -137,7 +137,7 @@ public class Player extends Observable implements Serializable {
 		super();
 		name = "Player";
 		life = 20;
-		deck = new MagicDeck();
+		deck = new MTGDeck();
 		init();
 	}
 
@@ -145,7 +145,7 @@ public class Player extends Observable implements Serializable {
 		super();
 		this.name = name;
 		this.admin=admin;
-		deck = new MagicDeck();
+		deck = new MTGDeck();
 		init();
 	}
 
@@ -190,11 +190,11 @@ public class Player extends Observable implements Serializable {
 		logAction("set manapool to " + manaPool);
 	}
 
-	public void reoderCardInLibrary(MagicCard mc, boolean top) {
+	public void reoderCardInLibrary(MTGCard mc, boolean top) {
 		logAction("todo change order for " + mc + " " + top);
 	}
 
-	public void putCardInLibraryFromExile(MagicCard mc, boolean b) {
+	public void putCardInLibraryFromExile(MTGCard mc, boolean b) {
 		if (b) {
 			library.add(0, mc);
 			logAction("put a card on top of library from exile");
@@ -206,7 +206,7 @@ public class Player extends Observable implements Serializable {
 
 	}
 
-	public void putCardInLibraryFromHand(MagicCard mc, boolean top) {
+	public void putCardInLibraryFromHand(MTGCard mc, boolean top) {
 		if (top) {
 			library.add(0, mc);
 			logAction("put a card on top of library from hand");
@@ -218,7 +218,7 @@ public class Player extends Observable implements Serializable {
 
 	}
 
-	public void putCardInLibraryFromBattlefield(MagicCard mc, boolean top) {
+	public void putCardInLibraryFromBattlefield(MTGCard mc, boolean top) {
 		if (top) {
 			library.add(0, mc);
 			logAction("put " + mc + " on top of library from battlefield");
@@ -229,7 +229,7 @@ public class Player extends Observable implements Serializable {
 		battlefield.remove(mc);
 	}
 
-	public void putCardInLibraryFromGraveyard(MagicCard mc, boolean top) {
+	public void putCardInLibraryFromGraveyard(MTGCard mc, boolean top) {
 		if (top) {
 			library.add(0, mc);
 			logAction("put a card on top of library from graveyard");
@@ -240,8 +240,8 @@ public class Player extends Observable implements Serializable {
 		graveyard.remove(mc);
 	}
 
-	public List<MagicCard> scry(int number) {
-		List<MagicCard> list = library.subList(0, number);
+	public List<MTGCard> scry(int number) {
+		List<MTGCard> list = library.subList(0, number);
 		logAction("Scry " + number + " cards");
 
 		return list;
@@ -283,14 +283,14 @@ public class Player extends Observable implements Serializable {
 
 	}
 
-	public void discardCardFromExile(MagicCard mc) {
+	public void discardCardFromExile(MTGCard mc) {
 		exil.remove(mc);
 		graveyard.add(mc);
 		logAction("put " + mc + " from exil to graveyard");
 
 	}
 
-	public void discardCardFromBattleField(MagicCard mc) {
+	public void discardCardFromBattleField(MTGCard mc) {
 
 		battlefield.remove(mc);
 		graveyard.add(mc);
@@ -298,25 +298,25 @@ public class Player extends Observable implements Serializable {
 
 	}
 
-	public void discardCardFromHand(MagicCard mc) {
+	public void discardCardFromHand(MTGCard mc) {
 		hand.remove(mc);
 		graveyard.add(mc);
 		logAction(DISCARD_TERM + mc);
 
 	}
 
-	public void discardCardFromLibrary(MagicCard mc) {
+	public void discardCardFromLibrary(MTGCard mc) {
 		library.remove(mc);
 		graveyard.add(mc);
 		logAction(DISCARD_TERM + mc + " from library to graveyard");
 
 	}
 
-	public List<MagicCard> discardCardFromLibrary(int parseInt) {
+	public List<MTGCard> discardCardFromLibrary(int parseInt) {
 
-		List<MagicCard> ret = new ArrayList<>();
+		List<MTGCard> ret = new ArrayList<>();
 		for (var i = 0; i < parseInt; i++) {
-			MagicCard mc = library.getCards().get(i);
+			MTGCard mc = library.getCards().get(i);
 			ret.add(mc);
 			graveyard.add(mc);
 			library.getCards().remove(i);
@@ -327,61 +327,61 @@ public class Player extends Observable implements Serializable {
 
 	}
 
-	public void exileCardFromBattleField(MagicCard mc) {
+	public void exileCardFromBattleField(MTGCard mc) {
 		battlefield.remove(mc);
 		exil.add(mc);
 		logAction(EXIL_TERM + mc + " from battlefield");
 
 	}
 
-	public void exileCardFromLibrary(MagicCard mc) {
+	public void exileCardFromLibrary(MTGCard mc) {
 		library.remove(mc);
 		exil.add(mc);
 		logAction(EXIL_TERM + mc + " from library");
 
 	}
 
-	public void exileCardFromHand(MagicCard mc) {
+	public void exileCardFromHand(MTGCard mc) {
 		hand.remove(mc);
 		exil.add(mc);
 		logAction(EXIL_TERM + mc + " from Hand");
 
 	}
 
-	public void exileCardFromGraveyard(MagicCard mc) {
+	public void exileCardFromGraveyard(MTGCard mc) {
 		graveyard.remove(mc);
 		exil.add(mc);
 		logAction(EXIL_TERM + mc + " from graveyard");
 
 	}
 
-	public void returnCardFromExile(MagicCard mc) {
+	public void returnCardFromExile(MTGCard mc) {
 		exil.remove(mc);
 		hand.add(mc);
 		logAction("get " + mc + " back in hand from exil");
 	}
 
-	public void returnCardFromBattleField(MagicCard mc) {
+	public void returnCardFromBattleField(MTGCard mc) {
 		battlefield.remove(mc);
 		hand.add(mc);
 		logAction("get " + mc + " back in hand");
 
 	}
 
-	public void returnCardFromGraveyard(MagicCard mc) {
+	public void returnCardFromGraveyard(MTGCard mc) {
 		graveyard.remove(mc);
 		hand.add(mc);
 		logAction("return " + mc + " from graveyard in hand");
 	}
 
-	public void playCardFromGraveyard(MagicCard mc) {
+	public void playCardFromGraveyard(MTGCard mc) {
 		graveyard.remove(mc);
 		battlefield.add(mc);
 		logAction(PLAY_TERM + mc + " from graveyard");
 
 	}
 
-	public void playCardFromExile(MagicCard mc) {
+	public void playCardFromExile(MTGCard mc) {
 		exil.remove(mc);
 		battlefield.add(mc);
 		logAction(PLAY_TERM + mc + " from exile");
@@ -426,11 +426,11 @@ public class Player extends Observable implements Serializable {
 		this.name = name;
 	}
 
-	public MagicDeck getDeck() {
+	public MTGDeck getDeck() {
 		return deck;
 	}
 
-	public void setDeck(MagicDeck deck) {
+	public void setDeck(MTGDeck deck) {
 		this.deck = deck;
 		init();
 	}
@@ -467,7 +467,7 @@ public class Player extends Observable implements Serializable {
 		this.library = library;
 	}
 
-	public void playCard(MagicCard mc) {
+	public void playCard(MTGCard mc) {
 		hand.remove(mc);
 		manaPool.useMana(mc);
 		battlefield.add(mc);
@@ -507,14 +507,14 @@ public class Player extends Observable implements Serializable {
 		GameManager.getInstance().getActualTurn().getActions().add(act.toString());
 	}
 
-	public void playCardFromLibrary(MagicCard mc) {
+	public void playCardFromLibrary(MTGCard mc) {
 		battlefield.add(mc);
 		library.remove(mc);
 		logAction(PLAY_TERM + mc + " from library");
 
 	}
 
-	public void searchCardFromLibrary(MagicCard mc) {
+	public void searchCardFromLibrary(MTGCard mc) {
 		hand.add(mc);
 		library.remove(mc);
 		logAction("search " + mc + " from library into hand");
@@ -525,7 +525,7 @@ public class Player extends Observable implements Serializable {
 
 	}
 
-	public void moveCard(ZoneEnum from, ZoneEnum to, MagicCard mc) {
+	public void moveCard(ZoneEnum from, ZoneEnum to, MTGCard mc) {
 		// do nothing
 	}
 
@@ -544,7 +544,7 @@ public class Player extends Observable implements Serializable {
 		return getId().equals(p2.getId());
 	}
 
-	public void playToken(MagicCard tok) {
+	public void playToken(MTGCard tok) {
 		battlefield.add(tok);
 		logAction("Create token " + tok);
 

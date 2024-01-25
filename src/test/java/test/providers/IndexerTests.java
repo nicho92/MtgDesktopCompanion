@@ -3,8 +3,8 @@ package test.providers;
 import org.apache.logging.log4j.Level;
 import org.junit.Before;
 import org.junit.Test;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumBorders;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.enums.EnumRarity;
@@ -16,8 +16,8 @@ import com.google.common.collect.Lists;
 
 public class IndexerTests {
 
-	MagicCard mc;
-	MagicEdition ed;
+	MTGCard mc;
+	MTGEdition ed;
 	
 	@Before
 	public void createCards()
@@ -25,7 +25,7 @@ public class IndexerTests {
 		
 		MTGLogger.changeLevel(Level.TRACE);
 		
-		mc = new MagicCard();
+		mc = new MTGCard();
 		mc.setName("Black Lotus");
 		mc.setLayout(EnumLayout.NORMAL);
 		mc.setCost("{0}");
@@ -36,7 +36,7 @@ public class IndexerTests {
 		mc.setRarity(EnumRarity.RARE);
 		mc.setBorder(EnumBorders.BLACK);
 		mc.setArtist("Christopher Rush");
-					 ed = new MagicEdition();
+					 ed = new MTGEdition();
 					 ed.setId("lea");
 					 ed.setSet("Limited Edition Alpha");
 					 mc.setMultiverseid("3");

@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Map;
 
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractCacheProvider;
 import org.magic.services.MTGConstants;
@@ -35,7 +35,7 @@ public class FileCache extends AbstractCacheProvider {
 	}
 
 	@Override
-	public BufferedImage getItem(MagicCard mc) {
+	public BufferedImage getItem(MTGCard mc) {
 		try {
 
 			logger.trace("search in cache : {} {}",mc,mc.getCurrentSet());
@@ -58,7 +58,7 @@ public class FileCache extends AbstractCacheProvider {
 
 
 	@Override
-	public void put(BufferedImage im, MagicCard mc) throws IOException {
+	public void put(BufferedImage im, MTGCard mc) throws IOException {
 		logger.debug("save in cache : {} {} ",mc,mc.getCurrentSet());
 
 		var f = new File(getFile(DIRECTORY), getEnabledPlugin(MTGPictureProvider.class).getName());

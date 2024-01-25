@@ -3,8 +3,8 @@ package org.magic.api.exports.impl;
 import java.io.File;
 import java.io.IOException;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.tools.FileTools;
 
@@ -19,7 +19,7 @@ public class CardCastleExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 		var build = new StringBuilder();
 		build.append(header).append("\n");
 
@@ -41,12 +41,12 @@ public class CardCastleExport extends AbstractFormattedFileCardExport {
 	}
 
 	@Override
-	public MagicDeck importDeck(String f, String name) throws IOException {
-		var deck = new MagicDeck();
+	public MTGDeck importDeck(String f, String name) throws IOException {
+		var deck = new MTGDeck();
 		deck.setName(name);
 
 		matches(f,true).forEach(m->{
-			MagicCard mc = parseMatcherWithGroup(m, 1, 2, true, FORMAT_SEARCH.NAME,FORMAT_SEARCH.NAME);
+			MTGCard mc = parseMatcherWithGroup(m, 1, 2, true, FORMAT_SEARCH.NAME,FORMAT_SEARCH.NAME);
 			if(mc!=null)
 			{
 				deck.add(mc);

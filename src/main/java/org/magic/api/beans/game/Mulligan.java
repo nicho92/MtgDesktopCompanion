@@ -1,6 +1,6 @@
 package org.magic.api.beans.game;
 
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 
 public abstract class Mulligan {
 
@@ -28,6 +28,6 @@ public abstract class Mulligan {
 	}
 
 	public abstract void mulligan();
-	public abstract MagicCard scry(int num);
+	public abstract MTGCard scry(int num);
 
 }

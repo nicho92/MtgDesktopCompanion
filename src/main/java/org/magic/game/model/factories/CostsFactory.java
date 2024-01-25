@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.game.model.costs.ActionCost;
 import org.magic.game.model.costs.Cost;
@@ -29,7 +29,7 @@ public class CostsFactory {
 		return inst;
 	}
 
-	public List<Cost> parseCosts(MagicCard mc)
+	public List<Cost> parseCosts(MTGCard mc)
 	{
 		List<Cost> lst = new ArrayList<>();
 

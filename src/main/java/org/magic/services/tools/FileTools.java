@@ -38,7 +38,7 @@ import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.apache.commons.io.filefilter.IOFileFilter;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.apache.logging.log4j.Logger;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.technical.audit.FileAccessInfo;
 import org.magic.api.beans.technical.audit.FileAccessInfo.ACCESSTYPE;
 import org.magic.services.MTGConstants;
@@ -269,7 +269,7 @@ public class FileTools {
     }
 
 
-	public static synchronized void writeSetRecognition(File f,MagicEdition ed,int sizeOfSet, List<DescContainer> desc) throws IOException
+	public static synchronized void writeSetRecognition(File f,MTGEdition ed,int sizeOfSet, List<DescContainer> desc) throws IOException
 	{
 		var info = new FileAccessInfo(f);
 		if(!f.getParentFile().exists())

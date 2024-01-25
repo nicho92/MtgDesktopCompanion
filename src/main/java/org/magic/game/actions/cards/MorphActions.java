@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
 
 import org.magic.api.beans.MTGRuling;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.game.ZoneEnum;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.game.actions.abbstract.AbstractCardAction;
@@ -55,7 +55,7 @@ public class MorphActions extends AbstractCardAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (!card.isRotated()) {
-			var mc = new MagicCard();
+			var mc = new MTGCard();
 			mc.setName("Morphed Creature");
 			mc.setPower("2");
 			mc.setToughness("2");
@@ -81,7 +81,7 @@ public class MorphActions extends AbstractCardAction {
 			}
 		} else {
 			try {
-				MagicCard mc = card.getMagicCard().getRotatedCard();
+				MTGCard mc = card.getMagicCard().getRotatedCard();
 				card.setMagicCard(mc);
 				card.setRotated(false);
 				card.removeAllCounters();

@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.logging.log4j.Logger;
-import org.magic.api.beans.MagicCardStock;
+import org.magic.api.beans.MTGCardStock;
 import org.magic.api.exports.impl.WooCommerceExport;
 import org.magic.api.externalshop.impl.WooCommerceExternalShop;
 import org.magic.api.interfaces.MTGDao;
@@ -47,7 +47,7 @@ public class FixingWoo {
 		
 	}
 
-	private static void save(MagicCardStock mcs, JsonObject obj) throws SQLException {
+	private static void save(MTGCardStock mcs, JsonObject obj) throws SQLException {
 		for(var je : obj.get("attributes").getAsJsonArray()) 
 		{
 			

@@ -4,15 +4,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.magic.api.beans.Announce;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGAnnounce;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MagicCardAlert;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGCollection;
+import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MagicNews;
-import org.magic.api.beans.SealedStock;
+import org.magic.api.beans.MTGSealedStock;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
@@ -38,7 +38,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 
 	protected TCache<MagicCardAlert> listAlerts;
 	protected TCache<Contact> listContacts;
-	protected TCache<MagicCollection> listCollections;
+	protected TCache<MTGCollection> listCollections;
 
 	@Override
 	public boolean isSQL() {
@@ -66,7 +66,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	}
 
 	@Override
-	public void moveCard(MagicCard mc, MagicCollection from, MagicCollection to) throws SQLException {
+	public void moveCard(MTGCard mc, MTGCollection from, MTGCollection to) throws SQLException {
 		removeCard(mc, from);
 		saveCard(mc, to);
 
@@ -83,32 +83,32 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 
 
 	@Override
-	public List<Announce> listAnnounces() throws SQLException {
+	public List<MTGAnnounce> listAnnounces() throws SQLException {
 		return listAnnounces(-1,null);
 	}
 
 	@Override
-	public List<Announce> listAnnounces(Contact contact) throws SQLException {
+	public List<MTGAnnounce> listAnnounces(Contact contact) throws SQLException {
 		return listAnnounces().stream().filter(a->a.getContact().getId()==contact.getId()).toList();
 	}
 
 	@Override
-	public List<Announce> listAnnounces(String textSearch) throws SQLException {
+	public List<MTGAnnounce> listAnnounces(String textSearch) throws SQLException {
 		return listAnnounces().stream().filter(a->a.getTitle().toLowerCase().contains(textSearch)||a.getDescription().toLowerCase().contains(textSearch)).toList();
 	}
 
 	@Override
-	public List<Announce> listAnnounces(EnumItems type) throws SQLException {
+	public List<MTGAnnounce> listAnnounces(EnumItems type) throws SQLException {
 		return listAnnounces().stream().filter(a->a.getCategorie()==type).toList();
 	}
 
 	@Override
-	public List<MagicCardStock> listStocks(List<MagicCollection> cols) throws SQLException {
+	public List<MTGCardStock> listStocks(List<MTGCollection> cols) throws SQLException {
 		return listStocks().stream().filter(st->cols.contains(st.getMagicCollection())).toList();
 	}
 
 	@Override
-	public List<MagicCardStock> listStocks(String cardName, List<MagicCollection> cols) throws SQLException {
+	public List<MTGCardStock> listStocks(String cardName, List<MTGCollection> cols) throws SQLException {
 		return listStocks(cols).stream().filter(st->st.getProduct().getName().equalsIgnoreCase(cardName)).toList();
 	}
 
@@ -124,7 +124,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	
 
 	@Override
-	public MagicCardStock getStockById(Long id) throws SQLException {
+	public MTGCardStock getStockById(Long id) throws SQLException {
 		return listStocks().stream().filter(mc->mc.getId().equals(id)).findAny().orElse(null);
 	}
 
@@ -139,34 +139,34 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	@Override
 	public void saveOrUpdateStock(MTGStockItem stock) throws SQLException {
 		if(stock.getProduct().getTypeProduct()==EnumItems.CARD)
-			saveOrUpdateCardStock((MagicCardStock)stock);
+			saveOrUpdateCardStock((MTGCardStock)stock);
 		else
-			saveOrUpdateSealedStock((SealedStock)stock);
+			saveOrUpdateSealedStock((MTGSealedStock)stock);
 	}
 
 	@Override
-	public List<SealedStock> listSealedStocks(MagicCollection c) throws SQLException {
+	public List<MTGSealedStock> listSealedStocks(MTGCollection c) throws SQLException {
 		return listSealedStocks().stream().filter(ss->ss.getMagicCollection().getName().equalsIgnoreCase(c.getName())).toList();
 	}
 
 	@Override
-	public List<SealedStock> listSealedStocks(MagicCollection c, MagicEdition ed) throws SQLException {
+	public List<MTGSealedStock> listSealedStocks(MTGCollection c, MTGEdition ed) throws SQLException {
 		return listSealedStocks().stream().filter(ss->ss.getMagicCollection().getName().equalsIgnoreCase(c.getName())&& ss.getProduct().getEdition().getId().equalsIgnoreCase(ed.getId())).toList();
 	}
 
 	@Override
 	public void saveCollection(String name) throws SQLException {
-		saveCollection(new MagicCollection(name));
+		saveCollection(new MTGCollection(name));
 	}
 
 	@Override
-	public List<MagicCard> listCardsFromCollection(String collectionName) throws SQLException {
-		return listCardsFromCollection(new MagicCollection(collectionName));
+	public List<MTGCard> listCardsFromCollection(String collectionName) throws SQLException {
+		return listCardsFromCollection(new MTGCollection(collectionName));
 	}
 
 	@Override
-	public List<MagicCard> listCardsFromCollection(String collectionName, MagicEdition me) throws SQLException {
-		return listCardsFromCollection(new MagicCollection(collectionName), me);
+	public List<MTGCard> listCardsFromCollection(String collectionName, MTGEdition me) throws SQLException {
+		return listCardsFromCollection(new MTGCollection(collectionName), me);
 	}
 
 
@@ -179,27 +179,27 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 
 
 	@Override
-	public List<MagicCardStock> listStocks(MagicCard mc) throws SQLException {
+	public List<MTGCardStock> listStocks(MTGCard mc) throws SQLException {
 		return listStocks().stream().filter(st->st.getProduct().getName().equals(mc.getName())).toList();
 	}
 
 	@Override
-	public void deleteStock(MagicCardStock state) throws SQLException
+	public void deleteStock(MTGCardStock state) throws SQLException
 	{
-		ArrayList<MagicCardStock> stock = new ArrayList<>();
+		ArrayList<MTGCardStock> stock = new ArrayList<>();
 		stock.add(state);
 		deleteStock(stock);
 	}
 
 	@Override
-	public MagicCardAlert hasAlert(MagicCard mc) {
+	public MagicCardAlert hasAlert(MTGCard mc) {
 		return listAlerts().stream().filter(a->a.getCard().equals(mc)).findFirst().orElse(null);
 	}
 
 	
 
 	@Override
-	public MagicCardStock getStockWithTiersID(String key, String id) throws SQLException {
+	public MTGCardStock getStockWithTiersID(String key, String id) throws SQLException {
 
 		if(key==null)
 			return null;
@@ -214,7 +214,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 
 		dao.init(null);
 		logger.debug("duplicate collection");
-		for (MagicCollection col : listCollections())
+		for (MTGCollection col : listCollections())
 		{
 			try {
 				dao.saveCollection(col);
@@ -223,7 +223,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 				logger.error("{} already exist",col);
 			}
 
-			for (MagicCard mc : listCardsFromCollection(col)) {
+			for (MTGCard mc : listCardsFromCollection(col)) {
 				try {
 					dao.saveCard(mc, col);
 				}catch(Exception e)
@@ -234,7 +234,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		}
 
 		logger.debug("duplicate stock");
-		for(MagicCardStock stock : listStocks())
+		for(MTGCardStock stock : listStocks())
 		{
 			stock.setId(-1);
 			dao.saveOrUpdateCardStock(stock);
@@ -252,7 +252,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		}
 
 		logger.debug("duplicate sealed");
-		for(SealedStock oe : listSealedStocks())
+		for(MTGSealedStock oe : listSealedStocks())
 		{
 			oe.setId(-1);
 			dao.saveOrUpdateSealedStock(oe);
@@ -273,14 +273,14 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		}
 
 		logger.debug("duplicate decks");
-		for(MagicDeck oe : listDecks())
+		for(MTGDeck oe : listDecks())
 		{
 			oe.setId(-1);
 			dao.saveOrUpdateDeck(oe);
 		}
 
 		logger.debug("duplicate announces");
-		for(Announce oe : listAnnounces())
+		for(MTGAnnounce oe : listAnnounces())
 		{
 			oe.setId(-1);
 			dao.saveOrUpdateAnnounce(oe);
@@ -290,17 +290,17 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 
 
 	@Override
-	public List<MagicCard> synchronizeCollection(MagicCollection col) throws SQLException {
+	public List<MTGCard> synchronizeCollection(MTGCollection col) throws SQLException {
 
-		List<MagicCard> cols = listCardsFromCollection(col);
+		List<MTGCard> cols = listCardsFromCollection(col);
 
-		List<MagicCard> toSave = listStocks().stream()
+		List<MTGCard> toSave = listStocks().stream()
 				  .filter(st->st.getMagicCollection().equals(col))
 				  .filter(st->!cols.contains(st.getProduct()))
-				  .map(MagicCardStock::getProduct)
+				  .map(MTGCardStock::getProduct)
 				  .toList();
 
-		List<MagicCard> ret = new ArrayList<>();
+		List<MTGCard> ret = new ArrayList<>();
 
 		toSave.forEach(mc->{
 			try {
@@ -316,7 +316,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	}
 
 	@Override
-	public void updateCard(MagicCard c, MagicCard newC, MagicCollection col) throws SQLException {
+	public void updateCard(MTGCard c, MTGCard newC, MTGCollection col) throws SQLException {
 		saveCard(newC,col);
 	}
 

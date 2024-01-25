@@ -8,7 +8,7 @@ import java.util.Locale;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.magic.api.beans.Grading;
+import org.magic.api.beans.MTGGrading;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
 import org.magic.services.AccountsManager;
 import org.magic.services.network.RequestBuilder;
@@ -23,7 +23,7 @@ public class BeckettGrader extends AbstractGradersProvider {
 	}
 
 	@Override
-	public Grading loadGrading(String identifier) throws IOException {
+	public MTGGrading loadGrading(String identifier) throws IOException {
 
 		var c = URLTools.newClient();
 
@@ -61,7 +61,7 @@ public class BeckettGrader extends AbstractGradersProvider {
 
 
 			Elements trs=table.select("tr");
-			var grad = new Grading();
+			var grad = new MTGGrading();
 			grad.setGraderName(getName());
 			grad.setNumberID(identifier);
 			grad.setUrlInfo(getWebSite()+"?item_id="+identifier);

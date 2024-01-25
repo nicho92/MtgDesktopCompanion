@@ -66,9 +66,9 @@ import org.jdesktop.swingx.JXSearchField;
 import org.jdesktop.swingx.JXSearchField.SearchMode;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCollection;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCardVariation;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumExtra;
@@ -226,7 +226,7 @@ public class UITools {
 
 				table.setDefaultRenderer(Date.class, new DateTableCellEditorRenderer());
 				table.setDefaultRenderer(Instant.class, new DateTableCellEditorRenderer());
-				table.setDefaultRenderer(MagicEdition.class, new MagicEditionJLabelRenderer());
+				table.setDefaultRenderer(MTGEdition.class, new MagicEditionJLabelRenderer());
 				table.setDefaultRenderer(MTGPlugin.class, new MTGPluginCellRenderer());
 				table.setDefaultRenderer(Player.class, new PlayerRenderer());
 				table.setDefaultRenderer(Contact.class, new ContactRenderer());
@@ -248,13 +248,13 @@ public class UITools {
 				table.setDefaultEditor(EnumExtra.class, new ComboBoxEditor<>(EnumExtra.values()));
 				table.setDefaultEditor(Level.class,  new ComboBoxEditor<>(MTGLogger.getLevels()) );
 				try {
-					table.setDefaultEditor(MagicEdition.class, new ComboBoxEditor<>(getEnabledPlugin(MTGCardsProvider.class).listEditions().stream().sorted().toList() ));
+					table.setDefaultEditor(MTGEdition.class, new ComboBoxEditor<>(getEnabledPlugin(MTGCardsProvider.class).listEditions().stream().sorted().toList() ));
 				} catch (IOException e2) {
 					logger.error(e2);
 				}
 				
 				try {
-					table.setDefaultEditor(MagicCollection.class, new ComboBoxEditor<>(getEnabledPlugin(MTGDao.class).listCollections()));
+					table.setDefaultEditor(MTGCollection.class, new ComboBoxEditor<>(getEnabledPlugin(MTGDao.class).listCollections()));
 				} catch (Exception e1) {
 					logger.error(e1);
 				}
@@ -382,18 +382,18 @@ public class UITools {
 		ShortKeyManager.inst().setShortCutTo(key, b);
 	}
 
-	public static JComboBox<MagicEdition> createComboboxEditions(List<MagicEdition> value,SIZE s) {
-		DefaultComboBoxModel<MagicEdition> model = new DefaultComboBoxModel<>();
-		JComboBox<MagicEdition> combo = new JComboBox<>(model);
+	public static JComboBox<MTGEdition> createComboboxEditions(List<MTGEdition> value,SIZE s) {
+		DefaultComboBoxModel<MTGEdition> model = new DefaultComboBoxModel<>();
+		JComboBox<MTGEdition> combo = new JComboBox<>(model);
 		value.forEach(model::addElement);
 		combo.setRenderer(new MagicEditionIconListRenderer(s));
 		return combo;
 	}
 
-	public static JComboBox<MagicEdition> createComboboxEditions()
+	public static JComboBox<MTGEdition> createComboboxEditions()
 	{
 		try {
-			List<MagicEdition> list = getEnabledPlugin(MTGCardsProvider.class).listEditions();
+			List<MTGEdition> list = getEnabledPlugin(MTGCardsProvider.class).listEditions();
 			Collections.sort(list);
 			return createComboboxEditions(list,SIZE.MEDIUM);
 		} catch (IOException e) {
@@ -464,10 +464,10 @@ public class UITools {
 
 
 
-	public static JComboBox<MagicCollection> createComboboxCollection()
+	public static JComboBox<MTGCollection> createComboboxCollection()
 	{
-		DefaultComboBoxModel<MagicCollection> model = new DefaultComboBoxModel<>();
-		JComboBox<MagicCollection> combo = new JComboBox<>(model);
+		DefaultComboBoxModel<MTGCollection> model = new DefaultComboBoxModel<>();
+		JComboBox<MTGCollection> combo = new JComboBox<>(model);
 
 		try {
 			getEnabledPlugin(MTGDao.class).listCollections().stream().forEach(model::addElement);
@@ -574,11 +574,11 @@ public class UITools {
 						if (cardName.indexOf('(') >= 0)
 							cardName = cardName.substring(0, cardName.indexOf('(')).trim();
 
-						MagicEdition ed = null;
+						MTGEdition ed = null;
 						try {
 							if (edPos != null) {
 								var edID = getModelValueAt(table,row, edPos).toString();
-								ed = new MagicEdition();
+								ed = new MTGEdition();
 								ed.setId(edID);
 							}
 						}catch(Exception ex)
@@ -589,7 +589,7 @@ public class UITools {
 
 
 						try {
-							MagicCard mc =null;
+							MTGCard mc =null;
 							if (extraPos != null)
 							{
 								var key = getModelValueAt(table,row, extraPos);

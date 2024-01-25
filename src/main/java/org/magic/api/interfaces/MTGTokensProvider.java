@@ -4,21 +4,21 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGEdition;
 
 public interface MTGTokensProvider extends MTGPlugin {
 
-	boolean isTokenizer(MagicCard mc);
+	boolean isTokenizer(MTGCard mc);
 
-	boolean isEmblemizer(MagicCard mc);
+	boolean isEmblemizer(MTGCard mc);
 
-	public List<MagicCard> listTokensFor(MagicEdition ed)  throws IOException;
+	public List<MTGCard> listTokensFor(MTGEdition ed)  throws IOException;
 
-	public MagicCard generateTokenFor(MagicCard mc) throws IOException;
+	public MTGCard generateTokenFor(MTGCard mc) throws IOException;
 
-	public 	MagicCard generateEmblemFor(MagicCard mc) throws IOException;
+	public 	MTGCard generateEmblemFor(MTGCard mc) throws IOException;
 
-	public 	BufferedImage getPictures(MagicCard tok) throws IOException;
+	public 	BufferedImage getPictures(MTGCard tok) throws IOException;
 
 }

@@ -6,11 +6,11 @@ import javax.swing.ImageIcon;
 
 import org.jfree.chart3d.data.PieDataset3D;
 import org.jfree.chart3d.data.StandardPieDataset3D;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.gui.abstracts.charts.Abstract3DPieChart;
 import org.magic.services.MTGConstants;
 
-public class TypeRepartitionPanel extends Abstract3DPieChart<MagicCard,String> {
+public class TypeRepartitionPanel extends Abstract3DPieChart<MTGCard,String> {
 
 	public TypeRepartitionPanel(boolean displayPanel) {
 		super(displayPanel);

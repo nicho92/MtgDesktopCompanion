@@ -7,12 +7,12 @@ import javax.swing.ImageIcon;
 import org.jfree.chart3d.data.PieDataset3D;
 import org.jfree.chart3d.data.StandardPieDataset3D;
 import org.jfree.chart3d.plot.StandardColorSource;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.gui.abstracts.charts.Abstract3DPieChart;
 import org.magic.services.MTGConstants;
 
-public class ManaRepartitionPanel extends Abstract3DPieChart<MagicCard,EnumColors> {
+public class ManaRepartitionPanel extends Abstract3DPieChart<MTGCard,EnumColors> {
 
 	public ManaRepartitionPanel(boolean displayPanel) {
 		super(displayPanel);

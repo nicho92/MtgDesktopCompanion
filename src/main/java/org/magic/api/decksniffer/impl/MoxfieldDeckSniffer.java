@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
@@ -37,7 +37,7 @@ public class MoxfieldDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
+	public MTGDeck getDeck(RetrievableDeck info) throws IOException {
 		var deck = info.toBaseDeck();
 
 		var json = RequestBuilder.build()
@@ -53,7 +53,7 @@ public class MoxfieldDeckSniffer extends AbstractDeckSniffer {
 
 		if(json.get("commandersCount").getAsInt()>0)
 		{
-			var map = new HashMap<MagicCard, Integer>();
+			var map = new HashMap<MTGCard, Integer>();
 			load(json,"commanders",map);
 
 			deck.setCommander(map.keySet().iterator().next());
@@ -64,7 +64,7 @@ public class MoxfieldDeckSniffer extends AbstractDeckSniffer {
 		return deck;
 	}
 
-	private void load(JsonObject json,String key, Map<MagicCard, Integer> main) {
+	private void load(JsonObject json,String key, Map<MTGCard, Integer> main) {
 
 
 		json.get(key).getAsJsonObject().entrySet().forEach(entry->{

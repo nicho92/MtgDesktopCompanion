@@ -27,8 +27,8 @@ import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MTGFormat.FORMATS;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.gui.components.card.ManaPanel;
 import org.magic.gui.components.editor.JTagsPanel;
@@ -44,7 +44,7 @@ public class DeckDetailsPanel extends JComponent {
 	 */
 	private static final long serialVersionUID = 1L;
 	private transient BindingGroup mBindingGroup;
-	private MagicDeck magicDeck = new MagicDeck();
+	private MTGDeck magicDeck = new MTGDeck();
 	private JTextField nameJTextField;
 	private JTextArea textArea;
 	private ManaPanel manaPanel;
@@ -61,7 +61,7 @@ public class DeckDetailsPanel extends JComponent {
 	private JLabel lblDate;
 	private JLabel lblDateInformation;
 
-	public DeckDetailsPanel(MagicDeck newMagicDeck) {
+	public DeckDetailsPanel(MTGDeck newMagicDeck) {
 		this();
 		init(newMagicDeck);
 	}
@@ -150,11 +150,11 @@ public class DeckDetailsPanel extends JComponent {
 		}
 	}
 
-	public MagicDeck getMagicDeck() {
+	public MTGDeck getMagicDeck() {
 		return magicDeck;
 	}
 
-	public void init(MagicDeck newMagicDeck) {
+	public void init(MTGDeck newMagicDeck) {
 		setMagicDeck(newMagicDeck, true);
 	}
 
@@ -186,7 +186,7 @@ public class DeckDetailsPanel extends JComponent {
 			lbcmd.setBackground(Color.GREEN);
 	}
 
-	public void setMagicDeck(MagicDeck newMagicDeck, boolean update) {
+	public void setMagicDeck(MTGDeck newMagicDeck, boolean update) {
 		magicDeck = newMagicDeck;
 		if (update) {
 			if (mBindingGroup != null) {
@@ -213,7 +213,7 @@ public class DeckDetailsPanel extends JComponent {
 			@Override
 			protected Void doInBackground() throws Exception {
 				for (var i = 0; i < 4; i++) {
-					BufferedImage im = getEnabledPlugin(MTGPictureProvider.class).extractPicture((MagicCard) magicDeck.getMain().keySet().toArray()[i]);
+					BufferedImage im = getEnabledPlugin(MTGPictureProvider.class).extractPicture((MTGCard) magicDeck.getMain().keySet().toArray()[i]);
 					publish(im);
 				}
 				return null;
@@ -238,30 +238,30 @@ public class DeckDetailsPanel extends JComponent {
 	}
 
 	protected BindingGroup initDataBindings() {
-		BeanProperty<MagicDeck, String> nameProperty = BeanProperty.create("name");
+		BeanProperty<MTGDeck, String> nameProperty = BeanProperty.create("name");
 		BeanProperty<JTextField, String> textProperty1 = BeanProperty.create("text");
-		AutoBinding<MagicDeck, String, JTextField, String> autoBinding1 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicDeck, nameProperty, nameJTextField, textProperty1);
+		AutoBinding<MTGDeck, String, JTextField, String> autoBinding1 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicDeck, nameProperty, nameJTextField, textProperty1);
 		autoBinding1.bind();
 		//
 
-		BeanProperty<MagicDeck, Integer> nbCardsProperty = BeanProperty.create("nbCards");
+		BeanProperty<MTGDeck, Integer> nbCardsProperty = BeanProperty.create("nbCards");
 		BeanProperty<JProgressBar, Integer> textProperty4 = BeanProperty.create("value");
-		AutoBinding<MagicDeck, Integer, JProgressBar, Integer> autoBinding2 = Bindings.createAutoBinding(UpdateStrategy.READ, magicDeck, nbCardsProperty, nbCardsProgress, textProperty4);
+		AutoBinding<MTGDeck, Integer, JProgressBar, Integer> autoBinding2 = Bindings.createAutoBinding(UpdateStrategy.READ, magicDeck, nbCardsProperty, nbCardsProgress, textProperty4);
 		autoBinding2.bind();
 		nbCardsProgress.setString("" + magicDeck.getNbCards());
 		nbSideProgress.setValue(magicDeck.getSideAsList().size());
 
 		setLegalities();
 		//
-		BeanProperty<MagicDeck, String> descriptionProperty = BeanProperty.create("description");
+		BeanProperty<MTGDeck, String> descriptionProperty = BeanProperty.create("description");
 		BeanProperty<JTextArea, String> textProperty2 = BeanProperty.create("text");
-		AutoBinding<MagicDeck, String, JTextArea, String> autoBinding3 = Bindings
+		AutoBinding<MTGDeck, String, JTextArea, String> autoBinding3 = Bindings
 				.createAutoBinding(UpdateStrategy.READ_WRITE, magicDeck, descriptionProperty, textArea, textProperty2);
 		autoBinding3.bind();
 		//
-		BeanProperty<MagicDeck, String> colorIdentityProperty = BeanProperty.create("colors");
+		BeanProperty<MTGDeck, String> colorIdentityProperty = BeanProperty.create("colors");
 		BeanProperty<ManaPanel, String> manaCostProperty3 = BeanProperty.create("manaCost");
-		AutoBinding<MagicDeck, String, ManaPanel, String> autoBinding4 = Bindings.createAutoBinding(UpdateStrategy.READ, magicDeck, colorIdentityProperty, manaPanel, manaCostProperty3);
+		AutoBinding<MTGDeck, String, ManaPanel, String> autoBinding4 = Bindings.createAutoBinding(UpdateStrategy.READ, magicDeck, colorIdentityProperty, manaPanel, manaCostProperty3);
 		autoBinding4.bind();
 		//
 

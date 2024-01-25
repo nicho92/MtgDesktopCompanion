@@ -17,9 +17,9 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MTGFormat.AUTHORIZATION;
 import org.magic.api.beans.MTGRuling;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardNames;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardNames;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumBorders;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumFinishes;
@@ -113,7 +113,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 
 	@Override
-	public MagicCard getCardById(String id,MagicEdition ed) throws IOException {
+	public MTGCard getCardById(String id,MTGEdition ed) throws IOException {
 		try {
 			return searchCardByCriteria("id", id, ed, true).get(0);
 		}catch(IndexOutOfBoundsException e)
@@ -124,12 +124,12 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 
 	@Override
-	public MagicCard getCardByScryfallId(String crit) throws IOException {
+	public MTGCard getCardByScryfallId(String crit) throws IOException {
 		return getCardById(crit);
 	}
 
 
-	public JsonObject getJsonFor(MagicCard mc)
+	public JsonObject getJsonFor(MTGCard mc)
 	{
 		String url = baseURI + CARDS + mc.getCurrentSet().getId().toLowerCase() + "/" + mc.getNumber();
 		try {
@@ -142,19 +142,19 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 
 	@Override
-	public List<MagicCard> listAllCards() throws IOException {
+	public List<MTGCard> listAllCards() throws IOException {
 		throw new IOException("Not Implemented");
 	}
 
 
 	@Override
-	public MagicCard getCardByArenaId(String id) throws IOException {
+	public MTGCard getCardByArenaId(String id) throws IOException {
 		return searchCardByCriteria("arenaId",id, null, true).get(0);
 	}
 
 	@Override
-	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact) throws IOException {
-		List<MagicCard> list = new ArrayList<>();
+	public List<MTGCard> searchCardByCriteria(String att, String crit, MTGEdition me, boolean exact) throws IOException {
+		List<MTGCard> list = new ArrayList<>();
 
 		String comparator = crit;
 
@@ -191,7 +191,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				} else {
 					var jsonList = el.getAsJsonObject().getAsJsonArray("data");
 					for (var i = 0; i < jsonList.size(); i++) {
-						MagicCard mc = loadCard(jsonList.get(i).getAsJsonObject(), exact, crit);
+						MTGCard mc = loadCard(jsonList.get(i).getAsJsonObject(), exact, crit);
 						list.add(mc);
 					}
 					hasMore = el.getAsJsonObject().get("has_more").getAsBoolean();
@@ -214,20 +214,20 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	}
 
 	@Override
-	public MagicCard getCardByNumber(String id, MagicEdition me) throws IOException {
+	public MTGCard getCardByNumber(String id, MTGEdition me) throws IOException {
 		String url = baseURI + CARDS + me.getId().toLowerCase() + "/" + id;
 		var root =  URLTools.extractAsJson(url).getAsJsonObject();
 		return loadCard(root, true, null);
 	}
 
 	@Override
-	public List<MagicEdition> loadEditions() throws IOException {
+	public List<MTGEdition> loadEditions() throws IOException {
 			String url = baseURI + "/sets";
 			var root = URLTools.extractAsJson(url).getAsJsonObject();
-			List<MagicEdition> eds = new ArrayList<>();
+			List<MTGEdition> eds = new ArrayList<>();
 			for (var i = 0; i < root.get("data").getAsJsonArray().size(); i++) {
 				var e = root.get("data").getAsJsonArray().get(i).getAsJsonObject();
-				MagicEdition ed = generateEdition(e.getAsJsonObject());
+				MTGEdition ed = generateEdition(e.getAsJsonObject());
 				eds.add(ed);
 			}
 
@@ -258,7 +258,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			arr.add(new QueryAttribute(s,Boolean.class));
 		}
 
-		arr.add(new QueryAttribute("set",MagicEdition.class));
+		arr.add(new QueryAttribute("set",MTGEdition.class));
 		arr.add(new QueryAttribute(COLOR, EnumColors.class));
 		arr.add(new QueryAttribute(COLOR_IDENTITY, EnumColors.class));
 		arr.add(new QueryAttribute(LAYOUT,EnumLayout.class));
@@ -277,7 +277,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	}
 
 	@Override
-	public List<MagicCard> searchByCriteria(MTGCrit<?>[] crits) throws IOException {
+	public List<MTGCard> searchByCriteria(MTGCrit<?>[] crits) throws IOException {
 		throw new IOException("Not Yet Implemented");
 	}
 
@@ -296,13 +296,13 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		return "ScryFall";
 	}
 
-	private MagicCard loadCard(JsonObject obj, boolean exact, String search){
+	private MTGCard loadCard(JsonObject obj, boolean exact, String search){
 
 		try {
-			return cacheCards.get(obj.get("id").getAsString(), new Callable<MagicCard>() {
+			return cacheCards.get(obj.get("id").getAsString(), new Callable<MTGCard>() {
 
 				@Override
-				public MagicCard call() throws Exception {
+				public MTGCard call() throws Exception {
 					return generateCard(obj, exact, search);
 				}
 			});
@@ -315,8 +315,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	}
 
 
-	private MagicCard generateCard(JsonObject obj, boolean exact, String search) throws IOException {
-		var mc = new MagicCard();
+	private MTGCard generateCard(JsonObject obj, boolean exact, String search) throws IOException {
+		var mc = new MTGCard();
 
 		mc.setId(obj.get("id").getAsString());
 		mc.setScryfallId(mc.getId());
@@ -381,7 +381,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 		mc.setJapanese(String.valueOf(obj.get("LANG")).equals("en"));
 
-		var n = new MagicCardNames();
+		var n = new MTGCardNames();
 		n.setLanguage("English");
 		n.setName(mc.getName());
 		try {
@@ -557,10 +557,10 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		mc.setNumber(obj.get(COLLECTOR_NUMBER).getAsString());
 		
 		
-		MagicEdition ed = null;
+		MTGEdition ed = null;
 
 			try {
-				ed = (MagicEdition) BeanUtils.cloneBean(getSetById(obj.get("set").getAsString()));
+				ed = (MTGEdition) BeanUtils.cloneBean(getSetById(obj.get("set").getAsString()));
 				ed.setOnlineOnly(obj.get(DIGITAL).getAsBoolean());
 				mc.getEditions().add(ed);
 				mc.setEdition(ed);
@@ -601,7 +601,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	}
 
-	private void generateRules(MagicCard mc) throws IOException {
+	private void generateRules(MTGCard mc) throws IOException {
 
 		if(getBoolean("LOAD_RULING"))
 		{
@@ -621,7 +621,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		}
 	}
 
-	private void generateTypes(MagicCard mc, String line) {
+	private void generateTypes(MTGCard mc, String line) {
 
 		line = line.replace("\"", "");
 
@@ -648,7 +648,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	}
 
-	private void initOtherEdition(MagicCard mc) throws IOException {
+	private void initOtherEdition(MTGCard mc) throws IOException {
 
 		String url = baseURI + "/cards/search?q=+" + URLTools.encode("++!\"" + mc.getName() + "\"")+ "%20include:extras" + "%20-s:" + mc.getCurrentSet().getId();
 
@@ -666,7 +666,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				
 				for (var i = 0; i < jsonList.size(); i++) {
 					var obj = jsonList.get(i).getAsJsonObject();
-					MagicEdition ed = getSetById(obj.get("set").getAsString());
+					MTGEdition ed = getSetById(obj.get("set").getAsString());
 
 					if (obj.get(MULTIVERSE_ID) != null)
 						mc.setMultiverseid(obj.get(MULTIVERSE_ID).getAsString());
@@ -690,8 +690,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		}
 	}
 
-	private MagicEdition generateEdition(JsonObject obj) {
-		var ed = new MagicEdition();
+	private MTGEdition generateEdition(JsonObject obj) {
+		var ed = new MTGEdition();
 		ed.setId(obj.get("code").getAsString());
 		ed.setSet(obj.get(NAME).getAsString());
 		ed.setType(obj.get("set_type").getAsString());

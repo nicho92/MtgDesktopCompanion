@@ -12,9 +12,9 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.lang3.NotImplementedException;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.tools.POMReader;
 
@@ -53,7 +53,7 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 
 
 	@Override
-	public MagicDeck importDeck(String f,String n) throws IOException {
+	public MTGDeck importDeck(String f,String n) throws IOException {
 		throw new NotImplementedException("Can't generate deck from " + getName());
 	}
 
@@ -88,7 +88,7 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 
 
 	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 
 		try (
 				var pdfSrc = new PdfDocument(new PdfReader(this.getClass().getResource("/data/mtg_constructed_deck_registration_sheet.pdf").openStream()));
@@ -125,13 +125,13 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 
 			// MAIN DECK
 			var count = 0;
-			for (Entry<MagicCard, Integer> e : deck.getMain().entrySet().stream().filter(e->!e.getKey().isBasicLand()).toList()) {
+			for (Entry<MTGCard, Integer> e : deck.getMain().entrySet().stream().filter(e->!e.getKey().isBasicLand()).toList()) {
 				docDest.add(createParagraphe(e.getValue() + space + e.getKey().getName(),w/6.4f,h-240-count));
 				count += 18;
 				notify(e.getKey());
 			}
 			count = 0;
-			for (Entry<MagicCard, Integer> e : deck.getMain().entrySet().stream().filter(e->e.getKey().isBasicLand()).toList()) {
+			for (Entry<MTGCard, Integer> e : deck.getMain().entrySet().stream().filter(e->e.getKey().isBasicLand()).toList()) {
 					docDest.add(createParagraphe(e.getValue() + space + e.getKey().getName(),w/1.65f,h-240-count));
 					count += 18;
 				notify(e.getKey());
@@ -139,7 +139,7 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 
 			// SIDEBOARD
 			count = 0;
-			for (MagicCard mc : deck.getSideBoard().keySet()) {
+			for (MTGCard mc : deck.getSideBoard().keySet()) {
 				docDest.add(createParagraphe(deck.getSideBoard().get(mc) + space + mc.getName(),w/1.65f,h-474-count));
 				notify(mc);
 				count += 18;
@@ -188,7 +188,7 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 	}
 
 	@Override
-	public List<MagicCardStock> importStock(String content) throws IOException {
+	public List<MTGCardStock> importStock(String content) throws IOException {
 		throw new NotImplementedException("Can't import stock from " + getName());
 	}
 

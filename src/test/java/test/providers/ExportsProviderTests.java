@@ -8,10 +8,10 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGCollection;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsExport.MODS;
 import org.magic.services.MTGControler;
@@ -21,7 +21,7 @@ import test.TestTools;
 
 public class ExportsProviderTests {
 
-	List<MagicCard> cards;
+	List<MTGCard> cards;
 	
 	@Before
 	public void initTest() throws IOException, URISyntaxException
@@ -44,7 +44,7 @@ public class ExportsProviderTests {
 	public void testPlugin(MTGCardsExport p)
 	{
 		
-			MagicDeck d = MagicDeck.toDeck(cards);
+			MTGDeck d = MTGDeck.toDeck(cards);
 					  d.getSideBoard().put(cards.get(0), 3);
 			
 			System.out.println("*****************************"+p.getName());
@@ -74,13 +74,13 @@ public class ExportsProviderTests {
 					}
 					
 					
-					List<MagicCardStock> stocks = new ArrayList<>();
+					List<MTGCardStock> stocks = new ArrayList<>();
 					
-					for(MagicCard mc : cards)
+					for(MTGCard mc : cards)
 					{ 
-						MagicCardStock s = MTGControler.getInstance().getDefaultStock();
+						MTGCardStock s = MTGControler.getInstance().getDefaultStock();
 									s.setProduct(mc);
-									s.setMagicCollection(new MagicCollection("TEST"));
+									s.setMagicCollection(new MTGCollection("TEST"));
 									s.setPrice(9999.0);
 									s.setComment("Test");
 									stocks.add(s);
@@ -95,7 +95,7 @@ public class ExportsProviderTests {
 			
 			if(p.getMods()==MODS.BOTH || p.getMods()==MODS.IMPORT)
 			{
-				MagicDeck d2;
+				MTGDeck d2;
 				try {
 					d2 = p.importDeckFromFile(destD);
 					System.out.println(d2 + " " + " import deck OK");

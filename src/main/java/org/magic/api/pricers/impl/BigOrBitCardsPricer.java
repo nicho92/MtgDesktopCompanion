@@ -6,8 +6,8 @@ import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.network.RequestBuilder;
@@ -23,11 +23,11 @@ public class BigOrBitCardsPricer extends AbstractPricesProvider {
 
 
 	@Override
-	protected List<MagicPrice> getLocalePrice(MagicCard card) throws IOException {
+	protected List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
 
 
 		var extra="";
-		var ret = new ArrayList<MagicPrice>();
+		var ret = new ArrayList<MTGPrice>();
 		if(card.isExtendedArt())
 			extra=" (Extended Art)";
 		else if(card.isShowCase())
@@ -54,7 +54,7 @@ public class BigOrBitCardsPricer extends AbstractPricesProvider {
 
 			if( title.text().equalsIgnoreCase(card.getName()) &&  !rowDetail.select("span.product-stock").text().equals("0 in Stock") && e.select("p").text().toLowerCase().indexOf(card.getCurrentSet().getSet().toLowerCase())>-1)
 			{
-			  var mp = new MagicPrice();
+			  var mp = new MTGPrice();
 					mp.setSeller(getName());
 					mp.setSite(getName());
 					mp.setCurrency(Currency.getInstance(Locale.UK));

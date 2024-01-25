@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.gui.components.card.ManaPanel;
 import org.magic.services.MTGControler;
 import org.magic.services.providers.IconSetProvider;
@@ -31,7 +31,7 @@ public class CardListPanel extends JPanel {
 		initGUI();
 	}
 
-	public CardListPanel(MagicCard mc) {
+	public CardListPanel(MTGCard mc) {
 		initGUI();
 
 		if(mc!=null)
@@ -67,7 +67,7 @@ public class CardListPanel extends JPanel {
 		add(lblRarity, UITools.createGridBagConstraints(GridBagConstraints.WEST, GridBagConstraints.VERTICAL, 1, 3));
 	}
 
-	public void setMagicCard(MagicCard mc) {
+	public void setMagicCard(MTGCard mc) {
 
 		if(mc==null)
 			return;

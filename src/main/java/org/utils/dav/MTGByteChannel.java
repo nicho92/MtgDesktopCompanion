@@ -10,8 +10,8 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.apache.logging.log4j.Logger;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.CardsManagerService;
 import org.magic.services.logging.MTGLogger;
@@ -62,7 +62,7 @@ public class MTGByteChannel implements SeekableByteChannel {
 	public int read(ByteBuffer dst) throws IOException {
 
 		try {
-			Optional<MagicCard> card = dao.listCardsFromCollection(path.getCollection(), new MagicEdition(path.getIDEdition())).stream().filter(mc->mc.getName().equals(path.getCardName())).findFirst();
+			Optional<MTGCard> card = dao.listCardsFromCollection(path.getCollection(), new MTGEdition(path.getIDEdition())).stream().filter(mc->mc.getName().equals(path.getCardName())).findFirst();
 			if(card.isPresent())
 				content = ((MTGFileSystem)path.getFileSystem()).getSerializer().toJsonElement(card.get()).toString().getBytes();
 		} catch (Exception e) {
@@ -105,7 +105,7 @@ public class MTGByteChannel implements SeekableByteChannel {
 	      src.get(buf);
 	    }
 
-	    MagicCard mc = ((MTGFileSystem)path.getFileSystem()).getSerializer().fromJson(new String(buf) , MagicCard.class);
+	    MTGCard mc = ((MTGFileSystem)path.getFileSystem()).getSerializer().fromJson(new String(buf) , MTGCard.class);
 
 		try {
 			CardsManagerService.saveCard(mc, path.getCollection(), null);

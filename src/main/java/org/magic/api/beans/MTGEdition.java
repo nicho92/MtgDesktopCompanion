@@ -12,7 +12,7 @@ import org.magic.services.tools.UITools;
 
 import com.google.gson.annotations.SerializedName;
 
-public class MagicEdition implements MTGSerializable, Comparable<MagicEdition> {
+public class MTGEdition implements MTGSerializable, Comparable<MTGEdition> {
 	public static final long serialVersionUID = 1L;
 
 	private String set;
@@ -37,7 +37,7 @@ public class MagicEdition implements MTGSerializable, Comparable<MagicEdition> {
 	private boolean foreignOnly;
 
 	private List<EnumExtra> booster;
-
+	
 
 	@Override
 	public String getStoreId() {
@@ -107,14 +107,14 @@ public class MagicEdition implements MTGSerializable, Comparable<MagicEdition> {
 	}
 
 
-	public MagicEdition(String idMe)
+	public MTGEdition(String idMe)
 	{
 		setId(idMe);
 		booster = new ArrayList<>();
 		translations = new HashMap<>();
 	}
 
-	public MagicEdition(String idMe,String name)
+	public MTGEdition(String idMe,String name)
 	{
 		setId(idMe);
 		setSet(name);
@@ -122,7 +122,7 @@ public class MagicEdition implements MTGSerializable, Comparable<MagicEdition> {
 		translations = new HashMap<>();
 	}
 
-	public MagicEdition() {
+	public MTGEdition() {
 		booster = new ArrayList<>();
 		translations = new HashMap<>();
 	}
@@ -178,7 +178,7 @@ public class MagicEdition implements MTGSerializable, Comparable<MagicEdition> {
 		if((obj == null) || (this.getClass() != obj.getClass()) || (getId()==null))
 			return false;
 
-		return getId().equals(((MagicEdition) obj).getId());
+		return getId().equals(((MTGEdition) obj).getId());
 	}
 
 	public String getId() {
@@ -210,7 +210,7 @@ public class MagicEdition implements MTGSerializable, Comparable<MagicEdition> {
 		this.url = url;
 	}
 
-	public int compare(MagicEdition o1, MagicEdition o2) {
+	public int compare(MTGEdition o1, MTGEdition o2) {
 
 		if(o1==null || o2==null || o1.getSet()==null || o2.getSet()==null)
 			return -1;
@@ -227,7 +227,7 @@ public class MagicEdition implements MTGSerializable, Comparable<MagicEdition> {
 	}
 
 	@Override
-	public int compareTo(MagicEdition o) {
+	public int compareTo(MTGEdition o) {
 		return compare(this, o);
 	}
 

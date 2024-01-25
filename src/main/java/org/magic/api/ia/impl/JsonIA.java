@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.interfaces.abstracts.AbstractIA;
 import org.magic.services.network.URLTools;
 
@@ -20,7 +20,7 @@ public class JsonIA extends AbstractIA {
 	}
 
 	@Override
-	public MagicCard generateRandomCard(String description) throws IOException {
+	public MTGCard generateRandomCard(String description) throws IOException {
 		
 		return parseIaCardSuggestion(URLTools.toJson(description).getAsJsonObject());
 		

@@ -11,7 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.SwingWorker;
 
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.interfaces.MTGIA;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
@@ -24,7 +24,7 @@ public class IASuggestionPanel extends MTGUIComponent {
 	private static final long serialVersionUID = 1L;
 	private AbstractBuzyIndicatorComponent buzy;
 	private JTextPane textPane;
-	private List<MagicCard> cards = new ArrayList<>();
+	private List<MTGCard> cards = new ArrayList<>();
 	
 	
 	public IASuggestionPanel() {
@@ -53,7 +53,7 @@ public class IASuggestionPanel extends MTGUIComponent {
 	}
 	
 	
-	public void init(List<MagicCard> cards )
+	public void init(List<MTGCard> cards )
 	{
 		this.cards=cards;
 		

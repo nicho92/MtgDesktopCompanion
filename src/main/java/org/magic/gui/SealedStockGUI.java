@@ -21,7 +21,7 @@ import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGSealedProduct;
-import org.magic.api.beans.SealedStock;
+import org.magic.api.beans.MTGSealedStock;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
@@ -44,7 +44,7 @@ public class SealedStockGUI extends MTGUIComponent {
 	private static final long serialVersionUID = 1L;
 	private SealedStockTableModel model;
 	private MTGSealedProduct selectedItem;
-	private SealedStock selectedStock;
+	private MTGSealedStock selectedStock;
 	private RSyntaxTextArea textEditor;
 	private JXTable table;
 	private AbstractBuzyIndicatorComponent buzy;
@@ -61,7 +61,7 @@ public class SealedStockGUI extends MTGUIComponent {
 		UITools.setDefaultRenderer(table, new StockTableRenderer());
 		UITools.initTableFilter(table);
 		var packagePanel = new PackagesBrowserPanel(false);
-		GedPanel<SealedStock> gedPanel = new GedPanel<>();
+		GedPanel<MTGSealedStock> gedPanel = new GedPanel<>();
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		textEditor = new RSyntaxTextArea();
 		textEditor.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_HTML);
@@ -159,24 +159,24 @@ public class SealedStockGUI extends MTGUIComponent {
 					packagePanel.load(selectedStock.getProduct());
 					synchroPanel.init(selectedStock);
 					objectpanel.init(selectedStock);
-					gedPanel.init(SealedStock.class, selectedStock);
+					gedPanel.init(MTGSealedStock.class, selectedStock);
 					textEditor.setText(selectedStock.getComment());
 				}
 			}
 		});
 
 		buttonDelete.addActionListener(el->{
-			List<SealedStock> list = UITools.getTableSelections(table, 0);
+			List<MTGSealedStock> list = UITools.getTableSelections(table, 0);
 
 			int res = JOptionPane.showConfirmDialog(null, MTGControler.getInstance().getLangService().get("CONFIRM_DELETE", list.size()), MTGControler.getInstance().getLangService().get("DELETE"),JOptionPane.YES_NO_OPTION);
 
 			if(res==JOptionPane.YES_OPTION)
 			{
-				AbstractObservableWorker<Void, SealedStock, MTGDao> sw = new AbstractObservableWorker<>(buzy,getEnabledPlugin(MTGDao.class),1) {
+				AbstractObservableWorker<Void, MTGSealedStock, MTGDao> sw = new AbstractObservableWorker<>(buzy,getEnabledPlugin(MTGDao.class),1) {
 
 					@Override
 					protected Void doInBackground() throws Exception {
-						for(SealedStock ss : list)
+						for(MTGSealedStock ss : list)
 							plug.deleteStock(ss);
 
 						return null;
@@ -211,11 +211,11 @@ public class SealedStockGUI extends MTGUIComponent {
 
 
 		buttonNew.addActionListener(el->{
-				AbstractObservableWorker<SealedStock, SealedStock, MTGDao> sw = new AbstractObservableWorker<>(buzy,getEnabledPlugin(MTGDao.class),1) {
+				AbstractObservableWorker<MTGSealedStock, MTGSealedStock, MTGDao> sw = new AbstractObservableWorker<>(buzy,getEnabledPlugin(MTGDao.class),1) {
 
 					@Override
-					protected SealedStock doInBackground() throws Exception {
-						var s = new SealedStock(selectedItem);
+					protected MTGSealedStock doInBackground() throws Exception {
+						var s = new MTGSealedStock(selectedItem);
 						s.setQte(1);
 						plug.saveOrUpdateSealedStock(s);
 						return s;
@@ -238,12 +238,12 @@ public class SealedStockGUI extends MTGUIComponent {
 
 
 		buttonSave.addActionListener(el->{
-				var list = model.getItems().stream().filter(SealedStock::isUpdated).toList();
+				var list = model.getItems().stream().filter(MTGSealedStock::isUpdated).toList();
 
-				AbstractObservableWorker<Void, SealedStock, MTGDao> sw = new AbstractObservableWorker<>(buzy,getEnabledPlugin(MTGDao.class),list.size()) {
+				AbstractObservableWorker<Void, MTGSealedStock, MTGDao> sw = new AbstractObservableWorker<>(buzy,getEnabledPlugin(MTGDao.class),list.size()) {
 					@Override
 					protected Void doInBackground() throws Exception {
-						for(SealedStock ss : list)
+						for(MTGSealedStock ss : list)
 							plug.saveOrUpdateSealedStock(ss);
 
 						return null;
@@ -268,10 +268,10 @@ public class SealedStockGUI extends MTGUIComponent {
 
 	@Override
 	public void onFirstShowing() {
-			AbstractObservableWorker<List<SealedStock>, SealedStock, MTGDao> sw2 = new AbstractObservableWorker<>(buzy,getEnabledPlugin(MTGDao.class)) {
+			AbstractObservableWorker<List<MTGSealedStock>, MTGSealedStock, MTGDao> sw2 = new AbstractObservableWorker<>(buzy,getEnabledPlugin(MTGDao.class)) {
 
 			@Override
-			protected List<SealedStock> doInBackground() throws Exception {
+			protected List<MTGSealedStock> doInBackground() throws Exception {
 				return plug.listSealedStocks();
 			}
 

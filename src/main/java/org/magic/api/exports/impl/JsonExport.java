@@ -9,8 +9,8 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.technical.audit.NetworkInfo;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGProduct;
@@ -52,7 +52,7 @@ public class JsonExport extends AbstractCardExport {
 				.registerTypeHierarchyAdapter(NetworkInfo.class, new NetworkInfoAdapter())
 				.registerTypeHierarchyAdapter(File.class, new FileAdapter())
 				.registerTypeHierarchyAdapter(Color.class, new ColorAdapter())
-				.registerTypeHierarchyAdapter(MagicDeck.class, new DeckAdapter())
+				.registerTypeHierarchyAdapter(MTGDeck.class, new DeckAdapter())
 				.registerTypeAdapter(MTGProduct.class, new MTGProductAdapter())
 				.setDateFormat("yyyy-MM-dd hh:mm");
 	}
@@ -124,8 +124,8 @@ public class JsonExport extends AbstractCardExport {
 	}
 
 	@Override
-	public MagicDeck importDeck(String f,String name)  {
-		return gson.fromJson(f, MagicDeck.class);
+	public MTGDeck importDeck(String f,String name)  {
+		return gson.fromJson(f, MTGDeck.class);
 	}
 
 	@Override
@@ -134,18 +134,18 @@ public class JsonExport extends AbstractCardExport {
 	}
 
 	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 		FileTools.saveFile(dest, gson.toJson(deck));
 	}
 
 
 
 	@Override
-	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
+	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
 
 		var jsonparams = new JsonArray();
 
-		for (MagicCardStock mc : stock) {
+		for (MTGCardStock mc : stock) {
 			jsonparams.add(gson.toJsonTree(mc));
 			notify(mc.getProduct());
 		}
@@ -155,12 +155,12 @@ public class JsonExport extends AbstractCardExport {
 	}
 
 	@Override
-	public List<MagicCardStock> importStock(String content) throws IOException {
+	public List<MTGCardStock> importStock(String content) throws IOException {
 		var root = URLTools.toJson(content).getAsJsonArray();
-		List<MagicCardStock> list = new ArrayList<>();
+		List<MTGCardStock> list = new ArrayList<>();
 		for (var i = 0; i < root.size(); i++) {
 			var line = root.get(i).getAsJsonObject();
-			var mc = gson.fromJson(line, MagicCardStock.class);
+			var mc = gson.fromJson(line, MTGCardStock.class);
 			mc.setId(-1);
 			notify(mc.getProduct());
 			list.add(mc);

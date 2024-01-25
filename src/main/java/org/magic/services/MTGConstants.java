@@ -18,8 +18,8 @@ import javax.swing.SwingConstants;
 
 import org.apache.commons.lang3.SystemUtils;
 import org.jdesktop.swingx.util.PaintUtils;
-import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCollection;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.shop.Contact;
 import org.magic.services.providers.IconSetProvider;
 
@@ -320,12 +320,12 @@ public class MTGConstants {
 	public static ImageIcon getIconFor(Class c) {
 		try {
 
-			if(c==MagicCollection.class)
+			if(c==MTGCollection.class)
 			{
 				return ICON_TAB_BACK;
 			}
 
-			if(c==MagicEdition.class)
+			if(c==MTGEdition.class)
 			{
 				return IconSetProvider.getInstance().get16("PMEI");
 			}

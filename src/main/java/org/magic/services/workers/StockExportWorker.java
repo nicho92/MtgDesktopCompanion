@@ -6,8 +6,8 @@ import java.util.List;
 import javax.swing.SwingWorker;
 
 import org.apache.logging.log4j.Logger;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardStock;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGCardsExport;
@@ -17,30 +17,30 @@ import org.magic.services.logging.MTGLogger;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
-public class StockExportWorker extends SwingWorker<Void, MagicCard> {
+public class StockExportWorker extends SwingWorker<Void, MTGCard> {
 
 	protected MTGCardsExport exp;
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	protected Observer o;
-	protected List<MagicCard> cards = null;
+	protected List<MTGCard> cards = null;
 	protected AbstractBuzyIndicatorComponent buzy;
 	private File f;
-	private List<MagicCardStock> export;
+	private List<MTGCardStock> export;
 	private Exception err;
 
 
 
-	public StockExportWorker(MTGCardsExport exp,List<MagicCardStock> export,AbstractBuzyIndicatorComponent buzy,File f) {
+	public StockExportWorker(MTGCardsExport exp,List<MTGCardStock> export,AbstractBuzyIndicatorComponent buzy,File f) {
 		init(exp,export,buzy,f);
 	}
 
-	public void init(MTGCardsExport exp,List<MagicCardStock> export,AbstractBuzyIndicatorComponent buzy,File f) {
+	public void init(MTGCardsExport exp,List<MTGCardStock> export,AbstractBuzyIndicatorComponent buzy,File f) {
 		this.exp=exp;
 		this.buzy=buzy;
 		this.f=f;
 		this.export=export;
 		err=null;
-		o=(Observable obs, Object c)->publish((MagicCard)c);
+		o=(Observable obs, Object c)->publish((MTGCard)c);
 		exp.addObserver(o);
 	}
 
@@ -58,7 +58,7 @@ public class StockExportWorker extends SwingWorker<Void, MagicCard> {
 	}
 
 	@Override
-	protected void process(List<MagicCard> chunks) {
+	protected void process(List<MTGCard> chunks) {
 		buzy.progressSmooth(chunks.size());
 	}
 

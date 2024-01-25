@@ -21,7 +21,7 @@ import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.graphics.ReflectionRenderer;
 import org.jdesktop.swingx.painter.MattePainter;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.services.MTGConstants;
@@ -127,7 +127,7 @@ public class ImagePanel extends JXPanel {
 	}
 
 
-	public void init(MagicCard mc)
+	public void init(MTGCard mc)
 	{
 		if(mc == null)
 			return;
@@ -139,7 +139,7 @@ public class ImagePanel extends JXPanel {
 		else
 		{
 			try {
-				MagicCard rcard =mc.getRotatedCard();
+				MTGCard rcard =mc.getRotatedCard();
 				imgBack = getEnabledPlugin(MTGPictureProvider.class).getPicture(rcard);
 			} catch (Exception e) {
 				logger.error("error loading rotated card : {}",mc.getRotatedCard(),e);

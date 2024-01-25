@@ -2,8 +2,8 @@ package org.magic.gui.models;
 
 import java.util.List;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardStock;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardStock;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.gui.models.DeckStockComparisonModel.Line;
 
@@ -34,7 +34,7 @@ public class DeckStockComparisonModel extends GenericTableModel<Line> {
 	}
 
 
-	public void addItem(MagicCard mc, Integer qty, boolean has, List<MagicCardStock> stocks)
+	public void addItem(MTGCard mc, Integer qty, boolean has, List<MTGCardStock> stocks)
 	{
 		var l = new Line(mc, qty, has, stocks);
 		l.setResult(calculate(l));
@@ -46,7 +46,7 @@ public class DeckStockComparisonModel extends GenericTableModel<Line> {
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		if (columnIndex==0)
-			return MagicCard.class;
+			return MTGCard.class;
 
 		return Integer.class;
 	}
@@ -72,7 +72,7 @@ public class DeckStockComparisonModel extends GenericTableModel<Line> {
 		else if (!line.getStocks().isEmpty())
 		{
 			var count =0;
-			for(MagicCardStock st : line.getStocks())
+			for(MTGCardStock st : line.getStocks())
 				count +=st.getQte();
 
 			count =  line.getNeeded()-count;
@@ -89,13 +89,13 @@ public class DeckStockComparisonModel extends GenericTableModel<Line> {
 
 	public class Line
 	{
-		MagicCard mc;
+		MTGCard mc;
 		Integer needed;
 		Boolean has;
-		List<MagicCardStock> stocks;
+		List<MTGCardStock> stocks;
 		Integer result;
 
-		public Line(MagicCard mc,Integer needed,Boolean has,List<MagicCardStock> stocks) {
+		public Line(MTGCard mc,Integer needed,Boolean has,List<MTGCardStock> stocks) {
 			this.mc=mc;
 			this.needed=needed;
 			this.has=has;
@@ -110,7 +110,7 @@ public class DeckStockComparisonModel extends GenericTableModel<Line> {
 			return result;
 		}
 
-		public MagicCard getMc() {
+		public MTGCard getMc() {
 			return mc;
 		}
 
@@ -125,7 +125,7 @@ public class DeckStockComparisonModel extends GenericTableModel<Line> {
 		}
 
 
-		public List<MagicCardStock> getStocks() {
+		public List<MTGCardStock> getStocks() {
 			return stocks;
 		}
 	}

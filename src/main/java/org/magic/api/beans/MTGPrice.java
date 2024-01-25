@@ -4,7 +4,7 @@ import java.util.Currency;
 
 import org.magic.api.beans.technical.MoneyValue;
 
-public class MagicPrice implements Comparable<MagicPrice> {
+public class MTGPrice implements Comparable<MTGPrice> {
 	private String seller;
 	private String url;
 	private String site;
@@ -13,12 +13,12 @@ public class MagicPrice implements Comparable<MagicPrice> {
 	private String quality;
 	private Object shopItem;
 	private String country;
-	private MagicCard magicCard;
+	private MTGCard magicCard;
 	private int qty = 1;
 	private String sellerUrl;
 	private MoneyValue priceValue;
 	
-	public MagicPrice() {
+	public MTGPrice() {
 		priceValue = new MoneyValue();
 	}
 	
@@ -39,11 +39,11 @@ public class MagicPrice implements Comparable<MagicPrice> {
 		return qty;
 	}
 
-	public MagicCard getMagicCard() {
+	public MTGCard getMagicCard() {
 		return magicCard;
 	}
 
-	public void setMagicCard(MagicCard magicCard) {
+	public void setMagicCard(MTGCard magicCard) {
 		this.magicCard = magicCard;
 	}
 
@@ -138,7 +138,7 @@ public class MagicPrice implements Comparable<MagicPrice> {
 	}
 
 	@Override
-	public int compareTo(MagicPrice o) {
+	public int compareTo(MTGPrice o) {
 		return (int) (getValue() - o.getValue());
 	}
 

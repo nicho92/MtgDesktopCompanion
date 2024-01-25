@@ -11,7 +11,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGCombo;
-import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractComboProvider;
 import org.magic.services.network.MTGHttpClient;
@@ -24,7 +24,7 @@ public class EssentialMagicComboProvider extends AbstractComboProvider {
 	private static final String BASE ="http://www.essentialmagic.com/";
 
 	@Override
-	public List<MTGCombo> loadComboWith(MagicCard mc) {
+	public List<MTGCombo> loadComboWith(MTGCard mc) {
 		List<MTGCombo> ret = new ArrayList<>();
 		Document d;
 		try {
@@ -79,7 +79,7 @@ public class EssentialMagicComboProvider extends AbstractComboProvider {
 					for(Element a : as)
 					{
 						try {
-							MagicCard card = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(a.text(), null, true).get(0);
+							MTGCard card = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(a.text(), null, true).get(0);
 							cbo.addCard(card);
 						} catch (IOException e) {
 							logger.error("No card found for {}", a.text());

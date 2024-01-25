@@ -3,7 +3,7 @@ package org.magic.api.graders.impl;
 import java.io.IOException;
 import java.util.Map.Entry;
 
-import org.magic.api.beans.Grading;
+import org.magic.api.beans.MTGGrading;
 import org.magic.api.interfaces.abstracts.AbstractGradersProvider;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
@@ -14,7 +14,7 @@ import com.google.gson.JsonElement;
 public class SCGGrader extends AbstractGradersProvider {
 
 	@Override
-	public Grading loadGrading(String identifier) throws IOException {
+	public MTGGrading loadGrading(String identifier) throws IOException {
 
 		var ret = RequestBuilder.build().url("https://api.gosgc.com/v1/pop-report/GetCertAuthCode/"+identifier+"/empty/empty").get().setClient(URLTools.newClient()).toJson().getAsJsonObject();
 
@@ -22,10 +22,10 @@ public class SCGGrader extends AbstractGradersProvider {
 
 
 		if(entry==null)
-			return new Grading();
+			return new MTGGrading();
 			
 
-		var grad = new Grading();
+		var grad = new MTGGrading();
 		grad.setNumberID(identifier);
 		grad.setUrlInfo("https://www.gosgc.com/auth-code");
 		grad.setGraderName(getName());

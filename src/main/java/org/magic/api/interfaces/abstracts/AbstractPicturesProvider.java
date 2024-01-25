@@ -6,8 +6,8 @@ import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardNames;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardNames;
 import org.magic.api.interfaces.MTGPictureCache;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGTokensProvider;
@@ -42,7 +42,7 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 		}
 	}
 
-	public BufferedImage getOnlinePicture(MagicCard mc) throws IOException {
+	public BufferedImage getOnlinePicture(MTGCard mc) throws IOException {
 		try {
 			return URLTools.extractAsImage(generateUrl(mc));
 		} catch (Exception e) {
@@ -51,7 +51,7 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 	}
 
 	@Override
-	public BufferedImage getFullSizePicture(MagicCard mc) throws IOException {
+	public BufferedImage getFullSizePicture(MTGCard mc) throws IOException {
 		
 		if (getEnabledPlugin(MTGPictureCache.class).getItem(mc) != null) {
 			logger.trace("cached {} ({}) found",mc,mc.getCurrentSet());
@@ -85,12 +85,12 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 
 
 	@Override
-	public BufferedImage getPicture(MagicCard mc) throws IOException {
+	public BufferedImage getPicture(MTGCard mc) throws IOException {
 		return resizeCard(getFullSizePicture(mc), newW, newH);
 	}
 
 	@Override
-	public BufferedImage getForeignNamePicture(MagicCardNames fn, MagicCard mc) throws IOException {
+	public BufferedImage getForeignNamePicture(MTGCardNames fn, MTGCard mc) throws IOException {
 		var foreignCard = mc.toForeign(fn);
 		return getPicture(foreignCard);
 	}
@@ -102,7 +102,7 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 	}
 
 	@Override
-	public BufferedImage getBackPicture(MagicCard mc) {
+	public BufferedImage getBackPicture(MTGCard mc) {
 		try {
 			
 			

@@ -8,7 +8,7 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 import org.apache.commons.lang3.tuple.MutableTriple;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumExtra;
 public class SealedBoosterTableModel extends DefaultTableModel {
 	/**
@@ -16,15 +16,15 @@ public class SealedBoosterTableModel extends DefaultTableModel {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private List<MutableTriple<MagicEdition, EnumExtra, Integer>> pack;
+	private List<MutableTriple<MTGEdition, EnumExtra, Integer>> pack;
 
 	private static final String[] COLUMNS = { "EDITION","TYPE","QTY" };
 
-	public List<MutableTriple<MagicEdition, EnumExtra, Integer>> getSealedPack() {
+	public List<MutableTriple<MTGEdition, EnumExtra, Integer>> getSealedPack() {
 		return pack;
 	}
 
-	public void add(MagicEdition ed, EnumExtra extra, Integer qty) {
+	public void add(MTGEdition ed, EnumExtra extra, Integer qty) {
 		pack.add(MutableTriple.of(ed, extra,qty));
 		fireTableDataChanged();
 	}
@@ -33,7 +33,7 @@ public class SealedBoosterTableModel extends DefaultTableModel {
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex) {
 		case 0:
-			return MagicEdition.class;
+			return MTGEdition.class;
 		case 1:
 			return EnumExtra.class;
 		case 2:
@@ -60,7 +60,7 @@ public class SealedBoosterTableModel extends DefaultTableModel {
 	@Override
 	public void setValueAt(Object aValue, int row, int column) {
 		if (column == 0)
-			pack.get(row).setLeft((MagicEdition) aValue);
+			pack.get(row).setLeft((MTGEdition) aValue);
 		else if (column == 1)
 			pack.get(row).setMiddle(EnumExtra.valueOf(aValue.toString().toUpperCase()));
 		else if (column == 2) {
@@ -88,7 +88,7 @@ public class SealedBoosterTableModel extends DefaultTableModel {
 		pack = new ArrayList<>();
 	}
 
-	public void init(List<MutableTriple<MagicEdition, EnumExtra, Integer>> lines) {
+	public void init(List<MutableTriple<MTGEdition, EnumExtra, Integer>> lines) {
 		this.pack = lines;
 		fireTableDataChanged();
 	}

@@ -11,9 +11,9 @@ import java.util.Map;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -59,22 +59,22 @@ public class MTGArenaImporter extends AbstractCardExport {
 	}
 
 	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 		throw new IOException("Not implemented");
 
 	}
 
 	@Override
-	public MagicDeck importDeck(String f, String name) throws IOException {
-		return MagicDeck.toDeck(importStock(f).stream().map(MagicCardStock::getProduct).toList());
+	public MTGDeck importDeck(String f, String name) throws IOException {
+		return MTGDeck.toDeck(importStock(f).stream().map(MTGCardStock::getProduct).toList());
 	}
 
 
 
 	@Override
-	public List<MagicCardStock> importStock(String content) throws IOException {
+	public List<MTGCardStock> importStock(String content) throws IOException {
 
-		List<MagicCardStock> ret = new ArrayList<>();
+		List<MTGCardStock> ret = new ArrayList<>();
 
 		JsonObject o = new MTGArenaTools(getFile(ARENA_LOG_FILE)).readCollection();
 
@@ -84,12 +84,12 @@ public class MTGArenaImporter extends AbstractCardExport {
 			Integer qty = e.getValue().getAsInt();
 
 			try {
-				MagicCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardByArenaId(id);
+				MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardByArenaId(id);
 
 				if(mc!=null)
 				{
 
-					MagicCardStock mcs = MTGControler.getInstance().getDefaultStock();
+					MTGCardStock mcs = MTGControler.getInstance().getDefaultStock();
 
 					mcs.setCondition(EnumCondition.ONLINE);
 					mcs.setProduct(mc);

@@ -20,8 +20,8 @@ import javax.swing.SwingWorker;
 import javax.swing.table.TableModel;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGPrice;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.sorters.MagicPricesComparator;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
@@ -39,7 +39,7 @@ public class PricesTablePanel extends MTGUIComponent {
 	private JXTable tablePrices;
 	private AbstractBuzyIndicatorComponent lblLoading;
 	private transient DefaultRowSorter<TableModel, Integer> sorterPrice;
-	private MagicCard currentCard;
+	private MTGCard currentCard;
 	private boolean foilOnly;
 
 	public PricesTablePanel() {
@@ -90,7 +90,7 @@ public class PricesTablePanel extends MTGUIComponent {
 			public void mouseClicked(MouseEvent ev) {
 				if (ev.getClickCount() == 2 && !ev.isConsumed()) {
 					ev.consume();
-						MagicPrice url = UITools.getTableSelection(tablePrices, 0);
+						MTGPrice url = UITools.getTableSelection(tablePrices, 0);
 						UITools.browse(url.getUrl());
 				}
 
@@ -105,13 +105,13 @@ public class PricesTablePanel extends MTGUIComponent {
 	}
 
 
-	public void init(MagicCard card)
+	public void init(MTGCard card)
 	{
 		init(card,false);
 	}
 
 
-	public void init(MagicCard card,boolean foilOnly)
+	public void init(MTGCard card,boolean foilOnly)
 	{
 		
 		if(card==null)
@@ -132,22 +132,22 @@ public class PricesTablePanel extends MTGUIComponent {
 
 			for(MTGPricesProvider prov : listEnabledPlugins(MTGPricesProvider.class))
 			{
-				SwingWorker<List<MagicPrice>, MagicPrice> sw = new SwingWorker<>()
+				SwingWorker<List<MTGPrice>, MTGPrice> sw = new SwingWorker<>()
 				{
 					@Override
-					protected List<MagicPrice> doInBackground() throws Exception {
+					protected List<MTGPrice> doInBackground() throws Exception {
 
-						List<MagicPrice> list = new ArrayList<>();
+						List<MTGPrice> list = new ArrayList<>();
 						lblLoading.setText(capitalize("LOADING_PRICES") + " : " + currentCard + "("+currentCard.getCurrentSet()+")" );
 							try {
 
-								List<MagicPrice> l = prov.getPrice(currentCard);
+								List<MTGPrice> l = prov.getPrice(currentCard);
 
 								if(foilOnly)
-									l = l.stream().filter(MagicPrice::isFoil).toList();
+									l = l.stream().filter(MTGPrice::isFoil).toList();
 
 
-								publish(l.toArray(new MagicPrice[l.size()]));
+								publish(l.toArray(new MTGPrice[l.size()]));
 								list.addAll(l);
 							}
 							catch(Exception e)
@@ -160,7 +160,7 @@ public class PricesTablePanel extends MTGUIComponent {
 
 
 					@Override
-					protected void process(List<MagicPrice> chunks) {
+					protected void process(List<MTGPrice> chunks) {
 
 						model.addItems(chunks);
 
@@ -185,7 +185,7 @@ public class PricesTablePanel extends MTGUIComponent {
 		}
 	}
 
-	public List<MagicPrice> getPrices()
+	public List<MTGPrice> getPrices()
 	{
 		return model.getItems();
 	}

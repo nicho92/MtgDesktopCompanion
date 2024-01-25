@@ -11,8 +11,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDeck;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.sorters.CardNameSorter;
@@ -29,9 +29,9 @@ public class ImageExporter extends AbstractCardExport{
 	int headerSize=75;
 
 
-	public BufferedImage generateImageFor(MagicDeck d)
+	public BufferedImage generateImageFor(MTGDeck d)
 	{
-		List<MagicCard> cards =  d.getMainAsList();
+		List<MTGCard> cards =  d.getMainAsList();
 
 
 		Collections.sort(cards, new CardNameSorter());
@@ -61,7 +61,7 @@ public class ImageExporter extends AbstractCardExport{
 
 		drawHeader(g,d,ret);
 
-		for(MagicCard mc : cards)
+		for(MTGCard mc : cards)
 		{
 
 			try {
@@ -109,7 +109,7 @@ public class ImageExporter extends AbstractCardExport{
 	}
 
 
-	private void drawHeader(Graphics2D g, MagicDeck d, BufferedImage ret) {
+	private void drawHeader(Graphics2D g, MTGDeck d, BufferedImage ret) {
 
 
 		g.setColor(Color.ORANGE);
@@ -132,14 +132,14 @@ public class ImageExporter extends AbstractCardExport{
 
 
 	@Override
-	public void exportDeck(MagicDeck deck, File dest) throws IOException {
+	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 		ImageTools.saveImage(generateImageFor(deck), dest,getString(FORMAT));
 
 	}
 
 
 	@Override
-	public MagicDeck importDeck(String f, String name) throws IOException {
+	public MTGDeck importDeck(String f, String name) throws IOException {
 		throw new IOException("Not Implemented");
 	}
 

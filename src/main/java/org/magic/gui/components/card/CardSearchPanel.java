@@ -44,11 +44,11 @@ import javax.swing.table.TableRowSorter;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardNames;
-import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardNames;
+import org.magic.api.beans.MTGCollection;
+import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.MTGCardsExport.MODS;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
@@ -99,8 +99,8 @@ public class CardSearchPanel extends MTGUIComponent {
 
 	public static final int INDEX_THUMB = 1;
 
-	private MagicCard selectedCard;
-	private MagicEdition selectedEdition;
+	private MTGCard selectedCard;
+	private MTGEdition selectedEdition;
 	private MagicCardTableModel cardsModeltable;
 	private JTabbedPane tabbedCardsView;
 	private static CardSearchPanel inst;
@@ -122,12 +122,12 @@ public class CardSearchPanel extends MTGUIComponent {
 	private JPopupMenu popupMenu = new JPopupMenu();
 	private JXTable tableCards;
 	private JExportButton btnExport;
-	private JList<MagicEdition> listEdition;
+	private JList<MTGEdition> listEdition;
 	private CardsDeckCheckerPanel deckPanel;
 	private AbstractBuzyIndicatorComponent lblLoading;
 	private CardAbilitiesPanel abilitiesPanel;
 	private JButton defaultEnterButton;
-	private GedPanel<MagicCard> gedPanel;
+	private GedPanel<MTGCard> gedPanel;
 	private IASuggestionPanel iaPanel;
 	
 	
@@ -153,18 +153,18 @@ public class CardSearchPanel extends MTGUIComponent {
 		return inst;
 	}
 
-	public List<MagicCard> getMultiSelection() {
+	public List<MTGCard> getMultiSelection() {
 		return UITools.getTableSelections(tableCards,0);
 	}
 
-	public MagicCard getSelected() {
+	public MTGCard getSelected() {
 		return selectedCard;
 	}
 
 	public void initPopupCollection() throws SQLException {
 		var menuItemAdd = new JMenu(capitalize("ADD"));
 		menuItemAdd.setIcon(MTGConstants.ICON_NEW);
-		for (MagicCollection mc : getEnabledPlugin(MTGDao.class).listCollections()) {
+		for (MTGCollection mc : getEnabledPlugin(MTGDao.class).listCollections()) {
 
 			var adds = new JMenuItem(mc.getName());
 			adds.setIcon(MTGConstants.ICON_COLLECTION);
@@ -175,7 +175,7 @@ public class CardSearchPanel extends MTGUIComponent {
 				lblLoading.setText(capitalize("ADD_CARDS_TO") + " " + collec);
 
 				for (var i = 0; i < tableCards.getSelectedRowCount(); i++) {
-					MagicCard mcCard = UITools.getTableSelection(tableCards, 0);
+					MTGCard mcCard = UITools.getTableSelection(tableCards, 0);
 					try {
 						CardsManagerService.saveCard(mcCard, getEnabledPlugin(MTGDao.class).getCollection(collec),null);
 					} catch (SQLException e1) {
@@ -211,7 +211,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		sorterCards.setComparator(7, new NumberSorter());
 
 
-		List<MagicEdition> li = new ArrayList<>();
+		List<MTGEdition> li = new ArrayList<>();
 		try {
 			li = getEnabledPlugin(MTGCardsProvider.class).listEditions();
 			Collections.sort(li);
@@ -415,7 +415,7 @@ public class CardSearchPanel extends MTGUIComponent {
 				if(similarityPanel.getTableSimilarity().getSelectedRow()==-1)
 					return;
 
-				MagicCard mc = UITools.getTableSelection(similarityPanel.getTableSimilarity(), 0);
+				MTGCard mc = UITools.getTableSelection(similarityPanel.getTableSimilarity(), 0);
 				cardsPicPanel.init(mc);
 			}
 		});
@@ -433,10 +433,10 @@ public class CardSearchPanel extends MTGUIComponent {
 			lblLoading.setText(capitalize("SEARCHING"));
 			cardsModeltable.clear();
 
-			var wk = new AbstractObservableWorker<List<MagicCard>, MagicCard, MTGCardsProvider>(lblLoading,getEnabledPlugin(MTGCardsProvider.class)) {
+			var wk = new AbstractObservableWorker<List<MTGCard>, MTGCard, MTGCardsProvider>(lblLoading,getEnabledPlugin(MTGCardsProvider.class)) {
 
 						@Override
-						protected List<MagicCard> doInBackground() throws Exception {
+						protected List<MTGCard> doInBackground() throws Exception {
 
 
 							if(diag.getCollection()==null)
@@ -457,7 +457,7 @@ public class CardSearchPanel extends MTGUIComponent {
 						}
 
 						@Override
-						protected void process(List<MagicCard> chunks) {
+						protected void process(List<MTGCard> chunks) {
 							super.process(chunks);
 							cardsModeltable.addItems(chunks);
 						}
@@ -495,16 +495,16 @@ public class CardSearchPanel extends MTGUIComponent {
 					MTGPlugin plug = searchComponent.isCollectionSearch() ? getEnabledPlugin(MTGDao.class):getEnabledPlugin(MTGCardsProvider.class);
 					cardsModeltable.clear();
 
-					AbstractObservableWorker<List<MagicCard>, MagicCard, MTGPlugin> wk = new AbstractObservableWorker<>(lblLoading,plug) {
+					AbstractObservableWorker<List<MTGCard>, MTGCard, MTGPlugin> wk = new AbstractObservableWorker<>(lblLoading,plug) {
 						@Override
-						protected List<MagicCard> doInBackground() throws Exception {
-							List<MagicCard> cards;
+						protected List<MTGCard> doInBackground() throws Exception {
+							List<MTGCard> cards;
 
 							if (searchComponent.isCollectionSearch()) {
-								cards=((MTGDao)plug).listCardsFromCollection((MagicCollection) searchComponent.getMTGCriteria().getFirst());
+								cards=((MTGDao)plug).listCardsFromCollection((MTGCollection) searchComponent.getMTGCriteria().getFirst());
 							}
 							else if(searchComponent.isSetSearch()) {
-								cards=((MTGCardsProvider)plug).searchCardByEdition((MagicEdition)searchComponent.getMTGCriteria().getFirst());
+								cards=((MTGCardsProvider)plug).searchCardByEdition((MTGEdition)searchComponent.getMTGCriteria().getFirst());
 							}
 							else if (searchComponent.isAllCardsSearch()) {
 								cards=((MTGCardsProvider)plug).listAllCards();
@@ -526,7 +526,7 @@ public class CardSearchPanel extends MTGUIComponent {
 						}
 
 						@Override
-						protected void process(List<MagicCard> chunks) {
+						protected void process(List<MTGCard> chunks) {
 							super.process(chunks);
 							cardsModeltable.addItems(chunks);
 						}
@@ -591,20 +591,20 @@ public class CardSearchPanel extends MTGUIComponent {
 				if(selectedEdition==null)
 					return;
 
-				SwingWorker<MagicCard, MagicCard> sw = new SwingWorker<>()
+				SwingWorker<MTGCard, MTGCard> sw = new SwingWorker<>()
 						{
 
 							@Override
-							protected void process(List<MagicCard> chunks) {
+							protected void process(List<MTGCard> chunks) {
 								detailCardPanel.init(chunks.get(0));
 								magicEditionDetailPanel.init(selectedEdition);
 							}
 
 							@Override
-							protected MagicCard doInBackground() throws Exception {
+							protected MTGCard doInBackground() throws Exception {
 								try {
 
-									MagicCard mc = CardsManagerService.switchEditions(selectedCard, selectedEdition);
+									MTGCard mc = CardsManagerService.switchEditions(selectedCard, selectedEdition);
 									publish(mc);
 									return mc;
 								} catch (Exception e) {
@@ -639,15 +639,15 @@ public class CardSearchPanel extends MTGUIComponent {
 
 	
 
-		btnExport.initCardsExport(new Callable<MagicDeck>() {
+		btnExport.initCardsExport(new Callable<MTGDeck>() {
 			@Override
-			public MagicDeck call() throws Exception {
-				List<MagicCard> export = UITools.getTableSelections(tableCards,0);
+			public MTGDeck call() throws Exception {
+				List<MTGCard> export = UITools.getTableSelections(tableCards,0);
 
 				if(export.isEmpty())
 					export =  ((MagicCardTableModel) tableCards.getRowSorter().getModel()).getItems();
 
-				return MagicDeck.toDeck(export);
+				return MTGDeck.toDeck(export);
 			}
 		}, lblLoading);
 
@@ -675,12 +675,12 @@ public class CardSearchPanel extends MTGUIComponent {
 
 
 
-	public void thumbnail(List<MagicCard> cards) {
+	public void thumbnail(List<MTGCard> cards) {
 		tabbedCardsView.setSelectedIndex(INDEX_THUMB);
 		thumbnailPanel.initThumbnails(cards, false, false);
 	}
 
-	public void setSelectedCard(MagicCard mc) {
+	public void setSelectedCard(MTGCard mc) {
 		this.selectedCard = mc;
 		updateCards();
 	}
@@ -718,16 +718,16 @@ public class CardSearchPanel extends MTGUIComponent {
 			similarityPanel.init(selectedCard);
 			panelJson.init(selectedCard);
 			deckPanel.init(selectedCard);
-			stockPanel.init(selectedCard, new MagicCollection(MTGControler.getInstance().get("default-library")));
+			stockPanel.init(selectedCard, new MTGCollection(MTGControler.getInstance().get("default-library")));
 			abilitiesPanel.init(selectedCard);
 			historyChartPanel.init(selectedCard, selectedEdition, selectedCard.getName());
-			gedPanel.init(MagicCard.class, selectedCard);
+			gedPanel.init(MTGCard.class, selectedCard);
 			iaPanel.init(List.of(selectedCard));
 
 
-			((DefaultListModel<MagicEdition>) listEdition.getModel()).removeAllElements();
-			for (MagicEdition me : selectedCard.getEditions())
-				((DefaultListModel<MagicEdition>) listEdition.getModel()).addElement(me);
+			((DefaultListModel<MTGEdition>) listEdition.getModel()).removeAllElements();
+			for (MTGEdition me : selectedCard.getEditions())
+				((DefaultListModel<MTGEdition>) listEdition.getModel()).addElement(me);
 
 
 
@@ -737,7 +737,7 @@ public class CardSearchPanel extends MTGUIComponent {
 
 	}
 
-	public void open(List<MagicCard> cards) {
+	public void open(List<MTGCard> cards) {
 
 		if(cards==null)
 			return;
