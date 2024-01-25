@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.jsoup.nodes.Document;
-import org.magic.api.beans.MagicNews;
-import org.magic.api.beans.MagicNewsContent;
+import org.magic.api.beans.MTGNews;
+import org.magic.api.beans.MTGNewsContent;
 import org.magic.api.interfaces.abstracts.AbstractMagicNewsProvider;
 import org.magic.services.network.URLTools;
 
@@ -20,8 +20,8 @@ public class MagicCorpForumProvider extends AbstractMagicNewsProvider {
 
 
 	@Override
-	public List<MagicNewsContent> listNews(MagicNews n) throws IOException {
-		List<MagicNewsContent> ret = new ArrayList<>();
+	public List<MTGNewsContent> listNews(MTGNews n) throws IOException {
+		List<MTGNewsContent> ret = new ArrayList<>();
 		var maxpage = 0;
 		Document d = URLTools.extractAsHtml(n.getUrl());
 		try {
@@ -39,7 +39,7 @@ public class MagicCorpForumProvider extends AbstractMagicNewsProvider {
 
 		var id = "";
 		for (var i = 0; i < maxpage * getInt(PAGINATION); i += getInt(PAGINATION)) {
-			var cont = new MagicNewsContent();
+			var cont = new MTGNewsContent();
 			cont.setAuthor("MagicCorp");
 
 			if (i == 0)

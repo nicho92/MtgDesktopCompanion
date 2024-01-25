@@ -6,12 +6,12 @@ import java.util.List;
 
 import org.magic.api.beans.MTGAnnounce;
 import org.magic.api.beans.MTGCard;
-import org.magic.api.beans.MagicCardAlert;
+import org.magic.api.beans.MTGAlert;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGEdition;
-import org.magic.api.beans.MagicNews;
+import org.magic.api.beans.MTGNews;
 import org.magic.api.beans.MTGSealedStock;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.shop.Contact;
@@ -36,7 +36,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 
 	protected JsonExport serialiser;
 
-	protected TCache<MagicCardAlert> listAlerts;
+	protected TCache<MTGAlert> listAlerts;
 	protected TCache<Contact> listContacts;
 	protected TCache<MTGCollection> listCollections;
 
@@ -192,7 +192,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	}
 
 	@Override
-	public MagicCardAlert hasAlert(MTGCard mc) {
+	public MTGAlert hasAlert(MTGCard mc) {
 		return listAlerts().stream().filter(a->a.getCard().equals(mc)).findFirst().orElse(null);
 	}
 
@@ -241,11 +241,11 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		}
 
 		logger.debug("duplicate alerts");
-		for(MagicCardAlert alert : listAlerts())
+		for(MTGAlert alert : listAlerts())
 			dao.saveAlert(alert);
 
 		logger.debug("duplicate news");
-		for(MagicNews news : listNews())
+		for(MTGNews news : listNews())
 		{
 			news.setId(-1);
 			dao.saveOrUpdateNews(news);

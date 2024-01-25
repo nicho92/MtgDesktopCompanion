@@ -8,7 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.MagicCardAlert;
+import org.magic.api.beans.MTGAlert;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.models.CardAlertTableModel;
@@ -65,7 +65,7 @@ public class AlertedCardsTrendingDashlet extends AbstractJDashlet {
 
 					@Override
 					protected void auditedRun() {
-						MagicCardAlert alt = UITools.getTableSelection(table,0);
+						MTGAlert alt = UITools.getTableSelection(table,0);
 						historyPricesPanel.init(alt.getCard(), alt.getCard().getCurrentSet(),alt.getCard().toString());
 						historyPricesPanel.revalidate();
 

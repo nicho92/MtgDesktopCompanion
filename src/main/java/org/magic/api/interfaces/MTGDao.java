@@ -7,12 +7,12 @@ import java.util.Map;
 import org.magic.api.beans.MTGAnnounce;
 import org.magic.api.beans.MTGAnnounce.STATUS;
 import org.magic.api.beans.MTGCard;
-import org.magic.api.beans.MagicCardAlert;
+import org.magic.api.beans.MTGAlert;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGEdition;
-import org.magic.api.beans.MagicNews;
+import org.magic.api.beans.MTGNews;
 import org.magic.api.beans.MTGSealedStock;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.shop.Contact;
@@ -93,11 +93,11 @@ public interface MTGDao extends MTGPlugin{
 	public boolean enableContact(String token) throws SQLException;
 	public void deleteContact(Contact contact) throws SQLException;
 
-	public List<MagicCardAlert> listAlerts();
-	public void saveAlert(MagicCardAlert alert) throws SQLException;
-	public void updateAlert(MagicCardAlert alert) throws SQLException;
-	public void deleteAlert(MagicCardAlert alert) throws SQLException;
-	public MagicCardAlert hasAlert(MTGCard mc);
+	public List<MTGAlert> listAlerts();
+	public void saveAlert(MTGAlert alert) throws SQLException;
+	public void updateAlert(MTGAlert alert) throws SQLException;
+	public void deleteAlert(MTGAlert alert) throws SQLException;
+	public MTGAlert hasAlert(MTGCard mc);
 
 	public List<MTGAnnounce> listAnnounces() throws SQLException;
 	public List<MTGAnnounce> listAnnounces(Contact c) throws SQLException;
@@ -110,9 +110,9 @@ public interface MTGDao extends MTGPlugin{
 	public int saveOrUpdateAnnounce(MTGAnnounce a) throws SQLException;
 	public void deleteAnnounce(MTGAnnounce alert) throws SQLException;
 
-	public List<MagicNews> listNews();
-	public void deleteNews(MagicNews n) throws SQLException;
-	public void saveOrUpdateNews(MagicNews n) throws SQLException;
+	public List<MTGNews> listNews();
+	public void deleteNews(MTGNews n) throws SQLException;
+	public void saveOrUpdateNews(MTGNews n) throws SQLException;
 
 	public <T extends MTGSerializable> List<GedEntry<T>> listEntries(String classename, String fileName)  throws SQLException;
 	public <T extends MTGSerializable> boolean deleteEntry(GedEntry<T> gedItem) throws SQLException;

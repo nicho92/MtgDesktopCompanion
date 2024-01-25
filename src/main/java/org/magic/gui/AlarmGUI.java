@@ -36,7 +36,7 @@ import javax.swing.filechooser.FileFilter;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGCard;
-import org.magic.api.beans.MagicCardAlert;
+import org.magic.api.beans.MTGAlert;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGPrice;
 import org.magic.api.interfaces.MTGCardsExport;
@@ -187,11 +187,11 @@ public class AlarmGUI extends MTGUIComponent {
 
 
 	private void loaddata() {
-		var sw = new SwingWorker<List<MagicCardAlert>, Void>()
+		var sw = new SwingWorker<List<MTGAlert>, Void>()
 		{
 
 				@Override
-				protected List<MagicCardAlert> doInBackground() throws Exception {
+				protected List<MTGAlert> doInBackground() throws Exception {
 					return getEnabledPlugin(MTGDao.class).listAlerts();
 				}
 
@@ -219,7 +219,7 @@ public class AlarmGUI extends MTGUIComponent {
 	private void initActions() {
 
 		groupShopPanel.getBtnCheckPrice().addActionListener(al->{
-		List<MagicCardAlert> selectList = UITools.getTableSelections(table, 0);
+		List<MTGAlert> selectList = UITools.getTableSelections(table, 0);
 
 			if(!selectList.isEmpty())
 				groupShopPanel.initList(selectList);
@@ -236,9 +236,9 @@ public class AlarmGUI extends MTGUIComponent {
 		});
 
 
-		btnExport.initAlertsExport(new Callable<List<MagicCardAlert>>() {
+		btnExport.initAlertsExport(new Callable<List<MTGAlert>>() {
 			@Override
-			public List<MagicCardAlert> call() throws Exception {
+			public List<MTGAlert> call() throws Exception {
 				return model.getItems();
 			}
 		},lblLoading);
@@ -251,7 +251,7 @@ public class AlarmGUI extends MTGUIComponent {
 				int viewRow = table.getSelectedRow();
 				if (viewRow > -1) {
 
-					MagicCardAlert selected = UITools.getTableSelection(table, 0);
+					MTGAlert selected = UITools.getTableSelection(table, 0);
 					updateInfo(selected);
 					table.setRowSelectionInterval(viewRow, viewRow);
 					for (MTGPrice mp : selected.getOffers())
@@ -286,7 +286,7 @@ public class AlarmGUI extends MTGUIComponent {
 
 
 			lblLoading.start(table.getSelectedRows().length);
-			SwingWorker<Void, MagicCardAlert> sw = new SwingWorker<>()
+			SwingWorker<Void, MTGAlert> sw = new SwingWorker<>()
 					{
 						@Override
 						protected void done() {
@@ -295,7 +295,7 @@ public class AlarmGUI extends MTGUIComponent {
 						}
 
 						@Override
-						protected void process(List<MagicCardAlert> chunks) {
+						protected void process(List<MTGAlert> chunks) {
 							lblLoading.progressSmooth(chunks.size());
 
 							chunks.forEach(mca->mca.getOffers().forEach(resultListModel::addElement));
@@ -305,8 +305,8 @@ public class AlarmGUI extends MTGUIComponent {
 
 						@Override
 						protected Void doInBackground(){
-							List<MagicCardAlert> alerts = UITools.getTableSelections(table,0);
-							for (MagicCardAlert alert : alerts)
+							List<MTGAlert> alerts = UITools.getTableSelections(table,0);
+							for (MTGAlert alert : alerts)
 							{
 								List<MTGPrice> prices=new ArrayList<>();
 								listEnabledPlugins(MTGPricesProvider.class).forEach(p->{
@@ -363,13 +363,13 @@ public class AlarmGUI extends MTGUIComponent {
 				lblLoading.start(selected.length);
 
 
-				SwingWorker<List<MagicCardAlert>, MagicCardAlert> sw = new SwingWorker<>()
+				SwingWorker<List<MTGAlert>, MTGAlert> sw = new SwingWorker<>()
 				{
 
 					@Override
-					protected List<MagicCardAlert> doInBackground() throws Exception {
-						List<MagicCardAlert> alerts = UITools.getTableSelections(table,0);
-						for (MagicCardAlert alert : alerts)
+					protected List<MTGAlert> doInBackground() throws Exception {
+						List<MTGAlert> alerts = UITools.getTableSelections(table,0);
+						for (MTGAlert alert : alerts)
 						{
 							getEnabledPlugin(MTGDao.class).deleteAlert(alert);
 							publish(alert);
@@ -395,7 +395,7 @@ public class AlarmGUI extends MTGUIComponent {
 					}
 
 					@Override
-					protected void process(List<MagicCardAlert> chunks) {
+					protected void process(List<MTGAlert> chunks) {
 						lblLoading.progress(chunks.size());
 					}
 				};
@@ -495,14 +495,14 @@ public class AlarmGUI extends MTGUIComponent {
 	}
 
 
-	private void updateInfo(MagicCardAlert selected) {
+	private void updateInfo(MTGAlert selected) {
 		magicCardDetailPanel.init(selected.getCard());
 		variationPanel.init(selected.getCard(), null, selected.getCard().getName());
 		pricesTablePanel.init(selected.getCard(), selected.isFoil());
 	}
 
 	private void addCard(MTGCard mc) {
-		var alert = new MagicCardAlert();
+		var alert = new MTGAlert();
 		alert.setCard(mc);
 		alert.setPrice(1.0);
 		alert.setId(IDGenerator.generate(mc));

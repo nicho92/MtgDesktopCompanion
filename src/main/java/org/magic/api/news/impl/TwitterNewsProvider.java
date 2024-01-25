@@ -8,8 +8,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.magic.api.beans.MagicNews;
-import org.magic.api.beans.MagicNewsContent;
+import org.magic.api.beans.MTGNews;
+import org.magic.api.beans.MTGNewsContent;
 import org.magic.api.interfaces.abstracts.AbstractMagicNewsProvider;
 
 import twitter4j.Twitter;
@@ -31,7 +31,7 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 	}
 
 	@Override
-	public List<MagicNewsContent> listNews(MagicNews n) throws IOException {
+	public List<MTGNewsContent> listNews(MTGNews n) throws IOException {
 
 		if(twitter==null)
 		{
@@ -41,7 +41,7 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 		var query = Query.of(n.getName());
 		 	 query.count(getInt("MAX_RESULT"));
 
-		List<MagicNewsContent> ret = new ArrayList<>();
+		List<MTGNewsContent> ret = new ArrayList<>();
 
 		QueryResult result;
 		try {
@@ -49,7 +49,7 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 			for (Status status : result.getTweets()) {
 
 				if (!status.isRetweet()) {
-					var content = new MagicNewsContent();
+					var content = new MTGNewsContent();
 					content.setAuthor(status.getUser().getScreenName());
 					content.setDate(Date.from(status.getCreatedAt().atZone(ZoneId.systemDefault()).toInstant()));
 					content.setContent(status.getText());

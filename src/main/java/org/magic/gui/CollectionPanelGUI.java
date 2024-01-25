@@ -37,7 +37,7 @@ import javax.swing.tree.TreePath;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGCard;
-import org.magic.api.beans.MagicCardAlert;
+import org.magic.api.beans.MTGAlert;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGDeck;
@@ -1098,7 +1098,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			try {
 				for(MTGCard mc : getEnabledPlugin(MTGDao.class).listCardsFromCollection(col, edition))
 				{
-					var alert = new MagicCardAlert();
+					var alert = new MTGAlert();
 					alert.setCard(mc);
 					alert.setPrice(0.0);
 					getEnabledPlugin(MTGDao.class).saveAlert(alert);

@@ -3,13 +3,13 @@ package org.magic.gui.models;
 import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import org.magic.api.beans.MTGCard;
-import org.magic.api.beans.MagicCardAlert;
+import org.magic.api.beans.MTGAlert;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.CardsManagerService;
 
-public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
+public class CardAlertTableModel extends GenericTableModel<MTGAlert> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -22,7 +22,7 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex) {
 		case 0:
-			return MagicCardAlert.class;
+			return MTGAlert.class;
 		case 1:
 			return MTGEdition.class;
 		case 2:
@@ -86,7 +86,7 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 
 	@Override
 	public void setValueAt(Object aValue, int row, int column) {
-		MagicCardAlert alert = getItems().get(row);
+		MTGAlert alert = getItems().get(row);
 		if (column == 1)
 		{
 			MTGEdition ed = (MTGEdition) aValue;
@@ -95,7 +95,7 @@ public class CardAlertTableModel extends GenericTableModel<MagicCardAlert> {
 				{
 					getEnabledPlugin(MTGDao.class).deleteAlert(alert);
 					MTGCard mc = CardsManagerService.switchEditions(alert.getCard(), ed);
-					var alert2 = new MagicCardAlert();
+					var alert2 = new MTGAlert();
 					alert2.setCard(mc);
 					alert2.setPrice(alert.getPrice());
 					getEnabledPlugin(MTGDao.class).saveAlert(alert2);

@@ -28,7 +28,7 @@ import javax.swing.SwingWorker;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MTGCard;
-import org.magic.api.beans.MagicCardAlert;
+import org.magic.api.beans.MTGAlert;
 import org.magic.api.beans.MTGCardNames;
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGDeck;
@@ -438,7 +438,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		
 		
 		btnAlert.addActionListener(ae -> {
-			var alert = new MagicCardAlert();
+			var alert = new MTGAlert();
 			alert.setCard(magicCard);
 			String price = JOptionPane.showInputDialog(null,
 					capitalize("SELECT_MAXIMUM_PRICE"),

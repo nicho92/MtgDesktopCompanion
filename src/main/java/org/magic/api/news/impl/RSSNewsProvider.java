@@ -5,8 +5,8 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.magic.api.beans.MagicNews;
-import org.magic.api.beans.MagicNewsContent;
+import org.magic.api.beans.MTGNews;
+import org.magic.api.beans.MTGNewsContent;
 import org.magic.api.interfaces.abstracts.AbstractMagicNewsProvider;
 import org.magic.services.network.URLTools;
 import org.xml.sax.InputSource;
@@ -21,7 +21,7 @@ public class RSSNewsProvider extends AbstractMagicNewsProvider {
 	private SyndFeedInput input;
 
 	@Override
-	public List<MagicNewsContent> listNews(MagicNews rssBean) throws IOException {
+	public List<MTGNewsContent> listNews(MTGNews rssBean) throws IOException {
 
 
 		if(input==null)
@@ -29,7 +29,7 @@ public class RSSNewsProvider extends AbstractMagicNewsProvider {
 
 		SyndFeed feed;
 
-		List<MagicNewsContent> ret = new ArrayList<>();
+		List<MTGNewsContent> ret = new ArrayList<>();
 		try {
 			logger.debug("reading {}",rssBean.getUrl());
 			var is = URLTools.extractAsInputStream(rssBean.getUrl());
@@ -39,7 +39,7 @@ public class RSSNewsProvider extends AbstractMagicNewsProvider {
 			feed = input.build(source);
 	
 			for (SyndEntry s : feed.getEntries()) {
-				var content = new MagicNewsContent();
+				var content = new MTGNewsContent();
 				content.setTitle(s.getTitle());
 				content.setAuthor(s.getAuthor());
 				if(s.getPublishedDate()==null)

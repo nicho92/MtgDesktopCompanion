@@ -1,9 +1,9 @@
 package org.magic.gui.models;
 
-import org.magic.api.beans.MagicNewsContent;
+import org.magic.api.beans.MTGNewsContent;
 import org.magic.gui.abstracts.GenericTableModel;
 
-public class MagicNewsTableModel extends GenericTableModel<MagicNewsContent> {
+public class MagicNewsTableModel extends GenericTableModel<MTGNewsContent> {
 
 	private static final long serialVersionUID = 1L;
 

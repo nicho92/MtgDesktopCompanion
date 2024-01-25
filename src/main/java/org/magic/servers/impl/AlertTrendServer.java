@@ -15,7 +15,7 @@ import javax.swing.Icon;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MTGCard;
-import org.magic.api.beans.MagicCardAlert;
+import org.magic.api.beans.MTGAlert;
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGDao;
@@ -59,7 +59,7 @@ public class AlertTrendServer extends AbstractMTGServer {
 			public void run() {
 				List<CardShake> ret=new ArrayList<>();
 				if (getEnabledPlugin(MTGDao.class).listAlerts() != null)
-					for (MagicCardAlert alert : getEnabledPlugin(MTGDao.class).listAlerts()) {
+					for (MTGAlert alert : getEnabledPlugin(MTGDao.class).listAlerts()) {
 						try {
 							HistoryPrice<MTGCard> cpv= getEnabledPlugin(MTGDashBoard.class).getPriceVariation(alert.getCard(),alert.isFoil());
 							if(cpv!=null)

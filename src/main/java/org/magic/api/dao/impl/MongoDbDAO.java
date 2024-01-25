@@ -26,12 +26,12 @@ import org.bson.json.JsonWriterSettings;
 import org.magic.api.beans.MTGAnnounce;
 import org.magic.api.beans.MTGAnnounce.STATUS;
 import org.magic.api.beans.MTGCard;
-import org.magic.api.beans.MagicCardAlert;
+import org.magic.api.beans.MTGAlert;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGEdition;
-import org.magic.api.beans.MagicNews;
+import org.magic.api.beans.MTGNews;
 import org.magic.api.beans.MTGSealedStock;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
@@ -640,7 +640,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public void saveAlert(MagicCardAlert alert) throws SQLException {
+	public void saveAlert(MTGAlert alert) throws SQLException {
 		logger.debug("saving alert {}",alert);
 
 		alert.setId(getNextSequence().toString());
@@ -653,10 +653,10 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	
 	@Override
-	public List<MagicCardAlert> listAlerts() {
+	public List<MTGAlert> listAlerts() {
 		db.getCollection(colAlerts, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result ->{
 
-				MagicCardAlert al = deserialize(result.get(dbAlertField).toString(), MagicCardAlert.class);
+				MTGAlert al = deserialize(result.get(dbAlertField).toString(), MTGAlert.class);
 				listAlerts.put(al.getId(),al);
 				});
 		
@@ -665,7 +665,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 
 	@Override
-	public void updateAlert(MagicCardAlert alert) throws SQLException {
+	public void updateAlert(MTGAlert alert) throws SQLException {
 		var obj = new BasicDBObject();
 		obj.put(dbAlertField, alert);
 		obj.put(dbIDField, IDGenerator.generate(alert.getCard()));
@@ -675,7 +675,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public void deleteAlert(MagicCardAlert alert) throws SQLException {
+	public void deleteAlert(MTGAlert alert) throws SQLException {
 		logger.debug("delete alert {}",alert);
 		Bson filter = new Document("alertItem.id", alert.getId());
 		DeleteResult res = db.getCollection(colAlerts).deleteOne(filter);
@@ -713,10 +713,10 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public List<MagicNews> listNews() {
-		List<MagicNews> news = new ArrayList<>();
+	public List<MTGNews> listNews() {
+		List<MTGNews> news = new ArrayList<>();
 		db.getCollection(colNews, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result ->{
-			MagicNews mn = deserialize(result.get(dbNewsField).toString(), MagicNews.class);
+			MTGNews mn = deserialize(result.get(dbNewsField).toString(), MTGNews.class);
 			try{
 				mn.setProvider(getPlugin(result.get(dbTypeNewsField).toString(),MTGNewsProvider.class));
 			}catch(Exception e)
@@ -729,13 +729,13 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public void deleteNews(MagicNews n) {
+	public void deleteNews(MTGNews n) {
 		Bson filter = new Document("newsItem.id", n.getId());
 		db.getCollection(colNews).deleteOne(filter);
 	}
 
 	@Override
-	public void saveOrUpdateNews(MagicNews state) {
+	public void saveOrUpdateNews(MTGNews state) {
 
 		if (state.getId() == -1) {
 			logger.debug("saving {}",state);

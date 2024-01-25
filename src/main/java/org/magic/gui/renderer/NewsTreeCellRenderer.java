@@ -8,7 +8,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeCellRenderer;
 
-import org.magic.api.beans.MagicNews;
+import org.magic.api.beans.MTGNews;
 import org.magic.services.MTGConstants;
 
 public class NewsTreeCellRenderer implements TreeCellRenderer {
@@ -16,7 +16,7 @@ public class NewsTreeCellRenderer implements TreeCellRenderer {
 	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded,boolean isLeaf, int row, boolean focused) {
 		JLabel c = (JLabel)new DefaultTreeCellRenderer().getTreeCellRendererComponent(tree, value, selected, expanded, isLeaf, row, focused);
 
-		if (((DefaultMutableTreeNode) value).getUserObject() instanceof MagicNews news) {
+		if (((DefaultMutableTreeNode) value).getUserObject() instanceof MTGNews news) {
 			try {
 				c.setIcon(news.getProvider().getIcon());
 			}

@@ -5,12 +5,12 @@ import java.sql.SQLException;
 
 import org.magic.api.beans.MTGAnnounce;
 import org.magic.api.beans.MTGCard;
-import org.magic.api.beans.MagicCardAlert;
+import org.magic.api.beans.MTGAlert;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGEdition;
-import org.magic.api.beans.MagicNews;
+import org.magic.api.beans.MTGNews;
 import org.magic.api.beans.MTGSealedStock;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
@@ -70,12 +70,12 @@ public abstract class AbstractKeyValueDao extends AbstractMagicDAO {
 		return KEY_ANNOUNCES+SEPARATOR+c.getId();
 	}
 	
-	protected String key(MagicNews c)
+	protected String key(MTGNews c)
 	{
 		return KEY_NEWS+SEPARATOR+c.getId();
 	}
 	
-	protected String key(MagicCardAlert c)
+	protected String key(MTGAlert c)
 	{
 		return KEY_ALERTS+SEPARATOR+c.getId();
 	}

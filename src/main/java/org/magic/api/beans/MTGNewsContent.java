@@ -3,7 +3,7 @@ package org.magic.api.beans;
 import java.net.URL;
 import java.util.Date;
 
-public class MagicNewsContent {
+public class MTGNewsContent {
 
 	private String title;
 	private String content;

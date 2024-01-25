@@ -11,12 +11,12 @@ import java.util.stream.Collectors;
 import org.magic.api.beans.MTGAnnounce;
 import org.magic.api.beans.MTGAnnounce.STATUS;
 import org.magic.api.beans.MTGCard;
-import org.magic.api.beans.MagicCardAlert;
+import org.magic.api.beans.MTGAlert;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGEdition;
-import org.magic.api.beans.MagicNews;
+import org.magic.api.beans.MTGNews;
 import org.magic.api.beans.MTGSealedStock;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
@@ -396,10 +396,10 @@ public class RedisDAO extends AbstractKeyValueDao {
 
 	
 	@Override
-	public List<MagicCardAlert> listAlerts() {
-		var ret = new ArrayList<MagicCardAlert>();
+	public List<MTGAlert> listAlerts() {
+		var ret = new ArrayList<MTGAlert>();
 		redisCommand.keys(KEY_ALERTS+SEPARATOR+"*").forEach(s->{
-			var d=  serialiser.fromJson(redisCommand.get(s), MagicCardAlert.class);
+			var d=  serialiser.fromJson(redisCommand.get(s), MTGAlert.class);
 			ret.add(d);
 			notify(d);
 		});
@@ -408,30 +408,30 @@ public class RedisDAO extends AbstractKeyValueDao {
 	}
 
 	@Override
-	public void saveAlert(MagicCardAlert alert) throws SQLException {
+	public void saveAlert(MTGAlert alert) throws SQLException {
 		alert.setId(IDGenerator.generate(alert.getCard()));
 		redisCommand.set(key(alert), serialiser.toJson(alert));
 
 	}
 
 	@Override
-	public void updateAlert(MagicCardAlert alert) throws SQLException {
+	public void updateAlert(MTGAlert alert) throws SQLException {
 		saveAlert(alert);
 
 	}
 
 	@Override
-	public void deleteAlert(MagicCardAlert alert) throws SQLException {
+	public void deleteAlert(MTGAlert alert) throws SQLException {
 		redisCommand.del(key(alert));
 	}
 	
 
 	
 	@Override
-	public List<MagicNews> listNews() {
-		var ret = new ArrayList<MagicNews>();
+	public List<MTGNews> listNews() {
+		var ret = new ArrayList<MTGNews>();
 		redisCommand.keys(KEY_NEWS+SEPARATOR+"*").forEach(s->{
-			var d=  serialiser.fromJson(redisCommand.get(s), MagicNews.class);
+			var d=  serialiser.fromJson(redisCommand.get(s), MTGNews.class);
 			ret.add(d);
 			notify(d);
 		});
@@ -440,13 +440,13 @@ public class RedisDAO extends AbstractKeyValueDao {
 	}
 
 	@Override
-	public void deleteNews(MagicNews n) throws SQLException {
+	public void deleteNews(MTGNews n) throws SQLException {
 		redisCommand.del(key(n));
 
 	}
 
 	@Override
-	public void saveOrUpdateNews(MagicNews a) throws SQLException {
+	public void saveOrUpdateNews(MTGNews a) throws SQLException {
 		if(a.getId()<0)
 			a.setId(incr(MTGAnnounce.class).intValue());
 		

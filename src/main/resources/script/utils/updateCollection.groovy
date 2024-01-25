@@ -15,7 +15,7 @@ dao.listEditionsIDFromCollection(col).each{ ed->
  	 System.out.println("========================================="+ed);
 	 dao.listCardsFromCollection(col, new MagicEdition(ed)).stream().filter(mc->mc.getDateUpdated().before(dateBefore)).collect(Collectors.toList()).each{ c->
 		try {
-			MagicCard newC = provider.getCardByNumber(c.getCurrentSet().getNumber(), c.getCurrentSet());
+			MagicCard newC = provider.getCardByScryfallId(c.getScryfallId());
 			if(newC!=null)
 			{
 				dao.updateCard(c,newC, col);

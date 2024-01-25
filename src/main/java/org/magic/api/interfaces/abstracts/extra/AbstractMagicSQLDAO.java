@@ -29,12 +29,12 @@ import org.magic.api.beans.MTGAnnounce.STATUS;
 import org.magic.api.beans.MTGGrading;
 import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.MTGCard;
-import org.magic.api.beans.MagicCardAlert;
+import org.magic.api.beans.MTGAlert;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGEdition;
-import org.magic.api.beans.MagicNews;
+import org.magic.api.beans.MTGNews;
 import org.magic.api.beans.MTGSealedStock;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumExtra;
@@ -1460,7 +1460,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	
 	
 	@Override
-	public List<MagicCardAlert> listAlerts() {
+	public List<MTGAlert> listAlerts() {
 		
 		if(!listAlerts.isEmpty())
 			return listAlerts.values();
@@ -1469,7 +1469,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM alerts")) {
 			try (ResultSet rs = executeQuery(pst)) {
 				while (rs.next()) {
-					var alert = new MagicCardAlert();
+					var alert = new MTGAlert();
 					alert.setCard(readCard(rs,MCARD));
 					alert.setId(rs.getString("id"));
 					alert.setQty(rs.getInt("qte"));
@@ -1712,7 +1712,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 
 	@Override
-	public void saveAlert(MagicCardAlert alert) throws SQLException {
+	public void saveAlert(MTGAlert alert) throws SQLException {
 
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("insert into alerts ( id,mcard,amount,qte) values (?,?,?,?)")) {
 
@@ -1729,7 +1729,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public void updateAlert(MagicCardAlert alert) throws SQLException {
+	public void updateAlert(MTGAlert alert) throws SQLException {
 		logger.debug("update alert {}",alert);
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("update alerts set amount=?,mcard=?,foil=?, qte=? where id=?")) {
 			pst.setDouble(1, alert.getPrice());
@@ -1743,7 +1743,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public void deleteAlert(MagicCardAlert alert) throws SQLException
+	public void deleteAlert(MTGAlert alert) throws SQLException
 	{
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("DELETE FROM alerts where id=?")) {
 			pst.setString(1, alert.getId());
@@ -1756,12 +1756,12 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public List<MagicNews> listNews() {
-		List<MagicNews> news = new ArrayList<>();
+	public List<MTGNews> listNews() {
+		List<MTGNews> news = new ArrayList<>();
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM news")) {
 			try (ResultSet rs = executeQuery(pst)) {
 				while (rs.next()) {
-					var n = new MagicNews();
+					var n = new MTGNews();
 					n.setCategorie(rs.getString("categorie"));
 					n.setName(rs.getString("name"));
 					n.setUrl(rs.getString("url"));
@@ -1778,7 +1778,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public void deleteNews(MagicNews n) throws SQLException {
+	public void deleteNews(MTGNews n) throws SQLException {
 		logger.debug("delete news {}",n);
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("DELETE FROM news where id=?")) {
 			pst.setInt(1, n.getId());
@@ -1787,7 +1787,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public void saveOrUpdateNews(MagicNews n) throws SQLException {
+	public void saveOrUpdateNews(MTGNews n) throws SQLException {
 		if (n.getId() < 0) {
 
 			logger.debug("save {}",n);

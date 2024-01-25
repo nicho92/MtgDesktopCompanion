@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class MagicCardAlert {
+public class MTGAlert {
 
 	private String id = "";
 	private MTGCard card;
@@ -35,7 +35,7 @@ public class MagicCardAlert {
 		this.id = id;
 	}
 
-	public MagicCardAlert() {
+	public MTGAlert() {
 		offers = new ArrayList<>();
 		shake=new CardShake();
 	}
@@ -78,7 +78,7 @@ public class MagicCardAlert {
 		if ((obj == null) || (this.getClass() != obj.getClass()))
 			return false;
 
-		return ((MagicCardAlert) obj).getId().equals(getId());
+		return ((MTGAlert) obj).getId().equals(getId());
 	}
 
 	public void orderDesc() {

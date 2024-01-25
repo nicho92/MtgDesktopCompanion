@@ -12,7 +12,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
-import org.magic.api.beans.MagicCardAlert;
+import org.magic.api.beans.MTGAlert;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.interfaces.MTGCardsExport;
@@ -39,7 +39,7 @@ public class JExportButton extends JButton {
 			setIcon(MTGConstants.ICON_IMPORT);
 	}
 
-	public void initAlertsExport(Callable<List<MagicCardAlert>> callable, AbstractBuzyIndicatorComponent lblLoading ) {
+	public void initAlertsExport(Callable<List<MTGAlert>> callable, AbstractBuzyIndicatorComponent lblLoading ) {
 
 		addActionListener(ae -> {
 			var menu = new JPopupMenu();
@@ -50,7 +50,7 @@ public class JExportButton extends JButton {
 					it.addActionListener(exportEvent -> {
 						int result = JFileChooser.CANCEL_OPTION;
 						File f = null;
-						List<MagicCardAlert> export  = null;
+						List<MTGAlert> export  = null;
 
 						try {
 							export = callable.call();
@@ -76,7 +76,7 @@ public class JExportButton extends JButton {
 						if (result == JFileChooser.APPROVE_OPTION)
 						{
 								lblLoading.start(export.size());
-								ThreadManager.getInstance().runInEdt(new CardExportWorker(exp,export.stream().map(MagicCardAlert::getCard).toList(), lblLoading, f), "export alerts " + exp);
+								ThreadManager.getInstance().runInEdt(new CardExportWorker(exp,export.stream().map(MTGAlert::getCard).toList(), lblLoading, f), "export alerts " + exp);
 						}
 					});
 

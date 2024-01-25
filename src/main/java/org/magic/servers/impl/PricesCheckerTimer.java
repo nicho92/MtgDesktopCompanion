@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 
 import javax.swing.Icon;
 
-import org.magic.api.beans.MagicCardAlert;
+import org.magic.api.beans.MTGAlert;
 import org.magic.api.beans.MTGPrice;
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
@@ -49,7 +49,7 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 			@Override
 			public void run() {
 				if (getEnabledPlugin(MTGDao.class).listAlerts() != null)
-					for (MagicCardAlert alert : getEnabledPlugin(MTGDao.class).listAlerts()) {
+					for (MTGAlert alert : getEnabledPlugin(MTGDao.class).listAlerts()) {
 						alert.getOffers().clear();
 						for (MTGPricesProvider prov : listEnabledPlugins(MTGPricesProvider.class))
 						{
@@ -80,7 +80,7 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 						try {
 
 							MTGNotifier notifier = getPlugin(not, MTGNotifier.class);
-							notif.setMessage(notifFormater.generate(notifier.getFormat(), getEnabledPlugin(MTGDao.class).listAlerts(), MagicCardAlert.class));
+							notif.setMessage(notifFormater.generate(notifier.getFormat(), getEnabledPlugin(MTGDao.class).listAlerts(), MTGAlert.class));
 							notifier.send(notif);
 						} catch (IOException e) {
 							logger.error(e);

@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import org.magic.api.interfaces.MTGNewsProvider;
 
-public class MagicNews implements Serializable {
+public class MTGNews implements Serializable {
 
 	/**
 	 *
@@ -16,7 +16,7 @@ public class MagicNews implements Serializable {
 	private String url;
 	private transient MTGNewsProvider provider;
 
-	public MagicNews() {
+	public MTGNews() {
 		id = -1;
 	}
 

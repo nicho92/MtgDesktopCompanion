@@ -9,20 +9,20 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import org.magic.api.beans.MagicNews;
+import org.magic.api.beans.MTGNews;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.services.tools.UITools;
 public class NewsEditorPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private MagicNews magicNews = new MagicNews();
+	private MTGNews magicNews = new MTGNews();
 	private JTextField categorieJTextField;
 	private JTextField nameJTextField;
 	private JTextField urlJTextField;
 	private JComboBox<MTGNewsProvider> cboType;
 
-	public NewsEditorPanel(org.magic.api.beans.MagicNews newMagicNews) {
+	public NewsEditorPanel(org.magic.api.beans.MTGNews newMagicNews) {
 		this();
 		setMagicNews(newMagicNews);
 	}
@@ -98,7 +98,7 @@ public class NewsEditorPanel extends JPanel {
 
 	}
 
-	public MagicNews getMagicNews() {
+	public MTGNews getMagicNews() {
 		magicNews.setProvider(((MTGNewsProvider) cboType.getSelectedItem()));
 		magicNews.setCategorie(categorieJTextField.getText());
 		magicNews.setName(nameJTextField.getText());
@@ -106,7 +106,7 @@ public class NewsEditorPanel extends JPanel {
 		return magicNews;
 	}
 
-	public void setMagicNews(MagicNews newMagicNews) {
+	public void setMagicNews(MTGNews newMagicNews) {
 		this.magicNews = newMagicNews;
 		nameJTextField.setText(magicNews.getName());
 		urlJTextField.setText(String.valueOf(magicNews.getUrl()));

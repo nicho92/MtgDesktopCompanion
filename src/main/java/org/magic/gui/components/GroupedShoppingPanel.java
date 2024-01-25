@@ -16,7 +16,7 @@ import javax.swing.JScrollPane;
 
 import org.jdesktop.swingx.JXTreeTable;
 import org.magic.api.beans.MTGCard;
-import org.magic.api.beans.MagicCardAlert;
+import org.magic.api.beans.MTGAlert;
 import org.magic.api.beans.MTGPrice;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
@@ -44,8 +44,8 @@ public class GroupedShoppingPanel extends MTGUIComponent {
 
 
 
-	public void initList(List<MagicCardAlert> d) {
-		this.cards = d.stream().map(MagicCardAlert::getCard).toList();
+	public void initList(List<MTGAlert> d) {
+		this.cards = d.stream().map(MTGAlert::getCard).toList();
 
 		lblitems.setText(capitalize("X_ITEMS_IMPORTED",cards.size()));
 		enableControle(true);

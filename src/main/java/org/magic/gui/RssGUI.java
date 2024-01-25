@@ -25,8 +25,8 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.MagicNews;
-import org.magic.api.beans.MagicNewsContent;
+import org.magic.api.beans.MTGNews;
+import org.magic.api.beans.MTGNewsContent;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIBrowserComponent;
@@ -119,7 +119,7 @@ public class RssGUI extends MTGUIComponent {
 
 	private void initActions() {
 		btnNewButton.addActionListener(ae -> {
-			newsPanel.setMagicNews(new MagicNews());
+			newsPanel.setMagicNews(new MTGNews());
 			newsPanel.setVisible(true);
 		});
 
@@ -150,13 +150,13 @@ public class RssGUI extends MTGUIComponent {
 			var path = tse.getPath();
 			curr = (DefaultMutableTreeNode) path.getLastPathComponent();
 
-			if (curr.getUserObject() instanceof MagicNews n)
+			if (curr.getUserObject() instanceof MTGNews n)
 			{
-				SwingWorker<List<MagicNewsContent>, MagicNews> sw = new SwingWorker<>()
+				SwingWorker<List<MTGNewsContent>, MTGNews> sw = new SwingWorker<>()
 				{
 
 					@Override
-					protected List<MagicNewsContent> doInBackground() throws Exception {
+					protected List<MTGNewsContent> doInBackground() throws Exception {
 						return n.getProvider().listNews(n);
 					}
 
@@ -181,7 +181,7 @@ public class RssGUI extends MTGUIComponent {
 				};
 
 				lblLoading.start();
-				newsPanel.setMagicNews((MagicNews) curr.getUserObject());
+				newsPanel.setMagicNews((MTGNews) curr.getUserObject());
 				ThreadManager.getInstance().runInEdt(sw,"loading rss");
 
 			}
@@ -190,7 +190,7 @@ public class RssGUI extends MTGUIComponent {
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent me) {
-				MagicNewsContent sel = UITools.getTableSelection(table, 0);
+				MTGNewsContent sel = UITools.getTableSelection(table, 0);
 				
 				if (me.getClickCount() == 2) {
 					try {
@@ -239,16 +239,16 @@ public class RssGUI extends MTGUIComponent {
 		rootNode.removeAllChildren();
 
 
-		SwingWorker<Void, MagicNews> sw = new SwingWorker<>() {
+		SwingWorker<Void, MTGNews> sw = new SwingWorker<>() {
 
 			@Override
-			protected void process(List<MagicNews> chunks) {
+			protected void process(List<MTGNews> chunks) {
 				chunks.forEach(cat->add(cat.getCategorie(), cat));
 			}
 
 			@Override
 			protected Void doInBackground() throws Exception {
-				for (MagicNews cat : getEnabledPlugin(MTGDao.class).listNews())
+				for (MTGNews cat : getEnabledPlugin(MTGDao.class).listNews())
 					publish(cat);
 
 				return null;
@@ -271,7 +271,7 @@ public class RssGUI extends MTGUIComponent {
 		ThreadManager.getInstance().runInEdt(sw,"Loading News Tree");
 	}
 
-	private void add(String cat, MagicNews n) {
+	private void add(String cat, MTGNews n) {
 		DefaultMutableTreeNode node = getNodeCateg(cat);
 		node.add(new DefaultMutableTreeNode(n));
 		rootNode.add(node);
