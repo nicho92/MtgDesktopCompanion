@@ -234,7 +234,7 @@ public class ScriptPanel extends MTGUIComponent {
 		});
 
 		btnOpen.addActionListener(al-> {
-			var choose = new JFileChooser(MTGConstants.DATA_DIR);
+			var choose = new JFileChooser();
 
 			choose.setFileFilter(new ExtensionFileFilter(cboScript.getSelectedItem().toString(), ((MTGScript)cboScript.getSelectedItem()).getExtension()));
 

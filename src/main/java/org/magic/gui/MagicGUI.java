@@ -130,12 +130,10 @@ public class MagicGUI extends JFrame {
 		var mntmReportBug = new JMenuItem(capitalize("REPORT_BUG"),MTGConstants.ICON_BUG);
 		var mntmFileTagEditor = new JMenuItem(capitalize("BINDER_TAG_EDITOR"),MTGConstants.ICON_BINDERS);
 		var mntmFileChromePlugin = new JMenuItem(capitalize("CHROME_PLUGIN"),MTGConstants.ICON_CHROME);
-		var mntmFileScript = new JMenuItem(capitalize("SCRIPT"),MTGConstants.ICON_SCRIPT);
-
+	
 		mtgMnuBar.add(mnFile);
 		mnFile.add(mntmFileTagEditor);
 		mnFile.add(mntmFileChromePlugin);
-		mnFile.add(mntmFileScript);
 		mnFile.add(mntmExit);
 
 		mtgMnuBar.add(mnuAbout);
@@ -150,15 +148,6 @@ public class MagicGUI extends JFrame {
 			var dow = new ChromeDownloader();
 			dow.setVisible(true);
 		});
-
-		mntmFileScript.addActionListener(ae -> ThreadManager.getInstance().invokeLater(new MTGRunnable() {
-
-			@Override
-			protected void auditedRun() {
-				MTGUIComponent.createJDialog(new ScriptPanel(), true, false).setVisible(true);
-
-			}
-		}, "loading Script dialog"));
 
 		mntmFileTagEditor.addActionListener(ae -> ThreadManager.getInstance().invokeLater(new MTGRunnable() {
 

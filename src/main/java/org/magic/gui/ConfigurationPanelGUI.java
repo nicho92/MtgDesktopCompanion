@@ -47,6 +47,7 @@ import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.api.interfaces.MTGTrackingService;
 import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.components.ScriptPanel;
 import org.magic.gui.components.tech.ConfigurationPanel;
 import org.magic.gui.components.tech.HelpCompononent;
 import org.magic.gui.models.conf.PluginTreeTableModel;
@@ -54,6 +55,7 @@ import org.magic.gui.renderer.MTGPluginTreeCellRenderer;
 import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.PluginRegistry;
+import org.magic.services.tools.UITools;
 public class ConfigurationPanelGUI extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
@@ -142,7 +144,7 @@ public class ConfigurationPanelGUI extends MTGUIComponent {
 	
 		tabbedPane.addTab(capitalize("CONFIGURATION"), MTGConstants.ICON_TAB_ADMIN,new JScrollPane(new ConfigurationPanel()), null);
 		tabbedPane.addTab(capitalize("ACTIVE_SERVERS"), MTGConstants.ICON_TAB_ACTIVESERVER, new ServersGUI(),null);
-
+		UITools.addTab(tabbedPane, new ScriptPanel());
 	}
 
 	@SuppressWarnings("unchecked")

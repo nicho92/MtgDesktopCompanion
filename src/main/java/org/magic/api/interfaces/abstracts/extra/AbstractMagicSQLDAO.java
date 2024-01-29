@@ -1278,7 +1278,9 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			pst.setString(4, getEnabledPlugin(MTGCardsProvider.class).toString());
 			pst.setString(5, collection.getName());
 			pst.setTimestamp(6, new Timestamp(new java.util.Date().getTime()));
-			executeUpdate(pst);
+			var ret = executeUpdate(pst);
+			
+			logger.info("Updating  {} item for {} : {}",ret,mc,IDGenerator.generate(mc));
 		}
 	}
 

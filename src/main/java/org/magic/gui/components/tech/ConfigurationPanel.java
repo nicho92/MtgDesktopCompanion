@@ -189,16 +189,16 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 					networkPanelLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0 };
 					networkPanelLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 
-		JPanel panelDAO = createBoxPanel("DATABASES",MTGConstants.ICON_TAB_DAO,daoPanelLayout,true);
-		JPanel panelConfig = createBoxPanel("CONFIGURATION",MTGConstants.ICON_TAB_ADMIN,configPanelLayout,false);
-		JPanel panelLogs = createBoxPanel("LOG",MTGConstants.ICON_TAB_RULES,new BorderLayout(),true);
-		JPanel panelWebSite = createBoxPanel("WEBSITE",MTGConstants.ICON_WEBSITE_24,websitePanelLayout,true);
-		JPanel panelGameProfil = createBoxPanel("GAME",MTGConstants.ICON_TAB_GAME,gameProfilPanelLayout,true);
-		JPanel panelModule = createBoxPanel("Modules",MTGConstants.ICON_TAB_PLUGIN,modulesPanelLayout,true);
-		JPanel panelCurrency = createBoxPanel("CURRENCY",MTGConstants.ICON_TAB_PRICES,currencyPanelLayout,true);
-		JPanel panelGUI = createBoxPanel("GUI",MTGConstants.ICON_TAB_PICTURE,guiPanelLayout,true);
-		JPanel panelAccounts = createBoxPanel("ACCOUNTS",MTGConstants.ICON_TAB_LOCK,new BorderLayout(),true);
-		JPanel panelNetworks = createBoxPanel("NETWORKS",MTGConstants.ICON_TAB_NETWORK,networkPanelLayout,true);
+		var panelDAO = createBoxPanel("DATABASES",MTGConstants.ICON_TAB_DAO,daoPanelLayout,true);
+		var panelConfig = createBoxPanel("CONFIGURATION",MTGConstants.ICON_TAB_ADMIN,configPanelLayout,false);
+		var panelLogs = createBoxPanel("LOG",MTGConstants.ICON_TAB_RULES,new BorderLayout(),true);
+		var panelWebSite = createBoxPanel("WEBSITE",MTGConstants.ICON_WEBSITE_24,websitePanelLayout,true);
+		var panelGameProfil = createBoxPanel("GAME",MTGConstants.ICON_TAB_GAME,gameProfilPanelLayout,true);
+		var panelModule = createBoxPanel("Modules",MTGConstants.ICON_TAB_PLUGIN,modulesPanelLayout,true);
+		var panelCurrency = createBoxPanel("CURRENCY",MTGConstants.ICON_TAB_PRICES,currencyPanelLayout,true);
+		var panelGUI = createBoxPanel("GUI",MTGConstants.ICON_TAB_PICTURE,guiPanelLayout,true);
+		var panelAccounts = createBoxPanel("ACCOUNTS",MTGConstants.ICON_TAB_LOCK,new BorderLayout(),true);
+		var panelNetworks = createBoxPanel("NETWORKS",MTGConstants.ICON_TAB_NETWORK,networkPanelLayout,true);
 
 
 		add(panelConfig);
