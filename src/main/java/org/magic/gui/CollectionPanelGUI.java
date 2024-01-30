@@ -36,8 +36,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGAlert;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGDeck;

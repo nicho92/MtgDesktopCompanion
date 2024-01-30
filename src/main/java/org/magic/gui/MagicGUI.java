@@ -252,6 +252,8 @@ public class MagicGUI extends JFrame {
 		if (MTGControler.getInstance().get("modules/network").equals("true"))
 			addTab(new NetworkGUI());
 
+		if (MTGControler.getInstance().get("modules/scripts").equals("true"))
+			addTab(new ScriptPanel());
 
 
 		if (MTGControler.getInstance().get("modules/mkm").equals("true"))

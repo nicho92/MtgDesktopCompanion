@@ -35,8 +35,8 @@ import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileFilter;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGAlert;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGPrice;
 import org.magic.api.interfaces.MTGCardsExport;

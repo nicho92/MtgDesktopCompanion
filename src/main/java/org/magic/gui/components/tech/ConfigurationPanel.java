@@ -110,6 +110,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 	private JCheckBox chckbxShopping;
 	private JCheckBox chckbxAnnounce;
 	private JCheckBox chckbxNetwork;
+	private JCheckBox chckbxScript;
 
 	public void loading(boolean show, String text) {
 		if (show) 
@@ -439,9 +440,9 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		chckbxShopping = new JCheckBox(capitalize("SHOP"));
 		chckbxAnnounce=  new JCheckBox(capitalize("ANNOUNCE"));
 		chckbxNetwork=  new JCheckBox(capitalize("NETWORK"));
+		chckbxScript=  new JCheckBox(capitalize("SCRIPTS"));
 
-
-
+		
 		chckbxStock.setSelected(MTG.readPropertyAsBoolean("modules/stock"));
 		chckbxAlert.setSelected(MTG.readPropertyAsBoolean("modules/alarm"));
 		chckbxGame.setSelected(MTG.readPropertyAsBoolean("modules/game"));
@@ -453,7 +454,9 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		chckbxShopping.setSelected(MTG.readPropertyAsBoolean("modules/webshop"));
 		chckbxAnnounce.setSelected(MTG.readPropertyAsBoolean("modules/announce"));
 		chckbxNetwork.setSelected(MTG.readPropertyAsBoolean("modules/network"));
-
+		chckbxScript.setSelected(MTG.readPropertyAsBoolean("modules/scripts"));
+		
+		
 		chckbxDashboard.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/dashboard", chckbxDashboard.isSelected()));
 		chckbxStock.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/stock", chckbxStock.isSelected()));
 		chckbxAlert.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/alarm", chckbxAlert.isSelected()));
@@ -468,6 +471,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		chckbxShopping.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/webshop",chckbxShopping.isSelected()));
 		chckbxAnnounce.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/announce",chckbxAnnounce.isSelected()));
 		chckbxNetwork.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/network",chckbxNetwork.isSelected()));
+		chckbxScript.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/scripts",chckbxScript.isSelected()));
 
 		panelModule.add(chckbxSearch, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  1, 0));
 		panelModule.add(chckbxCollection, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  3, 0));
@@ -483,7 +487,8 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		panelModule.add(chckbxSealed, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  1, 3));
 		panelModule.add(chckbxShopping, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  3, 3));
 		panelModule.add(chckbxAnnounce, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  5, 3));
-
+		panelModule.add(chckbxScript, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  6, 3));
+		
 
 
 /////////////CURRENCY BOX
