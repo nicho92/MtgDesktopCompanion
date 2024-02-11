@@ -249,6 +249,8 @@
 	],
 	"MB1": [
 		"CMB1",
+		"LST",
+		"ULST",
 		"PLIST",
 		"CMB2",
 		"FMB1"
