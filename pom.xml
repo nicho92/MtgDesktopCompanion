@@ -64,7 +64,7 @@
 	<repositories>
 		<repository>
 			<id>reposilite-repository</id>
-			<url>https://repo.panda-lang.org/releases</url>
+			<url>https://repo.spring.io/libs-release</url>
 		</repository>
 	</repositories>
 	<dependencies>
@@ -73,11 +73,6 @@
 		    <artifactId>lettuce-core</artifactId>
 		    <version>6.3.1.RELEASE</version>
 		</dependency>
-		<!--<dependency>
-		    <groupId>com.redislabs</groupId>
-		    <artifactId>lettusearch</artifactId>
-		    <version>3.1.2</version>
-		</dependency>-->
 		<dependency>
 		    <groupId>org.apache.derby</groupId>
 		    <artifactId>derby</artifactId>
