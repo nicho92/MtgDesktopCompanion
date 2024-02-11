@@ -325,7 +325,6 @@
 		"PW24",
 		"PH21",
 		"PL23",
-		"SLP",
 		"WMC",
 		"G17",
 		"PW21",
@@ -360,7 +359,6 @@
 		"PNAT",
 		"HTR17",
 		"PSS2",
-		"SLD",
 		"PSLD",
 		"SLU",
 		"PL21",
@@ -378,8 +376,7 @@
 		"SCH",
 		"P30A",
 		"PSVC",
-		"PR23",
-		"SLC"
+		"PR23"
 	],
 	"PARL": [
 		"PARL",
