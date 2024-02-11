@@ -1,11 +1,12 @@
 {
-
-
 	"SLD" : [
 		"SLU",
 		"SLC",
 		"SLP"
 	], 
+	"CLU" : [
+		"FCLU"
+	],
 	"YWOE":[
 		"YLCI"
 	],
