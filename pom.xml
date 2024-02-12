@@ -63,9 +63,15 @@
 	</properties>
 	<repositories>
 			<repository>
-				<id>panda-lang-repository</id>
-				<url>https://repo.panda-lang.org/releases</url>
-		</repository>
+			  <id>reposilite-repository-releases</id>
+			  <name>Reposilite Repository</name>
+			  <url>https://repo.panda-lang.org/releases</url>
+			</repository>
+			<repository>
+			  <id>springlibs-repository-releases</id>
+			  <name>Spring Lib Release Repository</name>
+			  <url>https://repo.spring.io/libs-release/</url>
+			</repository>
 	</repositories>
 	<dependencies>
 		<dependency>
