@@ -804,10 +804,6 @@
       <class>org.magic.api.news.impl.MagicCorpForumProvider</class>
       <enable>true</enable>
     </news>
-    <news>
-      <class>org.magic.api.news.impl.RedditNewsProvider</class>
-      <enable>true</enable>
-    </news>
   </newsProvider>
   <wallpapers>
     <wallpaper>
