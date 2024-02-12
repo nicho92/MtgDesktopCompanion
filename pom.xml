@@ -67,11 +67,6 @@
 			  <name>Reposilite Repository</name>
 			  <url>https://repo.panda-lang.org/releases</url>
 			</repository>
-			<repository>
-			  <id>springlibs-repository-releases</id>
-			  <name>Spring Lib Release Repository</name>
-			  <url>https://repo.spring.io/libs-release/</url>
-			</repository>
 	</repositories>
 	<dependencies>
 		<dependency>
@@ -346,11 +341,6 @@
 			<groupId>com.fifesoft</groupId>
 			<artifactId>autocomplete</artifactId>
 			<version>3.3.1</version>
-		</dependency>
-		<dependency>
-			<groupId>net.dean.jraw</groupId>
-			<artifactId>JRAW</artifactId>
-			<version>1.1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.rednoise</groupId>
