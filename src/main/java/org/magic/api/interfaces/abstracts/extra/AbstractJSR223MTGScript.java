@@ -63,7 +63,7 @@ public abstract class AbstractJSR223MTGScript extends AbstractMTGScript  {
 	public Object runContent(String content) throws ScriptException {
 		if(engine==null)
 			init();
-
+		
 		return engine.eval(content,binds);
 	}
 
