@@ -18,7 +18,7 @@ import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.enums.EnumPromoType;
 import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.beans.enums.EnumSecurityStamp;
-import org.magic.services.tools.IDGenerator;
+import org.magic.services.tools.CryptoUtils;
 
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
@@ -133,7 +133,7 @@ public class MTGCard extends AbstractProduct {
 			return false;
 		}
 
-		return IDGenerator.generate(((MTGCard) obj)).equals(IDGenerator.generate(this));
+		return CryptoUtils.generateCardId(((MTGCard) obj)).equals(CryptoUtils.generateCardId(this));
 	}
 	
 	public String getMultiverseid() {
@@ -388,7 +388,7 @@ public class MTGCard extends AbstractProduct {
 
 	@Override
 	public String getStoreId() {
-		return IDGenerator.generate(this);
+		return CryptoUtils.generateCardId(this);
 	}
 
 	public List<String> getSubtypes() {

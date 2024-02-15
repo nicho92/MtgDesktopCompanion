@@ -8,7 +8,7 @@ import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
-import org.magic.services.tools.IDGenerator;
+import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.TCache;
 
 public class ClipBoardExport extends AbstractCardExport {
@@ -54,7 +54,7 @@ public class ClipBoardExport extends AbstractCardExport {
 	@Override
 	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 		for(MTGCard mc : deck.getMainAsList())
-			clipboard.put(IDGenerator.generate(mc), mc);
+			clipboard.put(CryptoUtils.generateCardId(mc), mc);
 
 	}
 

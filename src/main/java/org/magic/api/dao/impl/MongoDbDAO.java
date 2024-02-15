@@ -45,7 +45,7 @@ import org.magic.services.PluginRegistry;
 import org.magic.services.TechnicalServiceManager;
 import org.magic.services.tools.Chrono;
 import org.magic.services.tools.CryptoUtils;
-import org.magic.services.tools.IDGenerator;
+import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.ImageTools;
 
 import com.mongodb.BasicDBObject;
@@ -438,7 +438,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		logger.debug("saveCard {} in {}",mc,collection);
 
 		var obj = new BasicDBObject();
-		obj.put(dbIDField, IDGenerator.generate(mc));
+		obj.put(dbIDField, CryptoUtils.generateCardId(mc));
 		obj.put("card", mc);
 		obj.put("collection", collection);
 		obj.put("dateUpdate", new Date().getTime());
@@ -452,7 +452,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	public void removeCard(MTGCard mc, MTGCollection collection) throws SQLException {
 		logger.debug("removeCard {} from {}",mc,collection);
 
-		var dr = db.getCollection(colCards, BasicDBObject.class).deleteMany(Filters.and(Filters.eq(dbIDField,IDGenerator.generate(mc)),Filters.eq(dbColIDField,collection.getName())));
+		var dr = db.getCollection(colCards, BasicDBObject.class).deleteMany(Filters.and(Filters.eq(dbIDField,CryptoUtils.generateCardId(mc)),Filters.eq(dbColIDField,collection.getName())));
 		logger.debug("result : {}",dr);
 
 	}
@@ -584,7 +584,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	public List<MTGCollection> listCollectionFromCards(MTGCard mc) throws SQLException {
 
 		List<MTGCollection> ret = new ArrayList<>();
-		db.getCollection(colCards, BasicDBObject.class).distinct(dbColIDField, Filters.eq(dbIDField, IDGenerator.generate(mc)), String.class)
+		db.getCollection(colCards, BasicDBObject.class).distinct(dbColIDField, Filters.eq(dbIDField, CryptoUtils.generateCardId(mc)), String.class)
 				.forEach((Consumer<String>) result -> {
 					try {
 						logger.trace("found {} in {} ",mc,result);
@@ -602,7 +602,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	public List<MTGCardStock> listStocks(MTGCard mc, MTGCollection col,boolean editionStrict) throws SQLException {
 		ArrayList<MTGCardStock> ret = new ArrayList<>();
 		db.getCollection(colStocks, BasicDBObject.class)
-				.find(Filters.and(Filters.eq(dbIDField,IDGenerator.generate(mc)),Filters.eq(dbStockField+".magicCollection.name",col.getName())))
+				.find(Filters.and(Filters.eq(dbIDField,CryptoUtils.generateCardId(mc)),Filters.eq(dbStockField+".magicCollection.name",col.getName())))
 				.forEach((Consumer<BasicDBObject>) result -> ret
 				.add(deserialize(result.get(dbStockField).toString(), MTGCardStock.class)));
 
@@ -625,14 +625,14 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			state.setId(Integer.parseInt(getNextSequence().toString()));
 			var obj = new BasicDBObject();
 			obj.put(dbStockField, state);
-			obj.put(dbIDField, IDGenerator.generate(state.getProduct()));
+			obj.put(dbIDField, CryptoUtils.generateCardId(state.getProduct()));
 			db.getCollection(colStocks, BasicDBObject.class).insertOne(BasicDBObject.parse(serialize(obj)));
 
 		} else {
 
 			var obj = new BasicDBObject();
 			obj.put(dbStockField, state);
-			obj.put(dbIDField, IDGenerator.generate(state.getProduct()));
+			obj.put(dbIDField, CryptoUtils.generateCardId(state.getProduct()));
 			UpdateResult res = db.getCollection(colStocks, BasicDBObject.class).replaceOne(Filters.eq("stockItem.idstock", state.getId()),BasicDBObject.parse(serialize(obj)));
 			logger.debug(res);
 		}
@@ -646,7 +646,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		alert.setId(getNextSequence().toString());
 		var obj = new BasicDBObject();
 		obj.put(dbAlertField, alert);
-		obj.put(dbIDField, IDGenerator.generate(alert.getCard()));
+		obj.put(dbIDField, CryptoUtils.generateCardId(alert.getCard()));
 		db.getCollection(colAlerts, BasicDBObject.class).insertOne(BasicDBObject.parse(serialize(obj)));
 		listAlerts.put(alert.getId(),alert);
 	}
@@ -668,7 +668,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	public void updateAlert(MTGAlert alert) throws SQLException {
 		var obj = new BasicDBObject();
 		obj.put(dbAlertField, alert);
-		obj.put(dbIDField, IDGenerator.generate(alert.getCard()));
+		obj.put(dbIDField, CryptoUtils.generateCardId(alert.getCard()));
 		UpdateResult res = db.getCollection(colAlerts, BasicDBObject.class).replaceOne(Filters.eq("alertItem.id", alert.getId()),BasicDBObject.parse(serialize(obj)));
 		logger.debug(res);
 

@@ -58,7 +58,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
 import org.magic.services.TechnicalServiceManager;
 import org.magic.services.tools.CryptoUtils;
-import org.magic.services.tools.IDGenerator;
+import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.SQLTools;
@@ -1272,7 +1272,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		logger.debug("saving {} in {}",mc,collection);
 
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("insert into cards values (?,?,?,?,?,?)")) {
-			pst.setString(1, IDGenerator.generate(mc));
+			pst.setString(1, CryptoUtils.generateCardId(mc));
 			storeCard(pst, 2, mc);
 			pst.setString(3, mc.getCurrentSet().getId());
 			pst.setString(4, getEnabledPlugin(MTGCardsProvider.class).toString());
@@ -1280,7 +1280,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			pst.setTimestamp(6, new Timestamp(new java.util.Date().getTime()));
 			var ret = executeUpdate(pst);
 			
-			logger.info("Updating  {} item for {} : {}",ret,mc,IDGenerator.generate(mc));
+			logger.info("Updating  {} item for {} : {}",ret,mc,CryptoUtils.generateCardId(mc));
 		}
 	}
 
@@ -1288,7 +1288,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public void removeCard(MTGCard mc, MTGCollection collection) throws SQLException {
 		logger.debug("delete {} in {}",mc,collection);
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("DELETE FROM cards where id=? and edition=? and collection=?")) {
-			pst.setString(1, IDGenerator.generate(mc));
+			pst.setString(1, CryptoUtils.generateCardId(mc));
 			pst.setString(2, mc.getCurrentSet().getId());
 			pst.setString(3, collection.getName());
 			executeUpdate(pst);
@@ -1302,7 +1302,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("update cards set collection= ? where id=? and collection=?"))
 		{
 			pst.setString(1, to.getName());
-			pst.setString(2, IDGenerator.generate(mc));
+			pst.setString(2, CryptoUtils.generateCardId(mc));
 			pst.setString(3, from.getName());
 			int res = executeUpdate(pst);
 
@@ -1524,7 +1524,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			throw new SQLException("No edition defined");
 
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT collection FROM cards WHERE id=? and edition=?")) {
-			String id = IDGenerator.generate(mc);
+			String id = CryptoUtils.generateCardId(mc);
 
 			logger.trace("SELECT collection FROM cards WHERE id={} and edition='{}'",id,mc.getCurrentSet().getId());
 
@@ -1575,7 +1575,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			pst.setString(1, col.getName());
 
 			if(editionStrict)
-				pst.setString(2, IDGenerator.generate(mc));
+				pst.setString(2, CryptoUtils.generateCardId(mc));
 			else if (!isJsonCompatible())
 				pst.setString(2, "%"+mc.getName()+"%");
 			else
@@ -1671,7 +1671,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setString(4, state.getLanguage());
 				pst.setInt(5, state.getQte());
 				pst.setString(6, state.getComment());
-				pst.setString(7, IDGenerator.generate(state.getProduct()));
+				pst.setString(7, CryptoUtils.generateCardId(state.getProduct()));
 				pst.setString(8, String.valueOf(state.getMagicCollection()));
 				storeCard(pst, 9, state.getProduct());
 				pst.setBoolean(10, state.isAltered());
@@ -1696,7 +1696,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setInt(6, state.getQte());
 				pst.setBoolean(7, state.isAltered());
 				pst.setDouble(8, state.getPrice());
-				pst.setString(9, IDGenerator.generate(state.getProduct()));
+				pst.setString(9, CryptoUtils.generateCardId(state.getProduct()));
 				pst.setString(10, state.getMagicCollection().getName());
 				storeGrade(pst, 11,state.getGrade());
 				storeTiersApps(pst, 12,state.getTiersAppIds());
@@ -1718,7 +1718,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("insert into alerts ( id,mcard,amount,qte) values (?,?,?,?)")) {
 
-			alert.setId(IDGenerator.generate(alert.getCard()));
+			alert.setId(CryptoUtils.generateCardId(alert.getCard()));
 
 			pst.setString(1, alert.getId());
 			storeCard(pst, 2, alert.getCard());
@@ -1828,7 +1828,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		{
 
 			storeCard(pst, 1, newC);
-			pst.setString(2, IDGenerator.generate(card));
+			pst.setString(2, CryptoUtils.generateCardId(card));
 			pst.setString(3, col.getName());
 			executeUpdate(pst);
 		}

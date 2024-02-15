@@ -2,7 +2,7 @@ package org.magic.api.interfaces.abstracts;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.interfaces.MTGPictureCache;
-import org.magic.services.tools.IDGenerator;
+import org.magic.services.tools.CryptoUtils;
 
 public abstract class AbstractCacheProvider extends AbstractMTGPlugin implements MTGPictureCache {
 
@@ -15,7 +15,7 @@ public abstract class AbstractCacheProvider extends AbstractMTGPlugin implements
 	protected String generateIdIndex(MTGCard mc) {
 		if(mc==null)
 			return "";
-		return IDGenerator.generate(mc);
+		return CryptoUtils.generateCardId(mc);
 	}
 
 }

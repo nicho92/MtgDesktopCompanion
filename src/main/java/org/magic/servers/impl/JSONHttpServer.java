@@ -105,7 +105,7 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.Chrono;
 import org.magic.services.tools.FileTools;
 import org.magic.services.tools.GithubUtils;
-import org.magic.services.tools.IDGenerator;
+import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.POMReader;
@@ -472,7 +472,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			var id = request.params(":id");
 
 			if(request.params(CLASS).equals("MagicCard"))
-				id = IDGenerator.generate(getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(":id")));
+				id = CryptoUtils.generateCardId(getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(":id")));
 
 
 

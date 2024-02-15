@@ -62,7 +62,7 @@ import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
-import org.magic.services.tools.IDGenerator;
+import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.UITools;
 import org.magic.services.workers.AbstractObservableWorker;
 public class AlarmGUI extends MTGUIComponent {
@@ -505,7 +505,7 @@ public class AlarmGUI extends MTGUIComponent {
 		var alert = new MTGAlert();
 		alert.setCard(mc);
 		alert.setPrice(1.0);
-		alert.setId(IDGenerator.generate(mc));
+		alert.setId(CryptoUtils.generateCardId(mc));
 		try {
 			getEnabledPlugin(MTGDao.class).saveAlert(alert);
 		} catch (SQLException e) {

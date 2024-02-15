@@ -27,7 +27,7 @@ import org.magic.api.interfaces.abstracts.extra.AbstractKeyValueDao;
 import org.magic.services.PluginRegistry;
 import org.magic.services.TechnicalServiceManager;
 import org.magic.services.tools.CryptoUtils;
-import org.magic.services.tools.IDGenerator;
+import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.POMReader;
 
@@ -409,7 +409,7 @@ public class RedisDAO extends AbstractKeyValueDao {
 
 	@Override
 	public void saveAlert(MTGAlert alert) throws SQLException {
-		alert.setId(IDGenerator.generate(alert.getCard()));
+		alert.setId(CryptoUtils.generateCardId(alert.getCard()));
 		redisCommand.set(key(alert), serialiser.toJson(alert));
 
 	}
@@ -516,7 +516,7 @@ public class RedisDAO extends AbstractKeyValueDao {
 		
 			for(var collection : listCollections())
 			{
-				if(listCardsFromCollection(collection).stream().anyMatch(card->IDGenerator.generate(card).equals(IDGenerator.generate(mc))))
+				if(listCardsFromCollection(collection).stream().anyMatch(card->CryptoUtils.generateCardId(card).equals(CryptoUtils.generateCardId(mc))))
 					c.add(collection);
 			}
 			return c;
