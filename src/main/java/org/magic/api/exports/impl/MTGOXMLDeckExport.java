@@ -10,6 +10,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.tools.FileTools;
@@ -27,6 +28,12 @@ public class MTGOXMLDeckExport extends AbstractCardExport {
 	public String getName() {
 		return "MTGO XML";
 	}
+	
+	@Override
+	public EnumExportCategory getCategory() {
+		return EnumExportCategory.APPLICATION;
+	}
+	
 
 	@Override
 	public String getFileExtension() {

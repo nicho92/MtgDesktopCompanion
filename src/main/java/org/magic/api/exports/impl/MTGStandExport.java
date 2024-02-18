@@ -8,6 +8,7 @@ import java.util.regex.Matcher;
 
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.tools.FileTools;
 
@@ -21,6 +22,12 @@ public class MTGStandExport extends AbstractFormattedFileCardExport {
 	public String getFileExtension() {
 		return ".csv";
 	}
+	
+	@Override
+	public EnumExportCategory getCategory() {
+		return EnumExportCategory.WEBSITE;
+	}
+	
 
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {

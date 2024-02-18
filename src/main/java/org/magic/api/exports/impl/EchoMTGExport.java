@@ -9,6 +9,7 @@ import java.util.List;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGEdition;
+import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGControler;
@@ -30,6 +31,12 @@ public class EchoMTGExport extends AbstractCardExport {
 		return List.of("EMAIL","PASSWORD");
 	}
 
+	@Override
+	public EnumExportCategory getCategory() {
+		return EnumExportCategory.WEBSITE;
+	}
+	
+	
 	private void connect()
 	{
 		client = URLTools.newClient();

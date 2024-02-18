@@ -9,6 +9,7 @@ import java.util.List;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
@@ -26,7 +27,13 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 	public String getFileExtension() {
 		return ".csv";
 	}
-
+	
+	@Override
+	public EnumExportCategory getCategory() {
+		return EnumExportCategory.WEBSITE;
+	}
+	
+	
 	@Override
 	public void exportStock(List<MTGCardStock> stocks, File f) throws IOException {
 

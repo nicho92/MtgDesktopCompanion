@@ -8,6 +8,7 @@ import java.io.IOException;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGEdition;
+import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.tools.FileTools;
@@ -25,6 +26,11 @@ public class XMageDeckExport extends AbstractFormattedFileCardExport {
 		return ".dck";
 	}
 
+	@Override
+	public EnumExportCategory getCategory() {
+		return EnumExportCategory.APPLICATION;
+	}
+	
 
 	@Override
 	public void exportDeck(MTGDeck deck, File dest) throws IOException {

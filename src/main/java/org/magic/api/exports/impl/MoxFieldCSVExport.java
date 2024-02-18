@@ -12,6 +12,7 @@ import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
@@ -33,6 +34,12 @@ public class MoxFieldCSVExport extends AbstractFormattedFileCardExport {
 	public String getName() {
 		return "MoxField";
 	}
+	
+	@Override
+	public EnumExportCategory getCategory() {
+		return EnumExportCategory.WEBSITE;
+	}
+	
 
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
