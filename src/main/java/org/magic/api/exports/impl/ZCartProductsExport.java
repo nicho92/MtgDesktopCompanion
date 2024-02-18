@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
 import org.magic.services.tools.FileTools;
@@ -17,6 +18,13 @@ public class ZCartProductsExport extends AbstractFormattedFileCardExport {
 	
 	
 	private static final String COLUMNS = "\"NAME\",\"SLUG\",\"ACTIVE\",\"CATEGORIES\",\"GTIN\",\"GTIN_TYPE\",\"MODEL_NUMBER\",\"BRAND\",\"MPN\",\"DESCRIPTION\",\"MANUFACTURER\",\"ORIGIN_COUNTRY\",\"REQUIRES_SHIPPING\",\"MINIMUM_PRICE\",\"MAXIMUM_PRICE\",\"IMAGE_LINK\",\"TAGS\"";
+	
+	
+	
+	@Override
+	public EnumExportCategory getCategory() {
+		return EnumExportCategory.APPLICATION;
+	}
 	
 	
 	@Override

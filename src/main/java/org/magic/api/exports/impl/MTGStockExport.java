@@ -12,6 +12,7 @@ import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
@@ -26,6 +27,12 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 	public String getFileExtension() {
 		return ".mtgstock";
 	}
+	
+	@Override
+	public EnumExportCategory getCategory() {
+		return EnumExportCategory.WEBSITE;
+	}
+	
 
 
 	@Override
