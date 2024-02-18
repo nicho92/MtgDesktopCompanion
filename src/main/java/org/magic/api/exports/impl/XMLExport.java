@@ -2,14 +2,15 @@ package org.magic.api.exports.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
-import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardNames;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGEdition;
+import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
@@ -25,6 +26,7 @@ import com.thoughtworks.xstream.converters.extended.NamedMapConverter;
 import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
+import com.thoughtworks.xstream.security.AnyTypePermission;
 
 public class XMLExport extends AbstractCardExport {
 
@@ -44,7 +46,9 @@ public class XMLExport extends AbstractCardExport {
 		xstream.alias("set", MTGEdition.class);
 		xstream.alias("foreigneData", MTGCardNames.class);
 		xstream.alias("legality", MTGFormat.class);
+		xstream .addPermission(AnyTypePermission.ANY); 
 		xstream.registerConverter(new NamedMapConverter(xstream.getMapper(), "entry", "card", MTGCard.class, "qty", Integer.class));
+	
 		xstream.registerConverter(new Converter() {
 
 			@Override

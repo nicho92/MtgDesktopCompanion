@@ -293,7 +293,6 @@ public class MTGDeck implements MTGSerializable {
 		this.mapMaybeBoard = mapMaybeBoard;
 	}
 
-
 	public String getName() {
 		return name;
 	}

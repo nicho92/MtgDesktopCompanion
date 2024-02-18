@@ -637,14 +637,6 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 			//do nothing
 		}
 
-		try {
-			JsonObject o = ctx.read(base+".translations",JsonObject.class);
-
-			o.keySet().forEach(key->ed.getTranslations().put(key, o.get(key).getAsString()));
-		}catch(Exception pnfe)
-		{
-			//do nothing
-		}
 
 		try {
 			Boolean o = ctx.read(base+"."+ISPREVIEW,Boolean.class);

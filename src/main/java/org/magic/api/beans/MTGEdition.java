@@ -24,7 +24,6 @@ public class MTGEdition implements MTGSerializable, Comparable<MTGEdition> {
 	private int cardCount;
 	private int cardCountOfficial;
 	private String block;
-	private Map<String, String> translations;
 	private boolean onlineOnly;
 	private Integer mkmid;
 	private String mkmname;
@@ -101,16 +100,10 @@ public class MTGEdition implements MTGSerializable, Comparable<MTGEdition> {
 		this.onlineOnly = onlineOnly;
 	}
 
-	public Map<String, String> getTranslations() {
-		return translations;
-	}
-
-
 	public MTGEdition(String idMe)
 	{
 		setId(idMe);
 		booster = new ArrayList<>();
-		translations = new HashMap<>();
 	}
 
 	public MTGEdition(String idMe,String name)
@@ -118,12 +111,10 @@ public class MTGEdition implements MTGSerializable, Comparable<MTGEdition> {
 		setId(idMe);
 		setSet(name);
 		booster = new ArrayList<>();
-		translations = new HashMap<>();
 	}
 
 	public MTGEdition() {
 		booster = new ArrayList<>();
-		translations = new HashMap<>();
 	}
 
 	public List<EnumExtra> getBooster() {

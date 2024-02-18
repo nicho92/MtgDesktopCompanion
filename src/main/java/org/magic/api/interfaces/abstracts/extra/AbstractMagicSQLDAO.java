@@ -1879,6 +1879,10 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		try {
 			int rs = pst.executeUpdate();
 			daoInfo.setEnd(Instant.now());
+			
+			if(rs<=0)
+				logger.warn("query has update {} line", rs);
+			
 			return rs;
 		} catch (SQLException e) {
 			daoInfo.setMessage(e.getMessage());

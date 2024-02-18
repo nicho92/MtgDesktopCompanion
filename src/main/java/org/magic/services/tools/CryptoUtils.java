@@ -15,7 +15,6 @@ public class CryptoUtils {
 	private CryptoUtils() {
 
 	}
-		
 	
 	public static String generateCardId(MTGCard mc) {
 		

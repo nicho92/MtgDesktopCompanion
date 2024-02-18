@@ -70,6 +70,11 @@
 	</repositories>
 	<dependencies>
 		<dependency>
+		    <groupId>com.esotericsoftware.yamlbeans</groupId>
+		    <artifactId>yamlbeans</artifactId>
+		    <version>1.17</version>
+		</dependency>
+		<dependency>
 		    <groupId>io.lettuce</groupId>
 		    <artifactId>lettuce-core</artifactId>
 		    <version>6.3.1.RELEASE</version>
@@ -749,16 +754,14 @@
 					<binFileExtensions>
 						<unix>.sh</unix>
 					</binFileExtensions>
-					<extraJvmArguments>-Xmx4096m -Dlog4j2.formatMsgNoLookups=true
+					<extraJvmArguments>
+						-Xmx4096m 
+						-Dlog4j2.formatMsgNoLookups=true
 						-Djdk.tls.client.protocols="TLSv1,TLSv1.1,TLSv1.2"
 						-Djava.library.path="./natives"
-						-Dcom.sun.management.jmxremote 
-						-Dcom.sun.management.jmxremote.port=5901
-						-Dcom.sun.management.jmxremote.rmi.port=5901
-						-Dcom.sun.management.jmxremote.ssl=false 
-						-Dcom.sun.management.jmxremote.authenticate=false 
-						-Dcom.sun.management.jmxremote.local.only=false 
-						-Djava.rmi.server.hostname=localhost
+						--add-opens=java.base/java.util=ALL-UNNAMED
+						--add-opens=java.base/java.lang=ALL-UNNAMED
+						--add-opens=java.base/java.lang.invoke=ALL-UNNAMED
 					</extraJvmArguments>
 					<showConsoleWindow>true</showConsoleWindow>
 				</configuration>
