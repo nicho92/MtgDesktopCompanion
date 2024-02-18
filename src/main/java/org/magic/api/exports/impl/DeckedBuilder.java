@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.tools.FileTools;
 
@@ -24,6 +25,12 @@ public class DeckedBuilder extends AbstractFormattedFileCardExport {
 		return "DeckedBuilder";
 	}
 
+	@Override
+	public EnumExportCategory getCategory() {
+		return EnumExportCategory.APPLICATION;
+	}
+	
+	
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
 

@@ -8,6 +8,7 @@ import java.io.StringReader;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 
 public class MagicWorkStationDeckExport extends AbstractFormattedFileCardExport {
@@ -17,6 +18,12 @@ public class MagicWorkStationDeckExport extends AbstractFormattedFileCardExport 
 	public String getFileExtension() {
 		return ".mwDeck";
 	}
+	
+	@Override
+	public EnumExportCategory getCategory() {
+		return EnumExportCategory.APPLICATION;
+	}
+	
 
 	@Override
 	public void exportDeck(MTGDeck deck, File dest) throws IOException {

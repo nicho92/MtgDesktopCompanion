@@ -12,6 +12,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 
 public class MTGDesktopCompanionExport extends AbstractCardExport {
@@ -22,7 +23,11 @@ public class MTGDesktopCompanionExport extends AbstractCardExport {
 		return STATUT.DEPRECATED;
 	}
 
-
+	@Override
+	public EnumExportCategory getCategory() {
+		return EnumExportCategory.APPLICATION;
+	}
+	
 
 	@Override
 	public String getName() {

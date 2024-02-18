@@ -20,6 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGEdition;
+import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -46,6 +47,12 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 		return false;
 	}
 
+	@Override
+	public EnumExportCategory getCategory() {
+		return EnumExportCategory.APPLICATION;
+	}
+	
+	
 	@Override
 	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 

@@ -18,6 +18,7 @@ import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.beans.enums.EnumPromoType;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
@@ -36,6 +37,12 @@ public class LigaMagicExport extends AbstractCardExport {
 	public List<MTGCardStock> importStock(String content) throws IOException {
 		throw new IOException(" Not implemented, please run by a file");
 	}
+	
+	@Override
+	public EnumExportCategory getCategory() {
+		return EnumExportCategory.WEBSITE;
+	}
+	
 
 
 	@Override

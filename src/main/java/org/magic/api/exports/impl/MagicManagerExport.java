@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
 import org.magic.services.tools.FileTools;
@@ -18,6 +19,12 @@ public class MagicManagerExport extends AbstractFormattedFileCardExport {
 	
 	private static final String COLUMNS = "Card Name,Set Code,Collector Number,Language,Foil,Count";
 
+	@Override
+	public EnumExportCategory getCategory() {
+		return EnumExportCategory.WEBSITE;
+	}
+	
+	
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
 		var list = new ArrayList<MTGCardStock>();
