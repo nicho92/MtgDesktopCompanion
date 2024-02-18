@@ -30,9 +30,11 @@ public enum EnumFrameEffects implements MTGEnumeration{
 	SHATTEREDGLASS,
 	SHOWCASE,
 	SNOW,
+	STAMPED,
 	SUNMOONDFC,
 	TEXTLESS,
 	TOMBSTONE,
+	UPSIDEDOWNDFC,
 	WAXINGANDWANINGMOONDFC;
 
 	public static List<EnumFrameEffects> parseByLabel(List<String> names)

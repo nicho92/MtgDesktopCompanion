@@ -36,7 +36,7 @@ public class ServerLauncher {
 
 		try {
 			MTG.getEnabledPlugin(MTGCardsIndexer.class).initIndex(false);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			//do nothing
 		}
 
