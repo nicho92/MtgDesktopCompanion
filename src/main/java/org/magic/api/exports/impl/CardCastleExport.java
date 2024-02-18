@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.tools.FileTools;
 
@@ -12,6 +13,10 @@ public class CardCastleExport extends AbstractFormattedFileCardExport {
 
 	private String header="Count"+getSeparator()+"Card Name"+getSeparator()+"Set Name"+getSeparator()+"Foil";
 
+	@Override
+	public EnumExportCategory getCategory() {
+		return EnumExportCategory.WEBSITE;
+	}
 
 	@Override
 	public String getFileExtension() {

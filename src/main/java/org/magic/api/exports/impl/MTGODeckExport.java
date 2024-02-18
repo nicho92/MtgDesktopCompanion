@@ -9,6 +9,7 @@ import java.util.regex.Matcher;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGEdition;
+import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.tools.FileTools;
@@ -21,6 +22,11 @@ public class MTGODeckExport extends AbstractFormattedFileCardExport {
 		return "MTGO";
 	}
 
+	@Override
+	public EnumExportCategory getCategory() {
+		return EnumExportCategory.APPLICATION;
+	}
+	
 	@Override
 	public String getFileExtension() {
 		return ".dek";

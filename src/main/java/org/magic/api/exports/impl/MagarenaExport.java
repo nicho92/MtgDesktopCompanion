@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.tools.FileTools;
@@ -17,6 +18,11 @@ public class MagarenaExport extends AbstractFormattedFileCardExport
 	@Override
 	public String getFileExtension() {
 		return ".dec";
+	}
+	
+	@Override
+	public EnumExportCategory getCategory() {
+		return EnumExportCategory.APPLICATION;
 	}
 
 	@Override

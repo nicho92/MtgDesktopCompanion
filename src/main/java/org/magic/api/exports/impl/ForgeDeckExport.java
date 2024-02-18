@@ -6,6 +6,7 @@ import java.util.regex.Matcher;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.tools.FileTools;
 
@@ -14,6 +15,11 @@ public class ForgeDeckExport extends AbstractFormattedFileCardExport {
 	@Override
 	public String getFileExtension() {
 		return ".dck";
+	}
+	
+	@Override
+	public EnumExportCategory getCategory() {
+		return EnumExportCategory.APPLICATION;
 	}
 
 	@Override

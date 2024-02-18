@@ -9,12 +9,18 @@ import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
 import org.magic.services.tools.FileTools;
 
 public class ArchidektExport extends AbstractFormattedFileCardExport {
 
+	
+	@Override
+	public EnumExportCategory getCategory() {
+		return EnumExportCategory.WEBSITE;
+	}
 
 
 	@Override
@@ -63,10 +69,6 @@ public class ArchidektExport extends AbstractFormattedFileCardExport {
 		}
 
 		FileTools.saveFile(f, temp.toString());
-
-
-
-
 	}
 
 	@Override

@@ -12,6 +12,7 @@ import javax.xml.xpath.XPathFactory;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
@@ -24,6 +25,12 @@ public class OCTGNDeckExport extends AbstractCardExport {
 
 	private static final String SHARED = "SHARED";
 
+	
+	@Override
+	public EnumExportCategory getCategory() {
+		return EnumExportCategory.APPLICATION;
+	}
+	
 	@Override
 	public String getFileExtension() {
 		return ".o8d";

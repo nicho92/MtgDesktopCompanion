@@ -10,6 +10,7 @@ import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
 import org.magic.services.tools.FileTools;
@@ -42,6 +43,11 @@ public class DragonShieldExport extends AbstractFormattedFileCardExport {
 		   				   });
 		   				   
 		   FileTools.saveFile(f, temp.toString());
+	}
+	
+	@Override
+	public EnumExportCategory getCategory() {
+		return EnumExportCategory.WEBSITE;
 	}
 	
 	@Override

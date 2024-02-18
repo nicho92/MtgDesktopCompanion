@@ -4,11 +4,17 @@ import java.io.File;
 import java.io.IOException;
 
 import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.tools.FileTools;
 
 public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 
+	
+	@Override
+	public EnumExportCategory getCategory() {
+		return EnumExportCategory.APPLICATION;
+	}
 
 	@Override
 	public String getName() {

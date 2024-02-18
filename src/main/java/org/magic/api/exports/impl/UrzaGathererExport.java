@@ -14,6 +14,7 @@ import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
@@ -27,6 +28,11 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
+	}
+	
+	@Override
+	public EnumExportCategory getCategory() {
+		return EnumExportCategory.APPLICATION;
 	}
 
 

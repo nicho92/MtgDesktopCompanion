@@ -11,6 +11,7 @@ import java.util.Map;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
@@ -28,6 +29,11 @@ public class DelverLensExport extends AbstractFormattedFileCardExport{
 		return ".csv";
 	}
 
+	@Override
+	public EnumExportCategory getCategory() {
+		return EnumExportCategory.WEBSITE;
+	}
+	
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
 

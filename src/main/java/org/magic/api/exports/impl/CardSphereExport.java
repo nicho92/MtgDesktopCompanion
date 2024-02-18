@@ -10,6 +10,7 @@ import java.util.List;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGControler;
@@ -19,6 +20,12 @@ public class CardSphereExport extends AbstractFormattedFileCardExport {
 
 	private static final String COLUMNS="Count,Tradelist Count,Name,Edition,Condition,Language,Foil,Tags";
 
+	
+	@Override
+	public EnumExportCategory getCategory() {
+		return EnumExportCategory.WEBSITE;
+	}
+	
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
 		List<MTGCardStock> list = new ArrayList<>();
