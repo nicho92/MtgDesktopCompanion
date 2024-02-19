@@ -39,6 +39,9 @@ public class YamlExport extends AbstractCardExport {
 		config.setClassTag("Set", MTGEdition.class);
 		config.setClassTag("StockItem", MTGCardStock.class);
 		config.setClassTag("Deck", MTGDeck.class);
+		
+		
+		
 	}
 
 	@Override
