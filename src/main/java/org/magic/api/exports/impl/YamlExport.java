@@ -10,7 +10,12 @@ import org.magic.api.beans.MTGDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.tools.FileTools;
 import org.magic.services.tools.POMReader;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.Constructor;
+import org.yaml.snakeyaml.inspector.TagInspector;
+import org.yaml.snakeyaml.nodes.Tag;
+
 
 public class YamlExport extends AbstractCardExport {
 
@@ -29,7 +34,14 @@ public class YamlExport extends AbstractCardExport {
 	
 	private void init()
 	{
-		yaml = new Yaml();
+		
+		var loaderoptions = new LoaderOptions();
+        TagInspector taginspector = tag->tag.getClassName().startsWith("org.magic.api.beans");
+			
+        loaderoptions.setTagInspector(taginspector);
+        
+        yaml = new Yaml(new Constructor(loaderoptions));
+        
 	}
 
 	@Override
@@ -37,6 +49,13 @@ public class YamlExport extends AbstractCardExport {
 		return POMReader.readVersionFromPom(Yaml.class, "/META-INF/maven/org.yaml/snakeyaml/pom.properties");
 	}
 	
+
+	
+	@Override
+	public void exportStock(List<MTGCardStock> stock, File dest) throws IOException {
+		init();
+		FileTools.saveFile(dest, yaml.dumpAll(stock.iterator()));
+	}
 	
 	@Override
 	public void exportDeck(MTGDeck deck, File dest) throws IOException {
@@ -56,24 +75,15 @@ public class YamlExport extends AbstractCardExport {
 		init();
 	
 			var list = new ArrayList<MTGCardStock>();
-			
-			
-			
 			yaml.loadAll(content).forEach(o->{
-				list.add((MTGCardStock)o);
+				
+				var st  = (MTGCardStock)o;
+				list.add(st);
+				notify(st.getProduct());
 			});
 			return list;
 		
 	}
 	
-	
-	@Override
-	public void exportStock(List<MTGCardStock> stock, File dest) throws IOException {
-		init();
-		
-		
-		FileTools.saveFile(dest, yaml.dumpAll(stock.iterator()));
-		
-	}
 	
 }
