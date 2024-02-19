@@ -85,6 +85,7 @@ import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.api.interfaces.MTGTrackingService;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
+import org.magic.api.pictures.impl.PersonalSetPicturesProvider;
 import org.magic.api.providers.impl.PrivateMTGSetProvider;
 import org.magic.api.sorters.CardsEditionSorter;
 import org.magic.services.CardsManagerService;
@@ -407,7 +408,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/custom/picture/:idCard", URLTools.HEADER_JSON,(request, response) -> {
 			var baos = new ByteArrayOutputStream();
 			var mc = MTG.getPlugin(PrivateMTGSetProvider.PERSONNAL_DATA_SET_PROVIDER, MTGCardsProvider.class).getCardById(request.params(":idCard"));
-			var im = MTG.getPlugin(PrivateMTGSetProvider.PERSONNAL_DATA_SET_PROVIDER,MTGPictureProvider.class).getPicture(mc);
+			var im = MTG.getPlugin(PersonalSetPicturesProvider.PERSONAL_SET_PICTURES,MTGPictureProvider.class).getPicture(mc);
 			ImageTools.write(im, "png", baos);
 
 			baos.flush();

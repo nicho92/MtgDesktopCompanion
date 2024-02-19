@@ -17,6 +17,7 @@ import org.magic.services.tools.ImageTools;
 
 public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 
+	public static final String PERSONAL_SET_PICTURES = "Personal Set Pictures";
 	private static final String FORMAT = "FORMAT";
 	private static final String PICS_DIR = "PICS_DIR";
 
@@ -92,7 +93,7 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 
 	@Override
 	public String getName() {
-		return "Personal Set Pictures";
+		return PERSONAL_SET_PICTURES;
 	}
 
 	@Override
