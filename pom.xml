@@ -70,9 +70,9 @@
 	</repositories>
 	<dependencies>
 		<dependency>
-		    <groupId>com.esotericsoftware.yamlbeans</groupId>
-		    <artifactId>yamlbeans</artifactId>
-		    <version>1.17</version>
+		    <groupId>org.yaml</groupId>
+		    <artifactId>snakeyaml</artifactId>
+		    <version>2.2</version>            
 		</dependency>
 		<dependency>
 		    <groupId>io.lettuce</groupId>

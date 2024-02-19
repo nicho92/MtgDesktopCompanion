@@ -1,26 +1,21 @@
 package org.magic.api.exports.impl;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGDeck;
-import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
-
-import com.esotericsoftware.yamlbeans.Version;
-import com.esotericsoftware.yamlbeans.YamlConfig;
-import com.esotericsoftware.yamlbeans.YamlReader;
-import com.esotericsoftware.yamlbeans.YamlWriter;
+import org.magic.services.tools.FileTools;
+import org.magic.services.tools.POMReader;
+import org.yaml.snakeyaml.Yaml;
 
 public class YamlExport extends AbstractCardExport {
 
+	private Yaml yaml;
 	
-	private YamlConfig config;
 	
 	@Override
 	public String getFileExtension() {
@@ -34,54 +29,40 @@ public class YamlExport extends AbstractCardExport {
 	
 	private void init()
 	{
-		config = new YamlConfig();
-		config.setClassTag("Card", MTGCard.class);
-		config.setClassTag("Set", MTGEdition.class);
-		config.setClassTag("StockItem", MTGCardStock.class);
-		config.setClassTag("Deck", MTGDeck.class);
-		
-		
-		
+		yaml = new Yaml();
 	}
 
 	@Override
 	public String getVersion() {
-		return Version.DEFAULT_VERSION.toString();
+		return POMReader.readVersionFromPom(Yaml.class, "/META-INF/maven/org.yaml/snakeyaml/pom.properties");
 	}
 	
 	
 	@Override
 	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 		init();
-		try(var writer = new YamlWriter(new FileWriter(dest),config))
-		{
-			writer.write(deck);
-		}
+		FileTools.saveFile(dest, yaml.dump(deck));
 	}
 
 	@Override
 	public MTGDeck importDeck(String content, String name) throws IOException {
 		init();
-		try(var reader = new YamlReader(content))
-		{
-			return reader.read(MTGDeck.class);
-		}
+		return yaml.load(content);
 	}
 	
 	
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
 		init();
-		
-		try(var reader = new YamlReader(content))
-		{
-			var list = new ArrayList<MTGCardStock>();		
-			reader.readAll(MTGCardStock.class).forEachRemaining(c->{
-				list.add(c);
-				notify(c.getProduct());
+	
+			var list = new ArrayList<MTGCardStock>();
+			
+			
+			
+			yaml.loadAll(content).forEach(o->{
+				list.add((MTGCardStock)o);
 			});
 			return list;
-		}
 		
 	}
 	
@@ -90,14 +71,8 @@ public class YamlExport extends AbstractCardExport {
 	public void exportStock(List<MTGCardStock> stock, File dest) throws IOException {
 		init();
 		
-		try(var writer = new YamlWriter(new FileWriter(dest),config))
-		{
-			for(var mcs : stock)
-			{
-				writer.write(mcs);
-				notify(mcs.getProduct());
-			}
-		}		
+		
+		FileTools.saveFile(dest, yaml.dumpAll(stock.iterator()));
 		
 	}
 	
