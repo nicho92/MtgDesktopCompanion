@@ -18,6 +18,7 @@ import com.google.gson.JsonObject;
 public class WriteSonic extends AbstractIA {
 
 	
+	private static final String X_API_KEY = "X-API-KEY";
 	private MTGHttpClient client;
 
 	
@@ -33,7 +34,7 @@ public class WriteSonic extends AbstractIA {
 	
 	@Override
 	public List<String> listAuthenticationAttributes() {
-		return List.of("X-API-KEY");
+		return List.of(X_API_KEY);
 	}
 	
 
@@ -51,7 +52,7 @@ public class WriteSonic extends AbstractIA {
 		var headers = new HashMap<String, String>();
 				headers.put(URLTools.ACCEPT, URLTools.HEADER_JSON);
 				headers.put(URLTools.CONTENT_TYPE, URLTools.HEADER_JSON);
-				headers.put("X-API-KEY", getAuthenticator().get("X-API-KEY"));
+				headers.put(X_API_KEY, getAuthenticator().get(X_API_KEY));
 
 		
 		var obj = new JsonObject();

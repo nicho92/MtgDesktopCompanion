@@ -722,26 +722,26 @@
 					<programs>
 						<program>
 							<mainClass>org.magic.main.MtgDesktopCompanion</mainClass>
-							<name>${program.id}</name>
+							<id>${program.id}</id>
 						</program>
 						<program>
 							<mainClass>org.magic.main.ServerLauncher</mainClass>
-							<name>web-ui</name>
+							<id>web-ui</id>
 							<commandLineArguments>
 								<commandLineArgument>"Web UI Server"</commandLineArgument>
 							</commandLineArguments>
 						</program>
 						<program>
 							<mainClass>org.magic.main.NetworkClient</mainClass>
-							<name>net-client</name>
+							<id>net-client</id>
 						</program>
 						<program>
 							<mainClass>org.magic.main.ServerLauncher</mainClass>
-							<name>server-launch</name>
+							<id>server-launch</id>
 						</program>
 						<program>
 							<mainClass>org.magic.main.ScriptsUIClient</mainClass>
-							<name>script-launch</name>
+							<id>script-launch</id>
 						</program>
 					</programs>
 					<generateRepository>true</generateRepository>
