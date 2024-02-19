@@ -2,8 +2,8 @@ package org.magic.api.interfaces;
 
 import java.util.List;
 
-import org.magic.api.beans.MTGCombo;
 import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCombo;
 
 public interface MTGComboProvider extends MTGPlugin {
 

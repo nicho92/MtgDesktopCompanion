@@ -21,9 +21,9 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGEdition;
+import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumFinishes;
 import org.magic.api.beans.enums.EnumFrameEffects;

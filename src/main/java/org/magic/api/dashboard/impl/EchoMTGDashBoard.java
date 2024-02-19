@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.magic.api.beans.MTGDominance;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.EditionsShakers;
 import org.magic.api.beans.HistoryPrice;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDominance;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGFormat.FORMATS;
 import org.magic.api.beans.MTGSealedProduct;
-import org.magic.api.beans.MTGCard;
-import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCardVariation;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.network.MTGHttpClient;

@@ -41,8 +41,8 @@ import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardsIndexer;
 import org.magic.services.MTGConstants;
-import org.magic.services.tools.FileTools;
 import org.magic.services.tools.CryptoUtils;
+import org.magic.services.tools.FileTools;
 
 
 public class LuceneIndexer extends AbstractCardsIndexer {

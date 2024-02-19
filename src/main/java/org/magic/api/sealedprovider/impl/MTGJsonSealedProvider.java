@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.MTGEdition;
+import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractSealedProvider;

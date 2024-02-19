@@ -187,9 +187,7 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		
 		var list = new ArrayList<MTGStockItem>();
 		
-		build.toJson().getAsJsonObject().get("products").getAsJsonArray().forEach(je->{
-			list.add(buildStockItem(je.getAsJsonObject()));
-		});
+		build.toJson().getAsJsonObject().get("products").getAsJsonArray().forEach(je->list.add(buildStockItem(je.getAsJsonObject())));
 		return list;
 	}
 
@@ -312,9 +310,7 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		
 		
 		
-		jo.get("products").getAsJsonObject().entrySet().forEach(e->{
-			t.getItems().add(buildStockItem(e.getValue().getAsJsonObject()));
-		});
+		jo.get("products").getAsJsonObject().entrySet().forEach(e->t.getItems().add(buildStockItem(e.getValue().getAsJsonObject())));
 		
 		
 		

@@ -5,14 +5,14 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.List;
 
-import org.magic.api.beans.MTGDominance;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.EditionsShakers;
 import org.magic.api.beans.HistoryPrice;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGDominance;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MTGSealedProduct;
-import org.magic.api.beans.MTGCard;
-import org.magic.api.beans.MTGEdition;
 
 public interface MTGDashBoard extends MTGPriceSuggester {
 

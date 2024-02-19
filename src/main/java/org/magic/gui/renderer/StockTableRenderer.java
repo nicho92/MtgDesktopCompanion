@@ -11,8 +11,8 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
-import org.magic.api.beans.MTGGrading;
 import org.magic.api.beans.MTGEdition;
+import org.magic.api.beans.MTGGrading;
 import org.magic.api.interfaces.MTGGraders;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;

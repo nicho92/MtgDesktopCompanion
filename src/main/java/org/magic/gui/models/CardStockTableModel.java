@@ -3,11 +3,11 @@ package org.magic.gui.models;
 import java.util.Map;
 import java.util.Objects;
 
-import org.magic.api.beans.MTGGrading;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGEdition;
+import org.magic.api.beans.MTGGrading;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumRarity;
 import org.magic.gui.abstracts.GenericTableModel;

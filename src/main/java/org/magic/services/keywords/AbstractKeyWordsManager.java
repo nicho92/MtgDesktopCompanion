@@ -8,10 +8,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.Logger;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MTGKeyWord.EVENT;
 import org.magic.api.beans.MTGKeyWord.TYPE;
-import org.magic.api.beans.MTGCard;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
 

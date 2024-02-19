@@ -14,8 +14,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 import org.jdesktop.swingx.JXTree;
-import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.MTGEdition;
+import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGSealedProvider;

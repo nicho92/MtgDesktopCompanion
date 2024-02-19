@@ -26,12 +26,12 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 
 import org.apache.logging.log4j.Logger;
-import org.magic.api.beans.MTGFormat;
-import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGAlert;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardNames;
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGCardsExport;

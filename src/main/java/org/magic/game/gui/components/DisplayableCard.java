@@ -32,8 +32,8 @@ import javax.swing.border.LineBorder;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.logging.log4j.Logger;
-import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.game.GameManager;
 import org.magic.api.beans.game.Player;

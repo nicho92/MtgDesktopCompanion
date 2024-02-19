@@ -8,8 +8,8 @@ import java.util.List;
 import javax.swing.Icon;
 import javax.xml.xpath.XPathExpressionException;
 
-import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.MTGEdition;
+import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.MTGCardsProvider;

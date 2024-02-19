@@ -18,8 +18,8 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 
-import org.magic.api.beans.MTGCombo;
 import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCombo;
 import org.magic.api.interfaces.MTGComboProvider;
 import org.magic.game.gui.components.HandPanel;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;

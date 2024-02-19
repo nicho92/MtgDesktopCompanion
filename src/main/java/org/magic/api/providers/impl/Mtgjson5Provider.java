@@ -11,13 +11,13 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardNames;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MTGFormat.AUTHORIZATION;
 import org.magic.api.beans.MTGRuling;
 import org.magic.api.beans.MTGSealedProduct;
-import org.magic.api.beans.MTGCard;
-import org.magic.api.beans.MTGCardNames;
-import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumBorders;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumExtra;
@@ -35,7 +35,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.Option;

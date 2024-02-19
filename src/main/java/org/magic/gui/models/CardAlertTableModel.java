@@ -2,8 +2,8 @@ package org.magic.gui.models;
 
 import static org.magic.services.tools.MTG.getEnabledPlugin;
 
-import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGAlert;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.GenericTableModel;

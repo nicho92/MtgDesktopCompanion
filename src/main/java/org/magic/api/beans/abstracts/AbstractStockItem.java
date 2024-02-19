@@ -3,9 +3,9 @@ package org.magic.api.beans.abstracts;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.magic.api.beans.MTGGrading;
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGEdition;
+import org.magic.api.beans.MTGGrading;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;

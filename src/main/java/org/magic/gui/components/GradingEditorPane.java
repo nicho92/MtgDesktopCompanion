@@ -17,8 +17,8 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingWorker;
 
-import org.magic.api.beans.MTGGrading;
 import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGGrading;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;

@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
 
-import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.MTGEdition;
+import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.MTGSealedProvider;

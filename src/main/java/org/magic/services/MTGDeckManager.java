@@ -16,10 +16,10 @@ import java.util.TreeMap;
 
 import org.apache.commons.math3.distribution.HypergeometricDistribution;
 import org.apache.logging.log4j.Logger;
-import org.magic.api.beans.MTGFormat;
-import org.magic.api.beans.MTGFormat.FORMATS;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.MTGFormat;
+import org.magic.api.beans.MTGFormat.FORMATS;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.beans.technical.RetrievableDeck;

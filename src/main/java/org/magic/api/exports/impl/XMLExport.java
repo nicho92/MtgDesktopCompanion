@@ -2,7 +2,6 @@ package org.magic.api.exports.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 
 import org.magic.api.beans.MTGCard;

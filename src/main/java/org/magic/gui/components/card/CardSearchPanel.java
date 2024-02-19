@@ -42,10 +42,8 @@ import javax.swing.SwingWorker;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGCard;
-import org.magic.api.beans.MTGCardNames;
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGEdition;
@@ -86,7 +84,6 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 import org.magic.services.workers.AbstractObservableWorker;
-import org.utils.patterns.observer.Observable;
 
 public class CardSearchPanel extends MTGUIComponent {
 

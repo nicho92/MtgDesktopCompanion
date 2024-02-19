@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.jooq.SQLDialect;
-import org.magic.api.beans.MTGGrading;
 import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGGrading;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.extra.AbstractMagicSQLDAO;
 import org.postgresql.util.PGobject;

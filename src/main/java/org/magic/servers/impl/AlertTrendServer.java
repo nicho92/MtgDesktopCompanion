@@ -14,8 +14,8 @@ import javax.swing.Icon;
 
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.HistoryPrice;
-import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGAlert;
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGDao;

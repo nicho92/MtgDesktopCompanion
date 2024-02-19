@@ -3,9 +3,9 @@ package org.magic.api.interfaces.abstracts.extra;
 
 import java.sql.SQLException;
 
+import org.magic.api.beans.MTGAlert;
 import org.magic.api.beans.MTGAnnounce;
 import org.magic.api.beans.MTGCard;
-import org.magic.api.beans.MTGAlert;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGDeck;

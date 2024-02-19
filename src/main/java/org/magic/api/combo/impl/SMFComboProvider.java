@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jsoup.nodes.Document;
-import org.magic.api.beans.MTGCombo;
 import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCombo;
 import org.magic.api.interfaces.abstracts.AbstractComboProvider;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
