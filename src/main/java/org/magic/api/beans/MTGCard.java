@@ -38,7 +38,8 @@ public class MTGCard extends AbstractProduct {
 				cardName.trim().equalsIgnoreCase("Snow-Covered Island") ||
 				cardName.trim().equalsIgnoreCase("Snow-Covered Swamp") ||
 				cardName.trim().equalsIgnoreCase("Snow-Covered Mountain") ||
-				cardName.trim().equalsIgnoreCase("Snow-Covered Forest")
+				cardName.trim().equalsIgnoreCase("Snow-Covered Forest") ||
+				cardName.trim().equalsIgnoreCase("Snow-Covered Wastes")
 				);
 	}
 	private boolean arenaCard;
