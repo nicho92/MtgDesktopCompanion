@@ -115,9 +115,16 @@ public class CardTraderWebShop extends AbstractExternalShop {
 	private MTGEdition toExpansion(org.api.cardtrader.modele.Expansion expansion) {
 		if(expansion==null)
 			return null;
-		var exp = new MTGEdition();
-		exp.setId(expansion.getCode());
-		exp.setSet(expansion.getName());
+		
+		MTGEdition exp = new MTGEdition();
+		try {
+			exp = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(expansion.getCode());
+		} catch (Exception e) {
+			logger.error(e);
+			exp.setId(expansion.getCode());
+			exp.setSet(expansion.getName());
+		} 
+		
 		return exp;
 	}
 

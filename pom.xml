@@ -52,9 +52,9 @@
   		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
   		
   		<jwt.version>0.12.5</jwt.version>
-  		<lucene.version>9.9.2</lucene.version>
+  		<lucene.version>9.10.0</lucene.version>
   		<artemis.version>2.32.0</artemis.version>
-  		<flatlaf.version>3.3</flatlaf.version>
+  		<flatlaf.version>3.4</flatlaf.version>
   		<qwartz.version>2.5.0-rc1</qwartz.version>
   		<rome.version>2.1.0</rome.version>
   		<log4j.version>2.20.0</log4j.version>
@@ -262,7 +262,7 @@
 		<dependency>
 			<groupId>org.jooq</groupId>
 			<artifactId>jooq</artifactId>
-			<version>3.19.3</version>
+			<version>3.19.4</version>
 		</dependency>
 		<dependency>
 			<groupId>com.icoderman</groupId>
@@ -360,7 +360,7 @@
 		<dependency>
 			<groupId>org.mariadb.jdbc</groupId>
 			<artifactId>mariadb-java-client</artifactId>
-			<version>3.3.2</version>
+			<version>3.3.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.xerial</groupId>
@@ -471,7 +471,7 @@
 		<dependency>
 			<groupId>com.mchange</groupId>
 			<artifactId>c3p0</artifactId>
-			<version>0.10.0-pre3</version>
+			<version>0.10.0-pre4</version>
 		</dependency>
 		<dependency>
 			<groupId>com.zaxxer</groupId>
@@ -615,7 +615,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.7.1</version>
+			<version>42.7.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mozilla</groupId>
