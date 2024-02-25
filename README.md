@@ -3,7 +3,7 @@
 # Magic The Gathering Companion
 Personal Magic the Gathering card manager Deck Builder, Collection Editor and prices scrapper
 
-[![GitHub stars](https://img.shields.io/badge/download-2.43-green.svg)](https://github.com/nicho92/MtgDesktopCompanion/releases/)
+[![GitHub stars](https://img.shields.io/badge/download-2.44-green.svg)](https://github.com/nicho92/MtgDesktopCompanion/releases/)
 [![GitHub issues](https://img.shields.io/github/issues/nicho92/MtgDesktopCompanion.svg)](https://github.com/nicho92/MtgDesktopCompanion/issues)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=org.magic%3Amagic-api&metric=alert_status)](https://sonarcloud.io/dashboard?id=org.magic%3Amagic-api)
 [![GitHub forks](https://img.shields.io/github/forks/nicho92/MtgDesktopCompanion.svg)](https://github.com/nicho92/MtgDesktopCompanion/network)
