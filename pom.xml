@@ -34,7 +34,8 @@
 	<scm>
 		<connection>scm:git:https://github.com/nicho92/MtgDesktopCompanion.git
 		</connection>
-		<developerConnection>scm:git:https://github.com/nicho92/MtgDesktopCompanion.git
+		<developerConnection>
+			scm:git:https://github.com/nicho92/MtgDesktopCompanion.git
 		</developerConnection>
 		<url>https://github.com/nicho92/MtgDesktopCompanion</url>
 		<tag>HEAD</tag>
@@ -43,71 +44,71 @@
 		<system>Travis CI</system>
 		<url>https://travis-ci.org/nicho92/MtgDesktopCompanion</url>
 	</ciManagement>
-	
+
 	<properties>
 		<maven.compiler.source>21</maven.compiler.source>
 		<maven.compiler.target>21</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<sonar.organization>nicho92-github</sonar.organization>
-  		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
-  		
-  		<jwt.version>0.12.5</jwt.version>
-  		<lucene.version>9.10.0</lucene.version>
-  		<artemis.version>2.32.0</artemis.version>
-  		<flatlaf.version>3.4</flatlaf.version>
-  		<qwartz.version>2.5.0-rc1</qwartz.version>
-  		<rome.version>2.1.0</rome.version>
-  		<log4j.version>2.20.0</log4j.version>
-  		<poi.version>5.2.5</poi.version>
-  		<slf4j.version>2.0.9</slf4j.version>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+
+		<jwt.version>0.12.5</jwt.version>
+		<lucene.version>9.10.0</lucene.version>
+		<artemis.version>2.32.0</artemis.version>
+		<flatlaf.version>3.4</flatlaf.version>
+		<qwartz.version>2.5.0-rc1</qwartz.version>
+		<rome.version>2.1.0</rome.version>
+		<log4j.version>2.20.0</log4j.version>
+		<poi.version>5.2.5</poi.version>
+		<slf4j.version>2.0.9</slf4j.version>
 	</properties>
 	<repositories>
-			<repository>
-			  <id>reposilite-repository-releases</id>
-			  <name>Reposilite Repository</name>
-			  <url>https://repo.panda-lang.org/releases</url>
-			</repository>
+		<repository>
+			<id>reposilite-repository-releases</id>
+			<name>Reposilite Repository</name>
+			<url>https://repo.panda-lang.org/releases</url>
+		</repository>
 	</repositories>
 	<dependencies>
 		<dependency>
-		    <groupId>org.yaml</groupId>
-		    <artifactId>snakeyaml</artifactId>
-		    <version>2.2</version>            
+			<groupId>org.yaml</groupId>
+			<artifactId>snakeyaml</artifactId>
+			<version>2.2</version>
 		</dependency>
 		<dependency>
-		    <groupId>io.lettuce</groupId>
-		    <artifactId>lettuce-core</artifactId>
-		    <version>6.3.1.RELEASE</version>
+			<groupId>io.lettuce</groupId>
+			<artifactId>lettuce-core</artifactId>
+			<version>6.3.1.RELEASE</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.apache.derby</groupId>
-		    <artifactId>derby</artifactId>
-		    <version>10.17.1.0</version>
+			<groupId>org.apache.derby</groupId>
+			<artifactId>derby</artifactId>
+			<version>10.17.1.0</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.jolokia</groupId>
-		    <artifactId>jolokia-jvm</artifactId>
-		    <version>1.7.2</version>
+			<groupId>org.jolokia</groupId>
+			<artifactId>jolokia-jvm</artifactId>
+			<version>1.7.2</version>
 		</dependency>
 		<dependency>
-	    	<groupId>org.apache.activemq</groupId>
-	    	<artifactId>artemis-core-client</artifactId>
-	    	<version>${artemis.version}</version>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>artemis-core-client</artifactId>
+			<version>${artemis.version}</version>
 		</dependency>
 		<dependency>
-	    	<groupId>org.apache.activemq</groupId>
-	    	<artifactId>artemis-server</artifactId>
-	    	<version>${artemis.version}</version>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>artemis-server</artifactId>
+			<version>${artemis.version}</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.ocpsoft.prettytime</groupId>
-		    <artifactId>prettytime</artifactId>
-		    <version>5.0.7.Final</version>
+			<groupId>org.ocpsoft.prettytime</groupId>
+			<artifactId>prettytime</artifactId>
+			<version>5.0.7.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>org.sejda.imageio</groupId>
-    		<artifactId>webp-imageio</artifactId>
-    		<version>0.1.6</version>
+			<artifactId>webp-imageio</artifactId>
+			<version>0.1.6</version>
 		</dependency>
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
@@ -115,27 +116,27 @@
 			<version>${jwt.version}</version>
 		</dependency>
 		<dependency>
-		    <groupId>io.jsonwebtoken</groupId>
-		    <artifactId>jjwt-impl</artifactId>
-		    <version>${jwt.version}</version>
-		    <scope>runtime</scope>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<version>${jwt.version}</version>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-		    <groupId>io.jsonwebtoken</groupId>
-		    <artifactId>jjwt-gson</artifactId>
-		    <version>${jwt.version}</version>
-		    <scope>runtime</scope>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-gson</artifactId>
+			<version>${jwt.version}</version>
+			<scope>runtime</scope>
 		</dependency>
-	
+
 		<dependency>
 			<groupId>commons-jxpath</groupId>
 			<artifactId>commons-jxpath</artifactId>
 			<version>1.3</version>
 		</dependency>
 		<dependency>
-    		<groupId>org.apache.logging.log4j</groupId>
-    		<artifactId>log4j-core</artifactId>
-    		<version>${log4j.version}</version>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>${log4j.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
@@ -143,24 +144,24 @@
 			<version>${log4j.version}</version>
 		</dependency>
 		<dependency>
-    		<groupId>org.apache.logging.log4j</groupId>
-    		<artifactId>log4j-slf4j-impl</artifactId>
-    		<version>${log4j.version}</version>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-slf4j-impl</artifactId>
+			<version>${log4j.version}</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.apache.logging.log4j</groupId>
-		    <artifactId>log4j-jcl</artifactId>
-		    <version>${log4j.version}</version>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-jcl</artifactId>
+			<version>${log4j.version}</version>
 		</dependency>
 		<dependency>
-    		<groupId>org.slf4j</groupId>
-    		<artifactId>slf4j-api</artifactId>
-    		<version>${slf4j.version}</version>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
 		</dependency>
 		<dependency>
-    		<groupId>org.slf4j</groupId>
-    		<artifactId>slf4j-nop</artifactId>
-    		<version>${slf4j.version}</version>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-nop</artifactId>
+			<version>${slf4j.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.poi</groupId>
@@ -178,7 +179,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.formdev</groupId>
 			<artifactId>svgSalamander</artifactId>
@@ -280,11 +281,11 @@
 			<version>${qwartz.version}</version>
 		</dependency>
 		<dependency>
-		    <groupId>jakarta.transaction</groupId>
-		    <artifactId>jakarta.transaction-api</artifactId>
-		    <version>2.0.1</version>
+			<groupId>jakarta.transaction</groupId>
+			<artifactId>jakarta.transaction-api</artifactId>
+			<version>2.0.1</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.dorkbox</groupId>
 			<artifactId>Notify</artifactId>
@@ -411,7 +412,7 @@
 					<groupId>club.minnced</groupId>
 					<artifactId>opus-java</artifactId>
 				</exclusion>
-			</exclusions> 
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.sparkjava</groupId>
@@ -515,7 +516,7 @@
 			<artifactId>commons-io</artifactId>
 			<version>2.15.1</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
@@ -532,20 +533,16 @@
 			<version>1.11.0</version>
 		</dependency>
 		<dependency>
-		    <groupId>org.apache.commons</groupId>
-		    <artifactId>commons-rng-core</artifactId>
-		    <version>1.5</version>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-rng-core</artifactId>
+			<version>1.5</version>
 		</dependency>
 		<dependency>
 			<groupId>org.freemarker</groupId>
 			<artifactId>freemarker</artifactId>
 			<version>2.3.32</version>
 		</dependency>
-<!--		<dependency>
-		    <groupId>com.glazedlists</groupId>
-		    <artifactId>glazedlists</artifactId>
-		    <version>1.11.0</version>
-		</dependency>-->
+
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
@@ -608,9 +605,9 @@
 			<version>1.17.2</version>
 		</dependency>
 		<dependency>
-    		<groupId>com.mysql</groupId>
-    		<artifactId>mysql-connector-j</artifactId>
-    		<version>8.3.0</version>
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
+			<version>8.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
@@ -637,7 +634,7 @@
 			<artifactId>rome-utils</artifactId>
 			<version>${rome.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.swinglabs.swingx</groupId>
 			<artifactId>swingx-all</artifactId>
@@ -690,29 +687,30 @@
 			</resource>
 		</resources>
 		<plugins>
-	        <plugin>
-	            <artifactId>maven-dependency-plugin</artifactId>
-	            <version>3.6.0</version>
-	        </plugin>
 			<plugin>
-			  <groupId>org.apache.maven.plugins</groupId>
-			  <artifactId>maven-compiler-plugin</artifactId>
-			  <version>3.1</version>
-			  <executions>
-			    <execution>
-			      <id>log4j-plugin-processor</id>
-			      <goals>
-			        <goal>compile</goal>
-			      </goals>
-			      <phase>process-classes</phase>
-			      <configuration>
-			        <proc>only</proc>
-			        <annotationProcessors>
-			          <annotationProcessor>org.apache.logging.log4j.core.config.plugins.processor.PluginProcessor</annotationProcessor>
-			        </annotationProcessors>
-			      </configuration>
-			    </execution>
-			  </executions>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>3.6.1</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.12.1</version>
+				<executions>
+					<execution>
+						<id>log4j-plugin-processor</id>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+						<phase>process-classes</phase>
+						<configuration>
+							<proc>only</proc>
+							<annotationProcessors>
+								<annotationProcessor>
+									org.apache.logging.log4j.core.config.plugins.processor.PluginProcessor</annotationProcessor>
+							</annotationProcessors>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -720,10 +718,12 @@
 				<version>2.1.0</version>
 				<configuration>
 					<programs>
+						
 						<program>
 							<mainClass>org.magic.main.MtgDesktopCompanion</mainClass>
 							<id>${program.id}</id>
 						</program>
+						
 						<program>
 							<mainClass>org.magic.main.ServerLauncher</mainClass>
 							<id>web-ui</id>
@@ -731,18 +731,17 @@
 								<commandLineArgument>"Web UI Server"</commandLineArgument>
 							</commandLineArguments>
 						</program>
-						<program>
-							<mainClass>org.magic.main.NetworkClient</mainClass>
-							<id>net-client</id>
-						</program>
+						
 						<program>
 							<mainClass>org.magic.main.ServerLauncher</mainClass>
 							<id>server-launch</id>
 						</program>
+						
 						<program>
 							<mainClass>org.magic.main.ScriptsUIClient</mainClass>
 							<id>script-launch</id>
 						</program>
+						
 					</programs>
 					<generateRepository>true</generateRepository>
 					<repositoryName>lib</repositoryName>
@@ -755,7 +754,7 @@
 						<unix>.sh</unix>
 					</binFileExtensions>
 					<extraJvmArguments>
-						-Xmx4096m 
+						-Xmx4096m
 						-Dlog4j2.formatMsgNoLookups=true
 						-Djdk.tls.client.protocols="TLSv1,TLSv1.1,TLSv1.2"
 						-Djava.library.path="./natives"
@@ -776,7 +775,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.2.0</version>
+				<version>3.3.1</version>
 				<executions>
 					<execution>
 						<id>copy-resources-system-jar</id>
@@ -785,7 +784,8 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${project.build.directory}/executable/lib
+							<outputDirectory>
+								${project.build.directory}/executable/lib
 							</outputDirectory>
 							<resources>
 								<resource>
@@ -801,7 +801,8 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${project.build.directory}/executable/bin/templates
+							<outputDirectory>
+								${project.build.directory}/executable/bin/templates
 							</outputDirectory>
 							<resources>
 								<resource>
@@ -817,9 +818,9 @@
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>3.6.0</version>
 				<configuration>
-				 	<descriptors>
+					<descriptors>
 						<descriptor>src/assembly/zip.xml</descriptor>
-					 </descriptors>
+					</descriptors>
 					<finalName>mtg-desktop-companion</finalName>
 				</configuration>
 				<executions>
@@ -833,7 +834,6 @@
 			</plugin>
 		</plugins>
 	</build>
-
 
 
 </project>
