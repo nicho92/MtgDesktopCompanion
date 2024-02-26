@@ -561,10 +561,6 @@
       <enable>true</enable>
     </sniffer>
     <sniffer>
-      <class>org.magic.api.decksniffer.impl.MTGTop8DeckSniffer</class>
-      <enable>true</enable>
-    </sniffer>
-    <sniffer>
       <class>org.magic.api.decksniffer.impl.MTGDecksSniffer</class>
       <enable>true</enable>
     </sniffer>
