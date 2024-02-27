@@ -116,7 +116,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 		if(expansion==null)
 			return null;
 		
-		MTGEdition exp = new MTGEdition();
+		var exp = new MTGEdition();
 		try {
 			exp = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(expansion.getCode());
 		} catch (Exception e) {
@@ -211,6 +211,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 				{
 					var prod = AbstractProduct.createDefaultProduct();
 					prod.setName(oi.getName());
+					prod.setEdition(toExpansion(oi.getExpansionProduct()));
 					item.setProduct(prod);
 				}
 				item.setFoil(oi.isFoil());

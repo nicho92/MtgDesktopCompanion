@@ -251,7 +251,7 @@
 		<dependency>
 			<groupId>com.github.nicho92</groupId>
 			<artifactId>cardtrader-api-java</artifactId>
-			<version>0.0.40</version>
+			<version>0.0.41</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.nicho92</groupId>
@@ -261,7 +261,7 @@
 		<dependency>
 			<groupId>org.jooq</groupId>
 			<artifactId>jooq</artifactId>
-			<version>3.19.4</version>
+			<version>3.19.5</version>
 		</dependency>
 		<dependency>
 			<groupId>com.icoderman</groupId>
@@ -470,7 +470,7 @@
 		<dependency>
 			<groupId>com.mchange</groupId>
 			<artifactId>c3p0</artifactId>
-			<version>0.10.0-pre4</version>
+			<version>0.10.0-pre5</version>
 		</dependency>
 		<dependency>
 			<groupId>com.zaxxer</groupId>
