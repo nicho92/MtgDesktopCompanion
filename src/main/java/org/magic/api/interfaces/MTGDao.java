@@ -33,7 +33,7 @@ public interface MTGDao extends MTGPlugin{
 	public List<MTGCard> listCardsFromCollection(String collectionName) throws SQLException;
 	public List<MTGCard> listCardsFromCollection(MTGCollection collection) throws SQLException;
 	public List<MTGCard> listCardsFromCollection(MTGCollection collection, MTGEdition me) throws SQLException;
-	public List<MTGCard> listCardsFromCollection(String collectionName,MTGEdition me) throws SQLException;
+	public List<MTGCard> listCardsFromCollection(String collectionName,String me) throws SQLException;
 
 	public List<MTGDeck> listDecks() throws SQLException;
 	public void deleteDeck(MTGDeck d) throws SQLException;

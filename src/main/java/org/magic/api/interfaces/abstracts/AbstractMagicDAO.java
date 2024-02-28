@@ -165,8 +165,8 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	}
 
 	@Override
-	public List<MTGCard> listCardsFromCollection(String collectionName, MTGEdition me) throws SQLException {
-		return listCardsFromCollection(new MTGCollection(collectionName), me);
+	public List<MTGCard> listCardsFromCollection(String collectionName, String me) throws SQLException {
+		return listCardsFromCollection(new MTGCollection(collectionName), new MTGEdition(me,me));
 	}
 
 

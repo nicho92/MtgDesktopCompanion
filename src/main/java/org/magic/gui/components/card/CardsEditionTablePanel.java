@@ -115,7 +115,7 @@ public class CardsEditionTablePanel extends JPanel {
 
 					@Override
 					protected List<MTGCard> doInBackground() throws Exception {
-						return plug.listCardsFromCollection(MTGControler.getInstance().get("default-library"),currentEdition);
+						return plug.listCardsFromCollection(new MTGCollection(MTGControler.getInstance().get("default-library")),currentEdition);
 					}
 
 					@Override

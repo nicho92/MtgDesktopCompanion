@@ -31,10 +31,17 @@ public class MTGEdition implements MTGSerializable, Comparable<MTGEdition> {
 	private int tcgplayerGroupId;
 	private boolean preview;
 	private boolean foreignOnly;
-
+	@Deprecated String number;
+	
 	private List<EnumExtra> booster;
 	
 
+	@Deprecated
+	public String getNumber() {
+		return number;
+	}
+	
+	
 	@Override
 	public String getStoreId() {
 		return getId();
