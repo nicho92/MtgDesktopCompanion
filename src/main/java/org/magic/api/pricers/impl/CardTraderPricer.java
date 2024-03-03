@@ -95,8 +95,7 @@ public class CardTraderPricer extends AbstractPricesProvider {
 		}
 
 
-		var bp = bps.get(0);
-
+		var bp = service.getBluePrintById(bps.get(0).getId());
 		Chrono c = new Chrono();
 		c.start();
 		logger.debug("Begin searching {}",bp);
@@ -105,6 +104,8 @@ public class CardTraderPricer extends AbstractPricesProvider {
 			if(ArrayUtils.contains(getArray(COUNTRY_FILTER),marketItem.getSeller().getCountryCode()) || getString(COUNTRY_FILTER).isEmpty())
 			{
 
+				
+					
 					var mp = new MTGPrice();
 					mp.setCountry(marketItem.getSeller().getCountryCode());
 					mp.setCurrency(marketItem.getPrice().getCurrency());
