@@ -1,5 +1,20 @@
 {
 
+
+	"CardTrader" : {
+		"conditions": {
+					"POOR": "Poor",
+					"LIGHTLY_PLAYED": "Moderately Played",
+					"NEAR_MINT": "Near Mint",
+					"PLAYED": "Played",
+					"DAMAGED": "Slightly Played"
+					
+			}
+	
+	
+	},
+
+
 	"DragonShield":{
 		"regex":{
 			"stock":"(.*?),(\\d+),(\\d+),((?=\\\")\\\".*?\\\"|.*?),(.*?),(.*?),(.*?),(.*?),(.*?),(.*?),(.*?),(.*?)",

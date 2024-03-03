@@ -8,12 +8,15 @@ import java.util.List;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import org.api.cardtrader.enums.ConditionEnum;
+import org.api.cardtrader.enums.Identifier;
 import org.api.cardtrader.services.CardTraderConstants;
 import org.api.cardtrader.services.CardTraderService;
 import org.api.cardtrader.tools.URLCallInfo;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.beans.technical.audit.NetworkInfo;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -68,14 +71,13 @@ public class CardTraderStockExport extends AbstractCardExport {
 		
 		
 		stock.forEach(mcs->{
-			
-			var exp = serv.getExpansionByCode(mcs.getProduct().getEdition().getId());
-			
-			serv.listBluePrints(mcs.getProduct().getName(), exp).forEach(bp->{
-				
-				System.out.println(bp);
-			});
-			
+					try {
+					serv.addProduct(mcs.getProduct().getScryfallId(),Identifier.scryfall_id,mcs.getPrice(),mcs.getQte(),mcs.getComment(),ConditionEnum.valueOf(aliases.getConditionFor(this, EnumCondition.NEAR_MINT)),String.valueOf(mcs.getId()));
+					notify(mcs.getProduct());
+				} catch (IOException e) {
+					logger.error(e);
+				}
+						
 		});
 		
 		
@@ -91,8 +93,6 @@ public class CardTraderStockExport extends AbstractCardExport {
 		var ret = new ArrayList<MTGCardStock>();
 		serv.listStock().forEach(mp->{
 			var mcs = new MTGCardStock();
-
-				var categ = mp.getCategorie();
 				var exp = mp.getExpansion();
 				var bluePrint = serv.listBluePrintsByExpansion(exp).stream().filter(bp->bp.getId().equals(mp.getIdBlueprint())).findFirst().orElse(null);
 				if(bluePrint!=null)
