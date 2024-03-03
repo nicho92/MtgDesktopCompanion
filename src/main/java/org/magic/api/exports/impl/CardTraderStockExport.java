@@ -65,7 +65,21 @@ public class CardTraderStockExport extends AbstractCardExport {
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
 		if(serv==null)
 			init();
-
+		
+		
+		stock.forEach(mcs->{
+			
+			var exp = serv.getExpansionByCode(mcs.getProduct().getEdition().getId());
+			
+			serv.listBluePrints(mcs.getProduct().getName(), exp).forEach(bp->{
+				
+				System.out.println(bp);
+			});
+			
+		});
+		
+		
+		
 	}
 
 	@Override
@@ -80,7 +94,7 @@ public class CardTraderStockExport extends AbstractCardExport {
 
 				var categ = mp.getCategorie();
 				var exp = mp.getExpansion();
-				var bluePrint = serv.listBluePrints(categ,null,exp).stream().filter(bp->bp.getId().equals(mp.getIdBlueprint())).findFirst().orElse(null);
+				var bluePrint = serv.listBluePrintsByExpansion(exp).stream().filter(bp->bp.getId().equals(mp.getIdBlueprint())).findFirst().orElse(null);
 				if(bluePrint!=null)
 				{
 					MTGCard mc=null;
@@ -116,13 +130,9 @@ public class CardTraderStockExport extends AbstractCardExport {
 
 	}
 
-
-
-	@Override
-	public void exportDeck(MTGDeck deck, File dest) throws IOException {
-		//TODO export deck
-	}
-
+	
+	
+	
 
 	@Override
 	public String getVersion() {

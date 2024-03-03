@@ -1,6 +1,8 @@
 package org.magic.api.beans.abstracts;
 
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGEdition;
+import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.interfaces.MTGProduct;
@@ -84,19 +86,12 @@ public abstract class AbstractProduct implements MTGProduct{
 	}
 
 	
-	public static MTGProduct createDefaultProduct()
+	public static MTGProduct createDefaultProduct(EnumItems item)
 	{
-		
-		return new AbstractProduct() {
-			
-			private static final long serialVersionUID = 1L;
-			
-			@Override
-			public String toString() {
-				return getName();
-			}
-		};
+		if(item==EnumItems.CARD)
+			return new MTGCard();
+		else
+			return new MTGSealedProduct();
 	}
-
-
 }
+

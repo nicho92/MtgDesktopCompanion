@@ -137,7 +137,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 
 	//TODO change product type
 	private MTGProduct parseProduct(JsonObject sp) {
-		MTGProduct p = AbstractProduct.createDefaultProduct();
+		MTGProduct p = AbstractProduct.createDefaultProduct(EnumItems.SEALED);
 				   p.setProductId(sp.get("id").getAsLong());
 				   p.setName(sp.get(TITLE).getAsString());
 				   try{

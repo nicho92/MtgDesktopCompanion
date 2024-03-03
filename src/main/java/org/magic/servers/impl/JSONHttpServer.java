@@ -573,13 +573,13 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		put("/cards/add/:scryfallId", URLTools.HEADER_JSON, (request, response) -> {
 			var from = new MTGCollection(MTGControler.getInstance().get(DEFAULT_LIBRARY));
-			MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
+			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
 			CardsManagerService.saveCard(mc, from,null);
 			return ok(request,response,mc + " is added to " + from);
 		}, transformer);
 
 		put("/cards/add/:to/:scryfallId", URLTools.HEADER_JSON, (request, response) -> {
-			MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(":id"));
+			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(":id"));
 			CardsManagerService.saveCard(mc, new MTGCollection(request.params(":to")),null);
 			return ok(request,response,mc + " is added to " + request.params(":to"));
 		}, transformer);

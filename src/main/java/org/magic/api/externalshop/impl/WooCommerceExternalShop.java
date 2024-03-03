@@ -151,7 +151,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
     		entry.setPrice(objItem.get("total").getAsDouble());
     		entry.setSku(objItem.get("sku").getAsString());
 
-    		var prod = AbstractProduct.createDefaultProduct();
+    		var prod = AbstractProduct.createDefaultProduct(EnumItems.SEALED);
 	    		prod.setCategory(null);
 				prod.setName(objItem.get("name").getAsString());
 	    		prod.setProductId(objItem.get(PRODUCT_ID).getAsLong());
@@ -180,7 +180,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		List<JsonObject> res = client.getAll(EndpointBaseType.PRODUCTS.getValue(),parameters);
 
 		res.forEach(element->{
-			var p = AbstractProduct.createDefaultProduct();
+			var p = AbstractProduct.createDefaultProduct(EnumItems.SEALED);
 			JsonObject obj = element.getAsJsonObject();
 
 			p.setProductId(obj.get("id").getAsLong());
@@ -379,7 +379,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 			vars.put("regular_price", String.valueOf(it.getPrice()));
 			vars.put(STOCK_QUANTITY, it.getQte());
 			var ret = client.update(EndpointBaseType.PRODUCTS.getValue(),it.getId().intValue(),vars );
-	        logger.debug("price ={} Qte={}",ret.get(PRICE),ret.get(STOCK_QUANTITY));
+	        logger.debug("ret={}",ret);
 			it.setUpdated(false);
 		}
 	}
@@ -479,7 +479,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 
 	private MTGProduct parseProduct(JsonObject element) {
 
-			MTGProduct p = AbstractProduct.createDefaultProduct();
+			MTGProduct p = AbstractProduct.createDefaultProduct(EnumItems.SEALED);
 			JsonObject obj = element.getAsJsonObject();
 			p.setProductId(obj.get("id").getAsLong());
 			p.setName(obj.get("name").getAsString());

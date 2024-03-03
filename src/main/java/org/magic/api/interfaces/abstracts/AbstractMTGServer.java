@@ -40,7 +40,8 @@ public abstract class AbstractMTGServer extends AbstractMTGPlugin implements MTG
 
 
 	public void clearCache() {
-		cache.clear();
+		if(cache!=null)
+			cache.clear();
 	}
 
 

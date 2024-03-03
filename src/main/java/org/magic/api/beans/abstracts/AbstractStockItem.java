@@ -8,6 +8,7 @@ import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGGrading;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.interfaces.MTGProduct;
+import org.magic.api.interfaces.MTGSerializable;
 import org.magic.api.interfaces.MTGStockItem;
 
 public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStockItem {
@@ -243,10 +244,6 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 
 class GenericItem extends AbstractStockItem<MTGProduct>
 {
-
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 1L;
 
 }

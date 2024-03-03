@@ -340,7 +340,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 
 
 	private MTGProduct toProduct(LightProduct product) {
-		var p = AbstractProduct.createDefaultProduct();
+		var p = AbstractProduct.createDefaultProduct(product.getRarity()==null?EnumItems.SEALED:EnumItems.CARD);
 		p.setName(product.getEnName());
 		p.setProductId(Long.valueOf(product.getIdProduct()));
 
@@ -356,12 +356,6 @@ public class MkmExternalShop extends AbstractExternalShop {
 			p.setUrl("https:"+ product.getImage());
 		else
 			p.setUrl(product.getImage());
-
-		if(product.getRarity()==null)
-			p.setTypeProduct(EnumItems.SEALED);
-		else
-			p.setTypeProduct(EnumItems.CARD);
-
 
 		return p;
 

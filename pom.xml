@@ -251,7 +251,7 @@
 		<dependency>
 			<groupId>com.github.nicho92</groupId>
 			<artifactId>cardtrader-api-java</artifactId>
-			<version>0.0.41</version>
+			<version>0.0.43</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.nicho92</groupId>
@@ -289,11 +289,11 @@
 			<artifactId>Notify</artifactId>
 			<version>4.5</version>
 		</dependency>
-		<dependency>
+		<!--<dependency>
 			<groupId>io.github.forohforerror</groupId>
 			<artifactId>ScryfallAPIBinding</artifactId>
 			<version>1.11.1</version>
-		</dependency>
+		</dependency>-->
 		<dependency>
 			<groupId>org.boofcv</groupId>
 			<artifactId>boofcv-core</artifactId>
@@ -470,7 +470,7 @@
 		<dependency>
 			<groupId>com.mchange</groupId>
 			<artifactId>c3p0</artifactId>
-			<version>0.10.0-pre5</version>
+			<version>0.10.0-pre6</version>
 		</dependency>
 		<dependency>
 			<groupId>com.zaxxer</groupId>
@@ -656,7 +656,7 @@
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
 			<artifactId>groovy-all</artifactId>
-			<version>3.0.20</version>
+			<version>3.0.21</version>
 			<type>pom</type>
 		</dependency>
 		<dependency>

@@ -110,8 +110,6 @@ public class TransactionCreatorComponent extends MTGUIComponent {
 							var cId = plug.saveOrUpdateContact(t.getContact());
 							t.getContact().setId(cId);
 						}
-						
-						
 						plug.saveOrUpdateTransaction(t);
 						publish(t);
 						}

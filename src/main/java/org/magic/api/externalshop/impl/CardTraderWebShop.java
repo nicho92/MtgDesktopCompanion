@@ -83,7 +83,8 @@ public class CardTraderWebShop extends AbstractExternalShop {
 								    it.setLanguage(mp.getLanguage());
 								    it.setQte(mp.getQty());
 								    it.setPrice(mp.getPrice().getValue());
-								var prod = AbstractProduct.createDefaultProduct();
+							
+								var prod = AbstractProduct.createDefaultProduct(EnumItems.SEALED);
 								prod.setProductId(mp.getIdBlueprint().longValue());
 								prod.setName(mp.getName());
 								prod.setEdition(toExpansion(mp.getExpansion()));
@@ -99,9 +100,9 @@ public class CardTraderWebShop extends AbstractExternalShop {
 	public List<MTGProduct> listProducts(String name) throws IOException {
 
 		init();
-		return service.listBluePrintsByIds(null, name, null).stream().map(bp->{
+		return service.listBluePrints(name,null).stream().map(bp->{
 
-			var product = AbstractProduct.createDefaultProduct();
+			var product = AbstractProduct.createDefaultProduct(EnumItems.SEALED);
 				product.setName(bp.getName());
 				product.setUrl(bp.getImageUrl());
 				product.setProductId(bp.getId().longValue());
@@ -202,14 +203,15 @@ public class CardTraderWebShop extends AbstractExternalShop {
 						} catch (Exception e)
 						{
 							logger.error(e);
-							var prod = AbstractProduct.createDefaultProduct();
+							var prod = AbstractProduct.createDefaultProduct(EnumItems.SEALED);
 							prod.setName(oi.getName());
 							item.setProduct(prod);
 						}
 				}
 				else
 				{
-					var prod = AbstractProduct.createDefaultProduct();
+					var prod = AbstractProduct.createDefaultProduct(EnumItems.SEALED);
+					prod.setProductId(Long.valueOf(oi.getBluePrintId()));
 					prod.setName(oi.getName());
 					prod.setEdition(toExpansion(oi.getExpansionProduct()));
 					item.setProduct(prod);

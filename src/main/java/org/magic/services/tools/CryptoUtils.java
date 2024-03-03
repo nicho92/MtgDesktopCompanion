@@ -20,12 +20,7 @@ public class CryptoUtils {
 		
 		try {
 		
-			var number=mc.getNumber();
-			
-			if(mc.getNumber()==null)
-				number=mc.getCurrentSet().getNumber();
-			
-		
+		var number=mc.getNumber();
 		
 		if(number!=null&&number.isEmpty() )
 			number=null;
