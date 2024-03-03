@@ -86,7 +86,7 @@ public class CardTraderPricer extends AbstractPricesProvider {
 
 		var set = service.getExpansionByCode(card.getEdition().getId());
 
-		var bps = service.listBluePrints(card.getName(),set.getId());
+		var bps = service.listBluePrints(card.getName(),set);
 
 		if(bps.isEmpty())
 		{
