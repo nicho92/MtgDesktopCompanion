@@ -72,7 +72,10 @@ public class CardTraderStockExport extends AbstractCardExport {
 		
 		stock.forEach(mcs->{
 					try {
-					serv.addProduct(mcs.getProduct().getScryfallId(),Identifier.scryfall_id,mcs.getPrice(),mcs.getQte(),mcs.getComment(),ConditionEnum.valueOf(aliases.getConditionFor(this, EnumCondition.NEAR_MINT)),String.valueOf(mcs.getId()));
+					var returnId = serv.addProduct(mcs.getProduct().getScryfallId(),Identifier.scryfall_id,mcs.getPrice(),mcs.getQte(),mcs.getComment(),ConditionEnum.valueOf(aliases.getConditionFor(this, EnumCondition.NEAR_MINT)),String.valueOf(mcs.getId()));
+					
+					mcs.getTiersAppIds().put(getName(), String.valueOf(returnId));
+					
 					notify(mcs.getProduct());
 				} catch (IOException e) {
 					logger.error(e);
