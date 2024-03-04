@@ -3,12 +3,13 @@
 
 	"CardTrader" : {
 		"conditions": {
-					"POOR": "Poor",
-					"LIGHTLY_PLAYED": "Moderately Played",
-					"NEAR_MINT": "Near Mint",
-					"PLAYED": "Played",
-					"DAMAGED": "Slightly Played"
-					
+				"HEAVILY_PLAYED": "DAMAGED",
+				"MINT":"MINT",
+				"MODERATELY_PLAYED":"PLAYED",
+				"NEAR_MINT":"NEAR_MINT",
+				"PLAYED":"PLAYED",
+				"POOR":"POOR",
+				"SLIGHTLY_PLAYED":"LIGHTLY_PLAYED"
 			}
 	
 	
