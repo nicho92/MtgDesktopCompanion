@@ -102,6 +102,7 @@ public class PluginsAliasesProvider {
 		}
 		catch(Exception e)
 		{
+			logger.warn(e);
 			return defaultCondition;
 		}
 	}

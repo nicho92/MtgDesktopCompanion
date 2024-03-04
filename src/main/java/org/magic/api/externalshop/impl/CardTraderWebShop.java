@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.api.cardtrader.enums.ConditionEnum;
 import org.api.cardtrader.modele.Categorie;
 import org.api.cardtrader.modele.User;
 import org.api.cardtrader.services.CardTraderConstants;
@@ -83,7 +82,10 @@ public class CardTraderWebShop extends AbstractExternalShop {
 								    it.setLanguage(mp.getLanguage());
 								    it.setQte(mp.getQty());
 								    it.setPrice(mp.getPrice().getValue());
-							
+								    
+								    if(mp.getCondition()!=null)
+								    	it.setCondition(aliases.getReversedConditionFor(this, mp.getCondition().name(),EnumCondition.NEAR_MINT));
+						
 								var prod = AbstractProduct.createDefaultProduct(EnumItems.SEALED);
 								prod.setProductId(mp.getIdBlueprint().longValue());
 								prod.setName(mp.getName());
@@ -219,7 +221,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 				item.setFoil(oi.isFoil());
 				item.setAltered(oi.isAltered());
 				item.setSigned(oi.isSigned());
-				item.setCondition(parseCondition(oi.getCondition()));
+				item.setCondition(aliases.getReversedConditionFor(this, oi.getCondition().name(),EnumCondition.NEAR_MINT));
 				item.setLanguage(oi.getLang());
 
 
@@ -245,24 +247,6 @@ public class CardTraderWebShop extends AbstractExternalShop {
 			trans.setContact(c);
 			return trans;
 		}).toList();
-	}
-
-
-	private EnumCondition parseCondition(ConditionEnum condition) {
-
-		switch(condition)
-		{
-		case HEAVILY_PLAYED: return EnumCondition.DAMAGED;
-		case MINT:return EnumCondition.MINT;
-		case MODERATELY_PLAYED:return EnumCondition.PLAYED;
-		case NEAR_MINT:return EnumCondition.NEAR_MINT;
-		case PLAYED:return EnumCondition.PLAYED;
-		case POOR:return EnumCondition.POOR;
-		case SLIGHTLY_PLAYED:return EnumCondition.LIGHTLY_PLAYED;
-		}
-
-		return null;
-
 	}
 
 	@Override
