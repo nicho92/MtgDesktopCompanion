@@ -1724,7 +1724,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			pst.setDouble(3, alert.getPrice());
 			pst.setInt(4, alert.getQty());
 			executeUpdate(pst);
-			logger.debug("save alert for {} ({})",alert.getCard(),alert.getCard().getCurrentSet());
+			logger.debug("save alert for {} ({})",alert.getCard(),alert.getCard().getEdition());
 			listAlerts.put(alert.getId(),alert);
 		}
 	}

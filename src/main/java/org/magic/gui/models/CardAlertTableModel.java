@@ -63,7 +63,7 @@ public class CardAlertTableModel extends GenericTableModel<MTGAlert> {
 		case 0:
 			return getItems().get(row);
 		case 1:
-			return getItems().get(row).getCard().getCurrentSet();
+			return getItems().get(row).getCard().getEdition();
 		case 2:
 			return getItems().get(row).getQty();
 		case 3:
@@ -91,7 +91,7 @@ public class CardAlertTableModel extends GenericTableModel<MTGAlert> {
 		{
 			MTGEdition ed = (MTGEdition) aValue;
 			try {
-				if(!ed.equals(alert.getCard().getCurrentSet()))
+				if(!ed.equals(alert.getCard().getEdition()))
 				{
 					getEnabledPlugin(MTGDao.class).deleteAlert(alert);
 					MTGCard mc = CardsManagerService.switchEditions(alert.getCard(), ed);

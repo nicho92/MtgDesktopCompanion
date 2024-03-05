@@ -193,7 +193,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 
 				wants.add(w);
 			} else {
-				logger.debug("could not find product for {} ({}) ",mc,mc.getCurrentSet());
+				logger.debug("could not find product for {} ({}) ",mc,mc.getEdition());
 			}
 			notify(mc);
 		}
@@ -254,7 +254,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 				}
 				catch(Exception e)
 				{
-					logger.error("Error getting mkm product for {} {} : {}" ,mcs.getProduct(),mcs.getProduct().getCurrentSet(),e.getMessage());
+					logger.error("Error getting mkm product for {} {} : {}" ,mcs.getProduct(),mcs.getProduct().getEdition(),e.getMessage());
 					logger.trace(e);
 				}
 
@@ -262,7 +262,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 
 				if(p==null)
 				{
-					logger.error("No product found for {} {}",mcs.getProduct(),mcs.getProduct().getCurrentSet());
+					logger.error("No product found for {} {}",mcs.getProduct(),mcs.getProduct().getEdition());
 				}
 				else
 				{

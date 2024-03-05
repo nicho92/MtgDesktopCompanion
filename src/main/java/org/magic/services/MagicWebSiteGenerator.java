@@ -82,7 +82,7 @@ public class MagicWebSiteGenerator extends Observable {
 			rootEd.put("colName", col.getName());
 			Set<MTGEdition> eds = new HashSet<>();
 			for (MTGCard mc : getEnabledPlugin(MTGDao.class).listCardsFromCollection(col)) {
-				eds.add(mc.getCurrentSet());
+				eds.add(mc.getEdition());
 				generateCardsTemplate(mc);
 			}
 

@@ -26,9 +26,9 @@ public class MTGCardStock extends AbstractStockItem<MTGCard> {
 	@Override
 	public void setProduct(MTGCard c) {
 		product=c;
-		edition= c.getCurrentSet();
+		edition= c.getEdition();
 		product.setTypeProduct(EnumItems.CARD);
-		product.setEdition(c.getCurrentSet());
+		product.setEdition(c.getEdition());
 	}
 
 }

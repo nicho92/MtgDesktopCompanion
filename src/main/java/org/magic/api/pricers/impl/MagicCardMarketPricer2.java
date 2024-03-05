@@ -98,7 +98,7 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 		try {
 			lists = new ArrayList<>();
 
-			logger.info("{} looking for {}/{}",getName(),card,card.getCurrentSet());
+			logger.info("{} looking for {}/{}",getName(),card,card.getEdition());
 
 			if (card.getRarity() != null && !getBoolean("COMMONCHECK") && card.getRarity()==EnumRarity.COMMON) {
 				var mp = new MTGPrice();

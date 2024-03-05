@@ -321,11 +321,11 @@ public class CollectionPanelGUI extends MTGUIComponent {
 	public void initCardSelectionGui(MTGCard mc, MTGCollection col)
 	{
 		magicCardDetailPanel.init(mc);
-		magicEditionDetailPanel.init(mc.getCurrentSet());
+		magicEditionDetailPanel.init(mc.getEdition());
 		deckPanel.init(mc);
 		pricePanel.init(mc);
 		btnExport.setEnabled(false);
-		packagePanel.init(mc.getCurrentSet());
+		packagePanel.init(mc.getEdition());
 		jsonPanel.init(mc);
 		gedPanel.init(MTGCard.class,mc);
 

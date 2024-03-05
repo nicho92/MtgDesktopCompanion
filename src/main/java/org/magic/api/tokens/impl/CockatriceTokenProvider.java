@@ -130,7 +130,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		logger.debug(expression);
 		try {
 			var nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
-			return build( ((Element)nodeList.item(0)),mc.getCurrentSet());
+			return build( ((Element)nodeList.item(0)),mc.getEdition());
 
 		} catch (XPathExpressionException e) {
 			logger.error("Erreur XPath", e);
@@ -150,7 +150,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		try {
 			var nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 			var value = (Element) nodeList.item(0);
-			return build(value, mc.getCurrentSet());
+			return build(value, mc.getEdition());
 		} catch (XPathExpressionException e) {
 			logger.error("erreur generate token for {}",mc, e);
 			return null;

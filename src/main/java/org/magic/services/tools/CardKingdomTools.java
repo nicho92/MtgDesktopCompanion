@@ -113,7 +113,7 @@ public class CardKingdomTools {
 	
 	public static String getCKFormattedSet(MTGCard card) {
 		
-		String set = PluginsAliasesProvider.inst().getSetNameFor(new CardKingdomCardExport(), card.getCurrentSet());
+		String set = PluginsAliasesProvider.inst().getSetNameFor(new CardKingdomCardExport(), card.getEdition());
 		
 		if(card.isToken())
 		{

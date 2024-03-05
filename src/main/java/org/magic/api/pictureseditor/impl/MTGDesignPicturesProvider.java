@@ -95,7 +95,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 			connect();
 		
 		
-		if(mc.getCurrentSet()==null)
+		if(mc.getEdition()==null)
 		{
 			if(me!=null)
 				mc.getEditions().set(0, me);

@@ -101,7 +101,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 			for (MTGCardStock mcs : stock)
 			{
 				bw.append("\""+mcs.getProduct().getName()+"\"").append(getSeparator());
-				bw.append(mcs.getProduct().getCurrentSet()).append(getSeparator());
+				bw.append(mcs.getProduct().getEdition()).append(getSeparator());
 				bw.append(mcs.getLanguage()).append(getSeparator());
 				bw.append(mcs.getQte()).append(getSeparator());
 				bw.append(mcs.getCondition()).append(getSeparator());
@@ -144,7 +144,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 		for (Entry<MTGCard, Integer> entry : deck.getMain().entrySet())
 		{
 			bw.append("\""+entry.getKey()+"\"").append(getSeparator());
-			bw.append(entry.getKey().getCurrentSet()).append(getSeparator());
+			bw.append(entry.getKey().getEdition()).append(getSeparator());
 			bw.append(entry.getValue()).append(getSeparator());
 			writeExtraMap(entry.getKey(),bw);
 			bw.append(System.lineSeparator());
@@ -155,7 +155,7 @@ public class CSVExport extends AbstractFormattedFileCardExport {
 		for (Entry<MTGCard, Integer> entry : deck.getSideBoard().entrySet())
 		{
 			bw.append("\""+entry.getKey()+"\"").append(getSeparator());
-			bw.append(entry.getKey().getCurrentSet()).append(getSeparator());
+			bw.append(entry.getKey().getEdition()).append(getSeparator());
 			bw.append(entry.getValue()).append(getSeparator());
 			writeExtraMap(entry.getKey(),bw);
 			bw.append(System.lineSeparator());

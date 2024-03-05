@@ -116,7 +116,7 @@ public class CardStockTableModel extends GenericTableModel<MTGCardStock> {
 		case 1:
 			return items.get(row).getProduct();
 		case 2:
-			return (Objects.isNull(items.get(row).getProduct()) ? "" :  items.get(row).getProduct().getCurrentSet());
+			return (Objects.isNull(items.get(row).getProduct()) ? "" :  items.get(row).getProduct().getEdition());
 		case 3:
 			return (Objects.isNull(items.get(row).getProduct()) ? "" :  items.get(row).getProduct().getRarity());
 		case 4:

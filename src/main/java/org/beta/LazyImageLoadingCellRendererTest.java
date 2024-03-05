@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
@@ -23,6 +22,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListCellRenderer;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingWorker;
 import javax.swing.WindowConstants;
 
@@ -41,8 +41,7 @@ public class LazyImageLoadingCellRendererTest
         mainPanel.setBackground(new Color(129, 133, 142));
 
         scroll.setViewportView(list);
-        scroll.setHorizontalScrollBarPolicy(
-            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scroll.setPreferredSize(new Dimension(80, 200));
 
         list.setCellRenderer(new LazyImageLoadingCellRenderer<>(list,LazyImageLoadingCellRendererTest::loadAndProcessImage));
@@ -57,13 +56,10 @@ public class LazyImageLoadingCellRendererTest
         mainPanel.add(scroll);
     }
 
-    public static void main(String[] args) throws IOException
+    public static void main(String[] args)
     {
 
-        EventQueue.invokeLater(new Runnable()
-        {
-            @Override
-            public void run()
+        EventQueue.invokeLater(()->
             {
                 JFrame frame = new JFrame("WorkerTest");
                 frame.setContentPane(
@@ -72,7 +68,6 @@ public class LazyImageLoadingCellRendererTest
                 frame.setLocation(300, 300);
                 frame.setMinimumSize(new Dimension(160, 255));
                 frame.setVisible(true);
-            }
         });
     }
 
@@ -83,8 +78,7 @@ public class LazyImageLoadingCellRendererTest
         String id = product.getStoreId();
         int w = 100;
         int h = 20;
-        BufferedImage image =
-            new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = image.createGraphics();
         g.setColor(Color.GREEN);
         g.fillRect(0, 0, w, h);
@@ -92,14 +86,14 @@ public class LazyImageLoadingCellRendererTest
         g.drawString(id, 10, 16);
         g.dispose();
 
-        long delay = 500 + random.nextInt(3000);
+        long delay = 500L + random.nextInt(3000);
         try
         {
-            System.out.println("Load time of " + delay + " ms for " + id);
             Thread.sleep(delay);
         }
         catch (InterruptedException e)
         {
+        	Thread.currentThread().interrupt();
             e.printStackTrace();
         }
         return image;
@@ -112,9 +106,9 @@ class LazyImageLoadingCellRenderer<T> extends JLabel  implements ListCellRendere
 {
     private static final long serialVersionUID = 1L;
 	private final JList<?> owner;
-    private final Function<? super T, ? extends BufferedImage> imageLookup;
-    private final Set<T> pendingImages;
-    private final Map<T, BufferedImage> loadedImages;
+    private final transient Function<? super T, ? extends BufferedImage> imageLookup;
+    private final transient Set<T> pendingImages;
+    private final transient Map<T, BufferedImage> loadedImages;
 
     public LazyImageLoadingCellRenderer(JList<?> owner, Function<? super T, ? extends BufferedImage> imageLookup)
     {

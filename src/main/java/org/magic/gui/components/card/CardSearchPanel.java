@@ -546,7 +546,7 @@ public class CardSearchPanel extends MTGUIComponent {
 					if(selectedCard==null)
 						return;
 
-					selectedEdition = selectedCard.getCurrentSet();
+					selectedEdition = selectedCard.getEdition();
 					updateCards();
 				} catch (Exception e) {
 					logger.error("error selecting line",e);
@@ -570,7 +570,7 @@ public class CardSearchPanel extends MTGUIComponent {
 				} else {
 					try {
 						selectedCard = UITools.getTableSelection(tableCards, 0);
-						selectedEdition = selectedCard.getCurrentSet();
+						selectedEdition = selectedCard.getEdition();
 						updateCards();
 					} catch (Exception e) {
 						logger.error(e);
@@ -662,7 +662,7 @@ public class CardSearchPanel extends MTGUIComponent {
 			public void mouseClicked(MouseEvent e) {
 				var lab = (DisplayableCard) thumbnailPanel.getComponentAt(new Point(e.getX(), e.getY()));
 				selectedCard = lab.getMagicCard();
-				selectedEdition = lab.getMagicCard().getCurrentSet();
+				selectedEdition = lab.getMagicCard().getEdition();
 				cardsPicPanel.init(selectedCard);
 				updateCards();
 			}
@@ -709,7 +709,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		try {
 			cardsPicPanel.init(selectedCard);
 			detailCardPanel.init(selectedCard);
-			magicEditionDetailPanel.init(selectedCard.getCurrentSet());
+			magicEditionDetailPanel.init(selectedCard.getEdition());
 			txtRulesArea.init(selectedCard);
 			priceTablePanel.init(selectedCard);
 			similarityPanel.init(selectedCard);

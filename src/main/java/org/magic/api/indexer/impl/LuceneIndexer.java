@@ -260,7 +260,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 			try {
 				indexWriter.addDocument(toDocuments(mc));
 			} catch (IllegalArgumentException e) {
-				logger.error("Error indexing {} {}",mc,mc.getCurrentSet(),e);
+				logger.error("Error indexing {} {}",mc,mc.getEdition(),e);
 			}
 		}
 

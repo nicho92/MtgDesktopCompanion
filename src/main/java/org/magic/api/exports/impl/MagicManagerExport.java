@@ -55,7 +55,7 @@ public class MagicManagerExport extends AbstractFormattedFileCardExport {
 			
 			list.forEach(st->{
 				temp.append(commated(st.getProduct().getName())).append(getSeparator());
-				temp.append(aliases.getSetIdFor(this,st.getProduct().getCurrentSet()).toLowerCase()).append(getSeparator());
+				temp.append(aliases.getSetIdFor(this,st.getProduct().getEdition()).toLowerCase()).append(getSeparator());
 				temp.append(st.getProduct().getNumber()).append(getSeparator());
 				temp.append(st.getLanguage().substring(0, 2)).append(getSeparator());
 				temp.append(st.isFoil()?"True":"False").append(getSeparator());

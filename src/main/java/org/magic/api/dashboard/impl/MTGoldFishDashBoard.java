@@ -211,7 +211,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			else
 			{
 				var filteredArray = new JsonArray();
-				var set = aliases.getSetIdFor(this,mc.getCurrentSet());
+				var set = aliases.getSetIdFor(this,mc.getEdition());
 				for(JsonElement el : arr)
 				{
 					if(el.getAsJsonObject().get("id").getAsString().contains("["+set+"]") && el.getAsJsonObject().get("foil").getAsBoolean()==foil){
@@ -328,7 +328,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			if(ArrayUtils.contains(new String[] {"PUMA","STA","SLD","MUL","WOT","REX"}, mc.getEdition().getId()))
 				extend="";
 
-			url = WEBSITE + "/price/" + convert(mc.getCurrentSet()) + extra+pfoil+"/" + cardName +extend+ "#" + getString(FORMAT);
+			url = WEBSITE + "/price/" + convert(mc.getEdition()) + extra+pfoil+"/" + cardName +extend+ "#" + getString(FORMAT);
 
 		try {
 			Document d = URLTools.extractAsHtml(url);

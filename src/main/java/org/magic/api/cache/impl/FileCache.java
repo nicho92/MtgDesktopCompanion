@@ -38,7 +38,7 @@ public class FileCache extends AbstractCacheProvider {
 	public BufferedImage getItem(MTGCard mc) {
 		try {
 
-			logger.trace("search in cache : {} {}",mc,mc.getCurrentSet());
+			logger.trace("search in cache : {} {}",mc,mc.getEdition());
 
 			var save = new File(getFile(DIRECTORY), getEnabledPlugin(MTGPictureProvider.class).getName());
 			if (!save.exists())
@@ -50,7 +50,7 @@ public class FileCache extends AbstractCacheProvider {
 
 			return ImageTools.read(new File(save, generateIdIndex(mc) + "." + getString(FORMAT)));
 		} catch (IOException e) {
-			logger.trace("search in cache : {} {} not found : {}",mc,mc.getCurrentSet(),e);
+			logger.trace("search in cache : {} {} not found : {}",mc,mc.getEdition(),e);
 
 			return null;
 		}
@@ -59,7 +59,7 @@ public class FileCache extends AbstractCacheProvider {
 
 	@Override
 	public void put(BufferedImage im, MTGCard mc) throws IOException {
-		logger.debug("save in cache : {} {} ",mc,mc.getCurrentSet());
+		logger.debug("save in cache : {} {} ",mc,mc.getEdition());
 
 		var f = new File(getFile(DIRECTORY), getEnabledPlugin(MTGPictureProvider.class).getName());
 		if (!f.exists())

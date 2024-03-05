@@ -165,7 +165,7 @@ public class DeckCardsTableModel extends DefaultTableModel {
 		if (column == 3) {
 			MTGEdition ed = (MTGEdition) aValue;
 
-			if(!ed.equals(mc.getCurrentSet()))
+			if(!ed.equals(mc.getEdition()))
 			{
 				var newC = CardsManagerService.switchEditions(mc, ed);
 				if (t == BOARD.MAIN) 

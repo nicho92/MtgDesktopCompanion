@@ -268,7 +268,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 			return hp;
 		}
 
-		MTGEdition ed=mc.getCurrentSet();
+		MTGEdition ed=mc.getEdition();
 
 
 		Integer id = mc.getMtgstocksId();

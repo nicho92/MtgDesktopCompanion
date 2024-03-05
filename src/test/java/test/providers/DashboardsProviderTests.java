@@ -53,10 +53,10 @@ public class DashboardsProviderTests {
 		
 		
 			try {
-				p.getShakesForEdition(mc.getCurrentSet());
-				System.out.println("get Shakes for " + mc.getCurrentSet() + " OK");
+				p.getShakesForEdition(mc.getEdition());
+				System.out.println("get Shakes for " + mc.getEdition() + " OK");
 			} catch (IOException e) {
-				System.out.println("get Shakes for " + mc.getCurrentSet() + " ERROR "+e);
+				System.out.println("get Shakes for " + mc.getEdition() + " ERROR "+e);
 				e.printStackTrace();
 			}
 			
@@ -71,16 +71,16 @@ public class DashboardsProviderTests {
 			
 			try {
 				p.getPriceVariation(mc, false);
-				System.out.println("get Variation for " + mc + "("+mc.getCurrentSet()+") OK");
+				System.out.println("get Variation for " + mc + "("+mc.getEdition()+") OK");
 			} catch (IOException e) {
-				System.out.println("get Variation for " + mc + "("+mc.getCurrentSet()+") ERROR "+e);
+				System.out.println("get Variation for " + mc + "("+mc.getEdition()+") ERROR "+e);
 			}
 			
 			try {
 				p.getPriceVariation(mc, true);
-				System.out.println("get Variation for " + mc + "("+mc.getCurrentSet()+") OK");
+				System.out.println("get Variation for " + mc + "("+mc.getEdition()+") OK");
 			} catch (IOException e) {
-				System.out.println("get Variation for " + mc + "("+mc.getCurrentSet()+") ERROR "+e);
+				System.out.println("get Variation for " + mc + "("+mc.getEdition()+") ERROR "+e);
 			}
 
 			

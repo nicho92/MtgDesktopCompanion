@@ -54,7 +54,7 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 	public BufferedImage getFullSizePicture(MTGCard mc) throws IOException {
 		
 		if (getEnabledPlugin(MTGPictureCache.class).getItem(mc) != null) {
-			logger.trace("cached {} ({}) found",mc,mc.getCurrentSet());
+			logger.trace("cached {} ({}) found",mc,mc.getEdition());
 			return getEnabledPlugin(MTGPictureCache.class).getItem(mc);
 		}
 
@@ -106,10 +106,10 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 		try {
 			
 			
-			if(mc!=null&&mc.getCurrentSet()!=null&&mc.getEdition().getId().equals("30A"))
+			if(mc!=null&&mc.getEdition()!=null&&mc.getEdition().getId().equals("30A"))
 				return resizeCard(ImageTools.readLocal(MTGConstants.ANNIVERSARY_BACK_CARD), newW, newH);
 			
-			if(mc!=null&&mc.getCurrentSet()!=null&&mc.getEdition().getId().equals("CED"))
+			if(mc!=null&&mc.getEdition()!=null&&mc.getEdition().getId().equals("CED"))
 				return resizeCard(ImageTools.readLocal(MTGConstants.COLLECTOR_BACK_CARD), newW, newH);
 			
 			return resizeCard(ImageTools.readLocal(MTGConstants.DEFAULT_BACK_CARD), newW, newH);

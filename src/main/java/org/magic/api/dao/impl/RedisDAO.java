@@ -485,7 +485,7 @@ public class RedisDAO extends AbstractKeyValueDao {
 
 	@Override
 	public void removeCard(MTGCard mc, MTGCollection collection) throws SQLException {
-			var k = key(collection,mc.getCurrentSet());
+			var k = key(collection,mc.getEdition());
 			for(var s : redisCommand.smembers(k))
 			{
 				var jo = serialiser.fromJson(s,MTGCard.class);

@@ -25,10 +25,10 @@ public class CryptoUtils {
 		if(number!=null&&number.isEmpty() )
 			number=null;
 
-		var id = String.valueOf((mc.getName() + mc.getCurrentSet() + number + mc.getMultiverseid()));
+		var id = String.valueOf((mc.getName() + mc.getEdition() + number + mc.getMultiverseid()));
 		id = DigestUtils.sha1Hex(id);
 
-		logger.trace("Generate ID for {}|{}|{}|{}->:{}",mc.getName(),mc.getCurrentSet(),number,mc.getMultiverseid(),id);
+		logger.trace("Generate ID for {}|{}|{}|{}->:{}",mc.getName(),mc.getEdition(),number,mc.getMultiverseid(),id);
 
 		return id;
 		

@@ -493,7 +493,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 
 	protected void initCard(MTGCard mc) {
 		magicCardEditorPanel.setMagicCard(mc);
-		cboSets.setSelectedItem(mc.getCurrentSet());
+		cboSets.setSelectedItem(mc.getEdition());
 		jsonPanel.init(mc);
 		
 		ThreadManager.getInstance().runInEdt(new AbstractObservableWorker<BufferedImage, Void,MTGPictureProvider>(buzyCard,picturesProvider) {

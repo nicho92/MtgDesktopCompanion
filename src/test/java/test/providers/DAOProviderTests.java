@@ -30,7 +30,7 @@ public class DAOProviderTests {
 	{
 		TestTools.initTest();
 		mc = TestTools.loadData().get(0);
-		ed = mc.getCurrentSet();
+		ed = mc.getEdition();
 		MTGControler.getInstance();
 	}
 	

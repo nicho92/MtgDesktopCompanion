@@ -302,11 +302,11 @@ public class CollectionEvaluator extends Observable
 		{
 			if(e.getValue()!=null)
 			{
-				temp.append(e.getKey().getCurrentSet()).append(";").append(e.getKey().getName()).append(";").append(e.getValue().getPrice()).append(System.lineSeparator());
+				temp.append(e.getKey().getEdition()).append(";").append(e.getKey().getName()).append(";").append(e.getValue().getPrice()).append(System.lineSeparator());
 			}
 			else
 			{
-				temp.append(e.getKey().getCurrentSet()).append(";").append(e.getKey().getName()).append(";").append("NC").append(System.lineSeparator());
+				temp.append(e.getKey().getEdition()).append(";").append(e.getKey().getName()).append(";").append("NC").append(System.lineSeparator());
 			}
 		}
 		FileTools.saveFile(f, temp.toString());

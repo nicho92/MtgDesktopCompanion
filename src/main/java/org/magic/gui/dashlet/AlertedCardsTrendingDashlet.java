@@ -66,7 +66,7 @@ public class AlertedCardsTrendingDashlet extends AbstractJDashlet {
 					@Override
 					protected void auditedRun() {
 						MTGAlert alt = UITools.getTableSelection(table,0);
-						historyPricesPanel.init(alt.getCard(), alt.getCard().getCurrentSet(),alt.getCard().toString());
+						historyPricesPanel.init(alt.getCard(), alt.getCard().getEdition(),alt.getCard().toString());
 						historyPricesPanel.revalidate();
 
 					}

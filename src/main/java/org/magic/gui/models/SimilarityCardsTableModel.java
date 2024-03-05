@@ -32,7 +32,7 @@ public class SimilarityCardsTableModel extends GenericTableModel<MTGCard> {
 		MTGCard r = new ArrayList<>(map.keySet()).get(row);
 		switch (column) {
 		case 0:return r;
-		case 1:return r.getCurrentSet();
+		case 1:return r.getEdition();
 		case 2:return map.get(r);
 		default:
 			return "";

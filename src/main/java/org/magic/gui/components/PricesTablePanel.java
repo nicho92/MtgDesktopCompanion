@@ -138,7 +138,7 @@ public class PricesTablePanel extends MTGUIComponent {
 					protected List<MTGPrice> doInBackground() throws Exception {
 
 						List<MTGPrice> list = new ArrayList<>();
-						lblLoading.setText(capitalize("LOADING_PRICES") + " : " + currentCard + "("+currentCard.getCurrentSet()+")" );
+						lblLoading.setText(capitalize("LOADING_PRICES") + " : " + currentCard + "("+currentCard.getEdition()+")" );
 							try {
 
 								List<MTGPrice> l = prov.getPrice(currentCard);

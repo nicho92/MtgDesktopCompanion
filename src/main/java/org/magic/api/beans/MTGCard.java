@@ -196,6 +196,15 @@ public class MTGCard extends AbstractProduct {
 		return null;
 	}
 
+	@Override
+	public MTGEdition getEdition() {
+		if(super.getEdition()==null)
+			return getCurrentSet();
+		
+		return super.getEdition();
+	}
+	
+	
 	public Map<String, String> getCustomMetadata() {
 		return customMetadata;
 	}
@@ -886,7 +895,7 @@ public class MTGCard extends AbstractProduct {
 			var ed = new MTGEdition();
 
 			BeanUtils.copyProperties(mc2,this);
-			BeanUtils.copyProperties(ed,this.getCurrentSet());
+			BeanUtils.copyProperties(ed,this.getEdition());
 
 			mc2.setName(fn.getName());
 			mc2.setEditions(new ArrayList<>(getEditions()));

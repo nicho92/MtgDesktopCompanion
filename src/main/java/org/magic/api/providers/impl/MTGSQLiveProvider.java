@@ -204,7 +204,7 @@ private MTGPool pool;
 			var rs = pst.executeQuery();
 
 			if(rs.next())
-				return generateTokenFromRs(rs,mc.getCurrentSet());
+				return generateTokenFromRs(rs,mc.getEdition());
 		}
 		catch(Exception e)
 		{

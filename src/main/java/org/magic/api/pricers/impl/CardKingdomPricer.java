@@ -73,10 +73,10 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 			filtres=filtres.and("variation").is("Extended Art");
 
 
-		if(aliases.getSetNameFor(new CardKingdomCardExport() , mc.getCurrentSet()).contains("Mystery Booster"))
+		if(aliases.getSetNameFor(new CardKingdomCardExport() , mc.getEdition()).contains("Mystery Booster"))
 		{
 			filtres = where("name").is(name)
-					  .and("edition").is(aliases.getSetNameFor(new CardKingdomCardExport() , mc.getCurrentSet()))
+					  .and("edition").is(aliases.getSetNameFor(new CardKingdomCardExport() , mc.getEdition()))
 					  .and("is_foil").is(String.valueOf(foil));
 		}
 
