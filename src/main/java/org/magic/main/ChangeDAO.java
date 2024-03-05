@@ -17,12 +17,12 @@ public class ChangeDAO {
 	{
 		MTGControler.getInstance().loadAccountsConfiguration();
 		
-		var cbo  = UITools.createComboboxPlugins(MTGDao.class, true);
+		var cboDao  = UITools.createComboboxPlugins(MTGDao.class, true);
 		var btnValid = new JButton("Validate");
 		
 		var pane = new JPanel();
 		pane.setLayout(new BorderLayout());		
-		pane.add(cbo,BorderLayout.CENTER);
+		pane.add(cboDao,BorderLayout.CENTER);
 		pane.add(btnValid,BorderLayout.SOUTH);
 		
 		
@@ -32,7 +32,7 @@ public class ChangeDAO {
 		
 		btnValid.addActionListener(al->{
 			
-			var selectedProvider = (MTGDao)cbo.getSelectedItem();
+			var selectedProvider = (MTGDao)cboDao.getSelectedItem();
 			selectedProvider.enable(true);
 			MTGControler.getInstance().setProperty(selectedProvider, selectedProvider.isEnable());
 			

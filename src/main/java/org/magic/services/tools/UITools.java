@@ -395,7 +395,9 @@ public class UITools {
 		try {
 			List<MTGEdition> list = getEnabledPlugin(MTGCardsProvider.class).listEditions();
 			Collections.sort(list);
-			return createComboboxEditions(list,SIZE.MEDIUM);
+			var cbo =  createComboboxEditions(list,SIZE.MEDIUM);
+			return cbo;
+			
 		} catch (IOException e) {
 			logger.error(e);
 			return new JComboBox<>();
@@ -456,6 +458,8 @@ public class UITools {
 					return l;
 			});
 
+			AutoCompleteDecorator.decorate(combo);
+			
 
 		return combo;
 	}
@@ -466,17 +470,18 @@ public class UITools {
 
 	public static JComboBox<MTGCollection> createComboboxCollection()
 	{
-		DefaultComboBoxModel<MTGCollection> model = new DefaultComboBoxModel<>();
-		JComboBox<MTGCollection> combo = new JComboBox<>(model);
-
+		
 		try {
-			getEnabledPlugin(MTGDao.class).listCollections().stream().forEach(model::addElement);
+			JComboBox<MTGCollection> combo = createCombobox(getEnabledPlugin(MTGDao.class).listCollections());
+
 			combo.setRenderer(new MagicCollectionIconListRenderer());
 		return combo;
 		} catch (Exception e) {
 			logger.error(e);
-			return combo;
+			return new JComboBox<>();
 		}
+		
+		
 
 	}
 
