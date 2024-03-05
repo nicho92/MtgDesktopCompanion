@@ -232,7 +232,7 @@ public class WooCommerceExport extends AbstractCardExport {
         
         if(getBoolean(CATEGORY_EDITION_MAPPING))
         {
-        	Optional<Category> opt =categs.stream().filter(c->c.getCategoryName().equalsIgnoreCase(st.getProduct().getCurrentSet().getSet())).findFirst();
+        	Optional<Category> opt =categs.stream().filter(c->c.getCategoryName().equalsIgnoreCase(st.getProduct().getEdition().getSet())).findFirst();
         	if(opt.isPresent())
         	{
         		productInfo.put("categories", WooCommerceTools.entryToJsonArray("id",String.valueOf(opt.get().getIdCategory())));	
@@ -242,13 +242,13 @@ public class WooCommerceExport extends AbstractCardExport {
         		Map<String, Object> categoryMap = new HashMap<>();
         		try { 
         		var categ = new Category();
-        		categ.setCategoryName(st.getProduct().getCurrentSet().getSet());
+        		categ.setCategoryName(st.getProduct().getEdition().getSet());
         		categoryMap.put("name", categ.getCategoryName());
-				categoryMap.put("slug", st.getProduct().getCurrentSet().getId());
+				categoryMap.put("slug", st.getProduct().getEdition().getId());
 				Map<String,JsonElement> ret = wooCommerce.create(EndpointBaseType.PRODUCTS_CATEGORIES.getValue(), categoryMap);
 				categ.setIdCategory(ret.get("id").getAsInt());
 				categs.add(categ);
-        		logger.warn("Can't find category named {}. create new one",st.getProduct().getCurrentSet().getSet());
+        		logger.warn("Can't find category named {}. create new one",st.getProduct().getEdition().getSet());
         		productInfo.put("categories", WooCommerceTools.entryToJsonArray("id",""+categ.getIdCategory()));
         		}
         		catch(Exception e)
@@ -289,8 +289,8 @@ public class WooCommerceExport extends AbstractCardExport {
 					  arr.add(createAttributes("signed", String.valueOf(st.isSigned()),true));
 					  arr.add(createAttributes("Language", st.getLanguage(),true));
 					  arr.add(createAttributes("comment", st.getComment()!=null?st.getComment():"",true));
-					  arr.add(createAttributes("setCode", st.getProduct().getCurrentSet().getId(),true));
-					  arr.add(createAttributes("setName", st.getProduct().getCurrentSet().getSet(),true));
+					  arr.add(createAttributes("setCode", st.getProduct().getEdition().getId(),true));
+					  arr.add(createAttributes("setName", st.getProduct().getEdition().getSet(),true));
 					  arr.add(createAttributes("number", st.getProduct().getNumber(),true));
 					  arr.add(createAttributes(MTG_COMP_STOCK_ID,String.valueOf(st.getId()),false));
 					  arr.add(createAttributes("type",st.getProduct().getTypeProduct().name(),true));

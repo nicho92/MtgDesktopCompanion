@@ -52,7 +52,7 @@ public class SlightlyMagicPictureProvider extends AbstractPicturesProvider {
 				logger.error("Couldn't create {} directory",getString(PICS_DIR));
 			}
 
-		String dirName = mc.getCurrentSet().getId();
+		String dirName = mc.getEdition().getId();
 
 		if(dirName.equalsIgnoreCase("con"))
 			dirName="CON_";

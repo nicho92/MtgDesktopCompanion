@@ -66,7 +66,7 @@ public class CardSphereExport extends AbstractFormattedFileCardExport {
 			.append("\"").append(mcs.getQte()).append("\"").append(getSeparator())
 			.append("\"").append(mcs.getQte()).append("\"").append(getSeparator())
 			.append("\"").append(mcs.getProduct().getName()).append("\"").append(getSeparator())
-			.append("\"").append(mcs.getProduct().getCurrentSet().getSet()).append("\"").append(getSeparator())
+			.append("\"").append(mcs.getProduct().getEdition().getSet()).append("\"").append(getSeparator())
 			.append("\"").append(aliases.getConditionFor(this, mcs.getCondition())).append("\"").append(getSeparator())
 			.append("\"").append(mcs.getLanguage()).append("\"").append(getSeparator())
 			.append("\"").append(mcs.isFoil()?"Foil":"").append("\"").append(getSeparator())

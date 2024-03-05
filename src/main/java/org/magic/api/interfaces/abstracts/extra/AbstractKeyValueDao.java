@@ -110,7 +110,7 @@ public abstract class AbstractKeyValueDao extends AbstractMagicDAO {
 	
 	protected String key(MTGCollection c , MTGCard m)
 	{
-		return key(c,m.getCurrentSet());
+		return key(c,m.getEdition());
 	}
 	
 	protected String key(MTGCollection c , MTGEdition ed)

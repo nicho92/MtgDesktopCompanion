@@ -315,7 +315,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
            			   doc.add(new StoredField("cmc",mc.getCmc()));
 
            		  doc.add(new Field("type", mc.getFullType(), fieldType));
-           		  doc.add(new Field("set",mc.getCurrentSet().getId(),fieldType));
+           		  doc.add(new Field("set",mc.getEdition().getId(),fieldType));
      		      doc.add(new TextField("data",serializer.toJson(mc),Field.Store.YES));
      		      doc.add(new Field("rarity",mc.getRarity().toPrettyString(),fieldType));
 	     		  doc.add(new Field("rotatedCardName", mc.getRotatedCard()!=null?mc.getRotatedCard().getName():"",fieldType));

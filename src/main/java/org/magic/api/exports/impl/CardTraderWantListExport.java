@@ -71,9 +71,9 @@ public class CardTraderWantListExport extends AbstractCardExport {
 	private String getSetId(MTGCard card) {
 
 		if(card.isExtraCard())
-			return "C"+card.getCurrentSet().getId();
+			return "C"+card.getEdition().getId();
 
-		return card.getCurrentSet().getId();
+		return card.getEdition().getId();
 
 
 

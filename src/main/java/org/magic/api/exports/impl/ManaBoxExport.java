@@ -135,8 +135,8 @@ public class ManaBoxExport extends AbstractFormattedFileCardExport {
 						    	{
 						    		tmp.append(mcs.getProduct().getFullName()).append(getSeparator());	
 						    	}
-						    	tmp.append(mcs.getProduct().getCurrentSet().getId()).append(getSeparator());
-						    	tmp.append(mcs.getProduct().getCurrentSet().getSet()).append(getSeparator());
+						    	tmp.append(mcs.getProduct().getEdition().getId()).append(getSeparator());
+						    	tmp.append(mcs.getProduct().getEdition().getSet()).append(getSeparator());
 						    	tmp.append(mcs.getProduct().getNumber()).append(getSeparator());
 						    	tmp.append(mcs.isFoil()?"foil":mcs.isEtched()?"etched":"normal").append(getSeparator());
 						    	tmp.append(mcs.getProduct().getRarity().toPrettyString()).append(getSeparator());
@@ -185,7 +185,7 @@ public class ManaBoxExport extends AbstractFormattedFileCardExport {
 		{
 			temp.append(e.getValue()).append(" ")
 					.append(e.getKey().getFullName()).append(" ")
-					.append("(").append(e.getKey().getCurrentSet().getId()).append(") ")
+					.append("(").append(e.getKey().getEdition().getId()).append(") ")
 					.append(e.getKey().getNumber())
 					.append(System.lineSeparator());
 			notify(e.getKey());

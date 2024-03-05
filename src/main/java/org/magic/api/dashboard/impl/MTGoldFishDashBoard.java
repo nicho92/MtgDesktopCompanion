@@ -301,7 +301,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 			var pfoil="";
 
-			if(mc.getCurrentSet().isFoilOnly() || foil)
+			if(mc.getEdition().isFoilOnly() || foil)
 				pfoil=":Foil";
 
 			var extra="";
@@ -312,7 +312,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				extend="-showcase";
 			else if(mc.isBorderLess())
 				extend="-borderless";
-			else if(mc.isTimeshifted() && (mc.getCurrentSet().getId().equalsIgnoreCase("MH2") || mc.getCurrentSet().getId().equalsIgnoreCase("H1R")))
+			else if(mc.isTimeshifted() && (mc.getEdition().getId().equalsIgnoreCase("MH2") || mc.getEdition().getId().equalsIgnoreCase("H1R")))
 				extend="-retro";
 			else if(mc.isTimeshifted())
 				extend="-timeshifted";
@@ -325,7 +325,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			
 			
 
-			if(ArrayUtils.contains(new String[] {"PUMA","STA","SLD","MUL","WOT","REX"}, mc.getCurrentSet().getId()))
+			if(ArrayUtils.contains(new String[] {"PUMA","STA","SLD","MUL","WOT","REX"}, mc.getEdition().getId()))
 				extend="";
 
 			url = WEBSITE + "/price/" + convert(mc.getCurrentSet()) + extra+pfoil+"/" + cardName +extend+ "#" + getString(FORMAT);

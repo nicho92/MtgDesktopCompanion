@@ -223,7 +223,7 @@ public abstract class AbstractRecognitionStrategy extends AbstractMTGPlugin impl
 
 		if(topimg!=null)
 		{
-				String key = card.getName()+"|"+card.getCurrentSet().getId()+"|"+card.getId()+"|"+card.getNumber()+"|"+card.getScryfallId();
+				String key = card.getName()+"|"+card.getEdition().getId()+"|"+card.getId()+"|"+card.getNumber()+"|"+card.getScryfallId();
 				try
 				{
 					add(new DescContainer(new ImageDesc(ImageTools.getScaledImage(topimg)), key));

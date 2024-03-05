@@ -34,7 +34,7 @@ public class MTGPricePricer extends AbstractPricesProvider {
 		
 		
 		
-		String set = card.getCurrentSet().getSet().replace(" ", "_");
+		String set = card.getEdition().getSet().replace(" ", "_");
 
 		String url = getString("WS_URL") + "?apiKey=" + getAuthenticator().get(API_KEY) + "&s=" + set;
 

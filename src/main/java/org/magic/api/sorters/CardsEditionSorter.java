@@ -22,7 +22,7 @@ public class CardsEditionSorter implements MTGComparator<MTGCard> {
 		boolean o1NullNumber=StringUtils.isEmpty(o1.getNumber());
 		boolean o2NullNumber=StringUtils.isEmpty(o2.getNumber());
 
-		if (!o1NullNumber && !o2NullNumber && (o1.getCurrentSet().equals(o2.getCurrentSet()))) {
+		if (!o1NullNumber && !o2NullNumber && (o1.getEdition().equals(o2.getCurrentSet()))) {
 			int n1 = calculate(o1.getNumber());
 			int n2 = calculate(o2.getNumber());
 			return n1 - n2;

@@ -181,7 +181,7 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 		temp.append("$").append(mcs.isFoil()?UITools.formatDouble(mcs.getPrice()).replace(",", "."):0).append(getSeparator());
 
 		temp.append(mcs.getProduct().getNumber()).append(getSeparator());
-		temp.append("\"").append(mcs.getProduct().getCurrentSet().getSet()).append("\"").append(getSeparator());
+		temp.append("\"").append(mcs.getProduct().getEdition().getSet()).append("\"").append(getSeparator());
 		temp.append("-1").append(getSeparator());
 		temp.append(mcs.getProduct().getMultiverseid()).append(getSeparator());
 		temp.append("\"").append(mcs.getComment()).append("\"").append(getSeparator());

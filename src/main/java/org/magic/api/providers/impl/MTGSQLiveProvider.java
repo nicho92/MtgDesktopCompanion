@@ -200,7 +200,7 @@ private MTGPool pool;
 			pst.setString(1, "%"+mc.getName()+"%");
 			pst.setString(2, "%"+mc.getName()+"%");
 			pst.setString(3, "%"+layout.toPrettyString()+"%");
-			pst.setString(4, "%"+mc.getCurrentSet().getId().toUpperCase());
+			pst.setString(4, "%"+mc.getEdition().getId().toUpperCase());
 			var rs = pst.executeQuery();
 
 			if(rs.next())

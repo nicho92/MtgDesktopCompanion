@@ -63,7 +63,7 @@ public class StarCityGamesPricer extends AbstractPricesProvider {
 			arr.forEach(str->{
 				var jinfo = URLTools.toJson(str.getAsString()).getAsJsonObject();
 				
-				if(jinfo.get("qty").getAsInt()>0 && jinfo.get("sku").getAsString().toUpperCase().contains(card.getCurrentSet().getId().toUpperCase())) {
+				if(jinfo.get("qty").getAsInt()>0 && jinfo.get("sku").getAsString().toUpperCase().contains(card.getEdition().getId().toUpperCase())) {
 					var mp = new MTGPrice();
 					mp.setMagicCard(card);
 					mp.setCurrency(Currency.getInstance("USD"));

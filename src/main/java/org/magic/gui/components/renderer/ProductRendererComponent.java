@@ -7,17 +7,17 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutionException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingWorker;
 import javax.swing.border.LineBorder;
 
+import org.apache.logging.log4j.Logger;
 import org.magic.api.interfaces.MTGProduct;
+import org.magic.services.MTGConstants;
+import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
-import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
 
 
@@ -28,12 +28,16 @@ public class ProductRendererComponent extends JPanel {
 	private JLabel lblProductSet;
 	private JLabel lblProductType;
 	private JLabel lblImage;
-	private transient Map<Long,Image> temp;
+	protected transient Logger logger = MTGLogger.getLogger(getClass());
 
+	
+	private Map<Long, BufferedImage> imageCache;
+	
+	
+	
 	public ProductRendererComponent() {
-
-		temp= new ConcurrentHashMap<>();
 		initGUI();
+		
 	}
 
 	public ProductRendererComponent(MTGProduct mc) {
@@ -45,6 +49,9 @@ public class ProductRendererComponent extends JPanel {
 
 
 	private void initGUI() {
+		
+		imageCache =  new ConcurrentHashMap<>();
+		
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{90, 267, 0};
@@ -53,7 +60,7 @@ public class ProductRendererComponent extends JPanel {
 		gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 
-		lblImage = new JLabel();
+		lblImage = new JLabel(MTGConstants.ICON_LOADING);
 		add(lblImage, UITools.createGridBagConstraints(null,null,0, 0,null,3));
 
 		lblProductName = new JLabel("");
@@ -65,13 +72,17 @@ public class ProductRendererComponent extends JPanel {
 		lblProductType = new JLabel();
 		add(lblProductType, UITools.createGridBagConstraints(GridBagConstraints.WEST,null,1, 2));
 
+		
+	
+
+		
 	}
 
 	public void init(MTGProduct p) {
-	
+
 		if(p==null)
 			return;
-
+		
 		lblProductName.setText(p.getName());
 		if(p.getEdition()!=null)
 			lblProductSet.setText(p.getEdition().getSet());
@@ -79,31 +90,17 @@ public class ProductRendererComponent extends JPanel {
 		if(p.getCategory()!=null)
 			lblProductType.setText(p.getCategory().getCategoryName()+" ("+p.getProductId() +")");
 
-		
-		var sw = new SwingWorker<Image, Void>() {
-			@Override
-			protected Image doInBackground() throws Exception {
-				return temp.computeIfAbsent(p.getProductId(),i->{
-					try {
-						return URLTools.extractAsImage(p.getUrl()).getScaledInstance(150, 110, Image.SCALE_SMOOTH);
-					} catch (Exception e) {
-						return new BufferedImage(150, 110, Image.SCALE_FAST);
-					}
-				});
+		var img = imageCache.computeIfAbsent(p.getProductId(),i->{
+			try {
+				return URLTools.extractAsImage(p.getUrl());
+			} catch (Exception e) {
+				return new BufferedImage(110, 150, Image.SCALE_FAST);
 			}
-			@Override
-			protected void done() {
-				try {
-					lblImage.setIcon(new ImageIcon(get()));
-				} catch (InterruptedException e) {
-					Thread.currentThread().interrupt();
-				} catch (ExecutionException e) {
-					//do nothing
-				}
-			}
-		};
-		ThreadManager.getInstance().runInEdt(sw, "Loading product pics "+p.getName());
+		});
+
+		lblImage.setIcon(new ImageIcon(img.getScaledInstance(110, 150, Image.SCALE_FAST)));	
+	
 		
 	}
-
+	
 }

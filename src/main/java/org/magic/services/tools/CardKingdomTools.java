@@ -48,7 +48,7 @@ public class CardKingdomTools {
 		
 		
 		//Check Promo Types
-		if(card.isShowCase() && !card.getCurrentSet().getSet().contains("Strixhaven Mystical Archive"))
+		if(card.isShowCase() && !card.getEdition().getSet().contains("Strixhaven Mystical Archive"))
 		{
 			logger.debug("Showcase triggered: {}",name);
 			if(card.getFrameVersion().contains("1997")) // maybe using isTimeShifted() ? --> AbstractCardsProvider.postTreatmentCard
@@ -77,15 +77,15 @@ public class CardKingdomTools {
 		
 		if(card.getPromotypes().contains(EnumPromoType.STARTERDECK))
 		{
-			if(card.getCurrentSet().toString().contains("Welcome Deck 2016"))
+			if(card.getEdition().toString().contains("Welcome Deck 2016"))
 				name = name + " (Welcome 2016)";
 			
-			if(card.getCurrentSet().toString().contains("Welcome Deck 2017"))
+			if(card.getEdition().toString().contains("Welcome Deck 2017"))
 				name = name + " (Welcome 2017)";
 			
 		}
 		
-		if(card.getCurrentSet().toString().contains("Friday Night Magic"))
+		if(card.getEdition().toString().contains("Friday Night Magic"))
 			name = name + " (FNM Foil)";
 		
 		
@@ -93,9 +93,9 @@ public class CardKingdomTools {
 		
 		//Specific set issues
 		
-		if(card.getCurrentSet().toString().contains("Duel Decks Anthology:"))
+		if(card.getEdition().toString().contains("Duel Decks Anthology:"))
 		{
-			name = name + " (" + card.getCurrentSet().toString().split(": ")[1] + ")";
+			name = name + " (" + card.getEdition().toString().split(": ")[1] + ")";
 			name = name.replace("vs.", "vs");
 		}
 		

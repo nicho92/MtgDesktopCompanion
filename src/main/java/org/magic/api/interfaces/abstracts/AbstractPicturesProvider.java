@@ -106,10 +106,10 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 		try {
 			
 			
-			if(mc!=null&&mc.getCurrentSet()!=null&&mc.getCurrentSet().getId().equals("30A"))
+			if(mc!=null&&mc.getCurrentSet()!=null&&mc.getEdition().getId().equals("30A"))
 				return resizeCard(ImageTools.readLocal(MTGConstants.ANNIVERSARY_BACK_CARD), newW, newH);
 			
-			if(mc!=null&&mc.getCurrentSet()!=null&&mc.getCurrentSet().getId().equals("CED"))
+			if(mc!=null&&mc.getCurrentSet()!=null&&mc.getEdition().getId().equals("CED"))
 				return resizeCard(ImageTools.readLocal(MTGConstants.COLLECTOR_BACK_CARD), newW, newH);
 			
 			return resizeCard(ImageTools.readLocal(MTGConstants.DEFAULT_BACK_CARD), newW, newH);

@@ -44,7 +44,7 @@ public class FileCache extends AbstractCacheProvider {
 			if (!save.exists())
 				save.mkdir();
 
-			save = new File(save, removeCon(mc.getCurrentSet().getId()));
+			save = new File(save, removeCon(mc.getEdition().getId()));
 			if (!save.exists())
 				save.mkdir();
 
@@ -65,7 +65,7 @@ public class FileCache extends AbstractCacheProvider {
 		if (!f.exists())
 			f.mkdir();
 
-		f = new File(f, removeCon(mc.getCurrentSet().getId()));
+		f = new File(f, removeCon(mc.getEdition().getId()));
 		if (!f.exists())
 			f.mkdir();
 

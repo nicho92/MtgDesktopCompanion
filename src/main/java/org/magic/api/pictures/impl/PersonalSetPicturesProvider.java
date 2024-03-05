@@ -73,7 +73,7 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	@Override
 	public String generateUrl(MTGCard mc) {
 		var mainDir = getFile(PICS_DIR);
-		var edDir = new File(mainDir,mc.getCurrentSet().getId());
+		var edDir = new File(mainDir,mc.getEdition().getId());
 
 		return new File(edDir, mc.getId() + "." + getString(FORMAT)).getAbsolutePath();
 	}

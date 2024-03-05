@@ -64,7 +64,7 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 				.append(" ")
 				.append(entry.getKey())
 				.append(" (")
-				.append(translate(entry.getKey().getCurrentSet().getId()).toUpperCase())
+				.append(translate(entry.getKey().getEdition().getId()).toUpperCase())
 				.append(")")
 				.append(" ")
 				.append(entry.getKey().getNumber())
@@ -81,7 +81,7 @@ public class MTGArenaExport extends AbstractFormattedFileCardExport {
 					.append(" ")
 					.append(entry.getKey())
 					.append(" (")
-					.append(translate(entry.getKey().getCurrentSet().getId()).toUpperCase())
+					.append(translate(entry.getKey().getEdition().getId()).toUpperCase())
 					.append(")")
 					.append(" ")
 					.append(entry.getKey().getNumber());

@@ -37,7 +37,7 @@ public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 		for (var mc : deck.getMain().keySet()) {
 			temp.append(deck.getMain().get(mc)).append(getSeparator());
 			temp.append(mc.getName());
-	//		temp.append(mc.getCurrentSet().getId())
+	//		temp.append(mc.getEdition().getId())
 			temp.append(System.lineSeparator());
 			notify(mc);
 		}
@@ -45,7 +45,7 @@ public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 			temp.append("SB: ");
 			temp.append(deck.getSideBoard().get(mc)).append(getSeparator());
 			temp.append(mc.getName()).append(getSeparator());
-//			temp.append(mc.getCurrentSet().getId())
+//			temp.append(mc.getEdition().getId())
 			temp.append(System.lineSeparator());
 			notify(mc);
 		}

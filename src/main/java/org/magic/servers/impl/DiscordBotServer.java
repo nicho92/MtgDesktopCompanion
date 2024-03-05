@@ -425,7 +425,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 		var temp = new StringBuilder();
 		temp.append(mc.getTypes()+"\n");
 		temp.append(mc.getText()).append("\n");
-		temp.append("**Edition:** ").append(mc.getCurrentSet().getSet()).append("\n");
+		temp.append("**Edition:** ").append(mc.getEdition().getSet()).append("\n");
 
 		if(!getString(EXTERNAL_LINK).isEmpty())
 			temp.append("**Url:** ").append(getString(EXTERNAL_LINK)+mc.getScryfallId()).append("\n");

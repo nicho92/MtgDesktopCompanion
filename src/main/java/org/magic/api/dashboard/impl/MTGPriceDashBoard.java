@@ -191,7 +191,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 
 		var edition = "";
 
-		edition = mc.getCurrentSet().getSet();
+		edition = mc.getEdition().getSet();
 
 		edition = edition.replace(" ", "_");
 

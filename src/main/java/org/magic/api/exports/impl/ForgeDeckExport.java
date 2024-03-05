@@ -32,15 +32,15 @@ public class ForgeDeckExport extends AbstractFormattedFileCardExport {
 		if(deck.getCommander()!=null)
 		{
 			temp.append("[Commander]\n");
-			temp.append("1 ").append(deck.getCommander().getName()).append("|").append(deck.getCommander().getCurrentSet().getId().toUpperCase()).append("\n");
+			temp.append("1 ").append(deck.getCommander().getName()).append("|").append(deck.getCommander().getEdition().getId().toUpperCase()).append("\n");
 		}
 
 
 		temp.append("[Main]\n");
-		deck.getMain().entrySet().stream().filter(mc->mc.getKey()!=deck.getCommander()).sorted((e1,e2)->e1.getKey().getName().compareTo(e2.getKey().getName())).forEach(e->temp.append(e.getValue()).append(" ").append(e.getKey().getName()).append("|").append(e.getKey().getCurrentSet().getId().toUpperCase()).append("|1\n"));
+		deck.getMain().entrySet().stream().filter(mc->mc.getKey()!=deck.getCommander()).sorted((e1,e2)->e1.getKey().getName().compareTo(e2.getKey().getName())).forEach(e->temp.append(e.getValue()).append(" ").append(e.getKey().getName()).append("|").append(e.getKey().getEdition().getId().toUpperCase()).append("|1\n"));
 
 		temp.append("[Sideboard]\n");
-		deck.getSideBoard().entrySet().stream().sorted((e1,e2)->e1.getKey().getName().compareTo(e2.getKey().getName())).forEach(e->temp.append(e.getValue()).append(" ").append(e.getKey().getName()).append("|").append(e.getKey().getCurrentSet().getId().toUpperCase()).append("|1\n"));
+		deck.getSideBoard().entrySet().stream().sorted((e1,e2)->e1.getKey().getName().compareTo(e2.getKey().getName())).forEach(e->temp.append(e.getValue()).append(" ").append(e.getKey().getName()).append("|").append(e.getKey().getEdition().getId().toUpperCase()).append("|1\n"));
 
 
 		FileTools.saveFile(dest, temp.toString());

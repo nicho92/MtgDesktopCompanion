@@ -51,7 +51,7 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 
 		for(var mcs : stock)
 		{
-			temp.append(aliases.getReversedSetIdFor(this, mcs.getProduct().getCurrentSet().getId())).append("\t");
+			temp.append(aliases.getReversedSetIdFor(this, mcs.getProduct().getEdition().getId())).append("\t");
 			temp.append(mcs.getProduct().getName()).append("\t");
 			temp.append(mcs.getProduct().getForeignNames().get(0).getName()).append("\t");
 			temp.append("").append("\t");
@@ -60,13 +60,13 @@ public class MagicAlbumExport extends AbstractFormattedFileCardExport {
 			temp.append(mcs.isFoil()?mcs.getQte():"").append("\t");
 			temp.append(mcs.getComment()==null?"":mcs.getComment()).append("\t");
 			temp.append(mcs.getProduct().getRarity().toPrettyString().charAt(0)).append("\t");
-			temp.append(mcs.getProduct().getNumber()).append("/").append(mcs.getProduct().getCurrentSet().getCardCountOfficial()).append("\t");
+			temp.append(mcs.getProduct().getNumber()).append("/").append(mcs.getProduct().getEdition().getCardCountOfficial()).append("\t");
 			temp.append(mcs.getProduct().getColors()).append("\t");
 			temp.append(mcs.getProduct().getCost()).append("\t");
 			temp.append(mcs.getProduct().isCreature()?mcs.getProduct().getPower()+"/"+mcs.getProduct().getToughness():"").append("\t");
 			temp.append(mcs.getProduct().getArtist()).append("\t");
 			temp.append(mcs.getProduct().getBorder()!=null?mcs.getProduct().getBorder().toPrettyString():"").append("\t");
-			temp.append("™ & © "+mcs.getProduct().getCurrentSet().getReleaseDate()+" Wizards of the Coast").append("\t");
+			temp.append("™ & © "+mcs.getProduct().getEdition().getReleaseDate()+" Wizards of the Coast").append("\t");
 			temp.append(mcs.getProduct().getFullType()).append("\t");
 
 

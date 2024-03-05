@@ -11,7 +11,6 @@ import javax.swing.ImageIcon;
 import org.magic.api.beans.MTGAnnounce;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGDeck;
-import org.magic.api.beans.abstracts.AbstractStockItem;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.beans.enums.EnumItems;
@@ -61,7 +60,7 @@ public class AnnouncesExport extends AbstractCardExport {
 			var sb = new StringBuilder("//MAIN<br/>");
 
 			deck.getMain().entrySet().forEach(e->{
-				var p = AbstractStockItem.generateDefault();
+				var p = MTGControler.getInstance().getDefaultStock();
 				p.setProduct(e.getKey());
 				a.getItems().add(p);
 				sb.append(e.getValue()).append(" ").append(e.getKey()).append("<br/>");

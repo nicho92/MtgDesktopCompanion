@@ -14,7 +14,6 @@ import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.inspector.TagInspector;
-import org.yaml.snakeyaml.nodes.Tag;
 
 
 public class YamlExport extends AbstractCardExport {

@@ -33,7 +33,7 @@ public class FixingWoo {
 		{
 			var map = new HashMap<String,String>();
 					map.put("search",mcs.getProduct().getName().replace(" ", "%20").replace("'", "%27").replace(",","%2C"));
-					map.put("category",""+categs.stream().filter(p->p.getCategoryName().equalsIgnoreCase(mcs.getProduct().getCurrentSet().getSet())).findFirst().get().getIdCategory());
+					map.put("category",""+categs.stream().filter(p->p.getCategoryName().equalsIgnoreCase(mcs.getProduct().getEdition().getSet())).findFirst().get().getIdCategory());
 			
 			List<JsonObject> objs = client.getAll(EndpointBaseType.PRODUCTS.getValue(), map);
 			

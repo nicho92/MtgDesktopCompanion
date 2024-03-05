@@ -138,9 +138,9 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		
 		if (!mc.getEditions().isEmpty())
 		{
-			int showCount = mc.getCurrentSet().getCardCountOfficial();
+			int showCount = mc.getEdition().getCardCountOfficial();
 			if(showCount<=0)
-				showCount=mc.getCurrentSet().getCardCount();
+				showCount=mc.getEdition().getCardCount();
 
 			lblNumber.setText(mc.getNumber() + "/"+ showCount);
 		}

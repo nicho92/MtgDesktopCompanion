@@ -40,10 +40,10 @@ public class MKMFileWantListExport extends AbstractFormattedFileCardExport {
 		var temp = new StringBuilder();
 
 			for (MTGCard mc : deck.getMain().keySet()) {
-				if (mc.getCurrentSet().getMkmName() != null)
-					temp.append(deck.getMain().get(mc)).append(getSeparator()).append(mc.getName()).append(getSeparator()).append("(").append(mc.getCurrentSet().getMkmName());
+				if (mc.getEdition().getMkmName() != null)
+					temp.append(deck.getMain().get(mc)).append(getSeparator()).append(mc.getName()).append(getSeparator()).append("(").append(mc.getEdition().getMkmName());
 				else
-					temp.append(deck.getSideBoard().get(mc)).append(getSeparator()).append(mc.getName()).append(getSeparator()).append("(").append(mc.getCurrentSet().getSet());
+					temp.append(deck.getSideBoard().get(mc)).append(getSeparator()).append(mc.getName()).append(getSeparator()).append("(").append(mc.getEdition().getSet());
 
 				try {
 
@@ -68,10 +68,10 @@ public class MKMFileWantListExport extends AbstractFormattedFileCardExport {
 
 			for (MTGCard mc : deck.getSideBoard().keySet())
 			{
-				if (mc.getCurrentSet().getMkmName() != null)
-					temp.append(deck.getSideBoard().get(mc)).append(getSeparator()).append(mc.getName()).append(getSeparator()).append("(").append(mc.getCurrentSet().getMkmName()).append(")\n");
+				if (mc.getEdition().getMkmName() != null)
+					temp.append(deck.getSideBoard().get(mc)).append(getSeparator()).append(mc.getName()).append(getSeparator()).append("(").append(mc.getEdition().getMkmName()).append(")\n");
 				else
-					temp.append(deck.getSideBoard().get(mc)).append(getSeparator()).append(mc.getName()).append(getSeparator()).append("(").append(mc.getCurrentSet().getSet()).append(")\n");
+					temp.append(deck.getSideBoard().get(mc)).append(getSeparator()).append(mc.getName()).append(getSeparator()).append("(").append(mc.getEdition().getSet()).append(")\n");
 				notify(mc);
 			}
 			FileTools.saveFile(dest, temp.toString());

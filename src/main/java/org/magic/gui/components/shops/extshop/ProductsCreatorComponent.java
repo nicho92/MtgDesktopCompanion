@@ -172,7 +172,7 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 		List<MTGProduct> list = listInput.getSelectedValuesList();
 
 
-		AbstractObservableWorker<Void,MTGProduct,MTGExternalShop> sw = new AbstractObservableWorker<>(buzy,(MTGExternalShop)cboOutput.getSelectedItem(),list.size())
+		var sw = new AbstractObservableWorker<Void,MTGProduct,MTGExternalShop>(buzy,(MTGExternalShop)cboOutput.getSelectedItem(),list.size())
 		{
 			@Override
 			protected Void doInBackground() throws Exception {
@@ -208,7 +208,7 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 
 		if(chkSearchInput.isSelected()) {
 			modelInput.removeAllElements();
-			AbstractObservableWorker<List<MTGProduct>,MTGProduct,MTGExternalShop> sw = new AbstractObservableWorker<>(buzy,(MTGExternalShop)cboInput.getSelectedItem())
+			var sw = new AbstractObservableWorker<List<MTGProduct>,MTGProduct,MTGExternalShop>(buzy,(MTGExternalShop)cboInput.getSelectedItem())
 			{
 				@Override
 				protected List<MTGProduct> doInBackground() throws Exception {
@@ -217,17 +217,17 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 				
 				@Override
 				protected void done() {
-						super.done();
-						modelInput.addAll(getResult());
+					super.done();
+					modelInput.addAll(getResult());
 				}
-
+				
 			};
 			ThreadManager.getInstance().runInEdt(sw,"search Products");
 		}
 
 		if(chkSearchOutput.isSelected()) {
 			modelOutput.removeAllElements();
-			AbstractObservableWorker<List<MTGProduct>,MTGProduct,MTGExternalShop> sw2 = new AbstractObservableWorker<>(buzy,(MTGExternalShop)cboOutput.getSelectedItem())
+			var sw2 = new AbstractObservableWorker<List<MTGProduct>,MTGProduct,MTGExternalShop>(buzy,(MTGExternalShop)cboOutput.getSelectedItem())
 			{
 				@Override
 				protected List<MTGProduct> doInBackground() throws Exception {

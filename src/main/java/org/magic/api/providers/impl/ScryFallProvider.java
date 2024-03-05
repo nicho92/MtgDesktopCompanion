@@ -131,7 +131,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	public JsonObject getJsonFor(MTGCard mc)
 	{
-		String url = baseURI + CARDS + mc.getCurrentSet().getId().toLowerCase() + "/" + mc.getNumber();
+		String url = baseURI + CARDS + mc.getEdition().getId().toLowerCase() + "/" + mc.getNumber();
 		try {
 			return URLTools.extractAsJson(url).getAsJsonObject();
 		} catch (IOException e) {
@@ -650,7 +650,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	private void initOtherEdition(MTGCard mc) throws IOException {
 
-		String url = baseURI + "/cards/search?q=+" + URLTools.encode("++!\"" + mc.getName() + "\"")+ "%20include:extras" + "%20-s:" + mc.getCurrentSet().getId();
+		String url = baseURI + "/cards/search?q=+" + URLTools.encode("++!\"" + mc.getName() + "\"")+ "%20include:extras" + "%20-s:" + mc.getEdition().getId();
 
 		var hasMore = true;
 		while (hasMore) {

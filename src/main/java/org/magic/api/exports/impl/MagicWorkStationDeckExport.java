@@ -33,7 +33,7 @@ public class MagicWorkStationDeckExport extends AbstractFormattedFileCardExport 
 			temp.append("    ");
 			temp.append(deck.getMain().get(mc));
 			temp.append(" ");
-			temp.append("[").append(mc.getCurrentSet().getId().toUpperCase()).append("]");
+			temp.append("[").append(mc.getEdition().getId().toUpperCase()).append("]");
 			temp.append(mc.getName());
 			temp.append("\n");
 			notify(mc);
@@ -43,7 +43,7 @@ public class MagicWorkStationDeckExport extends AbstractFormattedFileCardExport 
 			temp.append("SB: ");
 			temp.append(deck.getMain().get(mc));
 			temp.append(" ");
-			temp.append("[").append(mc.getCurrentSet().getId()).append("]");
+			temp.append("[").append(mc.getEdition().getId()).append("]");
 			temp.append(mc.getName());
 			temp.append("\n");
 			notify(mc);

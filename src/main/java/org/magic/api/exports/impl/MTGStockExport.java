@@ -48,7 +48,7 @@ public class MTGStockExport extends AbstractFormattedFileCardExport {
 
 		stock.forEach(st->{
 			temp.append("\"").append(st.getProduct().getName()).append("\"").append(getSeparator());
-			temp.append("\"").append(st.getProduct().getCurrentSet().getSet()).append("\"").append(getSeparator());
+			temp.append("\"").append(st.getProduct().getEdition().getSet()).append("\"").append(getSeparator());
 			temp.append(st.getQte()).append(getSeparator());
 			temp.append(st.getPrice()).append(getSeparator());
 			temp.append( aliases.getConditionFor(this,st.getCondition())).append(getSeparator());

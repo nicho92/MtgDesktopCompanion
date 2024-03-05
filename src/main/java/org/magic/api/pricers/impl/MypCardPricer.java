@@ -40,7 +40,7 @@ public class MypCardPricer extends AbstractPricesProvider {
 
 		List<MTGPrice> list = new ArrayList<>();
 
-		String set = card.getCurrentSet().getId();
+		String set = card.getEdition().getId();
 
 		if(client==null)
 		{

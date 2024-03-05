@@ -48,7 +48,7 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 				.setClient(client)
 				.url(HTTP_PROTOCOL+WEBSITE+"/api/search/mass/")
 				.addContent("search",mc.getName() + extra)
-				.addContent("wcExpansion",mc.getCurrentSet().getSet())
+				.addContent("wcExpansion",mc.getEdition().getSet())
 				.addContent("limit","30")
 				.addContent("textsearch","")
 				.addContent("type","")

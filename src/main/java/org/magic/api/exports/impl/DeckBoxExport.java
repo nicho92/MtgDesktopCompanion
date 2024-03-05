@@ -49,7 +49,7 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 			line.append(mc.getQte()).append(getSeparator());
 			line.append(mc.getQte()).append(getSeparator());
 			line.append(name).append(getSeparator());
-			line.append(mc.getProduct().getCurrentSet().getSet()).append(getSeparator());
+			line.append(mc.getProduct().getEdition().getSet()).append(getSeparator());
 			line.append(mc.getProduct().getNumber()).append(getSeparator());
 			line.append(aliases.getConditionFor(this,mc.getCondition())).append(getSeparator());
 			line.append(mc.getLanguage()).append(getSeparator());

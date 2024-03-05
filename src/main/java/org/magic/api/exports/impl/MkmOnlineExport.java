@@ -124,7 +124,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 					p.setEnName(p.getEnName().substring(0, p.getEnName().indexOf("(Version")));
 
 				List<MTGCard> cards = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( p.getEnName().trim(), null, true);
-				MTGCard mc = cards.stream().filter(c->c.getCurrentSet().getSet().equalsIgnoreCase(p.getExpansionName())).findAny().orElse(cards.get(0));
+				MTGCard mc = cards.stream().filter(c->c.getEdition().getSet().equalsIgnoreCase(p.getExpansionName())).findAny().orElse(cards.get(0));
 				notify(mc);
 				d.getMain().put(mc, w.getCount());
 
@@ -365,7 +365,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 			mcs.setPrice(a.getPrice());
 			List<MTGCard> cards = getEnabledPlugin(MTGCardsProvider.class).searchCardByName( a.getProduct().getEnName(), null, true);
 
-			MTGCard mc = cards.stream().filter(c->c.getCurrentSet().getSet().equalsIgnoreCase(a.getProduct().getExpansion())).findAny().orElse(cards.get(0));
+			MTGCard mc = cards.stream().filter(c->c.getEdition().getSet().equalsIgnoreCase(a.getProduct().getExpansion())).findAny().orElse(cards.get(0));
 
 
 

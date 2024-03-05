@@ -62,7 +62,7 @@ public class CardKingdomPricer extends AbstractPricesProvider {
         var ed = CardKingdomTools.getCKFormattedSet(mc);
 		
 		var filtres =where("name").is(name)
-				.and("sku").contains(mc.getCurrentSet().getId().toUpperCase())
+				.and("sku").contains(mc.getEdition().getId().toUpperCase())
 				.and("is_foil").is(String.valueOf(foil));
 
 		if(mc.isShowCase())

@@ -21,7 +21,7 @@ public class EbayPricer extends AbstractPricesProvider {
 	public List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
 		List<MTGPrice> prices = new ArrayList<>();
 		String keyword = card.getName();
-			   keyword += " " + card.getCurrentSet().getSet();
+			   keyword += " " + card.getEdition().getSet();
 
 
 			   var b = RequestBuilder.build().setClient(URLTools.newClient()).get()

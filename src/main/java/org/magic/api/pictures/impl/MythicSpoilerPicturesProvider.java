@@ -20,7 +20,7 @@ public class MythicSpoilerPicturesProvider extends AbstractPicturesProvider {
 	@Override
 	public String generateUrl(MTGCard mc)
 	{
-		String cardSet = mc.getCurrentSet().getId();
+		String cardSet = mc.getEdition().getId();
 		String cardName = UITools.replaceSpecialCharacters(mc.getName(), "").toLowerCase();
 
 		// This will properly escape the url

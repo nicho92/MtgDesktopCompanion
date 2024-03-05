@@ -38,7 +38,7 @@ public class CardCastleExport extends AbstractFormattedFileCardExport {
 
 			build.append(entry.getValue()).append(getSeparator());
 			build.append(name).append(getSeparator());
-			build.append(entry.getKey().getCurrentSet().getSet()).append(getSeparator());
+			build.append(entry.getKey().getEdition().getSet()).append(getSeparator());
 			build.append("false").append("\n");
 			notify(entry.getKey());
 		});

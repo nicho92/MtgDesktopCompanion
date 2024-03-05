@@ -181,13 +181,14 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 
 		res.forEach(element->{
 			var p = AbstractProduct.createDefaultProduct(EnumItems.SEALED);
-			JsonObject obj = element.getAsJsonObject();
-
+			var obj = element.getAsJsonObject();
+			
 			p.setProductId(obj.get("id").getAsLong());
 			p.setName(obj.get("name").getAsString());
+			
 
-			JsonObject objCateg = obj.get(CATEGORIES).getAsJsonArray().get(0).getAsJsonObject();
-			Category c = new Category();
+			var objCateg = obj.get(CATEGORIES).getAsJsonArray().get(0).getAsJsonObject();
+			var c = new Category();
 					 c.setIdCategory(objCateg.get("id").getAsInt());
 					 c.setCategoryName(objCateg.get("name").getAsString());
 			p.setCategory(c);
@@ -195,7 +196,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 
 
 			try {
-				JsonObject img = obj.get(IMAGES).getAsJsonArray().get(0).getAsJsonObject();
+				var img = obj.get(IMAGES).getAsJsonArray().get(0).getAsJsonObject();
 							p.setUrl(img.get("src").getAsString());
 			}
 			catch(Exception e)
@@ -287,7 +288,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 
-		StringBuilder temp = new StringBuilder();
+		var temp = new StringBuilder();
 		for(EnumItems it : EnumItems.values())
 		{
 			temp.append(it.name()).append("=").append("").append(",");
@@ -479,20 +480,20 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 
 	private MTGProduct parseProduct(JsonObject element) {
 
-			MTGProduct p = AbstractProduct.createDefaultProduct(EnumItems.SEALED);
-			JsonObject obj = element.getAsJsonObject();
+			var p = AbstractProduct.createDefaultProduct(EnumItems.SEALED);
+			var obj = element.getAsJsonObject();
 			p.setProductId(obj.get("id").getAsLong());
 			p.setName(obj.get("name").getAsString());
 
 
-			JsonObject objCateg = obj.get(CATEGORIES).getAsJsonArray().get(0).getAsJsonObject();
-			Category c = new Category();
+			var objCateg = obj.get(CATEGORIES).getAsJsonArray().get(0).getAsJsonObject();
+			var c = new Category();
 					 c.setIdCategory(objCateg.get("id").getAsInt());
 					 c.setCategoryName(objCateg.get("name").getAsString());
 			p.setCategory(c);
 			p.setTypeProduct(parseType(c));
 
-			JsonObject img = obj.get(IMAGES).getAsJsonArray().get(0).getAsJsonObject();
+			var img = obj.get(IMAGES).getAsJsonArray().get(0).getAsJsonObject();
 			p.setUrl(img.get("src").getAsString());
 			return p;
 

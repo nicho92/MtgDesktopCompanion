@@ -1273,7 +1273,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("insert into cards values (?,?,?,?,?,?)")) {
 			pst.setString(1, CryptoUtils.generateCardId(mc));
 			storeCard(pst, 2, mc);
-			pst.setString(3, mc.getCurrentSet().getId());
+			pst.setString(3, mc.getEdition().getId());
 			pst.setString(4, getEnabledPlugin(MTGCardsProvider.class).toString());
 			pst.setString(5, collection.getName());
 			pst.setTimestamp(6, new Timestamp(new java.util.Date().getTime()));
@@ -1288,7 +1288,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		logger.debug("delete {} in {}",mc,collection);
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("DELETE FROM cards where id=? and edition=? and collection=?")) {
 			pst.setString(1, CryptoUtils.generateCardId(mc));
-			pst.setString(2, mc.getCurrentSet().getId());
+			pst.setString(2, mc.getEdition().getId());
 			pst.setString(3, collection.getName());
 			executeUpdate(pst);
 		}
@@ -1525,11 +1525,11 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT collection FROM cards WHERE id=? and edition=?")) {
 			String id = CryptoUtils.generateCardId(mc);
 
-			logger.trace("SELECT collection FROM cards WHERE id={} and edition='{}'",id,mc.getCurrentSet().getId());
+			logger.trace("SELECT collection FROM cards WHERE id={} and edition='{}'",id,mc.getEdition().getId());
 
 
 			pst.setString(1, id);
-			pst.setString(2, mc.getCurrentSet().getId());
+			pst.setString(2, mc.getEdition().getId());
 			try (ResultSet rs = executeQuery(pst)) {
 
 				while (rs.next()) {

@@ -130,7 +130,7 @@ public class MoxFieldCSVExport extends AbstractFormattedFileCardExport {
 				 sb.append("\"").append(mcs.getQte()).append("\"").append(getSeparator());
 				 sb.append("\"1\"").append(getSeparator());
 				 sb.append("\"").append(mcs.getProduct().getName()).append("\"").append(getSeparator());
-				 sb.append("\"").append(mcs.getProduct().getCurrentSet().getId()).append("\"").append(getSeparator());
+				 sb.append("\"").append(mcs.getProduct().getEdition().getId()).append("\"").append(getSeparator());
 				 sb.append("\"").append(aliases.getConditionFor(this, mcs.getCondition())).append("\"").append(getSeparator());
 				 sb.append("\"").append(mcs.getLanguage()).append("\"").append(getSeparator());
 				 sb.append("\"").append(mcs.isFoil()?"foil":"").append("\"").append(getSeparator());

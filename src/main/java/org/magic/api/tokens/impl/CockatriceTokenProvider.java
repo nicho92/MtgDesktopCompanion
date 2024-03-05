@@ -220,7 +220,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 			}
 
 		}
-		tok.setId(DigestUtils.sha256Hex(tok.getCurrentSet().getId() + tok.getName()));
+		tok.setId(DigestUtils.sha256Hex(tok.getEdition().getId() + tok.getName()));
 
 		return tok;
 	}
@@ -272,8 +272,8 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 				}
 
 			URL u = null;
-			if (map.get(tok.getCurrentSet().getId()) != null) // error on
-				u = map.get(tok.getCurrentSet().getId());
+			if (map.get(tok.getEdition().getId()) != null) // error on
+				u = map.get(tok.getEdition().getId());
 			else
 				u = map.get(map.keySet().iterator().next());
 

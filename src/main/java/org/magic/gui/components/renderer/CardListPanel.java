@@ -74,8 +74,8 @@ public class CardListPanel extends JPanel {
 
 		lblName.setText(mc.getName());
 		lblType.setText(mc.getFullType());
-		lblEdition.setText(mc.getCurrentSet().toString());
-		lblEdition.setIcon(IconSetProvider.getInstance().get24(mc.getCurrentSet().getId()));
+		lblEdition.setText(mc.getEdition().toString());
+		lblEdition.setIcon(IconSetProvider.getInstance().get24(mc.getEdition().getId()));
 		if(mc.getRarity()!=null)
 			lblRarity.setText(mc.getRarity().toPrettyString());
 

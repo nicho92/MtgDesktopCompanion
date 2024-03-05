@@ -441,7 +441,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		obj.put("card", mc);
 		obj.put("collection", collection);
 		obj.put("dateUpdate", new Date().getTime());
-		obj.put("set", mc.getCurrentSet().getId().toUpperCase());
+		obj.put("set", mc.getEdition().getId().toUpperCase());
 		String json = serialize(obj);
 
 		db.getCollection(colCards, BasicDBObject.class).insertOne(BasicDBObject.parse(json));
