@@ -330,7 +330,7 @@ private MTGPool pool;
 
 		List<MTGCard> cards = new ArrayList<>();
 		
-		logger.debug("executing {}",temp);
+		logger.trace("executing {}",temp);
 		
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(temp.toString()))
 		{

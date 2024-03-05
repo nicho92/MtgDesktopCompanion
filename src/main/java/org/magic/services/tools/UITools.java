@@ -383,7 +383,7 @@ public class UITools {
 	}
 
 	public static JComboBox<MTGEdition> createComboboxEditions(List<MTGEdition> value,SIZE s) {
-		JComboBox<MTGEdition> combo = UITools.createCombobox(value);
+		var  combo = UITools.createCombobox(value);
 		combo.setRenderer(new MagicEditionIconListRenderer(s));
 		return combo;
 	}
@@ -433,7 +433,7 @@ public class UITools {
 						}
 						else if (value instanceof QueryAttribute qa)
 						{
-							l.setIcon(MTGConstants.getIconFor((qa.getType())));
+							l.setIcon(MTGConstants.getIconFor(qa.getType()));
 						}
 						else
 						{
