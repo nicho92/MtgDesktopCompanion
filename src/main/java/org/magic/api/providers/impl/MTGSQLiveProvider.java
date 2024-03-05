@@ -315,7 +315,7 @@ private MTGPool pool;
 			exact=true;
 		}
 
-		StringBuilder temp = new StringBuilder(sqlCardBaseQuery).append(" AND ").append(att.equals("uuid")?"cards.":"").append(att);
+		var temp = new StringBuilder(sqlCardBaseQuery).append(" AND ").append(att.equals("uuid")?"cards.":"").append(att);
 
 
 		if(exact)

@@ -194,17 +194,17 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	
 	@Override
 	public List<MTGCard> searchCardByName(String name, MTGEdition me, boolean exact) throws IOException {
-		var ret = searchCardByCriteria(NAME,name, me, exact);
-
-		if(ret.isEmpty())
-			ret = searchCardByCriteria(FACENAME,name, me, false);
-
-		return ret;
+		return searchCardByName(name, me, exact,null);
 	}
 
 	@Override
 	public List<MTGCard> searchCardByName(String name, MTGEdition me, boolean exact, EnumCardVariation extra) throws IOException{
-		return searchCardByCriteria(NAME,name, me, exact,extra);
+		
+		var ret = searchCardByCriteria(NAME,name, me, exact,extra);
+		if(ret.isEmpty())
+			ret = searchCardByCriteria(FACENAME,name, me, false,extra);
+		
+		return ret;
 	}
 
 
