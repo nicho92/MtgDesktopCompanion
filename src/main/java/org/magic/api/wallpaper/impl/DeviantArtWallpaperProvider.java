@@ -16,7 +16,6 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 
 
 	private static final String LIMIT = "LIMIT";
-	private static final String CLIENT_ID="CLIENT_ID";
 	private static final String BASE_URL = "https://www.deviantart.com";
 	private RequestBuilder build;
 	private String bToken;
@@ -25,30 +24,35 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 	public STATUT getStatut() {
 		return STATUT.DEV;
 	}
-
+	
+	@Override
+	public List<String> listAuthenticationAttributes() {
+		return List.of("CLIENT_ID","CLIENT_SECRET");
+	}
+	
 	@Override
 	public List<MTGWallpaper> search(String search) {
 
 		List<MTGWallpaper> list = new ArrayList<>();
 		try {
 
-			if(getString(CLIENT_ID).isEmpty())
+			if(getAuthenticator()==null)
 				{
 					logger.error("please fill CLIENT_ID && CLIENT_SECRET attributs in config panel");
 					return list;
 				}
-
-
 
 			build = RequestBuilder.build();
 		    bToken = build.setClient(URLTools.newClient())
 								   .get()
 								   .url(BASE_URL+"/oauth2/token")
 								   .addContent("grant_type", "client_credentials")
-								   .addContent("client_id", getString(CLIENT_ID))
-								   .addContent("client_secret", getString("CLIENT_SECRET"))
+								   .addContent("client_id", getAuthenticator().get("CLIENT_ID"))
+								   .addContent("client_secret", getAuthenticator().get("CLIENT_SECRET"))
 								   .toJson().getAsJsonObject().get("access_token").getAsString();
 
+		  
+		    
 		    var offset = 0;
 		    var ret= readOffset(offset,search);
 				    while(ret.get("has_more").getAsBoolean())
@@ -79,7 +83,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 	}
 
 	private JsonObject readOffset(int offset,String search) {
-		return  build.clean()
+		var obj=  build.clean()
 				  .get()
 				  .url(BASE_URL+"/api/v1/oauth2/browse/newest")
 				  .addContent("q", search)
@@ -88,6 +92,12 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 				  .addContent("mature_content", getString("MATURE"))
 				  .addContent("access_token", bToken)
 				  .toJson().getAsJsonObject();
+		
+		  logger.debug("ret = {} ",obj);
+		
+		return obj;
+		
+		
 	}
 
 	@Override
@@ -97,9 +107,7 @@ public class DeviantArtWallpaperProvider extends AbstractWallpaperProvider {
 
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		return Map.of(CLIENT_ID, "",
-								"CLIENT_SECRET", "",
-								"MATURE","false",
+		return Map.of("MATURE","false",
 								LIMIT,"50");
 	}
 

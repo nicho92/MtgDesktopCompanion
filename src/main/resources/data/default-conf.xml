@@ -811,10 +811,6 @@
       <enable>true</enable>
     </wallpaper>
     <wallpaper>
-      <class>org.magic.api.wallpaper.impl.WizardsOfTheCoastWallpaperProvider</class>
-      <enable>true</enable>
-    </wallpaper>
-    <wallpaper>
       <class>org.magic.api.wallpaper.impl.ImgUrWallPaperProvider</class>
       <enable>true</enable>
     </wallpaper>

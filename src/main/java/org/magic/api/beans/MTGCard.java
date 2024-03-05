@@ -490,11 +490,11 @@ public class MTGCard extends AbstractProduct {
 		try {
 			var n = Integer.parseInt(getNumber());
 
-			if(n==0 || getCurrentSet().getCardCountOfficial()==0) {
+			if(n==0 || getEdition().getCardCountOfficial()==0) {
 				return false;
 			}
 
-			return n>getCurrentSet().getCardCountOfficial();
+			return n>getEdition().getCardCountOfficial();
 			}
 		catch(Exception e)
 		{
@@ -920,12 +920,12 @@ public class MTGCard extends AbstractProduct {
 				obj.addProperty("type", getFullType());
 				obj.addProperty("text", getText());
 				
-				if(getCurrentSet()!=null) {
-					obj.addProperty("set", getCurrentSet().getSet());
-					obj.addProperty("setId", getCurrentSet().getId());
-					obj.addProperty("setSize", getCurrentSet().getCardCountOfficial());
+				if(getEdition()!=null) {
+					obj.addProperty("set", getEdition().getSet());
+					obj.addProperty("setId", getEdition().getId());
+					obj.addProperty("setSize", getEdition().getCardCountOfficial());
 					obj.addProperty("number", getNumber());
-					obj.addProperty("keyrune", getCurrentSet().getKeyRuneCode());
+					obj.addProperty("keyrune", getEdition().getKeyRuneCode());
 					obj.addProperty("multiverse", getMultiverseid());
 				}
 				obj.addProperty("scryfallId", getScryfallId());
