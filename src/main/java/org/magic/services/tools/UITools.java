@@ -383,7 +383,7 @@ public class UITools {
 	}
 
 	public static JComboBox<MTGEdition> createComboboxEditions(List<MTGEdition> value,SIZE s) {
-		JComboBox<MTGEdition> combo = createCombobox(value);
+		JComboBox<MTGEdition> combo = UITools.createCombobox(value);
 		combo.setRenderer(new MagicEditionIconListRenderer(s));
 		return combo;
 	}
@@ -393,7 +393,7 @@ public class UITools {
 		try {
 			List<MTGEdition> list = getEnabledPlugin(MTGCardsProvider.class).listEditions();
 			Collections.sort(list);
-			return  createComboboxEditions(list,SIZE.MEDIUM);
+			return createComboboxEditions(list,SIZE.MEDIUM);
 		} catch (IOException e) {
 			logger.error(e);
 			return new JComboBox<>();
@@ -454,7 +454,7 @@ public class UITools {
 					return l;
 			});
 
-			AutoCompleteDecorator.decorate(combo);
+		//	AutoCompleteDecorator.decorate(combo);
 			
 
 		return combo;
