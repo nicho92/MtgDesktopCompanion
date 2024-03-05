@@ -45,7 +45,6 @@ public class DeckBoxExport extends AbstractFormattedFileCardExport {
 			if(mc.getProduct().getName().contains(getSeparator()))
 				name="\""+mc.getProduct().getName()+"\"";
 
-
 			line.append(mc.getQte()).append(getSeparator());
 			line.append(mc.getQte()).append(getSeparator());
 			line.append(name).append(getSeparator());

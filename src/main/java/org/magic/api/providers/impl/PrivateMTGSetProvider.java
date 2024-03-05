@@ -82,9 +82,11 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		
 		int index = indexOf(mc, cards);
 
-		if (index > -1) {
+		if (index > -1) 
+		{
 			cards.set(index, serializer.toJsonElement(mc));
-		} else {
+		} 
+		else {
 			cards.add(serializer.toJsonElement(mc));
 			me.setCardCount(me.getCardCount() + 1);
 			root.addProperty("cardCount", me.getCardCount());
@@ -109,8 +111,6 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		}
 		
 		throw new IOException("Path is incorrect : "+f.getAbsolutePath());
-		
-		
 	}
 
 	public void saveEdition(MTGEdition ed, List<MTGCard> cards) {
