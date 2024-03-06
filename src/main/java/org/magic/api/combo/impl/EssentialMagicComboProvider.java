@@ -99,6 +99,11 @@ public class EssentialMagicComboProvider extends AbstractComboProvider {
 
 		return ret;
 	}
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEPRECATED;
+	}
 
 	@Override
 	public String getName() {

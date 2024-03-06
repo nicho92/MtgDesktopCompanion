@@ -21,25 +21,20 @@ public class SMFComboProvider extends AbstractComboProvider {
 
 		List<MTGCombo> cbos = new ArrayList<>();
 		MTGHttpClient c = URLTools.newClient();
-		String cardUri;
+		String cardId;
 		try {
-			Document d = RequestBuilder.build().url(BASE_URL+"/include/php/views/moteurCartes.php").get().setClient(c)
-						  .addContent("ihm", "M1")
-						  .addContent("order", "car_nomfr")
-						  .addContent("page", "1")
-						  .addContent("tri", "asc")
-						  .addContent("language", "FR")
-						  .addContent("nom", mc.getName())
+			var cardObj = RequestBuilder.build().url(BASE_URL+"/index.php?objet=carte&action=searchCardTypeAhead").post().setClient(c)
+						  .addContent("query", mc.getName())
+						  .addContent("limit","10")
 						  .addHeader(URLTools.ORIGIN, BASE_URL)
 						  .addHeader(URLTools.REFERER, BASE_URL)
 						  .addHeader(URLTools.X_REQUESTED_WITH,"XMLHttpRequest")
 						  .addHeader("sec-fetch-mode","core")
 						  .addHeader("sec-fetch-site","same-origin")
-						  .toHtml();
-
-			cardUri=d.select("tr.contentTrPair>td>a").attr("href");
-			cardUri = BASE_URL+cardUri.substring(cardUri.lastIndexOf('/'));
-
+						  .toJson();
+		
+			cardId = cardObj.getAsJsonArray().get(0).getAsJsonObject().get("car_id").getAsString();
+			
 		} catch (Exception e) {
 			logger.error(e);
 			return cbos;
@@ -48,16 +43,22 @@ public class SMFComboProvider extends AbstractComboProvider {
 
 			Document d;
 			try {
-				d = RequestBuilder.build().url(cardUri).get().setClient(c).toHtml();
-
-			String idAttribute= d.getElementById("dataAttribute").attr("value");
-
-			d = RequestBuilder.build().url(BASE_URL+"/index.php").get().setClient(c)
+			d = RequestBuilder.build().url(BASE_URL+"/mtg-combos-index.html").post().setClient(c)
 						.addContent("objet", "combos")
 						.addContent("action", "refreshPage")
-						.addContent("nb", "0")
+						.addContent("nb", "12")
 						.addContent("dataIsValidated", "1")
-						.addContent("dataAttribute", idAttribute)
+						.addContent("dataAttributes[]", cardId)
+						.addContent("needPagination", "1")
+						.addContent("dataDataId", "0")
+						.addContent("view", "newarticleView.php")
+						.addContent("dataIsValidated", "1")
+						.addContent("dataIsTerminated", "1")
+						.addContent("print", "1")
+						.addContent("page", "1")
+						.addContent("dataText", "")
+						.addContent("tri", "dataPublicationDate")
+						.addContent("login","")
 						.toHtml();
 			} catch (IOException e) {
 				return cbos;
