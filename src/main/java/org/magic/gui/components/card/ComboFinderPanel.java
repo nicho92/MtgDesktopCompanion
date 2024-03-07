@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
+import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -26,6 +27,7 @@ import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.network.URLTools;
 import org.magic.services.threads.ThreadManager;
 public class ComboFinderPanel extends MTGUIComponent {
 
@@ -62,7 +64,8 @@ public class ComboFinderPanel extends MTGUIComponent {
 		model = new DefaultListModel<>();
 		setLayout(new BorderLayout(0, 0));
 		JList<MTGCombo> list = new JList<>(model);
-		var textArea = new JTextArea();
+		var textArea = new JEditorPane();
+			 textArea.setContentType(URLTools.HEADER_HTML);
 		var panneauCenter = new JPanel();
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		var panneauHaut = new JPanel();
@@ -70,8 +73,7 @@ public class ComboFinderPanel extends MTGUIComponent {
 
 
 		panneauCenter.setLayout(new BorderLayout());
-		textArea.setWrapStyleWord(true);
-		textArea.setLineWrap(true);
+		
 
 
 		panneauCenter.add(new JScrollPane(textArea), BorderLayout.CENTER);

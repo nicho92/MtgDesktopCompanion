@@ -51,7 +51,7 @@ public class MagicVilleComboProvider extends AbstractComboProvider {
 					Document cboDetail;
 					try {
 						cboDetail = RequestBuilder.build().setClient(c).url(BASE_URL+tr.child(0).select("a").attr("href")).get().toHtml();
-						cbo.setComment(cboDetail.select("div[align=justify]").text());
+						cbo.setComment(cboDetail.select("div[align=justify]").html());
 					} catch (IOException e) {
 						logger.error(e);
 					}

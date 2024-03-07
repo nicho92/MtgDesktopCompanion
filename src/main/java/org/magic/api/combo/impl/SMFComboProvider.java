@@ -4,12 +4,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.logging.log4j.Level;
 import org.jsoup.nodes.Document;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCombo;
 import org.magic.api.interfaces.abstracts.AbstractComboProvider;
-import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
@@ -17,7 +15,17 @@ import org.magic.services.network.URLTools;
 public class SMFComboProvider extends AbstractComboProvider {
 
 	private static final String BASE_URL="https://www.smfcorp.net";
-
+		
+	
+	public static void main(String[] args) {
+		var card = new MTGCard();
+			card.setName("Wrath of God");
+			
+			
+			new SMFComboProvider().loadComboWith(card);
+	}
+	
+	
 	@Override
 	public List<MTGCombo> loadComboWith(MTGCard mc) {
 
@@ -48,7 +56,7 @@ public class SMFComboProvider extends AbstractComboProvider {
 
 			Document d;
 			try {
-			d = RequestBuilder.build().url(BASE_URL+"/mtg-combos-index.html").post().setClient(c)
+			d = RequestBuilder.build().url(BASE_URL+"/mtg-combos-index.html").get().setClient(c)
 						.addContent("objet", "combos")
 						.addContent("action", "refreshPage")
 						.addContent("nb", "12")
@@ -68,9 +76,8 @@ public class SMFComboProvider extends AbstractComboProvider {
 			} catch (IOException e) {
 				return cbos;
 			}
-
-			d.select("div.media-body").forEach(el->{
-
+						
+			d.select("div.col div.card").forEach(el->{
 				var cbo = new MTGCombo();
 						 cbo.setName(el.getElementsByTag("h4").text());
 						 cbo.setPlugin(this);
@@ -78,10 +85,9 @@ public class SMFComboProvider extends AbstractComboProvider {
 						 Document details;
 						try {
 							details = RequestBuilder.build().url(BASE_URL+"/"+el.getElementsByTag("a").attr("href")).get().setClient(c).toHtml();
-							var article = details.getElementsByTag("article");
-							article.select("div.panel").remove();
-							cbo.setComment(article.text());
-						} catch (IOException e) {
+							var article = details.getElementById("fullDeckDescription");
+							cbo.setComment(article.html());
+						} catch (Exception e) {
 							logger.error(e);
 						}
 
