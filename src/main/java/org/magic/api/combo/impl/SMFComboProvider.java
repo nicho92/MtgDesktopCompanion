@@ -17,19 +17,7 @@ import org.magic.services.network.URLTools;
 public class SMFComboProvider extends AbstractComboProvider {
 
 	private static final String BASE_URL="https://www.smfcorp.net";
-	
-	public static void main(String[] args) {
-		MTGLogger.changeLevel(Level.TRACE);
-		var c = new MTGCard();
-			c.setName("Dragon avaleur de mondes");
-			
-		
-			new SMFComboProvider().loadComboWith(c);
-		
-		
-	}
-	
-	
+
 	@Override
 	public List<MTGCombo> loadComboWith(MTGCard mc) {
 
