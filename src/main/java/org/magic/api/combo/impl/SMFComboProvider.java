@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.Level;
 import org.jsoup.nodes.Document;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCombo;
 import org.magic.api.interfaces.abstracts.AbstractComboProvider;
+import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
@@ -15,15 +17,27 @@ import org.magic.services.network.URLTools;
 public class SMFComboProvider extends AbstractComboProvider {
 
 	private static final String BASE_URL="https://www.smfcorp.net";
-
+	
+	public static void main(String[] args) {
+		MTGLogger.changeLevel(Level.TRACE);
+		var c = new MTGCard();
+			c.setName("Dragon avaleur de mondes");
+			
+		
+			new SMFComboProvider().loadComboWith(c);
+		
+		
+	}
+	
+	
 	@Override
 	public List<MTGCombo> loadComboWith(MTGCard mc) {
 
 		List<MTGCombo> cbos = new ArrayList<>();
 		MTGHttpClient c = URLTools.newClient();
-		String cardId;
+		String cardId="";
 		try {
-			var cardObj = RequestBuilder.build().url(BASE_URL+"/index.php?objet=carte&action=searchCardTypeAhead").post().setClient(c)
+			var cardString = RequestBuilder.build().url(BASE_URL+"/index.php?objet=carte&action=searchCardTypeAhead").post().setClient(c)
 						  .addContent("query", mc.getName())
 						  .addContent("limit","10")
 						  .addHeader(URLTools.ORIGIN, BASE_URL)
@@ -31,12 +45,15 @@ public class SMFComboProvider extends AbstractComboProvider {
 						  .addHeader(URLTools.X_REQUESTED_WITH,"XMLHttpRequest")
 						  .addHeader("sec-fetch-mode","core")
 						  .addHeader("sec-fetch-site","same-origin")
-						  .toJson();
-		
+						  .toContentString();
+			
+			cardString=cardString.substring(cardString.indexOf("["));
+			var cardObj = URLTools.toJson(cardString);
 			cardId = cardObj.getAsJsonArray().get(0).getAsJsonObject().get("car_id").getAsString();
 			
 		} catch (Exception e) {
 			logger.error(e);
+			e.printStackTrace();
 			return cbos;
 		}
 
