@@ -430,7 +430,8 @@
 			"USD": "UD",
 			"USG": "UZ",
 			"VIS": "VI",
-			"WTH": "WL"
+			"WTH": "WL",
+			"PLST":"PLIST"
 		},
 		"nameSet": {
 			"Neon Dynasty Commander": "Kamigawa Neon Dynasty Commander",
