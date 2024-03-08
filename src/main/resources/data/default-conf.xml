@@ -49,7 +49,7 @@
       <card-height>237</card-height>
     </cards>
     <player-profil>
-      <name>Default Player</name>
+      <name>$username</name>
       <foreground></foreground>
       <background></background>
       <avatar></avatar>
