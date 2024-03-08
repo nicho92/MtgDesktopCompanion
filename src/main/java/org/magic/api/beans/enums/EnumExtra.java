@@ -5,8 +5,9 @@ import org.apache.commons.lang3.StringUtils;
 public enum EnumExtra {
 	BRAWL("default"), 
 	COLLECTOR ("collector"), 
-	DRAFT("default"),
+	DRAFT("draft"),
 	GIFT ("default"),
+	FATPACK ("fat-pack"),
 	INTRO("intro"),
 	JUMP ("jumpstart"),
 	PLANESWALKER("default"),	
@@ -15,7 +16,7 @@ public enum EnumExtra {
 	STARTER("starter"),
 	THEME("default"),
 	VIP ("vip"),
-	WELCOME("default");
+	WELCOME("default")
 	
 	private String mtgjsonname;
 
