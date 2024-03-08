@@ -36,7 +36,7 @@ public class MTGConstants {
 	public static final String MTG_APP_NAME = "MTG Companion";
 	public static final String COPYRIGHT_STRING="Wizards of the Coast, Magic: The Gathering, and their logos are trademarks of Wizards of the Coast LLC. \u00A9 1995-"+ Calendar.getInstance().get(Calendar.YEAR)+ " Wizards. All rights reserved. This app is not affiliated with Wizards of the Coast LLC.";
 	public static final String COMMANDS_PACKAGE = "org.magic.api.commands.impl.";
-	public static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36";
+	public static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36";
 	public static final String KEYSTORE_NAME = "jssecacerts";
 	public static final String KEYSTORE_PASS = "changeit";
 	public static final Version FREEMARKER_VERSION=Configuration.VERSION_2_3_31;
