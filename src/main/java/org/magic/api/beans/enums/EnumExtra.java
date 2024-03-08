@@ -8,7 +8,7 @@ public enum EnumExtra {
 	DRAFT("draft"),
 	GIFT ("default"),
 	FATPACK ("fat-pack"),
-	INTRO("intro"),
+	INTRO ("intro"),
 	JUMP ("jumpstart"),
 	PLANESWALKER("default"),	
 	PLAY("play"),
@@ -16,7 +16,7 @@ public enum EnumExtra {
 	STARTER("starter"),
 	THEME("default"),
 	VIP ("vip"),
-	WELCOME("default")
+	WELCOME("default");
 	
 	private String mtgjsonname;
 
