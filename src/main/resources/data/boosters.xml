@@ -2733,8 +2733,21 @@
 		<bundle lang="en" num="1"  extra="gift" url="https://versusgamecenter.pt/cdn/shop/files/MTG-Modern-Horizons-3-bundle-gift-edition_550x.png"/>
 		<bundle lang="en" num="2"  url="https://versusgamecenter.pt/cdn/shop/files/MTG-Modern-Horizons-3-bundle_550x.png"/>
 		<prereleasepack lang="en" num="1" url="https://media.wizards.com/2024/images/daily/en_zGsLzq6sEE5k.png"/>
+	</edition>
+	
+	<edition id="ACR">
+		<set lang="en" num="1" url=""/>
+		<booster lang="en" num="1" extra="beyond" url=""/>
+		<booster lang="en" num="2" extra="collector" url=""/>
+		<box lang="en" num="1" extra="beyond" url=""/>
+		<box lang="en" num="2" extra="collector" url=""/>
+		<bundle lang="en" num="1"  extra="gift" url=""/>
+		<bundle lang="en" num="2"  url=""/>
+		<prereleasepack lang="en" num="1" url=""/>
 		
 	</edition>
+	
+	
 	
 	
 

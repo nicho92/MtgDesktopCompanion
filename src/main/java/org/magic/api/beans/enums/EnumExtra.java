@@ -3,10 +3,11 @@ package org.magic.api.beans.enums;
 import org.apache.commons.lang3.StringUtils;
 
 public enum EnumExtra {
-	BRAWL("default"), 
+	BEYOND("beyond"),
+	BRAWL("brawl"),
 	COLLECTOR ("collector"), 
 	DRAFT("draft"),
-	GIFT ("default"),
+	GIFT ("gift-bundle-promo"),
 	FATPACK ("fat-pack"),
 	INTRO ("intro"),
 	JUMP ("jumpstart"),
