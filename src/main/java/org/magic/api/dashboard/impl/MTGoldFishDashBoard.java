@@ -451,7 +451,13 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 							cs.setCardVariation(EnumCardVariation.RETRO);
 						else if (nameExtra.toLowerCase().contains("japanese"))
 							cs.setCardVariation(EnumCardVariation.JAPANESEALT);
+						else if (nameExtra.toLowerCase().contains("serialized"))
+							cs.setCardVariation(EnumCardVariation.SERIALIZED);
 			
+						
+						
+						
+						
 						cs.setEd(edition.getId());
 						cs.setProviderName(getName());
 						cs.setPrice(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text()));

@@ -247,15 +247,21 @@ public class MTGCard extends AbstractProduct {
 		if(isBorderLess()) {
 			ret.add(EnumCardVariation.BORDERLESS);
 		}
-		if(isTimeshifted()) {
-			ret.add(EnumCardVariation.TIMESHIFTED);
-		}
 		if(isRetro()) {
 			ret.add(EnumCardVariation.RETRO);
 		}
-
-
+		if(isTimeshifted()) {
+			ret.add(EnumCardVariation.TIMESHIFTED);
+		}
+		if(isSerialized()) {
+			ret.add(EnumCardVariation.SERIALIZED);
+		}
 		return ret;
+	}
+	
+	public boolean isSerialized()
+	{
+		return getPromotypes().contains(EnumPromoType.SERIALIZED);
 	}
 	
 	

@@ -587,15 +587,16 @@ public class UITools {
 							logger.error("no edition defined");
 						}
 
-
+						MTGCard mc =null;
+						EnumCardVariation extraVariations=null;
 
 						try {
-							MTGCard mc =null;
+							
 							if (extraPos != null)
 							{
 								var key = getModelValueAt(table,row, extraPos);
 								if(key!=null) {
-									var extraVariations = EnumCardVariation.valueOf(key.toString());
+									extraVariations = EnumCardVariation.valueOf(key.toString());
 									mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cardName, ed, true,extraVariations).get(0);
 								}
 								else
@@ -618,7 +619,7 @@ public class UITools {
 								popUp.setVisible(true);
 
 							} catch (IndexOutOfBoundsException ex) {
-								logger.error("{} is not found",cardName);
+								logger.error("{} is not found with extra={}",cardName,extraVariations);
 							} catch (IOException e1) {
 								logger.error("error loading {}",cardName,e1);
 							}

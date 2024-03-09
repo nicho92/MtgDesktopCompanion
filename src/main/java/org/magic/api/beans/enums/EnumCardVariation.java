@@ -10,6 +10,7 @@ public enum EnumCardVariation implements MTGEnumeration{
 	JAPANESEALT,
 	SHOWCASE,
 	TIMESHIFTED,
-	RETRO;
+	RETRO, 
+	SERIALIZED;
 
 }
