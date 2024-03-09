@@ -445,8 +445,10 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 							cs.setCardVariation(EnumCardVariation.SHOWCASE);
 						else if(nameExtra.toLowerCase().contains("borderless"))
 							cs.setCardVariation(EnumCardVariation.BORDERLESS);
-						else if (nameExtra.toLowerCase().contains("timeshifted")||nameExtra.toLowerCase().contains("retro"))
+						else if (nameExtra.toLowerCase().contains("timeshifted"))
 							cs.setCardVariation(EnumCardVariation.TIMESHIFTED);
+						else if (nameExtra.toLowerCase().contains("retro"))
+							cs.setCardVariation(EnumCardVariation.RETRO);
 						else if (nameExtra.toLowerCase().contains("japanese"))
 							cs.setCardVariation(EnumCardVariation.JAPANESEALT);
 			
