@@ -1,0 +1,54 @@
+package org.magic.api.pricers.impl;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Currency;
+import java.util.List;
+
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGPrice;
+import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
+import org.magic.services.network.RequestBuilder;
+import org.magic.services.network.URLTools;
+
+public class CardSpherePricer extends AbstractPricesProvider {
+
+	@Override
+	public String getName() {
+		return "CardSphere";
+	}
+
+	@Override
+	protected List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
+		var ret = new ArrayList<MTGPrice>();
+		
+		var arr = RequestBuilder.build()
+						.setClient(URLTools.newClient())
+						.url("https://www.multiversebridge.com/api/v1/cards/scryfall/"+card.getScryfallId())
+						.get()
+						.toJson().getAsJsonArray();
+		
+		
+			arr.forEach(je->{
+				
+				var obj = je.getAsJsonObject();
+				
+				var p = new MTGPrice();
+					 p.setMagicCard(card);
+					 p.setCurrency(Currency.getInstance("USD"));
+					 p.setValue(obj.get("prices").getAsJsonObject().get("price").getAsDouble());
+					 p.setFoil(obj.get("is_foil").getAsBoolean());
+					 p.setUrl("https://www.cardsphere.com"+obj.get("url").getAsString());
+					 p.setSite(getName());
+					 p.setQty(1);
+					 p.setLanguage("");
+					 p.setSeller("");
+					 
+					 ret.add(p);
+			});
+		
+		
+		return ret;
+	}
+
+}
