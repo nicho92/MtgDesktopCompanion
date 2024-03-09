@@ -45,8 +45,6 @@ import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.MTG;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.SoftBevelBorder;
 import javax.swing.UIManager;
 
 
@@ -129,7 +127,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		chkBorderless.setSelected(mc.isBorderLess());
 		chkExtended.setSelected(mc.isExtendedArt());
 		chkShowcase.setSelected(mc.isShowCase());
-		chkRetro.setSelected(mc.isTimeshifted());
+		chkRetro.setSelected(mc.isRetro());
 		
 		if(mc.isCreature())
 			txtPower.setText(mc.getPower()+"/"+mc.getToughness());

@@ -62,7 +62,6 @@ public class MTGCard extends AbstractProduct {
 	private List<MTGCardNames> foreignNames;
 	private List<EnumFrameEffects> frameEffects;
 	private String frameVersion;
-	private boolean fullArt;
 	private String gathererCode;
 	private boolean hasAlternativeDeckLimit;
 	private boolean hasContentWarning;
@@ -70,7 +69,6 @@ public class MTGCard extends AbstractProduct {
 	private boolean isFunny;
 	private boolean isRebalanced;
 	private boolean isStorySpotlight;
-	private boolean japanese;
 	private List<MTGKeyWord> keywords;
 	private EnumLayout layout=EnumLayout.NORMAL;
 	private List<MTGFormat> legalities;
@@ -99,12 +97,15 @@ public class MTGCard extends AbstractProduct {
 	private List<String> supertypes;
 	private Integer tcgPlayerId;
 	private String text="";
-	private boolean timeshifted;
 	private String toughness="";
 	private List<String> types;
 	private String number="";
 	@SerializedName(alternate = "multiverse_id", value = "multiverseId") private String multiverseid;
 	private String watermarks;
+	private boolean fullArt;
+	private boolean japanese;
+	private boolean timeshifted;
+	private boolean retro;
 	
 	
 	
@@ -249,9 +250,22 @@ public class MTGCard extends AbstractProduct {
 		if(isTimeshifted()) {
 			ret.add(EnumCardVariation.TIMESHIFTED);
 		}
+		if(isRetro()) {
+			ret.add(EnumCardVariation.RETRO);
+		}
 
 
 		return ret;
+	}
+	
+	
+	public boolean isRetro()
+	{
+		return retro;
+	}
+	
+	public void setRetro(boolean retro) {
+		this.retro = retro;
 	}
 
 	public List<EnumFinishes> getFinishes() {
@@ -932,9 +946,11 @@ public class MTGCard extends AbstractProduct {
 				obj.addProperty("showcase", isShowCase());
 				obj.addProperty("extendedArt", isExtendedArt());
 				obj.addProperty("borderless", isBorderLess());
+				obj.addProperty("retro", isRetro());
 				obj.addProperty("doubleFaced", isDoubleFaced());
 				obj.addProperty("timeshifted", isTimeshifted());
-
+				
+				
 				if(getRotatedCard()!=null) {
 					obj.add("otherSide", getRotatedCard().toLightJson());
 				}

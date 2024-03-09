@@ -28,9 +28,10 @@ public class MagicCardTableModel extends GenericTableModel<MTGCard> {
 				"EXTENDED ART",
 				"BORDERLESS",
 				"TIMESHIFTED",
+				"RETRO",
 				"SIDE"};
 
-		setDefaultHiddenComlumns(1,8,9,10,11,12,13,14,15);
+		setDefaultHiddenComlumns(1,8,9,10,11,12,13,14,15,16);
 
 	}
 
@@ -47,6 +48,7 @@ public class MagicCardTableModel extends GenericTableModel<MTGCard> {
 			case 12: return Boolean.class;
 			case 13: return Boolean.class;
 			case 14: return Boolean.class;
+			case 15: return Boolean.class;
 			default:return String.class;
 		}
 	}
@@ -87,6 +89,8 @@ public class MagicCardTableModel extends GenericTableModel<MTGCard> {
 			case 14:
 				return mc.isTimeshifted();
 			case 15:
+				return mc.isRetro();
+			case 16:
 				return mc.getSide();
 			default:
 				return mc;

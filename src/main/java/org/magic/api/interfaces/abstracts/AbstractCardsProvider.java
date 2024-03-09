@@ -90,7 +90,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 			var releaseYear = Integer.parseInt(mc.getEdition().getReleaseDate().substring(0, 4));
 			var frameYear =  Integer.parseInt(mc.getFrameVersion());
 			if( (frameYear>=1993 && frameYear<=1997)  && releaseYear > 2019)
-					mc.setTimeshifted(true);
+					mc.setRetro(true);
 				
 			
 		}catch(Exception e)
