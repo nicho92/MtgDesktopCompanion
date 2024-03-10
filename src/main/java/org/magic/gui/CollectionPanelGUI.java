@@ -156,7 +156,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		
 		initActions();
 		
-		splitListPanel.setDividerLocation(.45);
+		splitListPanel.setDividerLocation(.70);
 		splitPane.setDividerLocation(.5);
 		buzy.start();
 		buzy.setText("Loading");

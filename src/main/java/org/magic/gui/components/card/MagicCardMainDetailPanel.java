@@ -46,6 +46,7 @@ import org.magic.services.tools.MTG;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 import javax.swing.UIManager;
+import java.awt.Dimension;
 
 
 
@@ -103,8 +104,6 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		txtPower.setEditable(b);
 		txtFlavor.setEditable(b);
 		txtRarity.setEditable(b);
-		
-		
 		txtText.setEditable(b);
 	}
 	
@@ -122,7 +121,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		txtFlavor.setText(mc.getFlavor());
 		txtRarity.setText(mc.getRarity().toPrettyString());
 		txtText.setText(mc.getText());
-		lblAuthor.setText(mc.getArtist());
+		
 		chkReserved.setSelected(mc.isReserved());
 		chkBorderless.setSelected(mc.isBorderLess());
 		chkExtended.setSelected(mc.isExtendedArt());
@@ -156,7 +155,10 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		mc.getLegalities().forEach(((DefaultListModel<MTGFormat>) lstFormats.getModel())::addElement);
 		
 		if(thumbnail)
+		{
 			loadPics(mc, null);
+			lblAuthor.setText(mc.getArtist());
+		}
 		
 		
 		if (enableCollectionLookup && !mc.getEditions().isEmpty())
@@ -270,7 +272,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 121, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 156, 0, 40, 90, 0, 0};
-		gridBagLayout.columnWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
@@ -388,7 +390,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 			 panelDetails.add(chkExtended);
 			 
 		GridBagConstraints gbcchkReserved = new GridBagConstraints();
-		gbcchkReserved.anchor = GridBagConstraints.WEST;
+		gbcchkReserved.fill = GridBagConstraints.HORIZONTAL;
 		gbcchkReserved.insets = new Insets(0, 0, 0, 5);
 		gbcchkReserved.gridx = 0;
 		gbcchkReserved.gridy = 6;
@@ -451,7 +453,6 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		lblAuthor = new JLabel();
 		lblAuthor.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbclblAuthor = new GridBagConstraints();
-		gbclblAuthor.fill = GridBagConstraints.HORIZONTAL;
 		gbclblAuthor.gridx = 2;
 		gbclblAuthor.gridy = 6;
 		add(lblAuthor, gbclblAuthor);
