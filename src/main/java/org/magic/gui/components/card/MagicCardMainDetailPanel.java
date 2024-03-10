@@ -390,7 +390,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 			 panelDetails.add(chkExtended);
 			 
 		GridBagConstraints gbcchkReserved = new GridBagConstraints();
-		gbcchkReserved.fill = GridBagConstraints.HORIZONTAL;
+		gbcchkReserved.anchor = GridBagConstraints.WEST;
 		gbcchkReserved.insets = new Insets(0, 0, 0, 5);
 		gbcchkReserved.gridx = 0;
 		gbcchkReserved.gridy = 6;

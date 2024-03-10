@@ -28,7 +28,6 @@ public class TelegramNotifier extends AbstractMTGNotifier {
 	@Override
 	public void send(MTGNotification notification) throws IOException {
 
-
 		var urlString = "https://api.telegram.org/bot%s/sendMessage?parse_mode="+getFormat().name().toLowerCase()+"&chat_id=%s&text=%s";
 
 		var apiToken = getAuthenticator().get("TOKEN");

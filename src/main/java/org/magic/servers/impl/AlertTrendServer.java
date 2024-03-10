@@ -106,7 +106,7 @@ public class AlertTrendServer extends AbstractMTGServer {
 						if(!not.isEmpty())
 						{
 							logger.debug("notify with {} ",not);
-							MTGNotifier notifier = getPlugin(not, MTGNotifier.class);
+							var notifier = getPlugin(not, MTGNotifier.class);
 							notif.setMessage(notifFormater.generate(notifier.getFormat(), ret, CardShake.class));
 							try {
 								notifier.send(notif);
@@ -116,9 +116,10 @@ public class AlertTrendServer extends AbstractMTGServer {
 						}
 
 					}
-
-
-
+				}
+				else
+				{
+					logger.warn("nothing to notify");
 				}
 
 

@@ -27,5 +27,11 @@ public class ConsoleNotifier extends AbstractMTGNotifier {
 	public String getName() {
 		return "Console";
 	}
+	
+	@Override
+	public String getVersion() {
+		
+		return org.apache.logging.log4j.core.Layout.class.getPackage().getImplementationVersion();
+	}
 
 }
