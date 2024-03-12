@@ -1,11 +1,14 @@
 package org.beta;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
@@ -27,79 +30,63 @@ import javax.swing.SwingWorker;
 import javax.swing.WindowConstants;
 
 import org.magic.api.beans.MTGCard;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGProduct;
+import org.magic.services.MTGControler;
+import org.magic.services.network.URLTools;
+import org.magic.services.tools.MTG;
 
-public class LazyImageLoadingCellRendererTest
+public class LazyImageLoadingCellRendererTest extends JPanel
 {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JList<MTGProduct> list = new JList<>();
 
-    private JPanel mainPanel = new JPanel();
-    private JList<MTGProduct> list = new JList<>();
-    private JScrollPane scroll = new JScrollPane();
-
-    public LazyImageLoadingCellRendererTest()
+    public LazyImageLoadingCellRendererTest() throws Exception
     {
-        mainPanel.setBackground(new Color(129, 133, 142));
-
-        scroll.setViewportView(list);
-        scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        scroll.setPreferredSize(new Dimension(80, 200));
-
-        list.setCellRenderer(new LazyImageLoadingCellRenderer<>(list,LazyImageLoadingCellRendererTest::loadAndProcessImage));
+        setLayout(new BorderLayout());
+        var search = MTG.getEnabledPlugin(MTGCardsProvider.class).searchCardByName("Zendikar", null, false);
+        
+        list.setCellRenderer(new LazyImageLoadingCellRenderer<>(list,this::loadAndProcessImage));
         DefaultListModel<MTGProduct> model = new DefaultListModel<>();
 
-        for (int i=0; i<1000; i++)
-        {
-            model.addElement(new MTGCard());
-        }
+        for (var p : search)
+            model.addElement(p);
+
         list.setModel(model);
-
-        mainPanel.add(scroll);
+        add(new JScrollPane(list),BorderLayout.CENTER);
     }
-
-    public static void main(String[] args)
+    
+    private BufferedImage loadAndProcessImage(MTGProduct product)
     {
-
-        EventQueue.invokeLater(()->
-            {
-                JFrame frame = new JFrame("WorkerTest");
-                frame.setContentPane(
-                    new LazyImageLoadingCellRendererTest().mainPanel);
-                frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-                frame.setLocation(300, 300);
-                frame.setMinimumSize(new Dimension(160, 255));
-                frame.setVisible(true);
-        });
-    }
-
-    private static final Random random = new Random(0);
-
-    private static BufferedImage loadAndProcessImage(MTGProduct product)
-    {
-        String id = product.getStoreId();
-        int w = 100;
-        int h = 20;
-        BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g = image.createGraphics();
-        g.setColor(Color.GREEN);
-        g.fillRect(0, 0, w, h);
-        g.setColor(Color.BLACK);
-        g.drawString(id, 10, 16);
-        g.dispose();
-
-        long delay = 500L + random.nextInt(3000);
-        try
-        {
-            Thread.sleep(delay);
-        }
-        catch (InterruptedException e)
-        {
-        	Thread.currentThread().interrupt();
-            e.printStackTrace();
-        }
+        BufferedImage image = null;
+		try {
+			image = URLTools.extractAsImage(product.getUrl());
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
         return image;
     }
 
-   
+    public static void main(String[] args) throws SQLException
+    {
+        MTGControler.getInstance().init();
+        
+        EventQueue.invokeLater(()->
+            {
+                JFrame frame = new JFrame("WorkerTest");
+                try {
+					frame.setContentPane(new LazyImageLoadingCellRendererTest());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+                frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                frame.setVisible(true);
+        });
+    }
 }
 
 class LazyImageLoadingCellRenderer<T> extends JLabel  implements ListCellRenderer<T>

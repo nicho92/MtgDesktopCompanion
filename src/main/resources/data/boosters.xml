@@ -2736,15 +2736,12 @@
 	</edition>
 	
 	<edition id="ACR">
-		<set lang="en" num="1" url=""/>
-		<booster lang="en" num="1" extra="beyond" url=""/>
-		<booster lang="en" num="2" extra="collector" url=""/>
-		<box lang="en" num="1" extra="beyond" url=""/>
-		<box lang="en" num="2" extra="collector" url=""/>
-		<bundle lang="en" num="1"  extra="gift" url=""/>
-		<bundle lang="en" num="2"  url=""/>
-		<prereleasepack lang="en" num="1" url=""/>
-		
+		<set lang="en" num="1" url="https://images.ctfassets.net/s5n2t79q9icq/3PRG2JPOh6IU0ETJdGc4c2/0adf0295ec2d0ebeb8e1d805d48e1775/F2r3o73m22sS_EN.png?w=660"/>
+		<booster lang="en" num="1" extra="beyond" url="https://versusgamecenter.pt/cdn/shop/files/MTG-Assassins-Creed-beyond-booster_550x.png"/>
+		<booster lang="en" num="2" extra="collector" url="https://cdn.chaoscards.co.uk/uploads/prod_img/2_246612_e.png"/>
+		<box lang="en" num="1" extra="beyond" url="https://media.wizards.com/2024/images/daily/en_UWM8AGBmCPMW.png"/>
+		<box lang="en" num="2" extra="collector" url="https://media.wizards.com/2024/images/daily/en_NUyRD7FYyXPU.png"/>
+		<bundle lang="en" num="1"  url="https://versusgamecenter.pt/cdn/shop/files/MTG-Assassins-Creed-bundle_550x.png"/>
 	</edition>
 	
 	
