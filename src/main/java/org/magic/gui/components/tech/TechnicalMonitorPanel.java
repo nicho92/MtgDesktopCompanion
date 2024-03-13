@@ -225,7 +225,7 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 				}
 				catch(Exception ex)
 				{
-					logger.error("error loading . Maybe Qwartz server is stopped",ex);
+					logger.error("error loading . Maybe Json server is stopped",ex);
 				}
 			}
 			
