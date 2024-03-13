@@ -11,6 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingWorker;
 import javax.swing.border.LineBorder;
 
 import org.apache.logging.log4j.Logger;
@@ -18,20 +19,21 @@ import org.magic.api.interfaces.MTGProduct;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
+import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
 
 
 public class ProductRendererComponent extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JLabel lblProductName;
-	private JLabel lblProductSet;
-	private JLabel lblProductType;
-	private JLabel lblImage;
+	protected JLabel lblProductName;
+	protected JLabel lblProductSet;
+	protected JLabel lblProductType;
+	protected JLabel lblImage;
 	protected transient Logger logger = MTGLogger.getLogger(getClass());
 
 	
-	private Map<Long, BufferedImage> imageCache;
+	private transient Map<MTGProduct, BufferedImage> loadedImages;
 	
 	
 	
@@ -50,7 +52,7 @@ public class ProductRendererComponent extends JPanel {
 
 	private void initGUI() {
 		
-		imageCache =  new ConcurrentHashMap<>();
+		loadedImages =  new ConcurrentHashMap<>();
 		
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -89,16 +91,43 @@ public class ProductRendererComponent extends JPanel {
 
 		if(p.getCategory()!=null)
 			lblProductType.setText(p.getCategory().getCategoryName()+" ("+p.getProductId() +")");
+		
+		 var image = loadedImages.get(p);
+        if (image == null)
+        {
+        	var sw = new SwingWorker<BufferedImage, Void>()
+        	{
+        	        @Override
+        	        protected BufferedImage doInBackground() throws Exception
+        	        {
+        	            try
+        	            {
+        	                var image = URLTools.extractAsImage(p.getUrl());
+        	                loadedImages.put(p, image);
+        	                 return image;
+        	            }
+        	            catch (Exception e)
+        	            {
+        	               
+        	                return null;
+        	            }
+        	        }
 
-		var img = imageCache.computeIfAbsent(p.getProductId(),i->{
-			try {
-				return URLTools.extractAsImage(p.getUrl());
-			} catch (Exception e) {
-				return new BufferedImage(110, 150, Image.SCALE_FAST);
-			}
-		});
-
-		lblImage.setIcon(new ImageIcon(img.getScaledInstance(110, 150, Image.SCALE_FAST)));	
+        	        @Override
+        	        protected void done()
+        	        {
+        	        	//list.repaint();
+        	        }
+        	        
+        	};
+        	
+        	ThreadManager.getInstance().runInEdt(sw, "loading");
+        	lblImage.setIcon(MTGConstants.ICON_LOADING);
+        }
+        else
+        {
+        	   	lblImage.setIcon(new ImageIcon(image.getScaledInstance(110, 150, Image.SCALE_FAST)));
+        }
 	
 		
 	}
