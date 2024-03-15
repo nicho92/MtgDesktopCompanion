@@ -65,12 +65,13 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 				.and("sku").contains(mc.getEdition().getId().toUpperCase())
 				.and("is_foil").is(String.valueOf(foil));
 
+		final String variations = "variation";
 		if(mc.isShowCase())
-			filtres=filtres.and("variation").is("Showcase");
+			filtres=filtres.and(variations).is("Showcase");
 		else if(mc.isBorderLess())
-			filtres=filtres.and("variation").is("Borderless");
+			filtres=filtres.and(variations).is("Borderless");
 		else if (mc.isExtendedArt())
-			filtres=filtres.and("variation").is("Extended Art");
+			filtres=filtres.and(variations).is("Extended Art");
 
 
 		if(aliases.getSetNameFor(new CardKingdomCardExport() , mc.getEdition()).contains("Mystery Booster"))

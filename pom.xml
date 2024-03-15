@@ -289,11 +289,6 @@
 			<artifactId>Notify</artifactId>
 			<version>4.5</version>
 		</dependency>
-		<!--<dependency>
-			<groupId>io.github.forohforerror</groupId>
-			<artifactId>ScryfallAPIBinding</artifactId>
-			<version>1.11.1</version>
-		</dependency>-->
 		<dependency>
 			<groupId>org.boofcv</groupId>
 			<artifactId>boofcv-core</artifactId>
@@ -323,7 +318,7 @@
 		<dependency>
 			<groupId>org.commonmark</groupId>
 			<artifactId>commonmark</artifactId>
-			<version>0.21.0</version>
+			<version>0.22.0</version>
 		</dependency>
 		<dependency>
 			<groupId>io.milton</groupId>

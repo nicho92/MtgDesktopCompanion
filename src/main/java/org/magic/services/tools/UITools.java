@@ -458,7 +458,7 @@ public class UITools {
 					return l;
 			});
 
-		//	AutoCompleteDecorator.decorate(combo);
+			//AutoCompleteDecorator.decorate(combo)
 			
 
 		return combo;

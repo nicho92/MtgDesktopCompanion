@@ -31,6 +31,10 @@ import com.google.gson.JsonObject;
 
 public class CsCartExternalShop extends AbstractExternalShop {
 
+	private static final String USERS = "users";
+	private static final String PRODUCTS = "products";
+	private static final String ORDER_ID = "order_id";
+	private static final String USER_TYPE = "user_type";
 	private static final String API_VENDORS = "api/vendors/";
 	private static final String COMPANY_ID = "COMPANY_ID";
 
@@ -115,9 +119,9 @@ public class CsCartExternalShop extends AbstractExternalShop {
 	@Override
 	public List<Contact> listContacts() throws IOException {
 		var list = new ArrayList<Contact>();
-		var ret = getBuilder(API_USERS,METHOD.GET).addContent("user_type", CONTACT_TYPE).toJson();
+		var ret = getBuilder(API_USERS,METHOD.GET).addContent(USER_TYPE, CONTACT_TYPE).toJson();
 		
-		ret.getAsJsonObject().get("users").getAsJsonArray().forEach(je->list.add(buildContact(je.getAsJsonObject())));
+		ret.getAsJsonObject().get(USERS).getAsJsonArray().forEach(je->list.add(buildContact(je.getAsJsonObject())));
 		return list;
 	}
 
@@ -135,7 +139,7 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		
 		var ret = build.toJson();
 		
-		ret.getAsJsonObject().get("products").getAsJsonArray().forEach(je->list.add(buildProduct(je.getAsJsonObject())));
+		ret.getAsJsonObject().get(PRODUCTS).getAsJsonArray().forEach(je->list.add(buildProduct(je.getAsJsonObject())));
 		
 		return list;
 	}
@@ -148,9 +152,9 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		var ret = getBuilder(API_VENDORS+getAuthenticator().get(COMPANY_ID)+"/orders",METHOD.GET).toJson();
 		ret.getAsJsonObject().get("orders").getAsJsonArray().forEach(je->{
 			try {
-				list.add(getTransactionById(je.getAsJsonObject().get("order_id").getAsLong()));
+				list.add(getTransactionById(je.getAsJsonObject().get(ORDER_ID).getAsLong()));
 			} catch (IOException e) {
-				logger.error("Error getting transaction {}",je.getAsJsonObject().get("order_id"));
+				logger.error("Error getting transaction {}",je.getAsJsonObject().get(ORDER_ID));
 			}
 		});
 		return list;
@@ -163,9 +167,9 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		var ret = getBuilder(API_ORDERS,METHOD.GET).addContent("user_id", String.valueOf(c.getId())).toJson();
 		ret.getAsJsonObject().get("orders").getAsJsonArray().forEach(je->{
 			try {
-				list.add(getTransactionById(je.getAsJsonObject().get("order_id").getAsLong()));
+				list.add(getTransactionById(je.getAsJsonObject().get(ORDER_ID).getAsLong()));
 			} catch (IOException e) {
-				logger.error("Error getting transaction {}",je.getAsJsonObject().get("order_id"));
+				logger.error("Error getting transaction {}",je.getAsJsonObject().get(ORDER_ID));
 			}
 		});
 		return list;
@@ -187,7 +191,7 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		
 		var list = new ArrayList<MTGStockItem>();
 		
-		build.toJson().getAsJsonObject().get("products").getAsJsonArray().forEach(je->list.add(buildStockItem(je.getAsJsonObject())));
+		build.toJson().getAsJsonObject().get(PRODUCTS).getAsJsonArray().forEach(je->list.add(buildStockItem(je.getAsJsonObject())));
 		return list;
 	}
 
@@ -257,11 +261,11 @@ public class CsCartExternalShop extends AbstractExternalShop {
 	private Transaction buildTransaction(JsonObject jo)
 	{
 		var t = new Transaction();
-		t.setSourceShopId(jo.get("order_id").getAsString());
+		t.setSourceShopId(jo.get(ORDER_ID).getAsString());
 		t.setSourceShopName(getName());
 		t.setDateCreation(new Date(jo.get("timestamp").getAsLong()*1000));
 		t.setContact(buildContact(getBuilder(API_USERS+"/"+jo.get("issuer_id").getAsInt(),METHOD.GET).toJson().getAsJsonObject()));
-		t.setId(jo.get("order_id").getAsInt());
+		t.setId(jo.get(ORDER_ID).getAsInt());
 		
 		if(jo.get("notes").isJsonNull())
 			t.setMessage(jo.get("notes").getAsString());
@@ -283,7 +287,7 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		
 			try {
 				
-			var ship =  getBuilder("api/shipments", METHOD.GET).addContent("order_id",jo.get("order_id").getAsString()).toJson().getAsJsonObject().get("shipments").getAsJsonArray().get(0).getAsJsonObject();
+			var ship =  getBuilder("api/shipments", METHOD.GET).addContent(ORDER_ID,jo.get(ORDER_ID).getAsString()).toJson().getAsJsonObject().get("shipments").getAsJsonArray().get(0).getAsJsonObject();
 				t.setDateSend(new Date(ship.get("shipment_timestamp").getAsLong()*1000));
 				t.setTransporterShippingCode(ship.get("tracking_number").getAsString());
 				t.setTransporter(ship.get("carrier_info").getAsJsonObject().get("name").getAsString());
@@ -310,7 +314,7 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		
 		
 		
-		jo.get("products").getAsJsonObject().entrySet().forEach(e->t.getItems().add(buildStockItem(e.getValue().getAsJsonObject())));
+		jo.get(PRODUCTS).getAsJsonObject().entrySet().forEach(e->t.getItems().add(buildStockItem(e.getValue().getAsJsonObject())));
 		
 		
 		
@@ -326,15 +330,15 @@ public class CsCartExternalShop extends AbstractExternalShop {
 	
 	@Override
 	public Contact getContactByEmail(String email) throws IOException {
-		var ret = getBuilder(API_USERS,METHOD.GET).addContent("user_type", CONTACT_TYPE).addContent("email",email).toJson();
-		return buildContact(ret.getAsJsonObject().get("users").getAsJsonArray().get(0).getAsJsonObject());
+		var ret = getBuilder(API_USERS,METHOD.GET).addContent(USER_TYPE, CONTACT_TYPE).addContent("email",email).toJson();
+		return buildContact(ret.getAsJsonObject().get(USERS).getAsJsonArray().get(0).getAsJsonObject());
 	}
 
 
 	@Override
 	public Contact getContactByLogin(String login, String passw) throws IOException {
-		var ret = getBuilder(API_USERS,METHOD.GET).addContent("user_type", CONTACT_TYPE).addContent("user_login",login).toJson();
-		return buildContact(ret.getAsJsonObject().get("users").getAsJsonArray().get(0).getAsJsonObject());
+		var ret = getBuilder(API_USERS,METHOD.GET).addContent(USER_TYPE, CONTACT_TYPE).addContent("user_login",login).toJson();
+		return buildContact(ret.getAsJsonObject().get(USERS).getAsJsonArray().get(0).getAsJsonObject());
 	}
 	
 	@Override

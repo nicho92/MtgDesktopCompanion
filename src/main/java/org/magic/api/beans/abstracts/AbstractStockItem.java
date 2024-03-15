@@ -23,7 +23,7 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 	protected MTGGrading grade;
 	protected MTGEdition edition;
 	protected T product;
-	protected Map<String,String> tiersAppIds;
+	protected transient Map<String,String> tiersAppIds;
 	protected boolean foil=false;
 	protected boolean etched=false;
 	protected boolean signed=false;
