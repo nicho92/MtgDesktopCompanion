@@ -2,6 +2,7 @@ package org.magic.api.pricers.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
 
 import org.apache.logging.log4j.Level;
@@ -55,35 +56,19 @@ public class CardSpherePricer extends AbstractPricesProvider {
 				
 				try {
 					var obj = je.getAsJsonObject();
-					var foil = obj.get("is_foil").getAsBoolean();
-					
-					RequestBuilder.build().url("https://www.cardsphere.com"+obj.get("url").getAsString()).setClient(client).get().execute();
-					
-					var doc = RequestBuilder.build().url("https://www.cardsphere.com/buynow"+obj.get("url").getAsString()+"/condition/0/language/ANY")
-									.setClient(client)
-									.addHeader(URLTools.ACCEPT,"*/*")
-									.addHeader(URLTools.ACCEPT_LANGUAGE,"fr-FR,fr;q=0.9,en;q=0.8")
-									.addHeader(URLTools.ACCEPT_ENCODING,"gzip, deflate, br, zstd")
-									
-									.addHeader("Pragma","no-cache")
-									.addHeader("Sec-Fetch-Dest", "document")
-									.addHeader("Sec-Fetch-Mode", "navigate")
-									.addHeader("Sec-Fetch-Site", "cross-site")
-									.addHeader("Sec-Ch-Ua-Platform", "\"Windows\"")
-									.addHeader("Sec-Ch-Ua-Mobile", "?0")
-									.addHeader("Sec-Fetch-User", "?1")
-									.addHeader("Upgrade-Insecure-Requests", "1")
-									.addHeader("X-Requested-With", "XMLHttpRequest")
-									.get()
-									.toHtml();
-		
-					
-					System.out.println(doc);
-					
+					var p = new MTGPrice();
+						 p.setUrl("https://www.cardsphere.com/buynow"+obj.get("url").getAsString());
+						 p.setFoil(obj.get("is_foil").getAsBoolean());
+						 p.setValue(obj.get("prices").getAsJsonObject().get("price").getAsDouble());
+						 p.setCurrency(Currency.getInstance("USD"));
+						 p.setMagicCard(card);
+						 p.setQty(1);
+						 p.setSite(getName());
+						ret.add(p);
 				}
 				catch(Exception e)
 				{
-					//do nothing; https://www.cardsphere.com/buynow/cards/69169/condition/0/language/ANY 
+					//do nothing 
 				}
 			});
 		
