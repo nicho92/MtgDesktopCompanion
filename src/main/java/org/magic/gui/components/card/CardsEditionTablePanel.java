@@ -65,7 +65,7 @@ public class CardsEditionTablePanel extends JPanel {
 		var panneauHaut = new JPanel();
 		model = new MagicCardTableModel();
 
-		table = UITools.createNewTable(model);
+		table = UITools.createNewTable(model,true);
 		buzy=AbstractBuzyIndicatorComponent.createProgressComponent();
 
 		table.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
@@ -79,8 +79,6 @@ public class CardsEditionTablePanel extends JPanel {
 		sorterCards = new TableRowSorter<>(model);
 		sorterCards.setComparator(7, new NumberSorter());
 		table.setRowSorter(sorterCards);
-
-		UITools.initTableFilter(table);
 
 		panneauHaut.add(buzy);
 		add(new JScrollPane(table), BorderLayout.CENTER);

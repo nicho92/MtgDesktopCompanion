@@ -36,7 +36,7 @@ public class StockItemPanel extends MTGUIComponent {
 	public StockItemPanel() {
 		setLayout(new BorderLayout(0, 0));
 		model = new StockItemTableModel();
-		table = UITools.createNewTable(model);
+		table = UITools.createNewTable(model,false);
 		panneauHaut = new JPanel();
 		
 		UITools.setDefaultRenderer(table, new StockTableRenderer());

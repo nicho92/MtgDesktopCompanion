@@ -48,9 +48,7 @@ public class GedBrowserPanel extends MTGUIComponent {
 		cboGed.addItemListener(il->reload());
 		btnDelete = new JButton(MTGConstants.ICON_DELETE);
 		btnDelete.setEnabled(false);
-		table = UITools.createNewTable(model);
-		UITools.initTableFilter(table);
-
+		table = UITools.createNewTable(model,true);
 
 		table.setDefaultRenderer(Long.class, (JTable t, Object value, boolean isSelected, boolean hasFocus,int row, int column)->{
 				var lab = new DefaultTableCellRenderer();

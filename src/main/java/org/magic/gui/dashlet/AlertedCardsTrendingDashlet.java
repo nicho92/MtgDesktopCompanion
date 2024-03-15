@@ -51,7 +51,7 @@ public class AlertedCardsTrendingDashlet extends AbstractJDashlet {
 		var scrollPane = new JScrollPane();
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 		model = new CardAlertTableModel();
-		JXTable table = UITools.createNewTable(model);
+		JXTable table = UITools.createNewTable(model,false);
 		scrollPane.setViewportView(table);
 
 		var historyPricesPanel = new HistoryPricesPanel(false);

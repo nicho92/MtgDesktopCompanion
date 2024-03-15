@@ -43,7 +43,7 @@ public class TokensTablePanel extends MTGUIComponent {
 		model.setDefaultHiddenComlumns(1,2,5,8,9,11,12,13,14,15);
 
 
-		table = UITools.createNewTable(model);
+		table = UITools.createNewTable(model,true);
 		buzy=AbstractBuzyIndicatorComponent.createProgressComponent();
 
 		table.getColumnModel().getColumn(6).setCellRenderer(new MagicEditionsJLabelRenderer());
@@ -52,7 +52,6 @@ public class TokensTablePanel extends MTGUIComponent {
 		for(int i : model.defaultHiddenColumns())
 			table.getColumnExt(model.getColumnName(i)).setVisible(false);
 
-		UITools.initTableFilter(table);
 
 		panneauHaut.add(buzy);
 		add(new JScrollPane(table), BorderLayout.CENTER);

@@ -35,7 +35,7 @@ public class MagicCardSubDetailPanel extends MTGUIComponent {
 		
 		
 		
-		var table = UITools.createNewTable(mod);
+		var table = UITools.createNewTable(mod,false);
 		add(new JScrollPane(table),BorderLayout.CENTER);
 	}
 	

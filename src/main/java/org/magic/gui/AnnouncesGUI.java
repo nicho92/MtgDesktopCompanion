@@ -60,7 +60,7 @@ public class AnnouncesGUI extends MTGUIComponent {
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 		var splitCentral = new JSplitPane();
 		var tabbedPane = new JTabbedPane(SwingConstants.TOP);
-		tableAnnounces = UITools.createNewTable(modelAnnounces);
+		tableAnnounces = UITools.createNewTable(modelAnnounces,true);
 		var panneauHaut = new JPanel();
 		var btnNew = UITools.createBindableJButton("New",MTGConstants.ICON_NEW, KeyEvent.VK_N,"newAnnounce");
 		var btnSave = UITools.createBindableJButton("Save",MTGConstants.ICON_SAVE, KeyEvent.VK_S,"saveAnnounce");
@@ -111,7 +111,6 @@ public class AnnouncesGUI extends MTGUIComponent {
 					btnSave.setEnabled(a!=null);
 			}
 		});
-		UITools.initTableFilter(tableAnnounces);
 
 
 

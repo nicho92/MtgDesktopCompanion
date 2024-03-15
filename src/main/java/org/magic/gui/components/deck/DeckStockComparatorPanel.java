@@ -81,7 +81,7 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 		pan.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		pricesPan = new DeckPricePanel();
 
-		JXTable table = UITools.createNewTable(model);
+		JXTable table = UITools.createNewTable(model,false);
 		UITools.initCardToolTipTable(table, 0,null,null,null);
 
 		add(panneauHaut, BorderLayout.NORTH);

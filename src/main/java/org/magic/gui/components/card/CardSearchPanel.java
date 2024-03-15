@@ -249,7 +249,7 @@ public class CardSearchPanel extends MTGUIComponent {
 		btnFilter = UITools.createBindableJButton(null, MTGConstants.ICON_FILTER, KeyEvent.VK_F, "searchfilter");
 		btnClear = UITools.createBindableJButton(null, MTGConstants.ICON_CLEAR, KeyEvent.VK_C, "clear");
 		similarityPanel = new SimilarityCardPanel();
-		tableCards = UITools.createNewTable(cardsModeltable);
+		tableCards = UITools.createNewTable(cardsModeltable,true);
 		lblLoading = AbstractBuzyIndicatorComponent.createProgressComponent();
 		var lblFilter = new JLabel();
 		listEdition = new JList<>();
@@ -259,8 +259,6 @@ public class CardSearchPanel extends MTGUIComponent {
 		txtRulesArea = new RulesPanel();
 
 		txtFilter = new JTextField();
-
-		UITools.initTableFilter(tableCards);
 
 		deckPanel = new CardsDeckCheckerPanel();
 

@@ -129,7 +129,7 @@ public class DeckPricePanel extends MTGUIComponent {
 
 
 		model = new CardsPriceTableModel();
-		tablePrice = UITools.createNewTable(model);
+		tablePrice = UITools.createNewTable(model,false);
 		tablePrice.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent ev) {

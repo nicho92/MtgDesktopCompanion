@@ -92,7 +92,7 @@ public class ServerStatePanel extends JPanel {
 		if(b)
 		{
 			model = new LogTableModel();
-			JXTable table = UITools.createNewTable(model);
+			JXTable table = UITools.createNewTable(model,false);
 
 			for(int i: new int[] {0,1,2,3})
 				table.getColumnExt(model.getColumnName(i)).setVisible(false);

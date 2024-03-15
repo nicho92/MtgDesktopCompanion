@@ -41,7 +41,7 @@ public class DrawProbabilityPanel extends MTGUIComponent {
 	private void initGUI() {
 		setLayout(new BorderLayout(0, 0));
 		calc = new MTGDeckManager();
-		table = UITools.createNewTable(null);
+		table = UITools.createNewTable(null,false);
 		table.setDefaultRenderer(Double.class, new DoubleCellEditorRenderer(true,false));
 
 

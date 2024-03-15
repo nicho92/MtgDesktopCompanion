@@ -581,10 +581,9 @@ public class StockPanelGUI extends MTGUIComponent {
 		actionPanel.add(btnshowMassPanel);
 		actionPanel.add(lblLoading);
 
-		table = UITools.createNewTable(model);
+		table = UITools.createNewTable(model,true);
 		UITools.setDefaultRenderer(table, new StockTableRenderer());
 		table.packAll();
-		UITools.initTableFilter(table);
 		UITools.sort(table,0,SortOrder.DESCENDING);
 
 

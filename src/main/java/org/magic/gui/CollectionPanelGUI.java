@@ -231,8 +231,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 		//////// MODELS
 		model = new MagicEditionsTableModel();
-		tableEditions = UITools.createNewTable(model);
-		UITools.initTableFilter(tableEditions);
+		tableEditions = UITools.createNewTable(model,true);
 
 
 		///////// CONFIGURE COMPONENTS

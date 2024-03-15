@@ -71,7 +71,7 @@ public class MkmOversightDashlet extends AbstractJDashlet {
 		comboBox = UITools.createCombobox(INSIGHT_SELECTION.values());
 		panneauHaut.add(comboBox);
 		service = new InsightService();
-		var table = UITools.createNewTable(model);
+		var table = UITools.createNewTable(model,false);
 		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
 		comboBox.addItemListener(pcl->{
 

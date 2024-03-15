@@ -160,9 +160,7 @@ public class JDeckChooserDialog extends JDialog {
 		ThreadManager.getInstance().runInEdt(sw2,"loading decks");
 
 
-		table = UITools.createNewTable(decksModel);
-				UITools.initTableFilter(table);
-
+		table = UITools.createNewTable(decksModel,true);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		table.addMouseListener(new MouseAdapter() {

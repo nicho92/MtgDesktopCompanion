@@ -55,9 +55,8 @@ public class TransactionsImporterDialog extends JDialog {
 
 		model = new ShoppingEntryTableModel();
 		model.setWritable(false);
-		table = UITools.createNewTable(model);
-		UITools.initTableFilter(table);
-		
+		table = UITools.createNewTable(model,true);
+	
 		
 		panelChoose = new JPanel();
 		var splitPane = new JSplitPane();

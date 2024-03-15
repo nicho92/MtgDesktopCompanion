@@ -64,9 +64,8 @@ public class StockShopperComponent extends MTGUIComponent {
 		cboInput = UITools.createComboboxPlugins(MTGExternalShop.class,true);
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		modelInput = new StockItemTableModel();
-		tableInput = UITools.createNewTable(modelInput);
+		tableInput = UITools.createNewTable(modelInput,true);
 		tableInput.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		UITools.initTableFilter(tableInput);
 		UITools.setDefaultRenderer(tableInput, new StockTableRenderer());
 
 
@@ -115,7 +114,10 @@ public class StockShopperComponent extends MTGUIComponent {
 					MTGStockItem destItem = comp.getSelectedItem();
 
 					if(destItem!=null)
+					{
 						sourceItem.getTiersAppIds().put(exp.getName(), String.valueOf(destItem.getId()));
+						sourceItem.setUpdated(true);
+					}
 
 				});
 

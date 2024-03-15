@@ -40,7 +40,7 @@ public class LoggerViewPanel extends MTGUIComponent {
 		model = new LogTableModel();
 		cboChooseLevel = UITools.createCombobox(new Level[] {null, Level.INFO, Level.ERROR, Level.DEBUG, Level.TRACE });
 		var panel = new JPanel();
-		table = UITools.createNewTable(model);
+		table = UITools.createNewTable(model,false);
 
 
 		table.setDefaultRenderer(Date.class, new DateTableCellEditorRenderer(true));

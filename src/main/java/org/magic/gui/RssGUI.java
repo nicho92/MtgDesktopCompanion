@@ -71,7 +71,7 @@ public class RssGUI extends MTGUIComponent {
 
 
 		model = new MagicNewsTableModel();
-		table = UITools.createNewTable(model);
+		table = UITools.createNewTable(model,false);
 		tree = new JTree();
 		var splitNews = new JSplitPane();
 		editorPane = MTGUIBrowserComponent.createBrowser();

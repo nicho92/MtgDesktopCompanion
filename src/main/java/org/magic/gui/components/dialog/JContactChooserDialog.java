@@ -87,8 +87,7 @@ public class JContactChooserDialog extends JDialog {
 		ThreadManager.getInstance().runInEdt(sw2,"loading contacts");
 
 
-		table = UITools.createNewTable(decksModel);
-				UITools.initTableFilter(table);
+		table = UITools.createNewTable(decksModel,true);
 
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 

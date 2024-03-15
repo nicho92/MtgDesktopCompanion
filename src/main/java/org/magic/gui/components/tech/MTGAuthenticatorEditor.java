@@ -42,7 +42,7 @@ public class MTGAuthenticatorEditor extends JPanel {
 			}
 		};
 
-		var table = UITools.createNewTable(tableModel);
+		var table = UITools.createNewTable(tableModel,false);
 		var panelWest = new JPanel();
 		var panelSouth = new JPanel();
 

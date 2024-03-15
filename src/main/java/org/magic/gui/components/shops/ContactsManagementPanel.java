@@ -51,10 +51,8 @@ public class ContactsManagementPanel extends MTGUIComponent {
 		var btnDeleteContact = UITools.createBindableJButton("", MTGConstants.ICON_DELETE, KeyEvent.VK_DELETE, "DeleteContact");
 
 
-		table = UITools.createNewTable(model);
+		table = UITools.createNewTable(model,true);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-		UITools.initTableFilter(table);
 
 		UITools.addTab(tabbedPane, contactPanel);
 

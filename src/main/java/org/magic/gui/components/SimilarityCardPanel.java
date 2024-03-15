@@ -32,7 +32,7 @@ public class SimilarityCardPanel extends MTGUIComponent {
 		setLayout(new BorderLayout(0, 0));
 
 		model = new SimilarityCardsTableModel();
-		tableSimilarity = UITools.createNewTable(model);
+		tableSimilarity = UITools.createNewTable(model,false);
 
 		add(new JScrollPane(tableSimilarity), BorderLayout.CENTER);
 

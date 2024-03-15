@@ -39,7 +39,7 @@ public class CardsDeckCheckerPanel extends MTGUIComponent {
 		var panel = new JPanel();
 		manager = new MTGDeckManager();
 		model = new DeckSelectionTableModel();
-		table = UITools.createNewTable(model);
+		table = UITools.createNewTable(model,false);
 		table.getColumnModel().getColumn(1).setCellRenderer(new ManaCellRenderer());
 
 

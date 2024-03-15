@@ -48,9 +48,7 @@ public class PricesTablePanel extends MTGUIComponent {
 
 
 		model = new CardsPriceTableModel();
-		tablePrices = UITools.createNewTable(model);
-		UITools.initTableFilter(tablePrices);
-
+		tablePrices = UITools.createNewTable(model,true);
 		setLayout(new BorderLayout(0, 0));
 
 		tablePrices.setRowSorter(sorterPrice);

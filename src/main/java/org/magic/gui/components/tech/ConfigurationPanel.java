@@ -255,8 +255,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		for( var g : MTGLogger.getLoggers().stream().filter(l->!l.getName().startsWith("org.magic.")).toList())
 			model.addRow(g.getName(), g.getLevel());
 
-		var tableLoggers = UITools.createNewTable(model);
-		UITools.initTableFilter(tableLoggers);
+		var tableLoggers = UITools.createNewTable(model,true);
 		panelLogs.add(panelMainLogger,BorderLayout.NORTH);
 		panelLogs.add(new JScrollPane(tableLoggers),BorderLayout.CENTER);
 

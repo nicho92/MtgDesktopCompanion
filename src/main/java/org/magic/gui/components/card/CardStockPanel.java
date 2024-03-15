@@ -58,7 +58,7 @@ public class CardStockPanel extends MTGUIComponent {
 	public CardStockPanel() {
 		setLayout(new BorderLayout(0, 0));
 		model = new CardStockTableModel();
-		table = UITools.createNewTable(model);
+		table = UITools.createNewTable(model,false);
 
 		UITools.setDefaultRenderer(table, new StockTableRenderer());
 

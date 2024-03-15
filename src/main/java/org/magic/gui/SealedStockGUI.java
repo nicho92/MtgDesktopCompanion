@@ -57,9 +57,9 @@ public class SealedStockGUI extends MTGUIComponent {
 
 		model = new SealedStockTableModel();
 		var objectpanel = new ObjectViewerPanel();
-		table = UITools.createNewTable(model);
+		table = UITools.createNewTable(model,true);
 		UITools.setDefaultRenderer(table, new StockTableRenderer());
-		UITools.initTableFilter(table);
+		
 		var packagePanel = new PackagesBrowserPanel(false);
 		GedPanel<MTGSealedStock> gedPanel = new GedPanel<>();
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();

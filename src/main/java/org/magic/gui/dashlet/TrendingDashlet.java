@@ -71,7 +71,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 
 
 		modStandard = new CardShakerTableModel();
-		table = UITools.createNewTable(modStandard);
+		table = UITools.createNewTable(modStandard,true);
 
 		table.getColumnModel().getColumn(3).setCellRenderer(new DoubleCellEditorRenderer(true));
 		table.getColumnModel().getColumn(4).setCellRenderer(new DoubleCellEditorRenderer(true,true));
@@ -100,7 +100,6 @@ public class TrendingDashlet extends AbstractJDashlet {
 			setBounds(r);
 		}
 
-		UITools.initTableFilter(table);
 		UITools.initCardToolTipTable(table, 0, 1, 8,new Callable<Void>() {
 			@Override
 			public Void call() throws Exception {

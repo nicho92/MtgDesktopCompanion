@@ -27,7 +27,7 @@ public class StockItemsSynchronizationPanel extends MTGUIComponent {
 	public StockItemsSynchronizationPanel() {
 		setLayout(new BorderLayout(0, 0));
 		model = new MapTableModel<>();
-		table = UITools.createNewTable(model);
+		table = UITools.createNewTable(model,false);
 
 
 		add(new JScrollPane(table));

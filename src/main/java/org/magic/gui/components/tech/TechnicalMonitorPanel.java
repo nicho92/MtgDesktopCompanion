@@ -104,32 +104,16 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 
 		
 		
-		var tableTasks = UITools.createNewTable(modelTasks);
-		UITools.initTableFilter(tableTasks);
+		var tableTasks = UITools.createNewTable(modelTasks,true);
+		var tableNetwork = UITools.createNewTable(modelNetwork,true);
+		var tableScripts = UITools.createNewTable(modelScript,true);
+		var tableQueries = UITools.createNewTable(queryModel,true);
+		var tableDaos = UITools.createNewTable(modelDao,true);
+		var tableCacheJson = UITools.createNewTable(modelCacheJson,true);
+		var tableJsonInfo= UITools.createNewTable(modelJsonServerInfo,true);
+		var tableDiscordInfo= UITools.createNewTable(discordModel,true);
+		var tableFileAccessIInfo= UITools.createNewTable(modelFileAccess,true);
 
-		var tableNetwork = UITools.createNewTable(modelNetwork);
-		UITools.initTableFilter(tableNetwork);
-
-		var tableScripts = UITools.createNewTable(modelScript);
-		UITools.initTableFilter(tableScripts);
-
-		var tableQueries = UITools.createNewTable(queryModel);
-		UITools.initTableFilter(tableQueries);
-
-		var tableDaos = UITools.createNewTable(modelDao);
-		UITools.initTableFilter(tableDaos);
-
-		var tableCacheJson = UITools.createNewTable(modelCacheJson);
-		UITools.initTableFilter(tableCacheJson);
-
-		var tableJsonInfo= UITools.createNewTable(modelJsonServerInfo);
-		UITools.initTableFilter(tableJsonInfo);
-
-		var tableDiscordInfo= UITools.createNewTable(discordModel);
-		UITools.initTableFilter(tableDiscordInfo);
-		
-		var tableFileAccessIInfo= UITools.createNewTable(modelFileAccess);
-		UITools.initTableFilter(tableFileAccessIInfo);
 		
 
 		TableCellRenderer durationRenderer = (JTable table, Object value, boolean isSelected,boolean hasFocus, int row, int column)->{
@@ -164,8 +148,8 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 		
 		
 		
-		getContextTabbedPane().addTab("Config",MTGConstants.ICON_SMALL_HELP,new JScrollPane(UITools.createNewTable(modelConfig)));
-		getContextTabbedPane().addTab("Threads",MTGConstants.ICON_TAB_ADMIN,new JScrollPane(UITools.createNewTable(modelThreads)));
+		getContextTabbedPane().addTab("Config",MTGConstants.ICON_SMALL_HELP,new JScrollPane(UITools.createNewTable(modelConfig,false)));
+		getContextTabbedPane().addTab("Threads",MTGConstants.ICON_TAB_ADMIN,new JScrollPane(UITools.createNewTable(modelThreads,false)));
 		getContextTabbedPane().addTab("Tasks",MTGConstants.ICON_TAB_ADMIN,new JScrollPane(tableTasks));
 		getContextTabbedPane().addTab("Network",MTGConstants.ICON_TAB_NETWORK,new JScrollPane(tableNetwork));
 		getContextTabbedPane().addTab("Qwartz Script",MTGConstants.ICON_SMALL_SCRIPT,new JScrollPane(tableScripts));

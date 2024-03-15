@@ -45,7 +45,7 @@ public class ShortKeyManagerUI extends MTGUIComponent
 
 		model = new ShortKeyModel();
 		model.setMainObjectIndex(1);
-		tableKeys = UITools.createNewTable(model);
+		tableKeys = UITools.createNewTable(model,false);
 		tableKeys.setDefaultRenderer(JButton.class,new ShortKeysCellRenderer());
 		tableKeys.setDefaultRenderer(MTGUIComponent.class,new ShortKeysCellRenderer());
 

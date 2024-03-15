@@ -129,7 +129,7 @@ public class SealedDeckBuildPanel extends JPanel {
 
 		panelControl = new JPanel();
 		panelWest.add(panelControl, BorderLayout.NORTH);
-		table = UITools.createNewTable(model);
+		table = UITools.createNewTable(model,false);
 		panelControl.setLayout(new BorderLayout(0, 0));
 
 		panel = new JPanel();

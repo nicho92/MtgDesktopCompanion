@@ -202,7 +202,7 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 		panneauHaut.add(cboSorter);
 
 		modStandard = new CardShakerTableModel();
-		table = UITools.createNewTable(modStandard);
+		table = UITools.createNewTable(modStandard,true);
 		table.getColumnModel().getColumn(4).setCellRenderer(new DoubleCellEditorRenderer(true,true));
 		table.getColumnModel().getColumn(3).setCellRenderer(new DoubleCellEditorRenderer(true));
 		table.getColumnModel().getColumn(5).setCellRenderer(new DoubleCellEditorRenderer(true));
@@ -213,7 +213,7 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 
 
 		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
-		UITools.initTableFilter(table);
+
 		UITools.initCardToolTipTable(table, 0, 1, 8,new Callable<Void>() {
 			@Override
 			public Void call() throws Exception {

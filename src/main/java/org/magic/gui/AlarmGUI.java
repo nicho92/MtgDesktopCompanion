@@ -125,8 +125,7 @@ public class AlarmGUI extends MTGUIComponent {
 		var serversPanel = new JPanel();
 		var oversightPanel = new ServerStatePanel(false,getPlugin("Alert Trend Server", MTGServer.class));
 		var serverPricePanel = new ServerStatePanel(false,getPlugin("Alert Price Checker", MTGServer.class));
-		table = UITools.createNewTable(model);
-		UITools.initTableFilter(table);
+		table = UITools.createNewTable(model,true);
 		pricesTablePanel = new PricesTablePanel();
 		
 ///////CONFIG

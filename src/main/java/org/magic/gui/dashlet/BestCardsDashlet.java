@@ -69,7 +69,7 @@ public class BestCardsDashlet extends AbstractJDashlet {
 		panneauHaut.add(buzy);
 
 		models = new CardDominanceTableModel();
-		table = UITools.createNewTable(models);
+		table = UITools.createNewTable(models,false);
 		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
 		UITools.initCardToolTipTable(table, 0, null,null,null);
 

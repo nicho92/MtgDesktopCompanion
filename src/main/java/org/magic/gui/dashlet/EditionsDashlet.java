@@ -54,7 +54,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 		cboEditions = UITools.createComboboxEditions();
 		panel.add(cboEditions);
 		panel.add(buzy);
-		table = UITools.createNewTable(modEdition);
+		table = UITools.createNewTable(modEdition,true);
 		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
 
 		table.getColumnModel().getColumn(3).setCellRenderer(new DoubleCellEditorRenderer(true));
@@ -92,7 +92,6 @@ public class EditionsDashlet extends AbstractJDashlet {
 			// do nothing
 		}
 
-		UITools.initTableFilter(table);
 		UITools.initCardToolTipTable(table, 0, 1, 8,new Callable<Void>() {
 			@Override
 			public Void call() throws Exception {

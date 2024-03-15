@@ -86,18 +86,14 @@ public class MassMoverDialog extends JDialog {
 			logger.error(e);
 		}
 
-		tableCards = UITools.createNewTable(model);
+		tableCards = UITools.createNewTable(model,true);
 		tableCards.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
 		tableCards.getColumnModel().getColumn(6).setCellRenderer(new MagicEditionsComboBoxCellRenderer(false));
 		getContentPane().add(new JScrollPane(tableCards), BorderLayout.CENTER);
 		for(int i : model.defaultHiddenColumns())
 			tableCards.getColumnExt(model.getColumnName(i)).setVisible(false);
 		
-		
-		tableCards.packAll();
-		
-		
-		UITools.initTableFilter(tableCards);
+			
 		
 		
 		

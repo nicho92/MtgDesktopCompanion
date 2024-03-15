@@ -180,20 +180,20 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		List<JsonObject> res = client.getAll(EndpointBaseType.PRODUCTS.getValue(),parameters);
 
 		res.forEach(element->{
-			var p = AbstractProduct.createDefaultProduct(EnumItems.SEALED);
+		
 			var obj = element.getAsJsonObject();
 			
-			p.setProductId(obj.get("id").getAsLong());
-			p.setName(obj.get("name").getAsString());
 			
 
 			var objCateg = obj.get(CATEGORIES).getAsJsonArray().get(0).getAsJsonObject();
 			var c = new Category();
 					 c.setIdCategory(objCateg.get("id").getAsInt());
 					 c.setCategoryName(objCateg.get("name").getAsString());
+			var p = AbstractProduct.createDefaultProduct(parseType(c));
 			p.setCategory(c);
-			p.setTypeProduct(parseType(c));
-
+			p.setProductId(obj.get("id").getAsLong());
+			p.setName(obj.get("name").getAsString());
+		
 
 			try {
 				var img = obj.get(IMAGES).getAsJsonArray().get(0).getAsJsonObject();
@@ -480,18 +480,18 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 
 	private MTGProduct parseProduct(JsonObject element) {
 
-			var p = AbstractProduct.createDefaultProduct(EnumItems.SEALED);
 			var obj = element.getAsJsonObject();
-			p.setProductId(obj.get("id").getAsLong());
-			p.setName(obj.get("name").getAsString());
-
+			
 
 			var objCateg = obj.get(CATEGORIES).getAsJsonArray().get(0).getAsJsonObject();
 			var c = new Category();
 					 c.setIdCategory(objCateg.get("id").getAsInt());
 					 c.setCategoryName(objCateg.get("name").getAsString());
+					 
+					 var p = AbstractProduct.createDefaultProduct(parseType(c));		 
 			p.setCategory(c);
-			p.setTypeProduct(parseType(c));
+			p.setProductId(obj.get("id").getAsLong());
+			p.setName(obj.get("name").getAsString());
 
 			var img = obj.get(IMAGES).getAsJsonArray().get(0).getAsJsonObject();
 			p.setUrl(img.get("src").getAsString());

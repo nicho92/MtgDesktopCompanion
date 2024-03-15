@@ -20,6 +20,7 @@ import org.magic.api.interfaces.MTGProduct;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
+import org.magic.services.providers.IconSetProvider;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
 
@@ -36,7 +37,6 @@ public class ProductRendererComponent extends JPanel {
 	
 	private transient Map<MTGProduct, BufferedImage> loadedImages;
 	private JList<? extends MTGProduct> list;
-	
 	
 	
 	public ProductRendererComponent(JList<? extends MTGProduct> list) {
@@ -86,7 +86,10 @@ public class ProductRendererComponent extends JPanel {
 		
 		lblProductName.setText(p.getName());
 		if(p.getEdition()!=null)
+		{
 			lblProductSet.setText(p.getEdition().getSet());
+			lblProductSet.setIcon(IconSetProvider.getInstance().get16(p.getEdition().getId()));
+		}
 
 		if(p.getCategory()!=null)
 			lblProductType.setText(p.getCategory().getCategoryName()+" ("+p.getProductId() +")");

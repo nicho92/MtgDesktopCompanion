@@ -30,8 +30,7 @@ public class ActiveMQServerPanel extends MTGUIComponent {
 		model = new ActiveMQMessageTableModel();
 		listModel = new DefaultListModel<>();
 		listPlayers = new JList<>(listModel);
-		table = UITools.createNewTable(model);
-		UITools.initTableFilter(table);
+		table = UITools.createNewTable(model,true);
 		listPlayers.setCellRenderer(new PlayerRenderer());
 		
 		add(new JScrollPane(table),BorderLayout.CENTER);

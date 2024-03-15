@@ -89,10 +89,9 @@ public class TransactionsPanel extends MTGUIComponent {
 
 		
 		
-		tableTransactions = UITools.createNewTable(transactionModel);
+		tableTransactions = UITools.createNewTable(transactionModel,true);
 		
 		tableTransactions.setDefaultRenderer(Date.class, new DateTableCellEditorRenderer(false));
-		UITools.initTableFilter(tableTransactions);
 		UITools.sort(tableTransactions, 1, SortOrder.DESCENDING);
 		UITools.addTab(getContextTabbedPane(), stockDetailPanel);
 		UITools.addTab(getContextTabbedPane(), trackPanel);

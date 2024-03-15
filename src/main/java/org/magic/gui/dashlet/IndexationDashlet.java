@@ -56,7 +56,7 @@ public class IndexationDashlet extends AbstractJDashlet {
 		indexModel = new MapTableModel<>();
 		indexModel.setColumnNameAt(0, "Term");
 		indexModel.setColumnNameAt(1, "Occurences");
-		var table = UITools.createNewTable(indexModel);
+		var table = UITools.createNewTable(indexModel,false);
 
 		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
 

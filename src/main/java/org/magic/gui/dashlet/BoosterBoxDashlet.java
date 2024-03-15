@@ -104,7 +104,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 		boostersModel = new BoostersTableModel();
 		cardsModel = new DefaultListModel<>();
 
-		table = UITools.createNewTable(boostersModel);
+		table = UITools.createNewTable(boostersModel,false);
 		getContentPane().add(new JScrollPane(table), BorderLayout.CENTER);
 
 		var panneauBas = new JPanel();

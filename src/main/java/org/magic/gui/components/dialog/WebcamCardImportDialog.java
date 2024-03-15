@@ -143,7 +143,7 @@ public class WebcamCardImportDialog extends AbstractDelegatedImporterDialog {
 		} catch (IOException e1) {
 			logger.error(e1);
 		}
-		tableResults = UITools.createNewTable(modelCards);
+		tableResults = UITools.createNewTable(modelCards,false);
 		var listEds = new JList<>(listModel);
 		var deco = JListFilterDecorator.decorate(listEds,(MTGEdition t, String u)->t.getSet().toLowerCase().contains(u.toLowerCase()));
 

@@ -210,7 +210,7 @@ public class UITools {
 	}
 
 
-	public static JXTable createNewTable(TableModel mod)
+	public static JXTable createNewTable(TableModel mod, boolean enableFilter)
 	{
 		var table = new JXTable();
 				if(mod!=null)
@@ -272,6 +272,10 @@ public class UITools {
 					//do nothing
 				}
 
+				if(enableFilter)
+					initTableFilter(table);
+				
+				
 		return table;
 	}
 
