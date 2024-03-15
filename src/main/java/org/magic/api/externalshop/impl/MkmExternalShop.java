@@ -343,7 +343,6 @@ public class MkmExternalShop extends AbstractExternalShop {
 		var p = AbstractProduct.createDefaultProduct(product.getRarity()==null?EnumItems.SEALED:EnumItems.CARD);
 		p.setName(product.getEnName());
 		p.setProductId(Long.valueOf(product.getIdProduct()));
-
 		try {
 		p.setEdition(MTG.getEnabledPlugin(MTGCardsProvider.class).getSetByName(product.getExpansion()));
 		}

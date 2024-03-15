@@ -451,6 +451,10 @@ public class MTGCard extends AbstractProduct {
 
 	@Override
 	public int hashCode() {
+		
+		if(getId()==null)
+			return getProductId().hashCode();
+		
 		return getId().hashCode();
 	}
 

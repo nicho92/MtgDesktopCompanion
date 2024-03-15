@@ -47,6 +47,7 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 	private DefaultListModel<MTGProduct> modelOutput;
 
 	private AbstractBuzyIndicatorComponent buzy;
+	private AbstractBuzyIndicatorComponent buzy2;
 	private JPanel panel;
 	private JButton btnSend;
 	private JComboBox<Category> cboCategory;
@@ -81,6 +82,7 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 
 
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
+		buzy2 = AbstractBuzyIndicatorComponent.createLabelComponent();
 		txtSearchProduct = new JTextField(25);
 		modelInput = new DefaultListModel<>();
 		listInput = new JList<>(modelInput);
@@ -92,7 +94,6 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 
 		panelNorth.add(txtSearchProduct);
 		panelNorth.add(btnSearch);
-		panelNorth.add(buzy);
 
 		add(panelNorth, BorderLayout.NORTH);
 		add(panelWest,BorderLayout.WEST);
@@ -101,10 +102,13 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 
 		panelNorthWest.add(chkSearchInput);
 		panelNorthWest.add(cboInput);
+		panelNorthWest.add(buzy);
+		
 
 		panelNorthEast.add(chkSearchOutput);
 		panelNorthEast.add(cboOutput);
-
+		panelNorthEast.add(buzy2);
+		
 		panelWest.add(panelNorthWest, BorderLayout.NORTH);
 		panelEast.add(panelNorthEast, BorderLayout.NORTH);
 
@@ -219,6 +223,7 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 				protected void done() {
 					super.done();
 					modelInput.addAll(getResult());
+			
 				}
 				
 			};
@@ -227,7 +232,7 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 
 		if(chkSearchOutput.isSelected()) {
 			modelOutput.removeAllElements();
-			var sw2 = new AbstractObservableWorker<List<MTGProduct>,MTGProduct,MTGExternalShop>(buzy,(MTGExternalShop)cboOutput.getSelectedItem())
+			var sw2 = new AbstractObservableWorker<List<MTGProduct>,MTGProduct,MTGExternalShop>(buzy2,(MTGExternalShop)cboOutput.getSelectedItem())
 			{
 				@Override
 				protected List<MTGProduct> doInBackground() throws Exception {

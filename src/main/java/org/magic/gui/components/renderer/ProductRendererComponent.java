@@ -10,6 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 import javax.swing.border.LineBorder;
@@ -34,17 +35,19 @@ public class ProductRendererComponent extends JPanel {
 
 	
 	private transient Map<MTGProduct, BufferedImage> loadedImages;
+	private JList<? extends MTGProduct> list;
 	
 	
 	
-	public ProductRendererComponent() {
+	public ProductRendererComponent(JList<? extends MTGProduct> list) {
+		this.list=list;
 		initGUI();
-		
 	}
 
-	public ProductRendererComponent(MTGProduct mc) {
+	public ProductRendererComponent(MTGProduct mc, JList<MTGProduct> list) {
+		this.list=list;
 		initGUI();
-
+		
 		if(mc!=null)
 			init(mc);
 	}
@@ -73,10 +76,6 @@ public class ProductRendererComponent extends JPanel {
 
 		lblProductType = new JLabel();
 		add(lblProductType, UITools.createGridBagConstraints(GridBagConstraints.WEST,null,1, 2));
-
-		
-	
-
 		
 	}
 
@@ -116,7 +115,7 @@ public class ProductRendererComponent extends JPanel {
         	        @Override
         	        protected void done()
         	        {
-        	        	//list.repaint();
+        	        	list.repaint();
         	        }
         	        
         	};

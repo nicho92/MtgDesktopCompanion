@@ -194,7 +194,7 @@ public class CsCartExternalShop extends AbstractExternalShop {
 	private MTGProduct buildProduct(JsonObject jo) {
 
 		jo = getBuilder(API_PRODUCTS+"/"+jo.get("product_id").getAsLong(), METHOD.GET).toJson().getAsJsonObject();
-
+		
 		
 		var product = AbstractProduct.createDefaultProduct(EnumItems.SEALED);
 			  product.setProductId(jo.get("product_id").getAsLong());

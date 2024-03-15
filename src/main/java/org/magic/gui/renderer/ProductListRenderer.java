@@ -21,7 +21,7 @@ public class ProductListRenderer implements ListCellRenderer<MTGProduct> {
 		{
 			
 			if(render==null)
-				render = new ProductRendererComponent();
+				render = new ProductRendererComponent(list);
 			
 			
 			render.init(value);
