@@ -172,7 +172,7 @@ public class SealedStockGUI extends MTGUIComponent {
 
 			if(res==JOptionPane.YES_OPTION)
 			{
-				AbstractObservableWorker<Void, MTGSealedStock, MTGDao> sw = new AbstractObservableWorker<>(buzy,getEnabledPlugin(MTGDao.class),1) {
+				var sw = new AbstractObservableWorker<Void, MTGSealedStock, MTGDao>(buzy,getEnabledPlugin(MTGDao.class),1) {
 
 					@Override
 					protected Void doInBackground() throws Exception {

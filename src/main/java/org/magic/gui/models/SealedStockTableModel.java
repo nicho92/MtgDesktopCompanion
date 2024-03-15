@@ -16,7 +16,7 @@ public class SealedStockTableModel extends GenericTableModel<MTGSealedStock> {
 	private static final long serialVersionUID = 1L;
 
 	public SealedStockTableModel() {
-		setColumns("ID","Type","Extra","Edition","LANGUAGE","Quality","Qty","Collection","Price");
+		setColumns("ID","Type","Extra","Edition","LANGUAGE","Quality","Qty","Collection","Price","Sync");
 	}
 
 	@Override
@@ -50,6 +50,7 @@ public class SealedStockTableModel extends GenericTableModel<MTGSealedStock> {
 			case 6 : return it.getQte();
 			case 7 : return it.getMagicCollection();
 			case 8 : return it.getPrice();
+			case 9 : return it.getTiersAppIds();
 			default : return super.getValueAt(row, column);
 		}
 	}
@@ -57,7 +58,7 @@ public class SealedStockTableModel extends GenericTableModel<MTGSealedStock> {
 	
 	@Override
 	public boolean isCellEditable(int row, int column) {
-		return column>3;
+		return column>3 && column!=9;
 	}
 	
 
