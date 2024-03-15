@@ -499,20 +499,6 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 
 	}
 
-
-	private Map<String, Object> toWooCommerceAttributs(MTGProduct product,String status, int idCategory)
-	{
-		Map<String, Object> productInfo = new HashMap<>();
-
-		productInfo.put("name", product.getName());
-		productInfo.put("type", "simple");
-        productInfo.put(CATEGORIES, WooCommerceTools.entryToJsonArray("id",String.valueOf(idCategory)));
-        productInfo.put(STATUS, status==null?"private":status);
-        productInfo.put(IMAGES, WooCommerceTools.entryToJsonArray("src",product.getUrl().startsWith("//")?"https:"+product.getUrl():product.getUrl()));
-
-		return productInfo;
-	}
-
 	private EnumTransactionStatus tostatus(String status) {
 
 		status = status.replace("\"", "");

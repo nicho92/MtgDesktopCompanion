@@ -131,10 +131,8 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 			var query = new QueryParser("name", analyzer).parse(q);
 			 logger.trace(query);
 
-			 var collector = new TotalHitCountCollector();
-			 searcher.search(query,collector);
-
-			 var top= searcher.search(query, Math.max(1, collector.getTotalHits()));
+			 var count = searcher.count(query);
+			 var top= searcher.search(query, Math.max(1, count));
 
 			 logger.debug("found {} items for {}",top.totalHits,q);
 

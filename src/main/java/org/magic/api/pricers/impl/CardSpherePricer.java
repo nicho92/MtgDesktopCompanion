@@ -5,47 +5,25 @@ import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
 
-import org.apache.logging.log4j.Level;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
-import org.magic.services.logging.MTGLogger;
-import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
 
 public class CardSpherePricer extends AbstractPricesProvider {
 
-	private MTGHttpClient client;
-
-
 	@Override
 	public String getName() {
 		return "CardSphere";
 	}
-	
-	
-	public CardSpherePricer() {
-		client = URLTools.newClient();
-	}
-	
-	public static void main(String[] args) throws IOException {
-		
-		MTGLogger.changeLevel(Level.DEBUG);
-		
-		var c = new MTGCard();
-			  c.setScryfallId("59b6fe0c-7bbe-433f-8400-4be4ce0e3f15");
-			  
-			  new CardSpherePricer().getLocalePrice(c);
-	}
-	
 
 	@Override
 	protected List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
 		var ret = new ArrayList<MTGPrice>();
 		
 		var arr = RequestBuilder.build()
-						.setClient(client)
+						.setClient(URLTools.newClient())
 						.url("https://www.multiversebridge.com/api/v1/cards/scryfall/"+card.getScryfallId())
 						.get()
 						.toJson().getAsJsonArray();
@@ -68,7 +46,7 @@ public class CardSpherePricer extends AbstractPricesProvider {
 				}
 				catch(Exception e)
 				{
-					//do nothing 
+					logger.error("error parsing json {}",e.getMessage());
 				}
 			});
 		

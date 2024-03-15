@@ -30,6 +30,7 @@ import com.google.gson.JsonElement;
 public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider {
 
 
+	private static final String LAYOUT_OLD_MODERN = "LAYOUT_OLD_MODERN";
 	private static final String HYBRIDE = "HYBRIDE";
 	private static final String DOMAIN="funcardmaker.thaledric.fr";
 	private static final String WEBSITE="http://"+DOMAIN;
@@ -78,7 +79,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 
 					 
 					 
-					 		if(getString("LAYOUT_OLD_MODERN").equals("old"))
+					 		if(getString(LAYOUT_OLD_MODERN).equals("old"))
 					 			mc.setFrameVersion("1993");
 					 		else
 					 			mc.setFrameVersion("2003");
@@ -97,7 +98,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 						    }
 						    else
 						    {
-						    	build.addContent("template", getString("LAYOUT_OLD_MODERN").toLowerCase()+"-basic");
+						    	build.addContent("template", getString(LAYOUT_OLD_MODERN).toLowerCase()+"-basic");
 						    }
 
 						    String colorBase;
@@ -189,7 +190,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of("COPYRIGHT", "(c)2021-Wizards of the coast",
-							   "LAYOUT_OLD_MODERN","modern",
+							   LAYOUT_OLD_MODERN,"modern",
 							   HYBRIDE,"");
 	}
 
