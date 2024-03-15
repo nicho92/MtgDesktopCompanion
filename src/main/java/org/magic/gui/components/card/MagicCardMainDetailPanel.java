@@ -24,6 +24,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
+import javax.swing.UIManager;
 
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGAlert;
@@ -45,8 +46,6 @@ import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.MTG;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
-import javax.swing.UIManager;
-import java.awt.Dimension;
 
 
 

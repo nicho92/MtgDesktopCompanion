@@ -126,8 +126,9 @@ public class AlertTrendServer extends AbstractMTGServer {
 			}
 		};
 
-		timer.scheduleAtFixedRate(tache, 0, Long.parseLong(getString(TIMEOUT_MINUTE)) * 60000);
-		logger.info("Server start with {} min timeout",getString(TIMEOUT_MINUTE));
+		var duration = getLong(TIMEOUT_MINUTE);
+		timer.scheduleAtFixedRate(tache, 0, duration * 60000);
+		logger.info("Server start with {} min timeout",duration);
 
 	}
 

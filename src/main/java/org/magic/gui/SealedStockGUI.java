@@ -61,7 +61,7 @@ public class SealedStockGUI extends MTGUIComponent {
 		UITools.setDefaultRenderer(table, new StockTableRenderer());
 		
 		var packagePanel = new PackagesBrowserPanel(false);
-		GedPanel<MTGSealedStock> gedPanel = new GedPanel<>();
+		var gedPanel = new GedPanel<MTGSealedStock>();
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		textEditor = new RSyntaxTextArea();
 		textEditor.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_HTML);

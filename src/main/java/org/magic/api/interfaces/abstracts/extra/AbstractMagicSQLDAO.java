@@ -1271,7 +1271,10 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		logger.debug("saving {} in {}",mc,collection);
 
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("insert into cards values (?,?,?,?,?,?)")) {
-			pst.setString(1, CryptoUtils.generateCardId(mc));
+			
+			var id = CryptoUtils.generateCardId(mc);
+			
+			pst.setString(1, id);
 			storeCard(pst, 2, mc);
 			pst.setString(3, mc.getEdition().getId());
 			pst.setString(4, getEnabledPlugin(MTGCardsProvider.class).toString());
@@ -1279,7 +1282,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			pst.setTimestamp(6, new Timestamp(new java.util.Date().getTime()));
 			var ret = executeUpdate(pst);
 			
-			logger.info("Updating  {} item for {} : {}",ret,mc,CryptoUtils.generateCardId(mc));
+			logger.info("Updating  {} item for {} : {}",ret,mc,id);
 		}
 	}
 

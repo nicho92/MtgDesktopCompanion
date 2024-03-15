@@ -503,7 +503,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 				Map<String,String> identifiers = (Map<String, String>) map.get("identifiers");
 
 				try {
-					mc.setMultiverseid(identifiers.get(MULTIVERSE_ID).toString());
+					mc.setMultiverseid(identifiers.get(MULTIVERSE_ID));
 				} catch (Exception e) {
 					//do nothing
 				}
