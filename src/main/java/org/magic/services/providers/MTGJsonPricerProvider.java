@@ -247,7 +247,7 @@ public class MTGJsonPricerProvider {
 				mp.setFoil(b);
 				mp.setValue(d.listPricesByFoil(b).get(0).getStockPrices().lastEntry().getValue());
 				ret.add(mp);
-				logger.info("Found {} Price={} Foil={}",card,mp.getValue(),mp.isFoil());
+				logger.debug("Found {} Price={} Foil={}",card,mp.getValue(),mp.isFoil());
 			}
 			catch(IndexOutOfBoundsException e)
 			{
