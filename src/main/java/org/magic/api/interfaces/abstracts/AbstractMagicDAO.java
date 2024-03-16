@@ -36,7 +36,6 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 
 	protected JsonExport serialiser;
 
-	protected TCache<MTGAlert> listAlerts;
 	protected TCache<Contact> listContacts;
 	protected TCache<MTGCollection> listCollections;
 
@@ -58,7 +57,6 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	}
 
 	protected AbstractMagicDAO() {
-		listAlerts = new TCache<>("alerts");
 		listContacts = new TCache<>("contacts");
 		listCollections = new TCache<>("collections");
 		serialiser=new JsonExport();

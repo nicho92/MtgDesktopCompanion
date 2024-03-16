@@ -647,19 +647,19 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		obj.put(dbAlertField, alert);
 		obj.put(dbIDField, CryptoUtils.generateCardId(alert.getCard()));
 		db.getCollection(colAlerts, BasicDBObject.class).insertOne(BasicDBObject.parse(serialize(obj)));
-		listAlerts.put(alert.getId(),alert);
+
 	}
 
 	
 	@Override
 	public List<MTGAlert> listAlerts() {
-		db.getCollection(colAlerts, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result ->{
-
-				MTGAlert al = deserialize(result.get(dbAlertField).toString(), MTGAlert.class);
-				listAlerts.put(al.getId(),al);
-				});
 		
-		return listAlerts.values();
+		var listAlerts = new ArrayList<MTGAlert>();
+		db.getCollection(colAlerts, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result ->{
+				listAlerts.add(deserialize(result.get(dbAlertField).toString(), MTGAlert.class));
+		});
+		
+		return listAlerts;
 	}
 
 
@@ -678,7 +678,6 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		logger.debug("delete alert {}",alert);
 		Bson filter = new Document("alertItem.id", alert.getId());
 		DeleteResult res = db.getCollection(colAlerts).deleteOne(filter);
-		listAlerts.remove(alert.getId());
 		logger.debug(res);
 	}
 

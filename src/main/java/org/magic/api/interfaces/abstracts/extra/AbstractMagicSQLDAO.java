@@ -1466,9 +1466,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	@Override
 	public List<MTGAlert> listAlerts() {
 		
-		if(!listAlerts.isEmpty())
-			return listAlerts.values();
-		
+		var ret = new ArrayList<MTGAlert>();
 		
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM alerts")) {
 			try (ResultSet rs = executeQuery(pst)) {
@@ -1479,13 +1477,14 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 					alert.setQty(rs.getInt("qte"));
 					alert.setPrice(rs.getDouble("amount"));
 					alert.setFoil(rs.getBoolean("foil"));
-					listAlerts.put(alert.getId(),alert);
+					
+					ret.add(alert);
 				}
 			}
 		} catch (Exception e) {
 			logger.error("error get alert",e);
 		}
-		return listAlerts.values();
+		return ret;
 		
 		
 	}
@@ -1728,7 +1727,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			pst.setInt(4, alert.getQty());
 			executeUpdate(pst);
 			logger.debug("save alert for {} ({})",alert.getCard(),alert.getCard().getEdition());
-			listAlerts.put(alert.getId(),alert);
 		}
 	}
 
@@ -1754,9 +1752,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			int res = executeUpdate(pst);
 			logger.debug("delete alert {} = {}", alert,res);
 		}
-
-		if (listAlerts != null)
-			listAlerts.remove(alert.getId());
 	}
 
 	@Override

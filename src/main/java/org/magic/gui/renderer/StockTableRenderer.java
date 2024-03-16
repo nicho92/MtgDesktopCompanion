@@ -2,6 +2,7 @@ package org.magic.gui.renderer;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.util.Map;
 
 import javax.swing.JLabel;
@@ -18,7 +19,9 @@ import org.magic.api.interfaces.MTGStockItem;
 import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
 import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;
 import org.magic.gui.renderer.standard.NumberCellEditorRenderer;
+import org.magic.services.MTGConstants;
 import org.magic.services.PluginRegistry;
+import org.magic.services.tools.ImageTools;
 
 public class StockTableRenderer implements TableCellRenderer{
 
@@ -48,7 +51,7 @@ public class StockTableRenderer implements TableCellRenderer{
 			((Map<String,Object>)value).entrySet().forEach(e->{
 				var plug = PluginRegistry.inst().listPlugins().stream().filter(p->p.getName().equalsIgnoreCase(e.getKey())).findFirst().orElse(null);
 				if(plug!=null)
-					((JPanel)pane).add(new JLabel(plug.getIcon()));
+					((JPanel)pane).add(new JLabel(ImageTools.resize(plug.getIcon(), new Dimension(MTGConstants.TABLE_ROW_HEIGHT,MTGConstants.TABLE_ROW_HEIGHT))));
 				else
 					((JPanel)pane).add(new JLabel(e.getKey()));
 			}
