@@ -5,6 +5,8 @@ import static org.magic.services.tools.MTG.getPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.text.DecimalFormatSymbols;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.Icon;
@@ -18,9 +20,11 @@ import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.FileTools;
+import org.magic.services.tools.UITools;
 
 public class PriceCatalogExport extends AbstractFormattedFileCardExport {
 
+	private static final String DECIMAL_SEPARATOR = "DECIMAL_SEPARATOR";
 	private static final String PRICER = "PRICER";
 
 	@Override
@@ -90,8 +94,8 @@ public class PriceCatalogExport extends AbstractFormattedFileCardExport {
 							
 							
 							bw.append(prov.getName()).append(getSeparator());
-							bw.append(mpNormal.isPresent()?mpNormal.get().getValue():"-").append(getSeparator());
-							bw.append(mpFoil.isPresent()?mpFoil.get().getValue():"-").append(getSeparator());
+							bw.append(mpNormal.isPresent()?UITools.formatDouble(mpNormal.get().getValue(),getChar(DECIMAL_SEPARATOR)):"-").append(getSeparator());
+							bw.append(mpFoil.isPresent()?UITools.formatDouble(mpFoil.get().getValue(),getChar(DECIMAL_SEPARATOR)):"-").append(getSeparator());
 							bw.append(System.lineSeparator());
 						}
 						
@@ -115,10 +119,10 @@ public class PriceCatalogExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		var m = super.getDefaultAttributes();
+		var m = new HashMap<String, String>();
 		m.put(PRICER, "mkm");
-		m.put("PROPERTIES_CARD", "name,editions,editions[0].number,types,border,frameEffects");
-		
+		m.put("PROPERTIES_CARD", "name,edition,number,types,border,frameEffects");
+		m.put(DECIMAL_SEPARATOR,""+DecimalFormatSymbols.getInstance().getDecimalSeparator());
 		return m;
 	}
 

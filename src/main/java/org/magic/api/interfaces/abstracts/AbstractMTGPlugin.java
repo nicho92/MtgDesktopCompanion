@@ -212,6 +212,12 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 
 		return getProperty(k, "").trim();
 	}
+	
+	
+	public char getChar(String k)
+	{
+		return getString(k).charAt(0);
+	}
 
 	@Override
 	public boolean isEnable() {

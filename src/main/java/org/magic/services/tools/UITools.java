@@ -514,6 +514,11 @@ public class UITools {
 		return formatDouble(f, "#0.0#",null);
 	}
 
+	public static String formatDouble(Object f,Character separator)
+	{
+		return formatDouble(f, "#0.0#",separator);
+	}
+	
 	public static String formatDouble(Object f,String format,Character separator)
 	{
 		if(f==null)
