@@ -59,7 +59,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 	public Map<String, String> getDefaultAttributes() {
 			return Map.of(BOOST, "false",
 							MIN_TERM_FREQ, "1",
-							FIELDS,"cost,text,color,type,cmc,rarity,extraLayout,rotatedCardName,borderless,showcase,extend,timeshifted",
+							FIELDS,"cost,text,scryfallId,numbercolor,type,cmc,rarity,extraLayout,rotatedCardName,borderless,showcase,extend,timeshifted,retro",
 							MAX_RESULTS,"20",
 							DIRECTORY,Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(), "luceneIndex").toFile().getAbsolutePath());
 	}
@@ -294,9 +294,10 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 
 		           doc.add(new Field("mtgcompId", CryptoUtils.generateCardId(mc), fieldType));
 		           doc.add(new Field("scryfallId",String.valueOf(mc.getScryfallId()),fieldType));
-
 		           doc.add(new Field("name", mc.getName(), fieldType));
-
+		           doc.add(new Field("number", mc.getNumber(), fieldType));
+		           
+		           
            		   if(mc.getCost()!=null)
            			   doc.add(new Field("cost", mc.getCost(),fieldType));
            		   else
@@ -320,7 +321,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 	     		  doc.add(new Field("showcase",String.valueOf(mc.isShowCase()),fieldType));
 	     		  doc.add(new Field("extend",String.valueOf(mc.isExtendedArt()),fieldType));
 	     		  doc.add(new Field("timeshifted",String.valueOf(mc.isTimeshifted()),fieldType));
-
+	     		  doc.add(new Field("retro",String.valueOf(mc.isRetro()),fieldType));
 
 			 	if(!mc.getExtra().isEmpty()) 
 				{	
