@@ -17,7 +17,7 @@ public enum EnumExtra {
 	STARTER("starter"),
 	THEME("default"),
 	VIP ("vip"),
-	WELCOME("default");
+	WELCOME("welcome");
 	
 	private String mtgjsonname;
 

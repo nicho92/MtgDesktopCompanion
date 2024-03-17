@@ -51,6 +51,7 @@ import org.magic.services.logging.MTGLogger;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.GithubUtils;
+import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.UITools;
 import org.mkm.gui.MkmPanel;
 
@@ -344,7 +345,7 @@ public class MagicGUI extends JFrame {
 		}
 
 	private void addTab(MTGUIComponent instance) {
-		tabbedPane.addTab(instance.getTitle(),instance.getIcon(), instance, null);
+		tabbedPane.addTab(instance.getTitle(),ImageTools.resize(instance.getIcon(), 24,24), instance, null);
 
 	}
 
