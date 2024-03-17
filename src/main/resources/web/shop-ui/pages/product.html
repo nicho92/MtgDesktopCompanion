@@ -132,10 +132,10 @@
 						if(data.enableGed==true)
 						{
 							
-							var url = "/ged/MagicCardStock/"+$_GET("id");
+							var url = "/ged/MTGCardStock/"+$_GET("id");
 							
 							if(stockItem.condition=="SEALED")
-								url = "/ged/SealedStock/"+$_GET("id");
+								url = "/ged/MTGSealedStock/"+$_GET("id");
 							
 							$.ajax({
 					        	url: restserver+url
