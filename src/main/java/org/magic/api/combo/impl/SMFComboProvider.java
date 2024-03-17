@@ -49,8 +49,7 @@ public class SMFComboProvider extends AbstractComboProvider {
 			
 		} catch (Exception e) {
 			logger.error(e);
-			e.printStackTrace();
-			return cbos;
+				return cbos;
 		}
 
 

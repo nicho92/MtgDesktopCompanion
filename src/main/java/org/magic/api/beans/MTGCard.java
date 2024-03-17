@@ -188,7 +188,7 @@ public class MTGCard extends AbstractProduct {
 		return cost;
 	}
 
-	@Deprecated(since = "2.43", forRemoval = true) 
+	@Deprecated(since = "2.43", forRemoval = true ) 
 	public MTGEdition getCurrentSet() {
 		if(!getEditions().isEmpty()) {
 			return getEditions().get(0);
