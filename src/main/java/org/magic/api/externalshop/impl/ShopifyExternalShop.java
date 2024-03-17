@@ -10,7 +10,6 @@ import org.apache.groovy.util.Maps;
 import org.apache.http.HttpResponse;
 import org.apache.http.entity.StringEntity;
 import org.magic.api.beans.MTGEdition;
-import org.magic.api.beans.abstracts.AbstractProduct;
 import org.magic.api.beans.abstracts.AbstractStockItem;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.EnumTransactionStatus;
@@ -20,6 +19,7 @@ import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
+import org.magic.services.ProductFactory;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
@@ -137,7 +137,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 
 	//TODO change product type
 	private MTGProduct parseProduct(JsonObject sp) {
-		MTGProduct p = AbstractProduct.createDefaultProduct(EnumItems.SEALED);
+		MTGProduct p = ProductFactory.createDefaultProduct(EnumItems.SEALED);
 				   p.setProductId(sp.get("id").getAsLong());
 				   p.setName(sp.get(TITLE).getAsString());
 				   try{

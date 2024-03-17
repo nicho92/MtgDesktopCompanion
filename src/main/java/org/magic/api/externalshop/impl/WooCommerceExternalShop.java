@@ -8,7 +8,6 @@ import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.magic.api.beans.abstracts.AbstractProduct;
 import org.magic.api.beans.abstracts.AbstractStockItem;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
@@ -22,6 +21,7 @@ import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.services.MTGConstants;
+import org.magic.services.ProductFactory;
 import org.magic.services.tools.UITools;
 import org.magic.services.tools.WooCommerceTools;
 
@@ -151,7 +151,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
     		entry.setPrice(objItem.get("total").getAsDouble());
     		entry.setSku(objItem.get("sku").getAsString());
 
-    		var prod = AbstractProduct.createDefaultProduct(EnumItems.SEALED);
+    		var prod = ProductFactory.createDefaultProduct(EnumItems.SEALED);
 	    		prod.setCategory(null);
 				prod.setName(objItem.get("name").getAsString());
 	    		prod.setProductId(objItem.get(PRODUCT_ID).getAsLong());
@@ -189,7 +189,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 			var c = new Category();
 					 c.setIdCategory(objCateg.get("id").getAsInt());
 					 c.setCategoryName(objCateg.get("name").getAsString());
-			var p = AbstractProduct.createDefaultProduct(parseType(c));
+			var p = ProductFactory.createDefaultProduct(parseType(c));
 			p.setCategory(c);
 			p.setProductId(obj.get("id").getAsLong());
 			p.setName(obj.get("name").getAsString());
@@ -488,7 +488,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 					 c.setIdCategory(objCateg.get("id").getAsInt());
 					 c.setCategoryName(objCateg.get("name").getAsString());
 					 
-					 var p = AbstractProduct.createDefaultProduct(parseType(c));		 
+					 var p = ProductFactory.createDefaultProduct(parseType(c));		 
 			p.setCategory(c);
 			p.setProductId(obj.get("id").getAsLong());
 			p.setName(obj.get("name").getAsString());

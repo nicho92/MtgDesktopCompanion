@@ -60,12 +60,12 @@ public class TransactionTrackingPanel extends MTGUIComponent {
 		btnTrack.addActionListener(al->{
 			textArea.setText("");
 			try {
-				var t = ((MTGTrackingService)comboBox.getSelectedItem()).track(transaction.getTransporterShippingCode(),transaction.getContact());
+				var t = ((MTGTrackingService)comboBox.getSelectedItem()).track(textField.getText(),transaction.getContact());
 				
 				t.getSteps().forEach(ts->{
 					textArea.append(UITools.formatDateTime(ts.getDateStep()));
 					textArea.append(" : ");
-					textArea.append(ts.getDescriptionStep());
+					textArea.append(ts.getDescriptionStep()); 
 					textArea.append("\n");
 				});
 				

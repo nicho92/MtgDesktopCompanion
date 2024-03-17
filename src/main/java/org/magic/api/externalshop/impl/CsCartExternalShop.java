@@ -9,7 +9,6 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.lang3.StringUtils;
-import org.magic.api.beans.abstracts.AbstractProduct;
 import org.magic.api.beans.abstracts.AbstractStockItem;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.EnumPaymentProvider;
@@ -20,6 +19,7 @@ import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
+import org.magic.services.ProductFactory;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
@@ -200,7 +200,7 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		jo = getBuilder(API_PRODUCTS+"/"+jo.get("product_id").getAsLong(), METHOD.GET).toJson().getAsJsonObject();
 		
 		
-		var product = AbstractProduct.createDefaultProduct(EnumItems.SEALED);
+		var product = ProductFactory.createDefaultProduct(EnumItems.SEALED);
 			  product.setProductId(jo.get("product_id").getAsLong());
 			  product.setName(jo.get("product").getAsString());
 			  try {

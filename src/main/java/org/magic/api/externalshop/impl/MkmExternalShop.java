@@ -30,7 +30,6 @@ import org.api.mkm.tools.MkmAPIConfig;
 import org.api.mkm.tools.MkmConstants;
 import org.api.mkm.tools.Tools;
 import org.magic.api.beans.MTGEdition;
-import org.magic.api.beans.abstracts.AbstractProduct;
 import org.magic.api.beans.abstracts.AbstractStockItem;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
@@ -44,6 +43,7 @@ import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.services.MTGConstants;
+import org.magic.services.ProductFactory;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 
@@ -340,7 +340,7 @@ public class MkmExternalShop extends AbstractExternalShop {
 
 
 	private MTGProduct toProduct(LightProduct product) {
-		var p = AbstractProduct.createDefaultProduct(product.getRarity()==null?EnumItems.SEALED:EnumItems.CARD);
+		var p = ProductFactory.createDefaultProduct(product.getRarity()==null?EnumItems.SEALED:EnumItems.CARD);
 		p.setName(product.getEnName());
 		p.setProductId(Long.valueOf(product.getIdProduct()));
 		try {

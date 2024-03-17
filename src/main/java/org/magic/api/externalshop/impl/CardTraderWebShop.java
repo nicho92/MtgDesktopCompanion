@@ -10,7 +10,6 @@ import org.api.cardtrader.services.CardTraderConstants;
 import org.api.cardtrader.services.CardTraderService;
 import org.api.cardtrader.tools.URLCallInfo;
 import org.magic.api.beans.MTGEdition;
-import org.magic.api.beans.abstracts.AbstractProduct;
 import org.magic.api.beans.abstracts.AbstractStockItem;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
@@ -24,6 +23,7 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
+import org.magic.services.ProductFactory;
 import org.magic.services.TechnicalServiceManager;
 import org.magic.services.tools.MTG;
 
@@ -73,7 +73,15 @@ public class CardTraderWebShop extends AbstractExternalShop {
 		init();
 
 		return service.listStock(search).stream().map(mp->{
-			var it = AbstractStockItem.generateDefault();
+			
+			var prod = ProductFactory.createDefaultProduct(mp.getName().contains("Booster")?EnumItems.SEALED:EnumItems.CARD);
+				prod.setProductId(mp.getIdBlueprint().longValue());
+				prod.setName(mp.getName());
+				prod.setEdition(toExpansion(mp.getExpansion()));
+				prod.setCategory(toCategory(mp.getCategorie()));
+			
+			
+			var it = ProductFactory.generateStockItem(prod);
 								    it.setId(mp.getId());
 								    it.setAltered(mp.isAltered());
 								    it.setComment("");
@@ -85,14 +93,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 								    
 								    if(mp.getCondition()!=null)
 								    	it.setCondition(aliases.getReversedConditionFor(this, mp.getCondition().name(),EnumCondition.NEAR_MINT));
-						
-								var prod = AbstractProduct.createDefaultProduct(EnumItems.SEALED);
-								prod.setProductId(mp.getIdBlueprint().longValue());
-								prod.setName(mp.getName());
-								prod.setEdition(toExpansion(mp.getExpansion()));
-								prod.setCategory(toCategory(mp.getCategorie()));
-								prod.setTypeProduct(prod.getName().contains("Booster")?EnumItems.SEALED:EnumItems.CARD);
-								it.setProduct(prod);
+							
 								return (MTGStockItem)it;
 		}).toList();
 	}
@@ -104,7 +105,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 		init();
 		return service.listBluePrints(name,null).stream().map(bp->{
 
-			var product = AbstractProduct.createDefaultProduct(EnumItems.SEALED);
+			var product = ProductFactory.createDefaultProduct(EnumItems.SEALED);
 				product.setName(bp.getName());
 				product.setUrl(bp.getImageUrl());
 				product.setProductId(bp.getId().longValue());
@@ -206,14 +207,14 @@ public class CardTraderWebShop extends AbstractExternalShop {
 						catch (Exception e)
 						{
 							logger.error(e);
-							var prod = AbstractProduct.createDefaultProduct(EnumItems.CARD);
+							var prod = ProductFactory.createDefaultProduct(EnumItems.CARD);
 							prod.setName(oi.getName());
 							item.setProduct(prod);
 						}
 				}
 				else
 				{
-					var prod = AbstractProduct.createDefaultProduct(EnumItems.SEALED);
+					var prod = ProductFactory.createDefaultProduct(EnumItems.SEALED);
 					prod.setProductId(Long.valueOf(oi.getBluePrintId()));
 					prod.setName(oi.getName());
 					prod.setEdition(toExpansion(oi.getExpansionProduct()));
