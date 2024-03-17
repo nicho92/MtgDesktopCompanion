@@ -73,7 +73,7 @@ $(document).ready(function() {
 		
 		
 		$.ajax({
-		    url: restserver+"/ged/Announce/"+ announce.id
+		    url: restserver+"/ged/MTGAnnounce/"+ announce.id
 		}).then(function(geds){
 			$.each( geds, function( key, ged ) {
 				var img = buildImage(ged,"");
@@ -116,7 +116,7 @@ $(document).ready(function() {
 			$.each( announces, function( key, value ) {
 				
 					$.ajax({
-		    				url: restserver+"/ged/Announce/"+value.id
+		    				url: restserver+"/ged/MTGAnnounce/"+value.id
 						}).then(function(geds){
 							
 							var img = buildImage(geds[0],"");

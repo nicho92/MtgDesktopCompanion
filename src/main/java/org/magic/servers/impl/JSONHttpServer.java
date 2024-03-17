@@ -472,7 +472,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 			var id = request.params(":id");
 
-			if(request.params(CLASS).equals("MagicCard"))
+			if(request.params(CLASS).equals("MTGCard"))
 				id = CryptoUtils.generateCardId(getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(":id")));
 
 

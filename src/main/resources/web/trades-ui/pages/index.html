@@ -40,7 +40,7 @@ $(document).ready(function() {
 	}).then(function(announces){
 		$.each( announces, function( key, announce ) {
 				$.ajax({
-	    					url: restserver+"/ged/Announce/"+announce.id
+	    					url: restserver+"/ged/MTGAnnounce/"+announce.id
 					}).then(function(geds){
 						$('#lastProducts').append( buildAnnounce(announce,geds,lastresult,lastresult,lastresult,lastresult-2));
 					});

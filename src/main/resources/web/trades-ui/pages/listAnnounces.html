@@ -52,7 +52,7 @@
 			
 				$.each( announces, function( key, announce ) {
 					$.ajax({
-		    				url: restserver+"/ged/Announce/"+announce.id
+		    				url: restserver+"/ged/MTGAnnounce/"+announce.id
 						}).then(function(geds){
 							$('#listAnnounces').append(buildAnnounce(announce,geds,12,12,6,6));
 						});
