@@ -74,8 +74,8 @@ public class CountersFactory {
 				if(value.contains("/"))
 				{
 					String[] splitedValue = value.split("/");
-					var power = Integer.parseInt(splitedValue[0].replaceAll("\\+", ""));
-					var toughness = Integer.parseInt(splitedValue[1].replaceAll("\\+", ""));
+					var power = Integer.parseInt(splitedValue[0].replace("\\+", ""));
+					var toughness = Integer.parseInt(splitedValue[1].replace("\\+", ""));
 					var bonus = new BonusCounter(power, toughness);
 					arr.add(bonus);
 				}

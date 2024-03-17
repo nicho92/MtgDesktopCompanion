@@ -18,10 +18,8 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Properties;
-import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.stream.Stream;
 import java.util.zip.GZIPInputStream;
@@ -234,9 +232,9 @@ public class FileTools {
 
 	public static void extractConfig(File fzip) throws IOException
 	{
-		IOFileFilter fileFilter1 =   FileFilterUtils.notFileFilter(FileFilterUtils.nameFileFilter("logs", null));
-		IOFileFilter fileFilter2 =   FileFilterUtils.notFileFilter(FileFilterUtils.nameFileFilter("data", null));
-		IOFileFilter exceptFilter =   FileFilterUtils.and(fileFilter1, fileFilter2 );
+		var fileFilter1 =   FileFilterUtils.notFileFilter(FileFilterUtils.nameFileFilter("logs", null));
+		var fileFilter2 =   FileFilterUtils.notFileFilter(FileFilterUtils.nameFileFilter("data", null));
+		var exceptFilter =   FileFilterUtils.and(fileFilter1, fileFilter2 );
 
 
 		try (var out = new ZipOutputStream(new FileOutputStream(fzip))) {
@@ -318,7 +316,7 @@ public class FileTools {
 			throw new IOException(dest + " is not a directory");
 
 		try(var zipFile = new ZipFile(fileZip)){
-			Enumeration<? extends ZipEntry> entries = zipFile.entries();
+			var entries = zipFile.entries();
 		
 			while (entries.hasMoreElements())
 			{
@@ -426,15 +424,12 @@ public class FileTools {
 
 		try(var jarFile = new JarFile(FileTools.class.getProtectionDomain().getCodeSource().getLocation().getPath()))
 		{
-		    final Enumeration<JarEntry> entries = jarFile.entries(); //gives ALL entries in jar
+		    final var entries = jarFile.entries(); 
 		    while(entries.hasMoreElements()) {
-		        final JarEntry entry = entries.nextElement();
-		        final String name = entry.getName();
+		        final var entry = entries.nextElement();
+		        final var name = entry.getName();
 		        if (name.startsWith(path + "/")) { //filter according to the path
-
-
 		        	var f = new File(writeDirectory,name);
-
 		        	logger.debug("writing {}", f);
 
 		        	if(entry.isDirectory())
