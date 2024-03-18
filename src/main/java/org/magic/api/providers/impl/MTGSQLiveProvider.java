@@ -286,7 +286,7 @@ private MTGPool pool;
 
 	@Override
 	public void init() {
-		logger.info("init {} provider",this);
+		
 		download();
 		pool = new HikariPool();
 		pool.init("jdbc:sqlite://"+getDataFile().getAbsolutePath(), "", "", true);

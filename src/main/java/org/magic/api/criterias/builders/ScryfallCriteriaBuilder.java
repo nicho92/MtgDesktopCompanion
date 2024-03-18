@@ -19,11 +19,11 @@ public class ScryfallCriteriaBuilder extends AbstractQueryBuilder<String> {
 
 			if(c.getType()==Boolean.class)
 			{
-				temp.append("is:"+c.getAtt());
+				temp.append("is:").append(c.getAtt());
 			}
-			else
+			else if(c.getType()==String.class)
 			{
-				//TODO code eq value
+				temp.append("eq:").append(c.getAtt());
 			}
 
 

@@ -626,7 +626,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			pool=new NoPool();
 			logger.error("error loading selected pool. Use default : {}",pool.getName());
 		}
-		logger.info("Loading SQL connection to : {}",getjdbcUrl());
+		logger.debug("Loading SQL connection to : {}",getjdbcUrl());
 		pool.init(getjdbcUrl(),getString(LOGIN), getString(PASS),enablePooling());
 		createDB();
 	}

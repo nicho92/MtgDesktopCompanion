@@ -165,10 +165,9 @@ public class PluginRegistry {
 		registry.put(MTGIA.class, new PluginEntry<>(MTGIA.class,false, "/artificialIntelligences", "/ia", "org.magic.api.ia.impl",PLUGINS.IA));
 		registry.put(MTGSealedProvider.class, new PluginEntry<>(MTGSealedProvider.class,false, "/sealeds", "/sealedProvider", "org.magic.api.sealedprovider.impl",PLUGINS.SEALED));
 		registry.put(MTGNetworkClient.class, new PluginEntry<>(MTGNetworkClient.class,false, "/networks", "/network", "org.magic.api.network.impl",PLUGINS.NETWORK));
-		
-		
 		registry.put(AbstractJDashlet.class, new PluginEntry<>(AbstractJDashlet.class,true,"/dashlets", "/dashlet", "org.magic.gui.dashlet",PLUGINS.DASHLET));
-		logger.info("MTG Plugins loaded");
+		
+		logger.debug("MTG Plugins Registry loaded");
 	}
 
 
