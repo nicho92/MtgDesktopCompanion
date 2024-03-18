@@ -10,6 +10,7 @@ import org.api.cardtrader.services.CardTraderConstants;
 import org.api.cardtrader.services.CardTraderService;
 import org.api.cardtrader.tools.URLCallInfo;
 import org.magic.api.beans.MTGEdition;
+import org.magic.api.beans.abstracts.AbstractProduct;
 import org.magic.api.beans.abstracts.AbstractStockItem;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
@@ -191,26 +192,28 @@ public class CardTraderWebShop extends AbstractExternalShop {
 			
 			o.getOrderItems().forEach(oi->{
 
-				var item  = AbstractStockItem.generateDefault();
-
-				item.setPrice(oi.getPrice().getValue());
-				item.setId(oi.getId());
-				item.getTiersAppIds().put(getName(), ""+oi.getId());
-				item.setQte(oi.getQuantity());
-
-				if(oi.getScryfallId()!=null && !oi.getScryfallId().isEmpty()) {
+		
+				AbstractStockItem<? extends AbstractProduct> item;
+				if(oi.getScryfallId()!=null && !oi.getScryfallId().isEmpty()) 
+				{
 						try {
 							var prod = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(oi.getScryfallId());
 							prod.setEdition(prod.getEdition());
-							item.setProduct(prod);
+							item  = ProductFactory.generateStockItem(prod);
 						} 
 						catch (Exception e)
 						{
 							logger.error(e);
 							var prod = ProductFactory.createDefaultProduct(EnumItems.CARD);
 							prod.setName(oi.getName());
-							item.setProduct(prod);
+							item  = ProductFactory.generateStockItem(prod);
 						}
+						
+						item.setPrice(oi.getPrice().getValue());
+						item.setId(oi.getId());
+						item.getTiersAppIds().put(getName(), ""+oi.getId());
+						item.setQte(oi.getQuantity());
+						
 				}
 				else
 				{
@@ -218,7 +221,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 					prod.setProductId(Long.valueOf(oi.getBluePrintId()));
 					prod.setName(oi.getName());
 					prod.setEdition(toExpansion(oi.getExpansionProduct()));
-					item.setProduct(prod);
+					item  = ProductFactory.generateStockItem(prod);
 				}
 				item.setFoil(oi.isFoil());
 				item.setAltered(oi.isAltered());

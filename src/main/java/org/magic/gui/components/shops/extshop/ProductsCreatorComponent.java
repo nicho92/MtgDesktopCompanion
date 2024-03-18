@@ -20,7 +20,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 
-import org.magic.api.beans.abstracts.AbstractStockItem;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.interfaces.MTGExternalShop;
 import org.magic.api.interfaces.MTGProduct;
@@ -28,6 +27,7 @@ import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.renderer.ProductListRenderer;
 import org.magic.services.MTGConstants;
+import org.magic.services.ProductFactory;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
 import org.magic.services.workers.AbstractObservableWorker;
@@ -182,8 +182,7 @@ public class ProductsCreatorComponent extends MTGUIComponent {
 			protected Void doInBackground() throws Exception {
 					for(MTGProduct p : list)
 					{
-							AbstractStockItem<MTGProduct> it = AbstractStockItem.generateDefault();
-							it.setProduct(p);
+							var it = ProductFactory.generateStockItem(p);
 							plug.saveOrUpdateStock(it,false);
 							publish(p);
 					}

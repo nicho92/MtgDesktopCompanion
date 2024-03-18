@@ -10,7 +10,6 @@ import org.apache.groovy.util.Maps;
 import org.apache.http.HttpResponse;
 import org.apache.http.entity.StringEntity;
 import org.magic.api.beans.MTGEdition;
-import org.magic.api.beans.abstracts.AbstractStockItem;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.EnumTransactionStatus;
 import org.magic.api.beans.shop.Category;
@@ -116,8 +115,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 
 		for(JsonElement el : obj.get("variants").getAsJsonArray())
 		{
-				AbstractStockItem<MTGProduct> it = AbstractStockItem.generateDefault();
-									  it.setProduct(parseProduct(obj));
+				var it = ProductFactory.generateStockItem(parseProduct(obj));
 									 try {
 										 it.getProduct().setEdition(new MTGEdition(el.getAsJsonObject().get(OPTION+getString(SET_OPTION_NUMBER)).getAsString(), el.getAsJsonObject().get(OPTION+getString(SET_OPTION_NUMBER)).getAsString()));
 									 }
@@ -177,8 +175,7 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 		obj.get("line_items").getAsJsonArray().forEach(je->{
 
 			var item = je.getAsJsonObject();
-			AbstractStockItem<MTGProduct> it = AbstractStockItem.generateDefault();
-			  	it.setProduct(parseProduct(item));
+			var it = ProductFactory.generateStockItem(parseProduct(item));
 
 			  	try {
 			  	it.setId(item.get("variant_id").getAsLong());
@@ -294,12 +291,11 @@ public class ShopifyExternalShop extends AbstractExternalShop {
 
 		var obj= readId(VARIANT,id);
 
-		var it = AbstractStockItem.generateDefault();
+		var it = ProductFactory.generateStockItem(parseProduct(readId(PRODUCT,obj.get("product_id").getAsLong())));
 		  it.setId(obj.get("id").getAsLong());
 		  it.setPrice(obj.get(PRICE).getAsDouble());
 		  it.setQte(obj.get(INVENTORY_QUANTITY).getAsInt());
 		  it.setFoil(obj.get(OPTION+getString(FOIL_OPTION_NUMBER)).getAsString().toLowerCase().contains("foil"));
-		  it.setProduct(parseProduct(readId(PRODUCT,obj.get("product_id").getAsLong())));
 		  return it;
 
 	}

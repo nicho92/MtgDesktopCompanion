@@ -30,7 +30,6 @@ import org.api.mkm.tools.MkmAPIConfig;
 import org.api.mkm.tools.MkmConstants;
 import org.api.mkm.tools.Tools;
 import org.magic.api.beans.MTGEdition;
-import org.magic.api.beans.abstracts.AbstractStockItem;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.EnumTransactionStatus;
@@ -105,8 +104,6 @@ public class MkmExternalShop extends AbstractExternalShop {
 
 						if(art.get("English Name").toLowerCase().contains(search.toLowerCase()) || art.get("Exp. Name").toLowerCase().contains(search.toLowerCase()) ||art.get("idArticle").equalsIgnoreCase(search.toLowerCase())) {
 
-							var item = AbstractStockItem.generateDefault();
-
 							var product = new LightProduct();
 								  product.setIdGame(1);
 								  product.setLocName(art.get("Local Name"));
@@ -115,6 +112,9 @@ public class MkmExternalShop extends AbstractExternalShop {
 								  product.setIdProduct(Integer.parseInt(art.get("idProduct")));
 								  product.setRarity("");
 								  product.setImage("");
+								  
+									var item = ProductFactory.generateStockItem(toProduct(product));
+								  
 								  try {
 									  item.setFoil(!art.get("Foil?").isEmpty());
 									  item.setSigned(!art.get("Signed?").isEmpty());
@@ -127,7 +127,6 @@ public class MkmExternalShop extends AbstractExternalShop {
 										product.setRarity(null);
 									}
 
-								  item.setProduct(toProduct(product));
 								  item.setQte(Integer.parseInt(art.get("Amount")));
 								  item.setPrice(UITools.parseDouble(art.get("Price")));
 								  item.setId(Integer.parseInt(art.get("idArticle")));
@@ -300,11 +299,14 @@ public class MkmExternalShop extends AbstractExternalShop {
 
 
 		o.getArticle().forEach(article->{
-			var item = AbstractStockItem.generateDefault();
+			
+			
+			
+			
+			var item = ProductFactory.generateStockItem(toProduct(article.getProduct()));
 			item.setId(article.getIdArticle());
 			item.setLanguage(article.getLanguage().getLanguageName());
 			item.setPrice(article.getPrice());
-			item.setProduct(toProduct(article.getProduct()));
 			item.getProduct().setProductId(Long.valueOf(article.getIdProduct()));
 
 			if(article.getCondition()!=null)

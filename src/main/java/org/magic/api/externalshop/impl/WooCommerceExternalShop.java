@@ -8,7 +8,6 @@ import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.magic.api.beans.abstracts.AbstractStockItem;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.EnumPaymentProvider;
@@ -143,21 +142,21 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		for(JsonElement item : itemsArr)
     	{
 
-    		var entry = AbstractStockItem.generateDefault();
+			var objItem = item.getAsJsonObject();
+			
+			var prod = ProductFactory.createDefaultProduct(EnumItems.SEALED);
+    		prod.setCategory(null);
+			prod.setName(objItem.get("name").getAsString());
+    		prod.setProductId(objItem.get(PRODUCT_ID).getAsLong());
+    		prod.setUrl("");
+			
+    		var entry = ProductFactory.generateStockItem(prod);
 
-    		var objItem = item.getAsJsonObject();
+    		
     		entry.setId(objItem.get(PRODUCT_ID).getAsInt());
     		entry.setQte(objItem.get("quantity").getAsInt());
     		entry.setPrice(objItem.get("total").getAsDouble());
     		entry.setSku(objItem.get("sku").getAsString());
-
-    		var prod = ProductFactory.createDefaultProduct(EnumItems.SEALED);
-	    		prod.setCategory(null);
-				prod.setName(objItem.get("name").getAsString());
-	    		prod.setProductId(objItem.get(PRODUCT_ID).getAsLong());
-	    		prod.setUrl("");
-
-    		entry.setProduct(prod);
     		entry.setLanguage(entry.getProduct().getName().toLowerCase().contains("français")?"French":"English");
     		entry.getTiersAppIds().put(getName(), String.valueOf(entry.getId()));
     		ret.add(entry);
@@ -204,8 +203,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 				//do nothing.. no image found
 			}
 
-					var stockItem = AbstractStockItem.generateDefault();
-					stockItem.setProduct(p);
+					var stockItem = ProductFactory.generateStockItem(p);
 					stockItem.setId(p.getProductId());
 
 

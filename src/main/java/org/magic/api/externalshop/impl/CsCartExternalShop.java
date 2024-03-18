@@ -9,7 +9,6 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.lang3.StringUtils;
-import org.magic.api.beans.abstracts.AbstractStockItem;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.EnumPaymentProvider;
 import org.magic.api.beans.enums.EnumTransactionStatus;
@@ -227,9 +226,7 @@ public class CsCartExternalShop extends AbstractExternalShop {
 
 	private MTGStockItem buildStockItem(JsonObject req) {
 		var product = buildProduct(req.getAsJsonObject());
-		var item  = AbstractStockItem.generateDefault();
-			 item.setProduct(product);
-			 
+		var item = ProductFactory.generateStockItem(product);
 			  try {
 				  item.setLanguage(req.get("lang_code").getAsString());
 			  }

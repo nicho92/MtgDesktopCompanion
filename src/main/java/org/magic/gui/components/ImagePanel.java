@@ -155,11 +155,11 @@ public class ImagePanel extends JXPanel {
 					imgFront = getEnabledPlugin(MTGPictureProvider.class).getPicture(mc);
 
 					if(mc.isFlippable())
-						imgBack = ImageTools.rotate(imgFront, 180);
+						imgBack = ImageTools.rotate(printed, 180);
 
 
 					if(mc.getLayout()==EnumLayout.SPLIT)
-						imgFront= ImageTools.rotate(imgFront, 90);
+						imgFront= ImageTools.rotate(printed, 90);
 
 			   		if(reflection) {
 						imgFront = renderer.appendReflection(imgFront);
