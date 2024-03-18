@@ -102,7 +102,7 @@ public class WooCommerceExport extends AbstractCardExport {
 		{
 			try {
 				var id = String.valueOf(e.getAsJsonObject().get("id").getAsInt());
-				MTGCardStock st = MTG.getEnabledPlugin(MTGDao.class).getStockWithTiersID(getName(), id);
+				var st = MTG.getEnabledPlugin(MTGDao.class).getStockWithTiersID(getName(), id);
 
 				if(st==null)
 				{
@@ -225,7 +225,7 @@ public class WooCommerceExport extends AbstractCardExport {
 		if(getString(ARTICLE_NAME).isEmpty())
 			productInfo.put("name", toForeign(st.getProduct()).getName());
 		else
-			productInfo.put("name", toName( toForeign(st.getProduct())));
+			productInfo.put("name", toName(toForeign(st.getProduct())));
 
         productInfo.put("type", "simple");
         productInfo.put("regular_price", String.valueOf(st.getPrice()));
@@ -241,15 +241,15 @@ public class WooCommerceExport extends AbstractCardExport {
         	{
         		Map<String, Object> categoryMap = new HashMap<>();
         		try { 
-        		var categ = new Category();
-        		categ.setCategoryName(st.getProduct().getEdition().getSet());
-        		categoryMap.put("name", categ.getCategoryName());
-				categoryMap.put("slug", st.getProduct().getEdition().getId());
-				Map<String,JsonElement> ret = wooCommerce.create(EndpointBaseType.PRODUCTS_CATEGORIES.getValue(), categoryMap);
-				categ.setIdCategory(ret.get("id").getAsInt());
-				categs.add(categ);
-        		logger.warn("Can't find category named {}. create new one",st.getProduct().getEdition().getSet());
-        		productInfo.put("categories", WooCommerceTools.entryToJsonArray("id",""+categ.getIdCategory()));
+	        		var categ = new Category();
+	        			  categ.setCategoryName(st.getProduct().getEdition().getSet());
+	        		categoryMap.put("name", categ.getCategoryName());
+					categoryMap.put("slug", st.getProduct().getEdition().getId());
+					Map<String,JsonElement> ret = wooCommerce.create(EndpointBaseType.PRODUCTS_CATEGORIES.getValue(), categoryMap);
+					categ.setIdCategory(ret.get("id").getAsInt());
+					categs.add(categ);
+	        		logger.warn("Can't find category named {}. create new one",st.getProduct().getEdition().getSet());
+	        		productInfo.put("categories", WooCommerceTools.entryToJsonArray("id",""+categ.getIdCategory()));
         		}
         		catch(Exception e)
         		{
@@ -274,26 +274,26 @@ public class WooCommerceExport extends AbstractCardExport {
 
 
         	try {
-        	productInfo.put("images", WooCommerceTools.entryToJsonArray("src",new ScryFallProvider().getJsonFor(st.getProduct()).get("image_uris").getAsJsonObject().get("normal").getAsString()));
-       	}catch(Exception e)
+        		productInfo.put("images", WooCommerceTools.entryToJsonArray("src",new ScryFallProvider().getJsonFor(st.getProduct()).get("image_uris").getAsJsonObject().get("normal").getAsString()));
+        	}catch(Exception e)
         	{
         		logger.error("error getting image for {} : {}",st.getProduct(),e.getMessage());
         	}
 
 
       		var arr = new JsonArray();
-      				  arr.add(createAttributes("collection", String.valueOf(st.getMagicCollection()),false));
-					  arr.add(createAttributes("foil", String.valueOf(st.isFoil()),true));
-					  arr.add(createAttributes("condition", st.getCondition().name(),true));
-					  arr.add(createAttributes("altered", String.valueOf(st.isAltered()),true));
-					  arr.add(createAttributes("signed", String.valueOf(st.isSigned()),true));
-					  arr.add(createAttributes("Language", st.getLanguage(),true));
-					  arr.add(createAttributes("comment", st.getComment()!=null?st.getComment():"",true));
-					  arr.add(createAttributes("setCode", st.getProduct().getEdition().getId(),true));
-					  arr.add(createAttributes("setName", st.getProduct().getEdition().getSet(),true));
-					  arr.add(createAttributes("number", st.getProduct().getNumber(),true));
+      				  arr.add(createAttributes("mtg_comp_collection", String.valueOf(st.getMagicCollection()),false));
+					  arr.add(createAttributes("mtg_comp_foil", String.valueOf(st.isFoil()),true));
+					  arr.add(createAttributes("mtg_comp_condition", st.getCondition().name(),true));
+					  arr.add(createAttributes("mtg_comp_altered", String.valueOf(st.isAltered()),true));
+					  arr.add(createAttributes("mtg_comp_signed", String.valueOf(st.isSigned()),true));
+					  arr.add(createAttributes("mtg_comp_language", st.getLanguage(),true));
+					  arr.add(createAttributes("mtg_comp_comment", st.getComment()!=null?st.getComment():"",true));
+					  arr.add(createAttributes("mtg_comp_setCode", st.getProduct().getEdition().getId(),true));
+					  arr.add(createAttributes("mtg_comp_setName", st.getProduct().getEdition().getSet(),true));
+					  arr.add(createAttributes("mtg_comp_number", st.getProduct().getNumber(),true));
 					  arr.add(createAttributes(MTG_COMP_STOCK_ID,String.valueOf(st.getId()),false));
-					  arr.add(createAttributes("type",st.getProduct().getTypeProduct().name(),true));
+					  arr.add(createAttributes("mtg_comp_type",st.getProduct().getTypeProduct().name(),true));
 					  productInfo.put("attributes", arr);
 
       	return productInfo;

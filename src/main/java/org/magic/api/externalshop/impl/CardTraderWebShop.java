@@ -75,7 +75,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 
 		return service.listStock(search).stream().map(mp->{
 			
-			var prod = ProductFactory.createDefaultProduct(mp.getName().contains("Booster")?EnumItems.SEALED:EnumItems.CARD);
+			var prod = ProductFactory.createDefaultProduct(mp.getCategorie().getId()==1?EnumItems.CARD:EnumItems.SEALED);
 				prod.setProductId(mp.getIdBlueprint().longValue());
 				prod.setName(mp.getName());
 				prod.setEdition(toExpansion(mp.getExpansion()));
@@ -106,7 +106,7 @@ public class CardTraderWebShop extends AbstractExternalShop {
 		init();
 		return service.listBluePrints(name,null).stream().map(bp->{
 
-			var product = ProductFactory.createDefaultProduct(EnumItems.SEALED);
+			var product = ProductFactory.createDefaultProduct(bp.isCard()?EnumItems.CARD:EnumItems.SEALED);
 				product.setName(bp.getName());
 				product.setUrl(bp.getImageUrl());
 				product.setProductId(bp.getId().longValue());

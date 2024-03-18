@@ -267,6 +267,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		for(Transaction oe : listTransactions())
 		{
 			oe.setId(-1);
+			oe.setContact(dao.getContactByEmail(oe.getContact().getEmail()));			
 			dao.saveOrUpdateTransaction(oe);
 		}
 

@@ -377,8 +377,17 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 			vars.put(PRICE, String.valueOf(it.getPrice()));
 			vars.put("regular_price", String.valueOf(it.getPrice()));
 			vars.put(STOCK_QUANTITY, it.getQte());
-			var ret = client.update(EndpointBaseType.PRODUCTS.getValue(),it.getId().intValue(),vars );
-	        logger.debug("ret={}",ret);
+			
+			if(it.getId()>-1)
+			{
+				var ret = client.update(EndpointBaseType.PRODUCTS.getValue(),it.getId().intValue(),vars );
+			    logger.debug("ret={}",ret);
+			}
+			else
+			{
+				
+			}
+	    
 			it.setUpdated(false);
 		}
 	}
