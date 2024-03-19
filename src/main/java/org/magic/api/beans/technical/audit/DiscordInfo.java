@@ -11,9 +11,9 @@ import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 public class DiscordInfo extends AbstractAuditableItem {
 
 	private static final long serialVersionUID = 1L;
-	private transient JsonObject user;
-	private transient JsonObject guild;
-	private transient JsonObject channel;
+	private JsonObject user;
+	private JsonObject guild;
+	private JsonObject channel;
 	private String message;
 	private String error;
 
