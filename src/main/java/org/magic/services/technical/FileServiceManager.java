@@ -33,7 +33,7 @@ public class FileServiceManager extends AbstractTechnicalServiceManager {
 	private List<FileAccessInfo> fileInfos;
 	
 	
-	private JsonExport export;
+	
 	private File logsDirectory = new File(MTGConstants.DATA_DIR,"audits");
 
 
@@ -103,23 +103,56 @@ public class FileServiceManager extends AbstractTechnicalServiceManager {
 
 		if(isEnable())
 		{
-			for(File f : FileTools.listFiles(logsDirectory))
-			{
-				if(f.getName().startsWith(JsonQueryInfo.class.getSimpleName()))
-					jsonInfo.addAll(restore(f,JsonQueryInfo.class).stream().distinct().toList());
-				else if(f.getName().startsWith(DAOInfo.class.getSimpleName()))
-					daoInfos.addAll(restore(f,DAOInfo.class).stream().distinct().toList());
-				else if(f.getName().startsWith(TaskInfo.class.getSimpleName()))
-					tasksInfos.addAll(restore(f,TaskInfo.class).stream().distinct().toList());
-				else if(f.getName().startsWith(NetworkInfo.class.getSimpleName()))
-					networkInfos.addAll(restore(f,NetworkInfo.class).stream().distinct().toList());
-				else if(f.getName().startsWith(DiscordInfo.class.getSimpleName()))
-					discordInfos.addAll(restore(f,DiscordInfo.class).stream().distinct().toList());
-				else if(f.getName().startsWith(FileAccessInfo.class.getSimpleName()))
-					fileInfos.addAll(restore(f,FileAccessInfo.class).stream().distinct().toList());
-				else if(f.getName().startsWith(TalkMessage.class.getSimpleName()))
-					jsonMessages.addAll(restore(f,TalkMessage.class).stream().distinct().toList());
-			}
+			ThreadManager.getInstance().executeThread(new MTGRunnable() {
+				
+				@Override
+				protected void auditedRun() {
+
+					for(File f : FileTools.listFiles(logsDirectory))
+					{
+						if(f.getName().startsWith(JsonQueryInfo.class.getSimpleName()))
+							try {
+								jsonInfo.addAll(restore(f,JsonQueryInfo.class).stream().distinct().toList());
+							} catch (IOException e) {
+								logger.error(e);
+							}
+						else if(f.getName().startsWith(DAOInfo.class.getSimpleName()))
+							try {
+								daoInfos.addAll(restore(f,DAOInfo.class).stream().distinct().toList());
+							} catch (IOException e) {
+								logger.error(e);							}
+						else if(f.getName().startsWith(TaskInfo.class.getSimpleName()))
+							try {
+								tasksInfos.addAll(restore(f,TaskInfo.class).stream().distinct().toList());
+							} catch (IOException e) {
+								logger.error(e);							}
+						else if(f.getName().startsWith(NetworkInfo.class.getSimpleName()))
+							try {
+								networkInfos.addAll(restore(f,NetworkInfo.class).stream().distinct().toList());
+							} catch (IOException e) {
+								logger.error(e);							}
+						else if(f.getName().startsWith(DiscordInfo.class.getSimpleName()))
+							try {
+								discordInfos.addAll(restore(f,DiscordInfo.class).stream().distinct().toList());
+							} catch (IOException e) {
+								logger.error(e);							}
+						else if(f.getName().startsWith(FileAccessInfo.class.getSimpleName()))
+							try {
+								fileInfos.addAll(restore(f,FileAccessInfo.class).stream().distinct().toList());
+							} catch (IOException e) {
+								logger.error(e);							}
+						else if(f.getName().startsWith(TalkMessage.class.getSimpleName()))
+							try {
+								jsonMessages.addAll(restore(f,TalkMessage.class).stream().distinct().toList());
+							} catch (IOException e) {
+								logger.error(e);							}
+					}
+					logger.info("Technical data are loaded");
+					
+				}
+			}, "Loading technical data");
+			
+			
 			logger.info("TechnicalService is enable");
 		}
 		else
@@ -132,10 +165,10 @@ public class FileServiceManager extends AbstractTechnicalServiceManager {
 
 	private <T  extends AbstractAuditableItem> List<T> restore(File f, Class<T> classe) throws IOException {
 		
-		if(export==null)
-			export = new JsonExport();
+		if(serializer==null)
+			serializer = new JsonExport();
 		
-		return export.fromJsonList(FileTools.readFile(f), classe);
+		return serializer.fromJsonList(FileTools.readFile(f), classe);
 	}
 
 	private <T extends AbstractAuditableItem> void storeItems(Class<T> classe, List<T> items) throws IOException
@@ -143,11 +176,11 @@ public class FileServiceManager extends AbstractTechnicalServiceManager {
 		if(isEnable())
 		{
 
-			if(export==null)
-				export = new JsonExport();
+			if(serializer==null)
+				serializer = new JsonExport();
 			
 			
-			FileTools.saveLargeFile(Paths.get(logsDirectory.getAbsolutePath(),classe.getSimpleName()+".json").toFile(), export.toJson(items),MTGConstants.DEFAULT_ENCODING);
+			FileTools.saveLargeFile(Paths.get(logsDirectory.getAbsolutePath(),classe.getSimpleName()+".json").toFile(), serializer.toJson(items),MTGConstants.DEFAULT_ENCODING);
 		}
 	}
 

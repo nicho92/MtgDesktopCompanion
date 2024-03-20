@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.logging.log4j.Logger;
+import org.magic.api.exports.impl.JsonExport;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.providers.IPTranslator;
 import org.magic.services.technical.FileServiceManager;
@@ -15,6 +16,8 @@ public abstract class AbstractTechnicalServiceManager {
 	private boolean enable =true;
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	protected IPTranslator translator;
+	protected  JsonExport serializer;
+	
 	
 	private static FileServiceManager inst;
 	
@@ -28,6 +31,7 @@ public abstract class AbstractTechnicalServiceManager {
 
 	protected AbstractTechnicalServiceManager() {
 		translator = new IPTranslator();
+	//	serializer = new JsonExport();
 	}
 	
 	
