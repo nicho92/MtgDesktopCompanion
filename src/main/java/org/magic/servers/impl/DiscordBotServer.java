@@ -40,12 +40,12 @@ import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
+import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
 import org.magic.api.sorters.MagicPricesComparator;
 import org.magic.api.sorters.PricesCardsShakeSorter;
 import org.magic.api.sorters.PricesCardsShakeSorter.SORT;
 import org.magic.servers.impl.NavigableEmbed.EmbedButton;
 import org.magic.services.MTGConstants;
-import org.magic.services.TechnicalServiceManager;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 
@@ -173,7 +173,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 			{
 				responseHelp(event);
 				info.setEnd(Instant.now());
-				TechnicalServiceManager.inst().store(info);
+				AbstractTechnicalServiceManager.inst().store(info);
 
 				return;
 			}
@@ -190,7 +190,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 					event.getChannel().sendMessage("Hoopsy...error for "+e.getMessage()).queue();
 				}
 				info.setEnd(Instant.now());
-				TechnicalServiceManager.inst().store(info);
+				AbstractTechnicalServiceManager.inst().store(info);
 
 				return;
 			}
@@ -204,7 +204,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 					event.getChannel().sendMessage(e.getMessage()).queue();
 				}
 				info.setEnd(Instant.now());
-				TechnicalServiceManager.inst().store(info);
+				AbstractTechnicalServiceManager.inst().store(info);
 
 				return;
 			}
@@ -219,14 +219,14 @@ public class DiscordBotServer extends AbstractMTGServer {
 					event.getChannel().sendMessage(e.getMessage()).queue();
 				}
 				info.setEnd(Instant.now());
-				TechnicalServiceManager.inst().store(info);
+				AbstractTechnicalServiceManager.inst().store(info);
 
 				return;
 			}
 
 			responseSearch(event,name,info);
 			info.setEnd(Instant.now());
-			TechnicalServiceManager.inst().store(info);
+			AbstractTechnicalServiceManager.inst().store(info);
 
 
 

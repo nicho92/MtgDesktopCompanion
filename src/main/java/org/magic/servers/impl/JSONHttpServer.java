@@ -85,6 +85,7 @@ import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.api.interfaces.MTGTrackingService;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
+import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
 import org.magic.api.pictures.impl.PersonalSetPicturesProvider;
 import org.magic.api.providers.impl.PrivateMTGSetProvider;
 import org.magic.api.sorters.CardsEditionSorter;
@@ -96,7 +97,6 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
 import org.magic.services.PluginRegistry;
 import org.magic.services.ReportNotificationManager;
-import org.magic.services.TechnicalServiceManager;
 import org.magic.services.TransactionService;
 import org.magic.services.VersionChecker;
 import org.magic.services.keywords.AbstractKeyWordsManager;
@@ -280,7 +280,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			info.setStatus(response.status());
 			info.setUserAgent(ua.parse(request.userAgent()));
 			info.setEnd(Instant.now());
-			TechnicalServiceManager.inst().store(info);
+			AbstractTechnicalServiceManager.inst().store(info);
 		}
 	}
 
@@ -1105,16 +1105,16 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/admin/activemq/:all", URLTools.HEADER_JSON, (request, response) -> {
 			
 			if(request.params(":all").equalsIgnoreCase("true"))
-				return TechnicalServiceManager.inst().getJsonMessages();
+				return AbstractTechnicalServiceManager.inst().getJsonMessages();
 			else
-				return TechnicalServiceManager.inst().getJsonMessages().stream().filter(p->!p.getAuthor().isAdmin()).toList();
+				return AbstractTechnicalServiceManager.inst().getJsonMessages().stream().filter(p->!p.getAuthor().isAdmin()).toList();
 		}, transformer);
 
 		get("/admin/discord", URLTools.HEADER_JSON, (request, response) -> {
 			var ret = new JsonObject();
 			var serv = (DiscordBotServer) MTG.getPlugin("Discord", MTGServer.class);
 			ret.add("server", serv.toJsonDetails());
-			ret.add("queries",converter.toJsonElement(TechnicalServiceManager.inst().getDiscordInfos()));
+			ret.add("queries",converter.toJsonElement(AbstractTechnicalServiceManager.inst().getDiscordInfos()));
 			return ret;
 		}, transformer);
 
@@ -1124,7 +1124,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		}, transformer);
 
-		get("/admin/files", URLTools.HEADER_JSON, (request, response) ->TechnicalServiceManager.inst().getFileInfos(), transformer);
+		get("/admin/files", URLTools.HEADER_JSON, (request, response) ->AbstractTechnicalServiceManager.inst().getFileInfos(), transformer);
 		
 		get("/admin/caches", URLTools.HEADER_JSON, (request, response) -> {
 			JsonArray arr = new JsonArray();
@@ -1140,13 +1140,13 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return arr;
 		}, transformer);
 
-		get("/admin/jdbc", URLTools.HEADER_JSON, (request, response) -> TechnicalServiceManager.inst().getDaoInfos(), transformer);
+		get("/admin/jdbc", URLTools.HEADER_JSON, (request, response) -> AbstractTechnicalServiceManager.inst().getDaoInfos(), transformer);
 
-		get("/admin/jsonQueries", URLTools.HEADER_JSON, (request, response) -> TechnicalServiceManager.inst().getJsonInfo(), transformer);
+		get("/admin/jsonQueries", URLTools.HEADER_JSON, (request, response) -> AbstractTechnicalServiceManager.inst().getJsonInfo(), transformer);
 
 		get("/admin/threads", URLTools.HEADER_JSON, (request, response) -> ThreadManager.getInstance().toJson(), transformer);
 
-		get("/admin/network", URLTools.HEADER_JSON, (request, response) -> TechnicalServiceManager.inst().getNetworkInfos().stream().map(NetworkInfo::toJson).toList(), transformer);
+		get("/admin/network", URLTools.HEADER_JSON, (request, response) -> AbstractTechnicalServiceManager.inst().getNetworkInfos().stream().map(NetworkInfo::toJson).toList(), transformer);
 
 		get("/admin/clearCache", URLTools.HEADER_JSON, (request, response) -> {
 			clearCache();
@@ -1418,7 +1418,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 	public void stop() throws IOException {
 		Spark.stop();
 
-		TechnicalServiceManager.inst().storeAll();
+		AbstractTechnicalServiceManager.inst().storeAll();
 		logger.info("Server stop");
 		running = false;
 	}

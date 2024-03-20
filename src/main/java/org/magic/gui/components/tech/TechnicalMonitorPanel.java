@@ -8,12 +8,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingWorker;
 import javax.swing.Timer;
 import javax.swing.table.TableCellRenderer;
 
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGServer;
+import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.MapTableModel;
@@ -29,7 +31,7 @@ import org.magic.servers.impl.DiscordBotServer;
 import org.magic.servers.impl.JSONHttpServer;
 import org.magic.servers.impl.QwartzServer;
 import org.magic.services.MTGConstants;
-import org.magic.services.TechnicalServiceManager;
+import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
@@ -92,17 +94,25 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 		add(getContextTabbedPane(), BorderLayout.CENTER);
 
 
-		modelTasks.bind(TechnicalServiceManager.inst().getTasksInfos());
-		modelNetwork.bind(TechnicalServiceManager.inst().getNetworkInfos());
-		queryModel.bind(TechnicalServiceManager.inst().getDaoInfos());
-		modelJsonServerInfo.bind(TechnicalServiceManager.inst().getJsonInfo());
-		discordModel.bind(TechnicalServiceManager.inst().getDiscordInfos());
-		modelFileAccess.bind(TechnicalServiceManager.inst().getFileInfos());
-		
-		modelConfig.init(TechnicalServiceManager.inst().getSystemInfo());
-		modelDao.init(MTG.getEnabledPlugin(MTGDao.class).getDBSize());
+		var sw = new SwingWorker<Void, Void>() {
 
+			@Override
+			protected Void doInBackground() throws Exception {
+				modelTasks.bind(AbstractTechnicalServiceManager.inst().getTasksInfos());
+				modelNetwork.bind(AbstractTechnicalServiceManager.inst().getNetworkInfos());
+				queryModel.bind(AbstractTechnicalServiceManager.inst().getDaoInfos());
+				modelJsonServerInfo.bind(AbstractTechnicalServiceManager.inst().getJsonInfo());
+				discordModel.bind(AbstractTechnicalServiceManager.inst().getDiscordInfos());
+				modelFileAccess.bind(AbstractTechnicalServiceManager.inst().getFileInfos());
+				
+				modelConfig.init(AbstractTechnicalServiceManager.inst().getSystemInfo());
+				modelDao.init(MTG.getEnabledPlugin(MTGDao.class).getDBSize());
+				
+				return null;
+			}
+		};
 		
+		ThreadManager.getInstance().runInEdt(sw, "Loading logs");
 		
 		var tableTasks = UITools.createNewTable(modelTasks,true);
 		var tableNetwork = UITools.createNewTable(modelNetwork,true);
@@ -177,7 +187,7 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 		panel.add(memoryPanel);
 
 		t = new Timer(MTGConstants.TECHNICAL_REFRESH, e ->{
-			modelThreads.init(TechnicalServiceManager.inst().getThreadsInfos());
+			modelThreads.init(AbstractTechnicalServiceManager.inst().getThreadsInfos());
 			memoryPanel.refresh();
 			modelTasks.fireTableDataChanged();
 			modelNetwork.fireTableDataChanged();

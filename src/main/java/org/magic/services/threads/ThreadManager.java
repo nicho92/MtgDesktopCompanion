@@ -19,7 +19,7 @@ import org.magic.api.beans.technical.audit.TaskInfo;
 import org.magic.api.beans.technical.audit.TaskInfo.STATE;
 import org.magic.api.beans.technical.audit.TaskInfo.TYPE;
 import org.magic.api.exports.impl.JsonExport;
-import org.magic.services.TechnicalServiceManager;
+import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
 import org.magic.services.logging.MTGLogger;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
@@ -50,7 +50,7 @@ public class ThreadManager {
 
 		task.getInfo().setName(name);
 
-		TechnicalServiceManager.inst().store(task.getInfo());
+		AbstractTechnicalServiceManager.inst().store(task.getInfo());
 
 		executor.execute(task);
 	}
@@ -58,7 +58,7 @@ public class ThreadManager {
 	public  Future<Object> submitThread(MTGRunnable task, String name) {
 
 		task.getInfo().setName(name);
-		TechnicalServiceManager.inst().store(task.getInfo());
+		AbstractTechnicalServiceManager.inst().store(task.getInfo());
 		return submitCallable(Executors.callable(task));
 	}
 
@@ -70,7 +70,7 @@ public class ThreadManager {
 	public void invokeLater(MTGRunnable task, String name) {
 
 		task.getInfo().setName(name);
-		TechnicalServiceManager.inst().store(task.getInfo());
+		AbstractTechnicalServiceManager.inst().store(task.getInfo());
 		SwingUtilities.invokeLater(task);
 	}
 
@@ -79,7 +79,7 @@ public class ThreadManager {
 		var info = new TaskInfo(runnable);
 			  info.setName(name);
 			  info.setType(TYPE.WORKER);
-			  TechnicalServiceManager.inst().store(info);
+			  AbstractTechnicalServiceManager.inst().store(info);
 
 		runnable.execute();
 
@@ -145,7 +145,7 @@ public class ThreadManager {
 
 	var objRet = new JsonObject();
 		objRet.add("factory", objExe);
-		objRet.add("tasks", new JsonExport().toJsonArray(TechnicalServiceManager.inst().getTasksInfos()));
+		objRet.add("tasks", new JsonExport().toJsonArray(AbstractTechnicalServiceManager.inst().getTasksInfos()));
 
 		return objRet;
 	}

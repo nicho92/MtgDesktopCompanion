@@ -31,9 +31,9 @@ import org.magic.api.beans.messages.TechMessageUsers;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
+import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
 import org.magic.api.network.impl.ActiveMQNetworkClient;
 import org.magic.services.MTGConstants;
-import org.magic.services.TechnicalServiceManager;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
 
@@ -221,7 +221,7 @@ public class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
 		if(!jmsg.getAuthor().isAdmin())
 			onlines.put(String.valueOf(jmsg.getAuthor().getId()), jmsg.getAuthor());
 		
-		TechnicalServiceManager.inst().store(jmsg);
+		AbstractTechnicalServiceManager.inst().store(jmsg);
 		logger.info("user {} : {} for {} ", session.getUsername(),jmsg,onlines);		
 		
 		

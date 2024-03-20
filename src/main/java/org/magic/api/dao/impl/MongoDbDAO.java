@@ -40,9 +40,9 @@ import org.magic.api.beans.technical.audit.DAOInfo;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.MTGSerializable;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
+import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
 import org.magic.services.MTGConstants;
 import org.magic.services.PluginRegistry;
-import org.magic.services.TechnicalServiceManager;
 import org.magic.services.tools.Chrono;
 import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.ImageTools;
@@ -182,7 +182,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 										e.setDuration(event.getElapsedTime(TimeUnit.MILLISECONDS));
 										e.setEnd(Instant.now());
 										e.setClasseName(event.getClass().getCanonicalName());
-									TechnicalServiceManager.inst().store(e);
+										AbstractTechnicalServiceManager.inst().store(e);
 								}
 
 								@Override
@@ -198,7 +198,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 									e.setMessage(event.getThrowable().getMessage());
 									e.setDuration(event.getElapsedTime(TimeUnit.MILLISECONDS));
 									e.setEnd(Instant.now());
-									TechnicalServiceManager.inst().store(e);
+									AbstractTechnicalServiceManager.inst().store(e);
 								}
 							})
 			                .build();

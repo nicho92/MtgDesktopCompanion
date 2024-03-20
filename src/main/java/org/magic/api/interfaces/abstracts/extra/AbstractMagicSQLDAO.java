@@ -53,10 +53,10 @@ import org.magic.api.interfaces.MTGSealedProvider;
 import org.magic.api.interfaces.MTGSerializable;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
+import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
 import org.magic.api.pool.impl.NoPool;
 import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
-import org.magic.services.TechnicalServiceManager;
 import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.MTG;
@@ -1839,7 +1839,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		var start=Instant.now();
 		var daoInfo = new DAOInfo();
 
-		TechnicalServiceManager.inst().store(daoInfo);
+		AbstractTechnicalServiceManager.inst().store(daoInfo);
 
 		daoInfo.setStart(start);
 		try {

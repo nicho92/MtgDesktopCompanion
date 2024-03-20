@@ -37,6 +37,7 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.MTGPlugin;
+import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.providers.ApilayerCurrencyConverter;
 import org.magic.services.providers.LookAndFeelProvider;
@@ -120,8 +121,8 @@ public class MTGControler {
 			ThreadManager.getInstance().initThreadPoolConfig(getThreadPoolConfig());
 			
 		
-			TechnicalServiceManager.inst().enable(get("technical-log").equals("true"));
-			TechnicalServiceManager.inst().restore();
+			AbstractTechnicalServiceManager.inst().enable(get("technical-log").equals("true"));
+			AbstractTechnicalServiceManager.inst().restore();
 			
 		
 		} catch (Exception e) {
@@ -151,7 +152,7 @@ public class MTGControler {
 	{
 		PluginRegistry.inst().listPlugins().forEach(MTGPlugin::unload);
 		ThreadManager.getInstance().stop();
-		TechnicalServiceManager.inst().storeAll();
+		AbstractTechnicalServiceManager.inst().storeAll();
 		System.exit(0);
 	}
 
@@ -432,7 +433,7 @@ public class MTGControler {
 			builder.save();
 			info.setEnd(Instant.now());
 			info.setAccesstype(ACCESSTYPE.WRITE);
-			TechnicalServiceManager.inst().store(info);
+			AbstractTechnicalServiceManager.inst().store(info);
 			
 		} catch (Exception e) {
 			logger.error("Error saving {}={}",k,c, e);

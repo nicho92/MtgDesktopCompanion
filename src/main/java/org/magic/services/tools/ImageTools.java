@@ -37,8 +37,8 @@ import javax.swing.ImageIcon;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.technical.audit.FileAccessInfo;
 import org.magic.api.beans.technical.audit.FileAccessInfo.ACCESSTYPE;
+import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
 import org.magic.services.MTGConstants;
-import org.magic.services.TechnicalServiceManager;
 import org.magic.services.logging.MTGLogger;
 
 public class ImageTools {
@@ -192,7 +192,7 @@ public class ImageTools {
 		ImageIO.write(img, format, f);
 		info.setEnd(Instant.now());
 		info.setAccesstype(ACCESSTYPE.WRITE);
-		TechnicalServiceManager.inst().store(info);
+		AbstractTechnicalServiceManager.inst().store(info);
 	}
 
 

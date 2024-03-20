@@ -9,12 +9,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import org.magic.api.beans.game.Player;
+import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.conf.ActiveMQMessageTableModel;
 import org.magic.gui.renderer.PlayerRenderer;
 import org.magic.servers.impl.ActiveMQServer;
 import org.magic.services.MTGConstants;
-import org.magic.services.TechnicalServiceManager;
 import org.magic.services.tools.UITools;
 
 public class ActiveMQServerPanel extends MTGUIComponent {
@@ -36,7 +36,7 @@ public class ActiveMQServerPanel extends MTGUIComponent {
 		add(new JScrollPane(table),BorderLayout.CENTER);
 		add(new JScrollPane(listPlayers),BorderLayout.WEST);
 
-		model.bind(TechnicalServiceManager.inst().getJsonMessages());
+		model.bind(AbstractTechnicalServiceManager.inst().getJsonMessages());
 		
 		
 	}

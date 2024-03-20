@@ -20,7 +20,7 @@ import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.beans.technical.audit.NetworkInfo;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
-import org.magic.services.TechnicalServiceManager;
+import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
 import org.magic.services.tools.MTG;
 
 public class CardTraderStockExport extends AbstractCardExport {
@@ -45,7 +45,7 @@ public class CardTraderStockExport extends AbstractCardExport {
 				netinfo.setRequest(callInfo.getRequest());
 				netinfo.setReponse(callInfo.getResponse());
 
-				TechnicalServiceManager.inst().store(netinfo);
+				AbstractTechnicalServiceManager.inst().store(netinfo);
 
 		});
 

@@ -39,8 +39,8 @@ import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.technical.audit.FileAccessInfo;
 import org.magic.api.beans.technical.audit.FileAccessInfo.ACCESSTYPE;
+import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
 import org.magic.services.MTGConstants;
-import org.magic.services.TechnicalServiceManager;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
 import org.magic.services.recognition.DescContainer;
@@ -66,7 +66,7 @@ public class FileTools {
 		 	info.setEnd(Instant.now());
 			info.setAccesstype(ACCESSTYPE.CREATE);
 		 
-		 TechnicalServiceManager.inst().store(info);
+		 AbstractTechnicalServiceManager.inst().store(info);
 	}
 
 	public static void appendLine(File f,String line) throws IOException
@@ -77,7 +77,7 @@ public class FileTools {
 		FileUtils.write(f, line,MTGConstants.DEFAULT_ENCODING,true);
 	 	info.setEnd(Instant.now());
 		info.setAccesstype(ACCESSTYPE.WRITE);
-		TechnicalServiceManager.inst().store(info);
+		AbstractTechnicalServiceManager.inst().store(info);
 	}
 
 	public static int linesCount(File f)
@@ -87,7 +87,7 @@ public class FileTools {
 			var ret =  Files.readLines(f,MTGConstants.DEFAULT_ENCODING).size();
 		 	info.setEnd(Instant.now());
 			info.setAccesstype(ACCESSTYPE.READ);
-			TechnicalServiceManager.inst().store(info);
+			AbstractTechnicalServiceManager.inst().store(info);
 			
 			return ret;
 			
@@ -112,7 +112,7 @@ public class FileTools {
 		FileUtils.write(f, data,enc);
 		info.setEnd(Instant.now());
 		info.setAccesstype(ACCESSTYPE.WRITE);
-		TechnicalServiceManager.inst().store(info);
+		AbstractTechnicalServiceManager.inst().store(info);
 	}
 
 
@@ -132,7 +132,7 @@ public class FileTools {
 		}
 		info.setEnd(Instant.now());
 		info.setAccesstype(ACCESSTYPE.WRITE);
-		TechnicalServiceManager.inst().store(info);
+		AbstractTechnicalServiceManager.inst().store(info);
 
 	}
 
@@ -146,7 +146,7 @@ public class FileTools {
 		}
 		info.setEnd(Instant.now());
 		info.setAccesstype(ACCESSTYPE.WRITE);
-		TechnicalServiceManager.inst().store(info);
+		AbstractTechnicalServiceManager.inst().store(info);
 	}
 
 
@@ -160,7 +160,7 @@ public class FileTools {
 		}
 		info.setEnd(Instant.now());
 		info.setAccesstype(ACCESSTYPE.READ);
-		TechnicalServiceManager.inst().store(info);
+		AbstractTechnicalServiceManager.inst().store(info);
 		
 		
 	}
@@ -175,7 +175,7 @@ public class FileTools {
 			FileUtils.forceDelete(f);
 			info.setEnd(Instant.now());
 			info.setAccesstype(ACCESSTYPE.DELETE);
-			TechnicalServiceManager.inst().store(info);
+			AbstractTechnicalServiceManager.inst().store(info);
 	}
 
 
@@ -215,7 +215,7 @@ public class FileTools {
 			var ret=FileUtils.readFileToString(f,charset);
 			info.setEnd(Instant.now());
 			info.setAccesstype(ACCESSTYPE.READ);
-			TechnicalServiceManager.inst().store(info);
+			AbstractTechnicalServiceManager.inst().store(info);
 			
 			return ret;
 		}
@@ -288,7 +288,7 @@ public class FileTools {
 		}
 		info.setEnd(Instant.now());
 		info.setAccesstype(ACCESSTYPE.READ);
-		TechnicalServiceManager.inst().store(info);
+		AbstractTechnicalServiceManager.inst().store(info);
 	}
 
 	public static ByteBuffer getBuffer(File f) throws IOException
@@ -303,7 +303,7 @@ public class FileTools {
 			buffer.flip();
 			info.setEnd(Instant.now());
 			info.setAccesstype(ACCESSTYPE.READ);
-			TechnicalServiceManager.inst().store(info);
+			AbstractTechnicalServiceManager.inst().store(info);
 			return buffer;
 		}
 
@@ -340,13 +340,13 @@ public class FileTools {
 		    		var infoW = new FileAccessInfo(f);
 		       		infoW.setEnd(Instant.now());
 		       		infoW.setAccesstype(ACCESSTYPE.WRITE);
-		       		TechnicalServiceManager.inst().store(infoW);
+		       		AbstractTechnicalServiceManager.inst().store(infoW);
 		       	}
 		    }
 		}
 		infoR.setEnd(Instant.now());
    		infoR.setAccesstype(ACCESSTYPE.READ);
-   		TechnicalServiceManager.inst().store(infoR);
+   		AbstractTechnicalServiceManager.inst().store(infoR);
 	}
 
 
@@ -363,7 +363,7 @@ public class FileTools {
 		}
 		info.setEnd(Instant.now());
 		info.setAccesstype(ACCESSTYPE.WRITE);
-		TechnicalServiceManager.inst().store(info);
+		AbstractTechnicalServiceManager.inst().store(info);
 	}
 
 
@@ -378,7 +378,7 @@ public class FileTools {
 		}
 		info.setEnd(Instant.now());
 		info.setAccesstype(ACCESSTYPE.WRITE);
-		TechnicalServiceManager.inst().store(info);
+		AbstractTechnicalServiceManager.inst().store(info);
 	}
 
 
@@ -399,23 +399,23 @@ public class FileTools {
 					ze = zis.getNextEntry();
 					info.setEnd(Instant.now());
 					info.setAccesstype(ACCESSTYPE.WRITE);
-					TechnicalServiceManager.inst().store(info);
+					AbstractTechnicalServiceManager.inst().store(info);
 				}
 			}
- 			TechnicalServiceManager.inst().store(infoR);
+ 			AbstractTechnicalServiceManager.inst().store(infoR);
 		} catch (IOException ex) {
 			logger.error(ex);
 		}
 		
 		infoR.setEnd(Instant.now());
 		infoR.setAccesstype(ACCESSTYPE.READ);
-		TechnicalServiceManager.inst().store(infoR);
+		AbstractTechnicalServiceManager.inst().store(infoR);
  		
  		var dinfo = new FileAccessInfo(src);
  		boolean del = FileUtils.deleteQuietly(src);
  		dinfo.setEnd(Instant.now());
  		dinfo.setAccesstype(ACCESSTYPE.DELETE);
-		TechnicalServiceManager.inst().store(dinfo);
+		AbstractTechnicalServiceManager.inst().store(dinfo);
 		logger.debug("removing {}={}",src,del);
 		
  	}
@@ -452,7 +452,7 @@ public class FileTools {
 		
 		info.setEnd(Instant.now());
 		info.setAccesstype(ACCESSTYPE.READ);
-		TechnicalServiceManager.inst().store(info);
+		AbstractTechnicalServiceManager.inst().store(info);
 		return ret;
 	}
 
@@ -480,7 +480,7 @@ public class FileTools {
 		FileUtils.copyURLToFile(resource,conf);
 		info.setEnd(Instant.now());
 		info.setAccesstype(ACCESSTYPE.WRITE);
-		TechnicalServiceManager.inst().store(info);
+		AbstractTechnicalServiceManager.inst().store(info);
 	}
 
 	public static void forceMkdir(File dataDir) throws IOException {
@@ -488,7 +488,7 @@ public class FileTools {
 		FileUtils.forceMkdir(dataDir);
 		info.setEnd(Instant.now());
 		info.setAccesstype(ACCESSTYPE.CREATE);
-		TechnicalServiceManager.inst().store(info);
+		AbstractTechnicalServiceManager.inst().store(info);
 	}
 
 	public static void cleanDirectory(File file) throws IOException {
@@ -496,7 +496,7 @@ public class FileTools {
 		FileUtils.cleanDirectory(file);
 		info.setEnd(Instant.now());
 		info.setAccesstype(ACCESSTYPE.DELETE);
-		TechnicalServiceManager.inst().store(info);
+		AbstractTechnicalServiceManager.inst().store(info);
 	}
 
 	public static long sizeOfDirectory(File file) {
@@ -508,7 +508,7 @@ public class FileTools {
 		FileUtils.deleteDirectory(file);
 		info.setEnd(Instant.now());
 		info.setAccesstype(ACCESSTYPE.DELETE);
-		TechnicalServiceManager.inst().store(info);
+		AbstractTechnicalServiceManager.inst().store(info);
 		
 	}
 
@@ -517,7 +517,7 @@ public class FileTools {
 		FileUtils.copyInputStreamToFile(content, dest);
 		info.setEnd(Instant.now());
 		info.setAccesstype(ACCESSTYPE.WRITE);
-		TechnicalServiceManager.inst().store(info);
+		AbstractTechnicalServiceManager.inst().store(info);
 		
 	}
 
@@ -536,7 +536,7 @@ public class FileTools {
 		var ret = FileUtils.sizeOf(file);
 		info.setEnd(Instant.now());
 		info.setAccesstype(ACCESSTYPE.READ);
-		TechnicalServiceManager.inst().store(info);
+		AbstractTechnicalServiceManager.inst().store(info);
 		return ret;
 	}
 
@@ -560,7 +560,7 @@ public class FileTools {
 		var info = new FileAccessInfo(p);
 		info.setEnd(Instant.now());
 		info.setAccesstype(ACCESSTYPE.WRITE);
-		TechnicalServiceManager.inst().store(info);
+		AbstractTechnicalServiceManager.inst().store(info);
 		return p;
 		
 		

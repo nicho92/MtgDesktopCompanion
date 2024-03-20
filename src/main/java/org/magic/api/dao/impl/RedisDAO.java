@@ -23,9 +23,9 @@ import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.GedEntry;
 import org.magic.api.beans.technical.audit.DAOInfo;
 import org.magic.api.interfaces.MTGSerializable;
+import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
 import org.magic.api.interfaces.abstracts.extra.AbstractKeyValueDao;
 import org.magic.services.PluginRegistry;
-import org.magic.services.TechnicalServiceManager;
 import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.POMReader;
@@ -84,13 +84,13 @@ public class RedisDAO extends AbstractKeyValueDao {
 			public void commandFailed(CommandFailedEvent event) {
 				obj.setEnd(Instant.now());
 				obj.setMessage(event.getCause().getMessage());
-				TechnicalServiceManager.inst().store(obj);
+				AbstractTechnicalServiceManager.inst().store(obj);
 			}
 			
 			@Override
 			public void commandSucceeded(CommandSucceededEvent event) {
 				obj.setEnd(Instant.now());
-				TechnicalServiceManager.inst().store(obj);
+				AbstractTechnicalServiceManager.inst().store(obj);
 			}
 		};
 		

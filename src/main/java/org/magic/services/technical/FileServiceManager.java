@@ -1,18 +1,13 @@
-package org.magic.services;
+package org.magic.services.technical;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.management.ManagementFactory;
-import java.lang.management.ThreadInfo;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Objects;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.abstracts.AbstractAuditableItem;
 import org.magic.api.beans.messages.TalkMessage;
 import org.magic.api.beans.technical.audit.DAOInfo;
@@ -22,15 +17,14 @@ import org.magic.api.beans.technical.audit.JsonQueryInfo;
 import org.magic.api.beans.technical.audit.NetworkInfo;
 import org.magic.api.beans.technical.audit.TaskInfo;
 import org.magic.api.exports.impl.JsonExport;
-import org.magic.services.logging.MTGLogger;
-import org.magic.services.providers.IPTranslator;
+import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
+import org.magic.services.MTGConstants;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.FileTools;
 
-public class TechnicalServiceManager {
+public class FileServiceManager extends AbstractTechnicalServiceManager {
 
-	private static TechnicalServiceManager inst;
 	private List<JsonQueryInfo> jsonInfo;
 	private List<DAOInfo> daoInfos;
 	private List<NetworkInfo> networkInfos;
@@ -38,31 +32,18 @@ public class TechnicalServiceManager {
 	private List<DiscordInfo> discordInfos;
 	private List<FileAccessInfo> fileInfos;
 	
-	protected Logger logger = MTGLogger.getLogger(this.getClass());
+	
 	private JsonExport export;
 	private File logsDirectory = new File(MTGConstants.DATA_DIR,"audits");
-	private IPTranslator translator;
-	private boolean enable =true;
+
+
 	private List<TalkMessage> jsonMessages;
 
 	public static final int SCHEDULE_TIMER_MS=1;
 
-	public static TechnicalServiceManager inst()
-	{
-		if(inst==null)
-			inst = new TechnicalServiceManager();
 
-		return inst;
-	}
-
-
-	public void enable(boolean enable)
-	{
-		this.enable =enable;
-	}
-	
-
-	public TechnicalServiceManager() {
+	public FileServiceManager() {
+		super();
 		jsonInfo= new ArrayList<>();
 		networkInfos = new ArrayList<>();
 		daoInfos = new ArrayList<>();
@@ -70,7 +51,7 @@ public class TechnicalServiceManager {
 		fileInfos = new ArrayList<>();
 		discordInfos = new ArrayList<>();
 		jsonMessages=new ArrayList<>();
-		translator = new IPTranslator();
+		
 		
 		if(!logsDirectory.exists())
 		{
@@ -94,10 +75,11 @@ public class TechnicalServiceManager {
 
 	}
 
+
 	public void storeAll()
 	{
 
-		if(enable)
+		if(isEnable())
 		{
 				try {
 					storeItems(JsonQueryInfo.class,jsonInfo.stream().filter(Objects::nonNull).toList());
@@ -116,11 +98,10 @@ public class TechnicalServiceManager {
 
 	}
 
-
 	public void restore() throws IOException
 	{
 
-		if(enable)
+		if(isEnable())
 		{
 			for(File f : FileTools.listFiles(logsDirectory))
 			{
@@ -159,7 +140,7 @@ public class TechnicalServiceManager {
 
 	private <T extends AbstractAuditableItem> void storeItems(Class<T> classe, List<T> items) throws IOException
 	{
-		if(enable)
+		if(isEnable())
 		{
 
 			if(export==null)
@@ -183,6 +164,7 @@ public class TechnicalServiceManager {
 		return jsonInfo;
 	}
 
+	
 	public List<NetworkInfo> getNetworkInfos() {
 		return networkInfos;
 	}
@@ -191,9 +173,11 @@ public class TechnicalServiceManager {
 		return daoInfos;
 	}
 
+
 	public List<TaskInfo> getTasksInfos() {
 		return tasksInfos;
 	}
+
 
 	public List<TalkMessage> getJsonMessages() {
 		return jsonMessages;
@@ -234,17 +218,6 @@ public class TechnicalServiceManager {
 	public void store(TalkMessage msg) {
 		jsonMessages.add(msg);
 		
-	}
-
-
-
-
-	public Set<Entry<Object, Object>> getSystemInfo() {
-		return System.getProperties().entrySet();
-	}
-
-	public ThreadInfo[] getThreadsInfos() {
-		return ManagementFactory.getThreadMXBean().dumpAllThreads(true, true);
 	}
 
 

@@ -15,8 +15,8 @@ import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
 import org.magic.api.beans.technical.audit.NetworkInfo;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
+import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
 import org.magic.services.MTGControler;
-import org.magic.services.TechnicalServiceManager;
 import org.magic.services.tools.Chrono;
 
 public class CardTraderPricer extends AbstractPricesProvider {
@@ -141,7 +141,7 @@ public class CardTraderPricer extends AbstractPricesProvider {
 				ni.setReponse(callInfo.getResponse());
 				ni.setRequest(callInfo.getRequest());
 
-				TechnicalServiceManager.inst().store(ni);
+				AbstractTechnicalServiceManager.inst().store(ni);
 
 
 			});
