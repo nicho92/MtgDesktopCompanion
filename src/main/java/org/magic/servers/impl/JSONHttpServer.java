@@ -1418,7 +1418,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 	public void stop() throws IOException {
 		Spark.stop();
 
-		AbstractTechnicalServiceManager.inst().storeAll();
+		AbstractTechnicalServiceManager.inst().close();
 		logger.info("Server stop");
 		running = false;
 	}
