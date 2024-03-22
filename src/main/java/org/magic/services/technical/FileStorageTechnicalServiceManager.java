@@ -40,7 +40,7 @@ public class FileStorageTechnicalServiceManager extends AbstractTechnicalService
 	}
 
 	@Override
-	public void close()
+	public void persist()
 	{
 
 		if(isEnable())
@@ -70,40 +70,40 @@ public class FileStorageTechnicalServiceManager extends AbstractTechnicalService
 					{
 						if(f.getName().startsWith(JsonQueryInfo.class.getSimpleName()))
 							try {
-								getJsonInfo().addAll(restore(f,JsonQueryInfo.class).stream().distinct().toList());
+								getJsonInfo().addAll(restore(f,JsonQueryInfo.class));
 							} catch (IOException e) {
 								logger.error(e);
 							}
 						else if(f.getName().startsWith(DAOInfo.class.getSimpleName()))
 							try {
-								getDaoInfos().addAll(restore(f,DAOInfo.class).stream().distinct().toList());
+								getDaoInfos().addAll(restore(f,DAOInfo.class));
 							} catch (IOException e) {
 								logger.error(e);							}
 						else if(f.getName().startsWith(TaskInfo.class.getSimpleName()))
 							try {
-								getTasksInfos().addAll(restore(f,TaskInfo.class).stream().distinct().toList());
+								getTasksInfos().addAll(restore(f,TaskInfo.class));
 							} catch (IOException e) {
 								logger.error(e);							}
 						else if(f.getName().startsWith(NetworkInfo.class.getSimpleName()))
 							try {
-								getNetworkInfos().addAll(restore(f,NetworkInfo.class).stream().distinct().toList());
+								getNetworkInfos().addAll(restore(f,NetworkInfo.class));
 							} catch (IOException e) {
 								logger.error(e);							}
 						else if(f.getName().startsWith(DiscordInfo.class.getSimpleName()))
 							try {
-								getDiscordInfos().addAll(restore(f,DiscordInfo.class).stream().distinct().toList());
+								getDiscordInfos().addAll(restore(f,DiscordInfo.class));
 							} catch (IOException e) {
 								logger.error(e);							}
 						else if(f.getName().startsWith(FileAccessInfo.class.getSimpleName()))
 							try {
-								getFileInfos().addAll(restore(f,FileAccessInfo.class).stream().distinct().toList());
+								getFileInfos().addAll(restore(f,FileAccessInfo.class));
 							} catch (IOException e) {
 								logger.error(e);							}
 						else if(f.getName().startsWith(TalkMessage.class.getSimpleName()))
 							try {
-								getJsonMessages().addAll(restore(f,TalkMessage.class).stream().distinct().toList());
+								getJsonMessages().addAll(restore(f,TalkMessage.class));
 							} catch (IOException e) {
-								logger.error(e);							}
+								logger.error(e);}
 					}
 					logger.info("Technical data are loaded");
 					
@@ -116,7 +116,7 @@ public class FileStorageTechnicalServiceManager extends AbstractTechnicalService
 		if(serializer==null)
 			serializer = new JsonExport();
 		
-		return serializer.fromJsonList(FileTools.readFile(f), classe);
+		return serializer.fromJsonList(FileTools.readFile(f), classe).stream().distinct().toList();
 	}
 
 	private <T extends AbstractAuditableItem> void storeItems(Class<T> classe, List<T> items) throws IOException
@@ -133,38 +133,6 @@ public class FileStorageTechnicalServiceManager extends AbstractTechnicalService
 	}
 
 	
-	@Override
-	public void store(AbstractAuditableItem item) {
-		if(item instanceof JsonQueryInfo info)
-		{
-			info.setLocation(translator.getLocationFor(info.getIp()));
-			getJsonInfo().add(info);
-		}
-		else if (item instanceof DiscordInfo info)
-		{
-			getDiscordInfos().add(info);
-		}
-		else if (item instanceof FileAccessInfo info)
-		{
-			getFileInfos().add(info);
-		}
-		else if (item instanceof NetworkInfo info)
-		{
-			getNetworkInfos().add(info);
-		}
-		else if (item instanceof TaskInfo info)
-		{
-			getTasksInfos().add(info);
-		}
-		else if (item instanceof DAOInfo info)
-		{
-			getDaoInfos().add(info);
-		}
-		else if (item instanceof TalkMessage info)
-		{
-			getJsonMessages().add(info);
-		}
-		
-	}
+	
 
 }

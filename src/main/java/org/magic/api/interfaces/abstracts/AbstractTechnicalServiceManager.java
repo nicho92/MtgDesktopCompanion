@@ -39,6 +39,9 @@ public abstract class AbstractTechnicalServiceManager {
 	private List<DiscordInfo> discordInfos;
 	private List<FileAccessInfo> fileInfos;
 	private List<TalkMessage> jsonMessages;
+	
+	
+	
 	public static final int SCHEDULE_TIMER_MS=1;
 	
 	
@@ -53,11 +56,8 @@ public abstract class AbstractTechnicalServiceManager {
 	}
 	
 	
-	public abstract void store(AbstractAuditableItem item);
 	public abstract void restoreData();
-	public abstract void close() ;
-	
-	
+	public abstract void persist() ;
 	
 	protected AbstractTechnicalServiceManager() {
 		translator = new IPTranslator();
@@ -78,13 +78,48 @@ public abstract class AbstractTechnicalServiceManager {
 	
 				@Override
 				protected void auditedRun() {
-					close();
+					persist();
 	
 				}
 			},"TechnicalService Timer",SCHEDULE_TIMER_MS,TimeUnit.HOURS);
 		}
 		
 	}
+	
+
+	public void store(AbstractAuditableItem item) {
+		if(item instanceof JsonQueryInfo info)
+		{
+			info.setLocation(translator.getLocationFor(info.getIp()));
+			getJsonInfo().add(info);
+		}
+		else if (item instanceof DiscordInfo info)
+		{
+			getDiscordInfos().add(info);
+		}
+		else if (item instanceof FileAccessInfo info)
+		{
+			getFileInfos().add(info);
+		}
+		else if (item instanceof NetworkInfo info)
+		{
+			getNetworkInfos().add(info);
+		}
+		else if (item instanceof TaskInfo info)
+		{
+			getTasksInfos().add(info);
+		}
+		else if (item instanceof DAOInfo info)
+		{
+			getDaoInfos().add(info);
+		}
+		else if (item instanceof TalkMessage info)
+		{
+			getJsonMessages().add(info);
+		}
+		
+	}
+	
 	
 
 	public void restore()

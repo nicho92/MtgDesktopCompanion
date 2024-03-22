@@ -18,7 +18,7 @@ public class DAOTStorageTechnicalServiceManager extends AbstractTechnicalService
 	}
 
 	@Override
-	public void close() {
+	public void persist() {
 		// TODO Auto-generated method stub
 
 	}

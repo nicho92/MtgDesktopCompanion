@@ -152,7 +152,7 @@ public class MTGControler {
 	{
 		PluginRegistry.inst().listPlugins().forEach(MTGPlugin::unload);
 		ThreadManager.getInstance().stop();
-		AbstractTechnicalServiceManager.inst().close();
+		AbstractTechnicalServiceManager.inst().persist();
 		System.exit(0);
 	}
 

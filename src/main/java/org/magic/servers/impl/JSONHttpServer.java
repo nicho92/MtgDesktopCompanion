@@ -708,7 +708,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 					@Override
 					public List<MTGPrice> call() throws Exception {
-						MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
+						var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
 						return MTG.getPlugin(request.params(PROVIDER).trim(),MTGPricesProvider.class).getPrice(mc);
 					}
 				})
@@ -1418,7 +1418,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 	public void stop() throws IOException {
 		Spark.stop();
 
-		AbstractTechnicalServiceManager.inst().close();
+		AbstractTechnicalServiceManager.inst().persist();
 		logger.info("Server stop");
 		running = false;
 	}

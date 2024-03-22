@@ -17,7 +17,7 @@ public class JsonQueryInfo extends AbstractAuditableItem {
 	private String url;
 	private int status;
 	private Map<String, String> params;
-	private transient Map<String, Object> attributes;
+	private Map<String, String> attributes;
 	private Map<String, String> headers;
 	private UserAgent userAgent;
 	private String sessionId;
@@ -90,11 +90,11 @@ public class JsonQueryInfo extends AbstractAuditableItem {
 		return params;
 	}
 
-	public void setAttributs(Map<String,Object> attributes) {
+	public void setAttributs(Map<String,String> attributes) {
 		this.attributes=attributes;
 	}
 
-	public Map<String,Object> getAttributes() {
+	public Map<String,String> getAttributes() {
 		return attributes;
 	}
 
