@@ -151,10 +151,8 @@ public class ThreadManager {
 	}
 
 	public void timer(MTGRunnable mtgRunnable, String name, int time, TimeUnit timeUnit) {
-
+		logger.debug("Starting {} service with frequence = {} {}",name,time,timeUnit);
 		mtgRunnable.getInfo().setName(name);
-
-
 		var timer = new Timer(true);
 		timer.scheduleAtFixedRate(new TimerTask() {
 			@Override

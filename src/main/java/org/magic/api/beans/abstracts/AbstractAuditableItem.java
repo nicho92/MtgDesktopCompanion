@@ -9,7 +9,18 @@ public abstract class AbstractAuditableItem implements Serializable {
 	protected Instant start;
 	protected Instant end;
 	protected long duration;
-
+	private transient boolean stored;
+	
+	
+	public boolean isStored() {
+		return stored;
+	}
+	
+	public void setStored(boolean stored) {
+		this.stored = stored;
+	}
+	
+	
 	@Override
 	public String toString() {
 		return getClass()+""+start+""+end+""+duration;
