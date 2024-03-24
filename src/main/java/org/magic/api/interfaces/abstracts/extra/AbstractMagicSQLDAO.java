@@ -36,6 +36,7 @@ import org.magic.api.beans.MTGGrading;
 import org.magic.api.beans.MTGNews;
 import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.MTGSealedStock;
+import org.magic.api.beans.abstracts.AbstractAuditableItem;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumExtra;
 import org.magic.api.beans.enums.EnumItems;
@@ -47,6 +48,7 @@ import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.GedEntry;
 import org.magic.api.beans.technical.audit.DAOInfo;
 import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.MTGPool;
 import org.magic.api.interfaces.MTGSealedProvider;
@@ -88,6 +90,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		super();
 		 hlper = new SQLTools(getDialect());
 	}
+	
 	
 
 	private List<MTGStockItem> readStockItemFrom(ResultSet rs,String field) throws SQLException {
@@ -225,9 +228,10 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			stat.executeUpdate(hlper.createTableDecks());
 			logger.debug("Create table decks");
 
-			stat.executeUpdate(hlper.createTableConversion());
-			logger.debug("Create table conversionsItems");
-
+			stat.executeUpdate(hlper.createTableTechnicalAudit());
+			logger.debug("Create table technicalAuditLog");
+			
+			
 			postCreation(stat);
 
 		
@@ -516,13 +520,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 		stat.executeUpdate("CREATE INDEX idx_alrt_ida ON alerts (id)");
 
-
-		stat.executeUpdate("CREATE INDEX idx_conv_id ON conversionsItems (id)");
-		stat.executeUpdate("CREATE INDEX idx_conv_name ON conversionsItems (name)");
-		stat.executeUpdate("CREATE INDEX idx_conv_lang ON conversionsItems (lang)");
-		stat.executeUpdate("CREATE INDEX idx_conv_source ON conversionsItems (source)");
-		stat.executeUpdate("CREATE INDEX idx_conv_dest ON conversionsItems (destination)");
-
 		stat.executeUpdate("CREATE INDEX idx_creationDate ON announces (creationDate)");
 		stat.executeUpdate("CREATE INDEX idx_startDate ON announces (startDate)");
 		stat.executeUpdate("CREATE INDEX idx_endDate ON announces (endDate)");
@@ -533,6 +530,8 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		stat.executeUpdate("CREATE INDEX idx_conditions ON announces (conditions)");
 		stat.executeUpdate("CREATE INDEX idx_statusAnnounce ON announces (statusAnnounce)");
 
+		stat.executeUpdate("CREATE INDEX idx_technicalClassName ON technicalauditlog (classname)");
+		
 	}
 
 	@Override
@@ -1832,6 +1831,42 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	}
 
+	
+
+
+	@Override
+	public <T extends AbstractAuditableItem> void storeTechnicalItem(Class<T> classe, List<T> list) throws SQLException {
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("insert into technicalauditlog  (classname ,techObject,start) values (?,?,?)")) {
+			
+			for(var it : list)
+			{
+				pst.setString(1, classe.getSimpleName());
+				pst.setString(2, serialiser.toJsonElement(it).toString());
+				pst.setTime(3, new java.sql.Time(it.getStart().toEpochMilli()));
+				executeUpdate(pst);
+			}
+			
+		}
+		
+	}
+	
+	@Override
+	public <T extends AbstractAuditableItem> List<T> restoreTechnicalItem(Class<T> classe) throws SQLException {
+			List<T> trans = new ArrayList<>();
+			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM technicalauditlog where classname=?")) 
+			{
+				pst.setString(1, classe.getSimpleName());
+				try (ResultSet rs = executeQuery(pst)) {
+					while (rs.next()) {
+						trans.add(serialiser.fromJson(rs.getString("techobject"), classe));
+					}
+				}
+			}
+			return trans;
+	}
+	
+	
+	
 
 
 	private DAOInfo buildInfo(Statement pst)
@@ -1869,6 +1904,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		return daoInfo;
 	}
 
+	
 
 	private int executeUpdate(PreparedStatement pst) throws SQLException {
 		var daoInfo=buildInfo(pst);

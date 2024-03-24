@@ -60,16 +60,11 @@ public String insertMainContact() {
 		
 	
 	
-	public String createTableConversion() { 
-		return	ctx.createTableIfNotExists("conversionsitems")
-				.column("id",SQLDataType.INTEGER.identity(true))
-				.column("name",SQLDataType.VARCHAR(250))				
-				.column("lang",SQLDataType.VARCHAR(25))				
-				.column("source",SQLDataType.VARCHAR(25))
-				.column("inputId",SQLDataType.BIGINT)
-				.column("destination",SQLDataType.VARCHAR(25))
-				.column("outputId",SQLDataType.BIGINT)
-				.primaryKey("id")
+	public String createTableTechnicalAudit() { 
+		return	ctx.createTableIfNotExists("technicalauditlog")
+				.column("classname",SQLDataType.VARCHAR(30))
+				.column("techObject",SQLDataType.JSON)
+				.column("start",SQLDataType.TIMESTAMP)
 				.getSQL();
 	}
 	

@@ -23,6 +23,7 @@ import org.magic.api.beans.technical.audit.TaskInfo;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.providers.IPTranslator;
+import org.magic.services.technical.DAOStorageTechnicalServiceManager;
 import org.magic.services.technical.FileStorageTechnicalServiceManager;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;

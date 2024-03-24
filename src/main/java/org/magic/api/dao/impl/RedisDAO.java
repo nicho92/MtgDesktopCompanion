@@ -18,6 +18,7 @@ import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGNews;
 import org.magic.api.beans.MTGSealedStock;
+import org.magic.api.beans.abstracts.AbstractAuditableItem;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.GedEntry;
@@ -662,6 +663,18 @@ public class RedisDAO extends AbstractKeyValueDao {
 	@Override
 	public String getName() {
 		return "Redis";
+	}
+
+	@Override
+	public <T extends AbstractAuditableItem> void storeTechnicalItem(Class<T> c, List<T> list) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public <T extends AbstractAuditableItem> List<T> restoreTechnicalItem(Class<T> c) throws SQLException {
+		// TODO Auto-generated method stub
+		return new ArrayList<>();
 	}
 
 }

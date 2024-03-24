@@ -33,6 +33,7 @@ import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGNews;
 import org.magic.api.beans.MTGSealedStock;
+import org.magic.api.beans.abstracts.AbstractAuditableItem;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.GedEntry;
@@ -84,7 +85,9 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	private String colAnnounces="announces";
 	private String colGed="ged";
 	private String colFavorites="favorites";
-
+	private String colTechnical="technical";
+	
+	
 	private String dbIDField = "db_id";
 	private String dbAlertField = "alertItem";
 	private String dbNewsField = "newsItem";
@@ -995,6 +998,28 @@ public class MongoDbDAO extends AbstractMagicDAO {
 							 .find(Filters.and(Filters.eq(EMAIL, email),Filters.eq("active",true)))
 							 .first()
 							 ,Contact.class);
+	}
+
+	@Override
+	public <T extends AbstractAuditableItem> void storeTechnicalItem(Class<T> c, List<T> list) throws SQLException {
+		db.getCollection(colTechnical, BasicDBObject.class).insertMany(list.stream().map(o->{
+			var obj = BasicDBObject.parse(serialize(o));
+				  obj.put("classeName", c.getSimpleName());
+			return obj;
+		}).toList());
+		
+	}
+
+	@Override
+	public <T extends AbstractAuditableItem> List<T> restoreTechnicalItem(Class<T> c) throws SQLException {
+		List<T> trans = new ArrayList<>();
+		db.getCollection(colTechnical, BasicDBObject.class).find(Filters.eq("classeName", c.getSimpleName())).forEach((Consumer<BasicDBObject>) result ->{
+			var o = deserialize(result.toString(), c);
+			trans.add(o);
+		});
+
+
+		return trans;
 	}
 
 }
