@@ -15,6 +15,8 @@ import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.FileTools;
 
+import com.google.common.io.Files;
+
 public class FileStorageTechnicalServiceManager extends AbstractTechnicalServiceManager {
 
 	private File logsDirectory = new File(MTGConstants.DATA_DIR,"audits");
@@ -54,12 +56,17 @@ public class FileStorageTechnicalServiceManager extends AbstractTechnicalService
 			if(serializer==null)
 				serializer = new JsonExport();
 			
-			
 			if(items.isEmpty())
 				return;
 			
 			var f = Paths.get(logsDirectory.getAbsolutePath(),classe.getSimpleName()+".json").toFile();
-			var itemsStored = serializer.fromJsonList(new FileReader(f), classe).addAll(items.stream().filter(Objects::nonNull).toList());
+			
+			if(!f.exists())
+				Files.touch(f);
+
+			var itemsStored = serializer.fromJsonList(new FileReader(f), classe);
+			itemsStored.addAll(items.stream().filter(Objects::nonNull).toList());
+			
 			FileTools.saveLargeFile(f, serializer.toJson(itemsStored),MTGConstants.DEFAULT_ENCODING);
 	}
 

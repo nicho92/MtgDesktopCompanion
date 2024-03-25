@@ -23,7 +23,6 @@ import org.magic.api.beans.technical.audit.TaskInfo;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.providers.IPTranslator;
-import org.magic.services.technical.DAOStorageTechnicalServiceManager;
 import org.magic.services.technical.FileStorageTechnicalServiceManager;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
@@ -43,7 +42,7 @@ public abstract class AbstractTechnicalServiceManager {
 	private List<FileAccessInfo> fileInfos;
 	private List<TalkMessage> jsonMessages;
 	
-	private static final int SCHEDULE_TIMER_MINS=10;
+	private static final int SCHEDULE_TIMER_MINS=2;
 	
 	
 	private static AbstractTechnicalServiceManager inst;
@@ -70,8 +69,8 @@ public abstract class AbstractTechnicalServiceManager {
 			store(classe,items);
 			items.stream().forEach(a->a.setStored(true));
 			logger.info("Store {} new  items for {}",items.size(),classe.getSimpleName());
-		} catch (IOException e) {
-			logger.error(e);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
