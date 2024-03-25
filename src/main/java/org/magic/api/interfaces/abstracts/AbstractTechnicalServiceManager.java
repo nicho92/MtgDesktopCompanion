@@ -24,6 +24,7 @@ import org.magic.api.exports.impl.JsonExport;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.providers.IPTranslator;
 import org.magic.services.technical.DAOStorageTechnicalServiceManager;
+import org.magic.services.technical.FileStorageTechnicalServiceManager;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 
@@ -50,13 +51,13 @@ public abstract class AbstractTechnicalServiceManager {
 	public static AbstractTechnicalServiceManager inst()
 	{
 		if(inst==null)
-			inst = new DAOStorageTechnicalServiceManager();
+			inst = new FileStorageTechnicalServiceManager();
 
 		return inst;
 	}
 
 	protected abstract <T extends AbstractAuditableItem> void store(Class<T> c, List<T> list)  throws IOException;
-	protected abstract <T extends AbstractAuditableItem> List<T> restore(Class<T> c)  throws IOException;
+	protected abstract <T extends AbstractAuditableItem> List<T> restore(Class<T> c, Instant start ,Instant end)  throws IOException;
 
 
 	protected <T extends AbstractAuditableItem> void storeItems(Class<T> classe, List<T> items) 
@@ -75,24 +76,24 @@ public abstract class AbstractTechnicalServiceManager {
 	}
 	
 	
-	private <T extends AbstractAuditableItem> List<T> read(Class<T> c) throws IOException 
+	private <T extends AbstractAuditableItem> List<T> read(Class<T> c, Instant start ,Instant end) throws IOException 
 	{
-		return restore(c).stream().map(o->{
+		return restore(c,start,end).stream().map(o->{
 			o.setStored(true);
 			return o;
 		}).toList();
 	}
 	
 	
-	public void restoreData() throws IOException
+	public void restoreData(Instant start,Instant end) throws IOException
 	{
-			getJsonInfo().addAll(read(JsonQueryInfo.class));
-			getDaoInfos().addAll(read(DAOInfo.class));
-			getTasksInfos().addAll(read(TaskInfo.class));
-			getNetworkInfos().addAll(read(NetworkInfo.class));
-			getDiscordInfos().addAll(read(DiscordInfo.class));
-			getFileInfos().addAll(read(FileAccessInfo.class));
-			getJsonMessages().addAll(read(TalkMessage.class));
+			getJsonInfo().addAll(read(JsonQueryInfo.class,start,end));
+			getDaoInfos().addAll(read(DAOInfo.class,start,end));
+			getTasksInfos().addAll(read(TaskInfo.class,start,end));
+			getNetworkInfos().addAll(read(NetworkInfo.class,start,end));
+			getDiscordInfos().addAll(read(DiscordInfo.class,start,end));
+			getFileInfos().addAll(read(FileAccessInfo.class,start,end));
+			getJsonMessages().addAll(read(TalkMessage.class,start,end));
 				
 			logger.info("Technical data are loaded");
 	}

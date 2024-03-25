@@ -1011,9 +1011,19 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public <T extends AbstractAuditableItem> List<T> restoreTechnicalItem(Class<T> c) throws SQLException {
+	public <T extends AbstractAuditableItem> List<T> restoreTechnicalItem(Class<T> c,Instant start,Instant end) throws SQLException {
 		List<T> trans = new ArrayList<>();
-		db.getCollection(colTechnical, BasicDBObject.class).find(Filters.eq("classeName", c.getSimpleName())).forEach((Consumer<BasicDBObject>) result ->{
+		
+		var f = Filters.eq("classeName", c.getSimpleName());
+		
+		if(start!=null)
+			f = Filters.and(f,Filters.gte("start", start));
+		
+		if(end!=null)
+			f = Filters.and(f,Filters.gte("end", end));
+		
+		
+		db.getCollection(colTechnical, BasicDBObject.class).find(f).forEach((Consumer<BasicDBObject>) result ->{
 			var o = deserialize(result.toString(), c);
 			trans.add(o);
 		});

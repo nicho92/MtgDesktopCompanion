@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 import org.magic.api.beans.abstracts.AbstractAuditableItem;
 import org.magic.api.exports.impl.JsonExport;
@@ -28,16 +30,21 @@ public class FileStorageTechnicalServiceManager extends AbstractTechnicalService
 				logger.error("error creating {} : {}",logsDirectory.getAbsolutePath(),e);
 			}
 		}
-
 	}
 
 	@Override
-	protected <T  extends AbstractAuditableItem> List<T> restore(Class<T> classe) throws IOException {
+	protected <T  extends AbstractAuditableItem> List<T> restore(Class<T> classe,Instant start ,Instant end) throws IOException {
 		
 		if(serializer==null)
 			serializer = new JsonExport();
 		
-		return serializer.fromJsonList(FileTools.readFile(new File(logsDirectory,classe.getSimpleName()+".json")), classe).stream().distinct().toList();
+		Predicate<T> p = t ->t.getEnd().isBefore(end==null?Instant.now():end);
+		
+		if(start!=null)
+			p = t -> t.getStart().isAfter(start) && t.getEnd().isBefore(end==null?Instant.now():end);
+		
+		 
+		return serializer.fromJsonList(FileTools.readFile(new File(logsDirectory,classe.getSimpleName()+".json")), classe).stream().filter(p).distinct().toList();
 	}
 
 	

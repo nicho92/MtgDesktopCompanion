@@ -1852,8 +1852,9 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	}
 	
 	@Override
-	public <T extends AbstractAuditableItem> List<T> restoreTechnicalItem(Class<T> classe) throws SQLException {
+	public <T extends AbstractAuditableItem> List<T> restoreTechnicalItem(Class<T> classe,Instant start,Instant end) throws SQLException {
 			List<T> trans = new ArrayList<>();
+			//TODO add instants filters
 			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM technicalauditlog where classname=?")) 
 			{
 				pst.setString(1, classe.getSimpleName());

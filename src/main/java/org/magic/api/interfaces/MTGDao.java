@@ -1,6 +1,7 @@
 package org.magic.api.interfaces;
 
 import java.sql.SQLException;
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
@@ -133,7 +134,7 @@ public interface MTGDao extends MTGPlugin{
 
 	
 	public <T extends AbstractAuditableItem> void storeTechnicalItem(Class<T> c, List<T> list) throws SQLException;
-	public <T extends AbstractAuditableItem> List<T> restoreTechnicalItem(Class<T> c) throws SQLException;
+	public <T extends AbstractAuditableItem> List<T> restoreTechnicalItem(Class<T> c, Instant start,Instant end) throws SQLException;
 
 
 

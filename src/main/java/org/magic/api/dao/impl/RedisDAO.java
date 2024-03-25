@@ -433,7 +433,7 @@ public class RedisDAO extends AbstractKeyValueDao {
 	}
 
 	@Override
-	public <T extends AbstractAuditableItem> List<T> restoreTechnicalItem(Class<T> c) throws SQLException {
+	public <T extends AbstractAuditableItem> List<T> restoreTechnicalItem(Class<T> c,Instant start,Instant end) throws SQLException {
 		// TODO Auto-generated method stub
 		return new ArrayList<>();
 	}

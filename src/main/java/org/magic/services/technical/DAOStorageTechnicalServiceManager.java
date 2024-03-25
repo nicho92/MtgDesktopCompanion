@@ -2,6 +2,7 @@ package org.magic.services.technical;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.Instant;
 import java.util.List;
 
 import org.magic.api.beans.abstracts.AbstractAuditableItem;
@@ -23,9 +24,9 @@ public class DAOStorageTechnicalServiceManager extends AbstractTechnicalServiceM
 	}
 
 	@Override
-	protected <T extends AbstractAuditableItem> List<T> restore(Class<T> c) throws IOException {
+	protected <T extends AbstractAuditableItem> List<T> restore(Class<T> c, Instant start ,Instant end) throws IOException {
 		try {
-			return MTG.getEnabledPlugin(MTGDao.class).restoreTechnicalItem(c);
+			return MTG.getEnabledPlugin(MTGDao.class).restoreTechnicalItem(c,start,end);
 		} catch (SQLException e) {
 			throw new IOException(e);
 		}
