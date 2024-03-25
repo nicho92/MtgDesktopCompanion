@@ -141,7 +141,7 @@ public class GenericTableModel<T> extends AbstractTableModel {
 	{
 		this.items=items;
 		changed=false;
-		fireTableDataChanged();
+
 	}
 
 	public boolean isEmpty()

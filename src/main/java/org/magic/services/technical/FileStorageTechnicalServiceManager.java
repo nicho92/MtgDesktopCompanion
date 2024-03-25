@@ -31,8 +31,6 @@ public class FileStorageTechnicalServiceManager extends AbstractTechnicalService
 
 	}
 
-
-
 	@Override
 	protected <T  extends AbstractAuditableItem> List<T> restore(Class<T> classe) throws IOException {
 		

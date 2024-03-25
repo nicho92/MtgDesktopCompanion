@@ -425,6 +425,20 @@ public class RedisDAO extends AbstractKeyValueDao {
 		redisCommand.del(key(alert));
 	}
 	
+	
+	@Override
+	public <T extends AbstractAuditableItem> void storeTechnicalItem(Class<T> c, List<T> list) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public <T extends AbstractAuditableItem> List<T> restoreTechnicalItem(Class<T> c) throws SQLException {
+		// TODO Auto-generated method stub
+		return new ArrayList<>();
+	}
+
+	
 
 	
 	@Override
@@ -665,16 +679,5 @@ public class RedisDAO extends AbstractKeyValueDao {
 		return "Redis";
 	}
 
-	@Override
-	public <T extends AbstractAuditableItem> void storeTechnicalItem(Class<T> c, List<T> list) throws SQLException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public <T extends AbstractAuditableItem> List<T> restoreTechnicalItem(Class<T> c) throws SQLException {
-		// TODO Auto-generated method stub
-		return new ArrayList<>();
-	}
-
+	
 }

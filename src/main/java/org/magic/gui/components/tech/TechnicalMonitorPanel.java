@@ -124,8 +124,6 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 		var tableDiscordInfo= UITools.createNewTable(discordModel,true);
 		var tableFileAccessIInfo= UITools.createNewTable(modelFileAccess,true);
 
-		
-
 		TableCellRenderer durationRenderer = (JTable table, Object value, boolean isSelected,boolean hasFocus, int row, int column)->{
 					var lab= new JLabel();
 						 lab.setOpaque(false);
@@ -169,13 +167,10 @@ public class TechnicalMonitorPanel extends MTGUIComponent  {
 		getContextTabbedPane().addTab("JsonServer Cache",MTGConstants.ICON_TAB_CACHE,new JScrollPane(tableCacheJson));
 		getContextTabbedPane().addTab("JsonServer Queries",MTGConstants.ICON_TAB_SERVER,new JScrollPane(tableJsonInfo));
 		getContextTabbedPane().addTab("Files Access",MTGConstants.ICON_TAB_IMPORT,new JScrollPane(tableFileAccessIInfo));
+	
 		UITools.addTab(getContextTabbedPane(), new LoggerViewPanel());
 		UITools.addTab(getContextTabbedPane(), gedPanel);
 		UITools.addTab(getContextTabbedPane(), activemqPanel);
-		
-
-
-
 
 		var panel = new JPanel();
 		add(panel, BorderLayout.NORTH);

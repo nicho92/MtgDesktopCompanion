@@ -119,11 +119,8 @@ public class MTGControler {
 			langService.changeLocal(getLocale());
 
 			ThreadManager.getInstance().initThreadPoolConfig(getThreadPoolConfig());
-			
 		
 			AbstractTechnicalServiceManager.inst().enable(get("technical-log").equals("true"));
-			AbstractTechnicalServiceManager.inst().restore();
-			
 		
 		} catch (Exception e) {
 			logger.error("error init", e);

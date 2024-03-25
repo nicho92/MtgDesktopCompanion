@@ -4,10 +4,10 @@ package org.magic.api.interfaces.abstracts;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadInfo;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -24,7 +24,6 @@ import org.magic.api.exports.impl.JsonExport;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.providers.IPTranslator;
 import org.magic.services.technical.DAOStorageTechnicalServiceManager;
-import org.magic.services.technical.FileStorageTechnicalServiceManager;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 
@@ -51,7 +50,7 @@ public abstract class AbstractTechnicalServiceManager {
 	public static AbstractTechnicalServiceManager inst()
 	{
 		if(inst==null)
-			inst = new FileStorageTechnicalServiceManager();
+			inst = new DAOStorageTechnicalServiceManager();
 
 		return inst;
 	}
@@ -62,6 +61,9 @@ public abstract class AbstractTechnicalServiceManager {
 
 	protected <T extends AbstractAuditableItem> void storeItems(Class<T> classe, List<T> items) 
 	{
+		
+		if(items.isEmpty())
+			return;
 		
 		try {
 			store(classe,items);
@@ -111,7 +113,7 @@ public abstract class AbstractTechnicalServiceManager {
 		
 		if(isEnable())
 		{	
-			
+			logger.info("TechnicalService is enable");
 			ThreadManager.getInstance().timer(new MTGRunnable() {
 	
 				@Override
@@ -121,6 +123,11 @@ public abstract class AbstractTechnicalServiceManager {
 			},"TechnicalService Timer",SCHEDULE_TIMER_MINS,TimeUnit.MINUTES);
 			
 		}
+		else
+		{
+			logger.warn("TechnicalService is disabled");
+		}
+
 		
 	}
 	
@@ -145,9 +152,6 @@ public abstract class AbstractTechnicalServiceManager {
 		}
 
 	}
-
-	
-
 
 	public void store(AbstractAuditableItem item) {
 		
@@ -184,33 +188,7 @@ public abstract class AbstractTechnicalServiceManager {
 		}
 		
 	}
-	
-	
 
-	public void restore()
-	{
-
-		if(isEnable())
-		{
-			ThreadManager.getInstance().executeThread(new MTGRunnable() {
-				
-				@Override
-				protected void auditedRun() {
-					try {
-						restoreData();
-					} catch (IOException e) {
-						logger.error(e);
-					}
-				}
-			}, "Loading technical data");
-			logger.info("TechnicalService is enable");
-		}
-		else
-		{
-			logger.warn("TechnicalService is disabled");
-		}
-	}
-	
 	
 	
 	public Set<Entry<Object, Object>> getSystemInfo() {
