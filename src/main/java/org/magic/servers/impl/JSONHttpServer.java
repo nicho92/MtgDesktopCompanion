@@ -278,7 +278,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			info.setQuery(request.queryParams().stream().collect(Collectors.toMap(q->q, request::queryParams)));
 			info.setSessionId(request.session().id());
 			info.setPath(request.servletPath());
-			info.setAttributs(request.attributes().stream().collect(Collectors.toMap(a->a, a->String.valueOf(request.attribute(a)))));
+			info.setAttributs(request.attributes().stream().collect(Collectors.toMap(a->a, a->request.attribute(a).toString())));
 			info.setHeaders(request.headers().stream().collect(Collectors.toMap(s->s,request::headers)));
 			info.setStatus(response.status());
 			info.setUserAgent(ua.parse(request.userAgent()));
