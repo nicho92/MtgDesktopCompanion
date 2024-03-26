@@ -28,8 +28,12 @@ server = {
 									}, {});
 		
 		var usersCount = datas.reduce(function (result, d) {
-								    var u = d.user.name;
-								     if (!result[u]) {
+								     if(d.user==null)
+								    	var u = "anonymous";
+								    	else 
+								    	var u = d.user.name;
+								    
+								    if (!result[u]) {
 								        result[u] = 0;
 								    }
 								    result[u]++;
@@ -41,9 +45,8 @@ server = {
 								    
 								    if(d.guild==null)
 								    	var u = "direct";
-								    	else
+								    	else 
 								    	var u = d.guild.name;
-								    
 								    
 								    if (!result[u]) {
 								        result[u] = 0;

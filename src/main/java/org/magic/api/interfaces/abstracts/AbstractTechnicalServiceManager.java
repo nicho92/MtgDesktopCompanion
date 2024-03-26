@@ -122,6 +122,7 @@ public abstract class AbstractTechnicalServiceManager {
 		discordInfos = new ArrayList<>();
 		jsonMessages=new ArrayList<>();
 		
+		
 		if(isEnable())
 		{	
 			logger.info("TechnicalService is enable");
