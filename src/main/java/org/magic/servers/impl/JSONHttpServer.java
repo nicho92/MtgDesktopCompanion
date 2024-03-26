@@ -193,14 +193,16 @@ public class JSONHttpServer extends AbstractMTGServer {
 			\t""";
 
 
-	private JsonObject error(Request req, Response response, String msg, int code) {
+	private JsonObject error(Request req, Response response, Exception msg, int code) {
 		response.status(code);
 
 		var obj = new JsonObject();
 			obj.addProperty("method", req.requestMethod());
 			obj.addProperty("uri", req.pathInfo());
 			obj.addProperty("code", code);
-			obj.addProperty("msg", msg);
+			obj.addProperty("msg", msg.getMessage());
+			obj.add("stack", converter.toJsonElement(msg.getStackTrace()));
+			
 
 		return obj;
 	}
@@ -238,6 +240,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		transformer = new ResponseTransformer() {
 			@Override
 			public String render(Object model) throws Exception {
+				
 				return converter.toJson(model);
 			}
 		};
@@ -264,7 +267,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 	private void addInfo(Request request, Response response) {
 
 		if(!request.uri().startsWith("/admin"))
-		{
+		{	
 			var info= new JsonQueryInfo();
 			info.setStart(Instant.ofEpochMilli(Long.parseLong(response.raw().getHeader("startAt"))));
 			info.setContentType(request.contentType());
@@ -305,13 +308,13 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		exception(Exception.class, (Exception exception, Request request, Response response) -> {
 			logger.error("{} : {} ",request.uri(),exception.getMessage(), exception);
-			response.body(error(request,response, exception.getMessage(),500).toString());
+			response.body(error(request,response, exception,500).toString());
 			addInfo(request,response);
 		});
 
 		notFound((req, res) -> {
 			addInfo(req,res);
-			return error(req, res,"Not Found",404);
+			return error(req, res,new NullPointerException("Not Found"),404);
 		});
 		
 		before("/*", (request, response) -> {
@@ -369,11 +372,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 				c = MTG.getEnabledPlugin(MTGExternalShop.class).getContactByLogin(request.queryParams("email"),request.queryParams("password"));
 				
 				if(c==null)
-					return error(request, response, "Contact not found", 401);
+					return error(request, response, new NullPointerException("Contact not found"), 401);
 			}
 			catch(Exception e)
 			{
-				return error(request, response, e.getMessage(), 401);
+				return error(request, response, e, 401);
 			}
 			
 			var obj = new JsonObject();
@@ -396,7 +399,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 				}
 				catch(Exception e)
 				{
-					return error(request, response, e.getMessage(), 401);
+					return error(request, response, e, 401);
 				}
 			
 		},transformer);
@@ -467,7 +470,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		post("/ged/uploadPic/:class/:id", URLTools.HEADER_JSON,(request, response) -> {
 			var buffImg = ImageTools.readBase64(request.body().substring(request.body().indexOf(",")+1));// Find better solution
 			if(buffImg==null)
-				return error(request, response, "No readable Image",500);
+				return error(request, response, new NullPointerException("No readable Image"),500);
 
 
 			var id = request.params(":id");
@@ -1001,7 +1004,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			var d = manager.getDeck(Integer.parseInt(request.params(ID_DECK)));
 			
 			if(d==null)
-				return error(request, response, "Error getting deck with id="+request.params(ID_DECK), 500);
+				return error(request, response, new NullPointerException("Error getting deck with id="+request.params(ID_DECK)), 500);
 			
 			var f =FileTools.createTempFile("deck",plug.getFileExtension());
 			
