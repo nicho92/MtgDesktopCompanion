@@ -33,6 +33,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonIOException;
 
 import nl.basjes.parse.useragent.UserAgent;
 
@@ -70,7 +71,14 @@ public class JsonExport extends AbstractCardExport {
 
 	public String toJson(Object o)
 	{
+		try {
 		return gson.toJson(o);
+		}
+		catch (JsonIOException ex)
+		{
+			logger.error("Error parsing object {} class=",o,o.getClass());
+			return "";
+		}
 	}
 
 	public JsonElement toJsonElement(Object o)
