@@ -24,7 +24,7 @@ public class ServerLauncher {
 	{
 		MTGControler.getInstance().loadAccountsConfiguration();
 		
-		
+		MTGLogger.changeLevel(MTGControler.getInstance().get("loglevel"));
 		if(args.length==0)
 		{
 			MTGLogger.getLogger(ServerLauncher.class).info("Usage : ServerLauncher <server name> [,<other server]");
