@@ -1096,6 +1096,18 @@ public class JSONHttpServer extends AbstractMTGServer {
 			})
 		);
 
+		
+		post("/admin/logs/:start/:end", URLTools.HEADER_JSON, (request, response) -> {
+			
+			var s = Long.parseLong(request.params(":start"));
+			var e = Long.parseLong(request.params(":end"));
+			
+			AbstractTechnicalServiceManager.inst().restoreData(s, e);
+			
+			return ok(request, response, "log data are loaded from "+ Instant.ofEpochMilli(s) + " to " + Instant.ofEpochMilli(e));
+			
+		}, transformer);
+		
 
 		get("/admin/qwartz", URLTools.HEADER_JSON, (request, response) -> {
 			var serv = (QwartzServer) MTG.getPlugin("Qwartz", MTGServer.class);
@@ -1110,13 +1122,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 				return AbstractTechnicalServiceManager.inst().getJsonMessages().stream().filter(p->!p.getAuthor().isAdmin()).toList();
 		}, transformer);
 
-		get("/admin/discord", URLTools.HEADER_JSON, (request, response) -> {
-			var ret = new JsonObject();
-			var serv = (DiscordBotServer) MTG.getPlugin("Discord", MTGServer.class);
-			ret.add("server", serv.toJsonDetails());
-			ret.add("queries",converter.toJsonElement(AbstractTechnicalServiceManager.inst().getDiscordInfos()));
-			return ret;
-		}, transformer);
+		
 
 		get("/admin/currency", URLTools.HEADER_JSON, (request, response) -> {
 			MTGControler.getInstance().getCurrencyService().clean();
@@ -1125,6 +1131,14 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 
 		get("/admin/files", URLTools.HEADER_JSON, (request, response) ->AbstractTechnicalServiceManager.inst().getFileInfos(), transformer);
+		
+		get("/admin/discord", URLTools.HEADER_JSON, (request, response) -> {
+			var ret = new JsonObject();
+			var serv = (DiscordBotServer) MTG.getPlugin("Discord", MTGServer.class);
+			ret.add("server", serv.toJsonDetails());
+			ret.add("queries",converter.toJsonElement(AbstractTechnicalServiceManager.inst().getDiscordInfos()));
+			return ret;
+		}, transformer);
 		
 		get("/admin/caches", URLTools.HEADER_JSON, (request, response) -> {
 			JsonArray arr = new JsonArray();

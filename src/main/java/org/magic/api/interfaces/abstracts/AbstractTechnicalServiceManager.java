@@ -6,6 +6,7 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadInfo;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -68,7 +69,7 @@ public abstract class AbstractTechnicalServiceManager {
 		try {
 			store(classe,items);
 			items.stream().forEach(a->a.setStored(true));
-			logger.info("Store {} new  items for {}",items.size(),classe.getSimpleName());
+			logger.debug("Persist {} new  items for {}",items.size(),classe.getSimpleName());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -81,6 +82,17 @@ public abstract class AbstractTechnicalServiceManager {
 			o.setStored(true);
 			return o;
 		}).toList();
+	}
+	
+	
+	public void restoreData(Date start,Date end) throws IOException
+	{
+		restoreData(Instant.ofEpochMilli(start.getTime()), Instant.ofEpochMilli(end.getTime()));
+	}
+	
+	public void restoreData(long start,long end) throws IOException
+	{
+		restoreData(Instant.ofEpochMilli(start), Instant.ofEpochMilli(end));
 	}
 	
 	
@@ -109,7 +121,6 @@ public abstract class AbstractTechnicalServiceManager {
 		fileInfos = new ArrayList<>();
 		discordInfos = new ArrayList<>();
 		jsonMessages=new ArrayList<>();
-		
 		
 		if(isEnable())
 		{	

@@ -40,12 +40,12 @@ public class FileStorageTechnicalServiceManager extends AbstractTechnicalService
 		if(serializer==null)
 			serializer = new JsonExport();
 		
-		Predicate<T> p = t ->t.getEnd().isBefore(end==null?Instant.now():end);
+		 Predicate<T> p = t ->{
+				var b1 = t.getStart().isAfter(start);
+				var b2 = t.getEnd()!=null?t.getEnd().isBefore(end==null?Instant.now():end):true;
+				return b1&&b2;
+			};
 		
-		if(start!=null)
-			p = t -> t.getStart().isAfter(start) && t.getEnd().isBefore(end==null?Instant.now():end);
-		
-		 
 		return serializer.fromJsonList(FileTools.readFile(new File(logsDirectory,classe.getSimpleName()+".json")), classe).stream().filter(p).distinct().toList();
 	}
 

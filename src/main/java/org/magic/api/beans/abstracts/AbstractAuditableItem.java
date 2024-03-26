@@ -11,7 +11,7 @@ public abstract class AbstractAuditableItem implements Serializable {
 	protected long duration;
 	private transient boolean stored;
 	
-	
+
 	public boolean isStored() {
 		return stored;
 	}
@@ -23,10 +23,8 @@ public abstract class AbstractAuditableItem implements Serializable {
 	
 	@Override
 	public String toString() {
-		return getClass()+""+start+""+end+""+duration;
+		return getClass()+"-"+start+"-"+end+"-"+duration+"-"+stored;
 	}
-
-
 
 
 	protected AbstractAuditableItem() {
