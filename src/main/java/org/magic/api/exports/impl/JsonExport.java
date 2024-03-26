@@ -71,14 +71,7 @@ public class JsonExport extends AbstractCardExport {
 
 	public String toJson(Object o)
 	{
-		try {
 		return gson.toJson(o);
-		}
-		catch (JsonIOException ex)
-		{
-			logger.error("Error parsing object {} class=",o,o.getClass());
-			return "";
-		}
 	}
 
 	public JsonElement toJsonElement(Object o)
