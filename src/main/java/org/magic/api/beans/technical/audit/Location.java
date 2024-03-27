@@ -10,13 +10,11 @@ public class Location implements Serializable {
 	private String city;
 	private String region;
 	private String country;
-	@SerializedName(value = "country_name")private String countryName;
 	@SerializedName(value = "country_code")private String countryCode;
 	@SerializedName(value = "continent_code") private String continentCode;
 	private Double latitude;
 	private Double longitude;
 	private String timezone;
-	@SerializedName(value = "country_area")private Double countryArea;
 	private String operator;
 
 		public String getCity() {
@@ -36,12 +34,6 @@ public class Location implements Serializable {
 		}
 		public void setCountry(String country) {
 			this.country = country;
-		}
-		public String getCountryName() {
-			return countryName;
-		}
-		public void setCountryName(String countryName) {
-			this.countryName = countryName;
 		}
 		public String getCountryCode() {
 			return countryCode;
@@ -72,12 +64,6 @@ public class Location implements Serializable {
 		}
 		public void setTimezone(String timezone) {
 			this.timezone = timezone;
-		}
-		public Double getCountryArea() {
-			return countryArea;
-		}
-		public void setCountryArea(Double countryArea) {
-			this.countryArea = countryArea;
 		}
 		public String getOperator() {
 			return operator;

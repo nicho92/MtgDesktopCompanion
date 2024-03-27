@@ -5,6 +5,7 @@ import java.util.concurrent.Callable;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.technical.audit.Location;
 import org.magic.services.logging.MTGLogger;
+import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.TCache;
 
@@ -21,6 +22,13 @@ public class IPTranslator {
 		cache = new TCache<>("ips");
 	}
 
+	
+	public static void main(String[] args) {
+		
+		new IPTranslator().getLocationFor("77.136.66.77");
+		
+	}
+	
 
 	public Location getLocationFor(String ip)
 	{
@@ -33,9 +41,9 @@ public class IPTranslator {
 			return cache.get(ip, new Callable<Location>() {
 				@Override
 				public Location call() throws Exception {
-					var o = URLTools.extractAsJson("https://ipapi.co/"+ip+"/json").getAsJsonObject();
-					return translate(o);
-
+					
+					var o = RequestBuilder.build().url("http://ip-api.com/json/"+ip+"?fields=status,message,continent,continentCode,country,countryCode,region,regionName,city,zip,lat,lon,timezone,isp").setClient(URLTools.newClient()).get().toJson();
+					return translate(o.getAsJsonObject());
 				}
 			});
 		}
@@ -54,21 +62,19 @@ public class IPTranslator {
 
 		if(o.get("error")!=null)
 		{
-			logger.error("IP={} Reason={},error={}",o.get("ip") , o.get("reason"),o);
+			logger.error("error getting IP={}",o);
 			return loc;
 		}
 			logger.debug("parsing {}",o);
 			loc.setCity(o.get("city").getAsString());
-			loc.setContinentCode(o.get("continent_code").getAsString());
-			loc.setRegion(o.get("region").getAsString());
+			loc.setContinentCode(o.get("continentCode").getAsString());
+			loc.setRegion(o.get("regionName").getAsString());
 			loc.setCountry(o.get("country").getAsString());
-			loc.setCountryName(o.get("country_name").getAsString());
-			loc.setCountryCode(o.get("country_code").getAsString());
-			loc.setLatitude(o.get("latitude").getAsDouble());
-			loc.setLongitude(o.get("longitude").getAsDouble());
+			loc.setCountryCode(o.get("countryCode").getAsString());
+			loc.setLatitude(o.get("lat").getAsDouble());
+			loc.setLongitude(o.get("lon").getAsDouble());
 			loc.setTimezone(o.get("timezone").getAsString());
-			loc.setCountryArea(o.get("country_area").getAsDouble());
-			loc.setOperator(o.get("org").getAsString());
+			loc.setOperator(o.get("isp").getAsString());
 			return loc;
 
 
