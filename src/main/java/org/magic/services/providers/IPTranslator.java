@@ -54,10 +54,10 @@ public class IPTranslator {
 
 		if(o.get("error")!=null)
 		{
-			logger.error("IP={} Reason={}",o.get("ip") , o.get("reason"));
+			logger.error("IP={} Reason={},error={}",o.get("ip") , o.get("reason"),o);
 			return loc;
 		}
-		logger.debug("parsing {}",o);
+			logger.debug("parsing {}",o);
 			loc.setCity(o.get("city").getAsString());
 			loc.setContinentCode(o.get("continent_code").getAsString());
 			loc.setRegion(o.get("region").getAsString());
