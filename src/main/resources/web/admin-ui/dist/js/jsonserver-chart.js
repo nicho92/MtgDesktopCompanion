@@ -514,7 +514,7 @@ server = {
 		                "defaultContent": "",
 		                "render": function(d, type, row, meta){
 		                	 if(type === 'display' && d!=null){
-								return d.country_name;		                		 
+								return d.country;		                		 
 		                	 }
 		                   return "";
 		                }
