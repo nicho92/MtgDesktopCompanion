@@ -60,7 +60,7 @@ public abstract class AbstractTechnicalServiceManager {
 	protected abstract <T extends AbstractAuditableItem> List<T> restore(Class<T> c, Instant start ,Instant end)  throws IOException;
 
 
-	protected <T extends AbstractAuditableItem> void storeItems(Class<T> classe, List<T> items) 
+	private <T extends AbstractAuditableItem> void storeItems(Class<T> classe, List<T> items) 
 	{
 		
 		if(items.isEmpty())
@@ -76,7 +76,7 @@ public abstract class AbstractTechnicalServiceManager {
 	}
 	
 	
-	private <T extends AbstractAuditableItem> List<T> read(Class<T> c, Instant start ,Instant end) throws IOException 
+	private <T extends AbstractAuditableItem> List<T> readItems(Class<T> c, Instant start ,Instant end) throws IOException 
 	{
 		return restore(c,start,end).stream().map(o->{
 			o.setStored(true);
@@ -94,17 +94,18 @@ public abstract class AbstractTechnicalServiceManager {
 	{
 		restoreData(Instant.ofEpochMilli(start), Instant.ofEpochMilli(end));
 	}
-	
-	
+		
 	public void restoreData(Instant start,Instant end) throws IOException
 	{
-			getJsonInfo().addAll(read(JsonQueryInfo.class,start,end));
-			getDaoInfos().addAll(read(DAOInfo.class,start,end));
-			getTasksInfos().addAll(read(TaskInfo.class,start,end));
-			getNetworkInfos().addAll(read(NetworkInfo.class,start,end));
-			getDiscordInfos().addAll(read(DiscordInfo.class,start,end));
-			getFileInfos().addAll(read(FileAccessInfo.class,start,end));
-			getJsonMessages().addAll(read(TalkMessage.class,start,end));
+			persist();
+			
+			getJsonInfo().addAll(readItems(JsonQueryInfo.class,start,end));
+			getDaoInfos().addAll(readItems(DAOInfo.class,start,end));
+			getTasksInfos().addAll(readItems(TaskInfo.class,start,end));
+			getNetworkInfos().addAll(readItems(NetworkInfo.class,start,end));
+			getDiscordInfos().addAll(readItems(DiscordInfo.class,start,end));
+			getFileInfos().addAll(readItems(FileAccessInfo.class,start,end));
+			getJsonMessages().addAll(readItems(TalkMessage.class,start,end));
 				
 			logger.info("Technical data are loaded");
 	}
@@ -198,10 +199,7 @@ public abstract class AbstractTechnicalServiceManager {
 		{
 			getJsonMessages().add(info);
 		}
-		
 	}
-
-	
 	
 	public Set<Entry<Object, Object>> getSystemInfo() {
 		return System.getProperties().entrySet();

@@ -1,5 +1,6 @@
 package org.magic.services.providers;
 
+import java.io.IOException;
 import java.util.concurrent.Callable;
 
 import org.apache.logging.log4j.Logger;
@@ -21,14 +22,6 @@ public class IPTranslator {
 	public IPTranslator() {
 		cache = new TCache<>("ips");
 	}
-
-	
-	public static void main(String[] args) {
-		
-		new IPTranslator().getLocationFor("77.136.66.77");
-		
-	}
-	
 
 	public Location getLocationFor(String ip)
 	{

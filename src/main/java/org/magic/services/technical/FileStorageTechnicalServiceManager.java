@@ -41,14 +41,17 @@ public class FileStorageTechnicalServiceManager extends AbstractTechnicalService
 			serializer = new JsonExport();
 		
 		 Predicate<T> p = t ->{
-				var b1 = t.getStart().isAfter(start);
-				var b2 = t.getEnd()!=null?t.getEnd().isBefore(end==null?Instant.now():end):true;
-				return b1&&b2;
-			};
-		
+			 var b1 = t.getStart().isAfter(start);
+			 var b2 = true;
+			 
+			 if(t.getEnd()!=null)
+				 b2 = t.getEnd().isBefore(end==null?Instant.now():end);
+			
+			return b1&&b2;
+		 };
+		 
 		return serializer.fromJsonList(FileTools.readFile(new File(logsDirectory,classe.getSimpleName()+".json")), classe).stream().filter(p).distinct().toList();
 	}
-
 	
 	@Override
 	protected <T extends AbstractAuditableItem> void store(Class<T> classe, List<T> items) throws IOException
