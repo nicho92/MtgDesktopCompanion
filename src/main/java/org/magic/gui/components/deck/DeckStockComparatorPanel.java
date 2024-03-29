@@ -1,7 +1,6 @@
 package org.magic.gui.components.deck;
 
 import static org.magic.services.tools.MTG.capitalize;
-import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -13,7 +12,6 @@ import java.util.concurrent.Callable;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -36,7 +34,6 @@ import org.magic.gui.components.editor.JCheckableListBox;
 import org.magic.gui.components.widgets.JExportButton;
 import org.magic.gui.models.DeckStockComparisonModel;
 import org.magic.gui.renderer.standard.NumberCellEditorRenderer;
-import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
