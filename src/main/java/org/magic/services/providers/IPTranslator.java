@@ -1,6 +1,5 @@
 package org.magic.services.providers;
 
-import java.io.IOException;
 import java.util.concurrent.Callable;
 
 import org.apache.logging.log4j.Logger;
