@@ -613,6 +613,10 @@ public class ConstructPanel extends MTGUIComponent {
 			if(!lsl.getValueIsAdjusting())
 			{
 				MTGCard mc = listResult.getSelectedValue();
+				
+				if(mc==null)
+					return;
+				
 				magicCardDetailPanel.init(mc);
 				stockDetailPanel.init(mc,null);
 			}

@@ -53,7 +53,7 @@ public class SQLTools {
 	
 	
 	
-public String insertMainContact() {
+	public String insertMainContact() {
 		return ctx.insertInto(DSL.table("contacts"),DSL.field("contact_id"),DSL.field("contact_name"),DSL.field("contact_lastname"),DSL.field("contact_telephone"),DSL.field("contact_country"),DSL.field("contact_zipcode"),DSL.field("contact_city"),DSL.field("contact_address"),DSL.field("contact_website"),DSL.field("contact_email"),DSL.field("emailAccept"),DSL.field("contact_active"))
 					.values(1,"MTG","Companion","123456789","FR","123456","Somewhere","In the middle of nowhere","https://www.mtgcompanion.org","mtgdesktopcompanion@gmail.com",true,true).getSQL();
 	}

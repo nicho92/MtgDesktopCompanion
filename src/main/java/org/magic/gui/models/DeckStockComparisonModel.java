@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGCollection;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.gui.models.DeckStockComparisonModel.Line;
 
@@ -34,7 +35,7 @@ public class DeckStockComparisonModel extends GenericTableModel<Line> {
 	}
 
 
-	public void addItem(MTGCard mc, Integer qty, boolean has, List<MTGCardStock> stocks)
+	public void addItem(MTGCard mc, Integer qty, List<MTGCollection> has, List<MTGCardStock> stocks)
 	{
 		var l = new Line(mc, qty, has, stocks);
 		l.setResult(calculate(l));
@@ -57,7 +58,7 @@ public class DeckStockComparisonModel extends GenericTableModel<Line> {
 		case 0:return items.get(row).getMc();
 		case 1:return items.get(row).getNeeded();
 		case 2:return items.get(row).getStocks().size();
-		case 3: return items.get(row).getHas().booleanValue() ? 1: 0;
+		case 3: return items.get(row).getHas().size();
 		case 4:return items.get(row).getResult();
 
 		default:return "";
@@ -65,9 +66,9 @@ public class DeckStockComparisonModel extends GenericTableModel<Line> {
 	}
 
 	private Integer calculate(Line line) {
-		if(line.getHas().booleanValue() && line.getStocks().isEmpty())
+		if(!line.getHas().isEmpty() && line.getStocks().isEmpty())
 		{
-			return line.getNeeded()-1;
+			return line.getNeeded()-line.getHas().size();
 		}
 		else if (!line.getStocks().isEmpty())
 		{
@@ -91,11 +92,11 @@ public class DeckStockComparisonModel extends GenericTableModel<Line> {
 	{
 		MTGCard mc;
 		Integer needed;
-		Boolean has;
+		List<MTGCollection> has;
 		List<MTGCardStock> stocks;
 		Integer result;
 
-		public Line(MTGCard mc,Integer needed,Boolean has,List<MTGCardStock> stocks) {
+		public Line(MTGCard mc,Integer needed,List<MTGCollection> has,List<MTGCardStock> stocks) {
 			this.mc=mc;
 			this.needed=needed;
 			this.has=has;
@@ -120,7 +121,7 @@ public class DeckStockComparisonModel extends GenericTableModel<Line> {
 		}
 
 
-		public Boolean getHas() {
+		public List<MTGCollection> getHas() {
 			return has;
 		}
 

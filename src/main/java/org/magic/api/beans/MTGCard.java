@@ -131,11 +131,12 @@ public class MTGCard extends AbstractProduct {
 	@Override
 	public boolean equals(Object obj) {
 
-		if ((obj == null) || (this.getClass() != obj.getClass())) {
-			return false;
-		}
+		//return CryptoUtils.generateCardId(((MTGCard) obj)).equals(CryptoUtils.generateCardId(this));
+		if(obj instanceof MTGCard c )
+			return getScryfallId().equals(c.getScryfallId());
 
-		return CryptoUtils.generateCardId(((MTGCard) obj)).equals(CryptoUtils.generateCardId(this));
+		return false;
+			
 	}
 	
 	public String getMultiverseid() {

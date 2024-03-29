@@ -22,6 +22,7 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
@@ -31,11 +32,13 @@ import org.magic.api.interfaces.MTGCardsExport.MODS;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
+import org.magic.gui.components.editor.JCheckableListBox;
 import org.magic.gui.components.widgets.JExportButton;
 import org.magic.gui.models.DeckStockComparisonModel;
 import org.magic.gui.renderer.standard.NumberCellEditorRenderer;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
+import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 public class DeckStockComparatorPanel extends MTGUIComponent {
 
@@ -43,7 +46,7 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private JComboBox<MTGCollection> cboCollections;
+	private JCheckableListBox<MTGCollection> cboCollections;
 	private MTGDeck currentDeck;
 	private DeckStockComparisonModel model;
 	private JButton btnCompare;
@@ -61,13 +64,28 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 		initGUI();
 		initActions();
 	}
+	
+	
+	@Override
+	public void onVisible() {
+		try {
+			var cols = MTG.getEnabledPlugin(MTGDao.class).listCollections();
+			cboCollections.getModel().clear();
+			cols.forEach(cboCollections.getModel()::addElement);
+			cboCollections.setSelectedElements(cols);
+		} catch (SQLException e) {
+			logger.error(e);
+		}
+	}
 
 	private void initGUI() {
 
 		setLayout(new BorderLayout(0, 0));
 		btnCompare = new JButton("Compare");
 		var panneauHaut = new JPanel();
-		cboCollections = UITools.createComboboxCollection();
+		cboCollections =new JCheckableListBox<>();
+		
+		
 		buzyLabel = AbstractBuzyIndicatorComponent.createProgressComponent();
 		model = new DeckStockComparisonModel();
 		btnExportMissing = new JExportButton(MODS.EXPORT);
@@ -143,13 +161,6 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 				return new NumberCellEditorRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus,row,column);
 		});
 
-
-		try {
-			cboCollections.setSelectedItem(new MTGCollection(MTGControler.getInstance().get("default-library")));
-		} catch (Exception e) {
-			logger.error("Error retrieving collections",e);
-		}
-
 		table.packAll();
 
 	}
@@ -160,7 +171,6 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 			model.clear();
 			if(currentDeck!=null)
 			{
-				MTGCollection col = (MTGCollection)cboCollections.getSelectedItem();
 				buzyLabel.start(currentDeck.getMain().entrySet().size());
 				SwingWorker<Void, MTGCard> sw = new SwingWorker<>()
 						{
@@ -169,12 +179,18 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 							currentDeck.getMain().entrySet().forEach(entry->
 							{
 								try {
-									var has = false;
+									var has = new ArrayList<MTGCollection>();
 
 									if(chkCollectionCheck.isSelected())
-										has = getEnabledPlugin(MTGDao.class).listCollectionFromCards(entry.getKey()).contains(col);
+										has = new ArrayList<>(CollectionUtils.intersection(MTG.getEnabledPlugin(MTGDao.class).listCollectionFromCards(entry.getKey()),cboCollections.getSelectedElements()));
 
-									List<MTGCardStock> stocks = getEnabledPlugin(MTGDao.class).listStocks(entry.getKey(), col,chkEditionStrict.isSelected());
+									List<MTGCardStock> stocks = new ArrayList<>();
+									
+									for(var c : cboCollections.getSelectedElements())
+									{
+										stocks.addAll(MTG.getEnabledPlugin(MTGDao.class).listStocks(entry.getKey(), c,chkEditionStrict.isSelected()));
+									}
+									
 									var qty = currentDeck.getMain().get(entry.getKey());
 									model.addItem(entry.getKey(),qty,has, stocks);
 									publish(entry.getKey());
