@@ -74,7 +74,7 @@ public class DeckStockComparisonModel extends GenericTableModel<Line> {
 	private Integer calculate(Line line) {
 		var count =0;
 		
-		if(!line.getHas().isEmpty())
+		if(!line.getHas().isEmpty() && line.getStocks().isEmpty())
 		{
 			count =line.getHas().size();
 		}

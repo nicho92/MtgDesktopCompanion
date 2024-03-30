@@ -43,13 +43,14 @@ public class DeckPricePanel extends MTGUIComponent {
 
 	public void init(MTGDeck d) {
 		this.deck = d;
+		model.clear();
 		try {
 			lblPrice.setText(UITools.formatDouble(d.getAveragePrice()));
 			enableControle(true);
 		} catch (Exception e) {
 			lblPrice.setText("");
 		}
-		model.clear();
+		
 	}
 
 	public void enableControle(boolean b)

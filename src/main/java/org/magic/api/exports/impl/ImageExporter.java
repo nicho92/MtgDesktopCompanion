@@ -13,13 +13,17 @@ import java.util.Map;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
+import org.magic.api.interfaces.MTGComparator;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.sorters.CardNameSorter;
 import org.magic.services.MTGControler;
+import org.magic.services.PluginRegistry;
 import org.magic.services.tools.ImageTools;
 
 public class ImageExporter extends AbstractCardExport{
+	private static final String SORTER = "SORTER";
+
 	private static final String FORMAT = "FORMAT";
 
 	int columnsCount = 5;
@@ -29,14 +33,26 @@ public class ImageExporter extends AbstractCardExport{
 	int headerSize=75;
 
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public BufferedImage generateImageFor(MTGDeck d)
 	{
 		List<MTGCard> cards =  d.getMainAsList();
 
-
-		Collections.sort(cards, new CardNameSorter());
-
-
+		
+		
+		MTGComparator<MTGCard> sorter=new CardNameSorter();
+		
+		if(!getString(SORTER).isEmpty())
+		{
+			try {
+				sorter = (MTGComparator)PluginRegistry.inst().newInstance("org.magic.api.sorters."+getString(SORTER));
+			} catch (ClassNotFoundException e) {
+				logger.error("Can't load {} sorter : {}. Using default CardNameSorter.",getString(SORTER),e.getMessage());
+			}	
+		}
+	
+		
+		Collections.sort(cards, sorter);
 		int suggestedNbLines = cards.size()/((cardGroup)*columnsCount);
 
 
@@ -157,7 +173,7 @@ public class ImageExporter extends AbstractCardExport{
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of(FORMAT, "png",
-								"SORTER","ColorSorter");
+								SORTER,"ColorSorter");
 	}
 
 	@Override

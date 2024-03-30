@@ -175,13 +175,10 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 							{
 								try {
 									var has = new ArrayList<>(CollectionUtils.intersection(MTG.getEnabledPlugin(MTGDao.class).listCollectionFromCards(entry.getKey()),cboCollections.getSelectedElements()));
-
-									List<MTGCardStock> stocks = new ArrayList<>();
+									var stocks = new ArrayList<MTGCardStock>();
 									
 									for(var c : cboCollections.getSelectedElements())
-									{
 										stocks.addAll(MTG.getEnabledPlugin(MTGDao.class).listStocks(entry.getKey(), c,chkEditionStrict.isSelected()));
-									}
 									
 									var qty = currentDeck.getMain().get(entry.getKey());
 									model.addItem(entry.getKey(),qty,has, stocks);
@@ -198,7 +195,7 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 						protected void done() {
 							buzyLabel.end();
 							
-							List<MTGCard> pricList = new ArrayList<>();
+							var pricList = new ArrayList<MTGCard>();
 							model.getItems().stream().filter(l->l.getResult()>0).forEach(l->{
 								for(var i=0;i<l.getResult();i++)
 									pricList.add(l.getMc());
