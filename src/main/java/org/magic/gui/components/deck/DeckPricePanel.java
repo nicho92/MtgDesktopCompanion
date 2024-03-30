@@ -86,7 +86,7 @@ public class DeckPricePanel extends MTGUIComponent {
 
 		btnCheckPrice.addActionListener(ae -> {
 			model.clear();
-
+			
 			AbstractObservableWorker<List<MTGPrice>, MTGPrice, MTGPricesProvider> sw = new AbstractObservableWorker<>((MTGPricesProvider)cboPricers.getSelectedItem()) {
 
 				@Override

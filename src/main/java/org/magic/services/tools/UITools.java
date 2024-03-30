@@ -587,9 +587,11 @@ public class UITools {
 						MTGEdition ed = null;
 						try {
 							if (edPos != null) {
-								var edID = getModelValueAt(table,row, edPos).toString();
-								ed = new MTGEdition();
-								ed.setId(edID);
+								
+								if(getModelValueAt(table,row, edPos) instanceof MTGEdition se)
+									ed=se;
+								else
+									ed = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(getModelValueAt(table,row, edPos).toString());
 							}
 						}catch(Exception ex)
 						{

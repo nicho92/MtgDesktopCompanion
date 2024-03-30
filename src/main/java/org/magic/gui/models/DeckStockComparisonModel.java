@@ -5,6 +5,7 @@ import java.util.List;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGCollection;
+import org.magic.api.beans.MTGEdition;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.gui.models.DeckStockComparisonModel.Line;
 
@@ -21,6 +22,7 @@ public class DeckStockComparisonModel extends GenericTableModel<Line> {
 
 		columns = new String[] {
 				"CARD",
+				"SET",
 				"QTY",
 				"STOCK_MODULE",
 				"COLLECTION",
@@ -48,7 +50,10 @@ public class DeckStockComparisonModel extends GenericTableModel<Line> {
 	public Class<?> getColumnClass(int columnIndex) {
 		if (columnIndex==0)
 			return MTGCard.class;
+		else if (columnIndex==1)
+			return MTGEdition.class;
 
+		
 		return Integer.class;
 	}
 
@@ -56,36 +61,39 @@ public class DeckStockComparisonModel extends GenericTableModel<Line> {
 	public Object getValueAt(int row, int column) {
 		switch (column) {
 		case 0:return items.get(row).getMc();
-		case 1:return items.get(row).getNeeded();
-		case 2:return items.get(row).getStocks().size();
-		case 3: return items.get(row).getHas().size();
-		case 4:return items.get(row).getResult();
+		case 1:return items.get(row).getMc().getEdition();
+		case 2:return items.get(row).getNeeded();
+		case 3:return items.get(row).getStocks().size();
+		case 4: return items.get(row).getHas().size();
+		case 5:return items.get(row).getResult();
 
 		default:return "";
 		}
 	}
 
 	private Integer calculate(Line line) {
-		if(!line.getHas().isEmpty() && line.getStocks().isEmpty())
+		var count =0;
+		
+		if(!line.getHas().isEmpty())
 		{
-			return line.getNeeded()-line.getHas().size();
+			count =line.getHas().size();
 		}
-		else if (!line.getStocks().isEmpty())
+		
+		if (!line.getStocks().isEmpty())
 		{
-			var count =0;
+			
 			for(MTGCardStock st : line.getStocks())
 				count +=st.getQte();
-
-			count =  line.getNeeded()-count;
-
-			if(count<0)
-				count=0;
-			return count;
 		}
-		else
-		{
-			return line.getNeeded();
-		}
+		
+		count =  line.getNeeded()-count;
+
+		if(count<0)
+			count=0;
+		
+		return count;
+		
+		
 	}
 
 	public class Line

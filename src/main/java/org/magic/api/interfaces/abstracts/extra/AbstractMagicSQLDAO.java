@@ -642,7 +642,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public List<MTGDeck> listDecks() throws SQLException {
 		List<MTGDeck> colls = new ArrayList<>();
 
-		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from decks"))
+		try (var c = pool.getConnection();PreparedStatement pst = c.prepareStatement("SELECT * from decks order by ID DESC"))
 		{
 				ResultSet rs = executeQuery(pst);
 

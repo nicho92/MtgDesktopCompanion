@@ -34,6 +34,7 @@ import org.magic.gui.components.editor.JCheckableListBox;
 import org.magic.gui.components.widgets.JExportButton;
 import org.magic.gui.models.DeckStockComparisonModel;
 import org.magic.gui.renderer.standard.NumberCellEditorRenderer;
+import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
@@ -51,7 +52,6 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 	private DeckPricePanel pricesPan;
 	private JCheckBox chkEditionStrict ;
 	private JExportButton btnExportMissing;
-	private JCheckBox chkCollectionCheck;
 
 	public void setCurrentDeck(MTGDeck c) {
 		this.currentDeck = c;
@@ -78,9 +78,8 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 	private void initGUI() {
 
 		setLayout(new BorderLayout(0, 0));
-		btnCompare = new JButton("Compare");
+		btnCompare = UITools.createBindableJButton("Compare",MTGConstants.ICON_STOCK,KeyEvent.VK_C,"compare");
 		var panneauHaut = new JPanel();
-		cboCollections =new JCheckableListBox<>();
 		
 		
 		buzyLabel = AbstractBuzyIndicatorComponent.createProgressComponent();
@@ -97,21 +96,11 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 		pricesPan = new DeckPricePanel();
 
 		JXTable table = UITools.createNewTable(model,false);
-		UITools.initCardToolTipTable(table, 0,null,null,null);
+		UITools.initCardToolTipTable(table, 0,1,null,null);
 
 		add(panneauHaut, BorderLayout.NORTH);
-		panneauHaut.add(cboCollections);
-
-		chkCollectionCheck = new JCheckBox(capitalize("CHECK_COLLECTION"));
-		panneauHaut.add(chkCollectionCheck);
-
+		cboCollections =new JCheckableListBox<>();
 		chkEditionStrict = new JCheckBox(capitalize("EDITION_STRICT"));
-		panneauHaut.add(chkEditionStrict);
-
-
-		panneauHaut.add(btnCompare);
-		panneauHaut.add(buzyLabel);
-
 		btnExportMissing.setEnabled(false);
 		btnExportMissing.initCardsExport(new Callable<MTGDeck>() {
 
@@ -127,8 +116,17 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 			}
 		}, buzyLabel);
 
+	
+		
+		panneauHaut.add(cboCollections);
+		panneauHaut.add(chkEditionStrict);
+		panneauHaut.add(btnCompare);
 		panneauHaut.add(btnExportMissing);
+		panneauHaut.add(buzyLabel);
 
+
+
+		
 		pan.setLeftComponent(new JScrollPane(table));
 		pan.setRightComponent(pricesPan);
 
@@ -136,7 +134,7 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 
 		table.setDefaultRenderer(Integer.class, (JTable t, Object value, boolean isSelected, boolean hasFocus,int row, int column)->{
 			var val = (Integer)value;
-				if(column==4)
+				if(column==5)
 				{
 					var c = new JLabel(value.toString(),SwingConstants.CENTER);
 					c.setOpaque(true);
@@ -176,10 +174,7 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 							currentDeck.getMain().entrySet().forEach(entry->
 							{
 								try {
-									var has = new ArrayList<MTGCollection>();
-
-									if(chkCollectionCheck.isSelected())
-										has = new ArrayList<>(CollectionUtils.intersection(MTG.getEnabledPlugin(MTGDao.class).listCollectionFromCards(entry.getKey()),cboCollections.getSelectedElements()));
+									var has = new ArrayList<>(CollectionUtils.intersection(MTG.getEnabledPlugin(MTGDao.class).listCollectionFromCards(entry.getKey()),cboCollections.getSelectedElements()));
 
 									List<MTGCardStock> stocks = new ArrayList<>();
 									
@@ -202,13 +197,13 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 						@Override
 						protected void done() {
 							buzyLabel.end();
-
+							
 							List<MTGCard> pricList = new ArrayList<>();
 							model.getItems().stream().filter(l->l.getResult()>0).forEach(l->{
 								for(var i=0;i<l.getResult();i++)
 									pricList.add(l.getMc());
 							});
-
+							
 							pricesPan.init(MTGDeck.toDeck(pricList));
 							btnExportMissing.setEnabled(!model.isEmpty());
 						}

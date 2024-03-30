@@ -162,10 +162,11 @@ public class MTGEdition implements MTGSerializable, Comparable<MTGEdition> {
 
 	@Override
 	public boolean equals(Object obj) {
-		if((obj == null) || (this.getClass() != obj.getClass()) || (getId()==null))
-			return false;
-
-		return getId().equals(((MTGEdition) obj).getId());
+		
+		if(obj instanceof MTGEdition ed)
+			return getId().equalsIgnoreCase(ed.getId());
+		
+		return false;
 	}
 
 	public String getId() {

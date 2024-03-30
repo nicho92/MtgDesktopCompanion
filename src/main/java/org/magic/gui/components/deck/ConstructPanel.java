@@ -788,7 +788,11 @@ public class ConstructPanel extends MTGUIComponent {
 
 
 		table.getColumnModel().getColumn(0).setCellRenderer((JTable table2, Object value, boolean isSelected, boolean hasFocus,int row, int column)-> {
-
+			
+			if(value==null)
+				return new JLabel();
+			
+			
 			JLabel comp = (JLabel)new DefaultTableCellRenderer().getTableCellRendererComponent(table2, value, isSelected, hasFocus, row, column);
 			comp.setText(((MTGCard)value).getName());
 
