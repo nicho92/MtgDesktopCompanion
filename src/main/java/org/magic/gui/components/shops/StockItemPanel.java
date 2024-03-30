@@ -144,9 +144,9 @@ public class StockItemPanel extends MTGUIComponent {
 
 
 	public void bind(List<MTGStockItem> items) {
-
 		try {
 			model.bind(items);
+		
 			table.packAll();
 		} catch (Exception e) {
 			logger.error(e);
