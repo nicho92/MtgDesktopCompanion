@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -42,7 +41,7 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 	public ObjectName getObjectName() {
 		try {
 			return new ObjectName("org.magic.api:type="+getType()+",name="+getName());
-		} catch (MalformedObjectNameException e) {
+		} catch (Exception e) {
 			return null;
 		}
 	}

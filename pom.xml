@@ -55,7 +55,7 @@
 		<jwt.version>0.12.5</jwt.version>
 		<lucene.version>9.10.0</lucene.version>
 		<artemis.version>2.33.0</artemis.version>
-		<flatlaf.version>3.4</flatlaf.version>
+		<flatlaf.version>3.4.1</flatlaf.version>
 		<qwartz.version>2.5.0-rc1</qwartz.version>
 		<rome.version>2.1.0</rome.version>
 		<log4j.version>2.23.1</log4j.version>
