@@ -131,9 +131,8 @@ public class MTGCard extends AbstractProduct {
 	@Override
 	public boolean equals(Object obj) {
 
-		//return CryptoUtils.generateCardId(((MTGCard) obj)).equals(CryptoUtils.generateCardId(this));
 		if(obj instanceof MTGCard c )
-			return getScryfallId().equals(c.getScryfallId());
+			return CryptoUtils.generateCardId(c).equals(CryptoUtils.generateCardId(this));
 
 		return false;
 			
