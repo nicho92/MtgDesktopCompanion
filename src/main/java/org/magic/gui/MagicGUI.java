@@ -52,6 +52,7 @@ import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.GithubUtils;
 import org.magic.services.tools.ImageTools;
+import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 import org.mkm.gui.MkmPanel;
 
@@ -211,53 +212,53 @@ public class MagicGUI extends JFrame {
 
 
 
-		if (MTGControler.getInstance().get("modules/search").equals("true"))
+		if (MTG.readPropertyAsBoolean("modules/search"))
 			addTab(CardSearchPanel.getInstance());
 
-		if (MTGControler.getInstance().get("modules/collection").equals("true"))
+		if (MTG.readPropertyAsBoolean("modules/collection"))
 			addTab(new CollectionPanelGUI());
 
-		if (MTGControler.getInstance().get("modules/deckbuilder").equals("true"))
+		if (MTG.readPropertyAsBoolean("modules/deckbuilder"))
 			addTab(new DeckBuilderGUI());
 
-		if (MTGControler.getInstance().get("modules/game").equals("true"))
+		if (MTG.readPropertyAsBoolean("modules/game"))
 			addTab(new GameGUI());
 
-		if (MTGControler.getInstance().get("modules/stock").equals("true"))
+		if (MTG.readPropertyAsBoolean("modules/stock"))
 			addTab(new StockPanelGUI());
 
-		if (MTGControler.getInstance().get("modules/sealed").equals("true"))
+		if (MTG.readPropertyAsBoolean("modules/sealed"))
 			addTab(new SealedStockGUI());
 
-		if (MTGControler.getInstance().get("modules/dashboard").equals("true"))
+		if (MTG.readPropertyAsBoolean("modules/dashboard"))
 			addTab(new DashBoardGUI2());
 
-		if (MTGControler.getInstance().get("modules/alarm").equals("true"))
+		if (MTG.readPropertyAsBoolean("modules/alarm"))
 			addTab(new AlarmGUI());
 
-		if (MTGControler.getInstance().get("modules/cardbuilder").equals("true"))
+		if (MTG.readPropertyAsBoolean("modules/cardbuilder"))
 			addTab(new CardBuilder2GUI());
 
-		if (MTGControler.getInstance().get("modules/rss").equals("true"))
+		if (MTG.readPropertyAsBoolean("modules/rss"))
 			addTab(new RssGUI());
 
-		if (MTGControler.getInstance().get("modules/wallpaper").equals("true"))
+		if (MTG.readPropertyAsBoolean("modules/wallpaper"))
 			addTab(new WallpaperGUI());
 
-		if (MTGControler.getInstance().get("modules/webshop").equals("true"))
+		if (MTG.readPropertyAsBoolean("modules/webshop"))
 			addTab(new ShopGUI());
 
-		if (MTGControler.getInstance().get("modules/announce").equals("true"))
+		if (MTG.readPropertyAsBoolean("modules/announce"))
 			addTab(new AnnouncesGUI());
 
-		if (MTGControler.getInstance().get("modules/network").equals("true"))
+		if (MTG.readPropertyAsBoolean("modules/network"))
 			addTab(new NetworkGUI());
 
-		if (MTGControler.getInstance().get("modules/scripts").equals("true"))
+		if (MTG.readPropertyAsBoolean("modules/scripts"))
 			addTab(new ScriptPanel());
 
 
-		if (MTGControler.getInstance().get("modules/mkm").equals("true"))
+		if (MTG.readPropertyAsBoolean("modules/mkm"))
 		{
 			try {
 

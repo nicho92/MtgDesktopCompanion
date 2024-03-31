@@ -78,6 +78,7 @@ import org.magic.api.beans.enums.EnumTransactionDirection;
 import org.magic.api.beans.enums.EnumTransactionStatus;
 import org.magic.api.beans.game.Player;
 import org.magic.api.beans.shop.Contact;
+import org.magic.api.beans.technical.MoneyValue;
 import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsIndexer;
@@ -127,7 +128,7 @@ public class UITools {
 
 	public static final int getComponentIndex(Component component) {
 	    if (component != null && component.getParent() != null) {
-	      Container c = component.getParent();
+	      var c = component.getParent();
 	      for (var i = 0; i < c.getComponentCount(); i++) {
 	        if (c.getComponent(i) == component)
 	          return i;
@@ -138,12 +139,12 @@ public class UITools {
 	  }
 
 	public static String humanReadableSize(long bytes) {
-	    long absB = bytes == Long.MIN_VALUE ? Long.MAX_VALUE : Math.abs(bytes);
+	    var absB = bytes == Long.MIN_VALUE ? Long.MAX_VALUE : Math.abs(bytes);
 	    if (absB < 1024) {
 	        return bytes + " B";
 	    }
-	    long value = absB;
-	    CharacterIterator ci = new StringCharacterIterator("KMGTPE");
+	    var value = absB;
+	    var ci = new StringCharacterIterator("KMGTPE");
 	    for (int i = 40; i >= 0 && absB > 0xfffccccccccccccL >> i; i -= 10) {
 	        value >>= 10;
 	        ci.next();
@@ -178,7 +179,7 @@ public class UITools {
 
 	public static void buildCategorizedMenu(JPopupMenu menu, JMenuItem it, MTGCardsExport exp)
 	{
-		boolean foundCateg=false;
+		var foundCateg=false;
 		for(var m : menu.getSubElements())
 		{
 			if(m instanceof JMenuItem subMenuCategory && subMenuCategory.getText().equals(exp.getCategory().name()))
@@ -190,7 +191,7 @@ public class UITools {
 		}
 		if(!foundCateg)
 		{
-			JMenu itCateg = new JMenu(exp.getCategory().name());
+			var itCateg = new JMenu(exp.getCategory().name());
 			itCateg.setIcon(exp.getCategory().getIcon());
 			itCateg.add(it);
 			menu.add(itCateg);
@@ -334,7 +335,7 @@ public class UITools {
 		}
 
 
-		if(MTGControler.getInstance().get("autocompletion").equals("true")) {
+		if(MTG.readPropertyAsBoolean("autocompletion")) {
 			autocomplete(txtSearch);
 		}
 
@@ -503,7 +504,7 @@ public class UITools {
 			return 0.0;
 		}
 	}
-
+	
 	public static double roundDouble(double d)
 	{
 		return BigDecimal.valueOf(d).setScale(2, RoundingMode.HALF_EVEN).doubleValue();
