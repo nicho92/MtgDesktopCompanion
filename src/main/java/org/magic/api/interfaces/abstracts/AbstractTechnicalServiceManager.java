@@ -84,12 +84,6 @@ public abstract class AbstractTechnicalServiceManager {
 		}).toList();
 	}
 	
-	
-	public void restoreData(Date start,Date end) throws IOException
-	{
-		restoreData(Instant.ofEpochMilli(start.getTime()), Instant.ofEpochMilli(end.getTime()));
-	}
-	
 	public void restoreData(long start,long end) throws IOException
 	{
 		restoreData(Instant.ofEpochMilli(start), Instant.ofEpochMilli(end));
@@ -99,12 +93,25 @@ public abstract class AbstractTechnicalServiceManager {
 	{
 			persist();
 			
+			jsonInfo.clear();
 			getJsonInfo().addAll(readItems(JsonQueryInfo.class,start,end));
+			
+			daoInfos.clear();
 			getDaoInfos().addAll(readItems(DAOInfo.class,start,end));
+			
+			tasksInfos.clear();
 			getTasksInfos().addAll(readItems(TaskInfo.class,start,end));
+			
+			networkInfos.clear();
 			getNetworkInfos().addAll(readItems(NetworkInfo.class,start,end));
+			
+			discordInfos.clear();
 			getDiscordInfos().addAll(readItems(DiscordInfo.class,start,end));
+			
+			fileInfos.clear();
 			getFileInfos().addAll(readItems(FileAccessInfo.class,start,end));
+			
+			jsonMessages.clear();
 			getJsonMessages().addAll(readItems(TalkMessage.class,start,end));
 				
 			logger.info("Technical data are loaded");
