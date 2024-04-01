@@ -1155,16 +1155,13 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	@Override
 	public void deleteTransaction(List<Transaction> state) throws SQLException {
 		logger.debug("remove transactions : {} items ",state.size());
-		var st = new StringBuilder();
-		st.append("DELETE FROM transactions where id IN (");
-		for (Transaction sto : state) {
-			st.append(sto.getId()).append(",");
-			notify(sto);
-		}
-		st.append(")");
-		String sql = st.toString().replace(",)", ")");
-		try (var c = pool.getConnection();Statement pst = c.createStatement()) {
-			pst.executeUpdate(sql);
+		try (var c = pool.getConnection();var pst = c.prepareStatement("DELETE FROM transactions where id = ?")) {
+			for (Transaction sto : state) {
+				pst.setLong(1, sto.getId());
+				pst.addBatch();
+				notify(sto);
+			}
+			executeUpdate(pst, true);
 		}
 	}
 
