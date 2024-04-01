@@ -19,7 +19,7 @@ public class ArchidektExport extends AbstractFormattedFileCardExport {
 	
 	@Override
 	public EnumExportCategory getCategory() {
-		return EnumExportCategory.WEBSITE;
+		return EnumExportCategory.EXTERNAL_FILE_FORMAT;
 	}
 
 

@@ -22,8 +22,6 @@ import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
 
-import com.google.gson.JsonElement;
-
 public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 
 	private static final String URI_BASE="https://tappedout.net";
@@ -32,7 +30,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public STATUT getStatut() {
-		return STATUT.DEPRECATED;
+		return STATUT.STABLE;
 	}
 
 	@Override
@@ -47,9 +45,10 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 
 	private void initConnexion() throws IOException {
 		httpclient = URLTools.newClient();
-		httpclient.doGet(URI_BASE+"/accounts/login/?next=/");
-		RequestBuilder b = httpclient.build().post()
+		httpclient.doGet(URI_BASE+"/accounts/log-in/?next=/");
+		RequestBuilder b = httpclient.build()
 						  .url(URI_BASE+"/accounts/login/")
+						  .post()
 						  .addContent("username", getAuthenticator().getLogin())
 						  .addContent("password", getAuthenticator().getPassword())
 						  .addContent("csrfmiddlewaretoken", httpclient.getCookieValue("csrftoken"))
@@ -77,8 +76,8 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 			initConnexion();
 
 		logger.debug("sniff deck at {}",info.getUrl());
-		MTGDeck deck = info.toBaseDeck();
-		JsonElement root = RequestBuilder.build().url(info.getUrl().toString()).setClient(httpclient).get().toJson();
+		var deck = info.toBaseDeck();
+		var root = RequestBuilder.build().url(info.getUrl().toString()).setClient(httpclient).get().toJson();
 
 		deck.setName(root.getAsJsonObject().get("name").getAsString());
 		deck.setDescription(root.getAsJsonObject().get("url").getAsString());
@@ -130,7 +129,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public List<RetrievableDeck> getDeckList(String filter) throws IOException {
-		JsonElement root = URLTools.extractAsJson(URI_BASE+"/api/deck/latest/"+ filter+"/");
+		var root = URLTools.extractAsJson(URI_BASE+"/api/deck/latest/"+ filter+"/");
 		List<RetrievableDeck> list = new ArrayList<>();
 
 		for (var i = 0; i < root.getAsJsonArray().size(); i++) {

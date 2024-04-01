@@ -37,15 +37,11 @@ public class MTGConstants {
 	public static final String COPYRIGHT_STRING="Wizards of the Coast, Magic: The Gathering, and their logos are trademarks of Wizards of the Coast LLC. \u00A9 1995-"+ Calendar.getInstance().get(Calendar.YEAR)+ " Wizards. All rights reserved. This app is not affiliated with Wizards of the Coast LLC.";
 	public static final String COMMANDS_PACKAGE = "org.magic.api.commands.impl.";
 	public static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36";
-	public static final String KEYSTORE_NAME = "jssecacerts";
-	public static final String KEYSTORE_PASS = "changeit";
-	public static final Version FREEMARKER_VERSION=Configuration.VERSION_2_3_31;
-	public static final String SSL_PROTO = "TLS";
+	public static final Version FREEMARKER_VERSION=Configuration.VERSION_2_3_32;
 
 
 //CONFIG FILES CONSTANTS
 	public static final String MTG_DESKTOP_VERSION_FILE = "/version";
-	public static final File MTG_BOOSTERS_LOCAL_URI = new File(MTGConstants.class.getResource("/data/boosters.xml").getFile());
 	public static final String CONF_FILENAME = "mtgcompanion-conf.xml";
 	public static final File CONF_DIR = new File(SystemUtils.getUserHome() + "/.magicDeskCompanion/");
 	public static final File DATA_DIR = new File(CONF_DIR,"data");
@@ -54,7 +50,6 @@ public class MTGConstants {
 	public static final URL TOOLTIPS_FILE = MTGConstants.class.getResource("/data/tips.properties");
 	public static final URL MTG_DESKTOP_ALIASES_FILE =  MTGConstants.class.getResource("/data/pluginsAliases.json");
 	public static final URL MTG_DESKTOP_SETS_FILE =  MTGConstants.class.getResource("/data/sets_codeAliases.json");
-	public static final URL SCRIPT_DIRECTORY = MTGConstants.class.getResource("/script/");
 	
 	
 	
@@ -66,7 +61,7 @@ public class MTGConstants {
 	public static final String MTG_TEMPLATES_DIR = "./templates";
 	public static final String SET_ICON_DIR = "/icons/set/";
 	public static final String MTG_CHROME_PLUGIN_DIR = "mtg-chrome-companion";
-	public static final String ICON_DIR="/icons";
+	private static final String ICON_DIR="/icons";
 	public static final String MTG_REPORTS_DIR = "/report";
 	public static final String MESSAGE_BUNDLE = "locales.lang";
 	
@@ -74,21 +69,15 @@ public class MTGConstants {
 //EXTERNAL URL CONSTANTS
 	public static final String MTG_DESKTOP_ISSUES_URL = "https://github.com/nicho92/MtgDesktopCompanion/issues";
 	public static final String MTG_DESKTOP_DONATE_URL_PAYPAL= "https://www.paypal.com/donate/?business=ZXJKNZZQ2S7US&no_recurring=0&item_name=Help+me+to+continue+MTGCompanion+developpement%2C+and+online+service+like+Discord+bot+&currency_code=EUR";
-	public static final String MTG_DESKTOP_DONATE_URL_KOFI= "https://ko-fi.com/mtgcompanion";
 	
 	public static final String MTG_DESKTOP_WIKI_URL = "https://github.com/nicho92/MtgDesktopCompanion/wiki";
 	public static final String MTG_DESKTOP_WIKI_RAW_URL = "https://raw.githubusercontent.com/wiki/nicho92/MtgDesktopCompanion";
-	public static final String MTG_DESKTOP_POM_URL = "https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/pom.xml";
 	public static final String MTG_BOOSTERS_URI = "https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/src/main/resources/data/boosters.xml";
 	public static final String MTG_SUPPORTERS_URI = "https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/src/main/resources/data/supporters.json";
 	public static final String MTG_DESKTOP_ALIASES_URL = "https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/src/main/resources/data/pluginsAliases.json";
 	public static final String MTG_DESKTOP_WEBSITE = "https://www.mtgcompanion.org/";
 	public static final String MTG_DESKTOP_GITHUB_RELEASE_API = "https://api.github.com/repos/nicho92/MTGDesktopCompanion/releases";
 	public static final String CURRENCY_API = "https://currencylayer.com/";
-	public static final String URL_RULES_FILE = "https://media.wizards.com/2022/downloads/MagicCompRules%2020220429.txt";
-	public static final String WIZARD_EVENTS_URL = "https://magic.wizards.com/en/calendar-node-field-event-date-ajax/month/";
-
-	
 	
 //DEFAULT CONSTANTS
 	public static final Contact DEFAULT_CONTACT;
@@ -177,7 +166,6 @@ public class MTGConstants {
 	public static final ImageIcon ICON_GAME_PLANESWALKER = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/game/planeswalker.png"));
 	public static final ImageIcon ICON_GAME_LIFE = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/game/heart.png"));
 	public static final ImageIcon ICON_GAME_POISON = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/game/poison.png"));
-	public static final ImageIcon ICON_GAME_STATIC = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/game/static.png"));
 	public static final ImageIcon ICON_GAME_TRIGGER = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/game/trigger.png"));
 	public static final ImageIcon ICON_GAME_ACTIVATED = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/game/activated.png"));
 	public static final ImageIcon ICON_GAME_COLOR = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/colors.gif"));
@@ -203,7 +191,7 @@ public class MTGConstants {
 	public static final ImageIcon ICON_CONFIG = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/admin.png"));
 	public static final ImageIcon ICON_DECK = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/deck.png"));
 	public static final ImageIcon ICON_STOCK = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/stock.png"));
-	public static final ImageIcon ICON_STORY = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/stories.png"));
+
 	public static final ImageIcon ICON_WALLPAPER = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/wallpaper.png"));
 	public static final ImageIcon PLAY_ICON = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/play.png"));
 	public static final ImageIcon ICON_EXPORT = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/export.png"));
@@ -234,8 +222,6 @@ public class MTGConstants {
 	public static final ImageIcon ICON_UP = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/up.png"));
 	public static final ImageIcon ICON_DOWN = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/down.png"));
 	public static final ImageIcon ICON_STANDBY = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/standby.png"));
-	public static final ImageIcon ICON_IN = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/in.png"));
-	public static final ImageIcon ICON_OUT = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/out.png"));
 	public static final ImageIcon ICON_SCRIPT=new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/script.png"));
 	public static final ImageIcon ICON_RECOGNITION = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/recognition.png"));
 	public static final ImageIcon ICON_RANDOM = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/random.png"));
@@ -247,7 +233,6 @@ public class MTGConstants {
 	public static final ImageIcon ICON_PASTE = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/paste.png"));
 	public static final ImageIcon ICON_MERGE = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/merge.png"));
 	public static final ImageIcon ICON_EXT_SHOP = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/extshop.png"));
-	public static final ImageIcon ICON_TRADES = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/trades.png"));
 	public static final ImageIcon ICON_DATABASE = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/database.png"));
 	public static final ImageIcon ICON_NETWORK = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/network.png"));
 	public static final ImageIcon ICON_DEFAULT_PLUGIN = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/plugins/default.png"));
@@ -306,18 +291,14 @@ public class MTGConstants {
 	public static final ImageIcon ICON_TAB_POOL = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/pool.png"));
 	public static final ImageIcon ICON_TAB_COMBO = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/combo.png"));
 
-	public static final ImageIcon ICON_SMALL_COPY = new ImageIcon(ICON_COPY.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
-	public static final ImageIcon ICON_SMALL_PASTE = new ImageIcon(ICON_PASTE.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
-	public static final ImageIcon ICON_SMALL_SAVE = new ImageIcon(ICON_SAVE.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_SMALL_EQUALS = new ImageIcon(ICON_EQUALS.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_SMALL_CHECK = new ImageIcon(ICON_CHECK.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_SMALL_DELETE = new ImageIcon(ICON_DELETE.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_SMALL_CLEAR = new ImageIcon(ICON_CLEAR.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_SMALL_HELP = new ImageIcon(ICON_HELP.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
-	public static final ImageIcon ICON_SMALL_CANCEL = new ImageIcon(ICON_CANCEL.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 	public static  final ImageIcon ICON_SMALL_SCRIPT= new ImageIcon(ICON_SCRIPT.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH));
 
-	public static ImageIcon getIconFor(Class c) {
+	public static ImageIcon getIconFor(Class<?> c) {
 		try {
 
 			if(c==MTGCollection.class)

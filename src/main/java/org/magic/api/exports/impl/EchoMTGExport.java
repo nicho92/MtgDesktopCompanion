@@ -33,7 +33,7 @@ public class EchoMTGExport extends AbstractCardExport {
 
 	@Override
 	public EnumExportCategory getCategory() {
-		return EnumExportCategory.WEBSITE;
+		return EnumExportCategory.EXTERNAL_FILE_FORMAT;
 	}
 	
 	
