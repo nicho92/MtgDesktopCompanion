@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.tools.FileTools;
 
@@ -111,6 +112,11 @@ public class MKMFileWantListExport extends AbstractFormattedFileCardExport {
 		return " ";
 	}
 
+	
+	@Override
+	public EnumExportCategory getCategory() {
+		return EnumExportCategory.EXTERNAL_FILE_FORMAT;
+	}
 
 	@Override
 	public Map<String, String> getDefaultAttributes() {

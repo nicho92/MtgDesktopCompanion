@@ -11,6 +11,7 @@ import javax.swing.ImageIcon;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGDeck;
+import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
 import org.magic.services.tools.FileTools;
 
@@ -24,6 +25,12 @@ public class MkmCSVFile extends AbstractFormattedFileCardExport {
 	public String getFileExtension() {
 		return ".csv";
 	}
+	
+	@Override
+	public EnumExportCategory getCategory() {
+		return EnumExportCategory.EXTERNAL_FILE_FORMAT;
+	}
+	
 
 	@Override
 	public void exportDeck(MTGDeck deck, File dest) throws IOException {

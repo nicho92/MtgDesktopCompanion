@@ -8,7 +8,6 @@ import static org.magic.services.tools.MTG.listPlugins;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Container;
 import java.awt.Desktop;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -21,7 +20,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URI;
-import java.text.CharacterIterator;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
@@ -78,7 +76,6 @@ import org.magic.api.beans.enums.EnumTransactionDirection;
 import org.magic.api.beans.enums.EnumTransactionStatus;
 import org.magic.api.beans.game.Player;
 import org.magic.api.beans.shop.Contact;
-import org.magic.api.beans.technical.MoneyValue;
 import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsIndexer;
@@ -738,19 +735,11 @@ public class UITools {
 		pane.addTab(capitalize(comp.getTitle()), ImageTools.resize(comp.getIcon(), 15, 15),comp);
 
 	}
-	public static int daysBetween(Date d1, Date d2)
-	{
-		return daysBetween(d1.toInstant(), d2.toInstant());
-	}
-
-
-
+	
 	public static int daysBetween(Instant d1, Instant d2)
 	{
 		return (int) ChronoUnit.DAYS.between(d1, d2);
 	}
-
-
 
 	public static List<Integer> getSelectedRows(JXTable table) {
 		int[] viewRow = table.getSelectedRows();
