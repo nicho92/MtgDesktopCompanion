@@ -4,15 +4,20 @@ if(dao.isSQL()) {
 	//dao.executeQuery("CREATE INDEX idx_scryfallId ON cards (scryfallId)");
 
 	//MySQL-MariaDB
-	//var query="UPDATE cards SET scryfallId = JSON_UNQUOTE(JSON_EXTRACT(mcard,'$.scryfallId'))";
+	var query="UPDATE cards SET scryfallId = JSON_UNQUOTE(JSON_EXTRACT(mcard,'\$.scryfallId'))";
 
-	//Postgres
-	//var query="UPDATE cards SET scryfallId = mcard->>'scryfallId'";
+	if(dao.getName().equals("postgresql"))
+		query="UPDATE cards SET scryfallId = mcard->>'scryfallId'";
 
-	var query="UPDATE cards SET scryfallId = JSON_EnumExtraCT(mcard,'\$.scryfallId')";
-
+	if(dao.getName().equals("SQLite"))
+		query="UPDATE cards SET id = json_extract(mcard,'\$.scryfallId')";
 
 	dao.executeQuery(query);
+
+	dao.executeQuery("ALTER TABLE cards DROP PRIMARY KEY");
+	dao.executeQuery("ALTER TABLE cards ADD PRIMARY KEY (scryfallId,edition,collection)");
+
+	
 	printf("--done");
 }
 else
