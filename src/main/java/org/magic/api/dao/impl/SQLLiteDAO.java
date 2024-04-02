@@ -26,7 +26,7 @@ public class SQLLiteDAO extends AbstractMagicSQLDAO {
 
 		var m = super.getDefaultAttributes();
 
-		m.put(SERVERNAME, Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(),"sqlite-db").toFile().getAbsolutePath());
+		m.put(SERVERNAME, Paths.get(MTGConstants.DATA_DIR.getAbsolutePath(),"mtgcompanion.sqlite").toFile().getAbsolutePath());
 		m.put(LOGIN, "SA");
 		m.put(DB_NAME, "");
 
