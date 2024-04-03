@@ -6,7 +6,6 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadInfo;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -133,7 +132,6 @@ public abstract class AbstractTechnicalServiceManager {
 		
 		if(isEnable())
 		{	
-			logger.info("TechnicalService is enable");
 			ThreadManager.getInstance().timer(new MTGRunnable() {
 	
 				@Override

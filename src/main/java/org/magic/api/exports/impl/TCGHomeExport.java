@@ -12,8 +12,13 @@ import org.magic.services.tools.UITools;
 public class TCGHomeExport extends AbstractFormattedFileCardExport {
 
 	
-	private final String columns="amount,name,finish,set,collector_number,language,condition,scryfall_id,purchase_price";
+	private static final  String COLUMNS="amount,name,finish,set,collector_number,language,condition,scryfall_id,purchase_price";
 	
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEV;
+	}
 	
 	@Override
 	public EnumExportCategory getCategory() {
@@ -22,7 +27,7 @@ public class TCGHomeExport extends AbstractFormattedFileCardExport {
 	
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
-		var builder = new StringBuilder(columns);
+		var builder = new StringBuilder(COLUMNS);
 			builder.append(System.lineSeparator());
 		
 		for(var mcs : stock)

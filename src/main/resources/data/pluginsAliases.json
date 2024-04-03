@@ -2,7 +2,7 @@
 	"TCGHome" : {
 			"conditions": {
 				"Mint":"MINT",
-				"Near Mint":"NEAR_MINT",
+				"Near Mint":"NEAR_MINT"
 			}
 	},
 	

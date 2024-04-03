@@ -109,7 +109,6 @@ public class PluginsAliasesProvider {
 	
 	public String getRegexFor(MTGPlugin plug,String k)
 	{
-		logger.debug("getting regex for {} = {}", plug,k);
 		try {
 			return  jsonData.get(plug.getName()).getAsJsonObject().get("regex").getAsJsonObject().get(k).getAsString();
 		}
@@ -132,7 +131,8 @@ public class PluginsAliasesProvider {
 		}
 		catch(Exception e)
 		{
-			logger.error(e);
+			System.out.println(jsonData);
+			logger.error("Error getting condition {} for plug {} : {}",condition,plug,e.getMessage());
 			return condition.name();
 		}
 	}

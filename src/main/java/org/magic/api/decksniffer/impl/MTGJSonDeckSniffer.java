@@ -2,7 +2,7 @@ package org.magic.api.decksniffer.impl;
 
 import static org.magic.services.tools.MTG.getEnabledPlugin;
 
-
+import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
