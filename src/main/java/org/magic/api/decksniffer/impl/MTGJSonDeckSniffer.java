@@ -2,7 +2,7 @@ package org.magic.api.decksniffer.impl;
 
 import static org.magic.services.tools.MTG.getEnabledPlugin;
 
-import java.io.IOException;
+
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +70,7 @@ public class MTGJSonDeckSniffer extends AbstractDeckSniffer {
 					d.getSideBoard().put(mc, qty);
 
 				notify(mc);
-			} catch (IOException e) {
+			} catch (Exception e) {
 				logger.error("error loading {}/{}",name,ed,e);
 			}
 
