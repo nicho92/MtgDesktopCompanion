@@ -1,6 +1,11 @@
 {
-
-
+	"TCGHome" : {
+			"conditions": {
+				"Mint":"MINT",
+				"Near Mint":"NEAR_MINT",
+			}
+	},
+	
 	"CardTrader" : {
 		"conditions": {
 				"DAMAGED":"HEAVILY_PLAYED",
