@@ -1287,8 +1287,8 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	@Override
 	public void removeCard(MTGCard mc, MTGCollection collection) throws SQLException {
 		logger.debug("delete {} in {}",mc,collection);
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("DELETE FROM cards where id=? and edition=? and collection=?")) {
-			pst.setString(1, CryptoUtils.generateCardId(mc));
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("DELETE FROM cards where scryfallId=? and edition=? and collection=?")) {
+			pst.setString(1, mc.getScryfallId());
 			pst.setString(2, mc.getEdition().getId());
 			pst.setString(3, collection.getName());
 			executeUpdate(pst,false);
@@ -1299,10 +1299,10 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public void moveCard(MTGCard mc, MTGCollection from, MTGCollection to) throws SQLException {
 		logger.debug("move {} from {} to {}",mc,from,to);
 
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("update cards set collection= ? where id=? and collection=?"))
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("update cards set collection= ? where scryfallId=? and collection=?"))
 		{
 			pst.setString(1, to.getName());
-			pst.setString(2, CryptoUtils.generateCardId(mc));
+			pst.setString(2, mc.getScryfallId());
 			pst.setString(3, from.getName());
 			int res = executeUpdate(pst,false);
 
@@ -1522,13 +1522,8 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		if (mc.getEditions().isEmpty())
 			throw new SQLException("No edition defined");
 
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT collection FROM cards WHERE id=? and edition=?")) {
-			String id = CryptoUtils.generateCardId(mc);
-
-			logger.trace("SELECT collection FROM cards WHERE id={} and edition='{}'",id,mc.getEdition().getId());
-
-
-			pst.setString(1, id);
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT collection FROM cards WHERE scryfallId=? and edition=?")) {
+			pst.setString(1, mc.getScryfallId());
 			pst.setString(2, mc.getEdition().getId());
 			try (ResultSet rs = executeQuery(pst)) {
 
@@ -1561,7 +1556,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	@Override
 	public List<MTGCardStock> listStocks(MTGCard mc, MTGCollection col,boolean editionStrict) throws SQLException {
-
+		//TODO use scryfallId for stock
 		String sql = createListStockSQL();
 
 		if(editionStrict)
@@ -1819,11 +1814,11 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	
 	@Override
 	public void updateCard(MTGCard card,MTGCard newC, MTGCollection col) throws SQLException {
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE cards SET mcard= ? WHERE id = ? and collection = ?"))
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE cards SET mcard= ? WHERE scryfallId = ? and collection = ?"))
 		{
 
 			storeCard(pst, 1, newC);
-			pst.setString(2, CryptoUtils.generateCardId(card));
+			pst.setString(2, card.getScryfallId());
 			pst.setString(3, col.getName());
 			executeUpdate(pst,false);
 		}
