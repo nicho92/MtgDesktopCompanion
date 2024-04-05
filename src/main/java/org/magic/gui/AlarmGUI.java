@@ -14,8 +14,6 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -44,7 +42,6 @@ import org.magic.api.interfaces.MTGCardsExport.MODS;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPriceSuggester;
 import org.magic.api.interfaces.MTGServer;
-import org.magic.api.sorters.MagicPricesComparator;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.GroupedShoppingPanel;
@@ -272,13 +269,10 @@ public class AlarmGUI extends MTGUIComponent {
 				} catch (Exception e1) {
 					MTGControler.getInstance().notify(e1);
 				}
-
 			}
 		});
 
-
 		btnRefresh.addActionListener(al->loaddata());
-
 
 		btnSuggestPrice.addActionListener(ae->{
 
@@ -296,7 +290,7 @@ public class AlarmGUI extends MTGUIComponent {
 			
 			lblLoading.start(table.getSelectedRows().length);
 			
-			SwingWorker<Void, MTGAlert> sw = new SwingWorker<>()
+			var sw = new SwingWorker<Void, MTGAlert>()
 					{
 						@Override
 						protected void done() {
