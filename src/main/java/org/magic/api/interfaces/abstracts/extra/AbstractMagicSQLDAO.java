@@ -1471,7 +1471,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				while (rs.next()) {
 					var alert = new MTGAlert();
 					alert.setCard(readCard(rs,MCARD));
-					alert.setId(rs.getString("id"));
 					alert.setQty(rs.getInt("qte"));
 					alert.setPrice(rs.getDouble("amount"));
 					alert.setFoil(rs.getBoolean("foil"));
@@ -1711,9 +1710,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public void saveAlert(MTGAlert alert) throws SQLException {
 
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("insert into alerts ( id,mcard,amount,qte) values (?,?,?,?)")) {
-
-			alert.setId(CryptoUtils.generateCardId(alert.getCard()));
-
 			pst.setString(1, alert.getId());
 			storeCard(pst, 2, alert.getCard());
 			pst.setDouble(3, alert.getPrice());

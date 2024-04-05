@@ -504,7 +504,6 @@ public class AlarmGUI extends MTGUIComponent {
 		var alert = new MTGAlert();
 		alert.setCard(mc);
 		alert.setPrice(1.0);
-		alert.setId(CryptoUtils.generateCardId(mc));
 		try {
 			getEnabledPlugin(MTGDao.class).saveAlert(alert);
 		} catch (SQLException e) {

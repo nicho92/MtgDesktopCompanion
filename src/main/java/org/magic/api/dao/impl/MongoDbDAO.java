@@ -644,8 +644,6 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	@Override
 	public void saveAlert(MTGAlert alert) throws SQLException {
 		logger.debug("saving alert {}",alert);
-
-		alert.setId(getNextSequence().toString());
 		var obj = new BasicDBObject();
 		obj.put(dbAlertField, alert);
 		obj.put(dbIDField, CryptoUtils.generateCardId(alert.getCard()));

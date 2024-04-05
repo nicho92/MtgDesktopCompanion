@@ -31,10 +31,6 @@ public class MTGAlert {
 		return id;
 	}
 
-	public void setId(String id) {
-		this.id = id;
-	}
-
 	public MTGAlert() {
 		offers = new ArrayList<>();
 		shake=new CardShake();
@@ -54,6 +50,7 @@ public class MTGAlert {
 
 	public void setCard(MTGCard card) {
 		this.card = card;
+		id=card.getScryfallId();
 	}
 
 	public Double getPrice() {

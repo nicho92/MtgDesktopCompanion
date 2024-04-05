@@ -409,7 +409,6 @@ public class RedisDAO extends AbstractKeyValueDao {
 
 	@Override
 	public void saveAlert(MTGAlert alert) throws SQLException {
-		alert.setId(CryptoUtils.generateCardId(alert.getCard()));
 		redisCommand.set(key(alert), serialiser.toJson(alert));
 
 	}
