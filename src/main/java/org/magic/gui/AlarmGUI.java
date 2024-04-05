@@ -42,12 +42,13 @@ import org.magic.api.beans.MTGPrice;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsExport.MODS;
 import org.magic.api.interfaces.MTGDao;
-import org.magic.api.interfaces.MTGPricesProvider;
+import org.magic.api.interfaces.MTGPriceSuggester;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.sorters.MagicPricesComparator;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.GroupedShoppingPanel;
+import org.magic.gui.components.PriceSuggesterComponent;
 import org.magic.gui.components.PricesTablePanel;
 import org.magic.gui.components.card.MagicCardDetailPanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
@@ -62,9 +63,10 @@ import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
-import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.UITools;
 import org.magic.services.workers.AbstractObservableWorker;
+
+
 public class AlarmGUI extends MTGUIComponent {
 
 	private static final long serialVersionUID = 1L;
@@ -283,8 +285,17 @@ public class AlarmGUI extends MTGUIComponent {
 			if(table.getSelectedRows().length<=0)
 				return;
 
+			var comp = new PriceSuggesterComponent();
+			var jd = MTGUIComponent.createJDialog(comp, false, true);
+			comp.getBtnValidate().addActionListener(l->jd.dispose());
 
+			jd.setVisible(true);
+
+			MTGPriceSuggester suggester = comp.getSelectedPlugin();
+			
+			
 			lblLoading.start(table.getSelectedRows().length);
+			
 			SwingWorker<Void, MTGAlert> sw = new SwingWorker<>()
 					{
 						@Override
@@ -307,40 +318,15 @@ public class AlarmGUI extends MTGUIComponent {
 							List<MTGAlert> alerts = UITools.getTableSelections(table,0);
 							for (MTGAlert alert : alerts)
 							{
-								List<MTGPrice> prices=new ArrayList<>();
-								listEnabledPlugins(MTGPricesProvider.class).forEach(p->{
-									try {
-
-
-										if(alert.isFoil())
-										{
-											prices.addAll(p.getPrice(alert.getCard()).stream().filter(MTGPrice::isFoil).toList());
-										}
-										else
-										{
-											prices.addAll(p.getPrice(alert.getCard()));
-
-										}
-
-										alert.setOffers(prices);
-
-
-									} catch (IOException e1) {
-										logger.error("error adding price for {} with {} : {}",alert.getCard(),p,e1);
-									}
-
-								});
-
-								Collections.sort(prices,new MagicPricesComparator());
-								if(!prices.isEmpty())
-								{
-									alert.setPrice(prices.get(0).getValue());
+								
+								var price = suggester.getSuggestedPrice(alert.getCard(), alert.isFoil());
+								  	alert.setPrice(price);
 									try {
 										getEnabledPlugin(MTGDao.class).updateAlert(alert);
 									} catch (SQLException e) {
 										logger.error("error updating {}",alert,e);
 									}
-								}
+								
 								publish(alert);
 							}
 							return null;
