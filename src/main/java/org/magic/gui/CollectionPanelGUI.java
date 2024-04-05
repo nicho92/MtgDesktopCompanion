@@ -160,7 +160,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		splitPane.setDividerLocation(.5);
 		buzy.start();
 		buzy.setText("Loading");
-		SwingWorker<List<MTGEdition>, Void> init = new SwingWorker<>() {
+		var init = new SwingWorker<List<MTGEdition>, Void>() {
 				@Override
 				protected List<MTGEdition> doInBackground() throws Exception {
 					return provider.listEditions();
@@ -484,9 +484,13 @@ public class CollectionPanelGUI extends MTGUIComponent {
 					@Override
 					protected void auditedRun() {
 						try {
-
-							MTGCollection collec = (MTGCollection) ((DefaultMutableTreeNode) curr.getParent()).getUserObject();
-							List<MTGCard> list = dao.listCardsFromCollection(collec,ed);
+							
+							if(curr.getParent()==null)
+								return;
+							
+							
+							var collec = (MTGCollection) ((DefaultMutableTreeNode) curr.getParent()).getUserObject();
+							var list = dao.listCardsFromCollection(collec,ed);
 							rarityRepartitionPanel.init(list);
 							typeRepartitionPanel.init(list);
 							manaRepartitionPanel.init(list);
@@ -508,8 +512,11 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 				var card = (MTGCard) ((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject();
 				try {
-					initCardSelectionGui(card,(MTGCollection) ((DefaultMutableTreeNode) curr.getParent().getParent()).getUserObject());
-				}catch(Exception e)
+					
+					if(curr.getParent()!=null)
+							initCardSelectionGui(card,(MTGCollection) ((DefaultMutableTreeNode) curr.getParent().getParent()).getUserObject());
+				}
+				catch(Exception e)
 				{
 					logger.error("error updating {} in {}" ,card,curr.getParent(),e);
 				}
@@ -571,7 +578,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 						itSync.addActionListener(ae->{
 
 								buzy.start();
-								SwingWorker<List<MTGCard>, MTGCard> sw = new SwingWorker<>(){
+								var sw = new SwingWorker<List<MTGCard>, MTGCard>(){
 
 										@Override
 										protected void done() {

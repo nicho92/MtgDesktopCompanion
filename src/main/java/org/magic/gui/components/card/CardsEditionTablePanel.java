@@ -75,8 +75,7 @@ public class CardsEditionTablePanel extends JPanel {
 		for(int i : model.defaultHiddenColumns())
 			table.getColumnExt(model.getColumnName(i)).setVisible(false);
 
-		DefaultRowSorter<TableModel, Integer> sorterCards;
-		sorterCards = new TableRowSorter<>(model);
+		DefaultRowSorter<TableModel, Integer> sorterCards = new TableRowSorter<>(model);
 		sorterCards.setComparator(7, new NumberSorter());
 		table.setRowSorter(sorterCards);
 
@@ -109,7 +108,7 @@ public class CardsEditionTablePanel extends JPanel {
 
 
 			if(chkNeededCards.isSelected()) {
-				AbstractObservableWorker<List<MTGCard>,MTGCard, MTGDao> work = new AbstractObservableWorker<>(buzy,getEnabledPlugin(MTGDao.class),model.getRowCount()) {
+				var work = new AbstractObservableWorker<List<MTGCard>,MTGCard, MTGDao>(buzy,getEnabledPlugin(MTGDao.class),model.getRowCount()) {
 
 					@Override
 					protected List<MTGCard> doInBackground() throws Exception {
@@ -132,11 +131,6 @@ public class CardsEditionTablePanel extends JPanel {
 							logger.error(e);
 						}
 					}
-
-
-
-
-
 				};
 
 				ThreadManager.getInstance().runInEdt(work, "filtering missing cards");
@@ -149,7 +143,7 @@ public class CardsEditionTablePanel extends JPanel {
 
 
 		btnImport.addActionListener(ae->{
-			List<MTGCard> list = getSelectedCards();
+			var list = getSelectedCards();
 
 			int res = JOptionPane.showConfirmDialog(null,capitalize("COLLECTION_IMPORT") + " :" + list.size() + " cards in " + cboCollection.getSelectedItem());
 			if(res==JOptionPane.YES_OPTION)
