@@ -796,9 +796,7 @@ public class MagicCardEditorPanel extends MTGUIComponent {
 		cboColorAccent.setSelectedItem(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.ACCENT)!=null?magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.ACCENT):"");
 		chkColorIndicator.setSelected(Boolean.parseBoolean(magicCard.getCustomMetadata().get(AbstractPicturesEditorProvider.INDICATOR)));
 		
-		
-		if(magicCard.getEdition()!=null)
-			numberJTextField.setText(magicCard.getNumber());
+		numberJTextField.setText(magicCard.getNumber());
 		
 		
 		spinner.addChangeListener(ce->magicCard.getCustomMetadata().put(AbstractPicturesEditorProvider.SIZE, spinner.getValue().toString() ));

@@ -70,6 +70,7 @@ public abstract class AbstractProduct implements MTGProduct{
 	public MTGEdition getEdition() {
 		return edition;
 	}
+	
 	@Override
 	public void setEdition(MTGEdition edition) {
 		this.edition = edition;

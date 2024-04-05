@@ -138,14 +138,11 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		
 		manaCostPanel.setManaCost(mc.getCost());
 		
-		if (!mc.getEditions().isEmpty())
-		{
-			int showCount = mc.getEdition().getCardCountOfficial();
-			if(showCount<=0)
+		int showCount = mc.getEdition().getCardCountOfficial();
+		if(showCount<=0)
 				showCount=mc.getEdition().getCardCount();
 
-			lblNumber.setText(mc.getNumber() + "/"+ showCount);
-		}
+		lblNumber.setText(mc.getNumber() + "/"+ showCount);
 		
 		txtText.updateTextWithIcons();
 		

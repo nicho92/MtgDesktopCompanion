@@ -478,6 +478,8 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	private void createIndex(Statement stat) throws SQLException {
 
 		stat.executeUpdate("CREATE INDEX idx_id ON cards (ID)");
+		stat.executeUpdate("CREATE INDEX idx_scryfallId ON cards (scryfallId)");
+		
 		stat.executeUpdate("CREATE INDEX idx_ed ON cards (edition)");
 		stat.executeUpdate("CREATE INDEX idx_col ON cards (collection)");
 		stat.executeUpdate("CREATE INDEX idx_cprov ON cards (cardprovider)");
@@ -1265,16 +1267,17 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public void saveCard(MTGCard mc, MTGCollection collection) throws SQLException {
 		logger.debug("saving {} in {}",mc,collection);
 
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("insert into cards values (?,?,?,?,?,?)")) {
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("insert into cards (id, scryfallId,mcard,edition,cardprovider,collection,dateUpdate) values (?,?,?,?,?,?,?)")) {
 			
 			var id = CryptoUtils.generateCardId(mc);
 			
 			pst.setString(1, id);
-			storeCard(pst, 2, mc);
-			pst.setString(3, mc.getEdition().getId());
-			pst.setString(4, getEnabledPlugin(MTGCardsProvider.class).toString());
-			pst.setString(5, collection.getName());
-			pst.setTimestamp(6, new Timestamp(new java.util.Date().getTime()));
+			pst.setString(2, mc.getScryfallId());
+			storeCard(pst, 3, mc);
+			pst.setString(4, mc.getEdition().getId());
+			pst.setString(5, getEnabledPlugin(MTGCardsProvider.class).toString());
+			pst.setString(6, collection.getName());
+			pst.setTimestamp(7, new Timestamp(new java.util.Date().getTime()));
 			var ret = executeUpdate(pst,false);
 			
 			logger.info("Updating  {} item for {} : {}",ret,mc,id);
@@ -1351,7 +1354,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	@Override
 	public int getCardsCount(MTGCollection cols, MTGEdition me) throws SQLException {
 
-		var sql = "SELECT count(ID) FROM cards ";
+		var sql = "SELECT count(1) FROM cards ";
 
 		if (cols != null)
 			sql += " where collection = '" + cols.getName() + "'";

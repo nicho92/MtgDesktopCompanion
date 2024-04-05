@@ -511,7 +511,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 					initCardSelectionGui(card,(MTGCollection) ((DefaultMutableTreeNode) curr.getParent().getParent()).getUserObject());
 				}catch(Exception e)
 				{
-					logger.error("error updating {} in {}" ,card,curr.getParent());
+					logger.error("error updating {} in {}" ,card,curr.getParent(),e);
 				}
 			}
 		});

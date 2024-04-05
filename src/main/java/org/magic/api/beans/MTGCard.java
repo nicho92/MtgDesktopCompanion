@@ -129,6 +129,18 @@ public class MTGCard extends AbstractProduct {
 	}
 	
 	@Override
+	public MTGEdition getEdition() {
+	
+		if(edition==null && !getEditions().isEmpty())
+			edition=getEditions().get(0);
+		
+		return edition;
+	}
+
+	
+	
+	
+	@Override
 	public boolean equals(Object obj) {
 
 		if(obj instanceof MTGCard c )

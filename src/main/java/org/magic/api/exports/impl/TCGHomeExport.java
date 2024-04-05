@@ -7,6 +7,7 @@ import java.util.List;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
+import org.magic.services.tools.FileTools;
 import org.magic.services.tools.UITools;
 
 public class TCGHomeExport extends AbstractFormattedFileCardExport {
@@ -40,21 +41,12 @@ public class TCGHomeExport extends AbstractFormattedFileCardExport {
 			builder.append(mcs.getLanguage()).append(getSeparator());
 			builder.append(aliases.getConditionFor(this, mcs.getCondition())).append(getSeparator());
 			builder.append(mcs.getProduct().getScryfallId()).append(getSeparator());
-			builder.append(UITools.formatDouble(mcs.getPrice())).append(getSeparator());
+			builder.append(UITools.formatDouble(mcs.getPrice()));
 			builder.append(System.lineSeparator());
 			notify(mcs.getProduct());
 		}
-			
-			
 		
-		super.exportStock(stock, f);
-	}
-	
-	
-	@Override
-	public List<MTGCardStock> importStock(String content) throws IOException {
-		// TODO Auto-generated method stub
-		return super.importStock(content);
+		FileTools.saveFile(f, builder.toString());
 	}
 	
 	
