@@ -1267,7 +1267,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public void saveCard(MTGCard mc, MTGCollection collection) throws SQLException {
 		logger.debug("saving {} in {}",mc,collection);
 
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("insert into cards (id, scryfallId,mcard,edition,cardprovider,collection,dateUpdate) values (?,?,?,?,?,?,?)")) {
+		try (var c = pool.getConnection(); var pst = c.prepareStatement("insert into cards (id, scryfallId,mcard,edition,cardprovider,collection,dateUpdate) values (?,?,?,?,?,?,?)")) {
 			
 			var id = CryptoUtils.generateCardId(mc);
 			
@@ -1287,7 +1287,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	@Override
 	public void removeCard(MTGCard mc, MTGCollection collection) throws SQLException {
 		logger.debug("delete {} in {}",mc,collection);
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("DELETE FROM cards where scryfallId=? and edition=? and collection=?")) {
+		try (var c = pool.getConnection(); var pst = c.prepareStatement("DELETE FROM cards where scryfallId=? and edition=? and collection=?")) {
 			pst.setString(1, mc.getScryfallId());
 			pst.setString(2, mc.getEdition().getId());
 			pst.setString(3, collection.getName());
@@ -1299,7 +1299,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public void moveCard(MTGCard mc, MTGCollection from, MTGCollection to) throws SQLException {
 		logger.debug("move {} from {} to {}",mc,from,to);
 
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("update cards set collection= ? where scryfallId=? and collection=?"))
+		try (var c = pool.getConnection(); var pst = c.prepareStatement("update cards set collection= ? where scryfallId=? and collection=?"))
 		{
 			pst.setString(1, to.getName());
 			pst.setString(2, mc.getScryfallId());
@@ -1325,7 +1325,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public void moveEdition(MTGEdition ed, MTGCollection from, MTGCollection to) throws SQLException {
 		logger.debug("move {} from {} to {}",ed,from,to);
 
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("update cards set collection= ? where edition=? and collection=?"))
+		try (var c = pool.getConnection(); var pst = c.prepareStatement("update cards set collection= ? where edition=? and collection=?"))
 		{
 			pst.setString(1, to.getName());
 			pst.setString(2, ed.getId());
@@ -1341,7 +1341,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	@Override
 	public Map<String, Integer> getCardsCountGlobal(MTGCollection col) throws SQLException {
 		Map<String, Integer> map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT edition, count(1) FROM cards where collection=? group by edition");) {
+		try (var c = pool.getConnection(); var pst = c.prepareStatement("SELECT edition, count(1) FROM cards where collection=? group by edition");) {
 			pst.setString(1, col.getName());
 			try (ResultSet rs = executeQuery(pst)) {
 				while (rs.next())
@@ -1364,7 +1364,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 		logger.trace(sql);
 
-		try (var c = pool.getConnection();Statement st = c.createStatement(); ResultSet rs = st.executeQuery(sql);) {
+		try (var c = pool.getConnection();var st = c.createStatement(); ResultSet rs = st.executeQuery(sql);) {
 			rs.next();
 			return rs.getInt(1);
 		}

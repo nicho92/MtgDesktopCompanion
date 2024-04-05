@@ -5,12 +5,13 @@ import java.util.Date;
 import java.util.stream.Collectors;
 
 	var formater = new SimpleDateFormat("yyyy-MM-dd");
-	var dateBefore = formater.parse("2024-01-24");
+	//var dateBefore = formater.parse("2024-01-24");
+	var dateBefore = new Date();
 	var col = new MTGCollection("Library");
 	
 
-//String ed ="MIR";
-dao.listEditionsIDFromCollection(col).each{ ed->
+String ed ="NEO";
+//dao.listEditionsIDFromCollection(col).each{ ed->
  	 System.out.println("========================================="+ed);
 	 dao.listCardsFromCollection(col, new MTGEdition(ed)).stream().filter(mc->mc.getDateUpdated().before(dateBefore)).collect(Collectors.toList()).each{ c->
 		try {
@@ -31,4 +32,4 @@ dao.listEditionsIDFromCollection(col).each{ ed->
 			System.out.println(""+col + ";" + newC.getEdition() + ";" + c + ";ERROR;" + e+"\n");
 		} 
 	 };
-};
+//};
