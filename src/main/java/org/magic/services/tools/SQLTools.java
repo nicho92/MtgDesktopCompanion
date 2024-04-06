@@ -165,7 +165,7 @@ public class SQLTools {
 				.column("cardprovider",SQLDataType.VARCHAR(20))
 				.column("collection",SQLDataType.VARCHAR(30))
 				.column("dateUpdate",SQLDataType.TIMESTAMP)
-				.primaryKey("ID","edition","collection")
+				.primaryKey("scryfallId","edition","collection")
 				.getSQL();
 	}
 	

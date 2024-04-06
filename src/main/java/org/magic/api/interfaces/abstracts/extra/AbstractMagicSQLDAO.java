@@ -91,7 +91,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	}
 	
 	
-
 	private List<MTGStockItem> readStockItemFrom(ResultSet rs,String field) throws SQLException {
 		return serialiser.fromJsonList(rs.getString(field), MTGStockItem.class);
 	}

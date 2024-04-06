@@ -204,8 +204,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 
 		return listStocks().stream().filter(st->id.equals(st.getTiersAppIds(key))).findAny().orElse(null);
 	}
-
-
+	
 
 	@Override
 	public void duplicateTo(MTGDao dao) throws SQLException {
