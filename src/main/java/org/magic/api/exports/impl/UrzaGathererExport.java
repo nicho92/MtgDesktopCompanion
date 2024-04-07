@@ -48,8 +48,7 @@ public class UrzaGathererExport extends AbstractFormattedFileCardExport {
 
 		writeDeckLine(temp,deck.getMain().entrySet(),1);
 		writeDeckLine(temp,deck.getSideBoard().entrySet(),2);
-		writeDeckLine(temp,deck.getMaybeBoard().entrySet(),3);
-
+	
 		FileTools.saveFile(dest, temp.toString());
 	}
 

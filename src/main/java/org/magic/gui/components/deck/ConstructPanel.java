@@ -124,7 +124,6 @@ public class ConstructPanel extends MTGUIComponent {
 	private JLabel lblCards;
 	private DeckStockComparatorPanel stockPanel;
 	private JXTable tableDeck;
-	private JXTable tableMaybe;
 	private JXTable tableSide;
 	private JButton defaultEnterButton;
 	private RulesPanel rulesPanel;
@@ -206,7 +205,6 @@ public class ConstructPanel extends MTGUIComponent {
 		var buzyLabel = AbstractBuzyIndicatorComponent.createProgressComponent();
 		deckmodel = new DeckCardsTableModel(BOARD.MAIN);
 		deckSidemodel = new DeckCardsTableModel(BOARD.SIDE);
-		deckMaybemodel = new DeckCardsTableModel(BOARD.MAYBE);
 		
 		deckDetailsPanel = new DeckDetailsPanel();
 		thumbnail = new HandPanel();
@@ -232,7 +230,6 @@ public class ConstructPanel extends MTGUIComponent {
 		cardDrawProbaPanel = new DrawProbabilityPanel();
 		tableDeck = UITools.createNewTable(null,false);
 		tableSide = UITools.createNewTable(null,false);
-		tableMaybe = UITools.createNewTable(null,false);
 		
 		final var tabbedDeckSide = new JTabbedPane(SwingConstants.RIGHT);
 		var panelInfoDeck = new JPanel();
@@ -380,7 +377,6 @@ public class ConstructPanel extends MTGUIComponent {
 
 		initTables(tableDeck,BOARD.MAIN,deckmodel);
 		initTables(tableSide,BOARD.SIDE,deckSidemodel);
-		initTables(tableMaybe,BOARD.MAYBE,deckMaybemodel);
 		
 		deckDetailsPanel.init(deck);
 
@@ -452,11 +448,10 @@ public class ConstructPanel extends MTGUIComponent {
 			
 			Map<MTGCard, Integer> updateM = new HashMap<>();
 			Map<MTGCard, Integer> updateS = new HashMap<>();
-			Map<MTGCard, Integer> updateY = new HashMap<>();
 			btnUpdate.setEnabled(false);
 			
 			
-			buzyLabel.start(deck.getMain().size() + deck.getSideBoard().size() + deck.getMaybeBoard().size());
+			buzyLabel.start(deck.getMain().size() + deck.getSideBoard().size());
 			SwingWorker<Void, MTGCard> sw = new SwingWorker<>()
 					{
 						@Override
@@ -469,9 +464,6 @@ public class ConstructPanel extends MTGUIComponent {
 
 							deck.getSideBoard().clear();
 							deck.setSideBoard(updateS);
-							
-							deck.getMaybeBoard().clear();
-							deck.setMaybeBoard(updateY);
 							
 							updatePanels();
 
@@ -514,19 +506,7 @@ public class ConstructPanel extends MTGUIComponent {
 
 								}
 							}
-							for (MTGCard mc : deck.getMaybeBoard().keySet()) {
-								try {
-									var newMc= getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(mc.getScryfallId());
-									if(newMc==null)
-										newMc=mc;
-									updateY.put(newMc,deck.getMaybeBoard().get(mc));
-									publish(mc);
-								} catch (Exception e) {
-									logger.error("error update {}",mc,e);
-
-								}
-							}
-							
+						
 							return null;
 						}
 
@@ -985,10 +965,7 @@ public class ConstructPanel extends MTGUIComponent {
 
 		if (selectedIndex == 1)
 			return deck.getSideBoard();
-		
-		if (selectedIndex == 2)
-			return deck.getMaybeBoard();
-			
+	
 			return deck.getMain();
 
 	}

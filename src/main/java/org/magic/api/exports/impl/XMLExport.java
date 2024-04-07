@@ -90,8 +90,7 @@ public class XMLExport extends AbstractCardExport {
 
 	@Override
 	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
-		String xml = xstream.toXML(stock);
-		FileTools.saveFile(f, xml);
+		FileTools.saveFile(f,  xstream.toXML(stock));
 	}
 
 	@SuppressWarnings("unchecked")

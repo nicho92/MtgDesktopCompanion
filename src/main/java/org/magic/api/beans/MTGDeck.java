@@ -21,7 +21,6 @@ public class MTGDeck implements MTGSerializable {
 	private static final long serialVersionUID = 1L;
 	private Map<MTGCard, Integer> mapDeck;
 	private Map<MTGCard, Integer> mapSideBoard;
-	private Map<MTGCard, Integer> mapMaybeBoard;
 	private int id;
 
 	private String description;
@@ -32,14 +31,13 @@ public class MTGDeck implements MTGSerializable {
 	private List<String> tags;
 	private MTGCard commander;
 
-	public enum BOARD {MAIN, SIDE, MAYBE}
+	public enum BOARD {MAIN, SIDE}
 
 	public MTGDeck()
 	{
 		id=-1;
 		mapDeck = new LinkedHashMap<>();
 		mapSideBoard = new LinkedHashMap<>();
-		mapMaybeBoard =new LinkedHashMap<>();
 		tags = new ArrayList<>();
 		averagePrice = 0;
 		dateCreation=new Date();
@@ -88,11 +86,6 @@ public class MTGDeck implements MTGSerializable {
 		return new ArrayList<>(getSideBoard().keySet()).get(pos);
 	}
 
-	public MTGCard getMaybeValueAt(int pos) {
-		return new ArrayList<>(getMaybeBoard().keySet()).get(pos);
-	}
-
-
 	public int getNbCards() {
 		return getMain().entrySet().stream().mapToInt(Entry::getValue).sum();
 	}
@@ -124,14 +117,6 @@ public class MTGDeck implements MTGSerializable {
 			getSideBoard().put(mc, getSideBoard().get(mc) - 1);
 	}
 
-	public void removeMaybe(MTGCard mc) {
-		if (getMaybeBoard().get(mc) == 0)
-			getMaybeBoard().remove(mc);
-		else
-			getMaybeBoard().put(mc, getMaybeBoard().get(mc) - 1);
-	}
-
-
 	public void delete(MTGCard mc, BOARD board) {
     var deck = ((board==BOARD.SIDE) ? mapSideBoard : mapDeck);
 		deck.remove(mc);
@@ -144,11 +129,6 @@ public class MTGDeck implements MTGSerializable {
 	public void addSide(MTGCard mc) {
 		getSideBoard().compute(mc, (k,v)->(v==null)?1:v+1);
 	}
-
-	public void addMaybe(MTGCard mc) {
-		getMaybeBoard().compute(mc, (k,v)->(v==null)?1:v+1);
-	}
-
 
 	public boolean hasCard(MTGCard mc,boolean strict) {
 
@@ -195,12 +175,6 @@ public class MTGDeck implements MTGSerializable {
 	public List<MTGCard> getSideAsList() {
 		return toList(getSideBoard().entrySet());
 	}
-
-	public List<MTGCard> getMaybeAsList() {
-		return toList(getMaybeBoard().entrySet());
-	}
-
-
 
 	private List<MTGCard> toList(Set<Entry<MTGCard, Integer>> entrySet) {
 		ArrayList<MTGCard> deck = new ArrayList<>();
@@ -283,14 +257,6 @@ public class MTGDeck implements MTGSerializable {
 
 	public void setSideBoard(Map<MTGCard, Integer> mapSideBoard) {
 		this.mapSideBoard = mapSideBoard;
-	}
-
-	public Map<MTGCard, Integer> getMaybeBoard() {
-		return mapMaybeBoard;
-	}
-
-	public void setMaybeBoard(Map<MTGCard, Integer> mapMaybeBoard) {
-		this.mapMaybeBoard = mapMaybeBoard;
 	}
 
 	public String getName() {

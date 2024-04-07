@@ -78,9 +78,6 @@ public class DeckCardsTableModel extends DefaultTableModel {
 		case SIDE:
 			mc = deck.getSideValueAt(row);
 			break;
-		case MAYBE:
-			mc = deck.getMaybeValueAt(row);
-			break;
 		default:
 			mc = deck.getValueAt(row);
 			break;
@@ -104,9 +101,6 @@ public class DeckCardsTableModel extends DefaultTableModel {
 				return deck.getMain().get(mc);
 			case SIDE:
 				return deck.getSideBoard().get(mc);
-			case MAYBE:
-				return deck.getMaybeBoard().get(mc);
-
 			default:
 				return null;
 			}
@@ -129,9 +123,6 @@ public class DeckCardsTableModel extends DefaultTableModel {
 			return deck.getMain().size();
 		case SIDE:
 			return deck.getSideBoard().size();
-		case MAYBE:
-			return deck.getMaybeBoard().size();
-
 		default:
 			return deck.getMain().size();
 		}
@@ -157,7 +148,6 @@ public class DeckCardsTableModel extends DefaultTableModel {
 		switch (t)
 		{
 			case MAIN : mc = deck.getValueAt(row); qty = deck.getMain().get(mc); break;
-			case MAYBE: mc = deck.getMaybeValueAt(row);qty = deck.getMaybeBoard().get(mc) ; break;
 			case SIDE: mc = deck.getSideValueAt(row); qty=deck.getSideBoard().get(mc);break;
 			default:  mc=deck.getValueAt(row); qty=0;break;
 		}
@@ -172,11 +162,7 @@ public class DeckCardsTableModel extends DefaultTableModel {
 				{
 					deck.getMain().remove(mc);
 					deck.getMain().put(newC, qty);
-				} else if (t == BOARD.MAYBE) {
-					deck.getMaybeBoard().remove(mc);
-					deck.getMaybeBoard().put(newC, qty);
-				}
-				else
+				} else 
 				{
 					deck.getSideBoard().remove(mc);
 					deck.getSideBoard().put(newC, qty);

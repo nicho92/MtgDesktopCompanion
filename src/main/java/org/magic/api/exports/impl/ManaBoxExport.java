@@ -62,9 +62,7 @@ public class ManaBoxExport extends AbstractFormattedFileCardExport {
 				
 				if(s.contains("SIDEBOARD"))
 					map=d.getSideBoard();
-				else if(s.contains("MAYBEBOARD"))
-					map=d.getMaybeBoard();
-				
+			
 				
 				if(m.find())
 				{
@@ -168,12 +166,6 @@ public class ManaBoxExport extends AbstractFormattedFileCardExport {
 			temp.append(System.lineSeparator());
 			temp.append("// SIDEBOARD").append(System.lineSeparator());
 			build(deck.getSideBoard(),temp);
-		}
-		
-		if(!deck.getMaybeBoard().isEmpty()) {
-			temp.append(System.lineSeparator());
-			temp.append("// MAYBEBOARD").append(System.lineSeparator());
-			build(deck.getMaybeBoard(),temp);
 		}
 		
 		FileTools.saveFile(dest, temp.toString());
