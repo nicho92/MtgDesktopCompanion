@@ -476,7 +476,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	private void createIndex(Statement stat) throws SQLException {
 
-		stat.executeUpdate("CREATE INDEX idx_id ON cards (ID)");
 		stat.executeUpdate("CREATE INDEX idx_scryfallId ON cards (scryfallId)");
 		
 		stat.executeUpdate("CREATE INDEX idx_ed ON cards (edition)");
@@ -1266,14 +1265,13 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public void saveCard(MTGCard mc, MTGCollection collection) throws SQLException {
 		logger.debug("saving {} in {}",mc,collection);
 
-		try (var c = pool.getConnection(); var pst = c.prepareStatement("insert into cards (id, scryfallId,mcard,edition,cardprovider,collection,dateUpdate) values (?,?,?,?,?,?,?)")) {
-			pst.setString(1, CryptoUtils.generateCardId(mc));
-			pst.setString(2, mc.getScryfallId());
-			storeCard(pst, 3, mc);
-			pst.setString(4, mc.getEdition().getId());
-			pst.setString(5, getEnabledPlugin(MTGCardsProvider.class).toString());
-			pst.setString(6, collection.getName());
-			pst.setTimestamp(7, new Timestamp(new java.util.Date().getTime()));
+		try (var c = pool.getConnection(); var pst = c.prepareStatement("insert into cards (scryfallId,mcard,edition,cardprovider,collection,dateUpdate) values (?,?,?,?,?,?)")) {
+			pst.setString(1, mc.getScryfallId());
+			storeCard(pst, 2, mc);
+			pst.setString(3, mc.getEdition().getId());
+			pst.setString(4, getEnabledPlugin(MTGCardsProvider.class).toString());
+			pst.setString(5, collection.getName());
+			pst.setTimestamp(6, new Timestamp(new java.util.Date().getTime()));
 			var ret = executeUpdate(pst,false);
 			
 			logger.trace("Insert {} item for {}",ret,mc);
@@ -1564,7 +1562,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			pst.setString(1, col.getName());
 
 			if(editionStrict)
-				pst.setString(2, CryptoUtils.generateCardId(mc));
+				pst.setString(2, mc.getScryfallId());
 			else if (!isJsonCompatible())
 				pst.setString(2, "%"+mc.getName()+"%");
 			else
@@ -1660,7 +1658,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setString(4, state.getLanguage());
 				pst.setInt(5, state.getQte());
 				pst.setString(6, state.getComment());
-				pst.setString(7, CryptoUtils.generateCardId(state.getProduct()));
+				pst.setString(7, state.getProduct().getScryfallId());
 				pst.setString(8, String.valueOf(state.getMagicCollection()));
 				storeCard(pst, 9, state.getProduct());
 				pst.setBoolean(10, state.isAltered());
@@ -1685,7 +1683,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setInt(6, state.getQte());
 				pst.setBoolean(7, state.isAltered());
 				pst.setDouble(8, state.getPrice());
-				pst.setString(9, CryptoUtils.generateCardId(state.getProduct()));
+				pst.setString(9, state.getProduct().getScryfallId());
 				pst.setString(10, state.getMagicCollection().getName());
 				storeGrade(pst, 11,state.getGrade());
 				storeTiersApps(pst, 12,state.getTiersAppIds());

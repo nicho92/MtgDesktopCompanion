@@ -158,7 +158,6 @@ public class SQLTools {
 		
 	public String createTableCards() { 
 			return ctx.createTableIfNotExists("cards")
-				.column("ID", SQLDataType.VARCHAR(50))
 				.column("scryfallId", SQLDataType.VARCHAR(50))
 				.column("mcard", SQLDataType.JSON)
 				.column("edition", SQLDataType.VARCHAR(5))

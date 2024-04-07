@@ -413,7 +413,7 @@ public class MTGCard extends AbstractProduct {
 
 	@Override
 	public String getStoreId() {
-		return CryptoUtils.generateCardId(this);
+		return getScryfallId();
 	}
 
 	public List<String> getSubtypes() {

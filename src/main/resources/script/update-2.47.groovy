@@ -16,14 +16,20 @@ if(dao.isSQL()) {
 		query="UPDATE cards SET id = json_extract(mcard,'\$.scryfallId')";
 
 	dao.executeQuery(query);
-	printf("filling scryfallId columns--done");
+	printf("filling cards scryfallId columns--done");
 
-	
-	//dao.executeQuery("ALTER TABLE cards DROP PRIMARY KEY");
-	//dao.executeQuery("ALTER TABLE cards ADD PRIMARY KEY (scryfallId,edition,collection)");
+	//MySQL-MariaDB
+	query="UPDATE stocks SET idmc = JSON_UNQUOTE(JSON_EXTRACT(mcard,'\$.scryfallId'))";
 
+	if(dao.getName().equals("postgresql"))
+		query="UPDATE stocks SET idmc = mcard->>'scryfallId'";
+
+	if(dao.getName().equals("SQLite"))
+		query="UPDATE stocks SET idmc = json_extract(mcard,'\$.scryfallId')";
+
+	dao.executeQuery(query);
+	printf("filling stocks scryfallId columns--done");
 	
-	printf("--done");
 }
 else
 {

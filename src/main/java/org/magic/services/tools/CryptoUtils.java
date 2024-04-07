@@ -5,7 +5,6 @@ import java.util.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.logging.log4j.Logger;
 import org.jasypt.util.text.AES256TextEncryptor;
-import org.magic.api.beans.MTGCard;
 import org.magic.services.logging.MTGLogger;
 
 public class CryptoUtils {
@@ -16,32 +15,6 @@ public class CryptoUtils {
 
 	}
 	
-	@Deprecated
-	public static String generateCardId(MTGCard mc) {
-		
-		try {
-		
-		var number=mc.getNumber();
-		
-		if(number!=null&&number.isEmpty() )
-			number=null;
-
-		var id = String.valueOf((mc.getName() + mc.getEdition() + number + mc.getMultiverseid()));
-		id = DigestUtils.sha1Hex(id);
-
-		logger.trace("Generate ID for {}|{}|{}|{}->:{}",mc.getName(),mc.getEdition(),number,mc.getMultiverseid(),id);
-
-		return id;
-		
-		}catch(Exception e)
-		{
-			logger.error("Error generating ID for {}",mc,e);
-			return "";
-		}
-		
-	}
-	
-
 	public static String encrypt(String strToEncrypt, String secret) {
 		var textEncryptor = new AES256TextEncryptor();
 		textEncryptor.setPasswordCharArray(secret.toCharArray());
