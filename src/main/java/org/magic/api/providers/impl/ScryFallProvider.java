@@ -722,5 +722,4 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		return ed;
 	}
 
-
 }

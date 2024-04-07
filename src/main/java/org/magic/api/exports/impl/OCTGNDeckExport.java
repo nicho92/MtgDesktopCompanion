@@ -44,7 +44,7 @@ public class OCTGNDeckExport extends AbstractCardExport {
 		temp.append("<deck game='" + getString("MAGIC_GAME_ID") + "' sleeveid='" + getString("SLEEVE_ID") + "' >");
 		temp.append("<section name='Main' shared='" + getString(SHARED) + "'>");
 		for (MTGCard mc : deck.getMain().keySet()) {
-			temp.append("<card qty='").append(deck.getMain().get(mc)).append("' id='" + mc.getId() + "'>")
+			temp.append("<card qty='").append(deck.getMain().get(mc)).append("' id='" + mc.getScryfallId() + "'>")
 					.append(mc.getName()).append("</card>");
 
 			notify(mc);
@@ -52,7 +52,7 @@ public class OCTGNDeckExport extends AbstractCardExport {
 		temp.append("</section>");
 		temp.append("<section name='Sideboard' shared='" + getString(SHARED) + "'>");
 		for (MTGCard mc : deck.getSideBoard().keySet()) {
-			temp.append("<card qty='").append(deck.getSideBoard().get(mc)).append("' id='" + mc.getId() + "'>")
+			temp.append("<card qty='").append(deck.getSideBoard().get(mc)).append("' id='" + mc.getScryfallId() + "'>")
 					.append(mc.getName()).append("</card>");
 			notify(mc);
 		}

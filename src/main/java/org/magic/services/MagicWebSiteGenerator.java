@@ -133,7 +133,7 @@ public class MagicWebSiteGenerator extends Observable {
 			}
 		}
 		rootEd.put("prices", prices);
-		var out = new FileWriter(Paths.get(dest, "page-card-" + mc.getId() + ".htm").toFile());
+		var out = new FileWriter(Paths.get(dest, "page-card-" + mc.getScryfallId() + ".htm").toFile());
 		cardTemplate.process(rootEd, out);
 
 		setChanged();

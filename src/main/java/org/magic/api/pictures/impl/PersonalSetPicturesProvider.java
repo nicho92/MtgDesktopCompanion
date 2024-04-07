@@ -36,7 +36,7 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 			edDir.mkdir();
 
 		
-		ImageTools.saveImage(bi, Paths.get(edDir.getAbsolutePath(), mc.getId() + "." + getString(FORMAT).toLowerCase()).toFile(), getString(FORMAT));
+		ImageTools.saveImage(bi, Paths.get(edDir.getAbsolutePath(), mc.getScryfallId() + "." + getString(FORMAT).toLowerCase()).toFile(), getString(FORMAT));
 	}
 
 	public void removePicture(MTGEdition ed, MTGCard mc) {
@@ -44,9 +44,9 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 		var edDir = new File(mainDir, ed.getId());
 
 		try {
-			FileTools.deleteFile(new File(edDir, mc.getId() + "." + getString(FORMAT)));
+			FileTools.deleteFile(new File(edDir, mc.getScryfallId() + "." + getString(FORMAT)));
 		} catch (IOException e) {
-			logger.error("error removing {}",new File(edDir, mc.getId() + "." + getString(FORMAT)),e);
+			logger.error("error removing {}",new File(edDir, mc.getScryfallId() + "." + getString(FORMAT)),e);
 		}
 	}
 
@@ -75,7 +75,7 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 		var mainDir = getFile(PICS_DIR);
 		var edDir = new File(mainDir,mc.getEdition().getId());
 
-		return new File(edDir, mc.getId() + "." + getString(FORMAT)).getAbsolutePath();
+		return new File(edDir, mc.getScryfallId() + "." + getString(FORMAT)).getAbsolutePath();
 	}
 
 	@Override

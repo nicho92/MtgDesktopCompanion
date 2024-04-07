@@ -504,7 +504,7 @@ public class RedisDAO extends AbstractKeyValueDao {
 			{
 				var jo = serialiser.fromJson(s,MTGCard.class);
 				
-				if(jo.getId().equals(mc.getId()))
+				if(jo.equals(mc))
 				{	
 					var l = redisCommand.srem(k, s);
 					logger.debug("Remove {} from {} : {}",mc,collection,l);
@@ -540,7 +540,7 @@ public class RedisDAO extends AbstractKeyValueDao {
 	public List<MTGCardStock> listStocks(MTGCard mc, MTGCollection col, boolean editionStrict) throws SQLException {
 
 		if(editionStrict)
-			return listStocks().stream().filter(mcs->mcs.getMagicCollection().getName().equals(col.getName())).filter(mcs->mcs.getProduct().getId().equals(mc.getId())).toList();
+			return listStocks().stream().filter(mcs->mcs.getMagicCollection().getName().equals(col.getName())).filter(mcs->mcs.getProduct().equals(mc)).toList();
 		else
 			return listStocks().stream().filter(mcs->mcs.getMagicCollection().getName().equals(col.getName())).filter(mcs->mcs.getProduct().getName().equals(mc.getName())).toList();
 	}
