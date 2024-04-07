@@ -169,17 +169,17 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 		}
 	}
 
-
+	
 	@Override
-	public MTGCard getCardById(String id, MTGEdition ed) throws IOException {
+	public MTGCard getCardById(String id) throws IOException {
 		try {
-			return searchCardByCriteria(UUID, id, ed, true).get(0);
+			return searchCardByCriteria(UUID, id, null, true).get(0);
 		}catch(IndexOutOfBoundsException e)
 		{
 			return null;
 		}
 	}
-
+	
 	@Override
 	public MTGCard getCardByArenaId(String id) {
 		try{
@@ -201,8 +201,12 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	public List<MTGCard> searchCardByName(String name, MTGEdition me, boolean exact, EnumCardVariation extra) throws IOException{
 		
 		var ret = searchCardByCriteria(NAME,name, me, exact,extra);
+		
 		if(ret.isEmpty())
-			ret = searchCardByCriteria(FACENAME,name, me, false,extra);
+			ret = searchCardByCriteria(FACENAME,name, me, exact,extra);
+		
+		if(ret.isEmpty())
+			ret = searchCardByCriteria(ASCII_NAME,name, me, false,extra);
 		
 		return ret;
 	}

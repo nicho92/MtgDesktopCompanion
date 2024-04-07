@@ -126,15 +126,6 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 
 
 
-
-	@Override
-	public MTGCard getCardById(String id) throws IOException {
-		return getCardById(id,null);
-	}
-
-	
-	
-
 	@Override
 	public MTGCard getCardByNumber(String id, String idMe) throws IOException {
 		return getCardByNumber(id, getSetById(idMe));

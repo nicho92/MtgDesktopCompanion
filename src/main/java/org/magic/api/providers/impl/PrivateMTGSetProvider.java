@@ -171,26 +171,13 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	}
 
 	@Override
-	public MTGCard getCardById(String id, MTGEdition ed) {
+	public MTGCard getCardById(String id) {
 		try {
-			return searchCardByCriteria("id", id, ed, true).get(0);
+			return searchCardByCriteria("id", id, null, true).get(0);
 		} catch (Exception e) {
 			return null;
 		}
 	}
-
-	@Override
-	public MTGCard getCardById(String id) throws IOException {
-		try {
-			return searchCardByCriteria("id", id, null, true).get(0);
-		}
-		catch(IndexOutOfBoundsException e)
-		{
-			return null;
-		}
-	}
-
-
 
 	@Override
 	public List<MTGCard> searchCardByEdition(MTGEdition ed) throws IOException {

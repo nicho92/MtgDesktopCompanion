@@ -113,9 +113,9 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 
 	@Override
-	public MTGCard getCardById(String id,MTGEdition ed) throws IOException {
+	public MTGCard getCardById(String id) throws IOException {
 		try {
-			return searchCardByCriteria("id", id, ed, true).get(0);
+			return searchCardByCriteria("id", id, null, true).get(0);
 		}catch(IndexOutOfBoundsException e)
 		{
 			return null;

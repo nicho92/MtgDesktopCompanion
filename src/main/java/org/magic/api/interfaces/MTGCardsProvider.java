@@ -18,9 +18,7 @@ public interface MTGCardsProvider extends MTGPlugin {
 	public void init();
 
 	public MTGCard getCardById(String id) throws IOException;
-
-	public MTGCard getCardById(String id,MTGEdition ed) throws IOException;
-
+	
 	public MTGCard getCardByScryfallId(String crit) throws IOException;
 
 	public List<MTGCard> searchCardByCriteria(String att, String crit, MTGEdition me, boolean exact) throws IOException;
@@ -35,9 +33,9 @@ public interface MTGCardsProvider extends MTGPlugin {
 
 	public List<MTGCard> listAllCards() throws IOException;
 
-	public MTGCard getCardByNumber(String id, MTGEdition me) throws IOException;
+	public MTGCard getCardByNumber(String num, MTGEdition me) throws IOException;
 
-	public MTGCard getCardByNumber(String id, String idMe) throws IOException;
+	public MTGCard getCardByNumber(String num, String idMe) throws IOException;
 
 	public List<MTGEdition> listEditions() throws IOException;
 

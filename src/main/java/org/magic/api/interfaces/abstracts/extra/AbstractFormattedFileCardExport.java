@@ -95,9 +95,9 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 
 			switch(cardSearch)
 			{
-			 case ID:return getEnabledPlugin(MTGCardsProvider.class).getCardById(cname);
+			 case NAME:return getEnabledPlugin(MTGCardsProvider.class).getCardById(cname);
 			 case NUMBER : return getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(cname, ed);
-			 default : return getEnabledPlugin(MTGCardsProvider.class).searchCardByName( cname, ed, true).get(0);
+			 default : return null;
 			}
 			
 
