@@ -93,12 +93,13 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 		
 		try {
 
-			if(cardSearch==FORMAT_SEARCH.ID)
-				return getEnabledPlugin(MTGCardsProvider.class).getCardById(cname);
-			else if(cardSearch==FORMAT_SEARCH.NUMBER)
-				return getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(cname, ed);
-			else
-				return getEnabledPlugin(MTGCardsProvider.class).searchCardByName( cname, ed, true).get(0);
+			switch(cardSearch)
+			{
+			 case ID:return getEnabledPlugin(MTGCardsProvider.class).getCardById(cname);
+			 case NUMBER : return getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(cname, ed);
+			 default : return getEnabledPlugin(MTGCardsProvider.class).searchCardByName( cname, ed, true).get(0);
+			}
+			
 
 		} catch (Exception e) {
 			logger.error("Couldn't find card {} [{}] : {}",cname,ed,e);
