@@ -40,7 +40,6 @@ import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardsIndexer;
 import org.magic.services.MTGConstants;
-import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.FileTools;
 
 
@@ -292,7 +291,6 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		          		fieldType.setTokenized(true);
 		          		fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
 
-		           doc.add(new Field("mtgcompId", CryptoUtils.generateCardId(mc), fieldType));
 		           doc.add(new Field("scryfallId",String.valueOf(mc.getScryfallId()),fieldType));
 		           doc.add(new Field("name", mc.getName(), fieldType));
 		           doc.add(new Field("number", mc.getNumber(), fieldType));

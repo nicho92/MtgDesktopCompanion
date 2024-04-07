@@ -109,7 +109,6 @@ public class ConstructPanel extends MTGUIComponent {
 	private DeckPricePanel deckPricePanel;
 	private DeckCardsTableModel deckSidemodel;
 	private DeckCardsTableModel deckmodel;
-	private DeckCardsTableModel deckMaybemodel;
 	private ComboFinderPanel comboPanel;
 	private CardStockPanel stockDetailPanel;
 	private MTGDeck deck;
@@ -176,7 +175,6 @@ public class ConstructPanel extends MTGUIComponent {
 		deckDetailsPanel.updatePicture();
 		deckmodel.init(deck);
 		deckSidemodel.init(deck);
-		deckMaybemodel.init(deck);
 		stockPanel.setCurrentDeck(deck);
 		objectviewerPanel.init(deck);
 		iaPanel.init(deck.getMainAsList());
@@ -406,7 +404,6 @@ public class ConstructPanel extends MTGUIComponent {
 							deckDetailsPanel.init(deck);
 							deckmodel.init(deck);
 							deckSidemodel.init(deck);
-							deckMaybemodel.init(deck);
 							setDeck(deck);
 							updatePanels();
 						}catch (InterruptedException e) {
@@ -621,7 +618,6 @@ public class ConstructPanel extends MTGUIComponent {
 					}
 					deckmodel.init(deck);
 					deckSidemodel.init(deck);
-					deckMaybemodel.init(deck);
 
 				}
 			}

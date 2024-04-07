@@ -529,7 +529,7 @@ public class RedisDAO extends AbstractKeyValueDao {
 		
 			for(var collection : listCollections())
 			{
-				if(listCardsFromCollection(collection).stream().anyMatch(card->CryptoUtils.generateCardId(card).equals(CryptoUtils.generateCardId(mc))))
+				if(listCardsFromCollection(collection).stream().anyMatch(card->card.equals(mc)))
 					c.add(collection);
 			}
 			return c;

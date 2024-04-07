@@ -144,7 +144,7 @@ public class MTGCard extends AbstractProduct {
 	public boolean equals(Object obj) {
 
 		if(obj instanceof MTGCard c )
-			return CryptoUtils.generateCardId(c).equals(CryptoUtils.generateCardId(this));
+			return c.getScryfallId().equals(getScryfallId());
 
 		return false;
 			

@@ -16,6 +16,7 @@ public class CryptoUtils {
 
 	}
 	
+	@Deprecated
 	public static String generateCardId(MTGCard mc) {
 		
 		try {

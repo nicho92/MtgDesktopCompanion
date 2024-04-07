@@ -392,6 +392,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Contact> listContacts() throws IOException {
 		init();

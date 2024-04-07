@@ -13,7 +13,6 @@ import java.util.Set;
 import org.magic.api.beans.MTGFormat.AUTHORIZATION;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.interfaces.MTGSerializable;
-import org.magic.services.tools.CryptoUtils;
 
 
 public class MTGDeck implements MTGSerializable {
@@ -133,7 +132,7 @@ public class MTGDeck implements MTGSerializable {
 	public boolean hasCard(MTGCard mc,boolean strict) {
 
 		if(strict)
-			return !getMain().keySet().stream().filter(k->CryptoUtils.generateCardId(k).equals(CryptoUtils.generateCardId(mc))).findAny().isEmpty();
+			return !getMain().keySet().stream().filter(k->k.equals(mc)).findAny().isEmpty();
 
 		return !getMain().keySet().stream().filter(k->k.getName().equalsIgnoreCase(mc.getName())).findAny().isEmpty();
 	}
