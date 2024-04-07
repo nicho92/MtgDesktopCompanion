@@ -26,7 +26,7 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public String[] listFilter() {
-		return new String[] { "Standard","Modern","Commander / EDH","Legacy","Vintage","Pauper","Frontier","Future Standard"};
+		return new String[] { "Standard","Modern","Commander / EDH","Legacy","Vintage","Pauper","Custom","Frontier","Future Standard","Penny Dreadful","1v1 Commander","Duel Commander","Brawl","Oathbreaker","Pioneer","Historic","Pauper EDH","Alchemy","Explorer","Historic Brawl","Gladiator","Premodern"};
 	}
 
 	@Override
@@ -40,14 +40,16 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 		logger.debug("sniff deck at {}",info.getUrl());
 
 		MTGDeck deck = info.toBaseDeck();
-
+		
 		var obj = RequestBuilder.build()
 				   .setClient(URLTools.newClient())
 				   .url(info.getUrl().toString())
 				   .get()
 				   .toJson().getAsJsonObject();
 
-
+		
+		deck.setDescription("imported from https://archidekt.com/decks/"+obj.get("id").getAsString());
+		
 		var cards = obj.get("cards").getAsJsonArray();
 
 		for(JsonElement e : cards)
@@ -67,6 +69,11 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 				{
 					deck.getMain().put(mc, qty);
 					notify(mc);
+					
+					if(e.getAsJsonObject().get("categories").getAsJsonArray().get(0).getAsString().equals("Commander"))
+						deck.setCommander(mc);
+					
+					
 				}
 
 			}
@@ -103,7 +110,7 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 				var d = new RetrievableDeck();
 							d.setAuthor(el.getAsJsonObject().get("owner").getAsJsonObject().get("username").getAsString());
 							d.setName(el.getAsJsonObject().get("name").getAsString());
-
+					
 							var build = new StringBuilder();
 								build.append(BASE_URI).append("/decks/").append(el.getAsJsonObject().get("id").getAsInt()).append("/");
 
