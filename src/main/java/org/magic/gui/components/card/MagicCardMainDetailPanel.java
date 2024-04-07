@@ -44,6 +44,7 @@ import org.magic.services.logging.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.MTG;
+import org.magic.services.tools.UITools;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
@@ -461,7 +462,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 					capitalize("SELECT_MAXIMUM_PRICE"),
 					capitalize("ADD_ALERT_FOR", magicCard),
 					JOptionPane.QUESTION_MESSAGE);
-			alert.setPrice(Double.parseDouble(price));
+			alert.setPrice(UITools.parseDouble(price));
 
 			try {
 				getEnabledPlugin(MTGDao.class).saveAlert(alert);

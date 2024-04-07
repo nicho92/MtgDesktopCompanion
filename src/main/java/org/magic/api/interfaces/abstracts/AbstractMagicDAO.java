@@ -255,6 +255,13 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 			dao.saveOrUpdateSealedStock(oe);
 		}
 
+		logger.debug("duplicate decks");
+		for(MTGDeck oe : listDecks())
+		{
+			oe.setId(-1);
+			dao.saveOrUpdateDeck(oe);
+		}
+		
 		logger.debug("duplicate contact");
 		for(Contact oe : listContacts())
 		{
@@ -270,12 +277,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 			dao.saveOrUpdateTransaction(oe);
 		}
 
-		logger.debug("duplicate decks");
-		for(MTGDeck oe : listDecks())
-		{
-			oe.setId(-1);
-			dao.saveOrUpdateDeck(oe);
-		}
+	
 
 		logger.debug("duplicate announces");
 		for(MTGAnnounce oe : listAnnounces())

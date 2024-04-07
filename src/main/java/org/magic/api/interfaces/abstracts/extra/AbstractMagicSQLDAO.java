@@ -48,6 +48,7 @@ import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.GedEntry;
 import org.magic.api.beans.technical.audit.DAOInfo;
 import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.MTGPool;
 import org.magic.api.interfaces.MTGSealedProvider;
@@ -1267,10 +1268,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		logger.debug("saving {} in {}",mc,collection);
 
 		try (var c = pool.getConnection(); var pst = c.prepareStatement("insert into cards (id, scryfallId,mcard,edition,cardprovider,collection,dateUpdate) values (?,?,?,?,?,?,?)")) {
-			
-			var id = CryptoUtils.generateCardId(mc);
-			
-			pst.setString(1, id);
+			pst.setString(1, CryptoUtils.generateCardId(mc));
 			pst.setString(2, mc.getScryfallId());
 			storeCard(pst, 3, mc);
 			pst.setString(4, mc.getEdition().getId());
@@ -1279,7 +1277,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			pst.setTimestamp(7, new Timestamp(new java.util.Date().getTime()));
 			var ret = executeUpdate(pst,false);
 			
-			logger.info("Updating  {} item for {} : {}",ret,mc,id);
+			logger.trace("Insert {} item for {}",ret,mc);
 		}
 	}
 
