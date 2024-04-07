@@ -78,6 +78,8 @@ public enum EnumPromoType implements MTGEnumeration{
 	@SerializedName(alternate = "themepack", value = "THEMEPACK") 			THEMEPACK,
 	@SerializedName(alternate = "thick", value = "THICK") THICK,
 	@SerializedName(alternate = "tourney", value = "TOURNEY") 				TOURNEY,
+	@SerializedName(alternate = "vault", value = "VAULT") 				VAULT,
+	
 	@SerializedName(alternate = "wizardsplaynetwork", value = "WIZARDSPLAYNETWORK") WIZARDSPLAYNETWORK;
 	
 
