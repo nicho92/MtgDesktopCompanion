@@ -143,8 +143,6 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		return list;
 	}
 	
-
-	
 	@Override
 	protected List<Transaction> loadTransaction() throws IOException {
 		var list = new ArrayList<Transaction>();
@@ -159,7 +157,6 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		return list;
 	}
 
-
 	@Override
 	public List<Transaction> listTransactions(Contact c) throws IOException {
 		var list = new ArrayList<Transaction>();
@@ -173,7 +170,6 @@ public class CsCartExternalShop extends AbstractExternalShop {
 		});
 		return list;
 	}
-
 
 	
 	@Override

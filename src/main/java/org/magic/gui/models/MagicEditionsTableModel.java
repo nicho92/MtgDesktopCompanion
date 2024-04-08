@@ -81,8 +81,6 @@ public class MagicEditionsTableModel extends GenericTableModel<MTGEdition> {
 	}
 
 
-
-
 	public int getCountDefaultLibrary() {
 		return mapCount.values().stream().mapToInt(Integer::intValue).sum();
 	}

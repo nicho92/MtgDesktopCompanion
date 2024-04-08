@@ -61,7 +61,7 @@ public class SQLTools {
 	
 	
 	public String createTableTechnicalAudit() { 
-		return	ctx.createTableIfNotExists("technicalauditlog")
+		return ctx.createTableIfNotExists("technicalauditlog")
 				.column("classname",SQLDataType.VARCHAR(30))
 				.column("techObject",SQLDataType.JSON)
 				.column("start",SQLDataType.TIMESTAMP)

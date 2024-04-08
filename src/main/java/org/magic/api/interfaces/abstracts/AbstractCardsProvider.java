@@ -177,7 +177,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	public MTGEdition getSetById(String id) {
 
 		try {
-			MTGEdition ed = cacheEditions.get(id, new Callable<MTGEdition>() {
+			var ed = cacheEditions.get(id, new Callable<MTGEdition>() {
 
 				@Override
 				public MTGEdition call() throws Exception {

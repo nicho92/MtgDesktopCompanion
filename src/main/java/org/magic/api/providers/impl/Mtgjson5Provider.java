@@ -507,8 +507,6 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 				} catch (Exception e) {
 					//do nothing
 				}
-
-
 			}
 	}
 
@@ -548,7 +546,6 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 		return sealeds;
 	}
 	
-
 	private MTGEdition generateEdition(String id) {
 
 		if(id.startsWith("p"))

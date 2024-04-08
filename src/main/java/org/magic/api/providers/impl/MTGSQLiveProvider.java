@@ -547,7 +547,6 @@ private MTGPool pool;
 
 				while(rs.next())
 				{
-
 					var ed = new MTGEdition();
 								 ed.setSet(rs.getString(NAME));
 								 ed.setId(rs.getString("code"));

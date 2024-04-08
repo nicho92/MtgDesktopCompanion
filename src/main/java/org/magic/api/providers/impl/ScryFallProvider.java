@@ -95,7 +95,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	}
 
 
-
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of("URL", "https://api.scryfall.com",
@@ -108,9 +107,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		logger.info("init {} provider",this);
 		baseURI=getString("URL");
 	}
-
-
-
 
 	@Override
 	public MTGCard getCardById(String id) throws IOException {
