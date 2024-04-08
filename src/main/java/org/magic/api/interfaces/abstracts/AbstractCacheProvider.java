@@ -14,7 +14,7 @@ public abstract class AbstractCacheProvider extends AbstractMTGPlugin implements
 	protected String generateIdIndex(MTGCard mc) {
 		if(mc==null)
 			return "";
-		return mc.getScryfallId();
+		return mc.getId();
 	}
 
 }

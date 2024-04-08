@@ -7,9 +7,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
-import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
@@ -32,7 +30,7 @@ public class MTGJSonDeckSniffer extends AbstractDeckSniffer {
 		MTGDeck deck = info.toBaseDeck();
 
 		try {
-			deck.getTags().add(el.getAsJsonObject().get("type").getAsString());
+			deck.getTags().add(el.getAsJsonObject().get("data").getAsJsonObject().get("type").getAsString());
 		}catch(Exception e)
 		{
 			//do nothing

@@ -103,14 +103,13 @@ public class MagicGUI extends JFrame {
 
 		var barStatus = new JXStatusBar();
 		
-		setSize(new Dimension(1420, 1024));
+		setSize(new Dimension(1620, 1024));
 		setTitle(MTGConstants.MTG_APP_NAME + " ( v" + MTGControler.getInstance().getVersionChecker().getVersion() + ")");
 
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				MTGControler.getInstance().closeApp();
-
 			}
 		});
 

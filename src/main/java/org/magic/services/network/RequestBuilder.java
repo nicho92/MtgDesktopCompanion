@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.apache.commons.io.input.BoundedInputStream;
 import org.apache.commons.io.input.CountingInputStream;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
@@ -210,44 +211,13 @@ public class RequestBuilder
 
 	public void download(File dest) throws IOException {
 		
-		
-		var cis = new CountingInputStream(execute().getEntity().getContent()) {
-			long total = 0L;
-			Chrono chrono = new Chrono();
-			long time = 0L;
-			
-			
-			@Override
-			protected synchronized void afterRead(int n) {
-				
-				if(total==0)
-					chrono.start();
-				
-				
-				if(n>-1)
-				{
-					total +=n;
-				}
-				else
-				{
-					time = chrono.stopInMillisecond();
-				}
-			}
-			
-			public long getTotal() {
-				return total;
-			}
-			
-			public long getTime() {
-				return time;
-			}
-			
-		};
-		
-		FileTools.copyInputStreamToFile(cis,dest);
-		
-		var size = UITools.humanReadableSize(cis.getTotal());
-		MTGLogger.getLogger(this.getClass()).info( "{} in {} ms",size,cis.getTime());
+		var c = new Chrono();
+		c.start();
+		var stream = BoundedInputStream.builder().setInputStream(execute().getEntity().getContent()).get();
+		FileTools.copyInputStreamToFile(stream,dest);
+		var csi = c.stop();
+		var size = UITools.humanReadableSize(stream.getCount());
+		MTGLogger.getLogger(this.getClass()).info( "{} in {} s",size,csi);
 		
 	}
 

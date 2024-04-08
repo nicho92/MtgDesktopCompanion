@@ -31,24 +31,11 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
 	private URL generateLink(MTGCard mc, boolean crop) throws MalformedURLException {
 
-		String url = HTTP_API_SCRYFALL + mc.getEdition().getId().toLowerCase() + "/" + mc.getNumber()+ IMAGE_TAG;
-		if (mc.getMultiverseid() != null && !mc.getMultiverseid().equals("0"))
-		{
-			url = HTTP_API_SCRYFALL+"multiverse/" + mc.getMultiverseid() + IMAGE_TAG;
-			if(mc.isDoubleFaced() && !mc.getSide().equals("a"))
+		String  url = HTTP_API_SCRYFALL + mc.getScryfallId() + IMAGE_TAG;
+		
+		if(mc.isDoubleFaced() && !mc.getSide().equals("a") && mc.getLayout()!=EnumLayout.MELD)
 				url=url+"&face=back";
-		}
-
-
-		if (mc.getScryfallId() != null)
-		{
-			url = HTTP_API_SCRYFALL + mc.getScryfallId() + IMAGE_TAG;
-
-			if(mc.isDoubleFaced() && !mc.getSide().equals("a") && mc.getLayout()!=EnumLayout.MELD)
-				url=url+"&face=back";
-		}
-
-
+		
 		if (crop)
 			url += "&version=art_crop";
 		else

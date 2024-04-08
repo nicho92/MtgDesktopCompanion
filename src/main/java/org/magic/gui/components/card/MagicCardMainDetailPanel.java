@@ -267,9 +267,9 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		obs = new Observable();
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 121, 0, 0};
+		gridBagLayout.columnWidths = new int[]{0, 121, 216, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 156, 0, 40, 90, 0, 0};
-		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
@@ -293,7 +293,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		
 		panelActions = new JPanel();
 		GridBagConstraints gbcpanelActions = new GridBagConstraints();
-		gbcpanelActions.insets = new Insets(0, 0, 5, 0);
+		gbcpanelActions.insets = new Insets(0, 0, 5, 5);
 		gbcpanelActions.fill = GridBagConstraints.BOTH;
 		gbcpanelActions.gridx = 2;
 		gbcpanelActions.gridy = 0;
@@ -330,7 +330,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		
 		lblThumbnail = new JLabel("");
 		GridBagConstraints gbclblThumbnail = new GridBagConstraints();
-		gbclblThumbnail.insets = new Insets(0, 0, 5, 0);
+		gbclblThumbnail.insets = new Insets(0, 0, 5, 5);
 		gbclblThumbnail.gridheight = 5;
 		gbclblThumbnail.gridx = 2;
 		gbclblThumbnail.gridy = 1;
@@ -450,6 +450,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		lblAuthor = new JLabel();
 		lblAuthor.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbclblAuthor = new GridBagConstraints();
+		gbclblAuthor.insets = new Insets(0, 0, 0, 5);
 		gbclblAuthor.gridx = 2;
 		gbclblAuthor.gridy = 6;
 		add(lblAuthor, gbclblAuthor);
