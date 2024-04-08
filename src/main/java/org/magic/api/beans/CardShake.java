@@ -13,6 +13,7 @@ public class CardShake implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private String name;
+	private String number;
 	private String link;
 	private Double price;
 	private double priceDayChange=0.0;
@@ -207,6 +208,14 @@ public class CardShake implements Serializable {
 	public void setProviderName(String name2) {
 		this.providerName=name2;
 
+	}
+
+	public String getNumber() {
+		return number;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
 	}
 
 }

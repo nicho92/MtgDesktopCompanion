@@ -199,7 +199,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 
 	@Override
 	public List<MTGCard> searchCardByName(String name, MTGEdition me, boolean exact, EnumCardVariation extra) throws IOException{
-		
+
 		var ret = searchCardByCriteria(NAME,name, me, exact,extra);
 		
 		if(ret.isEmpty())

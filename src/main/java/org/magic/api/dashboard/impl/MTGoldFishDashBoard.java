@@ -339,7 +339,9 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 						cs.setLink(WEBSITE+e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).select("span.card_name a").attr("href"));
 						cs.setFoil(nameExtra.contains("Foil"));
 						cs.setEtched(nameExtra.contains("Etched"));
-
+						cs.setNumber(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text().trim());
+						
+						
 						if(nameExtra.toLowerCase().contains("extended"))
 							cs.setCardVariation(EnumCardVariation.EXTENDEDART);
 						else if(nameExtra.toLowerCase().contains("showcase"))

@@ -45,12 +45,8 @@ public class CardsManagerService {
 	public static MTGCard switchEditions(MTGCard mc, MTGEdition ed)
 	{
 		try {
-
-			if(mc.isDoubleFaced())
-				return getEnabledPlugin(MTGCardsProvider.class).searchCardByCriteria("faceName",mc.getName(), ed, false).get(0);
-			else
-				return getEnabledPlugin(MTGCardsProvider.class).searchCardByName(mc.getName(), ed, true).get(0);
-		} catch (IOException e) {
+				return getEnabledPlugin(MTGCardsProvider.class).searchCardByName(mc.getName(), ed, false).get(0);
+		} catch (ArrayIndexOutOfBoundsException | IOException e) {
 			logger.error("{} is not found in {}",mc,ed);
 			return mc;
 		}

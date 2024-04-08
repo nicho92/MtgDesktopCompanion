@@ -119,7 +119,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 		if (cboEditions.getSelectedItem() != null)
 		{
 			buzy.start();
-			SwingWorker<EditionsShakers, Void> sw = new SwingWorker<>()
+			var sw = new SwingWorker<EditionsShakers, Void>()
 			{
 				@Override
 				protected EditionsShakers doInBackground(){

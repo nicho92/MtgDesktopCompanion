@@ -470,9 +470,8 @@ public class UITools {
 	{
 		
 		try {
-			JComboBox<MTGCollection> combo = createCombobox(getEnabledPlugin(MTGDao.class).listCollections());
-
-			combo.setRenderer(new MagicCollectionIconListRenderer());
+			var combo = createCombobox(getEnabledPlugin(MTGDao.class).listCollections());
+				  combo.setRenderer(new MagicCollectionIconListRenderer());
 		return combo;
 		} catch (Exception e) {
 			logger.error(e);
@@ -550,9 +549,7 @@ public class UITools {
 		
 	}
 
-	
-
-	public static <V> void initCardToolTipTable(final JTable table, final Integer cardPos, final Integer edPos, final Integer extraPos, Callable<V> dblClick) {
+	public static <V> void initCardToolTipTable(final JTable table, final Integer cardNamePos, final Integer edPos, final Integer extraPos, Callable<V> dblClick) {
 		final var popUp = new JPopupMenu();
 		table.addMouseListener(new MouseAdapter() {
 
@@ -577,7 +574,7 @@ public class UITools {
 						pane.enableThumbnail(true);
 						table.setRowSelectionInterval(row, row);
 
-						var cardName = getModelValueAt(table,row, cardPos.intValue()).toString();
+						var cardName = getModelValueAt(table,row, cardNamePos.intValue()).toString();
 
 						if (cardName.indexOf('(') >= 0)
 							cardName = cardName.substring(0, cardName.indexOf('(')).trim();

@@ -3,10 +3,13 @@ package org.magic.gui.components.card;
 import static org.magic.services.tools.MTG.capitalize;
 import static org.magic.services.tools.MTG.getEnabledPlugin;
 
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Arrays;
 import java.util.List;
 
@@ -107,13 +110,15 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		txtText.setEditable(b);
 	}
 	
+	
+	boolean click=false;
 	public void init(MTGCard mc)
 	{
 		
 		if(mc==null)
 			return;
 		
-		
+		click=false;
 		this.magicCard=mc;
 		
 		txtName.setText(mc.getName());
@@ -155,13 +160,37 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		{
 			loadPics(mc, null);
 			lblAuthor.setText(mc.getArtist());
+			
+			
+			if(mc.isDoubleFaced()) 
+			{
+					lblThumbnail.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+					lblThumbnail.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							
+							if(click)
+								loadPics(mc, null);
+							else
+								loadPics(mc.getRotatedCard(), null);
+							
+							click=!click;
+						}
+						
+					});
+			}
+			else
+			{
+					lblThumbnail.setCursor(Cursor.getDefaultCursor());
+					
+					for(var l : lblThumbnail.getMouseListeners())
+							lblThumbnail.removeMouseListener(l);
+			}
 		}
 		
 		
-		if (enableCollectionLookup && !mc.getEditions().isEmpty())
-		{
-			var sw = new SwingWorker<List<MTGCollection>, Void>()
-					{
+		if (enableCollectionLookup && !mc.getEditions().isEmpty()){
+			var sw = new SwingWorker<List<MTGCollection>, Void>(){
 							@Override
 							protected List<MTGCollection> doInBackground() throws Exception {
 								return getEnabledPlugin(MTGDao.class).listCollectionFromCards(mc);
@@ -184,7 +213,6 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		}
 
 		if (enableCollectionLookup) {
-
 			var sw = new SwingWorker<Boolean, Void>()
 					{
 
@@ -213,13 +241,13 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 						}
 
 					};
-
-
-
 			ThreadManager.getInstance().runInEdt(sw, "Get alerts for " + mc);
 		}
 		
 	}
+	
+	
+	
 	
 	
 	protected void loadPics(MTGCard mc,MTGCardNames fn) {

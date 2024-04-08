@@ -586,7 +586,7 @@ public class CardSearchPanel extends MTGUIComponent {
 				if(selectedEdition==null)
 					return;
 
-				SwingWorker<MTGCard, MTGCard> sw = new SwingWorker<>()
+				var sw = new SwingWorker<MTGCard, MTGCard>()
 						{
 
 							@Override
@@ -598,8 +598,7 @@ public class CardSearchPanel extends MTGUIComponent {
 							@Override
 							protected MTGCard doInBackground() throws Exception {
 								try {
-
-									MTGCard mc = CardsManagerService.switchEditions(selectedCard, selectedEdition);
+									var mc = CardsManagerService.switchEditions(selectedCard, selectedEdition);
 									publish(mc);
 									return mc;
 								} catch (Exception e) {
