@@ -589,7 +589,7 @@ public class ConstructPanel extends MTGUIComponent {
 
 			if(!lsl.getValueIsAdjusting())
 			{
-				MTGCard mc = listResult.getSelectedValue();
+				var mc = listResult.getSelectedValue();
 				
 				if(mc==null)
 					return;
@@ -610,7 +610,11 @@ public class ConstructPanel extends MTGUIComponent {
 					ev.consume();
 
 					MTGCard mc = listResult.getSelectedValue();
-
+					
+					if(mc==null)
+						return;
+					
+					
 					if (getSelectedMap().get(mc) != null) {
 						getSelectedMap().put(mc, deck.getMain().get(mc) + 1);
 					} else {

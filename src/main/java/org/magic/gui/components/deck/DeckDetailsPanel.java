@@ -155,7 +155,8 @@ public class DeckDetailsPanel extends JComponent {
 	}
 
 	public void init(MTGDeck newMagicDeck) {
-		setMagicDeck(newMagicDeck, true);
+		if(newMagicDeck!=null)
+			setMagicDeck(newMagicDeck, true);
 	}
 
 	public void setLegalities() {
