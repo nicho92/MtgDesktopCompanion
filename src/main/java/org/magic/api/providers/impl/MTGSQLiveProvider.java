@@ -259,7 +259,12 @@ private MTGPool pool;
 			mc.setArtist(rs.getString(ARTIST));
 			mc.setRarity(EnumRarity.COMMON);
 			mc.setLayout(EnumLayout.parseByLabel(rs.getString(LAYOUT)));
+			
+			
+			if(rs.getString(SUBSETS)!=null)
+				mc.setSubsets(rs.getString(SUBSETS));
 
+			
 			if(rs.getString(SUPERTYPES)!=null)
 				mc.setSupertypes(splitArrayValue(rs.getString(SUPERTYPES)));
 
@@ -379,6 +384,11 @@ private MTGPool pool;
 
 	private void initRotatedCard(MTGCard mc, String id, String side)
 	{
+		
+		if(id.contains(","))
+			id=id.split(",")[0];
+		
+		
 		var sql =sqlCardBaseQuery+" AND cards.uuid = ?" ;
 		
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(sql))

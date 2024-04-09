@@ -253,6 +253,9 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 
 				if (map.get(ARTIST) != null)
 					mc.setArtist(String.valueOf(map.get(ARTIST)));
+				
+				if (map.get(SUBSETS) != null)
+					mc.setSubsets(String.valueOf(map.get(SUBSETS)));
 
 				if (map.get(IS_RESERVED) != null)
 					mc.setReserved(Boolean.valueOf(String.valueOf(map.get(IS_RESERVED))));

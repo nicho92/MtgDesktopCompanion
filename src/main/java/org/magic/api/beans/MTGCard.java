@@ -18,7 +18,6 @@ import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.beans.enums.EnumPromoType;
 import org.magic.api.beans.enums.EnumRarity;
 import org.magic.api.beans.enums.EnumSecurityStamp;
-import org.magic.services.tools.CryptoUtils;
 
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
@@ -106,7 +105,7 @@ public class MTGCard extends AbstractProduct {
 	private boolean japanese;
 	private boolean timeshifted;
 	private boolean retro;
-	
+	private String subsets;
 	
 	
 	public MTGCard() {
@@ -149,6 +148,15 @@ public class MTGCard extends AbstractProduct {
 		return false;
 			
 	}
+	
+	public String getSubsets() {
+		return subsets;
+	}
+	
+	public void setSubsets(String subsets) {
+		this.subsets = subsets;
+	}
+	
 	
 	public String getMultiverseid() {
 		return multiverseid;

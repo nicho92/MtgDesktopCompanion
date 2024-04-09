@@ -73,12 +73,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	private static final String DEFENSE ="defense";
 	private static final String PROMOTYPES = "promo_types";
 	private static final String BULK_FILE_URL="https://archive.scryfall.com/json/scryfall-all-cards.json";
-	private String baseURI = "";
-
-	public ScryFallProvider() {
-		baseURI=getString("URL");
-	}
-
+	private static final String BASE_URI = "https://api.scryfall.com";
 
 	public SVGIcon getSvgFileFor(String idSet)
 	{
@@ -97,16 +92,10 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		return Map.of("URL", "https://api.scryfall.com",
-								"MULTILANG",FALSE,
+		return Map.of("MULTILANG",FALSE,
 								"LOAD_RULING",FALSE);
 	}
 
-	@Override
-	public void init() {
-		logger.info("init {} provider",this);
-		baseURI=getString("URL");
-	}
 
 	@Override
 	public MTGCard getCardById(String id) throws IOException {
@@ -127,7 +116,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	public JsonObject getJsonFor(MTGCard mc)
 	{
-		String url = baseURI + CARDS + mc.getEdition().getId().toLowerCase() + "/" + mc.getNumber();
+		String url = BASE_URI + CARDS + mc.getEdition().getId().toLowerCase() + "/" + mc.getNumber();
 		try {
 			return URLTools.extractAsJson(url).getAsJsonObject();
 		} catch (IOException e) {
@@ -157,7 +146,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		if (exact)
 			comparator = "!\"" + crit + "\"";
 
-		var url = new StringBuilder(baseURI);
+		var url = new StringBuilder(BASE_URI);
 				url.append(CARDS);
 
 		if (att.equals(NAME))
@@ -211,14 +200,14 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	@Override
 	public MTGCard getCardByNumber(String id, MTGEdition me) throws IOException {
-		String url = baseURI + CARDS + me.getId().toLowerCase() + "/" + id;
+		String url = BASE_URI + CARDS + me.getId().toLowerCase() + "/" + id;
 		var root =  URLTools.extractAsJson(url).getAsJsonObject();
 		return loadCard(root, true, null);
 	}
 
 	@Override
 	public List<MTGEdition> loadEditions() throws IOException {
-			String url = baseURI + "/sets";
+			String url = BASE_URI + "/sets";
 			var root = URLTools.extractAsJson(url).getAsJsonObject();
 			List<MTGEdition> eds = new ArrayList<>();
 			for (var i = 0; i < root.get("data").getAsJsonArray().size(); i++) {
@@ -646,13 +635,13 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	private void initOtherEdition(MTGCard mc) throws IOException {
 
-		String url = baseURI + "/cards/search?q=+" + URLTools.encode("++!\"" + mc.getName() + "\"")+ "%20include:extras" + "%20-s:" + mc.getEdition().getId();
+		String url = BASE_URI + "/cards/search?q=+" + URLTools.encode("++!\"" + mc.getName() + "\"")+ "%20include:extras" + "%20-s:" + mc.getEdition().getId();
 
 		var hasMore = true;
 		while (hasMore) {
 
 			try {
-				JsonElement el = URLTools.extractAsJson(url);
+				var el = URLTools.extractAsJson(url);
 
 				var jsonList = el.getAsJsonObject().getAsJsonArray("data");
 				
@@ -716,6 +705,12 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		notify(ed);
 
 		return ed;
+	}
+
+	@Override
+	public void init() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
