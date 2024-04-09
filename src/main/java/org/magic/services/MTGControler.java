@@ -47,6 +47,7 @@ import org.magic.services.threads.ThreadPoolConfig.THREADPOOL;
 import org.magic.services.tools.FileTools;
 import org.magic.services.tools.ImageTools;
 import org.magic.services.tools.MTG;
+import org.magic.services.tools.UITools;
 
 
 public class MTGControler {
@@ -377,6 +378,17 @@ public class MTGControler {
 		return new Dimension(w, h);
 	}
 
+	public Double getPictureZoom() {
+		var z = UITools.parseDouble(get("/card-pictures-dimension/zoom"));
+		
+		if(z<1)
+			z=1.0;
+		
+		return z;
+		
+	}
+
+	
 
 	public Dimension getCardsGameDimension() {
 		var w = Integer.parseInt(get("/game/cards/card-width"));

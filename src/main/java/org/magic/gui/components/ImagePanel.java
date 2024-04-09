@@ -25,6 +25,7 @@ import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
 import org.magic.services.threads.MTGRunnable;
@@ -153,7 +154,9 @@ public class ImagePanel extends JXPanel {
 			protected void auditedRun() {
 				try {
 					imgFront = getEnabledPlugin(MTGPictureProvider.class).getPicture(mc);
-
+					
+					
+					
 					if(mc.isFlippable())
 						imgBack = ImageTools.rotate(printed, 180);
 
@@ -234,6 +237,10 @@ public class ImagePanel extends JXPanel {
 		setLayout(new BorderLayout(0, 0));
 		renderer = new ReflectionRenderer();
 		setBackgroundPainter(new MattePainter(MTGConstants.PICTURE_PAINTER, true));
+		
+		
+		zoomFactor=MTGControler.getInstance().getPictureZoom();
+		
 		timer = new Timer(MTGConstants.ROTATED_TIMEOUT, e -> {
 			repaint();
 
@@ -267,7 +274,9 @@ public class ImagePanel extends JXPanel {
 			else
 				zoomFactor /=1.1;
 
-
+			
+			MTGControler.getInstance().setProperty("/card-pictures-dimension/zoom",zoomFactor);
+			
 			repaint();
 		}
 

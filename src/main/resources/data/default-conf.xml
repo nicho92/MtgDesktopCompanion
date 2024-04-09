@@ -36,6 +36,7 @@
   <card-pictures-dimension>
     <width>243</width>
     <height>337</height>
+    <zoom>1</zoom>
   </card-pictures-dimension>
   <threadsExecutor>
     <threadPool>CACHED</threadPool>
