@@ -34,7 +34,7 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 		setCache = new TCache<>("setIcons");
 
 		try {
-			setSize(MTGControler.getInstance().getPictureProviderDimension());
+			setSize(MTGControler.getInstance().getPictureProviderDimension().getDimension());
 		}
 		catch(Exception e)
 		{

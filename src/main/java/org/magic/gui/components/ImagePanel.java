@@ -224,22 +224,13 @@ public class ImagePanel extends JXPanel {
 	}
 
 
-	public double getZoomFactor() {
-		return zoomFactor;
-	}
-
-	public void setZoomFactor(double zoomFactor) {
-		this.zoomFactor = zoomFactor;
-	}
-
-
 	private void initGUI() {
 		setLayout(new BorderLayout(0, 0));
 		renderer = new ReflectionRenderer();
 		setBackgroundPainter(new MattePainter(MTGConstants.PICTURE_PAINTER, true));
 		
 		
-		zoomFactor=MTGControler.getInstance().getPictureZoom();
+		zoomFactor=MTGControler.getInstance().getPictureProviderDimension().getZoom();
 		
 		timer = new Timer(MTGConstants.ROTATED_TIMEOUT, e -> {
 			repaint();

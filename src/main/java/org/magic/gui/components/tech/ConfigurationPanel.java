@@ -533,7 +533,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		JComboBox<LookAndFeelInfo> cboLook = UITools.createCombobox(MTGControler.getInstance().getLafService().getAllLookAndFeel());
 		var lblPicsSize = new JLangLabel("THUMBNAIL_SIZE",true);
 		var btnSavePicSize = new JButton(capitalize("SAVE"));
-		resizerPanel = new JResizerPanel(MTGControler.getInstance().getPictureProviderDimension());
+		resizerPanel = new JResizerPanel(MTGControler.getInstance().getPictureProviderDimension().getDimension());
 		var lblShowJsonPanel = new JLangLabel("SHOW_OBJECT_PANEL",true);
 		cbojsonView = new JCheckBox();
 		var lblShowTooltip = new JLangLabel("SHOW_TOOLTIP",true);

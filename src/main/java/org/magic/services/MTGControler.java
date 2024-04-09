@@ -29,6 +29,7 @@ import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.game.Player;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.technical.MTGNotification;
+import org.magic.api.beans.technical.PictureDimension;
 import org.magic.api.beans.technical.WebShopConfig;
 import org.magic.api.beans.technical.audit.FileAccessInfo;
 import org.magic.api.beans.technical.audit.FileAccessInfo.ACCESSTYPE;
@@ -372,23 +373,14 @@ public class MTGControler {
 
 
 
-	public Dimension getPictureProviderDimension() {
-		var w = Integer.parseInt(get("/card-pictures-dimension/width"));
-		var h = Integer.parseInt(get("/card-pictures-dimension/height"));
-		return new Dimension(w, h);
+	public PictureDimension getPictureProviderDimension() {
+		return new PictureDimension(
+				Integer.parseInt(get("/card-pictures-dimension/width")),
+				Integer.parseInt(get("/card-pictures-dimension/height")),
+				UITools.parseDouble(get("/card-pictures-dimension/zoom")),
+				0,
+				0);
 	}
-
-	public Double getPictureZoom() {
-		var z = UITools.parseDouble(get("/card-pictures-dimension/zoom"));
-		
-		if(z<1)
-			z=1.0;
-		
-		return z;
-		
-	}
-
-	
 
 	public Dimension getCardsGameDimension() {
 		var w = Integer.parseInt(get("/game/cards/card-width"));
