@@ -1,5 +1,5 @@
 <#list modele as mc>
 **${mc.name}**
-*${mc.editions[0].set}*
+*${mc.edition.set}*
 >```${mc.text}```
 </#list>

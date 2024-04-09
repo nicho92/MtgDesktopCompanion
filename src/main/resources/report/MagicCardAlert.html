@@ -1,7 +1,0 @@
-<ul>
-   <#list modele as alert>
-    <#if (alert.offers?size>0)>
-      <li>${alert.card.name} (${alert.card.editions[0].id}) -> ${alert.offers?size} offers <= ${alert.price}</li>
-    </#if>
-   </#list>
-</ul>
