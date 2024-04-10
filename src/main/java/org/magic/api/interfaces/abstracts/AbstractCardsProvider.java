@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 
 import org.magic.api.beans.MTGBooster;
 import org.magic.api.beans.MTGCard;
@@ -34,7 +33,6 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 
 	protected TCache<MTGCard> cacheCards;
 	private TCache<MTGEdition> cacheEditions;
-	private TCache<List<MTGCard>> cacheCardsByEdition;
 
 	protected abstract List<QueryAttribute> loadQueryableAttributs();
 	public abstract List<MTGEdition> loadEditions() throws IOException;
@@ -42,7 +40,6 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 
 	protected AbstractCardsProvider() {
 		cacheCards = new TCache<>("cards");
-		cacheCardsByEdition = new TCache<>("cardsByEdition");
 		cacheEditions = new TCache<>("editions");
 	}
 
@@ -119,12 +116,6 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		return cacheEditions;
 	}
 
-	public TCache<List<MTGCard>> getCacheCardsEdition()
-	{
-		return cacheCardsByEdition;
-	}
-
-
 
 	@Override
 	public MTGCard getCardByNumber(String id, String idMe) throws IOException {
@@ -133,18 +124,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 
 	@Override
 	public List<MTGCard> searchCardByEdition(MTGEdition ed) throws IOException {
-		try {
-			return cacheCardsByEdition.get(ed.getId(), new Callable<List<MTGCard>>() {
-
-				@Override
-				public List<MTGCard> call() throws Exception {
-					return searchCardByCriteria(SET_FIELD, ed.getId(), null, false);
-				}
-			});
-		} catch (ExecutionException e) {
-			throw new IOException(e);
-		}
-
+			return  searchCardByCriteria(SET_FIELD, ed.getId(), null, false);
 	}
 
 	@Override

@@ -962,14 +962,14 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 						final String destinationCollection = ((JMenuItem) e.getSource()).getText();
 
-						DefaultMutableTreeNode node = ((DefaultMutableTreeNode) path.getPathComponent(2));
-						MTGEdition me = (MTGEdition) node.getUserObject();
+						var node = ((DefaultMutableTreeNode) path.getPathComponent(2));
+						var me = (MTGEdition) node.getUserObject();
 
 						var col = new MTGCollection(destinationCollection);
-						List<MTGCard> sets = provider.searchCardByEdition(me);
+						var sets = provider.searchCardByEdition(me);
 
 						var sourceCol = new MTGCollection(node.getPath()[1].toString());
-						List<MTGCard> list = dao.listCardsFromCollection(sourceCol, me);
+						var list = dao.listCardsFromCollection(sourceCol, me);
 
 						logger.debug("{} items in {}/{}", list.size(), sourceCol,me);
 						sets.removeAll(list);
@@ -978,8 +978,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 				buzy.start(sets.size());
 
 
-				SwingWorker<Void, MTGCard> sw = new SwingWorker<>(){
-
+					var sw = new SwingWorker<Void, MTGCard>(){
 						@Override
 						protected void done() {
 							buzy.end();
