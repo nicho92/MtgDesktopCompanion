@@ -1,7 +1,6 @@
 package org.magic.gui.components.shops.extshop;
 
 import java.awt.BorderLayout;
-import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -123,7 +122,7 @@ public class StockShopperComponent extends MTGUIComponent {
 
 
 			}
-			Point p = btnBind.getLocationOnScreen();
+			var p = btnBind.getLocationOnScreen();
 			menu.show(btnBind, 0, 0);
 			menu.setLocation(p.x, p.y + btnBind.getHeight());
 		});
@@ -182,7 +181,7 @@ public class StockShopperComponent extends MTGUIComponent {
 	private void loadProducts(MTGExternalShop ext,StockItemTableModel model,String search) {
 		model.clear();
 
-		AbstractObservableWorker<List<MTGStockItem>,MTGStockItem,MTGExternalShop> sw = new AbstractObservableWorker<>(buzy,ext)
+		var sw = new AbstractObservableWorker<List<MTGStockItem>,MTGStockItem,MTGExternalShop>(buzy,ext)
 		{
 			@Override
 			protected List<MTGStockItem> doInBackground() throws Exception {

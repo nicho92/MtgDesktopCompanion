@@ -20,7 +20,6 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 
 import org.apache.commons.collections4.keyvalue.DefaultMapEntry;
-import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.JXTreeTable;
 import org.magic.api.beans.EditionsShakers;
 import org.magic.api.beans.MTGCollection;
