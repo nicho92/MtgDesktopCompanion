@@ -120,8 +120,8 @@ public class MagicEditionsTableModel extends GenericTableModel<MTGEdition> {
 			if(mapCount.get(e)==null)
 				return 0.0;
 
-			if (e.getCardCount() > 0)
-				return (double) mapCount.get(e) / e.getCardCount();
+			if (e.getCardCountPhysical() > 0)
+				return (double) mapCount.get(e) / e.getCardCountPhysical();
 			else
 				return (double) mapCount.get(e) / 1;
 		}

@@ -21,6 +21,7 @@ public class MTGEdition implements MTGSerializable, Comparable<MTGEdition> {
 	private String type;
 	private int cardCount;
 	private int cardCountOfficial;
+	private int cardCountPhysical;
 	private String block;
 	private boolean onlineOnly;
 	private Integer mkmid;
@@ -39,6 +40,15 @@ public class MTGEdition implements MTGSerializable, Comparable<MTGEdition> {
 		return getId();
 	}
 
+	
+	public void setCardCountPhysical(int cardCountPhysical) {
+		this.cardCountPhysical = cardCountPhysical;
+	}
+	
+	public int getCardCountPhysical() {
+		return cardCountPhysical;
+	}
+	
 
 	public boolean isForeignOnly() {
 		return foreignOnly;

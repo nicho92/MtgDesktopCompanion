@@ -561,6 +561,17 @@ private MTGPool pool;
 	public List<MTGEdition> loadEditions() throws IOException {
 
 		List<MTGEdition> eds=new ArrayList<>();
+		var maps = new HashMap<String,Integer>();
+			
+			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT setCode, count(1) as physicalCount FROM cards where side='a' or side IS NULL AND isRebalanced IS NULL GROUP BY setCode");ResultSet rs = pst.executeQuery())
+			{
+				while(rs.next())
+					maps.put(rs.getString("setCode"), rs.getInt("physicalCount"));
+				
+			} catch (SQLException e1) {
+				logger.error(e1);
+			}
+		
 			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("select * from sets");ResultSet rs = pst.executeQuery())
 			{
 
@@ -575,6 +586,7 @@ private MTGPool pool;
 								 ed.setCardCountOfficial(rs.getInt("baseSetSize"));
 								 ed.setType(rs.getString("type"));
 								 testMkm(ed,rs);
+								 ed.setCardCountPhysical(maps.getOrDefault(ed.getId(), ed.getCardCount()));
 								 ed.setKeyRuneCode(rs.getString(KEYRUNE_CODE));
 								 ed.setOnlineOnly(rs.getBoolean(IS_ONLINE_ONLY));
 								 ed.setFoilOnly(rs.getBoolean(IS_FOIL_ONLY));
