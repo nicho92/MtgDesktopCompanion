@@ -64,10 +64,11 @@ public class MTGCard extends AbstractProduct {
 	private String gathererCode;
 	private boolean hasAlternativeDeckLimit;
 	private boolean hasContentWarning;
+	private boolean alternative;
 	private String id;
-	private boolean isFunny;
-	private boolean isRebalanced;
-	private boolean isStorySpotlight;
+	private boolean funny;
+	private boolean rebalanced;
+	private boolean storySpotlight;
 	private List<MTGKeyWord> keywords;
 	private EnumLayout layout=EnumLayout.NORMAL;
 	private List<MTGFormat> legalities;
@@ -107,7 +108,6 @@ public class MTGCard extends AbstractProduct {
 	private boolean timeshifted;
 	private boolean retro;
 	private String subsets;
-	
 	
 	public MTGCard() {
 		editions = new ArrayList<>();
@@ -149,6 +149,15 @@ public class MTGCard extends AbstractProduct {
 
 		return false;
 			
+	}
+	
+	
+	public boolean isAlternative() {
+		return alternative;
+	}
+	
+	public void setAlternative(boolean alternative) {
+		this.alternative = alternative;
 	}
 	
 	public String getSubsets() {
@@ -548,7 +557,7 @@ public class MTGCard extends AbstractProduct {
 	}
 
 	public boolean isFunny() {
-		return isFunny;
+		return funny;
 	}
 
 	public boolean isHasAlternativeDeckLimit() {
@@ -612,7 +621,7 @@ public class MTGCard extends AbstractProduct {
 	}
 
 	public boolean isRebalanced() {
-		return isRebalanced;
+		return rebalanced;
 	}
 
 	public boolean isReprintedCard() {
@@ -646,7 +655,7 @@ public class MTGCard extends AbstractProduct {
 	}
 
 	public boolean isStorySpotlight() {
-		return isStorySpotlight;
+		return storySpotlight;
 	}
 
 	public boolean isTimeshifted() {
@@ -752,7 +761,7 @@ public class MTGCard extends AbstractProduct {
 	}
 
 	public void setFunny(boolean isFunny) {
-		this.isFunny = isFunny;
+		this.funny = isFunny;
 	}
 
 	public void setGathererCode(String gathererCode) {
@@ -845,7 +854,7 @@ public class MTGCard extends AbstractProduct {
 	}
 
 	public void setRebalanced(boolean isRebalanced) {
-		this.isRebalanced = isRebalanced;
+		this.rebalanced = isRebalanced;
 	}
 
 	public void setReprintedCard(boolean reprintedCard) {
@@ -886,7 +895,7 @@ public class MTGCard extends AbstractProduct {
 	}
 
 	public void setStorySpotlight(boolean isStorySpotlight) {
-		this.isStorySpotlight = isStorySpotlight;
+		this.storySpotlight = isStorySpotlight;
 	}
 
 	public void setSubtypes(List<String> subtypes) {

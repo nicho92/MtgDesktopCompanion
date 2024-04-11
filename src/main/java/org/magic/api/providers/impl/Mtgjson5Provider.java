@@ -347,6 +347,10 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 				if (map.get(IS_FUNNY) != null)
 					mc.setFunny(Boolean.valueOf(map.get(IS_FUNNY).toString()));
 
+				if (map.get(IS_ALTERNATIVE) != null)
+					mc.setAlternative(Boolean.valueOf(map.get(IS_ALTERNATIVE).toString()));
+
+				
 				if (map.get(IS_REBALANCED) != null)
 					mc.setRebalanced(Boolean.valueOf(map.get(IS_REBALANCED).toString()));
 

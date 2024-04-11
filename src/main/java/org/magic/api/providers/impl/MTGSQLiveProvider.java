@@ -478,7 +478,9 @@ private MTGPool pool;
 				mc.setTcgPlayerId(rs.getInt(TCGPLAYER_PRODUCT_ID));
 				mc.setSignature(rs.getString(SIGNATURE));
 				mc.setDefense(rs.getInt(DEFENSE));
-
+				mc.setAlternative(rs.getBoolean(IS_ALTERNATIVE));
+				
+				
 				if(rs.getString(FINISHES)!=null)
 					mc.getFinishes().addAll(splitArrayValue(rs.getString(FINISHES)).stream().map(EnumFinishes::parseByLabel).toList());
 	
@@ -512,6 +514,8 @@ private MTGPool pool;
 				
 				if(rs.getString(ATTRACTION_LIGHTS)!=null)
 					mc.setAttractionLights(splitArrayValue(rs.getString(ATTRACTION_LIGHTS)).stream().mapToInt(Integer::parseInt).boxed().toList());
+				
+					
 				
 				
 				

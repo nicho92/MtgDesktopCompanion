@@ -86,6 +86,7 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	protected static final String IS_ONLINE_ONLY = "isOnlineOnly";
 	protected static final String IS_PROMO = "isPromo";
 	protected static final String IS_FOIL_ONLY = "isFoilOnly";
+	protected static final String IS_ALTERNATIVE="isAlternative";
 	protected static final String MCM_ID = "mcmId";
 	protected static final String MCM_NAME = "mcmName";
 	protected static final String MTGSTOCKS_ID = "mtgstocksId";
