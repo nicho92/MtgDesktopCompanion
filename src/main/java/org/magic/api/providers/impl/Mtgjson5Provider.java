@@ -10,12 +10,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.activemq.artemis.core.config.HAPolicyConfiguration.TYPE;
 import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardNames;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MTGFormat.AUTHORIZATION;
+import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MTGRuling;
 import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.enums.EnumBorders;
@@ -365,7 +367,15 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 						mc.setLoyalty(0);
 					}
 				}
-
+				
+				if (map.get(KEYWORDS) != null)
+					mc.getKeywords().addAll( ((List<String>) map.get(KEYWORDS)).stream().map(k->new MTGKeyWord(k, MTGKeyWord.TYPE.ABILITIES)).toList());
+				
+				
+				if(map.get(ATTRACTION_LIGHTS)!=null)
+					mc.setAttractionLights(((List<String>) map.get(KEYWORDS)).stream().mapToInt(Integer::parseInt).boxed().toList());
+				
+				
 				if (map.get(LEGALITIES) != null) {
 
 					for (Map.Entry<String,String> mapFormats : ((Map<String,String>) map.get(LEGALITIES)).entrySet()) {

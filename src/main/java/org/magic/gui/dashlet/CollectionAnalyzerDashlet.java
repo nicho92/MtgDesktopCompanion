@@ -58,7 +58,7 @@ public class CollectionAnalyzerDashlet extends AbstractJDashlet {
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		modelCache = new MapTableModel<>();
 		modelCache.setColumnNames("EDITION", "DATE");
-		JXTable tableCache = UITools.createNewTable(modelCache,false);
+		var tableCache = UITools.createNewTable(modelCache,false);
 		var lblValue = new JLabel();
 		var btnExpand = UITools.createBindableJButton("Expand",MTGConstants.ICON_SMALL_CHECK,KeyEvent.VK_E,"expands");
 		var panelHaut = new JPanel();

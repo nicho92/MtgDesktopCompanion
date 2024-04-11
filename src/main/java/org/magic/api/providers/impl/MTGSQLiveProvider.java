@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
@@ -490,7 +491,7 @@ private MTGPool pool;
 					mc.getPromotypes().addAll(splitArrayValue(rs.getString(PROMO_TYPE)).stream().map(EnumPromoType::parseByLabel).toList());
 			
 				if(rs.getString(KEYWORDS)!=null)
-					mc.getKeywords().addAll(splitArrayValue(KEYWORDS).stream().map(s->new MTGKeyWord(s, MTGKeyWord.TYPE.ABILITIES)).toList());
+					mc.getKeywords().addAll(splitArrayValue(rs.getString(KEYWORDS)).stream().map(s->new MTGKeyWord(s, MTGKeyWord.TYPE.ABILITIES)).toList());
 			
 				if(rs.getString(COLOR_IDENTITY)!=null)
 					mc.setColorIdentity(splitArrayValue(rs.getString(COLOR_IDENTITY)).stream().map(EnumColors::colorByCode).toList());
@@ -509,6 +510,11 @@ private MTGPool pool;
 			
 				if(rs.getString(SUBTYPES)!=null)
 					mc.getSubtypes().addAll(splitArrayValue(rs.getString(SUBTYPES)));
+				
+				if(rs.getString(ATTRACTION_LIGHTS)!=null)
+					mc.setAttractionLights(splitArrayValue(rs.getString(ATTRACTION_LIGHTS)).stream().mapToInt(Integer::parseInt).boxed().toList());
+				
+				
 				
 				try {
 					mc.setLoyalty(Integer.parseInt(rs.getString(LOYALTY)));

@@ -51,7 +51,7 @@ public class CollectionEvaluator extends Observable
 
 		try {
 			var temp = getEnabledPlugin(MTGDao.class).getCardsCountGlobal(collection);
-			for (MTGEdition me : getEnabledPlugin(MTGCardsProvider.class).listEditions()) {
+			for (var me : getEnabledPlugin(MTGCardsProvider.class).listEditions()) {
 				ret.put(me, (temp.get(me.getId()) == null) ? 0 : temp.get(me.getId()));
 			}
 		} catch (SQLException e) {
@@ -172,8 +172,7 @@ public class CollectionEvaluator extends Observable
 		try {
 			getEnabledPlugin(MTGDao.class).listEditionsIDFromCollection(collection).forEach(key->{
 				try {
-					MTGEdition ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(key);
-					eds.add(ed);
+					eds.add(getEnabledPlugin(MTGCardsProvider.class).getSetById(key));
 				}catch(Exception e)
 				{
 					logger.error("error get edition {}",key,e);

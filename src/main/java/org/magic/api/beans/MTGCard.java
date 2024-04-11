@@ -95,6 +95,7 @@ public class MTGCard extends AbstractProduct {
 	private List<String> subtypes;
 	private List<String> supertypes;
 	private Integer tcgPlayerId;
+	private List<Integer> attractionLights;
 	private String text="";
 	private String toughness="";
 	private List<String> types;
@@ -123,6 +124,7 @@ public class MTGCard extends AbstractProduct {
 		promotypes = new ArrayList<>();
 		colorIndicator = new ArrayList<>();
 		finishes = new ArrayList<>();
+		attractionLights = new ArrayList<>();
 		customMetadata = new HashMap<>();
 		setTypeProduct(EnumItems.CARD);
 	}
@@ -157,6 +159,14 @@ public class MTGCard extends AbstractProduct {
 		this.subsets = subsets;
 	}
 	
+	
+	public void setAttractionLights(List<Integer> attractionLights) {
+		this.attractionLights = attractionLights;
+	}
+	
+	public List<Integer> getAttractionLights() {
+		return attractionLights;
+	}
 	
 	public String getMultiverseid() {
 		return multiverseid;

@@ -62,10 +62,11 @@ public class MTGKeyWord implements Serializable, Comparable<MTGKeyWord>{
 
 	@Override
 	public boolean equals(Object obj) {
-		if(!(obj instanceof MTGKeyWord))
+		if(obj instanceof MTGKeyWord k )
+			return k.getKeyword().equalsIgnoreCase(getKeyword());
+			
 			return false;
 
-		return this.getKeyword().equalsIgnoreCase(((MTGKeyWord)obj).getKeyword());
 
 	}
 
@@ -131,5 +132,6 @@ public class MTGKeyWord implements Serializable, Comparable<MTGKeyWord>{
 		
 		return getKeyword().compareTo(o.getKeyword());
 	}
+	
 
 }
