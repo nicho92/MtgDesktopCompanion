@@ -132,7 +132,7 @@ public class StockPanelGUI extends MTGUIComponent {
 
 		btnSave.addActionListener(e ->{
 			List<MTGCardStock> updates = model.getItems().stream().filter(MTGCardStock::isUpdated).toList();
-			AbstractObservableWorker<Void, MTGCardStock,MTGDao> sw = new AbstractObservableWorker<>(lblLoading, getEnabledPlugin(MTGDao.class),updates.size())
+			var sw = new AbstractObservableWorker<Void, MTGCardStock,MTGDao>(lblLoading, getEnabledPlugin(MTGDao.class),updates.size())
 			{
 				@Override
 				protected void done() {
@@ -584,10 +584,11 @@ public class StockPanelGUI extends MTGUIComponent {
 		table = UITools.createNewTable(model,true);
 		UITools.setDefaultRenderer(table, new StockTableRenderer());
 		table.packAll();
+		
+		
+		
+		
 		UITools.sort(table,0,SortOrder.DESCENDING);
-
-
-
 
 		magicCardDetailPanel.enableThumbnail(true);
 
@@ -598,7 +599,6 @@ public class StockPanelGUI extends MTGUIComponent {
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		centerPanel.add(splitPane, BorderLayout.CENTER);
 		splitPane.setLeftComponent(new JScrollPane(table));
-
 		splitPane.setRightComponent(getContextTabbedPane());
 
 
@@ -622,8 +622,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		gblrightPanel.columnWidths = new int[] { 84, 103, 0 };
 		gblrightPanel.rowHeights = new int[] { 83, 56, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gblrightPanel.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
-		gblrightPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-				Double.MIN_VALUE };
+		gblrightPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,Double.MIN_VALUE };
 		rightPanel.setLayout(gblrightPanel);
 
 		lblSelect = new JLabel("Select :");

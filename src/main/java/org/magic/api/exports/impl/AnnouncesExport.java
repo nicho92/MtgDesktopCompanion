@@ -16,6 +16,7 @@ import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.tools.MTG;
 
@@ -34,7 +35,7 @@ public class AnnouncesExport extends AbstractCardExport {
 
 	@Override
 	public EnumExportCategory getCategory() {
-		return EnumExportCategory.APPLICATION;
+		return EnumExportCategory.MTGCOMPANION;
 	}
 
 	@Override
@@ -118,6 +119,6 @@ public class AnnouncesExport extends AbstractCardExport {
 
 	@Override
 	public Icon getIcon() {
-		return new ImageIcon(MTGDesktopCompanionExport.class.getResource("/icons/logo.png"));
+		return MTGConstants.ICON_ANNOUNCES;
 	}
 }

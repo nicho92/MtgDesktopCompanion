@@ -10,6 +10,7 @@ public enum EnumExportCategory {
 		ONLINE (MTGConstants.ICON_WEBSITE),
 		EXTERNAL_FILE_FORMAT(MTGConstants.ICON_WEBSITE),
 		MANUAL (MTGConstants.ICON_MANUAL),
+		MTGCOMPANION (MTGConstants.ICON_LOGO),
 		APPLICATION (MTGConstants.ICON_CONFIG),
 		NONE (MTGConstants.ICON_CANCEL);
 

@@ -20,6 +20,7 @@ import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPool;
 import org.magic.api.interfaces.MTGStockItem;
+import org.magic.services.MTGControler;
 import org.magic.services.tools.TCache;
 
 
@@ -79,6 +80,16 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		});
 	}
 
+	
+	@Override
+	public void saveOrUpdateCardStock(MTGCard mc) throws SQLException {
+		var st = MTGControler.getInstance().getDefaultStock();
+		st.setProduct(mc);
+		
+		saveOrUpdateCardStock(st);
+		
+	}
+	
 
 	@Override
 	public List<MTGAnnounce> listAnnounces() throws SQLException {

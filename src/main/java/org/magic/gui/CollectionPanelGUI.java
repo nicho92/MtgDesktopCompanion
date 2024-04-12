@@ -40,7 +40,6 @@ import org.magic.api.beans.MTGAlert;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGCollection;
-import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.MTGCardsExport.MODS;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -251,6 +250,8 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 		UITools.setDefaultRenderer(tableEditions, render);
 		tableEditions.setRowHeight(25);
+		
+		
 
 		///////// LAYOUT
 		setLayout(new BorderLayout(0, 0));
@@ -390,9 +391,9 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 
 
-		btnExport.initCardsExport(new Callable<MTGDeck>() {
+		btnExport.initStockExport(new Callable<List<MTGCardStock>>() {
 			@Override
-			public MTGDeck call() throws Exception {
+			public List<MTGCardStock> call() throws Exception {
 				DefaultMutableTreeNode curr = (DefaultMutableTreeNode) path.getLastPathComponent();
 				MTGCollection mc = null;
 				MTGEdition ed = null;
@@ -415,7 +416,12 @@ public class CollectionPanelGUI extends MTGUIComponent {
 					MTGControler.getInstance().notify(e);
 
 				}
-				return MTGDeck.toDeck(listExport);
+				return listExport.stream().map(c->{ 
+						var mcs = MTGControler.getInstance().getDefaultStock();
+						mcs.setProduct(c);
+						return mcs;
+						
+				}).toList();
 			}
 		}, buzy);
 
@@ -894,7 +900,6 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		
 		
 		var menuItemAlerts = new JMenuItem(capitalize("ADD_CARDS_ALERTS"),MTGConstants.ICON_ALERT);
-		var menuItemStocks = new JMenuItem(capitalize("ADD_CARDS_STOCKS"),MTGConstants.ICON_STOCK);
 
 		for (MTGCollection mc : dao.listCollections()) {
 			var adds = new JMenuItem(mc.getName(),MTGConstants.ICON_COLLECTION);
@@ -914,7 +919,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 				
 				buzy.start();
 
-				SwingWorker<Void, MTGCard> sw = new SwingWorker<>(){
+				var sw = new SwingWorker<Void, MTGCard>(){
 
 						@Override
 						protected void done() {
@@ -1066,6 +1071,8 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			menuItemAdd.add(adds);
 			menuItemMove.add(movs);
 			menuItemRemoveFrom.add(rmvs);
+			
+			
 		}
 
 		var menuItemOpen = new JMenuItem(capitalize("OPEN"),MTGConstants.ICON_OPEN);
@@ -1113,37 +1120,8 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			}
 		});
 
-		menuItemStocks.addActionListener(e ->{
-			var col = (MTGCollection) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();
-			var edition = (MTGEdition) ((DefaultMutableTreeNode) path.getPathComponent(2)).getUserObject();
-
-			try {
-				var cards = getEnabledPlugin(MTGDao.class).listCardsFromCollection(col, edition);
-				AbstractObservableWorker<Void, MTGCardStock, MTGDao> sw = new AbstractObservableWorker<>(buzy,getEnabledPlugin(MTGDao.class),cards.size()) {
-
-					@Override
-					protected Void doInBackground() throws Exception {
-							for(MTGCard mc : cards)
-							{
-								MTGCardStock st = MTGControler.getInstance().getDefaultStock();
-								st.setProduct(mc);
-								st.setMagicCollection(col);
-								plug.saveOrUpdateCardStock(st);
-							}
-							return null;
-					}
-				};
-
-				ThreadManager.getInstance().runInEdt(sw, "Stock updating");
-
-			} catch (SQLException e1) {
-				logger.error(e1);
-			}
-		});
-
 		popupMenuEdition.add(it);
 		popupMenuEdition.add(menuItemAlerts);
-		popupMenuEdition.add(menuItemStocks);
 		popupMenuEdition.add(menuItemAdd);
 		popupMenuEdition.add(menuItemRemoveFrom);
 		popupMenuEdition.add(menuItemMoveEditions);

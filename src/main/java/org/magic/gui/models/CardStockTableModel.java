@@ -20,6 +20,7 @@ public class CardStockTableModel extends GenericTableModel<MTGCardStock> {
 	public CardStockTableModel() {
 		setWritable(true);
 		columns = new String[] { "ID",
+				"NUMBER",
 				"CARD",
 				"EDITION",
 				"RARITY",
@@ -62,21 +63,21 @@ public class CardStockTableModel extends GenericTableModel<MTGCardStock> {
 		case 0:
 			return MTGCardStock.class;
 		case 1:
-			return MTGCard.class;
-		case 2:
-			return MTGEdition.class;
-		case 3:
-			return EnumRarity.class;
-		case 4:
-			return MTGCollection.class;
-		case 5:
-			return EnumCondition.class;
-		case 6:
-			return Integer.class;
-		case 7:
 			return String.class;
+		case 2:
+			return MTGCard.class;
+		case 3:
+			return MTGEdition.class;
+		case 4:
+			return EnumRarity.class;
+		case 5:
+			return MTGCollection.class;
+		case 6:
+			return EnumCondition.class;
+		case 7:
+			return Integer.class;
 		case 8:
-			return Boolean.class;
+			return String.class;
 		case 9:
 			return Boolean.class;
 		case 10:
@@ -84,12 +85,14 @@ public class CardStockTableModel extends GenericTableModel<MTGCardStock> {
 		case 11:
 			return Boolean.class;
 		case 12:
-			return Double.class;
+			return Boolean.class;
 		case 13:
-			return MTGGrading.class;
+			return Double.class;
 		case 14:
-			return String.class;
+			return MTGGrading.class;
 		case 15:
+			return String.class;
+		case 16:
 			return Map.class;
 
 
@@ -102,7 +105,7 @@ public class CardStockTableModel extends GenericTableModel<MTGCardStock> {
 	public boolean isCellEditable(int row, int column) {
 
 		if(writable)
-			return !(column ==1 || column==13 || column==2|| column==3);
+			return !(column ==1 || column==2|| column==3 || column==4 || column==14 );
 		else
 			return false;
 	}
@@ -113,35 +116,37 @@ public class CardStockTableModel extends GenericTableModel<MTGCardStock> {
 		switch (column) {
 		case 0:
 			return items.get(row);
-		case 1:
-			return items.get(row).getProduct();
+		case 1: 
+			return items.get(row).getProduct().getNumber();
 		case 2:
-			return (Objects.isNull(items.get(row).getProduct()) ? "" :  items.get(row).getProduct().getEdition());
+			return items.get(row).getProduct();
 		case 3:
-			return (Objects.isNull(items.get(row).getProduct()) ? "" :  items.get(row).getProduct().getRarity());
+			return (Objects.isNull(items.get(row).getProduct()) ? "" :  items.get(row).getProduct().getEdition());
 		case 4:
-			return items.get(row).getMagicCollection();
+			return (Objects.isNull(items.get(row).getProduct()) ? "" :  items.get(row).getProduct().getRarity());
 		case 5:
-			return items.get(row).getCondition();
+			return items.get(row).getMagicCollection();
 		case 6:
-			return items.get(row).getQte();
+			return items.get(row).getCondition();
 		case 7:
-			return items.get(row).getLanguage();
+			return items.get(row).getQte();
 		case 8:
-			return items.get(row).isFoil();
+			return items.get(row).getLanguage();
 		case 9:
-			return items.get(row).isEtched();
+			return items.get(row).isFoil();
 		case 10:
-			return items.get(row).isSigned();
+			return items.get(row).isEtched();
 		case 11:
-			return items.get(row).isAltered();
+			return items.get(row).isSigned();
 		case 12:
-			return UITools.roundDouble(items.get(row).getPrice());
+			return items.get(row).isAltered();
 		case 13:
-			return items.get(row).getGrade();
+			return UITools.roundDouble(items.get(row).getPrice());
 		case 14:
-			return items.get(row).getComment();
+			return items.get(row).getGrade();
 		case 15:
+			return items.get(row).getComment();
+		case 16:
 			return items.get(row).getTiersAppIds();
 
 		default:
@@ -153,37 +158,37 @@ public class CardStockTableModel extends GenericTableModel<MTGCardStock> {
 	public void setValueAt(Object aValue, int row, int column) {
 
 		switch (column) {
-		case 4:
+		case 5:
 			items.get(row).setMagicCollection(new MTGCollection(aValue.toString()));
 			break;
-		case 5:
+		case 6:
 			items.get(row).setCondition((EnumCondition) aValue);
 			break;
-		case 6:
+		case 7:
 			items.get(row).setQte((Integer) aValue);
 			break;
-		case 7:
+		case 8:
 			items.get(row).setLanguage(String.valueOf(aValue));
 			break;
-		case 8:
+		case 9:
 			items.get(row).setFoil(Boolean.parseBoolean(aValue.toString()));
 			break;
-		case 9:
+		case 10:
 			items.get(row).setEtched(Boolean.parseBoolean(aValue.toString()));
 			break;
-		case 10:
+		case 11:
 			items.get(row).setSigned(Boolean.parseBoolean(aValue.toString()));
 			break;
-		case 11:
+		case 12:
 			items.get(row).setAltered(Boolean.parseBoolean(aValue.toString()));
 			break;
-		case 12:
+		case 13:
 			items.get(row).setPrice(Double.valueOf(String.valueOf(aValue)));
 			break;
-		case 13:
+		case 14:
 			items.get(row).setGrade((MTGGrading)aValue);
 			break;
-		case 14:
+		case 15:
 			items.get(row).setComment(String.valueOf(aValue));
 			break;
 

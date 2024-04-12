@@ -195,8 +195,4 @@ public class JExportButton extends JButton {
 		});
 
 	}
-
-
-
-
 }

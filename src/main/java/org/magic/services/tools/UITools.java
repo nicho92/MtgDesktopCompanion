@@ -752,7 +752,7 @@ public class UITools {
 	public static void sort(JTable table, int index, SortOrder order) {
 		TableRowSorter<TableModel> sorter = new TableRowSorter<>(table.getModel());
 		table.setRowSorter(sorter);
-		List<RowSorter.SortKey> sortKeys = new ArrayList<>();
+		var sortKeys = new ArrayList<RowSorter.SortKey>();
 		sortKeys.add(new RowSorter.SortKey(index, order));
 		sorter.setSortKeys(sortKeys);
 	}

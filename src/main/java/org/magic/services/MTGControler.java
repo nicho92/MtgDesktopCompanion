@@ -324,6 +324,15 @@ public class MTGControler {
 
 		return st;
 	}
+	
+	public MTGCardStock getDefaultStock(MTGCollection c)
+	{
+		var mcs = getDefaultStock();
+		mcs.setMagicCollection(c);
+		return mcs;
+	}
+	
+	
 
 	private ThreadPoolConfig getThreadPoolConfig() {
 		var tpc = new ThreadPoolConfig();
