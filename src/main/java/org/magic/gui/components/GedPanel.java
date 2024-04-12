@@ -364,7 +364,7 @@ public class GedPanel<T extends MTGSerializable> extends MTGUIComponent {
 			return;
 		}
 
-		logger.debug("Show ged for {}",classe.getSimpleName());
+		logger.debug("Show ged for {} item {}",classe.getSimpleName(),instance);
 		try {
 			listDirectory(MTG.getEnabledPlugin(MTGGedStorage.class).getPath(classe,instance));
 		} catch (IOException e) {

@@ -110,7 +110,7 @@ public class MagicEditionsTableModel extends GenericTableModel<MTGEdition> {
 			return e;
 
 		if (column == 2)
-			return e.getCardCount();
+			return e.getCardCountPhysical();
 
 		if (column == 3)
 			return e.getReleaseDate();

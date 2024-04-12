@@ -699,7 +699,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 					panneauTreeTable.setTitleAt(1, ed.getSet());
 					panneauTreeTable.setSelectedIndex(1);
 					tokensPanel.init(ed);
-					
+					gedPanel.init(MTGEdition.class,ed);
 					
 					
 					
