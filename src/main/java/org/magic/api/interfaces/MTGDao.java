@@ -23,12 +23,12 @@ import org.magic.api.beans.technical.GedEntry;
 
 public interface MTGDao extends MTGPlugin{
 
-	public void saveCard(MTGCard mc, MTGCollection collection) throws SQLException;
-	public void removeCard(MTGCard mc, MTGCollection collection) throws SQLException;
-	public void moveCard(MTGCard mc, MTGCollection from, MTGCollection to) throws SQLException;
-	public void moveEdition(MTGEdition ed, MTGCollection from, MTGCollection to) throws SQLException;
-
 	
+	
+	@Deprecated public void saveCard(MTGCard mc, MTGCollection collection) throws SQLException;
+	@Deprecated public void removeCard(MTGCard mc, MTGCollection collection) throws SQLException;
+	@Deprecated public void moveCard(MTGCard mc, MTGCollection from, MTGCollection to) throws SQLException;
+	@Deprecated public void moveEdition(MTGEdition ed, MTGCollection from, MTGCollection to) throws SQLException;
 	
 	public int getCardsCount(MTGCollection list, MTGEdition me) throws SQLException;
 	public Map<String, Integer> getCardsCountGlobal(MTGCollection c) throws SQLException;
