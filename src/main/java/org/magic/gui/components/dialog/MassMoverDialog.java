@@ -22,6 +22,7 @@ import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.api.sorters.NumberSorter;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.MagicEditionsComboBoxCellRenderer;
@@ -99,7 +100,7 @@ public class MassMoverDialog extends JDialog {
 			
 		
 		
-		
+		UITools.setSorter(tableCards, 7, new NumberSorter());
 		
 		btnMove.addActionListener(e -> {
 			btnMove.setEnabled(false);

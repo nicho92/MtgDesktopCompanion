@@ -82,6 +82,7 @@ import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPlugin;
+import org.magic.api.sorters.NumberSorter;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.card.MagicCardMainDetailPanel;
@@ -747,10 +748,17 @@ public class UITools {
 
 		return ret;
 		}
+	
 
 
+	public static void setSorter(JTable table, int i, NumberSorter numberSorter) {
+			var sorter = new TableRowSorter<TableModel>(table.getModel());
+			sorter.setComparator(i, numberSorter);
+			table.setRowSorter(sorter);
+	}
+	
 	public static void sort(JTable table, int index, SortOrder order) {
-		TableRowSorter<TableModel> sorter = new TableRowSorter<>(table.getModel());
+		var sorter = new TableRowSorter<TableModel>(table.getModel());
 		table.setRowSorter(sorter);
 		var sortKeys = new ArrayList<RowSorter.SortKey>();
 		sortKeys.add(new RowSorter.SortKey(index, order));
@@ -760,6 +768,7 @@ public class UITools {
 	public static String replaceSpecialCharacters(String str,String with) {
 		return str.replaceAll("[^a-zA-Z0-9]", with);
 	}
+
 
 
 }

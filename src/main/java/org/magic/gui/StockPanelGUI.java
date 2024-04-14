@@ -48,6 +48,7 @@ import org.magic.api.interfaces.MTGCardsExport.MODS;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGPriceSuggester;
+import org.magic.api.sorters.NumberSorter;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.GedPanel;
@@ -219,7 +220,7 @@ public class StockPanelGUI extends MTGUIComponent {
 			if (res == JOptionPane.YES_OPTION)
 			{
 				logger.debug("reload collection");
-				AbstractObservableWorker<Void, MTGCardStock, MTGDao> sw = new AbstractObservableWorker<>(lblLoading, getEnabledPlugin(MTGDao.class), -1) {
+				var sw = new AbstractObservableWorker<Void, MTGCardStock, MTGDao>(lblLoading, getEnabledPlugin(MTGDao.class), -1) {
 					@Override
 					protected Void doInBackground() throws Exception {
 						model.init(plug.listStocks());
@@ -583,12 +584,14 @@ public class StockPanelGUI extends MTGUIComponent {
 
 		table = UITools.createNewTable(model,true);
 		UITools.setDefaultRenderer(table, new StockTableRenderer());
+		UITools.sort(table,0,SortOrder.DESCENDING);
+		UITools.setSorter(table,1,new NumberSorter());
 		table.packAll();
 		
 		
 		
 		
-		UITools.sort(table,0,SortOrder.DESCENDING);
+	
 
 		magicCardDetailPanel.enableThumbnail(true);
 

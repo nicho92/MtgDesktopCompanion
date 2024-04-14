@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 
 import org.magic.api.beans.MTGAnnounce;
 import org.magic.api.beans.MTGCardStock;
