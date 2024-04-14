@@ -131,6 +131,7 @@ public class SQLTools {
 			return ctx.createTableIfNotExists("stocks")
 				.column("idstock",SQLDataType.INTEGER.identity(true))
 				.column("idmc",SQLDataType.VARCHAR(50))
+				.column("idMe",SQLDataType.VARCHAR(5))
 				.column("name", SQLDataType.VARCHAR(30))
 				.column("mcard",SQLDataType.JSON)
 				.column("collection",SQLDataType.VARCHAR(30))

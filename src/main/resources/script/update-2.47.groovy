@@ -1,34 +1,22 @@
 if(dao.isSQL()) {
 	printf("Executing db update on " + dao.getName());
-	dao.executeQuery("ALTER TABLE cards ADD scryfallId VARCHAR(50) DEFAULT NULL");
-	printf("Adding scryfallId column--done");
+	dao.executeQuery("ALTER TABLE stocks ADD idMe VARCHAR(5) DEFAULT NULL");
+	dao.executeQuery("CREATE INDEX idx_stk_idMe ON stocks (idMe)");	
 	
-	dao.executeQuery("CREATE INDEX idx_scryfallId ON cards (scryfallId)");
-	printf("Adding scryfallId index--done");
-
-	//MySQL-MariaDB
-	var query="UPDATE cards SET scryfallId = JSON_UNQUOTE(JSON_EXTRACT(mcard,'\$.scryfallId'))";
+	//mysql & Maria
+	query="UPDATE stocks SET idMe = JSON_UNQUOTE(JSON_EXTRACT(mcard,'\$.edition.id'))";
 
 	if(dao.getName().equals("postgresql"))
-		query="UPDATE cards SET scryfallId = mcard->>'scryfallId'";
+		query="UPDATE stocks SET idMe = mcard->>'edition.id'";
 
 	if(dao.getName().equals("SQLite"))
-		query="UPDATE cards SET id = json_extract(mcard,'\$.scryfallId')";
+		query="UPDATE stocks SET idMe = json_extract(mcard,'\$.edition.id')";
 
 	dao.executeQuery(query);
-	printf("filling cards scryfallId columns--done");
+	printf("filling stocks idMe columns--done");
+	
 
-	//MySQL-MariaDB
-	query="UPDATE stocks SET idmc = JSON_UNQUOTE(JSON_EXTRACT(mcard,'\$.scryfallId'))";
-
-	if(dao.getName().equals("postgresql"))
-		query="UPDATE stocks SET idmc = mcard->>'scryfallId'";
-
-	if(dao.getName().equals("SQLite"))
-		query="UPDATE stocks SET idmc = json_extract(mcard,'\$.scryfallId')";
-
-	dao.executeQuery(query);
-	printf("filling stocks scryfallId columns--done");
+	
 	
 }
 else
