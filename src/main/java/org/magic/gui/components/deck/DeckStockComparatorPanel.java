@@ -174,14 +174,13 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 							currentDeck.getMain().entrySet().forEach(entry->
 							{
 								try {
-									var has = new ArrayList<>(CollectionUtils.intersection(MTG.getEnabledPlugin(MTGDao.class).listCollectionFromCards(entry.getKey()),cboCollections.getSelectedElements()));
 									var stocks = new ArrayList<MTGCardStock>();
-									
+								
 									for(var c : cboCollections.getSelectedElements())
 										stocks.addAll(MTG.getEnabledPlugin(MTGDao.class).listStocks(entry.getKey(), c,chkEditionStrict.isSelected()));
 									
 									var qty = currentDeck.getMain().get(entry.getKey());
-									model.addItem(entry.getKey(),qty,has, stocks);
+									model.addItem(entry.getKey(),qty,stocks);
 									publish(entry.getKey());
 								} catch (SQLException e) {
 									logger.error("Error SQL",e);

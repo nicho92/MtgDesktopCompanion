@@ -52,26 +52,6 @@ public class CardsManagerService {
 		}
 	}
 
-	public static void removeCard(MTGCard mc , MTGCollection collection) throws SQLException
-	{
-
-		getEnabledPlugin(MTGDao.class).removeCard(mc, collection);
-
-		if(MTGControler.getInstance().get("collections/stockAutoDelete").equals("true"))
-		{
-			getEnabledPlugin(MTGDao.class).listStocks(mc, collection,true).forEach(st->{
-				try{
-					getEnabledPlugin(MTGDao.class).deleteStock(st);
-				}
-				catch(Exception e)
-				{
-					logger.error(e);
-				}
-			});
-		}
-
-	}
-
 	public static void moveCard(MTGCard mc, MTGCollection from, MTGCollection to,Observer o) throws SQLException
 	{
 		if(o!=null)
@@ -85,9 +65,11 @@ public class CardsManagerService {
 		if(o!=null)
 			getEnabledPlugin(MTGDao.class).addObserver(o);
 
-
 		getEnabledPlugin(MTGDao.class).moveEdition(ed, from,to);
 
+
+		if(o!=null)
+			getEnabledPlugin(MTGDao.class).removeObserver(o);
 	}
 
 	public static void saveCard(MTGCard mc , MTGCollection collection,Observer o) throws SQLException
@@ -97,15 +79,6 @@ public class CardsManagerService {
 			getEnabledPlugin(MTGDao.class).addObserver(o);
 
 		getEnabledPlugin(MTGDao.class).saveCard(mc, collection);
-
-	
-		if(MTGControler.getInstance().get("collections/stockAutoAdd").equals("true"))
-		{
-			var st = MTGControler.getInstance().getDefaultStock();
-			st.setProduct(mc);
-			st.setMagicCollection(collection);
-			getEnabledPlugin(MTGDao.class).saveOrUpdateCardStock(st);
-		}
 
 		if(o!=null)
 			getEnabledPlugin(MTGDao.class).removeObserver(o);

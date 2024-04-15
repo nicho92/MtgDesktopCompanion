@@ -167,11 +167,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		if(mc==null)
 			return null;
 
-		try {
-			mc.setDateUpdated(rs.getDate("dateUpdate"));
-		} catch (Exception e) {
-			//do nothing
-		}
+
 		return mc;
 
 	}
@@ -193,6 +189,13 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		
 		try (var cont =  pool.getConnection();Statement stat = cont.createStatement()) {
 			
+			
+			stat.executeUpdate(hlper.createTableCollections());
+			logger.debug("Create table collections");
+
+			stat.executeUpdate(hlper.createTableStocks());
+			logger.debug("Create table stocks");
+			
 			stat.executeUpdate(hlper.createTableGed());
 			logger.debug("Create table ged");
 
@@ -204,16 +207,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 			stat.executeUpdate(hlper.createTableContacts());
 			logger.debug("Create table contacts");
-
-			stat.executeUpdate(hlper.createTableCards());
-			logger.debug("Create table cards");
-
-			stat.executeUpdate(hlper.createTableCollections());
-			logger.debug("Create table collections");
-
-			stat.executeUpdate(hlper.createTableStocks());
-			logger.debug("Create table stocks");
-
+				
 			stat.executeUpdate(hlper.createTableAlerts());
 			logger.debug("Create table alerts");
 
@@ -476,16 +470,8 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	private void createIndex(Statement stat) throws SQLException {
 
-		stat.executeUpdate("CREATE INDEX idx_scryfallId ON cards (scryfallId)");
-		
-		stat.executeUpdate("CREATE INDEX idx_ed ON cards (edition)");
-		stat.executeUpdate("CREATE INDEX idx_col ON cards (collection)");
-		stat.executeUpdate("CREATE INDEX idx_cprov ON cards (cardprovider)");
-		stat.executeUpdate("CREATE INDEX idx_dateUpdt ON cards (dateUpdate)");
-
 		stat.executeUpdate("CREATE INDEX idx_stk_idmc ON stocks (idmc)");
 		stat.executeUpdate("CREATE INDEX idx_stk_idMe ON stocks (idMe)");
-		
 		stat.executeUpdate("CREATE INDEX idx_stk_col ON stocks (collection)");
 		stat.executeUpdate("CREATE INDEX idx_stk_com ON stocks (comments)");
 		stat.executeUpdate("CREATE INDEX idx_stk_con ON stocks (conditions)");
@@ -1265,25 +1251,14 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	@Override
 	public void saveCard(MTGCard mc, MTGCollection collection) throws SQLException {
-		logger.debug("saving {} in {}",mc,collection);
-
-		try (var c = pool.getConnection(); var pst = c.prepareStatement("insert into cards (scryfallId,mcard,edition,cardprovider,collection,dateUpdate) values (?,?,?,?,?,?)")) {
-			pst.setString(1, mc.getScryfallId());
-			storeCard(pst, 2, mc);
-			pst.setString(3, mc.getEdition().getId());
-			pst.setString(4, getEnabledPlugin(MTGCardsProvider.class).toString());
-			pst.setString(5, collection.getName());
-			pst.setTimestamp(6, new Timestamp(new java.util.Date().getTime()));
-			var ret = executeUpdate(pst,false);
-			
-			logger.trace("Insert {} item for {}",ret,mc);
-		}
+		var mcs = MTGControler.getInstance().getDefaultStock(collection);
+		mcs.setProduct(mc);
+		saveOrUpdateCardStock(mcs);
 	}
 
 	@Override
 	public void removeCard(MTGCard mc, MTGCollection collection) throws SQLException {
-		logger.debug("delete {} in {}",mc,collection);
-		try (var c = pool.getConnection(); var pst = c.prepareStatement("DELETE FROM cards where scryfallId=? and edition=? and collection=?")) {
+		try (var c = pool.getConnection(); var pst = c.prepareStatement("DELETE FROM stocks where idmc=? and idMe=? and collection=?")) {
 			pst.setString(1, mc.getScryfallId());
 			pst.setString(2, mc.getEdition().getId());
 			pst.setString(3, collection.getName());
@@ -1295,7 +1270,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public void moveCard(MTGCard mc, MTGCollection from, MTGCollection to) throws SQLException {
 		logger.debug("move {} from {} to {}",mc,from,to);
 
-		try (var c = pool.getConnection(); var pst = c.prepareStatement("update cards set collection= ? where scryfallId=? and collection=?"))
+		try (var c = pool.getConnection(); var pst = c.prepareStatement("update stocks set collection= ? where idmc=? and collection=?"))
 		{
 			pst.setString(1, to.getName());
 			pst.setString(2, mc.getScryfallId());
@@ -1304,24 +1279,13 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 			logger.debug("move result:{}={}",mc, res);
 		}
-
-		listStocks(mc, from,true).forEach(cs->{
-
-			try {
-				cs.setMagicCollection(to);
-				saveOrUpdateCardStock(cs);
-			} catch (SQLException e) {
-				logger.error("Error saving stock for {} from {} to {}",mc,from,to);
-			}
-		});
-
 	}
 
 	@Override
 	public void moveEdition(MTGEdition ed, MTGCollection from, MTGCollection to) throws SQLException {
 		logger.debug("move {} from {} to {}",ed,from,to);
 
-		try (var c = pool.getConnection(); var pst = c.prepareStatement("update cards set collection= ? where edition=? and collection=?"))
+		try (var c = pool.getConnection(); var pst = c.prepareStatement("update stocks set collection= ? where idMe=? and collection=?"))
 		{
 			pst.setString(1, to.getName());
 			pst.setString(2, ed.getId());
@@ -1337,7 +1301,8 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	@Override
 	public Map<String, Integer> getCardsCountGlobal(MTGCollection col) throws SQLException {
 		Map<String, Integer> map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-		try (var c = pool.getConnection(); var pst = c.prepareStatement("SELECT edition, count(1) FROM cards where collection=? group by edition");) {
+		try (var c = pool.getConnection(); var pst = c.prepareStatement("SELECT idMe, count(distinct(idmc)) FROM stocks where collection=? and qte>0 group by idMe");) 
+		{
 			pst.setString(1, col.getName());
 			try (ResultSet rs = executeQuery(pst)) {
 				while (rs.next())
@@ -1347,24 +1312,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		return map;
 	}
 
-	@Override
-	public int getCardsCount(MTGCollection cols, MTGEdition me) throws SQLException {
-
-		var sql = "SELECT count(1) FROM cards ";
-
-		if (cols != null)
-			sql += " where collection = '" + cols.getName() + "'";
-
-		if (me != null)
-			sql += " and LOWER('edition') = '" + me.getId().toLowerCase() + "'";
-
-		logger.trace(sql);
-
-		try (var c = pool.getConnection();var st = c.createStatement(); ResultSet rs = st.executeQuery(sql);) {
-			rs.next();
-			return rs.getInt(1);
-		}
-	}
 
 	@Override
 	public List<MTGCard> listCardsFromCollection(MTGCollection collection) throws SQLException {
@@ -1376,10 +1323,10 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public List<MTGCard> listCardsFromCollection(MTGCollection collection, MTGEdition me) throws SQLException {
 
 		var ret = new ArrayList<MTGCard>();
-		var sql = "SELECT mcard,dateUpdate FROM cards where collection= ?";
+		var sql = "SELECT distinct(idmc), mcard FROM stocks WHERE qte > 0 AND collection= ?";
 
 		if (me != null)
-			sql = "SELECT mcard,dateUpdate FROM cards where collection= ? and edition = ?";
+			sql = "SELECT distinct(idmc),mcard FROM stocks WHERE qte > 0 AND collection= ? and idMe = ?";
 
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(sql)) {
 			pst.setString(1, collection.getName());
@@ -1398,7 +1345,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	@Override
 	public List<String> listEditionsIDFromCollection(MTGCollection collection) throws SQLException {
-		var sql = "SELECT distinct(edition) FROM cards where collection=?";
+		var sql = "SELECT distinct(idMe) FROM stocks WHERE qte > 0 AND collection=?";
 		var retour = new ArrayList<String>();
 		logger.trace(sql);
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(sql)) {
@@ -1406,11 +1353,31 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			try (ResultSet rs = executeQuery(pst)) {
 
 				while (rs.next()) {
-					retour.add(rs.getString(EDITION));
+					retour.add(rs.getString("idMe"));
 				}
 			}
 		}
 		return retour;
+	}
+
+	
+	@Override
+	public int getCardsCount(MTGCollection cols, MTGEdition me) throws SQLException {
+
+		var sql = "SELECT count(1) FROM stocks where qte > 0 ";
+			
+		if (cols != null)
+			sql += " AND collection = '" + cols.getName() + "'";
+
+		if (me != null)
+			sql += " and LOWER('idMe') = '" + me.getId().toLowerCase() + "'";
+
+		logger.trace(sql);
+
+		try (var c = pool.getConnection();var st = c.createStatement(); ResultSet rs = st.executeQuery(sql);) {
+			rs.next();
+			return rs.getInt(1);
+		}
 	}
 
 	@Override
@@ -1449,7 +1416,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 			executeUpdate(pst,false);
 		}
 
-		try (var c = pool.getConnection(); PreparedStatement pst2 = c.prepareStatement("DELETE FROM cards where collection = ?")) {
+		try (var c = pool.getConnection(); PreparedStatement pst2 = c.prepareStatement("DELETE FROM stocks where collection = ?")) {
 			pst2.setString(1, col.getName());
 			executeUpdate(pst2,false);
 		}
@@ -1503,7 +1470,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	@Override
 	public void removeEdition(MTGEdition me, MTGCollection col) throws SQLException {
 		logger.debug("delete {} from {}",me,col);
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("DELETE FROM cards where edition=? and collection=?")) {
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("DELETE FROM stocks where idMe=? and collection=?")) {
 			pst.setString(1, me.getId());
 			pst.setString(2, col.getName());
 			executeUpdate(pst,false);
@@ -1517,7 +1484,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		if (mc.getEditions().isEmpty())
 			throw new SQLException("No edition defined");
 
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT collection FROM cards WHERE scryfallId=? and edition=?")) {
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT DISTINCT(collection) FROM stocks WHERE qte > 0 AND idmc=? and idMe=?")) {
 			pst.setString(1, mc.getScryfallId());
 			pst.setString(2, mc.getEdition().getId());
 			try (ResultSet rs = executeQuery(pst)) {
@@ -1673,9 +1640,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 		if (state.getId() < 0) {
 			logger.debug("save stock {}",state);
-			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(
-					"insert into stocks  ( conditions,foil,signedcard,langage,qte,comments,idmc,collection,mcard,altered,price,grading,tiersAppIds,etched,idMe) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-					Statement.RETURN_GENERATED_KEYS)) {
+			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement( "insert into stocks  ( conditions,foil,signedcard,langage,qte,comments,idmc,collection,mcard,altered,price,grading,tiersAppIds,etched,idMe,dateUpdate) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
 				pst.setString(1, String.valueOf(state.getCondition()));
 				pst.setBoolean(2, state.isFoil());
 				pst.setBoolean(3, state.isSigned());
@@ -1691,6 +1656,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				storeTiersApps(pst,13, state.getTiersAppIds());
 				pst.setBoolean(14, state.isEtched());
 				pst.setString(15, state.getProduct().getEdition().getId());
+				pst.setTimestamp(16, new Timestamp(new java.util.Date().getTime()));
 				executeUpdate(pst,false);
 				state.setId(getGeneratedKey(pst));
 			} catch (Exception e) {
@@ -1699,7 +1665,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		} else {
 			logger.debug("update Stock {}",state);
 			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(
-					"update stocks set comments=?, conditions=?, foil=?,signedcard=?,langage=?, qte=? ,altered=?,price=?,idmc=?,collection=?,grading=?,tiersAppIds=?,etched=?, mcard=?, idMe=? where idstock=?")) {
+					"update stocks set comments=?, conditions=?, foil=?,signedcard=?,langage=?, qte=? ,altered=?,price=?,idmc=?,collection=?,grading=?,tiersAppIds=?,etched=?, mcard=?, idMe=?, dateUpdate=? where idstock=?")) {
 				pst.setString(1, state.getComment());
 				pst.setString(2, state.getCondition().toString());
 				pst.setBoolean(3, state.isFoil());
@@ -1715,7 +1681,8 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setBoolean(13, state.isEtched());
 				storeCard(pst, 14, state.getProduct());
 				pst.setString(15, state.getProduct().getEdition().getId());
-				pst.setLong(16, state.getId());
+				pst.setTimestamp(16, new Timestamp(new java.util.Date().getTime()));
+				pst.setLong(17, state.getId());
 				executeUpdate(pst,false);
 			} catch (Exception e) {
 				logger.error(e);
@@ -2068,7 +2035,12 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 			if(state.getTiersAppIds()==null)
 				state.setTiersAppIds(new HashMap<>());
-
+			
+			try {
+				state.setDateUpdate(rs.getDate("dateUpdate"));
+			} catch (Exception e) {
+				//do nothing
+			}
 
 
 		return state;

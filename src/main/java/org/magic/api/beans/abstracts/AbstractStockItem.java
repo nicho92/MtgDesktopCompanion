@@ -1,5 +1,6 @@
 package org.magic.api.beans.abstracts;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,7 +30,16 @@ public abstract class AbstractStockItem<T extends MTGProduct> implements MTGStoc
 	protected boolean signed=false;
 	protected boolean altered=false;
 	protected boolean oversize=false;
+	protected Date dateUpdate;
 	protected String sku;
+
+	public Date getDateUpdate() {
+		return dateUpdate;
+	}
+
+	public void setDateUpdate(Date dateUpdate) {
+		this.dateUpdate = dateUpdate;
+	}
 
 	protected EnumCondition condition = EnumCondition.NEAR_MINT;
 

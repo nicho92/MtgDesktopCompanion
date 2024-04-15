@@ -25,7 +25,6 @@ public class DeckStockComparisonModel extends GenericTableModel<Line> {
 				"SET",
 				"QTY",
 				"STOCK_MODULE",
-				"COLLECTION",
 				"NEEDED_QTY"
 				};
 
@@ -37,9 +36,9 @@ public class DeckStockComparisonModel extends GenericTableModel<Line> {
 	}
 
 
-	public void addItem(MTGCard mc, Integer qty, List<MTGCollection> has, List<MTGCardStock> stocks)
+	public void addItem(MTGCard mc, Integer qty, List<MTGCardStock> stocks)
 	{
-		var l = new Line(mc, qty, has, stocks);
+		var l = new Line(mc, qty, stocks);
 		l.setResult(calculate(l));
 
 		addItem(l);
@@ -64,8 +63,7 @@ public class DeckStockComparisonModel extends GenericTableModel<Line> {
 		case 1:return items.get(row).getMc().getEdition();
 		case 2:return items.get(row).getNeeded();
 		case 3:return items.get(row).getStocks().size();
-		case 4: return items.get(row).getHas().size();
-		case 5:return items.get(row).getResult();
+		case 4:return items.get(row).getResult();
 
 		default:return "";
 		}
@@ -73,12 +71,6 @@ public class DeckStockComparisonModel extends GenericTableModel<Line> {
 
 	private Integer calculate(Line line) {
 		var count =0;
-		
-		if(!line.getHas().isEmpty() && line.getStocks().isEmpty())
-		{
-			count =line.getHas().size();
-		}
-		
 		if (!line.getStocks().isEmpty())
 		{
 			
@@ -100,14 +92,13 @@ public class DeckStockComparisonModel extends GenericTableModel<Line> {
 	{
 		MTGCard mc;
 		Integer needed;
-		List<MTGCollection> has;
+	
 		List<MTGCardStock> stocks;
 		Integer result;
 
-		public Line(MTGCard mc,Integer needed,List<MTGCollection> has,List<MTGCardStock> stocks) {
+		public Line(MTGCard mc,Integer needed,List<MTGCardStock> stocks) {
 			this.mc=mc;
 			this.needed=needed;
-			this.has=has;
 			this.stocks=stocks;
 		}
 
@@ -127,12 +118,6 @@ public class DeckStockComparisonModel extends GenericTableModel<Line> {
 		public Integer getNeeded() {
 			return needed;
 		}
-
-
-		public List<MTGCollection> getHas() {
-			return has;
-		}
-
 
 		public List<MTGCardStock> getStocks() {
 			return stocks;

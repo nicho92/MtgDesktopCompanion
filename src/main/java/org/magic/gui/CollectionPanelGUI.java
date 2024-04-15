@@ -115,7 +115,6 @@ public class CollectionPanelGUI extends MTGUIComponent {
 	private JButton btnRefresh;
 	private JButton btnRemove;
 	private JButton btnAddAllSet;
-	private JExportButton btnExport;
 	private JButton btnMassCollection;
 	private JButton btnGenerateWebSite;
 	private JSplitPane splitListPanel;
@@ -199,8 +198,6 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		btnRefresh =  UITools.createBindableJButton(null, MTGConstants.ICON_REFRESH, KeyEvent.VK_R, "Collection refresh");
 		btnRemove = UITools.createBindableJButton(null, MTGConstants.ICON_DELETE, KeyEvent.VK_D, "Collection delete");
 		btnAddAllSet =UITools.createBindableJButton(null, MTGConstants.ICON_CHECK, KeyEvent.VK_A, "Collection addAll");
-		btnExport = new JExportButton(MODS.EXPORT);
-		UITools.bindJButton(btnExport, KeyEvent.VK_E, "Collection export");
 		groupShopPanel = new GroupedShoppingPanel();
 		btnMassCollection = UITools.createBindableJButton(null, MTGConstants.ICON_MASS_IMPORT, KeyEvent.VK_I, "Collection massImport");
 		btnGenerateWebSite = UITools.createBindableJButton(null, MTGConstants.ICON_WEBSITE_24, KeyEvent.VK_W, "Collection website");
@@ -239,7 +236,6 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		tree.setRootVisible(false);
 		btnRemove.setEnabled(false);
 		btnAddAllSet.setEnabled(false);
-		btnExport.setEnabled(false);
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 
 		tree.setCellRenderer(new MagicCardsTreeCellRenderer());
@@ -265,7 +261,6 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		panneauHaut.add(btnRemove);
 		panneauHaut.add(btnAddAllSet);
 		panneauHaut.add(btnMassCollection);
-		panneauHaut.add(btnExport);
 		panneauHaut.add(btnGenerateWebSite);
 		panneauHaut.add(buzy);
 		add(splitListPanel, BorderLayout.CENTER);
@@ -307,7 +302,6 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		btnRefresh.setToolTipText(capitalize("COLLECTION_REFRESH"));
 		btnRemove.setToolTipText(capitalize("ITEM_SELECTED_REMOVE"));
 		btnAddAllSet.setToolTipText(capitalize("COLLECTION_SET_FULL"));
-		btnExport.setToolTipText(capitalize("EXPORT_AS"));
 		btnMassCollection.setToolTipText(capitalize("COLLECTION_IMPORT"));
 		btnGenerateWebSite.setToolTipText(capitalize("GENERATE_WEBSITE"));
 
@@ -324,7 +318,6 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		magicEditionDetailPanel.init(mc.getEdition());
 		deckPanel.init(mc);
 		pricePanel.init(mc);
-		btnExport.setEnabled(false);
 		packagePanel.init(mc.getEdition());
 		jsonPanel.init(mc);
 		gedPanel.init(MTGCard.class,mc);
@@ -390,43 +383,6 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		});
 
 
-
-		btnExport.initStockExport(new Callable<List<MTGCardStock>>() {
-			@Override
-			public List<MTGCardStock> call() throws Exception {
-				DefaultMutableTreeNode curr = (DefaultMutableTreeNode) path.getLastPathComponent();
-				MTGCollection mc = null;
-				MTGEdition ed = null;
-
-				if (curr.getUserObject() instanceof MTGEdition edition) {
-					ed =edition;
-					mc = (MTGCollection) ((DefaultMutableTreeNode) curr.getParent()).getUserObject();
-				} else {
-					mc = (MTGCollection) curr.getUserObject();
-				}
-
-				try {
-					if (ed == null)
-						listExport= dao.listCardsFromCollection(mc);
-					else
-						listExport= dao.listCardsFromCollection(mc, ed);
-				}
-				catch(Exception e)
-				{
-					MTGControler.getInstance().notify(e);
-
-				}
-				return listExport.stream().map(c->{ 
-						var mcs = MTGControler.getInstance().getDefaultStock();
-						mcs.setProduct(c);
-						return mcs;
-						
-				}).toList();
-			}
-		}, buzy);
-
-
-
 		splitPane.addComponentListener(new ComponentAdapter() {
 
 			@Override
@@ -441,11 +397,11 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			path = tse.getPath();
 			btnRemove.setEnabled(true);
 			btnAddAllSet.setEnabled(false);
-			btnExport.setEnabled(true);
+
 			final DefaultMutableTreeNode curr = (DefaultMutableTreeNode) path.getLastPathComponent();
 
 			if (curr.getUserObject() instanceof String) {
-				btnExport.setEnabled(false);
+	
 				stockPanel.enabledAdd(false);
 			}
 
@@ -701,7 +657,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 					jsonPanel.init(ed);
 					btnRemove.setEnabled(false);
 					btnAddAllSet.setEnabled(true);
-					btnExport.setEnabled(false);
+					
 					panneauTreeTable.setTitleAt(1, ed.getSet());
 					panneauTreeTable.setSelectedIndex(1);
 					tokensPanel.init(ed);
@@ -769,7 +725,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 				try {
 					res = JOptionPane.showConfirmDialog(null, capitalize("CONFIRM_COLLECTION_ITEM_DELETE", card, col));
 					if (res == JOptionPane.YES_OPTION) {
-						CardsManagerService.removeCard(card, col);
+						dao.removeCard(card, col);
 					}
 				} catch (SQLException e) {
 					MTGControler.getInstance().notify(e);
@@ -1050,7 +1006,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 						protected Void doInBackground() throws Exception {
 							for (MTGCard m : listtoDelete)
 							{
-								CardsManagerService.removeCard(m, coldest);
+								dao.removeCard(m, coldest);
 								publish(m);
 							}
 							return null;

@@ -51,7 +51,6 @@ public class MTGCard extends AbstractProduct {
 	private List<EnumColors> colors;
 	private String cost="";
 	private Map<String,String> customMetadata;
-	private Date dateUpdated;
 	private Integer defense;
 	private Integer edhrecRank;
 	private List<MTGEdition> editions;
@@ -231,11 +230,6 @@ public class MTGCard extends AbstractProduct {
 	public Map<String, String> getCustomMetadata() {
 		return customMetadata;
 	}
-
-	public Date getDateUpdated() {
-		return dateUpdated;
-	}
-
 
 	public Integer getDefense() {
 		return defense;
@@ -709,11 +703,6 @@ public class MTGCard extends AbstractProduct {
 
 	public void setCustomMetadata(Map<String, String> customMetadata) {
 		this.customMetadata = customMetadata;
-	}
-
-
-	public void setDateUpdated(Date dateUpdated) {
-		this.dateUpdated = dateUpdated;
 	}
 
 	public void setDefense(Integer defense) {

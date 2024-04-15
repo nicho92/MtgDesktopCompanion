@@ -6,7 +6,6 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.LayoutManager2;
@@ -314,23 +313,16 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		var lblCleancache = new JLabel(capitalize("CLEAN_CACHE") + " :");
 		var btnClean = new JButton(capitalize("CLEAN"));
 		var panelCheckCache = new JPanel();
-		var lblAutoStock = new JLabel(capitalize("AUTO_STOCK") + ": ");
-		var chkboxAutoAdd = new JCheckBox(capitalize("AUTO_STOCK_ADD"));
 		chckbxIconset = new JCheckBox(capitalize("IMG_SET"));
 		chckbxIconcards = new JCheckBox(capitalize("IMG_CARD"));
 		
-		var chkboxAutoDelete = new JCheckBox(capitalize("AUTO_STOCK_DELETE"));
 		var btnDefaultStock = new JButton("Default Stock");
 		var chkboxPrerelease = new JCheckBox();
 		var chkTechnicalLog = new JCheckBox();
 		
-		var panelAutoStock = new JPanel();
 		var panelBtnConfigBackup = new JPanel();
 		var btnExportConfig = new JButton(capitalize(EXPORT));
 		var btnImportConfig = new JButton(capitalize("IMPORT"));
-
-
-		((FlowLayout) panelAutoStock.getLayout()).setAlignment(FlowLayout.LEFT);
 
 
 		chckbxIconset.setSelected(true);
@@ -338,17 +330,11 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		
 
 		chkboxPrerelease.getModel().setSelected( MTG.readPropertyAsBoolean("notifyPrerelease"));
-		chkboxAutoAdd.setSelected(MTG.readPropertyAsBoolean("collections/stockAutoAdd"));
-		chkboxAutoDelete.setSelected(MTG.readPropertyAsBoolean("collections/stockAutoDelete"));
 		chkTechnicalLog.setSelected(MTG.readPropertyAsBoolean("technical-log"));
 		
 		
 		panelCheckCache.add(chckbxIconset);
 		panelCheckCache.add(chckbxIconcards);
-
-		panelAutoStock.add(chkboxAutoAdd);
-		panelAutoStock.add(chkboxAutoDelete);
-
 		panelBtnConfigBackup.add(btnExportConfig);
 		panelBtnConfigBackup.add(btnImportConfig);
 
@@ -360,8 +346,6 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		panelConfig.add(lblCleancache, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 4));
 		panelConfig.add(panelCheckCache, UITools.createGridBagConstraints(GridBagConstraints.WEST, GridBagConstraints.VERTICAL,  1, 4));
 		panelConfig.add(btnClean, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 4));
-		panelConfig.add(lblAutoStock, UITools.createGridBagConstraints(GridBagConstraints.WEST, null, 0, 5));
-		panelConfig.add(panelAutoStock, UITools.createGridBagConstraints(null, GridBagConstraints.BOTH, 1, 5));
 		panelConfig.add(btnDefaultStock, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 5));
 		panelConfig.add(new JLangLabel("CONFIG_BACKUP",true), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 6));
 		panelConfig.add(panelBtnConfigBackup, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 6));
@@ -814,11 +798,6 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		}
 
 		);
-
-
-		chkboxAutoAdd.addActionListener(e -> MTGControler.getInstance().setProperty("collections/stockAutoAdd",String.valueOf(chkboxAutoAdd.isSelected())));
-		chkboxAutoDelete.addActionListener(e -> MTGControler.getInstance().setProperty("collections/stockAutoDelete",String.valueOf(chkboxAutoDelete.isSelected())));
-
 
 		btnDefaultStock.addActionListener(ae -> {
 			var diag = new DefaultStockEditorDialog();

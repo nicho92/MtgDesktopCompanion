@@ -146,6 +146,7 @@ public class SQLTools {
 				.column("price",SQLDataType.DECIMAL(10,2))
 				.column("grading",SQLDataType.JSON)
 				.column("tiersAppIds",SQLDataType.JSON)
+				.column("dateUpdate",SQLDataType.TIMESTAMP)
 				.primaryKey("idstock")
 				.getSQL();
 	}

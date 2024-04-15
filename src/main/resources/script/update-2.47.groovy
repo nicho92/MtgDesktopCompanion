@@ -1,7 +1,10 @@
 if(dao.isSQL()) {
 	printf("Executing db update on " + dao.getName());
 	dao.executeQuery("ALTER TABLE stocks ADD idMe VARCHAR(5) DEFAULT NULL");
+	dao.executeQuery("ALTER TABLE stocks ADD dateUpdate TIMESTAMP");
 	dao.executeQuery("CREATE INDEX idx_stk_idMe ON stocks (idMe)");	
+	
+	
 	
 	//mysql & Maria
 	query="UPDATE stocks SET idMe = JSON_UNQUOTE(JSON_EXTRACT(mcard,'\$.edition.id'))";

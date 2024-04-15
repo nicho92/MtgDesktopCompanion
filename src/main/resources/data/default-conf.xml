@@ -62,8 +62,6 @@
     <online-autoconnect>true</online-autoconnect>
   </network-config>
   <collections>
-    <stockAutoAdd>false</stockAutoAdd>
-    <stockAutoDelete>false</stockAutoDelete>
     <defaultStock>
       <signed>false</signed>
       <altered>false</altered>

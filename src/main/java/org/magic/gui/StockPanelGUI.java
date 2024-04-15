@@ -67,6 +67,7 @@ import org.magic.gui.renderer.StockTableRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
+import org.magic.services.tools.BeanTools;
 import org.magic.services.tools.FileTools;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
@@ -114,6 +115,7 @@ public class StockPanelGUI extends MTGUIComponent {
 	private JComboBox<String> cboSelections;
 	private String[] selections = new String[] { "", MTGControler.getInstance().getLangService().get("NEW"),MTGControler.getInstance().getLangService().get("UPDATED"),MTGControler.getInstance().getLangService().get("ALL") };
 	private File fileImport;
+	private JButton btnDuplicate;
 
 	@Override
 	public ImageIcon getIcon() {
@@ -171,6 +173,8 @@ public class StockPanelGUI extends MTGUIComponent {
 			}
 		});
 
+	
+		
 		btnDelete.addActionListener(event -> {
 			int res = JOptionPane.showConfirmDialog(null,
 					capitalize("CONFIRM_DELETE",table.getSelectedRows().length + " item(s)"),
@@ -368,7 +372,22 @@ public class StockPanelGUI extends MTGUIComponent {
 			}
 		}, lblLoading);
 
-
+		
+		btnDuplicate.addActionListener(al->{
+			try {
+				MTGCardStock mcs = BeanTools.cloneBean(UITools.getTableSelection(table, 0));
+				mcs.setId(-1);
+				model.addItem(mcs);
+				model.fireTableDataChanged();
+				
+				
+				
+			} catch (Exception e1) {
+				logger.error(e1);
+			} 
+			
+		});
+		
 
 
 		btnGeneratePrice.addActionListener(ae -> {
@@ -545,6 +564,11 @@ public class StockPanelGUI extends MTGUIComponent {
 		centerPanel.setLayout(new BorderLayout(0, 0));
 		var actionPanel = new JPanel();
 		centerPanel.add(actionPanel, BorderLayout.NORTH);
+	
+		btnDuplicate= UITools.createBindableJButton(null, MTGConstants.ICON_COPY, KeyEvent.VK_C, "duplicate ligne");
+		btnDuplicate.setToolTipText(capitalize("DUPLICATE"));
+		actionPanel.add(btnDuplicate);
+		
 		btnDelete = UITools.createBindableJButton(null, MTGConstants.ICON_DELETE, KeyEvent.VK_D, "stock delete");
 		btnDelete.setEnabled(false);
 		actionPanel.add(btnDelete);
@@ -583,6 +607,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		actionPanel.add(lblLoading);
 
 		table = UITools.createNewTable(model,true);
+		
 		UITools.setDefaultRenderer(table, new StockTableRenderer());
 		UITools.sort(table,0,SortOrder.DESCENDING);
 		UITools.setSorter(table,1,new NumberSorter());
@@ -827,6 +852,7 @@ public class StockPanelGUI extends MTGUIComponent {
 			@Override
 			protected void notifyEnd() {
 				model.init(getResult());
+				updateCount();
 			}
 
 
@@ -837,7 +863,7 @@ public class StockPanelGUI extends MTGUIComponent {
 
 
 	public void updateCount() {
-		lblCount.setText(capitalize("ITEMS_IN_STOCK") + ": "+ model.getItems().stream().mapToLong(mcs->mcs.getQte()).sum() + "( distinct :"+model.getRowCount() +")  / " + model.getItems().stream().mapToDouble(mcs->mcs.getPrice()*mcs.getQte()).sum());
+		lblCount.setText(capitalize("ITEMS_IN_STOCK") + ": "+ model.getItems().stream().mapToLong(mcs->mcs.getQte()).sum() + "( distinct :"+model.getRowCount() +")  / " + UITools.formatDouble(model.getItems().stream().mapToDouble(mcs->mcs.getPrice()*mcs.getQte()).sum(),' '));
 	}
 
 }
