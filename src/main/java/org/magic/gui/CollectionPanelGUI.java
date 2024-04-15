@@ -13,14 +13,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -38,10 +35,8 @@ import javax.swing.tree.TreePath;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGAlert;
 import org.magic.api.beans.MTGCard;
-import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGEdition;
-import org.magic.api.interfaces.MTGCardsExport.MODS;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
@@ -66,7 +61,6 @@ import org.magic.gui.components.dialog.MassCollectionImporterDialog;
 import org.magic.gui.components.dialog.MassMoverDialog;
 import org.magic.gui.components.dialog.WebSiteGeneratorDialog;
 import org.magic.gui.components.tech.ObjectViewerPanel;
-import org.magic.gui.components.widgets.JExportButton;
 import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.gui.renderer.MagicCardsTreeCellRenderer;
 import org.magic.gui.renderer.MagicCollectionTableCellRenderer;
@@ -106,7 +100,6 @@ public class CollectionPanelGUI extends MTGUIComponent {
 	private RarityRepartitionPanel rarityRepartitionPanel;
 	private MagicCardDetailPanel magicCardDetailPanel;
 	private CardStockPanel stockPanel;
-	private JLabel lblTotal;
 	private CardsDeckCheckerPanel deckPanel;
 	private CardsEditionTablePanel cardsSetPanel;
 	private TokensTablePanel tokensPanel;
@@ -119,7 +112,6 @@ public class CollectionPanelGUI extends MTGUIComponent {
 	private JButton btnGenerateWebSite;
 	private JSplitPane splitListPanel;
 	private JSplitPane splitPane;
-	private List<MTGCard> listExport;
 	private PackagesBrowserPanel packagePanel;
 	private PricesTablePanel pricePanel;
 	private GroupedShoppingPanel groupShopPanel;
@@ -174,8 +166,6 @@ public class CollectionPanelGUI extends MTGUIComponent {
 					}
 					buzy.end();
 					tableEditions.packAll();
-					initTotal();
-
 				}
 			};
 
@@ -213,7 +203,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		panneauTreeTable = new JTabbedPane();
 		
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
-		lblTotal = new JLabel();
+		
 		magicEditionDetailPanel = new MagicEditionDetailPanel(false);
 		magicCardDetailPanel = new MagicCardDetailPanel(true);
 		typeRepartitionPanel = new TypeRepartitionPanel(false);
@@ -276,11 +266,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		splitListPanel.setLeftComponent(panneauGauche);
 		panneauGauche.add(new JScrollPane(tableEditions));
 		panneauGauche.add(panelTotal, BorderLayout.SOUTH);
-		panelTotal.add(lblTotal);
-
-
-		
-		
+			
 		addContextComponent(magicCardDetailPanel);
 		addContextComponent(magicEditionDetailPanel);
 		addContextComponent(packagePanel);
@@ -337,13 +323,6 @@ public class CollectionPanelGUI extends MTGUIComponent {
 	}
 
 
-	private void initTotal() {
-			lblTotal.setText("Total : " + model.getCountDefaultLibrary() + "/" + model.getCountTotal() + " ("+ new DecimalFormat("#0.00").format(  ((double)model.getCountDefaultLibrary() / (double)model.getCountTotal())*100)  +"%)");
-
-	}
-
-
-
 	@SuppressWarnings("unchecked")
 	private void initActions()
 	{
@@ -370,7 +349,6 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 			 @Override
 			protected void done() {
-				initTotal();
 				model.fireTableDataChanged();
 				tree.refresh();
 				buzy.end();

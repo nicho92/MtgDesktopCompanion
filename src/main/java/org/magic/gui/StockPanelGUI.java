@@ -117,6 +117,7 @@ public class StockPanelGUI extends MTGUIComponent {
 	private String[] selections = new String[] { "", MTGControler.getInstance().getLangService().get("NEW"),MTGControler.getInstance().getLangService().get("UPDATED"),MTGControler.getInstance().getLangService().get("ALL") };
 	private File fileImport;
 	private JButton btnDuplicate;
+	private transient AbstractObservableWorker<List<MTGCardStock>, MTGCardStock, MTGDao> swLoad;
 
 	@Override
 	public ImageIcon getIcon() {
@@ -186,7 +187,7 @@ public class StockPanelGUI extends MTGUIComponent {
 
 				List<MTGCardStock> stocks = UITools.getTableSelections(table, 0);
 				model.removeItem(stocks);
-				AbstractObservableWorker<Void, MTGCardStock, MTGDao> sw = new AbstractObservableWorker<>(lblLoading,getEnabledPlugin(MTGDao.class),stocks.size()) {
+				var sw = new AbstractObservableWorker<Void, MTGCardStock, MTGDao>(lblLoading,getEnabledPlugin(MTGDao.class),stocks.size()) {
 					@Override
 					protected Void doInBackground(){
 						stocks.removeIf(st->st.getId()==-1);
@@ -226,20 +227,7 @@ public class StockPanelGUI extends MTGUIComponent {
 			if (res == JOptionPane.YES_OPTION)
 			{
 				logger.debug("reload collection");
-				var sw = new AbstractObservableWorker<Void, MTGCardStock, MTGDao>(lblLoading, getEnabledPlugin(MTGDao.class), -1) {
-					@Override
-					protected Void doInBackground() throws Exception {
-						model.init(plug.listStocks());
-						return null;
-					}
-					@Override
-					protected void done()
-					{
-						super.done();
-						updateCount();
-					}
-				};
-				ThreadManager.getInstance().runInEdt(sw, "reload stock");
+				ThreadManager.getInstance().runInEdt(swLoad, "reload stock");
 
 			}
 
@@ -854,12 +842,13 @@ public class StockPanelGUI extends MTGUIComponent {
 		lblLoading.start();
 
 
-		var sw = new AbstractObservableWorker<List<MTGCardStock>, MTGCardStock, MTGDao>(lblLoading,getEnabledPlugin(MTGDao.class)) {
+		swLoad = new AbstractObservableWorker<List<MTGCardStock>, MTGCardStock, MTGDao>(lblLoading,getEnabledPlugin(MTGDao.class)) {
 
 			@Override
 			protected List<MTGCardStock> doInBackground() throws Exception {
 				return plug.listStocks();
 			}
+			
 
 			@Override
 			protected void notifyEnd() {
@@ -869,7 +858,7 @@ public class StockPanelGUI extends MTGUIComponent {
 
 
 		};
-		ThreadManager.getInstance().runInEdt(sw, "init stock");
+		ThreadManager.getInstance().runInEdt(swLoad, "init stock");
 
 	}
 

@@ -106,7 +106,7 @@ public class ContactsManagementPanel extends MTGUIComponent {
 			c.setLastName("Contact");
 
 			btnNewContact.setEnabled(false);
-			SwingWorker<Integer, Void> sw = new SwingWorker<>()
+			var sw = new SwingWorker<Integer, Void>()
 					{
 
 						@Override
