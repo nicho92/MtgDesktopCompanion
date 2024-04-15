@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.TreeMap;
 
@@ -166,7 +165,7 @@ public class CollectionEvaluator extends Observable
 		return initCache(edition,getEnabledPlugin(MTGDashBoard.class).getName());
 	}
 
-	public List<MTGEdition> getEditions()
+	private List<MTGEdition> getEditions()
 	{
 		List<MTGEdition> eds = new ArrayList<>();
 		try {
@@ -184,7 +183,7 @@ public class CollectionEvaluator extends Observable
 		}
 
 
-	public Map<MTGCard,CardShake> prices()
+	private Map<MTGCard,CardShake> prices()
 	{
 		Map<MTGCard,CardShake> ret = new HashMap<>();
 		getEditions().forEach(ed->
@@ -194,12 +193,6 @@ public class CollectionEvaluator extends Observable
 		);
 		return ret;
 	}
-
-	public boolean hasCache(MTGEdition ed)
-	{
-		return new File(directory,ed.getId()+PRICE_JSON).exists();
-	}
-
 
 	public Date getCacheDate(MTGEdition ed)
 	{
@@ -214,7 +207,7 @@ public class CollectionEvaluator extends Observable
 	}
 
 
-	public synchronized Map<MTGCard,CardShake> prices(MTGEdition ed)
+	private synchronized Map<MTGCard,CardShake> prices(MTGEdition ed)
 	{
 
 		if(cache.get(ed)!=null)
@@ -290,25 +283,6 @@ public class CollectionEvaluator extends Observable
 		eds.setEdition(ed);
 		return eds;
 
-
-	}
-
-	public void export(File f) throws IOException{
-
-		var temp = new StringBuilder("EDITION;CARDNAME;PRICE");
-		temp.append(System.lineSeparator());
-		for(Entry<MTGCard, CardShake> e : prices().entrySet())
-		{
-			if(e.getValue()!=null)
-			{
-				temp.append(e.getKey().getEdition()).append(";").append(e.getKey().getName()).append(";").append(e.getValue().getPrice()).append(System.lineSeparator());
-			}
-			else
-			{
-				temp.append(e.getKey().getEdition()).append(";").append(e.getKey().getName()).append(";").append("NC").append(System.lineSeparator());
-			}
-		}
-		FileTools.saveFile(f, temp.toString());
 
 	}
 

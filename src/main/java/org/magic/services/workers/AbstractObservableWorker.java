@@ -19,7 +19,9 @@ public abstract class AbstractObservableWorker<T, V, P extends MTGPlugin> extend
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	protected Observer o;
 	protected P plug;
-
+	protected V classeType;
+	
+	
 	public T getResult()
 	{
 		try {
@@ -36,20 +38,23 @@ public abstract class AbstractObservableWorker<T, V, P extends MTGPlugin> extend
 	}
 
 
-	@SuppressWarnings("unchecked")
 	protected AbstractObservableWorker(P plug) {
 		this.plug=plug;
-		o=(Observable obs, Object c)->publish((V)c);
+		o=createObserver();
 		plug.addObserver(o);
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 	}
 
 
-	@SuppressWarnings("unchecked")
+	private Observer createObserver() {
+		//fix error when 2 Worker observing in same time from the same plugin
+		return (Observable ob, Object c)->publish((V)c);
+	}
+
 	protected AbstractObservableWorker(AbstractBuzyIndicatorComponent buzy,P plug,Integer size) {
 		this.buzy=buzy;
 		this.plug=plug;
-		o=(Observable obs, Object c)->publish((V)c);
+		o=createObserver();
 		plug.addObserver(o);
 
 		if(size>-1)
@@ -58,11 +63,10 @@ public abstract class AbstractObservableWorker<T, V, P extends MTGPlugin> extend
 			buzy.start();
 	}
 
-	@SuppressWarnings("unchecked")
 	protected AbstractObservableWorker(AbstractBuzyIndicatorComponent buzy,P plug) {
 		this.buzy=buzy;
 		this.plug=plug;
-		o=(Observable obs, Object c)->publish((V)c);
+		o=createObserver();
 		plug.addObserver(o);
 		buzy.start();
 	}

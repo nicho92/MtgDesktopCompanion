@@ -117,8 +117,7 @@ public class StockPanelGUI extends MTGUIComponent {
 	private String[] selections = new String[] { "", MTGControler.getInstance().getLangService().get("NEW"),MTGControler.getInstance().getLangService().get("UPDATED"),MTGControler.getInstance().getLangService().get("ALL") };
 	private File fileImport;
 	private JButton btnDuplicate;
-	private transient AbstractObservableWorker<List<MTGCardStock>, MTGCardStock, MTGDao> swLoad;
-
+	
 	@Override
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_STOCK;
@@ -172,8 +171,14 @@ public class StockPanelGUI extends MTGUIComponent {
 					btnDelete.setEnabled(true);
 					btnDuplicate.setEnabled(true);
 					updatePanels(selectedStock);
+					updateCount(UITools.getTableSelections(table, 0));
 				}
+
+				
+				
 			}
+			
+			
 		});
 
 	
@@ -214,7 +219,7 @@ public class StockPanelGUI extends MTGUIComponent {
 					protected void done() {
 						super.done();
 						model.fireTableDataChanged();
-						updateCount();
+						updateCount(null);
 					}
 				};
 				ThreadManager.getInstance().runInEdt(sw,"delete stocks");
@@ -222,15 +227,9 @@ public class StockPanelGUI extends MTGUIComponent {
 		});
 
 		btnReload.addActionListener(event -> {
-			int res = JOptionPane.showConfirmDialog(null,
-					capitalize("CANCEL_CHANGES"),capitalize("CONFIRM_UNDO"),JOptionPane.YES_NO_OPTION);
+			int res = JOptionPane.showConfirmDialog(null, capitalize("CANCEL_CHANGES"),capitalize("CONFIRM_UNDO"),JOptionPane.YES_NO_OPTION);
 			if (res == JOptionPane.YES_OPTION)
-			{
-				logger.debug("reload collection");
-				ThreadManager.getInstance().runInEdt(swLoad, "reload stock");
-
-			}
-
+				ThreadManager.getInstance().runInEdt(newLoadWorker() , "reload stock");
 		});
 
 		btnshowMassPanel.addActionListener(event -> rightPanel.setVisible(!rightPanel.isVisible()));
@@ -329,7 +328,7 @@ public class StockPanelGUI extends MTGUIComponent {
 											addStock(mc);
 										}
 										model.fireTableDataChanged();
-										updateCount();
+										updateCount(null);
 									}
 								}
 							};
@@ -599,14 +598,13 @@ public class StockPanelGUI extends MTGUIComponent {
 		actionPanel.add(btnExport);
 
 		btnGeneratePrice = UITools.createBindableJButton(null, MTGConstants.ICON_EURO, KeyEvent.VK_E, "stock price suggestion");
+		
 		jsonPanel = new ObjectViewerPanel();
 		btnGeneratePrice.setToolTipText(capitalize("GENERATE_PRICE"));
-		actionPanel.add(btnGeneratePrice);
 		btnshowMassPanel.setToolTipText(capitalize("MASS_MODIFICATION"));
-
 		btnApplyModification = UITools.createBindableJButton(capitalize("APPLY"), MTGConstants.ICON_CHECK, KeyEvent.VK_A, "stock apply");
 
-
+		actionPanel.add(btnGeneratePrice);
 		actionPanel.add(btnshowMassPanel);
 		actionPanel.add(lblLoading);
 
@@ -840,31 +838,37 @@ public class StockPanelGUI extends MTGUIComponent {
 	@Override
 	public void onFirstShowing() {
 		lblLoading.start();
+		ThreadManager.getInstance().runInEdt(newLoadWorker(), "init stock");
+
+	}
 
 
-		swLoad = new AbstractObservableWorker<List<MTGCardStock>, MTGCardStock, MTGDao>(lblLoading,getEnabledPlugin(MTGDao.class)) {
+	private SwingWorker<?, ?> newLoadWorker() {
+		return new AbstractObservableWorker<List<MTGCardStock>, MTGCardStock, MTGDao>(lblLoading,getEnabledPlugin(MTGDao.class)) {
 
 			@Override
 			protected List<MTGCardStock> doInBackground() throws Exception {
 				return plug.listStocks();
 			}
-			
 
 			@Override
 			protected void notifyEnd() {
 				model.init(getResult());
-				updateCount();
+				updateCount(null);
 			}
-
-
 		};
-		ThreadManager.getInstance().runInEdt(swLoad, "init stock");
-
 	}
 
-
-	public void updateCount() {
-		lblCount.setText(capitalize("ITEMS_IN_STOCK") + ": "+ model.getItems().stream().mapToLong(mcs->mcs.getQte()).sum() + "( distinct :"+model.getRowCount() +")  / " + UITools.formatDouble(model.getItems().stream().mapToDouble(mcs->mcs.getPrice()*mcs.getQte()).sum(),' '));
+	public void updateCount(List<MTGCardStock> selection) {
+		
+		if(selection==null)
+			lblCount.setText(capitalize("ITEMS_IN_STOCK") + ": "+ model.getItems().stream().mapToLong(mcs->mcs.getQte()).sum() + "( distinct cards :"+model.getRowCount() +")  / " + UITools.formatDouble(model.getItems().stream().mapToDouble(mcs->mcs.getPrice()*mcs.getQte()).sum()) + " " + MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
+		else
+			lblCount.setText(capitalize("ITEMS_IN_STOCK") + ": "+ 
+								   model.getItems().stream().mapToLong(mcs->mcs.getQte()).sum() + "( distinct cards :"+model.getRowCount() +")  / "+ 
+								   UITools.formatDouble(model.getItems().stream().mapToDouble(mcs->mcs.getPrice()*mcs.getQte()).sum()) + " " + MTGControler.getInstance().getCurrencyService().getCurrentCurrency()+
+								   " selection= " + UITools.formatDouble(selection.stream().mapToDouble(mcs->mcs.getPrice()*mcs.getQte()).sum()) + MTGControler.getInstance().getCurrencyService().getCurrentCurrency() 
+					);
 	}
 
 }
