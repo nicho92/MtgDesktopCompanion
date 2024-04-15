@@ -375,9 +375,15 @@ public class StockPanelGUI extends MTGUIComponent {
 		
 		btnDuplicate.addActionListener(al->{
 			try {
-				MTGCardStock mcs = BeanTools.cloneBean(UITools.getTableSelection(table, 0));
-				mcs.setId(-1);
-				model.addItem(mcs);
+				List<MTGCardStock> list = UITools.getTableSelections(table, 0);
+				
+				for(var mcs : list) {
+					
+					var mcs2 = BeanTools.cloneBean(mcs);
+					
+					mcs2.setId(-1);
+					model.addItem(mcs2);
+				}
 				model.fireTableDataChanged();
 				
 				
@@ -608,6 +614,7 @@ public class StockPanelGUI extends MTGUIComponent {
 
 		table = UITools.createNewTable(model,true);
 		
+		UITools.initTableVisibility(table, model);
 		UITools.setDefaultRenderer(table, new StockTableRenderer());
 		UITools.sort(table,0,SortOrder.DESCENDING);
 		UITools.setSorter(table,1,new NumberSorter());

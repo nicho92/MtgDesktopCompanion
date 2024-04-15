@@ -43,7 +43,9 @@ public class StockDashlet extends AbstractJDashlet {
 		var panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
 
-		cboProperty = UITools.createCombobox(Lists.newArrayList("magicCollection","product.edition","product.typeProduct"));
+		cboProperty = UITools.createCombobox(Lists.newArrayList("magicCollection",
+																								"product.edition",
+																								"product.typeProduct"));
 		panel.add(cboProperty);
 		panel.add(chkSumOrTotal);
 

@@ -73,7 +73,6 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	private static final String EMAIL = "email";
 	private static final String PASSWORD = "password";
 	private MongoDatabase db;
-	private String colCards = "cards";
 	private String colCollects = "collects";
 	private String colStocks = "stocks";
 	private String colAlerts = "alerts";
@@ -97,7 +96,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	private String dbTypeNewsField = "typeNews";
 	private MongoClient client;
 	private JsonWriterSettings setts;
-	private String[] collectionsNames = new String[] {colCards,colCollects,colStocks,colAlerts,colNews,colOrders,colSealed,colTransactions,colContacts,colDecks,colAnnounces,colGed,colFavorites};
+	private String[] collectionsNames = new String[] {colCollects,colStocks,colAlerts,colNews,colOrders,colSealed,colTransactions,colContacts,colDecks,colAnnounces,colGed,colFavorites};
 
 	@Override
 	public Map<String, String> getDefaultAttributes() {
@@ -141,7 +140,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	@Override
 	public STATUT getStatut() {
-		return STATUT.BETA;
+		return STATUT.DEV;
 	}
 
 	@Override
@@ -437,25 +436,10 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	
 
 	@Override
-	public void saveCard(MTGCard mc, MTGCollection collection) throws SQLException {
-		logger.debug("saveCard {} in {}",mc,collection);
-
-		var obj = new BasicDBObject();
-		obj.put(dbIDField, mc.getScryfallId());
-		obj.put("card", mc);
-		obj.put("collection", collection);
-		obj.put("dateUpdate", new Date().getTime());
-		obj.put("set", mc.getEdition().getId().toUpperCase());
-		String json = serialize(obj);
-
-		db.getCollection(colCards, BasicDBObject.class).insertOne(BasicDBObject.parse(json));
-	}
-
-	@Override
 	public void removeCard(MTGCard mc, MTGCollection collection) throws SQLException {
 		logger.debug("removeCard {} from {}",mc,collection);
 
-		var dr = db.getCollection(colCards, BasicDBObject.class).deleteMany(Filters.and(Filters.eq(dbIDField,mc.getScryfallId()),Filters.eq(dbColIDField,collection.getName())));
+		var dr = db.getCollection(colStocks, BasicDBObject.class).deleteMany(Filters.and(Filters.eq(dbIDField,mc.getScryfallId()),Filters.eq(dbColIDField,collection.getName())));
 		logger.debug("result : {}",dr);
 
 	}
@@ -467,7 +451,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 										Aggregates.match(Filters.eq(dbColIDField, c.getName())),
 										Aggregates.group("$set", Accumulators.sum("count", 1))
 									   );
-		db.getCollection(colCards, BasicDBObject.class).aggregate(aggr).forEach((Consumer<BasicDBObject>) document -> map.put(document.getString("_id"), document.getInt("count")));
+		db.getCollection(colStocks, BasicDBObject.class).aggregate(aggr).forEach((Consumer<BasicDBObject>) document -> map.put(document.getString("_id"), document.getInt("count")));
 		return map;
 	}
 
@@ -482,9 +466,9 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	public int getCardsCount(MTGCollection cols, MTGEdition me) throws SQLException {
 		logger.debug("getCardsCount {} set: {}",cols,me);
 		if (me != null) {
-			return (int) db.getCollection(colCards, BasicDBObject.class).countDocuments(Filters.and(Filters.eq(dbColIDField,cols.getName()),Filters.eq(CARD_EDITION_ID,me.getId().toUpperCase())));
+			return (int) db.getCollection(colStocks, BasicDBObject.class).countDocuments(Filters.and(Filters.eq(dbColIDField,cols.getName()),Filters.eq(CARD_EDITION_ID,me.getId().toUpperCase())));
 		} else {
-			return (int) db.getCollection(colCards, BasicDBObject.class).countDocuments(new BasicDBObject(dbColIDField, cols.getName()));
+			return (int) db.getCollection(colStocks, BasicDBObject.class).countDocuments(new BasicDBObject(dbColIDField, cols.getName()));
 		}
 	}
 
@@ -501,7 +485,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		}
 		var c = new Chrono();
 		c.start();
-		db.getCollection(colCards, BasicDBObject.class).find(b).forEach((Consumer<BasicDBObject>) result -> ret.add(deserialize(result.get("card"), MTGCard.class)));
+		db.getCollection(colStocks, BasicDBObject.class).find(b).forEach((Consumer<BasicDBObject>) result -> ret.add(deserialize(result.get("card"), MTGCard.class)));
 
 
 		return ret;
@@ -510,7 +494,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	@Override
 	public List<String> listEditionsIDFromCollection(MTGCollection collection) throws SQLException {
 		List<String> ret = new ArrayList<>();
-		db.getCollection(colCards, BasicDBObject.class).distinct(CARD_EDITION_ID, Filters.eq(dbColIDField, collection.getName()), String.class).into(ret);
+		db.getCollection(colStocks, BasicDBObject.class).distinct(CARD_EDITION_ID, Filters.eq(dbColIDField, collection.getName()), String.class).into(ret);
 		return ret;
 	}
 
@@ -544,7 +528,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	@Override
 	public void removeEdition(MTGEdition me, MTGCollection col) throws SQLException {
-		DeleteResult dr = db.getCollection(colCards).deleteMany(Filters.and(Filters.eq(dbColIDField, col.getName()),Filters.eq(CARD_EDITION_ID, me.getId().toUpperCase())));
+		DeleteResult dr = db.getCollection(colStocks).deleteMany(Filters.and(Filters.eq(dbColIDField, col.getName()),Filters.eq(CARD_EDITION_ID, me.getId().toUpperCase())));
 		logger.debug(dr);
 	}
 
@@ -587,7 +571,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	public List<MTGCollection> listCollectionFromCards(MTGCard mc) throws SQLException {
 
 		List<MTGCollection> ret = new ArrayList<>();
-		db.getCollection(colCards, BasicDBObject.class).distinct(dbColIDField, Filters.eq(dbIDField, mc.getScryfallId()), String.class)
+		db.getCollection(colStocks, BasicDBObject.class).distinct(dbColIDField, Filters.eq(dbIDField, mc.getScryfallId()), String.class)
 				.forEach((Consumer<String>) result -> {
 					try {
 						logger.trace("found {} in {} ",mc,result);

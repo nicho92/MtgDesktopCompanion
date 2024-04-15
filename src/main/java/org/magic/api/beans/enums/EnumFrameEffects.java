@@ -31,6 +31,7 @@ public enum EnumFrameEffects implements MTGEnumeration{
 	SHATTEREDGLASS,
 	SHOWCASE,
 	SNOW,
+	SPREE,
 	STAMPED,
 	SUNMOONDFC,
 	TEXTLESS,

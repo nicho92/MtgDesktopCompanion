@@ -37,6 +37,14 @@ public class CardStockTableModel extends GenericTableModel<MTGCardStock> {
 				"COMMENTS",
 				"SYNC"};
 	}
+	
+
+
+	@Override
+	public int[] defaultHiddenColumns() {
+		return new int[] {0,4,10,11,12,14,16};
+	}
+
 
 	@Override
 	public void addItem(MTGCardStock t) {
@@ -49,12 +57,6 @@ public class CardStockTableModel extends GenericTableModel<MTGCardStock> {
 			items.removeIf(e -> t.getId().equals(e.getId()));
 			items.add(t);
 		}
-	}
-
-
-	@Override
-	public int[] defaultHiddenColumns() {
-		return new int[] {1,2,4};
 	}
 
 	@Override

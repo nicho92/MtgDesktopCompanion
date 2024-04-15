@@ -161,12 +161,6 @@ public class RedisDAO extends AbstractKeyValueDao {
 	}
 	
 	@Override
-	public void saveCard(MTGCard card, MTGCollection collection) throws SQLException {
-		redisCommand.sadd(key(collection,card), serialiser.toJson(card));
-	}
-	
-
-	@Override
 	public int getCardsCount(MTGCollection c, MTGEdition me) throws SQLException {
 		return redisCommand.scard(key(c,me)).intValue();
 	}

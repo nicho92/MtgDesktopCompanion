@@ -80,6 +80,14 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		});
 	}
 
+	@Override
+	public void saveCard(MTGCard mc, MTGCollection collection) throws SQLException {
+		var mcs = MTGControler.getInstance().getDefaultStock(collection);
+		mcs.setProduct(mc);
+		saveOrUpdateCardStock(mcs);
+		
+	}
+	
 	
 	@Override
 	public void saveOrUpdateCardStock(MTGCard mc) throws SQLException {

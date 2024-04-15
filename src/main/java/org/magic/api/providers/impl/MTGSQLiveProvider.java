@@ -260,10 +260,14 @@ private MTGPool pool;
 			mc.setRarity(EnumRarity.COMMON);
 			mc.setLayout(EnumLayout.parseByLabel(rs.getString(LAYOUT)));
 			
-			
+			try {
 			if(rs.getString(SUBSETS)!=null)
 				mc.setSubsets(rs.getString(SUBSETS));
-
+			}
+			catch(Exception e)
+			{
+				//do nothing, subsets is not in tokenn table
+			}
 			
 			if(rs.getString(SUPERTYPES)!=null)
 				mc.setSupertypes(splitArrayValue(rs.getString(SUPERTYPES)));
