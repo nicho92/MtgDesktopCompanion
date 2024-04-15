@@ -63,6 +63,8 @@ public interface MTGDao extends MTGPlugin{
 	public List<MTGCardStock> listStocks(String cardName, List<MTGCollection> cols) throws SQLException;
 	public List<MTGCardStock> listStocks(List<MTGCollection> cols) throws SQLException;
 	public List<MTGCardStock> listStocks() throws SQLException;
+	
+	
 	public MTGCardStock getStockWithTiersID(String key,String id) throws SQLException;
 	public MTGCardStock getStockById(Long id) throws SQLException;
 	public void saveOrUpdateCardStock(MTGCardStock state) throws SQLException;

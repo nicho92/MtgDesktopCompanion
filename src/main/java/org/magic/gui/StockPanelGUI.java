@@ -20,6 +20,7 @@ import java.util.concurrent.Callable;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -103,7 +104,7 @@ public class StockPanelGUI extends MTGUIComponent {
 	private GradingEditorPane gradePanel;
 	private GedPanel<MTGCardStock> gedPanel;
 	private StockItemsSynchronizationPanel syncPanel;
-
+	private JCheckBox chkboxForceFoil;
 	private static Boolean[] values = { null, true, false };
 	private JComboBox<EnumCondition> cboQuality;
 	private JButton btnImport;
@@ -168,6 +169,7 @@ public class StockPanelGUI extends MTGUIComponent {
 				if (viewRow > -1) {
 					MTGCardStock selectedStock = UITools.getTableSelection(table, 0);
 					btnDelete.setEnabled(true);
+					btnDuplicate.setEnabled(true);
 					updatePanels(selectedStock);
 				}
 			}
@@ -380,8 +382,12 @@ public class StockPanelGUI extends MTGUIComponent {
 				for(var mcs : list) {
 					
 					var mcs2 = BeanTools.cloneBean(mcs);
-					
 					mcs2.setId(-1);
+					
+					if(chkboxForceFoil.isSelected())
+						mcs2.setFoil(true);
+					
+					mcs2.setUpdated(true);
 					model.addItem(mcs2);
 				}
 				model.fireTableDataChanged();
@@ -565,6 +571,8 @@ public class StockPanelGUI extends MTGUIComponent {
 		pricePanel = new PricesTablePanel();
 		syncPanel = new StockItemsSynchronizationPanel();
 		
+		chkboxForceFoil = new JCheckBox("Force foil");
+		
 		var centerPanel = new JPanel();
 		add(centerPanel, BorderLayout.CENTER);
 		centerPanel.setLayout(new BorderLayout(0, 0));
@@ -572,8 +580,10 @@ public class StockPanelGUI extends MTGUIComponent {
 		centerPanel.add(actionPanel, BorderLayout.NORTH);
 	
 		btnDuplicate= UITools.createBindableJButton(null, MTGConstants.ICON_COPY, KeyEvent.VK_C, "duplicate ligne");
+		btnDuplicate.setEnabled(false);
 		btnDuplicate.setToolTipText(capitalize("DUPLICATE"));
 		actionPanel.add(btnDuplicate);
+		actionPanel.add(chkboxForceFoil);
 		
 		btnDelete = UITools.createBindableJButton(null, MTGConstants.ICON_DELETE, KeyEvent.VK_D, "stock delete");
 		btnDelete.setEnabled(false);
@@ -620,11 +630,6 @@ public class StockPanelGUI extends MTGUIComponent {
 		UITools.setSorter(table,1,new NumberSorter());
 		table.packAll();
 		
-		
-		
-		
-	
-
 		magicCardDetailPanel.enableThumbnail(true);
 
 		splitPane = new JSplitPane();
