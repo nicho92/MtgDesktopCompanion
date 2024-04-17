@@ -77,7 +77,6 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	private String colStocks = "stocks";
 	private String colAlerts = "alerts";
 	private String colNews = "news";
-	private String colOrders = "orders";
 	private String colSealed = "sealed";
 	private String colContacts = "contacts";
 	private String colTransactions = "transactions";
@@ -96,7 +95,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	private String dbTypeNewsField = "typeNews";
 	private MongoClient client;
 	private JsonWriterSettings setts;
-	private String[] collectionsNames = new String[] {colCollects,colStocks,colAlerts,colNews,colOrders,colSealed,colTransactions,colContacts,colDecks,colAnnounces,colGed,colFavorites};
+	private String[] collectionsNames = new String[] {colCollects,colStocks,colAlerts,colNews,colSealed,colTransactions,colContacts,colDecks,colAnnounces,colGed,colFavorites};
 
 	@Override
 	public Map<String, String> getDefaultAttributes() {

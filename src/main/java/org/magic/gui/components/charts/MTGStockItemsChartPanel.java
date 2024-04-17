@@ -53,6 +53,9 @@ public class MTGStockItemsChartPanel extends Abstract3DPieChart<MTGStockItem,Str
 		this.count=count;
 		init(listOrders);
 	}
+	
+	
+	
 
 	private Map<Object, Double> groupOrdersBy() {
 

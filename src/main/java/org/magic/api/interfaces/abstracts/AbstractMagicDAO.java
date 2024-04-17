@@ -68,16 +68,6 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	public void moveCard(MTGCard mc, MTGCollection from, MTGCollection to) throws SQLException {
 		removeCard(mc, from);
 		saveCard(mc, to);
-
-		listStocks(mc, from,true).forEach(cs->{
-
-			try {
-				cs.setMagicCollection(to);
-				saveOrUpdateCardStock(cs);
-			} catch (SQLException e) {
-				logger.error("Error saving stock for {} from {} to {}",mc,from,to);
-			}
-		});
 	}
 
 	@Override
@@ -93,9 +83,7 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	public void saveOrUpdateCardStock(MTGCard mc) throws SQLException {
 		var st = MTGControler.getInstance().getDefaultStock();
 		st.setProduct(mc);
-		
 		saveOrUpdateCardStock(st);
-		
 	}
 	
 
@@ -232,7 +220,13 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		logger.debug("duplicate collection");
 		for (MTGCollection col : listCollections())
 		{
+			try {
 			dao.saveCollection(col);
+			}
+			catch(Exception e)
+			{
+				logger.error(e);
+			}
 		}
 
 		logger.debug("duplicate stock");

@@ -27,7 +27,7 @@ import org.magic.services.tools.UITools;
 public class CSVExport extends AbstractFormattedFileCardExport {
 
 	private static final String EXTRA_PROPERTIES = "extraProperties";
-	private String columns="Card Name;Edition;Language;Qte;Condition;Foil;Altered;Signed;Collection;Price;Comment;currentSet.number";
+	private String columns="Card Name;Edition;Language;Qte;Condition;Foil;Altered;Signed;Collection;Price;Comment;number";
 
 
 	@Override
