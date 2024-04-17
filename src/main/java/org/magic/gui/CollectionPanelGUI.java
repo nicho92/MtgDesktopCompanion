@@ -376,7 +376,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			btnRemove.setEnabled(true);
 			btnAddAllSet.setEnabled(false);
 
-			final DefaultMutableTreeNode curr = (DefaultMutableTreeNode) path.getLastPathComponent();
+			final var curr = (DefaultMutableTreeNode) path.getLastPathComponent();
 
 			if (curr.getUserObject() instanceof String) {
 	
@@ -393,7 +393,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 					protected void auditedRun() {
 						try {
 
-							List<MTGCard> list = dao.listCardsFromCollection(selectedcol);
+							var list = dao.listCardsFromCollection(selectedcol);
 							rarityRepartitionPanel.init(list);
 							typeRepartitionPanel.init(list);
 							manaRepartitionPanel.init(list);
@@ -488,7 +488,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 					int row = tree.getClosestRowForLocation(e.getX(), e.getY());
 					tree.setSelectionRow(row);
 
-					final DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+					final var node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
 
 					if (node.getUserObject() instanceof MTGEdition) {
 						popupMenuEdition.show(e.getComponent(), e.getX(), e.getY());

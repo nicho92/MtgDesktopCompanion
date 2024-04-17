@@ -69,7 +69,7 @@ import com.mongodb.event.CommandSucceededEvent;
 
 public class MongoDbDAO extends AbstractMagicDAO {
 
-	private static final String CARD_EDITION_ID = "card.edition.id";
+	private static final String CARD_EDITION_ID = "stockItem.edition.id";
 	private static final String EMAIL = "email";
 	private static final String PASSWORD = "password";
 	private MongoDatabase db;
@@ -83,7 +83,6 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	private String colDecks = "decks";
 	private String colAnnounces="announces";
 	private String colGed="ged";
-	private String colFavorites="favorites";
 	private String colTechnical="technical";
 	
 	
@@ -91,11 +90,11 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	private String dbAlertField = "alertItem";
 	private String dbNewsField = "newsItem";
 	private String dbStockField = "stockItem";
-	private String dbColIDField = "collection.name";
+	private String dbColIDField = "stockItem.magicCollection.name";
 	private String dbTypeNewsField = "typeNews";
 	private MongoClient client;
 	private JsonWriterSettings setts;
-	private String[] collectionsNames = new String[] {colCollects,colStocks,colAlerts,colNews,colSealed,colTransactions,colContacts,colDecks,colAnnounces,colGed,colFavorites};
+	private String[] collectionsNames = new String[] {colCollects,colStocks,colAlerts,colNews,colSealed,colTransactions,colContacts,colDecks,colAnnounces,colGed};
 
 	@Override
 	public Map<String, String> getDefaultAttributes() {
@@ -448,8 +447,9 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		Map<String, Integer> map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 		List<Bson> aggr =  	Arrays.asList(
 										Aggregates.match(Filters.eq(dbColIDField, c.getName())),
-										Aggregates.group("$set", Accumulators.sum("count", 1))
+										Aggregates.group("$stockItem.edition.id", Accumulators.sum("count", 1))
 									   );
+		
 		db.getCollection(colStocks, BasicDBObject.class).aggregate(aggr).forEach((Consumer<BasicDBObject>) document -> map.put(document.getString("_id"), document.getInt("count")));
 		return map;
 	}
@@ -475,24 +475,20 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	@Override
 	public List<MTGCard> listCardsFromCollection(MTGCollection collection, MTGEdition me) throws SQLException {
 
-		List<MTGCard> ret = new ArrayList<>();
+		var ret = new ArrayList<MTGCard>();
 
 		var b = Filters.eq(dbColIDField,collection.getName());
 
 		if (me != null) {
 			b = Filters.and(b,Filters.eq(CARD_EDITION_ID,me.getId().toUpperCase()));
 		}
-		var c = new Chrono();
-		c.start();
-		db.getCollection(colStocks, BasicDBObject.class).find(b).forEach((Consumer<BasicDBObject>) result -> ret.add(deserialize(result.get("card"), MTGCard.class)));
-
-
+		db.getCollection(colStocks, BasicDBObject.class).find(b).forEach((Consumer<BasicDBObject>) result -> ret.add(deserialize(result.get("stockItem"), MTGCardStock.class).getProduct()));
 		return ret;
 	}
 
 	@Override
 	public List<String> listEditionsIDFromCollection(MTGCollection collection) throws SQLException {
-		List<String> ret = new ArrayList<>();
+		var ret = new ArrayList<String>();
 		db.getCollection(colStocks, BasicDBObject.class).distinct(CARD_EDITION_ID, Filters.eq(dbColIDField, collection.getName()), String.class).into(ret);
 		return ret;
 	}
@@ -541,7 +537,8 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 		MongoDbDAO dao = new MongoDbDAO();
 		dao.init();
-
+		
+		dao.getCardsCountGlobal(new MTGCollection("Library")).entrySet().forEach(System.out::println);
 
 		dao.getDBSize();
 
