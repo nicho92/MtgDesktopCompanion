@@ -463,6 +463,8 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	@Override
 	public int getCardsCount(MTGCollection cols, MTGEdition me) throws SQLException {
+		
+		//TODO need to distinct result
 		logger.debug("getCardsCount {} set: {}",cols,me);
 		if (me != null) {
 			return (int) db.getCollection(colStocks, BasicDBObject.class).countDocuments(Filters.and(Filters.eq(dbColIDField,cols.getName()),Filters.eq(CARD_EDITION_ID,me.getId().toUpperCase())));
