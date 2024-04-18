@@ -289,32 +289,6 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 
 
 	@Override
-	public List<MTGCard> synchronizeCollection(MTGCollection col) throws SQLException {
-
-		List<MTGCard> cols = listCardsFromCollection(col);
-
-		List<MTGCard> toSave = listStocks().stream()
-				  .filter(st->st.getMagicCollection().equals(col))
-				  .filter(st->!cols.contains(st.getProduct()))
-				  .map(MTGCardStock::getProduct)
-				  .toList();
-
-		List<MTGCard> ret = new ArrayList<>();
-
-		toSave.forEach(mc->{
-			try {
-				saveCard(mc, col);
-				ret.add(mc);
-			} catch (SQLException e) {
-				logger.error("error saving {} {}",mc , e);
-			}
-		});
-
-		return ret;
-
-	}
-
-	@Override
 	public void updateCard(MTGCard c, MTGCard newC, MTGCollection col) throws SQLException {
 		saveCard(newC,col);
 	}

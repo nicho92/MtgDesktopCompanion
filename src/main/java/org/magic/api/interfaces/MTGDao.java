@@ -29,6 +29,9 @@ public interface MTGDao extends MTGPlugin{
 	public void removeCard(MTGCard mc, MTGCollection collection) throws SQLException;
 	public void moveCard(MTGCard mc, MTGCollection from, MTGCollection to) throws SQLException;
 	public void moveEdition(MTGEdition ed, MTGCollection from, MTGCollection to) throws SQLException;
+	public void removeEdition(MTGEdition ed, MTGCollection col) throws SQLException;
+
+	
 	
 	public int getCardsCount(MTGCollection list, MTGEdition me) throws SQLException;
 	public Map<String, Integer> getCardsCountGlobal(MTGCollection c) throws SQLException;
@@ -37,21 +40,14 @@ public interface MTGDao extends MTGPlugin{
 	public List<MTGCard> listCardsFromCollection(MTGCollection collection, MTGEdition me) throws SQLException;
 	public List<MTGCard> listCardsFromCollection(String collectionName,String me) throws SQLException;
 
-	public List<MTGDeck> listDecks() throws SQLException;
-	public void deleteDeck(MTGDeck d) throws SQLException;
-	public Integer saveOrUpdateDeck(MTGDeck d) throws SQLException;
-	public MTGDeck getDeckById(Integer id) throws SQLException;
-
-
 	public MTGCollection getCollection(String name) throws SQLException;
 	public void saveCollection(MTGCollection c) throws SQLException;
 	public void saveCollection(String name) throws SQLException;
 	public void removeCollection(MTGCollection c) throws SQLException;
+	
 	public List<MTGCollection> listCollections() throws SQLException;
 	public List<MTGCollection> listCollectionFromCards(MTGCard mc) throws SQLException;
 	public List<String> listEditionsIDFromCollection(MTGCollection collection) throws SQLException;
-	public void removeEdition(MTGEdition ed, MTGCollection col) throws SQLException;
-	public List<MTGCard> synchronizeCollection(MTGCollection col) throws SQLException;
 
 
 	public List<MTGStockItem> listStockItems()throws SQLException;
@@ -72,8 +68,6 @@ public interface MTGDao extends MTGPlugin{
 	public void deleteStock(List<MTGCardStock> state) throws SQLException;
 	public void deleteStock(MTGCardStock state) throws SQLException;
 
-
-
 	public List<MTGSealedStock> listSealedStocks() throws SQLException;
 	public List<MTGSealedStock> listSealedStocks(MTGCollection c) throws SQLException;
 	public List<MTGSealedStock> listSealedStocks(MTGCollection c, MTGEdition ed) throws SQLException;
@@ -81,6 +75,15 @@ public interface MTGDao extends MTGPlugin{
 	public void deleteStock(MTGSealedStock state) throws SQLException;
 	public MTGSealedStock getSealedStockById(Long id) throws SQLException;
 
+	public List<MTGDeck> listDecks() throws SQLException;
+	public void deleteDeck(MTGDeck d) throws SQLException;
+	public Integer saveOrUpdateDeck(MTGDeck d) throws SQLException;
+	public MTGDeck getDeckById(Integer id) throws SQLException;
+
+
+
+	
+	
 	public List<Transaction> listTransactions() throws SQLException;
 	public List<Transaction> listTransactions(Contact c) throws SQLException;
 	public Long saveOrUpdateTransaction(Transaction t)throws SQLException;

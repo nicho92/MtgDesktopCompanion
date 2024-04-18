@@ -3,6 +3,7 @@ package org.magic.api.beans;
 import java.util.HashMap;
 
 import org.magic.api.beans.abstracts.AbstractStockItem;
+import org.magic.api.beans.enums.EnumFinishes;
 import org.magic.api.beans.enums.EnumItems;
 
 public class MTGCardStock extends AbstractStockItem<MTGCard> {
@@ -29,6 +30,9 @@ public class MTGCardStock extends AbstractStockItem<MTGCard> {
 		edition= c.getEdition();
 		product.setTypeProduct(EnumItems.CARD);
 		product.setEdition(c.getEdition());
+		
+		setFoil(c.getFinishes().size()==1 && c.getFinishes().contains(EnumFinishes.FOIL));
+		setEtched(c.getFinishes().size()==1 && c.getFinishes().contains(EnumFinishes.ETCHED));
 	}
 
 }

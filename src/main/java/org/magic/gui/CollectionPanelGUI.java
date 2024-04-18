@@ -500,11 +500,8 @@ public class CollectionPanelGUI extends MTGUIComponent {
 					if (node.getUserObject() instanceof MTGCollection col) {
 						var p = new JPopupMenu();
 						var it = new JMenuItem(capitalize("MASS_MOVEMENTS"),MTGConstants.ICON_COLLECTION);
-						var itSync = new JMenuItem(capitalize("IMPORT_FROM",MTGControler.getInstance().getLangService().get("STOCK_MODULE")),MTGConstants.ICON_COLLECTION);
-
 
 						p.add(it);
-						p.add(itSync);
 
 						it.addActionListener(ae -> {
 							var d = new MassMoverDialog(col, null);
@@ -514,39 +511,6 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 							logger.trace("closing mass import with change ={}",d.hasChange());
 						});
-
-						itSync.addActionListener(ae->{
-
-								buzy.start();
-								var sw = new SwingWorker<List<MTGCard>, MTGCard>(){
-
-										@Override
-										protected void done() {
-											buzy.end();
-											try {
-												JOptionPane.showMessageDialog(null, "OK : " + get().size() + " items added in collection","Synchronized", JOptionPane.INFORMATION_MESSAGE);
-											}catch(InterruptedException ex)
-											{
-												Thread.currentThread().interrupt();
-											}
-											catch (Exception e) {
-												MTGControler.getInstance().notify(e);
-											}
-										}
-
-										@Override
-										protected void process(List<MTGCard> chunks) {
-											buzy.progressSmooth(chunks.size());
-										}
-
-										@Override
-										protected List<MTGCard> doInBackground() throws Exception {
-											return getEnabledPlugin(MTGDao.class).synchronizeCollection((MTGCollection) node.getUserObject());
-										}
-									};
-									ThreadManager.getInstance().runInEdt(sw,"synchronize stocks and collection");
-						});
-
 
 						p.show(e.getComponent(), e.getX(), e.getY());
 					}
