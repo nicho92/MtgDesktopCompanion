@@ -349,7 +349,7 @@ public class UITools {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				res.clear();
-				if(!txtSearch.getText().isEmpty())
+				if(!txtSearch.getText().isEmpty() && txtSearch.getText().length()>2)
 					res.addAll(getEnabledPlugin(MTGCardsIndexer.class).suggestCardName(txtSearch.getText()));
 
 			}

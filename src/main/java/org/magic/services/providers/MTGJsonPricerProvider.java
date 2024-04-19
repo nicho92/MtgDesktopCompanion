@@ -224,6 +224,7 @@ public class MTGJsonPricerProvider {
 		Data d;
 		try {
 			d = loadData(VENDOR.CARDMARKET).stream().filter(i->i.getMtgjsonId().equals(card.getId())).findFirst().orElse(null);
+			logger.debug("data = {}", d);
 		} catch (Exception e) {
 			logger.error(e);
 			return ret;
@@ -249,9 +250,9 @@ public class MTGJsonPricerProvider {
 				ret.add(mp);
 				logger.debug("Found {} Price={} Foil={}",card,mp.getValue(),mp.isFoil());
 			}
-			catch(IndexOutOfBoundsException e)
+			catch(Exception e)
 			{
-				logger.trace("No price found for {} with foil={}",card,b);
+				logger.error("No price found for {} with foil={}",card,b);
 			}
 		}
 
@@ -328,10 +329,7 @@ class PriceEntry
 	@Override
 	public String toString() {
 		var temp = new StringBuilder();
-		temp.append(vendor).append(":")
-			.append(support).append(" ")
-			.append(stock).append(" " ).append(foil?"Foil":"Normal").append(" ")
-			.append(currency).append(" ");
+		temp.append(vendor).append(":").append(support).append(" ").append(stock).append(" " ).append(foil?"Foil":"Normal").append(" ").append(currency).append(" : ").append(stockPrices.lastEntry().getValue());
 		return temp.toString();
 	}
 
