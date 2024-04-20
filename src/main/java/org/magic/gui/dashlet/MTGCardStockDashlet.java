@@ -82,6 +82,8 @@ public class MTGCardStockDashlet extends AbstractJDashlet {
 		var table = UITools.createNewTable(tableModel,true);
 		var btnReload = new JButton(MTGConstants.ICON_REFRESH);
 		cboProperty = UITools.createCombobox(Lists.newArrayList("product.edition",
+				"product.rarity",
+				"product.types[0]",
 				"condition",
 				"language",
 				"foil"));
