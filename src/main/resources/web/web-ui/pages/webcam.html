@@ -59,13 +59,7 @@
 					alert("done");
 				})
 			});
-			
-			$("#btnCollection").click(function() {
-				addCardtoDefaultLibrary($(this).attr("data-id"),function(){
-					alert("done");
-				})
-			});
-			
+	
 			
 			$("#btnCart").click(function(){
 				$.get(restserver+"/cards/scryfall/"+$(this).attr("data-id")).done(function(data){
@@ -112,7 +106,6 @@
 								
 								$("#btnStock").attr("data-id",data.scryfallId);
 								$("#btnAlert").attr("data-id",data.scryfallId);
-								$("#btnCollection").attr("data-id",data.scryfallId);
 								$("#btnCart").attr("data-id",data.scryfallId);
 							  });
 					  }
@@ -215,9 +208,8 @@
             <div class="card-body px-3 pb-2" id="contentResults"></div>
             <div class="card-footer px-3 pb-2" id="contentResults">
 					 <button class="btn btn-primary" id="btnStock"><i class="fa"></i> Add to Stock</button> 
-					 <button class="btn btn-danger" id="btnCollection"><i class="fa"></i> Add to Collection</button>
 					 <button class="btn btn-warning" id="btnAlert"><i class="fa"></i> Add to Alert</button>
-					 <button class="btn btn-warning" id="btnCart"><i class="fa"></i> Add to Cart</button>
+					 <button class="btn btn-info" id="btnCart"><i class="fa"></i> Add to Cart</button>
 			</div>
           </div>
           

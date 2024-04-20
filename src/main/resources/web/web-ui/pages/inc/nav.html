@@ -1,13 +1,17 @@
   
   <div class="container-fluid py-1 px-3">
+  		
         <nav aria-label="breadcrumb">
+        	<span id="loading"></span>
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
             <li class="breadcrumb-item text-sm text-dark active" aria-current="page"  name="categTitle"></li>
           </ol>
         </nav>
+        
+        
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
-          <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+          <div class="ms-md-auto pe-md-2 d-flex align-items-center">
             <div class="input-group input-group-outline">
 						<div id="autocomplete" class="autocomplete " style="z-index: 289;">
 							<input type="text" value="" class="form-control autocomplete-input" placeholder="Search card..." style="width:350px">
@@ -15,35 +19,26 @@
 						</div>
             </div>
           </div>
+          
           <ul class="navbar-nav justify-content-end">
 			
+			<li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+            	  <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
+                	 <span class="material-icons">menu</span>
+              	 </a>
+            </li>
+            
 			<li class="nav-item dropdown pe-2">
               <a href="wizard-shop.html" class="nav-link text-body p-0 position-relative">
                <span class="material-icons">shopping_cart</span>
                <span  id="cartBadge" class="position-absolute top-5 start-100 translate-middle badge rounded-pill bg-danger border border-white small py-1 px-2">
-                  <span class="small" id="cartCount">2</span>
+                  <span class="small" id="cartCount">0</span>
                 </span>
               </a>
             </li>
-
-
-  			<li class="nav-item d-xl-none ps-3 d-flex align-items-center">
-              <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
-                <div class="sidenav-toggler-inner">
-                  <i class="sidenav-toggler-line"></i>
-                  <i class="sidenav-toggler-line"></i>
-                  <i class="sidenav-toggler-line"></i>
-                </div>
-              </a>
-            </li>
-			
-
-
-
-
-          </ul>
+        </ul>
 		
-			<span id="loading"></span>
+		
         </div>
       </div>
 

@@ -33,7 +33,7 @@ public class StockDashlet extends AbstractJDashlet {
 	
 	@Override
 	public String getCategory() {
-		return "Stock";
+		return "Market";
 	}
 
 	@Override
@@ -130,7 +130,7 @@ public class StockDashlet extends AbstractJDashlet {
 
 	@Override
 	public String getName() {
-		return "Card Stock";
+		return "Stock";
 	}
 
 

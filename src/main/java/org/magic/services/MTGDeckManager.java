@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Random;
 import java.util.TreeMap;
 
 import org.apache.commons.math3.distribution.HypergeometricDistribution;
@@ -22,7 +21,6 @@ import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MTGFormat.FORMATS;
 import org.magic.api.beans.enums.EnumColors;
 import org.magic.api.beans.enums.EnumRarity;
-import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDeckSniffer;
 import org.magic.api.interfaces.MTGPlugin.STATUT;
@@ -147,7 +145,7 @@ public class MTGDeckManager extends Observable {
 	}
 
 	public Map<String, Boolean> analyseLegalities(MTGDeck d) {
-		TreeMap<String, Boolean> temp = new TreeMap<>();
+		var temp = new TreeMap<String, Boolean>();
 
 		for (MTGFormat.FORMATS s : MTGFormat.FORMATS.values()) {
 			temp.put(s.name(), isLegal(d, s));
@@ -156,7 +154,7 @@ public class MTGDeckManager extends Observable {
 	}
 
 	public Map<Integer, Integer> analyseCMC(List<MTGCard> cards) {
-		TreeMap<Integer, Integer> cmcs = new TreeMap<>();
+		var cmcs = new TreeMap<Integer, Integer>();
 		cards.forEach(card->{
 			if ((card.getCmc() != null) && !card.isLand())
 				cmcs.put(card.getCmc(), cmcs.get(card.getCmc())==null ? 1 : cmcs.get(card.getCmc())+1);
@@ -166,14 +164,14 @@ public class MTGDeckManager extends Observable {
 	}
 
 	public Map<String, Integer> analyseTypes(List<MTGCard> cards) {
-		TreeMap<String, Integer> types = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-		cards.forEach(card->types.put(card.getTypes().get(0), types.get(card.getTypes().get(0))==null ? 1 : types.get(card.getTypes().get(0))+1));
+		var types = new TreeMap<String, Integer>(String.CASE_INSENSITIVE_ORDER);
+		cards.forEach(card->types.compute(card.getTypes().get(0), (k,v)->(v==null)?1:v+1));
 		return types;
 	}
 
 	public Map<EnumColors,Integer> analyseColors(List<MTGCard> cards)
 	{
-		TreeMap<EnumColors, Integer> colors = new TreeMap<>();
+		var colors = new TreeMap<EnumColors, Integer>();
 
 		if(cards==null)
 			return colors;
@@ -184,10 +182,10 @@ public class MTGDeckManager extends Observable {
 	}
 
 	public Map<MTGCard, List<Double>> analyseDrawing(MTGDeck d) {
-		Map<MTGCard, List<Double>> ret = new HashMap<>();
+		var ret = new HashMap<MTGCard, List<Double>>();
 
-		for (MTGCard mc : d.getUniqueCards()) {
-			List<Double> list = new ArrayList<>();
+		for (var mc : d.getUniqueCards()) {
+			var list = new ArrayList<Double>();
 			for (var i = 0; i < 10; i++) {
 				list.add(getProbability(d,i, mc));
 			}
@@ -198,13 +196,9 @@ public class MTGDeckManager extends Observable {
 	}
 
 	public Map<EnumRarity, Integer> analyseRarities(List<MTGCard> cards) {
-		Map<EnumRarity, Integer> rarity = new TreeMap<>();
-		cards.forEach(card->{
-
-			if(card.getRarity()!=null)
-				rarity.put(card.getRarity(), rarity.get(card.getRarity())==null? 1 : rarity.get(card.getRarity())+1);
-
-		});
+		var rarity = new TreeMap<EnumRarity, Integer>();
+		cards.forEach(card->rarity.compute(card.getRarity(), (k,v)->(v==null)?1:v+1));
+		
 		return rarity;
 
 	}
@@ -234,13 +228,13 @@ public class MTGDeckManager extends Observable {
 	public MTGDeck generateRandomDeck() throws IOException
 	{
 		try {
-			Random random= SecureRandom.getInstanceStrong();
+			var random= SecureRandom.getInstanceStrong();
 
-			List<MTGDeckSniffer> deckServices = listEnabledPlugins(MTGDeckSniffer.class).stream().filter(p->p.getStatut()==STATUT.STABLE).toList();
-			MTGDeckSniffer sniffer = deckServices.get(random.nextInt(deckServices.size()));
-			String[] formats = sniffer.listFilter();
-			List<RetrievableDeck> availableDecks = sniffer.getDeckList(formats[random.nextInt(formats.length)]);
-			RetrievableDeck d = availableDecks.get(random.nextInt(availableDecks.size()));
+			var deckServices = listEnabledPlugins(MTGDeckSniffer.class).stream().filter(p->p.getStatut()==STATUT.STABLE).toList();
+			var sniffer = deckServices.get(random.nextInt(deckServices.size()));
+			var formats = sniffer.listFilter();
+			var availableDecks = sniffer.getDeckList(formats[random.nextInt(formats.length)]);
+			var d = availableDecks.get(random.nextInt(availableDecks.size()));
 			
 			logger.info("Generating random deck from {} : {} ", sniffer,d.getName());
 			

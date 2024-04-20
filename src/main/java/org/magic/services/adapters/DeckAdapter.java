@@ -48,7 +48,7 @@ public final class DeckAdapter implements JsonDeserializer<MTGDeck>, JsonSeriali
 		else
 			deck.setName("No Name");
 
-		if (!root.get(DESCRIPTION).isJsonNull())
+		if (root.get(DESCRIPTION)!=null && !root.get(DESCRIPTION).isJsonNull())
 			deck.setDescription(root.get(DESCRIPTION).getAsString());
 
 		if (!root.get(CREATION_DATE).isJsonNull())

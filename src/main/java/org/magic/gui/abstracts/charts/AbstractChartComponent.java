@@ -66,5 +66,6 @@ public abstract class AbstractChartComponent<T> extends MTGUIComponent {
 			refresh();
 	}
 
+	
 
 }
