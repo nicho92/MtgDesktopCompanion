@@ -161,11 +161,6 @@ public class RedisDAO extends AbstractKeyValueDao {
 	}
 	
 	@Override
-	public int getCardsCount(MTGCollection c, MTGEdition me) throws SQLException {
-		return redisCommand.scard(key(c,me)).intValue();
-	}
-
-	@Override
 	public Map<String, Integer> getCardsCountGlobal(MTGCollection c) throws SQLException {
 		
 		var map = new HashMap<String,Integer>();

@@ -31,9 +31,6 @@ public interface MTGDao extends MTGPlugin{
 	public void moveEdition(MTGEdition ed, MTGCollection from, MTGCollection to) throws SQLException;
 	public void removeEdition(MTGEdition ed, MTGCollection col) throws SQLException;
 
-	
-	
-	public int getCardsCount(MTGCollection list, MTGEdition me) throws SQLException;
 	public Map<String, Integer> getCardsCountGlobal(MTGCollection c) throws SQLException;
 	public List<MTGCard> listCardsFromCollection(String collectionName) throws SQLException;
 	public List<MTGCard> listCardsFromCollection(MTGCollection collection) throws SQLException;

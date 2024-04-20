@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -545,8 +546,8 @@ public class CollectionPanelGUI extends MTGUIComponent {
 					diag.setVisible(true);
 					if (diag.value()) {
 						var max = 0;
-						for (MTGCollection col : diag.getSelectedCollections())
-							max += dao.getCardsCount(col, null);
+						for (var col : diag.getSelectedCollections())
+							max += dao.getCardsCountGlobal(col).entrySet().stream().mapToInt(Map.Entry::getValue).sum();
 
 						buzy.start(max);
 						var sw = new WebsiteExportWorker(diag.getTemplate(), diag.getDest(), diag.getSelectedCollections(), diag.getPriceProviders(), buzy);
@@ -688,7 +689,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			}
 			if (curr.getUserObject() instanceof MTGCollection) {
 				try {
-					res = JOptionPane.showConfirmDialog(null, capitalize("CONFIRM_COLLECTION_DELETE", col, dao.getCardsCount(col, null)));
+					res = JOptionPane.showConfirmDialog(null, capitalize("CONFIRM_COLLECTION_DELETE", col, dao.getCardsCountGlobal(col).entrySet().stream().mapToInt(Map.Entry::getValue).sum()));
 					if (res == JOptionPane.YES_OPTION) {
 						dao.removeCollection(col);
 					}
@@ -725,8 +726,8 @@ public class CollectionPanelGUI extends MTGUIComponent {
 					List<MTGCard> list = new ArrayList<>();
 
 					for(MTGEdition e : eds)
-						for(MTGCard mc : provider.searchCardByEdition(e))
-							list.add(mc);
+						provider.searchCardByEdition(e).forEach(list::add);
+							
 
 						buzy.start(list.size());
 						logger.debug("save {} cards from {}",list.size(),eds);

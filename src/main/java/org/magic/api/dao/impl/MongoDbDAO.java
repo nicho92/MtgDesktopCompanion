@@ -44,7 +44,6 @@ import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
 import org.magic.services.MTGConstants;
 import org.magic.services.PluginRegistry;
-import org.magic.services.tools.Chrono;
 import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.ImageTools;
 
@@ -171,7 +170,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 			logger.info("Loading {} to : {}",getName(),temp);
 
-			MongoClientSettings settings = MongoClientSettings.builder()
+			var settings = MongoClientSettings.builder()
 			                .applyConnectionString(new ConnectionString(temp.toString()))
 			                .addCommandListener(new CommandListener() {
 
@@ -461,18 +460,6 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		return listCardsFromCollection(collection, null);
 	}
 
-	@Override
-	public int getCardsCount(MTGCollection cols, MTGEdition me) throws SQLException {
-		
-		//TODO need to distinct result
-		logger.debug("getCardsCount {} set: {}",cols,me);
-		if (me != null) {
-			return (int) db.getCollection(colStocks, BasicDBObject.class).countDocuments(Filters.and(Filters.eq(dbColIDField,cols.getName()),Filters.eq(CARD_EDITION_ID,me.getId().toUpperCase())));
-		} else {
-			return (int) db.getCollection(colStocks, BasicDBObject.class).countDocuments(new BasicDBObject(dbColIDField, cols.getName()));
-		}
-	}
-
 
 	@Override
 	public List<MTGCard> listCardsFromCollection(MTGCollection collection, MTGEdition me) throws SQLException {
@@ -535,16 +522,6 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 
 
-	public static void main(String[] args) throws SQLException {
-
-		MongoDbDAO dao = new MongoDbDAO();
-		dao.init();
-		
-		dao.getCardsCountGlobal(new MTGCollection("Library")).entrySet().forEach(System.out::println);
-
-		dao.getDBSize();
-
-	}
 
 
 	@Override

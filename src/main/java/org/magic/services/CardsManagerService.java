@@ -58,6 +58,9 @@ public class CardsManagerService {
 			getEnabledPlugin(MTGDao.class).addObserver(o);
 
 		getEnabledPlugin(MTGDao.class).moveCard(mc, from,to);
+		
+		if(o!=null)
+			getEnabledPlugin(MTGDao.class).removeObserver(o);
 	}
 
 	public static void moveCard(MTGEdition ed, MTGCollection from, MTGCollection to,Observer o) throws SQLException

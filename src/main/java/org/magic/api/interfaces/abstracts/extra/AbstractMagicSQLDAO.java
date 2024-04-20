@@ -1354,26 +1354,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		return retour;
 	}
 
-	
-	@Override
-	public int getCardsCount(MTGCollection cols, MTGEdition me) throws SQLException {
-
-		var sql = "SELECT count(1) FROM stocks where qte > 0 ";
-			
-		if (cols != null)
-			sql += " AND collection = '" + cols.getName() + "'";
-
-		if (me != null)
-			sql += " and LOWER('idMe') = '" + me.getId().toLowerCase() + "'";
-
-		logger.trace(sql);
-
-		try (var c = pool.getConnection();var st = c.createStatement(); ResultSet rs = st.executeQuery(sql);) {
-			rs.next();
-			return rs.getInt(1);
-		}
-	}
-
 	@Override
 	public MTGCollection getCollection(String name) throws SQLException {
 
