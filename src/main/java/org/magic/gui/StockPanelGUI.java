@@ -341,8 +341,8 @@ public class StockPanelGUI extends MTGUIComponent {
 				}
 			}
 
-			Component b = (Component) ae.getSource();
-			Point p = b.getLocationOnScreen();
+			var b = (Component) ae.getSource();
+			var p = b.getLocationOnScreen();
 			menu.show(b, 0, 0);
 			menu.setLocation(p.x, p.y + b.getHeight());
 		});
@@ -841,6 +841,10 @@ public class StockPanelGUI extends MTGUIComponent {
 	}
 
 	public void updateCount(List<MTGCardStock> selection) {
+		
+		
+		
+		
 		
 		if(selection==null)
 			lblCount.setText(capitalize("ITEMS_IN_STOCK") + ": "+ model.getItems().stream().mapToLong(mcs->mcs.getQte()).sum() + "( distinct cards :"+model.getRowCount() +")  / " + UITools.formatDouble(model.getItems().stream().mapToDouble(mcs->mcs.getPrice()*mcs.getQte()).sum()) + " " + MTGControler.getInstance().getCurrencyService().getCurrentCurrency());

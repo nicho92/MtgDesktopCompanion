@@ -405,7 +405,7 @@
 		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
-			<version>5.0.0-beta.22</version>
+			<version>5.0.0-beta.23</version>
 			<exclusions>
 				<exclusion>
 					<groupId>club.minnced</groupId>
@@ -528,7 +528,7 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-text</artifactId>
-			<version>1.11.0</version>
+			<version>1.12.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>

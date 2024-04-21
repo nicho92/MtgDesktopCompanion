@@ -20,6 +20,7 @@ import javax.swing.SwingWorker;
 import javax.swing.table.TableRowSorter;
 
 import org.jdesktop.swingx.JXTable;
+import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
@@ -57,6 +58,7 @@ public class TransactionsPanel extends MTGUIComponent {
 	private JButton btnNew;
 	private JButton btnContact;
 	private JButton btnImportTransaction;
+	private Contact contact;
 	
 	public TransactionsPanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -361,9 +363,20 @@ public class TransactionsPanel extends MTGUIComponent {
 	}
 
 
+	public void init(Contact t) {
+		this.contact = t;
+		reload();
+	}
+
+
+	
+	
+	
+
 	public void init(List<Transaction> list)
 	{
 		try {
+			contact=null;
 			transactionModel.clear();
 			transactionModel.addItems(list);
 			transactionModel.fireTableDataChanged();
@@ -380,6 +393,10 @@ public class TransactionsPanel extends MTGUIComponent {
 
 			@Override
 			protected List<Transaction> doInBackground() throws Exception {
+				
+				if(contact!=null)
+					return TransactionService.listTransactions(contact);
+				
 				return TransactionService.listTransactions();
 			}
 
@@ -433,7 +450,5 @@ public class TransactionsPanel extends MTGUIComponent {
 		btnNew.setEnabled(selected);
 	}
 
-
-	
 
 }

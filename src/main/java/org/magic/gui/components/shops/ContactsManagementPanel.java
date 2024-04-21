@@ -6,7 +6,6 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingWorker;
 
@@ -41,37 +40,44 @@ public class ContactsManagementPanel extends MTGUIComponent {
 		setLayout(new BorderLayout(0, 0));
 		var panneauHaut = new JPanel();
 		var stockDetailPanel = new CardStockPanel();
-		var tabbedPane = new JTabbedPane();
+
 		contactPanel = new ContactPanel(true);
 		model = new ContactTableModel();
 		viewerPanel = new ObjectViewerPanel();
+		table = UITools.createNewTable(model,true);
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 		var btnRefresh = UITools.createBindableJButton("", MTGConstants.ICON_REFRESH,KeyEvent.VK_R,"reload");
 		var btnNewContact = UITools.createBindableJButton("", MTGConstants.ICON_NEW, KeyEvent.VK_N, "NewContact");
 		var btnDeleteContact = UITools.createBindableJButton("", MTGConstants.ICON_DELETE, KeyEvent.VK_DELETE, "DeleteContact");
 
 
-		table = UITools.createNewTable(model,true);
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-		UITools.addTab(tabbedPane, contactPanel);
-
-		if(MTG.readPropertyAsBoolean("debug-json-panel"))
-			UITools.addTab(tabbedPane, viewerPanel);
-
-		table.packAll();
-		stockDetailPanel.showAllColumns();
-
-		add(new JScrollPane(table));
+		add(new JScrollPane(table),BorderLayout.CENTER);
 		add(panneauHaut, BorderLayout.NORTH);
-		add(tabbedPane,BorderLayout.SOUTH);
+		add(getContextTabbedPane(),BorderLayout.SOUTH);
 
+		
+		
+		UITools.addTab(getContextTabbedPane(), contactPanel);
+		
+		
+		if(MTG.readPropertyAsBoolean("debug-json-panel"))
+			UITools.addTab(getContextTabbedPane(), viewerPanel);
+
+
+	
 
 		panneauHaut.add(btnRefresh);
 		panneauHaut.add(btnNewContact);
 		panneauHaut.add(btnDeleteContact);
 		panneauHaut.add(buzy);
 
+		
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.packAll();
+		stockDetailPanel.showAllColumns();
+
+
+		
 		table.getSelectionModel().addListSelectionListener(lsl->{
 
 			Contact t = UITools.getTableSelection(table, 0);
@@ -81,7 +87,6 @@ public class ContactsManagementPanel extends MTGUIComponent {
 
 			contactPanel.setContact(t);
 			viewerPanel.init(t);
-
 		});
 
 		btnRefresh.addActionListener(al->reload());

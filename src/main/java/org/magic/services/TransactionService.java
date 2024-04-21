@@ -290,6 +290,10 @@ public class TransactionService
 		return mtgshop.listTransaction();
 	}
 
+	public static List<Transaction> listTransactions(Contact c)  throws IOException {
+		return mtgshop.listTransactions(c);
+	}
+	
 	public static void deleteTransaction(List<Transaction> t) throws IOException {
 		mtgshop.deleteTransaction(t);
 
