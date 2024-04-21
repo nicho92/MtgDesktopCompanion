@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
-import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGEdition;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.gui.models.DeckStockComparisonModel.Line;

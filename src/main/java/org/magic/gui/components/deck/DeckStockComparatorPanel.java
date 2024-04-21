@@ -20,7 +20,6 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;

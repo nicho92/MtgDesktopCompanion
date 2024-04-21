@@ -75,7 +75,7 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 		var mainDir = getFile(PICS_DIR);
 		var edDir = new File(mainDir,mc.getEdition().getId());
 
-		return new File(edDir, mc.getScryfallId() + "." + getString(FORMAT)).getAbsolutePath();
+		return new File(edDir, mc.getId() + "." + getString(FORMAT)).getAbsolutePath();
 	}
 
 	@Override

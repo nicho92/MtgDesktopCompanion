@@ -9,7 +9,6 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Point;
 import java.awt.SystemColor;
 import java.awt.event.KeyEvent;
 import java.io.File;
