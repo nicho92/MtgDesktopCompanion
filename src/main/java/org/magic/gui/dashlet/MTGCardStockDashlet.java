@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.awt.event.ItemEvent;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +32,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.BeanTools;
 import org.magic.services.tools.MTG;
+import org.magic.services.tools.TCache;
 import org.magic.services.tools.UITools;
 import org.magic.services.workers.AbstractObservableWorker;
 
@@ -49,7 +49,7 @@ public class MTGCardStockDashlet extends AbstractJDashlet {
 	private MapTableModel<String,Double> tableModel;
 	private JCheckableListBox<MTGCollection> lstCollections;
 	
-	private List<MTGCardStock> cache = new ArrayList<>();
+	private transient TCache<MTGCardStock> cache= new TCache<>("stocks");
 
 	
 	@Override
@@ -58,9 +58,9 @@ public class MTGCardStockDashlet extends AbstractJDashlet {
 	}
 
 	
-	private Map<String,Double> calculate(List<MTGCardStock> items) {
+	private Map<String,Double> calculate(List<MTGCardStock> items, String property) {
 		var res = new HashMap<String, Double>();
-		var property = cboProperty.getSelectedItem().toString();
+		
 		
 		if(chkSumOrTotal.isSelected())
 			items.forEach(mcs->res.compute(BeanTools.readProperty(mcs, property).toString(), (k,v)->(v==null)?1:v+mcs.getQte()));
@@ -111,10 +111,9 @@ public class MTGCardStockDashlet extends AbstractJDashlet {
 			@Override
 			public PieDataset3D<String> getDataSet() {
 				var dataset = new StandardPieDataset3D<String>();
-				calculate(items).entrySet().forEach(e->dataset.add(e.getKey(),e.getValue()));
+				calculate(items,cboProperty.getSelectedItem().toString()).entrySet().forEach(e->dataset.add(e.getKey(),e.getValue()));
 				return dataset;
 			}
-
 		
 			@Override
 			public boolean showLegend() {
@@ -129,7 +128,7 @@ public class MTGCardStockDashlet extends AbstractJDashlet {
 		}; 
 		
 		UITools.addTab(pane, chart);
-		UITools.addTab(pane, MTGUIComponent.build(new JScrollPane(table), "Data", MTGConstants.ICON_TAB_STOCK));
+		UITools.addTab(pane, MTGUIComponent.build(new JScrollPane(table), "Table", MTGConstants.ICON_TAB_STOCK));
 		
 		
 		getContentPane().add(panelMenu, BorderLayout.NORTH);			
@@ -137,7 +136,7 @@ public class MTGCardStockDashlet extends AbstractJDashlet {
 		
 		
 		btnReload.addActionListener(al->{
-				cache = new ArrayList<>();
+				cache.clean();
 				init();
 		});
 		
@@ -179,16 +178,16 @@ public class MTGCardStockDashlet extends AbstractJDashlet {
 			protected List<MTGCardStock> doInBackground() throws Exception {
 				
 				if(cache.isEmpty())
-					cache = plug.listStocks(lstCollections.getSelectedElements());
+					plug.listStocks(lstCollections.getSelectedElements()).forEach(mcs->cache.put(mcs.getId().toString(), mcs));
 				
-				return cache;
+				return cache.values();
 				
 			}
 					
 			@Override
 			protected void notifyEnd() {
 				chart.init(getResult());
-				tableModel.init(calculate(getResult()));
+				tableModel.init(calculate(getResult(),cboProperty.getSelectedItem().toString()));
 				tableModel.fireTableDataChanged();
 			}
 			
