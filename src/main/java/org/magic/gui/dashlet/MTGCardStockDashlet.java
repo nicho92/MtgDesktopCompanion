@@ -63,9 +63,9 @@ public class MTGCardStockDashlet extends AbstractJDashlet {
 		
 		
 		if(chkSumOrTotal.isSelected())
-			items.forEach(mcs->res.compute(BeanTools.readProperty(mcs, property).toString(), (k,v)->(v==null)?1:v+mcs.getQte()));
+			items.forEach(mcs->res.compute(BeanTools.readProperty(mcs, property).toString(), (k,v)->(v==null)?mcs.getQte():v+mcs.getQte()));
 		else
-			items.forEach(mcs->res.compute(BeanTools.readProperty(mcs, property).toString(), (k,v)->(v==null)?1:v+mcs.getPrice()));
+			items.forEach(mcs->res.compute(BeanTools.readProperty(mcs, property).toString(), (k,v)->(v==null)?mcs.getPrice():v+mcs.getPrice()));
 		
 		return res;
 	}

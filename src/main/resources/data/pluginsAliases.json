@@ -1,8 +1,12 @@
 {
 	"TCGHome" : {
 			"conditions": {
-				"MINT":"Mint",
-				"NEAR_MINT" :"Near Mint"
+				"MINT":"mint",
+				"NEAR_MINT" :"nearmint",
+				"GOOD" :"good",
+				"LIGHTLY_PLAYED":"lightplayed",
+				"PLAYED":"played",
+				"POOR":"poor"
 			}
 	},
 	

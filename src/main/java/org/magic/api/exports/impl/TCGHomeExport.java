@@ -35,7 +35,7 @@ public class TCGHomeExport extends AbstractFormattedFileCardExport {
 		{
 			builder.append(mcs.getQte()).append(getSeparator());
 			builder.append(commated(mcs.getProduct().getName())).append(getSeparator());
-			builder.append(mcs.isFoil()?"foil":"nonfoil").append(getSeparator());
+			builder.append(mcs.isFoil()?"foil":mcs.isEtched()?"etched":"normal").append(getSeparator()); 
 			builder.append(mcs.getProduct().getEdition().getSet()).append(getSeparator());
 			builder.append(mcs.getProduct().getNumber()).append(getSeparator());
 			builder.append(mcs.getLanguage()).append(getSeparator());
