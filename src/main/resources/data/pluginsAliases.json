@@ -6,6 +6,7 @@
 				"GOOD" :"good",
 				"LIGHTLY_PLAYED":"lightplayed",
 				"PLAYED":"played",
+				"DAMAGED":"damaged",
 				"POOR":"poor"
 			}
 	},
