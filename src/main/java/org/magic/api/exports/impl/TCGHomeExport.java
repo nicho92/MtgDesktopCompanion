@@ -31,20 +31,20 @@ public class TCGHomeExport extends AbstractFormattedFileCardExport {
 		var builder = new StringBuilder(COLUMNS);
 			builder.append(System.lineSeparator());
 		
-		for(var mcs : stock)
-		{
-			builder.append(mcs.getQte()).append(getSeparator());
-			builder.append(commated(mcs.getProduct().getName())).append(getSeparator());
-			builder.append(mcs.isFoil()?"foil":mcs.isEtched()?"etched":"normal").append(getSeparator()); 
-			builder.append(mcs.getProduct().getEdition().getSet()).append(getSeparator());
-			builder.append(mcs.getProduct().getNumber()).append(getSeparator());
-			builder.append(mcs.getLanguage()).append(getSeparator());
-			builder.append(aliases.getConditionFor(this, mcs.getCondition())).append(getSeparator());
-			builder.append(mcs.getProduct().getScryfallId()).append(getSeparator());
-			builder.append(UITools.formatDouble(mcs.getPrice()));
-			builder.append(System.lineSeparator());
-			notify(mcs.getProduct());
-		}
+			for(var mcs : stock)
+			{
+				builder.append(mcs.getQte()).append(getSeparator());
+				builder.append(commated(mcs.getProduct().getName())).append(getSeparator());
+				builder.append(mcs.isFoil()?"foil":mcs.isEtched()?"etched":"normal").append(getSeparator()); 
+				builder.append(mcs.getProduct().getEdition().getId()).append(getSeparator());
+				builder.append(mcs.getProduct().getNumber()).append(getSeparator());
+				builder.append(mcs.getLanguage()).append(getSeparator());
+				builder.append(aliases.getConditionFor(this, mcs.getCondition())).append(getSeparator());
+				builder.append(mcs.getProduct().getScryfallId()).append(getSeparator());
+				builder.append(UITools.formatDouble(mcs.getPrice()));
+				builder.append(System.lineSeparator());
+				notify(mcs.getProduct());
+			}
 		
 		FileTools.saveFile(f, builder.toString());
 	}
