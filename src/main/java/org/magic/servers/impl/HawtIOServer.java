@@ -2,7 +2,6 @@ package org.magic.servers.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.Map;
 
 import org.eclipse.jetty.server.Server;
@@ -24,9 +23,7 @@ public class HawtIOServer extends AbstractMTGServer{
 				if(!f.exists())
 					URLTools.download(url, f);
 				
-				
 				return f;
-			
 		}
 		
 		

@@ -182,18 +182,6 @@ public class CollectionEvaluator extends Observable
 		return eds;
 		}
 
-
-	private Map<MTGCard,CardShake> prices()
-	{
-		Map<MTGCard,CardShake> ret = new HashMap<>();
-		getEditions().forEach(ed->
-			prices(ed).entrySet().forEach(entry->
-					ret.put(entry.getKey(), entry.getValue())
-					)
-		);
-		return ret;
-	}
-
 	public Date getCacheDate(MTGEdition ed)
 	{
 		var fich = new File(directory,ed.getId()+PRICE_JSON);

@@ -62,7 +62,7 @@ public class XMLExport extends AbstractCardExport {
 
 			@Override
 			public void marshal(Object source, HierarchicalStreamWriter writer, MarshallingContext context) {
-				LinkedTreeMap<Object, Object> map= (LinkedTreeMap)source;
+				var map= (LinkedTreeMap<Object, Object>)source;
 				for (var entry : map.entrySet()) {
 		            writer.startNode(entry.getKey().toString());
 		            writer.setValue(entry.getValue().toString());

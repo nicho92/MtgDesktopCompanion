@@ -40,7 +40,6 @@ import java.util.stream.Collectors;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.lang3.ArrayUtils;
@@ -484,7 +483,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		post("/ged/:class/:id", URLTools.HEADER_JSON,(request, response) -> {
 
-			List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request.raw());
+			var items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request.raw());
 			var ret = new JsonObject();
 			var arr = new JsonArray();
 			ret.add("files", arr);

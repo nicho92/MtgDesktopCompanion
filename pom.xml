@@ -61,7 +61,6 @@
 		<log4j.version>2.23.1</log4j.version>
 		<poi.version>5.2.5</poi.version>
 		<slf4j.version>2.0.12</slf4j.version>
-		<jetty.version>10.0.20</jetty.version>
 	</properties>
 	<repositories>
 		<repository>
@@ -321,7 +320,7 @@
 			<artifactId>commonmark</artifactId>
 			<version>0.22.0</version>
 		</dependency>
-		<dependency>
+		<!--<dependency>
 		    <groupId>org.eclipse.jetty</groupId>
 		    <artifactId>jetty-server</artifactId>
 		    <version>${jetty.version}</version>
@@ -335,7 +334,7 @@
 		    <groupId>org.eclipse.jetty</groupId>
 		    <artifactId>jetty-webapp</artifactId>
 		    <version>${jetty.version}</version>
-		</dependency>
+		</dependency>-->
 		<dependency>
 			<groupId>io.milton</groupId>
 			<artifactId>milton-server-ce</artifactId>
@@ -568,18 +567,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-			<version>4.5.14</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpmime</artifactId>
 			<version>4.5.14</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpcore</artifactId>
-			<version>4.4.16</version>
 		</dependency>
 		<dependency>
 			<groupId>com.itextpdf</groupId>
