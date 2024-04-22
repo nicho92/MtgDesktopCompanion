@@ -10,10 +10,25 @@ import org.eclipse.jetty.server.handler.HandlerCollection;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGConstants;
+import org.magic.services.network.URLTools;
 
 public class HawtIOServer extends AbstractMTGServer{	
 
 		private Server server;
+		
+		private File downloadVersion() throws IOException
+		{
+				var url = "https://github.com/hawtio/hawtio/releases/download/hawtio-"+getVersion()+"/hawtio-war-"+getVersion()+".war";
+				var f = new File(MTGConstants.DATA_DIR,"hawtio-war-"+getVersion()+".war");
+				
+				if(!f.exists())
+					URLTools.download(url, f);
+				
+				
+				return f;
+			
+		}
+		
 		
 		public void init() throws URISyntaxException
 		{
@@ -24,11 +39,15 @@ public class HawtIOServer extends AbstractMTGServer{
 			 var handlers = new HandlerCollection();
 		     handlers.setServer(server);
 		     server.setHandler(handlers);
-		     handlers.addHandler(createHawtioWebapp(server, "http","/"));
+		     try {
+				handlers.addHandler(createHawtioWebapp(server, "http","/"));
+			} catch (IOException e) {
+				logger.error("error on hawtio Init", e);
+			}
 		}
 		
 		
-		private WebAppContext createHawtioWebapp(Server server, String scheme,String context) throws  URISyntaxException {
+		private WebAppContext createHawtioWebapp(Server server, String scheme,String context) throws   IOException {
 		  var webapp = new WebAppContext();
 		        webapp.setServer(server);
 		        webapp.setContextPath(context);
@@ -37,7 +56,7 @@ public class HawtIOServer extends AbstractMTGServer{
 		        webapp.setInitParameter("scheme", scheme);
 		        webapp.setTempDirectory(new File(MTGConstants.DATA_DIR,"hawtio"));
 		        
-		        webapp.setWar(HawtIOServer.class.getResource("/data/hawtio-war-"+getVersion()+".war").toURI().toString());
+		        webapp.setWar(downloadVersion().toURI().toString());
 		        
 		        
 		        logger.info("Init hawtIO on {}://localhost:{}{}. deploying war {}", scheme,getInt("PORT"),context,webapp.getWar());
@@ -54,7 +73,7 @@ public class HawtIOServer extends AbstractMTGServer{
 		
 		@Override
 		public String getVersion() {
-			return "3.0.0";
+			return "3.0.1";
 		}
 
 		@Override
