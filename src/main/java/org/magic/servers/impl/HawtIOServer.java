@@ -30,7 +30,7 @@ public class HawtIOServer extends AbstractMTGServer{
 		}
 		
 		
-		public void init() throws URISyntaxException
+		public void init() 
 		{
 			System.setProperty("hawtio.authenticationEnabled", getString("AUTHENTICATION"));
 			
