@@ -154,7 +154,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		pst.setString(position, serialiser.toJsonElement(mc).toString());
 	}
 
-	private MTGCard readCard(ResultSet rs,String field) throws SQLException {
+	protected MTGCard readCard(ResultSet rs,String field) throws SQLException {
 		MTGCard mc=null;
 		try{
 			mc = serialiser.fromJson( rs.getString(field), MTGCard.class);

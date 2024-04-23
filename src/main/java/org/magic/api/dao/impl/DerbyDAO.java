@@ -1,9 +1,18 @@
 package org.magic.api.dao.impl;
 
 import java.io.File;
+import java.sql.Array;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.jooq.SQLDialect;
+import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCollection;
+import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.abstracts.extra.AbstractMagicSQLDAO;
 import org.magic.services.MTGConstants;
 
@@ -20,6 +29,37 @@ public class DerbyDAO extends AbstractMagicSQLDAO {
 		System.setProperty("derby.system.home", new File(MTGConstants.CONF_DIR,"logs").getAbsolutePath());
 		
 	}
+	
+	
+	@Override
+	public List<MTGCard> listCardsFromCollection(MTGCollection collection, MTGEdition me) throws SQLException {
+
+		var ret = new ArrayList<MTGCard>();
+		var sql = "SELECT distinct(idmc) FROM stocks WHERE qte > 0 AND collection= ?";
+
+		if (me != null)
+			sql = "SELECT distinct(idmc) FROM stocks WHERE qte > 0 AND collection= ? and idMe = ?";
+
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(sql)) {
+			pst.setString(1, collection.getName());
+			if (me != null)
+				pst.setString(2, me.getId());
+			try (ResultSet rs = executeQuery(pst)) {
+					while (rs.next()) 
+					{
+						try (var c2 = pool.getConnection(); var pst2 = c2.prepareStatement("SELECT mcard FROM stocks WHERE idmc = ?")) {
+							pst2.setString(1,rs.getString(1) );
+							var rs2 = executeQuery(pst2);
+							while (rs2.next()) {
+								ret.add(readCard(rs2, MCARD));
+							}
+					}
+				}
+			}
+		}
+		return ret;	
+	}
+	
 
 	@Override
 	protected String getjdbcnamedb() {
