@@ -41,8 +41,6 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.fileupload2.core.DiskFileItemFactory;
-import org.apache.commons.fileupload2.core.FileItem;
-import org.apache.commons.fileupload2.core.FileItemFactory;
 import org.apache.commons.fileupload2.jakarta.JakartaServletFileUpload;
 import org.apache.commons.lang3.ArrayUtils;
 import org.magic.api.beans.HistoryPrice;
@@ -116,7 +114,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-import boofcv.alg.sfm.DepthSparse3D.I;
 import nl.basjes.parse.useragent.UserAgentAnalyzer;
 import spark.Request;
 import spark.Response;
