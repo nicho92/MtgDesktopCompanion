@@ -10,11 +10,11 @@ import java.util.Locale;
 
 import javax.swing.AbstractAction;
 
-import org.apache.commons.lang.math.RandomUtils;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumPlayerStatus;
+import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.ImageTools;
 import org.utils.patterns.observer.Observable;
 
@@ -93,7 +93,7 @@ public class Player extends Observable implements Serializable {
 
 		onlineConnectionTimeStamp= Instant.now().toEpochMilli();
 		
-		setId(RandomUtils.nextLong());
+		setId(CryptoUtils.randomLong());
 		
 		mixHandAndLibrary();
 		shuffleLibrary();

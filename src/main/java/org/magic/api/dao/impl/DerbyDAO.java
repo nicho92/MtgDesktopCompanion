@@ -1,7 +1,6 @@
 package org.magic.api.dao.impl;
 
 import java.io.File;
-import java.sql.Array;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

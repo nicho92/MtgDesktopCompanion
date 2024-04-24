@@ -1,5 +1,7 @@
 package org.magic.services.tools;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.Base64;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -57,6 +59,22 @@ public class CryptoUtils {
 
 	public static byte[] fromBase64(String s) {
 	    return Base64.getDecoder().decode(s);
+	}
+
+	public static int randomInt(int i) {
+		try {
+			return SecureRandom.getInstanceStrong().nextInt(i);
+		} catch (NoSuchAlgorithmException e) {
+			return -1;
+		}
+	}
+
+	public static Long randomLong() {
+		try {
+			return SecureRandom.getInstanceStrong().nextLong();
+		} catch (NoSuchAlgorithmException e) {
+			return -1L;
+		}
 	}
 
 
