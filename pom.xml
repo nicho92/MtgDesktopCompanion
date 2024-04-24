@@ -371,9 +371,9 @@
 			<version>1.10.0</version>
 		</dependency>
 		<dependency>
-		    <groupId>commons-fileupload</groupId>
-		    <artifactId>commons-fileupload</artifactId>
-		    <version>1.5</version>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-fileupload2-jakarta</artifactId>
+		    <version>2.0.0-M1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -422,14 +422,9 @@
 			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>com.sparkjava</groupId>
-			<artifactId>spark-core</artifactId>
-			<version>2.9.4</version>
-		</dependency>
-		<dependency>
-			<groupId>de.vandermeer</groupId>
-			<artifactId>asciitable</artifactId>
-			<version>0.3.2</version>
+		    <groupId>org.zoomba-lang</groupId>
+		    <artifactId>spark-core</artifactId>
+		    <version>3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.guava</groupId>

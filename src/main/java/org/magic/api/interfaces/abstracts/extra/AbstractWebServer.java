@@ -7,9 +7,6 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.swing.Icon;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -33,6 +30,9 @@ import org.magic.services.MTGConstants;
 import org.magic.services.PluginRegistry;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.FileTools;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 public abstract class AbstractWebServer extends AbstractMTGServer {
 
@@ -65,7 +65,7 @@ public abstract class AbstractWebServer extends AbstractMTGServer {
 		var holderJs = new ServletHolder("mtg-js-file", new DefaultServlet() {
 			private static final long serialVersionUID = 1L;
 			@Override
-			protected void doGet(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
+			protected void doGet(HttpServletRequest request, HttpServletResponse response) throws  IOException {
 				  response.setContentType(URLTools.HEADER_HTML+";charset="+MTGConstants.DEFAULT_ENCODING);
 				  response.setStatus(HttpServletResponse.SC_OK);
 				  try {

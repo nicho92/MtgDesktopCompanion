@@ -40,8 +40,10 @@ import java.util.stream.Collectors;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.fileupload2.core.DiskFileItemFactory;
+import org.apache.commons.fileupload2.core.FileItem;
+import org.apache.commons.fileupload2.core.FileItemFactory;
+import org.apache.commons.fileupload2.jakarta.JakartaServletFileUpload;
 import org.apache.commons.lang3.ArrayUtils;
 import org.magic.api.beans.HistoryPrice;
 import org.magic.api.beans.MTGAlert;
@@ -114,6 +116,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
+import boofcv.alg.sfm.DepthSparse3D.I;
 import nl.basjes.parse.useragent.UserAgentAnalyzer;
 import spark.Request;
 import spark.Response;
@@ -483,7 +486,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		post("/ged/:class/:id", URLTools.HEADER_JSON,(request, response) -> {
 
-			var items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request.raw());
+			var factory = DiskFileItemFactory.builder().get();
+			
+			var items = new JakartaServletFileUpload<>(factory).parseRequest(request.raw());
 			var ret = new JsonObject();
 			var arr = new JsonArray();
 			ret.add("files", arr);

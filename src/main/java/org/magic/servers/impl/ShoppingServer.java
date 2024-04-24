@@ -4,9 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.swing.Icon;
 
 import org.eclipse.jetty.servlet.DefaultServlet;
@@ -16,6 +13,9 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.FileTools;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 public class ShoppingServer extends AbstractWebServer {
 	@Override
@@ -40,7 +40,7 @@ public class ShoppingServer extends AbstractWebServer {
 				var holderCss = new ServletHolder("extraCssServlet", new DefaultServlet() {
 					private static final long serialVersionUID = 1L;
 					@Override
-					protected void doGet(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
+					protected void doGet(HttpServletRequest request, HttpServletResponse response)throws  IOException {
 						  response.setContentType(URLTools.HEADER_CSS+";charset="+MTGConstants.DEFAULT_ENCODING);
 						  response.setStatus(HttpServletResponse.SC_OK);
 						  try {
