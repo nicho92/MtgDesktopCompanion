@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.EnumPaymentProvider;
@@ -447,40 +445,40 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	}
 
 
-	private JSONObject createOrder(Transaction t)
+	private JsonObject createOrder(Transaction t)
 	{
-		var obj = new JSONObject();
-		var items = new JSONArray();
+		var obj = new JsonObject();
+		var items = new JsonArray();
 
-		var contact = new JSONObject();
-				   contact.put(FIRST_NAME, t.getContact().getName());
-				   contact.put(LAST_NAME, t.getContact().getLastName());
-				   contact.put(COUNTRY, t.getContact().getCountry());
-				   contact.put(EMAIL, t.getContact().getEmail());
-				   contact.put(PHONE, t.getContact().getTelephone());
-				   contact.put(ADDRESS_1, t.getContact().getAddress());
-				   contact.put("city", t.getContact().getCity());
-				   contact.put(POSTCODE, t.getContact().getZipCode());
+		var contact = new JsonObject();
+				   contact.addProperty(FIRST_NAME, t.getContact().getName());
+				   contact.addProperty(LAST_NAME, t.getContact().getLastName());
+				   contact.addProperty(COUNTRY, t.getContact().getCountry());
+				   contact.addProperty(EMAIL, t.getContact().getEmail());
+				   contact.addProperty(PHONE, t.getContact().getTelephone());
+				   contact.addProperty(ADDRESS_1, t.getContact().getAddress());
+				   contact.addProperty("city", t.getContact().getCity());
+				   contact.addProperty(POSTCODE, t.getContact().getZipCode());
 
-		obj.put(BILLING, contact);
-		obj.put("shipping", contact);
-		obj.put(LINE_ITEMS, items);
-		obj.put("set_paid", t.getStatut().equals(EnumTransactionStatus.PAID));
-		obj.put("created_via", MTGConstants.MTG_APP_NAME);
+		obj.add(BILLING, contact);
+		obj.add("shipping", contact);
+		obj.add(LINE_ITEMS, items);
+		obj.addProperty("set_paid", t.getStatut().equals(EnumTransactionStatus.PAID));
+		obj.addProperty("created_via", MTGConstants.MTG_APP_NAME);
 
 		if(t.getPaymentProvider()!=null)
 		{
-			obj.put("payment_method_title", t.getPaymentProvider().name());
-			obj.put(DATE_PAID, t.getDatePayment().getTime());
+			obj.addProperty("payment_method_title", t.getPaymentProvider().name());
+			obj.addProperty(DATE_PAID, t.getDatePayment().getTime());
 		}
 
 
 		for(MTGStockItem st : t.getItems())
 		{
-			var line = new JSONObject();
-				line.put(PRODUCT_ID, st.getTiersAppIds(WooCommerceTools.WOO_COMMERCE_NAME));
-				line.put("quantity", st.getQte());
-			items.put(line);
+			var line = new JsonObject();
+				line.addProperty(PRODUCT_ID, st.getTiersAppIds(WooCommerceTools.WOO_COMMERCE_NAME));
+				line.addProperty("quantity", st.getQte());
+			items.add(line);
 		}
 		return obj;
 	}
