@@ -503,6 +503,10 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		var query = new BasicDBObject();
 		query.put(dbStockColField, c.getName());
 		db.getCollection(colCollects, MTGCollection.class).deleteOne(Filters.eq("name", c.getName()));
+		
+		var dr = db.getCollection(colStocks).deleteMany(Filters.eq(dbStockColField, c.getName()));
+		logger.debug(dr);
+		
 	}
 
 	@Override
