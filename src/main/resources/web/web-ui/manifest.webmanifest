@@ -73,11 +73,28 @@
   {
     "name": "Collection",
     "url": "/",
-    "description": "Show your collections"
+    "description": "Show your collections",
+    "icons": [
+        {
+          "src": "dist/img/96.png",
+          "type": "image/png",
+          "sizes": "96x96"
+        }
+      ]
+   
   },
+  
   {
     "name": "Sets",
-    "url": "pages/sets.html"
-  }
+    "url": "pages/sets.html",
+    "icons": [
+        {
+          "src": "dist/img/96.png",
+          "type": "image/png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  
 ]
 }
