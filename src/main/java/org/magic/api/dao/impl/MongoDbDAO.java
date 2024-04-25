@@ -60,8 +60,6 @@ import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Sorts;
 import com.mongodb.client.model.Updates;
-import com.mongodb.client.result.DeleteResult;
-import com.mongodb.client.result.UpdateResult;
 import com.mongodb.event.CommandFailedEvent;
 import com.mongodb.event.CommandListener;
 import com.mongodb.event.CommandStartedEvent;
@@ -358,7 +356,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	public List<MTGDeck> listDecks() throws SQLException {
 		List<MTGDeck> stocks = new ArrayList<>();
 		db.getCollection(colDecks, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result -> {
-				MTGDeck d = deserializeDeck(result);
+				var d = deserializeDeck(result);
 				stocks.add(d);
 				notify(d);
 			}
@@ -392,7 +390,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 		} else {
 			state.setDateUpdate(new Date());
-			UpdateResult res = db.getCollection(colDecks, BasicDBObject.class).replaceOne(Filters.eq("id", state.getId()),BasicDBObject.parse(serialiser.toJson(state)));
+			var res = db.getCollection(colDecks, BasicDBObject.class).replaceOne(Filters.eq("id", state.getId()),BasicDBObject.parse(serialiser.toJson(state)));
 			logger.trace(res);
 		}
 
@@ -403,7 +401,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	@Override
 	public void deleteDeck(MTGDeck d) throws SQLException {
 		logger.debug("Deleting {} : {}" ,d, d.getId());
-		DeleteResult dr = db.getCollection(colDecks, BasicDBObject.class).deleteOne(Filters.eq("id",d.getId()));
+		var dr = db.getCollection(colDecks, BasicDBObject.class).deleteOne(Filters.eq("id",d.getId()));
 		logger.debug("result={}",dr);
 	}
 
@@ -428,7 +426,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			db.getCollection(colSealed, BasicDBObject.class).insertOne(BasicDBObject.parse(serialize(state)));
 
 		} else {
-			UpdateResult res = db.getCollection(colSealed, BasicDBObject.class).replaceOne(Filters.eq("id", state.getId()),BasicDBObject.parse(serialize(state)));
+			var res = db.getCollection(colSealed, BasicDBObject.class).replaceOne(Filters.eq("id", state.getId()),BasicDBObject.parse(serialize(state)));
 			logger.trace(res);
 		}
 
@@ -608,7 +606,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			var obj = new BasicDBObject();
 			obj.put(dbStockField, state);
 			obj.put(dbIDField, state.getProduct().getScryfallId());
-			UpdateResult res = db.getCollection(colStocks, BasicDBObject.class).replaceOne(Filters.eq("stockItem.id", state.getId()),BasicDBObject.parse(serialize(obj)));
+			var res = db.getCollection(colStocks, BasicDBObject.class).replaceOne(Filters.eq("stockItem.id", state.getId()),BasicDBObject.parse(serialize(obj)));
 			logger.debug(res);
 		}
 		notify(state);
@@ -639,7 +637,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		var obj = new BasicDBObject();
 		obj.put(dbAlertField, alert);
 		obj.put(dbIDField, alert.getId());
-		UpdateResult res = db.getCollection(colAlerts, BasicDBObject.class).replaceOne(Filters.eq("alertItem.id", alert.getId()),BasicDBObject.parse(serialize(obj)));
+		var res = db.getCollection(colAlerts, BasicDBObject.class).replaceOne(Filters.eq("alertItem.id", alert.getId()),BasicDBObject.parse(serialize(obj)));
 		logger.debug(res);
 
 	}
@@ -648,7 +646,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	public void deleteAlert(MTGAlert alert) throws SQLException {
 		logger.debug("delete alert {}",alert);
 		Bson filter = new Document("alertItem.id", alert.getId());
-		DeleteResult res = db.getCollection(colAlerts).deleteOne(filter);
+		var res = db.getCollection(colAlerts).deleteOne(filter);
 		logger.debug(res);
 	}
 
@@ -679,7 +677,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		var searchQuery = new Document("_id", "stock_increment");
 		var increase = new Document("seq", 1);
 		var updateQuery = new Document("$inc", increase);
-		Document result = countersCollection.findOneAndUpdate(searchQuery, updateQuery);
+		var result = countersCollection.findOneAndUpdate(searchQuery, updateQuery);
 		return result.get("seq");
 	}
 
@@ -687,7 +685,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	public List<MTGNews> listNews() {
 		List<MTGNews> news = new ArrayList<>();
 		db.getCollection(colNews, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result ->{
-			MTGNews mn = deserialize(result.get(dbNewsField).toString(), MTGNews.class);
+			var mn = deserialize(result.get(dbNewsField).toString(), MTGNews.class);
 			try{
 				mn.setProvider(getPlugin(result.get(dbTypeNewsField).toString(),MTGNewsProvider.class));
 			}catch(Exception e)
@@ -724,7 +722,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			obj.put(dbNewsField, state);
 			obj.put(dbTypeNewsField, state.getProvider().getName());
 			logger.debug(filter);
-			UpdateResult res = db.getCollection(colNews, BasicDBObject.class).replaceOne(filter,BasicDBObject.parse(serialize(obj)));
+			var res = db.getCollection(colNews, BasicDBObject.class).replaceOne(filter,BasicDBObject.parse(serialize(obj)));
 			logger.debug(res);
 		}
 
@@ -756,7 +754,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	public List<Transaction> listTransactions(Contact c) throws SQLException {
 		List<Transaction> trans = new ArrayList<>();
 		db.getCollection(colTransactions,BasicDBObject.class).find(Filters.eq("contact.id", c.getId())).forEach((Consumer<BasicDBObject>) result ->{
-			Transaction o = deserialize(result.toString(), Transaction.class);
+			var o = deserialize(result.toString(), Transaction.class);
 			trans.add(o);
 		});
 
@@ -802,7 +800,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			db.getCollection(colAnnounces, BasicDBObject.class).insertOne(BasicDBObject.parse(serialize(t)));
 
 		} else {
-			UpdateResult res = db.getCollection(colAnnounces, BasicDBObject.class).replaceOne(Filters.eq("id",t.getId()),BasicDBObject.parse(serialize(t)));
+			var res = db.getCollection(colAnnounces, BasicDBObject.class).replaceOne(Filters.eq("id",t.getId()),BasicDBObject.parse(serialize(t)));
 			logger.trace(res);
 		}
 		return t.getId();
@@ -811,7 +809,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	@Override
 	public void deleteAnnounce(MTGAnnounce a) throws SQLException {
-		DeleteResult rs = db.getCollection(colAnnounces).deleteOne(Filters.eq("id",a.getId()));
+		var rs = db.getCollection(colAnnounces).deleteOne(Filters.eq("id",a.getId()));
 		logger.debug(rs);
 
 	}
@@ -851,7 +849,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			db.getCollection(colTransactions, BasicDBObject.class).insertOne(BasicDBObject.parse(serialize(t)));
 
 		} else {
-			UpdateResult res = db.getCollection(colTransactions, BasicDBObject.class).replaceOne(Filters.eq("id",t.getId()),BasicDBObject.parse(serialize(t)));
+			var res = db.getCollection(colTransactions, BasicDBObject.class).replaceOne(Filters.eq("id",t.getId()),BasicDBObject.parse(serialize(t)));
 			logger.trace(res);
 		}
 		return t.getId();
@@ -861,7 +859,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	@Override
 	public void deleteTransaction(Transaction t) throws SQLException {
-		DeleteResult rs = db.getCollection(colTransactions).deleteOne(Filters.eq("id",t.getId()));
+		var rs = db.getCollection(colTransactions).deleteOne(Filters.eq("id",t.getId()));
 		logger.debug(rs);
 	}
 
