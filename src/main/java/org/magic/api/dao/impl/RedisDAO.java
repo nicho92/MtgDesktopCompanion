@@ -205,6 +205,8 @@ public class RedisDAO extends AbstractKeyValueDao {
 		redisCommand.set(key(d), serialiser.toJson(d));
 		return d.getId();
 	}
+	
+	
 
 	@Override
 	public MTGDeck getDeckById(Integer id) throws SQLException {
@@ -262,6 +264,12 @@ public class RedisDAO extends AbstractKeyValueDao {
 
 	}
 
+	@Override
+	public MTGCardStock getStockById(Long id) throws SQLException {
+		return serialiser.fromJson(redisCommand.get(KEY_STOCKS+SEPARATOR+id),MTGCardStock.class);
+	}
+	
+	
 	@Override
 	public List<MTGCardStock> listStocks() throws SQLException {
 		

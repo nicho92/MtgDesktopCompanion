@@ -363,6 +363,13 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		return stocks;
 	}
 
+	
+	@Override
+	public MTGCardStock getStockById(Long id) throws SQLException {
+		return deserialize(db.getCollection(colDecks,BasicDBObject.class).find(Filters.eq(dbIDField, id)).first(),MTGCardStock.class);
+	}
+	
+	
 	@Override
 	public MTGDeck getDeckById(Integer id) throws SQLException {
 		return deserializeDeck(db.getCollection(colDecks,BasicDBObject.class)

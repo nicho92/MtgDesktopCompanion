@@ -4,7 +4,7 @@
   "dir": "ltr",
   "display": "standalone",
   "name": "MTG Web Companion",
-  "orientation": "landscape",
+  "orientation": "portrait-primary",
   "scope": "/",
   "short_name": "MTG Companion",
   "start_url": "/",
@@ -22,7 +22,8 @@
     {
       "src": "https://mtgcompanion.me/webui.png",
       "sizes": "1280x800",
-      "type": "image/png"
+      "type": "image/png",
+       "form_factor": "narrow"
     }
   ],
   "icons": [
