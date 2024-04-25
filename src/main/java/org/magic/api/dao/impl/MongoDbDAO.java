@@ -59,6 +59,7 @@ import com.mongodb.client.model.Accumulators;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Sorts;
+import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 import com.mongodb.event.CommandFailedEvent;
@@ -89,9 +90,10 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	private String dbAlertField = "alertItem";
 	private String dbNewsField = "newsItem";
 	private String dbStockField = "stockItem";
+	private String dbTypeNewsField = "typeNews";
 	private String dbStockColField = dbStockField+".magicCollection.name";
 	private String dbStockSetField = dbStockField+".edition.id";
-	private String dbTypeNewsField = "typeNews";
+
 	private MongoClient client;
 	private JsonWriterSettings setts;
 	private String[] collectionsNames = new String[] {colCollects,colStocks,colAlerts,colNews,colSealed,colTransactions,colContacts,colDecks,colAnnounces,colGed};
@@ -350,6 +352,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	}
 
+	
 
 	@Override
 	public List<MTGDeck> listDecks() throws SQLException {
@@ -413,14 +416,6 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		return stocks;
 	}
 
-	@Override
-	public void moveEdition(MTGEdition ed, MTGCollection from, MTGCollection to) throws SQLException {
-
-			//TODO move cards from ed
-		
-	}
-	
-	
 	
 	@Override
 	public void saveOrUpdateSealedStock(MTGSealedStock state) throws SQLException {
@@ -514,17 +509,29 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	@Override
 	public List<MTGCollection> listCollections() throws SQLException {
-		MongoCollection<MTGCollection> collection = db.getCollection(colCollects, MTGCollection.class);
-		var cols = new ArrayList<MTGCollection>();
-		collection.find().into(cols);
-		return cols;
+		var collection = db.getCollection(colCollects, MTGCollection.class);
+		return collection.find().into(new ArrayList<MTGCollection>());
 	}
 
 	@Override
 	public void removeEdition(MTGEdition me, MTGCollection col) throws SQLException {
-		DeleteResult dr = db.getCollection(colStocks).deleteMany(Filters.and(Filters.eq(dbStockColField, col.getName()),Filters.eq(dbStockSetField, me.getId().toUpperCase())));
+		var dr = db.getCollection(colStocks).deleteMany(Filters.and(Filters.eq(dbStockColField, col.getName()),Filters.eq(dbStockSetField, me.getId().toUpperCase())));
 		logger.debug(dr);
 	}
+	
+	
+
+
+	@Override
+	public void moveEdition(MTGEdition ed, MTGCollection from, MTGCollection to) throws SQLException {
+		var filter = Filters.and(Filters.eq(dbStockColField, from.getName()),Filters.eq(dbStockSetField, ed.getId().toUpperCase()));
+		var upds = Updates.set(dbStockColField, to.getName());
+		var res= db.getCollection(colStocks).updateMany(filter, upds);
+		logger.debug(res);
+	}
+	
+	
+	
 
 	@Override
 	public String getDBLocation() {
@@ -540,9 +547,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		var map = new HashMap<String,Long>();
 
 		for(String col : collectionsNames)
-			{
 				map.put(col, db.runCommand(new BasicDBObject("collStats", col)).getInteger("size").longValue());
-			}
 
 		return map;
 	}

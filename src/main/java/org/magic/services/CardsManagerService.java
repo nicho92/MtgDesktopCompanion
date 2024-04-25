@@ -65,6 +65,7 @@ public class CardsManagerService {
 
 	public static void moveCard(MTGEdition ed, MTGCollection from, MTGCollection to,Observer o) throws SQLException
 	{
+	
 		if(o!=null)
 			getEnabledPlugin(MTGDao.class).addObserver(o);
 

@@ -76,10 +76,6 @@ public interface MTGDao extends MTGPlugin{
 	public void deleteDeck(MTGDeck d) throws SQLException;
 	public Integer saveOrUpdateDeck(MTGDeck d) throws SQLException;
 	public MTGDeck getDeckById(Integer id) throws SQLException;
-
-
-
-	
 	
 	public List<Transaction> listTransactions() throws SQLException;
 	public List<Transaction> listTransactions(Contact c) throws SQLException;
