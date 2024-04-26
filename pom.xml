@@ -7,7 +7,7 @@
 	<url>https://www.mtgcompanion.org</url>
 	<groupId>com.github.nicho92</groupId>
 	<artifactId>magic-api</artifactId>
-	<version>2.47</version>
+	<version>2.48</version>
 	<packaging>jar</packaging>
 	<issueManagement>
 		<system>GitHub</system>
@@ -369,11 +369,6 @@
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-core</artifactId>
 			<version>${lucene.version}</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.apache.lucene</groupId>
-		    <artifactId>lucene-luke</artifactId>
-		    <version>${lucene.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
