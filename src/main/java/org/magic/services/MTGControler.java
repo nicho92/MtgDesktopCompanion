@@ -77,6 +77,10 @@ public class MTGControler {
 			try {
 				logger.info("{} file doesn't exist. creating one from default file",xmlConfigFile);
 				FileTools.copyURLToFile(getClass().getResource("/data/default-conf.xml"),xmlConfigFile);
+				var content = FileTools.readFile(xmlConfigFile);
+				content = content.replace("$username", System.getProperty("user.name"));
+				FileTools.saveFile(xmlConfigFile, content);
+				
 				logger.info("conf file created");
 			} catch (IOException e1) {
 				logger.error(e1);
