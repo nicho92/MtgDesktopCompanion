@@ -196,7 +196,7 @@
 					    return result;
 						}, {});
 				    var ctx = document.getElementById("type-chart").getContext("2d");
-				    printBarChart(ctx, "bar","types", Object.keys(countType),Object.values(countType), false,  new ColorGenerator(15).generateRGB());
+				    printBarChart(ctx, "bar","value", Object.keys(countType),Object.values(countType), false,  new ColorGenerator(15).generateRGB());
 					
 					
 				    var countConditions= dt.reduce(function (result, d) {
@@ -210,7 +210,7 @@
 					    return result;
 						}, {});
 				    var ctx = document.getElementById("conditions-chart").getContext("2d");
-				    printBarChart(ctx, "bar","condition",Object.keys(countConditions),Object.values(countConditions), false,  new ColorGenerator(15).generateRGB());
+				    printBarChart(ctx, "bar","value",Object.keys(countConditions),Object.values(countConditions), false,  new ColorGenerator(15).generateRGB());
 					
 				    
 				    var countAmounts= dt.reduce(function (result, d) {
@@ -315,7 +315,7 @@
               </div>
             </div>
             <div class="card-body">
-              <h6 class="mb-0 ">	Types</h6>
+              <h6 class="mb-0 ">	Collections</h6>
             </div>
           </div>
         </div>

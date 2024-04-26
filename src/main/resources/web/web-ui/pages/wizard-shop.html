@@ -57,7 +57,7 @@
 					dataArr.push( { "id" : "prices-"+seller+"-"+index, 
 								"parent" : seller,  
 								"a_attr": { "href": prices.sellerUrl},
-								"text" : prices.magicCard.name + " " + prices.value.toFixed(2) + " " + prices.currency + " " + (prices.foil?"Foil":""),
+								"text" : prices.magicCard.name + " " + prices.priceValue.value.toFixed(2) + " " + prices.priceValue.currency + " " + (prices.foil?"Foil":""),
 								"icon":"fa-solid fa-shopping-cart fa-1x"
 							  });
 				total += prices.value;
