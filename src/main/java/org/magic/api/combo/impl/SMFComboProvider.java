@@ -16,16 +16,6 @@ public class SMFComboProvider extends AbstractComboProvider {
 
 	private static final String BASE_URL="https://www.smfcorp.net";
 		
-	
-	public static void main(String[] args) {
-		var card = new MTGCard();
-			card.setName("Wrath of God");
-			
-			
-			new SMFComboProvider().loadComboWith(card);
-	}
-	
-	
 	@Override
 	public List<MTGCombo> loadComboWith(MTGCard mc) {
 
