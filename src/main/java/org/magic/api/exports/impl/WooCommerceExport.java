@@ -17,27 +17,27 @@ import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumExportCategory;
+import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.shop.Category;
 import org.magic.api.externalshop.impl.WooCommerceExternalShop;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.api.interfaces.MTGProduct;
+import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.providers.impl.ScryFallProvider;
 import org.magic.services.MTGControler;
-import org.magic.services.tools.BeanTools;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.WooCommerceTools;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.icoderman.woocommerce.EndpointBaseType;
 import com.icoderman.woocommerce.WooCommerce;
 
 public class WooCommerceExport extends AbstractCardExport {
 
 	private static final String MTG_COMP_STOCK_ID = "mtg_comp_stock_id";
-	private static final String ARTICLE_NAME = "ARTICLE_NAME";
 	private static final String UPDATE = "update";
 	private static final String CREATE = "create";
 	private static final String CARD_LANG_DESCRIPTION = "CARD_LANG_DESCRIPTION";
@@ -211,7 +211,7 @@ public class WooCommerceExport extends AbstractCardExport {
 
 
 
-	private Map<String, Object> build(MTGCardStock st) {
+	public Map<String, Object> build(MTGStockItem st) {
 		Map<String, Object> productInfo = new HashMap<>();
 
 
@@ -221,14 +221,14 @@ public class WooCommerceExport extends AbstractCardExport {
 		if(st.getTiersAppIds().get(getName())!=null)
 			productInfo.put("id", st.getTiersAppIds(getName()));
 
-
-		if(getString(ARTICLE_NAME).isEmpty())
+		if(st.getProduct().getTypeProduct()==EnumItems.CARD)
 			productInfo.put("name", toForeign(st.getProduct()).getName());
 		else
-			productInfo.put("name", toName(toForeign(st.getProduct())));
-
+			productInfo.put("name", st.getProduct().getName());
+		
         productInfo.put("type", "simple");
         productInfo.put("regular_price", String.valueOf(st.getPrice()));
+        productInfo.put("price", String.valueOf(st.getPrice()));
         
         if(getBoolean(CATEGORY_EDITION_MAPPING))
         {
@@ -263,7 +263,6 @@ public class WooCommerceExport extends AbstractCardExport {
         }
         
         productInfo.put("description",desc(st.getProduct()));
-        productInfo.put("short_description", toForeign(st.getProduct()).getName()+"-"+st.getCondition());
         productInfo.put("enable_html_description", "true");
         productInfo.put("status", getString(DEFAULT_STATUT));
 
@@ -274,7 +273,8 @@ public class WooCommerceExport extends AbstractCardExport {
 
 
         	try {
-        		productInfo.put("images", WooCommerceTools.entryToJsonArray("src",new ScryFallProvider().getJsonFor(st.getProduct()).get("image_uris").getAsJsonObject().get("normal").getAsString()));
+        		
+        		productInfo.put("images", WooCommerceTools.entryToJsonArray("src",st.getProduct().getUrl()));
         	}catch(Exception e)
         	{
         		logger.error("error getting image for {} : {}",st.getProduct(),e.getMessage());
@@ -282,29 +282,20 @@ public class WooCommerceExport extends AbstractCardExport {
 
 
       		var arr = new JsonArray();
-      				  arr.add(createAttributes("mtg_comp_collection", String.valueOf(st.getMagicCollection()),false));
-					  arr.add(createAttributes("mtg_comp_foil", String.valueOf(st.isFoil()),true));
-					  arr.add(createAttributes("mtg_comp_condition", st.getCondition().name(),true));
-					  arr.add(createAttributes("mtg_comp_altered", String.valueOf(st.isAltered()),true));
-					  arr.add(createAttributes("mtg_comp_signed", String.valueOf(st.isSigned()),true));
-					  arr.add(createAttributes("mtg_comp_language", st.getLanguage(),true));
-					  arr.add(createAttributes("mtg_comp_comment", st.getComment()!=null?st.getComment():"",true));
-					  arr.add(createAttributes("mtg_comp_setCode", st.getProduct().getEdition().getId(),true));
-					  arr.add(createAttributes("mtg_comp_setName", st.getProduct().getEdition().getSet(),true));
-					  arr.add(createAttributes("mtg_comp_number", st.getProduct().getNumber(),true));
-					  arr.add(createAttributes(MTG_COMP_STOCK_ID,String.valueOf(st.getId()),false));
-					  arr.add(createAttributes("mtg_comp_type",st.getProduct().getTypeProduct().name(),true));
+      				  arr.add(WooCommerceTools.createAttributes("mtg_comp_collection", String.valueOf(st.getMagicCollection()),false));
+					  arr.add(WooCommerceTools.createAttributes("mtg_comp_foil", String.valueOf(st.isFoil()),true));
+					  arr.add(WooCommerceTools.createAttributes("mtg_comp_condition", st.getCondition().name(),true));
+					  arr.add(WooCommerceTools.createAttributes("mtg_comp_altered", String.valueOf(st.isAltered()),true));
+					  arr.add(WooCommerceTools.createAttributes("mtg_comp_signed", String.valueOf(st.isSigned()),true));
+					  arr.add(WooCommerceTools.createAttributes("mtg_comp_language", st.getLanguage(),true));
+					  arr.add(WooCommerceTools.createAttributes("mtg_comp_comment", st.getComment()!=null?st.getComment():"",true));
+					  arr.add(WooCommerceTools.createAttributes("mtg_comp_setCode", st.getProduct().getEdition().getId(),true));
+					  arr.add(WooCommerceTools.createAttributes("mtg_comp_setName", st.getProduct().getEdition().getSet(),true));
+					  arr.add(WooCommerceTools.createAttributes(MTG_COMP_STOCK_ID,String.valueOf(st.getId()),false));
+					  arr.add(WooCommerceTools.createAttributes("mtg_comp_type",st.getProduct().getTypeProduct().name(),true));
 					  productInfo.put("attributes", arr);
 
       	return productInfo;
-	}
-
-	private String toName(MTGCard card) {
-		var s = BeanTools.createString(card, getString(ARTICLE_NAME));
-
-		logger.debug("generate name {}", s);
-
-		return s;
 	}
 
 	private void batchExport(List<List<MTGCardStock>> partition) {
@@ -371,48 +362,31 @@ public class WooCommerceExport extends AbstractCardExport {
 
 	}
 
-	private JsonObject createAttributes (String key ,String val,boolean visible)
-	{
-		if(val==null || val.equals("null"))
-			createAttributes(key ,new String[] {""},visible);
+	
+
+	private String desc(MTGProduct prod) {
 		
-		return createAttributes(key ,new String[] {val},visible);
-	}
-
-	private JsonObject createAttributes(String key ,String[] val,boolean visible)
-	{
-					var obj = new JsonObject();
-					   obj.addProperty("name", key);
-					   obj.addProperty("visible", String.valueOf(visible));
-
-					   var arr  =new JsonArray();
-					   for(String s : val)
-						   arr.add(s);
-
-					   obj.add("options", arr);
-		   return obj;
-	}
-
-	private String desc(MTGCard mc) {
-		MTGCard mc2 = toForeign(mc);
+		if(prod.getTypeProduct()==EnumItems.CARD)
+		{
+		MTGCard mc2 = toForeign((MTGCard)prod);
 		var build =new StringBuilder();
-		build.append("<html>").append(mc2).append("<br/>").append(mc2.getFullType()).append("<br/>").append(mc2.getText())
-		.append("</html>");
-
+		build.append("<html>").append(mc2).append("<br/>").append(mc2.getFullType()).append("<br/>").append(mc2.getText()).append("</html>");
 		return build.toString();
+		}
+		else
+		{
+			return prod.toString();	
+		}
+		
 	}
 
 	private MTGCard toForeign(@Nonnull MTGCard mc) {
 		MTGCard mc2 ;
 
 		if(!getString(CARD_LANG_DESCRIPTION).isEmpty())
-		{
 			mc2 = mc.toForeign(mc.getForeignNames().stream().filter(fn->fn.getLanguage().equalsIgnoreCase(getString(CARD_LANG_DESCRIPTION))).findFirst().orElse(null));
-		}
 		else
-		{
 			mc2=mc;
-		}
 
 		if(mc2==null )
 			return mc;
@@ -447,7 +421,6 @@ public class WooCommerceExport extends AbstractCardExport {
 				m.put(DEFAULT_STATUT, "private");
 				m.put(STOCK_MANAGEMENT,"true");
 				m.put(CARD_LANG_DESCRIPTION,"English");
-				m.put(ARTICLE_NAME,"");
 				m.put(BATCH_THRESHOLD,"50");
 				m.put(BATCH_SIZE, "75");
 		return m;

@@ -389,30 +389,28 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	public void saveOrUpdateStock(List<MTGStockItem> stocks) throws IOException {
 		init();
 		
-		var exp = MTG.getPlugin(WooCommerceTools.WOO_COMMERCE_NAME, MTGCardsExport.class);
+		var exp = (WooCommerceExport)MTG.getPlugin(WooCommerceTools.WOO_COMMERCE_NAME, MTGCardsExport.class);
 		logger.debug("{} need to use {} exporter to send card Stock",getName(),exp.getName());
-		Map<String, Object> vars = new HashMap<>();
+		
 		
 		var listCards = stocks.stream().filter(mci->mci.getProduct().getTypeProduct()==EnumItems.CARD).map(mci->(MTGCardStock)mci).toList();
 		var listSealed= stocks.stream().filter(mci->mci.getProduct().getTypeProduct()!=EnumItems.CARD).map(mci->(MTGSealedStock)mci).toList();
 		
 		exp.exportStock(listCards, null);
+	
 		
 		
 		for(MTGSealedStock it : listSealed)
 		{
-			vars.put(PRICE, String.valueOf(it.getPrice()));
-			vars.put("regular_price", String.valueOf(it.getPrice()));
-			vars.put(STOCK_QUANTITY, it.getQte());
-			
 			if(it.getId()>-1)
 			{
-				var ret = client.update(EndpointBaseType.PRODUCTS.getValue(),it.getId().intValue(),vars );
+				var ret = client.update(EndpointBaseType.PRODUCTS.getValue(),it.getId().intValue(),exp.build(it) );
 			    logger.debug("ret={}",ret);
 			}
 			else
 			{
-				logger.warn("upload sealed is not yet implemented");
+				var ret = client.create(EndpointBaseType.PRODUCTS.getValue(),exp.build(it) );
+			    logger.debug("ret={}",ret);
 			}
 	    
 			it.setUpdated(false);
@@ -527,9 +525,14 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 			p.setCategory(c);
 			p.setProductId(obj.get("id").getAsLong());
 			p.setName(obj.get("name").getAsString());
-
-			var img = obj.get(IMAGES).getAsJsonArray().get(0).getAsJsonObject();
-			p.setUrl(img.get("src").getAsString());
+			try {
+				var img = obj.get(IMAGES).getAsJsonArray().get(0).getAsJsonObject();
+				p.setUrl(img.get("src").getAsString());
+			}
+			catch(Exception e)
+			{
+				logger.error("error getting image for {}",obj);
+			}
 			return p;
 
 	}

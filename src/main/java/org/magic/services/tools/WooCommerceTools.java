@@ -5,13 +5,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Properties;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.logging.log4j.Logger;
+import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.technical.AccountAuthenticator;
 import org.magic.api.exports.impl.JsonExport;
+import org.magic.api.interfaces.MTGStockItem;
+import org.magic.api.providers.impl.ScryFallProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.MTGHttpClient;
@@ -21,6 +25,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.icoderman.woocommerce.ApiVersionType;
+import com.icoderman.woocommerce.EndpointBaseType;
 import com.icoderman.woocommerce.HttpMethod;
 import com.icoderman.woocommerce.WooCommerce;
 import com.icoderman.woocommerce.oauth.OAuthConfig;
@@ -60,6 +65,9 @@ public class WooCommerceTools {
 		return newClient(p.get(CONSUMER_KEY), p.get(CONSUMER_SECRET), p.get(WEBSITE), WOO_COMMERCE_VERSION);
 	}
 
+	
+	
+	
 	public static WooCommerce newClient(String key, String secret, String website,String version)
 	{
 		return new WooCommerce() {
@@ -227,6 +235,28 @@ public class WooCommerceTools {
 
 	
 	
+	public static JsonObject createAttributes(String key ,String val,boolean visible)
+	{
+		if(val==null || val.equals("null"))
+			createAttributes(key ,new String[] {""},visible);
+		
+		return createAttributes(key ,new String[] {val},visible);
+	}
+
+	public static JsonObject createAttributes(String key ,String[] val,boolean visible)
+	{
+					var obj = new JsonObject();
+					   obj.addProperty("name", key);
+					   obj.addProperty("visible", String.valueOf(visible));
+
+					   var arr  =new JsonArray();
+					   for(String s : val)
+						   arr.add(s);
+
+					   obj.add("options", arr);
+		   return obj;
+	}
+	
 	public static JsonArray entryToJsonArray(String string, String value) {
 
 		var obj = new JsonObject();
@@ -238,5 +268,8 @@ public class WooCommerceTools {
 		return arr;
 	}
 
+	
+	
+	
 
 }
