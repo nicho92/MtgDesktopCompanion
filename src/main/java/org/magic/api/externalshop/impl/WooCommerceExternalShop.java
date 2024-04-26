@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.MTGSealedStock;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.EnumPaymentProvider;
@@ -14,11 +16,14 @@ import org.magic.api.beans.shop.Category;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.exports.impl.JsonExport;
+import org.magic.api.exports.impl.WooCommerceExport;
+import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
 import org.magic.services.MTGConstants;
 import org.magic.services.ProductFactory;
+import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 import org.magic.services.tools.WooCommerceTools;
 
@@ -167,6 +172,19 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		return WooCommerceTools.WOO_COMMERCE_NAME;
 	}
 
+	
+	private String getAttributes(JsonArray atts, String name)
+	{
+		for(var je : atts)
+		{
+			if(je.getAsJsonObject().get("name").getAsString().equalsIgnoreCase(name))
+				return je.getAsJsonObject().get("options").getAsJsonArray().get(0).getAsString();
+		}
+		
+		return "";
+	}
+	
+	
 	@Override
 	public List<MTGStockItem> loadStock(String search) throws IOException {
 		init();
@@ -179,14 +197,20 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 		res.forEach(element->{
 		
 			var obj = element.getAsJsonObject();
+			var atts = obj.get("attributes").getAsJsonArray();
 			
-			
-
+			logger.debug("reading {}",element);
 			var objCateg = obj.get(CATEGORIES).getAsJsonArray().get(0).getAsJsonObject();
 			var c = new Category();
 					 c.setIdCategory(objCateg.get("id").getAsInt());
 					 c.setCategoryName(objCateg.get("name").getAsString());
-			var p = ProductFactory.createDefaultProduct(parseType(c));
+		
+			
+					 var typeProduct = getAttributes(atts, "mtg_comp_type");
+					 var p = ProductFactory.createDefaultProduct(EnumItems.valueOf(typeProduct));
+			
+			
+			
 			p.setCategory(c);
 			p.setProductId(obj.get("id").getAsLong());
 			p.setName(obj.get("name").getAsString());
@@ -203,15 +227,10 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 
 					var stockItem = ProductFactory.generateStockItem(p);
 					stockItem.setId(p.getProductId());
-
-
-					if(List.of(EnumItems.BOOSTER,EnumItems.CONSTRUCTPACK,EnumItems.BOX,EnumItems.FATPACK,EnumItems.PRERELEASEPACK,EnumItems.BUNDLE, EnumItems.SEALED).contains(p.getTypeProduct()))
-							stockItem.setCondition(EnumCondition.SEALED);
-					else if(List.of(EnumItems.SET,EnumItems.LOTS).contains(p.getTypeProduct()))
-						stockItem.setCondition(EnumCondition.OPENED);
-					else if(List.of(EnumItems.CARD).contains(p.getTypeProduct()))
-						stockItem.setCondition(EnumCondition.NEAR_MINT);
-
+					stockItem.setCondition(EnumCondition.valueOf(getAttributes(atts, "mtg_comp_condition")));
+					
+					
+					
 					try {
 						stockItem.setPrice(obj.get(PRICE).getAsDouble());
 					}
@@ -367,10 +386,20 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 	}
 
 	@Override
-	public void saveOrUpdateStock(List<MTGStockItem> stock) throws IOException {
+	public void saveOrUpdateStock(List<MTGStockItem> stocks) throws IOException {
 		init();
+		
+		var exp = MTG.getPlugin(WooCommerceTools.WOO_COMMERCE_NAME, MTGCardsExport.class);
+		logger.debug("{} need to use {} exporter to send card Stock",getName(),exp.getName());
 		Map<String, Object> vars = new HashMap<>();
-		for(MTGStockItem it : stock)
+		
+		var listCards = stocks.stream().filter(mci->mci.getProduct().getTypeProduct()==EnumItems.CARD).map(mci->(MTGCardStock)mci).toList();
+		var listSealed= stocks.stream().filter(mci->mci.getProduct().getTypeProduct()!=EnumItems.CARD).map(mci->(MTGSealedStock)mci).toList();
+		
+		exp.exportStock(listCards, null);
+		
+		
+		for(MTGSealedStock it : listSealed)
 		{
 			vars.put(PRICE, String.valueOf(it.getPrice()));
 			vars.put("regular_price", String.valueOf(it.getPrice()));
@@ -383,7 +412,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 			}
 			else
 			{
-				
+				logger.warn("upload sealed is not yet implemented");
 			}
 	    
 			it.setUpdated(false);

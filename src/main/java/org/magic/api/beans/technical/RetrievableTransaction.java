@@ -5,7 +5,7 @@ import java.util.Date;
 public class RetrievableTransaction {
 
 	private String comments;
-	private double totalValue;
+	private MoneyValue totalValue;
 	private Date dateTransaction;
 	private String source;
 	private String sourceId;
@@ -34,12 +34,15 @@ public class RetrievableTransaction {
 	public void setComments(String comments) {
 		this.comments = comments;
 	}
-	public double getTotalValue() {
-		return totalValue;
-	}
-	public void setTotalValue(double totalValue) {
+	public void setTotalValue(MoneyValue totalValue) {
 		this.totalValue = totalValue;
 	}
+	
+	public MoneyValue getTotalValue() {
+		return totalValue;
+	}
+	
+	
 	public Date getDateTransaction() {
 		return dateTransaction;
 	}

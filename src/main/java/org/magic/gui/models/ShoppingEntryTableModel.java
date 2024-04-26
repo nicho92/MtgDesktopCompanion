@@ -2,6 +2,7 @@ package org.magic.gui.models;
 
 import java.util.Date;
 
+import org.magic.api.beans.technical.MoneyValue;
 import org.magic.api.beans.technical.RetrievableTransaction;
 import org.magic.gui.abstracts.GenericTableModel;
 
@@ -21,7 +22,7 @@ public class ShoppingEntryTableModel extends GenericTableModel<RetrievableTransa
 		{
 			case 0 : return RetrievableTransaction.class;
 			case 1 : return Date.class;
-			case 4 : return Double.class;
+			case 4 : return MoneyValue.class;
 			default : return super.getColumnClass(columnIndex);
 		}
 	}

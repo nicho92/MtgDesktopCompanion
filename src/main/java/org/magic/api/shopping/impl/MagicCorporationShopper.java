@@ -13,6 +13,7 @@ import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.MTGSealedStock;
 import org.magic.api.beans.enums.EnumPaymentProvider;
 import org.magic.api.beans.shop.Transaction;
+import org.magic.api.beans.technical.MoneyValue;
 import org.magic.api.beans.technical.RetrievableTransaction;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.services.AccountsManager;
@@ -70,7 +71,7 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 					order.setDateTransaction(UITools.parseDate(e.select("td").get(1).text(), "dd/MM/yy"));
 					order.setSource(getName());
 					order.setUrl(urlDetailCommandes+order.getSourceId());
-					order.setTotalValue(UITools.parseDouble(e.select("td").get(2).text()));
+					order.setTotalValue(new MoneyValue(UITools.parseDouble(e.select("td").get(2).text()), getCurrency()));
 			
 			orders.add(order);
 			

@@ -12,6 +12,7 @@ import org.magic.api.beans.MTGSealedStock;
 import org.magic.api.beans.enums.EnumPaymentProvider;
 import org.magic.api.beans.enums.EnumTransactionStatus;
 import org.magic.api.beans.shop.Transaction;
+import org.magic.api.beans.technical.MoneyValue;
 import org.magic.api.beans.technical.RetrievableTransaction;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.services.AccountsManager;
@@ -47,7 +48,7 @@ public class PhilibertShopper extends AbstractMagicShopper {
 					 rt.setUrl(BASE_URL+"/en/index.php?controller=order-detail&id_order="+id+"&ajax=true");
 
 					rt.setDateTransaction(UITools.parseDate(tr.select("td.history_date").text(), DATE_FORMAT));
-					 rt.setTotalValue(UITools.parseDouble(tr.select("td.history_price").attr("data-value")));
+					 rt.setTotalValue(new MoneyValue(UITools.parseDouble(tr.select("td.history_price").attr("data-value")), getCurrency()));
 					 rt.setComments(tr.select("td.history_method").text());
 					 
 					 

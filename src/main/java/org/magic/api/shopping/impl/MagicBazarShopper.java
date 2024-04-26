@@ -15,6 +15,7 @@ import org.magic.api.beans.MTGSealedStock;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.shop.Transaction;
+import org.magic.api.beans.technical.MoneyValue;
 import org.magic.api.beans.technical.RetrievableTransaction;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGSealedProvider;
@@ -73,7 +74,7 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 			 	 o.setSource(getName());
 				 o.setSourceId(element.select("div.num_commande").text());
 				 o.setDateTransaction(UITools.parseDate(element.select("div.hide_mobile").first().html(),"MM/dd/yy"));
-				 o.setTotalValue(UITools.parseDouble(StringEscapeUtils.unescapeHtml4(element.select("div.price").html())));
+				 o.setTotalValue(new MoneyValue(UITools.parseDouble(StringEscapeUtils.unescapeHtml4(element.select("div.price").html())), getCurrency()));
 				 o.setComments(element.select("div.num_item").get(1).html());
 				 o.setUrl(element.attr("href"));
 			entries.add(o);

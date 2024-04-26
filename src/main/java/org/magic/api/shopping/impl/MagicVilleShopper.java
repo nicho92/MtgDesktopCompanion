@@ -14,6 +14,7 @@ import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.shop.Transaction;
+import org.magic.api.beans.technical.MoneyValue;
 import org.magic.api.beans.technical.RetrievableTransaction;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGStockItem;
@@ -152,7 +153,7 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 				var price =new String(tr.select("td").get(10).html().getBytes(StandardCharsets.ISO_8859_1),StandardCharsets.UTF_8);
 				
 				if(!price.contains("n/a"))
-					entry.setTotalValue(UITools.parseDouble(price));
+					entry.setTotalValue(new MoneyValue(UITools.parseDouble(price), getCurrency()));
 				
 				entry.setDateTransaction(UITools.parseDate(tr.select("td").get(0).html(), "dd/MM/yy"));
 			entries.add(entry);
