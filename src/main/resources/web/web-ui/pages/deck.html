@@ -141,12 +141,13 @@
 				
 				var em = false;
 				$( "#exportModal" ).on('shown.bs.modal', function(e){
+					$("#selectExport > option").remove();
 					if(tm){
 						em=false;return;
 					}
 					else{
 						$.get(restserver+"/admin/plugins/list",function(data) {
-				  	    	
+							
 							data.EXPORT.filter(function (entry) {return entry.enabled === true;}).forEach( function(item,index){
 								$("#selectExport").append('<option value="'+item.name+'">'+item.name+'</option>');
 							});
