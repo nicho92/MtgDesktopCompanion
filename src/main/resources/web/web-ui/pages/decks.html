@@ -98,9 +98,16 @@
 							return data;
 			            }
 		        	},
- 					 { 
-		                "data": "description",
+ 					{ 
+		                "data": "commander",
 		                "defaultContent": "",
+		                "render": function(data, type, row, meta)
+		                {
+		                	  if(type === 'display' && data!=null)
+								return generateLinkCard(data);
+							
+							return data;
+			            }
 		                
 		        	},
 		        	{ 
@@ -133,7 +140,10 @@
 		                	return data;
 		                }
 		        	}	
-		        ]
+		        ],
+		        "fnDrawCallback" :function(oSettings, json) {
+		        	mtgtooltip($(".mtg-tooltip"));
+		        },
 		    } );
 			
 		
@@ -166,7 +176,7 @@
 	           			 <tr>
 						            	<th>name</th>
 						            	<th>colors</th>
-						            	<th>description</th>
+						            	<th>commander</th>
 						            	<th>date</th>
 						            	<th>tags</th>
 						            </tr>
