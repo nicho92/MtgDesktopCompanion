@@ -123,7 +123,7 @@
 				
 				
 				$.ajax({
-				    url: restserver+"/ged/Announce/"+ data.id
+				    url: restserver+"/ged/MTGAnnounce/"+ data.id
 				}).then(function(geds){
 					$.each( geds, function( key, ged ) {
 						var img = buildImage(ged,"");
