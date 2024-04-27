@@ -99,7 +99,7 @@
 	  			$.ajax({
   	       				 url: restserver+"/admin/reindexation"
   	   			 }).then(function(data) {
-					alert(data);
+					alert(data.msg);
 	 			});
 			});
 			
@@ -107,7 +107,7 @@
 	  			$.ajax({
   	       				 url: restserver+"/admin/clearCache"
   	   			 }).then(function(data) {
-					alert(data);
+					alert(data.msg);
 	 			});
 			});
 			

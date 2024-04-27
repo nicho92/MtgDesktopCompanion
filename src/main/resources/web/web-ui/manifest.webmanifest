@@ -83,8 +83,18 @@
         }
       ]
    
-  },
-  
+  }, 
+  {
+    "name": "Decks",
+    "url": "pages/decks.html",
+    "icons": [
+        {
+          "src": "dist/img/96.png",
+          "type": "image/png",
+          "sizes": "96x96"
+        }
+      ]
+    },
   {
     "name": "Sets",
     "url": "pages/sets.html",
