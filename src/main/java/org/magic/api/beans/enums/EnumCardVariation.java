@@ -6,7 +6,6 @@ public enum EnumCardVariation implements MTGEnumeration{
 
 	BORDERLESS,
 	EXTENDEDART,
-	FULLART,
 	JAPANESEALT,
 	SHOWCASE,
 	TIMESHIFTED,

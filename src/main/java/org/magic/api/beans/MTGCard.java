@@ -253,9 +253,6 @@ public class MTGCard extends AbstractProduct {
 		if(isShowCase()) {
 			ret.add(EnumCardVariation.SHOWCASE);
 		}
-		if(isFullArt()) {
-			ret.add(EnumCardVariation.FULLART);
-		}
 		if(isExtendedArt()) {
 			ret.add(EnumCardVariation.EXTENDEDART);
 		}
@@ -575,7 +572,7 @@ public class MTGCard extends AbstractProduct {
 		return getTypes().toString().toLowerCase().contains("land");
 	}
 	public boolean isLegendary() {
-		return getSupertypes().toString().toLowerCase().contains("legendary");
+		return getSupertypes().contains("Legendary");
 	}
 
 	public boolean isMainFace() {
