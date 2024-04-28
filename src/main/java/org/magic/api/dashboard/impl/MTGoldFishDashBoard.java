@@ -23,12 +23,17 @@ import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.enums.EnumCardVariation;
 import org.magic.api.beans.enums.EnumExtra;
+import org.magic.api.beans.enums.EnumPromoType;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGConstants;
+import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.UITools;
 import org.mozilla.javascript.Parser;
 import org.mozilla.javascript.ast.AstNode;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 public class MTGoldFishDashBoard extends AbstractDashBoard {
 	private static final String TIMEOUT = "TIMEOUT";
@@ -104,6 +109,100 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	}
 
 
+	private String searchUrlFor(MTGCard mc,boolean foil)
+	{
+		var arr = RequestBuilder.build().setClient(URLTools.newClient())
+				  .get()
+				  .url(WEBSITE+"/autocomplete?term="+URLTools.encode(mc.getName()))
+				  .addHeader("x-requested-with", "XMLHttpRequest")
+				  .addHeader("accept", "application/json, text/javascript, */*; q=0.01")
+				  .addHeader("referer", WEBSITE)
+				  .toJson().getAsJsonArray();
+
+			JsonObject item=null;
+		
+			if(arr.isEmpty())
+			{
+				logger.debug("No url found for {}",mc);
+				return null;
+			}
+
+			if(arr.size()==1)
+			{
+				item = arr.get(0).getAsJsonObject();
+			}
+			else
+			{
+				var filteredArray = new JsonArray();
+				var set = aliases.getSetIdFor(this,mc.getEdition());
+				for(var el : arr)
+				{
+					if(el.getAsJsonObject().get("id").getAsString().contains("["+set+"]") && el.getAsJsonObject().get("foil").getAsBoolean()==foil){
+						filteredArray.add(el);
+					}
+				}
+
+				logger.debug("filtered with set {} and foil = {} and extra={} : {} ",set,foil,mc.getExtra(),filteredArray);
+
+				var variationTag = "variation";
+				if(filteredArray.size()==1) {
+					item = filteredArray.get(0).getAsJsonObject();
+				}
+				else if(filteredArray.size()>1)
+				{
+					for(var el : filteredArray)
+					{
+							if(el.getAsJsonObject().get("id").getAsString().contains(mc.getNumber())){
+								item=el.getAsJsonObject();
+							}
+							else if(!el.getAsJsonObject().get(variationTag).isJsonNull() && mc.getExtra()!=null)
+							{
+								if(mc.getFlavorName()!=null && mc.getFlavorName().equalsIgnoreCase(el.getAsJsonObject().get(variationTag).getAsString())){
+									item=el.getAsJsonObject();
+								}
+								if(mc.isShowCase() && el.getAsJsonObject().get(variationTag).getAsString().equals("Showcase")) {
+									item=el.getAsJsonObject();
+								}
+								if(mc.isBorderLess() && el.getAsJsonObject().get(variationTag).getAsString().equals("Borderless")) {
+									item=el.getAsJsonObject();
+								}
+								if(mc.isExtendedArt() && el.getAsJsonObject().get(variationTag).getAsString().equals("Extended")) {
+									item=el.getAsJsonObject();
+								}
+								if(mc.getExtra().contains(EnumCardVariation.JAPANESEALT) && el.getAsJsonObject().get(variationTag).getAsString().equals("Japanese")) {
+									item=el.getAsJsonObject();
+								}
+								if(mc.isRetro() && (el.getAsJsonObject().get(variationTag).getAsString().equals("Retro"))) {
+									item=el.getAsJsonObject();
+								}
+								if(mc.isTimeshifted() && el.getAsJsonObject().get(variationTag).getAsString().equals("Timeshifted")) {
+									item=el.getAsJsonObject();
+								}
+								if(mc.getPromotypes().contains(EnumPromoType.BUNDLE) && el.getAsJsonObject().get(variationTag).getAsString().equals("Bundle")) {
+									item=el.getAsJsonObject();
+								}
+							}
+							else if(el.getAsJsonObject().get(variationTag).isJsonNull())
+							{
+								item=el.getAsJsonObject();
+							}
+					}
+				}
+		}
+
+		logger.debug("Founded {}",item);
+
+		if(item==null)
+		{
+			logger.debug("item is null");
+			return null;
+		}
+
+
+		return URLTools.getLocation(WEBSITE+"/q?utf8=%E2%9C%93&query_string="+URLTools.encode(item.get("id").getAsString()))+"#" + getString(FORMAT);
+	}
+	
+	
 	@Override
 	public HistoryPrice<MTGSealedProduct> getOnlinePricesVariation(MTGSealedProduct packaging) throws IOException {
 
@@ -180,56 +279,14 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	@Override
 	public HistoryPrice<MTGCard> getOnlinePricesVariation(MTGCard mc, boolean foil) throws IOException {
 
-		var url ="";//searchUrlFor(mc,foil)
-
-		HistoryPrice<MTGCard> historyPrice = new HistoryPrice<>(mc);
-		historyPrice.setCurrency(getCurrency());
-		historyPrice.setFoil(foil);
+		var url =searchUrlFor(mc,foil);
+		var historyPrice = new HistoryPrice<MTGCard>(mc);
+			 historyPrice.setCurrency(getCurrency());
+			 historyPrice.setFoil(foil);
 
 
 		if(mc==null )
 			return historyPrice;
-
-			String cardName = RegExUtils.replaceAll(mc.getName(), " ", "+");
-			cardName = RegExUtils.replaceAll(cardName, ":", "+");
-			cardName = RegExUtils.replaceAll(cardName, "'", "");
-			cardName = RegExUtils.replaceAll(cardName, ",", "");
-			cardName = RegExUtils.replaceAll(cardName, "!", "");
-
-			if (cardName.indexOf('/') > -1)
-				cardName = cardName.substring(0, cardName.indexOf('/')).trim();
-
-
-			var pfoil="";
-
-			if(mc.getEdition().isFoilOnly() || foil)
-				pfoil=":Foil";
-
-			var extra="";
-			var extend="";
-			if(mc.isExtendedArt())
-				extend="-extended";
-			else if(mc.isShowCase())
-				extend="-showcase";
-			else if(mc.isBorderLess())
-				extend="-borderless";
-			else if(mc.isRetro())
-				extend="-retro";
-			else if(mc.isTimeshifted())
-				extend="-timeshifted";
-			else if(mc.isJapanese())
-				extend="-japanese";
-	
-			if(mc.getFlavorName()!=null)
-				extend="-"+mc.getFlavorName().replace(" ", "+");
-
-			
-			
-
-			if(ArrayUtils.contains(new String[] {"PUMA","STA","SLD","MUL","WOT","REX"}, mc.getEdition().getId()))
-				extend="";
-
-			url = WEBSITE + "/price/" + convert(mc.getEdition()) + extra+pfoil+"/" + cardName +extend+ "#" + getString(FORMAT);
 
 		try {
 			Document d = URLTools.extractAsHtml(url);
