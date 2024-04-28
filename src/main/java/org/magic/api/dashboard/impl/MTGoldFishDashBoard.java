@@ -141,7 +141,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 					}
 				}
 
-				logger.debug("filtered with set {} and foil = {} and extra={} : {} ",set,foil,mc.getExtra(),filteredArray);
+				logger.debug("filtered with set {} and foil = {} and extra={} : {} items",set,foil,mc.getExtra(),filteredArray.size());
 
 				var variationTag = "variation";
 				if(filteredArray.size()==1) {
@@ -188,9 +188,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 					}
 				}
 		}
-
-		logger.debug("Founded {}",item);
-
 		if(item==null)
 		{
 			logger.debug("item is null");
@@ -280,10 +277,13 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 		var url =searchUrlFor(mc,foil);
 		var historyPrice = new HistoryPrice<MTGCard>(mc);
-			 historyPrice.setCurrency(getCurrency());
-			 historyPrice.setFoil(foil);
+		 historyPrice.setCurrency(getCurrency());
+		 historyPrice.setFoil(foil);
 
 
+		if(url==null)
+			return historyPrice;
+		
 		if(mc==null )
 			return historyPrice;
 
