@@ -729,6 +729,7 @@
 						-Dlog4j2.formatMsgNoLookups=true
 						-Djdk.tls.client.protocols="TLSv1,TLSv1.1,TLSv1.2"
 						-Djava.library.path="./natives"
+						-Dorg.apache.lucene.store.MMapDirectory.enableMemorySegments=false
 						--add-opens=java.base/java.util=ALL-UNNAMED
 						--add-opens=java.base/java.lang=ALL-UNNAMED
 						--add-opens=java.base/java.lang.invoke=ALL-UNNAMED
