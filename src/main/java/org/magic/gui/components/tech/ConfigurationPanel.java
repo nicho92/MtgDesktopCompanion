@@ -6,7 +6,6 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.LayoutManager2;
@@ -17,7 +16,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Currency;
-import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
@@ -521,9 +519,11 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		chkToolTip = new JCheckBox("");
 		var lblToolPosition = new JLangLabel("TAB_POSITION",true);
 		JComboBox<String> cboToolPosition = UITools.createCombobox(new String[] { "TOP", "LEFT", "RIGHT", "BOTTOM" });
+		
 		var lblFont = new JLangLabel("FONT",true);
+		
 		var chooseFontPanel = new JFontChooser();
-		chooseFontPanel.initFont(MTGControler.getInstance().getFont());
+			  chooseFontPanel.initFont(MTGControler.getInstance().getFont());
 		var btnSaveFont = new JButton(capitalize("SAVE"));
 		var chkEnabledAutocomplete = new JCheckBox();
 		var chkEnabledChrome = new JCheckBox();
@@ -561,7 +561,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		panelGUI.add(chkEnabledChrome, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 9));
 
 		panelGUI.add(new JLabel(capitalize("SHORTKEYS_CONFIGURATION") + " :"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 10));
-		panelGUI.add(btnShortKeys, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  2, 10));
+		panelGUI.add(UITools.createFlowPanel(btnShortKeys), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 10));
 
 
 

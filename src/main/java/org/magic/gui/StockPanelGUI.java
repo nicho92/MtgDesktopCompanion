@@ -28,6 +28,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
 import javax.swing.JTextPane;
@@ -549,7 +550,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		historyPricePanel = new HistoryPricesPanel(true);
 		pricePanel = new PricesTablePanel();
 		syncPanel = new StockItemsSynchronizationPanel();
-		chkboxForceFoil = new JCheckBox("Force foil");
+		chkboxForceFoil = new JCheckBox("Force foil on duplication");
 		
 		var centerPanel = new JPanel();
 		add(centerPanel, BorderLayout.CENTER);
@@ -561,7 +562,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		btnDuplicate.setEnabled(false);
 		btnDuplicate.setToolTipText(capitalize("DUPLICATE"));
 		actionPanel.add(btnDuplicate);
-		actionPanel.add(chkboxForceFoil);
+	
 		
 		btnDelete = UITools.createBindableJButton(null, MTGConstants.ICON_DELETE, KeyEvent.VK_D, "stock delete");
 		btnDelete.setEnabled(false);
@@ -635,11 +636,12 @@ public class StockPanelGUI extends MTGUIComponent {
 		rightPanel.setBackground(SystemColor.inactiveCaption);
 		rightPanel.setVisible(false);
 		add(rightPanel, BorderLayout.EAST);
+		
 		var gblrightPanel = new GridBagLayout();
 		gblrightPanel.columnWidths = new int[] { 84, 103, 0 };
-		gblrightPanel.rowHeights = new int[] { 83, 56, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gblrightPanel.rowHeights = new int[] { 83, 56, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0,0 };
 		gblrightPanel.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
-		gblrightPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,Double.MIN_VALUE };
+		gblrightPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,0.0,Double.MIN_VALUE };
 		rightPanel.setLayout(gblrightPanel);
 
 		var gbclblSelect = new GridBagConstraints();
@@ -794,6 +796,18 @@ public class StockPanelGUI extends MTGUIComponent {
 		gbcbtnApplyModification.gridy = 13;
 		rightPanel.add(btnApplyModification, gbcbtnApplyModification);
 
+		var gbcSep = new GridBagConstraints();
+		gbcSep.gridwidth = 2;
+		gbcSep.gridx = 0;
+		gbcSep.gridy = 14;
+		rightPanel.add(new JSeparator(), gbcSep);
+		
+		var gbcSepFoil = new GridBagConstraints();
+		gbcSepFoil.gridwidth = 2;
+		gbcSepFoil.gridx = 0;
+		gbcSepFoil.gridy = 15;
+		rightPanel.add(chkboxForceFoil, gbcSepFoil);
+		
 		
 		add(bottomPanel, BorderLayout.SOUTH);
 
