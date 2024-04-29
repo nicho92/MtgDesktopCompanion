@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.Callable;
@@ -105,6 +106,32 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		{
 			return null;
 		}
+	}
+	
+	
+	public String getLanguage(String code) 
+	{
+		switch (code) 
+		{
+			case "es": return "Spanish";
+			case "fr": return "French"; 
+			case "de": return "German"; 
+			case "it": return "Italian";
+			case "pt": return "Portuguese"; 
+			case "ja": return "Japanese";
+			case "ko": return "Korean";
+			case "ru": return "Russian"; 
+			case "zhs": return "Simplified Chinese"; 
+			case "zht": return "Traditional Chinese"; 
+			case "he": return "Hebrew";
+			case "la": return "Latin"; 
+			case "grc": return "Ancient Greek"; 
+			case "ar": return "Arabic";
+			case "sa": return "Sanskrit"; 
+			case "ph" : return "Phyrexian";
+			default : return "English";
+		}	
+		
 	}
 
 
@@ -326,6 +353,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		
 		
 		
+		
 		try {
 			mc.setReprintedCard(obj.get(REPRINTED).getAsBoolean());
 		} catch (NullPointerException e) {
@@ -362,23 +390,41 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 		if (obj.get(TYPE_LINE) != null)
 			generateTypes(mc, String.valueOf(obj.get(TYPE_LINE)));
-
-		var n = new MTGCardNames();
-		n.setLanguage("English");
-		n.setName(mc.getName());
-		try {
-			n.setGathererId(obj.get(MULTIVERSE_ID).getAsInt());
-		} catch (NullPointerException e) {
-			n.setGathererId(0);
+		
+		
+		if(obj.get("LANG") !=null)
+		{
+			var n = new MTGCardNames();
+			n.setLanguage(getLanguage(obj.get("LANG").getAsString()));
+			n.setName(obj.get("printed_name").getAsString());
+			n.setText(obj.get("printed_text").getAsString());
+			n.setType(obj.get("printed_type_line").getAsString());
+			n.setFlavor(obj.get("flavor_text").getAsString());
+			try {
+				n.setGathererId(obj.get(MULTIVERSE_ID).getAsInt());
+			} catch (NullPointerException e) {
+				n.setGathererId(0);
+			}
 		}
-
-		mc.getForeignNames().add(n);
+		else
+		{
+			var n = new MTGCardNames();
+			n.setLanguage("English");
+			n.setName(mc.getName());
+			try {
+				n.setGathererId(obj.get(MULTIVERSE_ID).getAsInt());
+			} catch (NullPointerException e) {
+				n.setGathererId(0);
+			}
+			
+	}
 
 		try {
 			mc.setArtist(obj.get(ARTIST).getAsString());
 		} catch (NullPointerException e) {
 			logger.trace("artist not found");
 		}
+		
 		try {
 			mc.setReserved(obj.get("reserved").getAsBoolean());
 		} catch (NullPointerException e) {
