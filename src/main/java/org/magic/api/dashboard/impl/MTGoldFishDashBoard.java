@@ -142,7 +142,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				}
 
 				logger.debug("filtered with set {} and foil = {} and extra={} : {} items",set,foil,mc.getExtra(),filteredArray.size());
-
+				logger.debug(filteredArray);
 				var variationTag = "variation";
 				if(filteredArray.size()==1) {
 					item = filteredArray.get(0).getAsJsonObject();

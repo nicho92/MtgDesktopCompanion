@@ -102,7 +102,6 @@ public class MTGCard extends AbstractProduct {
 	@SerializedName(alternate = "multiverse_id", value = "multiverseId") private String multiverseid;
 	private String watermarks;
 	private boolean fullArt;
-	private boolean japanese;
 	private boolean timeshifted;
 	private boolean retro;
 	private String subsets;
@@ -565,7 +564,7 @@ public class MTGCard extends AbstractProduct {
 	}
 
 	public boolean isJapanese() {
-		return japanese;
+		return getForeignNames().size()==1 && getForeignNames().stream().filter(mcf->mcf.getLanguage().equalsIgnoreCase("Japanese")).count()==1;
 	}
 
 	public boolean isLand() {
@@ -763,10 +762,6 @@ public class MTGCard extends AbstractProduct {
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public void setJapanese(boolean japanese) {
-		this.japanese = japanese;
 	}
 
 	public void setKeywords(List<MTGKeyWord> keywords) {

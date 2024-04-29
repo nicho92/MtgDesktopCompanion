@@ -619,23 +619,6 @@ private MTGPool pool;
 
 	private List<MTGCardNames> getTranslations(MTGCard mc) {
 
-		var defaultName = new MTGCardNames();
-		defaultName.setFlavor(mc.getFlavor());
-		try{
-			defaultName.setGathererId(Integer.parseInt(mc.getMultiverseid()));
-		}
-		catch(Exception e)
-		{
-			//do nothing
-		}
-		defaultName.setLanguage("English");
-		defaultName.setName(mc.getName());
-		defaultName.setText(mc.getText());
-		defaultName.setType(mc.getFullType());
-
-		mc.getForeignNames().add(defaultName);
-
-
 		if(mapForeignData.isEmpty())
 			initForeign();
 

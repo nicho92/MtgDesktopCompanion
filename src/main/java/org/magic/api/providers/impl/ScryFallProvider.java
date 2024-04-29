@@ -363,9 +363,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		if (obj.get(TYPE_LINE) != null)
 			generateTypes(mc, String.valueOf(obj.get(TYPE_LINE)));
 
-
-		mc.setJapanese(String.valueOf(obj.get("LANG")).equals("en"));
-
 		var n = new MTGCardNames();
 		n.setLanguage("English");
 		n.setName(mc.getName());
