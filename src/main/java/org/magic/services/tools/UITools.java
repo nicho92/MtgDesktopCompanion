@@ -9,6 +9,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Desktop;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.SystemColor;
@@ -40,9 +41,11 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
@@ -767,6 +770,18 @@ public class UITools {
 
 	public static String replaceSpecialCharacters(String str,String with) {
 		return str.replaceAll("[^a-zA-Z0-9]", with);
+	}
+
+
+	public static Component createFlowPanel(JComponent... of) {
+		var tempPanel = new JPanel();
+		((FlowLayout)tempPanel.getLayout()).setAlignment(FlowLayout.LEFT);
+		for(var c : of)
+			tempPanel.add(c);
+		
+		return tempPanel;
+		
+		
 	}
 
 

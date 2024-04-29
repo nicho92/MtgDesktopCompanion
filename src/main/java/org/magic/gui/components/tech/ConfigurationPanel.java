@@ -6,6 +6,7 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.LayoutManager2;
@@ -16,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Currency;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
@@ -312,15 +314,13 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		var btnSavePrice = new JButton(capitalize("SAVE"));
 		var lblCleancache = new JLabel(capitalize("CLEAN_CACHE") + " :");
 		var btnClean = new JButton(capitalize("CLEAN"));
-		var panelCheckCache = new JPanel();
 		chckbxIconset = new JCheckBox(capitalize("IMG_SET"));
 		chckbxIconcards = new JCheckBox(capitalize("IMG_CARD"));
 		
-		var btnDefaultStock = new JButton("Default Stock");
+		var btnDefaultStock = new JButton(MTGConstants.ICON_TAB_STOCK);
 		var chkboxPrerelease = new JCheckBox();
 		var chkTechnicalLog = new JCheckBox();
 		
-		var panelBtnConfigBackup = new JPanel();
 		var btnExportConfig = new JButton(capitalize(EXPORT));
 		var btnImportConfig = new JButton(capitalize("IMPORT"));
 
@@ -331,12 +331,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 
 		chkboxPrerelease.getModel().setSelected( MTG.readPropertyAsBoolean("notifyPrerelease"));
 		chkTechnicalLog.setSelected(MTG.readPropertyAsBoolean("technical-log"));
-		
-		
-		panelCheckCache.add(chckbxIconset);
-		panelCheckCache.add(chckbxIconcards);
-		panelBtnConfigBackup.add(btnExportConfig);
-		panelBtnConfigBackup.add(btnImportConfig);
+
 
 		panelConfig.add(new JLangLabel("MAIN_COLLECTION",true), UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 0));
 		panelConfig.add(cboCollections, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 0));
@@ -344,11 +339,13 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		panelConfig.add(txtMinPrice, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 3));
 		panelConfig.add(btnSavePrice, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 3));
 		panelConfig.add(lblCleancache, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 4));
-		panelConfig.add(panelCheckCache, UITools.createGridBagConstraints(GridBagConstraints.WEST, GridBagConstraints.VERTICAL,  1, 4));
+		panelConfig.add(UITools.createFlowPanel(chckbxIconset,chckbxIconcards), UITools.createGridBagConstraints(GridBagConstraints.WEST, GridBagConstraints.VERTICAL,  1, 4));
 		panelConfig.add(btnClean, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 4));
-		panelConfig.add(btnDefaultStock, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 2, 5));
+		panelConfig.add(new JLangLabel("DEFAULT_STOCK",true), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,0, 5));
+		
+		panelConfig.add(UITools.createFlowPanel(btnDefaultStock), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,1, 5));
 		panelConfig.add(new JLangLabel("CONFIG_BACKUP",true), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 6));
-		panelConfig.add(panelBtnConfigBackup, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 6));
+		panelConfig.add(UITools.createFlowPanel(btnExportConfig,btnImportConfig), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 6));
 
 		panelConfig.add(new JLangLabel("UPDATE_PRERELEASE",true), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 0, 7));
 		panelConfig.add(chkboxPrerelease, UITools.createGridBagConstraints(null, GridBagConstraints.WEST, 1, 7));

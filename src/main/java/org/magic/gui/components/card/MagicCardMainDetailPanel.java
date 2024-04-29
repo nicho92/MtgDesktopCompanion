@@ -406,23 +406,14 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		chkRetro = new JCheckBox("(Retro)");
 		chkRetro.setToolTipText("Retro");
 		
-		var panelDetails = new JPanel();
-		panelDetails.setBorder(UIManager.getBorder("TextField.border"));
-			 panelDetails.add(chkReserved);
-			 panelDetails.add(new JSeparator());
-			 panelDetails.add(chkBorderless);
-			 panelDetails.add(chkShowcase);
-			 panelDetails.add(chkExtended);
 			 
 		GridBagConstraints gbcchkReserved = new GridBagConstraints();
 		gbcchkReserved.anchor = GridBagConstraints.WEST;
 		gbcchkReserved.insets = new Insets(0, 0, 0, 5);
 		gbcchkReserved.gridx = 0;
 		gbcchkReserved.gridy = 6;
-		add(panelDetails, gbcchkReserved);
+		add(UITools.createFlowPanel(chkReserved,new JSeparator(),chkBorderless,chkShowcase,chkExtended), gbcchkReserved);
 		
-
-		panelDetails.add(chkRetro);
 		
 		lblNumber = new JLabel("");
 		GridBagConstraints gbclblNumber = new GridBagConstraints();
