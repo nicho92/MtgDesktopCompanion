@@ -168,7 +168,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 								if(mc.isExtendedArt() && el.getAsJsonObject().get(variationTag).getAsString().equals("Extended")) {
 									item=el.getAsJsonObject();
 								}
-								if(mc.getExtra().contains(EnumCardVariation.JAPANESEALT) && el.getAsJsonObject().get(variationTag).getAsString().equals("Japanese")) {
+								if(mc.isJapanese() && el.getAsJsonObject().get(variationTag).getAsString().equals("Japanese")) {
 									item=el.getAsJsonObject();
 								}
 								if(mc.isRetro() && (el.getAsJsonObject().get(variationTag).getAsString().equals("Retro"))) {
@@ -177,7 +177,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 								if(mc.isTimeshifted() && el.getAsJsonObject().get(variationTag).getAsString().equals("Timeshifted")) {
 									item=el.getAsJsonObject();
 								}
-								if(mc.getPromotypes().contains(EnumPromoType.BUNDLE) && el.getAsJsonObject().get(variationTag).getAsString().equals("Bundle")) {
+								if(mc.isBundleCard() && el.getAsJsonObject().get(variationTag).getAsString().equals("Bundle")) {
 									item=el.getAsJsonObject();
 								}
 							}

@@ -148,6 +148,9 @@ public class MTGCard extends AbstractProduct {
 			
 	}
 	
+	public boolean isBundleCard() {
+		return getPromotypes().contains(EnumPromoType.BUNDLE);
+	}
 	
 	public boolean isAlternative() {
 		return alternative;

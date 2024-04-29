@@ -341,7 +341,8 @@
 									$("#priceVariation").addClass("text-danger");
 								
 								$("#historyProvider").html("Price in " + dprice.currency + " by " + dprice.provider);
-								$("#lastPrice").html(vallast.toFixed(2) + " /  " + vallastF.toFixed(2) + "(F) " + dprice.currency);
+								$("#lastPrice").html(vallast.toFixed(2) + " / <i class='ss ss-pmei'></i> " + vallastF.toFixed(2) + dprice.currency);
+								
 								}
 								catch(error)
 								{
