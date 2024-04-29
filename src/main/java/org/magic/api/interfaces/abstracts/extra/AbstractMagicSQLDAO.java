@@ -77,7 +77,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	protected MTGPool pool;
 
 	protected abstract String getjdbcnamedb();
-	protected abstract String createListStockSQL();
 	protected abstract String getdbSizeQuery();
 
 	protected abstract SQLDialect getDialect();
@@ -179,12 +178,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	}
 
 
-	protected boolean isJsonCompatible()
-	{
-		return true;
-	}
-
-	
 	private boolean createDB() throws SQLException {
 		
 		try (var cont =  pool.getConnection();Statement stat = cont.createStatement()) {
@@ -476,7 +469,9 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		stat.executeUpdate("CREATE INDEX idx_stk_com ON stocks (comments)");
 		stat.executeUpdate("CREATE INDEX idx_stk_con ON stocks (conditions)");
 		stat.executeUpdate("CREATE INDEX idx_stk_lang ON stocks (langage)");
-
+		stat.executeUpdate("CREATE INDEX idx_stk_name ON stocks (name)");
+		
+		
 		stat.executeUpdate("CREATE INDEX idx_news_nam ON news (name)");
 		stat.executeUpdate("CREATE INDEX idx_news_url ON news (url)");
 		stat.executeUpdate("CREATE INDEX idx_news_ctg ON news (categorie)");
@@ -1515,7 +1510,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	@Override
 	public List<MTGCardStock> listStocks(MTGCard mc, MTGCollection col,boolean editionStrict) throws SQLException {
-		String sql = createListStockSQL();
+		String sql ="SELECT * FROM stocks where collection=? and name like ?";
 
 		if(editionStrict)
 			sql ="SELECT * FROM stocks where collection=? and idmc=?";
@@ -1528,9 +1523,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 			if(editionStrict)
 				pst.setString(2, mc.getScryfallId());
-			else if (!isJsonCompatible())
-				pst.setString(2, "%"+mc.getName()+"%");
-			else
+			else 
 				pst.setString(2, mc.getName());
 
 			try (ResultSet rs = executeQuery(pst)) {
@@ -1614,7 +1607,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 		if (state.getId() < 0) {
 			logger.debug("save stock {}",state);
-			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement( "insert into stocks  ( conditions,foil,signedcard,langage,qte,comments,idmc,collection,mcard,altered,price,grading,tiersAppIds,etched,idMe,dateUpdate) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
+			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement( "insert into stocks  ( conditions,foil,signedcard,langage,qte,comments,idmc,collection,mcard,altered,price,grading,tiersAppIds,etched,idMe,dateUpdate,name) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
 				pst.setString(1, String.valueOf(state.getCondition()));
 				pst.setBoolean(2, state.isFoil());
 				pst.setBoolean(3, state.isSigned());
@@ -1631,6 +1624,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setBoolean(14, state.isEtched());
 				pst.setString(15, state.getProduct().getEdition().getId());
 				pst.setTimestamp(16, new Timestamp(new java.util.Date().getTime()));
+				pst.setString(17, state.getProduct().getName());
 				executeUpdate(pst,false);
 				state.setId(getGeneratedKey(pst));
 			} catch (Exception e) {
@@ -1639,7 +1633,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		} else {
 			logger.debug("update Stock {}",state);
 			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(
-					"update stocks set comments=?, conditions=?, foil=?,signedcard=?,langage=?, qte=? ,altered=?,price=?,idmc=?,collection=?,grading=?,tiersAppIds=?,etched=?, mcard=?, idMe=?, dateUpdate=? where idstock=?")) {
+					"update stocks set comments=?, conditions=?, foil=?,signedcard=?,langage=?, qte=? ,altered=?,price=?,idmc=?,collection=?,grading=?,tiersAppIds=?,etched=?, mcard=?, idMe=?, dateUpdate=?, name=? where idstock=?")) {
 				pst.setString(1, state.getComment());
 				pst.setString(2, state.getCondition().toString());
 				pst.setBoolean(3, state.isFoil());
@@ -1656,7 +1650,8 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				storeCard(pst, 14, state.getProduct());
 				pst.setString(15, state.getProduct().getEdition().getId());
 				pst.setTimestamp(16, new Timestamp(new java.util.Date().getTime()));
-				pst.setLong(17, state.getId());
+				pst.setString(17, state.getProduct().getName());
+				pst.setLong(18, state.getId());
 				executeUpdate(pst,false);
 			} catch (Exception e) {
 				logger.error(e);

@@ -37,11 +37,6 @@ public class HsqlDAO2 extends AbstractMagicSQLDAO {
 	}
 
 	@Override
-	protected boolean isJsonCompatible() {
-		return false;
-	}
-
-	@Override
 	public String getDBLocation() {
 		return getString(SERVERNAME);
 	}
@@ -67,11 +62,6 @@ public class HsqlDAO2 extends AbstractMagicSQLDAO {
 	@Override
 	public String getName() {
 		return "hSQLdb2";
-	}
-
-	@Override
-	public String createListStockSQL() {
-		return "select * from stocks where collection=? and mcard like ?";
 	}
 
 	@Override

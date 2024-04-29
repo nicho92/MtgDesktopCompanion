@@ -132,7 +132,7 @@ public class SQLTools {
 				.column("idstock",SQLDataType.INTEGER.identity(true))
 				.column("idmc",SQLDataType.VARCHAR(50))
 				.column("idMe",SQLDataType.VARCHAR(5))
-				.column("name", SQLDataType.VARCHAR(30))
+				.column("name", SQLDataType.VARCHAR(50))
 				.column("mcard",SQLDataType.JSON)
 				.column("collection",SQLDataType.VARCHAR(30))
 				.column("comments",SQLDataType.LONGVARCHAR)

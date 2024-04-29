@@ -70,10 +70,4 @@ public class SQLLiteDAO extends AbstractMagicSQLDAO {
 		return getName().toLowerCase();
 	}
 
-	@Override
-	protected String createListStockSQL() {
-		return "select * from stocks where collection=? and json_extract(mcard,'$.name')=?";
-
-	}
-
 }

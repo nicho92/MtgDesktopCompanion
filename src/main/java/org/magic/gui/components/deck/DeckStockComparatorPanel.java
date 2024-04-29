@@ -133,7 +133,7 @@ public class DeckStockComparatorPanel extends MTGUIComponent {
 
 		table.setDefaultRenderer(Integer.class, (JTable t, Object value, boolean isSelected, boolean hasFocus,int row, int column)->{
 			var val = (Integer)value;
-				if(column==5)
+				if(column==4)
 				{
 					var c = new JLabel(value.toString(),SwingConstants.CENTER);
 					c.setOpaque(true);

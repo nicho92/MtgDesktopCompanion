@@ -72,11 +72,6 @@ public class H2DAO extends AbstractMagicSQLDAO {
 		return "h2";
 	}
 
-	@Override
-	public String createListStockSQL() {
-		return "select * from stocks where collection=? and mcard like ?";
-	}
-
 
 	@Override
 	public Map<String, String> getDefaultAttributes() {

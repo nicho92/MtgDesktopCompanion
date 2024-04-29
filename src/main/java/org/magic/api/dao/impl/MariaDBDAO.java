@@ -38,11 +38,4 @@ public class MariaDBDAO extends AbstractMagicSQLDAO {
 		return m;
 	}
 
-
-	@Override
-	public String createListStockSQL() {
-		return "select * from stocks where collection=? and JSON_EXTRACT(mcard,'$.name')=?";
-	}
-
-
 }

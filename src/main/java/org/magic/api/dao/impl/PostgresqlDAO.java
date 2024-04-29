@@ -30,12 +30,6 @@ public class PostgresqlDAO extends AbstractMagicSQLDAO {
 		return SQLDialect.POSTGRES;
 	}
 
-	
-	@Override
-	protected String createListStockSQL() {
-		return "SELECT * FROM  stocks WHERE mcard->>'name' = ? and collection = ?";
-	}
-
 	@Override
 	protected void storeCard(PreparedStatement pst, int position, MTGCard mc) throws SQLException {
 		var jsonObject = new PGobject();
