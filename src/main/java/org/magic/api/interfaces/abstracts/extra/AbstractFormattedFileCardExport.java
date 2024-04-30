@@ -95,7 +95,8 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 
 			switch(cardSearch)
 			{
-			 case NAME:return getEnabledPlugin(MTGCardsProvider.class).getCardById(cname);
+			 case ID:return getEnabledPlugin(MTGCardsProvider.class).getCardById(cname);
+			 case NAME:return getEnabledPlugin(MTGCardsProvider.class).searchCardByName(cname,ed,true).get(0);
 			 case NUMBER : return getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(cname, ed);
 			 default : return null;
 			}
@@ -131,15 +132,12 @@ public abstract class AbstractFormattedFileCardExport extends AbstractCardExport
 		logger.info("Reading deck with regex {}", pattern);
 		
 		List<Matcher> ret = new ArrayList<>();
+		var p = Pattern.compile(pattern);
 		for(String line : splitLines(content,removeBlank))
 		{
 			line = line.trim();
 			if (!StringUtils.startsWithAny(line, skipLinesStartWith())) {
-				
-				var p = Pattern.compile(pattern);
-				
 				var m = p.matcher(line);
-
 				if(m.find())
 				{
 					logger.debug("Found {}", line);

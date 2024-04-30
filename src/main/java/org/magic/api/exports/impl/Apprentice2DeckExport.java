@@ -59,16 +59,24 @@ public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 		var deck = new MTGDeck();
 			deck.setName(name);
 
-
+			
+			var side = false;
 			for(var m : matches(f,true))
 			{
 				var mc = parseMatcherWithGroup(m, 3, -1, true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NAME);
 				var qte = Integer.parseInt(m.group(2));
-				var side = m.group(1);
-				if(mc!=null && side!=null)
-					deck.getSideBoard().put(mc, qte);
-				else
-					deck.getMain().put(mc, qte);
+				side = m.group(1)!=null;
+				
+				if(mc!=null)
+				{
+					if(side)
+						deck.getSideBoard().put(mc, qte);
+					else
+						deck.getMain().put(mc, qte);
+			
+					notify(mc);
+				}
+
 				
 			}
 			return deck;
@@ -77,7 +85,7 @@ public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public String[] skipLinesStartWith() {
-		return new String[] {"//"};
+		return new String[] {"//","<br>"};
 	}
 	
 	@Override

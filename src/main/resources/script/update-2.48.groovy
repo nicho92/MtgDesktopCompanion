@@ -1,7 +1,12 @@
 if(dao.isSQL()) {
 	printf("Executing db update on " + dao.getName());
+	try{
 	dao.executeQuery("ALTER TABLE stocks ADD name VARCHAR(50)");
-	
+	}
+	catch(Exception e)
+	{
+		printf("column name already present");
+	}
 	//mysql & Maria
 	query="UPDATE stocks SET name = JSON_UNQUOTE(JSON_EXTRACT(mcard,'\$.name'))";
 

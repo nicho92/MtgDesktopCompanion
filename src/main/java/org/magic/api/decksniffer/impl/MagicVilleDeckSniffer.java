@@ -13,10 +13,11 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.technical.RetrievableDeck;
-import org.magic.api.exports.impl.Apprentice2DeckExport;
+import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
+import org.magic.services.tools.MTG;
 
 public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 
@@ -50,7 +51,7 @@ public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 		var doc = RequestBuilder.build().setClient(URLTools.newClient()).get().url(info.getUrl()).toHtml();
 		var urlimport = baseUrl+doc.select("div.lil_menu > a[href^=dl_appr]").first().attr("href");
 		var content = RequestBuilder.build().setClient(URLTools.newClient()).get().url(urlimport).toContentString();
-		var imp = new Apprentice2DeckExport();
+		var imp = MTG.getPlugin("Apprentice", MTGCardsExport.class);
 		try {
 			imp.addObserver(listObservers().get(0));
 		}
@@ -59,14 +60,13 @@ public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 			logger.warn("error adding current observer to {}" ,imp);
 		}
 
-		content = content.replace("<br />","").replace("[U]", "[M21]");
-
+		content = content.replace("<br />","");
 		var d = imp.importDeck(content, info.getName());
 		d.setCreationDate(new Date());
 		d.setDateUpdate(new Date());
 		d.setDescription(getName() +" at  " + info.getUrl());
 
-
+		imp.removeObservers();
 
 		return d;
 	}
