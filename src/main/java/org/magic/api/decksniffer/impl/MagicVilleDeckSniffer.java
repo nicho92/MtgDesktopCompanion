@@ -60,7 +60,7 @@ public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 			logger.warn("error adding current observer to {}" ,imp);
 		}
 
-		content = content.replace("<br />","");
+		content = content.replace("<br />","").replace("[U]", "[M21]");
 		var d = imp.importDeck(content, info.getName());
 		d.setCreationDate(new Date());
 		d.setDateUpdate(new Date());
