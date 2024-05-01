@@ -162,7 +162,7 @@
 	},
 	"Apprentice": {
 		"regex": {
-			"default": "(SB:  )?(\\d+) (.*?)$"
+			"default": "(MD|SB),(\\d+),\\\"?(.*?)\\\"?,(.*?)$"
 		}
 	},
 	"Card Kingdom CSV": {
