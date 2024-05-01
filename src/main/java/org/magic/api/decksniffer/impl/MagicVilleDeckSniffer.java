@@ -49,9 +49,9 @@ public class MagicVilleDeckSniffer extends AbstractDeckSniffer {
 	@Override
 	public MTGDeck getDeck(RetrievableDeck info) throws IOException {
 		var doc = RequestBuilder.build().setClient(URLTools.newClient()).get().url(info.getUrl()).toHtml();
-		var urlimport = baseUrl+doc.select("div.lil_menu > a[href^=dl_appr]").first().attr("href");
+		var urlimport = baseUrl+doc.select("div.lil_menu > a[href^=dl_mws]").first().attr("href");
 		var content = RequestBuilder.build().setClient(URLTools.newClient()).get().url(urlimport).toContentString();
-		var imp = MTG.getPlugin("Apprentice", MTGCardsExport.class);
+		var imp = MTG.getPlugin("MagicWorkStation", MTGCardsExport.class);
 		try {
 			imp.addObserver(listObservers().get(0));
 		}

@@ -3,6 +3,7 @@ package org.magic.api.exports.impl;
 import java.io.File;
 import java.io.IOException;
 
+import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.abstracts.extra.AbstractFormattedFileCardExport;
@@ -42,22 +43,28 @@ public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 		for (var mc : deck.getMain().keySet()) {
 			temp.append("MD").append(getSeparator());
 			temp.append(deck.getMain().get(mc)).append(getSeparator());
-			temp.append(commated(mc.getName()));
-			temp.append(mc.getEdition().getId());
-			temp.append(System.lineSeparator());
+			temp.append(formatName(mc)).append(getSeparator());
+			temp.append(mc.getEdition().getId()).append(System.lineSeparator());
 			notify(mc);
 		}
 		for (var mc : deck.getSideBoard().keySet()) {
 			temp.append("SB").append(getSeparator());
 			temp.append(deck.getSideBoard().get(mc)).append(getSeparator());
-			temp.append(commated(mc.getName())).append(getSeparator());
-			temp.append(mc.getEdition().getId());
-			temp.append(System.lineSeparator());
+			temp.append(formatName(mc)).append(getSeparator());
+			temp.append(mc.getEdition().getId()).append(System.lineSeparator());
 			notify(mc);
 		}
 
 		FileTools.saveFile(dest, temp.toString());
 
+	}
+
+	private String formatName(MTGCard mc) {
+		if(mc.getName().indexOf(' ')>-1)
+			return "\""+mc.getName()+"\"";
+		
+		return commated(mc.getName());
+			
 	}
 
 	@Override
