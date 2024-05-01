@@ -61,6 +61,7 @@
 		<log4j.version>2.23.1</log4j.version>
 		<poi.version>5.2.5</poi.version>
 		<slf4j.version>2.0.12</slf4j.version>
+		<rhino.version>1.7.14</rhino.version>
 	</properties>
 	<repositories>
 		<repository>
@@ -542,7 +543,7 @@
 		<dependency>
 			<groupId>com.itextpdf</groupId>
 			<artifactId>itext-core</artifactId>
-			<version>8.0.3</version>
+			<version>8.0.4</version>
 			<type>pom</type>
 		</dependency>
 		<dependency>
@@ -578,7 +579,7 @@
 		<dependency>
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>
-			<version>8.3.0</version>
+			<version>8.4.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
@@ -588,12 +589,12 @@
 		<dependency>
 			<groupId>org.mozilla</groupId>
 			<artifactId>rhino</artifactId>
-			<version>1.7.14</version>
+			<version>${rhino.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>cat.inspiracio</groupId>
 			<artifactId>rhino-js-engine</artifactId>
-			<version>1.7.10</version>
+			<version>${rhino.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.rometools</groupId>
