@@ -23,29 +23,35 @@ public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public String getFileExtension() {
-		return ".dec";
+		return ".deck";
 	}
 
 	@Override
 	public boolean skipFirstLine() {
 		return false;
 	}
+	
+	@Override
+	public String getVersion() {
+		return "2.0";
+	}
 
 	@Override
 	public void exportDeck(MTGDeck deck, File dest) throws IOException {
 		var temp = new StringBuilder();
 		for (var mc : deck.getMain().keySet()) {
+			temp.append("MD").append(getSeparator());
 			temp.append(deck.getMain().get(mc)).append(getSeparator());
-			temp.append(mc.getName());
-	//		temp.append(mc.getEdition().getId())
+			temp.append(commated(mc.getName()));
+			temp.append(mc.getEdition().getId());
 			temp.append(System.lineSeparator());
 			notify(mc);
 		}
 		for (var mc : deck.getSideBoard().keySet()) {
-			temp.append("SB: ");
+			temp.append("SB").append(getSeparator());
 			temp.append(deck.getSideBoard().get(mc)).append(getSeparator());
-			temp.append(mc.getName()).append(getSeparator());
-//			temp.append(mc.getEdition().getId())
+			temp.append(commated(mc.getName())).append(getSeparator());
+			temp.append(mc.getEdition().getId());
 			temp.append(System.lineSeparator());
 			notify(mc);
 		}
@@ -60,19 +66,18 @@ public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 			deck.setName(name);
 
 			
-			var side = false;
+		
 			for(var m : matches(f,true))
 			{
-				var mc = parseMatcherWithGroup(m, 3, -1, true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NAME);
+				var mc = parseMatcherWithGroup(m, 3, 4, true, FORMAT_SEARCH.ID, FORMAT_SEARCH.NAME);
 				var qte = Integer.parseInt(m.group(2));
-				side = m.group(1)!=null;
 				
 				if(mc!=null)
 				{
-					if(side)
-						deck.getSideBoard().put(mc, qte);
-					else
+					if(m.group(1)==null || m.group(1).equalsIgnoreCase("MD"))
 						deck.getMain().put(mc, qte);
+					else
+						deck.getSideBoard().put(mc, qte);
 			
 					notify(mc);
 				}
@@ -85,12 +90,12 @@ public class Apprentice2DeckExport extends AbstractFormattedFileCardExport {
 
 	@Override
 	public String[] skipLinesStartWith() {
-		return new String[] {"//","<br>"};
+		return new String[] {"//"};
 	}
 	
 	@Override
 	public String getSeparator() {
-		return " ";
+		return ",";
 	}
 
 }
