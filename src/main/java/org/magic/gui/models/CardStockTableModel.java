@@ -42,7 +42,7 @@ public class CardStockTableModel extends GenericTableModel<MTGCardStock> {
 
 	@Override
 	public int[] defaultHiddenColumns() {
-		return new int[] {0,4,10,11,12,14,16};
+		return new int[] {0,4,10,11,12,14};
 	}
 
 
