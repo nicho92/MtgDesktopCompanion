@@ -1782,7 +1782,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	@Override
 	public <T extends AbstractAuditableItem> void storeTechnicalItem(Class<T> classe, List<T> list) throws SQLException {
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("insert into technicalauditlog  (classname ,techObject,start) values (?,?,?)")) {
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("insert into technicalauditlog  (classname ,techObject,startTime) values (?,?,?)")) {
 			
 			for(var it : list)
 			{
@@ -1801,7 +1801,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	public <T extends AbstractAuditableItem> List<T> restoreTechnicalItem(Class<T> classe,Instant start,Instant end) throws SQLException {
 			List<T> trans = new ArrayList<>();
 			//TODO add instants filters
-			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT * FROM technicalauditlog where classname=?")) 
+			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT techobject FROM technicalauditlog where classname=?")) 
 			{
 				pst.setString(1, classe.getSimpleName());
 				try (ResultSet rs = executeQuery(pst)) {

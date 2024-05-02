@@ -52,8 +52,8 @@ public class MTGDeck implements MTGSerializable {
 
 
   public MTGDeck getMergedDeck() {
-    List<MTGCard> mergeCardList = new ArrayList<>();
-    List<String> cardNames = new ArrayList<>();
+    var mergeCardList = new ArrayList<MTGCard>();
+    var cardNames = new ArrayList<String>();
 
     getMainAsList().forEach(mc -> {
       if (! cardNames.contains(mc.getName())) {
@@ -138,9 +138,9 @@ public class MTGDeck implements MTGSerializable {
 	}
 
 	public Set<MTGFormat> getLegality() {
-		Set<MTGFormat> cmap = new LinkedHashSet<>();
-		for (MTGCard mc : getMain().keySet()) {
-			for (MTGFormat mf : mc.getLegalities()) {
+		var cmap = new LinkedHashSet<MTGFormat>();
+		for (var mc : getMain().keySet()) {
+			for (var mf : mc.getLegalities()) {
 				cmap.add(mf);
 			}
 		}
@@ -149,7 +149,7 @@ public class MTGDeck implements MTGSerializable {
 
 	public String getColors() {
 
-		Set<EnumColors> cmap = new LinkedHashSet<>();
+		var cmap = new LinkedHashSet<EnumColors>();
 		for (MTGCard mc : getUniqueCards())
 		{
 			if ((mc.getCmc() != null))
@@ -176,7 +176,7 @@ public class MTGDeck implements MTGSerializable {
 	}
 
 	private List<MTGCard> toList(Set<Entry<MTGCard, Integer>> entrySet) {
-		ArrayList<MTGCard> deck = new ArrayList<>();
+		var deck = new ArrayList<MTGCard>();
 
 		for (Entry<MTGCard, Integer> c : entrySet)
 			for (var i = 0; i < c.getValue(); i++)

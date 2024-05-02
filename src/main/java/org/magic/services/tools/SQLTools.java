@@ -64,7 +64,7 @@ public class SQLTools {
 		return ctx.createTableIfNotExists("technicalauditlog")
 				.column("classname",SQLDataType.VARCHAR(30))
 				.column("techObject",SQLDataType.JSON)
-				.column("start",SQLDataType.TIMESTAMP)
+				.column("startTime",SQLDataType.TIMESTAMP)
 				.getSQL();
 	}
 	

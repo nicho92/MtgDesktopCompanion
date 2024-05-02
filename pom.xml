@@ -72,6 +72,11 @@
 	</repositories>
 	<dependencies>
 		<dependency>
+		    <groupId>org.firebirdsql.jdbc</groupId>
+		    <artifactId>jaybird</artifactId>
+		    <version>5.0.4.java11</version>
+		</dependency>
+		<dependency>
 			<groupId>org.yaml</groupId>
 			<artifactId>snakeyaml</artifactId>
 			<version>2.2</version>
