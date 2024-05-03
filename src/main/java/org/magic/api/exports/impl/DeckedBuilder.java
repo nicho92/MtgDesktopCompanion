@@ -80,7 +80,7 @@ public class DeckedBuilder extends AbstractFormattedFileCardExport {
 	@Override
 	public List<MTGCardStock> importStock(String content) throws IOException {
 
-		List<MTGCardStock> stocks = new ArrayList<>();
+		var stocks = new ArrayList<MTGCardStock>();
 
 		matches(content,true).forEach(m->{
 			var qtyRegular = Integer.parseInt(m.group(2));

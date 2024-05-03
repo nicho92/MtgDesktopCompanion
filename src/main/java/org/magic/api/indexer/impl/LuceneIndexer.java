@@ -5,7 +5,6 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -21,7 +20,6 @@ import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.FieldInfos;
 import org.apache.lucene.index.IndexOptions;
-import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
@@ -78,9 +76,9 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		if(dir==null)
 			open();
 
-		try (IndexReader indexReader = DirectoryReader.open(dir))
+		try (var indexReader = DirectoryReader.open(dir))
 		{
-			Collection<String> fields = FieldInfos.getIndexedFields(indexReader);
+			var fields = FieldInfos.getIndexedFields(indexReader);
 			return fields.toArray(new String[fields.size()]);
 		} catch (IOException e) {
 			return new String[0];
@@ -118,10 +116,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		if(dir==null)
 			open();
 
-		List<MTGCard> ret = new ArrayList<>();
-
-
-
+		var ret = new ArrayList<MTGCard>();
 
 		try (var indexReader = DirectoryReader.open(dir))
 		{
@@ -179,7 +174,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 	@Override
 	public Map<MTGCard,Float> similarity(MTGCard mc) throws IOException
 	{
-		Map<MTGCard,Float> ret = new LinkedHashMap<>();
+		var ret = new LinkedHashMap<MTGCard,Float>();
 
 		if(mc==null)
 			return ret;
