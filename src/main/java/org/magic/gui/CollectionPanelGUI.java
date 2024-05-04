@@ -205,7 +205,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		
 		buzy = AbstractBuzyIndicatorComponent.createProgressComponent();
 		
-		magicEditionDetailPanel = new MagicEditionDetailPanel(false);
+		magicEditionDetailPanel = new MagicEditionDetailPanel();
 		magicCardDetailPanel = new MagicCardDetailPanel(true);
 		typeRepartitionPanel = new TypeRepartitionPanel(false);
 		manaRepartitionPanel = new ManaRepartitionPanel(false);

@@ -1,15 +1,12 @@
 package org.magic.gui.components.card;
 
-import static org.magic.services.tools.MTG.capitalize;
-import static org.magic.services.tools.MTG.getEnabledPlugin;
-
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -19,12 +16,12 @@ import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MTGEdition;
-import org.magic.api.beans.enums.EnumExtra;
-import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.services.MTGConstants;
 import org.magic.services.tools.UITools;
+
+
 public class MagicEditionDetailPanel extends MTGUIComponent {
 
 	/**
@@ -41,31 +38,24 @@ public class MagicEditionDetailPanel extends MTGUIComponent {
 	private JTextField blockJTextField;
 	private JTextField idJtextField;
 	private JCheckBox chkOnline;
-	private boolean openBooster;
-
-
-	public MagicEditionDetailPanel(boolean openBooster) {
-		this.openBooster = openBooster;
-		initGUI();
-	}
+	private JTextField cardOfficialCountTextField;
+	private JTextField cardPhysicalCountTextField;
 
 	public MagicEditionDetailPanel() {
-		openBooster = true;
 		initGUI();
 	}
 
 	public void initGUI() {
-		JButton btnOpenBooster;
 		JPanel panneauHaut;
 
 		panneauHaut = new JPanel();
 
 		setLayout(new BorderLayout(0, 0));
 		var gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 104, 333, 0, 0 };
-		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0 };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0 };
+		gridBagLayout.columnWidths = new int[] { 104, 333 };
+		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gridBagLayout.columnWeights = new double[] { 0.0, 1.0 };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0 };
 		panneauHaut.setLayout(gridBagLayout);
 
 		panneauHaut.add(new JLangLabel("EDITION",true), UITools.createGridBagConstraints(null, null, 0, 0));
@@ -81,9 +71,16 @@ public class MagicEditionDetailPanel extends MTGUIComponent {
 		panneauHaut.add(releaseDateJTextField,  UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 2));
 
 		panneauHaut.add(new JLangLabel("EDITION_CARD_COUNT",true), UITools.createGridBagConstraints(null, null, 0, 4));
+		
 		cardCountTextField = new JTextField();
-		panneauHaut.add(cardCountTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 4));
+		cardOfficialCountTextField = new JTextField();
+		cardPhysicalCountTextField = new JTextField();
+		
+		var pane = UITools.createFlowPanel(new JLabel("Total : "),cardCountTextField,new JLabel("Official :"),cardOfficialCountTextField,new JLabel("Physical:"),cardPhysicalCountTextField);
+		
+		panneauHaut.add(pane, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 4));
 
+	
 		panneauHaut.add(new JLangLabel("EDITION_BLOCK",true), UITools.createGridBagConstraints(null, null, 0, 5));
 		blockJTextField = new JTextField(10);
 		panneauHaut.add(blockJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 5));
@@ -98,24 +95,7 @@ public class MagicEditionDetailPanel extends MTGUIComponent {
 
 
 		add(panneauHaut,BorderLayout.CENTER);
-		
-		if (openBooster) {
-			btnOpenBooster = new JButton(capitalize("OPEN_BOOSTER"));
-			
-			panneauHaut.add(btnOpenBooster, UITools.createGridBagConstraints(GridBagConstraints.WEST,null, 1, 8));
-
-			
-			btnOpenBooster.addActionListener(ae -> {
-				try {
-					CardSearchPanel.getInstance().thumbnail(
-							getEnabledPlugin(MTGCardsProvider.class).generateBooster(magicEdition,EnumExtra.DRAFT,1).get(0).getCards());
-				} catch (Exception e) {
-					logger.error("Error loading booster for {}",magicEdition, e);
-				}
-			});
-
-		}
-
+	
 		if (magicEdition != null) {
 			mBindingGroup = initDataBindings();
 		}
@@ -127,6 +107,8 @@ public class MagicEditionDetailPanel extends MTGUIComponent {
 		idJtextField.setEditable(b);
 		blockJTextField.setEditable(b);
 		cardCountTextField.setEditable(b);
+		cardOfficialCountTextField.setEditable(b);
+		cardPhysicalCountTextField.setEditable(b);
 		releaseDateJTextField.setEditable(b);
 		typeJTextField.setEditable(b);
 		setJTextField.setEditable(b);
@@ -178,6 +160,16 @@ public class MagicEditionDetailPanel extends MTGUIComponent {
 		AutoBinding<MTGEdition, Integer, JTextField, String> autoBinding3 = Bindings.createAutoBinding(
 				UpdateStrategy.READ_WRITE, magicEdition, cardCountProperty, cardCountTextField, valueProperty);
 		autoBinding3.bind();
+		
+		BeanProperty<MTGEdition, Integer> cardCountOfficialProperty = BeanProperty.create("cardCountOfficial");
+		AutoBinding<MTGEdition, Integer, JTextField, String> autoBinding4 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, cardCountOfficialProperty, cardOfficialCountTextField, valueProperty);
+		autoBinding4.bind();
+		
+		BeanProperty<MTGEdition, Integer> cardCountPhysicialProperty = BeanProperty.create("cardCountPhysical");
+		AutoBinding<MTGEdition, Integer, JTextField, String> autoBinding5 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, cardCountPhysicialProperty, cardPhysicalCountTextField, valueProperty);
+		autoBinding5.bind();
+		
+		
 		//
 		BeanProperty<MTGEdition, String> releaseDateProperty = BeanProperty.create("releaseDate");
 		BeanProperty<JTextField, String> textProperty6 = BeanProperty.create("text");
@@ -219,6 +211,8 @@ public class MagicEditionDetailPanel extends MTGUIComponent {
 		var bindingGroup = new BindingGroup();
 		//
 		bindingGroup.addBinding(autoBinding3);
+		bindingGroup.addBinding(autoBinding4);
+		bindingGroup.addBinding(autoBinding5);
 		bindingGroup.addBinding(autoBinding7);
 		bindingGroup.addBinding(autoBinding8);
 		bindingGroup.addBinding(autoBinding11);

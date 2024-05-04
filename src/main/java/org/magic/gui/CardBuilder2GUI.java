@@ -147,7 +147,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			tabbedPane = new JTabbedPane(SwingConstants.TOP);
 			cboSets = new JComboBox<>();
 			magicCardEditorPanel = new MagicCardEditorPanel();
-			magicEditionDetailPanel = new MagicEditionDetailPanel(false);
+			magicEditionDetailPanel = new MagicEditionDetailPanel();
 
 			
 			panelPictures = new JPanel() {
