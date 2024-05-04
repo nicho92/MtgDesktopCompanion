@@ -58,7 +58,7 @@ public class MagicEditionDetailPanel extends MTGUIComponent {
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0 };
 		panneauHaut.setLayout(gridBagLayout);
 
-		panneauHaut.add(new JLangLabel("EDITION",true), UITools.createGridBagConstraints(null, null, 0, 0));
+		panneauHaut.add(new JLangLabel("NAME",true), UITools.createGridBagConstraints(null, null, 0, 0));
 		setJTextField = new JTextField();
 		panneauHaut.add(setJTextField, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL, 1, 0));
 
@@ -172,39 +172,28 @@ public class MagicEditionDetailPanel extends MTGUIComponent {
 		
 		//
 		BeanProperty<MTGEdition, String> releaseDateProperty = BeanProperty.create("releaseDate");
-		BeanProperty<JTextField, String> textProperty6 = BeanProperty.create("text");
-		AutoBinding<MTGEdition, String, JTextField, String> autoBinding7 = Bindings.createAutoBinding(
-				UpdateStrategy.READ_WRITE, magicEdition, releaseDateProperty, releaseDateJTextField, textProperty6);
+		AutoBinding<MTGEdition, String, JTextField, String> autoBinding7 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, releaseDateProperty, releaseDateJTextField, valueProperty);
 		autoBinding7.bind();
 		//
 		BeanProperty<MTGEdition, String> setProperty = BeanProperty.create("set");
-		BeanProperty<JTextField, String> textProperty7 = BeanProperty.create("text");
-		AutoBinding<MTGEdition, String, JTextField, String> autoBinding8 = Bindings
-				.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, setProperty, setJTextField, textProperty7);
+		AutoBinding<MTGEdition, String, JTextField, String> autoBinding8 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, setProperty, setJTextField, valueProperty);
 		autoBinding8.bind();
 		//
 		BeanProperty<MTGEdition, String> typeProperty = BeanProperty.create("type");
-		BeanProperty<JTextField, String> textProperty10 = BeanProperty.create("text");
-		AutoBinding<MTGEdition, String, JTextField, String> autoBinding11 = Bindings.createAutoBinding(
-				UpdateStrategy.READ_WRITE, magicEdition, typeProperty, typeJTextField, textProperty10);
+		AutoBinding<MTGEdition, String, JTextField, String> autoBinding11 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, typeProperty, typeJTextField, valueProperty);
 		autoBinding11.bind();
 
 		BeanProperty<MTGEdition, String> blockProperty = BeanProperty.create("block");
-		BeanProperty<JTextField, String> textProperty11 = BeanProperty.create("text");
-		AutoBinding<MTGEdition, String, JTextField, String> autoBinding12 = Bindings.createAutoBinding(
-				UpdateStrategy.READ_WRITE, magicEdition, blockProperty, blockJTextField, textProperty11);
+		AutoBinding<MTGEdition, String, JTextField, String> autoBinding12 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, blockProperty, blockJTextField, valueProperty);
 		autoBinding12.bind();
 
 		BeanProperty<MTGEdition, String> idProperty = BeanProperty.create("id");
-		BeanProperty<JTextField, String> textProperty12 = BeanProperty.create("text");
-		AutoBinding<MTGEdition, String, JTextField, String> autoBinding13 = Bindings
-				.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, idProperty, idJtextField, textProperty12);
+		AutoBinding<MTGEdition, String, JTextField, String> autoBinding13 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, idProperty, idJtextField, valueProperty);
 		autoBinding13.bind();
 
 		BeanProperty<MTGEdition, Boolean> onlineProperty = BeanProperty.create("onlineOnly");
 		BeanProperty<JCheckBox, Boolean> chkProperty13 = BeanProperty.create("selected");
-		AutoBinding<MTGEdition, Boolean, JCheckBox, Boolean> autoBinding14 = Bindings
-				.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, onlineProperty, chkOnline, chkProperty13);
+		AutoBinding<MTGEdition, Boolean, JCheckBox, Boolean> autoBinding14 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, onlineProperty, chkOnline, chkProperty13);
 		autoBinding14.bind();
 
 		//
