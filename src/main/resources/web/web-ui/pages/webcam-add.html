@@ -35,18 +35,18 @@
 					
 					
 					if($_GET('scryfallid')){
-						var classe = "MagicCard";
+						var classe = "MTGCard";
 						id = $_GET('scryfallid');
 					}
 					
 					if($_GET('type')=="CARD")
-						classe="MagicCardStock";
+						classe="MTGCardStock";
 					
 					if($_GET('type')=="SEALED")
-						classe="SealedStock";
+						classe="MTGSealedStock";
 
 					if($_GET('type')=="ANNOUNCE")
-						classe="Announce";
+						classe="MTGAnnounce";
 					
 					$("#resultInfo").html("sending "+classe + "/"+id+"....");  			
 					

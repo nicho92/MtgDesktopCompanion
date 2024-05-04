@@ -109,6 +109,7 @@ public interface MTGDao extends MTGPlugin{
 
 	public MTGAnnounce getAnnounceById(int id) throws SQLException;
 	public int saveOrUpdateAnnounce(MTGAnnounce a) throws SQLException;
+	public void deleteAnnounceById(int id) throws SQLException;
 	public void deleteAnnounce(MTGAnnounce alert) throws SQLException;
 
 	public List<MTGNews> listNews();

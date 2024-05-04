@@ -443,14 +443,13 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 
 	}
+	
 	@Override
-	public void deleteAnnounce(MTGAnnounce a) throws SQLException {
+	public void deleteAnnounceById(int id) throws SQLException {
 		try (var c = pool.getConnection(); var pst = c.prepareStatement("DELETE FROM announces where id=?")) {
-			pst.setInt(1, a.getId());
+			pst.setInt(1, id);
 			executeUpdate(pst,false);
 		}
-		logger.debug("{} is deleted",a);
-
 	}
 	
 	protected void postCreation(Statement stat) throws SQLException

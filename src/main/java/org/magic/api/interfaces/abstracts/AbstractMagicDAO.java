@@ -178,6 +178,12 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 
 
 	@Override
+	public void deleteAnnounce(MTGAnnounce a) throws SQLException {
+		deleteAnnounceById(a.getId());
+	}
+	
+
+	@Override
 	public List<MTGCardStock> listStocks(MTGCard mc) throws SQLException {
 		return listStocks().stream().filter(st->st.getProduct().getName().equals(mc.getName())).toList();
 	}

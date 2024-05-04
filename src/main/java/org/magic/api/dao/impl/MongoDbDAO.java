@@ -812,10 +812,9 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public void deleteAnnounce(MTGAnnounce a) throws SQLException {
-		var rs = db.getCollection(colAnnounces).deleteOne(Filters.eq("id",a.getId()));
+	public void deleteAnnounceById(int a) throws SQLException {
+		var rs = db.getCollection(colAnnounces).deleteOne(Filters.eq("id",a));
 		logger.debug(rs);
-
 	}
 
 

@@ -483,9 +483,8 @@ public class RedisDAO extends AbstractKeyValueDao {
 	}
 
 	@Override
-	public void deleteAnnounce(MTGAnnounce a) throws SQLException {
-		redisCommand.del(key(a));
-
+	public void deleteAnnounceById(int id) throws SQLException {
+		redisCommand.del(KEY_ANNOUNCES+SEPARATOR+id);
 	}
 
 	@Override
