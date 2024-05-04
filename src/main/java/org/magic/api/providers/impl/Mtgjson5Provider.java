@@ -651,8 +651,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 
 
 		try {
-			Boolean o = ctx.read(base+"."+ISPREVIEW,Boolean.class);
-			ed.setPreview(o);
+			ed.setPreview(ctx.read(base+"."+ISPREVIEW,Boolean.class));
 		}catch(Exception pnfe)
 		{
 			if(ed.getReleaseDate()==null)
@@ -665,6 +664,7 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 
 		try {
 			ed.setCardCount(ctx.read(base + ".totalSetSize", Integer.class));
+			ed.setCardCountPhysical(ed.getCardCount());
 		} catch (PathNotFoundException pnfe) {
 			logger.warn("totalSetSize not found in {}. Manual calculation",ed.getId());
 			if (ed.getCardCount() == 0)

@@ -8,7 +8,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.Callable;
@@ -239,8 +238,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			List<MTGEdition> eds = new ArrayList<>();
 			for (var i = 0; i < root.get("data").getAsJsonArray().size(); i++) {
 				var e = root.get("data").getAsJsonArray().get(i).getAsJsonObject();
-				MTGEdition ed = generateEdition(e.getAsJsonObject());
-				eds.add(ed);
+				eds.add(generateEdition(e.getAsJsonObject()));
 			}
 
 		return eds;
@@ -734,7 +732,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 		ed.setCardCount(obj.get("card_count").getAsInt());
 		ed.setCardCountOfficial(ed.getCardCount());
-
+		ed.setCardCountPhysical(ed.getCardCount());
 
 		if (obj.get("block") != null)
 			ed.setBlock(obj.get("block").getAsString());
