@@ -61,7 +61,7 @@
 		<log4j.version>2.23.1</log4j.version>
 		<poi.version>5.2.5</poi.version>
 		<slf4j.version>2.0.12</slf4j.version>
-		<rhino.version>1.7.14</rhino.version>
+		<rhino.version>1.7.15</rhino.version>
 	</properties>
 	<repositories>
 		<repository>
@@ -415,7 +415,7 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>33.1.0-jre</version>
+			<version>33.2.0-jre</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -599,7 +599,7 @@
 		<dependency>
 			<groupId>cat.inspiracio</groupId>
 			<artifactId>rhino-js-engine</artifactId>
-			<version>${rhino.version}</version>
+			<version>1.7.14</version>
 		</dependency>
 		<dependency>
 			<groupId>com.rometools</groupId>

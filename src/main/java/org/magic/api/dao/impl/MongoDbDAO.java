@@ -16,7 +16,6 @@ import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.bson.Document;
 import org.bson.codecs.pojo.PojoCodecProvider;
@@ -44,6 +43,7 @@ import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
 import org.magic.services.MTGConstants;
 import org.magic.services.PluginRegistry;
+import org.magic.services.tools.BeanTools;
 import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.ImageTools;
 
@@ -917,7 +917,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		else {
 			var contactUpdateData = new BasicDBObject();
 			try {
-				BeanUtils.describe(c).keySet().forEach(k->{
+				BeanTools.describe(c).keySet().forEach(k->{
 					try {
 						if(!k.equalsIgnoreCase(PASSWORD))
 							contactUpdateData.put(k, PropertyUtils.getProperty(c,k));
@@ -963,6 +963,9 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	@Override
 	public Contact getContactByLogin(String email, String password) throws SQLException {
+		
+		logger.info("Looking for user {} pass = {} hash={}",email, password,CryptoUtils.generateSha256(password));
+		
 		return deserialize(db.getCollection(colContacts,BasicDBObject.class)
 							 .find(Filters.and(Filters.and(Filters.eq(EMAIL, email),Filters.eq(PASSWORD, CryptoUtils.generateSha256(password))),Filters.eq("active",true)))
 							 .first()
