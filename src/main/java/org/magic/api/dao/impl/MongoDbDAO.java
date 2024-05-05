@@ -903,13 +903,15 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	public int saveOrUpdateContact(Contact c) throws SQLException {
 		if (c.getId() == -1)
 		{
-			c.setPassword(CryptoUtils.generateSha256(c.getPassword()));
 			if(db.getCollection(colContacts, BasicDBObject.class).find(Filters.eq(EMAIL,c.getEmail())).first()!=null)
 				throw new SQLException("Please choose another email");
 
 			c.setId(Integer.parseInt(getNextSequence().toString()));
 
-			db.getCollection(colContacts, BasicDBObject.class).insertOne(BasicDBObject.parse(serialize(c)));
+			var obj = BasicDBObject.parse(serialize(c));
+				  obj.put(PASSWORD, CryptoUtils.generateSha256(c.getPassword()));
+			
+			db.getCollection(colContacts, BasicDBObject.class).insertOne(obj);
 
 		}
 		else {
@@ -928,7 +930,8 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			} catch (Exception e) {
 				logger.error(e);
 			}
-
+			
+			contactUpdateData.put(PASSWORD, CryptoUtils.generateSha256(c.getPassword()));
 
 			var update = new BasicDBObject();
 						  update.put("$set", contactUpdateData);

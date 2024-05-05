@@ -100,7 +100,7 @@
 			
 			$("#btnDelete").click( function() {
 				$.ajax({
-					url:restserver+"/announce/"+ $_GET('id'),
+					url:restserver+"/announces/"+ $_GET('id'),
 					type: 'DELETE'
 				}).done(function(data) {
 						location.href = 'announces.html';
