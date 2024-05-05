@@ -138,7 +138,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	@Override
 	public STATUT getStatut() {
-		return STATUT.DEV;
+		return STATUT.BETA;
 	}
 
 	@Override

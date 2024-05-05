@@ -17,7 +17,7 @@ public class H2DAO extends AbstractMagicSQLDAO {
 
 	@Override
 	public STATUT getStatut() {
-		return STATUT.DEV;
+		return STATUT.BETA;
 	}
 	
 	
