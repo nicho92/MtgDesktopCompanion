@@ -69,7 +69,28 @@ public class AccountsManager {
 
 		return auth;
 	}
-
+	
+	public JsonObject toJson()
+	{
+		var obj = new JsonObject();
+		
+		keys.entrySet().forEach(e->{
+			
+			var plugEntry = new JsonObject();
+			var tokens = new JsonObject();
+			
+			e.getValue().getTokens().entrySet().forEach(t->{
+				tokens.addProperty(t.getKey(), t.getValue());
+			});
+			plugEntry.add("tokens",tokens);
+			
+			obj.add(e.getKey().getName(), plugEntry);
+		});
+		return obj;
+	}
+	
+	
+	
 	public Map<MTGPlugin, AccountAuthenticator> listAuthEntries() {
 		return keys;
 	}
@@ -95,11 +116,8 @@ public class AccountsManager {
 	}
 
 	public String exportConfig() {
-		var p = new JsonExport();
-		p.removePrettyString();
-
 		try {
-			return CryptoUtils.encrypt(p.toJson(AccountsManager.inst().listAuthEntries()),getKey());
+			return CryptoUtils.encrypt(toJson().toString(),getKey());
 		} catch (IOException e) {
 			logger.error("Error getting keypass : {}",e.getMessage());
 			return "";
@@ -113,7 +131,7 @@ public class AccountsManager {
 			try {
 				loadConfig(new JsonExport().fromJson(CryptoUtils.decrypt(content,getKey()), JsonObject.class));
 			} catch (Exception e) {
-				logger.error("Error while decryptions {}",e.getMessage());
+				logger.error("Error while decryptions {}",content,e);
 			}
 		}
 		else

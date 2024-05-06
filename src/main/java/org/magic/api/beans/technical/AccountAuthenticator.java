@@ -15,6 +15,11 @@ public class AccountAuthenticator implements Serializable {
 	public AccountAuthenticator() {
 		tokens = new HashMap<>();
 	}
+	
+	@Override
+	public String toString() {
+		return "Acc:"+tokens.keySet();
+	}
 
 	public AccountAuthenticator(String login,String password) {
 		tokens = new HashMap<>();

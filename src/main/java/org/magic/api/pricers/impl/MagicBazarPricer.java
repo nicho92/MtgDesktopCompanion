@@ -32,6 +32,17 @@ public class MagicBazarPricer extends AbstractPricesProvider {
 
 	}
 
+	
+	
+	public static void main(String[] args) throws IOException {
+		var pr = new MagicBazarPricer();
+		
+		var mc = new MTGCard();
+		mc.setName("IMMORTAL OBLIGATION");
+		
+		
+		pr.getLocalePrice(mc);
+	}
 
 	@Override
 	public List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {

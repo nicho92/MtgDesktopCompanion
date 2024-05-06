@@ -10,82 +10,59 @@ import org.magic.api.beans.MTGPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
-
-import com.google.gson.JsonElement;
+import org.magic.services.tools.CryptoUtils;
 
 public class EbayPricer extends AbstractPricesProvider {
 
-
-	private static final String URL_BASE ="https://svcs.ebay.com/services/search/FindingService/v1";
 	@Override
 	public List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
-		List<MTGPrice> prices = new ArrayList<>();
-		String keyword = card.getName();
-			   keyword += " " + card.getEdition().getSet();
+		var prices = new ArrayList<MTGPrice>();
+		var clientId=getAuthenticator().get("CLIENT_ID");
+		var clientSecret=getAuthenticator().get("CLIENT_SECRET");
+		var domain ="https://api.ebay.com";
 
-
-			   var b = RequestBuilder.build().setClient(URLTools.newClient()).get()
-				.url(URL_BASE)
-				.addContent("SECURITY-APPNAME", getAuthenticator().get("API_KEY"))
-				.addContent("OPERATION-NAME", "findItemsByKeywords")
-				.addContent("RESPONSE-DATA-FORMAT", "JSON")
-				.addContent("GLOBAL-ID", getAuthenticator().get("COUNTRY","EBAY-FR"))
-				.addContent("paginationInput.entriesPerPage", getString("MAX"))
-				.addContent("keywords", keyword);
-
-		if(getBoolean("FIXEDPRICE_ONLY"))
-		{
-			b.addContent("itemFilter(0).name", "ListingType");
-			b.addContent("itemFilter(0).value(1)", "FixedPrice");
+		var token = RequestBuilder.build().setClient(URLTools.newClient())
+				.url(domain+"/identity/v1/oauth2/token")
+				.addHeader(URLTools.CONTENT_TYPE,"application/x-www-form-urlencoded")
+				.addHeader(URLTools.AUTHORIZATION, "Basic " + CryptoUtils.toBase64( (clientId+":"+clientSecret).getBytes()))
+				.addContent("grant_type", "client_credentials")
+				.addContent("scope",domain+"/oauth/api_scope")
+				.post()
+				.toJson().getAsJsonObject().get("access_token").getAsString();
+		
+		var query = RequestBuilder.build().setClient(URLTools.newClient())
+						.url(domain+"/buy/browse/v1/item_summary/search")
+						.addHeader("X-EBAY-C-MARKETPLACE-ID",getString("EBAY_MARKETPLACE"))
+						.addHeader(URLTools.AUTHORIZATION, "bearer " + token)
+						.addContent("q", card.getName());
+						
+						if(!getString("CCG_CATEG_ID").isEmpty())
+							query = query.addContent("category_ids",getString("CCG_CATEG_ID"));
+				
+			var result = query.get().toJson().getAsJsonObject();
+		
+			
+		logger.debug("result : {}",result);
+		
+		if(result.get("total").getAsInt()>0) {
+			result.get("itemSummaries").getAsJsonArray().forEach(je->{
+					var obj = je.getAsJsonObject();	
+					
+					var price = new MTGPrice();
+						 price.setValue(obj.get("price").getAsJsonObject().get("value").getAsDouble());
+						 price.setCurrency(obj.get("price").getAsJsonObject().get("currency").getAsString());
+						 price.setMagicCard(card);
+						 price.setUrl(obj.get("itemWebUrl").getAsString());
+						 price.setSeller(obj.get("seller").getAsJsonObject().get("username").getAsString());
+						 price.setSite(getName());
+						 price.setCountry(obj.get("itemLocation").getAsJsonObject().get("country").getAsString());
+						 price.setSellerUrl("https://www.ebay.com/usr/"+price.getSeller());
+						 price.setFoil(obj.get("title").toString().toLowerCase().contains("foil"));
+						 prices.add(price);
+			});
 		}
-
-		logger.info("{} looking for {}",getName(),keyword);
-
-		JsonElement root = b.toJson();
-
-		JsonElement articles = root.getAsJsonObject().entrySet().iterator().next().getValue().getAsJsonArray().get(0).getAsJsonObject().get("searchResult");
-
-		if (articles.getAsJsonArray().get(0).getAsJsonObject().get("item") == null) {
-			logger.info("{} find nothing",getName());
-			return prices;
-		}
-
-		var items = articles.getAsJsonArray().get(0).getAsJsonObject().get("item").getAsJsonArray();
-
-		logger.trace(items);
-
-		for (JsonElement el : items) {
-			var mp = new MTGPrice();
-
-			var etat = "";
-			var title = el.getAsJsonObject().get("title").getAsString();
-			var consultURL = el.getAsJsonObject().get("viewItemURL").getAsString();
-			var country = el.getAsJsonObject().get("location").getAsJsonArray().toString();
-			var price = el.getAsJsonObject().get("sellingStatus").getAsJsonArray().get(0).getAsJsonObject()
-					.get("currentPrice").getAsJsonArray().get(0).getAsJsonObject().get("__value__").getAsDouble();
-			var currency = el.getAsJsonObject().get("sellingStatus").getAsJsonArray().get(0).getAsJsonObject()
-					.get("currentPrice").getAsJsonArray().get(0).getAsJsonObject().get("@currencyId").getAsString();
-			try {
-				etat = el.getAsJsonObject().get("condition").getAsJsonArray().get(0).getAsJsonObject()
-						.get("conditionDisplayName").getAsString();
-			} catch (NullPointerException e) {
-				etat = "";
-			}
-
-
-
-			mp.setMagicCard(card);
-			mp.setCountry(country);
-			mp.setSeller(title);
-			mp.setUrl(consultURL);
-			mp.setCurrency(currency);
-			mp.setValue(price);
-			mp.setSite(getName());
-			mp.setQuality(etat);
-			mp.setFoil(mp.getSeller().toLowerCase().contains("foil"));
-			prices.add(mp);
-		}
-
+		
+		
 		logger.info("{} found {} offers",getName(),prices.size());
 
 		return prices;
@@ -100,21 +77,22 @@ public class EbayPricer extends AbstractPricesProvider {
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of("MAX", "10",
-								"WEBSITE", "https://www.ebay.com/",
-								"FIXEDPRICE_ONLY","false");
+							"EBAY_MARKETPLACE","EBAY_US",
+							"FIXEDPRICE_ONLY","false",
+							"CCG_CATEG_ID","183454");
 
 	}
 
 	@Override
 	public List<String> listAuthenticationAttributes() {
-		return List.of("COUNTRY","API_KEY");
+		return List.of("CLIENT_ID","CLIENT_SECRET");
 
 	}
 
 
 	@Override
 	public String getVersion() {
-		return "1.13.0";
+		return "1.19.7";
 	}
 
 }

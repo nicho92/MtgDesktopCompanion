@@ -24,7 +24,6 @@ public class CryptoUtils {
 	}
 
 	public static String decrypt(String strToDecrypt, String secret) {
-
 		var textEncryptor = new AES256TextEncryptor();
 		textEncryptor.setPasswordCharArray(secret.toCharArray());
 		return textEncryptor.decrypt(strToDecrypt);
@@ -53,8 +52,8 @@ public class CryptoUtils {
 
 
 
-	public static String toBase64(byte[] img) {
-	    return Base64.getEncoder().encodeToString(img);
+	public static String toBase64(byte[] str) {
+	    return Base64.getEncoder().encodeToString(str);
 	}
 
 	public static byte[] fromBase64(String s) {
