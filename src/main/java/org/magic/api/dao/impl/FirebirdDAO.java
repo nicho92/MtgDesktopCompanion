@@ -19,7 +19,7 @@ public class FirebirdDAO extends AbstractMagicSQLDAO {
 
 	@Override
 	protected String getdbSizeQuery() {
-		return "";
+		return " SELECT RDB$RELATION_NAME, 1 FROM rdb$relations WHERE RDB$FLAGS = 1;";
 	}
 
 	@Override
