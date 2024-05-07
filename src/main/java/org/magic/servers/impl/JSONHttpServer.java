@@ -842,15 +842,23 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 
 
-		get("/sealed/list/:collection", URLTools.HEADER_JSON,(request, response) ->
-			getCached(request.pathInfo(), new Callable<Object>() {
+		get("/sealed/list/:collection", URLTools.HEADER_JSON,(request, response) -> {
+			var data = (List<MTGSealedStock>)getCached(request.pathInfo(), new Callable<Object>() {
 
 				@Override
 				public List<MTGSealedStock> call() throws Exception {
 					return getEnabledPlugin(MTGDao.class).listSealedStocks().stream().filter(ss->ss.getMagicCollection().getName().equalsIgnoreCase(request.params(COLLECTION))).toList();
 				}
-			})
-			, transformer);
+			});
+			
+
+			if(request.queryParams(PAGE)!=null && request.queryParams(PAGINATE)!=null)
+				return paginate(data,Integer.parseInt(request.queryParams(PAGE)),Integer.parseInt(request.queryParams(PAGINATE)));
+			else
+				return data;
+			
+			
+			}, transformer);
 
 
 
@@ -863,23 +871,25 @@ public class JSONHttpServer extends AbstractMTGServer {
 			})
 		, transformer);
 
-		get("/sealed/get/:id", URLTools.HEADER_JSON,
-				(request, response) -> getEnabledPlugin(MTGDao.class).getSealedStockById(Long.parseLong(request.params(":id"))), transformer);
+		get("/sealed/get/:id", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGDao.class).getSealedStockById(Long.parseLong(request.params(":id"))), transformer);
 
-		get("/stock/list", URLTools.HEADER_JSON,(request, response) ->
-			getCached(request.pathInfo(), new Callable<Object>() {
+		get("/stock/list", URLTools.HEADER_JSON,(request, response) ->{
+					var data = (List<MTGCardStock>) getCached(request.pathInfo(), new Callable<Object>() {
+						@Override
+						public Object call() throws Exception {
+						return getEnabledPlugin(MTGDao.class).listStocks();
+					}
+				});
 
-				@Override
-				public Object call() throws Exception {
-					return getEnabledPlugin(MTGDao.class).listStocks();
-				}
-			})
-		, transformer);
+				if(request.queryParams(PAGE)!=null && request.queryParams(PAGINATE)!=null)
+					return paginate(data,Integer.parseInt(request.queryParams(PAGE)),Integer.parseInt(request.queryParams(PAGINATE)));
+				else
+					return data;
+		}, transformer);
+		
 
 		get("/stock/get/:idStock", URLTools.HEADER_JSON,
 				(request, response) -> getEnabledPlugin(MTGDao.class).getStockById(Long.parseLong(request.params(":idStock"))), transformer);
-
-
 
 		get("/stock/list/:collection", URLTools.HEADER_JSON,(request, response) ->{
 
@@ -895,8 +905,22 @@ public class JSONHttpServer extends AbstractMTGServer {
 			else
 				return data;
 
+			
 		},transformer);
+		
+		get("/stock/latest/:number/:collection", URLTools.HEADER_JSON,(request, response) ->{
 
+			var list = (List<MTGCardStock>) getCached("/stock/list/"+request.params(COLLECTION), new Callable<Object>() {
+								@Override
+								public Object call() throws Exception {
+								return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MTGCollection(request.params(COLLECTION))));
+							}
+						});
+			
+			return list.stream().sorted(Comparator.reverseOrder()).limit(Integer.parseInt(request.params(":number"))).toList();
+			
+		},transformer);
+		
 
 		get("/stock/list/:collection/:idSet", URLTools.HEADER_JSON, (request, response) ->
 			getCached(request.pathInfo(), new Callable<Object>() {
@@ -921,8 +945,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 				public Object call() throws Exception {
 
 					var dash = getEnabledPlugin(MTGDashBoard.class);
-
-					MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
+					var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
 					var ret = new JsonObject();
 					var resNormal = dash.getPriceVariation(mc,false);
 					var resFoil = dash.getPriceVariation(mc,true);
@@ -984,8 +1007,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 			var obj = request.queryParamsSafe("url");
 
 			var d = new RetrievableDeck();
-				d.setUrl(URI.create(obj));
-				d.setName(request.queryParamsSafe("name"));
+				 d.setUrl(URI.create(obj));
+				 d.setName(request.queryParamsSafe("name"));
 			var deck = getPlugin(request.queryParamsSafe("provider"),MTGDeckSniffer.class).getDeck(d);
 
 			manager.saveDeck(deck);

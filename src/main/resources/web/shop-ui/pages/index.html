@@ -60,10 +60,8 @@
 					if(data.topProduct){
 						if(data.topProduct.product.scryfallId)
 				    		$("#topProductImage").attr('src',"https://api.scryfall.com/cards/"+data.topProduct.product.scryfallId+"?format=image");
-						else
-							$("#topProductImage").attr('src',"https://api.scryfall.com/cards/multiverse/"+data.topProduct.product.editions[0].multiverseId+"?format=image");
 						
-						topProductImage
+						
 				    	$("#topProductTitle").append(data.topProduct.product.name);
 				    	$("#topProductLink").attr('href',"product.html?id="+data.topProduct.id + "&product="+data.topProduct.typeStock);
 						$("#topProductImage").attr('alt',data.topProduct.product.name);
@@ -87,16 +85,11 @@
 			       	$.each( data.collections, function( key, value ) {
 			    		  
 			    		  $.ajax({
-						        url: restserver+"/stock/list/"+value.name
+						        url: restserver+"/stock/latest/"+maxLastProduct+"/"+value.name
 						    }).then(function(data) {
-						 		
-						    	data=data.reverse();
 						    	for(let i=0;i<maxLastProduct;i++)
-					    		{
-					    			$('#latest-product').append(generateStockCardHTML(data[i],currency,false,percentReduction));
-					    			
-					    		}
-
+						 			$('#latest-product').append(generateStockCardHTML(data[i],currency,false,percentReduction));
+					    		
 						    	$('button[name="addCartButton"]').each(function() {
 						       		$(this).click(function() {
 						       			addCartStockId($(this),percentReduction);
