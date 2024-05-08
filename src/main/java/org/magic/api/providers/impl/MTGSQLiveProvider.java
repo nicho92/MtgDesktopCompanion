@@ -431,7 +431,7 @@ private MTGPool pool;
 				mc.setName(rs.getString(NAME));
 				mc.setCmc(rs.getInt(CONVERTED_MANA_COST));
 				mc.setCost(rs.getString(MANA_COST));
-				
+				mc.setScryfallIllustrationId(rs.getString(SCRYFALL_ILLUSTRATION_ID));
 				mc.setId(rs.getString(UUID));
 				mc.setEdhrecRank(rs.getInt(EDHREC_RANK));
 				mc.setFrameVersion(rs.getString(FRAME_VERSION));

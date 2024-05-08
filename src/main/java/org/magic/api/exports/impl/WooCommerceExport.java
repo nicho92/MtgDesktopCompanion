@@ -25,6 +25,7 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.api.providers.impl.ScryFallProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.WooCommerceTools;
@@ -273,7 +274,7 @@ public class WooCommerceExport extends AbstractCardExport {
 
         	try {
         		
-        		productInfo.put("images", WooCommerceTools.entryToJsonArray("src",st.getProduct().getUrl()));
+        		productInfo.put("images", WooCommerceTools.entryToJsonArray("src",new ScryFallProvider().getJsonFor(st.getProduct()).get("image_uris").getAsJsonObject().get("normal").getAsString()));
         	}catch(Exception e)
         	{
         		logger.error("error getting image for {} : {}",st.getProduct(),e.getMessage());
