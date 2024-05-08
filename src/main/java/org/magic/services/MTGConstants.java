@@ -318,9 +318,6 @@ public class MTGConstants {
 //EnumExtra CONSTANTS
 	public static final float WEIGHT_CARD=1.7009714f;
 	public static final float WEIGHT_BOOSTER=28.7f;
-	public static final float WEIGHT_BOOSTER_BOX_COLLECTOR=12*WEIGHT_BOOSTER;
-	public static final float WEIGHT_BOOSTER_BOX_SET=24*WEIGHT_BOOSTER;
-	public static final float WEIGHT_BOOSTER_BOX_DRAFT=32*WEIGHT_BOOSTER;
 	public static final String DEFAULT_SHIPPING_RULES="""
 			var shippingCost=0;
 
