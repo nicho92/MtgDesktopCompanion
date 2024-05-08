@@ -146,7 +146,9 @@ public class AccountsManager {
 				var tokens = o.get(name).getAsJsonObject().get("tokens").getAsJsonObject();
 				var tok = new AccountAuthenticator();
 				tokens.entrySet().forEach(e->tok.addToken(e.getKey(), e.getValue().getAsString()));
-				keys.put(loadAuthenticator(name), tok);
+				var plug = loadAuthenticator(name);
+				if(plug!=null)
+					keys.put(plug, tok);
 			});
 	}
 

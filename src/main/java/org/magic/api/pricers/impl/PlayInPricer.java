@@ -15,7 +15,7 @@ import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.network.URLTools;
 
-public class MagicBazarPricer extends AbstractPricesProvider {
+public class PlayInPricer extends AbstractPricesProvider {
 
 	private static final String BASE_URL="https://en.play-in.com/";
 
@@ -30,18 +30,6 @@ public class MagicBazarPricer extends AbstractPricesProvider {
 		Document ret = URLTools.extractAsHtml(autocomplete);
 		return BASE_URL+ret.select("a").first().attr("href");
 
-	}
-
-	
-	
-	public static void main(String[] args) throws IOException {
-		var pr = new MagicBazarPricer();
-		
-		var mc = new MTGCard();
-		mc.setName("IMMORTAL OBLIGATION");
-		
-		
-		pr.getLocalePrice(mc);
 	}
 
 	@Override
@@ -100,7 +88,7 @@ public class MagicBazarPricer extends AbstractPricesProvider {
 
 	@Override
 	public String getName() {
-		return "MagicBazar";
+		return "PlayIn";
 	}
 
 	@Override

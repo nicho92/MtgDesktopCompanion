@@ -28,7 +28,7 @@ import org.magic.services.network.URLTools;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 
-public class MagicBazarShopper extends AbstractMagicShopper {
+public class PlayInShopper extends AbstractMagicShopper {
 
 
 	String urlBase= "https://en.play-in.com";
@@ -198,7 +198,7 @@ public class MagicBazarShopper extends AbstractMagicShopper {
 
 	@Override
 	public String getName() {
-		return "MagicBazar";
+		return "PlayIn";
 	}
 
 	@Override
