@@ -350,15 +350,13 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return "OK";
 		});
 
-
+	
 
 	}
+	
+	private void initAuthService()
+	{
 
-
-	@SuppressWarnings("unchecked")
-	private void initRoutes() {
-
-		
 		//this one is deprecated
 		post("/services/connect", URLTools.HEADER_JSON, (request, response) -> MTG.getEnabledPlugin(MTGExternalShop.class).getContactByLogin(request.queryParams("email"),request.queryParams("password")), transformer);
 
@@ -401,7 +399,10 @@ public class JSONHttpServer extends AbstractMTGServer {
 				}
 			
 		},transformer);
-		
+	}
+	
+	private void initCardCustom()
+	{
 		get("/custom/sets", URLTools.HEADER_JSON,(request, response) -> MTG.getPlugin(PrivateMTGSetProvider.PERSONNAL_DATA_SET_PROVIDER, MTGCardsProvider.class).listEditions(),transformer);
 		
 		get("/custom/cards/:idSet", URLTools.HEADER_JSON,(request, response) -> MTG.getPlugin(PrivateMTGSetProvider.PERSONNAL_DATA_SET_PROVIDER, MTGCardsProvider.class).searchCardByEdition(new MTGEdition(request.params(ID_SET))),transformer);
@@ -421,50 +422,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		});
 		
-		
-		
-		get("/cards/token/:scryfallId", URLTools.HEADER_JSON,(request, response) -> {
-
-			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
-
-			if(mc!=null) {
-				return getEnabledPlugin(MTGTokensProvider.class).generateTokenFor(mc);
-			}
-
-			return null;
-		},transformer);
-
-		get("/cards/suggestcard/:val", URLTools.HEADER_JSON,
-				(request, response) -> getEnabledPlugin(MTGCardsIndexer.class).search("name:"+request.params(":val").replace(" ", " AND ")+"*").stream().map(MTGCard::toLightJson).toList(),
-				transformer);
-
-
-		get("/cards/moreLike/:scryfallId", URLTools.HEADER_JSON,(request, response) -> {
-			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
-			return getEnabledPlugin(MTGCardsIndexer.class).similarity(mc).keySet().stream() .filter(c->!c.getName().equals(mc.getName()))
-																							.map(MTGCard::toLightJson)
-																							.toList();
-		},transformer);
-
-
-		//used only in chromeplugin
-		get("/cards/light/:name", URLTools.HEADER_JSON,(request, response) -> {
-			List<MTGCard> list= getEnabledPlugin(MTGCardsProvider.class).searchCardByName(request.params(NAME), null, true);
-			var arr = new JsonArray();
-
-			for(MTGCard mc : list)
-			{
-				var cols = getEnabledPlugin(MTGDao.class).listCollectionFromCards(mc);
-				var obj = mc.toLightJson();
-				obj.add("collections", converter.toJsonElement(cols));
-				arr.add(obj);
-			}
-			return arr;
-
-		},transformer);
-
-
-
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void initGed()
+	{
 		post("/ged/uploadPic/:class/:id", URLTools.HEADER_JSON,(request, response) -> {
 			var buffImg = ImageTools.readBase64(request.body().substring(request.body().indexOf(",")+1));// Find better solution
 			if(buffImg==null)
@@ -540,188 +502,48 @@ public class JSONHttpServer extends AbstractMTGServer {
 				}
 			}),transformer);
 
-
+	}
 	
-		get("/cards/scryfall/:scryfallId", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID)), transformer);
+	private void initDashboards()
+	{
+		get("/dash/collection", URLTools.HEADER_JSON, (request, response) ->CollectionEvaluator.analyseToJson(new MTGCollection(MTGControler.getInstance().get(DEFAULT_LIBRARY))), transformer);
 
-		post("/cards/import/:provider", URLTools.HEADER_JSON,(request, response) -> {
-			var content = request.body();
-			return converter.toJson(MTG.getPlugin(request.params(PROVIDER).trim(),MTGCardsExport.class).importDeck(content, "webimport"));
-		}, transformer);
-
-		post("/cards/recognize/:threeshold", URLTools.HEADER_JSON, (request, response) -> {
-			var recog = MTG.getEnabledPlugin(MTGCardRecognition.class);
-			var strat = new ManualAreaStrat();
-			var buffImg = ImageTools.readBase64(request.body().substring(request.body().indexOf(",")+1));// Find better solution
-
-			if(buffImg==null)
-				return "No readable Image";
-
-			recog.loadAllCachedData();
-			return strat.recognize(buffImg,recog,Integer.parseInt(request.params(":threeshold")));
-		}, transformer);
-
-		put("/cards/move/:from/:to/:scryfallId", URLTools.HEADER_JSON, (request, response) -> {
-			var from = new MTGCollection(request.params(":from"));
-			var to = new MTGCollection(request.params(":to"));
-			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
-			getEnabledPlugin(MTGDao.class).moveCard(mc, from,to);
-			return ok(request,response,mc + " is moved from " + from + " to " + to);
-		}, transformer);
-
-		put("/cards/add/:scryfallId", URLTools.HEADER_JSON, (request, response) -> {
-			var from = new MTGCollection(MTGControler.getInstance().get(DEFAULT_LIBRARY));
-			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
-			CardsManagerService.saveCard(mc, from,null);
-			return ok(request,response,mc + " is added to " + from);
-		}, transformer);
-
-		put("/cards/add/:to/:scryfallId", URLTools.HEADER_JSON, (request, response) -> {
-			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(":id"));
-			CardsManagerService.saveCard(mc, new MTGCollection(request.params(":to")),null);
-			return ok(request,response,mc + " is added to " + request.params(":to"));
-		}, transformer);
+		get("/dash/collection/:collection", URLTools.HEADER_JSON, (request, response) -> CollectionEvaluator.analyseToJson(new MTGCollection(request.params(COLLECTION))), transformer);
 
 
-		get("/cards/list/:col", URLTools.HEADER_JSON, (request, response) ->
+		get("/dash/variations/card/:scryfallId", URLTools.HEADER_JSON, (request, response) ->
 			getCached(request.pathInfo(), new Callable<Object>() {
 				@Override
-				public List<MTGCard> call() throws Exception {
-						var col = new MTGCollection(request.params(":col"));
-						return getEnabledPlugin(MTGDao.class).listCardsFromCollection(col, null);
-				}
-			})
-		, transformer);
+				public Object call() throws Exception {
 
-		get("/cards/list/:col/:idEd", URLTools.HEADER_JSON, (request, response) ->
-			getCached(request.pathInfo(), new Callable<Object>() {
-				@Override
-				public List<MTGCard> call() throws Exception {
-					var col = new MTGCollection(request.params(":col"));
-					var ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(ID_ED));
-					return getEnabledPlugin(MTGDao.class).listCardsFromCollection(col, ed);
-				}
-				})
-		, transformer);
-
-		get("/cards/:idSet/cards", URLTools.HEADER_JSON, (request, response) ->
-			 getCached(request.pathInfo(), new Callable<Object>() {
-				@Override
-				public List<MTGCard> call() throws Exception {
-					var ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(ID_SET));
-					var ret = getEnabledPlugin(MTGCardsProvider.class).searchCardByEdition(ed);
-					Collections.sort(ret, new CardsEditionSorter());
+					var dash = getEnabledPlugin(MTGDashBoard.class);
+					var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
+					var ret = new JsonObject();
+					var resNormal = dash.getPriceVariation(mc,false);
+					var resFoil = dash.getPriceVariation(mc,true);
+					ret.addProperty("currency", MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getSymbol());
+					ret.add("normal", build(resNormal));
+					ret.add("foil", build(resFoil));
+					ret.addProperty("provider",dash.getName());
+					ret.addProperty("dateUpdate",dash.getUpdatedDate().toInstant().toEpochMilli());
 					return ret;
-				}
-			})
-		, transformer);
-		
-		
-		
-		
 
-		get("/collections/:name/count", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGDao.class).getCardsCountGlobal(new MTGCollection(request.params(NAME))), transformer);
+				}})
+		);
 
-		get("/collections/list", URLTools.HEADER_JSON,
-				(request, response) -> getEnabledPlugin(MTGDao.class).listCollections(), transformer);
 
-		get("/collections/default", URLTools.HEADER_JSON,
-				(request, response) -> MTGControler.getInstance().get(DEFAULT_LIBRARY), transformer);
-
-		
-		
-		get("/collections/cards/:scryfallId", URLTools.HEADER_JSON, (request, response) -> {
-			MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
-			return getEnabledPlugin(MTGDao.class).listCollectionFromCards(mc);
+		get("/dash/edition/:idEd", URLTools.HEADER_JSON, (request, response) -> {
+			var ed = new MTGEdition();
+			ed.setId(request.params(ID_ED));
+			return getEnabledPlugin(MTGDashBoard.class).getShakesForEdition(ed);
 		}, transformer);
 
-		put("/collections/add/:name", URLTools.HEADER_JSON, (request, response) -> {
-			getEnabledPlugin(MTGDao.class).saveCollection(request.params(NAME));
-			return ok(request,response,NAME + " is added");
-		});
+		get("/dash/format/:format", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGDashBoard.class).getShakerFor(MTGFormat.FORMATS.valueOf(request.params(":format"))), transformer);
 
-		get("/editions/list", URLTools.HEADER_JSON,(request, response) ->
-			getCached(request.pathInfo(), new Callable<Object>() {
-
-				@Override
-				public List<MTGEdition> call() throws Exception {
-					var list = getEnabledPlugin(MTGCardsProvider.class).listEditions();
-					Collections.sort(list);
-					return list;
-
-				}
-			})
-		, transformer);
-
-		get("/editions/:idSet", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(ID_SET)), transformer);
-
-
-		get("/editions/list/:colName", URLTools.HEADER_JSON, (request, response) ->
-			getCached(request.pathInfo(), new Callable<Object>() {
-
-				@Override
-				public List<MTGEdition> call() throws Exception{
-					var eds = new ArrayList<MTGEdition>();
-					var list = getEnabledPlugin(MTGDao.class).listEditionsIDFromCollection(new MTGCollection(request.params(":colName")));
-					for (String s : list)
-						eds.add(getEnabledPlugin(MTGCardsProvider.class).getSetById(s));
-
-					Collections.sort(eds);
-					return eds;
-				}
-
-			})
-		, transformer);
-
-
-		post("/prices/wizard/:provider",URLTools.HEADER_JSON, (request, response) -> {
-			var list = converter.fromJsonList(new InputStreamReader(request.raw().getInputStream()), MTGCard.class);
-			return MTG.getPlugin(request.params(PROVIDER).trim(),MTGPricesProvider.class).getPricesBySeller(list);
-		}, transformer);
-
-		get("/prices/:scryfallId", URLTools.HEADER_JSON, (request, response) ->
-			getCached(request.pathInfo(), new Callable<Object>() {
-
-				@Override
-				public List<MTGPrice> call() throws Exception {
-					var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId( request.params(SCRYFALL_ID));
-					List<MTGPrice> pricesret = new ArrayList<>();
-					for (MTGPricesProvider prices : listEnabledPlugins(MTGPricesProvider.class))
-					{
-						try {
-							pricesret.addAll(prices.getPrice(mc));
-						}
-						catch(Exception e)
-						{
-							logger.error(e);
-						}
-					}
-					return pricesret;
-				}
-			})
-			, transformer);
-
-		get("/prices/details/:provider/:scryfallId", URLTools.HEADER_JSON, (request, response) ->
-				getCached(request.pathInfo(), new Callable<Object>() {
-
-					@Override
-					public List<MTGPrice> call() throws Exception {
-						var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
-						return MTG.getPlugin(request.params(PROVIDER).trim(),MTGPricesProvider.class).getPrice(mc);
-					}
-				})
-		, transformer);
-
-		get("/partner/:scryfallId", URLTools.HEADER_JSON, (request, response) ->
-			getCached(request.pathInfo(), new Callable<Object>() {
-				@Override
-				public List<MTGPrice> call() throws Exception {
-					MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
-					return MTG.listEnabledPlugins(MTGPricesProvider.class).stream().filter(MTGPlugin::isPartner).map(pricer->pricer.getBestPrice(mc)).toList();
-				}
-			})
-		, transformer);
-
+	}
+	
+	private void initAlerts()
+	{
 		get("/alerts/list", URLTools.HEADER_JSON,(request, response) -> getEnabledPlugin(MTGDao.class).listAlerts(), transformer);
 
 		get("/alerts/:scryfallId", URLTools.HEADER_JSON, (request, response) -> {
@@ -770,224 +592,16 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return alert;
 		}, transformer);
 
-
-
-		put("/stock/:type/update", (request, response) -> {
-			JsonObject postItems= readJsonObject(request);
-
-			var source = request.params(TYPE);
-
-
-			MTGStockItem obj = null;
-
-			if(source.equals("sealed"))
-				obj = getEnabledPlugin(MTGDao.class).getSealedStockById(postItems.get("id").getAsLong());
-			else
-				obj = getEnabledPlugin(MTGDao.class).getStockById(postItems.get("id").getAsLong());
-
-
-			if(obj==null)
-				throw new NullPointerException("no item found with id="+postItems.get("id"));
-
-
-				  obj.setQte(postItems.get("qty").getAsInt());
-				  obj.setPrice(postItems.get("price").getAsDouble());
-				  obj.setCondition(EnumCondition.valueOf(postItems.get("condition").getAsString()));
-				  obj.setLanguage(postItems.get("language").getAsString());
-				  obj.setMagicCollection(new MTGCollection(postItems.get("collection").getAsString()));
-				  obj.setFoil(postItems.get("foil").getAsBoolean());
-				  obj.setAltered(postItems.get("altered").getAsBoolean());
-				  obj.setEtched(postItems.get("etched").getAsBoolean());
-				  obj.setSigned(postItems.get("signed").getAsBoolean());
-				  obj.setComment(postItems.get("comment").getAsString());
-
-				  getEnabledPlugin(MTGDao.class).saveOrUpdateStock(obj);
-
-			return obj;
-		});
-
-
-		post("/stock/add/:scryfallId", (request, response) -> {
-			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
-			var stock = MTGControler.getInstance().getDefaultStock();
-			stock.setQte(1);
-			stock.setProduct(mc);
-
-			getEnabledPlugin(MTGDao.class).saveOrUpdateCardStock(stock);
-			return ok(request,response,stock);
-		});
-
-
-		delete("/stock/:idStock", (request, response) -> {
-			var stock = getEnabledPlugin(MTGDao.class).getStockById(Long.parseLong(request.params(":idStock")));
-			getEnabledPlugin(MTGDao.class).deleteStock(stock);
-			return ok(request,response,stock);
-		});
-
-		get("/sealed/list", URLTools.HEADER_JSON,(request, response) ->{
-			var data=(List<MTGSealedStock>)getCached(request.pathInfo(), new Callable<Object>() {
-
-					@Override
-					public List<MTGSealedStock> call() throws Exception {
-						return getEnabledPlugin(MTGDao.class).listSealedStocks();
-					}
-				});
-
-			if(request.queryParams(PAGE)!=null && request.queryParams(PAGINATE)!=null)
-				return paginate(data,Integer.parseInt(request.queryParams(PAGE)),Integer.parseInt(request.queryParams(PAGINATE)));
-			else
-				return data;
-
-
-		}, transformer);
-
-
-		get("/sealed/list/:collection", URLTools.HEADER_JSON,(request, response) -> {
-			var data = (List<MTGSealedStock>)getCached(request.pathInfo(), new Callable<Object>() {
-
-				@Override
-				public List<MTGSealedStock> call() throws Exception {
-					return getEnabledPlugin(MTGDao.class).listSealedStocks().stream().filter(ss->ss.getMagicCollection().getName().equalsIgnoreCase(request.params(COLLECTION))).toList();
-				}
-			});
-			
-
-			if(request.queryParams(PAGE)!=null && request.queryParams(PAGINATE)!=null)
-				return paginate(data,Integer.parseInt(request.queryParams(PAGE)),Integer.parseInt(request.queryParams(PAGINATE)));
-			else
-				return data;
-			
-			
-			}, transformer);
-
-
-
-		get("/sealed/list/:collection/:idSet", URLTools.HEADER_JSON, (request, response) ->
-			getCached(request.pathInfo(), new Callable<Object>() {
-				@Override
-				public List<MTGSealedStock> call() throws Exception {
-					return getEnabledPlugin(MTGDao.class).listSealedStocks(new MTGCollection(request.params(COLLECTION)),new MTGEdition(request.params(ID_SET)));
-				}
-			})
-		, transformer);
-
-		get("/sealed/get/:id", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGDao.class).getSealedStockById(Long.parseLong(request.params(":id"))), transformer);
-
-		get("/stock/list", URLTools.HEADER_JSON,(request, response) ->{
-					var data = (List<MTGCardStock>) getCached(request.pathInfo(), new Callable<Object>() {
-						@Override
-						public Object call() throws Exception {
-						return getEnabledPlugin(MTGDao.class).listStocks();
-					}
-				});
-
-				if(request.queryParams(PAGE)!=null && request.queryParams(PAGINATE)!=null)
-					return paginate(data,Integer.parseInt(request.queryParams(PAGE)),Integer.parseInt(request.queryParams(PAGINATE)));
-				else
-					return data;
-		}, transformer);
-		
-
-		get("/stock/get/:idStock", URLTools.HEADER_JSON,
-				(request, response) -> getEnabledPlugin(MTGDao.class).getStockById(Long.parseLong(request.params(":idStock"))), transformer);
-
-		get("/stock/list/:collection", URLTools.HEADER_JSON,(request, response) ->{
-
-			var data = (List<MTGCardStock>) getCached(request.pathInfo(), new Callable<Object>() {
-								@Override
-								public Object call() throws Exception {
-								return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MTGCollection(request.params(COLLECTION))));
-							}
-						});
-
-			if(request.queryParams(PAGE)!=null && request.queryParams(PAGINATE)!=null)
-				return paginate(data,Integer.parseInt(request.queryParams(PAGE)),Integer.parseInt(request.queryParams(PAGINATE)));
-			else
-				return data;
-
-			
-		},transformer);
-		
-		get("/stock/latest/:number/:collection", URLTools.HEADER_JSON,(request, response) ->{
-
-			var list = (List<MTGCardStock>) getCached("/stock/list/"+request.params(COLLECTION), new Callable<Object>() {
-								@Override
-								public Object call() throws Exception {
-								return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MTGCollection(request.params(COLLECTION))));
-							}
-						});
-			
-			return list.stream().sorted(Comparator.reverseOrder()).limit(Integer.parseInt(request.params(":number"))).toList();
-			
-		},transformer);
-		
-
-		get("/stock/list/:collection/:idSet", URLTools.HEADER_JSON, (request, response) ->
-			getCached(request.pathInfo(), new Callable<Object>() {
-				@Override
-				public List<MTGCardStock> call() throws Exception {
-					return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MTGCollection(request.params(COLLECTION)))).stream().filter(mcs->mcs.getProduct().getEdition().getId().equalsIgnoreCase(request.params(ID_SET))).toList();
-				}
-			})
-		, transformer);
-
-		get("/stock/searchCard/:collection/:cardName", URLTools.HEADER_JSON,
-				(request, response) -> getEnabledPlugin(MTGDao.class).listStocks(request.params(":cardName"),List.of(new MTGCollection(request.params(COLLECTION)))), transformer);
-
-		get("/dash/collection", URLTools.HEADER_JSON, (request, response) ->CollectionEvaluator.analyseToJson(new MTGCollection(MTGControler.getInstance().get(DEFAULT_LIBRARY))), transformer);
-
-		get("/dash/collection/:collection", URLTools.HEADER_JSON, (request, response) -> CollectionEvaluator.analyseToJson(new MTGCollection(request.params(COLLECTION))), transformer);
-
-
-		get("/dash/variations/card/:scryfallId", URLTools.HEADER_JSON, (request, response) ->
-			getCached(request.pathInfo(), new Callable<Object>() {
-				@Override
-				public Object call() throws Exception {
-
-					var dash = getEnabledPlugin(MTGDashBoard.class);
-					var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
-					var ret = new JsonObject();
-					var resNormal = dash.getPriceVariation(mc,false);
-					var resFoil = dash.getPriceVariation(mc,true);
-					ret.addProperty("currency", MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getSymbol());
-					ret.add("normal", build(resNormal));
-					ret.add("foil", build(resFoil));
-					ret.addProperty("provider",dash.getName());
-					ret.addProperty("dateUpdate",dash.getUpdatedDate().toInstant().toEpochMilli());
-					return ret;
-
-				}})
-		);
-
-
-		get("/dash/edition/:idEd", URLTools.HEADER_JSON, (request, response) -> {
-			var ed = new MTGEdition();
-			ed.setId(request.params(ID_ED));
-			return getEnabledPlugin(MTGDashBoard.class).getShakesForEdition(ed);
-		}, transformer);
-
-		get("/dash/format/:format", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGDashBoard.class).getShakerFor(MTGFormat.FORMATS.valueOf(request.params(":format"))), transformer);
-
-		get("/pics/cards/:idEd/:cardNumber", URLTools.HEADER_JSON, (request, response) -> {
-			var baos = new ByteArrayOutputStream();
-			MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(request.params(":cardNumber"), request.params(ID_ED));
-			BufferedImage im = getEnabledPlugin(MTGPictureProvider.class).getPicture(mc);
-			ImageTools.write(im, "png", baos);
-
-			baos.flush();
-			byte[] imageInByte = baos.toByteArray();
-			baos.close();
-			response.type("image/png");
-
-			return imageInByte;
-		});
-
+	}
+	
+	private void initDecks()
+	{
 		get("/decks/list", URLTools.HEADER_JSON, (request, response) ->
 			getCached(request.pathInfo(), new Callable<Object>() {
 				@Override
 				public Object call() throws Exception {
 					var arr = new JsonArray();
-
+	
 					for (MTGDeck d : manager.listDecks()) {
 						var el = converter.toJsonElement(d).getAsJsonObject();
 							  el.remove("main");
@@ -996,27 +610,23 @@ public class JSONHttpServer extends AbstractMTGServer {
 					}
 					return arr;
 				}
-
-
-
-			 })
-		, transformer);
-
+		 }), transformer);
+	
 		post("/decks/import", URLTools.HEADER_JSON, (request, response) ->{
-
+	
 			var obj = request.queryParamsSafe("url");
-
+	
 			var d = new RetrievableDeck();
 				 d.setUrl(URI.create(obj));
 				 d.setName(request.queryParamsSafe("name"));
 			var deck = getPlugin(request.queryParamsSafe("provider"),MTGDeckSniffer.class).getDeck(d);
-
+	
 			manager.saveDeck(deck);
-
+	
 			return deck;
 		}
 		, transformer);
-
+	
 		get("/deck/export/:provider/"+ID_DECK, (request, response) -> {
 			var plug = getPlugin(request.params(PROVIDER),MTGCardsExport.class);
 			var d = manager.getDeck(Integer.parseInt(request.params(ID_DECK)));
@@ -1041,45 +651,45 @@ public class JSONHttpServer extends AbstractMTGServer {
 				return FileTools.readFile(f);
 			}
 		});
-
-
-
-
+	
+	
+	
+	
 		delete("/deck/"+ID_DECK, URLTools.HEADER_JSON,(request, response) -> {
-
+	
 			var d = manager.getDeck(Integer.parseInt(request.params(ID_DECK)));
 			manager.remove(d);
 			return ok(request,response,d);
 		},transformer);
-
+	
 		get("/deck/:idDeck", URLTools.HEADER_JSON,(request, response) -> {
-
+	
 				var d = manager.getDeck(Integer.parseInt(request.params(ID_DECK)));
 				var el= converter.toJsonElement(d);
 				el.getAsJsonObject().addProperty("colors", d.getColors());
-
+	
 				return el;
 		},transformer);
-
-
+	
+	
 		get("/deck/filters/:provider", URLTools.HEADER_JSON,(request, response) -> {
 			var plug = getPlugin(request.params(PROVIDER),MTGDeckSniffer.class);
 			return plug.listFilter();
 		},transformer);
-
-
+	
+	
 		get("/deck/search/:provider/:filter", URLTools.HEADER_JSON,(request, response) ->
 			getPlugin(request.params(PROVIDER),MTGDeckSniffer.class).getDeckList(request.params(":filter"))
 		,transformer);
-
-
-
+	
+	
+	
 		get("/deck/stats/:idDeck", URLTools.HEADER_JSON, (request, response) -> {
-
+	
 			MTGDeck d = manager.getDeck(Integer.parseInt(request.params(ID_DECK)));
-
+	
 			var obj = new JsonObject();
-
+	
 			obj.add("cmc", converter.toJsonElement(manager.analyseCMC(d.getMainAsList())));
 			obj.add("types", converter.toJsonElement(manager.analyseTypes(d.getMainAsList())));
 			obj.add("rarity", converter.toJsonElement(manager.analyseRarities(d.getMainAsList())));
@@ -1087,9 +697,32 @@ public class JSONHttpServer extends AbstractMTGServer {
 			obj.add("legalities", converter.toJsonElement(manager.analyseLegalities(d)));
 			obj.add("drawing", converter.toJsonElement(manager.analyseDrawing(d)));
 			return obj;
-
+	
 		}, transformer);
 
+	}
+	
+	private void initCollections()
+	{
+		get("/collections/:name/count", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGDao.class).getCardsCountGlobal(new MTGCollection(request.params(NAME))), transformer);
+
+		get("/collections/list", URLTools.HEADER_JSON,(request, response) -> getEnabledPlugin(MTGDao.class).listCollections(), transformer);
+
+		get("/collections/default", URLTools.HEADER_JSON,(request, response) -> MTGControler.getInstance().get(DEFAULT_LIBRARY), transformer);
+		
+		get("/collections/cards/:scryfallId", URLTools.HEADER_JSON, (request, response) -> {
+			MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
+			return getEnabledPlugin(MTGDao.class).listCollectionFromCards(mc);
+		}, transformer);
+
+		put("/collections/add/:name", URLTools.HEADER_JSON, (request, response) -> {
+			getEnabledPlugin(MTGDao.class).saveCollection(request.params(NAME));
+			return ok(request,response,NAME + " is added");
+		});
+	}
+	
+	private void initMetadata()
+	{
 		get("/metadata/recognition/list", URLTools.HEADER_JSON, (request, response) -> MTG.getEnabledPlugin(MTGCardRecognition.class).getDataList(), transformer);
 
 
@@ -1116,6 +749,62 @@ public class JSONHttpServer extends AbstractMTGServer {
 				}
 			})
 		);
+	}
+	
+	private void initPricers()
+	{
+		post("/prices/wizard/:provider",URLTools.HEADER_JSON, (request, response) -> {
+			var list = converter.fromJsonList(new InputStreamReader(request.raw().getInputStream()), MTGCard.class);
+			return MTG.getPlugin(request.params(PROVIDER).trim(),MTGPricesProvider.class).getPricesBySeller(list);
+		}, transformer);
+
+		get("/prices/:scryfallId", URLTools.HEADER_JSON, (request, response) ->
+			getCached(request.pathInfo(), new Callable<Object>() {
+
+				@Override
+				public List<MTGPrice> call() throws Exception {
+					var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId( request.params(SCRYFALL_ID));
+					List<MTGPrice> pricesret = new ArrayList<>();
+					for (MTGPricesProvider prices : listEnabledPlugins(MTGPricesProvider.class))
+					{
+						try {
+							pricesret.addAll(prices.getPrice(mc));
+						}
+						catch(Exception e)
+						{
+							logger.error(e);
+						}
+					}
+					return pricesret;
+				}
+			})
+			, transformer);
+
+		get("/prices/details/:provider/:scryfallId", URLTools.HEADER_JSON, (request, response) ->
+				getCached(request.pathInfo(), new Callable<Object>() {
+
+					@Override
+					public List<MTGPrice> call() throws Exception {
+						var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
+						return MTG.getPlugin(request.params(PROVIDER).trim(),MTGPricesProvider.class).getPrice(mc);
+					}
+				})
+		, transformer);
+
+		get("/partner/:scryfallId", URLTools.HEADER_JSON, (request, response) ->
+			getCached(request.pathInfo(), new Callable<Object>() {
+				@Override
+				public List<MTGPrice> call() throws Exception {
+					MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
+					return MTG.listEnabledPlugins(MTGPricesProvider.class).stream().filter(MTGPlugin::isPartner).map(pricer->pricer.getBestPrice(mc)).toList();
+				}
+			})
+		, transformer);
+
+	}
+	
+	private void initAdmin()
+	{
 
 		
 		post("/admin/logs/:start/:end", URLTools.HEADER_JSON, (request, response) -> {
@@ -1226,6 +915,428 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return MTG.getEnabledPlugin(MTGCardRecognition.class).getDataList().keySet();
 
 		}, transformer);
+	}
+	
+	private void initSets()
+	{
+		get("/editions/list", URLTools.HEADER_JSON,(request, response) ->
+		getCached(request.pathInfo(), new Callable<Object>() {
+
+			@Override
+			public List<MTGEdition> call() throws Exception {
+				var list = getEnabledPlugin(MTGCardsProvider.class).listEditions();
+				Collections.sort(list);
+				return list;
+
+			}
+		}), transformer);
+	
+		get("/editions/:idSet", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(ID_SET)), transformer);
+	
+	
+		get("/editions/list/:colName", URLTools.HEADER_JSON, (request, response) ->
+			getCached(request.pathInfo(), new Callable<Object>() {
+	
+				@Override
+				public List<MTGEdition> call() throws Exception{
+					var eds = new ArrayList<MTGEdition>();
+					var list = getEnabledPlugin(MTGDao.class).listEditionsIDFromCollection(new MTGCollection(request.params(":colName")));
+					for (String s : list)
+						eds.add(getEnabledPlugin(MTGCardsProvider.class).getSetById(s));
+	
+					Collections.sort(eds);
+					return eds;
+				}
+	
+			})
+		, transformer);
+	
+
+	}
+	
+	private void initAnnounces()
+	{
+		post("/announces/new", URLTools.HEADER_JSON, (request, response) -> {
+			MTGAnnounce a=converter.fromJson(new InputStreamReader(request.raw().getInputStream()), MTGAnnounce.class);
+			return MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateAnnounce(a);
+		}, transformer);
+
+		delete("/announces/:id", URLTools.HEADER_JSON, (request, response) -> {
+			getEnabledPlugin(MTGDao.class).deleteAnnounceById(Integer.parseInt(request.params(":id")));
+			return ok(request, response, "deleted");
+		}, transformer);
+		
+		
+		get("/announces/get/:id", URLTools.HEADER_JSON, (request, response) -> MTG.getEnabledPlugin(MTGDao.class).getAnnounceById(Integer.parseInt(request.params(":id"))), transformer);
+
+		get("/announces/stats", URLTools.HEADER_JSON, (request, response) -> MTG.getEnabledPlugin(MTGDao.class).listAnnounces(-1,STATUS.ACTIVE).stream().collect(Collectors.groupingBy(MTGAnnounce::getCategorie, Collectors.counting())), transformer);
+
+		get("/announces/list", URLTools.HEADER_JSON, (request, response) -> MTG.getEnabledPlugin(MTGDao.class).listAnnounces(), transformer);
+
+		get("/announces/last/:qty", URLTools.HEADER_JSON, (request, response) -> MTG.getEnabledPlugin(MTGDao.class).listAnnounces(Integer.parseInt(request.params(":qty")),STATUS.ACTIVE), transformer);
+
+		get("/announces/keyword/:search", URLTools.HEADER_JSON, (request, response) -> MTG.getEnabledPlugin(MTGDao.class).listAnnounces(URLTools.decode(request.params(":search"))), transformer);
+
+		get("/announces/category/:type", URLTools.HEADER_JSON, (request, response) -> MTG.getEnabledPlugin(MTGDao.class).listAnnounces(EnumItems.valueOf(request.params(TYPE))), transformer);
+
+		get("/announces/contact/:id", URLTools.HEADER_JSON, (request, response) -> {
+			var c = new Contact();
+			c.setId(Integer.parseInt(request.params(":id")));
+			return MTG.getEnabledPlugin(MTGDao.class).listAnnounces(c).stream().filter(a->a.getStatus()==STATUS.ACTIVE).toList();
+		}, transformer);
+		
+		get("/share/announce/:id",URLTools.HEADER_HTML,(request,response) -> {
+			response.type(URLTools.HEADER_HTML);
+			var report = new ReportNotificationManager();
+			var announce = MTG.getEnabledPlugin(MTGDao.class).getAnnounceById(Integer.parseInt(request.params(":id")));
+			return report.generate(FORMAT_NOTIFICATION.HTML, announce, "share");
+		});
+
+
+		
+		
+	}
+	
+	private void initSealed()
+	{
+		get("/sealed/list", URLTools.HEADER_JSON,(request, response) ->{
+			var data=(List<MTGSealedStock>)getCached(request.pathInfo(), new Callable<Object>() {
+
+					@Override
+					public List<MTGSealedStock> call() throws Exception {
+						return getEnabledPlugin(MTGDao.class).listSealedStocks();
+					}
+				});
+
+			if(request.queryParams(PAGE)!=null && request.queryParams(PAGINATE)!=null)
+				return paginate(data,Integer.parseInt(request.queryParams(PAGE)),Integer.parseInt(request.queryParams(PAGINATE)));
+			else
+				return data;
+
+
+		}, transformer);
+
+
+		get("/sealed/list/:collection", URLTools.HEADER_JSON,(request, response) -> {
+			var data = (List<MTGSealedStock>)getCached(request.pathInfo(), new Callable<Object>() {
+
+				@Override
+				public List<MTGSealedStock> call() throws Exception {
+					return getEnabledPlugin(MTGDao.class).listSealedStocks().stream().filter(ss->ss.getMagicCollection().getName().equalsIgnoreCase(request.params(COLLECTION))).toList();
+				}
+			});
+			
+
+			if(request.queryParams(PAGE)!=null && request.queryParams(PAGINATE)!=null)
+				return paginate(data,Integer.parseInt(request.queryParams(PAGE)),Integer.parseInt(request.queryParams(PAGINATE)));
+			else
+				return data;
+			
+			
+			}, transformer);
+
+
+
+		get("/sealed/list/:collection/:idSet", URLTools.HEADER_JSON, (request, response) ->
+			getCached(request.pathInfo(), new Callable<Object>() {
+				@Override
+				public List<MTGSealedStock> call() throws Exception {
+					return getEnabledPlugin(MTGDao.class).listSealedStocks(new MTGCollection(request.params(COLLECTION)),new MTGEdition(request.params(ID_SET)));
+				}
+			})
+		, transformer);
+
+		get("/sealed/get/:id", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGDao.class).getSealedStockById(Long.parseLong(request.params(":id"))), transformer);
+
+	
+	}
+	
+	private void initCards()
+	{
+				
+		get("/pics/cards/:idEd/:cardNumber", URLTools.HEADER_JSON, (request, response) -> {
+			var baos = new ByteArrayOutputStream();
+			MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).getCardByNumber(request.params(":cardNumber"), request.params(ID_ED));
+			BufferedImage im = getEnabledPlugin(MTGPictureProvider.class).getPicture(mc);
+			ImageTools.write(im, "png", baos);
+
+			baos.flush();
+			byte[] imageInByte = baos.toByteArray();
+			baos.close();
+			response.type("image/png");
+
+			return imageInByte;
+		});
+
+		
+		
+		get("/cards/token/:scryfallId", URLTools.HEADER_JSON,(request, response) -> {
+
+			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
+
+			if(mc!=null) {
+				return getEnabledPlugin(MTGTokensProvider.class).generateTokenFor(mc);
+			}
+
+			return null;
+		},transformer);
+
+		get("/cards/suggestcard/:val", URLTools.HEADER_JSON,
+				(request, response) -> getEnabledPlugin(MTGCardsIndexer.class).search("name:"+request.params(":val").replace(" ", " AND ")+"*").stream().map(MTGCard::toLightJson).toList(),
+				transformer);
+
+
+		get("/cards/moreLike/:scryfallId", URLTools.HEADER_JSON,(request, response) -> {
+			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
+			return getEnabledPlugin(MTGCardsIndexer.class).similarity(mc).keySet().stream() .filter(c->!c.getName().equals(mc.getName()))
+																							.map(MTGCard::toLightJson)
+																							.toList();
+		},transformer);
+
+
+		//used only in chromeplugin
+		get("/cards/light/:name", URLTools.HEADER_JSON,(request, response) -> {
+			List<MTGCard> list= getEnabledPlugin(MTGCardsProvider.class).searchCardByName(request.params(NAME), null, true);
+			var arr = new JsonArray();
+
+			for(MTGCard mc : list)
+			{
+				var cols = getEnabledPlugin(MTGDao.class).listCollectionFromCards(mc);
+				var obj = mc.toLightJson();
+				obj.add("collections", converter.toJsonElement(cols));
+				arr.add(obj);
+			}
+			return arr;
+
+		},transformer);
+
+		get("/cards/scryfall/:scryfallId", URLTools.HEADER_JSON, (request, response) -> getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID)), transformer);
+
+		post("/cards/import/:provider", URLTools.HEADER_JSON,(request, response) -> {
+			var content = request.body();
+			return converter.toJson(MTG.getPlugin(request.params(PROVIDER).trim(),MTGCardsExport.class).importDeck(content, "webimport"));
+		}, transformer);
+
+		post("/cards/recognize/:threeshold", URLTools.HEADER_JSON, (request, response) -> {
+			var recog = MTG.getEnabledPlugin(MTGCardRecognition.class);
+			var strat = new ManualAreaStrat();
+			var buffImg = ImageTools.readBase64(request.body().substring(request.body().indexOf(",")+1));// Find better solution
+
+			if(buffImg==null)
+				return "No readable Image";
+
+			recog.loadAllCachedData();
+			return strat.recognize(buffImg,recog,Integer.parseInt(request.params(":threeshold")));
+		}, transformer);
+
+		put("/cards/move/:from/:to/:scryfallId", URLTools.HEADER_JSON, (request, response) -> {
+			var from = new MTGCollection(request.params(":from"));
+			var to = new MTGCollection(request.params(":to"));
+			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
+			getEnabledPlugin(MTGDao.class).moveCard(mc, from,to);
+			return ok(request,response,mc + " is moved from " + from + " to " + to);
+		}, transformer);
+
+		put("/cards/add/:scryfallId", URLTools.HEADER_JSON, (request, response) -> {
+			var from = new MTGCollection(MTGControler.getInstance().get(DEFAULT_LIBRARY));
+			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
+			CardsManagerService.saveCard(mc, from,null);
+			return ok(request,response,mc + " is added to " + from);
+		}, transformer);
+
+		put("/cards/add/:to/:scryfallId", URLTools.HEADER_JSON, (request, response) -> {
+			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(":id"));
+			CardsManagerService.saveCard(mc, new MTGCollection(request.params(":to")),null);
+			return ok(request,response,mc + " is added to " + request.params(":to"));
+		}, transformer);
+
+
+		get("/cards/list/:col", URLTools.HEADER_JSON, (request, response) ->
+			getCached(request.pathInfo(), new Callable<Object>() {
+				@Override
+				public List<MTGCard> call() throws Exception {
+						var col = new MTGCollection(request.params(":col"));
+						return getEnabledPlugin(MTGDao.class).listCardsFromCollection(col, null);
+				}
+			})
+		, transformer);
+
+		get("/cards/list/:col/:idEd", URLTools.HEADER_JSON, (request, response) ->
+			getCached(request.pathInfo(), new Callable<Object>() {
+				@Override
+				public List<MTGCard> call() throws Exception {
+					var col = new MTGCollection(request.params(":col"));
+					var ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(ID_ED));
+					return getEnabledPlugin(MTGDao.class).listCardsFromCollection(col, ed);
+				}
+				})
+		, transformer);
+
+		get("/cards/:idSet/cards", URLTools.HEADER_JSON, (request, response) ->
+			 getCached(request.pathInfo(), new Callable<Object>() {
+				@Override
+				public List<MTGCard> call() throws Exception {
+					var ed = getEnabledPlugin(MTGCardsProvider.class).getSetById(request.params(ID_SET));
+					var ret = getEnabledPlugin(MTGCardsProvider.class).searchCardByEdition(ed);
+					Collections.sort(ret, new CardsEditionSorter());
+					return ret;
+				}
+			})
+		, transformer);
+	}
+	
+	
+	private void initRoutes() {
+
+		
+		initAuthService();
+		
+		initMetadata();
+		
+		initCardCustom();
+		
+		initGed();
+		
+		initAlerts();
+		
+		initDashboards();
+		
+		initDecks();
+		
+		initCollections();
+		
+		initPricers();
+		
+		initAdmin();
+		
+		initSets();
+		
+		initAnnounces();
+		
+		initSealed();
+		
+		initCards();
+		
+		
+		put("/stock/:type/update", (request, response) -> {
+			JsonObject postItems= readJsonObject(request);
+
+			var source = request.params(TYPE);
+
+
+			MTGStockItem obj = null;
+
+			if(source.equals("sealed"))
+				obj = getEnabledPlugin(MTGDao.class).getSealedStockById(postItems.get("id").getAsLong());
+			else
+				obj = getEnabledPlugin(MTGDao.class).getStockById(postItems.get("id").getAsLong());
+
+
+			if(obj==null)
+				throw new NullPointerException("no item found with id="+postItems.get("id"));
+
+
+				  obj.setQte(postItems.get("qty").getAsInt());
+				  obj.setPrice(postItems.get("price").getAsDouble());
+				  obj.setCondition(EnumCondition.valueOf(postItems.get("condition").getAsString()));
+				  obj.setLanguage(postItems.get("language").getAsString());
+				  obj.setMagicCollection(new MTGCollection(postItems.get("collection").getAsString()));
+				  obj.setFoil(postItems.get("foil").getAsBoolean());
+				  obj.setAltered(postItems.get("altered").getAsBoolean());
+				  obj.setEtched(postItems.get("etched").getAsBoolean());
+				  obj.setSigned(postItems.get("signed").getAsBoolean());
+				  obj.setComment(postItems.get("comment").getAsString());
+
+				  getEnabledPlugin(MTGDao.class).saveOrUpdateStock(obj);
+
+			return obj;
+		});
+
+
+		post("/stock/add/:scryfallId", (request, response) -> {
+			var mc = getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
+			var stock = MTGControler.getInstance().getDefaultStock();
+			stock.setQte(1);
+			stock.setProduct(mc);
+
+			getEnabledPlugin(MTGDao.class).saveOrUpdateCardStock(stock);
+			return ok(request,response,stock);
+		});
+
+
+		delete("/stock/:idStock", (request, response) -> {
+			var stock = getEnabledPlugin(MTGDao.class).getStockById(Long.parseLong(request.params(":idStock")));
+			getEnabledPlugin(MTGDao.class).deleteStock(stock);
+			return ok(request,response,stock);
+		});
+		
+		get("/stock/list", URLTools.HEADER_JSON,(request, response) ->{
+			var data = (List<MTGCardStock>) getCached(request.pathInfo(), new Callable<Object>() {
+				@Override
+				public Object call() throws Exception {
+				return getEnabledPlugin(MTGDao.class).listStocks();
+			}
+		});
+
+		if(request.queryParams(PAGE)!=null && request.queryParams(PAGINATE)!=null)
+			return paginate(data,Integer.parseInt(request.queryParams(PAGE)),Integer.parseInt(request.queryParams(PAGINATE)));
+		else
+			return data;
+		}, transformer);
+
+		
+		get("/stock/get/:idStock", URLTools.HEADER_JSON,
+				(request, response) -> getEnabledPlugin(MTGDao.class).getStockById(Long.parseLong(request.params(":idStock"))), transformer);
+		
+		get("/stock/list/:collection", URLTools.HEADER_JSON,(request, response) ->{
+		
+			var data = (List<MTGCardStock>) getCached(request.pathInfo(), new Callable<Object>() {
+								@Override
+								public Object call() throws Exception {
+								return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MTGCollection(request.params(COLLECTION))));
+							}
+						});
+		
+			if(request.queryParams(PAGE)!=null && request.queryParams(PAGINATE)!=null)
+				return paginate(data,Integer.parseInt(request.queryParams(PAGE)),Integer.parseInt(request.queryParams(PAGINATE)));
+			else
+				return data;
+		
+			
+		},transformer);
+		
+		get("/stock/latest/:number/:collection", URLTools.HEADER_JSON,(request, response) ->{
+		
+			var list = (List<MTGCardStock>) getCached("/stock/list/"+request.params(COLLECTION), new Callable<Object>() {
+								@Override
+								public Object call() throws Exception {
+								return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MTGCollection(request.params(COLLECTION))));
+							}
+						});
+			
+			return list.stream().sorted(Comparator.reverseOrder()).limit(Integer.parseInt(request.params(":number"))).toList();
+			
+		},transformer);
+		
+		
+		get("/stock/list/:collection/:idSet", URLTools.HEADER_JSON, (request, response) ->
+			getCached(request.pathInfo(), new Callable<Object>() {
+				@Override
+				public List<MTGCardStock> call() throws Exception {
+					return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MTGCollection(request.params(COLLECTION)))).stream().filter(mcs->mcs.getProduct().getEdition().getId().equalsIgnoreCase(request.params(ID_SET))).toList();
+				}
+			})
+		, transformer);
+		
+		get("/stock/searchCard/:collection/:cardName", URLTools.HEADER_JSON,
+				(request, response) -> getEnabledPlugin(MTGDao.class).listStocks(request.params(":cardName"),List.of(new MTGCollection(request.params(COLLECTION)))), transformer);
+
+
+	
+		get("/track/:provider/:number", URLTools.HEADER_JSON, (request, response) ->
+			getPlugin(request.params(PROVIDER),MTGTrackingService.class).track(request.params(":number"))
+		, transformer);
+
 
 		get("/webshop/config", URLTools.HEADER_JSON, (request, response) ->
 
@@ -1240,10 +1351,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			})
 		, transformer);
 
-		get("/track/:provider/:number", URLTools.HEADER_JSON, (request, response) ->
-				getPlugin(request.params(PROVIDER),MTGTrackingService.class).track(request.params(":number"))
-		, transformer);
-
+	
 		get("/webshop/transaction/:id", URLTools.HEADER_JSON, (request, response) ->
 			MTG.getPlugin(MTGConstants.MTG_APP_NAME,MTGExternalShop.class).getTransactionById(Long.valueOf(request.params(":id")))
 		, transformer);
@@ -1300,34 +1408,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		}, transformer);
 
-		post("/announces/new", URLTools.HEADER_JSON, (request, response) -> {
-			MTGAnnounce a=converter.fromJson(new InputStreamReader(request.raw().getInputStream()), MTGAnnounce.class);
-			return MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateAnnounce(a);
-		}, transformer);
-
-		delete("/announces/:id", URLTools.HEADER_JSON, (request, response) -> {
-			getEnabledPlugin(MTGDao.class).deleteAnnounceById(Integer.parseInt(request.params(":id")));
-			return ok(request, response, "deleted");
-		}, transformer);
-		
-		
-		get("/announces/get/:id", URLTools.HEADER_JSON, (request, response) -> MTG.getEnabledPlugin(MTGDao.class).getAnnounceById(Integer.parseInt(request.params(":id"))), transformer);
-
-		get("/announces/stats", URLTools.HEADER_JSON, (request, response) -> MTG.getEnabledPlugin(MTGDao.class).listAnnounces(-1,STATUS.ACTIVE).stream().collect(Collectors.groupingBy(MTGAnnounce::getCategorie, Collectors.counting())), transformer);
-
-		get("/announces/list", URLTools.HEADER_JSON, (request, response) -> MTG.getEnabledPlugin(MTGDao.class).listAnnounces(), transformer);
-
-		get("/announces/last/:qty", URLTools.HEADER_JSON, (request, response) -> MTG.getEnabledPlugin(MTGDao.class).listAnnounces(Integer.parseInt(request.params(":qty")),STATUS.ACTIVE), transformer);
-
-		get("/announces/keyword/:search", URLTools.HEADER_JSON, (request, response) -> MTG.getEnabledPlugin(MTGDao.class).listAnnounces(URLTools.decode(request.params(":search"))), transformer);
-
-		get("/announces/category/:type", URLTools.HEADER_JSON, (request, response) -> MTG.getEnabledPlugin(MTGDao.class).listAnnounces(EnumItems.valueOf(request.params(TYPE))), transformer);
-
-		get("/announces/contact/:id", URLTools.HEADER_JSON, (request, response) -> {
-			var c = new Contact();
-			c.setId(Integer.parseInt(request.params(":id")));
-			return MTG.getEnabledPlugin(MTGDao.class).listAnnounces(c).stream().filter(a->a.getStatus()==STATUS.ACTIVE).toList();
-		}, transformer);
+	
 
 		get("/webshop/:dest/categories", URLTools.HEADER_JSON, (request, response) ->MTG.getPlugin(request.params(":dest"), MTGExternalShop.class).listCategories(), transformer);
 
@@ -1409,14 +1490,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		, transformer);
 
 
-		get("/share/announce/:id",URLTools.HEADER_HTML,(request,response) -> {
-			response.type(URLTools.HEADER_HTML);
-			var report = new ReportNotificationManager();
-			var announce = MTG.getEnabledPlugin(MTGDao.class).getAnnounceById(Integer.parseInt(request.params(":id")));
-			return report.generate(FORMAT_NOTIFICATION.HTML, announce, "share");
-		});
-
-
+	
 
 		get("/robots.txt",URLTools.HEADER_TEXT,(req,res) ->ROBOTS_VARS_DISALOW);
 
