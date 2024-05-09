@@ -58,7 +58,7 @@ public abstract class AbstractPricesProvider extends AbstractMTGPlugin implement
 					MTGPrice p = getPrice(e.getKey()).stream().min(new MagicPricesComparator()).orElse(null);
 					if(p!=null)
 					{
-						p.setMagicCard(e.getKey());
+						p.setScryfallId(e.getKey());
 						p.setQty(e.getValue());
 						p.setValue(p.getValue()*e.getValue());
 						ret.add(p);
@@ -89,7 +89,7 @@ public abstract class AbstractPricesProvider extends AbstractMTGPlugin implement
 	@Override
 	public Double getSuggestedPrice(MTGCard mc, boolean foil) {
 		try {
-			return getPrice(mc).stream().filter(mp->mp.isFoil()==foil && mp.getMagicCard()==mc).min(new MagicPricesComparator()).orElse(new MTGPrice()).getValue();
+			return getPrice(mc).stream().filter(mp->mp.isFoil()==foil && mp.getScryfallId().equals(mc.getScryfallId())).min(new MagicPricesComparator()).orElse(new MTGPrice()).getValue();
 		} catch (Exception e) {
 			logger.error(e);
 			return 0.0;
@@ -106,7 +106,7 @@ public abstract class AbstractPricesProvider extends AbstractMTGPlugin implement
 											if(MTGControler.getInstance().getCurrencyService().isEnable()) {
 												p.setValue(MTGControler.getInstance().getCurrencyService().convertTo(p.getCurrency(), p.getValue()));
 												p.setCurrency(MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
-												p.setMagicCard(card);
+												p.setScryfallId(card);
 											}
 											return p;
 										}

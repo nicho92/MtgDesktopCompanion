@@ -112,7 +112,7 @@ public class CardTraderPricer extends AbstractPricesProvider {
 					mp.setLanguage(marketItem.getLanguage());
 					mp.setFoil(marketItem.isFoil());
 					mp.setValue(marketItem.getPrice().getValue());
-					mp.setMagicCard(card);
+					mp.setScryfallId(card);
 					mp.setSeller(marketItem.getSeller().getUsername());
 					mp.setSite(getName());
 					mp.setQuality(marketItem.getCondition().getValue());

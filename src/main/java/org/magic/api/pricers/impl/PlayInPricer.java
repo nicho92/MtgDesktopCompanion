@@ -57,7 +57,7 @@ public class PlayInPricer extends AbstractPricesProvider {
 
 
 
-				mp.setMagicCard(card);
+				mp.setScryfallId(card);
 				mp.setLanguage(lang);
 				mp.setQuality(e.getElementsByClass("etat").html());
 				mp.setValue(Double.parseDouble(clean(e.select("div.prix").text())));

@@ -166,7 +166,7 @@ public class CardKingdomPricer extends AbstractPricesProvider {
 			var mp = new MTGPrice();
 
 			String price = prices.get(i).html();
-			mp.setMagicCard(card);
+			mp.setScryfallId(card);
 			mp.setValue(UITools.parseDouble(price));
 			mp.setCurrency("USD");
 			mp.setCountry(Locale.US.getDisplayCountry(MTGControler.getInstance().getLocale()));

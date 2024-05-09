@@ -57,7 +57,7 @@ public class MagicCorporationPricer extends AbstractPricesProvider {
 				for(Element tr : trs)
 				{
 					var mp = new MTGPrice();
-						mp.setMagicCard(card);
+						mp.setScryfallId(card);
 						mp.setCountry(Locale.FRANCE.getDisplayCountry(MTGControler.getInstance().getLocale()));
 						mp.setCurrency("EUR");
 						mp.setQuality(tr.select("td").get(1).text());

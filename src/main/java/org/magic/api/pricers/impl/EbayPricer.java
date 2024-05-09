@@ -51,7 +51,7 @@ public class EbayPricer extends AbstractPricesProvider {
 					var price = new MTGPrice();
 						 price.setValue(obj.get("price").getAsJsonObject().get("value").getAsDouble());
 						 price.setCurrency(obj.get("price").getAsJsonObject().get("currency").getAsString());
-						 price.setMagicCard(card);
+						 price.setScryfallId(card);
 						 price.setUrl(obj.get("itemWebUrl").getAsString());
 						 price.setSeller(obj.get("seller").getAsJsonObject().get("username").getAsString());
 						 price.setSite(getName());

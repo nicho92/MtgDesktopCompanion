@@ -60,7 +60,7 @@ public class BigOrBitCardsPricer extends AbstractPricesProvider {
 					mp.setCurrency(Currency.getInstance(Locale.UK));
 					mp.setCountry(Locale.UK.getDisplayCountry(MTGControler.getInstance().getLocale()));
 					mp.setLanguage(title.text().contains("Japanese")?"Japanese":"English");
-					mp.setMagicCard(card);
+					mp.setScryfallId(card);
 					mp.setFoil(title.text().contains("(Foil)"));
 					mp.setUrl(title.attr("href"));
 					mp.setSellerUrl(mp.getUrl());

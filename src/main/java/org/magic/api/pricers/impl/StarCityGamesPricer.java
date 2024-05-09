@@ -65,7 +65,7 @@ public class StarCityGamesPricer extends AbstractPricesProvider {
 				
 				if(jinfo.get("qty").getAsInt()>0 && jinfo.get("sku").getAsString().toUpperCase().contains(card.getEdition().getId().toUpperCase())) {
 					var mp = new MTGPrice();
-					mp.setMagicCard(card);
+					mp.setScryfallId(card);
 					mp.setCurrency(Currency.getInstance("USD"));
 					mp.setCountry(Locale.US.getDisplayCountry(MTGControler.getInstance().getLocale()));
 					mp.setSite(getName());

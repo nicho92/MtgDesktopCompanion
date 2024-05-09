@@ -51,7 +51,7 @@ public class MTGStandPricer extends AbstractPricesProvider {
 		{
 			var p = new MTGPrice();
 			p.setCurrency(cur);
-			p.setMagicCard(card);
+			p.setScryfallId(card);
 			p.setSeller(el.getAsJsonObject().get("username").getAsString());
 			p.setSellerUrl(el.getAsJsonObject().get("user_market_stand_url").getAsString());
 			p.setUrl(el.getAsJsonObject().get("user_market_stand_url").getAsString());
