@@ -60,7 +60,6 @@ import org.magic.gui.components.charts.TypeRepartitionPanel;
 import org.magic.gui.components.deck.CardsDeckCheckerPanel;
 import org.magic.gui.components.dialog.MassCollectionImporterDialog;
 import org.magic.gui.components.dialog.MassMoverDialog;
-import org.magic.gui.components.dialog.WebSiteGeneratorDialog;
 import org.magic.gui.components.tech.ObjectViewerPanel;
 import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.gui.renderer.MagicCardsTreeCellRenderer;
@@ -73,7 +72,6 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 import org.magic.services.workers.AbstractObservableWorker;
-import org.magic.services.workers.WebsiteExportWorker;
 
 
 @SuppressWarnings("rawtypes")
@@ -110,7 +108,6 @@ public class CollectionPanelGUI extends MTGUIComponent {
 	private JButton btnRemove;
 	private JButton btnAddAllSet;
 	private JButton btnMassCollection;
-	private JButton btnGenerateWebSite;
 	private JSplitPane splitListPanel;
 	private JSplitPane splitPane;
 	private PackagesBrowserPanel packagePanel;
@@ -191,7 +188,6 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		btnAddAllSet =UITools.createBindableJButton(null, MTGConstants.ICON_CHECK, KeyEvent.VK_A, "Collection addAll");
 		groupShopPanel = new GroupedShoppingPanel();
 		btnMassCollection = UITools.createBindableJButton(null, MTGConstants.ICON_MASS_IMPORT, KeyEvent.VK_I, "Collection massImport");
-		btnGenerateWebSite = UITools.createBindableJButton(null, MTGConstants.ICON_WEBSITE_24, KeyEvent.VK_W, "Collection website");
 		cardsSetPanel = new CardsEditionTablePanel();
 		deckPanel = new CardsDeckCheckerPanel();
 		splitListPanel = new JSplitPane();
@@ -252,7 +248,6 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		panneauHaut.add(btnRemove);
 		panneauHaut.add(btnAddAllSet);
 		panneauHaut.add(btnMassCollection);
-		panneauHaut.add(btnGenerateWebSite);
 		panneauHaut.add(buzy);
 		add(splitListPanel, BorderLayout.CENTER);
 		splitListPanel.setRightComponent(panneauDroite);
@@ -290,8 +285,6 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		btnRemove.setToolTipText(capitalize("ITEM_SELECTED_REMOVE"));
 		btnAddAllSet.setToolTipText(capitalize("COLLECTION_SET_FULL"));
 		btnMassCollection.setToolTipText(capitalize("COLLECTION_IMPORT"));
-		btnGenerateWebSite.setToolTipText(capitalize("GENERATE_WEBSITE"));
-
 
 		UITools.sort(tableEditions,3,SortOrder.DESCENDING);
 
@@ -534,33 +527,6 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			}
 			model.fireTableDataChanged();
 		});
-
-
-		btnGenerateWebSite.addActionListener(ae -> ThreadManager.getInstance().invokeLater(new MTGRunnable() {
-
-			@Override
-			protected void auditedRun() {
-				try {
-
-					var diag = new WebSiteGeneratorDialog(dao.listCollections());
-					diag.setVisible(true);
-					if (diag.value()) {
-						var max = 0;
-						for (var col : diag.getSelectedCollections())
-							max += dao.getCardsCountGlobal(col).entrySet().stream().mapToInt(Map.Entry::getValue).sum();
-
-						buzy.start(max);
-						var sw = new WebsiteExportWorker(diag.getTemplate(), diag.getDest(), diag.getSelectedCollections(), diag.getPriceProviders(), buzy);
-						ThreadManager.getInstance().runInEdt(sw,"website generation");
-					}
-
-				} catch (Exception e) {
-					logger.error("error generating website", e);
-					buzy.end();
-					MTGControler.getInstance().notify(e);
-				}
-			}
-		}, "Opening WebSite Export dialog"));
 
 	    btnAddAllSet.addActionListener(ae ->{
 	    	var popupMenu = new JPopupMenu("Title");

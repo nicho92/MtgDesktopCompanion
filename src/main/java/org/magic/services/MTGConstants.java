@@ -57,7 +57,6 @@ public class MTGConstants {
 	public static final String WEBCOLLECTION_LOCATION = "web/collection-ui";
 	public static final String WEBTRADES_LOCATION = "web/trades-ui";
 	public static final String WEBPRICES_LOCATION = "web/prices-ui";
-	public static final String MTG_TEMPLATES_DIR = "./templates";
 	public static final String SET_ICON_DIR = "/icons/set/";
 	public static final String MTG_CHROME_PLUGIN_DIR = "mtg-chrome-companion";
 	private static final String ICON_DIR="/icons";
