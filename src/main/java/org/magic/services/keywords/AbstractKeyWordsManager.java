@@ -100,22 +100,6 @@ public abstract class AbstractKeyWordsManager {
 
 		ret = new JsonObject();
 
-		getStaticsAbilities().forEach(mk->{
-			try {
-				var tr = URLTools.extractAsHtml(MTGGamePediaKeywordProvider.BASE_URI+mk.getKeyword().replace(" ", "_")).select("div.mw-parser-output p").first();
-				if(tr!=null)
-					mk.setReminder(tr.text());
-				else
-					logger.warn("tr is null for {}",mk);
-			} catch (IOException e) {
-				logger.error(e);
-			}
-		});
-
-
-
-
-
 		for(TYPE t : TYPE.values())
 		{
 			var arr = new JsonArray();

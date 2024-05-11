@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.TreeMap;
 
 import org.magic.api.beans.CardShake;
@@ -167,7 +166,7 @@ public class CollectionEvaluator extends Observable
 
 	private List<MTGEdition> getEditions()
 	{
-		List<MTGEdition> eds = new ArrayList<>();
+		var eds = new ArrayList<MTGEdition>();
 		try {
 			getEnabledPlugin(MTGDao.class).listEditionsIDFromCollection(collection).forEach(key->{
 				try {
@@ -187,7 +186,7 @@ public class CollectionEvaluator extends Observable
 		var fich = new File(directory,ed.getId()+PRICE_JSON);
 		if(fich.exists())
 		{
-			EditionsShakers r = loadFromCache(ed);
+			var r = loadFromCache(ed);
 			if(!r.isEmpty())
 				return r.getDate();
 		}
@@ -204,7 +203,7 @@ public class CollectionEvaluator extends Observable
 		logger.trace("caculate prices for {}",ed);
 
 
-		Map<MTGCard,CardShake> ret = new HashMap<>();
+		var ret = new HashMap<MTGCard,CardShake>();
 		try {
 			var fich = new File(directory,ed.getId()+PRICE_JSON);
 			EditionsShakers list;
@@ -217,13 +216,13 @@ public class CollectionEvaluator extends Observable
 				logger.trace("{} is not found for {}: {}",fich,ed.getId(),ed.getSet());
 				list= new EditionsShakers();
 			}
-			List<MTGCard> cards = getEnabledPlugin(MTGDao.class).listCardsFromCollection(collection, ed);
+			var cards = getEnabledPlugin(MTGDao.class).listCardsFromCollection(collection, ed);
 			for(MTGCard mc : cards)
 			{
-					Optional<CardShake> cs = list.getShakes().stream().filter(sk->sk.getName().equals(mc.getName())).findFirst();
+					var cs = list.getShakes().stream().filter(sk->sk.getName().equals(mc.getName())).findFirst();
 					if(cs.isPresent())
 					{
-						CardShake shak = cs.get();
+						var shak = cs.get();
 						if(shak.getPrice()>=minPrice)
 							ret.put(mc, shak);
 					}
@@ -236,13 +235,9 @@ public class CollectionEvaluator extends Observable
 						if(csn.getPrice()>=minPrice)
 							ret.put(mc, csn);
 					}
-
 			}
-
 			setChanged();
 			notifyObservers(ed);
-
-
 		} catch (SQLException e) {
 			logger.error(e);
 		}

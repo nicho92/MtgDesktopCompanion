@@ -1185,39 +1185,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 		, transformer);
 	}
 	
-	
-	private void initRoutes() {
-
-		
-		initAuthService();
-		
-		initMetadata();
-		
-		initCardCustom();
-		
-		initGed();
-		
-		initAlerts();
-		
-		initDashboards();
-		
-		initDecks();
-		
-		initCollections();
-		
-		initPricers();
-		
-		initAdmin();
-		
-		initSets();
-		
-		initAnnounces();
-		
-		initSealed();
-		
-		initCards();
-		
-		
+	private void initStocks()
+	{
 		put("/stock/:type/update", (request, response) -> {
 			JsonObject postItems= readJsonObject(request);
 
@@ -1330,108 +1299,10 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		get("/stock/searchCard/:collection/:cardName", URLTools.HEADER_JSON,
 				(request, response) -> getEnabledPlugin(MTGDao.class).listStocks(request.params(":cardName"),List.of(new MTGCollection(request.params(COLLECTION)))), transformer);
-
-
+	}
 	
-		get("/track/:provider/:number", URLTools.HEADER_JSON, (request, response) ->
-			getPlugin(request.params(PROVIDER),MTGTrackingService.class).track(request.params(":number"))
-		, transformer);
-
-
-		get("/webshop/config", URLTools.HEADER_JSON, (request, response) ->
-
-			 getCached(request.pathInfo(), new Callable<Object>() {
-
-				@Override
-				public Object call() throws Exception {
-					WebShopConfig conf =  MTGControler.getInstance().getWebConfig();
-					conf.getContact().setPassword(null);
-					return conf;
-				}
-			})
-		, transformer);
-
-	
-		get("/webshop/transaction/:id", URLTools.HEADER_JSON, (request, response) ->
-			MTG.getPlugin(MTGConstants.MTG_APP_NAME,MTGExternalShop.class).getTransactionById(Long.valueOf(request.params(":id")))
-		, transformer);
-
-
-		get("/extShop/products/:provider/:search", URLTools.HEADER_JSON, (request, response) ->
-			getPlugin(request.params(PROVIDER),MTGExternalShop.class).listProducts(request.params(":search"))
-		, transformer);
-
-
-		get("/extShop/list/stock/:provider", URLTools.HEADER_JSON, (request, response) ->
-			 getCached(request.pathInfo(), new Callable<Object>() {
-				@Override
-				public Object call() throws Exception {
-					return getPlugin(request.params(PROVIDER),MTGExternalShop.class).listStock("");
-				}
-			})
-		 , transformer);
-
-		get("/extShop/stock/:provider/:id", URLTools.HEADER_JSON, (request, response) ->
-				getPlugin(request.params(PROVIDER),MTGExternalShop.class).getStockById(null,Long.parseLong(request.params(":id")))
-		, transformer);
-
-		get("/extShop/transactions/from/:provider", URLTools.HEADER_JSON, (request, response) ->
-			getPlugin(request.params(PROVIDER),MTGExternalShop.class).listTransaction()
-		, transformer);
-
-		get("/extShop/transactions/:provider/:id", URLTools.HEADER_JSON, (request, response) ->
-			getPlugin(request.params(PROVIDER),MTGExternalShop.class).getTransactionById(Long.valueOf(request.params(":id")))
-		, transformer);
-
-		post("/extShop/transactions/:to/save", URLTools.HEADER_JSON, (request, response) ->{
-
-			var extShop  = MTG.getPlugin(request.params(":to"), MTGExternalShop.class);
-
-			List<Transaction> ret = converter.fromJsonList(new InputStreamReader(request.raw().getInputStream()), Transaction.class);
-			var arr = new HashMap<String, List<Transaction>>();
-
-			arr.put("ok", new ArrayList<>());
-			arr.put(ERROR, new ArrayList<>());
-
-			for(Transaction p : ret)
-			{
-				try {
-					extShop.saveOrUpdateTransaction(p);
-					arr.get("ok").add(p);
-				}catch(Exception e)
-				{
-					logger.error(e);
-					arr.get(ERROR).add(p);
-				}
-			}
-			return arr;
-
-		}, transformer);
-
-	
-
-		get("/webshop/:dest/categories", URLTools.HEADER_JSON, (request, response) ->MTG.getPlugin(request.params(":dest"), MTGExternalShop.class).listCategories(), transformer);
-
-	
-		post("/webshop/transaction/cancel/:id", URLTools.HEADER_JSON, (request, response) -> {
-
-			Contact c=converter.fromJson(request.queryParams("user"), Contact.class);
-
-			var t =MTG.getEnabledPlugin(MTGExternalShop.class).getTransactionById(Long.valueOf(request.params(":id")));
-
-			if(t.getContact().getId()==c.getId())
-			{
-				t.setStatut(EnumTransactionStatus.CANCELATION_ASK);
-				MTG.getEnabledPlugin(MTGExternalShop.class).saveOrUpdateTransaction(t);
-				return ok(request, response,t);
-			}
-			else
-			{
-				return "Wrong User";
-			}
-
-		}, transformer);
-
+	private void initTransactions()
+	{
 		post("/transaction/add", URLTools.HEADER_JSON, (request, response) -> {
 			try{
 				Transaction t=converter.fromJson(new InputStreamReader(request.raw().getInputStream()), Transaction.class);
@@ -1456,41 +1327,189 @@ public class JSONHttpServer extends AbstractMTGServer {
 			Contact c=converter.fromJson(new InputStreamReader(request.raw().getInputStream()), Contact.class);
 			return MTG.getEnabledPlugin(MTGExternalShop.class).listTransactions(c);
 		}, transformer);
+	}
+	
+	private void initExtShop()
+	{
+		get("/extShop/products/:provider/:search", URLTools.HEADER_JSON, (request, response) ->
+		getPlugin(request.params(PROVIDER),MTGExternalShop.class).listProducts(request.params(":search"))
+	, transformer);
 
-		post("/contact/save", URLTools.HEADER_JSON, (request, response) -> {
-			Contact t=converter.fromJson(new InputStreamReader(request.raw().getInputStream()), Contact.class);
-			if(t.getId()<=0)
-			{
-				try{
-					TransactionService.createContact(t);
-					return t;
-				}
-				catch(IOException e)
-				{
-					response.status(500);
-					return e.getMessage();
-				}
-			}
-			else
-			{
-				try{
-					TransactionService.saveOrUpdateContact(t);
-					return t;
-				}
-				catch(Exception e)
-				{
-					response.status(500);
-					return e.getMessage();
-				}
-			}
-		}, transformer);
 
+	get("/extShop/list/stock/:provider", URLTools.HEADER_JSON, (request, response) ->
+		 getCached(request.pathInfo(), new Callable<Object>() {
+			@Override
+			public Object call() throws Exception {
+				return getPlugin(request.params(PROVIDER),MTGExternalShop.class).listStock("");
+			}
+		})
+	 , transformer);
+
+	get("/extShop/stock/:provider/:id", URLTools.HEADER_JSON, (request, response) ->
+			getPlugin(request.params(PROVIDER),MTGExternalShop.class).getStockById(null,Long.parseLong(request.params(":id")))
+	, transformer);
+
+	get("/extShop/transactions/from/:provider", URLTools.HEADER_JSON, (request, response) ->
+		getPlugin(request.params(PROVIDER),MTGExternalShop.class).listTransaction()
+	, transformer);
+
+	get("/extShop/transactions/:provider/:id", URLTools.HEADER_JSON, (request, response) ->
+		getPlugin(request.params(PROVIDER),MTGExternalShop.class).getTransactionById(Long.valueOf(request.params(":id")))
+	, transformer);
+
+	post("/extShop/transactions/:to/save", URLTools.HEADER_JSON, (request, response) ->{
+
+		var extShop  = MTG.getPlugin(request.params(":to"), MTGExternalShop.class);
+
+		List<Transaction> ret = converter.fromJsonList(new InputStreamReader(request.raw().getInputStream()), Transaction.class);
+		var arr = new HashMap<String, List<Transaction>>();
+
+		arr.put("ok", new ArrayList<>());
+		arr.put(ERROR, new ArrayList<>());
+
+		for(Transaction p : ret)
+		{
+			try {
+				extShop.saveOrUpdateTransaction(p);
+				arr.get("ok").add(p);
+			}catch(Exception e)
+			{
+				logger.error(e);
+				arr.get(ERROR).add(p);
+			}
+		}
+		return arr;
+
+	}, transformer);
+
+	}
+	
+	
+	private void initContacts()
+	{
 		get("/contact/validation/:token", URLTools.HEADER_JSON, (request, response) ->
 			MTG.getEnabledPlugin(MTGExternalShop.class).enableContact(request.params(":token"))
 		, transformer);
 
 
+	post("/contact/save", URLTools.HEADER_JSON, (request, response) -> {
+		Contact t=converter.fromJson(new InputStreamReader(request.raw().getInputStream()), Contact.class);
+		if(t.getId()<=0)
+		{
+			try{
+				TransactionService.createContact(t);
+				return t;
+			}
+			catch(IOException e)
+			{
+				response.status(500);
+				return e.getMessage();
+			}
+		}
+		else
+		{
+			try{
+				TransactionService.saveOrUpdateContact(t);
+				return t;
+			}
+			catch(Exception e)
+			{
+				response.status(500);
+				return e.getMessage();
+			}
+		}
+	}, transformer);
+
+	}
 	
+	
+	private void initWebShop()
+	{
+
+		get("/webshop/config", URLTools.HEADER_JSON, (request, response) ->
+
+			 getCached(request.pathInfo(), new Callable<Object>() {
+
+				@Override
+				public Object call() throws Exception {
+					WebShopConfig conf =  MTGControler.getInstance().getWebConfig();
+					conf.getContact().setPassword(null);
+					return conf;
+				}
+			})
+		, transformer);
+
+	
+		get("/webshop/transaction/:id", URLTools.HEADER_JSON, (request, response) ->
+			MTG.getPlugin(MTGConstants.MTG_APP_NAME,MTGExternalShop.class).getTransactionById(Long.valueOf(request.params(":id")))
+		, transformer);
+
+		get("/webshop/:dest/categories", URLTools.HEADER_JSON, (request, response) ->MTG.getPlugin(request.params(":dest"), MTGExternalShop.class).listCategories(), transformer);
+	
+		post("/webshop/transaction/cancel/:id", URLTools.HEADER_JSON, (request, response) -> {
+
+			Contact c=converter.fromJson(request.queryParams("user"), Contact.class);
+
+			var t =MTG.getEnabledPlugin(MTGExternalShop.class).getTransactionById(Long.valueOf(request.params(":id")));
+
+			if(t.getContact().getId()==c.getId())
+			{
+				t.setStatut(EnumTransactionStatus.CANCELATION_ASK);
+				MTG.getEnabledPlugin(MTGExternalShop.class).saveOrUpdateTransaction(t);
+				return ok(request, response,t);
+			}
+			else
+			{
+				return "Wrong User";
+			}
+
+		}, transformer);
+	}
+	
+	private void initRoutes() {
+
+		
+		initAuthService();
+		
+		initMetadata();
+		
+		initCardCustom();
+		
+		initGed();
+		
+		initAlerts();
+		
+		initDashboards();
+		
+		initDecks();
+		
+		initCollections();
+		
+		initPricers();
+		
+		initAdmin();
+		
+		initSets();
+		
+		initAnnounces();
+		
+		initSealed();
+		
+		initCards();
+				
+		initStocks();
+		
+		initTransactions();
+		
+		initExtShop();
+		
+		initContacts();
+	
+		initWebShop();
+		
+		get("/track/:provider/:number", URLTools.HEADER_JSON, (request, response) ->
+			getPlugin(request.params(PROVIDER),MTGTrackingService.class).track(request.params(":number"))
+		, transformer);
 
 		get("/robots.txt",URLTools.HEADER_TEXT,(req,res) ->ROBOTS_VARS_DISALOW);
 

@@ -261,13 +261,13 @@ private MTGPool pool;
 			mc.setLayout(EnumLayout.parseByLabel(rs.getString(LAYOUT)));
 			
 			try {
-			if(rs.getString(SUBSETS)!=null)
-				mc.setSubsets(rs.getString(SUBSETS));
-			}
-			catch(Exception e)
-			{
-				//do nothing, subsets is not in tokenn table
-			}
+				if(rs.getString(SUBSETS)!=null)
+					mc.setSubsets(rs.getString(SUBSETS));
+				}
+				catch(Exception e)
+				{
+					//do nothing, subsets is not in tokenn table
+				}
 			
 			if(rs.getString(SUPERTYPES)!=null)
 				mc.setSupertypes(splitArrayValue(rs.getString(SUPERTYPES)));
@@ -519,7 +519,14 @@ private MTGPool pool;
 				if(rs.getString(ATTRACTION_LIGHTS)!=null)
 					mc.setAttractionLights(splitArrayValue(rs.getString(ATTRACTION_LIGHTS)).stream().mapToInt(Integer::parseInt).boxed().toList());
 				
-					
+				try {
+					if(rs.getString(SUBSETS)!=null)
+						mc.setSubsets(rs.getString(SUBSETS));
+					}
+					catch(Exception e)
+					{
+						//do nothing, subsets is not in tokenn table
+					}
 				
 				
 				
