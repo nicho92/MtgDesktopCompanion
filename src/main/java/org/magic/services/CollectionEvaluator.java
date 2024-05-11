@@ -223,10 +223,7 @@ public class CollectionEvaluator extends Observable
 					Optional<CardShake> cs = list.getShakes().stream().filter(sk->sk.getName().equals(mc.getName())).findFirst();
 					if(cs.isPresent())
 					{
-
 						CardShake shak = cs.get();
-						shak.setCard(mc);
-
 						if(shak.getPrice()>=minPrice)
 							ret.put(mc, shak);
 					}
@@ -234,7 +231,6 @@ public class CollectionEvaluator extends Observable
 					{
 						var csn = new CardShake();
 						csn.setName(mc.getName());
-						csn.setCard(mc);
 						csn.setPrice(0.0);
 
 						if(csn.getPrice()>=minPrice)

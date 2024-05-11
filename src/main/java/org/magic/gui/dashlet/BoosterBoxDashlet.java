@@ -162,8 +162,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 								if (cs.getName().equalsIgnoreCase(mc.getName())) {
 									price += cs.getPrice();
 									booster.setPrice(price);
-									cs.setCard(mc);
-
+								
 									EnumRarity rarity = mc.getRarity();
 
 									if (priceRarity.get(rarity) != null)

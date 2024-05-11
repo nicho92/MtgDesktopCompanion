@@ -178,9 +178,8 @@ public class HistoryPrice<T> implements Iterable<Map.Entry<Date,Double>> {
 			var cs = new CardShake();
 
 			if(pack instanceof MTGCard mc) {
-				cs.setCard(mc);
-				cs.setName(cs.getCard().getName());
-				cs.setEd(cs.getCard().getEdition().getSet());
+				cs.setName(mc.getName());
+				cs.setEd(mc.getEdition().getSet());
 			}
 			cs.setDateUpdate(new Date());
 			cs.setPercentDayChange(pcDay);

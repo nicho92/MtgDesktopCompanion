@@ -107,12 +107,11 @@ public class MagicCorporationShopper extends AbstractMagicShopper {
 				var price = UITools.parseDouble(tr.select("td").get(1).text());
 				var qty = Integer.parseInt(tr.select("td").get(2).text());
 				
-				var st = new MTGSealedStock();
+				var st = new MTGSealedStock(new MTGSealedProduct());
 					  st.setComment(name);
 					  st.setQte(qty);	
 					  st.setPrice(price);
 					  st.setLanguage(name.contains("Français")?"French":"English");
-					  st.setProduct(new MTGSealedProduct());
 					  st.getTiersAppIds().put(getName(), name.substring(name.indexOf("#")+1,name.indexOf('-')).trim());
 					  
 					  t.getItems().add(st);

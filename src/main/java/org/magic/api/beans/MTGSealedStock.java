@@ -7,9 +7,7 @@ public class MTGSealedStock extends AbstractStockItem<MTGSealedProduct>  {
 
 	private static final long serialVersionUID = 1L;
 
-	public MTGSealedStock(){
-		setCondition(EnumCondition.SEALED);
-	}
+	
 
 	public MTGSealedStock(MTGSealedProduct p)
 	{

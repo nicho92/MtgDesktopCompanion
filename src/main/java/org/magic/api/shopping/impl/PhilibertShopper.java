@@ -112,12 +112,11 @@ public class PhilibertShopper extends AbstractMagicShopper {
 		{
 			int index = tr.selectFirst("td:has(input)")!=null?0:1; //check if first column is checkbox or not
 				
-			var stock = new MTGSealedStock();
+			var stock = new MTGSealedStock(new MTGSealedProduct());
 				 stock.setComment(tr.select("td").get(2-index).text());
 				 stock.setPrice(UITools.parseDouble(tr.select("td").get(4-index).text()));
 				 stock.getTiersAppIds().put(getName(), tr.select("td").get(1-index).text());
 				 stock.setQte(Integer.parseInt(tr.select("td").get(3-index).text()));
-				 stock.setProduct(new MTGSealedProduct());
 				 if(stock.getComment().startsWith("Voucher"))
 				 {
 					 stock.setPrice(UITools.parseDouble(tr.select("td").get(5-index).text()));

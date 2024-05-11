@@ -1953,31 +1953,29 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	}
 
 	private MTGSealedStock readSealed(ResultSet rs) throws SQLException {
-		var state = new MTGSealedStock();
-		state.setComment(rs.getString("comment"));
-		state.setId(rs.getInt("id"));
-		state.setQte(rs.getInt("qte"));
-
 		int ref = rs.getInt("numversion");
-
 		  try
 		  {
 			var list = MTG.getEnabledPlugin(MTGSealedProvider.class).get(getEnabledPlugin(MTGCardsProvider.class).getSetById(rs.getString(EDITION)),EnumItems.valueOf(rs.getString("typeProduct")),(rs.getString(EXTRATYPE)==null) ? null : EnumExtra.valueOf(rs.getString(EXTRATYPE)));
 			MTGSealedProduct product = list.stream().filter(p->p.getNum()==ref).findFirst().orElse(list.get(0));
-			state.setProduct(product);
+			var state =  new MTGSealedStock(product);
+			 state.setComment(rs.getString("comment"));
+			 state.setId(rs.getInt("id"));
+			 state.setQte(rs.getInt("qte"));
+			 state.setCondition(EnumCondition.valueOf(rs.getString("conditionProduct")));
+			 state.setMagicCollection(new MTGCollection(rs.getString(COLLECTION)));
+			 state.setPrice(rs.getDouble("price"));
+			 state.setTiersAppIds(readTiersApps(rs));
+			 state.setLanguage(rs.getString("lang"));
+			 return state;
 		  }
 		  catch (Exception e)
 		  {
 			logger.error("Error loading Packaging for {} {} {} : {}",rs.getString("typeProduct"),rs.getString(EXTRATYPE),rs.getString(EDITION),e);
+			return null;
 		  }
-
-		  state.setCondition(EnumCondition.valueOf(rs.getString("conditionProduct")));
-		  state.setMagicCollection(new MTGCollection(rs.getString(COLLECTION)));
-		  state.setPrice(rs.getDouble("price"));
-		  state.setTiersAppIds(readTiersApps(rs));
-		  state.setLanguage(rs.getString("lang"));
-
-		 return state;
+		
+		 
 	}
 
 	private MTGCardStock readStock(ResultSet rs) throws SQLException

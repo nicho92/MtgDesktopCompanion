@@ -123,13 +123,8 @@ public class PlayInShopper extends AbstractMagicShopper {
 		var productUrl = elementName.first().getElementsByTag("a").first().attr("href").replace("/produit/","");
 		
 		try {
-		var st = new MTGSealedStock();
-			  st.setComment(name);
-			  st.setPrice(value);
-			  st.setQte(qty);
-			  
-			  st.getTiersAppIds().put(getName(), productUrl.substring(0,productUrl.indexOf('-')));
-			  var ed = CardsManagerService.detectEdition(st.getComment());
+		
+			  var ed = CardsManagerService.detectEdition(name);
 			  
 			  if(ed==null)
 			  {
@@ -148,18 +143,24 @@ public class PlayInShopper extends AbstractMagicShopper {
 					if (name.toLowerCase().contains("Bundle"))
 						typeProduct = EnumItems.BUNDLE;
 					
-					if(name.contains("VF") || name.contains("French") || name.contains("FR"))
-						st.setLanguage("French");
-					else
-						st.setLanguage("English");
-					
-					
+			
 				  var products = MTG.getEnabledPlugin(MTGSealedProvider.class).get(ed, typeProduct);
-				  		st.setProduct(products.get(0));
-			  		
+    		  		var st = new MTGSealedStock(products.get(0));
+						  st.setComment(name);
+						  st.setPrice(value);
+						  st.setQte(qty);
+							if(name.contains("VF") || name.contains("French") || name.contains("FR"))
+								st.setLanguage("French");
+							else
+								st.setLanguage("English");
+							
+							
+						  st.getTiersAppIds().put(getName(), productUrl.substring(0,productUrl.indexOf('-')));
+				  		
+						  return st;
 			  }
 			  
-			  return st;
+			 
 		}
 		catch(Exception ex)
 		{

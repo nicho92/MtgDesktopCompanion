@@ -77,8 +77,7 @@ public class StockItemPanel extends MTGUIComponent {
 			
 			for(var it : diag.getSelecteds())
 			{
-	   		var mtgstock = new MTGSealedStock();
-					mtgstock.setProduct(it);
+	   		var mtgstock = new MTGSealedStock(it);
 					model.addItem(mtgstock);
 			}
 			model.fireTableDataChanged();

@@ -26,6 +26,7 @@ public class MTGCardStock extends AbstractStockItem<MTGCard> {
 
 	@Override
 	public void setProduct(MTGCard c) {
+		tiersAppIds= new HashMap<>();
 		product=c;
 		edition= c.getEdition();
 		product.setTypeProduct(EnumItems.CARD);

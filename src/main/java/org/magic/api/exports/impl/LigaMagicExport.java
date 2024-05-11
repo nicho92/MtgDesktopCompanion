@@ -129,7 +129,7 @@ public class LigaMagicExport extends AbstractCardExport {
 
 					if(mc!=null)
 					{
-						var stockItem = new MTGCardStock();
+						var stockItem = new MTGCardStock(mc);
 							stockItem.setAltered(altered);
 							stockItem.setFoil(foil);
 							stockItem.setLanguage(language);
@@ -137,7 +137,6 @@ public class LigaMagicExport extends AbstractCardExport {
 							stockItem.setQte(qte);
 							stockItem.setCondition( aliases.getReversedConditionFor(this, quality, null));
 							stockItem.setPrice(priceItem);
-							stockItem.setProduct(mc);
 							ret.add(stockItem);
 					}
 					else
