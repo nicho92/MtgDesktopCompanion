@@ -128,7 +128,9 @@ public abstract class AbstractMTGJsonProvider extends AbstractCardsProvider{
 	public static final String MTG_JSON_SETS_LIST=	     MTGJSON_API_URL + "/SetList.json";
 	public static final String MTG_JSON_ENUM_VALUES =    MTGJSON_API_URL+ "/EnumValues.json";
 	public static final String MTG_JSON_ALL_PRICES_ZIP = MTGJSON_API_URL+"/AllPrices.json.zip";
-
+	public static final String MTG_JSON_PRODUCTS ="https://github.com/mtgjson/mtg-sealed-content/raw/main/outputs/products.json";
+	
+	
 	private File tempZipFile = new File(MTGConstants.DATA_DIR,"mtgJsonTempFile.zip");
 	private File fversion = new File(MTGConstants.DATA_DIR, "mtgjsonVersion");
 

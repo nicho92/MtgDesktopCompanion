@@ -1750,15 +1750,15 @@
 
 	<edition id='M19'>
 		<booster lang='fr' num='1'
-			url="https://www.lataniere.fr/wp-content/uploads/2018/06/Ajani-booster-M19-Magic-jeux-Toulon-L-Ataniere.png" />
+			url="https://www.lataniere.fr/wp-content/uploads/2018/06/Ajani-booster-M19-Magic-jeux-Toulon-L-Ataniere.png" desc="Adjani"/>
 		<booster lang='fr' num='2'
-			url="https://www.lataniere.fr/wp-content/uploads/2018/06/Tezzeret-booster-M19-Magic-jeux-Toulon-L-Ataniere.png" />
+			url="https://www.lataniere.fr/wp-content/uploads/2018/06/Tezzeret-booster-M19-Magic-jeux-Toulon-L-Ataniere.png" desc="Tezzeret"/>
 		<booster lang='fr' num='3'
-			url="https://www.lataniere.fr/wp-content/uploads/2018/06/Liliana-booster-M19-Magic-jeux-Toulon-L-Ataniere.png" />
+			url="https://www.lataniere.fr/wp-content/uploads/2018/06/Liliana-booster-M19-Magic-jeux-Toulon-L-Ataniere.png" desc="Liliana"/>
 		<booster lang='fr' num='4'
-			url="https://www.lataniere.fr/wp-content/uploads/2018/06/Sarkhan-booster-M19-Magic-jeux-Toulon-L-Ataniere.png" />
+			url="https://www.lataniere.fr/wp-content/uploads/2018/06/Sarkhan-booster-M19-Magic-jeux-Toulon-L-Ataniere.png" desc="Sarkhan" />
 		<booster lang='fr' num='5'
-			url="https://www.lataniere.fr/wp-content/uploads/2018/06/Vivien-booster-M19-Magic-jeux-Toulon-L-Ataniere.png" />
+			url="https://www.lataniere.fr/wp-content/uploads/2018/06/Vivien-booster-M19-Magic-jeux-Toulon-L-Ataniere.png" desc="Vivien"/>
 		<set lang='en'
 			url="https://static.wikia.nocookie.net/magicarena/images/8/81/M19_logo.png" />
 		<box lang='en'

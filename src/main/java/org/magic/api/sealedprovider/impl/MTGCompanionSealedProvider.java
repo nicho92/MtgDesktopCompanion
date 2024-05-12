@@ -169,7 +169,7 @@ public class MTGCompanionSealedProvider extends AbstractSealedProvider{
 
 	@Override
 	public Icon getIcon() {
-		return MTGConstants.ICON_PACKAGE;
+		return MTGConstants.ICON_LOGO;
 	}
 	
 
