@@ -172,10 +172,10 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 		MTG.getEnabledPlugin(MTGCardsProvider.class).listEditions().stream().sorted().forEach(ed->{
 
 			var edNode = new DefaultMutableTreeNode(ed);
-			root.add(edNode);
+			
 
 			Arrays.asList(EnumItems.values()).forEach(t->{
-				List<MTGSealedProduct> pks = MTG.getEnabledPlugin(MTGSealedProvider.class).get(ed, t);
+				var pks = MTG.getEnabledPlugin(MTGSealedProvider.class).get(ed, t);
 				if(!pks.isEmpty())
 				{
 					var dir = new DefaultMutableTreeNode(t);
@@ -183,6 +183,9 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 					edNode.add(dir);
 				}
 			});
+			
+			if(!edNode.isLeaf())
+				root.add(edNode);
 		});
 
 

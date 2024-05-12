@@ -39,6 +39,9 @@ public class SealedStockTableModel extends GenericTableModel<MTGSealedStock> {
 	public Object getValueAt(int row, int column) {
 		MTGSealedStock it = items.get(row);
 		
+		if(it==null)
+			return null;
+		
 		switch(column)
 		{
 			case 0: return it;

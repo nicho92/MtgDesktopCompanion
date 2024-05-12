@@ -32,6 +32,11 @@ public class StockTableRenderer implements TableCellRenderer{
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 		pane = new DefaultTableCellRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
+		
+		if(value==null)
+			return pane;
+		
+		
 
 		if(value instanceof Boolean)
 		{
@@ -71,7 +76,7 @@ public class StockTableRenderer implements TableCellRenderer{
 				((JLabel)pane).setOpaque(true);
 			}
 		}
-		else if(value instanceof MTGEdition)
+		else if(value instanceof MTGEdition )
 		{
 			pane = new MagicEditionJLabelRenderer().getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 		}

@@ -38,7 +38,6 @@ public class MTGCompanionSealedProvider extends AbstractSealedProvider{
 			} catch (IOException e) {
 				logger.error("Error while loading data from {}",MTGConstants.MTG_BOOSTERS_URI,e);
 			}
-			
 		}
 	}
 
