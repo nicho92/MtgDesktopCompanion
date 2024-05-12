@@ -1,6 +1,7 @@
 package org.magic.api.shopping.impl;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
@@ -9,13 +10,13 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.MTGSealedStock;
-import org.magic.api.beans.enums.EnumPaymentProvider;
 import org.magic.api.beans.enums.EnumTransactionStatus;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.MoneyValue;
 import org.magic.api.beans.technical.RetrievableTransaction;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.services.AccountsManager;
+import org.magic.services.MTGControler;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.RequestBuilder.METHOD;
 import org.magic.services.network.URLTools;
@@ -34,24 +35,24 @@ public class PhilibertShopper extends AbstractMagicShopper {
 		return Currency.getInstance("EUR");
 	}
 	
-	
 	@Override
 	public List<RetrievableTransaction> listOrders() throws IOException {
 			init();
 			var  ret = new ArrayList<RetrievableTransaction>();
-			for(Element tr : s.getElementById("order-list").select("tbody tr"))
+			for(Element tr : s.select("div.ant-accordion__content div.ant-order__right"))
 			{
-				String id = tr.select("td a.color-myaccount").text().trim();
+				var id = tr.select("div.ant-order__name span").get(0).text().replace("Order #", "");
+				var date = tr.select("div.ant-order__name span").get(1).text().replace("from ", "");
+				var price = tr.select("div.ant-order__articles span").text().trim();
+			
 				var rt = new RetrievableTransaction();
 					 rt.setSourceId(id);
 					 rt.setSource(getName());
 					 rt.setUrl(BASE_URL+"/en/index.php?controller=order-detail&id_order="+id+"&ajax=true");
-
-					rt.setDateTransaction(UITools.parseDate(tr.select("td.history_date").text(), DATE_FORMAT));
-					 rt.setTotalValue(new MoneyValue(UITools.parseDouble(tr.select("td.history_price").attr("data-value")), getCurrency()));
-					 rt.setComments(tr.select("td.history_method").text());
 					 
-					 
+					 rt.setDateTransaction(UITools.parseDate(date, DATE_FORMAT));
+					 rt.setTotalValue(new MoneyValue(UITools.parseDouble(price), getCurrency()));
+					 rt.setComments(tr.select("div.ant-order__articles span").text());
 					 ret.add(rt);
 			}
 			
@@ -61,9 +62,6 @@ public class PhilibertShopper extends AbstractMagicShopper {
 	@Override
 	public Transaction getTransaction(RetrievableTransaction rt) throws IOException {
 		var t = buildTransaction(rt);
-			 t.setPaymentProvider(rt.getComments().contains("PayPal")?EnumPaymentProvider.PAYPAL:EnumPaymentProvider.VISA);
-			 t.setMessage("");
-		
 			 
 		var orderPage = RequestBuilder.build().url(rt.getUrl())
 				   .setClient(client)
@@ -108,20 +106,19 @@ public class PhilibertShopper extends AbstractMagicShopper {
 		
 		
 		
-		for(Element tr : orderPage.select("table").get(1).select("tbody>tr.item"))
+		for(Element tr : orderPage.select("div.detail-table-row"))
 		{
-			int index = tr.selectFirst("td:has(input)")!=null?0:1; //check if first column is checkbox or not
-				
+		
 			var stock = new MTGSealedStock(new MTGSealedProduct());
-				 stock.setComment(tr.select("td").get(2-index).text());
-				 stock.setPrice(UITools.parseDouble(tr.select("td").get(4-index).text()));
-				 stock.getTiersAppIds().put(getName(), tr.select("td").get(1-index).text());
-				 stock.setQte(Integer.parseInt(tr.select("td").get(3-index).text()));
-				 if(stock.getComment().startsWith("Voucher"))
-				 {
-					 stock.setPrice(UITools.parseDouble(tr.select("td").get(5-index).text()));
-					 t.setReduction(t.getReduction()-stock.getPrice());
-				 }
+				 stock.setComment(tr.select("div.detail-table-row__name").text());
+				 stock.setPrice(UITools.parseDouble(tr.select("div.detail-table-row__price div.detail-table-row__value").first().text()));
+				
+				 stock.setQte(Integer.parseInt(tr.select("div.detail-table-row__qty div.detail-table-row__value").text()));
+//				 if(stock.getComment().startsWith("Voucher"))
+//				 {
+//					 stock.setPrice(UITools.parseDouble(tr.select("td").get(5-index).text()));
+//					 t.setReduction(t.getReduction()-stock.getPrice());
+//				 }
 				 
 			if(stock.getPrice()>0)
 				t.getItems().add(stock);
@@ -130,8 +127,6 @@ public class PhilibertShopper extends AbstractMagicShopper {
 		
 		return t;
 	}
-
-	
 	
 	private void init()
 	{
