@@ -40,7 +40,27 @@ public class MTGCompanionSealedProvider extends AbstractSealedProvider{
 			}
 		}
 	}
+	
+	@Override
+	public List<MTGEdition> listSets() {
+		init();
+		var list = new ArrayList<MTGEdition>();
+		try {
+			var nodeList = XMLTools.parseNodes(document, "//edition");
+			
+			for(int i=0; i<nodeList.getLength();i++)
+			{
+				var id = nodeList.item(i).getAttributes().getNamedItem("id").getNodeValue();
+				list.add(MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(id));
+			}
 
+		} catch (Exception e) {
+			//do nothing
+		}
+		return list;
+	}
+	
+	
 	public List<MTGSealedProduct> search(String name)
 	{
 		init();

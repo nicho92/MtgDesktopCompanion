@@ -569,12 +569,12 @@ private MTGPool pool;
 	}
 
 	@Override
-	public List<MTGEdition> loadEditions() throws IOException {
+	public  List<MTGEdition> loadEditions() throws IOException {
 
 		List<MTGEdition> eds=new ArrayList<>();
 		var maps = new HashMap<String,Integer>();
 			
-			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("SELECT setCode, count(1) as physicalCount FROM cards where side='a' or side IS NULL AND isRebalanced IS NULL GROUP BY setCode");ResultSet rs = pst.executeQuery())
+			try (var c = pool.getConnection(); var pst = c.prepareStatement("SELECT setCode, count(1) as physicalCount FROM cards where side='a' or side IS NULL AND isRebalanced IS NULL GROUP BY setCode");ResultSet rs = pst.executeQuery())
 			{
 				while(rs.next())
 					maps.put(rs.getString("setCode"), rs.getInt("physicalCount"));
@@ -583,7 +583,7 @@ private MTGPool pool;
 				logger.error(e1);
 			}
 		
-			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("select * from sets");ResultSet rs = pst.executeQuery())
+			try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("select * from sets");var rs = pst.executeQuery())
 			{
 
 				while(rs.next())

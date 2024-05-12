@@ -21,6 +21,8 @@ public interface MTGSealedProvider extends MTGPlugin {
 	public List<MTGSealedProduct> get(MTGEdition me,EnumItems t, EnumExtra extra);
 	public List<MTGSealedProduct> get(MTGEdition me,EnumItems t);
 	
+	public List<MTGEdition> listSets();
+	
 	public BufferedImage getLogo(LOGO logo);
 	
 	public BufferedImage getPictureFor(MTGSealedProduct p);

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -126,13 +127,11 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 			}
 			@Override
 			protected void done() {
+			
 				reload();
 			}
 		};
 		ThreadManager.getInstance().runInEdt(sw, "Loading sealed tree");
-
-		
-		
 		
 	}
 
@@ -169,14 +168,13 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 		var root = (DefaultMutableTreeNode)model.getRoot();
 		root.removeAllChildren();
 
-		MTG.getEnabledPlugin(MTGCardsProvider.class).listEditions().stream().sorted().forEach(ed->{
+		MTG.getEnabledPlugin(MTGSealedProvider.class).listSets().stream().sorted().forEach(ed->{
 
 			var edNode = new DefaultMutableTreeNode(ed);
-			
 
 			Arrays.asList(EnumItems.values()).forEach(t->{
 				var pks = MTG.getEnabledPlugin(MTGSealedProvider.class).get(ed, t);
-				if(!pks.isEmpty())
+				if(!pks.isEmpty() )
 				{
 					var dir = new DefaultMutableTreeNode(t);
 					pks.forEach(p->dir.add(new DefaultMutableTreeNode(p)));

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 import org.magic.api.beans.MTGBooster;
 import org.magic.api.beans.MTGCard;
@@ -22,7 +21,6 @@ import org.magic.api.criterias.MTGQueryBuilder;
 import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.criterias.builders.NoneCriteriaBuilder;
 import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.services.tools.BeanTools;
 import org.magic.services.tools.TCache;
 
 public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements MTGCardsProvider {
@@ -157,18 +155,12 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	public MTGEdition getSetById(String id) {
 
 		try {
-			var ed = cacheEditions.get(id, new Callable<MTGEdition>() {
-
-				@Override
-				public MTGEdition call() throws Exception {
-					return listEditions().stream().filter(ed->ed.getId().equalsIgnoreCase(id)).findAny().orElse(new MTGEdition(id,id));
-				}
-			});
-
-			return BeanTools.cloneBean(ed);
-		} catch (Exception e) {
-			return new MTGEdition(id,id);
+			return listEditions().stream().filter(ed->ed.getId().equalsIgnoreCase(id)).findFirst().orElse(new MTGEdition(id,id));
+		} catch (IOException e) {
+			logger.error(e);
+			return null;
 		}
+	
 
 	}
 
@@ -250,12 +242,10 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	public List<MTGEdition> listEditions() throws IOException {
 		if(cacheEditions.isEmpty())
 		{
-			logger.trace("cacheEditions not loaded. Filling it");
+			logger.info("cacheEditions not loaded. Filling it");
 			loadEditions().forEach(ed->cacheEditions.put(ed.getId(), ed));
 		}
-
 		return cacheEditions.values();
-
 	}
 
 

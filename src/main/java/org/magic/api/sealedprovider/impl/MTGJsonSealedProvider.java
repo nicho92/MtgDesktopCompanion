@@ -3,7 +3,9 @@ package org.magic.api.sealedprovider.impl;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGSealedProduct;
@@ -18,14 +20,30 @@ import org.magic.services.tools.MTG;
 
 public class MTGJsonSealedProvider extends AbstractSealedProvider {
 	
-	private List<MTGSealedProduct> products;
+	private Map<MTGEdition, List<MTGSealedProduct>> products;
 	
 	
-	private void init() throws IOException
+	@Override
+	public List<MTGEdition> listSets() {
+		try {
+			init();
+		} catch (IOException e) {
+			logger.error(e);
+		}
+		
+		return products.keySet().stream().toList();
+	}
+	
+	private void init() throws IOException 
 	{
+		
 		if(products == null)
 		{
-			products = new ArrayList<>();
+			logger.debug("init data from {}",getName());
+			
+			products = new HashMap<>();
+			
+			
 			var obj = URLTools.extractAsJson(AbstractMTGJsonProvider.MTG_JSON_PRODUCTS).getAsJsonObject();
 			
 			
@@ -33,12 +51,12 @@ public class MTGJsonSealedProvider extends AbstractSealedProvider {
 								MTGEdition ed;
 								try {
 									ed = MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(e.getKey());
-								} catch (IOException e1) {
+								} catch (Exception e1) {
 									logger.error("error getting id {}",e);
 									return;
 								}
 								var i=0;
-								 
+								var list = new ArrayList<MTGSealedProduct>();
 								for(var sube : e.getValue().getAsJsonObject().entrySet()) {	
 									var prod = new MTGSealedProduct();
 										 prod.setEdition(ed);
@@ -51,8 +69,10 @@ public class MTGJsonSealedProvider extends AbstractSealedProvider {
 										 }
 										 catch(Exception ex)
 										 {
-											 //do nothing
+											//do nothing
 										 }
+										 
+										try { 
 										 var category = sube.getValue().getAsJsonObject().get("category").getAsString();
 										 var subType = sube.getValue().getAsJsonObject().get("subtype").getAsString();
 										
@@ -77,30 +97,37 @@ public class MTGJsonSealedProvider extends AbstractSealedProvider {
 											 prod.setTypeProduct(EnumItems.CONSTRUCTPACK);
 										 else if(subType.equals("COMMANDER"))
 											 prod.setTypeProduct(EnumItems.COMMANDER_DECK);
+										 else if(category.equals("BOX_SET"))
+											 prod.setTypeProduct(EnumItems.CONSTRUCTPACK);
+										 else if(category.equals("MULTI_DECK") || category.equals("BOX_SET"))
+											 prod.setTypeProduct(EnumItems.BUNDLE);
+											 
+											 
+											 setExtra(prod,subType);
+										}
+										catch(NullPointerException ex)
+										{
+											logger.error(ex);
+										}
 										 
 										 
-										 setExtra(prod,subType);
-										 products.add(prod);
-									
+										 list.add(prod);
 							}
+							
+								var p = new MTGSealedProduct();
+								p.setTypeProduct(EnumItems.SET);
+								p.setEdition(ed);
+								p.setLang("en");
+								p.setNum(1);
+								p.setUrl("http://mtgen.net/"+ed.getId().toLowerCase()+"/images/logo-word.webp");
+								p.setName(ed.getSet() + " Full set");
 								
-				
+							list.add(p);
+								
+								
+							products.put(ed, list);	
+							
 			});
-			
-			
-			
-				for(MTGEdition ed : products.stream().map(s->s.getEdition()).distinct().toList())
-				{
-					var p = new MTGSealedProduct();
-						p.setTypeProduct(EnumItems.SET);
-						p.setEdition(ed);
-						p.setLang("en");
-						p.setNum(1);
-						p.setUrl("http://mtgen.net/"+ed.getId().toLowerCase()+"/images/logo-word.webp");
-						p.setName(ed.getSet() + " full set");
-						
-					products.add(p);
-				}
 		}
 	}
 	
@@ -120,20 +147,20 @@ public class MTGJsonSealedProvider extends AbstractSealedProvider {
 			 prod.setExtra(EnumExtra.PLANESWALKER);
 		 else if(subType.equals("PREMIUM"))
 			 prod.setExtra(EnumExtra.VIP);
-		 else if(subType.equals("GIFT"))
+		 else if(subType.startsWith("GIFT"))
 			 prod.setExtra(EnumExtra.GIFT);
 	}
 
 
 	@Override
 	public List<MTGSealedProduct> getItemsFor(MTGEdition me) {
+		
 		try {
 			init();
 		} catch (IOException e) {
-			logger.error("Error Loading list {}",me,e);
-			return new ArrayList<>();
+			logger.error("error loading data",e);
 		}
-		return products.stream().filter(mts->mts.getEdition().getId().equals(me.getId())).toList();
+		return products.get(me)!=null?products.get(me):new ArrayList<>();
 	}
 
 	@Override
