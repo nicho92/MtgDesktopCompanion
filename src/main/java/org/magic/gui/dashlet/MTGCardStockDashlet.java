@@ -145,9 +145,7 @@ public class MTGCardStockDashlet extends AbstractJDashlet {
 				init();
 		});
 		
-		chkSumOrTotal.addItemListener(ie -> {
-			init();
-		});
+		chkSumOrTotal.addItemListener(ie -> init());
 		
 		if (getProperties().size() > 0) {
 			var r = new Rectangle((int) Double.parseDouble(getString("x")),

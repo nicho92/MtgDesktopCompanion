@@ -143,11 +143,9 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	public JsonObject getJsonFor(MTGCard mc)
 	{
 		String url = BASE_URI + CARDS + mc.getEdition().getId().toLowerCase() + "/" + mc.getNumber();
-		try {
+		
 			return URLTools.extractAsJson(url).getAsJsonObject();
-		} catch (IOException e) {
-			return null;
-		}
+		
 	}
 
 
@@ -199,7 +197,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				if (att.equals("id")) {
 					list.add(loadCard(el.getAsJsonObject(), exact, crit));
 					hasMore = false;
-				} else {
+				} 
+				else {
 					var jsonList = el.getAsJsonObject().getAsJsonArray("data");
 					for (var i = 0; i < jsonList.size(); i++) {
 						MTGCard mc = loadCard(jsonList.get(i).getAsJsonObject(), exact, crit);
@@ -212,10 +211,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 					Thread.sleep(50);
 				}
-			} catch (IOException e) {
-				logger.error("erreur", e);
-				hasMore = false;
-			} catch (InterruptedException e) {
+			}  catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
 				logger.error("erreur", e);
 				hasMore = false;
@@ -705,10 +701,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 					url = el.getAsJsonObject().get("next_page").getAsString();
 
 				Thread.sleep(50);
-			} catch (IOException e) {
-				logger.trace(e);
-				hasMore = false;
-			} catch (InterruptedException e) {
+			}  catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
 				logger.trace(e);
 				hasMore = false;

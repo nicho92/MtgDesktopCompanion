@@ -34,7 +34,6 @@ import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGGrading;
 import org.magic.api.beans.MTGNews;
-import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.MTGSealedStock;
 import org.magic.api.beans.abstracts.AbstractAuditableItem;
 import org.magic.api.beans.enums.EnumCondition;

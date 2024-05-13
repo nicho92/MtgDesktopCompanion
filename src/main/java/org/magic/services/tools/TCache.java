@@ -60,7 +60,6 @@ public class TCache<T>{
 		return getCache().get(k,call);
 	}
 
-
 	public List<T> values()
 	{
 		return new ArrayList<>(getCache().asMap().values());

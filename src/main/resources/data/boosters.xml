@@ -358,16 +358,12 @@
 			url="https://i.ebayimg.com/images/g/~D8AAOSwtOZbfcwk/s-l300.jpg" />
 	</edition>
 	<edition id='POR'>
-		<booster lang='en' num='1'
-			url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/86850.JPEG" />
-		<box lang="en" num="1"
-			url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/86858.jpg" />
-		<box lang="en" num="2"
-			url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/86849.jpg" />
-		<constructpack lang="en" num='1'
-			url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/86856.jpg" />
-		<set lang='en'
-			url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_POR_SetLogo.png" />
+			<booster lang='en' num='2' url="http://assets.dacw.co/itemimages/mtgportaldemogm1.jpg" />
+			<booster lang='en' num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/86850.JPEG" />
+		<box lang="en" num="1" 	url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/86858.jpg" />
+		<box lang="en" num="2"	url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/86849.jpg" />
+		<constructpack lang="en" num='1'  	url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/86856.jpg" />
+		<set lang='en' 	url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_POR_SetLogo.png" />
 	</edition>
 	<edition id='PTK'>
 		<booster lang='en' num='1'
@@ -524,13 +520,8 @@
 		<starter lang='en' num='1'
 			url="https://www.magiclibrarities.net/images/edition_comment/2184.png" />
 	</edition>
-	<edition id='PPOD'>
-		<booster lang='en' num='1'
-			url="http://assets.dacw.co/itemimages/mtgportaldemogm1.jpg" />
-	</edition>
-	<edition id='VAN'>
-		<booster lang='en' num='1'
-			url="https://i.ytimg.com/vi/6veDXlq6Pr8/maxresdefault.jpg" />
+	<edition id='PVAN'>
+		<bundle lang='en' num='1' url="https://i.ytimg.com/vi/6veDXlq6Pr8/maxresdefault.jpg" extra="gift" />
 	</edition>
 	<edition id='UGL'>
 		<booster lang='en' num='1'

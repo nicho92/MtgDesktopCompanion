@@ -187,15 +187,11 @@ public class WooCommerceTools {
 				var signature = OAuthSignature.getAsQueryString(config, url, HttpMethod.GET);
 				var securedUrl = String.format(URL_SECURED_FORMAT, url, signature);
 		        Map<String,JsonElement> map = new HashMap<>();
-				try {
+				
 					var el = URLTools.extractAsJson(securedUrl).getAsJsonObject();
 					el.entrySet().forEach(e->map.put(e.getKey(), e.getValue()));
 					return map;
 
-				} catch (IOException e) {
-					logger.error(e);
-				}
-		        return map;
 			}
 
 			@Override

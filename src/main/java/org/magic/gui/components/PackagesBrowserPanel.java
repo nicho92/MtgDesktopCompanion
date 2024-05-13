@@ -1,7 +1,6 @@
 package org.magic.gui.components;
 
 import java.awt.BorderLayout;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -130,8 +129,8 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 			}
 		};
 		ThreadManager.getInstance().runInEdt(sw, "Loading sealed tree");
-		
 	}
+	
 
 	public void load(MTGSealedProduct p)
 	{
@@ -148,7 +147,7 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 		
 		
 		for(var p : tree.getSelectionPaths()) {
-			DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode)p.getLastPathComponent();
+			var selectedNode = (DefaultMutableTreeNode)p.getLastPathComponent();
 			
 			if(selectedNode!=null && (selectedNode.getUserObject() instanceof MTGSealedProduct msp))
 			{
@@ -161,7 +160,7 @@ public class PackagesBrowserPanel extends MTGUIComponent{
 	}
 	
 	
-	public void initTree() throws IOException
+	public void initTree()
 	{
 		var root = (DefaultMutableTreeNode)model.getRoot();
 		root.removeAllChildren();

@@ -63,7 +63,7 @@ private MTGPool pool;
 
 	@Override
 	public MTGQueryBuilder<?> getMTGQueryManager() {
-		MTGQueryBuilder<?> b= new SQLCriteriaBuilder();
+		var b= new SQLCriteriaBuilder();
 		b.addConvertor(Boolean.class,(Boolean source)->source.booleanValue()?"1":"0");
 		initBuilder(b);
 		return b;

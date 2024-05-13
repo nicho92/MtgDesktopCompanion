@@ -140,7 +140,7 @@ public class URLTools {
 		return RequestBuilder.build().setClient(newClient()).url(url).get().toXml();
 	}
 
-	public static JsonElement extractAsJson(String url) throws IOException	{
+	public static JsonElement extractAsJson(String url) 	{
 		return RequestBuilder.build().setClient(newClient()).url(url).get().toJson();
 	}
 

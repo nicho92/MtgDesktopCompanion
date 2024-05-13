@@ -79,9 +79,7 @@ public class AccountsManager {
 			var plugEntry = new JsonObject();
 			var tokens = new JsonObject();
 			
-			e.getValue().getTokens().entrySet().forEach(t->{
-				tokens.addProperty(t.getKey(), t.getValue());
-			});
+			e.getValue().getTokens().entrySet().forEach(t->tokens.addProperty(t.getKey(), t.getValue()));
 			plugEntry.add("tokens",tokens);
 			
 			obj.add(e.getKey().getName(), plugEntry);
