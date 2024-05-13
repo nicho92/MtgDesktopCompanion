@@ -63,7 +63,6 @@ import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.GedEntry;
 import org.magic.api.beans.technical.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.beans.technical.RetrievableDeck;
-import org.magic.api.beans.technical.WebShopConfig;
 import org.magic.api.beans.technical.audit.JsonQueryInfo;
 import org.magic.api.beans.technical.audit.NetworkInfo;
 import org.magic.api.exports.impl.JsonExport;

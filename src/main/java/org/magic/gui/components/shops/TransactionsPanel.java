@@ -59,6 +59,7 @@ public class TransactionsPanel extends MTGUIComponent {
 	private JButton btnContact;
 	private JButton btnImportTransaction;
 	private Contact contact;
+	private JButton btnValidateTransaction;
 	
 	public TransactionsPanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -82,7 +83,7 @@ public class TransactionsPanel extends MTGUIComponent {
 		btnDelete = UITools.createBindableJButton("", MTGConstants.ICON_DELETE,KeyEvent.VK_D,"delete");
 		btnContact = UITools.createBindableJButton("", MTGConstants.ICON_CONTACT,KeyEvent.VK_C,"contact");
 		btnImportTransaction = UITools.createBindableJButton(null,MTGConstants.ICON_IMPORT,KeyEvent.VK_I,"transaction import");
-
+		btnValidateTransaction = UITools.createBindableJButton(null,MTGConstants.ICON_CHECK,KeyEvent.VK_V,"transaction validate");
 		
 	
 		splitPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
@@ -117,6 +118,7 @@ public class TransactionsPanel extends MTGUIComponent {
 		panneauHaut.add(btnImportTransaction);
 		panneauHaut.add(btnRefresh);
 		panneauHaut.add(btnMerge);
+		panneauHaut.add(btnValidateTransaction);
 		panneauHaut.add(btnDelete);
 		panneauHaut.add(btnContact);
 		panneauHaut.add(chkEditingMode);
@@ -210,7 +212,7 @@ public class TransactionsPanel extends MTGUIComponent {
 							btnMerge.setEnabled(t.size()>1);
 							btnDelete.setEnabled(!t.isEmpty());
 							btnContact.setEnabled(t.size()==1);
-							
+							btnValidateTransaction.setEnabled(t.size()==1);
 							panneauBas.calulate(t, transactionModel);
 							stockDetailPanel.bind(t.get(0).getItems());
 							trackPanel.init(t.get(0));
@@ -350,6 +352,22 @@ public class TransactionsPanel extends MTGUIComponent {
 				MTGControler.getInstance().notify(e);
 			}
 
+		});
+		
+		
+		btnValidateTransaction.addActionListener(al->{
+			Transaction t = UITools.getTableSelection(tableTransactions, 0);
+			
+			int res = JOptionPane.showConfirmDialog(this, "Validate #"+t.getId()+ " transaction willupdate stock ("+ t.getItems().size()+" items)","Sure ?",JOptionPane.YES_NO_OPTION);
+			if(res == JOptionPane.YES_OPTION) {
+			try {
+				TransactionService.validateTransaction(t);
+				reload();
+			} catch (Exception e) {
+				MTGControler.getInstance().notify(e);
+			}
+			}
+			
 		});
 
 	}
