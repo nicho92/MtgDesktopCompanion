@@ -14,6 +14,9 @@ import org.magic.services.tools.CryptoUtils;
 
 public class EbayPricer extends AbstractPricesProvider {
 
+	private static final String CCG_CATEG_ID = "CCG_CATEG_ID";
+
+
 	@Override
 	public List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
 		var prices = new ArrayList<MTGPrice>();
@@ -36,8 +39,8 @@ public class EbayPricer extends AbstractPricesProvider {
 						.addHeader(URLTools.AUTHORIZATION, "bearer " + token)
 						.addContent("q", card.getName());
 						
-						if(!getString("CCG_CATEG_ID").isEmpty())
-							query = query.addContent("category_ids",getString("CCG_CATEG_ID"));
+						if(!getString(CCG_CATEG_ID).isEmpty())
+							query = query.addContent("category_ids",getString(CCG_CATEG_ID));
 				
 			var result = query.get().toJson().getAsJsonObject();
 		
@@ -79,7 +82,7 @@ public class EbayPricer extends AbstractPricesProvider {
 		return Map.of("MAX", "10",
 							"EBAY_MARKETPLACE","EBAY_US",
 							"FIXEDPRICE_ONLY","false",
-							"CCG_CATEG_ID","183454");
+							CCG_CATEG_ID,"183454");
 
 	}
 

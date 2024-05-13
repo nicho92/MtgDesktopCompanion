@@ -21,7 +21,6 @@ public class TestTools {
 	public static List<MTGCard> loadData() throws IOException, URISyntaxException
 	{
 		return new JsonExport().importDeckFromFile(new File(TestTools.class.getResource("/sample.json").toURI())).getMainAsList();
-		
 	}
 	
 	public static JsonObject loadGraderData() throws IOException

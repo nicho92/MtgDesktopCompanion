@@ -963,9 +963,6 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	@Override
 	public Contact getContactByLogin(String email, String password) throws SQLException {
-		
-		logger.info("Looking for user {} pass = {} hash={}",email, password,CryptoUtils.generateSha256(password));
-		
 		return deserialize(db.getCollection(colContacts,BasicDBObject.class)
 							 .find(Filters.and(Filters.and(Filters.eq(EMAIL, email),Filters.eq(PASSWORD, CryptoUtils.generateSha256(password))),Filters.eq("active",true)))
 							 .first()
