@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -18,7 +17,6 @@ import org.jdesktop.swingx.JXTree;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.MTGSealedProduct;
 import org.magic.api.beans.enums.EnumItems;
-import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGSealedProvider;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.renderer.MagicCardsTreeCellRenderer;

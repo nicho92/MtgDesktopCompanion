@@ -1,3 +1,4 @@
+
 package test;
 
 import static org.magic.services.tools.MTG.getEnabledPlugin;
