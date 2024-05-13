@@ -10,7 +10,6 @@ import java.awt.Image;
 import java.awt.SystemColor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -47,13 +46,7 @@ public class AboutDialog extends MTGUIComponent {
 		var developper = new StringBuilder("<html><center>");
 			developper.append(capitalize("DEVELOPPERS_ABOUT", "Nicho", "Apache License " + new SimpleDateFormat("yyyy").format(new Date())));
 			developper.append("<br/><a href='").append(MTGConstants.MTG_DESKTOP_WEBSITE).append("'>").append(MTGConstants.MTG_DESKTOP_WEBSITE).append("</a>");
-			try {
-				developper.append("<br/>Download count : ").append(GithubUtils.inst().downloadCount());
-			} catch (IOException e1) {
-				logger.error(e1);
-			}
-
-
+			developper.append("<br/>Download count : ").append(GithubUtils.inst().downloadCount());
 			developper.append("</center></html>");
 
 			var icon = new JLabel(new ImageIcon(MTGConstants.IMAGE_LOGO));
@@ -61,12 +54,8 @@ public class AboutDialog extends MTGUIComponent {
 				icon.setVerticalTextPosition(SwingConstants.BOTTOM);
 				icon.setHorizontalTextPosition(SwingConstants.CENTER);
 				icon.setText(MTGConstants.MTG_APP_NAME +" ("+ check.getVersion()+")");
-				try {
-					icon.setToolTipText("<html>"+GithubUtils.inst().getReleaseContent().replaceAll(System.lineSeparator(), "<br/>")+"</html>");
-				} catch (IOException e3) {
-					logger.error(e3);
-				}
-
+				icon.setToolTipText("<html>"+GithubUtils.inst().getReleaseContent().replaceAll(System.lineSeparator(), "<br/>")+"</html>");
+		
 		var panneauHaut = new JPanel();
 			panneauHaut.setLayout(new BorderLayout());
 

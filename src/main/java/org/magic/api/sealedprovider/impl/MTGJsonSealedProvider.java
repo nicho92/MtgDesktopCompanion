@@ -25,16 +25,11 @@ public class MTGJsonSealedProvider extends AbstractSealedProvider {
 	
 	@Override
 	public List<MTGEdition> listSets() {
-		try {
-			init();
-		} catch (IOException e) {
-			logger.error(e);
-		}
-		
+		init();
 		return products.keySet().stream().toList();
 	}
 	
-	private void init() throws IOException 
+	private void init() 
 	{
 		
 		if(products == null)
@@ -154,12 +149,7 @@ public class MTGJsonSealedProvider extends AbstractSealedProvider {
 
 	@Override
 	public List<MTGSealedProduct> getItemsFor(MTGEdition me) {
-		
-		try {
-			init();
-		} catch (IOException e) {
-			logger.error("error loading data",e);
-		}
+		init();
 		return products.get(me)!=null?products.get(me):new ArrayList<>();
 	}
 

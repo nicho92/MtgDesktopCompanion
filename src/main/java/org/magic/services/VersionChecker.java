@@ -32,13 +32,9 @@ public class VersionChecker {
 
 	public void setUpdatePreReleased(boolean updatePr)
 	{
-		try {
 			GithubUtils.inst().setUpdateToPreRelease(updatePr);
 			onlineVersion = GithubUtils.inst().getVersion();
-		} catch (IOException e) {
-			onlineVersion = "";
-			logger.error(e.getMessage());
-		}
+		
 	}
 
 	public VersionChecker(boolean preRelease) {

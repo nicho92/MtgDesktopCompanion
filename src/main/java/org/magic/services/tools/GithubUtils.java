@@ -20,7 +20,7 @@ public class GithubUtils {
 	private boolean updatetoprerelease=false;
 
 
-	public static GithubUtils inst() throws IOException
+	public static GithubUtils inst() 
 	{
 		if(inst==null)
 			inst = new GithubUtils();
@@ -35,7 +35,7 @@ public class GithubUtils {
 	}
 
 
-	private GithubUtils() throws IOException {
+	private GithubUtils() {
 		releases = URLTools.extractAsJson(MTGConstants.MTG_DESKTOP_GITHUB_RELEASE_API).getAsJsonArray();
 		update();
 	}

@@ -623,7 +623,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	}
 
-	private void generateRules(MTGCard mc) throws IOException {
+	private void generateRules(MTGCard mc) {
 
 		if(getBoolean("LOAD_RULING"))
 		{
@@ -670,7 +670,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	}
 
-	private void initOtherEdition(MTGCard mc) throws IOException {
+	private void initOtherEdition(MTGCard mc) {
 
 		String url = BASE_URI + "/cards/search?q=+" + URLTools.encode("++!\"" + mc.getName() + "\"")+ "%20include:extras" + "%20-s:" + mc.getEdition().getId();
 
