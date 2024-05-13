@@ -4,6 +4,7 @@ import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 import static org.magic.services.tools.MTG.getPlugin;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -114,9 +115,10 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		if(o==null)
 			return null;
 		
-		return serialiser.fromJson(String.valueOf(o.toString()), classe);
+		return serialiser.fromJson(o.toString(), classe);
 
 	}
+	
 
 	private MTGDeck deserializeDeck(BasicDBObject o) {
 		if(o==null)
@@ -366,12 +368,6 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	
 	@Override
-	public MTGCardStock getStockById(Long id) throws SQLException {
-		return deserialize(db.getCollection(colStocks,BasicDBObject.class).find(Filters.eq(dbIDField, id)).first(),MTGCardStock.class);
-	}
-	
-	
-	@Override
 	public MTGDeck getDeckById(Integer id) throws SQLException {
 		return deserializeDeck(db.getCollection(colDecks,BasicDBObject.class)
 								 .find(Filters.eq("id", id))
@@ -577,6 +573,17 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		return ret;
 	}
 
+
+	@Override
+	public MTGCardStock getStockById(Long id) throws SQLException {
+		
+		return deserialize(db.getCollection(colStocks,BasicDBObject.class)
+				.find(Filters.eq(dbStockField+".id", id))
+				.first().get(dbStockField).toString(),MTGCardStock.class);
+	}
+	
+	
+	
 	@Override
 	public List<MTGCardStock> listStocks(MTGCard mc, MTGCollection col,boolean editionStrict) throws SQLException {
 		ArrayList<MTGCardStock> ret = new ArrayList<>();
