@@ -62,7 +62,7 @@ public class MTGJsonSealedProvider extends AbstractSealedProvider {
 										 prod.setEdition(ed);
 										 prod.setLang("en");
 										 prod.setName(sube.getKey());
-										 prod.setTypeProduct(EnumItems.SEALED);
+
 										 prod.setNum(i++);
 										 try {
 											 prod.setUrl("https://product-images.tcgplayer.com/fit-in/437x437/"+sube.getValue().getAsJsonObject().get("identifiers").getAsJsonObject().get("tcgplayerProductId").getAsString()+".jpg");

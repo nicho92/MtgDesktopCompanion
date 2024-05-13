@@ -1957,7 +1957,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		  try
 		  {
 			var list = MTG.getEnabledPlugin(MTGSealedProvider.class).get(getEnabledPlugin(MTGCardsProvider.class).getSetById(rs.getString(EDITION)),EnumItems.valueOf(rs.getString("typeProduct")),(rs.getString(EXTRATYPE)==null) ? null : EnumExtra.valueOf(rs.getString(EXTRATYPE)));
-			MTGSealedProduct product = list.stream().filter(p->p.getNum()==ref).findFirst().orElse(list.get(0));
+			var product = list.stream().filter(p->p.getNum()==ref).findFirst().orElse(list.get(0));
 			var state =  new MTGSealedStock(product);
 			 state.setComment(rs.getString("comment"));
 			 state.setId(rs.getInt("id"));
