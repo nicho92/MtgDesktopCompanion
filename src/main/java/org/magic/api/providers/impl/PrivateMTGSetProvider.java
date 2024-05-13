@@ -139,7 +139,8 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		}
 
 		me.setCardCount(cardCount);
-
+		me.setCardCountOfficial(cardCount);
+		me.setCardCountPhysical(cardCount);
 		var jsonparams = new JsonObject();
 		jsonparams.add("main", serializer.toJsonElement(me));
 

@@ -404,7 +404,7 @@
 		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
-			<version>5.0.0-beta.23</version>
+			<version>5.0.0-beta.24</version>
 			<exclusions>
 				<exclusion>
 					<groupId>club.minnced</groupId>
@@ -773,23 +773,6 @@
 							<resources>
 								<resource>
 									<directory>lib</directory>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-					<execution>
-						<id>copy-resources-templates</id>
-						<phase>package</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>
-								${project.build.directory}/executable/bin/templates
-							</outputDirectory>
-							<resources>
-								<resource>
-									<directory>templates</directory>
 								</resource>
 							</resources>
 						</configuration>

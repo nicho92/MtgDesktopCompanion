@@ -107,12 +107,12 @@ public class WebShopConfigPanel extends MTGUIComponent {
 
 
 
-		WebShopConfig conf = MTGControler.getInstance().getWebConfig();
+		var conf = MTGControler.getInstance().getWebConfig();
 		var btnSave = new JButton("Save");
 
 
 
-		JPanel panelGeneral = createBoxPanel("GENERAL", MTGConstants.ICON_TAB_CONSTRUCT, new GridLayout(0, 2, 0, 0), false );
+		var panelGeneral = createBoxPanel("GENERAL", MTGConstants.ICON_TAB_CONSTRUCT, new GridLayout(0, 2, 0, 0), false );
 
 			var lblTitleSite = new JLangLabel("SITETITLE");
 			panelGeneral.add(lblTitleSite);
@@ -142,7 +142,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 
 
 
-		JPanel panelSlides = createBoxPanel("SLIDES", MTGConstants.ICON_TAB_PICTURE, new BorderLayout(0, 0), true);
+		var panelSlides = createBoxPanel("SLIDES", MTGConstants.ICON_TAB_PICTURE, new BorderLayout(0, 0), true);
 
 		var btnDeleteLink = new JButton(MTGConstants.ICON_SMALL_DELETE);
 		btnDeleteLink.setEnabled(false);
@@ -172,7 +172,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 
 
 
-		JPanel panelCss = createBoxPanel("CSS", MTGConstants.ICON_TAB_JSON, new BorderLayout(0, 0), true);
+		var panelCss = createBoxPanel("CSS", MTGConstants.ICON_TAB_JSON, new BorderLayout(0, 0), true);
 		txtExtraCss = new RSyntaxTextArea(conf.getExtraCss(),25,1);
 
 		txtExtraCss.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_CSS);
@@ -181,19 +181,19 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		panelCss.add(new JScrollPane(txtExtraCss));
 
 
-		JPanel panelContact = createBoxPanel("CONTACT", MTGConstants.ICON_TAB_EVENTS, new GridLayout(0, 2, 0, 0), true);
+		var panelContact = createBoxPanel("CONTACT", MTGConstants.ICON_TAB_EVENTS, new GridLayout(0, 2, 0, 0), true);
 		panelContact.setLayout(new BorderLayout());
 		panelContact.add(contactPanel,BorderLayout.CENTER);
 		contactPanel.setContact(conf.getContact());
 
-		JPanel panelServer = createBoxPanel("SERVER", MTGConstants.ICON_TAB_SERVER, new BorderLayout(), false);
+		var panelServer = createBoxPanel("SERVER", MTGConstants.ICON_TAB_SERVER, new BorderLayout(), false);
 		var serverStatPanel = new ServerStatePanel(false,getPlugin(new ShoppingServer().getName(), MTGServer.class));
 		panelServer.add(serverStatPanel,BorderLayout.CENTER);
 		var btnClearCache = new JButton("Clear Cache",MTGConstants.ICON_TAB_CACHE);
 		btnClearCache.addActionListener(il->((JSONHttpServer)getPlugin(new JSONHttpServer().getName(), MTGServer.class)).clearCache());
 		panelServer.add(btnClearCache,BorderLayout.SOUTH);
 
-		JPanel panelStock = createBoxPanel("STOCK",MTGConstants.ICON_TAB_STOCK, new GridLayout(0, 2, 0, 0),true);
+		var panelStock = createBoxPanel("STOCK",MTGConstants.ICON_TAB_STOCK, new GridLayout(0, 2, 0, 0),true);
 		cboCollections = new JCheckableListBox<>();
 		needCollection = new JCheckableListBox<>();
 		chkEnableStock = new JCheckBox();
@@ -228,7 +228,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 
 
 
-		JPanel panelProduct = createBoxPanel("PRODUCT",MTGConstants.ICON_TAB_CARD, new GridLayout(0, 2),true);
+		var panelProduct = createBoxPanel("PRODUCT",MTGConstants.ICON_TAB_CARD, new GridLayout(0, 2),true);
 		topProduct = conf.getTopProduct();
 		var b = new JButton("Choose Top Product Card",MTGConstants.ICON_SEARCH);
 		chkAutoProduct = new JCheckBox("Automatic Top Product");

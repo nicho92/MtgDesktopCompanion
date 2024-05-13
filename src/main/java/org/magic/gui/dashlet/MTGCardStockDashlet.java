@@ -86,6 +86,7 @@ public class MTGCardStockDashlet extends AbstractJDashlet {
 				"product.types[0]",
 				"condition",
 				"language",
+				"comment",
 				"foil"));
 		
 		
