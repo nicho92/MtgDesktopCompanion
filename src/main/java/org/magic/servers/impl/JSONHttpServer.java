@@ -1254,8 +1254,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 
 		
-		get("/stock/get/:idStock", URLTools.HEADER_JSON,
-				(request, response) -> getEnabledPlugin(MTGDao.class).getStockById(Long.parseLong(request.params(":idStock"))), transformer);
+		get("/stock/get/:idStock", URLTools.HEADER_JSON,(request, response) -> getEnabledPlugin(MTGDao.class).getStockById(Long.parseLong(request.params(":idStock"))), transformer);
 		
 		get("/stock/list/:collection", URLTools.HEADER_JSON,(request, response) ->{
 		

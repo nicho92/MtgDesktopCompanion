@@ -367,7 +367,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	
 	@Override
 	public MTGCardStock getStockById(Long id) throws SQLException {
-		return deserialize(db.getCollection(colDecks,BasicDBObject.class).find(Filters.eq(dbIDField, id)).first(),MTGCardStock.class);
+		return deserialize(db.getCollection(colStocks,BasicDBObject.class).find(Filters.eq(dbIDField, id)).first(),MTGCardStock.class);
 	}
 	
 	
@@ -602,7 +602,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			state.setId(Integer.parseInt(getNextSequence().toString()));
 			var obj = new BasicDBObject();
 			obj.put(dbStockField, state);
-			obj.put(dbIDField, state.getProduct().getScryfallId());
+			obj.put(dbIDField, state.getId());
 			db.getCollection(colStocks, BasicDBObject.class).insertOne(BasicDBObject.parse(serialize(obj)));
 
 		} else {
