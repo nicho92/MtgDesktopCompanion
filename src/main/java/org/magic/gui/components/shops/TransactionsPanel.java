@@ -131,7 +131,7 @@ public class TransactionsPanel extends MTGUIComponent {
 		btnDelete.setEnabled(false);
 		btnContact.setEnabled(false);
 		btnNew.setEnabled(false);
-		
+		btnValidateTransaction.setEnabled(false);
 		chkEditingMode.addActionListener(al->enableEditing(chkEditingMode.isSelected()));
 		
 		
