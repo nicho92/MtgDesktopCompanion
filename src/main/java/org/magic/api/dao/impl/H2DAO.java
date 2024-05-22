@@ -1,9 +1,11 @@
 package org.magic.api.dao.impl;
 
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.h2.tools.Server;
 import org.jooq.SQLDialect;
 import org.magic.api.beans.technical.MTGDocumentation;
 import org.magic.api.beans.technical.MTGNotification.FORMAT_NOTIFICATION;
@@ -18,6 +20,14 @@ public class H2DAO extends AbstractMagicSQLDAO {
 	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
+	}
+	
+	@Override
+	public void init() throws SQLException {
+		super.init();
+		
+		if(getBoolean("WEB_ENABLE"))
+			Server.createWebServer("-webPort", getString("WEB_PORT"), "-tcpAllowOthers").start();
 	}
 	
 	
@@ -80,7 +90,8 @@ public class H2DAO extends AbstractMagicSQLDAO {
 		m.put(SERVERNAME, Paths.get(MTGConstants.DATA_DIR.getAbsolutePath()).toFile().getAbsolutePath());
 		m.put(LOGIN, "SA");
 		m.put(MODE,"file");
-
+		m.put("WEB_ENABLE","true");
+		m.put("WEB_PORT","8082");
 		return m;
 	}
 
