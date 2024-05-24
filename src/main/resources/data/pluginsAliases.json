@@ -56,7 +56,7 @@
 			"EXCELLENT": "Near Mint",
 			"GOOD": "Good (Lightly Played)",
 			"MINT": "Near Mint",
-			"DAMAGED","Poor"
+			"DAMAGED":"Heavily Played"
 		}
 	},
 	"Manabox": {
@@ -71,7 +71,8 @@
 			"PLAYED": "played",
 			"EXCELLENT": "excellent",
 			"GOOD": "good",
-			"MINT": "mint"
+			"MINT": "mint",
+			"DAMAGED","Poor"
 		}
 	},
 	"MoxField": {
