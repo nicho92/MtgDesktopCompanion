@@ -125,7 +125,7 @@ public class ManaBoxExport extends AbstractFormattedFileCardExport {
 						    
 						    for(var mcs : stock)
 						    {
-						    	if(mcs.getProduct().getName().contains(","))
+						    	if(mcs.getProduct().getFullName().contains(","))
 						    	{
 						    		tmp.append("\"").append(mcs.getProduct().getFullName()).append("\"").append(getSeparator());	
 						    	}
