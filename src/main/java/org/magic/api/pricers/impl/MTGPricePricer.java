@@ -12,6 +12,7 @@ import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.UITools;
 
+import com.google.gson.Strictness;
 import com.google.gson.stream.JsonReader;
 
 public class MTGPricePricer extends AbstractPricesProvider {
@@ -44,7 +45,7 @@ public class MTGPricePricer extends AbstractPricesProvider {
 
 		try {
 			var reader = new JsonReader(new InputStreamReader(URLTools.extractAsInputStream(url)));
-			reader.setLenient(true);
+			reader.setStrictness(Strictness.LENIENT);
 			reader.beginObject();
 			reader.nextName();
 			reader.beginArray();

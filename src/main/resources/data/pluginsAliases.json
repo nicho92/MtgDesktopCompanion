@@ -55,7 +55,8 @@
 			"PLAYED": "Played",
 			"EXCELLENT": "Near Mint",
 			"GOOD": "Good (Lightly Played)",
-			"MINT": "Near Mint"
+			"MINT": "Near Mint",
+			"DAMAGED","Poor"
 		}
 	},
 	"Manabox": {
