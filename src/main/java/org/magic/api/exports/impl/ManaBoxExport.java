@@ -125,7 +125,7 @@ public class ManaBoxExport extends AbstractFormattedFileCardExport {
 						    
 						    for(var mcs : stock)
 						    {
-						    	if(mcs.getProduct().getName().contains("\""))
+						    	if(mcs.getProduct().getName().contains(","))
 						    	{
 						    		tmp.append("\"").append(mcs.getProduct().getFullName()).append("\"").append(getSeparator());	
 						    	}
@@ -137,16 +137,16 @@ public class ManaBoxExport extends AbstractFormattedFileCardExport {
 						    	tmp.append(mcs.getProduct().getEdition().getSet()).append(getSeparator());
 						    	tmp.append(mcs.getProduct().getNumber()).append(getSeparator());
 						    	tmp.append(mcs.isFoil()?"foil":mcs.isEtched()?"etched":"normal").append(getSeparator());
-						    	tmp.append(mcs.getProduct().getRarity().toPrettyString()).append(getSeparator());
+						    	tmp.append(mcs.getProduct().getRarity().toPrettyString().toLowerCase()).append(getSeparator());
 						    	tmp.append(mcs.getQte()).append(getSeparator());
-						    	tmp.append("").append(getSeparator());
+						    	tmp.append(mcs.getTiersAppIds(getName())!=null?mcs.getTiersAppIds(getName()):"").append(getSeparator());
 						    	tmp.append(mcs.getProduct().getScryfallId()).append(getSeparator());
-						    	tmp.append(UITools.formatDouble(mcs.getPrice())).append(getSeparator());
+						    	tmp.append(UITools.formatDouble(mcs.getPrice(),'.')).append(getSeparator());
 						    	tmp.append(false).append(getSeparator());
 						    	tmp.append(mcs.isAltered()).append(getSeparator());
 						    	tmp.append(aliases.getConditionFor(this, mcs.getCondition())).append(getSeparator());
 						    	tmp.append(mcs.getLanguage()).append(getSeparator());
-						    	tmp.append(getString("CURRENCY")).append(getSeparator());
+						    	tmp.append(getString("CURRENCY"));
 						    	tmp.append(System.lineSeparator());
 						    	notify(mcs.getProduct());
 						    }

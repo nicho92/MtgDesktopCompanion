@@ -120,18 +120,11 @@ public class PluginsAliasesProvider {
 		}
 	}
 
-	public static void main(String[] args) {
-		PluginsAliasesProvider.inst().getConditionFor(new ManaBoxExport(), EnumCondition.NEAR_MINT);
-	}
-	
-
 	public String getConditionFor(MTGPlugin plug, EnumCondition condition)
 	{
 		
 		if(condition==null)
 			return "";
-
-		System.out.println(jsonData.getAsJsonObject());
 		
 		try{
 			return jsonData.get(plug.getName()).getAsJsonObject().get("conditions").getAsJsonObject().get(condition.name()).getAsString();
