@@ -72,7 +72,7 @@
 			"EXCELLENT": "excellent",
 			"GOOD": "good",
 			"MINT": "mint",
-			"DAMAGED","Poor"
+			"DAMAGED":"Poor"
 		}
 	},
 	"MoxField": {

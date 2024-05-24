@@ -3,6 +3,7 @@ package org.magic.services.providers;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.exports.impl.ManaBoxExport;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
@@ -119,12 +120,18 @@ public class PluginsAliasesProvider {
 		}
 	}
 
+	public static void main(String[] args) {
+		PluginsAliasesProvider.inst().getConditionFor(new ManaBoxExport(), EnumCondition.NEAR_MINT);
+	}
+	
 
 	public String getConditionFor(MTGPlugin plug, EnumCondition condition)
 	{
 		
 		if(condition==null)
 			return "";
+
+		System.out.println(jsonData.getAsJsonObject());
 		
 		try{
 			return jsonData.get(plug.getName()).getAsJsonObject().get("conditions").getAsJsonObject().get(condition.name()).getAsString();
