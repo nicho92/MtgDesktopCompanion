@@ -190,7 +190,7 @@
 								data.forEach( function(item,index){
 									if(item!=null){
 										var img="https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/src/main/resources/icons/plugins/"+item.site.toLowerCase().replace(" ","%20")+".png";
-										$("#partner").append("<a target='_blank' href='"+item.url+"'><img src='"+img+"'/>"+ item.site + " <span class='numbers-small'>" + item.value.toFixed(2) + " " + item.currency +"</span></a><br/>");
+										$("#partner").append("<a target='_blank' href='"+item.url+"'><img src='"+img+"'/>"+ item.site + " <span class='numbers-small'>" + item.priceValue.value.toFixed(2) + " " + item.priceValue.currency +"</span></a><br/>");
 									}
 								});
 							});

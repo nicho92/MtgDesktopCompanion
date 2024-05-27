@@ -79,6 +79,7 @@ import org.magic.api.beans.enums.EnumTransactionDirection;
 import org.magic.api.beans.enums.EnumTransactionStatus;
 import org.magic.api.beans.game.Player;
 import org.magic.api.beans.shop.Contact;
+import org.magic.api.beans.technical.MoneyValue;
 import org.magic.api.criterias.QueryAttribute;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsIndexer;
@@ -95,6 +96,7 @@ import org.magic.gui.renderer.MagicCollectionIconListRenderer;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.gui.renderer.MagicEditionIconListRenderer.SIZE;
 import org.magic.gui.renderer.MagicEditionJLabelRenderer;
+import org.magic.gui.renderer.MoneyCellRenderer;
 import org.magic.gui.renderer.PlayerRenderer;
 import org.magic.gui.renderer.PluginIconListRenderer;
 import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
@@ -232,7 +234,7 @@ public class UITools {
 				table.setDefaultRenderer(MTGPlugin.class, new MTGPluginCellRenderer());
 				table.setDefaultRenderer(Player.class, new PlayerRenderer());
 				table.setDefaultRenderer(Contact.class, new ContactRenderer());
-				
+				table.setDefaultRenderer(MoneyValue.class, new MoneyCellRenderer());
 				
 				table.setDefaultEditor(Double.class, new DoubleCellEditorRenderer());
 				table.setDefaultEditor(Integer.class, new NumberCellEditorRenderer());
