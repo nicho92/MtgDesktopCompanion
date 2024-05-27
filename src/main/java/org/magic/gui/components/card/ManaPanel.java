@@ -14,8 +14,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.enums.EnumCardsPatterns;
 import org.magic.services.MTGConstants;
+import org.magic.services.logging.MTGLogger;
 import org.magic.services.tools.ImageTools;
 
 public class ManaPanel extends JPanel {
@@ -25,7 +27,8 @@ public class ManaPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private int rowHeight = MTGConstants.TABLE_ROW_HEIGHT;
 	private int rowWidth = MTGConstants.TABLE_ROW_WIDTH;
-
+	protected Logger logger = MTGLogger.getLogger(this.getClass());
+	
 	public int getRowHeight() {
 		return rowHeight;
 	}
@@ -131,8 +134,14 @@ public class ManaPanel extends JPanel {
 		map.put("P",59);
 		map.put("hr",58);
 		map.put("hw",57);
-
-
+		map.put("C/W",81);
+		map.put("C/U",82);
+		map.put("C/B",83);
+		map.put("C/R",84);
+		map.put("C/G",85);
+		
+		
+		
 	}
 
 	public Image getManaSymbol(String el) {
@@ -141,7 +150,13 @@ public class ManaPanel extends JPanel {
 		try {
 			val = Integer.parseInt(el);
 		} catch (NumberFormatException ne) {
-			val= map.get(el);
+			if(map.get(el)!=null)
+				val= map.get(el);
+			else
+			{
+				logger.error("can't find icon for manacost ={}",el);
+				val=21;
+			}
 		}
 
 
