@@ -109,14 +109,19 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 	}
 	
 	
-	boolean click=false;
+	boolean face=false;
 	public void init(MTGCard mc)
 	{
+		lblThumbnail.setCursor(Cursor.getDefaultCursor());
+	
+		for(var l : lblThumbnail.getMouseListeners())
+			lblThumbnail.removeMouseListener(l);
+		
 		
 		if(mc==null)
 			return;
 		
-		click=false;
+		
 		this.magicCard=mc;
 		
 		fillField(mc);
@@ -136,8 +141,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 					lblThumbnail.addMouseListener(new MouseAdapter() {
 						@Override
 						public void mouseClicked(MouseEvent e) {
-							
-							if(click)
+							if(face)
 							{
 								loadPics(mc);
 								fillField(mc);
@@ -147,18 +151,10 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 								loadPics(mc.getRotatedCard());
 								fillField(mc.getRotatedCard());
 							}
-
-							click=!click;
+							face=!face;
 						}
 						
 					});
-			}
-			else
-			{
-					lblThumbnail.setCursor(Cursor.getDefaultCursor());
-					
-					for(var l : lblThumbnail.getMouseListeners())
-							lblThumbnail.removeMouseListener(l);
 			}
 		}
 		
