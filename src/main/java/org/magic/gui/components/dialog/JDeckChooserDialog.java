@@ -79,21 +79,21 @@ public class JDeckChooserDialog extends JDialog {
 		sideNode.removeAllChildren();
 
 		if (selectedDeck != null) {
-			for (MTGCard mc : selectedDeck.getMain().keySet()) {
-				if (mc.isCreature() && !mc.isArtifact())
-					creatureNode.add(new DefaultMutableTreeNode(selectedDeck.getMain().get(mc) + " " + mc));
-				else if (mc.isArtifact())
-					artifactsNode.add(new DefaultMutableTreeNode(selectedDeck.getMain().get(mc) + " " + mc));
-				else if (mc.isLand())
-					landsNode.add(new DefaultMutableTreeNode(selectedDeck.getMain().get(mc) + " " + mc));
-				else if (mc.isPlaneswalker())
-					planeswalkerNode.add(new DefaultMutableTreeNode(selectedDeck.getMain().get(mc) + " " + mc));
+			for (var mc : selectedDeck.getMain().entrySet()) {
+				if (mc.getKey().isCreature() && !mc.getKey().isArtifact())
+					creatureNode.add(new DefaultMutableTreeNode(mc.getValue() + " " + mc.getKey()));
+				else if (mc.getKey().isArtifact())
+					artifactsNode.add(new DefaultMutableTreeNode(mc.getValue() + " " + mc.getKey()));
+				else if (mc.getKey().isLand())
+					landsNode.add(new DefaultMutableTreeNode(mc.getValue() + " " + mc.getKey()));
+				else if (mc.getKey().isPlaneswalker())
+					planeswalkerNode.add(new DefaultMutableTreeNode(mc.getValue() + " " + mc.getKey()));
 				else
-					spellsNode.add(new DefaultMutableTreeNode(selectedDeck.getMain().get(mc) + " " + mc));
+					spellsNode.add(new DefaultMutableTreeNode(mc.getValue() + " " + mc.getKey()));
 			}
 
-			for (MTGCard mc : selectedDeck.getSideBoard().keySet())
-				sideNode.add(new DefaultMutableTreeNode(selectedDeck.getSideBoard().get(mc) + " " + mc));
+			for (var mc : selectedDeck.getSideBoard().entrySet())
+				sideNode.add(new DefaultMutableTreeNode(mc.getValue() + " " + mc.getKey()));
 
 			model.reload();
 
