@@ -55,6 +55,18 @@ public class CardStockPanel extends MTGUIComponent {
 			table.getColumnExt(model.getColumnName(i)).setVisible(true);
 	}
 
+
+	public List<MTGCardStock> getMultiSelection() {
+		return	UITools.getTableSelections(table, 0);
+	}
+
+	public MTGCardStock getSelected() {
+		return	UITools.getTableSelection(table, 0);
+	}
+
+
+	
+	
 	public CardStockPanel() {
 		setLayout(new BorderLayout(0, 0));
 		model = new CardStockTableModel();
@@ -262,6 +274,5 @@ public class CardStockPanel extends MTGUIComponent {
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_TAB_STOCK;
 	}
-
 
 }

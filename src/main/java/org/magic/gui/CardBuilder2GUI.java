@@ -45,7 +45,7 @@ import org.magic.api.sorters.CardsEditionSorter;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.card.MagicEditionDetailPanel;
-import org.magic.gui.components.dialog.CardSearchImportDialog;
+import org.magic.gui.components.dialog.importer.CardSearchImportDialog;
 import org.magic.gui.components.editor.MagicCardEditorPanel;
 import org.magic.gui.components.tech.ObjectViewerPanel;
 import org.magic.gui.models.MagicCardTableModel;
@@ -310,8 +310,8 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			btnImport.addActionListener(e -> {
 				var l = new CardSearchImportDialog();
 				l.setVisible(true);
-				if (l.getSelected() != null)
-					initCard(l.getSelected());
+				if (l.getSelectedItem() != null)
+					initCard(l.getSelectedItem());
 
 			});
 			

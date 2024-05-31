@@ -14,6 +14,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -25,13 +26,12 @@ import org.magic.api.beans.MTGDeck;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
-import org.magic.gui.abstracts.AbstractDelegatedImporterDialog;
 import org.magic.gui.components.editor.JTagsPanel;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.workers.DeckImportWorker;
-public class ManualImportDialog extends AbstractDelegatedImporterDialog {
+public class ManualImportDialog extends JDialog {
 
 
 	private static final long serialVersionUID = 1L;
@@ -180,10 +180,7 @@ public class ManualImportDialog extends AbstractDelegatedImporterDialog {
 
 	}
 
-
-	@Override
-	public MTGDeck getSelectedDeck() {
-
+	public MTGDeck getSelectedItem() {
 		return importedDeck;
 	}
 

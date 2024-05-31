@@ -49,8 +49,8 @@ import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.gui.StockPanelGUI;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.deck.ConstructPanel;
-import org.magic.gui.components.dialog.CardSearchImportDialog;
 import org.magic.gui.components.dialog.JDeckChooserDialog;
+import org.magic.gui.components.dialog.importer.CardSearchImportDialog;
 import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.gui.renderer.MessageRenderer;
 import org.magic.gui.renderer.PlayerRenderer;
@@ -317,9 +317,9 @@ public class NetworkChatPanel extends MTGUIComponent {
 				var diag = new CardSearchImportDialog();
 				diag.setVisible(true);
 				
-				if(diag.getSelected()!=null)
+				if(diag.getSelectedItem()!=null)
 				{
-					var msg = new SearchMessage(diag.getSelected());
+					var msg = new SearchMessage(diag.getSelectedItem());
 					client.sendMessage(msg);
 				}
 				

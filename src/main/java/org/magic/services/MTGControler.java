@@ -240,7 +240,7 @@ public class MTGControler {
 				if(conf.isAutomaticProduct())
 					conf.setTopProduct(TransactionService.getBestProduct());
 				else
-					conf.setTopProduct(new JsonExport().fromJson(get("/shopSite/config/products/top",""), MTGCardStock.class));
+					conf.setTopProduct( MTG.getEnabledPlugin(MTGDao.class).getStockById(Long.parseLong(get("/shopSite/config/products/top","-1"))));
 			}
 			catch(Exception e)
 			{
@@ -293,7 +293,7 @@ public class MTGControler {
 
 
 		setProperty("/shopSite/config/slides",StringUtils.join(wsc.getSlidesLinksImage(),";"));
-		setProperty("/shopSite/config/products/top",new JsonExport().toJsonElement(wsc.getTopProduct()));
+		setProperty("/shopSite/config/products/top",wsc.getTopProduct().getId());
 		setProperty("/shopSite/config/products/autoSelection",wsc.isAutomaticProduct());
 		setProperty("/shopSite/config/maxLastProductSlide",wsc.getMaxLastProduct());
 		setProperty("/shopSite/config/productPaginationSlide",wsc.getProductPagination());

@@ -170,6 +170,9 @@ public class ConstructPanel extends MTGUIComponent {
 
 
 	public void setDeck(MTGDeck deck) {
+		if(deck==null)
+			deck = new MTGDeck();
+		
 		this.deck = deck;
 		deckDetailsPanel.init(deck);
 		deckDetailsPanel.updatePicture();

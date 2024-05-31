@@ -23,6 +23,8 @@ import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -62,7 +64,7 @@ import org.utils.webcam.WebcamUtils;
 
 import com.github.sarxos.webcam.Webcam;
 
-public class WebcamCardImportDialog extends AbstractDelegatedImporterDialog {
+public class WebcamCardImportDialog extends JDialog {
 
 
 	private transient BufferedImage snapshotImage;
@@ -406,17 +408,14 @@ public class WebcamCardImportDialog extends AbstractDelegatedImporterDialog {
 		return modelCards.getItems();
 	}
 
-	@Override
-	public MTGDeck getSelectedDeck() {
+
+	public MTGDeck getSelectedItem() {
 		var d = new MTGDeck();
 		d.setDescription("Imported from " + getTitle());
 		d.setName(getName());
 		getFindedCards().forEach(d::add);
 		return d;
 	}
-
-
-
 
 
 }

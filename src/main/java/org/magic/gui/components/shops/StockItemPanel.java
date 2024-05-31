@@ -13,8 +13,8 @@ import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.gui.abstracts.MTGUIComponent;
-import org.magic.gui.components.dialog.CardSearchImportDialog;
-import org.magic.gui.components.dialog.SealedImportDialog;
+import org.magic.gui.components.dialog.importer.CardSearchImportDialog;
+import org.magic.gui.components.dialog.importer.SealedImportDialog;
 import org.magic.gui.models.StockItemTableModel;
 import org.magic.gui.renderer.StockTableRenderer;
 import org.magic.services.MTGConstants;
@@ -71,11 +71,11 @@ public class StockItemPanel extends MTGUIComponent {
 			var diag = new SealedImportDialog();
 			diag.setVisible(true);
 			
-			if(diag.getSelecteds().isEmpty())
+			if(diag.getSelectedItems().isEmpty())
 				return;
 			
 			
-			for(var it : diag.getSelecteds())
+			for(var it : diag.getSelectedItems())
 			{
 	   		var mtgstock = new MTGSealedStock(it);
 					model.addItem(mtgstock);

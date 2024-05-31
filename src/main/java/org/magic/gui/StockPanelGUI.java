@@ -59,7 +59,7 @@ import org.magic.gui.components.PricesTablePanel;
 import org.magic.gui.components.card.MagicCardDetailPanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.deck.CardsDeckCheckerPanel;
-import org.magic.gui.components.dialog.CardSearchImportDialog;
+import org.magic.gui.components.dialog.importer.CardSearchImportDialog;
 import org.magic.gui.components.shops.StockItemsSynchronizationPanel;
 import org.magic.gui.components.tech.ObjectViewerPanel;
 import org.magic.gui.components.widgets.JExportButton;

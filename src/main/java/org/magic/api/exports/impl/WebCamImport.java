@@ -74,7 +74,7 @@ public class WebCamImport extends AbstractCardExport {
 	public MTGDeck importDeckFromFile(File f) throws IOException {
 		var c = new WebcamCardImportDialog();
 		c.setVisible(true);
-		return c.getSelectedDeck();
+		return c.getSelectedItem();
 	}
 
 	@Override

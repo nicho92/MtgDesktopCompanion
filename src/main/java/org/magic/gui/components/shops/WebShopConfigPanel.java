@@ -43,7 +43,8 @@ import org.magic.api.beans.technical.WebShopConfig;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.abstracts.MTGUIComponent;
-import org.magic.gui.components.dialog.CardSearchImportDialog;
+import org.magic.gui.components.dialog.importer.CardSearchImportDialog;
+import org.magic.gui.components.dialog.importer.CardStockImportDialog;
 import org.magic.gui.components.editor.JCheckableListBox;
 import org.magic.gui.components.renderer.StockItemPanelRenderer;
 import org.magic.gui.components.tech.ServerStatePanel;
@@ -265,15 +266,13 @@ public class WebShopConfigPanel extends MTGUIComponent {
 
 
 		b.addActionListener(il->{
-							   var diag = new CardSearchImportDialog();
+							   var diag = new CardStockImportDialog();
 								   diag.setVisible(true);
-								   topProduct= MTGControler.getInstance().getDefaultStock();
-								   if(diag.getSelected()!=null)
+								   if(diag.getSelectedItem()!=null)
 								   {
-									   topProduct.setProduct(diag.getSelected());
+									   topProduct = diag.getSelectedItem();
 									   cardPanel.setProduct(topProduct);
 								   }
-
 		});
 
 

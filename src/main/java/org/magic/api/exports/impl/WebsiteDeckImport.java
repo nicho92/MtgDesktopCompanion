@@ -62,7 +62,7 @@ public class WebsiteDeckImport extends AbstractCardExport {
 	public List<MTGCardStock> importStockFromFile(File f) throws IOException {
 		var diag = new DeckSnifferDialog();
 		diag.setVisible(true);
-		var d = diag.getSelectedDeck();
+		var d = diag.getSelectedItem();
 
 		return importFromDeck(d);
 	}
@@ -72,7 +72,7 @@ public class WebsiteDeckImport extends AbstractCardExport {
 	public MTGDeck importDeckFromFile(File f) throws IOException {
 		var diag = new DeckSnifferDialog();
 		diag.setVisible(true);
-		return diag.getSelectedDeck();
+		return diag.getSelectedItem();
 
 	}
 

@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
@@ -20,7 +21,6 @@ import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGDeckSniffer;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
-import org.magic.gui.abstracts.AbstractDelegatedImporterDialog;
 import org.magic.gui.models.DeckSnifferTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
@@ -30,7 +30,7 @@ import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
 import org.magic.services.workers.AbstractObservableWorker;
-public class DeckSnifferDialog extends AbstractDelegatedImporterDialog {
+public class DeckSnifferDialog extends JDialog {
 
 	/**
 	 *
@@ -180,8 +180,7 @@ public class DeckSnifferDialog extends AbstractDelegatedImporterDialog {
 
 	}
 
-	@Override
-	public MTGDeck getSelectedDeck() {
+	public MTGDeck getSelectedItem() {
 		return importedDeck;
 	}
 

@@ -26,8 +26,8 @@ import org.magic.api.interfaces.MTGStockItem;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.GedPanel;
-import org.magic.gui.components.dialog.JContactChooserDialog;
 import org.magic.gui.components.dialog.TransactionsImporterDialog;
+import org.magic.gui.components.dialog.importer.JContactChooserDialog;
 import org.magic.gui.components.tech.ObjectViewerPanel;
 import org.magic.gui.models.TransactionsTableModel;
 import org.magic.gui.renderer.standard.DateTableCellEditorRenderer;
@@ -311,10 +311,10 @@ public class TransactionsPanel extends MTGUIComponent {
 			var diag = new JContactChooserDialog();
 				  diag.setVisible(true);
 											   
-				if(diag.getSelectedContacts()!=null)
+				if(diag.getSelectedItem()!=null)
 				{
 					Transaction t = UITools.getTableSelection(tableTransactions, 0);
-					var c =  diag.getSelectedContacts() ;
+					var c =  diag.getSelectedItem() ;
 					int res = JOptionPane.showConfirmDialog(this, "Confirm " +c+ " to transaction #"+t.getId(),"Sure ?",JOptionPane.YES_NO_OPTION);
 
 					if(res==JOptionPane.YES_OPTION)
