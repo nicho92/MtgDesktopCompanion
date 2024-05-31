@@ -160,15 +160,15 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 						for (MTGCard mc : booster.getCards()) {
 							for (CardShake cs : prices)
 								if (cs.getName().equalsIgnoreCase(mc.getName())) {
-									price += cs.getPrice();
+									price += cs.getPrice().doubleValue();
 									booster.setPrice(price);
 								
 									EnumRarity rarity = mc.getRarity();
 
 									if (priceRarity.get(rarity) != null)
-										priceRarity.put(rarity, priceRarity.get(rarity) + cs.getPrice());
+										priceRarity.put(rarity, priceRarity.get(rarity) + cs.getPrice().doubleValue());
 									else
-										priceRarity.put(rarity, cs.getPrice());
+										priceRarity.put(rarity, cs.getPrice().doubleValue());
 								}
 						}
 						boostersModel.addItem(booster);

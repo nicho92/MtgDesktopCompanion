@@ -65,7 +65,7 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 
 			if(!foil) {
 				EditionsShakers c = getShakesForEdition(mc.getEdition());
-				return c.getShakeFor(mc,foil).getPrice();
+				return c.getShakeFor(mc,foil).getPrice().doubleValue();
 			}
 			else
 			{
@@ -171,7 +171,7 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 		ret.forEach(cs->{
 					if(MTGControler.getInstance().getCurrencyService().isEnable() && cs.getCurrency()!=MTGControler.getInstance().getCurrencyService().getCurrentCurrency())
 					{
-						cs.setPrice(MTGControler.getInstance().getCurrencyService().convertTo(cs.getCurrency(), cs.getPrice()));
+						cs.setPrice(MTGControler.getInstance().getCurrencyService().convertTo(cs.getCurrency(), cs.getPrice().doubleValue()));
 						cs.setPriceDayChange(MTGControler.getInstance().getCurrencyService().convertTo(cs.getCurrency(), cs.getPriceDayChange()));
 						cs.setPriceWeekChange(MTGControler.getInstance().getCurrencyService().convertTo(cs.getCurrency(), cs.getPriceWeekChange()));
 						cs.setCurrency(MTGControler.getInstance().getCurrencyService().getCurrentCurrency());

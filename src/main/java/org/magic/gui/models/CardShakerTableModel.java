@@ -2,6 +2,7 @@ package org.magic.gui.models;
 
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.enums.EnumCardVariation;
+import org.magic.api.beans.technical.MoneyValue;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.tools.UITools;
 
@@ -29,13 +30,14 @@ public class CardShakerTableModel extends GenericTableModel<CardShake> {
 				return CardShake.class;
 			case 1:
 				return String.class;
+			case 2:
+				return MoneyValue.class;
 			case 7:
 				return Boolean.class;
 			case 8:
 				return EnumCardVariation.class;
-
 		default:
-			return Double.class;
+			return super.getColumnClass(columnIndex);
 
 		}
 
@@ -52,7 +54,7 @@ public class CardShakerTableModel extends GenericTableModel<CardShake> {
 			case 1:
 				return mp.getEd();
 			case 2:
-				return UITools.roundDouble(mp.getPrice());
+				return mp.getPrice();
 			case 3:
 				return UITools.roundDouble(mp.getPriceDayChange());
 			case 4:

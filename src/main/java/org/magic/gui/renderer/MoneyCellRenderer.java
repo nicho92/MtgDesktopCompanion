@@ -1,7 +1,6 @@
 package org.magic.gui.renderer;
 
 import java.awt.Component;
-import java.text.NumberFormat;
 
 import javax.swing.JLabel;
 import javax.swing.JTable;
@@ -9,6 +8,7 @@ import javax.swing.SwingConstants;
 import javax.swing.table.TableCellRenderer;
 
 import org.magic.api.beans.technical.MoneyValue;
+import org.magic.services.tools.UITools;
 
 public class MoneyCellRenderer implements TableCellRenderer {
 
@@ -18,7 +18,7 @@ public class MoneyCellRenderer implements TableCellRenderer {
 		
 		try {
 				MoneyValue val = (MoneyValue)value;
-				text = NumberFormat.getNumberInstance().format(val.doubleValue()) + " " + val.getCurrency().getSymbol();
+				text = UITools.formatDouble(val.doubleValue()) + " " + val.getCurrency().getSymbol();
 			}
 		catch(Exception e)
 			{

@@ -145,10 +145,12 @@ public class CardShake implements Serializable {
 		this.ed = ed;
 	}
 
-	public Double getPrice() {
-		return price.doubleValue();
+	public MoneyValue getPrice() {
+		return price;
 	}
-
+	
+	
+	
 	public void setPrice(Double price) {
 		this.price.setValue(price);
 	}

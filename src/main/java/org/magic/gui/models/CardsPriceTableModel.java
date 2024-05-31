@@ -1,16 +1,13 @@
 package org.magic.gui.models;
 
-import java.util.Currency;
-
 import org.magic.api.beans.MTGPrice;
+import org.magic.api.beans.technical.MoneyValue;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.tools.MTG;
-import org.magic.services.tools.UITools;
 
 public class CardsPriceTableModel extends GenericTableModel<MTGPrice> {
-
 	private static final long serialVersionUID = 1L;
 
 
@@ -20,7 +17,6 @@ public class CardsPriceTableModel extends GenericTableModel<MTGPrice> {
 				"QTY",
 				"WEBSITE",
 				"PRICE",
-				"CURRENCY",
 				"SELLER",
 				"QUALITY",
 				"FOIL",
@@ -44,18 +40,14 @@ public class CardsPriceTableModel extends GenericTableModel<MTGPrice> {
 		case 2:
 			return MTGPlugin.class;
 		case 3:
-			return Double.class;
+			return MoneyValue.class;
 		case 4:
-			return Currency.class;
-		case 5:
 			return String.class;
+		case 5:
+			return Boolean.class;
 		case 6:
 			return String.class;
 		case 7:
-			return Boolean.class;
-		case 8:
-			return String.class;
-		case 9:
 			return String.class;
 		default:
 			return super.getColumnClass(columnIndex);
@@ -76,7 +68,7 @@ public class CardsPriceTableModel extends GenericTableModel<MTGPrice> {
 			case 2:
 				return MTG.getPlugin(mp.getSite(),MTGPricesProvider.class);
 			case 3:
-				return UITools.roundDouble(mp.getValue());
+				return mp.getPriceValue();
 			case 4:
 				return mp.getCurrency();
 			case 5:

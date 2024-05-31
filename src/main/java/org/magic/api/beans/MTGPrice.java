@@ -124,6 +124,11 @@ public class MTGPrice implements Comparable<MTGPrice> {
 	public void setUrl(String url) {
 		this.url = url;
 	}
+	
+	
+	public MoneyValue getPriceValue() {
+		return priceValue;
+	}
 
 	public Double getValue() {
 		return priceValue.doubleValue();

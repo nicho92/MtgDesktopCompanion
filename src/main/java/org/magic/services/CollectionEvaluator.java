@@ -223,7 +223,7 @@ public class CollectionEvaluator extends Observable
 					if(cs.isPresent())
 					{
 						var shak = cs.get();
-						if(shak.getPrice()>=minPrice)
+						if(shak.getPrice().doubleValue()>=minPrice)
 							ret.put(mc, shak);
 					}
 					else
@@ -232,7 +232,7 @@ public class CollectionEvaluator extends Observable
 						csn.setName(mc.getName());
 						csn.setPrice(0.0);
 
-						if(csn.getPrice()>=minPrice)
+						if(csn.getPrice().doubleValue()>=minPrice)
 							ret.put(mc, csn);
 					}
 			}
@@ -267,7 +267,7 @@ public class CollectionEvaluator extends Observable
 
 
 	public Double total(MTGEdition ed) {
-		return prices(ed).values().stream().mapToDouble(CardShake::getPrice).sum();
+		return prices(ed).values().stream().mapToDouble(cs->cs.getPrice().doubleValue()).sum();
 	}
 
 	public Double total() {

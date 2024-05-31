@@ -39,7 +39,7 @@ public class PricesCardsShakeSorter implements Comparator<CardShake>  {
 		switch (t) {
 			case DAY_PERCENT_CHANGE:return cs.getPercentDayChange();
 			case DAY_PRICE_CHANGE: return Math.abs(cs.getPriceDayChange());
-			case PRICE: return cs.getPrice();
+			case PRICE: return cs.getPrice().doubleValue();
 			default : return 0;
 		}
 	}
