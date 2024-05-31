@@ -3,7 +3,6 @@ package org.magic.services.providers;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCondition;
-import org.magic.api.exports.impl.ManaBoxExport;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;

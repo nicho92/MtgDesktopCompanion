@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.TableCellRenderer;
+
 import org.magic.api.beans.technical.MoneyValue;
 
 public class MoneyCellRenderer implements TableCellRenderer {

@@ -31,7 +31,6 @@ import javax.swing.SwingWorker;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGAlert;
 import org.magic.api.beans.MTGCard;
-import org.magic.api.beans.MTGCardNames;
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGFormat;
