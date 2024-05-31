@@ -241,7 +241,7 @@ public class CardStockPanel extends MTGUIComponent {
 		btnSave.setEnabled(false);
 		btnDelete.setEnabled(false);
 		panneauHaut.setVisible(false);
-
+		model.setWritable(false);
 
 	}
 

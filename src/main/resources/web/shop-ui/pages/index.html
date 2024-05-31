@@ -63,7 +63,7 @@
 						
 						
 				    	$("#topProductTitle").append(data.topProduct.product.name);
-				    	$("#topProductLink").attr('href',"product.html?id="+data.topProduct.id + "&product="+data.topProduct.typeStock);
+				    	$("#topProductLink").attr('href',"product.html?id="+data.topProduct.id + "&product="+data.topProduct.product.typeProduct);
 						$("#topProductImage").attr('alt',data.topProduct.product.name);
 					}
 					
