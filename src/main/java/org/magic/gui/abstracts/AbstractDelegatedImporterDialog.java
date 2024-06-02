@@ -88,7 +88,7 @@ public abstract class AbstractDelegatedImporterDialog<T> extends JDialog {
 		var btnSelect = new JButton(MTGConstants.ICON_OPEN);
 		btnSelect.setToolTipText(capitalize("OPEN"));
 		btnSelect.addActionListener(e -> {
-			if (getSelectedItems().isEmpty())
+			if (getSelectedItem()==null && getSelectedItems().isEmpty())
 				MTGControler.getInstance().notify(new NullPointerException(capitalize("CHOOSE_ITEM")));
 			else
 				dispose();

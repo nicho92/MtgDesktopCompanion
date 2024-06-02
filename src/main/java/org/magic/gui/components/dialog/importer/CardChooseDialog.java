@@ -29,6 +29,7 @@ public class CardChooseDialog extends AbstractDelegatedImporterDialog<MTGCard> {
 	@Override
 	public JComponent getSelectComponent() {
 		panel = new CardSearchPanel();
+		panel.getContextTabbedPane().setVisible(false);
 		panel.setPreferredSize(new Dimension(900, 700));
 		return panel;
 	}
