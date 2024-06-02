@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.awt.event.ItemEvent;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +18,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
+import org.apache.commons.collections4.ListUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.jfree.chart3d.data.PieDataset3D;
 import org.jfree.chart3d.data.StandardPieDataset3D;
 import org.magic.api.beans.MTGCard;
@@ -41,6 +45,7 @@ import com.google.common.collect.Lists;
 public class MTGCardStockDashlet extends AbstractJDashlet {
 	
 
+	private static final String COLLECTIONS = "COLLECTIONS";
 	private static final long serialVersionUID = 1L;
 	private static final String PROPERTY = "PROPERTY";
 	private JCheckBox chkSumOrTotal;
@@ -156,6 +161,10 @@ public class MTGCardStockDashlet extends AbstractJDashlet {
 			if(!getString(PROPERTY).isEmpty())
 				cboProperty.setSelectedItem(getString(PROPERTY));
 
+			
+			if(!getString(COLLECTIONS).isEmpty())
+				lstCollections.setSelectedElements(Arrays.stream(getString(COLLECTIONS).split("/")).map(MTGCollection::new).toList());
+			
 
 			chkSumOrTotal.setSelected(getString("COUNT").equals("true"));
 			setBounds(r);
@@ -169,6 +178,9 @@ public class MTGCardStockDashlet extends AbstractJDashlet {
 	public void init() {
 		setProperty(PROPERTY, String.valueOf(cboProperty.getSelectedItem()));
 		setProperty("COUNT", String.valueOf(chkSumOrTotal.isSelected()));
+		setProperty(COLLECTIONS,String.join("/",lstCollections.getSelectedElements().stream().map(MTGCollection::getName).toList()));
+		
+		
 		
 		buzy.start();
 		var sw = new AbstractObservableWorker<List<MTGCardStock>, MTGCard,MTGDao>(buzy,MTG.getEnabledPlugin(MTGDao.class)) {

@@ -19,7 +19,7 @@ import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumItems;
 import org.magic.api.beans.enums.EnumTransactionDirection;
 import org.magic.gui.abstracts.MTGUIComponent;
-import org.magic.gui.components.dialog.importer.JContactChooserDialog;
+import org.magic.gui.components.dialog.importer.ContactChooseDialog;
 import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.gui.components.widgets.JXDateTimePicker;
 import org.magic.services.tools.UITools;
@@ -105,7 +105,7 @@ public class AnnounceDetailPanel extends MTGUIComponent {
 
 
 		btnContact.addActionListener(al->{
-			JContactChooserDialog diag = new JContactChooserDialog();
+			ContactChooseDialog diag = new ContactChooseDialog();
 			diag.setVisible(true);
 
 			if(diag.getSelectedItem()!=null) {

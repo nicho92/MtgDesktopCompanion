@@ -50,7 +50,7 @@ import org.magic.gui.components.PricesTablePanel;
 import org.magic.gui.components.card.MagicCardDetailPanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.deck.DeckPricePanel;
-import org.magic.gui.components.dialog.importer.CardSearchImportDialog;
+import org.magic.gui.components.dialog.importer.CardChooseDialog;
 import org.magic.gui.components.renderer.MagicPricePanel;
 import org.magic.gui.components.tech.ServerStatePanel;
 import org.magic.gui.components.widgets.JExportButton;
@@ -392,7 +392,7 @@ public class AlarmGUI extends MTGUIComponent {
 			mnuImportSearch.setIcon(MTGConstants.ICON_SEARCH);
 
 			mnuImportSearch.addActionListener(importAE -> {
-				var cdSearch = new CardSearchImportDialog();
+				var cdSearch = new CardChooseDialog();
 				cdSearch.setVisible(true);
 				if (cdSearch.getSelection() != null) {
 					for (MTGCard mc : cdSearch.getSelection())

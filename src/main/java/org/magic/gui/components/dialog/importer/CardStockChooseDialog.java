@@ -13,14 +13,14 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.MTG;
 import org.magic.services.workers.AbstractObservableWorker;
 
-public class CardStockImportDialog extends AbstractDelegatedImporterDialog<MTGCardStock> {
+public class CardStockChooseDialog extends AbstractDelegatedImporterDialog<MTGCardStock> {
 
 	private static final long serialVersionUID = 1L;
 	CardStockPanel panel;
 	AbstractBuzyIndicatorComponent buzy;
 	
 	
-	public CardStockImportDialog() {
+	public CardStockChooseDialog() {
 		
 		buzy = AbstractBuzyIndicatorComponent.createLabelComponent();
 		

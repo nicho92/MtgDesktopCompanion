@@ -13,8 +13,8 @@ import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.gui.abstracts.MTGUIComponent;
-import org.magic.gui.components.dialog.importer.CardSearchImportDialog;
-import org.magic.gui.components.dialog.importer.SealedImportDialog;
+import org.magic.gui.components.dialog.importer.CardChooseDialog;
+import org.magic.gui.components.dialog.importer.SealedStockChooseDialog;
 import org.magic.gui.models.StockItemTableModel;
 import org.magic.gui.renderer.StockTableRenderer;
 import org.magic.services.MTGConstants;
@@ -68,7 +68,7 @@ public class StockItemPanel extends MTGUIComponent {
 		
 		btnAddSealed.addActionListener(al->{
 			
-			var diag = new SealedImportDialog();
+			var diag = new SealedStockChooseDialog();
 			diag.setVisible(true);
 			
 			if(diag.getSelectedItems().isEmpty())
@@ -86,7 +86,7 @@ public class StockItemPanel extends MTGUIComponent {
 		
 		
 		btnAddCard.addActionListener(al->{
-			var cdSearch = new CardSearchImportDialog();
+			var cdSearch = new CardChooseDialog();
 				 cdSearch.setVisible(true);
 			if (cdSearch.getSelection() != null) {
 				for (var mc : cdSearch.getSelection())

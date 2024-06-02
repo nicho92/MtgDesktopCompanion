@@ -8,7 +8,7 @@ import org.magic.api.beans.MTGSealedProduct;
 import org.magic.gui.abstracts.AbstractDelegatedImporterDialog;
 import org.magic.gui.components.PackagesBrowserPanel;
 
-public class SealedImportDialog extends AbstractDelegatedImporterDialog<MTGSealedProduct> {
+public class SealedStockChooseDialog extends AbstractDelegatedImporterDialog<MTGSealedProduct> {
 
 	/**
 	 *

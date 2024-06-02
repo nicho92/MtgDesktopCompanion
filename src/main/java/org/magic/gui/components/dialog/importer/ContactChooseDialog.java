@@ -20,7 +20,7 @@ import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 import org.magic.services.workers.AbstractObservableWorker;
-public class JContactChooserDialog extends AbstractDelegatedImporterDialog<Contact> {
+public class ContactChooseDialog extends AbstractDelegatedImporterDialog<Contact> {
 
 	private static final long serialVersionUID = 1L;
 	private AbstractBuzyIndicatorComponent buzy;
@@ -28,7 +28,7 @@ public class JContactChooserDialog extends AbstractDelegatedImporterDialog<Conta
 	private JXTable table;
 	
 	
-	public JContactChooserDialog() {
+	public ContactChooseDialog() {
 		setTitle(capitalize("CONTACT"));
 		setSize(950, 600);
 

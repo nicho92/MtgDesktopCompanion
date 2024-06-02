@@ -27,7 +27,7 @@ import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.GedPanel;
 import org.magic.gui.components.dialog.TransactionsImporterDialog;
-import org.magic.gui.components.dialog.importer.JContactChooserDialog;
+import org.magic.gui.components.dialog.importer.ContactChooseDialog;
 import org.magic.gui.components.tech.ObjectViewerPanel;
 import org.magic.gui.models.TransactionsTableModel;
 import org.magic.gui.renderer.standard.DateTableCellEditorRenderer;
@@ -308,7 +308,7 @@ public class TransactionsPanel extends MTGUIComponent {
 		
 		
 		btnContact.addActionListener(al->{
-			var diag = new JContactChooserDialog();
+			var diag = new ContactChooseDialog();
 				  diag.setVisible(true);
 											   
 				if(diag.getSelectedItem()!=null)
