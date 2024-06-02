@@ -310,7 +310,7 @@ public class CardBuilder2GUI extends MTGUIComponent {
 			btnImport.addActionListener(e -> {
 				var l = new CardChooseDialog();
 				l.setVisible(true);
-				if (l.getSelectedItem() != null)
+				if (l.hasSelected())
 					initCard(l.getSelectedItem());
 
 			});

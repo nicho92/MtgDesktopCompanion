@@ -108,7 +108,7 @@ public class AnnounceDetailPanel extends MTGUIComponent {
 			ContactChooseDialog diag = new ContactChooseDialog();
 			diag.setVisible(true);
 
-			if(diag.getSelectedItem()!=null) {
+			if(diag.hasSelected()) {
 				announce.setContact(diag.getSelectedItem());
 				btnContact.setText(announce.getContact().toString());
 

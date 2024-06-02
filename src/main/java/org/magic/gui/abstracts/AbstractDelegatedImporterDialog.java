@@ -24,6 +24,8 @@ public abstract class AbstractDelegatedImporterDialog<T> extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private transient List<T> selectedItem;
 	protected JPanel commandePanel;
+	private boolean selected=true;
+	
 	
 	public T getSelectedItem()
 	{
@@ -42,7 +44,12 @@ public abstract class AbstractDelegatedImporterDialog<T> extends JDialog {
 		this.selectedItem = selectedItem;
 	}
 	
-
+	public boolean hasSelected()
+	{
+		return selected;
+	}
+	
+	
 	public abstract JComponent getSelectComponent();
 	
 	
@@ -89,9 +96,15 @@ public abstract class AbstractDelegatedImporterDialog<T> extends JDialog {
 		btnSelect.setToolTipText(capitalize("OPEN"));
 		btnSelect.addActionListener(e -> {
 			if (getSelectedItem()==null && getSelectedItems().isEmpty())
+			{
+				selected=false;
 				MTGControler.getInstance().notify(new NullPointerException(capitalize("CHOOSE_ITEM")));
+			}
 			else
+			{
+				selected=true;
 				dispose();
+			}
 		});
 		
 
@@ -99,6 +112,7 @@ public abstract class AbstractDelegatedImporterDialog<T> extends JDialog {
 		btnCancel.setToolTipText(capitalize("CANCEL"));
 		btnCancel.addActionListener(e -> {
 			selectedItem.clear();
+			selected=false;
 			dispose();
 		});
 		

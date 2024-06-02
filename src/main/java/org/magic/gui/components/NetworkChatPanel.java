@@ -317,7 +317,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 				var diag = new CardChooseDialog();
 				diag.setVisible(true);
 				
-				if(diag.getSelectedItem()!=null)
+				if(diag.hasSelected())
 				{
 					var msg = new SearchMessage(diag.getSelectedItem());
 					client.sendMessage(msg);

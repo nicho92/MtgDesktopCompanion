@@ -311,7 +311,7 @@ public class TransactionsPanel extends MTGUIComponent {
 			var diag = new ContactChooseDialog();
 				  diag.setVisible(true);
 											   
-				if(diag.getSelectedItem()!=null)
+				if(diag.hasSelected())
 				{
 					Transaction t = UITools.getTableSelection(tableTransactions, 0);
 					var c =  diag.getSelectedItem() ;

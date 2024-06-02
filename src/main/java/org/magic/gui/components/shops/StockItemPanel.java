@@ -71,7 +71,7 @@ public class StockItemPanel extends MTGUIComponent {
 			var diag = new SealedStockChooseDialog();
 			diag.setVisible(true);
 			
-			if(diag.getSelectedItems().isEmpty())
+			if(!diag.hasSelected())
 				return;
 			
 			
@@ -88,7 +88,7 @@ public class StockItemPanel extends MTGUIComponent {
 		btnAddCard.addActionListener(al->{
 			var cdSearch = new CardChooseDialog();
 				 cdSearch.setVisible(true);
-			if (cdSearch.getSelectedItems() != null) {
+			if (cdSearch.hasSelected()) {
 				for (var mc : cdSearch.getSelectedItems())
 				{
 					var mtgstock = MTGControler.getInstance().getDefaultStock();

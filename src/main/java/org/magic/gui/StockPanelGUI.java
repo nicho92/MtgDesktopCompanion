@@ -245,7 +245,7 @@ public class StockPanelGUI extends MTGUIComponent {
 			mnuImportSearch.addActionListener(importAE -> {
 				var cdSearch = new CardChooseDialog();
 				cdSearch.setVisible(true);
-				if (cdSearch.getSelectedItems() != null) {
+				if (cdSearch.hasSelected()) {
 					for (MTGCard mc : cdSearch.getSelectedItems())
 						addCard(mc);
 				}

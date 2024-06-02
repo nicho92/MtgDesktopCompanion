@@ -267,7 +267,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		b.addActionListener(il->{
 							   var diag = new CardStockChooseDialog();
 								   diag.setVisible(true);
-								   if(diag.getSelectedItem()!=null)
+								   if(diag.hasSelected())
 								   {
 									   topProduct = diag.getSelectedItem();
 									   cardPanel.setProduct(topProduct);
