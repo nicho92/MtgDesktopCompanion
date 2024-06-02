@@ -22,10 +22,11 @@ public class CardChooseDialog extends AbstractDelegatedImporterDialog<MTGCard> {
 	}
 	
 	
-	public List<MTGCard> getSelection() {
+	@Override
+	public List<MTGCard> getSelectedItems() {
 		return panel.getMultiSelection();
 	}
-
+	
 	@Override
 	public JComponent getSelectComponent() {
 		panel = new CardSearchPanel();

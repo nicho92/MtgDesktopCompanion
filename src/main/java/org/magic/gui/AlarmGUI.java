@@ -394,8 +394,8 @@ public class AlarmGUI extends MTGUIComponent {
 			mnuImportSearch.addActionListener(importAE -> {
 				var cdSearch = new CardChooseDialog();
 				cdSearch.setVisible(true);
-				if (cdSearch.getSelection() != null) {
-					for (MTGCard mc : cdSearch.getSelection())
+				if (cdSearch.getSelectedItems() != null) {
+					for (MTGCard mc : cdSearch.getSelectedItems())
 						addCard(mc);
 				}
 			});

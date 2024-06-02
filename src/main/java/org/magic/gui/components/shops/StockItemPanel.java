@@ -88,8 +88,8 @@ public class StockItemPanel extends MTGUIComponent {
 		btnAddCard.addActionListener(al->{
 			var cdSearch = new CardChooseDialog();
 				 cdSearch.setVisible(true);
-			if (cdSearch.getSelection() != null) {
-				for (var mc : cdSearch.getSelection())
+			if (cdSearch.getSelectedItems() != null) {
+				for (var mc : cdSearch.getSelectedItems())
 				{
 					var mtgstock = MTGControler.getInstance().getDefaultStock();
         			mtgstock.setProduct(mc);
