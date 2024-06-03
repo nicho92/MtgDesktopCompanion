@@ -110,13 +110,8 @@ public class PhilibertShopper extends AbstractMagicShopper {
 			var stock = new MTGSealedStock(new MTGSealedProduct());
 				 stock.setComment(tr.select("div.detail-table-row__name").text());
 				 stock.setPrice(UITools.parseDouble(tr.select("div.detail-table-row__price div.detail-table-row__value").first().text()));
-				
 				 stock.setQte(Integer.parseInt(tr.select("div.detail-table-row__qty div.detail-table-row__value").text()));
-//				 if(stock.getComment().startsWith("Voucher"))
-//				 {
-//					 stock.setPrice(UITools.parseDouble(tr.select("td").get(5-index).text()));
-//					 t.setReduction(t.getReduction()-stock.getPrice());
-//				 }
+
 				 
 			if(stock.getPrice()>0)
 				t.getItems().add(stock);
