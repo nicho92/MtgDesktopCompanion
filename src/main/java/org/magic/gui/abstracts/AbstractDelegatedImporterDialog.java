@@ -24,7 +24,7 @@ public abstract class AbstractDelegatedImporterDialog<T> extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private transient List<T> selectedItem;
 	protected JPanel commandePanel;
-	private boolean selected=true;
+	private boolean selected=false;
 	
 	
 	public T getSelectedItem()

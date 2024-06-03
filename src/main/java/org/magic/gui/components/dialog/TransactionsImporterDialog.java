@@ -12,7 +12,7 @@ import java.util.concurrent.ExecutionException;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -22,13 +22,14 @@ import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.RetrievableTransaction;
 import org.magic.api.interfaces.MTGShopper;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
+import org.magic.gui.abstracts.AbstractDelegatedImporterDialog;
 import org.magic.gui.components.shops.TransactionsPanel;
 import org.magic.gui.models.ShoppingEntryTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
 import org.magic.services.workers.AbstractObservableWorker;
-public class TransactionsImporterDialog extends JDialog {
+public class TransactionsImporterDialog extends AbstractDelegatedImporterDialog<Transaction> {
 
 	/**
 	 *
@@ -38,11 +39,9 @@ public class TransactionsImporterDialog extends JDialog {
 	private JComboBox<MTGShopper> cboSniffers;
 	private ShoppingEntryTableModel model;
 	private AbstractBuzyIndicatorComponent lblLoad = AbstractBuzyIndicatorComponent.createLabelComponent();
-	private JButton btnImport;
 	private transient MTGShopper selectedSniffer;
 	private JPanel panelChoose;
 	private TransactionsPanel transactionPanel;
-	private boolean select=false;
 	
 	
 	public TransactionsImporterDialog() {
@@ -50,50 +49,22 @@ public class TransactionsImporterDialog extends JDialog {
 		setSize(new Dimension(500, 300));
 		setTitle(capitalize("SHOP"));
 		setIconImage(MTGConstants.ICON_SHOP.getImage());
-		setModal(true);
-		getContentPane().setLayout(new BorderLayout(0, 0));
 
-		model = new ShoppingEntryTableModel();
-		model.setWritable(false);
-		table = UITools.createNewTable(model,true);
-	
-		
-		panelChoose = new JPanel();
-		var splitPane = new JSplitPane();
-		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		var panel = new JPanel();
-		var panelButton = new JPanel();
-		transactionPanel = new TransactionsPanel();
-		
-		var btnClose = new JButton(MTGConstants.ICON_CANCEL);
+
+		var panelHaut = new JPanel();
 		var btnLoad = new JButton(MTGConstants.ICON_OPEN);
-		btnImport = new JButton(MTGConstants.ICON_CHECK);
+		panelChoose = new JPanel();
+		
+		
 		cboSniffers =UITools.createComboboxPlugins(MTGShopper.class,false);
-		panel.setLayout(new BorderLayout(0, 0));
-			
-		
-		splitPane.setLeftComponent(new JScrollPane(table));
-		splitPane.setRightComponent(transactionPanel);
-		
-		getContentPane().add(splitPane, BorderLayout.CENTER);
-		getContentPane().add(panel, BorderLayout.NORTH);
-
-		panel.add(panelChoose, BorderLayout.WEST);
+		panelHaut.setLayout(new BorderLayout(0, 0));
+		getContentPane().add(panelHaut, BorderLayout.NORTH);
+		panelHaut.add(panelChoose, BorderLayout.WEST);
 		panelChoose.add(cboSniffers);
 		panelChoose.add(btnLoad);
 		panelChoose.add(lblLoad);
-		getContentPane().add(panelButton, BorderLayout.SOUTH);
-		panelButton.add(btnClose);
-		panelButton.add(btnImport);
-
-		transactionPanel.getModel().setWritable(false);
-		transactionPanel.disableCommands();
-
-		
-		
 		selectedSniffer = listEnabledPlugins(MTGShopper.class).get(0);
 		cboSniffers.addActionListener(e -> selectedSniffer = (MTGShopper) cboSniffers.getSelectedItem());
-
 		btnLoad.addActionListener(ae->{
 			AbstractObservableWorker<List<RetrievableTransaction>, RetrievableTransaction, MTGShopper> sw = new AbstractObservableWorker<>(lblLoad,selectedSniffer) {
 				@Override
@@ -110,82 +81,84 @@ public class TransactionsImporterDialog extends JDialog {
 		});
 		
 		
-		table.getSelectionModel().addListSelectionListener(lsl->{
-			
-			List<RetrievableTransaction> rts = UITools.getTableSelections(table, 0);
-			
-			
-			AbstractObservableWorker<List<Transaction>, Transaction, MTGShopper> sw = new AbstractObservableWorker<>(lblLoad,selectedSniffer) {
+		
+	}
+	
+	
 
-				@Override
-				protected List<Transaction> doInBackground() throws Exception {
-					var ret = new ArrayList<Transaction>();
+	@Override
+	public JComponent getSelectComponent() {
+		var splitPane = new JSplitPane();
+		transactionPanel = new TransactionsPanel();
+		
+		model = new ShoppingEntryTableModel();
+		model.setWritable(false);
+		table = UITools.createNewTable(model,true);
+		transactionPanel.getModel().setWritable(false);
+		transactionPanel.disableCommands();
+
+		
+		table.getSelectionModel().addListSelectionListener(lsl->{
 					
-					rts.stream().forEach(rt->{
-						
-						try {
-							ret.add(plug.getTransaction(rt));
-						} catch (IOException e) {
-							logger.error(e);
+					List<RetrievableTransaction> rts = UITools.getTableSelections(table, 0);
+					AbstractObservableWorker<List<Transaction>, Transaction, MTGShopper> sw = new AbstractObservableWorker<>(lblLoad,selectedSniffer) {
+		
+						@Override
+						protected List<Transaction> doInBackground() throws Exception {
+							var ret = new ArrayList<Transaction>();
+							
+							rts.stream().forEach(rt->{
+								
+								try {
+									ret.add(plug.getTransaction(rt));
+								} catch (IOException e) {
+									logger.error(e);
+								}
+								
+							});
+							return ret;
+							
 						}
 						
-					});
-					return ret;
-					
-				}
-				
-				@Override
-				protected void done() {
-					super.done();
-					try {
-						transactionPanel.init(get());
-					} catch (InterruptedException e) {
-						Thread.currentThread().interrupt();
-						logger.error(e);
-					} catch (ExecutionException e) {
-						logger.error(e);
-					}
-				}
-				
-				
-			};
-			
-			ThreadManager.getInstance().runInEdt(sw, "retrieve transaction from " + selectedSniffer.getName());
-			
-			
-		});
+						@Override
+						protected void done() {
+							super.done();
+							try {
+								transactionPanel.init(get());
+							} catch (InterruptedException e) {
+								Thread.currentThread().interrupt();
+								logger.error(e);
+							} catch (ExecutionException e) {
+								logger.error(e);
+							}
+						}
+						
+						
+					};
+					ThreadManager.getInstance().runInEdt(sw, "retrieve transaction from " + selectedSniffer.getName());
+				});
 		
-
-		btnClose.setToolTipText(capitalize("CANCEL"));
-
-		btnClose.addActionListener(e ->{
-			select=false;
-			dispose();
-		});
-
-		btnImport.setToolTipText(capitalize("IMPORT"));
-
-		btnImport.addActionListener(e ->{
-			select=true;
-			dispose() ;
-		});
-
-
-		setLocationRelativeTo(null);
-	}
-
-	
-	public boolean isSelected()
-	{
-		return select;
+		
+		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		splitPane.setLeftComponent(new JScrollPane(table));
+		splitPane.setRightComponent(transactionPanel);
+		
+		
+		return splitPane;
+		
 	}
 	
-	public List<Transaction> getSelectedEntries() {
-		return UITools.getTableSelections(transactionPanel.getTable(),0);
-	}
 
 	public MTGShopper getSelectedSniffer() {
 		return selectedSniffer;
 	}
+
+	
+	@Override
+	public List<Transaction> getSelectedItems() {
+		return UITools.getTableSelections(transactionPanel.getTable(),0);
+	}
+	
+	
 	
 }
