@@ -1,4 +1,4 @@
-package org.magic.gui.components.dialog;
+package org.magic.gui.components.dialog.importer;
 
 import static org.magic.services.tools.MTG.capitalize;
 import static org.magic.services.tools.MTG.listEnabledPlugins;
@@ -17,7 +17,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
-import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.shop.Transaction;
 import org.magic.api.beans.technical.RetrievableTransaction;
 import org.magic.api.interfaces.MTGShopper;
@@ -35,7 +34,7 @@ public class TransactionsImporterDialog extends AbstractDelegatedImporterDialog<
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private JXTable table;
+
 	private JComboBox<MTGShopper> cboSniffers;
 	private ShoppingEntryTableModel model;
 	private AbstractBuzyIndicatorComponent lblLoad = AbstractBuzyIndicatorComponent.createLabelComponent();
@@ -93,7 +92,7 @@ public class TransactionsImporterDialog extends AbstractDelegatedImporterDialog<
 		
 		model = new ShoppingEntryTableModel();
 		model.setWritable(false);
-		table = UITools.createNewTable(model,true);
+		var table = UITools.createNewTable(model,true);
 		transactionPanel.getModel().setWritable(false);
 		transactionPanel.disableCommands();
 

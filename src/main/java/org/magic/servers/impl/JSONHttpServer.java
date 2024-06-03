@@ -1295,7 +1295,15 @@ public class JSONHttpServer extends AbstractMTGServer {
 			})
 		, transformer);
 		
-		get("/stock/searchCard/:collection/:cardName", URLTools.HEADER_JSON,
+		
+		get("/stock/card/:scryfallId", URLTools.HEADER_JSON,(request, response) -> {
+				
+				var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
+				return getEnabledPlugin(MTGDao.class).listStocks(mc);
+			}, transformer);
+		
+		
+		get("/stock/card/:collection/:cardName", URLTools.HEADER_JSON,
 				(request, response) -> getEnabledPlugin(MTGDao.class).listStocks(request.params(":cardName"),List.of(new MTGCollection(request.params(COLLECTION)))), transformer);
 	}
 	
