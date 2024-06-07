@@ -1,14 +1,11 @@
 package org.magic.gui.models;
 
-import java.util.Currency;
-
 import org.magic.api.beans.MTGPrice;
 import org.magic.api.beans.technical.MoneyValue;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.tools.MTG;
-import org.magic.services.tools.UITools;
 
 public class CardsPriceTableModel extends GenericTableModel<MTGPrice> {
 

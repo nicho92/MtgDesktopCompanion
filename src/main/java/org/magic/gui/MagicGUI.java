@@ -183,9 +183,7 @@ public class MagicGUI extends JFrame {
 		if (update)
 		{
 			var newversion = new JMenuItem(capitalize("DOWNLOAD_LAST_VERSION") + " : "+ MTGControler.getInstance().getVersionChecker().getOnlineVersion());
-			newversion.addActionListener(e -> {
-				UITools.browse(GithubUtils.inst().getReleaseURL());
-			});
+			newversion.addActionListener(e -> UITools.browse(GithubUtils.inst().getReleaseURL()));
 			mnuAbout.add(newversion);
 		}
 

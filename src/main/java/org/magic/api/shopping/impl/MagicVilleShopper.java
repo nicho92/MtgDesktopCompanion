@@ -2,6 +2,7 @@ package org.magic.api.shopping.impl;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
@@ -20,6 +21,7 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.services.AccountsManager;
+import org.magic.services.MTGControler;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.MTG;
@@ -75,7 +77,7 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 	    Elements table = doc.select("table tr[onmouseover]");
 	
 	    try {
-	        var shippingTable =  doc.select("table tr[height] td.b12");
+	        var shippingTable =  doc.select("table tr[height] td[align].b12");
 		    shippingTable.remove(0);
 		    t.setShippingPrice(UITools.parseDouble(shippingTable.text()));
 	    }catch(Exception e)
@@ -88,13 +90,38 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 		}
 		return t;
 	}
+	
+	
+	public static void main(String[] args) throws IOException, SQLException {
+		MTGControler.getInstance().init();
+		var shopper = new MagicVilleShopper();
+		shopper.getTransactionById("264533");
+		
+		
+	}
+	
 
 	private MTGStockItem buildCard(Element e) {
-		
 		var st = new MTGCardStock();
-			 st.setPrice(UITools.parseDouble(e.select("td").get(4).html()));
-			 st.setQte(Integer.parseInt(e.select("td").get(5).html()));
-			 st.setComment(e.select("td").get(1).text());
+		try {	
+			st.setPrice(UITools.parseDouble(e.select("td").get(4).html()));
+		}
+		catch(NumberFormatException ex)
+		{
+			logger.error("error pargin Price {}", e.select("td").get(4).html());
+		}
+		
+		try {	
+			st.setQte(Integer.parseInt(e.select("td").get(5).html()));
+		}
+		catch(NumberFormatException ex)
+		{
+			logger.error("error pargin qty {}", e.select("td").get(5).html());
+		}
+		
+		
+		
+		st.setComment(e.select("td").get(1).text());
 			 st.setLanguage(e.select("td").get(2).text().contains(" VF")?"French":"English");
 			 st.setCondition(aliases.getReversedConditionFor(this, e.select("td").get(3).text(), EnumCondition.NEAR_MINT));
 			 st.getTiersAppIds().put(getName(), e.select("td a").attr("href").replace("show_card_sale?gamerid=", "").trim());

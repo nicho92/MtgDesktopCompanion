@@ -78,9 +78,6 @@ public class TransactionsImporterDialog extends AbstractDelegatedImporterDialog<
 			};
 			ThreadManager.getInstance().runInEdt(sw, "loading orders");
 		});
-		
-		
-		
 	}
 	
 	

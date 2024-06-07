@@ -152,10 +152,7 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 	{
 		List<CardShake> ret = getOnlineShakerFor(format);
 		convert(ret);
-
 		return ret;
-
-
 	}
 
 

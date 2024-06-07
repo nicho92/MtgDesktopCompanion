@@ -12,7 +12,6 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.entity.StringEntity;
-import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -101,7 +100,7 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 					var entry = parseString(line);
 					try
 					{
-						MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(entry.getKey(), null, true).get(0);
+						var mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(entry.getKey(), null, true).get(0);
 						notify(mc);
 						if(sideboard)
 							deck.getSideBoard().put(mc, entry.getValue());
