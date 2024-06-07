@@ -711,7 +711,7 @@ public class CardSearchPanel extends MTGUIComponent {
 			similarityPanel.init(selectedCard);
 			panelJson.init(selectedCard);
 			deckPanel.init(selectedCard);
-			stockPanel.init(selectedCard, new MTGCollection(MTGControler.getInstance().get("default-library")));
+			stockPanel.init(selectedCard,null);
 			abilitiesPanel.init(selectedCard);
 			historyChartPanel.init(selectedCard, selectedEdition, selectedCard.getName());
 			gedPanel.init(MTGCard.class, selectedCard);
