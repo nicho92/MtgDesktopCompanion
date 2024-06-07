@@ -52,7 +52,7 @@ public class CardShake implements Serializable {
 	}
 
 	public void init(double price, double lastDayPrice,double lastWeekPrice) {
-		this.price=new MoneyValue(price,Currency.getInstance("USD"));;
+		this.price=new MoneyValue(price,Currency.getInstance("USD"));
 		priceDayChange = price-lastDayPrice;
 
 

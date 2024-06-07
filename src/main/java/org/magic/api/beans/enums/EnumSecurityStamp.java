@@ -8,11 +8,11 @@ public enum EnumSecurityStamp implements MTGEnumeration{
 
 	@SerializedName(alternate = "oval", value = "OVAL") 				OVAL,
 	@SerializedName(alternate = "triangle", value = "TRIANGLE") 	TRIANGLE,
-	@SerializedName(alternate = "arena", value = "ARENA")       			ARENA,
+	@SerializedName(alternate = "arena", value = "ARENA")       	ARENA,
 	@SerializedName(alternate = "acorn", value = "ACORN") 			ACORN,
-	@SerializedName(alternate = "circle", value = "CIRCLE") 				CIRCLE,
-	@SerializedName(alternate = "heart", value = "HEART") 				HEART,
-	@SerializedName(alternate = "none", value = "NONE") 				NONE;
+	@SerializedName(alternate = "circle", value = "CIRCLE") 			CIRCLE,
+	@SerializedName(alternate = "heart", value = "HEART") 			HEART,
+	@SerializedName(alternate = "none", value = "NONE") 			NONE;
 
 	public static EnumSecurityStamp parseByLabel(String s)
 	{
