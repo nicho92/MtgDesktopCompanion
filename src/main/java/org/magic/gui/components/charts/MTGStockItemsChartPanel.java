@@ -65,10 +65,11 @@ public class MTGStockItemsChartPanel extends Abstract3DPieChart<MTGStockItem,Str
 			try
 			{
 				Object val = BeanTools.readProperty(o, property);
+			
 				if(count)
 					ret.put(val, ret.get(val)==null? 1 : ret.get(val)+1);
 				else
-					ret.put(val, ret.get(val)==null? o.getQte()*o.getPrice() : UITools.roundDouble(ret.get(val)+(o.getQte()*o.getPrice())));
+					ret.put(val, ret.get(val)==null? UITools.roundDouble(o.getQte()*o.getPrice()) : UITools.roundDouble(ret.get(val)+(o.getQte()*o.getPrice())));
 
 
 			} catch (Exception e) {

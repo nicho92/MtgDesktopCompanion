@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.jfree.chart3d.data.PieDataset3D;
 import org.jfree.chart3d.data.StandardPieDataset3D;
 import org.magic.api.beans.MTGCard;
@@ -93,8 +94,9 @@ public class MTGCardStockDashlet extends AbstractJDashlet {
 		
 		
 		try {
+			
 			for(var col : MTG.getEnabledPlugin(MTGDao.class).listCollections())
-				lstCollections.addElement(col, true);
+				lstCollections.addElement(col, ArrayUtils.contains(getString(COLLECTIONS).split("/"), col.getName()));
 			
 		} catch (SQLException e) {
 			logger.error("Error loading collections",e);
@@ -106,6 +108,7 @@ public class MTGCardStockDashlet extends AbstractJDashlet {
 		panelMenu.add(btnReload);
 		panelMenu.add(buzy);
 		
+	
 		
 		chart = new Abstract3DPieChart<MTGCardStock, String>(true) {
 
@@ -159,14 +162,14 @@ public class MTGCardStockDashlet extends AbstractJDashlet {
 				cboProperty.setSelectedItem(getString(PROPERTY));
 
 			
-			if(!getString(COLLECTIONS).isEmpty())
-				lstCollections.setSelectedElements(Arrays.stream(getString(COLLECTIONS).split("/")).map(MTGCollection::new).toList());
+			
 			
 
 			chkSumOrTotal.setSelected(getString("COUNT").equals("true"));
 			setBounds(r);
 		}
 
+		
 	}
 	
 	
