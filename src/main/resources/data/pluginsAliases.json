@@ -11,6 +11,18 @@
 			}
 	},
 	
+	"EchoMTG" : {
+		"conditions" : {
+				"MINT":"mint",
+				"NEAR_MINT" :"NM",
+				"GOOD" :"good",
+				"LIGHTLY_PLAYED":"LP",
+				"PLAYED":"MP",
+				"DAMAGED":"D",
+				"POOR":"HP"
+			}
+	
+	},
 	"CardTrader" : {
 		"conditions": {
 				"DAMAGED":"HEAVILY_PLAYED",
