@@ -4,12 +4,14 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGEdition;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumExportCategory;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
@@ -17,6 +19,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
+import org.magic.services.tools.UITools;
 
 import com.google.gson.JsonElement;
 
@@ -73,38 +76,40 @@ public class EchoMTGExport extends AbstractCardExport {
 
 		stock.forEach(entry->{
 
-					JsonElement list = RequestBuilder.build().post()
+					var list = RequestBuilder.build().post()
 							 .url(BASE_URL+"/api/inventory/add/")
 							 .addContent("auth", authToken)
 							 .addContent("mid",entry.getProduct().getMultiverseid())
 							 .addContent("quantity", String.valueOf(entry.getQte()))
 							 .addContent("condition", aliases.getConditionFor(this, entry.getCondition()))
-							 .addContent("foil", MTGControler.getInstance().getDefaultStock().isFoil()?"1":"0")
+							 .addContent("foil", entry.isFoil()?"1":"0")
 							 .setClient(client)
 							 .toJson();
-
+					
+					
+					logger.debug(list);
+					
 					if(list.getAsJsonObject().get("status").getAsString().equalsIgnoreCase("error"))
 						logger.error("error loading {}: {}",entry.getProduct(),list.getAsJsonObject().get("message").getAsString());
 					else
+					{
 						logger.debug("export: {}",list.getAsJsonObject().get("message").getAsString());
-
+						entry.getTiersAppIds().put(getName(), list.getAsJsonObject().get("inventory_id").getAsString());
+						entry.setUpdated(true);
+						
+					}
 					notify(entry.getProduct());
-
-
 		});
 	}
-	
 
+	
 	@Override
-	public MTGDeck importDeck(String f, String name) throws IOException {
+	public List<MTGCardStock> importStock(String content) throws IOException {
 		if(client==null)
 			connect();
 
-		var d = new MTGDeck();
-				  d.setName(name);
-				  d.setDescription("import from "+getName());
 
-				  var list = RequestBuilder.build().get()
+		  var list = RequestBuilder.build().get()
 				 .url(BASE_URL+"/api/inventory/view/")
 				 .addContent("auth", authToken)
 				 .addContent("start", "0")
@@ -114,7 +119,7 @@ public class EchoMTGExport extends AbstractCardExport {
 
 
 		var arr = list.getAsJsonObject().get("items").getAsJsonArray();
-
+		var ret = new ArrayList<MTGCardStock>();
 		arr.forEach(element -> {
 			var ob = element.getAsJsonObject();
 			MTGEdition ed =null;
@@ -126,9 +131,19 @@ public class EchoMTGExport extends AbstractCardExport {
 
 
 			try {
-				List<MTGCard> ret = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(ob.get("name").getAsString(), ed, true);
-				d.add(ret.get(0));
-				notify(ret.get(0));
+				List<MTGCard> cards = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(ob.get("name").getAsString(), ed, true);
+				
+				var mcs = MTGControler.getInstance().getDefaultStock();
+				mcs.setProduct(cards.get(0));
+				
+				mcs.setCondition(aliases.getReversedConditionFor(this, element.getAsJsonObject().get("condition").getAsString(), EnumCondition.NEAR_MINT));
+				mcs.setLanguage(element.getAsJsonObject().get("lang").getAsString());
+				mcs.getTiersAppIds().put(getName(), element.getAsJsonObject().get("inventory_id").getAsString());
+				mcs.setPrice(element.getAsJsonObject().get("current_price").getAsDouble());
+				mcs.setFoil(element.getAsJsonObject().get("foil").getAsInt()==1);
+				
+				ret.add(mcs);
+				notify(mcs.getProduct());
 			} catch (IOException e) {
 				logger.error(e);
 			}
@@ -137,8 +152,9 @@ public class EchoMTGExport extends AbstractCardExport {
 
 
 		});
-		return d;
+		return ret;
 	}
+	
 
 	@Override
 	public String getName() {
