@@ -13,9 +13,9 @@
 	
 	"EchoMTG" : {
 		"conditions" : {
-				"MINT":"mint",
+				"MINT":"NM",
 				"NEAR_MINT" :"NM",
-				"GOOD" :"good",
+				"GOOD" :"LP",
 				"LIGHTLY_PLAYED":"LP",
 				"PLAYED":"MP",
 				"DAMAGED":"D",

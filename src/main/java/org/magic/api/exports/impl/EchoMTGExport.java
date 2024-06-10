@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumExportCategory;
@@ -22,7 +23,7 @@ import com.google.gson.JsonElement;
 public class EchoMTGExport extends AbstractCardExport {
 
 	private String authToken=null;
-	public static final String BASE_URL="https://www.echomtg.com";
+	public static final String BASE_URL="https://api.echomtg.com";
 	private MTGHttpClient client;
 
 
@@ -33,21 +34,28 @@ public class EchoMTGExport extends AbstractCardExport {
 
 	@Override
 	public EnumExportCategory getCategory() {
-		return EnumExportCategory.EXTERNAL_FILE_FORMAT;
+		return EnumExportCategory.ONLINE;
 	}
 	
+	
+	@Override
+	public boolean needFile() {
+		return false;
+	}
+
 	
 	private void connect()
 	{
 		client = URLTools.newClient();
 
-		JsonElement con = RequestBuilder.build().post()
+		var con = RequestBuilder.build().post()
 				 .url(BASE_URL+"/api/user/auth/")
 				 .addContent("email", getAuthenticator().get("EMAIL"))
-				 .addContent("password", getAuthenticator().get("PASS"))
+				 .addContent("password", getAuthenticator().get("PASSWORD"))
+				 .addHeader(URLTools.ACCEPT, "*/*")
+				 .addHeader(URLTools.ACCEPT_ENCODING, "gzip, deflate, br")
 				 .setClient(client)
 				 .toJson();
-
 		authToken=con.getAsJsonObject().get("token").getAsString();
 	}
 
@@ -56,35 +64,36 @@ public class EchoMTGExport extends AbstractCardExport {
 		return "";
 	}
 
+	
 	@Override
-	public void exportDeck(MTGDeck deck, File dest) throws IOException {
+	public void exportStock(List<MTGCardStock> stock, File f) throws IOException {
 		if(client==null)
 			connect();
 
 
-		deck.getMain().entrySet().forEach(entry->{
+		stock.forEach(entry->{
 
 					JsonElement list = RequestBuilder.build().post()
 							 .url(BASE_URL+"/api/inventory/add/")
 							 .addContent("auth", authToken)
-							 .addContent("mid",entry.getKey().getMultiverseid())
-							 .addContent("quantity", String.valueOf(entry.getValue()))
-							 .addContent("condition", "NM")
+							 .addContent("mid",entry.getProduct().getMultiverseid())
+							 .addContent("quantity", String.valueOf(entry.getQte()))
+							 .addContent("condition", aliases.getConditionFor(this, entry.getCondition()))
 							 .addContent("foil", MTGControler.getInstance().getDefaultStock().isFoil()?"1":"0")
 							 .setClient(client)
 							 .toJson();
 
 					if(list.getAsJsonObject().get("status").getAsString().equalsIgnoreCase("error"))
-						logger.error("error loading {}: {}",entry.getKey(),list.getAsJsonObject().get("message").getAsString());
+						logger.error("error loading {}: {}",entry.getProduct(),list.getAsJsonObject().get("message").getAsString());
 					else
 						logger.debug("export: {}",list.getAsJsonObject().get("message").getAsString());
 
-					notify(entry.getKey());
+					notify(entry.getProduct());
 
 
 		});
-
 	}
+	
 
 	@Override
 	public MTGDeck importDeck(String f, String name) throws IOException {

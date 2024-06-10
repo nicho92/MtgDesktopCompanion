@@ -31,6 +31,11 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 		return List.of("EMAIL","PASSWORD");
 	}
 
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEV;
+	}
 
 	private String getCardId(MTGCard mc) {
 		
