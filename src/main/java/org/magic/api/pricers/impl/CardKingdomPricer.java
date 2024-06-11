@@ -61,30 +61,7 @@ public class CardKingdomPricer extends AbstractPricesProvider {
         var name = CardKingdomTools.getCKFormattedName(mc);
         var ed = CardKingdomTools.getCKFormattedSet(mc);
 		
-		var filtres =where("name").is(name)
-				.and("sku").contains(mc.getEdition().getId().toUpperCase())
-				.and("is_foil").is(String.valueOf(foil));
-
-		final String variations = "variation";
-		if(mc.isShowCase())
-			filtres=filtres.and(variations).is("Showcase");
-		else if(mc.isBorderLess())
-			filtres=filtres.and(variations).is("Borderless");
-		else if (mc.isExtendedArt())
-			filtres=filtres.and(variations).is("Extended Art");
-
-
-		if(aliases.getSetNameFor(new CardKingdomCardExport() , mc.getEdition()).contains("Mystery Booster"))
-		{
-			filtres = where("name").is(name)
-					  .and("edition").is(aliases.getSetNameFor(new CardKingdomCardExport() , mc.getEdition()))
-					  .and("is_foil").is(String.valueOf(foil));
-		}
-
-		if(ed.contains("Duel Decks"))
-		{
-			ed = ed.replace("vs.", "Vs.");
-		}
+		var filtres =where("scryfall_id").is(mc.getScryfallId()).and("is_foil").is(String.valueOf(foil));
 
 		if(mc.isToken())
 		{
