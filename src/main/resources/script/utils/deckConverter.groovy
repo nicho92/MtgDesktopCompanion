@@ -19,7 +19,7 @@ File deckFileExport=new File("D:\\Téléchargements\\Sliver.Overlord--Commander-
 MTGCardsExport importer = PluginRegistry.inst().getPlugin(importerName,MTGCardsExport.class);
 MTGCardsExport exporter = PluginRegistry.inst().getPlugin(exporterName,MTGCardsExport.class);
 
-MagicDeck deck = importer.importDeckFromFile(deckFile);
+var deck = importer.importDeckFromFile(deckFile);
 println(deck.getName()+ " is loaded");
 
 exporter.exportDeck(deck,deckFileExport);
