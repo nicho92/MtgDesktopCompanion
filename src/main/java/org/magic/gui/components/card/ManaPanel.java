@@ -139,9 +139,6 @@ public class ManaPanel extends JPanel {
 		map.put("C/B",83);
 		map.put("C/R",84);
 		map.put("C/G",85);
-		
-		
-		
 	}
 
 	public Image getManaSymbol(String el) {
