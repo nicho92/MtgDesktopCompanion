@@ -1,8 +1,9 @@
  {
-	"name": "MTG Chrome Companion",
-	"version": "1.0",
+ 	"name": "MTG Chrome Companion",
+ 	"manifest_version": 2,
+	"version": "2.49",
 	"author": "Nicolas Pihen",
-	"description": "Get your MTG Desktop Companion embeded in your chrome browser !",
+	"description": "Get your MTG Desktop Companion embedded in your chrome browser !",
 	"permissions": [
 		"activeTab",
 		"declarativeContent",
@@ -38,7 +39,5 @@
 	"icons": {
 		"32": "img/logo.png",
 		"48": "img/logo.png"
-	},
-	
-	"manifest_version": 2
+	}
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <conf>
-  <version>0.9</version>
+  <version>2.49</version>
   <modules>
     <search>true</search>
     <dashboard>true</dashboard>
