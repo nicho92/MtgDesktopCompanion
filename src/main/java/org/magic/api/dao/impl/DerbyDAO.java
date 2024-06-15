@@ -50,7 +50,10 @@ public class DerbyDAO extends AbstractMagicSQLDAO {
 							pst2.setString(1,rs.getString(1) );
 							var rs2 = executeQuery(pst2);
 							while (rs2.next()) {
-								ret.add(readCard(rs2, MCARD));
+								var mc = readCard(rs2, MCARD);
+								notify(mc);
+								ret.add(mc);
+								
 							}
 					}
 				}
