@@ -98,7 +98,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	}
 
-	private MTGGrading readGrading(ResultSet rs) throws SQLException {
+	protected MTGGrading readGrading(ResultSet rs) throws SQLException {
 		return serialiser.fromJson(rs.getString("grading"), MTGGrading.class);
 	}
 
@@ -107,7 +107,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		pst.setString(position, serialiser.toJsonElement(grd).toString());
 	}
 
-	private Map<MTGCard, Integer> readDeckBoard(ResultSet rs, String field) throws SQLException {
+	protected Map<MTGCard, Integer> readDeckBoard(ResultSet rs, String field) throws SQLException {
 
 		Map<MTGCard, Integer> ret = new HashMap<>();
 		serialiser.fromJson(rs.getString(field), JsonArray.class).forEach(je->{
@@ -140,7 +140,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	}
 
 	@SuppressWarnings("unchecked")
-	private Map<String, String> readTiersApps(ResultSet rs) throws SQLException {
+	protected Map<String, String> readTiersApps(ResultSet rs) throws SQLException {
 		return serialiser.fromJson(rs.getString("tiersAppIds"), Map.class);
 	}
 

@@ -181,7 +181,8 @@
 	},
 	"Card Kingdom CSV": {
 		"regex": {
-			"default": "(\\d+),(\\d+),((?=\")\".*?\"|.*?),(.*?),(\\d+)?,(.*?),(.*?),(foil)?,(signed)?,(proof)?,(altered)?,(misprint)?,(promo)?,(textless)?,\\$(\\d+(\\.\\d{1,2})?)"
+			"default": "(\\d+),(\\d+),((?=\")\".*?\"|.*?),(.*?),(\\d+)?,(.*?),(.*?),(foil)?,(signed)?,(proof)?,(altered)?,(misprint)?,(promo)?,(textless)?,\\$(\\d+(\\.\\d{1,2})?)",
+			"sellingCsvFormat":"((?=\\\")\\\".*?\\\"|.*?),(.*?),(.*?),(\\d+)"
 		}
 	},
 	"Card Kingdom": {

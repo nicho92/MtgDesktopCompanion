@@ -49,7 +49,7 @@ public class CardKingdomCSVExport extends AbstractFormattedFileCardExport {
 			line.append(commated(name)).append(getSeparator());
 			line.append(set).append(getSeparator());
 			line.append(String.valueOf(mc.isFoil())).append(getSeparator());
-			line.append(mc.getQte()).append(getSeparator()).append(System.lineSeparator());
+			line.append(mc.getQte()).append(System.lineSeparator());
 			notify(mc.getProduct());
 		}
 		FileTools.saveFile(dest, line.toString());
