@@ -10,6 +10,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -34,6 +35,7 @@ import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.NewsEditorPanel;
 import org.magic.gui.models.MagicNewsTableModel;
 import org.magic.gui.renderer.NewsTreeCellRenderer;
+import org.magic.gui.renderer.standard.DateTableCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
@@ -72,6 +74,8 @@ public class RssGUI extends MTGUIComponent {
 
 		model = new MagicNewsTableModel();
 		table = UITools.createNewTable(model,false);
+		table.setDefaultRenderer(Date.class, new DateTableCellEditorRenderer(true));
+		
 		tree = new JTree();
 		var splitNews = new JSplitPane();
 		editorPane = MTGUIBrowserComponent.createBrowser();
