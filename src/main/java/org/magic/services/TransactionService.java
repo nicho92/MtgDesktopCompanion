@@ -20,7 +20,9 @@ import org.magic.api.beans.enums.EnumPaymentProvider;
 import org.magic.api.beans.enums.EnumTransactionStatus;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
+import org.magic.api.beans.technical.GedEntry;
 import org.magic.api.beans.technical.MTGNotification;
+import org.magic.api.beans.technical.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGExternalShop;
@@ -229,6 +231,11 @@ public class TransactionService
 		t.setPaymentProvider(EnumPaymentProvider.valueOf(providerName.toUpperCase()));
 		t.setDatePayment(new Date());
 		saveTransaction(t,false);
+		try {
+			storeInvoice(t);
+		} catch (SQLException e) {
+		logger.warn("Error saving invoice for {}", t,e);
+		}
 		sendMail(t,"TransactionPaid","Payment Accepted !");
 
 	}
@@ -297,6 +304,29 @@ public class TransactionService
 	public static void deleteTransaction(List<Transaction> t) throws IOException {
 		mtgshop.deleteTransaction(t);
 
+	}
+
+	public static void storeInvoice(Transaction t) throws SQLException {
+		
+		t.setConfig(MTGControler.getInstance().getWebConfig());
+		t.setCurrency(t.getConfig().getCurrency());
+		
+		var fileName= "invoice-"+t.getId()+".html";
+		
+		 if(!MTG.getEnabledPlugin(MTGDao.class).listEntries(t.getClasseName(), fileName).isEmpty())
+		 {
+			 logger.warn("Invoice already present for {}",t);
+			 return;
+		 }
+		
+		
+		var entry = new GedEntry<Transaction>();
+		  entry.setContent(new ReportNotificationManager().generate(FORMAT_NOTIFICATION.HTML, t, "Invoice").getBytes());
+		  entry.setId(t.getId().toString());
+		  entry.setName(fileName);
+		  entry.setClasse(Transaction.class);
+		  MTG.getEnabledPlugin(MTGDao.class).storeEntry(entry);
+		
 	}
 
 

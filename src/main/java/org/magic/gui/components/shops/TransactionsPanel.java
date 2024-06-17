@@ -318,8 +318,7 @@ public class TransactionsPanel extends MTGUIComponent {
 		
 		btnGenerateBill.addActionListener(al->{
 			Transaction t = UITools.getTableSelection(tableTransactions, 0);
-			t.setConfig(MTGControler.getInstance().getWebConfig());
-			t.setCurrency(t.getConfig().getCurrency());
+			
 			
 			buzy.start();
 			
@@ -328,12 +327,7 @@ public class TransactionsPanel extends MTGUIComponent {
 
 						@Override
 						protected Void doInBackground() throws Exception {
-							var entry = new GedEntry<Transaction>();
-							  entry.setContent(new ReportNotificationManager().generate(FORMAT_NOTIFICATION.HTML, t, "Invoice").getBytes());
-							  entry.setId(t.getId().toString());
-							  entry.setName("invoice-"+t.getId()+".html");
-							  entry.setClasse(Transaction.class);
-							  MTG.getEnabledPlugin(MTGDao.class).storeEntry(entry);
+							TransactionService.storeInvoice(t);
 							
 							  return null;
 						}
