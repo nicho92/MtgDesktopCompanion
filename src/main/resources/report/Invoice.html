@@ -1,0 +1,230 @@
+ <#list modele as transaction>
+<!DOCTYPE html>
+<!-- saved from url=(0044)https://demo.templatesjungle.com/invoice-v1/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice V1</title>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" />
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<style>
+
+/* Fonts */
+:root {
+  --body-font: 'Poppins', sans-serif;
+}
+
+/* Bootstrap Override */
+body {
+  --bs-font-sans-serif: 'Poppins', sans-serif;
+  --bs-body-font-family: var(--bs-font-sans-serif);
+  --bs-body-font-size: 1rem;
+  --bs-body-font-weight: 400;
+  --bs-body-line-height: 2;
+  --bs-body-color: #41403E;
+  --bs-primary: #0070E4;
+  --bs-primary-rgb: 0, 112, 228;
+  --bs-border-color: #eeeeee;
+}
+
+    /* latin-ext */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/poppins/v21/pxiEyp8kv8JHgFVrJJnecmNE.woff2) format('woff2');
+  unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/poppins/v21/pxiEyp8kv8JHgFVrJJfecg.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/poppins/v21/pxiByp8kv8JHgFVrLGT9Z1JlFc-K.woff2) format('woff2');
+  unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/poppins/v21/pxiByp8kv8JHgFVrLGT9Z1xlFQ.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/poppins/v21/pxiByp8kv8JHgFVrLEj6Z1JlFc-K.woff2) format('woff2');
+  unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/poppins/v21/pxiByp8kv8JHgFVrLEj6Z1xlFQ.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/poppins/v21/pxiByp8kv8JHgFVrLCz7Z1JlFc-K.woff2) format('woff2');
+  unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/poppins/v21/pxiByp8kv8JHgFVrLCz7Z1xlFQ.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+    </style></head>
+
+<body>
+
+    <section id="invoice">
+        <div class="container my-5 py-5">
+            <div class="text-center">
+                <img src="https://www.mtgcompanion.org/img/logo.png" width="35" height="35" style="display: block; border: 0px;" />
+            </div>
+            <div class="text-center border-top border-bottom my-5 py-3">
+                <h2 class="display-5 fw-bold">${transaction.config.siteTitle}</h2>
+                <p class="m-0">Invoice No: <b></b>${transaction.id}</b></p>
+                <p class="m-0">Invoice Date: ${transaction.dateCreation}</p>
+            </div>
+
+            <div class="d-md-flex justify-content-between">
+                <div>
+                    <p class="text-primary">Invoice To</p>
+                    <h4>${transaction.contact.name} ${transaction.contact.lastName}</h4>
+                    <ul class="list-unstyled">
+                        <li>${transaction.contact.address} </li>
+                        <li>${transaction.contact.zipCode} ${transaction.contact.city}</li>
+                        <li>${transaction.contact.email}</li>
+                        
+                    </ul>
+                </div>
+                <div class="mt-5 mt-md-0">
+                    <p class="text-primary">Invoice From</p>
+                    <h4>William Peter</h4>
+                    <ul class="list-unstyled">
+                        <li>ABC Company</li>
+                        <li>info@abccompany.com</li>
+                        <li>456 Main Street</li>
+                    </ul>
+                </div>
+            </div>
+
+            <table class="table border my-5">
+                <thead>
+                    <tr class="bg-primary-subtle">
+                        <th scope="col">No.</th>
+                        <th scope="col">Name</th>
+                         <th scope="col">Set</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <#assign total = 0>
+					<#list transaction.items as stock>
+					<#assign total = total + (stock.qte*stock.price)>
+                    <tr>
+                        <th scope="row">${stock.id}</th>
+                        <td>${stock.product.name}</td>
+                        <td>${stock.product.edition}</td>
+                        <td>#{stock.price; M2} ${transaction.config.currencyCode}</td>
+                        <td>${stock.qte}</td>
+                        <td>#{stock.price*stock.qte; M2}  ${transaction.config.currencyCode}</td>
+                    </tr>
+                    </#list>
+                     <tr>
+                        <th></th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="text-primary fw-bold">Shipping</td>
+                        <td class="text-primary fw-bold">${transaction.shippingPrice}</td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="text-primary fw-bold">Grand-Total</td>
+                        <td class="text-primary fw-bold">#{total; M2} ${transaction.config.currencyCode}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="d-md-flex justify-content-between my-5">
+                <div>
+                    <h5 class="fw-bold my-4">Contact Us</h5>
+                    <ul class="list-unstyled">
+                        <li><iconify-icon class="social-icon text-primary fs-5 me-2" icon="mdi:location" style="vertical-align:text-bottom"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M12 11.5A2.5 2.5 0 0 1 9.5 9A2.5 2.5 0 0 1 12 6.5A2.5 2.5 0 0 1 14.5 9a2.5 2.5 0 0 1-2.5 2.5M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7"></path></svg></template></iconify-icon> 30 E Lake St, Chicago, USA</li>
+                        <li><iconify-icon class="social-icon text-primary fs-5 me-2" icon="solar:phone-bold" style="vertical-align:text-bottom"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="m16.556 12.906l-.455.453s-1.083 1.076-4.038-1.862s-1.872-4.014-1.872-4.014l.286-.286c.707-.702.774-1.83.157-2.654L9.374 2.86C8.61 1.84 7.135 1.705 6.26 2.575l-1.57 1.56c-.433.432-.723.99-.688 1.61c.09 1.587.808 5 4.812 8.982c4.247 4.222 8.232 4.39 9.861 4.238c.516-.048.964-.31 1.325-.67l1.42-1.412c.96-.953.69-2.588-.538-3.255l-1.91-1.039c-.806-.437-1.787-.309-2.417.317"></path></svg></template></iconify-icon> (510) 710-3464</li>
+                        <li><iconify-icon class="social-icon text-primary fs-5 me-2" icon="ic:baseline-email" style="vertical-align:text-bottom"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2m0 4l-8 5l-8-5V6l8 5l8-5z"></path></svg></template></iconify-icon> info@worldcourse.com</li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="fw-bold my-4">Payment Info</h5>
+                    <ul class="list-unstyled">
+                        <li><span class="fw-semibold">Account No: </span> 102 3345 56938</li>
+                        <li><span class="fw-semibold">Account Name: </span> William Peter</li>
+                        <li><span class="fw-semibold">Branch Name: </span> XYZ </li>
+
+                    </ul>
+                </div>
+
+
+            </div>
+
+            <div class="text-center my-5">
+                <p class="text-muted"></p>
+            </div>
+
+            <div id="footer-bottom">
+                <div class="container border-top">
+                    <div class="row mt-3">
+                        <div class="col-md-6 copyright">
+                            <p>© 2024 Invoice. <a href="https://demo.templatesjungle.com/invoice-v1/#" target="_blank" class="text-decoration-none text-black-50">Terms &amp; Conditions</a> </p>
+                        </div>
+                        <div class="col-md-6 text-md-end">
+                            <p></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+</body></html>
+</#list>

@@ -203,7 +203,10 @@ public class MTGConstants {
 	public static final ImageIcon ICON_SHORTCUT = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/shortcut.png"));
 	public static final ImageIcon ICON_USER = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/user.png"));
 	public static final ImageIcon ICON_IA = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/ia.png"));
-
+	public static final ImageIcon ICON_INVOICE = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/invoice.png"));
+	
+	
+	
 	
 	public static final ImageIcon ICON_ANNOUNCES = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/announces.png"));
 	public static final ImageIcon ICON_EURO = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/euro.png"));

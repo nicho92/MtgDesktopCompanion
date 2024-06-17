@@ -22,6 +22,9 @@ import javax.swing.table.TableRowSorter;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.shop.Transaction;
+import org.magic.api.beans.technical.GedEntry;
+import org.magic.api.beans.technical.MTGNotification.FORMAT_NOTIFICATION;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
@@ -33,6 +36,7 @@ import org.magic.gui.models.TransactionsTableModel;
 import org.magic.gui.renderer.standard.DateTableCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.ReportNotificationManager;
 import org.magic.services.TransactionService;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.MTG;
@@ -58,6 +62,7 @@ public class TransactionsPanel extends MTGUIComponent {
 	private JButton btnNew;
 	private JButton btnContact;
 	private JButton btnImportTransaction;
+	private JButton btnGenerateBill;
 	private Contact contact;
 	private JButton btnValidateTransaction;
 	
@@ -84,7 +89,7 @@ public class TransactionsPanel extends MTGUIComponent {
 		btnContact = UITools.createBindableJButton("", MTGConstants.ICON_CONTACT,KeyEvent.VK_C,"contact");
 		btnImportTransaction = UITools.createBindableJButton(null,MTGConstants.ICON_IMPORT,KeyEvent.VK_I,"transaction import");
 		btnValidateTransaction = UITools.createBindableJButton(null,MTGConstants.ICON_CHECK,KeyEvent.VK_V,"transaction validate");
-		
+		btnGenerateBill = UITools.createBindableJButton(null,MTGConstants.ICON_INVOICE,KeyEvent.VK_B,"generate and bind bill");
 	
 		splitPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		splitPanel.setDividerLocation(.5);
@@ -121,6 +126,8 @@ public class TransactionsPanel extends MTGUIComponent {
 		panneauHaut.add(btnValidateTransaction);
 		panneauHaut.add(btnDelete);
 		panneauHaut.add(btnContact);
+		panneauHaut.add(btnGenerateBill);
+		
 		panneauHaut.add(chkEditingMode);
 		panneauHaut.add(buzy);
 		
@@ -131,6 +138,7 @@ public class TransactionsPanel extends MTGUIComponent {
 		btnDelete.setEnabled(false);
 		btnContact.setEnabled(false);
 		btnNew.setEnabled(false);
+		btnGenerateBill.setEnabled(false);
 		btnValidateTransaction.setEnabled(false);
 		chkEditingMode.addActionListener(al->enableEditing(chkEditingMode.isSelected()));
 		
@@ -218,7 +226,7 @@ public class TransactionsPanel extends MTGUIComponent {
 							trackPanel.init(t.get(0));
 							contactPanel.setContact(t.get(0).getContact());
 							gedPanel.init(Transaction.class, t.get(0));
-							
+							btnGenerateBill.setEnabled(t.size()==1);
 							
 							if(MTG.readPropertyAsBoolean("debug-json-panel"))
 								viewerPanel.init(t.get(0));
@@ -305,6 +313,54 @@ public class TransactionsPanel extends MTGUIComponent {
 		});
 		
 		btnRefresh.addActionListener(al->reload());
+		
+		
+		
+		btnGenerateBill.addActionListener(al->{
+			Transaction t = UITools.getTableSelection(tableTransactions, 0);
+			t.setConfig(MTGControler.getInstance().getWebConfig());
+			t.setCurrency(t.getConfig().getCurrency());
+			
+			buzy.start();
+			
+			var sw = new SwingWorker<Void, Void>()
+					{
+
+						@Override
+						protected Void doInBackground() throws Exception {
+							var entry = new GedEntry<Transaction>();
+							  entry.setContent(new ReportNotificationManager().generate(FORMAT_NOTIFICATION.HTML, t, "Invoice").getBytes());
+							  entry.setId(t.getId().toString());
+							  entry.setName("invoice-"+t.getId()+".html");
+							  entry.setClasse(Transaction.class);
+							  MTG.getEnabledPlugin(MTGDao.class).storeEntry(entry);
+							
+							  return null;
+						}
+						
+						@Override
+						protected void done() {
+							buzy.end();
+								try {
+									get();
+								}
+								catch(InterruptedException ex)
+								{
+									Thread.currentThread().interrupt();
+								}
+								catch(Exception e)
+								{
+									MTGControler.getInstance().notify(e);
+								}
+
+						}
+						
+						
+				};
+				
+				ThreadManager.getInstance().runInEdt(sw, "generate invoice"+t.getId());
+				
+		});
 		
 		
 		btnContact.addActionListener(al->{
