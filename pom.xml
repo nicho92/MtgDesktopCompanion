@@ -54,7 +54,7 @@
 
 		<jwt.version>0.12.5</jwt.version>
 		<lucene.version>9.11.0</lucene.version>
-		<artemis.version>2.34.0</artemis.version>
+		<artemis.version>2.35.0</artemis.version>
 		<flatlaf.version>3.4.1</flatlaf.version>
 		<qwartz.version>2.5.0-rc1</qwartz.version>
 		<rome.version>2.1.0</rome.version>
@@ -497,7 +497,7 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-collections4</artifactId>
-			<version>4.5.0-M1</version>
+			<version>4.5.0-M2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
