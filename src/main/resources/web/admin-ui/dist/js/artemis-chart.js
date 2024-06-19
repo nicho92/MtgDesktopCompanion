@@ -38,6 +38,17 @@ server = {
 			  	  'order': [[ 0, "asc" ]],
 		  		  "pageLength": 50,
                "columns": [
+					
+					{
+						"data": "start",
+						"defaultContent": "",
+					    "render": function(data, type, row, meta){
+						                	 if(type === 'display'){
+													return new Date(data).toLocaleString();		                		 
+						                	 }
+					             return data;
+								 }
+				 	},
  		        	{ 
 		                "data": "author.name",
 		                "defaultContent": ""
