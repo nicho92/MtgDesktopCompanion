@@ -30,6 +30,9 @@ public class DerbyDAO extends AbstractMagicSQLDAO {
 	}
 	
 	
+	
+	
+	
 	@Override
 	public List<MTGCard> listCardsFromCollection(MTGCollection collection, MTGEdition me) throws SQLException {
 
@@ -46,14 +49,15 @@ public class DerbyDAO extends AbstractMagicSQLDAO {
 			try (ResultSet rs = executeQuery(pst)) {
 					while (rs.next()) 
 					{
-						try (var c2 = pool.getConnection(); var pst2 = c2.prepareStatement("SELECT mcard FROM stocks WHERE idmc = ?")) {
+						try (var c2 = pool.getConnection(); var pst2 = c2.prepareStatement("SELECT mcard FROM stocks WHERE idmc = ? AND collection= ?")) {
 							pst2.setString(1,rs.getString(1) );
+							pst2.setString(2, collection.getName());
 							var rs2 = executeQuery(pst2);
-							while (rs2.next()) {
-								var mc = readCard(rs2, MCARD);
-								notify(mc);
-								ret.add(mc);
-								
+							
+							if(rs2.next()) {
+							var mc = readCard(rs2, MCARD);
+							notify(mc);
+							ret.add(mc);
 							}
 					}
 				}
