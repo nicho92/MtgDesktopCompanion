@@ -9,7 +9,6 @@ import java.util.List;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
-import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.enums.EnumExportCategory;
@@ -19,9 +18,6 @@ import org.magic.services.MTGControler;
 import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
-import org.magic.services.tools.UITools;
-
-import com.google.gson.JsonElement;
 
 public class EchoMTGExport extends AbstractCardExport {
 

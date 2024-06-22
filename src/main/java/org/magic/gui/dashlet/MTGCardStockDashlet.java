@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.awt.event.ItemEvent;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

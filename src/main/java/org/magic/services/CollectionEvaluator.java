@@ -65,6 +65,10 @@ public class CollectionEvaluator extends Observable
 		var transformer = new JsonExport();
 		var arr = new JsonArray();
 		analyse(collection).entrySet().forEach(entry->{
+			
+			if(entry.getValue()>0)
+			{
+			
 			var obj = new JsonObject();
 			obj.add("edition", transformer.toJsonElement(entry.getKey()));
 			obj.addProperty("set", entry.getKey().getId());
@@ -82,6 +86,7 @@ public class CollectionEvaluator extends Observable
 			obj.add("pc", new JsonPrimitive(pc));
 
 			arr.add(obj);
+			}
 		});
 		return arr;
 

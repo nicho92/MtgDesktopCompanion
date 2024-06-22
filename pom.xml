@@ -74,7 +74,7 @@
 		<dependency>
 		    <groupId>io.trino</groupId>
 		    <artifactId>trino-jdbc</artifactId>
-		    <version>449</version>
+		    <version>450</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.firebirdsql.jdbc</groupId>
