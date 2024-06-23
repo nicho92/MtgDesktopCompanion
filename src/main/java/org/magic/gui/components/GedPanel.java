@@ -4,7 +4,6 @@ import static org.magic.services.tools.MTG.capitalize;
 
 import java.awt.BorderLayout;
 import java.awt.Desktop;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -53,13 +52,13 @@ public class GedPanel<T extends MTGSerializable> extends MTGUIComponent {
 	private Class<T> classe;
 	private transient T instance;
 	private JPanel panneauCenter;
-	private ImagePanel viewPanel;
+
 
 	public GedPanel() {
 		setLayout(new BorderLayout());
 		var panneauHaut = new JPanel();
 		panneauCenter = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
-		viewPanel = new ImagePanel(true, false, true);
+
 		btnLoadFromUrl = UITools.createBindableJButton("", MTGConstants.ICON_WEBSITE, KeyEvent.VK_U, "importUrl");
 		btnLoadFromWebcam= UITools.createBindableJButton("", MTGConstants.ICON_WEBCAM, KeyEvent.VK_W, "importwebcam");
 
