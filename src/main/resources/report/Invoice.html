@@ -4,7 +4,7 @@
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice V1</title>
+    <title>MTGCompanion Invoice</title>
 
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" />
     
@@ -109,13 +109,12 @@ body {
 
     <section id="invoice">
         <div class="container my-5 py-5">
-            <div class="text-center">
-                <img src="https://www.mtgcompanion.org/img/logo.png" width="35" height="35" style="display: block; border: 0px;" />
-            </div>
+            
             <div class="text-center border-top border-bottom my-5 py-3">
+                <img src="https://www.mtgcompanion.org/img/logo.png" width="35" height="35" style="border: 0px;" />
                 <h2 class="display-5 fw-bold">${transaction.config.siteTitle}</h2>
-                <p class="m-0">Invoice No: <b></b>${transaction.id}</b></p>
-                <p class="m-0">Invoice Date: ${transaction.dateCreation}</p>
+                <p class="m-0">No: <b>${transaction.id}</b></p>
+                <p class="m-0">Date: ${transaction.dateCreation}</p>
             </div>
 
             <div class="d-md-flex justify-content-between">
@@ -125,12 +124,12 @@ body {
                     <ul class="list-unstyled">
                         <li>${transaction.contact.address} </li>
                         <li>${transaction.contact.zipCode} ${transaction.contact.city}</li>
-                        <li>${transaction.contact.email}</li>
+                        <li><a href='mailto:${transaction.contact.email}'>${transaction.contact.email}</a></li>
                         
                     </ul>
                 </div>
                 <div class="mt-5 mt-md-0">
-                    <p class="text-primary">Invoice From</p>
+                    <p class="text-primary"></p>
                     <h4>William Peter</h4>
                     <ul class="list-unstyled">
                         <li>ABC Company</li>
@@ -153,8 +152,10 @@ body {
                 </thead>
                 <tbody>
                 <#assign total = 0>
+                <#assign qties = 0>
 					<#list transaction.items as stock>
-					<#assign total = total + (stock.qte*stock.price)>
+					<#assign total= total + (stock.qte*stock.price)>
+					<#assign qties= qties + (stock.qte)>
                     <tr>
                         <th scope="row">${stock.id}</th>
                         <td>${stock.product.name}</td>
@@ -169,8 +170,24 @@ body {
                         <td></td>
                         <td></td>
                         <td></td>
+                        <td class="text-primary fw-bold">#{qties} item(s)</td>
+                        <td class="text-primary fw-bold"></td>
+                    </tr>
+                     <tr>
+                        <th></th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                         <td class="text-primary fw-bold">Shipping</td>
-                        <td class="text-primary fw-bold">${transaction.shippingPrice}</td>
+                        <td class="text-primary fw-bold">${transaction.shippingPrice} ${transaction.config.currencyCode}</td>
+                    </tr>
+                     <tr>
+                        <th></th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="text-primary fw-bold">Reduction</td>
+                        <td class="text-primary fw-bold">${transaction.reduction} ${transaction.config.currencyCode}</td>
                     </tr>
                     <tr>
                         <th></th>
@@ -178,7 +195,7 @@ body {
                         <td></td>
                         <td></td>
                         <td class="text-primary fw-bold">Grand-Total</td>
-                        <td class="text-primary fw-bold">#{total; M2} ${transaction.config.currencyCode}</td>
+                        <td class="text-primary fw-bold">#{total+transaction.shippingPrice-transaction.reduction; M2} ${transaction.config.currencyCode}</td>
                     </tr>
                 </tbody>
             </table>
@@ -192,18 +209,7 @@ body {
                         <li><iconify-icon class="social-icon text-primary fs-5 me-2" icon="ic:baseline-email" style="vertical-align:text-bottom"><template shadowrootmode="open"><style data-style="data-style">:host{display:inline-block;vertical-align:0}span,svg{display:block}</style><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2m0 4l-8 5l-8-5V6l8 5l8-5z"></path></svg></template></iconify-icon> info@worldcourse.com</li>
                     </ul>
                 </div>
-                <div>
-                    <h5 class="fw-bold my-4">Payment Info</h5>
-                    <ul class="list-unstyled">
-                        <li><span class="fw-semibold">Account No: </span> 102 3345 56938</li>
-                        <li><span class="fw-semibold">Account Name: </span> William Peter</li>
-                        <li><span class="fw-semibold">Branch Name: </span> XYZ </li>
-
-                    </ul>
-                </div>
-
-
-            </div>
+             </div>
 
             <div class="text-center my-5">
                 <p class="text-muted"></p>
@@ -213,7 +219,7 @@ body {
                 <div class="container border-top">
                     <div class="row mt-3">
                         <div class="col-md-6 copyright">
-                            <p>© 2024 Invoice. <a href="https://demo.templatesjungle.com/invoice-v1/#" target="_blank" class="text-decoration-none text-black-50">Terms &amp; Conditions</a> </p>
+                            <p>© 2024 MTGCOmpanion </p>
                         </div>
                         <div class="col-md-6 text-md-end">
                             <p></p>

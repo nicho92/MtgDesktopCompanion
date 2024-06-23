@@ -146,8 +146,8 @@ public class MTGConstants {
 	
 //IMAGES CONSTANTS
 	public static final URL URL_MANA_SYMBOLS = MTGConstants.class.getResource(ICON_DIR+"/mana/Mana.png");
-	public static final ImageIcon ICON_MANA_GOLD = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/mana/gold.png"));
-	public static final ImageIcon ICON_MANA_INCOLOR = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/mana/uncolor.png"));
+	public static final ImageIcon ICON_MANA_GOLD = getManaSymbol("gold");
+	public static final ImageIcon ICON_MANA_INCOLOR = getManaSymbol("uncolor");
 	public static final Image IMAGE_LOGO = Toolkit.getDefaultToolkit().getImage(MTGConstants.class.getResource(ICON_DIR+"/logo.png"));
 	public static final ImageIcon ICON_LOGO = new ImageIcon(IMAGE_LOGO.getScaledInstance(32, 32, Image.SCALE_SMOOTH));
 	public static final ImageIcon ICON_SPLASHSCREEN = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/magic-logo2.png"));
@@ -155,6 +155,13 @@ public class MTGConstants {
 	public static final URL ANNIVERSARY_BACK_CARD = MTGConstants.class.getResource("/icons/back30.jpg");
 	public static final URL COLLECTOR_BACK_CARD = MTGConstants.class.getResource("/icons/backCE.jpg");
 	public static final Image SAMPLE_PIC = Toolkit.getDefaultToolkit().getImage(MTGConstants.class.getResource("/data/sample.png"));
+	
+	public static ImageIcon getManaSymbol(String symb)
+	{
+		return new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/mana/"+symb+".png"));
+	}
+	
+	
 	
 //ICONS CONSTANTS 	
 	private static String iconPack="flat";

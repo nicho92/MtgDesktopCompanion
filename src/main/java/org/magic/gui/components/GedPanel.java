@@ -246,13 +246,7 @@ public class GedPanel<T extends MTGSerializable> extends MTGUIComponent {
 
 			@Override
 			public Void call() throws Exception {
-				if(e.getEntry().isImage()) {
-					viewPanel.setImg(e.getPicture());
-					viewPanel.setPreferredSize(new Dimension(e.getPicture().getWidth(),e.getPicture().getHeight()));
-					MTGUIComponent.createJDialog(MTGUIComponent.build(viewPanel, "view", MTGConstants.ICON_TAB_PICTURE), true, true).setVisible(true);
-				}
-				else
-				{
+				
 					try {
 						var tmp = FileTools.createTempFile(e.getEntry().getName(), "."+e.getEntry().getExt());
 						FileTools.saveFile(tmp, e.getEntry().getContent());
@@ -261,7 +255,7 @@ public class GedPanel<T extends MTGSerializable> extends MTGUIComponent {
 					{
 						logger.error(e);
 					}
-				}
+				
 				return null;
 			}
 		});

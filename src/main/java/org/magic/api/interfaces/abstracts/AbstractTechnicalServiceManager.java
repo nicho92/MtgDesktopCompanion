@@ -70,7 +70,7 @@ public abstract class AbstractTechnicalServiceManager {
 			items.stream().forEach(a->a.setStored(true));
 			logger.debug("Persist {} new  items for {}",items.size(),classe.getSimpleName());
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e);
 		}
 	}
 	
