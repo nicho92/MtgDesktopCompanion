@@ -1804,7 +1804,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setString(1, classe.getSimpleName());
 				try (ResultSet rs = executeQuery(pst)) {
 					while (rs.next()) {
-						trans.add(serialiser.fromJson(rs.getString("techobject"), classe));
+						trans.add(readTechnical(rs,classe));
 					}
 				}
 			}
@@ -1815,6 +1815,13 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	
 
 
+	protected <T extends AbstractAuditableItem> T readTechnical(ResultSet rs, Class<T> classe) throws SQLException
+	{
+		return serialiser.fromJson(rs.getString("techobject"), classe);
+	}
+	
+	
+	
 	private DAOInfo buildInfo(Statement pst)
 	{
 		var start=Instant.now();

@@ -12,6 +12,7 @@ import org.h2.tools.Server;
 import org.jooq.SQLDialect;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGGrading;
+import org.magic.api.beans.abstracts.AbstractAuditableItem;
 import org.magic.api.beans.technical.MTGDocumentation;
 import org.magic.api.beans.technical.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.abstracts.extra.AbstractMagicSQLDAO;
@@ -65,6 +66,13 @@ public class H2DAO extends AbstractMagicSQLDAO {
 		return ret;
 	}
 
+	@Override
+	protected <T extends AbstractAuditableItem> T readTechnical(ResultSet rs, Class<T> classe) throws SQLException
+	{
+		return serialiser.fromJson(parseJson(rs.getString("techobject")), classe);
+	}
+	
+	
 	
 	@Override
 	@SuppressWarnings({ "unchecked" })
