@@ -5,8 +5,8 @@ import java.net.URISyntaxException;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MTGCard;
+import org.magic.api.beans.MTGFormat;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.services.PluginRegistry;
 

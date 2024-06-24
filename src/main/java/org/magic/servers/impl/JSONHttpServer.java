@@ -154,6 +154,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 	private static final String ROBOTS_VARS_DISALOW="""
 			\tUser-agent: Googlebot
 			\tDisallow: /
+			\tUser-agent: AhrefsBot
+			\tDisallow: /
 			\tUser-agent: googlebot-image
 			\tDisallow: /
 			\tUser-agent: googlebot-mobile
