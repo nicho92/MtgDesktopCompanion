@@ -53,7 +53,7 @@
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 
 		<jwt.version>0.12.6</jwt.version>
-		<lucene.version>9.11.0</lucene.version>
+		<lucene.version>9.11.1</lucene.version>
 		<artemis.version>2.35.0</artemis.version>
 		<flatlaf.version>3.4.1</flatlaf.version>
 		<qwartz.version>2.5.0-rc1</qwartz.version>
@@ -74,7 +74,7 @@
 		<dependency>
 		    <groupId>io.trino</groupId>
 		    <artifactId>trino-jdbc</artifactId>
-		    <version>450</version>
+		    <version>451</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.firebirdsql.jdbc</groupId>
@@ -114,7 +114,7 @@
 		<dependency>
 			<groupId>org.ocpsoft.prettytime</groupId>
 			<artifactId>prettytime</artifactId>
-			<version>5.0.8.Final</version>
+			<version>5.0.9.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>org.sejda.imageio</groupId>
@@ -574,7 +574,7 @@
 		<dependency>
 			<groupId>org.jfree</groupId>
 			<artifactId>jfreechart</artifactId>
-			<version>1.5.4</version>
+			<version>1.5.5</version>
 		</dependency>
 		<dependency>
 			<groupId>com.jayway.jsonpath</groupId>
