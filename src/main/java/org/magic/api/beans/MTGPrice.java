@@ -140,7 +140,7 @@ public class MTGPrice implements Comparable<MTGPrice> {
 
 	@Override
 	public String toString() {
-		return String.valueOf(scryfallId);
+		return scryfallId;
 	}
 
 	@Override
