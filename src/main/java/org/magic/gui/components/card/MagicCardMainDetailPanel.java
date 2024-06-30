@@ -494,6 +494,9 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		});
 		
 		btnStock.addActionListener(ae -> {
+			if(magicCard==null)
+				return ;
+			
 			var st = MTGControler.getInstance().getDefaultStock();
 			st.setProduct(magicCard);
 			try {
