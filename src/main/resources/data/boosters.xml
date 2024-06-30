@@ -2731,8 +2731,21 @@
 		<bundle lang="en" num="1"  url="https://versusgamecenter.pt/cdn/shop/files/MTG-Assassins-Creed-bundle_550x.png"/>
 	</edition>
 	
+	<edition id="DSK">
+		<set lang="en" num="1" url="https://media.wizards.com/2024/images/daily/en_CAZrDSqF06WE.png"/>
+		<prereleasepack lang="en" num="1" url="https://media.wizards.com/2024/images/daily/en_PDVB9sGCQ6OJ.png"/>
+		<bundle lang="en" num="1"  url="https://media.wizards.com/2024/images/daily/en_vfJNkZAn0X3x.png"/>
+		<bundle lang="en" num="2" extra="gift" url="https://media.wizards.com/2024/images/daily/en_Y5rBuocHMdQU.png"/>
+		
+	</edition>
 	
-	
+	<edition id="DSC">
+		<set lang="en" num="1" url="https://media.wizards.com/2024/images/daily/en_CAZrDSqF06WE.png"/>
+			<constructpack lang="en" num="1" url="https://media.wizards.com/2024/images/daily/en_kV0Ofw2mowjQ.png" desc="Miracle Worker"/>
+			<constructpack lang="en" num="2" url="https://media.wizards.com/2024/images/daily/en_1VVqeQqmIePr.png" desc="Death Toll"/>
+			<constructpack lang="en" num="3" url="https://media.wizards.com/2024/images/daily/en_GITpwsK7Abc4.png" desc="Jump Scare !"/>
+			<constructpack lang="en" num="4" url="https://media.wizards.com/2024/images/daily/en_QaJPChLUiLcR.png" desc="Endless Punishment"/>
+	</edition>
 	
 
 </boosterUrls>
