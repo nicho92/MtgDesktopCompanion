@@ -18,11 +18,13 @@ import org.jdesktop.swingx.JXTreeTable;
 import org.magic.api.beans.MTGAlert;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
+import org.magic.api.beans.technical.MoneyValue;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.GroupedPriceTreeTableModel;
 import org.magic.gui.renderer.MagicPriceShoppingTreeCellRenderer;
+import org.magic.gui.renderer.MoneyCellRenderer;
 import org.magic.gui.renderer.standard.BooleanCellEditorRenderer;
 import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;
 import org.magic.services.MTGConstants;
@@ -92,11 +94,13 @@ public class GroupedShoppingPanel extends MTGUIComponent {
 		var treetModel = new GroupedPriceTreeTableModel();
 
 		var tree = new JXTreeTable(treetModel);
-		tree.setTreeCellRenderer(new MagicPriceShoppingTreeCellRenderer());
 		tree.setShowGrid(true, false);
+		tree.setSortable(true);
+
+		tree.setTreeCellRenderer(new MagicPriceShoppingTreeCellRenderer());
 		tree.setDefaultRenderer(Boolean.class, new BooleanCellEditorRenderer());
 		tree.setDefaultRenderer(Double.class, new DoubleCellEditorRenderer());
-		tree.setSortable(true);
+		tree.setDefaultRenderer(MoneyValue.class, new MoneyCellRenderer());
 
 		add(new JScrollPane(tree), BorderLayout.CENTER);
 

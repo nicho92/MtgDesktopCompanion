@@ -10,6 +10,7 @@ import java.util.Map;
 import org.apache.logging.log4j.Logger;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.magic.api.beans.MTGPrice;
+import org.magic.api.beans.technical.MoneyValue;
 import org.magic.services.logging.MTGLogger;
 
 public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
@@ -33,21 +34,13 @@ public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 
 
 
-
-	public void addItem(String key, List<MTGPrice> list)
-	{
-		listElements.computeIfAbsent(key, v->new ArrayList<>()).addAll(list);
-		modelSupport.fireNewRoot();
-	}
-
-
 	@Override
 	public Class<?> getColumnClass(int column) {
 		if(column==5)
 			return Boolean.class;
 
 		if(column==2)
-			return Double.class;
+			return MoneyValue.class;
 
 		return super.getColumnClass(column);
 	}
@@ -93,21 +86,19 @@ public class GroupedPriceTreeTableModel extends AbstractTreeTableModel {
 			}
 		}
 		else if (node instanceof MTGPrice emp) {
+			
 			switch (column) {
-			case 0:
-				return emp;
-			case 1:
-				return 1;
-			case 2:
-				return emp.getValue();
-			case 3:
-				return emp.getLanguage();
-			case 4:
-				return emp.getQuality();
-			case 5:
-				return emp.isFoil();
-			default:
-				return "";
+				
+				case 2:
+					return emp.getPriceValue();
+				case 3:
+					return emp.getLanguage();
+				case 4:
+					return emp.getQuality();
+				case 5:
+					return emp.isFoil();
+				default:
+					return "";
 			}
 		}
 		return null;
