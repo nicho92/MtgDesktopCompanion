@@ -2736,7 +2736,16 @@
 		<prereleasepack lang="en" num="1" url="https://media.wizards.com/2024/images/daily/en_PDVB9sGCQ6OJ.png"/>
 		<bundle lang="en" num="1"  url="https://media.wizards.com/2024/images/daily/en_vfJNkZAn0X3x.png"/>
 		<bundle lang="en" num="2" extra="gift" url="https://media.wizards.com/2024/images/daily/en_Y5rBuocHMdQU.png"/>
+		<booster lang="en" num="1" extra="collector" url="https://www.trader-online.de/out/pictures/master/product/1/duskmourn_house_of_horror_collector_booster_pack_englisch_english_tcg_mtg_dsk.png"/>
+		<booster lang="en" num="1" extra="play" url="https://thecardvault.co.uk/cdn/shop/files/MTGDSK_EN_Bstr_Play_01_01.png"/>
+		<box lang="en" num="1" extra="collector" url="https://www.abyssgamestore.com/cdn/shop/files/MTGDSK_EN_DspBx_Clctr_02_03_800x.png"/>
+		<box lang="en" num="2" extra="play" url="https://m.media-amazon.com/images/I/71NUUAjzbpL._AC_SL1500_.jpg"/>
 		
+		
+	</edition>
+	
+	<edition id="FDN">
+		<set lang="en" num="1" url="https://images.ctfassets.net/s5n2t79q9icq/xt6b3v5FhvD3Qaldcnfzj/0155ac4d67a1c04aa076c53b0edf9351/Bnc77ScxXzZ900dfXl_660x230_FR.png"/>
 	</edition>
 	
 	<edition id="DSC">
