@@ -716,6 +716,9 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		ed.setType(obj.get("set_type").getAsString());
 
 
+		
+		if(obj.get("parent_set_code")!=null)
+			ed.setParentCode(obj.get("parent_set_code").getAsString());
 
 		if (obj.get(DIGITAL) != null)
 			ed.setOnlineOnly(obj.get(DIGITAL).getAsBoolean());

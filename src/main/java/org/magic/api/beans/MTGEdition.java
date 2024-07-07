@@ -26,7 +26,7 @@ public class MTGEdition implements MTGSerializable, Comparable<MTGEdition> {
 	private boolean onlineOnly;
 	private Integer mkmid;
 	private String mkmname;
-
+	private String parentCode;
 	private boolean foilOnly;
 	private String keyRuneCode;
 	private int tcgplayerGroupId;
@@ -40,6 +40,13 @@ public class MTGEdition implements MTGSerializable, Comparable<MTGEdition> {
 		return getId();
 	}
 
+	public String getParentCode() {
+		return parentCode;
+	}
+	public void setParentCode(String parentCode) {
+		this.parentCode = parentCode;
+	}
+	
 	
 	public void setCardCountPhysical(int cardCountPhysical) {
 		this.cardCountPhysical = cardCountPhysical;

@@ -598,6 +598,7 @@ private MTGPool pool;
 								 ed.setType(rs.getString("type"));
 								 testMkm(ed,rs);
 								 ed.setCardCountPhysical(maps.getOrDefault(ed.getId(), ed.getCardCount()));
+								 ed.setParentCode(rs.getString(PARENT_CODE));
 								 ed.setKeyRuneCode(rs.getString(KEYRUNE_CODE));
 								 ed.setOnlineOnly(rs.getBoolean(IS_ONLINE_ONLY));
 								 ed.setFoilOnly(rs.getBoolean(IS_FOIL_ONLY));

@@ -576,6 +576,18 @@ public class Mtgjson5Provider extends AbstractMTGJsonProvider{
 		{
 			ed.setSet(id);
 		}
+		
+		try{
+			ed.setParentCode(ctx.read(base + "."+PARENT_CODE, String.class));
+			}
+			catch(PathNotFoundException pnfe)
+			{
+				ed.setParentCode(null);
+			}
+			
+		
+		
+		
 
 		try{
 			ed.setOnlineOnly(ctx.read(base + "."+IS_ONLINE_ONLY, Boolean.class));
