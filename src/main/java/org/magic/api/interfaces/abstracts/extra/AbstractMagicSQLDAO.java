@@ -1764,12 +1764,13 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	
 	@Override
 	public void updateCard(MTGCard card,MTGCard newC, MTGCollection col) throws SQLException {
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE cards SET mcard= ? WHERE scryfallId = ? and collection = ?"))
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE stocks SET mcard= ?, dateUpdate=? WHERE idmc = ? and collection = ?"))
 		{
-
+			
 			storeCard(pst, 1, newC);
-			pst.setString(2, card.getScryfallId());
-			pst.setString(3, col.getName());
+			pst.setString(3, card.getScryfallId());
+			pst.setString(4, col.getName());
+			pst.setDate(2,  new Date(System.currentTimeMillis()));
 			executeUpdate(pst,false);
 		}
 
@@ -1854,6 +1855,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		daoInfo.setQuery(pst.toString().substring(index));
 		daoInfo.setClasseName(pst.getClass().getCanonicalName());
 		daoInfo.setDaoName(this.getName());
+	
 		return daoInfo;
 	}
 

@@ -14,7 +14,7 @@ manager.listDecks().each{ d->
 	}
 
 	d.getSideBoard().each{e->
-		MagicCard	mc = provider.searchCardByName(e.getKey().getName(),e.getKey().getCurrentSet(),true).get(0);
+		var	mc = provider.searchCardByName(e.getKey().getName(),e.getKey().getCurrentSet(),true).get(0);
 		int qty = e.getValue();
 		updateS.put(mc,qty);
 	}
