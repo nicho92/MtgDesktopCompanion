@@ -265,14 +265,14 @@ public class CollectionPanelGUI extends MTGUIComponent {
 			
 		addContextComponent(magicCardDetailPanel);
 		addContextComponent(magicEditionDetailPanel);
+		addContextComponent(stockPanel);
 		addContextComponent(packagePanel);
 		addContextComponent(pricePanel);
+		addContextComponent(historyPricesPanel);
 		addContextComponent(groupShopPanel);
 		addContextComponent(typeRepartitionPanel);
 		addContextComponent(manaRepartitionPanel);
 		addContextComponent(rarityRepartitionPanel);
-		addContextComponent(stockPanel);
-		addContextComponent(historyPricesPanel);
 		addContextComponent(deckPanel);
 		addContextComponent(gedPanel);
 		
