@@ -57,7 +57,7 @@ public class StockItemPanelRenderer extends JPanel {
 
 	public void setProduct(MTGStockItem mc) {
 
-		if(mc==null)
+		if(mc==null || mc.getProduct()==null)
 			return;
 
 		lblName.setText(mc.getProduct().getName());
