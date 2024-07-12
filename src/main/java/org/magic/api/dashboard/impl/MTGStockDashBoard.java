@@ -174,7 +174,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 
 		PRICES c =null;
 
-		if(p.equals(PRICES.MARKET)||p.equals(PRICES.MARKET_FOIL))
+		if(p.equals(PRICES.MARKET))
 			c= PRICES.MARKET;
 		else
 			c = PRICES.AVERAGE;
@@ -216,14 +216,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		fillEditionShaker(c,ed,es,false);
 
 		if(getBoolean(GET_FOIL))
-		{
-			if(c.equals(PRICES.AVG))
-				fillEditionShaker(PRICES.FOIL,ed,es,true);
-
-			else if(c.equals(PRICES.MARKET))
-				fillEditionShaker(PRICES.MARKET_FOIL,ed,es,true);
-
-		}
+			fillEditionShaker(c,ed,es,true);
 
 		return es;
 	}
@@ -236,7 +229,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 					CardShake cs = initFromPrint(p);
 					cs.setEd(ed.getId());
 					try {
-						cs.init(p.getLatestPrices().get(c), p.getLastWeekPreviousPrice(), p.getLastWeekPrice());
+						cs.init(p.getLatestPrices().get(c.name()), p.getLastWeekPreviousPrice(), p.getLastWeekPrice());
 
 
 					}
@@ -289,14 +282,8 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 			logger.debug("mtgstock = {} {} {} ",fpSet,fpSet.getSetName(),fpSet.getId());
 			id = fpSet.getId();
 		}
-
-		PRICES p = PRICES.AVG;
-
-		if(foil || ed.isFoilOnly())
-			p = PRICES.FOIL;
-
-
-		pricesService.getPricesFor(id,p).forEach(e->{
+			
+		pricesService.getPricesFor(id,PRICES.AVERAGE,(foil || ed.isFoilOnly())).forEach(e->{
 
 			hp.setCurrency(getCurrency());
 			hp.setFoil(foil);
@@ -348,7 +335,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		return Map.of(
 					PRICE_VALUE, "market",
 					GET_FOIL,"false",
-					INTEREST_TYPE,"day");
+					INTEREST_TYPE,"week");
 	}
 
 

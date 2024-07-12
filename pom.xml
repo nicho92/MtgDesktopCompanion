@@ -257,7 +257,7 @@
 		<dependency>
 			<groupId>com.github.nicho92</groupId>
 			<artifactId>mtgstock-api-java</artifactId>
-			<version>0.1.25</version>
+			<version>1.1.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.nicho92</groupId>
