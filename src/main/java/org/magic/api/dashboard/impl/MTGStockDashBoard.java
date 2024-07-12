@@ -21,6 +21,7 @@ import org.api.mtgstock.services.PriceService;
 import org.api.mtgstock.services.URLCallListener;
 import org.api.mtgstock.tools.MTGStockConstants;
 import org.api.mtgstock.tools.MTGStockConstants.FORMAT;
+import org.api.mtgstock.tools.MTGStockConstants.INTEREST;
 import org.api.mtgstock.tools.MTGStockConstants.PRICES;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.EditionsShakers;
@@ -165,25 +166,18 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 
 
 
-		var p=PRICES.valueOf(getString(PRICE_VALUE).toUpperCase());
+		var p=INTEREST.valueOf(getString(PRICE_VALUE).toUpperCase());
 
 
 		logger.debug("Parsing shakers for {} {} ",f,p);
 
 		List<Interest> st;
 
-		PRICES c =null;
-
-		if(p.equals(PRICES.MARKET))
-			c= PRICES.MARKET;
-		else
-			c = PRICES.AVERAGE;
-
 
 		if(getBoolean(GET_FOIL))
-			st = interestService.getInterestFor(c,mtgstockformat);
+			st = interestService.getInterestFor(p,mtgstockformat);
 		else
-			st = interestService.getInterestFor(c,false,mtgstockformat);
+			st = interestService.getInterestFor(p,false,mtgstockformat);
 
 		st.stream().filter(inte->inte.getInterestType().equalsIgnoreCase(getString(INTEREST_TYPE))).forEach(i->{
 			CardShake cs = initFromPrint(i.getPrint());
@@ -283,7 +277,13 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 			id = fpSet.getId();
 		}
 			
-		pricesService.getPricesFor(id,PRICES.AVERAGE,(foil || ed.isFoilOnly())).forEach(e->{
+		var p = PRICES.AVG;
+		
+		if(foil || ed.isFoilOnly())
+			p = PRICES.FOIL;
+		
+		
+		pricesService.getPricesFor(id,p).forEach(e->{
 
 			hp.setCurrency(getCurrency());
 			hp.setFoil(foil);
