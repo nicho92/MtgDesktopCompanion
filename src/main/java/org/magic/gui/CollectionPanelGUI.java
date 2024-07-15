@@ -5,7 +5,6 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
@@ -226,11 +225,7 @@ public class CollectionPanelGUI extends MTGUIComponent {
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 
 		tree.setCellRenderer(new MagicCardsTreeCellRenderer());
-
-		magicCardDetailPanel.setPreferredSize(new Dimension(0, 0));
 		magicCardDetailPanel.enableThumbnail(true);
-
-
 		UITools.setDefaultRenderer(tableEditions, render);
 		tableEditions.setRowHeight(25);
 		

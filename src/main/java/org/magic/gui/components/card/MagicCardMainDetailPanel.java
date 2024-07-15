@@ -4,10 +4,13 @@ import static org.magic.services.tools.MTG.capitalize;
 import static org.magic.services.tools.MTG.getEnabledPlugin;
 
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Arrays;
@@ -90,7 +93,6 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_TAB_DETAILS;
 	}
-	
 	
 	
 	public void enableThumbnail(boolean val) {
@@ -212,7 +214,6 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 					};
 			ThreadManager.getInstance().runInEdt(sw, "Get alerts for " + mc);
 		}
-		
 	}
 	
 	
@@ -290,8 +291,11 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		
 		obs = new Observable();
 		
+		setPreferredSize(new Dimension(650,430));
+	
+		
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{304, 127, 159, 0};
+		gridBagLayout.columnWidths = new int[]{50, 127, 159, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 156, 0, 40, 90, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
@@ -299,7 +303,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		
 		txtName = new JTextField();
 		txtName.setToolTipText("Name");
-		GridBagConstraints gbctxtName = new GridBagConstraints();
+		var gbctxtName = new GridBagConstraints();
 		gbctxtName.insets = new Insets(0, 0, 5, 5);
 		gbctxtName.fill = GridBagConstraints.HORIZONTAL;
 		gbctxtName.gridx = 0;
@@ -309,7 +313,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		
 		manaCostPanel = new ManaPanel();
 		manaCostPanel.setToolTipText("Mana");
-		GridBagConstraints gbcmanaCostPanel = new GridBagConstraints();
+		var gbcmanaCostPanel = new GridBagConstraints();
 		gbcmanaCostPanel.insets = new Insets(0, 0, 5, 5);
 		gbcmanaCostPanel.gridx = 1;
 		gbcmanaCostPanel.gridy = 0;
@@ -320,16 +324,16 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		btnStock = new JButton(MTGConstants.ICON_STOCK);
 		
 		
-		GridBagConstraints gbcpanelActions = new GridBagConstraints();
+		var gbcpanelActions = new GridBagConstraints();
 		gbcpanelActions.insets = new Insets(0, 0, 5, 5);
 		gbcpanelActions.fill = GridBagConstraints.BOTH;
 		gbcpanelActions.gridx = 2;
 		gbcpanelActions.gridy = 0;
-		add(UITools.createFlowPanel(btnAlert,btnCopy,btnStock),gbcpanelActions);
+		add(UITools.createFlowCenterPanel(btnAlert,btnCopy,btnStock),gbcpanelActions);
 				
 		txtTypes = new JTextField();
 		txtTypes.setToolTipText("Type");
-		GridBagConstraints gbctxtTypes = new GridBagConstraints();
+		var gbctxtTypes = new GridBagConstraints();
 		gbctxtTypes.insets = new Insets(0, 0, 5, 5);
 		gbctxtTypes.fill = GridBagConstraints.HORIZONTAL;
 		gbctxtTypes.gridx = 0;
@@ -340,7 +344,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		txtRarity = new JTextField();
 		txtRarity.setToolTipText("Rarity");
 		txtRarity.setColumns(10);
-		GridBagConstraints gbctxtRarity = new GridBagConstraints();
+		var gbctxtRarity = new GridBagConstraints();
 		gbctxtRarity.insets = new Insets(0, 0, 5, 5);
 		gbctxtRarity.fill = GridBagConstraints.HORIZONTAL;
 		gbctxtRarity.gridx = 1;
@@ -348,7 +352,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		add(txtRarity, gbctxtRarity);
 		
 		lblThumbnail = new JLabel("");
-		GridBagConstraints gbclblThumbnail = new GridBagConstraints();
+		var gbclblThumbnail = new GridBagConstraints();
 		gbclblThumbnail.fill = GridBagConstraints.HORIZONTAL;
 		gbclblThumbnail.insets = new Insets(0, 0, 5, 0);
 		gbclblThumbnail.gridheight = 5;
@@ -357,7 +361,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		add(lblThumbnail, gbclblThumbnail);
 		
 		txtText = new MagicTextPane();
-		GridBagConstraints gbctxtCardText = new GridBagConstraints();
+		var gbctxtCardText = new GridBagConstraints();
 		gbctxtCardText.gridwidth = 2;
 		gbctxtCardText.insets = new Insets(0, 0, 5, 5);
 		gbctxtCardText.fill = GridBagConstraints.BOTH;
@@ -368,7 +372,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		txtFlavor = new JTextArea();
 		txtFlavor.setFont(txtFlavor.getFont().deriveFont(Font.ITALIC));
 		txtFlavor.setLineWrap(true);
-		GridBagConstraints gbctxtFlavour = new GridBagConstraints();
+		var gbctxtFlavour = new GridBagConstraints();
 		gbctxtFlavour.insets = new Insets(0, 0, 5, 5);
 		gbctxtFlavour.fill = GridBagConstraints.HORIZONTAL;
 		gbctxtFlavour.gridx = 0;
@@ -378,7 +382,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		txtPower = new JTextField(10);
 		txtPower.setHorizontalAlignment(SwingConstants.CENTER);
 		txtPower.setToolTipText("Power");
-		GridBagConstraints gbctxtPower = new GridBagConstraints();
+		var gbctxtPower = new GridBagConstraints();
 		gbctxtPower.fill = GridBagConstraints.HORIZONTAL;
 		gbctxtPower.insets = new Insets(0, 0, 5, 5);
 		gbctxtPower.gridx = 1;
@@ -447,7 +451,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		lstCollections = new JList<>(new DefaultListModel<>());
 		lstCollections.setCellRenderer((JList<? extends MTGCollection> list, MTGCollection obj, int arg2,boolean arg3, boolean arg4)->new JLabel(obj.getName(),MTGConstants.ICON_COLLECTION,SwingConstants.LEFT));
 
-		GridBagConstraints gbclstCollections = new GridBagConstraints();
+		var gbclstCollections = new GridBagConstraints();
 		gbclstCollections.insets = new Insets(0, 0, 5, 5);
 		gbclstCollections.fill = GridBagConstraints.BOTH;
 		gbclstCollections.gridx = 1;
@@ -459,7 +463,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 		
 		lblAuthor = new JLabel();
 		lblAuthor.setHorizontalAlignment(SwingConstants.CENTER);
-		GridBagConstraints gbclblAuthor = new GridBagConstraints();
+		var gbclblAuthor = new GridBagConstraints();
 		gbclblAuthor.fill = GridBagConstraints.HORIZONTAL;
 		gbclblAuthor.gridx = 2;
 		gbclblAuthor.gridy = 6;
@@ -507,8 +511,6 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 				MTGControler.getInstance().notify(e);
 			}
 		});
-		
-		
 		setEditable(false);
 	}
 	

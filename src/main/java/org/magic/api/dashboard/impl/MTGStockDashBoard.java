@@ -333,7 +333,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 		return Map.of(
-					PRICE_VALUE, "market",
+					PRICE_VALUE, "MARKET",
 					GET_FOIL,"false",
 					INTEREST_TYPE,"week");
 	}

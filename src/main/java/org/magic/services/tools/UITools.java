@@ -775,9 +775,18 @@ public class UITools {
 	}
 
 
-	public static Component createFlowPanel(JComponent... of) {
+	public static JComponent createFlowPanel(JComponent... of) {
 		var tempPanel = new JPanel();
 		((FlowLayout)tempPanel.getLayout()).setAlignment(FlowLayout.LEFT);
+		for(var c : of)
+			tempPanel.add(c);
+		
+		return tempPanel;
+	}
+	
+	public static JComponent createFlowCenterPanel(JComponent... of) {
+		var tempPanel = new JPanel();
+		((FlowLayout)tempPanel.getLayout()).setAlignment(FlowLayout.CENTER);
 		for(var c : of)
 			tempPanel.add(c);
 		
@@ -785,6 +794,7 @@ public class UITools {
 		
 		
 	}
+	
 
 
 

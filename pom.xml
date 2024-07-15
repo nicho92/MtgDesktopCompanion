@@ -74,7 +74,7 @@
 		<dependency>
 		    <groupId>io.trino</groupId>
 		    <artifactId>trino-jdbc</artifactId>
-		    <version>451</version>
+		    <version>452</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.firebirdsql.jdbc</groupId>
@@ -334,7 +334,7 @@
 		<dependency>
 			<groupId>com.fifesoft</groupId>
 			<artifactId>rsyntaxtextarea</artifactId>
-			<version>3.4.1</version>
+			<version>3.5.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fifesoft</groupId>
