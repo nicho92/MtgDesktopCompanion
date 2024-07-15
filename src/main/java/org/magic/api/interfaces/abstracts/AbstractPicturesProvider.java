@@ -20,8 +20,8 @@ import org.magic.services.tools.TCache;
 
 public abstract class AbstractPicturesProvider extends AbstractMTGPlugin implements MTGPictureProvider {
 
-	protected int newW=MTGConstants.DEFAULT_PIC_HEIGHT;
-	protected int newH=MTGConstants.DEFAULT_PIC_WIDTH;
+	protected int newW=MTGConstants.DEFAULT_PIC_WIDTH;
+	protected int newH=MTGConstants.DEFAULT_PIC_HEIGHT;
 	protected TCache<BufferedImage> setCache;
 
 	@Override
