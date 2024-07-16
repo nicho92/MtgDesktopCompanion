@@ -112,7 +112,7 @@ public class ChatGPT extends AbstractIA {
 	@Override
 	public Map<String, String> getDefaultAttributes() {
 			var map = super.getDefaultAttributes();
-			map.put("MODEL", "gpt-3.5-turbo-0301");
+			map.put("MODEL", "gpt-3.5-turbo");
 			map.put("TEMPERATURE", "0");
 			map.put("MAX_TOKEN", "2000");
 			map.put("SYSTEM_MSG", "You are a helpful assistant that generate Magic the gathering card in json format.");
