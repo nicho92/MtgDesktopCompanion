@@ -36,12 +36,6 @@ public class SlightlyMagicPictureProvider extends AbstractPicturesProvider {
 		return null;
 	}
 
-
-	@Override
-	public BufferedImage getPicture(MTGCard mc) throws IOException {
-		return resizeCard(getFullSizePicture(mc), newW, newH);
-	}
-
 	@Override
 	public String generateUrl(MTGCard mc) {
 
