@@ -290,10 +290,7 @@ public class MagicCardMainDetailPanel extends JPanel  implements Observer {
 	public MagicCardMainDetailPanel() {
 		
 		obs = new Observable();
-		
-		setPreferredSize(new Dimension(650,430));
 	
-		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{50, 127, 159, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 156, 0, 40, 90, 0, 0};
