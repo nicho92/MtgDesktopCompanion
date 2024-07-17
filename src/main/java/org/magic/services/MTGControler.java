@@ -390,8 +390,8 @@ public class MTGControler {
 				Integer.parseInt(get("/card-pictures-dimension/width")),
 				Integer.parseInt(get("/card-pictures-dimension/height")),
 				UITools.parseDouble(get("/card-pictures-dimension/zoom")),
-				0,
-				0);
+				UITools.parseDouble(get("/card-pictures-dimension/x")),
+				UITools.parseDouble(get("/card-pictures-dimension/y")));
 	}
 
 	public Dimension getCardsGameDimension() {

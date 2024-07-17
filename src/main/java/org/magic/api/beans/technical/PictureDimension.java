@@ -7,10 +7,10 @@ public class PictureDimension {
 	int width;
 	int height;
 	double zoom;
-	int x;
-	int y;
+	double x;
+	double y;
 	
-	public PictureDimension(int width, int height, double zoom, int x, int y) {
+	public PictureDimension(int width, int height, double zoom, double x, double y) {
 		this.width = width;
 		this.height = height;
 		this.zoom = zoom<1?1:zoom;
@@ -44,16 +44,16 @@ public class PictureDimension {
 	public void setZoom(double zoom) {
 		this.zoom = zoom;
 	}
-	public int getX() {
+	public double getX() {
 		return x;
 	}
-	public void setX(int x) {
+	public void setX(double x) {
 		this.x = x;
 	}
-	public int getY() {
+	public double getY() {
 		return y;
 	}
-	public void setY(int y) {
+	public void setY(double y) {
 		this.y = y;
 	}
 	

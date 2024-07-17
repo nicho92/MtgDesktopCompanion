@@ -300,9 +300,17 @@ public class ImagePanel extends JXPanel {
 			var curPoint = e.getPoint();
 		        xDiff = (double)curPoint.x - startPoint.x;
 		        yDiff = (double)curPoint.y - startPoint.y;
+
 		        repaint();
 		}
 
+		
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			MTGControler.getInstance().setProperty("/card-pictures-dimension/x",e.getPoint().getX());
+			MTGControler.getInstance().setProperty("/card-pictures-dimension/y",e.getPoint().getY());
+		}
+		
 
 
 	}
