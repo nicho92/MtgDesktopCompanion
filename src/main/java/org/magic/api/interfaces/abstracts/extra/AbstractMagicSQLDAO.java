@@ -153,21 +153,14 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 	}
 
 	protected MTGCard readCard(ResultSet rs,String field) throws SQLException {
-		MTGCard mc=null;
+		
 		try{
-			mc = serialiser.fromJson( rs.getString(field), MTGCard.class);
+			return serialiser.fromJson( rs.getString(field), MTGCard.class);
 		}
 		catch(NullPointerException e)
 		{
 			return null;
 		}
-
-		if(mc==null)
-			return null;
-
-
-		return mc;
-
 	}
 
 

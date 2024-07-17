@@ -74,7 +74,6 @@ private MTGPool pool;
 		return List.of(val.split(",")).stream().map(String::trim).filter(s->!s.isEmpty()).toList();
 	}
 	
-	
 	@Override
 	public List<MTGBooster> generateBooster(MTGEdition me, EnumExtra typeBooster, int qty) throws IOException {
 		
