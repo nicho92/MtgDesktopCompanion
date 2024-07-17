@@ -56,7 +56,7 @@ public class OversightServer extends AbstractMTGServer {
 						logger.error(e1);
 					}
 					
-					if(ret.isEmpty())
+					if(ret !=null && ret.isEmpty())
 					{
 						logger.debug("return of {} is empty",getEnabledPlugin(MTGDashBoard.class));
 						return;
