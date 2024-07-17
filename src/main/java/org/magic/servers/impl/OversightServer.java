@@ -48,12 +48,21 @@ public class OversightServer extends AbstractMTGServer {
 					List<CardShake> ret=null;
 					try {
 						ret = getEnabledPlugin(MTGDashBoard.class).getShakerFor(null);
-						ret.removeIf(cs->Math.abs(cs.getPercentDayChange())<getInt("ALERT_MIN_PERCENT"));
+						
+						logger.debug("Filtering dayly change <{}% with array of {} results",getInt("ALERT_MIN_PERCENT"),ret.size());
+						ret.removeIf(cs->Math.abs(cs.getPercentDayChange())<getInt("ALERT_MIN_PERCENT")/100);
 						Collections.sort(ret, new PricesCardsShakeSorter(SORT.valueOf(getString("SORT_FILTER")),false));
 					} catch (IOException e1) {
 						logger.error(e1);
 					}
-
+					
+					if(ret.isEmpty())
+					{
+						logger.debug("return of {} is empty",getEnabledPlugin(MTGDashBoard.class));
+						return;
+					}
+					
+					
 					var notif = new MTGNotification();
 									notif.setTitle("Oversight");
 									notif.setType(MESSAGE_TYPE.INFO);
