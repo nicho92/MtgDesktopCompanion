@@ -32,7 +32,7 @@ import org.magic.services.tools.UITools;
 import com.google.gson.JsonElement;
 
 public class MTGPriceDashBoard extends AbstractDashBoard {
-	private static final String WEBSITE = "WEBSITE";
+	private static final String WEBSITE =  "https://www.mtgprice.com";
 	private Date updateTime;
 
 	@Override
@@ -43,7 +43,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	@Override
 	public List<CardShake> getOnlineShakerFor(MTGFormat.FORMATS f) throws IOException {
 		List<CardShake> list = new ArrayList<>();
-		String url = getString(WEBSITE) + "/taneLayout/mtg_price_tracker.jsp?period=" + getString("PERIOD");
+		String url = WEBSITE + "/taneLayout/mtg_price_tracker.jsp?period=" + getString("PERIOD");
 		Document doc = URLTools.extractAsHtml(url);
 		try {
 
@@ -114,7 +114,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 
 		String name = convert(edition.getSet()).replace(" ", "_");
 
-		String url = getString(WEBSITE)+"/spoiler_lists/" + name;
+		String url = WEBSITE+"/spoiler_lists/" + name;
 		logger.debug("get Prices for {} at {}",name,url);
 
 		Document doc =URLTools.extractAsHtml(url);
@@ -195,7 +195,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 
 		edition = edition.replace(" ", "_");
 
-		String url = getString(WEBSITE)+"/sets/" + edition + "/" + name;
+		String url = WEBSITE+"/sets/" + edition + "/" + name;
 		Document d = URLTools.extractAsHtml(url);
 
 		logger.debug("get Prices for {} at {}",name,url);
@@ -234,8 +234,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 
 	@Override
 	public Map<String, String> getDefaultAttributes() {
-		return Map.of("PERIOD", "WEEKLY",
-								WEBSITE, "https://www.mtgprice.com");
+		return Map.of("PERIOD", "WEEKLY");
 	}
 
 	@Override
