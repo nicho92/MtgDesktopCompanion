@@ -36,19 +36,22 @@ public class StockItemTableModel extends GenericTableModel<MTGStockItem> {
 
 	@Override
 	public void addItem(MTGStockItem t) {
-		if(t.getId()==-1)
+		if(t.getId()==-1 || items.isEmpty())
 		{
 			items.add(t);
 		}
 		else
 		{
-			for(var i=0;i<=items.size();i++)
+			
+			var index = items.indexOf(t);
+			if(index>-1)
 			{
-				if(items.get(i).getId().equals(t.getId()))
-				{
-					items.set(i, t);
-					break;
-				}
+				items.get(index).setQte(items.get(index).getQte()+t.getQte());
+				items.get(index).setUpdated(true);
+			}
+			else
+			{
+				items.add(t);
 			}
 		}
 	}

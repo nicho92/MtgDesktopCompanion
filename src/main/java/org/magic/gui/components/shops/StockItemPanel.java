@@ -13,7 +13,7 @@ import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.gui.abstracts.MTGUIComponent;
-import org.magic.gui.components.dialog.importer.CardChooseDialog;
+import org.magic.gui.components.dialog.importer.CardStockChooseDialog;
 import org.magic.gui.components.dialog.importer.SealedStockChooseDialog;
 import org.magic.gui.models.StockItemTableModel;
 import org.magic.gui.renderer.StockTableRenderer;
@@ -77,8 +77,7 @@ public class StockItemPanel extends MTGUIComponent {
 			
 			for(var it : diag.getSelectedItems())
 			{
-	   		var mtgstock = new MTGSealedStock(it);
-					model.addItem(mtgstock);
+	   				model.addItem(it);
 			}
 			model.fireTableDataChanged();
 		});
@@ -86,17 +85,14 @@ public class StockItemPanel extends MTGUIComponent {
 		
 		
 		btnAddCard.addActionListener(al->{
-			var cdSearch = new CardChooseDialog();
+			var cdSearch = new CardStockChooseDialog();
 				 cdSearch.setVisible(true);
 			if (cdSearch.hasSelected()) {
 				for (var mc : cdSearch.getSelectedItems())
-				{
-					var mtgstock = MTGControler.getInstance().getDefaultStock();
-        			mtgstock.setProduct(mc);
-        			mtgstock.setQte(1);
-        			model.addItem(mtgstock);
-        			model.fireTableDataChanged();
-				}
+        			model.addItem(mc);
+				
+    			model.fireTableDataChanged();
+
 			}
 		});
 		

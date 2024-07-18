@@ -41,7 +41,7 @@ public class CardStockChooseDialog extends AbstractDelegatedImporterDialog<MTGCa
 		
 		commandePanel.add(buzy);
 		
-		ThreadManager.getInstance().runInEdt(sw2,"loading contacts");
+		ThreadManager.getInstance().runInEdt(sw2,"loading sealeds");
 	}
 	
 	@Override
