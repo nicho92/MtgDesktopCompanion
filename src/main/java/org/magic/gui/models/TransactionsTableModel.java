@@ -57,7 +57,7 @@ public class TransactionsTableModel extends GenericTableModel<Transaction> {
 			case 0 : return it;
 			case 1 : return it.getDateCreation();
 			case 2 : return it.getContact();
-			case 3 : return it.getItems().size();
+			case 3 : return it.getItems().stream().mapToInt(msi->msi.getQte()).sum();
 			case 4 : return it.getShippingPrice();
 			case 5 : return it.getReduction();
 			case 6 : return it.total();

@@ -21,8 +21,7 @@ import org.magic.services.network.URLTools;
 
 public class EchoMTGDashBoard extends AbstractDashBoard {
 
-	private static final String HTTP_PROTOCOL = "https://";
-	private static final String WEBSITE = "www.echomtg.com";
+	private static final String WEBSITE = "https://www.echomtg.com";
 	private MTGHttpClient client;
 	
 	
@@ -48,10 +47,10 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 		if(mc.isShowCase())
 			extra=" (Showcase)";
 		
-		var arr = RequestBuilder.build().url(HTTP_PROTOCOL+WEBSITE+"/user/")
+		var arr = RequestBuilder.build().url(WEBSITE+"/user/")
 				.get()
 				.setClient(client)
-				.url(HTTP_PROTOCOL+WEBSITE+"/api/search/mass/")
+				.url(WEBSITE+"/api/search/mass/")
 				.addContent("search",mc.getName() + extra)
 				.addContent("wcExpansion",mc.getEdition().getSet())
 				.addContent("limit","30")
@@ -77,7 +76,7 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 			}
 			
 			
-			var res = RequestBuilder.build().url(HTTP_PROTOCOL+WEBSITE+"/user/")
+			var res = RequestBuilder.build().url(WEBSITE+"/user/")
 											.post()
 											.setClient(client)
 											.addContent("email",getAuthenticator().get("EMAIL"))
@@ -106,7 +105,7 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 		}
 		
 		
-		var arr = RequestBuilder.build().url(HTTP_PROTOCOL+WEBSITE+"/cache/"+id+"."+(foil?"f":"r"+".json"))
+		var arr = RequestBuilder.build().url(WEBSITE+"/cache/"+id+"."+(foil?"f":"r"+".json"))
 													  .get()
 													  .setClient(client)
 													  .toJson()
@@ -137,7 +136,7 @@ public class EchoMTGDashBoard extends AbstractDashBoard {
 		
 		init();
 
-		var data = RequestBuilder.build().url(HTTP_PROTOCOL+WEBSITE+"/api/data/set/")
+		var data = RequestBuilder.build().url(WEBSITE+"/api/data/set/")
 				  .addContent("set_code",ed.getId())
 				  .get()
 				  .setClient(client)
