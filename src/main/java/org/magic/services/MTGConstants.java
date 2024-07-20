@@ -325,7 +325,6 @@ public class MTGConstants {
 	}
 
 //EnumExtra CONSTANTS
-	public static final float WEIGHT_CARD=1.7009714f;
 	public static final float WEIGHT_BOOSTER=28.7f;
 	public static final String DEFAULT_SHIPPING_RULES="""
 			var shippingCost=0;

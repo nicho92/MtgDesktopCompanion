@@ -980,8 +980,8 @@
       <bannerText>Welcome to my personal shop !</bannerText>
       <aboutText>Best trading service for best prices !</aboutText>
       <contact>1</contact>
-      <slides>https://mtgrocks.com/wp-content/uploads/2021/02/strixhaven-witherbloom-school-of-mages.jpg;https://www.candlekeep.co.uk/wp-content/uploads/2021/03/MTGMH2_EN_4C_8.png;https://static1.thegamerimages.com/wordpress/wp-content/uploads/2023/08/mhiii-modern-horizons-iii-2.jpg;https://www.hipstersofthecoast.com/wp-content/uploads/2022/12/phyrexia-all-wiill-be-one-banner.jpg</slides>
-      <collections>Library</collections>
+      <slides>https://www.hipstersofthecoast.com/wp-content/uploads/2022/12/phyrexia-all-wiill-be-one-banner.jpg;https://www.goodgames.com.au/wp-content/uploads/2024/03/Corporate-Event-banner-MTG-Outlaws-of-Thunder-Junction-768x384.png;https://static1.thegamerimages.com/wordpress/wp-content/uploads/2023/08/mhiii-modern-horizons-iii-2.jpg</slides>
+       <collections>Library</collections>
       <products>
         <top></top>
         <autoSelection>false</autoSelection>
@@ -994,7 +994,9 @@
       <websiteUrl/>
       <sealedEnabled>true</sealedEnabled>
       <enableGed>true</enableGed>
-      <extracss/>
+       <extracss>body{
+			background-color:#3c3c3c;
+		}</extracss>
       <productPaginationSlide>12</productPaginationSlide>
     </config>
     <delivery>
