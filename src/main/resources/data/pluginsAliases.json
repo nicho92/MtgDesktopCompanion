@@ -218,7 +218,8 @@
 	"Magic-Ville": {
 		"nameSet": {},
 		"idSet": {
-			"WEA": "WTH"
+			"WEA": "WTH",
+			"URL": "ULG"
 		
 		},
 		"conditions": {

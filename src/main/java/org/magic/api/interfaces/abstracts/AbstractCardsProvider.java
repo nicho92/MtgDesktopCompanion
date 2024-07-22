@@ -155,7 +155,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	public MTGEdition getSetById(String id) {
 
 		try {
-			return listEditions().stream().filter(ed->ed.getId().equalsIgnoreCase(id)).findFirst().orElse(null);
+			return listEditions().stream().filter(ed->ed.getId().equalsIgnoreCase(id)).findFirst().orElse(new MTGEdition(id, "Not found set "+id));
 		} catch (IOException e) {
 			logger.error(e);
 			return null;
