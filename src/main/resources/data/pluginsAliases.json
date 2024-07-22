@@ -219,7 +219,9 @@
 		"nameSet": {},
 		"idSet": {
 			"WEA": "WTH",
-			"URL": "ULG"
+			"URL": "ULG",
+			"TEM":"TMP",
+			
 		
 		},
 		"conditions": {
