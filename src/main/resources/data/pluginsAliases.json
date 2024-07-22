@@ -217,7 +217,10 @@
 	},
 	"Magic-Ville": {
 		"nameSet": {},
-		"idSet": {},
+		"idSet": {
+			"WEA": "WTH",
+		
+		},
 		"conditions": {
 			"MINT": "Mint",
 			"NEAR_MINT": "Near Mint",
