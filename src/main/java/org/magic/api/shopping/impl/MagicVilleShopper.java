@@ -91,15 +91,6 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 		return t;
 	}
 	
-	
-	public static void main(String[] args) throws IOException, SQLException {
-		MTGControler.getInstance().init();
-		var shopper = new MagicVilleShopper();
-		shopper.getTransactionById("264533");
-		
-		
-	}
-	
 
 	private MTGStockItem buildCard(Element e) {
 		var st = new MTGCardStock();
@@ -108,7 +99,7 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 		}
 		catch(NumberFormatException ex)
 		{
-			logger.error("error pargin Price {}", e.select("td").get(4).html());
+			logger.error("error parsing Price {}", e.select("td").get(4).html());
 		}
 		
 		try {	
@@ -116,7 +107,7 @@ public class MagicVilleShopper extends AbstractMagicShopper {
 		}
 		catch(NumberFormatException ex)
 		{
-			logger.error("error pargin qty {}", e.select("td").get(5).html());
+			logger.error("error parsing qty {}", e.select("td").get(5).html());
 		}
 		
 		
