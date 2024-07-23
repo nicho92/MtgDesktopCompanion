@@ -95,7 +95,7 @@ public class MTGCardStockDashlet extends AbstractJDashlet {
 		try {
 			
 			for(var col : MTG.getEnabledPlugin(MTGDao.class).listCollections())
-				lstCollections.addElement(col, ArrayUtils.contains(getString(COLLECTIONS).split("/"), col.getName()));
+				lstCollections.addElement(col, ArrayUtils.contains(getProperty(COLLECTIONS,"Library").split("/"), col.getName()));
 			
 		} catch (SQLException e) {
 			logger.error("Error loading collections",e);
