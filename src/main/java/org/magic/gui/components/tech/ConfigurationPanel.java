@@ -6,6 +6,7 @@ import static org.magic.services.tools.MTG.getEnabledPlugin;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.LayoutManager2;
@@ -34,6 +35,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.WindowConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -42,6 +44,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Logger;
+import org.drjekyll.fontchooser.FontDialog;
 import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
 import org.jdesktop.swingx.painter.MattePainter;
@@ -59,7 +62,6 @@ import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.dialog.DefaultStockEditorDialog;
-import org.magic.gui.components.widgets.JFontChooser;
 import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.gui.components.widgets.JResizerPanel;
 import org.magic.gui.components.widgets.JTextFieldFileChooser;
@@ -522,9 +524,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		
 		var lblFont = new JLangLabel("FONT",true);
 		
-		var chooseFontPanel = new JFontChooser();
-			  chooseFontPanel.initFont(MTGControler.getInstance().getFont());
-		var btnSaveFont = new JButton(capitalize("SAVE"));
+		var btnFontChoose = new JButton(MTGControler.getInstance().getFont().getFontName());
 		var chkEnabledAutocomplete = new JCheckBox();
 		var chkEnabledChrome = new JCheckBox();
 		var btnShortKeys = new JButton(capitalize("SHORTKEYS"));
@@ -553,8 +553,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		panelGUI.add(lblToolPosition, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 6));
 		panelGUI.add(cboToolPosition, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 6));
 		panelGUI.add(lblFont, UITools.createGridBagConstraints(GridBagConstraints.WEST, null,  0, 7));
-		panelGUI.add(chooseFontPanel, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 7));
-		panelGUI.add(btnSaveFont, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  2, 7));
+		panelGUI.add(UITools.createFlowPanel(btnFontChoose), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 7));
 		panelGUI.add(new JLabel(capitalize("ENABLE_AUTOCOMPLETION") + " :"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 8));
 		panelGUI.add(chkEnabledAutocomplete, UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  1, 8));
 		panelGUI.add(new JLabel(capitalize("DISABLE_CHROME_RENDERING") + " :"), UITools.createGridBagConstraints(null, GridBagConstraints.HORIZONTAL,  0, 9));
@@ -696,10 +695,17 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 		});
 
 
-		btnSaveFont.addActionListener(ae -> {
-			MTGControler.getInstance().setProperty("/ui/font/family", chooseFontPanel.getFont().getFamily());
-			MTGControler.getInstance().setProperty("/ui/font/style",chooseFontPanel.getFont().getStyle());
-			MTGControler.getInstance().setProperty("/ui/font/size",chooseFontPanel.getFont().getSize());
+		btnFontChoose.addActionListener(ae -> {
+			var dialog = new FontDialog((Frame) null, "Font Change", true);
+			dialog.setSelectedFont(MTGControler.getInstance().getFont());
+			dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+			dialog.setVisible(true);
+			if (!dialog.isCancelSelected()) {
+				var font = dialog.getSelectedFont();
+			  	MTGControler.getInstance().setProperty("/ui/font/family", font.getFamily());
+				MTGControler.getInstance().setProperty("/ui/font/style",font.getStyle());
+				MTGControler.getInstance().setProperty("/ui/font/size",font.getSize());
+			}       
 		});
 
 

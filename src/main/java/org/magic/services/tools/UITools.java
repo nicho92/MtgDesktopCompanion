@@ -535,7 +535,7 @@ public class UITools {
 		return new DecimalFormat(format,otherSymbols).format(f);
 	}
 
-	public static void initTableFilter(JTable table)
+	public static void initTableFilter(JXTable table)
 	{
 			try {
 				FilterSettings.ignoreCase=true;
@@ -546,6 +546,8 @@ public class UITools {
 			{
 				logger.error("error setting TableFilter of {}",table,e);
 			}
+		
+		
 	}
 
 

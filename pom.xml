@@ -71,6 +71,11 @@
 		</repository>
 	</repositories>
 	<dependencies>
+	<dependency>
+	    <groupId>org.drjekyll</groupId>
+	    <artifactId>fontchooser</artifactId>
+	    <version>3.1.0</version>
+	 </dependency>
 		<dependency>
 		    <groupId>io.trino</groupId>
 		    <artifactId>trino-jdbc</artifactId>
