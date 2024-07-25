@@ -220,9 +220,7 @@
 		"idSet": {
 			"WEA": "WTH",
 			"URL": "ULG",
-			"TEM":"TMP",
-			
-		
+			"TEM":"TMP"
 		},
 		"conditions": {
 			"MINT": "Mint",
