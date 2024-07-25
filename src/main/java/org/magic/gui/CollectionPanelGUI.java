@@ -39,6 +39,7 @@ import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.GedPanel;
@@ -680,6 +681,10 @@ public class CollectionPanelGUI extends MTGUIComponent {
 
 			int res = JOptionPane.showConfirmDialog(null, capitalize(
 					"CONFIRM_COLLECTION_ITEM_ADDITION", eds, it.getText()));
+			
+			
+			int addToken = JOptionPane.showConfirmDialog(null, capitalize("ADD_TOKENS")+ "?");
+			
 
 			if (res == JOptionPane.YES_OPTION)
 			{
@@ -687,7 +692,14 @@ public class CollectionPanelGUI extends MTGUIComponent {
 					List<MTGCard> list = new ArrayList<>();
 
 					for(MTGEdition e : eds)
+					{
 						provider.searchCardByEdition(e).forEach(list::add);
+						
+						if(addToken==JOptionPane.YES_OPTION)
+							MTG.getEnabledPlugin(MTGTokensProvider.class).listTokensFor(e).forEach(list::add);
+						
+						
+					}
 							
 
 						buzy.start(list.size());
