@@ -39,8 +39,6 @@ public class SQLLiteDAO extends AbstractMagicSQLDAO {
 		{
 			var rs = ps.executeQuery();
 			return rs.getInt(1);
-			
-			
 		} catch (SQLException e) {
 			logger.error("error getting last id {}",e.getMessage());
 			return -1;
