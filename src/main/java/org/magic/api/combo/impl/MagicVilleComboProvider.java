@@ -8,7 +8,6 @@ import org.jsoup.nodes.Document;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCombo;
 import org.magic.api.interfaces.abstracts.AbstractComboProvider;
-import org.magic.services.network.MTGHttpClient;
 import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
 
@@ -20,13 +19,13 @@ public class MagicVilleComboProvider extends AbstractComboProvider {
 
 	@Override
 	public List<MTGCombo> loadComboWith(MTGCard mc) {
-		List<MTGCombo> ret = new ArrayList<>();
+		var ret = new ArrayList<MTGCombo>();
 
-		MTGHttpClient c = URLTools.newClient();
+		var c = URLTools.newClient();
 
 		String id;
 		try {
-			Document req = RequestBuilder.build().setClient(c).url(BASE_URL+"submit_search").post().addContent("n", mc.getName()).toHtml();
+			var req = RequestBuilder.build().setClient(c).url(BASE_URL+"submit_search").post().addContent("n", mc.getName()).toHtml();
 			id = req.select("td>a").first().attr("id").replace("c_t_", "");
 		} catch (Exception e) {
 			logger.error("error looking for card {}",mc, e);

@@ -28,9 +28,6 @@ import org.magic.services.MTGControler;
 
 public class DefaultStockEditorDialog extends JDialog {
 
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 1L;
 	private static final String CHECKBOX_PROPERTIES = "selected";
 	private transient BindingGroup mbindingGroup;
@@ -155,11 +152,11 @@ public class DefaultStockEditorDialog extends JDialog {
 						panel1.add(lblQtyValue);
 
 						var languageLabel = new JLabel("Language:");
-				var labelGbc2 = new GridBagConstraints();
-				labelGbc2.insets = new Insets(5, 5, 5, 5);
-				labelGbc2.gridx = 0;
-				labelGbc2.gridy = 3;
-				mcontentPane.add(languageLabel, labelGbc2);
+						var labelGbc2 = new GridBagConstraints();
+						labelGbc2.insets = new Insets(5, 5, 5, 5);
+						labelGbc2.gridx = 0;
+						labelGbc2.gridy = 3;
+						mcontentPane.add(languageLabel, labelGbc2);
 
 						languageJTextField = new JTextField();
 						var componentGbc2 = new GridBagConstraints();

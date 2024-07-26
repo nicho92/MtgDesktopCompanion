@@ -83,14 +83,6 @@ public class SMFComboProvider extends AbstractComboProvider {
 						cbos.add(cbo);
 
 			});
-
-
-
-
-
-
-
-
 		return cbos;
 	}
 

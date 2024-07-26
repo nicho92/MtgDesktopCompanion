@@ -856,14 +856,6 @@
       <enable>true</enable>
     </combo>
     <combo>
-      <class>org.magic.api.combo.impl.EssentialMagicComboProvider</class>
-      <enable>true</enable>
-    </combo>
-    <combo>
-      <class>org.magic.api.combo.impl.MTGCombosProvider</class>
-      <enable>true</enable>
-    </combo>
-    <combo>
       <class>org.magic.api.combo.impl.SMFComboProvider</class>
       <enable>true</enable>
     </combo>
