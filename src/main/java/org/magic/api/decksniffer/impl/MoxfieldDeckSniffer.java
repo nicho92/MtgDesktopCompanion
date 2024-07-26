@@ -33,7 +33,7 @@ public class MoxfieldDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public String[] listFilter() {
-		return new String[]{"Archon","highlanderAustralian","Brawl","highlanderCanadian","Centurion","Commander","CommanderPrecons","Conquest","DuelCommander","Gladiator","Historic","HistoricBrawl","Legacy","Leviathan","Modern","OldSchool","Oathbreaker","Pauper","PauperEDH","PennyDreadful","Pioneer","Premodern","Primordial","Standard","Vintage","None"};
+		return new String[]{"Archon","highlanderAustralian","Brawl","highlanderCanadian","Centurion","Commander","CommanderPrecons","Conquest","DuelCommander","Gladiator","Historic","HistoricBrawl","Legacy","Leviathan","Modern","OldSchool","Oathbreaker","Pauper","PauperEDH","PennyDreadful","Pioneer","Precons","Premodern","Primordial","Standard","Vintage","None"};
 	}
 
 	@Override
