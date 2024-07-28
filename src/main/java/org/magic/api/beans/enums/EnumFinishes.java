@@ -9,11 +9,11 @@ import com.google.gson.annotations.SerializedName;
 
 public enum EnumFinishes implements MTGEnumeration{
 
-	@SerializedName(alternate = "etched", value = "ETCHED") 	ETCHED,
-	@SerializedName(alternate = "foil", value = "FOIL") 		FOIL,
+	@SerializedName(alternate = "etched", value = "ETCHED") 	 ETCHED,
+	@SerializedName(alternate = "foil", value = "FOIL") 				 FOIL,
 	@SerializedName(alternate = "glossy", value = "GLOSSY")     GLOSSY,
-	@SerializedName(alternate = "nonfoil", value = "NONFOIL") 	NONFOIL,
-	@SerializedName(alternate = "signed", value = "SIGNED") 	SIGNED;
+	@SerializedName(alternate = "nonfoil", value = "NONFOIL")  NONFOIL,
+	@SerializedName(alternate = "signed", value = "SIGNED") 	 SIGNED;
 
 	public static List<EnumFinishes> parseByLabel(List<String> names)
 	{

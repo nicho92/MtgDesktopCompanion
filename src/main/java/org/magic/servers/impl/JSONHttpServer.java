@@ -1299,13 +1299,12 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		
 		get("/stock/card/:scryfallId", URLTools.HEADER_JSON,(request, response) -> {
-				
 				var mc = MTG.getEnabledPlugin(MTGCardsProvider.class).getCardByScryfallId(request.params(SCRYFALL_ID));
 				return getEnabledPlugin(MTGDao.class).listStocks(mc);
 			}, transformer);
 		
 		
-		get("/stock/card/:collection/:cardName", URLTools.HEADER_JSON,
+		get("/stock/search/:collection/:cardName", URLTools.HEADER_JSON,
 				(request, response) -> getEnabledPlugin(MTGDao.class).listStocks(request.params(":cardName"),List.of(new MTGCollection(request.params(COLLECTION)))), transformer);
 	}
 	
@@ -1430,13 +1429,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 	}
 	
-	
 	private void initWebShop()
 	{
 
 		get("/webshop/config", URLTools.HEADER_JSON, (request, response) ->
-
-			 getCached(request.pathInfo(), new Callable<Object>() {
+		 getCached(request.pathInfo(), new Callable<Object>() {
 
 				@Override
 				public Object call() throws Exception {

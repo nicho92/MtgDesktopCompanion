@@ -56,7 +56,7 @@ public class MTGCard extends AbstractProduct {
 	private List<EnumFinishes> finishes;
 	private String flavor="";
 	private String flavorName;
-	private List<MTGCardNames> foreignNames;
+	private transient List<MTGCardNames> foreignNames;
 	private List<EnumFrameEffects> frameEffects;
 	private String frameVersion;
 	private String gathererCode;
@@ -85,7 +85,7 @@ public class MTGCard extends AbstractProduct {
 	private boolean reprintedCard;
 	private boolean reserved;
 	private MTGCard rotatedCard;
-	private List<MTGRuling> rulings;
+	private transient List<MTGRuling> rulings;
 	private String scryfallId;
 	private String scryfallIllustrationId;
 	private EnumSecurityStamp securityStamp;
