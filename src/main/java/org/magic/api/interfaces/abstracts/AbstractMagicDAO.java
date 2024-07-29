@@ -3,6 +3,7 @@ package org.magic.api.interfaces.abstracts;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.magic.api.beans.MTGAlert;
 import org.magic.api.beans.MTGAnnounce;
@@ -77,6 +78,13 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		saveOrUpdateCardStock(mcs);
 		
 	}
+	
+
+	@Override
+	public List<MTGCard> listCardsFromCollection(MTGCollection collection, MTGEdition me) throws SQLException {
+			return listStocks(collection, me).stream().map(MTGCardStock::getProduct).distinct().collect(Collectors.toList());
+	}
+
 	
 	
 	@Override
@@ -168,6 +176,18 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		return listCardsFromCollection(new MTGCollection(collectionName), new MTGEdition(me,me));
 	}
 
+	@Override
+	public List<MTGCardStock> listStocks(String collectionName, String me) throws SQLException {
+		return listStocks(new MTGCollection(collectionName), new MTGEdition(me,me));
+	}
+	
+
+	@Override
+	public List<MTGCard> listCardsFromCollection(MTGCollection collection) throws SQLException {
+		return listCardsFromCollection(collection, null);
+	}
+
+	
 
 	@Override
 	public void deleteTransaction(List<Transaction> t) throws SQLException {

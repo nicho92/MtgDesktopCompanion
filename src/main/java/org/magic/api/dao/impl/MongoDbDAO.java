@@ -452,26 +452,21 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	}
 
 
+	
 
 	@Override
-	public List<MTGCard> listCardsFromCollection(MTGCollection collection) throws SQLException {
-		return listCardsFromCollection(collection, null);
-	}
-
-
-	@Override
-	public List<MTGCard> listCardsFromCollection(MTGCollection collection, MTGEdition me) throws SQLException {
-
-		var ret = new ArrayList<MTGCard>();
+	public List<MTGCardStock> listStocks(MTGCollection collection, MTGEdition me) throws SQLException {
+		var ret = new ArrayList<MTGCardStock>();
 
 		var b = Filters.eq(dbStockColField,collection.getName());
 
 		if (me != null) {
 			b = Filters.and(b,Filters.eq(dbStockSetField,me.getId().toUpperCase()));
 		}
-		db.getCollection(colStocks, BasicDBObject.class).find(b).forEach((Consumer<BasicDBObject>) result -> ret.add(deserialize(result.get("stockItem"), MTGCardStock.class).getProduct()));
+		db.getCollection(colStocks, BasicDBObject.class).find(b).forEach((Consumer<BasicDBObject>) result -> ret.add(deserialize(result.get("stockItem"), MTGCardStock.class)));
 		return ret;
 	}
+
 
 	@Override
 	public List<String> listEditionsIDFromCollection(MTGCollection collection) throws SQLException {
@@ -1014,5 +1009,6 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 		return trans;
 	}
+
 
 }

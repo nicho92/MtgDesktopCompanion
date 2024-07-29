@@ -674,5 +674,11 @@ public class RedisDAO extends AbstractKeyValueDao {
 		return "Redis";
 	}
 
+	@Override
+	public List<MTGCardStock> listStocks(MTGCollection collection, MTGEdition me) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 }

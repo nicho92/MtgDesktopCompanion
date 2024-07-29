@@ -1292,21 +1292,13 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		return map;
 	}
 
-
 	@Override
-	public List<MTGCard> listCardsFromCollection(MTGCollection collection) throws SQLException {
-		return listCardsFromCollection(collection, null);
-	}
-
-
-	@Override
-	public List<MTGCard> listCardsFromCollection(MTGCollection collection, MTGEdition me) throws SQLException {
-
-		var ret = new ArrayList<MTGCard>();
-		var sql = "SELECT distinct(idmc), mcard FROM stocks WHERE qte > 0 AND collection= ?";
+	public List<MTGCardStock> listStocks(MTGCollection collection, MTGEdition me) throws SQLException {
+		var ret = new ArrayList<MTGCardStock>();
+		var sql = "SELECT * FROM stocks WHERE collection= ? and qte > 0";
 
 		if (me != null)
-			sql = "SELECT distinct(idmc),mcard FROM stocks WHERE qte > 0 AND collection= ? and idMe = ?";
+			sql = "SELECT * FROM stocks WHERE qte > 0 AND collection= ? and idMe = ?";
 
 		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement(sql)) {
 			pst.setString(1, collection.getName());
@@ -1314,15 +1306,16 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setString(2, me.getId());
 			try (ResultSet rs = executeQuery(pst)) {
 				while (rs.next()) {
-					var mc = readCard(rs,MCARD);
+					var mc = readStock(rs);
 					ret.add(mc);
-					notify(mc);
+					notify(mc.getProduct());
 				}
 			}
 		}
 		return ret;
 	}
-
+	
+	
 	@Override
 	public List<String> listEditionsIDFromCollection(MTGCollection collection) throws SQLException {
 		var sql = "SELECT distinct(idMe) FROM stocks WHERE qte > 0 AND collection=?";

@@ -31,11 +31,6 @@ public interface MTGDao extends MTGPlugin{
 	public void moveEdition(MTGEdition ed, MTGCollection from, MTGCollection to) throws SQLException;
 	public void removeEdition(MTGEdition ed, MTGCollection col) throws SQLException;
 
-	public Map<String, Integer> getCardsCountGlobal(MTGCollection c) throws SQLException;
-	public List<MTGCard> listCardsFromCollection(String collectionName) throws SQLException;
-	public List<MTGCard> listCardsFromCollection(MTGCollection collection) throws SQLException;
-	public List<MTGCard> listCardsFromCollection(MTGCollection collection, MTGEdition me) throws SQLException;
-	public List<MTGCard> listCardsFromCollection(String collectionName,String me) throws SQLException;
 
 	public MTGCollection getCollection(String name) throws SQLException;
 	public void saveCollection(MTGCollection c) throws SQLException;
@@ -50,12 +45,19 @@ public interface MTGDao extends MTGPlugin{
 	public List<MTGStockItem> listStockItems()throws SQLException;
 	public MTGStockItem getStockById(EnumItems typeStock, Long id)throws SQLException;
 	public void saveOrUpdateStock(MTGStockItem stock) throws SQLException;
-
+	
+	public Map<String, Integer> getCardsCountGlobal(MTGCollection c) throws SQLException;
+	public List<MTGCard> listCardsFromCollection(String collectionName) throws SQLException;
+	public List<MTGCard> listCardsFromCollection(MTGCollection collection) throws SQLException;
+	public List<MTGCard> listCardsFromCollection(MTGCollection collection, MTGEdition me) throws SQLException;
+	public List<MTGCard> listCardsFromCollection(String collectionName,String me) throws SQLException;
 	public List<MTGCardStock> listStocks(MTGCard mc) throws SQLException;
 	public List<MTGCardStock> listStocks(MTGCard mc, MTGCollection col,boolean editionStrict) throws SQLException;
 	public List<MTGCardStock> listStocks(String cardName, List<MTGCollection> cols) throws SQLException;
 	public List<MTGCardStock> listStocks(List<MTGCollection> cols) throws SQLException;
 	public List<MTGCardStock> listStocks() throws SQLException;
+	public List<MTGCardStock> listStocks(MTGCollection collection, MTGEdition me) throws SQLException;
+	public List<MTGCardStock> listStocks(String collectionName,String me) throws SQLException;
 	
 	
 	public MTGCardStock getStockWithTiersID(String key,String id) throws SQLException;

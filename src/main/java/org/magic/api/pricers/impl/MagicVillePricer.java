@@ -35,9 +35,9 @@ public class MagicVillePricer extends AbstractPricesProvider {
 
 	@Override
 	public List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
-		List<MTGPrice> list = new ArrayList<>();
+		var list = new ArrayList<MTGPrice>();
 
-		String res = httpclient.toString(httpclient.doPost(WEBSITE+"/fr/resultats.php?zbob=1", httpclient.buildMap().put("recherche_titre", card.getName()).build(), null));
+		var res = httpclient.toString(httpclient.doPost(WEBSITE+"/fr/resultats.php?zbob=1", httpclient.buildMap().put("recherche_titre", card.getName()).build(), null));
 		if(res.length()>100)
 		{
 			logger.error("too much result");
@@ -46,12 +46,12 @@ public class MagicVillePricer extends AbstractPricesProvider {
 
 		var key = "ref=";
 		var code = res.substring(res.indexOf(key), res.indexOf("\";"));
-		String url = WEBSITE+"/fr/register/show_card_sale?"+code;
+		var url = WEBSITE+"/fr/register/show_card_sale?"+code;
 
 		logger.info("{} looking for prices {}",getName(),card);
 
 
-		Document doc =URLTools.extractAsHtml(url);
+		var doc =URLTools.extractAsHtml(url);
 
 		Element table = null;
 		try {

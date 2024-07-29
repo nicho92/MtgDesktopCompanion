@@ -1292,7 +1292,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			getCached(request.pathInfo(), new Callable<Object>() {
 				@Override
 				public List<MTGCardStock> call() throws Exception {
-					return getEnabledPlugin(MTGDao.class).listStocks(List.of(new MTGCollection(request.params(COLLECTION)))).stream().filter(mcs->mcs.getProduct().getEdition().getId().equalsIgnoreCase(request.params(ID_SET))).toList();
+					return getEnabledPlugin(MTGDao.class).listStocks(request.params(COLLECTION), request.params(ID_SET));
 				}
 			})
 		, transformer);
