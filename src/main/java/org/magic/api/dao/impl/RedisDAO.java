@@ -160,6 +160,13 @@ public class RedisDAO extends AbstractKeyValueDao {
 		redisCommand.srem(KEY_COLLECTIONS, c.getName());
 	}
 	
+
+	@Override
+	public List<MTGCardStock> listStocks(MTGCollection collection, MTGEdition me) throws SQLException {
+		return redisCommand.smembers(key(collection,me)).stream().map(s->serialiser.fromJson(s, MTGCardStock.class)).collect(Collectors.toList());
+	}
+
+	
 	@Override
 	public Map<String, Integer> getCardsCountGlobal(MTGCollection c) throws SQLException {
 		
@@ -211,17 +218,6 @@ public class RedisDAO extends AbstractKeyValueDao {
 	@Override
 	public MTGDeck getDeckById(Integer id) throws SQLException {
 		return serialiser.fromJson(redisCommand.get(KEY_DECK+SEPARATOR+id),MTGDeck.class);
-	}
-
-	@Override
-	public List<MTGCard> listCardsFromCollection(MTGCollection collection, MTGEdition me) throws SQLException {
-		return redisCommand.smembers(key(collection,me)).stream().map(s->serialiser.fromJson(s, MTGCard.class)).collect(Collectors.toList());
-	}
-	
-	
-	@Override
-	public List<MTGCard> listCardsFromCollection(MTGCollection collection) throws SQLException {
-		return redisCommand.smembers(key(collection)).stream().map(s->serialiser.fromJson(s, MTGCard.class)).toList();
 	}
 
 	@Override
@@ -672,12 +668,6 @@ public class RedisDAO extends AbstractKeyValueDao {
 	@Override
 	public String getName() {
 		return "Redis";
-	}
-
-	@Override
-	public List<MTGCardStock> listStocks(MTGCollection collection, MTGEdition me) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	
