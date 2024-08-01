@@ -39,7 +39,7 @@ public class ArchidektDeckSniffer extends AbstractDeckSniffer {
 
 		logger.debug("sniff deck at {}",info.getUrl());
 
-		MTGDeck deck = info.toBaseDeck();
+		var deck = info.toBaseDeck();
 		
 		var obj = RequestBuilder.build()
 				   .setClient(URLTools.newClient())

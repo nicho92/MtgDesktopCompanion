@@ -39,13 +39,9 @@ public class DAOProviderTests {
 	@Test
 	public void launch()
 	{
-//		PluginRegistry.inst().listPlugins(MTGDao.class).forEach(p->{
-//			testPlugin(p);	
-//		});
-		
-		
-		testPlugin(new RedisDAO());
-		
+		PluginRegistry.inst().listPlugins(MTGDao.class).forEach(p->{
+			testPlugin(p);	
+		});
 	}
 	
 	
