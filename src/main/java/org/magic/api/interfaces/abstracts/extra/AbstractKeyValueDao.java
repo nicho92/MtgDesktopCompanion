@@ -29,7 +29,6 @@ public abstract class AbstractKeyValueDao extends AbstractMagicDAO {
 	protected static final String SEPARATOR = ":";
 	protected static final String KEY_COLLECTIONS = "collections";
 	protected static final String KEY_DECK = "decks";
-	protected static final String KEY_CARDS = "cards";
 	protected static final String KEY_STOCKS = "stocks";
 	protected static final String KEY_SEALED = "sealeds";
 	protected static final String KEY_TRANSACTIONS ="transactions";
@@ -80,10 +79,9 @@ public abstract class AbstractKeyValueDao extends AbstractMagicDAO {
 		return KEY_ALERTS+SEPARATOR+c.getId();
 	}
 	
-	
 	protected String key(MTGCollection c)
 	{
-		return KEY_CARDS+SEPARATOR+c.getName();
+		return KEY_STOCKS+SEPARATOR+c.getName();
 	}
 	
 	protected String key(Contact c)
@@ -98,7 +96,7 @@ public abstract class AbstractKeyValueDao extends AbstractMagicDAO {
 	
 	protected String key(MTGCardStock c)
 	{
-		return KEY_STOCKS+SEPARATOR+c.getId();
+		return key(c.getMagicCollection(),c.getProduct().getEdition())+SEPARATOR+c.getId();
 	}
 	
 	protected String key(MTGSealedStock c)

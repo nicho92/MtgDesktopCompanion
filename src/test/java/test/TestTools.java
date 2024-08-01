@@ -27,19 +27,14 @@ public class TestTools {
 	public static JsonObject loadGraderData() throws IOException
 	{
 		return URLTools.toJson(TestTools.class.getResource("/default_value.json").openStream()).getAsJsonObject();
-		
 	}
-	
-	
 	
 	public static void initTest()
 	{
 //		MTGConstants.CONF_DIR = new File(System.getProperty("user.home") + "/.magicDeskCompanion-test/");
 //		MTGConstants.DATA_DIR = new File(MTGConstants.CONF_DIR.getAbsolutePath(),"data");
-		MTGLogger.changeLevel(Level.DEBUG);
+		MTGLogger.changeLevel(Level.INFO);
 		
 		getEnabledPlugin(MTGCardsProvider.class).init();
 	}
-	
-	
 }

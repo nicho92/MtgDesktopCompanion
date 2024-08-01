@@ -78,7 +78,6 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		saveOrUpdateCardStock(mcs);
 		
 	}
-	
 
 	@Override
 	public List<MTGCard> listCardsFromCollection(MTGCollection collection, MTGEdition me) throws SQLException {

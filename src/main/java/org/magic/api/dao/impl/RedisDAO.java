@@ -142,7 +142,7 @@ public class RedisDAO extends AbstractKeyValueDao {
 	
 	@Override
 	public List<String> listEditionsIDFromCollection(MTGCollection collection) throws SQLException {
-		return redisCommand.keys(key(collection)+SEPARATOR+"*").stream().map(s->s.substring(s.lastIndexOf(SEPARATOR)+1)).toList();
+		return listStocks(collection, null).stream().map(mcs->mcs.getProduct().getEdition().getId()).distinct().collect(Collectors.toList());
 	}
 	
 	@Override
@@ -163,9 +163,28 @@ public class RedisDAO extends AbstractKeyValueDao {
 
 	@Override
 	public List<MTGCardStock> listStocks(MTGCollection collection, MTGEdition me) throws SQLException {
-		return redisCommand.smembers(key(collection,me)).stream().map(s->serialiser.fromJson(s, MTGCardStock.class)).collect(Collectors.toList());
+		var ret = new ArrayList<MTGCardStock>();
+		redisCommand.keys(key(collection,me)+SEPARATOR+"*").forEach(s->{
+			var d=  serialiser.fromJson(redisCommand.get(s), MTGCardStock.class);
+			ret.add(d);
+		});
+		return ret;
 	}
 
+	
+	
+	public static void main(String[] args) throws SQLException {
+		var rds = new RedisDAO();
+		
+		rds.init();
+		
+		
+		for(var c : rds.listCardsFromCollection(new MTGCollection("Library")))
+				{
+			System.out.println(c);
+				}
+		
+	}
 	
 	@Override
 	public Map<String, Integer> getCardsCountGlobal(MTGCollection c) throws SQLException {
@@ -173,16 +192,12 @@ public class RedisDAO extends AbstractKeyValueDao {
 		var map = new HashMap<String,Integer>();
 		
 		redisCommand.keys(key(c)+SEPARATOR+"*").forEach(s->{
-			var idSet = s.substring(s.lastIndexOf(SEPARATOR)+1);
-			var count = redisCommand.scard(s).intValue();
+			var d=  serialiser.fromJson(redisCommand.get(s), MTGCardStock.class);
+			map.merge(d.getProduct().getEdition().getId(), 1, Integer::sum);
 			
-			map.put(idSet, count);
 		});
 		return map;
 	}
-
-
-
 
 	@Override
 	public List<MTGDeck> listDecks() throws SQLException {
@@ -532,9 +547,9 @@ public class RedisDAO extends AbstractKeyValueDao {
 	public List<MTGCardStock> listStocks(MTGCard mc, MTGCollection col, boolean editionStrict) throws SQLException {
 
 		if(editionStrict)
-			return listStocks().stream().filter(mcs->mcs.getMagicCollection().getName().equals(col.getName())).filter(mcs->mcs.getProduct().equals(mc)).toList();
+			return listStocks(col,null).stream().filter(mcs->mcs.getProduct().getScryfallId().equals(mc.getScryfallId())).toList();
 		else
-			return listStocks().stream().filter(mcs->mcs.getMagicCollection().getName().equals(col.getName())).filter(mcs->mcs.getProduct().getName().equals(mc.getName())).toList();
+			return listStocks(col,null).stream().filter(mcs->mcs.getProduct().getName().equals(mc.getName())).toList();
 	}
 
 	@Override

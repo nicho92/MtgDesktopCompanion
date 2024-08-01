@@ -13,6 +13,7 @@ import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCondition;
+import org.magic.api.dao.impl.RedisDAO;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
@@ -28,18 +29,22 @@ public class DAOProviderTests {
 	@Before
 	public void initTest() throws IOException, URISyntaxException
 	{
+		MTGControler.getInstance();
 		TestTools.initTest();
 		mc = TestTools.loadData().get(0);
 		ed = mc.getEdition();
-		MTGControler.getInstance();
+		
 	}
 	
 	@Test
 	public void launch()
 	{
-		PluginRegistry.inst().listPlugins(MTGDao.class).forEach(p->{
-			testPlugin(p);	
-		});
+//		PluginRegistry.inst().listPlugins(MTGDao.class).forEach(p->{
+//			testPlugin(p);	
+//		});
+		
+		
+		testPlugin(new RedisDAO());
 		
 	}
 	
@@ -89,12 +94,9 @@ public class DAOProviderTests {
 			
 			System.out.println(p.listAlerts());
 			System.out.println(p.hasAlert(mc));
-			
-			
-		
-			
+				
 			System.out.println("STOCKS");
-			MTGCardStock stock = new MTGCardStock();
+			var stock = new MTGCardStock();
 							stock.setProduct(mc);
 							stock.setComment("TEST");
 							stock.setQte(1);
