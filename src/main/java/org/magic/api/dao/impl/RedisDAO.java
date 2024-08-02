@@ -1,5 +1,6 @@
 package org.magic.api.dao.impl;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ import org.magic.api.beans.technical.audit.DAOInfo;
 import org.magic.api.interfaces.MTGSerializable;
 import org.magic.api.interfaces.abstracts.AbstractTechnicalServiceManager;
 import org.magic.api.interfaces.abstracts.extra.AbstractKeyValueDao;
+import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;
 import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.ImageTools;
@@ -173,13 +175,17 @@ public class RedisDAO extends AbstractKeyValueDao {
 
 	
 	
-	public static void main(String[] args) throws SQLException {
+	public static void main(String[] args) throws Exception {
+		
+		var col = new MTGCollection("Library");
+		
+		MTGControler.getInstance().init();
+		
 		var rds = new RedisDAO();
+			 rds.init();
+					 
 		
-		rds.init();
-		
-		
-		for(var c : rds.listCardsFromCollection(new MTGCollection("Library")))
+		for(var c : rds.listCardsFromCollection(col))
 				{
 			System.out.println(c);
 				}

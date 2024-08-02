@@ -331,7 +331,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 				cs.setPercentDayChange(UITools.parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text())/100);
 				cs.setFoil(false);
 				var set = e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).getElementsByTag("a").get(0).attr("data-card-id");
-				cs.setEd(aliases.getReversedSetIdFor(this,StringUtils.substringBetween(set, "[", "]").toUpperCase()));
+				cs.setEd(aliases.getSetIdFor(this,StringUtils.substringBetween(set, "[", "]").toUpperCase()));
 
 				list.add(cs);
 
