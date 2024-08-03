@@ -13,7 +13,6 @@ import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.enums.EnumCondition;
-import org.magic.api.dao.impl.RedisDAO;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGControler;
 import org.magic.services.PluginRegistry;

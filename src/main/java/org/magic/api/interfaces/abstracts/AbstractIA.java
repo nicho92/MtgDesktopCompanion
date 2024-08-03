@@ -55,7 +55,7 @@ public abstract class AbstractIA extends AbstractMTGPlugin implements MTGIA {
 			 }
 			 
 			 try {
-				 mc.setFlavor(read(obj,"flavor").getAsString());
+				 mc.setFlavor(read(obj,"flavor","flavorText").getAsString());
 			 }
 			 catch(Exception e)
 			 {
