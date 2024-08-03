@@ -1611,6 +1611,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setString(17, state.getProduct().getName());
 				executeUpdate(pst,false);
 				state.setId(getGeneratedKey(pst));
+				state.setDateUpdate(new java.util.Date());
 			} catch (Exception e) {
 				logger.error(e);
 			}
@@ -1637,6 +1638,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				pst.setString(17, state.getProduct().getName());
 				pst.setLong(18, state.getId());
 				executeUpdate(pst,false);
+				state.setDateUpdate(new java.util.Date());
 			} catch (Exception e) {
 				logger.error(e);
 			}

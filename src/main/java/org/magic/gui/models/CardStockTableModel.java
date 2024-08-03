@@ -1,5 +1,6 @@
 package org.magic.gui.models;
 
+import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
 
@@ -35,14 +36,15 @@ public class CardStockTableModel extends GenericTableModel<MTGCardStock> {
 				"PRICE",
 				"GRADED",
 				"COMMENTS",
-				"SYNC"};
+				"SYNC",
+				"Update"};
 	}
 	
 
 
 	@Override
 	public int[] defaultHiddenColumns() {
-		return new int[] {0,4,10,11,12,14};
+		return new int[] {0,4,10,11,12,14,17};
 	}
 
 
@@ -96,6 +98,8 @@ public class CardStockTableModel extends GenericTableModel<MTGCardStock> {
 			return String.class;
 		case 16:
 			return Map.class;
+		case 17:
+			return Date.class;
 
 
 		default:
@@ -107,7 +111,7 @@ public class CardStockTableModel extends GenericTableModel<MTGCardStock> {
 	public boolean isCellEditable(int row, int column) {
 
 		if(writable)
-			return !(column ==1 || column==2|| column==3 || column==4 || column==14 );
+			return !(column ==1 || column==2|| column==3 || column==4 || column==14 || column==17 );
 		else
 			return false;
 	}
@@ -150,7 +154,8 @@ public class CardStockTableModel extends GenericTableModel<MTGCardStock> {
 			return items.get(row).getComment();
 		case 16:
 			return items.get(row).getTiersAppIds();
-
+		case 17:
+			return items.get(row).getDateUpdate();
 		default:
 			return "";
 		}
