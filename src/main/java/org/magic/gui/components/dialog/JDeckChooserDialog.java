@@ -27,12 +27,14 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 import org.jdesktop.swingx.JXTable;
+import org.jdesktop.swingx.JXTree;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.editor.JTagsPanel;
 import org.magic.gui.models.DeckSelectionTableModel;
+import org.magic.gui.renderer.DeckTreeCellRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -256,6 +258,7 @@ public class JDeckChooserDialog extends JDialog {
 		panelTree.setLayout(new BorderLayout(0, 0));
 		panelRight.setTopComponent(panelTree);
 		tree = new JTree();
+		tree.setCellRenderer(new DeckTreeCellRenderer());
 		tree.setModel(model);
 
 		panelTree.add(new JScrollPane(tree));
