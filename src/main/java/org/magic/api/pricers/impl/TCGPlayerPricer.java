@@ -53,7 +53,7 @@ public class TCGPlayerPricer extends AbstractPricesProvider {
 				mp.setCurrency(Currency.getInstance("USD"));
 				mp.setCountry(Locale.US.getDisplayCountry(MTGControler.getInstance().getLocale()));
 				mp.setSite(getName());
-				mp.setScryfallId(card);
+				mp.setCardData(card);
 				mp.setSeller(e.getAsJsonObject().get("sellerName").getAsString());
 				mp.setLanguage(e.getAsJsonObject().get("language").getAsString());
 				mp.setQuality(e.getAsJsonObject().get("condition").getAsString());

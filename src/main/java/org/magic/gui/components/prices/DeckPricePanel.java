@@ -1,4 +1,4 @@
-package org.magic.gui.components.deck;
+package org.magic.gui.components.prices;
 
 import java.awt.BorderLayout;
 import java.awt.Font;

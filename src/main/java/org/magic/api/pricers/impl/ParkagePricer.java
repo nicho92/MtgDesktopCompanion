@@ -43,7 +43,7 @@ public class ParkagePricer extends AbstractPricesProvider {
 				
 					var mp = new MTGPrice();
 					mp.setCountry(Locale.FRANCE.getDisplayCountry(MTGControler.getInstance().getLocale()));
-					mp.setScryfallId(card);
+					mp.setCardData(card);
 					mp.setCurrency("EUR");
 					mp.setSite(getName());
 					mp.setLanguage(jo.get("lang").getAsString());

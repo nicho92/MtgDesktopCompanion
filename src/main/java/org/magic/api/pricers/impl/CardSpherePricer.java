@@ -39,7 +39,7 @@ public class CardSpherePricer extends AbstractPricesProvider {
 						 p.setFoil(obj.get("is_foil").getAsBoolean());
 						 p.setValue(obj.get("prices").getAsJsonObject().get("price").getAsDouble());
 						 p.setCurrency(Currency.getInstance("USD"));
-						 p.setScryfallId(card);
+						 p.setCardData(card);
 						 p.setQty(1);
 						 p.setSite(getName());
 						ret.add(p);

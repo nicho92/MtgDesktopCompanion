@@ -51,7 +51,7 @@ public class MTGStandPricer extends AbstractPricesProvider {
 			var htCountry = URLTools.toHtml(obj.get("seller").getAsString()).select("img").attr("src");
 			
 			p.setCurrency(cur);
-			p.setScryfallId(card);
+			p.setCardData(card);
 			p.setSeller(URLTools.toHtml(obj.get("seller").getAsString()).text());
 			p.setSite(getName());
 			p.setSellerUrl(BASE_URL+"/"+p.getSeller());

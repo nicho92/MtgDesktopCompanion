@@ -30,6 +30,7 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.editor.JCheckableListBox;
+import org.magic.gui.components.prices.DeckPricePanel;
 import org.magic.gui.components.widgets.JExportButton;
 import org.magic.gui.models.DeckStockComparisonModel;
 import org.magic.gui.renderer.standard.NumberCellEditorRenderer;

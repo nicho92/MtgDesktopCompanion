@@ -75,6 +75,7 @@ import org.magic.gui.components.charts.RarityRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
 import org.magic.gui.components.dialog.JDeckChooserDialog;
 import org.magic.gui.components.editor.MagicEditionsComboBoxCellEditor;
+import org.magic.gui.components.prices.DeckPricePanel;
 import org.magic.gui.components.tech.CriteriaComponent;
 import org.magic.gui.components.tech.LoggerViewPanel;
 import org.magic.gui.components.tech.ObjectViewerPanel;

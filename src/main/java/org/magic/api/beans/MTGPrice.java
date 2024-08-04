@@ -14,6 +14,7 @@ public class MTGPrice implements Comparable<MTGPrice> {
 	private Object shopItem;
 	private String country;
 	private String scryfallId;
+	private String cardName;
 	private int qty = 1;
 	private String sellerUrl;
 	private MoneyValue priceValue;
@@ -39,13 +40,18 @@ public class MTGPrice implements Comparable<MTGPrice> {
 		return qty;
 	}
 
+	public String getCardName() {
+		return cardName;
+	}
+	
 
 	public String getScryfallId() {
 		return scryfallId;
 	}
 	
-	public void setScryfallId(MTGCard magicCard) {
+	public void setCardData(MTGCard magicCard) {
 		this.scryfallId = magicCard.getScryfallId();
+		this.cardName=magicCard.getName();
 	}
 
 	public Object getShopItem() {
@@ -140,7 +146,7 @@ public class MTGPrice implements Comparable<MTGPrice> {
 
 	@Override
 	public String toString() {
-		return scryfallId;
+		return getCardName();
 	}
 
 	@Override

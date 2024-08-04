@@ -241,7 +241,7 @@ public class MTGJsonPricerProvider {
 				var mp = new MTGPrice();
 				mp.setCountry("None");
 				mp.setCurrency("EUR");
-				mp.setScryfallId(card);
+				mp.setCardData(card);
 				mp.setSeller("Mkm");
 				mp.setSite("Mkm");
 				mp.setUrl(MkmConstants.MKM_SITE_URL);

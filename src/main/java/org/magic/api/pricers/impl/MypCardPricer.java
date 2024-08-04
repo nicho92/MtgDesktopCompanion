@@ -102,7 +102,7 @@ public class MypCardPricer extends AbstractPricesProvider {
 			}
 
 			var mp = new MTGPrice();
-				mp.setScryfallId(card);
+				mp.setCardData(card);
 				mp.setCountry("Brazil");
 				mp.setCurrency(Currency.getInstance("BRL"));
 				mp.setSite(getName());

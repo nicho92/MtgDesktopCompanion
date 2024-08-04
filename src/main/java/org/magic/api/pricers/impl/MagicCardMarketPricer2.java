@@ -102,7 +102,7 @@ public class MagicCardMarketPricer2 extends AbstractPricesProvider  {
 
 			if (card.getRarity() != null && !getBoolean("COMMONCHECK") && card.getRarity()==EnumRarity.COMMON) {
 				var mp = new MTGPrice();
-					mp.setScryfallId(card);
+					mp.setCardData(card);
 					mp.setCurrency("EUR");
 					mp.setValue(0.01);
 					mp.setSite(getName());

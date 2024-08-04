@@ -17,7 +17,7 @@ import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
-import org.magic.gui.components.GroupedShoppingPanel;
+import org.magic.gui.components.prices.GroupedShoppingPanel;
 import org.magic.gui.renderer.MagicCardListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;

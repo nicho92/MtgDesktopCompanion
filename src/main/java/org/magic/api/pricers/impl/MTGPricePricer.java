@@ -67,7 +67,7 @@ public class MTGPricePricer extends AbstractPricesProvider {
 				if (name.equalsIgnoreCase(card.getName())) {
 					var price = new MTGPrice();
 					price.setCurrency("USD");
-					price.setScryfallId(card);
+					price.setCardData(card);
 					price.setSeller(getName());
 					price.setUrl(getString("WEBSITE") + "/sets/" + set + "/"+ mtgpriceID.substring(0, mtgpriceID.indexOf(set)));
 					price.setValue(UITools.parseDouble(fairPrice));

@@ -58,7 +58,7 @@ public abstract class AbstractPricesProvider extends AbstractMTGPlugin implement
 					MTGPrice p = getPrice(e.getKey()).stream().min(new MagicPricesComparator()).orElse(null);
 					if(p!=null)
 					{
-						p.setScryfallId(e.getKey());
+						p.setCardData(e.getKey());
 						p.setQty(e.getValue());
 						p.setValue(p.getValue()*e.getValue());
 						ret.add(p);
@@ -106,7 +106,7 @@ public abstract class AbstractPricesProvider extends AbstractMTGPlugin implement
 											if(MTGControler.getInstance().getCurrencyService().isEnable()) {
 												p.setValue(MTGControler.getInstance().getCurrencyService().convertTo(p.getCurrency(), p.getValue()));
 												p.setCurrency(MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
-												p.setScryfallId(card);
+												p.setCardData(card);
 											}
 											return p;
 										}

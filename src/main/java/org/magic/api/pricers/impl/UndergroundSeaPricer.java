@@ -74,7 +74,7 @@ public class UndergroundSeaPricer extends AbstractPricesProvider {
 			if(visitedNode.getType()==Token.NEW)
 			{
 				mp = new MTGPrice();
-				mp.setScryfallId(card);
+				mp.setCardData(card);
 				mp.setSite(getName());
 				mp.setUrl(url);
 				mp.setQuality(EnumCondition.PROXY.name());
