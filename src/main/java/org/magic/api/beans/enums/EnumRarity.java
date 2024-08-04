@@ -13,14 +13,11 @@ public enum EnumRarity implements Comparator<EnumRarity>, MTGEnumeration{
 	@SerializedName(alternate = "uncommon", value = "UNCOMMON") 	UNCOMMON (new Color(223, 223, 223),2),
 	@SerializedName(alternate = "rare", value = "RARE") 							RARE (new Color(238, 230, 0 ),3),
 	@SerializedName(alternate = "mythic", value = "MYTHIC") 					MYTHIC (new Color(240, 84, 16),4),
-	@SerializedName(alternate = "timeshifted", value = "TIMESHIFTED") 		TIMESHIFTED (new Color(138, 63, 255),5),
-	@SerializedName(alternate = {"Special","special"}, value = "SPECIAL") 	SPECIAL (Color.RED,6),
-	@SerializedName(alternate = {"Bonus","bonus"}, value = "BONUS") 		BONUS (new Color(238, 130, 238),7);
-
+	@SerializedName(alternate = {"Special","special"}, value = "SPECIAL") 	SPECIAL (new Color(130, 113, 245),5),
+	@SerializedName(alternate = {"Bonus","bonus"}, value = "BONUS") 		BONUS (new Color(238, 130, 238),6);
 
 	private Color color;
 	private int position;
-
 
 	private EnumRarity(Color c,int position) {
 
