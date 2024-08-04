@@ -8,7 +8,9 @@ import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGPrice;
 import org.magic.api.interfaces.abstracts.AbstractPricesProvider;
 import org.magic.services.MTGControler;
+import org.magic.services.network.RequestBuilder;
 import org.magic.services.network.URLTools;
+import org.magic.services.tools.UITools;
 
 import com.google.gson.JsonElement;
 
@@ -21,68 +23,50 @@ public class MTGStandPricer extends AbstractPricesProvider {
 	public String getName() {
 		return "MTGStand";
 	}
-
+	
 	@Override
 	protected List<MTGPrice> getLocalePrice(MTGCard card) throws IOException {
-
-		
-		if(getAuthenticator().get("TOKEN").isEmpty())
-		{
-			logger.error("No authentication information found for {}",getName());
-			return new ArrayList<>();
-		}
-		
-
-		String cur=MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getCurrencyCode();
-
-		String url=BASE_URL+"/api/"+getAuthenticator().get("TOKEN")+"/getseller/"+card.getScryfallId()+"/"+cur;
-		logger.debug("{} looking for prices at {}",getName(),url);
-
+		var c = URLTools.newClient();
+		var cur = MTGControler.getInstance().getCurrencyService().getCurrentCurrency().getCurrencyCode();
+		var j = RequestBuilder.build().setClient(c).get().url(BASE_URL+"/data-singlecard.php")
+																			.addContent("job","getsinglecard")
+																			.addContent("sid",card.getScryfallId())
+																			.addContent("userCurrencyBuyer",cur)
+																			.addContent("useridbuyer","ZmxNd2tjSzFiNzB4bWN3V2M2TmVWUT09")
+																			.toJson().getAsJsonObject();
+		logger.debug("{} looking for prices",getName());
 		List<MTGPrice> ret = new ArrayList<>();
-
-		var arr = URLTools.extractAsJson(url).getAsJsonArray();
+		var arr = j.get("data").getAsJsonArray();
 
 		if(arr.size()<=0)
 		{
+			logger.info("{} found nothing",getName());
 			return ret;
 		}
 
 		for(JsonElement el : arr)
 		{
+			var obj = el.getAsJsonObject();
 			var p = new MTGPrice();
+			var htCountry = URLTools.toHtml(obj.get("seller").getAsString()).select("img").attr("src");
+			
 			p.setCurrency(cur);
 			p.setScryfallId(card);
-			p.setSeller(el.getAsJsonObject().get("username").getAsString());
-			p.setSellerUrl(el.getAsJsonObject().get("user_market_stand_url").getAsString());
-			p.setUrl(el.getAsJsonObject().get("user_market_stand_url").getAsString());
-			p.setQuality(el.getAsJsonObject().get("condition").getAsString());
-			p.setLanguage(el.getAsJsonObject().get("language").getAsString());
-			p.setQty(el.getAsJsonObject().get("quantity").getAsInt());
-			p.setCountry(el.getAsJsonObject().get("user_country").getAsString());
+			p.setSeller(URLTools.toHtml(obj.get("seller").getAsString()).text());
 			p.setSite(getName());
-
-			if(!el.getAsJsonObject().get("SellingPrice"+cur).isJsonNull())
-			{
-				p.setValue(el.getAsJsonObject().get("SellingPrice"+cur).getAsDouble());
-				p.setFoil(false);
-			}
-			else if(!el.getAsJsonObject().get("SellingPriceFoil"+cur).isJsonNull())
-			{
-				p.setValue(el.getAsJsonObject().get("SellingPriceFoil"+cur).getAsDouble());
-				p.setFoil(true);
-			}
+			p.setSellerUrl(BASE_URL+"/"+p.getSeller());
+			p.setUrl(BASE_URL+"card-sid-"+card.getScryfallId());
+			p.setLanguage(URLTools.toHtml(obj.get("cardlanguage").getAsString()).text().replace("l:", ""));
+			p.setQuality(URLTools.toHtml(obj.get("cond").getAsString()).select("span").text().replace("c:", ""));
+			p.setValue(UITools.parseDouble(obj.get("price").getAsString().substring(0,obj.get("price").getAsString().indexOf(" "))));
+			p.setQty(obj.get("forsale").getAsInt());
+			p.setFoil(obj.get("foilq").getAsInt()>0);
+			p.setCountry(htCountry.replace("images/languages/usercountries/", "").replace(".png", ""));
 			ret.add(p);
 		}
 		logger.info("{} found {} items",getName(),ret.size());
 
 		return ret;
 	}
-
-
-	@Override
-	public List<String> listAuthenticationAttributes() {
-		return List.of("TOKEN");
-	}
-
 
 }
