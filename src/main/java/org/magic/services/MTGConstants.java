@@ -155,12 +155,6 @@ public class MTGConstants {
 	public static final URL ANNIVERSARY_BACK_CARD = MTGConstants.class.getResource("/icons/back30.jpg");
 	public static final URL COLLECTOR_BACK_CARD = MTGConstants.class.getResource("/icons/backCE.jpg");
 	public static final Image SAMPLE_PIC = Toolkit.getDefaultToolkit().getImage(MTGConstants.class.getResource("/data/sample.png"));
-	public static final ImageIcon ICON_SORCERY = getManaSymbol("sorcery");
-	public static final ImageIcon ICON_PLANESWALKER = getManaSymbol("planeswalker");
-	public static final ImageIcon ICON_LAND = getManaSymbol("land");
-	public static final ImageIcon ICON_CREATURE = getManaSymbol("creature");
-	public static final ImageIcon ICON_ARTIFACT = getManaSymbol("artifact");
-	
 	
 	public static ImageIcon getManaSymbol(String symb)
 	{
