@@ -32,8 +32,7 @@ public class RaritySorter implements MTGComparator<MTGCard> {
 		case RARE: return 3;
 		case MYTHIC: return 4;
 		case SPECIAL: return 5;
-		case TIMESHIFTED: return 6;
-		case BONUS: return 7;
+		case BONUS: return 6;
 		default : return 1;
 		}
 		
