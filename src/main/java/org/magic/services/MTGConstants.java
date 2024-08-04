@@ -164,7 +164,7 @@ public class MTGConstants {
 	
 	public static ImageIcon getManaSymbol(String symb)
 	{
-		return new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/mana/"+symb+".png"));
+		return new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/mana/"+symb.toLowerCase()+".png"));
 	}
 	
 	
