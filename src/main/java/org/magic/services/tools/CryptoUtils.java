@@ -63,7 +63,7 @@ public class CryptoUtils {
 	public static int randomInt(int i) {
 		try {
 			return SecureRandom.getInstanceStrong().nextInt(i);
-		} catch (NoSuchAlgorithmException e) {
+		} catch (NoSuchAlgorithmException e) {	
 			return -1;
 		}
 	}
@@ -73,6 +73,14 @@ public class CryptoUtils {
 			return SecureRandom.getInstanceStrong().nextLong();
 		} catch (NoSuchAlgorithmException e) {
 			return -1L;
+		}
+	}
+
+	public static Double randomDouble(double origin, double bound) {
+		try {
+			return SecureRandom.getInstanceStrong().nextDouble(origin,bound);
+		} catch (NoSuchAlgorithmException e) {
+			return -1.0;
 		}
 	}
 

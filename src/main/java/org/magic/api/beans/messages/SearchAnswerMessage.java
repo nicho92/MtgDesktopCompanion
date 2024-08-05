@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.abstracts.AbstractMessage;
+import org.magic.services.MTGControler;
 
 public class SearchAnswerMessage extends AbstractMessage {
 
@@ -25,7 +26,7 @@ public class SearchAnswerMessage extends AbstractMessage {
 		setTypeMessage(MSG_TYPE.ANSWER);
 		this.searchQuery = msg;
 		this.resultItems = ret;
-		setMessage("I have ! "+ ret.stream().map(mcs->mcs.getProduct().getName() + " " + mcs.getQte() + " " + mcs.getLanguage() + " " + mcs.getCondition()).collect(Collectors.joining(System.lineSeparator())));
+		setMessage("I have ! "+ ret.stream().map(mcs->mcs.getProduct().getName() + " " + mcs.getQte() + " " + mcs.getLanguage() + " " + mcs.getCondition() + " " + mcs.getPrice() + " " + MTGControler.getInstance().getCurrencyService().getCurrentCurrency()).collect(Collectors.joining(System.lineSeparator())));
 	}
 
 }
