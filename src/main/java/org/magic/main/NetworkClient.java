@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.abstracts.MTGUIComponent;
-import org.magic.gui.components.NetworkChatPanel;
+import org.magic.gui.components.network.NetworkChatPanel;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;

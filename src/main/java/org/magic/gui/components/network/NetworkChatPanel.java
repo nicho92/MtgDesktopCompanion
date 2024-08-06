@@ -1,6 +1,4 @@
-package org.magic.gui.components;
-
-import static org.magic.services.tools.MTG.capitalize;
+package org.magic.gui.components.network;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -28,6 +26,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
@@ -52,6 +51,7 @@ import org.magic.gui.components.deck.ConstructPanel;
 import org.magic.gui.components.dialog.JDeckChooserDialog;
 import org.magic.gui.components.dialog.importer.CardChooseDialog;
 import org.magic.gui.components.widgets.JLangLabel;
+import org.magic.gui.models.CardStockTableModel;
 import org.magic.gui.renderer.MessageRenderer;
 import org.magic.gui.renderer.PlayerRenderer;
 import org.magic.servers.impl.ActiveMQServer;
@@ -61,7 +61,7 @@ import org.magic.services.MTGDeckManager;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
-
+import static org.magic.services.tools.MTG.capitalize;
 
 public class NetworkChatPanel extends MTGUIComponent {
 
@@ -79,11 +79,11 @@ public class NetworkChatPanel extends MTGUIComponent {
 	private DefaultListModel<AbstractMessage> listMsgModel;
 	private DefaultListModel<Player> listPlayerModel;
 	private transient MTGNetworkClient client;
-
+	private CardStockTableModel stockResultModel;
+	
 	public NetworkChatPanel() {
 		setLayout(new BorderLayout(0, 0));
 
-		
 		client = MTG.getEnabledPlugin(MTGNetworkClient.class);
 		
 		listMsgModel = new DefaultListModel<>();
@@ -98,7 +98,10 @@ public class NetworkChatPanel extends MTGUIComponent {
 		var panneauHaut = new JPanel();
 		txtServer = new JTextField();
 		var panneauBas = new JPanel();
-		var panel = new JPanel();
+		var panelChat = new JPanel();
+		var tabbedPane = new JTabbedPane();
+		tabbedPane.addTab("Chat",MTGConstants.ICON_TAB_CHAT,panelChat);
+		
 		editorPane = new JTextArea();
 		var panel1 = new JPanel();
 		btnColorChoose = new JButton(MTGConstants.ICON_GAME_COLOR);
@@ -107,7 +110,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		txtServer.setText(MTGControler.getInstance().get("network-config/network-last-server", ActiveMQServer.DEFAULT_SERVER));
 		txtServer.setColumns(10);
 		btnLogout.setEnabled(false);
-		panel.setLayout(new BorderLayout());
+		panelChat.setLayout(new BorderLayout());
 		panelChatBox.setLayout(new BorderLayout());
 		editorPane.setText(capitalize("CHAT_INTRO_TEXT"));
 		editorPane.setLineWrap(true);
@@ -192,11 +195,11 @@ public class NetworkChatPanel extends MTGUIComponent {
 
 		add(new JScrollPane(listPlayers), BorderLayout.EAST);
 		add(panneauBas, BorderLayout.SOUTH);
-		add(panel, BorderLayout.CENTER);
+		add(tabbedPane, BorderLayout.CENTER);
 		
 		
-		panel.add(new JScrollPane(listMsg), BorderLayout.CENTER);
-		panel.add(panelChatBox, BorderLayout.SOUTH);
+		panelChat.add(new JScrollPane(listMsg), BorderLayout.CENTER);
+		panelChat.add(panelChatBox, BorderLayout.SOUTH);
 
 		panelChatBox.add(editorPane, BorderLayout.CENTER);
 		panelChatBox.add(panel1, BorderLayout.NORTH);
@@ -205,6 +208,19 @@ public class NetworkChatPanel extends MTGUIComponent {
 		panel1.add(btnColorChoose);
 		panel1.add(btnSearch);
 		panel1.add(btnDeck);
+		
+		var panelSearch = new JScrollPane();
+		tabbedPane.addTab("Search", MTGConstants.ICON_SEARCH, panelSearch, null);
+		
+		stockResultModel = new CardStockTableModel();
+		stockResultModel.setWritable(false);
+		var tableResult = UITools.createNewTable(stockResultModel, true );
+		panelSearch.setViewportView(tableResult);
+		
+		
+		
+		
+		
 		
 		initActions();
 		
@@ -447,6 +463,20 @@ public class NetworkChatPanel extends MTGUIComponent {
 									logger.error(e);
 								}
 								break;
+								
+						case ANSWER: 
+							var ret = ((SearchAnswerMessage)s).getResultItems();
+							
+							for(var c : ret)
+							{
+								c.setComment(s.getAuthor().getName());
+								stockResultModel.addItem(c);
+								stockResultModel.fireTableDataChanged();
+							}
+							
+							
+							break;
+								
 							
 						default:listMsgModel.addElement(s);break;
 						
@@ -478,8 +508,6 @@ public class NetworkChatPanel extends MTGUIComponent {
 	public ImageIcon getIcon() {
 		return MTGConstants.ICON_TAB_CHAT;
 	}
-
-
 
 }
 

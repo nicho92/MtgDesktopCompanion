@@ -5,11 +5,11 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
+import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.game.Player;
 import org.magic.api.beans.messages.SearchAnswerMessage;
 import org.magic.api.beans.messages.SearchMessage;
@@ -50,6 +50,12 @@ public class VirtualUser {
 			mcs.setProduct(card);
 			mcs.setQte(CryptoUtils.randomInt(20));
 			mcs.setPrice(CryptoUtils.randomDouble(0.0,50000.0));
+			mcs.setFoil(CryptoUtils.randomBoolean());
+			mcs.setAltered(CryptoUtils.randomBoolean());
+			mcs.setSigned(CryptoUtils.randomBoolean());
+			mcs.setCondition(EnumCondition.values()[CryptoUtils.randomInt(EnumCondition.values().length-1)]);
+			
+			
 			stock.add(mcs);
 		}
 		

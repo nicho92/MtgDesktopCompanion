@@ -84,6 +84,14 @@ public class CryptoUtils {
 		}
 	}
 
+	public static boolean randomBoolean() {
+		try {
+			return SecureRandom.getInstanceStrong().nextBoolean();
+		} catch (NoSuchAlgorithmException e) {
+			return false;
+		}
+	}
+
 
 
 }
