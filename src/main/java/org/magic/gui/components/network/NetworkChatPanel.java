@@ -80,6 +80,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 	private DefaultListModel<Player> listPlayerModel;
 	private transient MTGNetworkClient client;
 	private CardStockTableModel stockResultModel;
+	private JTabbedPane tabbedPane;
 	
 	public NetworkChatPanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -99,7 +100,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		txtServer = new JTextField();
 		var panneauBas = new JPanel();
 		var panelChat = new JPanel();
-		var tabbedPane = new JTabbedPane();
+		tabbedPane = new JTabbedPane();
 		tabbedPane.addTab("Chat",MTGConstants.ICON_TAB_CHAT,panelChat);
 		
 		editorPane = new JTextArea();
@@ -216,11 +217,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 		stockResultModel.setWritable(false);
 		var tableResult = UITools.createNewTable(stockResultModel, true );
 		panelSearch.setViewportView(tableResult);
-		
-		
-		
-		
-		
+	
 		
 		initActions();
 		
@@ -342,6 +339,8 @@ public class NetworkChatPanel extends MTGUIComponent {
 			} catch (IOException e1) {
 				logger.error(e1);
 			}
+			tabbedPane.setSelectedIndex(1);
+			
 		});
 		
 		btnDeck.addActionListener(al->{
