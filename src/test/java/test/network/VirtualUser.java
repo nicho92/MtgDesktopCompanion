@@ -49,7 +49,7 @@ public class VirtualUser {
 			var mcs = MTGControler.getInstance().getDefaultStock();
 			mcs.setProduct(card);
 			mcs.setQte(CryptoUtils.randomInt(20));
-			mcs.setPrice(CryptoUtils.randomDouble(0.0,50000.0));
+			mcs.setPrice(CryptoUtils.randomDouble(5000.0));
 			mcs.setFoil(CryptoUtils.randomBoolean());
 			mcs.setAltered(CryptoUtils.randomBoolean());
 			mcs.setSigned(CryptoUtils.randomBoolean());
