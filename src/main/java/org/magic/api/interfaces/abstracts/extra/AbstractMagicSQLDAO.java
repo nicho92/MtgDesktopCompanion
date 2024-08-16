@@ -701,19 +701,21 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 	@Override
 	public Contact getContactByLogin(String email, String password) throws SQLException {
-		try (var c = pool.getConnection();var pst = c.prepareStatement("SELECT * from contacts where contact_email=? and contact_password=? and contact_active=?"))
+		try (var c = pool.getConnection();var pst = c.prepareStatement("SELECT * from contacts where contact_email=? and contact_active=?"))
 		{
 				pst.setString(1, email);
-				pst.setString(2, CryptoUtils.generateSha256(password));
-				pst.setBoolean(3, true);
+				pst.setBoolean(2, true);
 				ResultSet rs = executeQuery(pst);
 				var res = rs.next();
 
 				if(!res)
 					throw new SQLException("No result Found");
 
-
-				return readContact(rs);
+				
+				if(CryptoUtils.verifyPassword(password, rs.getString("contact_password")))
+						return readContact(rs);
+				else
+						throw new SQLException("Password doesn't match");
 		}
 	}
 
@@ -928,18 +930,6 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 
 
 	@Override
-	public void changePassword(Contact ct, String newPassword) throws SQLException {
-		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE contacts SET contact_password = ? WHERE contacts.contact_id = ?;")) {
-			logger.debug("Changing password for {}",ct);
-			pst.setString(1, CryptoUtils.generateSha256(newPassword));
-			pst.setInt(2, ct.getId());
-			executeUpdate(pst,false);
-		}
-
-	}
-
-
-	@Override
 	public void deleteContact(Contact t) throws SQLException {
 		logger.debug("delete Contact {}",t );
 
@@ -965,7 +955,7 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 				{
 					pst.setString(1, ct.getName());
 					pst.setString(2, ct.getLastName());
-					pst.setString(3, CryptoUtils.generateSha256(ct.getPassword()));
+					pst.setString(3, CryptoUtils.generatePasswordHash(ct.getPassword()));
 					pst.setString(4, ct.getTelephone());
 					pst.setString(5, ct.getCountry());
 					pst.setString(6, ct.getAddress());
@@ -1007,6 +997,20 @@ public abstract class AbstractMagicSQLDAO extends AbstractMagicDAO {
 		}
 
 	}
+
+	
+
+	@Override
+	public void changePassword(Contact ct, String newPassword) throws SQLException {
+		try (var c = pool.getConnection(); PreparedStatement pst = c.prepareStatement("UPDATE contacts SET contact_password = ? WHERE contacts.contact_id = ?;")) {
+			logger.debug("Changing password for {}",ct);
+			pst.setString(1, CryptoUtils.generatePasswordHash(newPassword));
+			pst.setInt(2, ct.getId());
+			executeUpdate(pst,false);
+		}
+
+	}
+
 
 
 	@Override

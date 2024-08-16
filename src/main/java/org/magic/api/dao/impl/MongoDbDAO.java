@@ -889,7 +889,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	@Override
 	public void changePassword(Contact c, String newPassword) throws SQLException {
 		var passBson = new BasicDBObject();
-		passBson.put(PASSWORD, CryptoUtils.generateSha256(newPassword));
+		passBson.put(PASSWORD, CryptoUtils.generatePasswordHash(newPassword));
 
 		var updateBson = new BasicDBObject();
 		updateBson.put("$set", passBson);
@@ -910,7 +910,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			c.setId(Integer.parseInt(getNextSequence().toString()));
 
 			var obj = BasicDBObject.parse(serialize(c));
-				  obj.put(PASSWORD, CryptoUtils.generateSha256(c.getPassword()));
+				  obj.put(PASSWORD, CryptoUtils.generatePasswordHash(c.getPassword()));
 			
 			db.getCollection(colContacts, BasicDBObject.class).insertOne(obj);
 
@@ -932,7 +932,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 				logger.error(e);
 			}
 			
-			contactUpdateData.put(PASSWORD, CryptoUtils.generateSha256(c.getPassword()));
+			contactUpdateData.put(PASSWORD, CryptoUtils.generatePasswordHash(c.getPassword()));
 
 			var update = new BasicDBObject();
 						  update.put("$set", contactUpdateData);
@@ -964,9 +964,13 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	@Override
 	public Contact getContactByLogin(String email, String password) throws SQLException {
-		return deserialize(db.getCollection(colContacts,BasicDBObject.class)
-							 .find(Filters.and(Filters.and(Filters.eq(EMAIL, email),Filters.eq(PASSWORD, CryptoUtils.generateSha256(password))),Filters.eq("active",true)))
-							 .first()
+		var b = db.getCollection(colContacts,BasicDBObject.class).find(Filters.and(Filters.eq(EMAIL, email),Filters.eq("active",true))).first();
+		
+		if(!CryptoUtils.verifyPassword(password, b.get(PASSWORD).toString()))
+			throw new SQLException("Password doesn't match");
+		
+		
+		return deserialize(db.getCollection(colContacts,BasicDBObject.class).find(Filters.and(Filters.eq(EMAIL, email),Filters.eq("active",true))).first()
 							 ,Contact.class);
 	}
 

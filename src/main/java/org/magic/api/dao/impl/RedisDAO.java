@@ -505,7 +505,7 @@ public class RedisDAO extends AbstractKeyValueDao {
 
 	@Override
 	public void changePassword(Contact c, String newPassword) throws SQLException {
-		c.setPassword(CryptoUtils.generateSha256(newPassword));
+		c.setPassword(CryptoUtils.generatePasswordHash(newPassword));
 		saveOrUpdateContact(c);
 	}
 

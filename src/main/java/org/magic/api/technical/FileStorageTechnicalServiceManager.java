@@ -1,4 +1,4 @@
-package org.magic.services.technical;
+package org.magic.api.technical;
 
 import java.io.File;
 import java.io.FileReader;

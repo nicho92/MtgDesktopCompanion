@@ -8,6 +8,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.logging.log4j.Logger;
 import org.jasypt.util.text.AES256TextEncryptor;
 import org.magic.services.logging.MTGLogger;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class CryptoUtils {
 
@@ -44,12 +45,22 @@ public class CryptoUtils {
 	{
 		return DigestUtils.md5Hex(s).toUpperCase();
 	}
-
+	
 	public static String generateSha256(String s)
 	{
 		return DigestUtils.sha256Hex(s).toUpperCase();
 	}
+	
+	
+	public static boolean verifyPassword(String inputPassword, String storedHash) {
+        return BCrypt.checkpw(inputPassword, storedHash);
+    }
+	
+	public static String generatePasswordHash(String inputPassword) {
+        return BCrypt.hashpw(inputPassword, BCrypt.gensalt());
+    }
 
+	
 
 
 	public static String toBase64(byte[] str) {

@@ -72,6 +72,11 @@
 	</repositories>
 	<dependencies>
 	<dependency>
+    <groupId>org.mindrot</groupId>
+    <artifactId>jbcrypt</artifactId>
+    <version>0.4</version>
+</dependency>
+	<dependency>
 	    <groupId>org.drjekyll</groupId>
 	    <artifactId>fontchooser</artifactId>
 	    <version>3.1.0</version>
