@@ -2755,6 +2755,10 @@
 			<constructpack lang="en" num="3" url="https://media.wizards.com/2024/images/daily/en_GITpwsK7Abc4.png" desc="Jump Scare !"/>
 			<constructpack lang="en" num="4" url="https://media.wizards.com/2024/images/daily/en_QaJPChLUiLcR.png" desc="Endless Punishment"/>
 	</edition>
-	
+	<edition id="MB2">
+		<set lang="en" num="1" url="https://images.ctfassets.net/s5n2t79q9icq/XOdITHsd94w7A69iHonLj/01fdae0320319c82db8df7cf28c63ed4/LOGO.png"/>
+		<box lang="en" num="1" extra="draft" url="https://media.wizards.com/2024/images/daily/nA12WtuPo.png"/>
+		<booster lang="en" num="1" extra="draft" url="https://media.wizards.com/2024/images/daily/qwer12BX23.png"/>
+	</edition>
 
 </boosterUrls>
