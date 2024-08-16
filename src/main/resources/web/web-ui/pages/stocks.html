@@ -88,13 +88,13 @@
 		                
 		            }, 
 		            { 
-		                "data": "product.editions",
+		                "data": "product.edition",
 		                "defaultContent": "",
 		                "render": function(data, type, row, meta){
 		                	 if(type === 'display'){
-									return '<i class="ss ss-'+data[0].id.toLowerCase()+' ss-2x"></i> '+data[0].set;;	                		 
+									return '<i class="ss ss-'+data.id.toLowerCase()+' ss-2x"></i> '+data.set;;	                		 
 		                	 }
-		                   return data;
+		                   return data.set;
 		                }
 		            },
 		            { 

@@ -559,8 +559,8 @@ public class RedisDAO extends AbstractKeyValueDao {
 
 	@Override
 	public Contact getContactByLogin(String email, String password) throws SQLException {
-		var opt = listContacts().stream().filter(c->c.getEmail().equals(email) && c.getPassword().equals(CryptoUtils.generateSha256(password))).findFirst();
-		
+		var opt = listContacts().stream().filter(c->c.getEmail().equals(email)).findFirst();
+		//TODO check for thhe password.
 		if(opt.isPresent())
 			return opt.get();
 		
