@@ -1,5 +1,6 @@
 package org.magic.servers.impl;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.time.Instant;
@@ -27,7 +28,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.game.Player;
 import org.magic.api.beans.messages.TalkMessage;
-import org.magic.api.beans.messages.TechMessageUsers;
+import org.magic.api.beans.messages.UsersTechnicalMessage;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
@@ -186,6 +187,14 @@ public class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
 	@Override
 	public void afterCreateSession(ServerSession session) throws ActiveMQException {
 		logger.info("new connection from user : {} with id {}", session.getUsername(), session.getRemotingConnection().getClientID());
+		var jmsg = new TalkMessage("New connection", Color.black);
+		var p = new Player(session.getUsername());
+		p.setId(Long.parseLong(session.getRemotingConnection().getClientID()));
+		jmsg.setAuthor(p);
+		jmsg.setEnd(Instant.now());
+		AbstractTechnicalServiceManager.inst().store(jmsg);
+		
+		
 	}
 	
 	@Override
@@ -193,7 +202,7 @@ public class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
 		logger.info("disconnection from user : {}", session.getUsername());
 		onlines.remove(session.getRemotingConnection().getClientID());
 			try {
-				client.sendMessage(new TechMessageUsers(getOnlines().values().stream().toList()));
+				client.sendMessage(new UsersTechnicalMessage(getOnlines().values().stream().toList()));
 			} catch (IOException e) {
 				//	do nothing
 			}
@@ -227,7 +236,7 @@ public class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
 		
 		if(!jmsg.getAuthor().isAdmin())
 			try {
-				client.sendMessage(new TechMessageUsers(getOnlines().values().stream().toList()));
+				client.sendMessage(new UsersTechnicalMessage(getOnlines().values().stream().toList()));
 			} catch (IOException e) {
 			//	do nothing
 			}

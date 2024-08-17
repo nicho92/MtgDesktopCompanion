@@ -5,7 +5,7 @@ import java.util.List;
 import org.magic.api.beans.abstracts.AbstractMessage;
 import org.magic.api.beans.game.Player;
 
-public class TechMessageUsers extends AbstractMessage {
+public class UsersTechnicalMessage extends AbstractMessage {
 
 	/**
 	 * 
@@ -13,7 +13,7 @@ public class TechMessageUsers extends AbstractMessage {
 	private static final long serialVersionUID = 1L;
 	private List<Player> players;
 	
-	public TechMessageUsers(List<Player> players) {
+	public UsersTechnicalMessage(List<Player> players) {
 		this.players=players;
 		setTypeMessage(MSG_TYPE.SYSTEM);
 		setMessage("Send online users");

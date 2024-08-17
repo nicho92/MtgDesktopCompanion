@@ -12,7 +12,7 @@ import org.magic.api.beans.messages.SearchAnswerMessage;
 import org.magic.api.beans.messages.SearchMessage;
 import org.magic.api.beans.messages.StatutMessage;
 import org.magic.api.beans.messages.TalkMessage;
-import org.magic.api.beans.messages.TechMessageUsers;
+import org.magic.api.beans.messages.UsersTechnicalMessage;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.services.network.URLTools;
@@ -62,7 +62,7 @@ public abstract class AbstractNetworkProvider extends AbstractMTGPlugin implemen
 			case DISCONNECT: return serializer.fromJson(txt, StatutMessage.class);
 			case CHANGESTATUS :return serializer.fromJson(txt, StatutMessage.class);
 			case SEARCH :return serializer.fromJson(txt, SearchMessage.class);
-			case SYSTEM:return serializer.fromJson(txt, TechMessageUsers.class);
+			case SYSTEM:return serializer.fromJson(txt, UsersTechnicalMessage.class);
 			case DECK:return serializer.fromJson(txt, DeckMessage.class);
 			case ANSWER:return serializer.fromJson(txt, SearchAnswerMessage.class);
 			default : return serializer.fromJson(txt, TalkMessage.class);

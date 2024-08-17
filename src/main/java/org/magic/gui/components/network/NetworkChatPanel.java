@@ -42,7 +42,7 @@ import org.magic.api.beans.messages.DeckMessage;
 import org.magic.api.beans.messages.SearchAnswerMessage;
 import org.magic.api.beans.messages.SearchMessage;
 import org.magic.api.beans.messages.StatutMessage;
-import org.magic.api.beans.messages.TechMessageUsers;
+import org.magic.api.beans.messages.UsersTechnicalMessage;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGNetworkClient;
 import org.magic.gui.StockPanelGUI;
@@ -438,7 +438,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 						
 						
 						case SYSTEM : listPlayerModel.removeAllElements();
-									  listPlayerModel.addAll(((TechMessageUsers)s).getPlayers());
+									  listPlayerModel.addAll(((UsersTechnicalMessage)s).getPlayers());
 											  break;
 							  
 						case SEARCH: 
