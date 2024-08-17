@@ -71,7 +71,7 @@ public class VirtualUser {
 	{
 		var client = new ActiveMQNetworkClient();
 		var address = "tcp://mtgcompanion.me:61616";
-		var p = new Player(RandomStringUtils.random(10));
+		var p = new Player(RandomStringUtils.randomAlphabetic(10));
 		client.join(p,address,ActiveMQServer.DEFAULT_ADDRESS);
 		while(client.isActive())
 		{
