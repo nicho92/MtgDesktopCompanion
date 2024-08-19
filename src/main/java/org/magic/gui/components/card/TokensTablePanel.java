@@ -19,7 +19,6 @@ import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.models.MagicCardTableModel;
-import org.magic.gui.renderer.MagicEditionsJLabelRenderer;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
 import org.magic.services.workers.AbstractObservableWorker;
@@ -46,7 +45,6 @@ public class TokensTablePanel extends MTGUIComponent {
 		table = UITools.createNewTable(model,true);
 		buzy=AbstractBuzyIndicatorComponent.createProgressComponent();
 
-		table.getColumnModel().getColumn(6).setCellRenderer(new MagicEditionsJLabelRenderer());
 		table.setColumnControlVisible(true);
 
 		for(int i : model.defaultHiddenColumns())

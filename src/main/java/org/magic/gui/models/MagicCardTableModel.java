@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardNames;
+import org.magic.api.beans.MTGEdition;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.MTGControler;
 
@@ -41,7 +42,7 @@ public class MagicCardTableModel extends GenericTableModel<MTGCard> {
 		switch(columnIndex)
 		{
 			case 0: return MTGCard.class;
-			case 6: return List.class;
+			case 6: return MTGEdition.class;
 			case 8: return List.class;
 			case 9: return Boolean.class;
 			case 11: return Boolean.class;
@@ -71,7 +72,7 @@ public class MagicCardTableModel extends GenericTableModel<MTGCard> {
 			case 5:
 				return (mc.getRarity() != null) ? mc.getRarity().toPrettyString() : "";
 			case 6:
-				return mc.getEditions();
+				return mc.getEdition();
 			case 7:
 				return mc.getNumber();
 			case 8:

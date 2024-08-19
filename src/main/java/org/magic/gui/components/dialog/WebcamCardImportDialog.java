@@ -45,7 +45,6 @@ import org.magic.gui.components.webcam.WebcamCanvas;
 import org.magic.gui.components.widgets.JLangLabel;
 import org.magic.gui.decorators.JListFilterDecorator;
 import org.magic.gui.models.MagicCardTableModel;
-import org.magic.gui.renderer.MagicEditionsJLabelRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
@@ -191,7 +190,6 @@ public class WebcamCardImportDialog extends JDialog {
 
 
 		tableResults.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
-		tableResults.getColumnModel().getColumn(6).setCellRenderer(new MagicEditionsJLabelRenderer());
 
 		listEds.setCellRenderer(new ListCellRenderer<>() {
 			JLabel l = new JLabel();

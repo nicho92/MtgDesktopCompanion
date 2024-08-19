@@ -1,5 +1,7 @@
 package org.magic.gui.components.network;
 
+import static org.magic.services.tools.MTG.capitalize;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -14,7 +16,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -61,7 +62,6 @@ import org.magic.services.MTGDeckManager;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
-import static org.magic.services.tools.MTG.capitalize;
 
 public class NetworkChatPanel extends MTGUIComponent {
 
@@ -310,7 +310,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 			@Override
 			public void keyReleased(java.awt.event.KeyEvent e) {
 				
-				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER && !editorPane.getText().isEmpty()) {
 					e.consume();
 					try {
 						client.sendMessage(editorPane.getText().trim(), editorPane.getForeground());
@@ -452,7 +452,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 									if(!msgs.getAuthor().getId().equals(client.getPlayer().getId())) 
 									{
 												
-											var ret = MTG.getEnabledPlugin(MTGDao.class).listStocks((MTGCard)msgs.getItem()).stream().filter(mcs->mcs.getQte()>0).collect(Collectors.toList());
+											var ret = MTG.getEnabledPlugin(MTGDao.class).listStocks((MTGCard)msgs.getItem()).stream().filter(mcs->mcs.getQte()>0).toList();
 											if(!ret.isEmpty())
 												client.sendMessage(new SearchAnswerMessage(msgs, ret));
 											

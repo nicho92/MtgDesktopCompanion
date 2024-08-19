@@ -34,7 +34,7 @@ public abstract class AbstractNetworkProvider extends AbstractMTGPlugin implemen
 	}
 	
 	
-	protected abstract void createConnection(String url,String adress) throws IOException;
+	protected abstract void createConnection(String url) throws IOException;
 	protected abstract String read() throws IOException;
 
 	
@@ -81,7 +81,7 @@ public abstract class AbstractNetworkProvider extends AbstractMTGPlugin implemen
 		player.setOnlineConnectionTimeStamp(Instant.now().toEpochMilli());
 		player.setState(EnumPlayerStatus.ONLINE);
 		
-		createConnection(url,adress);
+		createConnection(url);
 		
 		switchAddress(adress);
 		

@@ -35,7 +35,7 @@ public class ActiveMQNetworkClient extends AbstractNetworkProvider {
 	
 	
 	@Override
-	protected void createConnection(String url,String adress) throws IOException {
+	protected void createConnection(String url) throws IOException {
 		
 		try {
 			locator = ActiveMQClient.createServerLocator(url);

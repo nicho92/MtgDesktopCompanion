@@ -34,7 +34,6 @@ import org.magic.api.sorters.CardsEditionSorter;
 import org.magic.api.sorters.NumberSorter;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.models.MagicCardTableModel;
-import org.magic.gui.renderer.MagicEditionsJLabelRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.CardsManagerService;
 import org.magic.services.MTGConstants;
@@ -70,7 +69,6 @@ public class CardsEditionTablePanel extends JPanel {
 		buzy=AbstractBuzyIndicatorComponent.createProgressComponent();
 
 		table.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
-		table.getColumnModel().getColumn(6).setCellRenderer(new MagicEditionsJLabelRenderer());
 		table.setColumnControlVisible(true);
 
 		for(int i : model.defaultHiddenColumns())
