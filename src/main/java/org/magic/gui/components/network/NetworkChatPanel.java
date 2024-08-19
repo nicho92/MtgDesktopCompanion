@@ -238,7 +238,7 @@ public class NetworkChatPanel extends MTGUIComponent {
 				
 				@Override
 				protected Void doInBackground() throws Exception {
-					client.join(MTGControler.getInstance().getProfilPlayer(),  txtServer.getText(),ActiveMQServer.DEFAULT_ADDRESS);
+					client.join(MTGControler.getInstance().getProfilPlayer(),  txtServer.getText(),ActiveMQServer.DEFAULT_TOPIC);
 					return null;
 				}
 				

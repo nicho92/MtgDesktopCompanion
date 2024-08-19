@@ -42,7 +42,7 @@ public class ActiveMQServer extends AbstractMTGServer {
 
 	private static final String LISTENERS_TCP = "LISTENERS_TCP";
 	private static final String LOG_DIR = "LOG_DIR";
-	public static final String DEFAULT_ADDRESS = "welcome";
+	public static final String DEFAULT_TOPIC = "welcome";
 	public static final String DEFAULT_SERVER="tcp://mtgcompanion.me:61616";
 	private ActiveMQServerImpl server;
 	private MTGActiveMQServerPlugin plug;
@@ -83,7 +83,7 @@ public class ActiveMQServer extends AbstractMTGServer {
 				server.getConfiguration().setBindingsDirectory(getString(LOG_DIR));
 				
 				
-				for(String add : ArrayUtils.add(getArray("ADRESSES"),DEFAULT_ADDRESS))
+				for(String add : ArrayUtils.add(getArray("ADRESSES"),DEFAULT_TOPIC))
 				{
 					var addr = new CoreAddressConfiguration();
 					addr.setName(add);
@@ -120,7 +120,7 @@ public class ActiveMQServer extends AbstractMTGServer {
 		try {
 			init();
 			server.start();
-			plug.getClient().join(new Player("Admin",true), getArray(LISTENERS_TCP)[0], DEFAULT_ADDRESS);
+			plug.getClient().join(new Player("Admin",true), getArray(LISTENERS_TCP)[0], DEFAULT_TOPIC);
 			plug.getClient().disableConsummer();
 			logger.info("{} is started", getName());
 		} catch (Exception e) {
