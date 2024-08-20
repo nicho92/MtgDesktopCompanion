@@ -41,7 +41,7 @@ public abstract class AbstractMagicShopper extends AbstractMTGPlugin implements 
 		 	 t.setCurrency(getCurrency());
 		 	 
 				if (defaultContact == null)
-					defaultContact = MTGControler.getInstance().getWebConfig().getContact();
+					defaultContact = MTGControler.getInstance().getWebshopService().getWebConfig().getContact();
 		 	  
 		 	  t.setContact(defaultContact);
 		 	  

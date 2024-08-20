@@ -32,7 +32,7 @@ public class ShoppingServer extends AbstractWebServer {
 	public void exportWeb(File dest) throws IOException
 	{
 		super.exportWeb(dest);
-		FileTools.saveFile(Paths.get(dest.getAbsolutePath(),"css","extra.css").toFile(), MTGControler.getInstance().getWebConfig().getExtraCss());
+		FileTools.saveFile(Paths.get(dest.getAbsolutePath(),"css","extra.css").toFile(), MTGControler.getInstance().getWebshopService().getWebConfig().getExtraCss());
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class ShoppingServer extends AbstractWebServer {
 						  response.setContentType(URLTools.HEADER_CSS+";charset="+MTGConstants.DEFAULT_ENCODING);
 						  response.setStatus(HttpServletResponse.SC_OK);
 						  try {
-							  response.getWriter().println(MTGControler.getInstance().getWebConfig().getExtraCss());
+							  response.getWriter().println(MTGControler.getInstance().getWebshopService().getWebConfig().getExtraCss());
 						  }
 						  catch(Exception e)
 						  {

@@ -118,7 +118,7 @@ public class AnnouncesGUI extends MTGUIComponent {
 
 		btnNew.addActionListener(al->{
 			var a = new MTGAnnounce();
-				a.setContact(MTGControler.getInstance().getWebConfig().getContact());
+				a.setContact(MTGControler.getInstance().getWebshopService().getWebConfig().getContact());
 				detailsPanel.setAnnounce(a);
 				itemsPanel.initItems(a.getItems());
 				modelAnnounces.addItem(a);

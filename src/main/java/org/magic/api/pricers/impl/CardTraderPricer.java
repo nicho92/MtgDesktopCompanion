@@ -57,7 +57,7 @@ public class CardTraderPricer extends AbstractPricesProvider {
 				for(var price : p)
 				{
 					var mk = (MarketProduct) price.getShopItem();
-					var c = MTGControler.getInstance().getWebConfig().getContact();
+					var c = MTGControler.getInstance().getWebshopService().getWebConfig().getContact();
 
 					var addr = new Address();
 					addr.setName(c.getName() + " "+ c.getLastName());

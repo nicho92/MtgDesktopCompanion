@@ -1437,7 +1437,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 				@Override
 				public Object call() throws Exception {
-					var conf =  MTGControler.getInstance().getWebConfig();
+					var conf =  MTGControler.getInstance().getWebshopService().getWebConfig();
 					conf.getContact().setPassword(null);
 					return conf;
 				}

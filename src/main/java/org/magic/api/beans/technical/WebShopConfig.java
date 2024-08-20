@@ -43,9 +43,6 @@ public class WebShopConfig implements Serializable {
 	private String extraCss;
 	private int productPagination;
 
-
-
-
 	public WebShopConfig() {
 		delivery= new ArrayList<>();
 		links= new ArrayList<>();

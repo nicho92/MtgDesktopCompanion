@@ -107,7 +107,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 
 
 
-		var conf = MTGControler.getInstance().getWebConfig();
+		var conf = MTGControler.getInstance().getWebshopService().getWebConfig();
 		var btnSave = new JButton("Save");
 
 
@@ -387,7 +387,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		btnDeleteLink.addActionListener((ActionEvent e)->listModel.removeElement(listSlides.getSelectedValue()));
 		btnSave.addActionListener(al->{
 
-			WebShopConfig newBean = MTGControler.getInstance().getWebConfig();
+			WebShopConfig newBean = MTGControler.getInstance().getWebshopService().getWebConfig();
 
 				newBean.setAboutText(txtAbout.getText());
 				newBean.setBannerText(txtBannerText.getText());
@@ -435,7 +435,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 
 
 
-			MTGControler.getInstance().saveWebConfig(newBean);
+			MTGControler.getInstance().getWebshopService().saveWebConfig(newBean);
 
 		});
 

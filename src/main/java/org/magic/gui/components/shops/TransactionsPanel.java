@@ -144,7 +144,7 @@ public class TransactionsPanel extends MTGUIComponent {
 		btnNew.addActionListener(al->{
 			
 			var t = new Transaction();
-				 t.setContact(MTGControler.getInstance().getWebConfig().getContact());
+				 t.setContact(MTGControler.getInstance().getWebshopService().getWebConfig().getContact());
 			transactionModel.addItem(t);
 		});
 		

@@ -1,0 +1,43 @@
+{
+    "config": {
+      "siteTitle": "MTGCompanion",
+      "bannerTitle": "My MTG WebPage",
+      "bannerText": "Welcome to my personnal shop !",
+      "aboutText": "Best trading service for best prices !",
+      "contact": 1,
+      "slides": [
+      		"https://www.hipstersofthecoast.com/wp-content/uploads/2022/12/phyrexia-all-wiill-be-one-banner.jpg",
+      		"https://www.goodgames.com.au/wp-content/uploads/2024/03/Corporate-Event-banner-MTG-Outlaws-of-Thunder-Junction-768x384.png",
+      		"https://static1.thegamerimages.com/wordpress/wp-content/uploads/2023/08/mhiii-modern-horizons-iii-2.jpg"
+      		],
+      "collections": ["Library"],
+      "products": {
+        "top": -1,
+        "autoSelection": false
+      },
+      "needCollections": [],
+      "percentReduction": 0,
+      "ganalyticsId": "",
+      "autoValidation": false,
+      "websiteUrl": "http://localhost",
+      "sealedEnabled": true,
+      "enableGed": true,
+      "extracss": "body{\nbackground-color:#3c3c3c;\n}",
+      "maxLastProductSlide": 10,
+      "productPaginationSlide": 12
+    },
+        
+    "delivery": {
+      "shippingRules": "var shippingCost=0;\nif(total >=65)\n{ \n   shippingCost = 0;\n}\nelse if(total >=25);\n{ \n   shippingCost = 15;\n}else if(total&gt;=1);\n{ \n\tshippingCost = 6.50;\n}\n\nshippingCost;",
+      "deliveryDay": 2
+    },
+    
+	"payments": {
+	  "paypalclientId": "",
+	  "paypalSendMoneyUri": "",
+	  "banqAccount": {
+	    "bic": "",
+	    "iban": ""
+	  }
+	}
+}

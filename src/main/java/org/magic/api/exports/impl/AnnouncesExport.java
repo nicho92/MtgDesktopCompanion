@@ -56,7 +56,7 @@ public class AnnouncesExport extends AbstractCardExport {
 			a.setCondition(EnumCondition.OPENED);
 			a.setCurrency(MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
 			a.setTotalPrice(deck.getAveragePrice());
-			a.setContact(MTGControler.getInstance().getWebConfig().getContact());
+			a.setContact(MTGControler.getInstance().getWebshopService().getWebConfig().getContact());
 			var sb = new StringBuilder("//MAIN<br/>");
 
 			deck.getMain().entrySet().forEach(e->{
@@ -88,7 +88,7 @@ public class AnnouncesExport extends AbstractCardExport {
 				a.setCondition(mcs.getCondition());
 				a.setCurrency(MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
 				a.setTotalPrice(mcs.getPrice());
-				a.setContact(MTGControler.getInstance().getWebConfig().getContact());
+				a.setContact(MTGControler.getInstance().getWebshopService().getWebConfig().getContact());
 
 				MTG.getEnabledPlugin(MTGDao.class).saveOrUpdateAnnounce(a);
 

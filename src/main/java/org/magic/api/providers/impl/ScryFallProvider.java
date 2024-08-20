@@ -2,7 +2,6 @@ package org.magic.api.providers.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -39,7 +38,6 @@ import org.magic.services.threads.ThreadManager;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.kitfox.svg.app.beans.SVGIcon;
 
 public class ScryFallProvider extends AbstractCardsProvider {
 

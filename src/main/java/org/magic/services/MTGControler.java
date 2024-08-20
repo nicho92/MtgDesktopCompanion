@@ -7,8 +7,6 @@ import java.awt.Font;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.time.Instant;
 import java.util.Locale;
@@ -27,10 +25,8 @@ import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGWallpaper;
 import org.magic.api.beans.enums.EnumCondition;
 import org.magic.api.beans.game.Player;
-import org.magic.api.beans.shop.Contact;
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.PictureDimension;
-import org.magic.api.beans.technical.WebShopConfig;
 import org.magic.api.beans.technical.audit.FileAccessInfo;
 import org.magic.api.beans.technical.audit.FileAccessInfo.ACCESSTYPE;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -63,7 +59,7 @@ public class MTGControler {
 	private File xmlConfigFile;
 	private MTGNotifier notifier;
 	private VersionChecker versionChecker;
-
+	private WebShopService webshopService;
 	
 	private MTGControler() {
 		
@@ -71,7 +67,7 @@ public class MTGControler {
 		System.setProperty("org.jooq.no-logo", "true");
 		
 		xmlConfigFile = new File(MTGConstants.CONF_DIR, MTGConstants.CONF_FILENAME);
-
+		
 		if (!xmlConfigFile.exists())
 			try {
 				logger.info("{} file doesn't exist. creating one from default file",xmlConfigFile);
@@ -130,7 +126,14 @@ public class MTGControler {
 		} catch (Exception e) {
 			logger.error("error init", e);
 		}
-
+		
+		
+		try {
+			webshopService =  new WebShopService();
+		} catch (IOException e) {
+			logger.error("error init webshopconfig",  e);
+		}
+		
 
 		currencyService = new ApilayerCurrencyConverter(get("currencylayer-access-api"));
 		try {
@@ -192,6 +195,11 @@ public class MTGControler {
 	{
 		AccountsManager.inst().loadConfig(get("accounts"));
 	}
+	
+	
+	public WebShopService getWebshopService() {
+		return webshopService;
+	}
 
 	public void setDefaultStock(MTGCardStock st) {
 		setProperty("collections/defaultStock/signed",st.isSigned());
@@ -203,116 +211,7 @@ public class MTGControler {
 		setProperty("collections/defaultStock/etched",st.isEtched());
 	}
 
-	public WebShopConfig getWebConfig()
-	{
-		var conf = new WebShopConfig();
-			conf.setAboutText(get("/shopSite/config/aboutText",""));
-			conf.setBannerText(get("/shopSite/config/bannerText",""));
-			conf.setBannerTitle(get("/shopSite/config/bannerTitle",""));
-			conf.setSiteTitle(get("/shopSite/config/siteTitle",""));
-			conf.setCurrency(getCurrencyService().getCurrentCurrency());
-			conf.setMaxLastProduct(Integer.parseInt(get("/shopSite/config/maxLastProductSlide","4")));
-			conf.setProductPagination(Integer.parseInt(get("/shopSite/config/productPaginationSlide","12")));
-			conf.setPercentReduction(Double.parseDouble(get("/shopSite/config/percentReduction","0")));
-			conf.setGoogleAnalyticsId(get("/shopSite/config/ganalyticsId",""));
-			conf.setEnableGed(Boolean.parseBoolean(get("/shopSite/config/enableGed",FALSE)));
-			conf.setExtraCss(get("/shopSite/config/extracss",""));
-
-			conf.setPaypalClientId(get("/shopSite/payments/paypalclientId",""));
-			try {
-				conf.setPaypalSendMoneyUri(new URI(get("/shopSite/payments/paypalSendMoneyUri","")));
-			} catch (URISyntaxException e1) {
-				logger.error(e1);
-				conf.setPaypalSendMoneyUri(null);
-			}
-
-			conf.setBic(get("/shopSite/payments/banqAccount/bic",""));
-			conf.setIban(get("/shopSite/payments/banqAccount/iban",""));
-			conf.setAverageDeliveryTime(Integer.parseInt(get("/shopSite/delivery/deliveryDay","2")));
-			conf.setShippingRules(get("/shopSite/delivery/shippingRules",MTGConstants.DEFAULT_SHIPPING_RULES));
-			conf.setAutomaticValidation(get("/shopSite/config/autoValidation",FALSE).equalsIgnoreCase("true"));
-			conf.setAutomaticProduct(get("/shopSite/config/products/autoSelection",FALSE).equalsIgnoreCase("true"));
-			conf.setWebsiteUrl(get("/shopSite/config/websiteUrl","http://localhost"));
-			conf.setSealedEnabled(get("/shopSite/config/sealedEnabled",FALSE).equalsIgnoreCase("true"));
-			try {
-
-				if(conf.isAutomaticProduct())
-					conf.setTopProduct(TransactionService.getBestProduct());
-				else
-					conf.setTopProduct( MTG.getEnabledPlugin(MTGDao.class).getStockById(Long.parseLong(get("/shopSite/config/products/top","-1"))));
-			}
-			catch(Exception e)
-			{
-				//do nothing
-			}
-
-			for(String s : get("/shopSite/config/collections","").split(";"))
-			{
-				if(!s.isEmpty())
-					conf.getCollections().add(new MTGCollection(s));
-			}
-
-			for(String s : get("/shopSite/config/needCollections","").split(";"))
-			{
-				if(!s.isEmpty())
-					conf.getNeedcollections().add(new MTGCollection(s));
-			}
-
-
-			for(String s : get("/shopSite/config/slides","").split(";"))
-		       conf.getSlidesLinksImage().add(s);
-
-
-			var id = get("/shopSite/config/contact","");
-
-			Contact contact = new Contact();
-			try {
-				contact = MTG.getEnabledPlugin(MTGDao.class).getContactById(Integer.parseInt(id));
-			} catch (NumberFormatException | SQLException e) {
-				logger.error("No contact found with id = {}",id);
-			}
-
-
-
-			conf.setContact(contact);
-
-		return conf;
-	}
-
-
-	public void saveWebConfig(WebShopConfig wsc) {
-
-		setProperty("/shopSite/config/siteTitle",wsc.getSiteTitle());
-		setProperty("/shopSite/config/bannerTitle",wsc.getBannerTitle());
-		setProperty("/shopSite/config/bannerText",wsc.getBannerText());
-		setProperty("/shopSite/config/aboutText",wsc.getAboutText());
-		setProperty("/shopSite/config/websiteUrl",wsc.getWebsiteUrl());
-		setProperty("/shopSite/config/enableGed",wsc.isEnableGed());
-		setProperty("/shopSite/config/extracss",wsc.getExtraCss());
-
-
-		setProperty("/shopSite/config/slides",StringUtils.join(wsc.getSlidesLinksImage(),";"));
-		setProperty("/shopSite/config/products/top",wsc.getTopProduct().getId());
-		setProperty("/shopSite/config/products/autoSelection",wsc.isAutomaticProduct());
-		setProperty("/shopSite/config/maxLastProductSlide",wsc.getMaxLastProduct());
-		setProperty("/shopSite/config/productPaginationSlide",wsc.getProductPagination());
-
-
-		setProperty("/shopSite/config/autoValidation",wsc.isAutomaticValidation());
-		setProperty("/shopSite/config/needCollections",StringUtils.join(wsc.getNeedcollections(),";"));
-		setProperty("/shopSite/config/sealedEnabled",wsc.isSealedEnabled());
-		setProperty("/shopSite/config/ganalyticsId",wsc.getGoogleAnalyticsId());
-		setProperty("/shopSite/config/percentReduction",wsc.getPercentReduction());
-		setProperty("/shopSite/config/collections",StringUtils.join(wsc.getCollections(),";"));
-		setProperty("/shopSite/config/contact",wsc.getContact().getId());
-		setProperty("/shopSite/delivery/shippingRules", wsc.getShippingRules());
-		setProperty("/shopSite/delivery/deliveryDay",wsc.getAverageDeliveryTime());
-
-		setProperty("/shopSite/payments/banqAccount/bic",wsc.getBic());
-		setProperty("/shopSite/payments/banqAccount/iban",wsc.getIban());
-		setProperty("/shopSite/payments/paypalclientId",wsc.getPaypalClientId());
-		setProperty("/shopSite/payments/paypalSendMoneyUri",wsc.getSetPaypalSendMoneyUri().toString());
-	}
+	
 
 	public MTGCardStock getDefaultStock() {
 		var defaultBool = FALSE;

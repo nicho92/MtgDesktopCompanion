@@ -54,11 +54,11 @@ public class TransactionService
 
 		int ret= mtgshop.saveOrUpdateContact(c);
 
-		c.setTemporaryToken(MTGControler.getInstance().getWebConfig().getWebsiteUrl()+"/pages/validate.html?token="+c.getTemporaryToken());
+		c.setTemporaryToken(MTGControler.getInstance().getWebshopService().getWebConfig().getWebsiteUrl()+"/pages/validate.html?token="+c.getTemporaryToken());
 
 		var plug = (EmailNotifier)MTG.getPlugin(MTGConstants.EMAIL_NOTIFIER_NAME, MTGNotifier.class);
 			try {
-					var not = new MTGNotification("["+MTGControler.getInstance().getWebConfig().getSiteTitle()+ "] Email verification", new ReportNotificationManager().generate(plug.getFormat(), c, "ContactValidation"), MTGNotification.MESSAGE_TYPE.INFO);
+					var not = new MTGNotification("["+MTGControler.getInstance().getWebshopService().getWebConfig().getSiteTitle()+ "] Email verification", new ReportNotificationManager().generate(plug.getFormat(), c, "ContactValidation"), MTGNotification.MESSAGE_TYPE.INFO);
 					plug.send(c.getEmail(),not);
 				}
 				catch(Exception e)
@@ -70,7 +70,7 @@ public class TransactionService
 	}
 
 	public static Long saveTransaction(Transaction t, boolean reloadShipping) throws IOException {
-		t.setConfig(MTGControler.getInstance().getWebConfig());
+		t.setConfig(MTGControler.getInstance().getWebshopService().getWebConfig());
 		if(reloadShipping) {
 			try {
 				var js = new JavaScript();
@@ -78,7 +78,7 @@ public class TransactionService
 				js.addVariable("qty",t.getItems().size());
 				js.addVariable("transaction",t);
 
-				Object ret = js.runContent(MTGControler.getInstance().getWebConfig().getShippingRules());
+				Object ret = js.runContent(MTGControler.getInstance().getWebshopService().getWebConfig().getShippingRules());
 				t.setShippingPrice(Double.parseDouble(ret.toString()));
 			} catch (Exception e1) {
 				logger.error("Error updating shipping price",e1);
@@ -121,7 +121,7 @@ public class TransactionService
 	}
 
 	public static Long newTransaction(Transaction t) throws IOException {
-		t.setConfig(MTGControler.getInstance().getWebConfig());
+		t.setConfig(MTGControler.getInstance().getWebshopService().getWebConfig());
 		t.setStatut(EnumTransactionStatus.NEW);
 		t.setCurrency(t.getConfig().getCurrency());
 		var ret = saveTransaction(t,false);
@@ -160,7 +160,7 @@ public class TransactionService
 	}
 
 	public static List<MTGStockItem> validateTransaction(Transaction t) throws  IOException {
-		t.setConfig(MTGControler.getInstance().getWebConfig());
+		t.setConfig(MTGControler.getInstance().getWebshopService().getWebConfig());
 		List<MTGStockItem> rejectsT = new ArrayList<>();
 		List<MTGStockItem> accepteds = new ArrayList<>();
 		for(MTGStockItem transactionItem : t.getItems())
@@ -202,7 +202,7 @@ public class TransactionService
 	}
 
 	public static void cancelTransaction(Transaction t) throws SQLException, IOException {
-		t.setConfig(MTGControler.getInstance().getWebConfig());
+		t.setConfig(MTGControler.getInstance().getWebshopService().getWebConfig());
 
 		for(MTGStockItem transactionItem : t.getItems())
 		{
@@ -220,7 +220,7 @@ public class TransactionService
 	}
 
 	public static void payingTransaction(Transaction t, String providerName) throws IOException {
-		t.setConfig(MTGControler.getInstance().getWebConfig());
+		t.setConfig(MTGControler.getInstance().getWebshopService().getWebConfig());
 
 		if(EnumPaymentProvider.BANK_TRANSFERT.equals(t.getPaymentProvider()) || EnumPaymentProvider.PAYPALME.equals(t.getPaymentProvider()))
 			t.setStatut(EnumTransactionStatus.PAYMENT_SENT);
@@ -242,7 +242,7 @@ public class TransactionService
 
 
 	public static void sendTransaction(Transaction t) throws  IOException {
-		t.setConfig(MTGControler.getInstance().getWebConfig());
+		t.setConfig(MTGControler.getInstance().getWebshopService().getWebConfig());
 		t.setStatut(EnumTransactionStatus.SENT);
 		t.setDateSend(new Date());
 		saveTransaction(t,false);
@@ -308,7 +308,7 @@ public class TransactionService
 
 	public static void storeInvoice(Transaction t) throws SQLException {
 		
-		t.setConfig(MTGControler.getInstance().getWebConfig());
+		t.setConfig(MTGControler.getInstance().getWebshopService().getWebConfig());
 		t.setCurrency(t.getConfig().getCurrency());
 		
 		var fileName= "invoice-"+t.getId()+".html";
