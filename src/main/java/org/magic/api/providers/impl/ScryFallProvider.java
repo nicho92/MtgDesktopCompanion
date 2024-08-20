@@ -75,15 +75,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	private static final String BULK_FILE_URL="https://archive.scryfall.com/json/scryfall-all-cards.json";
 	private static final String BASE_URI = "https://api.scryfall.com";
 
-	public SVGIcon getSvgFileFor(String idSet)
-	{
-		var ic = new SVGIcon();
-			ic.setSvgURI(URI.create("https://c2.scryfall.com/file/scryfall-symbols/sets/"+idSet.toLowerCase()+".svg"));
-			ic.setAntiAlias(true);
-			ic.setAutosize(1);
-		return ic;
-	}
-
 	public void downloadBulkFileTo(File f) throws IOException
 	{
 		URLTools.download(BULK_FILE_URL, f);
@@ -142,10 +133,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	public JsonObject getJsonFor(MTGCard mc)
 	{
-		String url = BASE_URI + CARDS + mc.getEdition().getId().toLowerCase() + "/" + mc.getNumber();
-		
+			String url = BASE_URI + CARDS + mc.getEdition().getId().toLowerCase() + "/" + mc.getNumber();
 			return URLTools.extractAsJson(url).getAsJsonObject();
-		
 	}
 
 

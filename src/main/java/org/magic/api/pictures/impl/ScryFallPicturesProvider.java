@@ -12,6 +12,8 @@ import org.magic.api.beans.enums.EnumLayout;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.network.URLTools;
 
+import com.kitfox.svg.app.beans.SVGIcon;
+
 public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
 	private static final String HTTP_API_SCRYFALL = "https://api.scryfall.com/cards/";
@@ -27,6 +29,15 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		}
 	}
 
+
+	public SVGIcon getSvgFileFor(String idSet)
+	{
+		var ic = new SVGIcon();
+			ic.setSvgURI(URI.create("https://c2.scryfall.com/file/scryfall-symbols/sets/"+idSet.toLowerCase()+".svg"));
+			ic.setAntiAlias(true);
+			ic.setAutosize(1);
+		return ic;
+	}
 
 
 	private URL generateLink(MTGCard mc, boolean crop) throws MalformedURLException {
