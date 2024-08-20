@@ -22,7 +22,7 @@ public class DeckCardsTableModel extends DefaultTableModel {
 	private String[] columns = new String[] { "NAME",
 			"CARD_TYPES",
 			"CARD_MANA",
-			"CARD_EDITIONS",
+			"CARD_EDITION",
 			"QTY",
 			"ARENA"};
 

@@ -20,7 +20,7 @@ public class MagicCardTableModel extends GenericTableModel<MTGCard> {
 				"CARD_TYPES",
 				"CARD_POWER",
 				"CARD_RARITY",
-				"CARD_EDITIONS",
+				"CARD_EDITION",
 				"CARD_NUMBER",
 				"CARD_COLOR",
 				"RESERVED LIST",
