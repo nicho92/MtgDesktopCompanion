@@ -60,6 +60,7 @@ public class JEditorPaneBrowser extends MTGUIBrowserComponent {
 					protected void done() {
 						try {
 							browse.setText(get());
+							browse.setCaretPosition(1);
 						} catch (InterruptedException e) {
 							Thread.currentThread().interrupt();
 						} catch (Exception e) {
