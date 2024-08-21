@@ -20,8 +20,8 @@ public class MagicCardTableModel extends GenericTableModel<MTGCard> {
 				"CARD_TYPES",
 				"CARD_POWER",
 				"CARD_RARITY",
-				"CARD_EDITION",
 				"CARD_NUMBER",
+				"CARD_EDITION",
 				"CARD_COLOR",
 				"RESERVED LIST",
 				"LAYOUT",
@@ -42,7 +42,7 @@ public class MagicCardTableModel extends GenericTableModel<MTGCard> {
 		switch(columnIndex)
 		{
 			case 0: return MTGCard.class;
-			case 6: return MTGEdition.class;
+			case 7: return MTGEdition.class;
 			case 8: return List.class;
 			case 9: return Boolean.class;
 			case 11: return Boolean.class;
@@ -72,9 +72,9 @@ public class MagicCardTableModel extends GenericTableModel<MTGCard> {
 			case 5:
 				return (mc.getRarity() != null) ? mc.getRarity().toPrettyString() : "";
 			case 6:
-				return mc.getEdition();
-			case 7:
 				return mc.getNumber();
+			case 7:
+				return mc.getEdition();
 			case 8:
 				return mc.getColors();
 			case 9:

@@ -100,7 +100,7 @@ public class MassMoverDialog extends JDialog {
 			
 		
 		
-		UITools.setSorter(tableCards, 7, new NumberSorter());
+		UITools.setSorter(tableCards, 6, new NumberSorter());
 		
 		btnMove.addActionListener(e -> {
 			btnMove.setEnabled(false);

@@ -203,7 +203,7 @@ public class CardSearchPanel extends MTGUIComponent {
 
 		DefaultRowSorter<TableModel, Integer> sorterCards;
 		sorterCards = new TableRowSorter<>(cardsModeltable);
-		sorterCards.setComparator(7, new NumberSorter());
+		sorterCards.setComparator(6, new NumberSorter());
 
 
 		List<MTGEdition> li = new ArrayList<>();

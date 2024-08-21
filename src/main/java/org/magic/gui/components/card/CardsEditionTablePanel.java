@@ -74,10 +74,9 @@ public class CardsEditionTablePanel extends JPanel {
 		for(int i : model.defaultHiddenColumns())
 			table.getColumnExt(model.getColumnName(i)).setVisible(false);
 
-		DefaultRowSorter<TableModel, Integer> sorterCards = new TableRowSorter<>(model);
-		sorterCards.setComparator(7, new NumberSorter());
-		table.setRowSorter(sorterCards);
-
+		
+		UITools.setSorter(table, 6, new NumberSorter());
+		
 		panneauHaut.add(buzy);
 		add(new JScrollPane(table), BorderLayout.CENTER);
 		add(panneauHaut,BorderLayout.NORTH);
