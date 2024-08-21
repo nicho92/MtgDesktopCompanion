@@ -6,16 +6,12 @@ import static org.magic.services.tools.MTG.getPlugin;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.magic.api.beans.game.Player;
 import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGServer;
-import org.magic.api.network.impl.ActiveMQNetworkClient;
 import org.magic.gui.abstracts.MTGUIComponent;
 import org.magic.gui.components.tech.TechnicalMonitorPanel;
-import org.magic.servers.impl.ActiveMQServer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.logging.MTGLogger;
