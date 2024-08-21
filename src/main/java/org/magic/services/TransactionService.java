@@ -163,9 +163,9 @@ public class TransactionService
 		t.setConfig(MTGControler.getInstance().getWebshopService().getWebConfig());
 		List<MTGStockItem> rejectsT = new ArrayList<>();
 		List<MTGStockItem> accepteds = new ArrayList<>();
-		for(MTGStockItem transactionItem : t.getItems())
+		for(var transactionItem : t.getItems())
 		{
-				MTGStockItem stock = mtgshop.getStockById(transactionItem.getProduct().getTypeProduct(),transactionItem.getId());
+				var stock = mtgshop.getStockById(transactionItem.getProduct().getTypeProduct(),transactionItem.getId());
 				if(transactionItem.getQte()>stock.getQte())
 				{
 					   t.setStatut(EnumTransactionStatus.IN_PROGRESS);

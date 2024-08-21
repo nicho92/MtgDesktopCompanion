@@ -213,9 +213,6 @@ public class MTGConstants {
 	public static final ImageIcon ICON_IA = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/ia.png"));
 	public static final ImageIcon ICON_INVOICE = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/invoice.png"));
 	
-	
-	
-	
 	public static final ImageIcon ICON_ANNOUNCES = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/announces.png"));
 	public static final ImageIcon ICON_EURO = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/euro.png"));
 	public static final ImageIcon ICON_NEW = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/new.png"));
@@ -327,24 +324,7 @@ public class MTGConstants {
 
 //EnumExtra CONSTANTS
 	public static final float WEIGHT_BOOSTER=28.7f;
-	public static final String DEFAULT_SHIPPING_RULES="""
-			var shippingCost=0;
-
-			if(total >=65){
-			  shippingCost=0;
-			}
-			else if(total >=25)
-			{
-			   shippingCost = 15;
-			}else if(total>=1)
-			{
-			shippingCost = 6.50;
-			}
-
-			shippingCost;""";
 	
-		
-
 
 
 }

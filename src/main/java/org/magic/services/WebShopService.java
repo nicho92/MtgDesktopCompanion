@@ -38,18 +38,11 @@ public class WebShopService {
 			} catch (IOException e1) {
 				logger.error(e1);
 			}
-		
-	
-		
-		
 	}
-	
-	
 	
 	public WebShopConfig getWebConfig()
 	{
 		var conf = new WebShopConfig();
-		
 		
 		JsonObject jsonData;
 		try {
@@ -74,8 +67,6 @@ public class WebShopService {
 			conf.setWebsiteUrl(jsonData.get(CONFIG_KEY).getAsJsonObject().get("websiteUrl").getAsString());
 			conf.setSealedEnabled(jsonData.get(CONFIG_KEY).getAsJsonObject().get("sealedEnabled").getAsBoolean());
 			conf.setAutomaticProduct(jsonData.get(CONFIG_KEY).getAsJsonObject().get("products").getAsJsonObject().get("autoSelection").getAsBoolean());
-			
-			
 			
 			for(var s : jsonData.get(CONFIG_KEY).getAsJsonObject().get("collections").getAsJsonArray())
 				conf.getCollections().add(new MTGCollection(s.getAsString()));
