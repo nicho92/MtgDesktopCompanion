@@ -57,10 +57,10 @@
 					dataArr.push( { "id" : "prices-"+seller+"-"+index, 
 								"parent" : seller,  
 								"a_attr": { "href": prices.sellerUrl},
-								"text" : prices.magicCard.name + " " + prices.priceValue.value.toFixed(2) + " " + prices.priceValue.currency + " " + (prices.foil?"Foil":""),
+								"text" : prices.cardName + " " + prices.priceValue.value.toFixed(2) + " " + prices.priceValue.currency + " " + (prices.foil?"Foil":""),
 								"icon":"fa-solid fa-shopping-cart fa-1x"
 							  });
-				total += prices.value;
+				total += prices.priceValue.value;
 				qty++;
 			});
 			
@@ -160,14 +160,14 @@
 		              }
 		        	},
 		        	{ 
-			          "data": "editions",
+			          "data": "edition",
 					  "width": "25%",
 					  "defaultContent": "",
 			          "render": function(data, type, row, meta){
 		                   if(type === 'display'){
-		                	    return "<i class='ss ss-2x ss-"+data[0].keyRuneCode.toLowerCase()+" ss-"+row.rarity.toLowerCase()+" ss-2x'></i> ";	
+		                	    return "<i class='ss ss-2x ss-"+data.keyRuneCode.toLowerCase()+" ss-"+row.rarity.toLowerCase()+" ss-2x'></i> ";	
 		                   }
-		                 return data[0].set;
+		                 return data.set;
 		              }
 			        },
 					{ 
