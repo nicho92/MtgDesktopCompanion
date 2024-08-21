@@ -55,6 +55,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.TransactionService;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.MTG;
+import org.magic.services.tools.UITools;
 
 public class WebShopConfigPanel extends MTGUIComponent {
 
@@ -108,7 +109,7 @@ public class WebShopConfigPanel extends MTGUIComponent {
 
 
 		var conf = MTGControler.getInstance().getWebshopService().getWebConfig();
-		var btnSave = new JButton("Save");
+		var btnSave = new JButton("Save",MTGConstants.ICON_SAVE);
 
 
 
@@ -190,9 +191,13 @@ public class WebShopConfigPanel extends MTGUIComponent {
 		var serverStatPanel = new ServerStatePanel(false,getPlugin(new ShoppingServer().getName(), MTGServer.class));
 		panelServer.add(serverStatPanel,BorderLayout.CENTER);
 		var btnClearCache = new JButton("Clear Cache",MTGConstants.ICON_TAB_CACHE);
-		btnClearCache.addActionListener(il->((JSONHttpServer)getPlugin(new JSONHttpServer().getName(), MTGServer.class)).clearCache());
-		panelServer.add(btnClearCache,BorderLayout.SOUTH);
+		btnClearCache.addActionListener(il->((JSONHttpServer)getPlugin(JSONHttpServer.JSON_HTTP_SERVER, MTGServer.class)).clearCache());
+		
+		
+		
+		panelServer.add(UITools.createFlowCenterPanel(btnSave,btnClearCache),BorderLayout.SOUTH);
 
+		
 		var panelStock = createBoxPanel("STOCK",MTGConstants.ICON_TAB_STOCK, new GridLayout(0, 2, 0, 0),true);
 		cboCollections = new JCheckableListBox<>();
 		needCollection = new JCheckableListBox<>();
@@ -370,7 +375,6 @@ public class WebShopConfigPanel extends MTGUIComponent {
 
 
 		add(container,BorderLayout.CENTER);
-		container.add(btnSave);
 		container.add(panelGeneral);
 		container.add(panelSlides);
 		container.add(panelCss);

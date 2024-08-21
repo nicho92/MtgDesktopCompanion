@@ -123,6 +123,7 @@ import spark.routematch.RouteMatch;
 
 public class JSONHttpServer extends AbstractMTGServer {
 
+	public static final String JSON_HTTP_SERVER = "Json Http Server";
 	private static final String ID_DECK = ":idDeck";
 	private static final String DEFAULT_LIBRARY = "default-library";
 	private static final String TYPE = ":type";
@@ -1579,7 +1580,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 	@Override
 	public String getName() {
-		return "Json Http Server";
+		return JSON_HTTP_SERVER;
 	}
 
 	@Override
