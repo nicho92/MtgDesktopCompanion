@@ -54,7 +54,7 @@
 
 		<jwt.version>0.12.6</jwt.version>
 		<lucene.version>9.11.1</lucene.version>
-		<artemis.version>2.36.0</artemis.version>
+		<artemis.version>2.37.0</artemis.version>
 		<flatlaf.version>3.5.1</flatlaf.version>
 		<qwartz.version>2.5.0-rc1</qwartz.version>
 		<rome.version>2.1.0</rome.version>
@@ -414,7 +414,7 @@
 		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
-			<version>5.0.2</version>
+			<version>5.1.0</version>
 			<exclusions>
 				<exclusion>
 					<groupId>club.minnced</groupId>
@@ -603,7 +603,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.7.3</version>
+			<version>42.7.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mozilla</groupId>
