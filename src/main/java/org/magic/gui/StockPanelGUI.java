@@ -854,18 +854,13 @@ public class StockPanelGUI extends MTGUIComponent {
 	}
 
 	public void updateCount(List<MTGCardStock> selection) {
-		
-		
-		
-		
-		
 		if(selection==null)
 			lblCount.setText(capitalize("ITEMS_IN_STOCK") + ": "+ model.getItems().stream().mapToLong(mcs->mcs.getQte()).sum() + "( distinct cards :"+model.getRowCount() +")  / " + UITools.formatDouble(model.getItems().stream().mapToDouble(mcs->mcs.getPrice()*(mcs.getQte()==0?1:mcs.getQte())).sum()) + " " + MTGControler.getInstance().getCurrencyService().getCurrentCurrency());
 		else
 			lblCount.setText(capitalize("ITEMS_IN_STOCK") + ": "+ 
 								   model.getItems().stream().mapToLong(mcs->mcs.getQte()).sum() + "( distinct cards :"+model.getRowCount() +")  / "+ 
-								   UITools.formatDouble(model.getItems().stream().mapToDouble(mcs->mcs.getPrice()*mcs.getQte()==0?1:mcs.getQte()).sum()) + " " + MTGControler.getInstance().getCurrencyService().getCurrentCurrency()+
-								   " selection= " + UITools.formatDouble(selection.stream().mapToDouble(mcs->mcs.getPrice()*mcs.getQte()==0?1:mcs.getQte()).sum()) + MTGControler.getInstance().getCurrencyService().getCurrentCurrency() 
+								   UITools.formatDouble(model.getItems().stream().mapToDouble(mcs->mcs.getPrice()*(mcs.getQte()==0?1:mcs.getQte())).sum()) + " " + MTGControler.getInstance().getCurrencyService().getCurrentCurrency()+
+								   " selection= " + UITools.formatDouble(selection.stream().mapToDouble(mcs->mcs.getPrice()*(mcs.getQte()==0?1:mcs.getQte())).sum()) + MTGControler.getInstance().getCurrencyService().getCurrentCurrency() 
 					);
 	}
 

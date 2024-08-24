@@ -27,7 +27,7 @@ public class ManaPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private int rowHeight = MTGConstants.TABLE_ROW_HEIGHT;
 	private int rowWidth = MTGConstants.TABLE_ROW_WIDTH;
-	protected Logger logger = MTGLogger.getLogger(this.getClass());
+	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
 	
 	public int getRowHeight() {
 		return rowHeight;
