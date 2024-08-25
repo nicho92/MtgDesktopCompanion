@@ -231,11 +231,10 @@ public class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
 			onlines.put(String.valueOf(jmsg.getAuthor().getId()), jmsg.getAuthor());
 		
 		AbstractTechnicalServiceManager.inst().store(jmsg);
-		logger.info("user {} : {} for {} ", session.getUsername(),jmsg,onlines);		
-		
 		
 		if(!jmsg.getAuthor().isAdmin())
 			try {
+				logger.info("user {} : {} for {} ", session.getUsername(),jmsg,onlines);
 				client.sendMessage(new UsersTechnicalMessage(getOnlines().values().stream().toList()));
 			} catch (IOException e) {
 			logger.error("Error sending online users",e);
