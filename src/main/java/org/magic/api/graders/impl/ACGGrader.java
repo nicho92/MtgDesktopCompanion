@@ -10,19 +10,6 @@ import org.magic.services.tools.UITools;
 
 public class ACGGrader extends AbstractGradersProvider {
 
-	
-	
-	public static void main(String[] args) throws IOException {
-		
-		var grad = new ACGGrader();
-		
-		grad.loadGrading("1040123");
-		
-		
-		
-	}
-	
-	
 	@Override
 	public MTGGrading loadGrading(String identifier) throws IOException {
 
