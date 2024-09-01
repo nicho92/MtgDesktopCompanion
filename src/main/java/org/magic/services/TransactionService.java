@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.logging.log4j.Logger;
 import org.magic.api.beans.MTGCardStock;
 import org.magic.api.beans.enums.EnumItems;
@@ -36,6 +35,7 @@ import org.magic.servers.impl.JSONHttpServer;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.threads.MTGRunnable;
 import org.magic.services.threads.ThreadManager;
+import org.magic.services.tools.CryptoUtils;
 import org.magic.services.tools.MTG;
 
 public class TransactionService
@@ -49,7 +49,7 @@ public class TransactionService
 	public static int createContact(Contact c) throws IOException
 	{
 
-		c.setTemporaryToken(RandomStringUtils.random(TOKENSIZE, true, true));
+		c.setTemporaryToken(CryptoUtils.randomString(TOKENSIZE));
 		c.setActive(false);
 
 		int ret= mtgshop.saveOrUpdateContact(c);

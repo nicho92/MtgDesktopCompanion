@@ -10,7 +10,6 @@ import org.jooq.conf.StatementType;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.magic.services.MTGConstants;
-import org.magic.services.TransactionService;
 import org.magic.services.logging.MTGLogger;
 
 
@@ -185,7 +184,7 @@ public class SQLTools {
 				.column("contact_email",SQLDataType.VARCHAR(100))
 				.column("emailAccept",SQLDataType.BOOLEAN)
 				.column("contact_active",SQLDataType.BOOLEAN)
-				.column("temporaryToken",SQLDataType.VARCHAR(TransactionService.TOKENSIZE))
+				.column("temporaryToken",SQLDataType.VARCHAR(50))
 				.primaryKey("contact_id")
 				.unique("contact_email").getSQL();
 	}

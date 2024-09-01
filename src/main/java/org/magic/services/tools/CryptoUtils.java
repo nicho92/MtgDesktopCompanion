@@ -5,6 +5,7 @@ import java.security.SecureRandom;
 import java.util.Base64;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.logging.log4j.Logger;
 import org.jasypt.util.text.AES256TextEncryptor;
 import org.magic.services.logging.MTGLogger;
@@ -96,6 +97,10 @@ public class CryptoUtils {
 		} catch (NoSuchAlgorithmException e) {
 			return false;
 		}
+	}
+
+	public static String randomString(Integer tokensize) {
+		return RandomStringUtils.secure().next(tokensize, true, true);
 	}
 
 
