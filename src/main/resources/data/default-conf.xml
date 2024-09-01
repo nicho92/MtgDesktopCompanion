@@ -21,7 +21,7 @@
     <webshop>true</webshop>
     <announce>true</announce>
   </modules>
-  <currencylayer-access-api></currencylayer-access-api>
+  <currencylayer-access-api/>
   <tooltip>true</tooltip>
   <technical-log>false</technical-log>
   <default-library>Library</default-library>
@@ -51,9 +51,9 @@
     </cards>
     <player-profil>
       <name>$username</name>
-      <foreground></foreground>
-      <background></background>
-      <avatar></avatar>
+      <foreground/>
+      <background/>
+      <avatar/>
     </player-profil>
   </game>
   <network-config>
@@ -83,10 +83,10 @@
     </font>
   </ui>
   <currency>EUR</currency>
-  <currencylayer-converter-enable>true</currencylayer-converter-enable>
+  <currencylayer-converter-enable>false</currencylayer-converter-enable>
   <langage>English</langage>
   <autocompletion>true</autocompletion>
-  <accounts></accounts>
+  <accounts/>
   <indexers>
     <index>
       <class>org.magic.api.indexer.impl.LuceneIndexer</class>
@@ -147,10 +147,6 @@
   </scripts>
   <shoppers>
     <shopper>
-      <class>org.magic.api.shopping.impl.MagicBazarShopper</class>
-      <enable>true</enable>
-    </shopper>
-    <shopper>
       <class>org.magic.api.shopping.impl.MagicVilleShopper</class>
       <enable>true</enable>
     </shopper>
@@ -161,6 +157,10 @@
     <shopper>
       <class>org.magic.api.shopping.impl.MagicCorporationShopper</class>
       <enable>true</enable>
+    </shopper>
+    <shopper>
+      <class>org.magic.api.shopping.impl.PlayInShopper</class>
+      <enable>false</enable>
     </shopper>
   </shoppers>
   <dashlets>
@@ -196,9 +196,6 @@
       <class>org.magic.gui.dashlet.IndexationDashlet</class>
     </dashlet>
     <dashlet>
-      <class>org.magic.gui.dashlet.CollectionAnalyzerDashlet</class>
-    </dashlet>
-    <dashlet>
       <class>org.magic.gui.dashlet.ShoppingDashlet</class>
     </dashlet>
     <dashlet>
@@ -218,6 +215,9 @@
     </dashlet>
     <dashlet>
       <class>org.magic.gui.dashlet.StockDashlet</class>
+    </dashlet>
+    <dashlet>
+      <class>org.magic.gui.dashlet.MTGCardStockDashlet</class>
     </dashlet>
   </dashlets>
   <tokens>
@@ -390,10 +390,6 @@
       <enable>true</enable>
     </pricer>
     <pricer>
-      <class>org.magic.api.pricers.impl.MagicBazarPricer</class>
-      <enable>true</enable>
-    </pricer>
-    <pricer>
       <class>org.magic.api.pricers.impl.StarCityGamesPricer</class>
       <enable>true</enable>
     </pricer>
@@ -428,6 +424,14 @@
     <pricer>
       <class>org.magic.api.pricers.impl.CardTraderPricer</class>
       <enable>true</enable>
+    </pricer>
+    <pricer>
+      <class>org.magic.api.pricers.impl.PlayInPricer</class>
+      <enable>false</enable>
+    </pricer>
+    <pricer>
+      <class>org.magic.api.pricers.impl.CardSpherePricer</class>
+      <enable>false</enable>
     </pricer>
   </pricers>
   <providers>
@@ -485,6 +489,14 @@
       <class>org.magic.api.dao.impl.DerbyDAO</class>
       <enable>false</enable>
     </dao>
+    <dao>
+      <class>org.magic.api.dao.impl.FirebirdDAO</class>
+      <enable>false</enable>
+    </dao>
+    <dao>
+      <class>org.magic.api.dao.impl.TrinoDBDAO</class>
+      <enable>false</enable>
+    </dao>
   </daos>
   <pictures>
     <picture>
@@ -498,10 +510,6 @@
     <picture>
       <class>org.magic.api.pictures.impl.ScryFallPicturesProvider</class>
       <enable>true</enable>
-    </picture>
-    <picture>
-      <class>org.magic.api.pictures.impl.MythicSpoilerPicturesProvider</class>
-      <enable>false</enable>
     </picture>
     <picture>
       <class>org.magic.api.pictures.impl.SlightlyMagicPictureProvider</class>
@@ -611,10 +619,6 @@
     </export>
     <export>
       <class>org.magic.api.exports.impl.PDFExport</class>
-      <enable>true</enable>
-    </export>
-    <export>
-      <class>org.magic.api.exports.impl.MTGDesktopCompanionExport</class>
       <enable>true</enable>
     </export>
     <export>
@@ -777,6 +781,30 @@
       <class>org.magic.api.exports.impl.SystemClipBoardExport</class>
       <enable>true</enable>
     </export>
+    <export>
+      <class>org.magic.api.exports.impl.YamlExport</class>
+      <enable>false</enable>
+    </export>
+    <export>
+      <class>org.magic.api.exports.impl.CardSphereExport</class>
+      <enable>false</enable>
+    </export>
+    <export>
+      <class>org.magic.api.exports.impl.MagicManagerExport</class>
+      <enable>false</enable>
+    </export>
+    <export>
+      <class>org.magic.api.exports.impl.DragonShieldExport</class>
+      <enable>false</enable>
+    </export>
+    <export>
+      <class>org.magic.api.exports.impl.ZCartProductsExport</class>
+      <enable>false</enable>
+    </export>
+    <export>
+      <class>org.magic.api.exports.impl.TCGHomeExport</class>
+      <enable>false</enable>
+    </export>
   </deckexports>
   <newsProvider>
     <news>
@@ -849,6 +877,10 @@
       <class>org.magic.api.externalshop.impl.ShopifyExternalShop</class>
       <enable>false</enable>
     </extshop>
+    <extshop>
+      <class>org.magic.api.externalshop.impl.CsCartExternalShop</class>
+      <enable>false</enable>
+    </extshop>
   </externalsShops>
   <combos>
     <combo>
@@ -901,6 +933,10 @@
       <class>org.magic.api.graders.impl.CCCGrader</class>
       <enable>true</enable>
     </grader>
+    <grader>
+      <class>org.magic.api.graders.impl.ACGGrader</class>
+      <enable>false</enable>
+    </grader>
   </graders>
   <storages>
     <storage>
@@ -938,6 +974,10 @@
     <ia>
       <class>org.magic.api.ia.impl.JsonIA</class>
       <enable>true</enable>
+    </ia>
+    <ia>
+      <class>org.magic.api.ia.impl.LLamaIA</class>
+      <enable>false</enable>
     </ia>
   </artificialIntelligences>
   <networks>
