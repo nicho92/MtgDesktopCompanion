@@ -57,7 +57,7 @@ public class AlertTrendServer extends AbstractMTGServer {
 		tache = new TimerTask() {
 			@Override
 			public void run() {
-				List<CardShake> ret=new ArrayList<>();
+				var ret=new ArrayList<CardShake>();
 				if (getEnabledPlugin(MTGDao.class).listAlerts() != null)
 					for (MTGAlert alert : getEnabledPlugin(MTGDao.class).listAlerts()) {
 						try {

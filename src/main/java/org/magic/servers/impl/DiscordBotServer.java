@@ -566,7 +566,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 				map.put(ACTIVITY_TYPE,ActivityType.WATCHING.name());
 				map.put(ACTIVITY,"bees flying");
 				map.put("BLOCKED_USERS","");
-				map.put(EXTERNAL_LINK,"https://mtgcompanion.me/prices-ui/pages/index.html?id=");
+				map.put(EXTERNAL_LINK,"https://my.mtgcompanion.org/prices-ui/pages/index.html?id=");
 
 		return map;
 	}

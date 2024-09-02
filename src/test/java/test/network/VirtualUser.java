@@ -68,7 +68,7 @@ public class VirtualUser {
 	public void join() throws IOException
 	{
 		var client = new ActiveMQNetworkClient();
-		var address = "tcp://mtgcompanion.me:61616";
+		var address = "tcp://my.mtgcompanion.org:61616";
 		var p = new Player(CryptoUtils.randomString(10));
 		client.join(p,address,ActiveMQServer.DEFAULT_TOPIC);
 		while(client.isActive())

@@ -43,7 +43,7 @@ public class ActiveMQServer extends AbstractMTGServer {
 	private static final String LISTENERS_TCP = "LISTENERS_TCP";
 	private static final String LOG_DIR = "LOG_DIR";
 	public static final String DEFAULT_TOPIC = "welcome";
-	public static final String DEFAULT_SERVER="tcp://mtgcompanion.me:61616";
+	public static final String DEFAULT_SERVER="tcp://my.mtgcompanion.org:61616";
 	private ActiveMQServerImpl server;
 	private MTGActiveMQServerPlugin plug;
 	

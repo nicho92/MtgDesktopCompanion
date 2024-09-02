@@ -108,7 +108,16 @@ public class NetworkChatPanel extends MTGUIComponent {
 		btnColorChoose = new JButton(MTGConstants.ICON_GAME_COLOR);
 		cboStates = UITools.createCombobox(Arrays.asList(EnumPlayerStatus.values()).stream().filter(s->s!=EnumPlayerStatus.CONNECTED).filter(s->s!=EnumPlayerStatus.DISCONNECTED).toList());
 		var panelChatBox = new JPanel();
-		txtServer.setText(MTGControler.getInstance().get("network-config/network-last-server", ActiveMQServer.DEFAULT_SERVER));
+		
+		
+		//TODO MIGRAITON PATCHH TO REMOVE
+		
+		var server = MTGControler.getInstance().get("network-config/network-last-server", ActiveMQServer.DEFAULT_SERVER);
+		if(server.equals("tcp://mtgcompanion.me:61616"))
+				server = "tcp://my.mtgcompanion.org:61616";
+		txtServer.setText(server);
+		//////////////////////
+		
 		txtServer.setColumns(10);
 		btnLogout.setEnabled(false);
 		panelChat.setLayout(new BorderLayout());

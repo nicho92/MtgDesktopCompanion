@@ -19,13 +19,13 @@ Any help are welcome :) [![PayPal](https://img.shields.io/static/v1.svg?label=Pa
 # Website : 
 [MTG Companion website](https://www.mtgcompanion.org/)
 
-[MTG Web pricer Servers](https://mtgcompanion.me/prices-ui)
+[MTG Web pricer Servers](https://my.mtgcompanion.org/prices-ui)
 
-[MTG Web Shop Servers](https://mtgcompanion.me/shop-ui)
+[MTG Web Shop Servers](https://my.mtgcompanion.org/shop-ui)
 
-[MTG Web Trader Servers](https://mtgcompanion.me/trades-ui/pages/index.html)
+[MTG Web Trader Servers](https://my.mtgcompanion.org/trades-ui/pages/index.html)
 
-[MTG Web Collection Servers](https://mtgcompanion.me/collection-ui/pages/index.html)
+[MTG Web Collection Servers](https://my.mtgcompanion.org/collection-ui/pages/index.html)
 
 [MTG Discord Bot](https://top.gg/bot/448196866774007808) 
 
