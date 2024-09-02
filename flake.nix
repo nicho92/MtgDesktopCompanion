@@ -17,5 +17,9 @@
       pkgs = nixpkgs.legacyPackages.${system};
     in {
       packages.default = pkgs.callPackage ./package.nix {};
+      apps.default = {
+        type = "app";
+        program = "${self.packages.x86_64-linux.default}/bin/mtg-desktop-companion.sh";
+      };
     });
 }

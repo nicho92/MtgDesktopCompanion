@@ -15,6 +15,7 @@ maven.buildMavenPackage rec {
 
     nativeBuildInputs = [
         maven
+        makeWrapper
     ];
 
     buildInputs = [
@@ -29,5 +30,9 @@ maven.buildMavenPackage rec {
         mkdir -p $out/bin $out/lib
         mv target/executable/bin/*.sh $out/bin
         mv target/executable/lib $out
+
+        wrapProgram $out/bin/mtg-desktop-companion.sh \
+          --set JAVA_HOME ${jre} \
+          --prefix PATH : ${jre}/bin
     '';
 }
