@@ -40,7 +40,10 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 
 	protected TCache<Contact> listContacts;
 	protected TCache<MTGCollection> listCollections;
-
+	protected TCache<MTGAlert> alerts;
+	
+	protected abstract List<MTGAlert> loadAlerts();
+	
 	@Override
 	public boolean isSQL() {
 		return false;
@@ -51,7 +54,6 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		return PLUGINS.DAO;
 	}
 
-
 	@Override
 	public void init(MTGPool pool) throws SQLException {
 		logger.debug("Pool isn't necessary");
@@ -61,8 +63,17 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	protected AbstractMagicDAO() {
 		listContacts = new TCache<>("contacts");
 		listCollections = new TCache<>("collections");
+		alerts = new TCache<>("alerts");
 		serialiser=new JsonExport();
 		serialiser.removePrettyString();
+	}
+	
+	@Override
+	public List<MTGAlert> listAlerts() {
+		if(alerts.isEmpty())
+			loadAlerts();
+		
+		return alerts.values();
 	}
 
 	@Override

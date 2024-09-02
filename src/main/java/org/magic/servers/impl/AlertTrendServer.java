@@ -5,7 +5,6 @@ import static org.magic.services.tools.MTG.getPlugin;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -59,7 +58,8 @@ public class AlertTrendServer extends AbstractMTGServer {
 			public void run() {
 				var ret=new ArrayList<CardShake>();
 				if (getEnabledPlugin(MTGDao.class).listAlerts() != null)
-					for (MTGAlert alert : getEnabledPlugin(MTGDao.class).listAlerts()) {
+					for (MTGAlert alert : getEnabledPlugin(MTGDao.class).listAlerts()) 
+					{
 						try {
 							HistoryPrice<MTGCard> cpv= getEnabledPlugin(MTGDashBoard.class).getPriceVariation(alert.getCard(),alert.isFoil());
 							if(cpv!=null)
@@ -67,15 +67,15 @@ public class AlertTrendServer extends AbstractMTGServer {
 								var cs = cpv.toCardShake();
 
 								if(cs!=null) {
-								alert.setShake(cs);
-
-								if(Math.abs(cs.getPercentDayChange())>=getInt(ALERT_MIN_PERCENT))
-									ret.add(cs);
-
-								if(getInt(THREAD_PAUSE)!=null)
-									Thread.sleep(getInt(THREAD_PAUSE));
-
-								}
+									alert.setShake(cs);
+	
+									if(Math.abs(cs.getPercentDayChange())>=getInt(ALERT_MIN_PERCENT))
+										ret.add(cs);
+	
+									if(getInt(THREAD_PAUSE)!=null)
+										Thread.sleep(getInt(THREAD_PAUSE));
+	
+									}
 							}
 						}
 						catch(IOException e1)

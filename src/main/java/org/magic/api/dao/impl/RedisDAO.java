@@ -409,7 +409,7 @@ public class RedisDAO extends AbstractKeyValueDao {
 
 	
 	@Override
-	public List<MTGAlert> listAlerts() {
+	public List<MTGAlert> loadAlerts() {
 		var ret = new ArrayList<MTGAlert>();
 		redisCommand.keys(KEY_ALERTS+SEPARATOR+"*").forEach(s->{
 			var d=  serialiser.fromJson(redisCommand.get(s), MTGAlert.class);

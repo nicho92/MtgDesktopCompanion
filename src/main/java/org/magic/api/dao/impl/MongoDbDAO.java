@@ -629,7 +629,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	
 	@Override
-	public List<MTGAlert> listAlerts() {
+	public List<MTGAlert> loadAlerts() {
 		
 		var listAlerts = new ArrayList<MTGAlert>();
 		db.getCollection(colAlerts, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result ->listAlerts.add(deserialize(result.get(dbAlertField).toString(), MTGAlert.class)));

@@ -52,6 +52,7 @@ import org.magic.gui.components.prices.GroupedShoppingPanel;
 import org.magic.gui.components.prices.PriceSuggesterComponent;
 import org.magic.gui.components.prices.PricesTablePanel;
 import org.magic.gui.components.renderer.MagicPricePanel;
+import org.magic.gui.components.tech.ObjectViewerPanel;
 import org.magic.gui.components.tech.ServerStatePanel;
 import org.magic.gui.components.widgets.JExportButton;
 import org.magic.gui.models.CardAlertTableModel;
@@ -60,6 +61,7 @@ import org.magic.gui.renderer.standard.DoubleCellEditorRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.threads.ThreadManager;
+import org.magic.services.tools.MTG;
 import org.magic.services.tools.UITools;
 import org.magic.services.workers.AbstractObservableWorker;
 
@@ -84,7 +86,7 @@ public class AlarmGUI extends MTGUIComponent {
 	private JExportButton btnExport;
 	private DeckPricePanel globalSearchPanel;
 	private GroupedShoppingPanel groupShopPanel;
-
+	private ObjectViewerPanel jsonPanel;
 
 	public AlarmGUI() {
 		initGUI();
@@ -114,6 +116,7 @@ public class AlarmGUI extends MTGUIComponent {
 		var panelRight = new JPanel();
 		resultListModel = new DefaultListModel<>();
 		groupShopPanel = new GroupedShoppingPanel();
+		jsonPanel = new ObjectViewerPanel();
 		list = new JList<>(resultListModel);
 		var panel = new JPanel();
 		btnRefresh = UITools.createBindableJButton(null, MTGConstants.ICON_REFRESH, KeyEvent.VK_R, "refresh Alarm");
@@ -159,6 +162,8 @@ public class AlarmGUI extends MTGUIComponent {
 		addContextComponent(groupShopPanel);
 		addContextComponent(pricesTablePanel);
 		
+		if(MTG.readPropertyAsBoolean("debug-json-panel"))
+			addContextComponent(jsonPanel);
 		
 		add(panelRight, BorderLayout.EAST);
 		panelRight.add(new JScrollPane(list),BorderLayout.CENTER);
@@ -176,11 +181,7 @@ public class AlarmGUI extends MTGUIComponent {
 	@Override
 	public void onFirstShowing() {
 		splitPanel.setDividerLocation(.5);
-
 		loaddata();
-
-
-
 	}
 
 
@@ -478,6 +479,7 @@ public class AlarmGUI extends MTGUIComponent {
 		magicCardDetailPanel.init(selected.getCard());
 		variationPanel.init(selected.getCard(), null, selected.getCard().getName());
 		pricesTablePanel.init(selected.getCard(), selected.isFoil());
+		jsonPanel.init(selected);
 	}
 
 	private void addCard(MTGCard mc) {
