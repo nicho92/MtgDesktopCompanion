@@ -31,8 +31,12 @@ public class MTGCardStock extends AbstractStockItem<MTGCard> {
 		edition= c.getEdition();
 		product.setTypeProduct(EnumItems.CARD);
 		product.setEdition(c.getEdition());
-		setFoil(c.getFinishes().size()==1 && c.getFinishes().contains(EnumFinishes.FOIL));
-		setEtched(c.getFinishes().size()==1 && c.getFinishes().contains(EnumFinishes.ETCHED));
+		if(c.getFinishes().size()==1 && c.getFinishes().contains(EnumFinishes.FOIL))
+			setFoil(true);
+		
+		if(c.getFinishes().size()==1 && c.getFinishes().contains(EnumFinishes.ETCHED))
+			setEtched(true);
+		
 	}
 
 }
