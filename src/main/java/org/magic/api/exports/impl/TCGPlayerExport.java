@@ -67,11 +67,13 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 			temp.append("$").append(mcs.getQte() * UITools.roundDouble(MTGControler.getInstance().getCurrencyService().convert(MTGControler.getInstance().getCurrencyService().getCurrentCurrency(), Currency.getInstance("USD"), mcs.getPrice()))).append(getSeparator());
 			temp.append("$").append(UITools.roundDouble(MTGControler.getInstance().getCurrencyService().convert(MTGControler.getInstance().getCurrencyService().getCurrentCurrency(), Currency.getInstance("USD"), mcs.getPrice())));
 			temp.append(System.lineSeparator());
+				notify(mcs.getProduct());
 			}
 			catch(Exception e)
 			{
 				logger.error("Error export {}",mcs,e);
 			}
+			
 		}
 		FileTools.saveFile(f, temp.toString());
 	}
@@ -134,9 +136,14 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 
 
 			if(!found)
+			{
 				logger.error("no card found for {}",m.group());
+			}
 			else
+			{
 				ret.add(st);
+				notify(st.getProduct());
+			}
 
 		});
 		return ret;
