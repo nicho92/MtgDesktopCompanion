@@ -94,7 +94,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
 import org.magic.services.PluginRegistry;
-import org.magic.services.ReportNotificationManager;
+import org.magic.services.ReportsService;
 import org.magic.services.TransactionService;
 import org.magic.services.VersionChecker;
 import org.magic.services.keywords.AbstractKeyWordsManager;
@@ -989,7 +989,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		get("/share/announce/:id",URLTools.HEADER_HTML,(request,response) -> {
 			response.type(URLTools.HEADER_HTML);
-			var report = new ReportNotificationManager();
+			var report = new ReportsService();
 			var announce = MTG.getEnabledPlugin(MTGDao.class).getAnnounceById(Integer.parseInt(request.params(":id")));
 			return report.generate(FORMAT_NOTIFICATION.HTML, announce, "share");
 		});

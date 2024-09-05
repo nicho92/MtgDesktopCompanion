@@ -15,15 +15,15 @@ import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapperBuilder;
 import freemarker.template.TemplateExceptionHandler;
 
-public class ReportNotificationManager {
+public class ReportsService {
 	private Configuration cfg;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private boolean errorLoading=false;
 
-	public ReportNotificationManager() {
+	public ReportsService() {
 		  	cfg = new Configuration(MTGConstants.FREEMARKER_VERSION);
 	        try {
-				cfg.setClassForTemplateLoading(ReportNotificationManager.class, MTGConstants.MTG_REPORTS_DIR);
+				cfg.setClassForTemplateLoading(ReportsService.class, MTGConstants.MTG_REPORTS_DIR);
 				cfg.setDefaultEncoding(MTGConstants.DEFAULT_ENCODING.displayName());
 				cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
 				cfg.setObjectWrapper(new DefaultObjectWrapperBuilder(MTGConstants.FREEMARKER_VERSION).build());

@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.abstracts.extra.AbstractEmbeddedCacheProvider;
-import org.magic.services.ReportNotificationManager;
+import org.magic.services.ReportsService;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -16,7 +16,7 @@ import com.google.common.cache.RemovalNotification;
 
 public abstract class AbstractMTGServer extends AbstractMTGPlugin implements MTGServer {
 
-	protected ReportNotificationManager notifFormater;
+	protected ReportsService notifFormater;
 	private AbstractEmbeddedCacheProvider<String, Object> cache;
 
 
@@ -46,7 +46,7 @@ public abstract class AbstractMTGServer extends AbstractMTGPlugin implements MTG
 
 
 	protected AbstractMTGServer() {
-		notifFormater = new ReportNotificationManager();
+		notifFormater = new ReportsService();
 	}
 
 	@Override

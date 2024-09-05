@@ -165,10 +165,6 @@
   </shoppers>
   <dashlets>
     <dashlet>
-      <class>org.magic.gui.dashlet.AlertedCardsTrendingDashlet</class>
-      <enable>true</enable>
-    </dashlet>
-    <dashlet>
       <class>org.magic.gui.dashlet.BestCardsDashlet</class>
       <enable>true</enable>
     </dashlet>

@@ -58,7 +58,7 @@ public class TransactionService
 
 		var plug = (EmailNotifier)MTG.getPlugin(MTGConstants.EMAIL_NOTIFIER_NAME, MTGNotifier.class);
 			try {
-					var not = new MTGNotification("["+MTGControler.getInstance().getWebshopService().getWebConfig().getSiteTitle()+ "] Email verification", new ReportNotificationManager().generate(plug.getFormat(), c, "ContactValidation"), MTGNotification.MESSAGE_TYPE.INFO);
+					var not = new MTGNotification("["+MTGControler.getInstance().getWebshopService().getWebConfig().getSiteTitle()+ "] Email verification", new ReportsService().generate(plug.getFormat(), c, "ContactValidation"), MTGNotification.MESSAGE_TYPE.INFO);
 					plug.send(c.getEmail(),not);
 				}
 				catch(Exception e)
@@ -108,7 +108,7 @@ public class TransactionService
 		if(t.getContact().isEmailAccept())
 		{
 			try {
-					var not = new MTGNotification("["+t.getConfig().getSiteTitle()+ "] Order #"+t.getId() + ":" + msg , new ReportNotificationManager().generate(plug.getFormat(), t, template), MTGNotification.MESSAGE_TYPE.INFO);
+					var not = new MTGNotification("["+t.getConfig().getSiteTitle()+ "] Order #"+t.getId() + ":" + msg , new ReportsService().generate(plug.getFormat(), t, template), MTGNotification.MESSAGE_TYPE.INFO);
 					plug.send(t.getContact().getEmail(),not);
 				}
 
@@ -321,7 +321,7 @@ public class TransactionService
 		
 		
 		var entry = new GedEntry<Transaction>();
-		  entry.setContent(new ReportNotificationManager().generate(FORMAT_NOTIFICATION.HTML, t, "Invoice").getBytes());
+		  entry.setContent(new ReportsService().generate(FORMAT_NOTIFICATION.HTML, t, "Invoice").getBytes());
 		  entry.setId(t.getId().toString());
 		  entry.setName(fileName);
 		  entry.setClasse(Transaction.class);
