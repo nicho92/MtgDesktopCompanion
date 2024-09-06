@@ -37,6 +37,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileFilter;
 
+import org.apache.logging.log4j.Level;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGCardStock;
@@ -61,6 +62,7 @@ import org.magic.gui.components.dialog.importer.CardChooseDialog;
 import org.magic.gui.components.prices.PriceSuggesterComponent;
 import org.magic.gui.components.prices.PricesTablePanel;
 import org.magic.gui.components.shops.StockItemsSynchronizationPanel;
+import org.magic.gui.components.tech.LoggerViewPanel;
 import org.magic.gui.components.tech.ObjectViewerPanel;
 import org.magic.gui.components.widgets.JExportButton;
 import org.magic.gui.components.widgets.JLangLabel;
@@ -113,7 +115,8 @@ public class StockPanelGUI extends MTGUIComponent {
 	private JExportButton btnExport;
 	private JButton btnGeneratePrice;
 	private JLabel lblCount;
-
+	private LoggerViewPanel importLogPanel;
+	
 	private JComboBox<String> cboSelections;
 	private String[] selections = new String[] { "", MTGControler.getInstance().getLangService().get("NEW"),MTGControler.getInstance().getLangService().get("UPDATED"),MTGControler.getInstance().getLangService().get("ALL") };
 	private File fileImport;
@@ -551,6 +554,12 @@ public class StockPanelGUI extends MTGUIComponent {
 		pricePanel = new PricesTablePanel();
 		syncPanel = new StockItemsSynchronizationPanel();
 		chkboxForceFoil = new JCheckBox("Force foil on duplication");
+		importLogPanel = new LoggerViewPanel();
+		
+		
+		
+		importLogPanel.enabledAutoLoad();
+		importLogPanel.setLevel(Level.ERROR);
 		
 		var centerPanel = new JPanel();
 		add(centerPanel, BorderLayout.CENTER);
@@ -627,7 +636,8 @@ public class StockPanelGUI extends MTGUIComponent {
 		addContextComponent(syncPanel);
 		addContextComponent(deckPanel);
 		addContextComponent(gedPanel);
-
+		addContextComponent(importLogPanel);
+		
 		if(MTG.readPropertyAsBoolean("debug-json-panel"))
 			addContextComponent(jsonPanel);
 
