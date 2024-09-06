@@ -374,10 +374,9 @@
 			"MINT": "Mint",
 			"NEAR_MINT": "Near Mint",
 			"PLAYED": "Heavily Played",
-			"DAMAGED": "Damaged"			
+			"DAMAGED": "Damaged",			
 			"GOOD": "Slightly Played",
-			"POOR": "Heavily Played",
-
+			"POOR": "Heavily Played"
 		}
 	},
 	"MagicWorkStation": {
