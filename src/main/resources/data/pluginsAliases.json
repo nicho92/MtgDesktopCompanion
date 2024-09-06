@@ -368,6 +368,16 @@
 		},
 		"idSet": {
 			"TLP": "PLIST"
+		},
+		"conditions": {
+			"LIGHTLY_PLAYED": "Lightly Played",
+			"MINT": "Mint",
+			"NEAR_MINT": "Near Mint",
+			"PLAYED": "Heavily Played",
+			"DAMAGED": "Damaged"			
+			"GOOD": "Slightly Played",
+			"POOR": "Heavily Played",
+
 		}
 	},
 	"MagicWorkStation": {

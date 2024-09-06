@@ -59,7 +59,7 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 			temp.append(mcs.getProduct().getEdition().getId()).append(getSeparator());
 			temp.append(0).append(getSeparator());
 			temp.append(mcs.isFoil()?"Foil":"Normal").append(getSeparator());
-			temp.append(translate(mcs.getCondition())).append(getSeparator());
+			temp.append(aliases.getConditionFor(this,mcs.getCondition())).append(getSeparator());
 			temp.append(mcs.getLanguage()).append(getSeparator());
 			temp.append(mcs.getProduct().isLand()?"Land":mcs.getProduct().getRarity().toPrettyString()).append(getSeparator());
 			temp.append(mcs.getProduct().getTcgPlayerId()).append(getSeparator());
@@ -111,7 +111,7 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 			st.getTiersAppIds().put(getName(), m.group(12));
 			st.setPrice(UITools.parseDouble(m.group(14)));
 			st.setFoil(m.group(8).equalsIgnoreCase("foil"));
-			st.setCondition(translate(m.group(9)));
+			st.setCondition( aliases.getReversedConditionFor(this, m.group(9), EnumCondition.NEAR_MINT));
 			var found = false;
 				
 			try {
@@ -149,32 +149,6 @@ public class TCGPlayerExport extends AbstractFormattedFileCardExport {
 		return ret;
 
 
-	}
-
-	private String translate(EnumCondition condition) {
-		switch (condition)
-		{
-		case LIGHTLY_PLAYED:return "Lightly Played";
-		case MINT:			return "Mint";
-		case NEAR_MINT: 	return "Near Mint";
-		case PLAYED:		return "Heavily Played";
-		case POOR:			return "Damaged";
-		default:			return "Mint";
-
-		}
-	}
-
-	private EnumCondition translate(String group) {
-		if(group.equalsIgnoreCase("Near Mint"))
-			return EnumCondition.NEAR_MINT;
-		if(group.equalsIgnoreCase("Lightly Played"))
-			return EnumCondition.LIGHTLY_PLAYED;
-		if(group.equalsIgnoreCase("Heavily Played"))
-			return EnumCondition.PLAYED;
-		if(group.equalsIgnoreCase("Damaged"))
-			return EnumCondition.POOR;
-
-		return EnumCondition.GOOD;
 	}
 
 	@Override
