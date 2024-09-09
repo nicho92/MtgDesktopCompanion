@@ -110,11 +110,12 @@ public class NetworkChatPanel extends MTGUIComponent {
 		var panelChatBox = new JPanel();
 		
 		
-		//TODO MIGRAITON PATCHH TO REMOVE
+		//TODO MIGRATION PATCH TO REMOVE
 		
 		var server = MTGControler.getInstance().get("network-config/network-last-server", ActiveMQServer.DEFAULT_SERVER);
 		if(server.equals("tcp://mtgcompanion.me:61616"))
 				server = "tcp://my.mtgcompanion.org:61616";
+		
 		txtServer.setText(server);
 		//////////////////////
 		

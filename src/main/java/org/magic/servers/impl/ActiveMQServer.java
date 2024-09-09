@@ -186,7 +186,7 @@ public class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
 	
 	@Override
 	public void afterCreateSession(ServerSession session) throws ActiveMQException {
-		logger.info("new connection from user : {} with id {}", session.getUsername(), session.getRemotingConnection().getClientID());
+		logger.info("new connection from user={},  IP={}, address={}", session.getUsername(), session.getRemotingConnection().getRemoteAddress(),session.getDefaultAddress());
 		var jmsg = new TalkMessage("New connection", Color.black);
 		var p = new Player(session.getUsername());
 		p.setId(Long.parseLong(session.getRemotingConnection().getClientID()));
