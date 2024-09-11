@@ -195,7 +195,7 @@ public class ConstructPanel extends MTGUIComponent {
 
 	private void initGUI() {
 		setLayout(new BorderLayout(0, 0));
-		var p = new Player();
+		var p = MTGControler.getInstance().getProfilPlayer();
 		rulesPanel = new RulesPanel();
 		var panneauHaut = new JPanel();
 		JButton btnUpdate;

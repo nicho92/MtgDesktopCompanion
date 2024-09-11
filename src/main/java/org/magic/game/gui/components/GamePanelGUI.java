@@ -151,7 +151,7 @@ public class GamePanelGUI extends MTGUIComponent implements Observer {
 				btnStart.addActionListener(ae -> {
 					GameManager.getInstance().removePlayers();
 					GameManager.getInstance().addPlayer(player);
-					GameManager.getInstance().addPlayer(new Player(capitalize("PLAYER") + " 2", 20));
+					GameManager.getInstance().addPlayer(new Player(capitalize("PLAYER") + " 2"));
 					GameManager.getInstance().initGame();
 					manaPoolPanel.init(player.getManaPool());
 					player.getManaPool().removeObserver(manaPoolPanel);

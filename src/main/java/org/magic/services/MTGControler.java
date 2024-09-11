@@ -375,7 +375,7 @@ public class MTGControler {
 	}
 
 	public Player getProfilPlayer() {
-		var p = new Player();
+		var p = new Player("Player");
 		p.setName(config.getString("/game/player-profil/name"));
 
 		var url = config.getString("/game/player-profil/avatar");

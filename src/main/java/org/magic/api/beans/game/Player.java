@@ -99,46 +99,8 @@ public class Player extends Observable implements Serializable {
 		shuffleLibrary();
 	}
 
-	public Player(String name, MTGDeck deck) {
-		super();
-		this.name = name;
-		life = 20;
-		this.deck = deck;
-		init();
-
-	}
-
-	public Player(MTGDeck deck) {
-		super();
-		name = "Player";
-		life = 20;
-		this.deck = deck;
-		init();
-
-	}
-
-	public Player(String name, int life) {
-		super();
-		this.name = name;
-		this.life = life;
-		deck = new MTGDeck();
-		init();
-	}
-
 	public Player(String name) {
-		super();
-		this.name = name;
-		this.life = 20;
-		deck = new MTGDeck();
-		init();
-	}
-
-	public Player() {
-		super();
-		name = "Player";
-		life = 20;
-		deck = new MTGDeck();
-		init();
+		this(name,false);
 	}
 
 	public Player(String name, boolean admin) {

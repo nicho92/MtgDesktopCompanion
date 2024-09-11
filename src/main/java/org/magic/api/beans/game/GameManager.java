@@ -42,7 +42,7 @@ public class GameManager{
 
 	public Player getCurrentPlayer() {
 		if (players.isEmpty()) {
-			players.add(new Player());
+			players.add(new Player("Random"));
 		}
 
 		return players.get(0);
