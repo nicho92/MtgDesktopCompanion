@@ -86,7 +86,12 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 			var frameYear =  Integer.parseInt(mc.getFrameVersion());
 			if( (frameYear>=1993 && frameYear<=1997)  && releaseYear > 2019)
 					mc.setRetro(true);
-				
+			
+			
+			if(mc.getEdition().getId().equals("BLB") && mc.getName().startsWith("Season of "))
+				mc.setText(mc.getText().replace("{P}","{Paw Print}"));
+			
+			
 			
 		}catch(Exception e)
 		{
