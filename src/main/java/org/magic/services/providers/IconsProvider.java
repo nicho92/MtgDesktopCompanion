@@ -24,9 +24,9 @@ import org.magic.services.tools.ImageTools;
 
 import com.kitfox.svg.app.beans.SVGIcon;
 
-public class IconSetProvider {
+public class IconsProvider {
 
-	private static IconSetProvider inst;
+	private static IconsProvider inst;
 	private Map<String, ImageIcon> cache24;
 	private Map<String, ImageIcon> cache16;
 	private File localDirectory;
@@ -38,8 +38,11 @@ public class IconSetProvider {
 	public void clean() throws IOException {
 		FileTools.cleanDirectory(localDirectory);
 	}
+	
+	
+	
 
-	private IconSetProvider() {
+	private IconsProvider() {
 		cache24 = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 		cache16 = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 		var chrono = new Chrono();
@@ -65,9 +68,9 @@ public class IconSetProvider {
 		}
 	}
 
-	public static IconSetProvider getInstance() {
+	public static IconsProvider getInstance() {
 		if (inst == null)
-			inst = new IconSetProvider();
+			inst = new IconsProvider();
 
 		return inst;
 	}
@@ -114,11 +117,11 @@ public class IconSetProvider {
 
 			try {
 				String equivSet = getEquiv(id);
-				im = ImageTools.readLocal(IconSetProvider.class.getResource(MTGConstants.SET_ICON_DIR + equivSet + EXT));
+				im = ImageTools.readLocal(IconsProvider.class.getResource(MTGConstants.SET_ICON_DIR + equivSet + EXT));
 				ImageTools.saveImage(im, iconFile, "png");
 			} catch (Exception ex) {
 				logger.trace("couldnt load icons for {}={}",id,getEquiv(id));
-				im = ImageTools.readLocal(IconSetProvider.class.getResource(MTGConstants.SET_ICON_DIR+"PMTG1_set.png"));
+				im = ImageTools.readLocal(IconsProvider.class.getResource(MTGConstants.SET_ICON_DIR+"PMTG1_set.png"));
 			}
 			return im;
 		}

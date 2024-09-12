@@ -48,7 +48,7 @@ import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
-import org.magic.services.providers.IconSetProvider;
+import org.magic.services.providers.IconsProvider;
 import org.magic.services.recognition.MatchResult;
 import org.magic.services.recognition.area.AutoDetectAreaStrat;
 import org.magic.services.recognition.area.ManualAreaStrat;
@@ -197,7 +197,7 @@ public class WebcamCardImportDialog extends JDialog {
 			public Component getListCellRendererComponent(JList<? extends MTGEdition> list,MTGEdition value, int index, boolean isSelected, boolean cellHasFocus) {
 				if (value != null)
 				{
-					ImageIcon ic= IconSetProvider.getInstance().get16(value.getId());
+					ImageIcon ic= IconsProvider.getInstance().get16(value.getId());
 
 					l.setText(value.getSet());
 					l.setIcon(ic);

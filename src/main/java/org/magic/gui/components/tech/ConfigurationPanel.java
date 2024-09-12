@@ -69,7 +69,7 @@ import org.magic.gui.models.MapTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.logging.MTGLogger;
-import org.magic.services.providers.IconSetProvider;
+import org.magic.services.providers.IconsProvider;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.FileTools;
 import org.magic.services.tools.MTG;
@@ -717,7 +717,7 @@ public class ConfigurationPanel extends JXTaskPaneContainer {
 				loading(true, capitalize("CLEAN"));
 
 				if(chckbxIconset.isSelected())
-					IconSetProvider.getInstance().clean();
+					IconsProvider.getInstance().clean();
 
 				if(chckbxIconcards.isSelected())
 					getEnabledPlugin(MTGPictureCache.class).clear();

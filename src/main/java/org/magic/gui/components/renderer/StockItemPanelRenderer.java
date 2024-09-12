@@ -11,7 +11,7 @@ import javax.swing.border.LineBorder;
 
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.services.MTGControler;
-import org.magic.services.providers.IconSetProvider;
+import org.magic.services.providers.IconsProvider;
 import org.magic.services.tools.UITools;
 
 public class StockItemPanelRenderer extends JPanel {
@@ -62,7 +62,7 @@ public class StockItemPanelRenderer extends JPanel {
 
 		lblName.setText(mc.getProduct().getName());
 		lblEdition.setText(mc.getProduct().getEdition().getSet());
-		lblEdition.setIcon(IconSetProvider.getInstance().get24(mc.getProduct().getEdition().getId()));
+		lblEdition.setIcon(IconsProvider.getInstance().get24(mc.getProduct().getEdition().getId()));
 		lblType.setText(mc.getProduct().getTypeProduct().name());
 	}
 }

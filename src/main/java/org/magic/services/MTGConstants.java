@@ -21,7 +21,7 @@ import org.jdesktop.swingx.util.PaintUtils;
 import org.magic.api.beans.MTGCollection;
 import org.magic.api.beans.MTGEdition;
 import org.magic.api.beans.shop.Contact;
-import org.magic.services.providers.IconSetProvider;
+import org.magic.services.providers.IconsProvider;
 
 import freemarker.template.Configuration;
 import freemarker.template.Version;
@@ -314,7 +314,7 @@ public class MTGConstants {
 
 			if(c==MTGEdition.class)
 			{
-				return IconSetProvider.getInstance().get16("PMEI");
+				return IconsProvider.getInstance().get16("PMEI");
 			}
 			return new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/classtype/"+c.getSimpleName().toLowerCase()+".png"));
 		} catch (Exception e) {

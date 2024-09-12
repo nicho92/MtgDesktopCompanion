@@ -8,7 +8,7 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
 import org.magic.api.beans.MTGEdition;
-import org.magic.services.providers.IconSetProvider;
+import org.magic.services.providers.IconsProvider;
 
 public class MagicEditionIconListRenderer implements ListCellRenderer<MTGEdition> {
 
@@ -34,9 +34,9 @@ public class MagicEditionIconListRenderer implements ListCellRenderer<MTGEdition
 		{
 			ImageIcon ic;
 			if(size==SIZE.SMALL)
-				ic = IconSetProvider.getInstance().get16(value.getId());
+				ic = IconsProvider.getInstance().get16(value.getId());
 			else
-				ic = IconSetProvider.getInstance().get24(value.getId());
+				ic = IconsProvider.getInstance().get24(value.getId());
 
 			l.setText(value.getSet());
 			l.setIcon(ic);

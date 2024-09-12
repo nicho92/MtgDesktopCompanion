@@ -12,7 +12,7 @@ import javax.swing.border.LineBorder;
 import org.magic.api.beans.MTGCard;
 import org.magic.gui.components.card.ManaPanel;
 import org.magic.services.MTGControler;
-import org.magic.services.providers.IconSetProvider;
+import org.magic.services.providers.IconsProvider;
 import org.magic.services.tools.UITools;
 
 public class CardListPanel extends JPanel {
@@ -75,7 +75,7 @@ public class CardListPanel extends JPanel {
 		lblName.setText(mc.getName());
 		lblType.setText(mc.getFullType());
 		lblEdition.setText(mc.getEdition().toString());
-		lblEdition.setIcon(IconSetProvider.getInstance().get24(mc.getEdition().getId()));
+		lblEdition.setIcon(IconsProvider.getInstance().get24(mc.getEdition().getId()));
 		if(mc.getRarity()!=null)
 			lblRarity.setText(mc.getRarity().toPrettyString());
 

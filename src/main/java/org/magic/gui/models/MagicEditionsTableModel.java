@@ -12,7 +12,7 @@ import org.magic.api.beans.MTGEdition;
 import org.magic.gui.abstracts.GenericTableModel;
 import org.magic.services.CollectionEvaluator;
 import org.magic.services.MTGControler;
-import org.magic.services.providers.IconSetProvider;
+import org.magic.services.providers.IconsProvider;
 
 public class MagicEditionsTableModel extends GenericTableModel<MTGEdition> {
 
@@ -104,7 +104,7 @@ public class MagicEditionsTableModel extends GenericTableModel<MTGEdition> {
 	public Object getValueAt(int row, int column) {
 		MTGEdition e = items.get(row);
 		if (column == 0)
-			return IconSetProvider.getInstance().get24(e.getId());
+			return IconsProvider.getInstance().get24(e.getId());
 
 		if (column == 1)
 			return e;

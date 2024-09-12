@@ -31,7 +31,7 @@ import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.gui.abstracts.AbstractBuzyIndicatorComponent;
 import org.magic.gui.abstracts.charts.Abstract2DHistoChart;
 import org.magic.services.MTGConstants;
-import org.magic.services.providers.IconSetProvider;
+import org.magic.services.providers.IconsProvider;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
 
@@ -201,7 +201,7 @@ public class HistoryPricesPanel extends Abstract2DHistoChart<Void> {
 						{
 							var x = item.getPeriod().getFirstMillisecond();
 							var y = item.getValue().doubleValue();
-							var annot = new XYImageAnnotation(x,y,IconSetProvider.getInstance().get16(edition.getId()).getImage());
+							var annot = new XYImageAnnotation(x,y,IconsProvider.getInstance().get16(edition.getId()).getImage());
 								annot.setToolTipText(edition.getSet());
 
 							 ((XYPlot) chart.getPlot()).addAnnotation(annot);

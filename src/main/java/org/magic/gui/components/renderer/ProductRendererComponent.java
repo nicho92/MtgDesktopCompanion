@@ -20,7 +20,7 @@ import org.magic.api.interfaces.MTGProduct;
 import org.magic.services.MTGConstants;
 import org.magic.services.logging.MTGLogger;
 import org.magic.services.network.URLTools;
-import org.magic.services.providers.IconSetProvider;
+import org.magic.services.providers.IconsProvider;
 import org.magic.services.threads.ThreadManager;
 import org.magic.services.tools.UITools;
 
@@ -88,7 +88,7 @@ public class ProductRendererComponent extends JPanel {
 		if(p.getEdition()!=null)
 		{
 			lblProductSet.setText(p.getEdition().getSet());
-			lblProductSet.setIcon(IconSetProvider.getInstance().get16(p.getEdition().getId()));
+			lblProductSet.setIcon(IconsProvider.getInstance().get16(p.getEdition().getId()));
 		}
 
 		if(p.getCategory()!=null)

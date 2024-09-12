@@ -12,7 +12,7 @@ import javax.swing.table.TableCellRenderer;
 
 import org.magic.api.beans.MTGEdition;
 import org.magic.services.MTGControler;
-import org.magic.services.providers.IconSetProvider;
+import org.magic.services.providers.IconsProvider;
 
 public class MagicEditionJLabelRenderer implements TableCellRenderer {
 
@@ -39,7 +39,7 @@ public class MagicEditionJLabelRenderer implements TableCellRenderer {
 		pane.setBackground(table.getBackground());
 
 		MTGEdition ed = (MTGEdition) value;
-		var l = new JLabel(IconSetProvider.getInstance().get16(ed.getId()));
+		var l = new JLabel(IconsProvider.getInstance().get16(ed.getId()));
 			l.setText(ed.getSet());
 			l.setToolTipText(ed.getSet());
 			l.setOpaque(false);
