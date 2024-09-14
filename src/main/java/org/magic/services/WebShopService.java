@@ -23,7 +23,9 @@ public class WebShopService {
 	private static final String DELIVERY_KEY = "delivery";
 	private static final String PAYMENTS_KEY = "payments";
 	private static final String CONFIG_KEY = "config";
-	
+	private static final String PRODUCTS_KEY = "products";
+	private static final String BANQ_KEYS = "banqAccount";
+
 	
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private File configFile;
@@ -66,7 +68,8 @@ public class WebShopService {
 			conf.setAutomaticValidation(jsonData.get(CONFIG_KEY).getAsJsonObject().get("autoValidation").getAsBoolean());
 			conf.setWebsiteUrl(jsonData.get(CONFIG_KEY).getAsJsonObject().get("websiteUrl").getAsString());
 			conf.setSealedEnabled(jsonData.get(CONFIG_KEY).getAsJsonObject().get("sealedEnabled").getAsBoolean());
-			conf.setAutomaticProduct(jsonData.get(CONFIG_KEY).getAsJsonObject().get("products").getAsJsonObject().get("autoSelection").getAsBoolean());
+
+			conf.setAutomaticProduct(jsonData.get(CONFIG_KEY).getAsJsonObject().get(PRODUCTS_KEY).getAsJsonObject().get("autoSelection").getAsBoolean());
 			
 			for(var s : jsonData.get(CONFIG_KEY).getAsJsonObject().get("collections").getAsJsonArray())
 				conf.getCollections().add(new MTGCollection(s.getAsString()));
@@ -78,8 +81,9 @@ public class WebShopService {
 		       conf.getSlidesLinksImage().add(s.getAsString());
 
 			conf.setPaypalClientId(jsonData.get(PAYMENTS_KEY).getAsJsonObject().get("paypalclientId").getAsString());
-			conf.setBic(jsonData.get(PAYMENTS_KEY).getAsJsonObject().get("banqAccount").getAsJsonObject().get("bic").getAsString());
-			conf.setIban(jsonData.get(PAYMENTS_KEY).getAsJsonObject().get("banqAccount").getAsJsonObject().get("iban").getAsString());
+
+			conf.setBic(jsonData.get(PAYMENTS_KEY).getAsJsonObject().get(BANQ_KEYS).getAsJsonObject().get("bic").getAsString());
+			conf.setIban(jsonData.get(PAYMENTS_KEY).getAsJsonObject().get(BANQ_KEYS).getAsJsonObject().get("iban").getAsString());
 
 			try {
 				conf.setPaypalSendMoneyUri(new URI(jsonData.get(PAYMENTS_KEY).getAsJsonObject().get("paypalSendMoneyUri").getAsString()));
@@ -96,7 +100,7 @@ public class WebShopService {
 				if(conf.isAutomaticProduct())
 					conf.setTopProduct(TransactionService.getBestProduct());
 				else
-					conf.setTopProduct( MTG.getEnabledPlugin(MTGDao.class).getStockById(jsonData.get(CONFIG_KEY).getAsJsonObject().get("products").getAsJsonObject().get("top").getAsLong()));
+					conf.setTopProduct( MTG.getEnabledPlugin(MTGDao.class).getStockById(jsonData.get(CONFIG_KEY).getAsJsonObject().get(PRODUCTS_KEY).getAsJsonObject().get("top").getAsLong()));
 			}
 			catch(Exception e)
 			{
@@ -130,7 +134,7 @@ public class WebShopService {
 			 obj.add(DELIVERY_KEY , jsondelivery);
 		
 		 var productConf = new JsonObject();
-			 jsonconfig.add("products", productConf);	  
+			 jsonconfig.add(PRODUCTS_KEY, productConf);	  
 		
 		var paymentConf = new JsonObject();
 			obj.add(PAYMENTS_KEY, paymentConf);
@@ -175,7 +179,7 @@ public class WebShopService {
 			var objBanq = new JsonObject();
     				objBanq.addProperty("bic",wsc.getBic());
 					objBanq.addProperty("iban",wsc.getIban());
-			paymentConf.add("banqAccount", objBanq);
+			paymentConf.add(BANQ_KEYS, objBanq);
 
 					
 		paymentConf.addProperty("paypalclientId",wsc.getPaypalClientId());
