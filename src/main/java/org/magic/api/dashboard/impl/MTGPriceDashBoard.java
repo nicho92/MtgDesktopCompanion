@@ -29,8 +29,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.network.URLTools;
 import org.magic.services.tools.UITools;
 
-import com.google.gson.JsonElement;
-
 public class MTGPriceDashBoard extends AbstractDashBoard {
 	private static final String WEBSITE =  "https://www.mtgprice.com";
 	private Date updateTime;
@@ -42,13 +40,12 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 
 	@Override
 	public List<CardShake> getOnlineShakerFor(MTGFormat.FORMATS f) throws IOException {
-		List<CardShake> list = new ArrayList<>();
-		String url = WEBSITE + "/taneLayout/mtg_price_tracker.jsp?period=" + getString("PERIOD");
-		Document doc = URLTools.extractAsHtml(url);
+		var list = new ArrayList<CardShake>();
+		var url = WEBSITE + "/taneLayout/mtg_price_tracker.jsp?period=" + getString("PERIOD");
+		var doc = URLTools.extractAsHtml(url);
 		try {
 
-			String date = doc.getElementsByClass("span6").get(1).text().replace("Updated:", "")
-					.replace("UTC ", "").trim();
+			var date = doc.getElementsByClass("span6").get(1).text().replace("Updated:", "").replace("UTC ", "").trim();
 			var forma = new SimpleDateFormat("E MMMM dd hh:mm:ss yyyy", Locale.ENGLISH);
 			updateTime = forma.parse(date);
 		} catch (ParseException e1) {
@@ -127,9 +124,9 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		list.setDate(new Date());
 
 
-		String data = table.html();
+		var data = table.html();
 		data = StringUtils.substringBetween(data, "[", "]");
-		JsonElement root = URLTools.toJson(data);
+		var root = URLTools.toJson(data);
 		var arr = root.getAsJsonArray();
 		for (var i = 0; i < arr.size(); i++) {
 			var card = arr.get(i).getAsJsonObject();
@@ -179,7 +176,6 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 
 		HistoryPrice<MTGCard> historyPrice = new HistoryPrice<>(mc);
 		historyPrice.setFoil(foil);
-		var name = "";
 
 		if (mc == null)
 		{
@@ -187,16 +183,15 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 			return historyPrice;
 		}
 
+		var name = "";
 		name = mc.getName().replace(" ", "_");
 
 		var edition = "";
-
 		edition = mc.getEdition().getSet();
-
 		edition = edition.replace(" ", "_");
 
 		String url = WEBSITE+"/sets/" + edition + "/" + name;
-		Document d = URLTools.extractAsHtml(url);
+		var d = URLTools.extractAsHtml(url);
 
 		logger.debug("get Prices for {} at {}",name,url);
 
@@ -210,7 +205,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		while (m.find()) {
 
 			var date = new Date(Long.parseLong(m.group(1).split(",")[0]));
-			Double val = Double.parseDouble(m.group(1).split(",")[1]);
+			var val = Double.parseDouble(m.group(1).split(",")[1]);
 
 			historyPrice.put(date, val);
 		}
