@@ -115,7 +115,6 @@ public class StockPanelGUI extends MTGUIComponent {
 	private JExportButton btnExport;
 	private JButton btnGeneratePrice;
 	private JLabel lblCount;
-	private LoggerViewPanel importLogPanel;
 	
 	private JComboBox<String> cboSelections;
 	private String[] selections = new String[] { "", MTGControler.getInstance().getLangService().get("NEW"),MTGControler.getInstance().getLangService().get("UPDATED"),MTGControler.getInstance().getLangService().get("ALL") };
@@ -554,7 +553,7 @@ public class StockPanelGUI extends MTGUIComponent {
 		pricePanel = new PricesTablePanel();
 		syncPanel = new StockItemsSynchronizationPanel();
 		chkboxForceFoil = new JCheckBox("Force foil on duplication");
-		importLogPanel = new LoggerViewPanel();
+		var	importLogPanel = new LoggerViewPanel();
 		
 		
 		

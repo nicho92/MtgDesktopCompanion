@@ -53,7 +53,6 @@ import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.MTGDeck.BOARD;
 import org.magic.api.beans.MTGFormat;
-import org.magic.api.beans.game.Player;
 import org.magic.api.beans.technical.MTGNotification;
 import org.magic.api.beans.technical.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.MTGCardsExport;
