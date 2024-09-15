@@ -17,6 +17,14 @@ public class Location implements Serializable {
 	private String timezone;
 	private String operator;
 
+		public void setAll(String string) {
+				setCity(string);
+				setRegion(string);
+				setCountry(string);
+				setCountryCode(string);
+				setContinentCode(string);
+		}
+	
 		public String getCity() {
 			return city;
 		}
@@ -71,4 +79,5 @@ public class Location implements Serializable {
 		public void setOperator(String operator) {
 			this.operator = operator;
 		}
+	
 }

@@ -16,9 +16,21 @@ public class IPTranslator {
 
 	private TCache<Location> cache;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
+	private static IPTranslator inst;
 
-
-	public IPTranslator() {
+	
+	
+	public static IPTranslator getInstance()
+	{
+		if(inst ==null)
+			inst = new IPTranslator();
+		
+		return inst;
+	}
+	
+	
+	
+	private IPTranslator() {
 		cache = new TCache<>("ips");
 	}
 
@@ -55,6 +67,7 @@ public class IPTranslator {
 		if(o.get("error")!=null)
 		{
 			logger.error("error getting IP={}",o);
+			loc.setAll("Unknow");
 			return loc;
 		}
 			logger.debug("parsing {}",o);

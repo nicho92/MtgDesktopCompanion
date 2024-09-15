@@ -31,7 +31,6 @@ public abstract class AbstractTechnicalServiceManager {
 
 	private boolean enable =true;
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
-	protected IPTranslator translator;
 	protected  JsonExport serializer;
 	
 	private List<JsonQueryInfo> jsonInfo;
@@ -119,8 +118,6 @@ public abstract class AbstractTechnicalServiceManager {
 	
 
 	protected AbstractTechnicalServiceManager() {
-		translator = new IPTranslator();
-		
 		jsonInfo= new ArrayList<>();
 		networkInfos = new ArrayList<>();
 		daoInfos = new ArrayList<>();
@@ -177,7 +174,7 @@ public abstract class AbstractTechnicalServiceManager {
 		
 		if(item instanceof JsonQueryInfo info)
 		{
-			info.setLocation(translator.getLocationFor(info.getIp()));
+			info.setLocation(IPTranslator.getInstance().getLocationFor(info.getIp()));
 			getJsonInfo().add(info);
 		}
 		else if (item instanceof DiscordInfo info)
@@ -202,6 +199,7 @@ public abstract class AbstractTechnicalServiceManager {
 		}
 		else if (item instanceof TalkMessage info)
 		{
+			info.setLocation(IPTranslator.getInstance().getLocationFor(info.getIp()));
 			getJsonMessages().add(info);
 		}
 	}

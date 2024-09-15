@@ -188,6 +188,8 @@ public class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
 	public void afterCreateSession(ServerSession session) throws ActiveMQException {
 		logger.info("new connection from user={},  IP={}", session.getUsername(), session.getRemotingConnection().getRemoteAddress());
 		var jmsg = new TalkMessage("New connection", Color.black);
+		jmsg.setIp(session.getRemotingConnection().getRemoteAddress());
+		
 		var p = new Player(session.getUsername());
 		p.setId(Long.parseLong(session.getRemotingConnection().getClientID()));
 		jmsg.setAuthor(p);
@@ -203,7 +205,9 @@ public class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
 		logger.info("disconnection from user : {}", session.getUsername());
 		onlines.remove(session.getRemotingConnection().getClientID());
 			try {
-				client.sendMessage(new UsersTechnicalMessage(getOnlines().values().stream().toList()));
+				var msg = new UsersTechnicalMessage(getOnlines().values().stream().toList());
+				msg.setIp(session.getRemotingConnection().getRemoteAddress());
+				client.sendMessage(msg);
 			} catch (IOException e) {
 				//	do nothing
 			}
@@ -227,7 +231,8 @@ public class MTGActiveMQServerPlugin implements ActiveMQServerPlugin{
 		var s = parse(cmsg);
 		var jmsg = serializer.fromJson(s, TalkMessage.class);
 		jmsg.setEnd(Instant.now());
-		
+		jmsg.setIp(session.getRemotingConnection().getRemoteAddress());
+
 		if(!jmsg.getAuthor().isAdmin())
 			onlines.put(String.valueOf(jmsg.getAuthor().getId()), jmsg.getAuthor());
 		
