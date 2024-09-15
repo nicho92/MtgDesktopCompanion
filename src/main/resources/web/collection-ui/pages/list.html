@@ -75,41 +75,34 @@
 				buttons: [
 			        'copy', 'excel', 'csv'
 			    ],
-				"ajax": {"url": restserver + "/cards/list/" + $_GET("collection"), "dataSrc": ""},
+				"ajax": {"url": restserver + "/stock/list/" + $_GET("collection"), "dataSrc": ""},
 				"columns": [
 					{
-						"data": "editions",
-						"width": "2%",
-						"defaultContent": "",
-						"render": function (data, type, row, meta) {
-							data = data[0].id;
-							if (type === 'display') {
-								try {
-									return '<i class="ss ss-' + data.toLowerCase() + ' ss-' + row.rarity.toLowerCase() + ' ss-2x ss-uncommon"></i>';
-								} catch (error) {
-									return '<i class="ss ss-' + data.toLowerCase() + ' ss-common ss-2x"></i>';
-								}
-							}
-							return data;
-						}
-					},
-					{
-						"data": "name",
+						"data": "product.name",
 						"width": "15%",
 						"render": function (data, type, row, meta) {
 							if (type === 'display') {
-								return "<span scryfallid='" + row.scryfallId + "' multiverseid='" + row.editions[0].multiverseId + "' class='mtg-tooltip'> <a href='card.html?id="+  row.scryfallId+"'>" + data + "</a></span>";
+								return "<span scryfallid='" + row.product.scryfallId + "' multiverseid='" + row.product.multiverseId + "' class='mtg-tooltip'> <a href='card.html?id="+  row.product.scryfallId+"'>" + data + "</a></span>";
 							}
 							return data;
 						}
 					},
 					{
-						"data": "editions",
+						"data": "product.edition",
 						"width": "15%",
 						"defaultContent": "common",
 						"render": function (data, type, row, meta) {
-							return data[0].set;
-						}
+							if (type === 'display') {
+								try {
+									return '<i class="ss ss-' + data.keyRuneCode.toLowerCase() + ' ss-' + row.product.rarity.toLowerCase() + ' ss-2x ss-uncommon"></i>'+data.set;
+								} catch (error) {
+									return '<i class="ss ss-' + data.id.toLowerCase() + ' ss-common ss-2x"></i>'+data.set;
+								}
+							}
+							return data.set;
+					}
+					
+					
 					},
 					{
 						"data": "id",
@@ -117,7 +110,7 @@
 						"defaultContent": "",
 						"render": function (data, type, row, meta) {
 							try{
-								data= parseInt(row.number);
+								data= parseInt(row.product.number);
 							}
 							catch(error)
 							{
@@ -128,7 +121,7 @@
 						}
 					},
 					{
-						"data": "types",
+						"data": "product.types",
 						"width": "10%",
 						"render": function (data, type, row, meta) {
 							if (type === 'display') {
@@ -138,7 +131,7 @@
 						}
 					},
 					{
-						"data": "cost",
+						"data": "product.cost",
 						"width": "10	%",
 						"defaultContent": "",
 						"render": function (data, type, row, meta) {
@@ -158,27 +151,20 @@
 						}
 					},
 					{
-						"data": "frameEffects",
+						"data": "qte",
 						"defaultContent": "",
 						"width": "3%",
-						"render": function (data, type, row, meta) {
-							data = data.indexOf("SHOWCASE") > -1;
-							if (type === 'display') {
-								if (data)
-									return "<span class='fa fa-check'/>";
-								else
-									return "<span class='fa fa-times'/>";
-							}
-							return data;
-						}
 					},
 					{
-						"data": "frameEffects",
+						"data": "condition",
+						"defaultContent": "",
+						"width": "3%",
+					},
+					{
+						"data": "foil",
 						"defaultContent": "",
 						"width": "3%",
 						"render": function (data, type, row, meta) {
-							
-							data = data.indexOf("EXTENDEDART") > -1;
 							
 							if (type === 'display') {
 								if (data)
@@ -190,41 +176,9 @@
 						}
 					},
 					{
-						"data": "border",
+						"data": "price",
 						"defaultContent": "",
-						"width": "3%",
-						"render": function (data, type, row, meta) {
-							
-							if (type === 'display') {
-								if(!data)
-									{
-									console.log(data + " " + row.name + " " + row.editions[0].id + "  not updated" );	
-									return data;
-									}	
-								
-								data = data.indexOf("BORDERLESS") > -1;
-								
-								if (data)
-									return "<span class='fa fa-check'/>";
-								else
-									return "<span class='fa fa-times'/>";
-							}
-							return data;
-						}
-					},
-					{
-						"data": "reserved",
-						"defaultContent": "",
-						"width": "3%",
-						"render": function (data, type, row, meta) {
-							if (type === 'display') {
-								if (data === true)
-									return "<span class='fa fa-check'/>";
-								else
-									return "<span class='fa fa-times'/>";
-							}
-							return data;
-						}
+						"width": "3%"
 					}
 					
 					],
@@ -299,16 +253,15 @@
 			<table id="table" class="display nowrap" style="width:100%">
 				<thead>
 					<tr>
-						<th></th>
 						<th>Card</th>
 						<th>Edition</th>
 						<th>Number</th>
 						<th>Type</th>
 						<th>Cost</th>
-					    <th>Showcase</th>
-	  					<th>Extended</th>
-						<th>Borderless</th>
-						<th>Reserved</th>
+					    <th>Qty</th>
+	  					<th>Condition</th>
+						<th>Foil</th>
+						<th>Price</th>
 					</tr>
 				</thead>
 			</table>
