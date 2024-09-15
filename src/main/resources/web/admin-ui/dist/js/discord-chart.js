@@ -341,11 +341,11 @@ server = {
                           'data' : 'name',
                           render : function(d,type,row){
 	
-								if(type === 'display'){
+							if(type === 'display'){
 									if(row.icon!=null)
-		                              return "<img class='rounded img-fluid ' src='"+row.icon+"'>"+d;
+		                              return "<img class='rounded img-fluid' height='64px' width='64px' src='"+row.icon+"'>"+d;
 		                            else
-		                            	return "<img class='rounded' height='128px' width='128px' src='https://static.thenounproject.com/png/1455872-200.png'>"+d;
+		                            	return "<img class='rounded' height='64px' width='64px' src='https://static.thenounproject.com/png/1455872-200.png'>"+d;
                               	}
                               	return d;
                           }
