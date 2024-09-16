@@ -105,12 +105,12 @@
 					
 					},
 					{
-						"data": "id",
+						"data": "product.number",
 						"width": "5%",
 						"defaultContent": "",
 						"render": function (data, type, row, meta) {
 							try{
-								data= parseInt(row.product.number);
+								data= parseInt(data);
 							}
 							catch(error)
 							{
