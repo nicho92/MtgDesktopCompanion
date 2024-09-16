@@ -243,6 +243,11 @@ public class DashBoardGUI2 extends MTGUIComponent {
 			var dir = new File(AbstractJDashlet.confdir,name);
 
 			try {
+				
+				if(!dir.exists())
+					FileTools.forceMkdir(dir);
+				
+				
 				FileTools.cleanDirectory(dir);
 			} catch (Exception e1) {
 				logger.error(e1);
@@ -261,6 +266,9 @@ public class DashBoardGUI2 extends MTGUIComponent {
 				var f = new File(dir, i + ".conf");
 
 				try (var fos = new FileOutputStream(f)) {
+					
+				
+					
 					dash.getProperties().store(fos, "");
 					logger.trace("saving {}:{}",f,dash.getProperties());
 

@@ -34,7 +34,7 @@ public class IndexationDashlet extends AbstractJDashlet {
 
 	@Override
 	public String getCategory() {
-		return "Collection";
+		return "Tools";
 	}
 
 

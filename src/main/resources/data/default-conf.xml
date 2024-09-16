@@ -210,9 +210,6 @@
       <class>org.magic.gui.dashlet.TransactionItemsDashlet</class>
     </dashlet>
     <dashlet>
-      <class>org.magic.gui.dashlet.StockDashlet</class>
-    </dashlet>
-    <dashlet>
       <class>org.magic.gui.dashlet.MTGCardStockDashlet</class>
     </dashlet>
   </dashlets>
