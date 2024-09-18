@@ -11,9 +11,6 @@ import java.util.List;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.RegExUtils;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-import org.magic.api.beans.MTGCard;
 import org.magic.api.beans.MTGDeck;
 import org.magic.api.beans.technical.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -40,22 +37,22 @@ public class MTGADecksSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public MTGDeck getDeck(RetrievableDeck info) throws IOException {
-		MTGDeck d = info.toBaseDeck();
+		var d = info.toBaseDeck();
 
-		Document doc = URLTools.extractAsHtml(info.getUrl().toASCIIString());
-
-
-		Elements div = doc.select("p#mtga");
+		var doc = URLTools.extractAsHtml(info.getUrl().toASCIIString());
 
 
-		for(String s : div.html().split("<br>"))
+		var div = doc.select("p#mtga");
+
+
+		for(var s : div.html().split("<br>"))
 		{
 			if(!s.isEmpty())
 			{
 
 				try {
 				AbstractMap.SimpleEntry<String,Integer> entry = (parseString(s));
-				MTGCard mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(entry.getKey().substring(0,entry.getKey().indexOf('(')).trim(), null, true).get(0);
+				var mc = getEnabledPlugin(MTGCardsProvider.class).searchCardByName(entry.getKey().substring(0,entry.getKey().indexOf('(')).trim(), null, true).get(0);
 				d.getMain().put(mc, entry.getValue());
 				notify(mc);
 				}
