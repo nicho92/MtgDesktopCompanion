@@ -18,6 +18,7 @@ public class PluginEntry <T extends MTGPlugin>
 	private List<T> plugins;
 	private PLUGINS type;
 	private Class<T> classeType;
+	private String desc;
 
 	@Override
 	public String toString() {
@@ -45,8 +46,11 @@ public class PluginEntry <T extends MTGPlugin>
 
 	}
 
+	public String getDesc() {
+		return desc;
+	}
 
-
+	
 	public List<T> getPlugins() {
 		return plugins;
 	}
@@ -55,7 +59,7 @@ public class PluginEntry <T extends MTGPlugin>
 		return classeType;
 	}
 
-	public PluginEntry (Class<T> classType,boolean multiprovider,String root, String element,String classpath,PLUGINS type)
+	public PluginEntry (Class<T> classType,boolean multiprovider,String root, String element,String classpath,PLUGINS type, String description)
 	{
 		this.classeType=classType;
 		this.type=type;
@@ -63,6 +67,7 @@ public class PluginEntry <T extends MTGPlugin>
 		this.element=element;
 		this.classpath=classpath;
 		this.setMultiprovider(multiprovider);
+		this.desc=description;
 		plugins = new ArrayList<>();
 	}
 

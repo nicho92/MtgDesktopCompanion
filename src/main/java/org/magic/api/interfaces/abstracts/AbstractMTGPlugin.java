@@ -66,7 +66,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 	@Override
 	public MTGDocumentation getDocumentation() {
 		try {
-			return new MTGDocumentation(URI.create(MTGConstants.MTG_DESKTOP_WIKI_RAW_URL+"/"+getName().replace(" ", "-")+".md").toURL(),FORMAT_NOTIFICATION.MARKDOWN);
+			return new MTGDocumentation(URI.create(MTGConstants.MTG_DESKTOP_WIKI_RAW_URL+"/plugins/"+getType()+"-"+getName().replace(" ", "_")+".md").toURL(),FORMAT_NOTIFICATION.MARKDOWN);
 		}
 		catch(Exception e)
 		{
