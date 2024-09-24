@@ -353,7 +353,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		if(edition==null)
 			return list;
 
-		var urlEditionChecker = WEBSITE+"/sets/" + aliases.getSetIdFor(this,edition)+"/All+Cards";
+		var urlEditionChecker = WEBSITE+"/sets/" + aliases.getReversedSetIdFor(this,edition)+"/All+Cards";
 
 		urlEditionChecker = URLTools.getLocation(urlEditionChecker);
 
