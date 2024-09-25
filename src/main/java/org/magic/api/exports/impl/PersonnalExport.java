@@ -75,7 +75,10 @@ public class PersonnalExport extends AbstractCardExport {
 		logger.debug("Parsing with : {}",regx);
 
 		for(MTGCardStock mc : stock)
+		{
 			temp.append(BeanTools.createString(mc, regx)).append(System.lineSeparator());
+			notify(mc.getProduct());
+		}
 
 
 		FileTools.saveFile(dest, temp.toString());
