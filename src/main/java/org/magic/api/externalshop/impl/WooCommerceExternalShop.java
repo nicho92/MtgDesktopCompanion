@@ -18,6 +18,7 @@ import org.magic.api.beans.shop.Transaction;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.exports.impl.WooCommerceExport;
 import org.magic.api.interfaces.MTGCardsExport;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractExternalShop;
@@ -214,8 +215,7 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 			p.setCategory(c);
 			p.setProductId(obj.get("id").getAsLong());
 			p.setName(obj.get("name").getAsString());
-		
-
+			
 			try {
 				var img = obj.get(IMAGES).getAsJsonArray().get(0).getAsJsonObject();
 							p.setUrl(img.get("src").getAsString());
@@ -229,6 +229,18 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 					stockItem.setId(p.getProductId());
 					stockItem.setCondition(EnumCondition.valueOf(getAttributes(atts, "mtg_comp_condition")));
 					
+					
+					try {
+						
+						var idSet = getAttributes(atts, "mtg_comp_setCode");
+						
+						stockItem.getProduct().setEdition(MTG.getEnabledPlugin(MTGCardsProvider.class).getSetById(idSet));
+					}
+					catch(Exception e)
+					{
+						//do nothing
+					}
+
 					
 					
 					try {
@@ -253,6 +265,18 @@ public class WooCommerceExternalShop extends AbstractExternalShop {
 					{
 						stockItem.setQte(0);
 					}
+					
+					try {
+						stockItem.getProduct().setUrl(obj.get(IMAGES).getAsJsonArray().get(0).getAsJsonObject().get("src").getAsString());
+					}
+					catch(Exception e)
+					{
+						logger.error("no image found for {}",p.getProductId());
+					}
+					
+					
+					
+					
 				notify(stockItem);
 				ret.add(stockItem);
 		});

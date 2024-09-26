@@ -282,7 +282,7 @@
 		<dependency>
 			<groupId>org.jooq</groupId>
 			<artifactId>jooq</artifactId>
-			<version>3.19.11</version>
+			<version>3.19.12</version>
 		</dependency>
 		<dependency>
 			<groupId>com.icoderman</groupId>
@@ -369,12 +369,12 @@
 		<dependency>
 			<groupId>org.xerial</groupId>
 			<artifactId>sqlite-jdbc</artifactId>
-			<version>3.46.1.0</version>
+			<version>3.46.1.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-csv</artifactId>
-			<version>1.11.0</version>
+			<version>1.12.0</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.apache.commons</groupId>
@@ -430,7 +430,7 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>33.3.0-jre</version>
+			<version>33.3.1-jre</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -480,7 +480,7 @@
 		<dependency>
 			<groupId>com.zaxxer</groupId>
 			<artifactId>HikariCP</artifactId>
-			<version>5.1.0</version>
+			<version>6.0.0</version>
 			<exclusions>
 				<exclusion>
 					<groupId>xml-apis</groupId>

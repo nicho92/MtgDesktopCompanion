@@ -26,6 +26,7 @@ import org.magic.api.interfaces.MTGProduct;
 import org.magic.api.interfaces.MTGStockItem;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.providers.impl.ScryFallProvider;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.tools.MTG;
 import org.magic.services.tools.WooCommerceTools;
@@ -229,7 +230,7 @@ public class WooCommerceExport extends AbstractCardExport {
         productInfo.put("type", "simple");
         productInfo.put("regular_price", String.valueOf(st.getPrice()));
         productInfo.put("price", String.valueOf(st.getPrice()));
-        
+           		
         if(getBoolean(CATEGORY_EDITION_MAPPING))
         {
         	Optional<Category> opt =categs.stream().filter(c->c.getCategoryName().equalsIgnoreCase(st.getProduct().getEdition().getSet())).findFirst();
