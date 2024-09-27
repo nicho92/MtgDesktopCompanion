@@ -89,7 +89,7 @@ public class WikiGenerator {
 					temp.append("# Configure the plugin").append("\n\n");
 					if(!p.getDefaultAttributes().isEmpty()) { 
 						temp.append("| Key | Description | Type | Default Value | Allowed Values|\n");
-						temp.append("|------|---------------|-------|-----------------|-------------------|\n");
+						temp.append("|------|---------------|-------|-----------------|------------------|\n");
 						
 						p.getDefaultAttributes().entrySet().forEach(e->{
 							temp.append(e.getKey()).append("|");
@@ -98,12 +98,10 @@ public class WikiGenerator {
 							temp.append(e.getValue().getDefaultValue().replace(SystemUtils.getUserHome().getAbsolutePath(), "$USER_HOME")).append("|");
 							
 							if(e.getValue().getAllowedProperties()==null)
-							{
 								temp.append("").append("|");
-							}
-							else {
+							else 
 								temp.append(ArrayUtils.toString(e.getValue().getAllowedProperties())).append("|");
-							}
+							
 							temp.append("\n");
 						});
 
